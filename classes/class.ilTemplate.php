@@ -2248,8 +2248,9 @@ class ilTemplate extends ilTemplateX
 	 * @param string $a_font_color html color code (title and description)
 	 * @param int $a_width banner width
 	 * @param int $a_height banner height
+	 * @param bool $a_export
 	 */
-	function setFullscreenHeader($a_title, $a_description = null, $a_icon = null, $a_img = null, $a_bg_color = null, $a_font_color = null, $a_width = 880, $a_height = 100)
+	function setFullscreenHeader($a_title, $a_description = null, $a_icon = null, $a_img = null, $a_bg_color = null, $a_font_color = null, $a_width = 880, $a_height = 100, $a_export = false)
 	{
 		$this->setTitle(null);
 		$this->setTitleIcon(null);
@@ -2293,7 +2294,10 @@ class ilTemplate extends ilTemplateX
 		
 		if($a_img)
 		{
-			$a_img = ILIAS_HTTP_PATH."/".$a_img;
+			if(!$a_export)
+			{
+				$a_img = ILIAS_HTTP_PATH."/".$a_img;
+			}
 			
 			$this->setCurrentBlock("fullscreen_bannerbl");
 			$this->setVariable("FULLSCREEN_BANNER_WIDTH", $a_width);

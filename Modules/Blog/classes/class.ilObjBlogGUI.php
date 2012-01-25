@@ -745,15 +745,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			$ppic = ilObjUser::_getPersonalPicturePath($owner, "big");
 		}
 		
-		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$tpl->setFullscreenHeader($this->object->getTitle(), 
-			$name, 	
-			$ppic,
-			$banner,
-			$this->object->getBackgroundColor(),
-			$this->object->getFontColor(),
-			$banner_width,
-			$banner_height);
+		$this->renderFullscreenHeader($tpl, $owner);
 		
 		// content
 		$tpl->setContent($a_content);
@@ -762,6 +754,54 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		echo $tpl->show("DEFAULT", true, true);
 		exit();
+	}
+	
+		/**
+	 * Render banner, user name
+	 * 
+	 * @param object  $a_tpl
+	 * @param int $a_user_id 
+	 * @param bool $a_export_path
+	 */
+	protected function renderFullscreenHeader($a_tpl, $a_user_id, $a_export = false)
+	{
+		$name = ilObjUser::_lookupName($a_user_id);
+		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
+		
+		// show banner?
+		$banner = false;
+		$blga_set = new ilSetting("blga");
+		if($blga_set->get("banner"))
+		{		
+			$banner = $this->object->getImageFullPath();
+			$banner_width = $blga_set->get("banner_width");
+			$banner_height = $blga_set->get("banner_height");		
+			if($a_export)
+			{
+				$banner = basename($banner);
+			}
+		}
+		
+		$ppic = null;
+		if($this->object->hasProfilePicture())
+		{			
+			$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "big");
+			if($a_export)
+			{
+				$ppic = basename($ppic);
+			}
+		}
+		
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		$a_tpl->setFullscreenHeader($this->object->getTitle(), 
+			$name, 	
+			$ppic,
+			$banner,
+			$this->object->getBackgroundColor(),
+			$this->object->getFontColor(),
+			$banner_width,
+			$banner_height,
+			$a_export);
 	}
 	
 	/**
@@ -1091,6 +1131,20 @@ class ilObjBlogGUI extends ilObject2GUI
 		$this->co_page_html_export->createDirectories();
 		$this->co_page_html_export->exportStyles();
 		$this->co_page_html_export->exportSupportScripts();
+		
+		// banner / profile picture
+		$blga_set = new ilSetting("blga");
+		if($blga_set->get("banner"))
+		{		
+			$banner = $this->object->getImageFullPath();
+			copy($banner, $export_dir."/".basename($banner));
+		}
+		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big");
+		if($ppic)
+		{
+			$ppic = array_shift(explode("?", $ppic));
+			copy($ppic, $export_dir."/".basename($ppic));
+		}	
 
 		// export pages
 		$this->exportHTMLPages($export_dir);
@@ -1231,17 +1285,14 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$tpl->getStandardTemplate();
 	
-		// workaround
-		$tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
-		$tpl->setTitle($this->object->getTitle());
-		$tpl->setTitleIcon("./images/icon_blog_b.gif",
-			$lng->txt("obj_blog"));
-		
 		$ilTabs->clearTargets();
 		if($a_back_url)
 		{			
 			$ilTabs->setBackTarget($lng->txt("back"), $a_back_url);
 		}
+				
+		$this->renderFullscreenHeader($tpl, $this->object->getOwner(), true);
+		$tpl->setFrameFixedWidth(true);
 
 		return $tpl;
 	}
