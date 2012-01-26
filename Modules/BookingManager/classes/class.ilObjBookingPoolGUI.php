@@ -536,7 +536,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						$slot_to = mktime(substr($slot['to'], 0, 2), substr($slot['to'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
 
 						// check deadline
-						if($slot_from < (time()+$schedule->getDeadline()*60*60) || !ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to))
+						if($slot_from < (time()+$schedule->getDeadline()*60*60) || !ilBookingReservation::getAvailableObject($object_ids, $slot_from, $slot_to-1))
 						{
 							continue;
 						}
@@ -578,40 +578,77 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function confirmedBookingObject()
 	{
-		global $ilUser;
-		
 		if(!isset($_POST['date']))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			return $this->bookObject();
 		}
 
-		$success = false;
-		foreach($_POST['date'] as $date)
+		$success = false;			
+		// single object reservation(s)
+		if(isset($_GET['object_id']))
 		{
-			$fromto = explode('_', $date);
-			
-			if(isset($_GET['object_id']))
+			foreach($_POST['date'] as $date)
 			{
+				$fromto = explode('_', $date);
+				$fromto[1]--;
+				
 				$object_id = (int)$_GET['object_id'];
-			}
-			// choose object of type
-			else
-			{
-				include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-				include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-				$ids = array();
-				foreach(ilBookingObject::getList((int)$_GET['type_id']) as $item)
-				{
-					$ids[] = $item['booking_object_id'];
+				if($object_id)
+				{	
+					$this->processBooking($object_id, $fromto[0], $fromto[1]);
+					$success = true;		
 				}
-				$object_id = ilBookingReservation::getAvailableObject($ids, $fromto[0], $fromto[1]);
 			}
-
-			if($object_id)
+		}
+		// group object reservation(s)
+		else
+		{				
+			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';											
+			$all_object_ids = array();
+			foreach(ilBookingObject::getList((int)$_GET['type_id']) as $item)
 			{
-				$this->processBooking($object_id, $fromto[0], $fromto[1]);
-				$success = true;				
+				$all_object_ids[] = $item['booking_object_id'];
+			}
+			
+			$possible_objects = $counter = array();	
+			sort($_POST['date']);			
+			foreach($_POST['date'] as $date)
+			{
+				$fromto = explode('_', $date);
+				$fromto[1]--;
+				$possible_objects[$date] = ilBookingReservation::getAvailableObject($all_object_ids, $fromto[0], $fromto[1], false);		
+				foreach($possible_objects[$date] as $obj_id)
+				{
+					$counter[$obj_id]++;
+				}
+			}
+			
+			if(max($counter))
+			{			
+				// we prefer the objects which are available for most slots
+				arsort($counter);
+				$counter = array_keys($counter);
+
+				// book each slot
+				foreach($possible_objects as $date => $available_ids)
+				{
+					$fromto = explode('_', $date);
+					$fromto[1]--;
+
+					// find "best" object for slot
+					foreach($counter as $best_object_id)
+					{
+						if(in_array($best_object_id, $available_ids))
+						{
+							$object_id = $best_object_id;
+							break;
+						}
+					}				
+					$this->processBooking($object_id, $fromto[0], $fromto[1]);
+					$success = true;	
+				}
 			}
 		}
 		

@@ -248,9 +248,10 @@ class ilBookingReservation
 	 * @param	array	$a_ids
 	 * @param	int		$a_from
 	 * @param	int		$a_to
+	 * @param	int		$a_return_single
 	 * @return	int
 	 */
-	static function getAvailableObject(array $a_ids, $a_from, $a_to)
+	static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true)
 	{
 		global $ilDB;
 
@@ -272,7 +273,14 @@ class ilBookingReservation
 		$available = array_diff($a_ids, $blocked);
 		if(sizeof($available))
 		{
-			return array_shift($available);
+			if($a_return_single)
+			{
+				return array_shift($available);
+			}
+			else
+			{
+				return $available;
+			}
 		}
 	}
 
