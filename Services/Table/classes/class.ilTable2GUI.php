@@ -2127,7 +2127,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$alist->addItem($lng->txt("tbl_template_delete"), "delete", "#");
 				foreach($templates as $name)
 				{
-					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", $name);
+					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", urlencode($name));
 					$alist->addItem($name, $name, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
 					$ilCtrl->setParameter($this->parent_obj, $this->prefix."_tpl", "");
 				}
