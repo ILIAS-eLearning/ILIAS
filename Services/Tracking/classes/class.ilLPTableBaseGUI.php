@@ -53,6 +53,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				case "hide":
 					$to_hide = array((int)$_GET["hide"]);
 					break;
+				
+				// page selector
+				default:
+					$this->determineOffsetAndOrder();
+					$this->storeNavParameter();
+					break;
 			}
 
 			if($to_hide)
