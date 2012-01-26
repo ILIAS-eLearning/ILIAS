@@ -103,6 +103,9 @@ class ilLPStatusCollection extends ilLPStatus
 		$ilBench->start('LearningProgress','9172_LPStatusCollection_inProgress');
 
 		$in_progress = 0;
+
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
 		{
 			$item_id = $ilObjDataCache->lookupObjId($item_id);
@@ -362,7 +365,7 @@ class ilLPStatusCollection extends ilLPStatus
 		}
 		return $tlt;
 	}
-
+	
 	/**
 	 * Determine status
 	 *
@@ -375,13 +378,11 @@ class ilLPStatusCollection extends ilLPStatus
 	{
 		global $ilObjDataCache, $ilDB;
 
-
 		$status['completed'] = true;
-		$status['failed'] = true;
-		$status['in_progress'] = true;
+		$status['failed'] = false;
+		$status['in_progress'] = false;
+		$status['not_attempted'] = true;
 
-
-		#$status = LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
 		{
 			case "crs":
@@ -390,16 +391,13 @@ class ilLPStatusCollection extends ilLPStatus
 				include_once "./Services/Tracking/classes/class.ilChangeEvent.php";
 				if (ilChangeEvent::hasAccessed($a_obj_id, $a_user_id))
 				{
-					#$status = LP_STATUS_IN_PROGRESS_NUM;
 					$status['in_progress'] = true;
-
 				}
 
 				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
 				{
 					$isGrouping = $grouping_id ? true : false;
-
 					$status = self::determineGroupingStatus($status,$grouping,$a_user_id,$isGrouping);
 				}
 				if($status['completed'])
@@ -433,8 +431,18 @@ class ilLPStatusCollection extends ilLPStatus
 		global $ilObjDataCache;
 
 		$items = $gr_info['items'];
+		if($is_grouping)
+		{
+			$max_allowed_failed = count($items) - $gr_info['num_obligatory'];
+			$required_completed = $gr_info['num_obligatory'];
+		}
+		else
+		{
+			$max_allowed_failed = 0;
+			$required_completed = count($items);
+		}
+
 		// Required for grouping with a number of obligatory items
-		$max_allowed_failed = count($items) - $gr_info['num_obligatory'];
 		$num_failed = 0;
 		$num_completed = 0;
 
@@ -446,17 +454,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 			if($gr_status == LP_STATUS_FAILED_NUM)
 			{
-				$status['in_progress'] = true;
-				if($is_grouping)
-				{
-					if(++$failed > $max_allowed_failed)
-					{
-						$status['failed'] = true;
-						$status['completed'] = false;
-						return $status;
-					}
-				}
-				else
+				if(++$failed > $max_allowed_failed)
 				{
 					$status['failed'] = true;
 					$status['completed'] = false;
@@ -465,51 +463,15 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 			if($gr_status == LP_STATUS_COMPLETED_NUM)
 			{
-				$status['in_progress'] = true;
-				if($is_grouping)
+				if(++$num_completed >= $required_completed)
 				{
-					if(++$num_completed >= $gr_info['num_obligatory'])
-					{
-						$status['failed'] = false;
-						return $status;
-					}
-				}
-				else
-				{
-					
-				}
-			}
-			if($gr_status == LP_STATUS_IN_PROGRESS_NUM)
-			{
-				$status['in_progress'] = true;
-				if($is_grouping)
-				{
-					$status['failed'] = false;
-				}
-				else
-				{
-					$status['failed'] = false;
-					$status['completed'] = false;
-				}
-			}
-			if($gr_status == LP_STATUS_NOT_ATTEMPTED_NUM)
-			{
-				if($is_grouping)
-				{
-					
-				}
-				else
-				{
-					$status['completed'] = false;
+					return $status;
 				}
 			}
 		}
-		if($is_grouping)
-		{
-			$status['completed'] = false;
-		}
+		// Not completed since returned above
+		$status['completed'] = false;
 		return $status;
 	}
-
 }	
 ?>
