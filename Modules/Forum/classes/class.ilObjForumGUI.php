@@ -1038,7 +1038,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	public function confirmDeleteThreads()
 	{
-		global $ilAccess;
+		global $ilAccess, $lng;
 
 		if(!is_array($_POST['thread_ids']))
 	 	{
@@ -1603,7 +1603,10 @@ class ilObjForumGUI extends ilObjectGUI
 					$status,
 					$send_activation_mail
 				);
-				
+
+				// mantis #8115: Mark parent as read
+				$this->object->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
+
 				// copy temporary media objects (frm~)
 				include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 				$mediaObjects = ilRTE::_getMediaObjects($oReplyEditForm->getInput('message'), 0);				
@@ -3100,7 +3103,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	public function cancelMoveThreadsObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $lng;
 		
 		if (!$ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 		{
@@ -3118,7 +3121,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	public function searchForumsObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $lng;
 		
 		if (!$ilAccess->checkAccess('moderate_frm', '', $this->object->getRefId()))
 		{
@@ -3400,7 +3403,7 @@ class ilObjForumGUI extends ilObjectGUI
 	*/
 	function addThreadObject($a_prevent_redirect = false)
 	{
-		global $ilUser, $ilAccess;		
+		global $ilUser, $ilAccess, $lng;		
 		
 		$forumObj = new ilObjForum((int)$_GET['ref_id']);
 		$frm = $forumObj->Forum;
