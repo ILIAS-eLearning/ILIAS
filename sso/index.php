@@ -21,7 +21,7 @@ $path = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
 if (file_exists($path) && is_readable($path)) {
 	foreach(file($path) as $line) {
 		if (trim($line)) {
-			$validDomains[$line] = 1;
+			$validDomains[trim($line)] = 1;
 		}
 	}
 	
