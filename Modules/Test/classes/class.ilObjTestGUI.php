@@ -4588,7 +4588,11 @@ class ilObjTestGUI extends ilObjectGUI
 			case "resetFilter":
 			case "resetTextFilter":
 			case "insertQuestions":
-				return $this->getBrowseForQuestionsTab($tabs_gui);
+				// #8497: resetfilter is also used in lp
+				if($this->ctrl->getNextClass($this) != "illearningprogressgui")
+				{
+					return $this->getBrowseForQuestionsTab($tabs_gui);
+				}				
 				break;
 			case "scoring":
 			case "properties":
