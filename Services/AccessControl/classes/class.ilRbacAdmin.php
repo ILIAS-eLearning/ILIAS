@@ -593,25 +593,33 @@ class ilRbacAdmin
 		{
 			return true;
 		}
-		
-		$query = 'DELETE FROM rbac_templates WHERE rol_id = '.$ilDB->quote($a_dest_id,'integer').' '.
-			'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
-		$res = $ilDB->manipulate($query);
 
-		$GLOBALS['ilLog']->write($query);
-
+		// Read operations
 		$query = 'SELECT * FROM rbac_templates '.
 			 'WHERE rol_id = '.$ilDB->quote($a_source_id,'integer').' '.
 			 'AND parent = '.$ilDB->quote($a_source_parent,'integer');
 		$res = $ilDB->query($query);
-		$GLOBALS['ilLog']->write($query);
+		$operations = array();
+		$rownum = 0;
 		while ($row = $ilDB->fetchObject($res))
+		{
+			$operations[$rownum]['type'] = $row->type;
+			$operations[$rownum]['ops_id'] = $row->ops_id;
+			$rownum++;
+		}
+
+		// Delete target permissions
+		$query = 'DELETE FROM rbac_templates WHERE rol_id = '.$ilDB->quote($a_dest_id,'integer').' '.
+			'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
+		$res = $ilDB->manipulate($query);
+		
+		foreach($operations as $row => $op)
 		{
 			$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
 				 'VALUES ('.
 				 $ilDB->quote($a_dest_id,'integer').",".
-				 $ilDB->quote($row->type,'text').",".
-				 $ilDB->quote($row->ops_id,'integer').",".
+				 $ilDB->quote($op['type'],'text').",".
+				 $ilDB->quote($op['ops_id'],'integer').",".
 				 $ilDB->quote($a_dest_parent,'integer').")";
 			$ilDB->manipulate($query);
 		}
