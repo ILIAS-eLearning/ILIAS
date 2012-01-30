@@ -10372,31 +10372,31 @@ sahs#:#cont_insert_into_chap#:#Elemente innerhalb eines Kapitels einfügen.
 sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###01 04 2011 new variable
 sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
 sahs#:#sahs_authoring_mode_info#:#Die SCORM ZIP-Datei muß mit dem ILIAS SCORM-Editor erstellt worden sein und als SCORM 1.2/2004 Package exportiert worden sein.
-sahs#:#sahs_authoring_mode#:#Authoring Mode###01 04 2011 new variable
+sahs#:#sahs_authoring_mode#:#Autorenmodus
 sahs#:#sahs_chapter#:#Kapitel
-sahs#:#sahs_choose_page_template#:#Choose Page Template###22 03 2011 new variable
+sahs#:#sahs_choose_page_template#:#Seitenvorlage auswählen
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Bitte wählen Sie nur entweder Seiten, SCOs, Assets oder Kapitel aus.
-sahs#:#sahs_choose_special_page#:#Choose Special Page###22 03 2011 new variable
+sahs#:#sahs_choose_special_page#:#Spezialseite auswählen
 sahs#:#sahs_desc_objectives#:#Beschreibung/Ziele
-sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.###22 03 2011 new variable
-sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page###22 03 2011 new variable
+sahs#:#sahs_hide_objectives_page_info#:#Wenn aktiviert werden SCO-Beschreibung und Lernziele nicht in der Präsentationsansicht angezeigt.
+sahs#:#sahs_hide_objectives_page#:#Beschreibungs-/Lernziel-Seite ausblenden
 sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).###01 04 2011 new variable
 sahs#:#sahs_import_sequencing#:#Import Sequencing###01 04 2011 new variable
-sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Paste Assets from Clipboard (inside chapter)###22 03 2011 new variable
-sahs#:#sahs_insert_ass_from_clip#:#Paste Assets from Clipboard###22 03 2011 new variable
-sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)###22 03 2011 new variable
-sahs#:#sahs_insert_ass#:#Insert Asset###22 03 2011 new variable
+sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Assets aus Zwischenablage einfügen (innerhalb eines Kapitels)
+sahs#:#sahs_insert_ass_from_clip#:#Assets aus Zwischenablage einfügen
+sahs#:#sahs_insert_ass_inside_chap#:#Asset einfügen (innerhalb eines Kapitels)
+sahs#:#sahs_insert_ass#:#Asset einfügen
 sahs#:#sahs_insert_chapter#:#Kapitel einfügen
 sahs#:#sahs_insert_page#:#Seite einfügen
 sahs#:#sahs_insert_pagelayout#:#Seitenvorlage einfügen
 sahs#:#sahs_insert_scenario#:#Kapitelsequenz einfügen
-sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)###22 03 2011 new variable
-sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)###22 03 2011 new variable
+sahs#:#sahs_insert_sco_from_clip_inside_chap#:#SCOs aus Zwischenablage einfügen (innerhalb eines Kapitels)
+sahs#:#sahs_insert_sco_inside_chap#:#SCO einfügen (innerhalb eines Kapitels)
 sahs#:#sahs_insert_sco#:#SCO einfügen
-sahs#:#sahs_insert_special_page#:#Insert Special Page###22 03 2011 new variable
+sahs#:#sahs_insert_special_page#:#Spezialseite einfügen
 sahs#:#sahs_learning_objectives#:#Lernziele
-sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.###22 03 2011 new variable
-sahs#:#sahs_new_asset#:#New Asset###22 03 2011 new variable
+sahs#:#sahs_list_info#:#Verwenden Sie ein vorangestelltes * für unnummerierte oder ein # für nummerierte Listen
+sahs#:#sahs_new_asset#:#Neues Asset
 sahs#:#sahs_new_chapter#:#Neues Kapitel
 sahs#:#sahs_new_page#:#Neue Seite
 sahs#:#sahs_new_sco#:#Neues SCO
@@ -10410,7 +10410,7 @@ sahs#:#sahs_organization#:#Organisation
 sahs#:#sahs_page#:#Seite
 sahs#:#sahs_properties#:#Eigenschaften
 sahs#:#sahs_questions#:#Fragen
-sahs#:#sahs_sco_final_message#:#You have successfully completed "%s".###22 03 2011 new variable
+sahs#:#sahs_sco_final_message#:#Sie haben erfolgreich "%s" beendet.
 sahs#:#sahs_sco_objective#:#SCOs und ihre Lernziele
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 04 2011 new variable
