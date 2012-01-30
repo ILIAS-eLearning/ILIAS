@@ -414,8 +414,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 					$role['parent'],
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
-					$role['obj_id'],
-					$role_folder_id
+					$role_folder_id,
+					$role['obj_id']
 				);
 				break;
 

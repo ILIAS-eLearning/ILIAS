@@ -673,6 +673,7 @@ class ilRbacAdmin
 		
 		if ($rbacreview->isProtected($a_source2_parent,$a_source2_id))
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Role is protected');
 			return true;
 		}
 
@@ -685,16 +686,30 @@ class ilRbacAdmin
                         "AND s1.type = s2.type ".
                         "AND s1.ops_id = s2.ops_id";
 		$res = $ilDB->query($query);
-		
+		$operations = array();
+		$rowNum = 0;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$operations[$rowNum]['type'] = $row->type;
+			$operations[$rowNum]['ops_id'] = $row->ops_id;
+
+			$rowNum++;
+		}
+
+		// Delete template permissions of target
+		$query = 'DELETE FROM rbac_templates WHERE rol_id = '.$ilDB->quote($a_dest_id,'integer').' '.
+			'AND parent = '.$ilDB->quote($a_dest_parent,'integer');
+		$res = $ilDB->manipulate($query);
+
 		$query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) '.
 			'VALUES (?,?,?,?)';
 		$sta = $ilDB->prepareManip($query,array('integer','text','integer','integer'));
-		while($row = $ilDB->fetchObject($res))
+		foreach($operations as $key => $set)
 		{
 			$ilDB->execute($sta,array(
 				$a_dest_id,
-				$row->type,
-				$row->ops_id,
+				$set['type'],
+				$set['ops_id'],
 				$a_dest_parent));
 		}
 		return true;
