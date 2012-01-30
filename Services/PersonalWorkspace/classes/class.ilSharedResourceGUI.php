@@ -31,12 +31,15 @@ class ilSharedResourceGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl;
+		global $ilCtrl, $tpl, $ilMainMenu;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 		
 		$tpl->getStandardTemplate();
+		
+		// #8509
+		$ilMainMenu->setActive("desktop");
 		
 		switch($next_class)
 		{
@@ -83,8 +86,6 @@ class ilSharedResourceGUI
 	
 	protected function process()
 	{
-		global $ilUser, $ilCtrl;
-		
 		if(!$this->node_id && !$this->portfolio_id)
 		{
 			exit("invalid call");
@@ -111,7 +112,7 @@ class ilSharedResourceGUI
 	
 	public static function hasAccess($a_node_id, $a_is_portfolio = false)
 	{
-		global $ilCtrl, $ilUser;				
+		global $ilUser;				
 	
 		// if we have current user - check with normal access handler
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -173,7 +174,7 @@ class ilSharedResourceGUI
 	
 	protected function redirectToResource($a_node_id, $a_is_portfolio = false)
 	{
-		global $ilCtrl, $objDefinition, $ilUser;
+		global $ilCtrl, $objDefinition;
 				
 		if(!$a_is_portfolio)
 		{
