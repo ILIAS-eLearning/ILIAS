@@ -322,7 +322,15 @@ class SurveyImportParser extends ilSaxParser
 					if (SurveyQuestion::_includeClass($type))
 					{
 						$this->activequestion = new $type();
-						$this->activequestion->setObjId($this->spl_id);
+						
+						// if no pool is given, question will reference survey
+						$q_obj_id = $this->spl_id;
+						if($this->spl_id < 0)
+						{
+							$q_obj_id = $this->survey->getId();
+						}
+						
+						$this->activequestion->setObjId($q_obj_id);
 					}
 				}
 				else
