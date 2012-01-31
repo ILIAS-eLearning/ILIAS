@@ -4136,7 +4136,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'members', array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("SELECT_ACTION",'ilias.php?baseClass=ilmailgui&view=my_courses&search_crs='.$this->object->getId());
 		$this->tpl->setVariable("MAIL_SELECTED",$this->lng->txt('send_mail_selected'));
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));
