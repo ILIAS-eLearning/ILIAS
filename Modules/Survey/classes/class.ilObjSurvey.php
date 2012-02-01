@@ -4233,7 +4233,7 @@ class ilObjSurvey extends ilObject
 		// Copy settings
 		$newObj = parent::cloneObject($a_target_id,$a_copy_id);
 		$this->cloneMetaData($newObj);
-		
+		$newObj->updateMetaData();		
 	 	
 		$newObj->setAuthor($this->getAuthor());
 		$newObj->setIntroduction($this->getIntroduction());
