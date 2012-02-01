@@ -208,12 +208,15 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 
 		// permanent link
-		$append = ($_GET["blpg"] != "")
-			? "_".$_GET["blpg"]
-			: "";
-		include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-		$perma_link = new ilPermanentLinkGUI("blog", $this->node_id, $append."_wsp");
-		$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
+		if($a_mode != "embedded")
+		{
+			$append = ($_GET["blpg"] != "")
+				? "_".$_GET["blpg"]
+				: "";
+			include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
+			$perma_link = new ilPermanentLinkGUI("blog", $this->node_id, $append."_wsp");
+			$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
+		}
 		
 		$wtpl->setVariable("PAGE", parent::preview());
 
