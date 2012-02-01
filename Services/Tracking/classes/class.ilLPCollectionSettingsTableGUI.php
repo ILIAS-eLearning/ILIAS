@@ -297,13 +297,21 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('trac_mode'), 'mode');
 		}	
 		
-		$this->addColumn($this->lng->txt('trac_determines_learning_progress'), 'status');
+		if($this->getMode() != LP_MODE_MANUAL_BY_TUTOR)
+		{
+			$this->addMultiCommand('assign', $this->lng->txt('trac_collection_assign'));
+			$this->addMultiCommand('deassign', $this->lng->txt('trac_collection_deassign'));
+			$this->addColumn($this->lng->txt('trac_determines_learning_progress'), 'status');
+		}
+		else
+		{
+			$this->addMultiCommand('assign', $this->lng->txt('trac_manual_display'));
+			$this->addMultiCommand('deassign', $this->lng->txt('trac_manual_no_display'));
+			$this->addColumn($this->lng->txt('trac_manual_is_displayed'), 'status');
+		}
 
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('item_ids');
-
-		$this->addMultiCommand('assign', $this->lng->txt('trac_collection_assign'));
-		$this->addMultiCommand('deassign', $this->lng->txt('trac_collection_deassign'));
 
 		if($this->getMode() == LP_MODE_COLLECTION)
 		{
