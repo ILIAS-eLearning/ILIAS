@@ -1630,6 +1630,20 @@ class ilTrQuery
 			ilLPStatus::checkStatusForObject($obj_id, $a_users);
 		}		
 	}		
+	
+	/**
+	 * Get last update info for object statistics
+	 * 
+	 * @return array
+	 */
+	public static function getObjectStatisticsLogInfo()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT COUNT(*) counter, MIN(tstamp) tstamp".
+			" FROM obj_stat_log");
+		return $ilDB->fetchAssoc($set);
+	}
 }
 
 ?>
