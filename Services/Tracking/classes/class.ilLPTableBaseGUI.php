@@ -204,13 +204,21 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		if($this->filter["hide"])
 		{
 			// create options from current value
-			$types = $this->getCurrentFilter(true);
+			$types = $this->getCurrentFilter(true);			
 			$type = $types["type"];
 			$options = array();
+			if($type == 'lres')
+			{
+				$type = array('lm','sahs','htlm','dbk');
+			}
+			else
+			{
+				$type = array($type);
+			}
 			foreach($this->filter["hide"] as $obj_id)
 			{
-				if($ilObjDataCache->lookupType($obj_id) == $type)
-				{
+				if(in_array($ilObjDataCache->lookupType($obj_id), $type))
+				{		
 					$options[$obj_id] = $ilObjDataCache->lookupTitle($obj_id);
 				}
 			}
