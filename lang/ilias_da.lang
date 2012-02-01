@@ -12332,7 +12332,7 @@ blog#:#blog_new_posting_info#:#The first text block is used as abstract in the p
 survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
 common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
-skmg#:#skmg_draft#:#Draft (Offline)###10 11 2011 new variable
+skmg#:#skmg_draft#:#Udkast (offline)
 skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
 survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
@@ -12368,10 +12368,10 @@ blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10
 blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
 blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
-assessment#:#test_create_question#:#Create Question###18 01 2012 new variable
-dateplaner#:#cal_cal_deleted#:#The calendars have been deleted###18 01 2012 new variable
+assessment#:#test_create_question#:#Lav spørgsmål
+dateplaner#:#cal_cal_deleted#:#Kalenderne er slettet
 wfld#:#wfld_edit#:#Ret mappe
-pd#:#pd_enable_comments#:#Enable Comments###18 01 2012 new variable
+pd#:#pd_enable_comments#:#Aktiver kommentarer
 crs#:#event_blank_columns#:#Additional Columns###18 01 2012 new variable
 common#:#continue#:#continue###18 01 2012 new variable
 payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button###18 01 2012 new variable
