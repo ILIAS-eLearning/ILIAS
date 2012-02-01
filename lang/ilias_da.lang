@@ -10140,7 +10140,7 @@ common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you ca
 ecs#:#ecs_not_published#:#No approvals selected.###26 03 2010 new variable
 common#:#no_mkisofs_configured#:#You have to configure mkisofs utility in ILIAS setup to run ISO export###26 03 2010 new variable
 exp#:#exp_export_files#:#Eksportfiler
-common#:#option#:#Option###26 03 2010 new variable
+common#:#option#:#Mulighed
 mep#:#mep_create#:#Create a new media pool###26 03 2010 new variable
 mep#:#mep_clone#:#Clone an existing media pool###26 03 2010 new variable
 mep#:#mep_import#:#Import a media pool###26 03 2010 new variable
@@ -10261,7 +10261,7 @@ common#:#db_need_hotfix#:#Hotfix findes. Gå til setup-programmet.
 common#:#mm_dd_yyyy#:#MM/DD/YYYY###16 07 2010 new variable
 common#:#dd_mm_yyyy#:#DD.MM.YYYY###16 07 2010 new variable
 common#:#yyyy_mm_dd#:#YYYY-MM-DD###16 07 2010 new variable
-common#:#optional_filters#:#Optional Filters###16 07 2010 new variable
+common#:#optional_filters#:#Valgfrie filtre
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration###16 07 2010 new variable
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration###16 07 2010 new variable
 content#:#scplayer_next#:#Next###16 07 2010 new variable
@@ -11052,7 +11052,7 @@ book#:#book_new#:#New Booking Pool###01 04 2011 new variable
 book#:#book_add#:#Add Booking Pool###01 04 2011 new variable
 book#:#book_edit#:#Edit Booking Pool###01 04 2011 new variable
 common#:#glo_import#:#Import Glossary###01 04 2011 new variable
-common#:#title_and_translations#:#Title and Translations###01 04 2011 new variable
+common#:#title_and_translations#:#Titel og oversættelser
 sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.###01 04 2011 new variable
 sahs#:#sahs_authoring_mode#:#Authoring Mode###01 04 2011 new variable
 sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
@@ -11063,7 +11063,7 @@ sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 
 sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###01 04 2011 new variable
 mep#:#mobs_restrict_file_types#:#Restrict File Types###01 04 2011 new variable
 mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffixes (e.g. jpg,gif) that are allowed to be uploaded into media objects. If no value is entered, all file types are allowed.###01 04 2011 new variable
-common#:#personal_settings#:#Personal Settings###01 04 2011 new variable
+common#:#personal_settings#:#Personlige indstillinger
 common#:#rep_main_page#:#Main Page###01 04 2011 new variable
 assessment#:#msg_randompool_duplicate_qpl#:#Please use only unique question pools###12 06 2011 new variable
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access###12 06 2011 new variable
@@ -11760,31 +11760,31 @@ chatroom#:#settings_privacy#:#Privacy###06 08 2011 new variable
 chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames. '#' will be automatically replaced by a number###06 08 2011 new variable
 chatroom#:#bans#:#Bans###06 08 2011 new variable
 chatroom#:#permissions#:#Permissions###06 08 2011 new variable
-chatroom#:#remark#:#Remark###06 08 2011 new variable
+chatroom#:#remark#:#Bemærkning
 chatroom#:#session#:#Session###06 08 2011 new variable
-chatroom#:#fontcolor#:#Font color###06 08 2011 new variable
-chatroom#:#fontstyle#:#Font style###06 08 2011 new variable
-chatroom#:#fontsize#:#Font size###06 08 2011 new variable
-chatroom#:#italic#:#Italic###06 08 2011 new variable
-chatroom#:#underlined#:#Underlined###06 08 2011 new variable
+chatroom#:#fontcolor#:#Skriftfarve
+chatroom#:#fontstyle#:#Skrifttype
+chatroom#:#fontsize#:#Skriftstørrelse
+chatroom#:#italic#:#Kursiv
+chatroom#:#underlined#:#Understreget
 chatroom#:#select_custom_username#:#Select custom username###06 08 2011 new variable
 chatroom#:#custom_username#:#Custom username###06 08 2011 new variable
-chatroom#:#enter#:#Enter chatroom###06 08 2011 new variable
-chatroom#:#fontfamily#:#Font family###06 08 2011 new variable
-chatroom#:#small#:#Small###06 08 2011 new variable
-chatroom#:#large#:#Large###06 08 2011 new variable
-chatroom#:#duration_from#:#From###06 08 2011 new variable
+chatroom#:#enter#:#Gå i chat
+chatroom#:#fontfamily#:#Skrifttype
+chatroom#:#small#:#Lille
+chatroom#:#large#:#Stor
+chatroom#:#duration_from#:#Fra
 chatroom#:#duration_to#:#To###06 08 2011 new variable
 chatroom#:#obj_chtr#:#Chatroom###06 08 2011 new variable
-chatroom#:#chat_message#:#Message###06 08 2011 new variable
-chatroom#:#chat_message_to_all#:#to all###06 08 2011 new variable
+chatroom#:#chat_message#:#Besked
+chatroom#:#chat_message_to_all#:#til alle
 chatroom#:#chat_message_options#:#Display###06 08 2011 new variable
-chatroom#:#chat_message_display#:#Options###06 08 2011 new variable
+chatroom#:#chat_message_display#:#Valgmuligheder
 chatroom#:#chat_mainroom#:#Main room###06 08 2011 new variable
 chatroom#:#chat_leave#:#Leave###06 08 2011 new variable
 chatroom#:#chat_join#:#Join###06 08 2011 new variable
 chatroom#:#chat_delete#:#Delete###06 08 2011 new variable
-chatroom#:#chat_invite#:#Invite###06 08 2011 new variable
+chatroom#:#chat_invite#:#Inviter
 chatroom#:#chat_kick#:#Kick###06 08 2011 new variable
 chatroom#:#chat_ban#:#Ban###06 08 2011 new variable
 chatroom#:#chat_address#:#Address###06 08 2011 new variable
@@ -11873,7 +11873,7 @@ auth#:#auth_account_code_used#:#Your account has been re-activated. Please login
 prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.###06 08 2011 new variable
 prtf#:#prtf_add_blog#:#Add Blog###06 08 2011 new variable
 pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace###06 08 2011 new variable
-pd#:#pd_enable_wsp_blogs#:#Enable Blogs###06 08 2011 new variable
+pd#:#pd_enable_wsp_blogs#:#Aktiver blogs
 pd#:#pd_enable_wsp_files#:#Enable Files###06 08 2011 new variable
 pd#:#pd_enable_wsp_certificates#:#Enable Certificates###06 08 2011 new variable
 pd#:#pd_enable_wsp_links#:#Enable Links###06 08 2011 new variable
@@ -12081,7 +12081,7 @@ exc#:#exc_select_blog_change#:#Use different Blog###02 09 2011 new variable
 exc#:#exc_select_portfolio_change#:#Use different Portfolio###02 09 2011 new variable
 exc#:#exc_blog_selected#:#The blog has been assigned.###02 09 2011 new variable
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.###02 09 2011 new variable
-common#:#my_courses_groups#:#My Courses & Groups###02 09 2011 new variable
+common#:#my_courses_groups#:#Mine kurser og grupper
 content#:#cont_sc_auto_continue#:#Auto-Continue###02 09 2011 new variable
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile.###02 09 2011 new variable
 prtf#:#prtf_admin_toggle_info#:#You can deactivate the portfolio feature completely in the Personal Desktop Administration.###02 09 2011 new variable
