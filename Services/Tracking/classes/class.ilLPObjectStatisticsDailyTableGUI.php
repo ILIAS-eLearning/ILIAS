@@ -58,6 +58,13 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 		
 		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
+		include_once "Services/Tracking/classes/class.ilTrQuery.php";
+		
+		$info = ilTrQuery::getObjectStatisticsLogInfo();
+		$info_date = ilDatePresentation::formatDate(new ilDateTime($info["tstamp"], IL_CAL_UNIX));
+		$link = " <a href=\"".$ilCtrl->getLinkTarget($a_parent_obj, "admin")."\">&raquo;".
+			$lng->txt("trac_log_info_link")."</a>";
+		ilUtil::sendInfo(sprintf($lng->txt("trac_log_info"), $info_date, $info["counter"]).$link);
 
 		if($a_load_items)
 		{
