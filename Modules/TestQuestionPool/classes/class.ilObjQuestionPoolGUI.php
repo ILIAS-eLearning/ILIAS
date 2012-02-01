@@ -758,6 +758,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$this->object->deleteQuestion($value);
 		}
 		if (count($_POST["q_id"])) ilUtil::sendSuccess($this->lng->txt("qpl_questions_deleted"), true);
+
+		$this->ctrl->setParameter($this, 'q_id', '');
+		
 		$this->ctrl->redirect($this, "questions");
 	}
 	
