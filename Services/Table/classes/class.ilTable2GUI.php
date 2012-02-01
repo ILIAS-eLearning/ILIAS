@@ -2219,7 +2219,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				}
 
 				// export
-				if(sizeof($this->export_formats))
+				if(sizeof($this->export_formats) && $this->dataExists())
 				{
 					$map = array(self::EXPORT_EXCEL => "tbl_export_excel",
 						self::EXPORT_CSV => "tbl_export_csv");
@@ -3002,13 +3002,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 						file_put_contents($filename, $csv->getCSVString());
 					}
 					break;
-		   }
+			}
+		   		   
+			if($send)
+			{
+				exit();
+			}
 		}
-
-	   if($send)
-	   {
-		  exit();
-	   }
 	}
 
 	/**
