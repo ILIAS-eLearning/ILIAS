@@ -12399,3 +12399,6 @@ content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of
 exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.
+trac#:#trac_manual_display#:#Display in Learning Progress
+trac#:#trac_manual_no_display#:#Do not display in Learning Progress
+trac#:#trac_manual_is_displayed#:#Is Displayed

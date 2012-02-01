@@ -12399,3 +12399,6 @@ content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare a
 exercise#:#exc_start_date_should_be_before_end_date#:#Die Startzeit sollte vor dem Abgabetermin liegen.
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung in Testergebnissen
 assessment#:#tst_results_print_best_solution_info#:#Falls aktiviert, und die Teilnehmer Zugang zu ihren Testergbnissen haben, wird den Lernenden die bestmögliche Lösung präsentiert.
+trac#:#trac_manual_display#:#Im Lernfortschritt anzeigen
+trac#:#trac_manual_no_display#:#Im Lernfortschritt nicht anzeigen
+trac#:#trac_manual_is_displayed#:#Wird angezeigt
