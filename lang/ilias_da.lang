@@ -11013,29 +11013,29 @@ content#:#cont_special_page#:#Special Content Page###22 03 2011 new variable
 wiki#:#wiki_public_comments#:#Public Comments###22 03 2011 new variable
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s###22 03 2011 new variable
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.###22 03 2011 new variable
-common#:#personal_workspace#:#Resources###22 03 2011 new variable
-wsp#:#wsp_personal_workspace#:#Resources###22 03 2011 new variable
-wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.###22 03 2011 new variable
+common#:#personal_workspace#:#Resurser
+wsp#:#wsp_personal_workspace#:#Resurser
+wsp#:#wsp_personal_workspace_description#:#Her kan du organisere dine private filer, blogs og øvrige ting.
 wsp#:#wsp_navigation_folders#:#View Folder###22 03 2011 new variable
 wsp#:#wsp_root_folder#:#Resources###22 03 2011 new variable
 wsp#:#wsp_navigation_resource#:#Create New###22 03 2011 new variable
-wsp#:#wsp_type_file#:#File###22 03 2011 new variable
-wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
-wsp#:#wsp_type_blog#:#Blog###22 03 2011 new variable
-common#:#obj_wfld#:#Folder###22 03 2011 new variable
-common#:#obj_blog#:#Blog###22 03 2011 new variable
-wfld#:#wfld_new#:#Create New Folder###22 03 2011 new variable
-wfld#:#wfld_add#:#Create Folder###22 03 2011 new variable
-blog#:#blog_new#:#Create New Blog###22 03 2011 new variable
-blog#:#blog_add#:#Create Blog###22 03 2011 new variable
-blog#:#blog_add_posting#:#Add Posting###22 03 2011 new variable
+wsp#:#wsp_type_file#:#Fil
+wsp#:#wsp_type_wfld#:#Mappe
+wsp#:#wsp_type_blog#:#Blog
+common#:#obj_wfld#:#Mappe
+common#:#obj_blog#:#Blog
+wfld#:#wfld_new#:#Lav ny mappe
+wfld#:#wfld_add#:#Lav mappe
+blog#:#blog_new#:#Lav ny blog
+blog#:#blog_add#:#Lav blog
+blog#:#blog_add_posting#:#Tilføj indlæg
 blog#:#blog_permanent_link#:#Permalink###22 03 2011 new variable
-blog#:#blog_comments#:#Comments###22 03 2011 new variable
-blog#:#blog_list_more#:#more###22 03 2011 new variable
+blog#:#blog_comments#:#Kommentarer
+blog#:#blog_list_more#:#mere
 blog#:#blog_posting_deletion_confirmation#:#Are you sure you want to delete the following entry?###22 03 2011 new variable
 blog#:#blog_number_users_notes_or_comments#:#Number of users that attached notes or comments to this entry###22 03 2011 new variable
 blog#:#blog_posting_deleted#:#The entry has been deleted.###22 03 2011 new variable
-blog#:#blog_enable_notes#:#Public Comments###22 03 2011 new variable
+blog#:#blog_enable_notes#:#Offentlige kommentarer
 sahs#:#sahs_insert_ass_inside_chap#:#Insert Asset (inside chapter)###22 03 2011 new variable
 sahs#:#sahs_insert_sco_inside_chap#:#Insert SCO (inside chapter)###22 03 2011 new variable
 sahs#:#sahs_insert_sco_from_clip_inside_chap#:#Paste SCOs from Clipboard (inside chapter)###22 03 2011 new variable
@@ -12336,7 +12336,7 @@ skmg#:#skmg_draft#:#Draft (Offline)###10 11 2011 new variable
 skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
 survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
-common#:#contact_sysadmin#:#Contact System Administration###10 11 2011 new variable
+common#:#contact_sysadmin#:#Kontakt system administrator
 blog#:#blog_posting#:#Blog Posting###10 11 2011 new variable
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###10 11 2011 new variable
 blog#:#blog_change_notification_salutation#:#Hello %s,###10 11 2011 new variable
@@ -12356,7 +12356,7 @@ chatroom_adm#:#chta_write#:#Edit Chatroom Administration###10 11 2011 new variab
 chatroom_adm#:#chta_edit_permission#:#Change Permission Settings###10 11 2011 new variable
 rbac#:#moderate#:#Moderate###10 11 2011 new variable
 common#:#apache_auth#:#Apache Authentication###10 11 2011 new variable
-common#:#server_disabled#:#The Chat is Disabled###10 11 2011 new variable
+common#:#server_disabled#:#Chatten er deaktiveret
 rbac#:#cat_create_chtr#:#Lav chatrum
 rbac#:#crs_create_chtr#:#Lav chatrum
 rbac#:#fold_create_chtr#:#Lav chatrum
