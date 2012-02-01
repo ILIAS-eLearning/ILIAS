@@ -21,7 +21,7 @@ $path = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
 if (file_exists($path) && is_readable($path)) {
 	foreach(file($path) as $line) {
 		if (trim($line)) {
-			$validDomains[trim($line)] = 1;
+			$validDomains[] = trim($line);
 		}
 	}
 	
@@ -30,20 +30,31 @@ else {
 	$validDomains = array();	
 }
 
-$validDomains[] = $_SERVER['HTTP_HOST'];
-
 $P = parse_url($redirect);
-$pos = strrpos(substr($P["host"],0,strrpos($P["host"], '.')), '.' );
-if($pos===false) {
-	$pos = 0;
-}
-else {
-	$pos += 1;
+$redirectDomain = $P["host"];
+
+$validRedirect = false;
+
+foreach($validDomains as $validDomain)
+{
+	if( $redirectDomain === $validDomain )
+	{
+		$validRedirect = true;
+		break;
+	}
+	
+	if( strlen($redirectDomain) > (strlen($validDomain) + 1) )
+	{
+		if( substr($redirectDomain, (0 - strlen($validDomain) - 1)) === '.'. $validDomain)
+		{
+			$validRedirect = true;
+			break;
+		}	
+	}
 }
 
-$domain = substr($P["host"],$pos);
-
-if($validDomains[$domain] !== 1) {
+if( !$validRedirect )
+{
 	die('The redirect target "'.$redirect.'" is not in the list of allowed domains.');
 }
 
