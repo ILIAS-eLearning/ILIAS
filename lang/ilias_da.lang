@@ -12357,20 +12357,20 @@ chatroom_adm#:#chta_edit_permission#:#Change Permission Settings###10 11 2011 ne
 rbac#:#moderate#:#Moderate###10 11 2011 new variable
 common#:#apache_auth#:#Apache Authentication###10 11 2011 new variable
 common#:#server_disabled#:#The Chat is Disabled###10 11 2011 new variable
-rbac#:#cat_create_chtr#:#Create Chatroom###10 11 2011 new variable
-rbac#:#crs_create_chtr#:#Create Chatroom###10 11 2011 new variable
-rbac#:#fold_create_chtr#:#Create Chatroom###10 11 2011 new variable
+rbac#:#cat_create_chtr#:#Lav chatrum
+rbac#:#crs_create_chtr#:#Lav chatrum
+rbac#:#fold_create_chtr#:#Lav chatrum
 rbac#:#grp_create_chtr#:#Create Chatroom###10 11 2011 new variable
 rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
-blog#:#blog_draft#:#Draft###10 11 2011 new variable
+blog#:#blog_draft#:#Udkast
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
 blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
 blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
 assessment#:#test_create_question#:#Create Question###18 01 2012 new variable
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted###18 01 2012 new variable
-wfld#:#wfld_edit#:#Edit Folder###18 01 2012 new variable
+wfld#:#wfld_edit#:#Ret mappe
 pd#:#pd_enable_comments#:#Enable Comments###18 01 2012 new variable
 crs#:#event_blank_columns#:#Additional Columns###18 01 2012 new variable
 common#:#continue#:#continue###18 01 2012 new variable
