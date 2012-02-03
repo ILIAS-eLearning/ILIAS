@@ -963,6 +963,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$profile->setBackUrl($this->ctrl->getLinkTarget($this, 'log'));
 		$tpl->setContent($ilCtrl->getHTML($profile));
 	}
+	
+	public function addLocatorItems()
+	{
+		global $ilLocator;
+		
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+		}
+	}
 }
 
 ?>
