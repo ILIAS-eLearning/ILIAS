@@ -169,7 +169,7 @@ class ilSearchRootSelector extends ilExplorer
 		if (in_array("root", $this->clickable_types))
 		{
 			$tpl->setCurrentBlock("link");
-			$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
+			//$tpl->setVariable("LINK_NAME",$lng->txt('repository'));
 			
 			$this->ctrl->setParameterByClass($this->getTargetClass(),'root_id',ROOT_FOLDER_ID);
 			$tpl->setVariable("LINK_TARGET",$this->ctrl->getLinkTargetByClass($this->getTargetClass(),$this->getCmd()));
@@ -177,9 +177,6 @@ class ilSearchRootSelector extends ilExplorer
 			
 			$tpl->parseCurrentBlock();
 		}
-		// not existent
-		// $tpl->setCurrentBlock("row");
-		// $tpl->parseCurrentBlock();
 
 		#$this->output[] = $tpl->get();
 
