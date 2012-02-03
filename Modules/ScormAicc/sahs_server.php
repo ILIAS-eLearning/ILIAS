@@ -32,16 +32,6 @@
 chdir("../..");
 require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
-// debug
-/*
-$fp=fopen("./Modules/ScormAicc/log/scorm.log", "a+");
-foreach ($HTTP_POST_VARS as $key=>$value)
-	fputs($fp, "HTTP_POST_VARS[$key] = $value \n");
-foreach ($HTTP_GET_VARS as $key=>$value)
-	fputs($fp, "HTTP_GET_VARS[$key] = $value \n");
-fclose($fp);
-*/
-
 $cmd = ($_GET["cmd"] == "")
 	? $_POST["cmd"]
 	: $_GET["cmd"];
@@ -62,14 +52,14 @@ else
 
 	//ensure HACP
 	$requiredKeys=array("command", "version", "session_id");
-	if (count(array_diff ($requiredKeys, array_keys(array_change_key_case($HTTP_POST_VARS, CASE_LOWER))))==0)
+	if (count(array_diff ($requiredKeys, array_keys(array_change_key_case($_POST, CASE_LOWER))))==0)
 	{
 		//now we need to get a connection to the database and global params
 		//but that doesnt work because of missing logindata of the contentserver
 		//require_once "./include/inc.header.php";
 
 		//highly insecure
-		$param=urldecode($HTTP_POST_VARS["session_id"]);
+		$param=urldecode($_POST["session_id"]);
 		if (!empty($param) && substr_count($param, "_")==3)
 		{
 			list($session_id, $client_id, $ref_id, $obj_id)=explode("_",$param);
@@ -79,7 +69,7 @@ else
 
 //			session_id($session_id);
 			require_once "./include/inc.header.php";
-//$ilLog->write("Session: ".$HTTP_POST_VARS["session_id"]);
+//$ilLog->write("Session: ".$_POST["session_id"]);
 
 			$type="hacp";
 
@@ -111,8 +101,8 @@ switch ($type)
 				//unknown type
 				$fp=fopen("./Modules/ScormAicc/log/scorm.log", "a+");
 				fputs($fp, "unknown type >$type< in sahs_server\n");
-				foreach ($HTTP_POST_VARS as $k=>$v)
-					fputs($fp, "HTTP_POST_VARS[$k]=$v \n");
+				foreach ($_POST as $k=>$v)
+					fputs($fp, "POST_VARS[$k]=$v \n");
 				fclose($fp);
 }
 

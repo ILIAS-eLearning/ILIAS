@@ -36,13 +36,12 @@ class ilObjHACPTracking extends ilObjAICCTracking {
 	*/
 	function ilObjHACPTracking($ref_id, $obj_id)
 	{
-		global $ilias, $HTTP_POST_VARS;
-		global $ilDB, $ilUser;
+		global $ilias, $ilDB, $ilUser;
 		
 	
 		//just to make sure to extract only this parameter 
 		$mainKeys=array("command", "version", "session_id", "aicc_data");
-		$postVars=array_change_key_case($HTTP_POST_VARS, CASE_LOWER);
+		$postVars=array_change_key_case($_POST, CASE_LOWER);
 		foreach($mainKeys as $key) {
 			$$key=$postVars[$key];
 		}
