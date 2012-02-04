@@ -164,6 +164,7 @@ class ilCtrl
 		$class = strtolower(get_class($a_gui_object));
 
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
+		$nr = $nr["node_id"];
 		if ($nr != "")
 		{
 			$current_node = $this->current_node;
@@ -199,6 +200,7 @@ class ilCtrl
 		$class = strtolower(get_class($a_gui_object));
 
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $class);
+		$nr = $nr["node_id"];
 		if ($nr != "")
 		{
 			$current_node = $this->current_node;
@@ -298,17 +300,17 @@ class ilCtrl
 	 * @param	string		class that should be searched
 	 * @return	int			id of target node that has been found
 	 */
-	function getNodeIdForTargetClass($a_par_node, $a_class, $a_check = false)
+	private function getNodeIdForTargetClass($a_par_node, $a_class, $a_check = false)
 	{
 		$class = strtolower($a_class);
 		$this->readClassInfo($class);
 		
 		if ($a_par_node === 0 || $a_par_node == "")
 		{
-			return $this->getCidForClass($class);
+			return array("node_id" => $this->getCidForClass($class),
+				"base_class" => "");
 		}
 		
-//return parent::getNodeIdForTargetClass($a_par_node, $a_class);
 		$this->readNodeInfo($a_par_node);
 		
 		$node_cid = $this->getCurrentCidOfNode($a_par_node);
@@ -316,7 +318,8 @@ class ilCtrl
 		// target class is class of current node id
 		if ($class == $this->getClassForCid($node_cid))
 		{
-			return $a_par_node;
+			return array("node_id" => $a_par_node,
+				"base_class" => "");
 		}
 
 		// target class is child of current node id
@@ -324,7 +327,8 @@ class ilCtrl
 			is_array($this->calls[$this->getClassForCid($node_cid)]) &&
 			in_array($a_class, $this->calls[$this->getClassForCid($node_cid)]))
 		{
-			return $a_par_node.":".$this->getCidForClass($class);
+			return array("node_id" => $a_par_node.":".$this->getCidForClass($class),
+				"base_class" => "");
 		}
 
 		// target class is sibling
@@ -334,7 +338,9 @@ class ilCtrl
 			if (is_array($this->calls[$this->getClassForCid($par_cid)]) &&
 				in_array($a_class, $this->calls[$this->getClassForCid($par_cid)]))
 			{
-				return $this->removeLastCid($a_par_node).":".$this->getCidForClass($class);;
+				return array("node_id" =>
+					$this->removeLastCid($a_par_node).":".$this->getCidForClass($class),
+					"base_class" => "");
 			}
 		}
 
@@ -345,9 +351,38 @@ class ilCtrl
 			$temp_cid = $this->getCurrentCidOfNode($temp_node);
 			if ($this->getClassForCid($temp_cid) == $a_class)
 			{
-				return $temp_node;
+				return array("node_id" => $temp_node,
+					"base_class" => "");
 			}
 			$temp_node = $this->removeLastCid($temp_node);
+		}
+		
+		// target class is another base class
+		$n_class = "";
+		if ($a_class != "")
+		{
+			global $ilDB;
+			
+			// get class information
+			$mc_set = $ilDB->query("SELECT * FROM module_class WHERE LOWER(class) = ".
+				$ilDB->quote($class, "text"));
+			$mc_rec = $ilDB->fetchAssoc($mc_set);
+			$n_class = strtolower($mc_rec["class"]);
+
+			if ($n_class == "")
+			{
+				$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
+					$ilDB->quote($class, "text"));
+				$mc_rec = $ilDB->fetchAssoc($mc_set);
+				$n_class = strtolower($mc_rec["class"]);
+			}
+			
+			if ($n_class != "")
+			{
+				$this->getCallStructure($n_class);
+				return array("node_id" => $this->getCidForClass($n_class),
+					"base_class" => $class);
+			}
 		}
 
 		if ($a_check)
@@ -395,6 +430,7 @@ class ilCtrl
 			}
 
 			$nr = $this->getNodeIdForTargetClass($nr, $class, true);
+			$nr = $nr["node_id"];
 			if ($nr === false)
 			{
 				return false;
@@ -978,6 +1014,7 @@ class ilCtrl
 	{
 		$a_cmd_class = strtolower($a_cmd_class);
 		$nr = $this->getNodeIdForTargetClass($this->current_node, $a_cmd_class);
+		$nr = $nr["node_id"];
 		$_GET["cmdClass"] = $a_cmd_class;
 		$_GET["cmdNode"] = $nr;
 	}
@@ -1427,6 +1464,7 @@ class ilCtrl
 		$a_class = strtolower($a_class);
 
 		$node = $this->getNodeIdForTargetClass($this->current_node, $a_class);
+		$node = $node["node_id"];
 		$n_arr = explode(":", $node);
 		for($i = count($n_arr)-2; $i>=0; $i--)
 		{
@@ -1494,6 +1532,11 @@ class ilCtrl
 		{
 			$class = strtolower($class);
 			$nr = $this->getNodeIdForTargetClass($nr, $class);
+			if ($nr["base_class"] != "")
+			{
+				$new_baseclass = $nr["base_class"];
+			}
+			$nr = $nr["node_id"]; 
 			$target_class = $class;
 		}
 
@@ -1537,7 +1580,14 @@ class ilCtrl
 
 		$params["cmdClass"] = $target_class;
 		$params["cmdNode"] = $nr;
-		$params["baseClass"] = $_GET["baseClass"];
+		if($new_baseclass == "")
+		{
+			$params["baseClass"] = $_GET["baseClass"];
+		}
+		else
+		{
+			$params["baseClass"] = $new_baseclass;
+		}
 
 		return $params;
 	}
