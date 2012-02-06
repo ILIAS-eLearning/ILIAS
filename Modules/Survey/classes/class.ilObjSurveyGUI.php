@@ -2711,6 +2711,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	public function sendCodesMailObject()
 	{
+		global $ilUser;
+		
 		$this->handleWriteAccess();
 		$this->setCodesSubtabs();
 
@@ -2732,7 +2734,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$title = (strlen($_POST['savemessagetitle'])) ? $_POST['savemessagetitle'] : ilStr::substr($_POST['m_message'], 0, 40) . '...';
 					$this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $_POST['m_message']);
 				}
-				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message']);
+				
+				$lang = $ilUser->getPref("survey_code_language");
+				if(!$lang)
+				{
+					$lang = "en";
+				}			
+				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message'],$lang);
 				ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
 				$this->ctrl->redirect($this, 'codesMail');
 			}

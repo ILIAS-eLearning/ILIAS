@@ -4746,7 +4746,7 @@ class ilObjSurvey extends ilObject
 		}
 	}
 
-	function sendCodes($not_sent, $subject, $message)
+	function sendCodes($not_sent, $subject, $message, $lang = "en")
 	{
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		$user_id = $this->getOwner();
@@ -4755,7 +4755,7 @@ class ilObjSurvey extends ilObject
 		foreach ($recipients as $data)
 		{
 			$messagetext = $message;
-			$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$data["code"];
+			$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$data["code"]."&amp;lang=".$lang;
 			$messagetext = str_replace('[url]', "<" . $url . ">", $messagetext);
 			foreach ($data as $key => $value)
 			{
