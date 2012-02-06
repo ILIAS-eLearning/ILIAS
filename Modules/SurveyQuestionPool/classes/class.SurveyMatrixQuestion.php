@@ -1853,7 +1853,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 								$scale = $cat->scale;								
 								if (in_array($scale, $checked_values))
 								{
-									array_push($a_array, 1);
+									array_push($a_array, $scale);
 								}
 								else
 								{
