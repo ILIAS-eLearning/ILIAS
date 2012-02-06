@@ -39,7 +39,7 @@ class ilWorkspaceAccessGUI
 	
 	function executeCommand()
 	{
-		global $rbacsystem, $ilTabs, $tpl;
+		global $ilTabs, $tpl;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -153,8 +153,8 @@ class ilWorkspaceAccessGUI
 			$options["registered"] = $this->lng->txt("wsp_set_permission_registered");
 		}
 		
-		if($ilSetting->get("pub_section"))
-		{		
+		if($ilSetting->get("enable_global_profiles"))
+		{			
 			if(!$this->getAccessHandler()->hasGlobalPasswordPermission($this->node_id))
 			{
 				$options["password"] = $this->lng->txt("wsp_set_permission_all_password");

@@ -12404,3 +12404,5 @@ trac#:#trac_manual_no_display#:#Do not display in Learning Progress
 trac#:#trac_manual_is_displayed#:#Is Displayed
 trac#:#trac_log_info#:#Last Aggregation: %s (Unprocessed items: %s)
 trac#:#trac_log_info_link#:#Update
+pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, workspace objects and portfolios on the Web.
+pd#:#pd_enable_user_publish#:#Enable User Content Publishing

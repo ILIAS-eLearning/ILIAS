@@ -1998,7 +1998,7 @@ return $this->showServerInfoObject();
 	*/
 	public function initBasicSettingsForm()
 	{
-		global $lng, $ilSetting, $ilClientIniFile;
+		global $lng, $ilSetting;
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -2046,8 +2046,8 @@ return $this->showServerInfoObject();
 			}
 			
 		// Enable Global Profiles
-		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_global_profiles'), 'enable_global_profiles');
-		$cb_prop->setInfo($lng->txt('pd_enable_global_profiles_info'));
+		$cb_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_user_publish'), 'enable_global_profiles');
+		$cb_prop->setInfo($lng->txt('pd_enable_user_publish_info'));
 		$cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
 		$cb->addSubItem($cb_prop);
 			
