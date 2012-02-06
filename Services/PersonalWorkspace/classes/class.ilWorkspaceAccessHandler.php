@@ -231,14 +231,21 @@ class ilWorkspaceAccessHandler
 	 */
 	public static function getPermissions($a_node_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
+		
+		$publish_enabled = $ilSetting->get("enable_global_profiles");
+		$publish_perm = array(ilWorkspaceAccessGUI::PERMISSION_ALL, 
+			ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD);
 
 		$set = $ilDB->query("SELECT object_id FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer"));
 		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$res[] = $row["object_id"];
+			if($publish_enabled || !in_array($row["object_id"], $publish_perm))
+			{
+				$res[] = $row["object_id"];
+			}
 		}
 		return $res;
 	}
@@ -255,8 +262,13 @@ class ilWorkspaceAccessHandler
 	
 	public function hasGlobalPermission($a_node_id)
 	{
-		global $ilDB;
-
+		global $ilDB, $ilSetting;
+		
+		if(!$ilSetting->get("enable_global_profiles"))
+		{
+			return false;
+		}
+		
 		$set = $ilDB->query("SELECT object_id FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
 			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL, "integer"));
@@ -265,7 +277,12 @@ class ilWorkspaceAccessHandler
 	
 	public function hasGlobalPasswordPermission($a_node_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
+		
+		if(!$ilSetting->get("enable_global_profiles"))
+		{
+			return false;
+		}
 
 		$set = $ilDB->query("SELECT object_id FROM acl_ws".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
@@ -275,7 +292,7 @@ class ilWorkspaceAccessHandler
 	
 	public static function getPossibleSharedTargets()
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
 		include_once "Services/Membership/classes/class.ilParticipants.php";
@@ -284,9 +301,13 @@ class ilWorkspaceAccessHandler
 		
 		$obj_ids = array_merge($grp_ids, $crs_ids);
 		$obj_ids[] = $ilUser->getId();
-		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_REGISTERED;		
-		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL;
-		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD;
+		$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_REGISTERED;	
+		
+		if($ilSetting->get("enable_global_profiles"))
+		{
+			$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL;
+			$obj_ids[] = ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD;
+		}		
 
 		return $obj_ids;
 	}

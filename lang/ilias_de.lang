@@ -12404,3 +12404,5 @@ trac#:#trac_manual_no_display#:#Im Lernfortschritt nicht anzeigen
 trac#:#trac_manual_is_displayed#:#Wird angezeigt
 trac#:#trac_log_info#:#Letzte Aggregation: %s (Unverarbeitete Datensätze: %s)
 trac#:#trac_log_info_link#:#Aktualisieren
+pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
+pd#:#pd_enable_user_publish#:#Veröffentlichung von Nutzerinhalten aktivieren
