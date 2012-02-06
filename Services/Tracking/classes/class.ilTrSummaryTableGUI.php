@@ -555,6 +555,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilCtrl;
+		
 		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -597,13 +598,27 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		if($this->ref_id == ROOT_FOLDER_ID)
 		{
-			$path = $this->buildPath($a_set["ref_ids"]);
+			$path = $this->buildPath($a_set["ref_ids"], false, true);
 			if($path)
 			{
 				$this->tpl->setCurrentBlock("item_path");
-				foreach($path as $path_item)
+				foreach($path as $ref_id => $path_item)
 				{
 					$this->tpl->setVariable("PATH_ITEM", $path_item);
+					
+					if(!$this->anonymized)
+					{
+						$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
+						$this->tpl->setVariable("URL_DETAILS", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
+						$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
+						$this->tpl->setVariable("TXT_DETAILS", $lng->txt('trac_participants'));
+					}
+					else
+					{
+						$this->tpl->setVariable("URL_DETAILS", ilLink::_getLink($ref_id, $a_set["type"]));
+						$this->tpl->setVariable("TXT_DETAILS", $lng->txt('view'));
+					}
+					
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -613,18 +628,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass(get_class($this),'hide'));
 			$this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('trac_hide'));
 			$this->tpl->parseCurrentBlock();
-						
-			if(!$this->anonymized)
-			{
-				$ref_id = $a_set["ref_ids"];
-				$ref_id = array_shift($ref_id);
-				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', $ref_id);
-				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass($ilCtrl->getCmdClass(), 'details'));
-				$ilCtrl->setParameterByClass($ilCtrl->getCmdClass(), 'details_id', '');
-				$this->tpl->setVariable("TXT_COMMAND", $lng->txt('trac_participants'));
-				$this->tpl->parseCurrentBlock();
-			}
-
+			
 			$this->tpl->touchBlock("path_action");
 		}
 	}

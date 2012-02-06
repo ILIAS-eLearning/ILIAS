@@ -765,53 +765,64 @@ class ilTrQuery
 	{
 		global $tree;
 		
-		$a_users = NULL;
-		$obj_id = ilObject::_lookupObjectId($a_ref_id);
+		$obj_id = ilObject::_lookupObjectId($a_ref_id);		
+		$obj_type = ilObject::_lookupType($obj_id);
 
-		// @todo: move this to a parent or type related class later
-		switch(ilObject::_lookupType($obj_id))
+		// try to get participants from (parent) course/group
+		switch($obj_type)
 		{
 			case "crs":
 				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
-				$a_users = $member_obj->getMembers();
-				break;
+				return $member_obj->getMembers();
 
 			case "grp":
 				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$member_obj = ilGroupParticipants::_getInstanceByObjId($obj_id);
-				$a_users = $member_obj->getMembers();
+				return $member_obj->getMembers();
+			
+			default:				
+				// walk path to find course or group object and use members of that object
+				$path = $tree->getPathId($a_ref_id);
+				array_pop($path);
+				foreach(array_reverse($path) as $path_ref_id)
+				{
+					$type = ilObject::_lookupType($path_ref_id, true);
+					if($type == "crs" || $type == "grp")
+					{
+						return self::getParticipantsForObject($path_ref_id);
+					}
+				}
 				break;
-
+		}
+		
+		$a_users = null;
+		
+		// no participants possible: use tracking/object data where possible
+		switch($obj_type)
+		{
 			case "sahs":
 				include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 				$subtype = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-				switch ($subtype)
-				{
-					case 'scorm2004':
-						/* based on cmi_gobjective, data is not mandatory?
-						include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-						$a_users = ilSCORM2004Tracking::_getTrackedUsers($obj_id);
-						*/
-						
-						// based on cmi_node/cp_node, used for scorm tracking data views
-						include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
-						$mod = new ilObjSCORM2004LearningModule($obj_id, false);
-						$all = $mod->getTrackedUsers("");
+				if ($subtype == "scorm2004")
+				{										
+					// based on cmi_node/cp_node, used for scorm tracking data views
+					include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+					$mod = new ilObjSCORM2004LearningModule($obj_id, false);
+					$all = $mod->getTrackedUsers("");					
+					if($all)
+					{
 						$a_users = array();
-						if($all)
+						foreach($all as $item)
 						{
-							foreach($all as $item)
-							{
-								$a_users[] = $item["user_id"];
-							}
+							$a_users[] = $item["user_id"];
 						}
-						break;
-
-					default:
-						include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-						$a_users = ilObjSCORMTracking::_getTrackedUsers($obj_id);
-						break;
+					}
+				}
+				else
+				{
+					include_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+					$a_users = ilObjSCORMTracking::_getTrackedUsers($obj_id);
 				}
 				break;
 
@@ -827,23 +838,9 @@ class ilTrQuery
 				include_once("./Services/Tracking/classes/class.ilLPStatusTestFinished.php");
 				$a_users = ilLPStatusTestFinished::getParticipants($obj_id);
 				break;
-
-			case "fold":
-			case "lm":
-			case "htlm":
-			case "dbk":
-			case "sess":
-				// walk path to find course or group object and use members of that object
-				$path = $tree->getPathId($a_ref_id);
-				array_pop($path);
-				foreach(array_reverse($path) as $path_ref_id)
-				{
-					$type = ilObject::_lookupType($path_ref_id, true);
-					if($type == "crs" || $type == "grp")
-					{
-						return self::getParticipantsForObject($path_ref_id);
-					}
-				}
+			
+			default:
+				// no sensible data: return null
 				break;
 		}
 		
