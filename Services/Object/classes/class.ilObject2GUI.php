@@ -175,13 +175,16 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 		switch($next_class)
 		{
-			case "ilworkspaceaccessgui";								
-				$this->tabs_gui->activateTab("id_permissions");
-				
-				include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
-				$wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
-				$this->ctrl->forwardCommand($wspacc);
-				break;
+			case "ilworkspaceaccessgui";		
+				if($this->node_id)
+				{
+					$this->tabs_gui->activateTab("id_permissions");
+
+					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
+					$wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
+					$this->ctrl->forwardCommand($wspacc);
+					break;
+				}
 			
 			default:				
 				if(!$cmd)
@@ -508,7 +511,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 			case self::WORKSPACE_NODE_ID:
 			case self::WORKSPACE_OBJECT_ID:
 				// only files and blogs can be shared for now
-				if ($this->checkPermissionBool("edit_permission") && in_array($this->type, array("file", "blog")))
+				if ($this->checkPermissionBool("edit_permission") && in_array($this->type, array("file", "blog")) && $this->node_id)
 				{
 					$ilTabs->addTab("id_permissions",
 						$lng->txt("wsp_permissions"),
