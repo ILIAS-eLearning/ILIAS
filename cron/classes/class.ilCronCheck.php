@@ -138,7 +138,8 @@ class ilCronCheck
 				'ilCronDeleteInactiveUserAccounts::run',
 				'ilCronPaymentNotification::sendNotifications',
 				'ilCronCourseGroupNotification::check',
-				'ilCronPaymentUDInvoiceNumberReset::check'
+				'ilCronPaymentUDInvoiceNumberReset::check',
+				'ilCronObjectStatisticsCheck::check'
 		);
 
 		$this->possible_tasks = array(
@@ -273,6 +274,14 @@ class ilCronCheck
 					'method'		=> 'check',
 					'location'		=> 'cron',
 					'condition'		=> ilUserDefinedInvoiceNumber::_isUDInvoiceNumberActive()
+				),
+			
+				// (object) statistics
+				'ilCronObjectStatisticsCheck::check' => array(
+					'classname'		=> 'ilCronObjectStatisticsCheck',
+					'method'		=> 'check',
+					'location'		=> 'cron',
+					'condition'		=> true
 				)
 		);
 	}	

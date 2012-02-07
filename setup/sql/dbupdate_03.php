@@ -8430,3 +8430,297 @@ if(!$ilDB->tableExists('note_settings'))
 		$setting->set("ilGlobalTstPoolUsageSettingInitilisation", 1);
 	}
 ?>
+<#3511>
+<?php	
+	if(!$ilDB->tableExists('obj_lp_stat'))
+	{	
+		$fields = array(
+			'type' => array(
+				'type' => 'text',
+				'length' => 4,
+				'notnull' => true
+				),
+			'obj_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'yyyy' => array(
+				'type' => 'integer',
+				'length' => 2,
+				'notnull' => true
+				),
+			'mm' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				),
+			'dd' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				),
+			'fulldate' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'mem_cnt' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'in_progress' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'completed' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'failed' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'not_attempted' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				)
+		);
+		$ilDB->createTable('obj_lp_stat', $fields);
+		$ilDB->addPrimaryKey('obj_lp_stat', array("obj_id", "fulldate"));
+	}
+?>
+<#3512>
+<?php	
+	if(!$ilDB->tableExists('obj_type_stat'))
+	{
+		$fields = array(
+			'type' => array(
+				'type' => 'text',
+				'length' => 4,
+				'notnull' => true
+				),				
+			'yyyy' => array(
+				'type' => 'integer',
+				'length' => 2,
+				'notnull' => true
+				),
+			'mm' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				),
+			'dd' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				),
+			'fulldate' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'cnt_references' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'cnt_objects' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'cnt_deleted' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				)
+		);
+		$ilDB->createTable('obj_type_stat', $fields);
+		$ilDB->addPrimaryKey('obj_type_stat', array("type", "fulldate"));
+	}
+?>
+<#3513>
+<?php	
+	if(!$ilDB->tableExists('obj_user_stat'))
+	{
+		$fields = array(	
+			'obj_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'yyyy' => array(
+				'type' => 'integer',
+				'length' => 2,
+				'notnull' => true
+				),
+			'mm' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				),
+			'dd' => array(
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true
+				),
+			'fulldate' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'counter' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				)
+		);
+		$ilDB->createTable('obj_user_stat', $fields);
+		$ilDB->addPrimaryKey('obj_user_stat', array("obj_id", "fulldate"));
+	}
+?>
+<#3514>
+<?php
+	if(!$ilDB->tableColumnExists("obj_stat", "tstamp"))
+	{
+		// table must be empty to add not null column
+		$ilDB->manipulate("DELETE FROM obj_stat");
+			
+		$ilDB->addTableColumn('obj_stat', 'tstamp', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 4));
+			
+		$ilDB->addIndex("obj_stat", array("tstamp", "obj_id"), "i2");
+	}
+?>
+<#3515>
+<?php	
+	if(!$ilDB->tableExists('usr_session_stats_raw'))
+	{
+		$fields = array(	
+			'session_id' => array(
+				'type' => 'text',
+				'length' => 80,
+				'notnull' => true
+				),
+			'type' => array(
+				'type' => 'integer',
+				'length' => 2,
+				'notnull' => true
+				),
+			'start_time' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'end_time' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'end_context' => array(
+				'type' => 'integer',
+				'length' => 2,
+				'notnull' => false
+				),
+			'user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				)
+		);
+		$ilDB->createTable('usr_session_stats_raw', $fields);
+		$ilDB->addPrimaryKey('usr_session_stats_raw', array('session_id'));
+	}
+?>
+<#3516>
+<?php	
+	if(!$ilDB->tableExists('usr_session_stats'))
+	{
+		$fields = array(	
+			'slot_begin' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'slot_end' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'active_min' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'active_max' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'active_avg' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'active_end' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'opened' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'closed_manual' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'closed_expire' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'closed_idle' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'closed_idle_first' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'closed_limit' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'closed_login' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				),
+			'max_sessions' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => false
+				)						
+		);
+		$ilDB->createTable('usr_session_stats', $fields);
+		$ilDB->addIndex('usr_session_stats', array('slot_end'), 'i1');
+	}
+?>
+<#3517>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

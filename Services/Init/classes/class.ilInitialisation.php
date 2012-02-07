@@ -877,6 +877,8 @@ class ilInitialisation
 	function goToLogin($a_auth_stat = "")
 	{
 		global $PHP_SELF;
+		
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
 
 		session_unset();
 		session_destroy();
@@ -1217,6 +1219,8 @@ class ilInitialisation
 		// workaround: force login
 		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login") || $this->script == "login.php")
 		{
+			ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
+			
 			$ilAuth->logout();
 			if(!isset($_GET['forceShoppingCartRedirect']))
 				$_SESSION = array();

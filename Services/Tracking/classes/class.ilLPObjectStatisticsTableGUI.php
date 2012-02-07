@@ -33,11 +33,12 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("trac_title"), "title");
+		$this->addColumn($lng->txt("object_id"), "obj_id");
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			for($loop = 1; $loop<13; $loop++)
+			foreach($this->getMonthsYear() as $num => $caption)
 			{
-				$this->addColumn($lng->txt("month_".str_pad($loop, 2, "0", STR_PAD_LEFT)."_short"), "month_".$loop, "", false, "ilRight");
+				$this->addColumn($caption, "month_".$num, "", false, "ilRight");
 			}
 		}
 		$this->addColumn($lng->txt("total"), "total", "", false, "ilRight");
@@ -76,18 +77,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	
 	public function numericOrdering($a_field) 
 	{
-		$fields = array();
-		$fields[] = "total";
-		
-		if(strpos($this->filter["yearmonth"], "-") === false)
-		{
-			for($loop = 1; $loop<13; $loop++)
-			{
-				$fields[] = "month_".$loop;
-			}
-		}
-		
-		if(in_array($a_field, $fields))
+		if($a_field != "title")
 		{
 			return true;
 		}
@@ -127,7 +117,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		// read_count/spent_seconds
 		$si = new ilSelectInputGUI($lng->txt("trac_figure"), "figure");
 		$si->setOptions(array("read_count"=>$lng->txt("trac_read_count"),
-			"spent_seconds"=>$lng->txt("trac_spent_seconds")));
+			"spent_seconds"=>$lng->txt("trac_spent_seconds"),
+			"users"=>$lng->txt("users")));
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		if(!$si->getValue())
@@ -137,23 +128,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$this->filter["measure"] = $si->getValue();
 
 		// year/month
-		$si = new ilSelectInputGUI($lng->txt("year")." / ".$lng->txt("month"), "yearmonth");
-		$options = array();
-		for($loop = 0; $loop < 10; $loop++)
-		{
-			$year = date("Y")-$loop;
-			$options[$year] = $year;
-			for($loop2 = 12; $loop2 > 0; $loop2--)
-			{
-				$month = str_pad($loop2, 2, "0", STR_PAD_LEFT);
-				if($year.$month <= date("Ym"))
-				{
-					$options[$year."-".$month] = $year." / ".
-						$lng->txt("month_".$month."_long");
-				}
-			}
-		}
-		$si->setOptions($options);
+		$si = new ilSelectInputGUI($lng->txt("year")." / ".$lng->txt("month"), "yearmonth");		
+		$si->setOptions($this->getMonthsFilter());
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		if(!$si->getValue())
@@ -239,14 +215,14 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
 			$this->tpl->setCurrentBlock("month");
-			for($loop = 1; $loop<13; $loop++)
+			foreach(array_keys($this->getMonthsYear()) as $num)
 			{
-				$value = (int)$a_set["month_".$loop];
-				if($this->filter["measure"] == "read_count")
+				$value = (int)$a_set["month_".$num];
+				if($this->filter["measure"] != "spent_seconds")
 				{
 					$value = $this->anonymizeValue($value);
 				}						
-				else if($this->filter["measure"] == "spent_seconds")
+				else 
 				{
 					$value = $this->formatSeconds($value, true);
 				}
@@ -286,15 +262,15 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
 				if(strpos($this->filter["yearmonth"], "-") === false)
 				{
-					for($loop = 1; $loop<13; $loop++)
+					foreach(array_keys($this->getMonthsYear()) as $num)
 					{
-						$value = (int)$object["month_".$loop];
+						$value = (int)$object["month_".$num];
 						$max_value = max($max_value, $value);
-						if($this->filter["measure"] == "read_count")
+						if($this->filter["measure"] != "spent_seconds")
 						{
 							$value = $this->anonymizeValue($value, true);
 						}	
-						$series->addPoint($loop, $value);
+						$series->addPoint($num, $value);
 					}
 				}
 				else
@@ -303,7 +279,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 					{
 						$value = (int)$object["day_".$loop];
 						$max_value = max($max_value, $value);
-						if($this->filter["measure"] == "read_count")
+						if($this->filter["measure"] != "spent_seconds")
 						{
 							$value = $this->anonymizeValue($value, true);
 						}	
@@ -315,15 +291,15 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 			}
 		}
 		
-		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] == "read_count"),
+		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] != "spent_seconds"),
 			($this->filter["measure"] == "spent_seconds"));
 		
 		$labels = array();
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			for($loop = 1; $loop<13; $loop++)
+			foreach($this->getMonthsYear(true) as $num => $caption)
 			{
-				$labels[$loop] = $lng->txt("month_".str_pad($loop, 2, "0", STR_PAD_LEFT)."_short");
+				$labels[$num] = $caption;
 			}
 		}
 		else
@@ -346,22 +322,18 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
 	{
 		$a_worksheet->write($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
+		$a_worksheet->write($a_row, 1, $a_set["obj_id"]);
 			
-		$col = 0;
+		$col = 1;
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			for($loop = 1; $loop<13; $loop++)
+			foreach(array_keys($this->getMonthsYear()) as $num)
 			{
-				$value = (int)$a_set["month_".$loop];
-				if($this->filter["measure"] == "read_count")
+				$value = (int)$a_set["month_".$num];
+				if($this->filter["measure"] != "spent_seconds")
 				{
 					$value = $this->anonymizeValue($value);
 				}	
-				else if($this->filter["measure"] == "spent_seconds")
-				{
-					// keep seconds
-					// $value = $this->formatSeconds($value);
-				}
 				
 				$col++;
 				$a_worksheet->write($a_row, $col, $value);
@@ -390,21 +362,17 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	protected function fillRowCSV($a_csv, $a_set)
 	{
 		$a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
+		$a_csv->addColumn($a_set["obj_id"]);
 			
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			for($loop = 1; $loop<13; $loop++)
+			foreach(array_keys($this->getMonthsYear()) as $num)
 			{
-				$value = (int)$a_set["month_".$loop];
-				if($this->filter["measure"] == "read_count")
+				$value = (int)$a_set["month_".$num];
+				if($this->filter["measure"] != "spent_seconds")
 				{
 					$value = $this->anonymizeValue($value);
 				}	
-				else if($this->filter["measure"] == "spent_seconds")
-				{
-					// keep seconds
-					// $value = $this->formatSeconds($value);
-				}
 				
 				$a_csv->addColumn($value);
 			}

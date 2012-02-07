@@ -12406,3 +12406,31 @@ trac#:#trac_log_info#:#Last Aggregation: %s (Unprocessed items: %s)
 trac#:#trac_log_info_link#:#Update
 pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, workspace objects and portfolios on the Web.
 pd#:#pd_enable_user_publish#:#Enable User Content Publishing
+trac#:#trac_object_stat_lp#:#Learning Progress Statistics Course
+trac#:#trac_object_stat_lp_min#:#Min.
+trac#:#trac_object_stat_lp_max#:#Max.
+trac#:#trac_members_short#:#Members
+trac#:#trac_current#:#Current
+trac#:#trac_aggregation#:#Aggregation
+trac#:#session_statistics#:#Session Statistics
+trac#:#trac_last_aggregation#:#Last Aggregation
+trac#:#trac_last_maxed_out_sessions#:#Last Full Load
+trac#:#trac_maxed_out_counter#:#Rejected Users
+trac#:#trac_sessions_opened#:#Admissions
+trac#:#trac_sessions_closed#:#Leavings
+trac#:#trac_maxed_out_time#:#Full Load [min]
+trac#:#trac_closed_manual#:#Logout
+trac#:#trac_closed_expire#:#Timeout
+trac#:#trac_closed_idle#:#Idle Time
+trac#:#trac_closed_idle_first#:#Idle Time (1st Request)
+trac#:#trac_closed_login#:#Anonymous To Login
+trac#:#trac_session_statistics_mode_today#:#Today
+trac#:#trac_session_statistics_mode_day#:#Last 24 Hours
+trac#:#trac_session_statistics_mode_week#:#Last 7 Days
+trac#:#trac_session_statistics_mode_month#:#Last 30 Days
+trac#:#trac_session_active_avg#:#Active Sessions (Average)
+trac#:#trac_session_active_min#:#Active Sessions (Minimum)
+trac#:#trac_session_active_max#:#Active Sessions (Maximum)
+trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
+trac#:#trac_sync_session_stats#:#Aggregate Data
+trac#:#trac_sync_session_stats_success#:#Data aggregation was done successfully.

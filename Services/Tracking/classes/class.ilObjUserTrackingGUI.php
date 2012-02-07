@@ -15,7 +15,8 @@ include_once "classes/class.ilObjectGUI.php";
 * @extends ilObjectGUI
 * @package ilias-core
 *
-* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI, ilLPObjectStatisticsGUI
+* @ilCtrl_Calls ilObjUserTrackingGUI: ilLearningProgressGUI, ilPermissionGUI
+* @ilCtrl_Calls ilObjUserTrackingGUI: ilLPObjectStatisticsGUI, ilSessionStatisticsGUI
 */
 class ilObjUserTrackingGUI extends ilObjectGUI
 {
@@ -72,6 +73,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 				$os_gui =& new ilLPObjectStatisticsGUI(LP_MODE_ADMINISTRATION);
 				$ret =& $this->ctrl->forwardCommand($os_gui);
 				break;
+			
+			case 'ilsessionstatisticsgui':
+				$this->tabs_gui->setTabActive('session_statistics');
+				include_once("./Services/Authentication/classes/class.ilSessionStatisticsGUI.php");
+				$sess_gui =& new ilSessionStatisticsGUI();
+				$ret =& $this->ctrl->forwardCommand($sess_gui);
+				break;
 				
 			default:
 				$cmd = $this->ctrl->getCmd();
@@ -123,6 +131,13 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 									 "",
 									 "illearningprogressgui");
 			}
+			
+			// session statistics
+			$tabs_gui->addTarget("session_statistics",
+										$this->ctrl->getLinkTargetByClass("ilsessionstatisticsgui",
+																		""),
+										"",
+										"ilsessionstatisticsgui");			
 
 			/*
 			$tabs_gui->addTarget("tracking_data",

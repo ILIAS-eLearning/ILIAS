@@ -1462,6 +1462,36 @@ class ilTrQuery
 			$res[$row["obj_id"]][$row[$column]]["read_count"] += $row["read_count"];
 			$res[$row["obj_id"]][$row[$column]]["spent_seconds"] += $row["spent_seconds"];
 		}
+		
+		
+		// add user data
+		
+		$sql = "SELECT obj_id,".$column.",SUM(counter) counter".
+			" FROM obj_user_stat".
+			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer");
+		if($a_year)
+		{
+			$sql .= " AND yyyy = ".$ilDB->quote($a_year, "integer");
+		}
+		if($a_month)
+		{
+			$sql .= " AND mm = ".$ilDB->quote($a_month, "integer");
+		}
+		$sql .= " GROUP BY obj_id,".$column;
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			if($a_month)
+			{
+				$index = $row[$column];
+			}
+			else
+			{
+				$index = $row["yyyy"]."-".str_pad($row["mm"], 2, "0", STR_PAD_LEFT);
+			}						
+			$res[$row["obj_id"]][$index]["users"] += $row["counter"];
+		}
+		
 		return $res;
 	}
 
@@ -1640,6 +1670,67 @@ class ilTrQuery
 		$set = $ilDB->query("SELECT COUNT(*) counter, MIN(tstamp) tstamp".
 			" FROM obj_stat_log");
 		return $ilDB->fetchAssoc($set);
+	}
+	
+	static public function getObjectLPStatistics(array $a_obj_ids, $a_year, $a_month = null, $a_group_by_day = false)
+	{
+		global $ilDB;
+		
+		if($a_group_by_day)
+		{
+			$column = "dd";
+		}
+		else
+		{
+			$column = "mm,yyyy";
+		}
+		
+		$res = array();
+		$sql = "SELECT obj_id,".$column.",".
+			"MIN(mem_cnt) mem_cnt_min,AVG(mem_cnt) mem_cnt_avg, MAX(mem_cnt) mem_cnt_max,".
+			"MIN(in_progress) in_progress_min,AVG(in_progress) in_progress_avg,MAX(in_progress) in_progress_max,".
+			"MIN(completed) completed_min,AVG(completed) completed_avg,MAX(completed) completed_max,".
+			"MIN(failed) failed_min,AVG(failed) failed_avg,MAX(failed) failed_max,".
+			"MIN(not_attempted) not_attempted_min,AVG(not_attempted) not_attempted_avg,MAX(not_attempted) not_attempted_max".
+			" FROM obj_lp_stat".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
+			" AND yyyy = ".$ilDB->quote($a_year, "integer");
+		if($a_month)
+		{
+			$sql .= " AND mm = ".$ilDB->quote($a_month, "integer");
+		}
+		$sql .= " GROUP BY obj_id,".$column;
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}
+		
+		return $res;
+	}
+	
+	function getObjectTypeStatisticsPerMonth($a_aggregation)
+	{
+		global $ilDB;
+		
+		$agg = strtoupper($a_aggregation);
+		
+		$res = array();		
+		$sql = "SELECT type,yyyy,mm,".$agg."(cnt_objects) cnt_objects,".$agg."(cnt_references) cnt_references,".
+			"".$agg."(cnt_deleted) cnt_deleted FROM obj_type_stat".
+			" GROUP BY type,yyyy,mm";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$row["mm"] = str_pad($row["mm"], 2, "0", STR_PAD_LEFT);
+			$res[$row["type"]][$row["yyyy"]."-".$row["mm"]] = array(
+				"objects" => (int)$row["cnt_objects"],
+				"references" => (int)$row["cnt_references"],
+				"deleted" => (int)$row["cnt_deleted"]
+			);
+		}
+		
+		return $res;
 	}
 }
 

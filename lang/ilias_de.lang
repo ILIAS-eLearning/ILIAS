@@ -12406,3 +12406,31 @@ trac#:#trac_log_info#:#Letzte Aggregation: %s (Unverarbeitete Datensätze: %s)
 trac#:#trac_log_info_link#:#Aktualisieren
 pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
 pd#:#pd_enable_user_publish#:#Veröffentlichung von Nutzerinhalten aktivieren
+trac#:#trac_object_stat_lp#:#Lernstandstatistik Kurs
+trac#:#trac_object_stat_lp_min#:#Min.
+trac#:#trac_object_stat_lp_max#:#Max.
+trac#:#trac_members_short#:#Teil.
+trac#:#trac_current#:#Aktuell
+trac#:#trac_aggregation#:#Aggregation
+trac#:#session_statistics#:#Session-Statistik
+trac#:#trac_last_aggregation#:#Stand
+trac#:#trac_last_maxed_out_sessions#:#Letze Volllast
+trac#:#trac_maxed_out_counter#:#Abgewiesene Benutzer
+trac#:#trac_sessions_opened#:#Zugänge
+trac#:#trac_sessions_closed#:#Abgänge
+trac#:#trac_maxed_out_time#:#Vollauslastung [min]
+trac#:#trac_closed_manual#:#Logout
+trac#:#trac_closed_expire#:#Timeout
+trac#:#trac_closed_idle#:#Leerlaufzeit
+trac#:#trac_closed_idle_first#:#Leerlaufzeit (1. Anfrage)
+trac#:#trac_closed_login#:#Anonym zu Login
+trac#:#trac_session_statistics_mode_today#:#Heute
+trac#:#trac_session_statistics_mode_day#:#Letzte 24 Stunden
+trac#:#trac_session_statistics_mode_week#:#Letzte 7 Tage
+trac#:#trac_session_statistics_mode_month#:#Letzte 30 Tage
+trac#:#trac_session_active_avg#:#Aktive Sessions (Durchschnitt)
+trac#:#trac_session_active_min#:#Aktive Sessions (Minimum)
+trac#:#trac_session_active_max#:#Aktive Sessions (Maximum)
+trac#:#trac_session_statistics_no_data#:#Es liegen keine Daten für diese Statistik vor.
+trac#:#trac_sync_session_stats#:#Daten aggregieren
+trac#:#trac_sync_session_stats_success#:#Die Daten wurden erfolgreich aggregiert.
