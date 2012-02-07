@@ -133,7 +133,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 
 	function __getNextClass()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
 
 		if(strlen($next_class = $this->ctrl->getNextClass()))
 		{
@@ -160,6 +160,16 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			case LP_MODE_PERSONAL_DESKTOP:
 				if(strlen($_SESSION['il_lp_history']))
 				{
+					if($_SESSION['il_lp_history'] == "illplistofobjectsgui")
+					{
+						// see __setSubTabs()
+						$types = array("crs", "grp", "exc", "tst", "lm", "sahs", "htlm", "dbk");
+						if(!ilUtil::_getObjectsByOperations($types, "edit_learning_progress", $ilUser->getId(), 1))
+						{
+							$_SESSION['il_lp_history'] = null;
+							return 'illplistofprogressgui';							
+						}
+					}					
 					return $_SESSION['il_lp_history'];
 				}
 				return 'illplistofprogressgui';
