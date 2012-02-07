@@ -1494,6 +1494,29 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			$ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
 		}
+				
+		if(!$this->getPrintMode())
+		{
+			// set form action
+			if ($this->form_action != "" && $this->getOpenFormTag())
+			{
+				$hash = "";
+				if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
+				{
+					$hash = "#".$this->getTopAnchor();
+				}
+
+				$this->tpl->setCurrentBlock("tbl_form_header");
+				$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
+				$this->tpl->setVariable("FORMNAME", $this->getFormName());
+				$this->tpl->parseCurrentBlock();
+			}
+
+			if ($this->form_action != "" && $this->getCloseFormTag())
+			{
+				$this->tpl->touchBlock("tbl_form_footer");
+			}
+		}
 		
 		if(!$this->enabled['content'])
 		{
@@ -1571,26 +1594,6 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 		if(!$this->getPrintMode())
 		{
-			// set form action
-			if ($this->form_action != "" && $this->getOpenFormTag())
-			{
-				$hash = "";
-				if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization"))
-				{
-					$hash = "#".$this->getTopAnchor();
-				}
-
-				$this->tpl->setCurrentBlock("tbl_form_header");
-				$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
-				$this->tpl->setVariable("FORMNAME", $this->getFormName());
-				$this->tpl->parseCurrentBlock();
-			}
-
-			if ($this->form_action != "" && $this->getCloseFormTag())
-			{
-				$this->tpl->touchBlock("tbl_form_footer");
-			}
-
 			$this->fillFooter();
 
 			$this->fillHiddenRow();

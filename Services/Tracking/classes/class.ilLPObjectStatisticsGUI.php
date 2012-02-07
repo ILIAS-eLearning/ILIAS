@@ -27,13 +27,16 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	{
 		$this->tabs_gui->addSubTab('trac_object_stat_access', 
 				$this->lng->txt('trac_object_stat_access'),
-				$this->ctrl->getLinkTarget($this, 'access'));		
+				$this->ctrl->getLinkTarget($this, 'accessFilter'));		
 		$this->tabs_gui->addSubTab('trac_object_stat_daily', 
 				$this->lng->txt('trac_object_stat_daily'),
-				$this->ctrl->getLinkTarget($this, 'daily'));
+				$this->ctrl->getLinkTarget($this, 'dailyFilter'));		
+		$this->tabs_gui->addSubTab('trac_object_stat_lp', 
+				$this->lng->txt('trac_object_stat_lp'),
+				$this->ctrl->getLinkTarget($this, 'learningProgressFilter'));
 		$this->tabs_gui->addSubTab('trac_object_stat_types', 
 				$this->lng->txt('trac_object_stat_types'),
-				$this->ctrl->getLinkTarget($this, 'types'));
+				$this->ctrl->getLinkTarget($this, 'typesFilter'));
 		$this->tabs_gui->addSubTab('trac_object_stat_admin', 
 				$this->lng->txt('trac_object_stat_admin'),
 				$this->ctrl->getLinkTarget($this, 'admin'));
@@ -76,7 +79,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->access();
 	}
 
-	function access()
+	function accessFilter()
+	{
+		$this->access(false);
+	}
+
+	function access($a_load_data = true)
 	{
 		global $tpl;
 		
@@ -84,6 +92,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access");
+		
+		if(!$a_load_data)
+		{
+			$lp_table->disable("content");
+			$lp_table->disable("header");
+		}
 		
 		$tpl->setContent($lp_table->getHTML());
 	}
@@ -124,7 +138,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->types();
 	}
 
-	function types()
+	function typesFilter()
+	{
+		$this->types(false);
+	}
+
+	function types($a_load_data = true)
 	{
 		global $tpl;
 		
@@ -133,6 +152,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTypesTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types");
 
+		if(!$a_load_data)
+		{
+			$lp_table->disable("content");
+			$lp_table->disable("header");
+		}
+		
 		$tpl->setContent($lp_table->getHTML());
 	}
 
@@ -172,7 +197,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->daily();
 	}
 
-	function daily()
+	function dailyFilter()
+	{
+		$this->daily(false);
+	}
+
+	function daily($a_load_data = true)
 	{
 		global $tpl;
 		
@@ -181,6 +211,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsDailyTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily");
 
+		if(!$a_load_data)
+		{
+			$lp_table->disable("content");
+			$lp_table->disable("header");
+		}
+		
 		$tpl->setContent($lp_table->getHTML());
 	}
 
@@ -275,6 +311,78 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	   ilTrQuery::deleteObjectStatistics($_POST["item_id"]);
 	   ilUtil::sendSuccess($lng->txt("trac_data_deleted"));
 	   $this->admin();
+	}
+	
+	function applyLearningProgressFilter()
+	{
+		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsLPTableGUI.php");
+		$lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, false);
+		$lp_table->resetOffset();
+		$lp_table->writeFilterToSession();
+		$this->learningProgress();
+	}
+
+	function resetLearningProgressFilter()
+	{
+		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsLPTableGUI.php");
+		$lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, false);
+		$lp_table->resetOffset();
+		$lp_table->resetFilter();
+		$this->learningProgress();
+	}
+	
+	function learningProgressFilter()
+	{
+		$this->learningProgress(false);
+	}
+
+	function learningProgress($a_load_data = true)
+	{
+		global $tpl;
+		
+		$this->tabs_gui->activateSubTab('trac_object_stat_lp');
+
+		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsLPTableGUI.php");
+		$lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", null, $a_load_data);
+		
+		if(!$a_load_data)
+		{
+			$lp_table->disable("content");
+			$lp_table->disable("header");
+		}
+		
+		$tpl->setContent($lp_table->getHTML());
+	}
+
+	function showLearningProgressGraph()
+	{
+		global $lng, $tpl;
+		
+		if(!$_POST["item_id"])
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"));
+			return $this->learningProgress();
+		}
+		
+		$this->tabs_gui->activateSubTab('trac_object_stat_lp');
+
+		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsLPTableGUI.php");
+		$lp_table = new ilLPObjectStatisticsLPTableGUI($this, "learningProgress", $_POST["item_id"], true, true);
+				
+		$tpl->setContent($lp_table->getGraph($_POST["item_id"]).$lp_table->getHTML());
+	}
+
+	function showLearningProgressDetails()
+	{
+		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsLPTableGUI.php");
+		$lp_table = new ilLPObjectStatisticsLPTableGUI($this, "showLearningProgressDetails", array($_GET["item_id"]), true, false, true);
+		
+		$a_tpl = new ilTemplate("tpl.lp_object_statistics_lp_details.html", true, true, "Services/Tracking");
+		$a_tpl->setVariable("CONTENT", $lp_table->getHTML());
+		$a_tpl->setVariable('CLOSE_IMG_SRC', ilUtil::getImagePath('icon_close2_s.gif'));
+		$a_tpl->setVariable('CLOSE_IMG_TXT', $this->lng->txt('close'));
+		echo $a_tpl->get();
+		exit();	
 	}
 }
 

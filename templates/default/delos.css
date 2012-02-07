@@ -3289,6 +3289,14 @@ div.ilBlogListItemSnippet {
 	margin-bottom: 5px;
 }
 
+div.ilBox {
+	background-image:url('./images/FramedBack.gif');
+	background-repeat:repeat-x;
+	border: 1px solid #E0E0E0;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
 
 /* Services/Skill */
 

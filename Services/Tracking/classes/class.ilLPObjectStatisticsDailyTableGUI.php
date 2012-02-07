@@ -33,6 +33,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("trac_title"), "title");
+		$this->addColumn($lng->txt("object_id"), "obj_id");
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$this->addColumn(str_pad($loop, 2, "0", STR_PAD_LEFT).":00-<br />".
@@ -74,14 +75,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	
 	public function numericOrdering($a_field) 
 	{
-		$fields = array();
-		$fields[] = "sum";
-		for($loop = 0; $loop<24; $loop+=2)
-		{
-			$fields[] = "hour".$loop;
-		}
-		
-		if(in_array($a_field, $fields))
+		if($a_field != "title")
 		{
 			return true;
 		}
@@ -132,22 +126,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 
 		// year/month
 		$si = new ilSelectInputGUI($lng->txt("year")." / ".$lng->txt("month"), "yearmonth");
-		$options = array();
-		for($loop = 0; $loop < 10; $loop++)
-		{
-			$year = date("Y")-$loop;
-			$options[$year] = $year;
-			for($loop2 = 12; $loop2 > 0; $loop2--)
-			{
-				$month = str_pad($loop2, 2, "0", STR_PAD_LEFT);
-				if($year.$month <= date("Ym"))
-				{
-					$options[$year."-".$month] = $year." / ".
-						$lng->txt("month_".$month."_long");
-				}
-			}
-		}
-		$si->setOptions($options);
+		$si->setOptions($this->getMonthsFilter());
 		$this->addFilterItem($si);
 		$si->readFromSession();
 		if(!$si->getValue())
@@ -229,11 +208,11 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$value = (int)$a_set["hour".$loop];
-			if($this->filter["measure"] == "read_count")
+			if($this->filter["measure"] != "spent_seconds")
 			{
 				$value = $this->anonymizeValue($value);
 			}	
-			else if($this->filter["measure"] == "spent_seconds")
+			else 
 			{
 				$value = $this->formatSeconds($value, true);
 			}
@@ -274,7 +253,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 				{
 					$value = (int)$object["graph"]["hour".$loop];
 					$max_value = max($max_value, $value);
-					if($this->filter["measure"] == "read_count")
+					if($this->filter["measure"] != "spent_seconds")
 					{
 						$value = $this->anonymizeValue($value, true);
 					}	
@@ -285,7 +264,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 			}
 		}
 		
-		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] == "read_count"),
+		$value_ticks = $this->buildValueScale($max_value, ($this->filter["measure"] != "spent_seconds"),
 			($this->filter["measure"] == "spent_seconds"));
 
 		$labels = array();
@@ -306,21 +285,17 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
 	{
 		$a_worksheet->write($a_row, 0, ilObject::_lookupTitle($a_set["obj_id"]));
+		$a_worksheet->write($a_row, 0, $a_set["obj_id"]);
 			
-		$col = 0;
+		$col = 1;
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$value = (int)$a_set["hour".$loop];
-			if($this->filter["measure"] == "read_count")
+			if($this->filter["measure"] != "spent_seconds")
 			{
 				$value = $this->anonymizeValue($value);
 			}	
-			else if($this->filter["measure"] == "spent_seconds")
-			{
-				// keep seconds
-				// $value = $this->formatSeconds($value);
-			}
-			
+		
 			$col++;
 			$a_worksheet->write($a_row, $col, $value);
 		}
@@ -347,19 +322,15 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 	protected function fillRowCSV($a_csv, $a_set)
 	{
 		$a_csv->addColumn(ilObject::_lookupTitle($a_set["obj_id"]));
+		$a_csv->addColumn($a_set["obj_id"]);
 			
 		for($loop = 0; $loop<24; $loop+=2)
 		{
 			$value = (int)$a_set["hour".$loop];
-			if($this->filter["measure"] == "read_count")
+			if($this->filter["measure"] != "spent_seconds")
 			{
 				$value = $this->anonymizeValue($value);
 			}	
-			else if($this->filter["measure"] == "spent_seconds")
-			{
-				// keep seconds
-				// $value = $this->formatSeconds($value);
-			}
 			
 			$a_csv->addColumn($value);
 		}

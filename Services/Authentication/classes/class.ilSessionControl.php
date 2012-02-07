@@ -56,7 +56,7 @@ class ilSessionControl
 	 *
 	 * @var array $session_types_not_controlled
 	 */
-	private static $session_types_controlled = array(
+	public static $session_types_controlled = array(
 		self::SESSION_TYPE_USER,
 		self::SESSION_TYPE_ANONYM
 	);
@@ -117,6 +117,8 @@ class ilSessionControl
 				{
 					self::debug('remove session cookie for ('.$sid.') and trigger event');
 
+					// raw data will be updated (later) with garbage collection [destroyExpired()]
+					
 					self::removeSessionCookie();
 
 					// Trigger expiredSessionDetected  Event
@@ -188,14 +190,14 @@ class ilSessionControl
 
 				$_SESSION['SessionType'] = self::SESSION_TYPE_ANONYM;
 				self::debug(__METHOD__." --> update sessions type to (".$_SESSION['SessionType'].")");
-				self::checkCurrentSessionIsAllowed($a_auth);
+				self::checkCurrentSessionIsAllowed($a_auth, $user_id);
 				break;
 
 			default:
 
 				$_SESSION['SessionType'] = self::SESSION_TYPE_USER;
 				self::debug(__METHOD__." --> update sessions type to (".$_SESSION['SessionType'].")");
-				self::checkCurrentSessionIsAllowed($a_auth);
+				self::checkCurrentSessionIsAllowed($a_auth, $user_id);
 				break;
 		}
 	}
@@ -213,6 +215,8 @@ class ilSessionControl
 		
 		$_SESSION['SessionType'] = self::SESSION_TYPE_UNKNOWN;
 		self::debug(__METHOD__." --> reset sessions type to (".$_SESSION['SessionType'].")");
+		
+		// session_destroy() is called in auth, so raw data will be updated
 
 		self::removeSessionCookie();
 	}
@@ -227,7 +231,7 @@ class ilSessionControl
 	 * @global ilAppEventHandler $ilAppEventHandler
 	 * @param Auth $a_auth
 	 */
-	private static function checkCurrentSessionIsAllowed(Auth $a_auth)
+	private static function checkCurrentSessionIsAllowed(Auth $a_auth, $a_user_id)
 	{
 		global $ilSetting;
 		
@@ -262,6 +266,13 @@ class ilSessionControl
 					{
 						self::debug(__METHOD__.' --> limit for session pool still reached so logout session ('.session_id().') and trigger event');
 
+						ilSession::setClosingContext(ilSession::SESSION_CLOSE_LIMIT);					
+						
+						// as the session is opened and closed in one request, there
+						// is no proper session yet and we have to do this ourselves
+						ilSessionStatistics::createRawEntry(session_id(), $_SESSION['SessionType'], 
+							time(), $a_user_id);
+						
 						$a_auth->logout();
 
 						// Trigger reachedSessionPoolLimit Event
@@ -300,7 +311,7 @@ class ilSessionControl
 	 * @param array $a_types
 	 * @return integer num_sessions
 	 */
-	private static function getExistingSessionCount(array $a_types)
+	public static function getExistingSessionCount(array $a_types)
 	{
 		global $ilDB;
 
@@ -333,7 +344,7 @@ class ilSessionControl
 		$min_idle = (int)$ilSetting->get('session_min_idle', self::DEFAULT_MIN_IDLE) * 60;
 		$max_idle = (int)$ilSetting->get('session_max_idle', self::DEFAULT_MAX_IDLE) * 60;
 
-		$query = "SELECT session_id FROM usr_session WHERE expires >= %s " .
+		$query = "SELECT session_id,expires FROM usr_session WHERE expires >= %s " .
 				"AND (expires - %s) < (%s - %s) " .
 				"AND ".$ilDB->in('type', $a_types, false, 'integer');
 				"ORDER BY expires";
@@ -346,8 +357,7 @@ class ilSessionControl
 		
 		while( $row = $res->fetchRow(DB_FETCHMODE_OBJECT) )
 		{
-			$sid = $row->session_id;
-			ilSession::_destroy($sid);
+			ilSession::_destroy($row->session_id, ilSession::SESSION_CLOSE_IDLE, $row->expires);
 
 			self::debug(__METHOD__.' --> successfully deleted one min idle session');
 
@@ -373,15 +383,22 @@ class ilSessionControl
 
 		if((int)$max_idle_after_first_request == 0) return;
 
-		$query = "DELETE FROM usr_session WHERE " .
+		$query = "SELECT session_id,expires FROM usr_session WHERE " .
 				"(ctime - createtime) < %s " .
 				"AND (%s - createtime) > %s " .
 				"AND ".$ilDB->in('type', $a_types, false, 'integer');
 
-		$ilDB->manipulateF( $query,
+		$res = $ilDB->queryF( $query,
 			array('integer', 'integer', 'integer'),
 			array($max_idle_after_first_request, time(), $max_idle_after_first_request)
 		);
+		
+		$session_ids = array();
+		while( $row = $res->fetchRow(DB_FETCHMODE_OBJECT) )
+		{
+			$session_ids[$row->session_id] = $row->expires;					
+		}		
+		ilSession::_destroy($session_ids, ilSession::SESSION_CLOSE_FIRST, true);
 
 		self::debug(__METHOD__.' --> Finished kicking first request abidencer');
 	}
@@ -429,7 +446,7 @@ class ilSessionControl
 		}
 		else
 		{
-			if($sess_count > 1)
+			if(count($sessions) > 1)
 					self::debug(__METHOD__.' --> Strange!!! More than one sessions found for given session id! ('.$a_sid.')');
 			else	self::debug(__METHOD__.' --> No valid session found for session id ('.$a_sid.')');
 

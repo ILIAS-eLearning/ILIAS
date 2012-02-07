@@ -29,9 +29,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("type"), "title");
-		$this->addColumn($lng->txt("count"), "objects", "", false, "ilRight");
-		$this->addColumn($lng->txt("trac_reference"), "references", "", false, "ilRight");
-		$this->addColumn($lng->txt("trac_trash"), "deleted", "", false, "ilRight");
+		foreach($this->getMonthsYear() as $num => $caption)
+		{
+			$this->addColumn($caption, "month_".$num, "", false, "ilRight");
+		}
+		$this->addColumn($lng->txt("trac_current"), "month_live", "", false, "ilRight");
 	
 		$this->setTitle($this->lng->txt("trac_object_stat_types"));
 
@@ -50,7 +52,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		
 		$this->setLimit(9999);
 	
-		// $this->initFilter();
+		$this->initFilter();
 		
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
@@ -70,31 +72,105 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		}
 		return false;
 	}
+	
+	/**
+	* Init filter
+	*/
+	public function initFilter()
+	{
+		global $lng;
+
+		$this->setDisableFilterHiding(true);
+
+		// figure
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$si = new ilSelectInputGUI($lng->txt("trac_figure"), "figure");
+		$options = array("objects"=>$lng->txt("objects"),
+			"references"=>$lng->txt("trac_reference"),
+			"deleted"=>$lng->txt("trac_trash"));
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		if(!$si->getValue())
+		{
+			$si->setValue("objects");
+		}
+		$this->filter["measure"] = $si->getValue();
+		
+		// aggregation
+		$si = new ilSelectInputGUI($lng->txt("trac_aggregation"), "aggregation");
+		$options = array();		
+		$options["max"] = $lng->txt("trac_object_stat_lp_max")." (".$lng->txt("month").")";
+		$options["avg"] = "&#216; (".$lng->txt("month").")";
+		$options["min"] = $lng->txt("trac_object_stat_lp_min")." (".$lng->txt("month").")";
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		if(!$si->getValue())
+		{
+			$si->setValue("max");
+		}
+		$this->filter["aggregation"] = $si->getValue();		
+	}
 
 	function getItems()
 	{
-		include_once "Services/Tracking/classes/class.ilTrQuery.php";
-		$data = ilTrQuery::getObjectTypeStatistics();
+		include_once "Services/Tracking/classes/class.ilTrQuery.php";	
+		$res = ilTrQuery::getObjectTypeStatisticsPerMonth($this->filter["aggregation"]);	
 				
 		// get plugin titles
 		include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
 		$plugins = array();
 		$plugins = ilRepositoryObjectPluginSlot::addCreatableSubObjects($plugins);
 		
-		// to enable sorting by title
-		foreach($data as $idx => $row)
+		$data = array();
+		foreach($res as $type => $months)
 		{
-			if(array_key_exists($row["type"], $plugins))
+			$data[$type]["type"] = $type;
+ 			
+			// to enable sorting by title
+			if(array_key_exists($type, $plugins))
 			{
 				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$data[$idx]["title"] = ilPlugin::lookupTxt("rep_robj", $row["type"], "obj_".$row["type"]);
-				$data[$idx]["icon"] = ilObject::_getIcon("", "tiny", $row["type"]);
+				$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+				$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
 			}			
 			else
 			{
-				$data[$idx]["title"] = $this->lng->txt("objs_".$row["type"]);
-				$data[$idx]["icon"] = ilUtil::getTypeIconPath($row["type"], null, "tiny");
+				$data[$type]["title"] = $this->lng->txt("objs_".$type);
+				$data[$type]["icon"] = ilUtil::getTypeIconPath($type, null, "tiny");
 			}
+			
+			foreach($months as $month => $row)
+			{
+				$value = $row[$this->filter["measure"]];
+				$data[$type]["month_".$month] = $value;
+			}
+		}
+		
+		
+		// add live data
+		
+		$live = ilTrQuery::getObjectTypeStatistics();			
+		foreach($live as $type => $item)
+		{
+			$data[$type]["type"] = $type;
+			
+			// to enable sorting by title
+			if(array_key_exists($type, $plugins))
+			{
+				include_once("./Services/Component/classes/class.ilPlugin.php");
+				$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+				$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
+			}			
+			else
+			{
+				$data[$type]["title"] = $this->lng->txt("objs_".$type);
+				$data[$type]["icon"] = ilUtil::getTypeIconPath($type, null, "tiny");
+			}
+			
+			$value = $item[$this->filter["measure"]];
+			$data[$type]["month_live"] = $value;
 		}
 		
 		$this->setData($data);
@@ -108,15 +184,22 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt("objs_".$a_set["type"]));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
-		$this->tpl->setVariable("COUNT", (int)$a_set["objects"]);
-		$this->tpl->setVariable("REF", (int)$a_set["references"]);
-		$this->tpl->setVariable("TRASH", (int)$a_set["deleted"]);
 		$this->tpl->setVariable("OBJ_TYPE", $a_set["type"]);
 		
 		if($this->preselected && in_array($a_set["type"], $this->preselected))
 		{
 			$this->tpl->setVariable("CHECKBOX_STATE", " checked=\"checked\"");
 		}
+		
+		$this->tpl->setCurrentBlock("item");
+		foreach(array_keys($this->getMonthsYear()) as $month)
+		{
+			$this->tpl->setVariable("VALUE_ITEM", $this->anonymizeValue((int)$a_set["month_".$month]));
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$this->tpl->setVariable("VALUE_ITEM", $this->anonymizeValue((int)$a_set["month_live"]));
+		$this->tpl->parseCurrentBlock();
 	}
 
 	function getGraph(array $a_graph_items)
@@ -135,51 +218,28 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			$types[$id] = $item["title"];
  		}
 
-		$labels = array();
-		$cnt = 0;
-		foreach($types as $type => $caption)
+		foreach(array_values($this->getMonthsYear(true)) as $idx => $caption)
+		{
+			$labels[$idx+1] = $caption;
+		}
+		$chart->setTicks($labels, false, true);
+				
+		foreach($this->getData() as $type => $object)
 		{			
 			if(in_array($type, $a_graph_items))
-			{
-				$map[$type] = $cnt;
-
-				$labels[$cnt+1] = "";
-				$labels[$cnt+2] = $caption;
-				$labels[$cnt+3] = "";
-
-				$cnt+=4;
+			{			
+				$series = new ilChartData("lines");
+				$series->setLabel($types[$type]);
+				
+				foreach(array_keys($this->getMonthsYear()) as $idx => $month)
+				{					
+					$series->addPoint($idx+1, (int)$object["month_".$month]);
+				}
+			
+				$chart->addData($series);
 			}
 		}
-		$chart->setTicks($labels , false, true);
-
-		$series_obj = new ilChartData("bars");
-		$series_obj->setLabel($this->lng->txt("objects"));
-		$series_obj->setBarOptions(0.75, "center");
 		
-		$series_ref = new ilChartData("bars");
-		$series_ref->setLabel($this->lng->txt("trac_reference"));
-		$series_ref->setBarOptions(0.72, "center");
-		
-		$series_trash = new ilChartData("bars");
-		$series_trash->setLabel($this->lng->txt("trac_trash"));
-		$series_trash->setBarOptions(0.75, "center");
-	
-		foreach($this->getData() as $object)
-		{
-			if(in_array($object["type"], $a_graph_items))
-			{
-				$x = $map[$object["type"]];
-
-				$series_obj->addPoint($x+1, $object["objects"]);
-				$series_ref->addPoint($x+2, $object["references"]);
-				$series_trash->addPoint($x+3, $object["deleted"]);
-			}
-		}
-
-		$chart->addData($series_obj);
-		$chart->addData($series_ref);
-		$chart->addData($series_trash);
-
 		return $chart->getHTML();
 	}
 	
@@ -190,10 +250,19 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	
 	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["title"]);
-		$a_worksheet->write($a_row, 1, (int)$a_set["objects"]);
-		$a_worksheet->write($a_row, 2, (int)$a_set["references"]);
-		$a_worksheet->write($a_row, 3, (int)$a_set["deleted"]);
+		$a_worksheet->write($a_row, 0, $a_set["title"]);	
+		
+		$cnt = 1;		
+		foreach(array_keys($this->getMonthsYear()) as $month)
+		{
+			$value = $this->anonymizeValue((int)$a_set["month_".$month]);
+			$a_worksheet->write($a_row, $cnt, $value);
+			
+			$cnt++;
+		}
+		
+		$value = $this->anonymizeValue((int)$a_set["month_live"]);
+		$a_worksheet->write($a_row, $cnt, $value);
 	}
 	
 	protected function fillMetaCSV()
@@ -204,9 +273,15 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	protected function fillRowCSV($a_csv, $a_set)
 	{
 		$a_csv->addColumn($a_set["title"]);
-		$a_csv->addColumn((int)$a_set["objects"]);
-		$a_csv->addColumn((int)$a_set["references"]);
-		$a_csv->addColumn((int)$a_set["deleted"]);
+		
+		foreach(array_keys($this->getMonthsYear()) as $month)
+		{
+			$value = $this->anonymizeValue((int)$a_set["month_".$month]);
+			$a_csv->addColumn($value);
+		}
+		
+		$value = $this->anonymizeValue((int)$a_set["month_live"]);
+		$a_csv->addColumn($value);
 		
 		$a_csv->addRow();
 	}

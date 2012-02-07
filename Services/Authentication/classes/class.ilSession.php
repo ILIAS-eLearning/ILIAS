@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once('Services/Authentication/classes/class.ilSessionControl.php');
+require_once('Services/Authentication/classes/class.ilSessionStatistics.php');
 
 /**   
 * @author Alex Killing <alex.killing@gmx.de>
@@ -29,6 +30,20 @@ class ilSession
 	 * 
 	 */
 	const SESSION_HANDLING_LOAD_DEPENDENT = 1;
+	
+	/**
+	 * Constant for reason of session destroy
+	 * 
+	 * @var integer
+	 */
+	const SESSION_CLOSE_USER   = 1; // manual logout
+	const SESSION_CLOSE_EXPIRE = 2; // has expired
+	const SESSION_CLOSE_FIRST  = 3; // kicked by session control (first abidencer)
+	const SESSION_CLOSE_IDLE   = 4; // kickey by session control (ilde time)
+	const SESSION_CLOSE_LIMIT  = 5; // kicked by session control (limit reached)
+	const SESSION_CLOSE_LOGIN  = 6; // anonymous => login
+
+	private static $closing_context = null;	
 
 	/**
 	* Get session data from table
@@ -66,88 +81,43 @@ class ilSession
 			return false;
 		}
 
-		$expires = self::getExpireValue();
+		$now = time();
+
+		// prepare session data
+		$fields = array(
+			"user_id" => array("integer", (int) $_SESSION["AccountId"]),
+			"expires" => array("integer", self::getExpireValue()),
+			"data" => array("clob", $a_data),
+			"ctime" => array("integer", $now),
+			"type" => array("integer", (int) $_SESSION["SessionType"])
+			);
+		if ($ilClientIniFile->readVariable("session","save_ip"))
+		{
+			$fields["remote_addr"] = array("text", $_SERVER["REMOTE_ADDR"]);
+		}								
 
 		if (ilSession::_exists($a_session_id))
 		{
-			/*$q = "UPDATE usr_session SET ".
-				"expires = ".$ilDB->quote($expires, "integer").", ".
-				"data = ".$ilDB->quote($a_data, "clob").
-				", ctime = ".$ilDB->quote(time(), "integer").
-				", user_id = ".$ilDB->quote((int) $_SESSION["AccountId"], "integer").
-				" WHERE session_id = ".$ilDB->quote($a_session_id, "text");
-				array("integer", "clob", "integer", "integer", "text");
-			$ilDB->manipulate($q);*/
-
-			if ($ilClientIniFile->readVariable("session","save_ip"))
-			{
-				$ilDB->update("usr_session", array(
-					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
-					"expires" => array("integer", $expires),
-					"data" => array("clob", $a_data),
-					"ctime" => array("integer", time()),
-					"type" => array("integer", (int) $_SESSION["SessionType"]),
-					"remote_addr" => array("text", $_SERVER["REMOTE_ADDR"])
-					), array(
-					"session_id" => array("text", $a_session_id)
-					));
-			}
-			else
-			{		
-				$ilDB->update("usr_session", array(
-					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
-					"expires" => array("integer", $expires),
-					"data" => array("clob", $a_data),
-					"ctime" => array("integer", time()),
-					"type" => array("integer", (int) $_SESSION["SessionType"])
-					), array(
-					"session_id" => array("text", $a_session_id)
-					));
-			}
-
+			$ilDB->update("usr_session", $fields, 
+				array("session_id" => array("text", $a_session_id)));			
 		}
 		else
 		{
-			/*$q = "INSERT INTO usr_session (session_id, expires, data, ctime,user_id) ".
-					"VALUES(".$ilDB->quote($a_session_id, "text").",".
-					$ilDB->quote($expires, "integer").",".
-					$ilDB->quote($a_data, "clob").",".
-					$ilDB->quote(time(), "integer").",".
-					$ilDB->quote((int) $_SESSION["AccountId"], "integer").")";
-			$ilDB->manipulate($q);*/
-
-			if ($ilClientIniFile->readVariable("session","save_ip"))
-			{
-				$ilDB->insert("usr_session", array(
-					"session_id" => array("text", $a_session_id),
-					"expires" => array("integer", $expires),
-					"data" => array("clob", $a_data),
-					"ctime" => array("integer", time()),
-					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
-					"type" => array("integer", (int) $_SESSION["SessionType"]),
-					"createtime" => array("integer", time()),
-					"remote_addr" => array("text", $_SERVER["REMOTE_ADDR"])
-					));
-			}
-			else
-			{
-				$ilDB->insert("usr_session", array(
-					"session_id" => array("text", $a_session_id),
-					"expires" => array("integer", $expires),
-					"data" => array("clob", $a_data),
-					"ctime" => array("integer", time()),
-					"user_id" => array("integer", (int) $_SESSION["AccountId"]),
-					"type" => array("integer", (int) $_SESSION["SessionType"]),
-					"createtime" => array("integer", time())
-					));
-			}
-
+			$fields["session_id"] = array("text", $a_session_id);
+			$fields["createtime"] = array("integer", $now);
+			
+			$ilDB->insert("usr_session", $fields);
+		
+			ilSessionStatistics::createRawEntry($fields["session_id"][1], 
+				$fields["type"][1], $fields["createtime"][1], $fields["user_id"][1]);						
 		}
 		
 		// finally delete deprecated sessions
 		if(rand(0, 50) == 2)
 		{
-			ilSession::_destroyExpiredSessions();
+			// get time _before_ destroying expired sessions		
+			self::_destroyExpiredSessions();	
+		    ilSessionStatistics::aggretateRaw($now);
 		}
 		
 		return true;
@@ -176,16 +146,33 @@ class ilSession
 	/**
 	* Destroy session
 	*
-	* @param	string		session id
+	* @param	string|array		session id|s
+	* @param	int					closing context
+	* @param	int|bool			expired at timestamp
 	*/
-	static function _destroy($a_session_id)
-	{
+	static function _destroy($a_session_id, $a_closing_context = null, $a_expired_at = null)
+	{		
 		global $ilDB;
-
-		$q = "DELETE FROM usr_session WHERE session_id = ".
-			$ilDB->quote($a_session_id, "text");
+		
+		if(!$a_closing_context)
+		{
+			$a_closing_context = self::$closing_context;
+		}
+			
+		ilSessionStatistics::closeRawEntry($a_session_id, $a_closing_context, $a_expired_at);	
+		
+		if(!is_array($a_session_id))
+		{
+			$q = "DELETE FROM usr_session WHERE session_id = ".
+				$ilDB->quote($a_session_id, "text");			
+		}
+		else
+		{
+			$q = "DELETE FROM usr_session WHERE ".
+				$ilDB->in("session_id", $a_session_id, "", "text");
+		}
 		$ilDB->manipulate($q);
-
+		
 		return true;
 	}
 
@@ -211,11 +198,20 @@ class ilSession
 	static function _destroyExpiredSessions()
 	{
 		global $ilDB;
-
-		$q = "DELETE FROM usr_session WHERE expires < ".
+				
+		$q = "SELECT session_id,expires FROM usr_session WHERE expires < ".
 			$ilDB->quote(time(), "integer");
-		$ilDB->manipulate($q);
-
+		$res = $ilDB->query($q);
+		$ids = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$ids[$row["session_id"]] = $row["expires"];
+		}		
+		if(sizeof($ids))
+		{
+			self::_destroy($ids, self::SESSION_CLOSE_EXPIRE, true);
+		}	
+		
 		return true;
 	}
 	
@@ -373,5 +369,25 @@ class ilSession
 		unset($_SESSION[$a_var]);
 	}
 	
+	/**
+	 * set closing context (for statistics)
+	 *
+	 * @param int $a_context 
+	 */
+	public static function setClosingContext($a_context)
+	{
+		self::$closing_context = (int)$a_context;
+	}
+	
+	/**
+	 * get closing context (for statistics)
+	 *
+	 * @return int 
+	 */
+	public static function getClosingContext()
+	{
+		return self::$closing_context;
+	}
 }
+
 ?>

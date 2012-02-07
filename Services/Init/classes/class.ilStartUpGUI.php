@@ -1126,6 +1126,8 @@ class ilStartUpGUI
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
 
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+		
 		$ilAuth->logout();
 		session_destroy();
 
