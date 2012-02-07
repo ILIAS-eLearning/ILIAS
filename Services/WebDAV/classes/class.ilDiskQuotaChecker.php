@@ -237,7 +237,8 @@ class ilDiskQuotaChecker
 				$where_clause = 'WHERE (p2.value > 0) ';
 				break;
 			case 4: // only users who have exceeded their disk quota
-				$where_clause = 'WHERE (p2.value > p1.value AND p2.value > rq.role_disk_quota) ';
+				$where_clause = 'WHERE (((p1.value > rq.role_disk_quota OR rq.role_disk_quota IS NULL) AND p2.value > p1.value) OR 
+					((rq.role_disk_quota > p1.value OR p1.value IS NULL) AND p2.value > rq.role_disk_quota)) ';
 				break;
 		}
 		switch ($a_access_filter) {
@@ -617,7 +618,8 @@ class ilDiskQuotaChecker
 
 			// Fetch only users who have exceeded their quota, and who have
 			// access, and who have not received a reminder in the past seven days
-			'WHERE (p2.value > p1.value AND p2.value > rq.role_disk_quota) '.
+			'WHERE (((p1.value > rq.role_disk_quota OR rq.role_disk_quota IS NULL) AND p2.value > p1.value) OR 
+				((rq.role_disk_quota > p1.value OR p1.value IS NULL) AND p2.value > rq.role_disk_quota)) '.
 			'AND (u.active=1 AND (u.time_limit_unlimited = 1 OR '.$ilDB->unixTimestamp().' BETWEEN u.time_limit_from AND u.time_limit_until)) '.
 			'AND (p4.value IS NULL OR p4.value < DATE_SUB(NOW(), INTERVAL 7 DAY)) '
 
