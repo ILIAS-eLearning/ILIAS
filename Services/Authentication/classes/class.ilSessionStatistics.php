@@ -357,7 +357,8 @@ class ilSessionStatistics
 		global $ilDB;
 		
 		$sql = "SELECT max(slot_end) latest FROM usr_session_stats".
-			" WHERE active_max >= max_sessions";
+			" WHERE active_max >= max_sessions".
+			" AND max_sessions > ".$ilDB->quote(0, "integer");
 		$res = $ilDB->query($sql);
 		$row = $ilDB->fetchAssoc($res);
 		if($row["latest"])
@@ -379,6 +380,7 @@ class ilSessionStatistics
 		
 		$sql = "SELECT SUM(slot_end-slot_begin) dur FROM usr_session_stats".
 			" WHERE active_max >= max_sessions".
+			" AND max_sessions > ".$ilDB->quote(0, "integer").
 			" AND slot_end > ".$ilDB->quote($a_from, "integer").
 			" AND slot_begin < ".$ilDB->quote($a_to, "integer");
 		$res = $ilDB->query($sql);
