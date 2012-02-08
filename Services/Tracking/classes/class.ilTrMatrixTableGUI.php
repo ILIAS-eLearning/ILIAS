@@ -148,12 +148,23 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$columns["status_changed"] = array("txt" => $this->lng->txt("trac_status_changed"),
 			"id" => "status_changed",
 			"default" => false);
-		$columns["last_access"] = array("txt" => $this->lng->txt("last_access"), 
-			"id" => "last_access",
-			"default" => false);
-		$columns["spent_seconds"] = array("txt" => $this->lng->txt("trac_spent_seconds"), 
-			"id" => "spent_seconds",
-			"default" => false);
+		
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		$tracking = new ilObjUserTracking();
+		
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{
+			$columns["last_access"] = array("txt" => $this->lng->txt("last_access"), 
+				"id" => "last_access",
+				"default" => false);
+		}
+		
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$columns["spent_seconds"] = array("txt" => $this->lng->txt("trac_spent_seconds"), 
+				"id" => "spent_seconds",
+				"default" => false);
+		}
 		
 		return $columns;
 	}
