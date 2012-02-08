@@ -120,19 +120,18 @@ class ilUserTableGUI extends ilTable2GUI
 		// default fields
 		$cols = array();
 
+		// first and last name cannot be hidden
+		$cols["firstname"] = array(
+			"txt" => $lng->txt("firstname"),
+			"default" => true);
+		$cols["lastname"] = array(
+			"txt" => $lng->txt("lastname"),
+			"default" => true);
+		
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
 			$ufs = $up->getStandardFields();
-			
-			$cols["firstname"] = array(
-				"txt" => $lng->txt("firstname"),
-				"default" => true);
-			$cols["lastname"] = array(
-				"txt" => $lng->txt("lastname"),
-				"default" => true);
-			$cols["email"] = array(
-				"txt" => $lng->txt("email"),
-				"default" => true);
+		
 			$cols["access_until"] = array(
 				"txt" => $lng->txt("access_until"),
 				"default" => true);
@@ -143,6 +142,14 @@ class ilUserTableGUI extends ilTable2GUI
 		else
 		{
 			$ufs = $up->getLocalUserAdministrationFields();
+		}
+		
+		// email should be the 1st "optional" field (can be hidden)
+		if(isset($ufs["email"]))
+		{
+			$cols["email"] = array(
+				"txt" => $lng->txt("email"),
+				"default" => true);
 		}
 		
 		// other user profile fields
@@ -438,7 +445,7 @@ class ilUserTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("VAL_LAST_LOGIN",
 					ilDatePresentation::formatDate(new ilDateTime($user['last_login'],IL_CAL_DATETIME)));
 			}
-			else if (in_array($c, array("email", "firstname", "lastname")))
+			else if (in_array($c, array("firstname", "lastname")))
 			{
 				$this->tpl->setCurrentBlock($c);
 				$this->tpl->setVariable("VAL_".strtoupper($c), (string) $user[$c]);
@@ -454,6 +461,10 @@ class ilUserTableGUI extends ilTable2GUI
 				{
 					switch ($c)
 					{
+						case "birthday":
+							$val = ilDatePresentation::formatDate(new ilDate($val,IL_CAL_DATE));
+							break;
+						
 						case "gender":
 							$val = $lng->txt("gender_".$user[$c]);
 							break;
@@ -491,7 +502,7 @@ class ilUserTableGUI extends ilTable2GUI
 		if($this->getMode() == self::MODE_LOCAL_USER)
 		{
 			$this->tpl->setCurrentBlock('context');
-			$this->tpl->setVariable('VAL_CONTEXT',ilObject::_lookupTitle(ilObject::_lookupObjId($user['time_limit_owner'])));
+			$this->tpl->setVariable('VAL_CONTEXT',(string)ilObject::_lookupTitle(ilObject::_lookupObjId($user['time_limit_owner'])));
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setCurrentBlock('roles');
