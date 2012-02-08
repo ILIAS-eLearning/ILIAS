@@ -206,6 +206,20 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	 * Is wiki an online help wiki?
+	 *
+	 * @return boolean true, if current wiki is an online help wiki
+	 */
+	static function isOnlineHelpWiki($a_ref_id)
+	{
+		if ($a_ref_id > 0 && $a_ref_id == OHWIKI)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	* Create new wiki
 	*/
 	function create($a_prevent_start_page_creation = false)

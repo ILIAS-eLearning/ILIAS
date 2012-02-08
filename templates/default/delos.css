@@ -2247,6 +2247,7 @@ table.ilTabContentOuter
 {
 	border-style: solid;
 	border-color: #bccae5;
+	border-color: #e0e0e0;
 	background-color: #FFFFFF;
 	border-width: 1px 1px;
 	margin: 0px;
@@ -2268,6 +2269,7 @@ div.ilFrameBL
 {
 	background-color: #F9F9F9;
 	padding-top: 5px;
+	box-shadow: inset 0px 3px 3px #D0D0D0;
 }
 
 
@@ -2278,7 +2280,7 @@ div.il_Tab
     float:left;
 	padding-left:0px;
 	line-height:normal;
-	border-bottom-color: #bccae5;
+	border-bottom-color: #e0e0e0;
 	border-bottom-width: 1px;
 	margin: 0px 10px;
 }
@@ -2296,11 +2298,11 @@ ul.il_Tab
 li.tabinactive
 {
 	float:left;
-	margin: 0px 2px 0px 0px;
+	margin: 0px 4px 0px 0px;
 	padding: 0px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #bccae5;
+	border-bottom-color: #e0e0e0;
 }
 
 a.tabinactive
@@ -2309,29 +2311,32 @@ a.tabinactive
 	display:block;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #bccae5;
+	border-color: #e0e1e8;
 	border-bottom-color: #a7b4cc;
-	background-color: #e8effe;
+	background-color: #E8EFFE;
 	border-bottom-width: 0px;
-    padding: 4px 7px 4px 7px;;
+    padding: 4px 7px 4px 7px;
 	font-size: 80%;
 	text-decoration: none;
+	background:url("images/TabInactive.gif") repeat-x left bottom;
 }
 
 a.tabinactive:hover
 {
 	background-color: #FFFFFF;
 	text-decoration: none;
+	background-image: none;
 }
 
 li.tabactive
 {
 	float:left;
-	margin: 0px 2px 0px 0px;
+	margin: 0px 4px 0px 0px;
 	padding: 2px 0px;
 	border-width: 1px;
 	border-style: solid;
 	border-color: #bccae5;
+	border-color: #e0e0e0;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #FFFFFF;
@@ -2345,6 +2350,8 @@ a.tabactive:link, a.tabactive:visited, a.tabactive:hover
     padding: 2px 7px;
 	font-size: 80%;
 	text-decoration: none;
+	color: #404040;
+	cursor: default;
 }
 
 li.backtab

@@ -840,7 +840,11 @@ class ilPersonalSettingsGUI
 	*/
 	function showGeneralSettings($a_no_init = false)
 	{
-		global $ilTabs;
+		global $ilTabs, $ilToolbar, $ilCtrl;
+		
+		// test to other base class
+//		$ilToolbar->addButton("test",
+//			$ilCtrl->getLinkTargetByClass(array("ilmailgui","ilmailformgui"), "mailUser"));
 		
 		$this->__initSubTabs("showPersonalData");
 		$ilTabs->activateTab("general_settings");
