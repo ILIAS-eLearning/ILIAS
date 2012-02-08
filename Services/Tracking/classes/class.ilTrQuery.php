@@ -1468,11 +1468,8 @@ class ilTrQuery
 		
 		$sql = "SELECT obj_id,".$column.",SUM(counter) counter".
 			" FROM obj_user_stat".
-			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer");
-		if($a_year)
-		{
-			$sql .= " AND yyyy = ".$ilDB->quote($a_year, "integer");
-		}
+			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer").
+			" AND yyyy = ".$ilDB->quote($a_year, "integer");
 		if($a_month)
 		{
 			$sql .= " AND mm = ".$ilDB->quote($a_month, "integer");
@@ -1480,16 +1477,8 @@ class ilTrQuery
 		$sql .= " GROUP BY obj_id,".$column;
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
-		{
-			if($a_month)
-			{
-				$index = $row[$column];
-			}
-			else
-			{
-				$index = $row["yyyy"]."-".str_pad($row["mm"], 2, "0", STR_PAD_LEFT);
-			}						
-			$res[$row["obj_id"]][$index]["users"] += $row["counter"];
+		{							
+			$res[$row["obj_id"]][$row[$column]]["users"] += $row["counter"];
 		}
 		
 		return $res;
@@ -1709,15 +1698,21 @@ class ilTrQuery
 		return $res;
 	}
 	
-	function getObjectTypeStatisticsPerMonth($a_aggregation)
+	function getObjectTypeStatisticsPerMonth($a_aggregation, $a_year = null)
 	{
 		global $ilDB;
+		
+		if(!$a_year)
+		{
+			$a_year = date("Y");
+		}
 		
 		$agg = strtoupper($a_aggregation);
 		
 		$res = array();		
 		$sql = "SELECT type,yyyy,mm,".$agg."(cnt_objects) cnt_objects,".$agg."(cnt_references) cnt_references,".
 			"".$agg."(cnt_deleted) cnt_deleted FROM obj_type_stat".
+			" WHERE yyyy = ".$ilDB->quote($a_year, "integer").
 			" GROUP BY type,yyyy,mm";
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))

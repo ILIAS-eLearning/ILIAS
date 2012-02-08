@@ -739,23 +739,31 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		return $options;
 	}
 	
-	protected function getMonthsYear($a_short = false)
+	protected function getMonthsYear($a_year = null, $a_short = false)
 	{
 		global $lng;
+		
+		if(!$a_year)
+		{
+			$a_year = date("Y");
+		}
 		
 		$all = array();
 		for($loop = 1; $loop<13; $loop++)
 		{
 			$month = str_pad($loop, 2, "0", STR_PAD_LEFT);
-			if(!$a_short)
+			if($a_year."-".$month <= date("Y-m"))
 			{
-				$caption = $lng->txt("month_".$month."_long");
+				if(!$a_short)
+				{
+					$caption = $lng->txt("month_".$month."_long");
+				}
+				else
+				{
+					$caption = $lng->txt("month_".$month."_short");
+				}			
+				$all[$a_year."-".$month] = $caption;
 			}
-			else
-			{
-				$caption = $lng->txt("month_".$month."_short");
-			}
-			$all[$loop] = $caption;
 		}
 		return $all;
 	}
