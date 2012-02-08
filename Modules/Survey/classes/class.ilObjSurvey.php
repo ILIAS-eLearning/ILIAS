@@ -3183,18 +3183,16 @@ class ilObjSurvey extends ilObject
 			}
 			$active_id = $this->getActiveID($user_id, $anonymize_id);
 			$messagetext .= ((strlen($messagetext)) ? "\n\n\n" : '') . $this->lng->txt('results') . "\n\n". $this->getParticipantTextResults($active_id);
-			if (($not_sent != 1) || $data['sent'] == 0)
-			{
-				$res = $mail->sendMail(
-					$recipient, // to
-					"", // cc
-					"", // bcc
-					$this->lng->txt('finished_mail_subject') . ': ' . $this->getTitle(), // subject
-					$messagetext, // message
-					array(), // attachments
-					array('normal') // type
-				);	
-			}
+		
+			$mail->sendMail(
+				$recipient, // to
+				"", // cc
+				"", // bcc
+				$this->lng->txt('finished_mail_subject') . ': ' . $this->getTitle(), // subject
+				$messagetext, // message
+				array(), // attachments
+				array('normal') // type
+			);				
 		}
 	}
 
@@ -4748,41 +4746,74 @@ class ilObjSurvey extends ilObject
 
 	function sendCodes($not_sent, $subject, $message, $lang = "en")
 	{
+		/*
+		 * 0 = all
+		 * 1 = not sent
+		 * 2 = finished
+		 * 3 = not finished
+		 */		
+		$check_finished = ($not_sent > 1);
+		
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		$user_id = $this->getOwner();
 		$mail = new ilMail($user_id);
-		$recipients = $this->getExternalCodeRecipients();
+		$recipients = $this->getExternalCodeRecipients($check_finished);
 		foreach ($recipients as $data)
 		{
-			$messagetext = $message;
-			$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$data["code"]."&amp;lang=".$lang;
-			$messagetext = str_replace('[url]', "<" . $url . ">", $messagetext);
-			foreach ($data as $key => $value)
-			{
-				$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
-			}
-			if (($not_sent != 1) || $data['sent'] == 0)
-			{
-				$res = $mail->sendMail(
-					$data['email'], // to
-					"", // cc
-					"", // bcc
-					$subject, // subject
-					$messagetext, // message
-					array(), // attachments
-					array('normal') // type
-				);	
+			if($data['email'] && $data['code'])
+			{				
+				$do_send = false;
+				switch ((int)$not_sent)
+				{
+					case 1:
+						$do_send = !(bool)$data['sent'];
+						break;
+					
+					case 2:
+						$do_send = $data['finished'];
+						break;
+					
+					case 3:
+						$do_send = !$data['finished'];
+						break;
+					
+					default:
+						$do_send = true;
+						break;									
+				}				
+				if ($do_send)
+				{			
+					// build text
+					$messagetext = $message;
+					$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".$data["code"]."&lang=".$lang;
+					$messagetext = str_replace('[url]', "<" . $url . ">", $messagetext);
+					foreach ($data as $key => $value)
+					{
+						$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
+					}
+					
+					// send mail
+					$mail->sendMail(
+						$data['email'], // to
+						"", // cc
+						"", // bcc
+						$subject, // subject
+						$messagetext, // message
+						array(), // attachments
+						array('normal') // type
+					);	
+				}
 			}
 		}
 
 		global $ilDB;
-		$affectedRows = $ilDB->manipulateF("UPDATE svy_anonymous SET sent = %s WHERE survey_fi = %s AND externaldata IS NOT NULL",
+		$ilDB->manipulateF("UPDATE svy_anonymous SET sent = %s WHERE survey_fi = %s AND externaldata IS NOT NULL",
 			array('integer','integer'),
 			array(1, $this->getSurveyId())
 		);
 	}
 
-	function getExternalCodeRecipients()
+	function getExternalCodeRecipients($a_check_finished = false)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT survey_key code, externaldata, sent FROM svy_anonymous WHERE survey_fi = %s AND externaldata IS NOT NULL",
@@ -4795,6 +4826,12 @@ class ilObjSurvey extends ilObject
 			$externaldata = unserialize($row['externaldata']);
 			$externaldata['code'] = $row['code'];
 			$externaldata['sent'] = $row['sent'];
+			
+			if($a_check_finished)
+			{				
+				$externaldata['finished'] =  $this->isSurveyCodeUsed($row['code']);
+			}
+			
 			array_push($res, $externaldata);
 		}
 		return $res;
