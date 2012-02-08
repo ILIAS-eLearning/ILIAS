@@ -206,12 +206,12 @@ class ilRoleTableGUI extends ilTable2GUI
 
 		if($set['type'] == 'role')
 		{
-			if($set['obj_id'] != ROLE_FOLDER_ID)
+			if($set['parent'] != ROLE_FOLDER_ID)
 			{
 				$this->ctrl->setParameterByClass(
 					"ilobjrolegui",
 					"rolf_ref_id",
-					$rbacreview->getRoleFolderIdOfObject($set['parent'])
+					$set['parent']
 				);
 			}
 
