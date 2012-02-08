@@ -91,7 +91,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->tabs_gui->activateSubTab('trac_object_stat_access');
 
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access");
+		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, $a_load_data);
 		
 		if(!$a_load_data)
 		{
@@ -150,7 +150,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->tabs_gui->activateSubTab('trac_object_stat_types');
 
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTypesTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types");
+		$lp_table = new ilLPObjectStatisticsTypesTableGUI($this, "types", null, $a_load_data);
 
 		if(!$a_load_data)
 		{
@@ -209,7 +209,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->tabs_gui->activateSubTab('trac_object_stat_daily');
 
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsDailyTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily");
+		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, $a_load_data);
 
 		if(!$a_load_data)
 		{

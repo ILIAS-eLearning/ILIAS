@@ -47,53 +47,10 @@ class ilCronObjectStatisticsCheck
 
 	function check()
 	{
-		// $this->doGarbageCollection();
 		$this->gatherCourseLPData();
 		$this->gatherTypesData();
 		$this->gatherUserData();
 	}
-	
-	/*
-	function doGarbageCollection() 
-	{
-		$first_day_of_month = date("Y-m-01", $this->date);
-		
-		// only execute on first day of month
-		if(date("Y-m-d", $this->date) == $first_day_of_month)
-		{
-			$cut = strtotime("-3 months", $this->date);
-			$cut = mktime(23, 59, 59, date("m", $cut), 0, date("Y", $cut));
-			$cut = date("Y-m", $cut);
-			
-			$date_compare = array(array("yyyy", ""), 
-				array($this->db->quote("-", "text"), ""),
-				array("LPAD(mm, 2,".$this->db->quote("0", "text").")", ""));
-			
-			$sql = "DELETE FROM obj_stat".
-				" WHERE ".$this->db->concat($date_compare)." <= ".
-				$this->db->quote($cut, "text");			
-			$this->db->manipulate($sql);
-			
-			$sql = "DELETE FROM obj_stat_history".
-				" WHERE tstamp <= ".$this->db->quote($cut, "text");			
-			$this->db->manipulate($sql);
-			
-			$sql = "DELETE FROM obj_lp_stat".
-				" WHERE fulldate <= ".$this->db->quote($cut, "text");			
-			$this->db->manipulate($sql);
-			
-			$sql = "DELETE FROM obj_type_stat".
-				" WHERE fulldate <= ".$this->db->quote($cut, "text");			
-			$this->db->manipulate($sql);
-			
-			$sql = "DELETE FROM obj_user_stat".
-				" WHERE fulldate <= ".$this->db->quote($cut, "text");			
-			$this->db->manipulate($sql);
-		}
-	
-		return true;
-	}
-	*/
 	
 	function gatherCourseLPData()
 	{
