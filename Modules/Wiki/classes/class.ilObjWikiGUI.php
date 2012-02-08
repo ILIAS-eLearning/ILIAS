@@ -164,6 +164,20 @@ class ilObjWikiGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Is wiki an online help wiki?
+	 *
+	 * @return boolean true, if current wiki is an online help wiki
+	 */
+	function isOnlineHelpWiki()
+	{
+		if (is_object($this->object))
+		{
+			return ilObjWiki::isOnlineHelpWiki($this->object->getRefId());
+		}
+		return false;
+	}
+	
+	/**
 	* Start page
 	*/
 	function viewObject()
@@ -1088,7 +1102,6 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->setSideBlock();
 		$tpl->setContent($table_gui->getHTML());
 	}
-
 
 	/**
 	 * Show printable view of a wiki page

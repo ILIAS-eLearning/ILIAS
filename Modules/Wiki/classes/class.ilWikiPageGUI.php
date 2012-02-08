@@ -276,7 +276,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function preview()
 	{
-		global $ilCtrl, $ilAccess, $lng, $tpl, $ilUser, $ilSetting;
+		global $ilCtrl, $ilAccess, $lng, $tpl, $ilUser, $ilSetting, $ilToolbar;
 
 		// block/unblock
 		if ($this->getPageObject()->getBlocked())
@@ -287,7 +287,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->increaseViewCount();
 				
 		$this->addHeaderAction();
-			
+		
+		if (ilObjWiki::isOnlineHelpWiki($this->getWikiRefId()))
+		{
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			$ilToolbar->addFormButton($lng->txt("wiki_add_help_page"),
+				"addOHPage");
+		}
 
 		// other actions
 		/*
