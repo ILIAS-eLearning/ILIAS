@@ -235,8 +235,7 @@ class ilSessionStatisticsGUI
 		$chart = new ilChart("objstacc", 700, 500);
 		$chart->setYAxisToInteger(true);
 		$chart->setColors(array("#3377ff", "#ff0000"));
-		$chart->setTitles($a_title, $lng->txt("time_segment"), $lng->txt("num_users"));	
-
+		
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 
