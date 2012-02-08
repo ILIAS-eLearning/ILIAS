@@ -1567,11 +1567,18 @@ class ilTrQuery
 	static public function deleteObjectStatistics(array $a_months)
 	{
 		global $ilDB;
-
-		$sql = "DELETE FROM obj_stat".
-			" WHERE ".$ilDB->in($ilDB->concat(array(array("yyyy", ""), array($ilDB->quote("-", "text"), ""),
+		
+		$tables = array("obj_stat", "obj_lp_stat", "obj_type_stat", "obj_user_stat");
+			
+		$date_compare = $ilDB->in($ilDB->concat(array(array("yyyy", ""), 
+				array($ilDB->quote("-", "text"), ""),
 				array("mm", ""))), $a_months, "", "text");
-	    return $ilDB->manipulate($sql);
+		
+		foreach($tables as $table)
+		{
+			$sql = "DELETE FROM ".$table." WHERE ".$date_compare;	
+			$ilDB->manipulate($sql);
+		}
 	}
 	
 	static public function searchObjects($a_type, $a_title = null, $a_root = null, $a_hidden = null)
