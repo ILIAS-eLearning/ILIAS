@@ -27,13 +27,18 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
+		$this->initFilter();
+		
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("type"), "title");
 		foreach($this->getMonthsYear() as $num => $caption)
 		{
 			$this->addColumn($caption, "month_".$num, "", false, "ilRight");
 		}
-		$this->addColumn($lng->txt("trac_current"), "month_live", "", false, "ilRight");
+		if($this->filter["year"] == date("Y"))
+		{
+			$this->addColumn($lng->txt("trac_current"), "month_live", "", false, "ilRight");
+		}
 	
 		$this->setTitle($this->lng->txt("trac_object_stat_types"));
 
@@ -52,8 +57,6 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		
 		$this->setLimit(9999);
 	
-		$this->initFilter();
-		
 		$this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_CSV));
 
 		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
@@ -111,12 +114,29 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			$si->setValue("max");
 		}
 		$this->filter["aggregation"] = $si->getValue();		
+		
+		// year/month
+		$si = new ilSelectInputGUI($lng->txt("year"), "year");		
+		$options = array();
+		for($loop = 0; $loop < 4; $loop++)
+		{
+			$year = date("Y")-$loop;
+			$options[$year] = $year;
+		}
+		$si->setOptions($options);
+		$this->addFilterItem($si);
+		$si->readFromSession();
+		if(!$si->getValue())
+		{
+			$si->setValue(date("Y"));
+		}
+		$this->filter["year"] = $si->getValue();
 	}
 
 	function getItems()
 	{
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";	
-		$res = ilTrQuery::getObjectTypeStatisticsPerMonth($this->filter["aggregation"]);	
+			$res = ilTrQuery::getObjectTypeStatisticsPerMonth($this->filter["aggregation"], $this->filter["year"]);	
 				
 		// get plugin titles
 		include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
@@ -150,27 +170,29 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		
 		
 		// add live data
-		
-		$live = ilTrQuery::getObjectTypeStatistics();			
-		foreach($live as $type => $item)
+		if($this->filter["year"] == date("Y"))
 		{
-			$data[$type]["type"] = $type;
-			
-			// to enable sorting by title
-			if(array_key_exists($type, $plugins))
+			$live = ilTrQuery::getObjectTypeStatistics();			
+			foreach($live as $type => $item)
 			{
-				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
-				$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
-			}			
-			else
-			{
-				$data[$type]["title"] = $this->lng->txt("objs_".$type);
-				$data[$type]["icon"] = ilUtil::getTypeIconPath($type, null, "tiny");
+				$data[$type]["type"] = $type;
+
+				// to enable sorting by title
+				if(array_key_exists($type, $plugins))
+				{
+					include_once("./Services/Component/classes/class.ilPlugin.php");
+					$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
+					$data[$type]["icon"] = ilObject::_getIcon("", "tiny", $type);
+				}			
+				else
+				{
+					$data[$type]["title"] = $this->lng->txt("objs_".$type);
+					$data[$type]["icon"] = ilUtil::getTypeIconPath($type, null, "tiny");
+				}
+
+				$value = $item[$this->filter["measure"]];
+				$data[$type]["month_live"] = $value;
 			}
-			
-			$value = $item[$this->filter["measure"]];
-			$data[$type]["month_live"] = $value;
 		}
 		
 		$this->setData($data);
@@ -198,8 +220,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		$this->tpl->setVariable("VALUE_ITEM", $this->anonymizeValue((int)$a_set["month_live"]));
-		$this->tpl->parseCurrentBlock();
+		if($this->filter["year"] == date("Y"))
+		{
+			$this->tpl->setVariable("VALUE_ITEM", $this->anonymizeValue((int)$a_set["month_live"]));
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 
 	function getGraph(array $a_graph_items)
@@ -218,7 +243,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			$types[$id] = $item["title"];
  		}
 
-		foreach(array_values($this->getMonthsYear(true)) as $idx => $caption)
+		foreach(array_values($this->getMonthsYear(null, true)) as $idx => $caption)
 		{
 			$labels[$idx+1] = $caption;
 		}

@@ -36,7 +36,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$this->addColumn($lng->txt("object_id"), "obj_id");
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			foreach($this->getMonthsYear() as $num => $caption)
+			foreach($this->getMonthsYear($this->filter["yearmonth"]) as $num => $caption)
 			{
 				$this->addColumn($caption, "month_".$num, "", false, "ilRight");
 			}
@@ -158,7 +158,8 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 					
 					foreach($months as $month => $values)
 					{					
-						$data[$obj_id]["month_".$month] = (int)$values[$this->filter["measure"]];
+						$idx = $yearmonth[0]."-".str_pad($month, 2, "0", STR_PAD_LEFT);
+						$data[$obj_id]["month_".$idx] = (int)$values[$this->filter["measure"]];
 						$data[$obj_id]["total"] += (int)$values[$this->filter["measure"]];
 					}
 				}
@@ -179,7 +180,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 			}
 			
 			// add objects with no usage data
-			foreach($objects as $obj_id => $ref_ids)
+			foreach(array_keys($objects) as $obj_id)
 			{
 				if(!isset($data[$obj_id]))
 				{
@@ -215,7 +216,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
 			$this->tpl->setCurrentBlock("month");
-			foreach(array_keys($this->getMonthsYear()) as $num)
+			foreach(array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $num)
 			{
 				$value = (int)$a_set["month_".$num];
 				if($this->filter["measure"] != "spent_seconds")
@@ -262,7 +263,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 
 				if(strpos($this->filter["yearmonth"], "-") === false)
 				{
-					foreach(array_keys($this->getMonthsYear()) as $num)
+					foreach(array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $idx => $num)
 					{
 						$value = (int)$object["month_".$num];
 						$max_value = max($max_value, $value);
@@ -270,7 +271,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 						{
 							$value = $this->anonymizeValue($value, true);
 						}	
-						$series->addPoint($num, $value);
+						$series->addPoint($idx, $value);
 					}
 				}
 				else
@@ -297,9 +298,9 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$labels = array();
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			foreach($this->getMonthsYear(true) as $num => $caption)
+			foreach(array_values($this->getMonthsYear($this->filter["yearmonth"], true)) as $idx => $caption)
 			{
-				$labels[$num] = $caption;
+				$labels[$idx] = $caption;
 			}
 		}
 		else
@@ -327,7 +328,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$col = 1;
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			foreach(array_keys($this->getMonthsYear()) as $num)
+			foreach(array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $num)
 			{
 				$value = (int)$a_set["month_".$num];
 				if($this->filter["measure"] != "spent_seconds")
@@ -366,7 +367,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 			
 		if(strpos($this->filter["yearmonth"], "-") === false)
 		{
-			foreach(array_keys($this->getMonthsYear()) as $num)
+			foreach(array_keys($this->getMonthsYear($this->filter["yearmonth"])) as $num)
 			{
 				$value = (int)$a_set["month_".$num];
 				if($this->filter["measure"] != "spent_seconds")
