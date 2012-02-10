@@ -149,10 +149,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->disable('numinfo');
 			$this->disable('select_all');
 		}
-
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
-		$this->setEnableNumInfo(true);
 		
 		$this->getItems();
 		$this->setTopCommands(true);
@@ -433,8 +429,8 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			foreach($data as $usr_id => $fields)
 			{
 				// #7264: as we get data for all course members filter against user data
-	            		if(!$this->checkAcceptance($usr_id) || !in_array($usr_id, $usr_ids))
-		    	        {
+				if(!$this->checkAcceptance($usr_id) || !in_array($usr_id, $usr_ids))
+				{
 					continue;
 				}
 
@@ -492,6 +488,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
 		self::$accepted_ids = ilMemberAgreement::lookupAcceptedAgreements($this->getParentObject()->object->getId());
 	}
-
+	
 }
 ?>
