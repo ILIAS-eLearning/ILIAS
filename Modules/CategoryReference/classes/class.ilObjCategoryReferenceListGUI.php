@@ -161,18 +161,16 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type)
 	{
 		global $ilAccess;
-		
-		switch($a_cmd)
-		{
-			case 'edit':
-			case 'cut':
+
+		switch($a_permission) {
+
+			case 'read':
+			case 'write':
 			case 'delete':
-			case 'link':
-				return $ilAccess->checkAccess($a_permission,$a_cmd,$this->getCommandId());
-			
+				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type);
+
 			default:
-				return $ilAccess->checkAccess($a_permission,$a_cmd,$a_ref_id,$a_type);
-				
+				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type);
 		}
 	}
 	
