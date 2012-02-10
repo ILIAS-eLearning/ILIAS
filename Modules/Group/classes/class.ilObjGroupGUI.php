@@ -470,7 +470,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		$this->object->updateGroupType();
 		$this->object->update();
-		ilUtil::sendSuccess($this->lng->txt('grp_type_changed_info'),true);
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		$this->ctrl->redirect($this,'edit');
 	}
 	
