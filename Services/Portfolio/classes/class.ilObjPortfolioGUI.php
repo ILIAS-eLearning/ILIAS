@@ -1229,7 +1229,8 @@ class ilObjPortfolioGUI
 			$back = $_REQUEST["back_url"];						
 		}		
 		// shared
-		else if($_GET["baseClass"] != "ilPublicUserProfileGUI")
+		else if($_GET["baseClass"] != "ilPublicUserProfileGUI" && 
+			$ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			if(!$this->checkAccess("write"))
 			{

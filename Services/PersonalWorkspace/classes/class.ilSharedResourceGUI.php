@@ -73,6 +73,12 @@ class ilSharedResourceGUI
 				$ilCtrl->forwardCommand($lgui);
 				break;		
 			
+			case "ilobjportfoliogui":
+				include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
+				$pgui = new ilObjPortfolioGUI();
+				$ilCtrl->forwardCommand($pgui);
+				break;	
+			
 			default:
 				if(!$cmd)
 				{
@@ -194,27 +200,6 @@ class ilSharedResourceGUI
 			$object_data["type"] = "prtf";
 		}
 		
-		/* currently unwanted feature
-		// if user owns target object, go to workspace directly
-		// e.g. deep-linking notices from personal desktop
-		if($ilUser->getId() == ilObject::_lookupOwner($object_data["obj_id"]))
-		{
-			if(!$a_is_portfolio)
-			{
-				// blog posting
-				if($_GET["gtp"])
-				{
-					$gtp = "&gtp=".(int)$_GET["gtp"];
-				}
-				ilUtil::redirect("ilias.php?baseClass=ilpersonaldesktopgui&cmd=jumptoworkspace&wsp_id=".$a_node_id.$gtp);
-			}
-			else
-			{
-				ilUtil::redirect("ilias.php?baseClass=ilpersonaldesktopgui&cmd=jumptoportfolio&prt_id=".$a_node_id);
-			}
-		}		 
-		*/
-		
 		$class = $objDefinition->getClassName($object_data["type"]);
 		$gui = "ilobj".$class."gui";
 		
@@ -236,7 +221,8 @@ class ilSharedResourceGUI
 				$ilCtrl->redirectByClass($gui);
 				
 			case "prtf":
-				ilUtil::redirect("ilias.php?baseClass=ilpersonaldesktopgui&cmd=jumptoportfolio&prt_id=".$a_node_id);
+				$ilCtrl->setParameterByClass($gui, "prt_id", $a_node_id);
+				$ilCtrl->redirectByClass($gui, "preview");
 				
 			default:
 				exit("invalid object type");						
