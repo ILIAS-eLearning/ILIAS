@@ -427,7 +427,9 @@ die ("ilObjComponentSettigsGUI::refreshPluginsInformation: deprecated");
 		$ilCtrl->setParameterByClass("iladministrationgui", "cname", $_GET["cname"]);
 		$ilCtrl->setParameterByClass("iladministrationgui", "slot_id", $_GET["slot_id"]);
 		$ilCtrl->setTargetScript("ilias.php");
-		$ilCtrl->callBaseClass();
+//		$ilCtrl->callBaseClass();
+		ilUtil::redirect("ilias.php?admin_mode=settings&baseClass=ilAdministrationGUI&cmd=jumpToPluginSlot&".
+			"ref_id=".$_GET["ref_id"]."&ctype=".$_GET["ctype"]."&cname=".$_GET["cname"]."&slot_id=".$_GET["slot_id"]);
 		//$ilCtrl->redirectByClass("iladministrationgui", );
 	}
 
