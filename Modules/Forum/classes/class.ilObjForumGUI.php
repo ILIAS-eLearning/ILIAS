@@ -1424,16 +1424,12 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addButton('latex');
 		$oPostGUI->addButton('pastelatex');
 		$oPostGUI->addPlugin('ilfrmquote');
-		$oPostGUI->addPlugin('ilimgupload');
-        $oPostGUI->addButton('ilimgupload');
 		//$oPostGUI->addPlugin('code'); 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
 			$oPostGUI->addButton('ilFrmQuoteAjaxCall');
 		}
 		$oPostGUI->removePlugin('advlink');
-		$oPostGUI->removePlugin('ibrowser');
-		$oPostGUI->removePlugin('image');
 		$oPostGUI->setRTERootBlockElement('');
 		$oPostGUI->usePurifier(true);
 		$oPostGUI->disableButtons(array(
@@ -1450,9 +1446,7 @@ class ilObjForumGUI extends ilObjectGUI
 			'copy',
 			'paste',
 			'pastetext',
-			'formatselect',
-			'ibrowser',
-			'image'
+			'formatselect'
 		));
 		
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
@@ -1650,10 +1644,11 @@ class ilObjForumGUI extends ilObjectGUI
 			else
 			{
 				if((!$ilAccess->checkAccess('moderate_frm', '', (int)$_GET['ref_id']) &&
-				   !$this->objCurrentPost->isOwner($ilUser->getId())) || $this->objCurrentPost->isCensored())
+				   !$this->objCurrentPost->isOwner($ilUser->getId())) || $this->objCurrentPost->isCensored() ||
+				   $ilUser->getId() == ANONYMOUS_USER_ID)
 				{
 				   	$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-				}				
+				}
 				
 				// remove usage of deleted media objects
 				include_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
@@ -2094,7 +2089,8 @@ class ilObjForumGUI extends ilObjectGUI
 		{
 			if(!$this->objCurrentTopic->isClosed() &&
 			   ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
-			    ($this->objCurrentPost->isOwner($ilUser->getId()) && !$this->objCurrentPost->hasReplies())))
+			    ($this->objCurrentPost->isOwner($ilUser->getId()) && !$this->objCurrentPost->hasReplies())) &&
+			   $ilUser->getId() != ANONYMOUS_USER_ID)
 			{
 				$frm = new ilForum();
 
@@ -2227,7 +2223,7 @@ class ilObjForumGUI extends ilObjectGUI
 							{
 								if($_GET['action'] == 'showedit' &&
 								  ((!$ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) &&
-								   !$node->isOwner($ilUser->getId())) || $node->isCensored()))
+								   !$node->isOwner($ilUser->getId()) || $ilUser->getId() == ANONYMOUS_USER_ID) || $node->isCensored()))
 								{
 								   	$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 								}
@@ -2318,7 +2314,8 @@ class ilObjForumGUI extends ilObjectGUI
 							else if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'delete')
 							{
 								if($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
-								  ($node->isOwner($ilUser->getId()) && !$node->hasReplies()))
+								   ($node->isOwner($ilUser->getId()) && !$node->hasReplies()) &&
+							       $ilUser->getId() != ANONYMOUS_USER_ID)
 								{
 									// confirmation: delete
 									$tpl->setVariable('FORM', $this->getDeleteFormHTML());							
@@ -2376,7 +2373,8 @@ class ilObjForumGUI extends ilObjectGUI
 							if (!$this->objCurrentTopic->isClosed() &&
 								($node->isOwner($ilUser->getId()) ||
 								 $ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id'])) &&									
-								 !$node->isCensored())
+								 !$node->isCensored() &&
+								 $ilUser->getId() != ANONYMOUS_USER_ID)
 							{
 								$tpl->setCurrentBlock('commands');
 								$this->ctrl->setParameter($this, 'action', 'showedit');
@@ -2406,7 +2404,8 @@ class ilObjForumGUI extends ilObjectGUI
 							# buttons for every post except the "active"						
 							if (!$this->objCurrentTopic->isClosed() &&
 							   ($ilAccess->checkAccess('moderate_frm', '', (int) $_GET['ref_id']) ||
-							   ($node->isOwner($ilUser->getId()) && !$node->hasReplies())))
+							   ($node->isOwner($ilUser->getId()) && !$node->hasReplies())) &&
+							   $ilUser->getId() != ANONYMOUS_USER_ID)
 							{
 								// button: delete							
 								$tpl->setCurrentBlock('commands');							
@@ -3300,11 +3299,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->addButton('pastelatex');
 		$post_gui->addPlugin('ilfrmquote');
 		//$post_gui->addPlugin('code'); 
-		$post_gui->addPlugin('ilimgupload');
-		$post_gui->addButton('ilimgupload');
 		$post_gui->removePlugin('advlink');
-		$post_gui->removePlugin('ibrowser');
-		$post_gui->removePlugin('image');
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');
 		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
@@ -3322,9 +3317,7 @@ class ilObjForumGUI extends ilObjectGUI
 			'copy',
 			'paste',
 			'pastetext',
-			'formatselect',
-			'image',
-			'ibrowser'
+			'formatselect'
 		));		
 				
 		// purifier
