@@ -8724,3 +8724,99 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3518>
+<?php
+	// taxonomy tree
+	$fields = array(
+			'tax_tree_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'child' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'parent' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => false,
+					'default' => null
+			),
+			'lft' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'rgt' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'depth' => array(
+					'type' => 'integer',
+					'length' => 2,
+					'notnull' => true,
+					'default' => 0
+			)
+	);
+	$ilDB->createTable('tax_tree', $fields);
+?>
+<#3519>
+<?php
+	// taxonomy node
+	$fields = array(
+			'obj_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'title' => array(
+					'type' => 'text',
+					'length' => 200,
+					'notnull' => false
+			),
+			'type' => array(
+					'type' => 'text',
+					'length' => 4,
+					'fixed' => true,
+					'notnull' => false
+			),
+			'create_date' => array(
+					'type' => 'timestamp',
+					'notnull' => false
+			),
+			'last_update' => array(
+					'type' => 'timestamp',
+					'notnull' => false
+			)
+	);
+	$ilDB->createTable('tax_node', $fields);
+	$ilDB->createSequence('tax_node');
+	$ilDB->addPrimaryKey("tax_node", array("obj_id"));
+?>
+<#3520>
+<?php
+	// taxonomy use
+	$fields = array(
+		'tax_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		));
+	$ilDB->createTable('tax_usage', $fields);
+	$ilDB->addPrimaryKey("tax_usage", array("tax_id", "obj_id"));
+?>
