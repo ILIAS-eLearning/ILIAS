@@ -287,13 +287,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilErr,$ilAccess, $ilUser, $ilSetting;
 
 		$this->checkPermission('visible');
-		/*
-		if(!$ilAccess->checkAccess('visible','',$this->object->getRefId()))
-		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
-			return false;
-		}
-		*/
 		
 		// Fill meta header tags
 		include_once('Services/MetaData/classes/class.ilMDUtils.php');
@@ -476,11 +469,9 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->lng->txt("mem_free_places"),
 					max(
 						0,
-						$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfParticipants($this->object->getRefId()))
+						$this->object->getSubscriptionMaxMembers() - ilParticipants::lookupNumberOfMembers($this->object->getRefId()))
 				);
-				
 			}
-				
 		}
 		
 		// archive

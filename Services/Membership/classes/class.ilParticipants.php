@@ -157,6 +157,44 @@ class ilParticipants
 		return $rbacreview->getNumberOfAssignedUsers($lroles);
 	}
 
+	/**
+	 * Lookup number of members
+	 * @global ilRbacReview $rbacreview
+	 * @global <type> $ilObjDataCache
+	 * @param <type> $a_ref_id
+	 * @return int
+	 */
+	public static function lookupNumberOfMembers($a_ref_id)
+	{
+		global $rbacreview, $ilObjDataCache;
+
+		$rolf = $rbacreview->getRoleFolderIdOfObject($a_ref_id);
+
+		if(!$rolf)
+		{
+			return 0;
+		}
+		$lroles = $rbacreview->getRolesOfRoleFolder($rolf,false);
+
+		$memberRoles = array();
+		foreach($lroles as $role_id)
+		{
+			$title = $ilObjDataCache->lookupTitle($role_id);
+			switch(substr($title,0,8))
+			{
+				case 'il_crs_a':
+				case 'il_crs_t':
+				case 'il_grp_a':
+					break;
+
+				default:
+					$memberRoles[] = $role_id;
+					break;
+			}
+		}
+		return $rbacreview->getNumberOfAssignedUsers($memberRoles);
+	}
+
 
 	/**
 	 * Check if user is blocked
