@@ -32,6 +32,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->setId("il_svy_qst");
+		$this->setLimit(9999);
 
 		// $this->setTitle($lng->txt("survey_questions"));
 
