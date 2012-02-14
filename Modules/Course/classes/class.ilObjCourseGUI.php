@@ -978,10 +978,21 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setNumberOfnextSessions(is_numeric($_POST['sn']) ? (int) $_POST['sn'] : -1 );
 
 		$this->object->setAutoNotiDisabled($_POST['deact_auto_noti'] == 1 ? true : false);
+		
+		// could be hidden in form
+		if(isset($_POST['status_dt']))
+		{
+			$this->object->setStatusDetermination((int) $_POST['status_dt']);				
+		}	
 
 		if($this->object->validate())
 		{
 			$this->object->update();
+			
+			if((bool)$_POST['status_sync'])
+			{
+				$this->object->syncMembersStatusWithLP();				
+			}
 
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -1423,6 +1434,38 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 
 		$form->addItem($sort);
+		
+		// lp vs. course status
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(ilObjUserTracking::_enabledLearningProgress())
+		{					
+			include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+			$lp_settings = new ilLPObjSettings($this->object->getId());
+			if($lp_settings->getMode())
+			{							
+				$lp_status = new ilFormSectionHeaderGUI();
+				$lp_status->setTitle($this->lng->txt('crs_course_status_of_users'));
+				$form->addItem($lp_status);
+
+				$lp_status_options = new ilRadioGroupInputGUI($this->lng->txt('crs_status_determination'), "status_dt");
+				$lp_status_options->setRequired(true);
+				$lp_status_options->setValue($this->object->getStatusDetermination());
+								
+				$lp_option = new ilRadioOption($this->lng->txt('crs_status_determination_lp'), 
+					ilObjCourse::STATUS_DETERMINATION_LP);
+				$lp_status_options->addOption($lp_option);
+				$lp_status_options->addOption(new ilRadioOption($this->lng->txt('crs_status_determination_manual'),
+					ilObjCourse::STATUS_DETERMINATION_MANUAL));			
+				
+				if($this->object->getStatusDetermination() != ilObjCourse::STATUS_DETERMINATION_LP)
+				{
+					$lp_sync = new ilCheckboxInputGUI($this->lng->txt('crs_status_determination_sync'), "status_sync");			
+					$lp_option->addSubItem($lp_sync);
+				}
+
+				$form->addItem($lp_status_options);		
+			}
+		}
 		
 		$further = new ilFormSectionHeaderGUI();
 		$further->setTitle($this->lng->txt('crs_further_settings'));
@@ -1914,6 +1957,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tmp_data['lastname'] = $name['lastname'];
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 			$tmp_data['passed'] = $this->object->getMembersObject()->hasPassed($usr_id) ? 1 : 0;
+			$tmp_data['passed_info'] = $this->object->getMembersObject()->getPassedInfo($usr_id);
 			$tmp_data['notification'] = $this->object->getMembersObject()->isNotificationEnabled($usr_id) ? 1 : 0;
 			$tmp_data['blocked'] = $this->object->getMembersObject()->isBlocked($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
@@ -2374,7 +2418,27 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		foreach($visible_members as $member_id)
 		{
-			$this->object->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed));
+			$this->object->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed),$ilUser->getId());
+			
+			// sync course status and lp status ?
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if(ilObjUserTracking::_enabledLearningProgress() &&
+				$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
+			{	
+				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+				$lp_settings = new ilLPObjSettings($this->object->getId());
+				if($lp_settings->getMode() == LP_MODE_MANUAL_BY_TUTOR)
+				{
+					include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+					$marks = new ilLPMarks($this->object->getId(), $member_id);
+					$marks->setCompleted(in_array($member_id,$passed));
+					$marks->update();
+
+					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+					ilLPStatusWrapper::_updateStatus($this->object->getId(), $member_id, null, false, true);
+				}
+			}
+			
 			switch($type)
 			{
 				case 'admins';

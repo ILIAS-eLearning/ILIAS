@@ -12434,3 +12434,8 @@ trac#:#trac_session_active_max#:#Aktive Sessions (Maximum)
 trac#:#trac_session_statistics_no_data#:#Es liegen keine Daten für diese Statistik vor.
 trac#:#trac_sync_session_stats#:#Daten aggregieren
 trac#:#trac_sync_session_stats_success#:#Die Daten wurden erfolgreich aggregiert.
+crs#:#crs_course_status_of_users#:#Status der Benutzer
+crs#:#crs_status_determination#:#Festlegung
+crs#:#crs_status_determination_manual#:#Unabhängig von Lernfortschritt
+crs#:#crs_status_determination_lp#:#Mit Lernfortschritt abgleichen
+crs#:#crs_status_determination_sync#:#Status aller Mitglieder jetzt mit Lernfortschritt abgleichen

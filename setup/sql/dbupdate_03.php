@@ -8820,3 +8820,27 @@ if(!$ilDB->tableExists('note_settings'))
 	$ilDB->createTable('tax_usage', $fields);
 	$ilDB->addPrimaryKey("tax_usage", array("tax_id", "obj_id"));
 ?>
+<#3521>
+<?php
+	if(!$ilDB->tableColumnExists("crs_settings", "status_dt"))
+    {		
+		$ilDB->addTableColumn("crs_settings", "status_dt", array(
+                'type'     => 'integer',
+                'length'   => 1,
+                'default'  => 2));		
+    }	
+	if(!$ilDB->tableColumnExists("crs_members", "origin"))
+    {		
+		$ilDB->addTableColumn("crs_members", "origin", array(
+                'type'     => 'integer',
+                'length'   => 4,
+                'default'  => 0));		
+    }	
+	if(!$ilDB->tableColumnExists("crs_members", "origin_ts"))
+    {		
+		$ilDB->addTableColumn("crs_members", "origin_ts", array(
+                'type'     => 'integer',
+                'length'   => 4,
+                'default'  => 0));		
+    }	
+?>

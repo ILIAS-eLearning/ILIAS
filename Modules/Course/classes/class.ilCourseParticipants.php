@@ -115,9 +115,10 @@ class ilCourseParticipants extends ilParticipants
 	 * @access public
 	 * @param int usr_id
 	 * @param bool passed
+	 * @param int $a_origin
 	 * 
 	 */
-	public function updatePassed($a_usr_id,$a_passed)
+	public function updatePassed($a_usr_id,$a_passed,$a_origin = null)
 	{
 		global $ilDB;
 		
@@ -130,29 +131,50 @@ class ilCourseParticipants extends ilParticipants
 		if($res->numRows())
 		{
 			$query = "UPDATE crs_members SET ".
-				"passed = ".$ilDB->quote((int) $a_passed,'integer')." ".
+				"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
+				"origin = ".$ilDB->quote((int) $a_origin,'integer').", ".
+				"origin_ts = ".$ilDB->quote(time(),'integer')." ".
 				"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer')." ".
 				"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		}
 		else
 		{
-			$query = "INSERT INTO crs_members (passed,obj_id,usr_id,notification,blocked) ".
+			$query = "INSERT INTO crs_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) ".
 				"VALUES ( ".
 				$ilDB->quote((int) $a_passed,'integer').", ".
 				$ilDB->quote($this->obj_id,'integer').", ".
 				$ilDB->quote($a_usr_id,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
-				$ilDB->quote(0,'integer')." ".
-				")";
-			
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote($a_origin,'integer').", ".
+				$ilDB->quote(time(),'integer').")";					
 		}
 		$res = $ilDB->manipulate($query);
-		return true;
-	
+		return true;	
 	}
 	
-
-	
+	/**
+	 * Get info about passed status
+	 * 
+	 * @param int $a_usr_id
+	 * @return array (user_id, timestamp) 	 
+	 */
+	function getPassedInfo($a_usr_id)
+	{
+		global $ilDB;
+		
+		$sql = "SELECT origin, origin_ts".
+			" FROM crs_members".
+			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
+			" AND usr_id = ".$ilDB->quote($a_usr_id, "integer");
+		$set = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($set);		
+		if($row["origin"])
+		{
+			return array("user_id" => $row["origin"],
+				"timestamp" => new ilDateTime($row["origin_ts"], IL_CAL_UNIX));		
+		}
+	}		
 	
 	// Subscription
 	function sendNotification($a_type, $a_usr_id)
