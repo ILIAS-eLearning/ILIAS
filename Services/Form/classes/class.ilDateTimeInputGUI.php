@@ -9,7 +9,7 @@
 * @ingroup	ServicesForm
 */
 include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
-class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
+class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
 	protected $mode = null;
 	protected $date_obj = null;
@@ -645,6 +645,15 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
 	function getPostValueForComparison()
 	{
 		return trim($_POST[$this->getPostVar()]["date"]." ". $_POST[$this->getPostVar()]["time"]);
+	}
+	
+	/**
+	* Get HTML for toolbar
+	*/
+	function getToolbarHTML()
+	{
+		$html = $this->render("toolbar");
+		return $html;
 	}
 }
 

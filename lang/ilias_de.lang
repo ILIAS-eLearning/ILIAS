@@ -12425,9 +12425,9 @@ trac#:#trac_closed_idle#:#Leerlaufzeit
 trac#:#trac_closed_idle_first#:#Leerlaufzeit (1. Anfrage)
 trac#:#trac_closed_login#:#Anonym zu Login
 trac#:#trac_session_statistics_mode_today#:#Heute
-trac#:#trac_session_statistics_mode_day#:#Letzte 24 Stunden
-trac#:#trac_session_statistics_mode_week#:#Letzte 7 Tage
-trac#:#trac_session_statistics_mode_month#:#Letzte 30 Tage
+trac#:#trac_session_statistics_mode_last_day#:#Letzte 24 Stunden
+trac#:#trac_session_statistics_mode_last_week#:#Letzte 7 Tage
+trac#:#trac_session_statistics_mode_last_month#:#Letzte 30 Tage
 trac#:#trac_session_active_avg#:#Aktive Sessions (Durchschnitt)
 trac#:#trac_session_active_min#:#Aktive Sessions (Minimum)
 trac#:#trac_session_active_max#:#Aktive Sessions (Maximum)
@@ -12439,3 +12439,14 @@ crs#:#crs_status_determination#:#Festlegung
 crs#:#crs_status_determination_manual#:#Unabhängig von Lernfortschritt
 crs#:#crs_status_determination_lp#:#Mit Lernfortschritt abgleichen
 crs#:#crs_status_determination_sync#:#Status aller Mitglieder jetzt mit Lernfortschritt abgleichen
+trac#:#trac_session_statistics_mode_day#:#Tag
+trac#:#trac_session_statistics_mode_week#:#Woche
+trac#:#trac_session_statistics_mode_month#:#Monat
+trac#:#trac_current_system_load#:#Aktuelle Systemlast
+trac#:#trac_short_system_load#:#Kurzzeithistorie
+trac#:#trac_long_system_load#:#Langzeithistorie
+trac#:#trac_periodic_system_load#:#Periodische Lastdarstellung
+trac#:#trac_begin_at#:#Startdatum
+trac#:#trac_scale#:#Skala
+trac#:#trac_measure#:#Kennzahl
+trac#:#trac_end_at#:#Enddatum

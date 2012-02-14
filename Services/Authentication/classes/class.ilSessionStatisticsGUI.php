@@ -15,27 +15,53 @@ include_once "Services/Authentication/classes/class.ilSessionStatistics.php";
 class ilSessionStatisticsGUI 
 {
 	const MODE_TODAY = 1;
-	const MODE_DAY = 2; 
-	const MODE_WEEK = 3;
-	const MODE_MONTH = 4;
+	const MODE_LAST_DAY = 2; 
+	const MODE_LAST_WEEK = 3;
+	const MODE_LAST_MONTH = 4;
+	const MODE_DAY = 5; 
+	const MODE_WEEK = 6;
+	const MODE_MONTH = 7;
+	
+	const SCALE_DAY = 1;
+	const SCALE_WEEK = 2;
+	const SCALE_MONTH = 3;
+	const SCALE_PERIODIC_WEEK = 4;
 	
 	function executeCommand()
 	{
 		global $ilCtrl;
 		
+		$this->setSubTabs();
+		
 		switch($ilCtrl->getNextClass())
 		{
 			default:
-			    $cmd = $ilCtrl->getCmd("view");
+			    $cmd = $ilCtrl->getCmd("current");
 				$this->$cmd();
 		}
 
 		return true;
 	}
-
-	protected function view()
+	
+	protected function setSubTabs()
 	{
-		global $tpl, $ilSetting, $lng, $ilToolbar, $ilCtrl;
+		global $ilTabs, $ilCtrl, $lng;
+		
+		$ilTabs->addSubTab("current", $lng->txt("trac_current_system_load"),
+			$ilCtrl->getLinkTarget($this, "current"));
+		$ilTabs->addSubTab("short", $lng->txt("trac_short_system_load"),
+			$ilCtrl->getLinkTarget($this, "short"));
+		$ilTabs->addSubTab("long", $lng->txt("trac_long_system_load"),
+			$ilCtrl->getLinkTarget($this, "long"));
+		$ilTabs->addSubTab("periodic", $lng->txt("trac_periodic_system_load"),
+			$ilCtrl->getLinkTarget($this, "periodic"));		
+	}
+	
+	protected function current($a_export = false)
+	{
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		$ilTabs->activateSubTab("current");
 		
 		// current mode
 		if(!$_REQUEST["smd"])
@@ -52,6 +78,356 @@ class ilSessionStatisticsGUI
 		$measure = (string)$_REQUEST["smm"];
 		
 				
+		switch($mode)
+		{
+			case self::MODE_TODAY:
+				$time_from = strtotime("today"); 
+				$time_to = strtotime("tomorrow")-1;
+				$scale = self::SCALE_DAY;
+				break;
+			
+			case self::MODE_LAST_DAY:				
+				$time_to = time();
+				$time_from = $time_to-60*60*24;
+				$scale = self::SCALE_DAY;
+				break;		
+			
+			case self::MODE_LAST_WEEK:				
+				$time_to = time();
+				$time_from = $time_to-60*60*24*7;
+				$scale = self::SCALE_WEEK;
+				break;		
+			
+			case self::MODE_LAST_MONTH:				
+				$time_to = time();
+				$time_from = $time_to-60*60*24*30;
+				$scale = self::SCALE_MONTH;
+				break;		
+		}
+		
+		$mode_options = array(
+			self::MODE_TODAY => $lng->txt("trac_session_statistics_mode_today"),
+			self::MODE_LAST_DAY => $lng->txt("trac_session_statistics_mode_last_day"),
+			self::MODE_LAST_WEEK => $lng->txt("trac_session_statistics_mode_last_week"),
+			self::MODE_LAST_MONTH => $lng->txt("trac_session_statistics_mode_last_month"));
+		
+		$title = $lng->txt("trac_current_system_load")." - ".$mode_options[$mode];			
+		$data = $this->buildData($time_from, $time_to, $title);			
+		
+		if(!$a_export)
+		{		
+			// toolbar
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";			
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "current"));			
+
+			$mode_selector = new ilSelectInputGUI("&nbsp;".$lng->txt("trac_scale"), "smd");
+			$mode_selector->setOptions($mode_options);		
+			$mode_selector->setValue($mode);
+			$ilToolbar->addInputItem($mode_selector, true);
+
+			$measure_options = array(
+				"avg" => $lng->txt("trac_session_active_avg"),
+				"min" => $lng->txt("trac_session_active_min"),
+				"max" => $lng->txt("trac_session_active_max"));
+
+			$measure_selector = new ilSelectInputGUI("&nbsp;".$lng->txt("trac_measure"), "smm");
+			$measure_selector->setOptions($measure_options);		
+			$measure_selector->setValue($measure);
+			$ilToolbar->addInputItem($measure_selector, true);
+
+			$ilToolbar->addFormButton($lng->txt("ok"), "current");
+			
+			$ilToolbar->addSeparator();
+			$ilToolbar->addFormButton($lng->txt("export"), "currentExport");
+					
+			$tpl->setContent($this->render($data, $scale, $measure));
+
+			$tpl->setLeftContent($this->renderCurrentBasics());					
+		}
+		else
+		{
+			$this->exportCSV($data);
+		}
+	}
+	
+	protected function currentExport()
+	{
+		$this->current(true);
+	}
+	
+	protected function short($a_export = false)
+	{
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		$ilTabs->activateSubTab("short");
+		
+		// current start
+		if(!$_REQUEST["sst"])
+		{
+			$_REQUEST["sst"] = date("Ymd");
+		}
+		else
+		{
+		   $org = $_REQUEST["sst"]["date"];
+		   $_REQUEST["sst"] = $org["y"].
+				str_pad($org["m"], 2, "0", STR_PAD_LEFT).
+				str_pad($org["d"], 2, "0", STR_PAD_LEFT);
+		}
+		$start = (int)$_REQUEST["sst"];
+		
+		// current mode
+		if(!$_REQUEST["smd"])
+		{
+			$_REQUEST["smd"] = self::MODE_DAY;
+		}
+		$mode = (int)$_REQUEST["smd"];
+		
+		// current measure
+		if(!$_REQUEST["smm"])
+		{
+			$_REQUEST["smm"] = "avg";
+		}
+		$measure = (string)$_REQUEST["smm"];
+		
+				
+		$time_to = mktime(23, 59, 59, substr($start, 4, 2), substr($start, 6, 2),
+			substr($start, 0, 4));		
+		switch($mode)
+		{
+			case self::MODE_DAY:				
+				$time_from = $time_to-60*60*24;
+				$scale = self::SCALE_DAY;
+				break;		
+			
+			case self::MODE_WEEK:				
+				$time_from = $time_to-60*60*24*7;
+				$scale = self::SCALE_WEEK;
+				break;		
+		}
+				
+		$mode_options = array(
+				self::MODE_DAY => $lng->txt("trac_session_statistics_mode_day"),
+				self::MODE_WEEK => $lng->txt("trac_session_statistics_mode_week")
+			);		
+			
+		$title = $lng->txt("trac_short_system_load")." - ".$mode_options[$mode];			
+		$data = $this->buildData($time_from, $time_to, $title);			
+		
+		if(!$a_export)
+		{		
+			// toolbar
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "short"));			
+			
+			$start_selector = new ilDateTimeInputGUI($lng->txt("trac_end_at"), "sst");
+			$start_selector->setDate(new ilDate($time_to, IL_CAL_UNIX));
+			$ilToolbar->addInputItem($start_selector, true);
+
+			$mode_selector = new ilSelectInputGUI("&nbsp;".$lng->txt("trac_scale"), "smd");
+			$mode_selector->setOptions($mode_options);		
+			$mode_selector->setValue($mode);
+			$ilToolbar->addInputItem($mode_selector, true);
+
+			$measure_options = array(
+				"avg" => $lng->txt("trac_session_active_avg"),
+				"min" => $lng->txt("trac_session_active_min"),
+				"max" => $lng->txt("trac_session_active_max"));
+
+			$measure_selector = new ilSelectInputGUI("&nbsp;".$lng->txt("trac_measure"), "smm");
+			$measure_selector->setOptions($measure_options);		
+			$measure_selector->setValue($measure);
+			$ilToolbar->addInputItem($measure_selector, true);
+
+			$ilToolbar->addFormButton($lng->txt("ok"), "short");
+			
+			$ilToolbar->addSeparator();
+			$ilToolbar->addFormButton($lng->txt("export"), "shortExport");
+												
+			$tpl->setContent($this->render($data, $scale, $measure));		
+		}
+		else
+		{
+			$this->exportCSV($data);
+		}
+	}
+	
+	protected function shortExport()
+	{
+		$this->short(true);
+	}
+	
+	protected function long($a_export = false)
+	{
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		$ilTabs->activateSubTab("long");
+		
+		// current start
+		if(!$_REQUEST["sst"])
+		{
+			$_REQUEST["sst"] = date("Ymd");
+		}
+		else
+		{
+		   $org = $_REQUEST["sst"]["date"];
+		   $_REQUEST["sst"] = $org["y"].
+				str_pad($org["m"], 2, "0", STR_PAD_LEFT).
+				str_pad($org["d"], 2, "0", STR_PAD_LEFT);
+		}
+		$start = (int)$_REQUEST["sst"];
+		
+		// current mode
+		if(!$_REQUEST["smd"])
+		{
+			$_REQUEST["smd"] = self::MODE_WEEK;
+		}
+		$mode = (int)$_REQUEST["smd"];
+	
+				
+		$time_to = mktime(23, 59, 59, substr($start, 4, 2), substr($start, 6, 2),
+			substr($start, 0, 4));		
+		switch($mode)
+		{			
+			case self::MODE_WEEK:				
+				$time_from = $time_to-60*60*24*7;
+				$scale = self::SCALE_WEEK;
+				break;	
+			
+			case self::MODE_MONTH:				
+				$time_from = $time_to-60*60*24*30;
+				$scale = self::SCALE_MONTH;
+				break;					
+		}
+		
+		$mode_options = array(
+				self::MODE_WEEK => $lng->txt("trac_session_statistics_mode_week"),
+				self::MODE_MONTH => $lng->txt("trac_session_statistics_mode_month")
+			);		
+		
+		$title = $lng->txt("trac_long_system_load")." - ".$mode_options[$mode];		
+		$data = $this->buildData($time_from, $time_to, $title);			
+		
+		if(!$a_export)
+		{		
+			// toolbar
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "long"));						
+
+			$start_selector = new ilDateTimeInputGUI($lng->txt("trac_end_at"), "sst");
+			$start_selector->setDate(new ilDate($time_to, IL_CAL_UNIX));
+			$ilToolbar->addInputItem($start_selector, true);
+
+			$mode_selector = new ilSelectInputGUI("&nbsp;".$lng->txt("trac_scale"), "smd");
+			$mode_selector->setOptions($mode_options);		
+			$mode_selector->setValue($mode);
+			$ilToolbar->addInputItem($mode_selector, true);
+
+			$ilToolbar->addFormButton($lng->txt("ok"), "long");
+			
+			$ilToolbar->addSeparator();
+			$ilToolbar->addFormButton($lng->txt("export"), "longExport");
+												
+			$tpl->setContent($this->render($data, $scale));		
+		}
+		else
+		{
+			$this->exportCSV($data);			
+		}
+	}
+	
+	protected function longExport()
+	{
+		$this->long(true);
+	}
+	
+	protected function periodic($a_export = false)
+	{
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		$ilTabs->activateSubTab("periodic");
+		
+		// current start
+		if(!$_REQUEST["sst"])
+		{
+			$_REQUEST["sst"] = date("Y-m-d");
+		}
+		else
+		{
+		   $org = $_REQUEST["sst"]["date"];
+		   $_REQUEST["sst"] = $org["y"].
+				"-".str_pad($org["m"], 2, "0", STR_PAD_LEFT).
+				"-".str_pad($org["d"], 2, "0", STR_PAD_LEFT);
+		}
+		$start = $_REQUEST["sst"];
+		
+		// current end
+		if(!$_REQUEST["sto"])
+		{
+			$_REQUEST["sto"] = date("Y-m-d", strtotime("-7 days"));
+		}
+		else
+		{
+		   $org = $_REQUEST["sto"]["date"];
+		   $_REQUEST["sto"] = $org["y"].
+				"-".str_pad($org["m"], 2, "0", STR_PAD_LEFT).
+				"-".str_pad($org["d"], 2, "0", STR_PAD_LEFT);
+		}
+		$end = $_REQUEST["sto"];
+	
+				
+		$time_to = mktime(23, 59, 59, substr($start, 5, 2), substr($start, 8, 2),
+			substr($start, 0, 4));	
+		$time_from = mktime(0, 0, 1, substr($end, 5, 2), substr($end, 8, 2),
+			substr($end, 0, 4));	
+		
+		// mixed up dates?
+		if($time_to < $time_from)
+		{
+			$tmp = $time_to;
+			$time_to = $time_from;
+			$time_from = $tmp;
+		}
+										
+		$title = $lng->txt("trac_periodic_system_load");
+		$data = $this->buildData($time_from, $time_to, $title);			
+		$data["active"] = $this->buildPeriodicData($data["active"]);		
+				
+		if(!$a_export)
+		{			
+			// toolbar	
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "periodic"));			
+			
+			$end_selector = new ilDateTimeInputGUI($lng->txt("trac_begin_at"), "sto");
+			$end_selector->setDate(new ilDate($end, IL_CAL_DATE));
+			$ilToolbar->addInputItem($end_selector, true);
+
+			$start_selector = new ilDateTimeInputGUI($lng->txt("trac_end_at"), "sst");
+			$start_selector->setDate(new ilDate($start, IL_CAL_DATE));
+			$ilToolbar->addInputItem($start_selector, true);
+
+			$ilToolbar->addFormButton($lng->txt("ok"), "periodic");
+			
+			$ilToolbar->addSeparator();
+			$ilToolbar->addFormButton($lng->txt("export"), "periodicExport");
+			
+			$tpl->setContent($this->render($data, self::SCALE_PERIODIC_WEEK));	
+		}
+		else
+		{			
+			$this->exportCSV($data);
+		}
+	}
+	
+	protected function periodicExport()
+	{
+		$this->periodic(true);
+	}
+	
+	protected function renderCurrentBasics()
+	{
+		global $ilSetting, $lng, $ilCtrl;
+		
 		// basic data - not time related
 		
 		include_once "Services/Authentication/classes/class.ilSessionControl.php";
@@ -68,7 +444,7 @@ class ilSessionStatisticsGUI
 		
 		$last_maxed_out = new ilDateTime(ilSessionStatistics::getLastMaxedOut(), IL_CAL_UNIX);
 		$last_aggr = new ilDateTime(ilSessionStatistics::getLastAggregation(), IL_CAL_UNIX);
-		
+				
 		
 		// build left column
 		
@@ -109,37 +485,22 @@ class ilSessionStatisticsGUI
 			$left->parseCurrentBlock();
 		}
 		
+		// sync button		
+		$left->setVariable("URL_SYNC", $ilCtrl->getFormAction($this, "adminSync"));		
+		$left->setVariable("CMD_SYNC", "adminSync");		
+		$left->setVariable("TXT_SYNC", $lng->txt("trac_sync_session_stats"));		
 		
-		$tpl->setLeftContent($left->get());
-		
+		return $left->get();
+	}
+	
+	protected function buildData($a_time_from, $a_time_to, $a_title)
+	{
+		global $lng;								
 		
 		// basic data - time related
 		
-		switch($mode)
-		{
-			case self::MODE_TODAY:
-				$time_from = strtotime("today"); 
-				$time_to = strtotime("tomorrow")-1;
-				break;
-			
-			case self::MODE_DAY:				
-				$time_to = time();
-				$time_from = $time_to-60*60*24;
-				break;		
-			
-			case self::MODE_WEEK:				
-				$time_to = time();
-				$time_from = $time_to-60*60*24*7;
-				break;		
-			
-			case self::MODE_MONTH:				
-				$time_to = time();
-				$time_from = $time_to-60*60*24*30;
-				break;		
-		}
-			
-		$maxed_out_duration = round(ilSessionStatistics::getMaxedOutDuration($time_from, $time_to)/60);	
-		$counters = ilSessionStatistics::getNumberOfSessionsByType($time_from, $time_to);			
+		$maxed_out_duration = round(ilSessionStatistics::getMaxedOutDuration($a_time_from, $a_time_to)/60);	
+		$counters = ilSessionStatistics::getNumberOfSessionsByType($a_time_from, $a_time_to);			
 		$opened = (int)$counters["opened"];
 		$closed_limit = (int)$counters["closed_limit"];
 		unset($counters["opened"]);
@@ -148,143 +509,203 @@ class ilSessionStatisticsGUI
 		
 		// build center column
 		
-		$center = new ilTemplate("tpl.session_statistics_center.html", true, true, "Services/Authentication");
-		
+		$data = array();
 			
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "view"));			
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		
-		$mode_options = array(
-			self::MODE_TODAY => $lng->txt("trac_session_statistics_mode_today"),
-			self::MODE_DAY => $lng->txt("trac_session_statistics_mode_day"),
-			self::MODE_WEEK => $lng->txt("trac_session_statistics_mode_week"),
-			self::MODE_MONTH => $lng->txt("trac_session_statistics_mode_month"));
-		
-		$mode_selector = new ilSelectInputGUI("", "smd");
-		$mode_selector->setOptions($mode_options);		
-		$mode_selector->setValue($mode);
-		$ilToolbar->addInputItem($mode_selector);
-		
-		$measure_options = array(
-			"avg" => $lng->txt("trac_session_active_avg"),
-			"min" => $lng->txt("trac_session_active_min"),
-			"max" => $lng->txt("trac_session_active_max"));
-		
-		$measure_selector = new ilSelectInputGUI("", "smm");
-		$measure_selector->setOptions($measure_options);		
-		$measure_selector->setValue($measure);
-		$ilToolbar->addInputItem($measure_selector);
-		
-		$ilToolbar->addFormButton($lng->txt("ok"), "view");
-		
-		$ilToolbar->addSeparator();		
-		$ilToolbar->addButton($lng->txt("trac_sync_session_stats"),
-			$ilCtrl->getLinkTarget($this, "adminSync"));
-		
-		
-		$center->setVariable("CAPTION_MAXED_OUT_TIME", $lng->txt("trac_maxed_out_time"));
-		$center->setVariable("VALUE_MAXED_OUT_TIME", $maxed_out_duration);
-		$center->setVariable("CAPTION_MAXED_OUT_COUNTER", $lng->txt("trac_maxed_out_counter"));
-		$center->setVariable("VALUE_MAXED_OUT_COUNTER", $closed_limit);
-		$center->setVariable("CAPTION_OPENED", $lng->txt("trac_sessions_opened"));
-		$center->setVariable("VALUE_OPENED", $opened);
-		$center->setVariable("CAPTION_CLOSED", $lng->txt("trac_sessions_closed"));
-		$center->setVariable("VALUE_CLOSED", array_sum($counters));
-		
-		$center->setCurrentBlock("closed_details");
+		ilDatePresentation::setUseRelativeDates(false);		
+		$data["title"] = $a_title." (".
+			ilDatePresentation::formatPeriod(new ilDateTime($a_time_from, IL_CAL_UNIX),
+				new ilDateTime($a_time_to, IL_CAL_UNIX)).")";
+			
+		$data["maxed_out_time"] = array($lng->txt("trac_maxed_out_time"), $maxed_out_duration);
+		$data["maxed_out_counter"] = array($lng->txt("trac_maxed_out_counter"), $closed_limit);
+		$data["opened"] = array($lng->txt("trac_sessions_opened"), $opened);
+		$data["closed"] = array($lng->txt("trac_sessions_closed"), array_sum($counters));
 		foreach($counters as $type => $counter)
 		{
-			$center->setVariable("CAPTION_CLOSED_DETAILS", $lng->txt("trac_".$type));
-			$center->setVariable("VALUE_CLOSED_DETAILS", (int)$counter);
-			$center->parseCurrentBlock();
+			$data["closed_details"][] = array($lng->txt("trac_".$type), (int)$counter);
+		}		
+				
+		$data["active"] = ilSessionStatistics::getActiveSessions($a_time_from, $a_time_to);
+		
+		return $data;		
+	}
+	
+	protected function render($a_data, $a_scale, $a_measure = null)
+	{			
+		global $lng;
+		
+		$center = new ilTemplate("tpl.session_statistics_center.html", true, true, "Services/Authentication");		
+		
+		foreach($a_data as $idx => $item)
+		{
+			switch($idx)
+			{
+				case "active":					
+				case "title":
+					// nothing to do
+					break;
+				
+				case "closed_details":
+					$center->setCurrentBlock("closed_details");
+					foreach($item as $detail)
+					{
+						$center->setVariable("CAPTION_CLOSED_DETAILS", $detail[0]);
+						$center->setVariable("VALUE_CLOSED_DETAILS", $detail[1]);
+						$center->parseCurrentBlock();
+					}				
+					break;
+				
+				default:			
+					$tpl_var = strtoupper($idx);
+					$center->setVariable("CAPTION_".$tpl_var, $item[0]);
+					$center->setVariable("VALUE_".$tpl_var, $item[1]);
+					break;			
+			}
 		}
 		
-		
-		ilDatePresentation::setUseRelativeDates(false);
-		$title = $lng->txt("session_statistics")." - ".$mode_options[$mode]." (".
-			ilDatePresentation::formatPeriod(new ilDateTime($time_from, IL_CAL_UNIX),
-			new ilDateTime($time_to, IL_CAL_UNIX)).")";
-		
-		$active = ilSessionStatistics::getActiveSessions($time_from, $time_to);
-		if($active)
+		if($a_data["active"])
 		{
-			$center->setVariable("CHART", $this->getChart($active, $title, $mode, $measure));
+			$center->setVariable("CHART", $this->getChart($a_data["active"], $a_data["title"], $a_scale, $a_measure));
 		}
 		else
 		{
 			ilUtil::sendInfo($lng->txt("trac_session_statistics_no_data"));
 		}
 				
-		$tpl->setContent($center->get());
+		return $center->get();					
 	}
-	
+			
 	/**
 	 * Build chart for active sessions
 	 * 
 	 * @param array $a_data
 	 * @param string $a_title
-	 * @param int $a_mode
-	 * @param string $a_measure
+	 * @param int $a_scale
+	 * @param array $a_measure
 	 * @return string 
 	 */
-	function getChart($a_data, $a_title, $a_mode = self::MODE_TODAY, $a_measure = "avg")
+	protected function getChart($a_data, $a_title, $a_scale = self::SCALE_DAY, $a_measure = null)
 	{
 		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = new ilChart("objstacc", 700, 500);
 		$chart->setYAxisToInteger(true);
-		$chart->setColors(array("#3377ff", "#ff0000"));
 		
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 
-		$act_line = new ilChartData("lines");
-		$act_line->setLineSteps(true);
-		$act_line->setLabel($lng->txt("trac_session_active_".$a_measure));
+		if(!$a_measure)
+		{
+			$a_measure = array("min", "avg", "max");
+		}
+		else if(!is_array($a_measure))
+		{
+			$a_measure = array($a_measure);
+		}
+
+		$colors_map = array("min" => "#00cc00",
+			"avg" => "#0000cc",
+			"max" => "#cc00cc");
+		
+		$colors = $act_line = array();		
+		foreach($a_measure as $measure)
+		{
+			$act_line[$measure] = new ilChartData("lines");
+			$act_line[$measure]->setLineSteps(true);
+			$act_line[$measure]->setLabel($lng->txt("trac_session_active_".$measure));
+			$colors[] = $colors_map[$measure];
+		}
 		
 		$max_line = new ilChartData("lines");
 		$max_line->setLabel($lng->txt("session_max_count"));
+		$colors[] = "#cc0000";
 	
+		$chart->setColors($colors);		
+		
 		$scale = ceil(sizeof($a_data)/5);
 		$labels = array();
 		foreach($a_data as $idx => $item)
 		{
 		    $date = $item["slot_begin"];
-			$value = (int)$item["active_".$a_measure];
 			
-			if(!($idx % ceil($scale)))
+			if($a_scale == self::SCALE_PERIODIC_WEEK || !($idx % ceil($scale)))
 			{
-				switch($a_mode)
+				switch($a_scale)
 				{
-					case self::MODE_TODAY:
-					case self::MODE_DAY:
+					case self::SCALE_DAY:
 						$labels[$date] = date("H:i", $date);
 						break;
 					
-					case self::MODE_WEEK:
+					case self::SCALE_WEEK:
 						$labels[$date] = date("d.m. H", $date)."h";
 						break;
 					
-					case self::MODE_MONTH:
+					case self::SCALE_MONTH:
 						$labels[$date] = date("d.m.", $date);
+						break;
+					
+					case self::SCALE_PERIODIC_WEEK:	
+						$date = $item["weekday"];						
+						$labels[$date] = ilCalendarUtil::_numericDayToString($date);
 						break;
 				}
 			}
 			
-			$act_line->addPoint($date, $value);			
+			foreach($a_measure as $measure)
+			{								
+				$value = (int)$item["active_".$measure];						
+				$act_line[$measure]->addPoint($date, $value);	
+			}
+			
 			$max_line->addPoint($date, (int)$item["max_sessions"]);
-		}
+		}		
 		
-		$chart->addData($act_line);
-		$chart->addData($max_line);
+		foreach($act_line as $line)
+		{
+			$chart->addData($line);
+		}		
+		if($a_scale != self::SCALE_PERIODIC_WEEK)
+		{	
+			$chart->addData($max_line);
+		}
 		
 		$chart->setTicks($labels, null, true);
 
 		return $chart->getHTML();
 	}
 	
-	function adminSync()
+	protected function buildPeriodicData(array $a_data)
+	{
+		$tmp = array();
+		foreach($a_data as $item)
+		{
+			$day = date("w", $item["slot_begin"]);		
+			if(!$day)
+			{
+				$day = 7;
+			}
+			foreach($item as $id => $value)
+			{
+				if($id != "slot_begin" && $id != "slot_end")
+				{					
+					$tmp[$day][$id][] = $value; 
+				}					
+			}			
+		}
+		foreach($tmp as $day => $attr)
+		{
+			foreach($attr as $id => $values)
+			{
+				$tmp[$day][$id] = (int)round(array_sum($values)/sizeof($values));	
+			}
+			$tmp[$day]["weekday"] = $day;				
+		}
+		ksort($tmp);
+		return $tmp;
+	}
+	
+	protected function adminSync()
 	{
 		global $ilCtrl, $lng;
 		
@@ -293,6 +714,92 @@ class ilSessionStatisticsGUI
 		ilUtil::sendSuccess($lng->txt("trac_sync_session_stats_success"), true);
 		$ilCtrl->redirect($this);
 	}
+	
+	protected function exportCSV(array $a_data)
+	{
+		global $lng, $ilClientIniFile, $ilUser;
+		
+	    ilDatePresentation::setUseRelativeDates(false);
+		include_once './classes/class.ilLink.php';
+		
+		include_once "./Services/Utilities/classes/class.ilCSVWriter.php";
+	    $csv = new ilCSVWriter();
+		$csv->setSeparator(";");
+		
+		$now = time();
+		
+		// meta
+		$meta = array(
+			$lng->txt("trac_name_of_installation") => $ilClientIniFile->readVariable('client', 'name'),
+			$lng->txt("trac_report_date") =>
+				ilDatePresentation::formatDate(new ilDateTime($now, IL_CAL_UNIX), IL_CAL_DATETIME),
+			$lng->txt("trac_report_owner") => $ilUser->getFullName(),
+			);		
+		foreach($a_data as $idx => $item)
+		{
+			switch($idx)
+			{
+				case "title":
+					$meta[$lng->txt("title")] = $item;
+					break;
+				
+				case "active":					
+					// nothing to do
+					break;
+				
+				case "closed_details":					
+					foreach($item as $detail)
+					{
+						$meta[$a_data["closed"][0]." - ".$detail[0]] = $detail[1];
+					}				
+					break;
+				
+				default:	
+					$meta[$item[0]] = $item[1];
+					break;			
+			}
+		}		
+		foreach($meta as  $caption => $value)
+		{
+			$csv->addColumn(strip_tags($caption));
+			$csv->addColumn(strip_tags($value));
+			$csv->addRow();
+		}
+		$csv->addRow();
+		
+		// header
+		$first = $a_data["active"];
+		$first = array_keys(array_shift($first));
+		foreach ($first as $column)
+		{			
+			$csv->addColumn(strip_tags($column));
+		}
+		$csv->addRow();
+		
+		// data
+		foreach($a_data["active"] as $row)
+		{
+			foreach ($row as $value)
+			{
+				if(is_array($value))
+				{
+					$value = implode(', ', $value);
+				}
+				$csv->addColumn(strip_tags($value));
+			}
+			$csv->addRow();
+		}		
+		
+		// send
+		$filename .= "session_statistics_".date("Ymd", $now).".csv";
+		header("Content-type: text/comma-separated-values");
+		header("Content-Disposition: attachment; filename=\"".$filename."\"");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
+		header("Pragma: public");
+		echo $csv->getCSVString();		
+		exit();
+	}														
 }
 
 ?>
