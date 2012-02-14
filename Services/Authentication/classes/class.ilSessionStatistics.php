@@ -428,7 +428,8 @@ class ilSessionStatistics
 			" max_sessions".
 			" FROM usr_session_stats".
 			" WHERE slot_end > ".$ilDB->quote($a_from, "integer").
-			" AND slot_begin < ".$ilDB->quote($a_to, "integer");
+			" AND slot_begin < ".$ilDB->quote($a_to, "integer").
+			" ORDER BY slot_begin";
 		$res = $ilDB->query($sql);
 		$all = array();
 		while($row = $ilDB->fetchAssoc($res))

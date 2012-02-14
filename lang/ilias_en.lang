@@ -12425,9 +12425,9 @@ trac#:#trac_closed_idle#:#Idle Time
 trac#:#trac_closed_idle_first#:#Idle Time (1st Request)
 trac#:#trac_closed_login#:#Anonymous To Login
 trac#:#trac_session_statistics_mode_today#:#Today
-trac#:#trac_session_statistics_mode_day#:#Last 24 Hours
-trac#:#trac_session_statistics_mode_week#:#Last 7 Days
-trac#:#trac_session_statistics_mode_month#:#Last 30 Days
+trac#:#trac_session_statistics_mode_last_day#:#Last 24 Hours
+trac#:#trac_session_statistics_mode_last_week#:#Last 7 Days
+trac#:#trac_session_statistics_mode_last_month#:#Last 30 Days
 trac#:#trac_session_active_avg#:#Active Sessions (Average)
 trac#:#trac_session_active_min#:#Active Sessions (Minimum)
 trac#:#trac_session_active_max#:#Active Sessions (Maximum)
@@ -12439,3 +12439,14 @@ crs#:#crs_status_determination#:#Determination
 crs#:#crs_status_determination_manual#:#Independent of Learning Progress
 crs#:#crs_status_determination_lp#:#Sync with Learning Progress
 crs#:#crs_status_determination_sync#:#Sync status with learning progress of all members now
+trac#:#trac_session_statistics_mode_day#:#Day
+trac#:#trac_session_statistics_mode_week#:#Week
+trac#:#trac_session_statistics_mode_month#:#Month
+trac#:#trac_current_system_load#:#Current System Load
+trac#:#trac_short_system_load#:#Short term
+trac#:#trac_long_system_load#:#Long term
+trac#:#trac_periodic_system_load#:#Periodic 
+trac#:#trac_begin_at#:#Start date
+trac#:#trac_scale#:#Scale
+trac#:#trac_measure#:#Figure
+trac#:#trac_end_at#:#End Date
