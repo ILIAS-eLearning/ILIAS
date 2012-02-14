@@ -288,50 +288,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				
 		$this->addHeaderAction();
 		
-		if (ilObjWiki::isOnlineHelpWiki($this->getWikiRefId()))
-		{
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-			$ilToolbar->addFormButton($lng->txt("wiki_add_help_page"),
-				"addOHPage");
-		}
-
-		// other actions
-		/*
-if (false)	// currently moved to ilWikiFunctionsBlockGUI
-{
-		// delete
-		$page_commands = false;
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-			// rename
-			$list->addItem($lng->txt("wiki_rename_page"), "",
-				$ilCtrl->getLinkTarget($this, "renameWikiPage"));
-
-			// block/unblock
-			if ($this->getPageObject()->getBlocked())
-			{
-				$list->addItem($lng->txt("wiki_unblock_page"), "",
-					$ilCtrl->getLinkTarget($this, "unblockWikiPage"));
-			}
-			else
-			{
-				$list->addItem($lng->txt("wiki_block_page"), "",
-					$ilCtrl->getLinkTarget($this, "blockWikiPage"));
-			}
-
-			// delete page
-			$st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
-			if ($st_page != $this->getPageObject()->getTitle())
-			{
-				$list->addItem($lng->txt("wiki_delete_page"), "",
-					$ilCtrl->getLinkTarget($this, "deleteWikiPageConfirmationScreen"));
-			}
-		}
-}		 
-*/
-				
 		// content
-		
 		$this->setSideBlock();
 		
 		$wtpl = new ilTemplate("tpl.wiki_page_view_main_column.html",

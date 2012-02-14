@@ -15,6 +15,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilObjTaxonomyGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -121,6 +122,13 @@ class ilObjWikiGUI extends ilObjectGUI
 					$this->object->update();
 					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
 				}
+				break;
+				
+			case "ilobjtaxonomygui":
+				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				$this->ctrl->setReturn($this, "editTaxonomySettings");
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$ret = $this->ctrl->forwardCommand($style_gui);
 				break;
 
 			case "ilexportgui":
@@ -507,6 +515,13 @@ class ilObjWikiGUI extends ilObjectGUI
 			$ilTabs->addSubTab("imp_pages",
 				$lng->txt("wiki_navigation"),
 				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
+			
+			if (ilObjWiki::isOnlineHelpWiki($this->object->sgetRefId()))
+			{
+				$ilTabs->addSubTab("taxonomy",
+					$lng->txt("wiki_taxonomy"),
+					$ilCtrl->getLinkTarget($this, 'editTaxonomySettings'));
+			}
 
 			$ilTabs->activateSubTab($a_active);
 		}
@@ -1532,5 +1547,26 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 	}
 
+	////
+	//// Taxonomy related stuff
+	////
+	
+	/**
+	 * Edit ta
+	 *
+	 * @param
+	 * @return
+	 */
+	function taxonomySettingsObject()
+	{
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		
+		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getObjId());
+		
+		if (count($tax_ids) == 0)
+		{
+		}
+	}
+	
 }
 ?>
