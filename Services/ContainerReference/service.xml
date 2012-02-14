@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="cntr">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+	</objects>
+	<events>		
+		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Modules/Category" />
+	</events>
+</service>

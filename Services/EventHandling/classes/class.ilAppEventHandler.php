@@ -54,25 +54,44 @@
 */
 class ilAppEventHandler
 {
+	protected $listener; // [array]
+	
 	/**
 	* Constructor
 	*/
 	function __construct()
 	{
-		// this information should be determined by service/module
-		// xml files in the future
+		/* moved to respective module.xml/service.xml
 		$this->listener["Services/News"] = array("Modules/Forum");
 		$this->listener['Modules/Group'] = array('Services/Calendar');
 		$this->listener['Modules/Session'] = array('Services/Calendar');
-		$this->listener['Modules/Course'] = array('Services/Calendar','Services/WebServices/ECS','Services/ContainerReference');
+		$this->listener['Modules/Course'] = array('Services/Calendar',
+		    'Services/WebServices/ECS','Services/ContainerReference');
 		$this->listener['Modules/Category'] = array('Services/ContainerReference');
 		$this->listener['Modules/RemoteCourse'] = array('Services/WebServices/ECS');
 		$this->listener["Services/Object"] = array("Services/Tagging",'Services/Search',
 			'Modules/MediaPool');
 		$this->listener['Services/Authentication'] = array();
 		$this->listener['Services/Tracking'] = array('Modules/Course');
+		*/
+						
+		$this->initListeners();
 	}
 	
+	protected function initListeners()
+	{
+		global $ilDB;
+		
+		$this->listener = array();
+		
+		$sql = "SELECT * FROM il_event_handling".
+			" WHERE type = ".$ilDB->quote("listen", "text");
+		$res = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$this->listener[$row["id"]][] = $row["component"];
+		}
+	}	
 	
 	/**
 	* Raise an event. The event is passed to all interested listeners.

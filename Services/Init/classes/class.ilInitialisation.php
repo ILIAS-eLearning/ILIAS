@@ -1056,9 +1056,6 @@ class ilInitialisation
 		// CLIENT_ID determination
 		$this->determineClient();
 
-		// $ilAppEventHandler initialisation
-		$this->initEventHandling();
-
 		// $ilClientIniFile initialisation
 		if (!$this->initClientIniFile())
 		{
@@ -1105,6 +1102,9 @@ class ilInitialisation
 
 		// $ilDB initialisation
 		$this->initDatabase();
+
+		// $ilAppEventHandler initialisation
+		$this->initEventHandling();
 
 		// init plugin admin class
 		include_once("./Services/Component/classes/class.ilPluginAdmin.php");

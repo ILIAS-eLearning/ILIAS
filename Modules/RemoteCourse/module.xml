@@ -11,4 +11,7 @@
 			<parent id="cat">cat</parent>
 		</object>
 	</objects>
+	<events>		
+		<event type="raise" id="create" />
+	</events>
 </module>
