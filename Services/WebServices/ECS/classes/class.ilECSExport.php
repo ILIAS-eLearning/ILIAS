@@ -176,6 +176,27 @@ class ilECSExport
 		}
 		return $obj_ids ? $obj_ids : array();
 	}
+
+	/**
+	 * Lookup server ids of exported objects
+	 * @global ilDB $ilDB
+	 * @param <type> $a_obj_id
+	 * @return <type>
+	 */
+	public static function lookupServerIds($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT * FROM ecs_export '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' ';
+		$res = $ilDB->query($query);
+		$sids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$sids[] = $row->server_id;
+		}
+		return $sids;
+	}
 	
 	/**
 	 * Delete econtent ids for server

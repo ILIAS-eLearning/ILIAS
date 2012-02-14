@@ -95,9 +95,11 @@ class ilECSReleasedContentTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_START',$this->lng->txt('ecs_field_begin'));
 		$this->tpl->setVariable('TXT_END',$this->lng->txt('ecs_field_end'));
 		$this->tpl->setVariable('TXT_LECTURER',$this->lng->txt('ecs_field_lecturer'));
-		
+
+
+		$sid = array_pop($a_set['sids']);
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		$settings = ilECSDataMappingSettings::_getInstance();
+		$settings = ilECSDataMappingSettings::getInstanceByServerId($sid);
 		
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		
@@ -170,6 +172,9 @@ class ilECSReleasedContentTableGUI extends ilTable2GUI
 		
 		foreach($obj_ids as $ref_id => $obj_id)
 		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
+
+			$tmp_arr['sids'] = ilECSExport::lookupServerIds($obj_id);
 			$tmp_arr['ref_id'] = $ref_id;
 			$tmp_arr['obj_id'] = $obj_id;
 			$tmp_arr['title'] = $ilObjDataCache->lookupTitle($obj_id);
