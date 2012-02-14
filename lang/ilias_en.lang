@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2011 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -3773,7 +3773,7 @@ common#:#obj_ps#:#Privacy and Security
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test
 common#:#obj_qpl_select#:#-- Please select one Question Pool Test --
 common#:#obj_qpl#:#Question Pool Test
-common#:#obj_rcrs#:#Course-Link
+common#:#obj_rcrs#:#ECS Course-Link
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_recf#:#Restored Objects
 common#:#obj_role#:#Role
@@ -3869,7 +3869,7 @@ common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
 common#:#objs_qpl#:#Question Pools Test
 common#:#objs_qst#:#Questions
-common#:#objs_rcrs#:#Course-Links
+common#:#objs_rcrs#:#ECS Course-Links
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
 common#:#objs_sahs#:#SCORM/AICC Learning Modules
@@ -6675,11 +6675,11 @@ ecs#:#ecs_protocol#:#Protocol
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_published_for#:#Published for:
-ecs#:#ecs_rcrs_created_body_a#:#A new Remote Course has been created:
+ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course-Link has been created:
 ecs#:#ecs_read_remote_links#:#Update Remote-Courses
 ecs#:#ecs_released_content#:#Released E-Content
 ecs#:#ecs_released#:#Released Courses
-ecs#:#ecs_remote_imported#:#Information about remote courses has been refreshed.
+ecs#:#ecs_remote_imported#:#Information about ECS Course-Links has been refreshed.
 ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
 ecs#:#ecs_role#:#Role Assignment
 ecs#:#ecs_server_settings#:#ECS Functionalities
@@ -8818,7 +8818,7 @@ rbac#:#cals_visible#:#Calendar settings are visible
 rbac#:#cals_write#:#Edit Calendar settings
 rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create new Course Reference
-rbac#:#cat_create_rcrs#:#Create Course-Links
+rbac#:#cat_create_rcrs#:#Create ECS Course-Link
 rbac#:#cat_create_wiki#:#Create Wiki
 rbac#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
@@ -8892,11 +8892,11 @@ rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to t
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
-rbac#:#rcrs_delete#:#Delete Course-Link
+rbac#:#rcrs_delete#:#Delete ECS Course-Link
 rbac#:#rcrs_edit_permission#:#Change permission settings
-rbac#:#rcrs_read#:#Read access to Course-Link
-rbac#:#rcrs_visible#:#Course-Link is visible
-rbac#:#rcrs_write#:#Edit Course-Link
+rbac#:#rcrs_read#:#Read access to ECS Course-Link
+rbac#:#rcrs_visible#:#ECS Course-Link is visible
+rbac#:#rcrs_write#:#Edit ECS Course-Link
 rbac#:#recf_edit_permission#:#Change permission settings
 rbac#:#recf_read#:#Read access to Restored Objects
 rbac#:#recf_visible#:#Restored Objects are visible
@@ -8918,7 +8918,7 @@ rbac#:#root_create_lm#:#Create ILIAS Learning Module
 rbac#:#root_create_mcst#:#Create Mediacast
 rbac#:#root_create_mep#:#Create Media Pool
 rbac#:#root_create_qpl#:#Create Question Pool Test
-rbac#:#root_create_rcrs#:#Create Course-Link
+rbac#:#root_create_rcrs#:#Create ECS Course-Link
 rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
 rbac#:#root_create_spl#:#Create Question Pool Survey
 rbac#:#root_create_svy#:#Create Survey
@@ -8935,7 +8935,7 @@ rbac#:#svyf_edit_permission#:#Change permission settings
 rbac#:#svyf_read#:#Read access to survey settings
 rbac#:#svyf_visible#:#Survey settings are visible
 rbac#:#svyf_write#:#Edit survey settings
-rcrs#:#rcrs_call#:#Call Remote Course
+rcrs#:#rcrs_call#:#Call ECS Course-Link
 rcrs#:#rcrs_general_info#:#General Information
 rcrs#:#rcrs_local_informations#:#Further Information
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
@@ -11653,7 +11653,7 @@ assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been
 ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
-ecs#:#ecs_mapping_rcrs#:#Mapping for Remote Courses
+ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Course-Link
 ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data
 content#:#cont_edit_personal_data#:#Edit Personal Data
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
