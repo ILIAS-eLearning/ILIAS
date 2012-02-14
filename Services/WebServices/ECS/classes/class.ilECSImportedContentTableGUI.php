@@ -113,9 +113,9 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('TXT_START',$this->lng->txt('ecs_field_begin'));
 		$this->tpl->setVariable('TXT_END',$this->lng->txt('ecs_field_end'));
 		$this->tpl->setVariable('TXT_LECTURER',$this->lng->txt('ecs_field_lecturer'));
-		
+
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		$settings = ilECSDataMappingSettings::_getInstance();
+		$settings = ilECSDataMappingSettings::getInstanceByServerId($a_set['sid']);
 		
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		
@@ -180,15 +180,8 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		// Read participants
 		include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
 		include_once('./Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
-		try
-		{
-			$reader = ilECSCommunityReader::_getInstance();
-		}
-		catch(ilECSConnectorException $e)
-		{
-			$reader = null;
-		}
-		
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+
 		// read obj_ids
 		$obj_ids = array();
 		foreach($a_rcrs as $rcrs_ref_id)
@@ -200,11 +193,20 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		foreach($obj_ids as $obj_id => $obj_id)
 		{
 			$tmp_arr['obj_id'] = $obj_id;
+			$tmp_arr['sid'] = ilECSImport::lookupServerId($obj_id);
 			$tmp_arr['title'] = $ilObjDataCache->lookupTitle($obj_id);
 			$tmp_arr['desc'] = $ilObjDataCache->lookupDescription($obj_id);
 			$tmp_arr['md'] = '';
 			
-			$mid = ilObjRemoteCourse::_lookupMID($obj_id);		
+			$mid = ilObjRemoteCourse::_lookupMID($obj_id);
+
+			try {
+				$reader = ilECSCommunityReader::getInstanceByServerId($tmp_arr['sid']);
+			}
+			catch(ilECSConnectorException $e)
+			{
+				$reader = null;
+			}
 					
 			if($reader and ($participant = $reader->getParticipantByMID($mid)))
 			{
@@ -217,6 +219,5 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		
 	 	$this->setData($content ? $content : array());
 	}
-	
 }
 ?>
