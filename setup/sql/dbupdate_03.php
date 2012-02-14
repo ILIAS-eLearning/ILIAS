@@ -8848,3 +8848,33 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3523>
+<?php
+	if(!$ilDB->tableExists('il_event_handling'))
+	{
+		$fields = array(
+			'component' => array(
+				'type' => 'text',
+				'length' => 50,
+				'notnull' => true,
+				'fixed' => false
+			),
+			'type' => array(
+				'type' => 'text',
+				'length' => 10,
+				'notnull' => true,
+				'fixed' => false
+			),
+			'id' => array(
+				'type' => 'text',
+				'length' => 100,
+				'notnull' => true,
+				'fixed' => false
+			));
+		$ilDB->createTable('il_event_handling', $fields);
+	}
+?>
+<#3524>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

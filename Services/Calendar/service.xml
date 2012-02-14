@@ -10,4 +10,9 @@
 			<parent id="adm" max="1">adm</parent>
 		</object>
 	</objects>
+	<events>		
+		<event type="listen" id="Modules/Group" />
+		<event type="listen" id="Modules/Session" />
+		<event type="listen" id="Modules/Course" />
+	</events>
 </service>

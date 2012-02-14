@@ -16,4 +16,7 @@
 			<parent id="root">root</parent>
 		</object>
 	</objects>
+	<events>		
+		<event type="listen" id="Services/Object" />
+	</events>
 </module>

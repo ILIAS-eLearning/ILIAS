@@ -64,6 +64,8 @@ class ilObjDefReader extends ilSaxParser
 		$ilDB->manipulate("DELETE FROM il_pluginslot");
 		
 		$ilDB->manipulate("DELETE FROM il_component");
+		
+		$ilDB->manipulate("DELETE FROM il_event_handling");
 	}
 
 	/**
@@ -163,6 +165,19 @@ class ilObjDefReader extends ilSaxParser
 					$ilDB->quote($this->current_component, "text").",".
 					$ilDB->quote($a_attribs["id"], "text").",".
 					$ilDB->quote($a_attribs["name"], "text").")";
+				$ilDB->manipulate($q);
+				break;
+			
+			case "event":
+				$component = $a_attribs["component"];
+				if(!$component)
+				{
+					$component = $this->current_component;
+				}				
+				$q = "INSERT INTO il_event_handling (component, type, id) VALUES (".
+					$ilDB->quote($component, "text").",".
+					$ilDB->quote($a_attribs["type"], "text").",".
+					$ilDB->quote($a_attribs["id"], "text").")";
 				$ilDB->manipulate($q);
 				break;
 		}
