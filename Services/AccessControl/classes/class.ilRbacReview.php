@@ -872,8 +872,7 @@ class ilRbacReview
 		global $ilDB;
 
 		$query = 'SELECT COUNT(DISTINCT(usr_id)) as num FROM rbac_ua '.
-			'WHERE '.$ilDB->in('rol_id', $a_roles, false, 'integer').' '.
-			'GROUP BY usr_id';
+			'WHERE '.$ilDB->in('rol_id', $a_roles, false, 'integer').' ';
 
 		$res = $ilDB->query($query);
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
