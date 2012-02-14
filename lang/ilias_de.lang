@@ -1,4 +1,4 @@
-//* Copyright (c) 1998-2011 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+//* Copyright (c) 1998-2012 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -4217,7 +4217,7 @@ common#:#obj_adm#:#Administration
 common#:#obj_adve_desc#:#Administrationseinstellungen für den ILIAS Editor und TinyMCE.
 common#:#obj_adve#:#Editor
 common#:#obj_alm#:#Lernmodul AICC
-common#:#obj_ass#:#Asset###22 03 2011 new variable
+common#:#obj_ass#:#Asset
 common#:#obj_assf_desc#:#Protokollieren Sie Aktivitäten in Tests und werten Sie diese aus.
 common#:#obj_assf#:#Test und Assessment
 common#:#obj_auth_desc#:#Konfigurieren Sie hier die Art der Benutzerauthentifizierung (Lokal, LDAP, CAS, ...) sowie die Neuanmeldungen.
@@ -4312,7 +4312,7 @@ common#:#obj_ps#:#Datenschutz und Serversicherheit
 common#:#obj_qpl_duplicate#:#Fragenpool für Test kopieren
 common#:#obj_qpl_select#:#-- Bitte wählen Sie einen Fragenpool für Test aus --
 common#:#obj_qpl#:#Fragenpool für Test
-common#:#obj_rcrs#:#Externer Kurs
+common#:#obj_rcrs#:#ECS-Kurslink
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_role#:#Rolle
@@ -4416,7 +4416,7 @@ common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
 common#:#objs_qpl#:#Fragenpools für Tests
 common#:#objs_qst#:#Fragen
-common#:#objs_rcrs#:#Externe Kurse
+common#:#objs_rcrs#:#ECS-Kurslink
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_sahs#:#SCORM/AICC-Lernmodule
@@ -5596,8 +5596,8 @@ content#:#cont_create_export_file_html#:#Erzeuge HTML-Exportdatei
 content#:#cont_create_export_file_scorm#:#Erzeuge SCORM-Exportdatei
 content#:#cont_create_export_file_xml#:#Erzeuge XML-Exportdatei
 content#:#cont_create_export_file#:#Exportdatei erstellen
-content#:#cont_create_final_lm_page#:#Create Final Page for Learning Module###22 03 2011 new variable
-content#:#cont_create_final_sco_page#:#Create Final Page for SCOs###22 03 2011 new variable
+content#:#cont_create_final_lm_page#:#Abschlussseite für Lernmodul erzeugen
+content#:#cont_create_final_sco_page#:#Abschlussseite für SCOs erzeugen
 content#:#cont_create_folder#:#Ordner anlegen
 content#:#cont_create_html_version#:#Erzeuge HTML-Dateipaket
 content#:#cont_create_link#:#Link erzeugen
@@ -5784,10 +5784,10 @@ content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 content#:#cont_file#:#Datei
 content#:#cont_FileListItem#:#Dateilisteneintrag (Standard)
 content#:#cont_files#:#Dateien
-content#:#cont_final_lm_page_info#:#A status page will be displayed, if all questions of the learning module have been answered successfully.###22 03 2011 new variable
-content#:#cont_final_lm_page#:#Final Page for Learning Module###22 03 2011 new variable
-content#:#cont_final_sco_page_info#:#A status page will be displayed at the end of a SCO, if all questions have been answered successfully.###22 03 2011 new variable
-content#:#cont_final_sco_page#:#Final Page for SCOs###22 03 2011 new variable
+content#:#cont_final_lm_page_info#:#Eine Statusseite wird angezeigt, wenn all Fragen des Lernmoduls erfolgreich beantwortet wurden.
+content#:#cont_final_lm_page#:#Abschlusseite für Lernmodul
+content#:#cont_final_sco_page_info#:#Eine Abschlusseite wird am Ende eines SCOs angezeigt, wenn alle Fragen erfolgreich beantwortet wurden.
+content#:#cont_final_sco_page#:#Abschlussseite für SCO
 content#:#cont_first_open#:#Erstes Register geöffnet
 content#:#cont_first_row_style#:#Stil der ersten Zeile
 content#:#cont_fix_tree_confirm#:#Bitte führen sie diese Funktion nur aus, wenn die Struktur des Lernmoduls beschädigt ist, z.B. leere Einträge in der Kapitelstruktur auftauchen.
@@ -6122,7 +6122,7 @@ content#:#cont_question_type#:#Fragetyp
 content#:#cont_Reading#:#Lektüre
 content#:#cont_really_delete_overlays#:#Möchten Sie wirklich die folgenden Overlays löschen?
 content#:#cont_really_delete_popups#:#Möchten Sie wirklich die folgenden Popups löschen?
-content#:#cont_really_delete_special_pages#:#Do you really want to delete the following special pages?###22 03 2011 new variable
+content#:#cont_really_delete_special_pages#:#Möchten Sie die folgende Sonderseite wirklich löschen?
 content#:#cont_really_delete_triggers#:#Möchten Sie wirklich die folgenden Auslöser löschen?
 content#:#cont_Rect#:#Rechteck
 content#:#cont_ref_helptext#:#(z.B.. http://www.ilias.de/logo.jpg)
@@ -6243,7 +6243,7 @@ content#:#cont_skip_chapter#:#Überspringe dieses Kapitel
 content#:#cont_snippets_used#:#Genutzte Inhaltsbausteine
 content#:#cont_source#:#Quelle
 content#:#cont_span#:#Zellen verbinden
-content#:#cont_special_page#:#Special Content Page###22 03 2011 new variable
+content#:#cont_special_page#:#Sonderseite
 content#:#cont_Special#:#Spezial
 content#:#cont_spreadsheet_table#:#Kalkulationstabelle
 content#:#cont_src_other#:#Andere
@@ -7549,7 +7549,7 @@ ecs#:#ecs_available_ecs#:#Verfügbare ECS
 ecs#:#ecs_back_settings#:#ECS-Einstellungen
 ecs#:#ecs_ca_cert#:#CA Zertifikat
 ecs#:#ecs_campus_connect_title#:#CampusConnect-Zuordnungen
-ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um Kurs-Links z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
+ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um ECS-Kurslinks z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
 ecs#:#ecs_cat_mapping_duration#:#Zeitrahmen
 ecs#:#ecs_cat_mapping_fixed_info#:#Wählen Sie diese Einstellung, um die Zuordnung anhand von festen Werten vorzunehmen. Mehrere Werte können durch Komma getrennt eingegeben werden.
 ecs#:#ecs_cat_mapping_fixed#:#Feste Werte
@@ -7615,13 +7615,13 @@ ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_local_settings#:#Lokale Einstellungen
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
 ecs#:#ecs_mapping_exp_tbl#:#Zuordnung von ILIAS Erweiterten Metadaten zu ECS-Daten
-ecs#:#ecs_mapping_rcrs#:#Zuordnung für externe Kurse
+ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurslinks
 ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu ILIAS Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
-ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten Kurs-Links zu Kategorien
-ecs#:#ecs_new_econtent_subject#:#Neuer externer Kurs
+ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kurslinks zu Kategorien
+ecs#:#ecs_new_econtent_subject#:#Neuer ECS-Kurslink
 ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
 ecs#:#ecs_new_user_profile#:#Profildaten:
 ecs#:#ecs_new_user_subject#:#Neue ECS-Nutzer
@@ -7642,7 +7642,7 @@ ecs#:#ecs_protocol#:#Protokoll
 ecs#:#ecs_publish_as#:#Veröffentlichen unter:
 ecs#:#ecs_publish_for#:#Freigabe für:
 ecs#:#ecs_published_for#:#Freigegeben für:
-ecs#:#ecs_rcrs_created_body_a#:#Ein neuer externer Kurs wurde angelegt:
+ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurslink wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
 ecs#:#ecs_released_content#:#Freigegebener E-Content
 ecs#:#ecs_released#:#Freigegebene Kurse
@@ -10052,7 +10052,7 @@ rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
 rbac#:#cat_create_book#:#Buchungspool anlegen
 rbac#:#cat_create_catr#:#Neue Kategorie-Referenz anlegen
 rbac#:#cat_create_crsr#:#Neue Kurs-Referenz anlegen
-rbac#:#cat_create_rcrs#:#Neuen externen Kurs anlegen
+rbac#:#cat_create_rcrs#:#Neuen ECS-Kurslink anlegen
 rbac#:#cat_create_wiki#:#Neues Wiki anlegen
 rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
 rbac#:#catr_delete#:#Kategorie-Referenzen löschen
@@ -10212,11 +10212,11 @@ rbac#:#rbac_ud_local#:#Selbst erstelle lokale Rolle
 rbac#:#rbac_ud_rolt#:#Selbst erstellte Rollenvorlage
 rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten.
-rbac#:#rcrs_delete#:#Externe Kurse löschen
+rbac#:#rcrs_delete#:#ECS-Kurslink löschen
 rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rcrs_read#:#Lesezugriff auf externe Kurse
-rbac#:#rcrs_visible#:#Externe Kurse sind sichtbar
-rbac#:#rcrs_write#:#Externen Kurs bearbeiten
+rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurslink
+rbac#:#rcrs_visible#:#ECS-Kurslinks sind sichtbar
+rbac#:#rcrs_write#:#ECS-Kurslinks bearbeiten
 rbac#:#read_users#:#Lesezugriff auf lokale Benutzerkonten
 rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
@@ -10244,7 +10244,7 @@ rbac#:#root_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#root_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#root_create_mep#:#Neuen Medienpool anlegen
 rbac#:#root_create_qpl#:#Neuen Fragenpool für Test anlegen
-rbac#:#root_create_rcrs#:#Neuen Kurslink anlegen
+rbac#:#root_create_rcrs#:#Neuen ECS-Kurslink anlegen
 rbac#:#root_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 rbac#:#root_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 rbac#:#root_create_svy#:#Neue Umfrage anlegen
@@ -10268,7 +10268,7 @@ rbac#:#svyf_visible#:#Umfrageeinstellungen sind sichtbar
 rbac#:#svyf_write#:#Umfrageeinstellungen bearbeiten
 rbac#:#usrf_create_usr#:#Benutzer anlegen
 rbac#:#write#:#Einstellungen bearbeiten
-rcrs#:#rcrs_call#:#Kurs aufrufen
+rcrs#:#rcrs_call#:#ECS-Kurslink aufrufen
 rcrs#:#rcrs_general_info#:#Allgemeine Informationen
 rcrs#:#rcrs_local_informations#:#Weitere Informationen
 registration#:#auth_radius_name_desc#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration
