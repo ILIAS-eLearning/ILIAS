@@ -264,14 +264,14 @@ class ilLPStatusWrapper
 	 * @param
 	 * @return
 	 */
-	static function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false)
+	static function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_no_raise = false)
 	{
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 
 		if (strtolower($class) != "illpstatus")
 		{
 			$trac_obj = new $class($a_obj_id);
-			$trac_obj->_updateStatus($a_obj_id, $a_usr_id, $a_obj, $a_percentage);
+			$trac_obj->_updateStatus($a_obj_id, $a_usr_id, $a_obj, $a_percentage, $a_no_raise);
 		}
 	}
 	

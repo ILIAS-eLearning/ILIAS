@@ -192,7 +192,7 @@ class ilLPStatus
 	 * @param
 	 * @return
 	 */
-	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null)
+	function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_no_raise = false)
 	{
 //global $ilLog;
 //$ilLog->write("ilLPStatus-_updateStatus-");
@@ -200,6 +200,17 @@ class ilLPStatus
 		$status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
 		ilLPStatus::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
+		
+		if(!$a_no_raise)
+		{
+			global $ilAppEventHandler;
+			$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
+				"obj_id" => $a_obj_id,
+				"usr_id" => $a_usr_id,
+				"status" => $status,
+				"percentage" => $percentage
+				));
+		}
 	}
 	
 	/**

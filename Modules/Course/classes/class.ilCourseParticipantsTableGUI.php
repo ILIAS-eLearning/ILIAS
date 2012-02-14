@@ -317,6 +317,22 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
 		
+		if($a_set["passed_info"]["user_id"])
+		{
+			if($a_set["passed_info"]["user_id"] < 0)
+			{
+				$passed_info = "LP";
+			}
+			else
+			{
+				$name = ilObjUser::_lookupName($a_set["passed_info"]["user_id"]);
+				$passed_info = $name["login"];
+			}
+			$passed_info .= " - ".ilDatePresentation::formatDate($a_set["passed_info"]["timestamp"]);
+			
+			$this->tpl->setVariable('PASSED_INFO', "<br />".$passed_info);			
+		}
+		
 		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
 		if($this->show_edit_link)
 		{

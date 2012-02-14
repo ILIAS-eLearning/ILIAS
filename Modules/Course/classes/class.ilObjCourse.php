@@ -39,6 +39,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	const CAL_REG_END = 2;
 	const CAL_ACTIVATION_START = 3;
 	const CAL_ACTIVATION_END = 4;
+	
+	const STATUS_DETERMINATION_LP = 1;
+	const STATUS_DETERMINATION_MANUAL = 2;
 
 	private $member_obj = null;
 	private $members_obj = null;
@@ -57,7 +60,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	
 	private $reg_access_code = '';
 	private $reg_access_code_enabled = false;
-
+	private $status_dt = null;
+	
 	/**
 	 *
 	 * 
@@ -92,6 +96,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->ABO_DISABLED = 0;
 		$this->SHOW_MEMBERS_ENABLED = 1;
 		$this->SHOW_MEMBERS_DISABLED = 0;
+		$this->status_dt = self::STATUS_DETERMINATION_LP;
 
 		$this->type = "crs";
 
@@ -965,7 +970,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$this->appendMessage($this->lng->txt("archive_times_not_valid"));
 		}
-		if(!$this->getTitle())
+		if(!$this->getTitle() || !$this->getStatusDetermination())
 		{
 			$this->appendMessage($this->lng->txt('err_check_input'));
 		}
@@ -1132,7 +1137,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'session_next = '.$ilDB->quote($this->getNumberOfNextSessions(),'integer').', '.
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			'auto_noti_disabled = '.$ilDB->quote( (int)$this->getAutoNotiDisabled(), 'integer').' '.
+			'auto_noti_disabled = '.$ilDB->quote( (int)$this->getAutoNotiDisabled(), 'integer').', '.
+			'status_dt = '.$ilDB->quote((int) $this->getStatusDetermination()).' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 
 		$res = $ilDB->manipulate($query);
@@ -1180,6 +1186,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->enableRegistrationAccessCode($this->isRegistrationAccessCodeEnabled());
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+		$new_obj->setStatusDetermination($this->getStatusDetermination());
 		
 		$new_obj->update();
 	}
@@ -1196,7 +1203,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
 			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
-			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_noti_disabled) ".
+			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_noti_disabled, status_dt) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getSyllabus() ,'text').", ".
@@ -1233,7 +1240,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			$ilDB->quote((int)$this->getAutoNotiDisabled(),'integer').' '.
+			$ilDB->quote((int)$this->getAutoNotiDisabled(),'integer').', '.
+			$ilDB->quote((int)$this->getStatusDetermination(),'integer').' '.
 			")";
 			
 		$res = $ilDB->manipulate($query);
@@ -1290,6 +1298,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
 			$this->setRegistrationAccessCode($row->reg_ac);
 			$this->setAutoNotiDisabled($row->auto_noti_disabled == 1 ? true : false);
+			$this->setStatusDetermination((int) $row->status_dt);
 		}
 		
 		return true;
@@ -2032,5 +2041,38 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->auto_noti_disabled = $value;
 	}
+	
+	/**
+	 * Set status determination mode
+	 * 
+	 * @param int $a_value 
+	 */
+	public function setStatusDetermination($a_value)
+	{
+		$this->status_dt = (int)$a_value;
+	}
+	
+	/**
+	 * Get status determination mode
+	 * 
+	 * @return int
+	 */
+	public function getStatusDetermination()
+	{
+		return $this->status_dt;
+	}	
+		
+	/**
+	 * Set course status for all members by lp status
+	 */
+	public function syncMembersStatusWithLP()
+	{
+		include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
+		foreach($this->getMembersObject()->getParticipants() as $user_id)
+		{
+		    ilLPStatusWrapper::_updateStatus($this->getId(), $user_id);			
+		}				
+	}
+	
 } //END class.ilObjCourse
 ?>

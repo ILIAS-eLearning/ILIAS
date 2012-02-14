@@ -70,6 +70,7 @@ class ilAppEventHandler
 		$this->listener["Services/Object"] = array("Services/Tagging",'Services/Search',
 			'Modules/MediaPool');
 		$this->listener['Services/Authentication'] = array();
+		$this->listener['Services/Tracking'] = array('Modules/Course');
 	}
 	
 	
