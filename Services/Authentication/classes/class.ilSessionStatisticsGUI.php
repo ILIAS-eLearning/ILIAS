@@ -137,8 +137,11 @@ class ilSessionStatisticsGUI
 
 			$ilToolbar->addFormButton($lng->txt("ok"), "current");
 			
-			$ilToolbar->addSeparator();
-			$ilToolbar->addFormButton($lng->txt("export"), "currentExport");
+			if(sizeof($data["active"]))
+			{
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("export"), "currentExport");
+			}
 					
 			$tpl->setContent($this->render($data, $scale, $measure));
 
@@ -240,8 +243,11 @@ class ilSessionStatisticsGUI
 
 			$ilToolbar->addFormButton($lng->txt("ok"), "short");
 			
-			$ilToolbar->addSeparator();
-			$ilToolbar->addFormButton($lng->txt("export"), "shortExport");
+			if(sizeof($data["active"]))
+			{
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("export"), "shortExport");
+			}
 												
 			$tpl->setContent($this->render($data, $scale, $measure));		
 		}
@@ -324,8 +330,11 @@ class ilSessionStatisticsGUI
 
 			$ilToolbar->addFormButton($lng->txt("ok"), "long");
 			
-			$ilToolbar->addSeparator();
-			$ilToolbar->addFormButton($lng->txt("export"), "longExport");
+			if(sizeof($data["active"]))
+			{
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("export"), "longExport");
+			}
 												
 			$tpl->setContent($this->render($data, $scale));		
 		}
@@ -408,8 +417,11 @@ class ilSessionStatisticsGUI
 
 			$ilToolbar->addFormButton($lng->txt("ok"), "periodic");
 			
-			$ilToolbar->addSeparator();
-			$ilToolbar->addFormButton($lng->txt("export"), "periodicExport");
+			if(sizeof($data["active"]))
+			{
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("export"), "periodicExport");
+			}
 			
 			$tpl->setContent($this->render($data, self::SCALE_PERIODIC_WEEK));	
 		}
@@ -779,11 +791,22 @@ class ilSessionStatisticsGUI
 		// data
 		foreach($a_data["active"] as $row)
 		{
-			foreach ($row as $value)
+			foreach ($row as $column => $value)
 			{
 				if(is_array($value))
 				{
 					$value = implode(', ', $value);
+				}
+				switch($column)
+				{
+					case "slot_begin":
+					case "slot_end":
+						$value = date("d.m.Y H:i");
+						break;
+					
+					case "weekday":
+						$value = ilCalendarUtil::_numericDayToString($value);
+						break;					
 				}
 				$csv->addColumn(strip_tags($value));
 			}
