@@ -8242,10 +8242,17 @@ if(!$ilDB->tableExists('note_settings'))
 				
 				$page_id = $ilDB->nextId("usr_portfolio_page");
 				
+				// #8600: title may be null
+				$page_title = $rec["title"];
+				if(!$page_title)
+				{
+					$page_title = "prtf".$portfolio_id."_".$rec["id"];					
+				}					
+				
 				// create portfolio page				
 				$fields = array("portfolio_id" => array("integer", $portfolio_id),
 					"type" => array("integer", 1),
-					"title" => array("text", $rec["title"]),
+					"title" => array("text", $page_title),
 					"order_nr" => array("integer", $order),
 					"id" => array("integer", $page_id));
 				$ilDB->insert("usr_portfolio_page", $fields);
