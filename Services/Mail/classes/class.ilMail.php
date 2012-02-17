@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once 'Services/User/classes/class.ilObjUser.php';
+
 /**
 * Class Mail
 * this class handles base functions for mail handling.
@@ -2006,20 +2008,16 @@ class ilMail
 										$a_rcp_bcc,'read',$a_type,$a_as_email,$a_m_subject,$a_m_message,$this->user_id, 0);
 	}
 
-
-
 	/**
-	* add user fullname to mail 'From'
-	* @param string email of sender
-	* @return string 'From' field
-	*/
-	function addFullname($a_email)
+	 * @static
+	 * @param string $a_email
+	 * @param string $a_fullname
+	 * @return string
+	 */
+	public static function addFullname($a_email, $a_fullname)
 	{
 		include_once 'Services/Mail/classes/class.ilMimeMail.php';
-
-		global $ilUser;
-
-		return ilMimeMail::_mimeEncode($ilUser->getFullname()).' <'.$a_email.'>';
+		return ilMimeMail::_mimeEncode($a_fullname).' <'.$a_email.'>';
 	}
 
 	/**
@@ -2030,11 +2028,25 @@ class ilMail
 	 */
 	public function getMimeMailSender()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+		
 		include_once "Services/Mail/classes/class.ilMimeMail.php";
 
 		if($this->user_id != ANONYMOUS_USER_ID)
 		{
-			$sender = $this->addFullname($this->getEmailOfSender());
+			$email = $ilUser->getEmail();
+			$fullname = $ilUser->getFullname();
+			if($ilUser->getId() != $this->user_id)
+			{
+				$user = self::getCachedUserInstance($this->user_id);
+				$email = $user->getEmail();
+				$fullname = $user->getFullname();
+			}
+			
+			$sender = self::addFullname($email, $fullname);
 		}
 		else
 		{
@@ -2710,8 +2722,6 @@ class ilMail
 		{
 			return self::$userInstances[$a_usr_id];
 		}
-
-		require_once 'Services/User/classes/class.ilObjUser.php';
 
 		self::$userInstances[$a_usr_id] = new ilObjUser($a_usr_id);
 		return self::$userInstances[$a_usr_id];
