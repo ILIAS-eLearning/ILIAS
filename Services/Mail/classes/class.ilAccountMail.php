@@ -239,7 +239,7 @@ class ilAccountMail
 		
 		foreach($this->attachments as $filename => $display_name)
 		{
-			$mmail->Attach($filename, "", "inline", $display_name);
+			$mmail->Attach($filename, "", "attachment", $display_name);
 		}
 /*
 echo "<br><br><b>From</b>:".$ilSetting->get("admin_email");
