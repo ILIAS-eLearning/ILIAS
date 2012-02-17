@@ -8885,3 +8885,16 @@ if(!$ilDB->tableExists('note_settings'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3525>
+<?php
+	if(!$ilDB->tableColumnExists('mail_template', 'att_file'))
+	{
+		$atts = array(
+			'type'		=> 'text',
+			'length'	=> 400,
+			'default'	=> '',
+			'notnull'	=> false
+		);
+		$ilDB->addTableColumn('mail_template', 'att_file', $atts);
+	}
+?>

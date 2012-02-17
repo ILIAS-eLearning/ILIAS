@@ -54,7 +54,8 @@ class ilAccountMail
 	var $target = "";
 	
 	private $lang_variables_as_fallback = false;
-
+	
+	private $attachments = array();
 	
 	/**
 	* constructor
@@ -235,6 +236,11 @@ class ilAccountMail
 		$mmail->Subject($mail_subject);
 		$mmail->To($user->getEmail());
 		$mmail->Body($mail_body);
+		
+		foreach($this->attachments as $filename => $display_name)
+		{
+			$mmail->Attach($filename, "", "inline", $display_name);
+		}
 /*
 echo "<br><br><b>From</b>:".$ilSetting->get("admin_email");
 echo "<br><br><b>To</b>:".$user->getEmail();
@@ -334,6 +340,10 @@ return true;*/
 
 		return $a_string;
 	}
-		
+	
+	function addAttachment($a_filename, $a_display_name)
+	{
+		$this->attachments[$a_filename] = $a_display_name;	
+	}				
 }
 ?>

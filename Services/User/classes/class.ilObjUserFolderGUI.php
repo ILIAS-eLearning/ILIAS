@@ -2806,7 +2806,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$body->setValue($amail["body"]);
 			$body->setRows(10);
 			$body->setCols(100);
-			$form->addItem($body);		
+			$form->addItem($body);
+			
+			$att = new ilFileInputGUI($lng->txt("attachment"), "att_".$lang_key);
+			$att->setAllowDeletion(true);
+			if($amail["att_file"])
+			{
+				$att->setValue($amail["att_file"]);
+			}
+			$form->addItem($att);
 		}		
 	
 		$form->addCommandButton("saveNewAccountMail", $lng->txt("save"));
@@ -2868,6 +2876,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				ilUtil::stripSlashes($_POST["sal_f_".$lang_key]),
 				ilUtil::stripSlashes($_POST["sal_m_".$lang_key]),
 				ilUtil::stripSlashes($_POST["body_".$lang_key]));
+						
+			if($_FILES["att_".$lang_key]["tmp_name"])
+			{
+				$this->object->_updateAccountMailAttachment($lang_key, 
+					$_FILES["att_".$lang_key]["tmp_name"],
+					$_FILES["att_".$lang_key]["name"]);				
+			}
+
+			if ($_POST["att_".$lang_key."_delete"])
+			{
+				$this->object->_deleteAccountMailAttachment($lang_key);
+			}		
 		}
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
