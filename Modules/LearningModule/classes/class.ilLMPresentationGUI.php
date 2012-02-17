@@ -633,7 +633,7 @@ class ilLMPresentationGUI
 			$this->processNodes($content, $node);
 			$content .= $this->buildTag("end", "frameset");
 			$this->tpl = new ilTemplate("tpl.frameset.html", true, true, "Modules/LearningModule");
-			$this->tpl->setVariable("PAGETITLE", "- ".$this->lm->getTitle());
+			$this->renderPageTitle();
 			$this->tpl->setVariable("FS_CONTENT", $content);
 			if (!$doshow)
 			{
@@ -905,7 +905,7 @@ class ilLMPresentationGUI
 		else
 		{
 			$this->tpl = new ilTemplate("tpl.glossary_term_output.html", true, true, true);
-			$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+			$this->renderPageTitle();
 
 			// set style sheets
 			if (!$this->offlineMode())
@@ -1052,7 +1052,7 @@ class ilLMPresentationGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
-		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->renderPageTitle();
 
 		// set style sheets
 		if (!$this->offlineMode())
@@ -2228,7 +2228,7 @@ class ilLMPresentationGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->renderPageTitle();
 		
 		// set style sheets
 		if (!$this->offlineMode())
@@ -2742,7 +2742,7 @@ class ilLMPresentationGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->renderPageTitle();
 
 		// set style sheets
 		if (!$this->offlineMode())
@@ -2865,7 +2865,7 @@ class ilLMPresentationGUI
 	{
 		global $ilBench, $ilLocator, $ilAccess;
 
-		$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->renderPageTitle();
 		
 		// set style sheets
 		if (!$this->offlineMode())
@@ -2980,7 +2980,7 @@ class ilLMPresentationGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->getStandardTemplate();
 		
@@ -3184,7 +3184,7 @@ class ilLMPresentationGUI
 
 		$ilBench->start("ContentPresentation", "PrintView");
 
-		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->renderPageTitle();
 		
 		$c_obj_id = $this->getCurrentPageId();
 		// set values according to selection
@@ -3850,7 +3850,7 @@ class ilLMPresentationGUI
 		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("PAGETITLE", " - ".$this->lm->getTitle());
+		$this->renderPageTitle();
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->getStandardTemplate();
 		
@@ -4265,5 +4265,12 @@ class ilLMPresentationGUI
 		fwrite($fp, $text);
 		fclose($fp);
 	}
+	
+	// #8613
+	protected function renderPageTitle()
+	{
+		$this->tpl->setHeaderPageTitle($this->lm->getTitle());
+		$this->tpl->fillWindowTitle();
+	}	
 }
 ?>
