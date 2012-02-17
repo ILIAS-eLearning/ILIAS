@@ -17,6 +17,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	private $filename_post;
 	protected $size = 40;
 	protected $pending;
+	protected $allow_deletion;
 	
 	/**
 	* Constructor
@@ -184,6 +185,26 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 	 	return $this->filename_post;
 	}
+	
+	/**
+	 * Set allow deletion
+	 *
+	 * @param boolean $a_val allow deletion	
+	 */
+	function setALlowDeletion($a_val)
+	{
+		$this->allow_deletion = $a_val;
+	}
+	
+	/**
+	 * Get allow deletion
+	 *
+	 * @return boolean allow deletion
+	 */
+	function getALlowDeletion()
+	{
+		return $this->allow_deletion;
+	}
 
 	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
@@ -314,6 +335,15 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 		{
 			if (trim($this->getValue() != ""))
 			{
+				if (!$this->getDisabled() && $this->getALlowDeletion())
+				{
+					$f_tpl->setCurrentBlock("delete_bl");
+					$f_tpl->setVariable("POST_VAR_D", $this->getPostVar());
+					$f_tpl->setVariable("TXT_DELETE_EXISTING",
+						$lng->txt("delete_existing_file"));
+					$f_tpl->parseCurrentBlock();
+				}
+				
 				$f_tpl->setCurrentBlock('prop_file_propval');
 				$f_tpl->setVariable('FILE_VAL', $this->getValue());
 				$f_tpl->parseCurrentBlock();
@@ -408,12 +438,23 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	}
 	
 	/**
+	* Get deletion flag
+	*/
+	function getDeletionFlag()
+	{
+		if ($_POST[$this->getPostVar()."_delete"])
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	* Get HTML for toolbar
 	*/
 	function getToolbarHTML()
 	{
 		$html = $this->render("toolbar");
 		return $html;
-	}
-
+	}	
 }
