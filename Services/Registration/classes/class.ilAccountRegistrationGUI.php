@@ -360,7 +360,7 @@ class ilAccountRegistrationGUI
 		else
 		{
 			$password = $this->__createUser();
-			$this->__distributeMails($password);
+			$this->__distributeMails($password, $this->form->getInput("usr_language"));
 			$this->login($password);
 			return true;
 		}		
@@ -595,7 +595,7 @@ class ilAccountRegistrationGUI
 		return $password;
 	}
 
-	protected function __distributeMails($password)
+	protected function __distributeMails($password, $a_language = null)
 	{
 		global $ilSetting;
 
@@ -656,7 +656,12 @@ class ilAccountRegistrationGUI
 			// try individual account mail in user administration
 			include_once("Services/Mail/classes/class.ilAccountMail.php");
 			include_once './Services/User/classes/class.ilObjUserFolder.php';
-			$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
+			
+			$amail = ilObjUserFolder::_lookupNewAccountMail($a_language);
+			if (trim($amail["body"]) == "" || trim($amail["subject"]) == "")
+			{
+				$amail = ilObjUserFolder::_lookupNewAccountMail($GLOBALS["lng"]->getDefaultLanguage());
+			}
 			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 			{				
 				$acc_mail = new ilAccountMail();
@@ -665,6 +670,17 @@ class ilAccountRegistrationGUI
 				{
 					$acc_mail->setUserPassword($password);
 				}
+				
+				if($amail["att_file"])
+				{
+					include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
+					$fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
+					$fs->create();
+					$path = $fs->getAbsolutePath()."/";
+					
+					$acc_mail->addAttachment($path."/".$amail["lang"], $amail["att_file"]);
+				}
+				
 				$acc_mail->send();
 			}
 			else	// do default mail

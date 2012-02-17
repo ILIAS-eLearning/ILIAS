@@ -291,9 +291,10 @@ class ilMimeMail
 	 *  @param string filename : path of the file to attach
 	 *  @param string filetype : MIME-type of the file. default to 'application/x-unknown-content-type'
 	 *  @param string disposition : instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
+	 *  @param string $display_name: filename to use in email (if different from source file)
 	 */
 
-	function Attach( $filename, $filetype = "", $disposition = "inline" )
+	function Attach( $filename, $filetype = "", $disposition = "inline", $display_name = null)
 	{
 		// TODO : si filetype="", alors chercher dans un tablo de MT connus / extension du fichier
 		if( $filetype == "" )
@@ -302,6 +303,7 @@ class ilMimeMail
 		$this->aattach[] = $filename;
 		$this->actype[] = $filetype;
 		$this->adispo[] = $disposition;
+		$this->adisplay[] = $display_name;
 	}
 
 	/**
@@ -453,12 +455,17 @@ class ilMimeMail
 			$basename = basename($filename);
 			$ctype = $this->actype[$i];	// content-type
 			$disposition = $this->adispo[$i];
+			$display_name = $this->adisplay[$i];
+			if(!$display_name)
+			{
+				$display_name = $basename;
+			}
 		
 			if( ! file_exists( $filename) ) {
 				echo "Class Mail, method attach : file $filename can't be found"; exit;
 			}
 			$subhdr= "--$this->boundary\nContent-type: $ctype;\n name=\"$basename\"\nContent-Transfer-Encoding:".
-				"base64\nContent-Disposition: $disposition;\n  filename=\"$basename\"\n\n";
+				"base64\nContent-Disposition: $disposition;\n  filename=\"$display_name\"\n\n";
 			$ata[$k++] = $subhdr;
 			// non encoded line length
 			$linesz= filesize( $filename)+1;

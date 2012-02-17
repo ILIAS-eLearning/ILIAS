@@ -835,6 +835,37 @@ class ilObjUserFolder extends ilObject
 			$ilDB->insert('mail_template',$values);
 		}
 	}
+	
+	function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
+	{
+		global $ilDB;
+		
+		include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
+		$fs = new ilFSStorageUserFolder($this->getId());
+		$fs->create();
+		$path = $fs->getAbsolutePath()."/";
+		
+		move_uploaded_file($a_tmp_name, $path.$a_lang);		
+		
+		$ilDB->update('mail_template',
+				array('att_file' => array('text', $a_name)),
+				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
+	}
+	
+	function _deleteAccountMailAttachment($a_lang)
+	{
+		global $ilDB;
+		
+		include_once "Services/User/classes/class.ilFSStorageUserFolder.php";
+		$fs = new ilFSStorageUserFolder($this->getId());
+		$path = $fs->getAbsolutePath()."/";
+		
+		@unlink($path.$a_lang);
+		
+		$ilDB->update('mail_template',
+				array('att_file' => array('text', '')),
+				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
+	}
 
 	function _lookupNewAccountMail($a_lang)
 	{
