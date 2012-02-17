@@ -951,6 +951,13 @@ class ilSetup extends PEAR
 			$arr["update"] = true;
 			return $arr;
 		}
+		else if ($dbupdate->customUpdatesAvailable())
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("custom_updates_available");
+			$arr["update"] = true;
+			return $arr;
+		}
 
 		// check control information
 		

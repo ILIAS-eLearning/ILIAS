@@ -525,3 +525,8 @@ sess_mode#:#Session Mode
 sess_fixed_duration#:#Fixed Session Duration
 sess_load_dependent_session_handling#:#Load Dependent Session Handling
 db_postgres#:#PostgreSQL
+custom_updates_available#:#Custom Update Available
+applied_custom_updates#:#Applied Custom Updates
+available_custom_updates#:#Available Custom Updates
+custom_update_applied#:#Custom Update Applied
+apply_custom_updates#:#Apply Custom Updates
