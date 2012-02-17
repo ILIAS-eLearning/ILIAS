@@ -392,7 +392,7 @@ class ilDBUpdate
 	 * @return bool
 	 * @access private
 	 */
-	function applyUpdateNr($nr, $hotfix = false)
+	function applyUpdateNr($nr, $hotfix = false, $custom_update = false)
 	{
 		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader,$ilModuleReader,$ilMySQLAbstraction;
 
@@ -489,16 +489,20 @@ class ilDBUpdate
 		}
 	
 		//increase db_Version number
-		if (!$hotfix)
+		if (!$hotfix && !$custom_update)
 		{
 			$this->setCurrentVersion($nr);
 		}
-		else
+		elseif($hotfix)
 		{
 			$this->setHotfixCurrentVersion($nr);
 		}
+		elseif($custom_update)
+		{
+			$this->setCustomUpdatesCurrentVersion($nr);
+		}
 		
-		if (!$hotfix)
+		if (!$hotfix && !$custom_update)
 		{
 			$this->clearRunningStatus();
 		}
@@ -704,6 +708,123 @@ class ilDBUpdate
 		return $this->loadXMLInfo();
 	}
 
+	public function getCustomUpdatesCurrentVersion()
+	{
+		$this->readCustomUpdatesInfo();
+		return $this->custom_updates_current_version;
+	}
 
+	public function setCustomUpdatesCurrentVersion($a_version)
+	{
+		$this->readCustomUpdatesInfo();
+		$this->custom_updates_setting->set('db_version_lernwelt', $a_version);
+		$this->custom_updates_current_version = $a_version;
+		return true;
+	}
+
+	public function getCustomUpdatesFileVersion()
+	{
+		$this->readCustomUpdatesInfo();
+		return $this->custom_updates_file_version;
+	}
+
+	public function readCustomUpdatesFileVersion($a_file_content)
+	{
+		//go through filecontent and search for last occurence of <#x>
+		reset($a_file_content);
+		$regs = array();
+		foreach ($a_file_content as $row)
+		{
+			if (ereg("^<#([0-9]+)>", $row, $regs))
+			{
+				$version = $regs[1];
+			}
+		}
+
+		return (integer) $version;
+	}
+
+	public function readCustomUpdatesInfo($a_force = false)
+	{
+		if ($this->custom_updates_info_read && !$a_force)
+		{
+			return;
+		}
+		include_once './Services/Administration/classes/class.ilSetting.php';
+		$GLOBALS["ilDB"] = $this->db;
+		$this->custom_updates_setting = new ilSetting();
+		$custom_updates_file = $this->PATH."setup/sql/dbupdate_custom.php";
+		if (is_file($custom_updates_file))
+		{
+			$this->custom_updates_content = @file($custom_updates_file);
+			$this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_lernwelt', 0);
+			$this->custom_updates_file_version = $this->readCustomUpdatesFileVersion($this->custom_updates_content);
+		}
+		$this->custom_updates_info_read = true;
+	}
+
+	public function customUpdatesAvailable()
+	{
+		// trunk does not support custom updates
+		return false;
+		
+		$this->readCustomUpdatesInfo();
+		if ($this->custom_updates_file_version > $this->custom_updates_current_version)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	public function applyCustomUpdates()
+	{
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
+
+		include_once './Services/Database/classes/class.ilMySQLAbstraction.php';
+
+		$ilMySQLAbstraction = new ilMySQLAbstraction();
+		$GLOBALS['ilMySQLAbstraction'] = $ilMySQLAbstraction;
+
+		$this->readCustomUpdatesInfo(true);
+
+		$f = $this->getCustomUpdatesFileVersion();
+		$c = $this->getCustomUpdatesCurrentVersion();
+
+		if ($c < $f)
+		{
+			$msg = array();
+			for ($i=($c+1); $i<=$f; $i++)
+			{
+//				$this->initStep($i);	// nothings happens here
+
+				$this->filecontent = $this->custom_updates_content;
+
+				if ($this->applyUpdateNr($i, false, true) == false)
+				{
+					$msg[] = array(
+						"msg" => "update_error: ".$this->error,
+						"nr" => $i
+					);
+					$this->updateMsg = $msg;
+					return false;
+				}
+				else
+				{
+					$msg[] = array(
+						"msg" => "custom_update_applied",
+						"nr" => $i
+					);
+				}
+			}
+
+			$this->updateMsg = $msg;
+		}
+		else
+		{
+			$this->updateMsg = "no_changes";
+		}
+
+		return $this->loadXMLInfo();
+	}
 } // END class.DBUdate
 ?>
