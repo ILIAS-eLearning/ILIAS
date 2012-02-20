@@ -51,7 +51,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function ilCalendarBlockGUI($a_skip_init = false)
 	{
-		global $ilCtrl, $lng, $ilUser, $tpl;
+		global $ilCtrl, $lng, $ilUser, $tpl, $ilHelp;
 		
 		parent::ilBlockGUI();
 		
@@ -59,6 +59,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$this->setImage(ilUtil::getImagePath("icon_cals_s.gif"));
 		
 		$lng->loadLanguageModule("dateplaner");
+		$ilHelp->addHelpSection("cal_block");
+		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 
 		$ilCtrl->saveParameter($this, 'bkid');

@@ -1262,5 +1262,140 @@ class ilLMObject
 		return $obj_rec["layout"];
 	}
 
+	////
+	//// Export ID handling
+	////
+	
+	/**
+	 * Save export id
+	 *
+	 * @param
+	 * @return
+	 */
+	public static function saveExportId($a_lm_id, $a_lmobj_id, $a_exp_id, $a_type = "pg")
+	{
+		global $ilDB;
+
+		include_once("Services/MetaData/classes/class.ilMDIdentifier.php");
+
+		if (trim($a_exp_id) == "")
+		{
+			// delete export ids, if existing
+			$entries = ilMDIdentifier::_getEntriesForObj(
+				$a_lm_id, $a_lmobj_id, $a_type);
+
+			foreach ($entries as $id => $e)
+			{
+				if ($e["catalog"] == "ILIAS_NID")
+				{
+					$identifier = new ilMDIdentifier();
+					$identifier->setMetaId($id);
+					$identifier->delete();
+				}
+			}
+		}
+		else
+		{
+			// update existing entry
+			$entries = ilMDIdentifier::_getEntriesForObj(
+				$a_lm_id, $a_lmobj_id, $a_type);
+
+			$updated = false;
+			foreach ($entries as $id => $e)
+			{
+				if ($e["catalog"] == "ILIAS_NID")
+				{
+					$identifier = new ilMDIdentifier();
+					$identifier->setMetaId($id);
+					$identifier->read();
+					$identifier->setEntry($a_exp_id);
+					$identifier->update();
+					$updated = true;
+				}
+			}
+
+			// nothing updated? create a new one
+			if (!$updated)
+			{
+				include_once("./Services/MetaData/classes/class.ilMD.php");
+				$md = new ilMD($a_lm_id, $a_lmobj_id, $a_type);
+				$md_gen = $md->getGeneral();
+				$identifier = $md_gen->addIdentifier();
+				$identifier->setEntry($a_exp_id);
+				$identifier->setCatalog("ILIAS_NID");
+				$identifier->save();
+			}
+		}
+
+	}
+
+	/**
+	 * Get export ID
+	 *
+	 * @param
+	 * @return
+	 */
+	public static function getExportId($a_lm_id, $a_lmobj_id, $a_type = "pg")
+	{
+		// look for export id
+		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
+		$entries = ilMDIdentifier::_getEntriesForObj(
+			$a_lm_id, $a_lmobj_id, $a_type);
+
+		foreach ($entries as $e)
+		{
+			if ($e["catalog"] == "ILIAS_NID")
+			{
+				return $e["entry"];
+			}
+		}
+	}
+
+	/**
+	 * Does export ID exist in lm?
+	 *
+	 * @param
+	 * @return
+	 */
+	function existsExportID($a_lm_id, $a_exp_id, $a_type = "pg")
+	{
+		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
+		return ilMDIdentifier::existsIdInRbacObject($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
+	}
+
+	/**
+	 * Get duplicate export IDs (count export ID usages)
+	 */
+	public static function getDuplicateExportIDs($a_lm_id, $a_type = "pg")
+	{
+		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
+		$entries = ilMDIdentifier::_getEntriesForRbacObj($a_lm_id, $a_type);
+		$res = array();
+		foreach ($entries as $e)
+		{
+			if ($e["catalog"] == "ILIAS_NID")
+			{
+				if (ilLMObject::_exists($e["obj_id"]))
+				{
+					$res[trim($e["entry"])]++;
+				}
+			}
+		}
+		return $res;
+	}
+	
+	/**
+	 * Does export ID exist in lm?
+	 *
+	 * @param
+	 * @return
+	 */
+	function getExportIDInfo($a_lm_id, $a_exp_id, $a_type = "pg")
+	{
+		include_once("./Services/MetaData/classes/class.ilMDIdentifier.php");
+		$data = ilMDIdentifier::readIdData($a_lm_id, $a_type, "ILIAS_NID", $a_exp_id);
+		return $data;
+	}
+
 }
 ?>

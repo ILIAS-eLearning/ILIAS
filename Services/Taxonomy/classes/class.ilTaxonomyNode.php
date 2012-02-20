@@ -25,8 +25,8 @@ class ilTaxonomyNode
 	{
 		$this->id = $a_id;
 		
-		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
-		$this->taxonomy_tree = new ilTaxonomyTree();
+//		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+//		$this->taxonomy_tree = new ilTaxonomyTree();
 
 		if($a_id != 0)
 		{
@@ -36,7 +36,7 @@ class ilTaxonomyNode
 		$this->setType("taxn");
 	}
 
-		/**
+	/**
 	 * Set title
 	 *
 	 * @param	string		$a_title	title
@@ -117,6 +117,26 @@ class ilTaxonomyNode
 	}
 
 	/**
+	 * Set taxonomy id
+	 *
+	 * @param int $a_val taxonomy id	
+	 */
+	function setTaxonomyId($a_val)
+	{
+		$this->taxonomy_id = $a_val;
+	}
+	
+	/**
+	 * Get taxonomy id
+	 *
+	 * @return int taxonomy id
+	 */
+	function getTaxonomyId()
+	{
+		return $this->taxonomy_id;
+	}
+	
+	/**
 	 * Read data from database
 	 */
 	function read()
@@ -133,6 +153,7 @@ class ilTaxonomyNode
 		$this->setType($this->data_record["type"]);
 		$this->setTitle($this->data_record["title"]);
 		$this->setOrderNr($this->data_record["order_nr"]);
+		$this->setTaxonomyId($this->data_record["tax_id"]);
 	}
 
 	/**
@@ -141,16 +162,22 @@ class ilTaxonomyNode
 	function create()
 	{
 		global $ilDB;
+		
+		if ($this->getTaxonomyId() <= 0)
+		{
+			die("ilTaxonomyNode->create: No taxonomy ID given");
+		}
 
 		// insert object data
 		$id = $ilDB->nextId("tax_node");
-		$query = "INSERT INTO tax_node (obj_id, title, type, create_date, order_nr) ".
+		$query = "INSERT INTO tax_node (obj_id, title, type, create_date, order_nr, tax_id) ".
 			"VALUES (".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getType(), "text").", ".
 			$ilDB->now().", ".
-			$ilDB->quote((int) $this->getOrderNr(), "integer").
+			$ilDB->quote((int) $this->getOrderNr(), "integer").", ".
+			$ilDB->quote((int) $this->getTaxonomyId(), "integer").
 			")";
 		$ilDB->manipulate($query);
 		$this->setId($id);
@@ -231,10 +258,11 @@ class ilTaxonomyNode
 	/**
 	 * Put this node into the taxonomy tree
 	 */
-	static function putInTree($a_tree_id, $a_node, $a_parent_id = "", $a_target_node_id = "")
+	static function putInTree($a_tax_id, $a_node, $a_parent_id = "", $a_target_node_id = "",
+		$a_order_nr = 0)
 	{
-		include_once("./Services//classes/class.il.php");
-		$tax_tree = new ilTaxonomyTree($a_tree_id);
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+		$tax_tree = new ilTaxonomyTree($a_tax_id);
 
 		// determine parent
 		$parent_id = ($a_parent_id != "")
@@ -261,7 +289,7 @@ class ilTaxonomyNode
 			}
 		}
 
-		if ($tax_tree->isInTree($parent_id) && !$taxtree->isInTree($a_node->getId()))
+		if ($tax_tree->isInTree($parent_id) && !$tax_tree->isInTree($a_node->getId()))
 		{
 			$tax_tree->insertNode($a_node->getId(), $parent_id, $target);
 		}

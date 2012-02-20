@@ -125,10 +125,16 @@ class ilObjWikiGUI extends ilObjectGUI
 				break;
 				
 			case "ilobjtaxonomygui":
-				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
-				$this->ctrl->setReturn($this, "editTaxonomySettings");
-				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
-				$ret = $this->ctrl->forwardCommand($style_gui);
+				$this->addHeaderAction();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("taxonomy");
+				//$ilTabs->activateTab("settings");
+
+				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
+				$this->ctrl->setReturn($this, "editSettings");
+				$tax_gui = new ilObjTaxonomyGUI();
+				$tax_gui->setAssignedObject($this->object->getId());
+				$ret = $this->ctrl->forwardCommand($tax_gui);
 				break;
 
 			case "ilexportgui":
@@ -432,7 +438,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui", "ilexportgui")))
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilobjtaxonomygui")))
 		{
 			if ($_GET["page"] != "")
 			{
@@ -499,7 +505,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl, $lng;
 
 		if (in_array($a_active,
-			array("general_settings", "style", "imp_pages")))
+			array("general_settings", "style", "imp_pages", "taxonomy")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
@@ -516,11 +522,13 @@ class ilObjWikiGUI extends ilObjectGUI
 				$lng->txt("wiki_navigation"),
 				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
 			
-			if (ilObjWiki::isOnlineHelpWiki($this->object->sgetRefId()))
+			if (ilObjWiki::isOnlineHelpWiki($this->object->getRefId()))
 			{
+				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+				ilObjTaxonomy::loadLanguageModule();
 				$ilTabs->addSubTab("taxonomy",
-					$lng->txt("wiki_taxonomy"),
-					$ilCtrl->getLinkTarget($this, 'editTaxonomySettings'));
+					$lng->txt("tax_taxonomy"),
+					$ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", 'editAOTaxonomySettings'));
 			}
 
 			$ilTabs->activateSubTab($a_active);

@@ -31,7 +31,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function ilObjCourseGUI()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilHelp;
 
 		// CONTROL OPTIONS
 		$this->ctrl =& $ilCtrl;
@@ -41,6 +41,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ilContainerGUI('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
+		$ilHelp->addHelpSection("crs");
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;

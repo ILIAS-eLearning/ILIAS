@@ -12450,3 +12450,10 @@ trac#:#trac_begin_at#:#Start date
 trac#:#trac_scale#:#Scale
 trac#:#trac_measure#:#Figure
 trac#:#trac_end_at#:#End Date
+tax#:#tax_taxonomy#:#Taxonomy
+tax#:#obj_taxn#:#Node
+tax#:#tax_node#:#Node
+tax#:#tax_nodes#:#Nodes
+tax#:#tax_create_node#:#Create Node
+tax#:#tax_new_tax_node#:#New Node
+tax#:#tax_order#:#Order

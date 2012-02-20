@@ -2579,9 +2579,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		// export ids
 		if ($lm_set->get("html_export_ids"))
 		{
-			$ilTabs->addSubtab("export_ids",
-				$lng->txt("cont_html_export_ids"),
-				$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
+			if (!ilObjContentObject::isOnlineHelpModule($this->object->getRefId()))
+			{
+				$ilTabs->addSubtab("export_ids",
+					$lng->txt("cont_html_export_ids"),
+					$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
+			}
+			else
+			{
+				$ilTabs->addSubtab("export_ids",
+					$lng->txt("cont_online_help_ids"),
+					$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
+			}
 		}
 		
 		// list links
@@ -3457,7 +3466,13 @@ $tabs_gui = $ilTabs;
 		$this->setContentSubTabs("export_ids");
 		
 		include_once("./Modules/LearningModule/classes/class.ilExportIDTableGUI.php");
-		$tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation);
+		$oh_mode = false;
+		if (ilObjContentObject::isOnlineHelpModule($this->object->getRefId()))
+		{
+			$oh_mode = true;
+		}
+		$tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation,
+			$oh_mode);
 
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -3497,7 +3512,7 @@ $tabs_gui = $ilTabs;
 			foreach ($_POST["exportid"] as $pg_id => $exp_id)
 			{
 				ilLMPageObject::saveExportId($this->object->getId(), $pg_id,
-					ilUtil::stripSlashes($exp_id));
+					ilUtil::stripSlashes($exp_id), ilLMObject::_lookupType($pg_id));
 			}
 		}
 

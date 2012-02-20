@@ -116,7 +116,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 
 			case self::OBJECT_ID:
 				$this->object_id = $a_id;
-				include_once "Services/Objects/classes/class.ilDummyAccessHandler.php";
+				include_once "Services/Object/classes/class.ilDummyAccessHandler.php";
 			    $this->access_handler = new ilDummyAccessHandler();
 				$params[] = "obj_id";
 				break;

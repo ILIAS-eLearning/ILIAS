@@ -353,5 +353,31 @@ class ilStructureObject extends ilLMObject
 		}
 	}
 
+	/**
+	 * export (sub)structure objects of structure object (see ilias_co.dtd)
+	 *
+	 * @param	object		$a_xml_writer	ilXmlWriter object that receives the
+	 *										xml data
+	 */
+	static function getChapterList($a_lm_id)
+	{
+		$tree = new ilTree($a_lm_id);
+		$tree->setTableNames('lm_tree', 'lm_data');
+		$tree->setTreeTablePK("lm_id");
+
+		$chapters = array();
+		$ndata = $tree->getNodeData($tree->readRootId());
+		$childs = $tree->getSubtree($ndata);
+		foreach ($childs as $child)
+		{
+			if($child["type"] == "st")
+			{
+				$chapters[] = $child;
+			}
+
+		}
+		return $chapters;
+	}
+
 }
 ?>
