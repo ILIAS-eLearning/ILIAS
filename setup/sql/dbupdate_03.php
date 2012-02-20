@@ -8898,3 +8898,41 @@ if(!$ilDB->tableExists('note_settings'))
 		$ilDB->addTableColumn('mail_template', 'att_file', $atts);
 	}
 ?>
+<#3526>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3527>
+<?php
+$atts = array(
+	'type'		=> 'integer',
+	'length'	=> 4,
+	'default'	=> 0,
+	'notnull'	=> true
+);
+$ilDB->addTableColumn('tax_node', 'tax_id', $atts);
+?>
+<#3528>
+<?php
+
+
+$ilDB->manipulate("INSERT INTO tax_node ".
+	"(obj_id, title, type, create_date, last_update, tax_id) VALUES (".
+	$ilDB->quote(1, "integer").",".
+	$ilDB->quote("Dummy top node for all tax trees.", "text").",".
+	$ilDB->quote("", "text").",".
+	$ilDB->now().",".
+	$ilDB->now().",".
+	$ilDB->quote(0, "integer").
+	")");
+
+?>
+<#3529>
+<?php
+$ilDB->addTableColumn("tax_node", "order_nr", array(
+		'type'	=> 'integer',
+		'length'=> 4,
+		'notnull' => true
+	));
+?>
+

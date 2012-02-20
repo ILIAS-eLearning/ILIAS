@@ -13,23 +13,36 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilExportIDTableGUI extends ilTable2GUI
 {
-
+	var $online_help_mode = false;
+	
+	
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_validation = false)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_validation = false,
+		$a_oh_mode = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
+		$this->setOnlineHelpMode($a_oh_mode);
 		$this->setId("lm_expids");
 		$this->validation = $a_validation;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-		$this->setData(ilLMPageObject::getPageList($this->parent_obj->object->getId()));
-
-		$this->cnt_exp_ids = ilLMPageObject::getDuplicateExportIDs(
-			$this->parent_obj->object->getId());
+		
+		if ($this->getOnlineHelpMode())
+		{
+			$this->setData(ilStructureObject::getChapterList($this->parent_obj->object->getId()));
+			$this->cnt_exp_ids = ilLMPageObject::getDuplicateExportIDs(
+				$this->parent_obj->object->getId(), "st");
+		}
+		else
+		{
+			$this->setData(ilLMPageObject::getPageList($this->parent_obj->object->getId()));
+			$this->cnt_exp_ids = ilLMPageObject::getDuplicateExportIDs(
+				$this->parent_obj->object->getId());
+		}
 
 		$this->setTitle($lng->txt("cont_html_export_ids"));
 
@@ -45,6 +58,26 @@ class ilExportIDTableGUI extends ilTable2GUI
 	}
 
 	/**
+	 * Set online help mode
+	 *
+	 * @param bool $a_val online help mode	
+	 */
+	function setOnlineHelpMode($a_val)
+	{
+		$this->online_help_mode = $a_val;
+	}
+	
+	/**
+	 * Get online help mode
+	 *
+	 * @return bool online help mode
+	 */
+	function getOnlineHelpMode()
+	{
+		return $this->online_help_mode;
+	}
+	
+	/**
 	 * Fill table row
 	 */
 	protected function fillRow($a_set)
@@ -55,7 +88,7 @@ class ilExportIDTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("PAGE_ID", $a_set["obj_id"]);
 
 		$exp_id = ilLMPageObject::getExportId(
-			$this->parent_obj->object->getId(), $a_set["obj_id"]);
+			$this->parent_obj->object->getId(), $a_set["obj_id"], $a_set["type"]);
 
 		if ($this->validation)
 		{

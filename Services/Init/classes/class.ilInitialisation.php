@@ -134,7 +134,7 @@ class ilInitialisation
 		require_once "classes/class.ilBrowser.php";
 		require_once "classes/class.ilFrameTargetInfo.php";
 		require_once "Services/Navigation/classes/class.ilNavigationHistory.php";
-		require_once "Services/Help/classes/class.ilHelp.php";
+		require_once "Services/Help/classes/class.ilHelpGUI.php";
 		require_once "include/inc.ilias_version.php";
 
 		//include role based access control system
@@ -412,9 +412,9 @@ class ilInitialisation
 		define ("ROLE_FOLDER_ID",$ilClientIniFile->readVariable('system','ROLE_FOLDER_ID'));
 		define ("MAIL_SETTINGS_ID",$ilClientIniFile->readVariable('system','MAIL_SETTINGS_ID'));
 		
-		// this is for the online help installation, which sets OHWIKI to the
-		// ref id of the online help wiki
-		define ("OHWIKI",$ilClientIniFile->readVariable("system","OHWIKI"));
+		// this is for the online help installation, which sets OH_REF_ID to the
+		// ref id of the online module
+		define ("OH_REF_ID",$ilClientIniFile->readVariable("system","OH_REF_ID"));
 
 		define ("SYSTEM_MAIL_ADDRESS",$ilClientIniFile->readVariable('system','MAIL_SENT_ADDRESS')); // Change SS
 		define ("MAIL_REPLY_WARNING",$ilClientIniFile->readVariable('system','MAIL_REPLY_WARNING')); // Change SS
@@ -1498,7 +1498,7 @@ class ilInitialisation
 		$GLOBALS['ilBrowser'] =& $ilBrowser;
 
 		// provide global help object
-		$ilHelp = new ilHelp();
+		$ilHelp = new ilHelpGUI();
 		$GLOBALS['ilHelp'] =& $ilHelp;
 
 		// main tabs gui

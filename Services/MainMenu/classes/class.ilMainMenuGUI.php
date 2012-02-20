@@ -168,6 +168,9 @@ class ilMainMenuGUI
 		}
 		
 		$this->renderStatusBox($this->tpl);
+		
+		// online help
+		$this->renderHelpButton();
 
 		$mmle_html = "";
 		
@@ -945,5 +948,34 @@ class ilMainMenuGUI
 		$a_tpl->parseCurrentBlock();
 	}
 
+	/**
+	 * Render help button
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderHelpButton()
+	{
+		global $ilHelp, $lng, $ilCtrl, $tpl;
+		
+		if ($ilHelp->hasSections())
+		{
+			$this->tpl->setCurrentBlock("help_icon");
+
+			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$ts = $ilCtrl->getTargetScript();
+			$ilCtrl->setTargetScript("ilias.php");
+			
+			$ilHelp->setCtrlPar();
+			$tpl->addOnLoadCode("ilHelp.setAjaxUrl('".
+				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
+				."');");
+			$ilCtrl->setTargetScript($ts);
+			$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
+
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
 }
 ?>

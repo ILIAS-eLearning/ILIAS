@@ -270,6 +270,31 @@ class ilMDIdentifier extends ilMDBase
 		}
 		return false;
 	}
+	
+	/**
+	 * Does id entry exist in rbac object?
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function readIdData($a_rbac_id, $a_obj_type, $a_catalog, $a_entry)
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM il_meta_identifier ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id , 'integer').
+			" AND obj_type = ".$ilDB->quote($a_obj_type , 'text').
+			" AND catalog = ".$ilDB->quote($a_catalog , 'text').
+			" AND entry = ".$ilDB->quote($a_entry , 'text');
+		$s = $ilDB->query($query);
+		$data = array();
+		while ($r = $ilDB->fetchAssoc($s))
+		{
+			$data[] = $r;
+		}
+		return $data;
+	}
+
 }
 
 ?>

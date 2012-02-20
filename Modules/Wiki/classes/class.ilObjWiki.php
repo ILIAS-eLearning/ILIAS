@@ -212,9 +212,9 @@ class ilObjWiki extends ilObject
 	 */
 	static function isOnlineHelpWiki($a_ref_id)
 	{
-		if ($a_ref_id > 0 && $a_ref_id == OHWIKI)
+		if ($a_ref_id > 0 && $a_ref_id == OH_REF_ID)
 		{
-			return true;
+//			return true;
 		}
 		return false;
 	}

@@ -2857,6 +2857,23 @@ class ilObjContentObject extends ilObject
 
 	}
 	
+	////
+	//// Online help
+	////
+
+	/**
+	 * Is module an online module
+	 *
+	 * @return boolean true, if current wiki is an online help wiki
+	 */
+	static function isOnlineHelpModule($a_ref_id)
+	{
+		if ($a_ref_id > 0 && $a_ref_id == OH_REF_ID)
+		{
+			return true;
+		}
+		return false;
+	}
 
 }
 ?>

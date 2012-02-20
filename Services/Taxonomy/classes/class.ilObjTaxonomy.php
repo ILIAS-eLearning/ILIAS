@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilObject2.php";
+require_once "./Services/Object/classes/class.ilObject2.php";
 
 /**
  * Taxonomy
@@ -20,6 +20,7 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function ilObjTaxonomy($a_id = 0)
 	{
+		$this->type = "tax";
 		parent::ilObject($a_id, false);
 	}
 
@@ -31,8 +32,26 @@ class ilObjTaxonomy extends ilObject2
 	 */
 	function initType()
 	{
-		$this->setType("tax");
+		$this->type = "tax";
 	}
+	
+	/**
+	 * Get tree
+	 *
+	 * @param
+	 * @return
+	 */
+	function getTree()
+	{
+		if ($this->getId() > 0)
+		{
+			include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+			$tax_tree = new ilTaxonomyTree($this->getId());
+			return $tax_tree;
+		}
+		return false;
+	}
+	
 	
 	/**
 	 * Create a new taxonomy
@@ -40,7 +59,11 @@ class ilObjTaxonomy extends ilObject2
 	function doCreate()
 	{
 		global $ilDB;
-
+		
+		// create the taxonomy tree
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+		$tax_tree = new ilTaxonomyTree($this->getId());
+		$tax_tree->addTree($this->getId(), 1);
 	}
 	
 	/**
@@ -88,7 +111,21 @@ class ilObjTaxonomy extends ilObject2
 		
 		//
 	}
-
+	
+	/**
+	 * Load language module
+	 *
+	 * @param
+	 * @return
+	 */
+	static function loadLanguageModule()
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("tax");
+	}
+	
+	
 	/**
 	 * Save Usage
 	 *
@@ -100,8 +137,8 @@ class ilObjTaxonomy extends ilObject2
 		global $ilDB;
 		
 		$ilDB->replace("tax_usage",
-			array("tax_id" => array("integer" => $a_tax_id),
-				"obj_id" => array("integer" => $a_obj_id)
+			array("tax_id" => array("integer", $a_tax_id),
+				"obj_id" => array("integer", $a_obj_id)
 				),
 			array()
 			);
@@ -117,15 +154,15 @@ class ilObjTaxonomy extends ilObject2
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT obj_id FROM tax_usage ".
-			" WHERE tax_id = ".$ilDB->quote($a_obj_id, "integer")
+		$set = $ilDB->query("SELECT tax_id FROM tax_usage ".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")
 			);
-		$obj = array();
+		$tax = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$obj[] = $rec["obj_id"];
+			$tax[] = $rec["tax_id"];
 		}
-		return $obj;
+		return $tax;
 	}
 	
 }

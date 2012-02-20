@@ -342,7 +342,7 @@ class ilSession
 	 * @param
 	 * @return
 	 */
-	function set($a_var, $a_val)
+	static function set($a_var, $a_val)
 	{
 		$_SESSION[$a_var] = $a_val;
 	}
@@ -353,7 +353,7 @@ class ilSession
 	 * @param
 	 * @return
 	 */
-	function get($a_var)
+	static function get($a_var)
 	{
 		return $_SESSION[$a_var];
 	}
@@ -364,7 +364,7 @@ class ilSession
 	 * @param
 	 * @return
 	 */
-	function clear($a_var)
+	static function clear($a_var)
 	{
 		unset($_SESSION[$a_var]);
 	}

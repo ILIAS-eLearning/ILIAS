@@ -973,7 +973,7 @@ class ilObjectGUI
 		global $objDefinition, $tpl;
 
 		$new_type = $_REQUEST["new_type"];
-		
+
 		// create permission is already checked in createObject. This check here is done to prevent hacking attempts
 		if (!$this->checkPermissionBool("create", "", $new_type))
 		{

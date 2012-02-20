@@ -9,7 +9,7 @@ $tpl->setVariable("ERROR_MESSAGE",($_SESSION["failure"]));
 $tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
 $tpl->parseCurrentBlock();
 
-session_unregister("referer");
-unset($_SESSION["message"]);
+ilSession::clear("referer");
+ilSession::clear("message");
 $tpl->show();
 ?>
