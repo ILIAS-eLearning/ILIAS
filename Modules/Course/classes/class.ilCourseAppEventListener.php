@@ -20,7 +20,7 @@ class ilCourseAppEventListener
 	static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		global $ilUser;
-		
+
 		if($a_component == "Services/Tracking" && $a_event == "updateStatus")
 		{
 			$obj_id = $a_parameter["obj_id"];
@@ -31,6 +31,11 @@ class ilCourseAppEventListener
 			{
 				$is_completed = ($status == LP_STATUS_COMPLETED_NUM);
 
+				include_once("./Modules/Course/classes/class.ilObjCourse.php");
+if (ilObject::_lookupType($obj_id) != "crs")
+{
+	return;
+}
 				$crs = new ilObjCourse($obj_id, false);
 				if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
 				{
