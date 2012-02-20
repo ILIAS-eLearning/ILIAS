@@ -87,8 +87,6 @@ class ilLMEditorGUI
 
 		global $ilHelp;
 		
-		$ilHelp->setTarget("lm_intro");
-		
 		$cmd = $this->ctrl->getCmd("frameset");
 
 		$next_class = $this->ctrl->getNextClass($this);
