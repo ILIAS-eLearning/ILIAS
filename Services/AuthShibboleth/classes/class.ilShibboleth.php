@@ -244,7 +244,7 @@ class ShibAuth extends Auth
 				{
 					include($ilias->getSetting('shib_data_conv'));
 				}
-				
+
 				// Create use in DB
 				$userObj->create();
 				$userObj->setActive(1);
@@ -270,10 +270,8 @@ class ShibAuth extends Auth
 				include_once './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php';
 				ilShibbolethRoleAssignmentRules::doAssignments($userObj->getId(),$_SERVER);
 				
-				unset($userObj);
-
                 // Authorize this user
-                $this->setAuth($username);
+                $this->setAuth($userObj->getLogin());
 				
 			}
 			else
