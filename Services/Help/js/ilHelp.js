@@ -5,6 +5,7 @@ ilHelp =
 {
 	panel: false,
 	ajax_url: '',
+	padding_old: '-',
 	
 	listHelp: function (e)
 	{
@@ -17,10 +18,8 @@ ilHelp =
 		{
 			window.eventReturnValue = false;
 		}
-
 		// hide overlays
 		ilOverlay.hideAllOverlays(e, true);
-		
 		// add panel
 		this.initPanel(e);
 	},
@@ -48,7 +47,6 @@ ilHelp =
 			ilOverlay.show(e, "ilHelpPanel");
 //			this.panel.show();
 		}
-		
 		ilHelp.insertPanelHTML("");
 		ilHelp.reduceMainContentArea();
 
@@ -64,6 +62,12 @@ ilHelp =
 		this.sendAjaxGetRequest({cmd: "showHelp"}, {});
 	},
 
+	showPage: function (id)
+	{
+		this.sendAjaxGetRequest({cmd: "showPage", help_page: id}, {});
+		return false;
+	},
+	
 	/*cmdAjaxLink: function (e, url)
 	{
 		// prevent the default action
@@ -176,7 +180,27 @@ ilHelp =
 	reduceMainContentArea: function()
 	{
 		var obj = document.getElementById('mainspacekeeper');
+		if (ilHelp.padding_old == "-")
+		{
+			ilHelp.padding_old = obj.style.paddingRight;
+		}
 		obj.style.paddingRight = '300px';
+	},
+	
+	resetMainContentArea: function()
+	{
+		var obj = document.getElementById('mainspacekeeper');
+		obj.style.paddingRight = this.padding_old;
+	},
+	
+	closePanel: function(e)
+	{
+		if (this.panel)
+		{
+			ilOverlay.hide(e, "ilHelpPanel");
+			ilHelp.panel = false;
+			ilHelp.resetMainContentArea();
+		}
 	}
 
 };
