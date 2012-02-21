@@ -21,6 +21,14 @@
 	+-----------------------------------------------------------------------------+
 */
 
+if (version_compare(PHP_VERSION, '5.3.0', '>='))
+{
+	error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
+}
+else
+{
+	error_reporting(ini_get('error_reporting') & ~E_NOTICE);
+}
 
 foreach($_GET as $k => $v)
 {
