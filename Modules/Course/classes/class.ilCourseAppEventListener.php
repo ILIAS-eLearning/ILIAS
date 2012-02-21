@@ -31,11 +31,11 @@ class ilCourseAppEventListener
 			{
 				$is_completed = ($status == LP_STATUS_COMPLETED_NUM);
 
-				include_once("./Modules/Course/classes/class.ilObjCourse.php");
 				if (ilObject::_lookupType($obj_id) != "crs")
 				{
 					return;
 				}
+				include_once("./Modules/Course/classes/class.ilObjCourse.php");
 				
 				$crs = new ilObjCourse($obj_id, false);
 				if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
