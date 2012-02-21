@@ -9,7 +9,9 @@
 * @ingroup ModulesMediaPool
 */
 class ilCourseAppEventListener
-{
+{	
+	static protected $course_mode = array();
+	
 	/**
 	* Handle an event in a listener.
 	*
@@ -28,35 +30,49 @@ class ilCourseAppEventListener
 			$status = $a_parameter["status"];
 			
 			if($obj_id && $user_id)
-			{
-				$is_completed = ($status == LP_STATUS_COMPLETED_NUM);
-
+			{				
 				if (ilObject::_lookupType($obj_id) != "crs")
 				{
 					return;
-				}
-				include_once("./Modules/Course/classes/class.ilObjCourse.php");
+				}				
 				
-				$crs = new ilObjCourse($obj_id, false);
-				if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
+				// determine couse setting only once
+				if(!isset(self::$course_mode[$obj_id]))
 				{
-					include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-					$lp_settings = new ilLPObjSettings($obj_id);
-					switch($lp_settings->getMode())
+					include_once("./Modules/Course/classes/class.ilObjCourse.php");
+					$crs = new ilObjCourse($obj_id, false);
+					if($crs->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
 					{
-						case LP_MODE_MANUAL_BY_TUTOR:
-							$crs->getMembersObject()->updatePassed($user_id, $is_completed, $ilUser->getId());						    										
-							break;
+						include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+						$lp_settings = new ilLPObjSettings($obj_id);
+						$mode = $lp_settings->getMode();
+					}
+					else
+					{
+						$mode = false;
+					}
+					self::$course_mode[$obj_id] = $mode;
+				}
+				
+				$is_completed = ($status == LP_STATUS_COMPLETED_NUM);
+				
+				// we are NOT using the members object because of performance issues
+				switch(self::$course_mode[$obj_id])
+				{
+					case LP_MODE_MANUAL_BY_TUTOR:
+						include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+						ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed, $ilUser->getId());						    										
+						break;
 
-						case LP_MODE_COLLECTION:
-						case LP_MODE_OBJECTIVES:
-							if($is_completed)
-							{
-								$crs->getMembersObject()->updatePassed($user_id, $is_completed, -1);	
-							}
-							break;
-					}						
-				}			
+					case LP_MODE_COLLECTION:
+					case LP_MODE_OBJECTIVES:
+						if($is_completed)
+						{
+							include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+							ilCourseParticipants::_updatePassed($obj_id, $user_id, $is_completed, -1);	
+						}
+						break;
+				}										
 			}
 		}
 	}
