@@ -1259,7 +1259,8 @@ class MDB2_Driver_Datatype_Common extends MDB2_Module_Common
             if ($match[1] == 'file://') {
                 $value = $match[2];
             }
-            $value = @fopen($value, 'r');
+			// do not try to open urls
+            #$value = @fopen($value, 'r');
         }
 
         if (is_resource($value)) {

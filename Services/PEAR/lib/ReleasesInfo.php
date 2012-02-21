@@ -60,5 +60,8 @@ MDB2/Driver/Datatype/Common.php, line 522:
 Explicitely add " NULL" to declarations, otherwise setting oracle fields via
 modifyTable from "NOT NULL" to "NULL" was not possible
 
+MDB2/Driver/Datatype/Common.php, line 1262
+do not try open clob fields with fopen even if allow_url_fopen is enabled
+
 */
 ?>
