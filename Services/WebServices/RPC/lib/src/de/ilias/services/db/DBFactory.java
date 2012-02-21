@@ -77,11 +77,11 @@ public class DBFactory {
 					logger.info("Using URL: " +
 							client.getDbUrl() + "/" +
 							client.getDbUser() + "/" +
-							client.getDbPass() 
+							"******" + "?autoReconnect=true"
 					);
 
 					return DriverManager.getConnection(
-							client.getDbUrl(),
+							client.getDbUrl() + "?autoReconnect=true",
 							client.getDbUser(),
 							client.getDbPass());
 				}
@@ -94,7 +94,8 @@ public class DBFactory {
 					if(client.getDbName().length() == 0) {
 						
 						String url = "jdbc:oracle:thin:" + client.getDbUser() + "/" + client.getDbPass() + "@" + client.getDbHost();
-						logger.info("Using tnsname.ora: " + url);
+						String log = "jdbc:oracle:thin:" + client.getDbUser() + "/" + "******" + "@" + client.getDbHost();
+						logger.info("Using tnsname.ora: " + log);
 						
 						try {
 							System.setProperty("oracle.net.tns_admin",server.lookupTnsAdmin());

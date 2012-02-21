@@ -277,8 +277,8 @@ public class ilServer {
 			// Check if webserver is alive
 			// otherwise stop execution
 			while(true) {
+
 				Thread.sleep(3000);
-				//logger.debug("Still alive...");
 				if(!rpc.isAlive()) {
 					rpc.shutdown();
 					break;
@@ -410,7 +410,7 @@ public class ilServer {
 		settings = ServerSettings.getInstance();
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(settings.getServerUrl()));
-		config.setConnectionTimeout(0);
+		config.setConnectionTimeout(10000);
 		config.setReplyTimeout(0);
 		
 		client = new XmlRpcClient();

@@ -23,7 +23,9 @@
 package de.ilias.services.settings;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -99,6 +101,20 @@ public class ClientSettings {
 	public static boolean exists(String clientKey) {
 
 		return instances.containsKey(clientKey);
+	}
+
+	/**
+	 * get all clients
+	 * @return
+	 */
+	public static ArrayList<String> getClients() {
+
+		ArrayList<String> clients = new ArrayList<String>();
+
+		for(Map.Entry<String, ClientSettings> entry : instances.entrySet()) {
+			clients.add(entry.getKey());
+		}
+		return clients;
 	}
 
 	
