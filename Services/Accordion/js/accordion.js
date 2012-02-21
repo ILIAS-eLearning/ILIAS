@@ -256,13 +256,27 @@ function ilInitAccordions()
 		ilInitAccordion(ilAccordionData[i][0], ilAccordionData[i][1],
 			ilAccordionData[i][2], ilAccordionData[i][3], ilAccordionData[i][4],
 			ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7],
-			ilAccordionData[i][8], ilAccordionData[i][9]);
+			ilAccordionData[i][8], ilAccordionData[i][9], ilAccordionData[i][10]);
 	}
 }
 
+function ilInitAccordionById(id)
+{
+	// run through accordions
+	for (var i=0; i<ilAccordionData.length; i++)
+	{
+		if (ilAccordionData[i][10] == id)
+		{
+			ilInitAccordion(ilAccordionData[i][0], ilAccordionData[i][1],
+				ilAccordionData[i][2], ilAccordionData[i][3], ilAccordionData[i][4],
+				ilAccordionData[i][5], ilAccordionData[i][6], ilAccordionData[i][7],
+				ilAccordionData[i][8], ilAccordionData[i][9], ilAccordionData[i][10]);
+		}
+	}
+}
 
 function ilInitAccordion(id, toggle_class, toggle_active_class, content_class, width, height, direction, behavior, save_url,
-	active_head_class)
+	active_head_class, int_id)
 {
 	if (behavior != "ForceAllOpen")
 	{

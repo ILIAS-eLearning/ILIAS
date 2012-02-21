@@ -333,6 +333,7 @@ class ilAccordionGUI
 		$tpl->setVariable("CONTAINER_CLASS", $this->getContainerClass()
 			? $this->getContainerClass() : "il_".$or_short."AccordionContainer");
 		$tpl->setVariable("ORIENTATION", $this->getOrientation());
+		$tpl->setVariable("ID", $this->getId());
 		if ($this->getBehaviour() == "OneOpenSession" && $this->getId() != "")
 		{
 			include_once("./Services/Accordion/classes/class.ilAccordionPropertiesStorage.php");
