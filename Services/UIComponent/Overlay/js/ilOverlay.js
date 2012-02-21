@@ -306,7 +306,10 @@ ilOverlayFunc.prototype =
 			}
 
 			if (!isIn) {
-				ilOverlayFunc.prototype.hide(null, k);
+				if (k != 'ilHelpPanel')
+				{
+					ilOverlayFunc.prototype.hide(null, k);
+				}
 			}
 		}
 	},

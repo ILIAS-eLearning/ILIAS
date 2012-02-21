@@ -55,10 +55,10 @@ class ilGroupedListGUI
 	 * @param
 	 * @return
 	 */
-	function addEntry($a_content, $a_href="", $a_target="")
+	function addEntry($a_content, $a_href="", $a_target="", $a_onclick="")
 	{
 		$this->items[] = array("type" => "entry", "content" => $a_content,
-			"href" => $a_href, "target" => $a_target);
+			"href" => $a_href, "target" => $a_target, "onclick" => $a_onclick);
 	}
 	
 	
@@ -105,6 +105,10 @@ class ilGroupedListGUI
 						else
 						{
 							$tpl->setVariable("TARGET", 'target="_top"');
+						}
+						if ($i["onclick"] != "")
+						{
+							$tpl->setVariable("ONCLICK", 'onclick="'.$i["onclick"].'"');
 						}
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");

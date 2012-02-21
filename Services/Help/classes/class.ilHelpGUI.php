@@ -100,7 +100,7 @@ class ilHelpGUI
 	 */
 	function showHelp()
 	{
-		global $ilHelp;
+		global $ilHelp, $lng;
 		
 		if ($_GET["help_ids"] != "")
 		{
@@ -133,19 +133,76 @@ class ilHelpGUI
 				$pages = ilLMObject::getPagesOfChapter($oh_lm_id, $st_id);
 				include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 				$grp_list = new ilGroupedListGUI();
-				//$list_tpl = new ilTemplate("tpl.page_list.html", true, true, "Services/Help");
 				foreach ($pages as $pg)
 				{
-					/*$list_tpl->setCurrentBlock("item");
-					$list_tpl->setVariable("PAGE_TITLE", ilLMObject::_lookupTitle($pg["child"]));
-					$list_tpl->parseCurrentBlock();*/
-					$grp_list->addEntry(ilLMObject::_lookupTitle($pg["child"]), "#", "");
+					$grp_list->addEntry(ilLMObject::_lookupTitle($pg["child"]), "#", "",
+						"return ilHelp.showPage(".$pg["child"].");");
 				}
 				
 				$acc->addItem(ilLMObject::_lookupTitle($st_id), $grp_list->getHTML());
 			}
-			echo $acc->getHTML();
+			$h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
+			$h_tpl->setVariable("HEAD", $lng->txt("help"));
+			$h_tpl->setVariable("CONTENT", $acc->getHTML());
+			$h_tpl->setVariable("CLOSE_IMG", ilUtil::img(ilUtil::getImagePath("icon_close2_s.gif")));
+			echo $h_tpl->get();
 		}
+		exit;
+	}
+	
+	/**
+	 * Show page
+	 *
+	 * @param
+	 * @return
+	 */
+	function showPage()
+	{
+		global $lng;
+		
+		$page_id = (int) $_GET["help_page"];
+		
+		$h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		
+		$h_tpl->setCurrentBlock("backlink");
+		$h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
+		$h_tpl->setVariable("ONCLICK_BACK",
+			"return ilHelp.listHelp(event);");
+		$h_tpl->parseCurrentBlock();
+		
+		
+		$h_tpl->setVariable("HEAD", $lng->txt("help")." - ".
+			ilLMObject::_lookupTitle($page_id));
+		
+		include_once("./Services/COPage/classes/class.ilPageUtil.php");
+		if (!ilPageUtil::_existsAndNotEmpty("lm", $page_id))
+		{
+			exit;
+		}
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+
+		// get page object
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+		$page_gui =& new ilPageObjectGUI("lm", $page_id);
+		$page_gui->setPresentationTitle("");
+		$page_gui->setTemplateOutput(false);
+		$page_gui->setHeader("");
+		$page_gui->setEnabledFileLists(false);
+		$page_gui->setEnabledPCTabs(false);
+		$page_gui->setFileDownloadLink(".");
+		$page_gui->setFullscreenLink(".");
+		$page_gui->setSourcecodeDownloadScript(".");
+		$page_gui->setRawPageContent(true);
+		$page_gui->setEnabledMaps(false);
+		$ret = $page_gui->showPage();
+
+		$h_tpl->setVariable("CONTENT", $ret);
+		$h_tpl->setVariable("CLOSE_IMG", ilUtil::img(ilUtil::getImagePath("icon_close2_s.gif")));
+		
+		
+		echo $h_tpl->get();
 		exit;
 	}
 	

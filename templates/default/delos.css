@@ -3415,3 +3415,19 @@ td.ilRight, th.ilRight {
 .ilBlogNavigationItemDraft {
 	color: red;
 }
+
+div.ilSideBarHead{
+	background-color: #F0F0F0;
+	margin-bottom:5px;
+	padding:5px;
+}
+
+div.ilSideBarHead h3{
+	font-size:110%;
+	color: #606060;
+	display: inline;
+}
+
+div.ilSideBarContent{
+	padding: 5px;
+}
