@@ -1262,6 +1262,26 @@ class ilLMObject
 		return $obj_rec["layout"];
 	}
 
+	/**
+	 * Get pages of chapter
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getPagesOfChapter($a_lm_id, $a_chap_id)
+	{
+		// update structure entries: if at least one page of a chapter is public set chapter to public too
+		$lm_tree = new ilTree($a_lm_id);
+		$lm_tree->setTableNames('lm_tree','lm_data');
+		$lm_tree->setTreeTablePK("lm_id");
+		$lm_tree->readRootId();
+		
+		$childs = $lm_tree->getChilds($a_chap_id);
+
+		return $childs;
+	}
+	
+	
 	////
 	//// Export ID handling
 	////

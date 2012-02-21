@@ -962,7 +962,13 @@ class ilMainMenuGUI
 		{
 			$this->tpl->setCurrentBlock("help_icon");
 
+			// add javascript needed by help (to do: move to help class)
 			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+			$acc = new ilAccordionGUI();
+			$acc->addJavascript();
+			$acc->addCss();
+
 			$ts = $ilCtrl->getTargetScript();
 			$ilCtrl->setTargetScript("ilias.php");
 			

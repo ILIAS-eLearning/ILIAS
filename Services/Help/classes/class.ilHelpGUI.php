@@ -116,6 +116,12 @@ class ilHelpGUI
 		
 		if (OH_REF_ID > 0 && count($help_arr) > 0)
 		{
+			$oh_lm_id = ilObject::_lookupObjId(OH_REF_ID);
+			
+			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
+			$acc = new ilAccordionGUI();
+			$acc->setId("oh_acc");
+			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 			
 			foreach ($help_arr as $h_id)
 			{
@@ -123,9 +129,24 @@ class ilHelpGUI
 				$data = ilLMObject::getExportIDInfo(ilObject::_lookupObjId(OH_REF_ID),
 					$h_id, "st");
 				$st_id = $data[0]["obj_id"];
-				echo ilLMObject::_lookupTitle($st_id);
+				
+				$pages = ilLMObject::getPagesOfChapter($oh_lm_id, $st_id);
+				include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+				$grp_list = new ilGroupedListGUI();
+				//$list_tpl = new ilTemplate("tpl.page_list.html", true, true, "Services/Help");
+				foreach ($pages as $pg)
+				{
+					/*$list_tpl->setCurrentBlock("item");
+					$list_tpl->setVariable("PAGE_TITLE", ilLMObject::_lookupTitle($pg["child"]));
+					$list_tpl->parseCurrentBlock();*/
+					$grp_list->addEntry(ilLMObject::_lookupTitle($pg["child"]), "#", "");
+				}
+				
+				$acc->addItem(ilLMObject::_lookupTitle($st_id), $grp_list->getHTML());
 			}
+			echo $acc->getHTML();
 		}
+		exit;
 	}
 	
 
