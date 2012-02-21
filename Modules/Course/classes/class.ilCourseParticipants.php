@@ -116,16 +116,29 @@ class ilCourseParticipants extends ilParticipants
 	 * @param int usr_id
 	 * @param bool passed
 	 * @param int $a_origin
-	 * 
 	 */
-	public function updatePassed($a_usr_id,$a_passed,$a_origin = null)
+	public function updatePassed($a_usr_id, $a_passed, $a_origin = null)
+	{				
+		$this->participants_status[$a_usr_id]['passed'] = (int) $a_passed;
+
+		return self::_updatePassed($this->obj_id, $a_usr_id, $a_passed, $a_origin);
+	}
+	
+	/**
+	 * Update passed status (static)
+	 *
+	 * @access public
+	 * @param int obj_id
+	 * @param int usr_id
+	 * @param bool passed
+	 * @param int $a_origin
+	 */
+	public static function _updatePassed($a_obj_id, $a_usr_id, $a_passed, $a_origin = null)
 	{
 		global $ilDB;
 		
-		$this->participants_status[$a_usr_id]['passed'] = (int) $a_passed;
-
 		$query = "SELECT * FROM crs_members ".
-		"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer')." ".
+		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 		"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
 		if($res->numRows())
@@ -134,7 +147,7 @@ class ilCourseParticipants extends ilParticipants
 				"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
 				"origin = ".$ilDB->quote((int) $a_origin,'integer').", ".
 				"origin_ts = ".$ilDB->quote(time(),'integer')." ".
-				"WHERE obj_id = ".$ilDB->quote($this->obj_id,'integer')." ".
+				"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 				"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		}
 		else
@@ -142,7 +155,7 @@ class ilCourseParticipants extends ilParticipants
 			$query = "INSERT INTO crs_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) ".
 				"VALUES ( ".
 				$ilDB->quote((int) $a_passed,'integer').", ".
-				$ilDB->quote($this->obj_id,'integer').", ".
+				$ilDB->quote($a_obj_id,'integer').", ".
 				$ilDB->quote($a_usr_id,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
 				$ilDB->quote(0,'integer').", ".
