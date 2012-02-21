@@ -667,7 +667,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		if($pos !== false)
 		{
 			$function = strtoupper(substr($a_field, $pos+1));
-			if(in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT")))
+			if(in_array($function, array("MIN", "MAX", "SUM", "AVG", "COUNT", "TOTAL")))
 			{
 				return true;
 			}
