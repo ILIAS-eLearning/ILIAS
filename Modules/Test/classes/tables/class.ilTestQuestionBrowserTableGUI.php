@@ -55,13 +55,13 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
-		$this->addColumn('','f','1%');
+		$this->addColumn('','','1%', true);
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
 		$this->addColumn($this->lng->txt("description"),'description', '');
 		$this->addColumn($this->lng->txt("tst_question_type"),'ttype', '');
 		$this->addColumn($this->lng->txt("author"),'author', '');
 		$this->addColumn($this->lng->txt("create_date"),'created', '');
-		$this->addColumn($this->lng->txt("last_update"),'updated', '');
+		$this->addColumn($this->lng->txt("last_update"),'tstamp', '');  // name of col is proper "updated" but in data array the key is "tstamp"
 		$this->addColumn($this->lng->txt("qpl"),'qpl', '');
 	
 		if ($this->getWriteAccess())
