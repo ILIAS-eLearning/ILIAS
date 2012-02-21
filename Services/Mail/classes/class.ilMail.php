@@ -1776,7 +1776,11 @@ class ilMail
 		global $lng,$rbacsystem,$log;
 		//$log->write('class.ilMail.sendMail '.$a_rcp_to.' '.$a_m_subject);
 
-		$this->mail_to_global_roles = $rbacsystem->checkAccess('mail_to_global_roles', $this->mail_obj_ref_id);
+		$this->mail_to_global_roles = true;
+		if($this->user_id != ANONYMOUS_USER_ID)
+		{
+			$this->mail_to_global_roles = $rbacsystem->checkAccessOfUser($this->user_id, 'mail_to_global_roles', $this->mail_obj_ref_id);
+		}
 
 		$error_message = '';
 		$message = '';
@@ -1870,7 +1874,7 @@ class ilMail
 
 		// check smtp permission
 		if($c_emails && $this->user_id != ANONYMOUS_USER_ID &&
-		   !$rbacsystem->checkAccess('smtp_mail', $this->mail_obj_ref_id))
+		   !$rbacsystem->checkAccessOfUser($this->user_id, 'smtp_mail', $this->mail_obj_ref_id))
 		{
 			return $this->lng->txt('mail_no_permissions_write_smtp');
 		}
