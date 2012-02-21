@@ -48,7 +48,7 @@ class ilNusoapUserAdministrationAdapter
 		define('SERVICE_NAMESPACE','urn:ilUserAdministration');
 		define('SERVICE_STYLE','rpc');
 		define('SERVICE_USE','encoded');
-		global $debug; $debug = true;
+		#global $debug; $debug = true;
 		$this->server = new soap_server();
 		$this->server->decode_utf8 = false;
 		$this->server->class = "ilSoapFunctions";
