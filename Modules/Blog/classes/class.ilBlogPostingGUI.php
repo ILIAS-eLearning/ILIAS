@@ -244,6 +244,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function previewFullscreen()
 	{		
+		$this->add_date = true;
 		return $this->preview("fullscreen");
 	}
 
@@ -273,7 +274,20 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function postOutputProcessing($a_output)
 	{
-		// :TODO: anything?
+		// #8626
+		if($this->getOutputMode() == "preview" && !$this->getAbstractOnly() && $this->add_date)
+		{
+			// prepend creation date
+			$rel = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+			$prefix = "<div class=\"il_BlockInfo\" style=\"text-align:right\">".
+				ilDatePresentation::formatDate($this->getBlogPosting()->getCreated()).
+				"</div>";			
+			ilDatePresentation::setUseRelativeDates($rel);
+			
+			$a_output = $prefix.$a_output;
+		}
+		
 		return $a_output;
 	}
 
