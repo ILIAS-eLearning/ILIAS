@@ -41,7 +41,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->ilContainerGUI('',(int) $_GET['ref_id'],true,false);
 
 		$this->lng->loadLanguageModule('crs');
-		$ilHelp->addHelpSection("crs");
 
 		$this->SEARCH_USER = 1;
 		$this->SEARCH_GROUP = 2;
