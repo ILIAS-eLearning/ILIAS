@@ -12457,3 +12457,6 @@ tax#:#tax_nodes#:#Nodes
 tax#:#tax_create_node#:#Create Node
 tax#:#tax_new_tax_node#:#New Node
 tax#:#tax_order#:#Order
+administration#:#adm_rep_shorten_description#:#Shorten Descriptions
+administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists will be shortened.
+administration#:#adm_rep_shorten_description_length#:#Max. number of characters
