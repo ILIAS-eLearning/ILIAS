@@ -359,14 +359,14 @@ class ilObjectGUI
 			
 			$lg = $dispatcher->initHeaderAction();
 			
-			// to enable add to desktop / remove from desktop
-			if($this instanceof ilDesktopItemHandling)
-			{
-				$lg->setContainerObject($this);
-			}
-			
 			if (is_object($lg))
-			{
+			{				
+				// to enable add to desktop / remove from desktop
+				if($this instanceof ilDesktopItemHandling)
+				{
+					$lg->setContainerObject($this);
+				}			
+				
 				// comments settings are always on (for the repository)
 				// should only be shown if active or permission to toggle
 				include_once "Services/Notes/classes/class.ilNote.php";

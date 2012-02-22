@@ -40,13 +40,7 @@ class ilCommonActionDispatcherGUI
 		$this->access_handler = $a_access_handler;
 		$this->obj_type = (string)$a_obj_type;
 		$this->node_id = (int)$a_node_id;
-		$this->obj_id = (int)$a_obj_id;
-		
-		// check access for object 
-		if ($this->node_id && !$this->access_handler->checkAccess("visible", "", $this->node_id))
-		{
-			exit("invalid access");
-		}
+		$this->obj_id = (int)$a_obj_id;		
 	}
 	
 	/**
@@ -132,8 +126,16 @@ class ilCommonActionDispatcherGUI
 		
 	function executeCommand()
 	{
-		global $ilCtrl, $ilAccess;
+		global $ilCtrl;
 
+		// check access for object 
+		if ($this->node_id && 
+			!$this->access_handler->checkAccess("visible", "", $this->node_id) &&
+			!$this->access_handler->checkAccess("read", "", $this->node_id))
+		{
+			exit();
+		}
+		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 		
@@ -215,6 +217,14 @@ class ilCommonActionDispatcherGUI
 	 */
 	function initHeaderAction()
 	{
+		// check access for object 
+		if ($this->node_id && 
+			!$this->access_handler->checkAccess("visible", "", $this->node_id) &&
+			!$this->access_handler->checkAccess("read", "", $this->node_id))
+		{
+			return;
+		}
+		
 		include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 		$this->header_action = ilObjectListGUIFactory::_getListGUIByType($this->obj_type);
 		
