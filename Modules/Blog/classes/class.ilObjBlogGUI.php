@@ -921,6 +921,12 @@ class ilObjBlogGUI extends ilObject2GUI
 			$bpgui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(), $item["id"]);
 			$bpgui->setRawPageContent(true);
 			$bpgui->setAbstractOnly(true);
+			
+			// #8627: export won't work - should we set offline mode?
+			$bpgui->setFileDownloadLink(".");
+			$bpgui->setFullscreenLink(".");
+			$bpgui->setSourcecodeDownloadScript(".");
+			
 			$snippet = $bpgui->showPage();
 			
 			if($snippet)
