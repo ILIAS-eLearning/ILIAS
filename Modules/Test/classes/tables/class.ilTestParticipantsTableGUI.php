@@ -55,7 +55,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->setFormName('participantsForm');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->addColumn('','f','1%');
+		$this->addColumn('','','1%');
 		$this->addColumn($this->lng->txt("login"),'login', '');
 		$this->addColumn($this->lng->txt("name"),'name', '');
 		/*
@@ -63,10 +63,13 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("firstname"),'firstname', '');
 		*/
 		$this->addColumn($this->lng->txt("tst_started"),'started', '');
-		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'passes', '');
+		
+		// maxpass => passes ;)
+		$this->addColumn($this->lng->txt("tst_nr_of_tries_of_user"),'maxpass', '');
+		
 		$this->addColumn($this->lng->txt("tst_finished"),'finished', '');
 		$this->addColumn($this->lng->txt("last_access"),'access', '');
-		$this->addColumn('','results', '');
+		$this->addColumn('','', '');
 	
 		$this->setTitle($this->lng->txt('tst_participating_users'));
 		$this->setRowTemplate("tpl.il_as_tst_participants_row.html", "Modules/Test");
