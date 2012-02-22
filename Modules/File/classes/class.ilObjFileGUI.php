@@ -720,6 +720,15 @@ class ilObjFileGUI extends ilObject2GUI
 		$info->addProperty($this->lng->txt("version"),
 			$this->object->getVersion());
 		
+		include_once "classes/class.ilHistory.php";
+		$uploader = ilHistory::_getEntriesForObject($this->object->getId(), $this->object->getType());
+		$uploader = array_shift($uploader);
+		$uploader = $uploader["user_id"];		
+		
+		$this->lng->loadLanguageModule("file");
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		$info->addProperty($this->lng->txt("file_uploaded_by"), ilUserUtil::getNamePresentation($uploader));
+		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{			
 			$info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());

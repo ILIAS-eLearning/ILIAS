@@ -12460,3 +12460,4 @@ tax#:#tax_order#:#Order
 administration#:#adm_rep_shorten_description#:#Shorten Descriptions
 administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists will be shortened.
 administration#:#adm_rep_shorten_description_length#:#Max. number of characters
+file#:#file_uploaded_by#:#Uploaded by
