@@ -53,7 +53,7 @@ class ilAssessmentFolderLogAdministrationTableGUI extends ilTable2GUI
 		$this->setFormName('showlog');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->addColumn('','f','1%');
+		$this->addColumn('','','1%', true);
 		$this->addColumn($this->lng->txt("title"),'title', '');
 		$this->addColumn($this->lng->txt("ass_log_count_datasets"),'nr', '');
 	
