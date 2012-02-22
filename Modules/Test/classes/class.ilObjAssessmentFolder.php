@@ -24,8 +24,9 @@
 /**
 * Class ilObjAssessmentFolder
 *
-* @author Helmut Schottmüller <hschottm@gmx.de>
-* @version $Id$
+* @author	Helmut Schottmüller <hschottm@gmx.de>
+* @author	Björn Heyser <bheyser@databay.de>
+* @version	$Id$
 *
 * @extends ilObject
 */
@@ -254,6 +255,25 @@ class ilObjAssessmentFolder extends ilObject
 			$lang = "en";
 		}
 		return $lang;
+	}
+	
+	/**
+	 * Returns the fact wether manually scoreable
+	 * question types exist or not
+	 * 
+	 * @static
+	 * @access	public
+	 * 
+	 * @return	boolean		$mananuallyScoreableQuestionTypesExists
+	 */
+	public static function _mananuallyScoreableQuestionTypesExists()
+	{
+		if( count(self::_getManualScoring()) > 0 )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
