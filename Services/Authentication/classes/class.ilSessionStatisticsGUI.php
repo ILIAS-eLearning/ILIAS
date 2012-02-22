@@ -801,7 +801,7 @@ class ilSessionStatisticsGUI
 				{
 					case "slot_begin":
 					case "slot_end":
-						$value = date("d.m.Y H:i");
+						$value = date("d.m.Y H:i", $value);
 						break;
 					
 					case "weekday":
@@ -819,7 +819,7 @@ class ilSessionStatisticsGUI
 		header("Content-Disposition: attachment; filename=\"".$filename."\"");
 		header("Expires: 0");
 		header("Cache-Control: must-revalidate, post-check=0,pre-check=0");
-		header("Pragma: public");
+		header("Pragma: public");		
 		echo $csv->getCSVString();		
 		exit();
 	}														
