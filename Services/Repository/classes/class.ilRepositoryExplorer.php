@@ -437,7 +437,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 	function isVisible($a_ref_id,$a_type)
 	{
-		global $rbacsystem,$tree;
+		global $rbacsystem,$tree,$ilSetting;
 
 		if(!$rbacsystem->checkAccess('visible',$a_ref_id))
 		{
@@ -445,6 +445,21 @@ class ilRepositoryExplorer extends ilExplorer
 		}
 		if ($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
 		{
+			// do not display session materials for container course
+			if($ilSetting->get("repository_tree_pres")  == "all_types" && $crs_id != $a_ref_id)
+			{
+				// get container event items only once
+				if(!isset($this->session_materials[$crs_id]))
+				{
+					include_once './Modules/Session/classes/class.ilEventItems.php';
+					$this->session_materials[$crs_id] = ilEventItems::_getItemsOfContainer($crs_id);
+				}			
+				if(in_array($a_ref_id, $this->session_materials[$crs_id]))
+				{
+					return false;
+				}
+			}		
+						
 			if(!$rbacsystem->checkAccess('write',$crs_id))
 			{
 				// Show only activated courses
