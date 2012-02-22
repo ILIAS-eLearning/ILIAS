@@ -19,7 +19,7 @@
 <!-- BEGIN other_row -->
 <tr>
 <td class="nobackground" width="1%"><input type="checkbox" name="{QUESTION_ID}_value[]" value="{VALUE_MC}" id="{QUESTION_ID}_{VALUE_MC}"{CHECKED_MC} /></td>
-<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_MC}">{OTHER_LABEL}</label> <input type="text" size="80" name="{QUESTION_ID}_{VALUE_MC}_other" {OTHER_VALUE}/></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_MC}">{OTHER_LABEL}</label> <input type="text" size="80" name="{QUESTION_ID}_{VALUE_MC}_other" onfocus="$('#{QUESTION_ID}_{VALUE_MC}')[0].checked = true;" {OTHER_VALUE}/></td>
 </tr>
 <!-- END other_row -->
 <!-- END outer_row -->

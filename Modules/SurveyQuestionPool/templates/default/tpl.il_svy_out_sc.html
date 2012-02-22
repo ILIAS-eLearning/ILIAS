@@ -17,7 +17,7 @@
 <!-- BEGIN other_row -->
 <tr>
 <td class="nobackground" width="1%"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} /></td>
-<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_SC}">{OTHER_LABEL}</label> <input type="text" size="80" name="{QUESTION_ID}_{VALUE_SC}_other" {OTHER_VALUE}/></td>
+<td class="nobackground"><label for="{QUESTION_ID}_{VALUE_SC}">{OTHER_LABEL}</label> <input type="text" size="80" name="{QUESTION_ID}_{VALUE_SC}_other" onfocus="$('#{QUESTION_ID}_{VALUE_SC}')[0].checked = true;" {OTHER_VALUE}/></td>
 </tr>
 <!-- END other_row -->
 <!-- END outer_row -->
