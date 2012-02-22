@@ -2096,6 +2096,16 @@ return $this->showServerInfoObject();
 		$radg->addOption($op2);
 
 		$this->form->addItem($radg);
+		
+		$sdesc = new ilCheckboxInputGUI($lng->txt("adm_rep_shorten_description"), "rep_shorten_description");
+		$sdesc->setInfo($lng->txt("adm_rep_shorten_description_info"));
+		$sdesc->setChecked($ilSetting->get("rep_shorten_description"));
+		$this->form->addItem($sdesc);
+		
+		$sdesclen = new ilTextInputGUI($lng->txt("adm_rep_shorten_description_length"), "rep_shorten_description_length");
+		$sdesclen->setValue($ilSetting->get("rep_shorten_description_length"));
+		$sdesclen->setSize(3);
+		$sdesc->addSubItem($sdesclen);
 
 		// synchronize repository tree with main view
 		$cb = new ilCheckboxInputGUI($lng->txt("adm_synchronize_rep_tree"), "rep_tree_synchronize");
@@ -2379,6 +2389,9 @@ return $this->showServerInfoObject();
 				: 0;
 				
 			$ilSetting->set('enable_global_profiles', $global_profiles);
+			
+			$ilSetting->set("rep_shorten_description", $this->form->getInput('rep_shorten_description'));
+			$ilSetting->set("rep_shorten_description_length", (int)$this->form->getInput('rep_shorten_description_length'));
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");

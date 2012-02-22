@@ -2025,5 +2025,25 @@ class ilObject
 	{
 		return false;	
 	}
+	
+	/**
+	 * Get long description data
+	 *
+	 * @param array $a_obj_ids
+	 * @return array 
+	 */
+	static function getLongDescriptions(array $a_obj_ids)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT * FROM object_description".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer"));
+		$all = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$all[$row["obj_id"]] = $row["description"];
+		}
+		return $all;
+	}
 } // END class.ilObject
 ?>

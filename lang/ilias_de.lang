@@ -12450,3 +12450,6 @@ trac#:#trac_begin_at#:#Startdatum
 trac#:#trac_scale#:#Skala
 trac#:#trac_measure#:#Kennzahl
 trac#:#trac_end_at#:#Enddatum
+administration#:#adm_rep_shorten_description#:#Beschreibungen kürzen
+administration#:#adm_rep_shorten_description_info#:#Bei Aktivierung werden alle Beschreibungen innerhalb der Objektlisten gekürzt.
+administration#:#adm_rep_shorten_description_length#:#Max. Länge

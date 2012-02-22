@@ -548,6 +548,42 @@ class ilContainer extends ilObject
 		
 		$type_grps = $this->getGroupedObjTypes();
 		$objects = $tree->getChilds($this->getRefId(), "title");
+		
+		// using long descriptions?
+		$short_desc = $ilSetting->get("rep_shorten_description");
+		$short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
+		if(!$short_desc || $short_desc_max_length != ilObject::TITLE_LENGTH)
+		{
+			// using (part of) shortened description
+			if($short_desc && $short_desc_max_length && $short_desc_max_length < ilObject::TITLE_LENGTH)
+			{
+				foreach($objects as $key => $object)
+				{								
+					$objects[$key]["description"] = ilUtil::shortenText($object["description"], $short_desc_max_length, true);		
+				}						
+			}			
+			// using (part of) long description
+			else 
+			{
+				$obj_ids = array();
+				foreach($objects as $key => $object)
+				{
+					$obj_ids[] = $object["obj_id"];
+				}
+				if(sizeof($obj_ids))
+				{
+					$long_desc = ilObject::getLongDescriptions($obj_ids);
+					foreach($objects as $key => $object)
+					{
+						if($short_desc && $short_desc_max_length)
+						{
+							$long_desc[$object["obj_id"]] = ilUtil::shortenText($long_desc[$object["obj_id"]], $short_desc_max_length, true);
+						}					
+						$objects[$key]["description"] = $long_desc[$object["obj_id"]];				
+					}		
+				}		
+			}			
+		}
 
 		$found = false;
 		$all_obj_types = array();
