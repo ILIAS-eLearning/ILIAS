@@ -21,11 +21,13 @@ class ilSessionStatisticsGUI
 	const MODE_DAY = 5; 
 	const MODE_WEEK = 6;
 	const MODE_MONTH = 7;
+	const MODE_YEAR = 8;
 	
 	const SCALE_DAY = 1;
 	const SCALE_WEEK = 2;
 	const SCALE_MONTH = 3;
-	const SCALE_PERIODIC_WEEK = 4;
+	const SCALE_YEAR = 4;
+	const SCALE_PERIODIC_WEEK = 5;
 	
 	function executeCommand()
 	{
@@ -303,11 +305,17 @@ class ilSessionStatisticsGUI
 				$time_from = $time_to-60*60*24*30;
 				$scale = self::SCALE_MONTH;
 				break;					
+			
+			case self::MODE_YEAR:				
+				$time_from = $time_to-60*60*24*365;
+				$scale = self::SCALE_YEAR;
+				break;	
 		}
 		
 		$mode_options = array(
 				self::MODE_WEEK => $lng->txt("trac_session_statistics_mode_week"),
-				self::MODE_MONTH => $lng->txt("trac_session_statistics_mode_month")
+				self::MODE_MONTH => $lng->txt("trac_session_statistics_mode_month"),
+				self::MODE_YEAR => $lng->txt("trac_session_statistics_mode_year")
 			);		
 		
 		$title = $lng->txt("trac_long_system_load")." - ".$mode_options[$mode];		
@@ -399,7 +407,6 @@ class ilSessionStatisticsGUI
 										
 		$title = $lng->txt("trac_periodic_system_load");
 		$data = $this->buildData($time_from, $time_to, $title);			
-		$data["active"] = $this->buildPeriodicData($data["active"]);		
 				
 		if(!$a_export)
 		{			
@@ -629,15 +636,21 @@ class ilSessionStatisticsGUI
 			$colors[] = $colors_map[$measure];
 		}
 		
-		$max_line = new ilChartData("lines");
-		$max_line->setLabel($lng->txt("session_max_count"));
-		$colors[] = "#cc0000";
+		if($a_scale != self::SCALE_PERIODIC_WEEK)
+		{
+			$max_line = new ilChartData("lines");
+			$max_line->setLabel($lng->txt("session_max_count"));
+			$colors[] = "#cc0000";
+		}
 	
 		$chart->setColors($colors);		
 		
-		$scale = ceil(sizeof($a_data)/5);
+		$chart_data = $this->adaptDataToScale($a_scale, $a_data, 700);
+		unset($a_data);
+		
+		$scale = ceil(sizeof($chart_data)/5);
 		$labels = array();
-		foreach($a_data as $idx => $item)
+		foreach($chart_data as $idx => $item)
 		{
 		    $date = $item["slot_begin"];
 			
@@ -657,6 +670,10 @@ class ilSessionStatisticsGUI
 						$labels[$date] = date("d.m.", $date);
 						break;
 					
+					case self::SCALE_YEAR:
+						$labels[$date] = date("Y-m", $date);
+						break;
+					
 					case self::SCALE_PERIODIC_WEEK:	
 						$day = substr($date, 0, 1);
 						if($day != $old_day)
@@ -674,7 +691,10 @@ class ilSessionStatisticsGUI
 				$act_line[$measure]->addPoint($date, $value);	
 			}
 			
-			$max_line->addPoint($date, (int)$item["max_sessions"]);
+			if($a_scale != self::SCALE_PERIODIC_WEEK)
+			{
+				$max_line->addPoint($date, (int)$item["max_sessions"]);
+			}
 		}		
 		
 		foreach($act_line as $line)
@@ -691,17 +711,50 @@ class ilSessionStatisticsGUI
 		return $chart->getHTML();
 	}
 	
-	protected function buildPeriodicData(array $a_data)
+	protected function adaptDataToScale($a_scale, array $a_data)
 	{		
+		// can we use original data?
+		switch($a_scale)
+		{				
+			case self::SCALE_DAY:
+				// 96 values => ok
+				// fallthrough	
+				
+			case self::SCALE_WEEK:
+				// 672 values => ok
+				return $a_data;
+		}
+		
 		$tmp = array();
 		foreach($a_data as $item)
-		{
-			$day = date("w", $item["slot_begin"]);		
-			if(!$day)
+		{		
+			$date_parts = getdate($item["slot_begin"]);
+			
+			// aggregate slots for scale
+			switch($a_scale)
 			{
-				$day = 7;
-			}
-			$slot = $day.date("His", $item["slot_begin"]);	
+				case self::SCALE_MONTH:			
+					// aggregate to hours => 720 values					
+					$slot = mktime($date_parts["hours"], 0, 0, $date_parts["mon"], $date_parts["mday"], $date_parts["year"]);					
+					break;
+					
+				case self::SCALE_YEAR:
+					// aggregate to days => 365 values
+					$slot = mktime(0, 0, 1, $date_parts["mon"], $date_parts["mday"], $date_parts["year"]);	
+					break;
+
+				case self::SCALE_PERIODIC_WEEK:	
+					// aggregate to weekdays => 672 values 
+					$day = $date_parts["wday"];
+					if(!$day)
+					{
+						$day = 7;
+					}
+					$slot = $day.date("His", $item["slot_begin"]);	
+					break;
+			}			
+						
+			// process minx/max, prepare avg
 			foreach($item as $id => $value)
 			{
 				switch(substr($id, -3))
@@ -732,8 +785,8 @@ class ilSessionStatisticsGUI
 			$tmp[$slot]["active_avg"] = (int)round(array_sum($attr["active_avg"])/sizeof($attr["active_avg"]));													
 			$tmp[$slot]["slot_begin"] = $slot;
 		}
-		ksort($tmp);
-		return $tmp;
+		ksort($tmp);		
+		return array_values($tmp);
 	}
 	
 	protected function adminSync()
