@@ -1548,9 +1548,6 @@ class ilInitialisation
 		$this->requireCommonIncludes();
 		global $ilBench;
 
-		// $ilAppEventHandler initialisation
-		$this->initEventHandling();
-
 		// set error handler (to do: check preconditions for error handler to work)
 		$ilBench->start("Core", "HeaderInclude_GetErrorHandler");
 		$ilErr = new ilErrorHandling();
@@ -1581,6 +1578,9 @@ class ilInitialisation
 
 		// $ilDB initialisation
 		$this->initDatabase();
+		
+		// $ilAppEventHandler initialisation
+		$this->initEventHandling();
 
 		// init plugin admin class
 		include_once("./Services/Component/classes/class.ilPluginAdmin.php");
