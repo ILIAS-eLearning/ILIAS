@@ -658,8 +658,12 @@ class ilSessionStatisticsGUI
 						break;
 					
 					case self::SCALE_PERIODIC_WEEK:	
-						$date = $item["weekday"];						
-						$labels[$date] = ilCalendarUtil::_numericDayToString($date);
+						$day = substr($date, 0, 1);
+						if($day != $old_day)
+						{
+							$labels[$date] = ilCalendarUtil::_numericDayToString($day);
+						}
+						$old_day = $day;
 						break;
 				}
 			}
@@ -688,7 +692,7 @@ class ilSessionStatisticsGUI
 	}
 	
 	protected function buildPeriodicData(array $a_data)
-	{
+	{		
 		$tmp = array();
 		foreach($a_data as $item)
 		{
@@ -697,21 +701,36 @@ class ilSessionStatisticsGUI
 			{
 				$day = 7;
 			}
+			$slot = $day.date("His", $item["slot_begin"]);	
 			foreach($item as $id => $value)
 			{
-				if($id != "slot_begin" && $id != "slot_end")
-				{					
-					$tmp[$day][$id][] = $value; 
-				}					
+				switch(substr($id, -3))
+				{
+					case "min":
+						if(!$tmp[$slot][$id] || $value < $tmp[$slot][$id])
+						{
+							$tmp[$slot][$id] = $value;
+						}
+						break;
+						
+					case "max":
+						if(!$tmp[$slot][$id] || $value > $tmp[$slot][$id])
+						{
+							$tmp[$slot][$id] = $value;
+						}
+						break;
+						
+					case "avg":
+						$tmp[$slot][$id][] = $value; 
+						break;
+				}							
 			}			
-		}
-		foreach($tmp as $day => $attr)
-		{
-			foreach($attr as $id => $values)
-			{
-				$tmp[$day][$id] = (int)round(array_sum($values)/sizeof($values));	
-			}
-			$tmp[$day]["weekday"] = $day;				
+		}		
+		
+		foreach($tmp as $slot => $attr)
+		{						
+			$tmp[$slot]["active_avg"] = (int)round(array_sum($attr["active_avg"])/sizeof($attr["active_avg"]));													
+			$tmp[$slot]["slot_begin"] = $slot;
 		}
 		ksort($tmp);
 		return $tmp;
