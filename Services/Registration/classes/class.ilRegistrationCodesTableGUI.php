@@ -121,7 +121,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
 			if($code["role"])
 			{
-				$result[$k]["role"] = $role_map[$code["role"]];
+				$result[$k]["role"] = $this->role_map[$code["role"]];
 			}
 			$result[$k]["registration_code"] = $code["code"];
 			$result[$k]["code_id"] = $code["code_id"];
@@ -137,7 +137,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $lng, $rbacreview, $ilUser, $ilObjDataCache;
 		
 		include_once("./Services/Registration/classes/class.ilRegistrationCode.php");
 		
@@ -152,13 +152,20 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		$this->filter["code"] = $ti->getValue();
 		
 		// role
+		
+		$this->role_map = array();
+		foreach($rbacreview->getGlobalRoles() as $role_id)
+		{
+			if(!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID)))
+			{
+				$this->role_map[$role_id] = $ilObjDataCache->lookupTitle($role_id);
+			}
+		}		
+		
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
  		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$options = array("" => $this->lng->txt("registration_roles_all"));
-		foreach(ilObjRole::_lookupRegisterAllowed() as $role)
-		{
-			$options[$role['id']] = $role['title'];
-		}
+		$options = array("" => $this->lng->txt("registration_roles_all"))+
+			$this->role_map;	
 		$si = new ilSelectInputGUI($this->lng->txt("role"), "role");
 		$si->setOptions($options);
 		$this->addFilterItem($si);

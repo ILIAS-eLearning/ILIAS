@@ -64,7 +64,7 @@ class ilRegistrationSettingsGUI
 			default:
 				if(!$cmd)
 				{
-					$cmd = 'diplayForm';
+					$cmd = 'view';
 				}
 				$this->$cmd();
 				break;
@@ -978,8 +978,7 @@ class ilRegistrationSettingsGUI
 
 		if(sizeof($codes))
 		{
-			// :TODO: add url/link to login?!
-			ilUtil::deliverData(implode("\n", $codes), "ilias_registration_codes_".date("d-m-Y").".txt","text/plain");
+			ilUtil::deliverData(implode("\r\n", $codes), "ilias_registration_codes_".date("d-m-Y").".txt","text/plain");
 		}
 		else
 		{
