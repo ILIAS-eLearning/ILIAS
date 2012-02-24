@@ -151,6 +151,13 @@ class ilForumExportGUI
 				}
 				else
 				{
+					/** @todo mjansen: possible bugfix for mantis #8223 */
+					if($post->getMessage() == strip_tags($post->getMessage()))
+					{
+						// We can be sure, that there are not html tags
+						$post->setMessage(nl2br($post->getMessage()));
+					}
+					
 					$tplEx->setVariable('POST',  ilRTE::_replaceMediaObjectImageSrc($this->frm->prepareText($post->getMessage(), 0, '', 'export'), 1));	
 				}
 				$tplEx->parseCurrentBlock('posts_row');
@@ -248,6 +255,13 @@ class ilForumExportGUI
 			}
 			else
 			{
+				/** @todo mjansen: possible bugfix for mantis #8223 */
+				if($post->getMessage() == strip_tags($post->getMessage()))
+				{
+					// We can be sure, that there are not html tags
+					$post->setMessage(nl2br($post->getMessage()));
+				}
+				
 				$tplEx->setVariable('POST', ilRTE::_replaceMediaObjectImageSrc($this->frm->prepareText($post->getMessage(), 0, '', 'export'), 1));	
 			}
 
@@ -361,6 +375,13 @@ class ilForumExportGUI
 					}
 					else
 					{
+						/** @todo mjansen: possible bugfix for mantis #8223 */
+						if($post->getMessage() == strip_tags($post->getMessage()))
+						{
+							// We can be sure, that there are not html tags
+							$post->setMessage(nl2br($post->getMessage()));
+						}
+						
 						$tplEx->setVariable('POST',  ilRTE::_replaceMediaObjectImageSrc($this->frm->prepareText($post->getMessage(), 0, '', 'export'), 1));	
 					}
 

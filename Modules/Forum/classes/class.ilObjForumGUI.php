@@ -2790,6 +2790,13 @@ class ilObjForumGUI extends ilObjectGUI
 							)
 						);
 	## */
+						/** @todo mjansen: possible bugfix for mantis #8223 */
+						if($node->getMessage() == strip_tags($node->getMessage()))
+						{
+							// We can be sure, that there are not html tags
+							$node->setMessage(nl2br($node->getMessage()));
+						}
+						
 						if ($spanClass != "")
 						{
 							$tpl->setVariable('POST', "<span class=\"".$spanClass."\">".ilRTE::_replaceMediaObjectImageSrc($node->getMessage(), 1)."</span>");
