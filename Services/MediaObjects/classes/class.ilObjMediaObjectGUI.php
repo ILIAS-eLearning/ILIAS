@@ -1745,9 +1745,19 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$ilTabs->addTarget("cont_mob_def_prop",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit",
 				get_class($this));
-
-			// link areas
+			
 			$st_item =& $this->object->getMediaItem("Standard");
+
+			// video tools
+			if (substr($st_item->getFormat(), 0, 6) == "video/")
+			{
+				$ilTabs->addTarget("mob_video_tools",
+					$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "showVideoTool"),
+					"showVideoTool", "ilobjmediaobjectgui");
+			}
+			
+			// link areas
+			
 			if (is_object($st_item) && $this->getEnabledMapAreas())
 			{
 				$format = $st_item->getFormat();
@@ -1798,6 +1808,28 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				$this->ctrl->getParentReturn($this));
 		}
 	}
+	
+	/**
+	 * Show video tools
+	 *
+	 * @param
+	 * @return
+	 */
+	function showVideoToolObject()
+	{
+		global $tpl;
+
+		include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
+
+		/*$codecs = ilFFmpeg::getSupportedCodecsInfo();
+		$codec_str = implode($codecs, "<br />");
+		$tpl->setContent($codec_str);*/
+		
+		$formats = ilFFmpeg::getSupportedFormatsInfo();
+		$formats_str = implode($formats, "<br />");
+		$tpl->setContent($formats_str);
+	}
+	
 
 }
 ?>

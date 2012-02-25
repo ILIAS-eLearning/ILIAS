@@ -286,8 +286,8 @@ logout#:#Logout
 main_datadir_outside_webspace#:#Main Data Directory outside Web Space
 master_password#:#Master Password
 missing_data#:#Missing Data
-mkisofs_path_comment#:#Optional to create iso images.
-mkisofs_path#:#Path to mkisofs
+ffmpeg_path_comment#:#Optional to convert audio/videos, e.g. '/your_path/ffmpeg'
+ffmpeg_path#:#Path to ffmpeg
 msg_input_is_required#:#This input is required. Please enter a value.
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x or lower
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x or higher

@@ -21,7 +21,7 @@ zip =
 unzip = 
 java = 
 htmldoc = 
-mkisofs = 
+ffmpeg = 
 
 [log]
 path = 
@@ -37,7 +37,7 @@ zip = /usr/bin/zip
 unzip = /usr/bin/unzip
 java = 
 htmldoc = /usr/bin/htmldoc
-mkisofs = /usr/bin/mkisofs
+ffmpeg = /usr/bin/ffmpeg
 
 [redhat]
 data_dir = 

@@ -756,7 +756,7 @@ echo "<br>+".$client_id;
 		$sh->setTitle($this->lng->txt("3rd_party_software"));
 		$this->form->addItem($sh);
 		
-		$tools = array("convert", "zip", "unzip", "java", "htmldoc", "mkisofs");
+		$tools = array("convert", "zip", "unzip", "java", "htmldoc", "ffmpeg");
 		
 		foreach ($tools as $tool)
 		{
@@ -1034,9 +1034,9 @@ echo "<br>+".$client_id;
 		$ti->setInfo($lng->txt("htmldoc_path_comment".$lvext));
 		$this->form->addItem($ti);
 
-		// mkisofs path
-		$ti = new ilTextInputGUI($lng->txt("mkisofs_path"), "mkisofs_path");
-		$ti->setInfo($lng->txt("mkisofs_path_comment"));
+		// ffmpeg path
+		$ti = new ilTextInputGUI($lng->txt("ffmpeg_path"), "ffmpeg_path");
+		$ti->setInfo($lng->txt("ffmpeg_path_comment"));
 		$this->form->addItem($ti);
 
 		// latex
@@ -1112,7 +1112,8 @@ echo "<br>+".$client_id;
 		$values["unzip_path"] = $this->setup->ini->readVariable("tools","unzip");
 		$values["java_path"] = $this->setup->ini->readVariable("tools","java");
 		$values["htmldoc_path"] = $this->setup->ini->readVariable("tools","htmldoc");
-		$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
+		//$values["mkisofs_path"] = $this->setup->ini->readVariable("tools","mkisofs");
+		$values["ffmpeg_path"] = $this->setup->ini->readVariable("tools","ffmpeg");
 		$values["latex_url"] = $this->setup->ini->readVariable("tools","latex");
 		$values["fop_path"] = $this->setup->ini->readVariable("tools","fop");
 		$values["vscanner_type"] = $this->setup->ini->readVariable("tools", "vscantype");
@@ -1141,7 +1142,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "java_path", "htmldoc_path", "mkisofs_path");
+					"unzip_path", "java_path", "htmldoc_path", "ffmpeg_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1195,7 +1196,7 @@ echo "<br>+".$client_id;
 			if (ilUtil::isWindows())
 			{
 				$fs = array("datadir_path", "log_path", "convert_path", "zip_path",
-					"unzip_path", "java_path", "htmldoc_path", "mkisofs_path");
+					"unzip_path", "java_path", "htmldoc_path", "ffmpeg_path");
 				foreach ($fs as $f)
 				{
 					$_POST[$f] = str_replace("\\", "/", $_POST[$f]);
@@ -1433,7 +1434,7 @@ echo "<br>+".$client_id;
 		{
 			$tools = array("convert" => "convert",
 				"zip" => "zip", "unzip" => "unzip",
-				"java" => "java",  "htmldoc" => "htmldoc", "mkisofs" => "mkisofs");
+				"java" => "java",  "htmldoc" => "htmldoc", "ffmpeg" => "ffmpeg");
 			$dirs = array("/usr/local", "/usr/local/bin", "/usr/bin", "/bin", "/sw/bin", "/usr/bin");
 		}
 		else

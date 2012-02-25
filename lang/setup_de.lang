@@ -282,8 +282,8 @@ logout#:#ausloggen
 main_datadir_outside_webspace#:#Basisverzeichnis für Daten ausserhalb des Webspaces
 master_password#:#Master-Passwort
 missing_data#:#Daten unvollständig
-mkisofs_path_comment#:#Optional to create iso images.###26 06 2009 new variable
-mkisofs_path#:#Path to mkisofs###26 06 2009 new variable
+ffmpeg_path_comment#:#Optional für Audio-/Videokonvertierung
+ffmpeg_path#:#FFmpeg-Befehlszeile
 msg_input_is_required#:#This input is required. Please enter a value.###24 07 2009 new variable
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x oder niedriger
 mysql_4_1_x_or_higher_mode#:#MySQL 4.1.x oder höher
