@@ -106,29 +106,30 @@ return;
 			$this->enableDbBench(false);
 		}
 
-
-return;
-		if ($this->isEnabled() &&
-			($this->getMaximumRecords() > $this->getCurrentRecordNumber()))
+		// log slow requests
+		//define("LOG_SLOW_REQUESTS", (float) "0.1");
+		if (defined("SLOW_REQUEST_TIME") && SLOW_REQUEST_TIME > 0)
 		{
-			foreach($this->bench as $key => $bench)
+			$t1 = explode(" ", $GLOBALS['ilGlobalStartTime']);
+			$t2 = explode(" ", microtime());
+			$diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
+			if ($diff > SLOW_REQUEST_TIME)
 			{
-				$bench_arr = explode(":", $key);
-				$bench_module = $bench_arr[0];
-				$benchmark = $bench_arr[1];
-				foreach($bench as $time)
-				{
-					$q = "INSERT INTO benchmark (cdate, duration, module, benchmark) VALUES ".
-						"(".
-						$ilDB->now().", ".
-						$ilDB->quote($time, "float").", ".
-						$ilDB->quote($bench_module, "text").", ".
-						$ilDB->quote($benchmark, "text").")";
-					$ilDB->manipulate($q);
-				}
+				global $ilIliasIniFile;
+				
+				$diff = round($diff, 4);
+				
+				include_once("./Services/Logging/classes/class.ilLog.php");
+				$slow_request_log = new ilLog(
+					$ilIliasIniFile->readVariable("log","slow_request_log_path"),
+					$ilIliasIniFile->readVariable("log","slow_request_log_file"),
+					CLIENT_ID);
+				$slow_request_log->write("SLOW REQUEST (".$diff."), Client:".CLIENT_ID.", GET: ".
+					str_replace("\n", " ", print_r($_GET, true)).", POST: ".
+					ilUtil::shortenText(str_replace("\n", " ", print_r($_POST, true)), 800, true));
 			}
-			$this->bench = array();
 		}
+
 	}
 
 
