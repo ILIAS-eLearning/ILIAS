@@ -1400,7 +1400,17 @@ abstract class ilDB extends PEAR
 	*/
 	function manipulate($sql)
 	{
+		global $ilBench;
+
+		if (is_object($ilBench))
+		{
+			$ilBench->startDbBench($sql);
+		}
 		$r = $this->db->exec($sql);
+		if (is_object($ilBench))
+		{
+			$ilBench->stopDbBench();
+		}
 
 		return $this->handleError($r, "manipulate(".$sql.")");
 	}
