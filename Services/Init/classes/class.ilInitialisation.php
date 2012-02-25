@@ -207,6 +207,7 @@ class ilInitialisation
 		define ("ILIAS_LOG_FILE",$ilIliasIniFile->readVariable("log","file"));
 		define ("ILIAS_LOG_ENABLED",$ilIliasIniFile->readVariable("log","enabled"));
 		define ("ILIAS_LOG_LEVEL",$ilIliasIniFile->readVariable("log","level"));
+		define ("SLOW_REQUEST_TIME",$ilIliasIniFile->readVariable("log","slow_request_time"));
 
 		// read path + command for third party tools from ilias.ini
 		define ("PATH_TO_CONVERT",$ilIliasIniFile->readVariable("tools","convert"));
