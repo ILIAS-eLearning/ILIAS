@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012mk ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./setup/classes/class.ilDBConnections.php");
 
@@ -1180,7 +1180,8 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"])));
 		$this->ini->setVariable("tools", "java", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"])));
 		$this->ini->setVariable("tools", "htmldoc", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"])));
-		$this->ini->setVariable("tools", "mkisofs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"])));
+		//$this->ini->setVariable("tools", "mkisofs", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"])));
+		$this->ini->setVariable("tools", "ffmpeg", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"])));
 		$this->ini->setVariable("tools", "latex", ilUtil::stripSlashes($a_formdata["latex_url"]));
 		$this->ini->setVariable("tools", "vscantype", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"])));
 		$this->ini->setVariable("tools", "scancommand", preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["scan_command"])));
@@ -1215,7 +1216,8 @@ class ilSetup extends PEAR
 		$unzip_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["unzip_path"]));
 		$java_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["java_path"]));
 		$htmldoc_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["htmldoc_path"]));
-		$mkisofs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"]));
+		//$mkisofs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"]));
+		$ffmpeg_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"]));
 		$latex_url = ilUtil::stripSlashes($a_formdata["latex_url"]);
 		$fop_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["fop_path"]));
 		$scan_type = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["vscanner_type"]));
@@ -1227,7 +1229,8 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("tools", "unzip", $unzip_path);
 		$this->ini->setVariable("tools", "java", $java_path);
 		$this->ini->setVariable("tools", "htmldoc", $htmldoc_path);
-		$this->ini->setVariable("tools", "mkisofs", $mkisofs_path);
+		//$this->ini->setVariable("tools", "mkisofs", $mkisofs_path);
+		$this->ini->setVariable("tools", "ffmpeg", $ffmpeg_path);
 		$this->ini->setVariable("tools", "latex", $latex_url);
 		$this->ini->setVariable("tools", "fop", $fop_path);
 		$this->ini->setVariable("tools", "vscantype", $scan_type);
@@ -1347,7 +1350,7 @@ class ilSetup extends PEAR
 				return false;
 			}
 		}
-		if (!isset($a_formdata["chk_mkisofs_path"]))
+		/*if (!isset($a_formdata["chk_mkisofs_path"]))
 		{
 			// convert backslashes to forwardslashes
 			$mkisofs_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["mkisofs_path"]));
@@ -1361,6 +1364,24 @@ class ilSetup extends PEAR
 			if (!$this->testHtmldoc($mkisofs_path))
 			{
 				$this->error = "check_failed_mkisofs";
+				return false;
+			}
+		}*/
+		
+		if (!isset($a_formdata["chk_ffmpeg_path"]))
+		{
+			// convert backslashes to forwardslashes
+			$ffmpeg_path = preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["ffmpeg_path"]));
+
+			if (empty($ffmpeg_path))
+			{
+				$this->error = "no_path_ffmpeg";
+				return false;
+			}
+		
+			if (!$this->testFFMpeg($ffmpeg_path))
+			{
+				$this->error = "check_failed_ffmpeg";
 				return false;
 			}
 		}
