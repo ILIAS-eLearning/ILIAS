@@ -3,6 +3,7 @@
 	id="rep">
 	<baseclasses>
 		<baseclass name="ilObjPluginDispatchGUI" dir="classes" />
+		<baseclass name="ilRepositoryGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 	</objects>

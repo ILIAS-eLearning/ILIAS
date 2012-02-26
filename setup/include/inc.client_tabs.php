@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * buttons for client details
@@ -10,7 +10,7 @@
 * @package	ilias-setup
 */
 
-$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html");
+$this->tpl->addBlockFile("TABS", "tabs", "tpl.tabs.html", "Services/UIComponent/Tabs");
 
 $tab = $this->cmd ? $this->cmd : "view";
 
