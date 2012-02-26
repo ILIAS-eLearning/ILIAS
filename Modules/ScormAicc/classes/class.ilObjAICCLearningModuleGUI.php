@@ -23,7 +23,6 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once("classes/class.ilFileSystemGUI.php");
-require_once("classes/class.ilTabsGUI.php");
 require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
 require_once "./Modules/ScormAicc/classes/class.ilObjAICCCourseInterchangeFiles.php";
 require_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php");
@@ -54,8 +53,6 @@ class ilObjAICCLearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
-		#$this->tabs_gui =& new ilTabsGUI();
-
 	}
 
 

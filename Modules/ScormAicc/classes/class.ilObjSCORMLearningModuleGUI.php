@@ -4,7 +4,6 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once("classes/class.ilFileSystemGUI.php");
-require_once("classes/class.ilTabsGUI.php");
 require_once("Services/User/classes/class.ilObjUser.php");
 
 require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php");
@@ -39,7 +38,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		
 		$this->type = "sahs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		#$this->tabs_gui =& new ilTabsGUI();
 	}
 
 	/**

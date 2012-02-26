@@ -1,6 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Tabs GUI
@@ -387,14 +387,14 @@ class ilTabsGUI
 
 		if ($a_get_sub_tabs)
 		{
-			$tpl = new ilTemplate("tpl.sub_tabs.html", true, true);
+			$tpl = new ilTemplate("tpl.sub_tabs.html", true, true, "Services/UIComponent/Tabs");
 			$pre = "sub";
 			$pre2 = "SUB_";
 			$sr_pre = "sub_";
 		}
 		else
 		{
-			$tpl = new ilTemplate("tpl.tabs.html", true, true);
+			$tpl = new ilTemplate("tpl.tabs.html", true, true, "Services/UIComponent/Tabs");
 			if ($a_after_tabs_anchor)
 			{
 				$tpl->touchBlock("after_tabs");

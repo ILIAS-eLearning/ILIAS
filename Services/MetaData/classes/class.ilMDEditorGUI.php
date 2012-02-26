@@ -3469,9 +3469,6 @@ class ilMDEditorGUI
 			$tabs['debug'] = 'debug';
 		}
 		
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tab_gui = new ilTabsGUI();
-		#$tab_gui->setSubTabs();
 		foreach($tabs as $key => $target)
 		{
 			if($a_active == $key)

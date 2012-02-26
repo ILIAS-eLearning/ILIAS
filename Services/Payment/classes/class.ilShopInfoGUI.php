@@ -3,7 +3,6 @@
 
 include_once './Services/COPage/classes/class.ilPageObjectGUI.php';
 include_once 'Services/Payment/classes/class.ilShopBaseGUI.php';
-include_once 'classes/class.ilTabsGUI.php';
 
 
 /** Class ilShopInfoGUI

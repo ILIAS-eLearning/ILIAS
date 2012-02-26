@@ -3,7 +3,6 @@
 
 require_once "classes/class.ilObjectGUI.php";
 require_once("classes/class.ilFileSystemGUI.php");
-require_once("classes/class.ilTabsGUI.php");
 
 /**
 * SCORM/AICC/HACP Learning Modules
@@ -30,8 +29,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		$lng->loadLanguageModule("content");
 		$this->type = "sahs";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		#$this->tabs_gui =& new ilTabsGUI();
-
 	}
 
 	/**

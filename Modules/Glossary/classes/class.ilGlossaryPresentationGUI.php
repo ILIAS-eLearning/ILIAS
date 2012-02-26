@@ -1011,13 +1011,7 @@ if (!false)
 	function setTabs()
 	{
 		global $ilTabs;
-		// catch feedback message
-		#include_once("classes/class.ilTabsGUI.php");
-		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($ilTabs);
-
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
-
 	}
 
 	/**

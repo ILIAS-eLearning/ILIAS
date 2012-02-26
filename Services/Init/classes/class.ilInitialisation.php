@@ -1504,7 +1504,7 @@ class ilInitialisation
 		$GLOBALS['ilHelp'] =& $ilHelp;
 
 		// main tabs gui
-		include_once 'classes/class.ilTabsGUI.php';
+		include_once("./Services/UIComponent/Tabs/classes/class.ilTabsGUI.php");
 		$ilTabs = new ilTabsGUI();
 		$GLOBALS['ilTabs'] =& $ilTabs;
 		
