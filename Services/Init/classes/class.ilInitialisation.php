@@ -129,7 +129,7 @@ class ilInitialisation
 		require_once "./Services/Tree/classes/class.ilTree.php";
 		require_once "./Services/Language/classes/class.ilLanguage.php";
 		require_once "./Services/Logging/classes/class.ilLog.php";
-		require_once "classes/class.ilCtrl2.php";
+		require_once "./Services/UICore/classes/class.ilCtrl.php";
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 		require_once "classes/class.ilBrowser.php";
 		require_once "classes/class.ilFrameTargetInfo.php";
@@ -1132,7 +1132,7 @@ class ilInitialisation
 		
 		if($this->returnBeforeAuth()) return;
 		
-		$ilCtrl = new ilCtrl2();
+		$ilCtrl = new ilCtrl();
 		$GLOBALS['ilCtrl'] =& $ilCtrl;
 
 		// $ilAuth initialisation

@@ -8943,3 +8943,7 @@ $ilDB->addTableColumn("tax_node", "order_nr", array(
 	$ilSetting->set("rep_shorten_description", 1);
 	$ilSetting->set("rep_shorten_description_length", ilObject::TITLE_LENGTH);
 ?>
+<#3531>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
