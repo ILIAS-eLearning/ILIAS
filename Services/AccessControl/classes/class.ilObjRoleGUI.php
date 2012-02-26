@@ -2572,17 +2572,11 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function __setHeader()
 	{
-		include_once './classes/class.ilTabsGUI.php';
-
 		$this->tpl->setTitle($this->lng->txt('role'));
 		$this->tpl->setDescription($this->object->getTitle());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_role.gif"));
 
-		#$tabs_gui =& new ilTabsGUI();
 		$this->getTabs($this->tabs_gui);
-
-		// output tabs
-		#$this->tpl->setVariable("TABS", $tabs_gui->getHTML());
 	}
 
 	function __setLocator()

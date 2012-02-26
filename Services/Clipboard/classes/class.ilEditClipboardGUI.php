@@ -69,8 +69,6 @@ class ilEditClipboardGUI
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "view"));
-				require_once("classes/class.ilTabsGUI.php");
-				//$id = explode(":",$_GET["clip_item_id"]);
 				$mob_gui =& new ilObjMediaObjectGUI("", $_GET["clip_item_id"],false, false);
 				$mob_gui->setTabs();
 				$ret =& $ilCtrl->forwardCommand($mob_gui);
