@@ -891,20 +891,20 @@ class ilObjBlogGUI extends ilObject2GUI
 				
 				if($a_cmd != "preview")
 				{
-					$notes_link = $preview;
+					$wtpl->setCurrentBlock("comments");
+					$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
+					$wtpl->setVariable("URL_COMMENTS", $preview);
+					$wtpl->setVariable("COUNT_COMMENTS", $count);
+					$wtpl->parseCurrentBlock();
 				}
+				/* we disabled comments in edit mode (should always be done via pagegui)
 				else
 				{
 					$hash = ilCommonActionDispatcherGUI::buildAjaxHash(ilCommonActionDispatcherGUI::TYPE_WORKSPACE, 
 						$this->node_id, "blog", $this->obj_id, "blp", $item["id"]);
 					$notes_link = "#\" onclick=\"".ilNoteGUI::getListCommentsJSCall($hash);
 				}
-				
-				$wtpl->setCurrentBlock("comments");
-				$wtpl->setVariable("TEXT_COMMENTS", $lng->txt("blog_comments"));
-				$wtpl->setVariable("URL_COMMENTS", $notes_link);
-				$wtpl->setVariable("COUNT_COMMENTS", $count);
-				$wtpl->parseCurrentBlock();
+				*/				
 			}
 							
 			// permanent link
