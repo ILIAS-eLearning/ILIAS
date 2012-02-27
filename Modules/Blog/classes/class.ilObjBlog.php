@@ -313,7 +313,8 @@ class ilObjBlog extends ilObject2
 
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
-		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, $a_blog_wsp_id);
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, 
+			$a_blog_wsp_id, $a_posting_id, ($a_action == "comment"));
 		if(!sizeof($users))
 		{
 			return;

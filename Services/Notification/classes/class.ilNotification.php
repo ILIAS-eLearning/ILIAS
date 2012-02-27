@@ -46,23 +46,27 @@ class ilNotification
 	 * @param	int		$type
 	 * @param	int		$id
 	 * @param	int		$page_id
+	 * @param	bool	$ignore_threshold
 	 * @return	array
 	 */
-	public static function getNotificationsForObject($type, $id, $page_id = false)
+	public static function getNotificationsForObject($type, $id, $page_id = null, $ignore_threshold = false)
 	{
 		global $ilDB;
 
-		$sql .= "SELECT user_id FROM notification".
-				" WHERE type = ".$ilDB->quote($type, "integer").
-				" AND id = ".$ilDB->quote($id, "integer").
-				" AND (last_mail < ".$ilDB->quote(date("Y-m-d H:i:s", strtotime("-".self::THRESHOLD."minutes")), "timestamp").
-				" OR last_mail IS NULL";
-		if($page_id)
+		$sql = "SELECT user_id FROM notification".
+			" WHERE type = ".$ilDB->quote($type, "integer").
+			" AND id = ".$ilDB->quote($id, "integer");
+		if(!$ignore_threshold)
 		{
-			$sql .= " OR page_id <> ".$ilDB->quote($page_id, "integer");
+			$sql .= " AND (last_mail < ".$ilDB->quote(date("Y-m-d H:i:s", 
+				strtotime("-".self::THRESHOLD."minutes")), "timestamp").
+				" OR last_mail IS NULL";
+			if($page_id)
+			{
+				$sql .= " OR page_id <> ".$ilDB->quote($page_id, "integer");
+			}
+			$sql .= ")";
 		}
-		$sql .= ")";
-
 		$user = array();
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
