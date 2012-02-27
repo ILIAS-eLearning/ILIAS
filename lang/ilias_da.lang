@@ -3100,8 +3100,8 @@ assessment#:#change_properties_from_standard_to_random#:#You are about to change
 assessment#:#change_solution#:#Ændre foreslået løsning
 assessment#:#changelog_description#:#Tabellen indeholder alle forfatternes ændringer som er lavet til testen.
 assessment#:#changelog_heading#:#Changelog
-assessment#:#checkbox_checked#:#Kontrolleret
-assessment#:#checkbox_unchecked#:#Ikke afkrydset
+assessment#:#checkbox_checked#:#kryds
+assessment#:#checkbox_unchecked#:#ingen kryds
 assessment#:#circle#:#Cirkel
 assessment#:#circle_click_center#:#Klik venligst i midten af det ønkede område.
 assessment#:#circle_click_circle#:#Klik venligst på et cirkelpunkt i det ønkede område.
@@ -3324,8 +3324,8 @@ assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
 assessment#:#optional_keywords#:#Optional input of keywords
 assessment#:#or#:#eller
-assessment#:#order_pictures#:#Bestil billeder
-assessment#:#order_terms#:#Bestil forklaring
+assessment#:#order_pictures#:#Sorter billeder
+assessment#:#order_terms#:#Sorter udtryk
 assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.
 assessment#:#output#:#Output###25 10 2006 new variable
 assessment#:#output_mode#:#Output mode
@@ -3785,8 +3785,8 @@ assessment#:#warning_question_not_complete#:#Dette spørgsmål er ikk efærdigt!
 assessment#:#warning_test_not_complete#:#Denne test er ikke afsluttet
 assessment#:#when#:#hvornår
 assessment#:#with_order#:#med orden
-assessment#:#worked_through#:#Answered
-assessment#:#working_time#:#arbejdstid
+assessment#:#worked_through#:#Besvaret
+assessment#:#working_time#:#Tidsforbrug
 assessment#:#working_time_avg#:#Gns. arbejdstid
 assessment#:#you_received_a_of_b_points#:#Du fik %d af %d mulige point
 barometer#:#options#:#Options
@@ -8997,7 +8997,7 @@ common#:#msg_form_save_error#:#The form data could not be saved. Please check th
 assessment#:#thumb_geometry#:#Miniature
 assessment#:#thumb_geometry_info#:#De små versioner af billedet vil bevare størrelsesforhold, men maksimalt have ovenstående højde/bredde.
 assessment#:#element_height#:#Minimumshøjde
-assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.###24 02 2009 new variable
+assessment#:#element_height_info#:#Dette er den mindste højde i pixels for udtryk og definitioner/billede-rækker når testen vises.
 assessment#:#assOrderingHorizontal#:#Sorteringsspørgsmål (horizontalt)
 assessment#:#ordertext#:#Ordering Text###24 02 2009 new variable
 assessment#:#ordertext_info#:#Please enter the text that should be ordered horizontally. The ordering text will be separated by the whitespace signs in the text. If you need a different separation, you may use the separator %s to separate your text units.###24 02 2009 new variable
@@ -9631,7 +9631,7 @@ common#:#socialbm_extt_social_bookmarks#:#Sociale links
 common#:#bm_manage_social_bm#:#Administrer sociale links
 common#:#bm_add_to_ilias#:#Føj til ILIAS bogmærker
 common#:#bm_add_to_social_bookmarks#:#Føj til sociale links
-assessment#:#answer_types#:#Answer Types###24 07 2009 new variable
+assessment#:#answer_types#:#Svartype
 assessment#:#answers_singleline#:#Enkeltlinje svar
 assessment#:#answers_multiline#:#Flerlinjers svar
 assessment#:#allow_images#:#Image Support for Answers###24 07 2009 new variable
@@ -10313,11 +10313,11 @@ common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to 
 common#:#mail_no_valid_group_role#:#No valid group role###16 07 2010 new variable
 payment#:#paya_bill_history#:#Bill History###16 07 2010 new variable
 assessment#:#tst_search_users#:#Add fixed participants###16 07 2010 new variable
-survey#:#svy_search_users#:#Search for participants###16 07 2010 new variable
-trac#:#trac_first_access#:#First Access###16 07 2010 new variable
-trac#:#trac_read_count#:#Access Number###16 07 2010 new variable
-trac#:#trac_spent_seconds#:#Time Spent###16 07 2010 new variable
-trac#:#trac_percentage#:#Percentage###16 07 2010 new variable
+survey#:#svy_search_users#:#Søg efter delatagere
+trac#:#trac_first_access#:#Første adgang
+trac#:#trac_read_count#:#Besøgt antal
+trac#:#trac_spent_seconds#:#Tidsforbrug
+trac#:#trac_percentage#:#Procent
 payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.###16 07 2010 new variable
 payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).###16 07 2010 new variable
 payment#:#please_use_account#:#For further purchases please login with use your account.###16 07 2010 new variable
@@ -10329,7 +10329,7 @@ rep#:#rep_object_to_delete#:#To Delete###16 07 2010 new variable
 rep#:#rep_dependent_object#:#Ressource with dependence###16 07 2010 new variable
 rep#:#rep_dependency#:#Dependency###16 07 2010 new variable
 content#:#glo_used_in_scorm#:#The glossary is used by the SCORM module. If deleted, references to the glossary cannot be resolved anymore.###16 07 2010 new variable
-content#:#glo_presentation_view#:#Presentation View###16 07 2010 new variable
+content#:#glo_presentation_view#:#Vis som præsentation
 content#:#glo_add_new_term#:#Add New Term###16 07 2010 new variable
 content#:#glo_term_is_used_n_times#:#The term is used %s time(s) in content modules.###16 07 2010 new variable
 content#:#glo_list_usages#:#List Usages###16 07 2010 new variable
@@ -10426,9 +10426,9 @@ administration#:#adm_time#:#Time###16 07 2010 new variable
 administration#:#adm_db_bench_by_first_table#:#Aggregated by First Table in SQL###16 07 2010 new variable
 administration#:#adm_nr_statements#:#Number of Statements###16 07 2010 new variable
 administration#:#adm_table#:#Table###16 07 2010 new variable
-trac#:#trac_subitems#:#Show Sub-Items###16 07 2010 new variable
-trac#:#trac_participants#:#Show Participants###16 07 2010 new variable
-trac#:#trac_title#:#Title###16 07 2010 new variable
+trac#:#trac_subitems#:#Vis under-objekter
+trac#:#trac_participants#:#Vis deltagere
+trac#:#trac_title#:#Titel
 dateplaner#:#cal_grp_new_notification_sub#:#New Appointment in Group "%s"###16 07 2010 new variable
 dateplaner#:#cal_grp_notification_sub#:#Changed Appointment in Group "%s"###16 07 2010 new variable
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"###16 07 2010 new variable
@@ -10878,7 +10878,7 @@ fold#:#fold_import#:#Import Folder###10 09 2010 new variable
 mail#:#mail_select_recipients#:#Please select mail recipients:###10 09 2010 new variable
 grp#:#grp_import#:#Import Group###10 09 2010 new variable
 crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups###10 09 2010 new variable
-assessment#:#ordering_answer_sequence_info#:#The answer sequence you define here will be taken as the correct solution sequence.###10 09 2010 new variable
+assessment#:#ordering_answer_sequence_info#:#Rækkefølgen ovenfor skal være den korrekte besvarelse.
 administration#:#language_scope_merged#:#Local changes merged into the global language file###10 09 2010 new variable
 administration#:#language_scope_added#:#Local additions only###10 09 2010 new variable
 administration#:#language_merge_local_changes#:#Merge local changes into the global language file###10 09 2010 new variable
@@ -10892,15 +10892,15 @@ rbac#:#export_member_data#:#Access to User Data###10 09 2010 new variable
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.###10 09 2010 new variable
 rbac#:#crs_create_catr#:#Create Category Reference###10 09 2010 new variable
 rbac#:#crs_create_crsr#:#Create new Course Reference###10 09 2010 new variable
-forum#:#frm_edit_title#:#Edit Title###10 09 2010 new variable
+forum#:#frm_edit_title#:#Ret titel
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionalities.###10 09 2010 new variable
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.###10 09 2010 new variable
 administration#:#language_merged_global#:#The local changes were merged into the global language file.###10 09 2010 new variable
-content#:#cont_submit_answers#:#Submit Answers###10 09 2010 new variable
-content#:#cont_wrong_answers#:#Wrong Answers###10 09 2010 new variable
-content#:#cont_tries_remaining#:#Tries Remaining###10 09 2010 new variable
-content#:#cont_please_try_again#:#Please try again###10 09 2010 new variable
-content#:#cont_all_answers_correct#:#All answers correct###10 09 2010 new variable
+content#:#cont_submit_answers#:#Send besvarelse(r)
+content#:#cont_wrong_answers#:#Forkerte besvarelser
+content#:#cont_tries_remaining#:#Tilbageværende forsøg
+content#:#cont_please_try_again#:#Prøv venligst igen
+content#:#cont_all_answers_correct#:#Alle besvarelser er korrekte
 content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded###10 09 2010 new variable
 content#:#cont_correct_answers_shown#:#Correct answers are shown abov###10 09 2010 new variable
 survey#:#mail_import_example1#:#email;firstname;lastname###20 10 2010 new variable
@@ -11015,20 +11015,20 @@ trac#:#trac_learning_progress_of#:#Lernfortschritt von %s###22 03 2011 new varia
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.###22 03 2011 new variable
 common#:#personal_workspace#:#Resurser
 wsp#:#wsp_personal_workspace#:#Resurser
-wsp#:#wsp_personal_workspace_description#:#Her kan du organisere dine private filer, blogs og øvrige ting.
-wsp#:#wsp_navigation_folders#:#View Folder###22 03 2011 new variable
-wsp#:#wsp_root_folder#:#Resources###22 03 2011 new variable
+wsp#:#wsp_personal_workspace_description#:#Her kan du håndtere dine private filer, blogs og andre resurser.
+wsp#:#wsp_navigation_folders#:#Vis mappe
+wsp#:#wsp_root_folder#:#Resurser
 wsp#:#wsp_navigation_resource#:#Create New###22 03 2011 new variable
 wsp#:#wsp_type_file#:#Fil
-wsp#:#wsp_type_wfld#:#Mappe
+wsp#:#wsp_type_wfld#:#Folder###22 03 2011 new variable
 wsp#:#wsp_type_blog#:#Blog
-common#:#obj_wfld#:#Mappe
+common#:#obj_wfld#:#Folder###22 03 2011 new variable
 common#:#obj_blog#:#Blog
-wfld#:#wfld_new#:#Lav ny mappe
-wfld#:#wfld_add#:#Lav mappe
-blog#:#blog_new#:#Lav ny blog
-blog#:#blog_add#:#Lav blog
-blog#:#blog_add_posting#:#Tilføj indlæg
+wfld#:#wfld_new#:#Create New Folder###22 03 2011 new variable
+wfld#:#wfld_add#:#Create Folder###22 03 2011 new variable
+blog#:#blog_new#:#Create New Blog###22 03 2011 new variable
+blog#:#blog_add#:#Create Blog###22 03 2011 new variable
+blog#:#blog_add_posting#:#Add Posting###22 03 2011 new variable
 blog#:#blog_permanent_link#:#Permalink###22 03 2011 new variable
 blog#:#blog_comments#:#Kommentarer
 blog#:#blog_list_more#:#mere
@@ -11086,7 +11086,7 @@ certificate#:#certificate_var_user_login#:#jdoe###12 06 2011 new variable
 trac#:#trac_group_materials_save#:#Save Number of Obligatory Materials###12 06 2011 new variable
 trac#:#trac_group_materials_num#:#Number of Obligatory Materials###12 06 2011 new variable
 trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.###12 06 2011 new variable
-rbac#:#precondition_obligatory_settings#:#Precondition Settings###12 06 2011 new variable
+rbac#:#precondition_obligatory_settings#:#Indstillinger for betingelser/forudsætninger
 rbac#:#precondition_num_obligatory#:#Number of Required Materials###12 06 2011 new variable
 common#:#payment_notification#:#Send Payment Notification###12 06 2011 new variable
 common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects###12 06 2011 new variable
@@ -11219,17 +11219,17 @@ wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki###12
 wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page###12 06 2011 new variable
 wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki###12 06 2011 new variable
 wiki#:#wiki_notification_activate_page#:#Activate Notification for Page###12 06 2011 new variable
-content#:#cont_presentation_view#:#Presentation View###12 06 2011 new variable
-content#:#cont_deactivate_html#:#Deactivate HTML Rendering###12 06 2011 new variable
+content#:#cont_presentation_view#:#Præsentationsvisning
+content#:#cont_deactivate_html#:#Deaktiver HTML visning
 content#:#cont_deactivate_js#:#Activate Form Mode###12 06 2011 new variable
-content#:#cont_deactivate_media#:#Deactivate Media###12 06 2011 new variable
-content#:#cont_activate_html#:#Activate HTML Rendering###12 06 2011 new variable
-content#:#cont_activate_js#:#Activate Javascript Mode###12 06 2011 new variable
-content#:#cont_activate_media#:#Activate Media###12 06 2011 new variable
-assessment#:#tst_remove_question#:#Are you sure you want to remove the following question from the test?###12 06 2011 new variable
-survey#:#survey_cancel_preview#:#Cancel Preview###12 06 2011 new variable
-survey#:#survey_cannot_preview_survey#:#Preview not available###12 06 2011 new variable
-cntr#:#edit_questions#:#Edit Questions###12 06 2011 new variable
+content#:#cont_deactivate_media#:#Deaktiver medier
+content#:#cont_activate_html#:#Aktiver HTML visning
+content#:#cont_activate_js#:#Aktiver Javascript
+content#:#cont_activate_media#:#Aktiver medier
+assessment#:#tst_remove_question#:#Er du sikker på du vil fjerne følgende spørgsmål fra testen?
+survey#:#survey_cancel_preview#:#Stop forhåndsvisning
+survey#:#survey_cannot_preview_survey#:#Kan ikke lave forhåndsvisning
+cntr#:#edit_questions#:#Ret spørgsmål
 forum#:#empty_subject#:#On reply the user has to enter a new title.###12 06 2011 new variable
 forum#:#frm_subject_setting#:#Subject setting###12 06 2011 new variable
 assessment#:#ass_completion_by_submission#:#Completed by Submission###12 06 2011 new variable
@@ -11238,8 +11238,8 @@ exc#:#exc_completion_by_submission#:#Completed by Submission###12 06 2011 new va
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###12 06 2011 new variable
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.###12 06 2011 new variable
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:###12 06 2011 new variable
-crs#:#crs_deact_auto_noti#:#Suppress notification about new membership###12 06 2011 new variable
-crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.###12 06 2011 new variable
+crs#:#crs_deact_auto_noti#:#Ingen medlemsadvisering
+crs#:#crs_deact_auto_noti_info#:#Send ikke mail adviseringer om nye deltagere, der tilføjes ved brug af deltagerredigeringen.
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 content#:#cont_par_format#:#Paragraph###12 06 2011 new variable
 content#:#cont_char_format#:#Character###12 06 2011 new variable
@@ -12149,11 +12149,11 @@ wsp#:#wsp_password_protected_resource#:#Password-protected Resource###02 09 2011
 wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.###02 09 2011 new variable
 wsp#:#wsp_password_for#:#Password for###02 09 2011 new variable
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
-content#:#cont_edit_mode#:#Edit Mode###14 09 2011 new variable
+content#:#cont_edit_mode#:#Redigeringstype
 wiki#:#wiki_block_page#:#Block Page###14 09 2011 new variable
 wiki#:#wiki_unblock_page#:#Unblock Page###14 09 2011 new variable
-wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
-wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
+wiki#:#wiki_delete_page#:#Slet side
+wiki#:#wiki_rate_page#:#Vurder siden
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
 common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
@@ -12273,14 +12273,14 @@ survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?###01 10 2011 new variable
 rbac#:#rbac_precondition_source#:#Condition Trigger###01 10 2011 new variable
 rbac#:#rbac_precondition_target#:#Condition limits access to###01 10 2011 new variable
-rbac#:#rbac_precondition_mode#:#Mode###01 10 2011 new variable
-rbac#:#rbac_precondition_mode_all#:#All Preconditions###01 10 2011 new variable
-rbac#:#rbac_precondition_mode_all_info#:#All preconditions need to be fulfilled to give access.###01 10 2011 new variable
-rbac#:#rbac_precondition_mode_subset#:#Subset of Preconditions###01 10 2011 new variable
-rbac#:#rbac_precondition_mode_subset_info#:#A subset of preconditions need to be fulfilled to give access. Some preconditions may still be set as obligatory.###01 10 2011 new variable
+rbac#:#rbac_precondition_mode#:#Metode
+rbac#:#rbac_precondition_mode_all#:#Alle betingelser
+rbac#:#rbac_precondition_mode_all_info#:#Alle betingelser skal være opfyldt før der gives adgang.
+rbac#:#rbac_precondition_mode_subset#:#Delvis opfyldelse. 
+rbac#:#rbac_precondition_mode_subset_info#:#En delmængde af betingelserne skal være opfyldt. Nogle betingelser kan stadig sættes som obligatoriske. 
 rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###01 10 2011 new variable
-rbac#:#rbac_precondition_minimum_optional#:#At least 2 preconditions have to remain optional.###01 10 2011 new variable
-common#:#precondition_required_itemlist#:#Required Precondition###01 10 2011 new variable
+rbac#:#rbac_precondition_minimum_optional#:#Mindst 2 betingelser skal fortsat være valgfrie.
+common#:#precondition_required_itemlist#:#Krævet betingelse
 common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object###01 10 2011 new variable
 content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###04 10 2011 new variable
 crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions###04 10 2011 new variable
@@ -12365,6 +12365,7 @@ rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
 blog#:#blog_draft#:#Udkast
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
+blog#:#blog_toggle_draft#:#Gem som udkast
 blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
 blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
