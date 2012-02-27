@@ -151,7 +151,7 @@ class ilSessionStatisticsGUI
 		}
 		else
 		{
-			$this->exportCSV($data);
+			$this->exportCSV($data, $scale);
 		}
 	}
 	
@@ -255,7 +255,7 @@ class ilSessionStatisticsGUI
 		}
 		else
 		{
-			$this->exportCSV($data);
+			$this->exportCSV($data, $scale);
 		}
 	}
 	
@@ -348,7 +348,7 @@ class ilSessionStatisticsGUI
 		}
 		else
 		{
-			$this->exportCSV($data);			
+			$this->exportCSV($data, $scale);			
 		}
 	}
 	
@@ -434,7 +434,7 @@ class ilSessionStatisticsGUI
 		}
 		else
 		{			
-			$this->exportCSV($data);
+			$this->exportCSV($data, self::SCALE_PERIODIC_WEEK);
 		}
 	}
 	
@@ -679,8 +679,8 @@ class ilSessionStatisticsGUI
 						if($day != $old_day)
 						{
 							$labels[$date] = ilCalendarUtil::_numericDayToString($day);
+							$old_day = $day;
 						}
-						$old_day = $day;
 						break;
 				}
 			}
@@ -799,7 +799,7 @@ class ilSessionStatisticsGUI
 		$ilCtrl->redirect($this);
 	}
 	
-	protected function exportCSV(array $a_data)
+	protected function exportCSV(array $a_data, $a_scale)
 	{
 		global $lng, $ilClientIniFile, $ilUser;
 		
@@ -851,17 +851,30 @@ class ilSessionStatisticsGUI
 		}
 		$csv->addRow();
 		
+		// aggregate data
+		$aggr_data = $this->adaptDataToScale($a_scale, $a_data["active"], 700);		
+		unset($a_data);
+		
 		// header
-		$first = $a_data["active"];
+		$first = $aggr_data;
 		$first = array_keys(array_shift($first));
 		foreach ($first as $column)
 		{			
-			$csv->addColumn(strip_tags($column));
+			// split weekday and time slot again
+			if($a_scale == self::SCALE_PERIODIC_WEEK && $column == "slot_begin")
+			{
+				$csv->addColumn("weekday");
+				$csv->addColumn("time");
+			}
+			else
+			{
+				$csv->addColumn(strip_tags($column));
+			}
 		}
 		$csv->addRow();
 		
 		// data
-		foreach($a_data["active"] as $row)
+		foreach($aggr_data as $row)
 		{
 			foreach ($row as $column => $value)
 			{
@@ -872,13 +885,18 @@ class ilSessionStatisticsGUI
 				switch($column)
 				{
 					case "slot_begin":
+						// split weekday and time slot again
+						if($a_scale == self::SCALE_PERIODIC_WEEK)
+						{
+							$csv->addColumn(ilCalendarUtil::_numericDayToString(substr($value, 0, 1)));							
+							$value = substr($value, 1, 2).":".substr($value, 3, 2);
+							break;
+						}
+						// fallthrough
+						
 					case "slot_end":
 						$value = date("d.m.Y H:i", $value);
-						break;
-					
-					case "weekday":
-						$value = ilCalendarUtil::_numericDayToString($value);
-						break;					
+						break;						
 				}
 				$csv->addColumn(strip_tags($value));
 			}
