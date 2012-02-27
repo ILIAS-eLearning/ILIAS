@@ -4541,7 +4541,7 @@ content#:#cont_structure#:#struktur
 content#:#cont_style#:#Stilark
 content#:#cont_subchapters#:#Underkapitler
 content#:#cont_synchronize_frames#:#Synkroniser rammer (frames)
-content#:#cont_synchronize_frames_desc#:#This option synchronises the table of contents frame with the content frame and clears additional frames in 3 window view. But it also decreases performance.
+content#:#cont_synchronize_frames_desc#:#Denne valgmulighed synkroniserer rammen med indholdsfortegnelsen og rydder rammer i 'tre vinduer' visning, men bemærk at dette vil gøre serveren langsommere.
 content#:#cont_table#:#Table###21 Apr 2005 new variable
 content#:#cont_table_border#:#Table Border###21 Apr 2005 new variable
 content#:#cont_table_cellpadding#:#Tabel celle-foring
@@ -7240,9 +7240,9 @@ trac#:#trac_edit_time#:#Processing time###28 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
 trac#:#trac_edited_scos#:#Processed content###28 Feb 2006 new variable
 trac#:#trac_editing_time_passed#:#Editing time Passed
-trac#:#trac_failed#:#Failed
+trac#:#trac_failed#:#Fejlet
 trac#:#trac_filter_area#:#Område:
-trac#:#trac_filter_hidden#:#Hidden:###23 Dec 2005 new variable
+trac#:#trac_filter_hidden#:#Skjult:
 trac#:#trac_filter_limit_reached#:#The number of hits is limited to %s. Please use the filter to reduce the hits.###28 Feb 2006 new variable
 trac#:#trac_filter_no_access#:#Ingen objekter fundet
 trac#:#trac_filter_none#:#Ingen
@@ -8811,7 +8811,7 @@ content#:#cont_layout_toc2win_desc#:#Indholdsfortegnelse til venstre og indhold 
 content#:#cont_layout_1window_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window.###24 02 2009 new variable
 content#:#cont_layout_2window_desc#:#Content in the left frame. FAQ, glossary and media links open in right frame.###24 02 2009 new variable
 content#:#cont_layout_3window_desc#:#Content in the left frame. FAQ and media links open in top-right frame, glossary links in bottom-right frame.###24 02 2009 new variable
-content#:#cont_layout_toc2windyn_desc#:#Table of contents in the left, content in the right frame. FAQ, glossary and media links open dynamically a frame at bottom-right.###24 02 2009 new variable
+content#:#cont_layout_toc2windyn_desc#:#Indholdsfortegnelsen til venstre, indhold i højre ramme. Indhold åbnes dynamisk i nederste højre ramme.
 content#:#cont_layout_presentation_desc#:#Content in the main frame. FAQ, glossary and media links open in separate window. No ILIAS main menu.###24 02 2009 new variable
 content#:#cont_layout_fullscreen_desc#:#Indhold i hovedområdet. FAQ, glossary and media links open in separate window. Ingen ILIAS hovedmenu og ingen navigation
 content#:#cont_layout_toc2win#:#Indholdsfortegnelse
@@ -9390,7 +9390,7 @@ content#:#cont_layout#:#Layout
 content#:#cont_lm_default_layout#:#Standardlayout for læremodul
 content#:#cont_page_layout#:#Sidelayout
 content#:#cont_layout_per_page#:#Layout pr. side
-content#:#cont_layout_per_page_info#:#Allow to set individual layouts for each page. This automatically activates the "Synchronize Frames" setting, too.###15 05 2009 new variable
+content#:#cont_layout_per_page_info#:#Tillad der kan sættes individuelle stilark for hver side. Dette aktiverer desuden automatisk synkronisering af rammer.
 payment#:#paya_vats_info#:#Hvis du ønsker at sælge varer uden moms skal du oprette momssats med 0%
 payment#:#payment_tax_rates#:#Momssatser
 payment#:#payment_vat_already_created#:#En momssats med denne procent er allerede oprettet.
@@ -10537,7 +10537,7 @@ user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administratio
 form#:#form_alphabet_all#:#All###16 07 2010 new variable
 content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.###16 07 2010 new variable
 content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.###16 07 2010 new variable
-content#:#cont_no_download_file_available#:#There is currently no public download file available.###16 07 2010 new variable
+content#:#cont_no_download_file_available#:#Der findes pt. ingen fil til offentlig download.
 content#:#htlm_import#:#Import HTML Learning Module###16 07 2010 new variable
 content#:#cont_selection#:#Selection###16 07 2010 new variable
 wiki#:#wiki_whole_wiki#:#Whole Wiki###16 07 2010 new variable
@@ -10830,18 +10830,18 @@ dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop###20 08 2010 new variable
 rbac#:#smtp_mail#:#Send Mail###20 08 2010 new variable
 rbac#:#mail_to_global_roles#:#Mail to Global Roles###20 08 2010 new variable
-rbac#:#add_post#:#Add Post###20 08 2010 new variable
-rbac#:#add_thread#:#Add Thread###20 08 2010 new variable
-rbac#:#moderate_frm#:#Moderate###20 08 2010 new variable
+rbac#:#add_post#:#Nyt indlæg
+rbac#:#add_thread#:#Ny tråd
+rbac#:#moderate_frm#:#Moderer
 webr#:#webr_import#:#Import Weblink###20 08 2010 new variable
-frm#:#frm_import#:#Import Forum###20 08 2010 new variable
+frm#:#frm_import#:#Importer forum
 registration#:#reg_confirmation_hash_life_time#:#Lifetime###20 08 2010 new variable
 registration#:#reg_allow_codes#:#Allow Codes###20 08 2010 new variable
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.###20 08 2010 new variable
 assessment#:#mailnottype#:#Send notification even when a user finishes a test pass###20 08 2010 new variable
 rbac#:#rbac_repository_permissions#:#Repository Permissions###20 08 2010 new variable
 rbac#:#rbac_admin_permissions#:#Administration Permissions###20 08 2010 new variable
-ps#:#ps_export_excel#:#Start Excel-Expor###20 08 2010 new variable
+ps#:#ps_export_excel#:#Start eksport til Excel
 survey#:#err_no_exact_answers#:#Please check exactly %s answers.###27 08 2010 new variable
 survey#:#msg_min_max_exact_answers#:#Please check exactly %s answers###27 08 2010 new variable
 common#:#sess_fixed_duration#:#Fixed Session Duration###27 08 2010 new variable
@@ -10859,11 +10859,11 @@ common#:#currently_used_disk_space#:#Currently used disk space###27 08 2010 new 
 common#:#cronjob_last_start_unknown#:#Indeterminate###27 08 2010 new variable
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress###27 08 2010 new variable
 trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.###27 08 2010 new variable
-trac#:#trac_average#:#Average###27 08 2010 new variable
-trac#:#trac_sum#:#Sum###27 08 2010 new variable
-trac#:#trac_others#:#Other###27 08 2010 new variable
+trac#:#trac_average#:#Gennemsnit
+trac#:#trac_sum#:#Sum
+trac#:#trac_others#:#Andre
 common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
-common#:#lang_tr#:#Turkish###10 09 2010 new variable
+common#:#lang_tr#:#Tyrkisk
 survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer###10 09 2010 new variable
 survey#:#question_sr_no_other_answer_checked#:#You need to select the radio button if you enter a text for an answer###10 09 2010 new variable
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)###10 09 2010 new variable
@@ -10990,9 +10990,9 @@ content#:#page_does_not_exist#:#We are sorry, but this page does not exist.###22
 rbac#:#precondition_obligatory_alt#:#Precondition must be fulfilled###22 03 2011 new variable
 rbac#:#precondition_not_obligatory_alt#:#Precondition is optional###22 03 2011 new variable
 rbac#:#active_preconditions#:#Active Preconditions###22 03 2011 new variable
-rbac#:#precondition_obligatory#:#Obligatory###22 03 2011 new variable
+rbac#:#precondition_obligatory#:#Obligatorisk
 rbac#:#precondition_obligatory_info#:#Obligatory preconditions must be fulfilled, for having access.###22 03 2011 new variable
-trac#:#trac_status_changed#:#Last Status Change###22 03 2011 new variable
+trac#:#trac_status_changed#:#Sidste ændring
 trac#:#trac_group_materials#:#Group Materials###22 03 2011 new variable
 trac#:#trac_release_materials#:#Disintegrate Material Group###22 03 2011 new variable
 common#:#preconditions_obligatory_hint#:#Please edit the following preconditions###22 03 2011 new variable
@@ -11010,8 +11010,8 @@ style#:#sty_make_global_fixed#:#Make Global Fixed###22 03 2011 new variable
 content#:#cont_save_types#:#Save Types###22 03 2011 new variable
 content#:#cont_layout_template#:#Layout Template###22 03 2011 new variable
 content#:#cont_special_page#:#Special Content Page###22 03 2011 new variable
-wiki#:#wiki_public_comments#:#Public Comments###22 03 2011 new variable
-trac#:#trac_learning_progress_of#:#Lernfortschritt von %s###22 03 2011 new variable
+wiki#:#wiki_public_comments#:#Offentlige kommentarer
+trac#:#trac_learning_progress_of#:#Læringsfremskridt for %s
 trac#:#trac_learning_progress_objects_description#:#This table shows an overview of all your courses and objects.###22 03 2011 new variable
 common#:#personal_workspace#:#Resurser
 wsp#:#wsp_personal_workspace#:#Resurser
@@ -11736,17 +11736,17 @@ notes#:#note_update_comment#:#Update Comment###06 08 2011 new variable
 notes#:#note_update_note#:#Update Note###06 08 2011 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
-notes#:#notes_comments#:#Comments###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
+notes#:#notes_comments#:#Kommentarer
+common#:#chtr_visible#:#Synlig
+common#:#chtr_read#:#Læs
+common#:#chtr_write#:#Skriv
 common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
 chatroom#:#history_by_session#:#Session history###06 08 2011 new variable
 chatroom#:#connected#:#Connection established###06 08 2011 new variable
-chatroom#:#period#:#Period###06 08 2011 new variable
+chatroom#:#period#:#Periode
 chatroom#:#disconnected#:#Connection closed###06 08 2011 new variable
 chatroom#:#allow_anonymous#:#Allow anonymous login###06 08 2011 new variable
 chatroom#:#autogen_usernames#:#Auto generated usernames###06 08 2011 new variable
@@ -12336,7 +12336,7 @@ skmg#:#skmg_draft#:#Udkast (offline)
 skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
 survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
-common#:#contact_sysadmin#:#Kontakt system administrator
+common#:#contact_sysadmin#:#Kontakt systemadministrator
 blog#:#blog_posting#:#Blog Posting###10 11 2011 new variable
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###10 11 2011 new variable
 blog#:#blog_change_notification_salutation#:#Hello %s,###10 11 2011 new variable
@@ -12366,33 +12366,32 @@ search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 blog#:#blog_draft#:#Udkast
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
 blog#:#blog_toggle_draft#:#Gem som udkast
-blog#:#blog_toggle_draft#:#Save As Draft###10 11 2011 new variable
 blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
 assessment#:#test_create_question#:#Lav spørgsmål
 dateplaner#:#cal_cal_deleted#:#Kalenderne er slettet
 wfld#:#wfld_edit#:#Ret mappe
 pd#:#pd_enable_comments#:#Aktiver kommentarer
-crs#:#event_blank_columns#:#Additional Columns###18 01 2012 new variable
-common#:#continue#:#continue###18 01 2012 new variable
-payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button###18 01 2012 new variable
-payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.###18 01 2012 new variable
-rbac#:#rbac_edit_condition#:#Edit Precondition###18 01 2012 new variable
-rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?###18 01 2012 new variable
-crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?###18 01 2012 new variable
-common#:#statutory_regulations#:#Statutory Regulations###18 01 2012 new variable
-common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
-common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
-common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
-common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
-common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
-common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
-assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable
-assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants###18 01 2012 new variable
-wsp#:#wsp_share_with_users#:#Share with users###18 01 2012 new variable
-acc#:#acc_last_rep_visited#:#Repository/Last Visited###18 01 2012 new variable
-acc#:#acc_personal_desktop#:#Personal Desktop###18 01 2012 new variable
+common#:#continue#:#continue###31 12 2011 new variable
+payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button###31 12 2011 new variable
+payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.###31 12 2011 new variable
+assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###31 12 2011 new variable
+assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants###31 12 2011 new variable
+wsp#:#wsp_share_with_users#:#Share with users###31 12 2011 new variable
+acc#:#acc_last_rep_visited#:#Repository/Last Visited###31 12 2011 new variable
+acc#:#acc_personal_desktop#:#Personal Desktop###31 12 2011 new variable
+administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.###31 12 2011 new variable
+dateplaner#:#cal_reg_registered#:#You have been registered.###31 12 2011 new variable
+dateplaner#:#cal_reg_unregistered#:#You have been unregistered.###31 12 2011 new variable
+content#:#cont_lm_comments_desc#:#Tillad brugerne at dele kommentarer med hinanden på alle sider i læremodulet.
+exercise#:#exc_start_date_should_be_before_end_date#:#Starttidspunktet skal være før deadline.
+trac#:#trac_manual_display#:#Vis i lærefremskridt
+trac#:#trac_manual_no_display#:#Vis ikke lærefremskridt
+trac#:#trac_manual_is_displayed#:#Is Displayed###08 02 2012 new variable
+trac#:#trac_log_info#:#Last Aggregation: %s (Unprocessed items: %s)###08 02 2012 new variable
+trac#:#trac_log_info_link#:#Opdater
+pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, workspace objects and portfolios on the Web.###08 02 2012 new variable
+pd#:#pd_enable_user_publish#:#Enable User Content Publishing###08 02 2012 new variable
 administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.###18 01 2012 new variable
 dateplaner#:#cal_reg_registered#:#You have been registered.###18 01 2012 new variable
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.###18 01 2012 new variable
