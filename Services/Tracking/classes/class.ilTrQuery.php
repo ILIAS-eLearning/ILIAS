@@ -222,7 +222,7 @@ class ilTrQuery
 	 * @param	int		$a_limit
 	 * @param	array	$a_filters
 	 * @param	array	$a_additional_fields
-	 * @param	bool	$check_agreement
+	 * @param	int  	$check_agreement (obj id of parent course)
 	 * @param	arry	$privacy_fields
 	 * @return	array	cnt, set
 	 */
@@ -291,7 +291,7 @@ class ilTrQuery
 			{
 				// admins/tutors (write-access) will never have agreement ?!
 				include_once "Services/Membership/classes/class.ilMemberAgreement.php";
-				$agreements = ilMemberAgreement::lookupAcceptedAgreements($obj_id);
+				$agreements = ilMemberAgreement::lookupAcceptedAgreements($check_agreement);
 				
 				// public information for users
 				$query = "SELECT usr_id FROM usr_pref WHERE keyword = ".$ilDB->quote("public_profile", "text").

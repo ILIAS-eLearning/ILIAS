@@ -24,7 +24,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 {
 	protected $user_fields; // array
 	protected $filter; // array
-	protected $in_course; // array
+	protected $in_course; // int
 	
 	/**
 	* Constructor
@@ -38,7 +38,11 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->ref_id = $a_ref_id;
 		$this->type = ilObject::_lookupType($a_obj_id);
 
-		$this->in_course = (bool)$tree->checkForParentType($this->ref_id, "crs");
+		$this->in_course = $tree->checkForParentType($this->ref_id, "crs");
+		if($this->in_course)
+		{
+			$this->in_course = ilObject::_lookupObjId($this->in_course);
+		}
 	
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -254,7 +258,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			$privacy = ilPrivacySettings::_getInstance();
 		    if($privacy->courseConfirmationRequired())
 			{
-				$check_agreement = true;
+				$check_agreement = $this->in_course;
 			}
 		}
 
