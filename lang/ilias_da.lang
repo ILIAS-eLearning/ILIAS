@@ -10168,7 +10168,7 @@ exp#:#exp_html#:#HTML
 exp#:#exp_scorm#:#SCORM
 exp#:#exp_really_delete#:#Do you really want to delete these export files?###26 03 2010 new variable
 exp#:#exp_select_max_one_item#:#Please select only one item.###26 03 2010 new variable
-common#:#hide_filter#:#Hide Filter###26 03 2010 new variable
+common#:#hide_filter#:#Skjul filter
 exc#:#exc_assignments#:#Assignments###26 03 2010 new variable
 exc#:#exc_add_assignment#:#Add Assignment###26 03 2010 new variable
 exc#:#exc_deadline#:#Deadline
@@ -10258,19 +10258,19 @@ auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection###26
 auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.###26 03 2010 new variable
 auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider###26 03 2010 new variable
 common#:#db_need_hotfix#:#Hotfix findes. Gå til setup-programmet.
-common#:#mm_dd_yyyy#:#MM/DD/YYYY###16 07 2010 new variable
-common#:#dd_mm_yyyy#:#DD.MM.YYYY###16 07 2010 new variable
-common#:#yyyy_mm_dd#:#YYYY-MM-DD###16 07 2010 new variable
+common#:#mm_dd_yyyy#:#MM/DD/ÅÅÅÅ###16 07 2010 new variable
+common#:#dd_mm_yyyy#:#DD.MM.ÅÅÅÅ###16 07 2010 new variable
+common#:#yyyy_mm_dd#:#ÅÅÅÅ-MM-DD
 common#:#optional_filters#:#Valgfrie filtre
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration###16 07 2010 new variable
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration###16 07 2010 new variable
-content#:#scplayer_next#:#Next###16 07 2010 new variable
+content#:#scplayer_next#:#Næste
 dateplaner#:#cal_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
 dateplaner#:#cal_def_date_format_info#:#Please choose a format for the input of dates.###16 07 2010 new variable
-dateplaner#:#cal_def_date_format#:#Default Date Input Format###16 07 2010 new variable
-dateplaner#:#cal_user_date_format#:#Date Input Format###16 07 2010 new variable
-ps#:#crs_ps_agreement_req_info#:#Please accept the user agreement for having access to the course content.###16 07 2010 new variable
-ps#:#grp_ps_agreement_req_info#:#Please accept the user agreement for having access to the group content.###16 07 2010 new variable
+dateplaner#:#cal_def_date_format#:#Standard format for datoindtastning
+dateplaner#:#cal_user_date_format#:#Datoformat
+ps#:#crs_ps_agreement_req_info#:#Du skal acceptere brugeraftalen før du får adgang til kursets indhold.
+ps#:#grp_ps_agreement_req_info#:#Du skal acceptere brugeraftalen før du får adgang til indholdet i gruppen.
 ps#:#crs_ps_cdf_info#:#Further Course-Specific Data:###16 07 2010 new variable
 ps#:#grp_ps_cdf_info#:#Further Group-Specific Data:###16 07 2010 new variable
 ps#:#ps_grp_user_fields#:#Group-Specific User Fields###16 07 2010 new variable
@@ -10287,7 +10287,7 @@ registration#:#registration_codes_add#:#Add Codes###16 07 2010 new variable
 registration#:#registration_codes_export#:#Export Codes###16 07 2010 new variable
 registration#:#registration_codes_edit_header#:#Add Codes###16 07 2010 new variable
 registration#:#registration_codes_number#:#Number Of Codes###16 07 2010 new variable
-registration#:#registration_codes_roles#:#Role For New Accounts###16 07 2010 new variable
+registration#:#registration_codes_roles#:#Rolle til nye brugerkonti
 registration#:#registration_code#:#Code###16 07 2010 new variable
 registration#:#registration_generated#:#Date Of Generation###16 07 2010 new variable
 registration#:#registration_used#:#Date Of Usage###16 07 2010 new variable
@@ -10563,14 +10563,14 @@ dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this b
 dateplaner#:#cal_cancel_booking#:#Cancel Booking###16 07 2010 new variable
 dateplaner#:#cal_booking_confirmed#:#The appointment has been booked successfully.###16 07 2010 new variable
 dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.###16 07 2010 new variable
-crs#:#crs_reg_code#:#Registration Code###16 07 2010 new variable
-crs#:#crs_reg_code_link#:#Registration Link###16 07 2010 new variable
+crs#:#crs_reg_code#:#Registreringskode
+crs#:#crs_reg_code_link#:#Registreringslink
 crs#:#crs_reg_code_value#:#Code###16 07 2010 new variable
-crs#:#crs_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.###16 07 2010 new variable
-grp#:#grp_reg_code#:#Registration Code###16 07 2010 new variable
-grp#:#grp_reg_code_link#:#Registration Link###16 07 2010 new variable
+crs#:#crs_reg_code_enabled_info#:#Hvis denne indstilling aktiveres er registrering mulig ved hjælp af nedenstående link.
+grp#:#grp_reg_code#:#Registreringskode
+grp#:#grp_reg_code_link#:#Registreringslink
 grp#:#grp_reg_code_value#:#Code###16 07 2010 new variable
-grp#:#grp_reg_code_enabled_info#:#If enabled, an automatic registration is possible using a particular registration link.###16 07 2010 new variable
+grp#:#grp_reg_code_enabled_info#:#Hvis aktiv kan automatisk indmeldelse ske ved brug af dette registreringslink.
 forum#:#add_re_to_subject#:#Add 'Re: ' to subject on reply###16 07 2010 new variable
 forum#:#add_re_to_subject_info#:#If activated, 'Re: ' is added to the subject on reply.###16 07 2010 new variable
 forum#:#enter_new_subject#:#Please enter a new subject###16 07 2010 new variable
@@ -10847,7 +10847,7 @@ survey#:#msg_min_max_exact_answers#:#Please check exactly %s answers###27 08 201
 common#:#sess_fixed_duration#:#Fixed Session Duration###27 08 2010 new variable
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling###27 08 2010 new variable
 common#:#sess_mode#:#Session Mode###27 08 2010 new variable
-trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.###27 08 2010 new variable
+trac#:#trac_mode_deactivated_info_new#:#Læringsfremskridt vil ikke blive vist.
 common#:#cronjob_last_start#:#Last Start of the Cron Job###27 08 2010 new variable
 common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary###27 08 2010 new variable
 common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.###27 08 2010 new variable
@@ -11137,7 +11137,7 @@ survey#:#survey_has_datasets_warning_page_view#:#The survey already contains dat
 survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants###12 06 2011 new variable
 survey#:#survey_using_template#:#This survey uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.###12 06 2011 new variable
 survey#:#survey_using_template_link#:#Do not use template anymore###12 06 2011 new variable
-common#:#toggle_hidden_sections#:#Show more Information###12 06 2011 new variable
+common#:#toggle_hidden_sections#:#Vis mere information
 assessment#:#test_enable_views#:#Enabled views###12 06 2011 new variable
 assessment#:#test_enable_view_both#:#Table- and Page View###12 06 2011 new variable
 assessment#:#test_enable_view_express#:#Page View###12 06 2011 new variable
@@ -11879,14 +11879,14 @@ pd#:#pd_enable_wsp_certificates#:#Enable Certificates###06 08 2011 new variable
 pd#:#pd_enable_wsp_links#:#Enable Links###06 08 2011 new variable
 pd#:#pd_enable_prtf#:#Enable Portfolios###06 08 2011 new variable
 survey#:#svy_presentation_properties#:#Presentation###06 08 2011 new variable
-survey#:#svy_save_sync#:#Save and Sync Question Copies###06 08 2011 new variable
-grp#:#grp_setting_header_presentation#:#Group Presentation###06 08 2011 new variable
-grp#:#grp_setting_header_registration#:#Group Registration###06 08 2011 new variable
+survey#:#svy_save_sync#:#Gem og synkroniser spørgsmålskopier
+grp#:#grp_setting_header_presentation#:#Gruppe layout
+grp#:#grp_setting_header_registration#:#Gruppe indmeldelse
 grp#:#grp_view_info_by_type#:#This content presentation groups all items by resource type.###06 08 2011 new variable
 grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.###06 08 2011 new variable
-grp#:#grp_presentation_type#:#Presentation Type###06 08 2011 new variable
-grp#:#grp_view_inherit#:#Standard###06 08 2011 new variable
-grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. ###06 08 2011 new variable
+grp#:#grp_presentation_type#:#Presentation af indhold
+grp#:#grp_view_inherit#:#Standard
+grp#:#grp_view_inherit_info#:#Visningen af indhold arves fra kursets ditto.
 content#:#cont_open#:#Display###06 08 2011 new variable
 content#:#cont_open_normal#:#in tab / new window with link###06 08 2011 new variable
 content#:#cont_open_iframe_max#:#in iframe with full size###06 08 2011 new variable
