@@ -12414,7 +12414,7 @@ trac#:#trac_current#:#Aktuell
 trac#:#trac_aggregation#:#Aggregation
 trac#:#session_statistics#:#Session-Statistik
 trac#:#trac_last_aggregation#:#Stand
-trac#:#trac_last_maxed_out_sessions#:#Letze Volllast
+trac#:#trac_last_maxed_out_sessions#:#Letze Vollast
 trac#:#trac_maxed_out_counter#:#Abgewiesene Benutzer
 trac#:#trac_sessions_opened#:#Zugänge
 trac#:#trac_sessions_closed#:#Abgänge
