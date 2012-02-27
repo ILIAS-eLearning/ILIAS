@@ -717,7 +717,7 @@ class ilDBUpdate
 	public function setCustomUpdatesCurrentVersion($a_version)
 	{
 		$this->readCustomUpdatesInfo();
-		$this->custom_updates_setting->set('db_version_lernwelt', $a_version);
+		$this->custom_updates_setting->set('db_version_custom', $a_version);
 		$this->custom_updates_current_version = $a_version;
 		return true;
 	}
@@ -757,7 +757,7 @@ class ilDBUpdate
 		if (is_file($custom_updates_file))
 		{
 			$this->custom_updates_content = @file($custom_updates_file);
-			$this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_lernwelt', 0);
+			$this->custom_updates_current_version = (int) $this->custom_updates_setting->get('db_version_custom', 0);
 			$this->custom_updates_file_version = $this->readCustomUpdatesFileVersion($this->custom_updates_content);
 		}
 		$this->custom_updates_info_read = true;
