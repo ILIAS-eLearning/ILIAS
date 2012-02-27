@@ -1509,12 +1509,12 @@ common#:#ldap_v3#:#LDAPv3
 common#:#ldap_version#:#LDAP protokol version
 common#:#ldap_visible#:#LDAP indstillinger er synlige
 common#:#ldap_write#:#Rediger LDAP indstillinger
-common#:#learning module#:#Lærer modul
+common#:#learning module#:#Læremodul
 common#:#learning_objects#:#Lærer Objekt
 common#:#learning_progress#:#Læringsfremskridt
 common#:#learning_resourc#:#Learning Resource
 common#:#learning_resource#:#Læreresurse
-common#:#learning_resources#:#Læreresourcer
+common#:#learning_resources#:#Læreresurser
 common#:#level#:#Niveau
 common#:#link#:#Link
 common#:#link_check#:#Linkcheck
@@ -2165,7 +2165,7 @@ common#:#qpl_upload_file#:#Upload fil
 common#:#qpl_visible#:#Spørgsmålssamling til tests er synlig
 common#:#qpl_write#:#Rediger spørgsmålssamling til tests
 common#:#quarterly#:#Kvartalvis
-common#:#query_data#:#Forespørg data
+common#:#query_data#:#Vis resultat
 common#:#question#:#Spørgsmål
 common#:#question_pools#:#Spørgsmålssamlinger
 common#:#quit#:#Afbryd
@@ -2554,7 +2554,7 @@ common#:#tracked_objects#:#Sporede objekter
 common#:#tracking_data#:#Leder efter data
 common#:#tracking_data_del_confirm#:#Vil du slette alle sporingsdata for den specificerede måned og forgående ?
 common#:#tracking_data_deleted#:#Sporings data er slettet
-common#:#tracking_settings#:#Sporings indstillinger
+common#:#tracking_settings#:#Sporing af lærefremskridt
 common#:#translation#:#Oversættelse
 common#:#trash#:#Slettede ting/skrald
 common#:#tree_frame#:#Oversigstræ
@@ -4272,7 +4272,7 @@ content#:#cont_credits#:#Credits###21 Apr 2005 new variable
 content#:#cont_cross_reference#:#Kryds referance
 content#:#cont_data_from_lms#:#adlcp:datafromlms###21 Apr 2005 new variable
 content#:#cont_de_activate#:#(De)aktiver
-content#:#cont_deactivate_page#:#Deactivate Page
+content#:#cont_deactivate_page#:#Deaktiver side
 content#:#cont_def_layout#:#Standardlayout
 content#:#cont_def_lesson_mode#:#Standard læremetode
 content#:#cont_def_organization#:#Standard
@@ -7234,7 +7234,7 @@ trac#:#trac_crs_members#:#Kursusdeltagere
 trac#:#trac_crs_objects#:#Lærefremskridt for deltagere
 trac#:#trac_crs_releavant_items#:#Kursus elementer
 trac#:#trac_crs_relevant_items#:#Kursusmateriale
-trac#:#trac_edit_collection#:#Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.###23 Dec 2005 new variable
+trac#:#trac_edit_collection#:#Når alle de tildelte læreresurser er fuldført er kurset også fuldført. Please assign course items. If the status of all assigned items is 'Completed' the whole course is completed by the user.
 trac#:#trac_edit_progress#:#Ret lærefremskridt
 trac#:#trac_edit_time#:#Processing time###28 Feb 2006 new variable
 trac#:#trac_edit_visits#:#Please define the number of visits that is neccessary to complete this object.###23 Dec 2005 new variable
@@ -7264,22 +7264,22 @@ trac#:#trac_lp_determination_info_sco#:#Select the items that determine the over
 trac#:#trac_lp_filter#:#Filter###23 Dec 2005 new variable
 trac#:#trac_mark#:#Karakter
 trac#:#trac_marks#:#Karakterer
-trac#:#trac_mode#:#Mode###23 Dec 2005 new variable
-trac#:#trac_mode_collection#:#Samling af objekter
+trac#:#trac_mode#:#Metode
+trac#:#trac_mode_collection#:#Samling af læreresurser
 trac#:#trac_mode_deactivated#:#Deaktiveret
 trac#:#trac_mode_exercise_returned#:#Opgave løst
 trac#:#trac_mode_manual#:#Manuel
 trac#:#trac_mode_objectives#:#Læremål
-trac#:#trac_mode_scorm#:#SCORM/AICC###23 Dec 2005 new variable
+trac#:#trac_mode_scorm#:#SCORM/AICC
 trac#:#trac_mode_scorm_aicc#:#SCORM/AICC
 trac#:#trac_mode_test_finished#:#Test afsluttet
 trac#:#trac_mode_test_passed#:#Test bestået
 trac#:#trac_mode_tlt#:#Typisk læretid
 trac#:#trac_mode_visits#:#Antal besøg
 trac#:#trac_modifications_saved#:#Indstillingerne blev gemt
-trac#:#trac_modus#:#Mode###23 Dec 2005 new variable
+trac#:#trac_modus#:#Metode
 trac#:#trac_no_attempted#:#Ikke forsøgt
-trac#:#trac_no_content#:#No informations about the learning progress available.###28 Feb 2006 new variable
+trac#:#trac_no_content#:#Der er ikke lagret information om lærefremskridt.
 trac#:#trac_no_sahs_items_found#:#Intet objekt fundet.
 trac#:#trac_not_accessed#:#Ikke tilgået
 trac#:#trac_not_assigned#:#Ikke tildelt
@@ -7288,7 +7288,7 @@ trac#:#trac_not_completed#:#Ikke afsluttet
 trac#:#trac_not_participated#:#Ikke deltaget
 trac#:#trac_not_registered#:#Ikke registreret
 trac#:#trac_num_visits#:#Antal besøg
-trac#:#trac_objects#:#List of objects###23 Dec 2005 new variable
+trac#:#trac_objects#:#Liste over læreresurser
 trac#:#trac_occurrences#:#Sti:
 trac#:#trac_participated#:#Deltog
 trac#:#trac_processing_time#:#Processing time###28 Feb 2006 new variable
@@ -7298,7 +7298,7 @@ trac#:#trac_reached_points#:#Opnået score
 trac#:#trac_reached_visits#:#Krævede besøg
 trac#:#trac_refresh#:#Opdater
 trac#:#trac_registered#:#Registered
-trac#:#trac_required_visits#:#Number of required visits###28 Feb 2006 new variable
+trac#:#trac_required_visits#:#Antal krævede tilgange
 trac#:#trac_sahs_relevant_items#:#SCO's###23 Dec 2005 new variable
 trac#:#trac_select_one#:#Du foretog intet valg
 trac#:#trac_settings#:#Indstillinger
@@ -7313,7 +7313,7 @@ trac#:#trac_update_edit_user#:#Indstillinger gemt
 trac#:#trac_updated_status#:#Lærefremgangen blev gemt.
 trac#:#trac_user_data#:#Brugerdata
 trac#:#trac_usr_list#:#Brugere
-trac#:#trac_valid_request#:#Max. time between requests###23 Dec 2005 new variable
+trac#:#trac_valid_request#:#Maks tid mellem adgang
 trac#:#trac_view_crs#:#Tilbage til kursus
 trac#:#trac_view_list#:#Tilbage til listen
 trac#:#trac_visits#:#Antal besøg
@@ -7325,14 +7325,14 @@ trac#:#vm_days_of_period#:#Days of period
 trac#:#vm_times_of_day#:#Times of days
 trac#:#trac_anonymized_info_short#:#(Anonymiseret)###12 10 2006 new variable
 trac#:#trac_mode_deactivated_info#:#Der beregnes ikke lærefremgang.
-trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'.###10 05 2007 new variable
-trac#:#trac_mode_visits_info#:#Define the number of visits that is required for completing this learning material.###10 05 2007 new variable
-trac#:#trac_mode_manual_info#:#Users have to decide whether their status is completed or not.###10 05 2007 new variable
+trac#:#trac_mode_tlt_info#:#Brugere som tilgår materialet i den typiske læretid vil automatisk få status som fuldført.
+trac#:#trac_mode_visits_info#:#Angiv hvor mange gange materialet kræves tilgået for at have gennemført lærematerialet.
+trac#:#trac_mode_manual_info#:#Brugerne bestemmer selv om de vil sætte status til gennemført eller ej.
 trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.###10 05 2007 new variable
-trac#:#trac_mode_collection_info#:#Define the materials that will determine the learning progress status.###10 05 2007 new variable
+trac#:#trac_mode_collection_info#:#Vælg hvilke læreresurser som bestemmer lærefremskridtet.
 trac#:#trac_mode_scorm_info#:#The learning progress status will be determined by the status of SCO's.###10 05 2007 new variable
-trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.###10 05 2007 new variable
-trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.###10 05 2007 new variable
+trac#:#trac_mode_test_passed_info#:#Testen skal bestås af brugeren før status kan sættes til fuldført.
+trac#:#trac_mode_exercise_returned_info#:#Status fuldført/gemmemført kan kun sættes af tutorer. 
 trac#:#trac_mode_manual_by_tutor#:#Manuelt af tutor
 trac#:#trac_mode_manual_by_tutor_info#:#Den overordnede status kan kun sættes af hjælpeundervisere.
 ldap#:#ldap_server_name#:#LDAP konfigurationens navn
@@ -8835,7 +8835,7 @@ content#:#cont_activation#:#Aktivering
 content#:#cont_page_activation#:#Side aktivering
 content#:#cont_activated#:#Aktiveret
 content#:#cont_deactivated#:#Deaktiveret
-content#:#cont_scheduled_activation#:#Planlagt aktivering
+content#:#cont_scheduled_activation#:#Tidsbestemt aktivering
 content#:#cont_start#:#Start
 content#:#cont_end#:#Slut
 shib#:#shib_settings#:#Shibboleth indstillinger
@@ -10291,11 +10291,11 @@ registration#:#registration_codes_roles#:#Role For New Accounts###16 07 2010 new
 registration#:#registration_code#:#Code###16 07 2010 new variable
 registration#:#registration_generated#:#Date Of Generation###16 07 2010 new variable
 registration#:#registration_used#:#Date Of Usage###16 07 2010 new variable
-registration#:#registration_roles_all#:#All Roles###16 07 2010 new variable
-registration#:#registration_generated_all#:#All Dates###16 07 2010 new variable
+registration#:#registration_roles_all#:#Alle roller
+registration#:#registration_generated_all#:#Alle datoer
 registration#:#registration_export_codes_no_data#:#No codes to export were selected.###16 07 2010 new variable
 registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.###16 07 2010 new variable
-common#:#session_config#:#Session Settings###16 07 2010 new variable
+common#:#session_config#:#Session indstillinger
 common#:#session_config_maintenance_enabled#:#Maintenance by client allowed###16 07 2010 new variable
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed###16 07 2010 new variable
 common#:#session_max_count#:#Max active sessions###16 07 2010 new variable
@@ -10395,7 +10395,7 @@ news#:#news_rss_title_format#:#Title Format of RSS Entries###16 07 2010 new vari
 news#:#news_rss_title_format_obj_news#:#Object Title - News Headline###16 07 2010 new variable
 news#:#news_rss_title_format_news_obj#:#News Headline (Object Title)###16 07 2010 new variable
 trac#:#trac_learners#:#Learners ###16 07 2010 new variable
-trac#:#trac_summary#:#Summary ###16 07 2010 new variable
+trac#:#trac_summary#:#Sammendrag
 trac#:#trac_learners_back#:#Back To Learners###16 07 2010 new variable
 trac#:#trac_user_objects#:#Learning Objects for User###16 07 2010 new variable
 content#:#cont_link_whole_picture#:#Link Whole Picture###16 07 2010 new variable
@@ -10453,9 +10453,9 @@ tbl#:#tbl_export_excel#:#Export .xls###16 07 2010 new variable
 crs#:#crs_custom_user_fields#:#Course Relevant User Data###16 07 2010 new variable
 grp#:#grp_custom_user_fields#:#Group Relevant User Data###16 07 2010 new variable
 assessment#:#info_answer_type_change#:#The question already contains images. You can't change the answer type to multiline answers.###16 07 2010 new variable
-crs#:#crs_members_groups#:#Course Members Groups###16 07 2010 new variable
-crs#:#crs_groups_nr#:#Number of Groups###16 07 2010 new variable
-crs#:#crs_add_to_group#:#Add to Group###16 07 2010 new variable
+crs#:#crs_members_groups#:#Kursusdeltagernes grupper
+crs#:#crs_groups_nr#:#Antal grupper
+crs#:#crs_add_to_group#:#Føj til gruppe
 wiki#:#wiki_import#:#Import Wiki###16 07 2010 new variable
 mcst#:#mcst_import#:#Import Mediacast###16 07 2010 new variable
 exc#:#exc_submission_notification#:#Email Notification on Submissions###16 07 2010 new variable
@@ -10874,10 +10874,10 @@ common#:#follow_link_to_read_mails#:#click the following link to read these mail
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s###10 09 2010 new variable
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s###10 09 2010 new variable
 trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###10 09 2010 new variable
-fold#:#fold_import#:#Import Folder###10 09 2010 new variable
+fold#:#fold_import#:#Importer mappe
 mail#:#mail_select_recipients#:#Please select mail recipients:###10 09 2010 new variable
-grp#:#grp_import#:#Import Group###10 09 2010 new variable
-crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups###10 09 2010 new variable
+grp#:#grp_import#:#Importer gruppe
+crs#:#crs_grp_assignments#:#Tildeling af deltagere til grupper
 assessment#:#ordering_answer_sequence_info#:#Rækkefølgen ovenfor skal være den korrekte besvarelse.
 administration#:#language_scope_merged#:#Local changes merged into the global language file###10 09 2010 new variable
 administration#:#language_scope_added#:#Local additions only###10 09 2010 new variable
@@ -11541,7 +11541,7 @@ user#:#user_portfolios#:#Portfolios###18 07 2011 new variable
 user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.###18 07 2011 new variable
 user#:#user_profile_portfolio#:#You can use a portfolio as public profile.###18 07 2011 new variable
 wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
-content#:#cont_maintenance#:#Maintenance###18 07 2011 new variable
+content#:#cont_maintenance#:#Vedligeholdelse
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 07 2011 new variable
 mep#:#mep_choose_from_mep#:#Choose from Pool###18 07 2011 new variable
 ecs#:#ecs_cert_valid_until#:#Certificate valid until###18 07 2011 new variable
@@ -11731,11 +11731,11 @@ prtf#:#prtf_banner#:#Banner###06 08 2011 new variable
 prtf#:#prtf_background_color#:#Background Color###06 08 2011 new variable
 prtf#:#prtf_font_color#:#Font Color###06 08 2011 new variable
 notes#:#note_add_note#:#Add Note###06 08 2011 new variable
-notes#:#note_add_comment#:#Add Comment###06 08 2011 new variable
-notes#:#note_update_comment#:#Update Comment###06 08 2011 new variable
-notes#:#note_update_note#:#Update Note###06 08 2011 new variable
+notes#:#note_add_comment#:#Send kommentar
+notes#:#note_update_comment#:#Opdater kommentar
+notes#:#note_update_note#:#Opdater note
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
-common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
+common#:#removed_from_desktop#:#Objektet blev fjernet fra skrivebordet.
 notes#:#notes_comments#:#Kommentarer
 common#:#chtr_visible#:#Synlig
 common#:#chtr_read#:#Læs
@@ -12121,7 +12121,7 @@ common#:#enable_sahs_protocol_data#:#Activate Protocol Data###02 09 2011 new var
 common#:#enable_sahs_protocol_data_desc#:#Show Protocol Data (SCORM/AICC)###02 09 2011 new variable
 search#:#lucene_max_fs#:#Maximum Filesize (in MB)###02 09 2011 new variable
 search#:#lucene_max_fs_info#:#Defines the file size limit. Bigger files will not be included in the index.###02 09 2011 new variable
-trac#:#trac_determines_learning_progress#:#Determines Learning Progress###02 09 2011 new variable
+trac#:#trac_determines_learning_progress#:#Afgør læringsfremskridt
 content#:#cont_scorm_ed_properties#:#Learning Module Properties / Glossary###02 09 2011 new variable
 content#:#sahs_empty_objectives_are_not_allowed#:#Please enter a learning objective.###02 09 2011 new variable
 style#:#sty_type_rte_drag#:#Drag Bar###02 09 2011 new variable
