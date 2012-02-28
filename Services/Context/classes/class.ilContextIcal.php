@@ -33,6 +33,26 @@ class ilContextIcal extends ilContextBase
 	{
 		return true;
 	}
+	
+	/**
+	 * Uses HTTP aka browser 
+	 * 
+	 * @return bool 
+	 */
+	public static function usesHTTP()
+	{
+		return true;
+	}
+	
+	/**
+	 * Has HTML output
+	 *  
+	 * @return bool
+	 */
+	public static function hasHTML()
+	{
+		return false;
+	}
 }
 
 ?>

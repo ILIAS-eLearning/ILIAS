@@ -12,7 +12,7 @@ include_once "Services/Context/classes/class.ilContextBase.php";
  * 
  * @ingroup ServicesContext
  */
-class ilContextRss extends ilContextBase
+class ilContextWebdav extends ilContextBase
 {			
 	/**
 	 * Are redirects supported?
@@ -30,6 +30,26 @@ class ilContextRss extends ilContextBase
 	 * @return bool
 	 */
 	public static function hasUser()
+	{
+		return true;
+	}
+	
+	/**
+	 * Uses HTTP aka browser 
+	 * 
+	 * @return bool 
+	 */
+	public static function usesHTTP()
+	{
+		return true;
+	}
+	
+	/**
+	 * Has HTML output
+	 *  
+	 * @return bool
+	 */
+	public static function hasHTML()
 	{
 		return true;
 	}

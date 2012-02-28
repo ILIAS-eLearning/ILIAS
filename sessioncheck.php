@@ -13,9 +13,7 @@ ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
 
 require_once 'Services/Init/classes/class.ilInitialisation.php';
 $ilInit = new ilInitialisation();
-$ilInit->returnBeforeAuth(true);
 $ilInit->initILIAS();
-$ilInit->initLanguage();
 
 include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 

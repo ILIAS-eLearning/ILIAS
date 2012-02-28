@@ -1383,7 +1383,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	function __setLocator()
 	{
 		global $tree;
-		global $ilias_locator, $lng;
+		global $lng;
 
 		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 

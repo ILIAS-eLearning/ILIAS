@@ -969,9 +969,7 @@ if (!false)
 	* @access	public
 	*/
 	function setLocator($a_tree = "", $a_id = "")
-	{
-		global $ilias_locator;
-
+	{		
 		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();

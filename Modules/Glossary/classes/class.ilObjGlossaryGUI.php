@@ -1393,9 +1393,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	* @access	public
 	*/
 	function setLocator($a_tree = "", $a_id = "")
-	{
-		global $ilias_locator;
-
+	{		
 		if(strtolower($_GET["baseClass"]) != "ilglossaryeditorgui")
 		{
 			parent::setLocator($a_tree, $a_id);

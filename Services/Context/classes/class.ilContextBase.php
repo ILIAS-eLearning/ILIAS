@@ -25,6 +25,20 @@ abstract class ilContextBase
 	 * @return bool
 	 */
 	abstract public static function hasUser();
+	
+	/**
+	 * Uses HTTP aka browser 
+	 * 
+	 * @return bool 
+	 */
+	abstract public static function usesHTTP();
+	
+	/**
+	 * Has HTML output
+	 *  
+	 * @return bool
+	 */
+	abstract public static function hasHTML();
 }
 
 ?>

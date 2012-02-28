@@ -2581,7 +2581,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function __setLocator()
 	{
-		global $tree, $ilias_locator;
+		global $tree;
 		
 		return;
 		
