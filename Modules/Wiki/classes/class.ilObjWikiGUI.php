@@ -828,13 +828,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
-			$_GET["cmd"] = "frameset";
-			$_GET["target"] = "";
-			$_GET["ref_id"] = ROOT_FOLDER_ID;
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[0]))), true);
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryRoot();
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);

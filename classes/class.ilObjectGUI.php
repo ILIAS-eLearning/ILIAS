@@ -2053,6 +2053,33 @@ class ilObjectGUI
 			return $ilAccess->checkAccess($a_perm, $a_cmd, $a_ref_id);
 		}
 	}
+	
+	/**
+	 * Goto repository root
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _gotoRepositoryRoot($a_raise_error = false)
+	{
+		global $ilAccess, $ilErr;
+		
+		if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
+		{
+			$_GET["cmd"] = "frameset";
+			$_GET["target"] = "";
+			$_GET["ref_id"] = ROOT_FOLDER_ID;
+			$_GET["baseClass"] = "ilRepositoryGUI";
+			include("ilias.php");
+			exit;
+		}
+
+		if ($a_raise_error)
+		{
+			$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		}
+	}
+	
 } // END class.ilObjectGUI (3.10: 2896 loc)
 
 ?>

@@ -515,14 +515,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	{
 		global $ilAccess, $ilErr, $lng;
 
-		if ($ilAccess->checkAccess("read", "",1))
-		{
-			$_GET["cmd"] = "frameset";
-			$_GET["ref_id"] = 1;
-			include("repository.php");
-			exit;
-		}
-		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
+		ilObjectGUI::_gotoRepositoryRoot(true);
 	}
 
 	/**

@@ -491,35 +491,6 @@ class ilObjFolderGUI extends ilContainerGUI
 			include("repository.php");
 			exit;
 		}
-		/*
-		else
-		{
-			// to do: force flat view
-			
-			// no info screen for folders
-			if ($ilAccess->checkAccess("visible", "", $a_target))
-			{
-				$_GET["cmd"] = "infoScreen";
-				$_GET["ref_id"] = $a_target;
-				include("repository.php");
-				exit;
-			}
-			else
-			{
-				// This part will never be reached
-				if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
-				{
-					$_GET["cmd"] = "frameset";
-					$_GET["target"] = "";
-					$_GET["ref_id"] = ROOT_FOLDER_ID;
-					ilUtil::sendInfo(sprintf($lng->txt("msg_no_perm_read_item"),
-						ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
-					include("repository.php");
-					exit;
-				}
-			}
-		}
-		*/
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
