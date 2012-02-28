@@ -312,6 +312,7 @@ class ilLanguage
 	
 	function getInstalledLanguages()
 	{
+		include_once("./classes/class.ilObject.php");
 		$langlist = ilObject::_getObjectsByType("lng");
 		
 		foreach ($langlist as $lang)
