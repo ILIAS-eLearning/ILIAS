@@ -2416,28 +2416,19 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		if ($a_add == "mem" && $ilAccess->checkAccess("write", "", $a_target))
 		{
-			$_GET["cmd"] = "members";
-			$_GET["ref_id"] = $a_target;
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($a_target, "members");
 		}
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			$_GET["cmd"] = "frameset";
-			$_GET["ref_id"] = $a_target;
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($a_target);
 		}
 		else
 		{
 			// to do: force flat view
 			if ($ilAccess->checkAccess("visible", "", $a_target))
 			{
-				$_GET["cmd"] = "infoScreen";
-				$_GET["ref_id"] = $a_target;
-				include("repository.php");
-				exit;
+				ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 			}
 			else
 			{

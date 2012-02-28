@@ -823,10 +823,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
-			$_GET["ref_id"] = $a_target;
-			$_GET["cmd"] = "infoScreen";
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{

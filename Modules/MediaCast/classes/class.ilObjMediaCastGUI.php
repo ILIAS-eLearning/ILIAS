@@ -1077,10 +1077,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		else if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
-			$_GET["cmd"] = "infoScreen";
-			$_GET["ref_id"] = $a_target;
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{

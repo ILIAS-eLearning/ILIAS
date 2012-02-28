@@ -409,9 +409,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 		if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{
-			$_GET["cmd"] = "frameset";
-			$_GET["target"] = "";
-			$_GET["ref_id"] = ROOT_FOLDER_ID;
 			if ($lm_id > 0)
 			{
 				ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
@@ -422,8 +419,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lng->loadLanguageModule("content");
 				ilUtil::sendFailure($lng->txt("page_does_not_exist"), true);
 			}
-			include("repository.php");
-			exit;
+			include_once("./classes/class.ilObjectGUI.php");
+			ilObjectGUI::_gotoRepositoryRoot();
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
