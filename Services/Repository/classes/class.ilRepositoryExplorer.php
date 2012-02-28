@@ -418,7 +418,7 @@ class ilRepositoryExplorer extends ilExplorer
 	*/
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $tree;
+		global $lng, $ilias, $tree, $ilCtrl;
 
 		// custom icons
 		/*
@@ -447,7 +447,10 @@ class ilRepositoryExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", $title);
-		$tpl->setVariable("LINK_TARGET", "repository.php?cmd=frameset&amp;ref_id=1");
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", "1");
+		$tpl->setVariable("LINK_TARGET",
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"));
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		$tpl->setVariable("TARGET", " target=\"_top\"");
 		$tpl->parseCurrentBlock();
 

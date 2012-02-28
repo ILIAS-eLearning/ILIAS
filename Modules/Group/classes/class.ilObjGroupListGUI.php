@@ -77,16 +77,10 @@ class ilObjGroupListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
+		global $ilCtrl;
+		
 		switch($a_cmd)
 		{
-			case "view":
-			case "join":
-				// using ilCtrl does not work on personal desktop
-				//$this->ctrl->setParameterByClass("ilObjGroupGUI", "ref_id", $this->ref_id);
-				//$cmd_link = $this->ctrl->getLinkTargetByClass("ilObjGroupGUI");
-				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
-				break;
-
 			// BEGIN WebDAV: Mount Webfolder.
 			case 'mount_webfolder' :
 				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
@@ -107,7 +101,9 @@ class ilObjGroupListGUI extends ilObjectListGUI
 
 			case "edit":
 			default:
-				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+				$cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				break;
 		}
 

@@ -1301,7 +1301,7 @@ class ilStartUpGUI
 				//				);
 				$data[] = array(
 								$client->getName(),
-								"<a href=\""."repository.php?client_id=".urlencode($key)."\">Start page</a>",
+								"<a href=\""."ilias.php?baseClass=ilRepositoryGUI&client_id=".urlencode($key)."\">Start page</a>",
 								"<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>"
 								);
 			}
@@ -1567,9 +1567,9 @@ class ilStartUpGUI
 			{
 				$_GET["ref_id"] = ROOT_FOLDER_ID;
 			}
-			$ilCtrl->initBaseClass("");
+			$ilCtrl->initBaseClass("ilRepositoryGUI");
 			$ilCtrl->setCmd("frameset");
-			$start_script = "repository.php";
+			$start_script = "ilias.php";
 			include($start_script);
 			return true;
 		}

@@ -1655,19 +1655,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return ilObjGroup::_importFromXMLString(file_get_contents($file_obj->getImportFile()),$parent_id);
 	}
 
-	/**
-	 * STATIC METHOD
-	 * create a link to the object
-	 * @param	int uniq id
-	 * @return array array('link','target')
-	 * @static
-	 * @access	public
-	 */
-	function _getLinkToObject($a_id)
-	{
-		return array("repository.php?ref_id=".$a_id."&set_mode=flat&cmdClass=ilobjgroupgui","");
-	}
-
 	function _lookupIdByTitle($a_title)
 	{
 		global $ilDB;

@@ -2581,7 +2581,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function __setLocator()
 	{
-		global $tree;
+		global $tree, $ilCtrl;
 		
 		return;
 		
@@ -2605,14 +2605,19 @@ class ilObjRoleGUI extends ilObjectGUI
 			}
 			elseif ($row["child"] != $tree->getRootId())
 			{
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
 				$this->tpl->setVariable("ITEM", $row["title"]);
-				$this->tpl->setVariable("LINK_ITEM","repository.php?ref_id=".$row["child"]);
+				$this->tpl->setVariable("LINK_ITEM",
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 			}
 			else
 			{
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
 				$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
-				$this->tpl->setVariable("LINK_ITEM","repository.php?ref_id=".$row["child"]);
+				$this->tpl->setVariable("LINK_ITEM",
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 			}
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 
 			$this->tpl->parseCurrentBlock();
 		}

@@ -38,7 +38,7 @@ class ilMemberViewGUI
 	 */
 	public static function showMemberViewSwitch($a_ref_id)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilCtrl;
 		
 		$settings = ilMemberViewSettings::getInstance();
 		if(!$settings->isEnabled())
@@ -61,10 +61,14 @@ class ilMemberViewGUI
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
 		if(($type == 'crs' or $type == 'grp') and $ilAccess->checkAccess('write','',$a_ref_id))
 		{
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_ref_id);
+			$ilCtrl->setParameterByClass("ilrepositorygui", "mv", "1");
+			$ilCtrl->setParameterByClass("ilrepositorygui", "set_mode", "flat");
 			$ilTabs->addNonTabbedLink("members_view",
 				$lng->txt('mem_view_activate'),
-				'repository.php?cmd=frameset&set_mode=flat&ref_id='.$a_ref_id.'&mv=1'
+				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset")
 				);
+			$ilCtrl->clearParametersByClass("ilrepositorygui");
 			return true;
 		}
 		return true;

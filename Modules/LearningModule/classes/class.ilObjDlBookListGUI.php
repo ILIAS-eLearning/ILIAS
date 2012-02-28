@@ -87,6 +87,8 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
+		global $ilCtrl;
+		
 		switch($a_cmd)
 		{
 			case "continue":
@@ -109,7 +111,9 @@ class ilObjDlBookListGUI extends ilObjectListGUI
 				
 
 			default:
-				$cmd_link = "repository.php?ref_id=".$this->ref_id."&amp;cmd=$a_cmd";
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+				$cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				break;
 		}
 

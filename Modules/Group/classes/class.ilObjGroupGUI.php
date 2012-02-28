@@ -49,7 +49,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"repository.php?cmd=frameset&ref_id=".$_GET["ref_id"], "grp");
+				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"), "grp");
 		}
 
 		switch($next_class)

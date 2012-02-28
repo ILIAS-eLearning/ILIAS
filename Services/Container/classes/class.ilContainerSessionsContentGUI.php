@@ -277,28 +277,39 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	 */
 	public function addFooterRow($tpl)
 	{
+		global $ilCtrl;
+		
 		$tpl->setCurrentBlock('details_img');
 		
 		$append = $this->details_level == 1 ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
 		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details1'.$append.'.gif'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 1');
-		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=1');
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getRefId());
+		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "1");
+		$tpl->setVariable('DETAILS_LINK',
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 		$tpl->parseCurrentBlock();
 
 		$append = $this->details_level == 2 ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
 		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.gif'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
-		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=2');
+		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "2");
+		$tpl->setVariable('DETAILS_LINK',
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 		$tpl->parseCurrentBlock();
 
 		$append = $this->details_level == 3 ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
 		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.gif'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
-		$tpl->setVariable('DETAILS_LINK','repository.php?ref_id='.$this->getContainerObject()->getRefId().'&details_level=3');
+		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "3");
+		$tpl->setVariable('DETAILS_LINK',
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
 		$tpl->parseCurrentBlock();
+		
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		
 		$tpl->setCurrentBlock('container_details_row');
 		$tpl->setVariable('TXT_DETAILS',$this->lng->txt('details'));

@@ -368,7 +368,7 @@ class ilRepositoryGUI
 	*/
 	function frameset()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 		
 		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
 		$fs_gui = new ilFramesetGUI();
@@ -384,11 +384,16 @@ class ilRepositoryGUI
 		}
 		else
 		{
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
+			$ilCtrl->setParameterByClass("ilrepositorygui", "getlast", "true");
 			$fs_gui->setMainFrameSource(
-				"repository.php?getlast=true&ref_id=".$this->cur_ref_id);
+				$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+			$ilCtrl->clearParametersByClass("ilrepositorygui");
 		}
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->cur_ref_id);
 		$fs_gui->setSideFrameSource(
-			"repository.php?cmd=showTree&ref_id=".$this->cur_ref_id);
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", "showTree"));
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 
 		$fs_gui->setSideFrameName("tree");
 		$fs_gui->setMainFrameName("rep_content");
@@ -437,7 +442,7 @@ class ilRepositoryGUI
 			}
 		}
 
-		$exp = new ilRepositoryExplorer("repository.php?cmd=goto", $top_node);
+		$exp = new ilRepositoryExplorer("ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto", $top_node);
 		$exp->setUseStandardFrame(false);
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "showTree"));
 		$exp->setFrameUpdater("tree", "updater");
@@ -484,7 +489,10 @@ class ilRepositoryGUI
 			$head_tpl->setVariable("IMG_SRC", $path);
 			$head_tpl->setVariable("ALT_IMG", $lng->txt("icon")." ".$title);
 			$head_tpl->setVariable("LINK_TXT", $title);
-			$head_tpl->setVariable("LINK_HREF", "repository.php?cmd=frameset&amp;ref_id=1");
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", "1");
+			$head_tpl->setVariable("LINK_HREF",
+				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"));
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 			$exp->setTreeLead($head_tpl->get());
 
 			$exp->initItemCounter(1);

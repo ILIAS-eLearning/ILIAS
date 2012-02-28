@@ -1003,8 +1003,10 @@ class ilObjectListGUI
 			}
 			// END WebDAV Get mount webfolder link.
 
-			// don't use ctrl here in the moment
-			return 'repository.php?ref_id='.$this->getCommandId().'&cmd='.$a_cmd;
+			$this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
+			$cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+			$this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+			return $cmd_link;
 
 			/* separate method for this line
 			$cmd_link = $this->ctrl->getLinkTargetByClass($this->gui_class_name,
