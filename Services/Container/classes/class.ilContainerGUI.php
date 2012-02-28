@@ -2753,7 +2753,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function cloneAllObject()
 	{
-		global $ilLog;
+		global $ilLog, $ilCtrl;
 		
 		include_once('classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
@@ -2787,12 +2787,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if ($result == $ref_id)
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
-			ilUtil::redirect('repository.php?ref_id='.$ref_id);
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		} 
 		else 
 		{
-			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-			ilUtil::redirect('repository.php?ref_id='.$result);			
+			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);			
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		}	
 	}
 

@@ -3116,7 +3116,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function performUnsubscribeObject()
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem, $ilUser, $ilCtrl;
 
 		// CHECK ACCESS
 		$this->checkPermission('leave');
@@ -3129,7 +3129,8 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		ilUtil::sendSuccess($this->lng->txt('crs_unsubscribed_from_crs'),true);
 
-		ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->tree->getParentId($this->ref_id));
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 
 	/**

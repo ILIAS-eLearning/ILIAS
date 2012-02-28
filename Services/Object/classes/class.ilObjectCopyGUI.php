@@ -634,7 +634,7 @@ class ilObjectCopyGUI
 	 */
 	protected function copyContainer()
 	{
-		global $ilLog;
+		global $ilLog, $ilCtrl;
 		
 		include_once('classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
@@ -669,12 +669,16 @@ class ilObjectCopyGUI
 		if ($result == $this->getTarget())
 		{
 			ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"),true);
-			ilUtil::redirect('repository.php?ref_id='.$this->getTarget());
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+				$this->getTarget());
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		} 
 		else 
 		{
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
-			ilUtil::redirect('repository.php?ref_id='.$result);
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+				$result);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		}	
 	}
 	
