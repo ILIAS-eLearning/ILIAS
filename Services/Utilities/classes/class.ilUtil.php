@@ -934,37 +934,6 @@ class ilUtil
 	}
 
 	/**
-	* StopWatch
-	* benchmark scriptcode
-	*
-	* Usage:
-	* $t1 = StopWatch(); // starts the StopWatch
-	* // your code you want to benchmark
-	* $diff = StopWatch($t1); // stops the StopWatch
-	*
-	* $diff contains the time elapsed so far from the point where you set the marker $t1
-	* in microseconds
-	*
-	* @access	public
-	* @param	float	starttime in microseconds
-	* @return	float	time in microseconds
-	* @static
-	* 
-	*/
-	public static function StopWatch($begin = -1)
-	{
-		$m = explode(" ",microtime());
-		$m = $m[0] + $m[1];
-
-		if ($begin != -1)
-		{
-			$m = $m - $begin;
-		}
-
-		return($m);
-	}
-
-	/**
 	* Creates a combination of HTML selects for date inputs
 	*
 	* Creates a combination of HTML selects for date inputs

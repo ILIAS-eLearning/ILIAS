@@ -84,17 +84,28 @@ class ilContext
 	}
 	
 	/**
+	 * Call current content
+	 * 
+	 * @param string $a_method
+	 * @return bool
+	 */
+	protected static function callContext($a_method)
+	{
+		if(!self::$class_name)
+		{
+			self::init(self::CONTEXT_WEB);
+		}		
+		return call_user_func(array(self::$class_name, $a_method));
+	}
+	
+	/**
 	 * Are redirects supported?
 	 * 
 	 * @return bool 
 	 */
 	public static function supportsRedirects()
 	{
-		if(!self::$class_name)
-		{
-			self::init(self::CONTEXT_WEB);
-		}		
-		return call_user_func(array(self::$class_name, "supportsRedirects"));
+		return (bool)self::callContext("supportsRedirects");
 	}
 	
 	/**
@@ -104,11 +115,27 @@ class ilContext
 	 */
 	public static function hasUser()
 	{
-		if(!self::$class_name)
-		{
-			self::init(self::CONTEXT_WEB);
-		}		
-		return call_user_func(array(self::$class_name, "hasUser"));	
+		return (bool)self::callContext("hasUser");		
+	}
+	
+	/**
+	 * Uses HTTP aka browser 
+	 * 
+	 * @return bool 
+	 */
+	public static function usesHTTP()
+	{
+		return (bool)self::callContext("usesHTTP");	
+	}
+	
+	/**
+	 * Has HTML output
+	 *  
+	 * @return bool
+	 */
+	public static function hasHTML()
+	{
+		return (bool)self::callContext("hasHTML");	
 	}
 }
 

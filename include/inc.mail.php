@@ -24,7 +24,7 @@
 
 function setLocator($a_obj_id,$a_path,$a_user_id,$a_txt_prefix)
 {
-		global $lng,$tpl,$ilias_locator, $ilMainMenu;
+		global $lng,$tpl,$ilMainMenu;
 
 		$ilMainMenu->setActive("mail");
 		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE

@@ -33,6 +33,26 @@ class ilContextCron extends ilContextBase
 	{
 		return true;
 	}
+	
+	/**
+	 * Uses HTTP aka browser 
+	 * 
+	 * @return bool 
+	 */
+	public static function usesHTTP()
+	{
+		return false;
+	}
+	
+	/**
+	 * Has HTML output
+	 *  
+	 * @return bool
+	 */
+	public static function hasHTML()
+	{
+		return false;
+	}
 }
 
 ?>
