@@ -22,6 +22,7 @@
 */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once 'Modules/Test/classes/class.ilTestService.php';
 
 /**
 * Service GUI class for tests. This class is the parent class for all
@@ -31,14 +32,24 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @ilCtrl_IsCalledBy ilTestServiceGUI: ilObjTestGUI
 *
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
+* @author	Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author	Björn Heyser <bheyser@databay.de>
+* @version	$Id$
 *
 * @ingroup ModulesTest
 */
 class ilTestServiceGUI
 {
-	var $object;
+	/**
+	 * @var ilObjTest
+	 */
+	public $object = null;
+	
+	/**
+	 * @var ilTestService
+	 */
+	public $service = null;
+
 	var $lng;
 	var $tpl;
 	var $ctrl;
@@ -54,7 +65,7 @@ class ilTestServiceGUI
 * @param object $a_object Associated ilObjTest class
 * @access public
 */
-  function ilTestServiceGUI($a_object)
+  function ilTestServiceGUI(ilObjTest $a_object)
   {
 		global $lng, $tpl, $ilCtrl, $ilias, $tree;
 
@@ -65,6 +76,8 @@ class ilTestServiceGUI
 		$this->object =& $a_object;
 		$this->tree =& $tree;
 		$this->ref_id = $a_object->ref_id;
+		
+		$this->service = new ilTestService($a_object);
 	}
 	
 	/**

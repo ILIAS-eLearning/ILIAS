@@ -7274,11 +7274,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$filtered_participants = array();
 		foreach ($participants as $active_id => $participant)
 		{
-			$result = $ilDB->queryF("SELECT tst_test_result.manual FROM tst_test_result,qpl_questions WHERE tst_test_result.question_fi = qpl_questions.question_id AND " . $ilDB->in('qpl_questions.question_type_fi', $scoring, false, 'integer') . " AND tst_test_result.active_fi = %s", 
-				array("integer"),
-				array($active_id)
+			$qstType_IN_manScoreableQstTypes = $ilDB->in('qpl_questions.question_type_fi', $scoring, false, 'integer');
+			
+			$queryString = "
+				SELECT		tst_test_result.manual
+				
+				FROM		tst_test_result
+				
+				INNER JOIN	qpl_questions
+				ON			tst_test_result.question_fi = qpl_questions.question_id
+			
+				WHERE		tst_test_result.active_fi = %s
+				AND			$qstType_IN_manScoreableQstTypes
+			";
+			
+			$result = $ilDB->queryF(
+					$queryString, array("integer"), array($active_id)
 			);
+			
 			$count = $result->numRows();
+			
 			if ($count > 0)
 			{
 				switch ($filter)
