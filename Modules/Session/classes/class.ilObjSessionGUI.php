@@ -230,10 +230,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		if($ilAccess->checkAccess('visible', "", $a_target))
 		{
-			$_GET["cmd"] = "infoScreen";
-			$_GET["ref_id"] = $a_target;
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
 		}
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}

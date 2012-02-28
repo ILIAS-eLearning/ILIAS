@@ -821,10 +821,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 		else if ($ilAccess->checkAccess("visible", "", $a_target))
 		{
-			$_GET["cmd"] = "infoScreen";
-			$_GET["ref_id"] = $tarr[0];
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($tarr[0], "infoScreen");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{

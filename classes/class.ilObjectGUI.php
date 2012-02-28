@@ -254,7 +254,6 @@ class ilObjectGUI
 			if ($this->getCreationMode() != true)
 			{
 				$this->setAdminTabs();
-				$this->showUpperIcon();
 			}
 			
 			return false;
@@ -293,7 +292,6 @@ class ilObjectGUI
 	
 			// set tabs
 			$this->setTabs();
-			$this->showUpperIcon();
 
 			// BEGIN WebDAV: Display Mount Webfolder icon.
 			require_once 'Services/WebDAV/classes/class.ilDAVServer.php';
@@ -416,54 +414,6 @@ class ilObjectGUI
 		exit;
 	}
 	
-	protected function showUpperIcon()
-	{
-		global $tree, $tpl, $objDefinition;
-
-		if ($this->object->getRefId() == "")
-		{
-			return;
-		}
-
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-		{		
-			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
-				$this->object->getRefId() != SYSTEM_FOLDER_ID)
-			{
-				$par_id = $tree->getParentId($this->object->getRefId());
-				$obj_type = ilObject::_lookupType($par_id,true);
-				$class_name = $objDefinition->getClassName($obj_type);
-				$class = strtolower("ilObj".$class_name."GUI");
-				$this->ctrl->setParameterByClass($class, "ref_id", $par_id);
-				$tpl->setUpperIcon($this->ctrl->getLinkTargetByClass($class, "view"));
-				$this->ctrl->clearParametersByClass($class);
-			}
-			// link repository admin to admin settings
-			else if ($this->object->getRefId() == ROOT_FOLDER_ID)
-			{
-				$this->ctrl->setParameterByClass("iladministrationgui", "ref_id", "");
-				$this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
-				$tpl->setUpperIcon($this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-					ilFrameTargetInfo::_getFrame("MainContent"));
-				$this->ctrl->clearParametersByClass("iladministrationgui");
-			}
-		}
-		else
-		{
-			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
-				$this->object->getRefId() != SYSTEM_FOLDER_ID &&
-				$_GET["obj_id"] == "")
-			{
-				if (defined("ILIAS_MODULE"))
-				{
-					$prefix = "../";
-				}
-				$par_id = $tree->getParentId($this->object->getRefId());
-				$tpl->setUpperIcon($prefix."repository.php?cmd=frameset&ref_id=".$par_id,
-					ilFrameTargetInfo::_getFrame("MainContent"));
-			}
-		}
-	}
 	// BEGIN WebDAV: Show Mount Webfolder Icon.
 	final private function showMountWebfolderIcon()
 	{
@@ -2080,6 +2030,24 @@ class ilObjectGUI
 		}
 	}
 	
+	/**
+	 * Goto repository root
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _gotoRepositoryNode($a_ref_id, $a_cmd = "frameset")
+	{
+		global $ilAccess, $ilErr;
+		
+		$_GET["cmd"] = $a_cmd;
+		$_GET["target"] = "";
+		$_GET["ref_id"] = $a_ref_id;
+		$_GET["baseClass"] = "ilRepositoryGUI";
+		include("ilias.php");
+		exit;
+	}
+
 } // END class.ilObjectGUI (3.10: 2896 loc)
 
 ?>

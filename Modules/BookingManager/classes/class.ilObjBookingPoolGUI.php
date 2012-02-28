@@ -773,10 +773,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			$_GET["cmd"] = "render";
-			$_GET["ref_id"] = $a_target;
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($a_target, "render");
 		}
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
 		{

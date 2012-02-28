@@ -486,10 +486,7 @@ class ilObjFolderGUI extends ilContainerGUI
 
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
-			$_GET["cmd"] = "frameset";
-			$_GET["ref_id"] = $a_target;
-			include("repository.php");
-			exit;
+			ilObjectGUI::_gotoRepositoryNode($a_target);
 		}
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
