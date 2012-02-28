@@ -113,108 +113,21 @@ class ilShopRepositoryExplorer extends ilExplorer
 				#return "repository.php?cmd=redirect&ref_id=".$a_node_id;
 				return "ilias.php?cmd=redirect&baseClass=ilshopcontroller&ref_id=".$a_node_id;
 
-			case 'crsg':
-				return "repository.php?ref_id=".$a_node_id;
-
-			case 'webr':
-				return "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$a_node_id;
-
 			case "icrs":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjilinccoursegui";
+				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjilinccoursegui"), "");
+				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			case 'rcrs':
-				return "repository.php?cmd=infoScreen&ref_id=".$a_node_id;
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			default:
 				include_once('classes/class.ilLink.php');
 				return ilLink::_getStaticLink($a_node_id, $a_type, true);
-
-		}
-	}
-
-	/**
-	* note: this method is not used by repository explorer any more
-	* but still by ilCourseContentInterface (should be redesigned)
-	*/
-	function buildEditLinkTarget($a_node_id, $a_type)
-	{
-		global $ilCtrl;
-
-		switch($a_type)
-		{
-			case "cat":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case "catr":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case "lm":
-			case "dbk":
-				return "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=".$a_node_id;
-
-			case "htlm":
-				return "ilias.php?baseClass=ilHTLMEditorGUI&amp;ref_id=".$a_node_id;
-
-			case "sahs":
-				return "ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$a_node_id;
-
-			case "mep":
-				return "ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$a_node_id;
-
-			case "grp":
-				return; // following link is the same as "read" link
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
-
-			case "crs":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=edit";
-
-			case "crsr":
-				return "repository.php?ref_id=".$a_node_id;
-
-			case "frm":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case "glo":
-				return "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$a_node_id;
-
-			case "exc":
-				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
-
-			case "fold":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case "file":
-				return "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$a_node_id;
-
-			case "sess":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case 'tst':
-				return "ilias.php?baseClass=ilObjTestGUI&ref_id=".$a_node_id;
-				#return "assessment/test.php?ref_id=".$a_node_id;
-/*
-			case 'svy':
-				return "survey/survey.php?ref_id=".$a_node_id;
-
-			case 'qpl':
-				return "assessment/questionpool.php?ref_id=".$a_node_id
-					."&cmd=questions";
-
-			case 'spl':
-				return "survey/questionpool.php?ref_id=".$a_node_id
-					."&cmd=questions";
-
-			case 'svy':
-				return "survey/survey.php?ref_id=".$a_node_id;
-*/
-			case 'crsg':
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case 'webr':
-				return "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=editItems&ref_id=".$a_node_id;
-
-			case 'rcrs':
-				return "repository.php?cmd=infoScreen&ref_id=".$a_node_id;
 
 		}
 	}

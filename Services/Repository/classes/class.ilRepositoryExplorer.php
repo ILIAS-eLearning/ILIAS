@@ -85,43 +85,52 @@ class ilRepositoryExplorer extends ilExplorer
 	function buildLinkTarget($a_node_id, $a_type)
 	{
 		global $ilCtrl;
+		
+		$ilCtrl->setTargetScript("ilias.php");
 
 		switch($a_type)
 		{
 			case "cat":
-				return "repository.php?ref_id=".$a_node_id;
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			case "catr":
-				#include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-				#$t_obj_id = ilContainerReference::_lookupTargetId(ilObject::_lookupObjId($a_node_id));
-				#$ref_ids = ilObject::_getAllReferences($t_obj_id);
-				#$a_node_id = current($ref_ids);
-				return "repository.php?cmd=redirect&ref_id=".$a_node_id;
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			case "grp":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
+				$ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjgroupgui"), "");
+				$ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			case "crs":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=view";
+				$ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjcoursegui"), "view");
+				$ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $_GET["ref_id"]);
+				return $link;
 				
 			case "crsr":
-				#include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-				#$t_obj_id = ilContainerReference::_lookupTargetId(ilObject::_lookupObjId($a_node_id));
-				#$ref_ids = ilObject::_getAllReferences($t_obj_id);
-				#$a_node_id = current($ref_ids);
-				return "repository.php?cmd=redirect&ref_id=".$a_node_id;
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
-			case 'crsg':
-				return "repository.php?ref_id=".$a_node_id;
-
-			case 'webr':
-				return "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".$a_node_id;
-				
 			case "icrs":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjilinccoursegui";
+				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjilinccoursegui"), "");
+				$ilCtrl->setParameterByClass("ilobjilinccoursegui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			case 'rcrs':
-				return "repository.php?cmd=infoScreen&ref_id=".$a_node_id;
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+				return $link;
 
 			default:
 				include_once('classes/class.ilLink.php');
@@ -129,93 +138,6 @@ class ilRepositoryExplorer extends ilExplorer
 
 		}
 	}
-	
-	/**
-	* note: this method is not used by repository explorer any more
-	* but still by ilCourseContentInterface (should be redesigned)
-	*/
-	function buildEditLinkTarget($a_node_id, $a_type)
-	{
-		global $ilCtrl;
-
-		switch($a_type)
-		{
-			case "cat":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case "catr":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case "lm":
-			case "dbk":
-				return "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=".$a_node_id;
-
-			case "htlm":
-				return "ilias.php?baseClass=ilHTLMEditorGUI&amp;ref_id=".$a_node_id;
-
-			case "sahs":
-				return "ilias.php?baseClass=ilSAHSEditGUI&ref_id=".$a_node_id;
-
-			case "mep":
-				return "ilias.php?baseClass=ilMediaPoolPresentationGUI&ref_id=".$a_node_id;
-
-			case "grp":
-				return; // following link is the same as "read" link
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
-
-			case "crs":
-				return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=edit";
-				
-			case "crsr":
-				return "repository.php?ref_id=".$a_node_id;
-
-			case "frm":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case "glo":
-				return "ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$a_node_id;
-
-			case "exc":
-				return "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=view&ref_id=".$a_node_id;
-
-			case "fold":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-				
-			case "file":
-				return "repository.php?cmd=edit&cmdClass=ilobjfilegui&ref_id=".$a_node_id;
-				
-			case "sess":
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case 'tst':
-				return "ilias.php?baseClass=ilObjTestGUI&ref_id=".$a_node_id;
-				#return "assessment/test.php?ref_id=".$a_node_id;
-				
-			case 'svy':
-				return "survey/survey.php?ref_id=".$a_node_id;
-				
-			case 'qpl':
-				return "assessment/questionpool.php?ref_id=".$a_node_id
-					."&cmd=questions";
-					
-			case 'spl':
-				return "survey/questionpool.php?ref_id=".$a_node_id
-					."&cmd=questions";
-
-			case 'svy':
-				return "survey/survey.php?ref_id=".$a_node_id;
-
-			case 'crsg':
-				return "repository.php?cmd=edit&ref_id=".$a_node_id;
-
-			case 'webr':
-				return "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=editItems&ref_id=".$a_node_id;
-				
-			case 'rcrs':
-				return "repository.php?cmd=infoScreen&ref_id=".$a_node_id;
-				
-		}
-	}		
 
 	/**
 	*
