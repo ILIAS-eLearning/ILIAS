@@ -200,9 +200,12 @@ class ilSoapAdministration
 
 	public function initIlias()
 	{
+		include_once "Services/Context/classes/class.ilContext.php";
+		ilContext::init(ilContext::CONTEXT_SOAP);
+		
 		include_once("./Services/Init/classes/class.ilInitialisation.php");
 		$init = new ilInitialisation();
-		return $init->initILIAS("soap");
+		return $init->initILIAS();
 	}
 
 

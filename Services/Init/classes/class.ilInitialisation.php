@@ -1010,9 +1010,8 @@ class ilInitialisation
 
 	/**
 	* ilias initialisation
-	* @param string $context this is used for circumvent redirects to the login page if called e.g. by soap
 	*/
-	function initILIAS($context = "web")
+	function initILIAS()
 	{
 		global $ilDB, $ilUser, $ilLog, $ilErr, $ilClientIniFile, $ilIliasIniFile,
 			$ilSetting, $ilias, $https, $ilObjDataCache,
@@ -1298,7 +1297,7 @@ class ilInitialisation
 //var_dump ($session[_authsession]);
 		#if (($ilAuth->getAuth() && $ilias->account->isCurrentUserActive()) ||
 		#	(defined("IL_PHPUNIT_TEST") && DEVMODE))
-			
+		
 		if($ilAuth->getStatus() == '' &&
 			$ilias->account->isCurrentUserActive() ||
 			(defined("IL_PHPUNIT_TEST") && DEVMODE))
@@ -1405,8 +1404,9 @@ class ilInitialisation
 						$this->goToPublicSection();
 				}
 				else
-				{
-					if ($context == "web")
+				{								
+					include_once "Services/Context/classes/class.ilContext.php";
+					if (ilContext::supportsRedirects() && ilContext::hasUser())
 					{
 						// normal access by webinterface
 						$this->goToLogin(($_GET['auth_stat'] && !$ilAuth->getStatus()) ? $_GET['auth_stat'] : $ilAuth->getStatus());

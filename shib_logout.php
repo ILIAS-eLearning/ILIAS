@@ -51,11 +51,14 @@ if (
 
 elseif (!empty($HTTP_RAW_POST_DATA)) {
 	
+	include_once "Services/Context/classes/class.ilContext.php";
+	ilContext::init(ilContext::CONTEXT_SOAP);
+	
 	// Load ILIAS libraries and initialise ILIAS in non-web context
 	require_once("Services/Init/classes/class.ilInitialisation.php");
 	$ilInit = new ilInitialisation();
 	$GLOBALS['ilInit'] =& $ilInit;
-	$ilInit->initILIAS('soap');
+	$ilInit->initILIAS();
 	
 	// Set SOAP header
 	$server = new SoapServer('https://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'/LogoutNotification.wsdl');

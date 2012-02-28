@@ -8,6 +8,9 @@ if(!file_exists(getcwd().'/ilias.ini.php'))
 	exit();
 }
 
+include_once "Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
+
 require_once 'Services/Init/classes/class.ilInitialisation.php';
 $ilInit = new ilInitialisation();
 $ilInit->returnBeforeAuth(true);

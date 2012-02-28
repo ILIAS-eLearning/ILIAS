@@ -32,6 +32,9 @@ if (isset($_GET["client_id"]))
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
+include_once "Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_RSS);
+
 require_once("Services/Init/classes/class.ilInitialisation.php");
 $ilInit = new ilInitialisation();
 $GLOBALS['ilInit'] =& $ilInit;

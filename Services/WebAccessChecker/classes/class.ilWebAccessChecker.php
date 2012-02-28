@@ -30,6 +30,8 @@ $_GET['client_id'] = substr($_SERVER['PHP_SELF'], $client_start, $client_end - $
 // (see ilSession::_writeData for details)
 $GLOBALS['WEB_ACCESS_WITHOUT_SESSION'] = (session_id() == "");
 
+include_once "Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
 
 // Now the ILIAS header can be included
 require_once "./include/inc.header.php";
