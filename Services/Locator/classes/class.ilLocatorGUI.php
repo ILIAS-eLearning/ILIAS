@@ -312,6 +312,34 @@ class ilLocatorGUI
 		return trim($loc_tpl->get());
 	}
 
+	/**
+	 * Get text version
+	 */
+	function getTextVersion()
+	{
+		global $lng, $ilSetting;
+		
+		$items = $this->getItems();
+		$first = true;
+
+		$str = "";
+		if (is_array($items))
+		{
+			foreach($items as $item)
+			{
+				if (!$first)
+				{
+					$str.= " > ";
+				}
+				
+				$str.= $item["title"];
+				
+				$first = false;
+			}
+		}
+		
+		return $str;
+	}
 
 } // END class.LocatorGUI
 ?>

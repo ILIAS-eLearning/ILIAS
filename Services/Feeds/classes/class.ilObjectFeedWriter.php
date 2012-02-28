@@ -75,10 +75,11 @@ class ilObjectFeedWriter extends ilFeedWriter
 			}
 		}
 
+		include_once("./Services/Locator/classes/class.ilLocatorGUI.php");
 		$cont_loc = new ilLocatorGUI();
 		$cont_loc->addContextItems($a_ref_id, true);
 		$cont_loc->setTextOnly(true);
-		$loc = $cont_loc->getHTML();
+		$loc = $cont_loc->getTextVersion();
 		if (trim($loc) != "")
 		{
 			$loc = " [".$loc."] ";
