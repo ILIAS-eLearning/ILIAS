@@ -1024,7 +1024,7 @@ common#:#frm_create#:#Opret forum
 common#:#frm_delete#:#Slet forum
 common#:#frm_delete_post#:#Slet indlæg, censurering
 common#:#frm_edit#:#Rediger Forum
-common#:#frm_edit_permission#:#Ændrer rettighedsindstillinger
+common#:#frm_edit_permission#:#Ændre rettighedsindstillinger
 common#:#frm_edit_post#:#Skriv indlæg
 common#:#frm_new#:#Nyt forum
 common#:#frm_read#:#Læseadgang til forum
@@ -1374,7 +1374,7 @@ common#:#info_access_permissions#:#Adgangsindstillinger
 common#:#info_assign_sure#:#Er du sikker på at du vil tildele følgende brugere
 common#:#info_assigned#:#tildelt
 common#:#info_available_roles#:#Mulige roller
-common#:#info_change_user_view#:#Opdater rettighedsvisning
+common#:#info_change_user_view#:#Opdater rettighedsvisningen
 common#:#info_delete_sure#:#Er du sikker på at du vil slette disse objekter?
 common#:#info_delete_warning_no_trash#:#(ADVARSEL: Valgte objekter bliver uigenkaldeligt fjernet fra systemet og kan ikke genskabes!)
 common#:#info_deleted#:#Objekt(er) slettet
@@ -2822,7 +2822,7 @@ common#:#login_information_desc#:#Please enter a login information for the respe
 common#:#login_information_settings_saved#:#Logininformationerne blev gemt
 common#:#obj_frm_duplicate#:#Kopier forum
 common#:#obj_frm_select#:#Vælg forum
-common#:#btn_back#:#Back###25 02 2007 new variable
+common#:#btn_back#:#Tilbage
 common#:#obj_tst_duplicate#:#Kopier test
 common#:#obj_tst_select#:#Vælg test
 common#:#obj_svy_duplicate#:#Kopier eksisterende undersøgelse
@@ -2850,26 +2850,26 @@ common#:#enable_search_engine#:#Åben det offentlige område overfor søgemaskin
 common#:#mod_rewrite_disabled#:#Apache modulet 'mod_rewrite' er ikke tilgængeligt.
 common#:#allow_override_alert#:#Regler for .htaccess fortolkes ikke korrekt
 common#:#cat_copy#:#Kopier kategori
-common#:#chat_copy#:#Copy Chat###02 04 2007 new variable
+common#:#chat_copy#:#Kopier chat
 common#:#crs_copy#:#Kopier kursus
 common#:#dbk_copy#:#Kopier Digilibbog
-common#:#exc_copy#:#Copy Exercise###02 04 2007 new variable
+common#:#exc_copy#:#Kopier øvelse
 common#:#file_copy#:#Kopier fil
 common#:#fold_copy#:#Kopier mappe
 common#:#frm_copy#:#Kopier forum
 common#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
-common#:#grp_copy#:#Copy Group###02 04 2007 new variable
-common#:#htlm_copy#:#Copy HTML Learning Module###02 04 2007 new variable
+common#:#grp_copy#:#Kopier gruppe
+common#:#htlm_copy#:#Kopier HTML læremodul
 common#:#icrs_copy#:#Copy LearnLinc Seminar###02 04 2007 new variable
-common#:#lm_copy#:#Copy ILIAS Lernmodul###02 04 2007 new variable
-common#:#mcst_copy#:#Copy MediaCast###02 04 2007 new variable
+common#:#lm_copy#:#Kopier ILIAS læremodul
+common#:#mcst_copy#:#Kopier MedieCast
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module###02 04 2007 new variable
-common#:#svy_copy#:#Copy Survey###02 04 2007 new variable
+common#:#svy_copy#:#Kopier undersøgelse
 common#:#tst_copy#:#Kopier test
-common#:#webr_copy#:#Copy Web Resource###02 04 2007 new variable
+common#:#webr_copy#:#Kopier webresurse
 common#:#missing_perm#:#Missing Permission###02 04 2007 new variable
 common#:#forums_anonymized#:#Forum anonymiseret
-common#:#forums_anonymous#:#anonym###02 04 2007 new variable
+common#:#forums_anonymous#:#anonym
 common#:#forums_your_name#:#Dit navn
 common#:#forums_use_alias#:#Du må bruge dette alias til dit indlæg. Hvis du efterlader feltet blank bliver dit indlæg markeret som anonymt.
 common#:#forums_enable_forum_notification#:#Aktiver advisering for dette forum
@@ -3131,7 +3131,7 @@ assessment#:#create_imagemap#:#Opret et imagekort
 assessment#:#create_new#:#Opret ny
 assessment#:#definition#:#Definition
 assessment#:#delete_all_user_data#:#Slet alle besvarelser
-assessment#:#delete_all_user_data_confirmation#:#Do you really want to delete the test data of all users in this test?###10 05 2007 new variable
+assessment#:#delete_all_user_data_confirmation#:#Ønsker du at fortsætte og dermed slette alle brugernes besvarelser i denne test?
 assessment#:#delete_area#:#Slet område
 assessment#:#delete_image#:#Delete image
 assessment#:#delete_user_data#:#Slet testdata for valgte brugere
@@ -3139,7 +3139,7 @@ assessment#:#description_maxchars#:#Hvis intet indtastet er det maksimale antal 
 assessment#:#detail_ending_time_reached#:#Du er nået til sluttidspunktet for denne test. Testen er ikke tilgængelig efter %s
 assessment#:#detail_max_processing_time_reached#:#Du har brugt dem maksimalt tilladte tid på denne test!
 assessment#:#detail_starting_time_not_reached#:#Du har ikke nået start tidspunktet for denne test. Testen e r tilgængelig efter %s
-assessment#:#detailed_evaluation#:#Detailed Evaluation###29 11 2006 new variable
+assessment#:#detailed_evaluation#:#Detaljeret evaluering
 assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s###29 11 2006 new variable
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!###29 11 2006 new variable
 assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation###29 11 2006 new variable
@@ -3571,7 +3571,7 @@ assessment#:#tst_participants_no#:#Ingen har taget testen endnu.
 assessment#:#tst_participants_no_fixed#:#There is nobody assigned as a fixed participant for this test!###12 11 2006 new variable
 assessment#:#tst_mark#:#Mærke
 assessment#:#tst_mark_create_new_mark_step#:#Opret ny karakter
-assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpelt mærke skema
+assessment#:#tst_mark_create_simple_mark_schema#:#Opret simpel karakterskala
 assessment#:#tst_mark_minimum_level#:#Min. niveau (i %)
 assessment#:#tst_mark_official_form#:#Officiel form
 assessment#:#tst_mark_passed#:#Bestået
@@ -3598,7 +3598,7 @@ assessment#:#tst_no_tries#:#Ingen
 assessment#:#tst_nr_of_passes#:#Number of Test Passes###25 02 2007 new variable
 assessment#:#tst_nr_of_tries#:#Max. antal forsøg
 assessment#:#tst_nr_of_tries_of_user#:#Forsøg allerede gennemført###23 Dec 2005 content changed
-assessment#:#tst_participating_users#:#Participating Users###17 Aug 2005 new variable
+assessment#:#tst_participating_users#:#Brugere med besvarelser
 assessment#:#tst_fixed_participating_users#:#Fixed Participants in this Test###29 11 2006 new variable
 assessment#:#tst_pass_best_pass#:#Score the best pass of a user
 assessment#:#tst_pass_details#:#Vis detaljer
@@ -3607,7 +3607,7 @@ assessment#:#tst_pass_scoring_description#:#If the last pass is scored, the last
 assessment#:#tst_pass_scoring#:#Multiple pass scoring
 assessment#:#tst_passes#:#Test Passes###12 11 2006 new variable
 assessment#:#tst_password#:#Test password
-assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test
+assessment#:#tst_password_details#:#Hvis du indtaster et test password skal alle brugere der vil tilgå testen indtaste dette ved start af testen.
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
 assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test
 assessment#:#tst_percent_solved#:#Procent løst
@@ -3699,9 +3699,9 @@ assessment#:#tst_show_answer_sheet#:#Vis svar
 assessment#:#tst_show_cancel#:#Vis suspender test
 assessment#:#tst_show_cancel_description#:#Hvis valgt kan deltagerne holde pause.
 assessment#:#tst_title_output#:#Test Title Output###29 11 2006 new variable
-assessment#:#tst_title_output_full#:#Show Test Title and Available Points###29 11 2006 new variable
-assessment#:#tst_title_output_hide_points#:#Show only Test Title###29 11 2006 new variable
-assessment#:#tst_title_output_no_title#:#Don't show the Test Title and the Available Points###29 11 2006 new variable
+assessment#:#tst_title_output_full#:#Vis testens titel og mulige point
+assessment#:#tst_title_output_hide_points#:#Vis kun testens titel
+assessment#:#tst_title_output_no_title#:#Vis hverken titel eller mulige point
 assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the Test Title and the Available Points during the Test###29 11 2006 new variable
 assessment#:#tst_use_previous_answers#:#Tidligere svar
 assessment#:#tst_use_previous_answers_description#:#Hvis afkrydset anvendes de tidligere svar som standardværdier når testen tages igen.
@@ -3780,8 +3780,8 @@ assessment#:#upload_imagemap#:#Upload en billed mappe
 assessment#:#uploaded_material#:#Uploadet Materialle
 assessment#:#user_not_invited#:#You are not supposed to take this exam.###17 Aug 2005 new variable
 assessment#:#user_wrong_clientip#:#You don't have the right ip using this test.###17 Aug 2005 new variable
-assessment#:#value_between_x_and_y#:#The value should be between %s and %s
-assessment#:#warning_question_not_complete#:#Dette spørgsmål er ikk efærdigt!
+assessment#:#value_between_x_and_y#:#Værdien skal være mellem %s og %s
+assessment#:#warning_question_not_complete#:#Dette spørgsmål er ikke efærdigt!
 assessment#:#warning_test_not_complete#:#Denne test er ikke afsluttet
 assessment#:#when#:#hvornår
 assessment#:#with_order#:#med orden
@@ -4308,8 +4308,8 @@ content#:#cont_ed_go#:#Gå til
 content#:#cont_ed_insert_code#:#Insæt kode
 content#:#cont_ed_insert_filelist#:#Indsæt filliste
 content#:#cont_ed_insert_list#:#Indsæt liste
-content#:#cont_ed_insert_media#:#insæt medie
-content#:#cont_ed_insert_par#:#indsæt sektion
+content#:#cont_ed_insert_media#:#Indsæt medie
+content#:#cont_ed_insert_par#:#Indsæt sektion
 content#:#cont_ed_item_down#:#flyt element ned
 content#:#cont_ed_item_up#:#flyt element op
 content#:#cont_ed_moveafter#:#flyt efter
@@ -4320,7 +4320,7 @@ content#:#cont_ed_new_item_after#:#nyt element efter
 content#:#cont_ed_new_item_before#:#nyt element før
 content#:#cont_ed_new_row_after#:#ny række efter
 content#:#cont_ed_new_row_before#:#ny række før
-content#:#cont_ed_paste_clip#:#indsæt fra udklipsholder
+content#:#cont_ed_paste_clip#:#Indsæt fra udklipsholder
 content#:#cont_ed_row_down#:#flyt række ned
 content#:#cont_ed_row_up#:#flyt række op
 content#:#cont_ed_split_page#:#split til ny side
@@ -4702,7 +4702,7 @@ crs#:#crs_dismiss_member#:#Kursusmedlemskab %s
 crs#:#crs_dismiss_member_body#:#Dit medlemskab er blevet afbrudt %s
 crs#:#crs_edit_archive#:#Rediger Arkiver
 crs#:#crs_edit_content#:#Rediger indgange
-crs#:#crs_edit_start_objects#:#Rediger startobjekter
+crs#:#crs_edit_start_objects#:#Ret startmateriale
 crs#:#crs_edit_timings#:#Edit Timings
 crs#:#crs_end#:#Slut
 crs#:#crs_existing_files#:#Eksisterende filer:
@@ -9299,18 +9299,18 @@ style#:#sty_hide#:#Skjul
 style#:#sty_save_hide_status#:#Save Hide Status###15 05 2009 new variable
 content#:#cont_text_imp#:#Vigtigt:
 content#:#cont_text_acc#:#Accent:###15 05 2009 new variable
-content#:#cont_tabs_acc_hor#:#Horizontal Accordion###15 05 2009 new variable
-content#:#cont_tabs_acc_ver#:#Vertical Accordion###15 05 2009 new variable
+content#:#cont_tabs_acc_hor#:#Horizontale gardiner
+content#:#cont_tabs_acc_ver#:#Vertikale gardiner
 content#:#cont_edit_tabs#:#Indstillinger
 content#:#cont_new_tab#:#Ny tab
 content#:#cont_tabs#:#Tabs
 content#:#cont_add_tab#:#Tilføj tab
 content#:#cont_tabs_confirm_deletion#:#Are you sure that all of the tabs and their contents should be deleted?###15 05 2009 new variable
-content#:#cont_tab_cont_width#:#Content Width###15 05 2009 new variable
-content#:#cont_tab_cont_height#:#Content Height###15 05 2009 new variable
-content#:#cont_tabs_hor_align_info#:#Horizontal accordions will always be aligned left.###15 05 2009 new variable
-style#:#sty_templates#:#Templates###15 05 2009 new variable
-style#:#sty_tabs_char#:#Tabs & Accordions###15 05 2009 new variable
+content#:#cont_tab_cont_width#:#Indholds bredde
+content#:#cont_tab_cont_height#:#Indholds højde
+content#:#cont_tabs_hor_align_info#:#Horizontale gardiner vil altid være venstrestillet.
+style#:#sty_templates#:#Skabeloner
+style#:#sty_tabs_char#:#Faneblade og gardiner
 style#:#sty_type_va_cntr#:#Vert. Accordion Container###15 05 2009 new variable
 style#:#sty_type_va_icntr#:#Vert. Accordion Item Container###15 05 2009 new variable
 style#:#sty_type_va_ihead#:#Vert. Accordion Item Header###15 05 2009 new variable
@@ -10161,7 +10161,7 @@ common#:#proxy_pear_net_socket_error#:#PEAR Net_Socket error###26 03 2010 new va
 payment#:#currency#:#Møntfod
 payment#:#coupon_type#:#Kupon-type
 payment#:#search_in_title#:#Søg i titler
-common#:#msg_copy_clipboard_source#:#Now, please select the desired course, whose content should be copied and click the button "Next".###26 03 2010 new variable
+common#:#msg_copy_clipboard_source#:#Vælg nu hvilket kursus hvorfra du ønsker indhold kopieret og tryk på 'Fortsæt'
 exp#:#exp_create_file#:#Create Export File###26 03 2010 new variable
 exp#:#exp_xml#:#XML
 exp#:#exp_html#:#HTML
@@ -10375,12 +10375,12 @@ administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed
 administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.###16 07 2010 new variable
 cmps#:#cmps_configure#:#Configure###16 07 2010 new variable
 tbl#:#tbl_templates#:#View###16 07 2010 new variable
-tbl#:#tbl_template_create#:#Save Current View###16 07 2010 new variable
-tbl#:#tbl_template_delete#:#Delete Saved View###16 07 2010 new variable
-tbl#:#tbl_template_created#:#The current view has been saved.###16 07 2010 new variable
-tbl#:#tbl_template_deleted#:#The saved view has been deleted.###16 07 2010 new variable
+tbl#:#tbl_template_create#:#Gem denne visning
+tbl#:#tbl_template_delete#:#Slet gemt visning
+tbl#:#tbl_template_created#:#Visningen blev gemt.
+tbl#:#tbl_template_deleted#:#Den gemte visning blev slettet.
 style#:#sty_some_styles_obligatory_delete_rest#:#The following style classes are obligatory and cannot be deleted. Do you want to continue and delete the remaining selected style classes?###16 07 2010 new variable
-style#:#sty_delete_other_selected#:#Continue###16 07 2010 new variable
+style#:#sty_delete_other_selected#:#Fortsæt
 style#:#sty_all_styles_obligatory#:#All selected styles are obligatory and cannot be deleted.###16 07 2010 new variable
 style#:#sty_copied_please_select_target#:#The style classes have been copied. Please open the target style and click "Paste Style Classes".###16 07 2010 new variable
 style#:#sty_paste_style_classes#:#Paste Style Classes###16 07 2010 new variable
@@ -10626,10 +10626,10 @@ dateplaner#:#cal_booked_out#:#booked up###16 07 2010 new variable
 dateplaner#:#cal_book_free#:#available###16 07 2010 new variable
 dateplaner#:#cal_date_booked#:#booked###16 07 2010 new variable
 dateplaner#:#cal_ch_bookings#:#Participants###16 07 2010 new variable
-trac#:#trac_matrix#:#Matrix View###16 07 2010 new variable
+trac#:#trac_matrix#:#Matrix visning
 dateplaner#:#cal_ch_multi_edit_sequence#:#Edit multiple appointments###16 07 2010 new variable
 exp#:#export_created#:#A new export file has been created.###16 07 2010 new variable
-crs#:#crs_import#:#Kurs importieren###16 07 2010 new variable
+crs#:#crs_import#:#Importer kursus
 style#:#sty_type_glo_ovclink#:#Glossary Overlay Close Link###16 07 2010 new variable
 style#:#sty_type_glo_ovuglink#:#Unit Glossary Link###16 07 2010 new variable
 style#:#sty_type_glo_ovuglistlink#:#Unit Glossary List Link###16 07 2010 new variable
@@ -10760,7 +10760,7 @@ grp#:#grp_user_agreement_info#:#Visible Personal Data for Group Administrators##
 rbac#:#read_users#:#Read Access to Local User Accounts###28 07 2010 new variable
 rbac#:#cat_administrate_users#:#Administrate Local User Accounts###28 07 2010 new variable
 rbac#:#edit_permission#:#Change Permissions###28 07 2010 new variable
-rbac#:#edit_event#:#Edit Calendar###28 07 2010 new variable
+rbac#:#edit_event#:#Ret kalender
 book#:#book_slots_no#:#Number of slots###28 07 2010 new variable
 book#:#book_slots_no_info#:#Available number of slots per day in schedule###28 07 2010 new variable
 book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
@@ -10776,7 +10776,7 @@ rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#crs_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#root_create_book#:#Create Booking Pool###06 08 2010 new variable
-common#:#optional_filter_hint#:#Please activate one of the optional filters.###06 08 2010 new variable
+common#:#optional_filter_hint#:#Anvend filter (valgfrit)
 grp#:#grp_info_agree#:#I accept, that the above data types are visible for group administrators.###06 08 2010 new variable
 grp#:#grp_info_agreement#:#The following data types are visible for group administrators:###06 08 2010 new variable
 grp#:#grp_agreement_header#:#User Agreement###06 08 2010 new variable
@@ -10786,8 +10786,8 @@ trac#:#registration_filter#:#Date of Registration###06 08 2010 new variable
 trac#:#user_total#:#User Total###06 08 2010 new variable
 trac#:#create_date_min#:#Earliest Registration###06 08 2010 new variable
 trac#:#create_date_max#:#Latest Registration###06 08 2010 new variable
-trac#:#read_count_avg#:#Average page views###06 08 2010 new variable
-grp#:#grp_export_members#:#Export Participants###06 08 2010 new variable
+trac#:#read_count_avg#:#Gns. sidevisninger
+grp#:#grp_export_members#:#Eksporter medlemmer
 grp#:#grp_role_status#:#Role/Status###06 08 2010 new variable
 grp#:#grp_subscriber#:#Subscriber###06 08 2010 new variable
 grp#:#grp_agreement_required#:#You have to accept the user agreement, if you want to access the group content.###06 08 2010 new variable
@@ -10817,7 +10817,7 @@ administration#:#adm_synchronize_rep_tree#:#Synchronize Tree Frame with Reposito
 administration#:#adm_synchronize_rep_tree_info#:#This highlights the current position in the tree frame, when the user navigates in the repository. Please note that this has a negative influence on system performance, since additional server requests are invoked.###20 08 2010 new variable
 rbac#:#write#:#Edit Settings###20 08 2010 new variable
 rbac#:#rbac_local_policy#:#Local Policy###20 08 2010 new variable
-rbac#:#role_block_role#:#Block Role###20 08 2010 new variable
+rbac#:#role_block_role#:#Bloker rolle
 rbac#:#role_block_role_desc#:#The access to this and all subordinated objects is will be revoked.###20 08 2010 new variable
 rbac#:#role_confirm_block_role_info#:#The following operations will be performed:<br /><br />- the role permissions of this and all subordinated objects will be blocked.<br />- the new permission settings will be protected.###20 08 2010 new variable
 rbac#:#role_confirm_block_role_header#:#Do you really want to block the chosen roles?###20 08 2010 new variable
@@ -10875,7 +10875,7 @@ common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the IL
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s###10 09 2010 new variable
 trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:###10 09 2010 new variable
 fold#:#fold_import#:#Importer mappe
-mail#:#mail_select_recipients#:#Please select mail recipients:###10 09 2010 new variable
+mail#:#mail_select_recipients#:#Vælg modtagere
 grp#:#grp_import#:#Importer gruppe
 crs#:#crs_grp_assignments#:#Tildeling af deltagere til grupper
 assessment#:#ordering_answer_sequence_info#:#Rækkefølgen ovenfor skal være den korrekte besvarelse.
@@ -11052,7 +11052,7 @@ book#:#book_new#:#New Booking Pool###01 04 2011 new variable
 book#:#book_add#:#Add Booking Pool###01 04 2011 new variable
 book#:#book_edit#:#Edit Booking Pool###01 04 2011 new variable
 common#:#glo_import#:#Import Glossary###01 04 2011 new variable
-common#:#title_and_translations#:#Titel og oversættelser
+common#:#title_and_translations#:#Titler og oversættelser
 sahs#:#sahs_authoring_mode_info#:#The package must have been created with the ILIAS SCORM editor and it must have been exported as SCORM 1.2/2004 package.###01 04 2011 new variable
 sahs#:#sahs_authoring_mode#:#Authoring Mode###01 04 2011 new variable
 sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
@@ -11120,13 +11120,13 @@ wiki#:#wiki_page_toc#:#Enable Page Overview Block###12 06 2011 new variable
 wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.###12 06 2011 new variable
 wiki#:#wiki_page_unblocked#:#Wiki page unblocked.###12 06 2011 new variable
 wiki#:#wiki_page_blocked#:#Wiki page blocked.###12 06 2011 new variable
-wiki#:#wiki_last_edited#:#Last edited###12 06 2011 new variable
-wiki#:#wiki_rename#:#Rename###12 06 2011 new variable
+wiki#:#wiki_last_edited#:#Sidst rettet
+wiki#:#wiki_rename#:#Omdøb
 wiki#:#wiki_page_already_exists#:#A page with this title already exists.###12 06 2011 new variable
-wiki#:#wiki_rename_page#:#Rename Page###12 06 2011 new variable
-wiki#:#wiki_new_page_name#:#New Title###12 06 2011 new variable
-survey#:#svy_settings_template#:#Template###12 06 2011 new variable
-survey#:#survey_per_page_view#:#Page View###12 06 2011 new variable
+wiki#:#wiki_rename_page#:#Omdøb side
+wiki#:#wiki_new_page_name#:#Ny titel
+survey#:#svy_settings_template#:#Skabelon
+survey#:#survey_per_page_view#:#Sidevisning
 survey#:#survey_dnd_move_next#:#Move to Next Page###12 06 2011 new variable
 survey#:#survey_dnd_move_previous#:#Move to Previous Page###12 06 2011 new variable
 survey#:#survey_dnd_split_page#:#Split Page###12 06 2011 new variable
@@ -11144,10 +11144,10 @@ assessment#:#test_enable_view_express#:#Page View###12 06 2011 new variable
 assessment#:#test_enable_view_table#:#List View###12 06 2011 new variable
 assessment#:#tst_express_allow_question_pool#:#Allow Questionpool in Page View###12 06 2011 new variable
 assessment#:#tst_express_allow_question_pool_description#:#If checked, questions can be added to a question pool.###12 06 2011 new variable
-assessment#:#questions_per_page_view#:#Page View###12 06 2011 new variable
-assessment#:#test_next_question#:#Next Question###12 06 2011 new variable
-assessment#:#test_prev_question#:#Previous Question###12 06 2011 new variable
-assessment#:#test_jump_to#:#Jump to Question###12 06 2011 new variable
+assessment#:#questions_per_page_view#:#Sidevisning
+assessment#:#test_next_question#:#Næste spørgsmål
+assessment#:#test_prev_question#:#Forrige spørgsmål
+assessment#:#test_jump_to#:#Gå til spørgsmål
 assessment#:#adm_settings_templates#:#Settings Templates###12 06 2011 new variable
 survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?###12 06 2011 new variable
 survey#:#survey_template_reset#:#The template has been removed.###12 06 2011 new variable
@@ -11171,7 +11171,7 @@ survey#:#survey_question_text_hidden#:#Text hidden###12 06 2011 new variable
 survey#:#survey_move_page#:#Move Page###12 06 2011 new variable
 survey#:#survey_page_moved#:#The page has been moved.###12 06 2011 new variable
 assessment#:#intro_desc#:#This message appears at the beginning of the test.###12 06 2011 new variable
-assessment#:#test_question_pool_usage#:#Choose Pool when creating questions###12 06 2011 new variable
+assessment#:#test_question_pool_usage#:#Vælg spørgsmålsbibliotek i forbindelse med indtastning af spørgsmål
 assessment#:#add_new_question#:#Add new Question###12 06 2011 new variable
 wiki#:#wiki_news_page_created#:#New wiki page has been created.###12 06 2011 new variable
 wiki#:#wiki_news_page_changed#:#Wiki page has been updated.###12 06 2011 new variable
@@ -11182,13 +11182,13 @@ survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one ques
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies###12 06 2011 new variable
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.###12 06 2011 new variable
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.###12 06 2011 new variable
-assessment#:#tst_anonymity_no_anonymization#:#No Anonymization###12 06 2011 new variable
-assessment#:#tst_anonymity_anonymous_test#:#Anonymous Test###12 06 2011 new variable
-assessment#:#tst_beginning_ending_information#:#Information at beginning and end of test###12 06 2011 new variable
-assessment#:#tst_presentation_properties#:#Presentation Settings###12 06 2011 new variable
-assessment#:#tst_settings_template#:#Template###12 06 2011 new variable
-assessment#:#test_delete_page#:#Delete Question###12 06 2011 new variable
-assessment#:#test_move_page#:#Move Question###12 06 2011 new variable
+assessment#:#tst_anonymity_no_anonymization#:#Ingen anonymisering
+assessment#:#tst_anonymity_anonymous_test#:#Anonym test
+assessment#:#tst_beginning_ending_information#:#Information ved begyldelse og afslutning af testen
+assessment#:#tst_presentation_properties#:#Præsentationsindstillinger
+assessment#:#tst_settings_template#:#Skabelon
+assessment#:#test_delete_page#:#Slet spørgsmål
+assessment#:#test_move_page#:#Flyt spørgsmål
 assessment#:#assessment_pool_selection#:#Pool Selection###12 06 2011 new variable
 assessment#:#assessment_no_pool#:#Do not use question pool###12 06 2011 new variable
 assessment#:#assessment_existing_pool#:#Use existing question pool###12 06 2011 new variable
@@ -11196,7 +11196,7 @@ assessment#:#assessment_new_pool#:#Create new question pool###12 06 2011 new var
 assessment#:#test_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?###12 06 2011 new variable
 assessment#:#test_template_reset#:#The template has been removed.###12 06 2011 new variable
 assessment#:#test_using_template_link#:#Do not use template anymore###12 06 2011 new variable
-common#:#tst_edit_questions#:#Edit Questions###12 06 2011 new variable
+common#:#tst_edit_questions#:#Ret spørgsmål
 assessment#:#tst_mail_notification#:#Mail Notifications###12 06 2011 new variable
 assessment#:#saveOrder#:#Save Order###12 06 2011 new variable
 assessment#:#copy_and_link_to_questionpool#:#Copy to question pool and link###12 06 2011 new variable
@@ -11221,7 +11221,7 @@ wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki###12 06 
 wiki#:#wiki_notification_activate_page#:#Activate Notification for Page###12 06 2011 new variable
 content#:#cont_presentation_view#:#Præsentationsvisning
 content#:#cont_deactivate_html#:#Deaktiver HTML visning
-content#:#cont_deactivate_js#:#Activate Form Mode###12 06 2011 new variable
+content#:#cont_deactivate_js#:#Brug formularer
 content#:#cont_deactivate_media#:#Deaktiver medier
 content#:#cont_activate_html#:#Aktiver HTML visning
 content#:#cont_activate_js#:#Aktiver Javascript
@@ -11236,7 +11236,7 @@ assessment#:#ass_completion_by_submission#:#Completed by Submission###12 06 2011
 assessment#:#ass_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of this question by granting the maximum score for this question. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###12 06 2011 new variable
 exc#:#exc_completion_by_submission#:#Completed by Submission###12 06 2011 new variable
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###12 06 2011 new variable
-rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.###12 06 2011 new variable
+rbac#:#precondition_num_optional_info#:#Intast det mindste antal læreresurser som er krævet for at opfylde forudsætningerne for at tage kurset.
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:###12 06 2011 new variable
 crs#:#crs_deact_auto_noti#:#Ingen medlemsadvisering
 crs#:#crs_deact_auto_noti_info#:#Send ikke mail adviseringer om nye deltagere, der tilføjes ved brug af deltagerredigeringen.
@@ -11421,7 +11421,7 @@ survey#:#survey_question_pool_title#:#Pool Title###12 06 2011 new variable
 forum#:#user_decides_notification#:#Each user decides about notification###12 06 2011 new variable
 common#:#allow_user_toggle_noti#:#Member is allowed to deactivate notification###12 06 2011 new variable
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.###12 06 2011 new variable
-cntr#:#cntr_adopt_content#:#Adopt Content###12 06 2011 new variable
+cntr#:#cntr_adopt_content#:#Kopier indhold fra andet kursus
 auth#:#login_page_switch_rte#:#Use Rich-Text-Editor###12 06 2011 new variable
 auth#:#login_page_switch_ipe#:#Use ILIAS Page Editor###12 06 2011 new variable
 auth#:#login_page_editor_switched#:#The active page editor has been changed###12 06 2011 new variable
@@ -11638,15 +11638,15 @@ skmg#:#skmg_assign_materials#:#Assign Materials###18 07 2011 new variable
 skmg#:#skmg_add_skill#:#Add Skill###18 07 2011 new variable
 skmg#:#skmg_selectable#:#Selectable###18 07 2011 new variable
 skmg#:#skmg_selectable_info#:#Allows user to select this category as a personal skill.###18 07 2011 new variable
-assessment#:#test_is_offline#:#You cannot start the test! The test is offline.###18 07 2011 new variable
-skmg#:#skmg_materials#:#Materials###18 07 2011 new variable
+assessment#:#test_is_offline#:#Du kan ikke tage testen, da den er offline. 
+skmg#:#skmg_materials#:#Materialer
 skmg#:#skmg_remove_skills#:#Remove Skills###18 07 2011 new variable
 skmg#:#skmg_really_remove_skills#:#Do you really want to remove the followig skills from your list?###18 07 2011 new variable
 forum#:#mark_moderator_posts#:#Mark moderator posts###18 07 2011 new variable
 forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted###18 07 2011 new variable
 dateplaner#:#cal_cache_settings#:#Cache###18 07 2011 new variable
 dateplaner#:#cal_milestone_settings#:#Milestones###18 07 2011 new variable
-assessment#:#test_edit_settings#:#Edit Settings###18 07 2011 new variable
+assessment#:#test_edit_settings#:#Ret indstillinger
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been set to offline, because toggling the setting for random question selection causes the allready existing questions to be removed.###18 07 2011 new variable
 ecs#:#ecs_tab_import#:#Import###18 07 2011 new variable
 ecs#:#ecs_tab_export#:#Export###18 07 2011 new variable
@@ -12375,8 +12375,8 @@ pd#:#pd_enable_comments#:#Aktiver kommentarer
 common#:#continue#:#continue###31 12 2011 new variable
 payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button###31 12 2011 new variable
 payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.###31 12 2011 new variable
-assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###31 12 2011 new variable
-assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants###31 12 2011 new variable
+assessment#:#test_has_datasets_warning_page_view#:#Testen indeholder allerede besvarelser. Du kan ikke rette testspørgsmålene før du sletter besvarelserne. 
+assessment#:#test_has_datasets_warning_page_view_link#:#Ret besvarelser
 wsp#:#wsp_share_with_users#:#Share with users###31 12 2011 new variable
 acc#:#acc_last_rep_visited#:#Repository/Last Visited###31 12 2011 new variable
 acc#:#acc_personal_desktop#:#Personal Desktop###31 12 2011 new variable
