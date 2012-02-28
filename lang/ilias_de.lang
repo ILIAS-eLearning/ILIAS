@@ -803,7 +803,7 @@ assessment#:#selection#:#Auswahl
 assessment#:#set_edit_mode#:#Bearbeitungsmodus setzen
 assessment#:#set_filter#:#Filter setzen
 assessment#:#set_manscoring_done#:#Diesen Teilnehmer als Bewertet markieren
-assessment#:#set_manual_feedback#:#Manuelle Rückmeldung erzeugen
+assessment#:#set_manual_feedback#:#Manuelle Rückmeldung
 assessment#:#shape#:#Form
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
@@ -881,9 +881,7 @@ assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_beginning_ending_information#:#Informationen zu Beginn und Ende des Tests
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
 assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
-assessment#:#tst_change_points_done#:#Die Punkte für eine Antwort wurden erfolgreich geändert!
-assessment#:#tst_change_points_for_question#:#Punkte für die Antwort ändern
-assessment#:#tst_change_points_not_done#:#Die Punkte der Antwort konnten nicht geändert werden! Bitte überprüfen Sie den verfügbaren Wertebereich der erreichbaren Punkte.
+assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
 assessment#:#tst_confirm_delete_results_info#:#Ihre bisherigen Frageergebnisse wurden gelöscht!
 assessment#:#tst_confirm_delete_results#:#Sie wollen all ihre bisherigen Frageergebnisse löschen. Damit werden alle Fragen auf die Ursprungswerte zurückgesetzt. Beachten Sie, dass Sie durch das Zurücksetzen der Ergebnisse NICHT die bereits durchgeführten Testdurchläufe zurücksetzen können. Wollen Sie ihre bisherigen Frageergebnisse wirklich zurücksetzen?
 assessment#:#tst_confirm_print#:#Hier können sie den Test ausdrucken. Die Übersicht enthält alle Fragen, deren Lösung sowie die vergebenen Punkte. Die Frage-Elemente erscheinen stets am Ende der Frage.
@@ -1102,8 +1100,6 @@ assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchl
 assessment#:#tst_sequence_properties#:#Einstellungen Reihenfolge
 assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_session_settings#:#Einstellungen Arbeitssitzung
-assessment#:#tst_set_feedback_done#:#Die manuelle Rückmeldung wurde gespeichert
-assessment#:#tst_set_feedback_not_done#:#Es ist ein Fehler aufgetreten! Die manuelle Rückmeldung konnte nicht gespeichert werden
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Der Test wurde auf Offline gesetzt, da alle bereits im Test enthaltenen Fragen entfernt wurden, weil die Einstellung für die zufällige Auswahl von Fragen verändert wurde.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
@@ -12455,3 +12451,11 @@ administration#:#adm_rep_shorten_description_info#:#Bei Aktivierung werden alle 
 administration#:#adm_rep_shorten_description_length#:#Max. Länge
 file#:#file_uploaded_by#:#Hochgeladen von
 trac#:#trac_session_statistics_mode_year#:#Jahr
+assessment#:#tst_question#:#Frage
+assessment#:#tst_participant_solution#:#Teilnehmerlösung
+assessment#:#tst_suggested_solution#:#Musterlösung
+assessment#:#tst_participant#:#Teilnehmer
+assessment#:#tst_participant_status#:#Teilnehmer Status
+assessment#:#tst_edit_scoring#:#Ändere Bewertung
+assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer: %s
+assessment#:#tst_manscoring_question_section_header#:#Frage: %s

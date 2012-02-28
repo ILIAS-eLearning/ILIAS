@@ -693,7 +693,7 @@ assessment#:#selection#:#Selection
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
 assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
-assessment#:#set_manual_feedback#:#Set Manual Feedback
+assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
@@ -751,9 +751,7 @@ assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
 assessment#:#tst_best_solution_is#:#The best solution is
 assessment#:#tst_browse_for_questions#:#Add from Pool
-assessment#:#tst_change_points_done#:#The Points of an answer have been changed successfully!
-assessment#:#tst_change_points_for_question#:#Change the Points for the Answer
-assessment#:#tst_change_points_not_done#:#Could not change the Points of an answer! Please check the allowed range of available points.
+assessment#:#tst_change_points_for_question#:#Points for the Answer
 assessment#:#tst_confirm_delete_results_info#:#Your previous entered question results were deleted. You have successfully reset the test!
 assessment#:#tst_confirm_delete_results#:#You are about to delete all your previous entered question results of this test. This will reset all questions to its default values. Please note, that you cannot reset the number of passes, you already needed for this test. Do you really want to reset all your previous entered results?
 assessment#:#tst_confirm_print#:#Press button to print all questions with points and solution. The question always appears at the end of a page.
@@ -961,8 +959,6 @@ assessment#:#tst_sequence_postpone#:#Questions may be postponed to the end of a 
 assessment#:#tst_sequence_properties#:#Sequence Settings
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_session_settings#:#Session Settings
-assessment#:#tst_set_feedback_done#:#Manual feedback has been saved
-assessment#:#tst_set_feedback_not_done#:#An Error occured! The manual feedback has not been saved
 assessment#:#tst_show_answer_sheet#:#Show Answers
 assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test run. Do not use this option when running a test with maximum processing time. Suspending the test does not stop the maximum processing time's countdown.
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
@@ -12462,3 +12458,11 @@ administration#:#adm_rep_shorten_description_info#:#If activated all description
 administration#:#adm_rep_shorten_description_length#:#Max. number of characters
 file#:#file_uploaded_by#:#Uploaded by
 trac#:#trac_session_statistics_mode_year#:#Year
+assessment#:#tst_question#:#Question
+assessment#:#tst_participant_solution#:#Participant Solution
+assessment#:#tst_suggested_solution#:#Best Solution
+assessment#:#tst_participant#:#Participant
+assessment#:#tst_participant_status#:#Participant Status
+assessment#:#tst_edit_scoring#:#Edit Scoring
+assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
+assessment#:#tst_manscoring_question_section_header#:#Question: %s

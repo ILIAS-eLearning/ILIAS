@@ -3,11 +3,15 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
+include_once 'Modules/Test/exceptions/class.ilTestException.php';
+
+
 /**
 * Class ilObjTestGUI
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
+* @author		Björn Heyser <bheyser@databay.de>
+* @version		$Id$
 *
 * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilTestOutputGUI
 * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
@@ -4736,10 +4740,10 @@ class ilObjTestGUI extends ilObjectGUI
 				if (count($scoring))
 				{
 					// scoring tab
-					$tabs_gui->addTarget("manscoring",
-						 $this->ctrl->getLinkTargetByClass("iltestscoringgui", "manscoring"),
-						 array("manscoring", "scoringfilter", "scoringfilterreset", "setPointsManual", "setFeedbackManual", "setManscoringDone"),
-						 "");
+					$tabs_gui->addTarget(
+							"manscoring", $this->ctrl->getLinkTargetByClass('ilTestScoringGUI', 'showManScoringParticipantsTable'),
+							array('showManScoringParticipantsTable', 'applyManScoringParticipantsFilter', 'resetManScoringParticipantsFilter', 'showManScoringParticipantScreen'), ''
+					);
 				}
 			}
 
