@@ -435,7 +435,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function add()
 	{
-		global $ilUser,$tree, $rbacreview, $lng;
+		global $ilUser,$tree, $rbacreview, $lng, $ilCtrl;
 		
 		// set aggreement accepted
 		$this->setAccepted(true);		
@@ -455,7 +455,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				$ilUser->getId()
 			);
 			ilUtil::sendSuccess($info,true);
-			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+				$tree->getParentId($this->container->getRefId()));
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		}
 				
 
@@ -473,7 +475,9 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
 				);
 
 				ilUtil::sendSuccess($this->lng->txt("application_completed"),true);
-				ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+					$tree->getParentId($this->container->getRefId()));
+				$ilCtrl->redirectByClass("ilrepositorygui", "");
 				break;
 			
 			default:

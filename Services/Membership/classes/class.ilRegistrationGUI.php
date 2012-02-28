@@ -154,7 +154,9 @@ abstract class ilRegistrationGUI
 		$message = sprintf($this->lng->txt($this->container->getType().'_removed_from_waiting_list'),
 			$this->container->getTitle());
 		ilUtil::sendSuccess($message,true);
-		ilUtil::redirect('repository.php?ref_id='.$parent);
+
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent);
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 	
 	/**
@@ -471,10 +473,11 @@ abstract class ilRegistrationGUI
 	 */
 	public function cancel()
 	{
-		global $tree;
+		global $tree, $ilCtrl;
 		
-		ilUtil::redirect('repository.php?ref_id='.
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
 			$tree->getParentId($this->container->getRefId()));
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 	
 	/**
@@ -600,21 +603,27 @@ abstract class ilRegistrationGUI
 	 */
 	protected function updateSubscriptionRequest()
 	{
-		global $ilUser,$tree;
+		global $ilUser, $tree, $ilCtrl;
 		
 		$this->participants->updateSubject($ilUser->getId(),ilUtil::stripSlashes($_POST['subject']));
 		ilUtil::sendSuccess($this->lng->txt('sub_request_saved'),true);
-		ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+			$tree->getParentId($this->container->getRefId()));
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
+
 	}
 	
 	protected function cancelSubscriptionRequest()
 	{
-		global $ilUser,$tree;
+		global $ilUser, $tree, $ilCtrl;
 		
 		$this->participants->deleteSubscriber($ilUser->getId());
 		ilUtil::sendSuccess($this->lng->txt('sub_request_deleted'),true);
 		ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+			$tree->getParentId($this->container->getRefId()));
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 }
 ?>

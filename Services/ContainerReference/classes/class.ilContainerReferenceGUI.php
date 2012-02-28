@@ -58,7 +58,10 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function redirectObject()
 	{
-		ilUtil::redirect('repository.php?ref_id='.$this->object->getTargetRefId());
+		global $ilCtrl;
+		
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->object->getTargetRefId());
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 	
 	/**

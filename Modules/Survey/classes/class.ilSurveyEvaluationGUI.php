@@ -155,10 +155,14 @@ class ilSurveyEvaluationGUI
 	*/
 	function cancelEvaluationAccess()
 	{
+		global $ilCtrl;
+		
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		global $tree;
 		$path = $tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]);
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+			$path[count($path) - 2]["child"]);
+		$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 	
 	/**

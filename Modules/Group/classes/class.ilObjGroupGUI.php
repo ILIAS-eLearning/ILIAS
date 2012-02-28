@@ -1706,7 +1706,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	 */
 	public function unsubscribeObject()
 	{
-		global $ilUser,$tree;
+		global $ilUser,$tree, $ilCtrl;
 		
 		$this->checkPermission('leave');
 		
@@ -1726,7 +1726,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		ilForumNotification::checkForumsExistsDelete($this->object->getRefId(), $ilUser->getId());
 
 		ilUtil::sendSuccess($this->lng->txt('grp_msg_membership_annulled'),true);
-		ilUtil::redirect('repository.php?ref_id='.$tree->getParentId($this->object->getRefId()));
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+			$tree->getParentId($this->object->getRefId()));
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 	
 

@@ -1250,6 +1250,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 	*/
 	function confirmedRemoveMemberObject()
 	{
+		global $ilCtrl;
+		
 		$removed_self = false;
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($_SESSION["AccountId"]);
@@ -1283,7 +1285,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		if ($removed_self)
 		{
-			ilUtil::redirect("repository.php?ref_id=".$this->tree->getParentId($this->ref_id));
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+				$this->tree->getParentId($this->ref_id));
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		}
 		
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,"members","",false,false));

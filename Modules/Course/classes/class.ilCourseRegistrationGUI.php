@@ -452,7 +452,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	protected function add()
 	{
-		global $ilUser,$tree;
+		global $ilUser,$tree, $ilCtrl;
 
 		// TODO: language vars
 
@@ -471,7 +471,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			
 			$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
 			$this->participants->sendNotification($this->participants->NOTIFY_WAITING_LIST,$ilUser->getId());
-			ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+				$tree->getParentId($this->container->getRefId()));
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
 		}
 
 		switch($this->container->getSubscriptionType())
@@ -483,7 +485,9 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				$this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,$ilUser->getId());
 				
 				ilUtil::sendSuccess($this->lng->txt("application_completed"),true);
-				ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+					$tree->getParentId($this->container->getRefId()));
+				$ilCtrl->redirectByClass("ilrepositorygui", "");
 				break;
 			
 			default:

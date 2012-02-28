@@ -2654,28 +2654,6 @@ class ilObjRoleGUI extends ilObjectGUI
 	
 	function showUpperIcon()
 	{
-		global $tree, $tpl, $objDefinition;
-		
-		return parent::showUpperIcon();
-
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-		{
-			if ($_GET["admin_mode"] == "settings"
-				&& $_GET["ref_id"] != SYSTEM_FOLDER_ID)
-			{
-				$tpl->setUpperIcon(
-					$this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view"));
-			}
-		}
-		else
-		{		
-			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
-				$this->object->getRefId() != SYSTEM_FOLDER_ID)
-			{
-				$par_id = $tree->getParentId($this->object->getRefId());
-				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
-			}
-		}
 	}
 
 
