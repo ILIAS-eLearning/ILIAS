@@ -2,6 +2,8 @@
 chdir(dirname(__FILE__));
 chdir('..');
 
+include_once "Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_CRON);
 
 include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);

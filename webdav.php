@@ -37,13 +37,13 @@ ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
 // -----------------------------------------------------
 $_COOKIE["ilClientId"] = $client_id;
 
-// we can't include inc.header.php here, because we need to pass the
-// context 'webdav' to initILIAS.
-//require_once "include/inc.header.php";
+include_once "Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_WEBDAV);
+
 require_once("Services/Init/classes/class.ilInitialisation.php");
 $ilInit = new ilInitialisation();
 $GLOBALS['ilInit'] =& $ilInit;
-$ilInit->initILIAS('webdav');
+$ilInit->initILIAS();
 
 // Launch the WebDAV Server
 // -----------------------------------------------------

@@ -112,6 +112,9 @@ class ilCalendarRemoteAccessHandler
 	
 	protected function initIlias()
 	{
+		include_once "Services/Context/classes/class.ilContext.php";
+		ilContext::init(ilContext::CONTEXT_ICAL);
+		
 		include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 		ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CALENDAR_TOKEN);
 		

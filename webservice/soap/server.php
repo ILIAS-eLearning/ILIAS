@@ -48,6 +48,9 @@ if (!$ilIliasIniFile) {
 	else
 		define ("IL_SOAPMODE", IL_SOAPMODE_INTERNAL);
 } 
+
+include_once "Services/Context/classes/class.ilContext.php";
+ilContext::init(ilContext::CONTEXT_SOAP);
 	
 if (IL_SOAPMODE == IL_SOAPMODE_INTERNAL && strcasecmp($_SERVER["REQUEST_METHOD"], "post") == 0 )
 {
