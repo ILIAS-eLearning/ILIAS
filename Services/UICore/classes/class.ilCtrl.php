@@ -516,7 +516,7 @@ class ilCtrl
 	 * gui class. Example:
 	 *
 	 *	include_once "classes/class.ilRepositoryGUI.php";
-	 *	$ilCtrl->setTargetScript("repository.php");
+	 *	$ilCtrl->setTargetScript("ilias.php");
 	 *	$ilCtrl->getCallStructure("ilrepositorygui");
 	 *	$repository_gui =& new ilRepositoryGUI();
 	 *	$ilCtrl->forwardCommand($repository_gui);

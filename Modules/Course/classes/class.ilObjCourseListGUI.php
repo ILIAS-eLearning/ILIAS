@@ -1,39 +1,17 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-
-/**
-* Class ilObjCourseListGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @extends ilObjectListGUI
-*/
-
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
+/**
+ * Class ilObjCourseListGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * $Id$
+ *
+ * @ingroup ModulesCourse
+ */
 class ilObjCourseListGUI extends ilObjectListGUI
 {
 	/**
@@ -106,11 +84,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
 		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
 
-//echo "A-".memory_get_usage();echo "-".$full_class;
-		$ilBench->start("ilObjCourseListGUI", "1000_checkAllConditions");
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);
-		$ilBench->stop("ilObjCourseListGUI", "1000_checkAllConditions");
-//echo "B-".memory_get_usage();echo "-".$full_class;
 	}
 
 

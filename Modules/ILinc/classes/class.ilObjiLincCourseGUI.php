@@ -1632,8 +1632,8 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$this->__setSubTabs('members');
 		
-		$link_data = $this->object->_getLinkToObject( $this->object->getRefId() );
-		$link_to_seminar = ILIAS_HTTP_PATH.'/'.$link_data[0];
+		include_once("./classes/class.ilLink.php");
+		$link_to_seminar = ilLink::_getLink($this->object->getRefId());
 		include_once 'Services/Mail/classes/class.ilMail.php';
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));

@@ -2412,7 +2412,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function addLocations($a_omit_obj_id = false)
 	{
-		global $lng, $tree, $ilLocator;
+		global $lng, $tree, $ilLocator, $ilCtrl;
 
 		$par_id = $tree->getParentId($_GET["ref_id"]);
 		$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjId($par_id));
@@ -2433,9 +2433,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			}
 		}
 
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $par_id);
 		$this->ctrl->addLocation($parent_title,
-			"repository.php?cmd=frameset&amp;ref_id=".$par_id,
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
 			ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		
 		if (!$a_omit_obj_id)
 		{

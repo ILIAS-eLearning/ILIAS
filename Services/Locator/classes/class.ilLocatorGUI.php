@@ -69,7 +69,7 @@ class ilLocatorGUI
 	*/
 	function addRepositoryItems($a_ref_id = 0)
 	{
-		global $tree;
+		global $tree, $ilCtrl;
 
 		if ($a_ref_id == 0)
 		{
@@ -84,12 +84,6 @@ class ilLocatorGUI
 		else
 		{
 			$a_start = ROOT_FOLDER_ID;
-		}
-		
-		$pre = "";
-		if (defined("ILIAS_MODULE"))
-		{
-			$pre = "../";
 		}
 		
 		if ($a_ref_id > 0)
@@ -108,9 +102,11 @@ class ilLocatorGUI
 					$row["title"] = $this->lng->txt("repository");
 				}
 				
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $row["child"]);
 				$this->addItem($row["title"],
-					$pre."repository.php?cmd=frameset&amp;ref_id=".$row["child"],
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
 					ilFrameTargetInfo::_getFrame("MainContent"), $row["child"]);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 			}
 		}
 	}

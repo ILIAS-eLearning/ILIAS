@@ -791,8 +791,8 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		if ($_GET["id"] > 0)
 		{		
 			include_once ("./Services/Style/classes/class.ilStyleScopeExplorer.php");
-			$exp = new ilStyleScopeExplorer("repository.php?cmd=goto");
-			$exp->setExpandTarget("repository.php?cmd=showTree");
+			$exp = new ilStyleScopeExplorer("ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto");
+			$exp->setExpandTarget("ilias.php?baseClass=ilRepositoryGUI&amp;cmd=showTree");
 			$exp->setTargetGet("ref_id");
 			$exp->setFilterMode(IL_FM_POSITIVE);
 			$exp->forceExpandAll(true, false);

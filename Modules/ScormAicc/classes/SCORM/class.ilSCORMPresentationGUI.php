@@ -958,7 +958,7 @@ class ilSCORMPresentationGUI
 	*/
 	public function downloadCertificate()
 	{
-		global $ilUser, $tree;
+		global $ilUser, $tree, $ilCtrl;
 
 		$allowed = false;
 		$last_access = 0;
@@ -999,8 +999,8 @@ class ilSCORMPresentationGUI
 		}
 		// redirect to parent category if certificate is not accessible
 		$parent = $tree->getParentId($_GET["ref_id"]);
-		$cmd_link = "repository.php?ref_id=".$parent;
-		ilUtil::redirect($cmd_link);
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent);
+		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 }
 ?>

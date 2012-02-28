@@ -1810,11 +1810,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function getTabs($tabs_gui)
 	{
-	 	global $ilAccess,$ilTabs,$tree;
+	 	global $ilAccess, $ilTabs, $tree, $ilCtrl;
 
 		$parent_id = $tree->getParentId($this->object->getRefId());
 
-		$tabs_gui->setBackTarget($this->lng->txt('back_to_crs_content'),'repository.php?ref_id='.$parent_id);
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);
+		$tabs_gui->setBackTarget($this->lng->txt('back_to_crs_content'),
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+		
 		$tabs_gui->addTarget('info_short',
 							 $this->ctrl->getLinkTarget($this,'infoScreen'));
 

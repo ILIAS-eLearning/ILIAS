@@ -138,7 +138,7 @@ class ilNavigationHistoryGUI
 	*/
 	function handleNavigationRequest()
 	{
-		global $ilNavigationHistory;
+		global $ilNavigationHistory, $ilCtrl;
 		
 		if ($_GET["target"] == "navi_request")
 		{
@@ -160,7 +160,10 @@ class ilNavigationHistoryGUI
 			{
 				ilUtil::redirect($item["link"]);
 			}
-			ilUtil::redirect("repository.php?cmd=frameset&getlast=true");
+			
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", "");
+			$ilCtrl->setParameterByClass("ilrepositorygui", "getlast", "true");
+			$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
 		}
 	}
 	

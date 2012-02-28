@@ -180,7 +180,7 @@ class ilObjectCopyGUI
 		include_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
-			'repository.php?cmd=goto', 'paste_copy_repexpand');
+			'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto', 'paste_copy_repexpand');
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showTargetSelectionTree'));
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('target');
@@ -263,7 +263,7 @@ class ilObjectCopyGUI
 		include_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
-			'repository.php?cmd=goto', 'paste_copy_repexpand');
+			'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto', 'paste_copy_repexpand');
 
 		$ilCtrl->setParameter($this, 'selectMode', self::SOURCE_SELECTION);
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showSourceSelectionTree'));

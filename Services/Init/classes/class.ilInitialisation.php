@@ -752,7 +752,7 @@ class ilInitialisation
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 		$_GET["cmd"] = "frameset";
 
-		$script = "repository.php?reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
+		$script = "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"];
 
 		// todo do it better, if JS disabled
 		//echo "<script language=\"Javascript\">\ntop.location.href = \"".$script."\";\n</script>\n";

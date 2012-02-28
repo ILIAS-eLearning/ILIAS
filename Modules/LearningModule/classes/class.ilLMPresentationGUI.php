@@ -1315,7 +1315,7 @@ class ilLMPresentationGUI
 	*/
 	function ilLocator()
 	{
-		global $ilLocator, $tree;
+		global $ilLocator, $tree, $ilCtrl;
 
 		require_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
 
@@ -1351,10 +1351,12 @@ class ilLMPresentationGUI
 			$ilLocator->addItem("...", "");
 
 			$par_id = $tree->getParentId($_GET["ref_id"]);
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $par_id);
 			$ilLocator->addItem(
 				ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
-				"repository.php?cmd=frameset&amp;ref_id=".$par_id,
+				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 		}
 		else
 		{

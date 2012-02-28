@@ -1282,17 +1282,5 @@ class ilObjiLincCourse extends ilContainer
 		return is_array($this->items) ? $this->items : array();
 	}
 	
-	/**
-	 * STATIC METHOD
-	 * create a link to the object
-	 * @param	int uniq id
-	 * @return array array('link','target')
-	 * @static
-	 * @access	public
-	 */
-	function _getLinkToObject($a_id)
-	{
-		return array("repository.php?ref_id=".$a_id."&set_mode=flat&cmdClass=ilobjilinccoursegui","");
-	}
 } // END class.ilObjiLincCourse
 ?>

@@ -208,7 +208,7 @@ abstract class ilRegistrationGUI
 	 */
 	protected function fillMembershipLimitation()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilCtrl;
 		
 		include_once('Modules/Course/classes/class.ilObjCourseGrouping.php');
 		if(!$items = ilObjCourseGrouping::_getGroupingItems($this->container))
@@ -230,7 +230,10 @@ abstract class ilRegistrationGUI
 			if($ilAccess->checkAccess('visible','',$ref_id,$type))
 			{
 				include_once('./classes/class.ilLink.php');
-				$tpl->setVariable('LINK_ITEM','repository.php?ref_id='.$ref_id);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
+				$tpl->setVariable('LINK_ITEM',
+					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				$tpl->setVariable('ITEM_LINKED_TITLE',$title);
 			}
 			else
@@ -619,7 +622,6 @@ abstract class ilRegistrationGUI
 		
 		$this->participants->deleteSubscriber($ilUser->getId());
 		ilUtil::sendSuccess($this->lng->txt('sub_request_deleted'),true);
-		ilUtil::redirect("repository.php?ref_id=".$tree->getParentId($this->container->getRefId()));
 		
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
 			$tree->getParentId($this->container->getRefId()));

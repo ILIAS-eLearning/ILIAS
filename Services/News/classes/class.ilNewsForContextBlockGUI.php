@@ -678,8 +678,10 @@ if (empty(self::$st_data))
 				{
 					$tpl->setCurrentBlock("download");
 					$tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $item["ref_id"]);
 					$tpl->setVariable("HREF_DOWNLOAD",
-						"./repository.php?ref_id=".$item["ref_id"]."&amp;cmd=sendfile");
+						$ilCtrl->getLinkTargetByClass("ilrepositorygui", "sendfile"));
+					$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 					$tpl->parseCurrentBlock();
 				}
 				
