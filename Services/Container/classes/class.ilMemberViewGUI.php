@@ -58,26 +58,9 @@ class ilMemberViewGUI
 		
 		$active = $settings->isActive();
 		
-		/*
-		if($active)
-		{
-			$tpl->setCurrentBlock('mem_view');
-			$tpl->setVariable('MEM_VIEW_HREF','repository.php?ref_id='.$a_ref_id.'&mv=0');
-			$tpl->setVariable('MEM_VIEW_IMG',ilUtil::getImagePath('icon_rolt.gif'));
-			$tpl->setVariable('MEM_VIEW_ALT',$lng->txt('mem_view_deactivate'));
-			$tpl->parseCurrentBlock();
-			return true;
-		}
-		*/
 		$type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
 		if(($type == 'crs' or $type == 'grp') and $ilAccess->checkAccess('write','',$a_ref_id))
 		{
-			/* $tpl->setCurrentBlock('mem_view');
-			$tpl->setVariable('MEM_VIEW_HREF','repository.php?cmd=frameset&set_mode=flat&ref_id='.$a_ref_id.'&mv=1');
-			$tpl->setVariable('MEM_VIEW_IMG',ilUtil::getImagePath('icon_role.gif'));
-			$tpl->setVariable('MEM_VIEW_ALT',$lng->txt('mem_view_activate'));
-			$tpl->parseCurrentBlock(); */
-			
 			$ilTabs->addNonTabbedLink("members_view",
 				$lng->txt('mem_view_activate'),
 				'repository.php?cmd=frameset&set_mode=flat&ref_id='.$a_ref_id.'&mv=1'

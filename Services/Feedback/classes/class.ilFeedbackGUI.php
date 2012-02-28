@@ -795,7 +795,6 @@ class ilFeedbackGUI
 					$tpl->setVariable('ROWCOL', 'tblrow'.(($rownum++ % 2)+1));
 					$this->ctrl->setParameter($this,"barometer_id",$barometer->getId());
 					$link ='<a href="'.$this->ctrl->getLinkTargetByClass('ilfeedbackgui','voteform').'">'.$barometer->getTitle().'</a>';
-					//$link ='<a href="repository.php?jumpToFeedback=1&barometer_id='.$barometer->getId().'&ref_id='.$barometer->getRefId().'&rep_frame=1">'.$barometer->getTitle().'</a>';
 					$tpl->setVariable('BAROMETER_LINK',$link);
 					$tpl->parseCurrentBlock();
 				}
