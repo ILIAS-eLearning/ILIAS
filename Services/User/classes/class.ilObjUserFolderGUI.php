@@ -1214,7 +1214,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $tpl, $rbacsystem;
 		
 		// Blind out tabs for local user import
-		if($this->ctrl->getTargetScript() == 'repository.php')
+		if ($_GET["baseClass"] == 'ilRepositoryGUI')
 		{
 			$this->tabs_gui->clearTargets();
 		}
@@ -1306,7 +1306,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $ilUser,$rbacreview, $tpl, $lng, $ilCtrl;;
 	
 		// Blind out tabs for local user import
-		if($this->ctrl->getTargetScript() == 'repository.php')
+		if ($_GET["baseClass"] == 'ilRepositoryGUI')
 		{
 			$this->tabs_gui->clearTargets();
 		}
@@ -1679,7 +1679,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $rbacreview,$ilUser;
 		
 		// Blind out tabs for local user import
-		if($this->ctrl->getTargetScript() == 'repository.php')
+		if ($_GET["baseClass"] == 'ilRepositoryGUI')
 		{
 			$this->tabs_gui->clearTargets();
 		}

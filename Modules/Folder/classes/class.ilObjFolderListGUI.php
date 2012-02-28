@@ -98,6 +98,8 @@ class ilObjFolderListGUI extends ilObjectListGUI
 	*/
 	function getCommandLink($a_cmd)
 	{
+		global $ilCtrl;
+		
 		// BEGIN WebDAV: Mount webfolder.
 		switch ($a_cmd) 
 		{
@@ -118,7 +120,9 @@ class ilObjFolderListGUI extends ilObjectListGUI
 				} // Fall through, when plugin is inactive.
 			default :
 				// separate method for this line
-				$cmd_link = "repository.php?ref_id=".$this->ref_id."&cmd=$a_cmd";
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+				$cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				break;
 		}
 		

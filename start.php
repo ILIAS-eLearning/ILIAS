@@ -15,31 +15,4 @@
 
 require_once "./include/inc.header.php";
 ilUtil::redirect("index.php");
-
-exit;
-//include("index.php");
-//exit;
-
-
-global $ilBench, $ilCtrl;
-
-if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
-{
-	if (empty($_GET["ref_id"]))
-	{
-		$_GET["ref_id"] = ROOT_FOLDER_ID;
-	}
-	$ilCtrl->initBaseClass("");
-	$ilCtrl->setCmd("frameset");
-	$start_script = "repository.php";
-}
-else
-{
-	$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
-	$start_script = "ilias.php";
-}
-
-include($start_script);
-
-
 ?>

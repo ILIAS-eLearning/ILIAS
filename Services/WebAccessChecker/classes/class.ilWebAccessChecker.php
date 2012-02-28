@@ -885,7 +885,7 @@ class ilWebAccessChecker
 
 			$tpl->SetCurrentBlock("ErrorLink");
 			$tpl->SetVariable("TXT_LINK", $txt);
-			$tpl->SetVariable("LINK", ILIAS_HTTP_PATH. '/repository.php?client_id='.CLIENT_ID);
+			$tpl->SetVariable("LINK", ILIAS_HTTP_PATH. '/ilias.php?baseClass=ilRepositoryGUI&amp;client_id='.CLIENT_ID);
 			$tpl->ParseCurrentBlock();
 		}
 

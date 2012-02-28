@@ -409,12 +409,16 @@ class ilCourseItemAdministrationGUI
 
 	function __setTabs()
 	{
-		global $rbacsystem,$ilUser;
+		global $rbacsystem, $ilUser, $ilCtrl;
 		
 		$this->tabs_gui->clearTargets();
 
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->container_obj->getRefId());
+		$back_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);				
+		
 		$this->tabs_gui->setBackTarget($this->lng->txt('back_to_'.$this->container_obj->getType().'_content'),
-									   'repository.php?ref_id='.$this->container_obj->getRefId());
+									   $back_link);
 		$this->tabs_gui->addTarget("timings",
 								   $this->ctrl->getLinkTarget($this,'edit'),
 								   "edit", get_class($this));

@@ -192,6 +192,8 @@ class ilHistoryGUI
 	*/
 	function getVersionsTable($a_header_params, $a_user_comment = false)
 	{
+		global $ilCtrl;
+		
 		$ref_id = $a_header_params["ref_id"];
 		
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
@@ -265,7 +267,9 @@ class ilHistoryGUI
 				
 				$this->tpl->setCurrentBlock("dl_link");
 				$this->tpl->setVariable("TXT_DL", $this->lng->txt("download"));
-				$this->tpl->setVariable("DL_LINK", "repository.php?cmd=sendfile&hist_id=".$entry["hist_entry_id"]."&ref_id=".$ref_id);
+				$ilCtrl->setParameterByClass("ilobjfilegui", "hist_id", $entry["hist_entry_id"]);
+				$this->tpl->setVariable("DL_LINK",
+					$ilCtrl->getLinkTargetByClass("ilobjfilegui", "sendfile"));
 				$this->tpl->setCurrentBlock("tbl_content");
 				$this->tpl->parseCurrentBlock();
 

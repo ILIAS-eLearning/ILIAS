@@ -189,7 +189,9 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	final function cancelCreationObject($in_rep = false)
 	{
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+		global $ilCtrl;
+		
+		$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 
 	/**
@@ -370,16 +372,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		ilUtil::redirect("ilias.php?baseClass=ilHTLMEditorGUI&ref_id=".$newObj->getRefId());
 	}
 	
-	/**
-	* cancel action and go back to previous page
-	* @access	public
-	*
-	*/
-	function cancelObject($in_rep = false)
-	{
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
-		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
-	}
 
 	/**
 	* update properties

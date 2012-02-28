@@ -3443,22 +3443,6 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function showUpperIcon()
 	{
-		global $tree, $tpl, $objDefinition;
-
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-		{
-			$tpl->setUpperIcon(
-				$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
-		}
-		else
-		{
-			if ($this->object->getRefId() != ROOT_FOLDER_ID &&
-				$this->object->getRefId() != SYSTEM_FOLDER_ID)
-			{
-				$par_id = $tree->getParentId($this->usrf_ref_id);
-				$tpl->setUpperIcon("repository.php?ref_id=".$par_id);
-			}
-		}
 	}
 
 	function __sendProfileMail()

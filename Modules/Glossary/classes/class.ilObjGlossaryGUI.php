@@ -911,17 +911,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	/**
-	* cancel action and go back to previous page
-	* @access	public
-	*
-	*/
-	function cancelObject($in_rep = false)
-	{
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
-		//$this->ctrl->redirectByClass("ilrepositorygui", "frameset");
-	}
-
 	function cancelDefinitionDeletion()
 	{
 		$this->ctrl->redirect($this, "listTerms");

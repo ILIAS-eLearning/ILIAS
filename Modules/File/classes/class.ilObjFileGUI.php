@@ -64,9 +64,13 @@ class ilObjFileGUI extends ilObject2GUI
 			else if($this->id_type == self::REPOSITORY_NODE_ID 
 				&& $this->checkPermissionBool("read"))
 			{
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->node_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);				
+
 				// add entry to navigation history
 				$ilNavigationHistory->addItem($this->node_id,
-					"repository.php?cmd=infoScreen&ref_id=".$this->node_id, "file");
+					$link, "file");
 			}
 		}
 		

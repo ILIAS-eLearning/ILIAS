@@ -91,7 +91,7 @@ class ilHTLMEditorGUI
 		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 		{
 			$ilNavigationHistory->addItem($_GET["ref_id"],
-				"repository.php?cmd=infoScreen&ref_id=".$_GET["ref_id"], "lm");
+				$ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen"), "lm");
 		}
 
 		switch($next_class)

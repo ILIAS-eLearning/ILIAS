@@ -144,14 +144,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* cancel action and go back to previous page
-	*/
-	public function cancelObject()
-	{
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
-	}
-
-	/**
 	* Questionpool properties
 	*/
 	public function propertiesObject()
