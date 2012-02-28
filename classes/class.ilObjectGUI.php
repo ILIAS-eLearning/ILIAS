@@ -910,7 +910,9 @@ class ilObjectGUI
 	 */
 	public function cancelCreation()
 	{
-		ilUtil::redirect("repository.php?cmd=frameset&ref_id=".$_GET["ref_id"]);
+		global $ilCtrl;
+		
+		$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
 	}
 
 	/**

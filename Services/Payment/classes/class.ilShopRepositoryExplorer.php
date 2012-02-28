@@ -87,30 +87,18 @@ class ilShopRepositoryExplorer extends ilExplorer
 		{
 
 			case "cat":
-				#return "repository.php?ref_id=".$a_node_id;
 				return "ilias.php?baseClass=ilshopcontroller&ref_id=".$a_node_id;
 
 			case "catr":
-				#include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-				#$t_obj_id = ilContainerReference::_lookupTargetId(ilObject::_lookupObjId($a_node_id));
-				#$ref_ids = ilObject::_getAllReferences($t_obj_id);
-				#$a_node_id = current($ref_ids);
 				return "ilias.php?cmd=redirect&baseClass=ilshopcontroller&ref_id=".$a_node_id;
 
 			case "grp":
-				#return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjgroupgui";
 				return "ilias.php?baseClass=ilshopcontroller&ref_id=".$a_node_id;
 
 			case "crs":
-				#return "repository.php?ref_id=".$a_node_id."&cmdClass=ilobjcoursegui&cmd=view";
 				return "ilias.php?baseClass=ilshopcontroller&ref_id=".$a_node_id;
 
 			case "crsr":
-				#include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-				#$t_obj_id = ilContainerReference::_lookupTargetId(ilObject::_lookupObjId($a_node_id));
-				#$ref_ids = ilObject::_getAllReferences($t_obj_id);
-				#$a_node_id = current($ref_ids);
-				#return "repository.php?cmd=redirect&ref_id=".$a_node_id;
 				return "ilias.php?cmd=redirect&baseClass=ilshopcontroller&ref_id=".$a_node_id;
 
 			case "icrs":

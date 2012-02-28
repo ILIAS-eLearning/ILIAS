@@ -164,7 +164,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
 				{
 					$ilNavigationHistory->addItem($_GET["ref_id"],
-						"repository.php?cmd=frameset&ref_id=".$_GET["ref_id"], "cat");
+						$ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"), "cat");
 				}
 
 				$this->prepareOutput();
@@ -175,7 +175,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 						ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
 				}
 
-//echo "-".$this->object->getStyleSheetId()."-";
 				if(!$cmd)
 				{
 					$cmd = "render";
