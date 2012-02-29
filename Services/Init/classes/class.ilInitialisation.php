@@ -1283,20 +1283,17 @@ class ilInitialisation
 		$this->initGlobal("ilToolbar", "ilToolbarGUI", 
 			"./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");	
 
-		if(!$ilCtrl->isAsynch())
-		{
-			$this->initGlobal("ilLocator", "ilLocatorGUI", 
-				"./Services/Locator/classes/class.ilLocatorGUI.php");
+		$this->initGlobal("ilLocator", "ilLocatorGUI", 
+			"./Services/Locator/classes/class.ilLocatorGUI.php");
 
-			$this->initGlobal("ilTabs", "ilTabsGUI", 
-				"./Services/UIComponent/Tabs/classes/class.ilTabsGUI.php");
+		$this->initGlobal("ilTabs", "ilTabsGUI", 
+			"./Services/UIComponent/Tabs/classes/class.ilTabsGUI.php");
 
-			// $ilMainMenu
-			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-			$ilMainMenu = new ilMainMenuGUI("_top");
-			$this->initGlobal("ilMainMenu", $ilMainMenu);
-			unset($ilMainMenu);
-		}
+		// $ilMainMenu
+		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+		$ilMainMenu = new ilMainMenuGUI("_top");
+		$this->initGlobal("ilMainMenu", $ilMainMenu);
+		unset($ilMainMenu);
 						
 		
 		// :TODO: tableGUI related
