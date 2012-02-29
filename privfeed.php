@@ -37,8 +37,7 @@ ilContext::init(ilContext::CONTEXT_RSS_AUTH);
 require_once("Services/Init/classes/class.ilInitialisation.php");
 $ilInit = new ilInitialisation();
 $GLOBALS['ilInit'] =& $ilInit;
-$ilInit->initFeed();
-$ilInit->initAccessHandling();
+$ilInit->initILIAS();
 
 global $lng, $ilSetting;
 
