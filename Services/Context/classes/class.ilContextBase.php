@@ -46,6 +46,20 @@ abstract class ilContextBase
 	 * @return bool
 	 */
 	abstract public static function usesTemplate();
+	
+	/**
+	 * Init client
+	 *  
+	 * @return bool
+	 */
+	abstract public static function initClient();	
+	
+	/**
+	 * Try authentication
+	 *  
+	 * @return bool
+	 */
+	abstract public static function doAuthentication();	
 }
 
 ?>

@@ -12,26 +12,14 @@
 *
 */
 
-require_once "./include/inc.header.php";
-
-/*function myErrorHandler($errno, $errstr, $errfile, $errline)
+// this will disable authentication for login, logout, register, etc.
+if($_REQUEST["baseClass"] == "ilStartUpGUI")
 {
-	global $ilCtrl;
-echo "<br>".$errstr;
-	switch ($errno)
-	{
-    case E_USER_ERROR:
-	case E_USER_WARNING:
-        echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-        echo "  Fatal error on line $errline in file $errfile";
-        echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-        echo "Aborting...<br />\n";
-        exit(1);
-        break;
-	}
-	return false;
+	include_once "Services/Context/classes/class.ilContext.php";
+	ilContext::init(ilContext::CONTEXT_STARTUP);
 }
-$old_error_handler = set_error_handler("myErrorHandler");*/
+
+require_once "./include/inc.header.php";
 
 global $ilCtrl, $ilBench, $ilLog;
 

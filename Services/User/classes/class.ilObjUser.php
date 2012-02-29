@@ -2520,6 +2520,22 @@ class ilObjUser extends ilObject
 		}
 		return true;
 	}
+	
+	/**
+	 * Check for simultaneous login
+	 * 
+	 * @return bool 
+	 */
+	static function hasActiveSession($a_user_id)
+	{
+		global $ilDB;
+	
+		$res = $ilDB->queryf('
+			SELECT COUNT(*) FROM usr_session WHERE user_id = %s AND expires > %s',
+			array('integer', 'integer'),
+			array($a_user_id, time()));						
+		return (bool)$ilDB->numRows($res);		
+	}
 
 	/*
      * check user id with login name
@@ -2527,26 +2543,24 @@ class ilObjUser extends ilObject
      */
 	function checkUserId()
 	{
-		global $ilDB,$ilAuth, $ilSetting;
+		global $ilAuth, $ilSetting;
 
 		$login = ilObjUser::getLoginFromAuth();
 		$id = ilObjUser::_lookupId($login);
 		if ($id > 0)
 		{
+			// :TODO: move elsewhere
+			
 			// check for simultaneous logins, except the user is the anonymous one
-			if( $id != ANONYMOUS_USER_ID && (int)$ilSetting->get('ps_prevent_simultaneous_logins') == 1 )
-			{
-				$res = $ilDB->queryf('
-					SELECT * FROM usr_session WHERE user_id = %s AND expires > %s',
-					array('integer', 'integer'),
-					array($id, time()));						
-				while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-				{
-					$ilAuth->logout();
-					@session_destroy();
-					ilUtil::redirect('login.php?simultaneous_login=true');
-					exit();
-				}
+			if( $id != ANONYMOUS_USER_ID && 
+				(int)$ilSetting->get('ps_prevent_simultaneous_logins') == 1 &&
+				self::hasActiveSession($id))
+			{				
+				ilSession::setClosingContext(ilSession::SESSION_CLOSE_SIMUL);
+				$ilAuth->logout();
+				@session_destroy();
+				ilUtil::redirect('login.php?simultaneous_login=true');
+				exit();				
 			}
 			
 			return $id;

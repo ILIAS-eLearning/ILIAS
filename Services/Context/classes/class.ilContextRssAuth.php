@@ -63,6 +63,26 @@ class ilContextRssAuth extends ilContextBase
 	{
 		return true;
 	}
+	
+	/**
+	 * Init client
+	 *  
+	 * @return bool
+	 */
+	public static function initClient()
+	{
+		return true;
+	}
+	
+	/**
+	 * Try authentication
+	 *  
+	 * @return bool
+	 */
+	public static function doAuthentication()
+	{
+		return true;
+	}
 }
 
 ?>

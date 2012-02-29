@@ -36,11 +36,18 @@ define('AUTH_APACHE_FAILED', -500);
 
 define('AUTH_MODE_INACTIVE',-1000);
 
-
 // an external user cannot be found in ilias, but his email address
 // matches one or more ILIAS users
 define('AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL', -101);
 define('AUTH_CAS_NO_ILIAS_USER', -90);
+
+// ilUser validation 
+define('AUTH_USER_WRONG_IP', -600);
+define('AUTH_USER_INACTIVE', -601);
+define('AUTH_USER_PROFILE_INCOMPLETE', -602);
+define('AUTH_USER_TIME_LIMIT_EXCEEDED', -603);
+define('AUTH_USER_AGREEMENT', -604);
+define('AUTH_USER_SIMULTANEOUS_LOGIN', -605);
 
 include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 require_once('Services/Authentication/classes/class.ilSessionControl.php');

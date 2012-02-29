@@ -334,7 +334,7 @@ class ilStyleDefinition extends ilSaxParser
 	public static function getCurrentSkin()
 	{
 		global $ilias;
-
+		
 		return isset(self::$current_skin) ? self::$current_skin	:
 											$ilias->account->skin;
 	}
