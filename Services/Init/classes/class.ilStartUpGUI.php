@@ -196,7 +196,11 @@ class ilStartUpGUI
 		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 
-		if (isset($_GET['expired']) && $_GET['expired'])
+		if (isset($_GET['inactive']) && $_GET['inactive'])
+		{
+			$this->showFailure($lng->txt("err_inactive"));
+		}
+		else if (isset($_GET['expired']) && $_GET['expired'])
 		{
 			$this->showFailure($lng->txt("err_session_expired"));
 		}
@@ -265,22 +269,8 @@ class ilStartUpGUI
 						$add = "<br>".$auth_error->getMessage();
 					}
 					$this->showFailure($lng->txt("err_wrong_login").$add);
-					break;
-					
-					
-				case AUTH_USER_AGREEMENT:
-					// :TODO:
-					ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
-					break;
-			
-				case AUTH_USER_INACTIVE:
-					$this->showFailure($lng->txt("err_inactive"));
-					break;
-
-				case AUTH_USER_PROFILE_INCOMPLETE:
-					// :TODO:
-					break;
-
+					break;				
+				
 				case AUTH_USER_WRONG_IP:				
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_IP);
 					$ilAuth->logout();
@@ -1559,7 +1549,7 @@ class ilStartUpGUI
 		{
 			if(IS_PAYMENT_ENABLED)
 			{
-                  $usr_id = $ilUser->getId();
+                $usr_id = $ilUser->getId();
 
 				include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
 				$shop_classes = array_keys(ilShopLinkBuilder::$linkArray);
@@ -1584,6 +1574,12 @@ class ilStartUpGUI
 				}
 			}
 						
+			// user agreement
+			if(!$ilUser->hasAcceptedUserAgreement())
+			{
+				ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
+			}										
+				
 			if	(!$this->_checkGoto($_GET["target"]))
 			{
 				// message if target given but not accessible
