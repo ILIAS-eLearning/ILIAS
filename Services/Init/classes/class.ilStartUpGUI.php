@@ -84,15 +84,33 @@ class ilStartUpGUI
 	 */
 	function showLogin()
 	{
-		global $ilSetting, $ilAuth, $ilUser, $tpl, $ilIliasIniFile, $ilias, $lng;
-
-		// if authentication of soap user failed, but email address is
-		// known, show users and ask for password
+		global $ilSetting, $ilAuth, $ilUser, $tpl, $ilIliasIniFile, $ilias, $lng;		
+				
+		
+		// new style: moved $ilAuth->start() from ilInitialisation 
+				
+		$ilAuth->start();						
+		if($ilAuth->getAuth())
+		{										
+			ilInitialisation::initUserAccount();
+			
+			if ($_GET["rep_ref_id"] != "")
+			{
+				$_GET["ref_id"] = $_GET["rep_ref_id"];
+			}
+			return $this->processStartingPage();
+		}						
+		
+		
+		
 		$status = $ilAuth->getStatus();
 		if ($status == "" && isset($_GET["auth_stat"]))
 		{
 			$status = $_GET["auth_stat"];
 		}
+		
+		// if authentication of soap user failed, but email address is
+		// known, show users and ask for password
 		if ($status == AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL)
 		{
 			$this->showUserMappingSelection();
@@ -123,13 +141,7 @@ class ilStartUpGUI
 		{
 			unset($_GET['cookies']);
 		}
-
-		// check correct setup
-		if (!$ilSetting->get("setup_ok"))
-		{
-			die("Setup is not completed. Please run setup routine again. (Login)");
-		}
-
+	
 		if ($ilSetting->get("shib_active") && $ilSetting->get("shib_hos_type"))
 		{
 			require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";
@@ -148,41 +160,7 @@ class ilStartUpGUI
 				$WAYF->redirect();
 			}
 		}
-		elseif ($ilAuth->getAuth())
-		{
-			// Or we do authentication here
-			// To do: check whether some $ilInit method could be used here.
-			
-			if(!$ilUser->checkTimeLimit())
-			{
-				$ilAuth->logout();
-			
-				if($ilSetting->get('user_reactivate_code'))
-				{				
-					return $this->showCodeForm();
-				}
-				
-				session_destroy();				
-				
-				// to do: get rid of this
-				ilUtil::redirect('login.php?time_limit=true');
-			}
-
-			include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
-			ilOnlineTracking::_addUser($ilUser->getId());
-
-			// update last forum visit
-			include_once './Modules/Forum/classes/class.ilObjForum.php';
-			ilObjForum::_updateOldAccess($ilUser->getId());
-
-			if ($_GET["rep_ref_id"] != "")
-			{
-				$_GET["ref_id"] = $_GET["rep_ref_id"];
-			}
-			$this->processStartingPage();
-			exit;
-		}
-
+	
 		//
 		// Start new implementation here
 		//
@@ -218,11 +196,7 @@ class ilStartUpGUI
 		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
 		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 
-		if (isset($_GET['inactive']) && $_GET['inactive'])
-		{
-			$this->showFailure($lng->txt("err_inactive"));
-		}
-		else if (isset($_GET['expired']) && $_GET['expired'])
+		if (isset($_GET['expired']) && $_GET['expired'])
 		{
 			$this->showFailure($lng->txt("err_session_expired"));
 		}
@@ -244,16 +218,7 @@ class ilStartUpGUI
 		{
 			$this->showFailure($lng->txt("reached_session_limit"));
 		}
-
-		// TODO: Move this to header.inc since an expired session could not detected in login script
-		$status = $ilAuth->getStatus();
-		
-		if ($status == "" && isset($_GET["auth_stat"]))
-		{
-			$status = $_GET["auth_stat"];
-		}
-		$auth_error = $ilias->getAuthError();
-
+			
 		if (!empty($status))
 		{
 			switch ($status)
@@ -261,6 +226,7 @@ class ilStartUpGUI
 				case AUTH_EXPIRED:
 					$this->showFailure($lng->txt("err_session_expired"));
 					break;
+				
 				case AUTH_IDLED:
 					// lang variable err_idled not existing
 					//$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
@@ -293,39 +259,66 @@ class ilStartUpGUI
 				case AUTH_WRONG_LOGIN:
 				default:
 					$add = "";
+					$auth_error = $ilias->getAuthError();
 					if (is_object($auth_error))
 					{
 						$add = "<br>".$auth_error->getMessage();
 					}
 					$this->showFailure($lng->txt("err_wrong_login").$add);
 					break;
+					
+					
+				case AUTH_USER_AGREEMENT:
+					// :TODO:
+					ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
+					break;
+			
+				case AUTH_USER_INACTIVE:
+					$this->showFailure($lng->txt("err_inactive"));
+					break;
+
+				case AUTH_USER_PROFILE_INCOMPLETE:
+					// :TODO:
+					break;
+
+				case AUTH_USER_WRONG_IP:				
+					ilSession::setClosingContext(ilSession::SESSION_CLOSE_IP);
+					$ilAuth->logout();
+					session_destroy();
+
+					$this->showFailure($lng->txt("wrong_ip_detected")." (".$_SERVER["REMOTE_ADDR"].")");
+					break;
+
+				case AUTH_USER_SIMULTANEOUS_LOGIN:
+					ilSession::setClosingContext(ilSession::SESSION_CLOSE_SIMUL);
+					$ilAuth->logout();
+					session_destroy();
+
+					$this->showFailure($lng->txt("simultaneous_login_detected"));
+					break;
+
+				case AUTH_USER_TIME_LIMIT_EXCEEDED:
+					ilSession::setClosingContext(ilSession::SESSION_CLOSE_TIME);
+					$ilAuth->logout();
+
+					if($ilSetting->get('user_reactivate_code'))
+					{				
+						return $this->showCodeForm();
+					}
+
+					session_destroy();				
+
+					$this->showFailure($lng->txt("time_limit_reached"));		
+					break;		
 			}
 		}
-
-
+		
 		if (isset($_GET['cu']) && $_GET['cu'])
 		{
 			$lng->loadLanguageModule("auth");
 			$this->showSuccess($lng->txt("auth_account_code_used"));
 		}
 		
-		if (isset($_GET['time_limit']) && $_GET['time_limit'])
-		{
-			$this->showFailure($lng->txt("time_limit_reached"));
-		}
-
-		// output wrong IP message
-		if (isset($_GET['wrong_ip']) && $_GET['wrong_ip'])
-		{
-			$this->showFailure($lng->txt("wrong_ip_detected")." (".$_SERVER["REMOTE_ADDR"].")");
-		}
-		
-		// outout simultaneous login message
-		if (isset($_GET['simultaneous_login']) && $_GET['simultaneous_login'])
-		{
-			$this->showFailure($lng->txt("simultaneous_login_detected"));
-		}
-
 		$this->ctrl->setTargetScript("ilias.php");
 		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
 
@@ -1126,8 +1119,7 @@ class ilStartUpGUI
 	{
 		global $tpl, $ilSetting, $ilAuth, $lng, $ilIliasIniFile;
 
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-		
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
 		$ilAuth->logout();
 		session_destroy();
 
@@ -1468,7 +1460,7 @@ class ilStartUpGUI
 	*/
 	function processIndexPHP()
 	{
-		global $ilIliasIniFile, $ilAuth, $ilSetting, $ilInit;
+		global $ilIliasIniFile, $ilAuth, $ilSetting, $ilInit, $ilUser, $ilias;
 
 		// display client selection list if enabled
 		if (!isset($_GET["client_id"]) &&
@@ -1479,14 +1471,7 @@ class ilStartUpGUI
 			//include_once "./include/inc.client_list.php";
 			exit();
 		}
-
-		// if no start page was given, ILIAS defaults to the standard login page
-		if ($start == "")
-		{
-			$start = "login.php";
-		}
-
-
+		
 		//
 		// index.php is called and public section is enabled
 		//
@@ -1561,17 +1546,14 @@ class ilStartUpGUI
 					$this->showLogin();
 				}
 			}
-
+			
 			// just go to public section
 			if (empty($_GET["ref_id"]))
 			{
 				$_GET["ref_id"] = ROOT_FOLDER_ID;
 			}
-			$ilCtrl->initBaseClass("ilRepositoryGUI");
-			$ilCtrl->setCmd("frameset");
-			$start_script = "ilias.php";
-			include($start_script);
-			return true;
+			$_GET["cmd"] = "frameset";			
+			ilutil::redirect("ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"]);
 		}
 		else
 		{

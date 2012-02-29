@@ -63,6 +63,26 @@ class ilContextSessionReminder extends ilContextBase
 	{
 		return false;
 	}
+	
+	/**
+	 * Init client
+	 *  
+	 * @return bool
+	 */
+	public static function initClient()
+	{
+		return true;
+	}
+	
+	/**
+	 * Try authentication
+	 *  
+	 * @return bool
+	 */
+	public static function doAuthentication()
+	{
+		return false;
+	}
 }
 
 ?>

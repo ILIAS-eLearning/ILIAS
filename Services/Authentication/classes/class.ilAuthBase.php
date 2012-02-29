@@ -88,38 +88,118 @@ abstract class ilAuthBase
 	 * @param object $a_auth
 	 */
 	protected function loginObserver($a_username,$a_auth)
-	{
-		ilSessionControl::handleLoginEvent($a_username, $a_auth);
-
-		global $ilLog, $ilAppEventHandler;
+	{		
+		global $ilLog, $ilAppEventHandler, $ilSetting;
 		
 		if($this->getContainer()->loginObserver($a_username,$a_auth))
-		{
-			$ilAppEventHandler->raise("Services/Authentication", "afterLogin",
-				array("username" => $a_auth->getUsername()));
-			
-			// check if profile is complete
+		{								
+			// validate user
 			include_once "Services/User/classes/class.ilObjUser.php";			
 			$user_id = ilObjUser::_loginExists($a_auth->getUsername());
 			if($user_id != ANONYMOUS_USER_ID)
 			{
-				$user = new ilObjUser($user_id);			
+				$user = new ilObjUser($user_id);	
+			
+				// active?
+				if(!$user->getActive())
+				{
+					$this->status = AUTH_USER_INACTIVE;
+					return;
+				}
+				
+				// time limit
+				if(!$user->checkTimeLimit())
+				{
+					$this->status = AUTH_USER_TIME_LIMIT_EXCEEDED;
+					return;
+				}
+				
+			    // check if profile is complete						
 				include_once "Services/User/classes/class.ilUserProfile.php";
 				if(ilUserProfile::isProfileIncomplete($user))
 				{
 					$user->setProfileIncomplete(true);
 					$user->update();
+					
+					$this->status = AUTH_USER_PROFILE_INCOMPLETE;
+					return;
 				}
-			}
+				
+				// user agreement
+				if(!$user->hasAcceptedUserAgreement())
+				{
+					$this->status = AUTH_USER_AGREEMENT;
+					return;
+				}				
+							
+				// check client ip
+				$clientip = $user->getClientIP();
+				if (trim($clientip) != "")
+				{
+					$clientip = preg_replace("/[^0-9.?*,:]+/","",$clientip);
+					$clientip = str_replace(".","\\.",$clientip);
+					$clientip = str_replace(Array("?","*",","), Array("[0-9]","[0-9]*","|"), $clientip);
+					if (!preg_match("/^".$clientip."$/", $_SERVER["REMOTE_ADDR"]))
+					{
+						$this->status = AUTH_USER_WRONG_IP;
+						return;
+					}
+				}				
+				
+				// simultaneous login
+				if($ilSetting->get('ps_prevent_simultaneous_logins') &&
+					ilObjUser::hasActiveSession($user_id))
+				{
+					$this->status = AUTH_USER_SIMULTANEOUS_LOGIN;
+					return;
+				}
+																
+				include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
+				ilOnlineTracking::_addUser($user_id);
+												
+				// update last forum visit
+				include_once './Modules/Forum/classes/class.ilObjForum.php';
+				ilObjForum::_updateOldAccess($user_id);	
+				
+				
+				// handle login attempts
+				
+				require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+				$security_settings = ilSecuritySettings::_getInstance();
+
+				// determine first login of user for setting an indicator
+				// which still is available in PersonalDesktop, Repository, ...
+				// (last login date is set to current date in next step)		
+				if( $security_settings->isPasswordChangeOnFirstLoginEnabled() &&
+					$user->getLastLogin() == null )
+				{
+					$user->resetLastPasswordChange();
+				}
+
+				$user->refreshLogin();			
+
+				// differentiate account security mode		
+				if( $security_settings->getAccountSecurityMode() ==
+					ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+				{
+					// reset counter for failed logins
+					ilObjUser::_resetLoginAttempts( $user_id );
+				}										
+			}		
+			
+			// user valid
+			
+			ilSessionControl::handleLoginEvent($a_auth->getUsername(), $a_auth);
 			
 			$ilLog->write(__METHOD__.': logged in as '.$a_auth->getUsername().
 				', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 				', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
-				);
-		}
-		
-	}
-	
+				);			
+			
+			$ilAppEventHandler->raise("Services/Authentication", "afterLogin",
+				array("username" => $a_auth->getUsername()));			
+		}		
+	}	
 	
 	/**
 	 * Called after failed login

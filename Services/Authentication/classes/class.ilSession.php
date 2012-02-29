@@ -36,12 +36,16 @@ class ilSession
 	 * 
 	 * @var integer
 	 */
-	const SESSION_CLOSE_USER   = 1; // manual logout
-	const SESSION_CLOSE_EXPIRE = 2; // has expired
-	const SESSION_CLOSE_FIRST  = 3; // kicked by session control (first abidencer)
-	const SESSION_CLOSE_IDLE   = 4; // kickey by session control (ilde time)
-	const SESSION_CLOSE_LIMIT  = 5; // kicked by session control (limit reached)
-	const SESSION_CLOSE_LOGIN  = 6; // anonymous => login
+	const SESSION_CLOSE_USER   = 1;  // manual logout
+	const SESSION_CLOSE_EXPIRE = 2;  // has expired
+	const SESSION_CLOSE_FIRST  = 3;  // kicked by session control (first abidencer)
+	const SESSION_CLOSE_IDLE   = 4;  // kickey by session control (ilde time)
+	const SESSION_CLOSE_LIMIT  = 5;  // kicked by session control (limit reached)
+	const SESSION_CLOSE_LOGIN  = 6;  // anonymous => login
+	const SESSION_CLOSE_PUBLIC = 7;  // => anonymous
+	const SESSION_CLOSE_TIME   = 8;  // account time limit reached
+	const SESSION_CLOSE_IP     = 9;  // wrong ip
+	const SESSION_CLOSE_SIMUL  = 10; // simultaneous login
 
 	private static $closing_context = null;	
 

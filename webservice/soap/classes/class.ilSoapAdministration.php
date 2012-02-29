@@ -389,17 +389,13 @@ class ilSoapAdministration
 
 	public function getInstallationInfoXML() 
 	{		
-		require_once("Services/Init/classes/class.ilInitialisation.php");
-	
+		include_once "Services/Context/classes/class.ilContext.php";
+		ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
+		
+		require_once("Services/Init/classes/class.ilInitialisation.php");	
 		$init = new ilInitialisation();		
-		$init->requireCommonIncludes();
-		$init->initIliasIniFile();
-		
-		$ilias = & new ILIAS();
-		$GLOBALS['ilias'] =& $ilias;
-		
-		
-		$settings = array();
+		$init->initILIAS();
+				
 		$clientdirs = glob(ILIAS_WEB_DIR."/*",GLOB_ONLYDIR);
 		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");	
 		$writer = new ilSoapInstallationInfoXMLWriter ();
@@ -421,17 +417,13 @@ class ilSoapAdministration
 	
 	public function getClientInfoXML($clientid) 
 	{		
-		require_once("Services/Init/classes/class.ilInitialisation.php");
-	
+		include_once "Services/Context/classes/class.ilContext.php";
+		ilContext::init(ilContext::CONTEXT_SOAP_WITHOUT_CLIENT);
+		
+		require_once("Services/Init/classes/class.ilInitialisation.php");	
 		$init = new ilInitialisation();		
-		$init->requireCommonIncludes();
-		$init->initIliasIniFile();
+		$init->initILIAS();		
 		
-		$ilias = & new ILIAS();
-		$GLOBALS['ilias'] =& $ilias;
-		
-		
-		$settings = array();
 		$clientdir = ILIAS_WEB_DIR."/".$clientid;
 		require_once ("webservice/soap/classes/class.ilSoapInstallationInfoXMLWriter.php");
 		$writer = new ilSoapInstallationInfoXMLWriter ();		

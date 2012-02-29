@@ -5,14 +5,14 @@
 include_once "Services/Context/classes/class.ilContextBase.php";
 
 /** 
- * Service context for feed/rss
+ * Service context for startup
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  * 
  * @ingroup ServicesContext
  */
-class ilContextRss extends ilContextBase
+class ilContextStartup extends ilContextBase
 {			
 	/**
 	 * Are redirects supported?
@@ -21,7 +21,7 @@ class ilContextRss extends ilContextBase
 	 */
 	public static function supportsRedirects()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -31,7 +31,7 @@ class ilContextRss extends ilContextBase
 	 */
 	public static function hasUser()
 	{
-		return false;
+		return true;
 	}
 	
 	/**
@@ -51,7 +51,7 @@ class ilContextRss extends ilContextBase
 	 */
 	public static function hasHTML()
 	{
-		return false;
+		return true;
 	}
 	
 	/**

@@ -24,6 +24,8 @@ class ilContext
 	const CONTEXT_RSS_AUTH = 7;
 	const CONTEXT_WEB_ACCESS_CHECK = 8;
 	const CONTEXT_SESSION_REMINDER = 9;
+	const CONTEXT_SOAP_WITHOUT_CLIENT = 10;
+	const CONTEXT_STARTUP = 11;
 	
 	/**
 	 * Init context by type
@@ -80,6 +82,12 @@ class ilContext
 			
 			case self::CONTEXT_SESSION_REMINDER:
 				return "ilContextSessionReminder";	
+				
+			case self::CONTEXT_SOAP_WITHOUT_CLIENT:
+				return "ilContextSoapWithoutClient";
+				
+			case self::CONTEXT_STARTUP:
+				return "ilContextStartup";
 		}
 	}
 	
@@ -146,6 +154,26 @@ class ilContext
 	public static function usesTemplate()
 	{
 		return (bool)self::callContext("usesTemplate");	
+	}
+	
+	/**
+	 * Init client
+	 *  
+	 * @return bool
+	 */
+	public static function initClient()
+	{
+		return (bool)self::callContext("initClient");	
+	}
+	
+	/**
+	 * Try authentication
+	 *  
+	 * @return bool
+	 */
+	public static function doAuthentication()
+	{
+		return (bool)self::callContext("doAuthentication");	
 	}
 }
 
