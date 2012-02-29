@@ -1081,9 +1081,10 @@ class ilInitialisation
 				
 		$this->initAccessHandling();
 
+				
 		$current_script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);				
 		
-		// workaround: force login		
+		// :TODO: workaround: force login		
 		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login") || $current_script == "login.php")
 		{
 			ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
@@ -1118,6 +1119,9 @@ class ilInitialisation
 				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
 			}
 		}
+		
+		
+		$current_script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 
 		// handle ILIAS 2 imported users:
 		// check ilias 2 password, if authentication failed

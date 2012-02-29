@@ -99,7 +99,15 @@ abstract class ilAuthBase
 			if($user_id != ANONYMOUS_USER_ID)
 			{
 				$user = new ilObjUser($user_id);	
-			
+					
+			    // check if profile is complete						
+				include_once "Services/User/classes/class.ilUserProfile.php";
+				if(ilUserProfile::isProfileIncomplete($user))
+				{
+					$user->setProfileIncomplete(true);
+					$user->update();
+				}
+				
 				// active?
 				if(!$user->getActive())
 				{
@@ -114,24 +122,6 @@ abstract class ilAuthBase
 					return;
 				}
 				
-			    // check if profile is complete						
-				include_once "Services/User/classes/class.ilUserProfile.php";
-				if(ilUserProfile::isProfileIncomplete($user))
-				{
-					$user->setProfileIncomplete(true);
-					$user->update();
-					
-					$this->status = AUTH_USER_PROFILE_INCOMPLETE;
-					return;
-				}
-				
-				// user agreement
-				if(!$user->hasAcceptedUserAgreement())
-				{
-					$this->status = AUTH_USER_AGREEMENT;
-					return;
-				}				
-							
 				// check client ip
 				$clientip = $user->getClientIP();
 				if (trim($clientip) != "")

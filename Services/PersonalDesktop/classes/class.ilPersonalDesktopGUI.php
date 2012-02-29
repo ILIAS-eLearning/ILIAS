@@ -69,6 +69,7 @@ class ilPersonalDesktopGUI
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 		
+				
 		// check whether password of user have to be changed
 		// due to first login or password of user is expired
 		if( ($ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired())
@@ -82,7 +83,8 @@ class ilPersonalDesktopGUI
 		if ($ilUser->getProfileIncomplete() && $next_class != "ilpersonalprofilegui" && !($ilUser->isPasswordChangeDemanded() || $ilUser->isPasswordExpired()))
 		{
 			$this->ctrl->redirectByClass("ilpersonalprofilegui");
-		}
+		}		
+		
 
 		// read last active subsection
 		if (isset($_GET['PDHistory']) && $_GET['PDHistory'])
