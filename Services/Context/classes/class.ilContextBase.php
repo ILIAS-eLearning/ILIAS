@@ -39,6 +39,13 @@ abstract class ilContextBase
 	 * @return bool
 	 */
 	abstract public static function hasHTML();
+	
+	/**
+	 * Uses template engine
+	 *  
+	 * @return bool
+	 */
+	abstract public static function usesTemplate();
 }
 
 ?>

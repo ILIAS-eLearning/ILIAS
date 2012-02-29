@@ -53,6 +53,16 @@ class ilContextCron extends ilContextBase
 	{
 		return false;
 	}
+	
+	/**
+	 * Uses template engine
+	 *  
+	 * @return bool
+	 */
+	public static function usesTemplate()
+	{
+		return false;
+	}
 }
 
 ?>

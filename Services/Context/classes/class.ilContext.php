@@ -137,6 +137,16 @@ class ilContext
 	{
 		return (bool)self::callContext("hasHTML");	
 	}
+	
+	/**
+	 * Uses template engine
+	 *  
+	 * @return bool
+	 */
+	public static function usesTemplate()
+	{
+		return (bool)self::callContext("usesTemplate");	
+	}
 }
 
 ?>

@@ -53,6 +53,16 @@ class ilContextWebdav extends ilContextBase
 	{
 		return true;
 	}
+	
+	/**
+	 * Uses template engine
+	 *  
+	 * @return bool
+	 */
+	public static function usesTemplate()
+	{
+		return true;
+	}
 }
 
 ?>

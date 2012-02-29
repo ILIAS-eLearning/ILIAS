@@ -56,7 +56,7 @@ class ilInitialisation
 		require_once "PEAR.php";
 		
 		// ilTemplate
-		if(ilContext::hasHTML())
+		if(ilContext::usesTemplate())
 		{
 			// HTML_Template_IT support
 			@include_once "HTML/Template/ITX.php";		// new implementation
@@ -503,6 +503,12 @@ class ilInitialisation
 
 		$this->initGlobal("ilSetting", "ilSetting", 
 			"Services/Administration/classes/class.ilSetting.php");
+				
+		// check correct setup
+		if (!$ilSetting->get("setup_ok"))
+		{
+			$this->abortAndDie("Setup is not completed. Please run setup routine again.");
+		}
 
 		// set anonymous user & role id and system role id
 		define ("ANONYMOUS_USER_ID", $ilSetting->get("anonymous_user_id"));
@@ -521,17 +527,14 @@ class ilInitialisation
 		define ("SUFFIX_REPL_DEFAULT", "php,php3,php4,inc,lang,phtml,htaccess");
 		define ("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional"));
 
-		$this->buildHTTPPath();
+		if(ilContext::usesHTTP())
+		{
+			$this->buildHTTPPath();
+		}
 
 		// payment setting
 		require_once('Services/Payment/classes/class.ilPaymentSettings.php');
-		define('IS_PAYMENT_ENABLED', ilPaymentSettings::_isPaymentEnabled());
-		
-		// check correct setup
-		if (!$ilSetting->get("setup_ok"))
-		{
-			$this->abortAndDie("Setup is not completed. Please run setup routine again.");
-		}
+		define('IS_PAYMENT_ENABLED', ilPaymentSettings::_isPaymentEnabled());		
 	}
 
 	/**
@@ -539,14 +542,13 @@ class ilInitialisation
 	 */
 	protected function initStyle()
 	{
-		global $styleDefinition;
+		global $styleDefinition, $ilPluginAdmin;
 
 		// load style definitions
 		$this->initGlobal("styleDefinition", "ilStyleDefinition",
 			 "./Services/Style/classes/class.ilStyleDefinition.php");
 
 		// add user interface hook for style initialisation
-		global $ilPluginAdmin;
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
 		foreach ($pl_names as $pl)
 		{
@@ -698,7 +700,7 @@ class ilInitialisation
 		$ilAuth->logout();
 		session_unset();
 		session_destroy();
-
+		
 		// new session and login as anonymous
 		$this->setSessionHandler();
 		session_start();
@@ -743,7 +745,8 @@ class ilInitialisation
 					// ilUtil::redirect(ILIAS_HTTP_PATH.
 					//		"/goto.php?target=".$_GET["target"].$survey_parameter);
 			}
-			else	// target is not accessible -> login
+			// target is not accessible -> login
+			else	
 			{
 				$this->goToLogin($_GET['auth_stat']);
 			}
@@ -805,7 +808,7 @@ class ilInitialisation
 	 */
 	public function initLanguage()
 	{
-		global $ilUser, $ilSetting;
+		global $ilUser, $ilSetting, $rbacsystem;
 		
 		if (!isset($_SESSION['lang']))
 		{
@@ -855,8 +858,6 @@ class ilInitialisation
 		$lng = new ilLanguage($_SESSION['lang']);
 		$this->initGlobal("lng", $lng);
 		
-		// TODO: another location
-		global $rbacsystem;
 		if(is_object($rbacsystem))
 		{
 			$rbacsystem->initMemberView();
@@ -886,13 +887,17 @@ class ilInitialisation
 		require_once "./Services/AccessControl/classes/class.ilConditionHandler.php";
 	}
 	
-	
+	/**
+	 * Init log instance 
+	 */
 	protected function initLog() 
 	{		
 		require_once "./Services/Logging/classes/class.ilLog.php";
-		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);		
-		$this->initGlobal("log", $log);
+		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
 		$this->initGlobal("ilLog", $log);
+		
+		// deprecated
+		$this->initGlobal("log", $log);
 	}
 	
 	/**
@@ -962,6 +967,7 @@ class ilInitialisation
 
 		$this->requireCommonIncludes();
 		
+		
 		// error handler 
 		$this->initGlobal("ilErr", "ilErrorHandling", 
 			"classes/class.ilErrorHandling.php");
@@ -975,19 +981,23 @@ class ilInitialisation
 		{
 			$_POST = $_SESSION["post_vars"];
 		}
+		
 			
 		$this->removeUnsafeCharacters();
 				
 		$this->setCookieParams();
 
+		
 		$this->initIliasIniFile();
 		
 		$this->determineClient();
 
 		$this->initClientIniFile();
 
+		
 		$this->handleMaintenanceMode();
-
+		
+		
 		$this->initDatabase();
 
 		// needs database
@@ -1012,6 +1022,7 @@ class ilInitialisation
 			$https->enableSecureCookies();
 			$https->checkPort();	
 		}
+		
 				
 		$this->initGlobal("ilias", "ILIAS", "classes/class.ilias.php");
 		
@@ -1039,6 +1050,9 @@ class ilInitialisation
 		{
 			$this->initGlobal("ilCtrl", "ilCtrl",
 				"./Services/UICore/classes/class.ilCtrl.php");		
+			
+			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
+			ilECSTaskScheduler::start();				
 		}
 	}
 
@@ -1047,7 +1061,7 @@ class ilInitialisation
 	 */
 	public function initILIAS()
 	{
-		global $ilUser, $ilErr, $ilias, $ilAuth, $tree;
+		global $ilUser, $ilErr, $ilias, $ilAuth, $tree, $ilCtrl;
 		
 		$this->initCore();
 					
@@ -1188,12 +1202,8 @@ class ilInitialisation
 		$this->initLanguage();
 		$tree->initLangCode();
 		
-		if(ilContext::hasHTML())
-		{			
-			// ECS Tasks
-			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-			ilECSTaskScheduler::start();	
-			
+		if(ilContext::hasHTML() && !$ilCtrl->isAsynch())
+		{						
 			$this->initHTML();						
 		}							
 	}
@@ -1264,7 +1274,6 @@ class ilInitialisation
 			{
 				$this->initLanguage();
 				
-				// :TODO: ilContext::supportRedirects() ?
 				// Do not redirect for Auth_SOAP Auth_CRON Auth_HTTP
 				if($ilAuth->supportsRedirects() && ilContext::hasHTML())
 				{				
@@ -1283,7 +1292,7 @@ class ilInitialisation
 				}
 				else
 				{
-					// :TODO: abortAndDie() ?				
+					// :TODO: raise exception?				
 				}
 			}						
 		}
@@ -1331,7 +1340,6 @@ class ilInitialisation
 	{
 		global $ilUser;
 		
-		// :TODO: ??? see above
 		// load style definitions
 		// use the init function with plugin hook here, too
 	    $this->initStyle();
