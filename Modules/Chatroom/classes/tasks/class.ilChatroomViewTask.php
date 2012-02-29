@@ -55,12 +55,14 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 
 	    if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
 	    {
-		ilUtil::redirect("repository.php");
+	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
 	    $user_id = $chat_user->getUserId($ilUser);
 
-	    $ilNavigationHistory->addItem($_GET['ref_id'], 'repository.php?cmd=view&ref_id='.$_GET['ref_id'], 'chtr');
+	    $ilNavigationHistory->addItem($_GET['ref_id'],
+	    	$ilCtrl->getLinkTargetByClass("ilrepositorygui", "view"), 'chtr');
 	    
 	    if( $room->isUserBanned($user_id) )
 	    {
@@ -622,13 +624,14 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	 */
 	public function logout() {
 		//global $ilCtrl, $tree;
-		global $tree;
+		global $tree, $ilCtrl;
 
 		/**
 		 * @todo logout user from room
 		 */
 		$pid = $tree->getParentId($this->gui->getRefId());
-		ilUtil::redirect('repository.php?ref_id=' . $pid);
+    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $pid);
+    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}
 
 	public function lostConnection() {

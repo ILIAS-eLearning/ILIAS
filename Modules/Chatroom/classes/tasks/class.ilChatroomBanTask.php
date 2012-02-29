@@ -101,11 +101,12 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 	public function active()
 	{
 	    //global $tpl, $ilUser;
-	    global $ilUser;
+	    global $ilUser, $ilCtrl;
 
 	    if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
 	    {
-		ilUtil::redirect("repository.php");
+	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
 	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );

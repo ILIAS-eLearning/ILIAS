@@ -268,9 +268,12 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		//global $ilCtrl;
 		//$ilCtrl->setParameter($this, 'cmd', 'view');
 
-		$_GET['cmd'] = 'view';
+		include_once("./classes/class.ilObjectGUI.php");
+		ilObjectGUI::_gotoRepositoryNode($ref_id, "view");
+		
+		/*$_GET['cmd'] = 'view';
 		$_GET['ref_id'] = $ref_id;
-		require 'repository.php';
+		require 'repository.php';*/
 	}
 
 	protected function initCreationForms($a_new_type)

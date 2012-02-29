@@ -44,13 +44,14 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
     private function showMessages($messages, $durationForm, $export = false, $psessions = array(), $from ,$to)
     {
 	    //global $tpl, $ilUser, $ilCtrl, $lng;
-	    global $tpl, $lng;
+	    global $tpl, $lng, $ilCtrl;
 
 	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
 	    if ( !ilChatroom::checkUserPermissions('read' , $this->gui->ref_id ) )
 	    {
-		ilUtil::redirect("repository.php");
+	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
 	    $this->gui->switchToVisibleMode();
