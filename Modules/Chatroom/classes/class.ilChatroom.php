@@ -916,35 +916,42 @@ class ilChatroom
 	{
 	    global $ilCtrl;
 
-	    if (  is_string($gui ))
-	    {
-		if ($scope_id)
+		if (!is_string($gui))
 		{
-		    $ilCtrl->setParameterByClass($gui, 'sub', $scope_id);
-		}
-
-		$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTargetByClass($gui, 'view', '', false, false);
-
-		$ilCtrl->clearParametersByClass($gui);
-	    }
-	    else
-	    {
-		/*if ($scope_id)
-		{
-		    $ilCtrl->setParameter($gui, 'sub', $scope_id);
+			$ilCtrl->setParameterByClass("ilrepositorygui", 'ref_id', $gui->getRefId());
+			$gui = "ilrepositorygui";
 		}
 		
-		$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTarget($gui, 'view', '', false, false);
-
-		$ilCtrl->clearParameters($gui);
-		*/
-		$link = ilUtil::_getHttpPath() . '/repository.php?cmd=view&ref_id=' . $gui->getRefId();
-		if ($scope_id) {
-			$link .= '&sub=' . $scope_id;
+		if (  is_string($gui ))
+		{
+			if ($scope_id)
+			{
+				$ilCtrl->setParameterByClass($gui, 'sub', $scope_id);
+			}
+			
+			$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTargetByClass($gui, 'view', '', false, false);
+			
+			$ilCtrl->clearParametersByClass($gui);
 		}
-	    }
-
-	    return $link;
+		else
+		{
+			/*if ($scope_id)
+			{
+			$ilCtrl->setParameter($gui, 'sub', $scope_id);
+			}
+			
+			$link = ilUtil::_getHttpPath() . '/'. $ilCtrl->getLinkTarget($gui, 'view', '', false, false);
+			
+			$ilCtrl->clearParameters($gui);
+			*/
+/*			$link = ilUtil::_getHttpPath() . '/repository.php?cmd=view&ref_id=' . $gui->getRefId();
+			if ($scope_id)
+			{
+				$link .= '&sub=' . $scope_id;
+			}*/
+		}
+		
+		return $link;
 	}
 
 	public function sendInvitationNotification($gui, $sender_id, $recipient_id, $subScope = 0, $invitationLink = '')

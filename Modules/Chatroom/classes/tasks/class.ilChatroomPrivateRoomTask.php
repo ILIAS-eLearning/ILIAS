@@ -44,14 +44,15 @@ class ilChatroomPrivateRoomTask extends ilDBayTaskHandler
 	 */
 	public function create()
 	{
-	    global $tpl, $ilUser;
+	    global $tpl, $ilUser, $ilCtrl;
 
 	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 	    if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
 	    {
-		ilUtil::redirect("repository.php");
+	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
 	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );

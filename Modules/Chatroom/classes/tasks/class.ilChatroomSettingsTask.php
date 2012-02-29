@@ -48,7 +48,8 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 
 	    if ( !ilChatroom::checkUserPermissions( array('read', 'write') , $this->gui->ref_id ) )
 	    {
-		ilUtil::redirect("repository.php");
+	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
 	    $chatSettings = new ilSetting('chatroom');

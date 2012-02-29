@@ -44,9 +44,12 @@ class ilChatroomUploadFileTask extends ilDBayTaskHandler
 	 */
 	public function uploadFile()
 	{
+		global $ilCtrl;
+		
 	    if ( !ilChatroom::checkUserPermissions( 'read', $this->gui->ref_id ) )
 	    {
-		ilUtil::redirect("repository.php");
+	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
 	    $upload_path = $this->getUploadPath();

@@ -35,14 +35,15 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 	 */
 	public function executeDefault($method)
 	{
-	    global $ilUser;
+	    global $ilUser, $ilCtrl;
 
 	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 	    if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
 	    {
-		ilUtil::redirect("repository.php");
+	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
 	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
@@ -114,7 +115,7 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 	 */
 	public function sub()
 	{
-	    global $ilUser;
+	    global $ilUser, $ilCtrl;
 
 	    require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 	    require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
@@ -127,7 +128,8 @@ class ilChatroomKickTask extends ilDBayTaskHandler
 		{
 		    if ( !ilChatroom::checkPermissionsOfUser( $ilUser->getId(), array('read', 'moderate') , $this->gui->ref_id ) )
 		    {	
-			ilUtil::redirect("repository.php");
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+				$ilCtrl->redirectByClass("ilrepositorygui", "");
 		    }
 		}
 
