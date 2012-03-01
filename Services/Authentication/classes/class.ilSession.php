@@ -46,7 +46,8 @@ class ilSession
 	const SESSION_CLOSE_TIME   = 8;  // account time limit reached
 	const SESSION_CLOSE_IP     = 9;  // wrong ip
 	const SESSION_CLOSE_SIMUL  = 10; // simultaneous login
-
+	const SESSION_CLOSE_INACTIVE = 11; // inactive account
+	
 	private static $closing_context = null;	
 
 	/**

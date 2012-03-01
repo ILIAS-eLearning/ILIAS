@@ -121,9 +121,9 @@ class ilCalendarRemoteAccessHandler
 		$_POST['username'] = 'cal_auth_token';
 		$_POST['password'] = 'cal_auth_token';
 		
-		include_once("Services/Init/classes/class.ilInitialisation.php");
-		$GLOBALS['ilInit'] = new ilInitialisation();
-		$GLOBALS['ilInit']->initILIAS();
+		require_once("Services/Init/classes/class.ilInitialisation.php");
+		ilInitialisation::initILIAS();
+		
 		$GLOBALS['lng']->loadLanguageModule('dateplaner');
 	}
 }

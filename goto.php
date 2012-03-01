@@ -64,47 +64,67 @@ if (is_object($ilPluginAdmin))
 	}
 }
 
-if(strpos($_GET['target'], 'purchasetypedemo') !== false)
+if(IS_PAYMENT_ENABLED)
 {
-	$_GET['purchasetype'] = 'demo';
-	$_GET['cmd'] = 'showDemoVersion';
-	$_GET['target'] = str_replace('purchasetypedemo', '', $_GET['target']);
-}
-else if(strpos($_GET['target'], 'purchasetypebuy') !== false)
-{
-	$_GET['purchasetype'] = 'buy';
-	$_GET['cmd'] = 'showDetails';
-	$_GET['target'] = str_replace('purchasetypebuy', '', $_GET['target']);
+	if(strpos($_GET['target'], 'purchasetypedemo') !== false)
+	{
+		$_GET['purchasetype'] = 'demo';
+		$_GET['cmd'] = 'showDemoVersion';
+		$_GET['target'] = str_replace('purchasetypedemo', '', $_GET['target']);
+	}
+	else if(strpos($_GET['target'], 'purchasetypebuy') !== false)
+	{
+		$_GET['purchasetype'] = 'buy';
+		$_GET['cmd'] = 'showDetails';
+		$_GET['target'] = str_replace('purchasetypebuy', '', $_GET['target']);
+	}
 }
 
 $r_pos = strpos($_GET["target"], "_");
 $rest = substr($_GET["target"], $r_pos+1);
-
 $target_arr = explode("_", $_GET["target"]);
 $target_type = $target_arr[0];
 $target_id = $target_arr[1];
 $additional = $target_arr[2];		// optional for pages
 
-
-include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
-$shop_classes = array_keys(ilShopLinkBuilder::$linkArray);
-if(in_array($target_type, $shop_classes))
+if(IS_PAYMENT_ENABLED)
 {
-	$class = $target_type;
-	if(ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'true')
+	include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
+	$shop_classes = array_keys(ilShopLinkBuilder::$linkArray);
+	if(in_array($target_type, $shop_classes))
 	{
-		 ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
-			.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
-		  exit;
+		$class = $target_type;
+		if(ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'true')
+		{
+			ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
+				.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
+		}
 	}
 }
 
-// if anonymous and goto is not granted: go to login page
+// goto is not granted?
 include_once("Services/Init/classes/class.ilStartUpGUI.php");
-if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && !ilStartUpGUI::_checkGoto($_GET["target"]))
+if(!ilStartUpGUI::_checkGoto($_GET["target"]))
 {
-	ilUtil::redirect("login.php?target=".$orig_target."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
+	// if anonymous: go to login page
+	if($ilUser->getId() == ANONYMOUS_USER_ID)
+	{
+		ilUtil::redirect("login.php?target=".$orig_target."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
+	}
+	else
+	{
+		// message if target given but not accessible
+		$tarr = explode("_", $_GET["target"]);
+		if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0)
+		{
+			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+				ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
+		}
+	
+		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+	}
 }
+
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //

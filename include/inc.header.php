@@ -32,11 +32,7 @@
 * @package ilias-core
 */
 
-
-$GLOBALS['ilGlobalStartTime'] = microtime();
 require_once("Services/Init/classes/class.ilInitialisation.php");
-$ilInit = new ilInitialisation();
-$GLOBALS['ilInit'] = $ilInit;
-$ilInit->initILIAS();
+ilInitialisation::initILIAS();
 
 ?>
