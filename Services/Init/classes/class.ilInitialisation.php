@@ -931,7 +931,7 @@ class ilInitialisation
 		self::setCookieParams();
 		
 		
-		self::initIliasIniFile();
+		self::initIliasIniFile();		
 		
 		
 		// deprecated
@@ -943,14 +943,16 @@ class ilInitialisation
 	 */
 	protected static function initClient()
 	{
-		global $https; 
+		global $https, $ilias; 
 		
 		self::determineClient();
 
 		self::initClientIniFile();
 				
 		
-		// --- needs client ini
+		// --- needs client ini		
+		
+		$ilias->client_id = CLIENT_ID;
 		
 		if (DEVMODE)
 		{
@@ -1250,7 +1252,7 @@ class ilInitialisation
 	/**
 	 * Extract current cmd from request
 	 * 
-	 * @return string;
+	 * @return string
 	 */
 	protected static function getCurrentCmd()
 	{
@@ -1272,14 +1274,18 @@ class ilInitialisation
 	 */
 	protected static function blockedAuthentication($a_current_script)
 	{
-		if($a_current_script == "register.php")
+		if($a_current_script == "register.php" || 
+			$a_current_script == "pwassist.php")
 		{
 			return true;
 		}
 		
 		if($_REQUEST["baseClass"] == "ilStartUpGUI")
 		{
-			if($_REQUEST["cmdClass"] == "ilaccountregistrationgui")
+			$cmd_class = $_REQUEST["cmdClass"];
+			
+			if($cmd_class == "ilaccountregistrationgui" ||
+				$cmd_class == "ilpasswordassistancegui")
 			{
 				return true;
 			}
