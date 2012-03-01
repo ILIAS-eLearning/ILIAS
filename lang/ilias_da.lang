@@ -759,7 +759,7 @@ common#:#delete_tr_data#:#Slet Sporingsdata
 common#:#deleted#:#Slettet
 common#:#deleted_user#:#Brugeren er blever slettet
 common#:#deleted_users#:#Slettede brugere
-common#:#deliver#:#Deliver exercise###21 Apr 2005 new variable
+common#:#deliver#:#Aflever øvelse
 common#:#department#:#Afdeling
 common#:#desc#:#Beskrivelse
 common#:#descending_order#:#Faldende sortering
@@ -787,7 +787,7 @@ common#:#edited_at#:#Redigeret den
 common#:#editor#:#Redigeret af
 common#:#email#:#email
 common#:#email_feedback#:#Mail feedback
-common#:#email_footer#:#<br />driftes på ILIAS
+common#:#email_footer#:#<br />driftes på ILIAS.dk
 common#:#email_not_valid#:#Den indtastede emailadresse er ikke gyldig!
 common#:#enable#:#Aktiver
 common#:#enable_calendar#:#Aktiver kalender
@@ -2863,7 +2863,7 @@ common#:#htlm_copy#:#Kopier HTML læremodul
 common#:#icrs_copy#:#Copy LearnLinc Seminar###02 04 2007 new variable
 common#:#lm_copy#:#Kopier ILIAS læremodul
 common#:#mcst_copy#:#Kopier MedieCast
-common#:#sahs_copy#:#Copy SCORM/AICC Learning Module###02 04 2007 new variable
+common#:#sahs_copy#:#Kopier SCORM/AICC læremodul
 common#:#svy_copy#:#Kopier undersøgelse
 common#:#tst_copy#:#Kopier test
 common#:#webr_copy#:#Kopier webresurse
@@ -2931,14 +2931,14 @@ search#:#search_in_magazin#:#I alt tilgængeligt materiale
 search#:#search_in_result#:#Søg inden for resultaterne
 search#:#search_index#:#Indekseret søgning
 search#:#search_like_info#:#Vælg denne indstilling for at få de bedste resultater.
-search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.###31 Aug 2005 new variable
+search#:#search_limit_reached#:#Din søgning gav mere end %s resultater. Du kan begrænse søgningen ved at søge mere specifikt.
 search#:#search_lm_content#:#Lærings materialer (indhold)
 search#:#search_lm_meta#:#Lærings materialer (meta data)
 search#:#search_lucene#:#Lucene søgning
 search#:#search_lucene_host#:#Lucene server
 search#:#search_lucene_info#:#Hvis aktiveret er det muligt at søge i PDF, HTML filer og HTML-læremoduler.
 search#:#search_lucene_port#:#Lucene port
-search#:#search_lucene_readme#:#Setup informations###26 Jul 2005 new variable
+search#:#search_lucene_readme#:#Setup information
 search#:#search_meta#:#Meta data
 search#:#search_minimum_three#:#Din søgning skal være på mindst 3 bogstaver
 search#:#search_move_folder_not_allowed#:#Mappen kan ikke flyttes.
@@ -3058,17 +3058,17 @@ certificate#:#certificate_status_incomplete#:#The certificate is incomplete###10
 certificate#:#certificate_delete#:#Slet certifikatdata
 certificate#:#certificate_preview#:#Vis certifikat eksempel
 certificate#:#certificate_text#:#Certifikattekst
-certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe###10 10 2006 new variable
-certificate#:#certificate_var_user_firstname#:#Jane###10 10 2006 new variable
-certificate#:#certificate_var_user_lastname#:#Doe###10 10 2006 new variable
-certificate#:#certificate_var_result_passed#:#passed###10 10 2006 new variable
-certificate#:#certificate_var_result_points#:#38###10 10 2006 new variable
-certificate#:#certificate_var_result_percent#:#83%###10 10 2006 new variable
+certificate#:#certificate_var_user_fullname#:#Hr. Jesper Gødvad
+certificate#:#certificate_var_user_firstname#:#Jesper
+certificate#:#certificate_var_user_lastname#:#Gødvad
+certificate#:#certificate_var_result_passed#:#bestået
+certificate#:#certificate_var_result_points#:#42
+certificate#:#certificate_var_result_percent#:#91%
 certificate#:#certificate_var_max_points#:#46###10 10 2006 new variable
-certificate#:#certificate_var_result_mark_short#:#B###10 10 2006 new variable
+certificate#:#certificate_var_result_mark_short#:#10
 certificate#:#certificate_var_result_mark_long#:#Good###10 10 2006 new variable
-certificate#:#certificate_passed#:#passed###10 10 2006 new variable
-certificate#:#certificate_failed#:#failed###10 10 2006 new variable
+certificate#:#certificate_passed#:#bestået
+certificate#:#certificate_failed#:#ikke bestået
 certificate#:#certificate_pageheight#:#Page Height###10 10 2006 new variable
 certificate#:#certificate_pagewidth#:#Page Width###10 10 2006 new variable
 certificate#:#certificate_wrong_unit#:#You have entered a wrong unit###10 10 2006 new variable
@@ -3084,13 +3084,13 @@ certificate#:#certificate_ph_resultpercent#:#Reached percentage of the user###11
 certificate#:#certificate_ph_maxpoints#:#Maximum available points###11 10 2006 new variable
 certificate#:#certificate_ph_markshort#:#Users mark (short version)###11 10 2006 new variable
 certificate#:#certificate_ph_marklong#:#Users mark (official version)###11 10 2006 new variable
-certificate#:#certificate_ph_testtitle#:#Title of the test###11 10 2006 new variable
-certificate#:#certificate_ph_date#:#Actual date###11 10 2006 new variable
-certificate#:#certificate_ph_datetime#:#Actual date and time###11 10 2006 new variable
+certificate#:#certificate_ph_testtitle#:#Testens titel
+certificate#:#certificate_ph_date#:#Faktisk dato
+certificate#:#certificate_ph_datetime#:#Reel dato og tid
 certificate#:#certificate_unit_description#:#Enter units of measure as value[cm|mm|in|pt|pc|px|em], e.g. 10mm or 3in###13 10 2006 new variable
-certificate#:#certificate_visibility#:#Visibility###11 10 2006 new variable
+certificate#:#certificate_visibility#:#Synlighed
 certificate#:#certificate_visibility_introduction#:#The button to offer users this certificate is###11 10 2006 new variable
-certificate#:#certificate_visibility_always#:#Always visible###11 10 2006 new variable
+certificate#:#certificate_visibility_always#:#Altid synligt
 certificate#:#certificate_visibility_never#:#Not visible###11 10 2006 new variable
 certificate#:#certificate_visibility_passed#:#Only visible is a user passed the test###11 10 2006 new variable
 certificate#:#certificate_error_import#:#An error occured during the import of a certificate!###19 10 2006 new variable
@@ -3110,9 +3110,9 @@ assessment#:#cloze_fixed_textlength#:#Længde på tekstfelt
 assessment#:#cloze_fixed_textlength_description#:#Hvis du indtaster en værdi der er større end 0 bliver alle numeriske og tekst huller den størrelse.
 assessment#:#close_text_hint#:#Du definerer et hul ved at indtaste [gap][/gap] på en tekstposition efter eget valg. Tryk på 'Opret huller' knappen for at redigere hvert enkelt hul.
 assessment#:#cloze_text#:#Luk tekst
-assessment#:#cloze_textgap_case_insensitive#:#Case insensitive
-assessment#:#cloze_textgap_case_sensitive#:#Case sensitive
-assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein distance of %s
+assessment#:#cloze_textgap_case_insensitive#:#Ingen forskel på store og små bogstaver
+assessment#:#cloze_textgap_case_sensitive#:#Forskel på store og små bogstaver
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein afstand på %s
 assessment#:#cloze_textgap_rating#:#Text gap rating
 assessment#:#code#:#Kode
 assessment#:#width#:#bredte
@@ -3140,9 +3140,9 @@ assessment#:#detail_ending_time_reached#:#Du er nået til sluttidspunktet for de
 assessment#:#detail_max_processing_time_reached#:#Du har brugt dem maksimalt tilladte tid på denne test!
 assessment#:#detail_starting_time_not_reached#:#Du har ikke nået start tidspunktet for denne test. Testen e r tilgængelig efter %s
 assessment#:#detailed_evaluation#:#Detaljeret evaluering
-assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s###29 11 2006 new variable
+assessment#:#detailed_evaluation_for#:#Detaljeret evaluering for %s
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!###29 11 2006 new variable
-assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation###29 11 2006 new variable
+assessment#:#detailed_evaluation_show#:#Vis detaljeret evaluering
 assessment#:#detailed_output#:#Detailed output
 assessment#:#detailed_output_printview#:#Detailed output with question printviews
 assessment#:#detailed_output_solutions#:#Detailed output with question solutions
@@ -11503,21 +11503,21 @@ ecs#:#ecs_crs_alloc_set#:#Edit Course Allocation###12 06 2011 new variable
 ecs#:#ecs_dir_alloc_set#:#Edit Directory Allocation###12 06 2011 new variable
 ecs#:#ecs_crs_alloc#:#Course Allocation###12 06 2011 new variable
 ecs#:#ecs_dir_alloc#:#directory Allocation###12 06 2011 new variable
-wsp#:#wsp_tab_personal#:#My Resources###12 06 2011 new variable
-wsp#:#wsp_tab_shared#:#Shared By Other Users###12 06 2011 new variable
-wsp#:#wsp_shared_resources#:#Shared Resources###12 06 2011 new variable
-wsp#:#wsp_share_select_user#:#Please select a user.###12 06 2011 new variable
-wsp#:#wsp_copy_to_repository#:#Copy to Repository###12 06 2011 new variable
-wsp#:#wsp_move_to_repository#:#Move to Repository###12 06 2011 new variable
-wsp#:#wsp_status_shared#:#Shared###12 06 2011 new variable
+wsp#:#wsp_tab_personal#:#Mine resurser
+wsp#:#wsp_tab_shared#:#Delt af andre brugere
+wsp#:#wsp_shared_resources#:#Delte resurser
+wsp#:#wsp_share_select_user#:#Vælg en bruger
+wsp#:#wsp_copy_to_repository#:#Kopier til oversigten
+wsp#:#wsp_move_to_repository#:#Flyt til oversigten
+wsp#:#wsp_status_shared#:#Delt
 sahs#:#sahs_desc_objectives#:#Description/Objectives###12 06 2011 new variable
-content#:#cont_localization#:#Localization###12 06 2011 new variable
+content#:#cont_localization#:#Lokalisering
 content#:#cont_localization_info#:#Language used for predifined texts, e.g. "Previous" and "Next".###12 06 2011 new variable
 book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking.###12 06 2011 new variable
 book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.###12 06 2011 new variable
-prtf#:#prtf_first_page_title#:#Title of first page###12 06 2011 new variable
-prtf#:#prtf_save_status_and_titles#:#Save Status and Titles###12 06 2011 new variable
-exc#:#exc_type_upload#:#Upload###12 06 2011 new variable
+prtf#:#prtf_first_page_title#:#Første sides titel
+prtf#:#prtf_save_status_and_titles#:#Gem status og titler
+exc#:#exc_type_upload#:#Upload
 exc#:#exc_type_blog#:#Blog###12 06 2011 new variable
 exc#:#exc_type_portfolio#:#Portfolio###12 06 2011 new variable
 exc#:#exc_blog_returned#:#Submitted Blog###12 06 2011 new variable
@@ -11538,8 +11538,8 @@ common#:#usr_account_inactive#:#Inactive Account###18 07 2011 new variable
 common#:#portfolio#:#Portfolio###18 07 2011 new variable
 prtf#:#prtf_default_portfolio#:#My Profile###18 07 2011 new variable
 user#:#user_portfolios#:#Portfolios###18 07 2011 new variable
-user#:#user_portfolios_desc#:#Users can create portfolios and use them as profile.###18 07 2011 new variable
-user#:#user_profile_portfolio#:#You can use a portfolio as public profile.###18 07 2011 new variable
+user#:#user_portfolios_desc#:#Brugere kan lave en portfolio og bruge den som offentlig profil.
+user#:#user_profile_portfolio#:#Du kan bruge en portfolio som din offentlige profil.
 wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
 content#:#cont_maintenance#:#Vedligeholdelse
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 07 2011 new variable
@@ -11872,13 +11872,13 @@ auth#:#auth_account_code_title#:#Account Code###06 08 2011 new variable
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.###06 08 2011 new variable
 prtf#:#prtf_no_blogs_info#:#Your workspace does not contain any blogs. Create blogs to use them as part of your portfolios.###06 08 2011 new variable
 prtf#:#prtf_add_blog#:#Add Blog###06 08 2011 new variable
-pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace###06 08 2011 new variable
+pd#:#pd_enable_personal_workspace#:#Aktiver personligt arbejdsrum
 pd#:#pd_enable_wsp_blogs#:#Aktiver blogs
-pd#:#pd_enable_wsp_files#:#Enable Files###06 08 2011 new variable
-pd#:#pd_enable_wsp_certificates#:#Enable Certificates###06 08 2011 new variable
-pd#:#pd_enable_wsp_links#:#Enable Links###06 08 2011 new variable
-pd#:#pd_enable_prtf#:#Enable Portfolios###06 08 2011 new variable
-survey#:#svy_presentation_properties#:#Presentation###06 08 2011 new variable
+pd#:#pd_enable_wsp_files#:#Aktiver filer
+pd#:#pd_enable_wsp_certificates#:#Aktiver certifikater
+pd#:#pd_enable_wsp_links#:#Aktiver links
+pd#:#pd_enable_prtf#:#Aktiver portfolioer
+survey#:#svy_presentation_properties#:#Præsentation
 survey#:#svy_save_sync#:#Gem og synkroniser spørgsmålskopier
 grp#:#grp_setting_header_presentation#:#Gruppe layout
 grp#:#grp_setting_header_registration#:#Gruppe indmeldelse
@@ -11888,13 +11888,13 @@ grp#:#grp_presentation_type#:#Presentation af indhold
 grp#:#grp_view_inherit#:#Standard
 grp#:#grp_view_inherit_info#:#Visningen af indhold arves fra kursets ditto.
 content#:#cont_open#:#Display###06 08 2011 new variable
-content#:#cont_open_normal#:#in tab / new window with link###06 08 2011 new variable
+content#:#cont_open_normal#:#i faneblad / nyt vindue med link
 content#:#cont_open_iframe_max#:#in iframe with full size###06 08 2011 new variable
 content#:#cont_open_iframe_defined#:#in iframe with defined width and height###06 08 2011 new variable
 content#:#cont_open_window_undefined#:#in new window without defined width and height###06 08 2011 new variable
 content#:#cont_open_window_defined#:#in new window with defined width and height###06 08 2011 new variable
-content#:#cont_open_width#:#width###06 08 2011 new variable
-content#:#cont_open_heigth#:#height###06 08 2011 new variable
+content#:#cont_open_width#:#bredde
+content#:#cont_open_heigth#:#højde
 scormdebug#:#scormdebug_global_activate#:#Enable SCORM 2004 test tool###06 08 2011 new variable
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM 2004 test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.###06 08 2011 new variable
 content#:#cont_debug_deactivate#:#Hint: The test tool can be disabled for all learning modules.###06 08 2011 new variable
@@ -12095,15 +12095,15 @@ skmg#:#skmg_sctp#:#Skill Template Category###02 09 2011 new variable
 skmg#:#skmg_insert_skill_template_from_clip#:#Insert Skill Template from Clipboard###02 09 2011 new variable
 skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard###02 09 2011 new variable
 skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.###02 09 2011 new variable
-prtf#:#prtf_public_comments#:#Public Comments###02 09 2011 new variable
-prtf#:#prtf_copy_page#:#Copy Page(s)###02 09 2011 new variable
-prtf#:#prtf_existing_portfolio#:#Existing Portfolio###02 09 2011 new variable
-prtf#:#prtf_new_portfolio#:#New Portfolio ###02 09 2011 new variable
-prtf#:#prtf_pages_copied#:#The pages have been copied.###02 09 2011 new variable
+prtf#:#prtf_public_comments#:#Offentlige kommentarer
+prtf#:#prtf_copy_page#:#Kopier side(r)
+prtf#:#prtf_existing_portfolio#:#Eksisterende portfolio
+prtf#:#prtf_new_portfolio#:#Ny portfolio
+prtf#:#prtf_pages_copied#:#Siderne er kopieret.
 skmg#:#skmg_level#:#Level###02 09 2011 new variable
 skmg#:#skmg_material#:#Material###02 09 2011 new variable
-blog#:#blog_profile_picture#:#Display Profile Picture###02 09 2011 new variable
-prtf#:#prtf_profile_picture#:#Display Profile Picture###02 09 2011 new variable
+blog#:#blog_profile_picture#:#Vis profilbillede
+prtf#:#prtf_profile_picture#:#Vis profilbillede
 skmg#:#skmg_remove_skill#:#Remove Skill###02 09 2011 new variable
 style#:#style_page_layout_module_scorm#:#Scorm###02 09 2011 new variable
 style#:#style_page_layout_module_portfolio#:#Portfolio###02 09 2011 new variable
@@ -12150,8 +12150,8 @@ wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to
 wsp#:#wsp_password_for#:#Password for###02 09 2011 new variable
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists###14 09 2011 new variable
 content#:#cont_edit_mode#:#Redigeringstype
-wiki#:#wiki_block_page#:#Block Page###14 09 2011 new variable
-wiki#:#wiki_unblock_page#:#Unblock Page###14 09 2011 new variable
+wiki#:#wiki_block_page#:#Bloker side
+wiki#:#wiki_unblock_page#:#Fjern sideblokering
 wiki#:#wiki_delete_page#:#Slet side
 wiki#:#wiki_rate_page#:#Vurder siden
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
@@ -12215,16 +12215,16 @@ chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings###01 10 2011 new 
 chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions###01 10 2011 new variable
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation###01 10 2011 new variable
 chatroom#:#create_private_room_text#:#Private room name###01 10 2011 new variable
-chatroom#:#invite_username#:#Username###01 10 2011 new variable
+chatroom#:#invite_username#:#Brugernavn
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not ativated for this resource.###01 10 2011 new variable
-chatroom#:#layout#:#Layout###01 10 2011 new variable
-chatroom#:#show_settings#:#Show Settings###01 10 2011 new variable
-chatroom#:#hide_settings#:#Hide Settings###01 10 2011 new variable
+chatroom#:#layout#:#Layout
+chatroom#:#show_settings#:#Vis indstillinger
+chatroom#:#hide_settings#:#Skjul indstillinger
 chatroom_adm#:#soap_user_hint#:#This user is used to send information from the chatserver to the ilias installation. No special permissions are required.<br/>If you create a new accout, please make sure that you are able to login with this user (e.g. accept licence aggreement).###01 10 2011 new variable
 chatroom#:#private_rooms_enabled#:#Allow Private Rooms###01 10 2011 new variable
 chatroom#:#private_rooms_enabled_info#:#If activated, users can create private rooms. Only invited users have access to this rooms.###01 10 2011 new variable
-chatroom#:#no_further_users#:#No other users present###01 10 2011 new variable
-chatroom#:#users#:#Users###01 10 2011 new variable
+chatroom#:#no_further_users#:#Ingen andre brugere til stede
+chatroom#:#users#:#Brugere
 chatroom#:#no_messages#:#There are no saved messages for the given period.###01 10 2011 new variable
 chatroom#:#history_title_general#:#Conversation in Chat Room "%s"###01 10 2011 new variable
 chatroom#:#history_title_private_room#:#Conversation in Private Room "%s"###01 10 2011 new variable
@@ -12237,33 +12237,33 @@ common#:#il_chat_moderator_moderate#:#Moderate Chat Room###01 10 2011 new variab
 common#:#obj_il_chat_moderator#:#Chat Room Moderator###01 10 2011 new variable
 crs#:#crs_activate_notification#:#Activate Notification###01 10 2011 new variable
 crs#:#crs_deactivate_notification#:#Deactivate Notification###01 10 2011 new variable
-crs#:#crs_notification_activated#:#Notification Activated###01 10 2011 new variable
-crs#:#crs_notification_deactivated#:#Notification Deactivated###01 10 2011 new variable
-grp#:#grp_activate_notification#:#Activate Notification###01 10 2011 new variable
-grp#:#grp_deactivate_notification#:#Deactivate Notification###01 10 2011 new variable
-grp#:#grp_notification_activated#:#Notification Activated###01 10 2011 new variable
-grp#:#grp_notification_deactivated#:#Notification Deactivated###01 10 2011 new variable
-chatroom#:#end_whisper#:#Cancel###01 10 2011 new variable
-exc#:#exc_search_users#:#Search Users###01 10 2011 new variable
-blog#:#blog_navigation#:#Postings###01 10 2011 new variable
-survey#:#survey_question_title#:#Question Title###01 10 2011 new variable
-assessment#:#tst_default_settings#:#Personal Default Settings###01 10 2011 new variable
-prtf#:#prtf_unset_as_default#:#Unset As My Profile###01 10 2011 new variable
-certificate#:#certificate_ph_date_completed#:#Date of completion###01 10 2011 new variable
-adve#:#adve_activation#:#Activation###01 10 2011 new variable
+crs#:#crs_notification_activated#:#Advisering slået til
+crs#:#crs_notification_deactivated#:#Advisering slået fra
+grp#:#grp_activate_notification#:#Slå advisering til
+grp#:#grp_deactivate_notification#:#Slå advisering fra
+grp#:#grp_notification_activated#:#Advisering slået til
+grp#:#grp_notification_deactivated#:#Advisering slået fra
+chatroom#:#end_whisper#:#Annuller
+exc#:#exc_search_users#:#Søg brugere
+blog#:#blog_navigation#:#Indlæg
+survey#:#survey_question_title#:#Spørgsmålstitel
+assessment#:#tst_default_settings#:#Personlige standardindstillinger
+prtf#:#prtf_unset_as_default#:#Slå fra som profil
+certificate#:#certificate_ph_date_completed#:#Færdiggørelsesdato
+adve#:#adve_activation#:#Aktivering
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing###01 10 2011 new variable
 certificate#:#certificate_ph_datetime_completed#:#Date and time of completion###01 10 2011 new variable
-certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"###01 10 2011 new variable
-certificate#:#certificate_ph_mark#:#Users mark###01 10 2011 new variable
-certificate#:#certificate_ph_exercisetitle#:#Exercise Title###01 10 2011 new variable
+certificate#:#certificate_ph_passed_exercise#:#"Bestået" eller "Ikke bestået"
+certificate#:#certificate_ph_mark#:#Brugers karakter
+certificate#:#certificate_ph_exercisetitle#:#Øvelsens titel
 rbac#:#rbac_back_to_overview#:#Back to Role List###01 10 2011 new variable
 rbac#:#rbac_choose_copy_targets#:#Please enter a quer for selecting the target roles.###01 10 2011 new variable
 rbac#:#rbac_select_copy_targets#:#Please select the target roles###01 10 2011 new variable
 rbac#:#rbac_role_title#:#Role Title###01 10 2011 new variable
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings###01 10 2011 new variable
 rbac#:#rbac_not_change_existing_objects#:#Do NOT change existing objects###01 10 2011 new variable
-rbac#:#rbac_copy_role#:#Copy Role###01 10 2011 new variable
-rbac#:#rbac_copy_finished#:#Finished copying.###01 10 2011 new variable
+rbac#:#rbac_copy_role#:#Kopier rolle
+rbac#:#rbac_copy_finished#:#Færdig med at kopiere.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###01 10 2011 new variable
 content#:#cont_ed_copy#:#Copy###01 10 2011 new variable
 content#:#cont_ed_cut#:#Cut###01 10 2011 new variable
@@ -12281,13 +12281,13 @@ rbac#:#rbac_precondition_mode_subset_info#:#En delmængde af betingelserne skal 
 rbac#:#rbac_precondition_save_obligatory#:#Save Obligatory###01 10 2011 new variable
 rbac#:#rbac_precondition_minimum_optional#:#Mindst 2 betingelser skal fortsat være valgfrie.
 common#:#precondition_required_itemlist#:#Krævet betingelse
-common#:#precondition_toggle#:#Preconditions that need to be fulfilled to access this object###01 10 2011 new variable
+common#:#precondition_toggle#:#Forudsætninger der skal være opfyldt for at få adgang til læreresursen
 content#:#cont_cp_question_diff_formats_info#:#Please note that some formattings are not supported in content modules.###04 10 2011 new variable
-crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions###04 10 2011 new variable
-crs#:#crs_link_hide_prev_sessions#:#Hide previous sessions###04 10 2011 new variable
-crs#:#crs_link_show_all_next_sessions#:#Show upcoming all upcoming sessions###04 10 2011 new variable
-crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions###04 10 2011 new variable
-scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache###04 10 2011 new variable
+crs#:#crs_link_show_all_prev_sessions#:#Vis alle tidligere sessioner
+crs#:#crs_link_hide_prev_sessions#:#Skjul alle tidligere sessioner
+crs#:#crs_link_show_all_next_sessions#:#Vis alle kommende sessioner
+crs#:#crs_link_hide_next_sessions#:#Skjul kommende sessioner
+scormdebug#:#scormdebug_disable_cache#:#Slå SCORM 2004 Browser-Cache fra
 scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!###04 10 2011 new variable
 content#:#cont_sequencing#:#enable Sequencing & Navigation according to settings by learning module###04 10 2011 new variable
 content#:#cont_interactions#:#enable storage of results of interactions###04 10 2011 new variable
@@ -12311,7 +12311,7 @@ exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "As
 wsp#:#wsp_invalid_password#:#The given password is invalid.###10 11 2011 new variable
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.###10 11 2011 new variable
 common#:#top_of_page#:#Top of page###10 11 2011 new variable
-rbac#:#prfa_visible#:#Portfolio Administration is visible###10 11 2011 new variable
+rbac#:#prfa_visible#:#Portfolio administration er synlig
 rbac#:#prfa_read#:#Read access to Portfolio Administration###10 11 2011 new variable
 rbac#:#prfa_write#:#Edit Portfolio Administration###10 11 2011 new variable
 rbac#:#prfa_edit_permission#:#Change permission settings###10 11 2011 new variable
@@ -12335,21 +12335,21 @@ common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
 skmg#:#skmg_draft#:#Udkast (offline)
 skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
-survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
+survey#:#svy_create_question#:#Lav spørgsmål
 common#:#contact_sysadmin#:#Kontakt systemadministrator
-blog#:#blog_posting#:#Blog Posting###10 11 2011 new variable
-blog#:#blog_change_notification_subject#:#Blog "%s" has been updated###10 11 2011 new variable
-blog#:#blog_change_notification_salutation#:#Hello %s,###10 11 2011 new variable
-blog#:#blog_change_notification_body_new#:#the following blog posting was created###10 11 2011 new variable
-blog#:#blog_change_notification_body_update#:#the following blog posting has been updated###10 11 2011 new variable
-blog#:#blog_change_notification_body_comment#:#the following blog posting has been commented###10 11 2011 new variable
-blog#:#blog_changed_by#:#Last Changed By###10 11 2011 new variable
-blog#:#blog_change_notification_link#:#URL###10 11 2011 new variable
-blog#:#blog_notification_toggle_on#:#Activate Notification###10 11 2011 new variable
-blog#:#blog_notification_toggle_off#:#Deactivate Notification###10 11 2011 new variable
-blog#:#blog_notification_activated#:#Notification Activated###10 11 2011 new variable
-blog#:#blog_notification_deactivated#:#Notification Deactivated###10 11 2011 new variable
-wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented###10 11 2011 new variable
+blog#:#blog_posting#:#Bolgindlæg
+blog#:#blog_change_notification_subject#:#Blogen "%s" er blevet opdateret
+blog#:#blog_change_notification_salutation#:#Hej %s,
+blog#:#blog_change_notification_body_new#:#det følgende blogindlæg er blevet oprettet
+blog#:#blog_change_notification_body_update#:#det følgende blogindlæg er blevet opdateret
+blog#:#blog_change_notification_body_comment#:#det følgende bolgindlæg er blevet kommenteret
+blog#:#blog_changed_by#:#Sidst ændret af
+blog#:#blog_change_notification_link#:#URL
+blog#:#blog_notification_toggle_on#:#Aktiver advisering
+blog#:#blog_notification_toggle_off#:#Deaktiver advisering
+blog#:#blog_notification_activated#:#Advisering aktiveret
+blog#:#blog_notification_deactivated#:#Advisering deaktiveret
+wiki#:#wiki_change_notification_page_body_comment#:#Den følgende wiki-side er blevet kommenteret
 chatroom_adm#:#chta_visible#:#Chatroom Administration is visible###10 11 2011 new variable
 chatroom_adm#:#chta_read#:#Read access to Chatroom Administration###10 11 2011 new variable
 chatroom_adm#:#chta_write#:#Edit Chatroom Administration###10 11 2011 new variable
@@ -12362,9 +12362,9 @@ rbac#:#crs_create_chtr#:#Lav chatrum
 rbac#:#fold_create_chtr#:#Lav chatrum
 rbac#:#grp_create_chtr#:#Create Chatroom###10 11 2011 new variable
 rbac#:#root_create_chtr#:#Create Chatroom###10 11 2011 new variable
-search#:#search_err_user_not_exist#:#A user with that login name does not exist.###10 11 2011 new variable
+search#:#search_err_user_not_exist#:#Der findes ingen brugere med det brugernavn.
 blog#:#blog_draft#:#Udkast
-blog#:#blog_draft_info#:#This posting draft is only visible for the author.###10 11 2011 new variable
+blog#:#blog_draft_info#:#Denne udkast til et indlæg er kun synlig for forfatteren.
 blog#:#blog_toggle_draft#:#Gem som udkast
 blog#:#blog_toggle_final#:#Publish Posting###10 11 2011 new variable
 administration#:#language_scope_dbremarks#:#Shows only entries with comments in database###18 01 2012 new variable
@@ -12372,14 +12372,14 @@ assessment#:#test_create_question#:#Lav spørgsmål
 dateplaner#:#cal_cal_deleted#:#Kalenderne er slettet
 wfld#:#wfld_edit#:#Ret mappe
 pd#:#pd_enable_comments#:#Aktiver kommentarer
-common#:#continue#:#continue###31 12 2011 new variable
+common#:#continue#:#fortsæt
 payment#:#click_to_buy_info#:#You are successfully logged on. For continuing the purchasing process accept the general terms and conditions and click the buy button###31 12 2011 new variable
 payment#:#click_to_continue_info#:#To continue the shopping process, click on "Continue" to log in or register.###31 12 2011 new variable
 assessment#:#test_has_datasets_warning_page_view#:#Testen indeholder allerede besvarelser. Du kan ikke rette testspørgsmålene før du sletter besvarelserne. 
 assessment#:#test_has_datasets_warning_page_view_link#:#Ret besvarelser
-wsp#:#wsp_share_with_users#:#Share with users###31 12 2011 new variable
+wsp#:#wsp_share_with_users#:#Del med brugere
 acc#:#acc_last_rep_visited#:#Repository/Last Visited###31 12 2011 new variable
-acc#:#acc_personal_desktop#:#Personal Desktop###31 12 2011 new variable
+acc#:#acc_personal_desktop#:#Personligt skrivebord
 administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.###31 12 2011 new variable
 dateplaner#:#cal_reg_registered#:#You have been registered.###31 12 2011 new variable
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.###31 12 2011 new variable
