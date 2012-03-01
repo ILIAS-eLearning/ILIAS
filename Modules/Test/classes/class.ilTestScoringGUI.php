@@ -198,7 +198,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	
 	private function saveManScoringParticipantScreen()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $lng;
 			
 		$activeId = $this->fetchActiveIdParameter();
 		$pass = $this->fetchPassParameter($activeId);
@@ -221,10 +221,11 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 				$feedback = ilUtil::stripSlashes($feedback, false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 				$this->object->saveManualFeedback($activeId, $questionId, $pass, $feedback);
+				
+				$notificationData[$questionId] = array(
+					'points' => $points, 'feedback' => $feedback
+				);
 			}
-			
-			$manScoringDone = $form->getItemByPostVar("manscoring_done")->getValue();
-			ilTestService::setManScoringDone($activeId, $manScoringDone);
 			
 			include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -232,7 +233,29 @@ class ilTestScoringGUI extends ilTestServiceGUI
 					$this->object->getId(), ilObjTestAccess::_getParticipantId($activeId)
 			);
 			
-			ilUtil::sendSuccess('tst_saved_manscoring_successfully', true);
+			$manScoringDone = $form->getItemByPostVar("manscoring_done")->getChecked();
+			ilTestService::setManScoringDone($activeId, $manScoringDone);
+			
+			$manScoringNotify = $form->getItemByPostVar("manscoring_notify")->getChecked();
+			if($manScoringNotify)
+			{
+				require_once 'Modules/Test/classes/notifications/class.ilTestManScoringParticipantNotification.php';
+				
+				$notification = new ilTestManScoringParticipantNotification(
+					$this->object->_getUserIdFromActiveId($activeId), $this->object->getRefId()
+				);
+				
+				$notification->setAdditionalInformation(array(
+					'test_title' => $this->object->getTitle(),
+					'test_pass' => $pass + 1,
+					'questions_gui_list' => $questionGuiList,
+					'questions_scoring_data' => $notificationData
+				));
+				
+				$notification->send();
+			}	
+
+			ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
 			$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
 		}
 		else
@@ -297,9 +320,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		if( $initValues && ilTestService::isManScoringDone($activeId) ) $check->setChecked(true);
 		$form->addItem($check);
 		
+		$check = new ilCheckboxInputGUI($lng->txt('tst_manscoring_user_notification'), 'manscoring_notify');
+		$form->addItem($check);
+		
 		$form->addCommandButton('saveManScoringParticipantScreen', $lng->txt('save'));
 		
 		return $form;
 	}
 
+	private function sendManScoringParticipantNotification()
+	{
+	}
 }
