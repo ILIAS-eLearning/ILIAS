@@ -1296,6 +1296,8 @@ class ilInitialisation
 				return true;
 			}
 		}
+		
+		return false;
 	}
 	
 	/**
