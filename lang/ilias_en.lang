@@ -692,7 +692,7 @@ assessment#:#selected_image#:#Selected Image
 assessment#:#selection#:#Selection
 assessment#:#set_edit_mode#:#Set Edit Mode
 assessment#:#set_filter#:#Set Filter
-assessment#:#set_manscoring_done#:#Mark this participant as "Scored Participant"
+assessment#:#set_manscoring_done#:#Mark as "Scored Participant"
 assessment#:#set_manual_feedback#:#Manual Feedback
 assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
@@ -12468,3 +12468,8 @@ assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
 assessment#:#tst_manscoring_question_section_header#:#Question: %s
 content#:#cont_online_help_ids#:#Help IDs
 content#:#cont_screen_ids#:#Screen IDs
+assessment#:#tst_manscoring_user_notification#:#Send Notification
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s was saved successfully.
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" comitted
+assessment#:#tst_notify_manscoring_done_body_msg_topic#:#the manual scoring for the following test was comitted:
+assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You received this notification, because you participated in this test.

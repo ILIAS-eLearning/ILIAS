@@ -802,7 +802,7 @@ assessment#:#selected_image#:#Ausgewählte Grafik
 assessment#:#selection#:#Auswahl
 assessment#:#set_edit_mode#:#Bearbeitungsmodus setzen
 assessment#:#set_filter#:#Filter setzen
-assessment#:#set_manscoring_done#:#Diesen Teilnehmer als Bewertet markieren
+assessment#:#set_manscoring_done#:#Als bewertet markieren
 assessment#:#set_manual_feedback#:#Manuelle Rückmeldung
 assessment#:#shape#:#Form
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
@@ -12461,3 +12461,8 @@ assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer
 assessment#:#tst_manscoring_question_section_header#:#Frage: %s
 content#:#cont_online_help_ids#:#Hilfe-IDs
 content#:#cont_screen_ids#:#Screen IDs
+assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
+assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s wurde erfolgreich gespeichert.
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung für Test "%s" erfolgt
+assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung für folgenden Test wurde eingereicht:
+assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Sie erhalten diese Nachricht, weil sie an diesem Test teilgenommen haben.
