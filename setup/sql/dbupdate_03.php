@@ -8947,3 +8947,35 @@ $ilDB->addTableColumn("tax_node", "order_nr", array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3532>
+<?php
+$fields = array(
+	'chap' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'component' => array(
+		'type' => 'text',
+		'length' => 10,
+		'notnull' => true,
+		'fixed' => false
+	),
+	'screen_id' => array(
+		'type' => 'text',
+		'length' => 30,
+		'notnull' => true,
+		'fixed' => false
+	),
+	'screen_sub_id' => array(
+		'type' => 'text',
+		'length' => 30,
+		'notnull' => true,
+		'fixed' => false
+	)
+	);
+$ilDB->createTable('help_map', $fields);
+$ilDB->addPrimaryKey('help_map', array('component', 'screen_id', 'screen_sub_id', 'chap'));
+$ilDB->addIndex("help_map", array("screen_id"), "sc");
+$ilDB->addIndex("help_map", array("chap"), "ch");
+?>

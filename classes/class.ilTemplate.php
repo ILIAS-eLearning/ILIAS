@@ -211,6 +211,12 @@ class ilTemplate extends ilTemplateX
 		// set standard parts (tabs and title icon)
 		if($add_standard_elements)
 		{
+			if ($this->blockExists("content") && $a_tabs)
+			{
+				// determine default screen id
+				$this->getTabsHTML();
+			}
+
 			// to get also the js files for the main menu
 			$this->getMainMenu();
 			
@@ -429,7 +435,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function show($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
 	{
-		global $ilias;
+		global $ilias, $ilTabs;
 
 		// include yahoo dom per default
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -453,6 +459,12 @@ class ilTemplate extends ilTemplateX
 		$this->fillBodyClass();
 		if ($a_fill_tabs)
 		{
+			if ($this->blockExists("content"))
+			{
+				// determine default screen id
+				$this->getTabsHTML();
+			}
+
 			// to get also the js files for the main menu
 			if (!$a_skip_main_menu)
 			{
@@ -580,25 +592,40 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 	
+	/**
+	 * Get tabs HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getTabsHTML()
+	{
+		global $ilTabs;
+		
+		if ($this->blockExists("tabs_outer_start"))
+		{
+			$this->sthtml = $ilTabs->getSubTabHTML();
+			$this->thtml = $ilTabs->getHTML((trim($sthtml) == ""));
+		}
+	}
+	
+	
 	function fillTabs()
 	{
 		global $ilias,$ilTabs;
 
 		if ($this->blockExists("tabs_outer_start"))
 		{
-			$sthtml = $ilTabs->getSubTabHTML();
-			$thtml = $ilTabs->getHTML((trim($sthtml) == ""));
-
 			$this->touchBlock("tabs_outer_start");
 			$this->touchBlock("tabs_outer_end");
 			$this->touchBlock("tabs_inner_start");
 			$this->touchBlock("tabs_inner_end");
 
-			if ($thtml != "")
+			if ($this->thtml != "")
 			{
-				$this->setVariable("TABS",$thtml);
+				$this->setVariable("TABS",$this->thtml);
 			}
-			$this->setVariable("SUB_TABS", $sthtml);
+			$this->setVariable("SUB_TABS", $this->sthtml);
 		}
 	}
 	

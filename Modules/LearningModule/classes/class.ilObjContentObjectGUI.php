@@ -3451,14 +3451,16 @@ $tabs_gui = $ilTabs;
 		$this->setTabs();
 		$this->setContentSubTabs("export_ids");
 		
-		include_once("./Modules/LearningModule/classes/class.ilExportIDTableGUI.php");
-		$oh_mode = false;
 		if (ilObjContentObject::isOnlineHelpModule($this->object->getRefId()))
 		{
-			$oh_mode = true;
+			include_once("./Modules/LearningModule/classes/class.ilHelpMappingTableGUI.php");
+			$tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation, false);
 		}
-		$tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation,
-			$oh_mode);
+		else
+		{
+			include_once("./Modules/LearningModule/classes/class.ilExportIDTableGUI.php");
+			$tbl = new ilExportIDTableGUI($this, "showExportIDsOverview", $a_validation, false);
+		}
 
 		$tpl->setContent($tbl->getHTML());
 	}

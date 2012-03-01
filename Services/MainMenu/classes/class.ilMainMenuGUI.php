@@ -958,6 +958,17 @@ class ilMainMenuGUI
 	{
 		global $ilHelp, $lng, $ilCtrl, $tpl;
 		
+		// screen id
+		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || (DEVMODE))
+		{
+			if ($ilHelp->getScreenId() != "")
+			{
+				$this->tpl->setCurrentBlock("screen_id");
+				$this->tpl->setVariable("SCREEN_ID", $ilHelp->getScreenId());
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
 		if ($ilHelp->hasSections())
 		{
 			$this->tpl->setCurrentBlock("help_icon");
