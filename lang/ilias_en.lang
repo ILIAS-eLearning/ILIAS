@@ -12466,3 +12466,5 @@ assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
 assessment#:#tst_manscoring_question_section_header#:#Question: %s
+content#:#content_online_help_ids#:#Hilfe-IDs
+content#:#content_screen_ids#:#Screen IDs
