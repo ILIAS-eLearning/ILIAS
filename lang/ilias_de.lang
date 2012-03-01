@@ -12459,5 +12459,5 @@ assessment#:#tst_participant_status#:#Teilnehmer Status
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
 assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer: %s
 assessment#:#tst_manscoring_question_section_header#:#Frage: %s
-content#:#content_online_help_ids#:#Help-IDs
-content#:#content_screen_ids#:#Screen IDs
+content#:#cont_online_help_ids#:#Help-IDs
+content#:#cont_screen_ids#:#Screen IDs
