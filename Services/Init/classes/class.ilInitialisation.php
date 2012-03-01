@@ -566,14 +566,15 @@ class ilInitialisation
 		global $ilUser;
 
 		// get user id
-		if (empty($_SESSION["AccountId"]))
+		if (empty(ilSession::get("AccountId")))
 		{
-			$_SESSION["AccountId"] = $ilUser->checkUserId();
+			ilSession::set("AccountId", $ilUser->checkUserId());
 		}
 		
-		if($_SESSION["AccountId"])
+		$uid = ilSession::get("AccountId");		
+		if($uid)
 		{
-			$ilUser->setId($_SESSION["AccountId"]);	
+			$ilUser->setId($uid);	
 			$ilUser->read();
 		}
 		else
@@ -717,17 +718,17 @@ class ilInitialisation
 	{
 		global $ilUser, $ilSetting, $rbacsystem;
 		
-		if (!isset($_SESSION['lang']))
+		if (!ilSession::get("lang"))
 		{
-			if ($_GET["lang"])
+			if ($_GET['lang'])
 			{
-				$_GET["lang"] = $_GET["lang"];
+				$_GET['lang'] = $_GET['lang'];
 			}
 			else
 			{
 				if (is_object($ilUser))
 				{
-					$_GET["lang"] = $ilUser->getPref("language");
+					$_GET['lang'] = $ilUser->getPref('language');
 				}
 			}
 		}
@@ -741,29 +742,29 @@ class ilInitialisation
 		// Added check for ilUser->getId > 0 because it is 0 when the language is changed and the user agreement should be displayes (Helmut Schottmï¿½ï¿½ller, 2006-10-14)
 		if (is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID && $ilUser->getId() > 0)
 		{
-			$_SESSION['lang'] = $ilUser->getPref("language");
+			ilSession::set('lang', $ilUser->getPref('language'));
 		}
 
-		$_SESSION['lang'] = (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : $_SESSION['lang'];
+		ilSession::set('lang', (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : ilSession::get('lang'));
 
 		// check whether lang selection is valid
 		require_once "./Services/Language/classes/class.ilLanguage.php";
 		$langs = ilLanguage::getInstalledLanguages();
-		if (!in_array($_SESSION['lang'], $langs))
+		if (!in_array(ilSession::get('lang'), $langs))
 		{
-			if (is_object($ilSetting) && $ilSetting->get("language") != "")
+			if (is_object($ilSetting) && $ilSetting->get('language') != '')
 			{
-				$_SESSION['lang'] = $ilSetting->get("language");
+				ilSession::set('lang', $ilSetting->get('language'));
 			}
 			else
 			{
-				$_SESSION['lang'] = $langs[0];
+				ilSession::set('lang', $langs[0]);
 			}
 		}
-		$_GET['lang'] = $_SESSION['lang'];
+		$_GET['lang'] = ilSession::get('lang');
 						
-		$lng = new ilLanguage($_SESSION['lang']);
-		self::initGlobal("lng", $lng);
+		$lng = new ilLanguage(ilSession::get('lang'));
+		self::initGlobal('lng', $lng);
 		
 		if(is_object($rbacsystem))
 		{
@@ -921,9 +922,9 @@ class ilInitialisation
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 					
 		// workaround: load old post variables if error handler 'message' was called
-		if (isset($_SESSION["message"]) && $_SESSION["message"])
+		if (ilSession::get("message"))
 		{
-			$_POST = $_SESSION["post_vars"];
+			$_POST = ilSession::get("post_vars");
 		}
 					
 		self::removeUnsafeCharacters();
@@ -1067,7 +1068,7 @@ class ilInitialisation
 			}
 			else
 			{
-				$_SESSION["AccountId"] = "";	
+				ilSession::set("AccountId", "");	
 			}
 		}		
 		
@@ -1235,7 +1236,8 @@ class ilInitialisation
 		// :TODO: tableGUI related
 		
 		// set hits per page for all lists using table module
-		$_GET['limit'] = $_SESSION['tbl_limit'] = (int) $ilUser->getPref('hits_per_page');
+		$_GET['limit'] = (int) $ilUser->getPref('hits_per_page');
+		ilSession::set('tbl_limit', $_GET['limit']);
 
 		// the next line makes it impossible to save the offset somehow in a session for
 		// a specific table (I tried it for the user administration).
