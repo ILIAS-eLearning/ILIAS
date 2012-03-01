@@ -742,8 +742,7 @@ class CASClient
 				if(version_compare(PHP_VERSION, '5.3.0', '<'))
 				{
 					include_once './Services/Init/classes/class.ilInitialisation.php';
-					$init = new ilInitialisation();
-					$init->setSessionHandler();
+					ilInitialisation::setSessionHandler();
 				}
 
 				// set up a new session, of name based on the ticket

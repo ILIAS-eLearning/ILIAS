@@ -84,24 +84,48 @@ class ilStartUpGUI
 	 */
 	function showLogin()
 	{
-		global $ilSetting, $ilAuth, $ilUser, $tpl, $ilIliasIniFile, $ilias, $lng;		
-				
+		global $ilSetting, $ilAuth, $tpl, $ilias, $lng;		
+																	
+		$ilAuth->start();			
 		
-		// new style: moved $ilAuth->start() from ilInitialisation 
-				
-		$ilAuth->start();						
-		if($ilAuth->getAuth())
+		// successful authentication
+		if($ilAuth->getAuth() && $ilAuth->getStatus() == "")
 		{										
 			ilInitialisation::initUserAccount();
 			
+			// deprecated?
 			if ($_GET["rep_ref_id"] != "")
 			{
 				$_GET["ref_id"] = $_GET["rep_ref_id"];
 			}
 			return $this->processStartingPage();
-		}						
-		
-		
+		}			
+		else
+		{				
+			/* DEPERECATED			
+			// handle ILIAS 2 imported users:
+			// check ilias 2 password, if authentication failed
+			// only if AUTH_LOCAL
+			if (AUTH_CURRENT == AUTH_LOCAL && !$ilAuth->getAuth() && $_POST["username"] != "")
+			{
+				if (ilObjUser::_lookupHasIlias2Password(ilUtil::stripSlashes($_POST["username"])))
+				{
+					if (ilObjUser::_switchToIlias3Password(
+						ilUtil::stripSlashes($_POST["username"]),
+						ilUtil::stripSlashes($_POST["password"])))
+					{
+						$ilAuth->start();
+						$ilias->setAuthError($ilErr->getLastError());
+
+						if(ilContext::supportsRedirects())
+						{
+							ilUtil::redirect("index.php");
+						}
+					}
+				}		
+			}			
+			*/
+		}				
 		
 		$status = $ilAuth->getStatus();
 		if ($status == "" && isset($_GET["auth_stat"]))
@@ -122,14 +146,19 @@ class ilStartUpGUI
 		{
 			if (empty($_GET['cookies']))
 			{
-				$additional_params = '';                
-            	if((int)$_GET['forceShoppingCartRedirect'])# && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
-            	{
-                	$additional_params .= '&login_to_purchase_object=1&forceShoppingCartRedirect=1';
-            	}
+				$additional_params = '';     
+			
+				if(IS_PAYMENT_ENABLED)
+				{
+					if((int)$_GET['forceShoppingCartRedirect'])# && (int)$_SESSION['price_id'] && (int)$_SESSION['pobject_id'])
+					{
+						$additional_params .= '&login_to_purchase_object=1&forceShoppingCartRedirect=1';
+					}
+				}
 				
 				ilUtil::setCookie("iltest","cookie",false);
-				header("Location: login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".
+				ilUtil::redirect("login.php?target=".$_GET["target"]."&soap_pw=".$_GET["soap_pw"].
+					"&ext_uid=".$_GET["ext_uid"]."&cookies=nocookies&client_id=".
 					rawurlencode(CLIENT_ID)."&lang=".$lng->getLangKey().$additional_params);
 			}
 			else
@@ -161,56 +190,24 @@ class ilStartUpGUI
 			}
 		}
 	
-		//
-		// Start new implementation here
-		//
-		//
-		//
-
-		// Instantiate login template
-		// Use Shibboleth-only authentication if auth_mode is set to Shibboleth
-		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
-		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login.html","Services/Init");
-
-		#$this->ctrl->setTargetScript("login.php");
-		if(isset($_GET['forceShoppingCartRedirect']) && (int)$_GET['forceShoppingCartRedirect'] == 1)
+		if(IS_PAYMENT_ENABLED)
 		{
-  			$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
-			$_SESSION['forceShoppingCartRedirect'] = 1;
+			if(isset($_GET['forceShoppingCartRedirect']) && (int)$_GET['forceShoppingCartRedirect'] == 1)
+			{
+				$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
+				$_SESSION['forceShoppingCartRedirect'] = 1;
+			}
+									
+			if (isset($_GET['login_to_purchase_object']) && $_GET['login_to_purchase_object'])
+			{
+				$lng->loadLanguageModule('payment');
+				$this->showFailure($lng->txt("payment_login_to_buy_object"));
+				$_SESSION['forceShoppingCartRedirect'] = '1';
+			}
 		}
 
-		$page_editor_html = $this->getLoginPageEditorHTML();
-		$page_editor_html = $this->showLoginInformation($page_editor_html);
-		$page_editor_html = $this->showLoginForm($page_editor_html);
-		$page_editor_html = $this->showCASLoginForm($page_editor_html);
-		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
-		$page_editor_html = $this->showOpenIdLoginForm($page_editor_html);
-		$page_editor_html = $this->showLanguageSelection($page_editor_html);
-		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
-		$page_editor_html = $this->showUserAgreementLink($page_editor_html);
-
-		$page_editor_html = $this->purgePlaceholders($page_editor_html);
-
-		// not controlled by login page editor
-
-		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
-		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-
-		if (isset($_GET['inactive']) && $_GET['inactive'])
-		{
-			$this->showFailure($lng->txt("err_inactive"));
-		}
-		else if (isset($_GET['expired']) && $_GET['expired'])
-		{
-			$this->showFailure($lng->txt("err_session_expired"));
-		}
-		else if (isset($_GET['login_to_purchase_object']) && $_GET['login_to_purchase_object'])
-		{
-			$lng->loadLanguageModule('payment');
-			$this->showFailure($lng->txt("payment_login_to_buy_object"));
-			$_SESSION['forceShoppingCartRedirect'] = '1';
-		}
-		else if (isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
+		// :TODO: handle internally?
+		if (isset($_GET['reg_confirmation_msg']) && strlen(trim($_GET['reg_confirmation_msg'])))
 		{
 			$lng->loadLanguageModule('registration');
 			if($_GET['reg_confirmation_msg'] == 'reg_account_confirmation_successful')
@@ -218,22 +215,22 @@ class ilStartUpGUI
 			else
 				$this->showFailure($lng->txt(trim($_GET['reg_confirmation_msg'])));
 		}
-		elseif(isset($_GET['reached_session_limit']) && $_GET['reached_session_limit'])
+		else if(isset($_GET['reached_session_limit']) && $_GET['reached_session_limit'])
 		{
 			$this->showFailure($lng->txt("reached_session_limit"));
 		}
 			
 		if (!empty($status))
-		{
+		{					
 			switch ($status)
 			{
-				case AUTH_EXPIRED:
-					$this->showFailure($lng->txt("err_session_expired"));
-					break;
-				
 				case AUTH_IDLED:
 					// lang variable err_idled not existing
-					//$tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
+					// $tpl->setVariable(TXT_MSG_LOGIN_FAILED, $lng->txt("err_idled"));
+					// fallthrough
+				
+				case AUTH_EXPIRED:
+					$this->showFailure($lng->txt("err_session_expired"));
 					break;
 
 				case AUTH_CAS_NO_ILIAS_USER:
@@ -259,17 +256,10 @@ class ilStartUpGUI
 				case AUTH_APACHE_FAILED:
 					$this->showFailure($lng->txt("err_auth_apache_failed"));
 					break;
-					
-				case AUTH_WRONG_LOGIN:
-				default:
-					$add = "";
-					$auth_error = $ilias->getAuthError();
-					if (is_object($auth_error))
-					{
-						$add = "<br>".$auth_error->getMessage();
-					}
-					$this->showFailure($lng->txt("err_wrong_login").$add);
-					break;				
+				
+				
+				// special cases: extended user validation failed
+				// ilAuth was successful, so we have to logout here
 				
 				case AUTH_USER_WRONG_IP:				
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_IP);
@@ -291,6 +281,7 @@ class ilStartUpGUI
 					ilSession::setClosingContext(ilSession::SESSION_CLOSE_TIME);
 					$ilAuth->logout();
 
+					// user could reactivate by code?
 					if($ilSetting->get('user_reactivate_code'))
 					{				
 						return $this->showCodeForm();
@@ -299,8 +290,30 @@ class ilStartUpGUI
 					session_destroy();				
 
 					$this->showFailure($lng->txt("time_limit_reached"));		
-					break;		
-			}
+					break;	
+					
+				case AUTH_USER_INACTIVE:
+					ilSession::setClosingContext(ilSession::SESSION_CLOSE_INACTIVE);
+					$ilAuth->logout();
+					session_destroy();
+					
+					$this->showFailure($lng->txt("err_inactive"));
+					break;
+					
+				// special cases end
+					
+				
+				case AUTH_WRONG_LOGIN:					
+				default:
+					$add = "";
+					$auth_error = $ilias->getAuthError();
+					if (is_object($auth_error))
+					{
+						$add = "<br>".$auth_error->getMessage();
+					}
+					$this->showFailure($lng->txt("err_wrong_login").$add);
+					break;								
+			}			
 		}
 		
 		if (isset($_GET['cu']) && $_GET['cu'])
@@ -308,6 +321,30 @@ class ilStartUpGUI
 			$lng->loadLanguageModule("auth");
 			$this->showSuccess($lng->txt("auth_account_code_used"));
 		}
+		
+		
+		// --- render
+		
+		// Instantiate login template
+		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
+		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login.html","Services/Init");
+
+		$page_editor_html = $this->getLoginPageEditorHTML();
+		$page_editor_html = $this->showLoginInformation($page_editor_html);
+		$page_editor_html = $this->showLoginForm($page_editor_html);
+		$page_editor_html = $this->showCASLoginForm($page_editor_html);
+		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
+		$page_editor_html = $this->showOpenIdLoginForm($page_editor_html);
+		$page_editor_html = $this->showLanguageSelection($page_editor_html);
+		$page_editor_html = $this->showRegistrationLinks($page_editor_html);
+		$page_editor_html = $this->showUserAgreementLink($page_editor_html);
+
+		$page_editor_html = $this->purgePlaceholders($page_editor_html);
+
+		// not controlled by login page editor
+
+		$tpl->setVariable("PAGETITLE", $lng->txt("startpage"));
+		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
 		
 		$this->ctrl->setTargetScript("ilias.php");
 		$tpl->setVariable("PHP_SELF", $_SERVER['PHP_SELF']);
@@ -321,19 +358,17 @@ class ilStartUpGUI
 				$this->ctrl->getLinkTarget($this, "showNoCookiesScreen"));
 		}
 
-
 		if(strlen($page_editor_html))
 		{
 			$tpl->setVariable('LPE',$page_editor_html);
 		}
-
 
 		$tpl->show("DEFAULT", false);
 	}
 	
 	protected function showCodeForm($a_form = null)
 	{
-		global $tpl, $ilCtrl, $lng;
+		global $tpl, $lng;
 		
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login_reactivate_code.html",
@@ -1450,7 +1485,7 @@ class ilStartUpGUI
 	*/
 	function processIndexPHP()
 	{
-		global $ilIliasIniFile, $ilAuth, $ilSetting, $ilInit, $ilUser, $ilias;
+		global $ilIliasIniFile, $ilAuth, $ilSetting;
 
 		// display client selection list if enabled
 		if (!isset($_GET["client_id"]) &&
@@ -1471,35 +1506,7 @@ class ilStartUpGUI
 		if ($ilSetting->get("pub_section") && $_POST["sendLogin"] != "1"
 			&& ($ilAuth->getStatus() != -101 && $_GET["soap_pw"] == ""))
 		{
-			//
-			// TO DO: THE FOLLOWING BLOCK IS COPY&PASTED FROM HEADER.INC
-
-			$_POST["username"] = "anonymous";
-			$_POST["password"] = "anonymous";
-			
-			$oldSid = session_id();
-			
-			$ilAuth->start();
-			if (ANONYMOUS_USER_ID == "")
-			{
-				die ("Public Section enabled, but no Anonymous user found.");
-			}
-			if (!$ilAuth->getAuth())
-			{
-				die("ANONYMOUS user with the object_id ".ANONYMOUS_USER_ID." not found!");
-			}
-			
-			if(IS_PAYMENT_ENABLED)
-			{
- 				$newSid = session_id();
-				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				ilPaymentShoppingCart::_migrateShoppingCart($oldSid, $newSid);
-			}
-			// get user id
-			$ilInit->initUserAccount();
-			$this->processStartingPage();
-	
-			exit;
+			ilInitialisation::goToPublicSection();
 		}
 		else
 		{
@@ -1508,7 +1515,6 @@ class ilStartUpGUI
 		}
 	}
 
-
 	/**
 	* open start page (personal desktop or repository)
 	*
@@ -1516,97 +1522,46 @@ class ilStartUpGUI
 	*/
 	function processStartingPage()
 	{
-		global $ilBench, $ilCtrl, $ilAccess, $lng, $ilUser;
-//echo "here";
-		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || !empty($_GET["ref_id"]))
+		global $ilUser;
+
+		// fallback, should never happen
+		if ($ilUser->getId() == ANONYMOUS_USER_ID)
 		{ 
-//echo "A";
-			// if anonymous and a target given...
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID && $_GET["target"] != "")
-			{
-				// target is accessible -> goto target
-				if	($this->_checkGoto($_GET["target"]))
-				{
-//echo "B";
-					ilUtil::redirect("./goto.php?target=".$_GET["target"]);
-				}
-				else	// target is not accessible -> login
-				{
-//echo "C";
-					$this->showLogin();
-				}
-			}
-			
-			// just go to public section
-			if (empty($_GET["ref_id"]))
-			{
-				$_GET["ref_id"] = ROOT_FOLDER_ID;
-			}
-			$_GET["cmd"] = "frameset";			
-			ilutil::redirect("ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"]);
+			ilInitialisation::goToPublicSection();
 		}
 		else
-		{
-			if(IS_PAYMENT_ENABLED)
-			{
-                $usr_id = $ilUser->getId();
-
-				include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
-				$shop_classes = array_keys(ilShopLinkBuilder::$linkArray);
-
-				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-				ilPaymentShoppingCart::_assignObjectsToUserId($usr_id);
-
-				if((int)$_GET['forceShoppingCartRedirect'])
-				{
-					$class = 'ilshopshoppingcartgui';
-					  ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
-				}
-
-				// handle goto_ links for shop after login
-				$tarr = explode("_", $_GET["target"]);
-				if(in_array($tarr[0], $shop_classes))
-				{
-					$class = $tarr[0];
-					 ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
-						.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
-					  exit;
-				}
-			}
-						
-			// user agreement
+		{							
+			// user agreement accepted?
 			if(!$ilUser->hasAcceptedUserAgreement())
 			{
 				ilUtil::redirect("ilias.php?baseClass=ilStartUpGUI&cmdClass=ilstartupgui&target=".$_GET["target"]."&cmd=getAcceptance");
-			}										
-				
-			if	(!$this->_checkGoto($_GET["target"]))
-			{
-				// message if target given but not accessible
-				if ($_GET["target"] != "")
-				{
-					$tarr = explode("_", $_GET["target"]);
-					if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0)
-					{
-						ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
-							ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
-					}
-				}
+			}													
+			
+			// for password change and incomplete profile 
+			// see ilPersonalDesktopGUI
+			
+			if(IS_PAYMENT_ENABLED)
+			{                
+				include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
+				ilPaymentShoppingCart::_assignObjectsToUserId($ilUser->getId());
 
-				// show personal desktop
-				#$ilCtrl->initBaseClass("ilPersonalDesktopGUI");
-				#$start_script = "ilias.php";
+				if((int)$_GET['forceShoppingCartRedirect'])
+				{
+					ilUtil::redirect('ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilshopshoppingcartgui');
+				}
+			}
+		
+			if(!$_GET["target"])
+			{										
 				// Redirect here to switch back to http if desired
 				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 			}
 			else
 			{
-//echo "3";
-				ilUtil::redirect("./goto.php?target=".$_GET["target"]);
+				// will handle shop redirects, too
+				ilUtil::redirect("goto.php?target=".$_GET["target"]);
 			}
 		}
-
-		include($start_script);
 	}
 
 	function _checkGoto($a_target)

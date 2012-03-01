@@ -108,6 +108,12 @@ abstract class ilAuthBase
 					$user->update();
 				}
 				
+				
+				// --- extended user validation
+				// 
+				// we only have a single status, so abort after each one
+				// order from highest priority to lowest
+				
 				// active?
 				if(!$user->getActive())
 				{
@@ -143,7 +149,10 @@ abstract class ilAuthBase
 					$this->status = AUTH_USER_SIMULTANEOUS_LOGIN;
 					return;
 				}
-																
+													
+				
+				// --- user is valid
+				
 				include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
 				ilOnlineTracking::_addUser($user_id);
 												
@@ -177,14 +186,15 @@ abstract class ilAuthBase
 				}										
 			}		
 			
-			// user valid
 			
-			ilSessionControl::handleLoginEvent($a_auth->getUsername(), $a_auth);
+			// --- anonymous/registered user
 			
 			$ilLog->write(__METHOD__.': logged in as '.$a_auth->getUsername().
 				', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 				', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
 				);			
+			
+			ilSessionControl::handleLoginEvent($a_auth->getUsername(), $a_auth);
 			
 			$ilAppEventHandler->raise("Services/Authentication", "afterLogin",
 				array("username" => $a_auth->getUsername()));			
@@ -197,7 +207,7 @@ abstract class ilAuthBase
 	 * @param array $a_username
 	 * @param object $a_auth
 	 */
-	protected function failedLoginObserver($a_username,$a_auth)
+	protected function failedLoginObserver($a_username, $a_auth)
 	{
 		global $ilLog;
 
@@ -205,6 +215,38 @@ abstract class ilAuthBase
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
 		);
+		
+		// :TODO: what about $a_auth->getUsername()?
+		$username = ilUtil::stripSlashes($_POST['username']);
+		if($username)
+		{
+			// differentiate account security mode
+			require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+			$security = ilSecuritySettings::_getInstance();
+			if($security->getAccountSecurityMode() == 
+				ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED)
+			{								
+				include_once "Services/User/classes/class.ilObjUser.php";			
+				$usr_id = ilObjUser::_loginExists($username);
+				if($usr_id != ANONYMOUS_USER_ID)
+				{
+					// handle max. login attempts
+					
+					ilObjUser::_incrementLoginAttempts($usr_id);
+
+					$login_attempts = ilObjUser::_getLoginAttempts($usr_id);
+					$max_attempts = $security->getLoginMaxAttempts();
+
+					if($login_attempts >= $max_attempts &&
+						$usr_id != SYSTEM_USER_ID &&
+						$max_attempts > 0)
+					{
+						ilObjUser::_setUserInactive($usr_id);
+					}
+				}		
+			}
+		}
+	
 		return $this->getContainer()->failedLoginObserver($a_username,$a_auth);
 	}
 
@@ -228,10 +270,13 @@ abstract class ilAuthBase
 	 */
 	protected function logoutObserver($a_username,$a_auth)
 	{
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Logout observer called');
+		
 		ilSessionControl::handleLogoutEvent();
-
-		$GLOBALS['ilLog']->write(__METHOD__.': Logout observer called');
-		$this->getContainer()->logoutObserver($a_username,$a_auth);
+				
+		return $this->getContainer()->logoutObserver($a_username,$a_auth);
 	}
 	
 }

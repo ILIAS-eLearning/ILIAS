@@ -36,9 +36,7 @@ include_once "Services/Context/classes/class.ilContext.php";
 ilContext::init(ilContext::CONTEXT_RSS);
 
 require_once("Services/Init/classes/class.ilInitialisation.php");
-$ilInit = new ilInitialisation();
-$GLOBALS['ilInit'] =& $ilInit;
-$ilInit->initILIAS();
+ilInitialisation::initILIAS();
 
 if ($_GET["user_id"] != "")
 {
