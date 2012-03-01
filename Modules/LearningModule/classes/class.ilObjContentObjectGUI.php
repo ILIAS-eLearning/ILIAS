@@ -3508,6 +3508,31 @@ $tabs_gui = $ilTabs;
 		$ilCtrl->redirect($this, "showExportIdsOverview");
 	}
 
+	/**
+	 * Save help mapping
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveHelpMapping()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("./Services/Help/classes/class.ilHelpMapping.php");
+		if (is_array($_POST["screen_ids"]))
+		{
+			foreach ($_POST["screen_ids"] as $chap => $ids)
+			{
+				$ids = explode("\n", $ids);
+				ilHelpMapping::saveScreenIdsForChapter($chap, $ids);
+			}
+		}
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showExportIdsOverview");
+	}
+	
+	
+	
 	////
 	//// Set layout
 	////

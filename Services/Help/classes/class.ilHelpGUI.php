@@ -95,7 +95,21 @@ class ilHelpGUI
 	 */
 	function hasSections()
 	{
-		return (count($this->help_sections) > 0);
+		global $ilDB;
+		$sc_id = explode("/", $this->getScreenId());
+		if ($sc_id[0] != "" && $sc_id[1] != "")
+		{
+			$set = $ilDB->query("SELECT chap FROM help_map ".
+				" WHERE component = ".$ilDB->quote($sc_id[0], "text").
+				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
+				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
+				);
+			if ($rec  = $ilDB->fetchAssoc($set))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -106,7 +120,22 @@ class ilHelpGUI
 	 */
 	function getHelpSections()
 	{
-		return $this->help_sections;
+		global $ilDB;
+		$sc_id = explode("/", $this->getScreenId());
+		$chaps = array();
+		if ($sc_id[0] != "" && $sc_id[1] != "")
+		{
+			$set = $ilDB->query("SELECT chap FROM help_map ".
+				" WHERE component = ".$ilDB->quote($sc_id[0], "text").
+				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
+				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
+				);
+			while ($rec  = $ilDB->fetchAssoc($set))
+			{
+				$chaps[] = $rec["chap"];
+			}
+		}
+		return $chaps;
 	}
 	
 	/**
@@ -122,7 +151,7 @@ class ilHelpGUI
 		$h_ids = $sep = "";
 		foreach ($this->getHelpSections() as $hs)
 		{
-			$h_ids.= $sep.$hs["help_id"];
+			$h_ids.= $sep.$hs;
 			$sep = ",";
 		}
 		$ilCtrl->setParameterByClass("ilhelpgui", "help_ids", $h_ids);
@@ -176,10 +205,8 @@ class ilHelpGUI
 			foreach ($help_arr as $h_id)
 			{
 				include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-				$data = ilLMObject::getExportIDInfo(ilObject::_lookupObjId(OH_REF_ID),
-					$h_id, "st");
-				$st_id = $data[0]["obj_id"];
-				
+				$st_id = $h_id;
+
 				$pages = ilLMObject::getPagesOfChapter($oh_lm_id, $st_id);
 				include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 				$grp_list = new ilGroupedListGUI();

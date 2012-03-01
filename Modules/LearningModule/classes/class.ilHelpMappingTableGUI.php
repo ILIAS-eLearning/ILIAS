@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
+include_once("./Services/Help/classes/class.ilHelpMapping.php");
+
 
 /**
  * Help mapping
@@ -30,8 +32,6 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
 		$this->setData(ilStructureObject::getChapterList($this->parent_obj->object->getId()));
-		$this->cnt_exp_ids = ilLMPageObject::getDuplicateExportIDs(
-			$this->parent_obj->object->getId(), "st");
 
 		$this->setTitle($lng->txt("cont_html_export_ids"));
 
@@ -56,46 +56,11 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PAGE_ID", $a_set["obj_id"]);
 
-		$exp_id = ilLMPageObject::getExportId(
-			$this->parent_obj->object->getId(), $a_set["obj_id"], $a_set["type"]);
+		$screen_ids = ilHelpMapping::getScreenIdsOfChapter($a_set["obj_id"]);
 
-		if ($this->validation)
-		{
-			if (!preg_match("/^[a-zA-Z_]*$/",
-				trim($_POST["exportid"][$a_set["obj_id"]])))
-			{
-				// @todo: move to style
-				$this->tpl->setVariable("STYLE",
-					" style='background-color: #FCEAEA;' ");
-				$this->tpl->setVariable("ALERT_IMG",
-					ilUtil::img(ilUtil::getImagePath("icon_alert_s.gif"),
-					$lng->txt("alert"))
-					);
-			}
-			$this->tpl->setVariable("EXPORT_ID",
-				ilUtil::prepareFormOutput(
-				ilUtil::stripSlashes($_POST["exportid"][$a_set["obj_id"]])));
-		}
-		else
-		{
-			$this->tpl->setVariable("EXPORT_ID",
-				ilUtil::prepareFormOutput($exp_id));
-		}
-
-		if ($this->cnt_exp_ids[$exp_id] > 1)
-		{
-			$this->tpl->setVariable("ITEM_ADD_TXT",
-				$lng->txt("cont_exp_id_used_multiple"));
-			$this->tpl->setVariable("ALERT_IMG",
-				ilUtil::img(ilUtil::getImagePath("icon_alert_s.gif"),
-				$lng->txt("alert"))
-				);
-			if (!$this->dup_info_given)
-			{
-				ilUtil::sendInfo($lng->txt("content_some_export_ids_multiple_times"));
-				$this->dup_info_given = true;
-			}
-		}
+		$this->tpl->setVariable("SCREEN_IDS",
+			ilUtil::prepareFormOutput(implode($screen_ids, "\n")));
+		
 	}
 
 }
