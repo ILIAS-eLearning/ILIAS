@@ -163,14 +163,14 @@ class ilStartUpGUI
 			if(isset($_GET['forceShoppingCartRedirect']) && (int)$_GET['forceShoppingCartRedirect'] == 1)
 			{
 				$this->ctrl->setParameter($this, 'forceShoppingCartRedirect', 1);
-				$_SESSION['forceShoppingCartRedirect'] = 1;
+				ilSession::set('forceShoppingCartRedirect', 1);
 			}
 									
 			if (isset($_GET['login_to_purchase_object']) && $_GET['login_to_purchase_object'])
 			{
 				$lng->loadLanguageModule('payment');
 				$failure = $lng->txt("payment_login_to_buy_object");
-				$_SESSION['forceShoppingCartRedirect'] = '1';
+				ilSession::set('forceShoppingCartRedirect', 1);
 			}
 		}
 
@@ -365,7 +365,7 @@ class ilStartUpGUI
 		
 		if($_POST["username"])
 		{
-			$_SESSION["username"] = $_POST["username"];
+			ilSession::set("username", $_POST["username"]);
 		}
 	
 		$tpl->setVariable("FORM", $a_form->getHTML());
@@ -408,7 +408,7 @@ class ilStartUpGUI
 			{
 				$valid_until = ilAccountCode::getCodeValidUntil($code);			
 				
-				if(!$user_id = ilObjUser::_lookupId($_SESSION["username"]))
+				if(!$user_id = ilObjUser::_lookupId(ilSession::get("username")))
 				{
 					$this->showLogin();
 					return false;
@@ -1042,29 +1042,29 @@ class ilStartUpGUI
 			} 
 
 			$user = new ilObjUser($user_id);
-			$user->setAuthMode($_SESSION['tmp_auth_mode']);
-			$user->setExternalAccount($_SESSION['tmp_external_account']);
+			$user->setAuthMode(ilSession::get('tmp_auth_mode'));
+			$user->setExternalAccount(ilSession::get('tmp_external_account'));
 			$user->update();
 			
 			// Assign to default role
-			if(is_array($_SESSION['tmp_roles']))
+			if(is_array(ilSession::get('tmp_roles')))
 			{
-				foreach($_SESSION['tmp_roles'] as $role)
+				foreach(ilSession::get('tmp_roles') as $role)
 				{
 					$rbacadmin->assignUser((int) $role,$user->getId());
 				}
 			}
 
 			// Log migration
-			$ilLog->write(__METHOD__.': Migrated '.$_SESSION['tmp_external_account'].' to ILIAS account '.$user->getLogin().'.');
+			$ilLog->write(__METHOD__.': Migrated '.ilSession::get('tmp_external_account').' to ILIAS account '.$user->getLogin().'.');
 	 	}
 	 	elseif($_POST['account_migration'] == 2)
 	 	{
-			switch($_SESSION['tmp_auth_mode'])
+			switch(ilSession::get('tmp_auth_mode'))
 			{
                                 case 'apache':
-					$_POST['username'] = $_SESSION['tmp_external_account'];
-					$_POST['password'] = $_SESSION['tmp_pass'];
+					$_POST['username'] = ilSession::get('tmp_external_account');
+					$_POST['password'] = ilSession::get('tmp_pass');
 
 					include_once('Services/Database/classes/class.ilAuthContainerApache.php');
 					$container = new ilAuthContainerApache();
@@ -1074,8 +1074,8 @@ class ilStartUpGUI
 					break;
 
 				case 'ldap':
-					$_POST['username'] = $_SESSION['tmp_external_account'];
-					$_POST['password'] = $_SESSION['tmp_pass'];
+					$_POST['username'] = ilSession::get('tmp_external_account');
+					$_POST['password'] = ilSession::get('tmp_pass');
 					
 					include_once('Services/LDAP/classes/class.ilAuthContainerLDAP.php');
 					$container = new ilAuthContainerLDAP();
@@ -1085,8 +1085,8 @@ class ilStartUpGUI
 					break;
 				
 				case 'radius':
-					$_POST['username'] = $_SESSION['tmp_external_account'];
-					$_POST['password'] = $_SESSION['tmp_pass'];
+					$_POST['username'] = ilSession::get('tmp_external_account');
+					$_POST['password'] = ilSession::get('tmp_pass');
 					
 					include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 					include_once './Services/Radius/classes/class.ilAuthContainerRadius.php';
@@ -1098,10 +1098,10 @@ class ilStartUpGUI
 					break;
 					
 				case 'openid':
-					$_POST['username'] = $_SESSION['tmp_external_account'];
-					$_POST['password'] = $_SESSION['tmp_pass'];
-					$_POST['oid_username'] = $_SESSION['tmp_oid_username'];
-					$_SESSION['force_creation'] = true;
+					$_POST['username'] = ilSession::get('tmp_external_account');
+					$_POST['password'] = ilSession::get('tmp_pass');
+					$_POST['oid_username'] = ilSession::get('tmp_oid_username');
+					ilSession::set('force_creation', true);
 					
 					include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 					include_once './Services/OpenId/classes/class.ilAuthContainerOpenId.php';
