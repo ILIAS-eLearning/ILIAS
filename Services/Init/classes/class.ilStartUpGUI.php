@@ -39,21 +39,17 @@ class ilStartUpGUI
 			case 'ilpageobjectgui':
 				break;
 
-
 			case "ilaccountregistrationgui":
 				require_once("Services/Registration/classes/class.ilAccountRegistrationGUI.php");
 				return $this->ctrl->forwardCommand(new ilAccountRegistrationGUI());
-				break;
 
 			case "ilpasswordassistancegui":
 				require_once("Services/Init/classes/class.ilPasswordAssistanceGUI.php");
 				return $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
-				break;
 
 			default:
 				$r = $this->$cmd();
 				return $r;
-				break;
 		}
 	}
 
@@ -189,6 +185,8 @@ class ilStartUpGUI
 				$WAYF->redirect();
 			}
 		}
+		
+		$failure = $success = null;
 	
 		if(IS_PAYMENT_ENABLED)
 		{
@@ -201,7 +199,7 @@ class ilStartUpGUI
 			if (isset($_GET['login_to_purchase_object']) && $_GET['login_to_purchase_object'])
 			{
 				$lng->loadLanguageModule('payment');
-				$this->showFailure($lng->txt("payment_login_to_buy_object"));
+				$failure = $lng->txt("payment_login_to_buy_object");
 				$_SESSION['forceShoppingCartRedirect'] = '1';
 			}
 		}
@@ -211,13 +209,17 @@ class ilStartUpGUI
 		{
 			$lng->loadLanguageModule('registration');
 			if($_GET['reg_confirmation_msg'] == 'reg_account_confirmation_successful')
-				$this->showSuccess($lng->txt(trim($_GET['reg_confirmation_msg'])));
+			{
+			    $success = $lng->txt(trim($_GET['reg_confirmation_msg']));
+			}
 			else
-				$this->showFailure($lng->txt(trim($_GET['reg_confirmation_msg'])));
+			{
+				$failure = $lng->txt(trim($_GET['reg_confirmation_msg']));
+			}
 		}
 		else if(isset($_GET['reached_session_limit']) && $_GET['reached_session_limit'])
 		{
-			$this->showFailure($lng->txt("reached_session_limit"));
+			$failure = $lng->txt("reached_session_limit");
 		}
 			
 		if (!empty($status))
@@ -230,31 +232,31 @@ class ilStartUpGUI
 					// fallthrough
 				
 				case AUTH_EXPIRED:
-					$this->showFailure($lng->txt("err_session_expired"));
+					$failure = $lng->txt("err_session_expired");
 					break;
 
 				case AUTH_CAS_NO_ILIAS_USER:
-					$this->showFailure($lng->txt("err_auth_cas_no_ilias_user"));
+					$failure = $lng->txt("err_auth_cas_no_ilias_user");
 					break;
 
 				case AUTH_SOAP_NO_ILIAS_USER:
-					$this->showFailure($lng->txt("err_auth_soap_no_ilias_user"));
+					$failure = $lng->txt("err_auth_soap_no_ilias_user");
 					break;
 
 				case AUTH_LDAP_NO_ILIAS_USER:
-					$this->showFailure($lng->txt("err_auth_ldap_no_ilias_user"));
+					$failure = $lng->txt("err_auth_ldap_no_ilias_user");
 					break;
 				
 				case AUTH_RADIUS_NO_ILIAS_USER:
-					$this->showFailure($lng->txt("err_auth_radius_no_ilias_user"));
+					$failure = $lng->txt("err_auth_radius_no_ilias_user");
 					break;
 					
 				case AUTH_MODE_INACTIVE:
-					$this->showFailure($lng->txt("err_auth_mode_inactive"));
+					$failure = $lng->txt("err_auth_mode_inactive");
 					break;
 
 				case AUTH_APACHE_FAILED:
-					$this->showFailure($lng->txt("err_auth_apache_failed"));
+					$failure = $lng->txt("err_auth_apache_failed");
 					break;
 				
 				
@@ -266,7 +268,7 @@ class ilStartUpGUI
 					$ilAuth->logout();
 					session_destroy();
 
-					$this->showFailure($lng->txt("wrong_ip_detected")." (".$_SERVER["REMOTE_ADDR"].")");
+					$failure = $lng->txt("wrong_ip_detected")." (".$_SERVER["REMOTE_ADDR"].")";
 					break;
 
 				case AUTH_USER_SIMULTANEOUS_LOGIN:
@@ -274,7 +276,7 @@ class ilStartUpGUI
 					$ilAuth->logout();
 					session_destroy();
 
-					$this->showFailure($lng->txt("simultaneous_login_detected"));
+					$failure = $lng->txt("simultaneous_login_detected");
 					break;
 
 				case AUTH_USER_TIME_LIMIT_EXCEEDED:
@@ -289,7 +291,7 @@ class ilStartUpGUI
 
 					session_destroy();				
 
-					$this->showFailure($lng->txt("time_limit_reached"));		
+					$failure = $lng->txt("time_limit_reached");		
 					break;	
 					
 				case AUTH_USER_INACTIVE:
@@ -297,7 +299,7 @@ class ilStartUpGUI
 					$ilAuth->logout();
 					session_destroy();
 					
-					$this->showFailure($lng->txt("err_inactive"));
+					$failure = $lng->txt("err_inactive");
 					break;
 					
 				// special cases end
@@ -311,7 +313,7 @@ class ilStartUpGUI
 					{
 						$add = "<br>".$auth_error->getMessage();
 					}
-					$this->showFailure($lng->txt("err_wrong_login").$add);
+					$failure = $lng->txt("err_wrong_login").$add;
 					break;								
 			}			
 		}
@@ -319,7 +321,7 @@ class ilStartUpGUI
 		if (isset($_GET['cu']) && $_GET['cu'])
 		{
 			$lng->loadLanguageModule("auth");
-			$this->showSuccess($lng->txt("auth_account_code_used"));
+		    $success = $lng->txt("auth_account_code_used");
 		}
 		
 		
@@ -328,6 +330,16 @@ class ilStartUpGUI
 		// Instantiate login template
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login.html","Services/Init");
+				
+		// we need the template for this
+		if($failure)
+		{
+			$this->showFailure($failure);
+		}
+		else if($success)
+		{
+			$this->showSuccess($success);
+		}
 
 		$page_editor_html = $this->getLoginPageEditorHTML();
 		$page_editor_html = $this->showLoginInformation($page_editor_html);
@@ -1393,7 +1405,8 @@ class ilStartUpGUI
 	* get user agreement acceptance
 	*/
 	function getAcceptance()
-	{
+	{				
+		$this->checkAuthentication();		
 		$this->showUserAgreement();
 	}
 
@@ -1403,7 +1416,7 @@ class ilStartUpGUI
 	function showUserAgreement()
 	{
 		global $lng, $tpl, $ilUser;
-
+		
 		require_once "./Services/User/classes/class.ilUserAgreement.php";
 
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html",
@@ -1777,6 +1790,17 @@ class ilStartUpGUI
 			'[list-openid-login-form]',
 			'OID_LOGIN_FORM'
 		);
+	}
+	
+	protected function checkAuthentication()
+	{
+		global $ilAuth;
+	
+		$ilAuth->start();					
+		if(!$ilAuth->getAuth() || $ilAuth->getStatus() != "")
+		{
+			ilUtil::redirect("index.php");
+		}				
 	}
 }
 ?>
