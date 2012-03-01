@@ -229,30 +229,40 @@ class ilSessionStatistics
      * @param integer $a_now
 	 */
 	public static function aggretateRaw($a_now)
-	{			
-		global $ilSetting, $ilDB;
-		
+	{						
 		$slot = self::createNewAggregationSlot($a_now);
-		if(!is_array($slot))
+		while(is_array($slot))
 		{
-			return;
+			self::aggregateRawHelper($slot[0], $slot[1]);			
+			$slot = self::createNewAggregationSlot($a_now);
 		}			
-		
+	}
+	
+	/**
+	 * Aggregate statistics data for one slot
+	 * 
+	 * @param timestamp $a_begin 
+	 * @param timestamp $a_end
+	 */
+	public static function aggregateRawHelper($a_begin, $a_end)
+	{
+		global $ilDB, $ilSetting;
+			
 		// gather/process data (build event timeline)										
 		$closed_counter = $events = array();
 		$opened_counter = 0;
-		foreach(self::getRawData($slot[0], $slot[1]) as $item)
+		foreach(self::getRawData($a_begin, $a_end) as $item)
 		{
 			// open/close counters are _not_ time related
 			
 			// session opened
-			if($item["start_time"] >= $slot[0])
+			if($item["start_time"] >= $a_begin)
 			{				
 				$opened_counter++;
 				$events[$item["start_time"]][] = 1;
 			}
 			// session closed
-			if($item["end_time"] && $item["end_time"] <= $slot[1])
+			if($item["end_time"] && $item["end_time"] <= $a_end)
 			{
 				$closed_counter[$item["end_context"]]++;	
 				$events[$item["end_time"]][] = -1;
@@ -260,13 +270,13 @@ class ilSessionStatistics
 		}
 		
 		// initialising active statistical values 
-		$active_begin = self::getNumberOfActiveRawSessions($slot[0]-1);	
+		$active_begin = self::getNumberOfActiveRawSessions($a_begin-1);	
 		$active_end = $active_min = $active_max = $active_avg = $active_begin;
 		
 		// parsing events / building avergages			
 		if(sizeof($events))
 		{						
-			$last_update_avg = $slot[0]-1;
+			$last_update_avg = $a_begin-1;
 			$slot_seconds = self::SLOT_SIZE*60;				
 			$active_avg = 0;
 			
@@ -309,9 +319,9 @@ class ilSessionStatistics
 			unset($actions);
 			
 			// add up to end of slot if needed
-			if($last_update_avg < $slot[1])
+			if($last_update_avg < $a_end)
 			{
-				$diff = $slot[1]-$last_update_avg;
+				$diff = $a_end-$last_update_avg;
 				$active_avg += $diff/$slot_seconds*$active_end;				
 			}
 			
@@ -339,12 +349,8 @@ class ilSessionStatistics
 			"max_sessions" => array("integer", (int)$max_sessions)
 		);		
 		$ilDB->update("usr_session_stats", $fields, 
-			array("slot_begin" => array("integer", $slot[0]),
-				"slot_end" => array("integer", $slot[1])));		
-		
-		
-		// maybe more slots have to be aggregated?
-		self::aggretateRaw($a_now);
+			array("slot_begin" => array("integer", $a_begin),
+				"slot_end" => array("integer", $a_end)));			
 	}
 	
 	/**
