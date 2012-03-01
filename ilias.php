@@ -19,11 +19,13 @@ if($_REQUEST["baseClass"] == "ilStartUpGUI")
 	ilContext::init(ilContext::CONTEXT_STARTUP);
 }
 
-require_once "./include/inc.header.php";
+require_once("Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
 
-global $ilCtrl, $ilBench, $ilLog;
+global $ilCtrl, $ilBench;
 
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
 $ilBench->save();
+
 ?>
