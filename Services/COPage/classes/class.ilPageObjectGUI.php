@@ -3172,8 +3172,10 @@ class ilPageObjectGUI
 	*/
 	function getTabs($a_activate = "")
 	{
-		global $ilTabs, $ilCtrl;
+		global $ilTabs, $ilCtrl, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("copg");
+		
 		if (!$this->getEnabledTabs())
 		{
 			return;

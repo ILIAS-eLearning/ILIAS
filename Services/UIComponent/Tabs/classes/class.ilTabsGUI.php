@@ -189,6 +189,10 @@ class ilTabsGUI
 	*/
 	function clearTargets()
 	{
+		global $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("");
+		
 		$this->target = array();
 		$this->sub_target = array();
 		$this->non_tabbed_link = array();
@@ -347,7 +351,6 @@ class ilTabsGUI
 		return $this->__getHTML(true,$this->subtab_manual_activation);
 	}
 
-
 	/**
 	* Add a non-tabbed link (outside of tabs at same level)
 	*
@@ -363,14 +366,14 @@ class ilTabsGUI
 	}
 
 	/**
-	* get tabs code as html
-	* @param bool choose tabs or sub tabs
-	* @param bool manual activation
-	* @access Private
-	*/
+	 * get tabs code as html
+	 * @param bool choose tabs or sub tabs
+	 * @param bool manual activation
+	 * @access Private
+	 */
 	function __getHTML($a_get_sub_tabs,$a_manual, $a_after_tabs_anchor = false)
 	{
-		global $ilCtrl, $lng, $ilUser, $ilPluginAdmin;
+		global $ilCtrl, $lng, $ilUser, $ilPluginAdmin, $ilHelp;
 
 		// user interface hook [uihk]
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
@@ -460,6 +463,15 @@ class ilTabsGUI
 					$tpl->setCurrentBlock("sel_text");
 					$tpl->setVariable("TXT_SELECTED", $lng->txt("stat_selected"));
 					$tpl->parseCurrentBlock();
+					if ($a_get_sub_tabs)
+					{
+						$part = ilHelpGUI::ID_PART_SUB_SCREEN;
+					}
+					else
+					{
+						$part = ilHelpGUI::ID_PART_SCREEN;
+					}
+					$ilHelp->setDefaultScreenId($part, $target["id"]);
 				}
 	
 				$tpl->setCurrentBlock($pre."tab");
@@ -508,6 +520,8 @@ class ilTabsGUI
 			return "";
 		}
 	}
+	
+	
 	
 	function hasTabs()
 	{

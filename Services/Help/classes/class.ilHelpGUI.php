@@ -13,6 +13,10 @@ include_once ("Services/Help/classes/class.ilHelp.php");
 class ilHelpGUI
 {
 	var $help_sections = array();
+	const ID_PART_SCREEN = "screen";
+	const ID_PART_SUB_SCREEN = "sub_screen";
+	const ID_PART_COMPONENT = "component";
+	var $def_screen_id = array();
 	
 	/**
 	* constructor
@@ -24,7 +28,53 @@ class ilHelpGUI
 		$this->ctrl =& $ilCtrl;
 	}
 	
-
+	/**
+	 * Set default screen id
+	 *
+	 * @param
+	 * @return
+	 */
+	function setDefaultScreenId($a_part, $a_id)
+	{
+		$this->def_screen_id[$a_part] = $a_id;
+	}
+	
+	/**
+	 * Set screen id component
+	 *
+	 * @param
+	 * @return
+	 */
+	function setScreenIdComponent($a_comp)
+	{
+		$this->screen_id_component = $a_comp;
+	}
+	
+	
+	/**
+	 * Get screen id
+	 *
+	 * @param
+	 * @return
+	 */
+	function getScreenId()
+	{
+		$comp = ($this->screen_id_component != "")
+			? $this->screen_id_component
+			: $this->def_screen_id[self::ID_PART_COMPONENT];
+		
+		if ($comp == "")
+		{
+			return "";
+		}
+			
+		$screen_id = $comp."/".
+			$this->def_screen_id[self::ID_PART_SCREEN]."/".
+			$this->def_screen_id[self::ID_PART_SUB_SCREEN];
+			
+		return $screen_id;
+	}
+	
 	
 	/**
 	 * Add help section

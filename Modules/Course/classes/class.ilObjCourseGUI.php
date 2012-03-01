@@ -3303,8 +3303,10 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem,$ilAccess,$ilUser, $lng;
+		global $rbacsystem,$ilAccess,$ilUser, $lng, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("crs");
+		
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
 		if($ilAccess->checkAccess('read','',$this->ref_id))
