@@ -1276,7 +1276,7 @@ class ilLMObject
 		$lm_tree->setTreeTablePK("lm_id");
 		$lm_tree->readRootId();
 		
-		$childs = $lm_tree->getChilds($a_chap_id);
+		$childs = $lm_tree->getChildsByType($a_chap_id, "pg");
 
 		return $childs;
 	}
