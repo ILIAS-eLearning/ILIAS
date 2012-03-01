@@ -697,13 +697,15 @@ class ilInitialisation
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat.$add;
 	
+		/* startupgui handles gotos
 		// check whether we are currently doing a goto call
 		if (is_int(strpos($_SERVER["PHP_SELF"], "goto.php")) && $_GET["soap_pw"] == "" &&
 			$_GET["reloadpublic"] != "1")
 		{
 			$script = "goto.php?target=".$_GET["target"]."&client_id=".CLIENT_ID.
 				"&reloadpublic=1";
-		}
+		}		 
+	    */
 
 		ilUtil::redirect($script);
 	}
@@ -1078,6 +1080,13 @@ class ilInitialisation
 	{
 		global $ilAuth, $ilias, $ilErr;
 		
+		$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);		
+		
+		if(self::blockedAuthentication($current_script))
+		{
+			return;
+		}
+						
 		$oldSid = session_id();		
 		
 		$ilAuth->start();
@@ -1100,20 +1109,21 @@ class ilInitialisation
 			
 			self::handleAuthenticationSuccess();
 		}			
-		else
-		{
-			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
-			
-			// :TODO: should be moved to context!
-			$mandatory_auth = ($current_script != "shib_login.php"
-					&& $current_script != "shib_logout.php"
-					&& $current_script != "error.php"
-					&& $current_script != "chat.php");
+		else 
+		{									
+			if (!self::showingLoginForm($current_script))
+			{								
+				// :TODO: should be moved to context?!
+				$mandatory_auth = ($current_script != "shib_login.php"
+						&& $current_script != "shib_logout.php"
+						&& $current_script != "error.php"
+						&& $current_script != "chat.php");
 
-			if($mandatory_auth)
-			{
-				self::handleAuthenticationFail();
-			}
+				if($mandatory_auth)
+				{
+					self::handleAuthenticationFail();
+				}
+			}		
 		}					
 	}
 	
@@ -1136,8 +1146,32 @@ class ilInitialisation
 	{
 		global $ilAuth, $ilSetting;
 		
-		$status = $ilAuth->getStatus();
-				
+		/* DEPERECATED			
+		// handle ILIAS 2 imported users:
+		// check ilias 2 password, if authentication failed
+		// only if AUTH_LOCAL
+		if (AUTH_CURRENT == AUTH_LOCAL && !$ilAuth->getAuth() && $_POST["username"] != "")
+		{
+			if (ilObjUser::_lookupHasIlias2Password(ilUtil::stripSlashes($_POST["username"])))
+			{
+				if (ilObjUser::_switchToIlias3Password(
+					ilUtil::stripSlashes($_POST["username"]),
+					ilUtil::stripSlashes($_POST["password"])))
+				{
+					$ilAuth->start();
+					$ilias->setAuthError($ilErr->getLastError());
+
+					if(ilContext::supportsRedirects())
+					{
+						ilUtil::redirect("index.php");
+					}
+				}
+			}		
+		}			
+		*/
+		
+		$status = $ilAuth->getStatus();										
+		
 		if ($ilSetting->get("pub_section") &&
 			($status == "" || $status == AUTH_EXPIRED || $status == AUTH_IDLED) &&
 			$_GET["reloadpublic"] != "1")
@@ -1211,6 +1245,72 @@ class ilInitialisation
 		{
 			$_GET['offset'] = (int) $_GET['offset'];		// old code
 		}
+	}
+	
+	/**
+	 * Extract current cmd from request
+	 * 
+	 * @return string;
+	 */
+	protected static function getCurrentCmd()
+	{
+		$cmd = $_REQUEST["cmd"];
+		if(is_array($cmd))
+		{
+			return array_shift(array_keys($cmd));
+		}
+		else 
+		{
+			return $cmd;
+		}
+	}
+	
+	/**
+	 * Block authentication based on current request
+	 * 
+	 * @return boolean 
+	 */
+	protected static function blockedAuthentication($a_current_script)
+	{
+		if($a_current_script == "register.php")
+		{
+			return true;
+		}
+		
+		if($_REQUEST["baseClass"] == "ilStartUpGUI")
+		{
+			if($_REQUEST["cmdClass"] == "ilaccountregistrationgui")
+			{
+				return true;
+			}
+			
+			$cmd = self::getCurrentCmd();
+			if($cmd == "showUserAgreement")
+			{
+				return true;
+			}
+		}
+	}
+	
+	/**
+	 * Is current view the login form?
+	 * 
+	 * @return boolean 
+	 */
+	protected static function showingLoginForm($a_current_script)
+	{		
+		if($a_current_script == "login.php")
+		{
+			return true;
+		}
+		
+		if($_REQUEST["baseClass"] == "ilStartUpGUI" && 
+			self::getCurrentCmd() == "showLogin")
+		{	
+			return true;					
+		}
+		
+		return false;
 	}
 }
 

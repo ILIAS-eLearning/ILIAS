@@ -39,7 +39,8 @@ if (isset($_GET["client_id"]))
 	$_COOKIE["ilClientId"] = $_GET["client_id"];
 }
 
-require_once "./include/inc.header.php";
+require_once("Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
 
 // special handling for direct navigation request
 require_once "./Services/Navigation/classes/class.ilNavigationHistoryGUI.php";
