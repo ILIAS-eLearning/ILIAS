@@ -81,7 +81,7 @@ class ilContextSoap extends ilContextBase
 	 */
 	public static function doAuthentication()
 	{
-		return false;
+		return true;
 	}
 }
 
