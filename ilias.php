@@ -12,13 +12,6 @@
 *
 */
 
-// this will disable authentication for login, logout, register, etc.
-if($_REQUEST["baseClass"] == "ilStartUpGUI")
-{
-	include_once "Services/Context/classes/class.ilContext.php";
-	ilContext::init(ilContext::CONTEXT_STARTUP);
-}
-
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 

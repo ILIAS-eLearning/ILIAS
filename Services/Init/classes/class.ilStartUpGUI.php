@@ -30,8 +30,10 @@ class ilStartUpGUI
 	*/
 	function &executeCommand()
 	{
+		global $ilLog;
+		
 		$cmd = $this->ctrl->getCmd("processIndexPHP",array('processIndexPHP','showLogin'));
-		$GLOBALS['ilLog']->write(__METHOD__.' cmd = '.$cmd);
+		$ilLog->write(__METHOD__.' cmd = '.$cmd);
 		$next_class = $this->ctrl->getNextClass($this);
 
 		switch($next_class)
@@ -47,9 +49,8 @@ class ilStartUpGUI
 				require_once("Services/Init/classes/class.ilPasswordAssistanceGUI.php");
 				return $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
 
-			default:
-				$r = $this->$cmd();
-				return $r;
+			default:				
+				return $this->$cmd();
 		}
 	}
 
@@ -81,52 +82,21 @@ class ilStartUpGUI
 	function showLogin()
 	{
 		global $ilSetting, $ilAuth, $tpl, $ilias, $lng;		
-																	
-		$ilAuth->start();			
-		
-		// successful authentication
-		if($ilAuth->getAuth() && $ilAuth->getStatus() == "")
-		{										
-			ilInitialisation::initUserAccount();
-			
-			// deprecated?
-			if ($_GET["rep_ref_id"] != "")
-			{
-				$_GET["ref_id"] = $_GET["rep_ref_id"];
-			}
-			return $this->processStartingPage();
-		}			
-		else
-		{				
-			/* DEPERECATED			
-			// handle ILIAS 2 imported users:
-			// check ilias 2 password, if authentication failed
-			// only if AUTH_LOCAL
-			if (AUTH_CURRENT == AUTH_LOCAL && !$ilAuth->getAuth() && $_POST["username"] != "")
-			{
-				if (ilObjUser::_lookupHasIlias2Password(ilUtil::stripSlashes($_POST["username"])))
-				{
-					if (ilObjUser::_switchToIlias3Password(
-						ilUtil::stripSlashes($_POST["username"]),
-						ilUtil::stripSlashes($_POST["password"])))
-					{
-						$ilAuth->start();
-						$ilias->setAuthError($ilErr->getLastError());
-
-						if(ilContext::supportsRedirects())
-						{
-							ilUtil::redirect("index.php");
-						}
-					}
-				}		
-			}			
-			*/
-		}				
-		
+														
 		$status = $ilAuth->getStatus();
 		if ($status == "" && isset($_GET["auth_stat"]))
 		{
 			$status = $_GET["auth_stat"];
+		}
+		
+		if($ilAuth->getAuth() && !$status)
+		{			
+			// deprecated?
+			if ($_GET["rep_ref_id"] != "")
+			{
+				$_GET["ref_id"] = $_GET["rep_ref_id"];
+			}			
+			$this->processStartingPage();
 		}
 		
 		// if authentication of soap user failed, but email address is
@@ -1405,8 +1375,7 @@ class ilStartUpGUI
 	* get user agreement acceptance
 	*/
 	function getAcceptance()
-	{				
-		$this->checkAuthentication();		
+	{						
 		$this->showUserAgreement();
 	}
 
@@ -1505,9 +1474,12 @@ class ilStartUpGUI
 			$_GET["cmd"] == "" &&
 			$ilIliasIniFile->readVariable("clients","list"))
 		{
-			$this->showClientList();
-			//include_once "./include/inc.client_list.php";
-			exit();
+			return $this->showClientList();
+		}
+		
+		if($ilAuth->getAuth() && $ilAuth->getStatus() == "")
+		{					
+			$this->processStartingPage();
 		}
 		
 		//
@@ -1790,17 +1762,6 @@ class ilStartUpGUI
 			'[list-openid-login-form]',
 			'OID_LOGIN_FORM'
 		);
-	}
-	
-	protected function checkAuthentication()
-	{
-		global $ilAuth;
-	
-		$ilAuth->start();					
-		if(!$ilAuth->getAuth() || $ilAuth->getStatus() != "")
-		{
-			ilUtil::redirect("index.php");
-		}				
 	}
 }
 ?>

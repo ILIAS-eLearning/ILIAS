@@ -10,10 +10,8 @@
 * @package ilias-core
 */
 
-include_once "Services/Context/classes/class.ilContext.php";
-ilContext::init(ilContext::CONTEXT_STARTUP);
-
-require_once "include/inc.header.php";
+require_once("Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd("showLogout");

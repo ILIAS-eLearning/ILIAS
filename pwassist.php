@@ -11,8 +11,8 @@
 * @package ilias-core
 */
 
-
-require_once "include/inc.header.php";
+require_once("Services/Init/classes/class.ilInitialisation.php");
+ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setTargetScript("ilias.php");

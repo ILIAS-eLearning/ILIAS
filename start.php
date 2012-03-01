@@ -11,11 +11,8 @@
  * @package ilias-core
  * @version $Id$
 */
-//require_once "./include/inc.header.php";
 
-include_once "Services/Context/classes/class.ilContext.php";
-ilContext::init(ilContext::CONTEXT_STARTUP);
-
-require_once "./include/inc.header.php";
+require_once "./Services/Utilities/classes/class.ilUtil.php";
 ilUtil::redirect("index.php");
+
 ?>
