@@ -149,6 +149,9 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->disable('numinfo');
 			$this->disable('select_all');
 		}
+
+		$this->setEnableNumInfo(true);
+		$this->setExternalSegmentation(true);
 		
 		$this->getItems();
 		$this->setTopCommands(true);
