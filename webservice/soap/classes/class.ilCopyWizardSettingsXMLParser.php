@@ -7,7 +7,7 @@
  */
 
 include_once "./Services/Xml/classes/class.ilSaxParser.php";
-include_once "./classes/class.ilSaxParserException.php";
+include_once "./Services/Xml/exceptions/class.ilSaxParserException.php";
 include_once "./Services/CopyWizard/classes/class.ilCopyWizardOptions.php";
 
 class ilCopyWizardSettingsXMLParser extends ilSaxParser
