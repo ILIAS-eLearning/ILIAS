@@ -82,7 +82,7 @@ class ilInitialisation
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
 		require_once "include/inc.ilias_version.php";	
 		
-		self::initGlobal("ilBench", "ilBenchmark", "classes/class.ilBenchmark.php");				
+		self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");				
 	}
 	
 	/**
