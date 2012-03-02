@@ -89,7 +89,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($this->object->getId(), (int) $_GET["ass_id"]);
 					$fstorage->create();
-					include_once("./classes/class.ilFileSystemGUI.php");
+					include_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
 					$fs_gui = new ilFileSystemGUI($fstorage->getFeedbackPath((int) $_GET["member_id"]));
 					$fs_gui->setTableId("excfbfil".(int)$_GET["ass_id"]."_".(int)$_GET["member_id"]);
 					$fs_gui->setAllowDirectories(false);
@@ -112,7 +112,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($this->object->getId(), (int) $_GET["ass_id"]);
 					$fstorage->create();
-					include_once("./classes/class.ilFileSystemGUI.php");
+					include_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
 					$fs_gui = new ilFileSystemGUI($fstorage->getPath());
 					$fs_gui->setTableId("excassfil".$_GET["ass_id"]);
 					$fs_gui->setAllowDirectories(false);

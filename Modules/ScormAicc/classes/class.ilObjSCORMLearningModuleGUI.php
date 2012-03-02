@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObjectGUI.php";
-require_once("classes/class.ilFileSystemGUI.php");
+require_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
 require_once("Services/User/classes/class.ilObjUser.php");
 
 require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php");

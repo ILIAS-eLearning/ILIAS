@@ -158,7 +158,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				break;
 				
 			case "ilfilesystemgui":
-				include_once("./classes/class.ilFileSystemGUI.php");
+				include_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
 				$fs_gui =& new ilFileSystemGUI(ilUtil::getWebspaceDir()."/mobs/mm_".$this->object->getId());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
 				$fs_gui->setTableId("mobfs".$this->object->getId());
