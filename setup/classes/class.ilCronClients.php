@@ -84,7 +84,7 @@ class ilCronClients extends PEAR
 
 	function __readClients()
 	{
-		include_once './classes/class.ilIniFile.php';
+		include_once './Services/Init/classes/class.ilIniFile.php';
 
 		$ini_file_obj =& new ilIniFile(INI_FILE_PATH);
 
@@ -131,7 +131,7 @@ class ilCronClients extends PEAR
 	{
 		foreach($this->client_ini as $client_data)
 		{
-			include_once './classes/class.ilIniFile.php';
+			include_once './Services/Init/classes/class.ilIniFile.php';
 
 			$ini_file_obj =& new ilIniFile($client_data['path']);
 

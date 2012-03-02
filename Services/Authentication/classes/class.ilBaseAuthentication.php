@@ -243,7 +243,7 @@ class ilBaseAuthentication
 
 	function __buildDSN()
 	{
-		include_once './classes/class.ilIniFile.php';
+		include_once './Services/Init/classes/class.ilIniFile.php';
 
 		// get ilias ini file
 		$this->ilias_ini =& new ilIniFile('./ilias.ini.php');
@@ -310,7 +310,7 @@ class ilBaseAuthentication
 	{
 		require_once "./Services/Authentication/classes/class.ilSessionDBHandler.php";
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		include_once './classes/class.ilErrorHandling.php';
+		include_once './Services/Init/classes/class.ilErrorHandling.php';
 		include_once './Services/Database/classes/class.ilDB.php';
 
 		$this->db->connect();

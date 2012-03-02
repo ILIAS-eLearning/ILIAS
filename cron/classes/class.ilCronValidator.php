@@ -4,7 +4,7 @@
 
 /**
  * 
- * @author Björn Heyser <bheyser@databay.de>
+ * @author BjÃ¶rn Heyser <bheyser@databay.de>
  * @version $Id:
  * @package ilias
  * 
@@ -25,7 +25,7 @@
 			$age_limit = (bool)$ilUser->getPref('systemcheck_age_limit');
 			$type_limit = $ilUser->getPref('systemcheck_type_limit');
 
-			include_once "classes/class.ilValidator.php";
+			include_once "./Services/Repository/classes/class.ilValidator.php";
 			$validator = new ilValidator(true);
 	
 			$modes = array();

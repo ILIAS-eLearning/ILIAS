@@ -36,7 +36,7 @@ define ("ILIAS_MODULE", "webservice/soap");
 define ("IL_SOAPMODE_NUSOAP", 0);
 define ("IL_SOAPMODE_INTERNAL", 1);
 
-require_once("classes/class.ilIniFile.php");
+require_once("./Services/Init/classes/class.ilIniFile.php");
 $ilIliasIniFile = new ilIniFile("./ilias.ini.php");
 if (!$ilIliasIniFile) {
 	define ("IL_SOAPMODE", IL_SOAPMODE_NUSOAP);

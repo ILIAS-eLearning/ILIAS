@@ -1138,7 +1138,7 @@ return $this->showServerInfoObject();
 		else
 		{
 //echo "4";
-			include_once "classes/class.ilValidator.php";
+			include_once "./Services/Repository/classes/class.ilValidator.php";
 			$validator = new ilValidator();
 			$hasScanLog = $validator->hasScanLog();
 
@@ -1269,7 +1269,7 @@ return $this->showServerInfoObject();
 	
 	private function writeCheckParams()
 	{
-		include_once "classes/class.ilValidator.php";
+		include_once "./Services/Repository/classes/class.ilValidator.php";
 		$validator = new ilValidator();
 		$modes = $validator->getPossibleModes();
 		
@@ -1538,7 +1538,7 @@ return $this->showServerInfoObject();
 		}
 
 		$logging = ($a_log) ? true : false;
-		include_once "classes/class.ilValidator.php";
+		include_once "./Services/Repository/classes/class.ilValidator.php";
 		$validator = new ilValidator($logging);
 		$validator->setMode("all",false);
 
@@ -1574,7 +1574,7 @@ return $this->showServerInfoObject();
 
 	function viewScanLog()
 	{
-		include_once "classes/class.ilValidator.php";
+		include_once "./Services/Repository/classes/class.ilValidator.php";
 		$validator = new IlValidator();
 		$scan_log =& $validator->readScanLog();
 

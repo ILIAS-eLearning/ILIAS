@@ -10,7 +10,7 @@
 * @ingroup ServicesCOPage
 */
 
-include_once("./classes/class.ilExplorer.php");
+include_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 class ilPoolSelectorGUI extends ilExplorer
 {
 	var $content_gui = "ilpcmediaobjectgui";

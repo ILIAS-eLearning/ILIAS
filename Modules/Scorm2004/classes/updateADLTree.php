@@ -1,5 +1,8 @@
 <?php
 
+// please contact alex.killing (at) gmx.de
+die("Deprecated.");
+
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -42,7 +45,7 @@
 */
 
 	require_once("adlparser/SeqTreeBuilder.php");
-	require_once("../../../classes/class.ilIniFile.php");
+	require_once("../../../Services/Init/classes/class.ilIniFile.php");
 	
 	//find all folders containing data
 	//initIliasIniFile()

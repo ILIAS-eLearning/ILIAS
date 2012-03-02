@@ -30,7 +30,7 @@
 * @ingroup ModulesSurveyQuestionPool
 */
 
-include_once("./classes/class.ilExplorer.php");
+include_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 
 class ilMaterialExplorer extends ilExplorer
 {

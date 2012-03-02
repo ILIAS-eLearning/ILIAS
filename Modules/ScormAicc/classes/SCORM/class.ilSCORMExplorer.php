@@ -30,7 +30,7 @@
 * @ingroup ModulesScormAicc
 */
 
-require_once("classes/class.ilExplorer.php");
+require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
 
 class ilSCORMExplorer extends ilExplorer

@@ -11,7 +11,7 @@
 /* ILIAS Version 4.0.2 */
 
 if(file_exists("./ilias.ini.php")){
-	require_once("classes/class.ilIniFile.php");
+	require_once("./Services/Init/classes/class.ilIniFile.php");
 	$ilIliasIniFile = new ilIniFile("./ilias.ini.php");
 	$ilIliasIniFile->read();
 	$serverSettings = $ilIliasIniFile->readGroup("server");	

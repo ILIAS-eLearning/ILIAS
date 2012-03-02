@@ -64,7 +64,7 @@ require_once "./setup/classes/class.ilLanguage.php";	// modified class. needs to
 require_once "./Services/Logging/classes/class.ilLog.php";
 require_once "./Services/Authentication/classes/class.ilSession.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
-require_once "./classes/class.ilIniFile.php";
+require_once "./Services/Init/classes/class.ilIniFile.php";
 require_once "./Services/Database/classes/class.ilDB.php";
 require_once "./setup/classes/class.ilSetupGUI.php";
 require_once "./setup/classes/class.Session.php";
@@ -76,7 +76,7 @@ require_once "./classes/class.ilSaxParser.php";
 require_once "./include/inc.ilias_version.php";
 
 // include error_handling
-require_once "./classes/class.ilErrorHandling.php";
+require_once "./Services/Init/classes/class.ilErrorHandling.php";
 
 $ilErr = new ilErrorHandling();
 $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK,array($ilErr,'errorHandler'));
