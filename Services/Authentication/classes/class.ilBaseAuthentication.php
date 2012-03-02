@@ -308,7 +308,7 @@ class ilBaseAuthentication
 
 	function __setSessionSaveHandler()
 	{
-		include_once './include/inc.db_session_handler.php';
+		require_once "./Services/Authentication/classes/class.ilSessionDBHandler.php";
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		include_once './classes/class.ilErrorHandling.php';
 		include_once './Services/Database/classes/class.ilDB.php';
@@ -320,7 +320,8 @@ class ilBaseAuthentication
 		{
 			ini_set("session.save_handler", "user");
 		}
-		if(!db_set_save_handler())
+		$db_session_handler = new ilSessionDBHandler();
+		if (!$db_session_handler->setSaveHandler())
 		{
 			$this->__setMessageCode('Server');
 			$this->__setMessage('Cannot set session handler');

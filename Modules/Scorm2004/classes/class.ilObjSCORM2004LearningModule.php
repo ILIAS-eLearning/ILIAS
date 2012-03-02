@@ -78,13 +78,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		if (!function_exists('json_encode') ||  !function_exists('json_decode') || ($ilDB->getDBType() == 'mysql' && !$ilDB->isMysql4_1OrHigher())) {
 			$ilias->raiseError($lng->txt('scplayer_phpmysqlcheck'),$ilias->error_obj->WARNING);
 		}
-		
-		// the seems_utf8($str) function
-		include_once("include/inc.utf8checker.php");
+
 		$needs_convert = false;
 
 		// convert imsmanifest.xml file in iso to utf8 if needed
-		// include_once("include/inc.convertcharset.php");
+
 		$manifest_file = $this->getDataDirectory()."/imsmanifest.xml";
 
 		// check if manifestfile exists and space left on device...
@@ -105,9 +103,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			$manifest_file_array = file($manifest_file);
 			
 			foreach($manifest_file_array as $mfa)
-			{
-					
-				if (seems_not_utf8($mfa))
+			{									
+				// if (seems_not_utf8($mfa))
+				if (@iconv('UTF-8', 'UTF-8', $mfa) != $mfa) 
 				{
 					$needs_convert = true;
 					break;
