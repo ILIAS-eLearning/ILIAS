@@ -1214,7 +1214,7 @@ class ilInitialisation
 				"Services/Navigation/classes/class.ilNavigationHistory.php");
 
 		self::initGlobal("ilBrowser", "ilBrowser", 
-			"classes/class.ilBrowser.php");
+			"./Services/Utilities/classes/class.ilBrowser.php");
 
 		self::initGlobal("ilHelp", "ilHelpGUI", 
 			"Services/Help/classes/class.ilHelpGUI.php");
