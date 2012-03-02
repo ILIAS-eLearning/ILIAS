@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "classes/class.ilObjectGUI.php";
-require_once("classes/class.ilFileSystemGUI.php");
+require_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
 
 /**
 * SCORM/AICC/HACP Learning Modules

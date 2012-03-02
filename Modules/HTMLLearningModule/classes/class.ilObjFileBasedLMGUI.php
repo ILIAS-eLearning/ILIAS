@@ -19,7 +19,7 @@
 require_once("classes/class.ilObjectGUI.php");
 require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
 require_once("./Services/Table/classes/class.ilTableGUI.php");
-require_once("classes/class.ilFileSystemGUI.php");
+require_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
 
 class ilObjFileBasedLMGUI extends ilObjectGUI
 {
