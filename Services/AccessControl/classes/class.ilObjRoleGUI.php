@@ -596,7 +596,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $ilSetting;
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
-		require_once 'classes/class.ilFormat.php';
+		require_once './Services/Utilities/classes/class.ilFormat.php';
 
 		#if (!$rbacsystem->checkAccess("write", $this->rolf_ref_id))
 		if(!$this->checkAccess('write','edit_permission'))
@@ -1757,7 +1757,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $rbacreview, $rbacadmin, $tree;
 		require_once 'Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php';
-		require_once 'classes/class.ilFormat.php';
+		require_once './Services/Utilities/classes/class.ilFormat.php';
 
 		// for role administration check write of global role folder
 		/*

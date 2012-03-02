@@ -235,7 +235,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 				$this->tpl->parseCurrentBlock();
 			}
-			include_once "./classes/class.ilFormat.php";
+			include_once "./Services/Utilities/classes/class.ilFormat.php";
 			if (strcmp($c, 'created') == 0)
 			{
 				$this->tpl->setCurrentBlock('created');

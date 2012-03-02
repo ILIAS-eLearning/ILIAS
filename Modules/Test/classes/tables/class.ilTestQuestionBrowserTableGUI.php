@@ -166,7 +166,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
 		$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
-		include_once "./classes/class.ilFormat.php";
+		include_once "./Services/Utilities/classes/class.ilFormat.php";
 		$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_POOL", $data['qpl']);

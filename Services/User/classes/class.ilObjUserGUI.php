@@ -962,7 +962,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["ext_account"] = $this->object->getExternalAccount();
 
 		// system information
-		require_once 'classes/class.ilFormat.php';
+		require_once './Services/Utilities/classes/class.ilFormat.php';
 		$data["create_date"] = ilFormat::formatDate($this->object->getCreateDate(),'datetime',true);
 		$data["owner"] = ilObjUser::_lookupLogin($this->object->getOwner());
 		$data["approve_date"] = ($this->object->getApproveDate() != "")
@@ -1260,7 +1260,7 @@ class ilObjUserGUI extends ilObjectGUI
 				}
 				else
 				{
-			        require_once 'classes/class.ilFormat.php';
+			        require_once './Services/Utilities/classes/class.ilFormat.php';
 					$disk_usage->setValue(ilFormat::formatSize($du_info['disk_usage'],'short'));
 					$info = '<table>';
 					// write the count and size of each object type

@@ -927,7 +927,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$table =& $this->object->getPrintviewQuestions($sort);
 		$colors = array("tblrow1top", "tblrow2top");
 		$counter = 1;
-		include_once "./classes/class.ilFormat.php";
+		include_once "./Services/Utilities/classes/class.ilFormat.php";
 		foreach ($table as $row)
 		{
 			if ((strcmp($_POST["output"], "detailed") == 0) || (strcmp($_POST["output"], "detailed_printview") == 0))

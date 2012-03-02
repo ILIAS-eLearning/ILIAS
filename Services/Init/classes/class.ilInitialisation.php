@@ -78,7 +78,7 @@ class ilInitialisation
 				
 		// really always required?
 		require_once "./Services/Utilities/classes/class.ilUtil.php";	
-		require_once "classes/class.ilFormat.php";
+		require_once "./Services/Utilities/classes/class.ilFormat.php";
 		require_once "./Services/Calendar/classes/class.ilDatePresentation.php";														
 		require_once "include/inc.ilias_version.php";	
 		

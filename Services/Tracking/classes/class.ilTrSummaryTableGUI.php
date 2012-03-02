@@ -517,7 +517,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 				}
 				else
 				{
-					include_once("./classes/class.ilFormat.php");
+					include_once("./Services/Utilities/classes/class.ilFormat.php");
 					$value = ilFormat::_secondsToString($value);
 				}
 				break;

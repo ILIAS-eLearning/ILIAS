@@ -22,7 +22,7 @@
 */
 
 include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once('classes/class.ilFormat.php');
+include_once('./Services/Utilities/classes/class.ilFormat.php');
 
 /** 
 * 
