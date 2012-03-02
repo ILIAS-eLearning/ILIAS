@@ -101,7 +101,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 			case "infoScreen":
 			case "eval_a":
 			case "eval_stat":
-				include_once "./classes/class.ilFrameTargetInfo.php";
+				include_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 
