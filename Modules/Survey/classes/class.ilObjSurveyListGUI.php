@@ -96,7 +96,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
 			case "":
 			case "infoScreen":
 			case "evaluation":
-				include_once "./classes/class.ilFrameTargetInfo.php";
+				include_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 

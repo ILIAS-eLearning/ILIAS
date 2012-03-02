@@ -96,7 +96,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 		{
 			case "":
 			case "questions":
-				include_once "./classes/class.ilFrameTargetInfo.php";
+				include_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";
 				$frame = ilFrameTargetInfo::_getFrame("MainContent");
 				break;
 

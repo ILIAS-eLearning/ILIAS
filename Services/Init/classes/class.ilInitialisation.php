@@ -1208,7 +1208,7 @@ class ilInitialisation
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);				
 		
-		require_once "classes/class.ilFrameTargetInfo.php";				
+		require_once "./Services/UICore/classes/class.ilFrameTargetInfo.php";				
 				
 		self::initGlobal("ilNavigationHistory", "ilNavigationHistory",
 				"Services/Navigation/classes/class.ilNavigationHistory.php");

@@ -210,7 +210,7 @@ class ilBookmarkAdministrationGUI
 	{
 		global $tree, $ilCtrl;
 
-		include_once("classes/class.ilFrameTargetInfo.php");
+		include_once("./Services/UICore/classes/class.ilFrameTargetInfo.php");
 		
 		if ($this->id > 0 && !$this->tree->isInTree($this->id))
 		{
