@@ -128,7 +128,7 @@ $tpl = new ilTemplate("tpl.main.html", true, true, "setup");
 $ilCtrlStructureReader = new ilCtrlStructureReader();
 $ilCtrlStructureReader->setErrorObject($ilErr);
 
-require_once "./classes/class.ilBenchmark.php";
+require_once "./Services/Utilities/classes/class.ilBenchmark.php";
 $ilBench = new ilBenchmark();
 $GLOBALS['ilBench'] = $ilBench;
 
