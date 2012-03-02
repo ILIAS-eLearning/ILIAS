@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include "../../../../../classes/class.ilIniFile.php";
+include "../../../../../Services/Init/classes/class.ilIniFile.php";
 $file = "../../../../../ilias.ini.php";
 $ini = new ilIniFile($file);
 $ini->read();

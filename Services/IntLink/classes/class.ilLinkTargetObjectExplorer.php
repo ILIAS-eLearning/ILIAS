@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("classes/class.ilExplorer.php");
+include_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 
 /**
  * Internal Link: Repository Item Selector Explorer

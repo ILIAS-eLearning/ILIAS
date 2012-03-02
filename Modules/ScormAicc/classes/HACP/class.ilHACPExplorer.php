@@ -22,7 +22,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilExplorer.php");
+require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 require_once("./Modules/ScormAicc/classes/AICC/class.ilAICCTree.php");
 require_once("./Modules/ScormAicc/classes/AICC/class.ilAICCExplorer.php");
 

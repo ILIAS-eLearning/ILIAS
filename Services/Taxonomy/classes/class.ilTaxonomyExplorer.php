@@ -10,7 +10,7 @@
  *
  * @ingroup ServicesTaxonomy
  */
-require_once("./classes/class.ilExplorer.php");
+require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 
 class ilTaxonomyExplorer extends ilExplorer
 {

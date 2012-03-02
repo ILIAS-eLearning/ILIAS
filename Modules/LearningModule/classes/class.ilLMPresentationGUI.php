@@ -46,12 +46,6 @@ class ilLMPresentationGUI
 		$this->ctrl->saveParameter($this, array("ref_id"));
 		$this->lm_set = new ilSetting("lm");
 
-#		include_once './classes/class.ilSearch.php';
-
-#		if(!ilSearch::_checkParentConditions($_GET['ref_id']))
-#		{
-#			$ilias->error_obj->raiseError($lng->txt('access_denied'),$ilias->error_obj->WARNING);
-#		}
 		// Todo: check lm id
 		$type = $this->ilias->obj_factory->getTypeByRefId($_GET["ref_id"]);
 

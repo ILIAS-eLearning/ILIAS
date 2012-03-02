@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "../../../../../classes/class.ilIniFile.php";
+include_once "../../../../../Services/Init/classes/class.ilIniFile.php";
 $file = "../../../../../ilias.ini.php";
 $ini = new ilIniFile($file);
 $ini->read();

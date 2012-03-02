@@ -30,7 +30,7 @@
 * @ingroup ModulesTestQuestionPool
 */
 
-include_once "./classes/class.ilExplorer.php";
+include_once "./Services/UIComponent/Explorer/classes/class.ilExplorer.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilSolutionExplorer extends ilExplorer

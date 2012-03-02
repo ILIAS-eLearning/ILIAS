@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("classes/class.ilExplorer.php");
+require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 
 /*
 * Explorer for Media Pools

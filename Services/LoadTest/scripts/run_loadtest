@@ -31,7 +31,7 @@
 	// get db
 	echo "Connecting to DB. Host: ".$db_host.", Name: ".$db_name.
 		", User: ".$db_user.", Password: ".(trim($db_pw) != "" ? "Y" : "N").".\n";
-	include_once("./classes/class.ilErrorHandling.php");
+	include_once("./Services/Init/classes/class.ilErrorHandling.php");
 	include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
 	$ilDB = ilDBWrapperFactory::getWrapper("mysql");
 	$ilDB->setDbUser($db_user);

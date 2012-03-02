@@ -80,8 +80,6 @@ class ilSAHSPresentationGUI
 			exit();
 		}
 		
-		include_once './classes/class.ilSearch.php';
-		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		

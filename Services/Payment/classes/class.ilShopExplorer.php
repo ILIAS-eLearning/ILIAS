@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./classes/class.ilExplorer.php");
+require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 #include_once ("./Services/Repository/classes/class.ilRepositoryExplorer.php");
 include_once './Services/Payment/classes/class.ilPaymentObject.php';
 

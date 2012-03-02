@@ -150,7 +150,7 @@ class ilSoapAdministration
 	 */
 	public function initErrorWriter()
 	{
-		include_once('classes/class.ilErrorHandling.php');
+		include_once('./Services/Init/classes/class.ilErrorHandling.php');
 
 	 	set_error_handler(array('ilErrorHandling','_ilErrorWriter'),E_ALL);
 	}
@@ -443,7 +443,7 @@ class ilSoapAdministration
 		$ini_file = "./".$client_dir."/client.ini.php";
 		
 		// get settings from ini file
-		require_once("classes/class.ilIniFile.php");
+		require_once("./Services/Init/classes/class.ilIniFile.php");
 		
 		$ilClientIniFile = new ilIniFile($ini_file);
 		$ilClientIniFile->read();
