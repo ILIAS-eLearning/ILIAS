@@ -4043,7 +4043,7 @@ class ilUtil
 
 		if (IL_VIRUS_SCANNER != "None")
 		{
-			require_once("classes/class.ilVirusScannerFactory.php");
+			require_once("./Services/VirusScanner/classes/classes/class.ilVirusScannerFactory.php");
 			$vs = ilVirusScannerFactory::_getInstance();
 			if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) != "")
 			{

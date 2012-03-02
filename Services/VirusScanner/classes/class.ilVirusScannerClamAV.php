@@ -10,7 +10,7 @@
 * @extends ilVirusScanner
 */
 
-require_once "class.ilVirusScanner.php";
+require_once "./Services/VirusScanner/classes/class.ilVirusScanner.php";
 
 class ilVirusScannerClamAV extends ilVirusScanner
 {
