@@ -1302,6 +1302,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
 
+		global $ilUser;
+
 		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 		if(ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId()) > 0)
 		{
