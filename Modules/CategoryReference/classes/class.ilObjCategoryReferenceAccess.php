@@ -54,14 +54,14 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
 	function _getCommands($a_ref_id)
 	{
 		global $ilAccess;
-		
+
 		if($ilAccess->checkAccess('write','',$a_ref_id))
 		{
 			// Only local (reference specific commands)
 			$commands = array
 			(
 				array("permission" => "visible", "cmd" => "", "lang_var" => "show","default" => true),
-				array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
+				array("permission" => "write", "cmd" => "editReference", "lang_var" => "edit")
 			);
 		}
 		else
