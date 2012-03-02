@@ -505,7 +505,7 @@ class ilECSTaskScheduler
 		$soap_client->enableWSDL(true);
 
 		$ilLog->write(__METHOD__.': Trying to call Soap client...');
-		$new_session_id = duplicate_session($_COOKIE['PHPSESSID']);
+		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
 		$client_id = $_COOKIE['ilClientId'];
 
 		if($soap_client->init() and 0)

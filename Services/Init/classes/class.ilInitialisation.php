@@ -424,8 +424,9 @@ class ilInitialisation
 			ini_set("session.save_handler", "user");
 		}
 		
-		require_once "include/inc.db_session_handler.php";
-		if (!db_set_save_handler())
+		require_once "Services/Authentication/classes/class.ilSessionDBHandler.php";
+		$db_session_handler = new ilSessionDBHandler();
+		if (!$db_session_handler->setSaveHandler())
 		{
 			self::abortAndDie("Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini");
 		}
@@ -997,7 +998,7 @@ class ilInitialisation
 		// --- object handling		
 		
 		self::initGlobal("ilObjDataCache", "ilObjectDataCache",
-			"classes/class.ilObjectDataCache.php");
+			"./Services/Object/classes/class.ilObjectDataCache.php");
 												
 		// needed in ilObjectDefinition
 		require_once "classes/class.ilSaxParser.php";
