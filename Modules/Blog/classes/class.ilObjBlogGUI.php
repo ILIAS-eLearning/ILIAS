@@ -246,13 +246,15 @@ class ilObjBlogGUI extends ilObject2GUI
 					switch($cmd)
 					{
 						// blog preview
-						case "previewFullscreen":							
+						case "previewFullscreen":		
+							$this->filterInactivePostings();
 							$nav = $this->renderNavigation($this->items, "preview", $cmd);							
 							$this->renderFullScreen($ret, $nav);
 							break;
 							
 						// blog in portfolio
 						case "previewEmbedded":
+							$this->filterInactivePostings();
 							$nav = $this->renderNavigation($this->items, "gethtml", $cmd);	
 							return $this->buildEmbedded($ret, $nav);
 						
@@ -638,6 +640,8 @@ class ilObjBlogGUI extends ilObject2GUI
 			return;
 		}
 
+		$this->filterInactivePostings();
+		
 		$list = $nav = "";		
 		if($this->items[$this->month])
 		{									
@@ -1481,6 +1485,34 @@ class ilObjBlogGUI extends ilObject2GUI
 		if($post->getBlogId() == $a_blog_id)
 		{
 			return $post->getTitle();
+		}
+	}
+	
+	/**
+	 * Filter inactive items from items list
+	 * 
+	 * @return array
+	 */
+	protected function filterInactivePostings()
+	{		
+		foreach($this->items as $month => $postings)
+		{
+			foreach(array_keys($postings) as $id)
+			{
+				if(!ilBlogPosting::_lookupActive($id, "blp"))
+				{
+					unset($this->items[$month][$id]);
+				}
+			}
+			if(!sizeof($this->items[$month]))
+			{
+				unset($this->items[$month]);
+			}
+		}		
+		
+		if($this->items && !isset($this->items[$this->month]))
+		{
+			$this->month = array_shift(array_keys($this->items));
 		}
 	}
 	
