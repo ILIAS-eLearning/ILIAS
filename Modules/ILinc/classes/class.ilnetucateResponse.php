@@ -22,7 +22,7 @@
 */
 
 
-require_once("./classes/class.ilSaxParser.php");
+require_once("./Services/Xml/classes/class.ilSaxParser.php");
 
 /**
 * process reponse from Centra Server

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilSaxParser.php");
+require_once("./Services/Xml/classes/class.ilSaxParser.php");
 require_once('./Services/User/classes/class.ilObjUser.php');
 include_once('./Services/Calendar/classes/class.ilDateTime.php');
 include_once('./Modules/Group/classes/class.ilGroupParticipants.php');

@@ -36,7 +36,7 @@ define ("IL_IMPORT_FAILURE", 3);
 define ("IL_USER_MAPPING_LOGIN", 1);
 define ("IL_USER_MAPPING_ID", 2);
 
-require_once("classes/class.ilSaxParser.php");
+require_once("./Services/Xml/classes/class.ilSaxParser.php");
 require_once ('Services/User/classes/class.ilUserXMLWriter.php');
 
 /**

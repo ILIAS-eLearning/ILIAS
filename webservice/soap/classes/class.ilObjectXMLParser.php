@@ -31,7 +31,7 @@
 * @extends ilSaxParser
 */
 
-include_once 'classes/class.ilSaxParser.php';
+include_once './Services/Xml/classes/class.ilSaxParser.php';
 include_once('./webservice/soap/classes/class.ilObjectXMLException.php');
 
 class ilObjectXMLParser extends ilSaxParser

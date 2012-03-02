@@ -14,7 +14,7 @@
 * @extends ilSaxParser
 */
 
-include_once 'classes/class.ilSaxParser.php';
+include_once './Services/Xml/classes/class.ilSaxParser.php';
 include_once 'Modules/File/classes/class.ilFileException.php';
 include_once 'Services/Utilities/classes/class.ilFileUtils.php';
 

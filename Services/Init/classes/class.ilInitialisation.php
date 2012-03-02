@@ -1001,7 +1001,7 @@ class ilInitialisation
 			"./Services/Object/classes/class.ilObjectDataCache.php");
 												
 		// needed in ilObjectDefinition
-		require_once "classes/class.ilSaxParser.php";
+		require_once "./Services/Xml/classes/class.ilSaxParser.php";
 		
 		self::initGlobal("objDefinition", "ilObjectDefinition",
 			"./Services/Object/classes/class.ilObjectDefinition.php");

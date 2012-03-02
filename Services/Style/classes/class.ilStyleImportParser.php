@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-require_once("./classes/class.ilSaxParser.php");
+require_once("./Services/Xml/classes/class.ilSaxParser.php");
 
 /**
 * Style Import Parser
