@@ -6489,7 +6489,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 	*/
 	function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx)
 	{
-		include_once "./classes/class.ilStatistics.php";
+		include_once "./Modules/Test/classes/class.ilStatistics.php";
 		// calculate the median
 		$passed_statistics = new ilStatistics();
 		$passed_statistics->setData($points_passed);
