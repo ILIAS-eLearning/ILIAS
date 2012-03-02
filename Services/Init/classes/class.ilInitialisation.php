@@ -566,7 +566,7 @@ class ilInitialisation
 		global $ilUser;
 
 		// get user id
-		if (empty(ilSession::get("AccountId")))
+		if (!ilSession::get("AccountId"))
 		{
 			ilSession::set("AccountId", $ilUser->checkUserId());
 		}
@@ -922,6 +922,7 @@ class ilInitialisation
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 					
 		// workaround: load old post variables if error handler 'message' was called
+		include_once "Services/Authentication/classes/class.ilSession.php";
 		if (ilSession::get("message"))
 		{
 			$_POST = ilSession::get("post_vars");
