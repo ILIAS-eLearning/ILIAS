@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilXML2DOM.php";
+require_once "./Services/Xml/classes/class.ilXML2DOM.php";
 
 /**
 * Class NestedSetXML

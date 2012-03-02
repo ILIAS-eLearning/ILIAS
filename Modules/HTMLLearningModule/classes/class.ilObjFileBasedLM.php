@@ -197,7 +197,7 @@ class ilObjFileBasedLM extends ilObject
 		$this->deleteMetaData();
 
 		// delete bibliographical items of object
-		include_once("classes/class.ilNestedSetXML.php");
+		include_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 		$nested = new ilNestedSetXML();
 		$nested->init($this->getId(), "bib");
 		$nested->deleteAllDBData();

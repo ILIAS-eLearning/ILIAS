@@ -130,7 +130,7 @@ class ilObjDlBook extends ilObjContentObject
 	{
 		global $ilDB;
 		
-		include_once("./classes/class.ilNestedSetXML.php");
+		include_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 		// ------------------------------------------------------
 		// anhand der ref_id die obj_id ermitteln.
 		// ------------------------------------------------------

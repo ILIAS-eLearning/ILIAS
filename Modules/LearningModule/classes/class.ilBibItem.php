@@ -231,7 +231,7 @@ class ilBibItem
 	// PRIVATE METHODS
 	function __initNestedSet()
 	{
-		include_once("classes/class.ilNestedSetXML.php");
+		include_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 
 		$this->nested_obj =& new ilNestedSetXML();
 		$this->nested_obj->init($this->getID(), "bib");
