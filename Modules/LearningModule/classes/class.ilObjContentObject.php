@@ -3,7 +3,7 @@
 
 require_once "classes/class.ilObject.php";
 require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
-require_once("classes/class.ilNestedSetXML.php");
+require_once("./Services/Xml/classes/class.ilNestedSetXML.php");
 
 /** @defgroup ModulesIliasLearningModule Modules/IliasLearningModule
  */

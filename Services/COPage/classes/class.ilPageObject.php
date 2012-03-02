@@ -1334,7 +1334,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$ilDB->quote($_GET["ref_id"],'integer'));
         $row = $r->fetchRow(DB_FETCHMODE_ASSOC);
 
-        include_once("./classes/class.ilNestedSetXML.php");
+        include_once("./Services/Xml/classes/class.ilNestedSetXML.php");
         $nested = new ilNestedSetXML();
         $bibs_xml = $nested->export($row["obj_id"], "bib");
 

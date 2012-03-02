@@ -627,7 +627,7 @@ class ilNestedSetXML
 	*/
 	function addXMLNode($xPath, $xml, $index = 0)
 	{
-		include_once "./classes/class.ilXML2DOM.php";
+		include_once "./Services/Xml/classes/class.ilXML2DOM.php";
 
 		$newDOM = new XML2DOM($xml);
 //echo "<br>addXMLNode:-".htmlspecialchars($this->dom->dump_mem(0));
