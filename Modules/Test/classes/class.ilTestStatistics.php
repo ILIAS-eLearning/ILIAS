@@ -22,7 +22,7 @@
 */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-include_once "./classes/class.ilStatistics.php";
+include_once "./Modules/Test/classes/class.ilStatistics.php";
 
 /**
 * This class calculates statistical data for a test which has to be
