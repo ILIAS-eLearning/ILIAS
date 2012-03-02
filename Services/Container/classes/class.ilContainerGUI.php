@@ -1984,7 +1984,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');	
 		
-		require_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
+		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_CHECK, 'repository.php?cmd=goto', 'paste_linked_repexpand');	
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showLinkIntoMultipleObjectsTree'));
 		$exp->setTargetGet('ref_id');				
@@ -2051,7 +2051,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');	
 		
-		require_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
+		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO, 'repository.php?cmd=goto', 'paste_cut_repexpand');	
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showMoveIntoObjectTree'));
 		$exp->setTargetGet('ref_id');				
