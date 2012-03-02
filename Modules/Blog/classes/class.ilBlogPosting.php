@@ -234,7 +234,7 @@ class ilBlogPosting extends ilPageObject
 		
 		$pages = parent::getAllPages("blp", $a_blog_id);
 
-		if($limit)
+		if($a_limit)
 		{
 			$ilDB->setLimit($a_limit, $a_offset);
 		}
