@@ -319,7 +319,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 						break;
 
 					case "spent_seconds":
-						include_once("./classes/class.ilFormat.php");
+						include_once("./Services/Utilities/classes/class.ilFormat.php");
 						$val = ilFormat::_secondsToString($data[$c]);
 						break;
 

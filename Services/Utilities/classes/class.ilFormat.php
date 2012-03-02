@@ -700,8 +700,6 @@ class ilFormat
 			$a_lng = $lng;
 		}
 
-		require_once 'classes/class.ilFormat.php';
-
 		$result;
 		$mag = self::_getSizeMagnitude();
 

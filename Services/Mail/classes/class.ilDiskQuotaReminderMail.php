@@ -215,7 +215,7 @@ class ilDiskQuotaReminderMail
 		$a_string  = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"),
 			$a_string);
 
-		require_once 'classes/class.ilFormat.php';
+		require_once './Services/Utilities/classes/class.ilFormat.php';
 		$a_string = str_replace("[DISK_QUOTA]", ilFormat::formatSize($this->data['disk_quota'],'short',$tmp_lang), $a_string);
 		$a_string = str_replace("[DISK_USAGE]", ilFormat::formatSize($this->data['disk_usage'],'short',$tmp_lang), $a_string);
 

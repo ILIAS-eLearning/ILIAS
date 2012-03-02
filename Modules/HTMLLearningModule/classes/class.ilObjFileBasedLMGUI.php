@@ -578,9 +578,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	}
 
 	/**
-	* output main frameset of media pool
-	* left frame: explorer tree of folders
-	* right frame: media pool content
+	* Frameset -> Output list of files
 	*/
 	function frameset()
 	{
@@ -589,29 +587,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 		$ilCtrl->setCmdClass("ilfilesystemgui");
 		$ilCtrl->setCmd("listFiles");
 		return $this->executeCommand();
-
-/*		$this->tpl = new ilTemplate("tpl.fblm_edit_frameset.html", false, false,
-			"Modules/HTMLLearningModule");
-		$this->tpl->setVariable("HREF_FILES",$this->ctrl->getLinkTargetByClass(
-			"ilfilesystemgui", "listFiles"));
-		$this->tpl->show();
-		exit;*/
-	}
-
-	/**
-	* directory explorer
-	*/
-	function explorer()
-	{
-		$this->tpl = new ilTemplate("tpl.main.html", true, true);
-
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-
-		require_once ("./Modules/HTMLLearningModule/classes/class.ilFileExplorer.php");
-		$exp = new ilFileExplorer($this->lm->getDataDirectory());
-
 	}
 
 	/**
