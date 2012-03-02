@@ -169,7 +169,7 @@ class ilSessionControl
 		if( $ilSetting->get('session_handling_type', 0) != 1 )
 			return;
 		
-		
+		require_once 'Services/User/classes/class.ilObjUser.php';
 		$user_id = ilObjUser::_lookupId($a_login);
 
 		switch(true)
