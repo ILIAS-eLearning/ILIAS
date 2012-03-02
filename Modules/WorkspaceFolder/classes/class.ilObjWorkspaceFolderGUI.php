@@ -336,7 +336,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		// move/copy to repository
 		else
 		{
-			require_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
+			require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 			$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO, 
 				'', 'paste_'.$mode.'_repexpand');	
 			$exp->setTargetGet('ref_id');				

@@ -177,7 +177,7 @@ class ilObjectCopyGUI
 		
 		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard'));
 		
-		include_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
+		include_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
 			'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto', 'paste_copy_repexpand');
@@ -260,7 +260,7 @@ class ilObjectCopyGUI
 		
 		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
 		
-		include_once 'classes/class.ilPasteIntoMultipleItemsExplorer.php';
+		include_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
 			'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto', 'paste_copy_repexpand');
