@@ -329,16 +329,7 @@ class ilScorm2004Export
 
 		$ilBench->start("ContentObjectExport", "buildExportFile_pdfFile");
 		fputs(fopen($this->export_dir."/".$this->subdir.'/temp.fo','w+'),$fo_string);
-		//include_once("classes/class.ilFOPUtil.php");
-		//ilFOPUtil::makePDF($this->export_dir."/".$this->subdir.'/temp.fo', $this->export_dir."/".$this->subdir.".pdf");
-		/*include_once "./Services/Transformation/classes/class.ilFO2PDF.php";
-		$fo2pdf = new ilFO2PDF();
-		$fo2pdf->setFOString($fo_string);
-		$result = $fo2pdf->send();
-   		if(!$result)
-   			$this->ilias->raiseError('Error creating PDF ('.$fo2pdf->err->getLastError()->getMessage().')', $this->ilias->error_obj->MESSAGE);
-   		else
-			fputs(fopen($this->export_dir.'/'.$this->subdir.'.pdf','w+'),$result);*/   		
+
 		global $ilLog;
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try

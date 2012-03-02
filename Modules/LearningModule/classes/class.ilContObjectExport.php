@@ -191,7 +191,7 @@ class ilContObjectExport
 	function buildExportFilePDF()
 	{
 		global $ilBench;
-
+die("deprecated.");
 		$ilBench->start("ContentObjectExport", "buildPDFFile");
 
 		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
