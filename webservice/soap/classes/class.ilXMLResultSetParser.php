@@ -34,7 +34,7 @@
    * @package ilias
    */
 
-include_once 'classes/class.ilSaxParser.php';
+include_once './Services/Xml/classes/class.ilSaxParser.php';
 include_once './webservice/soap/classes/class.ilXMLResultSet.php';
 
 class ilXMLResultSetParser extends ilSaxParser

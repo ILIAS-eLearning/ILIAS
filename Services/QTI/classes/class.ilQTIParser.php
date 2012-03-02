@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./classes/class.ilSaxParser.php");
+include_once("./Services/Xml/classes/class.ilSaxParser.php");
 
 define ("IL_MO_PARSE_QTI",  1);
 define ("IL_MO_VERIFY_QTI", 2);

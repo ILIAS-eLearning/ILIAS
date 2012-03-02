@@ -34,7 +34,7 @@
 * @extends ilSaxParser
 * @package ilias-core
 */
-include_once 'classes/class.ilSaxParser.php';
+include_once './Services/Xml/classes/class.ilSaxParser.php';
 
 class ilMDSaxParser extends ilSaxParser
 {
