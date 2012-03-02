@@ -177,6 +177,11 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		*/
 	}
+
+	public function editReferenceObject()
+	{
+		$this->editObject();
+	}
 	
 	/**
 	 * update object

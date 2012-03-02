@@ -162,16 +162,22 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 	 */
 	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type)
 	{
-		global $ilAccess;
+		// Check edit reference against reference edit permission
+		switch($a_cmd)
+		{
+			case 'editReference':
+				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type);
+		}
 
-		switch($a_permission) {
-
-			case 'read':
-			case 'write':
+		switch($a_permission)
+		{
+			case 'copy':
 			case 'delete':
+				// check against target ref_id
 				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type);
 
 			default:
+				// check against reference
 				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type);
 		}
 	}
@@ -187,23 +193,18 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 	{
 		switch($a_cmd)
 		{
-			case '':
-			case 'view':
-			case 'join':
-			case 'infoScreen':
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+			case 'editReference':
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
 				$cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);				
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				return $cmd_link;
 
 			default:
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
 				$cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);				
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				return $cmd_link;
 		}
 	}
-	
-
 }
 ?>

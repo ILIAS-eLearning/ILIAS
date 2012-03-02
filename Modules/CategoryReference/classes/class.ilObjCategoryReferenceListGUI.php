@@ -123,9 +123,9 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		parent::initItem($target_ref_id, $target_obj_id,$target_title,$target_description);
 
 		// general commands array
-		include_once('./Modules/CourseReference/classes/class.ilObjCourseReferenceAccess.php');
-		$this->commands = ilObjCourseReferenceAccess::_getCommands($this->reference_ref_id);
-		
+		include_once('./Modules/CategoryReference/classes/class.ilObjCategoryReferenceAccess.php');
+		$this->commands = ilObjCategoryReferenceAccess::_getCommands($this->reference_ref_id);
+
 		if($ilAccess->checkAccess('write','',$this->reference_ref_id) or $this->deleted)
 		{
 			$this->info_screen_enabled = false;
@@ -160,16 +160,23 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 	 */
 	public function checkCommandAccess($a_permission,$a_cmd,$a_ref_id,$a_type)
 	{
-		global $ilAccess;
 
-		switch($a_permission) {
-
-			case 'read':
-			case 'write':
-			case 'delete':
+		// Check edit reference against reference edit permission
+		switch($a_cmd)
+		{
+			case 'editReference':
 				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type);
+		}
 
+		switch($a_permission)
+		{
+			case 'copy':
+			case 'delete':
+				// check against target ref_id
+				return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type);
+			
 			default:
+				// check against reference
 				return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, $a_type);
 		}
 	}
@@ -187,13 +194,10 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		
 		switch($a_cmd)
 		{
-			case '':
-			case 'view':
-			case 'join':
-			case 'infoScreen':
+			case 'editReference':
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
 				$cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);				
+				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
 				return $cmd_link;
 
 			default:
