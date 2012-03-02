@@ -347,7 +347,7 @@ class ilSetup extends PEAR
 			if(@is_dir('./setup/sql/ilDBTemplate'))
 			{
 				include_once './Services/Database/classes/class.ilArrayTableDataParser.php';
-				include_once './classes/class.ilSaxParserException.php';
+				include_once './Services/Xml/exceptions/class.ilSaxParserException.php';
 				$reader = new tmpDirectoyIterator('./setup/sql/ilDBTemplate');
 				foreach($reader as $file)
 				{

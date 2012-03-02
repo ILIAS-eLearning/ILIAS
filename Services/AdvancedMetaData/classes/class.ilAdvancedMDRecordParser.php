@@ -95,7 +95,7 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 		parent::startParsing();
 		if($this->is_error)
 		{
-			include_once('classes/class.ilSaxParserException.php');
+			include_once('./Services/Xml/exceptions/class.ilSaxParserException.php');
 			throw new ilSaxParserException(implode('<br/>',$this->error_msg));
 		}
 	}	
