@@ -837,7 +837,7 @@ class ilTestServiceGUI
 	{
 		global $ilias, $tpl;
 
-		include_once("./classes/class.ilTemplate.php");
+		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);

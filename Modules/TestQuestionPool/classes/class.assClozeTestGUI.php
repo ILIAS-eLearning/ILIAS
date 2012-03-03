@@ -374,7 +374,7 @@ class assClozeTestGUI extends assQuestionGUI
 	function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$output = $this->object->getClozeText();
 		foreach ($this->object->getGaps() as $gap_index => $gap)
@@ -454,7 +454,7 @@ class assClozeTestGUI extends assQuestionGUI
 			}
 		}
 
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$output = $this->object->getClozeText();
 		foreach ($this->object->getGaps() as $gap_index => $gap)
@@ -626,7 +626,7 @@ class assClozeTestGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$output = $this->object->getClozeText();
 		foreach ($this->object->getGaps() as $gap_index => $gap)

@@ -125,7 +125,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$total_vat = 0;
 		$i = 0;		
 
-		include_once './classes/class.ilTemplate.php';
+		include_once './Services/UICore/classes/class.ilTemplate.php';
 		include_once './Services/Utilities/classes/class.ilUtil.php';
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 

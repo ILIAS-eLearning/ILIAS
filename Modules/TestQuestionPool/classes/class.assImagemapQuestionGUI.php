@@ -496,7 +496,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$questiontext = $this->object->getQuestion();
@@ -564,7 +564,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 	{
 		$imagepath = $this->object->getImagePathWeb() . $this->object->getImageFilename();
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$formaction = "#";
 		foreach ($this->object->answers as $answer_id => $answer)
@@ -634,7 +634,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_imagemap_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$this->ctrl->setParameterByClass("ilTestOutputGUI", "formtimestamp", time());
 		$formaction = $this->ctrl->getLinkTargetByClass("ilTestOutputGUI", "selectImagemapRegion");

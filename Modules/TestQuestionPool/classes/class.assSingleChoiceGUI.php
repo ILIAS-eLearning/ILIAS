@@ -348,7 +348,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 			$user_solution = $found_index;
 		}
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		foreach ($keys as $answer_id)
@@ -477,7 +477,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$keys = $this->getChoiceKeys();
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		foreach ($keys as $answer_id)
 		{
@@ -557,7 +557,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_mc_sr_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		foreach ($keys as $answer_id)
 		{

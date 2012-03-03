@@ -1138,7 +1138,7 @@ class ilLMPresentationGUI
 		}
 
 
-		include_once("./classes/class.ilTemplate.php");
+		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$tpl_menu =& new ilTemplate("tpl.lm_sub_menu.html", true, true, true);
 
 		$pg_id = $this->getCurrentPageId();

@@ -128,7 +128,7 @@ class ilFeedWriter
 	*/
 	function getFeed()
 	{
-		include_once("classes/class.ilTemplate.php");
+		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
 		
 		$this->tpl->setVariable("XML", "xml");

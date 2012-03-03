@@ -4121,7 +4121,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	private function __search($a_search_string)
 	{
-		include_once('./classes/class.ilSearch.php');
+		include_once('./Services/Search/classes/class.ilSearch.php');
 
 		$this->lng->loadLanguageModule('content');
 
@@ -4146,7 +4146,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 	private function __searchSP($a_search_string)
 	{
-		include_once('./classes/class.ilSearch.php');
+		include_once('./Services/Search/classes/class.ilSearch.php');
 
 		$this->lng->loadLanguageModule('content');
 

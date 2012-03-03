@@ -375,7 +375,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$keys = array_keys($this->object->answers);
 
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
@@ -502,7 +502,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		shuffle($keys);
 
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		$jsswitch = "";
@@ -646,7 +646,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 		$_SESSION["ordering_keys"] = $keys;
 
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)

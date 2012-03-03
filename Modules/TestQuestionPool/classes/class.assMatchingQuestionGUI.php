@@ -395,7 +395,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	)
 	{
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		
@@ -539,7 +539,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		global $ilUser;
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output_js.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		$jsswitch = "";
@@ -693,7 +693,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		global $ilUser;
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		$jsswitch = "";
@@ -848,7 +848,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 	function getTestOutputJS($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output_js.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 		if ($active_id)
@@ -1022,7 +1022,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			return $this->getTestOutputJS($active_id, $pass, $is_postponed, $user_post_solution);
 		}
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		
 		if ($active_id)

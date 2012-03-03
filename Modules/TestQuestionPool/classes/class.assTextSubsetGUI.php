@@ -264,7 +264,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$available_answers =& $this->object->getAvailableAnswers();
@@ -334,7 +334,7 @@ class assTextSubsetGUI extends assQuestionGUI
 	function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$width = $this->object->getMaxTextboxWidth();
 		for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++)
@@ -372,7 +372,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$width = $this->object->getMaxTextboxWidth();
 		for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++)

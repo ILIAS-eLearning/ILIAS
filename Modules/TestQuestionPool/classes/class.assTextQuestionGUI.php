@@ -247,7 +247,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($user_solution, TRUE));
@@ -300,7 +300,7 @@ class assTextQuestionGUI extends assQuestionGUI
 	function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getMaxNumOfChars())
 		{
@@ -347,7 +347,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		}
 		
 		// generate the question output
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getMaxNumOfChars())
 		{

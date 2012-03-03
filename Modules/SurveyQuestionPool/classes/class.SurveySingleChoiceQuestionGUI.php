@@ -856,7 +856,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
 		}
 		$output = "";
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
 
 		$template->setCurrentBlock("detail_row");
