@@ -636,7 +636,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				$tree->deleteTree($node_data);
 				
 				// write history entry
-				require_once("classes/class.ilHistory.php");
+				require_once("./Services/History/classes/class.ilHistory.php");
 				ilHistory::_createEntry($id, "cut",
 					array(ilLMObject::_lookupTitle($parent_id), $parent_id),
 					$this->content_object->getType().":pg");
@@ -744,7 +744,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		}
 
 		// write history comments
-		include_once("classes/class.ilHistory.php");
+		include_once("./Services/History/classes/class.ilHistory.php");
 		$parent_id = $tree->getParentId($id);
 		ilHistory::_createEntry($id, "paste",
 			array(ilLMObject::_lookupTitle($this->obj->getId()), $this->obj->getId()),

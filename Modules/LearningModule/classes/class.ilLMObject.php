@@ -393,7 +393,7 @@ class ilLMObject
 		$ilDB->manipulate($query);
 
 		// create history entry
-		include_once("classes/class.ilHistory.php");
+		include_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", "",
 			$this->content_object->getType().":".$this->getType());
 

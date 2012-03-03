@@ -49,7 +49,7 @@ class ilwebresourceTest extends PHPUnit_Framework_TestCase
 	{
 		global $ilDB;
 		
-		include_once './classes/class.ilLinkCheckNotify.php';
+		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 		
 		$not = new ilLinkCheckNotify($ilDB);
 		$not->setObjId(99999);

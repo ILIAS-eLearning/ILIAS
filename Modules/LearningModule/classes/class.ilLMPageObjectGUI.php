@@ -342,7 +342,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 	*/
 	function updateHistory()
 	{
-		require_once("classes/class.ilHistory.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->obj->getId(), "update",
 			"", $this->content_object->getType().":pg",
 			"", true);

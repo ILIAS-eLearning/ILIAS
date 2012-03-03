@@ -1342,7 +1342,7 @@ class ilObjUser extends ilObject
 		ilObjForum::_deleteUser($this->getId());
 
 		// Delete link check notify entries
-		include_once './classes/class.ilLinkCheckNotify.php';
+		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 		ilLinkCheckNotify::_deleteUser($this->getId());
 
 		// Delete crs entries

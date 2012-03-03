@@ -888,7 +888,7 @@ return true;
 	*/
 	function addChangeComment()
 	{
-		include_once("classes/class.ilHistory.php");
+		include_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->page->getId(), "update",
 			"", $this->page->getParentType().":pg",
 			ilUtil::stripSlashes($_POST["change_comment"]), true);

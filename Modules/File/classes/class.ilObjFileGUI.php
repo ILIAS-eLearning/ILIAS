@@ -640,7 +640,7 @@ class ilObjFileGUI extends ilObject2GUI
 			$this->ilErr->raiseError($this->lng->txt("permission_denied"),$this->ilErr->MESSAGE);
 		}
 
-		require_once("classes/class.ilHistoryGUI.php");
+		require_once("./Services/History/classes/class.ilHistoryGUI.php");
 		
 		$hist_gui =& new ilHistoryGUI($this->object->getId());
 		
@@ -724,7 +724,7 @@ class ilObjFileGUI extends ilObject2GUI
 		$info->addProperty($this->lng->txt("version"),
 			$this->object->getVersion());
 		
-		include_once "classes/class.ilHistory.php";
+		include_once "./Services/History/classes/class.ilHistory.php";
 		$uploader = ilHistory::_getEntriesForObject($this->object->getId(), $this->object->getType());
 		$uploader = array_shift($uploader);
 		$uploader = $uploader["user_id"];		
