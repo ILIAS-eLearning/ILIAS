@@ -144,7 +144,7 @@ class ilSolutionExplorer extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tree.html", true, true);
 
 		$tpl->setCurrentBlock("text");

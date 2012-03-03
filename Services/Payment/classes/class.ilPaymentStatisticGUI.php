@@ -1167,7 +1167,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 	function __search($a_search_string)
 	{
-		include_once("./classes/class.ilSearch.php");
+		include_once("./Services/Search/classes/class.ilSearch.php");
 
 		$this->lng->loadLanguageModule("content");
 

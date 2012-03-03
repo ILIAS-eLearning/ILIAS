@@ -1125,7 +1125,7 @@ class assQuestionGUI
 	
 	public function outQuestionType()
 	{
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_questiontype.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$count = $this->object->isInUse();
 		if (assQuestion::_questionExistsInPool($this->object->getId()) && $count)

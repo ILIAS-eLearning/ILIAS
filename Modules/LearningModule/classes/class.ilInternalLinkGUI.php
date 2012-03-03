@@ -795,7 +795,7 @@ class ilInternalLinkGUI
 	{
 		global $ilCtrl;
 
-		include_once("./Services/IntLink/classes/class.ilLinkTargetObjectExplorer.php");
+		include_once("./Services/Link/classes/class.ilLinkTargetObjectExplorer.php");
 		$exp = new ilLinkTargetObjectExplorer(ilUtil::appendUrlParameterString(
 			$ilCtrl->getTargetScript(), "do=set"));
 		if ($_GET["expand"] == "")
@@ -1075,9 +1075,9 @@ class ilInternalLinkGUI
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initDragDrop();
 		$tpl->addJavaScript("./Services/Explorer/js/ilexplorercallback.js");
-		$tpl->addJavascript("./Services/IntLink/js/ilIntLink.js");
+		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
 
-		$ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/IntLink");
+		$ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/Link");
 		$ltpl->setVariable("IL_INT_LINK_URL", $a_url);
 
 		return $ltpl->get();

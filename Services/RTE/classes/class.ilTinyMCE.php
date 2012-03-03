@@ -173,7 +173,7 @@ class ilTinyMCE extends ilRTE
 			ilObjAdvancedEditing::_setRichTextEditorUserState(1);
 		}
 
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		if ((ilObjAdvancedEditing::_getRichTextEditorUserState() != 0) && (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0))
 		{
 			$tpl = new ilTemplate(($cfg_template === null ? "tpl.tinymce.html" : $cfg_template), true, true, "Services/RTE");
@@ -245,7 +245,7 @@ class ilTinyMCE extends ilRTE
 	*/
 	function addCustomRTESupport($obj_id, $obj_type, $tags)
 	{
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
 		$tpl->setCurrentBlock("tinymce");
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
@@ -294,7 +294,7 @@ class ilTinyMCE extends ilRTE
 	{
 		$validtags = array("strong","em","p", "br", "div", "span");
 		$buttontags = array("strong","em");
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
 		$template->setCurrentBlock("tinymce");
 		$template->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");

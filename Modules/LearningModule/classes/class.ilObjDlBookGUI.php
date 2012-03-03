@@ -318,7 +318,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	}
 	function setilCitationMenu()
 	{
-		include_once("./classes/class.ilTemplate.php");
+		include_once("./Services/UICore/classes/class.ilTemplate.php");
 
 		$tpl_menu =& new ilTemplate("tpl.buttons.html",true,true);
 
@@ -344,7 +344,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	// ok
     function setilLMMenu()
 	{
-		include_once("./classes/class.ilTemplate.php");
+		include_once("./Services/UICore/classes/class.ilTemplate.php");
 
 		$tpl_menu =& new ilTemplate("tpl.lm_menu.html", true, true, "Modules/LearningModule");
 
@@ -535,7 +535,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		
 	function searchTranslation($a_search_str)
 	{
-		include_once("./classes/class.ilSearch.php");
+		include_once("./Services/Search/classes/class.ilSearch.php");
 
 		$search =& new ilSearch($_SESSION["AccountId"]);
 		$search->setPerformUpdate(false);

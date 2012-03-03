@@ -315,7 +315,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		}
 		
 		$output = "";
-		include_once "./classes/class.ilTemplate.php";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
 		
 		$template->setCurrentBlock("detail_row");

@@ -2194,7 +2194,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 	function __search($a_search_string,$a_search_for)
 	{
-		include_once("./classes/class.ilSearch.php");
+		include_once("./Services/Search/classes/class.ilSearch.php");
 
 		$this->lng->loadLanguageModule("content");
 		$search =& new ilSearch($_SESSION["AccountId"]);

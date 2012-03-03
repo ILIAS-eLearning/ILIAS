@@ -4408,7 +4408,7 @@ class ilUtil
 			$info = "";
 			if (!$tpl->out_jsmath_info)
 			{
-				include_once "./classes/class.ilTemplate.php";
+				include_once "./Services/UICore/classes/class.ilTemplate.php";
 				$template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE);
 				$lng->loadLanguageModule("jsmath");
 				$template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
@@ -4506,7 +4506,7 @@ class ilUtil
             $info = "";
             if (!$tpl->out_jsmath_info)
             {
-                include_once "./classes/class.ilTemplate.php";
+                include_once "./Services/UICore/classes/class.ilTemplate.php";
                 $template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE);
                 $lng->loadLanguageModule("jsmath");
                 $template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
