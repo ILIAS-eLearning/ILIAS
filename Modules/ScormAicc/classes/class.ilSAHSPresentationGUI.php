@@ -43,7 +43,7 @@ class ilSAHSPresentationGUI
 	{
 		global $lng,$ilAccess, $ilNavigationHistory, $ilCtrl, $ilLocator, $ilObjDataCache;
 
-		include_once "./classes/class.ilObjectGUI.php";
+		include_once "./Services/Object/classes/class.ilObjectGUI.php";
 		include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 
 		$lng->loadLanguageModule("content");

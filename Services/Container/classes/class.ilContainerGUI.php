@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
 include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
@@ -863,7 +863,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
 		//$rte->addPlugin("latex");
-		include_once "./classes/class.ilObject.php";
+		include_once "./Services/Object/classes/class.ilObject.php";
 		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addRTESupport($obj_id, $obj_type);

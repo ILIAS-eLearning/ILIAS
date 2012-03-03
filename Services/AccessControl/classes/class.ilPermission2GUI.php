@@ -595,7 +595,7 @@ class ilPermission2GUI
 	{
 		$this->__initSubTabs("info");
 
-		include_once('classes/class.ilObjectStatusGUI.php');
+		include_once('./Services/AccessControl/classes/class.ilObjectStatusGUI.php');
 		
 		$ilInfo = new ilObjectStatusGUI($this->gui_obj->object);
 		

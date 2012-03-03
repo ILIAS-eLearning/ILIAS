@@ -2230,7 +2230,7 @@ class ilForum
 	
 	function __formatMessage($thread_data, $post_data = array())
 	{
-		include_once "./classes/class.ilObjectFactory.php";
+		include_once "./Services/Object/classes/class.ilObjectFactory.php";
 		
 		$frm_obj =& ilObjectFactory::getInstanceByRefId($this->getForumRefId());
 		$title = $frm_obj->getTitle();

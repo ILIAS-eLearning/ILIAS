@@ -19,7 +19,7 @@ define('UT_ACTIVE_BOTH',1);
 define('UT_ACTIVE_UT',2);
 define('UT_ACTIVE_LP',3);
 
-include_once "classes/class.ilObject.php";
+include_once "./Services/Object/classes/class.ilObject.php";
 
 class ilObjUserTracking extends ilObject
 {

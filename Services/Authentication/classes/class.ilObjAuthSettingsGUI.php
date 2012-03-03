@@ -14,7 +14,7 @@
 */
 
 
-require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {

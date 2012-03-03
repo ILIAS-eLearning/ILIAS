@@ -169,7 +169,7 @@ class ilSoapMailXmlParser extends ilSaxParser
 	 */
 	protected function parseName($a_attribs)
 	{
-		include_once './classes/class.ilObjectFactory.php';
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		
 		if($a_attribs['obj_id'])
 		{

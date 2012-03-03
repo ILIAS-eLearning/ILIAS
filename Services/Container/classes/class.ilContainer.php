@@ -24,7 +24,7 @@
 // note: the values are derived from ilObjCourse constants
 // to enable easy migration from course view setting to container view setting
 
-require_once "./classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 
 /**
 * Class ilContainer

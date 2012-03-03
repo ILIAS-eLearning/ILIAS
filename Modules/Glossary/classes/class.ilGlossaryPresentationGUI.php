@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("classes/class.ilObjectGUI.php");
+require_once("./Services/Object/classes/class.ilObjectGUI.php");
 require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");

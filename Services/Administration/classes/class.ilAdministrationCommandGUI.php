@@ -122,7 +122,7 @@ class ilAdministrationCommandGUI
 	{
 		$this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-		include_once './classes/class.ilObjectGUI.php';
+		include_once './Services/Object/classes/class.ilObjectGUI.php';
 		$_SESSION['saved_post'] = $_POST['id'];
 		$object = new ilObjectGUI(array (), 0, false, false);
 		$object->confirmedDeleteObject();

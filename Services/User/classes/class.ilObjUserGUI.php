@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
 
 /**

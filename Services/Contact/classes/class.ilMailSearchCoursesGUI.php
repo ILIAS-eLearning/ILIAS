@@ -123,7 +123,7 @@ class ilMailSearchCoursesGUI
 			);
 		}
 
-		require_once 'classes/class.ilObject.php';
+		require_once './Services/Object/classes/class.ilObject.php';
 		
 		$ids = ((int)$_GET['search_crs']) ? array((int)$_GET['search_crs']) : $_POST['search_crs']; 
 		

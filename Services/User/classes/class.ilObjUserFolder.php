@@ -11,7 +11,7 @@
 * @extends ilObject
 */
 
-require_once "./classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 
 define('USER_FOLDER_ID',7);
 

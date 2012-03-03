@@ -474,7 +474,7 @@ class ilObjectDAV
 		global $tree;
 
 		// create and insert Folder in tree
-		require_once 'classes/class.ilObject.php';
+		require_once './Services/Object/classes/class.ilObject.php';
 		$newObj = new ilObject(0);
 		$newObj->setType('null');
 		$newObj->setTitle($name);

@@ -196,7 +196,7 @@ class assTextQuestionGUI extends assQuestionGUI
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
 		$rte = new $rtestring();
-		include_once "./classes/class.ilObject.php";
+		include_once "./Services/Object/classes/class.ilObject.php";
 		$obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addUserTextEditor("textinput");

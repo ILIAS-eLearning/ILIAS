@@ -102,7 +102,7 @@ class ilRoleXmlImporter
 	protected function initRole($import_id)
 	{
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
-		include_once './classes/class.ilObjectFactory.php';
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		if($obj_id)
 		{
 			$this->role = ilObjectFactory::getInstanceByObjId($obj_id,false);

@@ -33,7 +33,7 @@ include_once 'Modules/Test/exceptions/class.ilTestException.php';
 * @ingroup ModulesTest
 */
 
-include_once "./classes/class.ilObjectGUI.php";
+include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once "./Modules/Test/classes/class.ilObjAssessmentFolderGUI.php";
 include_once 'Modules/Test/classes/class.ilTestExpressPage.php';

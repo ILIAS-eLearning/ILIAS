@@ -1353,7 +1353,7 @@ class ilMail
 				{
 					if(ilUtil::groupNameExists(addslashes(substr($tmp_names[$i],1))))
 					{
-						include_once("./classes/class.ilObjectFactory.php");
+						include_once("./Services/Object/classes/class.ilObjectFactory.php");
 						include_once('./Modules/Group/classes/class.ilObjGroup.php');
 
 						foreach(ilObject::_getAllReferences(ilObjGroup::_lookupIdByTitle(addslashes(substr($tmp_names[$i],1)))) as $ref_id)
@@ -1498,7 +1498,7 @@ class ilMail
 				else
 				{
 					// GROUP THINGS
-					include_once("./classes/class.ilObjectFactory.php");
+					include_once("./Services/Object/classes/class.ilObjectFactory.php");
 					include_once('./Modules/Group/classes/class.ilObjGroup.php');
 
 					// Fix

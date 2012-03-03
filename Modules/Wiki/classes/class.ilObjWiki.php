@@ -5,7 +5,7 @@
 /** @defgroup ModulesWiki Modules/Wiki
  */
 
-include_once "./classes/class.ilObject.php";
+include_once "./Services/Object/classes/class.ilObject.php";
 include_once ("./Modules/Wiki/classes/class.ilWikiUtil.php");
 
 /**

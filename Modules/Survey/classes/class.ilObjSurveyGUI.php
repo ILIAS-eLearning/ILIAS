@@ -38,7 +38,7 @@
 * @ingroup ModulesSurvey
 */
 
-include_once "./classes/class.ilObjectGUI.php";
+include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyGUI extends ilObjectGUI

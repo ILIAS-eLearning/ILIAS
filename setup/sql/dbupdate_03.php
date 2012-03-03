@@ -8937,7 +8937,7 @@ $ilDB->addTableColumn("tax_node", "order_nr", array(
 ?>
 <#3530>
 <?php
-	include_once "classes/class.ilObject.php";
+	include_once "./Services/Object/classes/class.ilObject.php";
 	include_once "Services/Administration/classes/class.ilSetting.php";	
 	$ilSetting = new ilSetting();
 	$ilSetting->set("rep_shorten_description", 1);

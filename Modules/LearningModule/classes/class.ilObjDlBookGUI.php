@@ -401,7 +401,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 		
 		if($trs = $this->object->getTranslations())
 		{
-			include_once "./classes/class.ilObjectFactory.php";
+			include_once "./Services/Object/classes/class.ilObjectFactory.php";
 			foreach($trs as $tr)
 			{
 				$tmp_obj = ilObjectFactory::getInstanceByRefId($tr);
@@ -502,7 +502,7 @@ class ilObjDlBookGUI extends ilObjContentObjectGUI
 	// PRIVATE METHODS
 	function showTranslationSelect($a_result)
 	{
-		include_once "./classes/class.ilObjectFactory.php";
+		include_once "./Services/Object/classes/class.ilObjectFactory.php";
 
 		foreach($a_result["meta"] as $book)
 		{

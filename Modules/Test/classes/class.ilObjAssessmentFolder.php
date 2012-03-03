@@ -31,7 +31,7 @@
 * @extends ilObject
 */
 
-require_once "./classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 
 class ilObjAssessmentFolder extends ilObject
 {
@@ -457,7 +457,6 @@ class ilObjAssessmentFolder extends ilObject
 			{
 				if ($row["ref_id"] > 0)
 				{
-					include_once "./classes/class.ilObject.php";
 					$type = ilObject::_lookupType($row['ref_id'], true);
 					switch ($type)
 					{

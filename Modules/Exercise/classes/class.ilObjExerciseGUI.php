@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "classes/class.ilObjectGUI.php";
+require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
 * Class ilObjExerciseGUI
@@ -1179,7 +1179,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 	function __showObjectSelect($a_result,$a_type)
 	{
-  		include_once "./classes/class.ilObjectFactory.php";
+  		include_once "./Services/Object/classes/class.ilObjectFactory.php";
   
 		foreach($a_result as $obj)
 		{

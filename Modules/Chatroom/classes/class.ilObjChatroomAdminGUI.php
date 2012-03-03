@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./classes/class.ilObjectGUI.php";
+require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Modules/Chatroom/classes/class.ilObjChatroom.php";
 require_once "./Modules/Chatroom/classes/class.ilObjChatroomAccess.php";
 require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
@@ -134,7 +134,7 @@ class ilObjChatroomAdminGUI extends ilDBayObjectGUI
 		//global $ilCtrl;
 		//$ilCtrl->setParameter($this, 'cmd', 'view');
 
-		include_once("./classes/class.ilObjectGUI.php");
+		include_once("./Services/Object/classes/class.ilObjectGUI.php");
 		ilObjectGUI::_gotoRepositoryNode($ref_id, "view");
 		/*$_GET['cmd'] = 'view';
 		$_GET['ref_id'] = $ref_id;

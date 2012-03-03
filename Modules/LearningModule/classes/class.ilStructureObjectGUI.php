@@ -999,7 +999,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle($lm_id)), true);
-			include_once("./classes/class.ilObjectGUI.php");
+			include_once("./Services/Object/classes/class.ilObjectGUI.php");
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 

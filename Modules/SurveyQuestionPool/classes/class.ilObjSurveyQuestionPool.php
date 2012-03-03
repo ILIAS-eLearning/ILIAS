@@ -31,7 +31,7 @@
 * @defgroup ModulesSurveyQuestionPool Modules/SurveyQuestionPool
 */
 
-include_once "./classes/class.ilObject.php";
+include_once "./Services/Object/classes/class.ilObject.php";
 include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 
 class ilObjSurveyQuestionPool extends ilObject

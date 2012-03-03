@@ -3,7 +3,7 @@
 
 require_once ("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 require_once ("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
-require_once ("classes/class.ilObjectGUI.php");
+require_once ("./Services/Object/classes/class.ilObjectGUI.php");
 
 /**
 * Class ilObjMediaObjectGUI

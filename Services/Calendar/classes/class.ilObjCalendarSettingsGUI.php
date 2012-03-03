@@ -31,7 +31,7 @@
 * @ingroup ServicesCalendar
 */
 
-include_once('./classes/class.ilObjectGUI.php');
+include_once('./Services/Object/classes/class.ilObjectGUI.php');
 
 class ilObjCalendarSettingsGUI extends ilObjectGUI
 {

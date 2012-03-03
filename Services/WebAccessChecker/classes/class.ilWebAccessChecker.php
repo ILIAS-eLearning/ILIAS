@@ -36,7 +36,7 @@ ilContext::init(ilContext::CONTEXT_WEB_ACCESS_CHECK);
 // Now the ILIAS header can be included
 require_once "./include/inc.header.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
-require_once "./classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 
 

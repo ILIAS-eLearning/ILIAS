@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 //require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";

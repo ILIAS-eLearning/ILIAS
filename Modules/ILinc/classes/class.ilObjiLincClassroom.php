@@ -30,7 +30,7 @@
 * @extends ilObject
 */
 
-require_once ('./classes/class.ilObject.php');
+require_once ('./Services/Object/classes/class.ilObject.php');
 require_once ('./Modules/ILinc/classes/class.ilnetucateXMLAPI.php');
 
 class ilObjiLincClassroom extends ilObject

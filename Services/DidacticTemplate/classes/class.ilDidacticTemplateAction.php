@@ -201,7 +201,7 @@ abstract class ilDidacticTemplateAction
 	 */
 	protected function initSourceObject()
 	{
-		include_once './classes/class.ilObjectFactory.php';
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		$s = ilObjectFactory::getInstanceByRefId($this->getRefId(),false);
 		return $s;
 	}
