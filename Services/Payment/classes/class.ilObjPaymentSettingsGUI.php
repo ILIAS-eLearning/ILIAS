@@ -6,7 +6,7 @@
 *
 * @author Stefan Meyer <meyer@leifos.com> 
 * @author Jens Conze <jc@databay.de> 
-* @author Jesper G�dvad <jesper@ilias.dk>
+* @author Jesper Godvad <jesper@ilias.dk>
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI
@@ -16,7 +16,7 @@
 *
 */
 
-require_once './classes/class.ilObjectGUI.php';
+require_once './Services/Object/classes/class.ilObjectGUI.php';
 include_once './Services/Payment/classes/class.ilShopVatsList.php';
 include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 include_once './Services/Payment/classes/class.ilPaymentObject.php';

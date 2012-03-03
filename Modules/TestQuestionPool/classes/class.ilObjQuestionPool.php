@@ -1152,7 +1152,7 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $rbacsystem;
 
-		include_once "./classes/class.ilObject.php";
+		include_once "./Services/Object/classes/class.ilObject.php";
 		$refs = ilObject::_getAllReferences($object_id);
 		if (count($refs))
 		{

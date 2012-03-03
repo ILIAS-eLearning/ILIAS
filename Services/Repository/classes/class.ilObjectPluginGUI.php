@@ -431,7 +431,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		{
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))));
-			include_once("./classes/class.ilObjectGUI.php");
+			include_once("./Services/Object/classes/class.ilObjectGUI.php");
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 	}

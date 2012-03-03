@@ -777,7 +777,7 @@ class ilUserImportParser extends ilSaxParser
 	function assignToRole($a_user_obj, $a_role_id)
 	{
 		require_once "./Services/AccessControl/classes/class.ilObjRole.php";
-		include_once('./classes/class.ilObject.php');
+		include_once('./Services/Object/classes/class.ilObject.php');
 		#require_once "Modules/Course/classes/class.ilObjCourse.php";
 		#require_once "Modules/Course/classes/class.ilCourseParticipants.php";
 

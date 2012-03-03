@@ -41,7 +41,7 @@
 * @ingroup ModulesTestQuestionPool
 */
 
-include_once "./classes/class.ilObjectGUI.php";
+include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";

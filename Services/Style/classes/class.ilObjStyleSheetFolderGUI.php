@@ -36,7 +36,7 @@
 // THIS CLASS IS CURRENTLY NOT IN USE
 //
 //
-include_once "./classes/class.ilObjectGUI.php";
+include_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 class ilObjStyleSheetFolderGUI extends ilObjectGUI
 {

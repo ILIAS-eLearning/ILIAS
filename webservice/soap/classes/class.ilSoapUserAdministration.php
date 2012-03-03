@@ -635,7 +635,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		include_once './Services/User/classes/class.ilUserImportParser.php';
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		include_once './classes/class.ilObjectFactory.php';
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		global $rbacreview, $rbacsystem, $tree, $lng,$ilUser,$ilLog;
 
     	// this takes time but is nescessary

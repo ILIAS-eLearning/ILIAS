@@ -31,7 +31,7 @@
 * @extends ilObject
 */
 
-require_once "./classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
 
 class ilObjRootFolder extends ilContainer

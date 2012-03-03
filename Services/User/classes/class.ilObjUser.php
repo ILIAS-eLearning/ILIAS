@@ -6,8 +6,8 @@ define ("IL_PASSWD_MD5", "md5");			// ILIAS 3 Password
 define ("IL_PASSWD_CRYPT", "crypt");		// ILIAS 2 Password
 
 
-require_once "classes/class.ilObject.php";
-require_once 'Services/User/exceptions/class.ilUserException.php'; 
+require_once "./Services/Object/classes/class.ilObject.php";
+require_once './Services/User/exceptions/class.ilUserException.php'; 
 
 /**
 * @defgroup ServicesUser Services/User

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "./classes/class.ilObject.php";
+include_once "./Services/Object/classes/class.ilObject.php";
 
 /** @defgroup ModulesWebResource Modules/WebResource
  */

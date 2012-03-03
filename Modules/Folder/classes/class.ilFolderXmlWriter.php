@@ -82,7 +82,7 @@ class ilFolderXmlWriter extends ilXmlWriter
 		{
 			throw new UnexpectedValueException('No obj_id given: ');
 		}
-		include_once './classes/class.ilObjectFactory.php';
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		if(!$this->folder = ilObjectFactory::getInstanceByObjId($this->obj_id,false))
 		{
 			throw new UnexpectedValueException('Invalid obj_id given: '.$this->obj_id);

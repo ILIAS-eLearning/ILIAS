@@ -84,7 +84,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
-		include_once "./classes/class.ilObjectFactory.php";		
+		include_once "./Services/Object/classes/class.ilObjectFactory.php";		
 		$member_id = $member["usr_id"];
 
 		if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))

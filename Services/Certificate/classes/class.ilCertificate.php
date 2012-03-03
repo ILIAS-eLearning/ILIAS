@@ -874,7 +874,7 @@ class ilCertificate
 	public static function _goto($ref_id)
 	{
 		global $ilCtrl;
-		include_once "./classes/class.ilObject.php";
+		include_once "./Services/Object/classes/class.ilObject.php";
 		$type = ilObject::_lookupType($ref_id, true);
 		switch ($type)
 		{

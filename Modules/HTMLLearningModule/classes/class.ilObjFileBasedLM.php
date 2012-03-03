@@ -5,7 +5,7 @@
 /** @defgroup ModulesHTMLLearningModule Modules/HTMLLearningModule
  */
 
-require_once "classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 //require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 /**

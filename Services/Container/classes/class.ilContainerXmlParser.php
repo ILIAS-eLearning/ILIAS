@@ -155,7 +155,7 @@ class ilContainerXmlParser
 		$new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', $obj_id);
 		if($new_obj_id)
 		{
-			include_once './classes/class.ilObjectFactory.php';
+			include_once './Services/Object/classes/class.ilObjectFactory.php';
 			$obj = ilObjectFactory::getInstanceByObjId($new_obj_id,false);
 			if($obj instanceof  ilObject)
 			{

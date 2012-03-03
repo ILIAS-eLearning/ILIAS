@@ -163,7 +163,7 @@ class ilObjectListGUI
 		$this->gui_class_name = "";			// "ilobjcategorygui", "ilobjcoursegui", ...
 
 		// general commands array, e.g.
-		include_once('classes/class.ilObjectAccess.php');
+		include_once('./Services/Object/classes/class.ilObjectAccess.php');
 		$this->commands = ilObjectAccess::_getCommands();
 	}
 

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "classes/class.ilObjectGUI.php";
+include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/LearningModule/classes/class.ilObjContentObject.php";
 include_once ("./Modules/LearningModule/classes/class.ilLMPageObjectGUI.php");
 include_once ("./Modules/LearningModule/classes/class.ilStructureObjectGUI.php");

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './classes/class.ilObjectGUI.php';
+require_once './Services/Object/classes/class.ilObjectGUI.php';
 require_once "Services/Table/classes/class.ilTable2GUI.php";
 require_once './Modules/Forum/classes/class.ilForumProperties.php';
 require_once './Services/Form/classes/class.ilPropertyFormGUI.php';

@@ -419,7 +419,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$lng->loadLanguageModule("content");
 				ilUtil::sendFailure($lng->txt("page_does_not_exist"), true);
 			}
-			include_once("./classes/class.ilObjectGUI.php");
+			include_once("./Services/Object/classes/class.ilObjectGUI.php");
 			ilObjectGUI::_gotoRepositoryRoot();
 		}
 

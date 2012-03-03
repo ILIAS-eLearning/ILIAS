@@ -133,7 +133,7 @@ class ilCategoryImportParser extends ilSaxParser
 				    $this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
 				  }
  
-				  include_once ("classes/class.ilObject.php");
+				  include_once ("./Services/Object/classes/class.ilObject.php");
 				  include_once ("./Services/AccessControl/classes/class.ilObjRole.php");
   
 				  // create a rolefolder

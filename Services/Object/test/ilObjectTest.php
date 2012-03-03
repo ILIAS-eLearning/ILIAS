@@ -253,7 +253,7 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testObjectReference()
 	{
-		include_once './classes/class.ilObject.php';
+		include_once './Services/Object/classes/class.ilObject.php';
 		
 		$ref_ids = ilObject::_getAllReferences(1);
 		$bool = ilObject::_setDeletedDate(1);

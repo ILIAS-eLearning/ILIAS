@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./classes/class.ilObject.php";
+include_once "./Services/Object/classes/class.ilObject.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**

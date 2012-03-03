@@ -123,7 +123,7 @@ class ilMailSearchGroupsGUI
 			);
 		}
 		
-		require_once 'classes/class.ilObject.php';
+		require_once './Services/Object/classes/class.ilObject.php';
 		$ids = ((int) $_GET['search_grp']) ? array((int)$_GET['search_grp']) : $_POST['search_grp'];  
 		foreach ($ids as $grp_id)
 		{

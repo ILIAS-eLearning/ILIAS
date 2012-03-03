@@ -32,7 +32,7 @@
 * @extends ilObjectGUI
 */
 
-include_once "./classes/class.ilObjectGUI.php";
+include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/ILinc/classes/class.ilObjiLincClassroom.php";
 
 class ilObjiLincClassroomGUI extends ilObjectGUI

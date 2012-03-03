@@ -33,7 +33,7 @@
 * @extends ilObjectGUI
 */
 
-require_once "class.ilObjectGUI.php";
+require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 class ilObjObjectFolderGUI extends ilObjectGUI
 {

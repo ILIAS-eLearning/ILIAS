@@ -110,7 +110,7 @@ class ilECSCategoryMapping
 	 		}
 	 	}
 		$ilLog->write(__METHOD__.': Creating/Deleting references...');	 	
-	 	include_once './classes/class.ilObjectFactory.php';
+	 	include_once './Services/Object/classes/class.ilObjectFactory.php';
 	 	
 	 	if(!$exists)
 	 	{

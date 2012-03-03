@@ -184,7 +184,7 @@ class ilTinyMCE extends ilRTE
 			}
 			$tpl->setCurrentBlock("tinymce");
 			$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
-			include_once "./classes/class.ilObject.php";
+			include_once "./Services/Object/classes/class.ilObject.php";
 			$tpl->setVariable("OBJ_ID", $obj_id);                   
 			$tpl->setVariable("OBJ_TYPE", $obj_type);
 			$tpl->setVariable("CLIENT_ID", CLIENT_ID);
@@ -249,7 +249,7 @@ class ilTinyMCE extends ilRTE
 		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
 		$tpl->setCurrentBlock("tinymce");
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
-		include_once "./classes/class.ilObject.php";
+		include_once "./Services/Object/classes/class.ilObject.php";
 		$tpl->setVariable("OBJ_ID", $obj_id);
 		$tpl->setVariable("OBJ_TYPE", $obj_type);
 		$tpl->setVariable("CLIENT_ID", CLIENT_ID);
@@ -298,7 +298,7 @@ class ilTinyMCE extends ilRTE
 		$template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
 		$template->setCurrentBlock("tinymce");
 		$template->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
-		include_once "./classes/class.ilObject.php";
+		include_once "./Services/Object/classes/class.ilObject.php";
 		$template->setVariable("SELECTOR", $editor_selector);
 		$template->setVariable("BLOCKFORMATS", "");
 		$template->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($validtags));		

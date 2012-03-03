@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "classes/class.ilObject.php";
+require_once "./Services/Object/classes/class.ilObject.php";
 require_once "./Modules/Exercise/classes/class.ilFileDataExercise.php";
 require_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
 
