@@ -206,7 +206,7 @@ class ilLinkResourceItems
 
 		if($a_update_history)
 		{
-			include_once("classes/class.ilHistory.php");
+			include_once("./Services/History/classes/class.ilHistory.php");
 			ilHistory::_createEntry($this->getLinkResourceId(), "delete",
 									$item['title']);
 		}
@@ -239,7 +239,7 @@ class ilLinkResourceItems
 		
 		if($a_update_history)
 		{
-			include_once("classes/class.ilHistory.php");
+			include_once("./Services/History/classes/class.ilHistory.php");
 			ilHistory::_createEntry($this->getLinkResourceId(), "update",
 									$this->getTitle());
 		}
@@ -368,7 +368,7 @@ class ilLinkResourceItems
 		
 		if($a_update_history)
 		{
-			include_once("classes/class.ilHistory.php");
+			include_once("./Services/History/classes/class.ilHistory.php");
 			ilHistory::_createEntry($this->getLinkResourceId(), "add",
 									$this->getTitle());
 		}

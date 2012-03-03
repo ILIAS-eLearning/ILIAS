@@ -45,7 +45,7 @@ class ilCronWebResourceCheck
 	{
 		global $ilObjDataCache,$ilUser;
 
-		include_once'./classes/class.ilLinkChecker.php';
+		include_once'./Services/LinkChecker/classes/class.ilLinkChecker.php';
 
 
 		foreach(ilUtil::_getObjectsByOperations('webr','write',$ilUser->getId(),-1) as $node)

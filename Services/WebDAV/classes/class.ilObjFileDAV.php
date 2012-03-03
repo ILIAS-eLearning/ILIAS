@@ -24,7 +24,7 @@
 
 require_once "class.ilObjectDAV.php";
 
-require_once 'classes/class.ilHistory.php';
+require_once './Services/History/classes/class.ilHistory.php';
 require_once 'Services/Utilities/classes/class.ilUtil.php';
 require_once "Modules/File/classes/class.ilObjFile.php";
 

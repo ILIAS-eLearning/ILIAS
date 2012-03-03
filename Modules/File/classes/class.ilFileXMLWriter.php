@@ -165,7 +165,7 @@ class ilFileXMLWriter extends ilXmlWriter
 
         }
 
-        include_once("classes/class.ilHistory.php");
+        include_once("./Services/History/classes/class.ilHistory.php");
 
 		$versions = ilHistory::_getEntriesForObject($this->file->getId(), $this->file->getType());
 

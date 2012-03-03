@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("classes/class.ilHistory.php");
+require_once("./Services/History/classes/class.ilHistory.php");
 
 /**
 * This class provides user interface methods for history entries

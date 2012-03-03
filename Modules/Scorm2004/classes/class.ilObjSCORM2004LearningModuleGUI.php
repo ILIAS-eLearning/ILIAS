@@ -2600,7 +2600,7 @@ function showTrackingItem()
 				{
 					$obj->setSLMId($this->object->getId());
 
-					/*include_once("classes/class.ilHistory.php");
+					/*include_once("./Services/History/classes/class.ilHistory.php");
 					 ilHistory::_createEntry($this->object->getId(), "delete_".$obj->getType(),
 						array(ilLMObject::_lookupTitle($id), $id),
 						$this->object->getType());*/

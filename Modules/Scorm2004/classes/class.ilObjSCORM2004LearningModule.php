@@ -1194,7 +1194,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					$this->slm_tree->deleteTree($node_data);
 
 					// write history entry
-/*					require_once("classes/class.ilHistory.php");
+/*					require_once("./Services/History/classes/class.ilHistory.php");
 					ilHistory::_createEntry($source_obj->getId(), "cut",
 						array(ilLMObject::_lookupTitle($parent_id), $parent_id),
 						$this->getType().":pg");
@@ -1244,7 +1244,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 /*					if ($movecopy == "move")
 					{
 						// write history comments
-						include_once("classes/class.ilHistory.php");
+						include_once("./Services/History/classes/class.ilHistory.php");
 						ilHistory::_createEntry($source_obj->getId(), "paste",
 							array(ilLMObject::_lookupTitle($parent), $parent),
 							$this->getType().":pg");

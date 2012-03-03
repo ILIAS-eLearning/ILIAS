@@ -83,7 +83,7 @@ class ilObjFile extends ilObject2
 		}
 		
 		// not upload mode
-		require_once("classes/class.ilHistory.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry($this->getId(), "create", $this->getFileName().",1");
 		$this->addNewsNotification("file_created");
 
@@ -224,7 +224,7 @@ class ilObjFile extends ilObject2
 	{
 		$this->getUploadFile($a_upload_file, $a_filename);
 		
-		require_once("classes/class.ilHistory.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry(
 			$this->getId(),
 			"replace",
@@ -239,7 +239,7 @@ class ilObjFile extends ilObject2
 	{
 		$this->getUploadFile($a_upload_file, $a_filename);
 		
-		require_once("classes/class.ilHistory.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_createEntry(
 			$this->getId(),
 			"new_version",
@@ -276,7 +276,7 @@ class ilObjFile extends ilObject2
 		$this->setVersion(0);
 		$this->clearDataDirectory();
 		
-		require_once("classes/class.ilHistory.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_removeEntriesForObject($this->getId());
 		
 	}
@@ -419,7 +419,7 @@ class ilObjFile extends ilObject2
 		}
 		else
 		{
-			require_once("classes/class.ilHistory.php");
+			require_once("./Services/History/classes/class.ilHistory.php");
 			$entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
 			
 			if ($entry === false)
@@ -522,7 +522,7 @@ class ilObjFile extends ilObject2
 		}
 		else
 		{
-			require_once("classes/class.ilHistory.php");
+			require_once("./Services/History/classes/class.ilHistory.php");
 			$entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
 			
 			if ($entry === false)
@@ -557,7 +557,7 @@ class ilObjFile extends ilObject2
 		}
 		else
 		{
-			require_once("classes/class.ilHistory.php");
+			require_once("./Services/History/classes/class.ilHistory.php");
 			$entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
 			
 			if ($entry === false)
@@ -719,7 +719,7 @@ class ilObjFile extends ilObject2
 		$res = $ilDB->manipulate($query);
 
 		// copy history entries
-		require_once("classes/class.ilHistory.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_copyEntriesForObject($this->getId(),$a_new_obj->getId());
 		
 		// add news notification
@@ -750,7 +750,7 @@ class ilObjFile extends ilObject2
 		$this->ilias->db->query($q);
 
 		// delete history entries
-		require_once("classes/class.ilHistory.php");
+		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_removeEntriesForObject($this->getId());
 
 		// delete entire directory and its content

@@ -43,7 +43,7 @@ class ilCronLinkCheck
 
 	function check()
 	{
-		include_once'./classes/class.ilLinkChecker.php';
+		include_once'./Services/LinkChecker/classes/class.ilLinkChecker.php';
 
 		$link_checker =& new ilLinkChecker($this->db);
 		$link_checker->setMailStatus(true);

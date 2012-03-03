@@ -1081,7 +1081,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$this->checkPermission('write');
 		$ilTabs->activateTab('id_history');
 
-		include_once("classes/class.ilHistoryGUI.php");
+		include_once("./Services/History/classes/class.ilHistoryGUI.php");
 		
 		$hist_gui =& new ilHistoryGUI($this->object->getId());
 		
@@ -1138,13 +1138,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$this->__initLinkChecker();
 		$this->object->initLinkResourceItemsObject();
 		
-		require_once 'Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
+		require_once './Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
 		
 		$toolbar = new ilToolbarGUI();
 
 		if((bool)$ilias->getSetting('cron_web_resource_check'))
 		{
-			include_once 'classes/class.ilLinkCheckNotify.php';
+			include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			
 			$chb = new ilCheckboxInputGUI($this->lng->txt('link_check_message_a'), 'link_check_message');
@@ -1169,7 +1169,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	{
 		global $ilDB,$ilUser;
 
-		include_once './classes/class.ilLinkCheckNotify.php';
+		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 
 		$link_check_notify =& new ilLinkCheckNotify($ilDB);
 		$link_check_notify->setUserId($ilUser->getId());
@@ -1230,7 +1230,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	{
 		global $ilDB;
 
-		include_once './classes/class.ilLinkChecker.php';
+		include_once './Services/LinkChecker/classes/class.ilLinkChecker.php';
 
 		$this->link_checker_obj =& new ilLinkChecker($ilDB,false);
 		$this->link_checker_obj->setObjId($this->object->getId());

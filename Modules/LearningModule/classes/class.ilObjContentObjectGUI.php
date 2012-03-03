@@ -1789,7 +1789,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				{
 					$obj->setLMId($this->object->getId());
 
-					include_once("classes/class.ilHistory.php");
+					include_once("./Services/History/classes/class.ilHistory.php");
 					ilHistory::_createEntry($this->object->getId(), "delete_".$obj->getType(),
 						array(ilLMObject::_lookupTitle($id), $id),
 						$this->object->getType());
@@ -2811,7 +2811,7 @@ $tabs_gui = $ilTabs;
 	{
 		$this->setTabs("history");
 
-		require_once("classes/class.ilHistoryGUI.php");
+		require_once("./Services/History/classes/class.ilHistoryGUI.php");
 		$hist_gui =& new ilHistoryGUI($this->object->getId() ,
 			$this->object->getType());
 		$hist_html = $hist_gui->getHistoryTable(
@@ -2861,13 +2861,13 @@ $tabs_gui = $ilTabs;
 		$this->setTabs();
 		$this->setContentSubTabs("link_check");
 		
-		require_once 'Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
+		require_once './Services/LinkChecker/classes/class.ilLinkCheckerTableGUI.php';
 		
 		$toolbar = new ilToolbarGUI();
 		
 		if((bool)$ilias->getSetting('cron_web_resource_check'))
 		{
-			include_once 'classes/class.ilLinkCheckNotify.php';
+			include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			
 			$chb = new ilCheckboxInputGUI($this->lng->txt('link_check_message_a'), 'link_check_message');
@@ -2892,7 +2892,7 @@ $tabs_gui = $ilTabs;
 	{
 		global $ilDB,$ilUser;
 
-		include_once './classes/class.ilLinkCheckNotify.php';
+		include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 
 		$link_check_notify =& new ilLinkCheckNotify($ilDB);
 		$link_check_notify->setUserId($ilUser->getId());
@@ -2939,7 +2939,7 @@ $tabs_gui = $ilTabs;
 	{
 		global $ilDB;
 
-		include_once './classes/class.ilLinkChecker.php';
+		include_once './Services/LinkChecker/classes/class.ilLinkChecker.php';
 
 		$this->link_checker_obj =& new ilLinkChecker($ilDB,false);
 		$this->link_checker_obj->setObjId($this->object->getId());
