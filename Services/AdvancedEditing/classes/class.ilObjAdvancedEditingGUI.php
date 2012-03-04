@@ -118,7 +118,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_assessment.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_assessment.html",
+			"Services/AdvancedEditing");
 		
 		$alltags =& $this->object->getHTMLTags();
 		$usedtags =& $this->object->_getUsedHTMLTags("assessment");
@@ -159,7 +160,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_survey.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_survey.html",
+			"Services/AdvancedEditing");
 		
 		$alltags =& $this->object->getHTMLTags();
 		$usedtags =& $this->object->_getUsedHTMLTags("survey");
@@ -200,7 +202,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	{
 		global $ilSetting;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_learning_module.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_learning_module.html",
+			"Services/AdvancedEditing");
 				
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -489,7 +492,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 	
 	public function frmPostObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_frm_post.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.advanced_editing_frm_post.html",
+			"Services/AdvancedEditing");
 		
 		$alltags =& $this->object->getHTMLTags();
 		$usedtags =& $this->object->_getUsedHTMLTags("frm_post");

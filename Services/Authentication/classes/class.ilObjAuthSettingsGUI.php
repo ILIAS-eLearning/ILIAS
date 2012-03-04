@@ -69,7 +69,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->setSubTabs('authSettings');		
 		$this->tabs_gui->setSubTabActive("auth_settings");		
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_general.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_general.html",
+			"Services/Authentication");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_AUTH_TITLE", $this->lng->txt("auth_select"));
@@ -252,7 +253,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		
 		$lng->loadLanguageModule("meta");
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html",
+			"Services/Authentication");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
 		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
@@ -349,7 +351,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('auth_soap');
 		
 		// get template
-		$stpl = new ilTemplate("tpl.auth_soap.html", true, true);
+		$stpl = new ilTemplate("tpl.auth_soap.html", true, true,
+			"Services/Authentication");
 		
 		// get all settings
 		$settings = $ilSetting->getAll();
@@ -571,7 +574,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
 		$this->tabs_gui->setTabActive('auth_script');
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_script.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_script.html",
+			"Services/Authentication");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("COLSPAN", 3);

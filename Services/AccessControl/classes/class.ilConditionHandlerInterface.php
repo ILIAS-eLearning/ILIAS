@@ -428,7 +428,8 @@ class ilConditionHandlerInterface
 		}
 		$condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit_condition.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_edit_condition.html',
+			"Services/AccessControl");
 		$this->ctrl->setParameter($this,'condition_id',(int) $_GET['condition_id']);
 		
 		$this->initFormCondition($condition['trigger_ref_id'],(int) $_GET['condition_id'],'edit');
@@ -549,7 +550,8 @@ class ilConditionHandlerInterface
 
 		include_once ("./Services/AccessControl/classes/class.ilConditionSelector.php");
 
-		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html");
+		$this->tpl->addBlockFile('ADM_CONTENT', "adm_content", "tpl.condition_selector.html",
+			"Services/AccessControl");
 
 		ilUtil::sendInfo($this->lng->txt("condition_select_object"));
 
@@ -593,7 +595,8 @@ class ilConditionHandlerInterface
 		}
 		
 		$this->initFormCondition((int) $_GET['source_id'],0,'add');
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.condition_handler_add.html',
+			"Services/AccessControl");
 		$this->tpl->setVariable('CONDITION_TABLE',$this->form->getHTML());		
 	}
 
@@ -823,7 +826,8 @@ class ilConditionHandlerInterface
 			$cus = new ilCustomInputGUI($this->lng->txt('trac_sahs_relevant_items'),'item_ids[]');
 			$cus->setRequired(true);
 
-			$tpl = new ilTemplate('tpl.condition_handler_sco_row.html',true,true);
+			$tpl = new ilTemplate('tpl.condition_handler_sco_row.html',true,true,
+				"Services/AccessControl");
 			$counter = 0;
 
 			foreach(ilLPCollections::_getPossibleSAHSItems($trigger_obj_id) as $item_id => $sahs_item)

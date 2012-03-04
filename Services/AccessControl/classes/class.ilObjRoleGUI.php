@@ -1084,7 +1084,8 @@ class ilObjRoleGUI extends ilObjectGUI
 /*			generate output			*/
 /************************************/
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.adm_perm_role.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.adm_perm_role.html',
+			"Services/AccessControl");
 
 	
 		if($access and $this->object->isDeletable($this->rolf_ref_id))
