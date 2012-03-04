@@ -22,7 +22,7 @@
 */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
+require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
 require_once "./Modules/ScormAicc/classes/class.ilObjAICCCourseInterchangeFiles.php";
 require_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php");

@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/FileSystemStorage/classes/class.ilFileSystemStorage.php');
+include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /** 
 * 
 * @author Alex Killing <alex.killing@gmx.de>

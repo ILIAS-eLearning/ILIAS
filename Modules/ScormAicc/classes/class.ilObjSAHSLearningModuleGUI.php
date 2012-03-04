@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
+require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 
 /**
 * SCORM/AICC/HACP Learning Modules
@@ -289,7 +289,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// todo "uploaded file"
 		// todo wysiwyg editor removement
 		
-		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 		if (ilUploadFiles::_getUploadDirectory())
 		{
 			$options = array();
@@ -348,7 +348,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	{
 		global $_FILES, $rbacsystem;
 
-		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 
 		// check create permission
 		if (!$rbacsystem->checkAccess("create", $_GET["ref_id"], "sahs"))
