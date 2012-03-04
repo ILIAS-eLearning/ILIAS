@@ -450,7 +450,7 @@ class ilObjExercise extends ilObject
 
 		if(count($files))
 		{
-			include_once "./classes/class.ilFileDataMail.php";
+			include_once "./Services/Mail/classes/class.ilFileDataMail.php";
 
 			$mfile_obj = new ilFileDataMail($_SESSION["AccountId"]);
 			foreach($files as $file)

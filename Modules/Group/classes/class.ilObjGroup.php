@@ -1641,7 +1641,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		global $lng;
 
-		include_once 'classes/class.ilFileDataGroup.php';
+		include_once './Modules/Group/classes/class.ilFileDataGroup.php';
 
 		$file_obj = new ilFileDataGroup(null);
 		$file_obj->addImportDirectory();
@@ -1873,7 +1873,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		else
 		{
-			include_once 'classes/class.ilFileDataGroup.php';
+			include_once './Modules/Group/classes/class.ilFileDataGroup.php';
 
 			return $this->file_obj = new ilFileDataGroup($this);
 		}

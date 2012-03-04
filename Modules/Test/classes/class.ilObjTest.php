@@ -10079,7 +10079,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		include_once "./Modules/Test/classes/class.ilTestExport.php";
 		$exportObj = new ilTestExport($this, "results");
 		$file = $exportObj->exportToExcel($deliver = FALSE, 'active_id', $active_id, $passedonly = FALSE);
-		include_once "./classes/class.ilFileDataMail.php";
+		include_once "./Services/Mail/classes/class.ilFileDataMail.php";
 		$fd = new ilFileDataMail(ANONYMOUS_USER_ID);
 		$fd->copyAttachmentFile($file, "result_" . $active_id . ".xls");
 		$file_names[] = "result_" . $active_id . ".xls";

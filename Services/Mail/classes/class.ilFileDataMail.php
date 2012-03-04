@@ -9,7 +9,7 @@
 * @version $Id$
 * 
 */
-require_once("classes/class.ilFileData.php");
+require_once("./Services/FileSystem/classes/class.ilFileData.php");
 				
 class ilFileDataMail extends ilFileData
 {

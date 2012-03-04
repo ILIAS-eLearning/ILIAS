@@ -21,7 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once("classes/class.ilFileData.php");
+require_once("./Services/FileSystem/classes/class.ilFileData.php");
 
 /**
 * This class handles all operations on files for the forum object.

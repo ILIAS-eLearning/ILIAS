@@ -43,7 +43,7 @@ class ilObjMailAccess extends ilObjectAccess
 	 */
 	function _lookupDiskUsageOfUser($user_id)
 	{
-		require_once "classes/class.ilFileDataMail.php";
+		require_once "./Services/Mail/classes/class.ilFileDataMail.php";
 		return ilFileDataMail::_lookupDiskUsageOfUser($user_id);
 	}
 

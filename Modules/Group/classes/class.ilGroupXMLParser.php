@@ -556,7 +556,7 @@ class ilGroupXMLParser extends ilSaxParser
 
 	function __initImportFileObject()
 	{
-		include_once "classes/class.ilFileDataImportGroup.php";
+		include_once "./Modules/Group/classes/class.ilFileDataImportGroup.php";
 
 		$this->import_file_obj =& new ilFileDataImportGroup();
 
