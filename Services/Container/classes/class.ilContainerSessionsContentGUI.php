@@ -220,7 +220,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		
 		$lng->loadLanguageModule('crs');
 
-		$tpl = new ilTemplate('tpl.container_list_item.html',true,true);
+		$tpl = new ilTemplate('tpl.container_list_item.html',true,true,
+			"Services/Container");
 		$tpl->setVariable('DIV_CLASS','ilContainerListItemOuter');
 		$tpl->setCurrentBlock('item_title_linked');
 

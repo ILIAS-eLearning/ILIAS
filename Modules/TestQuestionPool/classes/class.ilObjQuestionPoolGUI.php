@@ -393,7 +393,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$_SESSION["qpl_import_qti_file"] = $qti_file;
 		$_SESSION["qpl_import_subdir"] = $subdir;
 		// display of found questions
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.qpl_import_verification.html",
+			"Modules/TestQuestionPool");
 		$row_class = array("tblrow1", "tblrow2");
 		$counter = 0;
 		foreach ($founditems as $item)

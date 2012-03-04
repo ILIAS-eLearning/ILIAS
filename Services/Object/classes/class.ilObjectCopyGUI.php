@@ -173,7 +173,8 @@ class ilObjectCopyGUI
 		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition;
 	
 		$this->tpl = $tpl;
-		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html',
+			"Services/Object");
 		
 		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard'));
 		
@@ -256,7 +257,8 @@ class ilObjectCopyGUI
 		global $ilTabs, $ilToolbar, $ilCtrl, $tree, $tpl, $objDefinition;
 	
 		$this->tpl = $tpl;
-		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html',
+			"Services/Object");
 		
 		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
 		

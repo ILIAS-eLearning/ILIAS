@@ -2080,7 +2080,8 @@ class ilObjGroupGUI extends ilContainerGUI
 */
 	function exportObject()
 	{
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.grp_members_export.html");
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.grp_members_export.html",
+			"Modules/Group");
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("FORMACTION", $this->getFormAction("export",$this->ctrl->getFormAction($this)));
 		$this->tpl->setVariable("BUTTON_EXPORT", $this->lng->txt("export_group_members"));

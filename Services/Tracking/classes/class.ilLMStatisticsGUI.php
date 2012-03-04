@@ -253,7 +253,8 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"), $this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_members_search.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_members_search.html",
+			"Modules/Group");
 
 		$this->tpl->setVariable("F_ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SEARCH_ASSIGN_USR", $this->lng->txt("grp_search_members"));
@@ -311,7 +312,8 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html",
+			"Modules/Group");
 		$this->__showButton("searchUserForm", $this->lng->txt("grp_new_search"));
 
 		$counter = 0;
@@ -628,7 +630,8 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html",
+			"Modules/Group");
 		$this->__showButton("searchUserForm", $this->lng->txt("grp_new_search"));
 
 		// GET ALL MEMBERS
@@ -684,7 +687,8 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.grp_usr_selection.html",
+			"Modules/Group");
 		$this->__showButton("searchUserForm", $this->lng->txt("grp_new_search"));
 
 		// GET ALL MEMBERS

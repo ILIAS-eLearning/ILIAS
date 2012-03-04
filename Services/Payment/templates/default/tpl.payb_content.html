@@ -1,14 +1,44 @@
 {STATUSLINE}
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-<!--<div class="invisible_border">-->
-<div class="il_Header"><h1>{HEADER}</h1>
-<div class="il_Tab">
+<div class="il_HeaderOuter">
+<div class="il_Header">
+<div class="il_HeaderInner">
+	<h1><!-- BEGIN header_image --><img align="middle" border="0" src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
+	{HEADER}</h1><div class="il_Description">{DESCRIPTION}</div></div>
+	<!-- BEGIN tree_icons -->
+	<div style="float:right; margin-right:15px;  margin-top:5px;">
+		<!-- BEGIN top -->
+		<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}" border="0"></a>&nbsp;
+		<!-- END top -->
+		<!-- BEGIN tree_mode -->
+		<a class="{CLASS_TREE}" href="{LINK_MODE}" target="_top"><img src="{IMG_TREE}" border="0"></a>
+		<!-- END tree_mode -->
+	</div>
+	<!-- END tree_icons -->
+	<div style="clear:both;"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
 {TABS}
 </div>
 </div>
-<br/>
+<div style="margin-left:15px; clear:both;">{SUB_TABS}</div>
+<table class="il_ColumnLayout"><tr>
+<!-- BEGIN left_column -->
+<td class="il_LeftColumn">{LEFT_CONTENT}</td>
+<!-- END left_column -->
+<td class="il_CenterColumn">
+	<!-- BEGIN add_commands -->
+	<form class="il_Form" action="{H_FORMACTION}" method="post">
+	<div style="text-align:right; margin-bottom:10px;">
+	{SELECT_OBJTYPE_REPOS}
+	<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
+	</div>
+	</form>
+	<!-- END add_commands -->
 {BUTTONS}
 {MESSAGE}
 {ADM_CONTENT}
-<!--</div>-->
-</td></tr></table>
+{OBJECTS}
+{SYSTEMSETTINGS}
+</td>
+<!-- BEGIN right_column -->
+<td class="il_RightColumn">{RIGHT_CONTENT}</td>
+<!-- END right_column -->
+</tr></table>

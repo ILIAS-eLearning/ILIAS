@@ -570,7 +570,7 @@ class ilTestServiceGUI
 				$template->setVariable("SOLUTION_HINT_HEADER", $this->lng->txt("solution_hint"));
 				if (strcmp($sort, "solution") == 0)
 				{
-					$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+					$image = new ilTemplate("tpl.image.html", TRUE, TRUE, "Modules/Test");
 					$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
 					$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
 					$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
@@ -592,7 +592,7 @@ class ilTestServiceGUI
 			$template->setVariable("QUESTION_COUNTER", $this->lng->txt("tst_question_no"));
 			if (strcmp($sort, "nr") == 0)
 			{
-				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE, "Modules/Test");
 				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
 				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
 				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
@@ -611,7 +611,7 @@ class ilTestServiceGUI
 			$template->setVariable("PERCENT_SOLVED", $this->lng->txt("tst_percent_solved"));
 			if (strcmp($sort, "percent") == 0)
 			{
-				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE, "Modules/Test");
 				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
 				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
 				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
@@ -630,7 +630,7 @@ class ilTestServiceGUI
 			$template->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 			if (strcmp($sort, "title") == 0)
 			{
-				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE, "Modules/Test");
 				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
 				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
 				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
@@ -649,7 +649,7 @@ class ilTestServiceGUI
 			$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 			if (strcmp($sort, "max") == 0)
 			{
-				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE, "Modules/Test");
 				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
 				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
 				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));
@@ -668,7 +668,7 @@ class ilTestServiceGUI
 			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 			if (strcmp($sort, "reached") == 0)
 			{
-				$image = new ilTemplate("tpl.image.html", TRUE, TRUE);
+				$image = new ilTemplate("tpl.image.html", TRUE, TRUE, "Modules/Test");
 				$image->setVariable("IMAGE_SOURCE", ilUtil::getImagePath($sortorder . "_order.gif"));
 				$image->setVariable("IMAGE_ALT", $this->lng->txt("change_sort_direction"));
 				$image->setVariable("IMAGE_TITLE", $this->lng->txt("change_sort_direction"));

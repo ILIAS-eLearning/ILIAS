@@ -723,7 +723,8 @@ class ilPurchaseBaseGUI
 
 	function __loadTemplate()
 	{
-		$this->tpl->addBlockFile('CONTENT', 'content', 'tpl.payb_content.html');
+		$this->tpl->addBlockFile('CONTENT', 'content', 'tpl.payb_content.html',
+			'Services/Payment');
 
 		$this->__buildStylesheet();
 		$this->__buildStatusline();

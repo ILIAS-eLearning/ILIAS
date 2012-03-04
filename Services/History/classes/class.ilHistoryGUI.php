@@ -78,7 +78,8 @@ class ilHistoryGUI
 		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
 
 		$this->tpl =& $tbl->getTemplateObject();
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.history_row.html", false);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.history_row.html",
+			"Services/History");
 
 		if(count($entries) > 0)
 		{
@@ -232,7 +233,8 @@ class ilHistoryGUI
 		$entries = array_slice($entries, $_GET["offset"], $_GET["limit"]);
 
 		$this->tpl =& $tbl->getTemplateObject();
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.history_row.html", false);
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.history_row.html",
+			"Services/History");
 
 		if(count($entries) > 0)
 		{

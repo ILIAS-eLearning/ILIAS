@@ -67,7 +67,8 @@ class ilContainerLinkListGUI
 	{
 		global $lng, $tree;
 		
-		$tpl = new ilTemplate("tpl.container_link_help.html", true, true);
+		$tpl = new ilTemplate("tpl.container_link_help.html", true, true,
+			"Services/Container");
 		
 		$type_ordering = array(
 			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",

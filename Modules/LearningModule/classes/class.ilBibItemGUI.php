@@ -85,7 +85,8 @@ class ilBibItemGUI
 	*/
 	function showLangSel($a_name, $a_value = "")
 	{
-		$tpl = new ilTemplate("tpl.lang_selection.html", true, true);
+		$tpl = new ilTemplate("tpl.lang_selection.html", true, true,
+			"Services/MetaData");
 		$languages = ilMDLanguageItem::_getLanguages();
 		foreach($languages as $code => $text)
 		{

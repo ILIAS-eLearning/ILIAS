@@ -3495,7 +3495,8 @@ class ilMDEditorGUI
 	{
 		include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
-		$tpl = new ilTemplate("tpl.lang_selection.html", true, true);
+		$tpl = new ilTemplate("tpl.lang_selection.html", true, true,
+			"Services/MetaData");
 
 		foreach(ilMDLanguageItem::_getLanguages() as $code => $text)
 		{

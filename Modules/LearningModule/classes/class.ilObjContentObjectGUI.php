@@ -2747,8 +2747,8 @@ $tabs_gui = $ilTabs;
 		// get learning module object
 		$this->lm_obj =& new ilObjLearningModule($this->ref_id, true);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_public_selector.html");
-		//$this->tpl->setVariable("ADM_CONTENT", "adm_content", "bla");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_public_selector.html",
+			"Modules/LearningModule");
 
 		require_once ("./Modules/LearningModule/classes/class.ilPublicSectionSelector.php");
 		$exp = new ilPublicSectionSelector($this->ctrl->getLinkTarget($this, "view"),

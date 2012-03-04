@@ -33,7 +33,8 @@ class ilObjectStatusGUI
 		$this->ctrl =& $ilCtrl;
 		$this->object =& $a_obj;
 		
-		$this->tpl = new ilTemplate("tpl.info_layout.html", false, false);
+		$this->tpl = new ilTemplate("tpl.info_layout.html", false, false,
+			"Services/AccessControl");
 		$this->tpl->setVariable("INFO_REMARK_INTERRUPTED",$lng->txt('info_remark_interrupted'));
 
 		if (empty($_POST['Fuserid']))
