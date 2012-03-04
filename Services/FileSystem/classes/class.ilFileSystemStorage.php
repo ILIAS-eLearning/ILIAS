@@ -22,7 +22,7 @@
 */
 
 /** 
-* @defgroup ServicesFileSystemStorage Services/FileSystemStorage
+* @defgroup ServicesFileSystemStorage Services/FileSystem
 * 
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$

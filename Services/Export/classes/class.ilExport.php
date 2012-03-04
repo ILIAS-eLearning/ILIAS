@@ -107,7 +107,7 @@ class ilExport
 		
 		if(in_array($a_obj_type, self::$new_file_structure))
 		{
-			include_once './Services/FileSystemStorage/classes/class.ilFileSystemStorage.php';
+			include_once './Services/FileSystem/classes/class.ilFileSystemStorage.php';
 			$dir = ilUtil::getDataDir().DIRECTORY_SEPARATOR;
 			$dir .= 'il'.$objDefinition->getClassName($a_obj_type).DIRECTORY_SEPARATOR;
 			$dir .= ilFileSystemStorage::_createPathFromId($a_obj_id, $a_obj_type).DIRECTORY_SEPARATOR;

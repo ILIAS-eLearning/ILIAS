@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/FileSystemStorage/classes/class.ilFileSystemStorage.php');
+include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 
 /** 
 * 

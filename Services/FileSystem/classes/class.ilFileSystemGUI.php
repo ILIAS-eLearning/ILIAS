@@ -4,7 +4,6 @@
 /**
 * File System Explorer GUI class
 *
-* -> This class should go to Services/FileSystemStorage
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
@@ -396,7 +395,7 @@ class ilFileSystemGUI
 			$ilToolbar->addFormButton($lng->txt("upload"), "uploadFile");
 		}
 		
-		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 		if (ilUploadFiles::_getUploadDirectory())
 		{
 			$ilToolbar->addSeparator();
@@ -416,7 +415,7 @@ class ilFileSystemGUI
 			
 		// load files templates
 		//$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.directory.html", false);
-		include_once("./Services/FileSystemStorage/classes/class.ilFileSystemTableGUI.php");
+		include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
 		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $cur_dir, $cur_subdir,
 			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
 			$this->getPostDirPath());
@@ -580,7 +579,7 @@ class ilFileSystemGUI
 			: $this->main_dir;
 
 
-		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{

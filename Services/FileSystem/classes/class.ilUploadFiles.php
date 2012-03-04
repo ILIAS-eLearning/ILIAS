@@ -22,7 +22,6 @@
 */
 
 /** 
-* @defgroup ServicesFileSystemStorage Services/FileSystemStorage
 * 
 * @author Fred Neumann <fred.neumann@fim.uni-erlangen.de>
 * @version $Id$

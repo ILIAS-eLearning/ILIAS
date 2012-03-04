@@ -283,7 +283,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$mset = new ilSetting("mobs");
 				if (trim($mset->get("upload_dir")) != "")
 				{
-					include_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
+					include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 					$fs_gui = new ilFileSystemGUI($mset->get("upload_dir"));
 					$fs_gui->setPostDirPath(true);
 					$fs_gui->setTableId("mepud".$this->object->getId());

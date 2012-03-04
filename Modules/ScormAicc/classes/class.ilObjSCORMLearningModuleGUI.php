@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once("./Services/FileSystemStorage/classes/class.ilFileSystemGUI.php");
+require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 require_once("Services/User/classes/class.ilObjUser.php");
 
 require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php");
@@ -233,7 +233,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		   $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm"));
 	   }    
 	
-		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 		if (ilUploadFiles::_getUploadDirectory())
 		{
 			$files = ilUploadFiles::_getUploadFiles();
@@ -294,7 +294,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$unzip = PATH_TO_UNZIP;
 		$tocheck = "imsmanifest.xml";
 		
-		include_once 'Services/FileSystemStorage/classes/class.ilUploadFiles.php';
+		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 
 		// check create permission before because the uploaded file will be copied
 		if (!$rbacsystem->checkAccess("write", $_GET["ref_id"]))
