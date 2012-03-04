@@ -3185,7 +3185,7 @@ class ilObjUserGUI extends ilObjectGUI
 
                 	foreach ($ref_ids as $ref_id) {}
 
-	                require_once("./classes/class.ilLink.php");
+	                require_once("./Services/Link/classes/class.ilLink.php");
 	
         	        $result_set[$counter][] = $context = "<a href='".ilLink::_getLink($ref_id, ilObject::_lookupType($obj_id))."' target='_top'>".$path."</a>";
 	        }

@@ -22,7 +22,7 @@ class ilMembershipRegistrationCodeUtils
 	 */
 	public static function handleCode($a_ref_id,$a_type,$a_code)
 	{
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		try
 		{
 			self::useCode($a_code,$a_ref_id);

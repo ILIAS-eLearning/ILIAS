@@ -2755,7 +2755,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilLog, $ilCtrl;
 		
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
 		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser;

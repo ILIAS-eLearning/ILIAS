@@ -180,7 +180,7 @@ class ilPermanentLinkGUI
 		$tpl = new ilTemplate("tpl.permanent_link.html", true, true,
 			"Services/PermanentLink");
 		
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($this->getId(), $this->getType(),
 			true, $this->getAppend());
 		if ($this->getIncludePermanentLinkText())

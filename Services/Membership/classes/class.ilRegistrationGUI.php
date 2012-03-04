@@ -229,7 +229,7 @@ abstract class ilRegistrationGUI
 			
 			if($ilAccess->checkAccess('visible','',$ref_id,$type))
 			{
-				include_once('./classes/class.ilLink.php');
+				include_once('./Services/Link/classes/class.ilLink.php');
 				$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
 				$tpl->setVariable('LINK_ITEM',
 					$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));

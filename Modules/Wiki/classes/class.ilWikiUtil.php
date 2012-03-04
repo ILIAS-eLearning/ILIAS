@@ -632,7 +632,7 @@ class ilWikiUtil
 				return;
 			}
 
-			include_once "./classes/class.ilLink.php";
+			include_once "./Services/Link/classes/class.ilLink.php";
 			$link = ilLink::_getLink($a_wiki_ref_id);
 		}
 		

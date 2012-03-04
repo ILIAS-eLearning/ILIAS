@@ -216,7 +216,7 @@ class ilCalendarAppointmentPanelGUI
 							$this->tpl->parseCurrentBlock();
 						}
 											
-						include_once 'classes/class.ilLink.php';
+						include_once './Services/Link/classes/class.ilLink.php';
 						$registrations = array();
 						foreach($reg->getRegisteredUsers(new ilDateTime($a_app['dstart'],IL_CAL_UNIX),new ilDateTime($a_app['dend'],IL_CAL_UNIX)) as $usr_data)
 						{
@@ -306,7 +306,7 @@ class ilCalendarAppointmentPanelGUI
 						$this->tpl->parseCurrentBlock();
 					}
 
-					include_once 'classes/class.ilLink.php';
+					include_once './Services/Link/classes/class.ilLink.php';
 					$bookings = array();
 					$this->ctrl->setParameterByClass('ilconsultationhoursgui','panel',1);
 					foreach($entry->getCurrentBookings($a_app['event']->getEntryId()) as $user_id)
@@ -368,7 +368,7 @@ class ilCalendarAppointmentPanelGUI
 				ilObject::_lookupTitle($entry_obj_id) :
 				$lng->txt('obj_'.$type);
 
-			include_once('classes/class.ilLink.php');
+			include_once('./Services/Link/classes/class.ilLink.php');
 			$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($entry_obj_id));
 			$parent = $tree->getParentId(current($refs));
 			$parent_title = ilObject::_lookupTitle(ilObject::_lookupObjId($parent));

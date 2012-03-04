@@ -449,7 +449,7 @@ class ilInfoScreenGUI
 			
 			if($ref_id)
 			{
-				include_once('classes/class.ilLink.php');
+				include_once('./Services/Link/classes/class.ilLink.php');
 				$href = ilLink::_getStaticLink($ref_id,$type,true);
 
 				// delicous link

@@ -378,7 +378,7 @@ class ilMainMenuGUI
 		}
 
 		// repository
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
 		$title = $nd["title"];
 		if ($title == "ILIAS")
@@ -478,7 +478,7 @@ class ilMainMenuGUI
 		{
 			$gl = new ilGroupedListGUI();
 			
-			include_once("./classes/class.ilLink.php");
+			include_once("./Services/Link/classes/class.ilLink.php");
 			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
 			$icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
 			
@@ -778,7 +778,7 @@ class ilMainMenuGUI
 		$this->tpl->setVariable('TXT_MM_CLOSE_PREVIEW',$lng->txt('mem_view_close'));
 		$this->tpl->setVariable('MM_CLOSE_IMG',ilUtil::getImagePath('cancel.gif'));
 
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		
 		$this->tpl->setVariable(
 			'HREF_CLOSE_MM',

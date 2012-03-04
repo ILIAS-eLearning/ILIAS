@@ -1283,7 +1283,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		
 		$link = new ilCustomInputGUI($this->lng->txt('crs_reg_code_link'));
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()); 
 		$link->setHTML('<font class="small">'.$val.'</font>');
 		$reg_code->addSubItem($link);
@@ -5204,7 +5204,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 
 		global $rbacsystem,$ilias,$ilUser,$ilAccess,$ilObjDataCache;
 
@@ -5351,7 +5351,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$link = chr(13).chr(10).chr(13).chr(10);
 		$link .= $this->lng->txt('crs_mail_permanent_link');
 		$link .= chr(13).chr(10).chr(13).chr(10);
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		$link .= ilLink::_getLink($this->object->getRefId());
 		return rawurlencode(base64_encode($link));
 	}

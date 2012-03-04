@@ -1632,7 +1632,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$this->__setSubTabs('members');
 		
-		include_once("./classes/class.ilLink.php");
+		include_once("./Services/Link/classes/class.ilLink.php");
 		$link_to_seminar = ilLink::_getLink($this->object->getRefId());
 		include_once 'Services/Mail/classes/class.ilMail.php';
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';

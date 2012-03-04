@@ -56,7 +56,7 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		
 		$lng->loadLanguageModule("wsp");
 		
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 	}
 
 	protected function getItems()

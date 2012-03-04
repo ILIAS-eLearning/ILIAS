@@ -179,7 +179,7 @@ class ilCalendarExport
 		{
 			$refs = ilObject::_getAllReferences($cat->getObjId());
 
-			include_once './classes/class.ilLink.php';
+			include_once './Services/Link/classes/class.ilLink.php';
 			$this->writer->addLine(
 				'URL;VALUE=URI:'.ilLink::_getLink(current((array) $refs))
 			);

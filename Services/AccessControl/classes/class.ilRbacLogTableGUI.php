@@ -131,7 +131,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
 			$obj_id = ilObject::_lookupObjectId($raw["src"]);
 			if($obj_id)
 			{
-				include_once "classes/class.ilLink.php";
+				include_once "./Services/Link/classes/class.ilLink.php";
 				$result[] = array("action"=>$this->lng->txt("rbac_log_source_object"),
 							"operation"=>"<a href=\"".ilLink::_getLink($raw["src"])."\">".ilObject::_lookupTitle($obj_id)."</a>");
 			}

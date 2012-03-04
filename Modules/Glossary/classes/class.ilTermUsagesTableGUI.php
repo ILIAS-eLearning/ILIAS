@@ -76,7 +76,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 			$cont_type = $us_arr[0];
 		}
 
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 
 		switch($usage["type"])
 		{

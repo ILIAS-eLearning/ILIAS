@@ -195,7 +195,7 @@ class ilCourseContentGUI
 	{
 		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
 		include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 
 		global $rbacsystem,$ilias,$ilUser,$ilAccess,$ilObjDataCache;
 
@@ -787,7 +787,7 @@ class ilCourseContentGUI
 		global $ilAccess,$ilErr;
 
 		include_once 'Services/MetaData/classes/class.ilMDEducational.php';
-		include_once 'classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 
 		$this->lng->loadLanguageModule('meta');
 
@@ -1328,7 +1328,7 @@ class ilCourseContentGUI
 		{
 			$this->tpl->setCurrentBlock("title_as_link");
 			
-			include_once './classes/class.ilLink.php';
+			include_once './Services/Link/classes/class.ilLink.php';
 			$this->tpl->setVariable("TITLE_LINK",ilLink::_getLink($item['ref_id'],$item['type']));
 			$this->tpl->setVariable("TITLE_NAME",$item['title']);
 			$this->tpl->parseCurrentBlock();
@@ -1371,7 +1371,7 @@ class ilCourseContentGUI
 		global $ilUser,$ilAccess;
 
 		include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		include_once './Services/MetaData/classes/class.ilMDEducational.php';
 		
 		if(!$ilAccess->checkAccess('visible','',$item['ref_id']))

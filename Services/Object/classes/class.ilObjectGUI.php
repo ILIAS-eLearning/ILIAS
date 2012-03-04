@@ -1766,7 +1766,7 @@ class ilObjectGUI
 	 */
 	public function cloneAllObject()
 	{
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
 		global $ilErr,$ilUser;

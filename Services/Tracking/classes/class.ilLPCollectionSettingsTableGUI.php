@@ -92,7 +92,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 
 		$this->tpl->setCurrentBlock('item_row');
 		$this->tpl->setVariable('ITEM_ID', $a_set['id']);

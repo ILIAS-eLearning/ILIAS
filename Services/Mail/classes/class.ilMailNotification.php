@@ -346,7 +346,7 @@ abstract class ilMailNotification
 	 */
 	protected function createPermanentLink($a_params = array(),$a_append = '')
 	{
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		
 		if($this->getRefId())
 		{

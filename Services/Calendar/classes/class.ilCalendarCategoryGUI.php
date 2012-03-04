@@ -1229,7 +1229,7 @@ class ilCalendarCategoryGUI
 		
 		foreach(ilObject::_getAllReferences($a_obj_id) as $ref_id => $ref_id)
 		{
-			include_once('./classes/class.ilLink.php');
+			include_once('./Services/Link/classes/class.ilLink.php');
 			
 			$parent_ref_id = $tree->getParentId($ref_id);
 			$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);

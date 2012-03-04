@@ -253,7 +253,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	{
 		global $tree, $ilCtrl;
 
-		include_once 'classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		
 		if(!count($ref_ids))
 		{
@@ -571,7 +571,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		*/
 
 	    ilDatePresentation::setUseRelativeDates(false);
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		
 		$data = array(
 			$lng->txt("trac_name_of_installation") => $ilClientIniFile->readVariable('client', 'name'),
