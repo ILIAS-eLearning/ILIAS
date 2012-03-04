@@ -990,7 +990,7 @@ class ilMailFolderGUI
 
 		if ($filename != "")
 		{
-			require_once "classes/class.ilFileDataMail.php";
+			require_once "./Services/Mail/classes/class.ilFileDataMail.php";
 			
 			// secure filename
 			$filename = str_replace("..", "", $filename);

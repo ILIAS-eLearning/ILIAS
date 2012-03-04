@@ -9,7 +9,7 @@
 * @version $Id$
 * 
 */
-require_once("classes/class.ilFile.php");
+require_once("./Services/FileSystem/classes/class.ilFile.php");
 
 class ilFileData extends ilFile
 {
@@ -22,7 +22,6 @@ class ilFileData extends ilFile
 	*/
 	function ilFileData()
 	{
-		require_once("classes/class.ilFile.php");
 		parent::ilFile();
 		$this->path = CLIENT_DATA_DIR;
 	}

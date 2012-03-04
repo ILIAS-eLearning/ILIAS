@@ -159,7 +159,7 @@ class ilSoapUtils extends ilSoapAdministration
 		foreach($mails as $mail)
 		{
 			// Prepare attachments
-			include_once './classes/class.ilFileDataMail.php';
+			include_once './Services/Mail/classes/class.ilFileDataMail.php';
 			$file = new ilFileDataMail($ilUser->getId());
 			foreach((array) $mail['attachments'] as $attachment)
 			{

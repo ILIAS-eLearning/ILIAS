@@ -6,19 +6,19 @@
 * This class handles all operations on files for the exercise object
 *  
 * @author	Stefan Meyer <meyer@leifos.com>
-* @version $Id$
+* @version $Id$Id: class.ilFileDataImportMail.php,v 1.1 2004/03/31 13:42:19 smeyer Exp $
 * 
 */
-require_once("./classes/class.ilFileDataImport.php");
+require_once("./Services/FileSystem/classes/class.ilFileDataImport.php");
 				
-class ilFileDataImportGroup extends ilFileDataImport
+class ilFileDataImportMail extends ilFileDataImport
 {
 	/**
 	* path of exercise directory
 	* @var string path
 	* @access private
 	*/
-	var $group_path;
+	var $mail_path;
 
 	var $files;
 	var $xml_file;
@@ -31,15 +31,15 @@ class ilFileDataImportGroup extends ilFileDataImport
 	* @param integereger obj_id
 	* @access	public
 	*/
-	function ilFileDataImportGroup()
+	function ilFileDataImportMail()
 	{
-		define('GROUP_IMPORT_PATH','group');
+		define('MAIL_IMPORT_PATH','mail');
 		parent::ilFileDataImport();
-		$this->group_path = parent::getPath()."/".GROUP_IMPORT_PATH;
+		$this->mail_path = parent::getPath()."/".MAIL_IMPORT_PATH;
 
 		// IF DIRECTORY ISN'T CREATED CREATE IT
-		// CALL STATIC TO AVOID OVERWRITE PROBLEMS
-		ilFileDataImportGroup::_initDirectory();
+		// CALL STTIC TO AVOID OVERWRITE PROBLEMS
+		ilFileDataImportMail::_initDirectory();
 		$this->__readFiles();
 	}
 
@@ -51,11 +51,6 @@ class ilFileDataImportGroup extends ilFileDataImport
 	function getXMLFile()
 	{
 		return $this->xml_file;
-	}
-
-	function getObjectFile()
-	{
-		return $this->object_file;
 	}
 
 	/**
@@ -74,11 +69,10 @@ class ilFileDataImportGroup extends ilFileDataImport
 		{
 			// DELETE OLD FILES
 			$this->unlinkLast();
-			
-			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'],
-				$a_http_post_file['name'], $this->getPath().'/'.$a_http_post_file['name']);
 
 			// CHECK IF FILE WITH SAME NAME EXISTS
+			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'], $a_http_post_file['name'],
+				$this->getPath().'/'.$a_http_post_file['name']);
 			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getPath().'/'.$a_http_post_file['name']);
 
 			// UPDATE FILES LIST
@@ -113,28 +107,6 @@ class ilFileDataImportGroup extends ilFileDataImport
 		return $this->xml_file;
 	}
 
-	function findObjectFile($a_file,$a_dir = '')
-	{
-		$a_dir = $a_dir ? $a_dir : $this->getPath();
-
-		$this->__readFiles($a_dir);
-
-		foreach($this->getFiles() as $file_data)
-		{
-			if(is_dir($file_data["abs_path"]))
-			{
-				$this->findObjectFile($a_file,$file_data["abs_path"]);
-			}
-			if($file_data["name"] == $a_file)
-			{
-				return $this->object_file = $file_data["abs_path"];
-			}
-		}
-		return $this->object_file;
-	}
-			
-
-
 	function unzip()
 	{
 		foreach($this->getFiles() as $file_data)
@@ -153,7 +125,7 @@ class ilFileDataImportGroup extends ilFileDataImport
 	*/
 	function getPath()
 	{
-		return $this->group_path;
+		return $this->mail_path;
 	}
 
 	function unlinkLast()
@@ -204,13 +176,13 @@ class ilFileDataImportGroup extends ilFileDataImport
 	*/
 	function __checkReadWrite()
 	{
-		if(is_writable($this->group_path) && is_readable($this->group_path))
+		if(is_writable($this->mail_path) && is_readable($this->mail_path))
 		{
 			return true;
 		}
 		else
 		{
-			$this->ilias->raiseError("Group import directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
+			$this->ilias->raiseError("Mail import directory is not readable/writable by webserver",$this->ilias->error_obj->FATAL);
 		}
 	}
 	/**
@@ -222,9 +194,9 @@ class ilFileDataImportGroup extends ilFileDataImport
 	*/
 	function _initDirectory()
 	{
-		if(!@file_exists($this->group_path))
+		if(!@file_exists($this->mail_path))
 		{
-			ilUtil::makeDir($this->group_path);
+			ilUtil::makeDir($this->mail_path);
 		}
 		return true;
 	}

@@ -250,7 +250,7 @@ class ilMail
 	*/
 	function ilMail($a_user_id)
 	{
-		require_once "classes/class.ilFileDataMail.php";
+		require_once "./Services/Mail/classes/class.ilFileDataMail.php";
 		require_once "Services/Mail/classes/class.ilMailOptions.php";
 
 		global $ilias, $lng, $ilUser;

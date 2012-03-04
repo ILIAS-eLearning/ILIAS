@@ -304,7 +304,7 @@ class ilObjMailGUI extends ilObjectGUI
 	// PRIVATE
 	function __initFileObject()
 	{
-		include_once "./classes/class.ilFileDataImportMail.php";
+		include_once "./Services/Mail/classes/class.ilFileDataImportMail.php";
 
 		$this->file_obj =& new ilFileDataImportMail();
 
