@@ -94,7 +94,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 		}
 //var_dump($usage);
 
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 
 		switch($usage["type"])
 		{

@@ -112,7 +112,7 @@ class ilNavigationHistory
 			{
 				foreach ($db_entries as $rec)
 				{
-					include_once("./classes/class.ilLink.php");
+					include_once("./Services/Link/classes/class.ilLink.php");
 					
 					if ($cnt <= 10 && ! isset($items[$rec["ref_id"].":".$rec["sub_obj_id"]]))
 					{

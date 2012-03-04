@@ -569,7 +569,7 @@ class ilObjectCopyGUI
 	 */
 	protected function copySingleObject()
 	{
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
 		global $ilAccess,$ilErr,$rbacsystem,$ilUser,$ilCtrl,$rbacreview;
@@ -636,7 +636,7 @@ class ilObjectCopyGUI
 	{
 		global $ilLog, $ilCtrl;
 		
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
 		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser,$ilCtrl;

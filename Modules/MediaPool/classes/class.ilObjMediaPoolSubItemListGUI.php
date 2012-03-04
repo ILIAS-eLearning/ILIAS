@@ -22,7 +22,7 @@
 */
 
 include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-include_once './classes/class.ilLink.php';
+include_once './Services/Link/classes/class.ilLink.php';
 
 /** 
 * Show media pool items

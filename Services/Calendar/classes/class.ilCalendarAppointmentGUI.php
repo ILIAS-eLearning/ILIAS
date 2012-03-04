@@ -631,7 +631,7 @@ class ilCalendarAppointmentGUI
 			$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo($cat_id);
 			$refs = ilObject::_getAllReferences($cat_info['obj_id']);
 			
-			include_once('classes/class.ilLink.php');
+			include_once('./Services/Link/classes/class.ilLink.php');
 			$href = ilLink::_getStaticLink(current($refs),ilObject::_lookupType($cat_info['obj_id']),true);
 			$info->addProperty($this->lng->txt('perma_link'),'<a class="small" href="'.$href.'" target="_top">'.$href.'</a>');
 		}

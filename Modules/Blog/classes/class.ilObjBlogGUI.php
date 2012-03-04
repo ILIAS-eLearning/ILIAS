@@ -468,7 +468,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 
 		// exercise goto
-		include_once "classes/class.ilLink.php";
+		include_once "./Services/Link/classes/class.ilLink.php";
 		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
 		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
 		

@@ -437,7 +437,7 @@ class ilContainer extends ilObject
 	{
 		global $ilLog;
 		
-		include_once('classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 		
 		global $ilAccess,$ilErr,$rbacsystem,$tree,$ilUser;

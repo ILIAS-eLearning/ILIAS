@@ -960,7 +960,7 @@ class ilObjectListGUI
 	{
 		if($this->static_link_enabled)
 		{
-		 	include_once('classes/class.ilLink.php');
+		 	include_once('./Services/Link/classes/class.ilLink.php');
 		 	if($link = ilLink::_getStaticLink($this->ref_id,$this->type,false))
 		 	{
 		 		$command['link'] = $link;

@@ -323,7 +323,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 		
 		$this->setData($data);
 		
-		include_once "classes/class.ilLink.php";
+		include_once "./Services/Link/classes/class.ilLink.php";
 	}
 	
 	protected function getDetailItems($a_obj_id)

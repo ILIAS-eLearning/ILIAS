@@ -804,7 +804,7 @@ class ilSessionStatisticsGUI
 		global $lng, $ilClientIniFile, $ilUser;
 		
 	    ilDatePresentation::setUseRelativeDates(false);
-		include_once './classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		
 		include_once "./Services/Utilities/classes/class.ilCSVWriter.php";
 	    $csv = new ilCSVWriter();

@@ -295,7 +295,7 @@ class ilPublicUserProfileGUI
 			{
 				$tpl->setCurrentBlock("link");
 				$tpl->setVariable("TXT_LINK", $lng->txt("usr_link_to_profile"));
-				include_once("./classes/class.ilLink.php");
+				include_once("./Services/Link/classes/class.ilLink.php");
 				$tpl->setVariable("HREF_LINK",
 					ilLink::_getStaticLink($user->getId(), "usr"));
 				$tpl->parseCurrentBlock();

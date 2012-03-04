@@ -400,7 +400,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				{
 					if ($ilAccess->checkAccess("write", "", $ref))
 					{
-						include_once("./classes/class.ilLink.php");
+						include_once("./Services/Link/classes/class.ilLink.php");
 						$link = ilLink::_getLink($ref,'sahs');
 					}
 				}

@@ -72,7 +72,7 @@ class ilECSReleasedContentTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		include_once('./classes/class.ilLink.php');
+		include_once('./Services/Link/classes/class.ilLink.php');
 		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		$this->tpl->setVariable('VAL_LINK',ilLink::_getLink($a_set['ref_id'],'rcrs'));

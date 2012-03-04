@@ -156,7 +156,7 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	{
 		global $tree, $ilCtrl;
 
-		include_once 'classes/class.ilLink.php';
+		include_once './Services/Link/classes/class.ilLink.php';
 		
 		if(!count($ref_ids))
 		{

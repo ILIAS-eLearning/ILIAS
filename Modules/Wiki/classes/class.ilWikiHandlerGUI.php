@@ -89,7 +89,7 @@ class ilWikiHandlerGUI
 				$append = ($_GET["page"] != "")
 					? "_".ilWikiUtil::makeUrlTitle($page)
 					: "";
-				include_once('classes/class.ilLink.php');
+				include_once('./Services/Link/classes/class.ilLink.php');
 				$goto = ilLink::_getStaticLink($_GET["ref_id"], "wiki",
 					true, $append);
 //var_dump($goto);

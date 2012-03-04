@@ -25,7 +25,7 @@ include_once './Services/Object/classes/class.ilSubItemListGUI.php';
 include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
-include_once './classes/class.ilLink.php';
+include_once './Services/Link/classes/class.ilLink.php';
 
 /** 
 * Show glossary terms

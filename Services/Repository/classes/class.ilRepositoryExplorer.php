@@ -133,7 +133,7 @@ class ilRepositoryExplorer extends ilExplorer
 				return $link;
 
 			default:
-				include_once('classes/class.ilLink.php');
+				include_once('./Services/Link/classes/class.ilLink.php');
 				return ilLink::_getStaticLink($a_node_id, $a_type, true);
 
 		}

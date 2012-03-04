@@ -143,7 +143,7 @@ class ilPathGUI
 		else
 		{
 			// With images and links
-			include_once './classes/class.ilLink.php';
+			include_once './Services/Link/classes/class.ilLink.php';
 			
 			$tpl = new ilTemplate('tpl.locator.html',true,true);
 			
