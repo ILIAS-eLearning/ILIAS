@@ -443,7 +443,7 @@ class ilSecuritySettings
         {
 	        return ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS;
 	    }
-        include_once './classes/class.ilHTTPS.php';
+        include_once './Services/Http/classes/class.ilHTTPS.php';
 
 	    if ($this->isHTTPSEnabled())
 	    {

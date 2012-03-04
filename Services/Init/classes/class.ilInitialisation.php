@@ -183,7 +183,7 @@ class ilInitialisation
 	 */
 	protected static function buildHTTPPath()
 	{
-		include_once 'classes/class.ilHTTPS.php';
+		include_once './Services/Http/classes/class.ilHTTPS.php';
 		$https = new ilHTTPS();
 
 	    if($https->isDetected())
@@ -989,7 +989,7 @@ class ilInitialisation
 		if(ilContext::usesHTTP())
 		{
 			// $https 
-			self::initGlobal("https", "ilHTTPS", "./classes/class.ilHTTPS.php");
+			self::initGlobal("https", "ilHTTPS", "./Services/Http/classes/class.ilHTTPS.php");
 			$https->enableSecureCookies();
 			$https->checkPort();	
 		}		
