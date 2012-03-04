@@ -277,7 +277,8 @@ class ilAuthLoginPageEditorGUI
 		}
 		$lng->loadLanguageModule("meta");
 
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html");
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.auth_login_messages.html",
+			"Services/Authentication");
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
 		$tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));

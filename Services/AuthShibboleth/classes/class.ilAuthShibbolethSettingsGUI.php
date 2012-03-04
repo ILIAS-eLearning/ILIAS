@@ -130,7 +130,8 @@ class ilAuthShibbolethSettingsGUI
 								);
 		
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.auth_shib.html');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.auth_shib.html',
+			"Services/Authentication");
 		
 		foreach ($shib_settings as $setting)
 		{

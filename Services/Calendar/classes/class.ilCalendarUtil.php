@@ -207,7 +207,8 @@ class ilCalendarUtil
 		}
 		
 		$lng->loadLanguageModule("jscalendar");
-		$tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html");
+		$tpl->addBlockFile("CALENDAR_LANG_JAVASCRIPT", "calendar_javascript", "tpl.calendar.html",
+			"Services/Calendar");
 		$tpl->setCurrentBlock("calendar_javascript");
 		$tpl->setVariable("FULL_SUNDAY", $lng->txt("l_su"));
 		$tpl->setVariable("FULL_MONDAY", $lng->txt("l_mo"));
