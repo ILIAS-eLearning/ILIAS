@@ -938,7 +938,7 @@ class ilInitialisation
 		
 		
 		// deprecated
-		self::initGlobal("ilias", "ILIAS", "classes/class.ilias.php");				
+		self::initGlobal("ilias", "ILIAS", "./Services/Init/classes/class.ilias.php");				
 	}
 	
 	/**
