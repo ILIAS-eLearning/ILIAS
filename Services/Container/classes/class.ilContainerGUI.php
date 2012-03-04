@@ -1128,7 +1128,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $lng, $tree;
 		
-		$tpl = new ilTemplate("tpl.container_link_help.html", true, true);
+		$tpl = new ilTemplate("tpl.container_link_help.html", true, true,
+			"Services/Container");
 		
 		$type_ordering = array(
 			"cat", "fold", "crs", "icrs", "icla", "grp", "chat", "frm", "lres",
@@ -1982,7 +1983,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
 		}
 
-		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');	
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html',
+			"Services/Object");	
 		
 		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_CHECK, 'repository.php?cmd=goto', 'paste_linked_repexpand');	
@@ -2049,7 +2051,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
 		}
 
-		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html');	
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.paste_into_multiple_objects.html',
+			"Services/Object");	
 		
 		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO, 'repository.php?cmd=goto', 'paste_cut_repexpand');	
@@ -2389,7 +2392,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->WARNING);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.rep_clipboard.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.rep_clipboard.html",
+			"Services/Container");
 
 		// FORMAT DATA
 		$counter = 0;
@@ -2429,7 +2433,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			if(!$a_form)
 			{
 				$this->tpl->addBlockFile("CONTAINER_ICONS", "container_icon_settings",
-					"tpl.container_icon_settings.html");
+					"tpl.container_icon_settings.html", "Services/Container");
 
 				if (($big_icon = $this->object->getBigIconPath()) != "")
 				{
@@ -2657,7 +2661,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('BODY_ATTRIBUTES','onload="ilDisableChilds(\'cmd\');"');
 
 		
-	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.container_wizard_page.html');
+	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.container_wizard_page.html',
+	 		"Services/Container");
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
 	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.gif'));
 	 	$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$new_type));

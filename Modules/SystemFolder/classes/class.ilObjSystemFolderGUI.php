@@ -1313,7 +1313,8 @@ return $this->showServerInfoObject();
 	{
 		global $rbacsystem, $styleDefinition;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.header_title_edit.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.header_title_edit.html",
+			"Modules/SystemFolder");
 
 		$array_push = true;
 
@@ -1379,7 +1380,8 @@ return $this->showServerInfoObject();
 			}
 
 			// lang selection
-			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html", false);
+			$this->tpl->addBlockFile("SEL_LANGUAGE", "sel_language", "tpl.lang_selection.html",
+				"Services/MetaData");
 			$this->tpl->setVariable("SEL_NAME", "Fobject[".$key."][lang]");
 
 			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');

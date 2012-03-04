@@ -4409,7 +4409,8 @@ class ilUtil
 			if (!$tpl->out_jsmath_info)
 			{
 				include_once "./Services/UICore/classes/class.ilTemplate.php";
-				$template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE);
+				$template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE,
+					"Services/Utilities");
 				$lng->loadLanguageModule("jsmath");
 				$template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
 				$info = $template->get();
@@ -4507,7 +4508,8 @@ class ilUtil
             if (!$tpl->out_jsmath_info)
             {
                 include_once "./Services/UICore/classes/class.ilTemplate.php";
-                $template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE);
+                $template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE,
+                	"Services/Utilities");
                 $lng->loadLanguageModule("jsmath");
                 $template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
                 $info = $template->get();
@@ -4932,7 +4934,8 @@ class ilUtil
 
 		if (!empty($_SESSION["infopanel"]) and is_array($_SESSION["infopanel"]))
 		{
-			$tpl->addBlockFile("INFOPANEL", "infopanel", "tpl.infopanel.html");
+			$tpl->addBlockFile("INFOPANEL", "infopanel", "tpl.infopanel.html",
+				"Services/Utilities");
 			$tpl->setCurrentBlock("infopanel");
 
 			if (!empty($_SESSION["infopanel"]["text"]))

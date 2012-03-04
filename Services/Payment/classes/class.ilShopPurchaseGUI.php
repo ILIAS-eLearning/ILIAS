@@ -578,7 +578,8 @@ class ilShopPurchaseGUI extends ilObjectGUI
 /*
  * function __buildHeader()
 	{
-		$this->tpl->addBlockFile("CONTENT", "content", "tpl.payb_content.html");
+		$this->tpl->addBlockFile("CONTENT", "content", "tpl.payb_content.html",
+		'Services/Payment');
 		$this->tpl->setVariable("HEADER",$this->object->getTitle());
 		$this->tpl->setVariable("DESCRIPTION",$this->object->getDescription());
 		$this->tpl->parseCurrentBlock();

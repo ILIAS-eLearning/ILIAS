@@ -52,7 +52,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		$this->__initSubTabs("view");
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.extt_general.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.extt_general.html",
+			"Services/Administration");
 		
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
@@ -208,7 +209,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			}	
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.extt_ilinc.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.extt_ilinc.html",
+			"Services/Administration");
 		
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_ILINC_TITLE", $this->lng->txt("extt_ilinc_configure"));

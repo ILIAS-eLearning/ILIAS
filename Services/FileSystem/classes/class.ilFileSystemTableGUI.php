@@ -54,7 +54,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.directory_row.html");
+		$this->setRowTemplate("tpl.directory_row.html",
+			"Services/FileSystem");
 		$this->setEnableTitle(true);
 
 		//$this->addMultiCommand("downloadFile", $lng->txt("download"));

@@ -449,7 +449,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		}
 
 		// get the form
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.disk_quota_report.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.disk_quota_report.html',
+			"Services/WebDAV");
 
 		// get the date of the last update
 		require_once("./Services/WebDAV/classes/class.ilDiskQuotaChecker.php");
@@ -666,7 +667,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('disk_quota');
 		$this->addDiskQuotaSubtabs('disk_quota_reminder_mail');
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.disk_quota_reminder_mail.html');
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.disk_quota_reminder_mail.html',
+			"Services/WebDAV");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.gif"));
 

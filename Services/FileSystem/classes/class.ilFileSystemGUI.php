@@ -414,7 +414,6 @@ class ilFileSystemGUI
 		}
 			
 		// load files templates
-		//$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.directory.html", false);
 		include_once("./Services/FileSystem/classes/class.ilFileSystemTableGUI.php");
 		$fs_table = new ilFileSystemTableGUI($this, "listFiles", $cur_dir, $cur_subdir,
 			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,

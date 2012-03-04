@@ -312,7 +312,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		ilUtil::sendInfo($this->lng->txt('msg_'.$mode.'_clipboard'));
 		
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content',
-			'tpl.paste_into_multiple_objects.html');
+			'tpl.paste_into_multiple_objects.html', "Services/Object");
 		
 		// move/copy in personal workspace
 		if(!$_SESSION['clipboard']['wsp2repo'])
