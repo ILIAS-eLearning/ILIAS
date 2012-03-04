@@ -1953,7 +1953,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 	public function isWebDAVoverHTTPS() {
 		if ($this->isHTTPS == null) {
 			global $ilSetting;
-			require_once 'classes/class.ilHTTPS.php';
+			require_once './Services/Http/classes/class.ilHTTPS.php';
 			$https = new ilHTTPS();
 			$this->isHTTPS = $https->isDetected() || $ilSetting->get('https');
 		}

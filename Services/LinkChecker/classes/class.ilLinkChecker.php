@@ -450,7 +450,7 @@ class ilLinkChecker
 				continue;
 			}
 			
-			require_once 'classes/class.ilProxySettings.php';
+			require_once './Services/Http/classes/class.ilProxySettings.php';
 			
 			if(ilProxySettings::_getInstance()->isActive())
 			{

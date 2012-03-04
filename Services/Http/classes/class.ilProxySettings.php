@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'classes/class.ilProxyException.php'; 
+require_once './Services/Http/exceptions/class.ilProxyException.php'; 
 
 /**
  * class ilProxySettings

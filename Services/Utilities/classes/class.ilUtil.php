@@ -2094,7 +2094,7 @@ class ilUtil
 		$disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
 		//		$mime = "application/octet-stream"; // or whatever the mime type is
 
-		include_once './classes/class.ilHTTPS.php';
+		include_once './Services/Http/classes/class.ilHTTPS.php';
 		
 		//if($_SERVER['HTTPS'])
 		if( ilHTTPS::getInstance()->isDetected() )
@@ -2202,7 +2202,7 @@ class ilUtil
 			header("Content-Length: ".(string)$filesize);
 		}
 
-		include_once './classes/class.ilHTTPS.php';
+		include_once './Services/Http/classes/class.ilHTTPS.php';
 		#if($_SERVER['HTTPS'])
 		if(ilHTTPS::getInstance()->isDetected())
 		{

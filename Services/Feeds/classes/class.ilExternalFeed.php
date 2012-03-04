@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'classes/class.ilProxySettings.php';
+require_once './Services/Http/classes/class.ilProxySettings.php';
 
 define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
 define("MAGPIE_CACHE_ON", true);

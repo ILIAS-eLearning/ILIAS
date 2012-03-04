@@ -365,7 +365,7 @@ return $this->showServerInfoObject();
 
 		/*if($_POST['https'])
 		{
-			include_once './classes/class.ilHTTPS.php';
+			include_once './Services/Http/classes/class.ilHTTPS.php';
 
 			if(!ilHTTPS::_checkHTTPS())
 			{
@@ -3351,7 +3351,7 @@ return $this->showServerInfoObject();
 			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-		require_once 'classes/class.ilProxySettings.php';
+		require_once './Services/Http/classes/class.ilProxySettings.php';
 		
 		$this->initProxyForm();
 		$this->form->setValuesByArray(array(
@@ -3410,7 +3410,7 @@ return $this->showServerInfoObject();
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
 		
-		require_once 'classes/class.ilProxySettings.php';
+		require_once './Services/Http/classes/class.ilProxySettings.php';
 		
 		$this->initProxyForm();	
 		$isFormValid = $this->form->checkInput();
