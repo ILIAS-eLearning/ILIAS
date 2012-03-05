@@ -788,7 +788,7 @@ class ilExplorer
 		// set global body class
 		$tpl->setBodyClass("il_Explorer");
 		
-		$tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/Tree");
+		$tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/Explorer");
 		
 		// updater
 		if (($_GET["ict"] || $_POST["collapseAll"] != "" || $_POST["expandAll"] != "") && $this->up_frame != "")

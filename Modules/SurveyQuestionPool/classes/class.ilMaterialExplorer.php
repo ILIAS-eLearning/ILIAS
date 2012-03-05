@@ -146,7 +146,7 @@ class ilMaterialExplorer extends ilExplorer
 		global $lng, $ilias;
 
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/Tree");
+		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/Explorer");
 
 		$tpl->setCurrentBlock("text");
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
