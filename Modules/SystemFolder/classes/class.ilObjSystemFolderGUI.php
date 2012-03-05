@@ -2377,6 +2377,10 @@ return $this->showServerInfoObject();
 				    	ilSessionControl::DEFAULT_ALLOW_CLIENT_MAINTENANCE) 
 				  )
         		{				
+					// has to be done BEFORE updating the setting!
+					include_once "Services/Authentication/classes/class.ilSessionStatistics.php";
+					ilSessionStatistics::updateLimitLog((int)$this->form->getInput('session_max_count'));					
+					
 					$ilSetting->set('session_max_count',
 						(int)$this->form->getInput('session_max_count'));
 					$ilSetting->set('session_min_idle',

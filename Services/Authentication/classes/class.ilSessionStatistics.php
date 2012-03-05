@@ -331,7 +331,8 @@ class ilSessionStatistics
 		
 		
 		// do we (really) need a log here?
-		$max_sessions = (int)$ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);
+		// $max_sessions = (int)$ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);
+		$max_sessions = self::getLimitForSlot($a_begin);
 		
 		// save aggregated data
 		$fields = array(			
@@ -445,6 +446,11 @@ class ilSessionStatistics
 		return $all;
 	}		
 	
+	/**
+	 * Get timestamp of last aggregation
+	 * 
+	 * @return timestamp 
+	 */
 	public static function getLastAggregation()
 	{
 		global $ilDB;
@@ -456,6 +462,55 @@ class ilSessionStatistics
 		{
 			return $row["latest"];
 		}			
+	}
+	
+	/**
+	 * Get max session setting for given timestamp
+	 * 
+	 * @param timestamp $a_timestamp
+	 * @return int 
+	 */
+	public static function getLimitForSlot($a_timestamp)
+	{
+		global $ilDB, $ilSetting;
+		
+		$ilDB->setLimit(1);		
+		$sql = "SELECT maxval FROM usr_session_log".
+			" WHERE tstamp <= ".$ilDB->quote($a_timestamp, "integer").
+			" ORDER BY tstamp DESC";
+	    $res = $ilDB->query($sql);
+		$val = $ilDB->fetchAssoc($res);
+		if($val["maxval"])
+		{
+			return (int)$val["maxval"];
+		}
+		else
+		{
+			return (int)$ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);
+		}		
+	}
+	
+	/**
+	 * Log max session setting
+	 * 
+	 * @param int $a_new_value 
+	 */
+	public static function updateLimitLog($a_new_value)
+	{
+		global $ilDB, $ilSetting, $ilUser;
+		
+		$new_value = (int)$a_new_value;
+		$old_value = (int)$ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);
+		
+		if($new_value != $old_value)
+		{
+			$fields = array(
+				"tstamp" => array("timestamp", time()),
+				"maxval" => array("integer", $new_value),
+				"user_id" => array("integer", $ilUser->getId())
+			);			
+			$ilDB->insert("usr_session_log", $fields);			
+		}		
 	}
 }
 
