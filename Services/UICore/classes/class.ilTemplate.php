@@ -793,8 +793,6 @@ class ilTemplate extends ilTemplateX
 			$tpl->setVariable("MAINMENU", $this->main_menu);
 			global $ilAuth, $lng, $tpl, $ilClientIniFile, $ilUser;
 			
-			$tplSR = new ilTemplate('tpl.SessionReminder2.js', true, true);
-			
 			if((int)$ilSetting->get('session_handling_type') == 0 &&
 			   (int)$ilSetting->get('session_reminder_enabled') &&
 			   $ilUser->getId() != ANONYMOUS_USER_ID &&
@@ -807,7 +805,7 @@ class ilTemplate extends ilTemplateX
 				
 				if($leadTime > $expiresInXSeconds) return;				
     							
-				$tplSR = new ilTemplate('tpl.SessionReminder.js', true, true);
+				$tplSR = new ilTemplate('tpl.SessionReminder.js', true, true, 'Services/UICore');
 						
 				$tplSR->setVariable('ILIAS_SESSION_COUNTDOWN', ($expiresInXSeconds - $leadTime) * 1000);
 				$tplSR->setVariable('ILIAS_SESSION_EXTENDER_URL', './ilias.php?baseClass=ilPersonalDesktopGUI');				
