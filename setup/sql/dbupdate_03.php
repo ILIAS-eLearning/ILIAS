@@ -8979,3 +8979,27 @@ $ilDB->addPrimaryKey('help_map', array('component', 'screen_id', 'screen_sub_id'
 $ilDB->addIndex("help_map", array("screen_id"), "sc");
 $ilDB->addIndex("help_map", array("chap"), "ch");
 ?>
+<#3533>
+<?php	
+	if(!$ilDB->tableExists('usr_session_log'))
+	{
+		$fields = array(	
+			'tstamp' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),
+			'maxval' => array(
+				'type' => 'integer',
+				'length' => 3,
+				'notnull' => true
+				),
+			'user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+				),			
+		);
+		$ilDB->createTable('usr_session_log', $fields);
+	}
+?>
