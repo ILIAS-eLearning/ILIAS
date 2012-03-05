@@ -54,7 +54,7 @@ class ilMediaPoolExplorer extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		//$tpl = new ilTemplate("tpl.tree.html", true, true);
+		//$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/Tree");
 
 		$tpl->setCurrentBlock("icon");
 		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_mep_s.gif"));

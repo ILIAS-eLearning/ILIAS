@@ -108,7 +108,7 @@ class ilObjectSelector extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/Tree");
 
 		$tpl->setCurrentBlock("text");
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
