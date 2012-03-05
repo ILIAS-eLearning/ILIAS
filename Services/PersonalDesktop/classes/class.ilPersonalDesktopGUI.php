@@ -324,7 +324,7 @@ class ilPersonalDesktopGUI
 		ilBlockSetting::preloadPDBlockSettings();
 
 		// add template for content
-		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true);
+		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
 		$this->tpl->getStandardTemplate();
 
 		// display infopanel if something happened
@@ -490,7 +490,7 @@ class ilPersonalDesktopGUI
 	function prepareContentView()
 	{
 		// add template for content
-		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true);
+		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
 		$this->tpl->getStandardTemplate();
 				
 		// display infopanel if something happened
