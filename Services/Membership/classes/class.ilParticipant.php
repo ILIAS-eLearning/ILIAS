@@ -139,7 +139,7 @@ abstract class ilParticipant
 					if($rbacreview->isAssigned($this->getUserId(),$role_id))
 					{
 						$this->participants = true;
-						$this->member = true;
+						$this->members = true;
 					}
 					break;
 
