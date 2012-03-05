@@ -199,10 +199,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
 		switch($a_set["type"])
 		{
-			case "block":
-				$icon = "questionblock.gif";
-				$icon_caption = $lng->txt("questionblock_icon");
-
+			case "block":				
 				if(!$this->read_only)
 				{
 					// checkbox
@@ -223,10 +220,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TYPE", $lng->txt("questionblock"));
 				break;
 
-			case "question":
-				$icon = "question.gif";
-				$icon_caption = $lng->txt("question_icon");
-				
+			case "question":				
 				$this->tpl->setVariable("DESCRIPTION", $a_set["description"]);
 				$this->tpl->setVariable("TYPE", $a_set["question_type"]);
 				$this->tpl->setVariable("AUTHOR", $a_set["author"]);
@@ -290,9 +284,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("OBLIGATORY", $obligatory);
 				break;
 
-			case "heading":
-				$icon = null;
-
+			case "heading":				
 				if(!$this->read_only)
 				{
 					// checkbox
@@ -310,8 +302,6 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				break;
 		}
 
-		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		
 		if(!$this->read_only)
 		{
 			$this->tpl->setCurrentBlock("actions");
@@ -344,6 +334,17 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 		
 			$this->tpl->setVariable("ACTION", $list->getHTML());
 			
+			$this->tpl->parseCurrentBlock();
+			
+			$this->tpl->setCurrentBlock("title_edit");
+			$this->tpl->setVariable("TITLE", $a_set["title"]);
+			$this->tpl->setVariable("URL_TITLE", $a_set["url"]);
+			$this->tpl->parseCurrentBlock();						
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("title_static");
+			$this->tpl->setVariable("TITLE", $a_set["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
 	}
