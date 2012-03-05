@@ -11169,7 +11169,7 @@ survey#:#survey_question_text_hidden#:#Text hidden
 survey#:#survey_move_page#:#Move Page
 survey#:#survey_page_moved#:#The page has been moved.
 assessment#:#intro_desc#:#This message appears at the beginning of the test.
-assessment#:#test_question_pool_usage#:#Choose Pool when creating questions
+assessment#:#test_question_pool_usage#:#Choose Question Pool when creating questions
 assessment#:#add_new_question#:#Add new Question
 wiki#:#wiki_news_page_created#:#New wiki page has been created.
 wiki#:#wiki_news_page_changed#:#Wiki page has been updated.
