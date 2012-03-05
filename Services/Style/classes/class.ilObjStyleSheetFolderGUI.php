@@ -87,7 +87,7 @@ class ilObjStyleSheetFolderGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 		
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.styf_row.html");
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.styf_row.html", "Services/Style");
 
 		$num = 0;
 

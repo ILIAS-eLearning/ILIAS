@@ -769,7 +769,7 @@ class ilInfoScreenGUI
 		// add top formbuttons
 		if ((count($this->top_formbuttons) > 0) && (strlen($this->form_action) > 0))
 		{
-			$tpl->addBlockfile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html");
+			$tpl->addBlockfile("TOP_FORMBUTTONS", "top_submitbuttons", "tpl.submitbuttons.html", "Services/InfoScreen");
 
 			foreach($this->top_formbuttons as $button)
 			{

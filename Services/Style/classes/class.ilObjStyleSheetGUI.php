@@ -79,7 +79,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		//$this->setTabs();
 
 		$this->lng =& $lng;
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.sty_create.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.sty_create.html','Services/Style');
 
 		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("sty_create_new_stylesheet"));
 
