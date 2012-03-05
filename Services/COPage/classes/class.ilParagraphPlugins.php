@@ -28,7 +28,7 @@
  */
 
 
-include_once("./classes/class.ilDOMXML.php");
+//include_once("./classes/class.ilDOMXML.php");
 include_once("./Services/COPage/classes/class.ilParagraphPlugin.php");
 
 class ilParagraphPlugins {
@@ -123,6 +123,7 @@ class ilParagraphPlugins {
 
 
     				// load plugin xml, to retrieve plugin node (see dtd)
+// please rewrite this using standard php5 dom features, if the feature is still needed
     				$pluginDOM = new ilDOMXML();
     				$pluginDOM->loadDocument("plugin.xml", $pluginDir, false);
     				$pluginNodes = $pluginDOM->getElementsByTagname("plugin");
