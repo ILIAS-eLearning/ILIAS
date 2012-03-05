@@ -1899,7 +1899,7 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 		}
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_edit.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_edit.html','Services/User');
 
 		// FILL SAVED VALUES IN CASE OF ERROR
 		if (isset($_SESSION["error_post_vars"]["Fobject"]))
@@ -3070,7 +3070,7 @@ class ilObjUserGUI extends ilObjectGUI
             $_SESSION['filtered_roles'] = 0;
         }
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_role_assignment.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_role_assignment.html','Services/User');
 
 		if(false)
 		{

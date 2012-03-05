@@ -2138,7 +2138,7 @@ class ilUserImportParser extends ilSaxParser
 	{
 		global $lng;
 
-		$block = new ilTemplate("tpl.usr_import_log_block.html", true, true);
+		$block = new ilTemplate("tpl.usr_import_log_block.html", true, true, "Services/User");
 		$block->setVariable("TXT_LOG_TITLE", $a_log_title);
 		$block->setVariable("TXT_MESSAGE_ID", $lng->txt("login"));
 		$block->setVariable("TXT_MESSAGE_TEXT", $lng->txt("message"));

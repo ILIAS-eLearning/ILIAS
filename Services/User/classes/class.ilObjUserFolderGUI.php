@@ -936,7 +936,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		$this->tabs_gui->setTabActive('obj_usrf');
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html");
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html", "Services/User");
 
 		$this->tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
@@ -1226,8 +1226,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$this->initUserImportForm();
 		$tpl->setContent($this->form->getHTML());
-
-		//$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_form.html");
 	}
 
 	/**
@@ -1320,7 +1318,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			global $rbacreview, $rbacsystem, $tree, $lng;
 			
 	
-			$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html");
+			$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_import_roles.html", "Services/User");
 	
 			$import_dir = $this->getImportDir();
 	
@@ -1798,7 +1796,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_applied_users.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_applied_users.html", "Services/User");
 		$this->lng->loadLanguageModule('crs');
 		
 		$counter = 0;
@@ -1874,7 +1872,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_edit_applied_users.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_edit_applied_users.html", "Services/User");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 
 		// LOAD SAVED DATA IN CASE OF ERROR
@@ -2552,7 +2550,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// SAVE POST VALUES
 		$_SESSION["ilExportFiles"] = $_POST["file"];
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_confirm_delete_export.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_confirm_delete_export.html','Services/User');
 		
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
@@ -2637,7 +2635,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			exit;
 		}
 		
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_export.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.usr_export.html','Services/User');
 		
 		$export_types = array(
 			"userfolder_export_excel_x86",
@@ -2653,7 +2651,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->addBlockfile("EXPORT_FILES", "export_files", "tpl.table.html");
 
 		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.usr_export_file_row.html");
+		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.usr_export_file_row.html", "Services/User");
 
 		$num = 0;
 
@@ -2834,28 +2832,31 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('user_new_account_mail');
 				
-		$form = $this->initNewAccountMailForm();				
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.usrf_new_account_mail.html');
-		$this->tpl->setVariable("FORM", $form->getHTML());
+		$form = $this->initNewAccountMailForm();	
+		
+		$ftpl = new ilTemplate('tpl.usrf_new_account_mail.html', true, true, 'Services/User');
+		$ftpl->setVariable("FORM", $form->getHTML());
+		unset($form);
 
 		// placeholder help text
-		$this->tpl->setVariable("TXT_USE_PLACEHOLDERS", $lng->txt("mail_nacc_use_placeholder"));
-		$this->tpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
-		$this->tpl->setVariable("TXT_FIRST_NAME", $lng->txt("firstname"));
-		$this->tpl->setVariable("TXT_LAST_NAME", $lng->txt("lastname"));
-		$this->tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-		$this->tpl->setVariable("TXT_LOGIN", $lng->txt("mail_nacc_login"));
-		$this->tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
-		$this->tpl->setVariable("TXT_PASSWORD_BLOCK", $lng->txt("mail_nacc_pw_block"));
-		$this->tpl->setVariable("TXT_NOPASSWORD_BLOCK", $lng->txt("mail_nacc_no_pw_block"));
-		$this->tpl->setVariable("TXT_ADMIN_MAIL", $lng->txt("mail_nacc_admin_mail"));
-		$this->tpl->setVariable("TXT_ILIAS_URL", $lng->txt("mail_nacc_ilias_url"));
-		$this->tpl->setVariable("TXT_CLIENT_NAME", $lng->txt("mail_nacc_client_name"));
-		$this->tpl->setVariable("TXT_TARGET", $lng->txt("mail_nacc_target"));
-		$this->tpl->setVariable("TXT_TARGET_TITLE", $lng->txt("mail_nacc_target_title"));
-		$this->tpl->setVariable("TXT_TARGET_TYPE", $lng->txt("mail_nacc_target_type"));
-		$this->tpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));					
+		$ftpl->setVariable("TXT_USE_PLACEHOLDERS", $lng->txt("mail_nacc_use_placeholder"));
+		$ftpl->setVariable("TXT_MAIL_SALUTATION", $lng->txt("mail_nacc_salutation"));
+		$ftpl->setVariable("TXT_FIRST_NAME", $lng->txt("firstname"));
+		$ftpl->setVariable("TXT_LAST_NAME", $lng->txt("lastname"));
+		$ftpl->setVariable("TXT_EMAIL", $lng->txt("email"));
+		$ftpl->setVariable("TXT_LOGIN", $lng->txt("mail_nacc_login"));
+		$ftpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
+		$ftpl->setVariable("TXT_PASSWORD_BLOCK", $lng->txt("mail_nacc_pw_block"));
+		$ftpl->setVariable("TXT_NOPASSWORD_BLOCK", $lng->txt("mail_nacc_no_pw_block"));
+		$ftpl->setVariable("TXT_ADMIN_MAIL", $lng->txt("mail_nacc_admin_mail"));
+		$ftpl->setVariable("TXT_ILIAS_URL", $lng->txt("mail_nacc_ilias_url"));
+		$ftpl->setVariable("TXT_CLIENT_NAME", $lng->txt("mail_nacc_client_name"));
+		$ftpl->setVariable("TXT_TARGET", $lng->txt("mail_nacc_target"));
+		$ftpl->setVariable("TXT_TARGET_TITLE", $lng->txt("mail_nacc_target_title"));
+		$ftpl->setVariable("TXT_TARGET_TYPE", $lng->txt("mail_nacc_target_type"));
+		$ftpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));	
+		
+		$this->tpl->setContent($ftpl->get());
 	}
 
 	function cancelNewAccountMailObject()

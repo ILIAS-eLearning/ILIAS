@@ -84,7 +84,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			default:
 				$cmd = $this->ctrl->getCmd();
 				if ($cmd == "view" || $cmd == "")
-				{
+				{					
+					// $cmd = "trackingDataQueryForm";
 					$cmd = "settings";
 				}
 				$cmd .= "Object";
@@ -413,7 +414,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	function trackingDataQueryFormObject()
 	{
 		global $tpl;
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_tracking.html");
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.usr_tracking.html", "Services/User");
 		$tpl->setVariable("FORM", $this->showForm());
 	}
 	
