@@ -545,7 +545,7 @@ class ilPermission2GUI
 
 		$this->__initSubTabs("owner");
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_owner.html');
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_owner.html','Services/AccessControl');
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("USERNAME",ilObjUser::_lookupLogin($this->gui_obj->object->getOwner()));
