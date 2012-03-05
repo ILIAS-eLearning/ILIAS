@@ -328,7 +328,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		global $tpl,$lng,$ilias;
 
 		// tracking settings
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_manage_data.html");
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_manage_data.html", "Services/Tracking");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormaction($this,'gateway'));
 		$tpl->setVariable("TXT_TRACKING_DATA", $this->lng->txt("tracking_data"));
 		$tpl->setVariable("TXT_MONTH", $lng->txt("month"));
@@ -364,7 +364,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		$nr = $this->object->getTotalOlderThanMonth($_POST["month"]);
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_confirm_data_deletion.html");
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tracking_confirm_data_deletion.html", "Services/Tracking");
 		#$tpl->setVariable("FORMACTION", "adm_object.php?ref_id=".$_GET["ref_id"].
 		#	"&cmd=gateway&month=".$_POST["month"]);
 		$this->ctrl->setParameter($this,'month',$_POST['month']);
@@ -425,7 +425,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$month = array(1,2,3,4,5,6,7,8,9,10,11,12);
 		$day = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31);
 		//subject module
-		$tpl = new ilTemplate("tpl.tracking_form.html", true, true);
+		$tpl = new ilTemplate("tpl.tracking_form.html", true, true, "Services/Tracking");
 		
 		// Tabs gui
 		$this->tabs_gui->setTabActive('tracking_data');
@@ -726,7 +726,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 				$this->ilias->error_obj->MESSAGE);
 		}*/
 
-		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.tracking_result.html");
+		$tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.tracking_result.html", "Services/Tracking");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
 
 		$tpl->setVariable("FORM", $this->showForm());
