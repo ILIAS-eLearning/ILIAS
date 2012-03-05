@@ -841,7 +841,7 @@ assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
-assessment#:#test_question_pool_usage#:#Poolauswahl beim Anlegen von Fragen
+assessment#:#test_question_pool_usage#:#Fragenpool-Auswahl beim Anlegen von Fragen
 assessment#:#test_reference#:#Test-Verknüpfung
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_using_template_link#:#Vorlage nicht mehr verwenden
