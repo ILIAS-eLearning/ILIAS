@@ -637,64 +637,6 @@ class ilUtil
 	}
 
 	/**
-	* show the tabs in admin section
-	*
-	* old code, do not reuse this
-	*
-	* @access	public
-	* @param	integer	column to highlight
-	* @param	array	array with templatereplacements
-	* @static
-	* 
-	*/
-	static function showTabs($a_hl, $a_o)
-	{
-		global $lng;
-
-		$tpltab = new ilTemplate("tpl.tabs.html", true, true);
-
-		for ($i=1; $i<=4; $i++)
-		{
-			$tpltab->setCurrentBlock("tab");
-			if ($a_hl == $i)
-			{
-				$tabtype = "tabactive";
-				$tab = $tabtype;
-			}
-			else
-			{
-				$tabtype = "tabinactive";
-				$tab = "tab";
-			}
-
-			switch ($i)
-			{
-				case 1:
-				$txt = $lng->txt("view_content");
-				break;
-				case 2:
-				$txt = $lng->txt("edit_properties");
-				break;
-				case 3:
-				$txt = $lng->txt("perm_settings");
-				break;
-				case 4:
-				$txt = $lng->txt("show_owner");
-				break;
-			} // switch
-			$tpltab->setVariable("CONTENT", $txt);
-			$tpltab->setVariable("TABTYPE", $tabtype);
-			$tpltab->setVariable("TAB", $tab);
-			$tpltab->setVariable("LINK", $a_o["LINK".$i]);
-			$tpltab->parseCurrentBlock();
-		}
-
-		return $tpltab->get();
-	}
-
-
-
-	/**
 	* ???
 	* @access	public
 	* @param	array
