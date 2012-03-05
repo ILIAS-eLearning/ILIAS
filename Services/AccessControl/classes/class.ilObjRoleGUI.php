@@ -226,7 +226,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt('role_desk_none_created'));
 			return true;
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html", "Services/AccessControl");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
@@ -283,7 +283,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		ilUtil::sendQuestion($this->lng->txt('role_sure_delete_desk_items'));
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html", "Services/AccessControl");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.gif'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
@@ -375,7 +375,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_selector.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_selector.html", "Services/AccessControl");
 		$this->__showButton('listDesktopItems',$this->lng->txt('back'));
 
 		ilUtil::sendInfo($this->lng->txt("role_select_desktop_item"));
@@ -604,7 +604,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_edit.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_edit.html", "Services/AccessControl");
 
 		if ($_SESSION["error_post_vars"])
 		{
@@ -2015,7 +2015,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->lng->loadLanguageModule('search');
 
-		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.role_users_search.html");
+		$this->tpl->addBlockFile("ADM_CONTENT","adm_content","tpl.role_users_search.html","Services/AccessControl");
 
 		$this->tpl->setVariable("F_ACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("SEARCH_ASSIGN_USR",$this->lng->txt("role_search_users"));
@@ -2095,7 +2095,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_usr_selection.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_usr_selection.html", "Services/AccessControl");
 		$this->__showButton("searchUserForm",$this->lng->txt("role_new_search"));
 
 		$counter = 0;
@@ -2420,7 +2420,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_usr_selection.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_usr_selection.html", "Services/AccessControl");
 		$this->__showButton("searchUserForm",$this->lng->txt("role_new_search"));
 
 		// GET ALL MEMBERS
@@ -2475,7 +2475,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			return false;
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_usr_selection.html");
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_usr_selection.html", "Services/AccessControl");
 		$this->__showButton("searchUserForm",$this->lng->txt("role_new_search"));
 
 		// GET ALL MEMBERS
