@@ -793,6 +793,8 @@ class ilTemplate extends ilTemplateX
 			$tpl->setVariable("MAINMENU", $this->main_menu);
 			global $ilAuth, $lng, $tpl, $ilClientIniFile, $ilUser;
 			
+			$tplSR = new ilTemplate('tpl.SessionReminder2.js', true, true);
+			
 			if((int)$ilSetting->get('session_handling_type') == 0 &&
 			   (int)$ilSetting->get('session_reminder_enabled') &&
 			   $ilUser->getId() != ANONYMOUS_USER_ID &&
