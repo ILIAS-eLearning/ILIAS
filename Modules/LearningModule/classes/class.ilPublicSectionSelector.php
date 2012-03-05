@@ -76,8 +76,9 @@ class ilPublicSectionSelector extends ilLMExplorer
 	{
 		global $lng, $ilias;
 
-		//$tpl = new ilTemplate("tpl.tree_form.html", true, true);
 		return;
+		
+		/*
 		$tpl->setCurrentBlock("link");
 		$tpl->setVariable("TITLE", ilUtil::shortenText($this->lm_obj->getTitle(), $this->textwidth, true));
 		$tpl->setVariable("LINK_TARGET", $this->target);
@@ -87,7 +88,8 @@ class ilPublicSectionSelector extends ilLMExplorer
 		$tpl->setCurrentBlock("element");
 		$tpl->parseCurrentBlock();
 
-		//$this->output[] = $tpl->get();
+		//$this->output[] = $tpl->get();		 
+		*/
 	}
 
 	/**
@@ -114,7 +116,7 @@ class ilPublicSectionSelector extends ilLMExplorer
 		// set global body class
 		$tpl->setBodyClass("il_Explorer");
 		
-		$tpl_tree = new ilTemplate("tpl.tree_form.html", true, true);
+		$tpl_tree = new ilTemplate("tpl.tree_form.html", true, true, "Modules/LearningModule");
 		
 		$cur_depth = -1;
 		foreach ($this->format_options as $key => $options)

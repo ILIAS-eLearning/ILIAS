@@ -143,7 +143,7 @@ class ilShopPublicSectionSelector extends ilLMTOCExplorer
 		// set global body class
 		$tpl->setBodyClass("il_Explorer");
 		
-		$tpl_tree = new ilTemplate('tpl.tree_form.html', true, true);
+		$tpl_tree = new ilTemplate('tpl.tree_form.html', true, true, 'Modules/LearningModule');
 		
 		$cur_depth = -1;
 		foreach ($this->format_options as $key => $options)
