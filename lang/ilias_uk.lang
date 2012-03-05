@@ -595,7 +595,7 @@ assessment#:#when#:#коли
 assessment#:#width#:#Ширина
 assessment#:#with_order#:#в порядку
 assessment#:#working_time#:#Час Роботи
-assessment#:#you_received_a_of_b_points#:#Ви оримали %d з %d можливих балів
+assessment#:#you_received_a_of_b_points#:#Ви оримали %s з %s можливих балів
 bibitem#:#bibitem_add#:#Додати
 bibitem#:#bibitem_author#:#Автор
 bibitem#:#bibitem_av#:#AV

@@ -1062,7 +1062,7 @@ assessment#:#with_order#:#con l'ordine
 assessment#:#worked_through#:#Risposto
 assessment#:#working_time#:#Tempo di esecuzione
 assessment#:#working_time_avg#:#Tempo medio di elaborazione
-assessment#:#you_received_a_of_b_points#:#Hai ricevuto %d dei %d punti a disposizione
+assessment#:#you_received_a_of_b_points#:#Hai ricevuto %s dei %s punti a disposizione
 auth#:#auth_account_migration#:#Nuovo account ILIAS
 auth#:#auth_info_add#:#Scegli questa opzione se non sei registrato su ILIAS. Verrà creato un nuovo account.
 auth#:#auth_info_migrate#:#Se hai già un account ILIAS, inserisci per favore username e password per accedere ai tuoi dati personali (mail, risultati dei test, ...).

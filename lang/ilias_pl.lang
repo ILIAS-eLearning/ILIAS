@@ -1213,7 +1213,7 @@ assessment#:#with_order#:#w kolejności
 assessment#:#worked_through#:#Odpowiedziane
 assessment#:#working_time#:#Czas Pracy
 assessment#:#working_time_avg#:#Średni czas wykonania
-assessment#:#you_received_a_of_b_points#:#Otrzymałeś %d z %d możliwych punktów
+assessment#:#you_received_a_of_b_points#:#Otrzymałeś %s z %s możliwych punktów
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.
 auth#:#auth_account_code_title#:#Account Code

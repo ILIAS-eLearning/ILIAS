@@ -3788,7 +3788,7 @@ assessment#:#with_order#:#med orden
 assessment#:#worked_through#:#Besvaret
 assessment#:#working_time#:#Tidsforbrug
 assessment#:#working_time_avg#:#Gns. arbejdstid
-assessment#:#you_received_a_of_b_points#:#Du fik %d af %d mulige point
+assessment#:#you_received_a_of_b_points#:#Du fik %s af %s mulige point
 barometer#:#options#:#Options
 barometer#:#statistics#:#Statistik
 barometer#:#anonymous#:#Anonymitet

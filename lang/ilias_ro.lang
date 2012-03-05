@@ -682,7 +682,7 @@ assessment#:#width#:#Latime
 assessment#:#with_order#:#in ordine
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Timp de lucru
-assessment#:#you_received_a_of_b_points#:#Ati primit %d din %d puncte posibile
+assessment#:#you_received_a_of_b_points#:#Ati primit %s din %s puncte posibile
 barometer#:#anonymous#:#Anonymous###23 Dec 2005 new variable
 barometer#:#barometer_title#:#Feedback###23 Dec 2005 new variable
 barometer#:#best#:#Best###23 Dec 2005 new variable

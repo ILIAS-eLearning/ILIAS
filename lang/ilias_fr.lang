@@ -1203,7 +1203,7 @@ assessment#:#with_order#:#dans l'ordre
 assessment#:#worked_through#:#Répondu
 assessment#:#working_time_avg#:#Durée moyenne
 assessment#:#working_time#:#Temps de travail
-assessment#:#you_received_a_of_b_points#:#Vous avez obtenu %d points sur %d
+assessment#:#you_received_a_of_b_points#:#Vous avez obtenu %s points sur %s
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.###06 08 2011 new variable
 auth#:#auth_account_code_title#:#Account Code###06 08 2011 new variable
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.###06 08 2011 new variable
