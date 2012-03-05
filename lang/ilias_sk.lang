@@ -1091,7 +1091,7 @@ assessment#:#with_order#:#s pořadím
 assessment#:#worked_through#:#Zodpovězeno
 assessment#:#working_time#:#Doba práce
 assessment#:#working_time_avg#:#Průměrná doba práce
-assessment#:#you_received_a_of_b_points#:#Obdržel(a) jste %d z %d možných bodů
+assessment#:#you_received_a_of_b_points#:#Obdržel(a) jste %s z %s možných bodů
 auth#:#auth_account_migration#:#Nový účet ILIAS
 auth#:#auth_account_migration_keep#:#Přenést existující uživatelské účty
 auth#:#auth_account_migration_name#:#Přenesení

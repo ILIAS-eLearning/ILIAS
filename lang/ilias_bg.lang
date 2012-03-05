@@ -552,7 +552,7 @@ assessment#:#when#:#когато
 assessment#:#width#:#Ширина
 assessment#:#with_order#:#с подреждане
 assessment#:#working_time#:#Време за работа
-assessment#:#you_received_a_of_b_points#:#Получили сте %d от %d възможни точки
+assessment#:#you_received_a_of_b_points#:#Получили сте %s от %s възможни точки
 bibitem#:#bibitem_add#:#Добавяне
 bibitem#:#bibitem_author#:#Автор
 bibitem#:#bibitem_av#:#AV

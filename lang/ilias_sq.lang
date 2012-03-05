@@ -679,7 +679,7 @@ assessment#:#width#:#Gjerësia
 assessment#:#with_order#:#me radhitje
 assessment#:#worked_through#:#Answered###10 Jul 2006 new variable
 assessment#:#working_time#:#Koha e Punës
-assessment#:#you_received_a_of_b_points#:#Keni marrë %d prej %d pikëve të mundshme
+assessment#:#you_received_a_of_b_points#:#Keni marrë %s prej %s pikëve të mundshme
 barometer#:#anonymous#:#Anonymous###23 Dec 2005 new variable
 barometer#:#barometer_title#:#Feedback###23 Dec 2005 new variable
 barometer#:#best#:#Best###23 Dec 2005 new variable

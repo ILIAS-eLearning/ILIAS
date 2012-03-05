@@ -679,7 +679,7 @@ assessment#:#width#:#Width
 assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Tööaeg
-assessment#:#you_received_a_of_b_points#:#Sa saavutasid %d  %d võimalikust punktist
+assessment#:#you_received_a_of_b_points#:#Sa saavutasid %s  %s võimalikust punktist
 barometer#:#anonymous#:#Anonüümne
 barometer#:#barometer_title#:#Tagasiside
 barometer#:#best#:#Parim

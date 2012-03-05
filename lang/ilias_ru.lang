@@ -506,7 +506,7 @@ assessment#:#when#:#когда
 assessment#:#width#:#ширина
 assessment#:#with_order#:#в порядке
 assessment#:#working_time#:#Время работы
-assessment#:#you_received_a_of_b_points#:#Вы набрали %d из %d баллов
+assessment#:#you_received_a_of_b_points#:#Вы набрали %s из %s баллов
 bibitem#:#bibitem_add#:#Добавить
 bibitem#:#bibitem_author#:#Автор
 bibitem#:#bibitem_av#:#АВ

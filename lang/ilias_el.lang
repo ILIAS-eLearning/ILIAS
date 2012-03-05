@@ -930,7 +930,7 @@ assessment#:#with_order#:#με σειρά
 assessment#:#worked_through#:#Απαντήθηκαν
 assessment#:#working_time#:#Χρόνος εργασίας
 assessment#:#working_time_avg#:#Avg. Working Time
-assessment#:#you_received_a_of_b_points#:#Λάβατε %d από %d πιθανούς βαθμούς
+assessment#:#you_received_a_of_b_points#:#Λάβατε %s από %s πιθανούς βαθμούς
 auth#:#auth_account_migration#:#New ILIAS Account
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created
 auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).

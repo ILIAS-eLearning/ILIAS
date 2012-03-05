@@ -597,7 +597,7 @@ assessment#:#when#:#khi
 assessment#:#width#:#Độ rộng
 assessment#:#with_order#:#với thứ tự
 assessment#:#working_time#:#Thời gian làm
-assessment#:#you_received_a_of_b_points#:#Bạn đạt %d trong số %d điểm có thể
+assessment#:#you_received_a_of_b_points#:#Bạn đạt %s trong số %s điểm có thể
 bibitem#:#bibitem_add#:#Thêm
 bibitem#:#bibitem_author#:#Tác giả
 bibitem#:#bibitem_av#:#AV

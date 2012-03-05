@@ -1130,7 +1130,7 @@ assessment#:#with_order#:#met sorteervolgorde
 assessment#:#worked_through#:#Geantwoord
 assessment#:#working_time#:#Werktijd
 assessment#:#working_time_avg#:#Gemiddelde werk tijd
-assessment#:#you_received_a_of_b_points#:#U ontving  %d van %d mogelijke aantal punten
+assessment#:#you_received_a_of_b_points#:#U ontving  %s van %s mogelijke aantal punten
 auth#:#auth_account_migration#:#Nieuw MacElsy Account
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration

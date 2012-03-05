@@ -1065,7 +1065,7 @@ assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
 assessment#:#working_time_avg#:#Avg. Working Time
-assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
+assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
 auth#:#auth_account_migration#:#New ILIAS Account
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created
 auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).

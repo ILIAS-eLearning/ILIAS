@@ -1210,7 +1210,7 @@ assessment#:#with_order#:#con orden
 assessment#:#worked_through#:#Contestada
 assessment#:#working_time#:#Tiempo de trabajo
 assessment#:#working_time_avg#:#Tiempo medio de trabajo
-assessment#:#you_received_a_of_b_points#:#Recibió %d de %d puntos posibles
+assessment#:#you_received_a_of_b_points#:#Recibió %s de %s puntos posibles
 auth#:#auth_account_code#:#Código
 auth#:#auth_account_code_info#:#Para reactivar su cuenta puede utilizar un código de cuenta ILIAS
 auth#:#auth_account_code_title#:#Código de cuenta

@@ -1211,7 +1211,7 @@ assessment#:#with_order#:#with order
 assessment#:#worked_through#:#Answered
 assessment#:#working_time#:#Working Time
 assessment#:#working_time_avg#:#Avg. Working Time
-assessment#:#you_received_a_of_b_points#:#You received %d of %d possible points
+assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
 auth#:#auth_account_code#:#Código ###06 08 2011 new variable
 auth#:#auth_account_code_info#:#Você pode usar um código de conta de ILIAS para reativar a sua conta ###06 08 2011 new variable
 auth#:#auth_account_code_title#:#Código de conta###06 08 2011 new variable
