@@ -121,7 +121,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->tpl->addBlockfile("ADM_CONTENT", "style_basic_settings", "tpl.stys_basic_settings.html");
+		$this->tpl->addBlockfile("ADM_CONTENT", "style_basic_settings", "tpl.stys_basic_settings.html", "Services/Style");
 		//$this->tpl->setCurrentBlock("style_settings");
 
 		$settings = $this->ilias->getAllSettings();
@@ -344,7 +344,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->tpl->addBlockfile("ADM_CONTENT", "style_settings", "tpl.stys_settings.html");
+		$this->tpl->addBlockfile("ADM_CONTENT", "style_settings", "tpl.stys_settings.html", "Services/Style");
 		$this->tpl->setCurrentBlock("style_settings");
 
 		$settings = $this->ilias->getAllSettings();
