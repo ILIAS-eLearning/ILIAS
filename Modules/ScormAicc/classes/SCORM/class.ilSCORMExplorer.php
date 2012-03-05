@@ -83,7 +83,7 @@ class ilSCORMExplorer extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true);
+		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/Tree");
 
 		$tpl->setCurrentBlock("row");
 		//$tpl->setVariable("TYPE", $a_option["c_type"]);

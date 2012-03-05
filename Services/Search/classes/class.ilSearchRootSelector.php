@@ -164,7 +164,7 @@ class ilSearchRootSelector extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		#$tpl = new ilTemplate("tpl.tree.html", true, true);
+		#$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/Tree");
 
 		if (in_array("root", $this->clickable_types))
 		{
