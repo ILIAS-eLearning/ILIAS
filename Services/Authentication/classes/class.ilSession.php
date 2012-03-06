@@ -113,8 +113,13 @@ class ilSession
 			
 			$ilDB->insert("usr_session", $fields);
 		
-			ilSessionStatistics::createRawEntry($fields["session_id"][1], 
-				$fields["type"][1], $fields["createtime"][1], $fields["user_id"][1]);						
+			// check type against session control
+			$type = $fields["type"][1];
+			if(in_array($type, ilSessionControl::$session_types_controlled))
+			{		
+				ilSessionStatistics::createRawEntry($fields["session_id"][1], 
+					$type, $fields["createtime"][1], $fields["user_id"][1]);			
+			}							
 		}
 		
 		// finally delete deprecated sessions
