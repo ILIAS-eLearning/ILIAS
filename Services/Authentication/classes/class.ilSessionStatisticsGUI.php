@@ -793,7 +793,10 @@ class ilSessionStatisticsGUI
 	{
 		global $ilCtrl, $lng;
 		
-		ilSessionStatistics::aggretateRaw(time());
+		// see ilSession::_writeData()
+		$now = time();
+		ilSession::_destroyExpiredSessions();	
+		ilSessionStatistics::aggretateRaw($now);
 		
 		ilUtil::sendSuccess($lng->txt("trac_sync_session_stats_success"), true);
 		$ilCtrl->redirect($this);
