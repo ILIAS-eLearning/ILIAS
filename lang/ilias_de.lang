@@ -1372,15 +1372,15 @@ blog#:#blog_banner#:#Banner
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_edit#:#Blog editieren
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
-blog#:#blog_exercise_info#:#Dieser Blog ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
+blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s.
 blog#:#blog_finalize_blog#:#Blog abschliessen und abgeben
-blog#:#blog_finalized#:#Der Blog wurde abgegeben.
+blog#:#blog_finalized#:#Das Blog wurde abgegeben.
 blog#:#blog_font_color#:#Schriftfarbe
 blog#:#blog_list_more#:#mehr
 blog#:#blog_navigation#:#Einträge
 blog#:#blog_new_posting_info#:#Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
-blog#:#blog_new#:#Neuen Blog anlegen
+blog#:#blog_new#:#Neues Blog anlegen
 blog#:#blog_number_users_notes_or_comments#:#Anzahl Benutzer, die Notizen oder Kommentare zu diesem Eintrag verfasst haben.
 blog#:#blog_permanent_link#:#Permalink
 blog#:#blog_posting_deleted#:#Der Eintrag wurde gelöscht.
@@ -1392,7 +1392,7 @@ blog#:#blog_preview_banner#:#Personalisiertes Banner
 blog#:#blog_preview#:#Vorschau
 blog#:#blog_profile_picture#:#Profil-Bild anzeigen
 blog#:#blog_rename_posting#:#Eintrag umbenennen
-blog#:#blog_settings#:#Blog Administration
+blog#:#blog_settings#:#Blog-Administration
 book#:#book_add_object#:#Objekt hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_add_type#:#Buchungsobjekt-Typ hinzufügen
@@ -7668,12 +7668,12 @@ exc#:#exc_assignment#:#Übungseinheit
 exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_assignments#:#Übungseinheiten
 exc#:#exc_blog_created#:#Blog wurde erstellt.
-exc#:#exc_blog_returned#:#Abgegebener Blog
-exc#:#exc_blog_selected#:#Der Blog wurde verknüpft.
+exc#:#exc_blog_returned#:#Abgegebenes Blog
+exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
 exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
-exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der der Blog erstellt werden soll.
+exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das Blog erstellt werden soll.
 exc#:#exc_create_blog#:#Blog erstellen
 exc#:#exc_create_portfolio_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das Portfolio erstellt werden soll.
 exc#:#exc_create_portfolio#:#Portfolio erstellen
@@ -7727,9 +7727,9 @@ exc#:#exc_save_order#:#Reihenfolge speichern
 exc#:#exc_saved_order#:#Reihenfolge gespeichert
 exc#:#exc_search_users#:#Benutzer suchen
 exc#:#exc_select_ass#:#Übungseinheit auswählen
-exc#:#exc_select_blog_change#:#Anderen Blog benutzen
-exc#:#exc_select_blog_info#:#Bitte wählen Sie einen Ihrer Blogs, um ihn in dieser Übungseinheit zu benutzen.
-exc#:#exc_select_blog#:#Vorhandenen Blog nutzen
+exc#:#exc_select_blog_change#:#Anderes Blog benutzen
+exc#:#exc_select_blog_info#:#Bitte wählen Sie eines Ihrer Blogs, um es in dieser Übungseinheit zu benutzen.
+exc#:#exc_select_blog#:#Vorhandenes Blog nutzen
 exc#:#exc_select_part#:#Teilnehmer auswählen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
@@ -9882,7 +9882,7 @@ prtf#:#prtf_finalized#:#Das Portfolio wurde abgegeben.
 prtf#:#prtf_first_page_title#:#Typ der 1. Seite
 prtf#:#prtf_font_color#:#Schriftfarbe
 prtf#:#prtf_new_portfolio#:#Neues Portfolio 
-prtf#:#prtf_no_blogs_info#:#Wenn Sie in Ihrem Arbeitsraum einen Blog anlegen, können Sie diesen auch als Teil Ihres Portfolios verwenden.
+prtf#:#prtf_no_blogs_info#:#Wenn Sie in Ihrem Arbeitsraum ein Blog anlegen, können Sie dieses auch als Teil Ihres Portfolios verwenden.
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
 prtf#:#prtf_pages_copied#:#Die Seiten wurden kopiert.
 prtf#:#prtf_portfolio_created#:#Portfolio wurde hinzugefügt
