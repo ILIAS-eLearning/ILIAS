@@ -134,14 +134,7 @@ class ASS_AnswerSimple
 	*/
 	function getPoints()
 	{
-		if (round($this->points) == $this->points)
-		{
-			return sprintf("%d", $this->points);
-		}
-		else
-		{
-			return $this->points;
-		}
+		return $this->points;
 	}
 	
 	/**
@@ -155,15 +148,8 @@ class ASS_AnswerSimple
 	*/
 	function checkPoints($a_points)
 	{
-		if (is_numeric($a_points))
-		{
-			return TRUE;
-		}
-		else
-		{
-			return FALSE;
-		}
-	}
+		return is_numeric($a_points);
+	}	
 
 	/**
 	* Gets the sort/display order
