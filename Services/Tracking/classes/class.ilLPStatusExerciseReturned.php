@@ -47,41 +47,44 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 
 	function _getNotAttempted($a_obj_id)
 	{
-		// All members
-		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
-
-		$members = ilExerciseMembers::_getMembers($a_obj_id);
-
-		$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-		$users = array_diff($users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
-
-
-		return $users ? $users : array();
+		$users = array();
+		
+		$members = self::getMembers($a_obj_id);
+		if($members)
+		{
+			$users = array_diff($members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+			$users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+			$users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
+		}
+		
+		return $users;
 	}
 
 	function _getInProgress($a_obj_id)
-	{
-		global $ilDB;
-
+	{		
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilExerciseMembers::_getReturned($a_obj_id);
 		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 		$users = $users + $all;
 
-		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-		$users = array_diff($users,$fai = ilLPStatusWrapper::_getFailed($a_obj_id));
+		$users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+		$users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
+		
+		if($users)
+		{
+			// Exclude all non members
+			$users = array_intersect(self::getMembers($a_obj_id), (array)$users);
+		}
 
-		return $users ? $users : array();
+		return $users;
 	}		
 
 	function _getCompleted($a_obj_id)
-	{
-		global $ilDB;
-
+	{		
 		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
-		return ($ret = ilExerciseMembers::_getPassedUsers($a_obj_id)) ? $ret : array();
+		$ret = ilExerciseMembers::_getPassedUsers($a_obj_id);
+		return $ret ? $ret : array();
 	}
 
 	function _getFailed($a_obj_id)
@@ -101,7 +104,7 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache, $ilDB;
+		global $ilObjDataCache;
 		
 		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
 		switch ($ilObjDataCache->lookupType($a_obj_id))
@@ -127,7 +130,77 @@ class ilLPStatusExerciseReturned extends ilLPStatus
 		}
 		return $status;		
 	}
+	
+	/**
+	 * Get members for object
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	protected static function getMembers($a_obj_id)
+	{		
+		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
+		return ilExerciseMembers::_getMembers($a_obj_id);
+	}
 
+	/**
+	 * Get completed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get failed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_FAILED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get in progress users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+	}	
+}
 
-}	
 ?>
