@@ -16,7 +16,7 @@ include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilPDFPresentation, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
 *
 * @package ilias-tracking
 *
@@ -91,16 +91,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			    $table_gui = new ilTrObjectUsersPropsTableGUI($this, "details", $this->details_obj_id, $this->details_id);
 				$this->ctrl->forwardCommand($table_gui);
 				break;
-
-			/*
-			case 'ilpdfpresentation':
-				include_once './Services/Tracking/classes/class.ilPDFPresentation.php';
-				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->details_id,$this->getUserId());
-				$pdf_gui->setType(LP_ACTIVE_OBJECTS);
-				$this->ctrl->setReturn($this,'show');
-				$this->ctrl->forwardCommand($pdf_gui);
-				break;
-            */
 
 			default:
 			    $cmd = $this->__getDefaultCommand();
@@ -183,13 +173,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->setParameter($this, 'prt', '');
 			}
 		}
-
-		/*
-		if($this->activePDF())
-		{
-			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createDetails'),$this->lng->txt('pdf_export'));
-		}
-		 */
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
@@ -301,27 +284,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		global $ilUser,$ilObjDataCache;
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_list_objects.html','Services/Tracking');
-
-		/*
-		if($this->activePDF())
-		{
-			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
-		}
-		 */
-
-		/*
-		// Limit info
-		if($this->filter->limitReached())
-		{
-			$info = sprintf($this->lng->txt('trac_filter_limit_reached'),$this->filter->getLimit());
-			$this->tpl->setVariable("LIMIT_REACHED",$info);
-		}
-		 */
-
-		/*
-		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
-		$lp_table = new ilLPObjectsTableGUI($this, "");
-		*/
 
 		include_once("./Services/Tracking/classes/class.ilTrSummaryTableGUI.php");
 		$lp_table = new ilTrSummaryTableGUI($this, "", ROOT_FOLDER_ID);

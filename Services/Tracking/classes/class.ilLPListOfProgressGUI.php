@@ -8,7 +8,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfProgressGUI: ilPDFPresentation, ilLPProgressTableGUI
+* @ilCtrl_Calls ilLPListOfProgressGUI: ilLPProgressTableGUI
 *
 * @package ilias-tracking
 *
@@ -54,16 +54,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->setReturn($this,'show');
 				$this->ctrl->forwardCommand($table_gui);
 				break;
-
-			/*
-			case 'ilpdfpresentation':
-				include_once './Services/Tracking/classes/class.ilPDFPresentation.php';
-				$pdf_gui = new ilPDFPresentation($this->getMode(),$this->details_id,$this->getUserId(),$this->tracked_user->getId());
-				$pdf_gui->setType(LP_ACTIVE_PROGRESS);
-				$this->ctrl->setReturn($this,'show');
-				$this->ctrl->forwardCommand($pdf_gui);
-				break;
-			 */
 
 			default:
 				$cmd = $this->__getDefaultCommand();
@@ -111,13 +101,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		{
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
 		}
-
-		/*
-		if($this->activePDF())
-		{
-			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createDetails'),$this->lng->txt('pdf_export'));
-		}
-		 */
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_progress_container.html','Services/Tracking');
 
@@ -175,22 +158,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		/*
-		if($this->activePDF())
-		{
-			$this->__showButton($this->ctrl->getLinkTargetByClass('ilpdfpresentation','createList'),$this->lng->txt('pdf_export'));
-		}
-		 */
-
-		/*
-		// Output filter limit info
-		if($this->filter->limitReached())
-		{
-			$info = sprintf($this->lng->txt('trac_filter_limit_reached'),$this->filter->getLimit());
-			$tpl->setVariable("LIMIT_REACHED",$info);
-		}
-		 */
-	
 		include_once("./Services/Tracking/classes/class.ilLPProgressTableGUI.php");
 		$lp_table = new ilLPProgressTableGUI($this, "", $this->tracked_user);
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
