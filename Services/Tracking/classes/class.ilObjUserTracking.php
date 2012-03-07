@@ -17,15 +17,17 @@ include_once "./Services/Object/classes/class.ilObject.php";
 
 class ilObjUserTracking extends ilObject
 {
-	var $valid_time_span = null;
-	var $extended_data = null;
-	var $learning_progress = null;
+	var $valid_time;
+	var $extended_data;
+	var $learning_progress;
+	var $tracking_user_related;
+	var $object_statistics_enabled;
 
 	// BEGIN ChangeEvent
 	/**
 	 * This variable holds the enabled state of the change event tracking.
 	 */
-	private $is_change_event_tracking_enabled = null;
+	private $is_change_event_tracking_enabled;
 	// BEGIN ChangeEvent
 
 	const EXTENDED_DATA_LAST_ACCESS = 1;

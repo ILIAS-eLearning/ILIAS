@@ -10878,7 +10878,7 @@ common#:#cron_mail_notification_message_info#:#If enabled, all users will get no
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
-trac#:#trac_learning_progress_settings_info#:#Activate the display of the following values inside the Learning Progress tables:
+trac#:#trac_learning_progress_settings_info#:#Activate extended data
 fold#:#fold_import#:#Import Folder
 mail#:#mail_select_recipients#:#Please select mail recipients:
 grp#:#grp_import#:#Import Group

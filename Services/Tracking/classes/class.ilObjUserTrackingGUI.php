@@ -171,52 +171,55 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$activate = new ilCheckboxGroupInputGUI($this->lng->txt('activate_tracking'));
 		$form->addItem($activate);
 		
+		// learning progress
 		$lp = new ilCheckboxInputGUI($this->lng->txt('trac_learning_progress'), 'learning_progress_tracking');
-		$lp->setInfo($this->lng->txt('trac_learning_progress_settings_info'));
-		$activate->addSubItem($lp);
-		
-		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
-		$activate->addSubItem($event);
-		
-		$objstat = new ilCheckboxInputGUI($this->lng->txt('trac_object_statistics'), 'object_statistics');
-		$activate->addSubItem($objstat);
-
 		if($this->object->enabledLearningProgress())
 		{
 			$lp->setChecked(true);
 		}
+		$activate->addSubItem($lp);
 		
+		
+		// extended data
+
+		$extdata = new ilCheckboxGroupInputGUI($this->lng->txt('trac_learning_progress_settings_info'), 'lp_extdata');
+		$extdata->addOption(new ilCheckboxOption($this->lng->txt('trac_first_and_last_access'), 'lp_access'));		
+		$extdata->addOption(new ilCheckboxOption($this->lng->txt('trac_read_count'), 'lp_count'));		
+		$extdata->addOption(new ilCheckboxOption($this->lng->txt('trac_spent_seconds'), 'lp_spent'));
+		$lp->addSubItem($extdata);
+		
+		$ext_value = array();
+		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{
+			$ext_value[] = 'lp_access';
+		}
+		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
+		{
+			$ext_value[] = 'lp_count';
+		}
+		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$ext_value[] = 'lp_spent';
+		}
+		$extdata->setValue($ext_value);
+		
+		
+		// change event
+		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
 		if($this->object->enabledChangeEventTracking())
 		{
 			$event->setChecked(true);
 		}
+		$activate->addSubItem($event);
 		
+		// object statistics
+		$objstat = new ilCheckboxInputGUI($this->lng->txt('trac_object_statistics'), 'object_statistics');
 		if($this->object->enabledObjectStatistics())
 		{
 			$objstat->setChecked(true);
 		}
-
-		$access = new ilCheckboxInputGUI($this->lng->txt('trac_first_and_last_access'), 'lp_access');
-		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
-		{
-			$access->setChecked(true);
-		}
-		$lp->addSubItem($access);
-
-		$read = new ilCheckboxInputGUI($this->lng->txt('trac_read_count'), 'lp_count');
-		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
-		{
-			$read->setChecked(true);
-		}
-		$lp->addSubItem($read);
-
-		$spent = new ilCheckboxInputGUI($this->lng->txt('trac_spent_seconds'), 'lp_spent');
-		if($this->object->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
-		{
-			$spent->setChecked(true);
-		}
-		$lp->addSubItem($spent);
-
+		$activate->addSubItem($objstat);
+			
 		// Anonymized
 		$user = new ilCheckboxInputGUI($this->lng->txt('trac_anonymized'), 'user_related');
 		$user->setInfo($this->lng->txt('trac_anonymized_info'));
@@ -250,20 +253,21 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		{		
 			$lp_active = $form->getInput('learning_progress_tracking');
 			
-			$this->object->enableLearningProgress($lp_active);
+			$this->object->enableLearningProgress($lp_active);						
 			
 			if($lp_active)
 			{
+				$ext_data = (array)$form->getInput("lp_extdata");
 				$code = 0;
-				if($form->getInput('lp_access'))
+				if(in_array('lp_access', $ext_data))
 				{
 					$code += ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS;
 				}
-				if($form->getInput('lp_count'))
+				if(in_array('lp_count', $ext_data))
 				{
 					$code += ilObjUserTracking::EXTENDED_DATA_READ_COUNT;
 				}
-				if($form->getInput('lp_spent'))
+				if(in_array('lp_spent', $ext_data))
 				{
 					$code += ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS;
 				}
@@ -276,6 +280,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->object->setValidTimeSpan($form->getInput('valid_request'));
 			
 			$this->object->updateSettings();
+			
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "settings");
 		}
