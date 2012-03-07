@@ -121,7 +121,29 @@ class assFileUploadGUI extends assQuestionGUI
 		$maxsize->setInfo($this->lng->txt("maxsize_info"));
 		$maxsize->setSize(10);
 		$maxsize->setMinValue(0);
-		$maxsize->setMaxValue($this->object->getMaxFilesizeInBytes());
+		
+			//mbecker: Quick fix for mantis bug 8595: Change size file
+			$umf = get_cfg_var("upload_max_filesize");
+			// get the value for the maximal post data from the php.ini (if available)
+			$pms = get_cfg_var("post_max_size");
+
+			//convert from short-string representation to "real" bytes
+			$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+
+			$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+			$pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+
+			if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
+			if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
+
+			// use the smaller one as limit
+			$max_filesize = min($umf, $pms);
+
+			if (!$max_filesize) $max_filesize=max($umf, $pms);
+		
+		$maxsize->setMaxValue($max_filesize);
+			// end quick fix
+		
 		$maxsize->setRequired(FALSE);
 		$form->addItem($maxsize);
 		// allowedextensions

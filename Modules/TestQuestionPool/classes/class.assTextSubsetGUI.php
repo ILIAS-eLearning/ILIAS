@@ -78,7 +78,13 @@ class assTextSubsetGUI extends assQuestionGUI
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
 			}
-
+			
+			// mbecker: fix for 8407
+			$this->object->setEstimatedWorkingTime(
+				$_POST["Estimated"]["hh"],
+				$_POST["Estimated"]["mm"],
+				$_POST["Estimated"]["ss"]
+			);
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
