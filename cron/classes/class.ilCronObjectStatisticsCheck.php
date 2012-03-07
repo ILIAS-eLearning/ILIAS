@@ -91,11 +91,12 @@ class ilCronObjectStatisticsCheck
 						" obj_id = ".$ilDB->quote($crs_id, "integer").
 						" AND fulldate = ".$ilDB->quote(date("Ymd", $this->date), "integer"));
 					
-					$participants = new ilCourseParticipants($crs_id);
-					$participants =  $participants->getCountMembers();					
-					$in_progress = count(ilLPStatusWrapper::_lookupInProgressForObject($crs_id));
-					$completed = count(ilLPStatusWrapper::_lookupCompletedForObject($crs_id));
-					$failed = count(ilLPStatusWrapper::_lookupFailedForObject($crs_id));
+					$members = new ilCourseParticipants($crs_id);
+					$members = $participants->getMembers();	
+					
+					$in_progress = count(ilLPStatusWrapper::_lookupInProgressForObject($crs_id, $members));
+					$completed = count(ilLPStatusWrapper::_lookupCompletedForObject($crs_id, $members));
+					$failed = count(ilLPStatusWrapper::_lookupFailedForObject($crs_id, $members));
 					
 					// calculate with other values - there is not direct method
 					$not_attempted = $participants - $in_progress - $completed - $failed;
@@ -107,7 +108,7 @@ class ilCronObjectStatisticsCheck
 						"mm" => array("integer", date("m", $this->date)),
 						"dd" => array("integer", date("d", $this->date)),
 						"fulldate" => array("integer", date("Ymd", $this->date)),
-						"mem_cnt" => array("integer", $participants),
+						"mem_cnt" => array("integer", count($members)),
 						"in_progress" => array("integer", $in_progress),
 						"completed" => array("integer", $completed),
 						"failed" => array("integer", $failed),
