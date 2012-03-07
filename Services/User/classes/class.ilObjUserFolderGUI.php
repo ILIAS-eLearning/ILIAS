@@ -2933,9 +2933,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$tabs_gui->addTarget("export",
 				$this->ctrl->getLinkTarget($this, "export"), "export", "", "");
 
-			if((ilObjUserTracking::_enabledLearningProgress() or
-				ilObjUserTracking::_enabledTracking())
-			   and ilObjUserTracking::_enabledUserRelatedData())
+			if(ilObjUserTracking::_enabledLearningProgress() &&
+				ilObjUserTracking::_enabledUserRelatedData())
 			{
 				$tabs_gui->addTarget("learning_progress",
 									 $this->ctrl->getLinkTarget($this, "learningProgress"), "learningProgress", "", "");
