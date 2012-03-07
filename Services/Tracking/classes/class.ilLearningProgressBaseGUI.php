@@ -86,18 +86,6 @@ class ilLearningProgressBaseGUI
 		$this->anonymized = (bool) !ilObjUserTracking::_enabledUserRelatedData();
 	}
 
-	function activePDF()
-	{
-		return $this->active_pdf;
-	}
-
-	function __checkPDF()
-	{
-		include_once 'Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		$rpc_server = ilRPCServerSettings::getInstance();
-		$this->active_pdf = $rpc_server->getHost() ? true : false;
-	}
-
 	function isAnonymized()
 	{
 		return $this->anonymized;
