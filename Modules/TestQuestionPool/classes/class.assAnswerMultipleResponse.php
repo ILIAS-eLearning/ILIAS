@@ -64,7 +64,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
   )
   {
     $this->ASS_AnswerSimple($answertext, $points_checked, $order, $id);
-    $this->points_unchecked = $points_unchecked;
+    $this->setPointsUnchecked($points_unchecked);
   }
 
 
@@ -77,15 +77,9 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
 * @access public
 * @see $points_unchecked
 */
-  function getPointsUnchecked() {
-		if (round($this->points_unchecked) == $this->points_unchecked)
-		{
-			return sprintf("%d", $this->points_unchecked);
-		}
-		else
-		{
-			return $this->points_unchecked;
-		}
+  function getPointsUnchecked() 
+  {
+	return $this->points_unchecked;
   }
 
 /**
@@ -100,6 +94,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple {
   function setPointsUnchecked($points_unchecked = 0.0)
   {
 		$new_points = str_replace(",", ".", $points_unchecked);
+		
 		if ($this->checkPoints($new_points))
 		{
 			$this->points_unchecked = $new_points;
