@@ -46,64 +46,23 @@ class ilLPStatusCollection extends ilLPStatus
 
 	function _getNotAttempted($a_obj_id)
 	{
-		global $ilObjDataCache,$tree;
-
-		switch($ilObjDataCache->lookupType($a_obj_id))
+		$users = array();
+		
+		$members = self::getMembers($a_obj_id);
+		if($members)
 		{
-			case 'crs':
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $member_obj->getMembers();
-				
-				// diff in progress and completed (use stored result in LPStatusWrapper)
-				$users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
-				$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
-				$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
-				return $users;
-
-			case 'grp':
-				include_once './Modules/Group/classes/class.ilObjGroup.php';
-				$members = ilObjGroup::_getMembers($a_obj_id);
-
-				// diff in progress and completed (use stored result in LPStatusWrapper)
-				$users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
-				$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
-				$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
-				return $users;
-				
-			case 'fold':
-				$folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
-				$folder_ref_id = current($folder_ref_ids);
-				if($crs_id = $tree->checkForParentType($folder_ref_id,'crs'))
-				{
-					include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-					$member_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$members = $member_obj->getMembers();
-				
-					// diff in progress and completed (use stored result in LPStatusWrapper)
-					$users = array_diff((array) $members,ilLPStatusWrapper::_getInProgress($a_obj_id));
-					$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
-					$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));
-					return $users;
-				}
-				// fallthrough
-				
-			default:
-				return array();
+			// diff in progress and completed (use stored result in LPStatusWrapper)
+			$users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+			$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+			$users = array_diff((array) $users, ilLPStatusWrapper::_getFailed($a_obj_id));			
 		}
+
+		return $users;
 	}
 
 	function _getInProgress($a_obj_id)
-	{
-		global $tree;
-		
-		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-
-		global $ilBench,$ilObjDataCache;
-		$ilBench->start('LearningProgress','9172_LPStatusCollection_inProgress');
-
-		$in_progress = 0;
-
+	{		
+		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';	
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
@@ -120,54 +79,27 @@ class ilLPStatusCollection extends ilLPStatus
 		// Exclude all users with status failed.
 		$users = array_diff((array) $users,ilLPStatusWrapper::_getFailed($a_obj_id));
 
-		switch($ilObjDataCache->lookupType($a_obj_id))
+		if($users)
 		{
-			case 'crs':
-				// Exclude all non members
-				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $members_obj->getMembers();
-				$users = array_intersect($members,(array) $users);
-				break;
-				
-			case 'grp':
-				include_once './Modules/Group/classes/class.ilObjGroup.php';
-				$members = ilObjGroup::_getMembers($a_obj_id);
-				$users = array_intersect($members,(array) $users);
-				break;
-				
-			case 'fold':
-				$folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
-				$folder_ref_id = current($folder_ref_ids);
-				if($crs_id = $tree->checkForParentType($folder_ref_id,'crs'))
-				{
-					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					$members_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$members = $members_obj->getMembers();
-					$users = array_intersect($members,(array) $users);
-				}
-				break;
+			// Exclude all non members
+			$users = array_intersect(self::getMembers($a_obj_id), (array)$users);
 		}
-
-		$ilBench->stop('LearningProgress','9172_LPStatusCollection_inProgress');
+		
 		return $users;
 	}
 
 	/**
 	 * Get completed users
 	 * New handling for optional grouped assignments.
-	 * @global <type> $ilBench
-	 * @global <type> $ilObjDataCache
-	 * @global <type> $tree
+	 * 
 	 * @param int $a_obj_id
 	 * @return array users
 	 */
 	function _getCompleted($a_obj_id)
-	{
+	{		
+		global $ilObjDataCache;
+		
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-
-		global $ilBench,$ilObjDataCache,$tree;
-		$ilBench->start('LearningProgress','9173_LPStatusCollection_completed');
 
 		// New handling for optional assignments
 		$counter = 0;
@@ -224,42 +156,21 @@ class ilLPStatusCollection extends ilLPStatus
 				}
 			}
 		}
-
-		switch($ilObjDataCache->lookupType($a_obj_id))
-		{
-			case 'crs':
-				// Exclude all non members
-				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$users = array_intersect($member_obj->getMembers(),(array) $users);
-				break;
-
-			case 'grp':
-				include_once './Modules/Group/classes/class.ilObjGroup.php';
-				$members = ilObjGroup::_getMembers($a_obj_id);
-				$users = array_intersect($members,(array) $users);
-				break;
-				
-			case 'fold':
-				$folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
-				$folder_ref_id = current($folder_ref_ids);
-				if($crs_id = $tree->checkForParentType($folder_ref_id,'crs'))
-				{
-					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-					$members_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$users = array_intersect($members_obj->getMembers(),(array) $users);
-				}
-				break;
-				
-		}
+		
 		$users = array_diff($users,ilLPStatusWrapper::_getFailed($a_obj_id));
-		$ilBench->stop('LearningProgress','9173_LPStatusCollection_completed');
+
+		if($users)
+		{
+			// Exclude all non members
+			$users = array_intersect(self::getMembers($a_obj_id), (array)$users);
+		}
+
 		return (array) $users;
 	}
 
 	function _getFailed($a_obj_id)
 	{
-		global $ilObjDataCache,$tree;
+		global $ilObjDataCache;
 
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 
@@ -305,45 +216,21 @@ class ilLPStatusCollection extends ilLPStatus
 			}
 			$users = array_unique(array_merge($users, $gr_failed));
 		}
-
 		
-		switch($ilObjDataCache->lookupType($a_obj_id))
+		if($users)
 		{
-			case 'crs':
-				// Exclude all non members
-				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $members_obj->getMembers();
-		
-				$users = array_intersect($members,(array) $users);
-				break;
-				
-			case 'grp':
-				include_once './Modules/Group/classes/class.ilObjGroup.php';
-				$members = ilObjGroup::_getMembers($a_obj_id);
-				$users = array_intersect($members,(array) $users);
-				break;
-
-			case 'fold':
-				$folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
-				$folder_ref_id = current($folder_ref_ids);
-				if($crs_id = $tree->checkForParentType($folder_ref_id,'crs'))
-				{
-					$members_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
-					$members = $members_obj->getMembers();
-					$users = array_intersect($members,(array) $users);
-				}
-				break;
+			// Exclude all non members
+			$users = array_intersect(self::getMembers($a_obj_id), (array)$users);
 		}
-		
+	
 		return array_unique($users);
 	}
 		
-
 	function _getStatusInfo($a_obj_id)
 	{
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 
+		$status_info = array();
 		$status_info['collections'] = ilLPCollectionCache::_getItems($a_obj_id);
 		$status_info['num_collections'] = count($status_info['collections']);
 		return $status_info;
@@ -358,6 +245,7 @@ class ilLPStatusCollection extends ilLPStatus
 			return parent::_getTypicalLearningTime($a_obj_id);
 		}
 
+		$tlt = 0;
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		foreach($status_info['collections'] as $item)
 		{
@@ -376,7 +264,7 @@ class ilLPStatusCollection extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache, $ilDB;
+		global $ilObjDataCache;
 
 		$status['completed'] = true;
 		$status['failed'] = false;
@@ -473,5 +361,100 @@ class ilLPStatusCollection extends ilLPStatus
 		$status['completed'] = false;
 		return $status;
 	}
+	
+	/**
+	 * Get members for object
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	protected static function getMembers($a_obj_id)
+	{
+		global $ilObjDataCache, $tree;
+	
+		switch($ilObjDataCache->lookupType($a_obj_id))
+		{
+			case 'crs':
+				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+				return $member_obj->getMembers();
+				
+			case 'grp':
+				include_once './Modules/Group/classes/class.ilObjGroup.php';
+				return ilObjGroup::_getMembers($a_obj_id);
+				
+			case 'fold':
+				$folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
+				$folder_ref_id = current($folder_ref_ids);
+				if($crs_id = $tree->checkForParentType($folder_ref_id,'crs'))
+				{
+					include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+					$member_obj = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjId($crs_id));
+					return $member_obj->getMembers();
+				}
+				break;
+		}
+		
+		return array();
+	}
+	
+	/**
+	 * Get completed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get failed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_FAILED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get in progress users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+	}	
 }	
 ?>

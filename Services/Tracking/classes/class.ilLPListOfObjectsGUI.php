@@ -7,7 +7,6 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
 include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 include_once 'Services/Search/classes/class.ilUserFilterGUI.php';
-include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 
 /**
 * Class ilObjUserTrackingGUI
@@ -16,7 +15,7 @@ include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilLPObjectsTableGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
+* @ilCtrl_Calls ilLPListOfObjectsGUI: ilUserFilterGUI, ilTrUserObjectsPropsTableGUI, ilTrSummaryTableGUI, ilTrObjectUsersPropsTableGUI, ilTrMatrixTableGUI
 *
 * @package ilias-tracking
 *
@@ -59,12 +58,6 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->forwardCommand($table_gui);
 				break;
 			
-			case 'illpobjectstablegui':
-				include_once './Services/Tracking/classes/class.ilLPObjectsTableGUI.php';
-			    $table_gui = new ilLPObjectsTableGUI($this, "", $this->tracked_user);
-				$this->ctrl->forwardCommand($table_gui);
-				break;
-
 			case 'iltrsummarytablegui':
 				$cmd = "showObjectSummary";
 				if(!$this->details_id)

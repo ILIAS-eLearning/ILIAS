@@ -22,84 +22,22 @@ class ilLPStatusManual extends ilLPStatus
 		$this->db =& $ilDB;
 	}
 
-	function _getNotAttempted($a_obj_id)
-	{
-		global $ilObjDataCache;
-
-		global $ilBench;
-		$ilBench->start('LearningProgress','9161_LPStatusManual_notAttempted');
-
-		switch($ilObjDataCache->lookupType($a_obj_id))
-		{
-			case 'crs':
-
-				include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-				$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-				$members = $members_obj->getMembers();
-			
-				// diff in progress and completed (use stored result in LPStatusWrapper)
-				$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-				$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-
-				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
-				return $users;
-
-			case 'grp':
-				
-				include_once './Modules/Group/classes/class.ilObjGroup.php';
-
-				$members = ilObjGroup::_getMembers($a_obj_id);
-				// diff in progress and completed (use stored result in LPStatusWrapper)
-				$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-				$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-
-				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
-				return $users;
-
-			default:
-				$ilBench->stop('LearningProgress','9161_LPStatusManual_notAttempted');
-				return array();
-		}
-	}
-
 	function _getInProgress($a_obj_id)
 	{
-		global $ilObjDataCache;
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
+		
+		// Exclude all users with status completed.
+		$users = array_diff((array) $users,ilLPStatusWrapper::_getCompleted($a_obj_id));
 
-		global $ilBench;
-		$ilBench->start('LearningProgress','9162_LPStatusManual_inProgress');
-
-
-		switch($ilObjDataCache->lookupType($a_obj_id))
-		{
-			case 'dbk':
-			case 'lm':
-			case 'htlm':
-				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
-				return ilLPStatusManual::__getLMInProgress($a_obj_id);
-
-			case 'crs':
-				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
-				return ilLPStatusManual::__getCourseInProgress($a_obj_id);
-
-			case 'grp':
-				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
-				return ilLPStatusManual::__getGroupInProgress($a_obj_id);
-
-			default:
-				$ilBench->stop('LearningProgress','9162_LPStatusManual_inProgress');
-				echo "ilLPStatusManual: unknown type ".$ilObjDataCache->lookupType($a_obj_id);
-				
-		}
-		return array();
+		return $users;						
 	}
 
 	function _getCompleted($a_obj_id)
 	{
 		global $ilDB;
-
-		global $ilBench;
-		$ilBench->start('LearningProgress','9163_LPStatusManual_completed');
+		
+		$usr_ids = array();
 
 		$query = "SELECT DISTINCT(usr_id) user_id FROM ut_lp_marks ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
@@ -110,72 +48,10 @@ class ilLPStatusManual extends ilLPStatus
 		{
 			$usr_ids[] = $row->user_id;
 		}
-		$ilBench->stop('LearningProgress','9163_LPStatusManual_completed');
-		return $usr_ids ? $usr_ids : array();
+
+		return $usr_ids;
 	}
 
-	// Private
-	function __getLMInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		
-		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-		foreach($all as $user_id)
-		{
-			if(!in_array($user_id,$completed))
-			{
-				$user_ids[] = $user_id;
-			}
-		}
-		return $user_ids ? $user_ids : array();
-	}
-
-	function __getCourseInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-		$members = $members_obj->getMembers();
-
-		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-		foreach($all as $user_id)
-		{
-			if(!in_array($user_id,$completed) and in_array($user_id,$members))
-			{
-				$user_ids[] = $user_id;
-			}
-		}
-		return $user_ids ? $user_ids : array();
-	}
-
-	function __getGroupInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		
-		include_once './Modules/Group/classes/class.ilObjGroup.php';
-		$members = ilObjGroup::_getMembers($a_obj_id);
-
-		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-		foreach($all as $user_id)
-		{
-			if(!in_array($user_id,$completed) and in_array($user_id,$members))
-			{
-				$user_ids[] = $user_id;
-			}
-		}
-		return $user_ids ? $user_ids : array();
-	}
-	
 	/**
 	 * Determine status
 	 *
@@ -213,5 +89,17 @@ class ilLPStatusManual extends ilLPStatus
 		}
 		return $status;		
 	}
+	
+	/**
+	 * Get failed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+	{
+		return array();
+	}	
 }	
 ?>

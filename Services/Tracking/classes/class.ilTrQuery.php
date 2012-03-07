@@ -149,69 +149,6 @@ class ilTrQuery
 		return $items;
 	}
 
-	function getObjectsStatus(array $obj_refs)
-	{
-		global $ilDB;
-
-		if(sizeof($obj_refs))
-		{
-			$obj_ids = array_keys($obj_refs);
-			self::refreshObjectsStatus($obj_ids);
-
-			include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
-			include_once "Services/Tracking/classes/class.ilLPStatus.php";
-
-			// prepare object view modes
-			include_once 'Modules/Course/classes/class.ilObjCourse.php';
-			$view_modes = array();
-			$query = "SELECT obj_id, view_mode FROM crs_settings".
-				" WHERE ".$ilDB->in("obj_id", $obj_ids , false, "integer");
-			$set = $ilDB->query($query);
-			while($rec = $ilDB->fetchAssoc($set))
-			{
-				$view_modes[(int)$rec["obj_id"]] = (int)$rec["view_mode"];
-			}
-
-			$query = "SELECT object_data.obj_id, title, u_mode, type".
-				" FROM object_data".
-				" LEFT JOIN ut_lp_settings ON (ut_lp_settings.obj_id = object_data.obj_id)".
-				" WHERE (u_mode IS NULL OR u_mode <> ".$ilDB->quote(LP_MODE_DEACTIVATED, "integer").")".
-				" AND ".$ilDB->in("object_data.obj_id", $obj_ids, false, "integer").
-				" GROUP BY object_data.obj_id, title, u_mode, type".
-				" ORDER BY title";
-			$set = $ilDB->query($query);
-			$result = array();
-			while($rec = $ilDB->fetchAssoc($set))
-			{
-				$rec["ref_ids"] = $obj_refs[(int)$rec["obj_id"]];
-				$rec["status"] = (int)$rec["status"];
-				$rec["u_mode"] = (int)$rec["u_mode"];
-
-				$rec['status_in_progress'] = ilLPStatusWrapper::_getCountInProgress((int)$rec["obj_id"]);
-				$rec['status_completed'] = ilLPStatusWrapper::_getCountCompleted((int)$rec["obj_id"]);
-				$rec['status_failed'] = ilLPStatusWrapper::_getCountFailed((int)$rec["obj_id"]);
-				$rec['status_not_attempted'] = ilLPStatusWrapper::_getCountNotAttempted((int)$rec["obj_id"]);
-
-				// lp mode might not match object/course view mode
-				if($rec["type"] == "crs" && $view_modes[$rec["obj_id"]] == IL_CRS_VIEW_OBJECTIVE)
-				{
-					$rec["u_mode"] = LP_MODE_OBJECTIVES;
-				}
-				else if(!$rec["u_mode"])
-				{
-					$rec["u_mode"] = ilLPObjSettings::__getDefaultMode($rec["obj_id"], $rec["type"]);
-				}
-
-				// can be default mode
-				if($rec["u_mode"] != LP_MODE_DEACTIVATE)
-				{
-					$result[$rec["obj_id"]] = $rec;
-				}
-			}
-			return $result;
-		}
-	}
-
 	/**
 	 * Get all user-based tracking data for object
 	 *

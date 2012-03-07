@@ -94,7 +94,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 					{
 						$caption = $icon." &#216;";
 					}
-					$this->addColumn($caption, $status."_".$type, "", false, "ilRight");
+					$this->addColumn($caption, $status."_".$type, "", false, "ilRight");					
 				}
 			}			
 		}
@@ -271,7 +271,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 			{			
 				// get data aggregated for month
 				foreach(ilTrQuery::getObjectLPStatistics($objects, $yearmonth[0], (int)$yearmonth[1]) as $item)
-				{																
+				{															
 					$obj_id = $item["obj_id"];										
 					if(!isset($data[$obj_id]))
 					{
@@ -283,7 +283,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 					foreach($all_status as $status)
 					{
 						// status-id to field name
-						if($status != "mem_cnt")
+						if(is_numeric($status))
 						{
 							$field = $this->status_map[$status];
 						}
@@ -291,6 +291,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 						{
 							$field = $status;
 						}
+						
 						// aggregated fields
 						foreach($this->types as $type)
 						{

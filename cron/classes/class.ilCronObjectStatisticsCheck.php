@@ -85,13 +85,20 @@ class ilCronObjectStatisticsCheck
 				
 				// trashed objects will not change
 				if(!in_array($crs_id, $trashed_objects))
-				{
-					$participants = new ilCourseParticipants($crs_id);
-					
+				{					
 					// only save once per day
 					$ilDB->manipulate("DELETE FROM obj_lp_stat WHERE".
 						" obj_id = ".$ilDB->quote($crs_id, "integer").
 						" AND fulldate = ".$ilDB->quote(date("Ymd", $this->date), "integer"));
+					
+					$participants = new ilCourseParticipants($crs_id);
+					$participants =  $participants->getCountMembers();					
+					$in_progress = count(ilLPStatusWrapper::_lookupInProgressForObject($crs_id));
+					$completed = count(ilLPStatusWrapper::_lookupCompletedForObject($crs_id));
+					$failed = count(ilLPStatusWrapper::_lookupFailedForObject($crs_id));
+					
+					// calculate with other values - there is not direct method
+					$not_attempted = $participants - $in_progress - $completed - $failed;
 					
 					$set = array(
 						"type" => array("text", "crs"),
@@ -100,11 +107,11 @@ class ilCronObjectStatisticsCheck
 						"mm" => array("integer", date("m", $this->date)),
 						"dd" => array("integer", date("d", $this->date)),
 						"fulldate" => array("integer", date("Ymd", $this->date)),
-						"mem_cnt" => array("integer", $participants->getCountMembers()),
-						"in_progress" => array("integer", ilLPStatusWrapper::_getCountInProgress($crs_id)),
-						"completed" => array("integer", ilLPStatusWrapper::_getCountCompleted($crs_id)),
-						"failed" => array("integer", ilLPStatusWrapper::_getCountFailed($crs_id)),
-						"not_attempted" => array("integer", ilLPStatusWrapper::_getCountNotAttempted($crs_id))												
+						"mem_cnt" => array("integer", $participants),
+						"in_progress" => array("integer", $in_progress),
+						"completed" => array("integer", $completed),
+						"failed" => array("integer", $failed),
+						"not_attempted" => array("integer", $not_attempted)												
 						);	
 					
 					$ilDB->insert("obj_lp_stat", $set);

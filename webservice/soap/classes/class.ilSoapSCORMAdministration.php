@@ -172,26 +172,24 @@ class ilSoapSCORMAdministration extends ilSoapAdministration
 									   'Client');
 		}	
 		
-		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';		
+		include_once 'Services/Tracking/classes/class.ilLPStatus.php';		
 		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
 		
 		if(!ilObjUserTracking::_enabledLearningProgress())
 		{
 			return $this->__raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');
 		}	
-		
-		$completed = ilLPStatusWrapper::_getCompleted($obj_id);
-		$failed = ilLPStatusWrapper::_getFailed($obj_id);
-		$in_progress = ilLPStatusWrapper::_getInProgress($obj_id);
-		if(in_array($a_usr_id, $completed))
+									
+		$status = ilLPStatus::_lookupStatus($obj_id, $a_usr_id);		
+		if($status == LP_STATUS_COMPLETED_NUM)
 		{
 			return 'completed';
 		}
-		else if(in_array($a_usr_id, $failed))
+		else if($status == LP_STATUS_FAILED)
 		{
 			return 'failed';
 		}
-		else if(in_array($a_usr_id, $in_progress))
+		else if($status == LP_STATUS_IN_PROGRESS_NUM)
 		{
 			return 'in_progress';
 		}
