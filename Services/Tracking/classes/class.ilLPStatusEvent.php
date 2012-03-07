@@ -45,18 +45,19 @@ class ilLPStatusEvent extends ilLPStatus
 	}
 
 	function _getNotAttempted($a_obj_id)
-	{
-		global $ilObjDataCache;
-
+	{		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		$member_obj = ilCourseParticipants::_getInstanceByObjId($status_info['crs_id']);
-		$members = $member_obj->getParticipants();
 		
-		// diff in progress and completed (use stored result in LPStatusWrapper)
-		$users = array_diff((array) $members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-		$users = array_diff((array) $users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
+		$users = array();
+		
+		$members = self::getMembers($status_info['crs_id'], true);
+		if($members)
+		{
+			// diff in progress and completed (use stored result in LPStatusWrapper)
+			$users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+			$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+		}
+
 		return $users;
 	}
 
@@ -99,13 +100,12 @@ class ilLPStatusEvent extends ilLPStatus
 		$course_ref_id = $tree->checkForParentType($ref_id,'crs');
 		$course_obj_id = ilObject::_lookupObjId($course_ref_id);
 		
+		$status_info = array();
 		$status_info['crs_id'] = $course_obj_id;
 		$status_info['registration'] = ilObjSession::_lookupRegistrationEnabled($a_obj_id);
 		$status_info['title'] = ilObject::_lookupTitle($a_obj_id);
 		$status_info['description'] = ilObject::_lookupDescription($a_obj_id);
 		
-		// TODO: needs static method
-		#$appointment =& $event->getFirstAppointment();
 		$time_info = ilSessionAppointment::_lookupAppointment($a_obj_id);
 		$status_info['starting_time'] = $time_info['start'];
 		$status_info['ending_time'] = $time_info['end'];
@@ -113,7 +113,7 @@ class ilLPStatusEvent extends ilLPStatus
 
 		$status_info['registered_users'] = ilEventParticipants::_getRegistered($a_obj_id);
 		$status_info['participated_users'] = ilEventParticipants::_getParticipated($a_obj_id);
-		#var_dump("<pre>",$a_obj_id,$time_info,$status_info,"</pre>");
+
 		return $status_info;
 	}
 	
@@ -158,6 +158,83 @@ class ilLPStatusEvent extends ilLPStatus
 		}
 		return $status;		
 	}
-
+	
+	/**
+	 * Get members for object
+	 * @param int $a_obj_id
+	 * @param bool $a_is_crs_id
+	 * @return array
+	 */
+	protected static function getMembers($a_obj_id, $a_is_crs_id = false)
+	{		
+		// find course in path
+		if(!$a_is_crs_id)
+		{
+			$references	= ilObject::_getAllReferences($a_obj_id);	
+			$ref_id = end($references);		
+			$course_ref_id = $tree->checkForParentType($ref_id,'crs');
+			$course_obj_id = ilObject::_lookupObjId($course_ref_id);
+		}
+		else
+		{
+			$course_obj_id = $a_obj_id;
+		}
+		
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		$member_obj = ilCourseParticipants::_getInstanceByObjId($course_obj_id);
+		return $member_obj->getMembers();						
+	}
+	
+	/**
+	 * Get completed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get failed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+	{
+		return array();
+	}
+	
+	/**
+	 * Get in progress users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+	}	
 }	
 ?>

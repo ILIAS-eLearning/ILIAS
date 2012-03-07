@@ -942,10 +942,9 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($this->show_tracking)
 		{
 			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-			$completed = ilLPStatusWrapper::_getCompleted($this->object->getId());
-			$in_progress = ilLPStatusWrapper::_getInProgress($this->object->getId());
-			$not_attempted = ilLPStatusWrapper::_getNotAttempted($this->object->getId());
-			$failed = ilLPStatusWrapper::_getFailed($this->object->getId());
+			$completed = ilLPStatusWrapper::_lookupCompletedForObject($this->object->getId());
+			$in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->object->getId());
+			$failed = ilLPStatusWrapper::_lookupFailedForObject($this->object->getId());
 		}
 
 		if($privacy->enabledGroupAccessTimes())

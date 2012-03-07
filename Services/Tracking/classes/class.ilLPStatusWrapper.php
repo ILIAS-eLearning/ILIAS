@@ -312,5 +312,43 @@ class ilLPStatusWrapper
 		return $trac_obj->determineStatus($a_obj_id, $a_usr_id);
 	}
 	
+	/**
+	 * Get completed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+		return call_user_func_array(array($class, "_lookupCompletedForObject"), array($a_obj_id, $a_user_ids));
+	}
+	
+	/**
+	 * Get failed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+		return call_user_func_array(array($class, "_lookupFailedForObject"), array($a_obj_id, $a_user_ids));
+	}
+	
+	/**
+	 * Get in progress users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+	{
+		$class = ilLPStatusFactory::_getClassById($a_obj_id);
+		return call_user_func_array(array($class, "_lookupInProgressForObject"), array($a_obj_id, $a_user_ids));
+	}
 }	
 ?>

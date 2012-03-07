@@ -528,7 +528,7 @@ class ilLPStatus
 			}
 		}
 	}
-	
+		
 	/**
 	 * Lookup status changed
 	 *
@@ -563,6 +563,79 @@ class ilLPStatus
 			}
 		}
 	}
-
+	
+	/**
+	 * Get users with given status for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param int $a_status
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	protected static function _lookupStatusForObject($a_obj_id, $a_status, $a_user_ids = null)
+	{
+		global $ilDB;
+		
+		$sql = "SELECT usr_id, status, status_dirty FROM ut_lp_marks".
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND status = ".$ilDB->quote($a_status, "integer");
+		if($a_user_ids)
+		{
+			$sql .= " AND ".$ilDB->in("usr_id", $a_user_ids, "", "integer");
+		}				
+		
+		$set = $ilDB->query($sql);
+		$res = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{			
+			if($res["status_dirty"])
+			{
+				// update status and check again
+				if(self::_lookupStatus($a_obj_id, $rec["usr_id"]) != $a_status)
+				{
+					continue;
+				}
+			}	
+			$res[] = $rec["usr_id"];
+		}
+		
+		return $res;
+	}			
+	
+	/**
+	 * Get completed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+	{
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get failed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+	{
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_FAILED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get in progress users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+	{
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+	}
 }	
 ?>

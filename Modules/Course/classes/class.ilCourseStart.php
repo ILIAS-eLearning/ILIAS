@@ -225,9 +225,9 @@ class ilCourseStart
 				}
 				break;
 			case 'sahs':
-				include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-				$completed = ilLPStatusWrapper::_getCompleted($obj_id);
-				if(!in_array($user_id,$completed))
+				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+				$completed = ilLPStatus::_lookupStatus($obj_id, $user_id);
+				if($completed == LP_STATUS_COMPLETED_NUM)
 				{
 					return false;
 				}

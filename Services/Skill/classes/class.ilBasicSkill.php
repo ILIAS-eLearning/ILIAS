@@ -418,7 +418,7 @@ class ilBasicSkill extends ilSkillTreeNode
 			if (ilObject::_hasUntrashedReference($tr_obj_id))
 			{
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				$completed = ilLPStatusWrapper::_getCompleted($tr_obj_id);
+				$completed = ilLPStatusWrapper::_lookupCompletedForObject($tr_obj_id);
 				foreach ($completed as $user_id)
 				{
 					ilBasicSkill::writeUserSkillLevelStatus($skill_level_id,
@@ -447,7 +447,7 @@ class ilBasicSkill extends ilSkillTreeNode
 			if (ilObject::_hasUntrashedReference($tr_obj_id))
 			{
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				$completed = ilLPStatusWrapper::_getCompleted($tr_obj_id);
+				$completed = ilLPStatusWrapper::_lookupCompletedForObject($tr_obj_id);
 				foreach ($completed as $user_id)
 				{
 					if ($a_user_id == $user_id)

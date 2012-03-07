@@ -548,8 +548,8 @@ class ilLearningProgressBaseGUI
 
 	function __readStatus($a_obj_id,$user_id)
 	{
-		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		$status = ilLPStatusWrapper::_determineStatus($a_obj_id, $user_id);
+		include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+		$status = ilLPStatus::_lookupStatus($a_obj_id, $user_id);
 
 		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 		switch($status)
@@ -732,11 +732,12 @@ class ilLearningProgressBaseGUI
 		$mode = ilLPObjSettings::_lookupMode($obj_id);
 		if($mode == LP_MODE_MANUAL or $mode == LP_MODE_MANUAL_BY_TUTOR)
 		{
-			$completed = ilLPStatusWrapper::_getCompleted($obj_id);
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+			$completed = ilLPStatus::_lookupStatus($obj_id, $a_user_id);		
 
 			$tpl->setVariable("mode_manual");
 			$tpl->setVariable("TXT_COMPLETED",$lng->txt('trac_completed'));
-			$tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(in_array($a_user_id,$completed),
+			$tpl->setVariable("CHECK_COMPLETED",ilUtil::formCheckbox(($completed == LP_STATUS_COMPLETED_NUM),
 																		   'completed',
 																		   '1'));
 		}

@@ -26,51 +26,40 @@ class ilLPStatusObjectives extends ilLPStatus
 
 	function _getNotAttempted($a_obj_id)
 	{
-		global $ilObjDataCache;
+		$users = array();
+		
+		$members = self::getMembers($a_obj_id);
+		if($members)
+		{
+			// diff in progress and completed (use stored result in LPStatusWrapper)
+			$users = array_diff((array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id));
+			$users = array_diff((array) $users, ilLPStatusWrapper::_getCompleted($a_obj_id));
+		}
 
-		global $ilBench;
-		$ilBench->start('LearningProgress','9171_LPStatusObjectives_notAttempted');
-
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-		$members = $members_obj->getParticipants();
-			
-		// diff in progress and completed (use stored result in LPStatusWrapper)
-		$users = array_diff($members,$inp = ilLPStatusWrapper::_getInProgress($a_obj_id));
-		$users = array_diff($users,$com = ilLPStatusWrapper::_getCompleted($a_obj_id));
-
-		$ilBench->stop('LearningProgress','9171_LPStatusObjectives_notAttempted');
-		return $users ? $users : array();
+		return $users;
 	}
 
 	function _getInProgress($a_obj_id)
-	{
-		global $ilDB;
-
-		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
-		
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
-		$members = $members_obj->getParticipants();
-
+	{		
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
-		$all = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-		foreach($all as $user_id)
+		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
+		
+		// Exclude all users with status completed.
+		$users = array_diff((array) $users,ilLPStatusWrapper::_getCompleted($a_obj_id));
+
+		if($users)
 		{
-			if(!in_array($user_id,$completed) and in_array($user_id,$members))
-			{
-				$user_ids[] = $user_id;
-			}
+			// Exclude all non members
+			$users = array_intersect(self::getMembers($a_obj_id), (array)$users);
 		}
-		return $user_ids ? $user_ids : array();
+		
+		return $users;		
 	}
 
 	function _getCompleted($a_obj_id)
-	{
-		global $ilDB;
-
-		global $ilBench;
-
+	{		
+		$usr_ids = array();
+		
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
 		foreach($status_info['objective_result'] as $user_id => $completed)
 		{
@@ -79,48 +68,50 @@ class ilLPStatusObjectives extends ilLPStatus
 				$usr_ids[] = $user_id;
 			}
 		}
+		
+		if($usr_ids)
+		{
+			// Exclude all non members
+			$usr_ids = array_intersect(self::getMembers($a_obj_id), (array)$usr_ids);
+		}
+		
 		return $usr_ids ? $usr_ids : array();
 	}
 
 
 	function _getStatusInfo($a_obj_id)
 	{
-		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
-
 		global $ilDB;
 
+		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
+
+		$status_info = array();
 		$status_info['objective_result'] = array();
 		$status_info['objectives'] = ilCourseObjective::_getObjectiveIds($a_obj_id);
 		$status_info['num_objectives'] = count($status_info['objectives']);
 
-		if(!$status_info['num_objectives'])
-		{
-			return $status_info;
-		}
-		else
-		{
-			$in = $ilDB->in('objective_id',$status_info['objectives'], false,'integer');
-		}
+		if($status_info['num_objectives'])
+		{			
+			$in = $ilDB->in('objective_id',$status_info['objectives'],false,'integer');
+			
+			$query = "SELECT * FROM crs_objective_status WHERE ".$in;
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$status_info['completed'][$row->objective_id][] = $row->user_id;
+				$status_info['objective_result'][$row->user_id][$row->objective_id] = $row->objective_id;
+			}
 
-		$query = "SELECT * FROM crs_objective_status ".
-			"WHERE ".$in;
-
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$status_info['completed'][$row->objective_id][] = $row->user_id;
-			$status_info['objective_result'][$row->user_id][$row->objective_id] = $row->objective_id;
+			// Read title/description
+			$query = "SELECT * FROM crs_objectives WHERE ".$in;
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$status_info['objective_title'][$row->objective_id] = $row->title;
+				$status_info['objective_description'][$row->objective_id] = $row->description;
+			}
 		}
-
-		// Read title/description
-		$query = "SELECT * FROM crs_objectives ".
-			"WHERE ".$in;
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$status_info['objective_title'][$row->objective_id] = $row->title;
-			$status_info['objective_description'][$row->objective_id] = $row->description;
-		}
+		
 		return $status_info;
 	}
 	
@@ -175,7 +166,70 @@ class ilLPStatusObjectives extends ilLPStatus
 		}
 		return $status;
 	}
-
+	
+	/**
+	 * Get members for object
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	protected static function getMembers($a_obj_id)
+	{				
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		$member_obj = ilCourseParticipants::_getInstanceByObjId($a_obj_id);
+		return $member_obj->getMembers();						
+	}
+	
+	/**
+	 * Get completed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupCompletedForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_COMPLETED_NUM, $a_user_ids);
+	}
+	
+	/**
+	 * Get failed users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
+	{
+		return array();
+	}
+	
+	/**
+	 * Get in progress users for object
+	 * 
+	 * @param int $a_obj_id
+	 * @param array $a_user_ids
+	 * @return array 
+	 */
+	public static function _lookupInProgressForObject($a_obj_id, $a_user_ids = null)
+	{
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, LP_STATUS_IN_PROGRESS_NUM, $a_user_ids);
+	}	
 }
 		
 
