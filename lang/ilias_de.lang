@@ -11971,7 +11971,7 @@ trac#:#trac_learners_back#:#Zurück zu Lernenden
 trac#:#trac_learners#:#Lernende
 trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Kurse und Objekte.
 trac#:#trac_learning_progress_of#:#Lernfortschritt von %s
-trac#:#trac_learning_progress_settings_info#:#Anzeige folgender Werte im Lernfortschritt aktivieren:
+trac#:#trac_learning_progress_settings_info#:#Erweiterte Daten aktivieren
 trac#:#trac_learning_progress_tbl_header#:#Lernfortschritt von:
 trac#:#trac_learning_progress#:#Lernfortschritt
 trac#:#trac_lm_statistics#:#Zugriffsstatistiken
