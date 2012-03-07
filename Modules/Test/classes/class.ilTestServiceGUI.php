@@ -510,7 +510,7 @@ class ilTestServiceGUI
 				{
 					$template->setCurrentBlock("question_suggested_solution");
 					$template->setVariable("COLOR_CLASS", $color_class[$counter % 2]);
-					$template->setVariable("SOLUTION_HINT", $value["solution"]);
+					$template->setVariable("SOLUTION_HINT", $this->object->prepareTextareaOutput($value["solution"], true));
 					$template->parseCurrentBlock();
 				}
 				$template->setCurrentBlock("question");
