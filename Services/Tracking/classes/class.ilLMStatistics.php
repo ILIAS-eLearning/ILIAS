@@ -1387,7 +1387,7 @@ class ilLMStatistics {
 
                 include_once "./Services/Table/classes/class.ilTableGUI.php";
                 //				$tbl = new ilTableGUI();
-                $tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.lm_statistics_result.html", true);
+                $tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.lm_statistics_result.html", "Services/Tracking");
                 $tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
                 $tpl->addBlockfile("TRACK_TABLE", "track_table", "tpl.table.html");
                 $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");

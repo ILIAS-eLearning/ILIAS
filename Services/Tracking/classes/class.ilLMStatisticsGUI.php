@@ -65,7 +65,7 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		$month = range(1, 12);
 		$day = range(1, 31);
 		
-		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "Services/Tracking/templates/default/tpl.lm_statistics_settings.html");
+		$tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.lm_statistics_settings.html", "Services/Tracking");
 
 //		$tpl->setVariable("SEARCH_ACTION", ".php?ref_id=".$_GET["ref_id"]."&cmd=gateway");
 		$tpl->setVariable("SEARCH_ACTION", $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''));
