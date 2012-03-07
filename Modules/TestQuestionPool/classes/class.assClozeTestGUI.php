@@ -321,6 +321,7 @@ class assClozeTestGUI extends assQuestionGUI
 	public function createGaps()
 	{
 		$this->writePostData(true);
+		$this->object->saveToDb();
 		$this->editQuestion();
 	}
 
