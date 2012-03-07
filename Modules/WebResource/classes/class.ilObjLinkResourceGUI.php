@@ -46,8 +46,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			$this->__prepareOutput();
 		}
 		
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
-			$this->getCreationMode() == true)
+		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			$this->prepareOutput();
 		}
