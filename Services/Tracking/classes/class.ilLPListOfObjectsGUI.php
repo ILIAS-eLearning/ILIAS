@@ -32,8 +32,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		global $ilUser,$ilObjDataCache;
 
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
-		// $this->__checkPDF();
-
+		
 		// Set item id for details
 		$this->__initDetails((int) $_REQUEST['details_id']);
 	}
