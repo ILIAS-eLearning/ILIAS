@@ -89,7 +89,7 @@ class ilCronCourseGroupNotification extends ilMailNotification
 		
 		$this->initMail();
 
-		$$obj_title = $this->getLanguageText($obj_type)." \"".ilObject::_lookupTitle($obj_id)."\"";
+		$obj_title = $this->getLanguageText($obj_type)." \"".ilObject::_lookupTitle($obj_id)."\"";
 				
 		$this->setRecipients($a_user_id);
 		$this->setSubject(sprintf($this->getLanguageText("crs_subject_course_group_notification"), $obj_title));
