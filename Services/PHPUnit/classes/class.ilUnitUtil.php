@@ -31,12 +31,24 @@ class ilUnitUtil
 {
 	function performInitialisation()
 	{
+		global $ilErr;
+		
 		define("IL_PHPUNIT_TEST", true);
+		
 		session_id("phpunittest");
 		$_SESSION = array();
+				
 		include("./Services/PHPUnit/config/cfg.phpunit.php");
-		include_once("./include/inc.header.php");
+		
+		include_once "Services/Context/classes/class.ilContext.php";
+		ilContext::init(ilContext::CONTEXT_UNITTEST);
+		
+		include_once("Services/Init/classes/class.ilInitialisation.php");
+		ilInitialisation::initILIAS();
+		ilInitialisation::initUserAccount();
+		
 		$ilUnitUtil = new ilUnitUtil;
+		$ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilUnitUtil, "errorHandler"));	
 		PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilUnitUtil, "errorHandler"));
 	}
 	

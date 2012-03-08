@@ -206,6 +206,9 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 			$value.= "tree2-";
 		}
 		
+		// isSaved() uses internal cache!
+		$tree->useCache(false);
+		
 		$tree->saveSubTree($ref_id, true);
 		if ($tree->isDeleted($ref_id))
 		{

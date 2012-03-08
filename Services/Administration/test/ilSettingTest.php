@@ -66,9 +66,11 @@ class ilSettingTest extends PHPUnit_Framework_TestCase
 		$set->set("barplus", "foo");
 		$set->deleteLike("foo%");
 		
-		$value = $set->get("fooplus")."-".$set->get("barplus");
+		$value = $set->get("foo")."-".
+			$set->get("fooplus")."-".
+			$set->get("barplus");
 		
-		$this->assertEquals("-foo", $value);
+		$this->assertEquals("--foo", $value);
 	}
 
 }

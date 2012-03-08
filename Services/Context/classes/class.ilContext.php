@@ -25,6 +25,7 @@ class ilContext
 	const CONTEXT_WEB_ACCESS_CHECK = 8;
 	const CONTEXT_SESSION_REMINDER = 9;
 	const CONTEXT_SOAP_WITHOUT_CLIENT = 10;
+	const CONTEXT_UNITTEST = 11;
 	
 	/**
 	 * Init context by type
@@ -84,6 +85,9 @@ class ilContext
 				
 			case self::CONTEXT_SOAP_WITHOUT_CLIENT:
 				return "ilContextSoapWithoutClient";
+				
+			case self::CONTEXT_UNITTEST:
+				return "ilContextUnitTest";
 		}
 	}
 	
