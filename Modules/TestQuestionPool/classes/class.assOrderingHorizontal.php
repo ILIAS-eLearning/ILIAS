@@ -35,6 +35,7 @@ class assOrderingHorizontal extends assQuestion
 	protected $ordertext;
 	protected $textsize;
 	protected $separator = "::";
+	protected $answer_separator = '{::}';
 	
 	/**
 	* assOrderingHorizontal constructor
@@ -259,12 +260,48 @@ class assOrderingHorizontal extends assQuestion
 		);
 		$points = 0;
 		$data = $ilDB->fetchAssoc($result);
-		if (strcmp($data["value1"], join($this->getOrderingElements(), "{::}")) == 0)
+
+		$data["value1"] = $this->splitAndTrimOrderElementText($data["value1"], $this->answer_separator);
+		
+		$data['value1'] = join($data['value1'], $this->answer_separator);
+		
+		if (strcmp($data["value1"], join($this->getOrderingElements(), $this->answer_separator)) == 0)
 		{
 			$points = $this->getPoints();
 		}
 		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
+	}
+	
+	/**
+	 * Splits the answer string either by space(s) or the separator (eg. ::) and
+	 * trims the resulting array elements.
+	 * 
+	 * @param string $in_string OrderElements 
+	 * @param string $separator to be used for splitting.
+	 * 
+	 * @return array 
+	 */
+	private function splitAndTrimOrderElementText($in_string, $separator)
+	{
+		$result = array();
+		include_once "./Services/Utilities/classes/class.ilStr.php";
+		
+		if (ilStr::strPos($in_string, $separator) === false)
+		{
+			$result = preg_split("/\\s+/", $in_string);
+		}
+		else
+		{
+			$result = split($separator, $in_string);
+		}
+		
+		foreach ($result as $key => $value)
+		{
+			$result[$key] = trim($value);
+		}
+		
+		return $result;
 	}
 	
 	/**
@@ -520,18 +557,7 @@ class assOrderingHorizontal extends assQuestion
 	*/
 	public function getOrderingElements()
 	{
-		$text = $this->getOrderText();
-		$result = array();
-		include_once "./Services/Utilities/classes/class.ilStr.php";
-		if (ilStr::strPos($text, $this->separator) === false)
-		{
-			$result = preg_split("/\\s+/", $text);
-		}
-		else
-		{
-			$result = split($this->separator, $text);
-		}
-		return $result;
+		return $this->splitAndTrimOrderElementText($this->getOrderText(), $this->separator);
 	}
 	
 	/**
