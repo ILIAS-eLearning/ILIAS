@@ -885,7 +885,18 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// start parsing of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
-		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $_POST["qpl_id"], $_POST["ident"]);
+
+		// Handle selection of "no questionpool" as qpl_id = -1 -> use test object id instead.
+		if ($_POST["qpl_id"] == "-1")
+		{
+			$qpl_id = $newObj->id;
+		} 
+		else 
+		{
+			$qpl_id = $_POST["qpl_id"];
+		}
+
+		$qtiParser = new ilQTIParser($_SESSION["tst_import_qti_file"], IL_MO_PARSE_QTI, $qpl_id, $_POST["ident"]);
 		$qtiParser->setTestObject($newObj);
 		$result = $qtiParser->startParsing();
 		$newObj->saveToDb();
