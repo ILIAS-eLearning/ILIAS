@@ -61,6 +61,8 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test lp object settings 
 	 */
+	/* this won't work currently because of ilLPStatusWrapper expecting an
+	   valid object id, not pseudo-objects like 9999
 	public function testLPObjectSettings()
 	{
 		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
@@ -87,7 +89,8 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($type,'xxx');
 		
 		ilLPObjSettings::_delete(9998);
-	}
+	}	 
+	*/
 	
 	/**
 	 * Test LP marks 

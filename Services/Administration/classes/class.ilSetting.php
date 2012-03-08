@@ -156,11 +156,15 @@ class ilSetting
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM settings WHERE module = ".$ilDB->quote($this->module, "text").
+		$query = "SELECT keyword FROM settings".
+			" WHERE module = ".$ilDB->quote($this->module, "text").
 			" AND ".$ilDB->like("keyword", "text", $a_like);
-		$ilDB->manipulate($query);
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$this->delete($row["keyword"]);
+		}
 		
-		$this->read();
 		return true;
 	}
 
