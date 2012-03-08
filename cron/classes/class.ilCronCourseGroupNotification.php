@@ -14,7 +14,7 @@ class ilCronCourseGroupNotification extends ilMailNotification
 {	
 	public function sendNotifications()
 	{
-		global $ilDB, $tree;
+		global $ilDB;
 
 		// gather objects and participants with notification setting
 		$objects = array();
@@ -33,6 +33,8 @@ class ilCronCourseGroupNotification extends ilMailNotification
 
 		if(sizeof($objects))
 		{
+			$old_lng = $lng;
+			
 			include_once "Services/News/classes/class.ilNewsItem.php";
 			foreach($objects as $type => $ref_ids)
 			{
@@ -47,7 +49,7 @@ class ilCronCourseGroupNotification extends ilMailNotification
 						{
 							// gather news for user
 							$user_news = $news_item->getNewsForRefId($ref_id,
-								false, false, 1, true, false, false, false,
+								false, false, 1, false, false, false, false,
 								$user_id);
 							if($user_news)
 							{
@@ -57,6 +59,8 @@ class ilCronCourseGroupNotification extends ilMailNotification
 					}
 				}
 			}
+			
+			$lng = $old_lng;
 		}
 
 		return true;
@@ -71,22 +75,29 @@ class ilCronCourseGroupNotification extends ilMailNotification
 	 */
 	public function sendMail($a_user_id, $a_ref_id, array $news)
 	{
-		global $ilDB, $lng, $ilSetting;
+		global $lng;
 
 		$obj_id = ilObject::_lookupObjId($a_ref_id);
 		$obj_type = ilObject::_lookupType($obj_id);
 
 		$this->initLanguage($a_user_id);
+		$this->getLanguage()->loadLanguageModule("crs");
+		$this->getLanguage()->loadLanguageModule("news");
+		
+		// needed for ilNewsItem
+		$lng = $this->getLanguage();
+		
 		$this->initMail();
 
+		$$obj_title = $this->getLanguageText($obj_type)." \"".ilObject::_lookupTitle($obj_id)."\"";
+				
 		$this->setRecipients($a_user_id);
-		$this->setSubject($this->getLanguageText('subject_course_group_notification'));
+		$this->setSubject(sprintf($this->getLanguageText("crs_subject_course_group_notification"), $obj_title));
 
 		$this->setBody(ilMail::getSalutation($a_user_id, $this->getLanguage()));
 		$this->appendBody("\n\n");
 
-		$this->appendBody($lng->txt("intro_course_group_notification_for").": ".
-			$lng->txt($obj_type)." \"".ilObject::_lookupTitle($obj_id)."\"");
+		$this->appendBody(sprintf($this->getLanguageText("crs_intro_course_group_notification_for"), $obj_title));
 		$this->appendBody("\n\n");
 
 		// ilDatePresentation::setUseRelativeDates(false);
@@ -95,15 +106,59 @@ class ilCronCourseGroupNotification extends ilMailNotification
 		$counter = 1;
 		foreach($news as $item)
 		{
+			$title = ilNewsItem::determineNewsTitle($item["context_obj_type"],
+				$item["title"], $item["content_is_lang_var"], $item["agg_ref_id"], 
+				$item["aggregation"]);
+			$content = ilNewsItem::determineNewsContent($item["context_obj_type"], 
+				$item["content"], $item["content_text_is_lang_var"]);
+			
+			/* process sub-item info
+			if($item["aggregation"])
+			{
+				$sub = array();
+				foreach($item["aggregation"] as $subitem)
+				{
+					$sub_id = ilObject::_lookupObjId($subitem["ref_id"]);
+					$sub_title = ilObject::_lookupTitle($sub_id);
+					
+					// to include posting title
+					if($subitem["context_obj_type"] == "frm")
+					{
+						$sub_title = ilNewsItem::determineNewsTitle($subitem["context_obj_type"],
+							$subitem["title"], $subitem["content_is_lang_var"]);
+					}					
+								
+					$sub[] = $sub_title;
+					
+					$sub_content = ilNewsItem::determineNewsContent($subitem["context_obj_type"], 
+						$subitem["content"], $subitem["content_text_is_lang_var"]);								
+					if($sub_content)
+					{
+						$sub[] = strip_tags($sub_content);
+					}
+				}
+				$content .= "\n".implode("\n\n", $sub);
+			} 
+			*/
+			
+			$obj_id = ilObject::_lookupObjId($item["ref_id"]);
+			$obj_title = ilObject::_lookupTitle($obj_id);
+			
+			// path
+			$cont_loc = new ilLocatorGUI();
+			$cont_loc->addContextItems($item["ref_id"], true);
+			$cont_loc->setTextOnly(true);
+			$loc = "[".$cont_loc->getHTML()."]";
+			
 			$this->appendBody("----------------------------------------------------------------------------------------------");
 			$this->appendBody("\n\n");
-			$this->appendBody('#'.$counter."\n\n");
-			$this->appendBody($lng->txt('title').": ".$item['title']);
-			$this->appendBody("\n");
-			$this->appendBody($lng->txt('content').": ".$item['content']);
-			/* $this->appendBody("\n");
-			$this->appendBody($lng->txt('date').": ".
-				ilDatePresentation::formatDate(new ilDate($item['creation_date'], IL_CAL_DATETIME))); */
+			$this->appendBody('#'.$counter." - ".$loc." ".$obj_title."\n\n");
+			$this->appendBody($title);
+			if($content)
+			{
+				$this->appendBody("\n");			
+				$this->appendBody($content);
+			}			
 			$this->appendBody("\n\n");
 
 			++$counter;
@@ -112,7 +167,7 @@ class ilCronCourseGroupNotification extends ilMailNotification
 		$this->appendBody("\n\n");
 
 		// link to object
-		$this->appendBody($lng->txt('course_group_notification_link'));
+		$this->appendBody($this->getLanguageText("crs_course_group_notification_link"));
 		$this->appendBody("\n");
 		$object_link = ilUtil::_getHttpPath();
 		$object_link .= "/goto.php?target=".$obj_type."_".$a_ref_id.

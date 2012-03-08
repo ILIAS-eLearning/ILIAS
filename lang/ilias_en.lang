@@ -12473,3 +12473,6 @@ assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pas
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" comitted
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#the manual scoring for the following test was comitted:
 assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You received this notification, because you participated in this test.
+crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
+crs#:#crs_intro_course_group_notification_for#:#This is the daily news digest for: %s
+crs#:#crs_course_group_notification_link#:#Link:
