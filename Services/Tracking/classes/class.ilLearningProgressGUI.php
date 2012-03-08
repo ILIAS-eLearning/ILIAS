@@ -11,7 +11,7 @@ include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 * @version $Id$
 *
 * @ilCtrl_Calls ilLearningProgressGUI: ilLPListOfObjectsGUI, ilLPListOfSettingsGUI, ilLPListOfProgressGUI,  ilLMStatisticsGUI
-* @ilCtrl_Calls ilLearningProgressGUI: ilTrackingGUI, ilLPObjectStatisticsGUI
+* @ilCtrl_Calls ilLearningProgressGUI: ilLPObjectStatisticsGUI
 *
 */
 class ilLearningProgressGUI extends ilLearningProgressBaseGUI
