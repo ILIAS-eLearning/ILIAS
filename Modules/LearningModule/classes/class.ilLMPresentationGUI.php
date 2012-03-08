@@ -1775,11 +1775,6 @@ class ilLMPresentationGUI
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
 				$this->lm_set->get("time_scheduled_page_activation")));
 
-			// track user access to page
-			include_once "Services/Tracking/classes/class.ilTracking.php";
-			ilTracking::_trackAccess($this->lm->getId(), $this->lm->getRefId(), $this->lm->getType(),
-				$page_id, "pg", "read");
-			
 			// update learning progress
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
