@@ -307,7 +307,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			}
 			else
 			{
-				$perm = $this->lng->txt($row['perm']['operation']);
+				if($this->lng->exists($this->getObjType().'_'.$row['perm']['operation'].'_short'))
+				{
+					$perm = $this->lng->txt($this->getObjType().'_'.$row['perm']['operation'].'_short');
+				}
+				else
+				{
+					$perm = $this->lng->txt($row['perm']['operation']);
+				}
 			}
 			
 			$this->tpl->setVariable('TXT_PERM',$perm);
