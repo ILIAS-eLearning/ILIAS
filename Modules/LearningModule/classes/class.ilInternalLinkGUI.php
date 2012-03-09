@@ -1107,9 +1107,10 @@ class ilInternalLinkGUI
 			foreach ($a_anchors as $anchor)
 			{
 				$tpl->setCurrentBlock($anchor_row_block);
+				$tpl->setVariable("ALINK_BEGIN",
+					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$a_obj_id."\"".$target_str." anchor=\"$anchor\"]"));
+				$tpl->setVariable("ALINK_END", "[/iln]");
 				$tpl->setVariable("TXT_LINK", "#".$anchor);
-				$tpl->setVariable("HREF_LINK",
-					$this->prepareJavascriptOutput("[iln ".$a_bb_type."=\"".$node["obj_id"]."\"".$target_str." anchor=\"$anchor\"] [/iln]"));
 				$tpl->parseCurrentBlock();
 			}
 		}

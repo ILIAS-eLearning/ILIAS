@@ -106,7 +106,7 @@ class ilMainMenuGUI
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setFormSelectMode("change_lang_to", "ilLanguageSelection", true,
 			"#", "ilNavHistory", "ilNavHistoryForm",
-			"_top", $lng->txt("ok"), "ilLogin");
+			"", $lng->txt("ok"), "ilLogin");
 		//$selection->setListTitle($lng->txt("choose_language"));
 		$selection->setListTitle($lng->txt("language"));
 		$selection->setItemLinkClass("small");
@@ -127,7 +127,7 @@ class ilMainMenuGUI
 					"lang=".$lang_key);
 				$link = str_replace("?&", "?", $link);
 				$selection->addItem($lng->_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
-					$lang_key, $link, "", "", "_top");
+					$lang_key, $link, "", "", "");
 			}
 			return $selection->getHTML();
 		}
