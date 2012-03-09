@@ -10365,8 +10365,8 @@ rep#:#rep_intro6#:#Nach diesem ersten Schritt können Sie nun weitere Kategorien
 rep#:#rep_object_to_delete#:#Zu löschen
 sahs#:#cont_insert_after_chap#:#Elemente nach einem Kapitel einfügen.
 sahs#:#cont_insert_into_chap#:#Elemente innerhalb eines Kapitels einfügen.
-sahs#:#sahs_activate_expert_mode_info#:#The sequencing expert mode allows you to directly edit the sequencing information of the package tree. If you are unsure what this means we recommend to use the default sequencing behaviour.###01 04 2011 new variable
-sahs#:#sahs_activate_expert_mode#:#Activate Sequencing Expert Mode###01 04 2011 new variable
+sahs#:#sahs_activate_expert_mode_info#:#In diesem Modus können Sie direkt die Sequencing-Informationen des SCORM-Packages editieren. Achtung: ILIAS prüft dabei nicht Ihre Eingaben auf Gültigkeit.
+sahs#:#sahs_activate_expert_mode#:#Sequencing-Expertenmodus aktivieren
 sahs#:#sahs_authoring_mode_info#:#Die SCORM ZIP-Datei muß mit dem ILIAS SCORM-Editor erstellt worden sein und als SCORM 1.2/2004 Package exportiert worden sein.
 sahs#:#sahs_authoring_mode#:#Autorenmodus
 sahs#:#sahs_chapter#:#Kapitel
@@ -10376,8 +10376,8 @@ sahs#:#sahs_choose_special_page#:#Spezialseite auswählen
 sahs#:#sahs_desc_objectives#:#Beschreibung/Ziele
 sahs#:#sahs_hide_objectives_page_info#:#Wenn aktiviert werden SCO-Beschreibung und Lernziele nicht in der Präsentationsansicht angezeigt.
 sahs#:#sahs_hide_objectives_page#:#Beschreibungs-/Lernziel-Seite ausblenden
-sahs#:#sahs_import_sequencing_info#:#Import sequencing information from package (Sequencing Expert Mode).###01 04 2011 new variable
-sahs#:#sahs_import_sequencing#:#Import Sequencing###01 04 2011 new variable
+sahs#:#sahs_import_sequencing_info#:#Es werden die Sequencing-Informationtn des SCORM-Packages importiert (Sequencing-Expertenmodus)
+sahs#:#sahs_import_sequencing#:#Sequencing-Informationen importieren
 sahs#:#sahs_insert_ass_from_clip_inside_chap#:#Assets aus Zwischenablage einfügen (innerhalb eines Kapitels)
 sahs#:#sahs_insert_ass_from_clip#:#Assets aus Zwischenablage einfügen
 sahs#:#sahs_insert_ass_inside_chap#:#Asset einfügen (innerhalb eines Kapitels)
@@ -10409,8 +10409,8 @@ sahs#:#sahs_questions#:#Fragen
 sahs#:#sahs_sco_final_message#:#Sie haben erfolgreich "%s" beendet.
 sahs#:#sahs_sco_objective#:#SCOs und ihre Lernziele
 sahs#:#sahs_sequencing#:#Sequencing
-sahs#:#sahs_std_sequencing_info#:#Use ILIAS standard sequencing behaviour.###01 04 2011 new variable
-sahs#:#sahs_std_sequencing#:#Standard Sequencing###01 04 2011 new variable
+sahs#:#sahs_std_sequencing_info#:#ILIAS Standard-Sequencing Verhalten benutzen (empfohlen).
+sahs#:#sahs_std_sequencing#:#Standard-Sequencing
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Exportdatei erzeugen (HTML, eine Seite, Review Mode)
 scormdebug#:#adl.nav.request_valid.choice#:#gibt dem SCO R&uuml;ckmeldung, ob ein spezifischer Navigationsaufruf m&ouml;glich sein wird
