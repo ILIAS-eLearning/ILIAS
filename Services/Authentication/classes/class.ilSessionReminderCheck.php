@@ -8,10 +8,11 @@
  */
 class ilSessionReminderCheck
 {
-	public function __construct()
-	{
-	}
-
+	/**
+	 * @param int $sessionId
+	 * @param int $secondsUntilReminder
+	 * @return string
+	 */
 	public function getJsonResponse($sessionId, $secondsUntilReminder)
 	{
 		/**
