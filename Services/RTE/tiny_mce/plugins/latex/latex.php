@@ -25,7 +25,7 @@ while( !file_exists('./ilias.ini.php') ) chdir('..');
 
 require_once 'include/inc.get_pear.php';
 
-include "classes/class.ilIniFile.php";
+include "Services/Init/classes/class.ilIniFile.php";
 $ini = new ilIniFile("ilias.ini.php");
 $ini->read();
 $latex_converter = $ini->readVariable("tools", "latex");
