@@ -649,6 +649,8 @@ tinymce.activeEditor.formatter.register('mycode', {
 	{
 		var ed = tinyMCE.activeEditor;
 		
+		// return;
+		
 		ed.dom.addClass(tinyMCE.activeEditor.dom.select('ol'), 'ilc_list_o_NumberedList');
 		ed.dom.addClass(tinyMCE.activeEditor.dom.select('ul'), 'ilc_list_u_BulletedList');
 		ed.dom.addClass(tinyMCE.activeEditor.dom.select('li'), 'ilc_list_item_StandardListItem');
