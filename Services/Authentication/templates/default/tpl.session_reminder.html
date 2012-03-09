@@ -22,8 +22,6 @@ String.prototype.sprintfString = function() {
 
 ilAddOnLoad(
 	function() {
-		console.log('Start countdown: ' + {ILIAS_SESSION_COUNTDOWN} / 1000 + ' seconds ...');
-		console.log('Start countdown: ' + {ILIAS_SESSION_COUNTDOWN} / 1000 / 60 + ' minutes ...');
 		window.setTimeout('sessionReminder()', {ILIAS_SESSION_COUNTDOWN});
 	}
 );
@@ -32,9 +30,7 @@ var ilSessionCheckerRequest = function(url) {
 	var ilSessionCheckerRequestCallback = {
 		success: function(o) {
 			if (typeof o.responseText !== undefined) {
-				console.log('Session reminder check response ...');
 				var response = YAHOO.lang.JSON.parse(o.responseText);
-				console.log(response);
 				if (response.remind) {
 					var extend = confirm('{CONFIRM_TXT}'.sprintfString(response.seconds_until_expiration, response.current_time_string));
 					if (extend == true) {
@@ -44,8 +40,6 @@ var ilSessionCheckerRequest = function(url) {
 						var dxSeconds = (t1 - t0) / 2 / 1000;
 
 						var newCountdownTime = {ILIAS_SESSION_COUNTDOWN} - dxSeconds;
-						console.log("New check in " + newCountdownTime / 1000 + " seconds ...");
-						console.log("New check in " + newCountdownTime / 1000 / 60 + " minutes ...");
 						window.setTimeout('sessionReminder()', newCountdownTime);
 					};
 				}
@@ -55,7 +49,6 @@ var ilSessionCheckerRequest = function(url) {
 		}
 	};
 
-	console.log('Polling session reminder check ...');
 	var request = YAHOO.util.Connect.asyncRequest('GET', url, ilSessionCheckerRequestCallback);
 };
 
@@ -72,7 +65,6 @@ var ilSessionExtenderRequest = function(url) {
 };
 
 function sessionReminder() {
-	console.log('Start session reminder AJAX call');
 	new ilSessionCheckerRequest('{ILIAS_SESSION_CHECKER_URL}');
 }
 /* ]]> */
