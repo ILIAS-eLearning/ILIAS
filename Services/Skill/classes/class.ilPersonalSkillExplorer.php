@@ -42,6 +42,7 @@ class ilPersonalSkillExplorer extends ilExplorer
 		$this->addFilter("skll");
 		$this->addFilter("scat");
 		$this->addFilter("sktr");
+		$this->setTitleLength(999);
 		
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->tree = new ilSkillTree();
