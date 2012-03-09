@@ -248,7 +248,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setTemplateTargetVar("ADM_CONTENT");
 		$page_gui->setLinkXML($link_xml);
 		//$page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
-		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+		$page_gui->setFileDownloadLink("");
 		$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
 //		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
@@ -257,7 +257,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
 		$page_gui->setEnabledRepositoryObjects(true);
-		$page_gui->setEnabledFileLists(false);
+		$page_gui->setEnabledFileLists(true);
 		$page_gui->setEnabledMaps(true);
 		$page_gui->setEnabledPCTabs(true);
 		$page_gui->setEnabledInternalLinks(true);
@@ -353,7 +353,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->getStyleSheetId(), $this->object->getType()));
 
 		$page_gui->setIntLinkHelpDefault("StructureObject", $_GET["ref_id"]);
-		$page_gui->setFileDownloadLink($this->ctrl->getLinkTarget($this, "downloadFile"));
+		$page_gui->setFileDownloadLink("");
 		//$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
 		//$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
 //		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
@@ -362,7 +362,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
 		$page_gui->setEnabledRepositoryObjects(true);
-		$page_gui->setEnabledFileLists(false);
+		$page_gui->setEnabledFileLists(true);
 		$page_gui->setEnabledPCTabs(true);
 		$page_gui->setEnabledMaps(true);
 		$ret = $page_gui->showPage();
