@@ -3535,8 +3535,22 @@ class ilObjTestGUI extends ilObjectGUI
 					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));					
 				}
 				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
-				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);
+				
+				if ($data['active_id'] == null) // if no active id is set, user is invitee not participant...
+				{
+					if ( strlen($data["firstname"].$data["lastname"]) == 0 )
+					{
+						$fullname = $lng->txt("deleted_user");
+					}
+					else
+					{
+						$fullname = trim($data["lastname"] . ", " . $data["firstname"] . " " . $data["title"]);
+					}
+				} else {
+					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+					$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
+				}
+				
 				array_push($rows, array(
 					'usr_id' => $data["usr_id"],
 					'active_id' => $data['active_id'],
@@ -3575,8 +3589,9 @@ class ilObjTestGUI extends ilObjectGUI
 					$access = ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_DATETIME));
 				}
 				$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $data['active_id']);
+
 				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
-				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);
+				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
 				array_push($rows, array(
 					'usr_id' => $data["active_id"],
 					'active_id' => $data['active_id'],
