@@ -787,40 +787,14 @@ class ilTemplate extends ilTemplateX
 	
 	function fillMainMenu()
 	{
-		global $tpl, $ilMainMenu, $ilCtrl, $ilSetting, $ilUser; 
+		global $tpl;
 		if($this->variableExists('MAINMENU'))
 		{
 			$tpl->setVariable("MAINMENU", $this->main_menu);
-			global $ilAuth, $lng, $tpl, $ilClientIniFile, $ilUser;
-			
-			if((int)$ilSetting->get('session_handling_type') == 0 &&
-			   (int)$ilSetting->get('session_reminder_enabled') &&
-			   $ilUser->getId() != ANONYMOUS_USER_ID &&
-			   (int)$ilUser->getPref('session_reminder_enabled'))
-			{
-				$leadTime = (float)$ilUser->getPref('session_reminder_lead_time') * 60;
-				$expiresTime = $ilAuth->sessionValidThru();
-				$currentTime = time();
-				$expiresInXSeconds = $expiresTime - $currentTime;				
-				
-				if($leadTime > $expiresInXSeconds) return;				
-    							
-				$tplSR = new ilTemplate('tpl.SessionReminder.js', true, true, 'Services/UICore');
-						
-				$tplSR->setVariable('ILIAS_SESSION_COUNTDOWN', ($expiresInXSeconds - $leadTime) * 1000);
-				$tplSR->setVariable('ILIAS_SESSION_EXTENDER_URL', './ilias.php?baseClass=ilPersonalDesktopGUI');				
-				$tplSR->setVariable('ILIAS_SESSION_CHECKER_URL',
-					'./sessioncheck.php'.
-					'?lang='.$lng->getLangKey().
-					'&client_id='.CLIENT_ID.
-					'&session_id='.session_id().
-					'&lead_time='.$leadTime.
-					'&timezone='.urlencode($ilUser->getTimeZone()).
-					'&countDownTime='.($expiresInXSeconds - $leadTime));
-				$tplSR->setVariable('CONFIRM_TXT', $lng->txt('session_reminder_alert'));
 
-				$tpl->setVariable('SESSION_REMINDER', $tplSR->get());		
-			}
+			include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
+			$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
+			$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
 		}
 	}
 

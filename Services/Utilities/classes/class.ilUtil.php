@@ -5060,7 +5060,31 @@ class ilUtil
 		}
 		return $parsed;
 	}
-	
+
+	/**
+	 * Returns the unserialized ILIAS session data.
+	 *
+	 * @param array $data The serialized ILIAS session data from database
+	 * @return array
+	 */
+	public static function unserializeSession($data)
+	{
+		$vars = preg_split(
+			'/([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff^|]*)\|/',
+			$data,
+			-1,
+			PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE
+		);
+
+		$result = array();
+
+		for($i = 0; $vars[$i]; $i++)
+		{
+			$result[$vars[$i++]] = unserialize($vars[$i]);
+		}
+
+		return $result;
+	}
 } // END class.ilUtil
 
 

@@ -1,0 +1,79 @@
+<script type="text/javascript">
+/* <![CDATA[ */
+String.prototype.sprintfString = function() {
+	if (arguments.length < 1) {
+		return;
+	}
+
+	var value = this.valueOf();
+	for (var k = 0; k < arguments.length; k++) {
+		switch (typeof(arguments[k])) {
+			case 'string':
+				value =  value.replace(/%s/, arguments[k]);
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	return new String(value);
+};
+
+ilAddOnLoad(
+	function() {
+		console.log('Start countdown: ' + {ILIAS_SESSION_COUNTDOWN} / 1000 + ' seconds ...');
+		console.log('Start countdown: ' + {ILIAS_SESSION_COUNTDOWN} / 1000 / 60 + ' minutes ...');
+		window.setTimeout('sessionReminder()', {ILIAS_SESSION_COUNTDOWN});
+	}
+);
+
+var ilSessionCheckerRequest = function(url) {
+	var ilSessionCheckerRequestCallback = {
+		success: function(o) {
+			if (typeof o.responseText !== undefined) {
+				console.log('Session reminder check response ...');
+				var response = YAHOO.lang.JSON.parse(o.responseText);
+				console.log(response);
+				if (response.remind) {
+					var extend = confirm('{CONFIRM_TXT}'.sprintfString(response.seconds_until_expiration, response.current_time_string));
+					if (extend == true) {
+						var t0 = new Date().getTime();
+						new ilSessionExtenderRequest('{ILIAS_SESSION_EXTENDER_URL}');
+						var t1 = new Date().getTime();
+						var dxSeconds = (t1 - t0) / 2 / 1000;
+
+						var newCountdownTime = {ILIAS_SESSION_COUNTDOWN} - dxSeconds;
+						console.log("New check in " + newCountdownTime / 1000 + " seconds ...");
+						console.log("New check in " + newCountdownTime / 1000 / 60 + " minutes ...");
+						window.setTimeout('sessionReminder()', newCountdownTime);
+					};
+				}
+			}
+		},
+		failure: function(o) {
+		}
+	};
+
+	console.log('Polling session reminder check ...');
+	var request = YAHOO.util.Connect.asyncRequest('GET', url, ilSessionCheckerRequestCallback);
+};
+
+
+var ilSessionExtenderRequest = function(url) {
+	var ilSessionExtenderRequestCallback = {
+		success: function(o) {
+		},
+		failure: function(o) {
+		}
+	};
+
+	var request = YAHOO.util.Connect.asyncRequest('GET', url, ilSessionExtenderRequestCallback);
+};
+
+function sessionReminder() {
+	console.log('Start session reminder AJAX call');
+	new ilSessionCheckerRequest('{ILIAS_SESSION_CHECKER_URL}');
+}
+/* ]]> */
+</script>

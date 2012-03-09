@@ -979,7 +979,7 @@ class ilPersonalSettingsGUI
 		}
 		
 		// session reminder
-		if((int)$ilSetting->get('session_handling_type') == 0 &&
+		if((int)$ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED) == ilSession::SESSION_HANDLING_FIXED &&
 		   (int)$ilSetting->get('session_reminder_enabled'))
 		{
 			$cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
@@ -1106,7 +1106,7 @@ class ilPersonalSettingsGUI
 			
 			// session reminder
 			global $ilSetting;
-			if((int)$ilSetting->get('session_handling_type') == 0 &&
+			if((int)$ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED) == ilSession::SESSION_HANDLING_FIXED &&
 			   (int)$ilSetting->get('session_reminder_enabled'))
 			{
 				$ilUser->setPref('session_reminder_enabled', (int)$_POST['session_reminder_enabled']);
