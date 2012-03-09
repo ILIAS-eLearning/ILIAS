@@ -321,7 +321,10 @@ class ilGroupParticipantsTableGUI extends ilTable2GUI
 				
 				foreach($fields as $field_id => $value)
 				{
-					$a_user_data[$usr_id]['odf_'.$field_id] = $value;
+					if($a_user_data[$usr_id])
+					{
+						$a_user_data[$usr_id]['odf_'.$field_id] = $value;
+					}
 				}
 			}
 		}

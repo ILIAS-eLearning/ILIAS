@@ -227,7 +227,21 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			}
 			else
 			{
-				$this->tpl->setVariable('TXT_PERMISSION',$this->lng->txt($this->getTemplateType().'_'.$row['name']));
+				if(substr($row['name'],0,6) == 'create')
+				{
+					$perm = $this->lng->txt($this->getTemplateType().'_'.$row['name']);
+				}
+				elseif($this->lng->exists($this->getTemplateType().'_'.$row['name'].'_short'))
+				{
+					$perm = $this->lng->txt($this->getTemplateType().'_'.$row['name'].'_short').': '.
+						$this->lng->txt($this->getTemplateType().'_'.$row['name']);
+				}
+				else
+				{
+					$perm = $this->lng->txt($row['name']).': '.$this->lng->txt($this->getTemplateType().'_'.$row['name']);
+				}
+				
+				$this->tpl->setVariable('TXT_PERMISSION',$perm);
 			}
 			$this->tpl->parseCurrentBlock();
 			
