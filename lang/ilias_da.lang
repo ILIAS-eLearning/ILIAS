@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file 
 *
@@ -12380,9 +12380,6 @@ assessment#:#test_has_datasets_warning_page_view_link#:#Ret besvarelser
 wsp#:#wsp_share_with_users#:#Del med brugere
 acc#:#acc_last_rep_visited#:#Repository/Last Visited###31 12 2011 new variable
 acc#:#acc_personal_desktop#:#Personligt skrivebord
-administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.###31 12 2011 new variable
-dateplaner#:#cal_reg_registered#:#You have been registered.###31 12 2011 new variable
-dateplaner#:#cal_reg_unregistered#:#You have been unregistered.###31 12 2011 new variable
 content#:#cont_lm_comments_desc#:#Tillad brugerne at dele kommentarer med hinanden på alle sider i læremodulet.
 exercise#:#exc_start_date_should_be_before_end_date#:#Starttidspunktet skal være før deadline.
 trac#:#trac_manual_display#:#Vis i lærefremskridt
@@ -12395,7 +12392,5 @@ pd#:#pd_enable_user_publish#:#Enable User Content Publishing###08 02 2012 new va
 administration#:#adm_repository_cache_time_info2#:#It is also possible that repository objects become accessible for users with a certain time lack, e.g. after preconditions have been met or permissions have been changed.###18 01 2012 new variable
 dateplaner#:#cal_reg_registered#:#You have been registered.###18 01 2012 new variable
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.###18 01 2012 new variable
-content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.###18 01 2012 new variable
-exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.###18 01 2012 new variable
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###18 01 2012 new variable
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###18 01 2012 new variable
