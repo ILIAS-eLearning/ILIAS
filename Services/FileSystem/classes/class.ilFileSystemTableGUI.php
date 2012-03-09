@@ -146,6 +146,18 @@ class ilFileSystemTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl;
 
+		if ($a_set["entry"] != "..")
+		{
+			if ($this->post_dir_path)
+			{
+				$this->tpl->setVariable("CHECKBOX_ID", $a_set["file"]);
+			}
+			else
+			{
+				$this->tpl->setVariable("CHECKBOX_ID", $a_set["entry"]);
+			}
+		}
+
 		// label
 		if ($this->label_enable)
 		{
@@ -178,14 +190,6 @@ class ilFileSystemTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable("TXT_SIZE", $a_set["size"]);
-		if ($this->post_dir_path)
-		{
-			$this->tpl->setVariable("CHECKBOX_ID", $a_set["file"]);
-		}
-		else
-		{
-			$this->tpl->setVariable("CHECKBOX_ID", $a_set["entry"]);
-		}
 
 		$ilCtrl->setParameter($this->parent_obj, "cdir", $_GET["cdir"]);
 		$ilCtrl->setParameter($this->parent_obj, "newdir", $_GET["newdir"]);
