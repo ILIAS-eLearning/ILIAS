@@ -1967,7 +1967,7 @@ class ilLMPresentationGUI
 	function getLinkXML($a_int_links, $a_layoutframes)
 	{
 		global $ilCtrl;
-		
+
 		// Determine whether the view of a learning resource should
 		// be shown in the frameset of ilias, or in a separate window.
 		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
@@ -2056,7 +2056,14 @@ class ilLMPresentationGUI
 									$href = ILIAS_HTTP_PATH."/goto.php?target=st_".$target_id."&amp;client_id=".CLIENT_ID;
 								}
 							}
-							$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
+							if ($targetframe != "New")
+							{
+								$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
+							}
+							else
+							{
+								$ltarget = "_blank";
+							}
 						}
 						break;
 
@@ -2121,6 +2128,7 @@ class ilLMPresentationGUI
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
+
 		return $link_info;
 	}
 
