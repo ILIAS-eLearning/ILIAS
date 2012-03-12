@@ -12469,3 +12469,4 @@ assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Sie erhalten diese Nac
 crs#:#crs_subject_course_group_notification#:#News-Zusammenfassung für %s
 crs#:#crs_intro_course_group_notification_for#:#Dies ist die tägliche News-Zusammenfassung für: %s
 crs#:#crs_course_group_notification_link#:#Link:
+common#:#obj_lm_duplicate#:#Lernmodul kopieren
