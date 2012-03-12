@@ -162,29 +162,33 @@ class ilGlossaryTermGUI
 	{
 		global $ilTabs;
 
-		//$this->displayLocator();
 		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("properties");
 		
-		//$this->displayLocator();
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_edit.html", true);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "updateTerm"));
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_term"));
-		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
-		$this->tpl->setVariable("INPUT_TERM", "term");
-		$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($this->term->getTerm()));
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMDLanguageItem::_getLanguages();
-		$select_language = ilUtil::formSelect ($this->term->getLanguage(),"term_language",$lang,false,true);
-		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
-		$this->tpl->setVariable("BTN_NAME", "updateTerm");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "updateTerm"));
+		$form->setTitle($this->lng->txt("cont_edit_term"));
+		
+		$term = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
+		$term->setRequired(true);
+		$term->setValue($this->term->getTerm());
+		$form->addItem($term);
+		
+		$lang = new ilSelectInputGUI($this->lng->txt("language"), "term_language");		
+		$lang->setRequired(true);
+		$lang->setOptions(ilMDLanguageItem::_getLanguages());
+		$lang->setValue($this->term->getLanguage());
+		$form->addItem($lang);
+		
+		$form->addCommandButton("updateTerm", $this->lng->txt("save"));
+		
+		$this->tpl->setContent($form->getHTML());		
 	}
 
 
@@ -520,27 +524,32 @@ class ilGlossaryTermGUI
 	*/
 	function addDefinition()
 	{
-
+		global $ilTabs;
+		
 		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
+		$ilTabs->activateTab("definitions");
+		
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
-
-		$term_id = $_GET["term_id"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "saveDefinition"));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt("gdf_new"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("gdf_add"));
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
-		$this->tpl->setVariable("CMD_SUBMIT", "saveDefinition");
-		//$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-		$this->tpl->parseCurrentBlock();
-
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "saveDefinition"));
+		$form->setTitle($this->lng->txt("gdf_new"));
+		
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		$form->addItem($title);
+		
+		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$form->addItem($desc);
+		
+		$form->addCommandButton("saveDefinition", $this->lng->txt("gdf_add"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		
+		$this->tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -558,8 +567,8 @@ class ilGlossaryTermGUI
 	{
 		$def =& new ilGlossaryDefinition();
 		$def->setTermId($_GET["term_id"]);
-		$def->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));#"content object ".$newObj->getId());		// set by meta_gui->save
-		$def->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));	// set by meta_gui->save
+		$def->setTitle(ilUtil::stripSlashes($_POST["title"]));#"content object ".$newObj->getId());		// set by meta_gui->save
+		$def->setDescription(ilUtil::stripSlashes($_POST["desc"]));	// set by meta_gui->save
 		$def->create();
 
 		$this->ctrl->redirect($this, "listDefinitions");
