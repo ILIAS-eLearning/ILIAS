@@ -473,6 +473,11 @@ class ilAdministrationGUI
 			{
 				continue;
 			}
+			if ($c["ref_id"] == ROOT_FOLDER_ID &&
+				!$rbacsystem->checkAccess('write', $c["ref_id"]))
+			{
+				continue;
+			}
 			if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID)
 			{
 				continue;
