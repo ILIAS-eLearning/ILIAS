@@ -1120,7 +1120,11 @@ if (empty(self::$st_data))
 					$hide_date->get(IL_CAL_DATETIME),
 					0, $this->block_id);
 			}
-				
+			
+			include_once("./Services/News/classes/class.ilNewsCache.php");
+			$cache = new ilNewsCache();
+			$cache->deleteEntry($ilUser->getId().":".$_GET["ref_id"]);
+
 			$ilCtrl->returnToParent($this);
 		}
 		else
