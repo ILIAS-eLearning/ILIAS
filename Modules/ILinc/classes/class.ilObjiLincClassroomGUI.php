@@ -304,88 +304,21 @@ class ilObjiLincClassroomGUI extends ilObjectGUI
 	* @access	public
  	*/
 	function removeClassroom($a_error = false)
-	{
-		unset($this->data);
-		$this->data["cols"] = array("type", "title", "last_change");
-
-		$this->data["data"][$_GET['class_id']] = array(
-											"type"        => $this->object->getType(),
-											"title"       => $this->object->getTitle()."#separator#".$this->object->getDescription()." ",	// workaround for empty desc
-											"last_update" => "n/a"
-										);
-
-		$this->data["buttons"] = array( "confirmedDeleteClassroom"  => $this->lng->txt("confirm"),
-								  "cancelDeleteClassroom"  => $this->lng->txt("cancel"));
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
-
-		if(!$a_error)
-		{
-			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
-		}
-
+	{		
+		// display confirmation message
 		$obj_str = "&class_id=".$this->object->id;
-		$this->tpl->setVariable("FORMACTION", $this->getFormAction("delete",$this->ctrl->getFormAction($this).$obj_str));
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach ($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach ($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if ($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				elseif ($key == "title")
-				{
-					$name_field = explode("#separator#",$cell_data);
-
-					$this->tpl->setVariable("TEXT_CONTENT", "<b>".$name_field[0]."</b>");
-						
-					$this->tpl->setCurrentBlock("subtitle");
-					$this->tpl->setVariable("DESC", $name_field[1]);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("table_cell");
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
-
-		// BEGIN OPERATION_BTN
-		foreach ($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->getFormAction("delete",$this->ctrl->getFormAction($this).$obj_str));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancelDeleteClassroom"), "cancel");
+		$cgui->setConfirm($this->lng->txt("confirmedDeleteClassroom"), "confirm");
+				
+		$caption = ilUtil::getImageTagByType($this->object->getType(), $this->tpl->tplPath).
+			" ".$this->object->getTitle().
+			" ".$this->object->getDescription();
+		
+		$cgui->addItem("id[]", $this->object->getId(), $caption);		
 	}
 	
 	/**

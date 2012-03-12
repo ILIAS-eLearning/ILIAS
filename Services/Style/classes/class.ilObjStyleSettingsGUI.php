@@ -584,51 +584,24 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		// SAVE POST VALUES
-		$_SESSION["saved_post"] = $_POST["id"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
-
-		if(!$a_error)
-		{
-			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
-		}
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT", $this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
 		
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
+		
 		foreach ($_POST["id"] as $id)
-		{
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("IMG_OBJ",ilUtil::getImagePath("icon_sty.gif"));
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->setVariable("TEXT_CONTENT",ilObject::_lookupTitle($id));
-			$this->tpl->parseCurrentBlock();
+		{			
+			$caption =  ilUtil::getImageTagByType("sty", $this->tpl->tplPath).
+				" ".ilObject::_lookupTitle($id);
+			
+			$cgui->addItem("id[]", $id, $caption);
 		}
-		
-		// END TABLE DATA
 
-		// BEGIN OPERATION_BTN
-		$buttons = array("confirmedDelete"  => $this->lng->txt("confirm"),
-			"cancelDelete"  => $this->lng->txt("cancel"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setContent($cgui->getHTML());		
 	}
 	
 	
@@ -639,7 +612,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	{
 		global $ilias;
 		
-		foreach($_SESSION["saved_post"] as $id)
+		foreach($_POST["id"] as $id)
 		{
 			$this->object->removeStyle($id);
 			$style_obj =& $ilias->obj_factory->getInstanceByObjId($id);
@@ -779,8 +752,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	*/
 	function cancelDeleteObject()
 	{
-		session_unregister("saved_post");
-
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "editContentStyles");
 
@@ -897,102 +868,46 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$ilTabs->setTabActive('page_layouts');
-		
-		// SAVE POST VALUES
-		$_SESSION["pglayout_user_delete"] = $_POST["pglayout"];
-
+		$ilTabs->setTabActive('page_layouts');		
 		unset($this->data);
-		$this->data["cols"] = array("type","title");
-
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeletePg");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeletePg");		
+		
 		foreach($_POST["pglayout"] as $id)
 		{
 			$pg_obj = new ilPageLayout($id);
 			$pg_obj->readObject();
-			$this->data["data"]["$id"] = array(
-				"type"		  => "stys",
-				"title"       => $pg_obj->getTitle()
-			);
-
+			
+			$caption = ilUtil::getImageTagByType("stys", $this->tpl->tplPath).
+				" ".$pg_obj->getTitle();
+			
+			$cgui->addItem("pglayout[]", $key, $caption);
 		}
-
-		$this->data["buttons"] = array( "cancelDeletePg"  => $this->lng->txt("cancel"),
-								  "confirmedDeletePg"  => $this->lng->txt("confirm"));
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_confirm.html');
-
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
-
-		// BEGIN OPERATION_BTN
-		foreach($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		
+		$this->tpl->setContent($cgui->getHTML());
 	}
-	
 	
 	/**
 	* cancel deletion of Page Layout
 	*/
 	function cancelDeletePgObject()
 	{
-		session_unregister("pglayout_user_delete");
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "viewPageLayouts");
-	}	
-	
+	}
 	
 	/**
 	* conform deletion of Page Layout
 	*/
 	function confirmedDeletePgObject()
-	{
-	 	global $ilDB, $ilUser;
-        
-	 	foreach ($_SESSION["pglayout_user_delete"] as $id)
+	{	 	 
+	 	foreach ($_POST["pglayout"] as $id)
 	 	{
    	 		$pg_obj = new ilPageLayout($id);
 			$pg_obj->delete();	 		

@@ -380,6 +380,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($ilCtrl->getFormAction($this));
+		$confirm->setHeaderText($this->lng->txt("info_delete_sure"));
 		$confirm->setConfirm($this->lng->txt('delete'), 'deleteRole');
 		$confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 
@@ -436,102 +437,29 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	
 	/**
 	* role folders are created automatically
-	* POSSIBLE DEPRECATED !!!
+	* DEPRECATED !!!
 	* @access	public
 	*/
 	function createObject()
 	{
+		$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+		
+		/*
 		$this->object->setTitle($this->lng->txt("obj_".$this->object->getType()."_local"));
 		$this->object->setDescription("obj_".$this->object->getType()."_local_desc");
 		
-		$this->saveObject();
+		$this->saveObject();		 
+		*/
 	}
 	
 	/**
 	* display deletion confirmation screen
-	*
+	* DEPRECATED !!!
 	* @access	public
 	*/
-	function deleteObject()
+	function deleteObject()	
 	{
-		if (!isset($_POST["role_id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		// SAVE POST VALUES
-		$_SESSION["saved_post"] = $_POST["role_id"];
-
-		unset($this->data);
-		$this->data["cols"] = array("type", "title", "description", "last_change");
-
-		foreach($_POST["role_id"] as $id)
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
-			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data->getType(),
-				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription(),
-				"last_update" => $obj_data->getLastUpdateDate());
-		}
-
-		$this->data["buttons"] = array( "cancelDelete"  => $this->lng->txt("cancel"),
-								  "confirmedDelete"  => $this->lng->txt("confirm"));
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach ($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach ($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if ($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
-
-		// BEGIN OPERATION_BTN
-		foreach ($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 	}
 
 	/**
