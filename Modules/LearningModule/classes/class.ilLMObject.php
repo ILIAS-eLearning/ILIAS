@@ -951,7 +951,7 @@ class ilLMObject
 		foreach($childs as $child)
 		{
 			ilLMObject::pasteTree($a_target_lm, $child["id"], $target_item->getId(),
-				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy);
+				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy, $a_source_lm);
 		}
 		
 		return $target_item->getId();

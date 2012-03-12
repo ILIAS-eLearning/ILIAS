@@ -1072,6 +1072,13 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				{
 					include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 					$question = assQuestion::_instanciateQuestion($q_id);
+					
+					// check if page for question exists
+					// due to a bug in early 4.2.x version this is possible
+					if (!ilPageObject::_exists("qpl", $q_id))
+					{
+						$question->createPageObject();
+					}
 
 					// now copy this question and change reference to
 					// new question id

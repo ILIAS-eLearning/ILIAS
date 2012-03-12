@@ -325,7 +325,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
 			{
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type);
-				$q_id = $q_gui->object->createNewQuestion(false);
+				$q_id = $q_gui->object->createNewQuestion(true);
 				unset($q_gui);
 				
 				if ($_GET["qpool_ref_id"] > 0)
