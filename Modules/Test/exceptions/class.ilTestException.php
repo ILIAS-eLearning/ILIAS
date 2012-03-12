@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Exception/classes/class.ilException.php';
+include_once 'Services/Exceptions/classes/class.ilException.php';
 
 /**
  * Base Exception for all Exceptions relating to Modules/Test.

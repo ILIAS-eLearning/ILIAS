@@ -21,18 +21,22 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once "HTML/Template/ITX.php";
-include "../../../../../Services/Init/classes/class.ilIniFile.php";
-$file = "../../../../../ilias.ini.php";
-$ini = new ilIniFile($file);
-$ini->read();
-$latex_converter=$ini->readVariable("tools", "latex");
+while( !file_exists('./ilias.ini.php') ) chdir('..');
 
+require_once 'include/inc.get_pear.php';
+
+include "Services/Init/classes/class.ilIniFile.php";
+$ini = new ilIniFile("ilias.ini.php");
+$ini->read();
+$latex_converter = $ini->readVariable("tools", "latex");
+
+require_once "HTML/Template/ITX.php";
 $tpl = new HTML_Template_ITX();
-$tpl->loadTemplatefile("tpl.latex.html", TRUE, TRUE);
+$tpl->loadTemplatefile(dirname(__FILE__)."/tpl.latex.html", TRUE, TRUE);
 $tpl->setVariable("LATEX_CODE", "");
 $tpl->setVariable("URL_PREVIEW", $latex_converter);
 $tpl->setVariable("HREF_LATEX_CONVERTER", $latex_converter);
 $tpl->show();
+
 
 ?>
