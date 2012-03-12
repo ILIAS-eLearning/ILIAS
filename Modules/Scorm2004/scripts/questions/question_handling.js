@@ -664,13 +664,14 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 	switch (questions[a_id].type) {
 		
 		case 'assSingleChoice':				
-			for (var i=0;i<questions[a_id].answers.length;i++) {				
+			for (var i=0;i<questions[a_id].answers.length;i++) {
+				jQuery('input[name="answers'+a_id+'"]').eq(i).attr("disabled",true);
+				jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",false);
+			}
+			for (var i=0;i<questions[a_id].answers.length;i++) {
 				if (questions[a_id].answers[i].points>=1) {
 					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",true);
-				} else {
-					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",false);
 				}
-				jQuery('input[name="answers'+a_id+'"]').eq(i).attr("disabled",true);
 			}
 			break;
 		   //end assSingleChoice
