@@ -429,8 +429,14 @@ class ilWikiUtil
 	}
 	
 	/**
-	* Media wiki performs an intermediate step here (
-	*/
+	 * Make a wiki link, the following formats are supported:
+	 *
+	 * [[Page Title]]
+	 * [[Page Title|Presentation Text]]
+	 * [[Page Title#Anchor]]
+	 * [[Page Title#Anchor|Presentation Text]]
+	 * [[#Anchor|Presentation Text]] (link to anchor on same wiki page)
+	 */
 	static function makeLink( &$nt, $a_wiki_id, $text = '', $query = '', $trail = '', $prefix = '',
 		$a_offline = false)
 	{
@@ -443,6 +449,7 @@ class ilWikiUtil
 		} else {
 			
 //var_dump($trail);
+//var_dump($nt);
 
 			// remove anchor from text, define anchor
 			$anc = "";
@@ -454,6 +461,10 @@ class ilWikiUtil
 					$text = substr($text, 0, strlen($text) - strlen("#".$nt->mFragment));
 					$anc = "#".$nt->mFragment;
 				}
+				else
+				{
+					$anc = "#".$nt->mFragment;
+				}
 			}
 			
 			# Separate the link trail from the rest of the link
@@ -462,7 +473,16 @@ class ilWikiUtil
 			//$retVal = '***'.$text."***".$trail;
 			$url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
 			$db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
-			$pg_exists = ilWikiPage::_wikiPageExists($a_wiki_id, $db_title);
+			if ($db_title != "")
+			{
+				$pg_exists = ilWikiPage::_wikiPageExists($a_wiki_id, $db_title);
+			}
+			else
+			{
+				// links on same page (only anchor used)
+				$pg_exists = true;
+			}
+			
 //var_dump($nt);
 //var_dump($inside);
 //var_dump($trail);
@@ -471,19 +491,37 @@ class ilWikiUtil
 
 			if (!$a_offline)
 			{
-				$ilCtrl->setParameterByClass("ilobjwikigui", "page", $url_title);
-				$retVal = '<a '.$wiki_link_class.' href="'.
-					$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").$anc.
-					'">'.$text.'</a>'.$trail;
+				if ($url_title != "")
+				{
+					$ilCtrl->setParameterByClass("ilobjwikigui", "page", $url_title);
+					$retVal = '<a '.$wiki_link_class.' href="'.
+						$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage").$anc.
+						'">'.$text.'</a>'.$trail;
+				}
+				else
+				{
+					$retVal = '<a '.$wiki_link_class.' href="'.
+						$anc.
+						'">'.$text.'</a>'.$trail;
+				}
 			}
 			else
 			{
 				if ($pg_exists)
 				{
-					$pg_id = ilWikiPage::getIdForPageTitle($a_wiki_id, $db_title);
-					$retVal = '<a '.$wiki_link_class.' href="'.
-						"wpg_".$pg_id.".html".$anc.
-						'">'.$text.'</a>'.$trail;
+					if ($db_title != "")
+					{
+						$pg_id = ilWikiPage::getIdForPageTitle($a_wiki_id, $db_title);
+						$retVal = '<a '.$wiki_link_class.' href="'.
+							"wpg_".$pg_id.".html".$anc.
+							'">'.$text.'</a>'.$trail;
+					}
+					else
+					{
+						$retVal = '<a '.$wiki_link_class.' href="'.
+							$anc.
+							'">'.$text.'</a>'.$trail;
+					}
 				}
 				else
 				{
