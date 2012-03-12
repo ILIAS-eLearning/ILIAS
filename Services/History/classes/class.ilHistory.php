@@ -160,7 +160,8 @@ class ilHistory
 		{
 			$query = "SELECT h.*, l.title as title FROM history h, lm_data l WHERE ".
 				" l.lm_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
-				" l.obj_id = h.obj_id ".
+				" l.obj_id = h.obj_id AND ".
+				" (h.obj_type=".$ilDB->quote($a_obj_type.":pg", "text")." OR h.obj_type=".$ilDB->quote($a_obj_type.":st", "text").") ".
 				" ORDER BY h.hdate DESC";
 				
 			$hist_set = $ilDB->query($query);
