@@ -929,25 +929,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function editTerm()
 	{
-		/*
-		$term = new ilGlossaryTerm($_GET["term_id"]);
-		//$this->tpl->setVariable("HEADER", $this->lng->txt("cont_term").": ".$term->getTerm());
-
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_edit.html", true);
-		$this->ctrl->setParameter($this, "term_id", $_GET["term_id"]);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_edit_term"));
-		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
-		$this->tpl->setVariable("INPUT_TERM", "term");
-		$this->tpl->setVariable("VALUE_TERM", htmlspecialchars($term->getTerm()));
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMDLanguageItem::_getLanguages();
-		$select_language = ilUtil::formSelect ($term->getLanguage(),"term_language",$lang,false,true);
-		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
-		$this->tpl->setVariable("BTN_NAME", "updateTerm");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-		*/
+		// deprecated
 	}
 
 

@@ -105,37 +105,8 @@ class ilGlossaryTermGUI
 	* form for new content object creation
 	*/
 	function create()
-	{
-		global $ilUser;
-
-		$this->getTemplate();
-		$this->displayLocator();
-		$this->tpl->setTitle($this->lng->txt("cont_new_term"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
-		$this->setTabs();
-
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_term_new.html", true);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_new_term"));
-		$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
-		$this->tpl->setVariable("INPUT_TERM", "term");
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("language"));
-		$lang = ilMDLanguageItem::_getLanguages();
-
-		if ($_SESSION["il_text_lang_".$_GET["ref_id"]] != "")
-		{
-			$s_lang = $_SESSION["il_text_lang_".$_GET["ref_id"]];
-		}
-		else
-		{
-			$s_lang = $ilUser->getLanguage();
-		}
-
-		$select_language = ilUtil::formSelect ($s_lang, "term_language",$lang,false,true);
-		$this->tpl->setVariable("SELECT_LANGUAGE", $select_language);
-		$this->tpl->setVariable("BTN_NAME", "saveTerm");
-		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
+	{		
+		// deprecated
 	}
 
 	/**
@@ -143,15 +114,7 @@ class ilGlossaryTermGUI
 	*/
 	function saveTerm()
 	{
-		$term =& new ilGlossaryTerm();
-		$term->setGlossary($this->glossary);
-		$term->setTerm(ilUtil::stripSlashes($_POST["term"]));
-		$term->setLanguage($_POST["term_language"]);
-		$_SESSION["il_text_lang_".$_GET["ref_id"]] = $_POST["term_language"];
-		$term->create();
-
-		ilUtil::sendSuccess($this->lng->txt("cont_added_term"),true);
-		$this->ctrl->returnToParent($this);
+		// deprecated
 	}
 
 
@@ -437,9 +400,12 @@ class ilGlossaryTermGUI
 	*/
 	function confirmDefinitionDeletion()
 	{
+		global $ilTabs;
+		
 		$this->getTemplate();
 		$this->displayLocator();
 		$this->setTabs();
+		$ilTabs->activateTab("definitions");
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
