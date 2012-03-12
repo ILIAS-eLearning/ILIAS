@@ -1163,79 +1163,31 @@ function showTrackingItem()
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		// SAVE POST VALUES
-		$_SESSION["scorm_user_delete"] = $_POST["user"];
-
-		unset($this->data);
-		$this->data["cols"] = array("type","title", "description");
-
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteTracking");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeleteTracking");
+		
 		foreach($_POST["user"] as $id)
 		{
-			if (ilObject::_exists($id) && ilObject::_lookUpType($id)=="usr" ) {	
+			if (ilObject::_exists($id) && ilObject::_lookUpType($id)=="usr" )
+			{	
 				$user = new ilObjUser($id);
-				$this->data["data"]["$id"] = array(
-					"type"		  => "sahs",
-					"title"       => $user->getLastname().", ".$user->getFirstname(),
-					"desc"        => $this->lng->txt("cont_tracking_data")
-				);
-			}
+				
+				$caption = ilUtil::getImageTagByType("sahs", $this->tpl->tplPath).
+					" ".$this->lng->txt("cont_tracking_data").
+					": ".$user->getLastname().", ".$user->getFirstname();
+				
+				
+				$cgui->addItem("user[]", $id, $caption);
+			}	
 		}
 
-		$this->data["buttons"] = array( "cancelDeleteTracking"  => $this->lng->txt("cancel"),
-								  "confirmedDeleteTracking"  => $this->lng->txt("confirm"));
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
-
-		ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
-
-		// BEGIN OPERATION_BTN
-		foreach($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setContent($cgui->getHTML());
 	}
 	
 	function resetSearch() {
@@ -1248,7 +1200,6 @@ function showTrackingItem()
 	*/
 	function cancelDeleteTracking()
 	{
-		session_unregister("scorm_user_delete");
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 		$this->ctrl->redirect($this, "showTrackingItems");
 	}
@@ -1278,7 +1229,7 @@ function showTrackingItem()
 			array_push($scos,$val_rec['cp_node_id']);
 		}
 		
-	 	foreach ($_SESSION["scorm_user_delete"] as $user)
+	 	foreach ($_POST["user"] as $user)
 	 	{
 		
 			foreach ($scos as $sco)

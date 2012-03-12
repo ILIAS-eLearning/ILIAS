@@ -799,24 +799,17 @@ return;
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-	
-		$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.obj_confirm.html");
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
+			
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// output table header
-		$cols = array("type", "title");
-		foreach ($cols as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$_SESSION["saved_post"] = $bm_ids;
-
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancel");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirm");
+						
 		foreach($bm_ids as $obj_id)
 		{
 			$type = ilBookmark::_getTypeOfId($obj_id);
@@ -825,6 +818,7 @@ return;
 			{
 				continue;
 			}
+			
 			switch($type)
 			{
 				case "bmf":
@@ -841,42 +835,18 @@ return;
 					unset($Bookmark);
 					break;
 			}
-
-			// output type icon
-			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($type, $this->tpl->tplPath));
-			$this->tpl->parseCurrentBlock();
-
-			// output title
-			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->setVariable("TEXT_CONTENT",ilUtil::prepareFormOutput($title));
-
-			// output target
-			if ($target)
+			
+			$caption = ilUtil::getImageTagByType($type, $this->tpl->tplPath).					
+					" ".$title;			
+			if($target)
 			{
-				$this->tpl->setVariable("DESC",ilUtil::prepareFormOutput(ilUtil::shortenText(
-					$target,$this->textwidth, true)));
+				$caption .= " (".ilUtil::shortenText($target, $this->textwidth, true).")";
 			}
-			$this->tpl->parseCurrentBlock();
-
-			// output table row
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
+			
+			$cgui->addItem("id[]", $obj_id, $caption);
 		}
 
-		// cancel and confirm button
-		$buttons = array( "cancel"  => $this->lng->txt("cancel"),
-			"confirm"  => $this->lng->txt("confirm"));
-
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		foreach($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
@@ -884,7 +854,6 @@ return;
 	*/
 	function cancel()
 	{
-		session_unregister("saved_post");
 		if ($_POST['return_to'])
 			ilUtil::redirect($_POST['return_to_url']);
 		else
@@ -898,13 +867,13 @@ return;
 	{
 		global $tree, $rbacsystem, $rbacadmin;
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
-		if (!isset($_SESSION["saved_post"]))
+		if (!$_POST["id"])
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_SESSION["saved_post"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			$type = ilBookmark::_getTypeOfId($id);
 

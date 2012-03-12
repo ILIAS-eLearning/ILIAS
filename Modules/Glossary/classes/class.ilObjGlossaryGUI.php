@@ -1298,25 +1298,16 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
 			$ilCtrl->redirect($this, "listTerms");
-		}
-
-		// save values to
-		$_SESSION["term_delete"] = $_POST["id"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_confirm.html");
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// output table header
-		$cols = array("cont_term");
-		foreach ($cols as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-
+		}			
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelTermDeletion");
+		$cgui->setConfirm($this->lng->txt("confirm"), "deleteTerms");
+				
 		foreach($_POST["id"] as $id)
 		{
 			$term = new ilGlossaryTerm($id);
@@ -1334,30 +1325,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					sprintf($lng->txt("glo_term_is_used_n_times"), $nr)." ".$link."</div>";
 			}
 			
-			
-			// output title
-			$this->tpl->setCurrentBlock("table_cell");
-			$this->tpl->setVariable("TEXT_CONTENT", $term->getTerm().$add);
-			$this->tpl->parseCurrentBlock();
-
-			// output table row
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
+			$cgui->addItem("id[]", $id, $term->getTerm().$add);
 		}
 
-		// cancel and confirm button
-		$buttons = array( "cancelTermDeletion"  => $this->lng->txt("cancel"),
-			"deleteTerms"  => $this->lng->txt("confirm"));
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-		foreach($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
-
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
@@ -1367,7 +1338,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function cancelTermDeletion()
 	{
-		session_unregister("term_delete");
 		$this->ctrl->redirect($this, "listTerms");
 	}
 
@@ -1376,12 +1346,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function deleteTerms()
 	{
-		foreach($_SESSION["term_delete"] as $id)
+		foreach($_POST["id"] as $id)
 		{
 			$term = new ilGlossaryTerm($id);
 			$term->delete();
 		}
-		session_unregister("term_delete");
 		$this->ctrl->redirect($this, "listTerms");
 	}
 
