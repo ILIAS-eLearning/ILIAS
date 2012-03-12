@@ -11,7 +11,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilAdminUserSearchGUI, ilUserTableGUI
+* @ilCtrl_Calls ilObjUserFolderGUI: ilPermissionGUI, ilUserTableGUI
 * @ilCtrl_Calls ilObjUserFolderGUI: ilAccountCodesGUI, ilCustomUserFieldsGUI, ilRepositorySearchGUI
 *
 * @ingroup ServicesUser
@@ -73,9 +73,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
-			case 'iladminusersearchgui':
-				include_once('./Services/Search/classes/class.ilAdminUserSearchGUI.php');
-				$user_search =& new ilAdminUserSearchGUI();
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$user_search =& new ilRepositorySearchGUI();
 				$user_search->enableSearchableCheck(false);
 				$user_search->setCallback(
 					$this,
@@ -379,22 +379,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return false;
 	}
 
-	function cancelUserFolderAction()
+	function cancelUserFolderActionObject()
 	{
-		$this->ctrl->redirectByClass('iladminusersearchgui','showSearchResults');
-
-		#session_unregister("saved_post");
-		#$this->ctrl->returnToParent($this);
+		$this->ctrl->redirect($this, 'view');
 	}
-
-	/**
-	* cancel activation of object
-	*
-	* @access	public
-	*/
-	function cancelactivateObject()
+	
+	function cancelSearchActionObject()
 	{
-		$this->cancelUserFolderAction();
+		$this->ctrl->redirectByClass('ilrepositorysearchgui', 'showSearchResults');
 	}
 
 	/**
@@ -412,10 +404,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		
-		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
-		
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_SESSION["saved_post"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			// instatiate correct object class (usr)
 			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
@@ -425,26 +415,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		ilUtil::sendSuccess($this->lng->txt("user_activated"),true);
 
-		if ($_SESSION['user_activate_search'] == true)
+		if ($_POST["frsrch"])
 		{
-			session_unregister("user_activate_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
-			ilUtil::redirect($script);
+			$this->ctrl->redirectByClass('ilRepositorySearchGUI','show');			
 		}
 		else
 		{
 			$this->ctrl->redirect($this, "view");
 		}
-	}
-
-	/**
-	* cancel activation of object
-	*
-	* @access	public
-	*/
-	function canceldeactivateObject()
-	{
-		$this->cancelUserFolderAction();
 	}
 
 	/**
@@ -455,17 +433,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function confirmdeactivateObject()
 	{
 		global $rbacsystem, $ilUser;
-
+		
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		
-		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
-		
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_SESSION["saved_post"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			// instatiate correct object class (usr)
 			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
@@ -476,21 +452,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// Feedback
 		ilUtil::sendSuccess($this->lng->txt("user_deactivated"),true);
 
-		if ($_SESSION['user_deactivate_search'] == true)
+		if ($_POST["frsrch"])
 		{
-			session_unregister("user_deactivate_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
-			ilUtil::redirect($script);
+			$this->ctrl->redirectByClass('ilRepositorySearchGUI','show');			
 		}
 		else
 		{
 			$this->ctrl->redirect($this, "view");
 		}
-	}
-	
-	function cancelaccessFreeObject()
-	{
-		$this->cancelUserFolderAction();
 	}
 	
 	function confirmaccessFreeObject()
@@ -503,10 +472,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		
-		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
-		
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_SESSION["saved_post"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			// instatiate correct object class (usr)
 			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
@@ -521,11 +488,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// Feedback
 		ilUtil::sendSuccess($this->lng->txt("access_free_granted"),true);
 
-		if ($_SESSION['user_accessFree_search'] == true)
+		if ($_POST["frsrch"])
 		{
-			session_unregister("user_accessFree_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
-			ilUtil::redirect($script);
+			$this->ctrl->redirectByClass('ilRepositorySearchGUI','show');			
 		}
 		else
 		{
@@ -565,11 +530,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return $form;
 	}
 
-	function cancelaccessRestrictObject()
-	{
-		$this->cancelUserFolderAction();
-	}
-	
 	function confirmaccessRestrictObject()
 	{
 		$form = $this->initAccessRestrictionForm();
@@ -594,10 +554,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		
-		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
-		
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_SESSION["saved_post"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			// instatiate correct object class (usr)
 			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
@@ -612,26 +570,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		// Feedback
 		ilUtil::sendSuccess($this->lng->txt("access_restricted"),true);
 
-		if ($_SESSION['user_accessRestrict_search'] == true)
+		if ($_POST["frsrch"])
 		{
-			session_unregister("user_accessRestrict_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
-			ilUtil::redirect($script);
+			$this->ctrl->redirectByClass('ilRepositorySearchGUI','show');			
 		}
 		else
 		{
 			$this->ctrl->redirect($this, "view");
 		}
-	}
-
-	/**
-	* cancel deletion of object
-	*
-	* @access	public
-	*/
-	function canceldeleteObject()
-	{
-		$this->cancelUserFolderAction();
 	}
 
 	/**
@@ -641,7 +587,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function confirmdeleteObject()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $rbacsystem, $ilCtrl, $ilUser;
 
 		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
 		if (!$rbacsystem->checkAccess('delete',$this->object->getRefId()))
@@ -650,15 +596,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilCtrl->redirect($this, "view");
 		}
 		
-		$_SESSION['saved_post'] = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();
-		
-		if (in_array($_SESSION["AccountId"],$_SESSION["saved_post"]))
+		if (in_array($ilUser->getId(), $_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_delete_yourself"),$this->ilias->error_obj->WARNING);
 		}
 
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_SESSION["saved_post"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			// instatiate correct object class (usr)
 			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
@@ -667,30 +611,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		// Feedback
 		ilUtil::sendSuccess($this->lng->txt("user_deleted"),true);
-		
-		// now unset the delete users in session
-		#unset($_SESSION['saved_post']);
-
-		if ($_SESSION['user_delete_search'] == true)
+				
+		if ($_POST["frsrch"])
 		{
-			session_unregister("user_delete_search");
-			$script = $this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI','show','',false,false);
-			ilUtil::redirect($script);
+			$this->ctrl->redirectByClass('ilRepositorySearchGUI','show');			
 		}
 		else
 		{
 			$this->ctrl->redirect($this, "view");
 		}
-	}
-
-	/**
-	* cancel export of object
-	*
-	* @access	public
-	*/
-	function cancelexportObject()
-	{
-		$this->cancelUserFolderAction();
 	}
 
 	/**
@@ -700,98 +629,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function confirmexportObject()
 	{
-		$user_data_filter = $_SESSION['saved_post'] ? $_SESSION['saved_post'] : array();  
-		session_unregister("saved_post");
-		$this->object->buildExportFile($_POST["export_type"], $user_data_filter);
+		$this->object->buildExportFile($_POST["export_type"], $_POST["id"]);
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
-	}
-
-	/**
-	* display deletion confirmation screen
-	*/
-	function deleteObject()
-	{
-		if(!isset($_POST["id"]))
-		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
-		}
-		// SAVE POST VALUES
-		$_SESSION["saved_post"] = $_POST["id"];
-
-		unset($this->data);
-		$this->data["cols"] = array("type", "title", "description", "last_change");
-
-		foreach($_POST["id"] as $id)
-		{
-			$obj_data =& $this->ilias->obj_factory->getInstanceByObjId($id);
-
-			$this->data["data"]["$id"] = array(
-				"type"        => $obj_data->getType(),
-				"title"       => $obj_data->getTitle(),
-				"desc"        => $obj_data->getDescription(),
-				"last_update" => $obj_data->getLastUpdateDate());
-		}
-
-		$this->data["buttons"] = array(
-			"confirmedDelete"  => $this->lng->txt("confirm"),
-			"cancelDelete"  => $this->lng->txt("cancel")
-		);
-
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_confirm.html');
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		foreach ($this->data["cols"] as $key)
-		{
-			$this->tpl->setCurrentBlock("table_header");
-			$this->tpl->setVariable("TEXT",$this->lng->txt($key));
-			$this->tpl->parseCurrentBlock();
-		}
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		foreach($this->data["data"] as $key => $value)
-		{
-			// BEGIN TABLE CELL
-			foreach($value as $key => $cell_data)
-			{
-				$this->tpl->setCurrentBlock("table_cell");
-
-				// CREATE TEXT STRING
-				if($key == "type")
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",ilUtil::getImageTagByType($cell_data,$this->tpl->tplPath));
-				}
-				else
-				{
-					$this->tpl->setVariable("TEXT_CONTENT",$cell_data);
-				}
-				$this->tpl->parseCurrentBlock();
-			}
-
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->parseCurrentBlock();
-			// END TABLE CELL
-		}
-		// END TABLE DATA
-
-		// BEGIN OPERATION_BTN
-		foreach($this->data["buttons"] as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		return true;
 	}
 
 	function selectExportFormat()
@@ -817,27 +656,39 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	/**
 	* display activation confirmation screen
 	*/
-	function showActionConfirmation($action)
+	function showActionConfirmation($action, $a_from_search = false)
 	{
 		if(!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		// SAVE POST VALUES
-		$_SESSION["saved_post"] = $_POST["id"];
-
+		
 		if (strcmp($action, "export") == 0) return $this->selectExportFormat();
 		if (strcmp($action, "accessRestrict") == 0) return $this->setAccessRestrictionObject();
 
 		unset($this->data);
+		
+		if(!$a_from_search)
+		{
+			$cancel = "cancelUserFolderAction";
+		}
+		else
+		{
+			$cancel = "cancelSearchAction";							
+		}
 		
 		// display confirmation message
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($this->ctrl->getFormAction($this));
 		$cgui->setHeaderText($this->lng->txt("info_" . $action . "_sure"));
-		$cgui->setCancel($this->lng->txt("cancel"), "cancel" . $action);
+		$cgui->setCancel($this->lng->txt("cancel"), $cancel);
 		$cgui->setConfirm($this->lng->txt("confirm"), "confirm" . $action);
+		
+		if($a_from_search)
+		{
+			$cgui->addHiddenItem("frsrch", 1);
+		}
 
 		foreach($_POST["id"] as $id)
 		{
@@ -856,8 +707,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$caption = $user->getFullname()." (".$user->getLogin().")".", ".
 				$user->getEmail()." -  ".$this->lng->txt("last_login").": ".$login;
 
-			// the post data is actually not used, see saved_post
-			$cgui->addItem("user_id[]", $i, $caption);
+			$cgui->addItem("id[]", $id, $caption);
 		}
 
 		$this->tpl->setContent($cgui->getHTML());
@@ -923,288 +773,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		$this->showActionConfirmation($_POST["selectedAction"]);
 	}
-	
-	/**
-     * displays user search form
-     *
-     *
-     */
-   	// presumably deprecated
-	// functionality moved to search/classes/iladminusersearch
-	// dont't if this method is used elsewhere too	- saschahofmann@gmx.de 6.6.07
-	function searchUserFormObject ()
-	{
-		$this->tabs_gui->setTabActive('obj_usrf');
-
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.usr_search_form.html", "Services/User");
-
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("USERNAME_CHECKED", " checked=\"checked\"");
-		$this->tpl->setVariable("FIRSTNAME_CHECKED", " checked=\"checked\"");
-		$this->tpl->setVariable("LASTNAME_CHECKED", " checked=\"checked\"");
-		$this->tpl->setVariable("EMAIL_CHECKED", " checked=\"checked\"");
-		$this->tpl->setVariable("ACTIVE_CHECKED", " checked=\"checked\"");
-		$this->tpl->setVariable("TXT_SEARCH_USER",$this->lng->txt("search_user"));
-		$this->tpl->setVariable("TXT_SEARCH_IN",$this->lng->txt("search_in"));
-		$this->tpl->setVariable("TXT_SEARCH_USERNAME",$this->lng->txt("username"));
-		$this->tpl->setVariable("TXT_SEARCH_FIRSTNAME",$this->lng->txt("firstname"));
-		$this->tpl->setVariable("TXT_SEARCH_LASTNAME",$this->lng->txt("lastname"));
-		$this->tpl->setVariable("TXT_SEARCH_EMAIL",$this->lng->txt("email"));
-        $this->tpl->setVariable("TXT_SEARCH_ACTIVE",$this->lng->txt("search_active"));
-        $this->tpl->setVariable("TXT_SEARCH_INACTIVE",$this->lng->txt("search_inactive"));
-		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-        $this->tpl->setVariable("TXT_SEARCH_NOTE",$this->lng->txt("search_note"));
-		$this->tpl->setVariable("ACTIVE_CHECKED","checked=\"checked\"");
-	}
-
-	// presumably deprecated
-	// functionality moved to search/classes/iladminusersearch
-	// dont't if this method is used elsewhere too	- saschahofmann@gmx.de 6.6.07
-	function searchCancelledObject()
-	{
-		$this->ctrl->redirect($this, "view");
-	}
-
-	// presumably deprecated
-	// functionality moved to search/classes/iladminusersearch
-	// dont't if this method is used elsewhere too	- saschahofmann@gmx.de 6.6.07
-	function searchUserObject()
-	{
-		global $rbacreview;
-
-		$obj_str = "&obj_id=".$this->obj_id;
-
-		$_POST["search_string"] = trim($_POST["search_string"]) ? trim($_POST["search_string"]) : trim(urldecode($_GET["search_string"]));
-        //$_POST["search_fields"] = $_POST["search_fields"] ? $_POST["search_fields"] : explode(",",urldecode($_GET["search_fields"]));
-		$_SESSION['us_active'] = isset($_POST['active']) ? $_POST['active'] : $_SESSION['us_active'];
-
-		$_POST["search_fields"] = array ("username","firstname","lastname","email");
-
-        if (empty($_POST["search_string"]))
-        {
-            $_POST["search_string"] = "%";
-        }
-
-        if (empty($_POST["search_fields"]))
-        {
-            $_POST["search_fields"] = array();
-        }
-		if (count($search_result = ilObjUser::searchUsers($_POST["search_string"],$_SESSION['us_active'])) == 0)
-		{
-	        if ($_POST["search_string"] == "%")
-    	    {
-        	    $_POST["search_string"] = "";
-	        }
-			$msg = $this->lng->txt("msg_no_search_result");
-			if ($_POST["search_string"] != "")
-			{
-				$msg .= " ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'";
-			}
-			ilUtil::sendInfo($msg, true);
-			$this->ctrl->redirect($this, "searchUserForm");
-		}
-		//add template for buttons
-		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-		
-		// display button
-		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
-			$this->ctrl->getLinkTarget($this, "searchUserForm"));
-		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("search_new"));
-		$this->tpl->parseCurrentBlock();
-
-        $this->data["cols"] = array("", "login", "firstname", "lastname", "email", "active");
-
-		if($_SESSION['us_active'] == 1)
-		{
-            $searchActive = true;
-		}
-        else
-        {
-            $searchInactive = true;
-        }
-
-		foreach ($search_result as $key => $val)
-		{
-            $val["active_text"] = $this->lng->txt("inactive");
-            if ($val["active"])
-            {
-                $val["active_text"] = $this->lng->txt("active");
-            }
-
-			// check if the fields are set
-			$searchStringToLower = strtolower($_POST["search_string"]);
-			$displaySearchResult = false;
-			if (in_array("username", $_POST["search_fields"]))
-				if (strpos(strtolower($val["login"]), strtolower($_POST["search_string"])) !== false)
-					$displaySearchResult = true;
-			if (in_array("firstname", $_POST["search_fields"]))
-				if (strpos(strtolower($val["firstname"]), strtolower($_POST["search_string"])) !== false)
-					$displaySearchResult = true;
-			if (in_array("lastname", $_POST["search_fields"]))
-				if (strpos(strtolower($val["lastname"]), strtolower($_POST["search_string"])) !== false)
-					$displaySearchResult = true;
-			if (in_array("email", $_POST["search_fields"]))
-				if (strpos(strtolower($val["email"]), strtolower($_POST["search_string"])) !== false)
-					$displaySearchResult = true;
-			if (($val["active"] == 1) && ($searchActive == true) ||
-				($val["active"] == 0) && ($searchInactive == true))
-            {
-				if ((strcmp($_POST["search_string"], "%") == 0) || $displaySearchResult)
-				{
-					//visible data part
-					$this->data["data"][] = array(
-						"login"         => $val["login"],
-						"firstname"     => $val["firstname"],
-						"lastname"      => $val["lastname"],
-						"email"         => $val["email"],
-						"active"        => $val["active_text"],
-						"obj_id"        => $val["usr_id"]
-						);
-				}
-            }
-		}
-		if (count($this->data["data"]) == 0)
-		{
-			ilUtil::sendInfo($this->lng->txt("msg_no_search_result")." ".$this->lng->txt("with")." '".htmlspecialchars($_POST["search_string"])."'",true);
-
-			$this->ctrl->redirect($this, "searchUserForm");
-		}
-		
-		$this->maxcount = count($this->data["data"]);
-
-		// TODO: correct this in objectGUI
-		if ($_GET["sort_by"] == "name")
-		{
-			$_GET["sort_by"] = "login";
-		}
-
-		// sorting array
-		$this->data["data"] = ilUtil::sortArray($this->data["data"],$_GET["sort_by"],$_GET["sort_order"]);
-		$this->data["data"] = array_slice($this->data["data"],$_GET["offset"],$_GET["limit"]);
-
-		// now compute control information
-		foreach ($this->data["data"] as $key => $val)
-		{
-			$this->data["ctrl"][$key] = array(
-												"ref_id"	=> $this->id,
-												"obj_id"	=> $val["obj_id"]
-											);
-			$tmp[] = $val["obj_id"];
-			unset($this->data["data"][$key]["obj_id"]);
-		}
-
-		// remember filtered users
-		$_SESSION["user_list"] = $tmp;		
-	
-		// load template for table
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
-
-		$num = 0;
-
-		$this->ctrl->setParameter($this, "sort_by", "name");
-		$this->ctrl->setParameter($this, "sort_order", $_GET["sort_order"]);
-		$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-
-		// create table
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("search_result"),"icon_".$this->object->getType().".gif",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-		
-		foreach ($this->data["cols"] as $val)
-		{
-			$header_names[] = $this->lng->txt($val);
-		}
-		
-		$tbl->setHeaderNames($header_names);
-
-		$header_params = $this->ctrl->getParameterArray($this, "searchUser");
-		$header_params["search_string"] = urlencode($_POST["search_string"]);
-		$header_params["search_fields"] = urlencode(implode(",",$_POST["search_fields"]));
-
-		$tbl->setHeaderVars($this->data["cols"],$header_params);
-		$tbl->setColumnWidth(array("","25%","25$%","25%","25%"));
-
-		// control
-        $tbl->enable("hits");
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		$tbl->setLimit($_GET["limit"]);
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setMaxCount($this->maxcount);
-
-		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));	
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-		// render table
-		$tbl->render();
-
-		if (is_array($this->data["data"][0]))
-		{
-			//table cell
-			for ($i=0; $i < count($this->data["data"]); $i++)
-			{
-				$data = $this->data["data"][$i];
-				$ctrl = $this->data["ctrl"][$i];
-
-				// dirty workaround to have ids for function showActions (checkbox toggle option)
-				$this->ids[] = $ctrl["obj_id"];
-					
-				// color changing
-				$css_row = ilUtil::switchColor($i+1,"tblrow1","tblrow2");
-
-				$this->tpl->setCurrentBlock("checkbox");
-				$this->tpl->setVariable("CHECKBOX_ID", $ctrl["obj_id"]);
-				//$this->tpl->setVariable("CHECKED", $checked);
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setCurrentBlock("table_cell");
-				$this->tpl->setVariable("CELLSTYLE", "tblrow1");
-				$this->tpl->parseCurrentBlock();
-
-				foreach ($data as $key => $val)
-				{
-					//build link
-					$this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
-					$this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $ctrl["obj_id"]);
-					$link = $this->ctrl->getLinkTargetByClass("ilobjusergui", "view");
-
-					if ($key == "login")
-					{
-						$this->tpl->setCurrentBlock("begin_link");
-						$this->tpl->setVariable("LINK_TARGET", $link);
-						$this->tpl->parseCurrentBlock();
-						$this->tpl->touchBlock("end_link");
-					}
-
-					$this->tpl->setCurrentBlock("text");
-					$this->tpl->setVariable("TEXT_CONTENT", $val);
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("table_cell");
-					$this->tpl->parseCurrentBlock();
-				} //foreach
-
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->parseCurrentBlock();
-			} //for
-			
-			$this->showActions(true);
-		}
-	}
-
 
 	/**
 	* display form for user import
@@ -1255,7 +823,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	 
 	}
-
 
 	/**
 	* import cancelled
@@ -2918,9 +2485,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 			$tabs_gui->addTarget(
 				"search_user_extended",
-				$this->ctrl->getLinkTargetByClass('ilAdminUserSearchGUI',''),
+				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''),
 				array(),
-				"iladminusersearchgui",
+				"ilrepositorysearchgui",
 				""
 			);
 		}
@@ -3106,32 +2673,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	 * Handles multi command from admin user search gui
+	 * Handles multi command from repository search gui
 	 */
-	public  function searchResultHandler($a_cmd,$a_usr_ids)
+	public  function searchResultHandler($a_usr_ids,$a_cmd)
 	{
-
-
 		if(!count((array) $a_usr_ids))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			return false;
 		}
-
+		
 		$_POST['id'] = $a_usr_ids;
-
-		switch($a_cmd)
-		{
-			case 'delete':
-				return $this->deleteObject();
-
-			default:
-				$_POST['selectedAction'] = $a_cmd;
-				return $this->showActionConfirmation($a_cmd);
-		}
-
+		$_POST['selectedAction'] = $a_cmd;
+		return $this->showActionConfirmation($a_cmd, true);
 	}
-
 
 } // END class.ilObjUserFolderGUI
 ?>
