@@ -92,53 +92,25 @@ class ilLMObjectGUI
 	*/
 	function create()
 	{
-		global $rbacsystem;
+		$new_type = $_REQUEST["new_type"];
 
-		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-
-		// fill in saved values in case of error
-		$data = array();
-		$data["fields"] = array();
-		$data["fields"]["title"] = $_SESSION["error_post_vars"]["Fobject"]["title"];
-		$data["fields"]["desc"] = $_SESSION["error_post_vars"]["Fobject"]["desc"];
-						
+		$this->ctrl->setParameter($this, "new_type", $new_type);				
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
+		$form->setTitle( $this->lng->txt($new_type."_new"));
 		
-		/* :TODO: only dbk, lm, pg, st as possible new types ?!
-			=> do not have custom edit templates...
+		$title = new ilTextInputGUI($this->lng->txt("title"), "Fobject[title]");
+		$title->setRequired(true);
+		$form->addItem($title);
 		
-		$template = "tpl.".$new_type."_edit.html";
-		if (!$this->tpl->fileExists($template))
-		{
-			$template = "tpl.obj_edit.html";
-		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", $template);	
+		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject[desc]");		
+		$form->addItem($desc);
 		
-		*/				
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.obj_edit.html");	
+		$form->addCommandButton("save", $this->lng->txt($new_type."_add"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		
-		
-		foreach ($data["fields"] as $key => $val)
-		{
-			$this->tpl->setVariable("TXT_".strtoupper($key), $this->lng->txt($key));
-			$this->tpl->setVariable(strtoupper($key), $val);
-
-			if ($this->prepare_output)
-			{
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		$this->ctrl->setParameter($this, "new_type", $new_type);
-//echo "<br>lmobjectgui_formaction";
-//echo ":".$this->ctrl->getFormAction($this, "save", "bla").":";
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this, "save"));
-		$this->tpl->setVariable("TXT_HEADER", $this->lng->txt($new_type."_new"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt($new_type."_add"));
-		$this->tpl->setVariable("CMD_SUBMIT", "save");
-		$this->tpl->setVariable("TARGET", $this->getTargetFrame("save"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
-
+		$this->tpl->setContent($form->getHTML());		
 	}
 
 
