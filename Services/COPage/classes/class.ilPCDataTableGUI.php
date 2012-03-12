@@ -51,6 +51,10 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		return $ret;
 	}
 
+	
+	////
+	//// Classic editing
+	////
 
 	/**
 	* Edit data of table. (classic version)
@@ -177,7 +181,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 						$s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j));
 					}
 	
-//					$dtpl->setVariable("PAR_TA_NAME", "cell[".$i."][".$j."]");
+					$dtpl->setVariable("PAR_TA_NAME", "cell[".$i."][".$j."]");
 					$dtpl->setVariable("PAR_TA_ID", "cell_".$i."_".$j);
 					$dtpl->setVariable("PAR_TA_CONTENT", $s_text);
 					
@@ -270,7 +274,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		// handle input data
 		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		$data = array();
-//var_dump($_POST);
+//var_dump($_POST["cell"]);
 //var_dump($_GET);
 		if (is_array($_POST["cell"]))
 		{
@@ -453,12 +457,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$ilCtrl->getLinkTarget($this, "editData"), "editData",
 			get_class($this));
 
-		if (DEVMODE == 1)
-		{
-			$ilTabs->addTarget("cont_ed_edit_data_cl",
-				$ilCtrl->getLinkTarget($this, "editDataCl"), "editDataCl",
-				get_class($this));
-		}
 	}
 
 
@@ -472,6 +470,12 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	function editData()
 	{
 		global $lng, $ilCtrl;
+		
+		if (!ilPageEditorGUI::_doJSEditing())
+		{
+			return $this->editDataCl();
+		}
+		
 //var_dump($_GET);
 //var_dump($_POST);
 
