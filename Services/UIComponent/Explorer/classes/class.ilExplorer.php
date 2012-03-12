@@ -966,15 +966,16 @@ class ilExplorer
 				$tpl->setCurrentBlock("exp_desc");
 				$tpl->setVariable("EXP_DESC", $lng->txt("collapsed"));
 				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('+',$a_node_id, $a_option["highlighted_subtree"]);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				if (!$this->getAsynchExpanding())
 				{
+					$target = $this->createTarget('+',$a_node_id, $a_option["highlighted_subtree"]);
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				}
 				else
 				{
+					$target = $this->createTarget('+',$a_node_id, $a_option["highlighted_subtree"], false);
 					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"ilExplorerJSHandler('tree_div', '".$target."'); return false;\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
@@ -1002,15 +1003,16 @@ class ilExplorer
 				$tpl->setCurrentBlock("exp_desc");
 				$tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
 				$tpl->parseCurrentBlock();
-				$target = $this->createTarget('-',$a_node_id, $a_option["highlighted_subtree"]);
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				if (!$this->getAsynchExpanding())
 				{
+					$target = $this->createTarget('-',$a_node_id, $a_option["highlighted_subtree"]);
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
 				}
 				else
 				{
+					$target = $this->createTarget('-',$a_node_id, $a_option["highlighted_subtree"], false);
 					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"ilExplorerJSHandler('tree_div', '".$target."'); return false;\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
@@ -1193,7 +1195,7 @@ class ilExplorer
 	* @param	integer
 	* @return	string
 	*/
-	function createTarget($a_type,$a_node_id,$a_highlighted_subtree = false)
+	function createTarget($a_type,$a_node_id,$a_highlighted_subtree = false, $a_append_anch = true)
 	{
 		if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id))
 		{
@@ -1218,7 +1220,14 @@ class ilExplorer
 		{
 			$ict_str.= "&cmdMode=asynch";
 		}
-		return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get.$ict_str."#".abs($a_node_id);
+		if ($a_append_anch)
+		{
+			return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get.$ict_str."#".abs($a_node_id);
+		}
+		else
+		{
+			return $this->expand_target.$sep.$this->expand_variable."=".$a_node_id.$this->params_get.$ict_str;
+		}
 	}
 
 	/**
