@@ -68,15 +68,11 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
-			if ($rbacsystem->checkAccess('delete', $a_parent_obj->object->getRefId()))
+			$cmds = $a_parent_obj->getUserMultiCommands();
+			foreach($cmds as $cmd => $caption)
 			{
-				$this->addMultiCommand("deleteUsers", $lng->txt("delete"));
+				$this->addMultiCommand($cmd, $caption);
 			}
-			$this->addMultiCommand("activateUsers", $lng->txt("activate"));
-			$this->addMultiCommand("deactivateUsers", $lng->txt("deactivate"));
-			$this->addMultiCommand("restrictAccess", $lng->txt("accessRestrict"));
-			$this->addMultiCommand("freeAccess", $lng->txt("accessFree"));
-			$this->addMultiCommand("exportUsers", $lng->txt("export"));
 		}
 		else
 		{

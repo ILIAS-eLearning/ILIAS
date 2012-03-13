@@ -770,45 +770,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function deleteObject($a_error = false)
 	{
 		//$this->setTabs();
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html");
-
-		if(!$a_error)
-		{
-			ilUtil::sendInfo($this->lng->txt("info_delete_sure"));
-		}
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT", $this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
 		
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-
-		$this->tpl->setCurrentBlock("table_row");
-		$this->tpl->setVariable("IMG_OBJ",ilUtil::getImagePath("icon_styf.gif"));
-		$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-		$this->tpl->setVariable("TEXT_CONTENT",ilObject::_lookupTitle($this->object->getId()));
-		$this->tpl->parseCurrentBlock();
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
 		
-		// END TABLE DATA
+		$caption = ilUtil::getImageTagByType("styf", $this->tpl->tplPath).					
+					" ".ilObject::_lookupTitle($this->object->getId());		
+		
+		$cgui->addItem("id[]", "", $caption);
 
-		// BEGIN OPERATION_BTN
-		$buttons = array("confirmedDelete"  => $this->lng->txt("confirm"),
-			"cancelDelete"  => $this->lng->txt("cancel"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setContent($cgui->getHTML());
 	}
 	
 	

@@ -712,25 +712,15 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-
-		//$this->prepareOutput();
-
-		// SAVE POST VALUES
-		$_SESSION["ilMepRemove"] = $_POST["id"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/MediaPool");
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// BEGIN TABLE DATA
-		$counter = 0;
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelRemove");
+		$cgui->setConfirm($this->lng->txt("confirm"), "remove");
+			
 		foreach($_POST["id"] as $obj_id)
 		{
 			$type = ilMediaPoolItem::lookupType($obj_id);
@@ -758,25 +748,13 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				}
 			}
 			
-			$this->tpl->setCurrentBlock("table_row");
-			$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-			$this->tpl->setVariable("TEXT_CONTENT", $title.$add);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_".$type.".gif"));
-			$this->tpl->parseCurrentBlock();
+			$caption = ilUtil::getImageTagByType($type, $this->tpl->tplPath).
+				" ".$title.$add;
+			
+			$cgui->addItem("id[]", $obj_id, $caption);
 		}
 
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelRemove"  => $this->lng->txt("cancel"),
-			"remove"  => $this->lng->txt("confirm"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
-//		$this->tpl->show();
+		$this->tpl->setContent($cgui->getHTML());
 	}
 	
 	/**
@@ -892,7 +870,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function cancelRemove()
 	{
-		session_unregister("ilMepRemove");
 		$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 	}
 
@@ -908,13 +885,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		foreach($_SESSION["ilMepRemove"] as $obj_id)
+		foreach($_POST["id"] as $obj_id)
 		{
 			$this->object->deleteChild($obj_id);
 		}
 
 		ilUtil::sendSuccess($this->lng->txt("cont_obj_removed"),true);
-		session_unregister("ilMepRemove");
 		$this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
 	}
 

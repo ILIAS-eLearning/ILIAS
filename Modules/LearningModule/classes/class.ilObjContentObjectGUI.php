@@ -1684,77 +1684,47 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			$this->setTabs();
 		}
-
-		// SAVE POST VALUES
-		$_SESSION["saved_post"] = $_POST["id"];
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/LearningModule");
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
+		
 		if ($a_parent_subobj_id != 0)
 		{
 			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "backcmd", $_GET["backcmd"]);
 			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $a_parent_subobj_id);
-			$this->tpl->setVariable("FORMACTION",
-				$this->ctrl->getFormActionByClass("ilStructureObjectGUI"));
+			$form_action = $this->ctrl->getFormActionByClass("ilStructureObjectGUI");
 		}
 		else
 		{
 			$this->ctrl->setParameter($this, "backcmd", $_GET["backcmd"]);
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+			$form_action = $this->ctrl->getFormAction($this);
 		}
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// END TABLE HEADER
-
-		// BEGIN TABLE DATA
-		$counter = 0;
-//var_dump($_POST);
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($form_action);
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDelete");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
+		
 		foreach($_POST["id"] as $id)
 		{
 			if ($id != IL_FIRST_NODE)
 			{
-				$obj =& new ilLMObject($this->object, $id);
-				switch($obj->getType())		// ok that's not so nice, could be done better
-				{
-					case "pg":
-						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.gif"));
-						break;
-					case "st":
-						$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
-						break;
-				}
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow2","tblrow1"));
-				$this->tpl->setVariable("TEXT_CONTENT", $obj->getTitle());
-				$this->tpl->parseCurrentBlock();
-			}
+				$obj = new ilLMObject($this->object, $id);				
+				$caption = ilUtil::getImageTagByType($obj->getType(), $this->tpl->tplPath).	
+					" ".$obj->getTitle();
+				
+				$cgui->addItem("id[]", $id, $caption);
+			}						
 		}
 
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDelete"  => $this->lng->txt("cancel"),
-								  "confirmedDelete"  => $this->lng->txt("confirm"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
 	* cancel delete
 	*/
 	function cancelDelete()
-	{
-		session_unregister("saved_post");
-
+	{		
 		$this->ctrl->redirect($this, $_GET["backcmd"]);
 
 	}
@@ -1773,13 +1743,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$tree->setTreeTablePK("lm_id");
 
 		// check number of objects
-		if (!isset($_SESSION["saved_post"]))
+		if (!$_POST["id"])
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
 
 		// delete all selected objects
-		foreach ($_SESSION["saved_post"] as $id)
+		foreach ($_POST["id"] as $id)
 		{
 			if ($id != IL_FIRST_NODE)
 			{

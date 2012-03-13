@@ -80,14 +80,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$user_search->setCallback(
 					$this,
 					'searchResultHandler',
-					array(
-						'delete'		=> $this->lng->txt('delete'),
-						'activate'		=> $this->lng->txt('activate'),
-						'deactivate'	=> $this->lng->txt('deactivate'),
-						'accessRestrict'=> $this->lng->txt('accessRestrict'),
-						'accessFree'	=> $this->lng->txt('accessFree'),
-						'export'		=> $this->lng->txt('export')
-					)
+					$this->getUserMultiCommands(true)
 				);
 				$this->tabs_gui->setTabActive('search_user_extended');
 				$this->ctrl->setReturn($this,'view');
@@ -623,37 +616,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	}
 
 	/**
-	* confirm export of object
-	*
-	* @access	public
-	*/
-	function confirmexportObject()
-	{
-		$this->object->buildExportFile($_POST["export_type"], $_POST["id"]);
-		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
-	}
-
-	function selectExportFormat()
-	{
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("export_format_selection"));
-		$export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");
-		$options = array();
-		foreach ($export_types as $type)
-		{
-			$options[$type] = $this->lng->txt($type);
-		}
-		$select = ilUtil::formSelect("userfolder_export_xml", "export_type" ,$options, false, true);
-		$this->tpl->setVariable("TXT_CONTENT", $this->lng->txt("export_format") . ": " . $select);
-		$this->tpl->setVariable("CMD_CANCEL", "cancelexport");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("CMD_OK", "confirmexport");
-		$this->tpl->setVariable("TXT_OK", $this->lng->txt("confirm"));
-		$this->tpl->parseCurrentBlock();
-	}
-
-	/**
 	* display activation confirmation screen
 	*/
 	function showActionConfirmation($action, $a_from_search = false)
@@ -662,8 +624,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
-		
-		if (strcmp($action, "export") == 0) return $this->selectExportFormat();
+				
 		if (strcmp($action, "accessRestrict") == 0) return $this->setAccessRestrictionObject();
 
 		unset($this->data);
@@ -757,15 +718,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	function freeAccessObject()
 	{
 		$_POST["selectedAction"] = "accessFree";
-		$this->showActionConfirmation($_POST["selectedAction"]);
-	}
-
-	/**
-	* Export users
-	*/
-	function exportUsersObject()
-	{
-		$_POST["selectedAction"] = "export";
 		$this->showActionConfirmation($_POST["selectedAction"]);
 	}
 
@@ -2684,9 +2636,99 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		
 		$_POST['id'] = $a_usr_ids;
-		$_POST['selectedAction'] = $a_cmd;
+		
+		// no real confirmation here
+		if(stristr($a_cmd, "export"))
+		{
+			$cmd = $a_cmd."Object";
+			return $this->$cmd();
+		}	
+		
+		$_POST['selectedAction'] = $a_cmd;		
 		return $this->showActionConfirmation($a_cmd, true);
 	}
+	
+	public function getUserMultiCommands($a_search_form = false)
+	{
+		global $rbacsystem;		
+		
+		// see searchResultHandler()
+		if($a_search_form)
+		{
+			$cmds = array(
+				'activate' => $this->lng->txt('activate'),
+				'deactivate' => $this->lng->txt('deactivate'),
+				'accessRestrict' => $this->lng->txt('accessRestrict'),
+				'accessFree' => $this->lng->txt('accessFree')
+				);
+		
+			if ($rbacsystem->checkAccess('delete', $this->object->getRefId()))
+			{			
+				$cmds["delete"] = $this->lng->txt("delete");
+			}						
+		}
+		// show confirmation
+		else
+		{
+			$cmds = array(
+				'activateUsers'	=> $this->lng->txt('activate'),
+				'deactivateUsers' => $this->lng->txt('deactivate'),
+				'restrictAccess' => $this->lng->txt('accessRestrict'),
+				'freeAccess' => $this->lng->txt('accessFree')
+				);
+			
+			if ($rbacsystem->checkAccess('delete', $this->object->getRefId()))
+			{
+				$cmds["deleteUsers"] = $this->lng->txt("delete");				
+			}				
+		}
+				
+		// no confirmation needed
+		$export_types = array("userfolder_export_excel_x86", "userfolder_export_csv", "userfolder_export_xml");		
+		foreach ($export_types as $type)
+		{
+			$cmd = explode("_", $type);
+			$cmd = array_pop($cmd);
+			$cmds['usrExport'.ucfirst($cmd)] = $this->lng->txt('export').' - '.
+				$this->lng->txt($type);
+		}
+						
+		return $cmds;
+	}
+	
+	function usrExportX86Object()
+	{
+		if(!$_POST["id"])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->viewObject();
+		}
+		$this->object->buildExportFile("userfolder_export_excel_x86", $_POST["id"]);		
+		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
+	}
+	
+	function usrExportCsvObject()
+	{
+		if(!$_POST["id"])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->viewObject();
+		}
+		$this->object->buildExportFile("userfolder_export_csv", $_POST["id"]);		
+		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
+	}
+	
+	function usrExportXmlObject()
+	{
+		if(!$_POST["id"])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'));
+			return $this->viewObject();
+		}
+		$this->object->buildExportFile("userfolder_export_xml", $_POST["id"]);		
+		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
+	}
+	
 
 } // END class.ilObjUserFolderGUI
 ?>
