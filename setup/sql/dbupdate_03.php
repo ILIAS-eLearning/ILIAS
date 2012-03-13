@@ -9003,3 +9003,23 @@ $ilDB->addIndex("help_map", array("chap"), "ch");
 		$ilDB->createTable('usr_session_log', $fields);
 	}
 ?>
+<#3534>
+<?php
+	$setting = new ilSetting();
+	$ilpghi2 = $setting->get("ilpghi2");
+	if (!$ilpghi2)
+	{
+		$ilDB->addIndex("page_history", array("parent_id", "parent_type", "hdate"), "i2");
+		$setting->set("ilpghi2", 1);
+	}
+?>
+<#3535>
+<?php
+	$setting = new ilSetting();
+	$ilpgi3 = $setting->get("ilpgi3");
+	if (!$ilpgi3)
+	{
+		$ilDB->addIndex("page_object", array("parent_id", "parent_type", "last_change"), "i3");
+		$setting->set("ilpgi3", 1);
+	}
+?>
