@@ -274,12 +274,15 @@ class ilSessionControl
 							time(), $a_user_id);
 						
 						$a_auth->logout();
-
+						
 						// Trigger reachedSessionPoolLimit Event
 						global $ilAppEventHandler;
 						$ilAppEventHandler->raise(
 							'Services/Authentication', 'reachedSessionPoolLimit', array()
 						);
+
+						// auth won't do this, we need to close session properly
+						session_destroy();
 
 						ilUtil::redirect('login.php?reached_session_limit=true');
 					}
