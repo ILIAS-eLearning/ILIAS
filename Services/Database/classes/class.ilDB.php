@@ -2065,6 +2065,44 @@ abstract class ilDB extends PEAR
 		return false;
 	}
 
+	/**
+	* Check, whether a given sequence exists
+	*
+	* @param	string		sequence name
+	* @return	boolean		true, if sequence exists
+	*/
+	function sequenceExists($a_sequence)
+	{
+		$sequences = $this->listSequences();
+		
+		if (is_array($sequences))
+		{
+			if (in_array($a_sequence, $sequences))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	* Get all sequences
+	*
+	* @return array		Array of sequence names
+	*/
+	function listSequences()
+	{
+		$manager = $this->db->loadModule('Manager');
+		$r = $manager->listSequences();
+
+		if (!MDB2::isError($r))
+		{
+			return $r;
+		}
+		
+		return false;
+	}
+	
 	
 	//
 	// Quote Functions
