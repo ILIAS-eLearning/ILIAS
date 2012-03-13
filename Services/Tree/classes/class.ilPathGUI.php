@@ -145,7 +145,7 @@ class ilPathGUI
 			// With images and links
 			include_once './Services/Link/classes/class.ilLink.php';
 			
-			$tpl = new ilTemplate('tpl.locator.html',true,true);
+			$tpl = new ilTemplate('tpl.locator.html',true,true,'Services/Locator');
 			
 			$first = true;
 			foreach($this->getPathIds() as $ref_id)
