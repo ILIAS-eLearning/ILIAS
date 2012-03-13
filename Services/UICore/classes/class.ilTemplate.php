@@ -808,7 +808,7 @@ class ilTemplate extends ilTemplateX
 		if (!$this->getAddFooter()) return;
 		global $ilias, $ilClientIniFile, $ilCtrl, $ilDB, $ilSetting, $lng;
 		
-		$ftpl = new ilTemplate("tpl.footer.html", true, true);
+		$ftpl = new ilTemplate("tpl.footer.html", true, true, "Services/UICore");
 		
 		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
 		

@@ -970,7 +970,7 @@ if (!false)
 	*/
 	function setLocator($a_tree = "", $a_id = "")
 	{		
-		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html");
+		//$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
 		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc =& new ilGlossaryLocatorGUI();
 		$gloss_loc->setMode("presentation");
