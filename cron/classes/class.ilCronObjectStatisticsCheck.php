@@ -92,7 +92,7 @@ class ilCronObjectStatisticsCheck
 						" AND fulldate = ".$ilDB->quote(date("Ymd", $this->date), "integer"));
 					
 					$members = new ilCourseParticipants($crs_id);
-					$members = $participants->getMembers();	
+					$members = $members->getMembers();	
 					
 					$in_progress = count(ilLPStatusWrapper::_lookupInProgressForObject($crs_id, $members));
 					$completed = count(ilLPStatusWrapper::_lookupCompletedForObject($crs_id, $members));
