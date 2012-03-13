@@ -2121,18 +2121,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		$this->setTabs();
 		$this->setContentSubTabs("maintenance");
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm.html");
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		//
-		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirmation"));
-		$this->tpl->setVariable("TXT_CONTENT", $this->lng->txt("cont_fix_tree_confirm"));
-		$this->tpl->setVariable("CMD_CANCEL", "showMaintenance");
-		$this->tpl->setVariable("CMD_OK", "fixTree");
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_OK", $this->lng->txt("cont_fix_tree"));
+		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("cont_fix_tree_confirm"));
+		$cgui->setCancel($this->lng->txt("cancel"), "showMaintenance");
+		$cgui->setConfirm($this->lng->txt("cont_fix_tree"), "fixTree");
+		
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**

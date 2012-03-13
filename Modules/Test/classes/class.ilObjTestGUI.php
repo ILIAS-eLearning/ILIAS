@@ -3315,20 +3315,15 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	public function deleteAllUserResultsObject()
 	{
-		ilUtil::sendQuestion($this->lng->txt("delete_all_user_data_confirmation"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Test");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "participants"));
-
-		// cancel/confirm button
-		$buttons = array( "confirmDeleteAllUserResults"  => $this->lng->txt("proceed"),
-			"participants"  => $this->lng->txt("cancel"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "participants"));
+		$cgui->setHeaderText($this->lng->txt("delete_all_user_data_confirmation"));
+		$cgui->setCancel($this->lng->txt("cancel"), "participants");
+		$cgui->setConfirm($this->lng->txt("proceed"), "confirmDeleteAllUserResults");
+		
+		$this->tpl->setContent($cgui->getHTML());
 	}
 	
 	/**
