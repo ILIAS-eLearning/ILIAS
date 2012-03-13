@@ -1197,42 +1197,23 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->setTabs();
 
-		// SAVE POST VALUES
-		$_SESSION["ilExportFiles"] = $_POST["file"];
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteExportFile");
+		$cgui->setConfirm($this->lng->txt("confirm"), "deleteExportFile");
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.confirm_deletion.html", "Modules/Glossary");
-
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
-
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-		// BEGIN TABLE HEADER
-		$this->tpl->setCurrentBlock("table_header");
-		$this->tpl->setVariable("TEXT",$this->lng->txt("objects"));
-		$this->tpl->parseCurrentBlock();
-
-		// BEGIN TABLE DATA
-		$counter = 0;
 		foreach($_POST["file"] as $file)
 		{
-				$file = explode(":", $file);
-				$this->tpl->setCurrentBlock("table_row");
-				$this->tpl->setVariable("CSS_ROW",ilUtil::switchColor(++$counter,"tblrow1","tblrow2"));
-				$this->tpl->setVariable("TEXT_CONTENT", $file[1]." (".$file[0].")");
-				$this->tpl->parseCurrentBlock();
+			$caption = explode(":", $file);
+			$caption = $caption[1]." (".$caption[0].")";
+				
+			$cgui->addItem("file[]", $file, $caption);
 		}
 
-		// cancel/confirm button
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
-		$buttons = array( "cancelDeleteExportFile"  => $this->lng->txt("cancel"),
-			"deleteExportFile"  => $this->lng->txt("confirm"));
-		foreach ($buttons as $name => $value)
-		{
-			$this->tpl->setCurrentBlock("operation_btn");
-			$this->tpl->setVariable("BTN_NAME",$name);
-			$this->tpl->setVariable("BTN_VALUE",$value);
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
@@ -1240,7 +1221,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function cancelDeleteExportFile()
 	{
-		session_unregister("ilExportFiles");
 		$this->ctrl->redirect($this, "exportList");
 	}
 
@@ -1249,13 +1229,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function deleteExportFile()
 	{
-		foreach($_SESSION["ilExportFiles"] as $file)
+		foreach($_POST["file"] as $file)
 		{
 			$file = explode(":", $file);
 			$export_dir = $this->object->getExportDirectory($file[0]);
 			
 			$exp_file = $export_dir."/".$file[1];
-			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			$exp_dir = $export_dir."/".substr($file[1], 0, strlen($file[1]) - 4);
 			if (@is_file($exp_file))
 			{
 				unlink($exp_file);
