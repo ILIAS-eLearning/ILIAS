@@ -20,7 +20,10 @@ class ilRepositoryObjectPluginSlot
 		foreach ($pl_names as $pl)
 		{
 			$pl_id = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $pl);
-			$a_obj_array[$pl_id] = array("name" => $pl_id, "lng" => $pl_id, "plugin" => true);
+			if ($pl_id != "")
+			{
+				$a_obj_array[$pl_id] = array("name" => $pl_id, "lng" => $pl_id, "plugin" => true);
+			}
 		}
 
 		return $a_obj_array;

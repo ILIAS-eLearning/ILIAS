@@ -77,14 +77,17 @@ class ilCOPageImporter extends ilXmlImporter
 				if (count($id) == 2)
 				{
 					include_once("./Services/COPage/classes/class.ilPageObject.php");
-					$new_page = new ilPageObject($id[0], $id[1]);
-					$new_page->buildDom();
-					$med = $new_page->resolveMediaAliases($media_objects);
-					$fil = $new_page->resolveFileItems($file_objects);
-
-					if ($med || $fil)
+					if (ilPageObject::_exists($id[0], $id[1]))
 					{
-						$new_page->update(false, true);
+						$new_page = new ilPageObject($id[0], $id[1]);
+						$new_page->buildDom();
+						$med = $new_page->resolveMediaAliases($media_objects);
+						$fil = $new_page->resolveFileItems($file_objects);
+	
+						if ($med || $fil)
+						{
+							$new_page->update(false, true);
+						}
 					}
 				}
 			}
