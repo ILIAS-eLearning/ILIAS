@@ -163,15 +163,15 @@ class ilCertificateGUI
 	* Deletes the certificate and all its data
 	*/
 	public function certificateDelete()
-	{
-		include_once("Services/Utilities/classes/class.ilSimpleConfirmationGUI.php");
-		$c_gui = new ilSimpleConfirmationGUI();
+	{		
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "certificateEditor"));
+		$cgui->setHeaderText($this->lng->txt("certificate_confirm_deletion_text"));
+		$cgui->setCancel($this->lng->txt("no"), "certificateEditor");
+		$cgui->setConfirm($this->lng->txt("yes"), "certificateDeleteConfirm");
 		
-		// set confirm/cancel commands
-		$c_gui->setFormAction($this->ctrl->getFormAction($this, "certificateEditor"));
-		$c_gui->setHeaderText($this->lng->txt("certificate_confirm_deletion_text"));
-		$c_gui->setConfirm($this->lng->txt("yes"), "certificateDeleteConfirm");
-		$c_gui->setCancel($this->lng->txt("no"), "certificateEditor");
 		$this->tpl->setContent($c_gui->getHTML());
 	}
 	
