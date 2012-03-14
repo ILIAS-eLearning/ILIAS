@@ -674,13 +674,27 @@ class ilSessionStatisticsGUI
 						$labels[$date] = date("Y-m", $date);
 						break;
 					
-					case self::SCALE_PERIODIC_WEEK:	
-						$day = substr($date, 0, 1);
-						if($day != $old_day)
+					case self::SCALE_PERIODIC_WEEK:																		
+						$day = substr($date, 0, 1);						
+						$hour = substr($date, 1, 2);
+						$min = substr($date, 3, 2);
+						
+						// build ascending scale from day values
+						$day_value = ($day-1)*60*60*24;
+						$date = $day_value+$hour*60*60+$min*60;
+						
+						// 6-hour interval labels
+						if($hour != $old_hour && $hour && $hour%6 == 0)
 						{
-							$labels[$date] = ilCalendarUtil::_numericDayToString($day);
+							$labels[$date] = $hour;
+							$old_hour = $hour;
+						}						
+						// day label
+						if($day != $old_day)
+						{									
+							$labels[$date] = ilCalendarUtil::_numericDayToString($day, false);
 							$old_day = $day;
-						}
+						}																				
 						break;
 				}
 			}
