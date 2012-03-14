@@ -483,6 +483,15 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$this->update = $this->object->update();
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 	}
+	
+	public function afterSave(ilObject $a_new_object)
+	{		
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
+		
+		ilUtil::redirect("ilias.php?ref_id=".$a_new_object->getRefId().
+			"&baseClass=ilObjSurveyQuestionPoolGUI");
+	}		
 
 	/*
 	* list all export files
