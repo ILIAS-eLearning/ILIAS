@@ -215,8 +215,8 @@ class ilMailFormGUI
 				ilUtil::securePlainString($_POST["m_email"]),
 				ilUtil::securePlainString($_POST["m_subject"]),
 				ilUtil::securePlainString($_POST["m_message"]),
-				$_SESSION["draft"],
-				ilUtil::securePlainString($_POST['use_placeholders'])
+				(int)$_SESSION["draft"],
+				(int)ilUtil::securePlainString($_POST['use_placeholders'])
 			);
 			#session_unregister("draft");
 			#ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
