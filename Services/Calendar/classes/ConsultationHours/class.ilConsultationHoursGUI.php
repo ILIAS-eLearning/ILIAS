@@ -78,11 +78,6 @@ class ilConsultationHoursGUI
 	{
 		global $ilUser, $ilCtrl, $tpl;
 		
-		if($ilUser->getId() != $this->user_id)
-		{
-			$ilCtrl->setParameter($this, 'user_id', $this->user_id);
-		}
-		
 		switch($this->ctrl->getNextClass())
 		{
 			case "ilpublicuserprofilegui":				
@@ -95,6 +90,12 @@ class ilConsultationHoursGUI
 			
 			default:				
 				$this->setTabs();
+				
+				if($ilUser->getId() != $this->user_id)
+				{
+					$ilCtrl->setParameter($this, 'user_id', $this->user_id);
+				}		
+				
 				$cmd = $this->ctrl->getCmd('appointmentList');
 				$this->$cmd();
 		}
@@ -383,14 +384,15 @@ class ilConsultationHoursGUI
 	{
 		global $ilTabs, $ilUser, $ilCtrl;
 
+		$ilCtrl->setParameter($this, 'user_id', '');
 		$ilTabs->addTab('consultation_hours_'.$ilUser->getId(), $this->lng->txt('cal_ch_ch'), $this->ctrl->getLinkTarget($this,'appointmentList'));
 
 		foreach(ilConsultationHourAppointments::getManagedUsers() as $user_id => $login)
 		{
 			$ilCtrl->setParameter($this, 'user_id', $user_id);
-			$ilTabs->addTab('consultation_hours_'.$user_id, $this->lng->txt('cal_ch_ch').': '.$login, $this->ctrl->getLinkTarget($this,'appointmentList'));
-			$ilCtrl->setParameter($this, 'user_id', '');
+			$ilTabs->addTab('consultation_hours_'.$user_id, $this->lng->txt('cal_ch_ch').': '.$login, $this->ctrl->getLinkTarget($this,'appointmentList'));			
 		}
+		$ilCtrl->setParameter($this, 'user_id', '');
 
 		$ilTabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this,'settings'));
 
