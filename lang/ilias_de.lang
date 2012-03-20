@@ -11247,7 +11247,7 @@ survey#:#adm_search_string_too_small#:#Bitte verwenden Sie mindestens 2 Zeichen 
 survey#:#adm_special_users#:#Spezielle Benutzer, die Umfragen mehrfach durchführen können.
 survey#:#already_completed_survey#:#Sie haben die Umfrage bereits durchgeführt! Eine Umfrage kann kein zweites Mal durchgeführt werden.
 survey#:#anonymization#:#Anonymisierung
-survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das untere Textfeld ein.
+survey#:#anonymize_anonymous_introduction#:#Diese Umfrage anonymisiert alle persönlichen Informationen. Um Ihnen Zugang zu dieser Umfrage gewähren zu können, müssen Sie einen 5stelligen Zugangsschlüssel verwenden, den Sie von der verantwortlichen Person für diese Umfrage erhalten.<br />Bitte geben Sie diesen Zugangsschlüssel in das obige Textfeld ein.
 survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonymisiert. Um Ihnen einen Zugang zur Umfrage zu gewähren, wurde vom System ein 5stelliger Schlüssel generiert, der Ihnen nach der Beantwortung der ersten Frage auch in Ihren ILIAS-Posteingang gesendet wird. Ihr Zugangsschlüssel lautet:<br /><span class="bold">%s</span><br />Bitte tragen Sie diesen Schlüssel im folgenden Textfeld ein, damit Sie an der Umfrage teilnehmen können.
 survey#:#anonymize_personalized#:#Personalisierte Umfrage
 survey#:#anonymize_registered_user#:#Anonymisierter Zugang
