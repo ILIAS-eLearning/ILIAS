@@ -384,6 +384,20 @@ class ilCourseParticipants extends ilParticipants
 		return $body;
 	}
 	
-	
+	public static function getDateTimeOfPassed($a_obj_id, $a_usr_id)
+	{
+		global $ilDB;
+		
+		$sql = "SELECT origin_ts FROM crs_members".
+			" WHERE usr_id = ".$ilDB->quote($a_usr_id, "integer").
+			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND passed = ".$ilDB->quote(1, "integer");
+		$res = $ilDB->query($sql);
+		$res = $ilDB->fetchAssoc($res);
+		if($res["origin_ts"])
+		{
+			return date("Y-m-d H:i:s", $res["origin_ts"]);
+		}				
+	}	
 }
 ?>

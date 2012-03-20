@@ -56,6 +56,8 @@ class ilCertificate
 	*/
 	protected $adapter;
 	
+	protected static $is_active;
+	
 	/**
 	* ilCertificate constructor
 	*
@@ -865,6 +867,23 @@ class ilCertificate
 		}
 		return $this->getAdapter()->getCertificatePath() . $zipfile;
 	}
+	
+	public static function isActive()
+	{
+		if(self::$is_active === null)
+		{
+			$certificate_active = new ilSetting("certificate");
+			$certificate_active = (bool)$certificate_active->get("active");
+			if($certificate_active)
+			{
+				include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+				$certificate_active = ilRPCServerSettings::getInstance()->isEnabled();
+			}
+			self::$is_active = (bool)$certificate_active;
+		}
+		return self::$is_active;
+	}
+	
 	
 	/**
 	* Creates a redirect to a certificate download

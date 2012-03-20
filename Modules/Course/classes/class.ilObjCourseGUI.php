@@ -18,7 +18,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI
 *
 * 
 * @extends ilContainerGUI
@@ -1718,6 +1718,15 @@ class ilObjCourseGUI extends ilContainerGUI
 													$this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui'),
 													'',
 													'ilobjectcustomuserfieldsgui');
+				}
+				
+				// certificates
+				include_once "Services/Certificate/classes/class.ilCertificate.php";
+				if(ilCertificate::isActive())
+				{					
+					$this->tabs_gui->addSubTabTarget(
+						"certificate",
+						$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"));					
 				}
 				break;
 				
@@ -4543,7 +4552,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				$did = new ilDidacticTemplateGUI($this);
 				$this->ctrl->forwardCommand($did);
 				break;
-
+			
+			case "ilcertificategui":
+				$this->tabs_gui->activateTab("settings");
+				$this->setSubTabs("properties");
+				
+				include_once "./Services/Certificate/classes/class.ilCertificateGUI.php";
+				include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
+				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
+				$this->ctrl->forwardCommand($output_gui);
+				break;
 
 			default:
 				if(!$this->creation_mode)
@@ -5391,6 +5409,33 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		return $lg;
 	}	
+	
+	function deliverCertificateObject()
+	{
+		global $ilUser, $ilAccess;
+	
+		$user_id = null;
+		if ($ilAccess->checkAccess('write','',$this->ref_id))
+		{		
+			$user_id = $_REQUEST["member_id"];
+		}
+		if(!$user_id)
+		{
+			$user_id = $ilUser->getId();
+		}
+		
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if(!ilCertificate::isActive() ||
+			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
+		{
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->redirect($this);
+		}
+		
+		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
+		$certificate = new ilCertificate(new ilCourseCertificateAdapter($this->object));
+		$certificate->outCertificate(array("user_id" => $user_id), true);				
+	}
 	
 } // END class.ilObjCourseGUI
 ?>

@@ -633,19 +633,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			get_class($this));
 		}
 
-		// create and insert object in objecttree
-		switch ($this->object->getSubType())
-		{
-			
-			case "scorm2004":
-			case "scorm":
-				// certificate
-				$tabs_gui->addTarget("certificate",
-					$this->ctrl->getLinkTarget($this, "certificate"),
-					array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
-						"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport")
-				);
-				break;
+		// certificate subtab
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if(ilCertificate::isActive())
+		{	
+			// create and insert object in objecttree
+			switch ($this->object->getSubType())
+			{
+
+				case "scorm2004":
+				case "scorm":
+					// certificate
+					$tabs_gui->addTarget("certificate",
+						$this->ctrl->getLinkTarget($this, "certificate"),
+						array("certificate", "certificateEditor", "certificateRemoveBackground", "certificateSave",
+							"certificatePreview", "certificateDelete", "certificateUpload", "certificateImport")
+					);
+					break;
+			}
 		}
 		
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
