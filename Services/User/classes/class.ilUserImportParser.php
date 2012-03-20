@@ -1103,6 +1103,13 @@ class ilUserImportParser extends ilSaxParser
 
 							// Finally before saving new user.
 							// Check if profile is incomplete
+							
+							// #8759
+							if(count($this->udf_data))
+							{
+								$this->userObj->setUserDefinedData($this->udf_data);								
+							}
+							
 							$this->userObj->setProfileIncomplete($this->checkProfileIncomplete($this->userObj));
 							$this->userObj->create();
 
@@ -1289,6 +1296,12 @@ class ilUserImportParser extends ilSaxParser
 							
 							// update mail preferences, to be extended
 							$this->updateMailPreferences($updateUser->getId());
+							
+							// #8759
+							if(count($this->udf_data))
+							{
+								$updateUser->setUserDefinedData($this->udf_data);								
+							}
 							
 							$updateUser->setProfileIncomplete($this->checkProfileIncomplete($updateUser));
 
