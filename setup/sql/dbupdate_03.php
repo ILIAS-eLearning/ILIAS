@@ -9023,3 +9023,17 @@ $ilDB->addIndex("help_map", array("chap"), "ch");
 		$setting->set("ilpgi3", 1);
 	}
 ?>
+<#3536>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3537>
+<?php	
+	// if rpc-server is enabled, enable certificates (migrating old behaviour)
+	$ilSetting = new ilSetting();
+	if($ilSetting->get('rpc_server_host') && $ilSetting->get('rpc_server_port'))
+	{
+		$certificate_active = new ilSetting("certificate");
+		$certificate_active->set("active", true);
+	}
+?>

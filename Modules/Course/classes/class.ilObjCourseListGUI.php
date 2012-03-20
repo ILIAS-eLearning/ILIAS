@@ -140,6 +140,18 @@ class ilObjCourseListGUI extends ilObjectListGUI
 				"value"		=> $lng->txt('on_waiting_list')
 			);
 		}
+		
+		// check for certificates	
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if (ilCertificate::isActive() && 
+			ilCourseParticipants::getDateTimeOfPassed($this->obj_id, $ilUser->getId()))
+		{
+			$lng->loadLanguageModule('certificate');
+			$cmd_link = "repository.php?ref_id=".$this->ref_id.
+					"&amp;cmd=deliverCertificate";
+			$props[] = array("alert" => false, "property" => $lng->txt("passed"),
+				"value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
+		}
 
 		return $props;
 	}

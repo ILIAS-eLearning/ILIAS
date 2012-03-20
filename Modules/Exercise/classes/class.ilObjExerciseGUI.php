@@ -1683,8 +1683,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->lng->txt("general_settings"),
 			$this->ctrl->getLinkTarget($this, "edit"));
 		
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if(ilCertificate::isActive())
 		{
 			$this->tabs_gui->addSubTab("certificate",
 				$this->lng->txt("certificate"),

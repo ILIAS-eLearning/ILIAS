@@ -158,6 +158,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->initFilter();
+		
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		$this->enable_certificates = ilCertificate::isActive();
+		if($this->enable_certificates)
+		{
+			$lng->loadLanguageModule('certificate');
+		}
 	}
 
 	/**
@@ -343,7 +350,14 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'editMember'));
 			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));
 			$this->tpl->parseCurrentBlock();
-		}
+		}		
+		if($a_set['passed'] && $this->enable_certificates)
+		{
+			$this->tpl->setCurrentBlock('link');
+			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'deliverCertificate'));
+			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('download_certificate'));
+			$this->tpl->parseCurrentBlock();
+		}		
 		$this->ctrl->clearParameters($this->parent_obj);
 
 		if($this->show_timings)

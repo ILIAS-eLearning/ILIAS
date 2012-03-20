@@ -1124,8 +1124,8 @@ class ilObjExercise extends ilObject
 	function hasUserCertificate($a_user_id)
 	{
 		// show certificate?
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if(ilCertificate::isActive())
 		{
 			$certificate_visible = $this->getCertificateVisibility();
 			// if not never

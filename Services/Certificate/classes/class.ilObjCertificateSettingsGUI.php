@@ -127,6 +127,10 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('certificate_settings'));
 
+		$active = new ilCheckboxInputGUI($this->lng->txt("active"), "active");
+		$active->setChecked($form_settings->get("active"));
+		$form->addItem($active);		
+		
 		$info = new ilNonEditableValueGUI($this->lng->txt("info"), "info");
 		$info->setValue($this->lng->txt("certificate_usage"));
 		$form->addItem($info);
@@ -186,6 +190,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 	{
 		$form_settings = new ilSetting("certificate");
 		$form_settings->set("pageformat", $_POST["pageformat"]);
+		$form_settings->set("active", $_POST["active"]);
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"));
 		$this->settings();
 	}
 }

@@ -4514,10 +4514,10 @@ class ilObjTestGUI extends ilObjectGUI
 			array("", "ilobjtestgui", "ilcertificategui")
 		);
 	
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(!in_array('certificate', $hiddenTabs) && ilRPCServerSettings::getInstance()->isEnabled())
-		{
-			// certificate subtab
+		// certificate subtab
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if(ilCertificate::isActive())
+		{				
 			$ilTabs->addSubTabTarget(
 				"certificate",
 				$this->ctrl->getLinkTarget($this,'certificate'),
