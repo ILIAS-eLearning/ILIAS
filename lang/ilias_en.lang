@@ -9474,7 +9474,7 @@ survey#:#adm_search_string_too_small#:#Please enter at least two characters in t
 survey#:#adm_special_users#:#Special users who are able to run a survey more than once
 survey#:#already_completed_survey#:#You have already finished the survey! You are not able to enter the survey again.
 survey#:#anonymization#:#Anonymization
-survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field below.
+survey#:#anonymize_anonymous_introduction#:#This survey anonymizes all user data. To grant you access to the survey, you must use a 5-character survey code which you can receive from the creator/maintainer of this survey<br />Please enter it in the text field above.
 survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To grant you access to the survey, a 5-character code was created by the system and will be sent to your ILIAS mail inbox when you start the survey (after answering the first question). Your survey access code is<br /><span class="bold">%s</span><br />Please enter it in the text field below.
 survey#:#anonymize_personalized#:#No Anonymization
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
