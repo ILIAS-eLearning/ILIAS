@@ -129,6 +129,7 @@ class ilBlogPosting extends ilPageObject
 		
 		$query = "UPDATE il_blog_posting SET".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
+			",created = ".$ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "text").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		

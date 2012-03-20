@@ -421,6 +421,65 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		return $form;		
 	}
 	
+	function editDate($a_form = null)
+	{
+		global $tpl, $ilTabs;
+		
+		$ilTabs->activateTab("edit");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initDateForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	function updateDate()
+	{
+		global $ilCtrl, $lng;
+		
+		$form = $this->initDateForm();
+		if($form->checkInput())
+		{
+			$dt = $form->getInput("date");
+			$dt = new ilDateTime($dt["date"]." ".$dt["time"], IL_CAL_DATETIME);
+			
+			$page = $this->getPageObject();
+			$page->setCreated($dt);
+			$page->update();			
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "preview");
+		}
+		
+		$form->setValuesByPost();
+		$this->editTitle($form);		
+	}
+	
+	function initDateForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		$form->setTitle($lng->txt('blog_edit_date'));
+		
+		$date = new ilDateTimeInputGUI($lng->txt("date"), "date");
+		$date->setRequired(true);
+		$date->setShowTime(true);
+		$date->setInfo($lng->txt('blog_edit_date_info'));
+		$form->addItem($date);
+		
+		$date->setDate($this->getPageObject()->getCreated());
+	
+		$form->addCommandButton('updateDate', $lng->txt('save'));
+		$form->addCommandButton('preview', $lng->txt('cancel'));
+
+		return $form;		
+	}
+	
 	function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action)
 	{
 		include_once "Modules/Blog/classes/class.ilObjBlog.php";

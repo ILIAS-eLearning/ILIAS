@@ -12477,3 +12477,5 @@ crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
 crs#:#crs_intro_course_group_notification_for#:#This is the daily news digest for: %s
 crs#:#crs_course_group_notification_link#:#Link:
 common#:#obj_lm_duplicate#:#Copy Learning Module
+blog#:#blog_edit_date#:#Edit Date
+blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
