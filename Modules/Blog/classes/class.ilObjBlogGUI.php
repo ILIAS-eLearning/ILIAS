@@ -877,6 +877,8 @@ class ilObjBlogGUI extends ilObject2GUI
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
 				$alist->addItem($lng->txt("rename"), "rename", 
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle"));
+				$alist->addItem($lng->txt("blog_edit_date"), "editdate", 
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editdate"));
 				$alist->addItem($lng->txt("delete"), "delete",
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));
 
