@@ -166,7 +166,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
 	function __initUser($a_usr_id = 0)
 	{
-		global $ilUser,$rbacreview;
+		global $ilUser,$rbacreview,$rbacsystem;
 
 		if($_POST['user_id'])
 		{
@@ -181,6 +181,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		else
 		{
 			$this->tracked_user = $ilUser;
+		}
+		
+		// #8762: see ilObjUserGUI->getTabs()
+		if($this->mode == LP_MODE_USER_FOLDER && $rbacsystem->checkAccess('read',$this->ref_id))
+		{
+			return true;
 		}
 		
 		// Check access
