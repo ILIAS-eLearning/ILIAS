@@ -2411,6 +2411,33 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->updateParticipantsStatus('members',$users,$passed,array(),$blocked);
 	}
+	
+	/**
+	 * sync course status and lp status 
+	 *  
+	 * @param int $a_member_id
+	 * @param bool $a_has_passed
+	 */
+	protected function updateLPFromStatus($a_member_id, $a_has_passed)
+	{					
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(ilObjUserTracking::_enabledLearningProgress() &&
+			$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
+		{	
+			include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+			$lp_settings = new ilLPObjSettings($this->object->getId());
+			if($lp_settings->getMode() == LP_MODE_MANUAL_BY_TUTOR)
+			{
+				include_once 'Services/Tracking/classes/class.ilLPMarks.php';
+				$marks = new ilLPMarks($this->object->getId(), $a_member_id);
+				$marks->setCompleted($a_has_passed);
+				$marks->update();
+
+				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+				ilLPStatusWrapper::_updateStatus($this->object->getId(), $a_member_id, null, false, true);
+			}
+		}
+	}
 
 	function updateParticipantsStatus($type,$visible_members,$passed,$notification,$blocked)
 	{
@@ -2420,24 +2447,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$this->object->getMembersObject()->updatePassed($member_id,in_array($member_id,$passed),$ilUser->getId());
 			
-			// sync course status and lp status ?
-			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-			if(ilObjUserTracking::_enabledLearningProgress() &&
-				$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
-			{	
-				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
-				$lp_settings = new ilLPObjSettings($this->object->getId());
-				if($lp_settings->getMode() == LP_MODE_MANUAL_BY_TUTOR)
-				{
-					include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-					$marks = new ilLPMarks($this->object->getId(), $member_id);
-					$marks->setCompleted(in_array($member_id,$passed));
-					$marks->update();
-
-					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-					ilLPStatusWrapper::_updateStatus($this->object->getId(), $member_id, null, false, true);
-				}
-			}
+			$this->updateLPFromStatus($member_id, in_array($member_id, $passed));
 			
 			switch($type)
 			{
@@ -2567,7 +2577,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateMembersObject()
 	{
-		global $rbacsystem, $rbacreview;
+		global $rbacsystem, $rbacreview, $ilUser;
                 
 		$this->checkPermission('write');
 		
@@ -2668,10 +2678,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			{
 				$this->object->getMembersObject()->updateBlocked($usr_id,1);
 			}
-			$this->object->getMembersObject()->updatePassed($usr_id,in_array($usr_id,$passed));
+			$this->object->getMembersObject()->updatePassed($usr_id,in_array($usr_id,$passed),$ilUser->getId());
 			$this->object->getMembersObject()->sendNotification(
 				$this->object->getMembersObject()->NOTIFY_STATUS_CHANGED,
 				$usr_id);
+			
+			$this->updateLPFromStatus($usr_id,in_array($usr_id,$passed));	
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		$this->membersObject();
@@ -2684,7 +2696,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function updateMemberObject()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilUser;
 
 		$this->checkPermission('write');
 
@@ -2701,7 +2713,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$blocked = $this->object->getMembersObject()->isBlocked((int) $_GET['member_id']);
 		
 		$this->object->getMembersObject()->updateRoleAssignments((int) $_GET['member_id'],$_POST['roles']);
-		$this->object->getMembersObject()->updatePassed((int) $_GET['member_id'],(int) $_POST['passed']);
+		$this->object->getMembersObject()->updatePassed((int) $_GET['member_id'],(int) $_POST['passed'],$ilUser->getId());
 		$this->object->getMembersObject()->updateNotification((int) $_GET['member_id'],(int) $_POST['notification']);
 		$this->object->getMembersObject()->updateBlocked((int) $_GET['member_id'],(int) $_POST['blocked']);
 		
@@ -2712,6 +2724,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_STATUS_CHANGED,(int) $_GET['member_id']);
 		}
 
+		$this->updateLPFromStatus((int) $_GET['member_id'], (bool) $_POST['passed']);	
+		
 		ilUtil::sendSuccess($this->lng->txt("crs_member_updated"));
 		$this->membersObject();
 		return true;		
