@@ -308,20 +308,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 
 				case (substr($c, 0, 6) == "objtv_"):
-					$obj_id = $c;
-					if(!isset($a_set["objects"][$obj_id]))
-					{
-						$data = array("status"=>0);
-					}
-					else
-					{
-						$data = $a_set["objects"][$obj_id];
-					}
-					$this->tpl->setCurrentBlock("objects");
-					$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
-					$this->tpl->parseCurrentBlock();
-					break;
-
 				case (substr($c, 0, 7) == "objsco_"):
 					$obj_id = $c;
 					if(!isset($a_set["objects"][$obj_id]))
@@ -371,19 +357,24 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		$cnt = 1;
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			if(in_array($c, array('last_access', 'spent_seconds')))
+			switch($c)
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
-			}
-			else if(substr($c, 0, 4) == "obj_")
-			{
-				$obj_id = substr($c, 4);
-				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
-			}
-			else
-			{
-				$obj_id = substr($c, 6);
-				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+				case "last_access":
+				case "spent_seconds":
+				case "status_changed":
+					$val = $this->parseValue($c, $a_set[$c], "user");
+					break;
+					
+				case (substr($c, 0, 4) == "obj_"):
+					$obj_id = substr($c, 4);
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					break;
+				
+				case (substr($c, 0, 6) == "objtv_"):
+				case (substr($c, 0, 7) == "objsco_"):
+					$obj_id = $c;
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					break;										
 			}
 			$worksheet->write($a_row, $cnt, $val);
 			$cnt++;
@@ -420,19 +411,24 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			if(in_array($c, array('last_access', 'spent_seconds')))
+			switch($c)
 			{
-				$val = $this->parseValue($c, $a_set[$c], "user");
-			}
-			else if(substr($c, 0, 4) == "obj_")
-			{
-				$obj_id = substr($c, 4);
-				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
-			}
-			else
-			{
-				$obj_id = substr($c, 6);
-				$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+				case "last_access":
+				case "spent_seconds":
+				case "status_changed":
+					$val = $this->parseValue($c, $a_set[$c], "user");
+					break;
+					
+				case (substr($c, 0, 4) == "obj_"):
+					$obj_id = substr($c, 4);
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					break;
+				
+				case (substr($c, 0, 6) == "objtv_"):
+				case (substr($c, 0, 7) == "objsco_"):
+					$obj_id = $c;
+					$val = ilLearningProgressBaseGUI::_getStatusText((int)$a_set["objects"][$obj_id]["status"]);
+					break;										
 			}
 			$a_csv->addColumn($val);
 		}
