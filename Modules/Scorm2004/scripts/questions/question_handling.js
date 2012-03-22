@@ -509,7 +509,8 @@ ilias.questions.assErrorText =function(a_id) {
 				answers[a_id].wrong++;
 			}
 		}					
-		if(found < questions[a_id].correct_answers.length)
+		if(found < questions[a_id].correct_answers.length ||
+			answers[a_id].wrong > 0)
 		{
 			answers[a_id].passed = false;
 		}
