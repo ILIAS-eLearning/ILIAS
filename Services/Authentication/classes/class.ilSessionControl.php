@@ -165,40 +165,40 @@ class ilSessionControl
 	{
 		global $ilSetting;
 		
-		// do not handle login event in fixed duration mode
-		if( $ilSetting->get('session_handling_type', 0) != 1 )
-			return;
-		
 		require_once 'Services/User/classes/class.ilObjUser.php';
 		$user_id = ilObjUser::_lookupId($a_login);
 
+		// we need the session type for the session statistics
+		// regardless of the current session handling type
 		switch(true)
 		{
 			case isset($_ENV['SHELL']):
-
-				$_SESSION['SessionType'] = self::SESSION_TYPE_SYSTEM;
-				self::debug(__METHOD__." --> update sessions type to (".$_SESSION['SessionType'].")");
-				break;
-
-			case self::checkAdministrationPermission($user_id):
-
-				$_SESSION['SessionType'] = self::SESSION_TYPE_ADMIN;
-				self::debug(__METHOD__." --> update sessions type to (".$_SESSION['SessionType'].")");
+				$type = self::SESSION_TYPE_SYSTEM;				
 				break;
 
 			case $user_id == ANONYMOUS_USER_ID:
+				$type = self::SESSION_TYPE_ANONYM;
+				break;
 
-				$_SESSION['SessionType'] = self::SESSION_TYPE_ANONYM;
-				self::debug(__METHOD__." --> update sessions type to (".$_SESSION['SessionType'].")");
-				self::checkCurrentSessionIsAllowed($a_auth, $user_id);
+			case self::checkAdministrationPermission($user_id):
+				$type = self::SESSION_TYPE_ADMIN;
 				break;
 
 			default:
-
-				$_SESSION['SessionType'] = self::SESSION_TYPE_USER;
-				self::debug(__METHOD__." --> update sessions type to (".$_SESSION['SessionType'].")");
-				self::checkCurrentSessionIsAllowed($a_auth, $user_id);
+				$type = self::SESSION_TYPE_USER;				
 				break;
+		}
+		
+		$_SESSION['SessionType'] = $type;
+		self::debug(__METHOD__." --> update sessions type to (".$type.")");
+				
+		// do not handle login event in fixed duration mode
+		if( $ilSetting->get('session_handling_type', 0) != 1 )
+			return;
+				
+		if(in_array($type, self::$session_types_controlled))
+		{
+			self::checkCurrentSessionIsAllowed($a_auth, $user_id);
 		}
 	}
 
