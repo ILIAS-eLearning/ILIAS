@@ -29,7 +29,8 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("user_field"), "");
 		$this->addColumn($this->lng->txt("access"), "");
-		$this->addColumn($this->lng->txt("export")." / ".$this->lng->txt("search"), "");
+		$this->addColumn($this->lng->txt("export")." / ".$this->lng->txt("search").
+			" / ".$this->lng->txt("certificate"), "");
 		$this->addColumn($this->lng->txt("actions"), "");
 		
 		$this->setEnableHeader(true);
@@ -68,7 +69,8 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 			'group_export' => 'group_export',
 			"visib_reg" => "header_visible_registration",
 			'visib_lua' => 'usr_settings_visib_lua',
-			'changeable_lua' => 'usr_settings_changeable_lua'
+			'changeable_lua' => 'usr_settings_changeable_lua',
+			'certificate' => 'certificate'
 		);
 
 		foreach ($props as $prop => $lv)

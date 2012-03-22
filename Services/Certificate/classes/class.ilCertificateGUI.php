@@ -21,6 +21,8 @@
    +----------------------------------------------------------------------------+
 */
 
+include_once("./Services/Certificate/classes/class.ilCertificate.php");
+
 /**
 * GUI class to create PDF certificates
 *
@@ -364,7 +366,20 @@ class ilCertificateGUI
 		$certificate->setRequired(TRUE);
 		$certificate->setRows(20);
 		$certificate->setCols(80);
-		$certificate->setInfo($this->object->getAdapter()->getCertificateVariablesDescription());
+		
+		// fraunhpatch start
+		$common_desc_tpl = new ilTemplate("tpl.common_desc.html", true, true, "Services/Certificate");
+		foreach (ilCertificate::getCustomCertificateFields() as $f)
+		{
+			$common_desc_tpl->setCurrentBlock("cert_field");
+			$common_desc_tpl->setVariable("PH", $f["ph"]);
+			$common_desc_tpl->setVariable("PH_TXT", $f["name"]);
+			$common_desc_tpl->parseCurrentBlock();
+		}
+		$common_desc = $common_desc_tpl->get();
+		// fraunhpatch start
+		
+		$certificate->setInfo($this->object->getAdapter()->getCertificateVariablesDescription().$common_desc);
 		$certificate->setUseRte(TRUE);
 		$tags = array(
 		"br",

@@ -80,6 +80,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		{
 			$insert_tags["[".$id."]"] = $caption;
 		}		
+		
 		return $insert_tags;
 	}
 
@@ -121,6 +122,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		include_once './Services/User/classes/class.ilObjUser.php';
 		$user_data = ilObjUser::_lookupFields($user_id);
+		
 		if (strlen($userfilter))
 		{
 			if (!@preg_match("/$userfilter/i", $user_data["lastname"] . ", " . $user_data["firstname"] . " " . $user_data["title"]))
@@ -144,6 +146,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 		{
 			$insert_tags["[".$id."]"] = $caption;
 		}		
+
 		return $insert_tags;
 	}
 	
@@ -175,6 +178,7 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 			$template->parseCurrentBlock();
 		}
 
+		
 		$template->setVariable("PH_INTRODUCTION", $lng->txt("certificate_ph_introduction"));
 
 		return $template->get();
@@ -264,6 +268,18 @@ class ilTestCertificateAdapter extends ilCertificateAdapter
 	{
 		return $this->object->getId();
 	}
+	
+	/**
+	 * Get user id for params
+	 *
+	 * @param
+	 * @return
+	 */
+	function getUserIdForParams($a_params)
+	{
+		return $this->object->_getUserIdFromActiveId($a_params["active_id"]);
+	}
+
 }
 
 ?>

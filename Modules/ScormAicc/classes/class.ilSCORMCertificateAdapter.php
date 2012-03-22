@@ -377,6 +377,18 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 		$scormSetting = new ilSetting("scorm");
 		$scormSetting->delete("certificate_" . $this->object->getId());
 	}
+	
+	/**
+	 * Get user id for params
+	 *
+	 * @param
+	 * @return
+	 */
+	function getUserIdForParams($a_params)
+	{
+		return $a_params["user_data"]["usr_id"];
+	}
+
 }
 
 ?>
