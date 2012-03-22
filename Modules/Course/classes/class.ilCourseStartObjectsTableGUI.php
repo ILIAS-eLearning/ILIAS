@@ -44,7 +44,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 			 
 		$this->setRowTemplate("tpl.crs_add_starter.html","Modules/Course");
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-		$this->setSelectAllCheckbox('starter[]');
+		$this->setSelectAllCheckbox('starter');
 		
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderDirection('asc');
