@@ -2833,7 +2833,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
 		$sorting = ilContainerSorting::_getInstance($this->object->getId());
-		$sorting->savePost($_POST['position']);
+
+		// Allow comma
+		$positions = str_replace(',','.',$_POST['position']);
+
+		$sorting->savePost($positions);
 		ilUtil::sendSuccess($this->lng->txt('cntr_saved_sorting'), true);
 		$this->ctrl->redirect($this, "editOrder");
 	}
