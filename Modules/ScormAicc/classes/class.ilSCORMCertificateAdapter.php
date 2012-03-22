@@ -350,17 +350,19 @@ class ilSCORMCertificateAdapter extends ilCertificateAdapter
 	{
 		global $lng;
 		
+		$basename = parent::getCertificateFilename($params);
+		
 		$user_data = $params["user_data"];
 		if (!is_array($user_data))
 		{
 			global $ilSetting;
 			$scormSetting = new ilSetting("scorm");
 			$short_title = $scormSetting->get("certificate_short_name_" . $this->object->getId());
-			return strftime("%y%m%d", time()) . "_" . $lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_Zertifikat.pdf";
+			return strftime("%y%m%d", time()) . "_" . $lng->txt("certificate_var_user_lastname") . "_" . $short_title . "_" . $basename;
 		}
 		else
 		{
-			return strftime("%y%m%d", time()) . "_" . $user_data["lastname"] . "_" . $params["short_title"] . "_Zertifikat.pdf";
+			return strftime("%y%m%d", time()) . "_" . $user_data["lastname"] . "_" . $params["short_title"] . "_.$basename";
 		}
 	}
 
