@@ -12471,3 +12471,4 @@ wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
 blog#:#blog_edit_date#:#Datum editieren
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
+certificate#:#certificate_file_basename#:#Zertifikat

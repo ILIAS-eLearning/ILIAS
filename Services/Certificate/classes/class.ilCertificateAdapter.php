@@ -149,7 +149,9 @@ abstract class ilCertificateAdapter
 	*/
 	public function getCertificateFilename($params = array())
 	{
-		return "certificate.pdf";
+		global $lng;		
+		$lng->loadLanguageModule("certificate");
+		return $lng->txt("certificate_file_basename").".pdf";
 	}
 	
 	/**
