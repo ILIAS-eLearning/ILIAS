@@ -35,7 +35,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
 		$this->setTitle($this->lng->txt('groupings'));		
 
 		$this->addMultiCommand('askDeleteGrouping', $this->lng->txt('delete'));		 			
-		$this->setSelectAllCheckbox('grouping[]');
+		$this->setSelectAllCheckbox('grouping');
 		
 		$this->setRowTemplate("tpl.groupings.html","Modules/Course");
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
