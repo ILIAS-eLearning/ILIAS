@@ -342,6 +342,15 @@ class ilUserDefinedFields
 		return $this->field_group_export;
 	}
 
+	function enableCertificate($a_c)
+	{
+		$this->field_certificate = $a_c;
+	}
+	function enabledCertificate()
+	{
+		return $this->field_certificate;
+	}
+
 	public function enableVisibleRegistration($a_visible_registration)
 	{
 		$this->field_visible_registration = $a_visible_registration;
@@ -417,7 +426,8 @@ class ilUserDefinedFields
 			'registration_visible'	=> array('integer', (int) $this->enabledVisibleRegistration()),
 			'visible_lua'					=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
 			'changeable_lua'				=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
-			'group_export'				=> array('integer', (int) $this->enabledGroupExport())
+			'group_export'				=> array('integer', (int) $this->enabledGroupExport()),
+			'certificate'				=> array('integer', (int) $this->enabledCertificate()),
 		);
 			
 		$ilDB->insert('udf_definition',$values);
@@ -466,7 +476,8 @@ class ilUserDefinedFields
 			'registration_visible'		=> array('integer', (int) $this->enabledVisibleRegistration()),
 			'visible_lua'				=> array('integer', (int) $this->enabledVisibleLocalUserAdministration()),
 			'changeable_lua'			=> array('integer', (int) $this->enabledChangeableLocalUserAdministration()),
-			'group_export'				=> array('integer', (int) $this->enabledGroupExport())
+			'group_export'				=> array('integer', (int) $this->enabledGroupExport()),
+			'certificate'				=> array('integer', (int) $this->enabledCertificate())
 		);
 		$ilDB->update('udf_definition',$values,array('field_id' => array('integer',$a_id)));
 		$this->__read();
@@ -506,6 +517,9 @@ class ilUserDefinedFields
 			$this->definitions[$row->field_id]['visib_lua'] = $row->visible_lua;
 			$this->definitions[$row->field_id]['changeable_lua'] = $row->changeable_lua;
 			$this->definitions[$row->field_id]['group_export'] = $row->group_export;
+			// fraunhpatch start
+			$this->definitions[$row->field_id]['certificate'] = $row->certificate;
+			// fraunhpatch end
 		}
 
 		return true;
@@ -575,6 +589,7 @@ class ilUserDefinedFields
                 "Searchable" => $definition["searchable"]? "TRUE" : "FALSE",
                 "CourseExport" => $definition["course_export"]? "TRUE" : "FALSE",
                 "GroupExport" => $definition["group_export"]? "TRUE" : "FALSE",
+                "Certificate" => $definition["certificate"]? "TRUE" : "FALSE",
                 "Export" => $definition["export"]? "TRUE" : "FALSE",
                 "RegistrationVisible" => $definition["visib_reg"]? "TRUE" : "FALSE",
                 "LocalUserAdministrationVisible" => $definition["visib_lua"]? "TRUE" : "FALSE",

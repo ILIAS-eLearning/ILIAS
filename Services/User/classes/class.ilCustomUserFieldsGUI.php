@@ -111,7 +111,8 @@ class ilCustomUserFieldsGUI
 		$opts["changeable_lua"] = $lng->txt("usr_settings_changeable_lua");
 		$opts["required"] = $lng->txt("required_field");
 		$opts["export"] = $lng->txt("export");
-		$opts["searchable"] = $lng->txt("header_searchable");		
+		$opts["searchable"] = $lng->txt("header_searchable");
+		$opts["certificate"] = $lng->txt("certificate");		
 		return $opts;		
 	}
 	
@@ -298,7 +299,8 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions->enableChangeableLocalUserAdministration($access['changeable_lua']);
 			$user_field_definitions->enableRequired($access['required']);					
 			$user_field_definitions->enableExport($access['export']);
-			$user_field_definitions->enableSearchable($access['searchable']);									
+			$user_field_definitions->enableSearchable($access['searchable']);
+			$user_field_definitions->enableCertificate($access['certificate']);
 			$user_field_definitions->add();
 
 			if ($access['course_export'])
@@ -355,7 +357,8 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions->enableChangeableLocalUserAdministration($access['changeable_lua']);
 			$user_field_definitions->enableRequired($access['required']);					
 			$user_field_definitions->enableExport($access['export']);
-			$user_field_definitions->enableSearchable($access['searchable']);									
+			$user_field_definitions->enableSearchable($access['searchable']);
+			$user_field_definitions->enableCertificate($access['certificate']);
 			$user_field_definitions->update($this->field_id);
 
 			if ($access['course_export'])
@@ -453,6 +456,7 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions->enableChangeableLocalUserAdministration((int)$_POST['chb']['changeable_lua_'.$field_id]);
 			$user_field_definitions->enableGroupExport((int)$_POST['chb']['group_export_'.$field_id]);
 			$user_field_definitions->enableVisibleRegistration((int)$_POST['chb']['visib_reg_'.$field_id]);
+			$user_field_definitions->enableCertificate((int)$_POST['chb']['certificate_'.$field_id]);
 
 			$user_field_definitions->update($field_id);
 		}

@@ -9037,3 +9037,14 @@ $ilDB->addIndex("help_map", array("chap"), "ch");
 		$certificate_active->set("active", true);
 	}
 ?>
+<#3538>
+<?php	
+	if (!$ilDB->tableColumnExists("udf_definition", "certificate"))
+	{
+		$ilDB->addTableColumn("udf_definition", "certificate", array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0));
+	}
+?>

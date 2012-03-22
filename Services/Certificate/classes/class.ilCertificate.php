@@ -400,6 +400,11 @@ class ilCertificate
 		if (count($insert_tags) == 0)
 		{
 			$insert_tags = $this->getAdapter()->getCertificateVariablesForPreview();
+			
+			foreach (self::getCustomCertificateFields() as $k => $f)
+			{
+				$insert_tags[$f["ph"]] = $f["name"];
+			}
 		}
 		foreach ($insert_tags as $var => $value)
 		{
@@ -416,10 +421,17 @@ class ilCertificate
 	public function outCertificate($params, $deliver = TRUE)
 	{
 		global $ilLog;
-
 		ilDatePresentation::setUseRelativeDates(false);
-		
 		$insert_tags = $this->getAdapter()->getCertificateVariablesForPresentation($params);
+		
+		include_once("./Services/User/classes/class.ilUserDefinedData.php");
+		$cust_data = new ilUserDefinedData($this->getAdapter()->getUserIdForParams($params));
+		$cust_data = $cust_data->getAll();
+		foreach (self::getCustomCertificateFields() as $k => $f)
+		{
+			$insert_tags[$f["ph"]] = $cust_data["f_".$k];
+		}
+
 		$xslfo = file_get_contents($this->getXSLPath());
 
 		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
@@ -908,6 +920,28 @@ class ilCertificate
 				break;
 		}
 	}
+	
+	/**
+	 * Get custom certificate fields
+	 */
+	static function getCustomCertificateFields()
+	{
+		include_once("./Services/User/classes/class.ilUserDefinedFields.php");
+		$user_field_definitions = ilUserDefinedFields::_getInstance();
+		$fds = $user_field_definitions->getDefinitions();
+		$fields = array();
+		foreach ($fds as $f)
+		{
+			if ($f["certificate"])
+			{
+				$fields[$f["field_id"]] = array("name" => $f["field_name"],
+					"ph" => "[#".str_replace(" ", "_", strtoupper($f["field_name"]))."]");
+			}
+		}
+		
+		return $fields;
+	}
+
 }
 
 ?>
