@@ -416,5 +416,24 @@ class ilFormPropertyGUI
 	{
 		return $this->multi_values;
 	}
+	
+	/**
+	 * Get HTML for multiple value icons 
+	 * 
+	 * @return string;
+	 */
+	protected function getMultiIconsHTML()
+	{
+		global $lng;
+		
+		$id = $this->getFieldId();
+		
+		return '<input align="absmiddle" type="image" id="ilMultiAdd~'.$id.'~0"'.
+			' src="'.ilUtil::getImagePath('edit_add.png').'" alt="'.
+		$lng->txt("add").'" title="'.$lng->txt("add").'" onclick="javascript: return false;" />'.
+		'<input align="absmiddle" type="image" id="ilMultiRmv~'.$id.'~0" style="display:none"'.
+		' src="'.ilUtil::getImagePath('edit_remove.png').'" alt="'.$lng->txt("remove").
+		'" title="'.$lng->txt("remove").'"  onclick="javascript: return false;" />';	
+	}
 }
 ?>

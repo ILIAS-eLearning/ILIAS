@@ -641,13 +641,8 @@ class ilPropertyFormGUI extends ilFormGUI
 			$this->tpl->setVariable("ID", $item->getFieldId());
 			$this->tpl->parseCurrentBlock();
 
-			$this->tpl->setCurrentBlock("multi_out");
-			$this->tpl->setVariable("ID", $item->getFieldId());
-			$this->tpl->setVariable("IMG_MULTI_ADD", ilUtil::getImagePath('edit_add.png'));
-			$this->tpl->setVariable("IMG_MULTI_REMOVE", ilUtil::getImagePath('edit_remove.png'));
-			$this->tpl->setVariable("TXT_MULTI_ADD", $lng->txt("add"));
-			$this->tpl->setVariable("TXT_MULTI_REMOVE", $lng->txt("remove"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("multi_out");
+
 						
 			// add hidden item to enable preset multi items
 			$multi_values = $item->getMultiValues();

@@ -203,6 +203,12 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 		{
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 		}
+		
+		// multi icons
+		if($this->getMulti() && !$a_mode)
+		{
+			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());			
+		}
 
 		return $tpl->get();
 	}

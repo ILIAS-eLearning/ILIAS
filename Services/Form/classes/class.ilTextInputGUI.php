@@ -467,6 +467,12 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setVariable("STYLE_PAR", '');
 		}
 		
+		// multi icons
+		if($this->getMulti() && !$a_mode)
+		{
+			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());			
+		}
+		
 		return $tpl->get();
 	}
 	

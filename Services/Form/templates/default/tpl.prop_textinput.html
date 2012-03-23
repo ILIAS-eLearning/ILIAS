@@ -1,6 +1,7 @@
 <div style="position: relative; {STYLE_PAR}">
 	<input <!-- BEGIN submit_form_on_enter -->onkeypress="return ilSubmitOnEnter(event, this.form);"<!-- END submit_form_on_enter --> type="{PROP_INPUT_TYPE}" <!-- BEGIN stylecss -->style="{CSS_STYLE}" <!-- END stylecss -->size="{SIZE}" id="{ID}" <!-- BEGIN classcss --> class="{CLASS_CSS}" <!-- END classcss --> maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/> {INPUT_SUFFIX}
 	{HIDDEN_INPUT}
+	{MULTI_ICONS}
 	<!-- BEGIN prop_text_autocomplete -->
 	<div class="yui-skin-sam" id="{ID_AUTOCOMPLETE}" {AC_STYLE}></div>
 	<script type="text/javascript">
@@ -54,5 +55,5 @@
 			}
 		);
 	</script>
-	<!-- END prop_text_autocomplete -->
+	<!-- END prop_text_autocomplete -->	
 </div>
