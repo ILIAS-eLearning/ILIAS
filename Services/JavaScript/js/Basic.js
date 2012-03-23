@@ -178,21 +178,6 @@ il.Object = {
 
 // The following functions have been in <skin>/functions.js before.
 // @todo Revision of javascript function names and usage
-
-
-function CheckAll()
-{
-	if(document.cmd.all)
-	{
-		var c = document.cmd.all.checked;
-	}
-	for (var i=0;i<document.cmd.elements.length;i++)
-	{
-		var e = document.cmd.elements[i];
- 	  	if(e.name != 'all') e.checked = c;
-   	}
-}
-
 function isEmpty(form, a_values, a_checks) 
 {	
 	feed_back = "";
@@ -226,23 +211,30 @@ function printPage()
 	return true;
 }
 
-function CheckAllBoxes(form){
-	if(form.all)
+// used two times in notes and sessions
+function CheckAll()
+{
+	if(document.cmd.all)
 	{
-		var c = form.all.checked;
+		var c = document.cmd.all.checked;
 	}
-	for (var i=0;i<form.elements.length;i++)
+	for (var i=0;i<document.cmd.elements.length;i++)
 	{
-		var e = form.elements[i];
+		var e = document.cmd.elements[i];
  	  	if(e.name != 'all') e.checked = c;
    	}
 }
+
+
 
 function setCheckedTest(e)
 {
 	return true;
 }
 
+// used in course items, frm wizard, scorm track items, session member row
+// svy constraints, tst maintentance, tst marks, container list block, copy wizard
+// paste into multi explorer, table, table2, user export
 /**
  * Checks/unchecks checkboxes
  *
@@ -270,6 +262,7 @@ function setChecked(parent_el, checkbox_name, do_check){
   return true;
 } // end of the 'setCheckboxes()' function
 
+// used by copy wizard block
 /**
  * Checks/unchecks checkboxes
  *
@@ -291,44 +284,7 @@ function setCheckedById(the_form, id_name, do_check)
   return true;
 } // end of the 'setCheckboxes()' function
 
-/**
- * Disables a submit button and adds a hidden input with the name and the value
- * of the button. This helps to prevent multiple clicking of submit buttons to which
- * could lead to duplicated database values.
- * This function also disables all other buttons in the given form.
- * Tested in IE 6, Firefox 1.5, Safari, Opera 8.5
- *
- * @param   string   the form name
- * @param   object   the submit button object
- * @param   string   a new text which replaces the text of the disabled button
- *                   or an empty string for no changes
- */
-function disableButton(formname, button, new_text)
-{
-	var name = button.name;
-	var value = button.value;
-	var hidden = document.createElement("input");
-	button.name = name + "_1";
-	if (new_text.length > 0)
-	{
-		button.value = new_text;
-	}
-	button.className = 'submit_disabled';
-	hidden.name = name;
-	hidden.type = "hidden";
-	hidden.value = value;
-	document.forms[formname].appendChild(hidden);
-	button.disabled = true;
-	for (var i = 0; i < document.forms[formname].elements.length; i++)
-	{
-		if (document.forms[formname].elements[i].type == 'submit')
-		{
-			document.forms[formname].elements[i].disabled = true;
-		}
-	}
-	document.forms[formname].submit();
-}
-
+// tpl users online row
 /**
  * Opens a chat window
  *
