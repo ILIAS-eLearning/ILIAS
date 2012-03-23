@@ -19,6 +19,8 @@ class ilFormPropertyGUI
 	protected $parentgui;
 	protected $parentform;
 	protected $hidden_title = "";
+	protected $multi;
+	protected $multi_values; 
 	
 	/**
 	* Constructor
@@ -375,6 +377,44 @@ class ilFormPropertyGUI
 		return '<input type="hidden" name="'.$a_post_var.'" value="'.ilUtil::prepareFormOutput($a_value).'" />';
 	}
 	
+	/**
+	 * Set Multi
+	 *
+	 * @param	bool	$a_multi	Multi
+	 */
+	public function setMulti($a_multi)
+	{
+		trigger_error("not supported for form property type", E_USER_WARNING);
+	}
 
+	/**
+	 * Get Multi
+	 *
+	 * @return	bool	Multi
+	 */
+	public function getMulti()
+	{
+		return $this->multi;
+	}
+	
+	/**
+	 * Set multi values
+	 * 
+	 * @param array $a_values 
+	 */
+	public function setMultiValues(array $a_values)
+	{
+		$this->multi_values = array_unique($a_values);
+	}
+	
+	/**
+	 * Get multi values
+	 * 
+	 * @return array 
+	 */
+	public function getMultiValues()
+	{
+		return $this->multi_values;
+	}
 }
 ?>
