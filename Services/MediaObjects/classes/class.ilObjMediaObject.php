@@ -859,6 +859,7 @@ class ilObjMediaObject extends ilObject
 		xslt_free($xh);
 
 		// unmask user html
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../../css/style.css");
 		$tpl->setVariable("LOCATION_STYLESHEET", "../../css/system.css");
 		$tpl->setVariable("MEDIA_CONTENT", $output);
@@ -866,7 +867,7 @@ class ilObjMediaObject extends ilObject
 		//$output = preg_replace("/\/mobs\/mm_(\d+)\/([^\"]+)/i","$2",$output);
 		$output = preg_replace("/mobs\/mm_(\d+)\/([^\"]+)/i","$2",$output);
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i","../../players",$output);
-		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_flv_player/i","../../players",$output);
+		$output = preg_replace("/\.\/".str_replace("/", "\/", ilPlayerUtil::getFlashVideoPlayerDirectory())."/i","../../players",$output);
 		$output = preg_replace("/file=..\/..\/..\//i","file=../objects/".$subdir."/",$output);
 		//die(htmlspecialchars($output));
 		fwrite(fopen($a_target_dir.'/fullscreen.html','w'), $output );

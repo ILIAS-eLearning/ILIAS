@@ -28,9 +28,10 @@ class ilCOPageHTMLExport
 		$this->content_style_dir = $a_exp_dir."/content_style";
 		$this->content_style_img_dir = $a_exp_dir."/content_style/images";
 		
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		$this->services_dir = $a_exp_dir."/Services";
 		$this->media_service_dir = $this->services_dir."/MediaObjects";
-		$this->flv_dir = $this->media_service_dir."/flash_flv_player";
+		$this->flv_dir = $a_exp_dir."/".ilPlayerUtil::getFlashVideoPlayerDirectory();
 		$this->mp3_dir = $this->media_service_dir."/flash_mp3_player";
 
 		$this->js_dir = $a_exp_dir.'/js';
@@ -131,8 +132,8 @@ class ilCOPageHTMLExport
 	function exportSupportScripts()
 	{
 		// export flv/mp3 player
-		copy("./Services/MediaObjects/flash_flv_player/flvplayer.swf",
-			$this->flv_dir."/flvplayer.swf");
+		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
+			$this->flv_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
 		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
 			$this->mp3_dir."/mp3player.swf");
 		

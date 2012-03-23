@@ -1,3 +1,12 @@
+<!-- BEGIN flv -->
+<p id="player{PLAYER_NR}">
+<object width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" type="application/x-shockwave-flash" data="{SWF_FILE}">
+	<param name="movie" value="{SWF_FILE}" />
+	<param name="flashvars" value="controls=true&file={FILE}" />
+</object>
+</p>
+<!-- END flv -->
+<!-- BEGIN default -->
 <p id="player{PLAYER_NR}">
 <script type="text/javascript">
 	var s{PLAYER_NR} = new SWFObject("./Services/MediaObjects/flash_flv_player/flvplayer.swf","single","{DISPLAY_WIDTH}","{DISPLAY_HEIGHT}","6");
@@ -8,3 +17,4 @@
 	s{PLAYER_NR}.write("player{PLAYER_NR}");
 </script>
 </p>
+<!-- END default -->

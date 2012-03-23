@@ -491,7 +491,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		$output = preg_replace("/mobs\/mm_(\d+)\/([^\"]+)/i","./objects/il_".IL_INST_ID."_mob_$1/$2",$output);
 		$output = preg_replace("/\.\/files\/file_(\d+)\/([^\"]+)/i","./objects/il_".IL_INST_ID."_file_$1/$2",$output);
 		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i","./players",$output);
-		$output = preg_replace("/\.\/Services\/MediaObjects\/flash_flv_player/i","./players",$output);
+		$output = preg_replace("/\.\/".str_replace("/", "\/", ilPlayerUtil::getFlashVideoPlayerDirectory())."/i","./players",$output);
 		$output = preg_replace("/file=..\/..\/..\/.\//i","file=../",$output);
 
 		if($mode!='pdf')

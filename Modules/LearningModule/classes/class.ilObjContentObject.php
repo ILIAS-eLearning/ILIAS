@@ -1878,12 +1878,13 @@ class ilObjContentObject extends ilObject
 		ilUtil::makeDir($services_dir);
 		$media_service_dir = $services_dir."/MediaObjects";
 		ilUtil::makeDir($media_service_dir);
-		$flv_dir = $media_service_dir."/flash_flv_player";
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
+		$flv_dir = $a_target_dir."/".ilPlayerUtil::getFlashVideoPlayerDirectory();
 		ilUtil::makeDir($flv_dir);
 		$mp3_dir = $media_service_dir."/flash_mp3_player";
 		ilUtil::makeDir($mp3_dir);
-		copy("./Services/MediaObjects/flash_flv_player/flvplayer.swf",
-			$flv_dir."/flvplayer.swf");
+		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
+			$flv_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
 		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
 			$mp3_dir."/mp3player.swf");
 

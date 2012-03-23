@@ -2764,37 +2764,39 @@
 
 		<!-- flv -->
 		<xsl:when test = "substring-before($data,'.flv') != ''"> 
-			<embed src="./Services/MediaObjects/flash_flv_player/flvplayer.swf" bgcolor="#FFFFFF"
-				type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
-				<xsl:if test="$curType = 'Reference'">
-					<xsl:choose>
-						<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
-							( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
-							//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
-							<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=true</xsl:attribute>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=false</xsl:attribute>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:if>
-				<xsl:if test="$curType != 'Reference'">
-					<xsl:choose>
-						<xsl:when test="../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
-							( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
-							//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
-							<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=true</xsl:attribute>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:attribute name="flashvars">file=../../../<xsl:value-of select="$data"/>&amp;allowfullscreen=true&amp;autostart=false</xsl:attribute>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:if>
-				<xsl:attribute name="allowfullscreen">true</xsl:attribute>
+			<object data="./Services/MediaObjects/media_element_2_7_0/flashmediaelement.swf"
+				type="application/x-shockwave-flash" >
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<param name="flashvars">
+					<xsl:if test="$curType = 'Reference'">
+						<xsl:choose>
+							<xsl:when test="$mode != 'edit' and ../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+								( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+								//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
+								<xsl:attribute name="value">file=<xsl:value-of select="$data"/>&amp;controls=true&amp;autoplay=true</xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="value">file=<xsl:value-of select="$data"/>&amp;controls=true</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
+					<xsl:if test="$curType != 'Reference'">
+						<xsl:choose>
+							<xsl:when test="$mode != 'edit' and ../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+								( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+								//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
+								<xsl:attribute name="value">file=../../../<xsl:value-of select="$data"/>&amp;controls=true&amp;autoplay=true</xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:attribute name="value">file=../../../<xsl:value-of select="$data"/>&amp;controls=true</xsl:attribute>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
+				</param>
+				<param name="movie"><xsl:attribute name="value">./Services/MediaObjects/lib/media_element_2_7_0/flashmediaelement.swf</xsl:attribute></param>
 				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
-			</embed>
+			</object>
 		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->
