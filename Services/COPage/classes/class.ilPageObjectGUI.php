@@ -2956,12 +2956,27 @@ class ilPageObjectGUI
 	 */
 	function edit()
 	{
-		global $tree, $lng, $ilCtrl;
+		global $tree, $lng, $ilCtrl, $ilSetting, $ilUser;
 		
 		if (!$this->getEnableEditing())
 		{
 			ilUtil::sendFailure($lng->txt("permission_denied"), true);
 			$ilCtrl->redirect($this, "preview");
+		}
+		
+		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
+			$ilSetting->get('activate_captcha_anonym') &&
+			!$ilUser->isCaptchaVerified())
+		{
+			$form = $this->initCaptchaForm();
+			if ($_POST["captcha_code"] && $form->checkInput())
+			{
+				$ilUser->setCaptchaVerified(true);
+			}
+			else
+			{
+				return $form->getHTML();
+			}
 		}
 		
 		$this->setOutputMode(IL_PAGE_EDIT);
@@ -2997,6 +3012,29 @@ class ilPageObjectGUI
 		return $html;
 	}
 	
+	/**
+	 * Init captcha form.
+	 */
+	public function initCaptchaForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		// captcha code
+		include_once("./Services/Captcha/classes/class.ilCaptchaInputGUI.php");
+		$ci = new ilCaptchaInputGUI($lng->txt("cont_captcha_code"), "captcha_code");
+		$ci->setRequired(true);
+		$form->addItem($ci);
+	
+		$form->addCommandButton("edit", $lng->txt("ok"));
+		
+		$form->setTitle($lng->txt("cont_captcha_verification"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		return $form;
+	}
 
 	/*
 	* presentation
@@ -3172,7 +3210,7 @@ class ilPageObjectGUI
 	*/
 	function getTabs($a_activate = "")
 	{
-		global $ilTabs, $ilCtrl, $ilHelp;
+		global $ilTabs, $ilCtrl, $ilHelp, $ilUser;
 
 		$ilHelp->setScreenIdComponent("copg");
 		
@@ -3233,7 +3271,7 @@ class ilPageObjectGUI
 				, $tab["cmd"], $tab["class"]);
 		}
 */
-		if ($this->getEnableEditing())
+		if ($this->getEnableEditing() && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$ilTabs->addTarget("clipboard", $this->ctrl->getLinkTargetByClass("ilEditClipboardGUI", "view")
 				, "view", "ilEditClipboardGUI");

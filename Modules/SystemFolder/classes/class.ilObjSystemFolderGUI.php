@@ -1786,7 +1786,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$cb_prop->setInfo($lng->txt('pd_enable_user_publish_info'));
 		$cb_prop->setChecked($ilSetting->get('enable_global_profiles'));
 		$cb->addSubItem($cb_prop);
-			
+		
+		
+		// activate captcha for anonymous wiki/forum editing
+		$cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_wiki_forum'),'activate_captcha_anonym');
+		$cap->setValue(1);
+		$cap->setChecked($ilSetting->get('activate_captcha_anonym'));
+		$cb->addSubItem($cap);
+		
+		
 		$this->form->addItem($cb);
 		
 		// default repository view
@@ -2072,6 +2080,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$ilSetting->set("locale", $_POST["locale"]);
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
 			$ilSetting->set('comments_tagging_in_lists',(int) $_POST['comments_tagging_in_lists']);
+			$ilSetting->set('activate_captcha_anonym',(int) $_POST['activate_captcha_anonym']);
 			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
