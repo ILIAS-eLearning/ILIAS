@@ -1,5 +1,11 @@
-ilMultiFormValues = {
+/**
+ * Handle multi values for select and text input fields
+ */
+var ilMultiFormValues = {
 	
+	/**
+	 * Bind click events and handle preset values
+	 */
 	init: function() {		
 		// add click event to +-icons
 		$('input:image[id*="ilMultiAdd"]').bind('click', function(e) {
@@ -11,11 +17,21 @@ ilMultiFormValues = {
 		});
 	},
 	
+	/**
+	 * Add multi item (click event)
+	 * 
+	 * @param event e
+	 */
 	addEvent: function(e) {
 		var id = $(e.target).attr('id').split('~');
 		ilMultiFormValues.add(id[1], id[2], '');
 	},
 
+	/**
+	 * Remove multi item (click event)
+	 * 
+	 * @param event e
+	 */
 	removeEvent: function(e) {
 		var id = $(e.target).attr('id').split('~');
 		if(parseInt(id[2]) > 0)	{
@@ -23,6 +39,13 @@ ilMultiFormValues = {
 		}
 	},
 
+	/**
+	 * Add multi item
+	 * 
+	 * @param string group_id 
+	 * @param int index 
+	 * @param mixed preset 
+	 */
 	add: function(group_id, index, preset) {	
 		// find maximum id in group
 		var new_id = 0;
@@ -66,6 +89,11 @@ ilMultiFormValues = {
 		$(original_element).parent().append(new_element);
 	},
 
+	/**
+	 * Use value from hidden item to add preset multi items
+	 * 
+	 * @param node element
+	 */
 	handlePreset: function(element) {	
 		// build id for added elements
 		var element_id = $(element).attr('id').split('~');
@@ -81,6 +109,12 @@ ilMultiFormValues = {
 		});	
 	},
 
+	/**
+	 * Set value for input element, set option for select
+	 * 
+	 * @param node element
+	 * @param mixed preset
+	 */
 	setValue: function(element, preset) {
 		var group_id = $(element).attr('id').split('~');
 		var element_id = group_id[2];
@@ -88,8 +122,7 @@ ilMultiFormValues = {
 
 		// fix id of first element?	
 		var original = $('#' + group_id);
-		if(original)
-		{
+		if(original) {
 			$(original).attr('id', group_id + '~0');
 		}
 
