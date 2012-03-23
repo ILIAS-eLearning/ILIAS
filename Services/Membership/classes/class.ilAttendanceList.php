@@ -14,83 +14,56 @@ class ilAttendanceList
 {
 	protected $parent_obj; // [object]
 	protected $participants; // [object]
-	protected $event_start; // [ilDateTime]
-	protected $event_end; // [ilDateTime]
-	protected $event_title; // [string]
-	protected $show_mark; // [bool]
-	protected $show_comment; // [bool]
-	protected $show_signature; // [bool]
+	protected $callback; // [string|array]
+	protected $presets; // [array]	
 	protected $show_admins; // [bool]
 	protected $show_tutors; // [bool]
 	protected $show_members; // [bool]
-	protected $blank_columns; // [int]
-	protected $id_field; // [int]
-	protected $callback; // [string|array]
-	
+	protected $blank_columns; // [array]
+	protected $title; // [string]
+	protected $description; // [string]
+		
 	/**
 	 * Constructor
 	 * 
 	 * @param object $a_parent_obj
 	 * @param object $a_participants_object
-	 * @param string $a_title
 	 */
-	function __construct($a_parent_obj, $a_participants_object)
+	function __construct($a_parent_obj, $a_participants_object = null)
 	{	
+		global $lng;
+		
 		$this->parent_obj = $a_parent_obj;
 		$this->participants = $a_participants_object;
 		
-		$this->showMark();
-		$this->showComment();
-		$this->showSignature();
-		$this->showAdmins();
-		$this->showTutors();
-		$this->showMembers();
-		$this->setBlankColumns();
-		$this->setId();
+		// always available
+		$this->presets['name'] = array($lng->txt('name'), true);
+		$this->presets['login'] = array($lng->txt('login'), true);
+		$this->presets['email'] = array($lng->txt('email'));		
 	}
 	
 	/**
-	 * Set event details
+	 * Add user field
 	 * 
-	 * @param ilDateTime $a_start
-	 * @param ilDateTime $a_end
-	 * @param string $a_title 
+	 * @param string $a_id
+	 * @param string $a_caption
+	 * @param bool $a_selected 
 	 */
-	function setEvent($a_start, $a_end, $a_title = null)
+	function addPreset($a_id, $a_caption, $a_selected = false)
 	{
-		$this->event_start = $a_start;
-		$this->event_end = $a_end;
-		$this->event_title = $a_title;
+		$this->presets[$a_id] = array($a_caption, $a_selected);
 	}
 	
 	/**
-	 * Toogle mark 
+	 * Set titles
 	 * 
-	 * @param bool $a_value 
+	 * @param string $a_title
+	 * @param string $a_description
 	 */
-	function showMark($a_value = true)
+	function setTitle($a_title, $a_description = null)
 	{
-		$this->show_mark = (bool)$a_value;
-	}
-	
-	/**
-	 * Toogle comment 
-	 * 
-	 * @param bool $a_value 
-	 */
-	function showComment($a_value = true)
-	{
-		$this->show_comment = (bool)$a_value;
-	}
-	
-	/**
-	 * Toogle signature 
-	 * 
-	 * @param bool $a_value 
-	 */
-	function showSignature($a_value = true)
-	{
-		$this->show_signature = (bool)$a_value;
+		$this->title = $a_title;
+		$this->description = $a_description;
 	}
 	
 	/**
@@ -126,23 +99,17 @@ class ilAttendanceList
 	/**
 	 * Add blank columns
 	 * 
-	 * @param int $a_value 
+	 * @param array $a_value 
 	 */
-	function setBlankColumns($a_value = 0)
+	function setBlankColumns(array $a_values)
 	{
-		$this->blank_columns = (int)$a_value;
+		if(!implode("", $a_values))
+		{
+			$a_values = array();
+		}
+		$this->blank_columns = $a_values;
 	}
 
-	/**
-	 * Add id field to member name
-	 * 
-	 * @param string $a_value
-	 */
-	function setId($a_value = "login")
-	{
-		$this->id_field = (string)$a_value;
-	}
-	
 	/**
 	 * Set participant detail callback
 	 * 
@@ -162,6 +129,8 @@ class ilAttendanceList
 	public function initForm($a_cmd = "")
 	{
 		global $ilCtrl, $lng;
+	
+		$lng->loadLanguageModule('crs');
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');		
 		$form = new ilPropertyFormGUI();
@@ -169,30 +138,25 @@ class ilAttendanceList
 		$form->setTarget('_blank');
 		$form->setTitle($lng->txt('sess_gen_attendance_list'));
 		
-		$mark = new ilCheckboxInputGUI($lng->txt('trac_mark'),'show_mark');
-		$mark->setOptionTitle($lng->txt('sess_gen_mark_title'));
-		$mark->setValue(1);
-		$form->addItem($mark);
+		if(sizeof($this->presets))
+		{
+			$preset = new ilCheckboxGroupInputGUI($lng->txt('user_detail'), 'preset');		
+			$preset_value = array();
+			foreach($this->presets as $id => $item)
+			{
+				$preset->addOption(new ilCheckboxOption($item[0], $id));
+				if($item[1])
+				{
+					$preset_value[] = $id;
+				}
+			}
+			$preset->setValue($preset_value);
+			$form->addItem($preset);
+		}	
 		
-		$comment = new ilCheckboxInputGUI($lng->txt('trac_comment'),'show_comment');
-		$comment->setOptionTitle($lng->txt('sess_gen_comment'));
-		$comment->setValue(1);
-		$form->addItem($comment);
-		
-		$signature = new ilCheckboxInputGUI($lng->txt('sess_signature'),'show_signature');
-		$signature->setOptionTitle($lng->txt('sess_gen_signature'));
-		$signature->setValue(1);
-		$form->addItem($signature);
-		
-		$id = new ilSelectInputGUI($lng->txt('id'), 'id');
-		$id->setOptions(array('login' => $lng->txt('login'),
-			'email' => $lng->txt('email')));
-		$form->addItem($id);
-		
-		$blank = new ilNumberInputGUI($lng->txt('event_blank_columns'), 'blank');
-		$blank->setSize(3);
-		$form->addItem($blank);
-		
+		$blank = new ilTextInputGUI($lng->txt('event_blank_columns'), 'blank[]');
+		$blank->setMulti(true);
+		$form->addItem($blank);		
 		
 		$part = new ilFormSectionHeaderGUI();
 		$part->setTitle($lng->txt('event_participant_selection'));
@@ -230,14 +194,26 @@ class ilAttendanceList
 		$form = $this->initForm();
 		if($form->checkInput())
 		{
-			$this->showMark($form->getInput('show_mark'));
-			$this->showComment($form->getInput('show_comment'));
-			$this->showSignature($form->getInput('show_signature'));
+			foreach(array_keys($this->presets) as $id)
+			{
+				$this->presets[$id][1] = false;
+			}
+			foreach($form->getInput('preset') as $value)
+			{
+				if(isset($this->presets[$value]))
+				{
+					$this->presets[$value][1] = true;
+				}
+				else
+				{
+					$this->addPreset($value, $value, true);
+				}
+			}
+			
+			$this->setBlankColumns($form->getInput('blank'));
 			$this->showAdmins($form->getInput('show_admins'));
 			$this->showTutors($form->getInput('show_tutors'));
-			$this->showMembers($form->getInput('show_members'));
-			$this->setId($form->getInput('id'));
-			$this->setBlankColumns($form->getInput('blank'));
+			$this->showMembers($form->getInput('show_members'));	
 		}		
 	}
 	
@@ -265,45 +241,45 @@ class ilAttendanceList
 	 * @return string
 	 */
 	public function getHTML()
-	{		
-		global $lng;
-		
+	{				
 		$tpl = new ilTemplate('tpl.attendance_list_print.html',true,true,'Services/Membership');
 
-		$tpl->setVariable("ATTENDANCE_LIST",$lng->txt('sess_attendance_list'));
 		
-		if($this->event_title)
+		// title
+		
+		$tpl->setVariable('TXT_TITLE', $this->title);
+		if($this->description)
 		{
-			$tpl->setVariable("EVENT_NAME",$this->event_title);
-		}
-		if($this->event_start && $this->event_end)
-		{
-			ilDatePresentation::setUseRelativeDates(false);
-			$tpl->setVariable("DATE",ilDatePresentation::formatPeriod($this->event_start,$this->event_end));
-			ilDatePresentation::setUseRelativeDates(true);
+			$tpl->setVariable('TXT_DESCRIPTION', $this->description);
 		}
 		
-		$tpl->setVariable("TXT_NAME",$lng->txt('name'));
-		if($this->show_mark)
+		
+		// header 
+		
+		$tpl->setCurrentBlock('head_item');
+		foreach($this->presets as $id => $item)
 		{
-			$tpl->setVariable("TXT_MARK",$lng->txt('trac_mark'));
-		}						  
-		if($this->show_comment)
-		{
-			$tpl->setVariable("TXT_COMMENT",$lng->txt('trac_comment'));	
-		}
-		if($this->show_signature)
-		{
-			$tpl->setVariable("TXT_SIGNATURE",$lng->txt('sess_signature'));	
+			if($item[1])
+			{
+				$tpl->setVariable('TXT_HEAD', $item[0]);
+				$tpl->parseCurrentBlock();
+			}
 		}
 		
 		if($this->blank_columns)
 		{
-			for($loop = 0; $loop < $this->blank_columns; $loop++)
+			foreach($this->blank_columns as $blank)
 			{
-				$tpl->touchBlock('head_blank');
+				if($blank)
+				{
+					$tpl->setVariable('TXT_HEAD', $blank);
+					$tpl->parseCurrentBlock();
+				}
 			}
 		}
+
+		
+		// handle members
 		
 		$member_ids = array();
 		if($this->show_admins)
@@ -320,53 +296,54 @@ class ilAttendanceList
 		}				
 		$member_ids = ilUtil::_sortIds((array) $member_ids,'usr_data','lastname','usr_id');
 				
+		
+		// rows 
+		
 		foreach($member_ids as $user_id)
 		{
-			if($this->callback && ($this->show_mark || $this->show_comment))
+			if($this->callback)
 			{
-				$user_data = call_user_func_array($this->callback, array($user_id));				
-				if($this->show_mark)
+				$user_data = call_user_func_array($this->callback, array($user_id));		
+				
+				$tpl->setCurrentBlock("row_preset");
+				foreach($this->presets as $id => $item)
 				{
-					$tpl->setVariable("MARK",$user_data['mark'] ? $user_data['mark'] : ' ');
-				}
-				if($this->show_comment)
-				{
-					$tpl->setVariable("COMMENT",$user_data['comment'] ? $user_data['comment'] : ' ');
-				}
-			}
+					if($item[1])
+					{
+						switch($id)
+						{
+							case "name":
+								$name = ilObjUser::_lookupName($user_id);
+								$value = $name["lastname"].", ".$name["firstname"];
+								break;
+							
+							case "email":
+								$value = ilObjUser::_lookupEmail($user_id);
+								break;
+							
+							case "login":
+								$value = ilObjUser::_lookupLogin($user_id);
+								break;
 
-			if($this->show_signature)
-			{
-				$tpl->touchBlock('row_signature');
+							default:
+								$value = (string)$user_data[$id];
+								break;
+						}
+						$tpl->setVariable("TXT_PRESET", $value);
+						$tpl->parseCurrentBlock();
+					}
+				}								
 			}
 
 			if($this->blank_columns)
 			{
-				for($loop = 0; $loop < $this->blank_columns; $loop++)
+				for($loop = 0; $loop < sizeof($this->blank_columns); $loop++)
 				{
 					$tpl->touchBlock('row_blank');
 				}
 			}
 			
-			$tpl->setCurrentBlock("member_row");
-			
-			$name = ilObjUser::_lookupName($user_id);
-			$tpl->setVariable("LASTNAME",$name['lastname']);
-			$tpl->setVariable("FIRSTNAME",$name['firstname']);
-			
-			switch($this->id_field)
-			{
-				case 'login':
-					$id = ilObjUser::_lookupLogin($user_id);
-					break;
-				
-				case 'email':
-					$id = ilObjUser::_lookupEmail($user_id);
-					break;
-			}			
-			$tpl->setVariable("LOGIN", $id);
-			
-			$tpl->parseCurrentBlock();
+			$tpl->touchBlock("member_row");
 		}
 		
 		return $tpl->show();

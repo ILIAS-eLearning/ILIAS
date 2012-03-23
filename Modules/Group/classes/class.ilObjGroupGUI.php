@@ -1055,6 +1055,12 @@ class ilObjGroupGUI extends ilContainerGUI
 		// search button
 		$ilToolbar->addButton($this->lng->txt("grp_search_users"),
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		
+		$ilToolbar->addSeparator();
+			
+		// print button
+		$ilToolbar->addButton($this->lng->txt("grp_print_list"),
+			$this->ctrl->getLinkTarget($this, 'printMembers'));
 
 		$this->setShowHidePrefs();
 		
@@ -3004,6 +3010,78 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		return $lg;
 	}	
+	
+	function printMembersObject()
+	{		
+		global $ilTabs;
+		
+		$this->checkPermission('write');
+		$ilTabs->activateTab('members');
+		
+		$list = $this->initAttendanceList();
+		$form = $list->initForm('printMembersOutput');
+		$this->tpl->setContent($form->getHTML());	
+	}
+	
+	/**
+	 * Init attendance list object
+	 * 
+	 * @return ilAttendanceList 
+	 */
+	protected function initAttendanceList()
+	{
+		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
+		$members_obj = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
+		
+		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
+		$list = new ilAttendanceList($this, $members_obj);		
+						
+		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
+		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
+		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
+			ilObjUserTracking::_enabledUserRelatedData() and
+			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
+		if($this->show_tracking)
+		{
+			$this->lng->loadLanguageModule('trac');		
+			$list->addPreset('progress', $this->lng->txt('learning_progress'), true);
+		}
+		
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		if($privacy->enabledGroupAccessTimes())
+		{
+			$list->addPreset('access', $this->lng->txt('last_access'), true);
+		}
+		
+		return $list;
+	}
+	
+	public function getAttendanceListUserData($a_user_id)
+	{		
+		$data = $this->members_data[$a_user_id];
+		$data['access'] = $data['access_time'];
+		$data['progress'] = $this->lng->txt($data['progress']);
+		
+		return $data;
+	}
+	
+	function printMembersOutputObject()
+	{				
+		$list = $this->initAttendanceList();		
+		$list->initFromForm();
+		$list->setCallback(array($this, 'getAttendanceListUserData'));	
+		
+		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
+		$this->members_data = $this->readMemberData($part->getParticipants());
+		
+		$list->setTitle($this->lng->txt('grp_members_print_title'),
+			$this->lng->txt('obj_grp').': '.$this->object->getTitle().
+			' ('.ilFormat::formatUnixTime(time(),true).')');
+		
+		echo $list->getFullscreenHTML();
+		exit();	
+	}
 
 } // END class.ilObjGroupGUI
 ?>
