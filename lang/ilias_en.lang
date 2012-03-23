@@ -12483,6 +12483,8 @@ administration#:#adm_captcha_wiki_forum#:#Activate Captcha for Anonymous (Forum/
 content#:#cont_captcha_verification#:#User Verification
 content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Wrong Input
+forum#:#cont_captcha_code#:#Code
+cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 certificate#:#certificate_file_basename#:#Certificate
 grp#:#grp_print_list#:#Print List
 grp#:#grp_members_print_title#:#Group Members

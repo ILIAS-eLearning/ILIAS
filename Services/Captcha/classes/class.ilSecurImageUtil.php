@@ -11,7 +11,7 @@
  */
 class ilSecurImageUtil
 {
-	private static $ver = "2_0_2";
+	private static $ver = "3_0_1";
 	
 	/**
 	 * Get directory

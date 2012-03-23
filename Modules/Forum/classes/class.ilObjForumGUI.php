@@ -1351,7 +1351,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	private function initReplyEditForm()
 	{
-		global $ilUser, $rbacsystem;
+		global $ilUser, $rbacsystem, $ilSetting;
 		
 		// init objects
 		$oForumObjects = $this->getForumObjects();		
@@ -1480,6 +1480,15 @@ class ilObjForumGUI extends ilObjectGUI
 		$oFileUploadGUI = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
 		$oFileUploadGUI->setFilenames(array(0 => ''));
 		$this->replyEditForm->addItem($oFileUploadGUI);
+		
+		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
+			$ilSetting->get('activate_captcha_anonym'))
+		{
+			include_once("./Services/Captcha/classes/class.ilCaptchaInputGUI.php");			
+			$captcha = new ilCaptchaInputGUI($this->lng->txt("cont_captcha_code"), 'captcha_code');
+			$captcha->setRequired(true);		
+			$this->replyEditForm->addItem($captcha);
+		}
 		
 		// edit attachments
 		if(count($oFDForum->getFilesOfPost()) && ($_GET['action'] == 'showedit' || $_GET['action'] == 'ready_showedit'))
@@ -3262,7 +3271,7 @@ class ilObjForumGUI extends ilObjectGUI
 	
 	private function initTopicCreateForm()
 	{
-		global $ilUser, $rbacsystem, $ilias;
+		global $ilUser, $rbacsystem, $ilias, $ilSetting;
 		
 		$this->create_topic_form_gui = new ilPropertyFormGUI();
 		
@@ -3357,8 +3366,16 @@ class ilObjForumGUI extends ilObjectGUI
 				$gen_notification_gui->setValue(1);
 				$this->create_topic_form_gui->addItem($gen_notification_gui);
 			}
-		}		
+		}
 		
+		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
+			$ilSetting->get('activate_captcha_anonym'))
+		{
+			include_once("./Services/Captcha/classes/class.ilCaptchaInputGUI.php");			
+			$captcha = new ilCaptchaInputGUI($this->lng->txt("cont_captcha_code"), 'captcha_code');
+			$captcha->setRequired(true);		
+			$this->create_topic_form_gui->addItem($captcha);
+		}
 		$this->create_topic_form_gui->addCommandButton('addThread', $this->lng->txt('submit'));
 		$this->create_topic_form_gui->addCommandButton('showThreads', $this->lng->txt('cancel'));
 	}
