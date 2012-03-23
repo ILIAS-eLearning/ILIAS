@@ -191,9 +191,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				
 			case "ilobjquestionpoolgui":
 			case "":
+				
+				if( $cmd == 'questions' )
+				{
+					$this->ctrl->setParameter($this, 'q_id', '');
+				}
+				
 				$cmd.= "Object";
 				$ret =& $this->$cmd();
 				break;
+				
 			default:
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
