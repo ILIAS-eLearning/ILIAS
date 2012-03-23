@@ -12476,3 +12476,5 @@ administration#:#adm_captcha_wiki_forum#:#Captcha für Anonymous aktivieren (For
 content#:#cont_captcha_verification#:#Benutzerverifikation
 content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
+grp#:#grp_print_list#:#Liste drucken
+grp#:#grp_members_print_title#:#Gruppenmitglieder

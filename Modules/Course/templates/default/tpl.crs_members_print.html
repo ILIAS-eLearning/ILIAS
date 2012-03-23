@@ -1,87 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
-	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-	<title>{TITLE}</title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	  <link rel="stylesheet" type="text/css" href="{CSS_PATH}/default.css" />
-		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-		  <script type="text/javascript" src="{JS_PATH}/functions.js"></script>
-  </head>
-  <body onLoad="window.print();">
-	  <style>
-		body { margin:20px; }
-	  </style>
-	<p><b>{HEADLINE}</p></b>
-	<!-- BEGIN members -->
-	<table class="std" width="100%">
-	  <tr class="tbltitle">
-		<td colspan="7">
-		  <table class="fullwidth_invisible" cellspacing="0">
-			<tr class="tbltitle">
-			  <td width="10"><img src="{MEMBERS_IMG_SOURCE}" alt="{MEMBERS_IMG_ALT}" border="0" /></td>
-			  <td class="tbltitle" align="left">&nbsp;{MEMBERS_TABLE_HEADER}</td>
-			</tr>
-		  </table>
-		</td>
-	  </tr>
-	  <tr class="tblheader">
-		<td class="std">{TXT_NAME}</td>
-		<td class="std">{TXT_LOGIN}</td>
-		<td class="std">{TXT_ROLE}</td>
-		<!-- BEGIN progress -->
-		<td class="std">{TXT_PROGRESS}</td>
-		<!-- END progress -->
-		<!-- BEGIN access -->
-		<td class="std">{TXT_ACCESS}</td>
-		<!-- END access -->
-		<td class="std">{TXT_STATUS}</td>
-		<td class="std">{TXT_PASSED}</td>
-	  </tr>
-	  <!-- BEGIN members_row -->
-	  <tr class="std">
-		<td class="option_value">{NAME}</td>
-		<td class="option_value">{LOGIN}</td>
-		<td class="option_value">{ROLE}</td>
-		<!-- BEGIN progress_row -->
-		<td class="option_value">{VAL_PROGRESS}</td>
-		<!-- END progress_row -->
-		<!-- BEGIN access_row -->
-		<td class="option_value">{VAL_ACCESS}</td>
-		<!-- END access_row -->
-		<td class="option_value">{STATUS}</td>
-		<td class="option_value">{PASSED}</td>
-	  </tr>
-	  <!-- END members_row -->
-	</table>
-	<!-- END members -->
-	<br />
-	<br />
-	<!-- BEGIN subscribers -->
-	<table class="std" width="50%">
-	  <tr class="tbltitle">
-		<td colspan="3">
-		  <table class="fullwidth_invisible" cellspacing="0">
-			<tr class="tbltitle">
-			  <td width="10"><img src="{SUBSCRIBERS_IMG_SOURCE}" alt="{SUBSCRIBERS_IMG_ALT}" border="0" /></td>
-			  <td class="tbltitle" align="left">&nbsp;{SUBSCRIBERS_TABLE_HEADER}</td>
-			</tr>
-		  </table>
-		</td>
-	  </tr>
-	  <tr class="tblheader">
-		<td class="std">{TXT_SNAME}</td>
-		<td class="std">{TXT_SLOGIN}</td>
-		<td class="std">{TXT_STIME}</td>
-	  </tr>
-	  <!-- BEGIN subscribers_row -->
-	  <tr class="std">
-		<td class="option_value">{SNAME}</td>
-		<td class="option_value">{SLOGIN}</td>
-		<td class="option_value">{STIME}</td>
-	  </tr>
-	  <!-- END subscribers_row -->
-	</table>
-	<!-- END subscribers -->
-  </body>
+<table class="std" width="50%">
+	<tr class="tbltitle">
+	<td colspan="3">
+		<table class="fullwidth_invisible" cellspacing="0">
+		<tr class="tbltitle">
+			<td width="10"><img src="{SUBSCRIBERS_IMG_SOURCE}" alt="{SUBSCRIBERS_IMG_ALT}" border="0" /></td>
+			<td class="tbltitle" align="left">&nbsp;{SUBSCRIBERS_TABLE_HEADER}</td>
+		</tr>
+		</table>
+	</td>
+	</tr>
+	<tr class="tblheader">
+	<td class="std">{TXT_SNAME}</td>
+	<td class="std">{TXT_SLOGIN}</td>
+	<td class="std">{TXT_STIME}</td>
+	</tr>
+	<!-- BEGIN subscribers_row -->
+	<tr class="std">
+	<td class="option_value">{SNAME}</td>
+	<td class="option_value">{SLOGIN}</td>
+	<td class="option_value">{STIME}</td>
+	</tr>
+	<!-- END subscribers_row -->
+</table>

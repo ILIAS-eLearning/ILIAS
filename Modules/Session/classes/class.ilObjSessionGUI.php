@@ -902,11 +902,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_members.html', 'Modules/Session');
 		
 		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-		$toolbar = new ilToolbarGUI();
-		$toolbar->addButton(
-			$this->lng->txt('print'), 
-			$this->ctrl->getLinkTarget($this,'printViewMembers'),
-			'_blank');
+		$toolbar = new ilToolbarGUI();		
 		$toolbar->addButton($this->lng->txt('sess_gen_attendance_list'), 
 			$this->ctrl->getLinkTarget($this,'attendanceList'));		
 		
@@ -1110,14 +1106,34 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $tpl,$ilTabs;
 		
-		$this->checkPermission('write');
+		$this->checkPermission('write');		
+		$ilTabs->setTabActive('event_edit_members');	
 		
-		$ilTabs->setTabActive('event_edit_members');
-		
-		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList($this, null);
+		$list = $this->initAttendanceList();
 		$form = $list->initForm('printAttendanceList');
 		$tpl->setContent($form->getHTML());		
+	}
+	
+	/**
+	 * Init attendance list object
+	 * 
+	 * @return ilAttendanceList 
+	 */
+	protected function initAttendanceList()
+	{
+		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
+		
+		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
+		$list = new ilAttendanceList($this, $members_obj);		
+		$list->addPreset('mark', $this->lng->txt('trac_mark'), true);
+		$list->addPreset('comment', $this->lng->txt('trac_comment'), true);		
+		if($this->object->enabledRegistration())
+		{
+			$list->addPreset('registered', $this->lng->txt('event_tbl_registered'), true);			
+		}	
+		$list->addPreset('participated', $this->lng->txt('event_tbl_participated'), true);		
+		return $list;
 	}
 		
 	/**
@@ -1129,9 +1145,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilErr,$ilAccess,$tree;
 		
-		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
-		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
-
 		$this->checkPermission('write');
 		
 		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
@@ -1142,128 +1155,39 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return true;
 		}
 													
-		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
-		$list = new ilAttendanceList($this, $members_obj);
+		$list = $this->initAttendanceList();		
 		$list->initFromForm();
 		
-		$event_app = $this->object->getFirstAppointment();		
-		$list->setEvent($event_app->getStart(),$event_app->getEnd(),$this->object->getTitle());
+		$event_app = $this->object->getFirstAppointment();				 
+		ilDatePresentation::setUseRelativeDates(false);
+		$desc = ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd());
+		ilDatePresentation::setUseRelativeDates(true);		
+		$desc .= " ".$this->object->getTitle();	
+		$list->setTitle($this->lng->txt('sess_attendance_list'), $desc);				
+		$list->setCallback(array($this, 'getAttendanceListUserData'));
 		
-		$event_part = new ilEventParticipants($this->object->getId());
-		$list->setCallback(array($event_part, 'getUser'));
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+		$this->event_part = new ilEventParticipants($this->object->getId());	
 		
 		echo $list->getFullscreenHTML();
 		exit();
 	}	
 	
 	/**
-	 * print view
-	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * Get user data for attendance list
+	 * @param int $a_user_id
+	 * @return array 
 	 */
-	public function printViewMembersObject()
+	public function getAttendanceListUserData($a_user_id)
 	{
-		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
-		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
-
-		global $ilErr,$ilAccess,$tree,$ilUser;
-		
-		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
-		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
-		if(!$this->course_ref_id)
-		{
-			ilUtil::sendFailure('No course object found. Aborting');
-			return true;
-		}
-		
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
-		$event_app = $this->object->getFirstAppointment();
-		$event_part = new ilEventParticipants($this->object->getId());
-		
-		$this->tpl = new ilTemplate('tpl.main.html',true,true);
-		// load style sheet depending on user's settings
-		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		$this->tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-
-		$tpl = new ilTemplate('tpl.sess_members_print.html',true,true,'Modules/Session');
-
-		#$tpl->setVariable("EVENT",$this->lng->txt('event'));
-		$tpl->setVariable("EVENT_NAME",$this->object->getTitle() ? ': '.$this->object->getTitle() : $this->object->getTitle());
-		ilDatePresentation::setUseRelativeDates(false);
-		$tpl->setVariable("DATE",ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd()));
-		ilDatePresentation::setUseRelativeDates(true);
-		
-		
-		if(!$ilUser->getPref('sess_admin_hide') and count($members_obj->getAdmins()))
-		{
-			$tmp['txt'] = $this->lng->txt('event_tbl_admins'); 
-			$tmp['users'] = $members_obj->getAdmins();
-			
-			$participants[] = $tmp;
-		}
-		if(!$ilUser->getPref('sess_tutor_hide') and count($members_obj->getTutors()))
-		{
-			$tmp['txt'] = $this->lng->txt('event_tbl_tutors'); 
-			$tmp['users'] = $members_obj->getTutors();
-			
-			$participants[] = $tmp;
-		}
-		if(!$ilUser->getPref('sess_member_hide') and count($members_obj->getMembers()))
-		{
-			$tmp['txt'] = $this->lng->txt('event_tbl_members'); 
-			$tmp['users'] = $members_obj->getMembers();
-			
-			$participants[] = $tmp;
-		}
-				
-		foreach((array) $participants as $participants_data)
-		{		
-			$members = ilUtil::_sortIds($participants_data['users'],'usr_data','lastname','usr_id');
-			foreach($members as $user_id)
-			{
-				
-				$user_data = $event_part->getUser($user_id);
-	
-				if($this->object->enabledRegistration())
-				{
-					$tpl->setCurrentBlock("reg_col");
-					$tpl->setVariable("REGISTERED",$event_part->isRegistered($user_id) ? "X" : "");
-					$tpl->parseCurrentBlock();
-				}
-				$tpl->setVariable("COMMENT",$user_data['comment']);
-	
-				$tpl->setCurrentBlock("member_row");
-				$name = ilObjUser::_lookupName($user_id);
-				$tpl->setVariable("LASTNAME",$name['lastname']);
-				$tpl->setVariable("FIRSTNAME",$name['firstname']);
-				$tpl->setVariable("LOGIN",ilObjUser::_lookupLogin($user_id));
-				$tpl->setVariable("MARK",$user_data['mark']);
-				$tpl->setVariable("PARTICIPATED",$event_part->hasParticipated($user_id) ? "X" : "");
-				$tpl->parseCurrentBlock();
-			}
-			
-			$tpl->setCurrentBlock('part_group');
-			$tpl->setVariable('GROUP_NAME',$participants_data['txt']);
-			$tpl->setVariable("TXT_NAME",$this->lng->txt('name'));
-			$tpl->setVariable("TXT_MARK",$this->lng->txt('trac_mark'));
-			$tpl->setVariable("TXT_COMMENT",$this->lng->txt('trac_comment'));
-			$tpl->setVariable("TXT_PARTICIPATED",$this->lng->txt('event_tbl_participated'));
-			if($this->object->enabledRegistration())
-			{
-				$tpl->setVariable("TXT_REGISTERED",$this->lng->txt('event_tbl_registered'));
-			}
-			$tpl->parseCurrentBlock();
-			
-		}
-		
-		$this->tpl->setVariable("CONTENT",$tpl->get());
-		$this->tpl->setVariable("BODY_ATTRIBUTES",'onload="window.print()"');
-		$this->tpl->show();
-		exit;
-	
+		$data = $this->event_part->getUser($a_user_id);	
+		$data['registered'] = $data['registered'] ? 
+			$this->lng->txt('yes') : 
+			$this->lng->txt('no');
+		$data['participated'] = $data['participated'] ? 
+			$this->lng->txt('yes') : 
+			$this->lng->txt('no');		
+		return $data;
 	}
 	
 	/**
