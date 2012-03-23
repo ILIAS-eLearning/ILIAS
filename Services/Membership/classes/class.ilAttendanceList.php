@@ -313,17 +313,28 @@ class ilAttendanceList
 						switch($id)
 						{
 							case "name":
-								$name = ilObjUser::_lookupName($user_id);
-								$value = $name["lastname"].", ".$name["firstname"];
-								break;
+								if(!$user_data[$id])
+								{
+									$name = ilObjUser::_lookupName($user_id);
+									$value = $name["lastname"].", ".$name["firstname"];
+									break;
+								}
+								
 							
 							case "email":
-								$value = ilObjUser::_lookupEmail($user_id);
-								break;
+								if(!$user_data[$id])
+								{
+									$value = ilObjUser::_lookupEmail($user_id);
+									break;
+								}
+								
 							
 							case "login":
-								$value = ilObjUser::_lookupLogin($user_id);
-								break;
+								if(!$user_data[$id])
+								{
+									$value = ilObjUser::_lookupLogin($user_id);
+									break;
+								}							
 
 							default:
 								$value = (string)$user_data[$id];
