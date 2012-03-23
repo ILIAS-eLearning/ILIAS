@@ -5066,6 +5066,24 @@ class ilObjUser extends ilObject
 		return $let;
 	}
 
+	/**
+	 * Is user captcha verified?
+	 */
+	function isCaptchaVerified()
+	{
+		return (boolean) $_SESSION["user_captcha_verified"];
+	}
+	
+	/**
+	 * Set captcha verified
+	 *
+	 * @param
+	 */
+	function setCaptchaVerified($a_val)
+	{
+		$_SESSION["user_captcha_verified"] = $a_val;
+	}
+	
 
 } // END class ilObjUser
 ?>

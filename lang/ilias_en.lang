@@ -12480,3 +12480,7 @@ common#:#obj_lm_duplicate#:#Copy Learning Module
 blog#:#blog_edit_date#:#Edit Date
 blog#:#blog_edit_date_info#:#Publication status does not depend on this date.
 certificate#:#certificate_file_basename#:#Certificate
+administration#:#adm_captcha_wiki_forum#:#Activate Captcha for Anonymous (Forum/Wiki)
+content#:#cont_captcha_verification#:#User Verification
+content#:#cont_captcha_code#:#Code
+cptch#:#cptch_wrong_input#:#Wrong Input
