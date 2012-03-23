@@ -278,7 +278,7 @@
 		<xsl:if test="name(../..) = 'InteractiveImage'">
 			<xsl:if test="$map_edit_mode != 'get_coords'">
 				<script type="text/javascript">
-					ilAddOnLoad(function() {ilCOPagePres.addIIMArea(
+					il.Util.addOnLoad(function() {ilCOPagePres.addIIMArea(
 						{area_id: 'marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" />',
 						iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
 						tr_nr: '<xsl:value-of select = "@Id" />',
@@ -2956,7 +2956,7 @@
 	
 	<xsl:if test="$mode != 'edit'">
 		<script type="text/javascript">
-			ilAddOnLoad(function() {ilCOPagePres.addIIMPopup({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+			il.Util.addOnLoad(function() {ilCOPagePres.addIIMPopup({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
 				pop_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" />',
 				div_id: 'iim_popup_<xsl:value-of select = "$pg_id"/>_<xsl:number count="ContentPopup" level="any" />',
 				nr: '<xsl:value-of select="@Nr"/>',
@@ -3009,7 +3009,7 @@
 	</xsl:if>
 	<xsl:if test="$map_edit_mode != 'get_coords'">
 		<script type="text/javascript">
-			ilAddOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+			il.Util.addOnLoad(function() {ilCOPagePres.addIIMTrigger({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
 				type: '<xsl:value-of select="@Type"/>', title: '<xsl:value-of select="@Title"/>',
 				ovx: '<xsl:value-of select="@OverlayX"/>', ovy: '<xsl:value-of select="@OverlayY"/>',
 				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
@@ -3030,7 +3030,7 @@
 		<xsl:comment>Break</xsl:comment>
 		</a>
 		<script type="text/javascript">
-			ilAddOnLoad(function() {ilCOPagePres.addIIMMarker({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
+			il.Util.addOnLoad(function() {ilCOPagePres.addIIMMarker({iim_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="InteractiveImage" level="any" />',
 				m_id: 'iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />',
 				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
 				tr_nr: '<xsl:value-of select="@Nr"/>',

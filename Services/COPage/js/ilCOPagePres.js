@@ -764,4 +764,4 @@ ilCOPagePres =
 	}
 
 }
-ilAddOnLoad(function() {ilCOPagePres.init();});
+il.Util.addOnLoad(function() {ilCOPagePres.init();});

@@ -1,5 +1,5 @@
 // remove non-javascript form with java script table
-ilAddOnLoad(ilInitLastVisitedNav);
+il.Util.addOnLoad(ilInitLastVisitedNav);
 
 /** 
 * Last visited navigation

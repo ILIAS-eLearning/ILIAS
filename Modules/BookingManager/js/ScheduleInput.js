@@ -1,4 +1,4 @@
-ilAddOnLoad(ilFormMultiInit)
+il.Util.addOnLoad(ilFormMultiInit)
 
 function ilFormMultiInit()
 {

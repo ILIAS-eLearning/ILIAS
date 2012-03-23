@@ -140,7 +140,7 @@ abstract class ilContainerContentGUI
 		
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 		
-		$tpl->addOnLoadCode("ilObject.setRedrawListItemUrl('".
+		$tpl->addOnLoadCode("il.Object.setRedrawListItemUrl('".
 			$ilCtrl->getLinkTarget($this->container_gui, "redrawListItem", "", true)."');");
 		
 		switch ($ilCtrl->getNextClass())

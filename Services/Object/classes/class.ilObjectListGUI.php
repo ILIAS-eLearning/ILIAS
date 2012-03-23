@@ -1633,7 +1633,7 @@ class ilObjectListGUI
 			$note_obj_id = $this->reference_obj_id;
 		}
 		
-		$redraw_js = "ilObject.redrawListItem(".$note_ref_id.");";
+		$redraw_js = "il.Object.redrawListItem(".$note_ref_id.");";
 		
 		// add common properties (comments, notes, tags)
 		if ((self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0 ||
@@ -2399,8 +2399,8 @@ class ilObjectListGUI
 		}
 		
 		$js_updater = $a_header_actions
-			? "ilObject.redrawActionHeader();"
-			: "ilObject.redrawListItem(".$note_ref_id.")";
+			? "il.Object.redrawActionHeader();"
+			: "il.Object.redrawListItem(".$note_ref_id.")";
 		
 		$comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, $a_header_actions, true);
 		if($comments_enabled)
@@ -2691,7 +2691,7 @@ class ilObjectListGUI
 		
 		if($a_redraw_url)
 		{
-			$a_tpl->addOnLoadCode("ilObject.setRedrawAHUrl('".
+			$a_tpl->addOnLoadCode("il.Object.setRedrawAHUrl('".
 						$a_redraw_url."');");	
 		}
 	}
@@ -2750,7 +2750,7 @@ class ilObjectListGUI
 		
 		$htpl = new ilTemplate("tpl.header_action.html", true, true, "Services/Repository");	
 		
-		$redraw_js = "ilObject.redrawActionHeader();";
+		$redraw_js = "il.Object.redrawActionHeader();";
 		
 		// tags
 		if($this->tags_enabled)

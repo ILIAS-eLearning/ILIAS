@@ -18,7 +18,7 @@
 <!-- END fullscreen_topbar -->
 <div class="ilFrame{FRAME_FIXED_WIDTH}"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
 {MAINMENU}<!-- BEGIN sr_focus -->
-<script type="text/javascript">ilAddOnLoad(ilScreenReaderFocus); var il_sr_opt = true;</script>
+<script type="text/javascript">il.Util.addOnLoad(ilScreenReaderFocus); var il_sr_opt = true;</script>
 <!-- END sr_focus -->
 </div></div></div>
 <div class="ilFrameBL"{FRAME_BG_COLOR}>
@@ -116,7 +116,7 @@
 </style>
 <script type="text/javascript">
 //Element Based Layout
-ilAddOnLoad(function() {
+il.Util.addOnLoad(function() {
 var ltd = document.getElementById('il_left_col_td');
 ltd.style.width = 0;
 var layoutEl = new YAHOO.widget.Layout('il_adv_center_col', { units: [

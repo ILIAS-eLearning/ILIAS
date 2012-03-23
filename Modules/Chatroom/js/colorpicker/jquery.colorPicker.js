@@ -5,7 +5,7 @@
  * Licensed under the MIT (MIT-LICENSE.txt)  licenses.
  * 
  */
-ilAddOnLoad(function() {
+il.Util.addOnLoad(function() {
     (function($){
 	$.fn.colorPicker = function(){
 	    if(this.length > 0) buildSelector();

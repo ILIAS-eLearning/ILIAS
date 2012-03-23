@@ -24,7 +24,7 @@ ilObjStat =
 		// add panel
 		this.initPanel(e);
 				
-		ilUtil.sendAjaxGetRequestToUrl(ajax_url, {}, {}, this.handleAjaxSuccess);
+		il.Util.sendAjaxGetRequestToUrl(ajax_url, {}, {}, this.handleAjaxSuccess);
 	},
 	
 	initPanel: function(e)
