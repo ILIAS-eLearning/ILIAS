@@ -2964,8 +2964,9 @@ class ilPageObjectGUI
 			$ilCtrl->redirect($this, "preview");
 		}
 		
+		include_once("./Services/Captcha/classes/class.ilCaptchaUtil.php");
 		if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-			$ilSetting->get('activate_captcha_anonym') &&
+			ilCaptchaUtil::isActive() &&
 			!$ilUser->isCaptchaVerified())
 		{
 			$form = $this->initCaptchaForm();
