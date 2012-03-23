@@ -632,6 +632,32 @@ class ilPropertyFormGUI extends ilFormGUI
 	function insertItem($item, $a_sub_item = false)
 	{
 		global $tpl, $lng;
+				
+		if(method_exists($item, "getMulti") && $item->getMulti())
+		{
+			$tpl->addJavascript("./Services/Form/js/ServiceFormMulti.js");
+			
+			$this->tpl->setCurrentBlock("multi_in");
+			$this->tpl->setVariable("ID", $item->getFieldId());
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("multi_out");
+			$this->tpl->setVariable("ID", $item->getFieldId());
+			$this->tpl->setVariable("IMG_MULTI_ADD", ilUtil::getImagePath('edit_add.png'));
+			$this->tpl->setVariable("IMG_MULTI_REMOVE", ilUtil::getImagePath('edit_remove.png'));
+			$this->tpl->setVariable("TXT_MULTI_ADD", $lng->txt("add"));
+			$this->tpl->setVariable("TXT_MULTI_REMOVE", $lng->txt("remove"));
+			$this->tpl->parseCurrentBlock();
+						
+			// add hidden item to enable preset multi items
+			$multi_values = $item->getMultiValues();
+			if(is_array($multi_values) && sizeof($multi_values) > 1)
+			{
+				$multi_value = new ilHiddenInputGUI("ilMultiValues~".substr($item->getPostVar(), 0, -2));
+				$multi_value->setValue(implode("~", $multi_values));
+				$this->addItem($multi_value);				
+			}
+		}		
 		
 		$item->insert($this->tpl);
 

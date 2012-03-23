@@ -50,6 +50,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	*/
 	function setValue($a_value)
 	{
+		if($this->getMulti() && is_array($a_value))
+		{						
+			$this->setMultiValues($a_value);	
+			$a_value = array_shift($a_value);		
+		}	
 		$this->value = $a_value;
 	}
 
@@ -61,6 +66,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	function getValue()
 	{
 		return $this->value;
+	}
+	
+	public function setMulti($a_multi)
+	{
+		$this->multi = (bool)$a_multi;
 	}
 
 	/**
@@ -166,7 +176,13 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setValue($a_values[$this->getPostVar()]);
+		$var = $this->getPostVar();	
+		if($this->getMulti() && substr($var, -2) == "[]")
+		{
+			$var = substr($var, 0, -2);		
+		}	
+		$value = $a_values[$var];	
+		$this->setValue($value);
 	}
 
 	/**

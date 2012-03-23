@@ -58,6 +58,11 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	*/
 	function setValue($a_value)
 	{
+		if($this->getMulti() && is_array($a_value))
+		{						
+			$this->setMultiValues($a_value);	
+			$a_value = array_shift($a_value);		
+		}	
 		$this->value = $a_value;
 	}
 
@@ -71,14 +76,25 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 		return $this->value;
 	}
 	
+	public function setMulti($a_multi)
+	{
+		$this->multi = (bool)$a_multi;
+	}
+	
 	/**
 	* Set value by array
 	*
 	* @param	array	$a_values	value array
 	*/
 	function setValueByArray($a_values)
-	{
-		$this->setValue($a_values[$this->getPostVar()]);
+	{		
+		$var = $this->getPostVar();	
+		if($this->getMulti() && substr($var, -2) == "[]")
+		{
+			$var = substr($var, 0, -2);		
+		}	
+		$value = $a_values[$var];	
+		$this->setValue($value);
 	}
 
 	/**
@@ -89,13 +105,31 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	function checkInput()
 	{
 		global $lng;
-		
-		$_POST[$this->getPostVar()] = 
-			ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
+
+		$valid = true;
+		if ($this->getRequired())
+		{
+			if(!$this->getMulti())
+			{
+				$_POST[$this->getPostVar()] =
+					ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+				if(trim($_POST[$this->getPostVar()]) == "")
+				{
+					$valid = false;
+				}
+			}
+			else
+			{
+				$var = str_replace("[]", "", $this->getPostVar());
+				if(!sizeof($_POST[$var]))
+				{
+					$valid = false;
+				}
+			}
+		}
+		if (!$valid)
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
-
 			return false;
 		}
 		return $this->checkSubItemsInput();
