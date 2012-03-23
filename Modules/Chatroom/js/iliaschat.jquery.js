@@ -68,7 +68,7 @@ var usermanager = (function() {
 
 var translate, subRoomId, replaceSmileys;
 
-ilAddOnLoad(function() {
+il.Util.addOnLoad(function() {
 
         function closeMenus() {
             $('.menu_attached').removeClass('menu_attached');

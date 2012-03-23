@@ -1566,7 +1566,7 @@ var openedMenu = "";					// menu currently opened
 var current_mouse_over_id;
 var cmd_called = false;
 
-ilAddOnLoad(function(){var preloader = new Image();
+il.Util.addOnLoad(function(){var preloader = new Image();
 preloader.src = "./templates/default/images/loader.gif";});
 YAHOO.util.Event.addListener(document, 'mousemove', followmouse1);
 
@@ -2662,6 +2662,6 @@ function showToolbar(ed_id)
 	e = null;
 };
 
-//ilAddOnLoad(function(){ilCOPage.editTD('cell_0_0');});
+//il.Util.addOnLoad(function(){ilCOPage.editTD('cell_0_0');});
 
 var current_row_col;

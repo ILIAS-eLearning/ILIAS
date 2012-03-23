@@ -52,7 +52,7 @@ function getStripCommaCallback(obj)
 }
 
 // initializes textfields for comma stripping on leaving recipients textfields
-ilAddOnLoad(
+il.Util.addOnLoad(
 	function()
 	{
 		var ar = ['rcp_to', 'rcp_cc', 'rcp_bcc'];

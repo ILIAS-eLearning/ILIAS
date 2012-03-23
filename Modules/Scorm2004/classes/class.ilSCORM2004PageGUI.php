@@ -334,7 +334,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 				else
 				{
 					$tpl->setCurrentBlock("add_script");
-					$tpl->setVariable("ADD_SCRIPT", "ilAddOnLoad(function () {".$overlays[$this->getGlossaryOverviewId()]->getOnLoadCode()."});");
+					$tpl->setVariable("ADD_SCRIPT", "il.Util.addOnLoad(function () {".$overlays[$this->getGlossaryOverviewId()]->getOnLoadCode()."});");
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -385,7 +385,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						}
 						else
 						{
-							$tpl->setVariable("SCRIPT", "ilAddOnLoad(function () {".$overlays[$ov_id]->getOnLoadCode()."});");
+							$tpl->setVariable("SCRIPT", "il.Util.addOnLoad(function () {".$overlays[$ov_id]->getOnLoadCode()."});");
 						}
 					}
 					else
@@ -398,7 +398,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						else
 						{
 							$tpl->setVariable("SCRIPT",
-								"ilAddOnLoad(function () {".$overlays[$ov_id]->getTriggerOnLoadCode($link_id, "click", $link_id)."});");
+								"il.Util.addOnLoad(function () {".$overlays[$ov_id]->getTriggerOnLoadCode($link_id, "click", $link_id)."});");
 						}
 					}
 					
@@ -415,10 +415,10 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 						else
 						{
 							$tpl->setVariable("SCRIPT2",
-								"ilAddOnLoad(function () {".
+								"il.Util.addOnLoad(function () {".
 								$overlays[$this->getGlossaryOverviewId()]->getTriggerOnLoadCode($glov_id, "click", $ov_id, false, "tl", "tl")."});");
 							$tpl->setVariable("SCRIPT3",
-								"ilAddOnLoad(function () {".
+								"il.Util.addOnLoad(function () {".
 								$overlays[$ov_id]->getTriggerOnLoadCode("glo_ov_t".$term_id, "click", $this->getGlossaryOverviewId(), false, "tl", "tl")."});");
 						}
 					}

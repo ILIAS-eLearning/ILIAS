@@ -1,6 +1,6 @@
 
 // Hide all on load
-ilAddOnLoad(ilFormHideAll)
+il.Util.addOnLoad(ilFormHideAll)
 
 /** 
 * Hide all ilFormHelpLink elements

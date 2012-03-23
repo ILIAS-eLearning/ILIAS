@@ -1,3 +1,4 @@
+// console dummy object
 if (!window.console) {
 	(function() {
 		var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
@@ -7,7 +8,51 @@ if (!window.console) {
 	})();
 }
 
-ilUtil = {
+// global il namespace, additional objects usually should be added to this one
+il = {};
+
+// utility functions
+il.Util = {
+	
+	addOnLoad: function(func)
+	{
+		if (!document.getElementById | !document.getElementsByTagName) return;
+	
+		var oldonload=window.onload;
+		if (typeof window.onload != 'function')
+		{
+			window.onload = func;
+		}
+		else
+		{
+			window.onload = function()
+			{
+				oldonload();
+				func();
+			}
+		}
+	},
+
+	addOnUnload: function (func)
+	{
+		if (!document.getElementById | !document.getElementsByTagName) return;
+		
+		var oldonunload = window.onunload;
+		if (typeof window.onunload != 'function')
+		{
+			window.onunload = func;
+		}
+		else
+		{
+			window.onunload = function()
+			{
+				oldonunload();
+				func();
+			}
+		}
+	},
+	
+	// ajax related functions
 	
 	ajaxReplace: function(url, el_id)
 	{
@@ -57,7 +102,8 @@ ilUtil = {
 	}
 }
 
-ilObject = {
+// ILIAS Object related functions
+il.Object = {
 	url_redraw_ah: "",
 	url_redraw_li: "",
 	
@@ -73,7 +119,7 @@ ilObject = {
 		var ah = document.getElementById("il_head_action");
 		if (this.url_redraw_ah && ah != null)
 		{
-			ilUtil.ajaxReplaceInner(this.url_redraw_ah, "il_head_action");
+			il.Util.ajaxReplaceInner(this.url_redraw_ah, "il_head_action");
 		}
 	},
 	
@@ -89,7 +135,7 @@ ilObject = {
 		var li = document.getElementById("lg_div_" + ref_id);
 		if (this.url_redraw_li && li != null)
 		{
-			ilUtil.ajaxReplace(this.url_redraw_li + "&child_ref_id=" + ref_id, "lg_div_" + ref_id);
+			il.Util.ajaxReplace(this.url_redraw_li + "&child_ref_id=" + ref_id, "lg_div_" + ref_id);
 		}
 	},
 	
@@ -128,63 +174,11 @@ ilObject = {
 /**
 * Adds a function to the window onload event
 */
-function ilAddOnLoad(func)
-{
-	if (!document.getElementById | !document.getElementsByTagName) return;
 
-	var oldonload=window.onload;
-	if (typeof window.onload != 'function')
-	{
-		window.onload = func;
-	}
-	else
-	{
-		window.onload = function()
-		{
-			oldonload();
-			func();
-		}
-	}
-}
-
-/**
-* Adds a function to the window unonload event
-*/
-function ilAddOnUnload(func)
-{
-	if (!document.getElementById | !document.getElementsByTagName) return
-	
-	var oldonunload = window.onunload
-	if (typeof window.onunload != 'function')
-	{
-		window.onunload = func
-	}
-	else
-	{
-		window.onunload = function()
-		{
-			oldonunload();
-			func()
-		}
-	}
-}
 
 // The following functions have been in <skin>/functions.js before.
 // @todo Revision of javascript function names and usage
 
-function popup_window(url, x1, x2, y1, y2)
-{
-	var xpos;
-
-	xpos = screen.availWidth / 100 * x1;
-	ypos = screen.availHeight / 100 * y1;
-	xwidth = (screen.availWidth / 100 * (x2 - x1)) - 5;
-	yheight = (screen.availHeight / 100 * (y2 - y1)) - 30;
-
-	window.open(url,"list","height=" + yheight + ",width=" + xwidth + ",left=" +xpos + ",ScreenX=" + xpos + ",ScreenY=" + ypos + ",top=" + ypos + ",resizable=yes,menubar=no,status=no,directories=no,toolbar=no,scrollbars=yes");
-
-	return false;
-}
 
 function CheckAll()
 {

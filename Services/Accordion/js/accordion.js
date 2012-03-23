@@ -246,7 +246,7 @@ accordion.prototype =
 	}
 }
 
-ilAddOnLoad(ilInitAccordions);
+il.Util.addOnLoad(ilInitAccordions);
 
 function ilInitAccordions()
 {

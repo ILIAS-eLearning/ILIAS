@@ -97,4 +97,4 @@ function histrowinit()
 	diffcheck();
 }
 
-ilAddOnLoad(histrowinit);
+il.Util.addOnLoad(histrowinit);

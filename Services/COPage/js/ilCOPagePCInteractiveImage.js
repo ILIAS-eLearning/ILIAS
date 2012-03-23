@@ -38,4 +38,4 @@ ilCOPagePCInteractiveImage =
 	}
 
 }
-ilAddOnLoad(function() {ilCOPagePCInteractiveImage.init();});
+il.Util.addOnLoad(function() {ilCOPagePCInteractiveImage.init();});

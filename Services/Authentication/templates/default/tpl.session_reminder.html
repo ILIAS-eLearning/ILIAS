@@ -20,7 +20,7 @@ String.prototype.sprintfString = function() {
 	return new String(value);
 };
 
-ilAddOnLoad(
+il.Util.addOnLoad(
 	function() {
 		window.setTimeout('sessionReminder()', {ILIAS_SESSION_COUNTDOWN});
 	}

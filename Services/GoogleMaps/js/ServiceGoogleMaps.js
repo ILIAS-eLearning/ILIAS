@@ -19,10 +19,10 @@ if (window.GIcon)
 if (window.GIcon)
 {
 	// init all maps on load
-	ilAddOnLoad(ilInitMaps)
+	il.Util.addOnLoad(ilInitMaps)
 
 	// Call google unload function
-	ilAddOnUnload(GUnload)
+	il.Util.addOnUnload(GUnload)
 }
 
 /** 
