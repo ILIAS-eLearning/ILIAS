@@ -70,7 +70,7 @@ $('#' + o.argument.block_id).html(o.responseText);
 */
 		if (typeof il_sr_opt != "undefined")
 		{
-			ilGoSRFocus(o.argument.block_id + "_blhead");
+			il.Util.setScreenReaderFocus(o.argument.block_id + "_blhead");
 		}
 		
 		

@@ -220,6 +220,7 @@ class ilCheckboxListOverlayGUI
 		$overlay = new ilOverlayGUI("ilChkboxListOverlay_".$this->getId());
 		$overlay->setAnchor("ilChkboxListAnchorEl_".$this->getId());
 		$overlay->setTrigger("ilChkboxListTrigger_".$this->getId());
+		$overlay->setAutoHide(false);
 		//$overlay->setSize("300px", "300px");
 		$overlay->add();
 
