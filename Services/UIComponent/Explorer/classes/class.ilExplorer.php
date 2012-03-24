@@ -781,14 +781,14 @@ class ilExplorer
 
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initConnection();
-		$tpl->addJavaScript("./Services/Explorer/js/ilexplorercallback.js");
+		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
 		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
 //echo "hh";
 		// set global body class
 		$tpl->setBodyClass("il_Explorer");
 		
-		$tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/Explorer");
+		$tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 		
 		// updater
 		if (($_GET["ict"] || $_POST["collapseAll"] != "" || $_POST["expandAll"] != "") && $this->up_frame != "")
@@ -976,7 +976,7 @@ class ilExplorer
 				else
 				{
 					$target = $this->createTarget('+',$a_node_id, $a_option["highlighted_subtree"], false);
-					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"ilExplorerJSHandler('tree_div', '".$target."'); return false;\"");
+					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('".$target."', 'tree_div');\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
@@ -1013,7 +1013,7 @@ class ilExplorer
 				else
 				{
 					$target = $this->createTarget('-',$a_node_id, $a_option["highlighted_subtree"], false);
-					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"ilExplorerJSHandler('tree_div', '".$target."'); return false;\"");
+					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('".$target."', 'tree_div');\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
