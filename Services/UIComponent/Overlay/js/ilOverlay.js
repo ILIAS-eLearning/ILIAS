@@ -1,9 +1,7 @@
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-var ilOverlayFunc = function() {
-};
-ilOverlayFunc.prototype =
+il.Overlay =
 {
 	overlays: {},
 	cfg: {},
@@ -18,20 +16,20 @@ ilOverlayFunc.prototype =
 	add: function (id, cfg)
 	{
 //cfg.auto_hide = true;
-		ilOverlayFunc.prototype.overlays[id] =
+		il.Overlay.overlays[id] =
 			new YAHOO.widget.Overlay(id, cfg.yuicfg);
-		ilOverlayFunc.prototype.cfg[id] = cfg;
-		ilOverlayFunc.prototype.closeCnt[id] = -1;
+		il.Overlay.cfg[id] = cfg;
+		il.Overlay.closeCnt[id] = -1;
 		YAHOO.util.Event.addListener(id, "mouseover",
-			function(e) {ilOverlay.mouseOver(e, id);});
+			function(e) {il.Overlay.mouseOver(e, id);});
 		YAHOO.util.Event.addListener(id, "mouseout",
-			function(e) {ilOverlay.mouseOut(e, id);});
+			function(e) {il.Overlay.mouseOut(e, id);});
 
 		// close element
 		if (this.getCfg(id, 'close_el') != '')
 		{
 			YAHOO.util.Event.addListener(this.getCfg(id, 'close_el'), "click",
-				function(e) {ilOverlay.hide(e, id);});
+				function(e) {il.Overlay.hide(e, id);});
 		}
 		
 		if (cfg.trigger)
@@ -40,15 +38,15 @@ ilOverlayFunc.prototype =
 			this.addTrigger(cfg.trigger, cfg.trigger_event, id, cfg.anchor_id,
 							cfg.fixed_center, 'tl', 'bl');
 			//YAHOO.util.Event.addListener(trigger, "click",
-			//	function(event) {ilOverlay.toggle(event, id); return false;});
+			//	function(event) {il.Overlay.toggle(event, id); return false;});
 		}
-		ilOverlayFunc.prototype.overlays[id].render();
+		il.Overlay.overlays[id].render();
 		this.fixPosition(id);
 	},
 	
 	addTrigger: function (tr_id, tr_ev, ov_id, anchor_id, center, ov_corner, anch_corner)
 	{
-		ilOverlayFunc.prototype.trigger[tr_id] =
+		il.Overlay.trigger[tr_id] =
 			{trigger_event: tr_ev, overlay_id: ov_id, anchor_id: anchor_id, center: center,
 			ov_corner: ov_corner, anch_corner: anch_corner};
 		var trigger = document.getElementById(tr_id);
@@ -56,7 +54,7 @@ ilOverlayFunc.prototype =
 		// added this line instead due to bug 6724
 		YAHOO.util.Event.removeListener(trigger, tr_ev);
 		YAHOO.util.Event.addListener(trigger, tr_ev,
-			function(event) {ilOverlay.togglePerTrigger(event, tr_id); return false;});
+			function(event) {il.Overlay.togglePerTrigger(event, tr_id); return false;});
 	},
 	
 	getCfg: function (id, name)
@@ -75,19 +73,19 @@ ilOverlayFunc.prototype =
 	// toggle overlay by trigger elements (often anchor)
 	togglePerTrigger: function (e, tr_id)
 	{
-		var ov_id = ilOverlayFunc.prototype.trigger[tr_id].overlay_id;
-		var anchor_id = ilOverlayFunc.prototype.trigger[tr_id].anchor_id;
-		var center = ilOverlayFunc.prototype.trigger[tr_id].center;
-		var ov_corner = ilOverlayFunc.prototype.trigger[tr_id].ov_corner;
-		var anch_corner = ilOverlayFunc.prototype.trigger[tr_id].anch_corner;
+		var ov_id = il.Overlay.trigger[tr_id].overlay_id;
+		var anchor_id = il.Overlay.trigger[tr_id].anchor_id;
+		var center = il.Overlay.trigger[tr_id].center;
+		var ov_corner = il.Overlay.trigger[tr_id].ov_corner;
+		var anch_corner = il.Overlay.trigger[tr_id].anch_corner;
 		this.toggle(e, ov_id, anchor_id, center, ov_corner, anch_corner,
-			ilOverlayFunc.prototype.trigger[tr_id].trigger_event)
+			il.Overlay.trigger[tr_id].trigger_event)
 	},
 	
 	// toggle overlay	
 	toggle: function (e, id, anchor_id, center, ov_corner, anch_corner, tr_ev)
 	{
-		if (ilOverlayFunc.prototype.overlays[id].cfg.getProperty('visible'))
+		if (il.Overlay.overlays[id].cfg.getProperty('visible'))
 		{
 			if (tr_ev != "mouseover")
 			{
@@ -127,7 +125,7 @@ ilOverlayFunc.prototype =
 	show: function(e, id, anchor_id, center, ov_corner, anch_corner)
 	{
 		// hide all other overlays (currently the standard procedure)
-		ilOverlay.hideAllOverlays(e, true, id);
+		il.Overlay.hideAllOverlays(e, true, id);
 		
 		// display the overlay at the anchor position
 		var el = document.getElementById(id);
@@ -270,7 +268,7 @@ ilOverlayFunc.prototype =
 	
 	// hide all overlays
 	hideAllOverlays: function (e, force, omit) {
-		for (var k in ilOverlayFunc.prototype.overlays)
+		for (var k in il.Overlay.overlays)
 		{
 			var isIn = false;
 			
@@ -308,7 +306,7 @@ ilOverlayFunc.prototype =
 			if (!isIn) {
 				if (k != 'ilHelpPanel')
 				{
-					ilOverlayFunc.prototype.hide(null, k);
+					il.Overlay.hide(null, k);
 				}
 			}
 		}
@@ -346,7 +344,7 @@ ilOverlayFunc.prototype =
 		}
 		if (this.closeCnt[id] > -1)
 		{
-			setTimeout("ilOverlay.closeProcess('" + id + "')", 200);
+			setTimeout("il.Overlay.closeProcess('" + id + "')", 200);
 			this.closeProcessRunning[id] = true;
 		}
 		else
@@ -357,74 +355,11 @@ ilOverlayFunc.prototype =
 
 	loadAsynch: function (id, sUrl)
 	{
-		var cb =
-		{
-			success: this.asynchSuccess,
-			failure: this.asynchFailure,
-			argument: { id: id}
-		};
-	
-		var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, cb);
-		
+		il.Util.ajaxReplaceInner(sUrl, id);
 		return false;
 	},
 	
-	// handle asynchronous request (success)
-	asynchSuccess: function(o)
-	{
-		// parse headers function
-		function parseHeaders()
-		{
-			var allHeaders = headerStr.split("\n");
-			var headers;
-			for(var i=0; i < headers.length; i++)
-			{
-				var delimitPos = header[i].indexOf(':');
-				if(delimitPos != -1)
-				{
-					headers[i] = "<p>" +
-					headers[i].substring(0,delimitPos) + ":"+
-					headers[i].substring(delimitPos+1) + "</p>";
-				}
-			return headers;
-			}
-		}
-	
-		// perform modification
-		if(typeof o.responseText != "undefined")
-		{
-			// this a little bit complex procedure fixes innerHTML with forms in IE
-			var newdiv = document.createElement("div");
-			newdiv.innerHTML = o.responseText;
-			var el = document.getElementById(o.argument.id);
-			if (!el)
-			{
-				return;
-			}
-			el.innerHTML = '';
-			el.appendChild(newdiv);
-			
-			// for safari: eval all javascript nodes
-			if (YAHOO.env.ua.webkit != "0" && YAHOO.env.ua.webkit != "1")
-			{
-				//alert("webkit!");
-				var els = YAHOO.util.Dom.getElementsBy(function(l){return true;}, "script", newdiv);
-				for(var i= 0; i<=els.length; i++)
-				{
-					eval(els[i].innerHTML);
-				}
-			}
-			ilOverlay.fixPosition(o.argument.id);
-		}
-	},
-	
-	// Success Handler
-	asynchFailure: function(o)
-	{
-		//alert('FailureHandler');
-	}
-
 };
-var ilOverlay = new ilOverlayFunc();
+
 YAHOO.util.Event.addListener(document, "click",
-	function(e) {ilOverlay.hideAllOverlays(e, false, "")});
+	function(e) {il.Overlay.hideAllOverlays(e, false, "")});

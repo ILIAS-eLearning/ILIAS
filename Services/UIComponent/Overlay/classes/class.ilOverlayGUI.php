@@ -160,7 +160,7 @@ class ilOverlayGUI
 
 		include_once("./Services/JSON/classes/class.ilJsonUtil.php");
 //var_dump(ilJsonUtil::encode($cfg));
-		return 'ilOverlay.add("'.$this->overlay_el_id.'", '.
+		return 'il.Overlay.add("'.$this->overlay_el_id.'", '.
 			ilJsonUtil::encode($cfg).'); ';
 	}
 	
@@ -201,7 +201,7 @@ class ilOverlayGUI
 								  $a_ov_corner = "tl", $a_anch_corner = "bl")
 	{
 		$center = ($a_center) ? "true" : "false";
-		return 'ilOverlay.addTrigger("'.$a_tr_id.'","'.$a_tr_event.'","'.$this->overlay_el_id.'","'.
+		return 'il.Overlay.addTrigger("'.$a_tr_id.'","'.$a_tr_event.'","'.$this->overlay_el_id.'","'.
 			$a_anchor_el_id.'", '.$center.',"'.$a_ov_corner.'","'.$a_anch_corner.'"); ';
 	}
 	

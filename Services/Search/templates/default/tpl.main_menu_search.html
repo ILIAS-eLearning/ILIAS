@@ -60,14 +60,14 @@
 					$("#main_menu_search").bind("focusin focusout keyup click", function(e) {
 							if (this.value.length < 1 && e.type != "focusout")
 							{
-								ilOverlay.show(e, "mm_search_menu", "main_menu_search",
+								il.Overlay.show(e, "mm_search_menu", "main_menu_search",
 									false, 'tl', 'bl');
 							}
 							else
 							{
 								if (e.type == "keyup")
 								{
-									ilOverlay.hide(e, "mm_search_menu");
+									il.Overlay.hide(e, "mm_search_menu");
 								}
 							}
 						});
