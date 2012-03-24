@@ -31,11 +31,11 @@
 <!-- END constraint_section -->
 <!-- BEGIN selectall -->
 <tr>
-	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="setChecked('form_constraints', 'includeElements', document.form_constraints.chb_check_all.checked);" /></td>
+	<td class="{COLOR_CLASS}"><input type="checkbox" id="chb_check_all" name="chb_check_all" value="1" onclick="il.Util.setChecked('form_constraints', 'includeElements', document.form_constraints.chb_check_all.checked);" /></td>
   <td class="{COLOR_CLASS}" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
 	<td class="{COLOR_CLASS}">
 <!-- BEGIN selectall_preconditions -->
-		<input type="checkbox" id="chb_check_all_preconditions" name="chb_check_all_preconditions" value="1" onclick="setChecked('form_constraints', 'constraint_', document.form_constraints.chb_check_all_preconditions.checked);" />
+		<input type="checkbox" id="chb_check_all_preconditions" name="chb_check_all_preconditions" value="1" onclick="il.Util.setChecked('form_constraints', 'constraint_', document.form_constraints.chb_check_all_preconditions.checked);" />
   	<label for="chb_check_all_preconditions"><strong>{SELECT_ALL_PRECONDITIONS}</strong></label>
 <!-- END selectall_preconditions -->
 	</td>

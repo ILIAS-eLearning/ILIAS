@@ -52,6 +52,47 @@ il.Util = {
 		}
 	},
 	
+	/**
+	 * Checks/unchecks checkboxes
+	 *
+	 * @param   string   parent name or id
+	 * @param   string   the checkbox name (or the first characters of the name, if unique)
+	 * @param   boolean  whether to check or to uncheck the element
+	 * @return  boolean  always true
+	 */
+	 setChecked: function(parent_el, checkbox_name, do_check){
+	 	var name_sel = '';
+	 	if (checkbox_name != '')
+	 	{
+	 		name_sel = '[name^="' + checkbox_name + '"]';
+	 	}
+		if(do_check)
+		{
+			$("#" + parent_el).find("input:checkbox" + name_sel).attr('checked', 'checked');
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).attr('checked', 'checked');
+		}
+		else
+		{
+			$("#" + parent_el).find("input:checkbox" + name_sel).removeAttr('checked');
+			$('[name="' + parent_el + '"]').find("input:checkbox" + name_sel).removeAttr('checked');
+		}
+	  return true;
+	},
+	
+	
+	submitOnEnter: function(ev, form)
+	{
+		if (typeof ev != 'undefined' && typeof ev.keyCode != 'undefined')
+		{
+			if (ev.keyCode == 13)
+			{
+				form.submit();
+				return false;
+			}
+		}
+		return true;
+	},
+
 	// ajax related functions
 	
 	ajaxReplace: function(url, el_id)
@@ -99,6 +140,48 @@ il.Util = {
 	handleAjaxFailure: function(o)
 	{
 		console.log("ilNotes.js: Ajax Failure.");
+	},
+	
+	// Screen reader related functions
+	
+	// Set focus for screen reader per element id
+	setScreenReaderFocus: function(id)
+	{
+		var obj = document.getElementById(id);
+		if (obj)
+		{
+			obj.focus();
+			self.location.hash = id;
+		}
+	},
+	
+	// Set standard screen reader focus
+	setStdScreenReaderFocus: function()
+	{
+		var obj = document.getElementById("il_message_focus");
+		if (obj)
+		{
+			obj.focus();
+			self.location.hash = 'il_message_focus';
+		}
+		else
+		{
+			obj = document.getElementById("il_lm_head");
+			if (obj && self.location.hash == '')
+			{
+				obj.focus();
+				self.location.hash = 'il_lm_head';
+			}
+			else
+			{
+				obj = document.getElementById("il_mhead_t_focus");
+				if (obj && self.location.hash == '')
+				{
+					obj.focus();
+					self.location.hash = 'il_mhead_t_focus';
+				}
+			}
+		}
 	}
 }
 
@@ -172,120 +255,6 @@ il.Object = {
 }
 
 /**
-* Adds a function to the window onload event
-*/
-
-
-// The following functions have been in <skin>/functions.js before.
-// @todo Revision of javascript function names and usage
-function isEmpty(form, a_values, a_checks) 
-{	
-	feed_back = "";
-	
-	if (a_values != "")
-	{
-		if (a_values == "all")
-		{
-			for(var i=0;i<form.length;i++)
-			{				
-				if (form.elements[i].type == "text" || form.elements[i].type == "textarea")
-				{
-					if (form.elements[i].value == "")
-						feed_back += "-> " + form.elements[i].id + "\n";
-				}
-			}
-		}
-	}
-	
-	if (feed_back != "") {
-		alert("Please insert these data:\n\n" + feed_back);
-		return false;
-	}
-	
-	return true;
-}
-
-function printPage()
-{
-	window.print();
-	return true;
-}
-
-// used two times in notes and sessions
-function CheckAll()
-{
-	if(document.cmd.all)
-	{
-		var c = document.cmd.all.checked;
-	}
-	for (var i=0;i<document.cmd.elements.length;i++)
-	{
-		var e = document.cmd.elements[i];
- 	  	if(e.name != 'all') e.checked = c;
-   	}
-}
-
-
-
-function setCheckedTest(e)
-{
-	return true;
-}
-
-// used in course items, frm wizard, scorm track items, session member row
-// svy constraints, tst maintentance, tst marks, container list block, copy wizard
-// paste into multi explorer, table, table2, user export
-/**
- * Checks/unchecks checkboxes
- *
- * @param   string   the form name
- * @param   string   the checkbox name (or the first characters of the name, if unique)
- * @param   boolean  whether to check or to uncheck the element
- * @return  boolean  always true
- */
-function setChecked(parent_el, checkbox_name, do_check){
-	var e = document.forms[parent_el];
-	if (!e)
-	{
-		e = document.getElementById(parent_el);
-	}
-	ilCheckBoxName = checkbox_name;
-	els = YAHOO.util.Dom.getElementsBy(setCheckedTest, "input", e, null, null, null); 
-	for (var i=0;i<els.length;i++)
-	{
-		if ((typeof els[i].name != 'undefined') && els[i].name.indexOf(checkbox_name) == 0
-			&& els[i].disabled != true)
-		{
-			els[i].checked = do_check;
-		}
-	}
-  return true;
-} // end of the 'setCheckboxes()' function
-
-// used by copy wizard block
-/**
- * Checks/unchecks checkboxes
- *
- * @param   string   the form name
- * @param   string   the checkbox name (or the first characters of the name, if unique)
- * @param   boolean  whether to check or to uncheck the element
- * @return  boolean  always true
- */
-function setCheckedById(the_form, id_name, do_check)
-{
-	for (var i=0;i<document.forms[the_form].elements.length;i++)
-	{
-		var e = document.forms[the_form].elements[i];
-		if(e.id == id_name)
-		{
-			e.checked = do_check;
-		}
-	}
-  return true;
-} // end of the 'setCheckboxes()' function
-
-// tpl users online row
-/**
  * Opens a chat window
  *
  * @param   object	the link which was clicked
@@ -316,58 +285,6 @@ function openChatWindow(oLink, width, height)
 	oChatWindow.focus();
 }
 
-// Set focus for screen reader
-function ilGoSRFocus(id)
-{
-	obj = document.getElementById(id);
-	if (obj)
-	{
-		obj.focus();
-		self.location.hash = id;
-	}
-}
-
-// Set focus for screen reader
-function ilScreenReaderFocus()
-{
-	obj = document.getElementById("il_message_focus");
-	if (obj)
-	{
-		obj.focus();
-		self.location.hash = 'il_message_focus';
-	}
-	else
-	{
-		obj = document.getElementById("il_lm_head");
-		if (obj && self.location.hash == '')
-		{
-			obj.focus();
-			self.location.hash = 'il_lm_head';
-		}
-		else
-		{
-			obj = document.getElementById("il_mhead_t_focus");
-			if (obj && self.location.hash == '')
-			{
-				obj.focus();
-				self.location.hash = 'il_mhead_t_focus';
-			}
-		}
-	}
-}
-
-function ilSubmitOnEnter(ev, form)
-{
-	if (typeof ev != 'undefined' && typeof ev.keyCode != 'undefined')
-	{
-		if (ev.keyCode == 13)
-		{
-			form.submit();
-			return false;
-		}
-	}
-	return true;
-}
 
 function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 {

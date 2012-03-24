@@ -16,7 +16,7 @@
 <!-- END tbl_header_title --><!-- BEGIN tbl_header_description --><div class="subtitle" style="clear:left; margin: 0px 0px 10px 0px;">{TBL_DESCRIPTION}</div>
 <!-- END tbl_header_description -->
 <!-- BEGIN filter_section -->
-<div class="ilTableFilterSec" id = "tfil_{FIL_ID}">
+<div class="ilTableFilterSec" id = "tfil_{FIL_ID}" style="display:none;">
 <fieldset class="ilTableFilter">
 <legend class="ilTableFilter">{TXT_FILTER}
 <!-- BEGIN filter_deactivation -->
@@ -67,7 +67,7 @@
 	</td>
 	<td style="text-align:right; white-space:nowrap;" >
 	<!-- BEGIN filter_activation -->
-	<a class="ilTableFilterActivator ilTableMenuItem" id = "atfil_{FILA_ID}" style="display:none;" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
+	<a class="ilTableFilterActivator ilTableMenuItem" id = "atfil_{FILA_ID}" href="#" onclick="return ilShowTableFilter('tfil_{FILA_ID}', '{SAVE_URLA}');">{TXT_ACTIVATE_FILTER}</a>
 	<!-- END filter_activation -->
 	<!-- BEGIN filter_hidden -->
 	<script type="text/javascript">
@@ -186,7 +186,7 @@
 <!-- END tbl_hidden_row -->
 <!-- BEGIN select_all_checkbox -->
 <div class="ilTableSelectAll">
-	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{CHECKBOXNAME}.checked);" />
+	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="il.Util.setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{CHECKBOXNAME}.checked);" />
 	<label for="{CHECKBOXNAME}" class="small">{SELECT_ALL_TXT_SELECT_ALL}</label>
 </div>
 <!-- END select_all_checkbox -->
