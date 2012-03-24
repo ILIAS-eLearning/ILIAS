@@ -1,7 +1,7 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-ilNestedList =
+il.NestedList =
 {
 	lists: {},
 
@@ -85,7 +85,7 @@ ilNestedList =
 					{
 						eclass = this.lists[list_id].cfg['col_class'];
 					}
-					expand_link = "<a onclick='ilNestedList.toggle(this," +
+					expand_link = "<a onclick='il.NestedList.toggle(this," +
 						'"' + list_id + '","' + k + '"' +
 						"); return false;' href='#' class='" + eclass + "'> </a>";
 				}
