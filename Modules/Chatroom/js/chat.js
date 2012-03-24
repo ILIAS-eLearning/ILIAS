@@ -164,10 +164,10 @@
 				return false;
 			})
 			.mouseout(function() {
-				ilAdvancedSelectionList.itemOff(this);
+				il.AdvancedSelectionList.itemOff(this);
 			})
 			.mouseover(function() {
-				ilAdvancedSelectionList.itemOn(this);
+				il.AdvancedSelectionList.itemOn(this);
 			});
 		}
 		return line;
@@ -251,10 +251,10 @@
 				})
 				)
 			.mouseout(function() {
-				ilAdvancedSelectionList.itemOff(this);
+				il.AdvancedSelectionList.itemOff(this);
 			})
 			.mouseover(function() {
-				ilAdvancedSelectionList.itemOn(this);
+				il.AdvancedSelectionList.itemOn(this);
 			});
 
 			return line;

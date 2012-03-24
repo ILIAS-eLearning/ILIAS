@@ -1,6 +1,7 @@
-var ilAdvancedSelectionListFunc = function() {
-};
-ilAdvancedSelectionListFunc.prototype =
+
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+il.AdvancedSelectionList =
 {
 	lists: {},
 	items: {},
@@ -132,4 +133,3 @@ ilAdvancedSelectionListFunc.prototype =
 	}
 
 };
-var ilAdvancedSelectionList = new ilAdvancedSelectionListFunc();

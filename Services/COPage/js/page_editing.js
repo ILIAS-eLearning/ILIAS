@@ -177,7 +177,7 @@ var ilCOPage =
 		{
 //			ilFormSend("insertJS", ed_para, null, "saveonly");
 			var content = this.getContentForSaving();
-			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			var style_class = il.AdvancedSelectionList.getHiddenInput('style_selection');
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
 			// pc_id_str: ed_para,
@@ -199,7 +199,7 @@ var ilCOPage =
 		{
 			//ilFormSend("saveJS", ed_para, null, "saveonly");
 			var content = this.getContentForSaving();
-			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			var style_class = il.AdvancedSelectionList.getHiddenInput('style_selection');
 			//this.copyInputToGhost(false);
 			//this.removeTiny();
 			
@@ -238,7 +238,7 @@ var ilCOPage =
 		else if (this.getInsertStatus() && !ilCOPage.quick_insert_id)
 		{
 			var content = this.getContentForSaving();;
-			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			var style_class = il.AdvancedSelectionList.getHiddenInput('style_selection');
 
 			if (ed_para == "")
 			{
@@ -256,7 +256,7 @@ var ilCOPage =
 		else
 		{
 			var content = this.getContentForSaving();
-			var style_class = ilAdvancedSelectionList.getHiddenInput('style_selection');
+			var style_class = il.AdvancedSelectionList.getHiddenInput('style_selection');
 			
 			if (this.pc_id_str == "")
 			{
@@ -909,7 +909,7 @@ this.copyInputToGhost(false);
 //						var st_s = document.getElementById('style_selection');
 //						if (st_s != null)
 //						{
-							ilAdvancedSelectionList.selectItem('style_selection', st);
+							il.AdvancedSelectionList.selectItem('style_selection', st);
 //console.log("setting class: " + st);
 //						}
 					}
@@ -1091,7 +1091,7 @@ if (add_final_spacer)
 				//var st_s = document.getElementById('style_selection');
 				//if (st_s != null)
 				//{
-					ilAdvancedSelectionList.selectItem('style_selection', st);
+					il.AdvancedSelectionList.selectItem('style_selection', st);
 				//}
 			}
 			
@@ -1188,7 +1188,7 @@ if (add_final_spacer)
 	// target_id (target[] = target_id), mode)
 	// insertJS: "cmd[create_par] = "OK"", ansonsten (außer "saveDataTable"): "cmd[exec_" + source_id + "]" = "OK"
 	// saveJS, insertJS: "ajaxform_content" = tinyMCE.get('tinytarget').getContent();
-	// saveJS, insertJS: "ajaxform_char" = ilAdvancedSelectionList.getHiddenInput('style_selection');
+	// saveJS, insertJS: "ajaxform_char" = il.AdvancedSelectionList.getHiddenInput('style_selection');
 	//
 	// 'saveDataTable': ajax false, ansonsten true
 	sendFormRequest: function(par, ajax, args, success_cb)
@@ -1381,10 +1381,10 @@ if (add_final_spacer)
 				ilTooltip.init();
 				ilCOPagePres.updateQuestionOverviews();
 				il.IntLink.refresh();
-				if (ilAdvancedSelectionList != null)
+				if (il.AdvancedSelectionList != null)
 				{
-					ilAdvancedSelectionList.init['style_selection']();
-					ilAdvancedSelectionList.init['char_style_selection']();
+					il.AdvancedSelectionList.init['style_selection']();
+					il.AdvancedSelectionList.init['char_style_selection']();
 				}
 			}
 		}
@@ -1405,10 +1405,10 @@ if (add_final_spacer)
 //			ilCOPage.renderQuestions();
 			ilCOPagePres.updateQuestionOverviews();
 			il.IntLink.refresh();
-			if (ilAdvancedSelectionList != null)
+			if (il.AdvancedSelectionList != null)
 			{
-				ilAdvancedSelectionList.init['style_selection']();
-				ilAdvancedSelectionList.init['char_style_selection']();
+				il.AdvancedSelectionList.init['style_selection']();
+				il.AdvancedSelectionList.init['char_style_selection']();
 			}
 		}
 	},

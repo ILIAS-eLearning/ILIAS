@@ -50,9 +50,9 @@ var ilCOPageSuccessHandler = function(o)
 				center_td.innerHTML = o.responseText;
 				ilCOPage.initDragElements();
 				ilTooltip.init();
-				if (ilAdvancedSelectionList != null)
+				if (il.AdvancedSelectionList != null)
 				{
-					ilAdvancedSelectionList.init['style_selection']();
+					il.AdvancedSelectionList.init['style_selection']();
 				}
 			}
 		}

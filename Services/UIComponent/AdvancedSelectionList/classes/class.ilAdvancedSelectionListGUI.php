@@ -576,7 +576,7 @@ class ilAdvancedSelectionListGUI
 						if ($item["onclick"] == "")
 						{
 							$tpl->setVariable("ONCLICK_ITEM",
-								'onclick="'."return ilAdvancedSelectionList.openTarget('".$item["link"]."','".$item["frame"]."');".'"');
+								'onclick="'."return il.AdvancedSelectionList.openTarget('".$item["link"]."','".$item["frame"]."');".'"');
 						}
 						else
 						{
@@ -590,7 +590,7 @@ class ilAdvancedSelectionListGUI
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT)
 				{
 					$tpl->setVariable("ONCLICK_ITEM",
-						'onclick="return ilAdvancedSelectionList.submitForm(\''.$this->getId().'\''.
+						'onclick="return il.AdvancedSelectionList.submitForm(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$this->on_click_form_id."','".$this->form_mode["button_cmd"]."');\"");
 				}
@@ -598,7 +598,7 @@ class ilAdvancedSelectionListGUI
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SELECT)
 				{
 					$tpl->setVariable("ONCLICK_ITEM",
-						'onclick="return ilAdvancedSelectionList.selectForm(\''.$this->getId().'\''.
+						'onclick="return il.AdvancedSelectionList.selectForm(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$item["title"]."');\"");
 				}
@@ -606,7 +606,7 @@ class ilAdvancedSelectionListGUI
 					ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP)
 				{
 					$tpl->setVariable("ONCLICK_ITEM",
-						'onclick="ilAdvancedSelectionList.clickNop(\''.$this->getId().'\''.
+						'onclick="il.AdvancedSelectionList.clickNop(\''.$this->getId().'\''.
 							", '".$this->form_mode["select_name"]."','".$item["value"]."',".
 							"'".$item["title"]."');\"");
 				}
