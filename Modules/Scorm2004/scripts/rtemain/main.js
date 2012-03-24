@@ -106,12 +106,12 @@ function toggleTree() {
 	if (treeState==false) {
 		elm.innerHTML="Collapse All";
 		//treeYUI.expandAll();
-		ilNestedList.expandAll('rte_tree');
+		il.NestedList.expandAll('rte_tree');
 		treeState=true;
 	} else {
 		elm.innerHTML="Expand All";
 		//treeYUI.collapseAll();
-		ilNestedList.collapseAll('rte_tree');
+		il.NestedList.collapseAll('rte_tree');
 		treeState=false;
 	}
 }
@@ -1862,7 +1862,7 @@ function onWindowResize()
 function buildNavTree(rootAct,name,tree){
 	
 	// new implementation
-	ilNestedList.addList('rte_tree', {ul_class: 'ilc_rte_tul_RTETreeList',
+	il.NestedList.addList('rte_tree', {ul_class: 'ilc_rte_tul_RTETreeList',
 		li_class: 'ilc_rte_tli_RTETreeItem', exp_class: 'ilc_rte_texp_RTETreeExpanded',
 		col_class: 'ilc_rte_texp_RTETreeCollapsed'});
 	
@@ -1872,7 +1872,7 @@ function buildNavTree(rootAct,name,tree){
 	{
 		var id=rootAct.id;
 		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
-			ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
+			il.NestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
 				"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>",
 				true);
 			par_id = ITEM_PREFIX + rootAct.id;
@@ -1887,7 +1887,7 @@ function buildNavTree(rootAct,name,tree){
 				if (mlaunch.mNavState.mChoice!=null) {
 					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
 						
-						ilNestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
+						il.NestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
 							"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>",
 							true);
 						var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
@@ -1904,7 +1904,7 @@ function buildNavTree(rootAct,name,tree){
 	build2(rootAct, par_id);
 	
 	$("#treeView").empty();
-	ilNestedList.draw('rte_tree', 0, 'treeView');
+	il.NestedList.draw('rte_tree', 0, 'treeView');
 return; //??
 
 	var tocView = all('treeView');
