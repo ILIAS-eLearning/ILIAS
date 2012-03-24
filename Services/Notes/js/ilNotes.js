@@ -21,7 +21,7 @@ ilNotes =
 		}
 
 		// hide overlays
-		ilOverlay.hideAllOverlays(e, true);
+		il.Overlay.hideAllOverlays(e, true);
 		
 		this.hash = hash;
 		this.update_code = update_code;
@@ -43,7 +43,7 @@ ilNotes =
 		}
 
 		// hide overlays
-		ilOverlay.hideAllOverlays(e, true);
+		il.Overlay.hideAllOverlays(e, true);
 		
 		this.hash = hash;
 		this.update_code = update_code;
@@ -66,13 +66,13 @@ ilNotes =
 				var n = document.getElementById('ilNotesPanel');
 			}
 			
-			ilOverlay.add("ilNotesPanel", {yuicfg: {}});
-			ilOverlay.show(e, "ilNotesPanel");
+			il.Overlay.add("ilNotesPanel", {yuicfg: {}});
+			il.Overlay.show(e, "ilNotesPanel");
 			this.panel = true;
 		}
 		else
 		{
-			ilOverlay.show(e, "ilNotesPanel");
+			il.Overlay.show(e, "ilNotesPanel");
 //			this.panel.show();
 		}
 		

@@ -21,7 +21,7 @@ ilTagging =
 		}
 
 		// hide overlays
-		ilOverlay.hideAllOverlays(e, true);
+		il.Overlay.hideAllOverlays(e, true);
 		
 		this.hash = hash;
 		this.update_code = update_code;
@@ -44,14 +44,14 @@ ilTagging =
 				var n = document.getElementById('ilTagsPanel');
 			}
 			
-			ilOverlay.add("ilTagsPanel", {yuicfg: {}});
-			ilOverlay.show(e, "ilTagsPanel");
+			il.Overlay.add("ilTagsPanel", {yuicfg: {}});
+			il.Overlay.show(e, "ilTagsPanel");
 			this.panel = true;
 
 		}
 		else
 		{
-			ilOverlay.show(e, "ilTagsPanel");
+			il.Overlay.show(e, "ilTagsPanel");
 		}
 		
 		ilTagging.insertPanelHTML("");

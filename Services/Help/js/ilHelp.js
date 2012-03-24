@@ -19,7 +19,7 @@ ilHelp =
 			window.eventReturnValue = false;
 		}
 		// hide overlays
-		ilOverlay.hideAllOverlays(e, true);
+		il.Overlay.hideAllOverlays(e, true);
 		// add panel
 		this.initPanel(e);
 	},
@@ -38,13 +38,13 @@ ilHelp =
 				var n = document.getElementById('ilHelpPanel');
 			}
 			
-			ilOverlay.add("ilHelpPanel", {yuicfg: {}});
-			ilOverlay.show(e, "ilHelpPanel");
+			il.Overlay.add("ilHelpPanel", {yuicfg: {}});
+			il.Overlay.show(e, "ilHelpPanel");
 			this.panel = true;
 		}
 		else
 		{
-			ilOverlay.show(e, "ilHelpPanel");
+			il.Overlay.show(e, "ilHelpPanel");
 //			this.panel.show();
 		}
 		ilHelp.insertPanelHTML("");
@@ -197,7 +197,7 @@ ilHelp =
 	{
 		if (this.panel)
 		{
-			ilOverlay.hide(e, "ilHelpPanel");
+			il.Overlay.hide(e, "ilHelpPanel");
 			ilHelp.panel = false;
 			ilHelp.resetMainContentArea();
 		}

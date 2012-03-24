@@ -367,7 +367,7 @@ ilCOPagePres =
 			
 			// @todo: initialize the overlay
 			/*
-			ilOverlay.add("iim_popup_" + tr.tr_id,
+			il.Overlay.add("iim_popup_" + tr.tr_id,
 				{"yuicfg":{"visible":false,"fixedcenter":false,
 					"context":["iim_ov_area_" + tr.tr_id,"tl","bl",["beforeShow","windowResize"]]},
 				"trigger":"iim_ov_area_" + tr.tr_id,
@@ -376,7 +376,7 @@ ilCOPagePres =
 				"auto_hide":false,
 				"close_el":"iim_ov_area_" + tr.tr_id});
 			*/
-			ilOverlay.add("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'],
+			il.Overlay.add("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'],
 				{"yuicfg":{"visible":false,"fixedcenter":false},
 				"auto_hide":false});
 		}
@@ -389,11 +389,11 @@ ilCOPagePres =
 		var pos = base.position();
 		var x = pos.left + parseInt(ilCOPagePres.iim_trigger[tr_id]['popx']);
 		var y = pos.top + parseInt(ilCOPagePres.iim_trigger[tr_id]['popy']);
-		ilOverlay.setWidth("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], ilCOPagePres.iim_trigger[tr_id]['popwidth']);
-		ilOverlay.setHeight("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], ilCOPagePres.iim_trigger[tr_id]['popheight']);
-		ilOverlay.toggle(e, "iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], null, false, null, null, "click");
-		ilOverlay.setX("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], x);
-		ilOverlay.setY("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], y);
+		il.Overlay.setWidth("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], ilCOPagePres.iim_trigger[tr_id]['popwidth']);
+		il.Overlay.setHeight("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], ilCOPagePres.iim_trigger[tr_id]['popheight']);
+		il.Overlay.toggle(e, "iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], null, false, null, null, "click");
+		il.Overlay.setX("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], x);
+		il.Overlay.setY("iim_popup_" + tr['iim_id'] + "_" + tr['popup_nr'], y);
 
 		e.preventDefault();
 	},

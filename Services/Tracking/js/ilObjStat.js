@@ -19,7 +19,7 @@ ilObjStat =
 		}
 
 		// hide overlays
-		ilOverlay.hideAllOverlays(e, true);
+		il.Overlay.hideAllOverlays(e, true);
 		
 		// add panel
 		this.initPanel(e);
@@ -40,13 +40,13 @@ ilObjStat =
 				var n = document.getElementById('ilobjstatlpdt');
 			}
 			
-			ilOverlay.add("ilobjstatlpdt", {yuicfg: {}});
-			ilOverlay.show(e, "ilobjstatlpdt");
+			il.Overlay.add("ilobjstatlpdt", {yuicfg: {}});
+			il.Overlay.show(e, "ilobjstatlpdt");
 			this.panel = true;
 		}
 		else
 		{
-			ilOverlay.show(e, "ilobjstatlpdt");
+			il.Overlay.show(e, "ilobjstatlpdt");
 //			this.panel.show();
 		}
 		
@@ -77,7 +77,7 @@ ilObjStat =
 														
 				// add close event			
 				$('#ilobjstatlpdtclosebtn').click(function(e) {							
-						ilOverlay.hideAllOverlays(e.originalEvent, true);							
+						il.Overlay.hideAllOverlays(e.originalEvent, true);							
 						return false;
 					});
 			}
