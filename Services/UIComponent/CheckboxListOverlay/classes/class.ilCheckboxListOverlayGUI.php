@@ -107,26 +107,6 @@ class ilCheckboxListOverlayGUI
 	}
 	
 	/**
-	 * Set url
-	 *
-	 * @param	string	url
-	 */
-	function setUrl($a_val)
-	{
-		$this->url = $a_val;
-	}
-	
-	/**
-	 * Get url
-	 *
-	 * @return	string	url
-	 */
-	function getUrl()
-	{
-		return $this->url;
-	}
-	
-	/**
 	* Set Selection Header Class.
 	*
 	* @param	string	$a_selectionheaderclass	Selection Header Class
@@ -214,8 +194,6 @@ class ilCheckboxListOverlayGUI
 		
 		$items = $this->getItems();
 
-		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/CheckboxListOverlay/js/ilCheckboxListOverlay.js");
-
 		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 		$overlay = new ilOverlayGUI("ilChkboxListOverlay_".$this->getId());
 		$overlay->setAnchor("ilChkboxListAnchorEl_".$this->getId());
@@ -262,12 +240,6 @@ class ilCheckboxListOverlayGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-		if ($this->getUrl() != "")
-		{
-			$tpl->setVariable("ONCLICK",
-				"onclick=\"return ilCheckboxListOverlay.save('".
-				$this->getUrl()."', '".$this->getFieldVar()."');\"");
-		}
 		$tpl->setVariable("ID", $this->getId());
 		$tpl->setVariable("HIDDEN_VAR", $this->getHiddenVar());
 		$tpl->setVariable("CMD_SUBMIT", $this->getFormCmd());

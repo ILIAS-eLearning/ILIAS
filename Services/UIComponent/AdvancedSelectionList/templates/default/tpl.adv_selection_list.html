@@ -23,12 +23,12 @@
 <!-- END no_js_section -->
 <!-- BEGIN js_section -->
 <span style="display:none; white-space:nowrap;" class="{CLASS_SEL_TOP_SPAN}" id="ilAdvSelListAnchorElement_{ID}">
-					<!-- ilAdvancedSelectionList.toggle('{ID}', {TOGGLE_OPTIONS}); -->
+					<!-- il.AdvancedSelectionList.toggle('{ID}', {TOGGLE_OPTIONS}); -->
 <a onclick="this.blur();  return false;" {ACCKEY} class="{CLASS_SEL_TOP}" href="#" target="_top">
 <span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span><!-- BEGIN top_img --> <img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}" /><!-- END top_img -->
 </a>
 </span>
-<!-- onmouseover="ilAdvancedSelectionList.listOn('{ID}', false);" onmouseout="ilAdvancedSelectionList.listOff('{ID}');" -->
+<!-- onmouseover="il.AdvancedSelectionList.listOn('{ID}', false);" onmouseout="il.AdvancedSelectionList.listOff('{ID}');" -->
 <div style="position: absolute; z-index:5000; left:0px; right:0px;">
 <div class="il_adv_sel" style="overflow:auto; background-color:white; clear:both; display:none; position:absolute;" id="ilAdvSelListTable_{ID}">
 <!-- BEGIN cmd_table -->
@@ -39,7 +39,7 @@
 </tr>
 <!-- END asynch_request -->
 <!-- BEGIN item -->
-<tr class="il_adv_sel" onmouseover="ilAdvancedSelectionList.itemOn(this);" onmouseout="ilAdvancedSelectionList.itemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel_ic"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel_ic"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><!-- BEGIN href_s --><a id="{ID_ITEM}" {HREF_ITEM} <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class -->><!-- END href_s -->{TXT_ITEM}<!-- BEGIN href_e --></span></a><!-- END href_e --></td></tr>
+<tr class="il_adv_sel" onmouseover="il.AdvancedSelectionList.itemOn(this);" onmouseout="il.AdvancedSelectionList.itemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel_ic"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel_ic"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><!-- END image --><td class="il_adv_sel"><!-- BEGIN href_s --><a id="{ID_ITEM}" {HREF_ITEM} <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class -->><!-- END href_s -->{TXT_ITEM}<!-- BEGIN href_e --></span></a><!-- END href_e --></td></tr>
 <!-- END item -->
 </table>
 <!-- END cmd_table -->
@@ -50,16 +50,16 @@
 </div>
 </div>
 <script type="text/javascript">
-ilAdvancedSelectionList.init['{ID}'] = function ()
+il.AdvancedSelectionList.init['{ID}'] = function ()
 {
-	ilAdvancedSelectionList.add('{ID}', {CFG});
+	il.AdvancedSelectionList.add('{ID}', {CFG});
 	<!-- BEGIN js_item -->
-	ilAdvancedSelectionList.addItem('{IT_ID}', '{IT_HID_NAME}', '{IT_HID_VAL}', '{IT_TITLE}');
+	il.AdvancedSelectionList.addItem('{IT_ID}', '{IT_HID_NAME}', '{IT_HID_VAL}', '{IT_TITLE}');
 	<!-- END js_item -->
 	<!-- BEGIN init_hidden_input -->
-	ilAdvancedSelectionList.setHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
+	il.AdvancedSelectionList.setHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
 	<!-- END init_hidden_input -->
 }
-ilAdvancedSelectionList.init['{ID}']();
+il.AdvancedSelectionList.init['{ID}']();
 </script>
 <!-- END js_section -->
