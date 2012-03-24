@@ -49,7 +49,7 @@ var ilCOPageSuccessHandler = function(o)
 				var center_td = edit_div.parentNode;
 				center_td.innerHTML = o.responseText;
 				ilCOPage.initDragElements();
-				ilTooltip.init();
+				il.Tooltip.init();
 				if (il.AdvancedSelectionList != null)
 				{
 					il.AdvancedSelectionList.init['style_selection']();

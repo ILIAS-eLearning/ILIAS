@@ -1,7 +1,7 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-ilHelp =
+il.Help =
 {
 	panel: false,
 	ajax_url: '',
@@ -47,8 +47,8 @@ ilHelp =
 			il.Overlay.show(e, "ilHelpPanel");
 //			this.panel.show();
 		}
-		ilHelp.insertPanelHTML("");
-		ilHelp.reduceMainContentArea();
+		il.Help.insertPanelHTML("");
+		il.Help.reduceMainContentArea();
 
 		var obj = document.getElementById('ilHelpPanel');
 		obj.style.position = 'fixed';
@@ -158,7 +158,7 @@ ilHelp =
 			else
 			{
 				// default action: replace html
-				ilHelp.insertPanelHTML(o.responseText);
+				il.Help.insertPanelHTML(o.responseText);
 				
 				// todo: only when called initially
 				ilInitAccordionById('oh_acc');
@@ -180,9 +180,9 @@ ilHelp =
 	reduceMainContentArea: function()
 	{
 		var obj = document.getElementById('mainspacekeeper');
-		if (ilHelp.padding_old == "-")
+		if (il.Help.padding_old == "-")
 		{
-			ilHelp.padding_old = obj.style.paddingRight;
+			il.Help.padding_old = obj.style.paddingRight;
 		}
 		obj.style.paddingRight = '300px';
 	},
@@ -198,8 +198,8 @@ ilHelp =
 		if (this.panel)
 		{
 			il.Overlay.hide(e, "ilHelpPanel");
-			ilHelp.panel = false;
-			ilHelp.resetMainContentArea();
+			il.Help.panel = false;
+			il.Help.resetMainContentArea();
 		}
 	}
 

@@ -3,7 +3,7 @@
 /**
  * Tooltip object
  */
-var ilTooltip =
+var il.Tooltip =
 {
 	tooltips: [],	// array for all tooltips
 

@@ -1378,7 +1378,7 @@ if (add_final_spacer)
 				var edit_div = document.getElementById('il_EditPage');
 				$('#il_EditPage').replaceWith(c);
 				ilCOPage.initDragElements();
-				ilTooltip.init();
+				il.Tooltip.init();
 				ilCOPagePres.updateQuestionOverviews();
 				il.IntLink.refresh();
 				if (il.AdvancedSelectionList != null)
@@ -1401,7 +1401,7 @@ if (add_final_spacer)
 			//edit_div.innerHTML = o.responseText;
 			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
-			ilTooltip.init();
+			il.Tooltip.init();
 //			ilCOPage.renderQuestions();
 			ilCOPagePres.updateQuestionOverviews();
 			il.IntLink.refresh();
