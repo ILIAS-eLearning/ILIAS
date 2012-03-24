@@ -213,7 +213,7 @@ class ilHelpGUI
 				foreach ($pages as $pg)
 				{
 					$grp_list->addEntry(ilLMObject::_lookupTitle($pg["child"]), "#", "",
-						"return ilHelp.showPage(".$pg["child"].");");
+						"return il.Help.showPage(".$pg["child"].");");
 				}
 				
 				$acc->addItem(ilLMObject::_lookupTitle($st_id), $grp_list->getHTML());
@@ -245,7 +245,7 @@ class ilHelpGUI
 		$h_tpl->setCurrentBlock("backlink");
 		$h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
 		$h_tpl->setVariable("ONCLICK_BACK",
-			"return ilHelp.listHelp(event);");
+			"return il.Help.listHelp(event);");
 		$h_tpl->parseCurrentBlock();
 		
 		

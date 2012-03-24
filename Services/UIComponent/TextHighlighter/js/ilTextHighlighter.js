@@ -1,4 +1,5 @@
-/* Copyright (c) 1998-2010 ILIAS open source,
+
+/* Copyright (c) 1998-2012 ILIAS open source,
 
 Code is based on:
 
@@ -13,9 +14,7 @@ Johann Burkard
 
 */
 
-var ilTextHighlighterFunc = function() {
-};
-ilTextHighlighterFunc.prototype =
+il.TextHighlighter =
 {
 	highlight: function (id, pat)
 	{
@@ -55,4 +54,3 @@ ilTextHighlighterFunc.prototype =
 		return skip;
 	}
 }
-var ilTextHighlighter = new ilTextHighlighterFunc();

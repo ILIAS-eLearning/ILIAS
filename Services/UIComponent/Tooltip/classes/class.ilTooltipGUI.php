@@ -25,7 +25,7 @@ class ilTooltipGUI
 			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 			ilYuiUtil::initTooltip();
 			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
-			$tpl->addOnLoadCode('ilTooltip.init();', 3);
+			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
 			self::$initialized = true;
 		}
 		
@@ -48,7 +48,7 @@ class ilTooltipGUI
 			$addstr.= ", container: '".$a_container."'";
 		}
 
-		return 'ilTooltip.add("'.$a_el_id.'", { context:"'.$a_el_id.
+		return 'il.Tooltip.add("'.$a_el_id.'", { context:"'.$a_el_id.
 			'", text:"'.htmlspecialchars(str_replace(array("\n", "\r"), "", $a_text)).'" '.$addstr.'} );';
 	}
 	

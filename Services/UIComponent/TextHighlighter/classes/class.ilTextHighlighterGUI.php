@@ -23,7 +23,7 @@ class ilTextHighlighterGUI
 			$a_tpl = $tpl;
 		}
 		$a_tpl->addJavascript("./Services/UIComponent/TextHighlighter/js/ilTextHighlighter.js");
-		$a_tpl->addOnLoadCode("ilTextHighlighter.highlight('".$a_dom_node_id."','".$a_text."');"); 
+		$a_tpl->addOnLoadCode("il.TextHighlighter.highlight('".$a_dom_node_id."','".$a_text."');"); 
 	}
 }
 ?>

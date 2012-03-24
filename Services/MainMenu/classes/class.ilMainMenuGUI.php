@@ -984,7 +984,7 @@ class ilMainMenuGUI
 			$ilCtrl->setTargetScript("ilias.php");
 			
 			$ilHelp->setCtrlPar();
-			$tpl->addOnLoadCode("ilHelp.setAjaxUrl('".
+			$tpl->addOnLoadCode("il.Help.setAjaxUrl('".
 				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
 				."');");
 			$ilCtrl->setTargetScript($ts);

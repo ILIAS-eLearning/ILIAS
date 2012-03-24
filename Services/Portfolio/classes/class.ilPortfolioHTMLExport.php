@@ -146,7 +146,7 @@ class ilPortfolioHTMLExport
 		
 		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();		
 		$this->tpl->getStandardTemplate();
-		$this->tpl->addOnLoadCode('ilTooltip.init();', 3);
+		$this->tpl->addOnLoadCode('il.Tooltip.init();', 3);
 		
 		// workaround
 		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
