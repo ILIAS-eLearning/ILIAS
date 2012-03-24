@@ -87,7 +87,7 @@ class ilMailExplorer extends ilExplorer
 		// set global body class
 		$tpl->setBodyClass("il_Explorer");
 		
-		$tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/Explorer");
+		$tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 		
 		$cur_depth = -1;
 
