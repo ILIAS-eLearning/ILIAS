@@ -2101,7 +2101,7 @@ class ilTemplate extends ilTemplateX
 	*/
 	function fillAdminPanel()
 	{
-		global $lng;
+		global $lng, $ilHelp;
 		
 		$adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 		
@@ -2167,8 +2167,9 @@ class ilTemplate extends ilTemplateX
 				"main_page_form");
 			foreach ($this->creation_selector["options"] as $item)
 			{
+				$ttip = $ilHelp->getObjCreationTooltip($item["value"]);
 				$selection->addItem($item["title"], $item["value"], "",
-					$item["img"], $item["title"], "");
+					$item["img"], $item["title"], "", "", false, "", $ttip);
 			}
 			$this->setVariable("SELECT_OBJTYPE_REPOS",
 				$selection->getHTML());

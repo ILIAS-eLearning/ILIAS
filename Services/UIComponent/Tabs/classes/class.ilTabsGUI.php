@@ -475,6 +475,16 @@ class ilTabsGUI
 				}
 	
 				$tpl->setCurrentBlock($pre."tab");
+				$tpl->setVariable("ID", $pre."tab_".$target["id"]);
+				
+				// tooltip
+				$ttext = $ilHelp->getTabTooltipText($target["id"]);
+				if ($ttext != "")
+				{
+					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+					ilTooltipGUI::addTooltip($pre."tab_".$target["id"], $ttext);
+				}
+				
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);
 				$hash = ($ilUser->getPref("screen_reader_optimization"))
 					? "#after_".$sr_pre."tabs"

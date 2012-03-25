@@ -283,6 +283,36 @@ class ilHelpGUI
 		exit;
 	}
 	
+	/**
+	 * Get tab tooltip text
+	 *
+	 * @param string $a_tab_id tab id
+	 * @return string tooltip text
+	 */
+	function getTabTooltipText($a_tab_id)
+	{
+		global $lng;
+		
+		if ($this->screen_id_component != "")
+		{
+			return $lng->txt("help_tt_".$this->screen_id_component."_".$a_tab_id);
+		}
+		return "";
+	}
+	
+	/**
+	 * Get tab tooltip text
+	 *
+	 * @param string $a_tab_id tab id
+	 * @return string tooltip text
+	 */
+	function getObjCreationTooltip($a_type)
+	{
+		global $lng;
+		
+		return $lng->txt("help_tt_cr_".$a_type);
+	}
+	
 
 }
 ?>
