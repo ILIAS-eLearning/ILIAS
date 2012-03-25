@@ -6,6 +6,12 @@
 </object>
 </p>
 <!-- END flv -->
+<!-- BEGIN audio -->
+<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}"></audio>
+<script>
+$('#player_{APLAYER_NR}').mediaelementplayer({});
+</script>
+<!-- END audio -->
 <!-- BEGIN default -->
 <p id="player{PLAYER_NR}">
 <script type="text/javascript">

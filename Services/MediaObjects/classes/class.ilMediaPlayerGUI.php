@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2012 ILIAS open source, GPL, see docs/LICENSE */
 
 /**
 * User interface for media player. Wraps flash mp3 player and similar tools.
@@ -132,16 +113,32 @@ class ilMediaPlayerGUI
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
+		// flv
 		if (is_int(strpos($mimeType,"flv")))
 		{
-			$tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");		
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 			$mp_tpl->setCurrentBlock("flv");
 			$mp_tpl->setVariable("FILE", urlencode($this->getFile()));
 			$mp_tpl->setVariable("PLAYER_NR", self::$nr);
-			$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "20");
+			$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "30");
 			$mp_tpl->setVariable("DISPLAY_WIDTH", "320");
 			$mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
+			self::$nr++;
+			$mp_tpl->parseCurrentBlock();
+			return $mp_tpl->get();
+		}
+		
+		// audio/mpeg
+		if (is_int(strpos($mimeType,"audio/mpeg")))
+		{
+			$tpl->addCss("./Services/MediaObjects/media_element_2_7_0/mediaelementplayer.min.css");
+			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_7_0/mediaelement-and-player.min.js");
+			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+			$mp_tpl->setCurrentBlock("audio");
+			$mp_tpl->setVariable("AFILE", $this->getFile());
+			$mp_tpl->setVariable("APLAYER_NR", self::$nr);
+			$mp_tpl->setVariable("AHEIGHT", "30");
+			$mp_tpl->setVariable("AWIDTH", "320");
 			self::$nr++;
 			$mp_tpl->parseCurrentBlock();
 			return $mp_tpl->get();
