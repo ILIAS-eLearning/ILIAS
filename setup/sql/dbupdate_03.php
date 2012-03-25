@@ -9048,3 +9048,40 @@ $ilDB->addIndex("help_map", array("chap"), "ch");
 			"default" => 0));
 	}
 ?>
+<#3539>
+<?php
+$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'tt_text' => array(
+		'type' => 'text',
+		'length' => 4000,
+		'notnull' => false,
+		'fixed' => false
+	)
+	);
+$ilDB->createTable('help_tooltip', $fields);
+$ilDB->addPrimaryKey('help_tooltip', array('id'));
+$ilDB->createSequence("help_tooltip");
+?>
+<#3540>
+<?php
+$fields = array(
+	'text_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'tt_id' => array(
+		'type' => 'text',
+		'length' => 30,
+		'notnull' => true,
+		'fixed' => false
+	)
+	);
+$ilDB->createTable('help_tt_map', $fields);
+$ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
+?>
