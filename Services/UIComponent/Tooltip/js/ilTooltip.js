@@ -3,7 +3,7 @@
 /**
  * Tooltip object
  */
-var il.Tooltip =
+il.Tooltip =
 {
 	tooltips: [],	// array for all tooltips
 
@@ -26,8 +26,21 @@ var il.Tooltip =
 
 		for (k in this.tooltips)
 		{
-			this.tooltips[k].tp = new YAHOO.widget.Tooltip("ttip_" + this.tooltips[k].el_id,
-				this.tooltips[k].cfg);
+//			this.tooltips[k].tp = new YAHOO.widget.Tooltip("ttip_" + this.tooltips[k].el_id,
+//				this.tooltips[k].cfg);
+			$("#" + this.tooltips[k].el_id).qtip({
+				position: {
+					my: this.tooltips[k].cfg.my,
+					at: this.tooltips[k].cfg.at,
+					viewport: $(window)
+				},
+				style: {
+					classes: 'ui-tooltip-shadow ui-tooltip-rounded'
+				},
+				content: {
+					text: this.tooltips[k].cfg.text
+				}
+			});
 		}
 	}
 }

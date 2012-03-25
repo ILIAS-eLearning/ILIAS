@@ -16,20 +16,23 @@ class ilTooltipGUI
 	 * @param string $a_el_id tooltip text
 	 * @param string $a_el_id element id of container the tooltip should be added to
 	 */
-	static function addTooltip($a_el_id, $a_text, $a_container = "")
+	static function addTooltip($a_el_id, $a_text, $a_container = "",
+		$a_my = "bottom center", $a_at = "top center")
 	{
 		global $tpl;
 		
 		if (!self::$initialized)
 		{
-			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-			ilYuiUtil::initTooltip();
+//			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+//			ilYuiUtil::initTooltip();
+$tpl->addCss("./Services/UIComponent/Tooltip/lib/qtip_2_0_nightly/jquery.qtip.min.css");
+$tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_nightly/jquery.qtip.min.js");
 			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
 			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
 			self::$initialized = true;
 		}
 		
-		$code = self::getTooltip($a_el_id, $a_text, $a_container);
+		$code = self::getTooltip($a_el_id, $a_text, $a_container, $a_my, $a_at);
 		$tpl->addOnLoadCode($code); 
 	}
 	
@@ -40,7 +43,8 @@ class ilTooltipGUI
 	 * @param string $a_el_id tooltip text
 	 * @param string $a_el_id element id of container the tooltip should be added to
 	 */
-	static function getToolTip($a_el_id, $a_text, $a_container = "")
+	static function getToolTip($a_el_id, $a_text, $a_container = "",
+		$a_my = "bottom center", $a_at = "top center")
 	{
 		$addstr = "";
 		if ($a_container != "")
@@ -48,8 +52,11 @@ class ilTooltipGUI
 			$addstr.= ", container: '".$a_container."'";
 		}
 
-		return 'il.Tooltip.add("'.$a_el_id.'", { context:"'.$a_el_id.
-			'", text:"'.htmlspecialchars(str_replace(array("\n", "\r"), "", $a_text)).'" '.$addstr.'} );';
+		return 'il.Tooltip.add("'.$a_el_id.'", {'.
+			' context:"'.$a_el_id.'",'.
+			' my:"'.$a_my.'",'.
+			' at:"'.$a_at.'",'.
+			' text:"'.htmlspecialchars(str_replace(array("\n", "\r"), "", $a_text)).'" '.$addstr.'} );';
 	}
 	
 }
