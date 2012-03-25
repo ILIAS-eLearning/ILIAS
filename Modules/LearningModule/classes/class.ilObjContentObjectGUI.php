@@ -2543,12 +2543,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					$lng->txt("cont_html_export_ids"),
 					$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
 			}
-			else
-			{
-				$ilTabs->addSubtab("export_ids",
-					$lng->txt("cont_online_help_ids"),
-					$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
-			}
+		}
+		if (ilObjContentObject::isOnlineHelpModule($this->object->getRefId()))
+		{
+			$ilTabs->addSubtab("export_ids",
+				$lng->txt("cont_online_help_ids"),
+				$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
+			
+			$ilTabs->addSubtab("help_tooltips",
+				$lng->txt("cont_help_tooltips"),
+				$ilCtrl->getLinkTarget($this, "showTooltipList"));
 		}
 		
 		// list links
@@ -3499,7 +3503,52 @@ $tabs_gui = $ilTabs;
 		$ilCtrl->redirect($this, "showExportIdsOverview");
 	}
 	
-	
+	////
+	//// Help tooltips
+	////
+
+	/**
+	 * Show export IDs overview
+	 *
+	 * @param
+	 * @return
+	 */
+	function showTooltipList()
+	{
+		global $tpl;
+
+		$this->setTabs();
+		$this->setContentSubTabs("help_tooltips");
+		
+		include_once("./Modules/LearningModule/classes/class.ilHelpTooltipTableGUI.php");
+		$tbl = new ilHelpTooltipTableGUI($this, "showTooltipList");
+
+		$tpl->setContent($tbl->getHTML());
+	}
+
+	/**
+	 * Save help mapping
+	 *
+	 * @param
+	 * @return
+	 */
+/*	function saveHelpMapping()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("./Services/Help/classes/class.ilHelpMapping.php");
+		if (is_array($_POST["screen_ids"]))
+		{
+			foreach ($_POST["screen_ids"] as $chap => $ids)
+			{
+				$ids = explode("\n", $ids);
+				ilHelpMapping::saveScreenIdsForChapter($chap, $ids);
+			}
+		}
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "showExportIdsOverview");
+	}*/
+
 	
 	////
 	//// Set layout
