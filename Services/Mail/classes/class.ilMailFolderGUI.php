@@ -809,6 +809,17 @@ class ilMailFolderGUI
 			$this->tpl->setVariable('CSSROW_CC', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// BCC
+		if($mailData['rcp_bcc'])
+		{
+			$this->tpl->setCurrentBlock('bcc');
+			$this->tpl->setVariable('TXT_BCC',$this->lng->txt('bc'));
+			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+			$this->tpl->setVariable('BCC', ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_bcc']), false));
+			$this->tpl->setVariable('CSSROW_BCC', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		// SUBJECT
 		$this->tpl->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
