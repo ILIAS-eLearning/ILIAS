@@ -661,11 +661,18 @@ class ilInitialisation
 		
 		// if target given, try to go there
 		if ($_GET["target"] != "")
-		{						
+		{	
+			// when we are already "inside" goto.php no redirect is needed
+			$current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);	
+			if($current_script == "goto.php")
+			{
+				return;
+			}		
+			
 			// goto will check if target is accessible or redirect to login
 			ilUtil::redirect("goto.php?target=".$_GET["target"]);			
 		}
-
+		
 		// we do not know if ref_id of request is accesible, so redirecting to root
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 		$_GET["cmd"] = "frameset";
@@ -696,16 +703,6 @@ class ilInitialisation
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat.$add;
 	
-		/* startupgui handles gotos
-		// check whether we are currently doing a goto call
-		if (is_int(strpos($_SERVER["PHP_SELF"], "goto.php")) && $_GET["soap_pw"] == "" &&
-			$_GET["reloadpublic"] != "1")
-		{
-			$script = "goto.php?target=".$_GET["target"]."&client_id=".CLIENT_ID.
-				"&reloadpublic=1";
-		}		 
-	    */
-
 		ilUtil::redirect($script);
 	}
 

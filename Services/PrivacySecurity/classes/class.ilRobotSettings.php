@@ -127,7 +127,23 @@ class ilRobotSettings
 	 	{
 	 		return true;
 	 	}
-	 	$status_info = @apache_lookup_uri(ILIAS_HTTP_PATH.'/goto_'.CLIENT_ID.'_root_1.html');
+		
+		$url = ILIAS_HTTP_PATH.'/goto_'.CLIENT_ID.'_root_1.html';
+	 	$status_info = @apache_lookup_uri($url);
+		
+		// fallback for php as cgi (and available remote fopen)
+		if($status_info === false && ini_get('allow_url_fopen'))
+		{		
+			// fopen respects HTTP error codes 
+			$fp = @fopen($url, 'r');			
+			if($fp)
+			{
+				fclose($fp);
+				return true;				
+			}
+			return false;
+		}
+		
 		return $status_info->status == 200;
 	}
 }
