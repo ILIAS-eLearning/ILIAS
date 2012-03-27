@@ -9088,7 +9088,7 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 <#3541>
 <?php
 
-	if( $ilDB->tableExists('qpl_hints') )
+	if( !$ilDB->tableExists('qpl_hints') )
 	{
 		$ilDB->createTable('qpl_hints', array(
 			'qht_hint_id' => array(
