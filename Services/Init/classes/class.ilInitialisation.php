@@ -1071,9 +1071,13 @@ class ilInitialisation
 		
 		// force login
 		if ((isset($_GET["cmd"]) && $_GET["cmd"] == "force_login"))
-		{
-			ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
+		{			
 			$ilAuth->logout();
+			
+			// we need to do this for the session statistics
+			// could we use session_destroy() instead?
+			// [this is done after every $ilAuth->logout() call elsewhere] 
+			ilSession::_destroy(session_id(), ilSession::SESSION_CLOSE_LOGIN);
 
 			// :TODO: keep session because of cart content?
 			if(!isset($_GET['forceShoppingCartRedirect']))
