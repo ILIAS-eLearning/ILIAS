@@ -247,6 +247,8 @@ class ilECSConnector
 	 */
 	public function readEventFifo($a_delete = false)
 	{
+		global $ilLog;
+
 		$this->path_postfix = '/sys/events/fifo';
 
 		try {
