@@ -71,6 +71,7 @@ class ilECSEventQueueReader
 	 *
 	 * @return bool
 	 * @static
+	 * throws ilException, ilECSConnectorException
 	 */
 	 public static function handleImportReset(ilECSSetting $server)
 	 {
@@ -85,7 +86,7 @@ class ilECSEventQueueReader
 			include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-			
+
 			$event_queue = new ilECSEventQueueReader($server->getServerId());
 			$event_queue->deleteAllEContentEvents();
 			
@@ -139,12 +140,12 @@ class ilECSEventQueueReader
 		catch(ilECSConnectorException $e1)
 		{
 			$ilLog->write('Cannot connect to ECS server: '.$e1->getMessage());
-			return false;
+			throw $e1;
 		}
 		catch(ilException $e2)
 		{
 			$ilLog->write('Update failed: '.$e2->getMessage());
-			return false;
+			throw $e2;
 		}
 		return true;
 	 }
@@ -155,6 +156,7 @@ class ilECSEventQueueReader
 	 *
 	 * @return bool
 	 * @static
+	 * throws ilException, ilECSConnectorException
 	 */
 	 public static function handleExportReset(ilECSSetting $server)
 	 {
@@ -177,12 +179,12 @@ class ilECSEventQueueReader
 		catch(ilECSConnectorException $e)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Connect failed '.$e->getMessage());
-			return false;
+			throw $e;
 		}
 		catch(ilECSReaderException $e)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Connect failed '.$e->getMessage());
-			return false;
+			throw $e;
 		}
 
 		$remote_econtent_ids = array();
