@@ -261,6 +261,16 @@ class ilECSConnector
 			}
 			$res = $this->call();
 
+			// Checking status code
+			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+			$ilLog->write(__METHOD__.': Checking HTTP status...');
+			if($info != self::HTTP_CODE_OK)
+			{
+				$ilLog->write(__METHOD__.': Cannot read event fifo, did not receive HTTP 200. ');
+				throw new ilECSConnectorException('Received HTTP status code: '.$info);
+			}
+			$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
+
 			$result = new ilECSResult($res);
 			return $result;
 	 	}
@@ -284,6 +294,16 @@ class ilECSConnector
 			$this->prepareConnection();
 			$this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
 			$res = $this->call();
+
+			// Checking status code
+			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+			$ilLog->write(__METHOD__.': Checking HTTP status...');
+			if($info != self::HTTP_CODE_OK)
+			{
+				$ilLog->write(__METHOD__.': Cannot get ressource list, did not receive HTTP 200. ');
+				throw new ilECSConnectorException('Received HTTP status code: '.$info);
+			}
+			$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
 
 			return new ilECSResult($res,false,  ilECSResult::RESULT_TYPE_URL_LIST);
 
@@ -332,8 +352,15 @@ class ilECSConnector
 	 		$this->prepareConnection();
 			$res = $this->call();
 
-//print_r($this->curl->getResponseHeaderArray());
+			// Checking status code
 			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+			$ilLog->write(__METHOD__.': Checking HTTP status...');
+			if($info != self::HTTP_CODE_OK)
+			{
+				$ilLog->write(__METHOD__.': Cannot get ressource, did not receive HTTP 200. ');
+				throw new ilECSConnectorException('Received HTTP status code: '.$info);
+			}
+			$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
 			
 			$result = new ilECSResult($res);
 			$result->setHeaders($this->curl->getResponseHeaderArray());
@@ -516,6 +543,14 @@ class ilECSConnector
 	 	{
 	 		$this->prepareConnection();
 			$res = $this->call();
+
+			// Checking status code
+			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+			if($info != self::HTTP_CODE_OK)
+			{
+				$ilLog->write(__METHOD__.': Cannot get memberships, did not receive HTTP 200. ');
+				throw new ilECSConnectorException('Received HTTP status code: '.$info);
+			}
 			
 			return new ilECSResult($res);
 	 	}
