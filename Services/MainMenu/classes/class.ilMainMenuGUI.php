@@ -355,7 +355,7 @@ class ilMainMenuGUI
 	 */
 	function renderMainMenuListEntries($a_tpl, $a_call_get = true)
 	{
-		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting;
+		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilAccess;
 
 		// personal desktop
 		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
@@ -378,27 +378,30 @@ class ilMainMenuGUI
 		}
 
 		// repository
-		include_once('./Services/Link/classes/class.ilLink.php');
-		$nd = $tree->getNodeData(ROOT_FOLDER_ID);
-		$title = $nd["title"];
-		if ($title == "ILIAS")
+		if($ilAccess->checkAccess('visible','',ROOT_FOLDER_ID))
 		{
-			$title = $lng->txt("repository");
-		}
-		//$this->renderEntry($a_tpl, "repository",
-		//	$title,
-		//	ilLink::_getStaticLink(1,'root',true),
-		//	$this->target);
-		if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-		{
-			$this->renderEntry($a_tpl, "repository",
-				$title, "#");
-			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-			$ov = new ilOverlayGUI("mm_rep_ov");
-			$ov->setTrigger("mm_rep_tr");
-			$ov->setAnchor("mm_rep_tr");
-			$ov->setAutoHide(false);
-			$ov->add();
+			include_once('./Services/Link/classes/class.ilLink.php');
+			$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+			$title = $nd["title"];
+			if ($title == "ILIAS")
+			{
+				$title = $lng->txt("repository");
+			}
+			//$this->renderEntry($a_tpl, "repository",
+			//	$title,
+			//	ilLink::_getStaticLink(1,'root',true),
+			//	$this->target);
+			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			{
+				$this->renderEntry($a_tpl, "repository",
+					$title, "#");
+				include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+				$ov = new ilOverlayGUI("mm_rep_ov");
+				$ov->setTrigger("mm_rep_tr");
+				$ov->setAnchor("mm_rep_tr");
+				$ov->setAutoHide(false);
+				$ov->add();
+			}
 		}
 
 		// search
