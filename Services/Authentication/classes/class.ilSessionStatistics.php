@@ -255,6 +255,11 @@ class ilSessionStatistics
 		{
 			// open/close counters are _not_ time related
 			
+			// we could filter for undefined/invalid closing contexts 
+			// and ignore those items, but this would make any debugging
+			// close to impossible
+			// "closed_other" would have been a good idea...
+			
 			// session opened
 			if($item["start_time"] >= $a_begin)
 			{				
