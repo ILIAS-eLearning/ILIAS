@@ -616,8 +616,10 @@ class ilInitialisation
 	
 	/**
 	 * go to public section
+	 * 
+	 * @param int $a_auth_stat
 	 */
-	public static function goToPublicSection()
+	public static function goToPublicSection($a_auth_stat = "")
 	{
 		global $ilAuth;
 				
@@ -627,7 +629,15 @@ class ilInitialisation
 		}
 
 		// logout and end previous session
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_PUBLIC);
+		if($a_auth_stat == AUTH_EXPIRED ||
+			$a_auth_stat == AUTH_IDLED)
+		{
+			ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
+		}
+		else
+		{
+			ilSession::setClosingContext(ilSession::SESSION_CLOSE_PUBLIC);
+		}
 		$ilAuth->logout();
 		session_unset();
 		session_destroy();
@@ -689,7 +699,15 @@ class ilInitialisation
 		global $ilAuth;
 		
 		// close current session
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
+		if($a_auth_stat == AUTH_EXPIRED ||
+			$a_auth_stat == AUTH_IDLED)
+		{
+			ilSession::setClosingContext(ilSession::SESSION_CLOSE_EXPIRE);
+		}
+		else
+		{
+			ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
+		}
 		$ilAuth->logout();
 		session_unset();
 		session_destroy();
@@ -1175,7 +1193,7 @@ class ilInitialisation
 			($status == "" || $status == AUTH_EXPIRED || $status == AUTH_IDLED) &&
 			$_GET["reloadpublic"] != "1")
 		{
-			self::goToPublicSection();
+			self::goToPublicSection($status);
 		}
 		else
 		{
