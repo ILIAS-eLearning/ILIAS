@@ -9085,3 +9085,41 @@ $fields = array(
 $ilDB->createTable('help_tt_map', $fields);
 $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 ?>
+<#3541>
+<?php
+
+	if( $ilDB->tableExists('qpl_hints') )
+	{
+		$ilDB->createTable('qpl_hints', array(
+			'qht_hint_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'qht_question_fi' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'qht_hint_index' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'qht_hint_points' => array(
+				'type' => 'float',
+				'notnull' => true,
+				'default' => 0
+			),
+			'qht_hint_text' => array(
+				'type' => 'text',
+				'length' => 4000,
+				'fixed' => false,
+				'notnull' => true
+			)
+		));
+		
+		$ilDB->addPrimaryKey('qpl_hints', array('qht_hint_id'));
+	}
+	
+?>
