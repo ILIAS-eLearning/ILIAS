@@ -9120,6 +9120,7 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 		));
 		
 		$ilDB->addPrimaryKey('qpl_hints', array('qht_hint_id'));
+		$ilDB->createSequence('qpl_hints');
 	}
 	
 ?>
