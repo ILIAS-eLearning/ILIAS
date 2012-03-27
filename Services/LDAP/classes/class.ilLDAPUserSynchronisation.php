@@ -227,6 +227,9 @@ class ilLDAPUserSynchronisation
 	 */
 	protected function readUserData()
 	{
+		// Add internal account to user data
+		$this->user_data['ilInternalAccount'] = $this->getInternalAccount();
+
 		if(substr($this->getAuthMode(),0,4) == 'ldap')
 		{
 			return true;
@@ -236,10 +239,6 @@ class ilLDAPUserSynchronisation
 		$user = $query->fetchUser($this->getExternalAccount());
 
 		$this->user_data = (array) $user[$this->getExternalAccount()];
-
-		// TODO: remove ilInternalAccount from ldap query
-		// DONE
-		#$this->user_data['ilInternalAccount'] = $this->getInternalAccount();
 	}
 
 
@@ -257,7 +256,6 @@ class ilLDAPUserSynchronisation
 			$this->getAuthMode(),
 			$this->getExternalAccount()
 		);
-		#$GLOBALS['ilLog']->write(__METHOD__.' Using internal account '.$this->getInternalAccount());
 	}
 
 	/**
