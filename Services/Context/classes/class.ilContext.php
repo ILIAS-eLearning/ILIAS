@@ -113,6 +113,14 @@ class ilContext
 	 */
 	public static function supportsRedirects()
 	{
+		global $ilCtrl;
+		
+		// asynchronous calls must never be redirected
+		if($ilCtrl && $ilCtrl->isAsynch())
+		{
+			return false;
+		}
+		
 		return (bool)self::callContext("supportsRedirects");
 	}
 	

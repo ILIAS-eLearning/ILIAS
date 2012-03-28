@@ -316,16 +316,15 @@ class ilInitialisation
 			$c = $_COOKIE["ilClientId"];
 			$default_client = $ilIliasIniFile->readVariable("clients","default");						
 			ilUtil::setCookie("ilClientId", $default_client);
-			if (CLIENT_ID != "" && CLIENT_ID != $default_client &&
-				ilContext::supportsRedirects())
-			{				
-				ilUtil::redirect("index.php?client_id=".$default_client);							
-			}
+			if (CLIENT_ID != "" && CLIENT_ID != $default_client)
+			{								
+				self::redirect("index.php?client_id=".$default_client, 
+					"Client ".$c." does not exist.");							
+			}			
 			else
 			{
-				self::abortAndDie('Client '.$c.' does not exist. Please '.
-					'<a href="./index.php">click here</a> to return to the default client.');
-			}	
+				self::abortAndDie("Invalid client");
+			}
 		}
 		
 		self::initGlobal("ilClientIniFile", $ilClientIniFile);
@@ -375,23 +374,16 @@ class ilInitialisation
 		global $ilClientIniFile;
 
 		if (!$ilClientIniFile->readVariable("client","access"))
-		{
-			if (ilContext::hasHTML() && ilContext::supportsRedirects() &&
-				is_file("./maintenance.html"))
+		{						
+			$mess = "The server is not available due to maintenance.".
+					" We apologise for any inconvenience";
+			
+			if (ilContext::hasHTML() && is_file("./maintenance.html"))
 			{
-				ilUtil::redirect("./maintenance.html");
+				self::redirect("./maintenance.html", $mess);
 			}
 			else
-			{
-				$mess = "The server is not available due to maintenance.".
-					" We apologise for any inconvenience";
-				
-				// to do: include standard template here
-				if(ilContext::hasHTML())
-				{
-					$mess = '<br /><p style="text-align:center;">'.$mess.'</p>';
-				}
-				
+			{											
 				self::abortAndDie($mess);
 			}
 		}
@@ -669,6 +661,8 @@ class ilInitialisation
 		
 		self::initUserAccount();
 		
+		$mess = "Authentication failed.";
+		
 		// if target given, try to go there
 		if ($_GET["target"] != "")
 		{	
@@ -680,13 +674,14 @@ class ilInitialisation
 			}		
 			
 			// goto will check if target is accessible or redirect to login
-			ilUtil::redirect("goto.php?target=".$_GET["target"]);			
+			self::redirect("goto.php?target=".$_GET["target"], $mess);			
 		}
 		
 		// we do not know if ref_id of request is accesible, so redirecting to root
 		$_GET["ref_id"] = ROOT_FOLDER_ID;
 		$_GET["cmd"] = "frameset";
-		ilutil::redirect("ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".$_GET["cmd"]."&ref_id=".$_GET["ref_id"]);
+		self::redirect("ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=".
+			$_GET["cmd"]."&ref_id=".$_GET["ref_id"], $mess);
 	}
 
 	/**
@@ -721,7 +716,7 @@ class ilInitialisation
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat.$add;
 	
-		ilUtil::redirect($script);
+		self::redirect($script, "Authentication failed.");
 	}
 
 	/**
@@ -1182,10 +1177,7 @@ class ilInitialisation
 					$ilAuth->start();
 					$ilias->setAuthError($ilErr->getLastError());
 
-					if(ilContext::supportsRedirects())
-					{
-						ilUtil::redirect("index.php");
-					}
+					self::redirect("index.php", "Account has been migrated.");					
 				}
 			}		
 		}			
@@ -1339,6 +1331,39 @@ class ilInitialisation
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Redirects to target url if context supports it
+	 * 
+	 * @param string $a_target
+	 * @param string $a_message_details
+	 */
+	protected static function redirect($a_target, $a_message_details)
+	{		
+		if(ilContext::supportsRedirects())
+		{
+			ilUtil::redirect($a_target);
+		}		
+		else
+		{			
+			// user-directed linked message
+			if(ilContext::usesHTTP() && ilContext::hasHTML())
+			{								
+				$mess = $a_message_details.
+					' Please <a href="'.$a_target.'">click here</a> to continue.';					
+			}
+			// plain text 
+			else
+			{			
+				// :TODO: error handling for asynch calls (error codes/exceptions?)
+							
+				// not much we can do here
+				$mess = $a_message_details;						
+			}
+			
+			self::abortAndDie($mess);			
+		}
 	}
 }
 
