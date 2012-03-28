@@ -12489,3 +12489,4 @@ certificate#:#certificate_file_basename#:#Certificate
 grp#:#grp_print_list#:#Print List
 grp#:#grp_members_print_title#:#Group Members
 trac#:#trac_closed_misc#:#Misc.
+common#:#reg_goto_parent_membership_info#:#Only members can access the target object.

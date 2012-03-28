@@ -437,6 +437,20 @@ class ilRbacSystem
 		}
 		return true;
 	}
+	
+	public function addTemporaryRole($a_usr_id, $a_role_id)
+	{
+		if(!in_array($a_role_id, self::$user_role_cache[$a_usr_id]))
+		{
+			self::$user_role_cache[$a_usr_id][] = $a_role_id;
+		}
+	}
+	
+	public function resetPACache($a_usr_id, $a_ref_id)
+	{
+		$paCacheKey = $a_usr_id.':'.$a_ref_id;		
+        unset(self::$_paCache[$paCacheKey]);
+	}
 
 } // END class.RbacSystem
 ?>

@@ -1599,8 +1599,120 @@ class ilStartUpGUI
 		$full_class = "ilObj".$class."Access";
 		include_once($location."/class.".$full_class.".php");
 
-		return call_user_func(array($full_class, "_checkGoto"),
-			$a_target);
+		$ret = call_user_func(array($full_class, "_checkGoto"), $a_target);
+				
+		// if no access and repository object => check for parent course/group
+		if(!$ret && 
+			!stristr($a_target, "_wsp") && 
+			!$objDefinition->isAdministrationObject($type) && 
+			$objDefinition->isRBACObject($type) &&
+			$t_arr[1])
+		{			
+			global $tree, $ilUser, $rbacsystem;
+			
+			// original type "pg" => pg_<page_id>[_<ref_id>]
+			if($t_arr[0] == "pg")
+			{
+				if(isset($t_arr[2]))
+				{
+					$ref_id = $t_arr[2];
+				}
+				else
+				{
+					$lm_id = ilLMObject::_lookupContObjID($t_arr[1]);
+					$ref_id = ilObject::_getAllReferences($lm_id);
+					if($ref_id)
+					{
+						$ref_id = array_shift($ref_id);
+					}
+				}
+			}
+			else
+			{
+				$ref_id = $t_arr[1];		
+			}
+				
+			$path_obj = array();
+			
+			// walk path to find parent container
+			$path = $tree->getPathId($ref_id);
+			array_pop($path);			
+			foreach(array_reverse($path) as $path_ref_id)
+			{
+				$ptype = ilObject::_lookupType($path_ref_id, true);
+				if($ptype == "crs")
+				{					
+					$crs_obj_id = ilObject::_lookupObjId($path_ref_id);		
+					
+					// check if already participant
+					include_once "Modules/Course/classes/class.ilCourseParticipant.php";
+					$participants = new ilCourseParticipant($crs_obj_id, $ilUser->getId());
+					if(!$participants->isAssigned())
+					{					
+						// subscription currently possible?
+						include_once "Modules/Course/classes/class.ilObjCourse.php";				
+						if(ilObjCourse::_isActivated($crs_obj_id) &&
+							ilObjCourse::_registrationEnabled($crs_obj_id))
+						{
+							$path_obj[] = $path_ref_id;
+						}			
+					}
+				}
+				else if($ptype == "grp")
+				{					
+					// check if already participant
+					include_once "Modules/Group/classes/class.ilGroupParticipants.php";					
+					if(!ilGroupParticipants::_isParticipant($path_ref_id, $ilUser->getId()))
+					{					
+						// subscription currently possible?
+						include_once "Modules/Group/classes/class.ilObjGroup.php";		
+						$group_obj = new ilObjGroup($path_ref_id);
+						if($group_obj->isRegistrationEnabled())
+						{
+							$path_obj[] = $path_ref_id;
+						}			
+					}
+				}
+			}	
+			
+			if(sizeof($path_obj))
+			{										
+				// add members roles for all "blocking" objects
+				$path_obj = array_reverse($path_obj);				
+				include_once "Services/Membership/classes/class.ilParticipants.php";
+				foreach($path_obj as $path_ref_id)
+				{					
+					// cannot join? goto will never work, so abort
+					$rbacsystem->resetPACache($ilUser->getId(), $path_ref_id);
+					if(!$rbacsystem->checkAccess("join", $path_ref_id))
+					{
+						return false;
+					}
+																
+					$rbacsystem->addTemporaryRole($ilUser->getId(), 
+						ilParticipants::getDefaultMemberRole($path_ref_id));						
+				}
+																		
+				// check if access will be possible with all member roles added
+				$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
+				if($rbacsystem->checkAccess("read", $ref_id))
+				{										
+					/* this won't work with lm-pages (see above)
+					include_once "classes/class.ilLink.php";
+					$_SESSION["pending_goto"] = ilLink::_getStaticLink($ref_id, $type);
+					*/
+									
+					// keep original target
+					$_SESSION["pending_goto"] = "goto.php?target=".$a_target;
+					
+					// redirect to 1st blocking object in path
+					$target_ref_id = array_shift($path_obj);										
+					ilUtil::redirect("repository.php?ref_id=".$target_ref_id);					
+				}
+			}
+		}		
+		
+		return $ret;
 	}
 
 	public function confirmRegistration()

@@ -12481,3 +12481,4 @@ cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen S
 grp#:#grp_print_list#:#Liste drucken
 grp#:#grp_members_print_title#:#Gruppenmitglieder
 trac#:#trac_closed_misc#:#Sonstige
+common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Ziel-Objekt zugreifen.
