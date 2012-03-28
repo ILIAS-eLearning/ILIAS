@@ -323,7 +323,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 			while (count($breadthFirst) > 0) {
 				// remove a collection from the beginning of the breadthFirst list
 				$collectionDAV = array_shift($breadthFirst);
-				$childrenDAV =& $collectionDAV->childrenWithPermission('visible');
+				$childrenDAV =& $collectionDAV->childrenWithPermission('visible,read');
 				foreach ($childrenDAV as $childDAV)
 				{
 					// On duplicate names, work with the older object (the one with the
@@ -833,7 +833,7 @@ class ilDAVServer extends HTTP_WebDAV_Server
 
 		$collectionCount = 0;
 		$fileCount = 0;
-		$children =& $objDAV->childrenWithPermission('visible');
+		$children =& $objDAV->childrenWithPermission('visible,read');
 		foreach ($children as $childDAV) {
 			if ($childDAV->isCollection() && !$this->isFileHidden($childDAV))
 			{
@@ -2038,6 +2038,10 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			$str = ilDAVServer::_getDefaultWebfolderInstructions();
 		}
+		if(is_file('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm')){
+			$str = fread(fopen('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm', "rb"),filesize('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm'));
+		}
+		$str=utf8_encode($str);
 
 		$str = str_replace("[WEBFOLDER_TITLE]", $webfolderTitle, $str);
 		$str = str_replace("[WEBFOLDER_URI]", $webfolderURI, $str);
