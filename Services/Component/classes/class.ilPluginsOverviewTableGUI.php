@@ -116,7 +116,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
 
 		foreach ($a_set["plugins"] as $p)
 		{
-			$act_str = ($p["active"])
+			$act_str = ($p["is_active"])
 				? " <b>(".$lng->txt("active").")</b>"
 				: "";
 			$this->tpl->setCurrentBlock("plugin");
