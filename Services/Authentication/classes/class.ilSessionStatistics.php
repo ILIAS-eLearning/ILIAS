@@ -247,6 +247,14 @@ class ilSessionStatistics
 	public static function aggregateRawHelper($a_begin, $a_end)
 	{
 		global $ilDB, $ilSetting;
+				
+		// "relevant" closing types
+		$separate_closed = array(ilSession::SESSION_CLOSE_USER,
+			ilSession::SESSION_CLOSE_EXPIRE,
+			ilSession::SESSION_CLOSE_IDLE,
+			ilSession::SESSION_CLOSE_FIRST,
+			ilSession::SESSION_CLOSE_LIMIT,
+			ilSession::SESSION_CLOSE_LOGIN);
 			
 		// gather/process data (build event timeline)										
 		$closed_counter = $events = array();
@@ -269,7 +277,14 @@ class ilSessionStatistics
 			// session closed
 			if($item["end_time"] && $item["end_time"] <= $a_end)
 			{
-				$closed_counter[$item["end_context"]]++;	
+				if(in_array($item["end_context"], $separate_closed))
+				{
+					$closed_counter[$item["end_context"]]++;	
+				}
+				else
+				{
+					$closed_counter[0]++;						
+				}
 				$events[$item["end_time"]][] = -1;
 			}				
 		}
@@ -352,6 +367,7 @@ class ilSessionStatistics
 			"closed_idle_first" => array("integer", (int)$closed_counter[ilSession::SESSION_CLOSE_FIRST]),
 			"closed_limit" => array("integer", (int)$closed_counter[ilSession::SESSION_CLOSE_LIMIT]),
 			"closed_login" => array("integer", (int)$closed_counter[ilSession::SESSION_CLOSE_LOGIN]),
+			"closed_misc" => array("integer", (int)$closed_counter[0]),
 			"max_sessions" => array("integer", (int)$max_sessions)
 		);		
 		$ilDB->update("usr_session_stats", $fields, 
@@ -417,7 +433,7 @@ class ilSessionStatistics
 		$sql = "SELECT SUM(opened) opened, SUM(closed_manual) closed_manual,".
 			" SUM(closed_expire) closed_expire, SUM(closed_idle) closed_idle,".
 			" SUM(closed_idle_first) closed_idle_first, SUM(closed_limit) closed_limit,".
-			" SUM(closed_login) closed_login".
+			" SUM(closed_login) closed_login, SUM(closed_misc) closed_misc".
 			" FROM usr_session_stats".
 			" WHERE slot_end > ".$ilDB->quote($a_from, "integer").
 			" AND slot_begin < ".$ilDB->quote($a_to, "integer");

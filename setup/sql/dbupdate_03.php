@@ -9124,3 +9124,13 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 	}
 	
 ?>
+<#3542>
+<?php
+	if(!$ilDB->tableColumnExists("usr_session_stats", "closed_misc"))
+    {		
+		$ilDB->addTableColumn("usr_session_stats", "closed_misc", array(
+                'type'     => 'integer',
+                'length'   => 4,
+                'default'  => 0));		
+    }	
+?>
