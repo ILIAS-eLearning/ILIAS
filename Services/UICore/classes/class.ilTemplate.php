@@ -1425,6 +1425,7 @@ class ilTemplate extends ilTemplateX
 			}
 
 			// use ilStyleDefinition instead of account to get the current skin
+			include_once "Services/Style/classes/class.ilStyleDefinition.php";
 			if (ilStyleDefinition::getCurrentSkin() != "default")
 			{
 				$fname = "./Customizing/global/skin/".

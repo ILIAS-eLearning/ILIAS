@@ -38,6 +38,7 @@ class ilUserFeedWriter extends ilFeedWriter
 			return;
 		}
 
+		include_once "Services/User/classes/class.ilObjUser.php";
 		$hash = ilObjUser::_lookupFeedHash($a_user_id);
 		
 		include_once("./Services/News/classes/class.ilNewsItem.php");
