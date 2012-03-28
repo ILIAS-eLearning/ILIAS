@@ -1295,17 +1295,31 @@ class ilChatroom
        return $row['ref_id'];
     }
 
-    public function getLastMessages($number) {
+public function getLastMessages($number, $chatuser = null) {
 	global $ilDB;
 	
-	$ilDB->setLimit($number);
+	// There is currently no way to check if a message is private or not
+	// by sql. So we fetch twice as much as we need and hope that there
+	// are not more than $number private messages.
+	$ilDB->setLimit($number * 2);
 	$rset = $ilDB->queryF('SELECT * FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = 0 ORDER BY timestamp DESC', array('integer'), array($this->roomId));
-	
+
+	$result_count = 0;
 	$results = array();
-	while($row = $ilDB->fetchAssoc($rset)) {
-	    $results[] = json_decode($row['message']);
+	while(($row = $ilDB->fetchAssoc($rset)) && $result_count < $number) {
+	    $tmp = json_decode($row['message']);
+		if ($chatuser !== null && $tmp->public == 0 && $tmp->recipients) {
+			if (in_array($chatuser->getUserId(), explode(',',$tmp->recipients))) {
+				$results[] = $tmp;
+				++$result_count;
+			}
+		}
+		else if ($tmp->public == 1) {
+			$results[] = $tmp;
+			++$result_count;
+		}
+		
 	}
-	
 	return $results;
     }
     

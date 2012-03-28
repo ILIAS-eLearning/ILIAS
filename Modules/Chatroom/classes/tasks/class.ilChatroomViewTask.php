@@ -229,7 +229,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 	    }
 
 	    if ((int)$room->getSetting('display_past_msgs')) {
-		$initial->messages = array_merge($initial->messages, array_reverse($room->getLastMessages($room->getSetting('display_past_msgs'))));
+		$initial->messages = array_merge($initial->messages, array_reverse($room->getLastMessages($room->getSetting('display_past_msgs'), $chat_user)));
 	    }
 	    
 	    //var_dump($initial->messages);
