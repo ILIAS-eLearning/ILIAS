@@ -29,6 +29,10 @@ class ilModulesTestSuite extends PHPUnit_Framework_TestSuite
 	
 		include_once("./Modules/Test/test/ilassMarkTest.php");
 		$suite->addTestSuite("ilassMarkTest");
+
+       		include_once("./Modules/Test/test/ilassMarkSchemaTest.php");
+		$suite->addTestSuite("ilassMarkSchemaTest");
+                
 		return $suite;
 	}
 }
