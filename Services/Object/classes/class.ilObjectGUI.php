@@ -647,6 +647,12 @@ class ilObjectGUI
 	public function confirmedDeleteObject()
 	{
 		global $ilSetting, $lng;
+		
+		if(isset($_POST["mref_id"]))
+		{
+			$_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $_POST["mref_id"]));
+		}
+		
 		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
 		$ru->deleteObjects($_GET["ref_id"], ilSession::get("saved_post"));

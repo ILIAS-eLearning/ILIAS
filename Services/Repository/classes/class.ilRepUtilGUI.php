@@ -57,6 +57,9 @@ class ilRepUtilGUI
 		$cgui->setFormAction($ilCtrl->getFormAction($this->parent_gui));
 		$cgui->setCancel($lng->txt("cancel"), "cancelDelete");
 		$cgui->setConfirm($lng->txt("confirm"), "confirmedDelete");
+		
+		$form_name = "cgui_".md5(uniqid());
+		$cgui->setFormName($form_name);
 
 		$deps = array();
 		foreach ($a_ids as $ref_id)
@@ -67,6 +70,9 @@ class ilRepUtilGUI
 			$alt = ($objDefinition->isPlugin($type))
 				? $lng->txt("icon")." ".ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type)
 				: $lng->txt("icon")." ".$lng->txt("obj_".$type);
+			
+			$title .= $this->handleMultiReferences($obj_id, $ref_id, $form_name);		
+			
 			$cgui->addItem("id[]", $ref_id, $title,
 				ilObject::_getIcon($obj_id, "small", $type),
 				$alt);
@@ -84,6 +90,118 @@ class ilRepUtilGUI
 		
 		$tpl->setContent($cgui->getHTML().$deps_html);
 		return true;
+	}
+	
+	/**
+	 * Build subitem list for multiple references
+	 * 
+	 * @param int $a_obj_id
+	 * @param int $a_ref_id
+	 * @param string $a_form_name
+	 * @return string 
+	 */
+	function handleMultiReferences($a_obj_id, $a_ref_id, $a_form_name)
+	{			
+		global $lng, $ilAccess, $tree;
+								
+		// process
+	
+		$all_refs = ilObject::_getAllReferences($a_obj_id);			
+		if(sizeof($all_refs) > 1)
+		{				
+			$lng->loadLanguageModule("rep");	
+			
+			$may_delete_any = 0;
+			$counter = 0;
+			$items = array();
+			foreach($all_refs as $mref_id)	
+			{			
+				// not the already selected reference, no refs from trash
+				if($mref_id != $a_ref_id && !$tree->isDeleted($mref_id))
+				{
+					if($ilAccess->checkAccess("read", "", $mref_id))
+					{																									
+						$may_delete = false;
+						if($ilAccess->checkAccess("delete", "", $mref_id))
+						{
+							$may_delete = true;	
+							$may_delete_any++;
+						}
+												
+						$items[] = array("id" => $mref_id,
+							"path" => array_shift($this->buildPath(array($mref_id))),
+							"delete" => $may_delete);
+					}
+					else
+					{
+						$counter++;
+					}					
+				}
+			}
+
+			
+			// render
+
+			$tpl = new ilTemplate("tpl.rep_multi_ref.html", true, true, "Services/Repository");
+
+			$tpl->setVariable("TXT_INTRO", $lng->txt("rep_multiple_reference_deletion_intro"));
+			
+			if($may_delete_any)
+			{
+				$tpl->setVariable("TXT_INSTRUCTION", $lng->txt("rep_multiple_reference_deletion_instruction"));
+			}
+			
+			if($items)
+			{				
+				$var_name = "mref_id[]";
+				
+				foreach($items as $item)
+				{
+					if($item["delete"])
+					{
+						$tpl->setCurrentBlock("cbox");
+						$tpl->setVariable("ITEM_NAME", $var_name);
+						$tpl->setVariable("ITEM_VALUE", $item["id"]);													
+						$tpl->parseCurrentBlock();		
+					}
+					else
+					{
+						$tpl->setCurrentBlock("item_info");
+						$tpl->setVariable("TXT_ITEM_INFO", $lng->txt("rep_no_permission_to_delete"));													
+						$tpl->parseCurrentBlock();	
+					}
+					
+					$tpl->setCurrentBlock("item");
+					$tpl->setVariable("ITEM_TITLE", $item["path"]);													
+					$tpl->parseCurrentBlock();					
+				}
+				
+				if($may_delete_any > 1)
+				{	
+					$tpl->setCurrentBlock("cbox");
+					$tpl->setVariable("ITEM_NAME", "sall_".$a_ref_id);
+					$tpl->setVariable("ITEM_VALUE", "");			
+					$tpl->setVariable("ITEM_ADD", " onclick=\"il.Util.setChecked('".
+						$a_form_name."', '".$var_name."', document.".$a_form_name.
+						".sall_".$a_ref_id.".checked)\"");
+					$tpl->parseCurrentBlock();							
+					
+					$tpl->setCurrentBlock("item");
+					$tpl->setVariable("ITEM_TITLE", $lng->txt("select_all"));													
+					$tpl->parseCurrentBlock();		
+				}
+			}
+			
+			if($counter)
+			{
+				$tpl->setCurrentBlock("add_info");
+				$tpl->setVariable("TXT_ADDITIONAL_INFO", 
+					sprintf($lng->txt("rep_object_references_cannot_be_read"), $counter));
+				$tpl->parseCurrentBlock();		
+			}
+
+			return $tpl->get();
+		}				
 	}
 	
 	/**
@@ -206,7 +324,50 @@ class ilRepUtilGUI
 		return true;
 	}
 	
-	
+	/**
+ 	 * Build path with deep-link
+	 *
+	 * @param	array	$ref_ids
+	 * @return	array 
+	 */
+	protected function buildPath($ref_ids)
+	{
+		global $tree;
 
+		include_once 'Services/Link/classes/class.ilLink.php';
+		
+		if(!count($ref_ids))
+		{
+			return false;
+		}
+		
+		$result = array();
+		foreach($ref_ids as $ref_id)
+		{
+			$path = "";
+			$path_full = $tree->getPathFull($ref_id);
+			foreach($path_full as $idx => $data)
+			{				
+				if($idx)
+				{
+					$path .= " &raquo; ";
+				}
+				if($ref_id != $data['ref_id'])
+				{
+					$path .= $data['title'];
+				}
+				else
+				{
+					$path .= ('<a target="_top" href="'.
+							  ilLink::_getLink($data['ref_id'],$data['type']).'">'.
+							  $data['title'].'</a>');
+				}
+				
+			}
+
+			$result[] = $path;
+		}
+		return $result;
+	}
 }
 ?>

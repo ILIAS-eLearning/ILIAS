@@ -1696,18 +1696,17 @@ class ilStartUpGUI
 				// check if access will be possible with all member roles added
 				$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
 				if($rbacsystem->checkAccess("read", $ref_id))
-				{										
-					/* this won't work with lm-pages (see above)
-					include_once "classes/class.ilLink.php";
-					$_SESSION["pending_goto"] = ilLink::_getStaticLink($ref_id, $type);
-					*/
+				{																		
+					// this won't work with lm-pages (see above)
+					// include_once "Services/Link/classes/class.ilLink.php";
+					// $_SESSION["pending_goto"] = ilLink::_getStaticLink($ref_id, $type);					
 									
 					// keep original target
 					$_SESSION["pending_goto"] = "goto.php?target=".$a_target;
 					
-					// redirect to 1st blocking object in path
-					$target_ref_id = array_shift($path_obj);										
-					ilUtil::redirect("repository.php?ref_id=".$target_ref_id);					
+					// redirect to 1st blocking object in path						
+					ilUtil::redirect("ilias.php?baseClass=ilRepositoryGUI".
+						"&ref_id=".array_shift($path_obj));									 
 				}
 			}
 		}		
