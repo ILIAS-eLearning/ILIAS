@@ -9134,3 +9134,140 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
                 'default'  => 0));		
     }	
 ?>
+<#3543>
+<?php
+
+	$setting = new ilSetting();
+	$ilchtrbacfix = $setting->get("ilchtrbacfix");
+	if(!$ilchtrbacfix)
+	{
+		$result = $ilDB->query(
+			'SELECT ops_id 
+			FROM rbac_operations 
+			WHERE operation = '. $ilDB->quote('create_chat', 'text')
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$chat_id = $row['ops_id'];
+		}
+
+		$result = $ilDB->query(
+			'SELECT ops_id
+			FROM rbac_operations
+			WHERE operation = ' . $ilDB->quote('create_chtr', 'text')
+		);
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$chatroom_id = $row['ops_id'];
+		}
+
+		if ($chat_id != null && $chatroom_id != null)
+		{
+			$ilDB->manipulate(
+				'UPDATE rbac_ta 
+				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') .'
+				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
+			);
+
+			$ilDB->manipulate(
+				'UPDATE rbac_templates 
+				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') .'
+				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
+			);
+
+			$result = $ilDB->query(
+				'SELECT * 
+				FROM rbac_pa
+				WHERE ' . $ilDB->like('ops_id', 'text', '%i:' . $chat_id . ';%')
+			);
+
+			$statement = $ilDB->prepareManip(
+				'UPDATE rbac_pa 
+				SET ops_id = ?
+				WHERE rol_id = ?
+				AND ref_id = ?',
+				array('text', 'integer', 'integer')
+			);
+
+			$rows = array();
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$rows[] = $row;
+			}
+
+			foreach ($rows as $row)
+			{
+				$ops_arr = unserialize($row['ops_id']);
+
+				if(!$ops_arr)
+				{
+					continue;
+				}
+
+				$key = array_search($chat_id, $ops_arr);
+				if(!$key)
+				{
+					continue;
+				}
+
+				$ops_arr[$key] = $chatroom_id;
+				$new_ops = serialize($ops_arr);
+				$ilDB->execute(
+					$statement, 
+					array($new_ops, $row['rol_id'], $row['ref_id'])
+				);
+			}
+
+			$like =  '%s:' . strlen($chat_id) .':"'. $chat_id . '";%';
+			$result = $ilDB->query(
+				'SELECT * FROM rbac_pa
+				WHERE ' . $ilDB->like('ops_id', 'text', $like)
+			);
+
+			$rows = array();
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$rows[] = $row;
+			}
+
+			foreach ($rows as $row)
+			{
+				$ops_arr = unserialize($row['ops_id']);	
+				if(!$ops_arr)
+				{
+					continue;
+				}
+
+				$key = array_search($chat_id, $ops_arr);
+				if(!$key)
+				{
+					continue;
+				}
+
+				$ops_arr[$key] = $chatroom_id;
+				$new_ops = serialize($ops_arr);
+				$ilDB->execute(
+					$statement, 
+					array($new_ops, $row['rol_id'], $row['ref_id'])
+				);
+			}
+			$ilDB->free($statement);
+
+			$ilDB->manipulate(
+				'DELETE
+				FROM rbac_operations
+				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
+			);
+		}
+		
+		$setting->set("ilchtrbacfix", 1);
+	}
+?>
+<#3544>
+<?php	
+	$ilDB->manipulate(
+		'UPDATE rbac_templates 
+		SET type = ' . $ilDB->quote('chtr', 'text') . '
+		WHERE type = ' . $ilDB->quote('chat', 'text')
+	);
+?>
