@@ -376,7 +376,7 @@ class ilInitialisation
 		if (!$ilClientIniFile->readVariable("client","access"))
 		{						
 			$mess = "The server is not available due to maintenance.".
-					" We apologise for any inconvenience";
+				" We apologise for any inconvenience.";
 			
 			if (ilContext::hasHTML() && is_file("./maintenance.html"))
 			{
