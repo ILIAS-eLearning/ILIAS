@@ -503,7 +503,27 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->getBlogPosting()->setActive(true);
 		$this->getBlogPosting()->update(true, false, false);
 		$this->ctrl->redirect($this, "edit");
-	}		
+	}
+	
+	/**
+	 * Get first text paragraph of page
+	 * 
+	 * @param int $a_id
+	 * @return string 
+	 */
+	static function getSnippet($a_id)
+	{
+		$bpgui = new self(0, null, $a_id);
+		$bpgui->setRawPageContent(true);
+		$bpgui->setAbstractOnly(true);
+
+		// #8627: export won't work - should we set offline mode?
+		$bpgui->setFileDownloadLink(".");
+		$bpgui->setFullscreenLink(".");
+		$bpgui->setSourcecodeDownloadScript(".");
+
+		return $bpgui->showPage();		
+	}
 }
 
 ?>

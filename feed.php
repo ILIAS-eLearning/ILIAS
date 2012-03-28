@@ -50,4 +50,9 @@ else if ($_GET["ref_id"] != "")
 	$writer = new ilObjectFeedWriter($_GET["ref_id"], false, $_GET["purpose"]);
 	$writer->showFeed();
 }
+else if ($_GET["blog_id"] != "")
+{
+	include_once("Modules/Blog/classes/class.ilObjBlog.php");
+	ilObjBlog::deliverRSS($_GET["blog_id"]);
+}
 ?>

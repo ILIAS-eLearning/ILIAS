@@ -12486,3 +12486,4 @@ rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
 rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referenzen.
 rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen für dieses Objekt.
 rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:
+blog#:#blog_enable_rss#:#RSS aktivieren

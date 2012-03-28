@@ -19,6 +19,7 @@ class ilObjBlog extends ilObject2
 	protected $font_color; // [string]
 	protected $img; // [string]
 	protected $ppic; // [string]
+	protected $rss; // [bool]
 	
 	function initType()
 	{
@@ -37,14 +38,16 @@ class ilObjBlog extends ilObject2
 		$this->setBackgroundColor($row["bg_color"]);
 		$this->setFontColor($row["font_color"]);
 		$this->setImage($row["img"]);
+		$this->setRSS($row["rss_active"]);
 	}
 
 	protected function doCreate()
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic) VALUES (".
+		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic,rss_active) VALUES (".
 			$ilDB->quote($this->id, "integer").",".
+			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").")");
 	}
@@ -78,6 +81,7 @@ class ilObjBlog extends ilObject2
 					",bg_color = ".$ilDB->quote($this->getBackgroundColor(), "text").
 					",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
 					",img = ".$ilDB->quote($this->getImage(), "text").
+					",rss_active = ".$ilDB->quote($this->hasRSS(), "text").
 					" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		}
 	}
@@ -225,7 +229,7 @@ class ilObjBlog extends ilObject2
 			$this->setImage(null);
 		}
 	}
-		
+
 	/**
 	 * Init file system storage
 	 * 
@@ -294,6 +298,26 @@ class ilObjBlog extends ilObject2
 			return true;
 		}
 		return false;
+	}	
+		
+	/**
+	 * Get RSS status
+	 * 
+	 * @return bool
+	 */
+	function hasRSS()
+	{
+		return $this->rss;
+	}
+
+	/**
+	 * Toggle RSS status
+	 *
+	 * @param bool $a_status
+	 */
+	function setRSS($a_status)
+	{
+		$this->rss = (bool)$a_status;
 	}
 	
 	static function sendNotification($a_action, $a_blog_wsp_id, $a_posting_id)
@@ -378,6 +402,75 @@ class ilObjBlog extends ilObject2
 			}
 		}
 	}
+			
+	/**
+	 * Deliver blog as rss feed
+	 * 
+	 * @param int $a_wsp_id
+	 */
+	static function deliverRSS($a_wsp_id)
+	{
+		global $tpl;
+		
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkSpaceTree.php";
+		$wsp_id = new ilWorkSpaceTree(0);
+		$obj_id = $wsp_id->lookupObjectId($a_wsp_id);		
+		if(!$obj_id)
+		{
+			return;
+		}
+		
+		$blog = new self($obj_id, false);		
+		if(!$blog->hasRSS())
+		{
+			return;
+		}
+					
+		include_once "Services/Feeds/classes/class.ilFeedWriter.php";
+		$feed = new ilFeedWriter();
+				
+		include_once "Services/Link/classes/class.ilLink.php";
+		$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_wsp");
+		$url = str_replace("&", "&amp;", $url);
+		
+		$feed->setChannelTitle($blog->getTitle());
+		$feed->setChannelDescription($blog->getDescription());
+		$feed->setChannelLink($url);
+		
+		// needed for blogpostinggui / pagegui
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		
+		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");					
+		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");			
+		foreach(ilBlogPosting::getAllPostings($obj_id) as $item)
+		{
+			$id = $item["id"];
+
+			// only published items
+			$is_active = ilBlogPosting::_lookupActive($id, "blp");
+			if(!$is_active)
+			{
+				continue;
+			}
+									
+			$snippet = strip_tags(ilBlogPostingGUI::getSnippet($id));
+			$snippet = str_replace("&", "&amp;", $snippet);	
+
+			$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, "_".$id."_wsp");
+			$url = str_replace("&", "&amp;", $url);				
+
+			$feed_item = new ilFeedItem();
+			$feed_item->setTitle($item["title"]);
+			$feed_item->setDate($item["created"]->get(IL_CAL_DATETIME));
+			$feed_item->setDescription($snippet);
+			$feed_item->setLink($url);
+			$feed_item->setAbout($url);				
+			$feed->addItem($feed_item);
+		}					
+		
+		$feed->showFeed();
+		exit();		
+	}	
 }
 
 ?>
