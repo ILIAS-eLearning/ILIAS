@@ -494,6 +494,11 @@ abstract class ilRegistrationGUI
 	{
 		$this->initForm();
 		
+		if($_SESSION["pending_goto"])
+		{			
+			ilUtil::sendInfo($this->lng->txt("reg_goto_parent_membership_info"));
+		}
+		
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	

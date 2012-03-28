@@ -498,8 +498,17 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				include_once './Modules/Forum/classes/class.ilForumNotification.php';
 				ilForumNotification::checkForumsExistsInsert($this->container->getRefId(). $ilUser->getId());
 
-				ilUtil::sendSuccess($this->lng->txt("crs_subscription_successful"),true);
-				$this->ctrl->returnToParent($this);
+				if(!$_SESSION["pending_goto"])
+				{
+					ilUtil::sendSuccess($this->lng->txt("crs_subscription_successful"),true);
+					$this->ctrl->returnToParent($this);
+				}
+				else
+				{
+					$tgt = $_SESSION["pending_goto"];
+					unset($_SESSION["pending_goto"]);
+					ilUtil::redirect($tgt);
+				}
 				break;
 		}
 	}
