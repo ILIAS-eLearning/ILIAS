@@ -1089,7 +1089,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		// rss
 		if(!$a_link_template && $a_list_cmd == "preview")
 		{
-			$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$this->node_id;
+			$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$this->node_id.
+				"&client_id=".rawurlencode(CLIENT_ID);
 		
 			$wtpl->setCurrentBlock("rss");
 			$wtpl->setVariable("URL_RSS", $url);
