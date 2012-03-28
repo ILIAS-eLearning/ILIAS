@@ -12490,3 +12490,7 @@ grp#:#grp_print_list#:#Print List
 grp#:#grp_members_print_title#:#Group Members
 trac#:#trac_closed_misc#:#Misc.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
+rep#:#rep_no_permission_to_delete#:#No permission to delete
+rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more references.
+rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
+rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:

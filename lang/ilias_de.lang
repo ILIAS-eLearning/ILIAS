@@ -12482,3 +12482,7 @@ grp#:#grp_print_list#:#Liste drucken
 grp#:#grp_members_print_title#:#Gruppenmitglieder
 trac#:#trac_closed_misc#:#Sonstige
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Ziel-Objekt zugreifen.
+rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
+rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referenzen.
+rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen für dieses Objekt.
+rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:

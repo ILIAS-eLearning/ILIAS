@@ -18,6 +18,7 @@ class ilConfirmationGUI
 	private $item = array();
 	private $use_images = false;
 	private $buttons = array();
+	private $form_name;
 	
 	/**
 	* Constructor
@@ -159,6 +160,12 @@ class ilConfirmationGUI
 			{
 				$ctab->addHiddenInput($hidden_item["var"], $hidden_item["value"]);
 			}
+			
+			if($this->form_name)
+			{
+				$ctab->setFormName($this->form_name);
+			}
+			
 			return $ctab->getHTML();
 		}
 		else // simple version, just ask for confirmation
@@ -169,6 +176,16 @@ class ilConfirmationGUI
 			$tb->addFormButton($this->cancel_txt, $this->cancel_cmd);
 			return $tb->getHTML();
 		}
+	}
+	
+	/**
+	 * Set form name
+	 * 
+	 * @param string $a_name 
+	 */
+	function setFormName($a_name)
+	{
+		$this->form_name = $a_name;
 	}
 }
 ?>
