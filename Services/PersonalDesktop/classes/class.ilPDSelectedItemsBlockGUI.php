@@ -438,6 +438,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				if ($cur_obj_type != $item["type"])
 				{
 					$item_list_gui =& $this->getItemListGUI($item["type"]);
+					if(!$item_list_gui)
+					{
+						continue;
+					}
 										
 					$item_list_gui->enableNotes(true);
 					$item_list_gui->enableComments(true);
@@ -938,6 +942,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				if ($cur_obj_type != $item["type"])
 				{
 					$item_list_gui =& $this->getItemListGUI($item["type"]);
+					if(!$item_list_gui)
+					{
+						continue;
+					}
 					
 					$item_list_gui->enableNotes(true);
 					$item_list_gui->enableComments(true);
@@ -1047,7 +1055,18 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		if (!isset($this->item_list_guis[$a_type]))
 		{
 			$class = $objDefinition->getClassName($a_type);
+			// Fixed problem with deactivated plugins and existing repo. object plugin objects on the user's desktop
+			if(!$class)
+			{
+				return NULL;
+			}
+			// Fixed problem with deactivated plugins and existing repo. object plugin objects on the user's desktop
 			$location = $objDefinition->getLocation($a_type);
+			if(!$location)
+			{
+				return NULL;
+			}
+			
 			$full_class = "ilObj".$class."ListGUI";
 			//echo "<br>-".$location."/class.".$full_class.".php"."-";
 			include_once($location."/class.".$full_class.".php");
