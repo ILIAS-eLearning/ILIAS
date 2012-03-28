@@ -870,6 +870,7 @@ div.ilHeadAction
 {
 	float: right;
 	margin-top: 21px;
+	margin-bottom: 5px; /* blog fullscreen */
 }
 div.ilHeadAction  .prop
 {

@@ -9271,3 +9271,13 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 		WHERE type = ' . $ilDB->quote('chat', 'text')
 	);
 ?>
+<#3545>
+<?php
+	if(!$ilDB->tableColumnExists("il_blog", "rss_active"))
+    {		
+		$ilDB->addTableColumn("il_blog", "rss_active", array(
+                'type'     => 'integer',
+                'length'   => 1,
+                'default'  => 0));		
+    }	
+?>

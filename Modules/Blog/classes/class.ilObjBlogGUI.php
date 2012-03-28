@@ -76,9 +76,12 @@ class ilObjBlogGUI extends ilObject2GUI
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		global $lng;
-
+		
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
+				
+		$rss = new ilCheckboxInputGUI($lng->txt("blog_enable_rss"), "rss");
+		$a_form->addItem($rss);
 		
 		$ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
 		$a_form->addItem($ppic);
@@ -114,6 +117,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$a_values["bg_color"] = $this->object->getBackgroundColor();
 		$a_values["font_color"] = $this->object->getFontColor();
 		$a_values["banner"] = $this->object->getImage();
+		$a_values["rss"] = $this->object->hasRSS();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -122,6 +126,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$this->object->setProfilePicture($a_form->getInput("ppic"));
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
 		$this->object->setFontColor($a_form->getInput("font_color"));
+		$this->object->setRSS($a_form->getInput("rss"));
 		
 		// banner field is optional
 		$banner = $a_form->getItemByPostVar("banner");
@@ -688,7 +693,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */	
 	function renderFullScreen($a_content, $a_navigation)
 	{
-		global $tpl, $lng, $ilCtrl, $ilUser, $ilTabs, $ilLocator;
+		global $tpl, $ilUser, $ilTabs, $ilLocator;
 		
 		$owner = $this->object->getOwner();
 		
@@ -730,27 +735,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		}				
 		$tpl->setTopBar($back);
 		
-		$name = ilObjUser::_lookupName($owner);
-		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
-		
-		// show banner?
-		$banner = false;
-		$blga_set = new ilSetting("blga");
-		if($blga_set->get("banner"))
-		{		
-			$banner = $this->object->getImageFullPath();
-			$banner_width = $blga_set->get("banner_width");
-			$banner_height = $blga_set->get("banner_height");
-		}
-		
-		$ppic = null;
-		if($this->object->hasProfilePicture())
-		{
-			$ppic = ilObjUser::_getPersonalPicturePath($owner, "big");
-		}
-		
 		$this->renderFullscreenHeader($tpl, $owner);
-		
+	
 		// content
 		$tpl->setContent($a_content);
 		$tpl->setRightContent($a_navigation);
@@ -847,8 +833,10 @@ class ilObjBlogGUI extends ilObject2GUI
 				" ".substr($a_month, 0, 4);
 		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);						
 		
+		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		foreach($items as $item)
 		{
+			// only published items
 			$is_active = ilBlogPosting::_lookupActive($item["id"], "blp");
 			if(!$is_active && !$a_show_inactive)
 			{
@@ -922,18 +910,8 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
 				$wtpl->parseCurrentBlock();
 			}
-			
-			include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
-			$bpgui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(), $item["id"]);
-			$bpgui->setRawPageContent(true);
-			$bpgui->setAbstractOnly(true);
-			
-			// #8627: export won't work - should we set offline mode?
-			$bpgui->setFileDownloadLink(".");
-			$bpgui->setFullscreenLink(".");
-			$bpgui->setSourcecodeDownloadScript(".");
-			
-			$snippet = $bpgui->showPage();
+						
+			$snippet = ilBlogPostingGUI::getSnippet($item["id"]);	
 			
 			if($snippet)
 			{
@@ -943,7 +921,6 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->parseCurrentBlock();
 			}
 			
-
 			$wtpl->setCurrentBlock("posting");
 			
 			if(!$is_active)
@@ -1108,6 +1085,17 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$ilCtrl->setParameter($this, "bmn", $this->month);
 		$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
+		
+		// rss
+		if(!$a_link_template && $a_list_cmd == "preview")
+		{
+			$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$this->node_id;
+		
+			$wtpl->setCurrentBlock("rss");
+			$wtpl->setVariable("URL_RSS", $url);
+			$wtpl->setVariable("IMG_RSS", ilUtil::getImagePath("rss.gif"));
+			$wtpl->parseCurrentBlock();
+		}
 
 		return $wtpl->get();
 	}
@@ -1524,9 +1512,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @param string $a_target 
 	 */
 	function _goto($a_target)
-	{
-		global $ilUser;
-		
+	{		
 		$id = explode("_", $a_target);
 		
 		$_GET["baseClass"] = "ilsharedresourceGUI";	
