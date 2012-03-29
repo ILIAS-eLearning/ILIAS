@@ -231,4 +231,44 @@ class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
             );
             
         }
+        
+        /**
+         * Test for addMarkStep() 
+         */
+        public function testAddMarkStep()
+        {
+            // Arrange
+            $this->ass_mark_schema->flush();
+            $txt_short = ""; 
+            $txt_official = ""; 
+            $percentage = 0;
+            $passed = 0;
+
+            // Act
+            $this->ass_mark_schema->addMarkStep();
+            $mark_schema = $this->ass_mark_schema->mark_steps;
+            $mark_step = $mark_schema[0];
+            
+            // Assert
+            $this->assertEquals(
+                $mark_step->getShortName(), 
+                $txt_short, 
+                'Failed on $txt_failed_short'
+            );
+            $this->assertEquals(
+                $mark_step->getOfficialName(), 
+                $txt_official, 
+                'Failed on $txt_failed_official'
+            );
+            $this->assertEquals(
+                $mark_step->getMinimumLevel(), 
+                $percentage, 
+                'Failed on $percentage_failed'
+            );
+            $this->assertEquals(
+                $mark_step->getPassed(), 
+                $passed, 
+                'Failed on $failed_passed'
+            );
+        }
 }
