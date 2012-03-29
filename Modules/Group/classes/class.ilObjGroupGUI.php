@@ -1694,13 +1694,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$this->tabs_gui->setTabActive('grp_btn_unsubscribe');
 		
-		$tpl = new ilTemplate('tpl.unsubscribe.html',true,true,'Modules/Group');
-		$tpl->setVariable('UNSUB_FORMACTION',$this->ctrl->getFormAction($this));
-		$tpl->setVariable('TXT_SUBMIT',$this->lng->txt('grp_btn_unsubscribe'));
-		$tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
-		
-		ilUtil::sendQuestion($this->lng->txt('grp_dismiss_myself'));
-		$this->tpl->setContent($tpl->get());		
+		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$cgui = new ilConfirmationGUI();		
+		$cgui->setHeaderText($this->lng->txt('grp_dismiss_myself'));
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancel");
+		$cgui->setConfirm($this->lng->txt("grp_btn_unsubscribe"), "unsubscribe");		
+		$this->tpl->setContent($cgui->getHTML());	
 	}
 	
 	/**
@@ -1714,6 +1714,17 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $ilUser,$tree, $ilCtrl;
 		
 		$this->checkPermission('leave');
+		
+		// Check last admin
+		$admins = (array) ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getAdmins();
+		
+		$admins_after = (array) array_diff($admins, array($ilUser->getId()));
+		if(!count($admins_after) and count($admins))		
+		{
+			ilUtil::sendFailure($this->lng->txt('grp_err_administrator_required'), true);
+			$this->cancelObject();
+			return false;
+		}		
 		
 		$this->object->members_obj->delete($ilUser->getId());
 		
