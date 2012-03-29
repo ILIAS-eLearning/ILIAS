@@ -2115,14 +2115,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 	* Creates a confirmation form for delete all user data
 	*/
 	public function deleteAllUserDataObject()
-	{
-		ilUtil::sendQuestion($this->lng->txt("confirm_delete_all_user_data"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_maintenance.html", "Modules/Survey");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("BTN_CONFIRM_DELETE_ALL", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL_DELETE_ALL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "deleteAllUserData"));
-		$this->tpl->parseCurrentBlock();
+	{		
+		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$cgui = new ilConfirmationGUI();		
+		$cgui->setHeaderText($this->lng->txt("confirm_delete_all_user_data"));
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "deleteAllUserData"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteAllUserData");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmDeleteAllUserData");		
+		$this->tpl->setContent($cgui->getHTML());				
 	}
 	
 	/**
