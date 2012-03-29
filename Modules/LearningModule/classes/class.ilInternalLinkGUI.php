@@ -1074,7 +1074,7 @@ class ilInternalLinkGUI
 		ilYuiUtil::initPanel(false);
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initDragDrop();
-		$tpl->addJavaScript("./Services/Explorer/js/ilexplorercallback.js");
+		$tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
 
 		$ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/Link");
