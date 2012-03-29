@@ -412,8 +412,8 @@ class ilObjBlog extends ilObject2
 	{
 		global $tpl;
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkSpaceTree.php";
-		$wsp_id = new ilWorkSpaceTree(0);
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$wsp_id = new ilWorkspaceTree(0);
 		$obj_id = $wsp_id->lookupObjectId($a_wsp_id);		
 		if(!$obj_id)
 		{

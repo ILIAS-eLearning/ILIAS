@@ -423,11 +423,7 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				case "tabs":
 					$this->ctrl->setCmdClass("ilPCTabsGUI");
 					break;
-					
-				case "tabstab":
-					$this->ctrl->setCmdClass("ilPCTabGUI");
-					break;
-
+				
 				case "plug":
 					$this->ctrl->setCmdClass("ilPCPluggedGUI");
 					break;
@@ -688,15 +684,6 @@ echo "-$cmd-".$this->ctrl->getCmd()."-";
 				$tabs_gui =& new ilPCTabsGUI($this->page, $cont_obj, $hier_id, $pc_id);
 				$tabs_gui->setStyleId($this->page_gui->getStyleId());
 				$ret =& $this->ctrl->forwardCommand($tabs_gui);
-				break;
-
-			// Tab
-			case "ilpctabgui":
-				$this->tabs_gui->clearTargets();
-				include_once ("./Services/COPage/classes/class.ilPCTabGUI.php");
-				$tab_gui = new ilPCTabGUI($this->page, $cont_obj, $hier_id, $pc_id);
-				//$ret =& $list_item_gui->executeCommand();
-				$ret =& $this->ctrl->forwardCommand($tab_gui);
 				break;
 
 			// Plugged Component

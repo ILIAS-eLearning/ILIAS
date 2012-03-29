@@ -749,8 +749,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function refreshObject()
 	{
-		//$class_name = "ilObjStyleSheet";
-		//require_once("classes/class.ilObjStyleSheet.php");
 		$this->object->setTitle($_POST["style_title"]);
 		$this->object->setDescription($_POST["style_description"]);
 

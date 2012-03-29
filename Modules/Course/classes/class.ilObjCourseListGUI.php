@@ -47,7 +47,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 
 		// general commands array
-		include_once('class.ilObjCourseAccess.php');
+		include_once('Modules/Course/classes/class.ilObjCourseAccess.php');
 		$this->commands = ilObjCourseAccess::_getCommands();
 	}
 	

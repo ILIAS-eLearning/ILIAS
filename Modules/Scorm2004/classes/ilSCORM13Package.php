@@ -706,7 +706,7 @@ class ilSCORM13Package
 			}
 		}
 //exit;
-		include_once 'class.ilSCORM2004Page.php';
+		include_once 'Modules/Scorm2004/classes/class.ilSCORM2004Page.php';
 		$doc = new SimpleXMLElement($this->imsmanifest->saveXml());
 		$l = $doc->xpath ( "/ContentObject/MetaData" );
 		if($l[0])

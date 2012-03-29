@@ -307,7 +307,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		$this->__initSubTabs("editSocialBookmarks");
 
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		$form = ilSocialBookmarks::_initForm($this, 'create');
 		$this->tpl->setVariable('ADM_CONTENT', $form->getHTML());
 	}
@@ -321,7 +321,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		$form = ilSocialBookmarks::_initForm($this, 'create');
 		if ($form->checkInput())
 		{
@@ -360,7 +360,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		$form = ilSocialBookmarks::_initForm($this, 'update');
 		if ($form->checkInput())
 		{
@@ -412,7 +412,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		
 		$this->__initSubTabs("editSocialBookmarks");
 
-		include_once 'class.ilSocialBookmarks.php';		
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';		
 		$row = ilSocialBookmarks::_getEntry($_GET['sbm_id']);
 		$dset = array
 		(
@@ -437,7 +437,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		}
 
 		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		ilSocialBookmarks::_setActive($ids, true);
 		$this->editSocialBookmarksObject();
 	}
@@ -452,7 +452,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		}
 		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		ilSocialBookmarks::_setActive($ids, false);
 		$this->editSocialBookmarksObject();
 	}
@@ -480,7 +480,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$c_gui->setCancel($lng->txt("cancel"), "editSocialBookmarks");
 		$c_gui->setConfirm($lng->txt("confirm"), "confirmDeleteSocialBookmarks");
 		
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		// add items to delete
 		foreach($ids as $id)
 		{
@@ -502,7 +502,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 
 		$ids = ((int)$_GET['sbm_id']) ? array((int)$_GET['sbm_id']) : $_POST['sbm_id'];
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		ilSocialBookmarks::_delete($ids, false);
 		$this->editSocialBookmarksObject();
 	}
@@ -527,7 +527,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
-		include_once 'class.ilSocialBookmarks.php';
+		include_once './Services/Administration/classes/class.ilSocialBookmarks.php';
 		$rset = ilSocialBookmarks::_getEntry();
 
 		$counter = 0;

@@ -360,7 +360,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		global $tpl, $ilCtrl;
 		
 		// content style
-/*		include_once("./classes/class.ilObjStyleSheet.php");
+/*		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$tpl->setCurrentBlock("ContentStyle");
 		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
 			ilObjStyleSheet::getContentStylePath(0));

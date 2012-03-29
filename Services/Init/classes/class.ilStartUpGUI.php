@@ -1066,7 +1066,7 @@ class ilStartUpGUI
 					$_POST['username'] = ilSession::get('tmp_external_account');
 					$_POST['password'] = ilSession::get('tmp_pass');
 
-					include_once('Services/Database/classes/class.ilAuthContainerApache.php');
+					include_once('Services/AuthApache/classes/class.ilAuthContainerApache.php');
 					$container = new ilAuthContainerApache();
 					$container->forceCreation(true);
 					$ilAuth = ilAuthFactory::factory($container);

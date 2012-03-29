@@ -59,7 +59,7 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjmediapoolgui";
 		
 		// general commands array
-		include_once('class.ilObjMediaPoolAccess.php');
+		include_once('Modules/MediaPool/classes/class.ilObjMediaPoolAccess.php');
 		$this->commands = ilObjMediaPoolAccess::_getCommands();
 
 	}

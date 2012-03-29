@@ -2977,7 +2977,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$link = chr(13).chr(10).chr(13).chr(10);
 		$link .= $this->lng->txt('grp_mail_permanent_link');
 		$link .= chr(13).chr(10).chr(13).chr(10);
-		include_once './classes/class.ilLink.php';
+		include_once 'Services/Link/classes/class.ilLink.php';
 		$link .= ilLink::_getLink($this->object->getRefId());
 		return rawurlencode(base64_encode($link));
 	}

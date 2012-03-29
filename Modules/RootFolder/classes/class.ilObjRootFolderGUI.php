@@ -127,7 +127,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		switch($next_class)
 		{
 			case 'ilcontainerlinklistgui':
-				include_once("./classes/class.ilContainerLinkListGUI.php");
+				include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
 				$link_list_gui =& new ilContainerLinkListGUI();
 				$ret =& $this->ctrl->forwardCommand($link_list_gui);
 				break;

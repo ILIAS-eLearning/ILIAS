@@ -685,7 +685,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		ilYuiUtil::initPanel(false);
 		$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilpageedit.js");
 		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
 
 		$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();

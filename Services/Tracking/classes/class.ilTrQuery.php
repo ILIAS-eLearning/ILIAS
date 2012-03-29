@@ -393,13 +393,13 @@ class ilTrQuery
 				$subtype = ilObjSAHSLearningModule::_lookupSubType($a_parent_obj_id);
 				if($subtype == "scorm2004")
 				{
-					include_once("./Modules/Scorm2004/classes/class.ilObjScorm2004LearningModule.php");
+					include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 					$sobj = new ilObjSCORM2004LearningModule($a_parent_ref_id, true);
 					$scos_tracking = $sobj->getTrackingDataAgg($a_user_id, true);
 				}
 				else
 				{
-					include_once("./Modules/ScormAicc/classes/class.ilObjScormLearningModule.php");
+					include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 					$sobj = new ilObjSCORMLearningModule($a_parent_ref_id, true);
 					$scos_tracking = array();
 					foreach($sobj->getTrackingDataAgg($a_user_id) as $item)

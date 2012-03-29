@@ -973,7 +973,8 @@ class ilSoapFunctions {
 
 		return $sou->deleteExpiredDualOptInUserObjects($sid, $usr_id);
 	}
-
+	
+	/*
 	public static function getSkillCompletionDateForTriggerRefId($sid, $usr_id, $a_ref_id)
 	{
 		include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
@@ -998,7 +999,7 @@ class ilSoapFunctions {
 		$s = new ilSoapSkillAdministration();
 		return $s->getTriggerOfAllCertificates($sid, $usr_id);
 	}
-
+	*/
 }
 
 /*	function  ilClone($sid,$copy_identifier)

@@ -1426,7 +1426,7 @@ class ilObjectGUI
 						$visible = false;
 					}
 					// Show only activated course items
-					include_once "./course/classes/class.ilCourseItems.php";
+					include_once "Modules/Course/classes/class.ilCourseItems.php";
 	
 					if(($crs_id != $a_ref_id) and (!ilCourseItems::_isActivated($a_ref_id)))
 					{

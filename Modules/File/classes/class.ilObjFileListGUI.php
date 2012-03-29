@@ -66,7 +66,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 		{
 			// BEGIN WebDAV: View inline objects in a blank window
 			case 'sendfile' :
-				require_once('class.ilObjFileAccess.php');
+				require_once('Modules/File/classes/class.ilObjFileAccess.php');
 				if (ilObjFileAccess::_isFileInline($this->title))
 				{
 					$frame = '_blank';
@@ -94,7 +94,7 @@ class ilObjFileListGUI extends ilObjectListGUI
 	*/
 	function getIconImageType() 
 	{
-		include_once('class.ilObjFileAccess.php');
+		include_once('Modules/File/classes/class.ilObjFileAccess.php');
 		
 		return ilObjFileAccess::_isFileInline($this->title) ? $this->type.'_inline' : $this->type;
 	}

@@ -226,12 +226,6 @@ switch($target_type)
 		break;
 
 	// please migrate to default branch implementation
-	case "chat":
-		require_once("./Modules/Chat/classes/class.ilObjChatGUI.php");
-		ilObjChatGUI::_goto($target_id);
-		break;
-
-	// please migrate to default branch implementation
 	case "sahs":
 		require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php");
 		ilObjSAHSLearningModuleGUI::_goto($target_id);

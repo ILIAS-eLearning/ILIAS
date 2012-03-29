@@ -51,7 +51,7 @@ class ilCASAuth extends Auth
 			parent::Auth("");
 		}
 		
-		include_once("./Services/CAS/lib/CAS/CAS.php");
+		include_once("./Services/CAS/lib/CAS.php");
 		$this->server_version = CAS_VERSION_2_0;
 		$this->server_hostname = $a_params["server_hostname"];
 		$this->server_port = (int) $a_params["server_port"];

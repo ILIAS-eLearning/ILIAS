@@ -91,7 +91,6 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 				switch ($cont_type)
 				{
 					case "sahs":
-						//require_once("./Modules/ScormAicc/classes/class.ilObjContentObject.php");
 						require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 						require_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
 						$lm_obj = new ilObjSAHSLearningModule($page_obj->getParentId(), false);

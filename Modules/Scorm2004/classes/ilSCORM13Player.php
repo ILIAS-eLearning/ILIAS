@@ -1620,11 +1620,8 @@ class ilSCORM13Player
 	 */
 	public function getMimetype($filename) 
 	{
-		$mimetypes = array();
-		require_once('classes/mimemap.php');
-		$info = pathinfo($filename);
-		$ext = $mimetypes[$info['extension']];
-		return $ext ? $ext : mime_content_type($filename);
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		return ilObjMediaObject::getMimeType($filename);
 	}
 	
 	/**

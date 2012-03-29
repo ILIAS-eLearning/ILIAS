@@ -354,23 +354,6 @@ class ilContainer extends ilObject
 	}
 	
 	/**
-	* Get right column
-	*
-	* @return	object		column object
-	*/ 
-	function getFirstColumn()
-	{
-		$col_id = ilContainer::_lookupContainerSetting($this->getId(), "first_column");
-		if ($col_id > 0)
-		{
-			include_once("./Services/Blocks/class.ilBlockColumn.php");
-			$block_column = new ilBlockColumn($col_id);
-			return $block_column;
-		}
-		return false;
-	}
-	
-	/**
 	 * Clone container settings
 	 *
 	 * @access public

@@ -330,16 +330,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		//$this->displayBasicSettings();
 	}
 	
-	function createScormEditorTablesObject()
-	{
-		include_once("./Modules/Scorm2004/classes/class.ilScormEditorDBCreator.php");
-		$db_creator = new ilScormEditorDBCreator();
-		$db_creator->createTables();
-		
-		ilUtil::sendSuccess("Tables are updated.", true);
-		$this->viewObject();
-	}
-	
 	/**
 	* displays ILIAS basic settings form
 	*
@@ -2905,11 +2895,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	 * @return 
 	 */
 	public function createJavaServerIniObject()
-	{
-		#include_once './Services/WebServices/RPC/classes/classs.ilRPCServerSettings.php';
-		#$ini = ilRPCServerSettings::createServerIni();
-		#ilUtil::deliverData($ini, 'ilServer.ini','text/plain');
-		
+	{	
 		$this->setGeneralSettingsSubTabs('java_server');
 		$this->initJavaServerIniForm();
 		$this->tpl->setContent($this->form->getHTML());

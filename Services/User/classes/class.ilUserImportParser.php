@@ -1158,7 +1158,7 @@ class ilUserImportParser extends ilSaxParser
 							}
 
 							if ($this->ilincdata["id"]) {
-							    include_once './ilinc/classes.ilObjiLincUser.php';
+							    include_once 'Modules/ILinc/classes/class.ilObjiLincUser.php';
                                 $ilinc_user = new ilObjiLincUser($this->userObj);
                                 $ilinc_user->setVar("id", $this->ilincdata["id"]);
                                 $ilinc_user->setVar("login", $this->ilincdata["login"]);
@@ -1310,7 +1310,7 @@ class ilUserImportParser extends ilSaxParser
 							$updateUser->update();
 
 							if ($this->ilincdata["id"]) {
-							    include_once './ilinc/classes.ilObjiLincUser.php';
+							    include_once 'Modules/ILinc/classes/class.ilObjiLincUser.php';
                                 $ilinc_user = new ilObjiLincUser($updateUser);
                                 $ilinc_user->setVar("id", $this->ilincdata["id"]);
                                 $ilinc_user->setVar("login", $this->ilincdata["login"]);

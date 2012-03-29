@@ -179,7 +179,7 @@ class ilERPDebtor_none extends ilERPDebtor
     $header .= "--".$uid."--";
     
     /*
-    include_once './Services/Mail/classes/classes/class.ilMimeMail.php';
+    include_once './Services/Mail/classes/class.ilMimeMail.php';
     $mail = new ilMimeMail;
     $mail->autoCheck(true);
     $mail->Subject($subject);

@@ -254,7 +254,7 @@ echo "-".$this->node_object->getDraft()."-";
 		self::addCreationButtons();
 		$this->setTabs("content");
 		
-		include_once("./Services/Skill//classes/class.ilSkillCatTableGUI.php");
+		include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
 		$table = new ilSkillCatTableGUI($this, "listItems", (int) $_GET["obj_id"],
 			ilSkillCatTableGUI::MODE_SCAT);
 		

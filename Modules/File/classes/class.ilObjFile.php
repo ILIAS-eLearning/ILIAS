@@ -609,7 +609,7 @@ class ilObjFile extends ilObject2
 	 * e.g. returns 'pdf' for 'document.pdf'.
 	 */
 	function getFileExtension() {
-		require_once 'class.ilObjFileAccess.php';
+		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 		return ilObjFileAccess::_getFileExtension($this->getTitle());
 	}
 	/**
@@ -618,14 +618,14 @@ class ilObjFile extends ilObject2
 	 * and for images which are directly supported by the browser.
 	 */
 	function isInline() {
-		require_once 'class.ilObjFileAccess.php';
+		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 		return ilObjFileAccess::_isFileInline($this->getTitle());
 	}
 	/**
 	 * Returns true, if this file should be hidden in the repository view.
 	 */
 	function isHidden() {
-		require_once 'class.ilObjFileAccess.php';
+		require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 		return ilObjFileAccess::_isFileHidden($this->getTitle());
 	}
 	// END WebDAV: Get file extension, determine if file is inline, guess file type.
