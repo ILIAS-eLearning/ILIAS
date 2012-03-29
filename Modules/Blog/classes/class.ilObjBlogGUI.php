@@ -75,14 +75,18 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
+		global $lng, $ilSetting;
 		
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
 				
-		$rss = new ilCheckboxInputGUI($lng->txt("blog_enable_rss"), "rss");
-		$a_form->addItem($rss);
-		
+		if($ilSetting->get('enable_global_profiles'))
+		{
+			$rss = new ilCheckboxInputGUI($lng->txt("blog_enable_rss"), "rss");
+			$rss->setInfo($lng->txt("blog_enable_rss_info"));
+			$a_form->addItem($rss);
+		}
+	
 		$ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
 		$a_form->addItem($ppic);
 		

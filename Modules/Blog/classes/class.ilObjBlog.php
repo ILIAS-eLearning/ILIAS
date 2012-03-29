@@ -410,7 +410,12 @@ class ilObjBlog extends ilObject2
 	 */
 	static function deliverRSS($a_wsp_id)
 	{
-		global $tpl;
+		global $tpl, $ilSetting;
+		
+		if(!$ilSetting->get('enable_global_profiles'))
+		{
+			return;
+		}
 		
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$wsp_id = new ilWorkspaceTree(0);
