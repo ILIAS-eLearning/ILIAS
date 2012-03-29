@@ -12487,3 +12487,4 @@ rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referen
 rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen für dieses Objekt.
 rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:
 blog#:#blog_enable_rss#:#RSS aktivieren
+blog#:#blog_enable_rss_info#:#Der RSS Feed ist öffentlich und unabhängig von Blog-Freigaben oder Nutzerrechten.

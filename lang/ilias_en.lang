@@ -12495,3 +12495,4 @@ rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more referenc
 rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
 blog#:#blog_enable_rss#:#Activate RSS 
+blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
