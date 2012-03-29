@@ -3092,53 +3092,29 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->viewObject();
 			return false;
 		}
-		
-		
+				
 		$this->tabs_gui->setTabActive('crs_unsubscribe');
 		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",'Modules/Course');
-		ilUtil::sendQuestion($this->lng->txt('crs_unsubscribe_sure'));
-		
-		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("CMD_SUBMIT",'performUnsubscribe');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("crs_unsubscribe"));
-		return true;
-				
+		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$cgui = new ilConfirmationGUI();		
+		$cgui->setHeaderText($this->lng->txt('crs_unsubscribe_sure'));
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancel");
+		$cgui->setConfirm($this->lng->txt("crs_unsubscribe"), "performUnsubscribe");		
+		$this->tpl->setContent($cgui->getHTML());							
 	}
 	
-	
+	/**
+	 * DEPRECATED? 
+	 */
 	function unsubscribeObject()
 	{
-		global $rbacsystem,$ilAccess;
-
-		// CHECK ACCESS
-		$this->checkPermission('leave');
-		/*
-		if(!$ilAccess->checkAccess("leave",'', $this->ref_id))
-		{
-			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
-
-		$this->tabs_gui->setTabActive('crs_unsubscribe');
-		#$this->setSubTabs('members');
-
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_unsubscribe_sure.html",'Modules/Course');
-		ilUtil::sendQuestion($this->lng->txt('crs_unsubscribe_sure'));
-		
-		$this->tpl->setVariable("UNSUB_FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("CMD_SUBMIT",'performUnsubscribe');
-		$this->tpl->setVariable("TXT_SUBMIT",$this->lng->txt("crs_unsubscribe"));
-		
-		return true;
+		$this->leaveObject();
 	}
 
 	function performUnsubscribeObject()
 	{
-		global $rbacsystem, $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl;
 
 		// CHECK ACCESS
 		$this->checkPermission('leave');
