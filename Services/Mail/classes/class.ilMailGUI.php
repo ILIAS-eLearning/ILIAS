@@ -178,13 +178,7 @@ class ilMailGUI
 		}
 
 		switch($this->forwardClass)
-		{
-			case 'ilmailmenugui':
-				include_once 'Services/Mail/classes/class.ilMailMenuGUI.php';
-
-				$this->ctrl->forwardCommand(new ilMailMenuGUI());
-				break;
-
+		{			
 			case 'ilmailformgui':
 				include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
 

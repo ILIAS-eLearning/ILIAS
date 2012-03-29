@@ -97,7 +97,7 @@ class ilAuthContainerMultiple extends Auth_Container
 			if ($_REQUEST['force_mode_apache']) 
 			{
 				$this->log('Container Apache: Trying new container',AUTH_LOG_DEBUG);
-				include_once './Services/Database/classes/class.ilAuthContainerApache.php';
+				include_once './Services/AuthApache/classes/class.ilAuthContainerApache.php';
 				$this->current_container = new ilAuthContainerApache();
 				
 				$auth = new ilAuthApache($this->current_container);

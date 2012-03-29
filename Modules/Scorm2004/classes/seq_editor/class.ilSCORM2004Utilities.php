@@ -31,7 +31,7 @@ class ilSCORM2004Utilities
 	
 	public function parentHasSeqTemplate($a_slm_id)
 	{
-		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Template.php");
+		require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
 		
 		global $ilDB,$ilLog;
 		$has_template = false;

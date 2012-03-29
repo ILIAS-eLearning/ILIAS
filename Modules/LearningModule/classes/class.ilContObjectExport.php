@@ -190,63 +190,7 @@ class ilContObjectExport
 	*/
 	function buildExportFilePDF()
 	{
-		global $ilBench;
-die("deprecated.");
-		$ilBench->start("ContentObjectExport", "buildPDFFile");
-
-		require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-
-		$this->xml = new ilXmlWriter;
-
-		// set dtd definition
-		//$this->xml->xmlSetDtdDef("<!DOCTYPE LearningModule SYSTEM \"http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd\">");
-
-		// set generated comment
-		//$this->xml->xmlSetGenCmt("Export of ILIAS Content Module ".
-		//	$this->cont_obj->getId()." of installation ".$this->inst.".");
-
-		// set xml header
-		$this->xml->xmlHeader();
-
-		// create directories
-	//$this->cont_obj->createExportDirectory("pdf");   //not implemened!
-		//ilUtil::makeDir($this->export_dir."/".$this->subdir);
-		//ilUtil::makeDir($this->export_dir."/".$this->subdir."/objects");
-
-		// get Log File
-		/*
-		$expDir = $this->cont_obj->getExportDirectory();
-		$expLog = new ilLog($expDir, "export.log");
-		$expLog->delete();
-		$expLog->setLogFormat("");
-		$expLog->write(date("[y-m-d H:i:s] ")."Start Export");*/
-
-		// get xml content
-		$ilBench->start("ContentObjectExport", "buildPDFFile_getFO");
-		$this->cont_obj->exportFO($this->xml,
-			$this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("ContentObjectExport", "buildPDFFile_getFO");
-
-
-		// dump fo document to file
-		$ilBench->start("ContentObjectExport", "buildPDFFile_dumpToFile");
-//echo "dumping:".$this->export_dir."/".$this->filename;
-		$this->xml->xmlDumpFile($this->export_dir."/".$this->filename
-			, false);
-		$ilBench->stop("ContentObjectExport", "buildPDFFile_dumpToFile");
-
-		// convert fo to pdf file
-		//$ilBench->start("ContentObjectExport", "buildExportFile_zipFile");
-		include_once("classes/class.ilFOPUtil.php");
-		ilFOPUtil::makePDF($this->export_dir."/".$this->filename,
-			$this->export_dir."/".$this->subdir.".pdf");
-		//$ilBench->stop("ContentObjectExport", "buildExportFile_zipFile");
-
-		// destroy writer object
-		$this->xml->_XmlWriter;
-
-		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildPDFFile");
+		die("deprecated.");		
 	}
 
 	/**

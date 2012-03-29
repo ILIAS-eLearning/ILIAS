@@ -273,7 +273,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				
 				global $rbacsystem;
 				
-				//include_once './Modules/Chat/classes/class.ilObjChat.php';
 				include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
 				if($a_set["id"] == $ilUser->getId() &&
 				   //$rbacsystem->checkAccess('read', ilObjChat::_getPublicChatRefId()))
@@ -485,7 +484,6 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 	{
 		global $rbacsystem,$ilUser,$lng;
 		
-		//include_once './Modules/Chat/classes/class.ilObjChat.php';
 		include_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
 		
 		if($a_usr_id == $ilUser->getId())

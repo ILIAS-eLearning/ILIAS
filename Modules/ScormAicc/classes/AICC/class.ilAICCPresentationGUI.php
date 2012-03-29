@@ -100,7 +100,7 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 	{
 		$this->tpl = new ilTemplate("tpl.sahs_exp_main.html", true, true, "Modules/ScormAicc");
 
-		require_once("././Modules/ScormAicc/classes/AICC/class.ilAICCExplorer.php");
+		require_once("./Modules/ScormAicc/classes/AICC/class.ilAICCExplorer.php");
 		$exp = new ilAICCExplorer(
 			$this->ctrl->getLinkTarget($this, "view"), $this->slm);
 		$exp->setTargetGet("obj_id");

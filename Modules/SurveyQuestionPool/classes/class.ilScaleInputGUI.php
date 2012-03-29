@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.TextInputGUI.php");
+include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 
 /**
 * This class represents a scale property in a property form.

@@ -4,8 +4,6 @@
 
 require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObjectGUI.php");
-//require_once("./classes/class.ilMainMenuGUI.php");
-//require_once("./classes/class.ilObjStyleSheet.php");
 
 /**
 * Class ilSCORMPresentationGUI

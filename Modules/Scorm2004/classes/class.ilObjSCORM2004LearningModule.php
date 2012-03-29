@@ -1534,7 +1534,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		ilScormExportUtil::exportContentCSS($this, $css_dir);
 
 		// add manifest
-		include_once("class.ilContObjectManifestBuilder.php");
+		include_once("./Modules/Scorm2004/classes/class.ilContObjectManifestBuilder.php");
 		$manifestBuilder = new ilContObjectManifestBuilder($this);
 		$manifestBuilder->buildManifest($ver,$revision);
 		$manifestBuilder->dump($a_target_dir);
@@ -1680,7 +1680,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
 		if ($a_one_file == "")
 		{
-			include_once("class.ilContObjectManifestBuilder.php");
+			include_once("./Modules/Scorm2004/classes/class.ilContObjectManifestBuilder.php");
 			$manifestBuilder = new ilContObjectManifestBuilder($this);
 			$manifestBuilder->buildManifest('12');
 
@@ -1817,7 +1817,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 			fputs($a_one_file, $sco_tpl->get("head"));
 			
 			// toc
-			include_once("class.ilContObjectManifestBuilder.php");
+			include_once("./Modules/Scorm2004/classes/class.ilContObjectManifestBuilder.php");
 			$manifestBuilder = new ilContObjectManifestBuilder($this);
 			$manifestBuilder->buildManifest('12');
 			$xsl = file_get_contents("./Modules/Scorm2004/templates/xsl/module.xsl");

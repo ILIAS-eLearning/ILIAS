@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once '.Services/Payment/classes/class.ilPaymentSettings.php';
+include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
 // !!! USE ilPaymentSettings instead !!!
 class ilGeneralSettings 

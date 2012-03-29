@@ -527,7 +527,7 @@ class ilSCORM2004Node
 			"WHERE slm_id = ".$ilDB->quote($a_slm_object->getId(), "integer")." ";
 		$obj_set = $ilDB->query($query);
 
-		require_once("./Modules/LearningModule/classes/class.ilScorm2004NodeFactory.php");
+		require_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeFactory.php");
 		while($obj_rec = $ilDB->fetchAssoc($obj_set))
 		{
 			$node_obj = ilSCORM2004NodeFactory::getInstance($a_slm_object, $obj_rec["obj_id"],false);

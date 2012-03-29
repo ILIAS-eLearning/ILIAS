@@ -70,7 +70,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		$this->info_screen_enabled = true;
 		
 		// general commands array
-		include_once('class.ilObjLinkResourceAccess.php');
+		include_once('./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php');
 		$this->commands = ilObjLinkResourceAccess::_getCommands();
 	}
 

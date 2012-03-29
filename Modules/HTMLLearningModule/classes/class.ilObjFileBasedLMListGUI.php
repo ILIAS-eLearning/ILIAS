@@ -64,7 +64,7 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjfilebasedlmgui";
 		
 		// general commands array
-		include_once('class.ilObjFileBasedLMAccess.php');
+		include_once('Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php');
 		$this->commands = ilObjFileBasedLMAccess::_getCommands();
 	}
 
