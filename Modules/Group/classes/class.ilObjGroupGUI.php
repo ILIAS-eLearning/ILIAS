@@ -1690,7 +1690,17 @@ class ilObjGroupGUI extends ilContainerGUI
 	*/
 	public function leaveObject()
 	{
+		global $ilUser;
+		
 		$this->checkPermission('leave');
+		
+		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
+		if($part->isLastAdmin($ilUser->getId()))
+		{
+			ilUtil::sendFailure($this->lng->txt('grp_err_administrator_required'));
+			$this->viewObject();
+			return false;
+		}
 		
 		$this->tabs_gui->setTabActive('grp_btn_unsubscribe');
 		
@@ -1714,17 +1724,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $ilUser,$tree, $ilCtrl;
 		
 		$this->checkPermission('leave');
-		
-		// Check last admin
-		$admins = (array) ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getAdmins();
-		
-		$admins_after = (array) array_diff($admins, array($ilUser->getId()));
-		if(!count($admins_after) and count($admins))		
-		{
-			ilUtil::sendFailure($this->lng->txt('grp_err_administrator_required'), true);
-			$this->cancelObject();
-			return false;
-		}		
 		
 		$this->object->members_obj->delete($ilUser->getId());
 		
