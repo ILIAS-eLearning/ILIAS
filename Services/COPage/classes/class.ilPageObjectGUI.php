@@ -1490,7 +1490,7 @@ class ilPageObjectGUI
 
 					include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 					ilYuiUtil::initConnection();
-					$GLOBALS["tpl"]->addJavaScript("./Services/Explorer/js/ilexplorercallback.js");
+					$GLOBALS["tpl"]->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
 				}
 

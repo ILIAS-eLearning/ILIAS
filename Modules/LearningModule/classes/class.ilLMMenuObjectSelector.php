@@ -129,7 +129,7 @@ class ilLMMenuObjectSelector extends ilExplorer
 	{
 		global $lng, $ilias;
 
-		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/Explorer");
+		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
 		$tpl->setCurrentBlock("text");
 		$tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
