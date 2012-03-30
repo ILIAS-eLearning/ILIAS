@@ -384,12 +384,11 @@ class ilChatroomInstaller
 	 */
 	public static function setChatroomSettings($obj_ids)
 	{
-		$room = new ilChatroom();
-
 		if( is_array($obj_ids) )
 		{
 			foreach( $obj_ids as $obj_id )
 			{
+				$room = new ilChatroom();
 				$room->saveSettings(array(
 					'object_id' 			=> $obj_id,
 					'autogen_usernames'		=> 'Autogen #',
