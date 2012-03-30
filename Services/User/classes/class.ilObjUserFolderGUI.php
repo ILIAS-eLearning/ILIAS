@@ -1658,7 +1658,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time'),
 				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
 				// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
-				'user_reactivate_code' => (int)$ilSetting->get('user_reactivate_code')
+				'user_reactivate_code' => (int)$ilSetting->get('user_reactivate_code'),
+				'user_own_account' => (int)$ilSetting->get('user_delete_own_account'),
+				'user_own_account_email' => $ilSetting->get('user_delete_own_account_email')
 			)
 		);
 						
@@ -1704,6 +1706,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				// $ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
 				$ilSetting->set('user_portfolios', (int)$this->form->getInput('user_portfolios'));
 				$ilSetting->set('user_reactivate_code', (int)$this->form->getInput('user_reactivate_code'));
+				
+				$ilSetting->set('user_delete_own_account', (int)$this->form->getInput('user_own_account'));
+				$ilSetting->set('user_delete_own_account_email', $this->form->getInput('user_own_account_email'));
+				
 				
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 			}
@@ -1763,6 +1769,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$code = new ilCheckboxInputGUI($this->lng->txt("user_account_code_setting"), "user_reactivate_code");
 		$code->setInfo($this->lng->txt('user_account_code_setting_info'));
 		$this->form->addItem($code);		
+		
+		// delete own account
+		$own = new ilCheckboxInputGUI($this->lng->txt("user_allow_delete_own_account"), "user_own_account");
+		$this->form->addItem($own);		
+		$own_email = new ilEMailInputGUI($this->lng->txt("user_delete_own_account_notification_email"), "user_own_account_email");
+		$own->addSubItem($own_email);
 
 		$log = new ilFormSectionHeaderGUI();
 		$log->setTitle($this->lng->txt('loginname_settings'));

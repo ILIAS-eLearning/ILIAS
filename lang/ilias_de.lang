@@ -12488,3 +12488,11 @@ rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen f
 rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:
 blog#:#blog_enable_rss#:#RSS aktivieren
 blog#:#blog_enable_rss_info#:#Der RSS Feed ist öffentlich und unabhängig von Blog-Freigaben oder Nutzerrechten.
+user#:#user_allow_delete_own_account#:#Benutzer können eigenen Account löschen
+user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-Email
+user#:#user_delete_own_account#:#Account löschen
+user#:#user_delete_own_account_info#:#Wollen Sie wirklich Ihren Benutzer-Account komplett und unwiederbringlich löschen?
+user#:#user_delete_own_account_password_confirmation#:#Bestätigung per Passwort
+user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, um Ihren Benutzer-Account aus dem System zu entfernen.
+user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
+user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde gelöscht.

@@ -420,6 +420,12 @@ class ilPersonalSettingsGUI
 			$ilTabs->addTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
 									 "", "", "", $showjsMath);
 		}
+		
+		if((bool)$ilSetting->get('user_delete_own_account'))
+		{
+			$ilTabs->addTab("delacc", $this->lng->txt('user_delete_own_account'),
+				$this->ctrl->getLinkTarget($this, "deleteOwnAccount1"));
+		}
 	}
 
 
@@ -1132,6 +1138,151 @@ class ilPersonalSettingsGUI
 
 		$this->form->setValuesByPost();
 		$tpl->showGeneralSettings(true);
+	}
+	
+	/**
+	 * Delete own account dialog - 1st confirmation
+	 */
+	protected function deleteOwnAccount1()
+	{	
+		global $ilTabs, $ilUser;
+		
+		$this->__initSubTabs("deleteOwnAccount");
+		$ilTabs->activateTab("delacc");
+		
+		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$cgui = new ilConfirmationGUI();		
+		$cgui->setHeaderText($this->lng->txt('user_delete_own_account_info'));
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "showGeneralSettings");
+		
+		if($ilUser->getAuthMode(true) == AUTH_LOCAL)
+		{		
+			$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount2");		
+		}
+		else
+		{
+			$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount3");		
+		}
+		
+		$this->tpl->setContent($cgui->getHTML());			
+		$this->tpl->show();
+	}
+	
+	/**
+	 * Delete own account dialog - password confirmation
+	 * 
+	 * Only available for AUTH_LOCAL
+	 */
+	protected function deleteOwnAccount2($a_form = null)
+	{	
+		global $ilTabs;
+		
+		$this->__initSubTabs("deleteOwnAccount");
+		$ilTabs->activateTab("delacc");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initDeleteAccountPasswordForm();
+		}
+		
+		$this->tpl->setContent($a_form->getHTML());			
+		$this->tpl->show();
+	}
+	
+	/**
+	 * Init delete own account password form
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initDeleteAccountPasswordForm()
+	{		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('user_delete_own_account_password_confirmation'));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$pass = new ilPasswordInputGUI($this->lng->txt("password"), "pwd");
+		$pass->setRetype(false);
+		$pass->setRequired(true);
+		$form->addItem($pass);
+						
+		$form->addCommandButton("deleteOwnAccount3", $this->lng->txt("confirm"));
+		$form->addCommandButton("showGeneralSettings", $this->lng->txt("cancel"));
+		
+		return $form;		
+	}
+	
+	/**
+	 * Delete own account dialog - final confirmation
+	 */
+	protected function deleteOwnAccount3()
+	{	
+		global $ilTabs, $ilUser;
+		
+		$form = $this->initDeleteAccountPasswordForm();
+		if($form->checkInput())
+		{			
+			if(md5($form->getInput("pwd")) == $ilUser->getPasswd())
+			{
+				$this->__initSubTabs("deleteOwnAccount");
+				$ilTabs->activateTab("delacc");
+
+				include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
+				$cgui = new ilConfirmationGUI();		
+				$cgui->setHeaderText($this->lng->txt('user_delete_own_account_final_confirmation'));
+				$cgui->setFormAction($this->ctrl->getFormAction($this));
+				$cgui->setCancel($this->lng->txt("cancel"), "showGeneralSettings");
+				$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount4");		
+				$this->tpl->setContent($cgui->getHTML());			
+				$this->tpl->show();
+				return;
+			}
+			
+			$input = $form->getItemByPostVar("pwd");
+			$input->setAlert($this->lng->txt("passwd_wrong"));
+		}
+		
+		$form->setValuesByPost();
+		$this->deleteOwnAccount2($form);
+	}
+	
+	/**
+	 * Delete own account dialog - action incl. notification email
+	 */
+	protected function deleteOwnAccount4()
+	{	
+		global $ilUser, $ilAuth, $ilSetting, $ilLog;
+		
+		if(!(bool)$ilSetting->get("user_delete_own_account"))
+		{
+			$this->ctrl->redirect($this, "showGeneralSettings");
+		}
+					
+		// send mail(s)		
+		$user_email = $ilUser->getEmail();		
+		if($user_email)
+		{
+			$admin_mail = $ilSetting->get("user_delete_own_account_email");
+			
+			$subject = $this->lng->txt("user_delete_own_account_email_subject");			
+			$message = $this->lng->txt("user_delete_own_account_email_body");
+			$message = sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH);
+
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$mail = new ilMail(0);
+			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null);		
+		}
+		
+		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");
+		
+		$ilUser->delete();
+
+		// terminate session
+		$ilAuth->logout();
+		session_destroy();		
+		
+		ilUtil::redirect("login.php");
 	}
 }
 ?>
