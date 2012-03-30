@@ -87,16 +87,14 @@ class ilTrQuery
 		}
 	}
 
-	function getObjectivesStatusForUser($a_user_id, array $obj_ids)
+	function getObjectivesStatusForUser($a_user_id, array $a_objective_ids)
 	{
 		global $ilDB;
 		
-		self::refreshObjectsStatus($obj_ids, array($a_user_id));	
-
 		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title, status, ".$ilDB->quote("lobj", "text")." AS type".
 			" FROM crs_objectives".
 			" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id AND user_id = ".$a_user_id.")".
-			" WHERE ".$ilDB->in("crs_objectives.objective_id", $obj_ids, false, "integer").
+			" WHERE ".$ilDB->in("crs_objectives.objective_id", $a_objective_ids, false, "integer").
 			" ORDER BY position";
 		$set = $ilDB->query($query);
 		$result = array();
