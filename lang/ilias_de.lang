@@ -12496,3 +12496,8 @@ user#:#user_delete_own_account_password_confirmation#:#Bestätigung per Passwort
 user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, um Ihren Benutzer-Account aus dem System zu entfernen.
 user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
 user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde gelöscht.
+mcst#:#mcst_ordering#:#Sortierung
+mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum (Aufsteigend)
+mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum (Absteigend)
+mcst#:#mcst_ordering_title#:#Nach Titel
+mcst#:#mcst_ordering_manual#:#Manuell

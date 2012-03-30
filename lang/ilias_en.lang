@@ -12503,3 +12503,8 @@ user#:#user_delete_own_account_password_confirmation#:#Password Confirmation
 user#:#user_delete_own_account_final_confirmation#:#Please confirm once again to remove your user account from the system.
 user#:#user_delete_own_account_email_subject#:#User Account deleted
 user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.
+mcst#:#mcst_ordering#:#Sorting
+mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)
+mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)
+mcst#:#mcst_ordering_title#:#By Title
+mcst#:#mcst_ordering_manual#:#Manual
