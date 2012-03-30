@@ -12496,3 +12496,10 @@ rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this 
 rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:
 blog#:#blog_enable_rss#:#Activate RSS 
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
+user#:#user_allow_delete_own_account#:#Allow users to delete own account
+user#:#user_delete_own_account_notification_email#:#Notification Email
+user#:#user_delete_own_account_info#:#Are you sure you want to completely and irreversibly delete your account? 
+user#:#user_delete_own_account_password_confirmation#:#Password Confirmation
+user#:#user_delete_own_account_final_confirmation#:#Please confirm once again to remove your user account from the system.
+user#:#user_delete_own_account_email_subject#:#User Account deleted
+user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.
