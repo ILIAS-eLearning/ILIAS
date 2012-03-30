@@ -134,6 +134,26 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ilTabs->activateTab("id_content");
 		
 		$med_items = $this->object->getItemsArray();
+		
+		// sort by order setting
+		switch($this->object->getOrder())
+		{
+			case ilObjMediaCast::ORDER_TITLE:
+				$med_items = ilUtil::sortArray($med_items, "title", "asc", false, true);
+				break;
+			
+			case ilObjMediaCast::ORDER_CREATION_DATE_ASC:
+				$med_items = ilUtil::sortArray($med_items, "creation_date", "asc", false, true);
+				break;
+			
+			case ilObjMediaCast::ORDER_CREATION_DATE_DESC:
+				$med_items = ilUtil::sortArray($med_items, "creation_date", "desc", false, true);
+				break;
+			
+			case ilObjMediaCast::ORDER_MANUAL:
+				// :TODO:
+				break;			
+		}
 
 		include_once("./Modules/MediaCast/classes/class.ilMediaCastTableGUI.php");
 		$table_gui = new ilMediaCastTableGUI($this, "listItems");
@@ -961,6 +981,21 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$online->setChecked($this->object->getOnline());
 		$this->form_gui->addItem($online);
 		
+		// Sorting
+		$sort = new ilRadioGroupInputGUI($lng->txt("mcst_ordering"), "order");
+		$sort->addOption(new ilRadioOption($lng->txt("mcst_ordering_title"), 
+			ilObjMediaCast::ORDER_TITLE));
+		$sort->addOption(new ilRadioOption($lng->txt("mcst_ordering_creation_date_asc"), 
+			ilObjMediaCast::ORDER_CREATION_DATE_ASC));
+		$sort->addOption(new ilRadioOption($lng->txt("mcst_ordering_creation_date_desc"),
+			ilObjMediaCast::ORDER_CREATION_DATE_DESC));
+		/* :TODO:
+		$sort->addOption(new ilRadioOption($lng->txt("mcst_ordering_manual"), 
+			ilObjMediaCast::ORDER_MANUAL));		
+		*/
+		$sort->setValue($this->object->getOrder());
+		$this->form_gui->addItem($sort);
+		
 		// Downloadable
 		$downloadable = new ilCheckboxInputGUI($lng->txt("mcst_downloadable"), "downloadable");
 		$downloadable->setChecked($this->object->getDownloadable());
@@ -1025,6 +1060,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$this->object->setDescription($this->form_gui->getInput("description"));
 			$this->object->setOnline($this->form_gui->getInput("online"));
 			$this->object->setDownloadable($this->form_gui->getInput("downloadable"));
+			$this->object->setOrder($this->form_gui->getInput("order"));
 			
 			if ($enable_internal_rss)
 			{

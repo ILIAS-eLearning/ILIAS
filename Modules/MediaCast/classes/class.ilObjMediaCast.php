@@ -36,6 +36,13 @@ class ilObjMediaCast extends ilObject
     protected $online = false;
 	protected $publicfiles = false;
 	protected $downloadable = true;
+	protected $order;
+	
+	const ORDER_TITLE = 1;
+	const ORDER_CREATION_DATE_ASC = 2;
+	const ORDER_CREATION_DATE_DESC = 3;
+	const ORDER_MANUAL = 4;
+	
 	/**
 	 * access to rss news
 	 *
@@ -55,6 +62,7 @@ class ilObjMediaCast extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 		$mcst_set = new ilSetting("mcst");	
 		$this->setDefaultAccess($mcst_set->get("defaultaccess") == "users" ? 0 : 1);
+		$this->setOrder(self::ORDER_TITLE);
 	}
 
 	/**
@@ -155,6 +163,25 @@ class ilObjMediaCast extends ilObject
 	}
 	
 	/**
+	* Set order.
+	*
+	* @param	boolean	$a_value	
+	*/
+	function setOrder($a_value)
+	{
+		$this->order = $a_value;
+	}
+	/**
+	* Get order.
+	*
+	* @return	boolean	
+	*/
+	function getOrder()
+	{
+		return $this->order;
+	}
+	
+	/**
 	* Gets the disk usage of the object in bytes.
     *
 	* @access	public
@@ -181,12 +208,14 @@ class ilObjMediaCast extends ilObject
 			", public_files".
 			", downloadable".
 		    ", def_access".
+			", sortmode".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote((int) $this->getOnline(), "integer")
 			.",".$ilDB->quote((int) $this->getPublicFiles(), "integer")
 			.",".$ilDB->quote((int) $this->getDownloadable(), "integer")
 			.",".$ilDB->quote((int) $this->getDefaultAccess(), "integer")
+			.",".$ilDB->quote((int) $this->getOrder(), "integer")			
 			.")";
 		$ilDB->manipulate($query);
 
@@ -213,6 +242,7 @@ class ilObjMediaCast extends ilObject
 			", public_files = ".$ilDB->quote((int) $this->getPublicFiles(), "integer").
 			", downloadable = ".$ilDB->quote((int) $this->getDownloadable(), "integer").
 		    ", def_access = ".$ilDB->quote((int) $this->getDefaultAccess(), "integer").
+		    ", sortmode = ".$ilDB->quote((int) $this->getOrder(), "integer").
 			" WHERE id = ".$ilDB->quote((int) $this->getId(), "integer");
 
 		$ilDB->manipulate($query);
@@ -239,6 +269,7 @@ class ilObjMediaCast extends ilObject
 		$this->setPublicFiles($rec["public_files"]);
 		$this->setDownloadable($rec["downloadable"]);
 		$this->setDefaultAccess($rec["def_access"]);
+		$this->setOrder($rec["sortmode"]);
 		
 	}
 

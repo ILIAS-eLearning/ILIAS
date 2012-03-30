@@ -9287,3 +9287,13 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 	require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
 	ilChatroomInstaller::createMissinRoomSettingsForConvertedObjects();
 ?>
+<#3547>
+<?php
+	if(!$ilDB->tableColumnExists("il_media_cast_data", "sortmode"))
+    {		
+		$ilDB->addTableColumn("il_media_cast_data", "sortmode", array(
+                'type'     => 'integer',
+                'length'   => 1,
+                'default'  => 1));		
+    }	
+?>
