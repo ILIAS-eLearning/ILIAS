@@ -34,30 +34,30 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 		switch($this->pg_list_mode)
 		{
 			case IL_WIKI_NEW_PAGES:
-				$this->addColumn($lng->txt("created"), "", "33%");
-				$this->addColumn($lng->txt("wiki_page"), "", "33%");
-				$this->addColumn($lng->txt("wiki_created_by"), "", "34%");
+				$this->addColumn($lng->txt("created"), "created", "33%");
+				$this->addColumn($lng->txt("wiki_page"), "title", "33%");
+				$this->addColumn($lng->txt("wiki_created_by"), "user_sort", "34%");
 				$this->setRowTemplate("tpl.table_row_wiki_new_page.html",
 					"Modules/Wiki");
 				break;
 				
 			case IL_WIKI_POPULAR_PAGES:
-				$this->addColumn($lng->txt("wiki_page"), "", "50%");
-				$this->addColumn($lng->txt("wiki_page_hits"), "", "50%");
+				$this->addColumn($lng->txt("wiki_page"), "title", "50%");
+				$this->addColumn($lng->txt("wiki_page_hits"), "cnt", "50%");
 				$this->setRowTemplate("tpl.table_row_wiki_popular_page.html",
 					"Modules/Wiki");
 				break;
 
 			case IL_WIKI_ORPHANED_PAGES:
-				$this->addColumn($lng->txt("wiki_page"), "", "100%");
+				$this->addColumn($lng->txt("wiki_page"), "title", "100%");
 				$this->setRowTemplate("tpl.table_row_wiki_orphaned_page.html",
 					"Modules/Wiki");
 				break;
 
 			default:
-				$this->addColumn($lng->txt("wiki_page"), "", "33%");
-				$this->addColumn($lng->txt("wiki_last_changed"), "", "33%");
-				$this->addColumn($lng->txt("wiki_last_changed_by"), "", "34%");
+				$this->addColumn($lng->txt("wiki_page"), "title", "33%");
+				$this->addColumn($lng->txt("wiki_last_changed"), "date", "33%");
+				$this->addColumn($lng->txt("wiki_last_changed_by"), "user_sort", "34%");
 				$this->setRowTemplate("tpl.table_row_wiki_page.html",
 					"Modules/Wiki");
 				break;
@@ -114,6 +114,16 @@ class ilWikiPagesTableGUI extends ilTable2GUI
 			case IL_WIKI_ORPHANED_PAGES:
 				$pages = ilWikiPage::getOrphanedPages($this->wiki_id);
 				break;
+		}
+				
+		if($pages)
+		{
+			// enable sorting
+			include_once("./Services/User/classes/class.ilUserUtil.php");	
+			foreach(array_keys($pages) as $idx)
+			{
+				$pages[$idx]["user_sort"] = ilUserUtil::getNamePresentation($pages[$idx]["user"], false, false);					
+			}
 		}
 
 		$this->setData($pages);
