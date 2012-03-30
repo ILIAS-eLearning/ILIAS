@@ -453,7 +453,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui->enableCopy(false);
 					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
-					$item_list_gui->enableInfoScreen(false);
+					$item_list_gui->enableInfoScreen(true);
 					$item_list_gui->enableSubscribe(false);
 					if ($this->getCurrentDetailLevel() < 3)
 					{
@@ -615,7 +615,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enableCopy(false);
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
-						$item_list_gui->enableInfoScreen(false);
+						$item_list_gui->enableInfoScreen(true);
 						$item_list_gui->enableSubscribe(false);
 						if ($this->getCurrentDetailLevel() < 3)
 						{
@@ -832,7 +832,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 						$item_list_gui->enableCopy(false);
 						$item_list_gui->enablePayment(false);
 						$item_list_gui->enableLink(false);
-						$item_list_gui->enableInfoScreen(false);
+						$item_list_gui->enableInfoScreen(true);
 						$item_list_gui->setContainerObject($this);						
 						if ($this->getCurrentDetailLevel() < 3)
 						{
@@ -957,7 +957,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					$item_list_gui->enableCopy(false);
 					$item_list_gui->enablePayment(false);
 					$item_list_gui->enableLink(false);
-					$item_list_gui->enableInfoScreen(false);
+					$item_list_gui->enableInfoScreen(true);
 					if ($this->getCurrentDetailLevel() < 3)
 					{
 						//echo "3";
