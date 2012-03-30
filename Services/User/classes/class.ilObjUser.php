@@ -5055,7 +5055,10 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$q = "SELECT DISTINCT ".$ilDB->upper($ilDB->substr("lastname", 1, 1))." let FROM usr_data ORDER BY let";
+		$q = "SELECT DISTINCT ".$ilDB->upper($ilDB->substr("lastname", 1, 1))." let".
+			" FROM usr_data".
+			" WHERE usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer").
+			" ORDER BY let";
 		$let_set = $ilDB->query($q);
 
 		$lets = array();
