@@ -364,7 +364,6 @@ class ilFileSystemGUI
 		}
 
 		$cur_subdir = str_replace("..", "", $cur_subdir);
-
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;

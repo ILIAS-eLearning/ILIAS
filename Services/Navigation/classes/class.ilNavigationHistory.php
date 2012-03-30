@@ -100,7 +100,7 @@ class ilNavigationHistory
 			}
 		}
 		// less than 10? -> get items from db
-		if (count($items) < 10)
+		if (count($items) < 10 && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$set = $ilDB->query("SELECT last_visited FROM usr_data ".
 				" WHERE usr_id = ".$ilDB->quote($ilUser->getId(), "integer")

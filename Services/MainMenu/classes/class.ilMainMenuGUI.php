@@ -391,7 +391,7 @@ class ilMainMenuGUI
 			//	$title,
 			//	ilLink::_getStaticLink(1,'root',true),
 			//	$this->target);
-			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
+			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID || IS_PAYMENT_ENABLED)
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
