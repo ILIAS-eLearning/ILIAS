@@ -9281,3 +9281,9 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
                 'default'  => 0));		
     }	
 ?>
+<#3546>
+<?php
+	require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+	require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
+	ilChatroomInstaller::createMissinRoomSettingsForConvertedObjects();
+?>
