@@ -975,6 +975,16 @@ class ilPersonalSettingsGUI
 			$this->form->addItem($si);
 		}
 
+		// Store last visited
+		$lv = new ilSelectInputGUI($this->lng->txt("user_store_last_visited"), "store_last_visited");
+		$options = array(
+			0 => $this->lng->txt("user_lv_keep_entries"),
+			1 => $this->lng->txt("user_lv_keep_only_for_session"),
+			2 => $this->lng->txt("user_lv_do_not_store"));
+		$lv->setOptions($options);
+		$lv->setValue((int) $ilUser->prefs["store_last_visited"]);
+		$this->form->addItem($lv);
+
 		// hide_own_online_status
 		if ($this->userSettingVisible("hide_own_online_status"))
 		{ 
@@ -1089,6 +1099,18 @@ class ilPersonalSettingsGUI
 			if ($this->workWithUserSetting("show_users_online"))
 			{
 				$ilUser->setPref("show_users_online", $_POST["show_users_online"]);
+			}
+			
+			// store last visited?
+			global $ilNavigationHistory;
+			$ilUser->setPref("store_last_visited", (int) $_POST["store_last_visited"]);
+			if ((int) $_POST["store_last_visited"] > 0)
+			{
+				$ilNavigationHistory->deleteDBEntries();
+				if ((int) $_POST["store_last_visited"] == 2)
+				{
+					$ilNavigationHistory->deleteSessionEntries();
+				}
 			}
 
 			// set hide own online_status

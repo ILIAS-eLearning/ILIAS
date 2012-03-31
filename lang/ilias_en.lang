@@ -12508,3 +12508,8 @@ mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)
 mcst#:#mcst_ordering_title#:#By Title
 mcst#:#mcst_ordering_manual#:#Manual
+user#:#user_store_last_visited#:#Last Visited
+user#:#user_lv_keep_entries#:#Remember last visited
+user#:#user_lv_keep_only_for_session#:#Remember only during current session
+user#:#user_lv_do_not_store#:#Never remeber last visited
+common#:#remove_entries#:#Remove Entries

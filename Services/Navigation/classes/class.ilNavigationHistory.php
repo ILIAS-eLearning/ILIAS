@@ -42,6 +42,12 @@ class ilNavigationHistory
 	{
 		global $ilUser, $ilDB;
 
+		// never store?
+		if ($ilUser->prefs["store_last_visited"] == 2)
+		{
+			return;
+		}
+		
 		$a_sub_obj_id = $a_sub_obj_id."";
 		
 		if ($a_title == "" && $a_ref_id > 0)
@@ -74,6 +80,15 @@ class ilNavigationHistory
 		$items  = serialize($this->items);
 		$_SESSION["il_nav_history"] = $items;
 //var_dump($this->getItems());
+
+
+		// only store in session?
+		if ($ilUser->prefs["store_last_visited"] == 1)
+		{
+			return;
+		}
+
+
 		// update entries in db
 		$ilDB->update("usr_data",
 				array(
@@ -141,5 +156,36 @@ class ilNavigationHistory
 //var_dump($items);
 		return $items;
 	}
+	
+	/**
+	 * Delete DB entries
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteDBEntries()
+	{
+		global $ilUser, $ilDB;
+		
+		// update entries in db
+		$ilDB->update("usr_data",
+				array(
+					"last_visited" => array("clob", serialize(array()))),
+				array(
+				"usr_id" => array("integer", $ilUser->getId()))
+			);
+	}
+
+	/**
+	 * Delete session entries
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteSessionEntries()
+	{
+		$_SESSION["il_nav_history"] = serialize(array());
+	}
+
 }
 ?>

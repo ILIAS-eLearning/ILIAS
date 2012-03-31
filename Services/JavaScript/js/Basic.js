@@ -1,5 +1,12 @@
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/*
+   Please note that this file should only contain common Javascript code
+   used on many ILIAS screens. Please do not add any code that is only useful
+   for single components here.
+   See http://www.ilias.de/docu/goto_docu_pg_38968_42.html for the JS guidelines
+*/
 
 // console dummy object
 if (!window.console) {
@@ -256,6 +263,26 @@ il.Object = {
 		}
 	}
 }
+
+/* Main menu handling */
+il.MainMenu = {
+	
+	removeLastVisitedItems: function (url) {
+		
+		$('.ilLVNavEnt').remove();
+		il.Util.sendAjaxGetRequestToUrl(url, {}, {}, this.dummyCallback);
+		
+		return false;
+	},
+	
+	dummyCallback: function () {
+	}
+}
+
+
+////
+//// The following methods should be moved to the corresponding components
+////
 
 /**
  * Opens a chat window
