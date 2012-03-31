@@ -12501,3 +12501,8 @@ mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum (Aufsteigend)
 mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum (Absteigend)
 mcst#:#mcst_ordering_title#:#Nach Titel
 mcst#:#mcst_ordering_manual#:#Manuell
+user#:#user_store_last_visited#:#Zuletzt besucht
+user#:#user_lv_keep_entries#:#Einträge speichern
+user#:#user_lv_keep_only_for_session#:#Einträge nach Sitzung löschen
+user#:#user_lv_do_not_store#:#Keine Einträge speichern
+common#:#remove_entries#:#Einträge löschen

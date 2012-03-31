@@ -27,9 +27,10 @@ class ilGroupedListGUI
 	 * @param
 	 * @return
 	 */
-	function addGroupHeader($a_content)
+	function addGroupHeader($a_content, $a_add_class = "")
 	{
-		$this->items[] = array("type" => "group_head", "content" => $a_content);
+		$this->items[] = array("type" => "group_head", "content" => $a_content,
+			"add_class" => $a_add_class);
 	}
 	
 	/**
@@ -55,10 +56,11 @@ class ilGroupedListGUI
 	 * @param
 	 * @return
 	 */
-	function addEntry($a_content, $a_href="", $a_target="", $a_onclick="")
+	function addEntry($a_content, $a_href="", $a_target="", $a_onclick="", $a_add_class = "")
 	{
 		$this->items[] = array("type" => "entry", "content" => $a_content,
-			"href" => $a_href, "target" => $a_target, "onclick" => $a_onclick);
+			"href" => $a_href, "target" => $a_target, "onclick" => $a_onclick,
+			"add_class" => $a_add_class);
 	}
 	
 	
@@ -87,6 +89,10 @@ class ilGroupedListGUI
 					
 				case "group_head":
 					$tpl->setCurrentBlock("group_head");
+					if ($i["add_class"] != "")
+					{
+						$tpl->setVariable("ADD_CLASS", $i["add_class"]);
+					}
 					$tpl->setVariable("GROUP_HEAD", $i["content"]);
 					$tpl->parseCurrentBlock();
 					$tpl->touchBlock("item");
@@ -96,6 +102,10 @@ class ilGroupedListGUI
 					if ($i["href"] != "")
 					{
 						$tpl->setCurrentBlock("linked_entry");
+						if ($i["add_class"] != "")
+						{
+							$tpl->setVariable("ADD_CLASS", $i["add_class"]);
+						}
 						$tpl->setVariable("HREF", $i["href"]);
 						$tpl->setVariable("TXT_ENTRY", $i["content"]);
 						if ($i["target"] != "")

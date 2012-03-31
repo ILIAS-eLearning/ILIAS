@@ -468,7 +468,7 @@ class ilMainMenuGUI
 	 */
 	function renderEntry($a_tpl, $a_id, $a_txt, $a_script, $a_target = "_top")
 	{
-		global $lng, $ilNavigationHistory, $ilSetting, $rbacsystem;
+		global $lng, $ilNavigationHistory, $ilSetting, $rbacsystem, $ilCtrl;
 	
 		$id = strtolower($a_id);
 		$id_up = strtoupper($a_id);
@@ -502,16 +502,24 @@ class ilMainMenuGUI
 				{
 					if ($cnt == 0)
 					{
-						$gl->addGroupHeader($lng->txt("last_visited"));
+						$gl->addGroupHeader($lng->txt("last_visited"), "ilLVNavEnt");
 					}
 					$obj_id = ilObject::_lookupObjId($item["ref_id"]);
 					$cnt ++;
 					$icon = ilUtil::img(ilObject::_getIcon($obj_id, "tiny"));
 					$gl->addEntry($icon." ".ilUtil::shortenText($item["title"], 50, true), $item["link"],
-						"_top");
+						"_top", "", "ilLVNavEnt");
 
 				}
 				$first = false;
+			}
+			
+			if (!$first)
+			{
+				$gl->addEntry("» ".$lng->txt("remove_entries"), "#", "",
+					"return il.MainMenu.removeLastVisitedItems('".
+					$ilCtrl->getLinkTargetByClass("ilnavigationhistorygui", "removeEntries", "", true)."');",
+					"ilLVNavEnt");
 			}
 
 			$a_tpl->setVariable("REP_EN_OV", $gl->getHTML());

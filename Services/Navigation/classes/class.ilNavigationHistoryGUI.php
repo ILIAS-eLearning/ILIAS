@@ -7,6 +7,8 @@
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+*
+* @ilCtrl_Calls ilNavigationHistoryGUI: 
 */
 class ilNavigationHistoryGUI
 {
@@ -14,11 +16,29 @@ class ilNavigationHistoryGUI
 	private $items;
 
 	/**
-	* Constructor.
-	*	
-	*/
+	 * Constructor.
+	 *	
+	 */
 	public function __construct()
 	{
+	}
+
+	/**
+	 * Execute command
+	 */
+	function executeCommand()
+	{
+		global $ilCtrl;
+
+		$next_class = $ilCtrl->getNextClass();
+		$cmd = $ilCtrl->getCmd();
+
+		switch($next_class)
+		{
+			default:
+				$this->$cmd();
+				break;
+		}
 	}
 
 	/**
@@ -71,69 +91,6 @@ class ilNavigationHistoryGUI
 	}
 	
 	/**
-	* Get HTML for navigation history.
-	*/
-	public function getHTMLOld()
-	{
-		global $ilNavigationHistory, $lng;
-		
-		$items = $ilNavigationHistory->getItems();
-
-		// do not show list, if no item is in list
-		if (count($items) == 0)
-		{
-			return "";
-		}
-		
-		// do not show list, if only current item is in list
-		$item = current($items);
-		if (count($items) == 1 && $item["ref_id"] == $_GET["ref_id"])
-		{
-			return "";
-		}
-		
-		$GLOBALS["tpl"]->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
-
-		$tpl = new ilTemplate("tpl.navigation_history.html", true, true,
-			"Services/Navigation");
-			
-		$sel_arr = array(0 => "-- ".$lng->txt("last_visited")." --");
-		reset($items);
-
-		$cnt = 0;
-		foreach($items as $item)
-		{
-			if ($cnt++ > 20) break;
-			
-			if ($item["ref_id"] != $_GET["ref_id"])			// do not list current item
-			{
-				$sel_arr[$item["ref_id"]] = $item["title"];
-				$this->css_row = ($this->css_row != "tblrow1_mo")
-					? "tblrow1_mo"
-					: "tblrow2_mo";
-				$tpl->setCurrentBlock("item");
-				$tpl->setVariable("HREF_ITEM", $item["link"]);
-				$tpl->setVariable("CSS_ROW", $this->css_row);
-				$tpl->setVariable("TXT_ITEM", $item["title"]);
-				
-				$obj_id = ilObject::_lookupObjId($item["ref_id"]);
-				$tpl->setVariable("IMG_ITEM",
-					ilObject::_getIcon($obj_id, "tiny", $item["type"]));
-				$tpl->setVariable("ALT_ITEM", $lng->txt("obj_".$item["type"]));
-				$tpl->parseCurrentBlock();
-			}
-		}
-		$select = ilUtil::formSelect("", "url_ref_id", $sel_arr, false, true, "0", "ilEditSelect");
-		$tpl->setVariable("TXT_LAST_VISITED", $lng->txt("last_visited"));
-		$tpl->setVariable("IMG_DOWN", ilUtil::getImagePath("mm_down_arrow.gif"));
-		$tpl->setVariable("NAVI_SELECT", $select);
-		$tpl->setVariable("TXT_GO", $lng->txt("go"));
-		$tpl->setVariable("ACTION", "goto.php?target=navi_request&ref_id=".$_GET["ref_id"]);
-		
-		return $tpl->get();
-	}
-	
-	/**
 	* Handle navigation request
 	*/
 	function handleNavigationRequest()
@@ -165,6 +122,20 @@ class ilNavigationHistoryGUI
 			$ilCtrl->setParameterByClass("ilrepositorygui", "getlast", "true");
 			$ilCtrl->redirectByClass("ilrepositorygui", "frameset");
 		}
+	}
+	
+	/**
+	 * Remove all entries form list
+	 *
+	 * @param
+	 * @return
+	 */
+	function removeEntries()
+	{
+		global $ilNavigationHistory;
+		
+		$ilNavigationHistory->deleteDBEntries();
+		$ilNavigationHistory->deleteSessionEntries();
 	}
 	
 }

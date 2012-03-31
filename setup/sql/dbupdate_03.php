@@ -9297,3 +9297,7 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
                 'default'  => 1));		
     }	
 ?>
+<#3548>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
