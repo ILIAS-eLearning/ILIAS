@@ -511,13 +511,23 @@ class ilObjExercise extends ilObject
 	{
 		global $lng;
 
+		$lng->loadLanguageModule("exc");
+		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = new ilExAssignment($a_ass_id);
 
 		$body = $ass->getInstruction();
 		$body .= "\n\n";
-		$body .= $lng->txt("exc_edit_until") . ": ".
-			ilFormat::formatDate(date("Y-m-d H:i:s",$ass->getDeadline()), "datetime", true);
+		if ($ass->getDeadline() == 0)
+		{
+			$body .= $lng->txt("exc_edit_until") . ": ".
+				$lng->txt("exc_no_deadline_specified");
+		}
+		else
+		{
+			$body .= $lng->txt("exc_edit_until") . ": ".
+				ilFormat::formatDate(date("Y-m-d H:i:s",$ass->getDeadline()), "datetime", true);
+		}
 		$body .= "\n\n";
 		$body .= ILIAS_HTTP_PATH.
 			"/goto.php?target=".

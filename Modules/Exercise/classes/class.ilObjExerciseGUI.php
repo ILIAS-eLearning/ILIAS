@@ -262,7 +262,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive("content");
 		$this->addContentSubTabs("content");
 		
-		if (mktime() > $this->ass->getDeadline())
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
 			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
 			$ilCtrl->redirect($this, "submissionScreen");
@@ -315,13 +315,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->checkPermission("read");
 		
-		if (mktime() > $this->ass->getDeadline())
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
 			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
 			$ilCtrl->redirect($this, "submissionScreen");
 		}
 		
-		if (count($_POST["delivered"]) && mktime() < $this->ass->getDeadline())
+		if (count($_POST["delivered"]) && (mktime() < $this->ass->getDeadline() ||
+			$this->ass->getDeadline() == 0))
 		{
 			$this->object->deleteDeliveredFiles($this->object->getId(), (int) $_GET["ass_id"],
 				$_POST["delivered"], $ilUser->id);
@@ -352,7 +353,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive("content");
 		$this->addContentSubTabs("content");
 		
-		if (mktime() > $this->ass->getDeadline())
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
@@ -364,7 +365,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$tab = new ilExcDeliveredFilesTableGUI($this, "deliver", $this->object, $_GET["ass_id"]);
 		$this->tpl->setVariable("DELIVERED_FILES_TABLE", $tab->getHTML());
 
-		if (mktime() < $this->ass->getDeadline())
+		if (mktime() < $this->ass->getDeadline() || ($this->ass->getDeadline() == 0))
 		{
 			$this->initUploadForm();
 			$this->tpl->setVariable("UPLOAD_SINGLE_FORM", $this->form->getHTML());
@@ -1843,11 +1844,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$edit_date->setShowTime(true);
 			$cb->addSubItem($edit_date);
 		
-		// Deadline
-		$edit_date = new ilDateTimeInputGUI($lng->txt("exc_deadline"), "deadline");
-		$edit_date->setShowTime(true);
-		$edit_date->setRequired(true);
-		$this->form->addItem($edit_date);
+			
+		// deadline y/n
+		$dcb = new ilCheckboxInputGUI($this->lng->txt("exc_deadline"), "deadline_cb");
+		$dcb->setChecked(true);
+		$this->form->addItem($dcb);
+
+			// Deadline
+			$edit_date = new ilDateTimeInputGUI($lng->txt(""), "deadline");
+			$edit_date->setShowTime(true);
+			$dcb->addSubItem($edit_date);
 
 		// mandatory
 		$cb = new ilCheckboxInputGUI($this->lng->txt("exc_mandatory"), "mandatory");
@@ -1994,12 +2000,18 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$values["mandatory"] = $ass->getMandatory();
 		$values["instruction"] = $ass->getInstruction();
 		$values["type"] = $ass->getType();
-
+		if ($ass->getDeadline() > 0)
+		{
+			$values["deadline_cb"] = true;
+		}
 		$this->form->setValuesByArray($values);
 
-		$edit_date = new ilDateTime($ass->getDeadline(), IL_CAL_UNIX);
-		$ed_item = $this->form->getItemByPostVar("deadline");
-		$ed_item->setDate($edit_date);
+		if ($ass->getDeadline() > 0)
+		{
+			$edit_date = new ilDateTime($ass->getDeadline(), IL_CAL_UNIX);
+			$ed_item = $this->form->getItemByPostVar("deadline");
+			$ed_item->setDate($edit_date);
+		}
 
 		if ($ass->getStartTime() > 0)
 		{
@@ -2035,7 +2047,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			
 			// additional checks
-			if ($_POST["start_time_cb"])
+			if ($_POST["start_time_cb"] && $_POST["deadline_cb"])
 			{
 				// check whether start date is before end date
 				$start_date =
@@ -2076,9 +2088,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			
 			// deadline
-			$date =
-				$this->form->getItemByPostVar("deadline")->getDate();
-			$ass->setDeadline($date->get(IL_CAL_UNIX));
+			if ($_POST["deadline_cb"])
+			{
+				$date =
+					$this->form->getItemByPostVar("deadline")->getDate();
+				$ass->setDeadline($date->get(IL_CAL_UNIX));
+			}
+			else
+			{
+				$ass->setDeadline(null);
+			}
 
 			$ass->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -2342,7 +2361,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive("content");
 		$this->addContentSubTabs("content");
 		
-		if (mktime() > $this->ass->getDeadline())
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
@@ -2372,7 +2391,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive("content");
 		$this->addContentSubTabs("content");
 		
-		if (mktime() > $this->ass->getDeadline())
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
@@ -2620,7 +2639,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive("content");
 		$this->addContentSubTabs("content");
 		
-		if (mktime() > $this->ass->getDeadline())
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}

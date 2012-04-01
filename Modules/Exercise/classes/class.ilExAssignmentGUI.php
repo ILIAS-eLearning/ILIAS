@@ -28,9 +28,11 @@ class ilExAssignmentGUI
 	{
 		global $lng, $ilUser;
 		
+		$lng->loadLanguageModule("exc");
+		
 		$tpl = new ilTemplate("tpl.assignment_head.html", true, true, "Modules/Exercise");
 
-		if ($a_data["deadline"] - time() <= 0)
+		if (($a_data["deadline"] > 0) && $a_data["deadline"] - time() <= 0)
 		{
 			$tpl->setCurrentBlock("prop");
 			$tpl->setVariable("PROP", $lng->txt("exc_ended_on"));
@@ -54,11 +56,14 @@ class ilExAssignmentGUI
 			$tpl->setVariable("PROP_VAL", $time_str);
 			$tpl->parseCurrentBlock();
 	
-			$tpl->setCurrentBlock("prop");
-			$tpl->setVariable("PROP", $lng->txt("exc_edit_until"));
-			$tpl->setVariable("PROP_VAL",
-				ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
-			$tpl->parseCurrentBlock();
+			if ($a_data["deadline"] > 0)
+			{
+				$tpl->setCurrentBlock("prop");
+				$tpl->setVariable("PROP", $lng->txt("exc_edit_until"));
+				$tpl->setVariable("PROP_VAL",
+					ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
+				$tpl->parseCurrentBlock();
+			}
 			
 		}
 
@@ -118,8 +123,11 @@ class ilExAssignmentGUI
 			$info->addProperty($lng->txt("exc_start_time"),
 				ilDatePresentation::formatDate(new ilDateTime($a_data["start_time"],IL_CAL_UNIX)));
 		}
-		$info->addProperty($lng->txt("exc_edit_until"),
-			ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
+		if ($a_data["deadline"] > 0)
+		{
+			$info->addProperty($lng->txt("exc_edit_until"),
+				ilDatePresentation::formatDate(new ilDateTime($a_data["deadline"],IL_CAL_UNIX)));
+		}
 		$time_str = $this->getTimeString($a_data["deadline"]);
 		if (!$not_started_yet)
 		{
@@ -202,7 +210,7 @@ class ilExAssignmentGUI
 				$delivered_files = ilExAssignment::getDeliveredFiles($a_data["exc_id"], $a_data["id"], $ilUser->getId());
 
 				$times_up = false;
-				if($a_data["deadline"] - time() < 0)
+				if(($a_data["deadline"] > 0) && $a_data["deadline"] - time() < 0)
 				{
 					$times_up = true;
 				}
@@ -419,6 +427,11 @@ class ilExAssignmentGUI
 	function getTimeString($a_deadline)
 	{
 		global $lng;
+		
+		if ($a_data["deadline"] == 0)
+		{
+			return $lng->txt("exc_no_deadline_specified");
+		}
 		
 		if ($a_deadline - time() <= 0)
 		{
