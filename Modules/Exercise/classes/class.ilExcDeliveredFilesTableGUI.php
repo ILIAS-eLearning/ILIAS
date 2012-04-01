@@ -44,7 +44,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$this->disable("footer");
 		$this->setEnableTitle(true);
 
-		if (mktime() < $this->ass->getDeadline())
+		if (mktime() < $this->ass->getDeadline() || ($this->ass->getDeadline() == 0))
 		{
 			$this->addMultiCommand("confirmDeleteDelivered", $lng->txt("delete"));
 		}
