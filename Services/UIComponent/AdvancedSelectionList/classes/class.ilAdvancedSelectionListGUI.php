@@ -494,7 +494,6 @@ class ilAdvancedSelectionListGUI
 		ilYuiUtil::initOverlay();
 		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
 		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
-
 		$tpl = new ilTemplate("tpl.adv_selection_list.html", true, true,
 			"Services/UIComponent/AdvancedSelectionList", "DEFAULT", false, true);
 			
