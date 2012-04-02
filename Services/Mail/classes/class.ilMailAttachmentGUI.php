@@ -1,55 +1,56 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "Services/Mail/classes/class.ilFormatMail.php";
-require_once "./Services/Mail/classes/class.ilFileDataMail.php";
+require_once "Services/Mail/classes/class.ilFileDataMail.php";
 
 /**
-* @author Jens Conze
-* @version $Id$
-*
-* @ingroup ServicesMail
-*/
+ * @author  Jens Conze
+ * @version $Id$
+ * @ingroup ServicesMail
+ */
 class ilMailAttachmentGUI
 {
-	private $tpl = null;
-	private $ctrl = null;
-	private $lng = null;
-	
-	private $umail = null;
-	private $mfile = null;
+	/**
+	 * @var ilTemplate
+	 */
+	private $tpl;
 
-	private $errorDelete = false;
+	/**
+	 * @var ilCtrl
+	 */
+	private $ctrl;
+
+	/**
+	 * @var ilLanguage
+	 */
+	private $lng;
+
+	/**
+	 * @var ilFormatMail
+	 */
+	private $umail;
+
+	/**
+	 * @var ilFileDataMail
+	 */
+	private $mfile;
 
 	public function __construct()
 	{
+		/**
+		 * @var $tpl	ilTemplate
+		 * @var $ilCtrl ilCtrl
+		 * @var $lng	ilLanguage
+		 * @var $ilUser ilObjUser
+		 */
 		global $tpl, $ilCtrl, $lng, $ilUser;
 
-		$this->tpl = $tpl;
+		$this->tpl  = $tpl;
 		$this->ctrl = $ilCtrl;
-		$this->lng = $lng;
-		
-		$this->ctrl->saveParameter($this, "mobj_id");
+		$this->lng  = $lng;
+
+		$this->ctrl->saveParameter($this, 'mobj_id');
 
 		$this->umail = new ilFormatMail($ilUser->getId());
 		$this->mfile = new ilFileDataMail($ilUser->getId());
@@ -61,9 +62,9 @@ class ilMailAttachmentGUI
 		switch($forward_class)
 		{
 			default:
-				if (!($cmd = $this->ctrl->getCmd()))
+				if(!($cmd = $this->ctrl->getCmd()))
 				{
-					$cmd = "showAttachments";
+					$cmd = 'showAttachments';
 				}
 
 				$this->$cmd();
@@ -74,180 +75,163 @@ class ilMailAttachmentGUI
 
 	public function saveAttachments()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
-		
-		$files = array();
 
-		if(is_array($_POST['filename']) && count($_POST['filename']))
-		{			
-			foreach($_POST['filename'] as $file)
+		if(!isset($_POST['filename']) || !is_array($_POST['filename']) || !$_POST['filename'])
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_select_one_file'));
+			$this->showAttachments();
+			return;
+		}
+
+		$files = array();
+		foreach($_POST['filename'] as $file)
+		{
+			if(file_exists($this->mfile->getMailPath() . '/' . basename($ilUser->getId() . '_' . urldecode($file))))
 			{
-				// decode post value
-				if(file_exists($this->mfile->getMailPath().'/'.basename($ilUser->getId().'_'.urldecode($file))))
-				{
-					$files[] = urldecode($file);
-				}
+				$files[] = urldecode($file);
 			}
 		}
 
 		$this->umail->saveAttachments($files);
-		
+
 		$this->ctrl->returnToParent($this);
 	}
 
 	public function cancelSaveAttachments()
 	{
-		$this->ctrl->setParameter($this, "type", "attach");
+		$this->ctrl->setParameter($this, 'type', 'attach');
 		$this->ctrl->returnToParent($this);
 	}
 
 	public function deleteAttachments()
 	{
-		if(!is_array($_POST["filename"]))
+		if(!isset($_POST['filename']) || !is_array($_POST['filename']) || !$_POST['filename'])
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_select_one_file"));
-			$this->errorDelete = true;
+			ilUtil::sendInfo($this->lng->txt('mail_select_one_file'));
+			$this->showAttachments();
+			return;
 		}
-		else
+
+		$this->tpl->setTitle($this->lng->txt('mail'));
+
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmation = new ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmDeleteAttachments'));
+		$confirmation->setConfirm($this->lng->txt('confirm'), 'confirmDeleteAttachments');
+		$confirmation->setCancel($this->lng->txt('cancel'), 'showAttachments');
+		$confirmation->setHeaderText($this->lng->txt('mail_sure_delete_file'));
+
+		foreach($_POST['filename'] as $filename)
 		{
-			ilUtil::sendInfo($this->lng->txt("mail_sure_delete_file"));
+			$confirmation->addItem('filename[]', ilUtil::stripSlashes($filename), ilUtil::stripSlashes(urldecode($filename)));
 		}
-		
-		$this->showAttachments();
+
+		$this->tpl->setContent($confirmation->getHtml());
+		$this->tpl->show();
 	}
 
 	public function confirmDeleteAttachments()
 	{
-		if(!is_array($_POST['filename']))
+		if(!isset($_POST['filename']) || !is_array($_POST['filename']) || !$_POST['filename'])
 		{
 			ilUtil::sendInfo($this->lng->txt('mail_select_one_mail'));
+			$this->showAttachments();
+			return true;
 		}
-		
-		// decode post values
+
 		$files = array();
 		foreach($_POST['filename'] as $value)
 		{
 			$files[] = urldecode($value);
 		}
-		
+
 		if(strlen(($error = $this->mfile->unlinkFiles($files))))
 		{
-			ilUtil::sendInfo($this->lng->txt('mail_error_delete_file').' '.$error);
+			ilUtil::sendFailure($this->lng->txt('mail_error_delete_file') . ' ' . $error);
 		}
 		else
 		{
 			$mailData = $this->umail->getSavedData();
-			if (is_array($mailData['attachments']))
+			if(is_array($mailData['attachments']))
 			{
 				$tmp = array();
-				for ($i = 0; $i < count($mailData['attachments']); $i++)
+				for($i = 0; $i < count($mailData['attachments']); $i++)
 				{
-					if (!in_array($mailData['attachments'][$i], $files))
+					if(!in_array($mailData['attachments'][$i], $files))
 					{
 						$tmp[] = $mailData['attachments'][$i];
 					}
 				}
-				$mailData['attachments'] = $tmp;
 				$this->umail->saveAttachments($tmp);
 			}
 
-			ilUtil::sendInfo($this->lng->txt('mail_files_deleted'));
+			ilUtil::sendSuccess($this->lng->txt('mail_files_deleted'));
 		}
 
-		$this->showAttachments();
-	}
-
-	public function cancelDeleteAttachments()
-	{
 		$this->showAttachments();
 	}
 
 	public function uploadFile()
 	{
-		if (trim($_FILES["userfile"]["name"]) != "")
+		if(strlen(trim($_FILES['userfile']['name'])))
 		{
-			if($this->mfile->storeUploadedFile($_FILES["userfile"]) == 1)
+			if($this->mfile->storeUploadedFile($_FILES['userfile']) == 1)
 			{
-				ilUtil::sendInfo($this->lng->txt("mail_maxsize_attachment_error")." ".$this->mfile->getUploadLimit()." K".$this->lng->txt("mail_byte"));
+				ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . $this->mfile->getUploadLimit() . ' K' . $this->lng->txt('mail_byte'));
 			}
 		}
-		
+
 		$this->showAttachments();
 	}
 
 	public function showAttachments()
 	{
-		global $rbacsystem;
+		/**
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $ilToolbar;
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_attachment.html", "Services/Mail");
-		$this->tpl->setTitle($this->lng->txt("mail"));
-		$this->tpl->setVariable("TXT_ATTACHMENT",$this->lng->txt("attachment"));
+		$this->tpl->setTitle($this->lng->txt('mail'));
+
+		require_once 'Services/Form/classes/class.ilFileInputGUI.php';
+		$attachment = new ilFileInputGUI($this->lng->txt('upload'), 'userfile');
+		$attachment->setRequired(true);
+		$attachment->setSize(20);
+		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'uploadFile'), true);
+		$ilToolbar->addInputItem($attachment);
+		$ilToolbar->addFormButton($this->lng->txt('upload'), 'uploadFile');
+
+		require_once 'Services/Mail/classes/class.ilMailAttachmentTableGUI.php';
+		$table = new ilMailAttachmentTableGUI($this, 'showAttachments');
 
 		$mailData = $this->umail->getSavedData();
-
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this, 'saveAttachments'));
-		$this->tpl->setVariable("UPLOAD", $this->ctrl->getFormAction($this, 'uploadFile'));
-		$this->ctrl->clearParameters($this);
-
-		// BEGIN CONFIRM_DELETE
-		if (isset($_POST["cmd"]["deleteAttachments"]) &&
-			!$this->errorDelete &&
-			!isset($_POST["cmd"]["confirm"]))
+		$files    = $this->mfile->getUserFilesData();
+		$data     = array();
+		$counter  = 0;
+		foreach($files as $file)
 		{
-			$this->tpl->setCurrentBlock("confirm_delete");
-			$this->tpl->setVariable("BUTTON_CONFIRM",$this->lng->txt("confirm"));
-			$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// SET STATIC VARIABLES ;-)
-		$this->tpl->setVariable("TXT_ATTACHMENT",$this->lng->txt("attachment"));
-		$this->tpl->setVariable("TXT_FILENAME",$this->lng->txt("mail_file_name"));
-		$this->tpl->setVariable("TXT_FILESIZE",$this->lng->txt("mail_file_size"));
-		$this->tpl->setVariable("TXT_CREATE_TIME",$this->lng->txt("create_date"));
-		$this->tpl->setVariable("TXT_NEW_FILE",$this->lng->txt("mail_new_file"));
-		
-		// ACTIONS
-		$this->tpl->setVariable("BUTTON_ATTACHMENT_ADOPT",$this->lng->txt("adopt"));
-		$this->tpl->setVariable("BUTTON_ATTACHMENT_CANCEL",$this->lng->txt("cancel"));
-		$this->tpl->setVariable("BUTTON_ATTACHMENT_DELETE",$this->lng->txt("delete"));
-		
-		// BUTTONS
-		$this->tpl->setVariable("BUTTON_SUBMIT",$this->lng->txt("submit"));
-		$this->tpl->setVariable("BUTTON_UPLOAD",$this->lng->txt("upload"));
-		
-		// BEGIN FILES
-		if($files = $this->mfile->getUserFilesData())
-		{
-			$counter = 0;
-			foreach($files as $file)
+			$checked = false;
+			if(is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments']))
 			{
-				$this->tpl->setCurrentBlock('files');
-				if((!isset($_POST["cmd"]["deleteAttachments"]) && is_array($mailData["attachments"]) && in_array($file["name"],$mailData["attachments"])) ||
-				   (isset($_POST["cmd"]["deleteAttachments"]) && is_array($_POST["filename"]) && in_array(urlencode($file["name"]), $_POST["filename"])))
-				{
-					$this->tpl->setVariable("CHECKED",'checked');
-				}
-				$this->tpl->setVariable('CSSROW',++$counter%2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable('FILE_NAME',urlencode($file["name"]));
-				$this->tpl->setVariable("NAME",$file["name"]);
-				$this->tpl->setVariable("SIZE",$file["size"]);
-				$this->tpl->setVariable("CTIME",$file["ctime"]);
-				$this->tpl->parseCurrentBlock();
+				$checked = true;
 			}
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("no_content");
-			$this->tpl->setVariable("TXT_ATTACHMENT_NO",$this->lng->txt("mail_no_attachments_found"));
-			$this->tpl->parseCurrentBlock();
-		}
 
-		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt("marked_entries"));
+			$data[$counter] = array(
+				'checked'       => $checked,
+				'filename'      => $file['name'],
+				'filesize'      => (int)$file['size'],
+				'filecreatedate'=> (int)$file['ctime']
+			);
 
+			++$counter;
+		}
+		$table->setData($data);
+
+		$this->tpl->setContent($table->getHtml());
 		$this->tpl->show();
 	}
-
 }
-
-?>

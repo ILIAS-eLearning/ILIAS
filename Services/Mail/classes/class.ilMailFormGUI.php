@@ -811,14 +811,13 @@ class ilMailFormGUI
 
 		if (is_array($mailData["attachments"]) && count($mailData["attachments"]))
 		{
-			foreach($mailData["attachments"] as $key => $data)
+			foreach($mailData["attachments"] as $data)
 			{
 				$hidden = new ilHiddenInputGUI('attachments[]');
 				$hidden->setValue(urlencode($data));
 				$form_gui->addItem($hidden);
-				$size = round(filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data) / 1024);
-				if ($size < 1) $size = 1;
-				$label = $data . " [" . number_format($size, 0, ".", "") . " KByte]";
+				$size = filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data);
+				$label = $data . " [" . ilFormat::formatSize($size) . "]";
 				$att->addItem($label);
 			}
 		}
