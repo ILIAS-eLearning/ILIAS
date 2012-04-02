@@ -71,7 +71,7 @@ class ilFileDataMail extends ilFileData
 	}
 	function getUploadLimit()
 	{
-		return $this->mail_maxsize_attach_message;
+		return $this->mail_maxsize_attach;
 	}
 
 	/**
@@ -298,15 +298,14 @@ class ilFileDataMail extends ilFileData
 		{
 			$a_http_post_file['name'] = ilUtil::_sanitizeFilemame($a_http_post_file['name']);
 			
-			// CHECK IF FILE WITH SAME NAME EXISTS
 			$this->rotateFiles($this->getMailPath().'/'.$this->user_id.'_'.$a_http_post_file['name']);
 			
-			ilUtil::moveUploadedFile($a_http_post_file['tmp_name'],
-				$a_http_post_file['name'], $this->getMailPath().'/'.$this->user_id.'_'.
-				$a_http_post_file['name']);
-
-			//move_uploaded_file($a_http_post_file['tmp_name'],$this->getMailPath().'/'.$this->user_id.'_'.
-			//				   $a_http_post_file['name']);
+			ilUtil::moveUploadedFile(
+				$a_http_post_file['tmp_name'],
+				$a_http_post_file['name'],
+				$this->getMailPath().'/'.$this->user_id.'_'.$a_http_post_file['name']
+			);
+			
 			return 0;
 		}
 		return 1;
@@ -545,12 +544,38 @@ class ilFileDataMail extends ilFileData
 	}
 	function __initAttachmentMaxSize()
 	{
-		$this->mail_maxsize_attach = $this->ilias->getSetting("mail_maxsize_attach") !== false ?
-			$this->ilias->getSetting("mail_maxsize_attach") * 1024 : 1024 * 1024 * 64;
+		/** @todo mjansen: Unfortunately we cannot reuse the implementation of ilFileInputGUI */
+		
+		// Copy of ilFileInputGUI: begin
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf = ini_get("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms = ini_get("post_max_size");
 
-		$this->mail_maxsize_attach_message = $this->ilias->getSetting("mail_maxsize_attach") !== false ?
-			$this->ilias->getSetting("mail_maxsize_attach") :
-			ini_get("upload_max_filesize");
+		//convert from short-string representation to "real" bytes
+		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+
+		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+		$pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+
+		if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
+		if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
+
+		// use the smaller one as limit
+		$max_filesize = min($umf, $pms);
+
+		if (!$max_filesize) $max_filesize = max($umf, $pms);
+		// Copy of ilFileInputGUI: end
+
+		$mail_system_limitation_in_byte = (float)$this->ilias->getSetting('mail_maxsize_attach', 0) * 1024;
+		if(!$mail_system_limitation_in_byte)
+		{
+			$mail_system_limitation_in_byte = $max_filesize;
+		}
+
+		$mail_system_limitation_in_byte = min($mail_system_limitation_in_byte, $max_filesize);
+		
+		$this->mail_maxsize_attach = $mail_system_limitation_in_byte;
 	}
 
 	/**

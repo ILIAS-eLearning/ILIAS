@@ -181,7 +181,7 @@ class ilMailAttachmentGUI
 		{
 			if($this->mfile->storeUploadedFile($_FILES['userfile']) == 1)
 			{
-				ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . $this->mfile->getUploadLimit() . ' K' . $this->lng->txt('mail_byte'));
+				ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . ilFormat::formatSize($this->mfile->getUploadLimit()));
 			}
 		}
 
