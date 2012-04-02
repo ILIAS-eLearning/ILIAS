@@ -1013,7 +1013,14 @@ class ilLMPresentationGUI
 				}
 				else
 				{
-					$exp->highlightNode($page_id);
+					if ($this->lm->getTOCMode() == "pages")
+					{
+						$exp->highlightNode($page_id);
+					}
+					else
+					{
+						$exp->highlightNode($this->lm_tree->getParentId($page_id));
+					}
 				}
 			}
 		}
@@ -2801,7 +2808,14 @@ class ilLMPresentationGUI
 			}
 			else
 			{
-				$exp->highlightNode($page_id);
+				if ($this->lm->getTOCMode() == "pages")
+				{
+					$exp->highlightNode($page_id);
+				}
+				else
+				{
+					$exp->highlightNode($this->lm_tree->getParentId($page_id));
+				}
 			}
 		}
 
