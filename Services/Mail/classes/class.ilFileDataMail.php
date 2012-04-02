@@ -209,11 +209,10 @@ class ilFileDataMail extends ilFileData
 	/**
 	* get all attachments of a specific user
 	* @access	public
-	* @return bool
+	* @return array
 	*/
 	function getUserFilesData()
 	{
-		// FIRST GET FILES OF USER IN BASE DIRECTORY
 		return $files = $this->getUnsentFiles();
 	}
 
@@ -221,7 +220,7 @@ class ilFileDataMail extends ilFileData
 	* get all files which are not sent
 	* find them in directory data/mail/
 	* @access	private
-	* @return bool
+	* @return array
 	*/
 	function getUnsentFiles()
 	{
@@ -234,7 +233,7 @@ class ilFileDataMail extends ilFileData
 			{
 				continue;
 			}
-			list($uid,$rest) = split('_',$file,2);
+			list($uid,$rest) = explode('_',$file,2);
 			if($uid == $this->user_id)
 			{
 				if(!is_dir($this->mail_path.'/'.$file))
@@ -242,7 +241,8 @@ class ilFileDataMail extends ilFileData
 					$files[] = array(
 						'name'     => $rest,
 						'size'     => filesize($this->mail_path.'/'.$file),
-						'ctime'    => ilFormat::formatDate(date('Y-m-d H:i:s',filectime($this->mail_path.'/'.$file))));
+						'ctime'    => filectime($this->mail_path.'/'.$file)
+					);
 				}
 			}
 		}

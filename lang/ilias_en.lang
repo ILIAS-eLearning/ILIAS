@@ -7423,8 +7423,8 @@ mail#:#mail_send_with_system_address#:#Send With System Address
 mail#:#mail_settings_incoming_type_see_also#:#You can find a further possibility to modify the incoming type of e-mails for users <a href="%s">here</a>.
 mail#:#mail_subject_prefix_info#:#Enter a text, which will be prepended to the subject line of outgoing auto generated e-mails.
 mail#:#mail_subject_prefix#:#Mail Subject
-mail#:#mail_sure_delete_entry#:#Are sure you want to delete the following entries?
-mail#:#mail_sure_delete_file#:#The file will be removed permanently
+mail#:#mail_sure_delete_entry#:#Are you sure you want to delete the following entries?
+mail#:#mail_sure_delete_file#:#Are you sure you want to delete the selected files?
 mail#:#mail_sure_delete_folder#:#The folder and its contents will be removed permanently
 mail#:#mail_sure_delete#:#Are you sure you want to delete the marked mail(s)?
 mail#:#mail_to#:#To
