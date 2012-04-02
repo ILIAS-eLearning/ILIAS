@@ -62,7 +62,7 @@ class ilObjMediaCast extends ilObject
 		$this->ilObject($a_id,$a_call_by_reference);
 		$mcst_set = new ilSetting("mcst");	
 		$this->setDefaultAccess($mcst_set->get("defaultaccess") == "users" ? 0 : 1);
-		$this->setOrder(self::ORDER_TITLE);
+		$this->setOrder(self::ORDER_CREATION_DATE_DESC);
 	}
 
 	/**
@@ -298,6 +298,8 @@ class ilObjMediaCast extends ilObject
 			$news_item = new ilNewsItem($item["id"]);
 			$news_item->delete();
 		}
+		
+		$this->deleteOrder();
 
 		// delete record of table il_media_cast_data
 		$query = "DELETE FROM il_media_cast_data".
@@ -403,9 +405,7 @@ class ilObjMediaCast extends ilObject
 	* Get all items of media cast.
 	*/
 	function readItems($a_oldest_first = false)
-	{
-		global $ilDB;
-		
+	{		
 		//
 		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$it = new ilNewsItem();
@@ -414,6 +414,65 @@ class ilObjMediaCast extends ilObject
 		$this->itemsarray = $it->queryNewsForContext(false, 0, "", false, $a_oldest_first);
 		
 		return $this->itemsarray;
+	}
+
+	function deleteOrder()
+	{
+		global $ilDB;
+		
+		if(!$this->getId())
+		{
+			return;
+		}
+		
+		$sql = "DELETE FROM il_media_cast_data_ord".
+			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
+		$ilDB->manipulate($sql);
+	}
+	
+	function readOrder()
+	{
+		global $ilDB;
+		
+		if(!$this->getId())
+		{
+			return;
+		}
+		
+		$all = array();		
+		$sql = "SELECT item_id FROM il_media_cast_data_ord".
+			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer").
+			" ORDER BY pos";	
+		$res = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$all[] = $row["item_id"];
+		}
+		return $all;
+	}
+	
+	function saveOrder(array $a_items)
+	{
+		global $ilDB;
+		
+		if(!$this->getId())
+		{
+			return;
+		}
+		
+		$this->deleteOrder();
+		
+		$pos = 0;
+		foreach($a_items as $item_id)
+		{
+			$pos++;
+			
+			$sql = "INSERT INTO il_media_cast_data_ord (obj_id,item_id,pos)".
+				" VALUES (".$ilDB->quote($this->getId(), "integer").",".
+				$ilDB->quote($item_id, "integer").",".
+				$ilDB->quote($pos, "integer").")";
+			$ilDB->manipulate($sql);
+		}
 	}
 	
 	

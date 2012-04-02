@@ -3,6 +3,9 @@
 <!-- BEGIN edit_checkbox -->
 <input type="checkbox" name="item_id[]" value="{VAL_ID}" />
 <!-- END edit_checkbox -->
+<!-- BEGIN edit_order -->
+<input type="text" name="item_id[{VAL_ID}]" value="{VAL_ORDER}" size="2" maxlength="3" />
+<!-- END edit_order -->
 </td>
 <td class="std" style="vertical-align:top;">
 <p class="small"><b>{VAL_TITLE}</b></p>
@@ -36,6 +39,7 @@
 </p>
 <!-- END downloadable -->
 </td>
+<!-- BEGIN preview -->
 <td class="std">
 {PLAYER}
 <div>
@@ -45,4 +49,5 @@
 <!-- END edit -->
 </div>
 </td>
+<!-- END preview -->
 </tr>

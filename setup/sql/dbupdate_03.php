@@ -9294,10 +9294,37 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 		$ilDB->addTableColumn("il_media_cast_data", "sortmode", array(
                 'type'     => 'integer',
                 'length'   => 1,
-                'default'  => 1));		
+                'default'  => 3));		
     }	
 ?>
 <#3548>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3549>
+<?php
+
+	if( !$ilDB->tableExists('il_media_cast_data_ord') )
+	{
+		$ilDB->createTable('il_media_cast_data_ord', array(
+			'obj_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'item_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'pos' => array(
+				'type' => 'integer',
+				'length' => 3,
+				'notnull' => true
+			)
+		));
+		
+		$ilDB->addPrimaryKey('il_media_cast_data_ord', array('obj_id','item_id'));
+	}
+	
 ?>

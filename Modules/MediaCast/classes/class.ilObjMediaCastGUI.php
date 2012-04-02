@@ -128,7 +128,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function listItemsObject()
 	{
-		global $tpl, $lng, $ilAccess, $ilTabs;
+		global $tpl, $lng, $ilAccess, $ilTabs, $ilToolbar;				
 		
 		$this->checkPermission("read");
 		$ilTabs->activateTab("id_content");
@@ -151,6 +151,15 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				break;
 			
 			case ilObjMediaCast::ORDER_MANUAL:
+				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+				{
+					// sub-tabs
+					$ilTabs->addSubTab("id_view", $lng->txt("view"), $this->ctrl->getLinkTarget($this, "listItems"));
+					$ilTabs->addSubTab("id_order", $lng->txt("mcst_ordering"), $this->ctrl->getLinkTarget($this, "editOrder"));
+					$ilTabs->activateSubTab("id_view");
+				}
+				
+				$med_items = $this->getManualOrderedItems();
 				// :TODO:
 				break;			
 		}
@@ -162,8 +171,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$table_gui->setData($med_items);
 		
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-			$table_gui->addCommandButton("addCastItem", $lng->txt("add"));
+		{			
+			$ilToolbar->addButton($lng->txt("add"), $this->ctrl->getLinkTarget($this, "addCastItem"));
+			
 			$table_gui->addMultiCommand("confirmDeletionItems", $lng->txt("delete"));
 			$table_gui->setSelectAllCheckbox("item_id");
 		}
@@ -989,10 +999,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			ilObjMediaCast::ORDER_CREATION_DATE_ASC));
 		$sort->addOption(new ilRadioOption($lng->txt("mcst_ordering_creation_date_desc"),
 			ilObjMediaCast::ORDER_CREATION_DATE_DESC));
-		/* :TODO:
 		$sort->addOption(new ilRadioOption($lng->txt("mcst_ordering_manual"), 
 			ilObjMediaCast::ORDER_MANUAL));		
-		*/
 		$sort->setValue($this->object->getOrder());
 		$this->form_gui->addItem($sort);
 		
@@ -1183,6 +1191,79 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		$this->form_gui->setValuesByPost();
 		$tpl->setContent($this->form_gui->getHTML());			    
+	}
+	
+	protected function editOrderObject()
+	{		
+		global $ilTabs, $lng, $tpl;
+		
+		$this->checkPermission("write");
+		$ilTabs->activateTab("id_content");
+				
+		// sort by order setting
+		switch($this->object->getOrder())
+		{
+			case ilObjMediaCast::ORDER_TITLE:				
+			case ilObjMediaCast::ORDER_CREATION_DATE_ASC:	
+			case ilObjMediaCast::ORDER_CREATION_DATE_DESC:
+				return $this->listItemsObject();
+			
+			case ilObjMediaCast::ORDER_MANUAL:
+				// sub-tabs
+				$ilTabs->addSubTab("id_view", $lng->txt("view"), $this->ctrl->getLinkTarget($this, "listItems"));
+				$ilTabs->addSubTab("id_order", $lng->txt("mcst_ordering"), $this->ctrl->getLinkTarget($this, "editOrder"));
+				$ilTabs->activateSubTab("id_order");								
+				break;
+		}
+	
+		include_once("./Modules/MediaCast/classes/class.ilMediaCastTableGUI.php");
+		$table_gui = new ilMediaCastTableGUI($this, "editOrder", true);
+				
+		$table_gui->setTitle($lng->txt("mcst_media_cast"));
+		$table_gui->setData($this->getManualOrderedItems());
+		
+		$table_gui->addCommandButton("saveOrder", $lng->txt("mcst_save_order"));
+		
+		$tpl->setContent($table_gui->getHTML());
+	}
+	
+	function getManualOrderedItems()
+	{
+		$med_items = $this->object->getItemsArray();
+		
+		$order = array_flip($this->object->readOrder());		
+		$pos = sizeof($order);
+		foreach(array_keys($med_items) as $idx)
+		{
+			if(array_key_exists($idx, $order))
+			{
+				$med_items[$idx]["order"] = ($order[$idx]+1)*10;
+			}
+			// item has no order yet
+			else
+			{
+				$med_items[$idx]["order"] = (++$pos)*10;
+			}
+		}	
+		
+		return ilUtil::sortArray($med_items, "order", "asc", true, true);		
+	}
+	
+	function saveOrderObject()
+	{
+		global $lng;
+		
+		asort($_POST["item_id"]);
+		
+		$items = array();
+		foreach(array_keys($_POST["item_id"]) as $id)
+		{
+			$items[] = $id;
+		}
+		$this->object->saveOrder($items);
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "editOrder");
 	}
 }
 ?>

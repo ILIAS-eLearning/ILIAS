@@ -16,9 +16,13 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilMediaCastTableGUI extends ilTable2GUI
 {
 	protected $downloadable = false;
-	function ilMediaCastTableGUI($a_parent_obj, $a_parent_cmd = "")
+	protected $edit_order;
+	
+	function ilMediaCastTableGUI($a_parent_obj, $a_parent_cmd = "", $a_edit_order = false)
 	{
 		global $ilCtrl, $lng;
+		
+		$this->edit_order = (bool)$a_edit_order; 
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -28,8 +32,12 @@ class ilMediaCastTableGUI extends ilTable2GUI
 
 		$this->addColumn("", "", "1");
 		$this->addColumn($lng->txt("mcst_entry"), "", "33%");
-		$this->addColumn("", "", "33%");
-		$this->addColumn("", "", "34%");
+		$this->addColumn("", "", "33%");		
+		if(!$this->edit_order)
+		{
+			$this->addColumn("", "", "34%");
+		}
+		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.table_media_cast_row.html",
 			"Modules/MediaCast");
@@ -53,24 +61,6 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
-		// edit link
-		$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-			$this->tpl->setCurrentBlock("edit");
-			$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
-			$this->tpl->setVariable("CMD_EDIT",
-				$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "editCastItem"));
-			$this->tpl->setVariable("TXT_DET_PLAYTIME", $lng->txt("mcst_det_playtime"));
-			$this->tpl->setVariable("CMD_DET_PLAYTIME",
-				$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "determinePlaytime"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("edit_checkbox");
-			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
-			$this->tpl->parseCurrentBlock();
-		}
-
-			
 		// access
 		if ($enable_internal_rss)
 		{
@@ -120,44 +110,75 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$lng->txt("mcst_play_time"));
 			$this->tpl->setVariable("VAL_DURATION",
 				$a_set["playtime"]);
-			if ($this->downloadable) {
-				$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
-				// to keep always the order of the purposes
-				// iterate through purposes and display the according mediaitems 				
-				foreach (ilObjMediaCast::$purposes as $purpose) 
+			
+			if(!$this->edit_order)
+			{
+				if ($this->downloadable) 
 				{
-    				$a_mob = $mob->getMediaItem($purpose);
-    				if (!is_object($a_mob))
-    				    continue;
-  					$ilCtrl->setParameterByClass("ilobjmediacastgui", "purpose", $a_mob->getPurpose());
-					$file = ilObjMediaObject::_lookupItemPath($a_mob->getMobId(), false, false, $a_mob->getPurpose());
-					if (is_file($file))
+					$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
+					// to keep always the order of the purposes
+					// iterate through purposes and display the according mediaitems 				
+					foreach (ilObjMediaCast::$purposes as $purpose) 
 					{
-						$size = filesize($file);
-						$size = ", ".sprintf("%.1f MB",$size/1024/1024);
+						$a_mob = $mob->getMediaItem($purpose);
+						if (!is_object($a_mob))
+							continue;
+						$ilCtrl->setParameterByClass("ilobjmediacastgui", "purpose", $a_mob->getPurpose());
+						$file = ilObjMediaObject::_lookupItemPath($a_mob->getMobId(), false, false, $a_mob->getPurpose());
+						if (is_file($file))
+						{
+							$size = filesize($file);
+							$size = ", ".sprintf("%.1f MB",$size/1024/1024);
+						}
+						$format = ($a_mob->getFormat()!= "")?$a_mob->getFormat():"audio/mpeg";					
+						$this->tpl->setCurrentBlock("downloadable");
+						$this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("mcst_download_" . strtolower($a_mob->getPurpose())));
+						$this->tpl->setVariable("CMD_DOWNLOAD", $ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
+						$this->tpl->setVariable("TITLE_DOWNLOAD", "(".$format.$size.")");
+						$this->tpl->parseCurrentBlock();
 					}
-					$format = ($a_mob->getFormat()!= "")?$a_mob->getFormat():"audio/mpeg";					
-   					$this->tpl->setCurrentBlock("downloadable");
-   					$this->tpl->setVariable("TXT_DOWNLOAD", $lng->txt("mcst_download_" . strtolower($a_mob->getPurpose())));
-   					$this->tpl->setVariable("CMD_DOWNLOAD", $ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
-   					$this->tpl->setVariable("TITLE_DOWNLOAD", "(".$format.$size.")");
-   					$this->tpl->parseCurrentBlock();
+				}
+				
+				include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+				$mpl = new ilMediaPlayerGUI();
+				if (is_object($med))
+				{
+					if (strcasecmp("Reference", $med->getLocationType()) == 0)
+						$mpl->setFile($med->getLocation());
+					else
+					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+					$mpl->setMimeType ($med->getFormat());
+					$mpl->setDisplayHeight($med->getHeight());
+				}
+
+				$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
+
+				// edit link
+				$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
+				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+				{
+					$this->tpl->setCurrentBlock("edit");
+					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
+					$this->tpl->setVariable("CMD_EDIT",
+						$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "editCastItem"));
+					$this->tpl->setVariable("TXT_DET_PLAYTIME", $lng->txt("mcst_det_playtime"));
+					$this->tpl->setVariable("CMD_DET_PLAYTIME",
+						$ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "determinePlaytime"));
+					$this->tpl->parseCurrentBlock();
+					
+					$this->tpl->setCurrentBlock("edit_checkbox");
+					$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+					$this->tpl->parseCurrentBlock();
 				}
 			}
-				
-			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-			$mpl = new ilMediaPlayerGUI();
-			if (is_object($med))
+			else
 			{
-			    if (strcasecmp("Reference", $med->getLocationType()) == 0)
-			        $mpl->setFile($med->getLocation());
-			    else
-			       $mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
-			    $mpl->setMimeType ($med->getFormat());
-			    $mpl->setDisplayHeight($med->getHeight());
+				$this->tpl->setCurrentBlock("edit_order");
+				$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+				$this->tpl->setVariable("VAL_ORDER", $a_set["order"]);
+				$this->tpl->parseCurrentBlock();
 			}
-
-			$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
+			
 
 		}
 		
