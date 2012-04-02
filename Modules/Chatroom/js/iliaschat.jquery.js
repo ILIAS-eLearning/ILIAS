@@ -97,6 +97,10 @@ il.Util.addOnLoad(function() {
 
 			replaceSmileys = function (message) 
 			{
+				if (typeof smileys == "string") {
+					return message;
+				}
+
 				var replacedMessage = message;
 				
 				for (var i in smileys)
