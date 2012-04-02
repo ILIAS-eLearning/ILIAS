@@ -1281,19 +1281,26 @@ class ilPersonalSettingsGUI
 			$this->ctrl->redirect($this, "showGeneralSettings");
 		}
 					
-		// send mail(s)		
+		// send mail(s)
+		
+		$subject = $this->lng->txt("user_delete_own_account_email_subject");			
+		$message = $this->lng->txt("user_delete_own_account_email_body");
+		$message = sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH);
+		
 		$user_email = $ilUser->getEmail();		
+		$admin_mail = $ilSetting->get("user_delete_own_account_email");
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail(0);
+		
+		// to user, admin as bcc
 		if($user_email)
-		{
-			$admin_mail = $ilSetting->get("user_delete_own_account_email");
-			
-			$subject = $this->lng->txt("user_delete_own_account_email_subject");			
-			$message = $this->lng->txt("user_delete_own_account_email_body");
-			$message = sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH);
-
-			include_once "Services/Mail/classes/class.ilMail.php";
-			$mail = new ilMail(0);
+		{											
 			$mail->sendMimeMail($user_email, null, $admin_mail, $subject, $message, null);		
+		}
+		// admin only
+		else if($admin_mail)
+		{
+			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null);		
 		}
 		
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");

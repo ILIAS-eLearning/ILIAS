@@ -12506,3 +12506,4 @@ user#:#user_lv_keep_entries#:#Einträge speichern
 user#:#user_lv_keep_only_for_session#:#Einträge nach Sitzung löschen
 user#:#user_lv_do_not_store#:#Keine Einträge speichern
 common#:#remove_entries#:#Einträge löschen
+mcst#:#mcst_save_order#:#Sortierung speichern
