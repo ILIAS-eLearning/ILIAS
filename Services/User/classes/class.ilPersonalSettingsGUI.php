@@ -1287,6 +1287,9 @@ class ilPersonalSettingsGUI
 		$message = $this->lng->txt("user_delete_own_account_email_body");
 		$message = sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH);
 		
+		// add profile data (see ilAccountRegistrationGUI)
+		$message .= "\n\n".$ilUser->getProfileAsString($this->lng);
+		
 		$user_email = $ilUser->getEmail();		
 		$admin_mail = $ilSetting->get("user_delete_own_account_email");
 		include_once "Services/Mail/classes/class.ilMail.php";
