@@ -1055,6 +1055,76 @@ return;
 			}
 		}
 	}
-
+	
+	function move()
+	{
+		global $ilUser, $ilTabs;
+	
+		$bm_ids = $_REQUEST['bm_id'];
+		if (!$bm_ids)
+		{			
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+			return $this->view();
+		}
+				
+		$ilTabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
+		
+		$this->ctrl->setParameter($this, "bm_id_tgt", implode(";", $bm_ids));
+		$exp = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this, "confirmedMove"), $ilUser->getId());
+		$exp->setAllowedTypes(array('bmf'));
+		$exp->setTargetGet("bmfmv_id");			
+		$exp->forceExpandAll(true, false);	
+		$exp->addRoot($this->lng->txt("bookmarks"));
+		$exp->setOutput(0);		
+		
+		ilUtil::sendInfo($this->lng->txt("bookmark_select_target"));
+		$this->tpl->setContent($exp->getOutput());
+		
+		// do not display navigation tree
+		$this->mode = "flat";
+	}
+	
+	function confirmedMove()
+	{
+		global $ilUser;
+	
+		$tgt = (int)$_REQUEST["bmfmv_id"];
+		$bm_ids = explode(";", $_REQUEST['bm_id_tgt']);
+		if (!$bm_ids || !$tgt)
+		{			
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+			return $this->view();
+		}
+		
+		$tree = new ilTree($ilUser->getId());
+		$tree->setTableNames('bookmark_tree','bookmark_data');
+		
+		$tgt_node = $tree->getNodeData($tgt);
+		
+		// sanity check
+		foreach($bm_ids as $node_id)
+		{
+			if($tree->isGrandChild($node_id, $tgt))
+			{
+				ilUtil::sendFailure($this->lng->txt("error"), true);
+				$this->ctrl->redirect($this, "view");
+			}
+			
+			$node = $tree->getNodeData($node_id);
+			
+			// already at correct position
+			if($node["parent"] == $tgt)
+			{				
+				continue;
+			}
+			
+			$tree->moveTree($node_id, $tgt);
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt("bookmark_moved_ok"), true);
+		$this->ctrl->setParameter($this, "bmf_id", $tgt);
+		$this->ctrl->redirect($this, "view");
+	}
 }
+
 ?>

@@ -12507,3 +12507,5 @@ user#:#user_lv_keep_only_for_session#:#Einträge nach Sitzung löschen
 user#:#user_lv_do_not_store#:#Keine Einträge speichern
 common#:#remove_entries#:#Einträge löschen
 mcst#:#mcst_save_order#:#Sortierung speichern
+pdesk#:#bookmark_select_target#:#Bitte wählen Sie das Ziel.
+pdesk#:#bookmark_moved_ok#:#Bookmark wurde verschoben.
