@@ -54,6 +54,8 @@ class ilBookmarkAdministrationGUI
 		
 //		$tpl->enableAdvancedColumnLayout(true, false);
 		
+		$tpl->getStandardTemplate();
+		
 		//print_r($_SESSION["error_post_vars"]);
 		// if no bookmark folder id is given, take dummy root node id (that is 1)
 		$this->id = (empty($_GET["bmf_id"]))
