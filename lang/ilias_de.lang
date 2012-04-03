@@ -6835,7 +6835,7 @@ crs#:#crs_password_required#:#Für diese Registrierungsart ist ein Passwort erfo
 crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Personen auf der Warteliste
 crs#:#crs_presentation_type#:#Kursansicht
-crs#:#crs_print_list#:#Liste ausdrucken
+crs#:#crs_print_list#:#Liste erstellen
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg#:#Kursbeitritt
 crs#:#crs_reg_code#:#Anmeldung mit Zugangsschlüssel
@@ -7095,7 +7095,7 @@ crs#:#max_members_not_numeric#:#Bitte überprüfen Sie Ihre Eingabe für die max
 crs#:#save_status#:#Status speichern
 crs#:#sess_attendance_list#:#Teilnehmerliste
 crs#:#sess_date_time#:#Sitzungstermin
-crs#:#sess_gen_attendance_list#:#Teilnehmerliste erstellen
+crs#:#sess_gen_attendance_list#:#Liste erstellen
 crs#:#sess_gen_comment#:#Erzeuge Spalte für Kommentare
 crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
@@ -7104,7 +7104,7 @@ crs#:#sess_limit#:#Sitzungsanzahl begrenzen
 crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu verbergen.
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
 crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
-crs#:#sess_print_attendance_list#:#Teilnehmerliste drucken
+crs#:#sess_print_attendance_list#:#Liste drucken
 crs#:#sess_signature#:#Unterschrift
 crs#:#subscription_times_not_valid#:#Die Zeitdauer für 'Registrierung' ist nicht gültig.
 crs#:#timing_accept_table#:#Lernplanung: Bemerkungen
@@ -12478,7 +12478,7 @@ content#:#cont_captcha_code#:#Code
 cptch#:#cptch_wrong_input#:#Falsche Eingabe
 forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen Sie die freetype-Unterstützung von PHP.
-grp#:#grp_print_list#:#Liste drucken
+grp#:#grp_print_list#:#Liste erstellen
 grp#:#grp_members_print_title#:#Gruppenmitglieder
 trac#:#trac_closed_misc#:#Sonstige
 common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Ziel-Objekt zugreifen.

@@ -22,6 +22,7 @@ class ilAttendanceList
 	protected $blank_columns; // [array]
 	protected $title; // [string]
 	protected $description; // [string]
+	protected $pre_blanks; // [array]
 		
 	/**
 	 * Constructor
@@ -52,6 +53,16 @@ class ilAttendanceList
 	function addPreset($a_id, $a_caption, $a_selected = false)
 	{
 		$this->presets[$a_id] = array($a_caption, $a_selected);
+	}
+	
+	/**
+	 * Add blank column preset
+	 * 
+	 * @param string $a_caption
+	 */
+	function addBlank($a_caption)
+	{
+		$this->pre_blanks[] = $a_caption;
 	}
 	
 	/**
@@ -157,6 +168,11 @@ class ilAttendanceList
 		$blank = new ilTextInputGUI($lng->txt('event_blank_columns'), 'blank[]');
 		$blank->setMulti(true);
 		$form->addItem($blank);		
+		
+		if($this->pre_blanks)
+		{
+			$blank->setValue($this->pre_blanks);
+		}
 		
 		$part = new ilFormSectionHeaderGUI();
 		$part->setTitle($lng->txt('event_participant_selection'));
