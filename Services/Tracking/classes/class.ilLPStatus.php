@@ -329,28 +329,45 @@ class ilLPStatus
 	static function writeStatus($a_obj_id, $a_user_id, $a_status, $a_percentage = false, $a_force_per = false)
 	{
 		global $ilDB;
+				
+		$update_collections = false;
 
-		$set = $ilDB->query("SELECT usr_id FROM ut_lp_marks WHERE ".
+		// get status in DB
+		$set = $ilDB->query("SELECT usr_id,status FROM ut_lp_marks WHERE ".
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
+		$rec = $ilDB->fetchAssoc($set);	
 		
-		$update_collections = false;
-		if ($rec  = $ilDB->fetchAssoc($set))
+		// update
+		if ($rec)
 		{
-			$ret = $ilDB->manipulate("UPDATE ut_lp_marks SET ".
-				" status = ".$ilDB->quote($a_status, "integer").",".
-				" status_changed = ".$ilDB->now().",".
-				" status_dirty = ".$ilDB->quote(0, "integer").
-				" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
-				" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").
-				" AND status <> ".$ilDB->quote($a_status, "integer")
-				);
-			if ($ret != 0)
+			// status has changed: update
+			if ($rec["status"] != $a_status)
 			{
-				$update_collections = true;
+				$ret = $ilDB->manipulate("UPDATE ut_lp_marks SET ".
+					" status = ".$ilDB->quote($a_status, "integer").",".
+					" status_changed = ".$ilDB->now().",".
+					" status_dirty = ".$ilDB->quote(0, "integer").
+					" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
+					" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+					);
+				if ($ret != 0)
+				{
+					$update_collections = true;
+				}
+			}
+			// status has not changed: reset dirty flag
+			else
+			{
+				$ilDB->manipulate("UPDATE ut_lp_marks SET ".
+					" status_dirty = ".$ilDB->quote(0, "integer").
+					" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
+					" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+					);
 			}
 		}
+		// insert
 		else
 		{
 			$ilDB->manipulate("INSERT INTO ut_lp_marks ".
@@ -364,13 +381,6 @@ class ilLPStatus
 			$update_collections = true;
 		}
 
-		// always reset dirty flag
-		$ilDB->manipulate("UPDATE ut_lp_marks SET ".
-			" status_dirty = ".$ilDB->quote(0, "integer").
-			" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
-			);
-		
 		// update percentage
 		if ($a_percentage !== false || $a_force_per)
 		{
