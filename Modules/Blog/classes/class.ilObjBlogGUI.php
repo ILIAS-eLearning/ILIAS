@@ -475,6 +475,13 @@ class ilObjBlogGUI extends ilObject2GUI
 		{
 			return;
 		}
+		
+		// is the assignment still open?
+		$times_up = false;
+		if($ass->getDeadline() && $ass->getDeadline() - time() <= 0)
+		{
+			$times_up = true;
+		}
 
 		// exercise goto
 		include_once "./Services/Link/classes/class.ilLink.php";
@@ -487,12 +494,15 @@ class ilObjBlogGUI extends ilObject2GUI
 			ilObject::_lookupTitle($exercise_id)."</a>");
 		
 		// submit button
-		$ilCtrl->setParameter($this, "exc", $exercise_id);				
-		$ilCtrl->setParameter($this, "ass", $a_assignment_id);
-		$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
-		$ilCtrl->setParameter($this, "ass", "");
-		$ilCtrl->setParameter($this, "exc", "");	
-		$info .= " <a class=\"submit\" href=\"".$submit_link."\">".$lng->txt("blog_finalize_blog")."</a>";
+		if(!$times_up)
+		{
+			$ilCtrl->setParameter($this, "exc", $exercise_id);				
+			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
+			$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
+			$ilCtrl->setParameter($this, "ass", "");
+			$ilCtrl->setParameter($this, "exc", "");	
+			$info .= " <a class=\"submit\" href=\"".$submit_link."\">".$lng->txt("blog_finalize_blog")."</a>";
+		}
 		
 		// submitted files
 		$submitted = ilExAssignment::getDeliveredFiles($exercise_id, $a_assignment_id, $ilUser->getId(), true);

@@ -333,7 +333,7 @@ class ilLPStatus
 		$update_collections = false;
 
 		// get status in DB
-		$set = $ilDB->query("SELECT usr_id,status FROM ut_lp_marks WHERE ".
+		$set = $ilDB->query("SELECT usr_id,status,status_dirty FROM ut_lp_marks WHERE ".
 			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 			" usr_id = ".$ilDB->quote($a_user_id, "integer")
 			);
@@ -358,7 +358,7 @@ class ilLPStatus
 				}
 			}
 			// status has not changed: reset dirty flag
-			else
+			else if ($rec["status_dirty"])
 			{
 				$ilDB->manipulate("UPDATE ut_lp_marks SET ".
 					" status_dirty = ".$ilDB->quote(0, "integer").

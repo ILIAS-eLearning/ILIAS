@@ -758,6 +758,13 @@ class ilObjPortfolioGUI
 		{
 			return;
 		}
+		
+		// is the assignment still open?
+		$times_up = false;
+		if($ass->getDeadline() && $ass->getDeadline() - time() <= 0)
+		{
+			$times_up = true;
+		}
 
 		// exercise goto
 		include_once "./Services/Link/classes/class.ilLink.php";
@@ -770,7 +777,7 @@ class ilObjPortfolioGUI
 			ilObject::_lookupTitle($exercise_id)."</a>");
 		
 		// submit button
-		if($a_add_submit)
+		if($a_add_submit && !$times_up)
 		{
 			$ilCtrl->setParameter($this, "exc", $exercise_id);				
 			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
