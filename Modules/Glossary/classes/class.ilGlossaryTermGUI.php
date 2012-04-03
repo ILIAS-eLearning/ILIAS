@@ -308,7 +308,7 @@ class ilGlossaryTermGUI
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -343,6 +343,7 @@ class ilGlossaryTermGUI
 		{
 			$def = $defs[$j];
 			$page_gui = new ilPageObjectGUI("gdf", $def["id"]);
+			$page_gui->setStyleId($this->glossary->getStyleSheetId());
 			$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 			$page_gui->setTemplateOutput(false);
 			$output = $page_gui->preview();
@@ -410,7 +411,7 @@ class ilGlossaryTermGUI
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
 		// syntax style
@@ -432,6 +433,7 @@ class ilGlossaryTermGUI
 		//$page =& new ilPageObject("gdf", $definition->getId());
 		$page_gui =& new ilPageObjectGUI("gdf", $definition->getId());
 		$page_gui->setTemplateOutput(false);
+		$page_gui->setStyleId($this->glossary->getStyleSheetId());
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);

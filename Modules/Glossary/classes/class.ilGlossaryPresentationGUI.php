@@ -536,7 +536,7 @@ if (!false)
 			if (!$this->offlineMode())
 			{
 				$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
+					ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
 			}
 			else
 			{
@@ -571,7 +571,7 @@ if (!false)
 			if (!$this->offlineMode())
 			{
 				$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-					ilObjStyleSheet::getContentStylePath(0));
+					ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
 			}
 			else
 			{
@@ -605,6 +605,7 @@ if (!false)
 		{
 			$def = $defs[$j];
 			$page_gui =& new ilPageObjectGUI("gdf", $def["id"]);
+			$page_gui->setStyleId($this->glossary->getStyleSheetId());
 			$page = $page_gui->getPageObject();
 
 			// internal links
@@ -753,7 +754,7 @@ if (!false)
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
 
 		//$int_links = $page_object->getInternalLinks();
 		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
@@ -1321,7 +1322,7 @@ if (!false)
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
 		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
+			ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
 		$this->tpl->parseCurrentBlock();
 
 		// determine target frames for internal links

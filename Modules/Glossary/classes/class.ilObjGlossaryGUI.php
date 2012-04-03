@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/Object/classes/class.ilObjectGUI.php");
 require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
@@ -18,7 +18,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -82,6 +82,34 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				$this->showInfoScreen();
 				break;
+				
+			case "ilobjstylesheetgui":
+				include_once ("./Services/Style/classes/class.ilObjStyleSheetGUI.php");
+				$this->ctrl->setReturn($this, "editStyleProperties");
+				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+				$style_gui->omitLocator();
+				if ($cmd == "create" || $_GET["new_type"]=="sty")
+				{
+					$style_gui->setCreationMode(true);
+				}
+
+				if ($cmd == "confirmedDelete")
+				{
+					$this->object->setStyleSheetId(0);
+					$this->object->update();
+				}
+
+				$ret = $this->ctrl->forwardCommand($style_gui);
+
+				if ($cmd == "save" || $cmd == "copyStyle" || $cmd == "importStyle")
+				{
+					$style_id = $ret;
+					$this->object->setStyleSheetId($style_id);
+					$this->object->update();
+					$this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
+				}
+				break;
+
 				
 			case 'ilpermissiongui':
 				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
@@ -455,6 +483,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $tree, $tpl;
 
+		$this->setSettingsSubTabs("general_settings");
+		
 		$this->initSettingsForm();
 		$this->getSettingsValues();
 		$tpl->setContent($this->form->getHTML());
@@ -870,10 +900,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 
 		// content style
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-			ilObjStyleSheet::getContentStylePath(0));
-		$this->tpl->parseCurrentBlock();
+		$this->setContentStyleSheet($this->tpl);
 
 		// syntax style
 		$this->tpl->setCurrentBlock("SyntaxStyle");
@@ -894,6 +921,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		//$page =& new ilPageObject("gdf", $definition->getId());
 		$page_gui =& new ilPageObjectGUI("gdf", $definition->getId());
 		$page_gui->setTemplateOutput(false);
+		$page_gui->setStyleId($this->object->getStyleSheetId());
 		$page_gui->setSourcecodeDownloadScript("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
@@ -1508,6 +1536,31 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	}
 	
 	/**
+	 * Set sub tabs
+	 */
+	function setSettingsSubTabs($a_active)
+	{
+		global $ilTabs, $ilCtrl, $lng;
+
+		if (in_array($a_active,
+			array("general_settings", "style")))
+		{
+			// general properties
+			$ilTabs->addSubTab("general_settings",
+				$lng->txt("general_settings"),
+				$ilCtrl->getLinkTarget($this, 'properties'));
+				
+			// style properties
+			$ilTabs->addSubTab("style",
+				$lng->txt("obj_sty"),
+				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
+
+			$ilTabs->activateSubTab($a_active);
+		}
+	}
+
+	
+	/**
 	* redirect script
 	*
 	* @param	string		$a_target
@@ -1569,6 +1622,168 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->listTerms();
 	}
 
+
+	////
+	//// Style related functions
+	////
+	
+	/**
+	 * Set content style sheet
+	 */
+	function setContentStyleSheet($a_tpl = null)
+	{
+		global $tpl;
+
+		if ($a_tpl != null)
+		{
+			$ctpl = $a_tpl;
+		}
+		else
+		{
+			$ctpl = $tpl;
+		}
+
+		$ctpl->setCurrentBlock("ContentStyle");
+		$ctpl->setVariable("LOCATION_CONTENT_STYLESHEET",
+			ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
+		$ctpl->parseCurrentBlock();
+	}
+	
+	
+	/**
+	 * Edit style properties
+	 */
+	function editStyleProperties()
+	{
+		global $ilTabs, $tpl;
+		
+		$this->checkPermission("write");
+		
+		$this->initStylePropertiesForm();
+		$tpl->setContent($this->form->getHTML());
+		
+		$ilTabs->activateTab("settings");
+		$this->setSettingsSubTabs("style");
+	}
+	
+	/**
+	 * Init style properties form
+	 */
+	function initStylePropertiesForm()
+	{
+		global $ilCtrl, $lng, $ilTabs, $ilSetting;
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$lng->loadLanguageModule("style");
+
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		$fixed_style = $ilSetting->get("fixed_content_style_id");
+		$style_id = $this->object->getStyleSheetId();
+
+		if ($fixed_style > 0)
+		{
+			$st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
+			$st->setValue(ilObject::_lookupTitle($fixed_style)." (".
+				$this->lng->txt("global_fixed").")");
+			$this->form->addItem($st);
+		}
+		else
+		{
+			$st_styles = ilObjStyleSheet::_getStandardStyles(true, false,
+				$_GET["ref_id"]);
+
+			$st_styles[0] = $this->lng->txt("default");
+			ksort($st_styles);
+
+			if ($style_id > 0)
+			{
+				// individual style
+				if (!ilObjStyleSheet::_lookupStandard($style_id))
+				{
+					$st = new ilNonEditableValueGUI($lng->txt("style_current_style"));
+					$st->setValue(ilObject::_lookupTitle($style_id));
+					$this->form->addItem($st);
+
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "edit"));
+
+					// delete command
+					$this->form->addCommandButton("editStyle",
+						$lng->txt("style_edit_style"));
+					$this->form->addCommandButton("deleteStyle",
+						$lng->txt("style_delete_style"));
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "delete"));
+				}
+			}
+
+			if ($style_id <= 0 || ilObjStyleSheet::_lookupStandard($style_id))
+			{
+				$style_sel = ilUtil::formSelect ($style_id, "style_id",
+					$st_styles, false, true);
+				$style_sel = new ilSelectInputGUI($lng->txt("style_current_style"), "style_id");
+				$style_sel->setOptions($st_styles);
+				$style_sel->setValue($style_id);
+				$this->form->addItem($style_sel);
+//$this->ctrl->getLinkTargetByClass("ilObjStyleSheetGUI", "create"));
+				$this->form->addCommandButton("saveStyleSettings",
+						$lng->txt("save"));
+				$this->form->addCommandButton("createStyle",
+					$lng->txt("sty_create_ind_style"));
+			}
+		}
+		$this->form->setTitle($lng->txt("glo_style"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Create Style
+	 */
+	function createStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "create");
+	}
+	
+	/**
+	 * Edit Style
+	 */
+	function editStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "edit");
+	}
+
+	/**
+	 * Delete Style
+	 */
+	function deleteStyle()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ilobjstylesheetgui", "delete");
+	}
+
+	/**
+	 * Save style settings
+	 */
+	function saveStyleSettings()
+	{
+		global $ilSetting;
+	
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
+			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
+			|| $this->object->getStyleSheetId() == 0))
+		{
+			$this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+		}
+		$this->ctrl->redirect($this, "editStyleProperties");
+	}
 
 }
 
