@@ -1133,6 +1133,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$list->addPreset('registered', $this->lng->txt('event_tbl_registered'), true);			
 		}	
 		$list->addPreset('participated', $this->lng->txt('event_tbl_participated'), true);		
+		$list->addBlank($this->lng->txt('sess_signature'));
 		return $list;
 	}
 		

@@ -5934,7 +5934,7 @@ crs#:#crs_password_required#:#This registration procedure requires a password.
 crs#:#crs_pdf#:#PDF
 crs#:#crs_persons_on_waiting_list#:#Persons on the Waiting List
 crs#:#crs_presentation_type#:#Presentation Type
-crs#:#crs_print_list#:#Print list
+crs#:#crs_print_list#:#Generate List
 crs#:#crs_question_assignment#:#Question assignment
 crs#:#crs_reg_deactivated#:#Disabled
 crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.
@@ -6183,7 +6183,7 @@ crs#:#max_members_not_numeric#:#Please check the maximum number of users.
 crs#:#save_status#:#Save Status
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_date_time#:#Session Appointment
-crs#:#sess_gen_attendance_list#:#Generate Attendance List
+crs#:#sess_gen_attendance_list#:#Generate List
 crs#:#sess_gen_comment#:#Generate Column for Comments
 crs#:#sess_gen_mark_title#:#Generate Column for Notes
 crs#:#sess_gen_signature#:#Generate Column for Signatures
@@ -6192,7 +6192,7 @@ crs#:#sess_limit_info#:#Choose this option for limiting the number of visible se
 crs#:#sess_limit#:#Limit Number of Sessions
 crs#:#sess_num_next#:#Number of Following Sessions
 crs#:#sess_num_prev#:#Number of Past Sessions
-crs#:#sess_print_attendance_list#:#Print Attendance List
+crs#:#sess_print_attendance_list#:#Print List
 crs#:#sess_signature#:#Signature
 crs#:#subscription_times_not_valid#:#The registration period is not valid.
 crs#:#timing_accept_table#:#Timings: Remarks
@@ -12486,7 +12486,7 @@ cptch#:#cptch_wrong_input#:#Wrong Input
 forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 certificate#:#certificate_file_basename#:#Certificate
-grp#:#grp_print_list#:#Print List
+grp#:#grp_print_list#:#Generate List
 grp#:#grp_members_print_title#:#Group Members
 trac#:#trac_closed_misc#:#Misc.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
