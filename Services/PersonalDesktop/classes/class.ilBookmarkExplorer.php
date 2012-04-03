@@ -119,14 +119,14 @@ class ilBookmarkExplorer extends ilExplorer
 					//$objects[$i]["title"] = "TEEST";
 				}
 			}
-
+			
 			foreach ($objects as $key => $object)
 			{
 				if (!in_array($object["type"],$this->allowed_types))
 				{
 					continue;
 				}
-
+				
 				//ask for FILTER
 				if ($object["child"] != $this->root_id)
 				{
@@ -137,6 +137,14 @@ class ilBookmarkExplorer extends ilExplorer
 				if ($object["type"]=='bm') {
 					$this->bm_targets[$object["child"]]=$object["target"];
 				};
+								
+				if($this->root && !$counter)
+				{
+					$counter++;
+					$object["title"] = $this->root;
+					$a_depth++;
+				}
+				
 				$this->format_options["$counter"]["parent"] = $object["parent"];
 				$this->format_options["$counter"]["child"] = $object["child"];
 				$this->format_options["$counter"]["title"] = $object["title"];
@@ -152,7 +160,7 @@ class ilBookmarkExplorer extends ilExplorer
 					$this->format_options["$counter"]["tab"][] = 'blank';
 				}
 				// only if parent is expanded and visible, object is visible
-				if ($object["child"] != $this->root_id  and (!in_array($object["parent"],$this->expanded)
+				if ($object["child"] != $this->root_id  and ((!in_array($object["parent"],$this->expanded) && !$this->expand_all)
 														  or !$this->format_options["$parent_index"]["visible"]))
 				{
 					$this->format_options["$counter"]["visible"] = false;
@@ -163,13 +171,16 @@ class ilBookmarkExplorer extends ilExplorer
 				{
 					$this->format_options["$parent_index"]["container"] = true;
 
-					if (in_array($object["parent"],$this->expanded))
+					if(!$this->expand_all)
 					{
-						$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
-					}
-					else
-					{
-						$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+						if (in_array($object["parent"],$this->expanded))
+						{
+							$this->format_options["$parent_index"]["tab"][($tab-2)] = 'minus';
+						}
+						else
+						{
+							$this->format_options["$parent_index"]["tab"][($tab-2)] = 'plus';
+						}
 					}
 				}
 
@@ -308,6 +319,10 @@ class ilBookmarkExplorer extends ilExplorer
 		
 		return $lng->txt("icon")." ".$lng->txt($a_type);
 	}
-
+	
+	function addRoot($a_caption)
+	{
+		$this->root = $a_caption;
+	}
 }
 ?>

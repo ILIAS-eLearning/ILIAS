@@ -41,10 +41,11 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 		
 		$this->addCommandButton('newFormBookmark', $lng->txt("bookmark_new"));
 		$this->addCommandButton('newFormBookmarkFolder', $lng->txt("bookmark_folder_new"));
-		
-		$this->addMultiCommand('delete', $lng->txt('delete'));
+				
 		$this->addMultiCommand('export', $lng->txt('export'));
 		$this->addMultiCommand('sendmail', $lng->txt('bkm_sendmail'));
+		$this->addMultiCommand('move', $lng->txt('move'));
+		$this->addMultiCommand('delete', $lng->txt('delete'));
 		
 		$this->setTopAnchor("bookmark_top");
 		
