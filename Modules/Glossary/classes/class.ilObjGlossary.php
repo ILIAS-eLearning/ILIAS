@@ -55,6 +55,12 @@ class ilObjGlossary extends ilObject
 		$this->setPresentationMode("table");
 		$this->setSnippetLength(200);
 
+		if (((int) $this->getStyleSheetId()) > 0)
+		{
+			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+		}
+
 	}
 
 	/**
@@ -79,6 +85,10 @@ class ilObjGlossary extends ilObject
 		$this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
 		$this->setPresentationMode($gl_rec["pres_mode"]);
 		$this->setSnippetLength($gl_rec["snippet_length"]);
+		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
+
 	}
 
 	/**
@@ -269,6 +279,23 @@ class ilObjGlossary extends ilObject
 	{
 		return $this->downloads_active;
 	}
+	
+	/**
+	 * Get ID of assigned style sheet object
+	 */
+	function getStyleSheetId()
+	{
+		return $this->style_id;
+	}
+
+	/**
+	 * Set ID of assigned style sheet object
+	 */
+	function setStyleSheetId($a_style_id)
+	{
+		$this->style_id = $a_style_id;
+	}
+
 
 	/**
 	* update object
@@ -290,6 +317,9 @@ class ilObjGlossary extends ilObject
 			" snippet_length = ".$ilDB->quote($this->getSnippetLength(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
+
 		parent::update();
 	}
 
@@ -482,8 +512,19 @@ class ilObjGlossary extends ilObject
 		copy($location_stylesheet, $a_target_dir."/".$style_name);
 		$location_stylesheet = ilUtil::getStyleSheetLocation();
 		
-		$cont_stylesheet = "Services/COPage/css/content.css";
-		copy($cont_stylesheet, $a_target_dir."/content.css");
+		if ($this->getStyleSheetId() < 1)
+		{
+			$cont_stylesheet = "Services/COPage/css/content.css";
+			copy($cont_stylesheet, $a_target_dir."/content.css");
+		}
+		else
+		{
+			$content_style_img_dir = $a_target_dir."/images";
+			ilUtil::makeDir($content_style_img_dir);
+			$style = new ilObjStyleSheet($this->getStyleSheetId());
+			$style->writeCSSFile($a_target_dir."/content.css", "images");
+			$style->copyImagesToDir($content_style_img_dir);
+		}
 		
 		// export syntax highlighting style
 		$syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
