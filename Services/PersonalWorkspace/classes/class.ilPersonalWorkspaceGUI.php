@@ -70,7 +70,7 @@ class ilPersonalWorkspaceGUI
 		$this->renderLocator();		
 		
 		if(($cmd == "" || $cmd == "render" || $cmd == "view") && !$_REQUEST["new_type"])
-		{
+		{			
 			$this->renderToolbar();
 		}
 		

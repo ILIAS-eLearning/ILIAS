@@ -2045,5 +2045,32 @@ class ilObject
 		}
 		return $all;
 	}
+	
+	/**
+	 * Get all ids of objects user owns
+	 * 
+	 * @param int $a_user_id
+	 * @return array 
+	 */
+	static function getAllOwnedRepositoryObjects($a_user_id)
+	{
+		global $ilDB, $objDefinition;
+				
+		$all = array();
+		
+		// restrict to repository
+		$types = array_keys($objDefinition->getSubObjectsRecursively("root"));	
+		
+		$sql = "SELECT obj_id,type,title FROM object_data".
+			" WHERE owner = ".$ilDB->quote($a_user_id, "integer").
+			" AND ".$ilDB->in("type", $types, "", "text");
+		$res = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$all[$row["type"]][$row["obj_id"]] = $row["title"];
+		}
+		
+		return $all;
+	}
 } // END class.ilObject
 ?>
