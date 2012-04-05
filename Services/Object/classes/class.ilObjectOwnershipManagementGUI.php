@@ -16,6 +16,8 @@ class ilObjectOwnershipManagementGUI
 	
 	function __construct($a_user_id = null)
 	{
+		global $ilUser;
+		
 		if(!$a_user_id)
 		{
 			$a_user_id = $ilUser->getId();
@@ -44,38 +46,63 @@ class ilObjectOwnershipManagementGUI
 		return true;
 	}
 	
-	function listObjects($a_load_data = false)
+	function listObjects()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		
+		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
+		
+		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+		$sel = new ilSelectInputGUI($lng->txt("type"), "type");
+		$ilToolbar->addInputItem($sel, true);
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "listObjects"));
+		$ilToolbar->addFormButton($lng->txt("ok"), "listObjects");
 				
-		include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
-		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, $a_load_data);
+		$options = array();
+		foreach(array_keys($objects) as $type)
+		{			
+			// chatroom is somehow messed up
+			if($type != "chtr")
+			{
+				$options[$type] = $lng->txt("obj_".$type);				
+			}
+		}		
+		asort($options);
+		$sel->setOptions($options);		
 		
-		if(!$a_load_data)
+		$sel_type = (string)$_REQUEST["type"];		
+		if($sel_type)
 		{
-			$tbl->disable("content");
-			$tbl->disable("header");
+			$sel->setValue($sel_type);
 		}
+		else
+		{
+			$sel_type = array_keys($options);
+			$sel_type = array_shift($sel_type);
+		}			
+		$ilCtrl->setParameter($this, "type", $sel_type);
 		
+		include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
+		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, $objects[$sel_type]);				
 		$tpl->setContent($tbl->getHTML());	
 	}
 	
 	function applyFilter()
 	{		
 		include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
-		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, false);
+		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id);
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
-		$this->listObjects(true);
+		$this->listObjects();
 	}
 	
 	function resetFilter()
 	{
 		include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
-		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, false);
+		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id);
 		$tbl->resetOffset();
 		$tbl->resetFilter();
-		$this->listObjects(true);
+		$this->listObjects();
 	}
 	
 	protected function redirectParentCmd($a_ref_id, $a_cmd)
