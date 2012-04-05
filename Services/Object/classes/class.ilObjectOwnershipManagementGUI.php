@@ -52,35 +52,38 @@ class ilObjectOwnershipManagementGUI
 		
 		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
 		
-		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
-		$sel = new ilSelectInputGUI($lng->txt("type"), "type");
-		$ilToolbar->addInputItem($sel, true);
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "listObjects"));
-		$ilToolbar->addFormButton($lng->txt("ok"), "listObjects");
-				
-		$options = array();
-		foreach(array_keys($objects) as $type)
-		{			
-			// chatroom is somehow messed up
-			if($type != "chtr")
+		if(sizeof($objects))
+		{
+			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+			$sel = new ilSelectInputGUI($lng->txt("type"), "type");
+			$ilToolbar->addInputItem($sel, true);
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "listObjects"));
+			$ilToolbar->addFormButton($lng->txt("ok"), "listObjects");
+
+			$options = array();
+			foreach(array_keys($objects) as $type)
+			{			
+				// chatroom is somehow messed up
+				if($type != "chtr")
+				{
+					$options[$type] = $lng->txt("obj_".$type);				
+				}
+			}		
+			asort($options);
+			$sel->setOptions($options);		
+
+			$sel_type = (string)$_REQUEST["type"];		
+			if($sel_type)
 			{
-				$options[$type] = $lng->txt("obj_".$type);				
+				$sel->setValue($sel_type);
 			}
-		}		
-		asort($options);
-		$sel->setOptions($options);		
-		
-		$sel_type = (string)$_REQUEST["type"];		
-		if($sel_type)
-		{
-			$sel->setValue($sel_type);
+			else
+			{
+				$sel_type = array_keys($options);
+				$sel_type = array_shift($sel_type);
+			}			
+			$ilCtrl->setParameter($this, "type", $sel_type);
 		}
-		else
-		{
-			$sel_type = array_keys($options);
-			$sel_type = array_shift($sel_type);
-		}			
-		$ilCtrl->setParameter($this, "type", $sel_type);
 		
 		include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
 		$tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, $objects[$sel_type]);				
