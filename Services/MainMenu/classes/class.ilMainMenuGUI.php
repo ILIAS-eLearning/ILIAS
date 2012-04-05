@@ -514,7 +514,7 @@ class ilMainMenuGUI
 				$first = false;
 			}
 			
-			if (!$first)
+			if ($cnt > 0)
 			{
 				$gl->addEntry("» ".$lng->txt("remove_entries"), "#", "",
 					"return il.MainMenu.removeLastVisitedItems('".
