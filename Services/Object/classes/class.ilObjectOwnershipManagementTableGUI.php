@@ -15,10 +15,8 @@ include_once ('./Services/Table/classes/class.ilTable2GUI.php');
 class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 {
 	protected $user_id; // [int]
-	protected $objects; // [array]
-	protected $type; // [string]
 
-	public function __construct($a_parent_obj,$a_parent_cmd,$a_user_id,$a_load_data)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id, array $a_data = null)
 	{
 		global $ilCtrl, $lng;
 		
@@ -39,97 +37,63 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
-				
-		$this->objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
-		if($this->objects)
+		
+		if($a_data)
 		{
-			$this->initFilter(array_keys($this->objects));
-		}
-				
-		if($a_load_data)
-		{
-			if($this->type)
-			{
-				$this->initItems($this->type);
-			}
+			$this->initItems($a_data);
 		}
 	}
 	
-	public function initFilter(array $a_types)
-	{
-		global $lng;
-		
-		$types = $this->addFilterItemByMetaType("types", ilTable2GUI::FILTER_SELECT,
-			false, $lng->txt("objs_type"));
-		
-		$options = array();
-		foreach($a_types as $type)
-		{
-			// chatroom is somehow messed up
-			if($type != "chtr")
-			{
-				$options[$type] = $lng->txt("obj_".$type);
-			}
-		}
-		asort($options);
-		$types->setOptions($options);		
-		
-		$this->type = $types->getValue();
-	}
-	
-	protected function initItems($a_type)
+	protected function initItems($a_data)
 	{		
 		global $ilAccess, $lng, $tree;
-		
-		if($this->objects[$a_type])
-		{			
-			$data = array();
-			
-			foreach($this->objects[$a_type] as $id => $item)
-			{
-				// workspace objects won't have references
-				$refs = ilObject::_getAllReferences($id);
-				if($refs)
-				{			
-					$readable = array();
-					foreach($refs as $idx => $ref_id)
-					{						
-						// objects in trash are hidden
-						$item_ref_id = false;
-						if(!$tree->isDeleted($ref_id))
-						{
-							$readable[$ref_id] = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
-							if($readable[$ref_id] && !$item_ref_id)
-							{
-								$item_ref_id = $ref_id;
-							}
-						}
-						else
-						{
-							unset($refs[$idx]);
-						}
-					}
-					
-					if($refs)
-					{
-						$data[$id] = array("obj_id" => $id,
-							"ref_id" => $ref_id,
-							"type" => $this->type,
-							"title" => $item,
-							"path" => $this->buildPath($refs, $readable),
-							"readable" => max($readable));	
-					}
-				}														
-			}
+				
+		$data = array();
 
-			$this->setData($data);			
+		foreach($a_data as $id => $item)
+		{
+			// workspace objects won't have references
+			$refs = ilObject::_getAllReferences($id);
+			if($refs)
+			{			
+				$readable = array();
+				foreach($refs as $idx => $ref_id)
+				{						
+					// objects in trash are hidden
+					$item_ref_id = false;
+					if(!$tree->isDeleted($ref_id))
+					{
+						$readable[$ref_id] = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
+						if($readable[$ref_id] && !$item_ref_id)
+						{
+							$item_ref_id = $ref_id;
+						}
+					}
+					else
+					{
+						unset($refs[$idx]);
+					}
+				}
+				
+				if($refs)
+				{
+					$data[$id] = array("obj_id" => $id,
+						"ref_id" => $ref_id,
+						"type" => ilObject::_lookupType($id),
+						"title" => $item,
+						"path" => $this->buildPath($refs, $readable),
+						"readable" => max($readable));	
+				}
+			}														
 		}
+
+		$this->setData($data);			
 	}
 	
 	public function fillRow($row)
 	{			
 		global $lng; 
-		
+	
 		$this->tpl->setCurrentBlock("path");
 		foreach($row["path"] as $item)
 		{
