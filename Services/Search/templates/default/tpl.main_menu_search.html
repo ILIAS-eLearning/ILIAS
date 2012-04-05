@@ -1,5 +1,5 @@
 <div class="ilMainMenuSearch">
-<form class="ilMainMenuSearch" action="{FORMACTION}" method="post" target="_top">
+<form class="ilMainMenuSearch" id="mm_search_form" action="{FORMACTION}" method="post" target="_top">
 <div style="margin-top:1px; text-align:left;">
 <table cellpadding="0" cellspacing="0" datatable="0"><tr><td>
 	<!-- block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
@@ -11,6 +11,7 @@
 		<input type="hidden" name="root_id" value="{CONT_REF_ID}" />
 	    <div class="yui-skin-sam" style="font-size: 75%;" id="{ID_AUTOCOMPLETE}"></div>
 	</div>
+	<a href="#">{IMG_MM_SEARCH}</a>
 	</td>
 </tr></table>
 </div><div class="ilOverlay" style="display:none;" id="mm_search_menu">{SEARCH_LINK_MENU}</div>
@@ -69,6 +70,17 @@
 								{
 									il.Overlay.hide(e, "mm_search_menu");
 								}
+							}
+						});
+					
+					$(".ilMainMenuSearch img").bind("click", function(e) {
+							if ($("#main_menu_search").val().length < 1 && e.type != "focusout")
+							{
+								location.href = $("#mm_search_menu a").first().attr('href');
+							}
+							else
+							{
+								$("#mm_search_form").submit();
 							}
 						});
 				}

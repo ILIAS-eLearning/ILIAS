@@ -34,17 +34,19 @@
 	<!-- END status_box -->
 
 </div>
-<div class="ilMainMenuSection" style="clear:both;">
-	<div class="ilMainMenu" style="clear:both; float:left;">
+<div class="ilMainMenuSection">
+	<div class="ilMainMenu">
 		<h1 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h1>
 		{MAIN_MENU_LIST_ENTRIES}
 	</div>
-	<!-- BEGIN search_box -->
-	<div style="float:right;">{SEARCHBOX}</div>
-	<!-- END search_box -->
+	<ul class="ilMainMenu" style="float:right; padding: 0px 20px 0px 0px;">
 	<!-- BEGIN help_icon -->
-	<div style="float:right;"><a class="MMInactive" id="help_tr" href="#" onclick="return il.Help.listHelp(event);">{TXT_HELP}</a></div>
+	<li class="ilMainMenu"><a class="MMInactive" id="help_tr" href="#" onclick="return il.Help.listHelp(event);">{TXT_HELP}</a></li>
 	<!-- END help_icon -->
+	<!-- BEGIN search_box -->
+	<li class="ilMainMenu">{SEARCHBOX}</li>
+	<!-- END search_box -->
+	</ul>
 	<!-- BEGIN screen_id -->
 	<div class="ilHighlighted small" style="position:absolute; right:0px; top: 0px;">ScreenID: {SCREEN_ID}</div>
 	<!-- END screen_id -->
