@@ -12518,3 +12518,5 @@ mcst#:#mcst_save_order#:#Save Order
 content#:#glo_style#:#Glossary Style
 pdesk#:#bookmark_select_target#:#Please select target.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
+wsp#:#wsp_tab_ownership#:#My Repository Objects
+user#:#user_ownership#:#Repository Objects

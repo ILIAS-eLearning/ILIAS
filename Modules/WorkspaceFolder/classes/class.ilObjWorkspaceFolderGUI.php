@@ -10,7 +10,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * @author Alex Killing <alex.killing@gmx.de>
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
-* @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
 *
 * @extends ilObject2GUI
 */
@@ -23,7 +23,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 	function setTabs($a_show_settings = true)
 	{
-		global $lng, $ilUser;
+		global $lng;
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 		
@@ -31,29 +31,34 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			$this->ctrl->getLinkTarget($this, ""));
 		$this->tabs_gui->addTab("share", $lng->txt("wsp_tab_shared"), 
 			$this->ctrl->getLinkTarget($this, "share"));
+		$this->tabs_gui->addTab("ownership", $lng->txt("wsp_tab_ownership"), 
+			$this->ctrl->getLinkTargetByClass(array(get_class($this), "ilObjectOwnershipManagementGUI"), "listObjects"));
 		
-		if(stristr($this->ctrl->getCmd(), "share"))
-		{
-			$this->tabs_gui->activateTab("share");
-		}
-		else
-		{
-			$this->tabs_gui->activateTab("wsp");
-			
-			if($a_show_settings)
+		if(!$this->ctrl->getNextClass($this))
+		{		
+			if(stristr($this->ctrl->getCmd(), "share"))
 			{
-				if ($this->checkPermissionBool("read"))
-				{
-					$this->tabs_gui->addSubTab("content",
-						$lng->txt("content"),
-						$this->ctrl->getLinkTarget($this, ""));
-				}
+				$this->tabs_gui->activateTab("share");
+			}		
+			else
+			{
+				$this->tabs_gui->activateTab("wsp");
 
-				if ($this->checkPermissionBool("write"))
+				if($a_show_settings)
 				{
-					$this->tabs_gui->addSubTab("settings",
-						$lng->txt("settings"),
-						$this->ctrl->getLinkTarget($this, "edit"));
+					if ($this->checkPermissionBool("read"))
+					{
+						$this->tabs_gui->addSubTab("content",
+							$lng->txt("content"),
+							$this->ctrl->getLinkTarget($this, ""));
+					}
+
+					if ($this->checkPermissionBool("write"))
+					{
+						$this->tabs_gui->addSubTab("settings",
+							$lng->txt("settings"),
+							$this->ctrl->getLinkTarget($this, "edit"));
+					}
 				}
 			}
 		}
@@ -69,6 +74,14 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case "ilobjectownershipmanagementgui":
+				$this->prepareOutput();
+				$this->tabs_gui->activateTab("ownership");
+				include_once("Services/Object/classes/class.ilObjectOwnershipManagementGUI.php");
+				$gui = new ilObjectOwnershipManagementGUI();
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
@@ -577,7 +590,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		
 		$this->share();
 	}
-
+	
 	/**
 	 * Deep link
 	 * 

@@ -11,7 +11,7 @@ include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserGUI
+* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserGUI, ilObjectOwnershipManagementGUI
 *
 * @ingroup ServicesUser
 */
@@ -90,6 +90,12 @@ class ilObjUserGUI extends ilObjectGUI
 				$new_gui =& new ilObjiLincUserGUI($this->object,$this->usrf_ref_id);
 				$this->ctrl->forwardCommand($new_gui);
 				break;
+			
+			case "ilobjectownershipmanagementgui":
+				include_once("Services/Object/classes/class.ilObjectOwnershipManagementGUI.php");
+				$gui = new ilObjectOwnershipManagementGUI($this->object->getId());
+				$this->ctrl->forwardCommand($gui);
+				break;			
 
 			default:
 				if($cmd == "" || $cmd == "view")
@@ -190,6 +196,11 @@ class ilObjUserGUI extends ilObjectGUI
 			'',
 			array('ilobjilincusergui'));
 		}
+		
+		$tabs_gui->addTarget('user_ownership',
+			$this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui',''),
+			'',
+			'ilobjectownershipmanagementgui');
 	}
 
 	/**
