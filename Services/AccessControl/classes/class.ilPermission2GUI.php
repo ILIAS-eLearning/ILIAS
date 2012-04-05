@@ -545,21 +545,32 @@ class ilPermission2GUI
 
 		$this->__initSubTabs("owner");
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.obj_owner.html','Services/AccessControl');
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("USERNAME",ilObjUser::_lookupLogin($this->gui_obj->object->getOwner()));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_usr.gif'));
-		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('owner'));
-		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('info_owner_of_object'));
-		$this->tpl->setVariable("BTN_CHOWN",$this->lng->txt('change_owner'));
-		$this->tpl->setVariable("TXT_USERNAME",$this->lng->txt('username'));
-		$this->tpl->setVariable("CHOWN_WARNING",$this->lng->txt('chown_warning'));
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "owner"));
+		$form->setTitle($this->lng->txt("info_owner_of_object"));
+		
+		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
+		$login = new ilUserLoginAutoCompleteInputGUI(
+			$this->lng->txt("username"),
+			"owner",
+			array(get_class($this),'ilRepositorySearchGUI'),
+			"doUserAutoComplete"
+		);		
+		$login->setRequired(true);
+		$login->setSize(50);
+		$login->setInfo($this->lng->txt("chown_warning"));
+		$login->setValue(ilObjUser::_lookupLogin($this->gui_obj->object->getOwner()));
+		$form->addItem($login);
+		
+		$form->addCommandButton("changeOwner", $this->lng->txt("change_owner"));
+		
+		$this->tpl->setContent($form->getHTML());
 	}
 	
 	function changeOwner()
 	{
-		global $rbacsystem,$ilErr,$ilObjDataCache;
+		global $rbacsystem,$ilObjDataCache;
 
 		if(!$user_id = ilObjUser::_lookupId($_POST['owner']))
 		{
@@ -567,17 +578,22 @@ class ilPermission2GUI
 			$this->owner();
 			return true;
 		}
-
-		$this->gui_obj->object->setOwner($user_id);
-		$this->gui_obj->object->updateOwner();
-		$ilObjDataCache->deleteCachedEntry($this->gui_obj->object->getId());
-		ilUtil::sendSuccess($this->lng->txt('owner_updated'),true);
-
-		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-		if(ilRbacLog::isActive())
+		
+		// no need to change?
+		if($user_id != $this->gui_obj->object->getOwner())
 		{
-			ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->object->getRefId(), array($user_id));
+			$this->gui_obj->object->setOwner($user_id);
+			$this->gui_obj->object->updateOwner();
+			$ilObjDataCache->deleteCachedEntry($this->gui_obj->object->getId());			
+
+			include_once "Services/AccessControl/classes/class.ilRbacLog.php";
+			if(ilRbacLog::isActive())
+			{
+				ilRbacLog::add(ilRbacLog::CHANGE_OWNER, $this->gui_obj->object->getRefId(), array($user_id));
+			}
 		}
+		
+		ilUtil::sendSuccess($this->lng->txt('owner_updated'),true);
 
 		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
 		{
