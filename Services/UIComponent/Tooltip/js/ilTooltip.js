@@ -3,8 +3,7 @@
 /**
  * Tooltip object
  */
-il.Tooltip =
-{
+il.Tooltip = {
 	tooltips: [],	// array for all tooltips
 
 	/**
@@ -13,19 +12,17 @@ il.Tooltip =
 	 * @param string el_id element id
 	 * @param object cfg configuration object
 	 */
-	add: function(el_id, cfg) {
+	add: function (el_id, cfg) {
 		this.tooltips.push({el_id: el_id, cfg: cfg});
 	},
-	
+
 	/**
 	 * Init tooltips
 	 */
-	init: function() {
-		
+	init: function () {
 		var k;
 
-		for (k in this.tooltips)
-		{
+		for (k in this.tooltips) {
 //			this.tooltips[k].tp = new YAHOO.widget.Tooltip("ttip_" + this.tooltips[k].el_id,
 //				this.tooltips[k].cfg);
 			$("#" + this.tooltips[k].el_id).qtip({
@@ -43,4 +40,4 @@ il.Tooltip =
 			});
 		}
 	}
-}
+};
