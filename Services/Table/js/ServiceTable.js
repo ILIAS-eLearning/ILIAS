@@ -16,6 +16,10 @@ function ilInitTableFilters()
 		{
 			filtrs[i].style.display = 'none';
 		}
+		else
+		{
+			filtrs[i].style.display = '';
+		}
 	}
 
 	// show filter activators
@@ -26,6 +30,10 @@ function ilInitTableFilters()
 		{
 			filactvtrs[i].style.display = '';
 		}
+		else
+		{
+			filactvtrs[i].style.display = 'none';
+		}
 	}
 
 	// hide filter deactivators
@@ -35,6 +43,10 @@ function ilInitTableFilters()
 		if (ilTableHideFilter[fildctvtrs[i].id] == 1)
 		{
 			fildctvtrs[i].style.display = 'none';
+		}
+		else
+		{
+			fildctvtrs[i].style.display = '';
 		}
 	}
 
