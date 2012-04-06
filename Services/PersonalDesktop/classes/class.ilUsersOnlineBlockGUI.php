@@ -243,7 +243,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		if($this->mail_allowed &&
 		   $rbacsystem->checkAccessOfUser($a_set['id'],'mail_visible', ilMailGlobalServices::getMailObjectRefId()))
 		{
-			$a_set['mail_url'] = ilMailFormCall::_getLinkTarget($this->topGuiObj, '', array(), array('type' => 'new', 'rcp_to' => urlencode($a_set['login'])));
+			$a_set['mail_url'] = ilMailFormCall::getLinkTarget($this->topGuiObj, '', array(), array('type' => 'new', 'rcp_to' => urlencode($a_set['login'])));
 		}
 		
 		// check for profile

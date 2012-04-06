@@ -36,10 +36,10 @@ class ilFileDataMail extends ilFileData
 	* @param integereger user_id
 	* @access	public
 	*/
-	function ilFileDataMail($a_user_id = 0)
+	public function __construct($a_user_id = 0)
 	{
 		define('MAILPATH','mail');
-		parent::ilFileData();
+		parent::__construct();
 		$this->mail_path = parent::getPath()."/".MAILPATH;
 		$this->checkReadWrite();
 		$this->user_id = $a_user_id;

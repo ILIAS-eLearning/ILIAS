@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMailbox.php';
@@ -173,10 +153,10 @@ class ilMailFormGUI
 			#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
 			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
-            if(ilMailFormCall::_isRefererStored())
+            if(ilMailFormCall::isRefererStored())
             {
                 ilUtil::sendInfo($this->lng->txt('mail_message_send'), true);
-                ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+                ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
             }
             else
                $this->ctrl->redirectByClass('ilmailgui');
@@ -225,8 +205,8 @@ class ilMailFormGUI
 			unset($_SESSION["draft"]);
 			ilUtil::sendInfo($this->lng->txt("mail_saved"), true);
 			
-            if(ilMailFormCall::_isRefererStored())
-                ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+            if(ilMailFormCall::isRefererStored())
+                ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
             else
                $this->ctrl->redirectByClass("ilmailfoldergui");
 		}
@@ -250,8 +230,8 @@ class ilMailFormGUI
 				ilUtil::sendInfo($this->lng->txt("mail_saved"),true);
 				#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getDraftsFolder());
 
-                if(ilMailFormCall::_isRefererStored())
-                    ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+                if(ilMailFormCall::isRefererStored())
+                    ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
                 else
                    $this->ctrl->redirectByClass("ilmailfoldergui");
 			}
@@ -585,7 +565,7 @@ class ilMailFormGUI
 		
 		$this->lng->loadLanguageModule("crs");
 
-        if(ilMailFormCall::_isRefererStored())
+        if(ilMailFormCall::isRefererStored())
             $ilTabs->setBackTarget($lng->txt('back'), $ilCtrl->getLinkTarget($this, 'cancelMail'));
 
 		switch($_GET["type"])
@@ -688,7 +668,7 @@ class ilMailFormGUI
 					$mailData["rcp_bcc"] = $_SESSION['rcp_bcc'];
 				}
 				$mailData['m_message'] = '';
-				if(strlen($sig = ilMailFormCall::_getSignature()))
+				if(strlen($sig = ilMailFormCall::getSignature()))
 				{
 					$mailData['m_message'] = $sig;
 					$mailData['m_message'] .= chr(13).chr(10).chr(13).chr(10);
@@ -713,7 +693,7 @@ class ilMailFormGUI
 				}
 
 				$mailData['m_message'] = '';
-				if(strlen($sig = ilMailFormCall::_getSignature()))
+				if(strlen($sig = ilMailFormCall::getSignature()))
 				{
 					$mailData['m_message'] = $sig;
 					$mailData['m_message'] .= chr(13).chr(10).chr(13).chr(10);
@@ -867,7 +847,7 @@ class ilMailFormGUI
 
 		$form_gui->addCommandButton('sendMessage', $this->lng->txt('send_mail'));
 		$form_gui->addCommandButton('saveDraft', $this->lng->txt('save_message'));       
-        if(ilMailFormCall::_isRefererStored())
+        if(ilMailFormCall::isRefererStored())
             $form_gui->addCommandButton('cancelMail', $this->lng->txt('cancel'));
 
 		$this->tpl->parseCurrentBlock();
@@ -904,8 +884,8 @@ class ilMailFormGUI
 
     public function cancelMail()
     {
-        if(ilMailFormCall::_isRefererStored())
-            ilUtil::redirect(ilMailFormCall::_getRefererRedirectUrl());
+        if(ilMailFormCall::isRefererStored())
+            ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
         else
             return $this->showForm();
     }

@@ -1099,7 +1099,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$login = ilObjUser::_lookupLogin((int) $_GET["member_id"]);
             
             require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => urlencode($login))));
+			ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => urlencode($login))));
 		}
 		else if(count($_POST["member"]) > 0)
 		{
@@ -1113,7 +1113,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$logins = implode($logins, ",");
 
             require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-			ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => $logins)));
+			ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members', array(), array('type' => 'new', 'rcp_to' => $logins)));
 		}
 
 		ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);

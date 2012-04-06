@@ -1,104 +1,143 @@
 <?php
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * Statically used helper class for generating links to the mail form user interface
+ *
+ * @version: $Id$
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilMailFormCall
 {
-    const REFERER_KEY = 'r';
+	/**
+	 * HTTP-GET parameter for the referer url
+	 */
+	const REFERER_KEY = 'r';
+
+	/**
+	 * Session parameter for the hash
+	 */
 	const SIGNATURE_KEY = 'sig';
 
-    public static function _getLinkTarget($gui, $cmd, $gui_params = array(), $mail_params = array())
-    {       
-        $mparams = '';
-        foreach($mail_params as $key => $value)
-        {
-            $mparams .= '&amp;'.$key.'='.$value;
-        }
+	/**
+	 * @static
+	 * @param mixed $gui
+	 * @param string $cmd
+	 * @param array $gui_params
+	 * @param array $mail_params
+	 * @return string
+	 */
+	public static function getLinkTarget($gui, $cmd, Array $gui_params = array(), Array $mail_params = array())
+	{
+		return self::getTargetUrl('&amp;', $gui, $cmd, $gui_params, $mail_params);
+	}
 
-        if(is_object($gui))
-        {
-            global $ilCtrl;
-            $ilCtrlTmp = clone $ilCtrl;
-            foreach($gui_params as $key => $value)
-            {
-                $ilCtrlTmp->setParameter($gui, $key, $value);
-            }
-            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '', false, false);
-        }
-        else if(is_string($gui))
-        {
-            $referer = $gui;
-        }
+	/**
+	 * @static
+	 * @param mixed $gui
+	 * @param string $cmd
+	 * @param array $gui_params
+	 * @param array $mail_params
+	 * @return string
+	 */
+	public static function getRedirectTarget($gui, $cmd, Array $gui_params = array(), Array $mail_params = array())
+	{
+		return self::getTargetUrl('&', $gui, $cmd, $gui_params, $mail_params);
+	}
 
-        $referer = '&amp;'.self::REFERER_KEY.'='.rawurlencode(base64_encode($referer));
+	/**
+	 * @static
+	 * @param string $argument_separator
+	 * @param mixed $gui
+	 * @param string $cmd
+	 * @param array $gui_params
+	 * @param array $mail_params
+	 * @return string
+	 */
+	protected static function getTargetUrl($argument_separator, $gui, $cmd, Array $gui_params = array(), Array $mail_params = array())
+	{
+		$mparams = '';
+		$referer = '';
 
-        return 'ilias.php?baseClass=ilMailGUI'.$mparams.$referer;
-    }
-
-    public static function _getRedirectTarget($gui, $cmd, $gui_params = array(), $mail_params = array())
-    {
-        $mparams = '';
-        foreach($mail_params as $key => $value)
-        {
-            $mparams .= '&'.$key.'='.$value;
-        }
-
-        if(is_object($gui))
-        {
-            global $ilCtrl;
-            $ilCtrlTmp = clone $ilCtrl;
-            foreach($gui_params as $key => $value)
-            {
-                $ilCtrlTmp->setParameter($gui, $key, $value);
-            }
-            $referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '', false, false);
-        }
-        else if(is_string($gui))
-        {
-            $referer = $gui;
-        }
-
-        $referer = '&'.self::REFERER_KEY.'='.rawurlencode(base64_encode($referer));
-
-        return 'ilias.php?baseClass=ilMailGUI'.$referer.$mparams;
-    }
-
-    public static function _storeReferer($request_params)
-    {
-        if(isset($request_params[self::REFERER_KEY]))
+		foreach($mail_params as $key => $value)
 		{
-            $_SESSION[self::REFERER_KEY] = base64_decode(rawurldecode($request_params[self::REFERER_KEY]));
+			$mparams .= $argument_separator . $key . '=' . $value;
+		}
+
+		if(is_object($gui))
+		{
+			/**
+			 * @var $ilCtrl ilCtrl
+			 */
+			global $ilCtrl;
+			$ilCtrlTmp = clone $ilCtrl;
+			foreach($gui_params as $key => $value)
+			{
+				$ilCtrlTmp->setParameter($gui, $key, $value);
+			}
+			$referer = $ilCtrlTmp->getLinkTarget($gui, $cmd, '', false, false);
+		}
+		else if(is_string($gui))
+		{
+			$referer = $gui;
+		}
+
+		$referer = $argument_separator . self::REFERER_KEY . '=' . rawurlencode(base64_encode($referer));
+
+		return 'ilias.php?baseClass=ilMailGUI' . $referer . $mparams;
+	}
+
+	/**
+	 * @static
+	 * @param array $request_params
+	 */
+	public static function storeReferer($request_params)
+	{
+		if(isset($request_params[self::REFERER_KEY]))
+		{
+			$_SESSION[self::REFERER_KEY]   = base64_decode(rawurldecode($request_params[self::REFERER_KEY]));
 			$_SESSION[self::SIGNATURE_KEY] = base64_decode(rawurldecode($request_params[self::SIGNATURE_KEY]));
 		}
-        else
+		else
 		{
-            unset($_SESSION[self::REFERER_KEY]);
+			unset($_SESSION[self::REFERER_KEY]);
 			unset($_SESSION[self::SIGNATURE_KEY]);
 		}
-    }
-	
+	}
+
 	/**
 	 * Get preset signature
+	 *
 	 * @return string signature
 	 */
-	public static function _getSignature()
+	public static function getSignature()
 	{
 		$sig = $_SESSION[self::SIGNATURE_KEY];
-		
+
 		unset($_SESSION[self::SIGNATURE_KEY]);
-		
+
 		return $sig;
 	}
 
-    public static function _getRefererRedirectUrl()
-    {
-        $url = $_SESSION[self::REFERER_KEY];
+	/**
+	 * @static
+	 * @return string
+	 */
+	public static function getRefererRedirectUrl()
+	{
+		$url = $_SESSION[self::REFERER_KEY];
 
-        unset($_SESSION[self::REFERER_KEY]);
+		unset($_SESSION[self::REFERER_KEY]);
 
-        return $url;
-    }
+		return $url;
+	}
 
-    public static function _isRefererStored()
-    {
-        return isset($_SESSION[self::REFERER_KEY]) && strlen($_SESSION[self::REFERER_KEY]) ? true : false;
-    }
+	/**
+	 * @static
+	 * @return bool
+	 */
+	public static function isRefererStored()
+	{
+		return isset($_SESSION[self::REFERER_KEY]) && strlen($_SESSION[self::REFERER_KEY]) ? true : false;
+	}
 }
-?>

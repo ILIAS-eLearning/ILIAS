@@ -789,7 +789,7 @@ return;
 						 '', 0);
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, '', array(), array('type' => 'attach')));
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, '', array(), array('type' => 'attach')));
 	}
 	/**
 	* display deletion conformation screen

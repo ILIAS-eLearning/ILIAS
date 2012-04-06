@@ -31,10 +31,10 @@ class ilFileDataImportMail extends ilFileDataImport
 	* @param integereger obj_id
 	* @access	public
 	*/
-	function ilFileDataImportMail()
+	public function __construct()
 	{
 		define('MAIL_IMPORT_PATH','mail');
-		parent::ilFileDataImport();
+		parent::__construct();
 		$this->mail_path = parent::getPath()."/".MAIL_IMPORT_PATH;
 
 		// IF DIRECTORY ISN'T CREATED CREATE IT

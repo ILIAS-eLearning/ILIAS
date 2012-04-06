@@ -1480,7 +1480,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::_getRedirectTarget(
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 			$this, 
 			'members',
 			array(), 
@@ -1847,7 +1847,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role','sig' => $this->createMailSignature())));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'mailMembers', array(), array('type' => 'role','sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
 		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt('marked_entries'));
 		$this->tpl->setVariable("OK",$this->lng->txt('next'));
