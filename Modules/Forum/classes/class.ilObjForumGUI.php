@@ -42,16 +42,16 @@ class ilObjForumGUI extends ilObjectGUI
 	private $hideToolbar = false;
 	private $forum_overview_setting = null;
 	
-	public function ilObjForumGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+	public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
 	{
 		global $ilCtrl, $ilUser, $ilAccess;
 
 		// CONTROL OPTIONS
-		$this->ctrl =& $ilCtrl;
+		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array('ref_id', 'cmdClass'));
 
 		$this->type = 'frm';
-		$this->ilObjectGUI($a_data, $a_id, $a_call_by_reference, false);
+		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
 		$this->lng->loadLanguageModule('forum');
 		

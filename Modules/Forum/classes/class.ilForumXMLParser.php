@@ -1,4 +1,6 @@
 <?php
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 include_once './Services/Xml/classes/class.ilSaxParser.php';
 require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 

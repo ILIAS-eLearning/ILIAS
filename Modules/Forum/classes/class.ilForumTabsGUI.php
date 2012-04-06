@@ -19,13 +19,13 @@ class ilForumTabsGUI
 	var $frm;
 	var $ref_id;
 
-	function ilForumTabsGUI()
+	public function __construct()
 	{
-		global $lng, $tpl, $tree,$ilTabs;
+		global $lng, $tpl, $ilTabs;
 
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
-		$this->tabs_gui =& $ilTabs;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->tabs_gui = $ilTabs;
 	}
 
 	function setTemplateVariable($a_temp_var)

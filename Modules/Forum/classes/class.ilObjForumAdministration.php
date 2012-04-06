@@ -21,10 +21,10 @@ class ilObjForumAdministration extends ilObject
 	* @param	integer	reference_id or object_id
 	* @param	boolean	treat the id as reference_id (true) or object_id (false)
 	*/
-	public function ilObjForumAdministration($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "frma";
-		$this->ilObject($a_id,$a_call_by_reference);
+		parent::__construct($a_id,$a_call_by_reference);
 
 		$this->lng->loadLanguageModule('forum');
 	}
