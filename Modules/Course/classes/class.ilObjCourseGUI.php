@@ -127,7 +127,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$rcps[] = ilObjUser::_lookupLogin($usr_id);
 		}
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		ilUtil::redirect(ilMailFormCall::_getRedirectTarget($this, 'members', 
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'members',
 			array(), 
 			array(
 				'type' => 'new', 
@@ -382,7 +382,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			foreach ($emails as $email) {
 				$email = trim($email);
 				$etpl = new ilTemplate("tpl.crs_contact_email.html", true, true , 'Modules/Course');
-                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::_getLinkTarget($info, 'showSummary', array(), 
+                $etpl->setVariable("EMAIL_LINK", ilMailFormCall::getLinkTarget($info, 'showSummary', array(),
 					array('type' => 'new', 'rcp_to' => $email,'sig' => $this->createMailSignature())));
 				$etpl->setVariable("CONTACT_EMAIL", $email);				
 				$mailString .= $etpl->get()."<br />";
@@ -4156,7 +4156,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::_getLinkTarget($this, 'mailMembers', array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'mailMembers', array(), array('type' => 'role', 'sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("SELECT_ACTION",'ilias.php?baseClass=ilmailgui&view=my_courses&search_crs='.$this->object->getId());
 		$this->tpl->setVariable("MAIL_SELECTED",$this->lng->txt('send_mail_selected'));
 		$this->tpl->setVariable("MAIL_MEMBERS",$this->lng->txt('send_mail_members'));

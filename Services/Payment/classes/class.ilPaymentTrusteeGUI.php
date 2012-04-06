@@ -162,7 +162,7 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 
 #				$link_mail = "<a target=\"_blank\" href=\"./ilias.php?baseClass=ilMailGUI&type=new&rcp_to=".
 #					$tmp_obj->getLogin()."\"".$img_mail."</a>";                
-                $url_mail = ilMailFormCall::_getLinkTarget($this, '', array(), array('type' => 'new', 'rcp_to' => urlencode($tmp_obj->getLogin())));
+                $url_mail = ilMailFormCall::getLinkTarget($this, '', array(), array('type' => 'new', 'rcp_to' => $tmp_obj->getLogin()));
 				$link_mail = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".
 					$url_mail."\">".$this->lng->txt("mail")."</a></div>";
 				

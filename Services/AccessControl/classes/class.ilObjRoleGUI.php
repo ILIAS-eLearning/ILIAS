@@ -2751,7 +2751,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-        $script = ilMailFormCall::_getRedirectTarget($this, 'userassignment', array(), array('type' => 'role'));
+        $script = ilMailFormCall::getRedirectTarget($this, 'userassignment', array(), array('type' => 'role'));
 		ilUtil::redirect($script);
 	}
 	
