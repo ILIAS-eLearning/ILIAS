@@ -25,8 +25,8 @@ class ilDiskQuotaReminderMail
 	* constructor
 	* @access	public 
 	*/
-	function ilDiskQuotaReminderMail()
-	{		
+	public function __construct()
+	{
 	}
 	
 	public function useLangVariablesAsFallback($a_status)
