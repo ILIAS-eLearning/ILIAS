@@ -29,7 +29,7 @@ class ilForumNotification
 	 * Constructor
 	 * @access	public
 	 */
-	public function ilForumNotification($ref_id)
+	public function __construct($ref_id)
 	{
 		global $ilObjDataCache,$lng,$ilias;
 

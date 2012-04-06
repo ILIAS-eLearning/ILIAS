@@ -54,7 +54,7 @@ class ilForumExplorer
 	* @access	public
 	* @param	string	scriptname
 	*/
-	public function ilForumExplorer($tpl, $a_target, ilForumTopic $a_thread, $a_ref_id)
+	public function __construct($tpl, $a_target, ilForumTopic $a_thread, $a_ref_id)
 	{
 		global $lng;
 

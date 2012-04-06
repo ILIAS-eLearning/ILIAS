@@ -30,9 +30,9 @@ class ilForumXMLWriter extends ilXmlWriter
 	* @param	string	input encoding
 	* @access	public
 	*/
-	function ilFileXMLWriter()
+	public function __construct()
 	{
-		parent::ilXmlWriter();
+		parent::__construct();
 	}
 
 
