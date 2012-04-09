@@ -70,7 +70,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		}
 
 		// Check access
-		$allowed_types = array('cat','grp','crs','fold');
+		$allowed_types = array('cat','grp','crs','fold','root');
 		if(!in_array($target_obj->getType(), $allowed_types))
 		{
 			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"', 'Client');
@@ -100,7 +100,11 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 		$exerciseXMLParser = new ilExerciseXMLParser($exercise, $exercise_xml);
 		try
 		{
-			return $exerciseXMLParser->start() &&  $exercise->update() ? $exercise->getRefId() : -1;
+			if ($exerciseXMLParser->start()) {
+				$exerciseXMLParser->getAssignment()->update();
+				return $exercise->update() ? $exercise->getRefId() : -1;
+			}
+			throw new ilExerciseException ("Could not parse XML");
 		} catch(ilExerciseException $exception) {
 			return $this->__raiseError($exception->getMessage(),
 									$exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");
@@ -171,7 +175,11 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
 
 		try
 		{
-			return $exerciseXMLParser->start() && $exercise->update();
+			if ($exerciseXMLParser->start()) {
+				$exerciseXMLParser->getAssignment()->update();
+				return $exercise->update();
+			}
+			throw new ilExerciseException ("Could not parse XML");
 		} catch(ilExerciseException $exception) {
 			return $this->__raiseError($exception->getMessage(),
 									   $exception->getCode() == ilExerciseException::$ID_MISMATCH ? "Client" : "Server");

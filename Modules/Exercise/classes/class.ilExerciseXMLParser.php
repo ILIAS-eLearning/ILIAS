@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Xml/classes/class.ilSaxParser.php';
+include_once 'classes/class.ilSaxParser.php';
+include_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 include_once 'Modules/Exercise/classes/class.ilExerciseException.php';
 include_once 'Modules/Exercise/classes/class.ilExerciseXMLWriter.php';
 
@@ -51,6 +52,18 @@ class ilExerciseXMLParser extends ilSaxParser
      * @var int
      */
     var $mode;
+    
+    /**
+     * Current Exercise Assignment
+     * @var ilExAssignment
+     */
+    var $assignment;
+    
+    /**
+     * Storage for exercise related files
+     * @var ilFSStorageExercise
+     */
+    var $storage;
 
     /**
 	* Constructor
@@ -63,10 +76,24 @@ class ilExerciseXMLParser extends ilSaxParser
 	function ilExerciseXMLParser(& $exercise, $a_xml_data, $obj_id = -1)
 	{
 // @todo: needs to be revised for multiple assignments per exercise
-die ("Needs revision for ILIAS 4.1");
 
 		parent::ilSaxParser();
 		$this->exercise = $exercise;
+		// get all assignments and choose first one if exists, otherwise create
+		$assignments = ilExAssignment::getAssignmentDataOfExercise($exercise->getId());
+		if (count ($assignments) > 0) {
+			$this->assignment = new ilExAssignment($assignments [0]["id"]);
+		} else {
+			$this->assignment = new ilExAssignment();
+			$this->assignment->setExerciseId($exercise->getId());
+			$this->assignment->save();
+		}
+		
+		include_once ("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$this->storage = new ilFSStorageExercise ( $this->exercise->getId(), $this->assignment->getId());
+		$this->storage->create();
+		$this->storage->init();
+		
 		$this->setXMLContent($a_xml_data);
 		$this->obj_id = $obj_id;
 		$this->result = false;
@@ -160,24 +187,25 @@ die ("Needs revision for ILIAS 4.1");
 		switch($a_name)
 		{
 			case 'Exercise':
-                  $this->result = true;
+                $this->result = true;
 				break;
 			case 'Title':
 			    $this->exercise->setTitle(trim($this->cdata));
+			    $this->assignment->setTitle(trim($this->cdata));
 				break;
 			case 'Description':
 			    $this->exercise->setDescription(trim($this->cdata));
 				break;
 			case 'Instruction':
-				$this->exercise->setInstruction(trim($this->cdata));
+				$this->assignment->setInstruction(trim($this->cdata));
 				break;
 			case 'DueDate':
-				$this->exercise->setTimestamp(trim($this->cdata));
+				$this->assignment->setDeadLine(trim($this->cdata));
 				break;
 			case 'Member':
    			    $this->updateMember($this->usr_id, $this->usr_action);
    			    // update marking after update member.
-   			    $this->updateMarking($this->usr_id);
+   			  	$this->updateMarking($this->usr_id);
 			    break;			    
 			case 'Filename':
 			    $this->file_name = trim($this->cdata);
@@ -186,7 +214,7 @@ die ("Needs revision for ILIAS 4.1");
 			    $this->file_content = trim($this->cdata);
 			    break;
 			case 'File':
-                $this->updateFile($this->file_name, $this->file_content, $this->file_action);
+               	$this->updateFile($this->file_name, $this->file_content, $this->file_action);
 			    break;
 			case 'Comment':
 			     $this->comment = trim($this->cdata);
@@ -232,7 +260,7 @@ die ("Needs revision for ILIAS 4.1");
        if (!is_int($user_id) || $user_id <= 0) {
            return;
        }
-	   $memberObject = $this->exercise->members_obj;
+	   $memberObject = new ilExerciseMembers($this->exercise);
 
 	   if ($action == "Attach" && !$memberObject->isAssigned($user_id))
 	   {
@@ -257,9 +285,9 @@ die ("Needs revision for ILIAS 4.1");
        if (strlen($filename) == 0) {
            return;
        }
-
-	    $fileObject = $this->exercise->file_obj;
-        if ($action == "Attach")
+		 $filename= $this->storage->getAbsolutePath()."/".$filename;
+		
+	    if ($action == "Attach")
         {
            $content = base64_decode((string) $b64encodedContent);
            if ($this->mode == ilExerciseXMLParser::$CONTENT_GZ_COMPRESSED) {
@@ -267,11 +295,14 @@ die ("Needs revision for ILIAS 4.1");
 	       }elseif ($this->mode ==ilExerciseXMLParser::$CONTENT_ZLIB_COMPRESSED) {
                 $content = gzuncompress($content);
 	       }
-           $fileObject->storeContentAsFile ($filename, $content);
+	      
+	       //echo $filename;
+	       $this->storage->writeToFile($content, $filename);
+           
         }
         if ($action == "Detach")
         {
-            $fileObject->unlinkFile ($filename);
+            $this->storage->deleteFile($filename);
         }
 	}
 
@@ -293,36 +324,33 @@ die ("Needs revision for ILIAS 4.1");
 	 * @param int $usr_id
 	 */
 	private function updateMarking($usr_id) {
-	    include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-	    $marks_obj = new ilLPMarks($this->exercise->getId(), $usr_id);
-	    $update = false;
 	    if (isset($this->mark)) 
-	    {
-			$update = true;
-	        $marks_obj->setMark(ilUtil::stripSlashes($this->mark));
+	    {			
+			ilExAssignment::updateMarkOfUser($this->assignment->getId(), $usr_id, ilUtil::stripSlashes($this->mark));
 	    }
-		if (isset($this->mark))
+		if (isset($this->comment))
 		{
-		    $update = true;		
-			$marks_obj->setComment(ilUtil::stripSlashes($this->comment));
-		}
-		if ($update) 
-		{
-		    $marks_obj->update();
+
+			ilExAssignment::updateCommentForUser($this->assignment->getId(), $usr_id, ilUtil::stripSlashes($this->comment));
 		}
 	    
-	    $memberObject = $this->exercise->members_obj;
-	    if (isset($this->status))
-	        $memberObject ->setStatusForMember($usr_id, $this->status);
-	    
-	    if (isset($this->notice))
-			$memberObject->setNoticeForMember($usr_id, ilUtil::stripSlashes($this->notice));
-	    	        
+	    //$memberObject = $this->exercise->members_obj;
+	    if (isset ( $this->status )){
+	    	
+			ilExAssignment::updateStatusOfUser ( $this->assignment->getId (), $usr_id, ilUtil::stripSlashes ( $this->status ) );
+	    }
+	    if (isset($this->notice)){
+			 ilExAssignment::updateNoticeForUser($this->assignment->getId(), $usr_id, ilUtil::stripSlashes($this->notice));
+	    }
 	    // reset variables
 	    $this->mark = null;
 	    $this->status = null;
 	    $this->notice = null;
 	    $this->comment = null;
+	}
+	
+	public function getAssignment () {
+		return $this->assignment;
 	}
 
 }
