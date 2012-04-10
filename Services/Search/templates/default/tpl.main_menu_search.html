@@ -18,14 +18,14 @@
 	<script type="text/javascript">
 		il.Util.addOnLoad(
 			function()
-			{
-				$("#main_menu_search").autocomplete({
-					source: "{AC_DATASOURCE}",
-					minLength: 3
-				});
-				
+			{				
 				if (typeof $ != "undefined")
 				{
+					$("#main_menu_search").autocomplete({
+						source: "{AC_DATASOURCE}",
+						minLength: 3
+					});
+									
 					$("#main_menu_search").bind("focusin focusout keyup click", function(e) {
 							if (this.value.length < 1 && e.type != "focusout")
 							{
