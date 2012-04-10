@@ -626,30 +626,19 @@ class ilAccountRegistrationGUI
 		
 		// Registration with confirmation link ist enabled		
 		if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION && !$this->code_was_used)
-		{			
-			include_once 'Services/Mail/classes/class.ilMail.php';
-			$mail_obj = new ilMail(ANONYMOUS_USER_ID);			
-		
-			// mail subject
-			$subject = $this->lng->txt("reg_mail_subject_confirmation");
+		{
+			include_once './Services/Registration/classes/class.ilRegistrationMimeMailNotification.php';
 
-			// mail body			
-			$hashcode = ilObjUser::_generateRegistrationHash($this->userObj->getId());
-			$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n";
-			$body .= $this->lng->txt('reg_mail_body_confirmation')."\n".
-				ILIAS_HTTP_PATH.'/confirmReg.php?client_id='.CLIENT_ID."&rh=".$hashcode."\n\n";
-
-			$body .= sprintf($this->lng->txt('reg_mail_body_2_confirmation'),
-				ilFormat::_secondsToString($this->registration_settings->getRegistrationHashLifetime()))."\n\n";
-
-			$body .= $this->lng->txt('reg_mail_body_3_confirmation');			
-
-			$mail_obj->enableSoap(false);
-			$mail_obj->appendInstallationSignature(true);
-			$mail_obj->sendMail($this->userObj->getEmail(), '', '',
-				$subject,
-				$body,
-				array(), array('normal'));
+			$mail = new ilRegistrationMimeMailNotification();
+			$mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
+			$mail->setRecipients(array($this->userObj));
+			$mail->setAdditionalInformation(
+				array(
+					 'usr'           => $this->userObj,
+					 'hash_lifetime' => $this->registration_settings->getRegistrationHashLifetime()
+				)
+			);
+			$mail->send();
 		}
 		else
 		{
@@ -699,7 +688,7 @@ class ilAccountRegistrationGUI
 				$body = $this->lng->txt("reg_mail_body_salutation")." ".$this->userObj->getFullname().",\n\n".
 					$this->lng->txt("reg_mail_body_text1")."\n\n".
 					$this->lng->txt("reg_mail_body_text2")."\n".
-					ILIAS_HTTP_PATH."/login.php?client_id=".$ilias->client_id."\n";			
+					ILIAS_HTTP_PATH."/login.php?client_id=".CLIENT_ID."\n";			
 				$body .= $this->lng->txt("login").": ".$this->userObj->getLogin()."\n";
 	
 				if ($this->registration_settings->passwordGenerationEnabled())
