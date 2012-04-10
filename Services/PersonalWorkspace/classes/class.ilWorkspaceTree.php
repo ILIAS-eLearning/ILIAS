@@ -26,7 +26,7 @@ class ilWorkspaceTree extends ilTree
 		// ilTree sets it to ROOT_FOLDER_ID if not given...
 		if(!$a_root_id)
 		{
-			$this->root_id = $this->getRootId();
+			$this->root_id = $this->readRootId();
 		}
 	}
 
