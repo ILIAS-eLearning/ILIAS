@@ -4,14 +4,14 @@
 	Licensed under the MIT licenses.
 	More information at: http://www.opensource.org
 
-	Copyright (c) 2011 Michael Cvilic - BeeBole.com
+	Copyright (c) 2012 Michael Cvilic - BeeBole.com
 
 	Thanks to Rog Peppe for the functional JS jump
-	revision: 2.70
+	revision: 2.73
 */
 
 var $p, pure = $p = function(){
-	var sel = arguments[0], 
+	var sel = arguments[0],
 		ctxt = false;
 
 	if(typeof sel === 'string'){
@@ -41,7 +41,7 @@ $p.core = function(sel, ctxt, plugins){
 		default:
 			templates = sel;
 	}
-	
+
 	for(var i = 0, ii = templates.length; i < ii; i++){
 		plugins[i] = templates[i];
 	}
@@ -66,7 +66,7 @@ $p.core = function(sel, ctxt, plugins){
 			function(o) {
 				return Object.prototype.toString.call(o) === "[object Array]";
 			};
-	
+
 	/* * * * * * * * * * * * * * * * * * * * * * * * * *
 		core functions
 	 * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -80,7 +80,7 @@ $p.core = function(sel, ctxt, plugins){
 		}
 		throw('pure error: ' + e);
 	}
-	
+
 	//return a new instance of plugins
 	function getPlugins(){
 		var plugins = $p.plugins,
@@ -92,27 +92,27 @@ $p.core = function(sel, ctxt, plugins){
 		f.prototype.render     = plugins.render || render;
 		f.prototype.autoRender = plugins.autoRender || autoRender;
 		f.prototype.find       = plugins.find || find;
-		
+
 		// give the compiler and the error handling to the plugin context
 		f.prototype._compiler  = compiler;
 		f.prototype._error     = error;
- 
+
 		return new f();
 	}
-	
+
 	// returns the outer HTML of a node
 	function outerHTML(node){
 		// if IE, Chrome take the internal method otherwise build one
 		return node.outerHTML || (
 			function(n){
-        		var div = document.createElement('div'), h;
-	        	div.appendChild( n.cloneNode(true) );
+			var div = document.createElement('div'), h;
+			div.appendChild( n.cloneNode(true) );
 				h = div.innerHTML;
 				div = null;
 				return h;
 			})(node);
 	}
-	
+
 	// returns the string generator function
 	function wrapquote(qfn, f){
 		return function(ctxt){
@@ -132,7 +132,7 @@ $p.core = function(sel, ctxt, plugins){
 			return error('You can test PURE standalone with: iPhone, FF3.5+, Safari4+ and IE8+\n\nTo run PURE on your browser, you need a JS library/framework with a CSS selector engine');
 		}
 	}
-	
+
 	// create a function that concatenates constant string
 	// sections (given in parts) and the results of called
 	// functions to fill in the gaps between parts (fns).
@@ -148,7 +148,7 @@ $p.core = function(sel, ctxt, plugins){
 			for(var i = 1; i < n; i++){
 				fnVal = fns[i].call( this, ctxt );
 				pVal = parts[i];
-				
+
 				// if the value is empty and attribute, remove it
 				if(fnVal === ''){
 					attLine = strs[ strs.length - 1 ];
@@ -157,7 +157,7 @@ $p.core = function(sel, ctxt, plugins){
 						pVal = pVal.substr( 1 );
 					}
 				}
-				
+
 				strs[ strs.length ] = fnVal;
 				strs[ strs.length ] = pVal;
 			}
@@ -174,20 +174,26 @@ $p.core = function(sel, ctxt, plugins){
 		if(m[1] === 'item'){
 			error('"item<-..." is a reserved word for the current running iteration.\n\nPlease choose another name for your loop.');
 		}
-		if( !m[2] || (m[2] && (/context/i).test(m[2]))){ //undefined or space(IE) 
+		if( !m[2] || m[2].toLowerCase() === 'context' ){ //undefined or space(IE)
 			m[2] = function(ctxt){return ctxt.context;};
+		}else if( (m[2] && m[2].indexOf('context') === 0 ) ){ //undefined or space(IE)
+			m[2] = dataselectfn( m[2].replace(/^context\.?/, '') );
 		}
 		return {name: m[1], sel: m[2]};
 	}
 
 	// parse a data selector and return a function that
 	// can traverse the data accordingly, given a context.
-	function dataselectfn(sel){
-		if(typeof(sel) === 'function'){
-			return sel;
+	function dataselectfn (sel){
+		if( typeof(sel) === 'function' ){
+			//handle false values in function directive
+			return function ( ctxt ){
+				var r = sel.call( ctxt.item || ctxt.context || ctxt, ctxt ); 
+				return !r && r !== 0 ? '' : r;
+			};
 		}
 		//check for a valid js variable name with hyphen(for properties only), $, _ and :
-		var m = sel.match(/^[a-zA-Z\$_\@][\w\$:-]*(\.[\w\$:-]*[^\.])*$/);
+		var m = sel.match(/^[\da-zA-Z\$_\@][\w\$:-]*(\.[\w\$:-]*[^\.])*$/);
 		if(m === null){
 			var found = false, s = sel, parts = [], pfns = [], i = 0, retStr;
 			// check if literal
@@ -205,7 +211,7 @@ $p.core = function(sel, ctxt, plugins){
 					s = s.slice(m.index + m[0].length, s.length);
 				}
 			}
-			if(!found){
+			if(!found){ //constant, return it
 				return function(){ return sel; };
 			}
 			parts[i] = s;
@@ -243,12 +249,12 @@ $p.core = function(sel, ctxt, plugins){
 			if( !m ){
 				error( 'bad selector syntax: ' + sel );
 			}
-			
+
 			prepend = m[1];
 			selector = m[2];
 			attr = m[3];
 			append = m[4];
-			
+
 			if(selector === '.' || ( !selector && attr ) ){
 				target[0] = dom;
 			}else{
@@ -264,7 +270,7 @@ $p.core = function(sel, ctxt, plugins){
 			append = sel.append;
 			target = [dom];
 		}
-		
+
 		if( prepend || append ){
 			if( prepend && append ){
 				error('append/prepend cannot take place at the same time');
@@ -283,7 +289,7 @@ $p.core = function(sel, ctxt, plugins){
 				node.setAttribute(attPfx + attr, s);
 				if (attName in node && !isStyle) {
 					try{node[attName] = '';}catch(e){} //FF4 gives an error sometimes
-				} 
+				}
 				if (node.nodeType === 1) {
 					node.removeAttribute(attr);
 					isClass && node.removeAttribute(attName);
@@ -429,7 +435,7 @@ $p.core = function(sel, ctxt, plugins){
 			itersel = dataselectfn(spec.sel),
 			target = gettarget(dom, sel, true),
 			nodes = target.nodes;
-			
+
 		for(i = 0; i < nodes.length; i++){
 			var node = nodes[i],
 				inner = compiler(node, dsel);
@@ -439,7 +445,7 @@ $p.core = function(sel, ctxt, plugins){
 		}
 		return target;
 	}
-	
+
 	function getAutoNodes(n, data){
 		var ns = n.getElementsByTagName('*'),
 			an = [],
@@ -453,7 +459,7 @@ $p.core = function(sel, ctxt, plugins){
 			if(ni.nodeType === 1 && ni.className !== ''){
 				//when a className is found
 				cs = ni.className.split(' ');
-				// for each className 
+				// for each className
 				for(j = 0, jj=cs.length;j<jj;j++){
 					cj = cs[j];
 					// check if it is related to a context property
@@ -465,14 +471,14 @@ $p.core = function(sel, ctxt, plugins){
 							ni.className = ni.className.replace('@'+cspec.attr, '');
 							if(isNodeValue){
 								cspec.attr = false;
-							} 
+							}
 						}
 						an.push({n:ni, cspec:cspec});
 					}
 				}
 			}
 		}
-		
+
 		function checkClass(c, tagName){
 			// read the class
 			var ca = c.match(selRx),
@@ -568,18 +574,18 @@ $p.core = function(sel, ctxt, plugins){
 				}while(++i < sl);
 			}
 		}
-        // convert node to a string 
-        h = outerHTML(dom);
-		// IE adds an unremovable "selected, value" attribute
-		// hard replace while waiting for a better solution
-        h = h.replace(/<([^>]+)\s(value\=""|selected)\s?([^>]*)>/ig, "<$1 $3>");
-		
-        // remove attribute prefix
-        h = h.split(attPfx).join('');
+		// convert node to a string
+		h = outerHTML(dom);
+			// IE adds an unremovable "selected, value" attribute
+			// hard replace while waiting for a better solution
+		h = h.replace(/<([^>]+)\s(value\=""|selected)\s?([^>]*)>/ig, "<$1 $3>");
+
+		// remove attribute prefix
+		h = h.split(attPfx).join('');
 
 		// slice the html string at "Sig"
 		parts = h.split( Sig );
-		// for each slice add the return string of 
+		// for each slice add the return string of
 		for(i = 1; i < parts.length; i++){
 			p = parts[i];
 			// part is of the form "fn-number:..." as placed there by setsig.
@@ -599,7 +605,7 @@ $p.core = function(sel, ctxt, plugins){
 	}
 	//compile with the directive as argument
 	// run the template function on the context argument
-	// return an HTML string 
+	// return an HTML string
 	// should replace the template and return this
 	function render(ctxt, directive){
 		var fn = typeof directive === 'function' && directive, i = 0, ii = this.length;
@@ -612,7 +618,7 @@ $p.core = function(sel, ctxt, plugins){
 
 	// compile the template with autoRender
 	// run the template function on the context argument
-	// return an HTML string 
+	// return an HTML string
 	function autoRender(ctxt, directive){
 		var fn = plugins.compile( directive, ctxt, this[0] );
 		for(var i = 0, ii = this.length; i < ii; i++){
@@ -621,7 +627,7 @@ $p.core = function(sel, ctxt, plugins){
 		context = null;
 		return this;
 	}
-	
+
 	function replaceWith(elm, html) {
 		var ne,
 			ep = elm.parentNode,
@@ -680,7 +686,7 @@ $p.libs = {
 				return $(n).cssSelect(sel);
 			};
 		}
-		DOMAssistant.attach({ 
+		DOMAssistant.attach({
 			publicMethods : [ 'compile', 'render', 'autoRender'],
 			compile:function(directive, ctxt){
 				return $p([this]).compile(directive, ctxt);
@@ -721,7 +727,7 @@ $p.libs = {
 			};
 		}
 		Element.implement({
-			compile:function(directive, ctxt){ 
+			compile:function(directive, ctxt){
 				return $p(this).compile(directive, ctxt);
 			},
 			render:function(ctxt, directive){
@@ -740,12 +746,12 @@ $p.libs = {
 			};
 		}
 		Element.addMethods({
-			compile:function(element, directive, ctxt){ 
+			compile:function(element, directive, ctxt){
 				return $p([element]).compile(directive, ctxt);
-			}, 
+			},
 			render:function(element, ctxt, directive){
 				return $p([element]).render(ctxt, directive);
-			}, 
+			},
 			autoRender:function(element, ctxt, directive){
 				return $p([element]).autoRender(ctxt, directive);
 			}
@@ -759,27 +765,51 @@ $p.libs = {
 		}
 	},
 	sly:function(){
-		if(typeof document.querySelector === 'undefined'){  
+		if(typeof document.querySelector === 'undefined'){
 			$p.plugins.find = function(n, sel){
 				return Sly(sel, n);
 			};
 		}
+	},
+	yui:function(){ //Thanks to https://github.com/soljin
+		if(typeof document.querySelector === 'undefined'){
+			YUI().use("node",function(Y){
+				$p.plugins.find = function(n, sel){
+					return Y.NodeList.getDOMNodes(Y.one(n).all(sel));
+				};
+			});
+		}
+		YUI.add("pure-yui",function(Y){
+			Y.Node.prototype.directives = function(directive){
+				this._pure_d = directive; return this;
+			};
+			Y.Node.prototype.compile = function(directive, ctxt){
+				return $p([this._node]).compile(this._pure_d || directive, ctxt);
+			};
+			Y.Node.prototype.render = function(ctxt, directive){
+				return Y.one($p([this._node]).render(ctxt, this._pure_d || directive));
+			};
+			Y.Node.prototype.autoRender = function(ctxt, directive){
+				return Y.one($p([this._node]).autoRender(ctxt, this._pure_d || directive));
+			};
+		},"0.1",{requires:["node"]});
 	}
 };
 
 // get lib specifics if available
 (function(){
-	var libkey = 
-		typeof dojo         !== 'undefined' && 'dojo' || 
+	var libkey =
+		typeof dojo         !== 'undefined' && 'dojo' ||
 		typeof DOMAssistant !== 'undefined' && 'domassistant' ||
-		typeof jQuery       !== 'undefined' && 'jquery' || 
+		typeof jQuery       !== 'undefined' && 'jquery' ||
 		typeof MooTools     !== 'undefined' && 'mootools' ||
-		typeof Prototype    !== 'undefined' && 'prototype' || 
+		typeof Prototype    !== 'undefined' && 'prototype' ||
 		typeof Sizzle       !== 'undefined' && 'sizzle' ||
-		typeof Sly          !== 'undefined' && 'sly';
-		
+		typeof Sly          !== 'undefined' && 'sly' ||
+		typeof YUI          !== 'undefined' && 'yui';
+
 	libkey && $p.libs[libkey]();
-	
+
 	//for node.js
 	if(typeof exports !== 'undefined'){
 		exports.$p = $p;
