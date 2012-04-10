@@ -365,24 +365,6 @@ class ilYuiUtil
 		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/tabview/tabview-min.js");
 	}
 	
-	/**
-	 * Init YUI AutoComplete component
-	 * @author jposselt@databay.de
-	 */
-	 static function initAutoComplete()
-	 {
-	 	global $tpl;
-
-		self::initJson();
-
-	 	$tpl->addCss("./Services/YUI/js/".self::$ver."/autocomplete/assets/skins/sam/autocomplete.css");
-
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/yahoo-dom-event/yahoo-dom-event.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/datasource/datasource-min.js");
-		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/connection/connection-min.js");		
-	 	$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/autocomplete/autocomplete-min.js");
-	 }
-	 
 	 /**
 	  * Init YUI JSON component
 	  * @author jposselt@databay.de
