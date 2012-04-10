@@ -226,7 +226,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$auto = new ilUserAutoComplete();
 		$auto->setSearchFields(array('login','firstname','lastname','email'));
 		$auto->enableFieldSearchableCheck(false);
-		echo $auto->getList($_REQUEST['query']);
+		echo $auto->getList($_REQUEST['term']);
 		exit();
 	}
 

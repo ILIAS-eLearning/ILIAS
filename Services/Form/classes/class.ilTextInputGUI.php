@@ -22,12 +22,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	protected $suffix;
 	protected $style_css;
 	protected $css_class;
-
-	// added for YUI autocomplete feature
-	protected $yui_dataSource;
-	protected $yui_dataSchema;
-	protected $yui_formatCallback;
-	protected $yui_delimiterarray = array();
+	protected $ajax_datasource;
 	protected $submit_form_on_enter = false;
 
 	/**
@@ -290,89 +285,21 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	}
 
 	/**
-	 * get datasource link for YUI autocomplete
+	 * get datasource link for js autocomplete
 	 * @return	String	link to data generation script
 	 */
 	 function getDataSource()
 	 {
-	 	return $this->yui_dataSource;
+	 	return $this->ajax_datasource;
 	 }
 
 	/**
-	 * set datasource link for YUI autocomplete
+	 * set datasource link for js autocomplete
 	 * @param	String	link to data generation script
 	 */
 	function setDataSource($href)
 	{
-		$this->yui_dataSource = $href;
-	}
-	
-	/**
-	 * get datasource schema for YUI autocomplete
-	 * @return	array	data schema as array
-	 */
-	 function getDataSourceSchema()
-	 {
-	 	return $this->yui_dataSchema;
-	 }
-
-	/**
-	 * set datasource schema for YUI autocomplete
-	 * @param array	Data Schema as array. The <b>first Element</b> contains
-	 *      a path in dot notation to a result array in the expected json response
-	 *	e.g. for the json response
-	 * 		{response : { result : [firstObject, secondObject ...] }}
-	 *	the dot notated path is 'response.result'
-	 *	The <b>following Elements</b> contains names of attributes 
-	 *	within the resultobjects (firstObject, secondObject... see above)
-	 *	which should be passed to the autocomplete component. You can define
-	 *	a javascript format callback function, to process the passed values
-	 *	(see setDataSourceResultFormat for more information)
-	 */
-	function setDataSourceSchema($ds)
-	{
-		$this->yui_dataSchema = $ds;
-	}
-
-	/**
-	 * get data result format callback for YUI autocomplete
-	 */
-	 function getDataSourceResultFormat()
-	 {
-	 	return $this->yui_formatCallback;
-	 }
-
-	/**
-	 * set data result format callback for YUI autocomplete
-	 * @param	String	Javascript callback function which takes three parameters.
-	 *	$callback can be a the name of a function without parenthesis or an
-	 *	function (a, b, c) {...} text block
-	 */
-	function setDataSourceResultFormat($callback)
-	{
-		$this->yui_formatCallback = $callback;
-	}
-	
-	/**
-	 * set data delimiter array
-	 * @param	array	array of chars. Each char will be used as
-	 *			delimiter to handle multiple inputs in
-	 *			one field (e.g. multiple email recipients)
-	 */
-	public function setDataSourceDelimiter($ar)
-	{
-		if (!is_array($ar))
-			$ar = array($ar);
-		$this->yui_delimiterarray = $ar;
-	}
-	
-	/**
-	 * get data delimiter array
-	 * @return	array	array of current delimiters
-	 */
-	public function getDataSourceDelimiter()
-	{
-		return $this->yui_delimiterarray;	
+		$this->ajax_datasource = $href;
 	}
 	
 	/**
@@ -434,25 +361,15 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 		}
 
-		// use autocomplete feature?
-		if ($this->getDataSource() && $this->getDataSourceSchema())
+		// use autocomplete feature?		
+		if ($this->getDataSource())
 		{
-			include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-			include_once "./Services/JSON/classes/class.ilJsonUtil.php";
-			ilYuiUtil::initAutoComplete();
-			$tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId() . "_autocomplete");
-			$tpl->setVariable('YUI_DATASOURCE', $this->getDataSource());
-			$tpl->setVariable('YUI_DATASCHEMA', ilJsonUtil::encode($this->getDataSourceSchema()));
-			if ($this->getDataSourceResultFormat())
-			{
-				$tpl->setVariable('YUI_FORMAT_CALLBACK', $this->getDataSourceResultFormat());
-			}
-
-			if ($this->getDataSourceDelimiter())
-			{
-				$tpl->setVariable('DELIMITER_ARRAY', ilJsonUtil::encode($this->getDataSourceDelimiter()));	
-			}
-			$tpl->setVariable("AC_STYLE", 'style="position:absolute; width:400px;"');
+			include_once "Services/jQuery/classes/class.iljQueryUtil.php";
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
+			
+			$tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
+			$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());			
 		}
 		
 		if ($a_mode == "toolbar")
