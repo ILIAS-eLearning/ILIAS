@@ -4953,9 +4953,8 @@ common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#settings#:#Einstellungen
-common#:#settings_for_all_members#:#Generelle Einstellung für alle Kurs-/Gruppenmitglieder
+common#:#settings_for_all_members#:#Benachrichtigung für alle Kurs-/Gruppenmitglieder voreingestellt
 common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
-common#:#settings_per_members#:#Einstellungen pro Benutzer
 common#:#settings_per_users#:#Individuelle Einstellung für jedes Kurs-/Gruppenmitglied
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
 common#:#setUserLanguage#:#Benutzersprache ändern
