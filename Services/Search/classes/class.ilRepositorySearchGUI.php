@@ -147,14 +147,13 @@ class ilRepositorySearchGUI
 		{
 			$a_options['submit_name'] = $lng->txt('btn_add');
 		}
+		
+		$ajax_url = $ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 
+			'doUserAutoComplete', '', true);
 
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$ul = new ilUserLoginAutoCompleteInputGUI(
-			$a_options['auto_complete_name'],
-			"user_login",
-			array(get_class($parent_object),'ilRepositorySearchGUI'),
-			"doUserAutoComplete"
-		);
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ul = new ilTextInputGUI($a_options['auto_complete_name'], 'user_login');
+		$ul->setDataSource($ajax_url);		
 		$ul->setSize($a_options['auto_complete_size']);
 		$toolbar->addInputItem($ul, true);
 
@@ -191,18 +190,21 @@ class ilRepositorySearchGUI
 		if(!isset($_GET['autoCompleteField']))
 		{
 			$a_fields = array('login','firstname','lastname','email');
+			$result_field = 'login';
 		}
 		else
 		{
 			$a_fields = array((string) $_GET['autoCompleteField']);
+			$result_field = (string) $_GET['autoCompleteField'];
 		}
 
 		$GLOBALS['ilLog']->write(print_r($a_fields,true));
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
 		$auto->setSearchFields($a_fields);
+		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);
-		echo $auto->getList($_REQUEST['query']);
+		echo $auto->getList($_REQUEST['term']);
 		exit();
 	}
 
@@ -374,17 +376,11 @@ class ilRepositorySearchGUI
 				case FIELD_TYPE_TEXT:
 
 					if(isset($info['autoComplete']) and $info['autoComplete'])
-					{
-						include_once './Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php';
-
+					{						
 						$ilCtrl->setParameterByClass(get_class($this),'autoCompleteField',$info['db']);
-						$ul = new ilUserLoginAutoCompleteInputGUI(
-							$info['lang'],
-							"rep_query[usr][".$info['db']."]",
-							array(get_class($this),get_class($this)),
-							'doUserAutoComplete'
-						);
-						$ul->setResultDataField($info['db']);
+						$ul = new ilTextInputGUI($info['lang'],	"rep_query[usr][".$info['db']."]");
+						$ul->setDataSource($ilCtrl->getLinkTarget($this,
+							"doUserAutoComplete", "", true));					
 						$ul->setSize(30);
 						$ul->setMaxLength(120);
 						$users->addSubItem($ul);

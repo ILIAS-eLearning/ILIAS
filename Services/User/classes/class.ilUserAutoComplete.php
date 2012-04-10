@@ -10,6 +10,7 @@ class ilUserAutoComplete
 	private $searchable_check = false;
 	private $user_access_check = true;
 	private $possible_fields = array();
+	private $result_field;
 
 
 	/**
@@ -17,7 +18,7 @@ class ilUserAutoComplete
 	 */
 	public function __construct()
 	{
-		
+		$this->result_field = 'login';
 	}
 
 	/**
@@ -96,7 +97,15 @@ class ilUserAutoComplete
 		}
 		return $available_fields;
 	}
-
+	
+	/**
+	 * Set result field
+	 * @param string $a_field
+	 */
+	public function setResultField($a_field)
+	{
+		$this->result_field = $a_field;
+	}
 
 	/**
 	* Get completion list
@@ -105,16 +114,7 @@ class ilUserAutoComplete
 	{
 		global $ilDB;
 		
-		include_once './Services/JSON/classes/class.ilJsonUtil.php';
-		$result = new stdClass();
-		$result->response = new stdClass();
-		$result->response->results = array();
-		if (strlen($a_str) < 3)
-		{
-			return ilJsonUtil::encode($result);
-		}
-
-		$serach = ' ';
+		$search = ' ';
 		foreach($this->getFields() as $field)
 		{
 			$search .= $ilDB->like($field,'text',$a_str.'%').' OR ';
@@ -140,21 +140,29 @@ class ilUserAutoComplete
 				" ORDER BY login";
 			$set = $ilDB->query($query);
 		}
-
+		
 		$GLOBALS['ilLog']->write(__METHOD__.': Query: '.$query);
 
 		$max = 20;
 		$cnt = 0;
+		$result = array();
 		while (($rec = $ilDB->fetchAssoc($set)) && $cnt < $max)
 		{
-			$result->response->results[$cnt] = new stdClass();
-			$result->response->results[$cnt]->login = (string) $rec["login"];
-			$result->response->results[$cnt]->firstname = (string) $rec["firstname"];
-			$result->response->results[$cnt]->lastname = (string) $rec["lastname"];
-			$result->response->results[$cnt]->email = (string) $rec["email"];
-			$cnt++;
+			$label = $rec["lastname"].", ".$rec["firstname"]." [".$rec["login"]."]";
+			
+			// add email address if search string is part of it
+			if ($rec["email"] && stristr($rec["email"], $a_str))
+			{
+				$label .= ", ".$rec["email"];
+			}
+			
+			$result[$cnt] = new stdClass();
+			$result[$cnt]->value = (string) $rec[$this->result_field];
+			$result[$cnt]->label = $label;			
+			$cnt++;			
 		}
-		
+						
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';		
 		return ilJsonUtil::encode($result);
 	}
 	

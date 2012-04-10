@@ -79,8 +79,9 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 		$actions = array(0	=> $this->lng->txt("paya_disabled"),
 						 1 	=> $this->lng->txt("paya_enabled"));
 	
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$ul = new ilUserLoginAutoCompleteInputGUI($this->lng->txt("user"), "search_str", $this, "performSearch");
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ul = new ilTextInputGUI($this->lng->txt("user"), "search_str");
+		$ul->setDataSource($this->ctrl->getLinkTarget($this, "performSearch", "", true));
 		$ul->setSize(20);
 		$ilToolbar->addInputItem($ul, true);
 		$ilToolbar->addFormButton($this->lng->txt("add"), "performSearch");

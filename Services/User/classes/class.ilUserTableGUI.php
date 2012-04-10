@@ -283,7 +283,7 @@ class ilUserTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		global $lng, $rbacreview, $ilUser;
+		global $lng, $rbacreview, $ilUser, $ilCtrl;
 		
 		
 		// Show context filter
@@ -327,13 +327,11 @@ class ilUserTableGUI extends ilTable2GUI
 		}
 		
 		// User name, login, email filter
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$ul = new ilUserLoginAutoCompleteInputGUI(
-			$lng->txt("login")."/".$lng->txt("email")."/".$lng->txt("name"),
-			"query",
-			$this->getParentObject(),
-			"addUserAutoComplete"
-		);
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ul = new ilTextInputGUI($lng->txt("login")."/".$lng->txt("email")."/".
+			$lng->txt("name"), "query");
+		$ul->setDataSource($ilCtrl->getLinkTarget($this->getParentObject(),
+			"addUserAutoComplete", "", true));
 		$ul->setSize(20);
 		$ul->setSubmitFormOnEnter(true);
 		$this->addFilterItem($ul);

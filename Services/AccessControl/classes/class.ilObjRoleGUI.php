@@ -1867,11 +1867,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			)
 		);
 
-/*		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$ul = new ilUserLoginAutoCompleteInputGUI($lng->txt("user"), "user_login", $this, "assignUserAutoComplete");
-		$ul->setSize(15);
-		$tb->addInputItem($ul, true);
-
+/*		
 		// add button
 		$tb->addFormButton($lng->txt("add"), "assignUser");
 */

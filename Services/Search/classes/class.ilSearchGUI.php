@@ -195,7 +195,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	function autoComplete()
 	{
-		$q = $_REQUEST["query"];
+		$q = $_REQUEST["term"];
 		include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
 		$list = ilSearchAutoComplete::getList($q);
 		echo $list;
@@ -259,12 +259,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$ti->setMaxLength(200);
 		$ti->setSize(30);
 		$ti->setValue($this->getString());
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('term'));
 		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", false, false));
-		$ti->setDataSourceSchema($dsSchema);
-		$ti->setDataSourceResultFormat($dsFormatCallback);
-		$ti->setDataSourceDelimiter($dsDelimiter);
 		$this->form->addItem($ti);
 		
 		// term combination 

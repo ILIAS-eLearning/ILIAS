@@ -2,58 +2,16 @@
 	<input <!-- BEGIN submit_form_on_enter -->onkeypress="return il.Util.submitOnEnter(event, this.form);"<!-- END submit_form_on_enter --> type="{PROP_INPUT_TYPE}" <!-- BEGIN stylecss -->style="{CSS_STYLE}" <!-- END stylecss -->size="{SIZE}" id="{ID}" <!-- BEGIN classcss --> class="{CLASS_CSS}" <!-- END classcss --> maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED}/> {INPUT_SUFFIX}
 	{HIDDEN_INPUT}
 	{MULTI_ICONS}
-	<!-- BEGIN prop_text_autocomplete -->
-	<div class="yui-skin-sam" id="{ID_AUTOCOMPLETE}" {AC_STYLE}></div>
+	
+	<!-- BEGIN prop_text_autocomplete -->	
 	<script type="text/javascript">
-		il.Util.addOnLoad(
-			function()
-			{
-			    // Define the schema of the delimited results
-			    var responseSchema = {YUI_DATASCHEMA};
-			    
-			    // source script uri
-			    // any existing parameters (after a '?') are stripped off
-			    // and passed seperately to the DataSource instance
-			    var aUri = "{YUI_DATASOURCE}";
-			    var additionalArguments = "";
-			    if (aUri.indexOf('?'))
-			    {
-				    additionalArguments = aUri.substr(aUri.indexOf('?')+1);
-				    aUri = aUri.substr(0, aUri.indexOf('?'));
-			    }
-			    
-			    // Use an XHRDataSource
-//			    var oDS = new YAHOO.widget.DS_XHR(aUri , responseSchema);
-//			    oDS.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
-				var oDS = new YAHOO.util.DataSource(aUri);
-				oDS.responseType = YAHOO.util.DataSource.TYPE_JSON;
-				oDS.connXhrMode = "queueRequests";
-				oDS.responseSchema = responseSchema;
-			    
-			    // set arguments
-			    oDS.scriptQueryAppend = additionalArguments;
-			    
-			    // Enable caching
-			    oDS.maxCacheEntries = 5;
-			    
-			    // Instantiate the AutoComplete
-			    var oAC = new YAHOO.widget.AutoComplete("{ID}", "{ID_AUTOCOMPLETE}", oDS);
-			    oAC.minQueryLength = 2;
-			    oAC.queryDelay = 0.5;
-				oAC.animVert = false;
-				oAC.animHoriz = false;
-			    oAC.responseType = YAHOO.widget.DS_XHR.TYPE_JSON;
-			    // compatibility for IE < 7
-			    oAC.useIFrame = true; 
-			    <!-- BEGIN delimiter_chars -->
-			    oAC.delimChar = {DELIMITER_ARRAY};
-			    <!-- END delimiter_chars -->
-			    <!-- BEGIN format_callback -->
-				oAC.resultTypeList = false;
-			    oAC.formatResult = {YUI_FORMAT_CALLBACK};
-			    <!-- END format_callback -->
-			}
-		);
+		il.Util.addOnLoad(	
+			function() {
+				$("#{ID_AUTOCOMPLETE}").autocomplete({
+					source: "{URL_AUTOCOMPLETE}",
+					minLength: 3
+				});
+			});
 	</script>
-	<!-- END prop_text_autocomplete -->	
+	<!-- END prop_text_autocomplete -->		
 </div>

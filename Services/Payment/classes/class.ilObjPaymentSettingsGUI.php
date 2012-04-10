@@ -2938,8 +2938,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');
 
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$ul = new ilUserLoginAutoCompleteInputGUI($this->lng->txt("user"), "search_str", $this, "search");
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ul = new ilTextInputGUI($this->lng->txt("user"), "search_str");
+		$ul->setDataSource($this->ctrl->getLinkTarget($this, "search", "", true));
 		$ul->setSize(20);
 		$ilToolbar->addInputItem($ul, true);
 		$ilToolbar->addFormButton($this->lng->txt("add"), "search");

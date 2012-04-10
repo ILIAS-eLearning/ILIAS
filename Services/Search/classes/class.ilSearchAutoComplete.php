@@ -16,15 +16,6 @@ class ilSearchAutoComplete
 	{
 		global $ilDB;
 
-		include_once './Services/JSON/classes/class.ilJsonUtil.php';
-		$result = new stdClass();
-		$result->response = new stdClass();
-		$result->response->results = array();
-		if (strlen($a_str) < 3)
-		{
-			return ilJsonUtil::encode($result);
-		}
-		
 		$a_str = str_replace('"', "", $a_str);
 		
 		$settings = new ilSearchSettings();
@@ -81,13 +72,15 @@ class ilSearchAutoComplete
 		}
 
 		$i = 0;
+		$result = array();
 		foreach ($list as $l)
 		{
-			$result->response->results[$i] = new stdClass();
-			$result->response->results[$i]->term = $l;
+			$result[$i] = new stdClass();
+			$result[$i]->value = $l;
 			$i++;
 		}
 
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';
 		return ilJsonUtil::encode($result);
 	}
 	

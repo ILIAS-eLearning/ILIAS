@@ -550,13 +550,9 @@ class ilPermission2GUI
 		$form->setFormAction($this->ctrl->getFormAction($this, "owner"));
 		$form->setTitle($this->lng->txt("info_owner_of_object"));
 		
-		include_once("./Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php");
-		$login = new ilUserLoginAutoCompleteInputGUI(
-			$this->lng->txt("username"),
-			"owner",
-			array(get_class($this),'ilRepositorySearchGUI'),
-			"doUserAutoComplete"
-		);		
+		$login = new ilTextInputGUI($this->lng->txt("username"), "owner");
+		$login->setDataSource($this->ctrl->getLinkTargetByClass(array(get_class($this),
+			'ilRepositorySearchGUI'), 'doUserAutoComplete', '', true));		
 		$login->setRequired(true);
 		$login->setSize(50);
 		$login->setInfo($this->lng->txt("chown_warning"));
