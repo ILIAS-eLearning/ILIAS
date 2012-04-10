@@ -2041,8 +2041,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		if(is_file('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm')){
 			$str = fread(fopen('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm', "rb"),filesize('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm'));
 		}
-		$str=utf8_encode($str);
-
+                
+		preg_match_all('/(\\d+)/', $webfolderURI, $matches);
+		$refID=$matches[0][0];
+		
+		$str = str_replace("[WEBFOLDER_ID]", $refID, $str);
 		$str = str_replace("[WEBFOLDER_TITLE]", $webfolderTitle, $str);
 		$str = str_replace("[WEBFOLDER_URI]", $webfolderURI, $str);
 		$str = str_replace("[WEBFOLDER_URI_IE]", $webfolderURI_IE, $str);
@@ -2054,6 +2057,11 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		{
 			case 'windows' :
 				$operatingSystem = 'WINDOWS';
+				if(strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')!==false){
+					$str = preg_replace('/\[IF_IEXPLORE\]((?:.|\n)*)\[\/IF_IEXPLORE\]/','\1', $str);
+				}else{
+					$str = preg_replace('/\[IF_NOTIEXPLORE\]((?:.|\n)*)\[\/IF_NOTIEXPLORE\]/','\1', $str);
+				}
 				break;
 			case 'unix' :
 				switch ($osFlavor)
