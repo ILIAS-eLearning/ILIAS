@@ -382,8 +382,6 @@ class ilMailAddressbookGUI
 
 	    // searchbox
 	    include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-	    include_once 'Services/YUI/classes/class.ilYuiUtil.php';
-	    ilYuiUtil::initAutoComplete();
 	    $searchform = new ilPropertyFormGUI();
 	    $searchform->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
 
