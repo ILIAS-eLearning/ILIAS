@@ -60,6 +60,17 @@ client_name#:#Name
 client_setup_not_finished#:#Client setup is not finished yet.
 client#:#Client
 clients#:#Clients
+client_cloned#:#All files and settings of the source are copied into the client.
+clone_clientnotdisabled#:#The client is still active. Please disable the client before populating it.
+clone_clientismaster#:#The client has "master" in the name so it cannot be overwritten.
+clone_clientisnotmysql#:#The client does not have MySQL database.
+clone_clientnodatabase#:#Only MySQL databases are supported at the moment.
+clone_disabledmessage#:#Cloning is disabled for the following reason(s):
+clone_youmustcheckiamsure#:#You must check "I am sure" to overwrite the target client.
+clone_source#:#Select source for cloning
+clone_selectsource#:#Source
+clone_areyousure#:#Are you sure?
+cloneit#:#Start
 collation#:#Collation
 contact_data#:#Contact Information
 contact#:#Contact Information
@@ -179,6 +190,7 @@ ilias_setup#:#ILIAS Setup
 ilias_version#:#ILIAS version
 include_local#:#Include Local
 info_text_3rdparty#:#Here you setup the third-party tools which are needed by ILIAS. Follow the setup information for every add-on to complete this step.
+info_text_clone#:#This function will overwrite the currently selected client with a copy of another.<p><i>Note that you can only populate clients that are disabled. Also, they cannot have 'master' in the name.<br>Currently, only MySQL is supported.</i><p><b>Warning! This cannot be undone! The client will be overwritten with the contents of the source you will select here!</b>
 info_text_contact#:#Here you indicate additional client information and the contact data of the system administrator of this client. All information is stored in your database. On the next screen you may optionally register your installation at the ILIAS open source project server.
 info_text_db_collation1#:#If your desired collation is not supported in the list of UTF-8 collations, you have to create your database manually too. In any case, please make sure that the character set for the database is set to utf8.
 info_text_db_collation2#:#More information about MySQL collations can be found on the MySQL website.
@@ -366,6 +378,7 @@ path_to_zip#:#Path to Zip
 pathes#:#Paths
 phone#:#Phone
 please_select#:#Please Select
+populate#:#Populate
 port#:#Port
 position#:#Position
 pre_cookies_disabled#:#Cookies are disabled. Cookies are required to use ILIAS.

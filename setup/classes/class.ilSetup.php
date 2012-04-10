@@ -1991,6 +1991,103 @@ class ilSetup extends PEAR
 		return $session_settings;
 	}
 
+	/**
+	* Clone source client into current client
+	* @param	array	form data
+	* @return	boolean
+	*/
+	function cloneFromSource($source_id)
+	{
+		// Getting source and targets
+		$source = new ilClient($source_id, $this->db_connections);
+		$source->init();
+		$target = $this->client;
+
+		// ************************************************
+		// **  COPY FILES
+
+		// Cleaning up datadir
+		if (! ilUtil::delDir($target->getDataDir())) {
+			$this->error = "Could not delete data dir $target->getDataDir()";
+			//return false;
+		}
+
+		// Create empty datadir
+		if (!ilUtil::makeDir($target->getDataDir()))
+		{
+			$this->error = "could_not_create_base_data_dir :".$target->getDataDir();
+			return false;
+		}
+
+		// Copying datadir
+		if (! ilUtil::rCopy($source->getDataDir(),$target->getDataDir())) {
+			$this->error = "clone_datadircopyfail";
+			return false;
+		}
+
+		// Cleaning up Webspacedir
+		if (! ilUtil::delDir($target->getWebspaceDir())) {
+			$this->error = "Could not delete webspace dir $target->getWebspaceDir()";
+			//return false;
+		}
+
+		// Create empty Webspacedir
+		if (!ilUtil::makeDir($target->getWebspaceDir()))
+		{
+			$this->error = "could_not_create_base_webspace_dir :".$target->getWebspaceDir();
+			return false;
+		}
+
+		// Copying Webspacedir
+		if (! ilUtil::rCopy($source->getWebspaceDir(),$target->getWebspaceDir())) {
+			$this->error = "clone_websipacedircopyfail";
+			return false;
+		}
+
+		// Restore ini file
+		$target->ini->write();
+
+		// ************************************************
+		// **  COPY DATABASE
+
+		$source->connect();
+		if (!$source->db)
+        {  
+            $this->error = "Source database connection failed.";
+            return false;
+        }
+
+		$target->connect();
+		if (!$target->db)
+        {  
+            $this->error = "Target database connection failed.";
+            return false;
+        }
+        
+		$source->connect();
+		$srcTables = $source->db->query("SHOW TABLES");
+		$target->connect();
+		
+		// drop all tables of the target db
+		$tarTables = $target->db->query("SHOW TABLES");
+		foreach($tarTables->fetchAll() as $cTable)
+		{
+			$target->db->query("DROP TABLE IF EXISTS " . $cTable[0]);
+		}
+        
+		foreach($srcTables->fetchAll() as $cTable){
+			$drop   = $target->db->query("DROP TABLE IF EXISTS " . $cTable[0]);
+			$create = $target->db->query("CREATE TABLE " . $cTable[0] . " LIKE " . $source->getDbName() . "." . $cTable[0]);
+            if(!$create) {
+            	$error = true;
+            }
+            $insert = $target->db->query("INSERT INTO " . $cTable[0] . " SELECT * FROM ".$source->getDbName().".".$cTable[0]);
+        }
+		return true;
+	}
+
+
+
 } // END class.ilSetup
 
 class tmpDirectoyIterator extends DirectoryIterator

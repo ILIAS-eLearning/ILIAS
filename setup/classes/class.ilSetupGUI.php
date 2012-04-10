@@ -406,6 +406,8 @@ echo "<br>+".$client_id;
 			case "applyCustomUpdates":
 			case "changeSettingsType":
 			case "showLongerSettings":
+			case "cloneSelectSource":
+			case "cloneSaveSource":
 				$this->$cmd();
 				break;
 
@@ -3569,5 +3571,110 @@ else
 		ilUtil::redirect("setup.php?cmd=displayDatabase");
 	}
 	
+	/**
+	 * Initialize clone form
+	 */
+	function cloneInitForm()
+	{
+		global $lng, $ilCtrl;
+
+		$this->checkDisplayMode();
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+
+		$this->form->setId("clone_form");
+		$this->form->setFormAction("setup.php?cmd=gateway");
+
+		if ($this->setup->getClient()->status["access"]["status"] === false and stripos($this->setup->getClient()->getName(),"master") === false and $this->setup->getClient()->getdbType() == "mysql" and $this->setup->getClient()->db_exists )
+		{
+			$this->form->setTitle($this->lng->txt("clone_source"));
+			$clients = array();
+			$clientlist = new ilClientList($this->setup->db_connections);
+			$list = $clientlist->getClients();
+			$clientlistarray = array();
+
+			foreach ($list as $key => $client){
+				if ((strcmp($key, $this->setup->getClient()->getId()) != '0') && ($client->getDbType() == 'mysql')) {  // You cannot clone yourself
+					$clientlistarray[$client->id] = $client->id;
+				}
+			}
+
+			$si = new ilSelectInputGUI($lng->txt("clone_selectsource"), "source");
+
+			$si->setOptions(array_merge(
+				array("" => "-- ".$lng->txt("please_select")." --"),
+				$clientlistarray));
+			$si->setRequired(true);
+			$this->form->addItem($si);
+
+			$cb = new ilCheckboxInputGUI($lng->txt("clone_areyousure"), "iamsure");
+			$cb->setRequired(true);
+			$this->form->addItem($cb);
+
+			$this->form->addCommandButton("cloneSaveSource", $lng->txt("cloneit"));
+		} else {
+			$disabledmessage = "<h1>" . $this->lng->txt("clone_disabledmessage") ."</h1><br>";
+			if (!$this->setup->getClient()->status["access"]["status"] === false) {
+				$disabledmessage .= $this->lng->txt("clone_clientnotdisabled") . "<br>";
+			}
+			if (!stripos($this->setup->getClient()->getName(),"aster") === false) {
+				$disabledmessage .= $this->lng->txt("clone_clientismaster") . "<br>";
+			}
+			if ($this->setup->getClient()->getdbType() != "mysql") {
+				$disabledmessage .= $this->lng->txt("clone_clientisnotmysql") . "<br>";
+			}
+			if (!$this->setup->getClient()->db_exists) {
+				$disabledmessage .= $this->lng->txt("clone_clientnodatabase") . "<br>";
+			}
+			$this->form->setTitle($disabledmessage);
+		}
+	}
+
+	function cloneSelectSource() {
+		
+		if (!$this->setup->isAdmin())
+		{
+			return;
+		}
+		
+		$this->cloneInitForm();
+		$this->form->setValuesByPost();
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_clone"));
+		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());			
+	}
+	
+	function cloneSaveSource()
+	{
+		global $lng, $ilCtrl;
+
+		if (!$this->setup->isAdmin())
+		{
+			return;
+		}
+
+		$this->cloneInitForm();
+
+		if ($this->form->checkInput())
+		{
+			if ($this->form->getInput("iamsure") != "1")
+			{
+				$message = $this->lng->txt("clone_youmustcheckiamsure");
+				$this->setup->raiseError($message,$this->setup->error_obj->MESSAGE);
+			}
+			if (!$this->setup->cloneFromSource($this->form->getInput("source")))
+			{
+				$message = $this->lng->txt("clone_error");
+				$this->setup->raiseError($message . " -> " . $this->setup->error,$this->setup->error_obj->MESSAGE);
+			}
+
+			ilUtil::sendInfo($this->lng->txt("client_cloned"),true);
+			// ilUtil::redirect("setup.php");
+		}
+		$this->form->setValuesByPost();
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_clone"));
+		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());	
+	}
+
 } // END class.ilSetupGUI
 ?>
