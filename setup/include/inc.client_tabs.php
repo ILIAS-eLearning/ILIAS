@@ -60,6 +60,16 @@ $this->tpl->setVariable("TAB_LINK","setup.php?cmd=nic");
 $this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("ilias_nic")));
 $this->tpl->parseCurrentBlock();
 
+// Populate
+if ($this->setup->isAdmin())
+{
+	$this->tpl->setCurrentBlock("tab");
+	$this->tpl->setVariable("TAB_TYPE",$tab == "cloneSelectSource" ? "tabactive" : "tabinactive");
+	$this->tpl->setVariable("TAB_LINK","setup.php?cmd=cloneSelectSource");
+	$this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("populate")));
+	$this->tpl->parseCurrentBlock();
+}
+
 // setup settings
 /* disabled
 $this->tpl->setCurrentBlock("tab");
