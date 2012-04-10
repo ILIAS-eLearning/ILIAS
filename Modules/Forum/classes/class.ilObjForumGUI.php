@@ -3923,7 +3923,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 			$opt_default  = new ilRadioOption($this->lng->txt("user_decides_notification"), 'default');
 			$opt_0 = new ilRadioOption($this->lng->txt("settings_for_all_members"), 'all_users');
-			$opt_1 = new ilRadioOption($this->lng->txt("settings_per_members"), 'per_user');
+			$opt_1 = new ilRadioOption($this->lng->txt("settings_per_users"), 'per_user');
 
 			$radio_grp->addOption($opt_default, 'default');
 			$radio_grp->addOption($opt_0, 'all_users');
