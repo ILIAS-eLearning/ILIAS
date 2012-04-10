@@ -1057,46 +1057,30 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilECSCommunitiesCache::getInstance()->lookupOwnId($server_id,$mids[$server_id][0]),
 					$mids[$server_id]
 				);
+				// Permission handling
+				include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
+				include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+				foreach(ilECSServerSettings::getInstance()->getServers() as $settings)
+				{
+					$export = new ilECSExport($settings->getServerId(), $this->object->getId());
+					if($export->isExported())
+					{
+						$rbacadmin->grantPermission(
+							$settings->getGlobalRole(),
+							ilRbacReview::_getOperationIdsByName(array('join','visible')),
+							$this->object->getRefId()
+						);
+					}
+					else
+					{
+						$rbacadmin->revokePermission(
+							$this->object->getRefId(),
+							$settings->getGlobalRole()
+						);
+					}
+				}
 			}
 			return true;
-		}
-		catch(ilECSConnectorException $exc)
-		{
-			ilUtil::sendFailure('Error connecting to ECS server: '.$exc->getMessage());
-			return false;
-		}
-		catch(ilECSContentWriterException $exc)
-		{
-			ilUtil::sendFailure('Course export failed with message: '.$exc->getMessage());
-			return false;
-		}
-		return true;
-
-		if($_POST['ecs_export'] and !$_POST['ecs_owner'])
-		{
-			ilUtil::sendFailure($this->lng->txt('ecs_no_owner'));
-			return false;
-		}
-		try
-		{
-			$this->object->handleECSSettings((bool) $_POST['ecs_export'],(int) $_POST['ecs_owner'],(array) $_POST['ecs_mids']);
-			
-			// update performed now grant/revoke ecs user permissions
-			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-			$export = new ilECSExport($this->object->getId());
-			if($export->isExported())
-			{
-				// Grant permission
-				$rbacadmin->grantPermission($ecs_settings->getGlobalRole(),
-					ilRbacReview::_getOperationIdsByName(array('join','visible')),
-					$this->object->getRefId());
-				
-			}
-			else
-			{
-				$rbacadmin->revokePermission($this->object->getRefId(),
-					$ecs_settings->getGlobalRole());
-			}
 		}
 		catch(ilECSConnectorException $exc)
 		{
