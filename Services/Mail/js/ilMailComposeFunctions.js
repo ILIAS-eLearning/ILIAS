@@ -28,15 +28,6 @@ function insertTextIntoTextField(text, obj_id)
     }
 }
 
-// formats YUI AutoComplete results for recipients lookup
-function formatAutoCompleteResults (oResData, sQuery, sResultMatch)
-{
-    if (oResData.firstname && oResData.lastname)
-	    return oResData.login + " [" + oResData.lastname + ", " + oResData.firstname + "]";
-    else
-	    return oResData.login;
-};
-
 // removes ',' at the ending of recipients textfield
 function getStripCommaCallback(obj)
 {

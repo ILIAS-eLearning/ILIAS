@@ -20,7 +20,7 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 	*/
 	function __construct($a_title, $a_postvar, $a_class, $a_autocomplete_cmd)
 	{
-		global $tpl, $ilCtrl;
+		global $ilCtrl;
 		
 		if (is_object($a_class))
 		{
@@ -30,15 +30,9 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 		
 		parent::__construct($a_title, $a_postvar);
 		$this->setInputType("raci");
-		$tpl->addJavaScript("./Services/AccessControl/js/ilRoleAutoComplete.js");
 		$this->setMaxLength(70);
 		$this->setSize(30);
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('role', 'container'));
-		$this->setDataSourceResultFormat("ilRoleAutoComplete");
-		$this->setDataSource($ilCtrl->getLinkTargetByClass($a_class, $a_autocomplete_cmd));
-		$this->setDataSourceSchema($dsSchema);
-
+		$this->setDataSource($ilCtrl->getLinkTargetByClass($a_class, $a_autocomplete_cmd, "", true));
 	}
 
 	/**
@@ -46,7 +40,7 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 	*/
 	static function echoAutoCompleteList()
 	{
-		$q = $_REQUEST["query"];
+		$q = $_REQUEST["term"];
 		include_once("./Services/AccessControl/classes/class.ilRoleAutoComplete.php");
 		$list = ilRoleAutoComplete::getList($q);
 		echo $list;

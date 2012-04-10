@@ -361,14 +361,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			$term->setInfo($lng->txt('search_form_hint'));
 		}
-
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('term'));
-		$term->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete"));
-		$term->setDataSourceSchema($dsSchema);
-		$term->setDataSourceResultFormat($dsFormatCallback);
-		$term->setDataSourceDelimiter($dsDelimiter);
-
+		$term->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", true));
 		$this->form->addItem($term);
 		
 		if($ilUser->getId() != ANONYMOUS_USER_ID)

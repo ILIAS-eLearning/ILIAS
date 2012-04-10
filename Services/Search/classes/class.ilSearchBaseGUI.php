@@ -303,7 +303,7 @@ $this->next_link = $this->ctrl->getLinkTarget($this,'performSearch');
 	*/
 	function autoComplete()
 	{
-		$q = $_REQUEST["query"];
+		$q = $_REQUEST["term"];
 		include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
 		$list = ilSearchAutoComplete::getList($q);
 		echo $list;

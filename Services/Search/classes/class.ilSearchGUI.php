@@ -259,7 +259,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$ti->setMaxLength(200);
 		$ti->setSize(30);
 		$ti->setValue($this->getString());
-		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", false, false));
+		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", true));
 		$this->form->addItem($ti);
 		
 		// term combination 

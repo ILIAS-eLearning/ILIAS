@@ -14,15 +14,6 @@ class ilRoleAutoComplete
 	{
 		global $ilDB;
 		
-		include_once './Services/JSON/classes/class.ilJsonUtil.php';
-		$result = new stdClass();
-		$result->response = new stdClass();
-		$result->response->results = array();
-		if (strlen($a_str) < 3)
-		{
-			return ilJsonUtil::encode($result);
-		}
-		
 		$ilDB->setLimit(20);
 		$query = "SELECT o1.title role,o2.title container FROM object_data o1 ".
 			"JOIN rbac_fa fa ON o1.obj_id = rol_id ".
@@ -37,11 +28,12 @@ class ilRoleAutoComplete
 			
 		$res = $ilDB->query($query);
 		$counter = 0;
+		$result = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$result->response->results[$counter] = new stdClass();
-			$result->response->results[$counter]->role = $row->role;
-			$result->response->results[$counter]->container = $row->container;
+			$result[$counter] = new stdClass();
+			$result[$counter]->value = $row->role;
+			$result[$counter]->label = $row->role." (".$row->container.")";
 			++$counter;
 		}
 
@@ -49,6 +41,8 @@ class ilRoleAutoComplete
 		{
 			return self::getListByObject($a_str);
 		}
+		
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';
 		return ilJsonUtil::encode($result);
 	}
 	
@@ -62,10 +56,8 @@ class ilRoleAutoComplete
 		global $rbacreview,$ilDB;
 		
 		include_once './Services/JSON/classes/class.ilJsonUtil.php';
-		$result = new stdClass();
-		$result->response = new stdClass();
-		$result->response->results = array();
-
+		$result = array();
+		
 		if(strpos($a_str,'@') !== 0)
 		{
 			return ilJsonUtil::encode($result);
@@ -87,9 +79,11 @@ class ilRoleAutoComplete
 			{
 				foreach($rbacreview->getRolesOfRoleFolder($rolf,false) as $rol_id)
 				{
-					$result->response->results[$counter] = new stdClass();
-					$result->response->results[$counter]->role = ilObject::_lookupTitle($rol_id);
-					$result->response->results[$counter]->container = $row->title;
+					$role = ilObject::_lookupTitle($rol_id);
+					
+					$result[$counter] = new stdClass();
+					$result[$counter]->value = $role;
+					$result[$counter]->label = $role." (".$row->title.")";
 					++$counter;
 				}
 			}

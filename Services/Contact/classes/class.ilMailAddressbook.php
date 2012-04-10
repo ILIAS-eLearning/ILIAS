@@ -37,19 +37,22 @@ class ilMailAddressbook
 
 		$query_res = $ilDB->query($query);
 
-		$result = new stdClass();
-		$result->response = new stdClass();
-		$result->response->results = array();
+		$result = array();
 		
 		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$tmp = new stdClass();
-			$tmp->login = $row->login;
-			$tmp->firstname = $row->firstname;
-			$tmp->lastname = $row->lastname;
-			$result->response->results[] = $tmp;
+			$tmp = new stdClass();			
+			$tmp->value = $row->login;
+			
+			$label = $row->login;			
+			if($row->firstname && $row->lastname)
+			{
+				$label .= " [" . $row->lastname . ", " . $row->firstname . "]";
+			}
+			$tmp->label = $label;			
+			
+			$result[] = $tmp;
 		}
-		$result->response->total = count($result->response->results);
 		
 		return $result;
 	}
