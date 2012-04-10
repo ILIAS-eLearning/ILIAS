@@ -3419,13 +3419,14 @@ div.ilSideBarContent{
 
 .ui-menu {
 	list-style: none;
-	padding: 2px;
+	padding: 0px;
 	margin: 0;
 	display: block;
 	float: left;
 	background-color: white;
 	border: 1px solid #E0E0E0;
 	font-size: 90%;
+	box-shadow: 2px 2px 4px #C0C0C0; 
 }
 
 .ui-menu .ui-menu-item {
@@ -3443,6 +3444,7 @@ div.ilSideBarContent{
 	padding: 2px 4px;
 	line-height: 1.5;
 	zoom: 1;
+	color: #0033AA;
 }
 .ui-menu .ui-menu-item a.ui-state-hover,
 .ui-menu .ui-menu-item a.ui-state-active {
