@@ -387,16 +387,9 @@ class ilMailAddressbookGUI
 	    $searchform = new ilPropertyFormGUI();
 	    $searchform->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
 
-	    //$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
-	    $dsSchema = array("resultsList" => 'response.results',
-		    "fields" => array('login', 'firstname', 'lastname'));
-	    $dsFormatCallback = 'formatAutoCompleteResults';
 	    $dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupAddressbookAsync', '', true, false);
-
 	    $inp = new ilTextInputGUI($this->lng->txt('search_for'), 'search_qry');
 	    $inp->setDataSource($dsDataLink);
-	    $inp->setDataSourceSchema($dsSchema);
-	    $inp->setDataSourceResultFormat($dsFormatCallback);
 
 	    $searchform->addItem($inp);
 	    $searchform->addCommandButton('search', $this->lng->txt("send"));
@@ -787,14 +780,11 @@ class ilMailAddressbookGUI
 	    include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 	    include_once 'Services/Contact/classes/class.ilMailAddressbook.php';
 
-	    $search = "%" . $_REQUEST["query"] . "%";
-	    $result = new stdClass();
-	    $result->response = new stdClass();
-	    $result->response->results = array();
-
+	    $search = "%" . $_REQUEST["term"] . "%";
+	    $result = array();
+	    
 	    if( !$search )
 	    {
-		$result->response->total = 0;
 		echo ilJsonUtil::encode($result);
 		exit;
 	    }

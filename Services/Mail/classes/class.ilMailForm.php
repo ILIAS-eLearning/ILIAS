@@ -27,9 +27,7 @@ class ilMailForm
 		$this->allow_smtp = $rbacsystem->checkAccess('smtp_mail', MAIL_SETTINGS_ID);
 		$this->user_id = $ilUser->getId();
 		
-		$this->result = new stdClass();
-		$this->result->response = new stdClass();
-		$this->result->response->results = array();				
+		$this->result = array();			
 	}
 	
 	/**
@@ -42,7 +40,7 @@ class ilMailForm
 	 */
 	private function addResult($login, $firstname, $lastname, $type) 
 	{
-		if(count($this->result->response->results) > $this->max_entries)
+		if(count($this->result) > $this->max_entries)
 		{
 			throw new ilException('exceeded_max_entries');
 		}
@@ -50,12 +48,17 @@ class ilMailForm
 		if (isset($this->setMap[$login]))
 			return;
 
-		$tmp = new stdClass();
-		$tmp->login = $login;
-		$tmp->firstname = $firstname;
-		$tmp->lastname = $lastname;
+		$tmp = new stdClass();			
+		$tmp->value = $login;
 
-		$this->result->response->results[] = $tmp;
+		$label = $login;			
+		if($firstname && $lastname)
+		{
+			$label .= " [" . $firstname . ", " . $lastname . "]";
+		}
+		$tmp->label = $label;
+
+		$this->result[] = $tmp;
 
 		$this->setMap[$login] = 1;
 	}	
@@ -166,10 +169,7 @@ class ilMailForm
 			}
 		} catch(ilException $e) {}
 		
-		$result = $this->result;		
-		$result->response->total = count($this->result->response->results);		
-
-		return $result;
+		return $this->result;
 	}
 }
 ?>

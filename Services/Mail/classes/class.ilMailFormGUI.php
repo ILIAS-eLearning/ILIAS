@@ -291,19 +291,9 @@ class ilMailFormGUI
 		
 		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
 		$inp->setSize(30);
-
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('login', 'firstname', 'lastname'));
-
-		$dsFormatCallback = 'formatAutoCompleteResults';
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', '', false);
-		$dsDelimiter = array(',');
-
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);		
 		$inp->setDataSource($dsDataLink);
-		$inp->setDataSourceSchema($dsSchema);
-		$inp->setDataSourceResultFormat($dsFormatCallback);
-		$inp->setDataSourceDelimiter($dsDelimiter);
-
+		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
 			$inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
@@ -735,13 +725,7 @@ class ilMailFormGUI
 		$this->tpl->setVariable('BUTTON_COURSES_TO', $lng->txt("mail_my_courses"));
 		$this->tpl->setVariable('BUTTON_GROUPS_TO', $lng->txt("mail_my_groups"));
 		
-		//$dsSchema = array('response.results', 'login', 'firstname', 'lastname');
-		$dsSchema = array("resultsList" => 'response.results',
-			"fields" => array('login', 'firstname', 'lastname'));
-
-		$dsFormatCallback = 'formatAutoCompleteResults';
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', '', false);
-		$dsDelimiter = array(',');
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
 		
 		// RECIPIENT
 		$inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
@@ -749,9 +733,6 @@ class ilMailFormGUI
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_to"]);
 		$inp->setDataSource($dsDataLink);
-		$inp->setDataSourceSchema($dsSchema);
-		$inp->setDataSourceResultFormat($dsFormatCallback);
-		$inp->setDataSourceDelimiter($dsDelimiter);
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
@@ -760,9 +741,6 @@ class ilMailFormGUI
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_cc"]);
 		$inp->setDataSource($dsDataLink);
-		$inp->setDataSourceSchema($dsSchema);
-		$inp->setDataSourceResultFormat($dsFormatCallback);
-		$inp->setDataSourceDelimiter($dsDelimiter);
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
@@ -771,9 +749,6 @@ class ilMailFormGUI
 		$inp->setSize(50);
 		$inp->setValue($mailData["rcp_bcc"]);
 		$inp->setDataSource($dsDataLink);
-		$inp->setDataSourceSchema($dsSchema);
-		$inp->setDataSourceResultFormat($dsFormatCallback);
-		$inp->setDataSourceDelimiter($dsDelimiter);
 		$inp->setMaxLength(null);
 		$form_gui->addItem($inp);
 
@@ -860,17 +835,13 @@ class ilMailFormGUI
 
 	public function lookupRecipientAsync()
 	{
-		global $ilUser, $rbacsystem;
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		include_once 'Services/Mail/classes/class.ilMailForm.php';
 		
-		$search = $_REQUEST["query"];
-		$result = new stdClass();
-		$result->response = new stdClass();
-		$result->response->results = array();
+		$search = $_REQUEST["term"];
+		$result = array();
 		if (!$search)
-		{
-			$result->response->total = 0;
+		{			
 			echo ilJsonUtil::encode($result);
 			exit;
 		}
