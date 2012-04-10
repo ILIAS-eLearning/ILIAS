@@ -38,8 +38,8 @@ class ilLanguageFactory
 	 *
 	 * @access public
 	 * @static
-	 *
-	 * @param
+	 * @param string $a_lang_key
+	 * @return ilLanguage
 	 */
 	public static function _getLanguage($a_lang_key = '')
 	{
@@ -65,8 +65,9 @@ class ilLanguageFactory
 	
 	/**
 	 * Get language object of user
-	 * @param object $a_usr_id
-	 * @return 
+	 * @param int $a_usr_id
+	 * @return ilLanguage
+	 * @static
 	 */
 	public static function _getLanguageOfUser($a_usr_id)
 	{

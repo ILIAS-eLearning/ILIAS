@@ -24,7 +24,7 @@ abstract class ilMailNotification
 	private $subject = '';
 	private $body = '';
 	
-	private $language = null;
+	protected $language = null;
 	
 	private $recipients = array();
 	
@@ -154,18 +154,26 @@ abstract class ilMailNotification
 	/**
 	 * Init language
 	 * @param int $a_usr_id
-	 * @return 
 	 */
 	protected function initLanguage($a_usr_id)
 	{
 		$this->language = ilLanguageFactory::_getLanguageOfUser($a_usr_id);
 		$this->language->loadLanguageModule('mail');
 	}
+
+	/**
+	 * Init language by ISO2 code
+	 * @param string $a_code
+	 */
+	protected function initLanguageByIso2Code($a_code = '')
+	{
+		$this->language = ilLanguageFactory::_getLanguage($a_code);
+		$this->language->loadLanguageModule('mail');
+	}
 	
 	/**
 	 * A language
-	 * @param object $a_language
-	 * @return 
+	 * @param ilLanguage $a_language
 	 */
 	protected function setLanguage($a_language)
 	{
@@ -174,7 +182,7 @@ abstract class ilMailNotification
 	
 	/**
 	 * get language object
-	 * @return 
+	 * @return ilLanguage
 	 */
 	protected function getLanguage()
 	{
@@ -183,7 +191,7 @@ abstract class ilMailNotification
 	
 	/** 
 	 * Replace new lines
-	 * @param object $a_keyword
+	 * @param string $a_keyword
 	 * @return 
 	 */
 	protected function getLanguageText($a_keyword)
