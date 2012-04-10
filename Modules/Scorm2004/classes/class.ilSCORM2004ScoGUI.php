@@ -362,8 +362,6 @@ die("deprecated");
 		$tpl->parseCurrentBlock();
 		
 		// get javascript
-		//$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-		//$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
 		iljQueryUtil::initjQueryUI();
