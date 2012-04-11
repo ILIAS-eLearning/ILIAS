@@ -1108,6 +1108,13 @@ class ilPersonalProfileGUI
 			$this->lng->loadLanguageModule("meta");
 			$txt_sel_country = $this->lng->txt("meta_c_".$ilUser->getSelectedCountry());
 		}
+		
+		// profile picture
+		$pic = ilObjUser::_getPersonalPicturePath($ilUser->getId(), "xsmall", true, true);
+		if($pic)
+		{
+			$pic = "<img src=\"".$pic."\" />";
+		}
 
 		// personal data
 		$val_array = array(
@@ -1116,7 +1123,7 @@ class ilPersonalProfileGUI
 			"gender" => $gender,
 			"institution" => $ilUser->getInstitution(),
 			"department" => $ilUser->getDepartment(),
-			"upload" => "",
+			"upload" => $pic,
 			"street" => $ilUser->getStreet(),
 			"zipcode" => $ilUser->getZipcode(),
 			"city" => $ilUser->getCity(),
