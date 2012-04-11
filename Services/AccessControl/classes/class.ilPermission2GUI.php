@@ -80,6 +80,13 @@ class ilPermission2GUI
 				$did = new ilDidacticTemplateGUI($this->gui_obj);
 				$this->ctrl->forwardCommand($did);
 				break;
+			
+			case 'ilrepositorysearchgui':
+				// used for owner autocomplete
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search = new ilRepositorySearchGUI();
+				$this->ctrl->forwardCommand($rep_search);
+				break;
 				
 			default:
 				$cmd = $this->ctrl->getCmd();
@@ -540,9 +547,7 @@ class ilPermission2GUI
 
 	// show owner sub tab
 	function owner()
-	{
-		global $ilObjDataCache,$ilUser;
-
+	{		
 		$this->__initSubTabs("owner");
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";

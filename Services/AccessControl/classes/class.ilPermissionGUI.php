@@ -12,7 +12,7 @@ include_once './Services/AccessControl/classes/class.ilPermission2GUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI
+* @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI, ilRepositorySearchGUI
 *
 * @ingroup	ServicesAccessControl
 */
