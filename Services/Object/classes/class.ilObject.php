@@ -1217,10 +1217,10 @@ class ilObject
 
 	/**
 	* lookup object id
-	*
+	* @static
 	* @param	int		$a_id		object id
 	*/
-	function _lookupObjectId($a_ref_id)
+	public static function _lookupObjectId($a_ref_id)
 	{
 		global $ilObjDataCache;
 
