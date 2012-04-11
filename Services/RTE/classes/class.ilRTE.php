@@ -248,12 +248,12 @@ class ilRTE
 	
 	/**
 	* Returns all media objects found in the passed string
-	*
+	* @static
 	* @param	string	$a_text			text, including media object tags
 	* @param  integer $a_direction 0 to find image src, 1 to find mob id
 	* @return array array of media objects
 	*/
-	function _getMediaObjects($a_text, $a_direction = 0)
+	public static function _getMediaObjects($a_text, $a_direction = 0)
 	{
 		if (!strlen($a_text)) return array();
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
