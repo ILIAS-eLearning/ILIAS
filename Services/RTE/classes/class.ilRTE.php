@@ -151,7 +151,7 @@ class ilRTE
 	}
 	
 	
-	function _getRTEClassname()
+	public static function _getRTEClassname()
 	{
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$editor = ilObjAdvancedEditing::_getRichTextEditor();
@@ -212,11 +212,12 @@ class ilRTE
 	* replaces image source from mob image urls with the mob id or
 	* replaces mob id with the correct image source
 	*
+	* @static
 	* @param	string	$a_text			text, including media object tags
 	* @param  integer $a_direction 0 to replace image src => mob id, 1 to replace mob id => image src
 	* @return string The text containing the replaced media object src
 	*/
-	function _replaceMediaObjectImageSrc($a_text, $a_direction = 0)
+	public static function _replaceMediaObjectImageSrc($a_text, $a_direction = 0)
 	{
 		if (!strlen($a_text)) return "";
 		switch ($a_direction)
