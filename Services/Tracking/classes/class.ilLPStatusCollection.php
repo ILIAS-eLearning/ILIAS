@@ -61,13 +61,13 @@ class ilLPStatusCollection extends ilLPStatus
 	}
 
 	function _getInProgress($a_obj_id)
-	{		
+	{			
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';	
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
 		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
-		{
-			$item_id = $ilObjDataCache->lookupObjId($item_id);
+		{						
+			$item_id = ilObject::_lookupObjId($item_id);
 
 			// merge arrays of users with status 'in progress'
 			$users = array_unique(array_merge((array) $users,ilLPStatusWrapper::_getInProgress($item_id)));
