@@ -146,13 +146,19 @@ class ilMailSearchCoursesGUI
 							$rcpt = $rbacreview->getRoleMailboxAddress($role['obj_id']);
 						
 							if(!$this->umail->doesRecipientStillExists($rcpt, $old_mail_data['rcp_to']))							
-								array_push($members, $rcpt);	
+								// does not work if Pear is enabled and Mailbox Address contain special chars!!	
+//								array_push($members, $rcpt);	
+								// FIX for Mantis: 7523, 8061
+								array_push($members, '#'.$role['title']);
 							
 							unset($rcpt);
 						}
 						else
 						{
-							array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+							// does not work if Pear is enabled and Mailbox Address contain special chars!!	
+//							array_push($members, $rbacreview->getRoleMailboxAddress($role['obj_id']));
+							// FIX for Mantis: 7523, 8061
+							array_push($members, '#'.$role['title']);							
 						}					
 					}
 				}
