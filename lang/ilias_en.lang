@@ -11864,7 +11864,7 @@ user#:#user_account_code_not_valid#:#The given registration code is either inval
 user#:#user_account_code_valid_until_unlimited#:#Unlimited
 user#:#user_account_code_setting#:#Enable Account Re-Activation By Code
 user#:#user_account_code_setting_info#:#Inactive Accounts can be re-activated by users with pre-defined codes.
-registration#:#registration_code_optional_info#:#If you have an ILIAS registration code, you can enter it now.
+registration#:#registration_code_optional_info#:#If you have got a registration code, please enter it here.
 registration#:#registration_code_required_info#:#A pre-defined code is mandatory for the registration process.
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#To re-activate your account you can use a ILIAS account code.
@@ -12519,3 +12519,4 @@ pdesk#:#bookmark_select_target#:#Please select target.
 pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 wsp#:#wsp_tab_ownership#:#My Repository Objects
 user#:#user_ownership#:#Repository Objects
+registration#:#registration_code_role_info#:#If you use a registration code, the role selection may be superseded by the code.
