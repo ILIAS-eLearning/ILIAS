@@ -61,14 +61,20 @@ class ilForumPost
 	
 	private $is_moderator = false;
 	
-	public function __construct($a_id = 0, $a_is_moderator = false)
+	private $post_read = false;
+	
+	public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
 	{
 		global $ilDB;
 
 		$this->is_moderator = $a_is_moderator;
 		$this->db = $ilDB;
 		$this->id = $a_id;
-		$this->read();
+
+		if( !$preventImplicitRead )
+		{
+			$this->read();
+		}
 	}
 	
 	public function __destruct()
@@ -268,17 +274,37 @@ class ilForumPost
 		return false;
 	}
 	
+	protected function buildUserRelatedData($row)
+	{
+		global $lng;
+		
+		if ($row['pos_usr_id'] && $row['pos_pk'])
+		{
+			require_once 'Services/User/classes/class.ilObjUser.php';
+			$tmp_user = new ilObjUser();
+			$tmp_user->setFirstname($row['firstname']);
+			$tmp_user->setLastname($row['lastname']);
+			$tmp_user->setUTitle($row['title']);
+			$tmp_user->setLogin($row['login']);
+			
+			$this->fullname = $tmp_user->getFullname();
+			$this->loginname = $tmp_user->getLogin();
+		
+			$this->fullname = $this->fullname ? $this->fullname : ($this->import_name ? $this->import_name : $lng->txt('unknown'));
+			
+			return true;
+		}
+	}
+	
 	private function getUserData()
 	{
 		global $lng;
 		
 		if ($this->id && $this->user_id)
 		{
-			require_once("./Services/User/classes/class.ilObjUser.php");
-		
-			if (ilObject::_exists($this->user_id))
+			require_once("Modules/Forum/classes/class.ilObjForumAccess.php");
+			if(($tmp_user = ilObjForumAccess::getCachedUserInstance($this->user_id)))
 			{
-				$tmp_user = new ilObjUser($this->user_id);
 				$this->fullname = $tmp_user->getFullname();
 				$this->loginname = $tmp_user->getLogin();
 				unset($tmp_user);
@@ -412,6 +438,11 @@ class ilForumPost
 		}
 		
 		return false;
+	}
+	
+	public function isPostRead()
+	{
+		return $this->getIsRead();
 	}
 	
 	public function isRead($a_user_id = 0)
@@ -594,6 +625,17 @@ class ilForumPost
 	{
 		$this->parent_id = $a_parent_id;
 	}
+	
+	public function setIsRead($a_is_read)
+	{
+		$this->post_read = $a_is_read;
+	}
+	
+	public function getIsRead()
+	{
+		return $this->post_read;
+	}
+	
 	public function getParentId()
 	{
 		return $this->parent_id;
@@ -629,6 +671,31 @@ class ilForumPost
 	public function getThread()
 	{
 		return $this->objThread;
+	}
+	
+	public function assignData($row)
+	{
+		$this->setUserAlias($row['pos_usr_alias']);
+		$this->setSubject($row['pos_subject']);
+		$this->setCreateDate($row['pos_date']);
+		$this->setMessage($row['pos_message']);
+		$this->setForumId($row['pos_top_fk']);
+		$this->setThreadId($row['pos_thr_fk']);
+		$this->setChangeDate($row['pos_update']);
+		$this->setUpdateUserId($row['update_user']);
+		$this->setCensorship($row['pos_cens']);
+		$this->setCensorshipComment($row['pos_cens_com']);
+		$this->setNotification($row['notify']);
+		$this->setImportName($row['import_name']);
+		$this->setStatus($row['pos_status']);
+		$this->setTreeId($row['fpt_pk']);
+		$this->setParentId($row['parent_pos']);
+		$this->setLft($row['lft']);
+		$this->setRgt($row['rgt']);
+		$this->setDepth($row['depth']);
+		$this->setIsRead($row['post_read']);
+		$this->setUserId($row['pos_usr_id']);
+		$this->buildUserRelatedData($row);
 	}
 }
 ?>

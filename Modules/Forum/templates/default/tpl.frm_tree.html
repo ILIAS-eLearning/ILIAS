@@ -1,24 +1,93 @@
-<div id="treeView" style="background-color:#FAFAFA; width:350px;"></div>
+<div id="treeViewContainer"><div id="treeView"></div></div>
+
 <script type="text/javascript">
 /*<![CDATA[*/
-
-
 if (!window.console) {
 	(function() {
-	    var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml",
-	      "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
+		var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
 	    window.console = {};
 	    for (var i = 0; i < names.length; ++i)
-	      window.console[names[i]] = function() {}
+	    	window.console[names[i]] = function(data) {}
 	})();
 }
 
-(function(){	
+$(function() {
+	YAHOO.widget.ilHtmlFrmTreeNode = function(oData, oParent, expanded, hasIcon, hasChildren) {
+		if (oData) {
+			this.init(oData, oParent, expanded);
+			this.initContent(oData, hasIcon);
+			this.setLeafNode((typeof hasChildren == "undefined" || hasChildren == null) ? false : !hasChildren);
+		}
+	};
+
+	YAHOO.extend(YAHOO.widget.ilHtmlFrmTreeNode, YAHOO.widget.HTMLNode, {
+		is_leafnode: false,
+		isLeafNode: function() {
+			return this.is_leafnode;
+		},
+		setLeafNode: function(status) {
+			this.is_leafnode = status;
+		},
+		getHoverStyle: function() { 
+			var s = this.getStyle();
+			
+			if (this.isLeafNode()) {
+				return s;	
+			}
+			
+			if (this.hasChildren(true) && !this.isLoading) { 
+				s += "h"; 
+			}			
+			
+			return s;
+		},
+		getStyle: function() {
+			if (this.isLeafNode()) {
+				var loc = (this.nextSibling) ? "t" : "l";
+				var type = "n";
+				return "ygtv" + loc + type;
+			}
+			
+			if (this.isLoading) {
+				return "ygtvloading";
+			} else {
+				// location top or bottom, middle nodes also get the top style
+				var loc = (this.nextSibling) ? "t" : "l";
+	
+				// type p=plus(expand), m=minus(collapase), n=none(no children)
+				var type = "n";
+				if (this.hasChildren(true) || (this.isDynamic() && !this.getIconMode())) {
+				// if (this.hasChildren(true)) {
+					type = (this.expanded) ? "m" : "p";
+				}
+	
+				return "ygtv" + loc + type;
+			}
+		}
+	});
+
 	function ExtendedTreeView(config) {
 		ExtendedTreeView.superclass.constructor.apply(this, arguments);
 	}
 	ExtendedTreeView.NAME = "extendedtreeview";
 	YAHOO.extend(ExtendedTreeView, YAHOO.widget.TreeView, {
+		currentNodeId: null,		
+		onloadNodes: [],
+		setOnloadNodes: function(nodes) {
+			this.onloadNodes = nodes;
+			return this;
+		},
+		getOnloadNodes: function() {			
+			return this.onloadNodes;
+		},
+		onloadNodesFetchedWithChildren: [],
+		setOnloadNodesFetchedWithChildren: function(nodes) {
+			this.onloadNodesFetchedWithChildren = nodes;
+			return this;
+		},
+		getOnloadNodesFetchedWithChildren: function() {
+			return this.onloadNodesFetchedWithChildren;
+		},
 		expandedNodes: [],
 		setExpandedNodes: function(nodes) {
 			this.expandedNodes = nodes;
@@ -56,8 +125,78 @@ if (!window.console) {
 		}
 	});
 		
-	//create the TreeView instance:
+	// Create the TreeView instance:
 	tree = new ExtendedTreeView("treeView");
+	
+	// Define anonymous function for loading children
+	tree.setDynamicLoad(function (node, onCompleteCallback) {
+		// Leave for leafnodes
+		if (node.isLeafNode()) {
+			return onCompleteCallback();
+		}
+		
+		var matches = node.data.match(/id='frm_node_(\d+)'/);
+		if (typeof matches != "object" || matches[1] == "undefined") {
+			return onCompleteCallback();
+		}
+		
+		// Check if children for the current node already exist
+		var length = node.tree.getOnloadNodesFetchedWithChildren().length;
+		for (var i = 0; i < length; i++) {
+			if (matches[1] == node.tree.getOnloadNodesFetchedWithChildren()[i]) {
+				return onCompleteCallback();
+			}
+		}
+		var fetchChildrenCallback = {
+			success: function(oResponse) {
+				var oResults = eval("(" + oResponse.responseText + ")");			
+				if (typeof oResults.success != "undefined" && oResults.success == true) {
+					var nodeHashMap = new Array();
+					for (var i = 0; i < oResults.children.length; i++) {
+						var child = oResults.children[i];
+						
+						// Check if node is expanded
+						var expanded = false;
+						var length = node.tree.getExpandedNodes().length;
+						for (var j = 0; j < length; j++) {
+							if (child.nodeId == node.tree.getExpandedNodes()[j]) {
+								expanded = true;
+								break;
+							}
+						}
+						
+						var parentNode = (oResponse.argument.nodeId == child.parentId) ?
+										 node :
+										 nodeHashMap[child.parentId];
+						var newNode = new YAHOO.widget.ilHtmlFrmTreeNode(
+							child.html, parentNode, expanded, true, child.hasChildren
+						);
+						
+						node.tree.getOnloadNodes().push(child.nodeId);
+
+						if (child.fetchedWithChildren) {
+							node.tree.getOnloadNodesFetchedWithChildren().push(child.nodeId);
+						}
+						
+						nodeHashMap[child.nodeId] = newNode;
+					}
+				}				
+				
+				oResponse.argument.fnLoadComplete();
+			},			
+			failure: function(oResponse) {
+				oResponse.argument.fnLoadComplete();
+			},
+			argument: {
+				"nodeId": matches[1],
+				"node": node, 
+				"fnLoadComplete": onCompleteCallback
+			}
+		};
+
+		var request = YAHOO.util.Connect.asyncRequest('GET', "{THR_TREE_FETCH_CHILDREN_URL}&nodeId=" + matches[1], fetchChildrenCallback);
+	});
+	
 	tree.subscribe("expand", function(node) {
 		var matches = node.data.match(/id='frm_node_(\d+)'/);
 		if (typeof matches == "object" && matches[1] != "undefined") {	
@@ -71,7 +210,8 @@ if (!window.console) {
 			}
 			if (!found) {			
 				this.getExpandedNodes().push(matches[1]);
-				ilFrmTreeStateHandler.call(this);				
+				this.currentNodeId = matches[1];
+				ilFrmTreeStateHandler.call(this);
 			}
 		}
 	});	 
@@ -86,50 +226,82 @@ if (!window.console) {
 				}
 			}
 			this.setExpandedNodes(tmp);
+			
+			this.currentNodeId = matches[1] * -1;
 			ilFrmTreeStateHandler.call(this);
-		}			
+		}
 	});
 	
-	function ilFrmTreeStateHandler()
-	{
-		var ilFrmTreeStateCallback =
-		{
+	function ilFrmTreeStateHandler() {
+		var currentNodeId = this.currentNodeId;
+		
+		var ilFrmTreeStateCallback = {
 			success: function(o) {				
 			},
 			failure: function(o) {
+			},
+			argument: {
 			}
 		};
 		
-		var parameters = 'openNodes=' + this.getExpandedNodes();
-		var request = YAHOO.util.Connect.asyncRequest('POST', "{THR_TREE_STATE_URL}", ilFrmTreeStateCallback, parameters);
+		var request = YAHOO.util.Connect.asyncRequest('GET', "{THR_TREE_STATE_URL}&nodeId=" + currentNodeId, ilFrmTreeStateCallback);
 
 		return false;
 	}
 	
-	//get a reference to the root node; all
-	//top level nodes are children of the root node:
-	var rootNode = tree.getRoot()
+	// Root node: This is the root node for yui tree, not for the forum tree
+	var rootNode = tree.getRoot();
 	
-	//begin adding children
+	// Show forum root node always
 	var node = {FRM_TREE_ROOT_NODE_LINK};
-	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.HTMLNode(node.html, tree.getRoot(), false, true);<!-- BEGIN frm_nodes -->
-	var node = {FRM_NODES_LINK};
-	var {FRM_NODES_VARNAME} = new YAHOO.widget.HTMLNode(node.html, {FRM_NODES_PARENT_VARNAME}, false, true);
-	<!-- END frm_nodes -->
-
-	//the tree won't show up until you draw (render) it:
+	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, tree.getRoot(), false, true, {FRM_TREE_ROOT_NODE_HAS_CHILDREN});
 	
+	// Begin adding children
+	<!-- BEGIN frm_nodes -->
+	var node = {FRM_NODES_LINK};
+	var {FRM_NODES_VARNAME} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, {FRM_NODES_PARENT_VARNAME}, false, true, {FRM_NODES_HAS_CHILDREN});
+	<!-- END frm_nodes -->
+	
+	// Set expanded nodes
+	tree.expandCertainNodes({THR_OPEN_NODES});
+	
+	// All Nodes which are loaded
+	tree.setOnloadNodes({THR_ONLOAD_NODES});
+
+	// Nodes which are loaded with children
+	tree.setOnloadNodesFetchedWithChildren({THR_ONLOAD_NODES_FETCHED_WITH_CHILDREN});
+
+	// The tree won't show up until you draw (render) it
 	tree.draw();
-	if ({THR_OPEN_NODES}.length == 0 || {OLD_THR_ID} != {NEW_THR_ID})
-	{ 
-		tree.expandAll();
-	}
-	else
-	{
-		tree.expandCertainNodes({THR_OPEN_NODES});
-	}
+	
+	
+	var treePanelWidth = $("#treeViewContainer").css("width");
 
+	$("#treeViewContainer").css("height", $("#il_center_col").height());
+	if ($.browser.msie != 'undefined') {
+		if (parseInt($.browser.version) >= 7) {
+			window.setInterval(function() {
+				var maxOffsetLeft = 0;
+				var maxOffsetElmWidth = 0;
 
-})();
+				$(".frmTitle").each(function() {
+					maxOffsetLeft = Math.max($(this).offset().left, maxOffsetLeft);
+					if (maxOffsetLeft == $(this).offset().left) {
+						var matches = $(this).attr("id").match(/frm_node_(\d+)/);
+						if (typeof matches == "object" && matches[1] != "undefined") {
+							var a = $(this).width();
+							var b = $("#frm_node_desc_" +  matches[1]).width();
+							maxOffsetElmWidth = Math.max(a, b);
+						}
+					}
+				});
+
+				var width = Math.max($("#treeViewContainer").scrollLeft() + maxOffsetLeft + maxOffsetElmWidth + 10, parseInt(treePanelWidth));
+
+				$("#treeView").css("width", width + "px");
+			}, 2500);	
+		}                      
+	}
+});
 /*]]>*/
 </script>

@@ -1,10 +1,10 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Forum/classes/class.ilForum.php';
-require_once './Services/Object/classes/class.ilObject.php';
-require_once './Modules/Forum/classes/class.ilFileDataForum.php';
-require_once './Modules/Forum/classes/class.ilForumProperties.php';
+require_once 'Services/Object/classes/class.ilObject.php';
+require_once 'Modules/Forum/classes/class.ilForum.php';
+require_once 'Modules/Forum/classes/class.ilFileDataForum.php';
+require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 
 /** @defgroup ModulesForum Modules/Forum
  */
@@ -24,9 +24,33 @@ class ilObjForum extends ilObject
 	* @var		object Forum
 	* @access	private
 	*/
-	var $Forum;
+	public $Forum;
 	
 	private $objProperties = null;
+
+	/**
+	 * @var array
+	 * @static
+	 */
+	protected static $obj_id_to_forum_id_cache = array();
+
+	/**
+	 * @var array
+	 * @static
+	 */
+	protected static $ref_id_to_forum_id_cache = array();
+
+	/**
+	 * @var array
+	 * @static
+	 */
+	protected static $forum_statistics_cache = array();
+
+	/**
+	 * @var array
+	 * @static
+	 */
+	protected static $forum_last_post_cache = array();
 	
 	/**
 	* Constructor
@@ -36,7 +60,8 @@ class ilObjForum extends ilObject
 	*/
 	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		global $ilias;
+		$this->type = 'frm';
+		parent::__construct($a_id, $a_call_by_reference);
 
 		/*
 		 * this constant is used for the information if a single post is marked as new
@@ -44,21 +69,13 @@ class ilObjForum extends ilObject
 		 * Default is 8 weeks
 		 *
 		 */
-		$new_deadline = time() - 60 * 60 * 24 * 7 * ($ilias->getSetting('frm_store_new') ? 
-													 $ilias->getSetting('frm_store_new') : 
+		$new_deadline = time() - 60 * 60 * 24 * 7 * ($this->ilias->getSetting('frm_store_new') ?
+													 $this->ilias->getSetting('frm_store_new') : 
 													 8);
-		define('NEW_DEADLINE',$new_deadline);
-	
-		$this->type = "frm";
-		parent::__construct($a_id,$a_call_by_reference);
+		define('NEW_DEADLINE', $new_deadline);
 		
 		// TODO: needs to rewrite scripts that are using Forum outside this class
 		$this->Forum = new ilForum();
-	}
-	
-	function read($a_force_db = false)
-	{
-		parent::read($a_force_db);
 	}
 
 	/**
@@ -263,90 +280,6 @@ class ilObjForum extends ilObject
 			array($a_usr_id, $a_post_id));
 		
 		return $ilDB->numRows($res) ? true : false;
-	}
-
-
-	// METHODS FOR NEW STATUS
-	function getCountNew($a_usr_id,$a_thread_id = 0)
-	{
-		global $ilBench, $ilDB;
-
-		$ilBench->start('Forum','getCountNew');
-		if($a_thread_id)
-		{
-			$num = $this->__getCountNew($a_usr_id,$a_thread_id);
-			$ilBench->stop('Forum','getCountNew');
-
-			return $num;
-		}
-		else
-		{
-			$counter = 0;
-
-			// Get threads
-			$res = $ilDB->queryf('
-				SELECT DISTINCT(pos_thr_fk) FROM frm_posts,frm_data
-				WHERE top_pk = pos_top_fk 
-				AND top_frm_fk = %s',
-				array('integer'), array($this->getId()));
-			
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$counter += $this->__getCountNew($a_usr_id,$row->pos_thr_fk);
-			}
-			$ilBench->stop('Forum','getCountNew');
-			return $counter;
-		}
-		return 0;
-	}
-
-
-	function __getCountNew($a_usr_id,$a_thread_id = 0)
-	{
-		global $ilDB;
-		
-		$counter = 0;
-		
-		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
-
-		// CHECK FOR NEW
-		$res = $ilDB->queryf('
-			SELECT pos_pk FROM frm_posts
-			WHERE pos_thr_fk = %s
-			AND ( pos_date > %s OR pos_update > %s)
-			AND pos_usr_id != %s',
-			array('integer', 'timestamp', 'timestamp', 'integer'),
-			array($a_thread_id, date('Y-m-d H:i:s',$timest), date('Y-m-d H:i:s',$timest), $a_usr_id));
-				
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			if(!$this->isRead($a_usr_id,$row->pos_pk))
-			{
-				++$counter;
-			}
-		}
-		return $counter;
-	}
-
-	function isNew($a_usr_id,$a_thread_id,$a_post_id)
-	{
-		global $ilDB;
-		
-		if($this->isRead($a_usr_id,$a_post_id))
-		{
-			return false;
-		}
-		$timest = $this->__getLastThreadAccess($a_usr_id,$a_thread_id);
-		
-		$res = $ilDB->queryf('
-			SELECT * FROM frm_posts 
-			WHERE pos_pk = %s
-			AND (pos_date > %s OR pos_update > %s)
-			AND pos_usr_id != %s',
-			array('integer', 'timestamp', 'timestamp', 'integer'),
-			array($a_post_id, date('Y-m-d H:i:s',$timest), date('Y-m-d H:i:s',$timest), $a_usr_id));		
-		
-		return $res->numRows() ? true : false;
 	}
 
 	function updateLastAccess($a_usr_id,$a_thread_id)
@@ -648,7 +581,7 @@ class ilObjForum extends ilObject
 		$topData = $this->Forum->getOneTopic();	
 		
 		$threads = $this->Forum->getAllThreads($topData['top_pk']);
-		foreach ($threads as $thread)
+		foreach ($threads['items'] as $thread)
 		{
 			$data = array($thread->getId());
 
@@ -767,51 +700,6 @@ class ilObjForum extends ilObject
 		}
 
 		return true;
-	}	
-
-	function __getLastThreadAccess($a_usr_id,$a_thread_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryf('
-			SELECT * FROM frm_thread_access 
-			WHERE thread_id = %s
-			AND usr_id = %s',
-			array('integer', 'integer'),
-			array($a_thread_id, $a_usr_id));
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$last_access = $row->access_old;
-		}
-		if(!$last_access)
-		{
-			// Set last access according to administration setting
-			$last_access = NEW_DEADLINE;
-		}
-		return $last_access;
-	}
-
-	/**
-	* Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0)
-	* @param    integer	user_id	A user's ID
-	* @param    integer	thread_id	ID of the thread
-	* @return	integer	Result
-	* @access	private
-	*/
-	function isThreadNotificationEnabled($user_id, $thread_id)
-	{		
-		global $ilDB;
-		
-		$result = $ilDB->queryf("SELECT COUNT(*) cnt FROM frm_notification WHERE user_id = %s AND thread_id = %s",
-		         	array("integer", "integer"), array($user_id, $thread_id));
-		
-		while($record = $ilDB->fetchAssoc($result))
-		{
-			return (bool)$record['cnt'];
-		}
-		
-		return false;
 	}
 	
 	public function saveData($a_roles = array())
@@ -861,5 +749,321 @@ class ilObjForum extends ilObject
 				$top_data['top_usr_id']
 		));
 	}
-} // END class.ilObjForum
-?>
+
+	/**
+	 * @static
+	 * @param int $obj_id
+	 * @return int
+	 */
+	public static function lookupForumIdByObjId($obj_id)
+	{
+		if(array_key_exists($obj_id, self::$obj_id_to_forum_id_cache))
+		{
+			return (int)self::$obj_id_to_forum_id_cache[$obj_id];
+		}
+
+		self::preloadForumIdsByObjIds(array($obj_id));
+
+		return (int)self::$obj_id_to_forum_id_cache[$obj_id];
+	}
+
+	/**
+	 * @static
+	 * @param int $ref_id
+	 * @return int
+	 */
+	public static function lookupForumIdByRefId($ref_id)
+	{
+		if(array_key_exists($ref_id, self::$ref_id_to_forum_id_cache))
+		{
+			return (int)self::$ref_id_to_forum_id_cache[$ref_id];
+		}
+
+		self::preloadForumIdsByRefIds(array($ref_id));
+
+		return (int)self::$ref_id_to_forum_id_cache[$ref_id];
+	}
+
+	/**
+	 * @static
+	 * @param array $obj_ids
+	 */
+	public static function preloadForumIdsByObjIds(array $obj_ids)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		if(count($obj_ids) == 1)
+		{
+			$in = " objr.obj_id = " . $ilDB->quote(current($obj_ids), 'integer') . " ";
+		}
+		else
+		{
+			$in = $ilDB->in('objr.obj_id', $obj_ids, false, 'integer');
+		}
+		$query = "
+			SELECT frmd.top_pk, objr.ref_id, objr.obj_id
+			FROM object_reference objr
+			INNER JOIN frm_data frmd ON frmd.top_frm_fk = objr.obj_id
+			WHERE $in 
+		";
+		$res   = $ilDB->query($query);
+
+		// Prepare  cache array
+		foreach($obj_ids as $obj_id)
+		{
+			self::$obj_id_to_forum_id_cache[$obj_id] = null;
+		}
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			self::$obj_id_to_forum_id_cache[$row['obj_id']] = $row['top_pk'];
+			self::$ref_id_to_forum_id_cache[$row['ref_id']] = $row['top_pk'];
+		}
+	}
+
+	/**
+	 * @static
+	 * @param array $ref_ids
+	 */
+	public static function preloadForumIdsByRefIds(array $ref_ids)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		if(count($ref_ids) == 1)
+		{
+			$in = " objr.ref_id = " . $ilDB->quote(current($ref_ids), 'integer') . " ";
+		}
+		else
+		{
+			$in = $ilDB->in('objr.ref_id', $ref_ids, false, 'integer');
+		}
+		$query = "
+			SELECT frmd.top_pk, objr.ref_id, objr.obj_id
+			FROM object_reference objr
+			INNER JOIN frm_data frmd ON frmd.top_frm_fk = objr.obj_id
+			WHERE $in 
+		";
+		$res   = $ilDB->query($query);
+
+		// Prepare  cache array
+		foreach($ref_ids as $ref_id)
+		{
+			self::$ref_id_to_forum_id_cache[$ref_id] = null;
+		}
+
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			self::$obj_id_to_forum_id_cache[$row['obj_id']] = $row['top_pk'];
+			self::$ref_id_to_forum_id_cache[$row['ref_id']] = $row['top_pk'];
+		}
+	}
+
+	/**
+	 * @static
+	 * @param int $ref_id
+	 * @return array
+	 */
+	public static function lookupStatisticsByRefId($ref_id)
+	{
+		/**
+		 * @var $ilAccess  ilAccessHandler
+		 * @var $ilUser	ilObjUser
+		 * @var $ilDB	  ilDB
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilAccess, $ilUser, $ilDB, $ilSetting;
+
+		if(isset(self::$forum_statistics_cache[$ref_id]))
+		{
+			return self::$forum_statistics_cache[$ref_id];
+		}
+
+		$statistics = array(
+			'num_posts'		=> 0,
+			'num_unread_posts' => 0,
+			'num_new_posts'	=> 0
+		);
+
+		$forumId = self::lookupForumIdByRefId($ref_id);
+		if(!$forumId)
+		{
+			self::$forum_statistics_cache[$ref_id] = $statistics;
+			return self::$forum_statistics_cache[$ref_id];
+		}
+
+		$act_clause = '';
+		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
+		{
+			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+		}
+
+		$new_deadline = date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new')));
+
+		$query = "
+			(SELECT COUNT(frm_posts.pos_pk) cnt
+			FROM frm_posts
+			INNER JOIN frm_threads ON frm_posts.pos_thr_fk = frm_threads.thr_pk 
+			WHERE frm_threads.thr_top_fk = %s $act_clause)
+			
+			UNION ALL
+			 
+			(SELECT COUNT(frm_user_read.post_id) cnt
+			FROM frm_user_read
+			INNER JOIN frm_posts ON frm_user_read.post_id = frm_posts.pos_pk
+			INNER JOIN frm_threads ON frm_threads.thr_pk = frm_posts.pos_thr_fk 
+			WHERE frm_user_read.usr_id = %s AND frm_posts.pos_top_fk = %s $act_clause)
+			
+			UNION ALL
+			
+			(SELECT COUNT(frm_posts.pos_pk) cnt
+			FROM frm_posts
+			LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
+			LEFT JOIN frm_thread_access ON (frm_posts.pos_thr_fk = frm_thread_access.thread_id AND frm_thread_access.usr_id = %s)
+			WHERE frm_posts.pos_top_fk = %s
+			AND ((frm_posts.pos_date > frm_thread_access.access_old_ts OR frm_posts.pos_update > frm_thread_access.access_old_ts)
+				OR (frm_thread_access.access_old IS NULL AND (frm_posts.pos_date > %s OR frm_posts.pos_update > %s)))
+			AND frm_posts.pos_usr_id != %s 
+			AND frm_user_read.usr_id IS NULL)
+		";
+
+		$types  = array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'timestamp', 'integer');
+		$values = array($forumId, $ilUser->getId(), $forumId, $ilUser->getId(), $ilUser->getId(), $forumId, $new_deadline, $new_deadline, $ilUser->getId());
+
+		$mapping = array_keys($statistics);
+		$res     = $ilDB->queryF(
+			$query,
+			$types,
+			$values
+		);
+		for($i = 0; $i <= 2; $i++)
+		{
+			$row = $ilDB->fetchAssoc($res);
+
+			$statistics[$mapping[$i]] = (int)$row['cnt'];
+
+			if($i == 1)
+			{
+				// unread = all - read
+				$statistics[$mapping[$i]] = $statistics[$mapping[$i - 1]] - $statistics[$mapping[$i]];
+			}
+		}
+
+		self::$forum_statistics_cache[$ref_id] = $statistics;
+
+		return self::$forum_statistics_cache[$ref_id];
+	}
+
+	/**
+	 * @static
+	 * @param int $ref_id
+	 * @return array
+	 */
+	public static function lookupLastPostByRefId($ref_id)
+	{
+		/**
+		 * @var $ilAccess	   ilAccessHandler
+		 * @var $ilUser		 ilObjUser
+		 * @var $ilDB		   ilDB
+		 */
+		global $ilAccess, $ilUser, $ilDB;
+
+		if(isset(self::$forum_last_post_cache[$ref_id]))
+		{
+			return self::$forum_last_post_cache[$ref_id];
+		}
+
+		$forumId = self::lookupForumIdByRefId($ref_id);
+		if(!$forumId)
+		{
+			self::$forum_last_post_cache[$ref_id] = array();
+			return self::$forum_last_post_cache[$ref_id];
+		}
+
+		$act_clause = '';
+		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
+		{
+			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+		}
+
+		$ilDB->setLimit(1, 0);
+		$query = "
+			SELECT *
+			FROM frm_posts 
+			WHERE pos_top_fk = %s $act_clause
+			ORDER BY pos_date DESC
+		";
+		$res   = $ilDB->queryF(
+			$query,
+			array('integer'),
+			array($forumId)
+		);
+
+		$data = $ilDB->fetchAssoc($res);
+
+		self::$forum_last_post_cache[$ref_id] = is_array($data) ? $data : array();
+
+		return self::$forum_last_post_cache[$ref_id];
+	}
+
+	/**
+	 * @static
+	 * @param int   $ref_id
+	 * @param array $thread_ids
+	 * @return array
+	 */
+	public static function getUserIdsOfLastPostsByRefIdAndThreadIds($ref_id, array $thread_ids)
+	{
+		/**
+		 * @var $ilUser   ilObjUser
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilDB     ilDB
+		 */
+		global $ilUser, $ilAccess, $ilDB;
+
+		$act_clause       = '';
+		$act_inner_clause = '';
+		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
+		{
+			$act_clause .= " AND (t1.pos_status = " . $ilDB->quote(1, "integer") . " OR t1.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_inner_clause .= " AND (t3.pos_status = " . $ilDB->quote(1, "integer") . " OR t3.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+		}
+
+		$in       = $ilDB->in("t1.pos_thr_fk", $thread_ids, false, 'integer');
+		$inner_in = $ilDB->in("t3.pos_thr_fk", $thread_ids, false, 'integer');
+
+		$query = "
+			SELECT t1.pos_usr_id, t1.update_user
+			FROM frm_posts t1
+			INNER JOIN (
+				SELECT t3.pos_thr_fk, MAX(t3.pos_date) pos_date
+				FROM frm_posts t3
+				WHERE $inner_in $act_inner_clause
+				GROUP BY t3.pos_thr_fk
+			) t2 ON t2.pos_thr_fk = t1.pos_thr_fk AND t2.pos_date = t1.pos_date
+			WHERE $in $act_clause
+		";
+
+		$usr_ids = array();
+
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			if((int)$row['pos_usr_id'])
+			{
+				$usr_ids[] = (int)$row['pos_usr_id'];
+			}
+			if((int)$row['update_user'])
+			{
+				$usr_ids[] = (int)$row['update_user'];
+			}
+		}
+
+		return array_unique($usr_ids);
+	}
+}

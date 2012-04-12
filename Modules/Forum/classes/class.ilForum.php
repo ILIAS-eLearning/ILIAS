@@ -66,8 +66,6 @@ class ilForum
 	// object id
 	private $id;
 	
-	private $threads = array();
-	
 	/**
 	* Constructor
 	* @access	public
@@ -315,51 +313,6 @@ class ilForum
 	}
 	
 	// *******************************************************************************
-	
-	/**
-	* get one dataset from set Table and set WhereCondition
-	* @return	array	$res dataset 
-	* @access	public
-	*/
-	public function getOneDataset()
-	{	
-		global $ilDB;
-		
-		$data_type = array();
-		$data_value = array();
-		
-		$query = 'SELECT * FROM '.$this->dbTable.' WHERE ';
-		
-		if($this->getMDB2Query() != '' && $this->getMDB2DataType() != '' && $this->getMDB2DataValue() != '')
-		{
-			$query .= $this->getMDB2Query();
-			if ($this->orderField != "")
-			{
-				$query .= " ORDER BY ".$this->orderField;
-			}
-			$data_type = $data_type + $this->getMDB2DataType();
-			$data_value = $data_value + $this->getMDB2DataValue();
-			
-			
-			$res = $ilDB->queryf($query, $data_type, $data_value);
-		}
-		else
-		{
-			$query .= '1';
-			
-			if ($this->orderField != "")
-			{
-				$query .= " ORDER BY ".$this->orderField;
-			}
-			
-			$res = $ilDB->query($query);
-			
-		}
-		$row = $ilDB->fetchAssoc($res);
-		
-		return $row;
-
-	}
 
 	/**
 	* get one topic-dataset by WhereCondition
@@ -406,45 +359,6 @@ class ilForum
 	
 			return $row;			
 		}
-	}
-	
-	/**
-	* In some rare cases the thread number in frm_data is incorrect.
-	* This function fixes this. (called in ilObjForumGUI->showThreadsObject())
-	*/
-	public function fixThreadNumber($a_top_pk, $a_num_threads)
-	{
-		global $ilDB;
-		
-		if ($a_top_pk > 0)
-		{
-			$statement = $ilDB->manipulateF('
-				UPDATE frm_data
-				SET top_num_threads = %s
-				WHERE top_pk = %s',
-				array('integer', 'integer'),
-				array($a_num_threads, $a_top_pk));
-
-		}
-	}
-
-	/**
-	* lookup forum data
-	*/
-	public function _lookupForumData($a_obj_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryf('
-			SELECT * FROM frm_data 
-			WHERE top_frm_fk = %s',
-			array('integer'),array($a_obj_id));
-		
-		$result = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		$result["top_name"] = trim($result["top_name"]);
-		$result["top_description"] = nl2br($result["top_description"]);
-		
-		return $result;
 	}
 
 	/**
@@ -500,22 +414,6 @@ class ilForum
 		return $row;
 	}
 
-	public function getPostById($a_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryf('
-			SELECT * FROM frm_posts 
-			WHERE pos_pk = %s',
-			array('integer'), array($a_id));
-		
-		while($row = $ilDB->fetchAssoc($res))
-		{
-			return $row;
-		}
-		return array();
-	}
-
 	public function _lookupPostMessage($a_id)
 	{
 		global $ilDB;
@@ -530,7 +428,6 @@ class ilForum
 		}
 		return '';
 	}
-	
 
 	/**
 	* generate new dataset in frm_posts
@@ -709,119 +606,6 @@ class ilForum
 			array('integer'), array($forum_id));
 		
 		return $this->generatePost($forum_id, $objNewThread->getId(), $user, $message, 0, $notify, $subject, $alias, $objNewThread->getCreateDate());
-	}
-
-	/**
-	* update dataset in frm_posts
-	* @param	string	message
-	* @param	integer	pos_pk
-	* @return	boolean
-	* @access	public
-	*/
-	public function updatePost($message, $pos_pk,$notify,$subject,$thr_pk=0)
-	{	
-		global $ilDB;
-
-		$statement = $ilDB->manipulateF('
-			UPDATE frm_posts 
-			SET pos_message = %s,
-				pos_subject = %s,
-				pos_update = %s,
-				update_user = %s,
-			    notify = %s
-			WHERE pos_pk = %s',
-			array(	'text', 
-					'text', 
-					'timestamp', 
-					'integer', 
-					'integer', 
-					'integer'
-			),
-			array(	$message,
-						$subject,
-						date("Y-m-d H:i:s"),
-						$_SESSION['AccountId'],
-						$notify,
-						$pos_pk
-		));
-		
-		if ($thr_pk > 0 &&
-			$pos_pk == $this->getFirstPostByThread($thr_pk))
-		{
-			$this->updateThread($thr_pk, $subject);
-		}
-		
-		// Change news item accordingly
-		include_once("./Services/News/classes/class.ilNewsItem.php");
-		$news_id = ilNewsItem::getFirstNewsIdForContext($this->id,
-			"frm", $pos_pk, "pos");
-		if ($news_id > 0)
-		{
-			$news_item = new ilNewsItem($news_id);
-			$news_item->setTitle($subject);
-			$news_item->setContent(nl2br($this->prepareText($message, 0)));
-			$news_item->update();
-		}
-
-		return true;		
-	}
-	
-	/**
-	* update dataset in frm_threads
-	* @param	integer	thr_pk
-	* @param	string	subject
-	* @return	boolean
-	* @access	public
-	*/
-	public function updateThread($thr_pk,$subject)
-	{	
-		global $ilDB;
-
-		$statement = $ilDB->manipulateF('
-			UPDATE frm_threads 
-			SET thr_subject = %s
-			WHERE thr_pk = %s',
-			array('text', 'integer'),
-			array($subject, $thr_pk));
-		
-		return true;		
-	}
-
-	public function getAllForums()
-	{
-		global $ilDB;
-		$data_type = array();
-		$data_value = array(); 
-			
-		$query = 'SELECT * 
-				  FROM frm_data 
-				  WHERE ';
-		
-		if($this->getMDB2Query() != '' && $this->getMDB2DataType() != '' && $this->getMDB2DataValue() != '')
-		{
-			$query .= $this->getMDB2Query();
-			$data_type = $data_type + $this->getMDB2DataType();
-			$data_value = $data_value + $this->getMDB2DataValue();
-			
-			$res = $ilDB->queryf($query, $data_type, $data_value);
-		}
-		else
-		{
-			$query .= '1';
-			
-			$res = $ilDB->query($query);
-			
-		}	
-		
-		$counter = 0;
-		while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
-		{
-			$forums[$counter] = $row;			
-			++$counter;
-		}	
-
-		return is_array($forums) ? $forums : array();
-	
 	}
 	
 	/**
@@ -1225,88 +1009,126 @@ class ilForum
 		
 		return $dead_thr;		
 	}
-	
+
 	/**
-	* Get all threads of given thread
-	*
-	* @param	integer	topic: Forum-ID
-	* @return	array	this->threads array ob thread objects
-	* @access	public
-	*/
-	public function getAllThreads($a_topic_id, $is_moderator = false)
+	 * @param $a_topic_id
+	 * @param bool $is_moderator
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array
+	 */
+	public function getAllThreads($a_topic_id, $is_moderator = false, $limit = 0, $offset = 0)
 	{
 		global $ilDB, $ilUser;
 
-		$this->threads = array();
-		
+		// Count all threads for the passed forum
+		$query = 'SELECT COUNT(thr_pk) cnt
+				  FROM frm_threads
+				  WHERE thr_top_fk = %s';
+		$res = $ilDB->queryF($query, array('integer'), array($a_topic_id));
+		$data = $ilDB->fetchAssoc($res);
+		$cnt = (int) $data['cnt'];
+
+		$threads = array();
+
 		$data = array();
 		$data_types = array();
 
-		$query = 'SELECT thr_pk, MAX(pos_date) post_date, is_sticky, thr_date
-				  FROM frm_threads
-				  LEFT JOIN frm_posts ON pos_thr_fk = thr_pk';
-		
-		if (!$is_moderator) 
+		$active_query = '';
+		if(!$is_moderator)
 		{
-			$query .= ' AND (pos_status = %s 
-						OR (pos_status = %s 
-						AND pos_usr_id = %s))';
-			
-			array_push($data_types, 'integer', 'integer', 'integer');
-			array_push($data, '1', '0', $ilUser->getId());
-			
+			$active_query = ' AND (pos_status = %s OR pos_usr_id = %s) ';
 		}
+
+		$query = "SELECT
+				  (CASE WHEN COUNT(DISTINCT(notification_id)) > 0 THEN 1 ELSE 0 END) usr_notification_is_enabled,
+				  MAX(pos_date) post_date,
+				  COUNT(DISTINCT(pos_pk)) num_posts,
+				  
+				  COUNT(DISTINCT(pos_pk)) - COUNT(DISTINCT(postread.post_id)) num_unread_posts,
+				  
+				  (
+				  	SELECT COUNT(pos_pk) cnt
+					FROM frm_posts
+					LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s
+					WHERE pos_thr_fk = frm_threads.thr_pk
+					AND (pos_date > FROM_UNIXTIME(access_last) OR pos_update > FROM_UNIXTIME(access_last)) 
+					AND pos_usr_id != %s
+					$active_query
+					AND usr_id IS NULL
+				  
+				  ) num_new_posts,
+				  
+				  thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+				  
+				  FROM frm_threads
+				  
+				  LEFT JOIN frm_notification
+				  	ON frm_notification.thread_id = thr_pk
+				  	AND frm_notification.user_id = %s
+				  
+				  LEFT JOIN frm_thread_access
+				  	ON frm_thread_access.thread_id = thr_pk
+				  	AND frm_thread_access.usr_id = %s
+				  
+				  LEFT JOIN frm_posts
+				  	ON pos_thr_fk = thr_pk $active_query
+				  
+				  LEFT JOIN frm_user_read postread
+				  	ON postread.post_id = pos_pk
+				  	AND postread.usr_id = %s
+		";
+
+		$data_types[] = 'integer';
+		if(!$is_moderator)
+		{
+			array_push($data_types, 'integer', 'integer');
+		}
+		$data_types[] = 'integer';
+		$data_types[] = 'integer';
+		$data_types[] = 'integer';
+
+		$data[] = $ilUser->getId();
+		if(!$is_moderator)
+		{
+			array_push($data, '1', $ilUser->getId());
+		}
+		$data[] = $ilUser->getId();
+		$data[] = $ilUser->getId();
+		$data[] = $ilUser->getId();
+
+		if(!$is_moderator)
+		{
+			array_push($data_types, 'integer', 'integer');
+			array_push($data, '1', $ilUser->getId());
+		}
+
+		$data_types[] = 'integer';
+		$data[] = $ilUser->getId();
+
 		$query .= ' WHERE thr_top_fk = %s
-				  GROUP BY thr_pk, is_sticky, thr_date
-				  ORDER BY is_sticky DESC, post_date DESC, thr_date DESC';
-		
-	
+				    GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+				    ORDER BY is_sticky DESC, post_date DESC, thr_date DESC';
+
 		array_push($data_types, 'integer');
 		array_push($data, $a_topic_id);
 
-
-		$res = $ilDB->queryf($query, $data_types, $data);
-
-		while ($row = $ilDB->fetchObject($res))
+		if($limit || $offset)
 		{
-			
-			$this->threads[] = new ilForumTopic($row->thr_pk);
+			$ilDB->setLimit($limit, $offset);
+		}
+		$res = $ilDB->queryF($query, $data_types, $data);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$thread = new ilForumTopic($row['thr_pk'], $is_moderator, true);
+			$thread->assignData($row);
+			$threads[] = $thread;
 		}
 
-		return $this->threads;	
-	}	
-	
-	/**
-	* get all posts of given thread
-	*
-	* @param	integer	topic: forum-ID
-	* @param	integer	thread: thread-ID
-	* @return	object	res result identifier for use with fetchRow
-	* @access	public
-	*/
-	public function getPostList($topic, $thread)
-	{
-		global $ilDB;
-		
-		$data_types = array();
-		$data  = array();
-		
-		$query ='	SELECT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data 
-					WHERE pos_top_fk = %s
-					AND pos_thr_fk = %s
-					AND pos_usr_id = usr_id';
-		
-		array_push($data_types, 'integer', 'integer');
-		array_push($data, $topic, $thread);
-		
-		if($this->orderField != '')
-		{
-			$query .= ' ORDER BY '.$this->orderField .' ';
-		}
-		
-		$result = $ilDB->queryf($query, $data_types, $data);
-		
-		return $result;
+		return array(
+			'items' => $threads,
+			'cnt' => $cnt
+		);
 	}
 	
 	public function getUserStatistic($is_moderator = false)
@@ -1391,62 +1213,6 @@ class ilForum
 	}
 
 	/**
-	* get content of given ID's
-	* @param	string	$lastPost: ID's, separated with #
-	* @return	array	$result 
-	* @access	public
-	*/
-	public function getLastPost($lastPost)
-	{
-		$data = explode('#', $lastPost);
-		
-		$objLastPost = new ilForumPost($data[2]);	
-
-		// limit the message-size
-		$message = $this->prepareText($objLastPost->getMessage(), 2);
-		
-		if (strpos($message, $this->txtQuote2) > 0)
-		{
-			$viewPos = strrpos($message, $this->txtQuote2) + strlen($this->txtQuote2);
-			$message = substr($message, $viewPos);				
-		}
-		
-		if (strlen($message) > 40)
-		{
-			$message = substr($objLastPost->getMessage(), 0, 37).'...';
-		}
-		
-		$result["pos_message"] = $result["pos_message"];
-	
-		// convert date
-		$objLastPost->setCreateDate($this->convertDate($objLastPost->getCreateDate()));
-				
-		return $objLastPost;
-	}	
-	
-	/**
-	* get content of given user-ID
-	*
-	* @param	integer $a_user_id: user-ID
-	* @return	object	user object 
-	* @access	public
-   	*/
-	public function getUser($a_user_id)
-	{
-		global $lng;
-		
-		$userObj = ilObjectFactory::getInstanceByObjId($a_user_id, false);		
-		if(!ilObject::_exists($a_user_id) || !$userObj)
-		{
-			$userObj = new ilObjUser();
-			$userObj->setLogin($lng->txt("unknown"));
-			
-		}
-		
-		return $userObj;
-	}
-
-	/**
 	* get all users assigned to local role il_frm_moderator_<frm_ref_id>
 	*
 	* @return	array	user_ids
@@ -1489,13 +1255,13 @@ class ilForum
 	
 	/**
 	* checks whether a user is moderator of a given forum object
-	*
+	* @static
 	* @param	int		$a_ref_id	reference id
 	* @param	int		$a_usr_id	user id
 	* @return	bool
 	* @access	public
 	*/
-	function _isModerator($a_ref_id, $a_usr_id)
+	public static function _isModerator($a_ref_id, $a_usr_id)
 	{
 		return in_array($a_usr_id, ilForum::_getModerators($a_ref_id));
 	}	
@@ -1541,46 +1307,17 @@ class ilForum
 		
 		return $res->numRows();
 	}
-	
-	/**
-   	* builds a string to show the forum-context
-	* @param	integer	ref_id
-	* @return	string
-	* @access	public
-   	*/
-	public function getForumPath($a_ref_id)
-	{
-		global $tree;		
-		
-		$path = "";		
-					
-		$tmpPath = $tree->getPathFull($a_ref_id);		
-		// count -1, to exclude the forum itself
-		for ($i = 0; $i < (count($tmpPath)-1); $i++)
-		{
-			if ($path != "")
-			{
-				$path .= " > ";
-			}
 
-			$path .= $tmpPath[$i]["title"];						
-		}						
-		
-		return $path;
-	}
-	
 	/**
-    * converts the date format
-    * @param	string	$date 
-    * @return	string	formatted datetime
-    * @access	public
-    */
-   public  function convertDate($date)
-    {
-        global $lng;
-        
-        return ilDatePresentation::formatDate(new ilDateTime($date,IL_CAL_DATETIME));
-    }
+	 * converts the date format
+	 * @param	string	$date
+	 * @return	string	formatted datetime
+	 * @access	public
+	 */
+	public function convertDate($date)
+	{
+		return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
+	}
 	
 	/**
 	* create a new post-tree
@@ -1723,96 +1460,7 @@ class ilForum
 			return 0;
 		}
 	}
-
-	/**
-	* get all nodes in the subtree under specified node
-	* 
-	* @access	public
-	* @param	array		node_data
-	* @return	array		2-dim (int/array) key, node_data of each subtree node including the specified node
-	*/
-	public function getPostTree($a_node)
-	{
-		global $ilDB;
-
-		$subtree = array();
-		
-		$data = array();
-		$data_types = array();
-		
-		$query = ' 	SELECT * FROM frm_posts_tree
-					LEFT JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk
-					WHERE frm_posts_tree.lft BETWEEN %s AND %s
-					AND thr_fk = %s';
-		array_push($data_types, 'integer', 'integer', 'integer');
-		array_push($data, $a_node['lft'], $a_node['rgt'], $a_node['tree']);
-		
-		if($this->orderField == 'frm_posts_tree.fpt_date')
-		{
-			$query .= " ORDER BY ".$this->orderField." ASC";
-		}
-		else if($this->orderField != '')
-		{
-			$query .= " ORDER BY ".$this->orderField." DESC";	
-		}
-		
-		$res = $ilDB->queryf($query, $data_types, $data);
 	
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$subtree[] = $this->fetchPostNodeData($row);
-		}
-
-		return $subtree;
-	
-	}
-
-	/**
-	* get child nodes of given node
-	* @access	public
-	* @param	integer		node_id
-	* @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
-	* @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
-	* @return	array		with node data of all childs or empty array
-	*/
-	public function getPostChilds($a_node_id, $a_thr_id)
-	{
-		global $ilDB;
-		
-		// init childs
-		$childs = array();
-
-		// number of childs
-		$count = 0;
-
-		$res = $ilDB->queryf('
-			SELECT * FROM frm_posts_tree,frm_posts
-			WHERE frm_posts.pos_pk = frm_posts_tree.pos_fk
-			AND frm_posts_tree.parent_pos = %s
-			AND frm_posts_tree.thr_fk = %s
-			ORDER BY frm_posts_tree.lft DESC',
-			array('integer', 'integer'),
-			array($a_node_id, $a_thr_id));
-		
-		$count = $res->numRows();
-
-		if ($count > 0)
-		{
-			while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$childs[] = $this->fetchPostNodeData($row);
-			}
-
-			// mark the last child node (important for display)
-			$childs[$count - 1]["last"] = true;
-
-			return $childs;
-		}
-		else
-		{
-			return $childs;
-		}
-	}
 	/**
 	* get data of the first node from frm_posts_tree and frm_posts
 	* @access	public
@@ -1912,26 +1560,6 @@ class ilForum
 
 		return $data ? $data : array();
 	}
-
-	/**
-	* Return the maximum depth in tree
-	* @access	public
-	* @return	integer	max depth level of tree
-	*/
-	public function getPostMaximumDepth($a_thr_id)
-	{
-		global $ilDB;
-
-		$res = $ilDB->queryf('
-			SELECT MAX(depth) FROM frm_posts_tree
-			WHERE thr_fk = %s',
-			array('integer'),array($a_thr_id));
-			
-		$row = $res->fetchRow();
-		
-		return $row[0];
-	}
-
 
 	/**
 	* delete node and the whole subtree under this node
@@ -2226,36 +1854,6 @@ class ilForum
 		
 		return $message;
 	}
-
-	function getUserData($a_id, $a_import_name = 0)
-	{
-		global $lng, $ilDB;
-
-		if($a_id && ilObject::_exists($a_id) && ilObjectFactory::getInstanceByObjId($a_id,false))
-		{
-			$res = $ilDB->queryf('
-				SELECT * FROM usr_data WHERE usr_id = %s',
-				array('integer'), array($a_id));
-			
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$tmp_array["usr_id"] = $row->usr_id;
-				$tmp_array["login"]  = $row->login;
-				$tmp_array["firstname"]  = $row->firstname;
-				$tmp_array["lastname"]  = $row->lastname;
-				$tmp_array["public_profile"] = ilObjUser::_lookupPref($a_id, "public_profile");
-				$tmp_array["create_date"]  = $row->create_date;
-			}
-			return $tmp_array ? $tmp_array : array();
-		}
-		else
-		{
-			$login = $a_import_name ? $a_import_name." (".$lng->txt("imported").")" : $lng->txt("unknown");
-
-			return array("usr_id" => 0, "login" => $login, "firstname" => "", "lastname" => "");
-		}
-	}
-
 
 	function getImportName()
 	{
@@ -2801,26 +2399,6 @@ class ilForum
 			$threads[$row->thr_pk] = $row->thr_subject;
 		}
 		return $threads ? $threads : array();
-	}	
-	
-	public function limitMsgString($message)
-	{		
-		// limit the message-size
-		$message = $this->prepareText($message, 2);
-
-		if (strpos($message, $this->txtQuote2) > 0)
-		{
-			
-			$viewPos = strrpos($message, $this->txtQuote2) + strlen($this->txtQuote2);
-			$message = substr($message, $viewPos);				
-		}
-		
-		if (strlen($message) > 40)
-		{
-			$message = substr($message, 0, 37).'...';
-		}
-		
-		return $this->prepareText($message);
 	}
 		
 	function _lookupObjIdForForumId($a_for_id)
