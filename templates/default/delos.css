@@ -95,6 +95,11 @@ textarea, select, div.input {
 	font-size: 90%;
 }
 
+input[type=text]:focus, input[type=file]:focus, input[type=password]:focus,
+textarea:focus, select:focus, div.input:focus {
+	border-color: #A0B0FF;
+}
+
 select {
 	padding: 1px;
 	font-size: 80%;
@@ -2251,7 +2256,7 @@ div.ilFrameBL
 {
 	background-color: #F9F9F9;
 	padding-top: 5px;
-	box-shadow: inset 0px 3px 3px #D0D0D0;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
 }
 
 
