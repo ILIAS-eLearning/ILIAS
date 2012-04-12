@@ -7332,7 +7332,7 @@ mail#:#mail_entry_added#:#Added new Entry
 mail#:#mail_entry_changed#:#The entry is changed
 mail#:#mail_entry_exists#:#An entry with the given login name already exists.
 mail#:#mail_entry_of_addressbook#:#Entry of Contacts
-mail#:#mail_external_sender_noreply#:#no-reply address
+mail#:#mail_external_sender_noreply#:#no-reply Address
 mail#:#mail_file_name#:#File Name
 mail#:#mail_file_size#:#File Size
 mail#:#mail_files_deleted#:#The file(s) are deleted
@@ -12520,3 +12520,5 @@ pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.
 wsp#:#wsp_tab_ownership#:#My Repository Objects
 user#:#user_ownership#:#Repository Objects
 registration#:#registration_code_role_info#:#If you use a registration code, the role selection may be superseded by the code.
+mail#:#mail_system_sender_name#:#Sender Name
+mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.

@@ -2562,14 +2562,26 @@ class ilMail
 
 	/**
 	 * Get the name used for mails sent by the anonymous user
-	 *
 	 * @access public
 	 * @static
-	 *
 	 * @return string Name of sender
 	 */
 	public static function _getIliasMailerName()
 	{
+		/**
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilSetting;
+
+		if(strlen($ilSetting->get('mail_system_sender_name')))
+		{
+			return $ilSetting->get('mail_system_sender_name');
+		}
+		else if(strlen($ilSetting->get('short_inst_name')))
+		{
+			return $ilSetting->get('short_inst_name');
+		}
+
 		return 'ILIAS';
 	}
 
