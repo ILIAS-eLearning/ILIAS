@@ -166,32 +166,60 @@ il.Util = {
 	},
 	
 	// Set standard screen reader focus
-	setStdScreenReaderFocus: function()
-	{
+	setStdScreenReaderFocus: function() {
 		var obj = document.getElementById("il_message_focus");
-		if (obj)
-		{
+		if (obj) {
 			obj.focus();
 			self.location.hash = 'il_message_focus';
-		}
-		else
-		{
+		} else {
 			obj = document.getElementById("il_lm_head");
-			if (obj && self.location.hash == '')
-			{
+			if (obj && self.location.hash == '') {
 				obj.focus();
 				self.location.hash = 'il_lm_head';
-			}
-			else
-			{
+			} else {
 				obj = document.getElementById("il_mhead_t_focus");
-				if (obj && self.location.hash == '')
-				{
+				if (obj && self.location.hash == '') {
 					obj.focus();
 					self.location.hash = 'il_mhead_t_focus';
 				}
 			}
 		}
+	},
+	
+	/**
+	 * Get region information (coordinates + size) for an element
+	 */
+	getRegion: function (el) {
+		var w = $(el).outerWidth(),
+			h = $(el).outerHeight(),
+			o = $(el).offset();
+			
+		return {top: o.top, right: o.left + w,bottom: o.top + h, left: o.left, height: h, width: w, y: o.top, x: o.left};
+	},
+	
+	/**
+	 * Get region information (coordinates + size) for viewport
+	 */
+	getViewportRegion: function () {
+		var w = $(window).width(),
+			h = $(window).height(),
+			t = $(window).scrollTop(),
+			l = $(window).scrollLeft();
+			
+		return {top: t, right: l + w,bottom: t + h, left: l, height: h, width: w, y: t, x: l};
+	},
+	
+	/**
+	 * Checks whether coordinations are within an elements region
+	 */
+	coordsInElement: function (x, y, el) {
+		var w = $(el).outerWidth(),
+			h = $(el).outerHeight(),
+			o = $(el).offset();
+		if (x >= o.left && x <= o.left + w && y >= o.top && y <= o.top + h) {
+			return true;
+		}
+		return false;
 	}
 }
 

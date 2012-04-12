@@ -17,14 +17,14 @@ il.Overlay = {
 			new YAHOO.widget.Overlay(id, cfg.yuicfg);
 		il.Overlay.cfg[id] = cfg;
 		il.Overlay.closeCnt[id] = -1;
-		YAHOO.util.Event.addListener(id, "mouseover",
+		$("#" + id).bind("mouseover",
 			function (e) {il.Overlay.mouseOver(e, id); });
-		YAHOO.util.Event.addListener(id, "mouseout",
+		$("#" + id).bind("mouseout",
 			function (e) {il.Overlay.mouseOut(e, id); });
 
 		// close element
 		if (this.getCfg(id, 'close_el') != '') {
-			YAHOO.util.Event.addListener(this.getCfg(id, 'close_el'), "click",
+			$("#" + this.getCfg(id, 'close_el')).bind("click",
 				function (e) {il.Overlay.hide(e, id); });
 		}
 
@@ -43,9 +43,10 @@ il.Overlay = {
 		var trigger = document.getElementById(tr_id);
 
 		// added this line instead due to bug 6724
-		YAHOO.util.Event.removeListener(trigger, tr_ev);
-		YAHOO.util.Event.addListener(trigger, tr_ev,
+		$("#" + tr_id).unbind(tr_ev);
+		$("#" + tr_id).bind(tr_ev,
 			function (event) {il.Overlay.togglePerTrigger(event, tr_id); return false; });
+
 	},
 
 	getCfg: function (id, name) {
@@ -84,7 +85,7 @@ il.Overlay = {
 	hide: function (e, id) {
 		this.overlays[id].hide();
 		if (e != null) {
-			YAHOO.util.Event.preventDefault(e);
+			e.preventDefault();
 		}
 		this.closeCnt[id] = -1;
 		this.closeProcessRunning[id] = false;
@@ -145,8 +146,8 @@ il.Overlay = {
 		}
 
 		// handle event
-		YAHOO.util.Event.preventDefault(e);
-		YAHOO.util.Event.stopPropagation(e);
+		e.preventDefault();
+		e.stopPropagation();
 	},
 
 	fixPosition: function (id) {
@@ -160,8 +161,8 @@ il.Overlay = {
 			return;
 		}
 		el.style.overflow = '';
-		el_reg = YAHOO.util.Region.getRegion(el);
-		cl_reg = YAHOO.util.Dom.getClientRegion();
+		el_reg = il.Util.getRegion(el);
+		cl_reg = il.Util.getViewportRegion();
 
 		// make it smaller, if window height is not sufficient
 		if (cl_reg.height < el_reg.height + 20) {
@@ -174,7 +175,7 @@ il.Overlay = {
 				el.style.width = el_reg.width + 20 + "px";
 				this.widthFixed[id] = true;
 			}
-			el_reg = YAHOO.util.Region.getRegion(el);
+			el_reg = il.Util.getRegion(el);
 		}
 
 		// to low -> show it higher
@@ -183,13 +184,13 @@ il.Overlay = {
 			if (newy < cl_reg.top) {
 				newy = cl_reg.top;
 			}
-			YAHOO.util.Dom.setY(el, newy);
-			el_reg = YAHOO.util.Region.getRegion(el);
+			this.setY(id, newy);
+			el_reg = il.Util.getRegion(el);
 		}
 
 		// to far to the right -> show it more to the left
 		if (cl_reg.right < el_reg.right) {
-			YAHOO.util.Dom.setX(el, el_reg.x - (el_reg.right - cl_reg.right));
+			this.setX(id, el_reg.x - (el_reg.right - cl_reg.right));
 		}
 
 		el.style.overflow = 'auto';
@@ -215,16 +216,14 @@ il.Overlay = {
 	 * Set x
 	 */
 	setX: function (id, x) {
-		var el = document.getElementById(id);
-		YAHOO.util.Dom.setX(el, x);
+		$("#" + id).offset({top: $("#" + id).offset().top,left: x});
 	},
 
 	/**
 	 * Set y
 	 */
 	setY: function (id, y) {
-		var el = document.getElementById(id);
-		YAHOO.util.Dom.setY(el, y);
+		$("#" + id).offset({top: y,left: $("#" + id).offset().left});
 	},
 
 	// hide all overlays
@@ -241,7 +240,7 @@ il.Overlay = {
 			// problems with form select: pageXY can be outside layer
 			if (!force) {
 				try {
-					tgt = YAHOO.util.Event.getTarget(e, true);
+					tgt = e.target;
 					if (tgt.offsetParent.id == k) {
 						isIn = true;
 					}
@@ -253,8 +252,7 @@ il.Overlay = {
 			if (!force && !isIn) {
 				el = document.getElementById(k);
 				if (el != null) {
-					el_reg = YAHOO.util.Region.getRegion(el);
-					if (el_reg.contains(new YAHOO.util.Point(YAHOO.util.Event.getPageX(e), YAHOO.util.Event.getPageY(e)))) {
+					if (il.Util.coordsInElement(e.pageX, e.pageY, el)) {
 						isIn = true;
 					}
 				}
@@ -303,5 +301,5 @@ il.Overlay = {
 	}
 };
 
-YAHOO.util.Event.addListener(document, "click",
+$(document).bind("click",
 	function (e) {il.Overlay.hideAllOverlays(e, false, ""); });
