@@ -76,6 +76,11 @@ class ilObjMailGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt('info_mail_external_sender_noreply'));
 		$ti->setMaxLength(255);
 		$this->form->addItem($ti);
+
+		$system_sender_name = new ilTextInputGUI($this->lng->txt('mail_system_sender_name'), 'mail_system_sender_name');
+		$system_sender_name->setInfo($this->lng->txt('mail_system_sender_name_info'));
+		$system_sender_name->setMaxLength(255);
+		$this->form->addItem($system_sender_name);
 		
 		// Pear Mail extension
 		// Note: We use the include statement to determine whether PEAR MAIL is
@@ -154,7 +159,8 @@ class ilObjMailGUI extends ilObjectGUI
 			'mail_maxsize_attach' => $settings['mail_maxsize_attach'],
 			'mail_notification' => $settings['mail_notification'],
 			'mail_crs_member_notification' => isset($settings['mail_crs_member_notification']) ? $settings['mail_crs_member_notification'] : 1,
-			'mail_grp_member_notification' => isset($settings['mail_grp_member_notification']) ? $settings['mail_grp_member_notification'] : 1
+			'mail_grp_member_notification' => isset($settings['mail_grp_member_notification']) ? $settings['mail_grp_member_notification'] : 1,
+			'mail_system_sender_name' => $settings['mail_system_sender_name']
 		));
 	}
 	
@@ -179,6 +185,7 @@ class ilObjMailGUI extends ilObjectGUI
 			$this->ilias->setSetting('mail_notification', (int)$this->form->getInput('mail_notification'));
 			$ilSetting->set('mail_crs_member_notification', (int) $this->form->getInput('mail_crs_member_notification'));
 			$ilSetting->set('mail_grp_member_notification', (int) $this->form->getInput('mail_grp_member_notification'));
+			$ilSetting->set('mail_system_sender_name', $this->form->getInput('mail_system_sender_name'));
 
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
 		}		
