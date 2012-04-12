@@ -33,6 +33,9 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('ps_cdf_required'),'','20%');
 		$this->addColumn('','','20%');
 		
+		$this->setDefaultOrderField('name');
+		$this->setDefaultOrderDirection('asc');
+		
 		$this->addMultiCommand('confirmDeleteFields', $this->lng->txt('delete'));
 		$this->addCommandButton('saveFields', $this->lng->txt('save'));
 

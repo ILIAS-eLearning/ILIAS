@@ -77,13 +77,15 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		
 		$this->presenter->appendAdditionalInformation($item_list_gui,$ref_id,$obj_id,$type);
 		
-		$this->tpl->setVariable("ACTION_HTML", $item_list_gui->getCommandsHTML());
+		$this->tpl->setVariable("ACTION_HTML", $item_list_gui->getCommandsHTML());				
 
 		if($html = $item_list_gui->getListItemHTML($ref_id,$obj_id,$title,$description))
 		{				
 			$item_html[$ref_id]['html'] = $html;
 			$item_html[$ref_id]['type'] = $type;
 		}
+			
+		$this->tpl->setVariable("HREF_IMG", $item_list_gui->default_command["link"]);		
 		
 		global $lng;
 		

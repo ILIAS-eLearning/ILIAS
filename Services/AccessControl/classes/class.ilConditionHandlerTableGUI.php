@@ -122,6 +122,9 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('conditions');
+		
+		$this->setDefaultOrderField('title');
+		$this->setDefaultOrderDirection('asc');
 
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(),$this->getParentCmd()));
 		$this->addMultiCommand('askDelete', $this->lng->txt('delete'));
