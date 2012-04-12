@@ -55,17 +55,47 @@ class ilForumTopic
 	*
 	* @param  	integer	$a_id			primary key of a forum topic (optional)
 	* @param  	bool	$a_is_moderator	moderator-status of the current user (optional)
+	* @param	bool	$preventImplicitRead	Prevents the implicit database query if an id was passed
 	* 
 	* @access	public
 	*/
-	public function __construct($a_id = 0, $a_is_moderator = false)
+	public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
 	{
 		global $ilDB;
 
 		$this->is_moderator = $a_is_moderator;
 		$this->db = $ilDB;
 		$this->id = $a_id;
-		$this->read();
+		
+		if(!$preventImplicitRead)
+		{
+			$this->read();
+		}
+	}
+
+	/**
+	 * @param $data
+	 */
+	public function assignData($data)
+	{
+		$this->setId((int) $data['thr_pk']);
+		$this->setForumId((int) $data['thr_top_fk']);
+		$this->setSubject($data['thr_subject']);
+		$this->setUserId((int) $data['thr_usr_id']);
+		$this->setUserAlias($data['thr_usr_alias']);
+		$this->setLastPostString($data['last_post_string']);
+		$this->setCreateDate($data['thr_date']);
+		$this->setChangeDate($data['thr_update']);
+		$this->setVisits((int) $data['visits']);
+		$this->setImportName($data['import_name']);
+		$this->setSticky((int) $data['is_sticky']);
+		$this->setClosed((int) $data['is_closed']);
+
+		// Aggregated values
+		$this->setNumPosts((int) $data['num_posts']);
+		$this->setNumUnreadPosts((int) $data['num_unread_posts']);
+		$this->setNumNewPosts((int) $data['num_new_posts']);
+		$this->setUserNotificationEnabled((bool) $data['usr_notification_is_enabled']);
 	}
 	
 	/**
@@ -265,34 +295,6 @@ class ilForumTopic
 	}
 	
 	/**
-	* Fetches and returns a timestamp of the last topic access.
-	* 
-	* @param  	integer		$a_user_id		user id
-	* @return	integer		timestamp of last thread access
-	* @access	public
-	*/
-	public function getLastThreadAccess($a_user_id)
-	{	
-		$res = $this->db->queryf('
-			SELECT * FROM frm_thread_access 
-			WHERE thread_id = %s
-			AND usr_id = %s',
-			array('integer', 'integer'),
-			array($this->id, $a_user_id));
-		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$last_access = $row->access_old;
-		}
-		if (!$last_access)
-		{			
-			$last_access = NEW_DEADLINE;
-		}
-		
-		return $last_access;
-	}
-	
-	/**
 	* Fetches and returns the number of posts for the given user id.
 	* 
 	* @param  	integer		$a_user_id		user id
@@ -337,133 +339,6 @@ class ilForumTopic
 	}
 	
 	/**
-	* Fetches and returns the number of read posts for the given user id.
-	* 
-	* @param  	integer		$a_user_id		user id
-	* @return	integer		number of read posts
-	* @access	public
-	*/
-	public function countReadPosts($a_user_id)
-	{	
-
-		$res = $this->db->queryf('
-			SELECT COUNT(*) cnt FROM frm_user_read
-			INNER JOIN frm_posts ON pos_pk = post_id
-			WHERE usr_id = %s
-			AND thread_id = %s',
-			array('integer', 'integer'),
-			array($a_user_id, $this->id));
-		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
-			
-		return $rec['cnt'];
-	}	
-	
-	/**
-	* Fetches and returns the number of read active posts for the given user id.
-	* 
-	* @param  	integer		$a_user_id		user id
-	* @return	integer		number of read active posts
-	* @access	public
-	*/
-	public function countReadActivePosts($a_user_id)
-	{
-		global $ilUser;
-
-		$res = $this->db->queryf('
-			SELECT COUNT(*) cnt				  
-			FROM frm_user_read
-			INNER JOIN frm_posts ON pos_pk = post_id
-			WHERE usr_id = %s
-			AND thread_id = %s
-			AND (pos_status = %s 
-				OR (pos_status = %s AND pos_usr_id = %s))',
-			array('integer', 'integer', 'integer', 'integer', 'integer'),
-			array($a_user_id, $this->id, '1', '0', $ilUser->getId()));
-
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
-			
-		return $rec['cnt'];
-	}
-	
-	/**
-	* Fetches and returns the number of new posts for the given user id.
-	* 
-	* @param  	integer		$a_user_id		user id
-	* @return	integer		number of new posts
-	* @access	public
-	*/
-	public function countNewPosts($a_user_id)
-	{
-		$timest = $this->getLastThreadAccess($a_user_id);
-
-		$res = $this->db->queryf('
-			SELECT COUNT(pos_pk) cnt
-			FROM frm_posts
-			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s 
-			WHERE pos_thr_fk = %s
-			AND (pos_date > %s OR pos_update > %s) 
-			AND pos_usr_id != %s 
-			AND usr_id IS NULL',
-			array('integer', 'integer', 'timestamp','timestamp', 'integer'),
-			array(	$a_user_id, 
-					$this->id, 
-					date('Y-m-d H:i:s', $timest),
-					date('Y-m-d H:i:s', $timest), 
-					$a_user_id 
-		));
-		
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
-			
-		return $rec['cnt'];
-	}
-	
-	/**
-	* Fetches and returns the number of new active posts for the given user id.
-	* 
-	* @param  	integer		$a_user_id		user id
-	* @return	integer		number of new active posts
-	* @access	public
-	*/
-	public function countNewActivePosts($a_user_id)
-	{
-		global $ilUser;
-		
-		$timest = $this->getLastThreadAccess($a_user_id);
-		
-		$res = $this->db->queryf('
-			SELECT COUNT(pos_pk) cnt
-			FROM frm_posts
-			LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s
-			WHERE pos_thr_fk = %s
-			AND (pos_date > %s OR pos_update > %s) 
-			AND pos_usr_id != %s
-			AND (pos_status = %s OR (pos_status = %s AND pos_usr_id = %s))
-			AND usr_id IS NULL',
-			array(	'integer',
-					'integer',
-					'timestamp', 
-					'timestamp',
-					'integer',
-					'integer',
-					'integer',
-					'integer'), 
-			array(	$a_user_id, 
-					$this->id,
-					date('Y-m-d H:i:s', $timest),
-					date('Y-m-d H:i:s', $timest), 
-					$a_user_id, 
-					'1',
-					'0', 
-					$ilUser->getId()
-		));
-
-		$rec = $res->fetchRow(DB_FETCHMODE_ASSOC);
-			
-		return $rec['cnt'];
-	}	
-	
-	/**
 	* Fetches and returns an object of the first post in the current topic.
 	* 
 	* @return	ilForumPost		object of a post
@@ -504,7 +379,7 @@ class ilForumTopic
 				array('integer'), array($this->id));
 			
 			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
-			
+
 			return new ilForumPost($row->pos_pk);
 		}
 		
@@ -575,21 +450,46 @@ class ilForumTopic
 	public function getPostTree(ilForumPost $a_post_node)
 	{
 		global $ilUser;
-		
-		$this->posts = array();
+
+		$posts = array();
 	    
 		$data = array();
 		$data_types = array();
 
-		$query = 'SELECT pos_pk, fpt_date, rgt FROM frm_posts_tree
-				  INNER JOIN frm_posts ON pos_fk = pos_pk 
-				  WHERE lft BETWEEN %s AND %s 
-				  AND thr_fk = %s';
+		$query = '
+			SELECT 			pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
+							pos_usr_id, pos_usr_alias, pos_subject,
+							pos_status, pos_message, pos_date, pos_update,
+							update_user, pos_cens, pos_cens_com, notify,
+							import_name, fpt_pk, parent_pos, lft, depth,
+							(CASE
+							WHEN fur.post_id IS NULL '.
+								($ilUser->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '').'
+							THEN 0
+							ELSE 1
+							END) post_read,
+							firstname, lastname, title, login
+							 
+			FROM 			frm_posts_tree
+			 
+			INNER JOIN 		frm_posts 
+				ON 			pos_fk = pos_pk
+				
+			LEFT JOIN		usr_data
+				ON			pos_usr_id  = usr_id
+				
+			LEFT JOIN		frm_user_read fur
+				ON			fur.thread_id = pos_thr_fk
+				AND			fur.post_id = pos_pk
+				AND			fur.usr_id = %s
+				 
+			WHERE 			lft BETWEEN %s AND %s 
+				AND 		thr_fk = %s';
 		
-		array_push($data_types, 'integer', 'integer', 'integer');
-		array_push($data, $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
+		array_push($data_types, 'integer', 'integer', 'integer', 'integer');
+		array_push($data, $ilUser->getId(), $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
 
-		if ($this->orderField == "frm_posts_tree.fpt_date")
+		if($this->orderField == "frm_posts_tree.fpt_date")
 		{
 			$query .= " ORDER BY ".$this->orderField." ASC";
 		}
@@ -597,12 +497,16 @@ class ilForumTopic
 		{
 			$query .= " ORDER BY ".$this->orderField." DESC";
 		}
+
 		$res = $this->db->queryf($query, $data_types, $data);
+		
+		$usr_ids = array();
 
 		$deactivated = array();
-		while ($row = $this->db->fetchObject($res))
+		while( $row = $this->db->fetchAssoc($res) )
 		{
-			$tmp_object = new ilForumPost($row->pos_pk);
+			$tmp_object = new ilForumPost($row['pos_pk'], false, true);
+			$tmp_object->assignData($row);	
 
 		 	if (!$this->is_moderator)
 		 	{
@@ -610,30 +514,38 @@ class ilForumTopic
 			 	{
 			 		$deactivated[] = $tmp_object;
 			 		unset($tmp_object);
-			 		continue;			 	
+			 		continue;
 			 	}
 			 
-			 	$continue = false;
 				foreach ($deactivated as $deactivated_node)
 				{
 					if ($deactivated_node->getLft() < $tmp_object->getLft() && $deactivated_node->getRgt() > $tmp_object->getLft())
 					{
 				 		$deactivated[] = $tmp_object;
 				 		unset($tmp_object);
-				 		$continue = true;
-				 		break;
+						continue 2;
 					}
 				}
-			 
-				if ($continue) continue;
 		 	}
+
+			if((int)$row['pos_usr_id'])
+			{
+				$usr_ids[] = (int)$row['pos_usr_id'];
+			}
+			if((int)$row['update_user'])
+			{
+				$usr_ids[] = (int)$row['update_user'];
+			}
 			 
-			$this->posts[] = $tmp_object;
+			$posts[] = $tmp_object;
 			 
 			unset($tmp_object);
 		}
 
-		return $this->posts;
+		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
+		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));
+
+		return $posts;
 	}
 	
 	/**
@@ -711,65 +623,145 @@ class ilForumTopic
 		return 0;
 	}
 	
-	/**
-	* Fetches and returns an array of posts from the post tree, starting with the node id passed by
-	* the first paramter. If the second parameter $type is set to 'explorer',
-	* the data will be returned different because of compatibility issues in explorer view.
-	* 
-	* @param    integer		$a_node_id		id of starting node
-	* @param    string		$type			'explorer' or '' (optional)
-	* @return	array		array of posts
-	* @access	public
-	*/
-	public function getPostChilds($a_node_id, $type = '')
+	public function getNestedSetPostChildren($pos_id = null, $expandedNodes = array())
 	{
 		global $ilUser;
-		
-		$childs = array();
 
-		$count = 0;
+		$data = null;
 
-		$r = $this->db->queryf('
-			SELECT pos_pk 
-			FROM frm_posts_tree 
-			INNER JOIN frm_posts ON frm_posts.pos_pk = frm_posts_tree.pos_fk 
-			WHERE frm_posts_tree.parent_pos = %s
-			AND frm_posts_tree.thr_fk = %s
-			ORDER BY frm_posts_tree.lft DESC',
-			array('integer', 'integer'),
-			array($a_node_id, $this->id));
-		
-		
-		$count = $r->numRows();
-
-		if ($count > 0)
+		if( $pos_id !== null )
 		{
-			$active_count = 0;
+			$res = $this->db->queryF("
+				SELECT		lft, rgt
+				FROM		frm_posts_tree
+				WHERE		pos_fk = %s
+				AND			thr_fk = %s",
+				array('integer', 'integer'),
+				array($pos_id, $this->id)
+			);
+
+			$data = $this->db->fetchAssoc($res);
+		}
+
+		$query = '
+			SELECT			fpt.depth,
+							fpt.parent_pos,
+							fp.pos_pk,
+							fp.pos_subject,
+							fp.pos_usr_alias,
+							fp.pos_date,
+							fp.pos_update,
+							fp.pos_status,
+							fp.pos_usr_id,
+							fp.pos_usr_alias,
+							fp.import_name,
+							fur.post_id,
+							(CASE
+							WHEN fur.post_id IS NULL '.
+								($ilUser->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '').'
+							THEN 0
+							ELSE 1
+							END) post_read,
+							COUNT(fpt2.pos_fk) children	
+
+			FROM			frm_posts_tree fpt
+
+			INNER JOIN		frm_posts fp
+				ON			fp.pos_pk = fpt.pos_fk
+				
+			LEFT JOIN		frm_posts_tree fpt2
+				 ON         fpt2.lft BETWEEN fpt.lft AND fpt.rgt
+				 AND		fpt.thr_fk = fpt2.thr_fk
+				 AND		fpt.pos_fk != fpt2.pos_fk ';
+								
+	
+		$query .= '
+			LEFT JOIN		frm_user_read fur
+				ON			fur.thread_id = fp.pos_thr_fk
+				AND			fur.post_id = fp.pos_pk
+				AND			fur.usr_id = '.$this->db->quote($ilUser->getId(), 'integer').'
+
+			LEFT JOIN		usr_data ud
+				ON			ud.usr_id = fp.pos_usr_id
+		
+			WHERE			fpt.thr_fk = '.$this->db->quote($this->id, 'integer');
+
+		if( $data )
+		{
+			$query .= '		AND fpt.lft > '.$this->db->quote($data['lft'], 'integer').
+					'		AND fpt.lft < '.$this->db->quote($data['rgt'], 'integer').' ';
+		}
+
+		if( !$this->is_moderator )
+		{
+			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_usr_id = '.
+						$this->db->quote($ilUser->getId(), 'integer').') ';
+		}
+		
+		if( $expandedNodes )			
+		{
+			$query .= ' AND '.$this->db->in('fpt.parent_pos', $expandedNodes, false, 'integer').' ';	
+		}
 			
-			while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$tmp_obj = new ilForumPost($row->pos_pk);
-				
-				if ($this->is_moderator || 
-				   ($tmp_obj->isActivated() || (!$tmp_obj->isActivated() && $tmp_obj->getUserId() == $ilUser->getId())))
-				{
-					$childs[] = ($type == 'explorer' ? $tmp_obj->getDataAsArrayForExplorer() : $tmp_obj->getDataAsArray());
-					++$active_count;
-				}
-				
-				unset($tmp_obj);
-			}
 
-			// mark the last child node (important for display)
-			if ($active_count > 0) $childs[$active_count - 1]['last'] = true;
-
-			return $childs;
-		}
-		else
+		$query .= ' GROUP BY fpt.depth,
+							fpt.parent_pos,
+							fp.pos_pk,
+							fp.pos_subject,
+							fp.pos_usr_alias,
+							fp.pos_date,
+							fp.pos_update,
+							fp.pos_status,
+							fp.pos_usr_id,
+							fp.pos_usr_alias,
+							fp.import_name,
+							fur.post_id
+					ORDER BY fpt.rgt DESC
+		';		
+		
+		$queryCounter = '
+			SELECT			pos_fk
+			FROM			frm_posts_tree fpt
+			INNER JOIN		frm_posts fp
+				ON			fp.pos_pk = fpt.pos_fk
+			WHERE			fpt.thr_fk = '.$this->db->quote($this->id, 'integer');
+		if( !$this->is_moderator )
 		{
-			return $childs;
+			$queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_usr_id = '.
+						$this->db->quote($ilUser->getId(), 'integer').') ';
 		}
-	}	
+		$queryCounter .= ' ORDER BY fpt.rgt DESC';
+
+		$resCounter = $this->db->query($queryCounter);
+		$counter = array();
+		$i = 0;
+		while( $row = $this->db->fetchAssoc($resCounter) )
+		{
+			$counter[$row['pos_fk']] = $i++;
+		}		
+
+		$res = $this->db->query($query);		
+		$children = array();
+		$usr_ids = array();
+		while( $row = $this->db->fetchAssoc($res) )
+		{
+			if((int)$row['pos_usr_id'])
+			{
+				$usr_ids[] = (int)$row['pos_usr_id'];
+			}
+			
+			$row['counter'] = $counter[$row['pos_pk']];
+			$children[] = $row;
+		}
+
+		require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
+		ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));
+		
+		// Use this and process 2 requests to expand the whole tree -> expand all
+		//$_SESSION['frm'][(int)$this->getId()]['openTreeNodes'] = array_merge(array(0), array_keys($counter)); 
+
+		return $children;
+	}
 	
 	/**
 	* Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0).
@@ -1019,14 +1011,6 @@ class ilForumTopic
 	{
 		return $this->import_name;
 	}	
-	public function setNumPosts($a_num_posts)
-	{
-		$this->num_posts = $a_num_posts;
-	}
-	public function getNumPosts()
-	{
-		return $this->num_posts;
-	}
 	public function setLastPostString($a_last_post)
 	{
 		if($a_last_post == '') $a_last_post = NULL;
@@ -1118,5 +1102,76 @@ class ilForumTopic
 			array('thr_pk'=> array('integer', $this->getId()))
 		);
 	}
+
+	/**
+	 * @param $a_num_posts
+	 * @return ilForumTopic
+	 */
+	public function setNumPosts($a_num_posts)
+	{
+		$this->num_posts = $a_num_posts;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getNumPosts()
+	{
+		return $this->num_posts;
+	}
+
+	/**
+	 * @param int $num_new_posts
+	 * @return ilForumTopic
+	 */
+	public function setNumNewPosts($num_new_posts)
+	{
+		$this->num_new_posts = $num_new_posts;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getNumNewPosts()
+	{
+		return $this->num_new_posts;
+	}
+
+	/**
+	 * @param int $num_unread_posts
+	 * @return ilForumTopic
+	 */
+	public function setNumUnreadPosts($num_unread_posts)
+	{
+		$this->num_unread_posts = $num_unread_posts;
+		return $this;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getNumUnreadPosts()
+	{
+		return $this->num_unread_posts;
+	}
+
+	/**
+	 * @param boolean $user_notification_enabled
+	 * @return ilForumTopic
+	 */
+	public function setUserNotificationEnabled($user_notification_enabled)
+	{
+		$this->user_notification_enabled = $user_notification_enabled;
+		return $this;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getUserNotificationEnabled()
+	{
+		return $this->user_notification_enabled;
+	}
 }
-?>

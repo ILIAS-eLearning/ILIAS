@@ -1,8 +1,10 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/Forum/classes/class.ilForumProperties.php';
+require_once 'Modules/Forum/classes/class.ilForumProperties.php';
 require_once 'Services/RTE/classes/class.ilRTE.php';
+require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
+require_once 'Modules/Forum/classes/class.ilForum.php';
 
 /**
 * Forum export to HTML and Print.
@@ -18,8 +20,6 @@ class ilForumExportGUI
 	{
 		global $lng, $ilCtrl;
 
-		require_once './Modules/Forum/classes/class.ilForum.php';
-
 		$this->frm = new ilForum();
 		
 		$this->ctrl = $ilCtrl;
@@ -29,7 +29,7 @@ class ilForumExportGUI
 	/**
 	* Execute Command.
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -80,34 +80,28 @@ class ilForumExportGUI
 				$tplEx->setCurrentBlock('posts_row');
 				$rowCol = ilUtil::switchColor($z++, 'tblrow2', 'tblrow1');
 				$tplEx->setVariable('ROWCOL', $rowCol);
-				
-				if($post->getUserId())
-				{
-					$author = $this->frm->getUserData($post->getUserId(), $post->getImportName());
-					$tplEx->setVariable('AUTHOR', $author['login']);
-				}
-				else
-				{
-					if(strlen($post->getUserAlias()))
-					{
-						$tplEx->setVariable('AUTHOR', $post->getUserAlias());
-						$tplEx->setVariable('PSEUDONYM', $lng->txt('frm_pseudonym'));						
-					}
-					else
-					{
-						$tplEx->setVariable('AUTHOR', $lng->txt('forums_anonymous'));
-					}						
-				}
+
+				$authorinfo = new ilForumAuthorInformation(
+					$post->getUserId(),
+					$post->getUserAlias(),
+					$post->getImportName()
+				);
+
+				$tplEx->setVariable('AUTHOR', $authorinfo->getAuthorName());
 				
 				if($post->getUserId())
 				{
 					// get create- and update-dates
 					if($post->getUpdateUserId() > 0)
 					{
-						$last_user_data = $this->frm->getUserData($post->getUpdateUserId());
+						$authorinfo = new ilForumAuthorInformation(
+							$post->getUpdateUserId(),
+							'',
+							''
+						);
 						
 						$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt("edited_at").": ".
-											$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt("from"))." ".$last_user_data['login']."]");
+											$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt("from"))." ".$authorinfo->getAuthorName()."]");
 					}
 					
 					if($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
@@ -185,33 +179,28 @@ class ilForumExportGUI
 						
 			$tplEx->setCurrentBlock('posts_row');			
 			$tplEx->setVariable('ROWCOL', 'tblrow2');
+
+			$authorinfo = new ilForumAuthorInformation(
+				$post->getUserId(),
+				$post->getUserAlias(),
+				$post->getImportName()
+			);
+
+			$tplEx->setVariable('AUTHOR', $authorinfo->getAuthorName());
 			
-			if($post->getUserId())
-			{
-				$author = $this->frm->getUserData($post->getUserId(), $post->getImportName());
-				$tplEx->setVariable('AUTHOR', $author['login']);
-			}
-			else
-			{
-				if(strlen($post->getUserAlias()))
-				{
-					$tplEx->setVariable('AUTHOR', $post->getUserAlias());
-					$tplEx->setVariable('PSEUDONYM', $lng->txt('frm_pseudonym'));						
-				}
-				else
-				{
-					$tplEx->setVariable('AUTHOR', $lng->txt('forums_anonymous'));
-				}						
-			}
 			
 			if($post->getUserId())
 			{
 				// get create- and update-dates
 				if($post->getUpdateUserId())
 				{
-					$lastuserdata = $this->frm->getUserData($post->getUpdateUserId());
+					$authorinfo = new ilForumAuthorInformation(
+						$post->getUpdateUserId(),
+						'',
+						''
+					);
 					$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt('edited_at').": ".
-										$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt('from'))." ".$lastuserdata['login']."]");
+										$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt('from'))." ".$authorinfo->getAuthorName()."]");
 				}
 
 				if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
@@ -294,41 +283,34 @@ class ilForumExportGUI
 				{
 					$tplEx->setCurrentBlock('posts_row');
 					$rowCol = ilUtil::switchColor($z++, 'tblrow2', 'tblrow1');
-					$tplEx->setVariable('ROWCOL', $rowCol);	
-					
-					if($post->getUserId())
-					{
-						$author = $this->frm->getUserData($post->getUserId(), $post->getImportName());
-						$tplEx->setVariable('AUTHOR', $author['login']);
-					}
-					else
-					{
-						if(strlen($post->getUserAlias()))
-						{
-							$tplEx->setVariable('AUTHOR', $post->getUserAlias());
-							$tplEx->setVariable('PSEUDONYM', $lng->txt('frm_pseudonym'));						
-						}
-						else
-						{
-							$tplEx->setVariable('AUTHOR', $lng->txt('forums_anonymous'));
-						}						
-					}
+					$tplEx->setVariable('ROWCOL', $rowCol);
+
+					$authorinfo = new ilForumAuthorInformation(
+						$post->getUserId(),
+						$post->getUserAlias(),
+						$post->getImportName()
+					);
+					$tplEx->setVariable('AUTHOR', $authorinfo->getAuthorName());
 					
 					if ($post->getUserId())
 					{
 						// get create- and update-dates
 						if ($post->getUpdateUserId())
 						{
-							$lastuserdata = $this->frm->getUserData($post->getUpdateUserId());
+							$authorinfo = new ilForumAuthorInformation(
+								$post->getUpdateUserId(),
+								'',
+								''
+							);
 							$tplEx->setVariable('POST_UPDATE', "<br />[".$lng->txt('edited_at').": ".
 												$this->frm->convertDate($post->getChangeDate())." - ".strtolower($lng->txt('from'))." ".
-												$lastuserdata['login']."]");
+								$authorinfo->getAuthorName()."]");
 						}
 						
-						if ($author['public_profile'] != 'n')
+						if ($authorinfo->getAuthor()->getPref('public_profile') != 'n')
 						{
 							$tplEx->setVariable('TXT_REGISTERED', $lng->txt('registered_since'));
-							$tplEx->setVariable('REGISTERED_SINCE', $this->frm->convertDate($author['create_date']));
+							$tplEx->setVariable('REGISTERED_SINCE', $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate()));
 						}	
 						
 						if ($ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']))
@@ -390,19 +372,12 @@ class ilForumExportGUI
 				$tplEx->setVariable('T_NUM_VISITS', $objCurrentTopic->getVisits());
 				$tplEx->setVariable('T_FORUM', $frmData['top_name']);
 									
-				$objForumProperties = ilForumProperties::getInstance($frmData['top_frm_fk']);				
-				if ($objForumProperties->isAnonymized())
-				{					
-					unset($t_author);
-					if ($objCurrentTopic->getUserAlias() != '') $tplEx->setVariable('T_AUTHOR', $objCurrentTopic->getUserAlias());
-					else $tplEx->setVariable('T_AUTHOR', $lng->txt('forums_anonymous'));
-				}
-				else
-				{
-					unset($t_author);
-					$t_author = $this->frm->getUser($objCurrentTopic->getUserId());	
-					$tplEx->setVariable('T_AUTHOR', $t_author->getLogin());
-				} 
+				$authorinfo = new ilForumAuthorInformation(
+					$objCurrentTopic->getUserId(),
+					$objCurrentTopic->getUserAlias(),
+					$objCurrentTopic->getImportName()
+				);
+				$tplEx->setVariable('T_AUTHOR', $authorinfo->getAuthorName());
 				
 				$tplEx->setVariable('T_TXT_FORUM', $lng->txt('forum').': ');					
 				$tplEx->setVariable('T_TXT_TOPIC', $lng->txt('forums_thread').': ');

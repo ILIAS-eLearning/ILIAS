@@ -1,171 +1,230 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Forum/classes/class.ilForum.php");
-require_once("./Modules/Forum/classes/class.ilForumProperties.php");
+include_once 'Services/YUI/classes/class.ilYuiUtil.php';
+include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+
 
 /**
-* Class ilForumExplorer 
-* class for explorer view of forum posts
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Nadia Ahmad <nahmad@databay.de>
-* @version $Id$
-* 
-* @ingroup ModulesForum
-*/
-
+ * Class ilForumExplorer
+ * class for explorer view of forum posts
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @author  Nadia Ahmad <nahmad@databay.de>
+ * @author  Andreas Kordosz <akordosz@databay.de>
+ * @version $Id$
+ * @ingroup ModulesForum
+ */
 class ilForumExplorer
 {
 	/**
-	* id of thread
-	* @var int thread_pk
-	* @access private
-	*/
-	private $thread_id;
-	private $thread_subject;
-	
+	 * Template object
+	 * @var ilTemplate
+	 * @access protected
 
-	/**
-	* id of root node
-	* @var int root_id
-	* @access private
-	*/
-	public $root_id;
-
-	/**
-	* forum object, used for owerwritten tree methods
-	* @var object forum object
-	* @access private
-	*/
-	private $forum;
-	
-	/**
-	 * ilForumProperties object 
-	 * @access private
 	 */
-	private $objProperties = null;
-	
-	private $objCurrentTopic = null;
-	public $target = null;
+	protected $tpl;
 
 	/**
-	* Constructor
-	* @access	public
-	* @param	string	scriptname
-	*/
-	public function __construct($tpl, $a_target, ilForumTopic $a_thread, $a_ref_id)
-	{
-		global $lng;
+	 * Current forum
+	 * @var ilObjForumGUI
+	 * @access protected
 
-		$this->tpl = $tpl;
-		$this->target = $a_target;
-
-		$lng->loadLanguageModule('forum');
-		
-		$this->forum = new ilForum();
-		$this->forum_obj = ilObjectFactory::getInstanceByRefId($a_ref_id);		
-		
-		$this->objProperties = ilForumProperties::getInstance($this->forum_obj->getId());
-		
-		$this->objCurrentTopic = $a_thread;
-		$this->thread_id = $this->objCurrentTopic->getId();
-		$this->root_id = $this->objCurrentTopic->getFirstPostNode()->getId();	
-		
-		$this->__readThreadSubject();
-
-		// max length of user fullname which is shown in explorer view
-		define(FULLNAME_MAXLENGTH, 16);
-	}
-
-	public function renderTree()
-	{
-		$this->setOutput(0);
-	}
+	 */
+	protected $gui;
 
 	/**
-	* Creates output for explorer view in admin menue
-	* recursive method
-	* @access	public
-	* @param	integer		parent_node_id where to start from (default=0, 'root')
-	* @param	integer		depth level where to start (default=1)
-	* @return	string
-	*/
-	public function setOutput($a_parent, $a_depth = 1)
+	 * Current topic
+	 * @var ilForumTopic
+	 * @access protected
+
+	 */
+	protected $topic;
+
+	/**
+	 * Property object for the current forum context
+	 * @var ilForumProperties
+	 * @access protected
+
+	 */
+	protected $properties;
+
+	/**
+	 * Root id of the thread tree
+	 * @var integer
+	 * @access protected
+
+	 */
+	protected $root_id;
+
+	/**
+	 * Constructor
+	 * @access	public
+
+	 */
+	public function __construct(ilObjForumGUI $gui, ilForumTopic $topic, ilForumProperties $properties)
 	{
-		global $lng, $ilUser, $ilCtrl;
-		static $counter = 0;
+		global $tpl, $ilCtrl;
+
+		$this->gui        = $gui;
+		$this->topic      = $topic;
+		$this->properties = $properties;
+
+		$this->tpl = new ilTemplate('tpl.frm_tree.html', true, true, 'Modules/Forum');
+
+		ilYuiUtil::initConnection();
+		$tpl->addJavaScript(ilYuiUtil::getLocalPath() . '/yahoo/yahoo-min.js');
+		$tpl->addJavaScript(ilYuiUtil::getLocalPath() . '/event/event-min.js');
+		$tpl->addJavaScript('./Modules/Forum/js/treeview.js');
+		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
+
+		// Set ref_id for urls
+		$ilCtrl->setParameter($this->gui, 'thr_pk', $this->topic->getId());
+		$ilCtrl->setParameter($this->gui, 'backurl', null);
+
+		// Set urls for async commands
+		$this->tpl->setVariable('THR_TREE_STATE_URL', $ilCtrl->getLinkTarget($this->gui, 'setTreeStateAsynch', '', true, false));
+		$this->tpl->setVariable('THR_TREE_FETCH_CHILDREN_URL', $ilCtrl->getLinkTarget($this->gui, 'fetchTreeChildrenAsync', '', true, false));
+
+		// Fetch root id of the thread node
+		$this->root_id = $this->topic->getFirstPostNode()->getId();
+
+		if(!is_array($_SESSION['frm'][$this->topic->getId()]['openTreeNodes']))
+		{
+			$_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'] = array(0);
+		}
+		//$_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'] = array(0);
+		// Prevent key gaps
+		shuffle($_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']);
+
+		$this->tpl->setVariable('THR_OPEN_NODES', ilJsonUtil::encode($_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']));
+	}
+
+	public function render()
+	{
+		$this->fillTreeTemplate();
+
+		return $this;
+	}
+
+	public function fillTreeTemplate()
+	{
+		$objects = $this->topic->getNestedSetPostChildren(null, $_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']);
+
+		$counter = 0;
+
+		$onloadNodes              = array();
+		$nodesFetchedWithChildren = array();
+
+		$frm      = new ilForum();
+		$pageHits = $frm->getPageHits();
+
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 
-		if (is_numeric($a_parent) && $objects = $this->objCurrentTopic->getPostChilds($a_parent, 'explorer'))
+		foreach($objects as $object)
 		{
-			++$a_depth;
-	
-            foreach ($objects as $key => $object)
+			if($object['pos_pk'] != $this->root_id &&
+				!in_array($object['parent_pos'], $onloadNodes)
+			)
 			{
-				if (!$object['pos_status'] && !ilForum::_isModerator($_GET['ref_id'], $ilUser->getId()))
-				{
-					continue;
-				}
+				continue;
+			}
 
-				$href_target = $this->target."&pos_pk=".$object['child'].'#'.$object['child'];
+			if(in_array((int)$object['parent_pos'], $onloadNodes) &&
+				!in_array((int)$object['parent_pos'], $nodesFetchedWithChildren)
+			)
+			{
+				$nodesFetchedWithChildren[] = (int)$object['parent_pos'];
+			}
 
-				if($ilUser->getId() == ANONYMOUS_USER_ID ||
-				 $this->forum_obj->isRead($ilUser->getId(), $object['pos_pk']))
-				{
-					$title = "<span style='white-space:wrap;' class='frmTitle' id='frm_node_".$object['pos_pk']."'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
-						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
-				}
-				else
-				{	//bold
-					$mark_post_target = str_replace('viewThread', 'markPostRead', $href_target);
-					$href_target = $mark_post_target;
-					$title = "<span style='white-space:wrap;' class='frmTitleBold' id='frm_node_".$object['pos_pk']."'><a class='small' href='".$href_target."'>".stripslashes($object['subject'])."</a></span>".
-						 "<div style='white-space:nowrap; margin-bottom:5px;' class='small'>";
-				}
+			$html = self::getTreeNodeHtml(
+				$object, $this->gui, $pageHits
+			);
 
-				if ($this->objProperties->isAnonymized())
-				{
-					if ($object['alias'] != '') $title .= stripslashes($object['alias']);
-					else $title .= $lng->txt('forums_anonymous');
-				}
-				else
-				{
-					$title .= stripslashes($object['loginname']);
-				}
-				$title .= ", ".$this->forum->convertDate($object['date'])."</div>";
+			$hasChildren = ($object['children'] >= 1);
 
-				$this->tpl->setVariable('OLD_THR_ID', $_SESSION['thread_control']['old']);
-				$this->tpl->setVariable('NEW_THR_ID', $_SESSION['thread_control']['new']);
+			$node       = new stdClass();
+			$node->html = $html;
 
-				$node = new stdClass();
-				$node->html = $title;
-				if($object['child'] == $this->root_id)
-				{
-					$this->tpl->setVariable('FRM_TREE_ROOT_NODE_VARIABLE', 'frmNode'.$object['child']);
-					$this->tpl->setVariable('FRM_TREE_ROOT_NODE_LINK', ilJsonUtil::encode($node));
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock('frm_nodes');
-					$this->tpl->setVariable('FRM_NODES_VARNAME', 'frmNode'.$object['child']);
-					$this->tpl->setVariable('FRM_NODES_PARENT_VARNAME', 'frmNode'.$object['parent']);
-					$this->tpl->setVariable('FRM_NODES_LINK', ilJsonUtil::encode($node));
-					$this->tpl->parseCurrentBlock();
-				}
-				++$counter;
+			if($object['pos_pk'] == $this->root_id)
+			{
+				$this->tpl->setVariable('FRM_TREE_ROOT_NODE_VARIABLE', 'frmNode' . $object['pos_pk']);
+				$this->tpl->setVariable('FRM_TREE_ROOT_NODE_LINK', ilJsonUtil::encode($node));
+				$this->tpl->setVariable('FRM_TREE_ROOT_NODE_HAS_CHILDREN', $hasChildren ? 'true' : 'false');
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock('frm_nodes');
+				$this->tpl->setVariable('FRM_NODES_VARNAME', 'frmNode' . $object['pos_pk']);
+				$this->tpl->setVariable('FRM_NODES_PARENT_VARNAME', 'frmNode' . $object['parent_pos']);
+				$this->tpl->setVariable('FRM_NODES_LINK', ilJsonUtil::encode($node));
+				$this->tpl->setVariable('FRM_NODES_HAS_CHILDREN', $hasChildren ? 'true' : 'false');
+				$this->tpl->parseCurrentBlock();
+			}
 
-				// Recursive
-				$this->setOutput($object['child'], $a_depth);
-			} //foreach
-		} //if
+			$onloadNodes[] = (int)$object['pos_pk'];
 
-		 $_SESSION['thread_control']['old']  = $_SESSION['thread_control']['new'];
-	} //function
-
-	private function __readThreadSubject()
-	{
-		$this->thread_subject = $this->objCurrentTopic->getSubject();
+			++$counter;
+		}
+		$this->tpl->setVariable('THR_ONLOAD_NODES', ilJsonUtil::encode($onloadNodes));
+		$this->tpl->setVariable('THR_ONLOAD_NODES_FETCHED_WITH_CHILDREN', ilJsonUtil::encode($nodesFetchedWithChildren));
 	}
-} // END class.ilExplorer
-?>
+
+	/**
+	 * Returns the html used for a single forum tree node
+	 * @access	public
+	 * @static
+
+	 */
+	public static function getTreeNodeHtml($object, ilObjForumGUI $gui, $pageHits)
+	{
+		global $ilCtrl;
+
+		$html = '';
+
+		// Set pos_pk for urls
+		$ilCtrl->setParameter($gui, 'pos_pk', $object['pos_pk']);
+
+		// Set offset
+		$ilCtrl->setParameter($gui, 'offset', floor($object['counter'] / $pageHits) * $pageHits);
+
+		// @todo: HTML in PHP used because of performance issues of ilTemplate an big forum trees
+		if($object['post_read'])
+		{
+			$url  = $ilCtrl->getLinkTarget($gui, 'viewThread', $object['pos_pk']);
+			$link = "<a class='small' href='" . $url . "'>" . stripslashes($object['pos_subject']) . "</a>";
+
+			$html .= "<span style='white-space:wrap;' class='frmTitle' id='frm_node_" . $object['pos_pk'] . "'>" . $link . "</span>" .
+				"<span id='frm_node_desc_" . $object['pos_pk'] . "' style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+		}
+		else
+		{
+			$url  = $ilCtrl->getLinkTarget($gui, 'markPostRead', $object['pos_pk']);
+			$link = "<a class='small' href='" . $url . "'>" . stripslashes($object['pos_subject']) . "</a>";
+
+			$html .= "<span style='white-space:wrap;' class='frmTitleBold' id='frm_node_" . $object['pos_pk'] . "'>" . $link . "</span>" .
+				"<span id='frm_node_desc_" . $object['pos_pk'] . "' style='white-space:nowrap; margin-bottom:5px;' class='small'>";
+		}
+
+		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
+		$authorinfo = new ilForumAuthorInformation(
+			$object['pos_usr_id'],
+			$object['pos_usr_alias'],
+			$object['import_name']
+		);
+		$html .= $authorinfo->getAuthorName();
+		$html .= ", " . ilDatePresentation::formatDate(new ilDateTime($object['pos_date'], IL_CAL_DATETIME)) . "</span>";
+
+		return $html;
+	}
+
+	/**
+	 * This method returns the tree html for the forum template
+	 * @access	public
+	 * @return	string
+
+	 */
+	public function getHtml()
+	{
+		return $this->tpl->get();
+	}
+}
