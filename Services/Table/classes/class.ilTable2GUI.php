@@ -1139,6 +1139,8 @@ class ilTable2GUI extends ilTableGUI
 	* @param	array	selection options ("value" => text")
 	* @param	string	command
 	* @param	string	button text
+	* 
+	* @deprecated
 	*/
 	function addSelectionButton($a_sel_var, $a_options, $a_cmd, $a_text, $a_default_selection = '')
 	{
