@@ -669,203 +669,180 @@ class ilMailFolderGUI
 		$this->ctrl->redirect($this);
 	}
 
+	/**
+	 * Detail view of a mail
+	 */
 	public function showMail()
 	{
-		global $ilUser;
+		/**
+		 * @var $ilUser ilObjUser
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $ilUser, $ilToolbar;
 
-		if ($_SESSION["mail_id"])
+		if($_SESSION['mail_id'])
 		{
-			$_GET["mail_id"] = $_SESSION["mail_id"];
-			$_SESSION["mail_id"] = "";
+			$_GET['mail_id']     = $_SESSION['mail_id'];
+			$_SESSION['mail_id'] = '';
 		}
-			
-		$this->umail->markRead(array($_GET["mail_id"]));
 
-		$mailData = $this->umail->getMail($_GET["mail_id"]);
+		$this->umail->markRead(array((int)$_GET['mail_id']));
+		$mailData = $this->umail->getMail((int)$_GET['mail_id']);
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_read.html", "Services/Mail");
-		$this->tpl->setTitle($this->lng->txt("mail_mails_of"));
-		
-		if ($_SESSION["viewmode"] == "tree") $this->tpl->setVariable("FORM_TARGET", ilFrameTargetInfo::_getFrame("MainContent"));
-		
-		include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
-		
-		// buttons...
-		// reply
-		include_once("./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php");
-		$toolbar = new ilToolbarGUI();
-		if($mailData["sender_id"] &&
-		   $mailData["sender_id"] != ANONYMOUS_USER_ID)
+		$this->tpl->setTitle($this->lng->txt('mail_mails_of'));
+
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
+		$form = new ilPropertyFormGUI();
+		$form->setTableWidth('100%');
+		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+		$form->setFormAction($this->ctrl->getFormAction($this, 'showMail'));
+		$this->ctrl->clearParameters($this);
+		$form->setTitle($this->lng->txt('mail_mails_of'));
+
+		if($_SESSION['viewmode'] == 'tree') $this->tpl->setVariable('FORM_TARGET', ilFrameTargetInfo::_getFrame('MainContent'));
+
+		include_once 'Services/Accessibility/classes/class.ilAccessKeyGUI.php';
+
+		/**
+		 * @var $sender ilObjUser
+		 */
+		$sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
+
+		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
 		{
-			$this->ctrl->setParameterByClass("ilmailformgui", "mail_id", $_GET["mail_id"]);
-			$this->ctrl->setParameterByClass("ilmailformgui", "type", "reply");
-			$this->ctrl->clearParametersByClass("iliasmailformgui");
-			
-			$toolbar->addButton($this->lng->txt("reply"), $this->ctrl->getLinkTargetByClass("ilmailformgui"),
-				"", ilAccessKey::REPLY);
+			$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$_GET['mail_id']);
+			$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
+			$this->ctrl->clearParametersByClass('iliasmailformgui');
+			$ilToolbar->addButton($this->lng->txt('reply'), $this->ctrl->getLinkTargetByClass('ilmailformgui'), '', ilAccessKey::REPLY);
+			$this->ctrl->clearParameters($this);
 		}
-		
-		// forward
-		$this->ctrl->setParameterByClass("ilmailformgui", "mail_id", $_GET["mail_id"]);
-		$this->ctrl->setParameterByClass("ilmailformgui", "type", "forward");
-		$this->ctrl->clearParametersByClass("iliasmailformgui");
-		$toolbar->addButton($this->lng->txt("forward"), $this->ctrl->getLinkTargetByClass("ilmailformgui"),
-				"", ilAccessKey::FORWARD_MAIL);
-		
-		// print
-		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		$this->ctrl->setParameter($this, "cmd", "printMail");
-		$toolbar->addButton($this->lng->txt("print"), $this->ctrl->getLinkTarget($this),
-				"_blank");
-		$this->ctrl->clearParameters($this);
-		
-		// delete
-		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		$this->ctrl->setParameter($this, "selected_cmd", "deleteMails");
-		$toolbar->addButton($this->lng->txt("delete"), $this->ctrl->getLinkTarget($this),
-				"", ilAccessKey::DELETE);
-		$this->ctrl->clearParameters($this);
-		
-		$this->tpl->setVariable("BUTTONS2",$toolbar->getHTML());
 
-		$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
+		$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$_GET['mail_id']);
+		$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'forward');
+		$this->ctrl->clearParametersByClass('iliasmailformgui');
+		$ilToolbar->addButton($this->lng->txt('forward'), $this->ctrl->getLinkTargetByClass('ilmailformgui'), '', ilAccessKey::FORWARD_MAIL);
 		$this->ctrl->clearParameters($this);
 
-		if ($mailData["sender_id"] && 
-		    $mailData["sender_id"] != $ilUser->getId() && 
-			$mailData["sender_id"] != ANONYMOUS_USER_ID)
+		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+		$ilToolbar->addButton($this->lng->txt('print'), $this->ctrl->getLinkTarget($this, 'printMail'), '_blank');
+		$this->ctrl->clearParameters($this);
+
+		$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+		$this->ctrl->setParameter($this, 'selected_cmd', 'deleteMails');
+		$ilToolbar->addButton($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this), '', ilAccessKey::DELETE);
+		$this->ctrl->clearParameters($this);
+
+		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
 		{
-			require_once "Services/Contact/classes/class.ilAddressbook.php";
-			$abook = new ilAddressbook($ilUser->getId());
-			$tmp_user = new ilObjUser($mailData["sender_id"]);
-			if ($abook->checkEntryByLogin($tmp_user->getLogin()) == 0)
+			$linked_fullname    = $sender->getPublicName();
+			$picture            = '';
+			$add_to_addb_button = '';
+
+			if(in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), array('y', 'g')))
 			{
-				$tplbtn = new ilTemplate("tpl.buttons.html", true, true);
-			
-				$tplbtn->setCurrentBlock("btn_cell");
-				$this->ctrl->setParameter($this, "mail_id", $_GET["mail_id"]);
-				$this->ctrl->setParameter($this, "cmd", "add");
-				$tplbtn->setVariable("BTN_LINK", $this->ctrl->getLinkTarget($this));
+				$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+				$this->ctrl->setParameter($this, 'user', $sender->getId());
+				$linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget($this, 'showUser') . '" title="'.$linked_fullname.'">' . $linked_fullname . '</a>';
 				$this->ctrl->clearParameters($this);
-				$tplbtn->setVariable("BTN_TXT", $this->lng->txt("mail_add_to_addressbook"));
-				$tplbtn->parseCurrentBlock();
-				
-				$this->tpl->setVariable("ADD_USER_BTN",$tplbtn->get());
-			}			
-		}
-		
-		// SET MAIL DATA
-		$counter = 1;
-		
-		// FROM
-		if($mailData["sender_id"] != ANONYMOUS_USER_ID)
-		{
-			$tmp_user = new ilObjUser($mailData['sender_id']);		
-			$this->ctrl->setParameter($this, 'mail_id', $_GET['mail_id']);
-			$this->ctrl->setParameter($this, 'user', $tmp_user->getId());				
-			if (in_array(ilObjUser::_lookupPref($mailData['sender_id'], 'public_profile'), array("y", "g")))
-			{
-				$this->tpl->setVariable('PROFILE_LINK_FROM', $this->ctrl->getLinkTarget($this, 'showUser'));
-				$this->tpl->setVariable('FROM', $tmp_user->getFullname());
-			}			
-			$this->tpl->setCurrentBlock("pers_image");
-			$this->tpl->setVariable("IMG_SENDER", $tmp_user->getPersonalPicturePath("xsmall"));
-			$this->tpl->setVariable("ALT_SENDER", $tmp_user->getFullname());
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("adm_content");		
-			if(!($login = $tmp_user->getLogin()))
-			{
-				$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
+
+				if(ilObjUser::_lookupPref($sender->getId(), 'public_upload') == 'y')
+				{
+					$picture = ilUtil::img($sender->getPersonalPicturePath('xsmall'), $sender->getPublicName());
+				}
 			}
-			$this->tpl->setVariable("MAIL_LOGIN",$login);
-			$this->tpl->setVariable("CSSROW_FROM", (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
+
+			if($sender->getId() != $ilUser->getId())
+			{
+				require_once 'Services/Contact/classes/class.ilAddressbook.php';
+				$abook = new ilAddressbook($ilUser->getId());
+				if($abook->checkEntryByLogin($sender->getLogin()) == 0)
+				{
+					$tplbtn = new ilTemplate('tpl.buttons.html', true, true);
+
+					$tplbtn->setCurrentBlock('btn_cell');
+					$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+					$this->ctrl->setParameter($this, 'cmd', 'add');
+					$tplbtn->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this));
+					$this->ctrl->clearParameters($this);
+					$tplbtn->setVariable('BTN_TXT', $this->lng->txt('mail_add_to_addressbook'));
+					$tplbtn->parseCurrentBlock();
+
+					$add_to_addb_button = '<br />' . $tplbtn->get();
+				}
+			}
+
+			$from = new ilCustomInputGUI($this->lng->txt('from'));
+			$from->setHtml($picture . ' ' . $linked_fullname . $add_to_addb_button);
+			$form->addItem($from);
+		}
+		else if(!$sender)
+		{
+			$from = new ilCustomInputGUI($this->lng->txt('from'));
+			$from->setHtml($linked_fullname = $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
+			$form->addItem($from);
 		}
 		else
 		{
-			$this->tpl->setVariable('MAIL_LOGIN', ilMail::_getIliasMailerName());
-			$this->tpl->setCurrentBlock('pers_image');
-			$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIcon.png'));
-			$this->tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
-			$this->tpl->parseCurrentBlock();
+			$from = new ilCustomInputGUI($this->lng->txt('from'));
+			$from->setHtml(ilUtil::img(ilUtil::getImagePath('HeaderIcon.png'), ilMail::_getIliasMailerName()) . '<br />' . ilMail::_getIliasMailerName());
+			$form->addItem($from);
 		}
-		
-		$this->tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
-		
-		// TO
-		$this->tpl->setVariable('TXT_TO', $this->lng->txt('mail_to'));		
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable('TO', ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_to']), false));	
-		$this->tpl->setVariable('CSSROW_TO', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
-		
-		// CC
+
+		$to = new ilCustomInputGUI($this->lng->txt('mail_to'));
+		$to->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_to']), false));
+		$form->addItem($to);
+
 		if($mailData['rcp_cc'])
 		{
-			$this->tpl->setCurrentBlock('cc');
-			$this->tpl->setVariable('TXT_CC',$this->lng->txt('cc'));
-			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-			$this->tpl->setVariable('CC', ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_cc']), false));
-			$this->tpl->setVariable('CSSROW_CC', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
-			$this->tpl->parseCurrentBlock();
+			$cc = new ilCustomInputGUI($this->lng->txt('cc'));
+			$cc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_cc']), false));
+			$form->addItem($cc);
 		}
 
-		// BCC
 		if($mailData['rcp_bcc'])
 		{
-			$this->tpl->setCurrentBlock('bcc');
-			$this->tpl->setVariable('TXT_BCC',$this->lng->txt('bc'));
-			// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-			$this->tpl->setVariable('BCC', ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_bcc']), false));
-			$this->tpl->setVariable('CSSROW_BCC', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
-			$this->tpl->parseCurrentBlock();
+			$bcc = new ilCustomInputGUI($this->lng->txt('bc'));
+			$bcc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_bcc']), false));
+			$form->addItem($bcc);
 		}
-		
-		// SUBJECT
-		$this->tpl->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable('SUBJECT', ilUtil::htmlencodePlainString($mailData['m_subject'], true));
-		$this->tpl->setVariable('CSSROW_SUBJ', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
-		
-		// DATE
-		$this->tpl->setVariable('TXT_DATE', $this->lng->txt('date'));
-		$this->tpl->setVariable('DATE',ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'],IL_CAL_DATETIME)));
-		$this->tpl->setVariable('CSSROW_DATE', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
-		
-		// ATTACHMENTS
+
+		$subject = new ilCustomInputGUI($this->lng->txt('subject'));
+		$subject->setHtml(ilUtil::htmlencodePlainString($mailData['m_subject'], true));
+		$form->addItem($subject);
+
+		$date = new ilCustomInputGUI($this->lng->txt('date'));
+		$date->setHtml(ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'], IL_CAL_DATETIME)));
+		$form->addItem($date);
+
+		$message = new ilCustomInputGUI($this->lng->txt('message'));
+		$message->setHtml(ilUtil::htmlencodePlainString($mailData['m_message'], true));
+		$form->addItem($message);
+
 		if($mailData['attachments'])
 		{
-			$this->tpl->setCurrentBlock('attachment');
-			$this->tpl->setCurrentBlock('a_row');
-			$counter = 1;
+			$att = new ilCustomInputGUI($this->lng->txt('attachments'));
+
+			$radiog = new ilRadioGroupInputGUI('', 'filename');
+
 			foreach($mailData['attachments'] as $file)
 			{
-				$this->tpl->setVariable('A_CSSROW', (++$counter) % 2 ? 'tblrow1' : 'tblrow2');
-				$this->tpl->setVariable('FILE', md5($file));
-				$this->tpl->setVariable('FILE_NAME', $file);
-				$this->tpl->parseCurrentBlock();
+				$radiog->addOption(new ilRadioOption($file, md5($file)));
 			}
-			$this->tpl->setVariable('TXT_ATTACHMENT', $this->lng->txt('attachments'));
-			$this->tpl->setVariable('TXT_DOWNLOAD', $this->lng->txt('download'));
-			$this->tpl->parseCurrentBlock();
+
+			$att->setHtml($radiog->render());
+			$form->addCommandButton('deliverFile', $this->lng->txt('download'));
+			$form->addItem($att);
 		}
-		
-		// MESSAGE
-		$this->tpl->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
-		
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->tpl->setVariable('MAIL_MESSAGE', ilUtil::htmlencodePlainString($mailData['m_message'], true));
 
 		$isTrashFolder = false;
-		if ($this->mbox->getTrashFolder() == $_GET['mobj_id'])
+		if($this->mbox->getTrashFolder() == $_GET['mobj_id'])
 		{
 			$isTrashFolder = true;
 		}
-		
-		// Bottom toolbar		
-		$oBottomToolbar = new ilToolbarGUI();
-		
-		$selectOptions = array();		
-		$actions = $this->mbox->getActions($_GET["mobj_id"]);				
+
+		$selectOptions = array();
+		$actions       = $this->mbox->getActions((int)$_GET["mobj_id"]);
 		foreach($actions as $key => $action)
 		{
 			if($key == 'moveMails')
@@ -873,113 +850,126 @@ class ilMailFolderGUI
 				$folders = $this->mbox->getSubFolders();
 				foreach($folders as $folder)
 				{
-					if ($folder["type"] != 'trash' ||
-						!$isTrashFolder)
+					if($folder["type"] != 'trash' ||
+						!$isTrashFolder
+					)
 					{
 						$optionText = '';
 						if($folder['type'] != 'user_folder')
-						{							
-							$optionText = $action.' '.$this->lng->txt('mail_'.$folder['title']).($folder['type'] == 'trash' ? ' ('.$this->lng->txt('delete').')' : '');
+						{
+							$optionText = $action . ' ' . $this->lng->txt('mail_' . $folder['title']) . ($folder['type'] == 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
 						}
 						else
 						{
-							$optionText = $action.' '.$folder['title'];
+							$optionText = $action . ' ' . $folder['title'];
 						}
-						
+
 						$selectOptions[$folder['obj_id']] = $optionText;
 					}
 				}
 			}
-		}		
+		}
+
 		if(is_array($selectOptions) && count($selectOptions))
 		{
 			include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-			$oActionSelectBox = new ilSelectInputGUI('', 'selected_cmd');
-			$oActionSelectBox->setOptions($selectOptions);
-			$oBottomToolbar->addInputItem($oActionSelectBox);
-			$oBottomToolbar->addFormButton($this->lng->txt('submit'), 'changeFolder');
+			$actions = new ilSelectInputGUI('', 'selected_cmd');
+			$actions->setOptions($selectOptions);
+			$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'showMail'));
+			$ilToolbar->addSeparator();
+			$ilToolbar->addInputItem($actions);
+			$ilToolbar->addFormButton($this->lng->txt('submit'), 'changeFolder');
 		}
-		
+
 		// Navigation
-		$prevMail = $this->umail->getPreviousMail($_GET['mail_id']);
-		$nextMail = $this->umail->getNextMail($_GET['mail_id']);		
+		$prevMail = $this->umail->getPreviousMail((int)$_GET['mail_id']);
+		$nextMail = $this->umail->getNextMail((int)$_GET['mail_id']);
 		if(is_array($prevMail) || is_array($nextMail))
 		{
-			$oBottomToolbar->addSeparator();
-			
+			$ilToolbar->addSeparator();
+
 			if($prevMail['mail_id'])
 			{
 				$this->ctrl->setParameter($this, 'mail_id', $prevMail['mail_id']);
-				$this->ctrl->setParameter($this, 'cmd', 'showMail');				
-				$oBottomToolbar->addButton($this->lng->txt('previous'), $this->ctrl->getLinkTarget($this));
+				$ilToolbar->addButton($this->lng->txt('previous'), $this->ctrl->getLinkTarget($this, 'showMail'));
 				$this->ctrl->clearParameters($this);
-			}				
-			
+			}
+
 			if($nextMail['mail_id'])
 			{
 				$this->ctrl->setParameter($this, 'mail_id', $nextMail['mail_id']);
-				$this->ctrl->setParameter($this, 'cmd', 'showMail');
-				$oBottomToolbar->addButton($this->lng->txt('next'), $this->ctrl->getLinkTarget($this));
+				$ilToolbar->addButton($this->lng->txt('next'), $this->ctrl->getLinkTarget($this, 'showMail'));
 				$this->ctrl->clearParameters($this);
 			}
 		}
-		
-		$this->tpl->setVariable('MAIL_NAVIGATION', $oBottomToolbar->getHTML());
-		$this->tpl->show();
-	}	
 
+		$this->tpl->setContent($form->getHTML());
+		$this->tpl->show();
+	}
+
+	/**
+	 * Print mail
+	 */
 	public function printMail()
 	{
-		$tplprint = new ilTemplate("Services/Mail/templates/default/tpl.mail_print.html",true,true,true);
-		$tplprint->setVariable("JSPATH",$tpl->tplPath);
-		
-		//get the mail from user
-		$mailData = $this->umail->getMail($_GET["mail_id"]);
-		
-		// SET MAIL DATA
-		// FROM		 
-		if($mailData["sender_id"] != ANONYMOUS_USER_ID)
+		/**
+		 * @var $tpl ilTemplate
+		 */
+		global $tpl;
+
+		$tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
+		$tplprint->setVariable('JSPATH', $tpl->tplPath);
+
+		$mailData = $this->umail->getMail((int)$_GET['mail_id']);
+
+		/**
+		 * @var $sender ilObjUser
+		 */
+		$sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
+
+		$tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));
+		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
 		{
-			$tmp_user = new ilObjUser($mailData["sender_id"]);
-			if(!($login = $tmp_user->getFullname()))
-			{
-				$login = $mailData["import_name"]." (".$this->lng->txt("user_deleted").")";
-			}
-			$tplprint->setVariable("FROM", $login);
+			$tplprint->setVariable('FROM', $sender->getPublicName());
+		}
+		else if(!$sender)
+		{
+			$tplprint->setVariable('FROM',  $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 		}
 		else
 		{
 			$tplprint->setVariable('FROM', ilMail::_getIliasMailerName());
 		}
-		
-		$tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));
-		
-		// TO
-		$tplprint->setVariable("TXT_TO", $this->lng->txt("mail_to"));
-		$tplprint->setVariable("TO", $mailData["rcp_to"]);
-		
-		// CC
-		if($mailData["rcp_cc"])
+
+		$tplprint->setVariable('TXT_TO', $this->lng->txt('mail_to'));
+		$tplprint->setVariable('TO', $mailData['rcp_to']);
+
+		if($mailData['rcp_cc'])
 		{
-			$tplprint->setCurrentBlock("cc");
-			$tplprint->setVariable("TXT_CC",$this->lng->txt("cc"));
-			$tplprint->setVariable("CC",$mailData["rcp_cc"]);
+			$tplprint->setCurrentBlock('cc');
+			$tplprint->setVariable('TXT_CC', $this->lng->txt('cc'));
+			$tplprint->setVariable('CC', $mailData['rcp_cc']);
 			$tplprint->parseCurrentBlock();
 		}
-		// SUBJECT
-		$tplprint->setVariable("TXT_SUBJECT",$this->lng->txt("subject"));
-		$tplprint->setVariable("SUBJECT",htmlspecialchars($mailData["m_subject"]));
-		
-		// DATE
-		$tplprint->setVariable("TXT_DATE", $this->lng->txt("date"));
-		$tplprint->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($mailData["send_time"],IL_CAL_DATETIME)));
-		
-		
-		// MESSAGE
-		$tplprint->setVariable("TXT_MESSAGE", $this->lng->txt("message"));
-		$tplprint->setVariable("MAIL_MESSAGE", nl2br(htmlspecialchars($mailData["m_message"])));
-		
-		
+
+		if($mailData['rcp_bcc'])
+		{
+			$tplprint->setCurrentBlock('bcc');
+			$tplprint->setVariable('TXT_BCC', $this->lng->txt('bc'));
+			$tplprint->setVariable('BCC', $mailData['rcp_bcc']);
+			$tplprint->parseCurrentBlock();
+		}
+
+		$tplprint->setVariable('TXT_SUBJECT', $this->lng->txt('subject'));
+		$tplprint->setVariable('SUBJECT', htmlspecialchars($mailData['m_subject']));
+
+		$tplprint->setVariable('TXT_DATE', $this->lng->txt('date'));
+		$tplprint->setVariable('DATE', ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'], IL_CAL_DATETIME)));
+
+		$tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
+		$tplprint->setVariable('MAIL_MESSAGE', nl2br(htmlspecialchars($mailData['m_message'])));
+
 		$tplprint->show();
 	}
 

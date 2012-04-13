@@ -76,9 +76,20 @@ class ilMailBoxQuery
 		{
 			$sortColumn = ", CAST(rcp_to AS VARCHAR2(4000)) SORTCOL";
 		}
+
+		if(self::$orderColumn == 'from')
+		{
+			// Because of the user id of automatically generated mails and ordering issues we have to do some magic
+			$firstname = '
+				,(CASE
+					WHEN (usr_id = '.ANONYMOUS_USER_ID.') THEN firstname 
+					ELSE '.$ilDB->quote(ilMail::_getIliasMailerName(), 'text').'
+				END) fname
+			';
+		}
 		
 		// item query
-		$query = 'SELECT mail.*'.$sortColumn.' FROM mail '
+		$query = 'SELECT mail.*'.$sortColumn.' '.$firstname.' FROM mail '
 			   . 'LEFT JOIN usr_data ON usr_id = sender_id '
 			   . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
 			   . 'WHERE user_id = %s '
@@ -100,18 +111,24 @@ class ilMailBoxQuery
 		{
 			$query .= ' ORDER BY SORTCOL '.$orderDirection;
 		}
-		else if(strlen(self::$orderColumn) &&
-		   $ilDB->tableColumnExists('mail', strtolower(self::$orderColumn)))
-		{
-			$query .= ' ORDER BY '.strtolower(self::$orderColumn).' '.$orderDirection;
-		}
 		else if(self::$orderColumn == 'from')
-		{			
+		{
 			$query .= ' ORDER BY '
-				    . ' firstname '.$orderDirection.', '
+				    . ' fname '.$orderDirection.', '
 				    . ' lastname '.$orderDirection.', '
 				    . ' login '.$orderDirection.', '
 				    . ' import_name '.$orderDirection;
+		}
+		else if(strlen(self::$orderColumn))
+		{
+			if(!in_array(strtolower(self::$orderColumn), array('m_subject', 'send_time', 'rcp_to')) &&
+			   !$ilDB->tableColumnExists('mail', strtolower(self::$orderColumn)))
+			{
+				// @todo: Performance problem...
+				self::$orderColumn = 'send_time';
+			}
+			
+			$query .= ' ORDER BY '.strtolower(self::$orderColumn).' '.$orderDirection;
 		}
 		else
 		{
@@ -119,7 +136,7 @@ class ilMailBoxQuery
 		}
 		
 		$ilDB->setLimit(self::$limit, self::$offset);
-		$res = $ilDB->queryf(
+		$res = $ilDB->queryF(
 			$query,
 			array('integer', 'integer'),
 			array(self::$userId, self::$folderId)
@@ -134,4 +151,3 @@ class ilMailBoxQuery
 		return $mails;
 	}	
 }
-?>

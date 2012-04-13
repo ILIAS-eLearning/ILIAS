@@ -1,40 +1,46 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!doctype html public "-//w3c//dtd html 4.01 transitional//en">
 <html>
-  <head>
-    <title>ILIAS 3 {PAGETITLE}</title>
-  </head>
-  <body onLoad="window.print();">
-	<table class="fullwidth">
-		<TR>
-		  <TD id="header-from" ALIGN="right" width="10%"><strong>{TXT_FROM}:</strong></TD>
-		  <TD headers="header-from">{FROM}</TD>
-		</TR>
-		<TR>
-		  <TD id="header-to" ALIGN="right"><strong>{TXT_TO}:</strong></TD>
-		  <TD headers="header-to">{TO}</TD>
-		</TR>
-		<!-- BEGIN cc -->
-		<TR>
-		  <TD id="header-cc" ALIGN="right"><strong>{TXT_CC}:</strong></TD>
-		  <TD headers="header-cc">{CC}</TD>
-		</TR>
-		<!-- END cc -->
-		<TR>
-		  <TD id="header-subject" ALIGN="right"><strong>{TXT_SUBJECT}:</strong></TD>
-		  <TD headers="header-subject">{SUBJECT}</TD>
-		</TR>
-		<TR>
-		  <TD id="header-date" ALIGN="right"><strong>{TXT_DATE}:</strong></TD>
-		  <TD headers="header-date">{DATE}</TD>
-		</TR>
-	</table>
-	<table class="fullwidth">
-		<TR colspan=2>
-			<TD id="header-message" ALIGN="left" VALIGN="top"><strong>{TXT_MESSAGE}:</strong></TD>
-		</tr>
-		<tr>
-		  <TD headers="header-message" colspan=2>{MAIL_MESSAGE}</TD>
-		</TR>
-	  </TABLE>
-  </body>
+<head>
+	<title>{pagetitle}</title>
+</head>
+<body onload="window.print();">
+<table class="fullwidth">
+	<tr>
+		<td id="header-from" align="right" width="10%"><strong>{TXT_FROM}:</strong></td>
+		<td headers="header-from">{FROM}</td>
+	</tr>
+	<tr>
+		<td id="header-to" align="right"><strong>{TXT_TO}:</strong></td>
+		<td headers="header-to">{TO}</td>
+	</tr>
+	<!-- BEGIN cc -->
+	<tr>
+		<td id="header-cc" align="right"><strong>{TXT_CC}:</strong></td>
+		<td headers="header-cc">{CC}</td>
+	</tr>
+	<!-- END cc -->
+	<!-- BEGIN bcc -->
+	<tr>
+		<td id="header-bcc" align="right"><strong>{TXT_BCC}:</strong></td>
+		<td headers="header-bcc">{BCC}</td>
+	</tr>
+	<!-- END bcc -->
+	<tr>
+		<td id="header-subject" align="right"><strong>{TXT_SUBJECT}:</strong></td>
+		<td headers="header-subject">{SUBJECT}</td>
+	</tr>
+	<tr>
+		<td id="header-date" align="right"><strong>{TXT_DATE}:</strong></td>
+		<td headers="header-date">{DATE}</td>
+	</tr>
+</table>
+<table class="fullwidth">
+	<tr colspan="2">
+		<td id="header-message" align="left" valign="top"><strong>{TXT_MESSAGE}:</strong></td>
+	</tr>
+	<tr>
+		<td headers="header-message" colspan="2">{MAIL_MESSAGE}</td>
+	</tr>
+</table>
+</body>
 </html>
