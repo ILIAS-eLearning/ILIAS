@@ -85,6 +85,11 @@ class ilForumAuthorInformationCache
 	 */
 	public static function getUserObjectById($usr_id)
 	{
+		if(!$usr_id)
+		{
+			return NULL;
+		}
+
 		if(!array_key_exists($usr_id, self::$requested_usr_ids_key_map))
 		{
 			self::preloadUserObjects(array($usr_id));
