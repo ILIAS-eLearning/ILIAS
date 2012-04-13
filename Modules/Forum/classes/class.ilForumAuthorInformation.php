@@ -93,7 +93,7 @@ class ilForumAuthorInformation
 		{
 			$this->author = $this->authorEntity;
 		}
-		else if(is_numeric($this->authorEntity))
+		else if(is_numeric($this->authorEntity) && $this->authorEntity)
 		{
 			// Try to read user instance from preloaded cache array
 			$this->author = ilForumAuthorInformationCache::getUserObjectById($this->authorEntity);
