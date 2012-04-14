@@ -609,10 +609,20 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function frameset()
 	{
+		global $ilCtrl;
+		
 		include_once("Services/Frameset/classes/class.ilFramesetGUI.php");
 		$fs_gui = new ilFramesetGUI();
 		$fs_gui->setFramesetTitle($this->object->getTitle());
-		$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "listTerms"));
+		if ((int) $_GET["edit_term"] > 0)
+		{
+			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", (int) $_GET["edit_term"]);
+			$fs_gui->setMainFrameSource($this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
+		}
+		else
+		{
+			$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "listTerms"));
+		}
 		$fs_gui->setSideFrameSource($this->ctrl->getLinkTarget($this, "quickList"));
 		$fs_gui->setMainFrameName("content");
 		$fs_gui->setSideFrameName("tree");
