@@ -12513,3 +12513,4 @@ user#:#user_ownership#:#Repository-Objekte
 registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungscodes kann diese Auswahl überschrieben werden.
 mail#:#mail_system_sender_name#:#Absendername
 mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
+content#:#cont_current_term#:#Aktueller Begriff

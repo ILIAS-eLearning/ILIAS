@@ -487,7 +487,7 @@ if (!false)
 	*/
 	function listDefinitions($a_ref_id = 0, $a_term_id = 0, $a_get_html = false)
 	{
-		global $ilUser, $ilAccess, $ilias, $lng;
+		global $ilUser, $ilAccess, $ilias, $lng, $ilCtrl;
 
 		if ($a_ref_id == 0)
 		{
@@ -511,6 +511,9 @@ if (!false)
 			$ilias->raiseError($lng->txt("permission_denied"),$ilias->error_obj->MESSAGE);
 		}
 
+		// tabs
+		$this->showDefinitionTabs("content");
+		
 		$term = new ilGlossaryTerm($term_id);
 		
 		if (!$a_get_html)
@@ -519,7 +522,7 @@ if (!false)
 
 			require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 			$tpl->getStandardTemplate();
-			$this->setTabs();
+//			$this->setTabs();
 
 			if ($this->offlineMode())
 			{
@@ -732,6 +735,48 @@ if (!false)
 		if ($this->offlineMode() || $a_get_html)
 		{
 			return $tpl->get();
+		}
+	}
+	
+	/**
+	 * Definitions tabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function showDefinitionTabs($a_act)
+	{
+		global $ilTabs, $lng, $ilCtrl;
+		
+		if (!$this->offlineMode())
+		{
+			$ilCtrl->saveParameter($this, "term_id");
+			$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
+			if (!empty ($_REQUEST["term"]))
+			{
+				$this->ctrl->setParameter($this, "term", $_REQUEST["term"]);
+				$this->ctrl->setParameter($this, "oldoffset", $_GET["oldoffset"]);
+				$back = $ilCtrl->getLinkTarget($this, "searchTerms");
+			}
+			else
+			{
+				$back = $ilCtrl->getLinkTarget($this, "listTerms");
+			}
+			$ilTabs->setBackTarget($this->lng->txt("obj_glo"), $back);
+			
+			$ilTabs->addTab("content",
+				$lng->txt("content"),
+				$ilCtrl->getLinkTarget($this, "listDefinitions"));
+	
+			$ilTabs->addTab("print_view",
+				$lng->txt("print_view"),
+				$ilCtrl->getLinkTarget($this, "printViewSelection"));
+	
+			$ilTabs->addNonTabbedLink("editing_view",
+				$lng->txt("glo_editing_view"),
+				"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$_GET["ref_id"]."&amp;edit_term=".$_GET["term_id"]);
+			
+			$ilTabs->activateTab($a_act);
 		}
 	}
 	
@@ -1220,13 +1265,20 @@ if (!false)
 	{
 		global $ilUser, $lng, $ilToolbar, $ilCtrl, $tpl, $ilTabs;
 
-		$this->setTabs();
-		$ilTabs->activateTab("print_view");
-
-		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "printView"),
-			false, "print_view");
-		$ilToolbar->addFormButton($lng->txt("cont_show_print_view"), "printView");
-		$ilToolbar->setCloseFormTag(false);
+		$ilCtrl->saveParameter($this, "term_id");
+		
+		if ((int) $_GET["term_id"] == 0)
+		{
+			$this->setTabs();
+			$ilTabs->activateTab("print_view");
+		}
+		else
+		{
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+			$term = new ilGlossaryTerm((int) $_GET["term_id"]);
+			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
+			$this->showDefinitionTabs("print_view");
+		}
 
 		$this->initPrintViewSelectionForm();
 
@@ -1244,9 +1296,19 @@ if (!false)
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		
 		// selection type
 		$radg = new ilRadioGroupInputGUI($lng->txt("cont_selection"), "sel_type");
 		$radg->setValue("glossary");
+		
+			if ((int) $_GET["term_id"] > 0)
+			{
+				$op1 = new ilRadioOption($lng->txt("cont_current_term"), "term");
+				$radg->addOption($op1);
+				$radg->setValue("term");
+			}
+		
 			//$op1 = new ilRadioOption($lng->txt("cont_current_page"), "page");
 			//$radg->addOption($op1);
 			$op2 = new ilRadioOption($lng->txt("cont_whole_glossary")
@@ -1267,7 +1329,6 @@ if (!false)
 		$this->form->addItem($radg);
 
 		$this->form->addCommandButton("printView", $lng->txt("cont_show_print_view"));
-		$this->form->setCloseTag(false);
 
 		$this->form->setTitle($lng->txt("cont_print_selection"));
 	}
@@ -1307,6 +1368,10 @@ if (!false)
 				{
 					$terms = array();
 				}
+				break;
+				
+			case "term":
+				$terms = array($_GET["term_id"]);
 				break;
 		}
 
@@ -1353,7 +1418,7 @@ if (!false)
 		global $ilAccess, $lng, $ilCtrl;
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
-		
+
 		if (!$this->offlineMode())
 		{
 			if ($this->ctrl->getCmd() != "listDefinitions")
@@ -1397,22 +1462,6 @@ if (!false)
 				}
 
 			}
-			else
-			{
-				$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-				if (!empty ($_REQUEST["term"]))
-				{
-					$this->ctrl->setParameter($this, "term", $_REQUEST["term"]);
-					$this->ctrl->setParameter($this, "oldoffset", $_GET["oldoffset"]);
-					$back = $ilCtrl->getLinkTarget($this, "searchTerms");
-				}
-				else
-				{
-					$back = $ilCtrl->getLinkTarget($this, "listTerms");
-				}
-				$tabs_gui->setBackTarget($this->lng->txt("obj_glo"), $back);
-			}
-			
 		}
 		else
 		{
