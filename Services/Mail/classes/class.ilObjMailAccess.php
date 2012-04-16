@@ -34,6 +34,7 @@ class ilObjMailAccess extends ilObjectAccess
 	{
 		global $rbacsystem;
 
+		require_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($_SESSION["AccountId"]);
 		if($rbacsystem->checkAccess('mail_visible', $mail->getMailObjectReferenceId()))
 		{
