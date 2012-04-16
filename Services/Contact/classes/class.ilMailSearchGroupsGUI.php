@@ -184,6 +184,8 @@ class ilMailSearchGroupsGUI
 
 	function mailMembers()
 	{
+		global $ilUser;
+
 		$members = array();
 
 		if (!is_array($this->umail->getSavedData()))
