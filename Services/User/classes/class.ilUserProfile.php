@@ -735,9 +735,10 @@ class ilUserProfile
 							$ta->setValue($a_user->$m());
 						}
 						$options = array();
+						$lng->loadLanguageModule("meta");
 						foreach ($lng->getInstalledLanguages() as $lang_key)
 						{
-							$options[$lang_key] = $lng->txt("lang_".$lang_key);
+							$options[$lang_key] = $lng->txt("meta_l_".$lang_key);
 						}
 						$ta->setOptions($options);
 						$ta->setRequired($ilSetting->get("require_".$f));
