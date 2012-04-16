@@ -368,11 +368,11 @@ class ilObjMailGUI extends ilObjectGUI
 	/**
 	 * goto target group
 	 */
-	function _goto()
+	function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng, $rbacsystem;
 
-
+		require_once 'Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($_SESSION["AccountId"]);
 		if($rbacsystem->checkAccess('mail_visible', $mail->getMailObjectReferenceId()))
 		{
