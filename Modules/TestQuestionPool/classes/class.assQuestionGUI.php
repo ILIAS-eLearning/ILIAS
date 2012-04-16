@@ -32,10 +32,11 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 * @ilCtrl_Calls assQuestionGUI: ilPageObjectGUI
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
+* @author		Björn Heyser <bheyser@databay.de>
+* @version		$Id$
+* @ingroup		ModulesTestQuestionPool
 */
-class assQuestionGUI
+abstract class assQuestionGUI
 {
 	/**
 	* Question object
@@ -1618,5 +1619,58 @@ class assQuestionGUI
 	{
 	    return in_array($this->ctrl->getCmd(), array('save', 'saveEdit', 'saveReturn'));
 	}
+	
+	public function setQuestionTabs()
+	{
+	}
+	
+	/**
+	 * adds the hints tab to ilTabsGUI
+	 *
+	 * @global	ilCtrl		$ilCtrl
+	 * @param	ilTabsGUI	$tabs
+	 */
+	protected function addTab_QuestionHints(ilTabsGUI $tabs)
+	{
+		global $ilCtrl;
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
+
+		$reflectionClass = null;
+
+		switch( $ilCtrl->getCmdClass() )
+		{
+			case 'ilassquestionhintsgui':
+				
+				$reflectionClass = new ReflectionClass('ilAssQuestionHintsGUI');
+				break;
+
+			case 'ilassquestionhintgui':
+				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
+				$reflectionClass = new ReflectionClass('ilAssQuestionHintGUI');
+				break;
+		}
+		
+		$tabCommands = array();
+		
+		if( $reflectionClass instanceof ReflectionClass )
+			foreach($reflectionClass->getConstants() as $constName => $constValue)
+				if( substr($constName, 0, strlen('CMD_')) == 'CMD_' ) $tabCommands[] = $constValue;
+		
+		$tabLink = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+		
+		$tabs->addTarget('tst_question_hints_tab', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
+	}
+	
+	abstract public function getSolutionOutput(
+		$active_id,
+		$pass = NULL,
+		$graphicalOutput = FALSE,
+		$result_output = FALSE,
+		$show_question_only = TRUE,
+		$show_feedback = FALSE,
+		$show_correct_solution = FALSE,
+		$show_manual_scoring = FALSE
+	);
 }
-?>

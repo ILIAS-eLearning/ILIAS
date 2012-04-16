@@ -36,6 +36,7 @@
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesTestQuestionPool
@@ -68,7 +69,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl;
+		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl;
+		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
 			global $ilias;
@@ -188,7 +190,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case "ilinfoscreengui":
 				$this->infoScreenForward();
 				break;
+			
+			case 'ilassquestionhintsgui':
+	
+				$this->ctrl->setReturn($this, "questions");
+
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI->object->setObjId($this->object->getId());
+				$questionGUI->setQuestionTabs();
 				
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
+				$gui = new ilAssQuestionHintsGUI($questionGUI);
+				$ilCtrl->forwardCommand($gui);
+				
+				break;
+
 			case "ilobjquestionpoolgui":
 			case "":
 				

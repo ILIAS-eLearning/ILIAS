@@ -12514,3 +12514,41 @@ registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungsc
 mail#:#mail_system_sender_name#:#Absendername
 mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
 content#:#cont_current_term#:#Aktueller Begriff
+mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
+assessment#:#tst_setting_offer_hints_label#:#Fragen spezifische Hinweise
+assessment#:#tst_setting_offer_hints_info#:#Wenn diese Option aktiviert ist, werden vorhandene Frage spezifische Hinweise angeboten.
+assessment#:#tst_question_hints_tab#:#Hinweise
+assessment#:#tst_question_hints_table_header#:#Hinweise zur Frage: %s
+assessment#:#tst_question_hints_table_no_items#:#Keine vorhanden Hinweise
+assessment#:#tst_question_hints_table_column_hint_order#:#Reihenfolge
+assessment#:#tst_question_hints_table_column_hint_text#:#Hinweis
+assessment#:#tst_question_hints_table_column_hint_points#:#Punkteabzug
+assessment#:#tst_question_hints_table_link_edit_hint#:#Hinweis bearbeiten
+assessment#:#tst_question_hints_table_link_delete_hint#:#Hinweis löschen
+assessment#:#tst_questions_hints_table_cmd_save_order#:#Reihenfolge speichern
+assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Hinweise löschen
+assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Hinweis in die Sortierung-Zwischenablage ausschneiden
+assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Ausgeschnittenen Hinweis dem gewählten voranstellen
+assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Ausgeschnittenen Hinweis dem gewählten anfügen
+assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Hinweis hinzufügen
+assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Zwischenablage für Hinweis-Sortierung zurücksetzen
+assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#Es wurde(n) kein(e) Hinweis(e) zum Löschen ausgewählt.
+assessment#:#tst_question_hints_delete_hints_confirm_header#:#Möchten sie den/die folgenden Hinweis(e) wirklich löschen?
+assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hinweis %s: %s
+assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Hinweis(e) löschen
+assessment#:#tst_question_hints_delete_success_msg#:#Der/die ausgewählte(n) Hinweis(e) wurde(n) erfolgreich gelöscht.
+assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#Es wurde kein Hinweis zum Ausschneiden ausgewählt.
+assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#Es wurde mehr als ein Hinweis zum Ausschneiden ausgewählt.
+assessment#:#tst_question_hints_form_header_edit#:#Hinweis %s für Frage: %s
+assessment#:#tst_question_hints_form_header_create#:#Neuer Hinweis für Frage: %s
+assessment#:#tst_question_hints_form_label_hint_text#:#Hinweis
+assessment#:#tst_question_hints_form_label_hint_points#:#Punkteabzug
+assessment#:#tst_question_hints_form_cmd_save#:#Hinweis speichern
+assessment#:#tst_question_hints_form_saved_msg#:#Der Hinweis wurde erfolgreich gespeichert.
+assessment#:#tst_question_hints_form_invalid_msg#:#Der Hinweis konnte nicht gespeichert werden. Bitte überprüfen sie ihre Eingaben.
+assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hinweis %s befindet sich in der Sortierungs-Zwischenablage.
+assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungs-Zwischenablage wurde zurückgesetzt.
+assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Hinweise wurde erfolgreich gespeichert.
+assessment#:#tst_question_hints_paste_before_success_msg#:#Der Hinweis %s wurde vor dem Hinweis %s erfolgreich eingefügt.
+assessment#:#tst_question_hints_paste_after_success_msg#:#Der Hinweis %s wurde nach dem Hinweis %s erfolgreich eingefügt.
+

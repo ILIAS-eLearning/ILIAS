@@ -788,6 +788,8 @@ class assSingleChoiceGUI extends assQuestionGUI
 				array("feedback", "saveFeedback"),
 				$classname, "");
 		}
+
+		$this->addTab_QuestionHints($ilTabs);
 		
 		if ($_GET["q_id"])
 		{
@@ -853,7 +855,5 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$_SESSION["choicekeys"] = $this->choiceKeys;
 		return $this->choiceKeys;
 	}
-	
-
 }
 ?>

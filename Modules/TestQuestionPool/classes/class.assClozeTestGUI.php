@@ -778,6 +778,8 @@ class assClozeTestGUI extends assQuestionGUI
 				$classname, "");
 		}
 		
+		$this->addTab_QuestionHints($ilTabs);
+		
 		if ($_GET["q_id"])
 		{
 			$ilTabs->addTarget("solution_hint",
