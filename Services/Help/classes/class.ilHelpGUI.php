@@ -38,7 +38,7 @@ class ilHelpGUI
 	{
 		$this->def_screen_id[$a_part] = $a_id;
 	}
-	
+
 	/**
 	 * Set screen id component
 	 *
@@ -293,9 +293,11 @@ class ilHelpGUI
 	{
 		global $lng;
 		
+		include_once("./Services/Help/classes/class.ilHelp.php");
 		if ($this->screen_id_component != "")
 		{
-			return $lng->txt("help_tt_".$this->screen_id_component."_".$a_tab_id);
+			return ilHelp::getTooltipPresentationText($this->screen_id_component."_".$a_tab_id);
+			//return $lng->txt("help_tt_".$this->screen_id_component."_".$a_tab_id);
 		}
 		return "";
 	}
@@ -312,7 +314,6 @@ class ilHelpGUI
 		
 		return $lng->txt("help_tt_cr_".$a_type);
 	}
-	
 
 }
 ?>

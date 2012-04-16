@@ -12485,7 +12485,6 @@ registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungsc
 mail#:#mail_system_sender_name#:#Absendername
 mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
 content#:#cont_current_term#:#Aktueller Begriff
-mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
 assessment#:#tst_setting_offer_hints_label#:#Fragen spezifische Hinweise
 assessment#:#tst_setting_offer_hints_info#:#Wenn diese Option aktiviert ist, werden vorhandene Frage spezifische Hinweise angeboten.
 assessment#:#tst_question_hints_tab#:#Hinweise
@@ -12522,4 +12521,3 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungs-Zw
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Hinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Hinweis %s wurde vor dem Hinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Hinweis %s wurde nach dem Hinweis %s erfolgreich eingefügt.
-

@@ -2546,12 +2546,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 		if (ilObjContentObject::isOnlineHelpModule($this->object->getRefId()))
 		{
+			$lng->loadLanguageModule("help");
 			$ilTabs->addSubtab("export_ids",
 				$lng->txt("cont_online_help_ids"),
 				$ilCtrl->getLinkTarget($this, "showExportIDsOverview"));
 			
 			$ilTabs->addSubtab("help_tooltips",
-				$lng->txt("cont_help_tooltips"),
+				$lng->txt("help_tooltips"),
 				$ilCtrl->getLinkTarget($this, "showTooltipList"));
 		}
 		
@@ -3515,10 +3516,18 @@ $tabs_gui = $ilTabs;
 	 */
 	function showTooltipList()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$this->setTabs();
 		$this->setContentSubTabs("help_tooltips");
+		
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ti = new ilTextInputGUI($this->lng->txt("help_tooltip_id"), "tooltip_id");
+		$ti->setMaxLength(200);
+		$ti->setSize(20);
+		$ilToolbar->addInputItem($ti, true);
+		$ilToolbar->addFormButton($lng->txt("add"), "addTooltip");
 		
 		include_once("./Modules/LearningModule/classes/class.ilHelpTooltipTableGUI.php");
 		$tbl = new ilHelpTooltipTableGUI($this, "showTooltipList");
@@ -3526,6 +3535,51 @@ $tabs_gui = $ilTabs;
 		$tpl->setContent($tbl->getHTML());
 	}
 
+	/**
+	 * Add tooltip
+	 *
+	 * @param
+	 * @return
+	 */
+	function addTooltip()
+	{
+		global $lng, $ilCtrl;
+		
+		$tt_id = ilUtil::stripSlashes($_POST["tooltip_id"]);
+		if (trim($tt_id) != "")
+		{
+			include_once("./Services/Help/classes/class.ilHelp.php");
+			ilHelp::addTooltip(trim($tt_id), "");
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "showTooltipList");
+	}
+	
+	/**
+	 * Save tooltips
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveTooltips()
+	{
+		global $ilCtrl, $lng;
+		
+		include_once("./Services/Help/classes/class.ilHelp.php");
+
+		if (is_array($_POST["text"]))
+		{
+			foreach ($_POST["text"] as $id => $text)
+			{
+				ilHelp::updateTooltip((int) $id, ilUtil::stripSlashes($text),
+					ilUtil::stripSlashes($_POST["tt_id"][(int) $id]));
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "showTooltipList");
+	}
+	
+	
 	/**
 	 * Save help mapping
 	 *

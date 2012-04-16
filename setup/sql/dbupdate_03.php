@@ -9344,3 +9344,17 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3554>
+<?php
+$ilDB->addTableColumn("help_tooltip", "tt_id", array(
+		'type' => 'text',
+		'length' => 200,
+		'notnull' => true,
+		'fixed' => false
+	));
+?>
+<#3555>
+<?php
+$ilDB->dropTable('help_tt_map');
+?>
+
