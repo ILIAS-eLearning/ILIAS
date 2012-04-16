@@ -142,6 +142,9 @@ class ilUserAutoComplete
 		}
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': Query: '.$query);
+		
+		// add email only if it is "searchable"
+		$add_email = in_array("email", $this->getFields());
 
 		$max = 20;
 		$cnt = 0;
@@ -150,8 +153,7 @@ class ilUserAutoComplete
 		{
 			$label = $rec["lastname"].", ".$rec["firstname"]." [".$rec["login"]."]";
 			
-			// add email address if search string is part of it
-			if ($rec["email"] && stristr($rec["email"], $a_str))
+			if ($add_email && $rec["email"])
 			{
 				$label .= ", ".$rec["email"];
 			}
