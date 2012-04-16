@@ -377,6 +377,8 @@ class ilPCFileItemGUI extends ilPageContentGUI
 	*/
 	function insertNewItemBefore($a_file_ref_id = 0)
 	{
+		global $ilUser;
+		
 		$res = true;
 		if(isset($_GET["fl_wsp_id"]))
 		{
