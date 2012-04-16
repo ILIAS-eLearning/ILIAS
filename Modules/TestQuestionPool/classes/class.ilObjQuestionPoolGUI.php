@@ -65,8 +65,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	}
 
 	/**
-	* execute command
-	*/
+	 * execute command
+	 *
+	 * @global	ilLocatorGUI		$ilLocator
+	 * @global	ilAccessHandler		$ilAccess
+	 * @global	ilNavigationHistory	$ilNavigationHistory
+	 * @global	ilTemplate			$tpl
+	 * @global	ilCtrl				$ilCtrl
+	 * @global	ILIAS				$ilias 
+	 */
 	function executeCommand()
 	{
 		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl;
@@ -193,13 +200,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			
 			case 'ilassquestionhintsgui':
 	
+				// set return target
 				$this->ctrl->setReturn($this, "questions");
 
+				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 				
+				// forward to ilAssQuestionHintsGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
 				$gui = new ilAssQuestionHintsGUI($questionGUI);
 				$ilCtrl->forwardCommand($gui);

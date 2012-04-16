@@ -24,6 +24,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * Execute Command
 	 * 
+	 * @access	public
 	 * @global	ilCtrl	$ilCtrl
 	 * @return	mixed 
 	 */
@@ -47,6 +48,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * shows the form for managing a new/existing hint
 	 * 
+	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilTemplate	$tpl 
 	 */
@@ -81,6 +83,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * saves the form on successfull validation and redirects to showForm command
 	 * 
+	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilLanguage	$lng
 	 */
@@ -123,6 +126,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * gateway command method to jump back to question hints overview
 	 * 
+	 * @access	private
 	 * @global	ilCtrl	$ilCtrl
 	 */
 	private function cancelFormCmd()
@@ -135,6 +139,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * builds the questions hints form
 	 * 
+	 * @access	private
 	 * @global	ilCtrl				$ilCtrl
 	 * @global	ilLanguage			$lng
 	 * @return	ilPropertyFormGUI	$form
@@ -193,39 +198,5 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 		$form->addCommandButton(self::CMD_SAVE_FORM, $lng->txt('tst_question_hints_form_cmd_save'));
 		
 		return $form;
-	}
-	
-	private static function fetchHintIdsParameter()
-	{
-		$hintIds = array();
-		
-		if( isset($_POST['hint_ids']) && is_array($_POST['hint_ids']) )
-		{
-			foreach($_POST['hint_ids'] as $hintId)
-			{
-				if( (int)$hintId ) $hintIds[] = (int)$hintId;
-			}
-		}
-		elseif( isset($_GET['hint_id']) && (int)$_GET['hint_id'] )
-		{
-			$hintIds[] = (int)$_GET['hint_id'];
-		}
-		
-		return $hintIds;
-	}
-	
-	private static function fetchHintIndexesParameter()
-	{
-		$hintIndexes = array();
-		
-		if( isset($_POST['hint_indexes']) && is_array($_POST['hint_indexes']) )
-		{
-			foreach($_POST['hint_indexes'] as $hintId => $hintIndex)
-			{
-				if( (int)$hintId ) $hintIndexes[(int)$hintId] = $hintIndex;
-			}
-		}
-		
-		return $hintIndexes;
 	}
 }
