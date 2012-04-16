@@ -9,7 +9,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 *
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjFolderAccess.php 26739 2010-11-28 20:33:51Z smeyer $
+* @version $Id$
 *
 */
 class ilObjTestVerificationAccess extends ilObjectAccess

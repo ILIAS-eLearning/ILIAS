@@ -31,6 +31,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * for ordering questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author		Björn Heyser <bheyser@databay.de>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
 */

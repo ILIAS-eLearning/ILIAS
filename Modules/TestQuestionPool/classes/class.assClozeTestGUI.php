@@ -30,6 +30,7 @@ include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 * for cloze test questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author		Björn Heyser <bheyser@databay.de>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
 */

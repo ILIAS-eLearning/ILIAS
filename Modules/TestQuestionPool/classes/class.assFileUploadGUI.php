@@ -29,6 +29,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * for file upload questions.
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @author		Björn Heyser <bheyser@databay.de>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
 * @ilctrl_iscalledby assFileUploadGUI: ilObjQuestionPoolGUI
