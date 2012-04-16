@@ -39,7 +39,7 @@ class ilBlockSetting
 	 */
 	public static function _lookup($a_type, $a_setting, $a_user = 0, $a_block_id = 0)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
 		
 		$key = $a_type.":".$a_setting.":".$a_user.":".$a_block_id;
 		if (isset(self::$setting[$key]))
@@ -58,13 +58,47 @@ class ilBlockSetting
 			self::$setting[$key] = $rec["value"];
 			return $rec["value"];
 		}
+		else if ($ilSetting->get('block_default_setting_'.$a_type.'_'.$a_setting, false))
+		{
+			self::$setting[$key] = $ilSetting->get('block_default_setting_'.$a_type.'_'.$a_setting, false);
+			return $ilSetting->get('block_default_setting_'.$a_type.'_'.$a_setting, false);
+		}
 		else
 		{
 			self::$setting[$key] = false;
 			return false;
 		}
 	}
+	
+	/**
+	 * Sets a default setting for a block.
+	 * 
+	 * @global ilSetting $ilSetting
+	 * 
+	 * @param string $a_type
+	 * @param string $a_setting
+	 * @param mixed  $a_value 
+	 */
+	public static function _setDefaultSetting($a_type, $a_setting, $a_value)
+	{
+		global $ilSetting;
+		$ilSetting->set('block_default_setting_'.$a_type.'_'.$a_setting, $a_value);
+	}
 
+	/**
+	 * Unsets a default setting for a block.
+	 * 
+	 * @global ilSetting $ilSetting
+	 * 
+	 * @param string $a_type
+	 * @param string $a_setting 
+	 */
+	public static function _unsetDefaultSetting($a_type, $a_setting)
+	{
+		global $ilSetting;
+		$ilSetting->delete('block_default_setting_'.$a_type.'_'.$a_setting);
+	}
+	
 	/**
 	 * Preload pd info
 	 *
