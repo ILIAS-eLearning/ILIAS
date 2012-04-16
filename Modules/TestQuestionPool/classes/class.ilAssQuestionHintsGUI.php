@@ -31,13 +31,17 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	const CMD_RESET_ORDERING_CLIPBOARD				= 'resetOrderingClipboard';
 	
 	/**
-	 * @var ilAssQuestionHintOrderingClipboard
+	 * object that handles the current ordering clipboard state
+	 * 
+	 * @access	private
+	 * @var		ilAssQuestionHintOrderingClipboard
 	 */
 	private $hintOrderingClipboard = null;
 	
 	/**
 	 * Constructor
 	 * 
+	 * @access	public
 	 * @param	assQuestionGUI	$questionGUI 
 	 */
 	public function __construct(assQuestionGUI $questionGUI)
@@ -50,6 +54,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * Execute Command
 	 * 
+	 * @access	public
 	 * @global	ilCtrl	$ilCtrl
 	 * @return	mixed 
 	 */
@@ -79,6 +84,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * shows a table with existing hints
 	 * 
+	 * @access	private
 	 * @global	ilTemplate	$tpl
 	 */
 	private function showListCmd()
@@ -120,6 +126,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * shows a confirmation screen with selected hints for deletion
 	 * 
+	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilTemplate	$tpl
 	 * @global	ilLanguage	$lng
@@ -164,6 +171,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * performs confirmed deletion for selected hints
 	 * 
+	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilLanguage	$lng
 	 */
@@ -207,8 +215,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 * saves the order based on indexes passed from tables form
 	 * (the table must not be paginated, because ALL hints indexes are required)
 	 *
-	 * @global ilCtrl		$ilCtrl
-	 * @global ilLanguage	$lng
+	 * @access	private
+	 * @global	ilCtrl		$ilCtrl
+	 * @global	ilLanguage	$lng
 	 */
 	private function saveListOrderCmd()
 	{
@@ -248,7 +257,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * cuts a hint from question hint list and stores it to ordering clipboard
 	 *
-	 * @global ilCtrl	$ilCtrl
+	 * @access	private
+	 * @global	ilCtrl	$ilCtrl
 	 */
 	private function cutToOrderingClipboardCmd()
 	{
@@ -269,8 +279,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * pastes a hint from ordering clipboard before the selected one
 	 *
-	 * @global ilCtrl		$ilCtrl
-	 * @global ilLanguage	$lng
+	 * @access	private
+	 * @global	ilCtrl		$ilCtrl
+	 * @global	ilLanguage	$lng
 	 */
 	private function pasteFromOrderingClipboardBeforeCmd()
 	{
@@ -322,8 +333,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * pastes a hint from ordering clipboard after the selected one
 	 *
-	 * @global ilCtrl		$ilCtrl
-	 * @global ilLanguage	$lng
+	 * @access	private
+	 * @global	ilCtrl		$ilCtrl
+	 * @global	ilLanguage	$lng
 	 */
 	private function pasteFromOrderingClipboardAfterCmd()
 	{
@@ -375,8 +387,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * resets the ordering clipboard
 	 *
-	 * @global ilCtrl		$ilCtrl
-	 * @global ilLanguage	$lng
+	 * @access	private
+	 * @global	ilCtrl		$ilCtrl
+	 * @global	ilLanguage	$lng
 	 */
 	private function resetOrderingClipboardCmd()
 	{
@@ -392,6 +405,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 * inits the notification telling the user,
 	 * that a hint is stored to hint ordering clipboard
 	 * 
+	 * @access	private
 	 * @global	ilLanguage	$lng
 	 */
 	private function initHintOrderingClipboardNotification()
@@ -414,6 +428,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 * checks for an existing hint relating to current question and redirects
 	 * with corresponding failure message on failure
 	 *
+	 * @access	private
 	 * @param	integer	$hintId 
 	 */
 	private function checkForExistingHintRelatingToCurrentQuestionAndRedirectOnFailure($hintId)
@@ -431,6 +446,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 * returns a new quastion hint list that contains all question hints
 	 * from the passed list except for the hint that is stored to ordering clipboard
 	 *
+	 * @access	private
 	 * @param	ilAssQuestionHintList	$questionHintList
 	 * @return	ilAssQuestionHintList	$filteredQuestionHintList
 	 */
@@ -455,6 +471,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	 * checks for a hint id in the passed array and redirects
 	 * with corresponding failure message if not exactly one id is given
 	 *
+	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilLanguage	$lng
 	 * @param	array		$hintIds
