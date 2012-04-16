@@ -109,6 +109,18 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		    }
 		}
 
+		// #8701 - infoscreen actions
+		if($next_class == "ilinfoscreengui" && $ilCtrl->getCmd() != "info")
+		{
+			$ilCtrl->setCmd("info-" . $ilCtrl->getCmd());
+		}
+		// repository info call
+		if($ilCtrl->getCmd() == "infoScreen")
+		{
+			$ilCtrl->setCmdClass("ilinfoscreengui");
+			$ilCtrl->setCmd("info");
+		}
+
 		switch($next_class)
 		{
 

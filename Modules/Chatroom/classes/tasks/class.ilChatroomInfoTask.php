@@ -70,7 +70,14 @@ class ilChatroomInfoTask extends ilDBayTaskHandler
 	    $info->addMetaDataSections(
 		$this->gui->object->getId(), 0, $this->gui->object->getType()
 	    );
-	    $ilCtrl->setCmd( 'showSummary' );
+		if(!$method)
+		{
+			$ilCtrl->setCmd('showSummary');
+		}
+		else
+		{
+			$ilCtrl->setCmd($method);
+		}
 	    $ilCtrl->forwardCommand( $info );
 	}
 
