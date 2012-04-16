@@ -2642,14 +2642,33 @@ class ilObjGroupGUI extends ilContainerGUI
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
 			$this->form->addItem($pres);
-
-			// presentation type
+			
+			// presentation type			
+			$org_view_mode = $this->object->getViewMode(false);			
 			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');
-			$view_type->setValue($this->object->getViewMode());
+			$view_type->setValue($org_view_mode);
 
 			if($hasParentCourse)
 			{
-				$opt = new ilRadioOption($this->lng->txt('grp_view_inherit'),ilContainer::VIEW_INHERIT);
+				if($org_view_mode == ilContainer::VIEW_INHERIT)
+				{					
+					switch($this->object->getViewMode())
+					{
+						case ilContainer::VIEW_SESSIONS:							
+							$course_view_mode = ' ('.$this->lng->txt('cntr_view_sessions').')';
+							break;
+							
+						case ilContainer::VIEW_SIMPLE:
+							$course_view_mode = ' ('.$this->lng->txt('cntr_view_simple').')';
+							break;
+						
+						case ilContainer::VIEW_BY_TYPE:
+							$course_view_mode = ' ('.$this->lng->txt('cntr_view_by_type').')';
+							break;
+					}														
+				}
+				
+				$opt = new ilRadioOption($this->lng->txt('grp_view_inherit').$course_view_mode,ilContainer::VIEW_INHERIT);
 				$opt->setInfo($this->lng->txt('grp_view_inherit_info'));
 				$view_type->addOption($opt);
 			}

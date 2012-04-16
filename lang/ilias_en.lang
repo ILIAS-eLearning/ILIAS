@@ -11856,7 +11856,7 @@ grp#:#grp_setting_header_registration#:#Group Registration
 grp#:#grp_view_info_by_type#:#This content presentation groups all items by resource type.
 grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.
 grp#:#grp_presentation_type#:#Presentation Type
-grp#:#grp_view_inherit#:#Standard
+grp#:#grp_view_inherit#:#Default
 grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. 
 content#:#cont_open#:#Display
 content#:#cont_open_normal#:#in tab / new window with link
