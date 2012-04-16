@@ -15,43 +15,64 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHint.php';
 class ilAssQuestionHintList implements Iterator
 {
 	/**
-	 * @var array
+	 * the hint items array
+	 * 
+	 * @access	private
+	 * @var		array
 	 */
 	private $questionHints = array();
 	
 	/**
-	 * @return mixed 
+	 * iterator interface method
+	 * 
+	 * @access	public
+	 * @return	mixed 
 	 */
 	public function current() { return current($this->questionHints); }
 
 	/**
-	 * @return mixed 
+	 * iterator interface method
+	 * 
+	 * @access	public
+	 * @return	mixed 
 	 */
 	public function rewind() { return reset($this->questionHints); }
 	
 	/**
-	 * @return mixed 
+	 * iterator interface method
+	 * 
+	 * @access	public
+	 * @return	mixed 
 	 */
 	public function next() { return next($this->questionHints); }
 	
 	/**
-	 * @return mixed 
+	 * iterator interface method
+	 * 
+	 * @access	public
+	 * @return	mixed 
 	 */
 	public function key() { return key($this->questionHints); }
 	
 	/**
-	 * @return boolean
+	 * iterator interface method
+	 * 
+	 * @access	public
+	 * @return	boolean
 	 */
 	public function valid() { return key($this->questionHints) !== null; }
 	
 	/**
-	 * constructor
+	 * Constructor
+	 * 
+	 * @access	public
 	 */
 	public function __construct() { }
 	
 	/**
 	 * adds a question hint object to the current list instance
 	 * 
+	 * @access	public
 	 * @param	ilAssQuestionHint	$questionHint
 	 */
 	public function addHint(ilAssQuestionHint $questionHint)
@@ -62,6 +83,7 @@ class ilAssQuestionHintList implements Iterator
 	/**
 	 * returns the question hint object relating to the passed hint id
 	 *
+	 * @access	public
 	 * @param	integer				$hintId
 	 * @return	ilAssQuestionHint	$questionHint
 	 */
@@ -85,6 +107,7 @@ class ilAssQuestionHintList implements Iterator
 	 * checks wether a question hint object
 	 * relating to the passed id exists or not
 	 *
+	 * @access	public
 	 * @param	integer		$hintId
 	 * @return	boolean		$hintExists
 	 */
@@ -103,6 +126,15 @@ class ilAssQuestionHintList implements Iterator
 		return false;
 	}
 	
+	/**
+	 * re-indexes the list's hints sequentially by current order (starting with index "1")
+	 * 
+	 * ATTENTION: it also persists this index to db by performing an update of hint object via id.
+	 * do not re-index any hint list objects unless this lists contain ALL hint objects for a SINGLE question
+	 * and no more hints apart of that.
+	 * 
+	 * @access	public
+	 */
 	public function reIndex()
 	{
 		$counter = 0;
@@ -120,7 +152,8 @@ class ilAssQuestionHintList implements Iterator
 	 * returns an array with data of the hints in this list
 	 * that is adopted to be used as table gui data
 	 * 
-	 * @return array
+	 * @access	public
+	 * @return	array	$tableData
 	 */
 	public function getTableData()
 	{
@@ -144,6 +177,8 @@ class ilAssQuestionHintList implements Iterator
 	/**
 	 * instantiates a question hint list for the passed question id
 	 * 
+	 * @access	public
+	 * @static
 	 * @global	ilDB	$ilDB
 	 * @param	integer	$questionId
 	 * @return	self	$questionHintList
@@ -187,6 +222,8 @@ class ilAssQuestionHintList implements Iterator
 	/**
 	 * instantiates a question hint list for the passed hint ids
 	 * 
+	 * @access	public
+	 * @static
 	 * @global	ilDB	$ilDB
 	 * @param	array	$hintIds
 	 * @return	self	$questionHintList
@@ -232,6 +269,8 @@ class ilAssQuestionHintList implements Iterator
 	 * that is to be added to the list of existing hints
 	 * regarding to the question with passed question id
 	 *
+	 * @access	public
+	 * @static
 	 * @global	ilDB		$ilDB $ilDB
 	 * @param	integer		$questionId
 	 * @return	integer		$nextIndex 

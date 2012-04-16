@@ -733,10 +733,12 @@ class assSingleChoiceGUI extends assQuestionGUI
 	}
 
 	/**
-	* Sets the ILIAS tabs for this question type
-	*
-	* @access public
-	*/
+	 * Sets the ILIAS tabs for this question type
+	 *
+	 * @access public
+	 * 
+	 * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
+	 */
 	function setQuestionTabs()
 	{
 		global $rbacsystem, $ilTabs;
@@ -790,6 +792,7 @@ class assSingleChoiceGUI extends assQuestionGUI
 				$classname, "");
 		}
 
+		// add tab for question hint within common class assQuestionGUI
 		$this->addTab_QuestionHints($ilTabs);
 		
 		if ($_GET["q_id"])

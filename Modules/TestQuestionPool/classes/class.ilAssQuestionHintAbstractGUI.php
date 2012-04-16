@@ -15,18 +15,25 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
 abstract class ilAssQuestionHintAbstractGUI
 {
 	/**
-	 * @var assQuestionGUI
+	 * gui instance of current question
+	 * 
+	 * @access	protected
+	 * @var		assQuestionGUI
 	 */
 	protected $questionGUI = null;
 	
 	/**
-	 * @var assQuestion 
+	 * object instance of current question
+	 * 
+	 * @access	protected
+	 * @var		assQuestion 
 	 */
 	protected $questionOBJ = null;
 	
 	/**
 	 * Constructor
 	 * 
+	 * @access	public
 	 * @param	assQuestionGUI	$questionGUI 
 	 */
 	public function __construct(assQuestionGUI $questionGUI)

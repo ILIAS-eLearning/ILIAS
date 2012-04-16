@@ -477,8 +477,10 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	
 	/**
 	 * fetches either an array of hint ids from POST or a single hint id from GET
-	 * and returns an array of (a single) hint id(s) in both cases
+	 * and returns an array of (a single) hint id(s) casted to integer in both cases
 	 *
+	 * @access	private
+	 * @static
 	 * @return	array	$hintIds
 	 */
 	private static function fetchHintIdsParameter()
@@ -503,9 +505,12 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * fetches an array of hint indexes from POST and prepares this array
 	 * to be used for saving the hint lists order
-	 * (flips and sorts the array.. so key is the index
-	 * value is the hint id and the elements have the new order)
+	 * 
+	 * flips and sorts the array so key is the index value is the hint id casted to integer
+	 * and the elements have the new order to each other
 	 *
+	 * @access	private
+	 * @static
 	 * @return	array	$hintIndexes
 	 */
 	private static function fetchPreparedHintIndexesParameter()

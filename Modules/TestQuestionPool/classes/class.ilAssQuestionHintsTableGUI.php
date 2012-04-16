@@ -16,18 +16,25 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 class ilAssQuestionHintsTableGUI extends ilTable2GUI
 {
 	/**
-	 * @var assQuestion
+	 * the object instance for current question
+	 * 
+	 * @access	private
+	 * @var		assQuestion
 	 */
 	private $questionOBJ = null;
 	
 	/**
-	 * @var ilAssQuestionHintOrderingClipboard
+	 * hint clipboard for ordering operations
+	 * 
+	 * @access	private
+	 * @var		ilAssQuestionHintOrderingClipboard
 	 */
 	private $hintOrderingClipboard = null;
 	
 	/**
 	 * Constructor
 	 * 
+	 * @access	public
 	 * @global	ilLanguage				$lng
 	 * @param	assQuestion				$questionOBJ
 	 * @param	ilAssQuestionHintsGUI	$parentGUI
@@ -64,6 +71,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	/**
 	 * inits the required command buttons / multi selection commands
 	 *
+	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilLanguage	$lng
 	 */
@@ -107,6 +115,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	/**
 	 * inits the required columns
 	 * 
+	 * @access	private
 	 * @global	ilLanguage	$lng
 	 */
 	private function initColumns()
@@ -129,6 +138,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 * returns the fact wether the passed field
 	 * is to be ordered numerically or not
 	 *
+	 * @access	public
 	 * @param	string	$field
 	 * @return	boolean	$numericOrdering
 	 */
@@ -148,6 +158,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	/**
 	 * renders a table row by filling wor data to table row template
 	 * 
+	 * @access	public
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilLanguage	$lng
 	 * @param	array		$rowData
