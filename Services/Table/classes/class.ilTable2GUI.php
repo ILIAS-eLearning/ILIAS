@@ -641,12 +641,13 @@ class ilTable2GUI extends ilTableGUI
 				break;
 
 			case self::FILTER_LANGUAGE:
+				$lng->loadLanguageModule("meta");
 				include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 				$item = new ilSelectInputGUI($caption, $id);
 				$options = array("" => $lng->txt("trac_all"));
 				foreach ($lng->getInstalledLanguages() as $lang_key)
 				{
-					$options[$lang_key] = $lng->txt("lang_".$lang_key);
+					$options[$lang_key] = $lng->txt("meta_l_".$lang_key);
 				}
 				$item->setOptions($options);
 				break;

@@ -2511,9 +2511,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		$languages = $this->lng->getInstalledLanguages();
 		$options = array();
+		$this->lng->loadLanguageModule("meta");
 		foreach ($languages as $lang)
 		{
-			$options[$lang] = $this->lng->txt("lang_$lang");
+			$options[$lang] = $this->lng->txt("meta_l_".$lang);
 		}
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($this->lng->txt("survey_codes_lang"), "lang");

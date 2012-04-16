@@ -1577,11 +1577,12 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$lang = new ilSelectInputGUI($lng->txt("language"),
 				'language');
-			$languages = $this->lng->getInstalledLanguages();
+			$languages = $lng->getInstalledLanguages();
+			$lng->loadLanguageModule("meta");
 			$options = array();
 			foreach($languages as $l)
 			{
-				$options[$l] = $lng->txt("lang_".$l);
+				$options[$l] = $lng->txt("meta_l_".$l);
 			}
 			$lang->setOptions($options);
 			$lang->setValue($ilSetting->get("language"));
