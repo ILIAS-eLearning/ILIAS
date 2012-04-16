@@ -128,6 +128,11 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 			$this->tpl->setVariable(strtoupper($key), $value);
 		}
 		$this->tpl->setVariable('SHORT', $this->mode["short"]);
-	}	
+	}
+
+	public function numericOrdering($column)
+	{
+		if($column == 'CRS_NO_MEMBERS') return true;
+	}
 } 
 ?>
