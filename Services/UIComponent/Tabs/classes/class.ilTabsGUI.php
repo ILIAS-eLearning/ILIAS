@@ -482,7 +482,8 @@ class ilTabsGUI
 				if ($ttext != "")
 				{
 					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-					ilTooltipGUI::addTooltip($pre."tab_".$target["id"], $ttext);
+					ilTooltipGUI::addTooltip($pre."tab_".$target["id"], $ttext, "",
+						"bottom center", "top center", false);
 				}
 				
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);

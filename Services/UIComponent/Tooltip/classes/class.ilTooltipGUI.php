@@ -17,7 +17,7 @@ class ilTooltipGUI
 	 * @param string $a_el_id element id of container the tooltip should be added to
 	 */
 	static function addTooltip($a_el_id, $a_text, $a_container = "",
-		$a_my = "bottom center", $a_at = "top center")
+		$a_my = "bottom center", $a_at = "top center", $a_use_htmlspecialchars = true)
 	{
 		global $tpl;
 		
@@ -32,7 +32,8 @@ $tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_nightly/jquery.
 			self::$initialized = true;
 		}
 		
-		$code = self::getTooltip($a_el_id, $a_text, $a_container, $a_my, $a_at);
+		$code = self::getTooltip($a_el_id, $a_text, $a_container, $a_my, $a_at,
+			$a_use_htmlspecialchars);
 		$tpl->addOnLoadCode($code); 
 	}
 	
@@ -44,7 +45,7 @@ $tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_nightly/jquery.
 	 * @param string $a_el_id element id of container the tooltip should be added to
 	 */
 	static function getToolTip($a_el_id, $a_text, $a_container = "",
-		$a_my = "bottom center", $a_at = "top center")
+		$a_my = "bottom center", $a_at = "top center", $a_use_htmlspecialchars = true)
 	{
 		$addstr = "";
 		if ($a_container != "")
@@ -52,11 +53,19 @@ $tpl->addJavascript("./Services/UIComponent/Tooltip/lib/qtip_2_0_nightly/jquery.
 			$addstr.= ", container: '".$a_container."'";
 		}
 
+		if ($a_use_htmlspecialchars)
+		{
+			$a_text = htmlspecialchars(str_replace(array("\n", "\r"), "", $a_text));
+		}
+		else
+		{
+			$a_text = str_replace(array("\n", "\r", "'", '"'), array("", "", "\'", '\"'), $a_text);
+		}
 		return 'il.Tooltip.add("'.$a_el_id.'", {'.
 			' context:"'.$a_el_id.'",'.
 			' my:"'.$a_my.'",'.
 			' at:"'.$a_at.'",'.
-			' text:"'.htmlspecialchars(str_replace(array("\n", "\r"), "", $a_text)).'" '.$addstr.'} );';
+			' text:"'.$a_text.'" '.$addstr.'} );';
 	}
 	
 }
