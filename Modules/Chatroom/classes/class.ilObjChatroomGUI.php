@@ -54,7 +54,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		/*require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
 		 var_dump(  ilChatroomServerConnector::checkServerConnection());*/
 		$this->type = 'chtr';
-		$this->ilObjectGUI( $a_data, $a_id, $a_call_by_reference, false );
+		parent::__construct( $a_data, $a_id, $a_call_by_reference, false );
 		$this->lng->loadLanguageModule( 'chatroom' );
 		$this->lng->loadLanguageModule( 'chatroom_adm' );
 	}
@@ -87,12 +87,17 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 	 */
 	public function executeCommand()
 	{
-		//global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs;
-		global $ilCtrl;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl;
 
 		if ('cancel' == $ilCtrl->getCmd() && $this->getCreationMode()) {
 		    parent::cancelCreation();
 		    return;
+		}
+
+		// add entry to navigation history
+		if(!$this->getCreationMode() && $ilAccess->checkAccess('read', '', $_GET['ref_id']))
+		{
+			$ilNavigationHistory->addItem($_GET['ref_id'], './goto.php?target=' . $this->type . '_' . $_GET['ref_id'], $this->type);
 		}
 		
 		$next_class = $ilCtrl->getNextClass();
