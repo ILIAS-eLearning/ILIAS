@@ -122,22 +122,9 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$purchase = new ilPurchaseBaseGUI($this->user_obj, ilPayMethods::_getIdByTitle('paypal'));
 		$purchase->__addBookings();
 
-
-//		global $ilUser;
-//		$this->addBookings(PAY_METHOD_PAYPAL, 'paypal');
-//
-//		$_SESSION['coupons']['paypal'] = array();
-
 		ilUtil::sendSuccess($this->lng->txt('pay_paypal_success'), true);
+		$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 
-//		if(ANONYMOUS_USER_ID == $ilUser->getId() || isset($_SESSION['user_name']))
-//		{
-//			$this->ctrl->redirectByClass('ilShopShoppingCartGUI', '');
-//		}
-//		else
-//		{
-			$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
-//		}
 		return true;
 	}
 	
@@ -512,8 +499,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$is_lm_object = false;
 		$lm_obj_ids = array();
 
-	#	$force_user_login = false;
-
 		if($genSet->get('show_sr_shoppingcart') == 1)
 		{
 			require_once 'Services/RTE/classes/class.ilRTE.php';
@@ -549,12 +534,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					$desc[] = "[" . $obj_type . "] " . $obj_title;
 					$price_arr = ilPaymentPrices::_getPrice($item['price_id']);
 
-// TODO: CURRENCY 
- /*					$is_default_currency = ((int)$price_arr['currency'] == (int)$this->default_currency['currency_id'] ? true : false);
-					$is_default_currency
-					? $item_conversion_rate = (float)$this->default_currency['conversion_rate']
-					: $item_conversion_rate = ilPaymentCurrency::_getConversionRate($price_arr['currency']);
- */ 
 					# checks object_type: needed for purchasing file or crs objects without login
 					switch ($obj_type)
 					{
@@ -686,6 +665,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							if(ANONYMOUS_USER_ID == $ilUser->getId())
 							{
 								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
+								$tpl->touchBlock('attach_submit_event');
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('continue'));
 								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
@@ -694,6 +674,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 								ilUtil::sendInfo('click_to_buy_info');
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBillGUI', ''));
+								$tpl->parseCurrentBlock('terms_checkbox');
 							}
 						}
 						break;
@@ -853,42 +834,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					$num_items += $counter;
 				}
 			}
-	#}
-/*
-		if($_SESSION['tmp_user_account'])
-		{
-			$question = $this->lng->txt('have_existing_account');
-			if($_SESSION['tmp_user_account'])
-			{
-				$question .=  sprintf($this->lng->txt('have_no_existing_account'), $_SESSION['tmp_user_account']['login'],$_SESSION['tmp_user_account']['passwd'][0]);
-			}
-			$question .= $this->lng->txt('please_use_account');
 
-			ilUtil::sendQuestion($question);
-
-			if($_SESSION['tmp_transaction'] || ANONYMOUS_USER_ID == $ilUser->getId())
-			{
-				$this->newUserForm();
-			}
-		}
-*/
-
-/*		if(isset($_SESSION['download_links']))
-		{
-			include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-			$form = new ilPropertyFormGUI();
-			$form->setTitle($this->lng->txt('download'));
-
-			foreach ($_SESSION['download_links'] as $link)
-			{
-				$form_item = new ilNonEditableValueGUI();
-				$form_item->setValue('<a href='.$link.'>'.$link.'</a>');
-				$form->addItem($form_item);
-				$this->tpl->setVariable('FORM', $form->getHTML());
-			}
-			$_SESSION['download_links'] = array();
-		}
-/***/
 		if ($num_items == 0)
 		{
 	#		ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));

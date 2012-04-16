@@ -19,7 +19,7 @@ include_once './Services/Payment/classes/class.ilShopUtils.php';
 include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
 include_once './Services/Payment/classes/class.ilPaymentObject.php';
 
-class ilPurchaseBaseGUI
+class ilPurchaseBaseGUI extends ilShopBaseGUI
 {
 	public $ctrl;
 	public $tpl;
@@ -39,6 +39,7 @@ class ilPurchaseBaseGUI
 	{
 		global $ilias, $lng, $tpl, $rbacsystem, $ilCtrl,  $ilTabs;
 
+		parent::__construct();
 		$this->ilias = $ilias;
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -109,7 +110,7 @@ class ilPurchaseBaseGUI
 		else
 		{
 			$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
-			
+
 			$oForm = new ilPropertyFormGUI();
 			$oForm->setFormAction($this->ctrl->getFormAction($this, 'getPersonalData'));
 			$oForm->setTitle($this->lng->txt('pay_bmf_personal_data'));
@@ -175,7 +176,7 @@ class ilPurchaseBaseGUI
 			$oForm->addcommandButton('getPersonalData',ucfirst($this->lng->txt('next')));		
 
 			$this->tpl->setVariable('FORM', $oForm->getHTML());
-		}
+		}		
 	}
 
 	public function getPersonalData()
@@ -236,7 +237,7 @@ class ilPurchaseBaseGUI
 		else
 		{
 			$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_bill_confirm.html','Services/Payment');
-			
+
 			$this->__showShoppingCart();
 	
 			$this->tpl->setVariable('BILL_CONFIRM_FORMACTION',$this->ctrl->getFormAction($this));
@@ -244,30 +245,13 @@ class ilPurchaseBaseGUI
 			// set table header
 			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_pays_b.gif'));
 			$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_usr'));
-			$this->tpl->touchBlock('stop_floating');
-			$this->tpl->setVariable('TXT_CLOSE_WINDOW',$this->lng->txt('close_window'));
 	
 			// set plain text variables
-			$this->tpl->setVariable('TXT_TERMS_CONDITIONS',$this->lng->txt('pay_bmf_terms_conditions'));
-			$this->tpl->setVariable('TXT_TERMS_CONDITIONS_READ',$this->lng->txt('pay_bmf_terms_conditions_read'));
-			$this->tpl->setVariable('TXT_TERMS_CONDITIONS_SHOW',$this->lng->txt('pay_bmf_terms_conditions_show'));
-			$this->tpl->setVariable('LINK_TERMS_CONDITIONS','./payment.php?view=conditions');
-			$this->tpl->setVariable('TXT_PASSWORD',$this->lng->txt('password'));
 			$this->tpl->setVariable('TXT_CONFIRM_ORDER',$this->lng->txt('pay_confirm_order'));
 	
 			$this->tpl->setVariable('INPUT_VALUE',$this->lng->txt('pay_send_order'));
 			$this->tpl->setVariable('CANCEL',$this->lng->txt('cancel'));
-			if ($this->error != '' &&
-				isset($_POST['terms_conditions']))
-			{
-				$this->tpl->setVariable('TERMS_CONDITIONS_' . strtoupper($_POST['terms_conditions']), ' checked') ;
-			}
-			if ($this->error != '' &&
-				isset($_POST['password']))
-			{
-				$this->tpl->setVariable('PASSWORD', ilUtil::prepareFormOutput($_POST['password'],true));
-			}
-	
+
 			// Button
 			$this->tpl->addBlockfile('BUTTONS', 'buttons', 'tpl.buttons.html');
 			$this->tpl->setCurrentBlock('btn_cell');
@@ -704,6 +688,8 @@ class ilPurchaseBaseGUI
 		unset($current_booking_id);
 		unset($pobject);
 		unset($_SESSION['coupons'][$this->session_var]);
+		
+		$this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 
 	function __emptyShoppingCart()
@@ -723,11 +709,12 @@ class ilPurchaseBaseGUI
 
 	function __loadTemplate()
 	{
-		$this->tpl->addBlockFile('CONTENT', 'content', 'tpl.payb_content.html',
-			'Services/Payment');
-
-		$this->__buildStylesheet();
-		$this->__buildStatusline();
+		global $ilTabs;
+		
+		parent::prepareOutput();
+		
+		$ilTabs->setTabActive('paya_shopping_cart');
+		$this->tpl->getStandardTemplate();
 	}
 
 	function  __buildStatusline()
@@ -872,26 +859,10 @@ class ilPurchaseBaseGUI
 	// if ok, a transaction-id will be generated and the customer gets a bill 
 	function getBill()
 	{
-		if ($_POST['terms_conditions'] != 1)
-		{
-			$this->error = $this->lng->txt('pay_bmf_check_terms_conditions');
-			ilUtil::sendInfo($this->error);
-			$this->getPersonalData();
-			return;
-		}
-		if ($_POST['password'] == '' ||
-			md5($_POST['password']) != $this->user_obj->getPasswd())
-		{
-			$this->error = $this->lng->txt('pay_bmf_password_not_valid');
-			ilUtil::sendInfo($this->error);
-			$this->getPersonalData();
-			return;
-		}
 		$this->error = '';
 		ilUtil::sendInfo($this->lng->txt('pay_message_thanks'));
 		
 		$this->__addBookings();
-		
 	}
 	
 	function __showShoppingCart()
