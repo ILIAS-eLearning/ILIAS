@@ -272,8 +272,18 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->settingsTabs();
 
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
-		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), '1'));
-		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), '2'));
+
+		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), ilForumProperties::VIEW_TREE));
+		$rg_sort_by_date = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), ilForumProperties::VIEW_DATE);
+		$rg_pro->addOption($rg_sort_by_date);
+
+		$view_direction_group_gui = new ilRadioGroupInputGUI('', 'default_view_sort_dir');	
+		$view_desc = new ilRadioOption($this->lng->txt('descending_order'), ilForumProperties::VIEW_DATE_DESC);
+		$view_asc = new ilRadioOption($this->lng->txt('ascending_order'), ilForumProperties::VIEW_DATE_ASC);
+		$view_direction_group_gui->addOption($view_desc);
+		$view_direction_group_gui->addOption($view_asc);
+	
+		$rg_sort_by_date->addSubItem($view_direction_group_gui);
 		$a_form->addItem($rg_pro);
 
 		if($ilSetting->get('enable_anonymous_fora') || $this->objProperties->isAnonymized())
@@ -318,6 +328,19 @@ class ilObjForumGUI extends ilObjectGUI
 		$a_values['post_activation'] = $this->objProperties->isPostActivationEnabled();
 		$a_values['subject_setting'] = $this->objProperties->getSubjectSetting();
 		$a_values['mark_mod_posts'] = $this->objProperties->getMarkModeratorPosts();
+		
+		$default_view = 
+			in_array((int)$this->objProperties->getDefaultView(), array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_DATE_DESC)) 
+			? ilForumProperties::VIEW_DATE 
+			: ilForumProperties::VIEW_TREE;
+		$a_values['default_view'] = $default_view;
+		
+		$default_view_sort_dir = 	
+			(int)$this->objProperties->getDefaultView() != (int)ilForumProperties::VIEW_TREE 
+			? (int)$this->objProperties->getDefaultView() 
+			: ilForumProperties::VIEW_DATE_ASC;
+		
+		$a_values['default_view_sort_dir'] = $default_view_sort_dir;
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -327,7 +350,13 @@ class ilObjForumGUI extends ilObjectGUI
 		 */
 		global $ilSetting;
 		
-		$this->objProperties->setDefaultView((int) $a_form->getInput('default_view'));
+		$view = (int)$_POST['default_view'];
+		if($view == ilForumProperties::VIEW_DATE && (int)$_POST['default_view_sort_dir'] == ilForumProperties::VIEW_DATE_DESC)
+		{
+			$view = ilForumProperties::VIEW_DATE_DESC;
+		}
+		$this->objProperties->setDefaultView($view);		
+	
 		if($ilSetting->get('enable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{
 			$this->objProperties->setAnonymisation((int) $a_form->getInput('anonymized'));
@@ -521,11 +550,17 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		// view
 		$view_group_gui = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'sort');
-			$view_hir = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), 1);
+			$view_hir = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), ilForumProperties::VIEW_TREE);
 		$view_group_gui->addOption($view_hir);
-			$view_dat = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), 2);
+			$view_dat = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), ilForumProperties::VIEW_DATE);
 		$view_group_gui->addOption($view_dat);
 		$this->create_form_gui->addItem($view_group_gui);
+		$view_direction_group_gui = new ilRadioGroupInputGUI('', 'default_view_sort_dir');		
+		$view_desc = new ilRadioOption($this->lng->txt('frm_post_sort_desc'), ilForumProperties::VIEW_DATE_DESC);
+		$view_direction_group_gui->addOption($view_desc);
+		$view_asc = new ilRadioOption($this->lng->txt('frm_post_sort_asc'), ilForumProperties::VIEW_DATE_ASC);
+		$view_direction_group_gui->addOption($view_asc);
+		$view_dat->addSubItem($view_direction_group_gui);
 		
 		// anonymized or not
 		$anonymize_gui = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'), 'anonymized');
@@ -1868,10 +1903,12 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($_SESSION['viewmode'] == 'date')
 		{
 			$orderField = 'frm_posts_tree.fpt_date';
+			$this->objCurrentTopic->setOrderDirection($this->objProperties->getDefaultView() == ilForumProperties::VIEW_DATE_ASC ? 'ASC' : 'DESC');
 		}
 		else
 		{
 			$orderField = 'frm_posts_tree.rgt';
+			$this->objCurrentTopic->setOrderDirection('DESC');
 		}
 				
 		// get forum- and thread-data

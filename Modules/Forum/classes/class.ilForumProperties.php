@@ -9,6 +9,11 @@
 */
 class ilForumProperties
 {	
+	const VIEW_TREE = 1;
+	const VIEW_DATE = 2;
+	const VIEW_DATE_ASC = 2;
+	const VIEW_DATE_DESC = 3;
+	
 	/**
 	 * Object id of current forum
 	 * @access	private
@@ -16,10 +21,10 @@ class ilForumProperties
 	private $obj_id;
 	
 	/**
-	 * Default view ( 1 => 'order by answers', 2 => 'order by date')
+	 * Default view ( 1 => 'order by answers', 2 => 'order by date ascending', 3 => 'order by date descending')
 	 * @access	private
 	 */
-	private $default_view = 1;
+	private $default_view = self::VIEW_TREE;
 	
 	/**
 	 * Defines if a forum is anonymized or not
