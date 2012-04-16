@@ -1151,6 +1151,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$pass_scoring->setDisabled(true);
 		}
 		$form->addItem($pass_scoring);
+		
+		// offer hints
+		$checkBoxOfferHints = new ilCheckboxInputGUI($this->lng->txt("tst_setting_offer_hints_label"), "offer_hints");
+		$checkBoxOfferHints->setInfo($this->lng->txt("tst_setting_offer_hints_info"));
+		if ($total) $checkBoxOfferHints->setDisabled(true);
+		$form->addItem($checkBoxOfferHints);
 
 		// instant feedback
 		$instant_feedback = new ilCheckboxGroupInputGUI($this->lng->txt("tst_instant_feedback"), "instant_feedback");

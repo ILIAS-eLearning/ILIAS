@@ -1258,6 +1258,8 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				array("feedback", "saveFeedback"),
 				$classname, "");
 		}
+
+		$this->addTab_QuestionHints($ilTabs);
 		
 		if ($_GET["q_id"])
 		{

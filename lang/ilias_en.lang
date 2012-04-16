@@ -12523,3 +12523,40 @@ registration#:#registration_code_role_info#:#If you use a registration code, the
 mail#:#mail_system_sender_name#:#Sender Name
 mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.
 content#:#cont_current_term#:#Current Term
+assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints
+assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.
+assessment#:#tst_question_hints_tab#:#Hints
+assessment#:#tst_question_hints_table_header#:#Hints for Question: %s
+assessment#:#tst_question_hints_table_no_items#:#No Existing Hints
+assessment#:#tst_question_hints_table_column_hint_order#:#Order
+assessment#:#tst_question_hints_table_column_hint_text#:#Hint
+assessment#:#tst_question_hints_table_column_hint_points#:#Points Deduction
+assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
+assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint
+assessment#:#tst_questions_hints_table_cmd_save_order#:#Save Order
+assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hints
+assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cut Hint to Ordering Clipboard
+assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Prepend Hint to the Selected One
+assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Append Hint to the Selected One
+assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Add Hint
+assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hint Ordering Clipboard
+assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#No hint(s) selected for deletion.
+assessment#:#tst_question_hints_delete_hints_confirm_header#:#Do you really want to delete the following hint(s)?
+assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hint %s: %s
+assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Delete Hint(s)
+assessment#:#tst_question_hints_delete_success_msg#:#The selected hint(s) has been deleted successfully.
+assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#No hint selected for cutting.
+assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#More than one hint was selected for cutting.
+assessment#:#tst_question_hints_form_header_edit#:#Hint %s for Question: %s
+assessment#:#tst_question_hints_form_header_create#:#New Hint for Question: %s
+assessment#:#tst_question_hints_form_label_hint_text#:#Hint
+assessment#:#tst_question_hints_form_label_hint_points#:#Point Deduction
+assessment#:#tst_question_hints_form_cmd_save#:#Save Hint
+assessment#:#tst_question_hints_form_saved_msg#:#The hint has been saved successfully.
+assessment#:#tst_question_hints_form_invalid_msg#:#The hint could not been saved. Please check your inputs.
+assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is stored in ordering clipboard.
+assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been resetted.
+assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.
+assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.
+assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.
+
