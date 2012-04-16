@@ -306,6 +306,7 @@ assessment#:#answer_image#:#Antwort-Grafik
 assessment#:#answer_is_not_correct_but_positive#:#Sie haben Punkte für Ihre Lösung erhalten, allerdings handelt es sich dabei nicht um die beste Lösung
 assessment#:#answer_is_right#:#Ihre Lösung ist korrekt
 assessment#:#answer_is_wrong#:#Ihre Lösung ist falsch
+assessment#:#answer_characters#:# Zeichen zugelassen, Anzahl der eingegebenen Zeichen: 
 assessment#:#answer_picture#:#Antwort-Bild
 assessment#:#answer_text#:#Antwort-Text
 assessment#:#answer_types#:#Antwort-Typen

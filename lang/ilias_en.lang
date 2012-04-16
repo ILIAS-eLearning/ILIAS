@@ -207,6 +207,7 @@ assessment#:#answer_image#:#Answer Image
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution
 assessment#:#answer_is_right#:#Your solution is correct
 assessment#:#answer_is_wrong#:#Your solution is wrong
+assessment#:#answer_characters#:# characters allowed, entered number of characters: 
 assessment#:#answer_picture#:#Answer Picture
 assessment#:#answer_text#:#Answer Text
 assessment#:#answer_types#:#Answer Types

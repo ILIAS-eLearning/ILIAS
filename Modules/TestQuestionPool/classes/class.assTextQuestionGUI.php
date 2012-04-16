@@ -253,6 +253,9 @@ class assTextQuestionGUI extends assQuestionGUI
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($user_solution, TRUE));
 		$questiontext = $this->object->getQuestion();
+		$max_no_of_chars = $this->object->getMaxNumOfChars();
+		$act_no_of_chars = strlen(strip_tags($user_solution));
+		$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . $this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			if ($graphicalOutput)
@@ -308,7 +311,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->setCurrentBlock("maximum_char_hint");
 			$template->setVariable("MAXIMUM_CHAR_HINT", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()));
 			$template->parseCurrentBlock();
-			$template->setCurrentBlock("has_maxchars");
+			#mbecker: No such block. $template->setCurrentBlock("has_maxchars");
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
@@ -355,7 +358,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->setCurrentBlock("maximum_char_hint");
 			$template->setVariable("MAXIMUM_CHAR_HINT", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxNumOfChars()));
 			$template->parseCurrentBlock();
-			$template->setCurrentBlock("has_maxchars");
+			#mbecker: No such block. $template->setCurrentBlock("has_maxchars");
 			$template->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
 			$template->parseCurrentBlock();
 			$template->setCurrentBlock("maxchars_counter");
