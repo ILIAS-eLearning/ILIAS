@@ -47,6 +47,10 @@ class ilForumTopic
 	
 	private $is_moderator = false;
 	
+	protected $orderDirection = 'DESC';
+	
+	protected static $possibleOrderDirections = array('ASC', 'DESC');
+	
 	/**
 	* Constructor
 	*
@@ -489,13 +493,9 @@ class ilForumTopic
 		array_push($data_types, 'integer', 'integer', 'integer', 'integer');
 		array_push($data, $ilUser->getId(), $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
 
-		if($this->orderField == "frm_posts_tree.fpt_date")
+		if($this->orderField != "")
 		{
-			$query .= " ORDER BY ".$this->orderField." ASC";
-		}
-		else if ($this->orderField != "")
-		{
-			$query .= " ORDER BY ".$this->orderField." DESC";
+			$query .= " ORDER BY ".$this->orderField." ".$this->getOrderDirection();
 		}
 
 		$res = $this->db->queryf($query, $data_types, $data);
@@ -1174,4 +1174,21 @@ class ilForumTopic
 	{
 		return $this->user_notification_enabled;
 	}
+
+	public function setOrderDirection($direction)
+	{
+		if(!in_array(strtoupper($direction), self::$possibleOrderDirections))
+		{
+			$direction = current(self::$possibleOrderDirections);
+		}
+		
+		$this->orderDirection = $direction;
+		return $this;
+	}
+
+	public function getOrderDirection()
+	{
+		return $this->orderDirection;
+	}	
+	
 }
