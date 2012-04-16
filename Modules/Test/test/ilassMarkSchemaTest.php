@@ -25,7 +25,7 @@
 * Unit tests for single choice questions
 * 
 * @author Maximilian Becker <mbecker@databay.de>
-* @version $Id: ilassMultipleChoiceTest.php 19383 2009-03-15 11:27:25Z hschottm $
+* @version $Id$
 * 
 *
 * @ingroup ServicesTree

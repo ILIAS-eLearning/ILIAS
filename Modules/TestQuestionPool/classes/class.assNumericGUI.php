@@ -31,7 +31,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * for numeric questions.
 *
 * @author		Helmut SchottmÃ¼ller <helmut.schottmueller@mac.com>
-* @author   Nina Gharib <nina@wgserve.de>
+* @author		Nina Gharib <nina@wgserve.de>
+* @author		Björn Heyser <bheyser@databay.de>
 * @version	$Id$
 * @ingroup ModulesTestQuestionPool
 */
