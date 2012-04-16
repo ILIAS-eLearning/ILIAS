@@ -1,17 +1,11 @@
 <script type="text/javascript">
 var maxL={MAXCHARS};
 
-function taLimit(taObj) {
-	if (taObj.value.length==maxL) return false;
-	return true;
-}
-
 function taCount(taObj,Cnt) { 
 	cc = createObject('charcounter');
 	if (cc != null) cc.style.visibility = 'visible';
 	objCnt=createObject(Cnt);
 	objVal=taObj.value;
-	if (objVal.length>maxL) objVal=objVal.substring(0,maxL);
 	if (objCnt) objCnt.value=maxL-objVal.length;
 	return true;
 }
