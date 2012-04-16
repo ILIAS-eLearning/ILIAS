@@ -202,9 +202,10 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 		$tpl->setVariable("LANG", $lng->txt("any_language"));
 		$tpl->setVariable("LANGSHORT", "0");
 		$tpl->parseCurrentBlock();
+		$lng->loadLanguageModule("meta");
 		foreach ($languages as $lang_key) {
 			$tpl->setCurrentBlock("language_selection");
-			$tpl->setVariable("LANG", $lng->txt("lang_".$lang_key));
+			$tpl->setVariable("LANG", $lng->txt("meta_l_".$lang_key));
 			$tpl->setVariable("LANGSHORT", $lang_key);
 			if ($_SESSION["il_track_language"] == $lang_key) {
 				$tpl->setVariable("LANG_SEL", " selected=\"1\" ");

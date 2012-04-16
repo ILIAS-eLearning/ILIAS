@@ -548,6 +548,7 @@ class ilObjUserFolder extends ilObject
 			$col++;
 		}
 
+		$this->lng->loadLanguageModule("meta");
 		foreach ($data as $index => $rowdata)
 		{
 			$row++;
@@ -560,7 +561,7 @@ class ilObjUserFolder extends ilObject
 				switch ($fieldname)
 				{
 					case "language":
-						$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("lang_".$value), $a_mode));
+						$worksheet->write($row, $col, ilExcelUtils::_convert_text($this->lng->txt("meta_l_".$value), $a_mode));
 						break;
 					case "time_limit_from":
 					case "time_limit_until":

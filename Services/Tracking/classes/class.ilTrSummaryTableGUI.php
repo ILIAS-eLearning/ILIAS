@@ -318,10 +318,11 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		}
 		
 		// language map
+		$lng->loadLanguageModule("meta");
 		$languages = array();
 		foreach ($lng->getInstalledLanguages() as $lang_key)
 		{
-			$languages[$lang_key] = $lng->txt("lang_".$lang_key);
+			$languages[$lang_key] = $lng->txt("meta_l_".$lang_key);
 		}
 
 		$rows = array();

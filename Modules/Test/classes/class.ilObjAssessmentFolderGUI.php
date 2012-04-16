@@ -144,10 +144,11 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		// reporting language
 		$reporting = new ilSelectInputGUI($this->lng->txt('assessment_settings_reporting_language'), "reporting_language");
 		$languages = $this->lng->getInstalledLanguages();
+		$this->lng->loadLanguageModule("meta");
 		$options = array();
 		foreach ($languages as $lang)
 		{
-			$options[$lang] = $this->lng->txt("lang_" . $lang);
+			$options[$lang] = $this->lng->txt("meta_l_" . $lang);
 		}
 		$reporting->setOptions($options);
 		$reporting->setValue($this->object->_getLogLanguage());

@@ -420,7 +420,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				break;
 
 			case "language":
-				$value = $lng->txt("lang_".$value);
+				$lng->loadLanguageModule("meta");
+				$value = $lng->txt("meta_l_".$value);
 				break;
 
 			case "sel_country":

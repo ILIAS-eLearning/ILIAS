@@ -1530,7 +1530,8 @@ class ilLMStatistics {
                 if ($_POST["language"] == "0") {
                     $tpl->setVariable("VAL_LANGUAGE", $lng->txt("any_language"));
                 } else {
-                    $tpl->setVariable("VAL_LANGUAGE", $lng->txt("lang_".$_POST["language"]));
+					$lng->loadLanguageModule("meta");
+                    $tpl->setVariable("VAL_LANGUAGE", $lng->txt("meta_l_".$_POST["language"]));
                 }
                 $rLehrmodulID = $_SESSION["il_track_rlm_id"];
                 $LehrmodulName = $_SESSION["il_track_lm_name"];
