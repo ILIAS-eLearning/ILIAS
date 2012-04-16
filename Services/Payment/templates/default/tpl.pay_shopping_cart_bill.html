@@ -3,18 +3,53 @@
 <p>{COUPON_TABLE}<br /></p>
 <!-- BEGIN buy_link -->
 <div align="right">
+<form name ="sc" id="sc" action="{SCRIPT_LINK}" method="post" />
 	<!-- BEGIN buy -->
-	<script language="JavaScript">
-	document.write('<a class="submit" href="#" onClick="w = window.open(\'{SCRIPT_LINK}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes,menubar=yes\'); w.focus(); return false">&nbsp;{TXT_BUY}&nbsp;</a>');
-	</script>
-	<noscript>
+
 	<a class="submit" href="{SCRIPT_LINK}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a>
-	</noscript>
 	<!-- END buy -->
 	<!-- BEGIN unlock -->
 	<a class="submit" href="{LINK_UNLOCK}">&nbsp;{TXT_UNLOCK}&nbsp;</a>
 	<!-- END unlock -->
+	<!-- BEGIN terms_checkbox -->
+<font size="-2">{TERMS_CONDITIONS}<input type="checkbox" name="terms_conditions" id="terms_conditions" onclick="enableButton()"></font>
+<!-- END terms_checkbox -->
+<input  name="sb" id="sb" class="submit" type="submit" value="{TXT_BUY}" disabled="disabled"/>
+</form>
 </div>
+<script language="JavaScript">
+    <!--
+    function enableButton()
+    {
+      if(document.sc.terms_conditions.checked == true)
+      {
+		document.sc.sb.disabled = false;
+      }
+	  else
+      if(document.sc.terms_conditions.checked == false)
+      {
+		document.sc.sb.disabled = true;
+      }
+	}
+
+	<!-- BEGIN attach_submit_event -->
+	document.getElementById("sb").onclick = function() {
+		if (document.getElementById("terms_conditions").checked == true) {
+			w = window.open("blank", "ilLogin", "width=800,height=768,status=no,toolbar=no,menubar=no,location=no,dependent=yes,scrollbars=yes")
+
+			document.getElementById("sc").setAttribute("target", "ilLogin");
+			document.getElementById("sc").submit();
+
+			if ("undefined" != typeof w &&
+				"undefined" != typeof w.focus) {
+				w.focus();
+			}
+		}
+		return false;
+	}
+	<!-- END attach_submit_event -->
+-->
+</script>
 <div style="clear:both">&nbsp;</div>
 <!-- END buy_link -->
 <!-- END loop -->
