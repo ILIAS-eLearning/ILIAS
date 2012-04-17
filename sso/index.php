@@ -17,17 +17,18 @@ require_once "include/inc.header.php";
 
 $redirect = $_GET['r'];
 
+$validDomains = array();
+
 $path = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
-if (file_exists($path) && is_readable($path)) {
-	foreach(file($path) as $line) {
-		if (trim($line)) {
+if(file_exists($path) && is_readable($path))
+{
+	foreach(file($path) as $line)
+	{
+		if(trim($line))
+		{
 			$validDomains[] = trim($line);
 		}
 	}
-	
-}
-else {
-	$validDomains = array();	
 }
 
 $P = parse_url($redirect);
