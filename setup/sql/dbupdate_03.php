@@ -9390,3 +9390,12 @@ $ilDB->dropTable('help_tt_map');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3558>
+<?php
+$ilDB->addTableColumn("help_tooltip", "comp", array(
+		'type' => 'text',
+		'length' => 10,
+		'notnull' => true,
+		'fixed' => false
+	));
+?>

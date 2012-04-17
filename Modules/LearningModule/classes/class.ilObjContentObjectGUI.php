@@ -3528,9 +3528,18 @@ $tabs_gui = $ilTabs;
 		$ti->setSize(20);
 		$ilToolbar->addInputItem($ti, true);
 		$ilToolbar->addFormButton($lng->txt("add"), "addTooltip");
+		$ilToolbar->addSeparator();
+		
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = ilHelp::getTooltipComponents();
+		$si = new ilSelectInputGUI($this->lng->txt("help_component"), "help_tt_comp");
+		$si->setOptions($options);
+		$si->setValue(ilSession::get("help_tt_comp"));
+		$ilToolbar->addInputItem($si, true);
+		$ilToolbar->addFormButton($lng->txt("help_filter"), "filterTooltips");
 		
 		include_once("./Modules/LearningModule/classes/class.ilHelpTooltipTableGUI.php");
-		$tbl = new ilHelpTooltipTableGUI($this, "showTooltipList");
+		$tbl = new ilHelpTooltipTableGUI($this, "showTooltipList", ilSession::get("help_tt_comp"));
 
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -3551,9 +3560,28 @@ $tabs_gui = $ilTabs;
 			include_once("./Services/Help/classes/class.ilHelp.php");
 			ilHelp::addTooltip(trim($tt_id), "");
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			
+			$fu = strpos($tt_id, "_");
+			$comp = substr($tt_id, 0, $fu);
+			ilSession::set("help_tt_comp", ilUtil::stripSlashes($comp));
 		}
 		$ilCtrl->redirect($this, "showTooltipList");
 	}
+	
+	/**
+	 * Filter tooltips
+	 *
+	 * @param
+	 * @return
+	 */
+	function filterTooltips()
+	{
+		global $lng, $ilCtrl;
+		
+		ilSession::set("help_tt_comp", ilUtil::stripSlashes($_POST["help_tt_comp"]));
+		$ilCtrl->redirect($this, "showTooltipList");
+	}
+	
 	
 	/**
 	 * Save tooltips

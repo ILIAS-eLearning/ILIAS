@@ -37,11 +37,16 @@ class ilHelp
 	 * @param
 	 * @return
 	 */
-	static function getAllTooltips()
+	static function getAllTooltips($a_comp = "")
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT * FROM help_tooltip");
+		$q = "SELECT * FROM help_tooltip";
+		if ($a_comp != "")
+		{
+			$q.= " WHERE comp = ".$ilDB->quote($a_comp, "text");
+		}
+		$set = $ilDB->query($q);
 		$tts = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{
@@ -61,12 +66,16 @@ class ilHelp
 	{
 		global $ilDB;
 		
+		$fu = strpos($a_tt_id, "_");
+		$comp = substr($a_tt_id, 0, $fu);
+		
 		$nid = $ilDB->nextId("help_tooltip");
 		$ilDB->manipulate("INSERT INTO help_tooltip ".
-			"(id, tt_text, tt_id) VALUES (".
+			"(id, tt_text, tt_id, comp) VALUES (".
 			$ilDB->quote($nid, "integer").",".
 			$ilDB->quote($a_text, "text").",".
-			$ilDB->quote($a_tt_id, "text").
+			$ilDB->quote($a_tt_id, "text").",".
+			$ilDB->quote($comp, "text").
 			")");
 	}
 	
@@ -79,12 +88,37 @@ class ilHelp
 	static function updateTooltip($a_id, $a_text, $a_tt_id)
 	{
 		global $ilDB;
+
+		$fu = strpos($a_tt_id, "_");
+		$comp = substr($a_tt_id, 0, $fu);
 		
 		$ilDB->manipulate("UPDATE help_tooltip SET ".
 			" tt_text = ".$ilDB->quote($a_text, "text").", ".
-			" tt_id = ".$ilDB->quote($a_tt_id, "text").
+			" tt_id = ".$ilDB->quote($a_tt_id, "text").", ".
+			" comp = ".$ilDB->quote($comp, "text").
 			" WHERE id = ".$ilDB->quote($a_id, "integer")
 			);
+	}
+	
+	
+	/**
+	 * Get all tooltip components
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getTooltipComponents()
+	{
+		global $ilDB, $lng;
+		
+		$set = $ilDB->query("SELECT DISTINCT comp FROM help_tooltip ".
+			" ORDER BY comp ");
+		$comps[""] = "- ".$lng->txt("help_all")." -";
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$comps[$rec["comp"]] = $rec["comp"];
+		}
+		return $comps;
 	}
 	
 }
