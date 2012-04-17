@@ -121,5 +121,20 @@ class ilHelp
 		return $comps;
 	}
 	
+	/**
+	 * Delete tooltip
+	 *
+	 * @param
+	 * @return
+	 */
+	static function deleteTooltip($a_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM help_tooltip WHERE ".
+			" id = ".$ilDB->quote($a_id, "integer")
+			);
+	}
+	
 }
 ?>
