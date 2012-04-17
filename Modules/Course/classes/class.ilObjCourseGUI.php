@@ -3641,6 +3641,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
 		$list = new ilAttendanceList($this, $members_obj);		
 		
+		$list->setTitle($this->lng->txt('crs_members_print_title'),
+			$this->lng->txt('obj_crs').': '.$this->object->getTitle().
+			' ('.ilFormat::formatUnixTime(time(),true).')');
+				
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		$this->show_tracking = (ilObjUserTracking::_enabledLearningProgress() and 
@@ -3676,10 +3680,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$list->setCallback(array($this, 'getAttendanceListUserData'));	
 		
 		$this->members_data = $this->fetchPrintMemberData($this->object->getMembersObject()->getParticipants());
-		
-		$list->setTitle($this->lng->txt('crs_members_print_title'),
-			$this->lng->txt('obj_crs').': '.$this->object->getTitle().
-			' -> '.$this->lng->txt('crs_header_members').' ('.ilFormat::formatUnixTime(time(),true).')');
 		
 		echo $list->getFullscreenHTML();
 		exit();

@@ -3064,6 +3064,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
 		$list = new ilAttendanceList($this, $members_obj);		
+				
+		$list->setTitle($this->lng->txt('grp_members_print_title'),
+			$this->lng->txt('obj_grp').': '.$this->object->getTitle().
+			' ('.ilFormat::formatUnixTime(time(),true).')');		
 						
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
@@ -3103,10 +3107,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		$part = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 		$this->members_data = $this->readMemberData($part->getParticipants());
-		
-		$list->setTitle($this->lng->txt('grp_members_print_title'),
-			$this->lng->txt('obj_grp').': '.$this->object->getTitle().
-			' ('.ilFormat::formatUnixTime(time(),true).')');
 		
 		echo $list->getFullscreenHTML();
 		exit();	
