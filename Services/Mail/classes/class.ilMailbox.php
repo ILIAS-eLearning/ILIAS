@@ -553,25 +553,23 @@ class ilMailbox
 	function delete()
 	{
 		global $ilDB;
-
-		$data = array($this->user_id);
 		
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			DELETE FROM mail_obj_data WHERE user_id = %s',
 			array('integer'), array($this->user_id)
 		);
 
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			DELETE FROM mail_options WHERE user_id = %s',
 			array('integer'), array($this->user_id)
 		);
 
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			DELETE FROM mail_saved WHERE user_id = %s',
 			array('integer'), array($this->user_id)
 		);
 		
-		$statement = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			DELETE FROM mail_tree WHERE tree = %s',
 			array('integer'), array($this->user_id)
 		);
@@ -590,9 +588,14 @@ class ilMailbox
 	{
 		global $ilDB;
 
-		$tmp_user =& ilObjectFactory::getInstanceByObjId($this->user_id,false);
+		$tmp_user = ilObjectFactory::getInstanceByObjId($this->user_id, false);
 
-		$statement = $ilDB->manipulateF('
+		if(!$tmp_user)
+		{
+			return false;
+		}
+
+		$ilDB->manipulateF('
 			UPDATE mail 
 			SET sender_id = %s,
 				import_name = %s
