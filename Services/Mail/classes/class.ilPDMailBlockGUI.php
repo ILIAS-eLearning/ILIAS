@@ -157,12 +157,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		global $ilCtrl, $lng;
 
 		$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
-
-		if(++$GLOBALS['i'] == 2)
-		{
-			unset($user);
-			$mail['import_name'] = 'Moepppp';
-		}
 		
 		if($this->getCurrentDetailLevel() > 2)
 		{
