@@ -63,12 +63,6 @@ class ilForumAuthorInformation
 	protected $files = array();
 
 	/**
-	 * @var array
-	 * @static
-	 */
-	protected static $user_images = array();
-
-	/**
 	 * @param ilObjUser|int $authorEntity
 	 * @param			   $pseudonym
 	 * @param			   $importName
@@ -172,25 +166,8 @@ class ilForumAuthorInformation
 		$this->authorProfileLink = $link;
 	}
 
-	/**
-	 * @static
-	 * @param ilObjUser $user
-	 * @return string
-	 */
-	protected static function getCachedUserImageByUser(ilObjUser $user)
-	{
-		if(isset(self::$user_images[$user->getId()]))
-		{
-			return self::$user_images[$user->getId()];
-		}
-
-		self::$user_images[$user->getId()] = $user->getPersonalPicturePath('xsmall');
-
-		return self::$user_images[$user->getId()];
-	}
-
-	/**
-
+	/** 
+	 * 
 	 */
 	protected function init()
 	{
@@ -214,7 +191,7 @@ class ilForumAuthorInformation
 
 				if($this->getAuthor()->getPref('public_upload') == 'y')
 				{
-					$this->profilePicture = self::getCachedUserImageByUser($this->getAuthor());
+					$this->profilePicture = $this->getAuthor()->getPersonalPicturePath('xsmall');
 				}
 
 				if($this->getAuthor()->getPref('public_gender') != 'y')
