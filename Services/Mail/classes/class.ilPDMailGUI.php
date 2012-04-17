@@ -60,15 +60,10 @@ class ilPDMailGUI
 		$sender = ilObjectFactory::getInstanceByObjId($mail_data['sender_id'], false);
 		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
 		{
-			if(in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), array('y', 'g')) &&
-				ilObjUser::_lookupPref($sender->getId(), 'public_upload') == 'y'
-			)
-			{
-				$tpl->setCurrentBlock('pers_image');
-				$tpl->setVariable('IMG_SENDER', $sender->getPersonalPicturePath('xsmall'));
-				$tpl->setVariable('ALT_SENDER', $sender->getPublicName());
-				$tpl->parseCurrentBlock();
-			}
+			$tpl->setCurrentBlock('pers_image');
+			$tpl->setVariable('IMG_SENDER', $sender->getPersonalPicturePath('xsmall'));
+			$tpl->setVariable('ALT_SENDER', $sender->getPublicName());
+			$tpl->parseCurrentBlock();
 
 			$tpl->setVariable('PUBLIC_NAME', $sender->getPublicName());
 		}
