@@ -240,10 +240,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		if($_GET["mail_mode"] != "system")
 		{
 			$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
-					$_GET["mail_id"] . "&mobj_id" . $_GET["mobj_id"] . "&type=reply",
+					$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=reply",
 				$lng->txt("reply"));
 			$content_block->addBlockCommand("ilias.php?baseClass=ilMailGUI&mail_id=" .
-					$_GET["mail_id"] . "&mobj_id" . $_GET["mobj_id"] . "&type=read",
+					$_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=read",
 				$lng->txt("inbox"));
 
 			$ilCtrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
