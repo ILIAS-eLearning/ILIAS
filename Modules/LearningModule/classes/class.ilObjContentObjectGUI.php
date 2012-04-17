@@ -3532,6 +3532,10 @@ $tabs_gui = $ilTabs;
 		
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$options = ilHelp::getTooltipComponents();
+		if (ilSession::get("help_tt_comp") != "")
+		{
+			$options[ilSession::get("help_tt_comp")] = ilSession::get("help_tt_comp");
+		}
 		$si = new ilSelectInputGUI($this->lng->txt("help_component"), "help_tt_comp");
 		$si->setOptions($options);
 		$si->setValue(ilSession::get("help_tt_comp"));
@@ -3607,7 +3611,25 @@ $tabs_gui = $ilTabs;
 		$ilCtrl->redirect($this, "showTooltipList");
 	}
 	
-	
+	/**
+	 * Delete tooltips
+	 */
+	function deleteTooltips()
+	{
+		global $lng, $ilCtrl;
+		
+		if (is_array($_POST["id"]))
+		{
+			include_once("./Services/Help/classes/class.ilHelp.php");
+			foreach ($_POST["id"] as $id)
+			{
+				ilHelp::deleteTooltip((int) $id);
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "showTooltipList");
+	}
+
 	/**
 	 * Save help mapping
 	 *
