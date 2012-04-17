@@ -9386,3 +9386,7 @@ $ilDB->dropTable('help_tt_map');
 	}
 	
 ?>
+<#3557>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
