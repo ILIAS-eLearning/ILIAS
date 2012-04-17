@@ -100,9 +100,31 @@ class ilAuthApache extends Auth
 	
 	
 	public function login() {
-		global $ilIliasIniFile, $ilias;
-		
-		if (!$this->apache_settings->get('apache_auth_authenticate_on_login_page') && preg_match('/.*login\.php$/', $_SERVER['SCRIPT_NAME'])) {
+		$skipClasses = array('ilpasswordassistancegui', 'ilaccountregistrationgui');
+		$skipFiles   = array('pwassist.php');
+		if(in_array(strtolower($_REQUEST['cmdClass']), $skipClasses))
+		{
+			return;
+		}
+		else
+		{
+			$script = pathinfo($_SERVER['PHP_SELF'], PATHINFO_BASENAME);
+			if(in_array(strtolower($script), $skipFiles))
+				return;
+		}
+		if(
+			!$this->apache_settings->get('apache_auth_authenticate_on_login_page') &&
+			(
+				preg_match('/.*login\.php$/', $_SERVER['SCRIPT_NAME']) ||
+				((in_array($_REQUEST['cmd'], array('showLogin', 'showUserAgreement')) || isset($_POST['change_lang_to'])) && strtolower($_REQUEST['cmdClass']) == 'ilstartupgui')
+			)
+		)
+		{
+			return;
+		}
+
+		if(!$this->apache_settings->get('apache_auth_authenticate_on_login_page') && preg_match('/.*login\.php$/', $_SERVER['SCRIPT_NAME']))
+		{
 			return;
 		}
 		
