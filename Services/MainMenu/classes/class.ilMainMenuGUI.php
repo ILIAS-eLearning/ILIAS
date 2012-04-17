@@ -170,7 +170,7 @@ class ilMainMenuGUI
 		$this->renderStatusBox($this->tpl);
 		
 		// online help
-		$this->renderHelpButton();
+		$this->renderHelpButtons();
 
 		$mmle_html = "";
 		
@@ -965,7 +965,7 @@ class ilMainMenuGUI
 	 * @param
 	 * @return
 	 */
-	function renderHelpButton()
+	function renderHelpButtons()
 	{
 		global $ilHelp, $lng, $ilCtrl, $tpl;
 		
@@ -1001,6 +1001,15 @@ class ilMainMenuGUI
 			$ilCtrl->setTargetScript($ts);
 			$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
 
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		if ($ilHelp->getScreenId() != "")
+		{
+			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			$this->tpl->setCurrentBlock("help_tt_icon");
+			$this->tpl->setVariable("IMG_TT_ON", ilUtil::getImagePath("icon_tt.png"));
+			$this->tpl->setVariable("IMG_TT_OFF", ilUtil::getImagePath("icon_tt_off.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}

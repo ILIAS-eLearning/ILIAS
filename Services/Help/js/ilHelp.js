@@ -1,21 +1,18 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-il.Help =
-{
+il.Help = {
+	tt_activated: true,
 	panel: false,
 	ajax_url: '',
 	padding_old: '-',
 	
-	listHelp: function (e)
-	{
+	listHelp: function (e) {
 		// prevent the default action
-		if (e && e.preventDefault)
-		{
+		if (e && e.preventDefault) {
 			e.preventDefault();
 		}
-		else if (window.event && window.event.returnValue)
-		{
+		else if (window.event && window.event.returnValue) {
 			window.eventReturnValue = false;
 		}
 		// hide overlays
@@ -25,13 +22,10 @@ il.Help =
 	},
 	
 	// init the help
-	initPanel: function(e)
-	{
-		if (!this.panel)
-		{
+	initPanel: function (e) {
+		if (!this.panel) {
 			var n = document.getElementById('ilHelpPanel');
-			if (!n)
-			{
+			if (!n) {
 				var b = $("body");
 				b.append("<div class='yui-skin-sam'><div id='ilHelpPanel' class='ilOverlay' style='overflow:auto;'>" +
 					"&nbsp;</div>");
@@ -41,9 +35,7 @@ il.Help =
 			il.Overlay.add("ilHelpPanel", {yuicfg: {}});
 			il.Overlay.show(e, "ilHelpPanel");
 			this.panel = true;
-		}
-		else
-		{
+		} else {
 			il.Overlay.show(e, "ilHelpPanel");
 //			this.panel.show();
 		}
@@ -62,8 +54,7 @@ il.Help =
 		this.sendAjaxGetRequest({cmd: "showHelp"}, {});
 	},
 
-	showPage: function (id)
-	{
+	showPage: function (id) {
 		this.sendAjaxGetRequest({cmd: "showPage", help_page: id}, {});
 		return false;
 	},
@@ -97,34 +88,28 @@ il.Help =
 		this.sendAjaxPostRequest("ilNoteFormAjax", url, {mode: 'cmd'});
 	},*/
 	
-	setAjaxUrl: function(url)
-	{
+	setAjaxUrl: function (url) {
 		this.ajax_url = url;
 	},
 	
-	getAjaxUrl: function()
-	{
+	getAjaxUrl: function () {
 		return this.ajax_url;
 	},
 	
-	sendAjaxGetRequest: function(par, args)
-	{
+	sendAjaxGetRequest: function (par, args) {
 		var url = this.getAjaxUrl();
 		this.sendAjaxGetRequestToUrl(url, par, args)
 	},
 	
-	sendAjaxGetRequestToUrl: function(url, par, args)
-	{
+	sendAjaxGetRequestToUrl: function (url, par, args) {
 		args.reg_type = "get";
 		args.url = url;
-		var cb =
-		{
+		var cb = {
 			success: this.handleAjaxSuccess,
 			failure: this.handleAjaxFailure,
 			argument: args
 		};
-		for (k in par)
-		{
+		for (k in par) {
 			url = url + "&" + k + "=" + par[k];
 		}
 		var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
@@ -147,16 +132,11 @@ il.Help =
 	},*/
 
 
-	handleAjaxSuccess: function(o)
-	{
+	handleAjaxSuccess: function(o) {
 		// perform page modification
-		if(o.responseText !== undefined)
-		{
-			if (o.argument.mode == 'xxx')
-			{
-			}
-			else
-			{
+		if(o.responseText !== undefined) {
+			if (o.argument.mode == 'xxx') {
+			} else {
 				// default action: replace html
 				il.Help.insertPanelHTML(o.responseText);
 				
@@ -167,40 +147,49 @@ il.Help =
 	},
 
 	// FailureHandler
-	handleAjaxFailure: function(o)
-	{
+	handleAjaxFailure: function (o) {
 		console.log("ilHelp.js: Ajax Failure.");
 	},
 
-	insertPanelHTML: function(html)
-	{
+	insertPanelHTML: function (html) {
 		$('div#ilHelpPanel').html(html);
 	},
 	
-	reduceMainContentArea: function()
-	{
+	reduceMainContentArea: function () {
 		var obj = document.getElementById('mainspacekeeper');
-		if (il.Help.padding_old == "-")
-		{
+		if (il.Help.padding_old == "-") {
 			il.Help.padding_old = obj.style.paddingRight;
 		}
 		obj.style.paddingRight = '300px';
 	},
 	
-	resetMainContentArea: function()
-	{
+	resetMainContentArea: function () {
 		var obj = document.getElementById('mainspacekeeper');
 		obj.style.paddingRight = this.padding_old;
 	},
 	
-	closePanel: function(e)
-	{
-		if (this.panel)
-		{
+	closePanel: function(e) {
+		if (this.panel) {
 			il.Overlay.hide(e, "ilHelpPanel");
 			il.Help.panel = false;
 			il.Help.resetMainContentArea();
 		}
+	},
+	
+	switchTooltips: function (e) {
+		var t = il.Help;
+		if (t.tt_activated) {
+			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive').qtip('disable');
+			$('#help_tt_switch_on').css('display', 'none');
+			$('#help_tt_switch_off').css('display', '');
+			t.tt_activated = false;
+		} else {
+			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive').qtip('enable');
+			$('#help_tt_switch_on').css('display', '');
+			$('#help_tt_switch_off').css('display', 'none');
+			t.tt_activated = true;
+		}
+		return false;
 	}
 
 };

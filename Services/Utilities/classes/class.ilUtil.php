@@ -1959,7 +1959,7 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0)
+	public static function img($a_src, $a_alt = "", $a_width = "", $a_height = "", $a_border = 0, $a_id = "")
 	{
 		$img = '<img src="'.$a_src.'"';
 		if ($a_alt != "")
@@ -1973,6 +1973,10 @@ class ilUtil
 		if ($a_height != "")
 		{
 			$img.= ' height="'.$a_height.'"';
+		}
+		if ($a_id != "")
+		{
+			$img.= ' id="'.$a_id.'"';
 		}
 		$img.= ' border="'.(int) $a_border.'"/>';
 
