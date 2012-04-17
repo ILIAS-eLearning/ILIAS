@@ -9357,4 +9357,32 @@ $ilDB->addTableColumn("help_tooltip", "tt_id", array(
 <?php
 $ilDB->dropTable('help_tt_map');
 ?>
+<#3556>
+<?php
 
+	if( !$ilDB->tableExists('usr_form_settings') )
+	{
+		$ilDB->dropTable('member_usr_settings');
+		
+		$ilDB->createTable('usr_form_settings', array(
+			'user_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'id' => array(
+				'type' => 'text',
+				'length' => 50,
+				'notnull' => true
+			),
+			'settings' => array(
+				'type' => 'text',
+				'length' => 4000,
+				'notnull' => true
+			)
+		));
+		
+		$ilDB->addPrimaryKey('usr_form_settings', array('user_id','id'));
+	}
+	
+?>

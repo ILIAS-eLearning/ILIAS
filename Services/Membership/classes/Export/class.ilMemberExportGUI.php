@@ -22,12 +22,12 @@
 */
 
 include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
-include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
 include_once('./Services/Membership/classes/Export/class.ilMemberExport.php');
 include_once('Modules/Course/classes/class.ilFSStorageCourse.php');
 include_once('Modules/Group/classes/class.ilFSStorageGroup.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 include_once('Services/User/classes/class.ilUserDefinedFields.php');
+include_once('Services/User/classes/class.ilUserFormSettings.php');
 
 /**  
 * 
@@ -127,7 +127,7 @@ class ilMemberExportGUI
 		$this->tpl->setVariable('TXT_EXPORT_SUB',$this->lng->txt('ps_export_sub'));
 		
 		// Check user selection
-	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
+	 	$this->exportSettings = new ilUserFormSettings($ilUser->getId(),'memexp');
 		
 	 	$this->tpl->setVariable('CHECK_EXPORT_ADMIN',ilUtil::formCheckbox($this->exportSettings->enabled('admin'),'export_members[admin]',1));
 		if($this->type == 'crs')
@@ -445,7 +445,7 @@ class ilMemberExportGUI
 		global $ilUser;
 
 		// Save settings
-	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
+	 	$this->exportSettings = new ilUserFormSettings($ilUser->getId(),'memexp');
 		$this->exportSettings->set($_POST['export_members']);
 		$this->exportSettings->store();
 		
@@ -464,7 +464,7 @@ class ilMemberExportGUI
 	{
 		global $ilUser;
 		
-	 	$this->exportSettings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
+	 	$this->exportSettings = new ilUserFormSettings($ilUser->getId(),'memexp');
 		$this->exportSettings->set($_POST['export_members']);
 		$this->exportSettings->store();
 		
