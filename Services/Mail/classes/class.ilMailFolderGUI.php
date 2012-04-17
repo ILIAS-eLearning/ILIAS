@@ -779,7 +779,7 @@ class ilMailFolderGUI
 		else if(!$sender)
 		{
 			$from = new ilCustomInputGUI($this->lng->txt('from'));
-			$from->setHtml($linked_fullname = $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
+			$from->setHtml($mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 			$form->addItem($from);
 		}
 		else
