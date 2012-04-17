@@ -41,7 +41,7 @@ class ilMailingListsGUI
 		$this->mlists = new ilMailingLists($ilUser);		
 		$this->mlists->setCurrentMailingList($_GET['ml_id']);
 		
-		$this->ctrl->saveParameter($this, 'mobj_id');	
+		$this->ctrl->saveParameter($this, 'mobj_id');
 	}
 
 	public function executeCommand()
@@ -264,11 +264,31 @@ class ilMailingListsGUI
 		$tbl->setData($result);
 		
 		$tbl->addCommandButton('showForm', $this->lng->txt('add'));
+
+		if(isset($_GET['ref']) && $_GET['ref'] == 'mail')
+		{
+			$tbl->addCommandButton('cancel', $this->lng->txt('cancel'));
+		}
 		
 		$this->tpl->setVariable('MAILING_LISTS', $tbl->getHTML());		
 		$this->tpl->show();
 		
 		return true;
+	}
+
+	/**
+	 * Cancel action
+	 */
+	public function cancel()
+	{
+		if(isset($_GET['ref']) && $_GET['ref'] == 'mail')
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			$this->showMailingLists();
+		}
 	}
 	
 	public function saveForm()

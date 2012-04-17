@@ -12,7 +12,7 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 * @version $Id$
 *
 * @ingroup ServicesMail
-* @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
+* @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
 */
 class ilMailFormGUI
 {
@@ -79,6 +79,13 @@ class ilMailFormGUI
 
 				$this->ctrl->setReturn($this, "searchResults");
 				$this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
+				break;
+			
+			case 'ilmailinglistsgui':
+				include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
+
+				$this->ctrl->setReturn($this, 'searchResults');
+				$this->ctrl->forwardCommand(new ilMailingListsGUI());
 				break;
 
 			case 'ilmailsearchgroupsgui':
@@ -318,70 +325,31 @@ class ilMailFormGUI
 		$this->tpl->show();
 	}
 
+	/**
+	 *
+	 */
 	public function searchCoursesTo()
 	{
-		global $ilUser;
+		$this->saveMailBeforeSearch();
+
+		if($_SESSION['search_crs'])
+		{
+			$this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'cmd', 'showMembers');
+		}
 		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
-		{
-			foreach($_POST['attachments'] as $value)
-			{
-				$files[] = urldecode($value);
-			}
-		}
-
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->umail->savePostData($ilUser->getId(),
-									$files,
-									ilUtil::securePlainString($_POST["rcp_to"]),
-									ilUtil::securePlainString($_POST["rcp_cc"]),
-									ilUtil::securePlainString($_POST["rcp_bcc"]),
-									$_POST["m_type"],
-									ilUtil::securePlainString($_POST["m_email"]),
-									ilUtil::securePlainString($_POST["m_subject"]),
-									ilUtil::securePlainString($_POST["m_message"]),
-									ilUtil::securePlainString($_POST['use_placeholders'])
-									);
-
-		if ($_SESSION["search_crs"])
-		{
-			$this->ctrl->setParameterByClass("ilmailsearchcoursesgui", "cmd", "showMembers");
-		}
-		$this->ctrl->setParameterByClass("ilmailsearchcoursesgui", "ref", "mail");
-		$this->ctrl->redirectByClass("ilmailsearchcoursesgui");
+		$this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'ref', 'mail');
+		$this->ctrl->redirectByClass('ilmailsearchcoursesgui');
 	}
 
+	/**
+	 *
+	 */
 	public function searchGroupsTo()
 	{
-		global $ilUser;
-		
-		// decode post values
-		$files = array();
-		if(is_array($_POST['attachments']))
-		{
-			foreach($_POST['attachments'] as $value)
-			{
-				$files[] = urldecode($value);
-			}
-		}
+		$this->saveMailBeforeSearch();
 
-		// Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-		$this->umail->savePostData($ilUser->getId(),
-									$files,
-									ilUtil::securePlainString($_POST["rcp_to"]),
-									ilUtil::securePlainString($_POST["rcp_cc"]),
-									ilUtil::securePlainString($_POST["rcp_bcc"]),
-									$_POST["m_type"],
-									ilUtil::securePlainString($_POST["m_email"]),
-									ilUtil::securePlainString($_POST["m_subject"]),
-									ilUtil::securePlainString($_POST["m_message"]),
-									ilUtil::securePlainString($_POST['use_placeholders'])
-								);
-
-		$this->ctrl->setParameterByClass("ilmailsearchgroupsgui", "ref", "mail");
-		$this->ctrl->redirectByClass("ilmailsearchgroupsgui");
+		$this->ctrl->setParameterByClass('ilmailsearchgroupsgui', 'ref', 'mail');
+		$this->ctrl->redirectByClass('ilmailsearchgroupsgui');
 	}
 
 	public function searchRcpCc()
@@ -724,6 +692,7 @@ class ilMailFormGUI
 		$this->tpl->setVariable('BUTTON_TO', $lng->txt("search_recipients"));
 		$this->tpl->setVariable('BUTTON_COURSES_TO', $lng->txt("mail_my_courses"));
 		$this->tpl->setVariable('BUTTON_GROUPS_TO', $lng->txt("mail_my_groups"));
+		$this->tpl->setVariable('BUTTON_MAILING_LISTS_TO', $lng->txt("mail_my_mailing_lists"));
 		
 		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
 		
@@ -860,5 +829,48 @@ class ilMailFormGUI
         else
             return $this->showForm();
     }
+
+	/**
+	 *
+	 */
+	protected function saveMailBeforeSearch()
+	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
+		// decode post values
+		$files = array();
+		if(is_array($_POST['attachments']))
+		{
+			foreach($_POST['attachments'] as $value)
+			{
+				$files[] = urldecode($value);
+			}
+		}
+
+		$this->umail->savePostData($ilUser->getId(),
+			$files,
+			ilUtil::securePlainString($_POST['rcp_to']),
+			ilUtil::securePlainString($_POST['rcp_cc']),
+			ilUtil::securePlainString($_POST['rcp_bcc']),
+			$_POST['m_type'],
+			ilUtil::securePlainString($_POST['m_email']),
+			ilUtil::securePlainString($_POST['m_subject']),
+			ilUtil::securePlainString($_POST['m_message']),
+			ilUtil::securePlainString($_POST['use_placeholders'])
+		);
+	}
+
+	/**
+	 *
+	 */
+	public function searchMailingListsTo()
+	{
+		$this->saveMailBeforeSearch();
+
+		$this->ctrl->setParameterByClass('ilmailinglistsgui', 'ref', 'mail');
+		$this->ctrl->redirectByClass('ilmailinglistsgui');
+	}
 }
-?>
