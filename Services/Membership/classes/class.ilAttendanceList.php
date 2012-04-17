@@ -149,6 +149,14 @@ class ilAttendanceList
 		$form->setTarget('_blank');
 		$form->setTitle($lng->txt('sess_gen_attendance_list'));
 		
+		$title = new ilTextInputGUI($lng->txt('title'), 'title');
+		$title->setValue($this->title);
+		$form->addItem($title);
+		
+		$desc = new ilTextInputGUI($lng->txt('description'), 'desc');
+		$desc->setValue($this->description);
+		$form->addItem($desc);
+		
 		if(sizeof($this->presets))
 		{
 			$preset = new ilCheckboxGroupInputGUI($lng->txt('user_detail'), 'preset');		
@@ -226,6 +234,7 @@ class ilAttendanceList
 				}
 			}
 			
+			$this->setTitle($form->getInput('title'), $form->getInput('desc'));
 			$this->setBlankColumns($form->getInput('blank'));
 			$this->showAdmins($form->getInput('show_admins'));
 			$this->showTutors($form->getInput('show_tutors'));

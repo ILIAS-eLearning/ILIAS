@@ -1126,6 +1126,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
 		$list = new ilAttendanceList($this, $members_obj);		
+		
+		$event_app = $this->object->getFirstAppointment();				 
+		ilDatePresentation::setUseRelativeDates(false);
+		$desc = ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd());
+		ilDatePresentation::setUseRelativeDates(true);		
+		$desc .= " ".$this->object->getTitle();	
+		$list->setTitle($this->lng->txt('sess_attendance_list'), $desc);		
+		
 		$list->addPreset('mark', $this->lng->txt('trac_mark'), true);
 		$list->addPreset('comment', $this->lng->txt('trac_comment'), true);		
 		if($this->object->enabledRegistration())
@@ -1157,14 +1165,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 													
 		$list = $this->initAttendanceList();		
-		$list->initFromForm();
-		
-		$event_app = $this->object->getFirstAppointment();				 
-		ilDatePresentation::setUseRelativeDates(false);
-		$desc = ilDatePresentation::formatPeriod($event_app->getStart(),$event_app->getEnd());
-		ilDatePresentation::setUseRelativeDates(true);		
-		$desc .= " ".$this->object->getTitle();	
-		$list->setTitle($this->lng->txt('sess_attendance_list'), $desc);				
+		$list->initFromForm();					
 		$list->setCallback(array($this, 'getAttendanceListUserData'));
 		
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';

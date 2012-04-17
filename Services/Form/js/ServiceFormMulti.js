@@ -11,6 +11,10 @@ var ilMultiFormValues = {
 		$('input:image[id*="ilMultiAdd"]').bind('click', function(e) {
 			ilMultiFormValues.addEvent(e);
 		});
+		// add click event to --icons
+		$('input:image[id*="ilMultiRmv"]').bind('click', function(e) {
+			ilMultiFormValues.removeEvent(e);
+		});
 		// handle preset values (in hidden inputs)
 		$('input[id*="ilMultiValues"]').each(function() {		
 			ilMultiFormValues.handlePreset(this);				
@@ -33,9 +37,12 @@ var ilMultiFormValues = {
 	 * @param event e
 	 */
 	removeEvent: function(e) {
-		var id = $(e.target).attr('id').split('~');
-		if(parseInt(id[2]) > 0)	{
+		var id = $(e.target).attr('id').split('~');			
+		if($('div[id*="ilFormField~' +  id[1] + '"]').length > 1) {
 			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').remove();
+		}
+		else {
+			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').attr('value', '');
 		}
 	},
 
@@ -67,26 +74,27 @@ var ilMultiFormValues = {
 		// fix id of cloned element
 		$(new_element).attr('id', 'ilFormField~' + group_id + '~' + new_id);
 
-		// disabling +-icon
+		// binding +-icon
 		$(new_element).find('[id*="ilMultiAdd"]').each(function() {				
-			$(this).attr('id', 'ilMultiAdd~' + group_id + '~' + new_id);		
-			$(this).hide();		
+			$(this).attr('id', 'ilMultiAdd~' + group_id + '~' + new_id);	
+			$(this).bind('click', function(e) {
+				ilMultiFormValues.addEvent(e);
+			});		
 		});
 
-		// enabling --icon
+		// binding --icon
 		$(new_element).find('[id*="ilMultiRmv"]').each(function() {							
 			$(this).attr('id', 'ilMultiRmv~' + group_id + '~' + new_id);			
 			$(this).bind('click', function(e) {
 				ilMultiFormValues.removeEvent(e);
-			});		
-			$(this).show();		
+			});			
 		});
 
 		// resetting value for new elements if none given
 		ilMultiFormValues.setValue(new_element, preset);
 
 		// insert clone into html	
-		$(original_element).parent().append(new_element);
+		$(original_element).after(new_element);
 	},
 
 	/**
