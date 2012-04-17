@@ -12533,3 +12533,6 @@ assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been p
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
+help#:#help_all#:#All
+help#:#help_component#:#Component
+help#:#help_filter#:#Filter
