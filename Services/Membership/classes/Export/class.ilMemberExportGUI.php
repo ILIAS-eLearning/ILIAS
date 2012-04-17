@@ -113,9 +113,7 @@ class ilMemberExportGUI
 	 * 
 	 */
 	public function show($a_deliver_file = false)
-	{
-		global $ilUser;
-		
+	{		
 		$this->showFileList();		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.member_export.html','Modules/Course');
 		$this->tpl->setVariable('FORM_ACTION',$this->ctrl->getFormAction($this));
@@ -127,7 +125,7 @@ class ilMemberExportGUI
 		$this->tpl->setVariable('TXT_EXPORT_SUB',$this->lng->txt('ps_export_sub'));
 		
 		// Check user selection
-	 	$this->exportSettings = new ilUserFormSettings($ilUser->getId(),'memexp');
+	 	$this->exportSettings = new ilUserFormSettings('memexp');
 		
 	 	$this->tpl->setVariable('CHECK_EXPORT_ADMIN',ilUtil::formCheckbox($this->exportSettings->enabled('admin'),'export_members[admin]',1));
 		if($this->type == 'crs')
@@ -441,11 +439,9 @@ class ilMemberExportGUI
 	 * 
 	 */
 	public function export()
-	{
-		global $ilUser;
-
+	{		
 		// Save settings
-	 	$this->exportSettings = new ilUserFormSettings($ilUser->getId(),'memexp');
+	 	$this->exportSettings = new ilUserFormSettings('memexp');
 		$this->exportSettings->set($_POST['export_members']);
 		$this->exportSettings->store();
 		
@@ -462,9 +458,7 @@ class ilMemberExportGUI
 	
 	public function exportExcel()
 	{
-		global $ilUser;
-		
-	 	$this->exportSettings = new ilUserFormSettings($ilUser->getId(),'memexp');
+	 	$this->exportSettings = new ilUserFormSettings('memexp');
 		$this->exportSettings->set($_POST['export_members']);
 		$this->exportSettings->store();
 		

@@ -71,7 +71,7 @@ class ilMemberExport
 	 */
 	public function __construct($a_ref_id, $a_type = self::EXPORT_CSV)
 	{
-		global $ilUser,$ilObjDataCache,$lng;
+		global $ilObjDataCache,$lng;
 		
 		$this->lng = $lng;
 		
@@ -84,7 +84,7 @@ class ilMemberExport
 		$this->initMembers();
 		 	
 		$this->agreement = ilMemberAgreement::_readByObjId($this->obj_id);
-	 	$this->settings = new ilUserFormSettings($ilUser->getId(),'memexp');
+	 	$this->settings = new ilUserFormSettings('memexp');
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	}
 	
@@ -274,7 +274,7 @@ class ilMemberExport
 
 	 	foreach($field_info->getExportableFields() as $field)
 	 	{
-	 		if($this->enabled($field))
+	 		if($this->settings->enabled($field))
 	 		{
 		 		$fields[] = $field; 
 	 		}
@@ -289,7 +289,7 @@ class ilMemberExport
 	 	// Add course specific fields
 		foreach(ilCourseDefinedFieldDefinition::_getFields($this->obj_id) as $field_obj)
 		{
-			if($this->enabled('cdf_'.$field_obj->getId()))
+			if($this->settings->enabled('cdf_'.$field_obj->getId()))
 			{
 				$fields[] = 'cdf_'.$field_obj->getId();
 			}

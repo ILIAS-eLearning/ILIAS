@@ -302,6 +302,19 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		$this->ajax_datasource = $href;
 	}
 	
+	public function setMultiValues(array $a_values)
+	{
+		foreach($a_values as $idx => $value)
+		{
+			$a_values[$idx] = trim($value);
+			if($a_values[$idx] == "")
+			{
+				unset($a_values[$idx]);
+			}
+		}
+		parent::setMultiValues($a_values);
+	}
+	
 	/**
 	* Render item
 	*/

@@ -1125,7 +1125,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
 		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
-		$list = new ilAttendanceList($this, $members_obj);		
+		$list = new ilAttendanceList($this, $members_obj);	
+		$list->setId('sessattlst');
 		
 		$event_app = $this->object->getFirstAppointment();				 
 		ilDatePresentation::setUseRelativeDates(false);
