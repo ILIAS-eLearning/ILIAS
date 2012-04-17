@@ -1,42 +1,42 @@
-		<TR>
-			<TD class="option">{TXT_FROM}</TD>
-			<TD class="option_value">
-			<!-- BEGIN pers_image -->
-			<img style="float:left; margin-right:10px;" src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
-			<!-- END pers_image -->
-			<!-- BEGIN fullname -->{FROM}<br /><!-- END fullname -->{MAIL_LOGIN}</TD>
-		</TR>
-		<TR>
-			<TD class="option">{TXT_TO}</TD>
-			<TD class="option_value">{TO}</TD>
-		</TR>
-		<!-- BEGIN cc -->
-		<TR>
-			<TD class="option">{TXT_CC}</TD>
-			<TD class="option_value">{CC}</TD>
-		</TR>
-		<!-- END cc -->
-		<TR>
-			<TD class="option">{TXT_SUBJECT}</TD>
-			<TD class="option_value">{SUBJECT}</TD>
-		</TR>
-		<TR>
-			<TD class="option">{TXT_DATE}</TD>
-			<TD class="option_value">{DATE}</TD>
-		</TR>
-	<!-- BEGIN attachment -->
-		  <tr>
-			<td class="option">
-			  {TXT_ATTACHMENT}
-			</td>
-		  <td class="option_value">
-		  <!-- BEGIN a_row -->
-			  <div>{FILE_NAME} <a class="il_ContainerItemCommand" href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div>
-		  <!-- END a_row -->
-			</td>
-		  </tr>
-	<!-- END attachment -->
-		<tr class="tblrow1">
-			<TD class="option_value" colspan="2"><br />{MAIL_MESSAGE}<br /><br /></TD>
-		</TR>
-</td></tr>
+<tr>
+	<td class="option">{TXT_FROM}</td>
+	<td class="option_value">
+		<!-- BEGIN pers_image -->
+		<img style="float:left; margin-right:10px;" src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0"/>
+		<!-- END pers_image -->
+		{PUBLIC_NAME}
+	</td>
+</tr>
+<tr>
+	<td class="option">{TXT_TO}</td>
+	<td class="option_value">{TO}</td>
+</tr>
+<!-- BEGIN cc -->
+<tr>
+	<td class="option">{TXT_CC}</td>
+	<td class="option_value">{CC}</td>
+</tr>
+<!-- END cc -->
+<tr>
+	<td class="option">{TXT_SUBJECT}</td>
+	<td class="option_value">{SUBJECT}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_DATE}</td>
+	<td class="option_value">{DATE}</td>
+</tr>
+<!-- BEGIN attachment -->
+<tr>
+	<td class="option">
+		{TXT_ATTACHMENT}
+	</td>
+	<td class="option_value">
+		<!-- BEGIN a_row -->
+		<div>{FILE_NAME} <a class="il_containeritemcommand" href="{HREF_DOWNLOAD}">{TXT_DOWNLOAD}</a></div>
+		<!-- END a_row -->
+	</td>
+</tr>
+<!-- END attachment -->
+<tr class="tblrow1">
+	<td class="option_value" colspan="2"><br/>{MAIL_MESSAGE}<br/><br/></td>
+</tr>
