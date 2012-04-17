@@ -341,11 +341,8 @@ class ilAttendanceList
 		{
 			foreach($this->blank_columns as $blank)
 			{
-				if($blank)
-				{
-					$tpl->setVariable('TXT_HEAD', $blank);
-					$tpl->parseCurrentBlock();
-				}
+				$tpl->setVariable('TXT_HEAD', $blank);
+				$tpl->parseCurrentBlock();				
 			}
 		}
 
