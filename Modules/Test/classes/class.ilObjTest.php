@@ -4213,8 +4213,6 @@ function loadQuestions($active_id = "", $pass = NULL)
 		$found = array();
 		$unordered = array();
 		$key = 1;
-		$pass_max = 0;
-		$pass_reached = 0;
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$percentvalue = ($row['points']) ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0;
@@ -4231,17 +4229,27 @@ function loadQuestions($active_id = "", $pass = NULL)
 				"original_id" => $row["original_id"],
 				"workedthrough" => ($arrResults[$row['question_id']]['workedthru']) ? 1 : 0
 			);
-			$pass_max += round($row['points'], 2);
-			$pass_reached += round($arrResults[$row['question_id']]['reached'], 2);
-			$unordered[$row['question_id']] = $data;
+                        $unordered[$row['question_id']] = $data;
 			$key++;
 		}
+                
+		$pass_max = 0;
+		$pass_reached = 0;
 		$key = 1;
 		foreach ($sequence as $qid)
 		{
-			$unordered[$qid]['nr'] = $key;
-			array_push($found, $unordered[$qid]);
-			$key++;
+                    // building pass point sums based on prepared data
+                    // for question that exists in users qst sequence
+                    $pass_max += round($unordered[$qid]['max'], 2);
+                    $pass_reached += round($unordered[$qid]['reached'], 2);
+
+                    // pickup prepared data for question
+                    // that exists in users qst sequence
+                    $unordered[$qid]['nr'] = $key;
+                    array_push($found, $unordered[$qid]);
+                    
+                    // increment key counter
+                    $key++;
 		}
 		$unordered = null;
 		if ($this->getScoreCutting() == 1)
