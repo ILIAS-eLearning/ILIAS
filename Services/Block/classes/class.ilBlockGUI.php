@@ -1015,6 +1015,8 @@ abstract class ilBlockGUI
 		$this->correctOffset();
 		$data = array_slice($data, $this->getOffset(), $this->getLimit());
 		
+		$this->preloadData($data);
+		
 		foreach($data as $record)
 		{
 			$this->tpl->setCurrentBlock("block_row");
@@ -1395,5 +1397,13 @@ abstract class ilBlockGUI
 			$ilCtrl->getLinkTargetByClass("ilcolumngui",
 			"moveBlock"));
 		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * Can be overwritten in subclasses. Only the visible part of the complete data was passed so a preload of the visible data is possible.
+	 * @param array $data 
+	 */
+	protected function preloadData(array $data)
+	{
 	}
 }
