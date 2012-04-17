@@ -20,12 +20,12 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-include_once('Modules/Course/classes/Export/class.ilExportUserSettings.php');
 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 include_once('Services/Membership/classes/class.ilMemberAgreement.php');
 include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
 include_once('Services/User/classes/class.ilUserDefinedData.php');
+include_once('Services/User/classes/class.ilUserFormSettings.php');
 
 define("IL_MEMBER_EXPORT_CSV_FIELD_SEPERATOR",',');
 define("IL_MEMBER_EXPORT_CSV_STRING_DELIMITER",'"');
@@ -84,7 +84,7 @@ class ilMemberExport
 		$this->initMembers();
 		 	
 		$this->agreement = ilMemberAgreement::_readByObjId($this->obj_id);
-	 	$this->settings = new ilExportUserSettings($ilUser->getId(),$this->obj_id);
+	 	$this->settings = new ilUserFormSettings($ilUser->getId(),'memexp');
 	 	$this->privacy = ilPrivacySettings::_getInstance();
 	}
 	
@@ -249,6 +249,55 @@ class ilMemberExport
 	}
 	
 	/**
+	 * Get ordered enabled fields
+	 *
+	 * @access public
+	 * @param
+	 * 
+	 */
+	protected function getOrderedExportableFields()
+	{
+		include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		include_once('Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php');
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		include_once('Services/User/classes/class.ilUserDefinedFields.php');
+
+		$field_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
+
+	 	$fields[] = 'role';
+	 	// Append agreement info
+	 	$privacy = ilPrivacySettings::_getInstance();
+	 	if($privacy->courseConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id))
+	 	{
+	 		$fields[] = 'agreement';
+	 	}
+
+	 	foreach($field_info->getExportableFields() as $field)
+	 	{
+	 		if($this->enabled($field))
+	 		{
+		 		$fields[] = $field; 
+	 		}
+	 	}
+	 	
+	 	$udf = ilUserDefinedFields::_getInstance();
+	 	foreach($udf->getCourseExportableFields() as $field_id => $udf_data)
+	 	{
+	 		$fields[] = 'udf_'.$field_id;
+	 	}
+	 	
+	 	// Add course specific fields
+		foreach(ilCourseDefinedFieldDefinition::_getFields($this->obj_id) as $field_obj)
+		{
+			if($this->enabled('cdf_'.$field_obj->getId()))
+			{
+				$fields[] = 'cdf_'.$field_obj->getId();
+			}
+		}	 	
+	 	return $fields ? $fields : array();
+	}
+	
+	/**
 	 * Write data
 	 * @return 
 	 */
@@ -257,7 +306,7 @@ class ilMemberExport
 		// Add header line
 		$row = 0;
 		$col = 0;
-		foreach($all_fields = $this->settings->getOrderedExportableFields() as $field)
+		foreach($all_fields = $this->getOrderedExportableFields() as $field)
 		{
 			switch($field)
 			{
