@@ -42,6 +42,7 @@ class ilMailingListsGUI
 		$this->mlists->setCurrentMailingList($_GET['ml_id']);
 		
 		$this->ctrl->saveParameter($this, 'mobj_id');
+		$this->ctrl->saveParameter($this, 'ref');
 	}
 
 	public function executeCommand()
