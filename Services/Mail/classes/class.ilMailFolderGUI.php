@@ -736,7 +736,7 @@ class ilMailFolderGUI
 		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
 		{
 			$linked_fullname    = $sender->getPublicName();
-			$picture            = '';
+			$picture            = ilUtil::img($sender->getPersonalPicturePath('xsmall'), $sender->getPublicName());
 			$add_to_addb_button = '';
 
 			if(in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), array('y', 'g')))
@@ -745,11 +745,6 @@ class ilMailFolderGUI
 				$this->ctrl->setParameter($this, 'user', $sender->getId());
 				$linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget($this, 'showUser') . '" title="'.$linked_fullname.'">' . $linked_fullname . '</a>';
 				$this->ctrl->clearParameters($this);
-
-				if(ilObjUser::_lookupPref($sender->getId(), 'public_upload') == 'y')
-				{
-					$picture = ilUtil::img($sender->getPersonalPicturePath('xsmall'), $sender->getPublicName());
-				}
 			}
 
 			if($sender->getId() != $ilUser->getId())
@@ -762,8 +757,7 @@ class ilMailFolderGUI
 
 					$tplbtn->setCurrentBlock('btn_cell');
 					$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
-					$this->ctrl->setParameter($this, 'cmd', 'add');
-					$tplbtn->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this));
+					$tplbtn->setVariable('BTN_LINK', $this->ctrl->getLinkTarget($this, 'add'));
 					$this->ctrl->clearParameters($this);
 					$tplbtn->setVariable('BTN_TXT', $this->lng->txt('mail_add_to_addressbook'));
 					$tplbtn->parseCurrentBlock();

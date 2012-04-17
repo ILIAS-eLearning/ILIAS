@@ -6,9 +6,8 @@ include_once 'Services/Mail/classes/class.ilMailUserCache.php';
 
 /**
  * BlockGUI class for Personal Desktop Mail block
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author			Alex Killing <alex.killing@gmx.de>
+ * @version		   $Id$
  * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
  */
 class ilPDMailBlockGUI extends ilBlockGUI
@@ -36,7 +35,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
 	/**
 	 * Get block type
-	 *
 	 * @return	string	Block type.
 	 */
 	static function getBlockType()
@@ -46,7 +44,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
 	/**
 	 * Get block type
-	 *
 	 * @return	string	Block type.
 	 */
 	static function isRepositoryObject()
@@ -122,17 +119,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 				 'type'	=> 'normal'
 			)
 		);
-
-		$usr_ids = array();
-		foreach($this->mails as $mail)
-		{
-			if($mail[''] && $mail[''] != ANONYMOUS_USER_ID)
-			{
-				$usr_ids[$mail['']] = $mail[''];
-			}
-		}
-
-		ilMailUserCache::preloadUserObjects($usr_ids);
 	}
 
 	/**
@@ -170,46 +156,48 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $lng;
 
+		$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+
+		if(++$GLOBALS['i'] == 2)
+		{
+			unset($user);
+			$mail['import_name'] = 'Moepppp';
+		}
+		
 		if($this->getCurrentDetailLevel() > 2)
 		{
-			if($mail['sender_id'] == ANONYMOUS_USER_ID)
+			if($user && $user->getId() != ANONYMOUS_USER_ID)
+			{
+				$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
+				$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
+				$this->tpl->setVariable('ALT_SENDER', $user->getPublicName());
+			}
+			else if(!$user)
+			{
+				$this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $lng->txt('user_deleted') . ')');
+				
+				$this->tpl->setCurrentBlock('image_container');
+				$this->tpl->touchBlock('image_container');
+				$this->tpl->parseCurrentBlock();
+			}
+			else
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', ilMail::_getIliasMailerName());
 				$this->tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIcon.png'));
 				$this->tpl->setVariable('ALT_SENDER', ilMail::_getIliasMailerName());
-			}
-			else
-			{
-				$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
-				if($user)
-				{
-					$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());
-					$this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
-					$this->tpl->setVariable('ALT_SENDER', $user->getPublicName());
-				}
-				else
-				{
-
-
-					$this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $lng->txt('user_deleted') . ')');
-				}
 			}
 
 			$this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
 		}
 		else
 		{
-			if($mail['sender_id'] != ANONYMOUS_USER_ID)
+			if($user && $user->getId() != ANONYMOUS_USER_ID)
 			{
-				$user = ilMailUserCache::getUserObjectById($mail['sender_id']);
-				if($user)
-				{
-					$this->tpl->setVariable('PUBLIC_NAME_SHORT', $user->getPublicName());
-				}
-				else
-				{
-					$this->tpl->setVariable('PUBLIC_NAME_SHORT', $mail['import_name'] . ' (' . $lng->txt('user_deleted') . ')');
-				}
+				$this->tpl->setVariable('PUBLIC_NAME_SHORT', $user->getPublicName());
+			}
+			else if(!$user)
+			{
+				$this->tpl->setVariable('PUBLIC_NAME_SHORT', $mail['import_name'] . ' (' . $lng->txt('user_deleted') . ')');
 			}
 			else
 			{
@@ -294,7 +282,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		$umail = new ilMail($_SESSION['AccountId']);
 		$mbox  = new ilMailBox($_SESSION['AccountId']);
 
-		// IF THERE IS NO OBJ_ID GIVEN GET THE ID OF MAIL ROOT NODE
 		if(!$_GET['mobj_id'])
 		{
 			$_GET['mobj_id'] = $mbox->getInboxFolder();
@@ -311,5 +298,23 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			ilUtil::sendInfo($lng->txt('mail_move_error'), true);
 		}
 		$ilCtrl->redirectByClass('ilpersonaldesktopgui', 'show');
+	}
+
+	/**
+	 * @param array $data
+	 */
+	protected function preloadData(array $data)
+	{
+		$usr_ids = array();
+
+		foreach($data as $mail)
+		{
+			if($mail['sender_id'] && $mail['sender_id'] != ANONYMOUS_USER_ID)
+			{
+				$usr_ids[$mail['sender_id']] = $mail['sender_id'];
+			}
+		}
+
+		ilMailUserCache::preloadUserObjects($usr_ids);
 	}
 }
