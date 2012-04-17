@@ -129,6 +129,10 @@ class ilObjUser extends ilObject
 	static $is_desktop_item_loaded;
 	static $is_desktop_item_cache;
 
+	/**
+	 * @var array
+	 */
+	protected static $personal_image_cache = array();
 
 	/**
 	* Constructor
@@ -2762,7 +2766,7 @@ class ilObjUser extends ilObject
 				" AND object_data.type = 'role' ".
 				"AND rbac_ua.rol_id = object_data.obj_id ".
 				"AND usr_data.usr_id = rbac_ua.usr_id ".
-				"AND rbac_ua.usr_id != ".$illDB->quote(ANONYMOUS_USER_ID, "integer");
+				"AND rbac_ua.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 		}
 		else
 		{
@@ -3878,23 +3882,37 @@ class ilObjUser extends ilObject
 		return TRUE;
 	}
 
+
 	/**
-	* get path to personal picture
-	*
-	* @param	string		size		"small", "xsmall" or "xxsmall"
-	*/
-	function getPersonalPicturePath($a_size = "small", $a_force_pic = false)
+	 * Get path to personal picture. The result will be cached.
+	 * The result will be cached.
+	 *
+	 * @param string $a_size       "small", "xsmall" or "xxsmall"
+	 * @param bool   $a_force_pic 
+	 * @return mixed
+	 */
+	public function getPersonalPicturePath($a_size = "small", $a_force_pic = false)
 	{
-		return ilObjUser::_getPersonalPicturePath($this->getId(),$a_size,$a_force_pic);
+		if(isset(self::$personal_image_cache[$this->getId()][$a_size][(int)$a_force_pic]))
+		{
+			return self::$personal_image_cache[$this->getId()][$a_size][(int)$a_force_pic];
+		}
+
+		self::$personal_image_cache[$this->getId()][$a_size][(int)$a_force_pic] = ilObjUser::_getPersonalPicturePath($this->getId(), $a_size, $a_force_pic);
+
+		return self::$personal_image_cache[$this->getId()][$a_size][(int)$a_force_pic];
 	}
 
 	/**
-	* get path to personal picture
-	*
-	* @param	string		size		"small", "xsmall" or "xxsmall"
-	* STATIC
-	*/
-	function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false,
+	 * Get path to personal picture.
+	 * @static
+	 * @param        $a_usr_id
+	 * @param string $a_size                   "small", "xsmall" or "xxsmall"
+	 * @param bool   $a_force_pic
+	 * @param bool   $a_prevent_no_photo_image
+	 * @return string
+	 */
+	public static function _getPersonalPicturePath($a_usr_id,$a_size = "small", $a_force_pic = false,
 		$a_prevent_no_photo_image = false)
 	{
 		global $ilDB;
