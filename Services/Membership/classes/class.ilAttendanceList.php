@@ -23,6 +23,7 @@ class ilAttendanceList
 	protected $title; // [string]
 	protected $description; // [string]
 	protected $pre_blanks; // [array]
+	protected $id; // [string]
 		
 	/**
 	 * Constructor
@@ -118,6 +119,17 @@ class ilAttendanceList
 		{
 			$a_values = array();
 		}
+		else
+		{
+			foreach($a_values as $idx => $value)
+			{
+				$a_values[$idx] = trim($value);
+				if($a_values[$idx] == "")
+				{
+					unset($a_values[$idx]);
+				}
+			}
+		}
 		$this->blank_columns = $a_values;
 	}
 
@@ -129,6 +141,16 @@ class ilAttendanceList
 	function setCallback($a_callback)
 	{
 		$this->callback = $a_callback;
+	}
+	
+	/**
+	 * Set id (used for user form settings)
+	 * 
+	 * @param string $a_value 
+	 */
+	function setId($a_value)
+	{
+		$this->id = (string)$a_value;
 	}
 	
 	/**
@@ -207,6 +229,13 @@ class ilAttendanceList
 		
 		$form->addCommandButton($a_cmd,$lng->txt('sess_print_attendance_list'));
 		
+		if($this->id && $a_cmd)
+		{
+			include_once "Services/User/classes/class.ilUserFormSettings.php";
+			$settings = new ilUserFormSettings($this->id);
+			$settings->exportToForm($form);
+		}
+		
 		return $form;
 	}
 	
@@ -214,10 +243,10 @@ class ilAttendanceList
 	 * Set list attributes from post values
 	 */
 	public function initFromForm()
-	{
+	{		
 		$form = $this->initForm();
 		if($form->checkInput())
-		{
+		{			
 			foreach(array_keys($this->presets) as $id)
 			{
 				$this->presets[$id][1] = false;
@@ -239,6 +268,17 @@ class ilAttendanceList
 			$this->showAdmins($form->getInput('show_admins'));
 			$this->showTutors($form->getInput('show_tutors'));
 			$this->showMembers($form->getInput('show_members'));	
+			
+			if($this->id)
+			{
+				$form->setValuesByPost();
+				
+				include_once "Services/User/classes/class.ilUserFormSettings.php";
+				$settings = new ilUserFormSettings($this->id);
+				$settings->importFromForm($form);
+				$settings->store();
+			}
+			
 		}		
 	}
 	
@@ -272,10 +312,16 @@ class ilAttendanceList
 		
 		// title
 		
+		$time = ilFormat::formatUnixTime(time(),true);
+		
 		$tpl->setVariable('TXT_TITLE', $this->title);
 		if($this->description)
 		{
-			$tpl->setVariable('TXT_DESCRIPTION', $this->description);
+			$tpl->setVariable('TXT_DESCRIPTION', $this->description." (".$time.")");
+		}
+		else
+		{
+			$tpl->setVariable('TXT_DESCRIPTION', $time);
 		}
 		
 		

@@ -40,13 +40,18 @@ class ilUserFormSettings
 	 * @param int $a_user_id
 	 * @param int $a_id
 	 */
-	public function __construct($a_user_id,$a_id)
+	public function __construct($a_id,$a_user_id = null)
 	{
-	 	global $ilDB;
+	 	global $ilDB, $ilUser;
 	 	
 	 	$this->user_id = (int)$a_user_id;
 	 	$this->id = (string)$a_id;
 	 	$this->db = $ilDB;
+		
+		if(!$this->user_id)
+		{
+			$this->user_id = $ilUser->getId();
+		}
 	 	
 	 	$this->read();
 	}
@@ -62,34 +67,87 @@ class ilUserFormSettings
 	}
 	
 	/**
+	 * Remove all settings (internally) 
+	 */
+	public function reset()
+	{
+		$this->settings = array();
+	}
+	
+	/**
 	 * Check if a specific option is enabled
 	 *
-	 * @param string option
+	 * @param string $a_option
 	 * @return bool
 	 */
 	public function enabled($a_option)
 	{
-	 	if(array_key_exists($a_option,(array) $this->settings) && $this->settings[$a_option])
-	 	{
-	 		return true;
-	 	}
-	 	return false;
+		return (bool)$this->getValue($a_option);	 	
 	}		
 	
+	/**
+	 * Get value
+	 * 
+	 * @param string $a_option
+	 * @return mixed
+	 */
+	public function getValue($a_option)
+	{
+		if($this->valueExists($a_option))
+	 	{
+	 		return $this->settings[$a_option];
+	 	}		
+	}
+	
+	/**
+	 * Set value
+	 * 
+	 * @param string $a_option
+	 * @param mmixed $a_value
+	 */
+	public function setValue($a_option,$a_value)
+	{
+		$this->settings[$a_option] = $a_value;
+	}
+	
+	/**
+	 * Delete value
+	 * 
+	 * @param string $a_option 
+	 */	
+	public function deleteValue($a_option)
+	{
+		if($this->valueExists($a_option))
+	 	{
+			unset($this->settings[$a_option]);
+		}
+	}
+	
+	/**
+	 * Does value exist in settings?
+	 * 
+	 * @param string  $a_option
+	 * @return bool
+	 */
+	public function valueExists($a_option)
+	{		
+		return array_key_exists($a_option,(array)$this->settings);
+	}
+
 	/**
 	 * Store settings in DB
 	 */
 	public function store()
 	{	 	
-		$this->delete();
+		$this->delete(false);
 	 		
 		$query = "INSERT INTO usr_form_settings (user_id,id,settings) ".
 			"VALUES( ".
-				$this->db->quote($this->user_id ,'integer').", ".
-				$this->db->quote($this->id ,'text').", ".
-				$this->db->quote(serialize($this->settings) ,'text')." ".
+				$this->db->quote($this->user_id,'integer').", ".
+				$this->db->quote($this->id,'text').", ".
+				$this->db->quote(serialize($this->settings),'text')." ".
 			")";
-		$ilDB->manipulate($query);
+		$this->db->manipulate($query);
 	}
 	
 	/**
@@ -102,11 +160,11 @@ class ilUserFormSettings
 	protected function read()
 	{
 	 	$query = "SELECT * FROM usr_form_settings".
-			" WHERE user_id = ".$this->db->quote($this->user_id ,'integer').
+			" WHERE user_id = ".$this->db->quote($this->user_id,'integer').
 			" AND id = ".$this->db->quote($this->id,'text');
 	 	$res = $this->db->query($query);
 		
-		$this->settings = array();
+		$this->reset();
 	 	if($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	 	{
 	 		$this->settings = unserialize($row->settings);
@@ -116,13 +174,103 @@ class ilUserFormSettings
 		
 	/**
 	 * Delete user related data
+	 * 
+	 * @param bool $a_reset
 	 */
-	public function delete()
+	public function delete($a_reset = true)
 	{	 	
 	 	$query = "DELETE FROM usr_form_settings".
-			" WHERE user_id = ".$this->db->quote($this->user_id ,'integer').
+			" WHERE user_id = ".$this->db->quote($this->user_id,'integer').
 			" AND id = ".$this->db->quote($this->id,'text');
-	 	$res = $ilDB->manipulate($query);
+	 	$this->db->manipulate($query);
+		
+		if($a_reset)
+		{
+			$this->reset();
+		}
+	}
+	
+	/**
+	 * Delete all settings for user id 
+	 */
+	public static function deleteAllForUser($a_user_id)
+	{
+		$query = "DELETE FROM usr_form_settings".
+			" WHERE user_id = ".$this->db->quote($a_user_id,'integer');
+		$this->db->manipulate($query);
+	}
+	
+	/**
+	 * Import settings from form
+	 * 
+	 * @param ilPropertyFormGUI $a_form	
+	 */
+	public function importFromForm(ilPropertyFormGUI $a_form)
+	{
+		$this->reset();
+		
+		foreach($a_form->getItems() as $item)
+		{
+			if(method_exists($item, "getPostVar"))
+			{
+				$field = $item->getPostVar();		
+				
+				if(method_exists($item, "getDate"))
+				{
+					$value = $item->getDate();
+					if($value && !$value->isNull())
+					{
+						$value = $value->get(IL_CAL_DATETIME);
+					}
+				}
+				else if(method_exists($item, "getMulti") && $item->getMulti())
+				{		
+					$value = $item->getMultiValues();
+				}
+				else if(method_exists($item, "getValue"))
+				{
+					$value = $item->getValue();
+				}
+				
+				$this->setValue($field, $value);		
+			}
+		}		
+	}
+	
+	/**
+	 * Export settings from form
+	 * 
+	 * @param ilPropertyFormGUI $a_form	
+	 */
+	public function exportToForm(ilPropertyFormGUI $a_form)
+	{				
+		foreach($a_form->getItems() as $item)
+		{
+			if(method_exists($item, "getPostVar"))
+			{
+				$field = $item->getPostVar();	
+				
+				if($this->valueExists($field))
+				{
+					$value = $this->getValue($field);
+
+					if(method_exists($item, "setDate"))
+					{
+						$date = new ilDateTime($value, IL_CAL_DATETIME);
+						$item->setDate($date);
+					}
+					else if(method_exists($item, "setValue"))
+					{
+						$item->setValue($value);
+
+						if(method_exists($item, "setChecked"))
+						{
+							$item->setChecked(true);
+						}
+					}									
+				}
+			}
+		}						
 	}
 }
 

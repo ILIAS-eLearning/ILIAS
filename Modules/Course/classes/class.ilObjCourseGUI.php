@@ -3640,10 +3640,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
 		$list = new ilAttendanceList($this, $members_obj);		
+		$list->setId('crsmemlst');
 		
 		$list->setTitle($this->lng->txt('crs_members_print_title'),
-			$this->lng->txt('obj_crs').': '.$this->object->getTitle().
-			' ('.ilFormat::formatUnixTime(time(),true).')');
+			$this->lng->txt('obj_crs').': '.$this->object->getTitle());
 				
 		include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
 		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
