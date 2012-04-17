@@ -1652,8 +1652,16 @@ class ilObjForumGUI extends ilObjectGUI
 		 * @var $frm ilForum
 		 */
 		$frm = $oForumObjects['frm'];
+
+		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
+		$authorinfo = new ilForumAuthorInformation(
+			$this->objCurrentPost->getUserId(),
+			$this->objCurrentPost->getUserAlias(),
+			$this->objCurrentPost->getImportName()
+		);
 		
-		$html = ilRTE::_replaceMediaObjectImageSrc($frm->prepareText($this->objCurrentPost->getMessage(), 1, $this->objCurrentPost->getLoginName()), 1);
+		
+		$html = ilRTE::_replaceMediaObjectImageSrc($frm->prepareText($this->objCurrentPost->getMessage(), 1, $authorinfo->getAuthorName()), 1);
 		echo $html;
 		exit();
 	}
@@ -2172,10 +2180,17 @@ class ilObjForumGUI extends ilObjectGUI
 										}										
 										else if($this->ctrl->getCmd() == 'quotePost')
 										{
+											require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
+											$authorinfo = new ilForumAuthorInformation(
+												$node->getUserId(),
+												$node->getUserAlias(),
+												$node->getImportName()
+											);
+											
 											$oEditReplyForm->setValuesByPost();
 											$oEditReplyForm->getItemByPostVar('message')->setValue(
 												ilRTE::_replaceMediaObjectImageSrc(
-                                                    $frm->prepareText($node->getMessage(), 1, $node->getLoginName())."\n".$oEditReplyForm->getInput('message'),    1
+                                                    $frm->prepareText($node->getMessage(), 1, $authorinfo->getAuthorName())."\n".$oEditReplyForm->getInput('message'),    1
 												)
 											);
 										}
