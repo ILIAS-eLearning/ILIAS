@@ -38,8 +38,8 @@ class ilDBUpdateNewObjectType
 			'title' => array('text', $a_type_id),
 			'description' => array('text', $a_type_title),
 			'owner' => array('integer', -1),
-			'create_date' => array('datetime', ilUtil::now()),
-			'last_update' => array('datetime', ilUtil::now())
+			'create_date' => array('timestamp', ilUtil::now()),
+			'last_update' => array('timestamp', ilUtil::now())
 		);	
 		$ilDB->insert('object_data', $fields);
 		
