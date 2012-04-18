@@ -475,7 +475,8 @@ class ilObjForumGUI extends ilObjectGUI
 			$ilToolbar->addButton(
 				$this->lng->txt('forums_mark_read'),
 				$this->ctrl->getLinkTarget($this, 'markAllRead'),
-				ilAccessKeyGUI::getAttribute(ilAccessKey::MARK_ALL_READ)
+				'',
+				ilAccessKey::MARK_ALL_READ
 			);
 			$this->ctrl->clearParameters($this);
 		}
@@ -1952,9 +1953,11 @@ class ilObjForumGUI extends ilObjectGUI
 			{
 				$this->ctrl->setParameter($this, 'mark_read', '1');
 				$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
-				$ilToolbar->addButton($this->lng->txt('forums_mark_read'),
+				$ilToolbar->addButton(
+					$this->lng->txt('forums_mark_read'),
 					$this->ctrl->getLinkTarget($this, 'viewThread'),
-					ilAccessKeyGUI::getAttribute(ilAccessKey::MARK_ALL_READ)
+					'',
+					ilAccessKey::MARK_ALL_READ
 				);
 				$this->ctrl->clearParameters($this);
 			}
