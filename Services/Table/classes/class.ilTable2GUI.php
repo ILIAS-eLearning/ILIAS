@@ -227,6 +227,8 @@ class ilTable2GUI extends ilTableGUI
 		foreach ($this->getSelectableColumns() as $k => $c)
 		{
 			$this->selected_column[$k] = false;
+			
+			$new_column = ($sel_fields[$k] === NULL);
 
 			if ($_POST["tblfsh".$this->getId()])
 			{
@@ -236,16 +238,20 @@ class ilTable2GUI extends ilTableGUI
 					$this->selected_column[$k] = true;
 				}
 			}
-			else if ($stored)	// take stored values
+			else if ($stored && !$new_column)	// take stored values
 			{
 				$this->selected_column[$k] = $sel_fields[$k]; 
 			}
 			else	// take default values
 			{
+				if ($new_column)
+				{
+					$set = true;
+				}			
 				if ($c["default"])
 				{
 					$this->selected_column[$k] = true;
-				}
+				}			
 			}
 		}
 		

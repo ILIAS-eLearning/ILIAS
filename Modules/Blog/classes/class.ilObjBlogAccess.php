@@ -41,11 +41,27 @@ class ilObjBlogAccess extends ilObjectAccess
 	* check whether goto script will succeed
 	*/
 	function _checkGoto($a_target)
-	{
-		$t_arr = explode("_", $a_target);
+	{		
+		global $ilAccess;
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
-		return ilSharedResourceGUI::hasAccess($t_arr[1]);
+		$t_arr = explode("_", $a_target);		
+		
+		if(substr($a_target, -3) == "wsp")
+		{									
+			include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
+			return ilSharedResourceGUI::hasAccess($t_arr[1]);
+		}
+		
+		if ($t_arr[0] != "blog" || ((int) $t_arr[1]) <= 0)
+		{
+			return false;
+		}
+
+		if ($ilAccess->checkAccess("visible", "", $t_arr[1]))
+		{
+			return true;
+		}
+		return false;		
 	}
 }
 
