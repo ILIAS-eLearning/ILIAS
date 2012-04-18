@@ -1215,8 +1215,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
 
+		
+		$ilHelp->setScreenIdComponent("qpl");
+		
 		$next_class = strtolower($this->ctrl->getNextClass());
 		switch ($next_class)
 		{

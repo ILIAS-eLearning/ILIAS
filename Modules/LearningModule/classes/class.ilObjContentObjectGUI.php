@@ -2499,7 +2499,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function setTabs($a_act = "")
 	{
-		global $lng;
+		global $lng, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("lm");
 		
 		$this->addTabs($a_act);
 		$this->tpl->setTitle($this->object->getTitle());

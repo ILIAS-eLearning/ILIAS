@@ -92,7 +92,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $lng;
+		global $rbacsystem, $lng, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("root");
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 

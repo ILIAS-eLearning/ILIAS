@@ -700,8 +700,10 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	*/
 	function getTabs()
 	{
-		global $ilUser, $ilAccess, $ilTabs, $lng;
+		global $ilUser, $ilAccess, $ilTabs, $lng, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("htlm");
+		
 		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$ilTabs->addTab("id_list_files",

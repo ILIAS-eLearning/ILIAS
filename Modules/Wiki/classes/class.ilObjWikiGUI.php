@@ -434,7 +434,9 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function getTabs($tabs_gui)
 	{
-		global $ilCtrl, $ilAccess, $ilTabs, $lng;
+		global $ilCtrl, $ilAccess, $ilTabs, $lng, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("wiki");
 
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",

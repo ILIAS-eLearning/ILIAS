@@ -804,7 +804,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("spl");
 
 		$next_class = $this->ctrl->getNextClass($this);
 		switch ($next_class)

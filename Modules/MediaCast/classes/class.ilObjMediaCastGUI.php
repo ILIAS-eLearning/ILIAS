@@ -905,7 +905,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilTabs, $lng;
+		global $ilAccess, $ilTabs, $lng, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("mcst");
 		
 		// list items
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))

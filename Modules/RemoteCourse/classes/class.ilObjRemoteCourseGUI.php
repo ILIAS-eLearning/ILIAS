@@ -153,7 +153,9 @@ class ilObjRemoteCourseGUI extends ilObjectGUI
 	 */
 	public function getTabs($tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("rcrs");
 
 		if($ilAccess->checkAccess('visible','',$this->object->getRefId()))
 		{

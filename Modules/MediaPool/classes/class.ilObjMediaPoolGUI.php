@@ -1350,7 +1350,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilTabs, $ilCtrl;
+		global $ilAccess, $ilTabs, $ilCtrl, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("mep");
 		
 		if ($ilAccess->checkAccess('read', '', $this->ref_id) ||
 			$ilAccess->checkAccess('write', '', $this->ref_id))

@@ -1293,7 +1293,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $lng;
+		global $ilTabs, $lng, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("webr");
 		
 		if ($this->checkPermissionBool('read'))
 		{
