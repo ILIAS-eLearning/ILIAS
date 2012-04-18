@@ -296,19 +296,19 @@ class ilObjForum extends ilObject
 		
 		if($res->numRows())
 		{
-			$res = $ilDB->manipulateF('
+			$ilDB->manipulateF('
 				UPDATE frm_thread_access 
 				SET access_last = %s
 				WHERE usr_id = %s
 				AND obj_id = %s
 				AND thread_id = %s',
-				array('timestamp', 'integer', 'integer', 'integer'),
+				array('integer', 'integer', 'integer', 'integer'),
 				array(time(), $a_usr_id, $this->getId(), $a_thread_id));
 
 		}
 		else
 		{
-			$res = $ilDB->manipulateF('
+			$ilDB->manipulateF('
 				INSERT INTO frm_thread_access 
 				(	access_last,
 					access_old,
@@ -324,42 +324,40 @@ class ilObjForum extends ilObject
 		return true;
 	}
 
-	// STATIC
-	function _updateOldAccess($a_usr_id)
+	/**
+	 * @static
+	 * @param int
+	 */
+	public static function _updateOldAccess($a_usr_id)
 	{
 		global $ilDB, $ilias;
 
-		$res = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			UPDATE frm_thread_access 
 			SET access_old = access_last
 			WHERE usr_id = %s',
 			array('integer'), array($a_usr_id));
 
-		// set access_old_ts value
-		$set = $ilDB->query("SELECT * FROM frm_thread_access ".
-			" WHERE usr_id = ".$ilDB->quote($a_usr_id, "integer")
-			);
-		while ($rec = $ilDB->fetchAssoc($set))
+		$set = $ilDB->query("SELECT * FROM frm_thread_access " .
+				" WHERE usr_id = " . $ilDB->quote($a_usr_id, "integer")
+		);
+		while($rec = $ilDB->fetchAssoc($set))
 		{
-			$ilDB->manipulate("UPDATE frm_thread_access SET ".
-				" access_old_ts = ".$ilDB->quote(date('Y-m-d H:i:s', $rec["access_old"]), "timestamp").
-				" WHERE usr_id = ".$ilDB->quote($rec["usr_id"], "integer").
-				" AND obj_id = ".$ilDB->quote($rec["obj_id"], "integer").
-				" AND thread_id = ".$ilDB->quote($rec["thread_id"], "integer")
-				);
+			$ilDB->manipulate("UPDATE frm_thread_access SET " .
+					" access_old_ts = " . $ilDB->quote(date('Y-m-d H:i:s', $rec["access_old"]), "timestamp") .
+					" WHERE usr_id = " . $ilDB->quote($rec["usr_id"], "integer") .
+					" AND obj_id = " . $ilDB->quote($rec["obj_id"], "integer") .
+					" AND thread_id = " . $ilDB->quote($rec["thread_id"], "integer")
+			);
 		}
-					
-		// Delete old entries
 
 		$new_deadline = time() - 60 * 60 * 24 * 7 * ($ilias->getSetting('frm_store_new') ?
-													 $ilias->getSetting('frm_store_new') : 
-													 8);
+			$ilias->getSetting('frm_store_new') :
+			8);
 
-			$res = $ilDB->manipulateF('
+		$ilDB->manipulateF('
 			DELETE FROM frm_thread_access WHERE access_last < %s',
 			array('integer'), array($new_deadline));
-		
-		return true;
 	}
 
 	function _deleteUser($a_usr_id)
@@ -903,7 +901,7 @@ class ilObjForum extends ilObject
 			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}
 
-		$new_deadline = date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new')));
+		$new_deadline = date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8));
 
 		$query = "
 			(SELECT COUNT(frm_posts.pos_pk) cnt
@@ -924,12 +922,12 @@ class ilObjForum extends ilObject
 			(SELECT COUNT(frm_posts.pos_pk) cnt
 			FROM frm_posts
 			LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
-			LEFT JOIN frm_thread_access ON (frm_posts.pos_thr_fk = frm_thread_access.thread_id AND frm_thread_access.usr_id = %s)
+			LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
 			WHERE frm_posts.pos_top_fk = %s
 			AND ((frm_posts.pos_date > frm_thread_access.access_old_ts OR frm_posts.pos_update > frm_thread_access.access_old_ts)
 				OR (frm_thread_access.access_old IS NULL AND (frm_posts.pos_date > %s OR frm_posts.pos_update > %s)))
 			AND frm_posts.pos_usr_id != %s 
-			AND frm_user_read.usr_id IS NULL)
+			AND frm_user_read.usr_id IS NULL $act_clause)
 		";
 
 		$types  = array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'timestamp', 'integer');
