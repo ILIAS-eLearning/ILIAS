@@ -2168,9 +2168,10 @@ class ilTemplate extends ilTemplateX
 				"main_page_form");
 			foreach ($this->creation_selector["options"] as $item)
 			{
-				$ttip = $ilHelp->getObjCreationTooltip($item["value"]);
+				$ttip = ilHelp::getObjCreationTooltipText($item["value"]);
 				$selection->addItem($item["title"], $item["value"], "",
-					$item["img"], $item["title"], "", "", false, "", $ttip);
+					$item["img"], $item["title"], "", "", false, "", $ttip,
+					"right center", "left center", false);
 			}
 			$this->setVariable("SELECT_OBJTYPE_REPOS",
 				$selection->getHTML());

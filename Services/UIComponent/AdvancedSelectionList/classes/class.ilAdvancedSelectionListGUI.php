@@ -114,12 +114,13 @@ class ilAdvancedSelectionListGUI
 	*/
 	function addItem($a_title, $a_value = "", $a_link = "", $a_img = "", $a_alt = "", $a_frame = "",
 		$a_html = "", $a_prevent_background_click = false, $a_onclick = "", $a_ttip = "",
-		$a_tt_my = "right center", $a_tt_at = "left center")
+		$a_tt_my = "right center", $a_tt_at = "left center", $a_tt_use_htmlspecialchars = true)
 	{
 		$this->items[] = array("title" => $a_title, "value" => $a_value,
 			"link" => $a_link, "img" => $a_img, "alt" => $a_alt, "frame" => $a_frame,
 			"html" => $a_html, "prevent_background_click" => $a_prevent_background_click,
-			"onclick" => $a_onclick, "ttip" => $a_ttip, "tt_my" => $a_tt_my, "tt_at" => $a_tt_at);
+			"onclick" => $a_onclick, "ttip" => $a_ttip, "tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
+			"tt_use_htmlspecialchars" => $a_tt_use_htmlspecialchars);
 	}
 
 	public function flush()
@@ -626,7 +627,7 @@ class ilAdvancedSelectionListGUI
 				{
 					include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 					ilTooltipGUI::addTooltip($this->getId()."_".$item["value"]."_tr", $item["ttip"],
-						"", $item["tt_my"], $item["tt_at"]);
+						"", $item["tt_my"], $item["tt_at"], $item["tt_use_htmlspecialchars"]);
 				}
 				
 				$tpl->parseCurrentBlock();
