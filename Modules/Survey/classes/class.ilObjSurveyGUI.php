@@ -3942,7 +3942,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess, $ilUser;
+		global $ilAccess, $ilUser, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("svy");
 
 		if (strcmp($this->ctrl->getNextClass(), 'ilrepositorysearchgui') != 0)
 		{

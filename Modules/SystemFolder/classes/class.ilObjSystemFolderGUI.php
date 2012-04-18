@@ -1496,7 +1496,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	// get tabs
 	function getAdminTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("adm");
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 

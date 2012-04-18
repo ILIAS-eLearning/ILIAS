@@ -4553,15 +4553,17 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess,$ilUser;
+		global $ilAccess,$ilUser, $ilHelp;
 
-                if (preg_match('/^ass(.*?)gui$/i', $this->ctrl->getNextClass($this))) {
-                    return;
-                }
-                else if ($this->ctrl->getNextClass($this) == 'ilpageobjectgui') {
-                    return;
-                }
-
+		if (preg_match('/^ass(.*?)gui$/i', $this->ctrl->getNextClass($this))) {
+			return;
+		}
+		else if ($this->ctrl->getNextClass($this) == 'ilpageobjectgui') {
+			return;
+		}
+		
+		$ilHelp->setScreenIdComponent("tst");
+                
 		$hidden_tabs = array();
 		
 		$template = $this->object->getTemplate();

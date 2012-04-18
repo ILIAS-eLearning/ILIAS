@@ -1489,7 +1489,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("glo");
 
 		// list terms
 		$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "listTerms")

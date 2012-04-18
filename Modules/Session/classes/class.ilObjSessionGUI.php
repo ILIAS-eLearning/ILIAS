@@ -1737,8 +1737,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function getTabs($tabs_gui)
 	{
-	 	global $ilAccess, $ilTabs, $tree, $ilCtrl;
+	 	global $ilAccess, $ilTabs, $tree, $ilCtrl, $ilHelp;
 
+	 	$ilHelp->setScreenIdComponent("sess");
+	 	
 		$parent_id = $tree->getParentId($this->object->getRefId());
 
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $parent_id);

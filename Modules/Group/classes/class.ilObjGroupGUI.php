@@ -1938,7 +1938,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	// get tabs
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $ilUser, $ilAccess, $lng;
+		global $rbacsystem, $ilUser, $ilAccess, $lng, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("grp");
 
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
