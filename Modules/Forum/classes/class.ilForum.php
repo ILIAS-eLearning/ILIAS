@@ -1035,9 +1035,11 @@ class ilForum
 		$data_types = array();
 
 		$active_query = '';
+		$active_inner_query = '';
 		if(!$is_moderator)
 		{
 			$active_query = ' AND (pos_status = %s OR pos_usr_id = %s) ';
+			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_usr_id = %s) ';
 		}
 
 		$query = "SELECT
@@ -1048,15 +1050,21 @@ class ilForum
 				  COUNT(DISTINCT(pos_pk)) - COUNT(DISTINCT(postread.post_id)) num_unread_posts,
 				  
 				  (
-				  	SELECT COUNT(pos_pk) cnt
-					FROM frm_posts
-					LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s
-					WHERE pos_thr_fk = frm_threads.thr_pk
-					AND (pos_date > ".$ilDB->fromUnixtime('access_last')." OR pos_update > ".$ilDB->fromUnixtime('access_last').") 
-					AND pos_usr_id != %s
-					$active_query
-					AND usr_id IS NULL
-				  
+				  	SELECT COUNT(DISTINCT(ipos.pos_pk))
+					FROM frm_posts ipos
+					LEFT JOIN frm_user_read iread ON iread.post_id = ipos.pos_pk AND iread.usr_id = %s
+					LEFT JOIN frm_thread_access iacc ON (iacc.thread_id = ipos.pos_thr_fk AND iacc.usr_id = %s)
+					WHERE ipos.pos_thr_fk = thr_pk
+					 
+					AND (
+						(ipos.pos_date > iacc.access_old_ts OR ipos.pos_update > iacc.access_old_ts)
+						OR
+						(iacc.access_old IS NULL AND (ipos.pos_date > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')." OR ipos.pos_update > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')."))
+						)
+					 
+					AND ipos.pos_usr_id != %s
+					AND iread.usr_id IS NULL $active_inner_query
+				    GROUP BY ipos.pos_pk
 				  ) num_new_posts,
 				  
 				  thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
@@ -1067,18 +1075,24 @@ class ilForum
 				  	ON frm_notification.thread_id = thr_pk
 				  	AND frm_notification.user_id = %s
 				  
-				  LEFT JOIN frm_thread_access
-				  	ON frm_thread_access.thread_id = thr_pk
-				  	AND frm_thread_access.usr_id = %s
-				  
 				  LEFT JOIN frm_posts
 				  	ON pos_thr_fk = thr_pk $active_query
 				  
 				  LEFT JOIN frm_user_read postread
 				  	ON postread.post_id = pos_pk
 				  	AND postread.usr_id = %s
-		";
+				 
+				  WHERE thr_top_fk = %s
+					GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+					ORDER BY is_sticky DESC, post_date DESC, thr_date DESC";
 
+		$data_types[] = 'integer';
+		$data_types[] = 'integer';
+		$data_types[] = 'integer';
+		if(!$is_moderator)
+		{
+			array_push($data_types, 'integer', 'integer');
+		}
 		$data_types[] = 'integer';
 		if(!$is_moderator)
 		{
@@ -1086,32 +1100,21 @@ class ilForum
 		}
 		$data_types[] = 'integer';
 		$data_types[] = 'integer';
-		$data_types[] = 'integer';
 
+		$data[] = $ilUser->getId();
+		$data[] = $ilUser->getId();
 		$data[] = $ilUser->getId();
 		if(!$is_moderator)
 		{
 			array_push($data, '1', $ilUser->getId());
 		}
 		$data[] = $ilUser->getId();
-		$data[] = $ilUser->getId();
-		$data[] = $ilUser->getId();
-
 		if(!$is_moderator)
 		{
-			array_push($data_types, 'integer', 'integer');
 			array_push($data, '1', $ilUser->getId());
 		}
-
-		$data_types[] = 'integer';
 		$data[] = $ilUser->getId();
-
-		$query .= ' WHERE thr_top_fk = %s
-				    GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
-				    ORDER BY is_sticky DESC, post_date DESC, thr_date DESC';
-
-		array_push($data_types, 'integer');
-		array_push($data, $a_topic_id);
+		$data[] = $a_topic_id;
 
 		if($limit || $offset)
 		{
