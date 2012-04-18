@@ -9424,3 +9424,18 @@ $parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
 ilDBUpdateNewObjectType::addRBACCreate('create_blog', 'Create Blog', $parent_types);
 
 ?>
+<#3561>
+<?php
+$ilDB->addTableColumn("help_map", "perm", array(
+		'type' => 'text',
+		'length' => 20,
+		'notnull' => true,
+		'fixed' => false
+	));
+?>
+<#3562>
+<?php
+$ilDB->dropPrimaryKey("help_map");
+$ilDB->addPrimaryKey("help_map",
+	array("chap", "component", "screen_id", "screen_sub_id", "perm"));
+?>
