@@ -999,7 +999,7 @@ class ilMainMenuGUI
 				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
 				."');");
 			$ilCtrl->setTargetScript($ts);
-			$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
+			$this->tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_help.png"));
 
 			$this->tpl->parseCurrentBlock();
 		}

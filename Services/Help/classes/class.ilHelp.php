@@ -31,6 +31,18 @@ class ilHelp
 		return "<i>".$a_tt_id."</i>";
 	}
 
+		/**
+	 * Get tab tooltip text
+	 *
+	 * @param string $a_tab_id tab id
+	 * @return string tooltip text
+	 */
+	static function getObjCreationTooltipText($a_type)
+	{
+		return self::getTooltipPresentationText($a_type."_create");
+	}
+
+	
 	/**
 	 * Get all tooltips
 	 *

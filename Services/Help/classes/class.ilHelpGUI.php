@@ -301,19 +301,5 @@ class ilHelpGUI
 		}
 		return "";
 	}
-	
-	/**
-	 * Get tab tooltip text
-	 *
-	 * @param string $a_tab_id tab id
-	 * @return string tooltip text
-	 */
-	function getObjCreationTooltip($a_type)
-	{
-		global $lng;
-		
-		return $lng->txt("help_tt_cr_".$a_type);
-	}
-
 }
 ?>
