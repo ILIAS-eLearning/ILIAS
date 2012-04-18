@@ -5,8 +5,8 @@
 	</baseclasses>
 	<objects>
 		<object id="blog" class_name="Blog" dir="classes" default_pos="330" default_pres_pos="330"
-			checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1" export="1" workspace="1"
-			repository="1">
+			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1" 
+			workspace="1" repository="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
