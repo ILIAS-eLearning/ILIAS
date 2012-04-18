@@ -95,19 +95,38 @@ class ilHelpGUI
 	 */
 	function hasSections()
 	{
-		global $ilDB;
+		global $ilDB, $ilAccess;
+		
 		$sc_id = explode("/", $this->getScreenId());
-		if ($sc_id[0] != "" && $sc_id[1] != "")
+		if ($sc_id[0] != "")
 		{
-			$set = $ilDB->query("SELECT chap FROM help_map ".
+			if ($sc_id[1] == "")
+			{
+				$sc_id[1] = "-";
+			}
+			if ($sc_id[2] == "")
+			{
+				$sc_id[2] = "-";
+			}
+			$set = $ilDB->query("SELECT chap, perm FROM help_map ".
 				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
 				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
 				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
 				);
-			if ($rec  = $ilDB->fetchAssoc($set))
+			while ($rec = $ilDB->fetchAssoc($set))
 			{
-				return true;
+				if ($rec["perm"] != "" && $rec["perm"] != "-")
+				{
+					if ($ilAccess->checkAccess($rec["perm"], "", (int) $_GET["ref_id"]))
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return true;
+				}
 			}
 		}
 		return false;
@@ -121,12 +140,21 @@ class ilHelpGUI
 	 */
 	function getHelpSections()
 	{
-		global $ilDB;
+		global $ilDB, $ilAccess;
+		
 		$sc_id = explode("/", $this->getScreenId());
 		$chaps = array();
-		if ($sc_id[0] != "" && $sc_id[1] != "")
+		if ($sc_id[0] != "")
 		{
-			$set = $ilDB->query("SELECT chap FROM help_map ".
+			if ($sc_id[1] == "")
+			{
+				$sc_id[1] = "-";
+			}
+			if ($sc_id[2] == "")
+			{
+				$sc_id[2] = "-";
+			}
+			$set = $ilDB->query("SELECT chap, perm FROM help_map ".
 				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
 				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
@@ -134,7 +162,17 @@ class ilHelpGUI
 				);
 			while ($rec  = $ilDB->fetchAssoc($set))
 			{
-				$chaps[] = $rec["chap"];
+				if ($rec["perm"] != "" && $rec["perm"] != "-")
+				{
+					if ($ilAccess->checkAccess($rec["perm"], "", (int) $_GET["ref_id"]))
+					{
+						$chaps[] = $rec["chap"];
+					}
+				}
+				else
+				{
+					$chaps[] = $rec["chap"];
+				}
 			}
 		}
 		return $chaps;

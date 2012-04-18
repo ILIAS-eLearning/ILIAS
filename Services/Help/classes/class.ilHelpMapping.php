@@ -28,13 +28,28 @@ class ilHelpMapping
 			{
 				$id = trim($id);
 				$id = explode("/", $id);
-				if ($id[0] != "" && $id[1] != "")
+				if ($id[0] != "")
 				{
+					if ($id[1] == "")
+					{
+						$id[1] = "-";
+					}
+					$id2 = explode("#", $id[2]);
+					if ($id2[0] == "")
+					{
+						$id2[0] = "-";
+					}
+					if ($id2[1] == "")
+					{
+						$id2[1] = "-";
+					}
 					$ilDB->replace("help_map",
 						array("chap" => array("integer", $a_chap),
 							"component" => array("text", $id[0]),
 							"screen_id" => array("text", $id[1]),
-							"screen_sub_id" => array("text", $id[2])),
+							"screen_sub_id" => array("text", $id2[0]),
+							"perm" => array("text", $id2[1])
+							),
 						array()
 						);
 				}
@@ -74,7 +89,20 @@ class ilHelpMapping
 		$screen_ids = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{
-			$screen_ids[] = $rec["component"]."/".$rec["screen_id"]."/".$rec["screen_sub_id"];
+			if ($rec["screen_id"] == "-")
+			{
+				$rec["screen_id"] = "";
+			}
+			if ($rec["screen_sub_id"] == "-")
+			{
+				$rec["screen_sub_id"] = "";
+			}
+			$id = $rec["component"]."/".$rec["screen_id"]."/".$rec["screen_sub_id"];
+			if ($rec["perm"] != "" && $rec["perm"] != "-")
+			{
+				$id.= "#".$rec["perm"];
+			}
+			$screen_ids[] = $id;
 		}
 		return $screen_ids;
 	}
