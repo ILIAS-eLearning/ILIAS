@@ -796,6 +796,8 @@ class ilMailAddressbookGUI
 	
 	function showSubTabs()
 	{
+		global $ilHelp;
+		
 		if($this->tabs_gui->hasTabs())
 		{		
 			$this->tabs_gui->addSubTab('mail_my_entries', $this->lng->txt('mail_my_entries'), $this->ctrl->getLinkTarget($this));
@@ -806,6 +808,8 @@ class ilMailAddressbookGUI
 		}
 		else
 		{
+			$ilHelp->setScreenIdComponent("contacts");
+			
 			$this->tabs_gui->addTab('mail_my_entries', $this->lng->txt('mail_my_entries'), $this->ctrl->getLinkTarget($this));
 			$this->tabs_gui->addTab('mail_my_mailing_lists', $this->lng->txt('mail_my_mailing_lists'), $this->ctrl->getLinkTargetByClass('ilmailinglistsgui'));
 			$this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));

@@ -340,7 +340,9 @@ class ilCalendarPresentationGUI
 	 */
 	protected function prepareOutput()
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("cal");
 		
 		$this->tabs_gui->addTarget('app_inbox',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
 		

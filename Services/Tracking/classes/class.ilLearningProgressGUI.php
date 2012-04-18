@@ -26,7 +26,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilBench;
+		global $ilBench, $ilHelp;
 		
 		$ilBench->start('LearningProgress','0000_Start');
 
@@ -39,6 +39,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		{
 			case 'illplistofprogressgui':
 				include_once 'Services/Tracking/classes/class.ilLPListOfProgressGUI.php';
+				
+				$ilHelp->setScreenIdComponent("lp");
 
 				$this->__setSubTabs(LP_ACTIVE_PROGRESS);
 				$this->__setCmdClass('illplistofprogressgui');

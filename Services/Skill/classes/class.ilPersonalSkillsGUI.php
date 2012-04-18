@@ -27,9 +27,11 @@ class ilPersonalSkillsGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilHelp;
 
 		$lng->loadLanguageModule('skmg');
+		
+		$ilHelp->setScreenIdComponent("skill");
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "tref_id");

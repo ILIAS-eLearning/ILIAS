@@ -183,7 +183,9 @@ class ilObjPortfolioGUI
 	 */
 	function setTabs()
 	{
-		global $ilTabs, $lng, $ilCtrl;
+		global $ilTabs, $lng, $ilCtrl, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("prtf");
 		
 		$ilTabs->addTab("mypf", $lng->txt("prtf_tab_portfolios"),
 			$ilCtrl->getLinkTarget($this));
