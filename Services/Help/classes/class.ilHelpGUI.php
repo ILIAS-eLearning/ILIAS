@@ -100,7 +100,8 @@ class ilHelpGUI
 		if ($sc_id[0] != "" && $sc_id[1] != "")
 		{
 			$set = $ilDB->query("SELECT chap FROM help_map ".
-				" WHERE component = ".$ilDB->quote($sc_id[0], "text").
+				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
+				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
 				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
 				);
@@ -126,7 +127,8 @@ class ilHelpGUI
 		if ($sc_id[0] != "" && $sc_id[1] != "")
 		{
 			$set = $ilDB->query("SELECT chap FROM help_map ".
-				" WHERE component = ".$ilDB->quote($sc_id[0], "text").
+				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
+				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
 				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
 				);

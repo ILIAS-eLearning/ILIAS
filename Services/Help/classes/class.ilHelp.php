@@ -28,6 +28,19 @@ class ilHelp
 		{
 			return $rec["tt_text"];
 		}
+		else // try to get general version
+		{
+			$fu = strpos($a_tt_id, "_");
+			$gen_tt_id = "*".substr($a_tt_id, $fu);
+			$set = $ilDB->query("SELECT tt_text FROM help_tooltip ".
+				" WHERE tt_id = ".$ilDB->quote($gen_tt_id, "text")
+				);
+			$rec = $ilDB->fetchAssoc($set);
+			if ($rec["tt_text"] != "")
+			{
+				return $rec["tt_text"];
+			}
+		}
 		return "<i>".$a_tt_id."</i>";
 	}
 
