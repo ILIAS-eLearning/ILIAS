@@ -246,7 +246,9 @@ class ilMailGUI
 	
 	private function showHeader()
 	{
-		global $ilMainMenu, $ilTabs;
+		global $ilMainMenu, $ilTabs, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("mail");
 
 		$ilMainMenu->setActive("mail");
 

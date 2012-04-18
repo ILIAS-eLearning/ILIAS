@@ -585,8 +585,10 @@ class ilPersonalProfileGUI
 	// init sub tabs
 	function setTabs()
 	{
-		global $ilTabs, $ilUser;
+		global $ilTabs, $ilUser, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("user");
+		
 		// personal data
 		$ilTabs->addTab("personal_data", 
 			$this->lng->txt("personal_data"),

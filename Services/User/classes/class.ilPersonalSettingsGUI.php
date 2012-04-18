@@ -379,8 +379,10 @@ class ilPersonalSettingsGUI
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
-		global $ilTabs, $ilSetting;
+		global $ilTabs, $ilSetting, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("user");
+		
 		$showPassword = ($a_cmd == 'showPassword') ? true : false;
 		$showGeneralSettings = ($a_cmd == 'showGeneralSettings') ? true : false;
 		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;

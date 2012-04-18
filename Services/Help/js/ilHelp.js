@@ -179,12 +179,12 @@ il.Help = {
 	switchTooltips: function (e) {
 		var t = il.Help;
 		if (t.tt_activated) {
-			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .il_adv_sel').qtip('disable');
+			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .il_adv_sel, .ilGroupedListLE').qtip('disable');
 			$('#help_tt_switch_on').css('display', 'none');
 			$('#help_tt_switch_off').css('display', '');
 			t.tt_activated = false;
 		} else {
-			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .il_adv_sel').qtip('enable');
+			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .il_adv_sel, .ilGroupedListLE').qtip('enable');
 			$('#help_tt_switch_on').css('display', '');
 			$('#help_tt_switch_off').css('display', 'none');
 			t.tt_activated = true;

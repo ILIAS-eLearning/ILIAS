@@ -56,11 +56,15 @@ class ilGroupedListGUI
 	 * @param
 	 * @return
 	 */
-	function addEntry($a_content, $a_href="", $a_target="", $a_onclick="", $a_add_class = "")
+	function addEntry($a_content, $a_href="", $a_target="", $a_onclick="", $a_add_class = "",
+		$a_id = "", $a_ttip = "", $a_tt_my = "right center", $a_tt_at = "left center",
+		$a_tt_use_htmlspecialchars = true)
 	{
 		$this->items[] = array("type" => "entry", "content" => $a_content,
 			"href" => $a_href, "target" => $a_target, "onclick" => $a_onclick,
-			"add_class" => $a_add_class);
+			"add_class" => $a_add_class, "id" => $a_id, "ttip" => $a_ttip,
+			"tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
+			"tt_use_htmlspecialchars" => $a_tt_use_htmlspecialchars);
 	}
 	
 	
@@ -120,8 +124,19 @@ class ilGroupedListGUI
 						{
 							$tpl->setVariable("ONCLICK", 'onclick="'.$i["onclick"].'"');
 						}
+						if ($i["id"] != "")
+						{
+							$tpl->setVariable("ID", 'id="'.$i["id"].'"');
+						}
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");
+						if ($i["ttip"] != "" && $i["id"] != "")
+						{
+							include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+							ilTooltipGUI::addTooltip($i["id"], $i["ttip"],
+								"", $i["tt_my"], $i["tt_at"], $i["tt_use_htmlspecialchars"]);
+						}
+
 					}
 					break;
 			}

@@ -535,7 +535,8 @@ class ilMainMenuGUI
 			// overview
 			$gl->addEntry($lng->txt("overview"),
 				"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSelectedItems",
-				"_top");
+				"_top", "", "", "mm_pd_sel_items", ilHelp::getMainMenuTooltip("mm_pd_sel_items"),
+					"left center", "right center", false);
 			
 			// my groups and courses, if both is available
 			if($ilSetting->get('disable_my_offers') == 0 &&
@@ -543,28 +544,32 @@ class ilMainMenuGUI
 			{
 				$gl->addEntry($lng->txt("my_courses_groups"),
 					"ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToMemberships",
-					"_top");
+					"_top", "", "", "mm_pd_crs_grp", ilHelp::getMainMenuTooltip("mm_pd_crs_grp"),
+					"left center", "right center", false);
 			}
 			
 			// bookmarks
 			if (!$this->ilias->getSetting("disable_bookmarks"))
 			{
 				$gl->addEntry($lng->txt("bookmarks"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToBookmarks",
-					"_top");
+					"_top", "", "", "mm_pd_bookm", ilHelp::getMainMenuTooltip("mm_pd_bookm"),
+					"left center", "right center", false);
 			}
 			
 			// private notes
 			if (!$this->ilias->getSetting("disable_notes"))
 			{
 				$gl->addEntry($lng->txt("notes_and_comments"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNotes",
-					"_top");
+					"_top", "", "", "mm_pd_notes", ilHelp::getMainMenuTooltip("mm_pd_notes"),
+					"left center", "right center", false);
 			}
 
 			// news
 			if ($ilSetting->get("block_activated_news"))
 			{
 				$gl->addEntry($lng->txt("news"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToNews",
-					"_top");
+					"_top", "", "", "mm_pd_news", ilHelp::getMainMenuTooltip("mm_pd_news"),
+					"left center", "right center", false);
 			}
 
 			// overview is always active
@@ -576,7 +581,8 @@ class ilMainMenuGUI
 			{
 				// workspace
 				$gl->addEntry($lng->txt("personal_workspace"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace",
-					"_top");
+					"_top", "", "", "mm_pd_wsp", ilHelp::getMainMenuTooltip("mm_pd_wsp"),
+					"left center", "right center", false);
 				
 				$separator = true;
 			}
@@ -585,7 +591,8 @@ class ilMainMenuGUI
 			if ($ilSetting->get('user_portfolios'))
 			{
 				$gl->addEntry($lng->txt("portfolio"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToPortfolio",
-					"_top");
+					"_top", "", "", "mm_pd_port", ilHelp::getMainMenuTooltip("mm_pd_port"),
+					"left center", "right center", false);
 				
 				$separator = true;
 			}
@@ -595,7 +602,8 @@ class ilMainMenuGUI
 			if ($skmg_set->get("enable_skmg"))
 			{
 				$gl->addEntry($lng->txt("skills"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSkills",
-					"_top");
+					"_top", "", "", "mm_pd_skill", ilHelp::getMainMenuTooltip("mm_pd_skill"),
+					"left center", "right center", false);
 				
 				$separator = true;
 			}
@@ -606,7 +614,8 @@ class ilMainMenuGUI
 			{
 				//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
 				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",
-					"_top");
+					"_top", "", "", "mm_pd_lp", ilHelp::getMainMenuTooltip("mm_pd_lp"),
+					"left center", "right center", false);
 				
 				$separator = true;
 			}
@@ -624,7 +633,8 @@ class ilMainMenuGUI
 			if($settings->isEnabled())
 			{
 				$gl->addEntry($lng->txt("calendar"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToCalendar",
-					"_top");
+					"_top", "", "", "mm_pd_cal", ilHelp::getMainMenuTooltip("mm_pd_cal"),
+					"left center", "right center", false);
 				
 				$separator = true;
 			}
@@ -632,7 +642,9 @@ class ilMainMenuGUI
 			// mail
 			if($this->mail)
 			{
-				$gl->addEntry($lng->txt('mail'), 'ilias.php?baseClass=ilMailGUI', '_top');
+				$gl->addEntry($lng->txt('mail'), 'ilias.php?baseClass=ilMailGUI', '_top',
+					"", "", "mm_pd_mail", ilHelp::getMainMenuTooltip("mm_pd_mail"),
+					"left center", "right center", false);
 				
 				$separator = true;
 			}
@@ -642,7 +654,10 @@ class ilMainMenuGUI
 				($this->ilias->getSetting('disable_contacts_require_mail') ||
 				$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())))
 			{
-				$gl->addEntry($lng->txt('mail_addressbook'), 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top');
+				$gl->addEntry($lng->txt('mail_addressbook'),
+					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top'
+					, "", "", "mm_pd_contacts", ilHelp::getMainMenuTooltip("mm_pd_contacts"),
+					"left center", "right center", false);
 				
 				$separator = true;
 			}
@@ -654,11 +669,13 @@ class ilMainMenuGUI
 			
 			// profile
 			$gl->addEntry($lng->txt("personal_profile"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToProfile",
-				"_top");
+				"_top", "", "", "mm_pd_profile", ilHelp::getMainMenuTooltip("mm_pd_profile"),
+					"left center", "right center", false);
 
 			// settings
 			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
-				"_top");
+				"_top", "", "", "mm_pd_sett", ilHelp::getMainMenuTooltip("mm_pd_sett"),
+					"left center", "right center", false);
 			
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
@@ -1008,8 +1025,8 @@ class ilMainMenuGUI
 				"bottom center", "top center", false);
 		}
 		
-		if ($ilHelp->getScreenId() != "")
-		{
+		//if ($ilHelp->getScreenId() != "")
+		//{
 			$lng->loadLanguageModule("help");
 			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			$this->tpl->setCurrentBlock("help_tt_icon");
@@ -1020,7 +1037,7 @@ class ilMainMenuGUI
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
 				"bottom center", "top center", false);
-		}
+		//}
 	}
 	
 }

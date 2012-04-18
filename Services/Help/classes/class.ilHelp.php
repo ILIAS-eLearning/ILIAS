@@ -31,7 +31,7 @@ class ilHelp
 		return "<i>".$a_tt_id."</i>";
 	}
 
-		/**
+	/**
 	 * Get tab tooltip text
 	 *
 	 * @param string $a_tab_id tab id
@@ -40,6 +40,17 @@ class ilHelp
 	static function getObjCreationTooltipText($a_type)
 	{
 		return self::getTooltipPresentationText($a_type."_create");
+	}
+
+	/**
+	 * Get main menu tooltip
+	 *
+	 * @param string $a_mm_id 
+	 * @return string tooltip text
+	 */
+	static function getMainMenuTooltip($a_item_id)
+	{
+		return self::getTooltipPresentationText($a_item_id);
 	}
 
 	
