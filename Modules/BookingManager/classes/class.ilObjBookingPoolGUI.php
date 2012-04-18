@@ -179,12 +179,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
 		
 		if (in_array($this->ctrl->getCmd(), array("create", "save")) && !$this->ctrl->getNextClass())
 		{
 			return;
 		}
+		
+		$ilHelp->setScreenIdComponent("book");
 
 		$this->tabs_gui->addTab("render",
 				$this->lng->txt("book_booking_types"),

@@ -25,7 +25,7 @@ class ilPersonalWorkspaceGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilHelp;
 
 		$lng->loadLanguageModule("wsp");
 

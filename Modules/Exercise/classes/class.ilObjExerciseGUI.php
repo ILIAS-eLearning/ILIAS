@@ -1483,8 +1483,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function getTabs($tabs_gui)
 	{
-		global $ilAccess, $ilUser, $lng;
+		global $ilAccess, $ilUser, $lng, $ilHelp;
   
+		$ilHelp->setScreenIdComponent("exc");
+		
 		if ($ilAccess->checkAccess("read", "", $this->object->getRefId()))
 		{
 			$tabs_gui->addTab("content",

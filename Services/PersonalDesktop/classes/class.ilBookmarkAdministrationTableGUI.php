@@ -21,13 +21,17 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 	
 	public function __construct($a_ref)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilHelp;
+		
+		
+		$ilHelp->setScreenIdComponent("bookm");
+		
 		parent::__construct($a_ref);
 		
 		//$this->setTitle($lng->txt('bookmarks'));
 		
 		$this->setRowTemplate('tpl.bookmark_administration_row.html', 'Services/PersonalDesktop');
-		$this->addColumn('', 'id', '3%', true);
+		$this->addColumn('', '', '3%', true);
 		$this->addColumn($lng->txt('type'), '', '3%');
 		$this->addColumn($lng->txt('title'), 'title', '84%');
 		$this->addColumn($lng->txt('actions'), '', '10%');

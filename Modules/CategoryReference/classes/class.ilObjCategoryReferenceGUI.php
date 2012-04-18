@@ -90,9 +90,10 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function getTabs($tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
 
-
+		$ilHelp->setScreenIdComponent("catr");
+		
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("edit",

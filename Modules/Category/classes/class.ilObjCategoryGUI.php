@@ -195,7 +195,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $lng;
+		global $rbacsystem, $lng, $ilHelp;
 
 		if ($this->ctrl->getCmd() == "editPageContent")
 		{
@@ -203,6 +203,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 		}
 		#$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
+		$ilHelp->setScreenIdComponent("cat");
+		
 		if ($rbacsystem->checkAccess('read',$this->ref_id))
 		{
 			$force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")

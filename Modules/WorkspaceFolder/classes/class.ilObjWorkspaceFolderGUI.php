@@ -23,8 +23,10 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
 	function setTabs($a_show_settings = true)
 	{
-		global $lng;
+		global $lng, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("wfld");
+		
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
 		
 		$this->tabs_gui->addTab("wsp", $lng->txt("wsp_tab_personal"), 
