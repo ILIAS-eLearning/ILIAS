@@ -13,6 +13,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 *
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI
 *
 * @extends ilObject2GUI
 */
@@ -26,7 +27,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		global $lng, $ilCtrl;
 		
 	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
-	
+		
 		if($this->object)
 		{
 			$this->month = $_REQUEST["bmn"];
@@ -151,7 +152,10 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $lng, $ilHelp;
 
-		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
+		}
 		
 		$ilHelp->setScreenIdComponent("blog");
 
@@ -198,12 +202,17 @@ class ilObjBlogGUI extends ilObject2GUI
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
 		
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{			
+			$tpl->getStandardTemplate();
+		}
+		
 		switch($next_class)
 		{
 			case 'ilblogpostinggui':						
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
-						
+					
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
 					$_GET["blpg"], $_GET["old_nr"], $this->object->getNotesStatus() && !$this->disable_notes);
@@ -308,6 +317,13 @@ class ilObjBlogGUI extends ilObject2GUI
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
+			
+			case 'ilpermissiongui':
+				$ilTabs->activateTab("id_permissions");
+				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				$perm_gui = new ilPermissionGUI($this);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
+				break;
 
 			default:				
 				if($cmd != "gethtml")
@@ -373,7 +389,10 @@ class ilObjBlogGUI extends ilObject2GUI
 		// standard meta data
 		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 		
-		$info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			$info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
+		}
 		
 		$this->ctrl->forwardCommand($info);
 	}
@@ -635,6 +654,12 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $ilCtrl;
 		
+		// getHTML() is called by ilRepositoryGUI::show()
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			return;
+		}
+		
 		// there is no way to do a permissions check here, we have no wsp
 		
 		$list = $nav = "";
@@ -719,9 +744,10 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		// back (edit)
 		if($owner == $ilUser->getId())
-		{			
-			// from editor
-			if($_GET["baseClass"] == "ilPersonalDesktopGUI")
+		{							
+			// from editor 
+			if($_GET["baseClass"] == "ilPersonalDesktopGUI" || 
+				$_GET["baseClass"] == "ilRepositoryGUI")
 			{
 				$prvm = $_GET["prvm"];
 				$this->ctrl->setParameter($this, "prvm", "");
@@ -746,7 +772,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		// back (shared resources)
 		else if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
-		{
+		{			
 			$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner;
 		}				
 		$tpl->setTopBar($back);
@@ -920,11 +946,19 @@ class ilObjBlogGUI extends ilObject2GUI
 			// permanent link
 			if($a_cmd != "preview" && $a_cmd != "previewEmbedded")
 			{
-				$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
+				if($this->id_type == self::WORKSPACE_NODE_ID)
+				{				
+					$goto = $this->getAccessHandler()->getGotoLink($this->node_id, $this->obj_id, "_".$item["id"]);
+				}
+				else
+				{
+					include_once "Services/Link/classes/class.ilLink.php";
+					$goto = ilLink::_getStaticLink($this->node_id, $this->getType(), true, "_".$item["id"]);
+				}
 				$wtpl->setCurrentBlock("permalink");
 				$wtpl->setVariable("URL_PERMALINK", $goto); 
 				$wtpl->setVariable("TEXT_PERMALINK", $lng->txt("blog_permanent_link"));
-				$wtpl->parseCurrentBlock();
+				$wtpl->parseCurrentBlock();				
 			}
 						
 			$snippet = ilBlogPostingGUI::getSnippet($item["id"]);	
@@ -1523,21 +1557,47 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 	}
 	
+	function addLocatorItems()
+	{
+		global $ilLocator;
+		
+		if (is_object($this->object))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
+		}
+	}
+	
 	/**
 	 * Deep link
 	 * 
 	 * @param string $a_target 
 	 */
 	function _goto($a_target)
-	{		
-		$id = explode("_", $a_target);
-		
-		$_GET["baseClass"] = "ilsharedresourceGUI";	
-		$_GET["wsp_id"] = $id[0];		
-		if(sizeof($id) == 3)
-		{
-			$_GET["gtp"] = $id[1];
+	{							
+		if(substr($a_target, -3) == "wsp")
+		{		
+			$id = explode("_", $a_target);		
+
+			$_GET["baseClass"] = "ilSharedResourceGUI";	
+			$_GET["wsp_id"] = $id[0];		
+			if(sizeof($id) == 3)
+			{
+				$_GET["gtp"] = $id[1];
+			}						
 		}
+		else
+		{
+			$id = explode("_", $a_target);		
+			
+			$_GET["baseClass"] = "ilRepositoryGUI";	
+			$_GET["ref_id"] = $id[0];		
+			$_GET["cmd"] = "preview";
+			if(sizeof($id) == 2)
+			{
+				$_GET["gtp"] = $id[1];
+			}	
+		}
+		
 		include("ilias.php");
 		exit;
 	}

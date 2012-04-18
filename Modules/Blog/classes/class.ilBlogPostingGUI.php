@@ -213,8 +213,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			$append = ($_GET["blpg"] != "")
 				? "_".$_GET["blpg"]
 				: "";
+			if($_REQUEST["baseClass"] != "ilRepositoryGUI")
+			{
+				$append .= "_wsp";
+			}
 			include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
-			$perma_link = new ilPermanentLinkGUI("blog", $this->node_id, $append."_wsp");
+			$perma_link = new ilPermanentLinkGUI("blog", $this->node_id, $append);
 			$wtpl->setVariable("PERMA_LINK", $perma_link->getHTML());
 		}
 		
@@ -298,9 +302,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function getTabs($a_activate = "")
 	{
-		global $ilTabs, $ilCtrl;
+		global $ilCtrl;
 
-		// $ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $this->getBlogPosting()->getParentId());
 		$ilCtrl->setParameterByClass("ilobjbloggui", "blpg", $this->getBlogPosting()->getId());
 
 		parent::getTabs($a_activate);

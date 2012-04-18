@@ -9399,3 +9399,7 @@ $ilDB->addTableColumn("help_tooltip", "comp", array(
 		'fixed' => false
 	));
 ?>
+<#3559>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
