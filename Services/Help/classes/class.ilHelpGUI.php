@@ -95,41 +95,8 @@ class ilHelpGUI
 	 */
 	function hasSections()
 	{
-		global $ilDB, $ilAccess;
-		
-		$sc_id = explode("/", $this->getScreenId());
-		if ($sc_id[0] != "")
-		{
-			if ($sc_id[1] == "")
-			{
-				$sc_id[1] = "-";
-			}
-			if ($sc_id[2] == "")
-			{
-				$sc_id[2] = "-";
-			}
-			$set = $ilDB->query("SELECT chap, perm FROM help_map ".
-				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
-				" OR component = ".$ilDB->quote("*", "text").")".
-				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
-				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
-				);
-			while ($rec = $ilDB->fetchAssoc($set))
-			{
-				if ($rec["perm"] != "" && $rec["perm"] != "-")
-				{
-					if ($ilAccess->checkAccess($rec["perm"], "", (int) $_GET["ref_id"]))
-					{
-						return true;
-					}
-				}
-				else
-				{
-					return true;
-				}
-			}
-		}
-		return false;
+		include_once("./Services/Help/classes/class.ilHelpMapping.php");
+		return ilHelpMapping::hasScreenIdSections($this->getScreenId(), (int) $_GET["ref_id"]);
 	}
 	
 	/**
@@ -140,42 +107,8 @@ class ilHelpGUI
 	 */
 	function getHelpSections()
 	{
-		global $ilDB, $ilAccess;
-		
-		$sc_id = explode("/", $this->getScreenId());
-		$chaps = array();
-		if ($sc_id[0] != "")
-		{
-			if ($sc_id[1] == "")
-			{
-				$sc_id[1] = "-";
-			}
-			if ($sc_id[2] == "")
-			{
-				$sc_id[2] = "-";
-			}
-			$set = $ilDB->query("SELECT chap, perm FROM help_map ".
-				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
-				" OR component = ".$ilDB->quote("*", "text").")".
-				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
-				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
-				);
-			while ($rec  = $ilDB->fetchAssoc($set))
-			{
-				if ($rec["perm"] != "" && $rec["perm"] != "-")
-				{
-					if ($ilAccess->checkAccess($rec["perm"], "", (int) $_GET["ref_id"]))
-					{
-						$chaps[] = $rec["chap"];
-					}
-				}
-				else
-				{
-					$chaps[] = $rec["chap"];
-				}
-			}
-		}
-		return $chaps;
+		include_once("./Services/Help/classes/class.ilHelpMapping.php");
+		return ilHelpMapping::getHelpSectionsForId($this->getScreenId(), (int) $_GET["ref_id"]);
 	}
 	
 	/**

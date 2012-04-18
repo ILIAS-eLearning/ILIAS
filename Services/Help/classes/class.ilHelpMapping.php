@@ -107,6 +107,98 @@ class ilHelpMapping
 		return $screen_ids;
 	}
 	
+	/**
+	 * Get help sections for screen id
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getHelpSectionsForId($a_screen_id, $a_ref_id)
+	{
+		global $ilDB, $ilAccess;
+		
+		$sc_id = explode("/", $a_screen_id);
+		$chaps = array();
+		if ($sc_id[0] != "")
+		{
+			if ($sc_id[1] == "")
+			{
+				$sc_id[1] = "-";
+			}
+			if ($sc_id[2] == "")
+			{
+				$sc_id[2] = "-";
+			}
+			$set = $ilDB->query("SELECT chap, perm FROM help_map ".
+				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
+				" OR component = ".$ilDB->quote("*", "text").")".
+				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
+				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
+				);
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				if ($rec["perm"] != "" && $rec["perm"] != "-")
+				{
+					if ($ilAccess->checkAccess($rec["perm"], "", (int) $a_ref_id))
+					{
+						$chaps[] = $rec["chap"];
+					}
+				}
+				else
+				{
+					$chaps[] = $rec["chap"];
+				}
+			}
+		}
+		return $chaps;
+	}
+	
+	/**
+	 * Has given screen Id any sections?
+	 *
+	 * @param
+	 * @return
+	 */
+	function hasScreenIdSections($a_screen_id, $a_ref_id)
+	{
+				
+		global $ilDB, $ilAccess;
+		
+		$sc_id = explode("/", $a_screen_id);
+		if ($sc_id[0] != "")
+		{
+			if ($sc_id[1] == "")
+			{
+				$sc_id[1] = "-";
+			}
+			if ($sc_id[2] == "")
+			{
+				$sc_id[2] = "-";
+			}
+			$set = $ilDB->query("SELECT chap, perm FROM help_map ".
+				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
+				" OR component = ".$ilDB->quote("*", "text").")".
+				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
+				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
+				);
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				if ($rec["perm"] != "" && $rec["perm"] != "-")
+				{
+					if ($ilAccess->checkAccess($rec["perm"], "", (int) $a_ref_id))
+					{
+						return true;
+					}
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 }
 
 ?>
