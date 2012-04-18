@@ -322,6 +322,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 	protected function getEditFormCustomValues(Array &$a_values)
 	{
+		$a_values["desc"] = $this->object->getLongDescription();
 		$a_values['default_view'] = $this->objProperties->getDefaultView();
 		$a_values['anonymized'] = $this->objProperties->isAnonymized();
 		$a_values['statistics_enabled'] = $this->objProperties->isStatisticEnabled();
