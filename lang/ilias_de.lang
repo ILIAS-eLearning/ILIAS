@@ -12521,3 +12521,17 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungs-Zw
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Hinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Hinweis %s wurde vor dem Hinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Hinweis %s wurde nach dem Hinweis %s erfolgreich eingefügt.
+common#:#objs_blog#:#Blogs
+common#:#obj_blog_duplicate#:#Blog kopieren
+blog#:#blog_copy#:#Blog kopieren
+rbac#:#blog_visible#:#Blog ist sichtbar
+rbac#:#blog_read#:#Blog lesen
+rbac#:#blog_copy#:#Blog kopieren
+rbac#:#blog_write#:#Blog bearbeiten
+rbac#:#blog_delete#:#Blog löschen
+rbac#:#blog_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#crs_create_blog#:#Neuen Blog anlegen
+rbac#:#root_create_blog#:#Neuen Blog anlegen
+rbac#:#fold_create_blog#:#Neuen Blog anlegen
+rbac#:#grp_create_blog#:#Neuen Blog anlegen
+rbac#:#cat_create_blog#:#Neuen Blog anlegen

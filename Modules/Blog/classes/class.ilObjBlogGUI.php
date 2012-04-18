@@ -193,7 +193,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilTabs, $lng, $ilUser;
+		global $ilCtrl, $tpl, $ilTabs, $lng, $ilUser, $ilNavigationHistory;
 
 		// goto link to blog posting
 		if($_GET["gtp"])
@@ -209,6 +209,14 @@ class ilObjBlogGUI extends ilObject2GUI
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{			
 			$tpl->getStandardTemplate();
+			
+			// add entry to navigation history
+			if(!$this->getCreationMode() &&
+				$this->getAccessHandler()->checkAccess("read", "", $this->node_id))
+			{
+				$link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset");				
+				$ilNavigationHistory->addItem($this->node_id, $link, "blog");
+			}
 		}
 		
 		switch($next_class)
@@ -323,6 +331,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				break;
 			
 			case "ilpermissiongui":
+				$this->prepareOutput();
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
