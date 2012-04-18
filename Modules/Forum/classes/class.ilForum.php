@@ -1052,7 +1052,7 @@ class ilForum
 					FROM frm_posts
 					LEFT JOIN frm_user_read ON post_id = pos_pk AND usr_id = %s
 					WHERE pos_thr_fk = frm_threads.thr_pk
-					AND (pos_date > FROM_UNIXTIME(access_last) OR pos_update > FROM_UNIXTIME(access_last)) 
+					AND (pos_date > ".$ilDB->fromUnixtime('access_last')." OR pos_update > ".$ilDB->fromUnixtime('access_last').") 
 					AND pos_usr_id != %s
 					$active_query
 					AND usr_id IS NULL
