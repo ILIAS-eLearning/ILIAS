@@ -13,7 +13,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 *
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI
 *
 * @extends ilObject2GUI
 */
@@ -61,7 +61,11 @@ class ilObjBlogGUI extends ilObject2GUI
 		$forms = parent::initCreationForms($a_new_type);
 
 		unset($forms[self::CFORM_IMPORT]);
-		unset($forms[self::CFORM_CLONE]);
+		
+		if($this->id_type == self::WORKSPACE_NODE_ID)
+		{
+			unset($forms[self::CFORM_CLONE]);
+		}
 		
 		return $forms;
 	}
@@ -318,11 +322,18 @@ class ilObjBlogGUI extends ilObject2GUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			case 'ilpermissiongui':
+			case "ilpermissiongui":
 				$ilTabs->activateTab("id_permissions");
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
-				$ret = $this->ctrl->forwardCommand($perm_gui);
+				$this->ctrl->forwardCommand($perm_gui);
+				break;
+			
+			case "ilobjectcopygui":
+				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
+				$cp = new ilObjectCopyGUI($this);
+				$cp->setType("blog");
+				$this->ctrl->forwardCommand($cp);
 				break;
 
 			default:				
