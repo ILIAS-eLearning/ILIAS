@@ -12538,3 +12538,18 @@ help#:#help_component#:#Component
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Open Online Help
 help#:#help_toggle_tooltips#:#Toggle Help Tooltips
+common#:#objs_blog#:#Blogs
+common#:#obj_blog_duplicate#:#Copy Blog
+blog#:#blog_copy#:#Copy Blog
+rbac#:#blog_visible#:#Blog is visible
+rbac#:#blog_read#:#Read access to blog
+rbac#:#blog_copy#:#Copy Blog
+rbac#:#blog_write#:#Edit Blog
+rbac#:#blog_delete#:#Delete Blog
+rbac#:#blog_edit_permission#:#Change permission settings
+rbac#:#crs_create_blog#:#Create Blog
+rbac#:#root_create_blog#:#Create Blog
+rbac#:#fold_create_blog#:#Create Blog
+rbac#:#grp_create_blog#:#Create Blog
+rbac#:#cat_create_blog#:#Create Blog
+user#:#user_delete_own_account#:#Delete Account
