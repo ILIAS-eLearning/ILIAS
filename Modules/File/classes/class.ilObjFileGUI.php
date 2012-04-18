@@ -748,7 +748,9 @@ class ilObjFileGUI extends ilObject2GUI
 	// get tabs
 	function setTabs()
 	{
-		global $ilTabs, $lng;
+		global $ilTabs, $lng, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("file");
 
 		$this->ctrl->setParameter($this,"ref_id",$this->node_id);
 

@@ -90,8 +90,9 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function getTabs($tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("crsr");
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{

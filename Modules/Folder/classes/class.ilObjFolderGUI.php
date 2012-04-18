@@ -369,9 +369,11 @@ class ilObjFolderGUI extends ilContainerGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $ilUser, $lng, $ilCtrl,$ilAccess;
+		global $rbacsystem, $ilUser, $lng, $ilCtrl,$ilAccess, $ilHelp;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
+		
+		$ilHelp->setScreenIdComponent("fold");
 
 		$tabs_gui->setTabActive("");
 		if ($rbacsystem->checkAccess('read',$this->ref_id))

@@ -22,8 +22,10 @@ class ilPDNewsGUI
 	*/
 	function ilPDNewsGUI()
 	{
-		global $tpl, $lng, $ilCtrl;
+		global $tpl, $lng, $ilCtrl, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("news");
+		
 		// initiate variables
 		$this->tpl =& $tpl;
 		$this->lng =& $lng;

@@ -23,7 +23,10 @@ class ilObjWorkspaceRootFolderGUI extends ilObjWorkspaceFolderGUI
 	
 	function setTabs()
 	{
+		global $lng, $ilHelp;
+
 		parent::setTabs(false);
+		$ilHelp->setScreenIdComponent("wsrt");
 	}
 	
 	protected function setTitleAndDescription()

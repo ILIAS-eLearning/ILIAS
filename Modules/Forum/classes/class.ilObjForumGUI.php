@@ -632,7 +632,9 @@ class ilObjForumGUI extends ilObjectGUI
 		/**
 		 * @var $ilAccess ilAccessHandler
 		 */
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("frm");
 
 		$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
 

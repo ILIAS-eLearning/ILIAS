@@ -149,9 +149,11 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	function setTabs()
 	{
-		global $lng;
+		global $lng, $ilHelp;
 
 		$this->ctrl->setParameter($this,"wsp_id",$this->node_id);
+		
+		$ilHelp->setScreenIdComponent("blog");
 
 		if ($this->checkPermissionBool("read"))
 		{
