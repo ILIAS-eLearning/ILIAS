@@ -73,7 +73,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 	{
 		global $ilUser;
 
-		$this->addColumn('', 'sort', '5%', true);
+		$this->addColumn('', '', '1px', true);
 		$this->addColumn($this->lng->txt('personal_picture'), '', '10%');
 		if($this->isDraftFolder() || $this->isSentFolder())
 			$this->addColumn($this->lng->txt('recipient'), 'rcp_to', '25%');
@@ -296,14 +296,14 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
 			if($this->isDraftFolder() || $this->isSentFolder())
 			{
-				$mail['mail_login'] = $this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']);
+				$mail['rcp_to'] = $mail['mail_login'] = $this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']);
 			}
 			else
 			{
 				if($mail['sender_id'] == ANONYMOUS_USER_ID)
 				{
 					$mail['img_sender'] = ilUtil::getImagePath('HeaderIcon.png');
-					$mail['mail_login'] = $mail['alt_sender'] = ilMail::_getIliasMailerName();
+					$mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = ilMail::_getIliasMailerName();
 				}
 				else
 				{
@@ -311,11 +311,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
 					if($user)
 					{
 						$mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
-						$mail['mail_login'] = $mail['alt_sender'] = $user->getPublicName();
+						$mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = $user->getPublicName();
 					}
 					else
 					{
-						$mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
+						$mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
 					}
 				}
 			}
