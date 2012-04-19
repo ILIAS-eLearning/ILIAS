@@ -422,7 +422,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	function createPosting()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $ilUser;
 
 		if($_POST["title"])
 		{
@@ -432,6 +432,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			$posting->setTitle($_POST["title"]);
 			$posting->setBlogId($this->object->getId());
 			$posting->setActive(false);
+			$posting->setAuthor($ilUser->getId());
 			$posting->create();
 			
 			// switch month list to current month (will include new posting)
