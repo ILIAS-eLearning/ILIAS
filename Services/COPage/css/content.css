@@ -429,37 +429,6 @@ div.ilc_section_Excursus {
 	background-repeat: repeat-x;
 }
 
-div.ilc_section_Hint
-{
-	margin: 20px 0px;
-	padding: 10px 10px 10px 50px;
-	background-color: #FFFFF4;
-	border-width: 1px;
-	border-color: #FFFFD0;
-	border-style: solid;
-	background-image: url(../../../templates/default/images/hint.gif);
-	background-repeat: no-repeat;
-	background-position: top left;
-	min-height: 25px;
-	height: auto !important;
-	height: 25px;
-}
-
-div.ilc_text_block_Hint, body.ilc_text_block_Hint
-{
-	margin: 20px 0px;
-	padding: 10px 10px 10px 50px;
-	background-color: #FFFFF4;
-	border-width: 1px;
-	border-color: #FFFFD0;
-	border-style: solid;
-	background-image: url(../../../templates/default/images/hint.gif);
-	background-repeat: no-repeat;
-	background-position: top left;
-	min-height: 25px;
-	height: auto !important;
-	height: 25px;
-}
 
 /* Media */
 table.ilc_media_cont_MediaContainer
