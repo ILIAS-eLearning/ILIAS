@@ -894,7 +894,7 @@ this.copyInputToGhost(false);
 				// div
 			//	var fdiv = r.childNodes[0];
 				// p
-			var fc = r.childNodes[0];
+				var fc = r.childNodes[0];
 				if (fc != null)
 				{
 					// set selection to start of first div
@@ -902,19 +902,13 @@ this.copyInputToGhost(false);
 					rn.setStart(fc, 0);
 					rn.setEnd(fc, 0);
 					ed.selection.setRng(rn);
-					if (r.className != null)
-					{
-						var st = r.className.substring(15);
-						//var st = r.className;
-//						var st_s = document.getElementById('style_selection');
-//						if (st_s != null)
-//						{
-							il.AdvancedSelectionList.selectItem('style_selection', st);
-//console.log("setting class: " + st);
-//						}
-					}
 				}
-			
+				if (r.className != null)
+				{
+					var st = r.className.substring(15);
+					ilAdvancedSelectionList.selectItem('style_selection', st);
+				}
+
 				ed.getWin().focus();
 			}
 			
