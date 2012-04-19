@@ -213,7 +213,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			$append = ($_GET["blpg"] != "")
 				? "_".$_GET["blpg"]
 				: "";
-			if($_REQUEST["baseClass"] != "ilRepositoryGUI")
+			if($this->isInWorkspace())
 			{
 				$append .= "_wsp";
 			}
@@ -269,6 +269,16 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		
 		return parent::showPage();
 	}
+	
+	/**
+	 * Is current page part of personal workspace blog?
+	 * 
+	 * @return bool 
+	 */
+	protected function isInWorkspace()
+	{
+		return stristr(get_class($this->access_handler), "workspace");
+	}
 
 	/**
 	 * Finalizing output processing
@@ -280,12 +290,23 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	{
 		// #8626
 		if($this->getOutputMode() == "preview" && !$this->getAbstractOnly() && $this->add_date)
-		{
+		{			
+			if(!$this->isInWorkspace())		
+			{
+				$author = "";
+				$author_id = $this->getBlogPosting()->getAuthor();
+				if($author_id)
+				{
+					include_once "Services/User/classes/class.ilUserUtil.php";
+					$author = ilUserUtil::getNamePresentation($author_id)." - ";
+				}		
+			}
+			
 			// prepend creation date
 			$rel = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
 			$prefix = "<div class=\"il_BlockInfo\" style=\"text-align:right\">".
-				ilDatePresentation::formatDate($this->getBlogPosting()->getCreated()).
+				$author.ilDatePresentation::formatDate($this->getBlogPosting()->getCreated()).
 				"</div>";			
 			ilDatePresentation::setUseRelativeDates($rel);
 			

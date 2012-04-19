@@ -999,10 +999,21 @@ class ilObjBlogGUI extends ilObject2GUI
 				$wtpl->setVariable("DRAFT_CLASS", " ilBlogListItemDraft");
 			}
 			
+			$author = "";
+			if($this->id_type == self::REPOSITORY_NODE_ID)
+			{				
+				$author_id = $item["author"];
+				if($author_id)
+				{
+					include_once "Services/User/classes/class.ilUserUtil.php";
+					$author = ilUserUtil::getNamePresentation($author_id)." - ";
+				}				
+			}
+			
 			// title
 			$wtpl->setVariable("URL_TITLE", $preview);
 			$wtpl->setVariable("TITLE", $item["title"]);
-			$wtpl->setVariable("DATETIME",
+			$wtpl->setVariable("DATETIME", $author.
 				ilDatePresentation::formatDate($item["created"], IL_CAL_DATE));		
 
 			// content			
