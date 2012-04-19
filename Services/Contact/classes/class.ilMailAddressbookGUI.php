@@ -438,27 +438,32 @@ class ilMailAddressbookGUI
 
 		    $this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
 
-		    if ($entry["login"] != "")
-		    {
-			if ($mailing_allowed)
+			$result[$counter]['login'] = '';
+			if($entry["login"] != "")
 			{
-			    $result[$counter]['login_linked_link'] = $this->ctrl->getLinkTarget($this, 'mailToUsers');
-			    $result[$counter]['login_linked_login'] = $entry["login"];
+				if($mailing_allowed)
+				{
+					$result[$counter]['login_linked_link'] = $this->ctrl->getLinkTarget($this, 'mailToUsers');
+					$result[$counter]['login']             = $result[$counter]['login_linked_login'] = $entry["login"];
+				}
+				else
+				{
+					$result[$counter]['login'] = $result[$counter]['login_unliked'] = $entry["login"];
+				}
+			}
+
+			$result[$counter]['firstname'] = $entry["firstname"];
+			$result[$counter]['lastname']  = $entry["lastname"];
+
+			if($_GET["baseClass"] == "ilMailGUI" && $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
+			{
+				$result[$counter]['email']             = $result[$counter]['email_linked_email'] = $entry["email"];
+				$result[$counter]['email_linked_link'] = $this->ctrl->getLinkTarget($this, "mailToUsers");
 			}
 			else
-			    $result[$counter]['login_unliked'] = $entry["login"];
-		    }
-
-		    $result[$counter]['firstname'] = $entry["firstname"];
-		    $result[$counter]['lastname'] = $entry["lastname"];
-
-		    if ($_GET["baseClass"] == "ilMailGUI" && $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
-		    {
-			$result[$counter]['email_linked_email'] = $entry["email"];
-			$result[$counter]['email_linked_link'] = $this->ctrl->getLinkTarget($this, "mailToUsers");
-		    }
-		    else
-			$result[$counter]['email_unlinked'] = $entry["email"] ? $entry["email"] : "&nbsp;";
+			{
+				$result[$counter]['email'] = $result[$counter]['email_unlinked'] = $entry["email"];
+			}
 
 		    $current_selection_list = new ilAdvancedSelectionListGUI();
 		    $current_selection_list->setListTitle($this->lng->txt("actions"));
