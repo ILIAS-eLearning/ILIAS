@@ -16,6 +16,7 @@ class ilBlogPosting extends ilPageObject
 	protected $title; // [string]
 	protected $created; // [ilDateTime]
 	protected $blog_wsp_id; // [int]
+	protected $author; // [int]
 
 	/**
 	 * Constructor
@@ -89,6 +90,26 @@ class ilBlogPosting extends ilPageObject
 	{
 		return $this->created;
 	}
+	
+	/**
+	 * Set author user id
+	 *
+	 * @param int $a_id
+	 */
+	function setAuthor($a_id)
+	{
+		$this->author = (int)$a_id;
+	}
+
+	/**
+	 * Get author user id
+	 *
+	 * @return int
+	 */
+	function getAuthor()
+	{
+		return $this->author;
+	}
 
 	/**
 	 * Create new blog posting
@@ -102,11 +123,13 @@ class ilBlogPosting extends ilPageObject
 
 		// we are using a separate creation date to enable sorting without JOINs
 		
-		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created) VALUES (".
+		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author)".
+			" VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getBlogId(), "integer").",".
-			$ilDB->quote(ilUtil::now(), "timestamp").")";
+			$ilDB->quote(ilUtil::now(), "timestamp").",".
+			$ilDB->quote($this->getAuthor(), "integer").")";
 		$ilDB->manipulate($query);
 
 		parent::create();
@@ -125,7 +148,7 @@ class ilBlogPosting extends ilPageObject
 	{
 		global $ilDB;
 
-		// blog_id and created cannot be changed
+		// blog_id, author and created cannot be changed
 		
 		$query = "UPDATE il_blog_posting SET".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
@@ -159,6 +182,7 @@ class ilBlogPosting extends ilPageObject
 		$this->setTitle($rec["title"]);
 		$this->setBlogId($rec["blog_id"]);
 		$this->setCreated(new ilDateTime($rec["created"], IL_CAL_DATETIME));
+		$this->setAuthor($rec["author"]);
 	
 		parent::read();
 	}
@@ -252,6 +276,7 @@ class ilBlogPosting extends ilPageObject
 				$post[$rec["id"]] = $pages[$rec["id"]];
 				$post[$rec["id"]]["title"] = $rec["title"];
 				$post[$rec["id"]]["created"] = new ilDateTime($rec["created"], IL_CAL_DATETIME);
+				$post[$rec["id"]]["author"] = $rec["author"];
 			}
 		}
 

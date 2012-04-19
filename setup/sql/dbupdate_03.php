@@ -9439,3 +9439,14 @@ $ilDB->dropPrimaryKey("help_map");
 $ilDB->addPrimaryKey("help_map",
 	array("chap", "component", "screen_id", "screen_sub_id", "perm"));
 ?>
+<#3563>
+<?php
+	if(!$ilDB->tableColumnExists("il_blog_posting", "author"))
+    {		
+		$ilDB->addTableColumn("il_blog_posting", "author", array(
+                'type'     => 'integer',
+                'length'   => 4,
+				'notnull'  => true,
+                'default'  => 0));		
+    }	
+?>
