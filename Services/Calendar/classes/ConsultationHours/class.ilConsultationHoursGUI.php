@@ -593,6 +593,7 @@ class ilConsultationHoursGUI
 					$entry->cancelBooking($entry_id, $user_id);
 				}
 			}
+			$entry->delete();
 			
 			// remove calendar entries
 			$entry = new ilCalendarEntry($entry_id);
