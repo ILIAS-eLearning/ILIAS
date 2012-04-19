@@ -584,13 +584,24 @@ class ilConsultationHoursGUI
 		include_once 'Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
 		foreach($_POST['apps'] as $entry_id)
 		{
+			// cancel booking for users
+			$entry = ilBookingEntry::getInstanceByCalendarEntryId($entry_id);
+			if($entry)
+			{
+				foreach($entry->getCurrentBookings($entry_id) as $user_id)
+				{
+					$entry->cancelBooking($entry_id, $user_id);
+				}
+			}
+			
+			// remove calendar entries
 			$entry = new ilCalendarEntry($entry_id);
 			$entry->delete();
 
-			ilCalendarCategoryAssignments::_deleteByAppointmentId($entry_id);
-
-			ilBookingEntry::removeObsoleteEntries();
+			ilCalendarCategoryAssignments::_deleteByAppointmentId($entry_id);				
 		}
+		
+		ilBookingEntry::removeObsoleteEntries();
 
 		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
 		$this->ctrl->redirect($this, 'appointmentList');
