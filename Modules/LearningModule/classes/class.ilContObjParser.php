@@ -225,6 +225,7 @@ class ilContObjParser extends ilMDSaxParser
 			}
 			$page_obj->buildDom();
 			$page_obj->resolveIntLinks();
+			$page_obj->resolveIIMMediaAliases($this->mob_mapping);
 			if (in_array($this->coType, array("lm", "dbk")))
 			{
 				$page_obj->resolveQuestionReferences($this->qst_mapping);
@@ -300,6 +301,7 @@ class ilContObjParser extends ilMDSaxParser
 	function copyMobFiles()
 	{
 		$imp_dir = $this->content_object->getImportDirectory();
+
 		foreach ($this->mob_mapping as $origin_id => $mob_id)
 		{
 			if(empty($origin_id))
