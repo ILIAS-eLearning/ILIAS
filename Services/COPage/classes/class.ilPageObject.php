@@ -1920,6 +1920,33 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	}
 
 	/**
+	 * Resolve iim media aliases
+	 * (in ilContObjParse)
+	 *
+	 * @param	array		mapping array
+	 */
+	function resolveIIMMediaAliases($a_mapping)
+	{
+		// resolve normal internal links
+		$xpc = xpath_new_context($this->dom);
+		$path = "//InteractiveImage/MediaAlias";
+		$res =& xpath_eval($xpc, $path);
+		$changed = false;
+		for($i = 0; $i < count($res->nodeset); $i++)
+		{
+			$old_id = $res->nodeset[$i]->get_attribute("OriginId");
+			if ($a_mapping[$old_id] > 0)
+			{
+				$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$a_mapping[$old_id]);
+				$changed = true;
+			}
+		}
+		unset($xpc);
+
+		return $changed;
+	}
+
+	/**
 	 * Resolve file items
 	 * (after import)
 	 *
