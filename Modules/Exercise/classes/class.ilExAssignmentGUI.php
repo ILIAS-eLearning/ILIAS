@@ -99,6 +99,11 @@ class ilExAssignmentGUI
 		$tpl = new ilTemplate("tpl.assignment_body.html", true, true, "Modules/Exercise");
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
+		if(IS_PAYMENT_ENABLED)
+		{
+			include_once './Services/Payment/classes/class.ilPaymentObject.php';
+		}
+		
 		$info = new ilInfoScreenGUI(null);
 		$info->setTableClass("");
 		
@@ -201,9 +206,7 @@ class ilExAssignmentGUI
 					$lng->txt("buy"),
 					$ilCtrl->getLinkTargetByClass("ilShopPurchaseGUI", "showDetails"));
 			}
-			else if(!IS_PAYMENT_ENABLED ||
-				(ilPaymentObject::_isBuyable($_GET['ref_id'],'download') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','download'))
-				|| (ilPaymentObject::_isBuyable($_GET['ref_id'],'upload') && ilPaymentObject::_hasAccess($_GET['ref_id'],'','upload')))
+			else 
 			{
 				$info->addSection($lng->txt("exc_your_submission"));
 				
