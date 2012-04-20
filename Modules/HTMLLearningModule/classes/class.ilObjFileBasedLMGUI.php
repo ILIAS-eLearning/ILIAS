@@ -812,6 +812,55 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 	}
 
 
+	/**
+	 * Import file
+	 *
+	 * @param
+	 * @return
+	 */
+	function importFileObject($parent_id = null)
+	{
+		try
+		{
+			return parent::importFileObject();
+		}
+		catch (ilManifestFileNotFoundImportException $e)
+		{
+			// since there is no manifest xml we assume that this is an HTML export file
+			$this->createFromDirectory($e->getTmpDir());
+		}
+	}
+	
+	/**
+	 * Create new object from a html zip file
+	 *
+	 * @param
+	 * @return
+	 */
+	function createFromDirectory($a_dir)
+	{
+		global $ilErr;
+		
+		if (!$this->checkPermissionBool("create", "", "htlm") || $a_dir == "")
+		{
+			$ilErr->raiseError($this->lng->txt("no_create_permission"));
+		}
+		
+		// create instance
+		$newObj = new ilObjFileBasedLM();
+		$filename = ilUtil::stripSlashes($_FILES["importfile"]["name"]);
+		$newObj->setTitle($filename);
+		$newObj->setDescription("");
+		$newObj->create();
+		$newObj->populateByDirectoy($a_dir, $filename);
+		$this->putObjectInTree($newObj);
+
+		$this->afterSave($newObj);
+	}
+	
+	
+	
+	
 	////
 	//// Export to HTML
 	////

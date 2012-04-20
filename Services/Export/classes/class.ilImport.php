@@ -123,7 +123,7 @@ class ilImport
 		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': do import with dir '.$dir);
-		$new_id = $this->doImportObject($dir, $a_type, $a_comp);
+		$new_id = $this->doImportObject($dir, $a_type, $a_comp, $tmpdir);
 		
 		// delete temporary directory
 		ilUtil::delDir($tmpdir);
@@ -137,7 +137,7 @@ class ilImport
 	 *
 	 * @param	string		absolute filename of temporary upload file
 	 */
-	protected function doImportObject($dir, $a_type, $a_component = "")
+	protected function doImportObject($dir, $a_type, $a_component = "", $a_tmpdir = "")
 	{
 		global $objDefinition, $tpl;
 
@@ -160,6 +160,14 @@ class ilImport
 		
 		// process manifest file
 		include_once("./Services/Export/classes/class.ilManifestParser.php");
+		if (!is_file($dir."/manifest.xml"))
+		{
+			include_once("./Services/Export/exceptions/class.ilManifestFileNotFoundImportException.php");
+			$e = new ilManifestFileNotFoundImportException('Manifest file not found: "'.$dir."/manifest.xml".'".');
+			$e->setManifestDir($dir);
+			$e->setTmpDir($a_tmpdir);
+			throw $e;
+		}
 		$parser = new ilManifestParser($dir."/manifest.xml");
 		$this->mapping->setInstallUrl($parser->getInstallUrl());
 		$this->mapping->setInstallId($parser->getInstallId());
