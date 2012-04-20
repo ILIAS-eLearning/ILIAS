@@ -3326,12 +3326,16 @@
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test="$mode != 'edit'">
+			<xsl:variable name="beh">
+				<xsl:if test="$mode != 'print'"><xsl:value-of select="@Behavior"/></xsl:if>
+				<xsl:if test="$mode = 'print'">ForceAllOpen</xsl:if>
+			</xsl:variable>
 			<xsl:if test="@Type = 'VerticalAccordion'">
 			<script type="text/javascript">
 				ilAccordionData[ilAccordionData.length] =
 					new Array('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					'il_VAccordionToggleDef', 'il_VAccordionToggleActiveDef',
-					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select="@Behavior"/>');
+					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select = "$beh"/>');
 			</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion'">
