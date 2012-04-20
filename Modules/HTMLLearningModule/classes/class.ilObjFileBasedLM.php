@@ -304,5 +304,25 @@ class ilObjFileBasedLM extends ilObject
 		parent::notify($a_event,$a_ref_id,$a_parent_non_rbac_id,$a_node_id,$a_params);
 	}
 
+	/**
+	 * Populate by directory. Add a filename to do a special check for
+	 * ILIAS HTML export files. If the corresponding directory is found
+	 * within the passed directory path (i.e. "htlm_<id>") this
+	 * subdirectory is used instead.
+	 *
+	 * @param
+	 * @return
+	 */
+	function populateByDirectoy($a_dir, $a_filename = "")
+	{
+		preg_match("/.*htlm_([0-9]*)\.zip/", $a_filename, $match);
+		if (is_dir($a_dir."/htlm_".$match[1]))
+		{
+			$a_dir = $a_dir."/htlm_".$match[1];
+		}
+		ilUtil::rCopy($a_dir, $this->getDataDirectory());
+		ilUtil::renameExecutables($this->getDataDirectory());
+	}
+	
 }
 ?>
