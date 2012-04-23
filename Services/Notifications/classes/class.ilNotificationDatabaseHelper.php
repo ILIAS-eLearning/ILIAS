@@ -70,6 +70,30 @@ class ilNotificationDatabaseHandler {
         return $string;
     }
 
+	/**
+	 * Sets the configuration for all given configurations. Old configurations are
+	 * completly removed before the new are inserted. 
+	 * 
+	 * structure of $configArray
+	 * 
+	 * array(
+	 *	 'chat_invitation' => array(
+	 *     'mail' => true,
+	 *	   'osd' => false
+	 *   ),
+	 *	 'adobeconnect_invitation' => array(
+	 *     'mail' => true,
+	 *	   'osd' => true
+	 *   ),
+	 * );
+	 * 
+	 * If the userid is -1, the settings are stored as general settings (default
+	 * values or used if configuration type is set_by_admin).
+	 * 
+	 * @global ilDB $ilDB
+	 * @param int $userid
+	 * @param array $configArray 
+	 */
     public static function setUserConfig($userid, array $configArray) {
         global $ilDB;
 
@@ -84,6 +108,8 @@ class ilNotificationDatabaseHandler {
 
         $types = array('integer');
         $values = array($userid);
+		
+		// delete old settings
         $ilDB->manipulateF($query, $types, $values);
 
         foreach ($configArray as $type => $channels) {
@@ -250,6 +276,18 @@ class ilNotificationDatabaseHandler {
         $ilDB->manipulateF($query, $types, $values);
     }
 
+	/**
+	 * Registers a new notification channel for distributing notifications
+	 * 
+	 * @global ilDB $ilDB
+	 * 
+	 * @param type $name        technical name of the type
+	 * @param type $title       human readable title for configuration guis
+	 * @param type $description not yet used human readable description
+	 * @param type $class       class name of the handler class
+	 * @param type $classfile   class file location of the handler class
+	 * @param type $config_type 'set_by_user' or 'set_by_admin'; restricts if users can override the configuartion for this channel
+	 */
     public static function registerChannel($name, $title, $description, $class, $classfile, $config_type) {
         global $ilDB;
         
@@ -266,6 +304,17 @@ class ilNotificationDatabaseHandler {
         );
     }
 
+	/**
+	 * Registers a new notification type.
+	 * 
+	 * @global ilDB $ilDB
+	 * 
+	 * @param string $name               technical name of the type
+	 * @param string $title              human readable title for configuration guis
+	 * @param string $description        not yet used human readable description
+	 * @param string $notification_group not yet used group
+	 * @param string $config_type        'set_by_user' or 'set_by_admin'; restricts if users can override the configuartion for this type
+	 */
     public static function registerType($name, $title, $description, $notification_group, $config_type) {
         global $ilDB;
 

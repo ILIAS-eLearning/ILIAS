@@ -3,6 +3,10 @@
 require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
 require_once 'Services/Notifications/classes/class.ilNotificationEchoHandler.php';
 
+/**
+ * Notification handler for senden a notification popup to the recipients
+ * browser
+ */
 class ilNotificationOSDHandler extends ilNotificationEchoHandler {
     public function notify(ilNotificationObject $notification) {
         global $ilDB;
@@ -82,7 +86,14 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 	return $subject;
     }
 
-    public static function removeNotification($notification_osd_id) {
+	/**
+	 * Removes a notifcation and triggers a follow up notification to remove
+	 * the notification from the browser view of the original recipient
+	 * 
+	 * @global ilDB $ilDB
+	 * @param integer $notification_osd_id 
+	 */
+	public static function removeNotification($notification_osd_id) {
         global $ilDB;
 
         $query = 'SELECT usr_id FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE notification_osd_id = %s';
@@ -99,6 +110,8 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
 
             $ilDB->manipulateF($query, $types, $values);
 
+			// sends a "delete the given notification" notification using the
+			// osd_maint channel
             $deletedNotification = new ilNotificationConfig('osd_maint');
             $deletedNotification->setValidForSeconds(120);
             $deletedNotification->setTitleVar('deleted');
@@ -110,12 +123,20 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
         }
     }
 
+	/**
+	 * Remove orphaned notifications
+	 * 
+	 * @global ilDB $ilDB 
+	 */
     public static function cleanup() {
         global $ilDB;
         $query = 'DELETE FROM ' . ilNotificationSetupHelper::$tbl_notification_osd_handler . ' WHERE valid_until < ' . $ilDB->quote( time() ,'integer');
         $ilDB->manipulate($query);
     }
 
+	/**
+	 * Exec self::clean with a probability of 1%
+	 */
     public static function cleanupOnRandom() {
         $rnd = rand(0, 10000);
         if ($rnd == 500) {
@@ -123,6 +144,14 @@ class ilNotificationOSDHandler extends ilNotificationEchoHandler {
         }
     }
 
+	/**
+	 * Helper to append an additional parameter to an existing url
+	 * 
+	 * @param string $link
+	 * @param string $param
+	 * @param scalar $value
+	 * @return string 
+	 */
     private static function appendParamToLink($link, $param, $value) {
         if (strpos($link, '?') !== false) {
             $link .= '&' . $param . '=' . $value;

@@ -1,22 +1,65 @@
 <?php
 
+/**
+ * Describes a notification and provides methods for publishing this notification
+ */
 class ilNotificationConfig {
-
+	/**
+	 * the type of the notification
+	 * 
+	 * @var string
+	 */
     private $type;
 
+	/**
+	 * a link to send with the notification
+	 * the notification channel decides what to do with this information
+	 * e.g. the osd uses the link for linking the message title
+	 * 
+	 * @var string
+	 */
     private $link;
     private $linktarget = '_self';
     
     private $title;
 
+	/**
+	 * an icon to send with the notification
+	 * the notification channel decides what to do with this information
+	 * 
+	 * @var string
+	 */
     private $iconPath;
 
     private $short_description;
     private $long_description;
 
+	/**
+	 * used only for notifications that are sent to listeners
+	 * 
+	 * if set to true, the listener is disabled after this notification has
+	 * been processed. this is useful for e.g. forum notifications (that currently
+	 * do not use the notification system) to disable the listener after a new post
+	 * has been submitted. the listener can be reactivated if the user enters the
+	 * forum. the result is that the user will not be flooded with notification,
+	 * he will only get one.
+	 * 
+	 * @var boolean
+	 */
     private $disableAfterDelivery = false;
+	/**
+	 * validity in seconds after the notification will be dismissed from the
+	 * database
+	 * 
+	 * @var integer
+	 */
     private $validForSeconds = 0;
 
+	/**
+	 * additional parameters to pass to the handlers
+	 * 
+	 * @var array
+	 */
     private $handlerParams = array();
 
     public function __construct($type) {
@@ -51,6 +94,16 @@ class ilNotificationConfig {
         return $this->iconPath;
     }
 
+	/**
+	 * Sets the name of the language variable to use as title. The translation may
+	 * include ##name## parts wich will be replaced by the matching parameter found
+	 * in $parameters. The language var is loaded from the language module
+	 * given as third parameter.
+	 *  
+	 * @param type $name
+	 * @param type $parameters
+	 * @param type $language_module 
+	 */
     public function setTitleVar($name, $parameters = array(), $language_module = 'notification') {
         $this->title = new ilNotificationParameter($name, $parameters, $language_module);
     }
@@ -59,6 +112,19 @@ class ilNotificationConfig {
         return $this->title->getName();
     }
 
+	/**
+	 * Sets the name of the language variable to use as short description text. The translation may
+	 * include ##name## parts wich will be replaced by the matching parameter found
+	 * in $parameters. The language var is loaded from the language module
+	 * given as third parameter.
+	 * 
+	 * The channel itself decided if the short description or the long description
+	 * should be used
+	 *  
+	 * @param string $name
+	 * @param array  $parameters
+	 * @param string $language_module 
+	 */
     public function setShortDescriptionVar($name, $parameters = array(), $language_module = 'notification') {
         $this->short_description = new ilNotificationParameter($name, $parameters, $language_module);
     }
@@ -66,7 +132,20 @@ class ilNotificationConfig {
     public function getShortDescriptionVar() {
         return $this->short_description->getName();
     }
-
+	
+	/**
+	 * Sets the name of the language variable to use as long description text. The translation may
+	 * include ##name## parts wich will be replaced by the matching parameter found
+	 * in $parameters. The language var is loaded from the language module
+	 * given as third parameter.
+	 * 
+	 * The channel itself decided if the short description or the long description
+	 * should be used
+	 *  
+	 * @param string $name
+	 * @param array  $parameters
+	 * @param string $language_module 
+	 */
     public function setLongDescriptionVar($name, $parameters = array(), $language_module = 'notification') {
         $this->long_description = new ilNotificationParameter($name, $parameters, $language_module);
     }
@@ -115,6 +194,11 @@ class ilNotificationConfig {
 
     }
 
+	/**
+	 * sends this notification to a list of users
+	 * 
+	 * @param array $recipients
+	 */
     final public function notifyByUsers(array $recipients, $processAsync = false) {
         require_once 'Services/Notifications/classes/class.ilNotificationSystem.php';
         $this->beforeSendToUsers();
@@ -122,6 +206,7 @@ class ilNotificationConfig {
         $this->afterSendToUsers();
     }
 
+	
     final public function notifyByListeners($ref_id, $processAsync = false) {
         require_once 'Services/Notifications/classes/class.ilNotificationSystem.php';
         $this->beforeSendToListeners();
@@ -203,6 +288,12 @@ class ilNotificationConfig {
     }
 }
 
+/**
+ * A concrete notification based on the ilNotificationConfiguration and returned
+ * by ilNotificationConfiguration::getUserInstance
+ * 
+ * For attribute details see ilNotificatoinConfiguration
+ */
 class ilNotificationObject {
 
     /**
@@ -240,7 +331,11 @@ class ilNotificationObject {
 
 }
 
-
+/**
+ * description of a localized parameter
+ * 
+ * this information is used locate translations while processing notifications
+ */
 class ilNotificationParameter {
 
     private $name;

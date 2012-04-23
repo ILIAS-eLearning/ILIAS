@@ -2,6 +2,9 @@
 
 require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
+/**
+ * Methods for building the administration forms
+ */
 class ilNotificationAdminSettingsForm {
 
     public static function getTypeForm($types) {
@@ -82,6 +85,9 @@ class ilNotificationAdminSettingsForm {
              */
             $form->restored_values['notifications[' . $channel['name'] . ']'] = $channel['config_type'];
             require_once $channel['include'];
+			
+			// let the channel display their own settings below the "enable channel"
+			// checkbox
             $result = call_user_func(array($channel['handler'], 'showSettings'), $chb);
             if ($result) {
                 $store_values = array_merge($result, $store_values);

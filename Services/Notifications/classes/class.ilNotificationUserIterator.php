@@ -2,6 +2,9 @@
 
 require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
 
+/**
+ * wrapper for iterating a list of user settings by providing the user ids
+ */
 class ilNotificationUserIterator implements Iterator {
 
     private $userids;

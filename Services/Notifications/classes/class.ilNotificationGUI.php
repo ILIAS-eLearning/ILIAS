@@ -56,6 +56,15 @@ class ilNotificationGUI {
             return ilNotificationDatabaseHandler::getAvailableChannels($types);
         }
 
+		/**
+		 * Returns the pending on screen notifications for a user request
+		 * 
+		 * @todo this method should move to a better place as it handels channel
+		 *       sprecific things.
+		 * 
+		 * @global ilUser $ilUser
+		 * @return string
+		 */
         public function getOSDNotificationsObject() {
             global $ilUser;
 
