@@ -6,7 +6,7 @@ require_once "./Services/Notifications/classes/class.ilObjNotificationAdmin.php"
 require_once "./Services/Notifications/classes/class.ilObjNotificationAdminAccess.php";
 
 /**
-* GUI class for file objects.
+* GUI class for notification objects.
 *
 * @author Jan Posselt <jposselt@databay.de>
 * @version $Id$
@@ -132,6 +132,9 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
                 /**
                  * @todo dirty...
+				 * 
+				 * push all notifiation settings to the form to enable custom
+				 * settings per channel
                  */
                 $form->setValuesByArray(array_merge($settings->getAll(), $form->restored_values));
             }
@@ -157,9 +160,13 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
             else {
                 /**
                  * @todo dirty...
+				 * 
+				 * push all notifiation settings to the form to enable custom
+				 * settings per channel
                  */
                 $values = $form->store_values;//array('enable_osd', 'osd_polling_intervall', 'enable_mail');
                 
+				// handle custom channel settings
                 foreach($values as $v) {
                     $settings->set($v, $_POST[$v]);
                 }

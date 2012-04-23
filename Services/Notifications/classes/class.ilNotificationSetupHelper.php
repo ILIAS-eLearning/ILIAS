@@ -2,6 +2,9 @@
 
 require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
 
+/**
+ * Helper class for initial database setup and registration of notification
+ */
 class ilNotificationSetupHelper {
 
     public static $tbl_userconfig = 'notification_usercfg';
