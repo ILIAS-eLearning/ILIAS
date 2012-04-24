@@ -205,7 +205,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 			}
 		}
 		
-		$questionRemainingHintList->reIndexHints();
+		$questionRemainingHintList->reIndex();
 		
 		ilUtil::sendSuccess($lng->txt('tst_question_hints_delete_success_msg'), true);
 		$ilCtrl->redirect($this);
@@ -248,7 +248,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 			$newQuestionHintList->addHint($questionHint);
 		}
 		
-		$newQuestionHintList->reIndexHints();
+		$newQuestionHintList->reIndex();
 		
 		ilUtil::sendSuccess($lng->txt('tst_question_hints_save_order_success_msg'), true);
 		$ilCtrl->redirect($this);
