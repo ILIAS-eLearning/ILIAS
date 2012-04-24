@@ -669,7 +669,8 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 					$this->generateCodes();
 				}				
 			}
-			else if (!is_numeric($_POST["generate_number"]) ||  $_POST["generate_number"] <= 0)
+			else if ((!is_numeric($_POST["generate_number"]) ||  $_POST["generate_number"] <= 0)
+					|| (!is_numeric($_POST["generate_length"]) ||  $_POST["generate_length"] <= 0))  
 			{
 				ilUtil::sendInfo($this->lng->txt("fill_out_all_required_fields"));					
 				
@@ -756,6 +757,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			$oLength = new ilNumberInputGUI($this->lng->txt("paya_coupons_code_length"),'generate_length');
 			$oLength->setSize(5);
 			$oLength->setValue($_POST['generate_length']);
+			$oLength->setRequired(true);
 			$oLength->setInfo($this->lng->txt('paya_coupons_type_self'));
 			$oForm_1->addItem($oLength);
 			
