@@ -107,7 +107,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		$query_parser =& new ilQueryParser($filter["query"]);
 		$query_parser->setMinWordLength(0);
-		$query_parser->setCombination(QP_COMBINATION_OR);
+		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->parse();
 		if(!$query_parser->validate())
 		{
