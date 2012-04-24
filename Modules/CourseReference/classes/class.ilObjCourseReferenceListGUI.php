@@ -191,6 +191,8 @@ class ilObjCourseReferenceListGUI extends ilObjCourseListGUI
 	 */
 	public function getCommandLink($a_cmd)
 	{
+		global $ilCtrl;
+		
 		switch($a_cmd)
 		{
 			case 'editReference':
