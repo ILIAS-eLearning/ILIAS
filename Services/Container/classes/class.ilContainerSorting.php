@@ -212,7 +212,7 @@ class ilContainerSorting
 				}
 				else
 				{
-					$items[$key]['position'] = 9999;
+					$items[$key]['position'] = 99999;
 				}
 			}
 
@@ -252,7 +252,7 @@ class ilContainerSorting
 				{
 					$items[$key] = $item;
 					$items[$key]['position'] = isset($this->sorting[$a_parent_type][$a_parent_id][$item['child']]) ? 
-													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : 9999;
+													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : 99999;
 				}
 				return ilUtil::sortArray((array) $items,'position','asc',true);
 				
