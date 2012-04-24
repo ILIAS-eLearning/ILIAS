@@ -144,7 +144,13 @@ class ilUserAutoComplete
 		$GLOBALS['ilLog']->write(__METHOD__.': Query: '.$query);
 		
 		// add email only if it is "searchable"
-		$add_email = in_array("email", $this->getFields());
+		$add_email = true;
+		include_once './Services/Search/classes/class.ilUserSearchOptions.php';
+		if($this->isFieldSearchableCheckEnabled() &&
+			!ilUserSearchOptions::_isEnabled("email"))
+		{
+			$add_email = false;
+		}
 
 		$max = 20;
 		$cnt = 0;
