@@ -1158,18 +1158,19 @@ class ilObjForumGUI extends ilObjectGUI
 		$form_tpl->setVariable('TXT_CENS_MESSAGE', $lng->txt('forums_the_post'));
 		$form_tpl->setVariable('TXT_CENS_COMMENT', $lng->txt('forums_censor_comment').':');
 		$form_tpl->setVariable('CENS_MESSAGE', $frm->prepareText($this->objCurrentPost->getCensorshipComment(), 2));
-		$form_tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
-		$form_tpl->setVariable('CONFIRM_BUTTON', $lng->txt('confirm'));
+
 
 		if($this->objCurrentPost->isCensored())
 		{
 			$form_tpl->setVariable('TXT_CENS', $lng->txt('forums_info_censor2_post'));
-			$form_tpl->setVariable('CANCEL_BUTTON', $lng->txt('yes'));
-			$form_tpl->setVariable('CONFIRM_BUTTON', $lng->txt('no'));
+			$form_tpl->setVariable('YES_BUTTON', $lng->txt('yes'));
+			$form_tpl->setVariable('NO_BUTTON', $lng->txt('no'));
 		}
 		else
 		{
 			$form_tpl->setVariable('TXT_CENS', $lng->txt('forums_info_censor_post'));
+			$form_tpl->setVariable('CANCEL_BUTTON', $lng->txt('cancel'));
+			$form_tpl->setVariable('CONFIRM_BUTTON', $lng->txt('confirm'));			
 		}
 		
   		return $form_tpl->get(); 
@@ -2051,11 +2052,11 @@ class ilObjForumGUI extends ilObjectGUI
 			// form processing (censor)			
 			if(!$this->objCurrentTopic->isClosed() && $_GET['action'] == 'ready_censor')
 			{
-				if($_POST['confirm'] != '' && $_GET['action'] == 'ready_censor')
+				if(($_POST['confirm'] != '' || $_POST['no_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
 					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId(), 1);
 				}
-				else if($_POST['cancel'] != '' && $_GET['action'] == 'ready_censor')
+				else if(($_POST['cancel'] != '' || $_POST['yes_cs_change'] != '') && $_GET['action'] == 'ready_censor')
 				{
 					$frm->postCensorship($this->handleFormInput($_POST['formData']['cens_message']), $this->objCurrentPost->getId());
 				}

@@ -1059,15 +1059,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	#	$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
-		if($a_show_confirm)
-		{
-			$this->tpl->setCurrentBlock('confirm_delete');
-			$this->tpl->setVariable('CONFIRM_FORMACTION',$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable('TXT_CANCEL',$this->lng->txt('cancel'));
-			$this->tpl->setVariable('CONFIRM_CMD','performDelete');
-			$this->tpl->setVariable('TXT_CONFIRM',$this->lng->txt('confirm'));
-			$this->tpl->parseCurrentBlock();
-		}
 		
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(),false);
 		if($tmp_obj)
@@ -1081,7 +1072,23 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$tmp_object['type'] = '';
 			
 		}
+		if($a_show_confirm)
+		{
+			include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+			$oConfirmationGUI = new ilConfirmationGUI();
+			
+			// set confirm/cancel commands
+			$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this,"performObjectDelete"));
+			$oConfirmationGUI->setHeaderText($this->lng->txt("paya_sure_delete_object"));
+			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "objects");
+			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performObjectDelete");			
 
+			$oConfirmationGUI->addItem('', $tmp_object['title'], $tmp_object['title']);
+			$this->tpl->setVariable('CONFIRMATION',$oConfirmationGUI->getHTML());
+		
+			return true;				
+		}
+		
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($tmp_object['title']);
