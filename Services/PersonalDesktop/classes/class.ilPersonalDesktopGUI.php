@@ -590,7 +590,9 @@ class ilPersonalDesktopGUI
 	*/
 	function setTabs()
 	{
-	
+		global $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("pd");
 	}
 	
 	/**
