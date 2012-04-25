@@ -76,7 +76,7 @@ class ilSession
 	*/
 	static function _writeData($a_session_id, $a_data)
 	{
-		global $ilDB, $ilSetting, $ilClientIniFile;
+		global $ilDB, $ilClientIniFile;
 		
 		if ($GLOBALS['WEB_ACCESS_WITHOUT_SESSION'])
 		{
