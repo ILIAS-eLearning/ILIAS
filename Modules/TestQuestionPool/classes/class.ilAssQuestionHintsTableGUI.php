@@ -16,6 +16,12 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 class ilAssQuestionHintsTableGUI extends ilTable2GUI
 {
 	/**
+	 * the factor the ordering position value is multiplicated with
+	 * (so the user gets non decimal gaps for reordering .. e.g. 10, 20, 30 .. not 1, 2, 3)
+	 */
+	const INDEX_TO_POSITION_FACTOR = 10;
+	
+	/**
 	 * the object instance for current question
 	 * 
 	 * @access	private
@@ -181,7 +187,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		$list->addItem($lng->txt('tst_question_hints_table_link_delete_hint'), '', $deleteHref);
 		
 		$this->tpl->setVariable('HINT_ID', $rowData['hint_id']);
-		$this->tpl->setVariable('HINT_INDEX', $rowData['hint_index'] * 10);
+		$this->tpl->setVariable('HINT_INDEX', $rowData['hint_index'] * self::INDEX_TO_POSITION_FACTOR);
 		$this->tpl->setVariable('HINT_TEXT', $rowData['hint_text']);
 		$this->tpl->setVariable('HINT_POINTS', $rowData['hint_points']);
 		$this->tpl->setVariable('ACTIONS', $list->getHTML());
