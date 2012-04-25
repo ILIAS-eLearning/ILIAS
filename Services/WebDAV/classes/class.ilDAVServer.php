@@ -2041,7 +2041,8 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		if(is_file('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm')){
 			$str = fread(fopen('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm', "rb"),filesize('Customizing/clients/'.CLIENT_ID.'/webdavtemplate.htm'));
 		}
-                
+		$str=utf8_encode($str);
+
 		preg_match_all('/(\\d+)/', $webfolderURI, $matches);
 		$refID=$matches[0][0];
 		
@@ -2053,15 +2054,16 @@ class ilDAVServer extends HTTP_WebDAV_Server
 		$str = str_replace("[WEBFOLDER_URI_NAUTILUS]", $webfolderURI_Nautilus, $str);
 		$str = str_replace("[ADMIN_MAIL]", $ilSetting->get("admin_email"), $str);
 
+		if(strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')!==false){
+			$str = preg_replace('/\[IF_IEXPLORE\]((?:.|\n)*)\[\/IF_IEXPLORE\]/','\1', $str);
+		}else{
+			$str = preg_replace('/\[IF_NOTIEXPLORE\]((?:.|\n)*)\[\/IF_NOTIEXPLORE\]/','\1', $str);
+		}
+		
 		switch ($os)
 		{
 			case 'windows' :
 				$operatingSystem = 'WINDOWS';
-				if(strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')!==false){
-					$str = preg_replace('/\[IF_IEXPLORE\]((?:.|\n)*)\[\/IF_IEXPLORE\]/','\1', $str);
-				}else{
-					$str = preg_replace('/\[IF_NOTIEXPLORE\]((?:.|\n)*)\[\/IF_NOTIEXPLORE\]/','\1', $str);
-				}
 				break;
 			case 'unix' :
 				switch ($osFlavor)
