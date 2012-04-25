@@ -34,7 +34,7 @@ class ilDBMySQL extends ilDB
 			$db_port_str = ":".$this->getdbPort();
 		}
 
-		return "mysqli://".$this->getDBUser().":".$this->getDBPassword().
+		return "mysql://".$this->getDBUser().":".$this->getDBPassword().
 			"@".$this->getdbHost().$db_port_str."/".$this->getDBName();
 	}
 
@@ -43,7 +43,7 @@ class ilDBMySQL extends ilDB
 	*/
 	function getHostDSN()
 	{		
-		return "mysqli://".$this->getDBUser().":".$this->getDBPassword().
+		return "mysql://".$this->getDBUser().":".$this->getDBPassword().
 			"@".$this->getdbHost();
 	}
 
