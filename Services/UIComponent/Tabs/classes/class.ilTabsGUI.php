@@ -520,7 +520,17 @@ class ilTabsGUI
 					$tpl->setVariable("TAB_TEXT", $link["text"]);
 					$tpl->setVariable("TAB_LINK", $link["link"]);
 					$tpl->setVariable("TAB_TARGET", $link["frame"]);
+					$tpl->setVariable("ID", "nontab_".$link["id"]);
 					$tpl->parseCurrentBlock();
+					
+					// tooltip
+					$ttext = $ilHelp->getTabTooltipText($link["id"]);
+					if ($ttext != "")
+					{
+						include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
+						ilTooltipGUI::addTooltip("nontab_".$link["id"], $ttext, "",
+							"bottom center", "top center", false);
+					}
 				}
 			}
 

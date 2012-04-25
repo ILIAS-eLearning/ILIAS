@@ -973,7 +973,6 @@ if (!false)
 		} //if is_array
 		else
 		{
-			$this->tpl->setCurrentBlock("notfound");
 			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
 			$this->tpl->setVariable("NUM_COLS", 5);
 			$this->tpl->parseCurrentBlock();
@@ -1415,7 +1414,9 @@ if (!false)
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess, $lng, $ilCtrl;
+		global $ilAccess, $lng, $ilCtrl, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("glo");
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 

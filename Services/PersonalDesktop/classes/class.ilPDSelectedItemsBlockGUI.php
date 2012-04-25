@@ -162,7 +162,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 	function getHTML()
 	{
-		global $ilCtrl, $ilSetting, $tpl, $lng;
+		global $ilCtrl, $ilSetting, $tpl, $lng, $ilHelp;
 
 		// both views are activated (show buttons)
 		if($ilSetting->get('disable_my_offers') == 0 &&
@@ -191,6 +191,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		switch((int)$this->view)
 		{
 			case self::VIEW_MY_MEMBERSHIPS:
+				$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "crs_grp");
 				if ($ilSetting->get('disable_my_offers') == 0)
 				{
 					$tpl->setTitle($lng->txt("my_courses_groups"));
@@ -201,6 +202,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 							
 			case self::VIEW_MY_OFFERS:			
 			default:
+				$ilHelp->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, "sel_items");
 				if(!in_array(self::VIEW_MY_MEMBERSHIPS, $this->allowed_views))
 				{
 					$this->setTitle($this->lng->txt('selected_items'));
