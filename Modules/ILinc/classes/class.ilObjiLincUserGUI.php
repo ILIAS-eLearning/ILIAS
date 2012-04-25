@@ -171,7 +171,7 @@ class ilObjiLincUserGUI
 
 	function cancel()
 	{
-		session_unregister("saved_post");
+		ilSession::clear("saved_post");
 
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"),true);
 

@@ -130,7 +130,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 	function cancelObject()
 	{
-		session_unregister("saved_post");
+		ilSession::clear("saved_post");
 
 		if(strtolower($_GET["baseClass"]) == 'iladministrationgui')
 		{
