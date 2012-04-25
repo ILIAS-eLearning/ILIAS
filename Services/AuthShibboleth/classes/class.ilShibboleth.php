@@ -405,6 +405,13 @@ class ShibAuth extends Auth
 			return $local_user;
 		}
 		
+		// Let's see if user already is registered but authenticates by ldap
+		$local_user = ilObjUser::_checkExternalAuthAccount("ldap", $shibID);
+		if ($local_user)
+		{
+			return $local_user;
+		}
+                
 		// User doesn't seem to exist yet
 		
 		// Generate new username
