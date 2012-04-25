@@ -27,19 +27,18 @@ class ilDBWrapperFactory
 			$a_type = "mysql";
 		}
 		
-		// experimental: db sub type (used for mysqli support)
-		$parts = explode("#", $a_type);
-		if(sizeof($parts) == 2)
-		{
-			$subtype = $parts[1];
-			$a_type = $parts[0];
-		}
-		
 		switch ($a_type)
 		{
 			case "mysql":
 				include_once("./Services/Database/classes/class.ilDBMySQL.php");
-				$ilDB = new ilDBMySQL();				
+				$ilDB = new ilDBMySQL();		
+				
+				// default: use mysqli driver if not prevented by ini setting
+				if(!$ilClientIniFile->readVariable("db","inactive_mysqli"))
+				{
+					$ilDB->setSubType("mysqli");
+				}
+				
 				break;
 
 			case "postgres":
@@ -51,11 +50,6 @@ class ilDBWrapperFactory
 				include_once("./Services/Database/classes/class.ilDBOracle.php");
 				$ilDB = new ilDBOracle();
 				break;
-		}
-		
-		if($subtype)
-		{
-			$ilDB->setSubType($subtype);
 		}
 		
 		return $ilDB;
