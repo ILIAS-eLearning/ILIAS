@@ -3,7 +3,7 @@
 <p>{COUPON_TABLE}<br /></p>
 <!-- BEGIN buy_link -->
 <div align="right">
-<form name ="sc" id="sc" action="{SCRIPT_LINK}" method="post" />
+<form name ="sc_bill" id="sc_bill" action="{SCRIPT_LINK}" method="post" />
 	<!-- BEGIN buy -->
 
 	<a class="submit" href="{SCRIPT_LINK}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a>
@@ -12,33 +12,33 @@
 	<a class="submit" href="{LINK_UNLOCK}">&nbsp;{TXT_UNLOCK}&nbsp;</a>
 	<!-- END unlock -->
 	<!-- BEGIN terms_checkbox -->
-<font size="-2">{TERMS_CONDITIONS}<input type="checkbox" name="terms_conditions" id="terms_conditions" onclick="enableButton()"></font>
+<font size="-2">{TERMS_CONDITIONS}<input type="checkbox" name="terms_conditions_bill" id="terms_conditions_bill" onclick="enableButtonBill()"></font>
 <!-- END terms_checkbox -->
-<input  name="sb" id="sb" class="submit" type="submit" value="{TXT_BUY}" disabled="disabled"/>
+<input  name="sb_bill" id="sb_bill" class="submit" type="submit" value="{TXT_BUY}" disabled="disabled"/>
 </form>
 </div>
 <script language="JavaScript">
     <!--
-    function enableButton()
+    function enableButtonBill()
     {
-      if(document.sc.terms_conditions.checked == true)
+      if(document.sc_bill.terms_conditions_bill.checked == true)
       {
-		document.sc.sb.disabled = false;
+		document.sc_bill.sb_bill.disabled = false;
       }
 	  else
-      if(document.sc.terms_conditions.checked == false)
+      if(document.sc_bill.terms_conditions_bill.checked == false)
       {
-		document.sc.sb.disabled = true;
+		document.sc_bill.sb_bill.disabled = true;
       }
 	}
 
-	<!-- BEGIN attach_submit_event -->
-	document.getElementById("sb").onclick = function() {
-		if (document.getElementById("terms_conditions").checked == true) {
+	<!-- BEGIN attach_submit_event_bill -->
+	document.getElementById("sb_bill").onclick = function() {
+		if (document.getElementById("terms_conditions_bill").checked == true) {
 			w = window.open("blank", "ilLogin", "width=800,height=768,status=no,toolbar=no,menubar=no,location=no,dependent=yes,scrollbars=yes")
 
-			document.getElementById("sc").setAttribute("target", "ilLogin");
-			document.getElementById("sc").submit();
+			document.getElementById("sc_bill").setAttribute("target", "ilLogin");
+			document.getElementById("sc_bill").submit();
 
 			if ("undefined" != typeof w &&
 				"undefined" != typeof w.focus) {
@@ -47,7 +47,7 @@
 		}
 		return false;
 	}
-	<!-- END attach_submit_event -->
+	<!-- END attach_submit_event_bill -->
 -->
 </script>
 <div style="clear:both">&nbsp;</div>
