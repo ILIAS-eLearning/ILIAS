@@ -212,8 +212,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	}
 	
 	/**
-	 * saves the order based on indexes passed from tables form
-	 * (the table must not be paginated, because ALL hints indexes are required)
+	 * saves the order based on index values passed from table's form
+	 * (the table must not be paginated, because ALL hints index values are required)
 	 *
 	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
@@ -318,14 +318,16 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 			$newQuestionHintList->addHint($questionHint);
 		}
 		
+		$successMsg = sprintf(
+			$lng->txt('tst_question_hints_paste_before_success_msg'),
+			$pasteQuestionHint->getIndex(), $targetQuestionHint->getIndex()
+		);
+		
 		$newQuestionHintList->reIndex();
 		
 		$this->hintOrderingClipboard->resetStored();
 		
-		ilUtil::sendSuccess(sprintf(
-				$lng->txt('tst_question_hints_paste_after_success_msg'),
-				$pasteQuestionHint->getIndex(), $targetQuestionHint->getIndex()
-		), true);
+		ilUtil::sendSuccess($successMsg, true);
 
 		$ilCtrl->redirect($this, self::CMD_SHOW_LIST);
 	}
@@ -372,14 +374,16 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 			}
 		}
 		
+		$successMsg = sprintf(
+			$lng->txt('tst_question_hints_paste_after_success_msg'),
+			$pasteQuestionHint->getIndex(), $targetQuestionHint->getIndex()
+		);
+		
 		$newQuestionHintList->reIndex();
 
 		$this->hintOrderingClipboard->resetStored();
 
-		ilUtil::sendSuccess(sprintf(
-				$lng->txt('tst_question_hints_paste_after_success_msg'),
-				$pasteQuestionHint->getIndex(), $targetQuestionHint->getIndex()
-		), true);
+		ilUtil::sendSuccess($successMsg, true);
 		
 		$ilCtrl->redirect($this, self::CMD_SHOW_LIST);
 	}
@@ -520,11 +524,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 	}
 	
 	/**
-	 * fetches an array of hint indexes from POST and prepares this array
-	 * to be used for saving the hint lists order
+	 * fetches an array of hint index values from POST and prepares this array
+	 * to be used for saving the hint list's order
 	 * 
-	 * flips and sorts the array so key is the index value is the hint id casted to integer
-	 * and the elements have the new order to each other
+	 * flips and sorts the array so index values become the key
+	 * and the element values (the hint ids) get into new order submitted by user
 	 *
 	 * @access	private
 	 * @static

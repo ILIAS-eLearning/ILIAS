@@ -271,16 +271,16 @@ class ilAssQuestionHintList implements Iterator
 	 *
 	 * @access	public
 	 * @static
-	 * @global	ilDB		$ilDB $ilDB
+	 * @global	ilDB		$ilDB
 	 * @param	integer		$questionId
 	 * @return	integer		$nextIndex 
 	 */
 	public static function getNextIndexByQuestionId($questionId)
 	{
 		global $ilDB;
-		
+				
 		$query = "
-			SELECT		( MAX(qht_hint_index) + 1 ) next_index
+			SELECT		1 + COALESCE( MAX(qht_hint_index), 0 ) next_index
 					
 			FROM		qpl_hints
 			
