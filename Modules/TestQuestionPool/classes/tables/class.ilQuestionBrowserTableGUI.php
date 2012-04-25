@@ -44,10 +44,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 		if (!$confirmdelete)
 		{
-			$this->addColumn('','f','1%');
+			$this->addColumn('','','1%');
 			$this->addColumn($this->lng->txt("title"),'title', '');
-			$this->addColumn('','edit', '');
-			$this->addColumn('','preview', '');
+			$this->addColumn('','', '');
+			$this->addColumn('','', '');
 			foreach ($this->getSelectedColumns() as $c)
 			{
 				if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
