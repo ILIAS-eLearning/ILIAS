@@ -124,7 +124,7 @@ class ilSCORM2004NodeGUI
 	*/
 /*	function cancelDelete()
 	{
-		session_unregister("saved_post");
+		ilSession::clear("saved_post");
 		$this->ctrl->redirect($this, $_GET["backcmd"]);
 	}*/
 

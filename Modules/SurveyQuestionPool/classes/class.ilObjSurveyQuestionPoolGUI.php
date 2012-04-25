@@ -587,7 +587,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	*/
 	public function cancelDeleteExportFileObject()
 	{
-		session_unregister("ilExportFiles");
+		ilSession::clear("ilExportFiles");
 		$this->ctrl->redirect($this, "export");
 	}
 

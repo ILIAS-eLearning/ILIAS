@@ -4910,8 +4910,7 @@ class ilUtil
 
 		//if (!$a_keep)
 		//{
-				//session_unregister("infopanel");	// deprecated
-				unset($_SESSION["infopanel"]);
+				ilSession::clear("infopanel");
 		//}
 	}
 

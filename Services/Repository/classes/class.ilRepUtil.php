@@ -70,7 +70,7 @@ class ilRepUtil
 		if (count($not_deletable))
 		{
 			$not_deletable = implode(',',$not_deletable);
-			session_unregister("saved_post");
+			ilSession::clear("saved_post");
 			throw new ilRepositoryException(
 				$lng->txt("msg_no_perm_delete")." ".$not_deletable."<br/>".$lng->txt("msg_cancel"));
 		}

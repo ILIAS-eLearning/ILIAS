@@ -1821,8 +1821,7 @@ class ilPageObjectGUI
 		if(isset($_SESSION["citation_error"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("cont_citation_selection_not_valid"));
-			session_unregister("citation_error");
-			unset($_SESSION["citation_error"]);
+			ilSession::clear("citation_error");
 		}
 
 		// get title

@@ -613,7 +613,7 @@ die("deprecated");
 	*/
 	function cancelDeleteExportFile()
 	{
-		session_unregister("ilExportFiles");
+		ilSession::clear("ilExportFiles");
 		$this->ctrl->redirect($this, "showExportList");
 	}
 
