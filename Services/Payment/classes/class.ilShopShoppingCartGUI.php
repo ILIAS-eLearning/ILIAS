@@ -665,7 +665,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							if(ANONYMOUS_USER_ID == $ilUser->getId())
 							{
 								ilUtil::sendInfo($this->lng->txt('click_to_continue_info'));
-								$tpl->touchBlock('attach_submit_event');
+								$tpl->touchBlock('attach_submit_event_bill');
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('continue'));
 								$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
 							}
