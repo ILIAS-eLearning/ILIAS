@@ -61,6 +61,8 @@ abstract class ilDB extends PEAR
 			"clob" => array("notnull", "default"),
 			"blob" => array("notnull", "default")
 		);
+	
+	var $sub_type;
 
 	/**
 	* constructor
@@ -2282,6 +2284,26 @@ abstract class ilDB extends PEAR
 		
 		return $r;
 	} //end function
+		
+	/**
+	 * Set sub type
+	 * 
+	 * @param string $a_value 
+	 */
+	function setSubType($a_value)
+	{
+		$this->sub_type = (string)$a_value;
+	}
+	
+	/**
+	 * Get sub type
+	 * 
+	 * @return string 
+	 */
+	function getSubType()
+	{
+		return $this->sub_type;
+	}
 
 } //end Class
 ?>
