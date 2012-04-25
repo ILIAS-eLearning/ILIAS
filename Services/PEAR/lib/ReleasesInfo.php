@@ -27,6 +27,10 @@ MDB2_Driver_oci8	1.4.1
 MDB2_Driver_pgsql	1.4.1
 	Depends:
 	MDB2			2.4.1
+ 
+MDB2_Driver_mysqli	1.4.1
+	Depends:
+	MDB2			2.4.1
 	
 HTML_Template_IT	1.2.1
 
@@ -62,6 +66,9 @@ modifyTable from "NOT NULL" to "NULL" was not possible
 
 MDB2/Driver/Datatype/Common.php, line 1262
 do not try open clob fields with fopen even if allow_url_fopen is enabled
+ 
+MDB2/Driver/mysqli.php, line 1525
+patch for PEAR bug #17024
 
 */
 ?>
