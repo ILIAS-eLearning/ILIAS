@@ -519,16 +519,23 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		// confirm delete
 		if($a_show_confirm_delete)
 		{
+			$pobject_data = ilPaymentObject::_getObjectData($booking['pobject_id']);
+			$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($pobject_data['ref_id']));
+			$type = ilObject::_lookupType(ilObject::_lookupObjId($pobject_data['ref_id']));
+
 			$oConfirmationGUI = new ilConfirmationGUI();
 			
 			// set confirm/cancel commands
 			$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this,"performDelete"));
 			$oConfirmationGUI->setHeaderText($this->lng->txt("paya_sure_delete_stat"));
 			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "editStatistic");
-			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDelete");			
-
-			$pObj = new ilPaymentObject($this->user_obj, $booking['pobject_id']);
-			$tmp_obj = ilObject::_lookupTitle(ilObject::_lookupObjId($pObj->getRefId()));
+			
+			if($type == 'crs')
+			{
+				$oConfirmationGUI->addButton($this->lng->txt("confirm"), "performDeleteDeassignCrs");
+			}
+			else
+				$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDelete");
 
 			$oConfirmationGUI->addItem('booking_id', $_GET['booking_id'], $tmp_obj);
 			
@@ -1207,6 +1214,37 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 		return true;
+	}
+	
+	public function performDeleteDeassignCrs()
+	{
+		include_once './Services/Payment/classes/class.ilShopUtils.php';
+			
+		if(!isset($_GET['booking_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
+			$this->showStatistics();
+
+			return true;
+		}
+
+		$this->__initBookingObject();
+		$bookings = $this->booking_obj->getBookings();
+		$booking = $bookings[(int) $_GET['booking_id']];
+		
+		$pobject_data = ilPaymentObject::_getObjectData($booking['pobject_id']);
+		ilShopUtils::_deassignPurchasedCourseMemberRole($pobject_data['ref_id'], $booking['customer_id']);	
+		
+		$this->booking_obj->setBookingId((int) $_GET['booking_id']);
+		if(!$this->booking_obj->delete())
+		{
+			die('Error deleting booking');
+		}
+		ilUtil::sendInfo($this->lng->txt('pay_deleted_booking'));
+
+		$this->showStatistics();
+
+		return true;		
 	}
 }
 ?>

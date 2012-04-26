@@ -888,5 +888,61 @@ class ilPaymentCoupons
 		}		
 		return false;
 	}
+	/**
+	 *  deletes all coupon relevant data and tracking 
+	 * 
+	 * @param integer $a_pc_pk 
+	 */
+	public function deleteCouponByCouponId($a_pc_pk)
+	{
+		global $ilDB;
+		
+		$res =  $ilDB->queryF('
+			SELECT pcc_pk 
+			FROM payment_coupons_codes
+			WHERE pcc_pc_fk = %s',
+			array('integer'),array($a_pc_pk));			
+			
+		$code_ids = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$code_ids[] = $row['pcc_pk'];
+		}
+
+		$ilDB->manipulate('
+			DELETE FROM payment_coupons_track
+			WHERE '. $ilDB->in('pct_pcc_fk', $code_ids, false, 'integer'));
+
+		$ilDB->manipulate('
+			DELETE FROM payment_statistic_coup
+			WHERE '.$ilDB->in('psc_pcc_fk', $code_ids, false, 'integer'));
+		
+		$ilDB->manipulateF('
+			DELETE FROM payment_coupons
+			WHERE pc_pk = %s',
+			array('integer'),array($a_pc_pk));				
+			
+		$ilDB->manipulateF('
+			DELETE FROM payment_coupons_obj 
+			WHERE pco_pc_fk = %s',
+			array('integer'),array($a_pc_pk));			
+
+		$ilDB->manipulateF('
+			DELETE FROM payment_coupons_codes
+			WHERE pcc_pk = %s',
+			array('integer'),array($a_pc_pk));				
+		
+	}
+	
+	public static function _lookupTitle($a_coupon_id)
+	{
+		global $ilDB;
+		
+		$res = $ilDB->queryF('SELECT pc_title FROM payment_coupons WHERE pc_pk = %s',
+				array('integer'), array($a_coupon_id));
+				
+		$row = $ilDB->fetchAssoc($res);
+		return $row['pc_title'];
+	}
 }
 ?>

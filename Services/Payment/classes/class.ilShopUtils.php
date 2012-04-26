@@ -323,5 +323,14 @@
 
 
 	}
- }
+	public static function _deassignPurchasedCourseMemberRole($a_ref_id, $a_user_id)
+	{
+		global $ilUser;
+		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+		$obj_id = ilObject::_lookupObjectId($a_ref_id);
+
+		$participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
+		$res = $participants->delete($a_user_id, IL_CRS_MEMBER);
+	}	
+}
 ?>
