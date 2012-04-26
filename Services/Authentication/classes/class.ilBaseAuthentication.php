@@ -261,7 +261,8 @@ class ilBaseAuthentication
 		$this->ini->read();
 		
 		include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
-		$this->db = ilDBWrapperFactory::getWrapper($this->ini->readVariable("db","type"));
+		$this->db = ilDBWrapperFactory::getWrapper($this->ini->readVariable("db","type"),
+			$this->ini->readVariable("db","inactive_mysqli"));
 		$this->db->setDBUser($this->ini->readVariable("db", "user"));
 		$this->db->setDBPassword($this->ini->readVariable("db", "pass"));
 		$this->db->setDBName($this->ini->readVariable("db", "name"));

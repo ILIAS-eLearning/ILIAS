@@ -14,7 +14,7 @@ include_once ("./Services/Database/classes/class.ilDB.php");
 */
 class ilDBWrapperFactory
 {
-	static function getWrapper($a_type)
+	static function getWrapper($a_type, $a_inactive_mysqli = null)
 	{
 		global $ilClientIniFile;
 		
@@ -33,8 +33,14 @@ class ilDBWrapperFactory
 				include_once("./Services/Database/classes/class.ilDBMySQL.php");
 				$ilDB = new ilDBMySQL();		
 				
+				if($a_inactive_mysqli === null && 
+					is_object($ilClientIniFile))
+				{					
+					$a_inactive_mysqli = $ilClientIniFile->readVariable("db","inactive_mysqli");
+				}
+				
 				// default: use mysqli driver if not prevented by ini setting
-				if(!$ilClientIniFile->readVariable("db","inactive_mysqli"))
+				if(!(bool)$a_inactive_mysqli)
 				{
 					$ilDB->setSubType("mysqli");
 				}
