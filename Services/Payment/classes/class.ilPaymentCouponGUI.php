@@ -254,7 +254,8 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 			$f_result[$counter]['pc_last_changed'] = ($coupon['pc_last_changed'] != NULL ? $coupon['pc_last_changed'] : ''); 
 			$f_result[$counter]['pc_last_changed_author'] = ($coupon['pc_last_change_usr_id'] > 0 ? ilObjUser::_lookupLogin($coupon['pc_last_change_usr_id']) : ilObjUser::_lookupLogin($coupon['usr_id']));
 			$this->ctrl->setParameter($this, 'coupon_id', $coupon['pc_pk']);
-			$f_result[$counter]['options'] = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this, "addCoupon")."\">".$this->lng->txt("edit")."</a></div>";
+			$f_result[$counter]['options'] = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this, "addCoupon")."\">".$this->lng->txt("edit")."</a>";
+			$f_result[$counter]['options'] .= " <a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this, "deleteCoupon")."\">".$this->lng->txt("delete")."</a></div>";
 
 			++$counter;
 		}
@@ -278,7 +279,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$tbl->addColumn($this->lng->txt('paya_coupons_till'), 'pc_till', '10%');
 		$tbl->addColumn($this->lng->txt('last_change'), 'pc_last_changed', '10%');
 		$tbl->addColumn($this->lng->txt('author'), 'pc_last_changed_author', '10%');		
-		$tbl->addColumn('', 'options','10%');
+		$tbl->addColumn('', 'options','30%');
 
 		$tbl->setData($f_result);
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());	
@@ -1043,6 +1044,43 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		$this->coupon_obj = new ilPaymentCoupons($this->user_obj, true);
 
 		return true;
+	}
+	public function deleteCoupon()
+	{
+		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');	
+		
+		if (!isset($_GET['coupon_id']))
+		{
+			return ilUtil::sendFailure($this->lng->txt('no_coupon_selected'));
+		}	
+
+#		$this->ctrl->setParameter($this, 'coupon_id', $this->coupon_obj->getId());						
+
+		$this->__showButtons();			
+
+		ilUtil::sendQuestion($this->lng->txt('paya_coupons_sure_delete_selected_codes'));
+		$oConfirmationGUI = new ilConfirmationGUI() ;
+		// set confirm/cancel commands
+		$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this, $del_cmd));
+		$oConfirmationGUI->setHeaderText($del_info);
+		$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "showCoupons");
+		$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), 'performDeleteCoupon');			
+		$oConfirmationGUI->addItem('','', ilPaymentCoupons::_lookupTitle($_GET['coupon_id']));					
+		$oConfirmationGUI->addHiddenItem('coupon_id', $_GET['coupon_id']);
+		$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());
+		return true;	
+		
+	}
+	
+	public function performDeleteCoupon()
+	{
+		if (!isset($_POST['coupon_id']))
+		{
+			return ilUtil::sendFailure($this->lng->txt('coupon_id_is_missing'));
+		}
+		$this->coupon_obj->deleteCouponByCouponId((int)$_POST['coupon_id']);
+		
+		$this->showCoupons();
 	}
 }
 ?>
