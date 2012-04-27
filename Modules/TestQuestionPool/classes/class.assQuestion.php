@@ -2645,6 +2645,7 @@ class assQuestion
 	* @param string $a_text Text which should be checked
 	* @return boolean 
 	* @access public
+	* @deprecated use ilUtil::isHTML() instead
 	*/
 	function isHTML($a_text)
 	{
