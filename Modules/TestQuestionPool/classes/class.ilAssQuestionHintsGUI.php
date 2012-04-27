@@ -94,10 +94,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		$this->initHintOrderingClipboardNotification();
 		
 		require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-		$toolbar = new ilToolbarGUI();
-		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php';
-		$table = new ilAssQuestionHintsTableGUI($this->questionOBJ, $this->hintOrderingClipboard, $this, self::CMD_SHOW_LIST);
+
+		$toolbar = new ilToolbarGUI();
 
 		$questionHintList = ilAssQuestionHintList::getListByQuestionId( $this->questionOBJ->getId() );
 
@@ -118,7 +117,9 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 			);
 		}
 		
-		$table->setData( $questionHintList->getTableData() );
+		$table = new ilAssQuestionHintsTableGUI(
+				$this->questionOBJ, $this->hintOrderingClipboard, $questionHintList, $this, self::CMD_SHOW_LIST
+		);
 
 		$tpl->setContent( $toolbar->getHTML() . $table->getHTML() );
 	}

@@ -41,37 +41,43 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 * Constructor
 	 * 
 	 * @access	public
+	 * @global	ilCtrl					$ilCtrl
 	 * @global	ilLanguage				$lng
 	 * @param	assQuestion				$questionOBJ
+	 * @param	ilAssQuestionHintList	$questionHintList
 	 * @param	ilAssQuestionHintsGUI	$parentGUI
 	 * @param	string					$parentCmd 
 	 */
 	public function __construct(assQuestion $questionOBJ, ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard,
-			ilAssQuestionHintsGUI $parentGUI, $parentCmd)
+			ilAssQuestionHintList $questionHintList, ilAssQuestionHintsGUI $parentGUI, $parentCmd)
 	{
 		global $ilCtrl, $lng;
 		
 		$this->questionOBJ = $questionOBJ;
 		$this->hintOrderingClipboard = $hintOrderingClipboard;
 		
+		parent::__construct($parentGUI, $parentCmd);
+		
 		$this->setPrefix('tst_question_hints');
 		$this->setId('tst_question_hints');
-		
-		$this->setSelectAllCheckbox('hint_ids[]');
-		
-		parent::__construct($parentGUI, $parentCmd);
 		
 		$this->setTitle( sprintf($lng->txt('tst_question_hints_table_header'), $questionOBJ->getTitle()) );
 		$this->setNoEntriesText( $lng->txt('tst_question_hints_table_no_items') );
 		
+		$this->setSelectAllCheckbox('hint_ids[]');
+		
 		$this->setRowTemplate('tpl.tst_question_hints_table_row.html', 'Modules/TestQuestionPool');
 		
-		$this->initCommands();
-		$this->initColumns();
-		
-		// this avoids segmentation, because we do not
-		// provide limit/offset values to this table
+		// we don't take care about offset/limit values, so this avoids segmentation in general
+		// --> required for ordering via clipboard feature
 		$this->setExternalSegmentation(true);
+		
+		$tableData = $questionHintList->getTableData();
+		$this->setData($tableData);
+
+		$rowCount = count($tableData);
+		$this->initColumns($rowCount);
+		$this->initCommands($rowCount);
 	}
 	
 	/**
@@ -80,8 +86,9 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilLanguage	$lng
+	 * @param	integer		$rowCount
 	 */
-	private function initCommands()
+	private function initCommands($rowCount)
 	{
 		global $ilCtrl, $lng;
 		
@@ -99,14 +106,14 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 					$lng->txt('tst_questions_hints_table_multicmd_paste_hint_after')
 			);
 		}
-		else
+		elseif( $rowCount > 0 )
 		{
 			$this->addMultiCommand(
 					ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE,
 					$lng->txt('tst_questions_hints_table_multicmd_delete_hint')
 			);
 			
-			$this->addMultiCommand(
+			if( $rowCount > 1 )	$this->addMultiCommand(
 					ilAssQuestionHintsGUI::CMD_CUT_TO_ORDERING_CLIPBOARD,
 					$lng->txt('tst_questions_hints_table_multicmd_cut_hint')
 			);
@@ -119,12 +126,13 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	 * inits the required columns
+	 * inits the required columns ()
 	 * 
 	 * @access	private
 	 * @global	ilLanguage	$lng
+	 * @param	integer		$rowCount
 	 */
-	private function initColumns()
+	private function initColumns($rowCount)
 	{
 		global $lng;
 		
@@ -138,6 +146,11 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		
 		$this->setDefaultOrderField("hint_index");
 		$this->setDefaultOrderDirection("asc");
+		
+		if( $rowCount < 1 )
+		{
+			$this->disable('header');
+		}
 	}
 	
 	/**
