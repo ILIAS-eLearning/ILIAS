@@ -4541,10 +4541,10 @@ class ilUtil
 	* @access public
 	* 
 	*/
-	public function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
+	public static function prepareTextareaOutput($txt_output, $prepare_for_latex_output = FALSE)
 	{
 		$result = $txt_output;
-		$is_html = $this->isHTML($result);
+		$is_html = self::isHTML($result);
 
 		if ($prepare_for_latex_output)
 		{
@@ -4586,6 +4586,23 @@ class ilUtil
 		return $result;
 	}
 
+	/**
+	 * Checks if a given string contains HTML or not
+	 *
+	 * @param string $a_text Text which should be checked
+	 * @return boolean 
+	 * @access public
+	 * @static
+	 */
+	public static function isHTML($a_text)
+	{
+		if( preg_match("/<[^>]*?>/", $a_text) )
+		{
+			return true;
+		}
+
+		return false; 
+	}
 
 	/**
 	* Return an array of date segments.
