@@ -154,20 +154,40 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 		require_once 'Services/Form/classes/class.ilHiddenInputGUI.php';
 
 		$form = new ilPropertyFormGUI();
+		$form->setTableWidth('100%');
 		
 		// form input: hint text
+		
 		$areaInp = new ilTextAreaInputGUI($lng->txt('tst_question_hints_form_label_hint_text'), 'hint_text');
 		$areaInp->setRequired(true);
+		$areaInp->setRows(10);
+		$areaInp->setCols(80);
+				
+		if( !$this->questionGUI->getPreventRteUsage() ) $areaInp->setUseRte(true);
+
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$areaInp->setRteTags( ilObjAdvancedEditing::_getUsedHTMLTags("assessment") );
+
+		$areaInp->setRTESupport($this->questionOBJ->getId(), 'qpl', 'assessment');
+
+		$areaInp->addPlugin("latex");
+		$areaInp->addButton("latex");
+		$areaInp->addButton("pastelatex");
+		
 		$form->addItem($areaInp);
 		
 		// form input: hint points
+		
 		$numInp = new ilNumberInputGUI($lng->txt('tst_question_hints_form_label_hint_points'), 'hint_points');
 		$numInp->setRequired(true);
+		$numInp->setSize(3);
+		
 		$form->addItem($numInp);
 		
 		if( $questionHint instanceof ilAssQuestionHint )
 		{
 			// build form title for an existing hint
+			
 			$form->setTitle(sprintf(
 					$lng->txt('tst_question_hints_form_header_edit'),
 					$questionHint->getIndex(),
@@ -175,12 +195,18 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 			));
 
 			// hidden input: hint id
+			
 			$hiddenInp = new ilHiddenInputGUI('hint_id');
 			$form->addItem($hiddenInp);
 			
 			// init values
-			$areaInp->setValue($questionHint->getText());
+			
+			require_once 'Services/Utilities/classes/class.ilUtil.php';
+			
+			$areaInp->setValue(	ilUtil::prepareTextareaOutput($questionHint->getText(), true) );
+			
 			$numInp->setValue($questionHint->getPoints());
+			
 			$hiddenInp->setValue($questionHint->getId());
 		}
 		else
