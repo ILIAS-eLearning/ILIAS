@@ -12505,7 +12505,7 @@ assessment#:#tst_question_hints_table_column_hint_points#:#Points Deduction
 assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint
 assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint
 assessment#:#tst_questions_hints_table_cmd_save_order#:#Save Order
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hints
+assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hint(s)
 assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cut Hint to Ordering Clipboard
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Prepend Hint to the Selected One
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Append Hint to the Selected One

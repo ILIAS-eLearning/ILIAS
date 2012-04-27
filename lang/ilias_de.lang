@@ -12496,7 +12496,7 @@ assessment#:#tst_question_hints_table_column_hint_points#:#Punkteabzug
 assessment#:#tst_question_hints_table_link_edit_hint#:#Hinweis bearbeiten
 assessment#:#tst_question_hints_table_link_delete_hint#:#Hinweis löschen
 assessment#:#tst_questions_hints_table_cmd_save_order#:#Reihenfolge speichern
-assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Hinweise löschen
+assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Hinweis(e) löschen
 assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Hinweis in die Sortierung-Zwischenablage ausschneiden
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Ausgeschnittenen Hinweis dem gewählten voranstellen
 assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Ausgeschnittenen Hinweis dem gewählten anfügen
