@@ -167,7 +167,7 @@ h2.current_room_title {
 	font-size: 90%;
 	color: #404040;
 	background-color: #F8F8F8;
-	background-image: url(images/block_top.gif);
+	background-image: url(../../../../templates/default/images/block_top.gif);
 	background-repeat: repeat-x;
 	border-bottom: 1px solid #E9E9E9;
 	margin-top: 0;
