@@ -467,7 +467,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->object->update();
 		
 		// set protected flag
-		$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
+		// not applicable for role templates
+		#$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 
 		ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
 
