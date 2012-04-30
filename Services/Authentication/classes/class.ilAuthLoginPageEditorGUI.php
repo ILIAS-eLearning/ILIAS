@@ -94,6 +94,7 @@ class ilAuthLoginPageEditorGUI
 		}
 	}
 
+
 	/**
 	 * Forward to page editor
 	 */
@@ -342,10 +343,8 @@ class ilAuthLoginPageEditorGUI
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'saveLoginInfo'));
 		$this->form->setTableWidth('80%');
 		$this->form->setTitle($this->lng->txt('login_information'));
-		#$form->setInfo($this->lng->txt('login_information_desc'));
 
 		$this->form->addCommandButton('saveLoginInfo',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 
 		include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 		include_once('Services/Radius/classes/class.ilRadiusSettings.php');
