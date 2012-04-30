@@ -129,8 +129,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		global $rbacsystem, $ilUser ;
 
-
-		if($ilUser->getLogin() != $user_name && !$rbacsystem->checkAccess('read',USER_FOLDER_ID))
+		if(strcasecmp($ilUser->getLogin(), $user_name) != 0 && !$rbacsystem->checkAccess('read',USER_FOLDER_ID))
 		{
 			return $this->__raiseError('Check access failed. '.USER_FOLDER_ID,'Server');
 		}
