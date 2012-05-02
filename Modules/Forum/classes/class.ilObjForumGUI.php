@@ -116,7 +116,9 @@ class ilObjForumGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
 		$this->lng->loadLanguageModule('forum');
-		
+
+		$this->initSessionStorage();
+
 		// Forum properties
 		$this->objProperties = ilForumProperties::getInstance($ilObjDataCache->lookupObjId($_GET['ref_id']));
 		
@@ -132,7 +134,23 @@ class ilObjForumGUI extends ilObjectGUI
 		$frma_set = new ilSetting('frma');
 		$this->forum_overview_setting = $frma_set->get('forum_overview');
 	}
-	
+
+	protected function initSessionStorage()
+	{
+		$sess = ilSession::get('frm');
+		if(!is_array($sess))
+		{
+			$sess = array();
+			ilSession::set('frm', $sess);
+		}
+
+		if(isset($_GET['thr_fk']) && !is_arra($sess[(int)$_GET['thr_fk']]))
+		{
+			$sess[(int)$_GET['thr_fk']] = array();
+			ilSession::set('frm', $sess);
+		}
+	}
+
 	public function executeCommand()
 	{
 		/**
@@ -1380,7 +1398,6 @@ class ilObjForumGUI extends ilObjectGUI
 		 */
 		global $ilUser, $ilAccess, $lng;
 
-		//$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = array(0);
 		if(!isset($_POST['del_file']) || !is_array($_POST['del_file'])) $_POST['del_file'] = array();
 		
 		if($this->objCurrentTopic->isClosed())
@@ -1723,7 +1740,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 			$children = $this->objCurrentTopic->getNestedSetPostChildren(
 				(int)$_GET['nodeId'],
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']
+				(array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']
 			);
 			
 			$frm = new ilForum();
@@ -1743,7 +1760,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$responseChild->nodeId = $child['pos_pk'];
 				$responseChild->parentId = $child['parent_pos'];
 				$responseChild->hasChildren = ($child['children'] >= 1);
-				$responseChild->fetchedWithChildren = in_array((int)$child['pos_pk'], $_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
+				$responseChild->fetchedWithChildren = in_array((int)$child['pos_pk'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
 				$responseChild->html = $html;
 				
 				$response->children[] = $responseChild;
