@@ -71,14 +71,14 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
      */
     public function showEditSmileyEntryFormObject()
     {
-	global $rbacsystem, $tpl;
+	global $rbacsystem, $tpl, $lng;
 
 	$this->gui->switchToVisibleMode();
 
 	if( !$rbacsystem->checkAccess( 'read', $this->gui->ref_id ) )
 	{
 	    $this->ilias->raiseError(
-		$lng->txt( 'msg_no_perm_read' ), $this->ilias->error_obj->MESSAGE
+			$lng->txt( 'msg_no_perm_read' ), $this->ilias->error_obj->MESSAGE
 	    );
 	}
 
@@ -162,7 +162,7 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
      */
     public function deleteSmileyObject()
     {
-	global $rbacsystem, $ilCtrl;
+	global $rbacsystem, $ilCtrl, $lng;
 
 	if( !$rbacsystem->checkAccess( 'write', $this->gui->ref_id ) )
 	{
@@ -233,7 +233,7 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
      */
     public function updateSmiliesObject()
     {
-	global $rbacsystem, $ilCtrl, $tpl;
+	global $rbacsystem, $ilCtrl, $tpl, $lng;
 
 	if( !$rbacsystem->checkAccess( 'write', $this->gui->ref_id ) )
 	{
@@ -506,8 +506,7 @@ class ilChatroomSmileyTask extends ilDBayTaskHandler
      */
     public function uploadSmileyObject()
     {
-	//global $rbacsystem, $ilSetting, $ilCtrl;
-	global $rbacsystem, $ilCtrl, $tpl;
+	global $rbacsystem, $ilCtrl, $tpl, $lng;
 
 	if( !$rbacsystem->checkAccess( 'write', $this->gui->ref_id ) )
 	{

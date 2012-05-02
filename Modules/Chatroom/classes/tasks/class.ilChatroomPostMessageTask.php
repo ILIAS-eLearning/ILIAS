@@ -76,7 +76,8 @@ class ilChatroomPostMessageTask extends ilDBayTaskHandler
 
 		if( ($recipient = $_REQUEST['recipient'] ) )
 		{
-		    $params['recipients'] = join( ',', array_unique( array($user_id, $recipient) ) );
+		    $params['recipients'] = join( ',', array_unique( array($user_id, $recipient) ) );			
+			$params['recipient_names'] = implode( ',', array($chat_user->getUsername(), $_REQUEST['recipient_name']) );
 		    $params['public'] = isset( $_REQUEST['public'] ) ? (int)$_REQUEST['public'] : 0;
 		}
 		else
@@ -133,6 +134,7 @@ class ilChatroomPostMessageTask extends ilDBayTaskHandler
 		isset($params['sub']) ? ($data->sub = $params['sub']) : false;
 		$data->public		= (int)$params['public'];
 		$data->recipients	= $params['recipients']; // ? explode(",", $params['recipients']) : array();
+		$data->recipient_names	= $params['recipient_names'];
 
 		return $data;
 	}

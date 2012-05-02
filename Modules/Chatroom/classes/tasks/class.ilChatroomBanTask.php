@@ -100,7 +100,6 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 	 */
 	public function active()
 	{
-	    //global $tpl, $ilUser;
 	    global $ilUser, $ilCtrl;
 
 	    if ( !ilChatroom::checkUserPermissions( array('read', 'moderate') , $this->gui->ref_id ) )
@@ -109,51 +108,63 @@ class ilChatroomBanTask extends ilDBayTaskHandler
 	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
 	    }
 
-	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
 
-	    if( $room )
-	    {
-		// if user is in scope
-		$scope = $room->getRoomId();
-
-		$chat_user = new ilChatroomUser( $ilUser, $room );
-
-		$messageObject = $this->buildMessage(
-		    ilUtil::stripSlashes( $_REQUEST['user'] ),
-		    $chat_user
-		);
-		
-		$message = json_encode( $messageObject );
-		
-		
-		
-		$params = array(
-		    'message'	    => $message,
-		    'userToKick'    => $_REQUEST['user']
-		);
-
-		$query		= http_build_query( $params );
-		$connector	= $this->gui->getConnector();
-		$response	= $connector->kick( $scope, $query );
-		$responseObject = json_decode( $response );
-
-		$room->banUser( $_REQUEST['user'] );
-
-		if( $responseObject->success == true /*&& $room->getSetting( 'enable_history' )*/ )
+		if($room)
 		{
-		    $room->addHistoryEntry( $messageObject, '', 1 );
-		}
-	    }
-	    else
-	    {
-		$response = json_encode( array(
-				'success'   => false,
-				'reason'    => 'unkown room'
-		) );
-	    }
+			// if user is in scope
+			$scope = $room->getRoomId();
 
-	    echo $response;
-	    exit;
+			$chat_user = new ilChatroomUser($ilUser, $room);
+
+			$messageObject = $this->buildMessage(
+				ilUtil::stripSlashes($_REQUEST['user']),
+				$chat_user
+			);
+
+			$message = json_encode($messageObject);
+
+
+			$params = array(
+				'message'        => $message,
+				'userToKick'     => $_REQUEST['user']
+			);
+
+			$query          = http_build_query($params);
+			$connector      = $this->gui->getConnector();
+			$response       = $connector->kick($scope, $query);
+			$responseObject = json_decode($response);
+
+			$room->banUser($_REQUEST['user']);
+
+			if($responseObject->success == true)
+			{
+				$room->addHistoryEntry($messageObject, '', 1);
+
+				$message = json_encode(array(
+											'type'  => 'userjustkicked',
+											'user'  => $params['userToKick'],
+											'sub'   => 0
+									   ));
+
+
+				$connector->sendMessage($room->getRoomId(), $message, array(
+																		   'public'  => 1,
+																		   'sub'     => 0
+																	  ));
+				$room->disconnectUser(new ilObjUser($params['userToKick']));
+			}
+		}
+		else
+		{
+			$response = json_encode(array(
+										 'success'   => false,
+										 'reason'    => 'unkown room'
+									));
+		}
+
+		echo $response;
+		exit;
 	}
 
 	/**
