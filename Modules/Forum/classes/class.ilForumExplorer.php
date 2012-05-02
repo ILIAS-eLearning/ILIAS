@@ -92,7 +92,7 @@ class ilForumExplorer
 		{
 			$_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'] = array(0);
 		}
-		//$_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'] = array(0);
+
 		// Prevent key gaps
 		shuffle($_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']);
 
