@@ -144,7 +144,7 @@ class ilObjForumGUI extends ilObjectGUI
 			ilSession::set('frm', $sess);
 		}
 
-		if(isset($_GET['thr_fk']) && !is_arra($sess[(int)$_GET['thr_fk']]))
+		if(isset($_GET['thr_fk']) && !is_array($sess[(int)$_GET['thr_fk']]))
 		{
 			$sess[(int)$_GET['thr_fk']] = array();
 			ilSession::set('frm', $sess);
