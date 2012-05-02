@@ -290,6 +290,7 @@ il.Util.addOnLoad(function() {
 			
 			var messageOptions = {
 				'recipient' : null,
+				'recipient_name' : null,
 				'public' : 1
 			};
 
@@ -396,6 +397,7 @@ il.Util.addOnLoad(function() {
 
 				$('#message_recipient_info').children().remove();
 				if(recipient) {
+					messageOptions['recipient_name'] = $('#chat_users').ilChatList('getDataById', recipient).label;
 					$('#message_recipient_info_all').hide();
 					$('#message_recipient_info').html(
 						$('<span>' + translate(isPublic ? 'speak_to' : 'whisper_to', {
@@ -412,6 +414,7 @@ il.Util.addOnLoad(function() {
 						).show();
 				}
 				else {
+					messageOptions['recipient_name'] = null;
 				    $('#message_recipient_info_all').show();
 				    $('#message_recipient_info').hide();
 				}
@@ -656,28 +659,65 @@ if (typeof DEBUG != 'undefined' && DEBUG) {
 						});
 						break;
 					case 'userjustkicked':
-						var data = $('#private_rooms').ilChatList('getDataById', messageObject.sub);
+						// Handles kicks and bans of private rooms and the main room
+						usermanager.remove(messageObject.user, messageObject.sub);
+						
 						if( messageObject.user == myId ) {
-						    $('#chat_messages').ilChatMessageArea('show', 0);
-						    $('#chat_messages').ilChatMessageArea('addMessage', 0, {
-							type: 'notice',
-							message: translate('kicked_from_private_room', {title: data.label})
-						    });
-						    $('#private_rooms').ilChatList('removeById', messageObject.sub);
-						 }
+							var data = $('#private_rooms').ilChatList('getDataById', messageObject.sub);
+							
+							$('#chat_messages').ilChatMessageArea('show', 0);
+							$('#chat_messages').ilChatMessageArea('addMessage', 0, {
+								type:   'notice',
+								message:translate('kicked_from_private_room', {
+									title: data.label
+								})
+							});
+							
+							$('#private_rooms').ilChatList('removeById', messageObject.sub);
+						 } else if (messageObject.sub ==  subRoomId) {
+							var kickeduser = $('#chat_users').ilChatList('getDataById', messageObject.user);
+
+							if (typeof messageOptions != 'undefined' && messageOptions.recipient && messageOptions.recipient == messageObject.user )  {
+								setRecipientOptions(false, 1);
+							}
+
+							$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
+								type:   'notice',
+								message:translate('user_kicked', {
+									user: kickeduser.label
+								})
+							});
+							
+							if (!subRoomId) {
+								$('#chat_users').ilChatList('removeById', messageObject.user);
+							} else {
+								$('#chat_users').find('.user_' + messageObject.user).hide();
+							}
+
+							if ($('.online_user:visible').length == 0) {
+								$('.no_users').show();
+							}
+							else {
+								$('.no_users').hide();
+							}
+						}
+						break;
+
 					case 'clear':
 						$('#chat_messages').ilChatMessageArea('clearMessages', messageObject.sub);
 						$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
-						    type: 'notice',
-						    message: translate('history_has_been_cleared')
-						});
-					    break;
-					case 'notice':
-					    	$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
-						    type: 'notice',
-						    message: messageObject.message
+							type:   'notice',
+							message:translate('history_has_been_cleared')
 						});
 						break;
+
+					case 'notice':
+						$('#chat_messages').ilChatMessageArea('addMessage', messageObject.sub, {
+							type:   'notice',
+							message:messageObject.message
+						});
+						break;
+
 					default:
 						break;
 				}
