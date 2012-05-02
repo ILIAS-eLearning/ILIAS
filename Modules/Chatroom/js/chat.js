@@ -22,52 +22,50 @@
 		return false;
 	}
 
-	$.fn.ilChatDialog = function( method ) {
-		var applyStyle = function(dialog) {
+	$.fn.ilChatDialog = function (method) {
+		var applyStyle = function (dialog) {
 			dialog.css('position', 'absolute');
 		}
 
 		var methods = {
-			init: function(params) {
+			init: function (params) {
 				var $content = $(this);
 
-				var defaultButtons =  (params.defaultButtons === false) ? [] : [
-							{
-								id: 'cancel',
-								label: translate('cancel'),
-								callback: function(e) {
-									var close = true;
-									if (typeof params.negativeAction == 'function') {
-										close = params.negativeAction.call($content, e);
-									}
-									if (typeof close == 'undefined' || close) {
-										$content.ilChatDialog('close');
-									}
-								}
-							},
-							{
-								id: 'ok',
-								label: translate('ok'),
-								callback: function(e) {
-									var close = true;
-									if (typeof params.positiveAction == 'function') {
-										close = params.positiveAction.call($content, e);
-									}
-									if (typeof close == 'undefined' || close) {
-										$content.ilChatDialog('close');
-									}
-								}
+				var defaultButtons = (params.defaultButtons === false) ? [] : [
+					{
+						id:      'ok',
+						label:   translate('ok'),
+						callback:function (e) {
+							var close = true;
+							if (typeof params.positiveAction == 'function') {
+								close = params.positiveAction.call($content, e);
 							}
-						];
-
-
+							if (typeof close == 'undefined' || close) {
+								$content.ilChatDialog('close');
+							}
+						}
+					},
+					{
+						id:      'cancel',
+						label:   translate('cancel'),
+						callback:function (e) {
+							var close = true;
+							if (typeof params.negativeAction == 'function') {
+								close = params.negativeAction.call($content, e);
+							}
+							if (typeof close == 'undefined' || close) {
+								$content.ilChatDialog('close');
+							}
+						}
+					}
+				];
 
 				var properties = $.extend(true, {}, {
-					title: '',
-					parent: $('body'),
-					position: null,
-					buttons: defaultButtons,
-					disabled_buttons: []
+					title:           '',
+					parent:          $('body'),
+					position:        null,
+					buttons:         defaultButtons,
+					disabled_buttons:[]
 				}, params);
 
 				var dialog = $('<div class="ilChatDialog">');
@@ -75,8 +73,8 @@
 				applyStyle(dialog);
 
 				$(this).data('ilChatDialog', $.extend(properties, {
-					_dialog: dialog,
-					_parent: $(this).parent()
+					_dialog:dialog,
+					_parent:$(this).parent()
 				}));
 
 				if (properties.title) {
@@ -98,11 +96,11 @@
 
 				if (properties.buttons) {
 					var dialogButtons = $('<div class="ilChatDialogButtons">').appendTo(dialog);
-					$.each(properties.buttons, function() {
+					$.each(properties.buttons, function () {
 						// IE: properties.disabled_buttons is of type object instead of array
 						//if (this.id && properties.disabled_buttons.indexOf(this.id) >= 0) {
 						if (this.id && inArray(properties.disabled_buttons, this.id)) {
-						    return;
+							return;
 						}
 						$('<input type="button" class="submit">')
 							.click(this.callback)
@@ -113,20 +111,17 @@
 
 				if (!properties.position) {
 					properties.position = {
-						x: ($(window).width() - dialog.width()) / 2,
-						y: ($(window).height() - dialog.height()) / 2
+						x:($(window).width() - dialog.width()) / 2,
+						y:($(window).height() - dialog.height()) / 2
 					}
 				}
 
 				dialog.css('left', properties.position.x)
 					.css('top', properties.position.y);
 
-				
-
-
 				return $(this);
 			},
-			close: function() {
+			close:function () {
 				var data = $(this).data('ilChatDialog');
 
 				if (typeof data.close == 'function') {
@@ -141,12 +136,12 @@
 			}
 		}
 
-		if ( methods[method] ) {
-			return methods[method].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof method === 'object' || ! method ) {
-			return methods.init.apply( this, arguments );
+		if (methods[method]) {
+			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		} else if (typeof method === 'object' || !method) {
+			return methods.init.apply(this, arguments);
 		} else {
-			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatList' );
+			$.error('Method ' + method + ' does not exist on jQuery.ilChatDialog');
 		}
 	}
 
