@@ -334,10 +334,7 @@ class ilStartUpGUI
 		// browser does not accept cookies
 		if (isset($_GET['cookies']) && $_GET['cookies'] == 'nocookies')
 		{
-			$this->showFailure($lng->txt("err_no_cookies"));
-			$tpl->setVariable("COOKIES_HOWTO", $lng->txt("cookies_howto"));
-			$tpl->setVariable("LINK_NO_COOKIES",
-				$this->ctrl->getLinkTarget($this, "showNoCookiesScreen"));
+			$this->showFailure($lng->txt("err_no_cookies"));			
 		}
 
 		if(strlen($page_editor_html))
