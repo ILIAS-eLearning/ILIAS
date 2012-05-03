@@ -38,6 +38,8 @@ class ilContainerSorting
 	
 	protected $manual_sort_enabled = false;
 	protected $sorting_mode = 0;
+	
+	const ORDER_DEFAULT = 999999;
 
 	/**
 	 * Constructor
@@ -212,7 +214,7 @@ class ilContainerSorting
 				}
 				else
 				{
-					$items[$key]['position'] = 99999;
+					$items[$key]['position'] = self::ORDER_DEFAULT;
 				}
 			}
 
@@ -252,7 +254,7 @@ class ilContainerSorting
 				{
 					$items[$key] = $item;
 					$items[$key]['position'] = isset($this->sorting[$a_parent_type][$a_parent_id][$item['child']]) ? 
-													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : 99999;
+													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : self::ORDER_DEFAULT;
 				}
 				return ilUtil::sortArray((array) $items,'position','asc',true);
 				
