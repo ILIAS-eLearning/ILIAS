@@ -637,7 +637,7 @@ class ilWikiUtil
 
 	static function sendNotification($a_action, $a_type, $a_wiki_ref_id, $a_page_id)
 	{
-		global $ilUser, $ilObjDataCache;
+		global $ilUser, $ilObjDataCache, $ilAccess;
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		include_once "./Modules/Wiki/classes/class.ilObjWiki.php";
@@ -683,7 +683,8 @@ class ilWikiUtil
 
 		foreach(array_unique($users) as $idx => $user_id)
 		{
-			if($user_id != $ilUser->getId())
+			if($user_id != $ilUser->getId() &&					 
+				$ilAccess->checkAccessOfUser($user_id, 'read', '', $a_wiki_ref_id))
 			{
 				// use language of recipient to compose message
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
