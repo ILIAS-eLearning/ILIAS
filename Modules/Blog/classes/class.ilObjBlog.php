@@ -331,9 +331,7 @@ class ilObjBlog extends ilObject2
 		if(!$blog_obj_id)
 		{
 			return;
-		}
-		unset($tree);
-	
+		}	
 
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
@@ -366,6 +364,7 @@ class ilObjBlog extends ilObject2
 		include_once("./Services/User/classes/class.ilUserUtil.php");
 		
 		$owner = ilObject::_lookupOwner($blog_obj_id);
+		$access_handler = new ilWorkspaceAccessHandler($tree); 
 		
 		foreach(array_unique($users) as $idx => $user_id)
 		{
@@ -376,7 +375,8 @@ class ilObjBlog extends ilObject2
 			}
 			
 			// the user responsible for the action should not be notified
-			if($user_id != $ilUser->getId())
+			if($user_id != $ilUser->getId() &&
+				$access_handler->checkAccessOfUser($tree, $user_id, 'read', '', $a_blog_wsp_id))
 			{
 				// use language of recipient to compose message
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
