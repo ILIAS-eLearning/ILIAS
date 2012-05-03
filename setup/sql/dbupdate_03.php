@@ -9450,3 +9450,11 @@ $ilDB->addPrimaryKey("help_map",
                 'default'  => 0));		
     }	
 ?>
+<#3564>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
+ilDBUpdateNewObjectType::addRBACOperations($type_id, array(ilDBUpdateNewObjectType::RBAC_OP_DELETE));
+
+?>

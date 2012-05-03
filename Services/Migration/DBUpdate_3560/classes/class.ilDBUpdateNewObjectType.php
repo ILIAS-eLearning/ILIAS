@@ -155,7 +155,7 @@ class ilDBUpdateNewObjectType
 	 * @param string $a_type
 	 * @return int
 	 */
-	protected static function getObjectTypeId($a_type)
+	public static function getObjectTypeId($a_type)
 	{
 		global $ilDB;
 		
