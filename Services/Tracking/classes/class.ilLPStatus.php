@@ -393,19 +393,82 @@ class ilLPStatus
 				);
 		}
 
-		// update collections
+		// set (parent) collections to dirty
 		if ($update_collections)
+		{
+			self::setCollectionDirty($a_obj_id, $a_user_id);			
+		}
+	}
+	
+	/**
+	 * Set collection(s) to dirty
+	 * 
+	 * @param int $a_obj_id
+	 * @param int $a_user_id
+	 * @param bool $a_recursive 
+	 */
+	static function setCollectionDirty($a_obj_id, $a_user_id, $a_recursive = false)
+	{
+		global $ilDB;
+	
+		$was_changed = true;
+		
+		if($a_recursive)
+		{		
+			// get status in DB
+			$set = $ilDB->query("SELECT status_dirty FROM ut_lp_marks WHERE ".
+				" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
+				" usr_id = ".$ilDB->quote($a_user_id, "integer")
+				);
+			$rec = $ilDB->fetchAssoc($set);	
+
+			// update
+			if ($rec)
+			{
+				// not dirty yet
+				if (!$rec["status_dirty"])
+				{
+					$ret = $ilDB->manipulate("UPDATE ut_lp_marks SET ".					
+						" status_dirty = ".$ilDB->quote(1, "integer").
+						" WHERE usr_id = ".$ilDB->quote($a_user_id, "integer").
+						" AND obj_id = ".$ilDB->quote($a_obj_id, "integer")
+						);				
+				}	
+				else
+				{
+					$was_changed = false;
+				}
+			}
+			// insert
+			else
+			{
+				// :TODO: does this make sense?
+				// no entry == implicit dirty
+				
+				/*
+				$ilDB->manipulate("INSERT INTO ut_lp_marks ".
+					"(status, usr_id, obj_id, status_dirty) VALUES (".
+					$ilDB->quote(0, "integer").",".
+					$ilDB->quote($a_user_id, "integer").",".
+					$ilDB->quote($a_obj_id, "integer").",".
+					$ilDB->quote(1, "integer").
+					")");				 
+				*/
+			}
+		}
+		
+		// update collections
+		if ($was_changed)
 		{
 			$set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM ".
 				"object_reference JOIN ut_lp_collections ON ".
 				"(object_reference.obj_id = ".$ilDB->quote($a_obj_id, "integer").
 				" AND object_reference.ref_id = ut_lp_collections.item_id)");
 			while ($rec = $ilDB->fetchAssoc($set))
-			{
+			{								
 				if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
 				{
-					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-					ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
+					self::setCollectionDirty($rec["obj_id"], $a_user_id, true);
 				}
 			}
 		}
