@@ -1717,15 +1717,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
-			$this->tpl->setCurrentBlock();
-			$title = $this->object->getTitle();
-			$this->tpl->setVariable("HEADER", $title);
+			$this->tpl->setTitle($this->object->getTitle());
 		}
 		else
 		{
 			//$title = $this->object->getTitle();
 			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
-			$this->tpl->setVariable("HEADER", $this->lng->txt("cont_create_mob"));
+			$this->tpl->setTitle($this->lng->txt("cont_create_mob"));
 		}
 	}
 
