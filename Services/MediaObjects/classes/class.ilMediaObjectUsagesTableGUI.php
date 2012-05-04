@@ -22,7 +22,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 		$a_include_hist = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
-		
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->media_object = $a_media_object;
 		$this->include_hist = $a_include_hist;

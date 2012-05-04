@@ -1009,6 +1009,11 @@ class ilObjMediaObject extends ilObject
 		$q = "SELECT DISTINCT usage_type, usage_id".$hist_str." FROM mob_usage WHERE id = ".
 			$ilDB->quote($a_id, "integer");
 
+		if (!$a_include_history)
+		{
+			$q.= " AND usage_hist_nr = ".$ilDB->quote(0, "integer");
+		}
+		
 		$us_set = $ilDB->query($q);
 		$ret = array();
 		while($us_rec = $ilDB->fetchAssoc($us_set))

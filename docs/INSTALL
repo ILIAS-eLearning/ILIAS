@@ -21,9 +21,9 @@ Table of Contents
 
        2.3.2 MySQL / PHP / Apache
 
-   2.4 Installing ILIAS 3
+   2.4 Installing ILIAS
 
-3. Updating ILIAS 3
+3. Updating ILIAS
 
 Appendix A: Note on using Apache 2
 
@@ -629,9 +629,7 @@ a copy of your productive system first and test whether everything works ok.
 Please also note that major updates usually include changes in the style
 sheet and template files. So if you use individual styles/skins you will have
 to adopt them for the new release first. This does usually not apply for bugfix
-updates (e.g. 4.2.1 -> 4.2.2). See also
-http://www.ilias.de/docu/goto.php?target=pg_16107_35&client_id=docu and
-http://www.ilias.de/docu/goto.php?target=pg_15917_367&client_id=docu
+updates (e.g. 4.2.1 -> 4.2.2).
 
 At the time being no installation script is available for updating ILIAS. For
 this reason the ILIAS script files must be updated manually. In the following
@@ -640,15 +638,7 @@ steps it is assumed that your existing ILIAS installation is located in
 file lies in /tmp/. If the locations differ on your system you may need to adapt
 the commands used in the following.
 
-Some files and directories will be replaced in the update process. They must be
-removed from your ILIAS web directory. If you keep any additional files or data
-that is worth to be saved in one of these directories please take all necessary
-precautions. This is especially important if you have modified parts of the
-ILIAS source code, the language files in ./lang/, any template files in
-the templates/ subdirectories and your user agreement files in the agreement
-directory.
-
-It is also recommended to save the files ilias.ini.php located in the
+It is recommended to save the files ilias.ini.php located in the
 main ILIAS directory which contains individual settings of your ILIAS
 installation and chat/chatserver/server.ini which stores the setting for the
 ilias chat server. After installing the new ILIAS release you may easily restore
