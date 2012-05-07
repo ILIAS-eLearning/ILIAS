@@ -9458,3 +9458,7 @@ $type_id = ilDBUpdateNewObjectType::getObjectTypeId('book');
 ilDBUpdateNewObjectType::addRBACOperations($type_id, array(ilDBUpdateNewObjectType::RBAC_OP_DELETE));
 
 ?>
+<#3565>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

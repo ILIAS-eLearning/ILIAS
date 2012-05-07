@@ -55,27 +55,27 @@ class ilColumnGUI
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
-		//'ilChatBlockGUI' => 'Modules/Chat/'
-			);
+		'ilChatroomBlockGUI' => 'Modules/Chatroom/'
+	);
 	
 	static protected $block_types = array(
-			"ilPDMailBlockGUI" => "pdmail",
-			"ilPDNotesBlockGUI" => "pdnotes",
-			"ilUsersOnlineBlockGUI" => "pdusers",
-			"ilPDNewsBlockGUI" => "pdnews",
-			"ilBookmarkBlockGUI" => "pdbookm",
-			"ilNewsForContextBlockGUI" => "news",
-			"ilCalendarBlockGUI" => "cal",
-			"ilPDCalendarBlockGUI" => "pdcal",
-			"ilExternalFeedBlockGUI" => "feed",
-			"ilPDExternalFeedBlockGUI" => "pdfeed",
-			"ilPDFeedbackBlockGUI" => "pdfeedb",
-			"ilPDSysMessageBlockGUI" => "pdsysmess",
-			"ilPDSelectedItemsBlockGUI" => "pditems",
-			"ilHtmlBlockGUI" => "html",
-			'ilPDTaggingBlockGUI' => 'pdtag',
-			//'ilChatBlockGUI' => 'chatviewer'
-		);
+		"ilPDMailBlockGUI" => "pdmail",
+		"ilPDNotesBlockGUI" => "pdnotes",
+		"ilUsersOnlineBlockGUI" => "pdusers",
+		"ilPDNewsBlockGUI" => "pdnews",
+		"ilBookmarkBlockGUI" => "pdbookm",
+		"ilNewsForContextBlockGUI" => "news",
+		"ilCalendarBlockGUI" => "cal",
+		"ilPDCalendarBlockGUI" => "pdcal",
+		"ilExternalFeedBlockGUI" => "feed",
+		"ilPDExternalFeedBlockGUI" => "pdfeed",
+		"ilPDFeedbackBlockGUI" => "pdfeedb",
+		"ilPDSysMessageBlockGUI" => "pdsysmess",
+		"ilPDSelectedItemsBlockGUI" => "pditems",
+		"ilHtmlBlockGUI" => "html",
+		'ilPDTaggingBlockGUI' => 'pdtag',
+		'ilChatroomBlockGUI' => 'chatviewer'
+	);
 	
 		
 	protected $default_blocks = array(
@@ -102,7 +102,7 @@ class ilColumnGUI
 			"ilUsersOnlineBlockGUI" => IL_COL_RIGHT,
 			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
 			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			//"ilChatBlockGUI" => IL_COL_RIGHT,
+			"ilChatroomBlockGUI" => IL_COL_RIGHT
 			)
 		);
 
@@ -130,7 +130,7 @@ class ilColumnGUI
 			"pdbookm" => true,
 			"pdtag" => true,
 			"pdnotes" => true,
-			"chatviewer" => false);
+			"chatviewer" => true);
 			
 	protected $check_nr_limit =
 		array("pdfeed" => true);
@@ -637,7 +637,7 @@ class ilColumnGUI
 			"html" => $lng->txt("html_block"),
 			"pdtag" => $lng->txt("tagging_my_tags"),
 			"pdcal" => $lng->txt('calendar'),
-			//"chatviewer" => $lng->txt('chat'),
+			"chatviewer" => $lng->txt('chatroom'),
 			);
 
 		foreach($this->blocks[$this->getSide()] as $block)
