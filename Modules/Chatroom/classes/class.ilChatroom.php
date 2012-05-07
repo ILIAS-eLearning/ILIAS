@@ -1322,6 +1322,35 @@ public function getLastMessages($number, $chatuser = null) {
 	}
 	return $results;
     }
+
+	public function getLastMessagesForChatViewer($number, $chatuser = null)
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$ilDB->setLimit($number);
+		$rset = $ilDB->query(
+			'SELECT *
+			FROM ' . self::$historyTable . '
+			WHERE room_id = '.$ilDB->quote($this->roomId, 'integer').'
+			AND sub_room = 0
+			AND (
+					(' . $ilDB->like('message', 'text', '%"type":"message"%') . ' AND ' . $ilDB->like('message', 'text', '%"public":1%') . ' AND ' . $ilDB->like('message', 'text', '%"recipients":null%') . ') 
+					OR 
+					' . $ilDB->like('message', 'text', '%"type":"%connected"%') . ')
+			ORDER BY timestamp DESC'
+		);
+
+		$results = array();
+		while(($row = $ilDB->fetchAssoc($rset)))
+		{
+			$tmp       = json_decode($row['message']);
+			$results[] = $tmp;
+		}
+		return $results;
+	}
     
     public function clearMessages($sub_room) {
 	global $ilDB;
@@ -1347,6 +1376,36 @@ public function getLastMessages($number, $chatuser = null) {
 	    );
 	}
     }
+	
+	public static function getUntrashedChatReferences()
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+		
+		// Check for parent because of an invalid parent node for the old public chat (thx @ jposselt ;-)).
+		// We cannot find this old public chat and clean this automatically
+		$query  = '
+			SELECT od.obj_id, od.title, ore.ref_id, od.type
+			FROM object_data od
+			INNER JOIN object_reference ore ON ore.obj_id = od.obj_id
+			INNER JOIN tree t ON t.child = ore.ref_id
+			INNER JOIN object_reference pre ON pre.ref_id = t.parent
+			INNER JOIN object_data pod ON pod.obj_id = pre.obj_id
+			WHERE od.type = %s AND t.tree > 0 AND ore.deleted IS NULL
+			ORDER BY od.title
+		';
+		$res = $ilDB->queryF($query, array('text'), array('chtr'));
+		
+		$chats = array();
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$chats[] = $row;
+		}
+		
+		return $chats;
+	}
 }
 
 ?>

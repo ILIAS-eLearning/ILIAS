@@ -1,0 +1,51 @@
+<div id="ilChatBlockMessageBody" style="height:{BLOCK_HEIGHT}px;overflow:auto"></div>
+<div id="ilChatBlockMessageHeader" style="display: block" class="tblfooter option small">
+	<input checked="checked" type="checkbox" value="1" name="ilChatBlockMessageBodyEnableAutoscroll" id="ilChatBlockMessageBodyEnableAutoscroll"/><label for="ilChatBlockMessageBodyEnableAutoscroll">{TXT_ENABLE_AUTOSCROLL}</label>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('body').ilChatViewer({
+			base_url:                  '{CHATBLOCK_BASE_URL}',
+			smilies:                   {SMILIES},
+			message_container_selector:'#ilChatBlockMessageBody',
+			room_selector:             '#ilChatBlockRoomSelect',
+			autoscroll_selector:       '#ilChatBlockMessageBodyEnableAutoscroll',
+			polling_interval:          20,
+			lang:                      {
+				'main':                       '{LBL_MAINROOM}',
+				'leave':                      '{LBL_LEAVE_PRIVATE_ROOM}',
+				'enter':                      '{LBL_JOIN}',
+				'delete':                     '{LBL_DELETE_PRIVATE_ROOM}',
+				'invite_users':               '{LBL_INVITE_TO_PRIVATE_ROOM}',
+				'kick':                       '{LBL_KICK}',
+				'ban':                        '{LBL_BAN}',
+				'kick_question':              '{LBL_KICK_QUESTION}',
+				'ban_question':               '{LBL_BAN_QUESTION}',
+				'address':                    '{LBL_ADDRESS}',
+				'speak_to':                   '{LBL_SPEAK_TO}',
+				'whisper':                    '{LBL_WHISPER}',
+				'whisper_to':                 '{LBL_WHISPER_TO}',
+				'connect':                    '{LBL_CONNECT}',
+				'disconnected':               '{LBL_DISCONNECT}',
+				'create_private_room':        '{LBL_CREATE_PRIVATE_ROOM}',
+				'welcome_to_chat':            '{LBL_WELCOME_TO_CHAT}',
+				'user_invited':               '{LBL_USER_INVITED}',
+				'user_kicked':                '{LBL_USER_KICKED}',
+				'user_invited_self':          '{LBL_USER_INVITED_SELF}',
+				'private_room_closed':        '{LBL_PRIVATE_ROOM_CLOSED}',
+				'private_room_entered':       '{LBL_PRIVATE_ROOM_ENTERED}',
+				'private_room_left':          '{LBL_PRIVATE_ROOM_LEFT}',
+				'private_room_entered_user':  '{LBL_PRIVATE_ROOM_ENTERED_USER}',
+				'kicked_from_private_room':   '{LBL_KICKED_FROM_PRIVATE_ROOM}',
+				'ok':                         '{LBL_OK}',
+				'cancel':                     '{LBL_CANCEL}',
+				'history_has_been_cleared':   '{LBL_HISTORY_CLEARED}',
+				'clear_room_history':         '{LBL_CLEAR_ROOM_HISTORY}',
+				'clear_room_history_question':'{LBL_CLEAR_ROOM_HISTORY_QUESTION}',
+				'show_settings':              '{LBL_SHOW_SETTINGS}',
+				'hide_settings':              '{LBL_HIDE_SETTINGS}',
+				'end_whisper':                '{LBL_END_WHISPER}'
+			}
+		});
+	});
+</script>
