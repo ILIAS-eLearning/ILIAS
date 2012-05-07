@@ -65,7 +65,7 @@ class ilLPStatusCollection extends ilLPStatus
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';	
 		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
 		$users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
-		foreach(ilLPCollectionCache::_getItems($a_obj_id) as $item_id)
+		foreach(ilLPCollectionCache::_getItems($a_obj_id, true) as $item_id)
 		{						
 			$item_id = ilObject::_lookupObjId($item_id);
 
@@ -104,7 +104,7 @@ class ilLPStatusCollection extends ilLPStatus
 		// New handling for optional assignments
 		$counter = 0;
 		$users = array();
-		foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
+		foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
 		{
 			$isGrouping = $grouping_id ? true : false;
 			$grouping_completed = array();
@@ -175,7 +175,7 @@ class ilLPStatusCollection extends ilLPStatus
 		include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
 
 		$users = array();
-		foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
+		foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
 		{
 			$isGrouping = $grouping_id ? true : false;
 
@@ -283,7 +283,7 @@ class ilLPStatusCollection extends ilLPStatus
 				}
 
 				include_once './Services/Tracking/classes/class.ilLPCollectionCache.php';
-				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id) as $grouping_id => $grouping)
+				foreach(ilLPCollectionCache::getGroupedItems($a_obj_id, true) as $grouping_id => $grouping)
 				{
 					$isGrouping = $grouping_id ? true : false;
 					$status = self::determineGroupingStatus($status,$grouping,$a_user_id,$isGrouping);

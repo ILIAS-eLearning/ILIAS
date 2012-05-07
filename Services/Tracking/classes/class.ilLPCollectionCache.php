@@ -35,7 +35,7 @@ include_once 'Services/Tracking/classes/class.ilLPCollections.php';
 
 class ilLPCollectionCache
 {
-	function &_getItems($a_obj_id)
+	function &_getItems($a_obj_id, $a_use_subtree_by_id = false)
 	{
 		static $cache = array();
 
@@ -43,7 +43,7 @@ class ilLPCollectionCache
 		{
 			return $cache[$a_obj_id];
 		}
-		$cache[$a_obj_id] =& ilLPCollections::_getItems($a_obj_id);
+		$cache[$a_obj_id] =& ilLPCollections::_getItems($a_obj_id, $a_use_subtree_by_id);
 		return $cache[$a_obj_id];
 	}
 

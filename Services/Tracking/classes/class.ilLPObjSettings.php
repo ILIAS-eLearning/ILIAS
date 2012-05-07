@@ -60,6 +60,8 @@ class ilLPObjSettings
 	var $visits = null;
 
 	var $is_stored = false;
+	
+	static private $mode_by_obj_id = array();
 
 	function ilLPObjSettings($a_obj_id)
 	{
@@ -210,12 +212,19 @@ class ilLPObjSettings
 	{
 		global $ilDB,$ilObjDataCache;
 
+		if (isset(self::$mode_by_obj_id[$a_obj_id]))
+		{
+			return self::$mode_by_obj_id[$a_obj_id];
+		}
+		
 		if(ilLPObjSettings::_checkObjectives($a_obj_id))
 		{
+			self::$mode_by_obj_id[$a_obj_id] = LP_MODE_OBJECTIVES;
 			return LP_MODE_OBJECTIVES;
 		}
 		if(ilLPObjSettings::_checkSCORMPreconditions($a_obj_id))
 		{
+			self::$mode_by_obj_id[$a_obj_id] = LP_MODE_SCORM;
 			return LP_MODE_SCORM;
 		}
 
@@ -225,11 +234,15 @@ class ilLPObjSettings
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			self::$mode_by_obj_id[$a_obj_id] = $row->u_mode;
 			return $row->u_mode;
 		}
 		
 		// no db entry exists => return default mode by type
-		return ilLPObjSettings::__getDefaultMode($a_obj_id,$ilObjDataCache->lookupType($a_obj_id));
+		$def_mode = ilLPObjSettings::__getDefaultMode($a_obj_id,$ilObjDataCache->lookupType($a_obj_id));
+		self::$mode_by_obj_id[$a_obj_id] = $def_mode;
+
+		return $def_mode;
 	}
 
 	function getValidModes()

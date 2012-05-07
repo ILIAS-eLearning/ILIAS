@@ -35,6 +35,8 @@
 */
 class ilChangeEvent
 {
+	static private $has_accessed = array();
+	
 	/**
 	 * Records a write event.
 	 * 
@@ -817,15 +819,20 @@ class ilChangeEvent
 	 {
 		global $ilDB;
 	 
+		if (isset(self::$has_accessed[$a_obj_id][$a_usr_id]))
+		{
+			return self::$has_accessed[$a_obj_id][$a_usr_id];
+		}
+
 		$set = $ilDB->query("SELECT usr_id FROM read_event WHERE ".
 			"obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
 			"usr_id = ".$ilDB->quote($a_usr_id, "integer")
 			);
 		if ($rec = $ilDB->fetchAssoc($set))
 		{
-			return true;
+			return self::$has_accessed[$a_obj_id][$a_usr_id] = true;
 		}
-		return false;
+		return self::$has_accessed[$a_obj_id][$a_usr_id] = false;
 	 }
 
 	/**
