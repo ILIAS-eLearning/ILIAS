@@ -315,7 +315,7 @@ class ilTrQuery
 		$fields = array("object_data.obj_id", "title", "type");
 		self::buildColumns($fields, $a_additional_fields);
 
-		$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, $use_collection);
+		$objects = self::getObjectIds($a_parent_obj_id, $a_parent_ref_id, $use_collection, true, array($a_user_id));
 
 		$query = " FROM object_data LEFT JOIN read_event ON (object_data.obj_id = read_event.obj_id AND".
 			" read_event.usr_id = ".$ilDB->quote($a_user_id, "integer").")".
@@ -1084,9 +1084,10 @@ class ilTrQuery
 	 * @param	int		$a_parent_ref_id
 	 * @param	int		$use_collection
 	 * @param	bool	$a_refresh_status
+	 * @param	array	$a_user_ids
 	 * @return	array	object_ids, objectives_parent_id
 	 */
-	static public function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true, $a_refresh_status = true)
+	static public function getObjectIds($a_parent_obj_id, $a_parent_ref_id = false,  $use_collection = true, $a_refresh_status = true, $a_user_ids = null)
 	{	
 		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
 		
@@ -1142,7 +1143,7 @@ class ilTrQuery
 		
 		if($a_refresh_status)
 		{
-			self::refreshObjectsStatus($object_ids);
+			self::refreshObjectsStatus($object_ids, $a_user_ids);
 		}
 		
 		return array("object_ids" => $object_ids,
