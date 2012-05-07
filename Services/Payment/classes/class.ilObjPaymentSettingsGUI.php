@@ -830,7 +830,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		//extension
 		$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
-		$oExtension->setChecked($_POST['extension'] == 1);
+		$oExtension->setChecked((int)$_POST['extension']);
 
 		$form->addItem($oExtension);
 
@@ -865,7 +865,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$prices->setDuration($_POST['duration']);
 		$prices->setPrice($_POST['price']);
 		$prices->setCurrency($currency['currency_id']); //test
-		$prices->setExtension($_POST['extension']);
+		$prices->setExtension((int)$_POST['extension']);
 		if(!$prices->validate())
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_price_not_valid'));
