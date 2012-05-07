@@ -18,7 +18,9 @@ include_once 'Services/Tracking/classes/class.ilLPStatusFactory.php';
 */
 class ilLPStatusWrapper
 {
-
+	static private $status_cache = array();
+	
+	
 	/**
 	* Static function to read the number of user who have the status 'not_attempted'
 	*/
@@ -307,9 +309,19 @@ class ilLPStatusWrapper
 	 */
 	public static function _determineStatus($a_obj_id, $a_usr_id)
 	{
+		if (isset(self::$status_cache[$a_obj_id][$a_usr_id]))
+		{
+			return self::$status_cache[$a_obj_id][$a_usr_id];
+		}
+
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		$trac_obj = new $class($a_obj_id);
-		return $trac_obj->determineStatus($a_obj_id, $a_usr_id);
+		
+		$st = $trac_obj->determineStatus($a_obj_id, $a_usr_id);
+		
+		self::$status_cache[$a_obj_id][$a_usr_id] = $st;
+		
+		return $st;
 	}
 	
 	/**

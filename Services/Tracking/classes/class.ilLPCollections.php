@@ -502,11 +502,11 @@ class ilLPCollections
 	 * @param int $a_obj_id
 	 * @return array
 	 */
-	public static function getGroupedItems($a_obj_id)
+	public static function getGroupedItems($a_obj_id, $a_use_subtree_by_id = false)
 	{
 		global $ilDB;
 
-		$items = self::_getItems($a_obj_id);
+		$items = self::_getItems($a_obj_id, $a_use_subtree_by_id);
 
 		$query = "SELECT * FROM ut_lp_collections ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
@@ -525,10 +525,10 @@ class ilLPCollections
 		return $grouped;
 	}
 
-	function &_getItems($a_obj_id)
+	function &_getItems($a_obj_id, $a_use_subtree_by_id = false)
 	{
 		global $ilObjDataCache;
-		global $ilDB;
+		global $ilDB, $tree;
 
 		include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 
@@ -547,7 +547,14 @@ class ilLPCollections
 		{
 			$course_ref_ids = ilObject::_getAllReferences($a_obj_id);
 			$course_ref_id = end($course_ref_ids);
-			$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
+			if (!$a_use_subtree_by_id)
+			{
+				$possible_items = ilLPCollections::_getPossibleItems($course_ref_id);
+			}
+			else
+			{
+				$possible_items = $tree->getSubTreeIds($course_ref_id);
+			}
 
 			$query = "SELECT * FROM ut_lp_collections utc ".
 				"JOIN object_reference obr ON item_id = ref_id ".
