@@ -183,6 +183,7 @@
 						properties:     $.extend(true, {}, {
 							base_url:                  '',
 							message_container_selector:'',
+							message_header_selector:   '',
 							room_selector:             '',
 							autoscroll_selector:       '',
 							polling_interval:          20,
@@ -212,7 +213,14 @@
 				}
 
 				$this.ilChatViewer('emptyMessageBody');
-				
+				if ($(data.properties.room_selector).val() == 0) {
+					$(data.properties.message_container_selector).hide();
+					$(data.properties.message_header_selector).hide();
+				} else {
+					$(data.properties.message_container_selector).show();
+					$(data.properties.message_header_selector).show();
+				}
+
 				internals.getNewMessages.call($this);
 
 				data.interval_handle = window.setInterval(function () {

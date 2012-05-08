@@ -7259,7 +7259,7 @@ mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#advice_mail_body_secured#:#Because of security reasons ILIAS removed some elements of your message. Please check the secured message and send the mail again.
 mail#:#also_as_email#:#Also as E-Mail
 mail#:#bc#:#BCC
-mail#:#chat_select_room#:#Select Chat Room
+chatroom#:#chat_select_room#:#Select Chat Room
 mail#:#chat_users_have_been_invited#:#The Users have been invited.
 mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Account and can't be invited to a Chat Room
 mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.
