@@ -472,6 +472,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		// anonymization
 		$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
+		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
 		if ($hasDatasets)
 		{
 			$anonymization_options->setDisabled(true);
