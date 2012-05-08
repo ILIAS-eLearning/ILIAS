@@ -293,12 +293,13 @@ class ilLPStatusWrapper
 	 * Set dirty
 	 *
 	 * @param	integer		object id
+	 * @param	array		user ids
 	 */
-	function _refreshStatus($a_obj_id)
+	function _refreshStatus($a_obj_id, $a_users = null)
 	{
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		$trac_obj = new $class($a_obj_id);
-		$trac_obj->refreshStatus($a_obj_id);
+		$trac_obj->refreshStatus($a_obj_id, $a_users);
 	}
 
 	/**
