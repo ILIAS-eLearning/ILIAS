@@ -12,6 +12,7 @@
 class ilGroupedListGUI
 {
 	private $multi_column = false;
+	private $items = array();
 	
 	/**
 	 * Constructor
