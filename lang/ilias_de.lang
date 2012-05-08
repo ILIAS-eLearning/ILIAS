@@ -8392,7 +8392,7 @@ mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivi
 mail#:#advice_mail_body_secured#:#Aus Ihrer Nachricht wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie die vom System bereinigte Nachricht und schicken Sie die Mail erneut ab.
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
-mail#:#chat_select_room#:#Chatraum auswählen
+chatroom#:#chat_select_room#:#Chatraum auswählen
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen
 mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden.
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum
