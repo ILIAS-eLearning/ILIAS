@@ -140,6 +140,8 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		$ilCtrl->setParameterByClass('ilcolumngui', 'block_id', 'block_' . $this->getBlockType() . '_' . (int)$this->getBlockId());
 		$ilCtrl->setParameterByClass('ilcolumngui', 'ref_id', '#__ref_id');
 		$body_tpl->setVariable('CHATBLOCK_BASE_URL', $ilCtrl->getLinkTargetByClass('ilcolumngui', 'updateBlock', '', true));
+		$ilCtrl->setParameterByClass('ilcolumngui', 'block_id', '');
+		$ilCtrl->setParameterByClass('ilcolumngui', 'ref_id', '');
 
 		$smilieys = array();
 		$settings = ilChatroomServerSettings::loadDefault();
