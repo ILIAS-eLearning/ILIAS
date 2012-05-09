@@ -1332,7 +1332,7 @@ chat#:#chat_chat_invitation#:#Chat Invitations
 chat#:#chat_chatroom_body#:#Chat room:
 chat#:#chat_chatroom_rename#:#Edit chat room
 chat#:#chat_chatrooms#:#Chat Rooms
-chat#:#chat_chatviewer#:#Chat Viewer
+common#:#chat_chatviewer#:#Chat Viewer
 chat#:#chat_color#:#Font color
 chat#:#chat_confirm_delete_private_room#:#Are you sure to delete this private room?
 chat#:#chat_confirm_delete_smiley#:#Are you sure that all selected Smileys should be deleted?

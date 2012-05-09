@@ -637,7 +637,7 @@ class ilColumnGUI
 			"html" => $lng->txt("html_block"),
 			"pdtag" => $lng->txt("tagging_my_tags"),
 			"pdcal" => $lng->txt('calendar'),
-			"chatviewer" => $lng->txt('chatroom'),
+			"chatviewer" => $lng->txt('chat_chatviewer'),
 			);
 
 		foreach($this->blocks[$this->getSide()] as $block)
