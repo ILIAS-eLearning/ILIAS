@@ -1660,7 +1660,7 @@ chat#:#chat_chat_invitation#:#Einladungen zu Chats
 chat#:#chat_chatroom_body#:#Chatraum:
 chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
 chat#:#chat_chatrooms#:#Chaträume
-chat#:#chat_chatviewer#:#Chatviewer
+common#:#chat_chatviewer#:#Chatviewer
 chat#:#chat_color#:#Schriftfarbe
 chat#:#chat_confirm_delete#:#Sind Sie sicher, dass sie diese Chaträume löschen möchten?
 chat#:#chat_confirm_delete_private_room#:#Sind Sie sicher, dass der Raum gelöscht werden soll?
