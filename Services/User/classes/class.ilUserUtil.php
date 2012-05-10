@@ -34,16 +34,21 @@ class ilUserUtil
 					lastname,
 					title,
 					login,
-					value public_profile
+					b.value public_profile,
+					c.value public_title
 				FROM
 					usr_data a 
 					LEFT JOIN 
 						usr_pref b ON 
-							a.usr_id = b.usr_id AND
-							keyword = %s
+							(a.usr_id = b.usr_id AND
+							b.keyword = %s)
+					LEFT JOIN 
+						usr_pref c ON 
+							(a.usr_id = c.usr_id AND
+							c.keyword = %s)
 				WHERE ' . $ilDB->in('a.usr_id', $a_user_id, false, 'integer');
 		
-		$userrow = $ilDB->queryF($sql, array('text'), array('public_profile'));
+		$userrow = $ilDB->queryF($sql, array('text', 'text'), array('public_profile', 'public_title'));
 		
 		$names = array();
 		
@@ -52,7 +57,12 @@ class ilUserUtil
 			if ($a_force_first_lastname ||
 				$has_public_profile = in_array($row->public_profile, array("y", "g")))
 			{
-				$pres = $row->lastname.", ".($t = $row->title ? $t . " " : "").$row->firstname." ";
+				$title = "";
+				if($row->public_title == "y" && $row->title)
+				{
+					$title = $row->title . " ";
+				}				
+				$pres = $row->lastname.", ".$title.$row->firstname." ";
 			}
 			
 			$pres.= "[".$row->login."]";
