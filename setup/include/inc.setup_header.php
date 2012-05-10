@@ -95,7 +95,14 @@ else
 // PHP is running in CGI mode?
 if (isset($_SERVER["REDIRECT_STATUS"]) && !isset($_SERVER["FCGI_ROLE"]))
 {
-	define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["PATH_TRANSLATED"]),0,-6));
+	if ($_SERVER["PATH_TRANSLATED"] != "")
+	{
+		define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["PATH_TRANSLATED"]),0,-6));
+	}
+	else
+	{
+		define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"]),0,-6));
+	}
 }
 else
 {
