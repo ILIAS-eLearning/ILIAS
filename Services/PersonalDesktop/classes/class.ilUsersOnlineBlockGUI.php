@@ -380,7 +380,11 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		}
 					
 		// username
-		if ($this->getCurrentDetailLevel() > 2)
+		if(!$a_set["profile"])
+		{
+			$this->tpl->setVariable("USR_LOGIN", $a_set["login"]);
+		}
+		else if ($this->getCurrentDetailLevel() > 2)
 		{
 			$this->tpl->setVariable("USR_LOGIN", "<br />".$a_set["login"]);
 		}
@@ -392,6 +396,9 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		// profile link
 		if ($a_set["profile"])
 		{
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			$user_name = ilUserUtil::getNamePresentation($a_set["id"], false, false, "", false, true);					
+			
 			$this->tpl->setCurrentBlock("profile_link");
 			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
 			
@@ -400,12 +407,12 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
 			
 			$this->tpl->setVariable("USR_ID", $a_set["id"]);
-			$this->tpl->setVariable("LINK_FULLNAME", ilObjUser::_lookupFullName($a_set["id"]));
+			$this->tpl->setVariable("LINK_FULLNAME", $user_name);
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
-			$this->tpl->setVariable("USR_FULLNAME", ilObjUser::_lookupFullName($a_set["id"]));
+			$this->tpl->setVariable("USR_FULLNAME", "");
 		}
 	}
 
