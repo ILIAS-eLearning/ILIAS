@@ -1112,7 +1112,7 @@
 	
 	<xsl:if test="$href != '-1'">
 		<tr><td colspan="2"><div>
-		<a href="{$href}"><img src="{$img_path}/download.gif" align="middle" alt="{$downloadtitle}" border="0" /></a>
+		<a href="{$href}"><img src="{$img_path}download.gif" align="middle" alt="{$downloadtitle}" border="0" /></a>
 
 		<xsl:if test="$paragraph_plugins != '-1' and $subchar != '-1'">		
 			<xsl:call-template name="plugins">
