@@ -716,6 +716,10 @@ class ilAccessHandler
 		{
 			return false;
 		}
+		if(!$a_type)
+		{
+			return false;
+		}
 
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);

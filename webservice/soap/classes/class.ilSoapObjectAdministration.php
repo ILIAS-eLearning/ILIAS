@@ -438,32 +438,28 @@ class ilSoapObjectAdministration extends ilSoapAdministration
     {
         $this->initAuth($sid);
         $this->initIlias();
-       
+
         if (!$this->__checkSession($sid))
         {
             return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
         }
-       
+
         global $tree;
        
         $nodedata = $tree->getNodeData($ref_id);
        
         $nodearray = $tree->getSubTree($nodedata);
-       
-        $filter = is_array($types)?$types: array ("0"=>"root", "adm", "lngf", "mail",
-        "usrf", "rolf", "taxf", "trac", "pays",
-        "auth", "chac", "objf", "recf", "assf",
-        "stys", "seas", "extt");
-       
+
+		global $objDefinition;
         foreach ($nodearray as $node)
         {
-            if (!in_array($node['type'], $filter))
-            {
-                if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))
+			if(!$objDefinition->isAdministrationObject($node['type']) && !$objDefinition->isSystemObject($node['type']))
+			{
+				if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))
                 {
                     $nodes[] = $tmp;
                 }
-            }
+			}
         }
        
         
