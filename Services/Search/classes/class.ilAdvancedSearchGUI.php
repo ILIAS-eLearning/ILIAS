@@ -147,11 +147,28 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
+	/**
+	 * Search from main menu
+	 */
+	protected function remoteSearch()
+	{
+		$this->search_cache->setRoot((int) $_POST['root_id']);
+		$this->search_cache->setResultPageNumber(1);
+		$this->search_cache->setQuery(array('lom_content' => ilUtil::stripSlashes($_POST['queryString'])));
+		$this->search_cache->save();
+
+		$this->options = $this->search_cache->getQuery();
+		$this->options['type'] = 'all';
+
+		$this->performSearch();
+	}
+
+
 
 	function performSearch()
 	{
 		global $ilUser;
-		
+
 		$this->initSearchType(self::TYPE_LOM);
 		
 		if(!isset($_GET['page_number']) and $this->search_mode != 'in_results' )
