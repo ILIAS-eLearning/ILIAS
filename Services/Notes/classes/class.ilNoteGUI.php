@@ -611,6 +611,9 @@ if ($this->private_enabled && $this->public_enabled
 		// list all notes
 		if ($user_setting_notes_by_type != "n" || !$this->enable_hiding)
 		{
+			$reldates = ilDatePresentation::useRelativeDates();
+			ilDatePresentation::setUseRelativeDates(false);
+			
 			foreach($notes as $note)
 			{
 				if ($this->edit_note_form && ($note->getId() == $_GET["note_id"])
@@ -764,6 +767,8 @@ if ($this->private_enabled && $this->public_enabled
 				$tpl->setCurrentBlock("note_row");
 				$tpl->parseCurrentBlock();
 			}
+			
+			ilDatePresentation::setUseRelativeDates($reldates);			
 			
 			// multiple items commands
 			if ($this->multi_selection && !$this->delete_note && !$this->edit_note_form
