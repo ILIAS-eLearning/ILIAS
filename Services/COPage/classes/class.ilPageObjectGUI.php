@@ -2578,9 +2578,19 @@ class ilPageObjectGUI
 	*/
 	function downloadFile()
 	{
+		$this->obj->buildDom();
+		$files = $this->obj->collectFileItems();
+
 		$file = explode("_", $_GET["file_id"]);
 		require_once("./Modules/File/classes/class.ilObjFile.php");
-		$fileObj =& new ilObjFile($file[count($file) - 1], false);
+		$file_id = $file[count($file) - 1];
+
+		// file must be in page
+		if (!in_array($file_id, $files))
+		{
+			exit;
+		}
+		$fileObj =& new ilObjFile($file_id, false);
 		$fileObj->sendFile();
 		exit;
 	}
