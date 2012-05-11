@@ -323,7 +323,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 		// do not display empty news blocks for users
 		// who do not have write permission
 		if (count($this->getData()) == 0 && !$this->getEnableEdit() &&
-			$this->getRepositoryMode() && !$this->dynamic)
+			$this->getRepositoryMode() && !$this->dynamic
+			&& (!$news_set->get("enable_rss_for_internal") ||
+				!ilBlockSetting::_lookup($this->getBlockType(), "public_feed",
+				0, $this->block_id)))
 		{
 			return "";
 		}
