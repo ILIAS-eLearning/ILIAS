@@ -54,6 +54,7 @@
 <xsl:param name="bib_id" />
 <xsl:param name="citation" />
 <xsl:param name="map_item" />
+<xsl:param name="map_mob_id" />
 <xsl:param name="map_edit_mode" />
 <xsl:param name="javascript" />
 <xsl:param name="image_map_link" />
@@ -2389,10 +2390,10 @@
 	<xsl:param name="inline"/>
 
 	<img border="0">
-		<xsl:if test = "$map_item = ''">
+		<xsl:if test = "$map_item = '' or $cmobid != concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 		</xsl:if>
-		<xsl:if test = "$map_item != ''">
+		<xsl:if test = "$map_item != '' and $cmobid = concat('il__mob_',$map_mob_id)">
 			<xsl:attribute name="src"><xsl:value-of select="$image_map_link"/>&amp;item_id=<xsl:value-of select="$map_item"/>&amp;<xsl:value-of select="$link_params"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test="$width != ''">
@@ -2403,7 +2404,9 @@
 		</xsl:if>
 		<xsl:if test = "(//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/MapArea[@Shape != 'WholePicture'][1] and not(./MapArea[1]))
 			or ./MapArea[@Shape != 'WholePicture'][1]">
-			<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+			<xsl:if test="name(..) != 'InteractiveImage' or $mode != 'edit'">
+				<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+			</xsl:if>
 		</xsl:if>
 		<xsl:if test = "$inline = 'y'">
 			<xsl:attribute name="align">middle</xsl:attribute>
@@ -2994,7 +2997,9 @@
 		<img style="display:none;">
 		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
 		<xsl:attribute name="id">iim_ov_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
-		<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+		<xsl:if test="$mode != 'edit'">
+			<xsl:attribute name="usemap">#iim_ov_map_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" /></xsl:attribute>
+		</xsl:if>
 		</img>
 		<xsl:if test="@Type = 'Area'">
 			<map>
@@ -3034,7 +3039,8 @@
 				m_id: 'iim_mark_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />',
 				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
 				tr_nr: '<xsl:value-of select="@Nr"/>',
-				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />'
+				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />',
+				edit_mode: '<xsl:if test="$mode = 'edit'">1</xsl:if>',
 			})});
 		</script>
 	</xsl:if>

@@ -154,6 +154,10 @@ ilCOPagePres =
 				var ov = $("img#iim_ov_" + tr['tr_id']);
 //console.log("get iim_ov_" + tr['tr_id']);
 				var cnt = 1;
+				if (typeof(base.attr('usemap')) == "undefined")
+				{
+					continue;
+				}
 				var base_map_name = base.attr('usemap').substr(1);
 				
 				// display the overlay at the correct position
@@ -305,6 +309,11 @@ ilCOPagePres =
 		var marker_tr_nr = ilCOPagePres.iim_marker[e.target.id].tr_nr;
 		var iim_id = ilCOPagePres.iim_marker[e.target.id].iim_id;
 
+		if (ilCOPagePres.iim_marker[e.target.id].edit_mode == "1")
+		{
+			return;
+		}
+		
 		if (this.dragging)
 		{
 			return;
