@@ -1156,6 +1156,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 
 		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
+		
+		// #8850: ilUtil::insertLatexImages() will add jsMath if needed to the GLOBAL tpl
+		global $tpl;
 
 		$tpl = new ilTemplate("tpl.main.html", true, true);
 		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
