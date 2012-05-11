@@ -760,9 +760,14 @@ ilCOPagePres =
 					var ul = $('div#' + this.qover[i].div_id + " > ul");
 					for (var j in incorrect)
 					{
+						var qtext = questions[j].question;
+						if (questions[j].type == "assClozeTest")
+						{
+							qtext = questions[j].title;
+						}
 						ul.append(
 							'<li class="ilc_list_item_StandardListItem">' +
-							'<a href="#" onclick="return ilCOPagePres.jumpToQuestion(\'' + j + '\');" class="ilc_qoverl_WrongAnswerLink">' + questions[j].question + '</a>'
+							'<a href="#" onclick="return ilCOPagePres.jumpToQuestion(\'' + j + '\');" class="ilc_qoverl_WrongAnswerLink">' + qtext + '</a>'
 							+ '</li>');
 					}
 				}
