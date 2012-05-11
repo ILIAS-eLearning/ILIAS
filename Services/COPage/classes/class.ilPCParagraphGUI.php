@@ -579,6 +579,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 					case "Code": $tag = "code"; break;
 				}
 				$html = '<'.$tag.' class="ilc_'.$t.'_'.$key.'" style="font-size:90%; margin-top:2px; margin-bottom:2px; position:static;">'.$char["txt"]."</".$tag.">";
+				
+				// this next line is very important for IE. The real onclick event is on the surrounding <tr> of the
+				// advanced selection list. But it is impossible to prevent the tr-event from removing the focus
+				// on tiny withouth the following line, that receives the click event before and stops the faulty default
+				// bevaviour of IE, see bug report #8723
+				$html = '<a class="nostyle" style="display:block;" href="#" onclick="return false;">'.$html."</a>";
 				$selection->addItem($char["txt"], $key, "",
 					"", $key, "", $html);
 			}
