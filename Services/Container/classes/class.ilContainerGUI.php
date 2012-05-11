@@ -171,7 +171,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$cmd = $ilCtrl->getCmd();
 
-		if (in_array($cmd, array("displayMediaFullscreen")))
+		if (in_array($cmd, array("displayMediaFullscreen", "downloadFile")))
 		{
 			$this->checkPermission("read");
 		}
@@ -257,7 +257,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
 		$page_gui->setEnabledRepositoryObjects(true);
-		$page_gui->setEnabledFileLists(true);
+		$page_gui->setEnabledFileLists(false);
 		$page_gui->setEnabledMaps(true);
 		$page_gui->setEnabledPCTabs(true);
 		$page_gui->setEnabledInternalLinks(true);
@@ -362,7 +362,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		//$page_gui->setLocator($contObjLocator);
 		$page_gui->setHeader("");
 		$page_gui->setEnabledRepositoryObjects(true);
-		$page_gui->setEnabledFileLists(true);
+		$page_gui->setEnabledFileLists(false);
 		$page_gui->setEnabledPCTabs(true);
 		$page_gui->setEnabledMaps(true);
 		$ret = $page_gui->showPage();
