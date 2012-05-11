@@ -1509,10 +1509,15 @@ if (!$a_wysiwyg)
 							"[".$bb."]", $text);
 						$text = str_replace("</il".$cl.">",
 							"[/".$bb."]", $text);
+						$text = str_replace("<il".$cl."/>", "", $text);
 					}
 				}
 				$text = str_replace(array("<code>", "</code>"),
 					array("[code]", "[/code]"), $text);
+				
+				$text = str_replace("<code/>", "", $text);
+				$text = str_replace('<ul class="ilc_list_u_BulletedList"/>', "", $text);
+				$text = str_replace('<ul class="ilc_list_o_NumberedList"/>', "", $text);
 				
 				$ret[] = array("text" => $text, "id" => $id, "class" => $class);
 			}
