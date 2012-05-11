@@ -149,15 +149,23 @@ ilCOPagePres =
 			if (tr.nr == area_tr_nr && tr.iim_id == iim_id)
 			{
 				var base = $("img#base_img_" + tr.iim_id);
-//console.log("get base" + tr['tr_id']);
 				var pos = base.position();
 				var ov = $("img#iim_ov_" + tr['tr_id']);
-//console.log("get iim_ov_" + tr['tr_id']);
+				
+				// no overlay image? -> skip
+				if (ov.length == 0)
+				{
+					continue;
+				}
+				
 				var cnt = 1;
+				
+				// no usamap (e.g. edit mode) -> skip)
 				if (typeof(base.attr('usemap')) == "undefined")
 				{
 					continue;
 				}
+				
 				var base_map_name = base.attr('usemap').substr(1);
 				
 				// display the overlay at the correct position

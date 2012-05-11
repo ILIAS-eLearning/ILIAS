@@ -2992,7 +2992,7 @@
 
 <!-- Trigger -->
 <xsl:template match="Trigger">
-	<xsl:if test="@Overlay">
+	<xsl:if test="@Overlay != ''">
 		<xsl:variable name="cur_nr" select="@Nr" />
 		<img style="display:none;">
 		<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after(../MediaAlias[1]/@OriginId,'mob_')"/>/overlays/<xsl:value-of select="@Overlay"/></xsl:attribute>
@@ -3040,7 +3040,7 @@
 				markx: '<xsl:value-of select="@MarkerX"/>', marky: '<xsl:value-of select="@MarkerY"/>',
 				tr_nr: '<xsl:value-of select="@Nr"/>',
 				tr_id: '<xsl:value-of select = "$pg_id"/>_<xsl:number count="Trigger" level="any" />',
-				edit_mode: '<xsl:if test="$mode = 'edit'">1</xsl:if>',
+				edit_mode: '<xsl:if test="$mode = 'edit'">1</xsl:if>'
 			})});
 		</script>
 	</xsl:if>
