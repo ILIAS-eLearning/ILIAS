@@ -89,7 +89,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 
 		if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
 		{
-			continue;
+			return;
 		}
 
 		// mail sent

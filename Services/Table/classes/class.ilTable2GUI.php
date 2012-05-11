@@ -1451,7 +1451,12 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 
 		if (!$a_omit_offset)
 		{
-			if (!$this->getExternalSegmentation() && $nav[2] >= $this->max_count)
+			// #8904: offset must be discarded when no limit is given
+			if(!$this->getExternalSegmentation() && $this->limit_determined && $this->limit == 9999)
+			{
+				$this->resetOffset(true);
+			}
+			else if (!$this->getExternalSegmentation() && $nav[2] >= $this->max_count)
 			{
 				$this->resetOffset(true);
 			}
