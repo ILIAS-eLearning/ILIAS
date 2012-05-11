@@ -1155,6 +1155,16 @@ a.light:hover {
 	color:#000000;
 }
 
+a.nostyle:link, a.nostyle:visited {
+	text-decoration: none;
+	color:#000000;
+}
+
+a.nostyle:hover {
+	color:#000000;
+}
+
+
 /* ------------------- mail links ----------- */
 a.mailread, a.mailread:visited
 {
