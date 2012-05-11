@@ -1122,6 +1122,9 @@ class ilObjStyleSheet extends ilObject
 		$new_obj->setDescription($this->getDescription());
 		$new_obj->create($this->getId());
 		
+		$new_obj->writeStyleSetting("disable_auto_margins",
+			$this->lookupStyleSetting("disable_auto_margins"));
+		
 		return $new_obj->getId();
 	}
 
