@@ -2289,7 +2289,6 @@ ul.il_Tab
 	list-style:none;
 	position: relative;
 	top: 1px;
-	white-space: nowrap;
 }
 
 li.tabinactive
@@ -2300,6 +2299,7 @@ li.tabinactive
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #e0e0e0;
+	white-space: nowrap;
 }
 
 a.tabinactive
@@ -2338,6 +2338,7 @@ li.tabactive
 	border-bottom-style: solid;
 	border-bottom-color: #FFFFFF;
 	background-color: #FFFFFF;
+	white-space: nowrap;
 }
 
 a.tabactive:link, a.tabactive:visited, a.tabactive:hover
@@ -2388,6 +2389,7 @@ li.nontabbed
 	float:left;
 	margin: 0px 2px 0px 0px;
 	padding: 0px;
+	white-space: nowrap;
 	/* border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #bccae5; */
