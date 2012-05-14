@@ -380,6 +380,7 @@ ilias.questions.assClozeTest = function(a_id) {
 	for (var i=0;i<questions[a_id].gaps.length;i++)
 	{
 		var type = questions[a_id].gaps[i].type;
+		// select
 		if (type==1) {
 			var a_node = jQuery('select#'+a_id+"_"+i).get(0);
 			var selected = a_node.options[a_node.selectedIndex].id;
@@ -392,24 +393,48 @@ ilias.questions.assClozeTest = function(a_id) {
 			}
 			answers[a_id].choice.push(questions[a_id].gaps[i].item[selected].order);
 		}
-		if (type==0 || type==2) {
+		else
+		{
 			var a_node = jQuery('input#'+a_id+"_"+i).get(0);
 			var value_found = false;
-			for(var j=0;j<questions[a_id].gaps[i].item.length;j++)
-			{
-				if (questions[a_id].gaps[i].item[j].value == a_node.value) {
-					value_found=true;
-					if (questions[a_id].gaps[i].item[j].points<1) {
-						answers[a_id].passed = false;
-						answers[a_id].wrong++;
-						answers[a_id].answer[i]=false;
-					} else {
-						answers[a_id].answer[i]=true;
+			
+			// text
+			if (type==0) {				
+				for(var j=0;j<questions[a_id].gaps[i].item.length;j++)
+				{
+					if (questions[a_id].gaps[i].item[j].value == a_node.value) {
+						value_found=true;
+						if (questions[a_id].gaps[i].item[j].points<1) {
+							answers[a_id].passed = false;
+							answers[a_id].wrong++;
+							answers[a_id].answer[i]=false;
+						} else {
+							answers[a_id].answer[i]=true;
+						}
+					}
+				}				
+			}
+			// numeric
+			else if (type==2) {				
+				for(var j=0;j<questions[a_id].gaps[i].item.length;j++)
+				{				
+					if (questions[a_id].gaps[i].item[j].lowerbound <= a_node.value && 
+						questions[a_id].gaps[i].item[j].upperbound >= a_node.value) {
+						value_found=true;
+						if (questions[a_id].gaps[i].item[j].points<1) {
+							answers[a_id].passed = false;
+							answers[a_id].wrong++;
+							answers[a_id].answer[i]=false;
+						} else {
+							answers[a_id].answer[i]=true;
+						}
 					}
 				}
+				
 			}
+			
 			answers[a_id].choice.push(a_node.value);
-		   if (value_found==false) {answers[a_id].passed = false; answers[a_id].wrong++; answers[a_id].answer[i]=false;}
+			if (value_found==false) {answers[a_id].passed = false; answers[a_id].wrong++; answers[a_id].answer[i]=false;}
 		}
 	}
 	ilias.questions.showFeedback(a_id);
