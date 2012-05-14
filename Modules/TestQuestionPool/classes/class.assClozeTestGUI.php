@@ -269,25 +269,38 @@ class assClozeTestGUI extends assQuestionGUI
 				if (count($gap->getItemsRaw()) == 0) $gap->addItem(new assAnswerCloze("", 0, 0));
 				foreach ($gap->getItemsRaw() as $item)
 				{
-					$value = new ilFormulaInputGUI($this->lng->txt('value'), "gap_" . $i . "_numeric");
+					// #8944: the js-based ouput in self-assessment cannot support formulas
+					if(!$this->getSelfAssessmentEditingMode())
+					{
+						$value = new ilFormulaInputGUI($this->lng->txt('value'), "gap_" . $i . "_numeric");
+						$value->setInlineStyle('text-align: right;');
+						
+						$lowerbound = new ilFormulaInputGUI($this->lng->txt('range_lower_limit'), "gap_" . $i . "_numeric_lower");
+						$lowerbound->setInlineStyle('text-align: right;');
+						
+						$upperbound = new ilFormulaInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");
+						$upperbound->setInlineStyle('text-align: right;');
+					}
+					else
+					{
+						$value = new ilNumberInputGUI($this->lng->txt('value'), "gap_" . $i . "_numeric");
+						$lowerbound = new ilNumberInputGUI($this->lng->txt('range_lower_limit'), "gap_" . $i . "_numeric_lower");
+						$upperbound = new ilNumberInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");
+					}
+					
 					$value->setSize(10);
 					$value->setValue(ilUtil::prepareFormOutput($item->getAnswertext()));
-					$value->setRequired(true);
-					$value->setInlineStyle('text-align: right;');
+					$value->setRequired(true);					
 					$form->addItem($value);
-
-					$lowerbound = new ilFormulaInputGUI($this->lng->txt('range_lower_limit'), "gap_" . $i . "_numeric_lower");
+					
 					$lowerbound->setSize(10);
 					$lowerbound->setRequired(true);
-					$lowerbound->setValue(ilUtil::prepareFormOutput($item->getLowerBound()));
-					$lowerbound->setInlineStyle('text-align: right;');
+					$lowerbound->setValue(ilUtil::prepareFormOutput($item->getLowerBound()));					
 					$form->addItem($lowerbound);
-
-					$upperbound = new ilFormulaInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");
+					
 					$upperbound->setSize(10);
 					$upperbound->setRequired(true);
-					$upperbound->setValue(ilUtil::prepareFormOutput($item->getUpperBound()));
-					$upperbound->setInlineStyle('text-align: right;');
+					$upperbound->setValue(ilUtil::prepareFormOutput($item->getUpperBound()));					
 					$form->addItem($upperbound);
 
 					$points = new ilNumberInputGUI($this->lng->txt('points'), "gap_" . $i . "_numeric_points");
