@@ -45,6 +45,7 @@ class ilObjectCustomUserFieldsGUI
 	private $tabs_gui;
 	
 	private $obj_id;
+	private $ref_id;
 	
 	private $cdf;
 	
@@ -68,6 +69,10 @@ class ilObjectCustomUserFieldsGUI
 		$this->tabs_gui = $ilTabs;
 		
 		$this->obj_id = $a_obj_id;
+
+		// Currently only supported for container objects
+		$refs = ilObject::_getAllReferences($this->obj_id);
+		$this->ref_id = end($refs);
 	}
 	
 	/**
@@ -78,6 +83,13 @@ class ilObjectCustomUserFieldsGUI
 	 */
 	public function executeCommand()
 	{
+		global $ilErr, $ilAccess, $lng;
+
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$ilErr->raiseError($lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+
 		$cmd = $this->ctrl->getCmd();
 		
 		switch($next_class = $this->ctrl->getNextClass($this))

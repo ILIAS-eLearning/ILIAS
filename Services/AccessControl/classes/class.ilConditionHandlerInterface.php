@@ -85,6 +85,13 @@ class ilConditionHandlerInterface
 
 	public function executeCommand()
 	{
+		global $ilErr, $ilAccess, $lng;
+		
+		if(!$ilAccess->checkAccess('write','',$this->getTargetRefId()))
+		{
+			$ilErr->raiseError($lng->txt('permission_denied'),$ilErr->WARNING);
+		}
+
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
