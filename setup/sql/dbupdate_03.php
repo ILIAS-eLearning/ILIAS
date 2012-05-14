@@ -9462,3 +9462,14 @@ ilDBUpdateNewObjectType::addRBACOperations($type_id, array(ilDBUpdateNewObjectTy
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#3566>
+<?php
+
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+	ilDBUpdateNewObjectType::deleteRBACOperation(
+		ilDBUpdateNewObjectType::getObjectTypeId('sess'),
+		ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_event')
+	);
+	
+?>

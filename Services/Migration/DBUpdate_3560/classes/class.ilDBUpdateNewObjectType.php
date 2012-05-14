@@ -84,7 +84,25 @@ class ilDBUpdateNewObjectType
 		);
 		return $ilDB->insert('rbac_ta', $fields);
 	}
-	
+
+	/**
+	 * Delete rbac operation
+	 * @global ilDB $ilDB
+	 * @param int $a_type_id
+	 * @param int $a_ops_id 
+	 */
+	public static function deleteRBACOperation($a_type_id, $a_ops_id)
+	{
+		global $ilDB;
+
+		$query = 'DELETE FROM rbac_ta WHERE '.
+			'typ_id = '.$ilDB->quote($a_type_id,'integer').' AND '.
+			'ops_id = '.$ilDB->quote($a_ops_id,'integer'). ' ';
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		$ilDB->manipulate($query);
+	}
+
+
 	/**
 	 * Check if given RBAC operation id is valid
 	 * 
@@ -114,7 +132,7 @@ class ilDBUpdateNewObjectType
 	 * @param string $a_operation
 	 * @return int
 	 */
-	protected static function getCustomRBACOperationId($a_operation)
+	public static function getCustomRBACOperationId($a_operation)
 	{
 		global $ilDB;
 		
