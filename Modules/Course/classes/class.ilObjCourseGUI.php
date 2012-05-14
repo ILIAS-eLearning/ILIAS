@@ -4544,6 +4544,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					break;
 				}
 				
+				// deprecated - will be removed in 4.4
 				if((!$this->creation_mode)&&(!$rbacsystem->checkAccess("write",$this->object->getRefId())))
 				{
 					$this->ctrl->setReturn($this,'view');

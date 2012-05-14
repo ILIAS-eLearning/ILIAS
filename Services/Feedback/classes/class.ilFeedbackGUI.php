@@ -34,6 +34,8 @@ class ilFeedbackGUI
 	function &executeCommand()
 	{
 		global $ilAccess,$ilErr;
+		
+		// deprecated - will be removed in 4.4
 
 		if(isset($_SESSION["message"]))	{
 			if(isset($_SESSION['error_post_vars']['cmd']['update'])){
@@ -119,12 +121,16 @@ class ilFeedbackGUI
 		$tbl->setLimit(0);
 		$tbl->disable('sort');
 		$tbl->setMaxCount(count($rows));
+		
+		/* deprecated - will be removed in 4.4
 		$tbl->tpl->setCurrentBlock("plain_button");
 		$tbl->tpl->setVariable("PBTN_NAME","addBarometer");
 		$tbl->tpl->setVariable("PBTN_VALUE",$this->lng->txt("barometer_add"));
 		$tbl->tpl->parseCurrentBlock();
 		$tbl->tpl->setCurrentBlock("plain_buttons");
 		$tbl->tpl->parseCurrentBlock();
+		*/
+		
 		if (!empty($rows))
 		{
 			// set checkbox toggles
@@ -485,6 +491,10 @@ class ilFeedbackGUI
 	* Display the new feedback creation screen.
 	*/
 	function addBarometer(){
+		
+		// deprecated - will be removed in 4.4
+		exit();
+		
 		$tpl = new ilTemplate("tpl.feedback_edit.html", true, true, "Services/Feedback");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HEADER", $this->lng->txt("bar_create"));
