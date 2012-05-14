@@ -79,6 +79,7 @@ class ilInfoScreenGUI
 				$this->showSummary();	// forwards command
 				break;
 
+			// deprecated - will be removed in 4.4
 			case "ilfeedbackgui":
 				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
 				$fb_gui = new ilFeedbackGUI();
@@ -1121,24 +1122,30 @@ class ilInfoScreenGUI
 			 array("showSummary", ""),
 			 get_class($this), "", $force_active);
 
+		// deprecated - will be removed in 4.4
 		if ($this->feedback_enabled)
 		{
 			$show_feedback_tab=false;
+					
+			include_once('Services/Feedback/classes/class.ilFeedback.php');
+			$feedback = new ilFeedback();
+			$feedback->setRefId($_GET['ref_id']);
+										
 			if($ilAccess->checkAccess('write','edit',$_GET['ref_id']))
-			{
-				$show_feedback_tab=true;
+			{			
+				// all barometers
+				$barometers = $feedback->getAllBarometer(1);
+				if(count($barometers))
+				{
+					$show_feedback_tab=true;
+				}
 			}
 			else
 			{
-				// this should work with feedback class available
-				// maybe a line... "@ ilCtrl_Calls ilFeedbackGUI:"
-				// in the header of feedbackgui is necessary
-				include_once('Services/Feedback/classes/class.ilFeedback.php');
-				$feedback = new ilFeedback();
-				$feedback->setRefId($_GET['ref_id']);
-				$barometers = $feedback->getAllBarometer(0);
+				// only active	
+				$barometers = $feedback->getAllBarometer(0);			
 				if(count($barometers))
-				{
+				{				
 					foreach ($barometers as $barometer)
 					{
 						if($barometer->canVote($ilUser->getId(),$barometer->getId())==1)
