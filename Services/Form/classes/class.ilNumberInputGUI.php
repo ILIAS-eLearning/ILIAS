@@ -38,6 +38,8 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $minvalueShouldBeGreater = false;
 	protected $maxvalue = false;
 	protected $maxvalueShouldBeLess = false;
+	protected $decimals;
+	protected $allow_decimals = false;
 	
 	/**
 	* Constructor
@@ -78,6 +80,21 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	function setValue($a_value)
 	{
 		$this->value = str_replace(',', '.', $a_value);
+		
+		// integer
+		if(!$this->areDecimalsAllowed())
+		{
+			$this->value = round($this->value);
+		}
+		// float
+		else if($this->getDecimals() > 0)
+		{
+			// get rid of unwanted decimals
+			$this->value = round($this->value, $this->getDecimals());
+			
+			// pad value to specified format
+			$this->value = number_format($this->value, $this->getDecimals());
+		}
 	}
 
 	/**
@@ -226,8 +243,12 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	* @param	int	$a_decimals	Decimal Places
 	*/
 	function setDecimals($a_decimals)
-	{
-		$this->decimals = $a_decimals;
+	{		
+		$this->decimals = (int)$a_decimals;
+		if($this->decimals)
+		{
+			$this->allowDecimals(true);
+		}
 	}
 
 	/**
@@ -238,6 +259,26 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	function getDecimals()
 	{
 		return $this->decimals;
+	}
+	
+	/**
+	* Toggle Decimals
+	*
+	* @param	bool	$a_value	
+	*/
+	function allowDecimals($a_value)
+	{		
+		$this->allow_decimals = (bool)$a_value;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @return bool 
+	 */
+	function areDecimalsAllowed()
+	{
+		return $this->allow_decimals;
 	}
 
 	/**
@@ -356,8 +397,10 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 				" disabled=\"disabled\"");
 		}
 		
+		$tpl->setVariable("JS_DECIMALS_ALLOWED", (int)$this->areDecimalsAllowed());
+		
 		// constraints
-		if ($this->getDecimals() > 0)
+		if ($this->areDecimalsAllowed() && $this->getDecimals() > 0)
 		{
 			$constraints = $lng->txt("form_format").": ###.".str_repeat("#", $this->getDecimals());
 			$delim = ", ";
