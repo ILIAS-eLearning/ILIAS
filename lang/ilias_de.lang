@@ -12544,3 +12544,22 @@ help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Online-Hilfe öffnen
 help#:#help_toggle_tooltips#:#Hilfe-Tooltips an-/ausschalten
 rbac#:#trac_write#:#Einstellungen bearbeiten
+common#:#obj_dcl#:#Datensammlung
+common#:#objs_dcl#:#Datensammlungen
+common#:#obj_dcl_dupliate#:#Datensammlung kopieren
+dcl#:#dcl_new#:#Neue Datensammlung anlegen
+dcl#:#dcl_add#:#Datensammlung anlegen
+dcl#:#dcl_copy#:#Datensammlung kopieren
+dcl#:#dcl_edit#:#Datensammlung bearbeiten
+rbac#:#dcl_visible#:#Datensammlung ist sichtbar
+rbac#:#dcl_read#:#Datensammlung lesen
+rbac#:#dcl_copy#:#Datensammlung kopieren
+rbac#:#dcl_write#:#Datensammlung bearbeiten
+rbac#:#dcl_delete#:#Datensammlung löschen
+rbac#:#dcl_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#dcl_add_entry#:#Eintrag hinzufügen
+rbac#:#crs_create_dcl#:#Neue Datensammlung anlegen
+rbac#:#root_create_dcl#:#Neue Datensammlung anlegen
+rbac#:#fold_create_dcl#:#Neue Datensammlung anlegen
+rbac#:#grp_create_dcl#:#Neue Datensammlung anlegen
+rbac#:#cat_create_dcl#:#Neue Datensammlung anlegen
