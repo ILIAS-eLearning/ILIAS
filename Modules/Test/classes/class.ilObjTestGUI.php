@@ -1014,6 +1014,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setMCScoring($_POST["mc_scoring"]);
 				$this->object->setScoreCutting($_POST["score_cutting"]);
 				$this->object->setPassScoring($_POST["pass_scoring"]);
+				
+				if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
+				{
+					$this->object->setOfferingQuestionHintsEnabled(true);
+				}
+				else
+				{
+					$this->object->setOfferingQuestionHintsEnabled(false);
+				}
 			}
 
                         /*
@@ -1157,13 +1166,15 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$form->addItem($pass_scoring);
 		
-		/* @todo: complete implementation of setting before offering setting's form input
 		// offer hints
 		$checkBoxOfferHints = new ilCheckboxInputGUI($this->lng->txt("tst_setting_offer_hints_label"), "offer_hints");
+		$checkBoxOfferHints->setChecked($this->object->isOfferingQuestionHintsEnabled());
 		$checkBoxOfferHints->setInfo($this->lng->txt("tst_setting_offer_hints_info"));
-		if ($total) $checkBoxOfferHints->setDisabled(true);
+		if( $total )
+		{
+			$checkBoxOfferHints->setDisabled(true);
+		}
 		$form->addItem($checkBoxOfferHints);
-		*/
 
 		// instant feedback
 		$instant_feedback = new ilCheckboxGroupInputGUI($this->lng->txt("tst_instant_feedback"), "instant_feedback");
