@@ -3757,9 +3757,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		global $ilDB;
 #var_dump($question_id);
 		if ($linkOnly)
-		    $duplicate_id = $question_id;
+		{
+			$duplicate_id = $question_id;
+		}
 		else
-		    $duplicate_id = $this->duplicateQuestionForTest($question_id);
+		{
+			$duplicate_id = $this->duplicateQuestionForTest($question_id);
+		}
 
 		// get maximum sequence index in test
 		$result = $ilDB->queryF("SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi=%s",
