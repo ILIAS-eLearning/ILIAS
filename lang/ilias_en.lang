@@ -12553,3 +12553,4 @@ rbac#:#fold_create_blog#:#Create Blog
 rbac#:#grp_create_blog#:#Create Blog
 rbac#:#cat_create_blog#:#Create Blog
 user#:#user_delete_own_account#:#Delete Account
+rbac#:#trac_write#:#Edit Settings

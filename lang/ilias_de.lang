@@ -12543,3 +12543,4 @@ help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Online-Hilfe öffnen
 help#:#help_toggle_tooltips#:#Hilfe-Tooltips an-/ausschalten
+rbac#:#trac_write#:#Einstellungen bearbeiten
