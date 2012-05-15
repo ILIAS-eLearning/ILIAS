@@ -572,7 +572,7 @@ class ilInitialisation
 		}
 		else
 		{
-			$this->abortAndDie("Init user account failed");
+			self::abortAndDie("Init user account failed");
 		}
 	}
 	
