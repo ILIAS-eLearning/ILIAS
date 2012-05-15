@@ -9508,3 +9508,17 @@ ilDBUpdateNewObjectType::addCustomRBACOperation($dcl_type_id, 'add_entry');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#3570>
+<?php
+
+if (!$ilDB->tableColumnExists('tst_tests', 'offer_question_hints'))
+{
+	$ilDB->addTableColumn('tst_tests', 'offer_question_hints', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+?>
