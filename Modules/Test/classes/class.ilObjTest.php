@@ -413,6 +413,13 @@ class ilObjTest extends ilObject
 	protected $print_best_solution_with_result = true;
 
 	/**
+	 * defines wether question specific hints are offered or not
+	 * 
+	 * @var boolean
+	 */
+	private $isOfferingQuestionHintsEnabled = null;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	integer	reference_id or object_id
@@ -1153,9 +1160,9 @@ class ilObjTest extends ilObject
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
 				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, online_status, " .
-				"print_bs_with_res) " .
+				"print_bs_with_res, offer_question_hints) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1165,7 +1172,7 @@ class ilObjTest extends ilObject
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
 					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer', 'integer',
-					'integer'
+					'integer', 'integer'
 				),
 				array(
 					$next_id, 
@@ -1226,7 +1233,8 @@ class ilObjTest extends ilObject
                     $this->getTemplate(),
                     $this->getPoolUsage(),
 					(int)$this->isOnline(),
-					(int) $this->isBestSolutionPrintedWithResult()
+					(int) $this->isBestSolutionPrintedWithResult(),
+					(int) $this->isOfferingQuestionHintsEnabled()
 				)
 			);
 			$this->test_id = $next_id;
@@ -1260,7 +1268,7 @@ class ilObjTest extends ilObject
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
 				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " .
 				"print_bs_with_res = %s,".
-				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s, online_status = %s WHERE test_id = %s",
+				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s, online_status = %s, offer_question_hints = %s WHERE test_id = %s",
 				array(
 					'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1270,7 +1278,7 @@ class ilObjTest extends ilObject
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
 					'integer',
-					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 'integer', 'integer', 'integer'
 				),
 				array(
 					$this->getAuthor(), 
@@ -1329,6 +1337,7 @@ class ilObjTest extends ilObject
                     $this->getTemplate(),
                     $this->getPoolUsage(),
 					(int)$this->isOnline(),
+					(int)$this->isOfferingQuestionHintsEnabled(),
 					$this->getTestId()
 				)
 			);
@@ -2082,6 +2091,7 @@ class ilObjTest extends ilObject
 			$this->setAllowedUsers($data->allowedusers);
 			$this->setAllowedUsersTimeGap($data->alloweduserstimegap);
 			$this->setPassScoring($data->pass_scoring);
+			$this->setOfferingQuestionHintsEnabled($data->offer_question_hints);
 			$this->setCertificateVisibility($data->certificate_visibility);
                         $this->setEnabledViewMode($data->enabled_view_mode);
                         $this->setTemplate($data->template_id);
@@ -10479,6 +10489,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function isBestSolutionPrintedWithResult()
 	{
 		return (bool) $this->print_best_solution_with_result;
+	}
+	
+	/**
+	 * returns the fact wether offering hints is enabled or not
+	 *
+	 * @return boolean
+	 */
+	public function isOfferingQuestionHintsEnabled()
+	{
+		return $this->offeringQuestionHintsEnabled;
+	}
+
+	/**
+	 * sets offering question hints enabled/disabled
+	 *
+	 * @param boolean $offeringQuestionHintsEnabled
+	 */
+	public function setOfferingQuestionHintsEnabled($offeringQuestionHintsEnabled)
+	{
+		$this->offeringQuestionHintsEnabled = (bool)$offeringQuestionHintsEnabled;
 	}
 } // END class.ilObjTest
 
