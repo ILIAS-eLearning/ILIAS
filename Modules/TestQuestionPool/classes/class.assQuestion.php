@@ -1895,6 +1895,9 @@ class assQuestion
 	protected function onDuplicate($source_question_id)
 	{
 		$this->duplicateSuggestedSolutionFiles($source_question_id);
+		
+		// duplicate question hints
+		$this->duplicateQuestionHints($source_question_id, $this->getId());
 	}
 	
 	/**
@@ -3406,6 +3409,11 @@ class assQuestion
 		return $a_q;
 	}
 	
+	protected function duplicateQuestionHints($originalQuestionId, $duplicateQuestionId)
+	{
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
+		ilAssQuestionHintList::duplicateListForQuestion($originalQuestionId, $duplicateQuestionId);
+	}
 }
 
 ?>
