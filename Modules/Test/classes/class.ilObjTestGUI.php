@@ -41,6 +41,11 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 class ilObjTestGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilObjTest
+	 */
+	public $object = null;
+	
+	/**
 	* Constructor
 	* @access public
 	*/
