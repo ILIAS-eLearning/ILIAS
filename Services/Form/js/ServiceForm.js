@@ -223,16 +223,24 @@ function ilFormShowSubForm(id, cont_id, cb)
 }
 
 
-function ilFormInitNumericCheck(id)
+function ilFormInitNumericCheck(id, decimals_allowed)
 {
-	$('#'+id).keydown(function(event) {		
-		// decimal point is only allowed once
+	$('#'+id).keydown(function(event) {						
 		if (event.keyCode == 190)
 		{
-			var current = $('#'+id).val();
-			if (current.indexOf('.') > -1) 
+			// decimals are not allowed
+			if(decimals_allowed == undefined || decimals_allowed == 0)
 			{
 				event.preventDefault(); 
+			}
+			else
+			{
+				// decimal point is only allowed once
+				var current = $('#'+id).val();
+				if (current.indexOf('.') > -1) 
+				{
+					event.preventDefault(); 
+				}
 			}
 		}
         // Allow: backspace, delete, tab, escape, and enter

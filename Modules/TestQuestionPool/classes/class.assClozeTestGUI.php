@@ -284,13 +284,18 @@ class assClozeTestGUI extends assQuestionGUI
 					else
 					{
 						$value = new ilNumberInputGUI($this->lng->txt('value'), "gap_" . $i . "_numeric");
+						$value->allowDecimals(true);
+						
 						$lowerbound = new ilNumberInputGUI($this->lng->txt('range_lower_limit'), "gap_" . $i . "_numeric_lower");
-						$upperbound = new ilNumberInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");
+						$lowerbound->allowDecimals(true);
+						
+						$upperbound = new ilNumberInputGUI($this->lng->txt('range_upper_limit'), "gap_" . $i . "_numeric_upper");						
+						$upperbound->allowDecimals(true);
 					}
 					
 					$value->setSize(10);
 					$value->setValue(ilUtil::prepareFormOutput($item->getAnswertext()));
-					$value->setRequired(true);					
+					$value->setRequired(true);						
 					$form->addItem($value);
 					
 					$lowerbound->setSize(10);
