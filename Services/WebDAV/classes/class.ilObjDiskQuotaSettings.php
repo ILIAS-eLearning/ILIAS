@@ -224,6 +224,21 @@ class ilObjDiskQuotaSettings extends ilObject
 	 */
 	public function setSummaryRecipients($s_recipients)
 	{
+		if($s_recipients)
+		{
+			$s_recipients = explode(',', $s_recipients);
+			$loginnames = array();
+			foreach($s_recipients as $loginname)
+			{
+				$loginname = trim($loginname);
+				if(ilObjUser::_lookupId($loginname))
+				{
+					$loginnames[] = $loginname;
+				}
+			}	
+			$s_recipients = implode(',', $loginnames);
+		}
+			
 		$this->summary_recipients = $s_recipients;
 		
 		return $this;
