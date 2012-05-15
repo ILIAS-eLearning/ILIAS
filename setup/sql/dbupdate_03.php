@@ -9481,3 +9481,30 @@ $type_id = ilDBUpdateNewObjectType::getObjectTypeId('trac');
 ilDBUpdateNewObjectType::addRBACOperations($type_id, array(ilDBUpdateNewObjectType::RBAC_OP_WRITE));
 
 ?>
+<#3568>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$dcl_type_id = ilDBUpdateNewObjectType::addNewType('dcl', 'Data Collection Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY	
+);
+ilDBUpdateNewObjectType::addRBACOperations($dcl_type_id, $rbac_ops);
+
+$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+ilDBUpdateNewObjectType::addRBACCreate('create_dcl', 'Create Data Collection', $parent_types);
+
+ilDBUpdateNewObjectType::addCustomRBACOperation($dcl_type_id, 'add_entry');
+
+?>
+<#3569>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
