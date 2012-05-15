@@ -12555,7 +12555,7 @@ rbac#:#cat_create_blog#:#Create Blog
 user#:#user_delete_own_account#:#Delete Account
 rbac#:#trac_write#:#Edit Settings
 common#:#obj_dcl#:#Data Collection
-common#:#objs_dcl#:#Data Collection
+common#:#objs_dcl#:#Data Collections
 common#:#obj_dcl_dupliate#:#Copy Data Collection
 dcl#:#dcl_new#:#Create New Data Collection
 dcl#:#dcl_add#:#Create Data Collection
