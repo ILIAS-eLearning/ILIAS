@@ -9473,3 +9473,11 @@ $ilCtrlStructureReader->getStructure();
 	);
 	
 ?>
+<#3567>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$type_id = ilDBUpdateNewObjectType::getObjectTypeId('trac');
+ilDBUpdateNewObjectType::addRBACOperations($type_id, array(ilDBUpdateNewObjectType::RBAC_OP_WRITE));
+
+?>

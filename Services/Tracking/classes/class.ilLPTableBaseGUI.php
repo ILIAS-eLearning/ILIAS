@@ -22,6 +22,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
 		// country names
 		$this->lng->loadLanguageModule("meta");
+		
+		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
 	}
 
 	public function executeCommand()

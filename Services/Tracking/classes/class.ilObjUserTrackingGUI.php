@@ -97,44 +97,50 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		global $rbacsystem;
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
-
-		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
+		
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{	
 			$tabs_gui->addTarget("settings",
-								 $this->ctrl->getLinkTarget($this,
-															"settings"),
-								 "settings",
-								 get_class($this));
-			
+				$this->ctrl->getLinkTarget($this,
+										"settings"),
+				"settings",
+				get_class($this));			
+		}
+
+		if ($rbacsystem->checkAccess("read",$this->object->getRefId()))
+		{						
 			if (ilObjUserTracking::_enabledObjectStatistics())
 			{
 				$tabs_gui->addTarget("statistics",
-										 $this->ctrl->getLinkTargetByClass("illpobjectstatisticsgui",
-																		   "access"),
-										 "",
-										 "illpobjectstatisticsgui");
+					$this->ctrl->getLinkTargetByClass("illpobjectstatisticsgui",
+													"access"),
+					"",
+					"illpobjectstatisticsgui");
 			}
 
 			if (ilObjUserTracking::_enabledLearningProgress())
 			{
 				$tabs_gui->addTarget("learning_progress",
-									 $this->ctrl->getLinkTargetByClass("illearningprogressgui",
-																	   "show"),
-									 "",
-									 "illearningprogressgui");
+					$this->ctrl->getLinkTargetByClass("illearningprogressgui",
+													"show"),
+					"",
+					"illearningprogressgui");
 			}
 			
 			// session statistics
 			$tabs_gui->addTarget("session_statistics",
-										$this->ctrl->getLinkTargetByClass("ilsessionstatisticsgui",
-																		""),
-										"",
-										"ilsessionstatisticsgui");			
-
+				$this->ctrl->getLinkTargetByClass("ilsessionstatisticsgui",
+												""),
+				"",
+				"ilsessionstatisticsgui");							
+		}
+		
+		if ($rbacsystem->checkAccess("edit_permission",$this->object->getRefId()))
+		{		
 			$tabs_gui->addTarget("perm_settings",
-								 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
-								 array("perm","info","owner"),
-								 'ilpermissiongui');
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
+				array("perm","info","owner"),
+				'ilpermissiongui');
 		}
 	}
 

@@ -42,13 +42,6 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 		$this->setDefaultOrderField("month");
 		$this->setDefaultOrderDirection("desc");
 		
-		include_once("./Services/Tracking/classes/class.ilLPObjSettings.php");
-		include_once "Services/Tracking/classes/class.ilTrQuery.php";
-		
-		$info = ilTrQuery::getObjectStatisticsLogInfo();
-		$info_date = ilDatePresentation::formatDate(new ilDateTime($info["tstamp"], IL_CAL_UNIX));
-		ilUtil::sendInfo(sprintf($lng->txt("trac_log_info"), $info_date, $info["counter"]));
-
 		$this->getItems();
 	}
 
