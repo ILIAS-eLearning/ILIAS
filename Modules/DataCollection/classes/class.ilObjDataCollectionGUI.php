@@ -148,13 +148,18 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		
 		// ...
 	} 
-	
-	/*
+
 	protected function initCreationForms($a_new_type)
 	{
+		$forms = parent::initCreationForms($a_new_type);
+
+		// disabling import
+		unset($forms[self::CFORM_IMPORT]);	
 		
+		return $forms;
 	}
 	
+	/*
 	protected function afterSave(ilObject $a_new_object)
 	{
 		

@@ -12554,3 +12554,22 @@ rbac#:#grp_create_blog#:#Create Blog
 rbac#:#cat_create_blog#:#Create Blog
 user#:#user_delete_own_account#:#Delete Account
 rbac#:#trac_write#:#Edit Settings
+common#:#obj_dcl#:#Data Collection
+common#:#objs_dcl#:#Data Collection
+common#:#obj_dcl_dupliate#:#Copy Data Collection
+dcl#:#dcl_new#:#Create New Data Collection
+dcl#:#dcl_add#:#Create Data Collection
+dcl#:#dcl_copy#:#Copy Data Collection
+dcl#:#dcl_edit#:#Edit Data Collection
+rbac#:#dcl_visible#:#Data Collection is visible
+rbac#:#dcl_read#:#Read access to Data Collection
+rbac#:#dcl_copy#:#Copy Data Collection
+rbac#:#dcl_write#:#Edit Data Collection
+rbac#:#dcl_delete#:#Delete Data Collection
+rbac#:#dcl_edit_permission#:#Change permission settings
+rbac#:#dcl_add_entry#:#Add Entry
+rbac#:#crs_create_dcl#:#Create Data Collection
+rbac#:#root_create_dcl#:#Create Data Collection
+rbac#:#fold_create_dcl#:#Create Data Collection
+rbac#:#grp_create_dcl#:#Create Data Collection
+rbac#:#cat_create_dcl#:#Create Data Collection
