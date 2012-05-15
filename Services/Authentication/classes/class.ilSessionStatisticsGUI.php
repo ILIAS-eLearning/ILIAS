@@ -445,7 +445,7 @@ class ilSessionStatisticsGUI
 	
 	protected function renderCurrentBasics()
 	{
-		global $ilSetting, $lng, $ilCtrl;
+		global $ilSetting, $lng, $ilCtrl, $ilAccess;
 		
 		// basic data - not time related
 		
@@ -502,12 +502,15 @@ class ilSessionStatisticsGUI
 			$left->setVariable("VALUE_SESSION_CONTROL_IDLE_FIRST", $control_max_idle_first);
 						
 			$left->parseCurrentBlock();
-		}
+		}				
 		
-		// sync button		
-		$left->setVariable("URL_SYNC", $ilCtrl->getFormAction($this, "adminSync"));		
-		$left->setVariable("CMD_SYNC", "adminSync");		
-		$left->setVariable("TXT_SYNC", $lng->txt("trac_sync_session_stats"));		
+		// sync button				
+		if($ilAccess->checkAccess("write", "", (int)$_REQUEST["ref_id"]))
+		{
+			$left->setVariable("URL_SYNC", $ilCtrl->getFormAction($this, "adminSync"));		
+			$left->setVariable("CMD_SYNC", "adminSync");		
+			$left->setVariable("TXT_SYNC", $lng->txt("trac_sync_session_stats"));		
+		}
 		
 		return $left->get();
 	}

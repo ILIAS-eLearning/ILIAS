@@ -21,10 +21,17 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 	function ilLPObjectStatisticsGUI($a_mode,$a_ref_id = 0)
 	{
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id);
+	
+		if(!$this->ref_id)
+		{
+			$this->ref_id = (int)$_REQUEST["ref_id"];
+		}		
 	}
 
 	protected function setTabs()
 	{
+		global $ilAccess;
+		
 		$this->tabs_gui->addSubTab('trac_object_stat_access', 
 				$this->lng->txt('trac_object_stat_access'),
 				$this->ctrl->getLinkTarget($this, 'accessFilter'));		
@@ -37,9 +44,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$this->tabs_gui->addSubTab('trac_object_stat_types', 
 				$this->lng->txt('trac_object_stat_types'),
 				$this->ctrl->getLinkTarget($this, 'typesFilter'));
-		$this->tabs_gui->addSubTab('trac_object_stat_admin', 
-				$this->lng->txt('trac_object_stat_admin'),
-				$this->ctrl->getLinkTarget($this, 'admin'));
+		
+		if($ilAccess->checkAccess("write", "", $this->ref_id))
+		{		
+			$this->tabs_gui->addSubTab('trac_object_stat_admin', 
+					$this->lng->txt('trac_object_stat_admin'),
+					$this->ctrl->getLinkTarget($this, 'admin'));
+		}
 	}
 	
 	/**
@@ -89,6 +100,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_access');
+		
+		$this->showAggregationInfo();
 
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsTableGUI($this, "access", null, $a_load_data);
@@ -207,6 +220,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		global $tpl;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_daily');
+		
+		$this->showAggregationInfo();
 
 		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsDailyTableGUI.php");
 		$lp_table = new ilLPObjectStatisticsDailyTableGUI($this, "daily", null, $a_load_data);
@@ -240,17 +255,22 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
 	function admin()
 	{
-		global $tpl, $ilToolbar, $lng, $ilCtrl;
+		global $tpl, $ilToolbar, $lng, $ilCtrl, $ilAccess;
 		
 		$this->tabs_gui->activateSubTab('trac_object_stat_admin');
+		
+		$this->showAggregationInfo(false);
 
 		$ilToolbar->addButton($lng->txt("trac_sync_obj_stats"),
 			$ilCtrl->getLinkTarget($this, "adminSync"));
 
-		include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsAdminTableGUI.php");
-		$lp_table = new ilLPObjectStatisticsAdminTableGUI($this, "admin");
+		if($ilAccess->checkAccess("delete", "", $this->ref_id))
+		{
+			include_once("./Services/Tracking/classes/class.ilLPObjectStatisticsAdminTableGUI.php");
+			$lp_table = new ilLPObjectStatisticsAdminTableGUI($this, "admin");
 
-		$tpl->setContent($lp_table->getHTML());
+			$tpl->setContent($lp_table->getHTML());
+		}
 	}
 
 	function adminSync()
@@ -383,6 +403,25 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		$a_tpl->setVariable('CLOSE_IMG_TXT', $this->lng->txt('close'));
 		echo $a_tpl->get();
 		exit();	
+	}
+	
+	protected function showAggregationInfo($a_show_link = true)
+	{		
+		global $ilAccess, $lng, $ilCtrl;
+		
+		include_once "Services/Tracking/classes/class.ilTrQuery.php";		
+		$info = ilTrQuery::getObjectStatisticsLogInfo();
+		$info_date = ilDatePresentation::formatDate(new ilDateTime($info["tstamp"], IL_CAL_UNIX));
+					
+		$link = "";
+		if($a_show_link && $ilAccess->checkAccess("write", "", $this->ref_id))
+		{
+			$link = " <a href=\"".$ilCtrl->getLinkTarget($this, "admin")."\">&raquo;".
+				$lng->txt("trac_log_info_link")."</a>";
+		}
+		
+		ilUtil::sendInfo(sprintf($lng->txt("trac_log_info"), $info_date, $info["counter"]).$link);
+
 	}
 }
 
