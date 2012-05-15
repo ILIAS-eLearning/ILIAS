@@ -148,6 +148,21 @@ class ilAssQuestionHintList implements Iterator
 		}
 	}
 	
+	public static function duplicateListForQuestion($originalQuestionId, $duplicateQuestionId)
+	{
+		$questionHintList = ilAssQuestionHintList::getListByQuestionId($originalQuestionId);
+
+		foreach($questionHintList as $questionHint)
+		{
+			/* @var $questionHint ilAssQuestionHint */
+			
+			$questionHint->setId(null);
+			$questionHint->setQuestionId($duplicateQuestionId);
+			
+			$questionHint->save();
+		}
+	}
+	
 	/**
 	 * returns an array with data of the hints in this list
 	 * that is adopted to be used as table gui data
