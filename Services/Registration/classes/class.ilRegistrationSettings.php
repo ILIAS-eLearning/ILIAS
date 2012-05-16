@@ -46,6 +46,8 @@ class ilRegistrationSettings
 {
 	const ERR_UNKNOWN_RCP = 1;
 	const ERR_MISSING_RCP = 2;
+	
+	const REG_HASH_LIFETIME_MIN_VALUE = 60;
 
 	private $reg_hash_life_time = 0;
 	private $reg_allow_codes = false;
@@ -160,7 +162,7 @@ class ilRegistrationSettings
 	
 	public function getRegistrationHashLifetime()
 	{
-		return $this->reg_hash_life_time;
+		return max($this->reg_hash_life_time, self::REG_HASH_LIFETIME_MIN_VALUE);
 	}
 
 	public function setAllowCodes($a_allow_codes)

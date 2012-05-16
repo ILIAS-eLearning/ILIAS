@@ -118,8 +118,10 @@ class ilRegistrationSettingsGUI
 				$lt = new ilNumberInputGUI($this->lng->txt('reg_confirmation_hash_life_time'), 'reg_hash_life_time');
 				$lt->setSize(5);
 				$lt->setMaxLength(5);
-				$lt->setMinValue(60);
+				$lt->setMinValue(ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE);
+				$lt->setRequired(true);
 				$lt->setInfo($this->lng->txt('reg_confirmation_hash_life_time_info'));
+				$lt->setSuffix($this->lng->txt('seconds'));
 				$option->addSubItem($lt);
 				$cd = new ilCheckboxInputGUI($this->lng->txt('reg_allow_codes'), 'reg_codes_'.IL_REG_ACTIVATION);
 				$cd->setInfo($this->lng->txt('reg_allow_codes_info'));
@@ -242,9 +244,9 @@ class ilRegistrationSettingsGUI
 		$this->registration_settings->setAllowCodes($allow_codes);
 		
 		if(!preg_match('/^([0]|([1-9][0-9]*))([\.,][0-9][0-9]*)?$/', (int)$_POST['reg_hash_life_time']))
-			$this->registration_settings->setRegistrationHashLifetime(0);
+			$this->registration_settings->setRegistrationHashLifetime(ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE);
 		else
-			$this->registration_settings->setRegistrationHashLifetime((int)$_POST['reg_hash_life_time']);
+			$this->registration_settings->setRegistrationHashLifetime(max((int)$_POST['reg_hash_life_time'], ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE));
 
 		if($error_code = $this->registration_settings->validate())
 		{
