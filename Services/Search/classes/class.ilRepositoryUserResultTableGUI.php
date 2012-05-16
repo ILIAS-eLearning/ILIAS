@@ -168,6 +168,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 				{
 					$users[$counter]['udf_'.$udf_field] = $data[$set['usr_id']][$udf_field];
 				}
+				++$counter;
 			}
 		}
 		else
