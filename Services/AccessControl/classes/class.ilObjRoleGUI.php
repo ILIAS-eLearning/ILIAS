@@ -1660,8 +1660,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		// selected users all already assigned. stop
         if (count($assigned_users_new) == 0)
 		{
-			ilUtil::sendFailure($this->lng->txt("rbac_msg_user_already_assigned"),true);
-			return false;
+			ilUtil::sendInfo($this->lng->txt("rbac_msg_user_already_assigned"),true);
+			$this->ctrl->redirect($this,'userassignment');
 		}
 		
 		// assign new users
