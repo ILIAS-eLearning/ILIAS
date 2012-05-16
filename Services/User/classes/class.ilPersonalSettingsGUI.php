@@ -1282,20 +1282,27 @@ class ilPersonalSettingsGUI
 		{
 			$this->ctrl->redirect($this, "showGeneralSettings");
 		}
+		
+		include_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail(ANONYMOUS_USER_ID);
 					
 		// send mail(s)
 		
 		$subject = $this->lng->txt("user_delete_own_account_email_subject");			
 		$message = $this->lng->txt("user_delete_own_account_email_body");
-		$message = sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH);
+		
+		// salutation/info
+		$message = ilMail::getSalutation($ilUser->getId())."\n\n".
+			sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH);
 		
 		// add profile data (see ilAccountRegistrationGUI)
 		$message .= "\n\n".$ilUser->getProfileAsString($this->lng);
 		
+		// signatur
+		$message .= ilMail::_getInstallationSignature();
+		
 		$user_email = $ilUser->getEmail();		
-		$admin_mail = $ilSetting->get("user_delete_own_account_email");
-		include_once "Services/Mail/classes/class.ilMail.php";
-		$mail = new ilMail(0);
+		$admin_mail = $ilSetting->get("user_delete_own_account_email");		
 		
 		// to user, admin as bcc
 		if($user_email)
@@ -1307,16 +1314,16 @@ class ilPersonalSettingsGUI
 		{
 			$mail->sendMimeMail($admin_mail, null, null, $subject, $message, null);		
 		}
-		
+				
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");
-		
+				
 		$ilUser->delete();
 
 		// terminate session
 		$ilAuth->logout();
 		session_destroy();		
 		
-		ilUtil::redirect("login.php");
+		ilUtil::redirect("login.php");		 		
 	}
 }
 ?>
