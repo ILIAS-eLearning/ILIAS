@@ -1169,7 +1169,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
 		
 		// rss
-		if(!$a_link_template && $a_list_cmd == "preview")
+		if($this->object->hasRSS() && !$a_link_template && $a_list_cmd == "preview")
 		{
 			$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$this->node_id.
 				"&client_id=".rawurlencode(CLIENT_ID);
