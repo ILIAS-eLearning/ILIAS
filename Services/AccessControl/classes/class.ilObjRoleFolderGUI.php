@@ -377,8 +377,11 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$ilCtrl->redirect($this,'view');
 		}
 
+		$question = $this->lng->txt('rbac_role_delete_qst');
+
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
+		$confirm->setHeaderText($question);
 		$confirm->setFormAction($ilCtrl->getFormAction($this));
 		$confirm->setHeaderText($this->lng->txt("info_delete_sure"));
 		$confirm->setConfirm($this->lng->txt('delete'), 'deleteRole');
