@@ -9319,7 +9319,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 			"mailnotification" => $this->getMailNotification(),
 			"mailnottype" => $this->getMailNotificationType(),
 			"exportsettings" => $this->getExportSettings(),
-			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings()
+			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings(),
+			'offer_question_hints' => (int)$this->isOfferingQuestionHintsEnabled()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9384,6 +9385,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setMailNotificationType($testsettings["mailnottype"]);
 			$this->setExportSettings($testsettings['exportsettings']);
 			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
+			$this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
 			$this->saveToDb();
 			$result = TRUE;
 		}
