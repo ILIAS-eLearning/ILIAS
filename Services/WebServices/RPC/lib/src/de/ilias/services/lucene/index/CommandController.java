@@ -194,19 +194,37 @@ public class CommandController {
 					
 					// Delete document
 					deleteDocument(currentElement);
-					addDocument(currentElement);
+					try {
+						addDocument(currentElement);
+					}
+					catch(ObjectDefinitionException e) {
+						logger.warn("Ignoring deprecated object type " + currentElement.getObjType());
+						getQueue().deleteCommandsByType(currentElement.getObjType());
+					}
 				}
 				else if(command.equals("create")) {
 					
 					// Create a new document
 					// Called for new objects or objects restored from trash
-					addDocument(currentElement);
+					try {
+						addDocument(currentElement);
+					}
+					catch(ObjectDefinitionException e) {
+						logger.warn("Ignoring deprecated object type " + currentElement.getObjType());
+						getQueue().deleteCommandsByType(currentElement.getObjType());
+					}
 				}
 				else if(command.equals("update")) {
 					
 					// content changed
 					deleteDocument(currentElement);
-					addDocument(currentElement);
+					try {
+						addDocument(currentElement);
+					}
+					catch(ObjectDefinitionException e) {
+						logger.warn("Ignoring deprecated object type " + currentElement.getObjType());
+						getQueue().deleteCommandsByType(currentElement.getObjType());
+					}
 				}
 				else if(command.equals("delete")) {
 					
@@ -229,9 +247,6 @@ public class CommandController {
 		catch (SQLException e) {
 			logger.error(e);
 		}
-		catch (ObjectDefinitionException e) {
-			logger.warn("No definition found for objType: " + currentElement.getObjType());
-		} 
 		catch (CorruptIndexException e) {
 			logger.error(e);
 		} 
