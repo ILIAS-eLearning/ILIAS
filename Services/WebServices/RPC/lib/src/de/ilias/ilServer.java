@@ -109,7 +109,7 @@ public class ilServer {
 			return createIndexer();
 		}
 		else if(command.compareTo("updateIndex") == 0) {
-			if(arguments.length != 3) {
+			if(arguments.length < 3) {
 				logger.error("Usage java -jar ilServer.jar PATH_TO_SERVER_INI updateIndex CLIENT_KEY");
 				return false;
 			}

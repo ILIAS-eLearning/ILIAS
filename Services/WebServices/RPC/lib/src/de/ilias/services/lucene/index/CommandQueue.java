@@ -221,7 +221,7 @@ public class CommandQueue {
 	 * @param string
 	 * @throws SQLException 
 	 */
-	private synchronized void deleteCommandsByType(String objType) throws SQLException {
+	public synchronized void deleteCommandsByType(String objType) throws SQLException {
 
 		try {
 			
