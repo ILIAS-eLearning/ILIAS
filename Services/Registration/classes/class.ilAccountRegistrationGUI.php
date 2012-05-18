@@ -183,7 +183,14 @@ class ilAccountRegistrationGUI
 		// add fields to form
 		$up->addStandardFieldsToForm($this->form, NULL, $custom_fields);
 		unset($custom_fields);
-
+		
+		
+		// set language selection to current display language
+		$flang = $this->form->getItemByPostVar("usr_language");
+		if($flang)
+		{
+			$flang->setValue($lng->getLangKey());	
+		}
 		
 		// add information to role selection (if not hidden)
 		if($this->code_enabled)
@@ -685,8 +692,9 @@ class ilAccountRegistrationGUI
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
-			$this->tpl->setVariable("TXT_REGISTERED", sprintf($lng->txt("reg_confirmation_link_successful"), './login.php'));
-			$this->tpl->setVariable("REDIRECT_URL", './login.php');
+			$login_url = './login.php?cmd=force_login&lang='.$this->userObj->getLanguage();
+			$this->tpl->setVariable("TXT_REGISTERED", sprintf($lng->txt("reg_confirmation_link_successful"), $login_url));
+			$this->tpl->setVariable("REDIRECT_URL", $login_url);
 		}
 		else
 		{

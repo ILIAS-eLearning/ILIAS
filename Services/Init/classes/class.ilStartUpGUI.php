@@ -1739,16 +1739,18 @@ class ilStartUpGUI
             }
 			$oUser->update();
 			
-			if($lng->getLangKey() != $oUser->getPref('language'))
+			$usr_lang = $oUser->getPref('language');
+			
+			if($lng->getLangKey() != $usr_lang)
 			{
-				$lng = new ilLanguage($oUser->getPref('language'));
+				$lng = new ilLanguage($usr_lang);
 			}
 			
 			// send email
 			// try individual account mail in user administration
 			include_once("Services/Mail/classes/class.ilAccountMail.php");
 			include_once './Services/User/classes/class.ilObjUserFolder.php';
-			$amail = ilObjUserFolder::_lookupNewAccountMail($oUser->getPref('language'));
+			$amail = ilObjUserFolder::_lookupNewAccountMail($usr_lang);
 			if (trim($amail["body"]) != "" && trim($amail["subject"]) != "")
 			{				
 	            $acc_mail = new ilAccountMail();
@@ -1794,7 +1796,7 @@ class ilStartUpGUI
 					array(), array('normal'));
 			}	
 			
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful');
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang='.$usr_lang);
 		}
 		catch(ilRegConfirmationLinkExpiredException $exception)
 		{
@@ -1817,11 +1819,11 @@ class ilStartUpGUI
 				)
 			);
 			
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage());
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage()."&lang=".$usr_lang);
 		}
 		catch(ilRegistrationHashNotFoundException $exception)
 		{
-			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage());
+			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg='.$exception->getMessage()."&lang=".$usr_lang);
 		}				
 	}
 	
