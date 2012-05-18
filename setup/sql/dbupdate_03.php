@@ -9522,3 +9522,42 @@ if (!$ilDB->tableColumnExists('tst_tests', 'offer_question_hints'))
 }
 
 ?>
+<#3571>
+<?php
+
+if( !$ilDB->tableExists('qpl_hint_tracking') )
+{
+	$ilDB->createTable('qpl_hint_tracking', array(
+		'qhtr_track_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'qhtr_active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'qhtr_pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'qhtr_question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'qhtr_hint_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		)
+	));
+
+	$ilDB->addPrimaryKey('qpl_hint_tracking', array('qhtr_track_id'));
+	
+	$ilDB->createSequence('qpl_hint_tracking');
+}
+
+?>
