@@ -248,6 +248,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 		
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getTestSequence()->getQuestionForSequence($sequence));
+		
 		if ($this->object->getJavaScriptOutput())
 		{
 			$question_gui->object->setOutputType(OUTPUT_JAVASCRIPT);
@@ -271,9 +272,14 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$answer_feedback = TRUE;
 		}
+		
 		global $ilNavigationHistory;
 		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"), "tst");
+		
 		$question_gui->outQuestionForTest($formaction, $this->object->getTestSession()->getActiveId(), NULL, $is_postponed, $user_post_solution, $answer_feedback);
+		
+		$this->fillQuestionRelatedNavigation($question_gui);
+		
 		if ($directfeedback)
 		{
 			if ($this->object->getInstantFeedbackSolution())
@@ -1265,29 +1271,27 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 		}
 
-		if (($this->object->getInstantFeedbackSolution() == 1) || ($this->object->getAnswerFeedback() == 1) || ($this->object->getAnswerFeedbackPoints() == 1))
-		{
-			$this->tpl->setCurrentBlock("direct_feedback");
-			$this->tpl->setVariable("TEXT_DIRECT_FEEDBACK", $this->lng->txt("check"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$postpone = false;
-		if ($this->object->getSequenceSettings() == TEST_POSTPONE)
-		{
-			$postpone = true;
-		}
-
 		if ($this->object->getEnableProcessingTime())
 		{
 			$this->outProcessingTime($this->object->getTestSession()->getActiveId());
 		}
 
 		$this->tpl->setVariable("FORM_TIMESTAMP", time());
-		$directfeedback = 0;
-		if (strcmp($_GET["activecommand"], "directfeedback") == 0) $directfeedback = 1;
-		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $postpone, $directfeedback, $show_summary);
+		
 		$this->tpl->setVariable("PAGETITLE", "- " . $this->object->getTitle());
+				
+		$postpone = false;
+		if ($this->object->getSequenceSettings() == TEST_POSTPONE)
+		{
+			$postpone = true;
+		}
+		$directfeedback = 0;
+		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
+		{
+			$directfeedback = 1;
+		}
+		
+		$this->outWorkingForm($this->sequence, $this->object->getTestId(), $postpone, $directfeedback, $show_summary);
 	}
 
 /**
@@ -1785,5 +1789,45 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->ctrl->redirectByClass("iltestevaluationgui", "outUserListOfAnswerPasses");
 	}
 	
+	private function fillQuestionRelatedNavigation(assQuestionGUI $questionGUI)
+	{
+		global $tpl, $lng;
+		
+		$parseQuestionRelatedNavigation = false;
+		
+		if( $this->object->getInstantFeedbackSolution() == 1 || $this->object->getAnswerFeedback() == 1 || $this->object->getAnswerFeedbackPoints() == 1 )
+		{
+			$tpl->setCurrentBlock("direct_feedback");
+			$tpl->setVariable("TEXT_DIRECT_FEEDBACK", $lng->txt("check"));
+			$tpl->parseCurrentBlock();
+			
+			$parseQuestionRelatedNavigation = true;
+		}
+		
+		if( false )
+		{
+			$tpl->setCurrentBlock("button_request_next_question_hint");
+			$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", 'requestNextQuestionHint');
+			$tpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $lng->txt("button_request_next_question_hint"));
+			$tpl->parseCurrentBlock();
+			
+			$parseQuestionRelatedNavigation = true;
+		}
+		
+		if( false )
+		{
+			$tpl->setCurrentBlock("button_show_requested_question_hints");
+			$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", 'showRequestedQuestionHints');
+			$tpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $lng->txt("button_show_requested_question_hints"));
+			$tpl->parseCurrentBlock();
+			
+			$parseQuestionRelatedNavigation = true;
+		}
+		
+		if( $parseQuestionRelatedNavigation )
+		{
+			$tpl->setCurrentBlock("question_related_navigation");
+			$tpl->parseCurrentBlock();
+		}
+	}
 }
-?>

@@ -39,7 +39,7 @@
 		<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="prevbutton" />
 <!-- END prev -->
 	</td>
-	<td align="left" width="1" class="submit">
+	<td align="center" width="1" class="submit">
 <!-- BEGIN summary -->
 		<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="summarybutton" />
 <!-- END summary -->
@@ -63,19 +63,31 @@
 				<div id="javascript_switch" style="z-index: 10; float: right; display: none;"><a href="{JAVASCRIPT_URL}"><img src="{JAVASCRIPT_IMAGE}" alt="{JAVASCRIPT_IMAGE_ALT}" title="{JAVASCRIPT_IMAGE_TITLE}" /></a></div>
 				{QUESTION_OUTPUT}
 			</div>
-<!-- BEGIN direct_feedback --><div align="center"><input type="submit" class="submit" name="cmd[directfeedback]" id="directfeedback" value="{TEXT_DIRECT_FEEDBACK}" /></div><!-- END direct_feedback -->
-<!-- BEGIN answer_feedback -->
-<p>{ANSWER_FEEDBACK}</p>
-<!-- END answer_feedback -->
-<!-- BEGIN solution_output -->
-<!-- BEGIN solution_output_details -->
-<p><strong>{CORRECT_SOLUTION}</strong>:</p>
-<div class="ilc_Page" id="ilc_Page">
-{QUESTION_FEEDBACK}
-</div>
-<!-- END solution_output_details -->
-<p>{RECEIVED_POINTS_INFORMATION}</p>
-<!-- END solution_output -->
+			<!-- BEGIN question_related_navigation -->
+			<div class="ilAssQuestionRelatedNavigationContainer">
+				<!-- BEGIN direct_feedback -->
+					<input type="submit" class="submit" name="cmd[directfeedback]" id="directfeedback" value="{TEXT_DIRECT_FEEDBACK}" />
+				<!-- END direct_feedback -->
+				<!-- BEGIN button_request_next_question_hint -->
+					<input type="submit" class="submit" name="cmd[{CMD_REQUEST_NEXT_QUESTION_HINT}]" id="requestNextQuestionHint" value="{TEXT_REQUEST_NEXT_QUESTION_HINT}" />
+				<!-- END button_request_next_question_hint -->
+				<!-- BEGIN button_show_requested_question_hints -->
+					<input type="submit" class="submit" name="cmd[{CMD_SHOW_REQUESTED_QUESTION_HINTS}]" id="showRequestedQuestionHints" value="{TEXT_SHOW_REQUESTED_QUESTION_HINTS}" />
+				<!-- END button_show_requested_question_hints -->
+			</div>
+			<!-- END question_related_navigation -->
+			<!-- BEGIN answer_feedback -->
+			<p>{ANSWER_FEEDBACK}</p>
+			<!-- END answer_feedback -->
+			<!-- BEGIN solution_output -->
+			<!-- BEGIN solution_output_details -->
+			<p><strong>{CORRECT_SOLUTION}</strong>:</p>
+			<div class="ilc_Page" id="ilc_Page">
+			{QUESTION_FEEDBACK}
+			</div>
+			<!-- END solution_output_details -->
+			<p>{RECEIVED_POINTS_INFORMATION}</p>
+			<!-- END solution_output -->
 		</td>
 	</tr>
 </table>
@@ -88,7 +100,7 @@
 			<input type="submit" class="submit" name="cmd[previous]" value="{BTN_PREV}" id="bottomprevbutton" />
 <!-- END prev_bottom -->
 		</td>
-		<td align="left" width="1" class="submit">
+		<td align="center" width="1" class="submit">
 <!-- BEGIN summary_bottom  -->
 			<input type="submit" class="submit" name="cmd[summary]" value="{BTN_SUMMARY}" id="bottomsummarybutton" />
 <!-- END summary_bottom -->
