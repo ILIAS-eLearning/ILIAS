@@ -419,3 +419,9 @@ div.term {
 span.result {
 	font-style: italic;
 }
+
+div.ilAssQuestionRelatedNavigationContainer
+{
+	margin: 20px 0;
+	text-align: center;
+}

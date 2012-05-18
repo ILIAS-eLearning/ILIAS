@@ -12521,6 +12521,9 @@ assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungs-Zw
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Hinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Hinweis %s wurde vor dem Hinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Hinweis %s wurde nach dem Hinweis %s erfolgreich eingefügt.
+assessment#:#button_request_question_hint#:#Fordere Hinweis an
+assessment#:#button_request_next_question_hint#:#Fordere nächsten Hinweis an
+assessment#:#button_show_requested_question_hints#:#Zeige angeforderte Hinweise
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Blog kopieren
 blog#:#blog_copy#:#Blog kopieren
