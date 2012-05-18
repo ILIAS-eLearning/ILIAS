@@ -1804,24 +1804,29 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$parseQuestionRelatedNavigation = true;
 		}
 		
-		if( false )
+		if( $this->object->isOfferingQuestionHintsEnabled() ) // @todo: complete conditional expression!
 		{
-			$tpl->setCurrentBlock("button_request_next_question_hint");
-			$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", 'requestNextQuestionHint');
-			$tpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $lng->txt("button_request_next_question_hint"));
-			$tpl->parseCurrentBlock();
-			
-			$parseQuestionRelatedNavigation = true;
-		}
-		
-		if( false )
-		{
-			$tpl->setCurrentBlock("button_show_requested_question_hints");
-			$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", 'showRequestedQuestionHints');
-			$tpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $lng->txt("button_show_requested_question_hints"));
-			$tpl->parseCurrentBlock();
-			
-			$parseQuestionRelatedNavigation = true;
+			if( false ) // @todo: complete conditional expression!
+			{
+				$buttonText = $lng->txt("button_request_next_question_hint");
+
+				$tpl->setCurrentBlock("button_request_next_question_hint");
+				$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", 'requestNextQuestionHint');
+				$tpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $buttonText);
+				$tpl->parseCurrentBlock();
+
+				$parseQuestionRelatedNavigation = true;
+			}
+
+			if( false ) // @todo: complete conditional expression!
+			{
+				$tpl->setCurrentBlock("button_show_requested_question_hints");
+				$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", 'showRequestedQuestionHints');
+				$tpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $lng->txt("button_show_requested_question_hints"));
+				$tpl->parseCurrentBlock();
+
+				$parseQuestionRelatedNavigation = true;
+			}
 		}
 		
 		if( $parseQuestionRelatedNavigation )
