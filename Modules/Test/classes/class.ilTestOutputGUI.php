@@ -1804,11 +1804,27 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$parseQuestionRelatedNavigation = true;
 		}
 		
-		if( $this->object->isOfferingQuestionHintsEnabled() ) // @todo: complete conditional expression!
+		if( $this->object->isOfferingQuestionHintsEnabled() )
 		{
-			if( false ) // @todo: complete conditional expression!
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+			
+			$questionId = $questionGUI->object->getId();
+			$activeId = $this->object->getTestSession()->getActiveId();
+			$pass = $this->object->getTestSession()->getPass();
+			
+			$requestsExist = ilAssQuestionHintTracking::requestsExist($questionId, $activeId, $pass);
+			$requestsPossible = ilAssQuestionHintTracking::requestsPossible($questionId, $activeId, $pass);
+			
+			if( $requestsPossible )
 			{
-				$buttonText = $lng->txt("button_request_next_question_hint");
+				if( $requestsExist )
+				{
+					$buttonText = $lng->txt("button_request_next_question_hint");
+				}
+				else
+				{
+					$buttonText = $lng->txt("button_request_question_hint");
+				}
 
 				$tpl->setCurrentBlock("button_request_next_question_hint");
 				$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", 'requestNextQuestionHint');
@@ -1818,7 +1834,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$parseQuestionRelatedNavigation = true;
 			}
 
-			if( false ) // @todo: complete conditional expression!
+			if( $requestsExist )
 			{
 				$tpl->setCurrentBlock("button_show_requested_question_hints");
 				$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", 'showRequestedQuestionHints');
