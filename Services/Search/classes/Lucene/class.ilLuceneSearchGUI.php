@@ -283,7 +283,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-		$qp = new ilLuceneQueryParser($filter_query.' '.$this->search_cache->getQuery());
+		$qp = new ilLuceneQueryParser($filter_query.' +('.$this->search_cache->getQuery().')');
 		$qp->parse();
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
