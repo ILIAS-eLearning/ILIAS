@@ -19,6 +19,7 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
 *
 * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
+* @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI
 * 
 * @ingroup ModulesGlossary
 */
@@ -132,6 +133,22 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+
+			case "ilobjtaxonomygui":
+				$this->getTemplate();
+				$this->setTabs();
+				$this->setLocator();
+				$this->addHeaderAction();
+//				$ilTabs->activateTab("settings");
+//				$this->setSettingsSubTabs("taxonomy");
+				//$ilTabs->activateTab("settings");
+
+				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
+				$this->ctrl->setReturn($this, "properties");
+				$tax_gui = new ilObjTaxonomyGUI();
+				$tax_gui->setAssignedObject($this->object->getId());
+				$ret = $this->ctrl->forwardCommand($tax_gui);
 				break;
 
 			default:
@@ -1567,6 +1584,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$lng->txt("obj_sty"),
 				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
 
+			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+			ilObjTaxonomy::loadLanguageModule();
+			$ilTabs->addSubTab("taxonomy",
+				$lng->txt("tax_taxonomy"),
+				$ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", 'editAOTaxonomySettings'));
+
 			$ilTabs->activateSubTab($a_active);
 		}
 	}
@@ -1796,6 +1819,28 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, "editStyleProperties");
 	}
+
+	////
+	//// Taxonomy related stuff
+	////
+	
+	/**
+	 * Edit taxonomy settings
+	 *
+	 * @param
+	 * @return
+	 */
+	function taxonomySettingsObject()
+	{
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		
+		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getObjId());
+		
+		if (count($tax_ids) == 0)
+		{
+		}
+	}
+	
 
 }
 

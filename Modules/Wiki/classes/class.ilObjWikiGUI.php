@@ -15,7 +15,6 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilObjTaxonomyGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -124,19 +123,6 @@ class ilObjWikiGUI extends ilObjectGUI
 				}
 				break;
 				
-			case "ilobjtaxonomygui":
-				$this->addHeaderAction();
-				$ilTabs->activateTab("settings");
-				$this->setSettingsSubTabs("taxonomy");
-				//$ilTabs->activateTab("settings");
-
-				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
-				$this->ctrl->setReturn($this, "editSettings");
-				$tax_gui = new ilObjTaxonomyGUI();
-				$tax_gui->setAssignedObject($this->object->getId());
-				$ret = $this->ctrl->forwardCommand($tax_gui);
-				break;
-
 			case "ilexportgui":
 //				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -440,7 +426,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilobjtaxonomygui")))
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui")))
 		{
 			if ($_GET["page"] != "")
 			{
@@ -507,7 +493,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl, $lng;
 
 		if (in_array($a_active,
-			array("general_settings", "style", "imp_pages", "taxonomy")))
+			array("general_settings", "style", "imp_pages")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
@@ -524,15 +510,6 @@ class ilObjWikiGUI extends ilObjectGUI
 				$lng->txt("wiki_navigation"),
 				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
 			
-			if (ilObjWiki::isOnlineHelpWiki($this->object->getRefId()))
-			{
-				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
-				ilObjTaxonomy::loadLanguageModule();
-				$ilTabs->addSubTab("taxonomy",
-					$lng->txt("tax_taxonomy"),
-					$ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", 'editAOTaxonomySettings'));
-			}
-
 			$ilTabs->activateSubTab($a_active);
 		}
 	}
@@ -1553,26 +1530,5 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 	}
 
-	////
-	//// Taxonomy related stuff
-	////
-	
-	/**
-	 * Edit ta
-	 *
-	 * @param
-	 * @return
-	 */
-	function taxonomySettingsObject()
-	{
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
-		
-		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getObjId());
-		
-		if (count($tax_ids) == 0)
-		{
-		}
-	}
-	
 }
 ?>
