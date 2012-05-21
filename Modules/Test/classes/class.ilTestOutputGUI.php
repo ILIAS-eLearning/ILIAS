@@ -6,17 +6,17 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 
 /**
-* Output class for assessment test execution
-*
-* The ilTestOutputGUI class creates the output for the ilObjTestGUI
-* class when learners execute a test. This saves some heap space because 
-* the ilObjTestGUI class will be much smaller then
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup ModulesTest
-* @extends ilTestServiceGUI
-*/
+ * Output class for assessment test execution
+ *
+ * The ilTestOutputGUI class creates the output for the ilObjTestGUI
+ * class when learners execute a test. This saves some heap space because 
+ * the ilObjTestGUI class will be much smaller then
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @version	$Id$
+ * @ingroup ModulesTest
+ * @extends ilTestServiceGUI
+ */
 class ilTestOutputGUI extends ilTestServiceGUI
 {
 	var $ref_id;
