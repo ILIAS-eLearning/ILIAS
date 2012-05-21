@@ -1064,7 +1064,6 @@ class ilForum
 					 
 					AND ipos.pos_usr_id != %s
 					AND iread.usr_id IS NULL $active_inner_query
-				    GROUP BY ipos.pos_pk
 				  ) num_new_posts,
 				  
 				  thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
