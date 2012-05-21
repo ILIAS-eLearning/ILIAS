@@ -150,7 +150,7 @@ class ilAssQuestionHintList implements Iterator
 	
 	public static function duplicateListForQuestion($originalQuestionId, $duplicateQuestionId)
 	{
-		$questionHintList = ilAssQuestionHintList::getListByQuestionId($originalQuestionId);
+		$questionHintList = self::getListByQuestionId($originalQuestionId);
 
 		foreach($questionHintList as $questionHint)
 		{
