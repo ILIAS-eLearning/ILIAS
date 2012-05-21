@@ -9565,3 +9565,7 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3573>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
