@@ -12566,3 +12566,4 @@ rbac#:#root_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#fold_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#grp_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#cat_create_dcl#:#Neue Datensammlung anlegen
+survey#:#freetext_answers#:#Freitext-Antworten
