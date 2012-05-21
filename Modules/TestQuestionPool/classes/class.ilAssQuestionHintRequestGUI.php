@@ -74,7 +74,9 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	 */
 	private function confirmRequestCmd()
 	{
-		// @todo: implement command
+		global $tpl;
+		
+		$confirmation = new ilSimple
 	}
 	
 	/**
