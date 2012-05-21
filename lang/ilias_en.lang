@@ -12576,3 +12576,4 @@ rbac#:#root_create_dcl#:#Create Data Collection
 rbac#:#fold_create_dcl#:#Create Data Collection
 rbac#:#grp_create_dcl#:#Create Data Collection
 rbac#:#cat_create_dcl#:#Create Data Collection
+survey#:#freetext_answers#:#Open Answers
