@@ -13,7 +13,8 @@
 class ilAssQuestionHintTracking
 {
 	/**
-	 * buxtehude
+	 * Returns the fact wether there exists hint requests for the given
+	 * question relating to the given testactive and testpass or not
 	 *
 	 * @static
 	 * @access	public
@@ -38,7 +39,7 @@ class ilAssQuestionHintTracking
 		";
 		
 		$res = $ilDB->queryF(
-				$query, array('integer'), array($questionId, $activeId, $pass)
+				$query, array('integer', 'integer', 'integer'), array($questionId, $activeId, $pass)
 		);
 		
 		$row = $ilDB->fetchAssoc($res);
@@ -52,7 +53,8 @@ class ilAssQuestionHintTracking
 	}
 	
 	/**
-	 * buxtehude
+	 * Returns the fact wether (further) hint requests are possible for the given
+	 * question relating to the given testactive and testpass or not
 	 *
 	 * @static
 	 * @access	public
@@ -95,15 +97,17 @@ class ilAssQuestionHintTracking
 	}
 	
 	/**
-	 * buxtehude
-	 *
+	 * Returns an object of class ilAssQuestionHintList containing objects
+	 * of class ilAssQuestionHint for all allready requested hints
+	 * relating to the given question, testactive and testpass
+	 * 
 	 * @static
 	 * @access	public
 	 * @global	ilDB					$ilDB
 	 * @param	integer					$questionId
 	 * @param	integer					$activeId
 	 * @param	integer					$pass
-	 * @return	ilAssQuestionHintLis	$requestedHintsList
+	 * @return	ilAssQuestionHintList	$requestedHintsList
 	 */
 	public static function getRequestedHintsList($questionId, $activeId, $pass)
 	{
@@ -120,7 +124,7 @@ class ilAssQuestionHintTracking
 		";
 		
 		$res = $ilDB->queryF(
-				$query, array('integer'), array($questionId, $activeId, $pass)
+				$query, array('integer', 'integer', 'integer'), array($questionId, $activeId, $pass)
 		);
 		
 		$hintIds = array();
@@ -136,7 +140,8 @@ class ilAssQuestionHintTracking
 	}
 	
 	/**
-	 * buxtehude
+	 * Tracks the given hint as requested for the given
+	 * question, testactive and testpass
 	 *
 	 * @static
 	 * @access	public
