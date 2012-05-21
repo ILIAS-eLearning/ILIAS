@@ -4591,6 +4591,11 @@ class ilObjTestGUI extends ilObjectGUI
 			$hidden_tabs = $template->getHiddenTabs();
 		}
 
+		if( $this->ctrl->getNextClass($this) == 'iltestoutputgui')
+		{
+			return;
+		}
+		
 		switch ($this->ctrl->getCmd())
 		{
 			case "resume":
