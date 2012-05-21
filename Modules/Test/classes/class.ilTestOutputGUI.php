@@ -16,6 +16,8 @@ include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
  * @version	$Id$
  * @ingroup ModulesTest
  * @extends ilTestServiceGUI
+ * 
+ * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI
  */
 class ilTestOutputGUI extends ilTestServiceGUI
 {
@@ -57,15 +59,18 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	}
 	
 	/**
-	* execute command
-	*/
+	 * execute command
+	 */
 	function &executeCommand()
 	{
 		global $ilUser;
+		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
+		
 		$this->ctrl->saveParameter($this, "sequence");
 		$this->ctrl->saveParameter($this, "active_id");
+		
 		if (preg_match("/^gotoquestion_(\\d+)$/", $cmd, $matches))
 		{
 			$cmd = "gotoquestion";
@@ -75,6 +80,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 			
 		}
+		
 		if ($_GET["active_id"])
 		{
 			$this->object->setTestSession($_GET["active_id"]);
@@ -83,12 +89,29 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$this->object->setTestSession();
 		}
+		
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initConnectionWithAnimation();
+		
 		$cmd = $this->getCommand($cmd);
+		
 		switch($next_class)
 		{
+			case 'ilassquestionhintrequestgui':
+				
+				$questionGUI = $this->object->createQuestionGUI(
+					"", $this->object->getTestSequence()->getQuestionForSequence( $this->calculateSequence() )
+				);
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+				$gui = new ilAssQuestionHintRequestGUI($questionGUI);
+				
+				$ret = $this->ctrl->forwardCommand($gui);
+				
+				break;
+				
 			default:
+				
 				$ret =& $this->$cmd();
 				break;
 		}
@@ -1788,6 +1811,30 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	{
 		$this->ctrl->redirectByClass("iltestevaluationgui", "outUserListOfAnswerPasses");
 	}
+
+	/**
+	 * Go to requested hint list
+	 *
+	 * @access private
+	 */
+	private function showRequestedHintList()
+	{
+		$this->saveQuestionSolution();
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST);
+	}
+	
+	/**
+	 * Go to hint request confirmation
+	 *
+	 * @access private
+	 */
+	private function confirmHintRequest()
+	{
+		$this->saveQuestionSolution();
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
+	}
 	
 	private function fillQuestionRelatedNavigation(assQuestionGUI $questionGUI)
 	{
@@ -1827,7 +1874,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				}
 
 				$tpl->setCurrentBlock("button_request_next_question_hint");
-				$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", 'requestNextQuestionHint');
+				$tpl->setVariable("CMD_REQUEST_NEXT_QUESTION_HINT", 'confirmHintRequest');
 				$tpl->setVariable("TEXT_REQUEST_NEXT_QUESTION_HINT", $buttonText);
 				$tpl->parseCurrentBlock();
 
@@ -1837,7 +1884,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			if( $requestsExist )
 			{
 				$tpl->setCurrentBlock("button_show_requested_question_hints");
-				$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", 'showRequestedQuestionHints');
+				$tpl->setVariable("CMD_SHOW_REQUESTED_QUESTION_HINTS", 'showRequestedHintList');
 				$tpl->setVariable("TEXT_SHOW_REQUESTED_QUESTION_HINTS", $lng->txt("button_show_requested_question_hints"));
 				$tpl->parseCurrentBlock();
 
