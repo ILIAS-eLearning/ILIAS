@@ -1387,9 +1387,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 					$template->setCurrentBlock("detail_row");
 					$template->setVariable("TEXT_OPTION", $this->lng->txt("freetext_answers"));	
 					$html = "";		
-					foreach ($value["textanswers"] as $key => $answers)
+					foreach ($value["textanswers"] as $tkey => $answers)
 					{
-						$html .= $value["variables"][$key]["title"] ."\n";
+						$html .= $value["variables"][$tkey]["title"] ."\n";
 						$html .= "<ul>\n";
 						foreach ($answers as $answer)
 						{
