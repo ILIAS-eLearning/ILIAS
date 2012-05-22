@@ -50,7 +50,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng, $ilAccess;
+		global $lng, $ilAccess, $ilTabs;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -140,9 +140,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->setTabs();
 				$this->setLocator();
 				$this->addHeaderAction();
-//				$ilTabs->activateTab("settings");
-//				$this->setSettingsSubTabs("taxonomy");
-				//$ilTabs->activateTab("settings");
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("taxonomy");
 
 				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
 				$this->ctrl->setReturn($this, "properties");
@@ -1572,7 +1571,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl, $lng;
 
 		if (in_array($a_active,
-			array("general_settings", "style")))
+			array("general_settings", "style", "taxonomy")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
@@ -1584,6 +1583,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$lng->txt("obj_sty"),
 				$ilCtrl->getLinkTarget($this, 'editStyleProperties'));
 
+			// taxonomy
 			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			ilObjTaxonomy::loadLanguageModule();
 			$ilTabs->addSubTab("taxonomy",
@@ -1819,29 +1819,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		$this->ctrl->redirect($this, "editStyleProperties");
 	}
-
-	////
-	//// Taxonomy related stuff
-	////
-	
-	/**
-	 * Edit taxonomy settings
-	 *
-	 * @param
-	 * @return
-	 */
-	function taxonomySettingsObject()
-	{
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
-		
-		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getObjId());
-		
-		if (count($tax_ids) == 0)
-		{
-		}
-	}
-	
-
 }
 
 ?>

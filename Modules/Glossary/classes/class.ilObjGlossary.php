@@ -1085,6 +1085,24 @@ class ilObjGlossary extends ilObject
 		return $dep;	
 	}
 	
+	/**
+	 * Get taxonomy
+	 *
+	 * @return int taxononmy ID
+	 */
+	function getTaxonomyId()
+	{
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->getId());
+		if (count($tax_ids) > 0)
+		{
+			// glossaries handle max. one taxonomy
+			return $tax_ids[0];
+		}
+		return 0;
+	}
+	
+	
 } // END class.ilObjGlossary
 
 ?>

@@ -86,9 +86,9 @@ class ilGlossaryTermGUI
 	}
 
 
-	function setGlossary(&$a_glossary)
+	function setGlossary($a_glossary)
 	{
-		$this->glossary =& $a_glossary;
+		$this->glossary = $a_glossary;
 	}
 
 	function setLinkXML($a_link_xml)
@@ -148,6 +148,16 @@ class ilGlossaryTermGUI
 		$lang->setOptions(ilMDLanguageItem::_getLanguages());
 		$lang->setValue($this->term->getLanguage());
 		$form->addItem($lang);
+		
+		// taxonomy
+		if ($this->glossary->getTaxonomyId() > 0)
+		{
+			include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
+			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId(),
+				$this->lng->txt("tax_assignment"), "tax_node_assign");
+			$tax_node_assign->setMulti(true);
+			$form->addItem($tax_node_assign);
+		}
 		
 		$form->addCommandButton("updateTerm", $this->lng->txt("save"));
 		
