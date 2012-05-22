@@ -81,19 +81,23 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	{
 		$this->value = str_replace(',', '.', $a_value);
 		
-		// integer
-		if(!$this->areDecimalsAllowed())
+		// empty strings are allowed
+		if($this->value != "")
 		{
-			$this->value = round($this->value);
-		}
-		// float
-		else if($this->getDecimals() > 0)
-		{
-			// get rid of unwanted decimals
-			$this->value = round($this->value, $this->getDecimals());
-			
-			// pad value to specified format
-			$this->value = number_format($this->value, $this->getDecimals());
+			// integer
+			if(!$this->areDecimalsAllowed())
+			{
+				$this->value = round($this->value);
+			}
+			// float
+			else if($this->getDecimals() > 0)
+			{
+				// get rid of unwanted decimals
+				$this->value = round($this->value, $this->getDecimals());
+
+				// pad value to specified format
+				$this->value = number_format($this->value, $this->getDecimals());
+			}
 		}
 	}
 
