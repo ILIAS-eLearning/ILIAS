@@ -182,6 +182,14 @@ class ilForumModeratorsGUI
 	
 	public function detachModeratorRole()
 	{
+		
+		$entries = $this->oForumModerators->getCurrentModerators();
+		
+		if(count($_POST['usr_id']) == count($entries))
+		{
+			ilUtil::sendInfo($this->lng->txt('frm_at_least_one_moderator'));
+			return $this->showModerators();			
+		}
 		if(!is_array($_POST['usr_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('frm_moderators_select_at_least_one'));
@@ -222,16 +230,16 @@ class ilForumModeratorsGUI
 		$result = array();
 		if(count($entries))
 		{
-			$tbl->enable('select_all');				
-			$tbl->setSelectAllCheckbox('usr_id');
-			
 			$counter = 0;
 			foreach($entries as $usr_id)
 			{
 				$oUser = ilObjectFactory::getInstanceByObjId($usr_id, false);
 				if(is_object($oUser))
-				{ 
-					$result[$counter]['check'] = ilUtil::formCheckbox(0, 'usr_id[]', $oUser->getId());
+				{
+					if(count($entries) > 1)
+					{
+						$result[$counter]['check'] = ilUtil::formCheckbox(0, 'usr_id[]', $oUser->getId());
+					}
 					$result[$counter]['login'] = $oUser->getLogin();
 					$result[$counter]['firstname'] = $oUser->getFirstname();
 					$result[$counter]['lastname'] = $oUser->getLastname();
@@ -240,7 +248,12 @@ class ilForumModeratorsGUI
 				}
 			}
 			
-			$tbl->addMultiCommand('detachModeratorRole', $this->lng->txt('frm_detach_moderator_role'));
+			if(count($entries) > 1)
+			{
+				$tbl->enable('select_all');
+				$tbl->setSelectAllCheckbox('usr_id');
+				$tbl->addMultiCommand('detachModeratorRole', $this->lng->txt('frm_detach_moderator_role'));
+			}	
 		}
 		else
 		{
