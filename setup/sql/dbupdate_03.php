@@ -9569,3 +9569,34 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3574>
+<?php
+	// taxonomy node assignment 
+	$fields = array(
+			'node_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'component' => array(
+					'type' => 'text',
+					'length' => 10,
+					'notnull' => true
+			),
+			'item_type' => array(
+					'type' => 'text',
+					'length' => 20,
+					'notnull' => true
+			),
+			'item_id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			)
+	);
+	$ilDB->createTable('tax_node_assignment', $fields);
+	$ilDB->addPrimaryKey('tax_node_assignment', array('node_id', 'component', 'item_type', 'item_id'));
+	$ilDB->addIndex("tax_node_assignment", array("component", "item_type", "item_id"), "i1");
+?>
