@@ -686,7 +686,7 @@ class ilObjForumGUI extends ilObjectGUI
 			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $force_active);
 		}
 		
-		if($ilAccess->checkAccess('edit_permission', '', $this->ref_id))
+		if($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
 			$tabs_gui->addTarget('frm_moderators', $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'), 'showModerators', get_class($this));			
 		}
@@ -1503,11 +1503,11 @@ class ilObjForumGUI extends ilObjectGUI
 				$message = '';
 				if(!$this->is_moderator && !$status)
 				{
-					$message = $lng->txt('forums_post_needs_to_be_activated');
+					$message .= $lng->txt('forums_post_needs_to_be_activated');
 				}
 				else
 				{
-					$message = $lng->txt('forums_post_new_entry');
+					$message .= $lng->txt('forums_post_new_entry');
 				}
 				
 				ilUtil::sendSuccess($message, true);
