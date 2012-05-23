@@ -8463,7 +8463,7 @@ mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
 mail#:#mail_intern#:#Intern
-mail#:#mail_into_addressbook#:#In Kontakte übernehmen
+mail#:#mail_into_addressbook#:#In Adressbuch übernehmen
 mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
 mail#:#mail_list_members#:#Mitglieder auflisten
 mail#:#mail_mailing_list#:#Verteilerliste

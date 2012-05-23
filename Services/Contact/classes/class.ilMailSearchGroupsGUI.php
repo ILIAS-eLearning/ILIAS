@@ -67,7 +67,7 @@ class ilMailSearchGroupsGUI
 
 	function mail()
 	{
-		global $ilUser, $lng;
+		global $lng;
 
 		if ($_GET["view"] == "mygroups")
 		{
@@ -103,7 +103,7 @@ class ilMailSearchGroupsGUI
 
 	function mailGroups()
 	{
-		global $ilUser, $lng, $rbacreview;
+		global $ilUser, $rbacreview;
 
 		$members = array();
 
@@ -240,8 +240,6 @@ class ilMailSearchGroupsGUI
 		
 		if ($ids )
 		{
-			$members = array();
-		
 			foreach ($ids as $member)
 			{
 				$login = ilObjUser::_lookupLogin($member);
@@ -405,7 +403,7 @@ class ilMailSearchGroupsGUI
 	 */
 	public function showMembers()
 	{
-		global $lng, $ilUser;
+		global $lng;
 
 		if ($_GET["search_grp"] != "")
 		{
@@ -426,7 +424,6 @@ class ilMailSearchGroupsGUI
 			$table->setId('show_grps_mmbrs_tbl');
 			$lng->loadLanguageModule('crs');
 	
-			$counter = 0;
 			$tableData = array();
 			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 			
