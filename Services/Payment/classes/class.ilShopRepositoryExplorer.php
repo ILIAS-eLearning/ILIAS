@@ -13,16 +13,16 @@ class ilShopRepositoryExplorer extends ilExplorer
 	 * @var int root folder id
 	 * @access private
 	 */
-	var $root_id;
-	var $output;
-	var $ctrl;
+	public $root_id;
+	public $output;
+	public $ctrl;
 	/**
 	* Constructor
 	* @access	public
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function ilShopRepositoryExplorer($a_target, $a_top_node = 0)
+	public function __construct($a_target, $a_top_node = 0)
 	{
 		global $tree, $ilCtrl, $lng, $ilSetting, $objDefinition;
 
@@ -276,7 +276,7 @@ class ilShopRepositoryExplorer extends ilExplorer
 
 	function showChilds($a_ref_id,$a_obj_id = 0)
 	{
-		global $rbacsystem,$tree;
+		global $rbacsystem;
 
 		if ($a_ref_id == 0)
 		{
@@ -341,7 +341,7 @@ class ilShopRepositoryExplorer extends ilExplorer
 	*/
 	function formatHeader(&$tpl, $a_obj_id,$a_option)
 	{
-		global $lng, $ilias, $tree;
+		global $lng, $tree;
 
 		// custom icons
 		/*

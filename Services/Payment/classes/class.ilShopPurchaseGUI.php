@@ -14,22 +14,24 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilShopPurchaseGUI extends ilObjectGUI
 {
-	var $ctrl;
-	var $ilias;
-	var $lng;
-	var $tpl;
+	public $ctrl;
+	public $lng;
+	public $tpl;
 
-	var $object = null;
+	public $object = null;
+	public $pobject = null;
+	public $cur_row_type = null;
+	public $price_obj = null;
+	public $sc_obj = null;
 
 	public function __construct($a_ref_id)
 	{
-		global $ilCtrl,$lng,$ilErr,$ilias,$tpl,$tree,$ilTabs;
+		global $ilCtrl,$lng,$ilErr,$tpl,$ilTabs;
 
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id"));
 
 		$this->ilErr = $ilErr;
-		$this->ilias = $ilias;
 
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('payment');
@@ -47,6 +49,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		$ilTabs->addTarget('payment_demo', $this->ctrl->getLinkTarget($this, 'showDemoVersion').'&purchasetype=demo');
 
 		$this->ctrl->setParameter($this, 'purchasetype', ($_GET['purchasetype'] == 'demo' ? 'demo' : 'buy'));
+
 	}
 
 	/**
@@ -63,7 +66,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';		
 				$page_gui = new ilPageObjectGUI('shop', $this->pobject->getPobjectId());		
 				$this->ctrl->forwardCommand($page_gui);				
-				return;
+				return true;
 				break;
 		}
 
@@ -86,7 +89,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	
 	public function showDemoVersion()
 	{
-		global $ilMainMenu, $ilTabs, $tpl, $ilToolbar;
+		global $ilMainMenu, $ilTabs, $ilToolbar;
 		
 		$this->__initPaymentObject();
 		$this->__initPricesObject();
@@ -118,7 +121,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		{			
 			$this->tpl->setCurrentBlock('abstract_block');
 			$this->tpl->setVariable('TXT_ABSTRACT', $this->lng->txt('pay_abstract'));
-			$this->tpl->setVariable('ABSTRACT_HTML', $abstract_html.$output);
+			$this->tpl->setVariable('ABSTRACT_HTML', $abstract_html);
 			$this->tpl->parseCurrentBlock();
 		}	
 		
@@ -157,19 +160,19 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	
 	private function __getCourseItemsHTML($container_items)
 	{
-		global $ilUser, $rbacsystem, $objDefinition, $ilSetting, $ilObjDataCache;
+		global $objDefinition, $ilSetting;
 		
 		$output = false;
 		
 		$tpl_sub_items = new ilTemplate('tpl.pay_purchase_demo_list_block.html', true, true, 'Services/Payment');
-								
+						
 		$objtype_groups = $objDefinition->getGroupedRepositoryObjectTypes(
 			array('cat', 'crs', 'grp', 'fold')
 		);
 
 		foreach($objtype_groups as $grp => $grpdata)
 		{
-			$title = $this->lng->txt('objs_'.$grp);
+//			$title = $this->lng->txt('objs_'.$grp);
 			$items = $this->getItemsByObjType($container_items, $grp);
 			
 			$item_html = array();
@@ -211,14 +214,14 @@ class ilShopPurchaseGUI extends ilObjectGUI
 						if($ilSetting->get('icon_position_in_lists') == 'item_rows')
 						{
 							// BEGIN WebDAV: Use $item_list_gui to determine icon image type
-							$this->addStandardRow($tpl_sub_items, $item['html'], $item['item_ref_id'], $item['item_obj_id'], 
+							$this->addStandardRow($tpl_sub_items, $item['html'], $item['item_obj_id'], 
 								$item['item_icon_image_type'], 
 								$rel_header);
 							// END WebDAV: Use $item_list_gui to determine icon image type
 						}
 						else
 						{
-							$this->addStandardRow($tpl_sub_items, $item['html'], $item['item_ref_id'], $item['item_obj_id'], '', $rel_header);
+							$this->addStandardRow($tpl_sub_items, $item['html'], $item['item_obj_id'], '', $rel_header);
 						}
 					}
 				}
@@ -276,7 +279,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	* @param	string		$a_html		html code
 	* @access	private
 	*/
-	private function addStandardRow(&$a_tpl, $a_html, $a_item_ref_id = "", $a_item_obj_id = "",
+	private function addStandardRow(&$a_tpl, $a_html, $a_item_obj_id = "",
 	$a_image_type = "", $a_related_header = "")
 	{
 		global $ilSetting;
@@ -331,7 +334,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 	public function showDetails()
 	{
-		global $ilMainMenu, $ilTabs, $ilToolbar, $tpl, $ilUser;
+		global $ilMainMenu, $ilTabs, $ilToolbar, $ilUser;
 		
 		$this->__initPaymentObject();
 		$this->__initPricesObject();
@@ -368,8 +371,22 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		}
 
 		$org_prices = $this->price_obj->getPrices();
-		$prices = array_merge($org_prices, $extension_prices );
+		$tmp_prices = array_merge($org_prices, $extension_prices );
 
+		$prices = array();
+		foreach($tmp_prices as $price)
+		{
+			// expired prices must be filtered out
+			if($price['price_type'] == ilPaymentPrices::TYPE_DURATION_DATE && $price['duration_until'] < date('Y-m-d'))
+			{
+				//do nothing 
+			}
+			else
+			{
+				$prices[] = $price;
+			}
+		}
+		
 		$buyedObject = "";
 		if($this->sc_obj->isInShoppingCart($this->pobject->getPobjectId()))
 		{
@@ -385,7 +402,6 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("shopping_cart_1");
-			
 			
 			$this->tpl->setVariable("LINK_GOTO_SHOPPING_CART",'ilias.php?baseClass=ilShopController&cmd=redirect&redirect_class=ilShopShoppingCartGUI');
 			$this->tpl->setVariable("TXT_GOTO_SHOPPING_CART", $this->lng->txt('pay_goto_shopping_cart'));
@@ -427,7 +443,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			{
 				$this->tpl->setVariable("INPUT_CMD",'addToShoppingCart');
 				$this->tpl->setVariable("INPUT_VALUE",$this->lng->txt('pay_add_to_shopping_cart'));
-		}
+			}
 		}
 		else
 		{
@@ -448,12 +464,14 @@ class ilShopPurchaseGUI extends ilObjectGUI
 					$placeholderCheckbox = "CHECKBOX";
 					$placeholderDuration = "DURATION";
 					$placeholderPrice = "PRICE";
+					$placeholderDescription = "DESCRIPTION";
 				}
 				else
 				{
 					$placeholderCheckbox = "ROW_CHECKBOX";
 					$placeholderDuration = "ROW_DURATION";
 					$placeholderPrice = "ROW_PRICE";
+					$placeholderDescription = "ROW_DESCRIPTION";
 				}
 				$this->tpl->setCurrentBlock("price_row");
 				if ($buyedObject["price_id"] == $price['price_id'])
@@ -468,24 +486,34 @@ class ilShopPurchaseGUI extends ilObjectGUI
 				{
 					$this->tpl->setVariable($placeholderCheckbox,ilUtil::formRadioButton(0,'price_id',$price['price_id']));
 				}
-
-				if($price['unlimited_duration'] == '1')
-				{
-
-					$this->tpl->setVariable($placeholderDuration, ''. $this->lng->txt('unlimited_duration'). ': ');
-				}
-				else
-				$this->tpl->setVariable($placeholderDuration,$price['duration'].' '.$this->lng->txt('paya_months'). ': ');
+				
+				switch($price['price_type'])
+                {
+					case ilPaymentPrices::TYPE_DURATION_MONTH:
+						$this->tpl->setVariable($placeholderDuration,$price['duration'].' '.$this->lng->txt('paya_months').': ');
+						break;
+					case ilPaymentPrices::TYPE_DURATION_DATE:
+						ilDatePresentation::setUseRelativeDates(false);
+						$this->tpl->setVariable($placeholderDuration,
+						ilDatePresentation::formatDate(new ilDate($price['duration_from'], IL_CAL_DATE))
+						.' - '.ilDatePresentation::formatDate(new ilDate($price['duration_until'], IL_CAL_DATE)).' -> ');
+						break;
+					case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+						$this->tpl->setVariable($placeholderDuration, $this->lng->txt('unlimited_duration').': ');
+						break;
+                }
 
 				$tmp_price = $price['price'];
-				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString((float)$tmp_price));
 
 				if($price['extension'] == 1)
 					$extension_txt = '('.$this->lng->txt('extension_price').')';
 				else $extension_txt = '';
 
-				$this->tpl->setVariable($placeholderPrice,ilPaymentPrices::_formatPriceToString((float)$tmp_price).' '.$extension_txt );
-
+				$this->tpl->setVariable($placeholderPrice, ilPaymentPrices::_formatPriceToString((float)$tmp_price).' '.$extension_txt );
+				if($price['description'] != NULL)
+				{
+					$this->tpl->setVariable($placeholderDescription, $price['description']);
+				}
 				$this->tpl->parseCurrentBlock();
 				$counter++;
 			}
@@ -555,27 +583,28 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	}
 
 	// PRIVATE
-	function __initShoppingCartObject()
-	{
+	private function __initShoppingCartObject()
+	{	
+		global $ilUser;
 		include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
-		$this->sc_obj = new ilPaymentShoppingCart($this->ilias->account);
+		$this->sc_obj = new ilPaymentShoppingCart($ilUser);
 		return true;
 	}
 
-	function __initPaymentObject()
+	private function __initPaymentObject()
 	{
-		include_once './Services/Payment/classes/class.ilPaymentObject.php';
-		$this->pobject = new ilPaymentObject($this->ilias->account,ilPaymentObject::_lookupPobjectId($this->ref_id));
+		global $ilUser;
+		$this->pobject = new ilPaymentObject($ilUser ,ilPaymentObject::_lookupPobjectId($this->ref_id));
 		return true;
 	}
-	function __initPricesObject()
+	private function __initPricesObject()
 	{
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		$this->price_obj = new ilPaymentPrices($this->pobject->getPobjectId());
 		return true;
 	}
 
-/*
+/*  depricated?!
  * function __buildHeader()
 	{
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.payb_content.html",
@@ -585,31 +614,31 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 */
-	function  __buildStatusline()
-	{
-		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->__buildLocator();
-	}	
+//	function  __buildStatusline()
+//	{
+//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+//		$this->__buildLocator();
+//	}	
 
-	function __buildLocator()
-	{
-		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
-		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-
-		$this->tpl->setCurrentBlock("locator_item");
-		$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
-		$this->tpl->setVariable("LINK_ITEM", "../repository.php?getlast=true");
-		$this->tpl->parseCurrentBlock();
-
-		// CHECK for new mail and info
-		ilUtil::sendInfo();
-
-		return true;
-	}
-
-	function __buildStylesheet()
-	{
-		$this->tpl->setVariable("LOCATION_STYLESHEET",ilUtil::getStyleSheetLocation());
-	}
+//	function __buildLocator()
+//	{
+//		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
+//		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+//
+//		$this->tpl->setCurrentBlock("locator_item");
+//		$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
+//		$this->tpl->setVariable("LINK_ITEM", "../repository.php?getlast=true");
+//		$this->tpl->parseCurrentBlock();
+//
+//		// CHECK for new mail and info
+//		ilUtil::sendInfo();
+//
+//		return true;
+//	}
+//
+//	function __buildStylesheet()
+//	{
+//		$this->tpl->setVariable("LOCATION_STYLESHEET",ilUtil::getStyleSheetLocation());
+//	}
 }
 ?>

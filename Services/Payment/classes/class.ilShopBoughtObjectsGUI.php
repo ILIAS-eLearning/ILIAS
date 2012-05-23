@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Payment/classes/class.ilShopBaseGUI.php';
-include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
+//include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 
 /**
@@ -17,9 +17,10 @@ include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 */
 class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 {
+	public $bookings_obj = null;
 	private $user_obj;
 
-	private $psc_obj = null;
+//	private $psc_obj = null;
 
 	public function __construct($user_obj)
 	{
@@ -31,11 +32,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 	public function executeCommand()
 	{
 		global $ilUser;
-
-		if(ANONYMOUS_USER_ID == $ilUser->getId() && !isset($_SESSION['download_links']));
-		{
-	//		$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
-		}
 
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
@@ -54,11 +50,10 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 				break;
 		}
 	}
-	
 
  	protected function buildSubTabs()
 	{
-		global $ilTabs, $ilUser, $rbacreview;
+		global $ilTabs;
 		
 		$ilTabs->addSubTabTarget('paya_buyed_objects', $this->ctrl->getLinkTarget($this, 'showItems'), '', '', '','showItems');
 		$ilTabs->addSubTabTarget('paya_bill_history', $this->ctrl->getLinkTarget($this, 'showBillHistory'), '', '', '','showBillHistory');
@@ -116,7 +111,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 	
 	function createBill()
 	{
-		global $ilUser, $ilias, $tpl,$ilObjDataCache;
+		global $tpl,$ilObjDataCache;
 		
 		$customer=$this->user_obj;
 		$transaction = $_GET['transaction'];
@@ -208,7 +203,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$tpl->setVariable('LOOP_TITLE', utf8_decode($bookings[$i]['object_title']) . $assigned_coupons);
 			$tpl->setVariable('LOOP_TXT_ENTITLED_RETRIEVE', utf8_decode($this->lng->txt('pay_entitled_retrieve')));
 			
-			if( $bookings[$i]['duration'] == 0)
+			if( $bookings[$i]['duration'] == 0 && $bookings[$i]['access_enddate'] == NULL)
 			{
 				$tpl->setVariable('LOOP_DURATION', utf8_decode($this->lng->txt('unlimited_duration')));
 			}
@@ -343,10 +338,9 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		foreach($bookings as $booking)
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($booking['ref_id'], false);
+			$tmp_vendor = ilObjectFactory::getInstanceByObjId($booking['b_vendor_id'], false);
+			$tmp_purchaser = ilObjectFactory::getInstanceByObjId($booking['customer_id'], false);
 
-			$tmp_vendor = ilObjectFactory::getInstanceByObjId($booking['b_vendor_id']);
-			$tmp_purchaser = ilObjectFactory::getInstanceByObjId($booking['customer_id']);
-			
 			$transaction = $booking['transaction'];
 			
 			include_once './Services/Payment/classes/class.ilPayMethods.php';
@@ -385,14 +379,20 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$f_result[$counter]['vendor'] = '['.$tmp_vendor->getLogin().']';
 			$f_result[$counter]['customer'] = '['.$tmp_purchaser->getLogin().']';
 			$f_result[$counter]['order_date'] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));
-
-			if($booking['duration'] != 0)
+//todo check for accessduration!!
+			if($booking['duration'] == 0 && $booking['access_enddate'] == NULL)
 			{
-				$f_result[$counter]['duration'] = $booking['duration'].' '.$this->lng->txt('paya_months');
+				$f_result[$counter]['duration'] = $this->lng->txt("unlimited_duration");
+				
 			}
 			else
 			{
-				$f_result[$counter]['duration'] = $this->lng->txt("unlimited_duration");
+				if($booking['duration'] > 0)
+				{
+					$f_result[$counter]['duration'] = $booking['duration'].' '.$this->lng->txt('paya_months');
+				}
+				$f_result[$counter]['duration'] .= ilDatePresentation::formatDate(new ilDateTime($booking['access_startdate'], IL_CAL_DATETIME))
+						.' - '.ilDatePresentation::formatDate(new ilDateTime($booking['access_enddate'], IL_CAL_DATETIME));
 			}
 			$f_result[$counter]['price'] = $booking['price'].' '.$booking['currency_unit'];
 			$f_result[$counter]['discount'] = ($booking['discount'] != '' ? (round($booking['discount'], 2).' '.$booking['currency_unit']) : '&nbsp;');

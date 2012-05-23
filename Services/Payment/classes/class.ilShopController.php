@@ -41,15 +41,15 @@ include_once './Services/Payment/classes/class.ilShopLinkBuilder.php';
 class ilShopController
 {	
 	protected $ctrl = null;
-	protected $ilias = null;
+	protected $ilErr = null;
 	protected $lng = null;
 	protected $tpl = null;
 	
 	public function __construct()
 	{
-		global $ilCtrl, $ilias, $lng, $tpl;
+		global $ilCtrl, $ilErr, $lng, $tpl;
 
-		$this->ilias = $ilias;
+		$this->ilErrs = $ilErr;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->tpl = $tpl;
@@ -61,7 +61,7 @@ class ilShopController
 
 		if(!IS_PAYMENT_ENABLED)
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
 		}
 		
 		$this->buildTabs();
@@ -110,10 +110,10 @@ class ilShopController
 			case 'ilshopadvancedsearchgui':
 		        if ((bool) $allSet['hide_advanced_search']) 
 		        {
-		          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		          $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
 		        }
 				include_once './Services/Payment/classes/class.ilShopAdvancedSearchGUI.php';
-				$this->ctrl->forwardCommand(new ilShopAdvancedSearchGUI());
+				$this->ctrl->forwardCommand(new ilShopAdvancedSearchGUI());				
 				break;
 				
 			case 'ilshoppersonalsettingsgui':
@@ -129,7 +129,7 @@ class ilShopController
 			case 'ilshopinfogui':
 				if ((bool) $allSet['hide_shop_info'])
 		        {
-		          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		          $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
 		        }
 				include_once './Services/Payment/classes/class.ilShopInfoGUI.php';
 				$this->ctrl->forwardCommand(new ilShopInfoGUI());
@@ -138,7 +138,7 @@ class ilShopController
 			case 'ilshopnewsgui':
 		        if ((bool) $allSet['hide_news']) 
 		        {
-		          $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		          $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
 		        }
 				include_once './Services/Payment/classes/class.ilShopNewsGUI.php';
 				$this->ctrl->forwardCommand(new ilShopNewsGUI());
@@ -176,7 +176,7 @@ class ilShopController
 	{
 		global $ilTabs, $ilUser;
 
-		$shop_obj = new ilPaymentShoppingCart($ilUser);
+//		$shop_obj = new ilPaymentShoppingCart($ilUser);
 		
 		$obj = ilPaymentSettings::_getInstance();
 		$allSet = $obj->getAll();
@@ -220,7 +220,7 @@ class ilShopController
 	
 	public function redirect()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilCtrl;
 		
 		switch(strtolower(ilUtil::stripSlashes($_GET['redirect_class'])))
 		{

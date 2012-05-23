@@ -10,22 +10,32 @@
 */
 class ilPaymentPrices
 {
-	private $ilDB;
-
+//	private $ilDB;
+	
+	const TYPE_DURATION_MONTH = 1;
+	const TYPE_DURATION_DATE = 2;
+	const TYPE_UNLIMITED_DURATION = 3;
+	
 	private $pobject_id;
 
 	private $price;
 	private $currency;
-	private $duration;
+	private $duration = 0;
 	private $unlimited_duration = 0;
 	private $extension = 0;
+
+	private $duration_from;
+	private $duration_until;
+	private $description;
+	public $price_type = self::TYPE_DURATION_MONTH;
+
 	
 	// TODO later -> this is for using different currencies 
-	private $currency_conversion_rate = 1;
+//	private $currency_conversion_rate = 1;
 
 	private $prices = array();
 	
-	public function ilPaymentPrices($a_pobject_id = 0)
+	public function __construct($a_pobject_id = 0)
 	{
 		global $ilDB;
 
@@ -36,6 +46,19 @@ class ilPaymentPrices
 		$this->__read();
 	}
 
+	public function setPriceType($a_price_type)
+	{
+		$this->price_type = $a_price_type;
+
+		return $this;
+	}
+
+	public function getPriceType()
+	{
+		return $this->price_type;
+	}
+
+//
 	// SET GET
 	public function getPobjectId()
 	{
@@ -55,7 +78,7 @@ class ilPaymentPrices
 	// STATIC
 	public static function _getPrice($a_price_id)
 	{
-		global $ilDB, $ilSettings;
+		global $ilDB;
 		
 		$res = $ilDB->queryf('
 			SELECT * FROM payment_prices 
@@ -65,11 +88,14 @@ class ilPaymentPrices
 		while($row = $ilDB->fetchObject($res))
 		{
 			$price['duration'] = $row->duration;
+			$price['duration_from'] = $row->duration_from;
+			$price['duration_until'] = $row->duration_until;
+			$price['description'] = $row->description;
 			$price['unlimited_duration'] = $row->unlimited_duration;
 			$price['currency'] = $row->currency;
 			$price['price'] = number_format($row->price, 2, '.', '');
 			$price['extension'] = $row->extension;
-
+			$price['price_type'] = $row->price_type;
 		}
 	
 		return count($price) ? $price : array();
@@ -84,8 +110,7 @@ class ilPaymentPrices
 			WHERE pobject_id = %s',
 			array('integer'),
 			array($a_pobject_id));
-				
-#		$row = $res->fetchRow(DB_FETCHMODE_ARRAY);
+
 		$row = $ilDB->fetchAssoc($res);
 
 		return ($row[0]);
@@ -99,7 +124,6 @@ class ilPaymentPrices
 		return $gui_price;
 	}
 
-
 	public static function _getGUIPrice($a_price)
 	{
 		global $lng;
@@ -110,7 +134,7 @@ class ilPaymentPrices
 		$use_comma_seperator = array('ar','bg','cs','de','da','es','et','it',
 			'fr','nl','el','sr','uk','ru','ro','tr','pl','lt','pt','sq','hu');
 
-		$use_point_separator = array('en','ja','zh','vi');
+//		$use_point_separator = array('en','ja','zh','vi');
 
 		if(in_array($system_lng, $use_comma_seperator))
 		{
@@ -150,14 +174,11 @@ class ilPaymentPrices
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
-		global $lng;
-
 		$genSet = ilPaymentSettings::_getInstance();
 		$currency_unit = $genSet->get("currency_unit");
 
 		$pr_str = '';		
-
-		$pr_str = number_format($a_price , 2, ",", ".");
+		$pr_str .= number_format($a_price , 2, ",", ".");
 /* TODO: CURRENCY 	$pr_str = number_format($a_price * $this->getCurrencyConversionRate() , 2, ",", ".");
  * 		remove genset
  * */
@@ -168,15 +189,7 @@ class ilPaymentPrices
 		
 	public static function _getTotalAmount($a_price_ids)
 	{
-
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
-#		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
-
-		global $ilDB, $lng;
-
-		$genSet = ilPaymentSettings::_getInstance();
-		$currency_unit = $genSet->get("currency_unit");
 
 		$amount = array();
 
@@ -190,27 +203,6 @@ class ilPaymentPrices
 				$amount[$a_price_ids[$i]["pay_method"]] += (float) $price;
 			}
 		}
-/* TODO: CURRENCY  replace 'if'  & remove genset
- 		if (is_array($a_price_ids))
-		{				
-			$default_currency =  ilPaymentCurrency::_getDefaultcurrency();
-			
-			for ($i = 0; $i < count($a_price_ids); $i++)
-			{
-				$price_data = ilPaymentPrices::_getPrice($a_price_ids[$i]["id"]);
-
-				if($price_data['currency'] != $default_currency['currency_id'])
-				{
-					$conversion_rate = ilPaymentCurrency::_getConversionRate($price_data['currency']);
-					$price = round(((float) $price_data['price'] * $conversion_rate),2);
-				}
-				else
-				$price = (float) $price_data["price"];
-				
-				$amount[$a_price_ids[$i]["pay_method"]] += (float) $price;
-			}
-		} 
- */
 		return $amount;
 	}
 		
@@ -266,7 +258,11 @@ class ilPaymentPrices
 				'duration'		=> array('integer', $this->__getDuration()),
 				'unlimited_duration'=> array('integer', $this->__getUnlimitedDuration()),
 				'price'			=> array('float', $this->__getPrice()),
-				'extension'		=> array('integer', $this->getExtension())
+				'extension'		=> array('integer', $this->getExtension()),
+				'duration_from' => array('date', $this->__getDurationFrom()),
+				'duration_until' => array('date', $this->__getDurationUntil()),
+				'description' => array('text', $this->__getDescription()),
+				'price_type' => array('integer', $this->getPriceType())
 		));
 		
 		$this->__read(true);
@@ -280,7 +276,12 @@ class ilPaymentPrices
 					'duration'		=> array('integer', $this->__getDuration()),
 					'unlimited_duration'=> array('integer', $this->__getUnlimitedDuration()),
 					'price'			=> array('float', $this->__getPrice()),
-					'extension'		=> array('integer', $this->getExtension())),
+					'extension'		=> array('integer', $this->getExtension()),
+					'duration_from' => array('date', $this->__getDurationFrom()),
+					'duration_until' => array('date', $this->__getDurationUntil()),
+					'description' => array('text', $this->__getDescription()),
+					'price_type' => array('integer', $this->getPriceType())
+					),
 			array('price_id'=> array('integer', $a_price_id)));
 
 		$this->__read(true);
@@ -311,32 +312,63 @@ class ilPaymentPrices
 		return true;
 	}
 
-	public function validate()
-	{	
-		
-		$duration_valid = false;
-		$price_valid = false; 
-		
-		if(preg_match('/^(([1-9][0-9]{0,1})|[0])?$/',$this->__getDuration())	
-		|| ((int)$this->__getDuration() == 0 && $this->__getUnlimitedDuration() == 1))
+	/** 
+	* Validates a price before database manipulations
+	*
+	* @access	public
+	* @throws	ilShopException
+	*/
+	function validate()
+	{
+		global $lng;
+
+		include_once 'Services/Payment/exceptions/class.ilShopException.php';
+
+		switch($this->getPriceType())
 		{
-			$duration_valid = true;
+			case self::TYPE_DURATION_MONTH:
+				if(!preg_match('/^[1-9][0-9]{0,1}$/', $this->__getDuration()))
+					throw new ilShopException($lng->txt('paya_price_not_valid'));
+				break;
+
+			case self::TYPE_DURATION_DATE:
+				if(!preg_match('/^[0-9]{4,4}-[0-9]{1,2}-[0-9]{1,2}$/', $this->__getDurationFrom()))
+					throw new ilShopException($lng->txt('payment_price_invalid_date_from'));
+
+				$from_date = explode('-', $this->__getDurationFrom());
+				if(!checkdate($from_date[1], $from_date[2], $from_date[0]))
+	    			throw new ilShopException($lng->txt('payment_price_invalid_date_from'));
+
+				if(!preg_match('/^[0-9]{4,4}-[0-9]{1,2}-[0-9]{1,2}$/', $this->__getDurationUntil()))
+					throw new ilShopException($lng->txt('payment_price_invalid_date_until'));
+
+				$till_date = explode('-', $this->__getDurationUntil());
+				if(!checkdate($till_date[1], $till_date[2], $till_date[0]))
+	    			throw new ilShopException($lng->txt('payment_price_invalid_date_until'));
+
+	    		$from = mktime(12, 12, 12, $from_date[1], $from_date[2], $from_date[0]);
+	    		$till = mktime(12, 12, 12, $till_date[1], $till_date[2], $till_date[0]);
+
+	    		if($from >= $till)
+					throw new ilShopException($lng->txt('payment_price_invalid_date_from_gt_until'));
+				break;
+
+			case self::TYPE_UNLIMITED_DURATION:
+				return true;
+				break;
+
+			default:
+				throw new ilShopException($lng->txt('payment_no_price_type_selected_sdf'));
+				break;
 		}
 
 		if(preg_match('/[0-9]/',$this->__getPrice()))
 		{
-			
-			$price_valid = true;
+			return true;
 		}
-			
-	if($duration_valid == true && $price_valid == true)
-	{
-		return true;
+		throw new ilShopException($lng->txt('payment_price_invalid_price'));
 	}
 
-	else return false;
-	
-	}
 	// STATIC
 	public static function _priceExists($a_price_id,$a_pobject_id)
 	{
@@ -408,7 +440,10 @@ class ilPaymentPrices
 			$this->prices[$row->price_id]['unlimited_duration'] = $row->unlimited_duration;
 			$this->prices[$row->price_id]['price'] = $row->price;
 			$this->prices[$row->price_id]['extension'] = $row->extension;
-//TODO: CURRENCY $this->prices[$row->price_id]['price'] = $row->price * $this->getCurrencyConversionRate();			
+			$this->prices[$row->price_id]['duration_from'] = $row->duration_from;
+			$this->prices[$row->price_id]['duration_until'] = $row->duration_until;
+			$this->prices[$row->price_id]['description'] = $row->description;
+			$this->prices[$row->price_id]['price_type'] = $row->price_type;
 		}
 	}
 	
@@ -433,6 +468,10 @@ class ilPaymentPrices
 			$prices[$row->price_id]['unlimited_duration'] = $row->unlimited_duration;
 			$prices[$row->price_id]['price'] = $row->price;
 			$prices[$row->price_id]['extension'] = $row->extension;
+			$prices[$row->price_id]['duration_from'] = $row->duration_from;
+			$prices[$row->price_id]['duration_until'] = $row->duration_until;
+			$prices[$row->price_id]['description'] = $row->description;
+			$prices[$row->price_id]['price_type'] = $row->price_type;
 		}
 		return $prices;
 	}
@@ -460,6 +499,36 @@ class ilPaymentPrices
 		}
 		
 		return is_array($this->prices[$lowest_price_id]) ? $this->prices[$lowest_price_id] : array();
+	}
+
+	public function setDurationFrom($a_duration_from)
+	{
+		// $a_duration_from = "dd.mm.YYYY HH:ii:ss"
+		$this->duration_from = $a_duration_from;
+	}
+
+	public function setDurationUntil($a_duration_until)
+	{
+		$this->duration_until = $a_duration_until;
+	}
+
+	public function setDescription($a_description)
+	{
+		$this->description = $a_description;
+	}
+
+	private function __getDurationFrom()
+	{
+		return $this->duration_from;
+	}
+
+	private function __getDurationUntil()
+	{
+		return $this->duration_until;
+	}
+	private function __getDescription()
+	{
+		return $this->description;
 	}
 }
 ?>

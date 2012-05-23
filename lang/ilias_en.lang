@@ -12578,3 +12578,6 @@ rbac#:#grp_create_dcl#:#Create Data Collection
 rbac#:#cat_create_dcl#:#Create Data Collection
 survey#:#freetext_answers#:#Open Answers
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.
+payment#:#duration_month#:#Access duration in monaths
+payment#:#duration_date#:#Access duration
+payment#:#please_choose_category#:#Please choose a category

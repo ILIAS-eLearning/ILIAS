@@ -12568,3 +12568,6 @@ rbac#:#grp_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#cat_create_dcl#:#Neue Datensammlung anlegen
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
+payment#:#duration_month#:#Zugriffsdauer in Monaten
+payment#:#duration_date#:#Zugriffszeitraum
+payment#:#please_choose_category#:#Bitte wählen Sie eine Kategorie

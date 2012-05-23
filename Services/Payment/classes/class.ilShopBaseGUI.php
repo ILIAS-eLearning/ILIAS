@@ -12,7 +12,6 @@
 class ilShopBaseGUI
 {
 	protected $ctrl = null;
-	protected $ilias = null;
 	protected $lng = null;
 	protected $tpl = null;
 	protected $oGeneralSettings = null;	
@@ -21,9 +20,8 @@ class ilShopBaseGUI
 	
 	public function __construct()
 	{
-		global $ilCtrl, $ilias, $lng, $tpl, $ilMainMenu;
+		global $ilCtrl, $lng, $tpl, $ilMainMenu;
 
-		$this->ilias = $ilias;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
 		$this->lng = $lng;

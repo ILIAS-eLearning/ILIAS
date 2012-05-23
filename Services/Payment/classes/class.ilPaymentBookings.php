@@ -22,6 +22,19 @@ class ilPaymentBookings
 	public $bookings = array();
 
 	public $booking_id = null;
+	public $transaction = null;
+	public $pobject_id = null;
+	public $customer_id = null;
+	public $vendor_id = null;
+	public $pay_method = null;
+	public $order_date = null;
+	public $duration = 0;
+	public $unlimited_duration = 0;
+	public $price = 0;
+	public $discount = 0;
+	public $transaction_extern = null;
+	public $vat_unit = 0;
+	public $object_title = null;
 	public $payed 		= null;
 	public $access 	= null;
 	public $voucher 	= null;
@@ -39,13 +52,14 @@ class ilPaymentBookings
 	public $access_startdate = null;
 	public $access_enddate = null;
 	public $admin_view = false;
+	private $price_type = null;
 
 	public $access_extension = false;
 
 	/*
 	 * admin_view = true reads all statistic data (only_used in administration)
 	 */
-	public function ilPaymentBookings($a_user_id = '',$a_admin_view = false)
+	public function __construct($a_user_id = '',$a_admin_view = false)
 	{
 		global $ilDB;
 	
@@ -138,6 +152,15 @@ class ilPaymentBookings
 	{
 		return $this->unlimited_duration;
 	}
+	
+    public function setPriceType($a_price_type)
+    {
+        $this->price_type = $a_price_type;
+    }
+    public function getPriceType()
+    {
+        return $this->price_type;
+    }
 	
 	public function setPrice($a_price)
 	{
@@ -284,9 +307,9 @@ class ilPaymentBookings
 	public function getCurrencyUnit()
 	{
 		return $this->currency_unit;
-	}  
-		
-	private function setAccessStartdate($a_access_startdate)
+	}
+
+	public function setAccessStartdate($a_access_startdate)
 	{
 		$this->access_startdate = $a_access_startdate;
 	}
@@ -295,7 +318,7 @@ class ilPaymentBookings
 		return $this->access_startdate;
 	}
 
-	private function setAccessEnddate($a_access_enddate)
+	public function setAccessEnddate($a_access_enddate)
 	{
 		$this->access_enddate = $a_access_enddate;
 	}
@@ -369,8 +392,11 @@ class ilPaymentBookings
 				$this->__calculateAccessEnddate();
 			}
 		}
+		return true;
 	}
-
+/*
+ * calculate AccessEnddate for TYPE_DURATION_MONTH !!
+ */
 	private function __calculateAccessEnddate()
 	{
 
@@ -395,17 +421,30 @@ class ilPaymentBookings
 
 	public function add()
 	{
-		if($this->getAccessExtension() == 1)
+		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
+		switch($this->getPriceType())
 		{
-			$this->__checkExtensionDependencies();
-		}
-		else
-		{
-			$this->setAccessStartdate(date('Y-m-d H:i:s', $this->getOrderDate()));
-			if($this->getDuration() > 0)
-			{
-				$this->__calculateAccessEnddate();
-			}
+			case ilPaymentPrices::TYPE_DURATION_DATE:
+				// do nothing. access_startdate, access_enddate is already set
+				break;
+			case ilPaymentPrices::TYPE_DURATION_MONTH:
+			case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+				if($this->getAccessExtension() == 1)
+				{
+					$this->__checkExtensionDependencies();
+				}
+				else
+				{
+					$this->setAccessStartdate(date('Y-m-d H:i:s', $this->getOrderDate()));
+					if($this->getDuration() > 0)
+					{
+						$this->__calculateAccessEnddate();
+					}
+				}			
+				break;
+			default:
+				return false; // price_type_not_set!!!
+				break;
 		}
 		
 		$next_id = $this->db->nextId('payment_statistic');
@@ -547,6 +586,7 @@ class ilPaymentBookings
 
 	public function getBooking($a_booking_id)
 	{
+		$booking = array();
 		$res = $this->db->queryf('
 			SELECT * FROM payment_statistic ps, payment_objects po
 			WHERE ps.pobject_id = po.pobject_id
@@ -641,7 +681,7 @@ class ilPaymentBookings
 			$usr_id = $a_user_id ? $a_user_id : $ilUser->getId();
 	
 			$res = $ilDB->queryf('
-				SELECT order_date, duration, access_enddate
+				SELECT order_date, duration, access_startdate, access_enddate
 				FROM payment_statistic
 				WHERE pobject_id = %s
 				AND customer_id = %s
@@ -650,57 +690,29 @@ class ilPaymentBookings
 				array('integer', 'integer', 'integer', 'integer'),
 				array($a_pobject_id, $usr_id, '1', '1'));
 		}
-		while($row = $ilDB->fetchObject($res))
+		
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			if($row->duration != 0)
+			if($row['duration'] == 0 && $row['access_enddate'] == NULL)
 			{
-				if( time() >= $row->order_date
-					&& date("Y-m-d") <= $row->access_enddate)
+				return true;
+			}
+			else 
+			if($row['access_startdate'] == NULL)
+			{
+				if(time() >= $row['order_date'] 
+					&& date("Y-m-d") <= $row['access_enddate'])
 				{
 					return true;
 				}
 			}
-			else return true;
-		}			
-		return false;
-	}
-	
-	public function _getActivation($a_pobject_id,$a_user_id = 0)
-	{
-		global $ilDB, $ilUser;
-
-		if(ANONYMOUS_USER_ID == $a_user_id)
-		return false;
-		$usr_id = $a_user_id ? $a_user_id : $ilUser->getId();
-
-		$res = $ilDB->queryf('
-			SELECT order_date, duration, access_enddate
-			FROM payment_statistic
-			WHERE pobject_id = %s
-			AND customer_id = %s
-			AND payed = %s
-			AND access_granted = %s',
-			array('integer', 'integer', 'integer', 'integer'),
-			array($a_pobject_id, $usr_id, '1', '1'));
-		
-		while($row = $ilDB->fetchObject($res))
-		{
-			if($row->duration != 0)
+			else
+			if (date("Y-m-d") >= $row['access_startdate'] 
+				&& date("Y-m-d") <= $row['access_enddate'])
 			{
-				if( time() >= $row->order_date
-					&& date("Y-m-d") <= $row->access_enddate)
-			{
-				$activation = array(
-					"activation_start" => $row->order_date,
-						"activation_end" => mktime(0, 0, 0,
-							date('m', $row->access_enddate),
-							date('d', $row->access_enddate),
-							date('Y', $row->access_enddate))
-				);
-				return $activation;
+				return true;
 			}
 		}			
-		}
 		return false;
 	}
 	
@@ -882,7 +894,6 @@ class ilPaymentBookings
 					AND customer_id = %s
 					AND transaction = %s';
 		
-		$i = 0;
 		$res = $ilDB->queryF($query, array('integer','text'), array($a_user_id, $a_transaction_nr));
 		while($row = $ilDB->fetchAssoc($res))
 		{	
@@ -957,6 +968,7 @@ class ilPaymentBookings
 		{
 			return true;	
 		}
+		return false;
 	}	
 		
 	public function getUniqueTitles()
