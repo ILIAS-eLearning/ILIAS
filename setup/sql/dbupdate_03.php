@@ -9645,3 +9645,7 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 		array('price_type' => array('integer', 3)),
 		array('unlimited_duration' => array('integer', 1)));
 ?>
+<#3580>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

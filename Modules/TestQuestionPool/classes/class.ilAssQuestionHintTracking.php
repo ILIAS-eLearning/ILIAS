@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
+
 /**
  * Class for tracking of question hint requests
  * 
@@ -58,11 +60,11 @@ class ilAssQuestionHintTracking
 	 *
 	 * @static
 	 * @access	public
-	 * @global	ilDB					$ilDB
-	 * @param	integer					$questionId
-	 * @param	integer					$activeId
-	 * @param	integer					$pass
-	 * @return	boolean					$requestsPossible
+	 * @global	ilDB		$ilDB
+	 * @param	integer		$questionId
+	 * @param	integer		$activeId
+	 * @param	integer		$pass
+	 * @return	boolean		$requestsPossible
 	 */
 	public static function requestsPossible($questionId, $activeId, $pass)
 	{
@@ -75,7 +77,7 @@ class ilAssQuestionHintTracking
 			FROM		qpl_hints
 			
 			LEFT JOIN	qpl_hint_tracking
-			ON			qhtr_question_fi = qht_question_fi
+			ON			qhtr_hint_fi = qht_hint_id
 			AND			qhtr_active_fi = %s
 			AND			qhtr_pass = %s
 			
@@ -94,6 +96,95 @@ class ilAssQuestionHintTracking
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Returns the fact wether the hint for given id is requested
+	 * for the given testactive and testpass
+	 *
+	 * @static
+	 * @access	public
+	 * @global	ilDB	$ilDB
+	 * @param	integer	$hintId
+	 * @param	integer	$activeId
+	 * @param	integer	$pass
+	 * @return	boolean	$isRequested
+	 */
+	public static function isRequested($hintId, $activeId, $pass)
+	{
+		global $ilDB;
+		
+		$query = "
+			SELECT		COUNT(qhtr_track_id) cnt
+			
+			FROM		qpl_hint_tracking
+			
+			WHERE		qhtr_hint_fi = %s
+			AND			qhtr_active_fi = %s
+			AND			qhtr_pass = %s
+		";
+		
+		$res = $ilDB->queryF(
+				$query, array('integer', 'integer', 'integer'), array($hintId, $activeId, $pass)
+		);
+		
+		$row = $ilDB->fetchAssoc($res);
+		
+		if( $row['cnt'] > 0 )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Returns the next requestable hint for given question
+	 * relating to given testactive and testpass
+	 *
+	 * @static
+	 * @access	public
+	 * @global	ilDB				$ilDB
+	 * @param	integer				$questionId
+	 * @param	integer				$activeId
+	 * @param	integer				$pass
+	 * @return	ilAssQuestionHint	$nextRequestableHint
+	 * @throws	ilTestException
+	 */
+	public static function getNextRequestableHint($questionId, $activeId, $pass)
+	{
+		global $ilDB;
+		
+		$query = "
+			SELECT		qht_hint_id
+			
+			FROM		qpl_hints
+			
+			LEFT JOIN	qpl_hint_tracking
+			ON			qhtr_hint_fi = qht_hint_id
+			AND			qhtr_active_fi = %s
+			AND			qhtr_pass = %s
+			
+			WHERE		qht_question_fi = %s
+			AND			qhtr_track_id IS NULL
+			
+			ORDER BY	qht_hint_index ASC
+		";
+		
+		$ilDB->setLimit(1);
+		
+		$res = $ilDB->queryF(
+				$query, array('integer', 'integer', 'integer'), array($activeId, $pass, $questionId)
+		);
+		
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			$nextHint = ilAssQuestionHint::getInstanceById($row['qht_hint_id']);
+			
+			return $nextHint;
+		}
+		
+		throw new ilTestException("no next hint found for questionId=$questionId, activeId=$activeId, pass=$pass");
 	}
 	
 	/**

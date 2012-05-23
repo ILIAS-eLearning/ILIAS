@@ -4,6 +4,7 @@
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 
 /**
  * Table GUI for managing list of hints for a question
@@ -22,12 +23,26 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	const INDEX_TO_POSITION_FACTOR = 10;
 	
 	/**
+	 * the available table modes controlling the tables behaviour
+	 */
+	const TBL_MODE_TESTOUTPUT		= 'MODE_TESTOUTPUT';
+	const TBL_MODE_ADMINISTRATION	= 'MODE_ADMINISTRATION';
+	
+	/**
 	 * the object instance for current question
 	 * 
 	 * @access	private
 	 * @var		assQuestion
 	 */
 	private $questionOBJ = null;
+	
+	/**
+	 * the table mode controlling the tables behaviour
+	 * (either self::TBL_MODE_TESTOUTPUT or self::TBL_MODE_ADMINISTRATION)
+	 *
+	 * @var string
+	 */
+	private $tableMode = null;
 	
 	/**
 	 * hint clipboard for ordering operations
@@ -48,25 +63,23 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	 * @param	ilAssQuestionHintsGUI	$parentGUI
 	 * @param	string					$parentCmd 
 	 */
-	public function __construct(assQuestion $questionOBJ, ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard,
-			ilAssQuestionHintList $questionHintList, ilAssQuestionHintsGUI $parentGUI, $parentCmd)
+	public function __construct(assQuestion $questionOBJ, ilAssQuestionHintList $questionHintList,
+			ilAssQuestionHintAbstractGUI $parentGUI, $parentCmd, $tableMode = self::TBL_MODE_TESTOUTPUT,
+			ilAssQuestionHintsOrderingClipboard $hintOrderingClipboard = null)
 	{
 		global $ilCtrl, $lng;
 		
 		$this->questionOBJ = $questionOBJ;
+		$this->tableMode = $tableMode;
 		$this->hintOrderingClipboard = $hintOrderingClipboard;
+		
+		$this->setPrefix('tst_question_hints'.$tableMode);
+		$this->setId('tst_question_hints'.$tableMode);
 		
 		parent::__construct($parentGUI, $parentCmd);
 		
-		$this->setPrefix('tst_question_hints');
-		$this->setId('tst_question_hints');
-		
 		$this->setTitle( sprintf($lng->txt('tst_question_hints_table_header'), $questionOBJ->getTitle()) );
 		$this->setNoEntriesText( $lng->txt('tst_question_hints_table_no_items') );
-		
-		$this->setSelectAllCheckbox('hint_ids[]');
-		
-		$this->setRowTemplate('tpl.tst_question_hints_table_row.html', 'Modules/TestQuestionPool');
 		
 		// we don't take care about offset/limit values, so this avoids segmentation in general
 		// --> required for ordering via clipboard feature
@@ -75,20 +88,35 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		$tableData = $questionHintList->getTableData();
 		$this->setData($tableData);
 
-		$rowCount = count($tableData);
-		$this->initColumns($rowCount);
-		$this->initCommands($rowCount);
+		if( $this->tableMode == self::TBL_MODE_ADMINISTRATION )
+		{
+			$this->setRowTemplate('tpl.tst_question_hints_administration_table_row.html', 'Modules/TestQuestionPool');
+
+			$this->setSelectAllCheckbox('hint_ids[]');
+		
+			$rowCount = count($tableData);
+			$this->initAdministrationColumns($rowCount);
+			$this->initAdministrationCommands($rowCount);
+		}
+		else
+		{
+			$this->setRowTemplate('tpl.tst_question_hints_testoutput_table_row.html', 'Modules/TestQuestionPool');
+
+			$this->initTestoutputColumns();
+			$this->initTestoutputCommands();
+		}
 	}
 	
 	/**
 	 * inits the required command buttons / multi selection commands
+	 * for administration table mode
 	 *
 	 * @access	private
 	 * @global	ilCtrl		$ilCtrl
 	 * @global	ilLanguage	$lng
 	 * @param	integer		$rowCount
 	 */
-	private function initCommands($rowCount)
+	private function initAdministrationCommands($rowCount)
 	{
 		global $ilCtrl, $lng;
 		
@@ -126,13 +154,34 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	}
 	
 	/**
-	 * inits the required columns ()
+	 * inits the required command buttons / multi selection commands
+	 * for testoutput table mode
+	 *
+	 * @access	private
+	 * @global	ilCtrl		$ilCtrl
+	 * @global	ilLanguage	$lng
+	 */
+	private function initTestoutputCommands()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->setFormAction( $ilCtrl->getFormAction($this->parent_obj) );
+		
+		$this->addCommandButton(
+				ilAssQuestionHintRequestGUI::CMD_BACK_TO_QUESTION,
+				$lng->txt('tst_question_hints_back_to_question')
+		);
+	}
+	
+	/**
+	 * inits the required columns
+	 * for administration table mode
 	 * 
 	 * @access	private
 	 * @global	ilLanguage	$lng
 	 * @param	integer		$rowCount
 	 */
-	private function initColumns($rowCount)
+	private function initAdministrationColumns($rowCount)
 	{
 		global $lng;
 		
@@ -151,6 +200,25 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 		{
 			$this->disable('header');
 		}
+	}
+	
+	/**
+	 * inits the required columns
+	 * for testoutput table mode
+	 * 
+	 * @access	private
+	 * @global	ilLanguage	$lng
+	 */
+	private function initTestoutputColumns()
+	{
+		global $lng;
+		
+		$this->addColumn( $lng->txt('tst_question_hints_table_column_hint_index'), 'hint_index', '200');
+		$this->addColumn( $lng->txt('tst_question_hints_table_column_hint_text'), 'hint_text');
+		$this->addColumn( $lng->txt('tst_question_hints_table_column_hint_points'), 'hint_points', '200');
+		
+		$this->setDefaultOrderField("hint_index");
+		$this->setDefaultOrderDirection("asc");
 	}
 	
 	/**
@@ -186,24 +254,41 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 		
-		$editHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
-		$editHref = ilUtil::appendUrlParameterString($editHref, "hint_id={$rowData['hint_id']}", true);
+		if( $this->tableMode == self::TBL_MODE_ADMINISTRATION )
+		{
+			$editHref = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintGUI', ilAssQuestionHintGUI::CMD_SHOW_FORM);
+			$editHref = ilUtil::appendUrlParameterString($editHref, "hint_id={$rowData['hint_id']}", true);
+
+			$deleteHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE);
+			$deleteHref = ilUtil::appendUrlParameterString($deleteHref, "hint_id={$rowData['hint_id']}", true);
+			
+			$list = new ilAdvancedSelectionListGUI();
+			$list->setListTitle($lng->txt('actions'));
+			$list->setId("advsl_hint_{$rowData['hint_id']}_actions");
+
+			$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint'), '', $editHref);
+			$list->addItem($lng->txt('tst_question_hints_table_link_delete_hint'), '', $deleteHref);
+
+			$this->tpl->setVariable('ACTIONS', $list->getHTML());
+
+			$this->tpl->setVariable('HINT_ID', $rowData['hint_id']);
+
+			$hintIndex = $rowData['hint_index'] * self::INDEX_TO_POSITION_FACTOR;
+
+		}
+		else
+		{
+			$showHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintRequestGUI::CMD_SHOW_HINT);
+			$showHref = ilUtil::appendUrlParameterString($showHref, "hintId={$rowData['hint_id']}", true);
+			
+			$this->tpl->setVariable('HINT_HREF', $showHref);
+
+			$hintIndex = sprintf($lng->txt('tst_question_hints_index_column_label'), $rowData['hint_index']);
+		}
 		
-		$deleteHref = $ilCtrl->getLinkTarget($this->parent_obj, ilAssQuestionHintsGUI::CMD_CONFIRM_DELETE);
-		$deleteHref = ilUtil::appendUrlParameterString($deleteHref, "hint_id={$rowData['hint_id']}", true);
-		
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setListTitle($lng->txt('actions'));
-		$list->setId("advsl_hint_{$rowData['hint_id']}_actions");
-		
-		$list->addItem($lng->txt('tst_question_hints_table_link_edit_hint'), '', $editHref);
-		$list->addItem($lng->txt('tst_question_hints_table_link_delete_hint'), '', $deleteHref);
-		
-		$this->tpl->setVariable('HINT_ID', $rowData['hint_id']);
-		$this->tpl->setVariable('HINT_INDEX', $rowData['hint_index'] * self::INDEX_TO_POSITION_FACTOR);
+		$this->tpl->setVariable('HINT_INDEX', $hintIndex);
 		$this->tpl->setVariable('HINT_TEXT', $rowData['hint_text']);
 		$this->tpl->setVariable('HINT_POINTS', $rowData['hint_points']);
-		$this->tpl->setVariable('ACTIONS', $list->getHTML());
 	}
 }
 
