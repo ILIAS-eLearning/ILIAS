@@ -105,14 +105,14 @@ var ilMultiFormValues = {
 	handlePreset: function(element) {	
 		// build id for added elements
 		var element_id = $(element).attr('id').split('~');
-		element_id = element_id[1] + '____';
+		element_id = element_id[1];
 
 		// add element for each additional value
 		var values = $(element).attr('value').split('~');	
 		$(values).each(function(i) {
 			// 1st value can be ignored
 			if(i > 0) {
-				ilMultiFormValues.add(element_id, '0', this);		
+				ilMultiFormValues.add(element_id, i-1, this);		
 			}
 		});	
 	},
