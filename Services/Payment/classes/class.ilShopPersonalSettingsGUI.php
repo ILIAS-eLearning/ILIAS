@@ -20,7 +20,7 @@ class ilShopPersonalSettingsGUI extends ilShopBaseGUI
 	
 	public function executeCommand()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $ilErr;
 		
 		// check access
 		if(!(bool)$this->oGeneralSettings->get('topics_allow_custom_sorting'))
@@ -30,7 +30,7 @@ class ilShopPersonalSettingsGUI extends ilShopBaseGUI
 		
 		if(ANONYMOUS_USER_ID == $ilUser->getId())
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
 		
 		$next_class = $this->ctrl->getNextClass($this);

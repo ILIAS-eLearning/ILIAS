@@ -20,7 +20,7 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 	public $user_obj;
 	public $ctrl;
 
-	public function ilPaymentTrusteeGUI($user_obj)
+	public function __construct($user_obj)
 	{
 		parent::__construct();
 
@@ -45,8 +45,6 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 	
 	public function executeCommand()
 	{
-		global $tree;
-
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
@@ -125,10 +123,6 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 		
 		$counter = 0;
 		$f_result = array();
-		
-		$img_mail = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".
-			$this->lng->txt("crs_mem_send_mail").
-			"\" title=\"".$this->lng->txt("crs_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
 		
 		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		foreach($this->trustee_obj->getTrustees() as $trustee)
@@ -259,6 +253,7 @@ class ilPaymentTrusteeGUI extends ilShopBaseGUI
 			++$counter;
 		}
 		$this->__showSearchUserTable($f_result);
+		return true;
 	}
 
 	public function addTrustee()

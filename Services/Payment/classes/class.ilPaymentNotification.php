@@ -19,7 +19,7 @@ class ilPaymentNotification extends ilMailNotification
 
 	public function send()
 	{
-		global $ilDB, $lng, $ilSetting;
+		global $lng;
 
 		$customer_array = $this->_getObjectsToRemind();
 
@@ -52,7 +52,7 @@ class ilPaymentNotification extends ilMailNotification
 
 			$this->appendBody("----------------------------------------------------------------------------------------------");
 
-
+			//@todo fix this: $mailbox_link
 			$this->appendBody($mailbox_link);
 			$this->appendBody("\n\n");
 

@@ -14,7 +14,9 @@
 */
 
 include_once './Services/Excel/classes/class.ilExcelWriterAdapter.php';
-
+/*
+ *  depricated?! 
+ * */
 class ilPaymentExcelWriterAdapter extends ilExcelWriterAdapter
 {
 

@@ -59,7 +59,7 @@ class ilPaymentAdminGUI
 
 	private function forwardToDefault()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		$is_vendor = ilPaymentVendors::_isVendor($this->user_obj->getId());
 		$has_stat_perm = ilPaymentTrustees::_hasStatisticPermission($this->user_obj->getId());

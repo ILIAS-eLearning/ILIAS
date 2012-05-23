@@ -35,12 +35,9 @@ class ilPurchasePaypal  extends ilPurchaseBaseGUI
 	public $currency = null;	
 	public $db = null;
 	public $paypalConfig;
-	private $totalVat = 0;
 
-	public function ilPurchasePaypal($user_obj)
+	public function __construct($user_obj)
 	{
-		global $ilDB, $lng;
-
 		$this->user_obj = $user_obj;
 		$this->pay_method = ilPayMethods::_getIdByTitle('paypal');		
 		

@@ -85,7 +85,7 @@ class ilPurchase
      // $bo->setPrice(  $i['betrag'] ); // amount
       //$bo->setPrice( ilPaymentPrices::_getPriceString( $i['price_id'] ));
 		$bo->setDuration($i['duration']);  
-		$bo->setPrice($sc[$i]['price_string']);			
+		$bo->setPrice($i['price_string']);			
       
       $bo->setDiscount(0);
       $bo->setVoucher('');

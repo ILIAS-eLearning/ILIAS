@@ -15,7 +15,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 	public $coupon_obj = null;
 	public $pobject = null;
 
-	public function ilPaymentCouponGUI($user_obj)
+	public function __construct($user_obj)
 	{
 		parent::__construct();
 		
@@ -713,7 +713,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 	{
 		if ($a_code == "") $a_code = md5(uniqid(rand()));
 	
-		if (is_numeric($a_code) && strlen($a_code) > $a_length)
+		if (is_numeric($a_length) && strlen($a_code) > $a_length)
 		{
 			$a_code = substr($a_code, 0, $a_length);
 		}		
@@ -1061,8 +1061,8 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 		ilUtil::sendQuestion($this->lng->txt('paya_coupons_sure_delete_selected_codes'));
 		$oConfirmationGUI = new ilConfirmationGUI() ;
 		// set confirm/cancel commands
-		$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this, $del_cmd));
-		$oConfirmationGUI->setHeaderText($del_info);
+		$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this, 'performDeleteCoupon'));		
+		$oConfirmationGUI->setHeaderText('');
 		$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "showCoupons");
 		$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), 'performDeleteCoupon');			
 		$oConfirmationGUI->addItem('','', ilPaymentCoupons::_lookupTitle($_GET['coupon_id']));					
