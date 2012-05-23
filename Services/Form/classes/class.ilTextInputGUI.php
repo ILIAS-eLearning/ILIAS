@@ -44,7 +44,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	* @param	string	$a_value	Value
 	*/
 	function setValue($a_value)
-	{
+	{				
 		if($this->getMulti() && is_array($a_value))
 		{						
 			$this->setMultiValues($a_value);	
@@ -170,14 +170,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	* @param	array	$a_values	value array
 	*/
 	function setValueByArray($a_values)
-	{
-		$var = $this->getPostVar();	
-		if($this->getMulti() && substr($var, -2) == "[]")
-		{
-			$var = substr($var, 0, -2);		
-		}	
-		$value = $a_values[$var];	
-		$this->setValue($value);
+	{		
+		$this->setValue($a_values[$this->getPostVar()]);
 	}
 
 	/**
@@ -261,25 +255,64 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	{
 		global $lng;
 		
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
-		{
-			$this->setAlert($lng->txt("msg_input_is_required"));
-
-			return false;
-		}
-		else if (strlen($this->getValidationRegexp()))
-		{
-			if (!preg_match($this->getValidationRegexp(), $_POST[$this->getPostVar()]))
+		if(!$this->getMulti())
+		{		
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+			if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 			{
-				$this->setAlert(
-					$this->getValidationFailureMessage() ?
-					$this->getValidationFailureMessage() :
-					$lng->txt('msg_wrong_format')
-				);
-				return FALSE;
+				$this->setAlert($lng->txt("msg_input_is_required"));
+
+				return false;
 			}
+			else if (strlen($this->getValidationRegexp()))
+			{
+				if (!preg_match($this->getValidationRegexp(), $_POST[$this->getPostVar()]))
+				{
+					$this->setAlert(
+						$this->getValidationFailureMessage() ?
+						$this->getValidationFailureMessage() :
+						$lng->txt('msg_wrong_format')
+					);
+					return FALSE;
+				}
+			}			
 		}
+		else 
+		{			
+			foreach($_POST[$this->getPostVar()] as $idx => $value)
+			{
+				$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
+			}		
+			$_POST[$this->getPostVar()] = array_unique($_POST[$this->getPostVar()]);
+			
+			if ($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()])))
+			{
+				$this->setAlert($lng->txt("msg_input_is_required"));
+
+				return false;
+			}
+			else if (strlen($this->getValidationRegexp()))
+			{
+				$reg_valid = true;
+				foreach($_POST[$this->getPostVar()] as $value)
+				{
+					if (!preg_match($this->getValidationRegexp(), $value))
+					{
+						$reg_valid = false;
+						break;
+					}
+				}
+				if(!$reg_valid)
+				{
+					$this->setAlert(
+						$this->getValidationFailureMessage() ?
+						$this->getValidationFailureMessage() :
+						$lng->txt('msg_wrong_format')
+					);
+					return false;
+				}
+			}
+		}		
 		
 		return $this->checkSubItemsInput();
 	}
@@ -362,16 +395,39 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
 		if (strlen($this->getSuffix())) $tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
 		
+		$postvar = $this->getPostVar();		
+		if($this->getMulti() && substr($postvar, -2) != "[]")
+		{
+			$postvar .= "[]";
+		}
+		
 		if ($this->getDisabled())
 		{
-			$tpl->setVariable("DISABLED",
-				" disabled=\"disabled\"");
-			$tpl->setVariable("HIDDEN_INPUT",
-				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
+			if($this->getMulti())
+			{
+				$value = $this->getMultiValues();
+				$hidden = "";	
+				if(is_array($value))
+				{
+					foreach($value as $item)
+					{
+						$hidden .= $this->getHiddenTag($postvar, $item);
+					}
+				}
+			}
+			else
+			{			
+				$hidden = $this->getHiddenTag($postvar, $this->getValue());
+			}			
+			if($hidden)
+			{
+				$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+				$tpl->setVariable("HIDDEN_INPUT", $hidden);
+			}			
 		}
 		else
 		{
-			$tpl->setVariable("POST_VAR", $this->getPostVar());
+			$tpl->setVariable("POST_VAR", $postvar);
 		}
 
 		// use autocomplete feature?		
@@ -398,7 +454,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		}
 		
 		// multi icons
-		if($this->getMulti() && !$a_mode)
+		if($this->getMulti() && !$a_mode && !$this->getDisabled())
 		{
 			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());			
 		}

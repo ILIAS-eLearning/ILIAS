@@ -648,7 +648,7 @@ class ilPropertyFormGUI extends ilFormGUI
 			$multi_values = $item->getMultiValues();
 			if(is_array($multi_values) && sizeof($multi_values) > 1)
 			{
-				$multi_value = new ilHiddenInputGUI("ilMultiValues~".substr($item->getPostVar(), 0, -2));
+				$multi_value = new ilHiddenInputGUI("ilMultiValues~".$item->getPostVar());
 				$multi_value->setValue(implode("~", $multi_values));
 				$this->addItem($multi_value);				
 			}

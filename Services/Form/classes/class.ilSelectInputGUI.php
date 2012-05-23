@@ -88,13 +88,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 	*/
 	function setValueByArray($a_values)
 	{		
-		$var = $this->getPostVar();	
-		if($this->getMulti() && substr($var, -2) == "[]")
-		{
-			$var = substr($var, 0, -2);		
-		}	
-		$value = $a_values[$var];	
-		$this->setValue($value);
+		$this->setValue($a_values[$this->getPostVar()]);
 	}
 
 	/**
@@ -107,24 +101,25 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 		global $lng;
 
 		$valid = true;
-		if ($this->getRequired())
+		if(!$this->getMulti())
 		{
-			if(!$this->getMulti())
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+			if($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 			{
-				$_POST[$this->getPostVar()] =
-					ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-				if(trim($_POST[$this->getPostVar()]) == "")
-				{
-					$valid = false;
-				}
+				$valid = false;
 			}
-			else
+		}
+		else
+		{
+			foreach($_POST[$this->getPostVar()] as $idx => $value)
 			{
-				$var = str_replace("[]", "", $this->getPostVar());
-				if(!sizeof($_POST[$var]))
-				{
-					$valid = false;
-				}
+				$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
+			}		
+			$_POST[$this->getPostVar()] = array_unique($_POST[$this->getPostVar()]);
+
+			if($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()])))
+			{
+				$valid = false;
 			}
 		}
 		if (!$valid)
@@ -187,25 +182,44 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->setVariable("ID", $this->getFieldId());
-		if ($this->getDisabled())
+		
+		$postvar = $this->getPostVar();		
+		if($this->getMulti() && substr($postvar, -2) != "[]")
 		{
-			$tpl->setVariable("DISABLED",
-				" disabled=\"disabled\"");
+			$postvar .= "[]";
 		}
+		
 		if ($this->getDisabled())
-		{
-			$tpl->setVariable("DISABLED",
-				" disabled=\"disabled\"");
-			$tpl->setVariable("HIDDEN_INPUT",
-				$this->getHiddenTag($this->getPostVar(), $this->getValue()));
+		{						
+			if($this->getMulti())
+			{
+				$value = $this->getMultiValues();
+				$hidden = "";	
+				if(is_array($value))
+				{
+					foreach($value as $item)
+					{
+						$hidden .= $this->getHiddenTag($postvar, $item);
+					}
+				}
+			}
+			else
+			{			
+				$hidden = $this->getHiddenTag($postvar, $this->getValue());
+			}			
+			if($hidden)
+			{
+				$tpl->setVariable("DISABLED", " disabled=\"disabled\"");
+				$tpl->setVariable("HIDDEN_INPUT", $hidden);
+			}			
 		}
 		else
-		{
-			$tpl->setVariable("POST_VAR", $this->getPostVar());
+		{					
+			$tpl->setVariable("POST_VAR", $postvar);
 		}
 		
 		// multi icons
-		if($this->getMulti() && !$a_mode)
+		if($this->getMulti() && !$a_mode && !$this->getDisabled())
 		{
 			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());			
 		}

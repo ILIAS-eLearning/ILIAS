@@ -195,9 +195,9 @@ class ilAttendanceList
 			$form->addItem($preset);
 		}	
 		
-		$blank = new ilTextInputGUI($lng->txt('event_blank_columns'), 'blank[]');
-		$blank->setMulti(true);
-		$form->addItem($blank);		
+		$blank = new ilTextInputGUI($lng->txt('event_blank_columns'), 'blank');
+		$blank->setMulti(true);		
+		$form->addItem($blank);			
 		
 		if($this->pre_blanks)
 		{
