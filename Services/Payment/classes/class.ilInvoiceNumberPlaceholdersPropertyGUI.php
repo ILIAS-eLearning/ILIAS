@@ -16,7 +16,6 @@ class ilInvoiceNumberPlaceholdersPropertyGUI extends ilFormPropertyGUI
 	
 	public function __construct()
 	{
-		global $lng;
 		parent::__construct('');
 	}
 	
@@ -49,7 +48,7 @@ class ilInvoiceNumberPlaceholdersPropertyGUI extends ilFormPropertyGUI
 
 	public static function _generateInvoiceNumber($a_user_id = 0)
 	{
-		global $lng, $ilSetting;
+		global $ilSetting;
 		
 		if($a_user_id == 0)
 		{

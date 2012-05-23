@@ -12,13 +12,13 @@
 
 class ilPayMethods
 {
-	var $pm_id;
-	var $pm_title;
-	var $pm_enabled;
-	var $save_usr_adr;
+	public $pm_id;
+	public $pm_title;
+	public $pm_enabled;
+	public $save_usr_adr;
 	
 	
-	function ilPaymethods($a_pm_id = 0)
+	public function __construct($a_pm_id = 0)
 	{
 		global $ilDB;
 		$this->db = $ilDB;
@@ -32,20 +32,20 @@ class ilPayMethods
 	}
 	
 	// Setter / Getter
-	function setPmId($a_pm_id)
+	public function setPmId($a_pm_id)
 	{
 		$this->pm_id = $a_pm_id;
 	}
-	function getPmId()
+	public function getPmId()
 	{
 		return $this->pm_id;
-	}	
-	
-	function setPmTitle($a_pm_title)
+	}
+
+	public function setPmTitle($a_pm_title)
 	{
 		$this->pm_title = $a_pm_title;
 	}
-	function getPmTitle()
+	public function getPmTitle()
 	{
 		return $this->pm_title;
 	}	
@@ -54,21 +54,21 @@ class ilPayMethods
 	{
 		$this->pm_enabled = $a_pm_enabled;
 	}
-	function getPmEnabled()
+	public function getPmEnabled()
 	{
 		return $this->pm_enabled;
-	}	
-	
-	function setSaveUserAddress($a_save_usr_adr)
+	}
+
+	public function setSaveUserAddress($a_save_usr_adr)
 	{
 		$this->save_usr_adr = $a_save_usr_adr;
 	}
-	function getSaveUserAddress()
+	public function getSaveUserAddress()
 	{
 		return $this->save_usr_adr;
-	}	
-	
-	static function countPM()
+	}
+
+	public static function countPM()
 	{
 		global $ilDB;
 		
@@ -108,8 +108,8 @@ class ilPayMethods
 		} 
 		return $paymethods;
 	}
-	
-	static function _PMEnabled($a_id)
+
+	public static function _PMEnabled($a_id)
 	{
 		global $ilDB; 
 		
@@ -121,8 +121,8 @@ class ilPayMethods
 		return (int)$row['pm_enabled'];
 		
 	}
-	
-	static function _PMdisable($a_id)
+
+	public static function _PMdisable($a_id)
 	{
 		global $ilDB;
 		
@@ -131,7 +131,7 @@ class ilPayMethods
 			array('integer'), array($a_id));
 	}
 	
-	static function _PMenable($a_id)
+	public static function _PMenable($a_id)
 	{
 		global $ilDB;
 		
@@ -139,17 +139,17 @@ class ilPayMethods
 			WHERE pm_id = %s',
 			array('integer'), array($a_id));
 	}
-	
-	static function _PMdisableAll()
+
+	public static function _PMdisableAll()
 	{
 		global $ilDB;
 		
 		$res = $ilDB->manipulateF('UPDATE payment_paymethods SET pm_enabled = %s',
 			array('integer'), array('0'));	
 	}
-	
-	
-	static function _disableSaveUserAddress($a_id)
+
+
+	public static function _disableSaveUserAddress($a_id)
 	{
 		global $ilDB;
 		
@@ -157,8 +157,8 @@ class ilPayMethods
 			WHERE pm_id = %s',
 			array('integer'), array($a_id));
 	}
-	
-	static function _enableSaveUserAddress($a_id)
+
+	public static function _enableSaveUserAddress($a_id)
 	{
 		global $ilDB;
 		
@@ -166,8 +166,8 @@ class ilPayMethods
 			WHERE pm_id = %s',
 			array('integer'), array($a_id));
 	}
-	
-	static function _EnabledSaveUserAddress($a_id)
+
+	public static function _EnabledSaveUserAddress($a_id)
 	{
 		global $ilDB; 
 		
@@ -179,7 +179,7 @@ class ilPayMethods
 		return (int)$row['save_usr_adr'];
 		
 	}
-	static function _getIdByTitle($a_pm_title)
+	public static function _getIdByTitle($a_pm_title)
 	{
 		global $ilDB;
 		
@@ -189,7 +189,7 @@ class ilPayMethods
 		$row = $ilDB->fetchAssoc($res);
 		return (int)$row['pm_id'];
 	}
-	static function _getTitleById($a_pm_id)
+	public static function _getTitleById($a_pm_id)
 	{
 		global $ilDB;
 		
@@ -200,8 +200,8 @@ class ilPayMethods
 		return $row['pm_title'];
 		
 	}
-	
-	static function getStringByPaymethod($a_type)
+
+	public static function getStringByPaymethod($a_type)
 	{	
 		global $lng;
 	
@@ -241,7 +241,7 @@ class ilPayMethods
 /*
  * This function returns all available paymethods for SelectInputs in GUIs
  */
-	static function getPayMethodsOptions($type = 0)
+	public static function getPayMethodsOptions($type = 0)
 	{
 		global $ilDB, $lng;
 		

@@ -893,7 +893,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		$this->__addBookings();
 	}
 	
-	private function __showShoppingCart()
+	public function __showShoppingCart()
 	{
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 

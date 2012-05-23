@@ -18,12 +18,18 @@ class ilPaymentTrustees
 
 	public $user_obj;
 	public $trustees = array();
+	
+	public $perm_stat = null;
+	public $perm_obj = null;
+	public $perm_coupons = null;
+	
+	public $trustee_id = 0;
 
 	/**
 	* Constructor
 	* @access	public
 	*/
-	public function ilPaymentTrustees($user_obj)
+	public function __construct($user_obj)
 	{
 		global $ilDB;
 

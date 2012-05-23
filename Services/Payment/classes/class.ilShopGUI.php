@@ -29,7 +29,7 @@ class ilShopGUI extends ilShopBaseGUI
 	private $type = '';
 	private $topic_id = 0;
 
-	private $form = null;
+//	private $form = null;
 	public $genSet = null;
 
 	public $cur_ref_id = null;
@@ -60,7 +60,7 @@ class ilShopGUI extends ilShopBaseGUI
 
 	function executeCommand()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser;
 
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
@@ -254,7 +254,7 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function showShopExplorer()
 	{
-		global $ilCtrl, $tree, $ilSetting, $lng, $tpl;
+		global $ilCtrl, $tree, $lng;
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 		$this->tpl->addBlockFile('LEFT_CONTENT', 'left_content', 'tpl.shop_explorer.html', 'Services/Payment');
@@ -343,7 +343,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function performSearch($oResult = null)
 	{
-		global $ilUser;
 		if(!is_object($oResult))
 		{
 			$oResult = new ilShopSearchResult(SHOP_CONTENT);

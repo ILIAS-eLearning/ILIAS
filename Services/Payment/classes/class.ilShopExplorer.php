@@ -41,7 +41,7 @@ class ilShopExplorer extends ilExplorer
 	*/
     public function ilShopExplorer($tpl, $a_target, $a_ref_id)
 	{
-		global $lng, $tree;
+		global $tree;
 		
 		$this->tree = $tree;
 		$this->tpl = $tpl;
@@ -82,7 +82,7 @@ class ilShopExplorer extends ilExplorer
 	*/
 	public function setOutput($a_parent, $a_depth = 1)
 	{
-		global $lng, $ilUser, $ilCtrl, $tree;
+		global $ilCtrl, $tree;
 		
 		$this->root_id = $tree->getRootId();
 

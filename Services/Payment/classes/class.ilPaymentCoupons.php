@@ -50,7 +50,7 @@ class ilPaymentCoupons
 
 	
 	
-	public function ilPaymentCoupons($user_obj, $a_vendor_view = false)
+	public function __construct($user_obj, $a_vendor_view = false)
 	{
 		global $ilDB;
 
@@ -645,7 +645,8 @@ class ilPaymentCoupons
 			array('text'),
 			array($a_coupon_code));
 
-				
+		$coupon = array();
+		
 		if (is_object($row = $this->db->fetchObject($res)))
 		{
 			$coupon['pc_pk'] = $row->pc_pk;			
@@ -749,6 +750,8 @@ class ilPaymentCoupons
 			WHERE pcc_pk = %s',
 			array('integer'),
 			array($a_code_id));
+		
+		$code = array();
 		
 		while($row = $this->db->fetchObject($res))
 		{

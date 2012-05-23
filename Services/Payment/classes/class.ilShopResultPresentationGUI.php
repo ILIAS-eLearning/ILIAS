@@ -29,7 +29,7 @@ class ilShopResultPresentationGUI
 
 	public function ilShopResultPresentationGUI($result)
 	{
-		global $tpl,$lng,$ilCtrl,$ilUser;
+		global $lng,$ilCtrl,$ilUser;
 
 		$this->lng = $lng;
 		
@@ -66,7 +66,7 @@ class ilShopResultPresentationGUI
 
 		ilShopTopics::_getInstance()->setIdFilter(false);
 		ilShopTopics::_getInstance()->read();
-		$topic_option = array();
+		
 		if(count($topics = ilShopTopics::_getInstance()->getTopics()))
 		{
 			foreach($topics as $oTopic)
@@ -149,7 +149,7 @@ class ilShopResultPresentationGUI
 					// price presentation
 					$oPaymentObject =
 						new ilPaymentObject($ilUser, ilPaymentObject::_lookupPobjectId($item['ref_id']));					
-					$oPrice = new ilPaymentPrices($oPaymentObject->getPobjectId());
+					$oPrice = new ilPaymentPrices((int)$oPaymentObject->getPobjectId());
 					$lowest_price = $oPrice->getLowestPrice();
 
 					$special_icon = ' ';
@@ -348,8 +348,6 @@ class ilShopResultPresentationGUI
 	
 	public function renderItemList($results)
 	{
-		global $ilUser;
-
 		$oContainerTpl = new ilTemplate ('tpl.shop_container.html', true, true, 'Services/Payment');	
 
 		foreach($this->result->getTopics() as $oTopic)

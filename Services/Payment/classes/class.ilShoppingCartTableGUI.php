@@ -66,7 +66,7 @@ class ilShoppingCartTableGUI extends ilTable2GUI
 	}
 
 
-	public function getTotalData($a_totals)
+	public function getTotalData()
 	{
 		return $this->total_data;
 	}

@@ -20,20 +20,22 @@ class ilShopNewsGUI extends ilShopBaseGUI
 	private $settings_form = null;
 	private $oCurrentNewsItem = null;
 	
+	public $ilErr = null;
+	
 	public function __construct()
 	{
+		global $ilErr;
 		parent::__construct();
 
 		$this->oCurrentNewsItem = new ilShopNewsItem((int)$_GET['news_id']);
 		
 		$this->lng->loadLanguageModule('news');
+		$this->ilErr = $ilErr;
 	}
 	
-	function executeCommand()
+	public function executeCommand()
 	{ 
-		global $ilTabs;		
-		
-		$next_class = $this->ctrl->getNextClass($this);
+//		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 
 		switch($cmd)
@@ -70,7 +72,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		
 		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->MESSAGE);
 		}		
 
 		$ilTabs->setSubTabActive('settings');
@@ -119,7 +121,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		
 		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'),$this->ilErr->MESSAGE);
 		}
 
 		$ilTabs->setSubTabActive('settings');
@@ -136,7 +138,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		
 		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'),$this->ilErr->MESSAGE);
 		}
 		
 		$this->initNewsForm('create');
@@ -170,11 +172,11 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		
 	public function update($view)
 	{		
-		global $ilUser, $oCurrentNewsItem, $rbacreview;
+		global $ilUser, $rbacreview;
 		
 		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'),$this->ilErr->MESSAGE);
 		}
 		
 		$this->initNewsForm('edit', $view);
@@ -223,7 +225,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		
 		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'),$this->ilErr->MESSAGE);
 		}		
 		
 		if(!(int)$_POST['news_id'])
@@ -259,8 +261,6 @@ class ilShopNewsGUI extends ilShopBaseGUI
 				return $this->showNews();
 				break;
 		}
-		
-		return true;
 	}
 	
 	public function confirmDeleteNews()
@@ -279,7 +279,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 				
 		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'),$this->ilErr->MESSAGE);
 		}
 		
 		if(!isset($_GET['news_id']))
@@ -335,7 +335,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 		
 		if(!$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID))
 		{
-			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'),$this->ilErr->MESSAGE);
 		}
 
 		if($view == 'archive')
@@ -453,7 +453,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 
 	public function showNews($confirmation_gui = '')
 	{
-		global $ilUser, $lng, $tpl, $ilCtrl, $ilTabs, $ilShopNewsItem, $ilSetting, $rbacreview, $ilToolbar;
+		global $ilUser, $tpl, $ilTabs, $ilSetting, $rbacreview, $ilToolbar;
 
 		$ilTabs->setSubTabActive('news');
 		
@@ -541,7 +541,7 @@ class ilShopNewsGUI extends ilShopBaseGUI
 	
 	public function showArchive($confirmation_gui = '')
 	{
-		global $ilUser, $lng, $tpl, $ilCtrl, $ilTabs, $ilShopNewsItem, $ilSetting, $rbacreview;
+		global $ilUser, $tpl, $ilTabs, $ilSetting, $rbacreview;
 
 		$ilTabs->setSubTabActive('archive');
 
