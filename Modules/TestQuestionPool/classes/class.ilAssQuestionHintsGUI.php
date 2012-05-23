@@ -15,6 +15,9 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsOrderingC
  * @version		$Id$
  * 
  * @package		Modules/TestQuestionPool
+ * 
+ * @ilCtrl_Calls ilAssQuestionHintsGUI: ilAssQuestionHintsTableGUI
+ * @ilCtrl_Calls ilAssQuestionHintsGUI: ilToolbarGUI, ilConfirmationGUI
  */
 class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 {
@@ -118,10 +121,11 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 		}
 		
 		$table = new ilAssQuestionHintsTableGUI(
-				$this->questionOBJ, $this->hintOrderingClipboard, $questionHintList, $this, self::CMD_SHOW_LIST
+				$this->questionOBJ, $questionHintList, $this, self::CMD_SHOW_LIST,
+				ilAssQuestionHintsTableGUI::TBL_MODE_ADMINISTRATION, $this->hintOrderingClipboard
 		);
 
-		$tpl->setContent( $toolbar->getHTML() . $table->getHTML() );
+		$tpl->setContent( $ilCtrl->getHtml($toolbar) . $ilCtrl->getHtml($table) );
 	}
 
 	/**
@@ -166,7 +170,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
 			}
 		}
 		
-		$tpl->setContent( $confirmation->getHTML() );
+		$tpl->setContent( $ilCtrl->getHtml($confirmation) );
 	}
 
 	/**

@@ -104,7 +104,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-				$gui = new ilAssQuestionHintRequestGUI($questionGUI);
+				$gui = new ilAssQuestionHintRequestGUI($this->object->getTestSession(), $questionGUI);
 				
 				$ret = $this->ctrl->forwardCommand($gui);
 				
@@ -1820,6 +1820,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	private function showRequestedHintList()
 	{
 		$this->saveQuestionSolution();
+		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_SHOW_LIST);
 	}
@@ -1832,6 +1833,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	private function confirmHintRequest()
 	{
 		$this->saveQuestionSolution();
+		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
 		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
 	}

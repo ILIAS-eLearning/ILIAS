@@ -12524,6 +12524,12 @@ assessment#:#tst_question_hints_paste_after_success_msg#:#Der Hinweis %s wurde n
 assessment#:#button_request_question_hint#:#Fordere Hinweis an
 assessment#:#button_request_next_question_hint#:#Fordere nächsten Hinweis an
 assessment#:#button_show_requested_question_hints#:#Zeige angeforderte Hinweise
+assessment#:#tst_question_hints_confirm_request#:#Fordere Hinweis an
+assessment#:#tst_question_hints_cancel_request#:#Zurück zur Frage
+assessment#:#tst_question_hints_request_confirmation#:#Wollen sie den %s. Hinweis wirklich anfordern? Es wird/werden für diesen Hinweis %s Punkt(e) abgezogen.
+assessment#:#tst_question_hints_back_to_question#:#Zurück zur Frage
+assessment#:#tst_question_hints_index_column_label#:#Hinweis %s
+assessment#:#tst_question_hints_table_column_hint_index#:#Index
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Blog kopieren
 blog#:#blog_copy#:#Blog kopieren
