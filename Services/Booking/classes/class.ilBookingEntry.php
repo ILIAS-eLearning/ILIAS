@@ -174,6 +174,8 @@ class ilBookingEntry
 	 */
 	public function delete()
 	{
+		global $ilDB;
+		
 		$query = "DELETE FROM booking_entry ".
 			"WHERE booking_id = ".$ilDB->quote($this->getId(),'integer');
 		$ilDB->manipulate($query);
