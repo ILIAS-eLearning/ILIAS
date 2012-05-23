@@ -20,8 +20,9 @@ include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersProper
 class ilPaymentStatisticGUI extends ilShopBaseGUI
 {
 	private $pobject = null;
+	public $booking_obj = null;
 
-	public function ilPaymentStatisticGUI($user_obj)
+	public function __construct($user_obj)
 	{
 		parent::__construct();		
 
@@ -61,7 +62,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 	}
 
-	function resetFilter()
+	public function resetFilter()
 	{
 		unset($_SESSION["pay_statistics"]);
 		unset($_POST["transaction_type"]);
@@ -82,7 +83,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->showStatistics();
 	}
 
-	function showStatistics()
+	public function showStatistics()
 	{
 		global $rbacsystem, $ilToolbar, $ilObjDataCache;
 
@@ -287,10 +288,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 #		$this->__showButton('excelExport',$this->lng->txt('excel_export'));
 
-		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
-			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
-			"\" border=\"0\" vspace=\"0\"/>";
-			
 		include_once 'Services/User/classes/class.ilObjUser.php';
 		$object_title_cache = array();
 		$user_title_cache = array();
@@ -370,7 +367,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		return $this->__showStatisticTable($f_result);
 	}
 
-	function excelExport()
+	public function excelExport()
 	{
 		include_once './Services/Payment/classes/class.ilPaymentExcelWriterAdapter.php';
 
@@ -385,7 +382,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		@$workbook->close();
 	}
 
-	function addStatisticWorksheet($pewa)
+	public function addStatisticWorksheet($pewa)
 	{
 		include_once './Services/Payment/classes/class.ilPaymentVendors.php';
 
@@ -494,7 +491,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 	}		
 
-	function editStatistic($a_show_confirm_delete = false)
+	public function editStatistic($a_show_confirm_delete = false)
 	{
 		global $ilToolbar;
 
@@ -600,13 +597,18 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		
 		// duration
 		$oDurationGUI = new ilNonEditableValueGUI($this->lng->txt('duration'));
-		if($booking['duration'] != 0)
+		if(($booking['duration'] == 0) && ($booking['access_enddate'] == NULL))
 		{
-			$frm_duration = $booking['duration'].' '.$this->lng->txt('paya_months');
+			$frm_duration = $this->lng->txt("unlimited_duration");
 		}
 		else
-		{				
-			$frm_duration = $this->lng->txt("unlimited_duration");
+		{	
+			if($booking['duration'] > 0)
+			{
+				$frm_duration = $booking['duration'].' '.$this->lng->txt('paya_months');
+			}
+			$frm_duration .= ilDatePresentation::formatDate(new ilDate($booking['access_startdate'], IL_CAL_DATETIME))
+			.' - '.ilDatePresentation::formatDate(new ilDate($booking['access_enddate'], IL_CAL_DATETIME));
 		}		
 		$oDurationGUI->setValue($frm_duration);
 		$oForm->addItem($oDurationGUI);		
@@ -631,7 +633,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$access_option = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
 
 		$oAccessGUI->setTitle($this->lng->txt('paya_access'));
-		$oAccessGUI->setOptions($payed_option);
+		$oAccessGUI->setOptions($access_option);
 		$oAccessGUI->setValue($booking['access_granted']);
 		$oAccessGUI->setPostVar('access');		
 		$oForm->addItem($oAccessGUI);
@@ -690,7 +692,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		return true;
 	}
 
-	function updateStatistic()
+	public function updateStatistic()
 	{
 		if(!isset($_GET['booking_id']))
 		{
@@ -721,7 +723,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 	}
 
-	function deleteStatistic()
+	public function deleteStatistic()
 	{
 		if(!isset($_GET['booking_id']))
 		{
@@ -736,7 +738,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		return true;
 	}
 
-	function performDelete()
+	public function performDelete()
 	{
 		if(!isset($_GET['booking_id']))
 		{
@@ -759,7 +761,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		return true;
 	}
 
-	function showObjectSelector()
+	public function showObjectSelector()
 	{
 		global $tree, $ilToolbar;
 
@@ -781,7 +783,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		return true;
 	}
 
-	function searchUser()
+	public function searchUser()
 	{
 		global $ilToolbar;
 		
@@ -819,7 +821,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 				return true;
 	}
 
-	function performSearch()
+	public function performSearch()
 	{
 		global $ilToolbar;
 		// SAVE it to allow sort in tables
@@ -874,33 +876,13 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->__showSearchUserTable($f_result);
 	}
 
-	function addCustomer()
+	public function addCustomer()
 	{
 		global $ilToolbar,$ilCtrl; 
 
-
 		isset($_POST['sell_id']) ? $sell_id = $_POST['sell_id'] : $sell_id = $_GET['sell_id'];
 		isset($_POST['user_id']) ? $user_id = $_POST['user_id'] : $user_id = $_GET['user_id'];
-/*		
-		if ($_POST["sell_id"] != "") $_GET["sell_id"] = $_POST["sell_id"];
-		if ($_GET["user_id"] != "") $_POST["user_id"] = $_GET["user_id"];
 
-		if(!isset($_GET['sell_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_booking_id_given'));
-			$this->showObjectSelector();
-
-			return true;
-		}
-
-		if(!isset($_POST['user_id']))
-		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_user_id_given'));
-			$this->searchUser();
-
-			return true;
-		}
-*/
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.main_view.html",'Services/Payment');
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'searchUser'));	
 		$ilCtrl->setParameter($this, "sell_id", $sell_id);
@@ -958,23 +940,47 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		
 		//duration
 		$duration_opions = array();	
-		$prices_obj = new ilPaymentPrices($pObjectId);
-		if (is_array($prices = $prices_obj->getPrices()))
+		$price_obj = new ilPaymentPrices($pObjectId);
+
+		$standard_prices = array();
+		$extension_prices = array();
+		$standard_prices = $price_obj->getPrices();
+		$extension_prices = $price_obj->getExtensionPrices();
+
+		$prices = array_merge($standard_prices, $extension_prices );
+
+		if (is_array($prices))
 		{
-			include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 			$genSet = ilPaymentSettings::_getInstance();
 			$currency_unit = $genSet->get('currency_unit');
 
 			foreach($prices as $price)
 			{
+				switch($price['price_type'])
+				{
+					case ilPaymentPrices::TYPE_DURATION_MONTH:
+						$txt_duration =
+						$price['duration'].' '.$this->lng->txt('paya_months').' -> '.$price['price'].' '. $currency_unit;
+						break;
+					
+					case ilPaymentPrices::TYPE_DURATION_DATE:
+						include_once './Services/Calendar/classes/class.ilDatepresentation.php';
+						$txt_duration =
+							ilDatePresentation::formatDate(new ilDate($price['duration_from'], IL_CAL_DATE))
+							.' - '.ilDatePresentation::formatDate(new ilDate($price['duration_until'], IL_CAL_DATE))
+							." -> ".ilPaymentPrices::_getPriceString($price["price_id"]) .' '.$currency_unit;
+						break;
+					
+					case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+						$txt_duration =  $this->lng->txt('unlimited_duration').' -> '.$price['price'].' '. $currency_unit;
+						break;
+				}
 				$txt_extension = '';
 				if($price['extension'] == 1)
 				{
 					$txt_extension = ' ('.$this->lng->txt('extension_price').') ';
 				}
-				$duration_options[$price['price_id']] = 
-				$price['duration'].' '.$this->lng->txt('paya_months').', '.$price['price'].' '.$currency_unit.' '
-						.$txt_extension;
+				$duration_options[$price['price_id']] = $txt_duration.''.$txt_extension;
 			}
 		}
 		
@@ -1008,9 +1014,9 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->tpl->setVariable('FORM', $oForm->getHTML());
 	}
 
-	function saveCustomer()
+	public function saveCustomer()
 	{
-		global $ilias,$ilObjDataCache, $ilUser;
+		global $ilObjDataCache;
 
 
 		if(!isset($_GET['sell_id']))
@@ -1053,68 +1059,70 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$this->booking_obj->setOrderDate(time());
 
 		$price = ilPaymentPrices::_getPrice($_POST["duration"]);
-		// TODO:$currency = ilPaymentCurrency::_getUnit($price['currency']);
+
 		$this->booking_obj->setDuration($price["duration"]);
 		$this->booking_obj->setAccessExtension($price['extension']);
-		
-/*
-  #@todo not needed. done by booking_obj->add()
-  if($price['unlimited_duration'] == 0)
+
+		switch((int)$price['price_type'])
 		{
-			$order_date = $this->booking_obj->getOrderDate();
-			$duration = $this->booking_obj->getDuration();
+			case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+				$this->booking_obj->setDuration(0);
+				break;
 
-			$orderDateYear = date("Y", $order_date);
-			$orderDateMonth = date("m", $order_date);
-			$orderDateDay = date("d", $order_date);
-			$orderDateHour = date("H", $order_date);
-			$orderDateMinute = date("i",$order_date);
-			$orderDateSecond = date("s", $order_date);
+			case ilPaymentPrices::TYPE_DURATION_DATE:
+				$this->booking_obj->setAccessStartdate($price['duration_from']);
+				$this->booking_obj->setAccessEnddate($price['duration_until']);
+				$this->booking_obj->setDuration(0);
+				break;
 
-			$access_enddate = date("Y-m-d H:i:s", mktime($orderDateHour, $orderDateMinute, $orderDateSecond,
-			$orderDateMonth + $duration, $orderDateDay, $orderDateYear));
-
-			$this->booking_obj->setAccessEnddate($access_enddate);
+			default:
+			case ilPaymentPrices::TYPE_DURATION_MONTH:
+				$this->booking_obj->setDuration($price["duration"]);
+				break;
 		}
-*/
-
+	
+		$this->booking_obj->setPriceType($price['price_type']);
 		$this->booking_obj->setPrice(ilPaymentPrices::_getPriceString($_POST["duration"]));
-// TODO: $this->booking_obj->setPrice($price['price'].' '. $currency);		
+	
 		$this->booking_obj->setAccess((int) $_POST['access']);
 		$this->booking_obj->setPayed((int) $_POST['payed']);
 		$this->booking_obj->setVoucher('');
 			
-			$obj_id = $ilObjDataCache->lookupObjId($obj->getRefId());
-			$obj_type = $ilObjDataCache->lookupType($obj_id);
-			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
+		$obj_id = $ilObjDataCache->lookupObjId($obj->getRefId());
+		$obj_type = $ilObjDataCache->lookupType($obj_id);
+		$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
-			include_once 'Services/Payment/classes/class.ilShopVatsList.php';
-			$oVAT = new ilShopVats((int)$obj->getVatId());
-			$obj_vat_rate = $oVAT->getRate();
-			$obj_vat_unit = $obj->getVat($this->booking_obj->getPrice());
-		
-			$this->booking_obj->setObjectTitle($obj_title);
-			$this->booking_obj->setVatRate($obj_vat_rate);
-			$this->booking_obj->setVatUnit($obj_vat_unit);
-			
-			include_once './Services/Payment/classes/class.ilPaymentSettings.php';
-			$genSet = ilPaymentSettings::_getInstance();
-			$this->booking_obj->setCurrencyUnit( $genSet->get('currency_unit'));
+		include_once 'Services/Payment/classes/class.ilShopVatsList.php';
+		$oVAT = new ilShopVats((int)$obj->getVatId());
+		$obj_vat_rate = $oVAT->getRate();
+		$obj_vat_unit = $obj->getVat($this->booking_obj->getPrice());
 
-			include_once './Services/Payment/classes/class.ilPayMethods.php';
-			if(ilPayMethods::_EnabledSaveUserAddress((int) $_POST["pay_method"]) == 1)
-			{
-				global $ilObjUser;
-				$user_id[] = $_GET["user_id"];
-			
-				$cust_obj = ilObjUser::_readUsersProfileData($user_id);
-			
-				$this->booking_obj->setStreet($cust_obj[$_GET["user_id"]]['street'],'');
-				
-				$this->booking_obj->setZipcode($cust_obj[$_GET["user_id"]]['zipcode']);
-				$this->booking_obj->setCity($cust_obj[$_GET["user_id"]]['city']);
-				$this->booking_obj->setCountry($cust_obj[$_GET["user_id"]]['country']);
-			}			
+		$this->booking_obj->setObjectTitle($obj_title);
+		$this->booking_obj->setVatRate($obj_vat_rate);
+		$this->booking_obj->setVatUnit($obj_vat_unit);
+
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
+		$this->booking_obj->setCurrencyUnit( $genSet->get('currency_unit'));
+
+		include_once './Services/Payment/classes/class.ilPayMethods.php';
+		if(ilPayMethods::_EnabledSaveUserAddress((int) $_POST["pay_method"]) == 1)
+		{
+	
+			/**
+			 * @class $ilObjUser ilObjuser
+			 */
+			global $ilObjUser;	
+			$user_id[] = $_GET["user_id"];
+
+			$cust_obj = ilObjUser::_readUsersProfileData($user_id);
+
+			$this->booking_obj->setStreet($cust_obj[$_GET["user_id"]]['street'],'');
+
+			$this->booking_obj->setZipcode($cust_obj[$_GET["user_id"]]['zipcode']);
+			$this->booking_obj->setCity($cust_obj[$_GET["user_id"]]['city']);
+			$this->booking_obj->setCountry($cust_obj[$_GET["user_id"]]['country']);
+		}			
 		
 		if($this->booking_obj->add())
 		{
@@ -1126,7 +1134,6 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
             {
                 ilShopUtils::_assignPurchasedCourseMemberRole($obj, $this->booking_obj->getCustomerId());
 			}
-
 
 			ilUtil::sendInfo($this->lng->txt('paya_customer_added_successfully'));
 			$this->showStatistics();
@@ -1141,7 +1148,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 	}
 
 	// PRIVATE
-	function __showStatisticTable($a_result_set)
+	public function __showStatisticTable($a_result_set)
 	{		
 		$tbl = new ilShopTableGUI($this);
 		$tbl->setTitle($this->lng->txt("bookings"));
@@ -1165,14 +1172,14 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		return true;
 	}
 
-	function __initBookingObject()
+	public function __initBookingObject()
 	{
 		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 
 		$this->booking_obj = new ilPaymentBookings($this->user_obj->getId());
 	}
 
-	function __search($a_search_string)
+	public function __search($a_search_string)
 	{
 		include_once("./Services/Search/classes/class.ilSearch.php");
 
@@ -1196,7 +1203,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		}
 		return $search->getResultByType('usr');
 	}
-	function __showSearchUserTable($a_result_set)
+	public function __showSearchUserTable($a_result_set)
 	{
 		$this->ctrl->setParameter($this, "sell_id", $_GET["sell_id"]);
 

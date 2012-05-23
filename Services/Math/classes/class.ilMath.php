@@ -220,5 +220,24 @@ class ilMath
 		// otherwise, assume already in decimal notation and return
 		else return $float_str;
 	}
+		    
+	public static function isCoprimeFraction($numerator, $denominator)
+	{
+		$gcd = self::getGreatestCommonDivisor(abs($numerator), abs($denominator));
+
+		return $gcd == 1 ? true : false;
+	}
+
+	public static function getGreatestCommonDivisor($a, $b)
+	{
+		if ($b > 0)
+		{
+			return self::getGreatestCommonDivisor($b, $a % $b);
+		}
+		else
+		{
+			return $a;
+		}
+	}	
 }
 ?>

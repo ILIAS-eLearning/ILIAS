@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Payment/classes/class.ilPurchasePaypal.php';
+
 
 include_once './Services/Payment/classes/class.ilShopBaseGUI.php';
 include_once './Services/Payment/classes/class.ilPaypalSettings.php';
@@ -61,8 +61,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	*/
 	public function executeCommand()
 	{
-		global $ilUser;
-
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 
@@ -130,7 +128,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	
 	private function addBookings($pay_method, $coupon_session)
 	{
-		global $ilias, $ilUser, $ilObjDataCache;
+		global $ilUser, $ilObjDataCache;
 
 		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 		include_once './Services/Payment/classes/class.ilPaymentObject.php';
@@ -166,7 +164,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		
 		$coupon_discount_items = $sc_obj->calcDiscountPrices($_SESSION['coupons'][$coupon_session]);
 
-		$i = 0;
 		foreach($items as $entry)
 		{
 			$pobject = new ilPaymentObject($this->user_obj, $entry['pobject_id']);
@@ -189,10 +186,24 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			$booking_obj->setDiscount($bonus > 0 ? ((-1) * $bonus) : 0);
 			$booking_obj->setPayed(1);
 			$booking_obj->setAccess(1);
+
+			switch($price['price_type'])
+			{
+				case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+					$booking_obj->setDuration(0);
+					break;
+				case ilPaymentPrices::TYPE_DURATION_MONTH:
+					$booking_obj->setDuration($price['duration']);
+					break;
+				case ilPaymentPrices::TYPE_DURATION_DATE:
+					$booking_obj->setAccessStartdate($price['duration_from']);
+					$booking_obj->setAccessEnddate($price['duration_until']);
+					break;
+			}
+
 			$booking_obj->setAccessExtension($price['extension']);
 			
 			$obj_id = $ilObjDataCache->lookupObjId($pobject->getRefId());
-			$obj_type = $ilObjDataCache->lookupType($obj_id);
 			$obj_title = $ilObjDataCache->lookupTitle($obj_id);
 
 			$oVAT = new ilShopVats((int)$pobject->getVatId());
@@ -319,7 +330,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
   */        
 	public function finishEPay()
 	{
-	  global $ilias, $ilUser;
+	  global $ilUser;
     require_once './Services/Payment/classes/class.ilPurchase.php';
     
     try
@@ -447,22 +458,23 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
      return $base . $a_pm_title . $suffix;
   }
 
-  public function cartNotEmpty()
-  {
-    $pay_methods = $this->_getPayMethods( true);
-    if (is_array($pay_methods))
-      for ($p = 0; $p < count($pay_methods); $p++)
-	{
-	  	if (count($items = $this->psc_obj->getEntries($pay_methods['pm_id'])))
-	    {
-	      foreach ($items as $item)
-			{
-				return true;
-			}
-	    }
-	}
-    return false;
-  }
+// DEPRICATED	
+//  public function cartNotEmpty()
+//  {
+//    $pay_methods = $this->_getPayMethods( true);
+//    if (is_array($pay_methods))
+//      for ($p = 0; $p < count($pay_methods); $p++)
+//	{
+//	  	if (count($items = $this->psc_obj->getEntries($pay_methods['pm_id'])))
+//	    {
+//	      foreach ($items as $item)
+//			{
+//				return true;
+//			}
+//	    }
+//	}
+//    return false;
+//  }
 
 	public function showItems()
 	{
@@ -477,7 +489,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		{
 			$_SESSION['forceShoppingCartRedirect'] = 0;
 			$this->tpl->touchBlock("close_js");
-			return;
+			return true;
 		}
 		
 		$this->initShoppingCartObject();
@@ -603,12 +615,20 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						$f_result[$counter]['assigned_coupons'] .= $assigned_coupons;
 					}
 						
-					if($price_arr['duration'] == 0)
+					switch($price_arr['price_type'])
 					{
-						$f_result[$counter]['duration'] = $this->lng->txt('unlimited_duration');
+						case  ilPaymentPrices::TYPE_DURATION_MONTH:
+							$f_result[$counter]['duration'] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
+							break;
+						case  ilPaymentPrices::TYPE_DURATION_DATE:
+							$f_result[$counter]['duration'] =
+								ilDatePresentation::formatDate(new ilDate($price_arr['duration_from'], IL_CAL_DATE))
+									.' - '.ilDatePresentation::formatDate(new ilDate($price_arr['duration_until'], IL_CAL_DATE));
+							break;
+						case  ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+							$f_result[$counter]['duration'] = $this->lng->txt('unlimited_duration');
+							break;
 					}
-					else
-					$f_result[$counter]['duration'] = $price_arr['duration'].' '.$this->lng->txt('paya_months');
 
 					$float_price = $price_arr['price'];
 					$total_price += $float_price;
@@ -840,83 +860,77 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 	#		ilUtil::sendInfo($this->lng->txt('pay_shopping_cart_empty'));
 			return false;
 		}
-/*		else
-		{
-			//$_SESSION['currency_conversion']=null;
-			return true;
-		}
- */
-
+		return true;
 	}
 	
-	/*  not used ?!   */
-	public function setCoupon()
-	{
-		if ($_POST['coupon_code'] != '')
-		{
-			$coupon = $this->coupon_obj->getCouponByCode($_POST['coupon_code']);			
-			
-			switch ($this->coupon_obj->checkCouponValidity())
-			{
-				case 1:
-				case 2:
-					ilUtil::sendInfo($this->lng->txt('paya_coupons_not_valid'));				
-					$this->showItems();			
-					return true;
-				
-				case 3:
-					ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_not_found'));				
-					$this->showItems();			
-					return true;
-			}			
-			
-			$assignedItems = 0;			
-			$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
-			if (count($items = $this->psc_obj->getEntries(isset($_POST['payment_type']) ? $_POST['payment_type'] : 'bmf')))
-			{
-				foreach($items as $item)
-				{
-					$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
-					
-					if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
-					{
-						++$assignedItems;
-					}					
-				}
-			}			
-			if (!$assignedItems)
-			{
-				ilUtil::sendInfo($this->lng->txt('paya_coupons_no_object_assigned'));
-				$this->showItems();
-				return true;
-			}			
-			
-			$coupon_session_id = $_POST['payment_type'];
-			
-			if (!array_key_exists($coupon['pc_pk'], $_SESSION['coupons'][$coupon_session_id]))
-			{
-				if (is_array($_SESSION['coupons']))
-				{
-					foreach ($_SESSION['coupons'] as $key => $val)
-					{
-						unset($_SESSION['coupons'][$key][$coupon['pc_pk']]);
-					}
-				}
-				ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_added'));
-				$_SESSION['coupons'][$coupon_session_id][$coupon['pc_pk']] = $coupon;
-			}
-			else
-			{
-				ilUtil::sendInfo($this->lng->txt('paya_coupons_already_in_use'));
-			}
-			
-			$this->showItems();
-			return true;		
-		}	
-		
-		$this->showItems();
-		return true;		
-	}	
+//// DEPRICATED
+//	public function setCoupon()
+//	{
+//		if ($_POST['coupon_code'] != '')
+//		{
+//			$coupon = $this->coupon_obj->getCouponByCode($_POST['coupon_code']);			
+//			
+//			switch ($this->coupon_obj->checkCouponValidity())
+//			{
+//				case 1:
+//				case 2:
+//					ilUtil::sendInfo($this->lng->txt('paya_coupons_not_valid'));				
+//					$this->showItems();			
+//					return true;
+//				
+//				case 3:
+//					ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_not_found'));				
+//					$this->showItems();			
+//					return true;
+//			}			
+//			
+//			$assignedItems = 0;			
+//			$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
+//			if (count($items = $this->psc_obj->getEntries(isset($_POST['payment_type']) ? $_POST['payment_type'] : 'bmf')))
+//			{
+//				foreach($items as $item)
+//				{
+//					$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
+//					
+//					if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
+//					{
+//						++$assignedItems;
+//					}					
+//				}
+//			}			
+//			if (!$assignedItems)
+//			{
+//				ilUtil::sendInfo($this->lng->txt('paya_coupons_no_object_assigned'));
+//				$this->showItems();
+//				return true;
+//			}			
+//			
+//			$coupon_session_id = $_POST['payment_type'];
+//			
+//			if (!array_key_exists($coupon['pc_pk'], $_SESSION['coupons'][$coupon_session_id]))
+//			{
+//				if (is_array($_SESSION['coupons']))
+//				{
+//					foreach ($_SESSION['coupons'] as $key => $val)
+//					{
+//						unset($_SESSION['coupons'][$key][$coupon['pc_pk']]);
+//					}
+//				}
+//				ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_added'));
+//				$_SESSION['coupons'][$coupon_session_id][$coupon['pc_pk']] = $coupon;
+//			}
+//			else
+//			{
+//				ilUtil::sendInfo($this->lng->txt('paya_coupons_already_in_use'));
+//			}
+//			
+//			$this->showItems();
+//			return true;		
+//		}	
+//		
+//		$this->showItems();
+//		return true;		
+//	}	
 	
 	public function removeCoupon()
 	{
@@ -1066,10 +1080,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$tbl->setTotalData('TXT_TOTAL_AMOUNT', $this->lng->txt('pay_bmf_total_amount').": ");
 		$tbl->setTotalData('VAL_TOTAL_AMOUNT',  number_format($this->totalAmount[$a_pay_method['pm_id']] , 2, ',', '.') . " " . $genSet->get('currency_unit')); #.$item['currency']);
 
-		// TODO: CURRENCY
-		#$currency_conversion_totalvat = (float)$_SESSION['currency_conversion'][$a_pay_method['pm_title']]['total_vat'];
-		#if($currency_conversion_totalvat > 0) $this->totalVat = $currency_conversion_totalvat;
-
 		if ($this->totalVat > 0)
 		{
 			$tbl->setTotalData('TXT_TOTAL_VAT', $this->lng->txt('pay_bmf_vat_included') . ": ");
@@ -1112,13 +1122,14 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	private function initPaypalObject()
 	{
+		include_once './Services/Payment/classes/class.ilPurchasePaypal.php';
 		$this->paypal_obj = new ilPurchasePaypal($this->user_obj);
 	}
 
     /**
      * Creates a new encrypted button HTML block
      *
-     * @param array The button parameters as key/value pairs
+     * @param array $buttonParams The button parameters as key/value pairs
      * @return mixed A string of HTML or a Paypal error object on failure
      */
     private function encryptButton($buttonParams)
@@ -1191,81 +1202,5 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 		return $encdata;
     }
-
-	public function newUserForm()
-	{
-		global $tpl, $lng, $ilCtrl;
-
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-
-		$form_2 = new ilPropertyFormGUI();
-		$form_2->setFormAction($ilCtrl->getFormAction($this, 'validateNewUser'));
-		$form_2->setTitle($lng->txt('user_assignment'));
-		$form_2->setId('user_frm');
-		$form_2->addCommandButton('validateNewUser',$lng->txt('assign_user'));
-
-		$formName = new ilTextInputGUI($lng->txt('login'), 'user_name');
-		$formName->setValue($_SESSION['user_name']);
-		$form_2->addItem($formName);
-
-		$formPass = new ilPasswordInputGUI($lng->txt('password'), 'user_pass');
-		$formPass->setRetype(false);
-		$formPass->setValue($_SESSION['user_pass']);
-
-		$formPass->setInfo($lng->txt('assign_pruchase_to_another_existing_account'));
-
-		$form_2->addItem($formPass);
-
-		$tpl->setVariable('USER_FORM',$form_2->getHTML());
-	}
-
-	public function validateNewUser()
-	{
-		global $tpl, $lng, $ilUser, $ilias;
-
-		require_once 'Services/User/classes/class.ilObjUser.php';
-		include_once './Services/Payment/classes/class.ilShopUtils.php';
-
-		$obj_user = new ilObjUser();
-		$user_id = ilObjUser::_lookupId($_POST['user_name']);
-
-		$old_user_id = $_SESSION['tmp_transaction']['usr_id'];
-		$transaction_extern = $_SESSION['tmp_transaction']['tx_id'];
-
-		if($user_id != ANONYMOUS_USER_ID && $user_id != $old_user_id && $user_id != NULL)
-		{
-			$obj_user = new ilObjUser($user_id);
-
-			if($obj_user->getPasswd() == md5($_POST["user_pass"]))
-			{
-				ilShopUtils::_assignTransactionToCustomerId($old_user_id, $user_id, $transaction_extern);
-
-				// assign new_user_id to crs
-				if($_SESSION['is_crs_object'] == true)
-				{
-					include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
-					foreach ($_SESSION['crs_obj_ids'] as $obj_id)
-					{
-						$members_obj = ilCourseParticipants::_getInstanceByObjId($obj_id);
-						$members_obj->add($user_id,IL_CRS_MEMBER);
-					}
-				}
-				//delete tmp_shop_user account
-				if($obj =& $ilias->obj_factory->getInstanceByObjId($old_user_id))
-					$obj->delete();
-
-				$ilUser = new ilObjUser(ANONYMOUS_USER_ID);
-				ilUtil::sendInfo(sprintf($lng->txt('user_name_accepted'),$_SESSION['tmp_user_account']['login']), true);
-				unset($_SESSION['tmp_user_account']);
-			}
-			$this->showItems();
-			return true;
-		}
-		else
-		{
-			$this->showItems();
-			return true;
-		}
-	}
 }
 ?>

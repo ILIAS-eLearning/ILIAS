@@ -24,12 +24,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	public $user_obj;
 	public $pobject = null;
 
-	public function ilPaymentObjectGUI($user_obj)
+	public function __construct($user_obj)
 	{	
 		parent::__construct();
 
 		$this->user_obj = $user_obj;
 		$this->lng->loadLanguageModule('crs');
+		ilDatePresentation::setUseRelativeDates(false);
 	}
 	
 	protected function prepareOutput()
@@ -229,14 +230,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}		
 		$this->tpl->setVariable('FORM', $filter_form->getHTML());
 		
-		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
-			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
-			"\" border=\"0\" vspace=\"0\"/>";
-
 		$counter = 0;
 		foreach($objects as $data)
 		{
-
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id'], false);
 			if($tmp_obj)
 			{
@@ -479,6 +475,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oForm->addCommandButton('deleteObject', $this->lng->txt('delete'));		
 
 		$this->tpl->setVariable('FORM', $oForm->getHTML());
+		return true;
 	}
 
 	public function deleteObject()
@@ -552,12 +549,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				$this->editDetails();
 				return true;
 		}
-		$this->editDetails();
-		
-		return true;
 	}
-	
-	public function editPrices($a_show_delete = false, $oConfirmationGUI = '')
+
+	public function editPrices($a_show_delete = false)
 	{		
 		global $ilToolbar;
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
@@ -570,19 +564,29 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		
 		$_SESSION['price_ids'] = $_SESSION['price_ids'] ? $_SESSION['price_ids'] : array();
 
-		if(!$_GET['pobject_id'])
+		if(!$_GET['pobject_id'] && !$_POST['pobject_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
-			$this->objectsObject();
+			$this->showObjects();
 			return true;
 		}
-		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
+		
+		if(isset($_GET['pobject_id'])) 
+		{
+			$pobject_id = (int)$_GET['pobject_id'];
+		}
+		else
+		{
+			$pobject_id = (int)$_POST['pobject_id'];
+		}
+		
+		$this->ctrl->setParameter($this,'pobject_id',$pobject_id);
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content",'tpl.main_view.html','Services/Payment');
 			
-		$price_obj = new ilPaymentPrices((int) $_GET['pobject_id']);
+		$price_obj = new ilPaymentPrices($pobject_id);
 
 		$standard_prices = array();
 		$extension_prices = array();
@@ -663,66 +667,37 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$tpl->parseCurrentBlock();
 
 		$counter = 0;
+		include_once './Services/Calendar/classes/class.ilDatePresentation.php';
 		foreach($prices as $price)
 		{
-			$currency = ilPaymentCurrency::_getCurrency($price['currency']);
-			if($a_show_delete == true ) 
-			{	
-				$this->ctrl->setParameter($this, 'show_delete', 'true');
-				
-				if(in_array($price['price_id'],$_SESSION['price_ids']))
-				{
-				$data[$counter]['price_id'] = ilUtil::formCheckBox(0,
-						'price_ids[]', (int)$price['price_id']);
-					//$data[$counter]['price_id'] = '';
-					$data[$counter]['duration'] =$price['duration']  ;
-					$data[$counter]['month'] = $this->lng->txt('paya_months');
-					
-					$data[$counter]['unlimited_duration'] = ilUtil::formCheckBox($price['unlimited_duration'] ? 1 : 0,
-						'duration_ids[]', (int)$price['price_id']);	
-					
-					$data[$counter]['price'] =  ilFormat::_getLocalMoneyFormat($price['price']);
-					$data[$counter]['currency_unit'] = $genSet->get('currency_unit');
-					$data[$counter]['extension'] = ilUtil::formCheckBox($price['extension'] ? 1 : 0,
-						'extension_ids[]', (int)$price['price_id']);
-					//TODO: later $data[$counter]['currency_unit'] = $currency['unit']; 
-				}
-			}
-			else
+			$data[$counter]['price_id'] = ilUtil::formCheckBox(in_array($price['price_id'],$_SESSION['price_ids']) ? 1 : 0,
+				'price_ids[]', $price['price_id']);	
+
+			switch($price['price_type'])
 			{
-				$data[$counter]['price_id'] = ilUtil::formCheckBox(in_array($price['price_id'],$_SESSION['price_ids']) ? 1 : 0,
-					'price_ids[]', $price['price_id']);	
-				
-				$data[$counter]['duration'] = ilUtil::formInput('prices['.$price['price_id'].'][duration]',$price['duration']);
-				$data[$counter]['month'] = $this->lng->txt('paya_months');
-				
-				$data[$counter]['unlimited_duration'] = ilUtil::formCheckBox($price['unlimited_duration'] ? 1 : 0,
-					'duration_ids[]', (int)$price['price_id']);	
-				
-				$data[$counter]['price'] = ilUtil::formInput('prices['.$price['price_id'].'][price]', ilFormat::_getLocalMoneyFormat($price['price']));
-				$data[$counter]['currency_unit'] = $genSet->get('currency_unit');
-				$data[$counter]['extension'] =  ilUtil::formCheckBox($price['extension'] ? 1 : 0,
-					'extension_ids[]', (int)$price['price_id']);
-/* TODO: later -> use currency table
- *				$data[$counter]['price'] = ilUtil::formInput('prices['.$price['price_id'].'][price]', ilFormat::_getLocalMoneyFormat($price['price']));
+				case ilPaymentPrices::TYPE_DURATION_MONTH:
+					$data[$counter]['duration'] = $price['duration'].' '.$this->lng->txt('paya_months');
+					break;
+				case ilPaymentPrices::TYPE_DURATION_DATE:
 
-				$default_currency = ilPaymentCurrency::_getDefaultCurrency();
-				
-				$all_currencies = ilPaymentCurrency::_getAvailableCurrencies();			
-				$currency_options = array();
-
-				foreach($all_currencies as $cur)
-				{
-					$currency_options[$cur['currency_id']] = $cur['unit'];
-				}
-				
-				$data[$counter]['currency_unit'] = ilUtil::formSelect($price['currency'], 'prices['.$price['price_id'].'][currency]', 
-				$currency_options,false,true);
-
- */
+					$data[$counter]['duration'] = ilDatePresentation::formatDate(new ilDate($price['duration_from'], IL_CAL_DATE))
+						.' - '.ilDatePresentation::formatDate(new ilDate($price['duration_until'],IL_CAL_DATE));
+					break;
+				case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+					$data[$counter]['duration'] = $this->lng->txt('unlimited_duration');	
+					break;
 			}
+			$data[$counter]['price'] =  ilFormat::_getLocalMoneyFormat($price['price']);
+			$data[$counter]['currency_unit'] = $genSet->get('currency_unit');
+			$data[$counter]['extension'] =  ilUtil::formCheckBox($price['extension'] ? 1 : 0,
+				'extension_ids[]', (int)$price['price_id'], true);
+
+			$this->ctrl->setParameter($this,"price_id",$price['price_id']);
+			$data[$counter]['edit'] = 
+			"<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this,"editPrice")."\">".$this->lng->txt("edit")."</a></div>";
+
 			++$counter;
-		}
+		}			
 		$this->__editPricesTable($data);	
 	
 		return true;
@@ -746,15 +721,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$tbl->setRowTemplate("tpl.shop_prices_row.html", "Services/Payment");
 
 		$tbl->addColumn(' ', 'price_id', '5%');
-		$tbl->addColumn($this->lng->txt('duration'), 'duration', '10%');
-		$tbl->addColumn('','month','10%');
-		$tbl->addColumn($this->lng->txt('unlimited_duration'), 'unlimitied_duration', '15%');
-		$tbl->addColumn($this->lng->txt('price_a'), 'price', '10%');
+		$tbl->addColumn($this->lng->txt('duration'), 'duration', '40%');
+		$tbl->addColumn($this->lng->txt('price_a'), 'price', '1%');
 		$tbl->addColumn($this->lng->txt('currency'), 'currency_unit', '10%');
-		$tbl->addColumn($this->lng->txt('extension_price'), 'extension', '40%');
+		$tbl->addColumn($this->lng->txt('extension_price'), 'extension', '10%');
+		$tbl->addColumn('', 'edit', '30%' );
 
 		$tbl->setSelectAllCheckbox('price_id');
-		$tbl->addCommandButton('updatePrice',$this->lng->txt('paya_update_price'));
 		$tbl->addCommandButton('addPrice',$this->lng->txt('paya_add_price'));
 
 		$tbl->addMultiCommand("deletePrice", $this->lng->txt("paya_delete_price"));
@@ -783,7 +756,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$genSet = ilPaymentSettings::_getInstance();
 
-
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
 
 		$this->__initPaymentObject((int) $_GET['pobject_id']);
@@ -809,22 +781,57 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$oTitle->setValue($this->lng->txt('object_not_found'));
 		}
 		$form->addItem($oTitle);
+
+		//price_type
+
+		$radio_group = new ilRadioGroupInputGUI('','price_type');
+		$radio_group->setTitle($this->lng->txt('duration'));
+		$radio_group->setRequired(true);
+		$radio_group->setValue($_POST['price_type']);
+		$radio_group->setPostVar('price_type');
+
+		$radio_option_1 = new ilRadioOption($this->lng->txt('duration_month'), 'duration_month');
+
+			// duration month
+			$oDuration = new ilNumberInputGUI();
+			$oDuration->setTitle($this->lng->txt('paya_months'));
+			$oDuration->setSize('30%');
+			$oDuration->setValue($_POST['duration_month']);
+
+			$oDuration->setPostVar('duration_month');
+			$radio_option_1->addSubItem($oDuration);
+
+		$radio_group->addOption($radio_option_1);
+
+		$radio_option_3 = new ilRadioOption($this->lng->txt('duration_date'), 'duration_date');
+
+			// duration_date from	
+			$o_date_from = new ilDateTimeInputGUI();
+			$o_date_from->setTitle($this->lng->txt('from'));
+			$o_date_from->setPostVar('duration_date_from');			
+			$radio_option_3->addSubItem($o_date_from);
+
+			// duration_date until
+			$o_date_until = new ilDateTimeInputGUI();
+			$o_date_until->setTitle($this->lng->txt('until'));
+			$o_date_until->setPostVar('duration_date_until');			
+			$radio_option_3->addSubItem($o_date_until);
+
+		$radio_group->addOption($radio_option_3);
+
+		$radio_option_2 = new ilRadioOption($this->lng->txt('unlimited_duration'), 'unlimited_duration');		
+		$radio_group->addOption($radio_option_2);
+
+		$form->addItem($radio_group);				
+		// description
+		$oDescription = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
+		$oDescription->setRows(4);
+		$oDescription->setCols(35);
+		$oDescription->setValue($price['description']);
+		$form->addItem($oDescription);
 			
-		// duration
-		$oDuration = new ilTextInputGUI();
-		$oDuration->setTitle($this->lng->txt('duration'));
-		$oDuration->setValue($_POST['duration']);
-		$oDuration->setInfo($this->lng->txt('paya_months'));
-		$oDuration->setPostVar('duration');
-		$form->addItem($oDuration);
-		// unlimited duration
-		$oUnlimitedDuration = new ilCheckboxInputGUI($this->lng->txt('unlimited_duration'), 'unlimited_duration');
-		$oUnlimitedDuration->setChecked($_POST['unlimited_duration'] == 1);
-		
-		$form->addItem($oUnlimitedDuration);
-		
 		// price
-		$oPrice = new ilTextInputGUI();
+		$oPrice = new ilNumberInputGUI();
 		$oPrice->setTitle($this->lng->txt('price_a'));
 		$oPrice->setValue($_POST['price']);
 		$oPrice->setPostVar('price');
@@ -872,13 +879,12 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	public function performAddPrice()
 	{
-
-		if(!$_GET['pobject_id'])
+		if(!(int)$_GET['pobject_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
-			$this->showObjects();
-			return true;
+            $this->showObjects();
+            return true;
 		}
 
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
@@ -886,38 +892,70 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$currency = ilPaymentCurrency::_getAvailableCurrencies();
 
-		$prices = new ilPaymentPrices((int) $_GET['pobject_id']);
+		$po = new ilPaymentPrices((int)$_GET['pobject_id']);
 
-		$prices->setDuration($_POST['duration']);
-		$prices->setUnlimitedDuration($_POST['unlimited_duration']);
-		if($_POST['unlimited_duration'] == '1')
+		switch($_POST['price_type'])
 		{
-			$prices->setUnlimitedDuration(1);
+			case 'unlimited_duration':
+				$po->setPriceType(ilPaymentPrices::TYPE_UNLIMITED_DURATION);
+				$po->setDuration(0);
+				$po->setDurationFrom(NULL);
+				$po->setDurationUntil(NULL);
+				$po->setUnlimitedDuration(1);
+
+				break;
+
+			case 'duration_date':
+
+				$po->setPriceType(ilPaymentPrices::TYPE_DURATION_DATE);
+				$po->setDuration(NULL);
+				$po->setDurationFrom(ilUtil::stripSlashes(
+						$_POST['duration_date_from']['date']['y'].'-'.
+						$_POST['duration_date_from']['date']['m'].'-'.
+						$_POST['duration_date_from']['date']['d']));
+				$po->setDurationUntil(ilUtil::stripSlashes(
+						$_POST['duration_date_until']['date']['y'].'-'.
+						$_POST['duration_date_until']['date']['m'].'-'.
+						$_POST['duration_date_until']['date']['d']));
+				break;
+
+			default:
+			case 'duration_month':
+				$po->setPriceType(ilPaymentPrices::TYPE_DURATION_MONTH);
+				$po->setDuration($_POST['duration_month']);
+				$po->setDurationFrom(NULL);
+				$po->setDurationUntil(NULL);
+				break;
 		}
 
-		$prices->setPrice((float)$_POST['price']);
-		$prices->setCurrency($currency[1]['currency_id']);
-		if($_POST['extension'] == '1')
+		$po->setDescription($_POST['description'] ? ilUtil::stripSlashes($_POST['description']) : NULL);
+		$po->setPrice(ilUtil::stripSlashes($_POST['price']));
+		$po->setCurrency($currency[1]['currency_id']);
+
+			if($_POST['extension_price'])
+			{
+				$po->setExtension(1);
+			}
+			else
+			{
+				$po->setExtension(0);
+			}
+
+		try
 		{
-			$prices->setExtension(1);
-		}
-		else
-			$prices->setExtension(0);
-		//$prices->setCurrency($_POST['currency_id']);
+			$po->validate();
+			$po->add();
+			ilUtil::sendInfo($this->lng->txt('paya_added_new_price'));
 
-		if(!$prices->validate())
+			return $this->editPrices();
+
+		}
+		catch(ilShopException $e)
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_price_not_valid'));
-			$this->addPrice();
-
-			return true;
+			ilUtil::sendInfo($e->getMessage());
+			return $this->addPrice();
 		}
-		$prices->add();
-
-		ilUtil::sendSuccess($this->lng->txt('paya_added_new_price'));
-		$this->editPrices();
-
-		return true;
+	
 	}
 
 	public function performDeletePrice()
@@ -986,36 +1024,45 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		return true;
 	}		
 
-	public function updatePrice()
+	public function ORg_updatePrice()
 	{
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 
-		if(!$_GET['pobject_id'])
+		if(!$_GET['pobject_id'] && !$_POST['pobject_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
 			$this->showObjects();
 			return true;
 		}
-		$po = new ilPaymentPrices((int) $_GET['pobject_id']);
+		if(isset($_GET['pobject_id']))
+		{	
+			$pobject_id = (int)$_GET['pobject_id'];
+		}
+		else
+		{
+			$pobject_id = (int)$_POST['pobject_id'];
+		}
+		$po = new ilPaymentPrices($pobject_id);
 
-		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
+		$this->ctrl->setParameter($this,'pobject_id',$pobject_id);
+
+		$price_id = (int)$_POST['price_id'];
 
 		// validate
-		foreach($_POST['prices'] as $price_id => $price)
-		{
-			$old_price = $po->getPrice($price_id);
+		$old_price = $po->getPrice($price_id);
 
-			$po->setDuration($price['duration']);
-			$po->setUnlimitedDuration($price['unlimited_duration']);
-			$po->setPrice($price['price']);			
-			$po->setCurrency($old_price['currency']);
-			$po->setExtension($price['extension']);
-//$po->setCurrency($price['currency']);
-			if(!$po->validate())
-			{
-				$error = true;
-			}
+		
+		$po->setDuration((int)$_POST['duration']);
+		$po->setUnlimitedDuration($_POST['unlimited_duration']);
+		$po->setPrice($_POST['price']);
+		$po->setPriceTypw($_POST['price_type']);
+		$po->setCurrency($old_price['currency']);
+		$po->setExtension((int)$_POST['extension']);
+
+		if(!$po->validate())
+		{
+			$error = true;
 		}
 		if($error)
 		{
@@ -1030,8 +1077,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$old_price = $po->getPrice($price_id);
 			if(isset($_POST['duration_ids']))
 			{
-	 			$search = in_array((string)$price_id, $_POST['duration_ids']);
-
+//	 			$search = in_array((string)$price_id, $_POST['duration_ids']);
 				if($_POST['duration_ids'] == NULL)
 				{
 					$po->setUnlimitedDuration(0);		
@@ -1051,8 +1097,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			
 			if(isset($_POST['extension_ids']))
 			{
-	 			$search = in_array((string)$price_id, $_POST['extension_ids']);
-
+//	 			$search = in_array((string)$price_id, $_POST['extension_ids']);
 				if( $search = in_array((string)$price_id, $_POST['extension_ids']))
 				{
 					$po->setExtension(1);
@@ -1062,7 +1107,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 					$po->setExtension(0);
 				}
 			}
-
 
 			$po->setDuration($price['duration']);
 
@@ -1076,7 +1120,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		return true;
 	}
-		
 
 	public function updateDetails()
 	{
@@ -1091,7 +1134,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);		
 
 		// read old settings
-		$old_pay_method = $this->pobject->getPayMethod();
 		$old_status = $this->pobject->getStatus();
 
 		// check status changed from not_buyable
@@ -1261,6 +1303,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oForm->addCommandButton('showObjects', $this->lng->txt('cancel'));		
 		
 		$this->tpl->setVariable('ADM_CONTENT', $oForm->getHTML());
+		return true;
 	}
 
 	public function addObject()
@@ -1282,7 +1325,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$p_obj = new ilPaymentObject($this->user_obj);
 
 		if($check_subtypes= ilPaymentObject::_checkExcSubtype($_GET['sell_id']))
-{
+		{
 			if(!in_array('download',$check_subtypes))
 				$p_obj->setSubtype('download');
 			else
@@ -1386,6 +1429,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$path = $tree->getPathFull($a_ref_id);
 		unset($path[0]);
 
+		$html = '';
 		foreach($path as $data)
 		{
 			$html .= $data['title'].' > ';
@@ -1400,6 +1444,200 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$this->pobject = new ilPaymentObject($this->user_obj,$a_pobject_id);
 
 		return true;
+	}
+	
+public function editPrice()
+{
+	$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
+
+	$price_id = $_GET['price_id']?$_GET['price_id']: $_POST['price_id'];
+	$price= ilPaymentPrices::_getPrice($price_id);
+
+
+	include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+	$form = new ilPropertyFormGUI();
+	$form->setFormAction($this->ctrl->getFormAction($this));
+
+	
+	//price_type
+
+	$radio_group = new ilRadioGroupInputGUI('','price_type');
+	$radio_group->setTitle($this->lng->txt('duration'));
+	$radio_group->setRequired(true);
+	$radio_group->setValue($price['price_type']);
+	$radio_group->setPostVar('price_type');
+
+	$radio_option_1 = new ilRadioOption($this->lng->txt('duration_month'), ilPaymentPrices::TYPE_DURATION_MONTH);
+
+		// duration month
+		$oDuration = new ilNumberInputGUI();
+		$oDuration->setTitle($this->lng->txt('paya_months'));
+		$oDuration->setSize('20%');
+		$oDuration->setValue($price['duration']);
+		$oDuration->setPostVar('duration_month');
+		$radio_option_1->addSubItem($oDuration);
+
+	$radio_group->addOption($radio_option_1);
+
+	$radio_option_3 = new ilRadioOption($this->lng->txt('duration_date'), ilPaymentPrices::TYPE_DURATION_DATE);
+
+		// duration_date from	
+		$o_date_from = new ilDateTimeInputGUI();
+		$o_date_from->setTitle($this->lng->txt('from'));
+		$o_date_from->setDate(new ilDate($price['duration_from'],IL_CAL_DATE));
+		$o_date_from->setPostVar('duration_date_from');	
+		$radio_option_3->addSubItem($o_date_from);
+
+		// duration_date until
+		$o_date_until = new ilDateTimeInputGUI();
+		$o_date_until->setTitle($this->lng->txt('until'));
+		$o_date_until->setDate(new ilDate($price['duration_until'],IL_CAL_DATE));
+		$o_date_until->setPostVar('duration_date_until');			
+		$radio_option_3->addSubItem($o_date_until);
+
+	$radio_group->addOption($radio_option_3);
+
+	$radio_option_2 = new ilRadioOption($this->lng->txt('unlimited_duration'), ilPaymentPrices::TYPE_UNLIMITED_DURATION);		
+	$radio_group->addOption($radio_option_2);
+
+	$form->addItem($radio_group);		
+	
+	// description
+	$oDescription = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
+	$oDescription->setRows(4);
+	$oDescription->setCols(35);
+	$oDescription->setValue($price['description']);
+	$form->addItem($oDescription);
+		
+	// price
+	$oPrice = new ilNumberInputGUI();
+	$oPrice->setTitle($this->lng->txt('price_a'));
+	$oPrice->setRequired(true);
+	$oPrice->setSize('20%');
+	$oPrice->setValue($price['price']);
+	include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+	$genSet = ilPaymentSettings::_getInstance();
+	$oPrice->setInfo($genSet->get('currency_unit'));
+	$oPrice->setPostVar('price');
+	$form->addItem($oPrice);
+
+	//extension
+	$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
+
+	$oExtension->setChecked($price['extension']);
+
+	$form->addItem($oExtension);
+	
+		$o_hidden_1 = new ilHiddenInputGUI('pobject_id');
+		$o_hidden_1->setValue( (int)$_GET['pobject_id']);
+		$o_hidden_1->setPostVar('pobject_id');
+	
+		$o_hidden_2 = new ilHiddenInputGUI('price_id');
+		$o_hidden_2->setValue( (int)$_GET['price_id']);
+		$o_hidden_2->setPostVar('price_id');
+		
+		$form->addItem($o_hidden_1);
+		$form->addItem($o_hidden_2);
+		
+		$form->addCommandButton('updatePrice',$this->lng->txt('save'));
+		$form->addCommandButton('editPrices', $this->lng->txt('cancel'));	
+	
+	$this->tpl->setVariable('FORM',$form->getHTML());
+//		
+}
+
+	public function updatePrice()
+	{
+		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
+
+		if(!$_GET['pobject_id'] && !$_POST['pobject_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
+
+			$this->showObjects();
+			return true;
+		}
+		if(isset($_GET['pobject_id']))
+		{	
+			$pobject_id = (int)$_GET['pobject_id'];
+		}
+		else
+		{
+			$pobject_id = (int)$_POST['pobject_id'];
+		}
+
+		if(!(int)$_GET['price_id'] && !$_POST['price_id'])
+		{
+			ilUtil::sendInfo($this->lng->txt('payment_no_price_selected'));
+			return $this->editPrices();
+		}
+		if(isset($_GET['price_id']))
+		{	
+			$price_id = (int)$_GET['price_id'];
+		}
+		else
+		{
+			$price_id = (int)$_POST['price_id'];
+		}
+
+		$po = new ilPaymentPrices((int)$pobject_id);
+		switch($_POST['price_type'])
+		{
+			case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
+				$po->setPriceType(ilPaymentPrices::TYPE_UNLIMITED_DURATION);
+				$po->setDuration(NULL);
+				$po->setDurationFrom(NULL);
+				$po->setDurationUntil(NULL);
+				$po->setUnlimitedDuration(1);
+
+				break;
+
+			case ilPaymentPrices::TYPE_DURATION_DATE:
+
+				$po->setPriceType(ilPaymentPrices::TYPE_DURATION_DATE);
+				$po->setDuration(NULL);
+				$po->setDurationFrom(ilUtil::stripSlashes(
+						$_POST['duration_date_from']['date']['y'].'-'.
+						$_POST['duration_date_from']['date']['m'].'-'.
+						$_POST['duration_date_from']['date']['d']));
+				$po->setDurationUntil(ilUtil::stripSlashes(
+						$_POST['duration_date_until']['date']['y'].'-'.
+						$_POST['duration_date_until']['date']['m'].'-'.
+						$_POST['duration_date_until']['date']['d']));
+				break;
+
+			default:
+			case ilPaymentPrices::TYPE_DURATION_MONTH:
+				$po->setPriceType(ilPaymentPrices::TYPE_DURATION_MONTH);
+				$po->setDuration($_POST['duration_month']);
+				$po->setDurationFrom(NULL);
+				$po->setDurationUntil(NULL);
+				break;
+		}
+
+		$po->setDescription($_POST['description'] ? ilUtil::stripSlashes($_POST['description']) : NULL);
+		$po->setPrice(ilUtil::stripSlashes($_POST['price']));
+		$po->setCurrency(ilUtil::stripSlashes($_POST['currency']));
+		if($_POST['extension_price'])
+		{
+			$po->setExtension(1);
+		}
+		else
+		{
+			$po->setExtension(0);
+		}
+		try
+		{
+			$po->validate();
+			$po->update($price_id);
+			ilUtil::sendInfo($this->lng->txt('paya_updated_price'));
+			return $this->editPrices();
+		}
+		catch(ilShopException $e)
+		{
+			ilUtil::sendInfo($e->getMessage());
+			return $this->editPrices();
+		}
 	}
 }
 ?>

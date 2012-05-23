@@ -26,8 +26,15 @@ class ilPaymentShoppingCart
 	public $sc_entries = array();
 	public $session_id =null;
 	
+	public $pobject_id = null;
+	public $price_id = null;
+	public $total_amount = null;
+	public $vat_id = null;
+	public $vat_rate = 0;
+	
+	
 
-	public function ilPaymentShoppingCart($user_obj)
+	public function __construct($user_obj)
 	{
 		global $ilDB;
 
@@ -111,7 +118,7 @@ class ilPaymentShoppingCart
 	public static function _migrateShoppingcart($a_old_sessid, $a_new_sessid)
 	{
 		global $ilDB;
-		
+
 		$ilDB->update('payment_shopping_cart',
 		array('session_id' => array('text', $a_new_sessid)),
 		array('session_id'=> array('text', $a_old_sessid)));
@@ -171,6 +178,7 @@ class ilPaymentShoppingCart
 		{
 			return $this->db->fetchAssoc($res);
 		}
+		return array();
 	}
 
 	public function add()
@@ -284,7 +292,7 @@ class ilPaymentShoppingCart
 			$res = $ilDB->queryf('
 			SELECT * FROM payment_shopping_cart
 			WHERE session_id = %s',
-			array('text'), array($this->getSessionId()));		
+			array('text'), array(self::getSessionId()));		
 		}
 		else
 		{
@@ -293,7 +301,8 @@ class ilPaymentShoppingCart
 			WHERE customer_id = %s',
 			array('integer'), array($a_user_id));		
 		}
-		return $res->numRows() ? true : false;
+		
+		return $ilDB->numRows($res) ? true : false;
 	}
 
 
@@ -360,6 +369,7 @@ class ilPaymentShoppingCart
 
 		// Delete all entries with not valid prices or pay_method
 		unset($prices);
+		$prices = array();
 		foreach($this->sc_entries as $entry)
 		{
 			// check if price_id exists for pobject
@@ -414,6 +424,7 @@ class ilPaymentShoppingCart
 		}
 
 		$counter = 0;
+		$f_result = array();
 		foreach($items as $item)
 		{
 			$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
@@ -449,11 +460,14 @@ class ilPaymentShoppingCart
 			$oVAT = new ilShopVats((int)$tmp_pobject->getVatId());						
 			$f_result[$counter]['vat_rate'] = $oVAT->getRate();
 			$f_result[$counter]['vat_unit'] = $tmp_pobject->getVat($price);
-	#		$f_result[$counter]['vat_unit'] = ilPaymentPrices::__getGUIPrice($tmp_pobject->getVat($price));
 	
 			$f_result[$counter]["duration"] = $price_data["duration"];
 			$f_result[$counter]['unlimited_duration'] = $price_data['unlimited_duration'];
-
+			
+            $f_result[$counter]["price_type"] = $price_data["price_type"];
+            $f_result[$counter]["duration_from"] = $price_data["duration_from"];
+            $f_result[$counter]["duration_until"] = $price_data["duration_until"];
+            $f_result[$counter]["description"] = $price_data["description"];
 			unset($tmp_obj);
 			unset($tmp_pobject);
 
@@ -572,7 +586,9 @@ class ilPaymentShoppingCart
 	{
 		global $ilDB;
 
-		$res = $ilDB->manipulateF('DELETE FROM payment_shopping_cart WHERE pobject_id = %s',
+		$ilDB->manipulateF('
+			DELETE FROM payment_shopping_cart 
+			WHERE pobject_id = %s',
 				array('integer'), array($a_pobject_id));
 	}
 }

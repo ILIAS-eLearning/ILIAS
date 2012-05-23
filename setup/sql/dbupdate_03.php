@@ -9600,3 +9600,48 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 	$ilDB->addPrimaryKey('tax_node_assignment', array('node_id', 'component', 'item_type', 'item_id'));
 	$ilDB->addIndex("tax_node_assignment", array("component", "item_type", "item_id"), "i1");
 ?>
+<#3575>
+<?php
+	if( !$ilDB->tableColumnExists('payment_prices', 'duration_from') )
+	{
+		$ilDB->addTableColumn("payment_prices", "duration_from",
+			array('type' => 'date', 'notnull' => false
+		));
+	}
+?>
+<#3576>
+<?php	
+	if( !$ilDB->tableColumnExists('payment_prices', 'duration_until') )
+	{
+		$ilDB->addTableColumn("payment_prices", "duration_until",
+			array('type' => 'date', 'notnull' => false
+		));
+	}
+?>
+<#3577>
+<?php	
+	if( !$ilDB->tableColumnExists('payment_prices', 'description') )
+	{
+		$ilDB->addTableColumn("payment_prices", "description",
+		array(	'type' => 'text',
+				'length' => 255,
+				'notnull' => false,
+				'fixed' => false
+		));
+	}
+?>
+<#3578>
+<?php	
+	if( !$ilDB->tableColumnExists('payment_prices', 'price_type') )
+	{
+		$ilDB->addTableColumn('payment_prices', 'price_type',
+		array('type' => 'integer', 'length'  => 1,"notnull" => true,"default" => 1));
+	}
+?>
+<#3579>
+<?php	
+	// migrate prices_table
+	$ilDB->update('payment_prices', 
+		array('price_type' => array('integer', 3)),
+		array('unlimited_duration' => array('integer', 1)));
+?>

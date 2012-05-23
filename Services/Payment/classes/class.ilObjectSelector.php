@@ -106,7 +106,7 @@ class ilObjectSelector extends ilExplorer
 	*/
 	function formatHeader($a_obj_id, $a_option)
 	{
-		global $lng, $ilias;
+		global $lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 

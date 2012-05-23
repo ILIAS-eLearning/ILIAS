@@ -22,26 +22,27 @@ class ilPaymentObjectSelector extends ilExplorer
 	 * @var int root folder id
 	 * @access private
 	 */
-	var $root_id;
-	var $output;
-	var $ctrl;
+	public $root_id;
+	public $output;
+	public $ctrl;
 
-	var $selectable_type;
-	var $ref_id;
+	public $selectable_type;
+	public $ref_id;
 
-	var $classname;
+	public $classname;
+
 	/**
-	* Constructor
-	* @access	public
-	* @param	string	scriptname
-	* @param    int user_id
-	*/
-	function ilPaymentObjectSelector($a_target, $a_classname)
+	 * @access	public
+	 * @param $a_target (i.e. ilias.php?cmd=showObjectSelector&cmdClass=ilpaymentobjectgui&cmdNode=8n:8z:90&baseClass=ilShopController)
+	 * @param $a_classname i.e. ilpaymentobjectgui
+	 */
+
+	public function __construct($a_target, $a_classname)
 	{
 		global $tree,$ilCtrl;
 
 		$this->ctrl = $ilCtrl;
-
+		
 		parent::ilExplorer($a_target);
 		$this->tree = $tree;
 		$this->root_id = $this->tree->readRootId();
@@ -147,45 +148,45 @@ class ilPaymentObjectSelector extends ilExplorer
 
 	function showChilds($a_ref_id)
 	{
-		global $rbacsystem;
 
+		// depricated?!
 		return true;
-
-		if ($a_ref_id == 0)
-		{
-			return true;
-		}
-
-		if ($this->classname == 'ilpaymentstatisticgui')
-		{
-			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId(), true))
-			{
-				return false;
-			}
-		}
-		else if ($this->classname == 'ilobjpaymentsettingsgui')
-		{
-			if (!ilPaymentObject::_isPurchasable($a_ref_id))
-			{
-				return false;
-			}
-		}
-		else
-		{
-			if (!ilPaymentObject::_isPurchasable($a_ref_id))
-			{
-				return false;
-			}
-		}
-
-		if($rbacsystem->checkAccess("visible", $a_ref_id))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+//	global $rbacsystem;
+//		if ($a_ref_id == 0)
+//		{
+//			return true;
+//		}
+//
+//		if ($this->classname == 'ilpaymentstatisticgui')
+//		{
+//			if (!ilPaymentObject::_isPurchasable($a_ref_id, $ilUser->getId(), true))
+//			{
+//				return false;
+//			}
+//		}
+//		else if ($this->classname == 'ilobjpaymentsettingsgui')
+//		{
+//			if (!ilPaymentObject::_isPurchasable($a_ref_id))
+//			{
+//				return false;
+//			}
+//		}
+//		else
+//		{
+//			if (!ilPaymentObject::_isPurchasable($a_ref_id))
+//			{
+//				return false;
+//			}
+//		}
+//
+//		if($rbacsystem->checkAccess("visible", $a_ref_id))
+//		{
+//			return true;
+//		}
+//		else
+//		{
+//			return false;
+//		}
 	}
 
 
@@ -198,7 +199,7 @@ class ilPaymentObjectSelector extends ilExplorer
 	*/
 	function formatHeader($a_obj_id,$a_option)
 	{
-		global $lng, $ilias;
+		global $lng;
 
 		$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 

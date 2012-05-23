@@ -48,10 +48,7 @@ class ilPaymentObject
 			$tmp = strtoupper($pm['pm_title']);
 			$this->PAY_METHOD_.$tmp = $pm['pm_id'];		
 		}
-		
-
 		$this->__read();
-		
 	}
 
 	// SETTER GETTER	
@@ -135,8 +132,6 @@ class ilPaymentObject
 				$val = (float)($a_amount - (round(($a_amount / (1 + ($oVAT->getRate() / 100))) * 100) / 100));
 				return number_format((float)$val,'2','.','');
 			default:
-				global $lng;
-				
 				$val = (float)($a_amount - (round(($a_amount / (1 + ($oVAT->getRate() / 100))) * 100) / 100));
 				$val = ilShopUtils::_formatFloat($val);
 				return $val; 
@@ -240,7 +235,7 @@ class ilPaymentObject
 		return 0;
 	}
 
-	function _getCountObjectsByPayMethod($a_id)
+	public static function _getCountObjectsByPayMethod($a_id)
 	{
 		global $ilDB;
 
@@ -256,7 +251,7 @@ class ilPaymentObject
 		return 0;
 	}
 
-	function _getObjectsData($a_user_id)
+	public static function _getObjectsData($a_user_id)
 	{
 		global $ilDB;
 
@@ -318,7 +313,7 @@ class ilPaymentObject
 		return $objects ? $objects : array();
 	}
 	
-	function _getAllObjectsData()
+	public static function _getAllObjectsData()
 	{
 		global $ilDB;
 		
@@ -396,7 +391,7 @@ class ilPaymentObject
 		}		
 
 		$res = $ilDB->queryf($query, $data_types, $data_values);
-		
+		$objects = array();
 		while($row = $ilDB->fetchObject($res))
 		{
 			$objects[$row->pobject_id]['pobject_id'] = $row->pobject_id;
@@ -412,7 +407,7 @@ class ilPaymentObject
 		return $objects ? $objects : array();
 	}
 
-	function _getObjectData($a_id)
+	public static function _getObjectData($a_id)
 	{
 		global $ilDB;
 
@@ -430,7 +425,7 @@ class ilPaymentObject
 		return false;
 	}
 
-	function _isPurchasable($a_ref_id, $a_vendor_id = 0, $a_check_trustee = false, $a_check_status = false)
+	public static function _isPurchasable($a_ref_id, $a_vendor_id = 0, $a_check_trustee = false, $a_check_status = false)
 	{
 		global $ilDB;
 
@@ -484,7 +479,7 @@ class ilPaymentObject
 	}
 	
 	// base method to check access for a specific object
-	function _hasAccess($a_ref_id, $a_transaction = 0, $a_subtype ='')
+	public static function _hasAccess($a_ref_id, $a_transaction = 0, $a_subtype ='')
 	{
 		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 		include_once './Services/Payment/classes/class.ilPaymentTrustees.php';
@@ -540,26 +535,9 @@ class ilPaymentObject
 				return true;
 			}
 		}
+		return false;
 	}
-	
-	// base method to check access for a specific object
-	function _getActivation($a_ref_id)
-	{
-		include_once './Services/Payment/classes/class.ilPaymentBookings.php';
 
-		global $rbacsystem,$ilDB;
-
-		$res = $ilDB->queryf('
-			SELECT * FROM payment_objects 
-			WHERE ref_id = %s 
-			AND (status = %s OR status = %s)', 
-			array('integer', 'integer', 'integer'),
-			array($a_ref_id, '1', '2'));
-		
- 		$row = $ilDB->fetchObject($res);
-		return ilPaymentBookings::_getActivation($row->pobject_id);
-	}
-	
 	public static function _isBuyable($a_ref_id, $a_subtype = '')
 	{
 		global $ilDB;
@@ -619,8 +597,6 @@ class ilPaymentObject
 	 */
 	public static function _requiresPurchaseToAccess($a_ref_id, $a_purchasetype = '')
 	{
-
-		global $ilUser,$ilObjDataCache;
 		/* Check:
 		 * - User has no Access -> return false
 		 * - User has Access but there are also Extension-Prices available -> User is able to buy the Object AGAIN to extend duration
@@ -735,6 +711,7 @@ class ilPaymentObject
 		$res = $ilDB->queryF('SELECT ref_id FROM payment_objects WHERE status = %s',
 				array('integer'), array(1));
 
+		$obj = array();
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$obj[] = $row['ref_id'];
@@ -751,6 +728,7 @@ class ilPaymentObject
 			ORDER BY pt_topic_fk',
 			array('integer', 'integer'), array(1,1));
 
+		$obj = array();
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$obj[] = $row;
@@ -765,8 +743,8 @@ class ilPaymentObject
 		$filter = array( "lm", "sahs", "htlm",'file', 'exc', 'tst', 'icrs','crs','crsr','rcrs', 'glo');
 		$objects = $tree->getChildsByTypeFilter($a_ref_id, $filter);
 
-		$res = array();
-		$counter =0;
+		$counter = 0;
+		$obj_res = array();
 		foreach($objects as $object)
 		{
 			if(self::_isBuyable($object['ref_id']))

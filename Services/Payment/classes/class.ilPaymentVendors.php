@@ -22,7 +22,7 @@ class ilPaymentVendors
 	* Constructor
 	* @access	public
 	*/
-	function ilPaymentVendors()
+	public function __construct()
 	{
 		global $ilDB;
 
@@ -31,17 +31,17 @@ class ilPaymentVendors
 		$this->__read();
 	}
 
-	function getVendors()
+	public function getVendors()
 	{
 		return $this->vendors;
 	}
 
-	function isAssigned($a_usr_id)
+	public function isAssigned($a_usr_id)
 	{
 		return isset($this->vendors[$a_usr_id]);
 	}
 
-	function add($a_usr_id)
+	public function add($a_usr_id)
 	{
 		if(isset($this->vendors[$a_usr_id]))
 		{
@@ -60,7 +60,7 @@ class ilPaymentVendors
 
 		return true;
 	}
-	function update($a_usr_id, $a_cost_center)
+	public function update($a_usr_id, $a_cost_center)
 	{
 		$statement = $this->db->manipulateF('
 			UPDATE payment_vendors 
@@ -73,7 +73,7 @@ class ilPaymentVendors
 
 		return true;
 	}
-	function delete($a_usr_id)
+	public function delete($a_usr_id)
 	{
 		if(!isset($this->vendors[$a_usr_id]))
 		{
@@ -91,7 +91,7 @@ class ilPaymentVendors
 	}
 
 	// PRIVATE
-	function __read()
+	private function __read()
 	{
 		$this->vendors = array();
 
@@ -107,7 +107,7 @@ class ilPaymentVendors
 	}
 
 	// STATIC
-	function _isVendor($a_usr_id)
+	public static function _isVendor($a_usr_id)
 	{
 		global $ilDB;
 
@@ -118,7 +118,7 @@ class ilPaymentVendors
 		return $res->numRows() ? true : false;
 	}
 
-	function _getCostCenter($a_usr_id)
+	public static function _getCostCenter($a_usr_id)
 	{
 		global $ilDB;
 

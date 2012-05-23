@@ -20,10 +20,10 @@ class ilObjPaymentSettings extends ilObject
 	/**
 	* Constructor
 	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
+	* @param	integer	$a_id reference_id or object_id
+	* @param	boolean $a_call_by_reference treat the id as reference_id (true) or object_id (false)
 	*/
-	public function ilObjPaymentSettings($a_id = 0,$a_call_by_reference = true)
+	public function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		#define("ILIAS_MODULE","payment");
 		#define("KEEP_IMAGE_PATH",1);
