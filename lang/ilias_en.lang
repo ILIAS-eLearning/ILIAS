@@ -12533,12 +12533,6 @@ assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been p
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_show_requested_question_hints#:#Show Requested Hints
-assessment#:#tst_question_hints_confirm_request#:#Request Hint
-assessment#:#tst_question_hints_cancel_request#:#Back to Question
-assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.
-assessment#:#tst_question_hints_back_to_question#:#Back to Question
-assessment#:#tst_question_hints_index_column_label#:#Hint %s
-assessment#:#tst_question_hints_table_column_hint_index#:#Index
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
@@ -12587,3 +12581,4 @@ forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.
 payment#:#duration_month#:#Access duration in monaths
 payment#:#duration_date#:#Access duration
 payment#:#please_choose_category#:#Please choose a category
+forum#:#select_max_one_thread#:#Please select one thread only!
