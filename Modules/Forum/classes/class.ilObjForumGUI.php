@@ -3067,7 +3067,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$output = $exp->getOutput();
 		$this->tpl->setVariable('FRM_SELECTION_TREE', $output);
 		$this->tpl->setVariable('CMD_SUBMIT', 'performMoveThreads');
-		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
+		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('move'));
 		$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'performMoveThreads'));
 
 		return true;
