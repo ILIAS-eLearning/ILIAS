@@ -40,10 +40,11 @@ include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 class ilCalendarBlockGUI extends ilBlockGUI
 {
 	public $ctrl = null;
+	protected $mode;
 
 	static $block_type = "cal";
 	static $st_data;
-	
+			
 	/**
 	* Constructor
 	*
@@ -122,6 +123,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$tpl->addCSS("./Services/Calendar/css/calendar.css");
 		// @todo: this must work differently...
 		$tpl->addCSS("./Services/Calendar/templates/default/delos.css");
+		
+		$mode = $ilUser->getPref("il_pd_cal_mode");
+		$this->mode = $mode ? $mode : "mmon";
 	}
 	
 	/**
@@ -259,18 +263,28 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		if ($this->getCurrentDetailLevel() > 1)
+		if ($this->getCurrentDetailLevel() > 1 && $this->mode != "mmon")
 		{
-			$tpl = new ilTemplate("tpl.calendar_block.html", true, true,
-				"Services/Calendar");
+			$this->setColSpan(1);					
+			$this->tpl->addBlockFile("BLOCK_ROW", "block_row","tpl.pd_event_list.html", "Services/Calendar");		
 			
-			$this->addMiniMonth($tpl);
-			$this->setDataSection($tpl->get());
+			ilBlockGUI::fillDataSection();
 		}
 		else
 		{
-			$this->setDataSection($this->getOverview());
-		}
+			if ($this->getCurrentDetailLevel() > 1)
+			{
+				$tpl = new ilTemplate("tpl.calendar_block.html", true, true,
+					"Services/Calendar");
+
+				$this->addMiniMonth($tpl);
+				$this->setDataSection($tpl->get());
+			}
+			else
+			{
+				$this->setDataSection($this->getOverview());
+			}
+		}		
 	}
 
 	/**
@@ -545,15 +559,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	}
 	
 	/**
-	* get flat bookmark list for personal desktop
-	*/
-	function fillRow($news)
-	{
-		global $ilUser, $ilCtrl, $lng;
-
-	}
-	
-	/**
 	* Get overview.
 	*/
 	function getOverview()
@@ -711,6 +716,127 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		return $content_block->getHTML();
 		
+	}
+	
+		function fillFooter()
+	{
+		global $ilCtrl, $lng, $ilUser;
+
+		$this->setFooterLinks();
+		$this->fillFooterLinks();
+		$this->tpl->setVariable("FCOLSPAN", $this->getColSpan());
+		if ($this->tpl->blockExists("block_footer"))
+		{
+			$this->tpl->setCurrentBlock("block_footer");
+			$this->tpl->parseCurrentBlock();
+		}
+	}
+	
+	function setFooterLinks()
+	{
+		global $ilCtrl, $lng;
+		
+		if ($this->getCurrentDetailLevel() < 2)
+		{
+			return;
+		}
+		
+		if ($this->mode == 'mmon')
+		{
+			$this->addFooterLink($lng->txt("month"));
+			
+			$this->addFooterLink($lng->txt("cal_upcoming_events_header"),
+				$ilCtrl->getLinkTarget($this, "setPdModeEvents"),
+				$ilCtrl->getLinkTarget($this, "setPdModeEvents", "", true),
+				"block_".$this->getBlockType()."_".$this->block_id);
+			
+		}
+		else
+		{
+			$this->addFooterLink( $lng->txt("month"),
+				$ilCtrl->getLinkTarget($this, "setPdModeMonth"),
+				$ilCtrl->getLinkTarget($this, "setPdModeMonth", "", true),
+				"block_".$this->getBlockType()."_".$this->block_id);
+			
+			$this->addFooterLink($lng->txt("cal_upcoming_events_header"));
+		}
+	}
+	
+	function setPdModeEvents()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$ilUser->writePref("il_pd_cal_mode", "evt");
+		$this->mode = "evt";
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		}
+	}
+	
+	function setPdModeMonth()
+	{
+		global $ilUser, $ilCtrl;
+		
+		$ilUser->writePref("il_pd_cal_mode", "mmon");
+		$this->mode = "mmon";
+		if ($ilCtrl->isAsynch())
+		{
+			echo $this->getHTML();
+			exit;
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		}
+	}
+		
+	function getData()
+	{
+		global $ilCtrl, $lng;
+							
+		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
+		
+		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');		
+		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_INBOX);				
+		$events = $schedule->getEvents();
+		
+		$data = array();
+		if(sizeof($events))
+		{			
+			foreach($events as $event)
+			{							
+				$ilCtrl->clearParametersByClass('ilcalendardaygui');
+				$ilCtrl->setParameterByClass('ilcalendardaygui','seed',$event->getStart());
+				$link = $ilCtrl->getLinkTargetByClass('ilcalendardaygui','');
+				$ilCtrl->clearParametersByClass('ilcalendardaygui');
+			
+				$data[] = array(	
+					"date" =>  ilDatePresentation::formatPeriod($event->getStart(), $event->getEnd()),
+					"title" => $event->getPresentationTitle(),			
+					"url" => $link
+					);				
+			}			
+			
+			$this->setEnableNumInfo(true);
+		}
+		else
+		{
+			$data[] = array(	
+					"date" => $lng->txt("msg_no_search_result"),
+					"title" => "",			
+					"url" => ""
+					);		
+			
+			$this->setEnableNumInfo(false);
+		}
+		
+		return $data;
 	}
 }
 
