@@ -1192,7 +1192,7 @@ a.postnew, a.postnew:visited
 
 blockquote.ilForumQuote
 {
-	margin: 0px 20px;
+	margin: 0 20px 10px 20px;
 	padding: 5px;
 	border-width:1px;
 	border-color:#B6B6B6;

@@ -5,8 +5,15 @@ function ilFrmQuoteAjaxHandler(t, ed)
 		success: function(o) {
 			if(typeof o.responseText != "undefined")
 			{
-				var marker = tinyMCE.activeEditor.selection.getBookmark();
-				tinyMCE.execCommand("mceInsertContent", false, t._ilfrmquote2html(ed, o.responseText));
+				var uid = 'frm_quote_' + new Date().getTime();
+				tinyMCE.execCommand("mceInsertContent", false, t._ilfrmquote2html(ed, o.responseText) + '<p id="' + uid + '">&nbsp;</p>');
+
+				var rng = tinymce.DOM.createRng();
+				var newNode = ed.dom.select('#' + uid)[0];
+				rng.setStart(newNode, 0);
+				rng.setEnd(newNode, 0);
+				ed.selection.setRng(rng);
+				ed.focus();
 			}
 		},
 		failure:  function(o) {
