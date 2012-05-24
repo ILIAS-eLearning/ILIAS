@@ -73,7 +73,7 @@
 			else if(startZ < endZ) {
 				var diff = endZ - startZ;
 				for(var i = 0; i < diff; i++) {
-					s = "<blockquote class=\"ilForumQuote\" style=\"margin: 0px 20px; padding: 5px; border-width:1px; border-color:#B6B6B6; border-style:solid;\">" + s;
+					s = "<blockquote class=\"ilForumQuote\">" + s;
 				}
 			}			
 		
@@ -108,8 +108,8 @@
 				}
 			}			
 
-			rep(/\[quote="(.*?)"\]/gi, "<blockquote class=\"ilForumQuote\" style=\"margin: 0px 20px; padding: 5px; border-width:1px; border-color:#B6B6B6; border-style:solid;\"><div class=\"ilForumQuoteHead\" style=\"font-weight: bold; font-size: 90%; margin: 0px 0px 10px 0px;\">" + ed.translate('ilfrmquote.quote') + " ($1)</div>");
-			rep(/\[quote]/gi, "<blockquote class=\"ilForumQuote\" style=\"margin: 0px 20px; padding: 5px; border-width:1px; border-color:#B6B6B6; border-style:solid;\">");
+			rep(/\[quote="(.*?)"\]/gi, "<blockquote class=\"ilForumQuote\"><div class=\"ilForumQuoteHead\">" + ed.translate('ilfrmquote.quote') + " ($1)</div>");
+			rep(/\[quote]/gi, "<blockquote class=\"ilForumQuote\">");
 
 			rep(/\[\/quote\]/gi, "</blockquote>");
 
