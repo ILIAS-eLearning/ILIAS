@@ -12,10 +12,13 @@ include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
  * class when learners execute a test. This saves some heap space because 
  * the ilObjTestGUI class will be much smaller then
  *
- * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
- * @version	$Id$
- * @ingroup ModulesTest
  * @extends ilTestServiceGUI
+ * 
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
+ * 
+ * @ingroup ModulesTest
  * 
  * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI
  */
@@ -170,7 +173,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				{
 					$pass = $this->object->_getPass($active_id);
 				}
-				$this->saveResult = $question_gui->object->saveWorkingData($active_id, $pass);
+				$this->saveResult = $question_gui->object->persistWorkingState($active_id, $pass);
 
 				// update learning progress (is done in ilTestSession)
 				//include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
