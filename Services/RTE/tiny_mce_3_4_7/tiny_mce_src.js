@@ -635,6 +635,12 @@ tinymce.create('tinymce.util.Dispatcher', {
 			if ((u.host != 'mce_host' && t.host != u.host && u.host) || t.port != u.port || t.protocol != u.protocol)
 				return u.getURI();
 
+			// Copied possible fix from: https://github.com/tinymce/tinymce/commit/e3ccecc5dd9526b7602351fef4785673ce01b78e 
+			var tu = t.getURI(), uu = u.getURI();
+			// Allow usage of the base_uri when relative_urls = true
+			if(tu == uu || (tu.substr(-1) == "/" && tu.substr(0,tu.length - 1) == uu) )
+				return tu;
+
 			o = t.toRelPath(t.path, u.path);
 
 			// Add query
