@@ -435,6 +435,13 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			$fail[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
 					$target_object->getTitle(), $source_object->getType());
 		}
+				
+		// if object is shared permission to copy has been checked above
+		$owner = $this->tree->lookupOwner($source_node_id);			
+		if($mode == "copy" && $ilUser->getId() == $owner && !$this->checkPermissionBool('copy', '', '', $source_node_id))
+		{
+			$fail[] = $this->lng->txt('permission_denied');
+		}
 
 		if(!$_SESSION['clipboard']['wsp2repo'])
 		{
@@ -450,20 +457,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 					$source_object->getTitle(), $target_object->getTitle());
 			}
 			
-			// if object is shared permission to copy has been checked above
-			$owner = $this->tree->lookupOwner($source_node_id);			
-			if($mode == "copy" && $ilUser->getId() == $owner && !$this->checkPermissionBool('copy', '', '', $source_node_id))
-			{
-				$fail[] = $this->lng->txt('permission_denied');
-			}
 		}
 		else
-		{						
-			if($mode == "copy" &&  !$ilAccess->checkAccess('copy', '', $source_node_id))
-			{
-				$fail[] = $this->lng->txt('permission_denied');
-			}
-			
+		{									
 			if(!$ilAccess->checkAccess('create', '', $target_node_id, $source_object->getType()))
 			{
 				$fail[] = sprintf($this->lng->txt('msg_no_perm_paste_object_in_folder'),
@@ -532,7 +528,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 		}
 		else
 		{
-			$redirect_node = $source_node_id;
+			// reload current folder
+			$redirect_node = $this->node_id;
 		}
 		
 		unset($_SESSION['clipboard']['cmd']);
