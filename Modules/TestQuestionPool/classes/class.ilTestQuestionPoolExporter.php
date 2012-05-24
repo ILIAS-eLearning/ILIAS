@@ -21,6 +21,22 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 	{
 	}
 
+	/**
+	 * Overwritten for qpl
+	 * @param string $a_obj_type
+	 * @param int $a_obj_id
+	 * @param string $a_export_type 
+	 */
+	public static function  lookupExportDirectory($a_obj_type, $a_obj_id, $a_export_type = 'xml')
+	{
+		if($a_export_type == 'xml')
+		{
+			return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
+
+		}
+		return ilUtil::getDataDir()."/qpl_data"."/qpl_".$a_obj_id."/export_".$a_export_type;
+	}
+
 
 	/**
 	 * Get xml representation
