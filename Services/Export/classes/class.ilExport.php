@@ -115,15 +115,10 @@ class ilExport
 			return $dir;
 		}
 
-		if ($a_type !=  "xml")
-		{
-			$export_dir = ilUtil::getDataDir()."/".$a_obj_type."_data"."/".$a_obj_type."_".$a_obj_id."/export_".$a_type;
-		}
-		else
-		{
-			$export_dir = ilUtil::getDataDir()."/".$a_obj_type."_data"."/".$a_obj_type."_".$a_obj_id."/export";
-		}
-	
+		include_once './Services/Export/classes/class.ilImportExportFactory.php';
+		$exporter_class = ilImportExportFactory::getExporterClass($a_obj_type);
+		$export_dir = $exporter_class::lookupExportDirectory($a_obj_type, $a_obj_id, $a_type);
+
 		$GLOBALS['ilLog']->write(__METHOD__.': Export dir is '.$export_dir);
 		return $export_dir;
 	}
@@ -200,52 +195,14 @@ class ilExport
 	{
 		global $ilErr;
 		
-		$GLOBALS['ilLog']->write(__METHOD__);
 		if ($a_obj_type == "")
 		{
 			$a_obj_type = ilObject::_lookupType($a_obj_id);
 		}
 
-		if(in_array($a_obj_type, self::$new_file_structure))
-		{
-			$edir = ilExport::_getExportDirectory($a_obj_id,$a_export_type,$a_obj_type);
-			ilUtil::makeDirParents($edir);
-			return true;
-			
-		}
-	
-		$data_dir = ilUtil::getDataDir()."/".$a_obj_type."_data";
-		ilUtil::makeDir($data_dir);
-		if(!is_writable($data_dir))
-		{
-			$ilErr->raiseError("Data Directory (".$data_dir
-				.") not writeable.",$ilErr->FATAL);
-		}
-		
-		// create resource data directory
-		$res_dir = $data_dir."/".$a_obj_type."_".$a_obj_id;
-		ilUtil::makeDir($res_dir);
-		if(!@is_dir($res_dir))
-		{
-			$ilErr->raiseError("Creation of Glossary Directory failed.",$ilErr->FATAL);
-		}
-
-		// create Export subdirectory (data_dir/glo_data/glo_<id>/Export)
-		if ($a_export_type != "xml")
-		{
-			$export_dir = $res_dir."/export_".$a_export_type;
-		}
-		else
-		{
-			$export_dir = $res_dir."/export";
-		}
-
-		ilUtil::makeDir($export_dir);
-
-		if(!@is_dir($export_dir))
-		{
-			$ilErr->raiseError("Creation of Export Directory failed.",$ilErr->FATAL);
-		}
+		$edir = ilExport::_getExportDirectory($a_obj_id,$a_export_type,$a_obj_type);
+		ilUtil::makeDirParents($edir);
+		return true;
 	}
 
 	/**

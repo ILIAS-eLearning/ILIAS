@@ -144,6 +144,8 @@ class ilQuestionpoolExport
 
 		// get Log File
 		$expDir = $this->qpl_obj->getExportDirectory();
+		ilUtil::makeDirParents($expDir);
+
 		include_once "./Services/Logging/classes/class.ilLog.php";
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
@@ -184,7 +186,8 @@ class ilQuestionpoolExport
 		ilUtil::zip($this->export_dir."/".$this->subdir, $this->export_dir."/".$this->subdir.".zip");
 		if (@is_dir($this->export_dir."/".$this->subdir))
 		{
-			ilUtil::delDir($this->export_dir."/".$this->subdir);
+			// Do not delete this dir, since it is required for container exports
+			#ilUtil::delDir($this->export_dir."/".$this->subdir);
 		}
 
 		$ilBench->stop("QuestionpoolExport", "buildExportFile_zipFile");
