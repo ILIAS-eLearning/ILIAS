@@ -1,39 +1,25 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* Class for TextSubset questions
-*
-* assTextSubset is a class for TextSubset questions. To solve a TextSubset
-* question, a learner has to enter a TextSubsetal value in a defined range
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author   Nina Gharib <nina@wgserve.de>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
+ * Class for TextSubset questions
+ *
+ * assTextSubset is a class for TextSubset questions. To solve a TextSubset
+ * question, a learner has to enter a TextSubsetal value in a defined range
+ *
+ * @extends assQuestion
+ * 
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
+ * @author		Nina Gharib <nina@wgserve.de>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
+ * 
+ * @ingroup		ModulesTestQuestionPool
+ */
 class assTextSubset extends assQuestion
 {
 	/**
@@ -521,16 +507,22 @@ class assTextSubset extends assQuestion
 	}
 	
 	/**
-	* Returns the points, a learner has reached answering the question
-	* The points are calculated from the given answers including checks
-	* for all special scoring options in the test container.
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function calculateReachedPoints($active_id, $pass = NULL)
+	 * Returns the points, a learner has reached answering the question.
+	 * The points are calculated from the given answers.
+	 * 
+	 * @access public
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @param boolean $returndetails (deprecated !!)
+	 * @return integer/array $points/$details (array $details is deprecated !!)
+	 */
+	public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE)
 	{
+		if( $returndetails )
+		{
+			throw new ilTestException('return details not implemented for '.__METHOD__);
+		}
+		
 		global $ilDB;
 		
 		$available_answers =& $this->getAvailableAnswers();
@@ -555,7 +547,6 @@ class assTextSubset extends assQuestion
 			}
 		}
 
-		$points = parent::calculateReachedPoints($active_id, $pass = NULL, $points);
 		return $points;
 	}
 	
@@ -582,14 +573,14 @@ class assTextSubset extends assQuestion
 	}
 	
 	/**
-	* Saves the learners input of the question to the database
-	*
-	* @param integer $test_id The database id of the test containing this question
-  * @return boolean Indicates the save status (true if saved successful, false otherwise)
-	* @access public
-	* @see $ranges
-	*/
-	function saveWorkingData($active_id, $pass = NULL)
+	 * Saves the learners input of the question to the database.
+	 * 
+	 * @access public
+	 * @param integer $active_id Active id of the user
+	 * @param integer $pass Test pass
+	 * @return boolean $status
+	 */
+	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -641,8 +632,20 @@ class assTextSubset extends assQuestion
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
-    parent::saveWorkingData($active_id, $pass);
+		
 		return true;
+	}
+
+	/**
+	 * Reworks the allready saved working data if neccessary
+	 *
+	 * @access protected
+	 * @param type $active_id
+	 * @param type $pass 
+	 */
+	protected function reworkWorkingData($active_id, $pass)
+	{
+		// nothing to rework!
 	}
 
 	/**

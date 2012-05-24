@@ -1,39 +1,24 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* Basic class for all assessment question types
-*
-* The assQuestion class defines and encapsulates basic methods and attributes
-* for assessment question types to be used for all parent classes.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-*/
-class assQuestion
+ * Abstract basic class which is to be extended by the concrete assessment question type classes
+ *
+ * The assQuestion class defines and encapsulates basic/common methods and attributes as well
+ * as it provides abstract methods that are to be implemented by concrete question type classes.
+ *
+ * @abstract
+ * 
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
+ * 
+ * @ingroup		ModulesTestQuestionPool
+ */
+abstract class assQuestion
 {
 	/**
 	* Question id
@@ -771,13 +756,14 @@ class assQuestion
 		return $this->points;
 	}
 	
-		/**
-		* Calculates the question results from a previously saved question solution
-		*
-		* @param integer $active_id Active id of the user
-		* @param integer $pass Test pass
-		*/
-	public function calculateResultsFromSolution($active_id, $pass = NULL)
+	/**
+	 * Calculates the question results from a previously saved question solution
+	 *
+	 * @final
+	 * @param integer $active_id Active id of the user
+	 * @param integer $pass Test pass
+	 */
+	final public function calculateResultsFromSolution($active_id, $pass = NULL)
 	{
 		global $ilDB;
 		global $ilUser;
@@ -786,7 +772,10 @@ class assQuestion
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
+		
 		$reached_points = $this->calculateReachedPoints($active_id, $pass);
+		$reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
+		
 		if (is_null($reached_points)) $reached_points = 0;
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
@@ -826,16 +815,51 @@ class assQuestion
 	}
 
 	/**
-	* Saves the learners input of the question to the database
-	*
-	* @param integer $active_id Active id of the user
-	* @param integer $pass Test pass
-	*/
-	function saveWorkingData($active_id, $pass = NULL)
+	 * persists the working state for current testactive and testpass
+	 *
+	 * @final
+	 * @access public
+	 * @param integer $active_id Active id of the user
+	 * @param integer $pass Test pass
+	 */
+	final function persistWorkingState($active_id, $pass = NULL)
 	{
+		if( $pass === null )
+		{
+			require_once 'Modules/Test/classes/class.ilObjTest.php';
+			$pass = ilObjTest::_getPass($active_id);
+		}
+		
+		$saveStatus = $this->saveWorkingData($active_id, $pass);
+		
 		$this->calculateResultsFromSolution($active_id, $pass);
+		
+		$this->reworkWorkingData($active_id, $pass);
+		
+		return $saveStatus;
 	}
 	
+	/**
+	 * Saves the learners input of the question to the database.
+	 * 
+	 * @abstract
+	 * @access public
+	 * @param integer $active_id Active id of the user
+	 * @param integer $pass Test pass
+	 * @return boolean $status
+	 */
+	abstract public function saveWorkingData($active_id, $pass = NULL);
+
+	/**
+	 * Reworks the allready saved working data if neccessary
+	 *
+	 * @abstract
+	 * @access protected
+	 * @param type $active_id
+	 * @param type $pass 
+	 */
+	abstract protected function reworkWorkingData($active_id, $pass);
+
 	function _updateTestResultCache($active_id)
 	{
 		global $ilDB;
@@ -2557,17 +2581,31 @@ class assQuestion
 		);
 		return $result->numRows();
 	}
+	
+	/**
+	 * Returns the points, a learner has reached answering the question.
+	 * The points are calculated from the given answers.
+	 * 
+	 * @abstract
+	 * @access public
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @param boolean $returndetails (deprecated !!)
+	 * @return integer/array $points/$details (array $details is deprecated !!)
+	 */
+	abstract public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE);
 
 	/**
-	* Returns the points, a learner has reached answering the question
-	* The points are calculated from the given answers including checks
-	* for all special scoring options in the test container.
-	*
-	* @param integer $user_id The database ID of the learner
-	* @param integer $test_id The database Id of the test containing the question
-	* @access public
-	*/
-	function calculateReachedPoints($active_id, $pass = NULL, $points = 0)
+	 * Adjust the given reached points by checks for all
+	 * special scoring options in the test container.
+	 *
+	 * @final
+	 * @access public
+	 * @param integer $points
+	 * @param integer $active_id
+	 * @param integer $pass
+	 */
+	final public function adjustReachedPointsByScoringOptions($points, $active_id, $pass = NULL)
 	{
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$count_system = ilObjTest::_getCountSystem($active_id);
