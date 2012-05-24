@@ -2892,7 +2892,7 @@ class ilObjForumGUI extends ilObjectGUI
 					$count = count($_POST['thread_ids']);
 					if($count != 1)
 					{
-						ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'), true);
+						ilUtil::sendInfo($this->lng->txt('select_max_one_thread'), true);
 						$this->ctrl->redirect($this, 'showThreads');
 					}
 					else
