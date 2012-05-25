@@ -760,6 +760,8 @@ abstract class assQuestion
 	 * Calculates the question results from a previously saved question solution
 	 *
 	 * @final
+	 * @global ilDB $ilDB
+	 * @global ilObjUser $ilUser
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
 	 */
@@ -773,32 +775,40 @@ abstract class assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		
+		// determine reached points for submitted solution
 		$reached_points = $this->calculateReachedPoints($active_id, $pass);
+		
+		// deduct points for requested hints from reached points
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+		$requestsStatisticData = ilAssQuestionHintTracking::getRequestStatisticDataByQuestionAndTestpass($this->getId(), $active_id, $pass);
+		$reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
+		
+		// adjust reached points regarding to tests scoring options
 		$reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
 		
 		if (is_null($reached_points)) $reached_points = 0;
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_result WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+		$affectedRows = $ilDB->manipulateF("
+			DELETE FROM tst_test_result
+			WHERE active_fi = %s AND question_fi = %s AND pass = %s
+			",
 			array("integer", "integer", "integer"),
-			array(
-				$active_id,
-				$this->getId(),
-				$pass
-			)
+			array($active_id, $this->getId(), $pass)
 		);
 
 		$next_id = $ilDB->nextId("tst_test_result");
-		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_result (test_result_id, active_fi, question_fi, pass, points, tstamp) VALUES (%s, %s, %s, %s, %s, %s)", 
-			array("integer","integer", "integer", "integer", "float", "integer"),
-			array(
-				$next_id,
-				$active_id,
-				$this->getId(),
-				$pass,
-				$reached_points,
-				time()
-			)
-		);
+		
+		$ilDB->insert('tst_test_result', array(
+			'test_result_id'	=> array('integer', $next_id),
+			'active_fi'			=> array('integer', $active_id),
+			'question_fi'		=> array('integer', $this->getId()),
+			'pass'				=> array('integer', $pass),
+			'points'			=> array('float', $reached_points),
+			'tstamp'			=> array('integer', time()),
+			'hint_count'		=> array('integer', $requestsStatisticData->getRequestsCount()),
+			'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints())
+		));
+		
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 		{
@@ -822,7 +832,7 @@ abstract class assQuestion
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
 	 */
-	final function persistWorkingState($active_id, $pass = NULL)
+	final public function persistWorkingState($active_id, $pass = NULL)
 	{
 		if( $pass === null )
 		{
@@ -865,90 +875,96 @@ abstract class assQuestion
 		global $ilDB;
 
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		include_once "./Modules/Test/classes/class.assMarkSchema.php";
+		
 		$pass = ilObjTest::_getResultPass($active_id);
 
 		$result = $ilDB->queryF("SELECT tst_pass_result.* FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'),
 			array($active_id, $pass)
 		);
+		
 		$row = $ilDB->fetchAssoc($result);
+		
 		$max = $row['maxpoints'];
 		$reached = $row['points'];
-		include_once "./Modules/Test/classes/class.assMarkSchema.php";
+		
 		$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
+		
 		$mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
+		
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_result_cache WHERE active_fi = %s",
 			array('integer'),
 			array($active_id)
 		);
-		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_result_cache (active_fi, pass, max_points, reached_points, mark_short, mark_official, passed, failed, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-			array(
-				'integer',
-				'integer',
-				'float',
-				'float',
-				'text',
-				'text',
-				'integer',
-				'integer',
-				'integer'
-			),
-			array(
-				$active_id,
-				strlen($pass) ? $pass : 0,
-				strlen($max) ? $max : 0,
-				strlen($reached) ? $reached : 0,
-				strlen($mark["short_name"]) ? $mark["short_name"] : " ",
-				strlen($mark["official_name"]) ? $mark["official_name"] : " ",
-				($mark["passed"]) ? 1 : 0,
-				(!$mark["passed"]) ? 1 : 0,
-				time()
-			)
-		);
+		
+		$ilDB->insert('tst_result_cache', array(
+			'active_fi'=> array('integer', $active_id),
+			'pass'=> array('integer', strlen($pass) ? $pass : 0),
+			'max_points'=> array('float', strlen($max) ? $max : 0),
+			'reached_points'=> array('float', strlen($reached) ? $reached : 0),
+			'mark_short'=> array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
+			'mark_official'=> array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
+			'passed'=> array('integer', ($mark["passed"]) ? 1 : 0),
+			'failed'=> array('integer', (!$mark["passed"]) ? 1 : 0),
+			'tstamp'=> array('integer', time()),
+			'hint_count'=> array('integer', $row['hint_count']),
+			'hint_points'=> array('float', $row['hint_points'])
+		));
 	}
 
 	function _updateTestPassResults($active_id, $pass)
 	{
 		global $ilDB;
+		
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		
 		$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
 		$time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
+		
 		// update test pass results
-		$result = $ilDB->queryF("SELECT SUM(points) reachedpoints, COUNT(question_fi) answeredquestions FROM tst_test_result WHERE active_fi = %s AND pass = %s",
+		
+		$result = $ilDB->queryF("
+			SELECT		SUM(points) reachedpoints,
+						COUNT(question_fi) answeredquestions,
+						SUM(hint_count) hint_count,
+						SUM(hint_points) hint_points
+			FROM		tst_test_result
+			WHERE		active_fi = %s
+			AND			pass = %s
+			",
 			array('integer','integer'),
 			array($active_id, $pass)
 		);
+		
 		if ($result->numRows() > 0)
 		{
 			$row = $ilDB->fetchAssoc($result);
+			
+			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
+			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
+			
 			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
 				array('integer','integer'),
 				array($active_id, $pass)
 			);
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_pass_result (active_fi, pass, points, maxpoints, questioncount, answeredquestions, workingtime, tstamp) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
-				array(
-					'integer',
-					'integer',
-					'float',
-					'float',
-					'integer',
-					'integer',
-					'integer',
-					'integer'
-				),
-				array(
-					$active_id,
-					strlen($pass) ? $pass : 0,
-					($row["reachedpoints"]) ? $row["reachedpoints"] : 0,
-					$data["points"],
-					$data["count"],
-					$row["answeredquestions"],
-					$time,
-					time()
-				)
-			);
+			
+			$ilDB->insert('tst_pass_result', array(
+				'active_fi'			=> array('integer', $active_id),
+				'pass'				=> array('integer', strlen($pass) ? $pass : 0),
+				'points'			=> array('float', $row['reachedpoints'] ? $row['reachedpoints'] : 0),
+				'maxpoints'			=> array('float', $data['points']),
+				'questioncount'		=> array('integer', $data['count']),
+				'answeredquestions'	=> array('integer', $row['answeredquestions']),
+				'workingtime'		=> array('integer', $time),
+				'tstamp'			=> array('integer', time()),
+				'hint_count'		=> array('integer', $row['hint_count']),
+				'hint_points'		=> array('float', $row['hint_points'])
+			));
 		}
+		
 		assQuestion::_updateTestResultCache($active_id);
+		
 		return array(
 			'active_fi' => $active_id,
 			'pass' => $pass,
