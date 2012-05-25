@@ -9707,3 +9707,27 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 	}
 
 ?>
+
+<#3585>
+<?php
+
+	if( !$ilDB->tableColumnExists('tst_result_cache', 'hint_count') )
+	{
+		$ilDB->addTableColumn('tst_result_cache', 'hint_count', array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => 0
+		));
+	}
+
+	if( !$ilDB->tableColumnExists('tst_result_cache', 'hint_points') )
+	{
+		$ilDB->addTableColumn('tst_result_cache', 'hint_points', array(
+			'type' => 'float',
+			'notnull' => false,
+			'default' => 0
+		));
+	}
+
+?>
