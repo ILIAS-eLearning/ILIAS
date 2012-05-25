@@ -21,32 +21,32 @@
 	+-----------------------------------------------------------------------------+
 */
 
-
-/**
-* Class ilObjQuestionPoolGUI
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version  $Id$
-*
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI
-*
-* @extends ilObjectGUI
-* @ingroup ModulesTestQuestionPool
-*/
-
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
+/**
+ * Class ilObjQuestionPoolGUI
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * 
+ * @version		$Id$
+ *
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilPageObjectGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextSubsetGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI
+ *
+ * @extends ilObjectGUI
+ * @ingroup ModulesTestQuestionPool
+ */
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
 	/**
