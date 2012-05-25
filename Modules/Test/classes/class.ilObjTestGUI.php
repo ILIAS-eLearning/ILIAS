@@ -4,40 +4,38 @@
 
 
 include_once 'Modules/Test/exceptions/class.ilTestException.php';
-
-
-/**
-* Class ilObjTestGUI
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version		$Id$
-*
-* @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilTestOutputGUI
-* @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjTestGUI: ilCertificateGUI
-* @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI
-* @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
-* @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
-* @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI
-* @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
-* @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI
-* @ilCtrl_Calls ilObjTestGUI: assTextQuestionGUI, assFlashQuestionGUI
-* @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
-* @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
-* @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
-*
-* @extends ilObjectGUI
-* @ingroup ModulesTest
-*/
-
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once "./Modules/Test/classes/class.ilObjAssessmentFolderGUI.php";
 include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 
+/**
+ * Class ilObjTestGUI
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
+ *
+ * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilTestOutputGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilCertificateGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestScoringGUI, ilShopPurchaseGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI
+ * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
+ * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI
+ * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
+ * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI
+ * @ilCtrl_Calls ilObjTestGUI: assTextQuestionGUI, assFlashQuestionGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI
+ *
+ * @extends ilObjectGUI
+ * @ingroup ModulesTest
+ */
 class ilObjTestGUI extends ilObjectGUI
 {
 	/**
