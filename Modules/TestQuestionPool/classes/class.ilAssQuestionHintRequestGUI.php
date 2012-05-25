@@ -28,6 +28,11 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	const CMD_BACK_TO_QUESTION	= 'backToQuestion';
 	
 	/**
+	 * @var ilTestOutputGUI
+	 */
+	protected $testOutputGUI = null;
+	
+	/**
 	 * @var ilTestSession
 	 */
 	protected $testSession = null;
@@ -35,11 +40,13 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	/**
 	 * Constructor
 	 *
+	 * @param	ilTestOutputGUI $testOutputGUI
 	 * @param	ilTestSession $testSession
 	 * @param	assQuestionGUI $questionGUI 
 	 */
-	public function __construct(ilTestSession $testSession, assQuestionGUI $questionGUI)
+	public function __construct(ilTestOutputGUI $testOutputGUI, ilTestSession $testSession, assQuestionGUI $questionGUI)
 	{
+		$this->testOutputGUI = $testOutputGUI;
 		$this->testSession = $testSession;
 		
 		parent::__construct($questionGUI);
@@ -201,7 +208,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	}
 	
 	/**
-	 * performs a hint request and redirects to showHint command 
+	 * Performs a hint request and invokes the (re-)saving the question solution.
+	 * Redirects to local showHint command
 	 * 
 	 * @access	private
 	 * @global	ilCtrl $ilCtrl
@@ -228,6 +236,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 				$nextRequestableHint, $this->questionOBJ->getId(),
 				$this->testSession->getActiveId(), $this->testSession->getPass()
 		);
+		
+		$this->testOutputGUI->saveQuestionSolution();
 		
 		$redirectTarget = ilUtil::appendUrlParameterString(
 				$ilCtrl->getLinkTarget($this, self::CMD_SHOW_HINT, '', false, false), "hintId={$nextRequestableHint->getId()}"
