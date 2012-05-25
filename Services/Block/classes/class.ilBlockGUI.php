@@ -37,6 +37,8 @@ abstract class ilBlockGUI
 	protected $property = false;
 	protected $nav_value = "";
 	protected $css_row = "";
+	
+	protected $dropdown;
 
 	/**
 	* Constructor
@@ -745,12 +747,23 @@ abstract class ilBlockGUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		$this->dropdown = array();
+		
 		// commands
 		if (count($this->getBlockCommands()) > 0)
 		{
-
+			$has_block_command = false;
+			
 			foreach($this->getBlockCommands() as $command)
 			{
+				if(!$command["img"])
+				{
+					$this->dropdown[] = $command;
+					continue;
+				}				
+				
+				$has_block_command = true;
+				
 				if ($command["target"] != "")
 				{
 					$this->tpl->setCurrentBlock("bc_target");
@@ -774,11 +787,15 @@ abstract class ilBlockGUI
 				}
 
 				$this->tpl->setVariable("CMD_HREF", $command["href"]);
-				$this->tpl->parseCurrentBlock();
+				$this->tpl->parseCurrentBlock();				
 			}
-			$this->tpl->setCurrentBlock("block_commands");
-			$this->tpl->setVariable("CCOLSPAN", $this->getColSpan());
-			$this->tpl->parseCurrentBlock();
+			
+			if($has_block_command)
+			{
+				$this->tpl->setCurrentBlock("block_commands");
+				$this->tpl->setVariable("CCOLSPAN", $this->getColSpan());
+				$this->tpl->parseCurrentBlock();		
+			}
 		}
 		
 		// fill previous next
@@ -846,6 +863,24 @@ abstract class ilBlockGUI
 			$this->fillHeaderCommands();
 			$this->fillHeaderTitleBlock();
 		}
+		
+		
+		// adv selection gui
+		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+		$dropdown = new ilAdvancedSelectionListGUI();
+		$dropdown->setUseImages(true);
+		$dropdown->setId("block_dd_".$this->getBlockType()."_".$this->block_id);
+		foreach($this->dropdown as $item)
+		{						
+			if($item["href"] || $item["onclick"])
+			{
+				$dropdown->addItem($item["text"], "", $item["href"], $item["image"],
+					$item["text"], "", "", false, $item["onclick"]);
+			}
+		}
+		$dropdown = $dropdown->getHTML();
+		$this->tpl->setVariable("ADV_DROPDOWN", $dropdown);
+		
 			
 		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
 		if ($this->getBigMode())
@@ -884,7 +919,7 @@ abstract class ilBlockGUI
 		{
 
 			foreach($this->getHeaderCommands() as $command)
-			{
+			{			
 				$this->tpl->setCurrentBlock("header_command");
 				$this->tpl->setVariable("HREF_HCOMM", $command["href"]);
 				$this->tpl->setVariable("TXT_HCOMM", $command["text"]);
@@ -897,35 +932,40 @@ abstract class ilBlockGUI
 				||
 				$this->close_command != "")
 			{
-				$this->tpl->setCurrentBlock("header_close");
-				$this->tpl->setVariable("ALT_CLOSE",
-					strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
-					" (".$lng->txt("block")."): ".$lng->txt("close")
-					);
+				$alt = /* strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
+					" (".$lng->txt("block")."): ".*/ $lng->txt("close");				
 				if ($this->getBigMode())
 				{
-					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2.gif"));
+					 $img = ilUtil::getImagePath("icon_close2.gif");
 				}
 				else
 				{
-					$this->tpl->setVariable("IMG_CLOSE", ilUtil::getImagePath("icon_close2_s.gif"));
+					 $img =ilUtil::getImagePath("icon_close2_s.gif");
 				}
 				if ($this->close_command != "")
 				{
-					$this->tpl->setVariable("HREF_CLOSE",
-						$this->close_command);
+					$url = $this->close_command;					
 				}
 				else
 				{
 					$ilCtrl->setParameterByClass("ilcolumngui",
 						$this->getDetailParameter(), "0");
-					$this->tpl->setVariable("HREF_CLOSE",
-							$ilCtrl->getLinkTargetByClass("ilcolumngui",
-							""));
+					$url = $ilCtrl->getLinkTargetByClass("ilcolumngui", "");					
 					$ilCtrl->setParameterByClass("ilcolumngui",
 						$this->getDetailParameter(), "");
 				}
+				
+				/*
+				$this->tpl->setCurrentBlock("header_close");				 
+				$this->tpl->setVariable("ALT_CLOSE", $alt);
+				$this->tpl->setVariable("IMG_CLOSE", $img);
+				$this->tpl->setVariable("HREF_CLOSE", $url);
 				$this->tpl->parseCurrentBlock();
+				*/
+				
+				$this->dropdown[] = array("text" => $alt,
+					"image" => $img,
+					"href" => $url);
 			}
 			
 			$this->tpl->setCurrentBlock("header_commands");
@@ -1170,6 +1210,8 @@ abstract class ilBlockGUI
 		$flinks = $this->getFooterLinks();
 		
 		$prefix = ($a_top) ? "top" : "foot";
+		
+		$has_link = false;
 
 		$omit_separator = false;
 		foreach($flinks as $flink)
@@ -1178,6 +1220,19 @@ abstract class ilBlockGUI
 			{
 				continue;
 			}
+			
+			if(!$a_top)
+			{			
+				if($flink["onclick"])
+				{
+					$flink["onclick"] = "ilBlockJSHandler('".$flink["block_id"].
+						"','".$flink["onclick"]."')";
+				}
+				$this->dropdown[] = $flink;
+				continue;
+			}
+			
+			$has_link = true;
 			
 			if (!$first && !$omit_separator)
 			{
@@ -1214,22 +1269,25 @@ abstract class ilBlockGUI
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->touchBlock($prefix."_item");
 			}
+				 
 			$first = false;
-			$omit_separator = $flink["omit_separator"];
+			$omit_separator = $flink["omit_separator"];			
 		}
 
-		if ($a_numinfo != "")
+		if ($a_numinfo != "" && $has_link)
 		{
 			$this->tpl->setVariable("NUMINFO", $a_numinfo);
 			$first = false;
 		}
 
+		/*
 		if (!$first)
 		{
 			$this->tpl->setVariable("PCOLSPAN", $this->getColSpan());
 			$this->tpl->setCurrentBlock($prefix."_row");
 			$this->tpl->parseCurrentBlock();
-		}
+		}		 
+		*/
 	}
 
 	/**
@@ -1272,39 +1330,56 @@ abstract class ilBlockGUI
 					$ilCtrl->setParameterByClass("ilcolumngui",
 						$this->getDetailParameter(), $i);
 
+					$onclick = $onclick_id = "";
+					
 					// ajax link
 					if ($i > 0)
 					{
 						$ilCtrl->setParameterByClass("ilcolumngui",
 							"block_id", "block_".$this->getBlockType()."_".$this->block_id);
-						$this->tpl->setCurrentBlock("onclick");
-						$this->tpl->setVariable("OC_BLOCK_ID",
-							"block_".$this->getBlockType()."_".$this->block_id);
-						$this->tpl->setVariable("OC_HREF",
-							$ilCtrl->getLinkTargetByClass("ilcolumngui",
-							"updateBlock", "", true));
-						$this->tpl->parseCurrentBlock();
+						$onclick = $ilCtrl->getLinkTargetByClass("ilcolumngui",
+							"updateBlock", "", true);
+						$onclick_id = "block_".$this->getBlockType()."_".$this->block_id;
 						$ilCtrl->setParameterByClass("ilcolumngui",
 							"block_id", "");
+						
+						/*
+						$this->tpl->setCurrentBlock("onclick");
+						$this->tpl->setVariable("OC_BLOCK_ID", $onclick_id);
+						$this->tpl->setVariable("OC_HREF", $onclick);																
+						$this->tpl->parseCurrentBlock();
+						*/						
 					}
-					
+																					
 					// normal link
+					/*
 					$this->tpl->setCurrentBlock("det_link");
 					//$this->tpl->setVariable("DLINK", $i);
-					$this->tpl->setVariable("SRC_LINK",
-						ilUtil::getImagePath("details".$i.".gif"));
-					$this->tpl->setVariable("ALT_LINK",
-						strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
-						" (".$lng->txt("block")."): ".$lng->txt("details")." ".$i
-						);
-					$this->tpl->setVariable("DHREF",
-						$ilCtrl->getLinkTargetByClass("ilcolumngui",
-						""));
+					$this->tpl->setVariable("SRC_LINK", $icon);
+					$this->tpl->setVariable("ALT_LINK", $text);
+					$this->tpl->setVariable("DHREF", $url);
 					$this->tpl->parseCurrentBlock();
-					$this->tpl->touchBlock("det_item");
+					$this->tpl->touchBlock("det_item");					
+					*/
+					
+					$icon = ilUtil::getImagePath("details".$i.".gif");
+					$text = /* strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
+						" (".$lng->txt("block")."): ".*/ $lng->txt("details")." ".$i;
+					$url = $ilCtrl->getLinkTargetByClass("ilcolumngui",	"");
+					
+					if($onclick)
+					{
+						$onclick = "ilBlockJSHandler('".$onclick_id."','".$onclick."')";
+					}
+					
+					$this->dropdown[] = array("text" => $text,
+						"image" => $icon,
+						"href" => $url,
+						"onclick" => $onclick);
 				}
 				else
 				{
+					/*
 					$this->tpl->setCurrentBlock("det_text");
 					//$this->tpl->setVariable("DTEXT", $i);
 					$this->tpl->setVariable("ALT_NO_LINK",
@@ -1314,7 +1389,8 @@ abstract class ilBlockGUI
 					$this->tpl->setVariable("SRC_NO_LINK",
 						ilUtil::getImagePath("details".$i."off.gif"));
 					$this->tpl->parseCurrentBlock();
-					$this->tpl->touchBlock("det_item");
+					$this->tpl->touchBlock("det_item");					 
+					*/
 				}
 			}
 			
@@ -1329,11 +1405,13 @@ abstract class ilBlockGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
+			/*
 			$this->tpl->setCurrentBlock("detail_setting");
 			$this->tpl->setVariable("TXT_DETAILS", $lng->txt("details"));
 			$this->tpl->setVariable("DCOLSPAN", $this->getColSpan());
 			$this->tpl->parseCurrentBlock();
-	
+			*/
+			
 			$ilCtrl->setParameterByClass("ilcolumngui",
 				$this->getDetailParameter(), "");
 		}

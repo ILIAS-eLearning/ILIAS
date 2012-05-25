@@ -41,6 +41,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 {
 	public $ctrl = null;
 	protected $mode;
+	protected $display_mode;
 
 	static $block_type = "cal";
 	static $st_data;
@@ -125,7 +126,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$tpl->addCSS("./Services/Calendar/templates/default/delos.css");
 		
 		$mode = $ilUser->getPref("il_pd_cal_mode");
-		$this->mode = $mode ? $mode : "mmon";
+		$this->display_mode = $mode ? $mode : "mmon";
 	}
 	
 	/**
@@ -263,7 +264,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 	*/
 	function fillDataSection()
 	{
-		if ($this->getCurrentDetailLevel() > 1 && $this->mode != "mmon")
+		if ($this->getCurrentDetailLevel() > 1 && $this->display_mode != "mmon")
 		{
 			$this->setColSpan(1);					
 			$this->tpl->addBlockFile("BLOCK_ROW", "block_row","tpl.pd_event_list.html", "Services/Calendar");		
@@ -718,7 +719,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		
 	}
 	
-		function fillFooter()
+	function fillFooter()
 	{
 		global $ilCtrl, $lng, $ilUser;
 
@@ -741,7 +742,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 			return;
 		}
 		
-		if ($this->mode == 'mmon')
+		if ($this->display_mode == 'mmon')
 		{
 			$this->addFooterLink($lng->txt("month"));
 			
@@ -767,7 +768,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		global $ilUser, $ilCtrl;
 		
 		$ilUser->writePref("il_pd_cal_mode", "evt");
-		$this->mode = "evt";
+		$this->display_mode = "evt";
 		if ($ilCtrl->isAsynch())
 		{
 			echo $this->getHTML();
@@ -784,7 +785,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		global $ilUser, $ilCtrl;
 		
 		$ilUser->writePref("il_pd_cal_mode", "mmon");
-		$this->mode = "mmon";
+		$this->display_mode = "mmon";
 		if ($ilCtrl->isAsynch())
 		{
 			echo $this->getHTML();
