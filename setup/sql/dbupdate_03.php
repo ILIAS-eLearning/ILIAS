@@ -9663,7 +9663,7 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 		$ilDB->addTableColumn('tst_test_result', 'hint_count', array(
 			'type' => 'integer',
 			'length'  => 4,
-			'notnull' => true,
+			'notnull' => false,
 			'default' => 0
 		));
 	}
@@ -9672,7 +9672,7 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 	{
 		$ilDB->addTableColumn('tst_test_result', 'hint_points', array(
 			'type' => 'float',
-			'notnull' => true,
+			'notnull' => false,
 			'default' => 0
 		));
 	}
