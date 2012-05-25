@@ -9683,3 +9683,27 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+
+<#3584>
+<?php
+
+	if( !$ilDB->tableColumnExists('tst_pass_result', 'hint_count') )
+	{
+		$ilDB->addTableColumn('tst_pass_result', 'hint_count', array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => 0
+		));
+	}
+
+	if( !$ilDB->tableColumnExists('tst_pass_result', 'hint_points') )
+	{
+		$ilDB->addTableColumn('tst_pass_result', 'hint_points', array(
+			'type' => 'float',
+			'notnull' => false,
+			'default' => 0
+		));
+	}
+
+?>
