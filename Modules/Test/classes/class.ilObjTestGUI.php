@@ -31,7 +31,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpressPageObjectGUI, ilPageEditorGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTest
