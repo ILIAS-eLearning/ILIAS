@@ -2774,6 +2774,7 @@ td.il_adv_sel {
 	text-align: left;
 	white-space: nowrap;
 	cursor: pointer;
+	font-weight: normal;
 }
 
 td.il_adv_sel_ic {
