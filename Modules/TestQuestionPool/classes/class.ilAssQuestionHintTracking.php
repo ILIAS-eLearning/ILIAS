@@ -256,5 +256,58 @@ class ilAssQuestionHintTracking
 			'qhtr_hint_fi'		=> array('integer', $questionHint->getId()),
 		));
 	}
+	
+	/**
+	 * Returns a question hint request statistic data container
+	 * containing the statistics for all requests relating to given ...
+	 * - question
+	 * - testactive
+	 * - testpass
+	 *
+	 * @static
+	 * @access public
+	 * @global ilDB $ilDB
+	 * @param integer $questionId
+	 * @param integer $activeId
+	 * @param integer $pass
+	 * @return ilAssQuestionHintRequestStatisticData $requestsStatisticData
+	 */
+	public static function getRequestStatisticDataByQuestionAndTestpass($questionId, $activeId, $pass)
+	{
+		global $ilDB;
+		
+		$query = "
+			SELECT		COUNT(qhtr_track_id) requests_count,
+						SUM(qht_hint_points) requests_points
+			
+			FROM		qpl_hint_tracking
+			
+			INNER JOIN	qpl_hints
+			ON			qht_hint_id = qhtr_hint_fi
+			
+			WHERE		qhtr_question_fi = %s
+			AND			qhtr_active_fi = %s
+			AND			qhtr_pass = %s
+		";
+		
+		$res = $ilDB->queryF(
+				$query, array('integer', 'integer', 'integer'), array($questionId, $activeId, $pass)
+		);
+		
+		$row = $ilDB->fetchAssoc($res);
+		
+		if( $row['requests_points'] === null )
+		{
+			$row['requests_points'] = 0;
+		}
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';
+		
+		$requestsStatisticData = new ilAssQuestionHintRequestStatisticData();
+		$requestsStatisticData->setRequestsCount($row['requests_count']);
+		$requestsStatisticData->setRequestsPoints($row['requests_points']);
+		
+		return $requestsStatisticData;
+	}
 }
 
