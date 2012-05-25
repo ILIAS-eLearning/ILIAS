@@ -107,7 +107,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-				$gui = new ilAssQuestionHintRequestGUI($this->object->getTestSession(), $questionGUI);
+				$gui = new ilAssQuestionHintRequestGUI($this, $this->object->getTestSession(), $questionGUI);
 				
 				$ret = $this->ctrl->forwardCommand($gui);
 				
