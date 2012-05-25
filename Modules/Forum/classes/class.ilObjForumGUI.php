@@ -1200,8 +1200,9 @@ class ilObjForumGUI extends ilObjectGUI
 		 * @var $ilUser ilObjUser
 		 * @var $rbacsystem ilRbacSystem
 		 * @var $ilSetting ilSetting
+		 * @var $ilClientIniFile ilIniFile
 		 */
-		global $ilUser, $rbacsystem, $ilSetting;
+		global $ilUser, $rbacsystem, $ilSetting, $ilClientIniFile;
 		
 		// init objects
 		$oForumObjects = $this->getForumObjects();
@@ -1279,6 +1280,15 @@ class ilObjForumGUI extends ilObjectGUI
 		$oPostGUI->addButton('latex');
 		$oPostGUI->addButton('pastelatex');
 		$oPostGUI->addPlugin('ilfrmquote');
+
+		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		{
+			$oPostGUI->addPlugin('ilimgupload');
+			$oPostGUI->addButton('ilimgupload');
+			$oPostGUI->removePlugin('ibrowser');
+			$oPostGUI->removePlugin('image');
+		}
+
 		//$oPostGUI->addPlugin('code'); 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
@@ -1303,7 +1313,15 @@ class ilObjForumGUI extends ilObjectGUI
 			'pastetext',
 			'formatselect'
 		));
-		
+
+		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		{
+			$oPostGUI->disableButtons(array(
+				'ibrowser',
+				'image'
+			));
+		}
+
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
 			$oPostGUI->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
@@ -3080,8 +3098,9 @@ class ilObjForumGUI extends ilObjectGUI
 		 * @var $rbacsystem ilRbacSystem
 		 * @var $ilias ILIAS
 		 * @var $ilSetting ilSetting
+		 * @var $ilClientIniFile ilIniFile
 		 */
-		global $ilUser, $rbacsystem, $ilias, $ilSetting;
+		global $ilUser, $rbacsystem, $ilias, $ilSetting, $ilClientIniFile;
 		
 		$this->create_topic_form_gui = new ilPropertyFormGUI();
 		
@@ -3126,7 +3145,17 @@ class ilObjForumGUI extends ilObjectGUI
 		$post_gui->addPlugin('ilfrmquote');
 		//$post_gui->addPlugin('code'); 
 		$post_gui->removePlugin('advlink');
+
+		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		{
+			$post_gui->addPlugin('ilimgupload');
+			$post_gui->addButton('ilimgupload');
+			$post_gui->removePlugin('ibrowser');
+			$post_gui->removePlugin('image');
+		}
+		
 		$post_gui->usePurifier(true);
+
 		$post_gui->setRTERootBlockElement('');
 		$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
 		$post_gui->disableButtons(array(
@@ -3144,8 +3173,16 @@ class ilObjForumGUI extends ilObjectGUI
 			'paste',
 			'pastetext',
 			'formatselect'
-		));		
-				
+		));
+
+		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		{
+			$post_gui->disableButtons(array(
+				'image',
+				'ibrowser'
+			));
+		}
+		
 		// purifier
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		$post_gui->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
