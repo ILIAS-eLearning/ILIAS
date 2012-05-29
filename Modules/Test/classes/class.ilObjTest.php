@@ -4213,7 +4213,22 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$sequence = $testSequence->getUserSequenceQuestions();
 		}
 		$arrResults = array();
-		$solutionresult = $ilDB->queryF("SELECT tst_test_result.question_fi, tst_test_result.points reached, tst_solutions.solution_id workedthru FROM tst_test_result LEFT JOIN tst_solutions ON tst_solutions.active_fi = tst_test_result.active_fi AND tst_solutions.question_fi = tst_test_result.question_fi WHERE tst_test_result.active_fi = %s AND tst_test_result.pass = %s",
+		$solutionresult = $ilDB->queryF("
+			SELECT		tst_test_result.question_fi,
+						tst_test_result.points reached,
+						tst_test_result.hint_count requested_hints,
+						tst_test_result.hint_points hint_points,
+						tst_solutions.solution_id workedthru
+			
+			FROM		tst_test_result
+			
+			LEFT JOIN	tst_solutions
+			ON			tst_solutions.active_fi = tst_test_result.active_fi
+			AND			tst_solutions.question_fi = tst_test_result.question_fi
+			
+			WHERE		tst_test_result.active_fi = %s
+			AND			tst_test_result.pass = %s
+			",
 			array('integer', 'integer'),
 			array($active_id, $pass)
 		);
@@ -4221,7 +4236,7 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			$arrResults[$row['question_fi']] = $row;
 		}
-
+			
 		require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol FROM qpl_qst_type, qpl_questions LEFT JOIN qpl_sol_sug ON qpl_sol_sug.question_fi = qpl_questions.question_id WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi AND " . $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer'));
 		$found = array();
@@ -4236,6 +4251,8 @@ function loadQuestions($active_id = "", $pass = NULL)
 				"title" => ilUtil::prepareFormOutput($row['title']),
 				"max" => round($row['points'], 2),
 				"reached" => round($arrResults[$row['question_id']]['reached'],2),
+				'requested_hints' => $arrResults[$row['question_id']]['requested_hints'],
+				'hint_points' => $arrResults[$row['question_id']]['hint_points'],
 				"percent" => sprintf("%2.2f ", ($percentvalue) * 100) . "%",
 				"solution" => ($row['has_sug_sol']) ? assQuestion::_getSuggestedSolutionOutput($row['question_id']) : '',
 				"type" => $row["type_tag"],
@@ -4249,6 +4266,8 @@ function loadQuestions($active_id = "", $pass = NULL)
                 
 		$pass_max = 0;
 		$pass_reached = 0;
+		$pass_requested_hints = 0;
+		$pass_hint_points = 0;
 		$key = 1;
 		foreach ($sequence as $qid)
 		{
@@ -4256,6 +4275,8 @@ function loadQuestions($active_id = "", $pass = NULL)
                     // for question that exists in users qst sequence
                     $pass_max += round($unordered[$qid]['max'], 2);
                     $pass_reached += round($unordered[$qid]['reached'], 2);
+					$pass_requested_hints += $unordered[$qid]['requested_hints'];
+					$pass_hint_points += $unordered[$qid]['hint_points'];
 
                     // pickup prepared data for question
                     // that exists in users qst sequence
@@ -4276,9 +4297,13 @@ function loadQuestions($active_id = "", $pass = NULL)
 		}
 		$found['pass']['total_max_points'] = $pass_max;
 		$found['pass']['total_reached_points'] = $pass_reached;
+		$found['pass']['total_requested_hints'] = $pass_requested_hints;
+		$found['pass']['total_hint_points'] = $pass_hint_points;
 		$found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
 		$found["test"]["total_max_points"] = $results['max_points'];
 		$found["test"]["total_reached_points"] = $results['reached_points'];
+		$found["test"]["total_requested_hints"] = $results['hint_count'];
+		$found["test"]["total_hint_points"] = $results['hint_points'];
 		$found["test"]["result_pass"] = $results['pass'];
 		if ((!$total_reached_points) or (!$total_max_points))
 		{
