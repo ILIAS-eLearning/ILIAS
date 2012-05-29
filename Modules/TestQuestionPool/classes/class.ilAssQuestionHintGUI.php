@@ -179,6 +179,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 		// form input: hint points
 		
 		$numInp = new ilNumberInputGUI($lng->txt('tst_question_hints_form_label_hint_points'), 'hint_points');
+		$numInp->allowDecimals(true);
 		$numInp->setRequired(true);
 		$numInp->setSize(3);
 		
