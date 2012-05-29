@@ -41,9 +41,9 @@ class ilTestEvaluationData
 	var $questionTitles;
 
 	/**
-	* Test id
+	* Test object
 	*
-	* @var object
+	* @var ilObjTest
 	*/
 	private $test;
 
@@ -84,13 +84,13 @@ class ilTestEvaluationData
 	*
 	* @access	public
 	*/
-	function ilTestEvaluationData($test = "")
+	function ilTestEvaluationData(ilObjTest $test = null)
 	{
 		$this->participants = array();
 		$this->questionTitles = array();
-		if (is_object($test)) $this->test =& $test;
-		if (is_object($test))
+		if( $test !== null )
 		{
+			$this->test = $test;
 			$this->generateOverview();
 		}
 	}
