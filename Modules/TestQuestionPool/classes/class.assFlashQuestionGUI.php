@@ -242,7 +242,8 @@ class assFlashQuestionGUI extends assQuestionGUI
 		$show_question_only = TRUE,
 		$show_feedback = FALSE,
 		$show_correct_solution = FALSE,
-		$show_manual_scoring = FALSE
+		$show_manual_scoring = FALSE,
+		$show_question_text = TRUE
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
@@ -321,7 +322,10 @@ class assFlashQuestionGUI extends assQuestionGUI
 			$template->setVariable("PARAM_VALUE", join($params, "&"));
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		if ($show_question_text==true)
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		}
 		$template->setVariable("APPLET_WIDTH", $this->object->getWidth());
 		$template->setVariable("APPLET_HEIGHT", $this->object->getHeight());
 		$template->setVariable("ID", $this->object->getId());

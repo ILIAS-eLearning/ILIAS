@@ -1671,6 +1671,7 @@ abstract class assQuestionGUI
 		$show_question_only = TRUE,
 		$show_feedback = FALSE,
 		$show_correct_solution = FALSE,
-		$show_manual_scoring = FALSE
+		$show_manual_scoring = FALSE,
+		$show_question_text = TRUE
 	);
 }

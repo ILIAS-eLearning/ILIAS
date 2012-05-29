@@ -459,7 +459,8 @@ class assClozeTestGUI extends assQuestionGUI
 		$show_question_only = TRUE,
 		$show_feedback = FALSE,
 		$show_correct_solution = FALSE,
-		$show_manual_scoring = FALSE
+		$show_manual_scoring = FALSE,
+		$show_question_text = TRUE
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
@@ -609,8 +610,11 @@ class assClozeTestGUI extends assQuestionGUI
 					break;
 			}
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
-
+		
+		if ($show_question_text==true)
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
+		}
 		// generate the question output
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$questionoutput = $template->get();

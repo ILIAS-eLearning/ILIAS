@@ -235,7 +235,8 @@ class assErrorTextGUI extends assQuestionGUI
 		$show_question_only = TRUE,
 		$show_feedback = FALSE,
 		$show_correct_solution = FALSE,
-		$show_manual_scoring = FALSE
+		$show_manual_scoring = FALSE,
+		$show_question_text = TRUE
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
@@ -274,7 +275,10 @@ class assErrorTextGUI extends assQuestionGUI
 			$template->setVariable("RESULT_OUTPUT", sprintf($resulttext, $reached_points));
 		}
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		if ($show_question_text==true)
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
+		}
 		$errortext = $this->object->createErrorTextOutput($selections, $graphicalOutput, $show_correct_solution);
 		$errortext = preg_replace("/#HREF\d+/is", "javascript:void(0);", $errortext);
 		$template->setVariable("ERRORTEXT", $errortext);

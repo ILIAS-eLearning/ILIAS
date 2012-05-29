@@ -240,7 +240,8 @@ class assTextSubsetGUI extends assQuestionGUI
 		$show_question_only = TRUE,
 		$show_feedback = FALSE,
 		$show_correct_solution = FALSE,
-		$show_manual_scoring = FALSE
+		$show_manual_scoring = FALSE,
+		$show_question_text = TRUE
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
@@ -323,7 +324,10 @@ class assTextSubsetGUI extends assQuestionGUI
 			}
 		}
 		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		if ($show_question_text==true)
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		}
 		$questionoutput = $template->get();
 		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
