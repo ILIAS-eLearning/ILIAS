@@ -12533,6 +12533,7 @@ assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been p
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_show_requested_question_hints#:#Show Requested Hints
+assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
