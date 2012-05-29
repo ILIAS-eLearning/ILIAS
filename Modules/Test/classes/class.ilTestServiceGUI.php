@@ -160,6 +160,7 @@ class ilTestServiceGUI
 					}
 					$total_max = $result_array["pass"]["total_max_points"];
 					$total_reached = $result_array["pass"]["total_reached_points"];
+					$total_requested_hints = $result_array["pass"]["total_requested_hints"];
 				}
 				if (!$hide_details)
 				{
@@ -201,6 +202,10 @@ class ilTestServiceGUI
 				if (!$short)
 				{
 					$template->setVariable("VALUE_ANSWERED", $this->object->getAnsweredQuestionCount($active_id, $pass) . " " . strtolower($this->lng->txt("of")) . " " . (count($result_array)-2));
+					if( $this->object->isOfferingQuestionHintsEnabled() )
+					{
+						$template->setVariable("VALUE_HINTS", $total_requested_hints);
+					}
 					$template->setVariable("VALUE_REACHED", $total_reached . " " . strtolower($this->lng->txt("of")) . " " . $total_max);
 					$template->setVariable("VALUE_PERCENTAGE", sprintf("%.2f", $percentage) . "%");
 				}
@@ -214,6 +219,10 @@ class ilTestServiceGUI
 		{
 			$template->setVariable("PASS_SCORED", $this->lng->txt("scored_pass"));
 			$template->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
+			if(  $this->object->isOfferingQuestionHintsEnabled() )
+			{
+				$template->setVariable("REQUESTED_HINTS", $this->lng->txt("tst_question_hints_requested_hint_count_header"));
+			}
 			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
 			$template->setVariable("PERCENTAGE_CORRECT", $this->lng->txt("tst_percent_solved"));
 		}
