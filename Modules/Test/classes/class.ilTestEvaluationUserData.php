@@ -498,6 +498,33 @@ class ilTestEvaluationUserData
 		return $this->mark_official;
 	}
 	
+	/**
+	 * returns the count of hints requested by participant for scored testpass
+	 * 
+	 * @return integer $requestedHintsCount
+	 */
+	public function getRequestedHintsCountFromScoredPass()
+	{
+		return $this->getRequestedHintsCount($this->getScoredPass());
+	}
+	
+	/**
+	 * returns the count of hints requested by participant for given testpass
+	 * 
+	 * @param integer $pass
+	 * @return integer $requestedHintsCount
+	 * @throws ilTestException 
+	 */
+	public function getRequestedHintsCount($pass)
+	{
+		if( !isset($this->passes[$pass]) || !($this->passes[$pass] instanceof ilTestEvaluationPassData) )
+		{
+			throw new ilTestException("invalid pass index given: $pass");
+		}
+		
+		$requestedHintsCount = $this->passes[$pass]->getRequestedHintsCount();
+		
+		return $requestedHintsCount;
+	}
+	
 } // END ilTestEvaluationUserData
-
-?>
