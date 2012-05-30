@@ -237,7 +237,7 @@ class ilTestServiceGUI
 		{
 			$template->setVariable("PASS_SCORED", $this->lng->txt("scored_pass"));
 			$template->setVariable("ANSWERED_QUESTIONS", $this->lng->txt("tst_answered_questions"));
-			if(  $this->object->isOfferingQuestionHintsEnabled() )
+			if( $this->object->isOfferingQuestionHintsEnabled() )
 			{
 				$template->setVariable("REQUESTED_HINTS", $this->lng->txt("tst_question_hints_requested_hint_count_header"));
 			}
@@ -499,7 +499,8 @@ class ilTestServiceGUI
 		}
 		$total_max = $testresults["total_max_points"];
 		$total_reached = $testresults["total_reached_points"];
-
+		$totalRequestedHints = $testresults["total_requested_hints"];
+		
 		$img_title_percent = "";
 		$img_title_nr = "";
 		$hasSuggestedSolutions = FALSE;
@@ -546,6 +547,10 @@ class ilTestServiceGUI
 				$template->setVariable("VALUE_QUESTION_COUNTER", $value["nr"]);
 				$template->setVariable("VALUE_MAX_POINTS", $value["max"]);
 				$template->setVariable("VALUE_REACHED_POINTS", $value["reached"]);
+				if( $this->object->isOfferingQuestionHintsEnabled() )
+				{
+					$template->setVariable("VALUE_HINT_COUNT", $value["requested_hints"]);	
+				}
 				$template->setVariable("VALUE_PERCENT_SOLVED", $value["percent"]);
 				$template->parseCurrentBlock();
 				$counter++;
@@ -561,6 +566,10 @@ class ilTestServiceGUI
 		$template->setVariable("VALUE_QUESTION_TITLE", "");
 		$template->setVariable("VALUE_MAX_POINTS", "<strong>$total_max</strong>");
 		$template->setVariable("VALUE_REACHED_POINTS", "<strong>$total_reached</strong>");
+		if( $this->object->isOfferingQuestionHintsEnabled() )
+		{
+			$template->setVariable("VALUE_TOTAL_HINT_COUNT", "<strong>$totalRequestedHints</strong>");
+		}
 		$template->setVariable("VALUE_PERCENT_SOLVED", "<strong>" . sprintf("%2.2f", $percentage) . " %" . "</strong>");
 		$template->parseCurrentBlock();
 
@@ -578,6 +587,10 @@ class ilTestServiceGUI
 			$template->setVariable("QUESTION_TITLE", $this->lng->txt("tst_question_title"));
 			$template->setVariable("MAX_POINTS", $this->lng->txt("tst_maximum_points"));
 			$template->setVariable("REACHED_POINTS", $this->lng->txt("tst_reached_points"));
+			if( $this->object->isOfferingQuestionHintsEnabled() )
+			{
+				$template->setVariable("HINT_COUNT", $this->lng->txt("tst_question_hints_requested_hint_count_header"));
+			}
 			$template->parseCurrentBlock();
 		}
 		else
