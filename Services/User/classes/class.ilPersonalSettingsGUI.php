@@ -1169,27 +1169,16 @@ class ilPersonalSettingsGUI
 	 */
 	protected function deleteOwnAccount1()
 	{	
-		global $ilTabs, $ilUser;
+		global $ilTabs, $ilUser, $ilToolbar;
 		
+		$this->setHeader();
 		$this->__initSubTabs("deleteOwnAccount");
 		$ilTabs->activateTab("delacc");
 		
-		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
-		$cgui = new ilConfirmationGUI();		
-		$cgui->setHeaderText($this->lng->txt('user_delete_own_account_info'));
-		$cgui->setFormAction($this->ctrl->getFormAction($this));
-		$cgui->setCancel($this->lng->txt("cancel"), "showGeneralSettings");
+		ilUtil::sendInfo($this->lng->txt('user_delete_own_account_info'));
+		$ilToolbar->addButton($this->lng->txt('btn_next'),
+			$this->ctrl->getLinkTarget($this, 'deleteOwnAccount2'));
 		
-		if($ilUser->getAuthMode(true) == AUTH_LOCAL)
-		{		
-			$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount2");		
-		}
-		else
-		{
-			$cgui->setConfirm($this->lng->txt("confirm"), "deleteOwnAccount3");		
-		}
-		
-		$this->tpl->setContent($cgui->getHTML());			
 		$this->tpl->show();
 	}
 	
@@ -1202,6 +1191,7 @@ class ilPersonalSettingsGUI
 	{	
 		global $ilTabs;
 		
+		$this->setHeader();
 		$this->__initSubTabs("deleteOwnAccount");
 		$ilTabs->activateTab("delacc");
 		
@@ -1228,7 +1218,7 @@ class ilPersonalSettingsGUI
 		
 		$pass = new ilPasswordInputGUI($this->lng->txt("password"), "pwd");
 		$pass->setRetype(false);
-		$pass->setRequired(true);
+		$pass->setRequired(true);		
 		$form->addItem($pass);
 						
 		$form->addCommandButton("deleteOwnAccount3", $this->lng->txt("confirm"));
@@ -1249,6 +1239,7 @@ class ilPersonalSettingsGUI
 		{			
 			if(md5($form->getInput("pwd")) == $ilUser->getPasswd())
 			{
+				$this->setHeader();
 				$this->__initSubTabs("deleteOwnAccount");
 				$ilTabs->activateTab("delacc");
 

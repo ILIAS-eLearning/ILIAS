@@ -17,6 +17,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $requiredonauth = false;
 	protected $preselection = false;
 	protected $maxlength = false;
+	protected $autocomplete = false;
 	
 	/**
 	* Constructor
@@ -223,6 +224,26 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 	
 	/**
+	* Set autocomplete
+	*
+	* @param	bool	$a_value	Value
+	*/
+	function setAutoComplete($a_value)
+	{
+		$this->autocomplete = (bool)$a_value;
+	}
+
+	/**
+	* Get autocomplete
+	*
+	* @return	bool	Value
+	*/
+	function getAutoComplete()
+	{
+		return $this->autocomplete;
+	}
+	
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -300,6 +321,11 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 				$ptpl->setVariable("RMAXLENGTH", $this->getMaxLength());
 				$ptpl->setVariable("RPOST_VAR", $this->getPostVar());
 				
+				if(!$this->getAutoComplete())
+				{
+					$ptpl->setVariable("RAUTOCOMPLETE", "autocomplete=\"off\"");
+				}
+				
 				// this is creating an "auto entry" in the setup, if the retype is missing
 				/*$retype_value = ($this->getRetypeValue() != "")
 					? $this->getRetypeValue()
@@ -329,6 +355,10 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
 			{
 				$ptpl->setVariable("DISABLED",
 					" disabled=\"disabled\"");
+			}
+			if(!$this->getAutoComplete())
+			{
+				$ptpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
 			}
 		}
 		else

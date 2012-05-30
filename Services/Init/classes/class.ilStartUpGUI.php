@@ -518,6 +518,7 @@ class ilStartUpGUI
 			$pi = new ilPasswordInputGUI($lng->txt("password"), "password");
 			$pi->setRetype(false);
 			$pi->setSize(20);
+			$pi->setAutocomplete(true);
 			$form->addItem($pi);
 			$form->addCommandButton("showLogin", $lng->txt("log_in"));
 			#$form->addCommandButton("butSubmit", $lng->txt("log_in"));
