@@ -81,6 +81,20 @@ class ilTestEvaluationPassData
 	* @var integer
 	*/
 	var $pass;
+        
+        /**
+         * the number of hints that was requested by participant
+         * 
+         * @var integer
+         */
+        private $requestedHintsCount = null;
+
+        /**
+         * the points that were deducted for the hints requested by participant
+         * 
+         * @var integer
+         */
+        private $deductedHintPoints = null;
 	
 	public function __sleep()
 	{
@@ -197,6 +211,45 @@ class ilTestEvaluationPassData
 		return count($this->answeredQuestions);
 	}
 	
-} // END ilTestEvaluationPassData
+	/**
+	 * Getter for $requestedHintsCount
+	 *
+	 * @return integer $requestedHintsCount
+	 */
+	public function getRequestedHintsCount()
+	{
+		return $this->requestedHintsCount;
+	}
 
-?>
+	/**
+	 * Setter for $requestedHintsCount
+	 *
+	 * @param integer $requestedHintsCount
+	 */
+	public function setRequestedHintsCount($requestedHintsCount)
+	{
+		$this->requestedHintsCount = $requestedHintsCount;
+	}
+
+	/**
+	 * Getter for $deductedHintPoints
+	 *
+	 * @return integer $deductedHintPoints
+	 */
+	public function getDeductedHintPoints()
+	{
+		return $this->deductedHintPoints;
+	}
+
+	/**
+	 * Setter for $deductedHintPoints
+	 *
+	 * @param integer $deductedHintPoints
+	 */
+	public function setDeductedHintPoints($deductedHintPoints)
+	{
+		$this->deductedHintPoints = $deductedHintPoints;
+	}
+
+	
+} // END ilTestEvaluationPassData

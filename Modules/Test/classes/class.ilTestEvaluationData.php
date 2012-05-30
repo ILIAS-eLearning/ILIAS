@@ -130,23 +130,27 @@ class ilTestEvaluationData
 		$checked = array();
 		$thissets = 0;
 		while ($row = $ilDB->fetchAssoc($result))
-		{vd($row);
+		{
 			$thissets++;
 			$remove = FALSE;
-			if (!$this->participantExists($row["active_fi"]))
+			
+            if (!$this->participantExists($row["active_fi"]))
 			{
 				$this->addParticipant($row["active_fi"], new ilTestEvaluationUserData($this->getTest()->getPassScoring()));
 				$this->getParticipant($row["active_fi"])->setName($this->getTest()->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
 				$this->getParticipant($row["active_fi"])->setLogin($row["login"]);
 				$this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
 			}
-			if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"])))
+			
+            if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"])))
 			{
 				$pass = new ilTestEvaluationPassData();
 				$pass->setPass($row["pass"]);
 				$this->getParticipant($row["active_fi"])->addPass($row["pass"], $pass);
 			}
+			
 			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints($row["points"]);
+			
 			if ($row["questioncount"] == 0)
 			{
 				$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
@@ -158,8 +162,12 @@ class ilTestEvaluationData
 				$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($row["maxpoints"]);
 				$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setQuestionCount($row["questioncount"]);
 			}
+			
 			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setNrOfAnsweredQuestions($row["answeredquestions"]);
 			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setWorkingTime($row["workingtime"]);
+
+			$this->getParticipant($row['active_fi'])->getPass($row['pass'])->setRequestedHintsCount($row['hint_count']);
+			$this->getParticipant($row['active_fi'])->getPass($row['pass'])->setDeductedHintPoints($row['hint_points']);
 		}
 	}
 	
