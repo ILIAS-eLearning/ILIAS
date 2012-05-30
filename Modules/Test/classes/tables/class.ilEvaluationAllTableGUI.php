@@ -35,8 +35,15 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilEvaluationAllTableGUI extends ilTable2GUI
 {
 	protected $anonymity;
+	
+	/**
+	 * flag for offering question hints
+	 * 
+	 * @var boolean
+	 */
+	protected $offeringQuestionHintsEnabled = null;
 
-	public function __construct($a_parent_obj, $a_parent_cmd, $anonymity = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $anonymity = false, $offeringQuestionHintsEnabled = false)
 	{
 		global $ilCtrl, $lng;
 		
@@ -49,7 +56,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn($lng->txt("name"), "name", "");
 		$this->addColumn($lng->txt("login"), "login", "");
+		
 		$this->anonymity = $anonymity;
+		$this->offeringQuestionHintsEnabled = $offeringQuestionHintsEnabled;
 
 		if (!$this->anonymity)
 		{
@@ -66,8 +75,16 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				if (strcmp($c, 'matriculation') == 0) $this->addColumn($this->lng->txt("matriculation"),'matriculation', '');
 			}
 		}
+		
 		$this->addColumn($lng->txt("tst_reached_points"), "reached", "");
+		
+		if( $this->offeringQuestionHintsEnabled )
+		{
+			$this->addColumn($lng->txt("tst_question_hints_requested_hint_count_header"), "hint_count", "");
+		}
+		
 		$this->addColumn($lng->txt("tst_mark"), "tst_mark", "");
+		
 		if ($this->parent_obj->object->ects_output)
 		{
 			foreach ($this->getSelectedColumns() as $c)
@@ -111,6 +128,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				}
 				break;
 			case 'reached':
+			case 'hint_count':
 				return true;
 				break;
 			default:
@@ -293,6 +311,12 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 			}
 		}
 		$this->tpl->setVariable("REACHED", $data['reached'] . " " . strtolower($this->lng->txt("of")) . " " . $data['max']);
+		
+		if( $this->offeringQuestionHintsEnabled )
+		{
+			$this->tpl->setVariable("HINT_COUNT", $data['hint_count']);
+		}
+		
 		$this->tpl->setVariable("MARK", $data['mark']);
 		$this->tpl->setVariable("ANSWERED", $data['answered']);
 		$this->tpl->setVariable("WORKING_TIME", $data['working_time']);
@@ -316,5 +340,8 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 
 		return $scol;
 	}
+	
+	
+	
 }
 ?>

@@ -163,9 +163,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
-		$table_gui = new ilEvaluationAllTableGUI($this, 'outEvaluation', $this->object->getAnonymity());
+		
+		$table_gui = new ilEvaluationAllTableGUI(
+				$this, 'outEvaluation', $this->object->getAnonymity(), $this->object->isOfferingQuestionHintsEnabled()
+		);
+		
 		$data = array();
 		$arrFilter = array();
+		
 		foreach ($table_gui->getFilterItems() as $item)
 		{
 			if ($item->getValue() !== false)
@@ -196,6 +201,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 			foreach ($foundParticipants as $active_id => $userdata)
 			{
+				/* @var $userdata ilTestEvaluationUserData */
+				
 				$remove = FALSE;
 				if ($passedonly)
 				{
@@ -236,6 +243,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 					$evaluationrow['reached'] = $userdata->getReached();
 					$evaluationrow['max'] = $userdata->getMaxpoints();
+					$evaluationrow['hint_count'] = $userdata->getRequestedHintsCountFromScoredPass();
 					$percentage = $userdata->getReachedPointsInPercent();
 					$mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
 					if (is_object($mark))
@@ -273,7 +281,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 			}
 		}
-
+vd($data);
 		$table_gui->setData($data);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
 		$this->tpl->setVariable('EVALUATION_DATA', $table_gui->getHTML());	
@@ -777,7 +785,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$pass = $_GET["pass"];
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 
-		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outParticipantsPassDetails");
+		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outParticipantsPassDetails");		
 		$user_data = $this->getResultsUserdata($active_id, FALSE);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
