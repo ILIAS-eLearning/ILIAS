@@ -55,35 +55,22 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 			// workspace objects won't have references
 			$refs = ilObject::_getAllReferences($id);
 			if($refs)
-			{			
-				$readable = array();
+			{						
 				foreach($refs as $idx => $ref_id)
 				{						
 					// objects in trash are hidden
-					$item_ref_id = false;
 					if(!$tree->isDeleted($ref_id))
 					{
-						$readable[$ref_id] = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
-						if($readable[$ref_id] && !$item_ref_id)
-						{
-							$item_ref_id = $ref_id;
-						}
-					}
-					else
-					{
-						unset($refs[$idx]);
-					}
-				}
-				
-				if($refs)
-				{
-					$data[$id] = array("obj_id" => $id,
-						"ref_id" => $ref_id,
-						"type" => ilObject::_lookupType($id),
-						"title" => $item,
-						"path" => $this->buildPath($refs, $readable),
-						"readable" => max($readable));	
-				}
+						$readable = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
+												
+						$data[$ref_id] = array("obj_id" => $id,
+							"ref_id" => $ref_id,
+							"type" => ilObject::_lookupType($id),
+							"title" => $item,
+							"path" => $this->buildPath($ref_id),
+							"readable" => $readable);							
+					}					
+				}				
 			}														
 		}
 
@@ -94,16 +81,10 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 	{			
 		global $lng; 
 	
-		$this->tpl->setCurrentBlock("path");
-		foreach($row["path"] as $item)
-		{
-			$this->tpl->setVariable("PATH_ITEM", $item);
-			$this->tpl->parseCurrentBlock();
-		}
-		
 		$this->tpl->setVariable("TITLE", $row["title"]);
 		$this->tpl->setVariable("ALT_ICON", $lng->txt("obj_".$row["type"]));
 		$this->tpl->setVariable("SRC_ICON", ilObject::_getIcon("", "tiny", $row["type"]));
+		$this->tpl->setVariable("PATH", $row["path"]);
 		
 		if($row["readable"])
 		{
@@ -123,6 +104,15 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		$agui->setListTitle($lng->txt("actions"));
 		
 		$ilCtrl->setParameter($this->parent_obj, "ownid", $a_ref_id);
+				
+		include_once "Services/Link/classes/class.ilLink.php";		
+		$agui->addItem($lng->txt("show"), "", 
+			ilLink::_getLink($a_ref_id, $a_type),
+			"", "", "_blank");	
+		
+		$agui->addItem($lng->txt("move"), "", 
+			$ilCtrl->getLinkTarget($this->parent_obj, "move"),
+			"", "", "_blank");	
 		
 		$agui->addItem($lng->txt("change_owner"), "", 
 			$ilCtrl->getLinkTarget($this->parent_obj, "changeOwner"),
@@ -144,57 +134,26 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		return $agui->getHTML();
 	}
 	
-	protected function buildPath($a_ref_ids, array $a_readable)
+	protected function buildPath($a_ref_id)
 	{
-		global $tree, $lng, $ilCtrl;
+		global $tree;
 
-		include_once './Services/Link/classes/class.ilLink.php';
-		
-		if(!count($a_ref_ids))
+		$path = "...";
+		$counter = 0;
+		$path_full = $tree->getPathFull($a_ref_id);
+		foreach($path_full as $data)
 		{
-			return false;
-		}
-		
-		$result = array();
-		foreach($a_ref_ids as $ref_id)
-		{
-			$path = "...";
-			$counter = 0;
-			$path_full = $tree->getPathFull($ref_id);
-			foreach($path_full as $data)
+			if(++$counter < (count($path_full)-2))
 			{
-				if(++$counter < (count($path_full)-2))
-				{
-					continue;
-				}
-				$path .= " &raquo; ";
-				if($ref_id != $data['ref_id'])
-				{
-					$path .= $data['title'];
-				}
-				else
-				{					
-					if($a_readable[$data['ref_id']])
-					{				
-						$path .= '<a target="_blank" href="'.
-								ilLink::_getLink($data['ref_id'],$data['type']).'">'.
-								$lng->txt("show").'</a>';
-						
-						$ilCtrl->setParameter($this->parent_obj, "ownid", $ref_id);
-						
-						$path .= ' | <a target="_blank" href="'.
-								$ilCtrl->getLinkTarget($this->parent_obj, "move").'">'.
-								$lng->txt("move").'</a>';
-						
-						$ilCtrl->setParameter($this->parent_obj, "ownid", "");
-					}					
-				}
+				continue;
+			}			
+			if($a_ref_id != $data['ref_id'])
+			{
+				$path .= " &raquo; ".$data['title'];
 			}
-
-			$result[] = $path;
 		}
 		
-		return $result;
+		return $path;
 	}
 }
 
