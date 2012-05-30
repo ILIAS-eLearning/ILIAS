@@ -126,7 +126,9 @@ class ilAuthShibbolethSettingsGUI
 								'shib_phone_office',
 								'shib_phone_home',
 								'shib_phone_mobile',
-								'shib_language'
+								'shib_language',
+								'shib_matriculation',
+								'shib_hobby'
 								);
 		
 		
@@ -268,7 +270,8 @@ class ilAuthShibbolethSettingsGUI
 								'shib_phone_office',
 								'shib_phone_home',
 								'shib_phone_mobile',
-								'shib_language'
+								'shib_language',
+								'shib_matriculation'
 								);
 		
 		foreach ($shib_settings as $setting)
