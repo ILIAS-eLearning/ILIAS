@@ -12580,3 +12580,5 @@ payment#:#duration_month#:#Zugriffsdauer in Monaten
 payment#:#duration_date#:#Zugriffszeitraum
 payment#:#please_choose_category#:#Bitte wählen Sie eine Kategorie
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
+survey#:#freetext_answers#:#Freitext-Antworten
+common#:#shib_matriculation#:#Attribut für Matrikelnummer

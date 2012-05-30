@@ -12225,7 +12225,7 @@ certificate#:#certificate_ph_passed_exercise#:#"Passed" or "Failed"
 certificate#:#certificate_ph_mark#:#Users mark
 certificate#:#certificate_ph_exercisetitle#:#Exercise Title
 rbac#:#rbac_back_to_overview#:#Back to Role List
-rbac#:#rbac_choose_copy_targets#:#Please enter a quer for selecting the target roles.
+rbac#:#rbac_choose_copy_targets#:#Please enter a query for selecting the target roles.
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
 rbac#:#rbac_role_title#:#Role Title
 rbac#:#rbac_copy_behaviour#:#Role Copy Settings
@@ -12457,6 +12457,7 @@ cptch#:#cptch_wrong_input#:#Wrong Input
 forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 certificate#:#certificate_file_basename#:#Certificate
+<<<<<<< .working
 grp#:#grp_print_list#:#Generate List
 grp#:#grp_members_print_title#:#Group Members
 trac#:#trac_closed_misc#:#Misc.
@@ -12584,3 +12585,5 @@ payment#:#duration_month#:#Access duration in monaths
 payment#:#duration_date#:#Access duration
 payment#:#please_choose_category#:#Please choose a category
 forum#:#select_max_one_thread#:#Please select one thread only!
+survey#:#freetext_answers#:#Open Answers
+common#:#shib_matriculation#:#Attribute for Matriculation Number
