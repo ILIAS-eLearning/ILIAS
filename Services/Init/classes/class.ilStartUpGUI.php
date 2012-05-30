@@ -1283,36 +1283,47 @@ class ilStartUpGUI
 		foreach ($list as $key => $client)
 		{
 			$client->setDSN();
+			$hasPublicSection = false;
 			if ($client->checkDatabaseExists() and $client->ini->readVariable("client","access") and $client->getSetting("setup_ok"))
 			{
 				$this->ctrl->setParameter($this, "client_id", $key);
-				//$data[] = array(
-				//				$client->getName(),
-				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "processIndexPHP")."\">Start page</a>",
-				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "showLogin")."\">Login page</a>"
-				//				);
-				//$data[] = array(
-				//				$client->getName(),
-				//				"<a href=\"".$ilCtrl->getLinkTarget($this, "processIndexPHP")."\">Start page</a>",
-				//				"<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>"
-				//				);
-				$data[] = array(
-								$client->getName(),
-								"<a href=\""."ilias.php?baseClass=ilRepositoryGUI&client_id=".urlencode($key)."\">Start page</a>",
-								"<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>"
-								);
+				$tmp = array();
+				$tmp[] = $client->getName();
+				$tmp[] = "<a href=\""."login.php?cmd=force_login&client_id=".urlencode($key)."\">Login page</a>";
+
+				if($client->getSetting('pub_section'))
+				{
+					$hasPublicSection = true;
+					$tmp[] = "<a href=\"" . "repository.php?client_id=" . urlencode($key) . "\">Start page</a>";
+				}
+				else
+				{
+					$tmp[] = '';
+				}
+
+				$data[] = $tmp;
 			}
 		}
-		$this->ctrl->setParameter($this, "client_id", "");
 
 		// create table
 		$tbl = new ilTableGUI();
 
 		// title & header columns
-		$tbl->setTitle("Available Clients");
-		$tbl->setHeaderNames(array("Installation Name","Public Access","Login"));
-		$tbl->setHeaderVars(array("name","index","login"));
-		$tbl->setColumnWidth(array("50%","25%","25%"));
+		if($hasPublicSection)
+		{
+			$tbl->setTitle("Available Clients");
+			$tbl->setHeaderNames(array("Installation Name","Public Access","Login"));
+			$tbl->setHeaderVars(array("name","index","login"));
+			$tbl->setColumnWidth(array("50%","25%","25%"));
+		}
+		else
+		{
+			$tbl->setTitle("Available Clients");
+			$tbl->setHeaderNames(array("Installation Name","Login",''));
+			$tbl->setHeaderVars(array("name","login",''));
+			$tbl->setColumnWidth(array("50%","25%",'0%'));
+
+		}
 
 		// control
 		$tbl->setOrderColumn($_GET["sort_by"],"name");
