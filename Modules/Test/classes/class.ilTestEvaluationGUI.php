@@ -1353,5 +1353,196 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$certificate->outCertificate(array("active_id" => $active_id, "pass" => $counted_pass));
 	}
 	
+	public function confirmDeletePass()
+	{
+		global $tpl;
+		require_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->addHiddenItem('active_id', $_GET['active_id']);
+		$confirm->addHiddenItem('pass', $_GET['pass']);
+		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
+		$confirm->setFormAction($this->ctrl->getLinkTargetByClass($_GET['commandClass'], 'deletePass'));
+		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
+		$confirm->setCancel($this->lng->txt('cancel'), 'cancelDelete');
+		$confirm->setConfirm($this->lng->txt('delete'), 'performDelete');
+
+		$tpl->setContent($confirm->getHTML());
+	}
+	
+	public function deletePass()
+	{
+			global $ilDB;
+
+			$active_fi = $_GET['active_id'];
+			$pass = $_GET['pass'];
+			
+			// Get information
+			$result = $ilDB->query(
+				'SELECT tries 
+				FROM tst_active
+				WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
+			);
+			$row = $ilDB->fetchAssoc($result);
+			$tries = $row['tries'];
+			
+			$last_pass = false;
+			$must_renumber = true;			
+			// No renumbering - last pass to be deleted.
+			if ($tries == 1)
+			{
+				$must_renumber = false;
+				$last_pass = true;
+			}
+			
+			// No renumbering - high pass to be deleted.
+			if ($tries-1 == $pass)
+			{
+				$must_renumber = false;
+			
+			}
+			
+			// Work on tables:
+			// tst_active
+			if ($last_pass)
+			{
+				$ilDB->manipulate(
+					'DELETE
+					FROM tst_active
+					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
+				);
+			}
+			else
+			{
+				$ilDB->manipulate(
+					'UPDATE tst_active
+					SET tries = ' . $ilDB->quote($tries-1, 'integer') . '
+					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
+				);
+			}
+			
+			// tst_manual_fb
+			$ilDB->manipulate(
+				'DELETE
+				FROM tst_manual_fb
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND pass = ' . $ilDB->quote($pass, 'integer')
+			);
+			
+			if ($must_renumber)
+			{
+				$ilDB->manipulate(
+				'UPDATE tst_manual_fb
+				SET pass = pass - 1
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				); 
+			}
+			
+			// tst_mark -> nothing to do
+			// 
+			// tst_pass_result
+			$ilDB->manipulate(
+				'DELETE
+				FROM tst_pass_result
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND pass = ' . $ilDB->quote($pass, 'integer')
+			);
+			
+			if ($must_renumber)
+			{
+				$ilDB->manipulate(
+				'UPDATE tst_pass_result
+				SET pass = pass - 1
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				); 
+			}			
+			
+			// tst_qst_solved -> nothing to do
+			
+			// tst_rnd_copy -> nothing to do
+			// tst_rnd_qpl_title -> nothing to do
+			
+			// tst_sequence
+			$ilDB->manipulate(
+				'DELETE
+				FROM tst_sequence
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND pass = ' . $ilDB->quote($pass, 'integer')
+			);
+			
+			if ($must_renumber)
+			{
+				$ilDB->manipulate(
+				'UPDATE tst_sequence
+				SET pass = pass - 1
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				); 
+			}		
+						
+			// tst_solutions
+			$ilDB->manipulate(
+				'DELETE
+				FROM tst_solutions
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND pass = ' . $ilDB->quote($pass, 'integer')
+			);
+			
+			if ($must_renumber)
+			{
+				$ilDB->manipulate(
+				'UPDATE tst_solutions
+				SET pass = pass - 1
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				); 
+			}		
+
+			// tst_tests -> nothing to do
+			
+			// tst_test_defaults -> nothing to do
+			
+			// tst_test_question -> nothing to do
+			
+			// tst_test_random -> nothing to do
+			
+			// tst_test_result
+			$ilDB->manipulate(
+				'DELETE
+				FROM tst_test_result
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND pass = ' . $ilDB->quote($pass, 'integer')
+			);
+			
+			if ($must_renumber)
+			{
+				$ilDB->manipulate(
+				'UPDATE tst_test_result
+				SET pass = pass - 1
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				); 
+			}		
+			
+			// tst_test_rnd_qst -> nothing to do
+			
+			// tst_times
+			$ilDB->manipulate(
+				'DELETE
+				FROM tst_times
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND pass = ' . $ilDB->quote($pass, 'integer')
+			);
+			
+			if ($must_renumber)
+			{
+				$ilDB->manipulate(
+				'UPDATE tst_times
+				SET pass = pass - 1
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				); 
+			}		
+			
+			// tst_result_cache
+			// Ggfls. nur renumbern.
+			require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+			assQuestion::_updateTestResultCache($active_fi);
+	}
 }
 ?>
