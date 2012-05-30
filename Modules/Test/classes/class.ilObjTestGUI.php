@@ -124,7 +124,7 @@ class ilObjTestGUI extends ilObjectGUI
                     $___prev_question_id = $_REQUEST['prev_qid'];
                     $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
                 }
-
+vd($next_class);
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -379,7 +379,25 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
-            case '':
+			case 'ilassquestionhintsgui':
+	
+				// set return target
+				$this->ctrl->setReturn($this, "questions");
+
+				// set context tabs
+				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
+				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI->object->setObjId($this->object->getId());
+				$questionGUI->setQuestionTabs();
+				
+				// forward to ilAssQuestionHintsGUI
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
+				$gui = new ilAssQuestionHintsGUI($questionGUI);
+				$ilCtrl->forwardCommand($gui);
+				
+				break;
+                            
+                        case '':
 			case 'ilobjtestgui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
