@@ -101,12 +101,28 @@ class ilTestEvaluationData
 		global $ilDB;
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-		$result = $ilDB->queryF("SELECT usr_data.usr_id, usr_data.firstname, usr_data.lastname, usr_data.title, usr_data.login, " .
-			"tst_pass_result.* FROM tst_pass_result, tst_active " .
-			"LEFT JOIN usr_data ON tst_active.user_fi = usr_data.usr_id " .
-			"WHERE tst_active.active_id = tst_pass_result.active_fi " .
-			"AND tst_active.test_fi = %s " .
-			"ORDER BY usr_data.lastname, usr_data.firstname, tst_pass_result.active_fi, tst_pass_result.pass, tst_pass_result.tstamp",
+		$result = $ilDB->queryF("
+			SELECT		usr_data.usr_id,
+						usr_data.firstname,
+						usr_data.lastname,
+						usr_data.title,
+						usr_data.login,
+						tst_pass_result.*
+			
+			FROM		tst_pass_result, tst_active
+			
+			LEFT JOIN	usr_data
+			ON			tst_active.user_fi = usr_data.usr_id
+			
+			WHERE		tst_active.active_id = tst_pass_result.active_fi
+			AND			tst_active.test_fi = %s
+			
+			ORDER BY	usr_data.lastname,
+						usr_data.firstname,
+						tst_pass_result.active_fi,
+						tst_pass_result.pass,
+						tst_pass_result.tstamp
+			",
 			array('integer'),
 			array($this->getTest()->getTestId())
 		);
@@ -114,7 +130,7 @@ class ilTestEvaluationData
 		$checked = array();
 		$thissets = 0;
 		while ($row = $ilDB->fetchAssoc($result))
-		{
+		{vd($row);
 			$thissets++;
 			$remove = FALSE;
 			if (!$this->participantExists($row["active_fi"]))
