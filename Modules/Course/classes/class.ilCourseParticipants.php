@@ -399,5 +399,25 @@ class ilCourseParticipants extends ilParticipants
 			return date("Y-m-d H:i:s", $res["origin_ts"]);
 		}				
 	}	
+	
+	public static function getPassedUsersForObjects(array $a_obj_ids, array $a_usr_ids)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT usr_id,obj_id FROM crs_members".
+			" WHERE ".$ilDB->in("usr_id", $a_usr_ids, "", "integer").
+			" AND ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
+			" AND passed = ".$ilDB->quote(1, "integer");		
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}				
+		
+		return $res;
+	}
 }
+
 ?>

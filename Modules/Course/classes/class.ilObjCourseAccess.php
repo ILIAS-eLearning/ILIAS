@@ -344,10 +344,13 @@ class ilObjCourseAccess extends ilObjectAccess
 	 */
 	function _preloadData($a_obj_ids, $a_ref_ids)
 	{
-		global $ilDB, $ilUser;
+		global $ilUser;
 		
 		include_once("./Modules/Course/classes/class.ilCourseWaitingList.php");
 		ilCourseWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
+		
+		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
+		ilCourseCertificateAdapter::_preloadListData($ilUser->getId(), $a_obj_ids); 		
 	}
 
 }
