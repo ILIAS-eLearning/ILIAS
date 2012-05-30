@@ -169,8 +169,26 @@ class ilTestServiceGUI
 						$this->ctrl->setParameterByClass($targetclass, "active_id", $active_id);
 						$this->ctrl->setParameterByClass($targetclass, "pass", $pass);
 						$template->setCurrentBlock("pass_details");
-						$template->setVariable("HREF_PASS_DETAILS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommand));
-						$template->setVariable("TEXT_PASS_DETAILS", $this->lng->txt("tst_pass_details"));
+						
+						require_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+						$aslgui = new ilAdvancedSelectionListGUI();
+						$aslgui->setListTitle($this->lng->txt("actions"));
+						$aslgui->setId($pass);
+						$aslgui->addItem(
+							$this->lng->txt("tst_pass_details"), 
+							'tst_pass_details', 
+							$this->ctrl->getLinkTargetByClass($targetclass, $targetcommand)
+						);
+						
+						$aslgui->addItem(
+							$this->lng->txt("delete"), 
+							'tst_pass_delete', 
+							$this->ctrl->getLinkTargetByClass($targetclass, 'confirmDeletePass')
+						);
+												
+						
+						#$template->setVariable("HREF_PASS_DETAILS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommand));
+						$template->setVariable("TEXT_PASS_DETAILS", $aslgui->getHTML());
 						$template->parseCurrentBlock();
 					}
 				}
