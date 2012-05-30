@@ -33,6 +33,7 @@ include_once "./Services/Certificate/classes/class.ilCertificateAdapter.php";
 class ilCourseCertificateAdapter extends ilCertificateAdapter
 {
 	protected $object;
+	protected static $has_certificate = array();
 	
 	/**
 	* ilTestCertificateAdapter contructor
@@ -155,6 +156,65 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 	public function getCertificateID()
 	{
 		return $this->object->getId();
+	}
+	
+	/**
+	 * Get certificate/passed status for all given objects and users
+	 * 
+	 * Used in ilObjCourseAccess for ilObjCourseListGUI 
+	 * 
+	 * @param array $a_usr_ids
+	 * @param array $a_obj_ids 
+	 */
+	static function _preloadListData($a_usr_ids, $a_obj_ids)
+	{
+		global $ilDB;
+		
+		if (!is_array($a_usr_ids))
+		{
+			$a_usr_ids = array($a_usr_ids);
+		}
+		if (!is_array($a_obj_ids))
+		{
+			$a_obj_ids = array($a_obj_ids);
+		}
+		foreach ($a_usr_ids as $usr_id)
+		{
+			foreach ($a_obj_ids as $obj_id)
+			{
+				self::$has_certificate[$usr_id][$obj_id] = false;
+			}
+		}
+		include_once "Services/Certificate/classes/class.ilCertificate.php";
+		if (ilCertificate::isActive())
+		{
+			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+			$data = ilCourseParticipants::getPassedUsersForObjects($a_obj_ids, $a_usr_ids);			
+			foreach($data as $rec)
+			{								
+				self::$has_certificate[$rec["usr_id"]][$rec["obj_id"]] = true;
+			}
+		}
+	}
+	
+	/**
+	 * Check if user has certificate for course
+	 * 
+	 * Used in ilObjCourseListGUI 
+	 * 
+	 * @param int $a_usr_id
+	 * @param int $a_obj_id
+	 * @return bool 
+	 */
+	static function _hasUserCertificate($a_usr_id, $a_obj_id)
+	{
+		if (isset(self::$has_certificate[$a_usr_id][$a_obj_id]))
+		{
+			return self::$has_certificate[$a_usr_id][$a_obj_id];
+		}
+		
+		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+		return ilCourseParticipants::getDateTimeOfPassed($a_obj_id, $a_usr_id);				
 	}
 }
 

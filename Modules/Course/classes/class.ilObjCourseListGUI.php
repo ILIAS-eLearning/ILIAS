@@ -142,9 +142,8 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		}
 		
 		// check for certificates	
-		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if (ilCertificate::isActive() && 
-			ilCourseParticipants::getDateTimeOfPassed($this->obj_id, $ilUser->getId()))
+		include_once "./Modules/Course/classes/class.ilCourseCertificateAdapter.php";
+		if(ilCourseCertificateAdapter::_hasUserCertificate($ilUser->getId(), $this->obj_id))
 		{
 			$lng->loadLanguageModule('certificate');
 			$cmd_link = "repository.php?ref_id=".$this->ref_id.
