@@ -1627,8 +1627,8 @@ abstract class assQuestionGUI
 	/**
 	 * adds the hints tab to ilTabsGUI
 	 *
-	 * @global	ilCtrl		$ilCtrl
-	 * @param	ilTabsGUI	$tabs
+	 * @global ilCtrl $ilCtrl
+	 * @param ilTabsGUI $tabs
 	 */
 	protected function addTab_QuestionHints(ilTabsGUI $tabs)
 	{
