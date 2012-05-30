@@ -124,8 +124,8 @@ class ilObjTestGUI extends ilObjectGUI
                     $___prev_question_id = $_REQUEST['prev_qid'];
                     $this->ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
                 }
-vd($next_class);
-		switch($next_class)
+
+                switch($next_class)
 		{
 			case "ilinfoscreengui":
 				$this->prepareOutput();
