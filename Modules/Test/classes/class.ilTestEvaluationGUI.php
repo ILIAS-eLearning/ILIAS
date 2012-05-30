@@ -281,7 +281,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 			}
 		}
-vd($data);
+		
 		$table_gui->setData($data);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_evaluation.html", "Modules/Test");
 		$this->tpl->setVariable('EVALUATION_DATA', $table_gui->getHTML());	
