@@ -318,9 +318,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			}
 			if ($this->object->getAnswerFeedbackPoints())
 			{
-				$this->tpl->setCurrentBlock("solution_output");
-				$this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $question_gui->object->calculateReachedPoints($this->object->getTestSession()->getActiveId(), NULL), $question_gui->object->getMaximumPoints()));
-				$this->tpl->parseCurrentBlock();
+                            $reachedPoints = $question_gui->object->calculateReachedPoints($this->object->getTestSession()->getActiveId(), NULL);
+                            $reachedPoints = $question_gui->object->getAdjustedReachedPoints($this->object->getTestSession()->getActiveId(), NULL);
+                            $maxPoints = $question_gui->object->getMaximumPoints();
+                            
+                            $this->tpl->setCurrentBlock("solution_output");
+                            $this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $reachedPoints, $maxPoints));
+                            $this->tpl->parseCurrentBlock();
 			}
 			if ($this->object->getAnswerFeedback())
 			{

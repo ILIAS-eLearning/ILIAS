@@ -755,6 +755,39 @@ abstract class assQuestion
 	{
 		return $this->points;
 	}
+        
+        /**
+         *  returns the reached points ...
+         * - calculated by concrete question type class
+         * - adjusted by hint point deduction
+         * - adjusted by scoring options
+         * ... for given testactive and testpass
+         *
+         * @param integer $active_id
+         * @param integer $pass
+         * @return integer $reached_points 
+         */
+        final public function getAdjustedReachedPoints($active_id, $pass = NULL)
+        {
+            if (is_null($pass))
+            {
+                    include_once "./Modules/Test/classes/class.ilObjTest.php";
+                    $pass = ilObjTest::_getPass($active_id);
+            }
+            
+            // determine reached points for submitted solution
+            $reached_points = $this->calculateReachedPoints($active_id, $pass);
+
+            // deduct points for requested hints from reached points
+            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+            $requestsStatisticData = ilAssQuestionHintTracking::getRequestStatisticDataByQuestionAndTestpass($this->getId(), $active_id, $pass);
+            $reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
+
+            // adjust reached points regarding to tests scoring options
+            $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
+            
+            return $reached_points;
+        }
 	
 	/**
 	 * Calculates the question results from a previously saved question solution
@@ -775,16 +808,16 @@ abstract class assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		
-		// determine reached points for submitted solution
-		$reached_points = $this->calculateReachedPoints($active_id, $pass);
-		
-		// deduct points for requested hints from reached points
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-		$requestsStatisticData = ilAssQuestionHintTracking::getRequestStatisticDataByQuestionAndTestpass($this->getId(), $active_id, $pass);
-		$reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
-		
-		// adjust reached points regarding to tests scoring options
-		$reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
+                // determine reached points for submitted solution
+                $reached_points = $this->calculateReachedPoints($active_id, $pass);
+
+                // deduct points for requested hints from reached points
+                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+                $requestsStatisticData = ilAssQuestionHintTracking::getRequestStatisticDataByQuestionAndTestpass($this->getId(), $active_id, $pass);
+                $reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
+
+                // adjust reached points regarding to tests scoring options
+                $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
 		
 		if (is_null($reached_points)) $reached_points = 0;
 
