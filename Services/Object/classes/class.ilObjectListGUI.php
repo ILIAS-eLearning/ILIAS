@@ -2714,14 +2714,16 @@ class ilObjectListGUI
 	 * @param string $a_img
 	 * @param string $a_tooltip
 	 * @param string $a_onclick 
-	 * @param string $a_onclick 
+	 * @param string $a_status_text 
+	 * @param string $a_href 
 	 */	
-	function addHeaderIcon($a_id, $a_img, $a_tooltip = null, $a_onclick = null, $a_status_text = null)
+	function addHeaderIcon($a_id, $a_img, $a_tooltip = null, $a_onclick = null, $a_status_text = null, $a_href = null)
 	{
 		$this->header_icons[$a_id] = array("img" => $a_img,
 				"tooltip" => $a_tooltip,
 				"onclick" => $a_onclick,
-				"status_text" => $a_status_text);
+				"status_text" => $a_status_text,
+				"href" => $a_href);
 	}
 	
 	/**
@@ -2824,12 +2826,18 @@ class ilObjectListGUI
 						$htpl->setVariable("PROP_TXT", $attr["status_text"]);
 						$htpl->parseCurrentBlock();
 					}
+					
+					if(!$attr["href"])
+					{
+						$attr["href"] = "#";
+					}
 
 					$htpl->setCurrentBlock("prop");
 					$htpl->setVariable("PROP_ID", $id);
-					$htpl->setVariable("IMG", ilUtil::img($attr["img"]));
+					$htpl->setVariable("IMG", ilUtil::img($attr["img"]));										
+					$htpl->setVariable("PROP_HREF", $attr["href"]);													
 					$htpl->parseCurrentBlock();
-
+					
 					if($attr["tooltip"])
 					{					
 						ilTooltipGUI::addTooltip($id, $attr["tooltip"]);

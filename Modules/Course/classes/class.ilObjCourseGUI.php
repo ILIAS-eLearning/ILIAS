@@ -5316,33 +5316,54 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 				
-		if($lg && $ilSetting->get("crsgrp_ntf") &&
-			ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
-		{						
-			if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
+		if($lg && $this->ref_id && ilCourseParticipants::_isParticipant($this->ref_id, $ilUser->getId()))
+		{							
+			// certificate
+			include_once "Services/Certificate/classes/class.ilCertificate.php";
+			if (ilCertificate::isActive() &&
+				ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $ilUser->getId()))
+			{			    
+				$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
+				
+				$this->lng->loadLanguageModule("certificate");
+				$lg->addCustomCommand($cert_url, "download_certificate");
+				
+				$lg->addHeaderIcon("cert_icon",
+						ilUtil::getImagePath("icon_cert_s.gif"),
+						$this->lng->txt("download_certificate"),
+						null,
+						null,
+						$cert_url);
+			}
+			
+			// notification
+			if($ilSetting->get("crsgrp_ntf"))
 			{
-				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_off.png"),
-					$this->lng->txt("crs_notification_deactivated"));
-				
-				$this->ctrl->setParameter($this, "crs_ntf", 1);
-				$caption = "crs_activate_notification";
+				if(!$ilUser->getPref("grpcrs_ntf_".$this->ref_id))
+				{
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_off.png"),
+						$this->lng->txt("crs_notification_deactivated"));
+
+					$this->ctrl->setParameter($this, "crs_ntf", 1);
+					$caption = "crs_activate_notification";
+				}
+				else
+				{				
+					$lg->addHeaderIcon("not_icon",
+						ilUtil::getImagePath("notification_on.png"),
+						$this->lng->txt("crs_notification_activated"));
+
+					$this->ctrl->setParameter($this, "crs_ntf", 0);
+					$caption = "crs_deactivate_notification";
+				}
+
+				$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
+					$caption);
+
+
+				$this->ctrl->setParameter($this, "crs_ntf", "");
 			}
-			else
-			{				
-				$lg->addHeaderIcon("not_icon",
-					ilUtil::getImagePath("notification_on.png"),
-					$this->lng->txt("crs_notification_activated"));
-				
-				$this->ctrl->setParameter($this, "crs_ntf", 0);
-				$caption = "crs_deactivate_notification";
-			}
-			
-			$lg->addCustomCommand($this->ctrl->getLinkTarget($this, "saveNotification"),
-				$caption);
-			
-			
-			$this->ctrl->setParameter($this, "crs_ntf", "");
 		}		
 		
 		return $lg;
