@@ -45,12 +45,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			$ilCtrl->saveParameter($this, 'view_mode');
 			$this->__prepareOutput();
 		}
-		
-		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-		{
-			$this->prepareOutput();
-		}
-
+			
 		$this->lng->loadLanguageModule("webr");
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -63,6 +58,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case 'ilmdeditorgui':
+				$this->prepareOutput();	
 				$ilTabs->activateTab('id_meta_data');
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
@@ -71,6 +67,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				break;
 				
 			case 'ilpermissiongui':
+				$this->prepareOutput();	
 				$ilTabs->activateTab('id_permissions');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
@@ -78,6 +75,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				break;
 				
 			case 'ilobjectcopygui':
+				$this->prepareOutput();	
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('webr');
@@ -85,6 +83,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				break;
 				
 			case 'ilexportgui':
+				$this->prepareOutput();	
 				$this->tabs_gui->setTabActive('export');
 				include_once './Services/Export/classes/class.ilExportGUI.php';
 				$exp = new ilExportGUI($this);
