@@ -1321,8 +1321,7 @@ class ilStartUpGUI
 			$tbl->setTitle("Available Clients");
 			$tbl->setHeaderNames(array("Installation Name","Login",''));
 			$tbl->setHeaderVars(array("name","login",''));
-			$tbl->setColumnWidth(array("50%","25%",'0%'));
-
+			$tbl->setColumnWidth(array("70%","25%",'1px'));
 		}
 
 		// control
