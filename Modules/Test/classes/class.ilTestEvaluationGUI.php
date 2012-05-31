@@ -24,6 +24,8 @@
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+
 /**
 * Output class for assessment test evaluation
 *
@@ -363,6 +365,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$this->tpl->setVariable("VALUE_ECTS", $data->getParticipant($active_id)->getECTSMark());
 			}
 		}
+		
+		if( $this->object->isOfferingQuestionHintsEnabled() )
+		{
+			$this->tpl->setVariable("TXT_REQUESTED_HINTS_COUNT", $this->lng->txt("tst_question_hints_requested_hint_count_header"));
+			$this->tpl->setVariable("VALUE_REQUESTED_HINTS_COUNT", $data->getParticipant($active_id)->getRequestedHintsCountFromScoredPass());
+		}
+		
 		$this->tpl->setVariable("TXT_QWORKEDTHROUGH", $this->lng->txt("tst_stat_result_qworkedthrough"));
 		$this->tpl->setVariable("VALUE_QWORKEDTHROUGH", $data->getParticipant($active_id)->getQuestionsWorkedThrough() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getNumberOfQuestions() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getQuestionsWorkedThroughInPercent()) . " %" . ")");
 
