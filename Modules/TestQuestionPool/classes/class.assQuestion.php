@@ -1512,6 +1512,12 @@ abstract class assQuestion
 			$ilLog->write("EXCEPTION: Error deleting the media objects of question $question_id: $e");
 			return false;
 		}
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+		ilAssQuestionHintTracking::deleteRequestsByQuestionIds(array($question_id));
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
+		ilAssQuestionHintList::deleteHintsByQuestionIds(array($question_id));
 
 		try
 		{

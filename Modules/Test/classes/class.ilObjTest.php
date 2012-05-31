@@ -3456,6 +3456,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				array('integer'),
 				array($this->getTestId())
 			);
+			
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+			ilAssQuestionHintTracking::deleteRequestsByQuestionIds(array($question_id));
 		} 
 		else 
 		{
@@ -3475,6 +3478,18 @@ function loadQuestions($active_id = "", $pass = NULL)
 				array('integer'),
 				array($this->getTestId())
 			);
+			
+			$query = "SELECT active_id FROM tst_active WHERE test_fi = %s";
+			$res = $ilDB->queryF($query, array('integer'), array($this->getTestId()));
+			$activeIds = array();
+			while( $row = $ilDB->fetchAssoc($res) )
+			{
+				$activeIds[] = $row['active_id'];
+			}
+			
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+			ilAssQuestionHintTracking::deleteRequestsByActiveIds($activeIds);
+			
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -3584,6 +3599,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 				ilUtil::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
 			}
 		}
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+		ilAssQuestionHintTracking::deleteRequestsByActiveIds($active_ids);
 	}
 
 	function removeTestResultsForUser($user_id)
@@ -3650,6 +3668,9 @@ function loadQuestions($active_id = "", $pass = NULL)
 		{
 			ilUtil::delDir(CLIENT_WEB_DIR . "/assessment/tst_" . $this->getTestId() . "/$active_id");
 		}
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+		ilAssQuestionHintTracking::deleteRequestsByActiveIds( array($active_id) );
 	}
 
 /**
