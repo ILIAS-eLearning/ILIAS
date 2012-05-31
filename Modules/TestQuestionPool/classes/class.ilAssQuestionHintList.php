@@ -310,4 +310,24 @@ class ilAssQuestionHintList implements Iterator
 		
 		return $row['next_index'];
 	}
+	
+	/**
+	 * Deletes all question hints relating to questions included in given question ids
+	 *
+	 * @global ilDB	$ilDB
+	 * @param array[integer] $questionIds 
+	 */
+	public static function deleteHintsByQuestionIds($questionIds)
+	{
+		global $ilDB;
+		
+		$__qht_question_fi__IN__questionIds = $ilDB->in('qht_question_fi', $questionIds, false, 'integer');
+		
+		$query = "
+			DELETE FROM		qpl_hints
+			WHERE			$__qht_question_fi__IN__questionIds
+		";
+		
+		return $ilDB->manipulate($query);
+	}
 }
