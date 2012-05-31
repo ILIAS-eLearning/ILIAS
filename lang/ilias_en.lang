@@ -12457,7 +12457,6 @@ cptch#:#cptch_wrong_input#:#Wrong Input
 forum#:#cont_captcha_code#:#Code
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
 certificate#:#certificate_file_basename#:#Certificate
-<<<<<<< .working
 grp#:#grp_print_list#:#Generate List
 grp#:#grp_members_print_title#:#Group Members
 trac#:#trac_closed_misc#:#Misc.
@@ -12585,5 +12584,4 @@ payment#:#duration_month#:#Access duration in monaths
 payment#:#duration_date#:#Access duration
 payment#:#please_choose_category#:#Please choose a category
 forum#:#select_max_one_thread#:#Please select one thread only!
-survey#:#freetext_answers#:#Open Answers
 common#:#shib_matriculation#:#Attribute for Matriculation Number
