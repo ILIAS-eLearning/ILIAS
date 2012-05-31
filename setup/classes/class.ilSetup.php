@@ -2022,6 +2022,7 @@ class ilSetup extends PEAR
 		// Copying datadir
 		if (! ilUtil::rCopy($source->getDataDir(),$target->getDataDir())) {
 			$this->error = "clone_datadircopyfail";
+			$target->ini->write();
 			return false;
 		}
 
@@ -2039,8 +2040,9 @@ class ilSetup extends PEAR
 		}
 
 		// Copying Webspacedir
-		if (! ilUtil::rCopy($source->getWebspaceDir(),$target->getWebspaceDir())) {
+		if (! ilUtil::rCopy($source->getWebspaceDir(),$target->getWebspaceDir())) { 
 			$this->error = "clone_websipacedircopyfail";
+			$target->ini->write(); 
 			return false;
 		}
 
