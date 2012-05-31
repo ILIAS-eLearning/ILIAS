@@ -12297,7 +12297,6 @@ prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared 
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
 survey#:#svy_participation#:#Participation
 blog#:#blog_new_posting_info#:#The first text block is used as abstract in the posting list. 
-assessment#:#conf_delete_pass#:#Really delete pass?
 survey#:#svy_page_add_question#:#Add new %s
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
@@ -12534,7 +12533,14 @@ assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been p
 assessment#:#button_request_question_hint#:#Request Hint
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_show_requested_question_hints#:#Show Requested Hints
+assessment#:#tst_question_hints_confirm_request#:#Request Hint
+assessment#:#tst_question_hints_cancel_request#:#Back to Question
+assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.
+assessment#:#tst_question_hints_back_to_question#:#Back to Question
+assessment#:#tst_question_hints_index_column_label#:#Hint %s
+assessment#:#tst_question_hints_table_column_hint_index#:#Index
 assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints
+assessment#:#conf_delete_pass#:#Really delete pass?
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
