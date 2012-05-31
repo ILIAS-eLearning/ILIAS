@@ -309,5 +309,49 @@ class ilAssQuestionHintTracking
 		
 		return $requestsStatisticData;
 	}
+	
+	/**
+	 * Deletes all hint requests relating to a question included in given question ids
+	 *
+	 * @static
+	 * @access public
+	 * @global ilDB $ilDB
+	 * @param array[integer] $questionIds 
+	 */
+	public static function deleteRequestsByQuestionIds($questionIds)
+	{
+		global $ilDB;
+		
+		$__question_fi__IN__questionIds = $ilDB->in('qhtr_question_fi', $questionIds, false, 'integer');
+				
+		$query = "
+			DELETE FROM	qpl_hint_tracking
+			WHERE		$__question_fi__IN__questionIds
+		";
+		
+		$ilDB->manipulate($query);
+	}
+	
+	/**
+	 * Deletes all hint requests relating to a testactive included in given active ids
+	 *
+	 * @static
+	 * @access public
+	 * @global ilDB $ilDB
+	 * @param array[integer] $activeIds 
+	 */
+	public static function deleteRequestsByActiveIds($activeIds)
+	{
+		global $ilDB;
+		
+		$__active_fi__IN__activeIds = $ilDB->in('qhtr_active_fi', $activeIds, false, 'integer');
+		
+		$query = "
+			DELETE FROM	qpl_hint_tracking
+			WHERE		$__active_fi__IN__activeIds
+		";
+		
+		$ilDB->manipulate($query);
+	}
 }
 
