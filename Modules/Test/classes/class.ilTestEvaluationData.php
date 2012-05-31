@@ -126,9 +126,11 @@ class ilTestEvaluationData
 			array('integer'),
 			array($this->getTest()->getTestId())
 		);
+		
 		$pass = NULL;
 		$checked = array();
 		$thissets = 0;
+		
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$thissets++;
@@ -314,6 +316,10 @@ class ilTestEvaluationData
 		$this->participants[$active_id] = $participant;
 	}
 	
+	/**
+	 * @param integer $active_id
+	 * @return ilTestEvaluationUserData
+	 */
 	function &getParticipant($active_id)
 	{
 		return $this->participants[$active_id];
@@ -339,5 +345,3 @@ class ilTestEvaluationData
 		return array_keys($this->participants);
 	}
 } // END ilTestEvaluationData
-
-?>
