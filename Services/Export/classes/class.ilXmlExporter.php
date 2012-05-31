@@ -25,6 +25,19 @@ abstract class ilXmlExporter
 	}
 
 	/**
+	 * export directory lookup
+	 * @return string export directory
+	 */
+	public static function lookupExportDirectory($a_obj_type, $a_obj_id, $a_export_type = 'xml')
+	{
+		if($a_export_type == 'xml')
+		{
+			return ilUtil::getDataDir()."/".$a_obj_type."_data"."/".$a_obj_type."_".$a_obj_id."/export";
+		}
+		return ilUtil::getDataDir()."/".$a_obj_type."_data"."/".$a_obj_type."_".$a_obj_id."/export_".$a_export_type;
+	}
+
+	/**
 	 * Get xml representation
 	 *
 	 * @param	string		entity
