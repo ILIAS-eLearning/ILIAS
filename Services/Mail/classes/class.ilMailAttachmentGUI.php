@@ -80,19 +80,16 @@ class ilMailAttachmentGUI
 		 */
 		global $ilUser;
 
-		if(!isset($_POST['filename']) || !is_array($_POST['filename']) || !$_POST['filename'])
-		{
-			ilUtil::sendInfo($this->lng->txt('mail_select_one_file'));
-			$this->showAttachments();
-			return;
-		}
-
 		$files = array();
-		foreach($_POST['filename'] as $file)
+
+		if(is_array($_POST['filename']) && count($_POST['filename']))
 		{
-			if(file_exists($this->mfile->getMailPath() . '/' . basename($ilUser->getId() . '_' . urldecode($file))))
+			foreach($_POST['filename'] as $file)
 			{
-				$files[] = urldecode($file);
+				if(file_exists($this->mfile->getMailPath() . '/' . basename($ilUser->getId() . '_' . urldecode($file))))
+				{
+					$files[] = urldecode($file);
+				}
 			}
 		}
 
