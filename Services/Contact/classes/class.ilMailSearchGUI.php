@@ -219,15 +219,8 @@ class ilMailSearchGUI
 			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
 		}
 		
-		if (!$_SESSION['mail_search_type_system'] && !$_SESSION['mail_search_type_addressbook'])
-		{
-			$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
-		}
-		else
-		{
-			if ($_SESSION['mail_search_type_addressbook']) $this->tpl->setVariable('CHECKED_TYPE_ADDRESSBOOK', "checked=\"checked\"");
-			if ($_SESSION['mail_search_type_system'])$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
-		}		
+		if ($_SESSION['mail_search_type_addressbook']) $this->tpl->setVariable('CHECKED_TYPE_ADDRESSBOOK', "checked=\"checked\"");
+		if ($_SESSION['mail_search_type_system'])$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
 
 		if ($_SESSION['mail_search_type_addressbook'] && strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
