@@ -435,54 +435,58 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	}
 
     function getXMLTree($sid, $ref_id, $types, $user_id)
-    {
-        $this->initAuth($sid);
-        $this->initIlias();
+	{
+		$this->initAuth($sid);
+		$this->initIlias();
 
-        if (!$this->__checkSession($sid))
-        {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-        }
+		if(!$this->__checkSession($sid))
+		{
+			return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+		}
 
-        global $tree;
-       
-        $nodedata = $tree->getNodeData($ref_id);
-       
-        $nodearray = $tree->getSubTree($nodedata);
+		global $tree;
+
+		$nodedata = $tree->getNodeData($ref_id);
+		$nodearray = $tree->getSubTree($nodedata);
+
+
+		$filter = (array) $types;
 
 		global $objDefinition;
-        foreach ($nodearray as $node)
-        {
+		foreach($nodearray as $node)
+		{
 			if(!$objDefinition->isAdministrationObject($node['type']) && !$objDefinition->isSystemObject($node['type']))
 			{
-				if ($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))
-                {
-                    $nodes[] = $tmp;
-                }
+				if(!in_array($node['type'], $filter))
+				{
+					if($tmp = ilObjectFactory::getInstanceByRefId($node['ref_id'], false))
+					{
+						$nodes[] = $tmp;
+					}
+				}
 			}
-        }
-       
-        
-        include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
-       
-        $xml_writer = new ilObjectXMLWriter();
-		$xml_writer->enablePermissionCheck(true);
-        $xml_writer->setObjects($nodes);
-        $xml_writer->enableOperations(false);
-       
-        if ($user_id)
-        {
-            $xml_writer->setUserId($user_id);
-        }
-       
-        if ($xml_writer->start())
-        {
-            return $xml_writer->getXML();
-        }
-       
-        return $this->__raiseError('Cannot create object xml !', 'Server');
-    }
+		}
 
+
+		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
+
+		$xml_writer = new ilObjectXMLWriter();
+		$xml_writer->enablePermissionCheck(true);
+		$xml_writer->setObjects($nodes);
+		$xml_writer->enableOperations(false);
+
+		if($user_id)
+		{
+			$xml_writer->setUserId($user_id);
+		}
+
+		if($xml_writer->start())
+		{
+			return $xml_writer->getXML();
+		}
+
+		return $this->__raiseError('Cannot create object xml !', 'Server');
+	}
 
 	function addObject($sid,$a_target_id,$a_xml)
 	{
