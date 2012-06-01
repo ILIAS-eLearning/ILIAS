@@ -6550,7 +6550,7 @@ crs#:#crs_copy_cat_not_allowed#:#Es ist nicht möglich Kategorien zu kopieren.
 crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_count_questions#:#Anzahl von Fragen
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_status_of_users#:#Status der Benutzer
+crs#:#crs_course_status_of_users#:#Bestanden-Status der Benutzer
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
@@ -6880,10 +6880,10 @@ crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Status in Kurs "%s"
 crs#:#crs_status_changed_body#:#ihr Status in Kurs "%s" wurde geändert.
-crs#:#crs_status_determination#:#Festlegung
-crs#:#crs_status_determination_lp#:#Mit Lernfortschritt abgleichen
-crs#:#crs_status_determination_manual#:#Unabhängig von Lernfortschritt
-crs#:#crs_status_determination_sync#:#Status aller Mitglieder jetzt mit Lernfortschritt abgleichen
+crs#:#crs_status_determination#:#Bestimmung
+crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
+crs#:#crs_status_determination_manual#:#Unabhängig vom Lernfortschritt bestimmen
+crs#:#crs_status_determination_sync#:#Den Bestanden-Status aller Mitglieder jetzt auf Grundlage des Lernfortschritts festlegen.
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#News-Zusammenfassung für %s
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
@@ -12461,9 +12461,9 @@ blog#:#blog_enable_rss_info#:#Der RSS Feed ist öffentlich und unabhängig von B
 user#:#user_allow_delete_own_account#:#Benutzer können eigenen Account löschen
 user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-Email
 user#:#user_delete_own_account#:#Account löschen
-user#:#user_delete_own_account_info#:#Wollen Sie wirklich Ihren Benutzer-Account komplett und unwiederbringlich löschen?
-user#:#user_delete_own_account_password_confirmation#:#Bestätigung per Passwort
-user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, um Ihren Benutzer-Account aus dem System zu entfernen.
+user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen Benutzer-Account löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
+user#:#user_delete_own_account_password_confirmation#:#Passworteingabe für Autorisierung
+user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzer-Account unwiederruflich aus dem System entfernt werden soll.
 user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
 user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde gelöscht.
 mcst#:#mcst_ordering#:#Sortierung
