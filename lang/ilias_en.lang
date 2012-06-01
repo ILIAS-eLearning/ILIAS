@@ -1060,6 +1060,9 @@ assessment#:#worked_through#:#Answered
 assessment#:#working_time_avg#:#Avg. Working Time
 assessment#:#working_time#:#Working Time
 assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
+assessment#:#all_participants#:#All participants
+assessment#:#with_solutions_participants#:#Participants with solutions
+assessment#:#without_solutions_participants#:#Participants without solutions
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
