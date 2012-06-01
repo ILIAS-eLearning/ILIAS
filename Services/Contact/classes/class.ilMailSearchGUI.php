@@ -133,13 +133,6 @@ class ilMailSearchGUI
 		$_SESSION["mail_search_type_system"] = $_POST["type_system"];
 		$_SESSION["mail_search_type_addressbook"] = $_POST["type_addressbook"];
 
-		// IF NO TYPE IS GIVEN SEARCH IN BOTH 'system' and 'addressbook'
-		if(!$_SESSION["mail_search_type_system"] &&
-		   !$_SESSION["mail_search_type_addressbook"])
-		{
-			$_SESSION["mail_search_type_system"] = 1;
-			$_SESSION["mail_search_type_addressbook"] = 1;
-		}
 		if (strlen(trim($_SESSION["mail_search_search"])) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
