@@ -3603,6 +3603,9 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php";
 			$table_gui = new ilTestFixedParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
+			$table_gui->setFilterCommand('fpSetFilter');
+			$table_gui->setResetCommand('fpResetFiler');
+			$rows = $this->applyFilterCriteria($rows);
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
@@ -3628,7 +3631,7 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
 				array_push($rows, array(
-					'usr_id' => $data["active_id"],
+					'usr_id' => $data["usr_id"],
 					'active_id' => $data['active_id'],
 					'login' => $data["login"],
 					'name' => $fullname,
@@ -3643,11 +3646,96 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			include_once "./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php";
 			$table_gui = new ilTestParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
+			$table_gui->setFilterCommand('npSetFilter');
+			$table_gui->setResetCommand('npResetFiler');
+			$rows = $this->applyFilterCriteria($rows);
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 		}
 	}
+	
+	function applyFilterCriteria($in_rows)
+	{
+		global $ilDB;
 
+		$sess_filter = $_SESSION['form_']['selection'];
+		$sess_filter = str_replace('"','',$sess_filter);
+		$sess_filter = explode(':', $sess_filter);
+		$filter = substr($sess_filter[2],0, strlen($sess_filter[2])-1);
+		
+		if ($filter == 'all' || $filter == false)
+		{
+			return $in_rows; #unchanged - no filter.
+		}
+		
+		$with_result = array();
+		$without_result = array();
+		foreach ($in_rows as $row)
+		{
+			$result = $ilDB->query(
+				'SELECT count(solution_id) count
+				FROM tst_solutions
+				WHERE active_fi = ' . $ilDB->quote($row['active_id'])
+			);
+			$count = $ilDB->fetchAssoc($result);
+			$count = $count['count'];
+			
+			if ($count == 0)
+			{
+				$without_result[] = $row;
+			}
+			else
+			{
+				$with_result[] = $row;
+			}			
+		}
+		
+		if ($filter == 'withSolutions')
+		{
+			return $with_result;
+		}
+		return $without_result;
+
+	}
+	
+	function fpSetFilterObject()
+	{
+		include_once("./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php");
+		$table_gui = new ilTestFixedParticipantsTableGUI($this, "participants");
+		$table_gui->writeFilterToSession();        // writes filter to session
+		$table_gui->resetOffset();                // sets record offest to 0 (first page)
+		$this->participantsObject();
+	}
+
+	function fpResetFilterObject()
+	{
+		include_once("./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php");
+		$table_gui = new ilTestFixedParticipantsTableGUI($this, "participants");
+		$table_gui->resetFilter();        // writes filter to session
+		$table_gui->resetOffset();                // sets record offest to 0 (first page)
+		$this->participantsObject();
+	}
+
+	function npSetFilterObject()
+	{
+		include_once("./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php");
+		$table_gui = new ilTestParticipantsTableGUI($this, "participants");
+		$table_gui->writeFilterToSession();        // writes filter to session
+		$table_gui->resetOffset();                // sets record offest to 0 (first page)
+		$this->participantsObject();
+		
+	}
+	
+	function npResetFilterObject()
+	{
+		include_once("./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php");
+		$table_gui = new ilTestParticipantsTableGUI($this, "participants");
+		$table_gui->resetFilter();        // writes filter to session
+		$table_gui->resetOffset();                // sets record offest to 0 (first page)
+		$this->participantsObject();
+		
+	}
+	
  /**
 	* Shows the pass overview and the answers of one ore more users for the scored pass
 	*

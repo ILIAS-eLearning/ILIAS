@@ -1226,6 +1226,9 @@ assessment#:#worked_through#:#Beantwortet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#working_time_avg#:#Durchschnittliche Bearbeitungdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
+assessment#:#all_participants#:#Alle Teilnehmer
+assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
+assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code

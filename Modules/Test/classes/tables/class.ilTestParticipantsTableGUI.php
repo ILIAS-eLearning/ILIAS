@@ -51,6 +51,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		
+		$this->initFilter();
+		
 		$this->anonymity = $anonymity;
 		$this->setFormName('participantsForm');
 		$this->setStyle('table', 'fullwidth');
@@ -137,5 +139,27 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+	
+	/**
+	* Init filter
+	*/
+	function initFilter()
+	{
+		global $lng;
+
+		// title/description
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$ti = new ilSelectInputGUI($lng->txt("selection"), "selection");
+		$ti->setOptions(
+			array(
+				'all' => $lng->txt('all_participants'), 
+				'withSolutions' => $lng->txt('with_solutions_participants'), 
+				'withoutSolutions' => $lng->txt('without_solutions_participants')
+			)
+		);		
+		$this->addFilterItem($ti);
+		$ti->readFromSession();        // get currenty value from session (always after addFilterItem())
+		$this->filter["title"] = $ti->getValue();
+	}
+ 	
 }
-?>
