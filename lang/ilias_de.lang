@@ -12463,7 +12463,7 @@ user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-Email
 user#:#user_delete_own_account#:#Account löschen
 user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen Benutzer-Account löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
 user#:#user_delete_own_account_password_confirmation#:#Passworteingabe für Autorisierung
-user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzer-Account unwiederruflich aus dem System entfernt werden soll.
+user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzer-Account unwiderruflich aus dem System entfernt werden soll.
 user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
 user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde gelöscht.
 mcst#:#mcst_ordering#:#Sortierung
