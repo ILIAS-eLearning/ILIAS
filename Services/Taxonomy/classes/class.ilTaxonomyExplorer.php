@@ -20,13 +20,16 @@ class ilTaxonomyExplorer extends ilExplorer
 	* @param	string	scriptname
 	* @param    int user_id
 	*/
-	function __construct($a_target, $a_tax_tree)
+	function __construct($a_target, $a_tax_tree, $a_gui_class = "ilobjtaxonomygui",
+		$a_gui_cmd = "listItems")
 	{
 		parent::__construct($a_target);
 		
 		//$this->setFilterMode(IL_FM_POSITIVE);
 		//$this->addFilter("tax");
 		
+		$this->gui_class = $a_gui_class;
+		$this->gui_cmd = $a_gui_cmd;
 		$this->tree = $a_tax_tree;
 		$this->root_id = $this->tree->readRootId();
 		
@@ -59,7 +62,7 @@ class ilTaxonomyExplorer extends ilExplorer
 	{
 		global $lng, $ilias, $ilCtrl;
 
-		$ilCtrl->setParameterByClass("ilobjtaxonomygui", "tax_node",
+		$ilCtrl->setParameterByClass($this->gui_class, "tax_node",
 			$this->tree->readRootId());
 		
 		$tpl->setCurrentBlock("icon");
@@ -74,12 +77,11 @@ class ilTaxonomyExplorer extends ilExplorer
 			$tpl->setVariable("A_CLASS", "class='il_HighlightedNode'");
 		}
 		$tpl->setVariable("LINK_TARGET",
-			$ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listItems"));
+			$ilCtrl->getLinkTargetByClass($this->gui_class, $this->gui_cmd));
 		$tpl->parseCurrentBlock();
 		
 		$tpl->touchBlock("element");
-
-		$ilCtrl->setParameterByClass("ilobjtaxonomygui", "tax_node",
+		$ilCtrl->setParameterByClass($this->gui_class, "tax_node",
 			$_GET["tax_node"]);
 
 	}
@@ -130,9 +132,9 @@ class ilTaxonomyExplorer extends ilExplorer
 		{
 			// taxonomy node
 			case "taxn":
-				$ilCtrl->setParameterByClass("ilobjtaxonomygui", "tax_node", $a_node_id);
-				$ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listItems");
-				$ilCtrl->setParameterByClass("ilobjtaxonomygui", "tax_node", $_GET["tax_node"]);
+				$ilCtrl->setParameterByClass($this->gui_class, "tax_node", $a_node_id);
+				$ret = $ilCtrl->getLinkTargetByClass($this->gui_class, $this->gui_cmd);
+				$ilCtrl->setParameterByClass($this->gui_class, "tax_node", $_GET["tax_node"]);
 				return $ret;
 				break;
 		}

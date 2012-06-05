@@ -165,5 +165,24 @@ class ilObjTaxonomy extends ilObject2
 		return $tax;
 	}
 	
+	/**
+	 * Get all assigned items under a node
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getSubTreeItems($a_tax_id, $a_node)
+	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+		$tree = new ilTaxonomyTree($a_tax_id);
+
+		$sub_nodes = $tree->getSubTreeIds($a_node);
+		$sub_nodes[] = $a_node;
+		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+		$items = ilTaxNodeAssignment::getAssignmentsOfNode($sub_nodes);
+		
+		return $items;
+	}
+	
 }
 ?>
