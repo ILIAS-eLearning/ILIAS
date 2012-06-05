@@ -85,6 +85,7 @@ class ilObjGlossary extends ilObject
 		$this->setActiveDownloads(ilUtil::yn2tf($gl_rec["downloads_active"]));
 		$this->setPresentationMode($gl_rec["pres_mode"]);
 		$this->setSnippetLength($gl_rec["snippet_length"]);
+		$this->setShowTaxonomy($gl_rec["show_tax"]);
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
@@ -298,8 +299,28 @@ class ilObjGlossary extends ilObject
 
 
 	/**
-	* update object
-	*/
+	 * Set show taxonomy
+	 *
+	 * @param bool $a_val show taxonomy	
+	 */
+	function setShowTaxonomy($a_val)
+	{
+		$this->show_tax = $a_val;
+	}
+	
+	/**
+	 * Get show taxonomy
+	 *
+	 * @return bool show taxonomy
+	 */
+	function getShowTaxonomy()
+	{
+		return $this->show_tax;
+	}
+	
+	/**
+	 * Update object
+	 */
 	function update()
 	{
 		global $ilDB;
@@ -314,6 +335,7 @@ class ilObjGlossary extends ilObject
 			" glo_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu()), "text").",".
 			" downloads_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").", ".
 			" pres_mode = ".$ilDB->quote($this->getPresentationMode(), "text").", ".
+			" show_tax = ".$ilDB->quote((int) $this->getShowTaxonomy(), "integer").", ".
 			" snippet_length = ".$ilDB->quote($this->getSnippetLength(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer"));
 		

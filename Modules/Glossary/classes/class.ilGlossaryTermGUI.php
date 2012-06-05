@@ -706,7 +706,6 @@ class ilGlossaryTermGUI
 		
 		//$tpl->setLeftNavUrl($ilCtrl->getLinkTarget($this, "showQuickList"));
 		
-		include_once("./Services/UIComponent/TreeNavArea/classes/class.ilTreeNavAreaGUI.php");
 		include_once("./Modules/Glossary/classes/class.ilTermQuickListTableGUI.php");
 		$tab = new ilTermQuickListTableGUI($this, "editTerm");
 		$tpl->setLeftNavContent($tab->getHTML());

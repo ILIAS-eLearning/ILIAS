@@ -213,241 +213,17 @@ class ilGlossaryPresentationGUI
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
-if (!false)
-{
-	include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
-	$table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
-		$this->offlineMode());
-
-	if (!$this->offlineMode())
-	{
-		$tpl->setContent($table->getHTML());
-	}
-	else
-	{
-		$this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
-		return $this->tpl->get();
-	}
-
-	return;
-}
-
-
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.glossary_presentation.html", "Modules/Glossary");
-		
-		// search form
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setCurrentBlock("search_form");
-			$this->ctrl->setParameter($this, "offset", 0);
-			$this->ctrl->setParameter($this, "oldoffset", $oldoffset);
-			$this->tpl->setVariable("FORMACTION1",
-				$this->ctrl->getFormAction($this, "searchTerms"));
-			$this->tpl->setVariable("TXT_TERM", $this->lng->txt("cont_term"));
-			$this->tpl->setVariable("TXT_SEARCH", $this->lng->txt("search"));
-			$this->tpl->setVariable("TXT_CLEAR", $this->lng->txt("clear"));
-			$this->tpl->setVariable("TERM", $filter);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-
-		// load template for table
-		$this->tpl->addBlockfile("TERM_TABLE", "term_table", "tpl.table.html");
-		// load template for table content data
-		$this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.term_tbl_pres_row.html", "Modules/Glossary");
-
-		$num = 2;
-
-		// create table
-		$tbl = new ilTableGUI();
-
-		// title & header columns
-		$tbl->setTitle($this->lng->txt("cont_terms").(($filter=="")?"":"*"));
-		$tbl->disable("sort");
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
-
-		// display additional column 'glossary' for meta glossaries
-		if ($this->glossary->isVirtual())
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
-				 $this->lng->txt("cont_definitions"),$this->lng->txt("obj_glo")));
-
-			$cols = array("term", "definitions", "glossary");
-			
-			$tbl->setColumnWidth(array("30%", "35%", "35%"));
-		}
-		else
-		{
-			$tbl->setHeaderNames(array($this->lng->txt("cont_term"),
-				 $this->lng->txt("cont_definitions")));
+		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
+		$table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
+			$this->offlineMode());
 	
-			$cols = array("term", "definitions");
-			
-			$tbl->setColumnWidth(array("30%", "70%"));
-		}
-		
 		if (!$this->offlineMode())
 		{
-			$header_params = $this->ctrl->getParameterArrayByClass("ilglossarypresentationgui", "listTerms");
+			$tpl->setContent($table->getHTML());
 		}
-		//$header_params = array("ref_id" => $_GET["ref_id"], "cmd" => "listTerms");
-
-		if (!empty ($filter)) {
-			$header_params ["cmd"] = "searchTerms";
-			$header_params ["term"] = $filter;
-			$header_params ["oldoffset"] = $_GET["oldoffset"];
-		}
-
-		$tbl->setHeaderVars($cols, $header_params);
-
-		// control
-		$tbl->setOrderColumn($_GET["sort_by"]);
-		$tbl->setOrderDirection($_GET["sort_order"]);
-		if ($this->offlineMode())
-		{
-			$_GET["limit"] = 99999;
-			$_GET["offset"] = 0;
-			$tbl->disable("sort");
-			$tbl->disable("footer");
-		}
-		$tbl->setOffset($_GET["offset"]);
-		$tbl->setLimit($_GET["limit"]);
-
-		// footer
-		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
-
-//		$term_list = $this->glossary->getTermList();
-		$tbl->setMaxCount(count($term_list));
-
-		// sorting array
-		//$term_list = ilUtil::sortArray($term_list, $_GET["sort_by"], $_GET["sort_order"]);
-
-		$term_list = array_slice($term_list, $_GET["offset"], $_GET["limit"]);
-		// render table
-		
-		$tbl->setBase("ilias.php");
-		$tbl->render();
-
-		if (count($term_list) > 0)
-		{
-			$i=1;
-			foreach($term_list as $key => $term)
-			{
-				$css_row = ilUtil::switchColor($i++,"tblrow1","tblrow2");
-				$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-
-				for($j=0; $j<count($defs); $j++)
-				{
-					$def = $defs[$j];
-					if (count($defs) > 1)
-					{
-						$this->tpl->setCurrentBlock("definition");
-						$this->tpl->setVariable("DEF_TEXT", $this->lng->txt("cont_definition")." ".($j + 1));
-						$this->tpl->parseCurrentBlock();
-					}
-
-					//
-					$this->tpl->setCurrentBlock("definition");
-					$short_str = $def["short_text"];
-					// replace tex
-					// if a tex end tag is missing a tex end tag
-					$ltexs = strrpos($short_str, "[tex]");
-					$ltexe = strrpos($short_str, "[/tex]");
-					if ($ltexs > $ltexe)
-					{
-						$page =& new ilPageObject("gdf", $def["id"]);
-						$page->buildDom();
-						$short_str = $page->getFirstParagraphText();
-						$short_str = strip_tags($short_str, "<br>");
-						$ltexe = strpos($short_str, "[/tex]", $ltexs);
-						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
-					}
-					if (!$this->offlineMode())
-					{
-						$short_str = ilUtil::insertLatexImages($short_str);
-					}
-					else
-					{
-						$short_str = ilUtil::buildLatexImages($short_str,
-							$this->getOfflineDirectory());
-					}
-					$short_str = ilPCParagraph::xml2output($short_str);
-					
-					$this->tpl->setVariable("DEF_SHORT", $short_str);
-					$this->tpl->parseCurrentBlock();
-
-					$this->tpl->setCurrentBlock("definition_row");
-					$this->tpl->parseCurrentBlock();
-				}
-				
-				// display additional column 'glossary' for meta glossaries
-				if ($this->glossary->isVirtual())
-				{
-					$this->tpl->setCurrentBlock("glossary_row");
-					$glo_title = ilObject::_lookupTitle($term["glo_id"]);
-					$this->tpl->setVariable("GLO_TITLE", $glo_title);
-					$this->tpl->parseCurrentBlock();
-				}
-
-				$this->tpl->setCurrentBlock("view_term");
-				$this->tpl->setVariable("TEXT_TERM", $term["term"]);
-				if (!$this->offlineMode())
-				{
-					if (!empty ($filter))
-					{
-						$this->ctrl->setParameter($this, "term", $filter);
-						$this->ctrl->setParameter($this, "oldoffset", $_GET["oldoffset"]);
-					}
-					$this->ctrl->setParameter($this, "term_id", $term["id"]);
-					$this->ctrl->setParameter($this, "offset", $_GET["offset"]);
-					$this->tpl->setVariable("LINK_VIEW_TERM",
-						$this->ctrl->getLinkTarget($this, "listDefinitions"));
-					$this->ctrl->clearParameters($this);
-				}
-				else
-				{
-					$this->tpl->setVariable("LINK_VIEW_TERM", "term_".$term["id"].".html");
-				}
-				$this->tpl->setVariable("ANCHOR_TERM", "term_".$term["id"]);
-				$this->tpl->parseCurrentBlock();
-
-				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_".$term["language"]));
-				$this->tpl->setCurrentBlock("tbl_content");
-				$this->tpl->parseCurrentBlock();
-				
-				$this->ctrl->clearParameters($this);
-			}
-		} //if is_array
 		else
 		{
-			$this->tpl->setCurrentBlock("notfound");
-			$this->tpl->setVariable("TXT_OBJECT_NOT_FOUND", $this->lng->txt("obj_not_found"));
-			$this->tpl->setVariable("NUM_COLS", $num);
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// edit link
-		if (!$this->offlineMode() && $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-			$this->tpl->setCurrentBlock("edit_glossary");
-			$this->tpl->setVariable("EDIT_TXT", $this->lng->txt("edit"));
-			$this->tpl->setVariable("EDIT_LINK",
-				"ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=".$_GET["ref_id"]);
-			$this->tpl->setVariable("EDIT_TARGET", "_top");
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		// permanent link
-		$this->tpl->setCurrentBlock("perma_link");
-		$this->tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH.
-			"/goto.php?target=glo_".$_GET["ref_id"]."&client_id=".CLIENT_ID);
-		$this->tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
-		$this->tpl->setVariable("PERMA_TARGET", "_top");
-		$this->tpl->parseCurrentBlock();
-
-		if ($this->offlineMode())
-		{
+			$this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
 			return $this->tpl->get();
 		}
 	}
@@ -512,7 +288,10 @@ if (!false)
 		}
 
 		// tabs
-		$this->showDefinitionTabs("content");
+		if ($this->glossary->getPresentationMode() != "full_def")
+		{
+			$this->showDefinitionTabs("content");
+		}
 		
 		$term = new ilGlossaryTerm($term_id);
 		

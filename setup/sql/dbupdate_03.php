@@ -9731,3 +9731,13 @@ if( !$ilDB->tableExists('qpl_hint_tracking') )
 	}
 
 ?>
+<#3586>
+<?php
+$ilDB->addTableColumn('glossary', 'show_tax', array(
+	'type' => 'integer',
+	'length' => 1,
+	'notnull' => true,
+	'default' => 0
+));
+?>
+
