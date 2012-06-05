@@ -9740,8 +9740,41 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 	'default' => 0
 ));
 ?>
-
 <#3587>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3588>
+<?php
+	// taxonomy properties 
+	$fields = array(
+			'id' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			),
+			'sorting_mode' => array(
+					'type' => 'integer',
+					'length' => 4,
+					'notnull' => true,
+					'default' => 0
+			)
+	);
+	$ilDB->createTable('tax_data', $fields);
+	$ilDB->addPrimaryKey('tax_data', array('id'));
+?>
+<#3589>
+<?php
+	$set = $ilDB->query("SELECT * FROM object_data ".
+		" WHERE type = ".$ilDB->quote("tax", "text")
+		);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$ilDB->manipulate("INSERT INTO tax_data ".
+			"(id, sorting_mode) VALUES (".
+			$ilDB->quote($rec["obj_id"], "integer").",".
+			$ilDB->quote(0, "integer").
+			")");
+	}
 ?>

@@ -13,6 +13,9 @@ require_once "./Services/Object/classes/class.ilObject2.php";
  */
 class ilObjTaxonomy extends ilObject2
 {
+	const SORT_ALPHABETICAL = 0;
+	const SORT_MANUAL = 1;
+	
 	/**
 	 * Constructor
 	 *
@@ -33,6 +36,26 @@ class ilObjTaxonomy extends ilObject2
 	function initType()
 	{
 		$this->type = "tax";
+	}
+	
+	/**
+	 * Set sorting mode
+	 *
+	 * @param int $a_val sorting mode	
+	 */
+	function setSortingMode($a_val)
+	{
+		$this->sorting_mode = $a_val;
+	}
+	
+	/**
+	 * Get sorting mode
+	 *
+	 * @return int sorting mode
+	 */
+	function getSortingMode()
+	{
+		return $this->sorting_mode;
 	}
 	
 	/**
@@ -59,6 +82,13 @@ class ilObjTaxonomy extends ilObject2
 	function doCreate()
 	{
 		global $ilDB;
+		
+		// create tax data record
+		$ilDB->manipulate("INSERT INTO tax_data ".
+			"(id, sorting_mode) VALUES (".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote((int) $this->getSortingMode(), "integer").
+			")");
 		
 		// create the taxonomy tree
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
@@ -88,6 +118,9 @@ class ilObjTaxonomy extends ilObject2
 		global $ilDB;
 		
 		// delete object
+		$ilDB->manipulate("DELETE FROM tax_data WHERE ".
+			" id = ".$ilDB->quote($this->getId(), "integer")
+			);
 		
 	}
 
@@ -99,7 +132,11 @@ class ilObjTaxonomy extends ilObject2
 	{
 		global $ilDB;
 		
-		//
+		$set = $ilDB->query("SELECT * FROM tax_data ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+			);
+		$rec  = $ilDB->fetchAssoc($set);
+		$this->setSortingMode($rec["sorting_mode"]);
 	}
 
 	/**
@@ -109,7 +146,10 @@ class ilObjTaxonomy extends ilObject2
 	{
 		global $ilDB;
 		
-		//
+		$ilDB->manipulate("UPDATE tax_data SET ".
+			" sorting_mode = ".$ilDB->quote((int) $this->getSortingMode(), "integer").
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+			);
 	}
 	
 	/**

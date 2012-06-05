@@ -12597,3 +12597,6 @@ common#:#shib_matriculation#:#Attribute for Matriculation Number
 common#:#soap_connect_timeout#:#Connection Timeout
 common#:#soap_connect_timeout_info#:#The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted.
 content#:#glo_show_taxonomy#:#Show Taxonomy
+tax#:#tax_sorting#:#Sorting
+tax#:#tax_alphabetical#:#Alphabetical
+tax#:#tax_manual#:#Manual
