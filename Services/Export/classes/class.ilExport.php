@@ -117,7 +117,7 @@ class ilExport
 
 		include_once './Services/Export/classes/class.ilImportExportFactory.php';
 		$exporter_class = ilImportExportFactory::getExporterClass($a_obj_type);
-		$export_dir = $exporter_class::lookupExportDirectory($a_obj_type, $a_obj_id, $a_type);
+		$export_dir = call_user_func(array($exporter_class,'lookupExportDirectory'),$a_obj_type,$a_obj_id,$a_type);
 
 		$GLOBALS['ilLog']->write(__METHOD__.': Export dir is '.$export_dir);
 		return $export_dir;
