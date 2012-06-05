@@ -1884,9 +1884,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->initCourseItemObject();
 		$ilBench->stop("Course", "initCourseItemObject");
 
-		$ilBench->start("Course", "addAdditionalSubItemInformation");
-		$this->items_obj->addAdditionalSubItemInformation($a_item_data);
-		$ilBench->stop("Course", "addAdditionalSubItemInformation");
+		ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
 	}
 	
 	/**

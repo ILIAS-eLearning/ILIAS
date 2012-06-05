@@ -11,7 +11,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilCourseItemAdministrationGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI
 *
 * @ingroup ModulesSession 
@@ -81,15 +81,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$perm_gui = new ilPermissionGUI($this);
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
-				
-			case 'ilcourseitemadministrationgui':
-				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
-				$this->tabs_gui->clearSubTabs();
-				$this->ctrl->setReturn($this,'info');
-				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
-				$this->ctrl->forwardCommand($item_adm_gui);
-				break;
-				
+		
 			case 'ilobjectcopygui':
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
@@ -367,40 +359,34 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 		
+				
+		$html = '';		
+			
+		include_once './Services/Object/classes/class.ilObjectActivation.php';		
+		include_once './Services/Container/classes/class.ilContainerSorting.php';	
 		include_once './Modules/Session/classes/class.ilSessionObjectListGUIFactory.php';
-		include_once './Modules/Session/classes/class.ilEventItems.php';
-		include_once './Modules/Course/classes/class.ilCourseItems.php';
 		
-		$html = '';
-		$eventItems = new ilEventItems($this->object->getId());
-		
+		$eventItems = ilObjectActivation::getItemsByEvent($this->object->getId());			
 		$parent_id = $tree->getParentId($this->object->getRefId());
-		$items = new ilCourseItems($parent_id);
-		$eventItems = $items->getItemsByEvent($this->object->getId());
-		include_once './Services/Container/classes/class.ilContainerSorting.php';
-		$eventItems = ilContainerSorting::_getInstance(
-			ilObject::_lookupObjId($parent_id))->sortSubItems(
-				'sess',
-				$this->object->getId(),
-				$eventItems
-		);
+		$parent_id = ilObject::_lookupObjId($parent_id);				
+		$eventItems = ilContainerSorting::_getInstance($parent_id)->sortSubItems(
+			'sess',
+			$this->object->getId(),
+			$eventItems
+		);			
 		
 		foreach($eventItems as $item)
-		{
-			$item_id = $item['ref_id'];
-			$obj_id = ilObject::_lookupObjId($item_id);
-			$type = ilObject::_lookupType($obj_id);
-			
-			
-			$list_gui = ilSessionObjectListGUIFactory::factory($type);
+		{						
+			$list_gui = ilSessionObjectListGUIFactory::factory($item['type']);
 			$list_gui->setContainerObject($this);
-			$this->modifyItemGUI($list_gui, ilCourseItems::_getItem($item_id),false);
+			
+			$this->modifyItemGUI($list_gui, $item, false);
 			
 			$html .= $list_gui->getListItemHTML(
-				$item_id,
-				$obj_id,
-				ilObject::_lookupTitle($obj_id),
-				ilObject::_lookupDescription($obj_id)
+				$item['ref_id'],
+				$item['obj_id'],
+				$item['title'],
+				$item['description']
 			);
 		}
 		

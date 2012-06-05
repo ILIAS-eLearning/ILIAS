@@ -420,7 +420,8 @@ class ilNewsItem extends ilNewsItemGen
 		$ilObjDataCache->preloadReferenceCache($ref_ids);
 		if (!$a_only_public)
 		{
-			$ilAccess->preloadActivationTimes($ref_ids);
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			ilObjectActivation::preloadData($ref_ids);
 		}
 		
 		// no check, for which of the objects any news are available

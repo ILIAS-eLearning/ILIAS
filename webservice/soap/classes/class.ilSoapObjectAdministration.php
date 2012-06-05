@@ -1364,16 +1364,13 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		
 		foreach($a_object_data['references'] as $ref_data)
 		{
-			if(isset($ref_data['time_target']) and ($crs_ref_id = $tree->checkForParentType($ref_data['ref_id'],'crs')))
-			{
-				$crs_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id,false);
-				include_once('./Modules/Course/classes/class.ilCourseItems.php');
-				include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');
+			if(isset($ref_data['time_target']) /* and ($crs_ref_id = $tree->checkForParentType($ref_data['ref_id'],'crs')) */)
+			{				
+				include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');				
+				include_once('./Services/Object/classes/class.ilObjectActivation.php');
+				$old = ilObjectActivation::getItem($ref_data['ref_id']);
 				
-				
-				$items = new ilCourseItems($crs_obj->getRefId(),$ref_data['parent_id']);
-				$old = $items->getItem($ref_data['ref_id']);
-				
+				$items = new ilObjectActivation();
 				$items->toggleChangeable(isset($ref_data['time_target']['changeable']) ? $ref_data['time_target']['changeable'] : $old['changeable']);
 				$items->setTimingStart(isset($ref_data['time_target']['starting_time']) ? $ref_data['time_target']['starting_time'] : $old['timing_start']);
 				$items->setTimingEnd(isset($ref_data['time_target']['ending_time']) ? $ref_data['time_target']['ending_time'] : $old['timing_end']);
@@ -1386,18 +1383,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				switch($ref_data['time_target']['timing_type']) 
 				{
 					case ilObjectXMLWriter::TIMING_DEACTIVATED:
-						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_DEACTIVATED.' '.$ref_data['time_target']['timing_type']);
-						$items->setTimingType(IL_CRS_TIMINGS_DEACTIVATED);
+						$ilLog->write(__METHOD__.ilObjectActivation::TIMINGS_DEACTIVATED.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
 						break;
 						
 					case ilObjectXMLWriter::TIMING_TEMPORARILY_AVAILABLE:
-						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_ACTIVATION.' '.$ref_data['time_target']['timing_type']);
-						$items->setTimingType(IL_CRS_TIMINGS_ACTIVATION);
+						$ilLog->write(__METHOD__.ilObjectActivation::TIMINGS_ACTIVATION.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
 						break;
 					
 					case ilObjectXMLWriter::TIMING_PRESETTING:
-						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_PRESETTING.' '.$ref_data['time_target']['timing_type']);
-						$items->setTimingType(IL_CRS_TIMINGS_PRESETTING);
+						$ilLog->write(__METHOD__.ilObjectActivation::TIMINGS_PRESETTING.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(ilObjectActivation::TIMINGS_PRESETTING);
 						break;
 				}
 				$items->update($ref_data['ref_id']);
@@ -1428,14 +1425,10 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$source->putInTree($ref_data['parent_id']);
 				$source->setPermissions($ref_data['parent_id']);
 			}
-			if(isset($ref_data['time_target']) and ($crs_ref_id = $tree->checkForParentType($new_ref_id,'crs')))
+			if(isset($ref_data['time_target']) /* and ($crs_ref_id = $tree->checkForParentType($new_ref_id,'crs')) */)
 			{
-				
-				$crs_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id,false);
-				include_once('./Modules/Course/classes/class.ilCourseItems.php');
 				include_once('./webservice/soap/classes/class.ilObjectXMLWriter.php');
-				
-				$items = new ilCourseItems($crs_obj->getRefId(),$ref_data['parent_id']);
+				include_once('./Services/Object/classes/class.ilObjectActivation.php');
 				
 				if(!isset($ref_data['time_target']['starting_time']))
 				{
@@ -1446,6 +1439,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 					$ref_data['time_target']['ending_time'] = time();
 				}
 				
+				$items = new ilObjectActivation();
 				$items->toggleChangeable($ref_data['time_target']['changeable']);
 				$items->setTimingStart($ref_data['time_target']['starting_time']);
 				$items->setTimingEnd($ref_data['time_target']['ending_time']);
@@ -1458,18 +1452,18 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				switch($ref_data['time_target']['timing_type']) 
 				{
 					case ilObjectXMLWriter::TIMING_DEACTIVATED:
-						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_DEACTIVATED.' '.$ref_data['time_target']['timing_type']);
-						$items->setTimingType(IL_CRS_TIMINGS_DEACTIVATED);
+						$ilLog->write(__METHOD__.ilObjectActivation::TIMINGS_DEACTIVATED.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
 						break;
 						
 					case ilObjectXMLWriter::TIMING_TEMPORARILY_AVAILABLE:
-						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_ACTIVATION.' '.$ref_data['time_target']['timing_type']);
-						$items->setTimingType(IL_CRS_TIMINGS_ACTIVATION);
+						$ilLog->write(__METHOD__.ilObjectActivation::TIMINGS_ACTIVATION.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
 						break;
 					
 					case ilObjectXMLWriter::TIMING_PRESETTING:
-						$ilLog->write(__METHOD__.IL_CRS_TIMINGS_PRESETTING.' '.$ref_data['time_target']['timing_type']);
-						$items->setTimingType(IL_CRS_TIMINGS_PRESETTING);
+						$ilLog->write(__METHOD__.ilObjectActivation::TIMINGS_PRESETTING.' '.$ref_data['time_target']['timing_type']);
+						$items->setTimingType(ilObjectActivation::TIMINGS_PRESETTING);
 						break;
 				}
 				$items->update($new_ref_id);

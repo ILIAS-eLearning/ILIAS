@@ -29,7 +29,7 @@
 * @version $Id$
 * 
 */
-include_once 'Modules/Course/classes/class.ilCourseItems.php';
+include_once 'Services/Object/classes/class.ilObjectActivation.php';
 include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
 
 class ilTimingCache
@@ -42,7 +42,7 @@ class ilTimingCache
 		{
 			return $cache[$a_ref_id];
 		}
-		$cache[$a_ref_id]['item'] = ilCourseItems::_getItem($a_ref_id);
+		$cache[$a_ref_id]['item'] = ilObjectActivation::getItem($a_ref_id);
 		$cache[$a_ref_id]['user'] = ilTimingPlaned::_getPlanedTimingsByItem($a_ref_id);
 
 		return $cache[$a_ref_id];
@@ -66,7 +66,7 @@ class ilTimingCache
 		}
 		// if editing time reached => show warning
 		$timings =& ilTimingCache::_getTimings($a_ref_id);
-		if($timings['item']['timing_type'] == IL_CRS_TIMINGS_PRESETTING)
+		if($timings['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING)
 		{
 			if($timings['item']['changeable'] and $timings['user'][$a_usr_id]['end'])
 			{

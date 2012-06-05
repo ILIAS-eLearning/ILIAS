@@ -588,25 +588,12 @@ class ilAccessHandler
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 			return true;
 		}
-		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		
-		$this->preloadActivationTimes(array($a_ref_id));
-		if(isset($this->ac_times[$a_ref_id]))
-		{
-			// read preloaded
-			$item_data = $this->ac_times[$a_ref_id];
-		}
-		else
-		{
-			global $ilLog;
-			$ilLog->write(__METHOD__.': Error preloading activation times failed.');
-			$item_data = ilCourseItems::_readActivationTimes(array($a_ref_id));
-			$item_data = $item_data[$a_ref_id];
-		}
+		include_once 'Services/Object/classes/class.ilObjectActivation.php';	
+		$item_data = ilObjectActivation::getItem($a_ref_id);				
 		
-
 		// if activation isn't enabled
-		if($item_data['timing_type'] != IL_CRS_TIMINGS_ACTIVATION)
+		if($item_data['timing_type'] != ilObjectActivation::TIMINGS_ACTIVATION)
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
@@ -640,32 +627,6 @@ class ilAccessHandler
 		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
 		$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
 		return false;
-	}
-	
-	/**
-	 * preload activation times of course items
-	 * loads all required timing data for the given ref ids 
-	 *
-	 * @access public
-	 * @param array array(int) ref_id
-	 * 
-	 */
-	public function preloadActivationTimes($a_ref_ids)
-	{
-		include_once('Modules/Course/classes/class.ilCourseItems.php');
-		
-		$read_arr = array();
-		foreach($a_ref_ids as $ref_id)
-		{
-			if(!isset($this->ac_times[$ref_id]))
-			{
-				$read_arr[] = $ref_id;
-			}
-		}
-		if(count($read_arr))
-		{
-			$this->ac_times = (array) $this->ac_times + ilCourseItems::_readActivationTimes($read_arr);
-		}
 	}
 	
 	/**

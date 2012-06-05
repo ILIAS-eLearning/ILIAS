@@ -2910,7 +2910,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if($a_show_path)
 		{
 			$a_item_list_gui->addCustomProperty($lng->txt('path'),
-				ilContainer_buildPath($a_item_data['ref_id'], $this->object->getRefId()),
+				ilContainer::buildPath($a_item_data['ref_id'], $this->object->getRefId()),
 				false, true);
 		}
 	}

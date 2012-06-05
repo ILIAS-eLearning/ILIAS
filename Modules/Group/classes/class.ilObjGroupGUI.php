@@ -13,9 +13,9 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 *
 * @version	$Id$
 *
-* @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilConditionHandlerInterface, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI,ilCourseItemAdministrationGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI
 * 
@@ -53,26 +53,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		switch($next_class)
-		{
-			case "ilconditionhandlerinterface":
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
-
-				if($_GET['item_id'])
-				{
-					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-					$this->setSubTabs('activation');
-					$this->tabs_gui->setTabActive('view_content');
-
-					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
-					$this->ctrl->forwardCommand($new_gui);
-				}
-				else
-				{
-					$new_gui =& new ilConditionHandlerInterface($this);
-					$this->ctrl->forwardCommand($new_gui);
-				}
-				break;
-
+		{			
 			case 'ilgroupregistrationgui':
 				$this->ctrl->setReturn($this,'');
 				$this->tabs_gui->setTabActive('join');
@@ -106,14 +87,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->setSubTabActive('members');
 				break;
 
-			case 'ilcourseitemadministrationgui':
-				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
-				$this->tabs_gui->clearSubTabs();
-				$this->ctrl->setReturn($this,'view');
-				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
-				$this->ctrl->forwardCommand($item_adm_gui);
-				break;
-
 			case "ilinfoscreengui":
 				$ret =& $this->infoScreen();
 				break;
@@ -145,20 +118,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
 				$course_content_obj = new ilCourseContentGUI($this);
 				$this->ctrl->forwardCommand($course_content_obj);
-				break;
-
-			case 'ilcourseitemadministrationgui':
-
-				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
-
-				$this->ctrl->setReturn($this,'');
-				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_GET['item_id']);
-				$this->ctrl->forwardCommand($item_adm_gui);
-
-				// (Sub)tabs
-				$this->setSubTabs('activation');
-				$this->tabs_gui->setTabActive('view_content');
-				$this->tabs_gui->setSubTabActive('activation');
 				break;
 
 			case 'ilpublicuserprofilegui':
@@ -2067,27 +2026,6 @@ class ilObjGroupGUI extends ilContainerGUI
 		ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
 		$this->createObject();
 	}	
-
-	// Methods for ConditionHandlerInterface
-	function initConditionHandlerGUI($item_id)
-	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
-
-		if(!is_object($this->chi_obj))
-		{
-			if($_GET['item_id'])
-			{
-				$this->chi_obj =& new ilConditionHandlerInterface($this,$item_id);
-				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-			}
-			else
-			{
-				$this->chi_obj =& new ilConditionHandlerInterface($this);
-			}
-		}
-		return true;
-	}
-
 	
 /**
 * Creates the output form for group member export
@@ -2859,16 +2797,6 @@ class ilObjGroupGUI extends ilContainerGUI
 													"", 'ilmemberexportgui');
 				}
 
-				break;
-
-			case "activation":
-				$this->tabs_gui->addSubTabTarget("activation",
-												 $this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI','edit'),
-												 "edit", get_class($this));
-				$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
-				$this->tabs_gui->addSubTabTarget("preconditions",
-												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
-												 "", "ilConditionHandlerInterface");
 				break;
 
 			case 'settings':
