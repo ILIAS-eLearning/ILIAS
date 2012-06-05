@@ -21,8 +21,23 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	 * @param	string	$a_title	Title
 	 * @param	string	$a_postvar	Post Variable
 	 */
-	function __construct($a_taxonomy_id, $a_title = "", $a_postvar = "")
+	function __construct($a_taxonomy_id, $a_multi = true, $a_title = "", $a_postvar = "")
 	{
+		global $lng;
+		
+		$lng->loadLanguageModule("tax");
+		$this->setMulti($a_multi);
+		
+		if ($a_title == "")
+		{
+			$a_title = $lng->txt("tax_taxonomy");
+		}
+		
+		if ($a_postvar == "")
+		{
+			$a_postvar = "tax_node_assign";
+		}
+		
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("tax_assign");
 		
@@ -89,4 +104,59 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 		
 		return $options;
 	}
+	
+	/**
+	 * Save input
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveInput($a_component_id, $a_item_type, $a_item_id)
+	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+		$tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_item_type, $this->getTaxonomyId());
+		$tax_node_ass->deleteAssignmentsOfItem($a_item_id);
+		$post = $_POST[$this->getPostVar()];
+//var_dump($_POST);
+//var_dump($post);
+		if ($this->getMulti())
+		{
+			foreach ($post as $p)
+			{
+				$tax_node_ass->addAssignment(ilUtil::stripSlashes($p), $a_item_id);
+			}
+		}
+		else
+		{
+			$tax_node_ass->addAssignment(ilUtil::stripSlashes($post), $a_item_id);
+		}
+	}
+	
+	/**
+	 * Set current values
+	 *
+	 * @param
+	 * @return
+	 */
+	function setCurrentValues($a_component_id, $a_item_type, $a_item_id)
+	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+		$tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_item_type, $this->getTaxonomyId());
+		$ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
+		
+		$nodes = array();
+		foreach ($ass as $a)
+		{
+			$nodes[] = $a["node_id"];
+		}
+		if ($this->getMulti())
+		{
+			$this->setValue($nodes);
+		}
+		else
+		{
+			$this->setValue($nodes[0]);
+		}
+	}
+
 }

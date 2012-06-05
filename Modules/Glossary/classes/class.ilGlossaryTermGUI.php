@@ -59,6 +59,7 @@ class ilGlossaryTermGUI
 				$def_edit =& new ilTermDefinitionEditorGUI();
 				//$ret =& $def_edit->executeCommand();
 				$ret =& $this->ctrl->forwardCommand($def_edit);
+				$this->quickList("edit", $def_edit);
 				break;
 
 			default:
@@ -153,15 +154,16 @@ class ilGlossaryTermGUI
 		if ($this->glossary->getTaxonomyId() > 0)
 		{
 			include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
-			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId(),
-				$this->lng->txt("tax_assignment"), "tax_node_assign");
-			$tax_node_assign->setMulti(true);
+			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId());
+			$tax_node_assign->setCurrentValues("glo", "term", $this->term->getId());
 			$form->addItem($tax_node_assign);
 		}
 		
 		$form->addCommandButton("updateTerm", $this->lng->txt("save"));
 		
-		$this->tpl->setContent($form->getHTML());		
+		$this->tpl->setContent($form->getHTML());
+
+		$this->quickList();
 	}
 
 
@@ -170,9 +172,19 @@ class ilGlossaryTermGUI
 	*/
 	function updateTerm()
 	{
+		// update term
 		$this->term->setTerm(ilUtil::stripSlashes($_POST["term"]));
 		$this->term->setLanguage($_POST["term_language"]);
 		$this->term->update();
+		
+		// update taxonomy assignment
+		if ($this->glossary->getTaxonomyId() > 0)
+		{
+			include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
+			$tax_node_assign = new ilTaxAssignInputGUI($this->glossary->getTaxonomyId());
+			$tax_node_assign->saveInput("glo", "term", $this->term->getId());
+		}
+		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "editTerm");
 	}
@@ -403,6 +415,7 @@ class ilGlossaryTermGUI
 		//$this->tpl->setCurrentBlock("def_list");
 		//$this->tpl->parseCurrentBlock();
 
+		$this->quickList();
 	}
 
 
@@ -672,6 +685,7 @@ class ilGlossaryTermGUI
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("usage");
+		
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
 		
@@ -679,6 +693,23 @@ class ilGlossaryTermGUI
 		$tab = new ilTermUsagesTableGUI($this, "listUsages", $_GET["term_id"]);
 		
 		$tpl->setContent($tab->getHTML());
+		
+		$this->quickList();
+	}
+	
+	/**
+	 * Set quick term list cmd into left navigation URL
+	 */
+	function quickList()
+	{
+		global $tpl, $ilCtrl;
+		
+		//$tpl->setLeftNavUrl($ilCtrl->getLinkTarget($this, "showQuickList"));
+		
+		include_once("./Services/UIComponent/TreeNavArea/classes/class.ilTreeNavAreaGUI.php");
+		include_once("./Modules/Glossary/classes/class.ilTermQuickListTableGUI.php");
+		$tab = new ilTermQuickListTableGUI($this, "editTerm");
+		$tpl->setLeftNavContent($tab->getHTML());
 	}
 }
 
