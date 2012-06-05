@@ -2266,7 +2266,17 @@ div.ilFrameBL
 	box-shadow: inset 0px 2px 2px #D0D0D0;
 }
 
+div.ilLeftNav {
+	width: 350px;
+	float:left;
+	position: absolute;
+	padding: 5px;
+}
 
+div.ilLeftNavSpace {
+	padding-left: 350px;
+}
+	
 /* Tabs */
 
 div.il_Tab

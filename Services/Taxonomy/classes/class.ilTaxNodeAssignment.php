@@ -42,7 +42,7 @@ class ilTaxNodeAssignment
 
 		$this->setComponentId($a_component_id);
 		$this->setItemType($a_item_type);
-		$this->setTaxononmyId($a_tax_id);
+		$this->setTaxonomyId($a_tax_id);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ class ilTaxNodeAssignment
 		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
-			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
+			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer")
 			);
 		$ass = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
@@ -140,7 +140,7 @@ class ilTaxNodeAssignment
 		$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
 			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
 			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
-			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
+			" AND item_id = ".$ilDB->quote($a_item_id, "integer")
 			);
 		$ass = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
@@ -160,12 +160,18 @@ class ilTaxNodeAssignment
 	{
 		global $ilDB;
 		
+		// nothing to do, if not both IDs are greater 0
+		if ((int) $a_node_id == 0 || (int) $a_item_id == 0)
+		{
+			return;
+		}
+		
 		// sanity check: does the node belong to the given taxonomy?
-		$set = $ilDB->query("SELECT tree_id FROM tax_tree ".
+		$set = $ilDB->query("SELECT tax_tree_id FROM tax_tree ".
 			" WHERE child = ".$ilDB->quote($a_node_id, "integer")
 			);
 		$rec = $ilDB->fetchAssoc($set);
-		if ($rec["tree_id"] != $this->getTaxonomyId())
+		if ($rec["tax_tree_id"] != $this->getTaxonomyId())
 		{
 			throw new ilTaxonomyException('addAssignment: Node ID does not belong to current taxonomy.');
 		}
@@ -181,6 +187,21 @@ class ilTaxNodeAssignment
 			);
 	}
 	
+	/**
+	 * Delete assignments of item
+	 *
+	 * @param int $a_item_id item id
+	 */
+	function deleteAssignmentsOfItem($a_item_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
+			" component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND item_id = ".$ilDB->quote($a_item_id, "integer")
+			);
+	}
 	
 }
 

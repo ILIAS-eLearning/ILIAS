@@ -72,6 +72,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 
 			case "ilglossarytermgui":
+//				$this->quickList();
 				$this->ctrl->setReturn($this, "listTerms");
 				$term_gui =& new ilGlossaryTermGUI($_GET["term_id"]);
 				$term_gui->setGlossary($this->object);
@@ -151,7 +152,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 
 			default:
-				$cmd = $this->ctrl->getCmd("frameset");
+				$cmd = $this->ctrl->getCmd("listTerms");
 
 				if (($cmd == "create") && ($_POST["new_type"] == "term"))
 				{
@@ -651,8 +652,13 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function quickList()
 	{
-		global $ilUser;
+		global $ilUser, $tpl;
 
+return;
+		include_once("./Modules/Glossary/classes/class.ilTermQuickListTableGUI.php");
+		$tab = new ilTermQuickListTableGUI($this, "listTerms");
+		$tpl->setLeftContent($tab->getHTML());
+		
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.glossary_short_list.html",
 			"Modules/Glossary");
 		

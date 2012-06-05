@@ -239,6 +239,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillStopFloating();
 			$this->fillPageFormAction();
 			$this->fillLeftContent();
+			$this->fillLeftNav();
 			$this->fillRightContent();
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
@@ -490,6 +491,7 @@ class ilTemplate extends ilTemplateX
 			$this->fillStopFloating();
 			$this->fillPageFormAction();
 			$this->fillLeftContent();
+			$this->fillLeftNav();
 			$this->fillRightContent();
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
@@ -1773,6 +1775,28 @@ class ilTemplate extends ilTemplateX
 			$this->setVariable("LEFT_CONTENT", $this->left_content);
 			$this->parseCurrentBlock();
 			$this->touchBlock("left_columnt");
+		}
+	}
+
+	/**
+	 * Sets content of left navigation column
+	 */
+	function setLeftNavContent($a_content)
+	{
+		$this->left_nav_content = $a_content;
+	}
+		
+	/**
+	 * Fill left navigation frame
+	 */
+	private function fillLeftNav()
+	{
+		if (trim($this->left_nav_content) != "")
+		{
+			$this->setCurrentBlock("left_nav");
+			$this->setVariable("LEFT_NAV_CONTENT", $this->left_nav_content);
+			$this->parseCurrentBlock();
+			$this->touchBlock("left_nav_space");
 		}
 	}
 
