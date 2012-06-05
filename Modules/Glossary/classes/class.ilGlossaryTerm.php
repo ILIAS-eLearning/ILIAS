@@ -350,11 +350,29 @@ class ilGlossaryTerm
 	 * @param	string			first letter
 	 * @return	array			array of terms 
 	 */
-	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "")
+	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "",
+		$a_tax_node = 0)
 	{
 		global $ilDB;
 		
 		$terms = array();
+		
+		// get all term ids under taxonomy node (if given)
+		if ($a_tax_node > 1)
+		{
+			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+			$tax_ids = ilObjTaxonomy::getUsageOfObject($a_glo_id);
+			if (count($tax_ids) > 0)
+			{
+				$items = ilObjTaxonomy::getSubTreeItems($tax_ids[0], $a_tax_node);
+				$sub_tree_ids = array();
+				foreach ($items as $i)
+				{
+					$sub_tree_ids[] = $i["item_id"];
+				}
+				$in = " AND ".$ilDB->in("gt.id", $sub_tree_ids, false, "integer");
+			}
+		}
 		
 		if ($a_def != "")
 		{
@@ -386,6 +404,8 @@ class ilGlossaryTerm
 			$where = " glo_id = ".$ilDB->quote($a_glo_id, "integer")." ";
 		}
 		
+		$where.= $in;
+		
 		$q = "SELECT gt.term, gt.id, gt.glo_id, gt.language FROM glossary_term gt ".$join." WHERE ".$where.$searchterm." ORDER BY term";
 		$term_set = $ilDB->query($q);
 //var_dump($q);
@@ -405,7 +425,7 @@ class ilGlossaryTerm
 	 * @param	string			first letter
 	 * @return	array			array of terms 
 	 */
-	static function getFirstLetters($a_glo_id)
+	static function getFirstLetters($a_glo_id, $a_tax_node = 0)
 	{
 		global $ilDB;
 		
@@ -419,6 +439,25 @@ class ilGlossaryTerm
 		else
 		{
 			$where = " glo_id = ".$ilDB->quote($a_glo_id, "integer")." ";
+			
+			// get all term ids under taxonomy node (if given)
+			if ($a_tax_node > 1)
+			{
+				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+				$tax_ids = ilObjTaxonomy::getUsageOfObject($a_glo_id);
+				if (count($tax_ids) > 0)
+				{
+					$items = ilObjTaxonomy::getSubTreeItems($tax_ids[0], $a_tax_node);
+					$sub_tree_ids = array();
+					foreach ($items as $i)
+					{
+						$sub_tree_ids[] = $i["item_id"];
+					}
+					$in = " AND ".$ilDB->in("id", $sub_tree_ids, false, "integer");
+				}
+			}
+			
+			$where.= $in;
 		}
 		
 		$q = "SELECT DISTINCT ".$ilDB->upper($ilDB->substr("term", 1, 1))." let FROM glossary_term WHERE ".$where." ORDER BY let";

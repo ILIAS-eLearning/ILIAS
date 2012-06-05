@@ -115,9 +115,18 @@ class ilTaxNodeAssignment
 	{
 		global $ilDB;
 		
-		$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
-			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer")
-			);
+		if (is_array($a_node_id))
+		{
+			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
+				" WHERE ".$ilDB->in("node_id", $a_node_id, false, "integer")
+				);
+		}
+		else
+		{
+			$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
+				" WHERE node_id = ".$ilDB->quote($a_node_id, "integer")
+				);
+		}
 		$ass = array();
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{

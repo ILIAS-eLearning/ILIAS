@@ -349,21 +349,21 @@ class ilObjGlossary extends ilObject
 	/**
 	* Get term list
 	*/
-	function getTermList($searchterm = "", $a_letter = "", $a_def = "")
+	function getTermList($searchterm = "", $a_letter = "", $a_def = "", $a_tax_node = 0)
 	{
 		$glo_ids = $this->getAllGlossaryIds();
  		
-		$list = ilGlossaryTerm::getTermList($glo_ids, $searchterm, $a_letter, $a_def);
+		$list = ilGlossaryTerm::getTermList($glo_ids, $searchterm, $a_letter, $a_def, $a_tax_node);
 		return $list;
 	}
 
 	/**
 	* Get term list
 	*/
-	function getFirstLetters()
+	function getFirstLetters($a_tax_node = 0)
 	{
 		$glo_ids = $this->getAllGlossaryIds();
-		$first_letters = ilGlossaryTerm::getFirstLetters($glo_ids);
+		$first_letters = ilGlossaryTerm::getFirstLetters($glo_ids, $a_tax_node);
 		return $first_letters;
 	}
 

@@ -294,6 +294,56 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		
 		$tpl->setLeftContent($output);
 	}
+	
+	/**
+	 * Get tree html
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getTreeHTML($a_tax_id, $a_class, $a_cmd)
+	{
+		global $ilUser, $tpl, $ilCtrl, $lng;
+
+		$lng->loadLanguageModule("tax");
+		
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+		require_once ("./Services/Taxonomy/classes/class.ilTaxonomyExplorer.php");
+		$a_tax_tree = new ilTaxonomyTree($a_tax_id);
+
+		$exp = new ilTaxonomyExplorer($ilCtrl->getLinkTargetByClass($a_class, $a_cmd), $a_tax_tree,
+			$a_class, $a_cmd);
+		$exp->setTargetGet("tax_node");
+		
+		$exp->setExpandTarget($ilCtrl->getLinkTargetByClass($a_class, $a_cmd));
+		
+		if ($_GET["txexpand"] == "")
+		{
+			$expanded = $a_tax_tree->readRootId();
+		}
+		else
+		{
+			$expanded = $_GET["txexpand"];
+		}
+
+		if ($_GET["tax_node"] > 0)
+		{
+			$path = $a_tax_tree->getPathId($_GET["tax_node"]);
+			$exp->setForceOpenPath($path);
+			$exp->highlightNode($_GET["tax_node"]);
+		}
+		else
+		{
+			$exp->highlightNode($a_tax_tree->readRootId());
+		}
+		$exp->setExpand($expanded);
+		// build html-output
+		$exp->setOutput(0);
+		$output = $exp->getOutput();
+
+		return $output;
+	}
+	
 
 	/**
 	 * Create tax node

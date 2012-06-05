@@ -1027,7 +1027,7 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 //		$this->tpl->parseCurrentBlock();
 //		$this->tpl->show(false);
 		
-		$tpl->setLeftContent($output);
+		$tpl->setLeftNavContent($output);
 	}
 
 }

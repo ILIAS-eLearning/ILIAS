@@ -181,7 +181,7 @@ class ilBookmarkAdministrationGUI
 			$etpl->setVariable("LINK_EXPLORER_HEADER",$this->ctrl->getLinkTarget($this));
 
 		$etpl->setVariable("EXPLORER",$output);
-		$tpl->setLeftContent($etpl->get());;
+		$tpl->setLeftNavContent($etpl->get());;
 	}
 
 

@@ -16,12 +16,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_glossary, $a_offline)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_glossary, $a_offline,
+		$a_tax_node)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		$this->glossary = $a_glossary;
 		$this->offline = $a_offline;
+		$this->tax_node = $a_tax_node;
 		$this->setId("glopr".$this->glossary->getId());
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -62,7 +64,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		//$this->setDefaultOrderDirection("asc");
 
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
-													$this->filter["definition"]));
+				$this->filter["definition"], $this->tax_node));
 		
 	}
 	
