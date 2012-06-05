@@ -79,9 +79,9 @@ class ilTimingPlaned
 
 	function validate()
 	{
-		include_once 'Modules/Course/classes/class.ilCourseItems.php';
-		$item_data = ilCourseItems::_getItem($this->getItemId());
-
+		include_once './Services/Object/classes/class.ilObjectActivation.php';
+		$item = ilObjectActivation::getItem($this->getItemId());
+		
 		if($this->getPlanedEndingTime() > $item_data['latest_end'])
 		{
 			return false;

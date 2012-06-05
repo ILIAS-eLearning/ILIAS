@@ -100,8 +100,6 @@ class ilCourseXMLWriter extends ilXmlWriter
 			
 			$this->__buildSetting();
 	
-			#$this->__buildObject($this->course_obj->getRefId());
-			
 			$this->__buildFooter();
 		}
 		elseif($this->getMode() == self::MODE_EXPORT)
@@ -368,46 +366,6 @@ class ilCourseXMLWriter extends ilXmlWriter
 		$this->xmlEndTag('Settings');
 
 		return true;
-	}
-
-	
-	// recursive
-	function __buildObject($a_parent_id)
-	{
-		$this->course_obj->initCourseItemObject();
-		$this->course_obj->items_obj->setParentId($a_parent_id);
-
-		foreach($this->course_obj->items_obj->getAllItems() as $item)
-		{
-			
-			if(!$tmp_obj =& ilObjectFactory::getInstanceByRefId($item['child'],false))
-			{
-				continue;
-			}
-		
-			$attr = array();
-			$attr['id'] = 'il_'.$this->ilias->getSetting('inst_id').'_'.$tmp_obj->getType().'_'.$item['child'];
-			$attr['type'] = $tmp_obj->getType();
-			$attr['Unlimited'] = $item['activation_unlimited'] ? 1 : 0;
-			$attr['Position'] = $item['position'];
-
-			$this->xmlStartTag('Object',$attr);
-			$this->xmlElement('Title',null,$item['title']);
-			$this->xmlElement('Description',null,$item['description']);
-			$this->xmlElement('Start',null,$item['activation_start']);
-			$this->xmlElement('End',null,$item['activation_end']);
-
-			if($item['type'] == 'file')
-			{
-				$this->xmlElement('FileType',null,$tmp_obj->getFileType());
-			}
-
-			$this->__buildObject($item['child']);
-			
-			$this->xmlEndTag('Object');
-
-			unset($tmp_obj);
-		}
 	}
 
 	function __buildFooter()

@@ -700,8 +700,8 @@ class ilCourseObjectivePresentationGUI
 
 
 	function __getAllTests()
-	{
-		foreach($items = $this->course_obj->items_obj->getItems() as $node)
+	{		
+		foreach(ilObjectActivation::getItems($this->course_obj->getRefId(), false) as $node)
 		{
 			switch($node['type'])
 			{
@@ -718,7 +718,7 @@ class ilCourseObjectivePresentationGUI
 		include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
 		$assigned = ilCourseObjectiveMaterials::_getAllAssignedMaterials($this->course_obj->getId());
 		
-		foreach($items = $this->course_obj->items_obj->getItems() as $node)
+		foreach(ilObjectActivation::getItems($this->course_obj->getRefId(), false) as $node)
 		{
 			if(in_array($node['ref_id'],$assigned))
 			{
@@ -776,7 +776,7 @@ class ilCourseObjectivePresentationGUI
 			$course_ref_id = $tree->checkForParentType($this->container_obj->getRefId(),'crs');
 			$this->course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id);
 		}
-		$this->course_obj->initCourseItemObject();
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		return true;
 	}
 	

@@ -166,9 +166,10 @@ class ilCourseStart
 		return true;
 	}
 
-	function getPossibleStarters(&$item_obj)
+	function getPossibleStarters()
 	{
-		foreach($item_obj->getItems() as $node)
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		foreach(ilObjectActivation::getItems($this->getRefId(), false) as $node)
 		{
 			switch($node['type'])
 			{

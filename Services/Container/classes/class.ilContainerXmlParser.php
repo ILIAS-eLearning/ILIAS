@@ -88,53 +88,52 @@ class ilContainerXmlParser
 		$visible = (string) $timing['Visible'];
 		$changeable = (string) $timing['Changeable'];
 		
-		include_once './Modules/Course/classes/class.ilCourseItems.php';
-		$crs_items = new ilCourseItems($a_parent_id,$a_parent_id);
-		$crs_items->setTimingType($type);
-		$crs_items->toggleVisible((bool) $visible);
-		$crs_items->toggleChangeable((bool) $changeable);
-		$crs_items->setItemId($a_ref_id);
-
+		include_once './Services/Object/classes/class.ilObjectActivation.php';
+		$crs_item = new ilObjectActivation();
+		$crs_item->setTimingType($type);
+		$crs_item->toggleVisible((bool) $visible);
+		$crs_item->toggleChangeable((bool) $changeable);
+		
 		foreach($timing->children() as $sub)
 		{
 			switch((string) $sub->getName())
 			{
 				case 'Start':
 					$dt = new ilDateTime((string) $sub,IL_CAL_DATETIME,ilTimeZone::UTC);
-					$crs_items->setTimingStart($dt->get(IL_CAL_UNIX));
+					$crs_item->setTimingStart($dt->get(IL_CAL_UNIX));
 					break;
 				
 				case 'End':
 					$dt = new ilDateTime((string) $sub,IL_CAL_DATETIME,ilTimeZone::UTC);
-					$crs_items->setTimingEnd($dt->get(IL_CAL_UNIX));
+					$crs_item->setTimingEnd($dt->get(IL_CAL_UNIX));
 					break;
 
 				case 'SuggestionStart':
 					$dt = new ilDateTime((string) $sub,IL_CAL_DATETIME,ilTimeZone::UTC);
-					$crs_items->setSuggestionStart($dt->get(IL_CAL_UNIX));
+					$crs_item->setSuggestionStart($dt->get(IL_CAL_UNIX));
 					break;
 
 				case 'SuggestionEnd':
 					$dt = new ilDateTime((string) $sub,IL_CAL_DATETIME,ilTimeZone::UTC);
-					$crs_items->setSuggestionEnd($dt->get(IL_CAL_UNIX));
+					$crs_item->setSuggestionEnd($dt->get(IL_CAL_UNIX));
 					break;
 				
 				case 'EarliestStart':
 					$dt = new ilDateTime((string) $sub,IL_CAL_DATETIME,ilTimeZone::UTC);
-					$crs_items->setEarliestStart($dt->get(IL_CAL_UNIX));
+					$crs_item->setEarliestStart($dt->get(IL_CAL_UNIX));
 					break;
 
 				case 'LatestEnd':
 					$dt = new ilDateTime((string) $sub,IL_CAL_DATETIME,ilTimeZone::UTC);
-					$crs_items->setLatestEnd($dt->get(IL_CAL_UNIX));
+					$crs_item->setLatestEnd($dt->get(IL_CAL_UNIX));
 					break;
 			}
 		}
 		
 		
-		if($crs_items->getTimingStart())
+		if($crs_item->getTimingStart())
 		{
-			$crs_items->update($a_ref_id);
+			$crs_item->update($a_ref_id, $a_parent_id);
 		}
 	}
 	

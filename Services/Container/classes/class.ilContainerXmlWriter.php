@@ -90,8 +90,8 @@ class ilContainerXmlWriter extends ilXmlWriter
 	 */
 	protected function writeCourseItemInformation($a_ref_id)
 	{
-		include_once './Modules/Course/classes/class.ilCourseItems.php';
-		$item = ilCourseItems::_getItem($a_ref_id);
+		include_once './Services/Object/classes/class.ilObjectActivation.php';
+		$item = ilObjectActivation::getItem($a_ref_id);
 		
 		$this->xmlStartTag(
 			'Timing',

@@ -729,13 +729,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			$source_obj->putInTree($target_obj->getRefId());
 			$source_obj->setPermissions($target_obj->getRefId());
 			
-			if($tree->checkForParentType($target_obj->getRefId(), 'crs'))
-			{
-				// Update crs_items
-				include_once './Modules/Course/classes/class.ilCourseItems.php';
- 				new ilCourseItems($target_obj,$target_obj->getRefId());
-			}
-
 			return $new_ref_id ? $new_ref_id : "0";
 		}
 		else

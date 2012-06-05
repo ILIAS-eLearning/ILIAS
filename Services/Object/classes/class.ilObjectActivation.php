@@ -252,8 +252,9 @@ class ilObjectActivation
 	 * Update db entry
 	 * 
 	 * @param int $a_ref_id
+	 * @param int $a_parent_id
 	 */
-	function update($a_ref_id)
+	function update($a_ref_id, $a_parent_id = null)
 	{
 		global $ilDB;
 		
@@ -265,9 +266,15 @@ class ilObjectActivation
 			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd(),'integer').", ".
 			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
 			"earliest_start = ".$ilDB->quote($this->getEarliestStart(),'integer').", ".
-			"latest_end = ".$ilDB->quote($this->getLatestEnd(),'integer').", ".
-			"visible = ".$ilDB->quote($this->enabledVisible(),'integer')." ".
-			"WHERE obj_id = ".$ilDB->quote($a_ref_id,'integer')."";
+			"latest_end = ".$ilDB->quote($this->getLatestEnd(),'integer').", ";
+		
+		if($a_parent_id)
+		{
+			$query .= "parent_id = ".$ilDB->quote($a_parent_id,'integer').", ";
+		}
+		
+		$query .=  "visible = ".$ilDB->quote($this->enabledVisible(),'integer')." ".
+			"WHERE obj_id = ".$ilDB->quote($a_ref_id,'integer');
 		$ilDB->manipulate($query);
 		
 		unset(self::$preloaded_data[$a_ref_id]);
@@ -460,6 +467,69 @@ class ilObjectActivation
 		return true;
 	}
 	
+	/**
+	 * Clone dependencies 
+	 *
+	 * @param int $a_ref_id
+	 * @param int $a_target_id
+	 * @param int $a_copy_id
+	 */
+	public static function cloneDependencies($a_ref_id,$a_target_id,$a_copy_id)
+	{
+	 	global $ilLog;
+	 	
+		$ilLog->write(__METHOD__.': Begin course items...');
+ 				
+		$items = self::getItems($a_ref_id);	 	
+	 	if(!$items)
+	 	{
+			$ilLog->write(__METHOD__.': No course items found.');
+	 		return true;
+	 	}
+		
+		// new course item object
+	 	if(!is_object($new_container = ilObjectFactory::getInstanceByRefId($a_target_id,false)))
+	 	{
+			$ilLog->write(__METHOD__.': Cannot create target object.');
+	 		return false;
+	 	}
+	 	
+	 	include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+	 	$cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+	 	$mappings = $cp_options->getMappings();	 			
+			 
+	 	foreach($items as $item)
+	 	{
+	 		if(!isset($mappings[$item['parent_id']]) or !$mappings[$item['parent_id']])
+	 		{
+				$ilLog->write(__METHOD__.': No mapping for parent nr. '.$item['parent_id']);
+	 			continue;
+	 		}
+	 		if(!isset($mappings[$item['obj_id']]) or !$mappings[$item['obj_id']])
+	 		{
+				$ilLog->write(__METHOD__.': No mapping for item nr. '.$item['obj_id']);
+	 			continue;
+	 		}			
+	 		$new_item_id = $mappings[$item['obj_id']];
+	 		$new_parent = $mappings[$item['parent_id']];
+	 		
+			$new_item = new self();
+	 		$new_item->setTimingType($item['timing_type']);
+	 		$new_item->setTimingStart($item['timing_start']);
+	 		$new_item->setTimingEnd($item['timing_end']);
+	 		$new_item->setSuggestionStart($item['suggestion_start']);
+	 		$new_item->setSuggestionEnd($item['suggestion_end']);
+	 		$new_item->toggleChangeable($item['changeable']);
+	 		$new_item->setEarliestStart($item['earliest_start']);
+	 		$new_item->setLatestEnd($item['latest_end']);
+	 		$new_item->toggleVisible($item['visible']);
+	 		$new_item->update($new_item_id, $new_parent);
+			
+			$ilLog->write(__METHOD__.': Added new entry for item nr. '.$item['obj_id']);
+	 	}
+		$ilLog->write(__METHOD__.': Finished course items.');
+	}
+	
 	
 	//
 	// TIMINGS VIEW RELATED (COURSE ONLY)
@@ -584,9 +654,10 @@ class ilObjectActivation
 	 * Get sub item data
 	 * 
 	 * @param int $a_parent_id
+	 * @param bool $a_with_list_data
 	 * @return array 
 	 */
-	public static function getItems($a_parent_id)
+	public static function getItems($a_parent_id, $a_with_list_data = true)
 	{
 		global $tree;
 		
@@ -608,7 +679,15 @@ class ilObjectActivation
 			
 			foreach($items as $idx => $item)
 			{				
-				$items[$idx] = array_merge($item, self::getItem($item['ref_id']));
+				if(!$a_with_list_data)
+				{
+					$items[$idx] = array_merge($item, self::getItem($item['ref_id']));
+				}
+				else
+				{
+					self::addAdditionalSubItemInformation($item);
+					$items[$idx] = $item;
+				}
 			}
 		}
 		
@@ -623,7 +702,7 @@ class ilObjectActivation
 	 */
 	public static function getTimingsAdministrationItems($a_parent_id)
 	{		
-		$items = self::getItems($a_parent_id);
+		$items = self::getItems($a_parent_id, false);
 		
 		if($items)
 		{			

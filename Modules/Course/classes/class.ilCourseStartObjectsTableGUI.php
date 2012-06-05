@@ -70,11 +70,9 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
 	}
 	
 	protected function getPossibleObjects($a_obj_course, $crs_start)
-	{
-		$a_obj_course->initCourseItemObject();
-		
+	{		
 		$data = array();		
-		foreach($crs_start->getPossibleStarters($a_obj_course->items_obj) as $item_ref_id)
+		foreach($crs_start->getPossibleStarters() as $item_ref_id)
 		{
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($item_ref_id);
 

@@ -108,19 +108,11 @@ class ilObjFolder extends ilContainer
 	 * 
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
-	{
-		global $tree;
-		
+	{		
 		parent::cloneDependencies($a_target_id,$a_copy_id);
 
-		if($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs') and
-			$new_course_ref_id = $tree->checkForParentType($a_target_id,'crs'))
-		{
-			include_once('Modules/Course/classes/class.ilCourseItems.php');
-			$course_obj =& ilObjectFactory::getInstanceByRefId($course_ref_id,false);
-			$course_items = new ilCourseItems($course_obj->getRefId(),$this->getRefId());
-			$course_items->cloneDependencies($a_target_id,$a_copy_id);			
-		}
+		include_once('Services/Object/classes/class.ilObjectActivation.php');
+		ilObjectActivation::cloneDependencies($this->getRefId(), $a_target_id, $a_copy_id);
 		
 		include_once('Services/Tracking/classes/class.ilLPCollections.php');
 		$lp_collection = new ilLPCollections($this->getId());
@@ -236,25 +228,9 @@ class ilObjFolder extends ilContainer
 	* courses for timings information etc.
 	*/
 	function addAdditionalSubItemInformation(&$a_item_data)
-	{
-		global $tree;
-		
-		static $items = null;
-		
-		if(!is_object($items[$this->getRefId()]))
-		{
-			if ($course_ref_id = $tree->checkForParentType($this->getRefId(),'crs'))
-			{
-				include_once("./Modules/Course/classes/class.ilObjCourse.php");
-				include_once("./Modules/Course/classes/class.ilCourseItems.php");
-				$course_obj = new ilObjCourse($course_ref_id);
-				$items[$this->getRefId()] = new ilCourseItems($course_obj->getRefId(), $this->getRefId());
-			}
-		}
-		if(is_object($items[$this->getRefId()]))
-		{
-			$items[$this->getRefId()]->addAdditionalSubItemInformation($a_item_data);
-		}
+	{		
+		include_once './Services/Object/classes/class.ilObjectActivation.php';
+		ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
 	}
 	
 	/**
