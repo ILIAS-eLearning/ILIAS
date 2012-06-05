@@ -4960,7 +4960,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "disableAdministrationPanel"));
 			}
 		}
-		include_once 'Modules/Course/classes/class.ilCourseItems.php';
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
 		{
 			$this->tabs_gui->addSubTabTarget('timings_timings',
@@ -4969,14 +4968,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->addStandardContainerSubTabs(false);
 
-		/*
-		if($is_tutor)
-		{
-			$this->tabs_gui->addSubTabTarget('crs_archives',
-				$this->ctrl->getLinkTargetByClass(
-					array('ilcoursecontentgui', 'ilcoursearchivesgui'),'view'));
-		}
-		*/
 		return true;
 	}
 	

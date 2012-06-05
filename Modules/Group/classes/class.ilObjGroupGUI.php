@@ -353,10 +353,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// has parent course
 		if($crs_refid = $tree->checkForParentType($this->object->getRefId(),'crs'))
-		{
-			include_once './Modules/Course/classes/class.ilCourseItems.php';
-			$tmp = new ilCourseItems($crs_refid,$this->object->getRefId());
-
+		{			
 			$sort_mode = ilContainer::SORT_INHERIT;
 		}
 		else

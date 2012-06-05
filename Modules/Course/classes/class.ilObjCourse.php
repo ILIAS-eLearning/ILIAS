@@ -46,8 +46,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	private $member_obj = null;
 	private $members_obj = null;
 	var $archives_obj;
-	var $items_obj;
-	
 	
 	private $latitude = '';
 	private $longitude = '';
@@ -856,9 +854,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * 
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
-	{
-		global $ilObjDataCache;
-		
+	{		
 		parent::cloneDependencies($a_target_id,$a_copy_id);
 		
 	 	// Clone course start objects
@@ -867,8 +863,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 	$start->cloneDependencies($a_target_id,$a_copy_id);
 	 	
 	 	// Clone course item settings
-		$this->initCourseItemObject();
-		$this->items_obj->cloneDependencies($a_target_id,$a_copy_id);
+		include_once('Services/Object/classes/class.ilObjectActivation.php');
+		ilObjectActivation::cloneDependencies($this->getRefId(),$a_target_id,$a_copy_id);
 		
 		// Clone course learning objectives
 		include_once('Modules/Course/classes/class.ilCourseObjective.php');
@@ -1030,9 +1026,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		// put here course specific stuff
 
 		$this->__deleteSettings();
-
-		$this->initCourseItemObject();
-		$this->items_obj->deleteAllEntries();
 
 		include_once('Modules/Course/classes/class.ilCourseParticipants.php');
 		ilCourseParticipants::_deleteAllEntries($this->getId());
@@ -1369,35 +1362,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		return $this->members_obj;
 	}
-
-	function initCourseItemObject($a_child_id = 0)
-	{
-		include_once "./Modules/Course/classes/class.ilCourseItems.php";
-		
-		if(!is_object($this->items_obj))
-		{
-			$this->items_obj = new ilCourseItems($this->getRefId(),$a_child_id);
-		}
-		return true;
-	}
-	
-	/**
-	 * get course item object
-	 *
-	 * @access public
-	 * @param
-	 * @return object
-	 */
-	public function getCourseItemObject()
-	{
-		if(is_object($this->items_obj))
-		{
-			return $this->items_obj;
-		}
-		$this->initCourseItemObject();
-		return $this->items_obj;
-	}
-	
 
 	function initCourseArchiveObject()
 	{
@@ -1878,12 +1842,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	*/
 	function addAdditionalSubItemInformation(&$a_item_data)
 	{
-		global $ilBench;
-		
-		$ilBench->start("Course", "initCourseItemObject");
-		$this->initCourseItemObject();
-		$ilBench->stop("Course", "initCourseItemObject");
-
+		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
 	}
 	

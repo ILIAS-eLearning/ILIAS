@@ -378,8 +378,9 @@ class ilCourseContentGUI
 		$column_gui->setBlockProperty("news", "title",
 			$lng->txt("crs_news"));
 		
-		$grouped_items = array();
-		foreach($this->course_obj->items_obj->items as $item)
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		$grouped_items = array();		
+		foreach(ilObjectActivation::getItems($this->container_obj->getRefId()) as $item)
 		{
 			$grouped_items[$item["type"]][] = $item;
 		}
@@ -422,9 +423,6 @@ class ilCourseContentGUI
 		
 		include_once("Services/Block/classes/class.ilColumnGUI.php");
 
-		// this gets us the subitems we need in setColumnSettings()
-		$this->course_obj->initCourseItemObject($this->container_obj->getRefId());
-		
 		$obj_id = ilObject::_lookupObjId($this->container_obj->getRefId());
 		$obj_type = ilObject::_lookupType($obj_id);
 
@@ -844,8 +842,7 @@ class ilCourseContentGUI
 
 		$this->tpl->parseCurrentBlock();
 
-		$sub_items_obj = new ilCourseItems($this->course_obj->getRefId(),$item['ref_id'],$_GET['member_id']);
-		foreach($sub_items_obj->getItems() as $item_data)
+		foreach(ilObjectActivation::getTimingsAdministrationItems($item['ref_id']) as $item_data)
 		{
 			if(($item_data['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) or
 			   ilObjectActivation::hasChangeableTimings($item_data['ref_id']))
@@ -1084,9 +1081,8 @@ class ilCourseContentGUI
 		{
 			return true;
 		}
-
-		$sub_items_obj = new ilCourseItems($this->course_obj->getRefId(),$item['ref_id']);
-		foreach($sub_items_obj->getItems() as $item_data)
+		
+		foreach(ilObjectActivation::getTimingsItems($item['ref_id']) as $item_data)
 		{
 			$this->__renderItem($item_data,$level+1);
 		}
