@@ -614,7 +614,7 @@ class ilContainer extends ilObject
 				}
 			}
 			// END WebDAV: Don't display hidden Files, Folders and Categories
-
+			
 			// filter out items that are attached to an event
 			if (in_array($object['ref_id'],$event_items))
 			{
@@ -627,36 +627,16 @@ class ilContainer extends ilObject
 				continue;
 			}
 
-			// group object type groups together (e.g. learning resources)
-			$type = $objDefinition->getGroupOfObj($object["type"]);
-			if ($type == "")
-			{
-				$type = $object["type"];
-			}
-			
-			$this->addAdditionalSubItemInformation($object);
-			
-			$this->items[$type][$key] = $object;
-			
 			$all_obj_types[$object["type"]] = $object["type"];
 			$obj_ids_of_type[$object["type"]][] = $object["obj_id"];
 			$ref_ids_of_type[$object["type"]][] = $object["child"];
 
 			$all_ref_ids[] = $object["child"];
-			$all_obj_ids[] = $object["obj_id"];
-
-			$this->items["_all"][$key] = $object;
-			if ($object["type"] != "sess")
-			{
-				$this->items["_non_sess"][$key] = $object;
-			}
+			$all_obj_ids[] = $object["obj_id"];					
 		}
-
-		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]
-			= $sort->sortItems($this->items);
-
+						
 		// data preloader
-		if (!self::$data_preloaded && is_array($this->items))
+		if (!self::$data_preloaded && sizeof($all_ref_ids))
 		{
 			// type specific preloads
 			foreach ($all_obj_types as $t)
@@ -680,12 +660,45 @@ class ilContainer extends ilObject
 			$ilObjDataCache->preloadReferenceCache($all_ref_ids, false);
 			ilObjUser::preloadIsDesktopItem($ilUser->getId(), $all_ref_ids);
 			$rbacsystem->preloadRbacPaCache($all_ref_ids, $ilUser->getId());
+						
 			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-
-			ilObjectListGUI::preloadCommonProperties($all_obj_ids);
+			ilObjectListGUI::preloadCommonProperties($all_obj_ids);			
+			
+			include_once("./Services/Object/classes/class.ilObjectActivation.php");
+			ilObjectActivation::preloadData($all_ref_ids);		
 
 			self::$data_preloaded = true;
 		}
+		
+		foreach($objects as $key => $object)
+		{					
+			// see above, objects were filtered
+			if(!in_array($object["child"], $all_ref_ids))
+			{
+				continue;
+			}
+			
+			// group object type groups together (e.g. learning resources)
+			$type = $objDefinition->getGroupOfObj($object["type"]);
+			if ($type == "")
+			{
+				$type = $object["type"];
+			}
+			
+			// this will add activation properties (ilObjectActivation)
+			$this->addAdditionalSubItemInformation($object);
+			
+			$this->items[$type][$key] = $object;
+						
+			$this->items["_all"][$key] = $object;
+			if ($object["type"] != "sess")
+			{
+				$this->items["_non_sess"][$key] = $object;
+			}
+		}
+		
+		$this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]
+			= $sort->sortItems($this->items);
 
 		return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
 	}

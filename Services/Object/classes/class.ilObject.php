@@ -1383,7 +1383,7 @@ class ilObject
 				// raise error
 				$this->ilias->raiseError("ilObject::delete(): Type mismatch. (".$this->type."/".$this->id.")",$this->ilias->error_obj->WARNING);
 			}
-
+			
 			// delete entry in object_data
 			$q = "DELETE FROM object_data ".
 				"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
@@ -1441,7 +1441,10 @@ class ilObject
 
 		// delete object_reference entry
 		if ($this->referenced)
-		{
+		{			
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			ilObjectActivation::deleteAllEntries($this->getRefId());
+			
 			// delete entry in object_reference
 			$query = "DELETE FROM object_reference ".
 				"WHERE ref_id = ".$ilDB->quote($this->getRefId(),'integer');

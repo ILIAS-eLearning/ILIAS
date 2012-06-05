@@ -136,6 +136,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				break;
 			
 			case "ilcommonactiondispatchergui":
+				$this->prepareOutput();
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);

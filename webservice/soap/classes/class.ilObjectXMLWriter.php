@@ -172,18 +172,18 @@ class ilObjectXMLWriter extends ilXmlWriter
 		if(!$tree->checkForParentType($a_ref_id,'crs')) {
 			return;	
 		}
-		include_once('./Modules/Course/classes/class.ilCourseItems.php');
-		$time_targets = ilCourseItems::_getItem($a_ref_id);
+		include_once('./Services/Object/classes/class.ilObjectActivation.php');
+		$time_targets = ilObjectActivation::getItem($a_ref_id);
 		
 		switch($time_targets['timing_type'])
 		{
-			case IL_CRS_TIMINGS_DEACTIVATED:
+			case ilObjectActivation::TIMINGS_DEACTIVATED:
 				$type = self::TIMING_DEACTIVATED;
 				break;
-			case IL_CRS_TIMINGS_ACTIVATION:
+			case ilObjectActivation::TIMINGS_ACTIVATION:
 				$type = self::TIMING_TEMPORARILY_AVAILABLE;
 				break;
-			case IL_CRS_TIMINGS_PRESETTING:
+			case ilObjectActivation::TIMINGS_PRESETTING:
 				$type = self::TIMING_PRESETTING;
 				break;
 			default:

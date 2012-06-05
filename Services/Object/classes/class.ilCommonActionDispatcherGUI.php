@@ -7,7 +7,7 @@
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id: class.ilInfoScreenGUI.php 30682 2011-09-16 19:33:22Z akill $
 *
-* @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI
+* @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
 *
 * @ingroup ServicesObject
 */
@@ -179,9 +179,15 @@ class ilCommonActionDispatcherGUI
 				include_once "Services/Tagging/classes/class.ilTaggingGUI.php";
 				$tags_gui = new ilTaggingGUI($this->node_id);										
 				$tags_gui->setObject($this->obj_id, $this->obj_type);
-
 				$ilCtrl->forwardCommand($tags_gui);						
 				break;
+			
+			case "ilobjectactivationgui":
+				$ilCtrl->setParameter($this, "parent_id", (int)$_REQUEST['parent_id']);
+				include_once 'Services/Object/classes/class.ilObjectActivationGUI.php';				
+				$act_gui = new ilObjectActivationGUI((int)$_REQUEST['parent_id'],$this->node_id);
+				$ilCtrl->forwardCommand($act_gui);
+				break;			
 
 			default:				
 				break;

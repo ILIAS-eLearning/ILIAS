@@ -175,7 +175,6 @@ abstract class ilContainerContentGUI
 
 		// this gets us the subitems we need in setColumnSettings()
 		// todo: this should be done in ilCourseGUI->getSubItems
-		//$this->course_obj->initCourseItemObject($this->getContainerObject()->getRefId());
 		
 		$obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -444,13 +443,14 @@ abstract class ilContainerContentGUI
 		)
 		{											
 			$pos = 1;
-			
-			include_once('./Services/Container/classes/class.ilContainerSorting.php');
-			$items = $this->getContainerObject()->items_obj->getItemsByEvent($a_item_data['obj_id']);
+						
+			include_once('./Services/Container/classes/class.ilContainerSorting.php');			
+			include_once('./Services/Object/classes/class.ilObjectActivation.php');			
+			$items = ilObjectActivation::getItemsByEvent($a_item_data['obj_id']);
 			$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('sess',$a_item_data['obj_id'],$items);
 			
 			foreach($items as $item)
-			{
+			{				
 				// TODO: this should be removed and be handled by if(strlen($sub_item_html))
 				// 	see mantis: 0003944
 				if(!$ilAccess->checkAccess('visible','',$item['ref_id']))
@@ -472,13 +472,11 @@ abstract class ilContainerContentGUI
 						$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",
 							sprintf('%d', (int)$pos*10));
 						$pos++;
-					}
-					
+					}					
 				}
 				$sub_item_html = $item_list_gui2->getListItemHTML($item['ref_id'],
 					$item['obj_id'], $item['title'], $item['description']);
-					
-					
+										
 				$this->determineAdminCommands($item["ref_id"],$item_list_gui2->adminCommandsIncluded());
 				if(strlen($sub_item_html))
 				{
@@ -495,6 +493,44 @@ abstract class ilContainerContentGUI
 					"getAsynchItemList", "", true, false);
 			$ilCtrl->setParameter($this->container_gui, "cmdrefid", "");
 		}
+		
+		
+		
+		
+							
+		// add activation custom property		
+		if(isset($a_item_data['timing_type']))
+		{
+			include_once "Services/Object/classes/class.ilObjectActivation.php";
+			
+			$activation = '';
+			switch($a_item_data['timing_type'])
+			{
+				case ilObjectActivation::TIMINGS_ACTIVATION:
+					$activation = ilDatePresentation::formatPeriod(
+						new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
+						new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
+					break;
+						
+				case ilObjectActivation::TIMINGS_PRESETTING:
+					$activation = ilDatePresentation::formatPeriod(
+						new ilDate($a_item_data['start'],IL_CAL_UNIX),
+						new ilDate($a_item_data['end'],IL_CAL_UNIX));
+					break;					
+			}
+			
+			if ($activation != "")
+			{
+				global $lng;
+				$lng->loadLanguageModule('crs');
+				
+				$item_list_gui->addCustomProperty($lng->txt($a_item_data['activation_info']),
+					$activation, false, true);	
+			}
+		}
+					
+		
+		
 		
 		$html = $item_list_gui->getListItemHTML($a_item_data['ref_id'],
 			$a_item_data['obj_id'], $a_item_data['title'], $a_item_data['description'],

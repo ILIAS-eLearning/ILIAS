@@ -15,7 +15,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI, ilCourseItemAdministrationGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI
@@ -1712,17 +1712,7 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"));					
 				}
 				break;
-				
-			case "item_activation":
-				$this->tabs_gui->addSubTabTarget("activation",
-												 $this->ctrl->getLinkTargetByClass('ilCourseItemAdministrationGUI','edit'),
-												 "edit", get_class($this));
-				$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',(int) $_GET['item_id']);
-				$this->tabs_gui->addSubTabTarget("preconditions",
-												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
-												 "", "ilConditionHandlerInterface");
-				break;
-				
+			
 			case 'members':
 				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
@@ -2012,8 +2002,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilObjUserTracking::_enabledUserRelatedData() and
 			ilLPObjSettings::_lookupMode($this->object->getId()) != LP_MODE_DEACTIVATED);
 
-		include_once('./Modules/Course/classes/class.ilCourseItems.php');
-		$this->timings_enabled = (ilCourseItems::_hasTimings($this->object->getRefId()) and 
+		include_once('./Services/Object/classes/class.ilObjectActivation.php');
+		$this->timings_enabled = (ilObjectActivation::hasTimings($this->object->getRefId()) and 
 			($this->object->getViewMode() == IL_CRS_VIEW_TIMING));
 			
 		$this->setSubTabs('members');
@@ -4309,26 +4299,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case "ilconditionhandlerinterface":
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
-				
-				// preconditions for single course items
-				if($_GET['item_id'])
-				{
-					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-					$this->tabs_gui->setTabActive('content');
-					$this->setSubTabs("item_activation");
-
-					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
-					$this->ctrl->forwardCommand($new_gui);
-				}
-				else	// preconditions for whole course
-				{
-					$this->setSubTabs("properties");
-					$this->tabs_gui->setTabActive('settings');
-					$new_gui =& new ilConditionHandlerInterface($this);
-
-					$this->ctrl->forwardCommand($new_gui);
-				}
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';				
+				// preconditions for whole course				
+				$this->setSubTabs("properties");
+				$this->tabs_gui->setTabActive('settings');
+				$new_gui =& new ilConditionHandlerInterface($this);
+				$this->ctrl->forwardCommand($new_gui);				
 				break;
 
 			case "illearningprogressgui":
@@ -4431,15 +4407,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$overview = new ilSessionOverviewGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($overview);				
 				break;
-				
-			case 'ilcourseitemadministrationgui':
-				include_once 'Modules/Course/classes/class.ilCourseItemAdministrationGUI.php';
-				$this->tabs_gui->clearSubTabs();
-				$this->ctrl->setReturn($this,'view');
-				$item_adm_gui = new ilCourseItemAdministrationGUI($this->object,(int) $_REQUEST['item_id']);
-				$this->ctrl->forwardCommand($item_adm_gui);
-				break;
-				
+			
 			// container page editing
 			case "ilpageobjectgui":
 				$ret = $this->forwardToPageObject();
@@ -4703,28 +4671,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->cci_obj->cci_objectives();
 	}
 
-
-	// Methods for ConditionHandlerInterface
-	function initConditionHandlerGUI($item_id)
-	{
-		include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
-
-		if(!is_object($this->chi_obj))
-		{
-			if($_GET['item_id'])
-			{
-				$this->chi_obj =& new ilConditionHandlerInterface($this,$item_id);
-				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-			}
-			else
-			{
-				$this->chi_obj =& new ilConditionHandlerInterface($this);
-			}
-		}
-		return true;
-	}
-
-
 	function addLocatorItems()
 	{
 		global $ilLocator;
@@ -4944,7 +4890,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	static function _modifyItemGUI($a_item_list_gui, $a_cmd_class, $a_item_data, $a_show_path,
 		$a_abo_status, $a_course_ref_id, $a_course_obj_id, $a_parent_ref_id = 0)
 	{
-		global $lng, $ilCtrl, $ilAccess;
+		global $lng, $ilAccess;
 		
 		// this is set for folders within the course
 		if ($a_parent_ref_id == 0)
@@ -4958,63 +4904,19 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$a_item_list_gui->addCommandLinkParameter(array('crs_show_result' => $a_course_ref_id));				
 		}
-		
-		// ACTIVATION
-		$activation = '';
-		if(isset($a_item_data['timing_type']))
-		{
-			switch($a_item_data['timing_type'])
-			{
-				case IL_CRS_TIMINGS_ACTIVATION:
-						$activation = ilDatePresentation::formatPeriod(
-						new ilDateTime($a_item_data['start'],IL_CAL_UNIX),
-						new ilDateTime($a_item_data['end'],IL_CAL_UNIX));
-						break;
-						
-				case IL_CRS_TIMINGS_PRESETTING:
-						$activation = ilDatePresentation::formatPeriod(
-						new ilDate($a_item_data['start'],IL_CAL_UNIX),
-						new ilDate($a_item_data['end'],IL_CAL_UNIX));
-						break;
-						
-				default:
-					$activation = '';
-					break;
-			}
-		}
-
+				
 		$a_item_list_gui->enableSubscribe($a_abo_status);
-		
-		// add activation custom property
-		if ($activation != "")
-		{
-			$a_item_list_gui->addCustomProperty($lng->txt($a_item_data['activation_info']), $activation,
-				false, true);
-		}
-
+	
 		$is_tutor = ($ilAccess->checkAccess('write','',
 			$a_course_ref_id,'crs', $a_course_obj_id));
 		
 		if($a_show_path and $is_tutor)
 		{
-			$a_item_list_gui->addCustomProperty($lng->txt('path'),
-				
+			$a_item_list_gui->addCustomProperty($lng->txt('path'),				
 				ilContainer::_buildPath($a_item_data['ref_id'], $a_course_ref_id),
 				false,
 				true);
-		}
-
-		if($is_tutor)
-		{
-			$ilCtrl->setParameterByClass('ilcourseitemadministrationgui',"ref_id",
-				$a_parent_ref_id);
-			$ilCtrl->setParameterByClass('ilcourseitemadministrationgui',"item_id",
-				$a_item_data['child']);
-			$a_item_list_gui->addCustomCommand($ilCtrl->getLinkTargetByClass(
-				array(strtolower($a_cmd_class), 'ilCourseItemAdministrationGUI'),
-				'edit'),
-				'activation');
-		}
+		}	
 	}
 	
 	/**

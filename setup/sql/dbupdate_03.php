@@ -9741,3 +9741,7 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 ));
 ?>
 
+<#3587>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

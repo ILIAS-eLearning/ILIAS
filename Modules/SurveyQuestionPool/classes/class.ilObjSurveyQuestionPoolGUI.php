@@ -34,6 +34,7 @@ include_once "./Modules/Survey/classes/inc.SurveyConstants.php";
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: SurveyMatrixQuestionGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilSurveyPhrasesGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilCommonActionDispatcherGUI
 *
 * @extends ilObjectGUI
 * @ingroup ModulesSurveyQuestionPool
@@ -121,6 +122,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			
 			case 'ilinfoscreengui':
 				$this->infoScreenForward();
+				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case "":

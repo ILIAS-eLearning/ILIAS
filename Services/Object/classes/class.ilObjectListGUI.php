@@ -85,6 +85,8 @@ class ilObjectListGUI
 	protected $notes_enabled = false;
 	protected $tags_enabled = false;
 	
+	protected $timings_enabled = true;
+	
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
 	static protected $comments_activation = array();
@@ -1682,7 +1684,7 @@ class ilObjectListGUI
 				}
 			}
 		}
-
+		
 		$cnt = 1;
 		if (is_array($props) && count($props) > 0)
 		{
@@ -2423,6 +2425,34 @@ class ilObjectListGUI
 				"", "", ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $js_updater));
 		}		
 	}
+	
+	/**
+	* insert edit timings command
+	*
+	* @access	protected
+	*/
+	function insertTimingsCommand()
+	{		
+		if ($this->std_cmd_only || !$this->container_obj->object)
+		{
+			return;
+		}
+		
+		$parent_ref_id = $this->container_obj->object->getRefId();
+		$parent_type = $this->container_obj->object->getType();
+		
+		if($this->checkCommandAccess('write','',$parent_ref_id,$parent_type))
+		{												
+			$this->ctrl->setParameterByClass('ilobjectactivationgui','cadh',
+				$this->ajax_hash);	
+			$this->ctrl->setParameterByClass('ilobjectactivationgui','parent_id',
+				$parent_ref_id);											
+			$cmd_lnk = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'),
+				'edit');
+			
+			$this->insertCommand($cmd_lnk, $this->lng->txt('activation'));			
+		}
+	}
 
 	/**
 	* insert all commands into html code
@@ -2543,6 +2573,12 @@ class ilObjectListGUI
 
 			if (!$this->isMode(IL_LIST_AS_TRIGGER))
 			{
+				// edit timings
+				if($this->timings_enabled)
+				{
+					$this->insertTimingsCommand();
+				}
+				
 				// delete
 				if ($this->delete_enabled)
 				{

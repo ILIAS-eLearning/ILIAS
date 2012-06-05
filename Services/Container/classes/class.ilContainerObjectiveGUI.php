@@ -335,7 +335,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$objective = new ilCourseObjective($this->getContainerObject(),$a_objective_id);
 		
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
-		$items = $this->getContainerObject()->getCourseItemObject()->getItemsByObjective($a_objective_id);
+		include_once('./Services/Object/classes/class.ilObjectActivation.php');
+		$items = ilObjectActivation::getItemsByObjective($a_objective_id);
 		$items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('lobj',$a_objective_id,$items);
 
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
