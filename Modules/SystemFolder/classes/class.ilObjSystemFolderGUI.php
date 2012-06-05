@@ -2826,7 +2826,17 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$wsdl->setSize(60);
 		$wsdl->setMaxLength(255);
 		$this->form->addItem($wsdl);
-	
+
+		// response timeout
+		$ctime = new ilNumberInputGUI($this->lng->txt('soap_connect_timeout'), 'ctimeout');
+		$ctime->setMinValue(1);
+		$ctime->setSize(2);
+		$ctime->setMaxLength(3);
+		include_once './Services/WebServices/SOAP/classes/class.ilSoapClient.php';
+		$ctime->setValue((int) $ilSetting->get('soap_connect_timeout',  ilSoapClient::DEFAULT_CONNECT_TIMEOUT));
+		$ctime->setInfo($this->lng->txt('soap_connect_timeout_info'));
+		$this->form->addItem($ctime);
+
 		$this->form->addCommandButton("saveWebServices", $lng->txt("save"));
 	                
 		$this->form->setTitle($lng->txt("webservices"));
@@ -2851,7 +2861,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		if ($this->form->checkInput())
 		{
 			$ilSetting->set('soap_user_administration', $this->form->getInput('soap_user_administration'));
-			$ilSetting->set('soap_wsdl_path', trim($this->form->getInput('soap_wsdl_path')));	
+			$ilSetting->set('soap_wsdl_path', trim($this->form->getInput('soap_wsdl_path')));
+			$ilSetting->set('soap_connect_timeout',$this->form->getInput('ctimeout'));
 			
 			ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
 			$ilCtrl->redirect($this, 'showWebServices');
