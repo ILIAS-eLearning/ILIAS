@@ -555,12 +555,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$radg->addOption($op2);
 		$this->form->addItem($radg);
 
-		
-		// menu enabled?
-/*
-		$cb = new ilCheckboxInputGUI($lng->txt("cont_glo_menu"), "glo_act_menu");
-		$cb->setValue("y");
-		$this->form->addItem($cb);*/
+		// show taxonomy
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
+		if (count($tax_ids) > 0)
+		{ 
+			$cb = new ilCheckboxInputGUI($this->lng->txt("glo_show_taxonomy"), "show_tax");
+			$this->form->addItem($cb);
+		}
 		
 		// downloads
 		$cb = new ilCheckboxInputGUI($lng->txt("cont_downloads"), "glo_act_downloads");
@@ -588,6 +590,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$values["glo_act_downloads"] = $this->object->isActiveDownloads();
 		$values["pres_mode"] = $this->object->getPresentationMode();
 		$values["snippet_length"] = $this->object->getSnippetLength();
+		$values["show_tax"] = $this->object->getShowTaxonomy();
 	
 		$this->form->setValuesByArray($values);
 	}
@@ -608,6 +611,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->object->setActiveDownloads(ilUtil::yn2tf($_POST["glo_act_downloads"]));
 			$this->object->setPresentationMode($_POST["pres_mode"]);
 			$this->object->setSnippetLength($_POST["snippet_length"]);
+			$this->object->setShowTaxonomy($_POST["show_tax"]);
 			$this->object->update();
 
 			// set definition short texts dirty
