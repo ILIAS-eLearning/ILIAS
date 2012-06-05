@@ -21,6 +21,13 @@
 	+-----------------------------------------------------------------------------+
 */
 
+// @deprecated
+define('DEFAULT_TIMEOUT',5);
+// @deprecated
+define('DEFAULT_RESPONSE_TIMEOUT',30);
+
+include_once './webservice/soap/lib/nusoap.php';
+
 
 /**
 * Wrapper class for NuSOAP soap_client
@@ -30,13 +37,11 @@
 *
 * @package ilias
 */
-define('DEFAULT_TIMEOUT',5);
-define('DEFAULT_RESPONSE_TIMEOUT',30);
-
-include_once './webservice/soap/lib/nusoap.php';
-
 class ilSoapClient
 {
+	const DEFAULT_CONNECT_TIMEOUT = 10;
+	const DEFAULT_RESPONSE_TIMEOUT = 5;
+
 	var $server = '';
 	var $timeout = null;
 	var $response_timeout = null;
@@ -63,6 +68,8 @@ class ilSoapClient
 		{
 			return $this->server = trim($ilSetting->get('soap_wsdl_path'));
 		}
+
+		$this->setTimeout($ilSetting->get('soap_connect_timeout'), self::DEFAULT_CONNECT_TIMEOUT);
 		
 		$this->server = ILIAS_HTTP_PATH.'/webservice/soap/server.php?wsdl';
 	}
@@ -78,7 +85,7 @@ class ilSoapClient
 	}
 	function getTimeout()
 	{
-		return $this->timeout ? $this->timeout : DEFAULT_TIMEOUT;
+		return $this->timeout ? $this->timeout : self::DEFAULT_CONNECT_TIMEOUT;
 	}
 
 	function setResponseTimeout($a_timeout)
