@@ -151,8 +151,25 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		$tax = $this->determineAOCurrentTaxonomy();
 		
 		// show toolbar
-		$ilToolbar->addButton($lng->txt("tax_create_node"),
-			$ilCtrl->getLinkTarget($this, "createTaxNode"));
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+		$ilToolbar->addFormButton($lng->txt("tax_create_node"), "createTaxNode");
+		
+		// settings
+		$ilToolbar->addSeparator();
+		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+		$options = array(
+			ilObjTaxonomy::SORT_ALPHABETICAL => $lng->txt("tax_alphabetical"),
+			ilObjTaxonomy::SORT_MANUAL => $lng->txt("tax_manual")
+			);
+		$si = new ilSelectInputGUI($lng->txt("tax_sorting"), "sorting");
+		$si->setValue($this->determineAOCurrentTaxonomy()->getSortingMode());
+		$si->setOptions($options);
+		$ilToolbar->addInputItem($si, true);
+		
+		$ilToolbar->addFormButton($lng->txt("save"), "saveSettingsAndSorting");
+		
+		$ilToolbar->setCloseFormTag(false);
+		
 		
 		// show tree
 		$this->showTree($tax->getTree());
@@ -160,7 +177,8 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		// show subitems
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTableGUI.php");
 		$table = new ilTaxonomyTableGUI($this, "listItems", $tax->getTree(),
-			(int) $_GET["tax_node"]);
+			(int) $_GET["tax_node"], $this->determineAOCurrentTaxonomy());
+		$table->setOpenFormTag(false);
 
 		$tpl->setContent($table->getHTML());
 	}
@@ -525,5 +543,22 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		$ilCtrl->redirect($this, "listItems");
 	}
 
+	/**
+	 * Save settings and sorting
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveSettingsAndSorting()
+	{
+		global $ilCtrl, $lng;
+		
+		$tax = $this->determineAOCurrentTaxonomy();
+		$tax->setSortingMode(ilUtil::stripSlashes($_POST["sorting"]));
+		$tax->update();
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
+		$ilCtrl->redirect($this, "listItems");
+	}
+	
 }
 ?>

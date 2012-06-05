@@ -18,7 +18,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_tree,
-		$a_node_id)
+		$a_node_id, $a_tax)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
@@ -28,6 +28,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		}
 		
 		$this->tree = $a_tree;
+		$this->tax = $a_tax;
 		$this->node_id = $a_node_id;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -41,8 +42,10 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("tax_nodes"));
 		
 		$this->addColumn($this->lng->txt(""), "", "1px", true);
-		$this->addColumn($this->lng->txt("type"), "", "1px");
-		$this->addColumn($this->lng->txt("tax_order"), "", "1px");
+		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
+		{
+			$this->addColumn($this->lng->txt("tax_order"), "", "1px");
+		}
 		$this->addColumn($this->lng->txt("title"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -51,7 +54,10 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		$this->addMultiCommand("deleteItems", $lng->txt("delete"));
 		$this->addMultiCommand("cutItems", $lng->txt("cut"));
 		$this->addMultiCommand("copyItems", $lng->txt("copy"));
-//		$this->addCommandButton("saveOrder", $lng->txt("tax_save_order"));
+		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
+		{
+			$this->addCommandButton("saveSettingsAndSorting", $lng->txt("save"));
+		}
 
 	}
 	
@@ -65,13 +71,18 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		$ilCtrl->setParameter($this->parent_obj, "tax_node", $a_set["child"]);
 		$ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listItems");
 		$ilCtrl->setParameter($this->parent_obj, "tax_node", $_GET["tax_node"]);
+		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
+		{
+			$this->tpl->setCurrentBlock("order");
+			$this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
+			$this->tpl->setVariable("ONODE_ID", $a_set["child"]);
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setVariable("HREF_TITLE", $ret);
 		
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("NODE_ID", $a_set["child"]);
-		//$this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
-		//$this->tpl->setVariable("ICON", ilUtil::img($icon, ""));
 	}
 
 }
