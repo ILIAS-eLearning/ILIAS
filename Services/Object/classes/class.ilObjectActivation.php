@@ -581,12 +581,12 @@ class ilObjectActivation
 	}
 	
 	/**
-	 * Get item data for timings administration view
+	 * Get sub item data
 	 * 
 	 * @param int $a_parent_id
-	 * @return array
+	 * @return array 
 	 */
-	public static function getTimingsAdministrationItems($a_parent_id)
+	public static function getItems($a_parent_id)
 	{
 		global $tree;
 		
@@ -606,11 +606,30 @@ class ilObjectActivation
 		{
 			self::preloadData($ref_ids);
 			
+			foreach($items as $idx => $item)
+			{				
+				$items[$idx] = array_merge($item, self::getItem($item['ref_id']));
+			}
+		}
+		
+		return $items;
+	}
+	
+	/**
+	 * Get (sub) item data for timings administration view (active/inactive)
+	 * 
+	 * @param int $a_parent_id
+	 * @return array
+	 */
+	public static function getTimingsAdministrationItems($a_parent_id)
+	{		
+		$items = self::getItems($a_parent_id);
+		
+		if($items)
+		{			
 			$active = $inactive = array();
 			foreach($items as $item)
-			{				
-				$item = array_merge($item, self::getItem($item['ref_id']));
-				
+			{								
 				// active should be first in order
 				if($item['timing_type'] == self::TIMINGS_DEACTIVATED)
 				{
@@ -631,12 +650,12 @@ class ilObjectActivation
 	}
 	
 	/**
-	 * Get item data for timings view (no session material, no side blocks)
+	 * Get (sub) item data for timings view (no session material, no side blocks)
 	 * 
 	 * @param int $a_container_ref_id
 	 * @return array
 	 */
-	function getTimingsItems($a_container_ref_id)
+	public static function getTimingsItems($a_container_ref_id)
 	{
 		global $objDefinition;
 		
@@ -654,7 +673,7 @@ class ilObjectActivation
 		}
 		
 		return $filtered;
-	} 
+	} 	
 }	
 	
 ?>
