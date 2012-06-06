@@ -258,6 +258,14 @@ class ilCalendarCategoryGUI
 				break;
 		}
 
+		// Ical link
+		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',(int) $_GET['category_id']);
+		$info->addProperty(
+			$this->lng->txt('cal_ical_infoscreen'),
+			'<img src="'.ilUtil::getImagePath('ical.gif','Services/Calendar').'" />',
+			$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui'))
+		);
+
 		$tpl->setContent($toolbar.$info->getHTML().$this->showAssignedAppointments());
 	}
 	
