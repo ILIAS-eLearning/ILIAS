@@ -933,10 +933,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$subscription_end = $this->loadDate('subscription_end');
 		$archive_start = $this->loadDate('archive_start');
 		$archive_end = $this->loadDate('archive_end');
-
-		$this->object->setActivationType((int) $_POST['activation_type']);
+		
+		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);
+		$this->object->setActivationType((int)$_POST['activation_type']);
 		$this->object->setActivationStart($activation_start->get(IL_CAL_UNIX));
 		$this->object->setActivationEnd($activation_end->get(IL_CAL_UNIX));
+		$this->object->setActivationVisibility((int)$_POST['activation_visibility']);
 		$this->object->setSubscriptionLimitationType((int) $_POST['subscription_limitation_type']);
 		$this->object->setSubscriptionType((int) $_POST['subscription_type']);
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
@@ -1148,14 +1150,23 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
 		
-		// reg type
-		$act_type = new ilRadioGroupInputGUI($this->lng->txt('crs_visibility'),'activation_type');
+		
+		// activation/availability
+		
+		$this->lng->loadLanguageModule('rep');
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('rep_activation_availability'));
+		$form->addItem($section);
+		
+		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'activation_online');
+		$online->setChecked(!$this->object->getOfflineStatus());
+		$online->setInfo($this->lng->txt('rep_activation_online_info'));
+		$form->addItem($online);				
+		
+		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'activation_type');
 		$act_type->setValue($this->object->getActivationType());
 		
-			$opt = new ilRadioOption($this->lng->txt('crs_visibility_unvisible'),IL_CRS_ACTIVATION_OFFLINE);
-			$opt->setInfo($this->lng->txt('crs_availability_unvisible_info'));
-			$act_type->addOption($opt);
-			
 			$opt = new ilRadioOption($this->lng->txt('crs_visibility_limitless'),IL_CRS_ACTIVATION_UNLIMITED);
 			$opt->setInfo($this->lng->txt('crs_availability_limitless_info'));
 			$act_type->addOption($opt);
@@ -1163,23 +1174,29 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt = new ilRadioOption($this->lng->txt('crs_visibility_until'),IL_CRS_ACTIVATION_LIMITED);
 			$opt->setInfo($this->lng->txt('crs_availability_until_info'));
 
-				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'activation_start');
+				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'activation_start');
 				#$start->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				$start->setShowTime(true);
 				$start_date = new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX);
 				$start->setDate($start_date);
 				$opt->addSubItem($start);
 
-				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'activation_end');
+				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'activation_end');
 				#$end->setMode(ilDateTimeInputGUI::MODE_INPUT);
 				$end->setShowTime(true);
 				$end_date = new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX);
 				$end->setDate($end_date);
 				$opt->addSubItem($end);
 				
+				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
+				$visible->setInfo($this->lng->txt('rep_activation_limited_visibility_info'));
+			    $visible->setChecked($this->object->getActivationVisibility());
+				$opt->addSubItem($visible);
+				
 			$act_type->addOption($opt);
 		
 		$form->addItem($act_type);
+		
 		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_reg'));

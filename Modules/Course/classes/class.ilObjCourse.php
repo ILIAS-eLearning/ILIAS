@@ -196,21 +196,25 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->contact_responsibility = $a_value;
 	}
-
 	function getActivationType()
 	{
 		return (int) $this->activation_type;
 	}
 	function setActivationType($a_type)
 	{
+		// offline is separate property now
+		if($a_type == IL_CRS_ACTIVATION_OFFLINE)
+		{
+			$this->setOfflineStatus(true);
+			$a_type = IL_CRS_ACTIVATION_UNLIMITED;
+		}
+		
 		$this->activation_type = $a_type;
 	}
 	function getActivationUnlimitedStatus()
 	{
-		return $this->activation_type == IL_CRS_ACTIVATION_UNLIMITED;
-		
-	} 
-	
+		return $this->activation_type == IL_CRS_ACTIVATION_UNLIMITED;		
+	} 	
 	function getActivationStart()
 	{
 		return $this->activation_start ? $this->activation_start : time();
@@ -229,9 +233,20 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	function getOfflineStatus()
 	{
-		return $this->activation_type == IL_CRS_ACTIVATION_OFFLINE;
+		return (bool)$this->activation_offline;
 	}
-
+	function setOfflineStatus($a_value)
+	{
+		$this->activation_offline = (bool) $a_value;
+	}
+	function setActivationVisibility($a_value)
+	{
+		$this->activation_visibility = (bool) $a_value;
+	}
+	function getActivationVisibility()
+	{
+		return $this->activation_visibility;
+	}
 
 	function getSubscriptionLimitationType()
 	{
@@ -1102,9 +1117,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"contact_phone = ".$ilDB->quote($this->getContactPhone() ,'text').", ".
 			"contact_email = ".$ilDB->quote($this->getContactEmail() ,'text').", ".
 			"contact_consultation = ".$ilDB->quote($this->getContactConsultation() ,'text').", ".
-			"activation_type = ".$ilDB->quote($this->getActivationType() ,'integer').", ".
-			"activation_start = ".$ilDB->quote($this->getActivationStart() ,'integer').", ".
-			"activation_end = ".$ilDB->quote($this->getActivationEnd() ,'integer').", ".
+			"activation_type = ".$ilDB->quote(!$this->getOfflineStatus() ,'integer').", ".			
 			"sub_limitation_type = ".$ilDB->quote($this->getSubscriptionLimitationType() ,'integer').", ".
 			"sub_start = ".$ilDB->quote($this->getSubscriptionStart() ,'integer').", ".
 			"sub_end = ".$ilDB->quote($this->getSubscriptionEnd() ,'integer').", ".
@@ -1133,15 +1146,37 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'auto_noti_disabled = '.$ilDB->quote( (int)$this->getAutoNotiDisabled(), 'integer').', '.
 			'status_dt = '.$ilDB->quote((int) $this->getStatusDetermination()).' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
-
+				
 		$res = $ilDB->manipulate($query);
+		
+		// moved activation to ilObjectActivation
+		if($this->ref_id)
+		{
+			include_once "./Services/Object/classes/class.ilObjectActivation.php";		
+			ilObjectActivation::getItem($this->ref_id);
+			
+			$item = new ilObjectActivation;			
+			if($this->getActivationUnlimitedStatus())
+			{
+				$item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
+			}
+			else
+			{				
+				$item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
+				$item->setTimingStart($this->getActivationStart());
+				$item->setTimingEnd($this->getActivationEnd());
+				$item->toggleVisible($this->getActivationVisibility());
+			}						
+			
+			$item->update($this->ref_id);		
+		}
 	}
 	
 	/**
 	 * Clone entries in settings table
 	 *
 	 * @access public
-	 * @param object new course object
+	 * @param ilObjCourse new course object
 	 * 
 	 */
 	public function cloneSettings($new_obj)
@@ -1152,9 +1187,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setContactPhone($this->getContactPhone());
 		$new_obj->setContactEmail($this->getContactEmail());
 		$new_obj->setContactConsultation($this->getContactConsultation());
-		$new_obj->setActivationType(IL_CRS_ACTIVATION_OFFLINE);
+		$new_obj->setOfflineStatus(true);
+		$new_obj->setActivationType($this->getActivationType());
 		$new_obj->setActivationStart($this->getActivationStart());
 		$new_obj->setActivationEnd($this->getActivationEnd());
+		$new_obj->setActivationVisibility($this->getActivationVisibility());
 		$new_obj->setSubscriptionLimitationType($this->getSubscriptionLimitationType());
 		$new_obj->setSubscriptionStart($this->getSubscriptionStart());
 		$new_obj->setSubscriptionEnd($this->getSubscriptionEnd());
@@ -1205,7 +1242,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getContactPhone() ,'text').", ".
 			$ilDB->quote($this->getContactEmail() ,'text').", ".
 			$ilDB->quote($this->getContactConsultation() ,'text').", ".
-			$ilDB->quote(IL_CRS_ACTIVATION_OFFLINE ,'integer').", ".
+			$ilDB->quote(0 ,'integer').", ".
 			$ilDB->quote($this->getActivationStart() ,'integer').", ".
 			$ilDB->quote($this->getActivationEnd() ,'integer').", ".
 			$ilDB->quote(IL_CRS_SUBSCRIPTION_DEACTIVATED ,'integer').", ".
@@ -1262,9 +1299,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setContactPhone($row->contact_phone);
 			$this->setContactEmail($row->contact_email);
 			$this->setContactConsultation($row->contact_consultation);
-			$this->setActivationType($row->activation_type);
-			$this->setActivationStart($row->activation_start);
-			$this->setActivationEnd($row->activation_end);
+			$this->setOfflineStatus(!(bool)$row->activation_type); // see below
 			$this->setSubscriptionLimitationType($row->sub_limitation_type);
 			$this->setSubscriptionStart($row->sub_start);
 			$this->setSubscriptionEnd($row->sub_end);
@@ -1292,6 +1327,26 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setRegistrationAccessCode($row->reg_ac);
 			$this->setAutoNotiDisabled($row->auto_noti_disabled == 1 ? true : false);
 			$this->setStatusDetermination((int) $row->status_dt);
+		}
+		
+		// moved activation to ilObjectActivation
+		if($this->ref_id)
+		{
+			include_once "./Services/Object/classes/class.ilObjectActivation.php";
+			$activation = ilObjectActivation::getItem($this->ref_id);			
+			switch($activation["timing_type"])
+			{				
+				case ilObjectActivation::TIMINGS_ACTIVATION:
+					$this->setActivationType(IL_CRS_ACTIVATION_LIMITED);					
+					$this->setActivationStart($activation["timing_start"]);
+					$this->setActivationEnd($activation["timing_end"]);
+					$this->setActivationVisibility($activation["visible"]);
+					break;
+				
+				default:
+					$this->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
+					break;							
+			}
 		}
 		
 		return true;

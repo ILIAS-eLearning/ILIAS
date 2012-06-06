@@ -86,15 +86,14 @@ class ilObjCourseAccess extends ilObjectAccess
 		switch ($a_permission)
 		{
 			case "visible":
-				$active = ilObjCourseAccess::_isActivated($a_obj_id);
-				$registration = ilObjCourseAccess::_registrationEnabled($a_obj_id);
-				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
-				
+				$is_visible = false;
+				$active = ilObjCourseAccess::_isActivated($a_obj_id, $is_visible);				
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);				
 				if(!$active)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				}
-				if(!$tutor and !$active)
+				if(!$tutor and !$is_visible)
 				{
 					return false;
 				}
@@ -107,13 +106,11 @@ class ilObjCourseAccess extends ilObjectAccess
 					return true;
 				}				
 				$active = ilObjCourseAccess::_isActivated($a_obj_id);
-
 				if(!$active)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 					return false;
-				}
-				
+				}				
 				if($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
@@ -121,8 +118,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				} 
 				break;
 				
-			case 'join':
-				
+			case 'join':				
 				if(!self::_registrationEnabled($a_obj_id))
 				{
 					return false;
@@ -239,10 +235,11 @@ class ilObjCourseAccess extends ilObjectAccess
 	/**
 	 * Is activated?
 	 *
-	 * @param int id of user
+	 * @param int $a_obj_id
+	 * @param bool &$a_visible_flag
 	 * @return boolean
 	 */
-	public static function _isActivated($a_obj_id)
+	public static function _isActivated($a_obj_id, &$a_visible_flag = null)
 	{
 		global $ilDB;
 		
@@ -254,27 +251,30 @@ class ilObjCourseAccess extends ilObjectAccess
 
 		$query = "SELECT * FROM crs_settings ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-
 		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);		
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		// offline?
+		if(!$row->activation_type)
 		{
-			$type = $row->activation_type;
-			$start = $row->activation_start;
-			$end = $row->activation_end;
+			return false;							
 		}
-		switch($type)
-		{
-			case IL_CRS_ACTIVATION_OFFLINE:
-				return false;
-
-			case IL_CRS_ACTIVATION_UNLIMITED:
+		
+		$ref_id = ilObject::_getAllReferences($a_obj_id);
+		$ref_id = array_pop($ref_id);
+		
+		include_once './Services/Object/classes/class.ilObjectActivation.php';
+		$item = ilObjectActivation::getItem($ref_id);		
+		switch($item['timing_type'])
+		{			
+			case ilObjectActivation::TIMINGS_DEACTIVATED:
 				return true;
 
-			case IL_CRS_ACTIVATION_LIMITED:
-				if(time() < $start or
-				   time() > $end)
+			case ilObjectActivation::TIMINGS_ACTIVATION:
+				if(time() < $item['timing_start'] or
+				   time() > $item['timing_end'])
 				{
+					$a_visible_flag = $item['visible'];
 					return false;
 				}
 				return true;
