@@ -207,7 +207,7 @@ class ilTaxonomyNode
 		global $ilDB;
 		
 		// delete all assignments of the node
-		include_once("./Services/Taxononmy/classes/class.ilTaxNodeAssignment.php");
+		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
 		ilTaxNodeAssignment::deleteAssignmentsOfNode($this->getId());
 		
 		$query = "DELETE FROM tax_node WHERE obj_id= ".
@@ -271,7 +271,7 @@ class ilTaxonomyNode
 		// determine parent
 		$parent_id = ($a_parent_id != "")
 			? $a_parent_id
-			: $tax_tree->getRootId();
+			: $tax_tree->readRootId();
 
 		// determine target
 		if ($a_target_node_id != "")

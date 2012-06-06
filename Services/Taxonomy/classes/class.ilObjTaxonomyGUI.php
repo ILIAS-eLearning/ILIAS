@@ -168,6 +168,9 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		
 		$ilToolbar->addFormButton($lng->txt("save"), "saveSettingsAndSorting");
 		
+		$ilToolbar->addSeparator();
+		$ilToolbar->addFormButton($lng->txt("tax_delete_taxonomy"), "confirmDeleteTaxonomy");
+		
 		$ilToolbar->setCloseFormTag(false);
 		
 		
@@ -699,6 +702,44 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "listItems");
+	}
+	
+	/**
+	 * Confirm taxonomy deletion
+	 */
+	function confirmDeleteTaxonomy()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		$tax = $this->determineAOCurrentTaxonomy();
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("tax_confirm_deletion"));
+		$cgui->setCancel($lng->txt("cancel"), "listItems");
+		$cgui->setConfirm($lng->txt("delete"), "deleteTaxonomy");
+		
+		$cgui->addItem("id[]", $i, $tax->getTitle());
+		
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	/**
+	 * Delete taxonomy
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteTaxonomy()
+	{
+		global $ilCtrl, $lng;
+		
+		$tax = $this->determineAOCurrentTaxonomy();
+		$tax->delete();
+		
+		ilUtil::sendSuccess($lng->txt("tax_tax_deleted"), true);
+		$ilCtrl->redirect($this, "editAOTaxonomySettings");
 	}
 	
 }

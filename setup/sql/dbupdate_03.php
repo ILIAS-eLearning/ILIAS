@@ -9816,3 +9816,8 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3592>
+<?php
+	$ilDB->addPrimaryKey('tax_tree', array('tax_tree_id', 'child'));
+?>
+
