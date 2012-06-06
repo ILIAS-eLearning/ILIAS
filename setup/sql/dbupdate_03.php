@@ -9778,3 +9778,39 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 			")");
 	}
 ?>
+<#3590>
+<?php
+
+	$ts_now = time();
+	$ts_latest = mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
+
+	// all limited course objects with ref_id and parent ref_id
+	$query = "SELECT t.child,t.parent,c.activation_start,c.activation_end".
+		" FROM crs_settings c".
+		" JOIN object_reference r ON (r.obj_id = c.obj_id)".
+		" JOIN tree t ON (r.ref_id = t.child)".
+		" LEFT JOIN crs_items i ON (i.obj_id = r.ref_id)".
+		" WHERE c.activation_type = ".$ilDB->quote(2, "integer").
+		" AND i.timing_type IS NULL";
+	$set = $ilDB->query($query);
+	while($row = $ilDB->fetchAssoc($set))
+	{				
+		$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,".
+			"timing_end,suggestion_start,suggestion_end,changeable,earliest_start,".
+			"latest_end,visible,position) VALUES (".
+			$ilDB->quote($row["parent"],'integer').",".
+			$ilDB->quote($row["child"],'integer').",".
+			$ilDB->quote(0,'integer').",".
+			$ilDB->quote($row["activation_start"],'integer').",".
+			$ilDB->quote($row["activation_end"],'integer').",".
+			$ilDB->quote($ts_now,'integer').",".
+			$ilDB->quote($ts_now,'integer').",".
+			$ilDB->quote(0,'integer').",".
+			$ilDB->quote($ts_now,'integer').", ".
+			$ilDB->quote($ts_latest,'integer').", ".
+			$ilDB->quote(0,'integer').", ".
+			$ilDB->quote(0,'integer').")";		
+		$ilDB->manipulate($query);							
+	}
+
+?>

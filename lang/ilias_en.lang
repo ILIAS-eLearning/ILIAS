@@ -12603,3 +12603,11 @@ tax#:#tax_manual#:#Manual
 tax#:#tax_order_nr#:#Order Nr
 tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.
 tax#:#tax_please_select_target#:#Please select the target.
+rep#:#rep_activation_availability#:#Availability
+rep#:#rep_activation_online#:#Online
+rep#:#rep_activation_online_info#:#If offline, only course administrators and tutors can see and edit the course.
+rep#:#rep_activation_access#:#Access
+rep#:#rep_activation_limited_start#:#Starting Time
+rep#:#rep_activation_limited_end#:#Ending Time
+rep#:#rep_activation_limited_visibility#:#Always Visible
+rep#:#rep_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
