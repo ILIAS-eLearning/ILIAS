@@ -54,6 +54,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 	$this->addColumn('','',"1", true);
 		$this->addColumn($this->lng->txt('type'),'',"1");
 	 	$this->addColumn($this->lng->txt('title'),'title',"100%");
+		$this->addColumn('','subscription','');
 	 	
 	 	$this->setPrefix('categories');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -121,6 +122,13 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('ADD_PATH_INFO',$a_set['path']);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// Subscription link
+		$this->tpl->setVariable('SUB_SRC',ilUtil::getImagePath('ical.gif','Services/Calendar'));
+		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',$a_set['id']);
+		$this->tpl->setVariable('SUB_LINK',$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui')));
+		$this->tpl->setVariable('SUB_ALT',$this->lng->txt('ical_export'));
+
 	}
 	
 	/**
