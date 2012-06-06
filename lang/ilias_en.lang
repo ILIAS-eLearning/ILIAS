@@ -12600,3 +12600,6 @@ content#:#glo_show_taxonomy#:#Show Taxonomy
 tax#:#tax_sorting#:#Sorting
 tax#:#tax_alphabetical#:#Alphabetical
 tax#:#tax_manual#:#Manual
+tax#:#tax_order_nr#:#Order Nr
+tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.
+tax#:#tax_please_select_target#:#Please select the target.

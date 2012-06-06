@@ -25,6 +25,14 @@ class ilTaxonomyExplorer extends ilExplorer
 	{
 		parent::__construct($a_target);
 		
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		$sort_mode = ilObjTaxonomy::lookupSortingMode($a_tax_tree->getTreeId());
+		$this->setPostSort(false);
+		if ($sort_mode == ilObjTaxonomy::SORT_MANUAL)
+		{
+			$this->setPostSort(true);
+		}
+		
 		//$this->setFilterMode(IL_FM_POSITIVE);
 		//$this->addFilter("tax");
 		
@@ -35,7 +43,6 @@ class ilTaxonomyExplorer extends ilExplorer
 		
 		$this->setSessionExpandVariable("txexpand");
 		$this->checkPermissions(false);
-		$this->setPostSort(false);
 		
 //		$this->setOrderColumn("order_nr");
 //		$this->textwidth = 200;
@@ -174,6 +181,18 @@ class ilTaxonomyExplorer extends ilExplorer
 	function getImage($a_name, $a_type = "", $a_obj_id = "")
 	{
 		return ilUtil::getImagePath($a_name);
+	}
+
+	/**
+	 * Sort nodes
+	 *
+	 * @param	array	node list as returned by iltree::getChilds();
+	 * @return	array	sorted nodes
+	 */
+	function sortNodes($a_nodes,$a_parent_obj_id)
+	{
+		$a_nodes = ilUtil::sortArray($a_nodes, "order_nr", "asc");
+		return $a_nodes;
 	}
 
 }

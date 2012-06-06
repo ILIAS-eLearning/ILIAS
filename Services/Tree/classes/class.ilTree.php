@@ -3003,7 +3003,7 @@ class ilTree
 		// Receive node infos for source and target
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
 			'WHERE ( child = %s OR child = %s ) '.
-			'AND tree = %s ';
+			'AND '.$this->tree_pk.' = %s ';
 		$res = $ilDB->queryF($query,array('integer','integer','integer'),array(
 			$a_source_id,
 			$a_target_id,
@@ -3056,7 +3056,7 @@ class ilTree
 		$query = 'UPDATE '.$this->table_tree.' SET '.
 			'lft = CASE WHEN lft >  %s THEN lft + %s ELSE lft END, '.
 			'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END '.
-			'WHERE tree = %s ';
+			'WHERE '.$this->tree_pk.' = %s ';
 		$res = $ilDB->manipulateF($query,array('integer','integer','integer','integer','integer'),array(
 			$target_rgt,
 			$spread_diff,
@@ -3086,7 +3086,7 @@ class ilTree
 			'depth = depth + %s '.
 			'WHERE lft >= %s '.
 			'AND rgt <= %s '.
-			'AND tree = %s ';
+			'AND '.$this->tree_pk.' = %s ';
 		$res = $ilDB->manipulateF($query,
 			array('integer','integer','integer','integer','integer','integer','integer','integer'),
 			array(
@@ -3103,7 +3103,7 @@ class ilTree
 		$query = 'UPDATE '.$this->table_tree.' SET '.
 			'lft = CASE WHEN lft >= %s THEN lft - %s ELSE lft END, '.
 			'rgt = CASE WHEN rgt >= %s THEN rgt - %s ELSE rgt END '.
-			'WHERE tree = %s ';
+			'WHERE '.$this->tree_pk.' = %s ';
 
 		$res = $ilDB->manipulateF($query,
 			array('integer','integer','integer','integer','integer'),

@@ -394,10 +394,21 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$this->form->addItem($ti);
 		
+		// order nr
+		$tax = $this->determineAOCurrentTaxonomy();
+		if ($tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
+		{
+			$or = new ilTextInputGUI($this->lng->txt("tax_order_nr"), "order_nr");
+			$or->setMaxLength(5);
+			$or->setSize(5);
+			$this->form->addItem($or);
+		}
+		
 		if ($a_mode == "edit")
 		{
 			$node = new ilTaxonomyNode((int) $_GET["tax_node"]);
 			$ti->setValue($node->getTitle());
+			$or->setValue($node->getOrderNr());
 		}
 		
 		// save and cancel commands
@@ -435,11 +446,24 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 			include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
 			$node = new ilTaxonomyNode();
 			$node->setTitle($this->form->getInput("title"));
+			
+			$tax = $this->determineAOCurrentTaxonomy();
+			if ($tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
+			{
+				$order_nr = $this->form->getInput("order_nr");
+			}
+			if ($order_nr === "")
+			{
+				$order_nr = ilTaxonomyNode::getNextOrderNr($tax->getId(), (int) $_GET["tax_node"]);
+			}
+			$node->setOrderNr($order_nr);
 			$node->setTaxonomyId($tax->getId());
 			$node->create();
 			
 			// put in tree
 			ilTaxonomyNode::putInTree($tax->getId(), $node, (int) $_GET["tax_node"]);
+			
+			ilTaxonomyNode::fixOrderNumbers($tax->getId(), (int) $_GET["tax_node"]);
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "listItems");
@@ -465,6 +489,13 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 			// create node
 			$node = new ilTaxonomyNode($_GET["tax_node"]);
 			$node->setTitle($this->form->getInput("title"));
+
+			$tax = $this->determineAOCurrentTaxonomy();
+			if ($tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
+			{
+				$node->setOrderNr($this->form->getInput("order_nr"));
+			}
+
 			$node->update();
 
 			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
@@ -535,6 +566,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 			{
 				$tax_tree->deleteTree($node_data);
 			}
+			ilTaxonomyNode::fixOrderNumbers($node->getTaxonomyId(), $node_data["parent"]);
 		}
 
 		// feedback
@@ -553,10 +585,119 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	{
 		global $ilCtrl, $lng;
 		
+		// save settings
 		$tax = $this->determineAOCurrentTaxonomy();
 		$tax->setSortingMode(ilUtil::stripSlashes($_POST["sorting"]));
 		$tax->update();
+		
+		// save sorting
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
+		if (is_array($_POST["order"]))
+		{
+			asort($_POST["order"]);
+			$cnt = 10;
+			foreach ($_POST["order"] as $k => $v)
+			{
+				ilTaxonomyNode::writeOrderNr(ilUtil::stripSlashes($k), $cnt);
+				$cnt+= 10;
+			}
+		}
+		
+		// save titles
+		if (is_array($_POST["title"]))
+		{
+			foreach ($_POST["title"] as $k => $v)
+			{
+				ilTaxonomyNode::writeTitle((int) $k,
+					ilUtil::stripSlashes($v));
+			}
+		}
+
+		
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"));
+		$ilCtrl->redirect($this, "listItems");
+	}
+	
+	/**
+	 * Move items
+	 */
+	function moveItems()
+	{
+		global $tpl, $ilCtrl, $lng, $ilToolbar;
+		
+		$ilToolbar->addButton($lng->txt("cancel"),
+			$ilCtrl->getLinkTarget($this, "listItems"));
+		
+		ilUtil::sendInfo($lng->txt("tax_please_select_target"));
+		
+		if (is_array($_POST["id"]))
+		{
+			$ilCtrl->setParameter($this, "move_ids", implode($_POST["id"], ","));
+			
+			global $ilUser, $tpl, $ilCtrl, $lng;
+
+			require_once ("./Services/Taxonomy/classes/class.ilTaxonomyExplorer.php");
+
+			$exp = new ilTaxonomyExplorer($ilCtrl->getLinkTarget($this, "pasteItems"),
+				$this->determineAOCurrentTaxonomy()->getTree(),
+				"ilobjtaxonomygui", "pasteItems");
+			$exp->forceExpandAll(true, false);
+			$exp->setTargetGet("tax_node");
+		
+			$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "pasteItems"));
+		
+			// build html-output
+			$exp->setOutput(0);
+			$output = $exp->getOutput();
+			
+			$tpl->setContent($output);
+		}
+	}
+	
+	/**
+	 * Paste items (move operation)
+	 */
+	function pasteItems()
+	{
+		global $lng, $ilCtrl;
+//var_dump($_GET);
+//var_dump($_POST);
+		if ($_GET["move_ids"] != "")
+		{
+			$move_ids = explode(",", $_GET["move_ids"]);
+			$tax = $this->determineAOCurrentTaxonomy();
+			$tree = $tax->getTree();
+			
+			include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
+			$target_node = new ilTaxonomyNode((int) $_GET["tax_node"]);
+			foreach ($move_ids as $m_id)
+			{
+				// cross check taxonomy
+				$node = new ilTaxonomyNode((int) $m_id);
+				if ($node->getTaxonomyId() == $tax->getId() &&
+					($target_node->getTaxonomyId() == $tax->getId() ||
+					$target_node->getId() == $tree->readRootId()))
+				{
+					// check if target is not within the selected nodes
+					if($tree->isGrandChild((int) $m_id, $target_node->getId()))
+					{
+						ilUtil::sendFailure($lng->txt("tax_target_within_nodes"), true);
+						$this->ctrl->redirect($this, "listItems");
+					}
+					
+					// if target is not current place, move
+					$parent_id = $tree->getParentId((int) $m_id);
+					if ($parent_id != $target_node->getId())
+					{
+						$tree->moveTree((int) $m_id, $target_node->getId());
+						ilTaxonomyNode::fixOrderNumbers($tax->getId(), $target_node->getId());
+						ilTaxonomyNode::fixOrderNumbers($tax->getId(), $parent_id);
+					}
+				}
+			}
+		}
+
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "listItems");
 	}
 	
