@@ -12612,3 +12612,7 @@ rep#:#rep_activation_limited_start#:#Starting Time
 rep#:#rep_activation_limited_end#:#Ending Time
 rep#:#rep_activation_limited_visibility#:#Always Visible
 rep#:#rep_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
+tax#:#tax_delete_taxonomy#:#Delete Taxononmy
+tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
+tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
+tax#:#tax_add_taxonomy#:#Add Taxonomy

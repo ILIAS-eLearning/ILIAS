@@ -222,7 +222,7 @@ class ilTaxNodeAssignment
 		global $ilDB;
 
 		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
-			" node_id" => array("integer", $a_node_id));
+			" node_id = ".$ilDB->quote($a_node_id, "integer"));
 	}
 	
 }

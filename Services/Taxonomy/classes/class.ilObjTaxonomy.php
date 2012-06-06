@@ -91,6 +91,7 @@ class ilObjTaxonomy extends ilObject2
 			")");
 		
 		// create the taxonomy tree
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
 		$node = new ilTaxonomyNode();
 		$node->setType("");	// empty type
 		$node->setTitle("Root node for taxonomy ".$this->getId());
@@ -121,8 +122,32 @@ class ilObjTaxonomy extends ilObject2
 	function doDelete()
 	{
 		global $ilDB;
+
+		// delete usages
+		self::deleteUsagesOfTaxonomy($this->getId());
+
+		// get all nodes
+		$tree = $this->getTree();
+		$subtree = $tree->getSubTreeIds($tree->readRootId());
+		$subtree[] = $tree->readRootId();
 		
-		// delete object
+		// get root node data (important: must happen before we
+		// delete the nodes
+		$root_node_data = $tree->getNodeData($tree->readRootId());
+		
+		// delete all nodes
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
+		foreach ($subtree as $node_id)
+		{
+			// delete node (this also deletes its assignments)
+			$node = new ilTaxonomyNode($node_id);
+			$node->delete();
+		}
+		
+		// delete the tree
+		$tree->deleteTree($root_node_data);
+
+		// delete taxonoymy properties record
 		$ilDB->manipulate("DELETE FROM tax_data WHERE ".
 			" id = ".$ilDB->quote($this->getId(), "integer")
 			);
@@ -209,6 +234,23 @@ class ilObjTaxonomy extends ilObject2
 		}
 		return $tax;
 	}
+	
+	/**
+	 * Delete all usages of a taxonomy
+	 *
+	 * @param
+	 * @return
+	 */
+	static function deleteUsagesOfTaxonomy($a_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM tax_usage WHERE ".
+			" tax_id = ".$ilDB->quote($a_id, "integer")
+			);
+		
+	}
+	
 	
 	/**
 	 * Get all assigned items under a node
