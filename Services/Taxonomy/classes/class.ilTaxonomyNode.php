@@ -206,6 +206,10 @@ class ilTaxonomyNode
 	{
 		global $ilDB;
 		
+		// delete all assignments of the node
+		include_once("./Services/Taxononmy/classes/class.ilTaxNodeAssignment.php");
+		ilTaxNodeAssignment::deleteAssignmentsOfNode($this->getId());
+		
 		$query = "DELETE FROM tax_node WHERE obj_id= ".
 			$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
@@ -295,5 +299,87 @@ class ilTaxonomyNode
 		}
 	}
 
+	/**
+	 * Write order nr
+	 *
+	 * @param
+	 * @return
+	 */
+	static function writeOrderNr($a_node_id, $a_order_nr)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE tax_node SET ".
+			" order_nr = ".$ilDB->quote($a_order_nr, "integer").
+			" WHERE obj_id = ".$ilDB->quote($a_node_id, "integer")
+			);
+	}
+	
+	/**
+	 * Write title
+	 *
+	 * @param
+	 * @return
+	 */
+	static function writeTitle($a_node_id, $a_title)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE tax_node SET ".
+			" title = ".$ilDB->quote($a_title, "text").
+			" WHERE obj_id = ".$ilDB->quote($a_node_id, "integer")
+			);
+	}
+	
+	/**
+	 * Put this node into the taxonomy tree
+	 */
+	static function getNextOrderNr($a_tax_id, $a_parent_id)
+	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+		$tax_tree = new ilTaxonomyTree($a_tax_id);
+		if ($a_parent_id == 0)
+		{
+			$a_parent_id = $tax_tree->readRootId();
+		}
+		$childs = $tax_tree->getChilds($a_parent_id);
+		$max = 0;
+
+		foreach ($childs as $c)
+		{
+			if ($c["order_nr"] > $max)
+			{
+				$max = $c["order_nr"] + 10;
+			}
+		}
+
+		return $max;
+	}
+	
+	/**
+	 * Fix order numbers
+	 *
+	 * @param
+	 * @return
+	 */
+	static function fixOrderNumbers($a_tax_id, $a_parent_id)
+	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
+		$tax_tree = new ilTaxonomyTree($a_tax_id);
+		if ($a_parent_id == 0)
+		{
+			$a_parent_id = $tax_tree->readRootId();
+		}
+		$childs = $tax_tree->getChilds($a_parent_id);
+		$childs = ilUtil::sortArray($childs, "order_nr", "asc", false);
+
+		$cnt = 10;
+		foreach ($childs as $c)
+		{
+			self::writeOrderNr($c["child"], $cnt);
+			$cnt += 10;
+		}
+	}
+	
 }
 ?>

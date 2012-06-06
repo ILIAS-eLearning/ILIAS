@@ -91,9 +91,14 @@ class ilObjTaxonomy extends ilObject2
 			")");
 		
 		// create the taxonomy tree
+		$node = new ilTaxonomyNode();
+		$node->setType("");	// empty type
+		$node->setTitle("Root node for taxonomy ".$this->getId());
+		$node->setTaxonomyId($this->getId());
+		$node->create();
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
 		$tax_tree = new ilTaxonomyTree($this->getId());
-		$tax_tree->addTree($this->getId(), 1);
+		$tax_tree->addTree($this->getId(), $node->getId());
 	}
 	
 	/**
@@ -222,6 +227,35 @@ class ilObjTaxonomy extends ilObject2
 		$items = ilTaxNodeAssignment::getAssignmentsOfNode($sub_nodes);
 		
 		return $items;
+	}
+	
+	/**
+	 * Lookup
+	 *
+	 * @param
+	 * @return
+	 */
+	static protected function lookup($a_field, $a_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT ".$a_field." FROM tax_data ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return $rec[$a_field];
+	}
+	
+	/**
+	 * Lookup sorting mode
+	 *
+	 * @param int $a_id taxonomy id
+	 * @return int sorting mode
+	 */
+	public static function lookupSortingMode($a_id)
+	{
+		return self::lookup("sorting_mode", $a_id);
 	}
 	
 }

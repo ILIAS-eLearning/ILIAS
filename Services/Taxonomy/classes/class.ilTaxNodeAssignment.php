@@ -211,6 +211,19 @@ class ilTaxNodeAssignment
 			" AND item_id = ".$ilDB->quote($a_item_id, "integer")
 			);
 	}
+
+	/**
+	 * Delete assignments of node
+	 *
+	 * @param int $a_node_id node id
+	 */
+	static function deleteAssignmentsOfNode($a_node_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
+			" node_id" => array("integer", $a_node_id));
+	}
 	
 }
 

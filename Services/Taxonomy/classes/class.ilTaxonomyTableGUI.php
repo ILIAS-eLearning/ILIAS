@@ -35,8 +35,15 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		
 		$childs = $this->tree->getChildsByTypeFilter($a_node_id,
 			array("taxn"));
-		//$childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
-		$childs = ilUtil::sortArray($childs, "title", "asc", false);
+		
+		if ($a_tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
+		{
+			$childs = ilUtil::sortArray($childs, "order_nr", "asc", false);
+		}
+		else
+		{
+			$childs = ilUtil::sortArray($childs, "title", "asc", false);
+		}
 		$this->setData($childs);
 		
 		$this->setTitle($lng->txt("tax_nodes"));
@@ -52,13 +59,8 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.tax_row.html", "Services/Taxonomy");
 
 		$this->addMultiCommand("deleteItems", $lng->txt("delete"));
-		$this->addMultiCommand("cutItems", $lng->txt("cut"));
-		$this->addMultiCommand("copyItems", $lng->txt("copy"));
-		if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL)
-		{
-			$this->addCommandButton("saveSettingsAndSorting", $lng->txt("save"));
-		}
-
+		$this->addMultiCommand("moveItems", $lng->txt("move"));
+		$this->addCommandButton("saveSettingsAndSorting", $lng->txt("save"));
 	}
 	
 	/**
@@ -81,7 +83,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("HREF_TITLE", $ret);
 		
-		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));
 		$this->tpl->setVariable("NODE_ID", $a_set["child"]);
 	}
 
