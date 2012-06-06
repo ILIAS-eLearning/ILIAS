@@ -9780,7 +9780,6 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 ?>
 <#3590>
 <?php
-
 	$ts_now = time();
 	$ts_latest = mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
 
@@ -9812,5 +9811,8 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 			$ilDB->quote(0,'integer').")";		
 		$ilDB->manipulate($query);							
 	}
-
+?>
+<#3591>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>

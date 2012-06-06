@@ -30,7 +30,7 @@ include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 * 
 * 
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarMonthGUI, ilCalendarUserSettingsGUI, ilCalendarCategoryGUI, ilCalendarWeekGUI
-* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI
+* @ilCtrl_Calls ilCalendarPresentationGUI: ilCalendarAppointmentGUI, ilCalendarDayGUI, ilCalendarInboxGUI, ilCalendarSubscriptionGUI
 * @ilCtrl_Calls ilCalendarPresentationGUI: ilConsultationHoursGUI
 * @ingroup ServicesCalendar
 */
@@ -153,6 +153,14 @@ class ilCalendarPresentationGUI
 				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
 				$app = new ilCalendarAppointmentGUI($this->seed, $this->seed,(int) $_GET['app_id']);
 				$this->ctrl->forwardCommand($app);
+				break;
+
+			case 'ilcalendarsubscriptiongui':
+				$this->ctrl->setReturn($this,'');
+				$this->tabs_gui->activateTab($_SESSION['cal_last_tab']);
+				include_once './Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php';
+				$sub = new ilCalendarSubscriptionGUI((int) $_REQUEST['cal_id']);
+				$this->ctrl->forwardCommand($sub);
 				break;
 				
 			case 'ilcalendarcategorygui':

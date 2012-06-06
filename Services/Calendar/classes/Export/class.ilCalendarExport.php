@@ -65,9 +65,7 @@ class ilCalendarExport
 	{
 		foreach($this->calendars as $category_id)
 		{
-			foreach(ilCalendarCategoryAssignments::_getAssignedAppointments(
-				ilCalendarCategories::_getInstance()->getSubitemCategories($category_id)
-				) as $app_id)
+			foreach(ilCalendarCategoryAssignments::_getAssignedAppointments($this->calendars) as $app_id)
 			{
 				$app = new ilCalendarEntry($app_id);
 				if($app->isMilestone())

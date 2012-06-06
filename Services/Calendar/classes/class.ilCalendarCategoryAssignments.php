@@ -125,7 +125,7 @@ class ilCalendarCategoryAssignments
 		
 		$query = "SELECT * FROM cal_cat_assignments ".
 			"WHERE ".$ilDB->in('cat_id',$a_cat_id,false,'integer');
-			
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{

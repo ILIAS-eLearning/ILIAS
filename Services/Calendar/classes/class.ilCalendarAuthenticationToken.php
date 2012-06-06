@@ -14,6 +14,7 @@ class ilCalendarAuthenticationToken
 	const SELECTION_NONE = 0;
 	const SELECTION_PD = 1;
 	const SELECTION_CATEGORY = 2;
+	const SELECTION_CALENDAR = 3;
 	
 	private $user = null;
 	
@@ -168,6 +169,8 @@ class ilCalendarAuthenticationToken
 	 */
 	public function isIcalExpired()
 	{
+		return true;
+
 		include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 		
 		if(!ilCalendarSettings::_getInstance()->isSynchronisationCacheEnabled())
@@ -219,9 +222,19 @@ class ilCalendarAuthenticationToken
 	protected function read()
 	{
 		global $ilDB;
-		
-		$query = "SELECT * FROM cal_auth_token ".
-			"WHERE user_id = ".$ilDB->quote($this->getUserId(),'integer');
+
+		if(!$this->getToken())
+		{
+			$query = "SELECT * FROM cal_auth_token ".
+				"WHERE user_id = ".$ilDB->quote($this->getUserId(),'integer');
+		}
+		else
+		{
+			$query = 'SELECT * FROM cal_auth_token '.
+				'WHERE user_id = '.$ilDB->quote($this->getUserId(),'integer').' '.
+				'AND hash = '.$ilDB->quote($this->getToken(),'text');
+
+		}
 			
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))

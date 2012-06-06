@@ -12586,3 +12586,5 @@ forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
 common#:#shib_matriculation#:#Attribut für Matrikelnummer
 common#:#soap_connect_timeout#:#Timeout für Verbindungsaufbau
 common#:#soap_connect_timeout_info#:#Die maximale Zeit in Sekunden, die gewartet wird, bis eine Verbindung zum SOAP-Webservice aufgebaut werden kann.
+dateplaner#:#cal_ical_infscreen#:#Abonnieren
+
