@@ -108,7 +108,7 @@ class ilLMPresentationGUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilNavigationHistory, $ilAccess, $ilias, $lng, $ilCtrl;
 
