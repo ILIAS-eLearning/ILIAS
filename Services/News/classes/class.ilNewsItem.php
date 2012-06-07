@@ -252,13 +252,33 @@ class ilNewsItem extends ilNewsItemGen
 		
 		if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") != "n")
 		{
-			// this should be the case for all users
+			// get all items of the personal desktop
 			$pd_items = ilObjUser::_lookupDesktopItems($a_user_id);
 			foreach($pd_items as $item)
 			{
 				if (!in_array($item["ref_id"], $ref_ids))
 				{
 					$ref_ids[] = $item["ref_id"];
+				}
+			}
+			
+			// get all memberships
+			include_once 'Services/Membership/classes/class.ilParticipants.php';
+			$crs_mbs = ilParticipants::_getMembershipByType($ilUser->getId(), 'crs');
+			$grp_mbs = ilParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+			$items = array_merge($crs_mbs, $grp_mbs);
+			foreach($items as $i)
+			{
+				$item_references = ilObject::_getAllReferences($i);
+				if(is_array($item_references) && count($item_references))
+				{
+					foreach($item_references as $ref_id)
+					{
+						if (!in_array($ref_id, $ref_ids))
+						{
+							$ref_ids[] = $ref_id;
+						}
+					}
 				}
 			}
 		}
