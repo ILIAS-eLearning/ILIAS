@@ -3411,6 +3411,12 @@ class ilPageObjectGUI
 			$dt_prop2 = new ilDateTimeInputGUI($lng->txt("cont_end"), "end");
 			$dt_prop2->setShowTime(true);
 			$rad_op3->addSubItem($dt_prop2);
+			
+			// show activation information
+			$cb = new ilCheckboxInputGUI($this->lng->txt("cont_show_activation_info"), "show_activation_info");
+			$cb->setInfo($this->lng->txt("cont_show_activation_info_info"));
+			$rad_op3->addSubItem($cb);
+			
 		
 		$rad->addOption($rad_op3);
 
@@ -3446,6 +3452,8 @@ class ilPageObjectGUI
 				IL_CAL_DATETIME));
 		}
 		
+		$values["show_activation_info"] = $this->getPageObject()->getShowActivationInfo();
+		
 		$this->form->setValuesByArray($values);
 	}
 	
@@ -3463,6 +3471,7 @@ class ilPageObjectGUI
 			$this->getPageObject()->setActive(true);
 			$this->getPageObject()->setActivationStart(null);
 			$this->getPageObject()->setActivationEnd(null);
+			$this->getPageObject()->setShowActivationInfo($_POST["show_activation_info"]);
 			if ($_POST["activation"] == "deactivated")
 			{
 				$this->getPageObject()->setActive(false);

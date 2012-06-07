@@ -449,6 +449,16 @@ class ilLMPageObject extends ilLMObject
 					$active = ilPageObject::_lookupActive($child["obj_id"],
 						ilObject::_lookupType($pg_rec["lm_id"]), $a_time_scheduled_activation);
 
+					if (!$active)
+					{
+						$act_data = ilPageObject::_lookupActivationData((int) $child["obj_id"], ilObject::_lookupType($pg_rec["lm_id"]));
+						if ($act_data["show_activation_info"] &&
+							(ilUtil::now() < $act_data["activation_start"]))
+						{
+							$active = true;
+						}
+					}
+					
 					if ($child["type"] != "pg" || $active)
 					{
 						$cnt++;

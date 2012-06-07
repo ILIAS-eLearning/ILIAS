@@ -206,6 +206,26 @@ class ilPageObject
 	{
 		return $this->last_change_user;
 	}
+	
+	/**
+	 * Set show page activation info
+	 *
+	 * @param bool $a_val show page actication info	
+	 */
+	function setShowActivationInfo($a_val)
+	{
+		$this->show_page_act_info = $a_val;
+	}
+	
+	/**
+	 * Get show page activation info
+	 *
+	 * @return bool show page actication info
+	 */
+	function getShowActivationInfo()
+	{
+		return $this->show_page_act_info;
+	}
 
 	/**
 	* read page data
@@ -226,6 +246,7 @@ class ilPageObject
 			$this->setActive($this->page_record["active"]);
 			$this->setActivationStart($this->page_record["activation_start"]);
 			$this->setActivationEnd($this->page_record["activation_end"]);
+			$this->setShowActivationInfo($this->page_record["show_activation_info"]);
 		}
 		else
 		{
@@ -447,8 +468,8 @@ class ilPageObject
 	}
 
 	/**
-	* lookup activation status
-	*/
+	 * lookup activation status
+	 */
 	function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false)
 	{
 		global $ilDB;
@@ -493,8 +514,8 @@ class ilPageObject
 	}
 
 	/**
-	* write activation status
-	*/
+	 * write activation status
+	 */
 	function _writeActive($a_id, $a_parent_type, $a_active, $a_reset_scheduled_activation = true)
 	{
 		global $ilDB;
@@ -514,6 +535,23 @@ class ilPageObject
 		}
 	}
 
+	/**
+	 * lookup activation status
+	 */
+	function _lookupActivationData($a_id, $a_parent_type)
+	{
+		global $ilDB;
+
+		$set = $ilDB->queryF("SELECT active, activation_start, activation_end, show_activation_info FROM page_object WHERE page_id = %s".
+			" AND parent_type = %s",
+				array("integer", "text"),
+				array($a_id, $a_parent_type));
+		$rec = $ilDB->fetchAssoc($set);
+		
+		return $rec;
+	}
+
+	
 	/**
 	* Lookup parent id
 	*/
@@ -2461,6 +2499,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 				"active" => array("integer", $this->getActive()),
 				"activation_start" => array("timestamp", $this->getActivationStart()),
 				"activation_end" => array("timestamp", $this->getActivationEnd()),
+				"show_activation_info" => array("integer", $this->getShowActivationInfo()),
 				"inactive_elements" => array("integer", $iel),
 				"int_links" => array("integer", $inl),
 				), array(
