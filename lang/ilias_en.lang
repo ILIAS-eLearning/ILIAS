@@ -12616,3 +12616,6 @@ tax#:#tax_delete_taxonomy#:#Delete Taxononmy
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
 tax#:#tax_add_taxonomy#:#Add Taxonomy
+content#:#cont_show_activation_info#:#Show Activation Info
+content#:#cont_show_activation_info_info#:#If the scheduled activation is not yet reached, the page will not be skipped. The information when the page will be activated will be displayed to the user.
+content#:#cont_page_activation_on#:#The content will be activated on %s.

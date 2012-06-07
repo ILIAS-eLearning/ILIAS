@@ -1015,7 +1015,14 @@ class ilLMPresentationGUI
 				{
 					if ($this->lm->getTOCMode() == "pages")
 					{
-						$exp->highlightNode($page_id);
+						if ($this->deactivated_page)
+						{
+							$exp->highlightNode($_GET["obj_id"]);
+						}
+						else
+						{
+							$exp->highlightNode($page_id);
+						}
 					}
 					else
 					{
@@ -1707,8 +1714,8 @@ class ilLMPresentationGUI
 			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
 				"Modules/LearningModule");
 			$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_no_page_in_chapter"));
-			$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.gif",
-				false, "output", $this->offlineMode()));
+			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.gif",
+			//	false, "output", $this->offlineMode()));
 			$mtpl->setVariable("ITEM_TITLE",
 				ilLMObject::_lookupTitle($_GET["obj_id"]));
 			$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
@@ -1720,9 +1727,19 @@ class ilLMPresentationGUI
 		{
 			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
 				"Modules/LearningModule");
-			$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_page_currently_deactivated"));
-			$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.gif",
-				false, "output", $this->offlineMode()));
+			$m = $this->lng->txt("cont_page_currently_deactivated");
+			$act_data = ilPageObject::_lookupActivationData((int) $_GET["obj_id"], $this->lm->getType());
+			if ($act_data["show_activation_info"] &&
+				(ilUtil::now() < $act_data["activation_start"]))
+			{
+				$m.= "<p>".sprintf($this->lng->txt("cont_page_activation_on"),
+					ilDatePresentation::formatDate(new ilDateTime($act_data["activation_start"],IL_CAL_DATETIME)
+					)).
+					"</p>";
+			}
+			$mtpl->setVariable("MESSAGE", $m);
+			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.gif",
+			//	false, "output", $this->offlineMode()));
 			$mtpl->setVariable("ITEM_TITLE",
 				ilLMObject::_lookupTitle($_GET["obj_id"]));
 			$this->tpl->setVariable("PAGE_CONTENT", $mtpl->get());
@@ -2422,7 +2439,14 @@ class ilLMPresentationGUI
 		}
 		else
 		{
-			$c_id = $page_id;
+			if ($this->deactivated_page)
+			{
+				$c_id = $_GET["obj_id"];
+			}
+			else
+			{
+				$c_id = $page_id;
+			}
 		}
 		while (!$found)
 		{
@@ -2441,7 +2465,17 @@ class ilLMPresentationGUI
 			}
 			else if ($succ_node["obj_id"] > 0 && !$active)
 			{
-				$found = false;
+				// look, whether activation data should be shown
+				$act_data = ilPageObject::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
+				if ($act_data["show_activation_info"] &&
+					(ilUtil::now() < $act_data["activation_start"]))
+				{
+					$found = true;
+				}
+				else
+				{
+					$found = false;
+				}
 			}
 			else
 			{
@@ -2457,7 +2491,14 @@ class ilLMPresentationGUI
 		// determine predecessor page id
 		$ilBench->start("ContentPresentation", "ilLMNavigation_fetchPredecessor");
 		$found = false;
-		$c_id = $page_id;
+		if ($this->deactivated_page)
+		{
+			$c_id = $_GET["obj_id"];
+		}
+		else
+		{
+			$c_id = $page_id;
+		}
 		while (!$found)
 		{
 			$pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
@@ -2473,7 +2514,17 @@ class ilLMPresentationGUI
 			}
 			else if ($pre_node["obj_id"] > 0 && !$active)
 			{
-				$found = false;
+				// look, whether activation data should be shown
+				$act_data = ilPageObject::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
+				if ($act_data["show_activation_info"] &&
+					(ilUtil::now() < $act_data["activation_start"]))
+				{
+					$found = true;
+				}
+				else
+				{
+					$found = false;
+				}
 			}
 			else
 			{
@@ -2810,7 +2861,14 @@ class ilLMPresentationGUI
 			{
 				if ($this->lm->getTOCMode() == "pages")
 				{
-					$exp->highlightNode($page_id);
+					if ($this->deactivated_page)
+					{
+						$exp->highlightNode($_GET["obj_id"]);
+					}
+					else
+					{
+						$exp->highlightNode($page_id);
+					}
 				}
 				else
 				{

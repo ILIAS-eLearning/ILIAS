@@ -9820,4 +9820,12 @@ $ilDB->addTableColumn('glossary', 'show_tax', array(
 <?php
 	$ilDB->addPrimaryKey('tax_tree', array('tax_tree_id', 'child'));
 ?>
-
+<#3593>
+<?php
+$ilDB->addTableColumn('page_object', 'show_activation_info', array(
+	'type' => 'integer',
+	'length' => 1,
+	'notnull' => true,
+	'default' => 0
+));
+?>

@@ -318,7 +318,16 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 
 		if(!$active && $a_type == "pg")
 		{
-			return false;
+			$act_data = ilPageObject::_lookupActivationData((int) $a_id, $this->lm_obj->getType());
+			if ($act_data["show_activation_info"] &&
+				(ilUtil::now() < $act_data["activation_start"]))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
