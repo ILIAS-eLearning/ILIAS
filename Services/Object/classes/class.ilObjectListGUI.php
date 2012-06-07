@@ -2447,8 +2447,8 @@ class ilObjectListGUI
 				$this->ajax_hash);	
 			$this->ctrl->setParameterByClass('ilobjectactivationgui','parent_id',
 				$parent_ref_id);											
-			$cmd_lnk = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'),
-				'edit');
+//			$cmd_lnk = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'),
+//				'edit');
 			
 			$this->insertCommand($cmd_lnk, $this->lng->txt('activation'));			
 		}
