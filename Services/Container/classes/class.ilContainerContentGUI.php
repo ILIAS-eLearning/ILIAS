@@ -96,7 +96,7 @@ abstract class ilContainerContentGUI
 	*/
 	protected function getRightColumnHTML()
 	{
-		global $ilUser, $lng, $ilCtrl, $ilAccess;
+		global $ilUser, $lng, $ilCtrl, $ilAccess, $ilPluginAdmin;;
 
 		$ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
@@ -124,10 +124,20 @@ abstract class ilContainerContentGUI
 		{
 			if (!$ilCtrl->isAsynch())
 			{
-				$html = $ilCtrl->getHTML($column_gui);
+				$html = "";
+				
+				// user interface plugin slot + default rendering
+				include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+				$uip = new ilUIHookProcessor("Services/Container", "right_column",
+					array("container_content_gui" => $this));
+				if (!$uip->replaced())
+				{
+					$html = $ilCtrl->getHTML($column_gui);
+				}
+				$html = $uip->getHTML($html);
 			}
 		}
-
+		
 		return $html;
 	}
 
