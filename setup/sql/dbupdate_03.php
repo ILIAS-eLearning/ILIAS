@@ -9832,9 +9832,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 <#3594>
 <?php
 
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_enabled') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_enabled') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_enabled', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_enabled', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9842,9 +9842,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_anon') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_anon') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_anon', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_anon', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9852,9 +9852,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_achieved_ts') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_achieved_ts') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_achieved_ts', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_achieved_ts', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9862,9 +9862,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_score') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_score') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_score', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_score', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9872,9 +9872,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_percentage') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_percentage') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_percentage', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_percentage', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9882,9 +9882,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_hints') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_hints') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_hints', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_hints', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9892,9 +9892,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_wtime') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_wtime') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_wtime', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_wtime', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9902,9 +9902,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_own_table') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_own_table') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_own_table', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_own_table', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9912,9 +9912,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_top_table') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_top_table') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_top_table', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_top_table', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
@@ -9922,9 +9922,9 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 	
-	if( !$ilDB->tableColumnExists('tst_setting', 'highscore_top_num') )
+	if( !$ilDB->tableColumnExists('tst_tests', 'highscore_top_num') )
 	{
-		$ilDB->addTableColumn('tst_setting', 'highscore_top_num', array(
+		$ilDB->addTableColumn('tst_tests', 'highscore_top_num', array(
 			'type' => 'integer',
 			'length'  => 4,
 			'notnull' => false,
