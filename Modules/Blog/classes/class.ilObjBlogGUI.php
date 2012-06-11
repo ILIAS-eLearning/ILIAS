@@ -672,9 +672,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @return string 
 	 */	
 	function getHTML()
-	{
-		global $ilCtrl;
-		
+	{		
 		// getHTML() is called by ilRepositoryGUI::show()
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
@@ -682,6 +680,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 		
 		// there is no way to do a permissions check here, we have no wsp
+		
+		$this->filterInactivePostings();
 		
 		$list = $nav = "";
 		if($this->items[$this->month])
