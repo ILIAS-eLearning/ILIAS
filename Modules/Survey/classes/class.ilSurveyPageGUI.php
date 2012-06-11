@@ -40,7 +40,7 @@ class ilSurveyPageGUI
 	 */
 	function executeCommand()
 	{
-		global $ilAccess, $ilCtrl, $rbacsystem;
+		global $lng, $ilCtrl, $rbacsystem;
 
 		$cmd = $ilCtrl->getCmd("renderPage");
 		$next_class = $ilCtrl->getNextClass($this);
