@@ -610,7 +610,8 @@ class ilMainMenuGUI
 
 			// Learning Progress
 			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-			if (ilObjUserTracking::_enabledLearningProgress())
+			if (ilObjUserTracking::_enabledLearningProgress() && 
+				ilObjUserTracking::_hasLearningProgressDesktop())
 			{
 				//$ilTabs->addTarget("learning_progress", $this->ctrl->getLinkTargetByClass("ilLearningProgressGUI"));
 				$gl->addEntry($lng->txt("learning_progress"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToLP",

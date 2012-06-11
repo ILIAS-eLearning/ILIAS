@@ -160,9 +160,13 @@ class ilLearningProgressBaseGUI
 		{
 			case LP_MODE_PERSONAL_DESKTOP:
 
-				$this->tabs_gui->addTarget('trac_progress',
-												 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-												 "","","",$a_active == LP_ACTIVE_PROGRESS);
+				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+				if(ilObjUserTracking::_hasLearningProgressLearner())
+				{
+					$this->tabs_gui->addTarget('trac_progress',
+													$this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
+													"","","",$a_active == LP_ACTIVE_PROGRESS);
+				}
 
 				// ownership is also checked by this method
 				$types = array("crs", "grp", "exc", "tst", "lm", "sahs", "htlm", "dbk");

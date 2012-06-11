@@ -186,6 +186,17 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$activate->addSubItem($lp);
 		
 		
+		// lp settings
+
+		$desktop = new ilCheckboxInputGUI($this->lng->txt('trac_lp_on_personal_desktop'), 'lp_desktop');
+		$desktop->setChecked($this->object->hasLearningProgressDesktop());
+		$lp->addSubItem($desktop);
+		
+		$learner = new ilCheckboxInputGUI($this->lng->txt('trac_lp_learner_access'), 'lp_learner');
+		$learner->setChecked($this->object->hasLearningProgressLearner());
+		$lp->addSubItem($learner);
+		
+		
 		// extended data
 
 		$extdata = new ilCheckboxGroupInputGUI($this->lng->txt('trac_learning_progress_settings_info'), 'lp_extdata');
@@ -208,6 +219,9 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$ext_value[] = 'lp_spent';
 		}
 		$extdata->setValue($ext_value);
+		
+		$this->object->setLearningProgressDesktop($_POST['lp_desktop']);
+		$this->object->setLearningProgressLearner($_POST['lp_learner']);
 		
 		
 		// change event

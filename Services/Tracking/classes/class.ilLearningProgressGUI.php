@@ -160,22 +160,56 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofprogressgui';
 
 			case LP_MODE_PERSONAL_DESKTOP:
-				if(strlen($_SESSION['il_lp_history']))
-				{
-					if($_SESSION['il_lp_history'] == "illplistofobjectsgui")
-					{
-						// see __setSubTabs()
-						$types = array("crs", "grp", "exc", "tst", "lm", "sahs", "htlm", "dbk");
-						if(!ilUtil::_getObjectsByOperations($types, "edit_learning_progress", $ilUser->getId(), 1))
-						{
-							$_SESSION['il_lp_history'] = null;
-							return 'illplistofprogressgui';							
-						}
-					}					
-					return $_SESSION['il_lp_history'];
-				}
-				return 'illplistofprogressgui';
+								
+				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");			
+				if(ilObjUserTracking::_hasLearningProgressDesktop())
+				{									
+					$types = array("crs", "grp", "exc", "tst", "lm", "sahs", "htlm", "dbk");
+					$has_edit = ilUtil::_getObjectsByOperations($types, "edit_learning_progress", $ilUser->getId(), 1);				
+					$has_personal = ilObjUserTracking::_hasLearningProgressLearner();
 
+					// default
+					$tgt = null;
+					if($has_edit)
+					{
+						$tgt = 'illplistofobjectsgui';
+					}
+					else if($has_personal)
+					{
+						$tgt = 'illplistofprogressgui';
+					}
+
+					// validate session
+					switch($_SESSION['il_lp_history'])
+					{
+						case 'illplistofobjectsgui':
+							if(!$has_edit)
+							{
+								$_SESSION['il_lp_history'] = null;
+							}
+							break;
+
+						case 'illplistofprogressgui':
+							if(!$has_personal)
+							{
+								$_SESSION['il_lp_history'] = null;
+							}
+							break;					
+					}
+
+					if($_SESSION['il_lp_history'])
+					{
+						return $_SESSION['il_lp_history'];
+					}
+					else if($tgt)
+					{
+						return $tgt;
+					}
+				}
+				
+				// should not happen
+				ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI");
+				
 			case LP_MODE_USER_FOLDER:
 				return 'illplistofprogressgui';
 		}
