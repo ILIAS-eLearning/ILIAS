@@ -12587,3 +12587,5 @@ common#:#shib_matriculation#:#Attribut für Matrikelnummer
 common#:#soap_connect_timeout#:#Timeout für Verbindungsaufbau
 common#:#soap_connect_timeout_info#:#Die maximale Zeit in Sekunden, die gewartet wird, bis eine Verbindung zum SOAP-Webservice aufgebaut werden kann.
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
+trac#:#trac_lp_on_personal_desktop#:#Lernfortschritt auf Persönlichem Schreibtisch
+trac#:#trac_lp_learner_access#:#Eigenen Lernfornschritt einsehen

@@ -60,6 +60,11 @@ class ilLearningProgressAccess
 			return true;
 		}
 		
+		if(!ilObjUserTracking::_hasLearningProgressLearner())
+		{
+			return false;			
+		}
+		
 		include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 		if(ilLPObjSettings::_lookupMode(ilObject::_lookupObjId($a_ref_id)) == LP_MODE_DEACTIVATED)
 		{

@@ -9932,3 +9932,10 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 		));
 	}
 ?>
+<#3595>
+<?php
+	include_once "Services/Administration/classes/class.ilSetting.php";	
+	$ilSetting = new ilSetting();
+	$ilSetting->set("lp_desktop", 1);
+	$ilSetting->set("lp_learner", 1);
+?>
