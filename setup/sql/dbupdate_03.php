@@ -9939,3 +9939,38 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 	$ilSetting->set("lp_desktop", 1);
 	$ilSetting->set("lp_learner", 1);
 ?>
+<#3596>
+<?php
+
+	$pfpg = array();
+
+	$set = $ilDB->query("SELECT id,rep_obj_id".
+				" FROM note".				
+				" WHERE obj_type = ".$ilDB->quote("pf", "text").
+				" AND obj_id = ".$ilDB->quote(0, "integer"));
+	while($nt = $ilDB->fetchAssoc($set))
+	{
+		// get first page of portfolio
+		if(!isset($pfpg[$nt["rep_obj_id"]]))
+		{		
+			$ilDB->setLimit(1);
+			$fset = $ilDB->query("SELECT id".
+				" FROM usr_portfolio_page".
+				" WHERE portfolio_id  = ".$ilDB->quote($nt["rep_obj_id"], "integer").
+				" AND type = ".$ilDB->quote(1, "integer").
+				" ORDER BY order_nr ASC");		
+			 $first = $ilDB->fetchAssoc($fset);			 
+			 $pfpg[$nt["rep_obj_id"]] = $first["id"];
+		}
+		
+		if($pfpg[$nt["rep_obj_id"]] && $nt["id"])
+		{
+			$ilDB->manipulate("UPDATE note".
+				" SET obj_type = ".$ilDB->quote("pfpg", "text").
+				", obj_id = ".$ilDB->quote($pfpg[$nt["rep_obj_id"]], "integer").
+				" WHERE id = ".$ilDB->quote($nt["id"], "integer"));		
+		}
+	}
+	
+	unset($pfpg);
+?>

@@ -1323,21 +1323,11 @@ class ilObjPortfolioGUI
 		
 		// blog posting comments are handled within the blog
 		$notes = "";
-		if($a_show_notes && $this->portfolio->hasPublicComments() && !($current_blog && $_REQUEST["blpg"]))
+		if($a_show_notes && $this->portfolio->hasPublicComments() && !$current_blog)
 		{			
-			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-						
-			if(!$current_blog)
-			{
-				$note_gui = new ilNoteGUI($portfolio_id, 0, "pf");
-				$note_gui->setRepositoryMode(false);
-			}
-			// including blog object comments here  (or ilCtrl won't work)
-			else
-			{
-				$note_gui = new ilNoteGUI($current_blog, 0, "blog");
-			}
-			
+			include_once("./Services/Notes/classes/class.ilNoteGUI.php");			
+			$note_gui = new ilNoteGUI($portfolio_id, $current_page, "pfpg");
+			$note_gui->setRepositoryMode(false);			
 			$note_gui->enablePublicNotes(true);
 			$note_gui->enablePrivateNotes(false);
 			$note_gui->enablePublicNotesDeletion($ilUser->getId() == $user_id);
