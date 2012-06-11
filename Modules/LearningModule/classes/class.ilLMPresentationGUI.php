@@ -814,6 +814,9 @@ class ilLMPresentationGUI
 				ilAccordionGUI::addJavaScript();
 				ilAccordionGUI::addCss();
 
+				
+				$this->tpl->addJavascript("./Modules/LearningModule/js/LearningModule.js");
+				
 				// from main menu
 //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 				$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
