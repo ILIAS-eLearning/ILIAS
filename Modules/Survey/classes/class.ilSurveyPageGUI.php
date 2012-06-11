@@ -1042,6 +1042,13 @@ class ilSurveyPageGUI
 
 			$pos->setValue($this->current_page);
 		}
+		else
+		{
+			// #9089: 1st page 
+			$pos = new ilHiddenInputGUI("pgov");
+			$pos->setValue("fst");
+			$form->addItem($pos);
+		}
 
 		if($this->object->isPoolActive())
 		{
