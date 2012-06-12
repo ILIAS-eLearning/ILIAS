@@ -12598,3 +12598,5 @@ rating#:#rating_category_edit#:#Kategorie bearbeiten
 rating#:#rating_category_update#:#Speichern
 rating#:#rating_category_updated#:#Kategorie gespeichert.
 rating#:#rating_update_positions#:#Reihenfolge speichern
+rating#:#rating_category_delete_sure#:#Wollen Sie wirklich die folgenden Kategorien löschen?  Alle Bewertungen für diese Kategorie werden gelöscht.
+rating#:#rating_category_deleted#:#Kategorie gelöscht.

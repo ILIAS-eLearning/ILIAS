@@ -198,15 +198,50 @@ class ilRatingCategoryGUI
 	
 	protected function confirmDelete()
 	{
+		global $tpl, $ilCtrl, $lng;
 		
+		if(!$this->cat_id)
+		{
+			return $this->listCategories();
+		}
 		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($lng->txt("rating_category_delete_sure")."<br/>".
+			$lng->txt("info_delete_warning_no_trash"));
+
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setCancel($lng->txt("cancel"), "listCategories");
+		$cgui->setConfirm($lng->txt("confirm"), "delete");
+
+		$cat = new ilRatingCategory($this->cat_id);		
+		$cgui->addItem("cat_id", $this->cat_id, $cat->getTitle());
+		
+		$tpl->setContent($cgui->getHTML());
 	}
 	
 	protected function delete()
 	{
+		global $ilCtrl, $lng;
 		
+		if($this->cat_id)
+		{
+			ilRatingCategory::delete($this->cat_id);			
+			ilUtil::sendSuccess($lng->txt("rating_category_deleted"));			
+		}
 		
+		// fix order
+		$cnt = 0;
+		foreach(ilRatingCategory::getAllForObject($this->parent_id) as $item)
+		{
+			$cnt += 10;
+			
+			$cat = new ilRatingCategory($item["id"]);
+			$cat->setPosition($cnt);
+			$cat->update();			
+		}
 		
+		$ilCtrl->redirect($this, "listCategories");
 	}
 }
 

@@ -214,17 +214,23 @@ class ilRatingCategory
 	}
 	
 	/**
-	 *  Delete db entry
+	 * Delete db entry
+	 * 
+	 * @param int $a_id
 	 */
-	public function delete($a_id)
+	public static function delete($a_id)
 	{
 		global $ilDB;
 		
 		if((int)$a_id)
-		{
+		{			
+			$sql = "DELETE FROM il_rating".
+				" WHERE category_id = ".$ilDB->quote($a_id, "integer");
+			$ilDB->manipulate($sql);
+			
 			$sql = "DELETE FROM il_rating_cat".
 				" WHERE id = ".$ilDB->quote($a_id, "integer");
-			$ilDB->manipulate($sql);
+			$ilDB->manipulate($sql);			
 		}
 	}
 	
@@ -258,14 +264,13 @@ class ilRatingCategory
 	 * @param int $a_parent_obj_id 
 	 */
 	public static function deleteForObject($a_parent_obj_id)
-	{
-		global $ilDB;
-		
+	{		
 		if((int)$a_parent_obj_id)
-		{
-			$sql = "DELETE FROM il_rating_cat".
-				" WHERE parent_id = ".$ilDB->quote($a_parent_obj_id, "integer");
-			$ilDB->manipulate($sql);
+		{			
+			foreach(self::getAllForObject($a_parent_obj_id) as $item)
+			{
+				self::delete($item["id"]);
+			}
 		}
 	}
 }
