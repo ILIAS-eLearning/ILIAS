@@ -2092,10 +2092,10 @@ common#:#access_users#:#Usuarios identificados
 common#:#accesscount_registered_users#:#Número de lecturas por usuarios diferentes
 common#:#account_expires_body#:#Su cuenta es limitada, su acceso finaliza en:
 common#:#account_expires_subject#:#[ILIAS] Su acceso finaliza
-common#:#accs_edit_permission#:#Cambiar la configuración de los permisos
-common#:#accs_read#:#Acceso de lectura a configuraciones de accesibilidad
-common#:#accs_visible#:#Las opciones de Accesibilidad son visibles
-common#:#accs_write#:#Editar opciones de accesibilidad.
+rbac#:#accs_edit_permission#:#Cambiar la configuración de los permisos
+rbac#:#accs_read#:#Acceso de lectura a configuraciones de accesibilidad
+rbac#:#accs_visible#:#Las opciones de Accesibilidad son visibles
+rbac#:#accs_write#:#Editar opciones de accesibilidad.
 common#:#action#:#Acción
 common#:#action_aborted#:#Acción abortada!
 common#:#actions#:#Acciones
@@ -2127,10 +2127,10 @@ common#:#added_to_desktop#:#El elemento ha sido añadido al escritorio
 common#:#additional_info#:#Información adicional
 common#:#address#:#Dirección
 common#:#adm_create_tax#:#Crear taxonomía
-common#:#adm_edit_permission#:#Modificar configuración de permisos
-common#:#adm_read#:#Acceso de lectura a la configuración básica del sistema
-common#:#adm_visible#:#Configuración del sistema visible
-common#:#adm_write#:#Editar Configuración Básica del sistema
+rbac#:#adm_edit_permission#:#Modificar configuración de permisos
+rbac#:#adm_read#:#Acceso de lectura a la configuración básica del sistema
+rbac#:#adm_visible#:#Configuración del sistema visible
+rbac#:#adm_write#:#Editar Configuración Básica del sistema
 common#:#admin_force_noti#:#Notificación activa
 common#:#admin_panel#:#Panel de administración
 common#:#administrate#:#administrar

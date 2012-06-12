@@ -2109,10 +2109,10 @@ common#:#accessFree#:#Zeitliche Begrenzung aufheben
 common#:#accessRestrict#:#Zugriff zeitlich begrenzen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
-common#:#accs_edit_permission#:#Rechteeinstellungen ändern
-common#:#accs_read#:#Lesezugriff auf Einstellungen Barrierefreiheit
-common#:#accs_visible#:#Einstellungen Barrierefreiheit sichtbar
-common#:#accs_write#:#Einstellungen Barrierefreiheit bearbeiten
+rbac#:#accs_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#accs_read#:#Lesezugriff auf Einstellungen Barrierefreiheit
+rbac#:#accs_visible#:#Einstellungen Barrierefreiheit sichtbar
+rbac#:#accs_write#:#Einstellungen Barrierefreiheit bearbeiten
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -2144,10 +2144,10 @@ common#:#added_to_desktop#:#Das Objekt wurde auf den Schreibtisch gelegt.
 common#:#additional_info#:#Zusätzliche Informationen
 common#:#address#:#Adresse
 common#:#adm_create_tax#:#Neue Taxonomie anlegen
-common#:#adm_edit_permission#:#Rechteeinstellungen ändern
-common#:#adm_read#:#Lesezugriff auf Systemeinstellungen
-common#:#adm_visible#:#Systemeinstellungen sind sichtbar
-common#:#adm_write#:#Systemgrunddaten bearbeiten
+rbac#:#adm_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#adm_read#:#Lesezugriff auf Systemeinstellungen
+rbac#:#adm_visible#:#Systemeinstellungen sind sichtbar
+rbac#:#adm_write#:#Systemgrunddaten bearbeiten
 common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#admin_panel#:#Administrationsmenü
 common#:#administrate#:#Administrieren

@@ -152,7 +152,7 @@ fill_both_fields#:#Bitte beide Felder ausfüllen!
 fill_out_required_fields#:#Bitte füllen Sie alle benötigten Felder aus
 filled_out#:#korrekt ausgefüllt
 finish_initial_setup_first#:#Bitte beenden Sie zuerst die Erstinstallation
-finish_setup#:#Abschliessen der Installationen
+finish_setup#:#Installation abschliessen
 finish#:#Installation abschliessen
 firstname#:#Vorname
 fop_path_comment#:#Wird benötigt um PDF-Dokumente zu erzeugen

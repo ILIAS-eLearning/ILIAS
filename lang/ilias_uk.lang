@@ -810,10 +810,10 @@ common#:#add_translation#:#Додати переклад
 common#:#add_user#:#Додати локального користувача
 common#:#added_new_condition#:#Створити нову умову.
 common#:#adm_create_tax#:#Створити систематику
-common#:#adm_edit_permission#:#Змінити настройки прав
-common#:#adm_read#:#Доступ на читання до Базових настроювань системи
-common#:#adm_visible#:#Системні настройки є видимі
-common#:#adm_write#:#Редагувати Базові системні настройки
+rbac#:#adm_edit_permission#:#Змінити настройки прав
+rbac#:#adm_read#:#Доступ на читання до Базових настроювань системи
+rbac#:#adm_visible#:#Системні настройки є видимі
+rbac#:#adm_write#:#Редагувати Базові системні настройки
 common#:#admin_panel#:#Administration Panel###20 Jun 2005 new variable
 common#:#administrate#:#Адмініструвати
 common#:#administrate_users#:#Адміністрування локальних користувачів
@@ -9151,10 +9151,10 @@ dateplaner#:#err_missing_title#:#Please enter an appointment title.###30 04 2009
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.###30 04 2009 new variable
 administration#:#adm_locale#:#Locale###30 04 2009 new variable
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.###30 04 2009 new variable
-common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
-common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
-common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
-common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
+rbac#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
+rbac#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
 common#:#obj_accs#:#Accessibility###30 04 2009 new variable
 common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
 acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable

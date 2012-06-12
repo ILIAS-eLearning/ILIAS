@@ -221,10 +221,10 @@ common#:#add_user_defined_field#:#Tilføj nyt felt
 common#:#added_new_condition#:#Tilføjet ny tilstand.
 common#:#additional_info#:#Yderligere information
 common#:#adm_create_tax#:#Opret taksonomi
-common#:#adm_edit_permission#:#Rediger rettighedsindstillinger
-common#:#adm_read#:#Læserettigheder til systemindstillinger
-common#:#adm_visible#:#Systemindstillinger er synlige
-common#:#adm_write#:#Rediger basisindstilinger
+rbac#:#adm_edit_permission#:#Rediger rettighedsindstillinger
+rbac#:#adm_read#:#Læserettigheder til systemindstillinger
+rbac#:#adm_visible#:#Systemindstillinger er synlige
+rbac#:#adm_write#:#Rediger basisindstilinger
 common#:#admin_panel#:#Administrationspanel
 common#:#administrate#:#Administrer
 common#:#administrate_users#:#Lokal brugeradministration
@@ -9165,10 +9165,10 @@ dateplaner#:#err_missing_title#:#Indtast en titel for aftalen.
 dateplaner#:#err_end_before_start#:#Aftalen kan ikke slutte før den starter.
 administration#:#adm_locale#:#Locale
 administration#:#adm_locale_info#:#Lokaliseringsindsstillingen påværker sortering i f.eks. lister. Dansk er da_DK men flere kan tilføjes med adskildelse af komma. Den første gyldige bliver anvendt.
-common#:#accs_edit_permission#:#Ret rettighedsindstillinger
-common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
-common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
-common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_edit_permission#:#Ret rettighedsindstillinger
+rbac#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
+rbac#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
 common#:#obj_accs#:#Tilgængelighed
 common#:#obj_accs_desc#:#Indstillinger for tilgængelighed til gavn for brugere med handicap.
 acc#:#acc_access_keys#:#Genvejstaster

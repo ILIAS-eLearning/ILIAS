@@ -2094,10 +2094,10 @@ common#:#accessFree#:#Usuń Ograniczony Dostęp
 common#:#accessRestrict#:#Ustaw Ograniczony Dostęp
 common#:#account_expires_body#:#Twoje konto jest limitowane, jego ważność skończy się:
 common#:#account_expires_subject#:#[ILIAS 3] Twoje konto straciło ważność
-common#:#accs_edit_permission#:#Zmień ustawienia uprawnień
-common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Ustawienia Dostępności są widoczne
-common#:#accs_write#:#Edytuj Ustawienia Dostępności
+rbac#:#accs_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#accs_read#:#Read access to Accessibility Settings
+rbac#:#accs_visible#:#Ustawienia Dostępności są widoczne
+rbac#:#accs_write#:#Edytuj Ustawienia Dostępności
 common#:#action#:#Akcja
 common#:#action_aborted#:#Akcja anulowana
 common#:#actions#:#Akcje
@@ -2129,10 +2129,10 @@ common#:#added_to_desktop#:#The item has been added to the desktop.
 common#:#additional_info#:#Informacje Dodatkowe
 common#:#address#:#Adres
 common#:#adm_create_tax#:#Twórz klasyfikację
-common#:#adm_edit_permission#:#Zmień ustawienia uprawnień
-common#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
-common#:#adm_visible#:#Ustawienia systemowe są widoczne
-common#:#adm_write#:#Edycja podstawowych ustawień systemu
+rbac#:#adm_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#adm_read#:#Prawo czytania do podstawowych ustawień systemu
+rbac#:#adm_visible#:#Ustawienia systemowe są widoczne
+rbac#:#adm_write#:#Edycja podstawowych ustawień systemu
 common#:#admin_force_noti#:#Powiadomienie włączone
 common#:#admin_panel#:#Panel administracyjny
 common#:#administrate#:#Administruj

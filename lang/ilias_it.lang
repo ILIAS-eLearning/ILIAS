@@ -1585,10 +1585,10 @@ common#:#accessFree#:#Remove limited Access
 common#:#accessRestrict#:#Set limited Access
 common#:#account_expires_body#:#La tua iscrizione &#232; a tempo, scadr&#224; il:
 common#:#account_expires_subject#:#[ILIAS] La tua iscrizione scade
-common#:#accs_edit_permission#:#Modifica impostazioni dei permessi
-common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Le impostazioni di Accessibilita' sono visibili
-common#:#accs_write#:#Modifica le Impostazioni di Accessibilita'
+rbac#:#accs_edit_permission#:#Modifica impostazioni dei permessi
+rbac#:#accs_read#:#Read access to Accessibility Settings
+rbac#:#accs_visible#:#Le impostazioni di Accessibilita' sono visibili
+rbac#:#accs_write#:#Modifica le Impostazioni di Accessibilita'
 common#:#action#:#Azione
 common#:#action_aborted#:#Esecuzione interrotta!
 common#:#actions#:#Azioni
@@ -1619,10 +1619,10 @@ common#:#added_new_condition#:#Creata nuova condizione
 common#:#additional_info#:#Informazione aggiuntiva
 common#:#address#:#Address
 common#:#adm_create_tax#:#Creare una tassonomia
-common#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#adm_read#:#Accedere in lettura alla sezione di amministrazione
-common#:#adm_visible#:#Vedere la sezione di amministrazione
-common#:#adm_write#:#Modificare la sezione di amministrazione
+rbac#:#adm_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#adm_read#:#Accedere in lettura alla sezione di amministrazione
+rbac#:#adm_visible#:#Vedere la sezione di amministrazione
+rbac#:#adm_write#:#Modificare la sezione di amministrazione
 common#:#admin_panel#:#Pannello di amministrazione
 common#:#administrate#:#Amministra
 common#:#administrate_users#:#Utenti locali

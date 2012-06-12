@@ -2062,10 +2062,10 @@ common#:#accessFree#:#Enlever l'accès limité
 common#:#accessRestrict#:#Fixer l'accès limité
 common#:#account_expires_body#:#Votre compte est limité, il expirera le :
 common#:#account_expires_subject#:#[ILIAS 3] Votre compte expire
-common#:#accs_edit_permission#:#Changer les paramètres de permission
-common#:#accs_read#:#Accès en lecture aux paramètres d'accessibilité
-common#:#accs_visible#:#Les paramètres d'accessibilité sont visibles
-common#:#accs_write#:#Modifier les paramètres d'accessibilité
+rbac#:#accs_edit_permission#:#Changer les paramètres de permission
+rbac#:#accs_read#:#Accès en lecture aux paramètres d'accessibilité
+rbac#:#accs_visible#:#Les paramètres d'accessibilité sont visibles
+rbac#:#accs_write#:#Modifier les paramètres d'accessibilité
 common#:#action_aborted#:#Action annulée
 common#:#action#:#Action
 common#:#actions#:#Actions
@@ -2097,10 +2097,10 @@ common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011
 common#:#additional_info#:#Information supplémentaire
 common#:#address#:#Adresse
 common#:#adm_create_tax#:#Créer taxinomie
-common#:#adm_edit_permission#:#Changer les paramètres de permission
-common#:#adm_read#:#Accès en lecture aux paramètres de base du système
-common#:#adm_visible#:#Les paramètres du système sont visibles
-common#:#adm_write#:#Modifier les paramètres du système
+rbac#:#adm_edit_permission#:#Changer les paramètres de permission
+rbac#:#adm_read#:#Accès en lecture aux paramètres de base du système
+rbac#:#adm_visible#:#Les paramètres du système sont visibles
+rbac#:#adm_write#:#Modifier les paramètres du système
 common#:#admin_force_noti#:#Notification active
 common#:#admin_panel#:#Panneau d'administration
 common#:#administrate_users#:#Administration des utilisateurs locaux
