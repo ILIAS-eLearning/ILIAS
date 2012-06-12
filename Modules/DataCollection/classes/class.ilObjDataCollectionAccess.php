@@ -8,7 +8,10 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 * Class ilObjDataCollectionAccess
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjRootFolderAccess.php 15678 2008-01-06 20:40:55Z akill $
+* @author Martin Studer <ms@studer-raimann.ch>
+* @author Marcel Raimann <mr@studer-raimann.ch>
+* @author Fabian Schmid <fs@studer-raimann.ch>
+* @version $Id: class.ilObjDataCollectionAccess.php 15678 2008-01-06 20:40:55Z akill $
 *
 */
 class ilObjDataCollectionAccess extends ilObjectAccess

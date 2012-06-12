@@ -9974,3 +9974,390 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 	
 	unset($pfpg);
 ?>
+<#3597>
+<?php
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'main_table_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'is_online' => array(
+			'type' => 'integer',
+			'length' => 1,
+		),
+		'edit_type' => array(
+			'type' => 'integer',
+			'length' => 1,
+		),
+		'edit_start' => array(
+			'type' => 'timestamp',
+		),
+		'edit_end' => array(
+			'type' => 'timestamp',
+		), 
+		'rating' => array(
+			'type' => 'integer',
+			'length' => 1,
+		),
+		'public_notes' => array(
+			'type' => 'integer',
+			'length' => 1,
+		),
+		'approval' => array(
+			'type' => 'integer',
+			'length' => 1,
+		),
+		'notification' => array(
+			'type' => 'integer',
+			'length' => 1,
+		)
+	);
+	
+	$ilDB->createTable("il_dcl_data", $fields);
+	$ilDB->addPrimaryKey("il_dcl_data", array("id"));
+	$ilDB->createSequence("il_dcl_data");
+?>
+<#3598>
+<?php	
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'table_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'type' => array(
+			'type' => 'integer',
+			'length' => 1,
+		),
+		'formtype' => array(
+			'type' => 'integer',
+			'length' => 1,
+		),
+	);
+	$ilDB->createTable("il_dcl_view", $fields);
+	$ilDB->addPrimaryKey("il_dcl_view", array("id"));
+	$ilDB->createSequence("il_dcl_view");
+?>
+<#3599>
+<?php
+  $fields = array(
+    'id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'datatype_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => false
+    ),
+    'title' => array(
+      'type' => 'text',
+      'length' => 256,
+      'notnull' => false
+    ),
+    'inputformat' => array(
+      'type' => 'integer',
+      'length' => 1,
+      'notnull' => true
+    ),
+  );
+  $ilDB->createTable("il_dcl_datatype_prop", $fields);
+  $ilDB->addPrimaryKey("il_dcl_datatype_prop", array("id"));
+?>
+<#3600>
+<?php	
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 256,
+			'notnull' => false
+		),
+	);
+	$ilDB->createTable("il_dcl_table", $fields);
+	$ilDB->addPrimaryKey("il_dcl_table", array("id"));
+	$ilDB->createSequence("il_dcl_table");
+?>
+<#3601>
+<?php
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'table_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 256,
+			'notnull' => false
+		),
+		'description' => array(
+			'type' => 'text',
+			'length' => 256,
+			'notnull' => false
+		),
+		'datatype_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'required' => array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true
+		),
+	);
+	
+	$ilDB->createTable("il_dcl_field", $fields);
+	$ilDB->addPrimaryKey("il_dcl_field", array("id"));
+	$ilDB->createSequence("il_dcl_field");
+?>
+<#3602>
+<?php
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'field_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+		),
+		'datatype_prop_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 256,
+			'notnull' => false
+		),
+	);
+	$ilDB->createTable("il_dcl_field_prop", $fields);
+	$ilDB->addPrimaryKey("il_dcl_field_prop", array("id"));
+	$ilDB->createSequence("il_dcl_field_prop");
+?>
+<#3603>
+<?php
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 256,
+			'notnull' => false
+		),
+		'ildb_type' => array(
+		'type' => 'text',
+		'length' => 256,
+		'notnull' => true
+		),
+		'storage_location' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+		),
+	);
+	$ilDB->createTable("il_dcl_datatype", $fields);
+	$ilDB->addPrimaryKey("il_dcl_datatype", array("id"));
+?>
+<#3604>
+<?php
+		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+			" VALUES (".
+			"1, 'integer', 'integer', 2".
+			")");
+
+		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+			" VALUES (".
+			"2, 'text', 'text', 1".
+			")");
+
+		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+			" VALUES (".
+			"3, 'reference', 'integer', 2".
+			")");
+
+		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+			" VALUES (".
+			"4, 'boolean', 'integer', 2".
+			")");
+
+		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+			" VALUES (".
+			"5, 'datetime', 'date', 3".
+			")");
+?>
+<#3605>
+<?php
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'table_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+    'create_date' => array(
+      'type' => 'date',
+      'notnull' => false
+    ),
+    'last_update' => array(
+      'type' => 'date',
+      'notnull' => false
+    ),
+    'owner' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+	);
+	
+	$ilDB->createTable("il_dcl_record", $fields);
+	$ilDB->addPrimaryKey("il_dcl_record", array("id"));
+	$ilDB->createSequence("il_dcl_record");
+?>
+<#3606>
+<?php	
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'record_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'field_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+		),
+	);
+	
+	$ilDB->createTable("il_dcl_record_field", $fields);
+	$ilDB->addPrimaryKey("il_dcl_record_field", array("id"));
+	$ilDB->createSequence("il_dcl_record_field");	
+?>
+<#3607>
+<?php	
+  $fields = array(
+  'id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'record_field_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),    
+    'value' => array(
+      'type' => 'text',
+      'length' => 4000,
+      'notnull' => false
+    ),
+  ); 
+  $ilDB->createTable("il_dcl_stloc1_value", $fields);
+  $ilDB->addPrimaryKey("il_dcl_stloc1_value", array("id"));
+  $ilDB->createSequence("il_dcl_stloc1_value");
+?>
+<#3608>
+<?php
+  $fields = array(
+    'id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'record_field_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),    
+    'value' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => false
+    ),
+  ); 
+  $ilDB->createTable("il_dcl_stloc2_value", $fields);
+  $ilDB->addPrimaryKey("il_dcl_stloc2_value", array("id"));
+  $ilDB->createSequence("il_dcl_stloc2_value");
+?>
+<#3609>
+<?php
+  $fields = array(
+    'id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'record_field_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),    
+    'value' => array(
+      'type' => 'timestamp',
+      'notnull' => true
+    ),
+  ); 
+  $ilDB->createTable("il_dcl_stloc3_value", $fields);
+  $ilDB->addPrimaryKey("il_dcl_stloc3_value", array("id"));
+  $ilDB->createSequence("il_dcl_stloc3_value");
+?>
+<#3610>
+<?php
+$ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
+			" (`id`, `title`, `datatype_id`, `inputformat`) VALUES (".
+			"1, 'length', 2, 1".
+			")");
+
+$ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
+			" (`id`, `title`, `datatype_id`, `inputformat`) VALUES (".
+			"2, 'regex', 2, 1".
+			")");
+
+$ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
+			" (`id`, `title`, `datatype_id`, `inputformat`) VALUES (".
+			"3, 'table_id', 3, 3".
+			")");
+?>
