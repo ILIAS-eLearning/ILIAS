@@ -270,9 +270,9 @@ class ilDataCollectionField
 										field.datatype_id, 
 										field.required, 
 										datatype.ildb_type,
-										datatype.title as datatype_title, 
+										datatype.title datatype_title, 
 										datatype.storage_location
-							FROM il_dcl_field field LEFT JOIN il_dcl_datatype AS datatype ON datatype.id = field.datatype_id
+							FROM il_dcl_field field LEFT JOIN il_dcl_datatype datatype ON datatype.id = field.datatype_id
 							WHERE table_id = ".$ilDB->quote($a_id,"integer");
 		$set = $ilDB->query($query);
 	
@@ -355,7 +355,7 @@ class ilDataCollectionField
 			global $ilDB;
 			
 			$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
-			LEFT JOIN il_dcl_datatype_prop AS p ON p.id = fp.datatype_prop_id
+			LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id
 			WHERE fp.field_id = ".$ilDB->quote($id, "integer");
 			$set = $ilDB->query($query);
 			

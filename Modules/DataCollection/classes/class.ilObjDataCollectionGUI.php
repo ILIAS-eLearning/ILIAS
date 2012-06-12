@@ -19,7 +19,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionFieldEditGUI, ilDataCollectionRecordEditGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordViewGUI, ilDataCollectionRecordViewViewdefinitionGUI
-* @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionTableEditGUI
+* @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionTableEditGUI, ilDataCollectionFieldListGUI
 *
 * @extends ilObject2GUI
 */
@@ -147,11 +147,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 			default:								
 				$this->addHeaderAction($cmd);
-				$this->prepareOutput();
+				return parent::executeCommand();
+/*
 				switch($cmd)
 				{
 					case "editSettings":
-						$this->createSettingsForm();
+						$this->initEditForm();
 						break;
 
 					default:
@@ -163,8 +164,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 						break;
 				}
 				break;
+*/
 		}
-		$this->addHeaderAction($cmd);
+		//$this->addHeaderAction($cmd);
 		return true;
 	}
 	
@@ -240,7 +242,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		exit;
 	}
 	
-
 	protected function initCreationForms($a_new_type)
 	{
 		$forms = parent::initCreationForms($a_new_type);
@@ -250,16 +251,20 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		
 		return $forms;
 	}
-	
-	
+
 	protected function afterSave(ilObject $a_new_object)
 	{
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-		$this->ctrl->redirect($this, "createSettingsForm");
+		$this->ctrl->redirect($this, "edit");
 	}
 
 	/*
 	 * setTabs
+	 */
+	/**
+	 * create tabs (repository/workspace switch)
+	 *
+	 * this had to be moved here because of the context-specific permission tab
 	 */
 	function setTabs()
 	{		
@@ -287,7 +292,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		{
 			$ilTabs->addTab("id_settings",
 				$lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "editSettings"));
+				$this->ctrl->getLinkTarget($this, "editObject"));
 		}
 
 		// list fields
@@ -347,45 +352,17 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$ilTabs->activateSubTab($a_active);
 	}
 	
-	
-	//
-	// Setting Form
-	//
-	/**
-	 * editSettings
-	 * a_val = 
-	 */
-	public function createSettingsForm()
-	{
-		global $ilTabs;
-		
-		$ilTabs->setTabActive("id_settings");
-		
-		$this->initSettingsForm();
-		$this->getSettingsValues();
-		
-		$this->tpl->setContent($this->settings->getHTML());
-	}
-	
-	
+
 	/**
 	 * initEditCustomForm
 	 */
-	public function initSettingsForm()
+	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		global $ilCtrl, $ilErr;
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->settings = new ilPropertyFormGUI();
-		$this->settings->setFormAction($this->ctrl->getFormAction($this));
-		//$this->settings->setMultipart(true);
-		$this->settings->setTitle($this->lng->txt('dcl_settings'));
-		$this->settings->addCommandButton('updateSettings',$this->lng->txt('save'));
-		$this->settings->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
 		// is_online
 		$cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
-		$this->settings->addItem($cb);
+		$a_form->addItem($cb);
 		
 		// edit_type
 		$edit_type = new ilRadioGroupInputGUI($this->lng->txt('dcl_edit_type'),'edit_type');	
@@ -410,69 +387,55 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$opt->addSubItem($end);
 			
 			$edit_type->addOption($opt);
-		$this->settings->addItem($edit_type);
+		$a_form->addItem($edit_type);
 		
 		// Rating
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_rating"), "rating");
-		$this->settings->addItem($cb);
+		$a_form->addItem($cb);
 		
 		// Public Notes
 		$cb = new ilCheckboxInputGUI($this->lng->txt("public_notes"), "public_notes");
-		$this->settings->addItem($cb);
+		$a_form->addItem($cb);
 		
 		// Approval
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_approval"), "approval");
-		$this->settings->addItem($cb);
+		$a_form->addItem($cb);
 		
 		// Public Notes
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
-		$this->settings->addItem($cb);
+		$a_form->addItem($cb);
 	}
 	
 	/**
 	 * getSettingsValues
 	 */
-	public function getSettingsValues()
+	public function getEditFormCustomValues(array &$a_values)
 	{
-		$values["is_online"] = $this->object->getOnline();
-		$values["edit_type"] = $this->object->getEditType();
-		$values["edit_start"] = $this->object->loadDate($this->object->getEditStart(), true);
-		$values["edit_end"] = $this->object->loadDate($this->object->getEditEnd(), true);
-		$values["rating"] = $this->object->getRating();
-		$values["public_notes"] = $this->object->getPublicNotes();
-		$values["approval"] = $this->object->getApproval();
-		$values["notification"] = $this->object->getNotification();
+		$a_values["is_online"] = $this->object->getOnline();
+		$a_values["edit_type"] = $this->object->getEditType();
+		$a_values["edit_start"] = $this->object->loadDate($this->object->getEditStart(), true);
+		$a_values["edit_end"] = $this->object->loadDate($this->object->getEditEnd(), true);
+		$a_values["rating"] = $this->object->getRating();
+		$a_values["public_notes"] = $this->object->getPublicNotes();
+		$a_values["approval"] = $this->object->getApproval();
+		$a_values["notification"] = $this->object->getNotification();
 
-		$this->settings->setValuesByArray($values);
+		return $a_values;
 	}
 	
 	/**
 	 * updateSettings
 	 */
-	public function updateSettings()
+	public function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		global $ilCtrl;
-
-		$this->initSettingsForm();
-		if ($this->settings->checkInput())
-		{
-			$this->object->setOnline($this->settings->getInput("is_online"));
-			$this->object->setEditType($this->settings->getInput("edit_type"));
-			$this->object->setEditStart($this->object->loadDate($this->settings->getInput("edit_start"), false));
-			$this->object->setEditEnd($this->object->loadDate($this->settings->getInput("edit_end"), false));
-			$this->object->setRating($this->settings->getInput("rating"));
-			$this->object->setPublicNotes($this->settings->getInput("public_notes"));
-			$this->object->setApproval($this->settings->getInput("approval"));
-			$this->object->setNotification($this->settings->getInput("notification"));
-
-			$this->object->doUpdate();
-			
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirect($this, "createSettingsForm");
-		}
-
-		$this->settings->setValuesByPost();
-		$this->tpl->setContent($this->settings->getHtml());
+		$this->object->setOnline($a_form->getInput("is_online"));
+		$this->object->setEditType($a_form->getInput("edit_type"));
+		$this->object->setEditStart($this->object->loadDate($a_form->getInput("edit_start"), false));
+		$this->object->setEditEnd($this->object->loadDate($a_form->getInput("edit_end"), false));
+		$this->object->setRating($a_form->getInput("rating"));
+		$this->object->setPublicNotes($a_form->getInput("public_notes"));
+		$this->object->setApproval($a_form->getInput("approval"));
+		$this->object->setNotification($a_form->getInput("notification"));
 	}
 }
 

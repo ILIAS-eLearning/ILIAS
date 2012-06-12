@@ -172,11 +172,11 @@ class ilDataCollectionRecord
 		{
 			$query .= ", (SELECT val.value 
 									FROM il_dcl_record record 
-									LEFT JOIN il_dcl_record_field AS rcfield ON rcfield.record_id = record.id AND rcfield.field_id = ".$recordfield["id"]."
-									LEFT JOIN il_dcl_field AS field ON field.id = rcfield.field_id
-									LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value As val ON val.record_field_id = rcfield.id
+									LEFT JOIN il_dcl_record_field rcfield ON rcfield.record_id = record.id AND rcfield.field_id = ".$recordfield["id"]."
+									LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id
+									LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value val ON val.record_field_id = rcfield.id
 								WHERE record.id = rc.id
-								) as record_field_".$recordfield["id"];
+								) record_field_".$recordfield["id"];
 		}
 
 		$query .= " From il_dcl_record rc WHERE rc.id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY rc.id";
@@ -217,13 +217,13 @@ class ilDataCollectionRecord
 		foreach($recordfields as $recordfield)
 		{
 			$query .= ", (SELECT val.value FROM il_dcl_record record". 
-					" LEFT JOIN il_dcl_record_field AS rcfield ON rcfield.record_id = record.id AND". 
+					" LEFT JOIN il_dcl_record_field rcfield ON rcfield.record_id = record.id AND". 
 					" rcfield.field_id = ".$recordfield["id"].
-					" LEFT JOIN il_dcl_field AS field ON field.id = rcfield.field_id".
-					" LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value As val ON". 
+					" LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id".
+					" LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value val ON". 
 					" val.record_field_id = rcfield.id".
 					" WHERE record.id = rc.id".
-					" ) as record_field_".$recordfield["id"];
+					" ) record_field_".$recordfield["id"];
 		}
 
 		$query .= " From il_dcl_record rc WHERE rc.table_id = ".$ilDB->quote($a_id,"integer").
@@ -311,11 +311,11 @@ class ilDataCollectionRecord
 	{  
 		global $ilDB;
 
-		$query = "SELECT rcfield.id As id, field.title As title, field.description As description,".
-					" field.datatype_id As datatype_id, dtype.title As datatype,". 
-					" dtype.storage_location As storage_location  FROM `il_dcl_record_field` rcfield". 
-					" LEFT JOIN il_dcl_field AS field ON field.id = rcfield.field_id". 
-					" LEFT JOIN il_dcl_datatype AS dtype ON dtype.id = field.datatype_id". 
+		$query = "SELECT rcfield.id id, field.title title, field.description description,".
+					" field.datatype_id datatype_id, dtype.title datatype,". 
+					" dtype.storage_location storage_location FROM `il_dcl_record_field` rcfield". 
+					" LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id". 
+					" LEFT JOIN il_dcl_datatype dtype ON dtype.id = field.datatype_id". 
 					" WHERE rcfield.record_id = ".$ilDB->quote($this->getId(),"integer");
 		$set = $ilDB->query($query);
 
