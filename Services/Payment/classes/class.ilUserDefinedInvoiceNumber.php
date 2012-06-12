@@ -167,8 +167,6 @@ class ilUserDefinedInvoiceNumber
 // CRON CHECK
 	public function cronCheck()
 	{
-		global $ilDB;
-
 		$last_reset = $this->getIncLastReset();
 		$last_month = date('n', $last_reset);
 		$last_year = date('Y', $last_reset);

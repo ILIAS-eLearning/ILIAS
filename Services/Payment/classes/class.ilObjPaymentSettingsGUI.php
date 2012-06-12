@@ -846,6 +846,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$oPrice->setValue($_POST['price']);
 		$oPrice->setPostVar('price');
 		$oPrice->setRequired(true);
+		$oPrice->allowDecimals(true);
 		$form->addItem($oPrice);
 	
 		 // currency
@@ -1811,9 +1812,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 #		{
 #			$this->__showButton('exportVendors',$this->lng->txt('excel_export'));
 #		}
-		$img_change = "<img src=\"".ilUtil::getImagePath("edit.gif")."\" alt=\"".
-			$this->lng->txt("edit")."\" title=\"".$this->lng->txt("edit").
-			"\" border=\"0\" vspace=\"0\"/>";
 
 		include_once 'Services/User/classes/class.ilObjUser.php';
 		$object_title_cache = array();
@@ -2059,7 +2057,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$access_option = array(0 => $this->lng->txt('no'),1 => $this->lng->txt('yes'));
 
 		$oAccessGUI->setTitle($this->lng->txt('paya_access'));
-		$oAccessGUI->setOptions($payed_option);
+		$oAccessGUI->setOptions($access_option);
 		$oAccessGUI->setValue($booking['access_granted']);
 		$oAccessGUI->setPostVar('access');		
 		$oForm->addItem($oAccessGUI);
@@ -3332,7 +3330,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$obj_paymethods = new ilPayMethods();
 		$paymethods = $obj_paymethods->readAll();
 
-		$result = array();		$counter = 0;
+		$result = array();		
+		$counter = 0;
 		foreach($paymethods as $paymethod)
 		{
 			$result[$counter]['pm_title'] = ilPayMethods::getStringByPaymethod($paymethod['pm_title']);
@@ -3618,7 +3617,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		ilUtil::sendInfo($this->lng->txt('paya_select_object_to_sell'));
 
-		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
+		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), (string)strtolower(get_class($this)));
 		$exp->setExpand($_GET['paya_link_expand'] ? $_GET['paya_link_expand'] : $tree->readRootId());
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
 		
@@ -3666,7 +3665,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	public function searchObject()
 	{
-		global $rbacsystem,$tree, $ilToolbar;
+		global $rbacsystem;
 
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
@@ -3691,7 +3690,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');
-#		$ilToolbar->addButton($this->lng->txt('crs_new_search'), $this->ctrl->getLinkTarget($this, 'searchUser'));
 		
 		$counter = 0;
 		$f_result = array();
@@ -4354,8 +4352,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	 	$tbl->setDefaultOrderField('title');	
 		
-		$result = array();		
-		
 		$tbl->addColumn('', 'check', '1%');
 	 	$tbl->addColumn($this->lng->txt('vat_title'), 'vat_title', '33%');
 	 	$tbl->addColumn($this->lng->txt('vat_rate'), 'vat_rate', '33%');
@@ -4828,7 +4824,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	public function TermsConditionsObject()
 	{
-		global $ilToolbar,$ilCtrl;
+		global $ilToolbar;
 
 		$ilToolbar->addButton($this->lng->txt('edit_page'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
 
@@ -4840,7 +4836,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	public function BillingMailObject()
 	{
-		global $ilToolbar;
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
@@ -4974,7 +4969,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 	public function InvoiceNumberObject()
 	{
-		global $ilToolbar;
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 
 		$invObj = new ilUserDefinedInvoiceNumber();
@@ -5331,6 +5325,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet = ilPaymentSettings::_getInstance();
 		$oPrice->setInfo($genSet->get('currency_unit'));
 		$oPrice->setPostVar('price');
+		$oPrice->allowDecimals(true);
 		$form->addItem($oPrice);
 
 		//extension

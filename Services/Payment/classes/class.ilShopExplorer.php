@@ -15,6 +15,8 @@ include_once './Services/Payment/classes/class.ilPaymentObject.php';
 * 
 * @ingroup ServicesPayment
 */
+
+// UNUSED ?!
 class ilShopExplorer extends ilExplorer
 {
 	/**

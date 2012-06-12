@@ -16,15 +16,14 @@ class ilShopRepositoryExplorer extends ilExplorer
 	public $root_id;
 	public $output;
 	public $ctrl;
+
 	/**
-	* Constructor
-	* @access	public
-	* @param	string	scriptname
-	* @param    int user_id
-	*/
+	 * @param     $a_target
+	 * @param int $a_top_node
+	 */
 	public function __construct($a_target, $a_top_node = 0)
 	{
-		global $tree, $ilCtrl, $lng, $ilSetting, $objDefinition;
+		global $tree, $ilCtrl;
 
 		$this->ctrl = $ilCtrl;
 
@@ -135,7 +134,7 @@ class ilShopRepositoryExplorer extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
 	{
-		global $rbacsystem,$tree,$ilDB,$ilUser;
+		global $rbacsystem,$ilDB,$ilUser;
 
 		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id))
 		{
@@ -328,7 +327,7 @@ class ilShopRepositoryExplorer extends ilExplorer
 	/**
 	* overwritten method from base class
 	* @access	public
-	* @param	integer obj_id
+	* @param	integer a_obj_id
 	* @param	integer array options
 	* @return	string
 	*/

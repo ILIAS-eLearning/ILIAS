@@ -301,7 +301,7 @@ class ilPaymentCoupons
 	public function setChangeDate($a_date)
 	{
 		if($a_date == '0000-00-00 00:00:00')
-			$this->change_date = NULLL;
+			$this->change_date = NULL;
 		else
 			$this->change_date = $a_date;
 	}	

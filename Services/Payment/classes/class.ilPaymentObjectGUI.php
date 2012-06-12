@@ -836,6 +836,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oPrice->setValue($_POST['price']);
 		$oPrice->setPostVar('price');
 		$oPrice->setRequired(true);
+		$oPrice->allowDecimals(true);
 		$form->addItem($oPrice);
 		
 		// currency
@@ -1225,7 +1226,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		ilUtil::sendInfo($this->lng->txt('paya_select_object_to_sell'));
 
-		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
+		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), (string)strtolower(get_class($this)));
 		$exp->setExpand($_GET['paya_link_expand'] ? $_GET['paya_link_expand'] : $tree->readRootId());
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
 		
@@ -1519,6 +1520,7 @@ public function editPrice()
 	$genSet = ilPaymentSettings::_getInstance();
 	$oPrice->setInfo($genSet->get('currency_unit'));
 	$oPrice->setPostVar('price');
+	$oPrice->allowDecimals(true);
 	$form->addItem($oPrice);
 
 	//extension

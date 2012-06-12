@@ -478,7 +478,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	public function showItems()
 	{
-		global $ilObjDataCache, $ilUser, $ilToolbar, $ilCtrl;
+		global $ilObjDataCache, $ilUser, $ilToolbar;
 
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
@@ -532,9 +532,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 				$counter = 0;
 				$paypal_counter = 0;
 				$total_price = 0;
-
-				$total_price_in_default_currency = 0;
-				$total_vat_in_default_currency = 0;
 
 				foreach ($items as $item)
 				{

@@ -107,7 +107,7 @@ class ilPurchase
         $bo->setStreet($this->ilUser->getStreet(), '');
         $bo->setPoBox('');//$this->ilUser->);
         $bo->setZipcode($this->ilUser->getZipcode());
-        $bo->setCity($this->ilUser->getCity);
+        $bo->setCity($this->ilUser->getCity());
         $bo->setCountry($this->ilUser->getCountry());
       //}           
     

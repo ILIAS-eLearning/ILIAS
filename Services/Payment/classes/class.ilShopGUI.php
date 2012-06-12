@@ -826,7 +826,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 		ilShopTopics::_getInstance()->setIdFilter(false);
 		ilShopTopics::_getInstance()->read();
-		$topic_option = array();
 
 		if(count(ilShopTopics::_getInstance()->getTopics()))
 		{
@@ -899,10 +898,10 @@ class ilShopGUI extends ilShopBaseGUI
 				{
 					$allow_topics_option[ilShopTopics::TOPICS_SORT_MANUALLY] = $this->lng->txt('sort_topics_manually');
 				}
-				$direction_option = array(
-					'asc' => $this->lng->txt('sort_asc'),
-					'desc' => $this->lng->txt('sort_desc')
-				);
+//				$direction_option = array(
+//					'asc' => $this->lng->txt('sort_asc'),
+//					'desc' => $this->lng->txt('sort_desc')
+//				);
 			}
 		}
 	}

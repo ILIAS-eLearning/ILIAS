@@ -360,12 +360,10 @@ class ilShopResultPresentationGUI
 	}
 	
 	/**
-	* adds a standard row to a block template
-	*
-	* @param	object		$a_tpl		block template
-	* @param	string		$a_html		html code
-	* @access	private
-	*/
+	 * @param $a_tpl
+	 * @param $a_html
+	 * @param $a_ref_id
+	 */
 	function addStandardRow($a_tpl, $a_html,$a_ref_id)
 	{
 		$this->cur_row_type = ($this->cur_row_type == "row_type_1")

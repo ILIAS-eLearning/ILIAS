@@ -31,8 +31,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 	
 	public function executeCommand()
 	{
-		global $ilUser;
-
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
@@ -116,8 +114,8 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$customer=$this->user_obj;
 		$transaction = $_GET['transaction'];
 
-		$total_price = 0;
-		$total_vat = 0;
+//		$total_price = 0;
+//		$total_vat = 0;
 		$i = 0;		
 
 		include_once './Services/UICore/classes/class.ilTemplate.php';
@@ -135,7 +133,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		if($bookings[$i]['city'] == NULL)		$bookings[$i]['city'] = nl2br(utf8_decode($customer->getCity()));
 		if($bookings[$i]['country'] == NULL)	$bookings[$i]['country'] = nl2br(utf8_decode($customer->getCountry()));
 		
-		$i = 0;
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_bill.html','Services/Payment');		
 		$tpl = new ilTemplate('./Services/Payment/templates/default/tpl.pay_bill.html', true, true, true);
   
@@ -360,22 +357,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 				$obj_target = '';
 				$f_result[$counter]['object_title'] = $booking['object_title'].'<br> ('.$this->lng->txt('object_deleted').')';
 			}
-			/*
-			if ($tmp_obj->getType() == "crs")
-			{
-				$f_result[$counter][] = "<a href=\"" . ILIAS_HTTP_PATH . "/repository.php?ref_id=" . 
-					$booking["ref_id"] . "\">" . $tmp_obj->getTitle() . "</a>";
-			}
-			else if ($tmp_obj->getType() == "lm")
-			{
-				$f_result[$counter][] = "<a href=\"" . ILIAS_HTTP_PATH . "/content/lm_presentation.php?ref_id=" . 
-					$booking["ref_id"] . "\" target=\"_blank\">" . $tmp_obj->getTitle() . "</a>";
-			}
-			else
-			{
-				$f_result[$counter][] = $tmp_obj->getTitle();
-			}
-			*/
 			$f_result[$counter]['vendor'] = '['.$tmp_vendor->getLogin().']';
 			$f_result[$counter]['customer'] = '['.$tmp_purchaser->getLogin().']';
 			$f_result[$counter]['order_date'] = ilDatePresentation::formatDate(new ilDateTime($booking['order_date'], IL_CAL_UNIX));
@@ -383,7 +364,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			if($booking['duration'] == 0 && $booking['access_enddate'] == NULL)
 			{
 				$f_result[$counter]['duration'] = $this->lng->txt("unlimited_duration");
-				
 			}
 			else
 			{
