@@ -37,13 +37,9 @@ class ilDataCollectionRecordEditGUI
 		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->record_id = $_GET['record_id'];
 
-		if($_POST['table_id']) 
+		if($_REQUEST['table_id']) 
 		{
-			$this->table_id = $_POST['table_id'];
-		}
-		else
-		{
-			$this->table_id = $_GET['table_id'];
+			$this->table_id = $_REQUEST['table_id'];
 		}
 	}
 	
@@ -233,6 +229,9 @@ class ilDataCollectionRecordEditGUI
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 
 			$ilCtrl->setParameter($this, "table_id", $this->table_id);
+
+			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+
 			$ilCtrl->redirect($this, "create");
 		}
 

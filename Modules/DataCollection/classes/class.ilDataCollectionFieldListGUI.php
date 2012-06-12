@@ -11,7 +11,6 @@ require_once ("./Modules/DataCollection/classes/class.ilDataCollectionField.php"
 * @author Fabian Schmid <fs@studer-raimann.ch>
 * @version $Id: 
 *
-* @ilCtrl_IsCalledBy ilDataCollectionFieldListGUI: ilObjDataCollectionGUI, ilDataCollectionFieldEditGUI
 *
 * @ingroup ModulesDataCollection
 */

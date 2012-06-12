@@ -10361,3 +10361,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 			"3, 'table_id', 3, 3".
 			")");
 ?>
+<#3611>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

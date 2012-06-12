@@ -204,9 +204,7 @@ class ilDataCollectionFieldEditGUI
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 			
-			//TODO Redirect to fieldlistgui?
-			$ilCtrl->redirect($this, "create");
-			//$ilCtrl->redirectByClass("ildatacollectionfieldlistgui","listFields");
+			$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 		}
 		else
 		{

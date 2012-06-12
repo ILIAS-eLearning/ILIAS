@@ -87,7 +87,7 @@ class ilObjDataCollection extends ilObject2
 		
 	}
 	
-	public function doUpdate()
+	 protected  function doUpdate()
 	{
 		global $ilDB;
 
@@ -107,8 +107,6 @@ class ilObjDataCollection extends ilObject2
 			"id" => array("integer", $this->getId())
 			)
 		);
-			
-		return true;
 	}	 
 	
 	
