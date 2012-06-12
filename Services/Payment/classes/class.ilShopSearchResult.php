@@ -77,8 +77,8 @@ class ilShopSearchResult extends ilSearchResult
 	 * Allows paging of results for referenced objects
 	 *
 	 * @access public
-	 * @param int root node id
-	 * @param bool check and boolean search
+	 * @param int a_root_node node id
+	 * @param bool check_and and boolean search
 	 * @return bool success status
 	 * 
 	 */
@@ -89,8 +89,6 @@ class ilShopSearchResult extends ilSearchResult
 		$this->__initSearchSettingsObject();
 			
 		// get ref_ids and check access
-		$counter = 0;
-		$offset_counter = 0;
 
 		$tmp_entries = array();
 		foreach($this->getEntries() as $ref_id => $entry)
@@ -130,7 +128,6 @@ class ilShopSearchResult extends ilSearchResult
 		
 		$tmp_entries = $this->assignEntries($tmp_entries);		
 		
-		$counter = 0;		
 		foreach($tmp_entries as $entry)
 		{			
 			if($this->callListeners($entry['ref_id'], $entry))
@@ -229,7 +226,7 @@ class ilShopSearchResult extends ilSearchResult
 			foreach($results as $result)
 			{
 				$topic_id = ilPaymentObject::_lookupTopicId($result['ref_id']);
-					$parent_id = $tree->getParentId($result['ref_id']);
+//					$parent_id = $tree->getParentId($result['ref_id']);
 				
 				if(!(int)$topic_id && !array_key_exists($result['ref_id'], $objects_with_no_topcis))
 				{					

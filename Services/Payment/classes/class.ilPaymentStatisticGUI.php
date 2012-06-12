@@ -772,7 +772,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 
 		ilUtil::sendInfo($this->lng->txt("paya_select_object_to_sell"));
 
-		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), strtolower(get_class($this)));
+		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), (string)strtolower(get_class($this)));
 		$exp->setExpand($_GET["paya_link_expand"] ? $_GET["paya_link_expand"] : $tree->readRootId());
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
 		
@@ -939,7 +939,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$oForm->addItem($oPayMethods);	
 		
 		//duration
-		$duration_opions = array();	
+		$duration_options = array();	
 		$price_obj = new ilPaymentPrices($pObjectId);
 
 		$standard_prices = array();
@@ -1110,7 +1110,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		{
 	
 			/**
-			 * @class $ilObjUser ilObjuser
+			 * @class $ilObjUser ilObjUser
 			 */
 			global $ilObjUser;	
 			$user_id[] = $_GET["user_id"];

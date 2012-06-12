@@ -26,12 +26,10 @@ class ilObjectSelector extends ilExplorer
 
 	public $selectable_type;
 	public $ref_id;
+
 	/**
-	* Constructor
-	* @access	public
-	* @param	string	scriptname
-	* @param    int user_id
-	*/
+	 * @param $a_target
+	 */
 	function ilObjectSelector($a_target)
 	{
 		global $tree, $ilCtrl;
@@ -100,7 +98,7 @@ class ilObjectSelector extends ilExplorer
 	/**
 	* overwritten method from base class
 	* @access	public
-	* @param	integer obj_id
+	* @param	integer a_obj_id
 	* @param	integer array options
 	* @return	string
 	*/

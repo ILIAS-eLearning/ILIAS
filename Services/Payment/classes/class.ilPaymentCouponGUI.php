@@ -38,8 +38,6 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 	
 	public function executeCommand()
 	{
-		global $tree;
-
 		$cmd = $this->ctrl->getCmd();
 		switch ($this->ctrl->getNextClass($this))
 		{
@@ -394,6 +392,7 @@ class ilPaymentCouponGUI extends ilShopBaseGUI
 	
 		$o_coupon_value = new ilNumberInputGUI($this->lng->txt('paya_coupons_value'),'coupon_value');
 		$o_coupon_value->setSize(5);
+		$o_coupon_value->allowDecimals(true);
 		$o_coupon_value->setValue($this->coupon_obj->getValue());
 
 		$o_coupon_value->setRequired(true);

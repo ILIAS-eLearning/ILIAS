@@ -16,7 +16,6 @@ class ilBillingMailPlaceholdersPropertyGUI extends ilFormPropertyGUI
 	
 	public function __construct()
 	{
-		global $lng;
 		parent::__construct('');
 	}
 	

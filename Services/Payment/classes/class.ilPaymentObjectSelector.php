@@ -34,7 +34,7 @@ class ilPaymentObjectSelector extends ilExplorer
 	/**
 	 * @access	public
 	 * @param $a_target (i.e. ilias.php?cmd=showObjectSelector&cmdClass=ilpaymentobjectgui&cmdNode=8n:8z:90&baseClass=ilShopController)
-	 * @param $a_classname i.e. ilpaymentobjectgui
+	 * @param string $a_classname i.e. ilpaymentobjectgui
 	 */
 
 	public function __construct($a_target, $a_classname)
@@ -193,7 +193,7 @@ class ilPaymentObjectSelector extends ilExplorer
 	/**
 	* overwritten method from base class
 	* @access	public
-	* @param	integer obj_id
+	* @param	integer a_obj_id
 	* @param	integer array options
 	* @return	string
 	*/

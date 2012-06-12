@@ -46,8 +46,6 @@ class ilShopBaseGUI
 	
 	protected function addPager($result, $a_session_key)
 	{
-	 	global $tpl;
-	 	
 	 	if(count($result->getResults()) < $result->getMaxHits())
 	 	{
 	 		return true;
