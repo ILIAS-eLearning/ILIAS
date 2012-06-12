@@ -172,6 +172,42 @@ class ilRatingCategoryGUI
 		$form->setValuesByPost();
 		$this->add($form);		
 	}
+	
+	protected function updateOrder()
+	{
+		global $ilCtrl, $lng;
+		
+		$order = $_POST["pos"];
+		asort($order);
+		
+		$cnt = 0;
+		foreach($order as $id => $pos)
+		{
+			$cat = new ilRatingCategory($id);
+			if($cat->getParentId() == $this->parent_id)
+			{
+				$cnt += 10;
+				$cat->setPosition($cnt);
+				$cat->update();				
+			}			
+		}
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listCategories");
+	}
+	
+	protected function confirmDelete()
+	{
+		
+		
+	}
+	
+	protected function delete()
+	{
+		
+		
+		
+	}
 }
 
 ?>

@@ -42,7 +42,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assSingleChoiceGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilMDEditorGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilCommonActionDispatcherGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTestQuestionPool
