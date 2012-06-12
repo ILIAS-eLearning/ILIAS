@@ -8,6 +8,8 @@ include_once("./Services/Rating/classes/class.ilRating.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
+ * 
+ * @ilCtrl_Calls ilRatingGUI: ilRatingCategoryGUI
  *
  * @ingroup ServicesRating
  */
@@ -34,6 +36,12 @@ class ilRatingGUI
 		
 		switch($next_class)
 		{
+			case "ilratingcategorygui":
+				include_once("./Services/Rating/classes/class.ilRatingCategoryGUI.php");
+				$gui = new ilRatingCategoryGUI($this->obj_id);
+				$ilCtrl->forwardCommand($gui);				
+				break;
+			
 			default:
 				return $this->$cmd();
 				break;
@@ -59,9 +67,7 @@ class ilRatingGUI
 		$this->id = "rtg_".$this->obj_id."_".$this->obj_type."_".$this->sub_obj_id."_".
 			$this->sub_obj_type;
 		
-		//$this->setSaveCmd("saveTags");
 		$this->setUserId($ilUser->getId());
-		//$this->setInputFieldName("il_tags");
 	}
 	
 	/**
@@ -244,9 +250,24 @@ class ilRatingGUI
 	*/
 	function saveRating()
 	{
-		ilRating::writeRatingForUserAndObject($this->obj_id, $this->obj_type,
-			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(),
-			ilUtil::stripSlashes($_GET["rating"]));
+		ilRating::deleteRatingForUserAndObject($this->obj_id, $this->obj_type,
+			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
+		
+		if(!is_array($_GET["rating"]))
+		{
+			ilRating::writeRatingForUserAndObject($this->obj_id, $this->obj_type,
+				$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(),
+				ilUtil::stripSlashes($_GET["rating"]));
+		}
+		else
+		{
+			foreach($_GET["rating"] as $cat_id => $rating)
+			{
+				ilRating::writeRatingForUserAndObject($this->obj_id, $this->obj_type,
+					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(),
+					ilUtil::stripSlashes($rating), $cat_id);			
+			}						
+		}				
 	}
 }
 
