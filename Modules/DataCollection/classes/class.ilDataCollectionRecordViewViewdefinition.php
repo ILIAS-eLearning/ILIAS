@@ -17,7 +17,7 @@ class ilDataCollectionRecordViewViewdefinition
 	protected $id; // [int]
 	protected $tableId; // [int]
 	protected $type; // [int]  0 = recordview 
-	protected $formtype; // [string] 0 = copage
+	protected $formtype; // [int] 0 = copage
 
 
 	/**
@@ -94,7 +94,7 @@ class ilDataCollectionRecordViewViewdefinition
 	/**
 	* Get Formtype
 	*
-	* @return string
+	* @return int
 	*/
 	function getFormtype()
 	{
@@ -135,7 +135,7 @@ class ilDataCollectionRecordViewViewdefinition
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getTableId(), "integer")
 		.",".$ilDB->quote($this->getType(), "integer")
-		.",".$ilDB->quote($this->getFormtype(), "text")
+		.",".$ilDB->quote($this->getFormtype(), "integer")
 		.")";
 		$ilDB->manipulate($query);
 
