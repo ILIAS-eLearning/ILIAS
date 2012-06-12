@@ -2092,10 +2092,10 @@ common#:#accessFree#:#Remove limited Access
 common#:#accessRestrict#:#Set limited Access
 common#:#account_expires_body#:#Your account is limited, it will expire at:###25 Aug 2004 new variable
 common#:#account_expires_subject#:#[ILIAS] Sua conta expira###25 Aug 2004 new variable
-common#:#accs_edit_permission#:#Change permission settings
-common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Accessibility Settings are visible
-common#:#accs_write#:#Edit Accessibility Settings
+rbac#:#accs_edit_permission#:#Change permission settings
+rbac#:#accs_read#:#Read access to Accessibility Settings
+rbac#:#accs_visible#:#Accessibility Settings are visible
+rbac#:#accs_write#:#Edit Accessibility Settings
 common#:#action#:#Ação###29 Nov 2004 new variable
 common#:#action_aborted#:#Ação abortada###07 Apr 2005 content changed
 common#:#actions#:#Ações###07 Apr 2005 content changed
@@ -2127,10 +2127,10 @@ common#:#added_to_desktop#:#O item foi adicionado ao desktop###06 08 2011 new va
 common#:#additional_info#:#Informação adicional ###25 02 2007 new variable
 common#:#address#:#Endereço###18 08 2009 new variable
 common#:#adm_create_tax#:#Create taxonomy
-common#:#adm_edit_permission#:#Mudar definições de permissões
-common#:#adm_read#:#Leia acesso às Definições de sistema###07 Apr 2005 content changed
-common#:#adm_visible#:#Definições de sistema são visíveis
-common#:#adm_write#:#Editar definições de sistema Básicas
+rbac#:#adm_edit_permission#:#Mudar definições de permissões
+rbac#:#adm_read#:#Leia acesso às Definições de sistema###07 Apr 2005 content changed
+rbac#:#adm_visible#:#Definições de sistema são visíveis
+rbac#:#adm_write#:#Editar definições de sistema Básicas
 common#:#admin_force_noti#:#Notification active
 common#:#admin_panel#:#Administration Panel
 common#:#administrate#:#Administrar

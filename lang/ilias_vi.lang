@@ -812,10 +812,10 @@ common#:#add_translation#:#Thêm bản dịch
 common#:#add_user#:#Thêm người sử dụng nội bộ
 common#:#added_new_condition#:#Đã tạo điều kiện mới.
 common#:#adm_create_tax#:#Tạo phân loại
-common#:#adm_edit_permission#:#Thay đổi thiết lập quyền hạn
-common#:#adm_read#:#Truy cập đọc các thiết lập hệ thống
-common#:#adm_visible#:#Nhìn thấy các thiết lập hệ thống
-common#:#adm_write#:#Sửa các thiết lập hệ thống cơ bản
+rbac#:#adm_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#adm_read#:#Truy cập đọc các thiết lập hệ thống
+rbac#:#adm_visible#:#Nhìn thấy các thiết lập hệ thống
+rbac#:#adm_write#:#Sửa các thiết lập hệ thống cơ bản
 common#:#admin_panel#:#Công cụ quản trị
 common#:#administrate#:#Quản trị
 common#:#administrate_users#:#Quản trị người sử dụng nội bộ
@@ -9153,10 +9153,10 @@ dateplaner#:#err_missing_title#:#Please enter an appointment title.###30 04 2009
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.###30 04 2009 new variable
 administration#:#adm_locale#:#Locale###30 04 2009 new variable
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.###30 04 2009 new variable
-common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
-common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
-common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
-common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
+rbac#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
+rbac#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
 common#:#obj_accs#:#Accessibility###30 04 2009 new variable
 common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
 acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable

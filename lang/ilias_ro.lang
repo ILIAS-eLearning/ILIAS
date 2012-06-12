@@ -953,10 +953,10 @@ common#:#add_user_defined_field#:#Add new field###27 Jan 2006 new variable
 common#:#added_new_condition#:#Noua conditie creata.
 common#:#additional_info#:#Additional Information###10 Jul 2006 new variable
 common#:#adm_create_tax#:#Creati taxonomie
-common#:#adm_edit_permission#:#Schimbati setarile de permisiune
-common#:#adm_read#:#Permisiune doar pentru citirea setarilor de sistem
-common#:#adm_visible#:#Setarile de sistem sunt vizibile
-common#:#adm_write#:#Editeaza setarile de baza ale sistemului
+rbac#:#adm_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#adm_read#:#Permisiune doar pentru citirea setarilor de sistem
+rbac#:#adm_visible#:#Setarile de sistem sunt vizibile
+rbac#:#adm_write#:#Editeaza setarile de baza ale sistemului
 common#:#admin_panel#:#Administration Panel ### 2006-8-11 --- Add new translation here.
 common#:#administrate#:#Administrati
 common#:#administrate_users#:#Administrarea utilizatorilor locali
@@ -9151,10 +9151,10 @@ dateplaner#:#err_missing_title#:#Please enter an appointment title.###30 04 2009
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.###30 04 2009 new variable
 administration#:#adm_locale#:#Locale###30 04 2009 new variable
 administration#:#adm_locale_info#:#Locale setting influences e.g. sorting in lists. Examples are nl_NL or de_DE. Multiple locales can be separated by comma. The first valid one will be used.###30 04 2009 new variable
-common#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
-common#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
-common#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
-common#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_edit_permission#:#Change permission settings###30 04 2009 new variable
+rbac#:#accs_visible#:#Accessibility Settings are visible###30 04 2009 new variable
+rbac#:#accs_read#:#Read access to Accessibility Settings###30 04 2009 new variable
+rbac#:#accs_write#:#Edit Accessibility Settings###30 04 2009 new variable
 common#:#obj_accs#:#Accessibility###30 04 2009 new variable
 common#:#obj_accs_desc#:#Settings for accessibility features.###30 04 2009 new variable
 acc#:#acc_access_keys#:#Access Keys###30 04 2009 new variable

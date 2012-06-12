@@ -1754,10 +1754,10 @@ common#:#accessFree#:#Remove limited Access
 common#:#accessRestrict#:#Set limited Access
 common#:#account_expires_body#:#Uw toegang is gelimiteerd. Het loopt af op:
 common#:#account_expires_subject#:#[MacElsy] Uw abonnement verloopt
-common#:#accs_edit_permission#:#Change permission settings
-common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Toegankelijkheidsinstellingen zijn zichtbaar
-common#:#accs_write#:#Edit Accessibility Settings
+rbac#:#accs_edit_permission#:#Change permission settings
+rbac#:#accs_read#:#Read access to Accessibility Settings
+rbac#:#accs_visible#:#Toegankelijkheidsinstellingen zijn zichtbaar
+rbac#:#accs_write#:#Edit Accessibility Settings
 common#:#action#:#Actie
 common#:#action_aborted#:#Activiteit afgebroken
 common#:#actions#:#Activiteiten
@@ -1788,10 +1788,10 @@ common#:#added_new_condition#:#Een nieuwe conditie gecreëerd.d
 common#:#additional_info#:#Extra informatie
 common#:#address#:#Address
 common#:#adm_create_tax#:#Creëer taxonomie
-common#:#adm_edit_permission#:#Wijzig instellingen van de rechten
-common#:#adm_read#:#Leesrechten Systeeminstellingen
-common#:#adm_visible#:#Systeem-instellingen zijn zichtbaar
-common#:#adm_write#:#Wijzigen standaard systeem-instellingen
+rbac#:#adm_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#adm_read#:#Leesrechten Systeeminstellingen
+rbac#:#adm_visible#:#Systeem-instellingen zijn zichtbaar
+rbac#:#adm_write#:#Wijzigen standaard systeem-instellingen
 common#:#admin_force_noti#:#Notification active
 common#:#admin_panel#:#Administrator menu
 common#:#administrate#:#Administreren

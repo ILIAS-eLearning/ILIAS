@@ -1578,10 +1578,10 @@ common#:#accessFree#:#Remove limited Access
 common#:#accessRestrict#:#Set limited Access
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS] Your account expires
-common#:#accs_edit_permission#:#Change permission settings
-common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Accessibility Settings are visible
-common#:#accs_write#:#Edit Accessibility Settings
+rbac#:#accs_edit_permission#:#Change permission settings
+rbac#:#accs_read#:#Read access to Accessibility Settings
+rbac#:#accs_visible#:#Accessibility Settings are visible
+rbac#:#accs_write#:#Edit Accessibility Settings
 common#:#action#:#Action
 common#:#action_aborted#:#执行已中止
 common#:#actions#:#执行
@@ -1612,10 +1612,10 @@ common#:#added_new_condition#:#Created new condition.
 common#:#additional_info#:#Additional Information
 common#:#address#:#Address
 common#:#adm_create_tax#:#Create taxonomy
-common#:#adm_edit_permission#:#更改许可设置
-common#:#adm_read#:#基本系统设置为读访问
-common#:#adm_visible#:#系统设置可视
-common#:#adm_write#:#编辑基本系统设置
+rbac#:#adm_edit_permission#:#更改许可设置
+rbac#:#adm_read#:#基本系统设置为读访问
+rbac#:#adm_visible#:#系统设置可视
+rbac#:#adm_write#:#编辑基本系统设置
 common#:#admin_panel#:#Administration Panel
 common#:#administrate#:#管理
 common#:#administrate_users#:#Local user administration

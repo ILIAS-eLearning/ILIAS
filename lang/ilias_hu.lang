@@ -1607,10 +1607,10 @@ common#:#accessFree#:#Korlátozott hozzáférés beállítása eltávolítása
 common#:#accessRestrict#:#Korlátozott hozzáférés beállítása
 common#:#account_expires_body#:#Bejelentkezése korlátozott, lejárati dátuma:
 common#:#account_expires_subject#:#[ILIAS 3] Bejelentkezése lejár
-common#:#accs_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#accs_read#:#Olvasási elérés a hozzáférési beállításokhoz
-common#:#accs_visible#:#A hozzáférési beállítások láthatóak
-common#:#accs_write#:#Hozzáférési beállítások szerkesztése
+rbac#:#accs_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#accs_read#:#Olvasási elérés a hozzáférési beállításokhoz
+rbac#:#accs_visible#:#A hozzáférési beállítások láthatóak
+rbac#:#accs_write#:#Hozzáférési beállítások szerkesztése
 common#:#action_aborted#:#Tevékenység megszakítva.
 common#:#action#:#Akció
 common#:#actions#:#Tevékenységek
@@ -1641,10 +1641,10 @@ common#:#added_new_condition#:#Létrehozott új feltétel.
 common#:#additional_info#:#További információk
 common#:#address#:#Cím
 common#:#adm_create_tax#:#Osztályozás létrehozása
-common#:#adm_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#adm_read#:#Olvasási elérés a rendszerbeállításokhoz
-common#:#adm_visible#:#A rendszerbeállítások láthatóak
-common#:#adm_write#:#Alap rendszerbeállítások szerkesztése
+rbac#:#adm_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#adm_read#:#Olvasási elérés a rendszerbeállításokhoz
+rbac#:#adm_visible#:#A rendszerbeállítások láthatóak
+rbac#:#adm_write#:#Alap rendszerbeállítások szerkesztése
 common#:#admin_force_noti#:#Az értesítés aktív
 common#:#admin_panel#:#Adminisztrációs panel
 common#:#administrate_users#:#Helyi felhasználó adminisztrációja

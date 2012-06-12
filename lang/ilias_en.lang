@@ -1604,18 +1604,18 @@ common#:#access_until#:#Access (until)
 common#:#access_users#:#Logged in Users
 common#:#access#:#Access
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
-common#:#accessFree#:#Remove limited Access
-common#:#accessRestrict#:#Set limited Access
+common#:#accessFree#:#Remove Limited Access
+common#:#accessRestrict#:#Set Limited Access
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#[ILIAS] Your account expires
-common#:#accs_edit_permission#:#Change permission settings
-common#:#accs_read#:#Read access to Accessibility Settings
-common#:#accs_visible#:#Accessibility Settings are visible
-common#:#accs_write#:#Edit Accessibility Settings
+rbac#:#accs_edit_permission#:#Change Permissions of Accessibility Settings
+rbac#:#accs_read#:#Read Access to Accessibility Settings
+rbac#:#accs_visible#:#Accessibility Settings are Visible
+rbac#:#accs_write#:#Edit Accessibility Settings
 common#:#action_aborted#:#Action aborted
 common#:#action#:#Action
 common#:#actions#:#Actions
-common#:#activate_assessment_logging#:#Activate Test and Assessment logging
+common#:#activate_assessment_logging#:#Activate Test and Assessment Logging
 common#:#activate_block#:#Activate
 common#:#activate_https#:#HTTPS handling by ILIAS<br>(Payment, Login)
 common#:#activate_tracking#:#Activation
@@ -1642,10 +1642,10 @@ common#:#added_new_condition#:#Created new condition.
 common#:#additional_info#:#Additional Information
 common#:#address#:#Address
 common#:#adm_create_tax#:#Create taxonomy
-common#:#adm_edit_permission#:#Change permission settings
-common#:#adm_read#:#Read access to System settings
-common#:#adm_visible#:#System settings are visible
-common#:#adm_write#:#Edit Basic system settings
+rbac#:#adm_edit_permission#:#Change Permissions of System Settings
+rbac#:#adm_read#:#Read Access to System Settings
+rbac#:#adm_visible#:#System Settings are Visible
+rbac#:#adm_write#:#Edit Basic System Settings
 common#:#admin_force_noti#:#Notification active
 common#:#admin_panel#:#Administration Panel
 common#:#administrate_users#:#Local User Administration
