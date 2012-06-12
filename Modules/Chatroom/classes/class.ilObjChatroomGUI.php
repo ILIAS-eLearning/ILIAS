@@ -17,7 +17,7 @@ require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
  * @version $Id$
  *
  * @ilCtrl_Calls ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjChatroomGUI: ilExportGUI
+ * @ilCtrl_Calls ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_IsCalledBy ilObjChatroomGUI: ilRepositoryGUI, ilpersonaldesktopgui, iladministrationgui, ilobjrootfoldergui
  *
  * @ingroup ModulesChatroom
