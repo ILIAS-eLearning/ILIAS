@@ -10365,3 +10365,50 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3612>
+<?php
+	if( !$ilDB->tableColumnExists('il_rating', 'category_id') )
+	{
+		$ilDB->addTableColumn('il_rating', 'category_id', array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		));
+	}
+?>
+<#3613>
+<?php
+  $fields = array(
+    'id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'parent_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),    
+    'title' => array(
+      'type' => 'text',
+      'length' => 100
+    ),
+	'description' => array(
+      'type' => 'text',
+      'length' => 1000
+    ),
+	'pos' => array(
+      'type' => 'integer',
+      'length' => 2,
+      'notnull' => true
+    )   
+  ); 
+  $ilDB->createTable("il_rating_cat", $fields);
+  $ilDB->addPrimaryKey("il_rating_cat", array("id"));
+  $ilDB->createSequence("il_rating_cat");
+?>
+<#3614>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

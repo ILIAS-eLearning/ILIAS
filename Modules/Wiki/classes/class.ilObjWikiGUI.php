@@ -15,6 +15,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -138,6 +139,17 @@ class ilObjWikiGUI extends ilObjectGUI
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case "ilratinggui":
+				$this->checkPermission("write");
+				$this->addHeaderAction();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("rating_categories");
+				include_once("Services/Rating/classes/class.ilRatingGUI.php");
+				$gui = new ilRatingGUI();
+				$gui->setObject($this->object->getId(), $this->object->getType());
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -426,7 +438,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui", "ilexportgui")))
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui")))
 		{
 			if ($_GET["page"] != "")
 			{
@@ -493,7 +505,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl, $lng;
 
 		if (in_array($a_active,
-			array("general_settings", "style", "imp_pages")))
+			array("general_settings", "style", "imp_pages", "rating_categories")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
@@ -509,6 +521,15 @@ class ilObjWikiGUI extends ilObjectGUI
 			$ilTabs->addSubTab("imp_pages",
 				$lng->txt("wiki_navigation"),
 				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
+			
+			// rating categories
+			if($this->object->getRating())
+			{
+				$lng->loadLanguageModule("rating");
+				$ilTabs->addSubTab("rating_categories",
+					$lng->txt("rating_categories"),
+					$ilCtrl->getLinkTargetByClass(array('ilratinggui', 'ilratingcategorygui'), ''));				
+			}
 			
 			$ilTabs->activateSubTab($a_active);
 		}
