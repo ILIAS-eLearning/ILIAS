@@ -198,6 +198,7 @@ class ilRatingCategory
 		$id = $ilDB->nextId("il_rating_cat");
 		$this->setId($id);
 		
+		// append 
 		$sql = "SELECT max(pos) pos FROM il_rating_cat".
 			" WHERE parent_id = ".$ilDB->quote($this->getParentId(), "integer");
 		$set = $ilDB->query($sql);

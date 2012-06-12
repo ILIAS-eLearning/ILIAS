@@ -21,7 +21,7 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_parent_id)
 	{
-		global $ilCtrl, $lng, $lng;
+		global $ilCtrl, $lng;
 
 		$this->setId("rtgcat");
 
@@ -35,6 +35,8 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.rating_category_row.html", "Services/Rating");
+		
+		$this->addCommandButton("updateorder", $lng->txt("rating_update_positions"));
 		
 		$this->getItems($a_parent_id);	
 	}
@@ -64,7 +66,7 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
 	    $this->tpl->setVariable("VAL_ID", $a_set["id"]);
 	    $this->tpl->setVariable("VAL_POS", $a_set["pos"]);
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-	    $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
+	    $this->tpl->setVariable("TXT_DESCRIPTION", nl2br($a_set["description"]));
 	    
 		$ilCtrl->setParameter($this->parent_obj, "cat_id", $a_set["id"]);
 		
