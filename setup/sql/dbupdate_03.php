@@ -10412,3 +10412,8 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3615>
+<?php	
+	$ilDB->dropPrimaryKey("il_rating");
+	$ilDB->addPrimaryKey("il_rating", array("obj_id", "obj_type", "sub_obj_id", "sub_obj_type", "user_id", "category_id"));	
+?>

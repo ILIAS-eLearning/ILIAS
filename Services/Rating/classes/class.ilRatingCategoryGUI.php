@@ -227,7 +227,7 @@ class ilRatingCategoryGUI
 		if($this->cat_id)
 		{
 			ilRatingCategory::delete($this->cat_id);			
-			ilUtil::sendSuccess($lng->txt("rating_category_deleted"));			
+			ilUtil::sendSuccess($lng->txt("rating_category_deleted"), true);			
 		}
 		
 		// fix order

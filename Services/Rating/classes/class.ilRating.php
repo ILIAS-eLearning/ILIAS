@@ -35,6 +35,17 @@ class ilRating
 			return;
 		}
 		
+		if($a_category_id)
+		{
+			$ilDB->manipulate("DELETE FROM il_rating WHERE ".
+				"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
+				"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
+				"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
+				"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
+				$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true)." AND ".
+				"category_id = ".$ilDB->quote(0, "integer"));
+		}
+		
 		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
 			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
@@ -53,28 +64,6 @@ class ilRating
 			$ilDB->quote($a_category_id, "integer").",".
 			$ilDB->quote((int) $a_rating, "integer").")");
 	}
-	
-	/**
-	* Delete all entries for object and user 
-	* 
-	* @param	int			$a_obj_id			Object ID
-	* @param	string		$a_obj_type			Object Type
-	* @param	int			$a_sub_obj_id		Subobject ID
-	* @param	string		$a_sub_obj_type		Subobject Type
-	* @param	int			$a_user_id			User ID
-	*/
-	static function deleteRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
-		$a_user_id)
-	{
-		global $ilDB;
-		
-		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
-				"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
-				"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
-				"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
-				"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
-				$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true));			
-	}	
 	
 	/**
 	* Get rating for a user and an object.
