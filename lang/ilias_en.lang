@@ -12621,3 +12621,19 @@ content#:#cont_show_activation_info_info#:#If the scheduled activation is not ye
 content#:#cont_page_activation_on#:#The content will be activated on %s.
 trac#:#trac_lp_on_personal_desktop#:#Learning Progress on Personal Desktop
 trac#:#trac_lp_learner_access#:#Accessible Personal Learning Progress
+rating#:#rating_categories#:#Rating Categories
+rating#:#rating_add_category#:#Add Category
+rating#:#rating_category_create#:#Create Category
+rating#:#rating_category_add#:#Add
+rating#:#rating_category_created#:#Category created.
+rating#:#rating_category_edit#:#Edit Category
+rating#:#rating_category_update#:#Save
+rating#:#rating_category_updated#:#Category saved.
+rating#:#rating_update_positions#:#Save Order
+rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.
+rating#:#rating_category_deleted#:#Category deleted.
+wiki#:#wiki_activate_sideblock_rating#:#Display Rating as Side Block
+wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages
+wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories
+wiki#:#wiki_activate_page_rating#:#Activate Rating
+wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating

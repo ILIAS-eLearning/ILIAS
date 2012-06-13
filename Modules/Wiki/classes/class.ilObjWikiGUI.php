@@ -523,7 +523,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
 			
 			// rating categories
-			if($this->object->getRating())
+			if($this->object->getRating() && $this->object->getRatingCategories())
 			{
 				$lng->loadLanguageModule("rating");
 				$ilTabs->addSubTab("rating_categories",
@@ -558,7 +558,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	*/
 	function initSettingsForm($a_mode = "edit")
 	{
-		global $tpl, $lng, $ilCtrl, $ilTabs, $ilSetting;
+		global $lng, $ilCtrl, $ilTabs, $ilSetting;
 		
 		$lng->loadLanguageModule("wiki");
 		$ilTabs->activateTab("settings");
@@ -605,9 +605,20 @@ class ilObjWikiGUI extends ilObjectGUI
 		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 		$this->form_gui->addItem($online);
 
+		
 		// rating
 		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
 		$this->form_gui->addItem($rating);
+		
+		$side = new ilCheckboxInputGUI($lng->txt("wiki_activate_sideblock_rating"), "rating_side");
+		$rating->addSubItem($side);
+		
+		$new = new ilCheckboxInputGUI($lng->txt("wiki_activate_new_page_rating"), "rating_new");
+		$rating->addSubItem($new);
+		
+		$extended = new ilCheckboxInputGUI($lng->txt("wiki_activate_extended_rating"), "rating_ext");
+		$rating->addSubItem($extended);
+		
 
 		// public comments
 		if (!$ilSetting->get("disable_comments"))
@@ -666,11 +677,14 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["shorttitle"] = $this->object->getShortTitle();
 			$values["description"] = $this->object->getDescription();
 			$values["rating"] = $this->object->getRating();
+			$values["rating_side"] = $this->object->getRatingAsBlock();
+			$values["rating_new"] = $this->object->getRatingForNewPages();
+			$values["rating_ext"] = $this->object->getRatingCategories();
 			$values["public_notes"] = $this->object->getPublicNotes();
 			$values["intro"] = $this->object->getIntroduction();
 //			$values["imp_pages"] = $this->object->getImportantPages();
 			$values["page_toc"] = $this->object->getPageToc();
-
+						
 			$this->form_gui->setValuesByArray($values);
 		}
 	}
@@ -703,6 +717,10 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setStartPage($this->form_gui->getInput("startpage"));
 				$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$this->object->setRating($this->form_gui->getInput("rating"));
+				$this->object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
+				$this->object->setRatingForNewPages($this->form_gui->getInput("rating_new"));
+				$this->object->setRatingCategories($this->form_gui->getInput("rating_ext"));
+				
 				if (!$ilSetting->get("disable_comments"))
 				{
 					$this->object->setPublicNotes($this->form_gui->getInput("public_notes"));
@@ -1001,6 +1019,12 @@ class ilObjWikiGUI extends ilObjectGUI
 			$page = new ilWikiPage();
 			$page->setWikiId($this->object->getId());
 			$page->setTitle(ilWikiUtil::makeDbTitle($_GET["page"]));
+			
+			if($this->object->getRatingForNewPages())
+			{
+				$page->setRating(true);
+			}
+			
 			$page->create();
 
 			// redirect to newly created page
