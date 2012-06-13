@@ -32,6 +32,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestToplistGUI
  *
  * @extends ilObjectGUI
  * @ingroup ModulesTest
@@ -396,7 +397,18 @@ class ilObjTestGUI extends ilObjectGUI
 				$ilCtrl->forwardCommand($gui);
 				
 				break;
-                            
+			
+			case 'iltesttoplistgui':
+				
+				$this->prepareOutput();
+				
+				require_once 'Modules/Test/classes/class.ilTestToplistGUI.php';
+				$gui = new ilTestToplistGUI($this);
+
+				$this->ctrl->forwardCommand($gui);		
+ 				
+				break;
+                           
                         case '':
 			case 'ilobjtestgui':
 				$this->prepareOutput();
@@ -1688,9 +1700,74 @@ class ilObjTestGUI extends ilObjectGUI
 		$mailnottype->setOptionTitle($this->lng->txt("mailnottype"));
 		$mailnottype->setChecked($this->object->getMailNotificationType());
 		$form->addItem($mailnottype);
+		
+		/* This options always active (?) */
+		$highscore_head = new ilFormSectionHeaderGUI();
+		$highscore_head->setTitle($this->lng->txt("tst_highscore_options"));
+		$form->addItem($highscore_head);		
 
+		$highscore = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_enabled"), "highscore_enabled");
+		$highscore->setValue(1);
+		$highscore->setChecked($this->object->getHighscoreEnabled());
+		$highscore->setInfo($this->lng->txt("tst_highscore_description"));
+		$form->addItem($highscore);
+		
+		$highscore_anon = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_anon"), "highscore_anon");
+		$highscore_anon->setValue(1);
+		$highscore_anon->setChecked($this->object->getHighscoreAnon());
+		$highscore_anon->setInfo($this->lng->txt("tst_highscore_anon_description"));
+		$highscore->addSubItem($highscore_anon);
 
-                if(!$template || $template && $this->formShowKioskSection($template_settings)) {
+		$highscore_achieved_ts = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_achieved_ts"), "highscore_achieved_ts");
+		$highscore_achieved_ts->setValue(1);
+		$highscore_achieved_ts->setChecked($this->object->getHighscoreAchievedTS());
+		$highscore_achieved_ts->setInfo($this->lng->txt("tst_highscore_achieved_ts_description"));
+		$highscore->addSubItem($highscore_achieved_ts);
+		
+		$highscore_score = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_score"), "highscore_score");
+		$highscore_score->setValue(1);
+		$highscore_score->setChecked($this->object->getHighscoreScore());
+		$highscore_score->setInfo($this->lng->txt("tst_highscore_score_description"));
+		$highscore->addSubItem($highscore_score);
+
+		$highscore_percentage = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_percentage"), "highscore_percentage");
+		$highscore_percentage->setValue(1);
+		$highscore_percentage->setChecked($this->object->getHighscorePercentage());
+		$highscore_percentage->setInfo($this->lng->txt("tst_highscore_percentage_description"));
+		$highscore->addSubItem($highscore_percentage);
+
+		$highscore_hints = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_hints"), "highscore_hints");
+		$highscore_hints->setValue(1);
+		$highscore_hints->setChecked($this->object->getHighscoreHints()); 
+		$highscore_hints->setInfo($this->lng->txt("tst_highscore_hints_description"));
+		$highscore->addSubItem($highscore_hints);
+
+		$highscore_wtime = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_wtime"), "highscore_wtime");
+		$highscore_wtime->setValue(1);
+		$highscore_wtime->setChecked($this->object->getHighscoreWTime());
+		$highscore_wtime->setInfo($this->lng->txt("tst_highscore_wtime_description"));
+		$highscore->addSubItem($highscore_wtime);
+		
+		$highscore_own_table = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_own_table"), "highscore_own_table");
+		$highscore_own_table->setValue(1);
+		$highscore_own_table->setChecked($this->object->getHighscoreOwnTable());
+		$highscore_own_table->setInfo($this->lng->txt("tst_highscore_own_table_description"));
+		$highscore->addSubItem($highscore_own_table);
+
+		$highscore_top_table = new ilCheckboxInputGUI($this->lng->txt("tst_highscore_top_table"), "highscore_top_table");
+		$highscore_top_table->setValue(1);
+		$highscore_top_table->setChecked($this->object->getHighscoreTopTable());
+		$highscore_top_table->setInfo($this->lng->txt("tst_highscore_top_table_description"));
+		$highscore->addSubItem($highscore_top_table);
+		
+		$highscore_top_num = new ilTextInputGUI($this->lng->txt("tst_highscore_top_num"), "highscore_top_num");
+		$highscore_top_num->setSize(4);
+		$highscore_top_num->setSuffix($this->lng->txt("tst_highscore_top_num_unit"));
+		$highscore_top_num->setValue($this->object->getHighscoreTopNum());
+		$highscore_top_table->setInfo($this->lng->txt("tst_highscore_top_num_description"));
+		$highscore->addSubItem($highscore_top_num);
+		
+				if(!$template || $template && $this->formShowKioskSection($template_settings)) {
                     // kiosk mode properties
                     $kioskheader = new ilFormSectionHeaderGUI();
                     $kioskheader->setTitle($this->lng->txt("kiosk"));
@@ -1722,7 +1799,7 @@ class ilObjTestGUI extends ilObjectGUI
                     $restrictions->setTitle($this->lng->txt("tst_max_allowed_users"));
                     $form->addItem($restrictions);
                 }
-
+						
 		$fixedparticipants = new ilCheckboxInputGUI($this->lng->txt('participants_invitation'), "fixedparticipants");
 		$fixedparticipants->setValue(1);
 		$fixedparticipants->setChecked($this->object->getFixedParticipants());
@@ -1735,7 +1812,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$form->addItem($fixedparticipants);
 
-
+		
 		// simultaneous users
 		$simul = new ilTextInputGUI($this->lng->txt("tst_allowed_users"), "allowedUsers");
 		$simul->setSize(3);
@@ -2018,6 +2095,17 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 
+			$this->object->setHighscoreEnabled((bool) $_POST['highscore_enabled']);
+			$this->object->setHighscoreAnon((bool) $_POST['highscore_anon']);
+			$this->object->setHighscoreAchievedTS((bool) $_POST['highscore_achieved_ts']);
+			$this->object->setHighscoreScore((bool) $_POST['highscore_score']);
+			$this->object->setHighscorePercentage((bool) $_POST['highscore_percentage']);
+			$this->object->setHighscoreHints((bool) $_POST['highscore_hints']);
+			$this->object->setHighscoreWTime((bool) $_POST['highscore_wtime']);
+			$this->object->setHighscoreOwnTable((bool) $_POST['highscore_own_table']);
+			$this->object->setHighscoreTopTable((bool) $_POST['highscore_top_table']);
+			$this->object->setHighscoreTopNum((int) $_POST['highscore_top_num']);
+			
             //$this->object->setExpressModeQuestionPoolAllowed($_POST['express_allow_question_pool']);
             $this->object->setEnabledViewMode($_POST['enabled_view_mode']);
             $this->object->setPoolUsage($_POST['use_pool']);
@@ -4237,6 +4325,11 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						//$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
 						$big_button[] = array("outUserResultsOverview", $this->lng->txt("tst_show_results"));
+						if ($this->object->getHighscoreEnabled())
+						{
+							// Can also compare results then
+							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"));
+						}
 					}
 				}
 			}

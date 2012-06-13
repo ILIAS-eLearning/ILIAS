@@ -32,16 +32,14 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	var $maxProcessingTimeReached;
 	var $endingTimeReached;
 
-/**
-* ilSurveyExecutionGUI constructor
-*
-* The constructor takes possible arguments an creates an instance of the ilSurveyExecutionGUI object.
-*
-* @param object $a_object Associated ilObjSurvey class
-* @access public
-*/
-  function ilTestOutputGUI($a_object)
-  {
+	/**
+	* ilTestOutputGUI constructor
+	*
+	* @param object $a_object Associated ilObjSurvey class
+	* @access public
+	*/
+	function __construct($a_object)
+	{
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
 	}
@@ -119,6 +117,20 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				break;
 		}
 		return $ret;
+	}
+	
+	/**
+	 * @global ilCtrl $iCtrl
+	 * @return type 
+	 */
+	public function outResultsToplist()
+	{
+		global $ilCtrl;
+		$ilCtrl->redirectByClass('ilTestToplistGUI', 'outResultsToplist');
+		
+		#require_once 'Modules/Test/classes/class.ilTestToplistGUI.php';
+		#$gui = new ilTestToplistGUI($this);
+		#return $this->ctrl->forwardCommand($gui);		
 	}
 	
 	/**

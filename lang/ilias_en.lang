@@ -1063,6 +1063,40 @@ assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
 assessment#:#all_participants#:#All participants
 assessment#:#with_solutions_participants#:#Participants with solutions
 assessment#:#without_solutions_participants#:#Participants without solutions
+assessment#:#tst_show_toplist#:#Show Highscores
+assessment#:#toplist_by_score#:#Highscore by score
+assessment#:#toplist_by_time#:#Highscore by working time
+assessment#:#toplist_top_n_results#:#Top %s Results
+assessment#:#toplist_col_rank#:#Rank
+assessment#:#toplist_col_participant#:#Participant
+assessment#:#toplist_col_achieved#:#Date
+assessment#:#toplist_col_score#:#Score
+assessment#:#toplist_col_percentage#:#Percentage
+assessment#:#toplist_col_hints#:#Hints
+assessment#:#toplist_col_wtime#:#Working Time
+assessment#:#toplist_your_result#:#Your ranking
+assessment#:#tst_highscore_options#:#Highscore
+assessment#:#tst_highscore_enabled#:#Highscore display activated
+assessment#:#tst_highscore_description#:#Should the display of highscores be available?
+assessment#:#tst_highscore_anon#:#Anonymization of the entries.
+assessment#:#tst_highscore_anon_description#:#Controls, if names are anonymized with the ranks. This option may be overriden by the test anonymization switch.
+assessment#:#tst_highscore_achieved_ts#:#Show date of test
+assessment#:#tst_highscore_achieved_ts_description#:#Controls, if a column with the test date should be shown.
+assessment#:#tst_highscore_score#:#Show score
+assessment#:#tst_highscore_score_description#:#Controls, if a column with the score should be shown.
+assessment#:#tst_highscore_percentage#:#Show percentage
+assessment#:#tst_highscore_percentage_description#:#Controls, if a column with the tests percentage should be shown.
+assessment#:#tst_highscore_hints#:#Show hints
+assessment#:#tst_highscore_hints_description#:#Controls, if a column with the tests requested hints should be shown.
+assessment#:#tst_highscore_wtime#:#Show working time
+assessment#:#tst_highscore_wtime_description#:#Controls, if a column with the tests working time should be shown.
+assessment#:#tst_highscore_own_table#:#Show table 'own ranking'
+assessment#:#tst_highscore_own_table_description#:#Controls, if the table 'own ranking' should be shown.
+assessment#:#tst_highscore_top_table#:#Show table 'top ranking'
+assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top ranking' should be shown.
+assessment#:#tst_highscore_top_num#:#Number of ranks
+assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.
+assessment#:#tst_highscore_top_num_unit#:#entries
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
