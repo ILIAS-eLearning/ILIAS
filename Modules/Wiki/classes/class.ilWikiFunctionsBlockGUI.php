@@ -201,6 +201,18 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setListTitle($lng->txt("wiki_page_actions"));
 			$list->setId("wiki_pgactions");
+			
+			// rating
+			if(!$this->getPageObject()->getRating())
+			{
+				$list->addItem($lng->txt("wiki_activate_page_rating"), "",
+					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "activateWikiPageRating"));
+			}
+			else
+			{			
+				$list->addItem($lng->txt("wiki_deactivate_page_rating"), "",
+					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deactivateWikiPageRating"));
+			}
 
 			// rename
 			$list->addItem($lng->txt("wiki_rename_page"), "",
@@ -225,6 +237,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 				$list->addItem($lng->txt("wiki_delete_page"), "",
 					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deleteWikiPageConfirmationScreen"));
 			}
+									
 			$tpl->setCurrentBlock("plain");
 			$tpl->setVariable("PLAIN", $list->getHTML());
 			$tpl->parseCurrentBlock();

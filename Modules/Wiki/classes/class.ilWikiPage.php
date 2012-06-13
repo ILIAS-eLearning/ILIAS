@@ -104,6 +104,26 @@ class ilWikiPage extends ilPageObject
 	{
 		return $this->blocked;
 	}
+	
+	/**
+	 * Set rating
+	 *
+	 * @param	boolean	$a_val	
+	 */
+	public function setRating($a_val)
+	{
+		$this->rating = (bool)$a_val;
+	}
+
+	/**
+	 * Get rating
+	 *
+	 * @return	boolean	
+	 */
+	public function getRating()
+	{
+		return $this->rating;
+	}
 
 	/**
 	* Create new wiki page
@@ -119,11 +139,13 @@ class ilWikiPage extends ilPageObject
 			", title".
 			", wiki_id".
 			", blocked".
+			", rating".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getTitle(), "text")
 			.",".$ilDB->quote($this->getWikiId(), "integer")
 			.",".$ilDB->quote($this->getBlocked(), "integer")
+			.",".$ilDB->quote($this->getRating(), "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -155,6 +177,7 @@ class ilWikiPage extends ilPageObject
 			" title = ".$ilDB->quote($this->getTitle(), "text").
 			",wiki_id = ".$ilDB->quote($this->getWikiId(), "integer").
 			",blocked = ".$ilDB->quote($this->getBlocked(), "integer").
+			",rating = ".$ilDB->quote($this->getRating(), "integer").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		parent::update($a_validate, $a_no_history);
@@ -182,6 +205,7 @@ class ilWikiPage extends ilPageObject
 		$this->setTitle($rec["title"]);
 		$this->setWikiId($rec["wiki_id"]);
 		$this->setBlocked($rec["blocked"]);
+		$this->setRating($rec["rating"]);
 		
 		// get co page
 		parent::read();

@@ -12600,3 +12600,8 @@ rating#:#rating_category_updated#:#Kategorie gespeichert.
 rating#:#rating_update_positions#:#Reihenfolge speichern
 rating#:#rating_category_delete_sure#:#Wollen Sie wirklich die folgenden Kategorien löschen?  Alle Bewertungen für diese Kategorie werden gelöscht.
 rating#:#rating_category_deleted#:#Kategorie gelöscht.
+wiki#:#wiki_activate_sideblock_rating#:#Bewertung als Block anzeigen
+wiki#:#wiki_activate_new_page_rating#:#Bewertung bei neuen Seiten aktivieren
+wiki#:#wiki_activate_extended_rating#:#Bewertungs-Kategorien aktivieren
+wiki#:#wiki_activate_page_rating#:#Bewertung erlauben
+wiki#:#wiki_deactivate_page_rating#:#Bewertung nicht erlauben

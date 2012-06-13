@@ -245,6 +245,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		
 		// rating
 		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
+			&& $this->getPageObject()->getRating()
 			&& $this->getPageObject()->old_nr == 0)
 		{
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
@@ -715,6 +716,33 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHtml());
 	}
+	
+	//// 
+	/// Rating
+	////
+	
+	function activateWikiPageRating()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->getPageObject()->setRating(true);
+		$this->getPageObject()->update();
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "preview");
+	}
+	
+	function deactivateWikiPageRating()
+	{
+		global $lng, $ilCtrl;
+		
+		$this->getPageObject()->setRating(false);
+		$this->getPageObject()->update();
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "preview");
+	}
+	
 	
 	function observeNoteAction($a_wiki_id, $a_page_id, $a_type, $a_action)
 	{			

@@ -60,7 +60,7 @@ class ilObjWiki extends ilObject
 	*/
 	function setRating($a_rating)
 	{
-		$this->rating = $a_rating;
+		$this->rating = (bool)$a_rating;
 	}
 
 	/**
@@ -72,7 +72,67 @@ class ilObjWiki extends ilObject
 	{
 		return $this->rating;
 	}
+	
+	/**
+	* Set Enable Rating Side Block.
+	*
+	* @param	boolean	$a_rating	
+	*/
+	function setRatingAsBlock($a_rating)
+	{
+		$this->rating_block = (bool)$a_rating;
+	}
 
+	/**
+	* Get Enable Rating Side Block.
+	*
+	* @return	boolean
+	*/
+	function getRatingAsBlock()
+	{
+		return $this->rating_block;
+	}
+	
+	/**
+	* Set Enable Rating For New Pages.
+	*
+	* @param	boolean	$a_rating	
+	*/
+	function setRatingForNewPages($a_rating)
+	{
+		$this->rating_new_pages = (bool)$a_rating;
+	}
+
+	/**
+	* Get Enable Rating For New Pages.
+	*
+	* @return	boolean
+	*/
+	function getRatingForNewPages()
+	{
+		return $this->rating_new_pages;
+	}
+		
+	/**
+	* Set Enable Rating Categories.
+	*
+	* @param	boolean	$a_rating	
+	*/
+	function setRatingCategories($a_rating)
+	{
+		$this->rating_categories = (bool)$a_rating;
+	}
+
+	/**
+	* Get Enable Rating Categories.
+	*
+	* @return	boolean
+	*/
+	function getRatingCategories()
+	{
+		return $this->rating_categories;
+	}
+	
 	/**
 	 * Set public notes
 	 */
@@ -275,6 +335,9 @@ class ilObjWiki extends ilObject
 			"startpage" => array("text", $this->getStartPage()),
 			"short" => array("text", $this->getShortTitle()),
 			"rating" => array("integer", $this->getRating()),
+			"rating_side" => array("integer", $this->getRatingAsBlock()),
+			"rating_new" => array("integer", $this->getRatingForNewPages()),
+			"rating_ext" => array("integer", $this->getRatingCategories()),
 			"public_notes" => array("integer", $this->getPublicNotes()),
 			"introduction" => array("clob", $this->getIntroduction()),
 			"imp_pages" => array("integer", $this->getImportantPages()),
@@ -318,6 +381,9 @@ class ilObjWiki extends ilObject
 		$this->setStartPage($rec["startpage"]);
 		$this->setShortTitle($rec["short"]);
 		$this->setRating($rec["rating"]);
+		$this->setRatingAsBlock($rec["rating_side"]);
+		$this->setRatingForNewPages($rec["rating_new"]);
+		$this->setRatingCategories($rec["rating_ext"]);
 		$this->setPublicNotes($rec["public_notes"]);
 		$this->setIntroduction($rec["introduction"]);
 		$this->setImportantPages($rec["imp_pages"]);

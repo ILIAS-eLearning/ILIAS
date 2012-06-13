@@ -10417,3 +10417,45 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 	$ilDB->dropPrimaryKey("il_rating");
 	$ilDB->addPrimaryKey("il_rating", array("obj_id", "obj_type", "sub_obj_id", "sub_obj_type", "user_id", "category_id"));	
 ?>
+<#3616>
+<?php
+	if( !$ilDB->tableColumnExists('il_wiki_data', 'rating_side') )
+	{
+		$ilDB->addTableColumn('il_wiki_data', 'rating_side', array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+	}
+	if( !$ilDB->tableColumnExists('il_wiki_data', 'rating_new') )
+	{
+		$ilDB->addTableColumn('il_wiki_data', 'rating_new', array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+	}
+	if( !$ilDB->tableColumnExists('il_wiki_data', 'rating_ext') )
+	{
+		$ilDB->addTableColumn('il_wiki_data', 'rating_ext', array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+	}
+?>
+<#3617>
+<?php
+	if( !$ilDB->tableColumnExists('il_wiki_page', 'rating') )
+	{
+		$ilDB->addTableColumn('il_wiki_page', 'rating', array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+	}
+?>
