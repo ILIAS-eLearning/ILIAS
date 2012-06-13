@@ -244,7 +244,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}		
 		
 		// rating
-		if (ilObjWiki::_lookupRating($this->getPageObject()->getParentId())
+		$wiki_id = $this->getPageObject()->getParentId();
+		if (ilObjWiki::_lookupRating($wiki_id)
 			&& $this->getPageObject()->getRating()
 			&& $this->getPageObject()->old_nr == 0)
 		{
@@ -253,6 +254,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 			$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
 				$this->getPageObject()->getId(), "wpg");
 			$rating_gui->setYourRatingText($this->lng->txt("wiki_rate_page"));
+			$rating_gui->enableCategories(ilObjWiki::_lookupRatingCategories($wiki_id));
 			$lg->addHeaderIconHTML("rating", $this->ctrl->getHtml($rating_gui));
 		}
 		

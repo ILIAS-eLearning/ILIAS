@@ -1081,7 +1081,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	static function renderSideBlock($a_wpg_id, $a_wiki_ref_id, $a_wp = null)
 	{
-		global $tpl;
+		global $tpl, $lng;
 
 		if ($a_wpg_id > 0 && !$a_wp)
 		{
@@ -1101,6 +1101,17 @@ class ilObjWikiGUI extends ilObjectGUI
 //			$wiki_side_block = new ilWikiSideBlockGUI();
 //			$wiki_side_block->setPageObject($a_wp);
 //			$rcontent.= $wiki_side_block->getHTML();
+			
+			// rating
+			$wiki_id =ilObject::_lookupObjId($a_wiki_ref_id);			
+			if(ilObjWiki::_lookupRating($wiki_id) && ilObjWiki::_lookupRatingAsBlock($wiki_id))
+			{
+				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+				$rgui = new ilRatingGUI();
+				$rgui->setObject($wiki_id, "wiki", $a_wpg_id, "wpg");
+				$rgui->enableCategories(ilObjWiki::_lookupRatingCategories($wiki_id));
+				$rcontent .= $rgui->getBlockHTML($lng->txt("wiki_rate_page"));
+			}
 		}
 
 		// important pages
@@ -1117,7 +1128,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			include_once("./Modules/Wiki/classes/class.ilWikiFunctionsBlockGUI.php");
 			$wiki_functions_block = new ilWikiFunctionsBlockGUI();
 			$wiki_functions_block->setPageObject($a_wp);
-			$rcontent.= $wiki_functions_block->getHTML();
+			$rcontent .= $wiki_functions_block->getHTML();			
 		}
 
 		$tpl->setRightContent($rcontent);

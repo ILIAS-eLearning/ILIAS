@@ -310,15 +310,15 @@ il.MainMenu = {
 /* Rating */
 il.Rating = {
 	
-	setValue: function (category_id, value) {
+	setValue: function (category_id, value, prefix) {
 		
 		// set hidden field
-		$("#rating_value_"+category_id).val(value);
+		$("#"+prefix+"rating_value_"+category_id).val(value);
 		
 		// handle icons
 		for(i=1;i<=5;i++)
 		{
-			var icon_id = "#rating_icon_"+category_id+"_"+i;
+			var icon_id = "#"+prefix+"rating_icon_"+category_id+"_"+i;
 			var src = $(icon_id).attr("src");			
 			
 			// active
