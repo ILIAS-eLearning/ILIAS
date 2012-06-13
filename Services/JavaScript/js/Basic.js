@@ -307,6 +307,46 @@ il.MainMenu = {
 	}
 }
 
+/* Rating */
+il.Rating = {
+	
+	setValue: function (category_id, value) {
+		
+		// set hidden field
+		$("#rating_value_"+category_id).val(value);
+		
+		// handle icons
+		for(i=1;i<=5;i++)
+		{
+			var icon_id = "#rating_icon_"+category_id+"_"+i;
+			var src = $(icon_id).attr("src");			
+			
+			// active
+			if(i <= value)
+			{
+				// toggle if off
+				if(src.substring(src.length-7) == "off.png")
+				{
+					src = src.substring(0, src.length-7)+"on.png";
+					$(icon_id).attr("src", src);	
+				}				
+			}
+			// inactive
+			else
+			{
+				// toggle if on
+				if(src.substring(src.length-6) == "on.png")
+				{
+					src = src.substring(0, src.length-6)+"off.png";
+					$(icon_id).attr("src", src);	
+				}	
+			}			
+		}
+		
+		return false;
+	}
+}
+
 
 ////
 //// The following methods should be moved to the corresponding components

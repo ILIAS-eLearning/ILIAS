@@ -10,17 +10,65 @@
 <!-- <img src="{SRC_ARROW}" border="0" alt="" />--></a><!-- END act_rat_end -->
 <!-- END overall_rating -->
 </span>
+
 <!-- BEGIN user_rating -->
 <div class="ilOverlay" style="padding: 0px 5px; display:none;" id="{ID}">
-<!-- BEGIN rating_category -->
-<p>{TXT_RATING_CATEGORY}</p>
+	
+<!-- BEGIN user_rating_simple -->
+<p>{TXT_RATING_SIMPLE}</p>
 <p>
-<!-- BEGIN rating_link -->
+<!-- BEGIN rating_link_simple -->
 <a href="{HREF_RATING}">
 <img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
 </a>
-<!-- END rating_link -->
+<!-- END rating_link_simple -->
 </p>
-<!-- END rating_category -->
+<!-- END user_rating_simple -->
+
+<!-- BEGIN user_rating_categories -->
+<!-- BEGIN user_rating_categories_form_in -->
+<form action="{FORM_ACTION}" method="post">
+<!-- END user_rating_categories_form_in -->
+<table border="0">
+<!-- BEGIN user_rating_category_title -->
+<tr>
+<td>&nbsp;</td>
+<td class="std">{TXT_RATING_OVERALL}</td>
+<td class="std">{TXT_RATING_USER}</td>
+</tr>
+<!-- END user_rating_category_title -->
+<!-- BEGIN user_rating_category -->
+<tr>
+<td class="std">{TXT_RATING_CATEGORY}</td>
+<td>
+<!-- BEGIN user_rating_icon_overall -->
+<img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
+<!-- END user_rating_icon_overall -->
+</td>
+<!-- BEGIN user_rating_category_column -->
+<td>
+<!-- BEGIN user_rating_icon -->
+<a href="#" onclick="{HREF_RATING}">
+<img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" id="rating_icon_{CATEGORY_ID}_{ICON_VALUE}" />
+</a>
+<!-- END user_rating_icon -->
+<input type="hidden" id="rating_value_{CATEGORY_ID}" name="rating[{CATEGORY_ID}]" value="{CATEGORY_VALUE}" />
+</td>
+<!-- END user_rating_category_column -->
+</tr>
+<!-- END user_rating_category -->
+<!-- BEGIN user_rating_submit -->
+<tr>
+<td colspan="3" align="right">
+<input type="submit" class="submit" value="{TXT_SUBMIT}" name="cmd[{CMD_SUBMIT}]" />	
+</td>
+</tr>
+<!-- END user_rating_submit -->
+</table>
+<!-- BEGIN user_rating_categories_form_out -->
+</form>
+<!-- END user_rating_categories_form_out -->
+<!-- END user_rating_categories -->
+
 </div>
 <!-- END user_rating -->

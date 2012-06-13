@@ -76,20 +76,23 @@ class ilRating
 	* @param	int			$a_category_id		Category ID
 	*/
 	static function getRatingForUserAndObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type,
-		$a_user_id, $a_category_id = 0)
+		$a_user_id, $a_category_id = null)
 	{
 		global $ilDB;
 		
-		$q = "SELECT * FROM il_rating WHERE ".
+		$q = "SELECT AVG(rating) av FROM il_rating WHERE ".
 			"user_id = ".$ilDB->quote($a_user_id, "integer")." AND ".
 			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
 			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
 			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
-			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true)." AND ".
-			"category_id = ".$ilDB->quote((int) $a_category_id, "integer");
+			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
+		if ($a_category_id !== null)
+		{
+			$q .= " AND category_id = ".$ilDB->quote((int) $a_category_id, "integer");
+		}		
 		$set = $ilDB->query($q);
 		$rec = $ilDB->fetchAssoc($set);
-		return $rec["rating"];
+		return $rec["av"];
 	}
 	
 	/**
@@ -105,7 +108,7 @@ class ilRating
 	{
 		global $ilDB;
 		
-		$q = "SELECT count(*) as cnt, AVG(rating) as av FROM il_rating WHERE ".
+		$q = "SELECT AVG(rating) av FROM il_rating WHERE ".
 			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
 			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
 			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
@@ -114,9 +117,15 @@ class ilRating
 		{
 			$q .= " AND category_id = ".$ilDB->quote((int) $a_category_id, "integer");
 		}		
+		$q .= " GROUP BY user_id";
 		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
-		return array("cnt" => $rec["cnt"], "avg" => $rec["av"]);
+		$avg = $cnt = 0;		
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$cnt++;
+			$avg += $rec["av"];
+		}
+		return array("cnt" => $cnt, "avg" => $avg/$cnt);
 	}
 }
 
