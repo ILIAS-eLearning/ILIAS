@@ -1020,7 +1020,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$page->setWikiId($this->object->getId());
 			$page->setTitle(ilWikiUtil::makeDbTitle($_GET["page"]));
 			
-			if($this->object->getRatingForNewPages())
+			if($this->object->getRating() && $this->object->getRatingForNewPages())
 			{
 				$page->setRating(true);
 			}

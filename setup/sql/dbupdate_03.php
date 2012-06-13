@@ -10459,3 +10459,26 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 		));
 	}
 ?>
+<#3618>
+<?php
+
+	$wiki_ids = array();
+	$set = $ilDB->query("SELECT id FROM il_wiki_data".
+		" WHERE rating = ".$ilDB->quote(1, "integer"));		
+	while($row = $ilDB->fetchAssoc($set))
+	{
+		$wiki_ids[] = $row["id"];
+	}
+	
+	if($wiki_ids)
+	{
+		$ilDB->manipulate("UPDATE il_wiki_data".
+			" SET rating_new = ".$ilDB->quote(1, "integer").
+			" WHERE ".$ilDB->in("id", $wiki_ids, "", "integer"));
+		
+		$ilDB->manipulate("UPDATE il_wiki_page".
+			" SET rating = ".$ilDB->quote(1, "integer").
+			" WHERE ".$ilDB->in("wiki_id", $wiki_ids, "", "integer"));		
+	}
+
+?>
