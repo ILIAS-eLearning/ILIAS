@@ -1160,9 +1160,11 @@ class ilObjTest extends ilObject
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
 				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, online_status, " .
-				"print_bs_with_res, offer_question_hints) " .
+				"print_bs_with_res, offer_question_hints, highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, " . 
+				"highscore_hints, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1172,7 +1174,8 @@ class ilObjTest extends ilObject
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
 					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer', 'integer',
-					'integer', 'integer'
+					'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer',
+					'integer', 'integer', 'integer'
 				),
 				array(
 					$next_id, 
@@ -1234,7 +1237,17 @@ class ilObjTest extends ilObject
                     $this->getPoolUsage(),
 					(int)$this->isOnline(),
 					(int) $this->isBestSolutionPrintedWithResult(),
-					(int) $this->isOfferingQuestionHintsEnabled()
+					(int) $this->isOfferingQuestionHintsEnabled(),
+					(int) $this->getHighscoreEnabled(),
+					(int) $this->getHighscoreAnon(),
+					(int) $this->getHighscoreAchievedTS(),
+					(int) $this->getHighscoreScore(),
+					(int) $this->getHighscorePercentage(),
+					(int) $this->getHighscoreHints(),
+					(int) $this->getHighscoreWTime(),
+					(int) $this->getHighscoreOwnTable(),
+					(int) $this->getHighscoreTopTable(),
+					(int) $this->getHighscoreTopNum()
 				)
 			);
 			$this->test_id = $next_id;
@@ -1268,7 +1281,11 @@ class ilObjTest extends ilObject
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
 				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " .
 				"print_bs_with_res = %s,".
-				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s, online_status = %s, offer_question_hints = %s WHERE test_id = %s",
+				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s, " .
+				"online_status = %s, offer_question_hints = %s, highscore_enabled = %s, highscore_anon = %s, highscore_achieved_ts = %s, " . 
+				"highscore_score = %s, highscore_percentage = %s, " .
+				"highscore_hints = %s, highscore_wtime = %s, highscore_own_table = %s, highscore_top_table = %s, highscore_top_num = %s " .
+				"WHERE test_id = %s",
 				array(
 					'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
@@ -1278,7 +1295,11 @@ class ilObjTest extends ilObject
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
 					'integer',
-					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 'integer', 'integer', 'integer'
+					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 
+					'integer', 'integer', 'integer', 'integer', 'integer', 
+					'integer', 'integer', 
+					'integer', 'integer', 'integer', 'integer', 'integer', 
+					'integer'
 				),
 				array(
 					$this->getAuthor(), 
@@ -1338,6 +1359,16 @@ class ilObjTest extends ilObject
                     $this->getPoolUsage(),
 					(int)$this->isOnline(),
 					(int)$this->isOfferingQuestionHintsEnabled(),
+					(int) $this->getHighscoreEnabled(),
+					(int) $this->getHighscoreAnon(),
+					(int) $this->getHighscoreAchievedTS(),
+					(int) $this->getHighscoreScore(),
+					(int) $this->getHighscorePercentage(),
+					(int) $this->getHighscoreHints(),
+					(int) $this->getHighscoreWTime(),
+					(int) $this->getHighscoreOwnTable(),
+					(int) $this->getHighscoreTopTable(),
+					(int) $this->getHighscoreTopNum(),
 					$this->getTestId()
 				)
 			);
@@ -2098,6 +2129,16 @@ class ilObjTest extends ilObject
 			$this->setPoolUsage($data->pool_usage);
 			$this->setOnline($data->online_status);
 			$this->setPrintBestSolutionWithResult((bool) $data->print_bs_with_res);
+			$this->setHighscoreEnabled((bool) $data->highscore_enabled);
+			$this->setHighscoreAnon((bool) $data->highscore_anon);
+			$this->setHighscoreAchievedTS((bool) $data->highscore_achieved_ts);
+			$this->setHighscoreScore((bool) $data->highscore_score);
+			$this->setHighscorePercentage((bool) $data->highscore_percentage);
+			$this->setHighscoreHints((bool) $data->highscore_hints);
+			$this->setHighscoreWTime((bool) $data->highscore_wtime);
+			$this->setHighscoreOwnTable((bool) $data->highscore_own_table);
+			$this->setHighscoreTopTable((bool) $data->highscore_top_table);
+			$this->setHighscoreTopNum((int) $data->highscore_top_num);
 			$this->loadQuestions();
 		}
 	}
@@ -9432,6 +9473,16 @@ function loadQuestions($active_id = "", $pass = NULL)
 			$this->setExportSettings($testsettings['exportsettings']);
 			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
 			$this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
+			$this->setHighscoreEnabled($testsettings['highscore_enabled']);
+			$this->setHighscoreAnon($testsettings['highscore_anon']);
+			$this->setHighscoreAchievedTS($testsettings['highscore_achieved_ts']);
+			$this->setHighscoreScore($testsettings['highscore_score']);
+			$this->setHighscorePercentage($testsettings['highscore_percentage']);
+			$this->setHighscoreHints($testsettings['highscore_hints']);
+			$this->setHighscoreWTime($testsettings['highscore_wtime']);
+			$this->setHighscoreOwnTable($testsettings['highscore_own_table']);
+			$this->setHighscoreTopTable($testsettings['highscore_top_table']);
+			$this->setHighscoreTopNum($testsettings['highscore_top_num']);
 			$this->saveToDb();
 			$result = TRUE;
 		}
@@ -10558,6 +10609,247 @@ function loadQuestions($active_id = "", $pass = NULL)
 	{
 		$this->offeringQuestionHintsEnabled = (bool)$offeringQuestionHintsEnabled;
 	}
+	
+	/* GET/SET for highscore feature */
+	
+	/**
+	 * Sets if the highscore feature should be enabled.
+	 * 
+	 * @param bool $a_enabled 
+	 */
+	public function setHighscoreEnabled($a_enabled)
+	{
+		$this->_highscore_enabled = (bool)$a_enabled;
+	}
+	
+	/**
+	 * Gets the setting which determines if the highscore feature is enabled.
+	 * 
+	 * @return bool True, if highscore is enabled. 
+	 */
+	public function getHighscoreEnabled()
+	{
+		return (bool) $this->_highscore_enabled;
+	}
+
+	/**
+	 * Sets if the highscores should be anonymized.
+	 * 
+	 * Note: This setting will be overriden, if the test is globally anonymized.
+	 * 
+	 * @param bool $a_anon 
+	 */
+	public function setHighscoreAnon($a_anon)
+	{
+		$this->_highscore_anon = (bool)$a_anon;
+	}
+	
+	/**
+	 * Gets if the highscores should be anonymized per setting.
+	 * 
+	 * Note: This method will retrieve the setting as set by the user. If you want
+	 * to figure out, if the highscore is to be shown anonymized or not, with 
+	 * consideration of the global anon switch you should @see isHighscoreAnon().
+	 * 
+	 * @return bool True, if setting is to anonymize highscores. 
+	 */
+	public function getHighscoreAnon()
+	{
+		return (bool) $this->_highscore_anon;
+	}
+	
+	/**
+	 * Gets if the highscores should be displayed anonymized.
+	 * 
+	 * Note: This method considers the global anonymity switch. If you need 
+	 * access to the users setting, @see getHighscoreAnon()
+	 * 
+	 * @return boolean True, if output is anonymized. 
+	 */
+	public function isHighscoreAnon()
+	{
+		if ($this->getAnonymity() == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return (bool)$this->getHighscoreAnon();
+		}
+	}
+	
+	/**
+	 * Sets if the date and time of the scores achievement should be displayed.
+	 * 
+	 * @param bool $a_achieved_ts 
+	 */
+	public function setHighscoreAchievedTS($a_achieved_ts)
+	{
+		$this->_highscore_achieved_ts = (bool)$a_achieved_ts;
+	}
+	
+	/**
+	 * Returns if date and time of the scores achievement should be displayed.
+	 * 
+	 * @return bool True, if column should be shown. 
+	 */
+	public function getHighscoreAchievedTS()
+	{
+		return (bool) $this->_highscore_achieved_ts;
+	}
+
+	/**
+	 * Sets if the actual score should be displayed.
+	 * 
+	 * @param bool $a_score 
+	 */
+	public function setHighscoreScore($a_score)
+	{
+		$this->_highscore_score = (bool)$a_score;
+	}
+	
+	/**
+	 * Gets if the score column should be shown.
+	 * 
+	 * @return bool True, if score column should be shown. 
+	 */
+	public function getHighscoreScore()
+	{
+		return (bool) $this->_highscore_score;
+	}
+
+	/**
+	 * Sets if the percentages of the scores pass should be shown.
+	 *  
+	 * @param bool $a_percentage 
+	 */
+	public function setHighscorePercentage($a_percentage)
+	{
+		$this->_highscore_percentage = (bool)$a_percentage;
+	}
+	
+	/**
+	 * Gets if the percentage column should be shown.
+	 * 
+	 * @return bool True, if percentage column should be shown. 
+	 */
+	public function getHighscorePercentage()
+	{
+		return (bool) $this->_highscore_percentage;
+	}
+
+	/**
+	 * Sets if the number of requested hints should be shown.
+	 * 
+	 * @param bool $a_hints 
+	 */
+	public function setHighscoreHints($a_hints)
+	{
+		$this->_highscore_hints = (bool)$a_hints;
+	}
+	
+	/**
+	 * Gets, if the column with the number of requested hints should be shown.
+	 * 
+	 * @return bool True, if the hints-column should be shown. 
+	 */
+	public function getHighscoreHints()
+	{
+		return (bool) $this->_highscore_hints;
+	}
+	
+	/**
+	 * Sets if the workingtime of the scores should be shown.
+	 * 
+	 * @param bool $a_wtime 
+	 */
+	public function setHighscoreWTime($a_wtime)
+	{
+		$this->_highscore_wtime = (bool)$a_wtime;
+	}
+	
+	/**
+	 * Gets if the column with the workingtime should be shown.
+	 * 
+	 * @return bool True, if the workingtime column should be shown. 
+	 */
+	public function getHighscoreWTime()
+	{
+		return (bool) $this->_highscore_wtime;
+	}
+	
+	/**
+	 * Sets if the table with the own ranking should be shown.
+	 * 
+	 * @param bool $a_own_table True, if table with own ranking should be shown. 
+	 */
+	public function setHighscoreOwnTable($a_own_table)
+	{
+		$this->_highscore_own_table = (bool)$a_own_table;
+	}
+	
+	/**
+	 * Gets if the own rankings table should be shown.
+	 * 
+	 * @return bool True, if the own rankings table should be shown. 
+	 */
+	public function getHighscoreOwnTable()
+	{
+		return (bool) $this->_highscore_own_table;
+	}
+	
+	/**
+	 * Sets if the top-rankings table should be shown.
+	 * 
+	 * @param bool $a_top_table 
+	 */
+	public function setHighscoreTopTable($a_top_table)
+	{
+		$this->_highscore_top_table = (bool)$a_top_table;
+	}
+	
+	/**
+	 * Gets, if the top-rankings table should be shown.
+	 * 
+	 * @return bool True, if top-rankings table should be shown. 
+	 */
+	public function getHighscoreTopTable()
+	{
+		return (bool) $this->_highscore_top_table;
+	}
+
+	/**
+	 * Sets the number of entries which are to be shown in the top-rankings
+	 * table.
+	 * 
+	 * @param integer $a_top_num Number of entries in the top-rankings table. 
+	 */
+	public function setHighscoreTopNum($a_top_num)
+	{
+		$this->_highscore_top_num = (int)$a_top_num;
+	}
+	
+	/**
+	 * Gets the number of entries which are to be shown in the top-rankings table.
+	 * Default: 10 entries
+	 * 
+	 * @param integer $a_retval Optional return value if nothing is set, defaults to 10.
+	 * 
+	 * @return integer Number of entries to be shown in the top-rankings table. 
+	 */
+	public function getHighscoreTopNum($a_retval = 10)
+	{
+		$retval = $a_retval;
+		if ( (int) $this->_highscore_top_num != 0)
+		{
+			$retval = $this->_highscore_top_num;
+		}
+		
+		return $retval;
+	}
+	/* End GET/SET for highscore feature*/
+
+	
 } // END class.ilObjTest
 
 ?>

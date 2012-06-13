@@ -1229,6 +1229,40 @@ assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten
 assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
 assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
+assessment#:#tst_show_toplist#:#Zeige Highscores
+assessment#:#toplist_by_score#:#Highscore nach Punkten
+assessment#:#toplist_by_time#:#Highscore nach Bearbeitungszeit
+assessment#:#toplist_top_n_results#:#Top %s Platzierungen
+assessment#:#toplist_col_rank#:#Platz
+assessment#:#toplist_col_participant#:#Teilnehmer
+assessment#:#toplist_col_achieved#:#Datum
+assessment#:#toplist_col_score#:#Punktzahl
+assessment#:#toplist_col_percentage#:#Prozentwert
+assessment#:#toplist_col_hints#:#Hinweise
+assessment#:#toplist_col_wtime#:#Bearbeitungszeit
+assessment#:#toplist_your_result#:#Ihre Platzierung
+assessment#:#tst_highscore_options#:#Highscore
+assessment#:#tst_highscore_enabled#:#Highscoreanzeige aktiviert
+assessment#:#tst_highscore_description#:#Anzeige von Platzierungen der Tests.
+assessment#:#tst_highscore_anon#:#Anonymisierung der Platzierten
+assessment#:#tst_highscore_anon_description#:#Steuert, ob die Namen zu den Platzierungen anonymisiert werden. Diese Option wird ggfls. durch die Anonymisierung des Tests insgesamt überschrieben.
+assessment#:#tst_highscore_achieved_ts#:#Anzeige des Testzeitpunkts
+assessment#:#tst_highscore_achieved_ts_description#:#Steuert, ob eine Spalte mit dem Zeitpunkt des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_score#:#Anzeige der Punktzahl
+assessment#:#tst_highscore_score_description#:#Steuert, ob eine Spalte mit dem Punktwert des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_percentage#:#Anzeige des Prozentwerts
+assessment#:#tst_highscore_percentage_description#:#Steuert, ob eine Spalte mit dem Prozentwert des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_hints#:#Anzeige der Hints
+assessment#:#tst_highscore_hints_description#:#Steuert, ob eine Spalte mit der Anzahl der in Anspruch genommenen Hinweise des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_wtime#:#Anzeige der Bearbeitungsdauer
+assessment#:#tst_highscore_wtime_description#:#Steuert, ob eine Spalte mit der Bearbeitungsdauer des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_own_table#:#Anzeige der Tabelle "Eigene Platzierung"
+assessment#:#tst_highscore_own_table_description#:#Steuert, ob eine Tabelle mit der eigenen Platzierung eingeblendet werden soll.
+assessment#:#tst_highscore_top_table#:#Anzeige der Tabelle "Top Platzierung"
+assessment#:#tst_highscore_top_table_description#:#Steuert, ob eine Tabelle mit den besten Platzierungen eingeblendet werden soll.
+assessment#:#tst_highscore_top_num#:#Anzahl der zu zeigenden Top Platzierungen
+assessment#:#tst_highscore_top_num_description#:#Steuert, wie viele Platzierungen in der Tabelle Top Platzierungen eingeblendet werden soll.
+assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
