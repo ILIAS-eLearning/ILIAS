@@ -12639,3 +12639,5 @@ wiki#:#wiki_activate_new_page_rating#:#Bewertung bei neuen Seiten aktivieren
 wiki#:#wiki_activate_extended_rating#:#Bewertungs-Kategorien aktivieren
 wiki#:#wiki_activate_page_rating#:#Bewertung erlauben
 wiki#:#wiki_deactivate_page_rating#:#Bewertung nicht erlauben
+rating#:#rating_overlay_title_overall#:#Gesamtbewertung
+rating#:#rating_overlay_submit#:#Bewerten
