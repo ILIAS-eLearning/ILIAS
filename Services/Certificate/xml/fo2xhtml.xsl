@@ -97,7 +97,7 @@
 			<xsl:text disable-output-escaping="yes">&lt;u&gt;</xsl:text>
 		</xsl:if>
 		<xsl:choose>
-			<xsl:when test="@font-family or @font-size or @padding or @padding-left or @padding-right or @padding-top or @padding-bottom">
+			<xsl:when test="@font-family or @font-size or @padding or @padding-left or @padding-right or @padding-top or @padding-bottom or @color">
 				<xsl:element name="span">
 					<xsl:attribute name="style">
 						<xsl:if test="@font-family">
@@ -174,6 +174,11 @@
 						<xsl:if test="@padding-bottom">
 							<xsl:text>padding-bottom: </xsl:text>
 							<xsl:value-of select="@padding-bottom"/>
+							<xsl:text>; </xsl:text>
+						</xsl:if>
+						<xsl:if test="@color">
+							<xsl:text>color: </xsl:text>
+							<xsl:value-of select="@color"/>
 							<xsl:text>; </xsl:text>
 						</xsl:if>
 					</xsl:attribute>

@@ -423,6 +423,21 @@
 					</xsl:call-template>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="contains(@style, 'color')">
+				<xsl:attribute name="color">
+					<xsl:call-template name="trim">
+						<xsl:with-param name="s">
+							<xsl:call-template name="getColor">
+								<xsl:with-param name="s">
+									<xsl:value-of
+										select="substring-before(substring-after(@style, 'color:'), ';')"
+									/>
+								</xsl:with-param>
+							</xsl:call-template>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="contains(@style, 'padding-left')">
 				<xsl:attribute name="padding-left">
 					<xsl:call-template name="trim">
@@ -732,6 +747,11 @@
 				/>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template name="getColor">
+		<xsl:param name="s"/>
+		<xsl:value-of select="$s" />
 	</xsl:template>
 
 	<xsl:template name="firstelement">
