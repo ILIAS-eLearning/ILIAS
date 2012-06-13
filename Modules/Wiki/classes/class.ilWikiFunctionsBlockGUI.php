@@ -203,15 +203,18 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			$list->setId("wiki_pgactions");
 			
 			// rating
-			if(!$this->getPageObject()->getRating())
-			{
-				$list->addItem($lng->txt("wiki_activate_page_rating"), "",
-					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "activateWikiPageRating"));
-			}
-			else
+			if(ilObjWiki::_lookupRating($this->getPageObject()->getWikiId()))
 			{			
-				$list->addItem($lng->txt("wiki_deactivate_page_rating"), "",
-					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deactivateWikiPageRating"));
+				if(!$this->getPageObject()->getRating())
+				{
+					$list->addItem($lng->txt("wiki_activate_page_rating"), "",
+						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "activateWikiPageRating"));
+				}
+				else
+				{			
+					$list->addItem($lng->txt("wiki_deactivate_page_rating"), "",
+						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deactivateWikiPageRating"));
+				}
 			}
 
 			// rename
