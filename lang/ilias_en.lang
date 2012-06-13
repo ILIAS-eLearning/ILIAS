@@ -12355,7 +12355,7 @@ common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will 
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email
 common#:#tst_tst_statistics#:#Access to Test Statistics
 common#:#ignore_required_fields#:#Ignore required fields
-common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.
+common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.
 assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
 wsp#:#wsp_share_with_users#:#Share with users
@@ -12621,14 +12621,3 @@ content#:#cont_show_activation_info_info#:#If the scheduled activation is not ye
 content#:#cont_page_activation_on#:#The content will be activated on %s.
 trac#:#trac_lp_on_personal_desktop#:#Learning Progress on Personal Desktop
 trac#:#trac_lp_learner_access#:#Accessible Personal Learning Progress
-rating#:#rating_categories#:#Rating Categories
-rating#:#rating_add_category#:#Add Category
-rating#:#rating_category_create#:#Create Category
-rating#:#rating_category_add#:#Add
-rating#:#rating_category_created#:#Category created.
-rating#:#rating_category_edit#:#Edit Category
-rating#:#rating_category_update#:#Save
-rating#:#rating_category_updated#:#Category saved.
-rating#:#rating_update_positions#:#Save Order
-rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.
-rating#:#rating_category_deleted#:#Category deleted.
