@@ -546,6 +546,30 @@ class ilObjWiki extends ilObject
 	{
 		return ilObjWiki::_lookup($a_wiki_id, "rating");
 	}
+	
+	/**
+	 * Lookup whether rating categories are activated.
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		Rating categories activated?
+	 */
+	static function _lookupRatingCategories($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "rating_ext");
+	}
+	
+	/**
+	 * Lookup whether rating side block is activated.
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		Rating side block activated?
+	 */
+	static function _lookupRatingAsBlock($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "rating_side");
+	}
 
 	/**
 	 * Lookup whether public notes are activated

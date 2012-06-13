@@ -110,16 +110,170 @@ class ilRatingGUI
 	{
 		return $this->your_rating_text;
 	}
+	
+	/**
+	 * Toggle categories status
+	 * 
+	 * @param bool  $a_value 
+	 */
+	function enableCategories($a_value)
+	{
+		$this->enable_categories = (bool)$a_value;
+	}
+	
+	/**
+	 * Render rating details
+	 * 
+	 * @param string $a_js_id
+	 * @param bool $a_may_rate
+	 * @param array $a_categories 
+	 * @return string
+	 */
+	protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null)
+	{
+		global $lng, $ilCtrl;
+		
+		$ttpl = new ilTemplate("tpl.rating_details.html", true, true, "Services/Rating");		
+		
+		$rate_text = ($this->getYourRatingText() != "")
+			? $this->getYourRatingText()
+			: $lng->txt("rating_your_rating");
+				
+		// no categories: 1 simple rating (link)
+		if(!$a_categories)
+		{				
+			if ($a_may_rate)
+			{					
+				$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
+					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), 0);
+
+				// user rating links
+				for($i = 1; $i <= 5; $i++)
+				{
+					$ttpl->setCurrentBlock("rating_link_simple");					
+					$ilCtrl->setParameter($this, "rating", $i);
+					$ttpl->setVariable("HREF_RATING", $ilCtrl->getLinkTarget($this, "saveRating"));
+					if ($rating >= $i)
+					{
+						$ttpl->setVariable("SRC_ICON",
+							ilUtil::getImagePath("icon_rate_on.png"));
+					}
+					else
+					{
+						$ttpl->setVariable("SRC_ICON",
+							ilUtil::getImagePath("icon_rate_off.png"));
+					}
+					$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
+					$ttpl->parseCurrentBlock();
+				}
+
+				// user rating text
+				$ttpl->setCurrentBlock("user_rating_simple");
+				$ttpl->setVariable("TXT_RATING_SIMPLE", $rate_text);
+				$ttpl->parseCurrentBlock();
+			}
+		}
+		// categories: overall & user (form)
+		else
+		{				
+			foreach($a_categories as $category)
+			{	
+				$user_rating = round(ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
+					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), $category["id"]));
+
+				$overall_rating = ilRating::getOverallRatingForObject($this->obj_id, $this->obj_type,
+					$this->sub_obj_id, $this->sub_obj_type, $category["id"]);
+				
+				for($i = 1; $i <= 5; $i++)
+				{					
+					$ttpl->setCurrentBlock("user_rating_icon_overall");
+					if ($overall_rating["avg"] >= $i)
+					{
+						$ttpl->setVariable("SRC_ICON",
+							ilUtil::getImagePath("icon_rate_on.png"));
+					}
+					else if ($overall_rating["avg"] + 1 <= $i)
+					{
+						$ttpl->setVariable("SRC_ICON",
+							ilUtil::getImagePath("icon_rate_off.png"));
+					}
+					else
+					{
+						$nr = round(($overall_rating["avg"] + 1 - $i) * 10);
+						$ttpl->setVariable("SRC_ICON",
+							ilUtil::getImagePath("icon_rate_$nr.png"));
+					}
+					$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
+					$ttpl->parseCurrentBlock();
+					
+					if($a_may_rate)
+					{
+						$ttpl->setCurrentBlock("user_rating_icon");					
+						$ttpl->setVariable("HREF_RATING", "il.Rating.setValue(".$category["id"].",".$i.", '".$a_js_id."')");
+						$ttpl->setVariable("CATEGORY_ID", $category["id"]);
+						$ttpl->setVariable("ICON_VALUE", $i);
+						$ttpl->setVariable("JS_ID", $a_js_id);
+						if ($user_rating >= $i)
+						{
+							$ttpl->setVariable("SRC_ICON",
+								ilUtil::getImagePath("icon_rate_on.png"));
+						}
+						else
+						{
+							$ttpl->setVariable("SRC_ICON",
+								ilUtil::getImagePath("icon_rate_off.png"));
+						}
+						$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
+						$ttpl->parseCurrentBlock();									
+					}
+				}
+				
+				if($a_may_rate)
+				{
+					$ttpl->setCurrentBlock("user_rating_category_column");	
+					$ttpl->setVariable("JS_ID", $a_js_id);
+					$ttpl->setVariable("CATEGORY_ID", $category["id"]);
+					$ttpl->setVariable("CATEGORY_VALUE", $user_rating);
+					$ttpl->parseCurrentBlock();	
+				}
+
+				// category title
+				$ttpl->setCurrentBlock("user_rating_category");
+				$ttpl->setVariable("TXT_RATING_CATEGORY", $category["title"]);				
+				$ttpl->parseCurrentBlock();		
+			}
+			
+			if($a_may_rate)
+			{
+				$ttpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, "saveRating"));				
+				$ttpl->setVariable("TXT_SUBMIT", $lng->txt("rating_overlay_submit"));
+				$ttpl->setVariable("CMD_SUBMIT", "saveRating");
+				$ttpl->touchBlock("user_rating_categories_form_out");
+				
+				// overall / user title
+				$ttpl->setCurrentBlock("user_rating_categories");
+				$ttpl->setVariable("TXT_RATING_OVERALL", $lng->txt("rating_overlay_title_overall"));
+				$ttpl->setVariable("TXT_RATING_USER", $rate_text);				
+				$ttpl->parseCurrentBlock();
+			}		
+		}
+		
+		return $ttpl->get();
+	}
 
 	/**
 	* Get HTML for rating of an object (and a user)
 	*/
 	function getHTML()
 	{
-		global $lng, $ilCtrl;	
+		global $lng;	
 		
-		$categories = ilRatingCategory::getAllForObject($this->obj_id);		
-				
+		$categories = array();
+		if($this->enable_categories)
+		{
+			$categories = ilRatingCategory::getAllForObject($this->obj_id);		
+		}
+		
 		$may_rate = ($this->getUserId() != ANONYMOUS_USER_ID);		
 		
 		$has_overlay = false;				
@@ -217,133 +371,11 @@ class ilRatingGUI
 		
 		// (2) user rating			
 		
-		$rate_text = ($this->getYourRatingText() != "")
-			? $this->getYourRatingText()
-			: $lng->txt("rating_your_rating");
-				
-		// no categories: 1 simple rating (link)
-		if(!$categories)
-		{				
-			if ($may_rate)
-			{	
-				$has_overlay = true;
-				
-				$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
-					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
-
-				// user rating links
-				for($i = 1; $i <= 5; $i++)
-				{
-					$ttpl->setCurrentBlock("rating_link_simple");					
-					$ilCtrl->setParameter($this, "rating", $i);
-					$ttpl->setVariable("HREF_RATING", $ilCtrl->getLinkTarget($this, "saveRating"));
-					if ($rating >= $i)
-					{
-						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_on.png"));
-					}
-					else
-					{
-						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_off.png"));
-					}
-					$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
-					$ttpl->parseCurrentBlock();
-				}
-
-				// user rating text
-				$ttpl->setCurrentBlock("user_rating_simple");
-				$ttpl->setVariable("TXT_RATING_SIMPLE", $rate_text);
-				$ttpl->parseCurrentBlock();
-			}
-		}
-		// categories: overall & user (form)
-		else
-		{	
-			$has_overlay = true;
-			
-			foreach($categories as $category)
-			{	
-				$user_rating = round(ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
-					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), $category["id"]));
-
-				$overall_rating = ilRating::getOverallRatingForObject($this->obj_id, $this->obj_type,
-					$this->sub_obj_id, $this->sub_obj_type, $category["id"]);
-				
-				for($i = 1; $i <= 5; $i++)
-				{					
-					$ttpl->setCurrentBlock("user_rating_icon_overall");
-					if ($overall_rating["avg"] >= $i)
-					{
-						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_on.png"));
-					}
-					else if ($overall_rating["avg"] + 1 <= $i)
-					{
-						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_off.png"));
-					}
-					else
-					{
-						$nr = round(($overall_rating["avg"] + 1 - $i) * 10);
-						$ttpl->setVariable("SRC_ICON",
-							ilUtil::getImagePath("icon_rate_$nr.png"));
-					}
-					$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
-					$ttpl->parseCurrentBlock();
-					
-					if($may_rate)
-					{
-						$ttpl->setCurrentBlock("user_rating_icon");					
-						$ttpl->setVariable("HREF_RATING", "il.Rating.setValue(".$category["id"].",".$i.")");
-						$ttpl->setVariable("CATEGORY_ID", $category["id"]);
-						$ttpl->setVariable("ICON_VALUE", $i);
-						if ($user_rating >= $i)
-						{
-							$ttpl->setVariable("SRC_ICON",
-								ilUtil::getImagePath("icon_rate_on.png"));
-						}
-						else
-						{
-							$ttpl->setVariable("SRC_ICON",
-								ilUtil::getImagePath("icon_rate_off.png"));
-						}
-						$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
-						$ttpl->parseCurrentBlock();									
-					}
-				}
-				
-				if($may_rate)
-				{
-					$ttpl->setCurrentBlock("user_rating_category_column");	
-					$ttpl->setVariable("CATEGORY_ID", $category["id"]);
-					$ttpl->setVariable("CATEGORY_VALUE", $user_rating);
-					$ttpl->parseCurrentBlock();	
-				}
-
-				// category title
-				$ttpl->setCurrentBlock("user_rating_category");
-				$ttpl->setVariable("TXT_RATING_CATEGORY", $category["title"]);				
-				$ttpl->parseCurrentBlock();		
-			}
-			
-			if($may_rate)
-			{
-				$ttpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, "saveRating"));				
-				$ttpl->setVariable("TXT_SUBMIT", $lng->txt("rating_overlay_submit"));
-				$ttpl->setVariable("CMD_SUBMIT", "saveRating");
-				$ttpl->touchBlock("user_rating_categories_form_out");
-				
-				// overall / user title
-				$ttpl->setCurrentBlock("user_rating_categories");
-				$ttpl->setVariable("TXT_RATING_OVERALL", $lng->txt("rating_overlay_title_overall"));
-				$ttpl->setVariable("TXT_RATING_USER", $rate_text);				
-				$ttpl->parseCurrentBlock();
-			}		
-		}
-			
 		if($has_overlay)
 		{
+			$ttpl->setVariable("RATING_DETAILS", 
+				$this->renderDetails("rtov_", $may_rate, $categories));
+			
 			$ttpl->setCurrentBlock("user_rating");
 			$ttpl->setVariable("ID", $this->id);
 			$ttpl->parseCurrentBlock();		
@@ -351,6 +383,26 @@ class ilRatingGUI
 
 		$ttpl->setVariable("TTID", $this->id);
 
+		return $ttpl->get();
+	}
+	
+	function getBlockHTML($a_title)
+	{
+		$categories = array();
+		if($this->enable_categories)
+		{
+			$categories = ilRatingCategory::getAllForObject($this->obj_id);		
+		}
+		
+		$may_rate = ($this->getUserId() != ANONYMOUS_USER_ID);		
+		
+		$ttpl = new ilTemplate("tpl.rating_block.html", true, true, "Services/Rating");		
+		
+		$ttpl->setVariable("TITLE", $a_title);
+		
+		$ttpl->setVariable("RATING_DETAILS", 
+				$this->renderDetails("rtsb_", $may_rate, $categories));
+		
 		return $ttpl->get();
 	}
 	
