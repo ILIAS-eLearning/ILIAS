@@ -447,14 +447,13 @@ class ilPCQuestionGUI extends ilPageContentGUI
 				"toggleGraphicalAnswers", "setMediaMode"),
 			"");
 		
-		if ($q_id > 0) {
-			$q_obj = new assQuestion();
-			
-			if ($q_obj->_getQuestionType($q_id)!= "assTextQuestion") 
+		if ($q_id > 0)
+		{
+			if (assQuestion::_getQuestionType($q_id)!= "assTextQuestion") 
 			{
 				$ilTabs->addTarget("feedback",
 					$ilCtrl->getLinkTarget($this, "feedback"), array("feedback","saveFeedback"),
-				"");
+					"");
 			}	
 		}
 	}
