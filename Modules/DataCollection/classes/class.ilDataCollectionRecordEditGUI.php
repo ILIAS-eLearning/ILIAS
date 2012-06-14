@@ -17,18 +17,6 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php")
 
 class ilDataCollectionRecordEditGUI
 {
-	//Text
-	const INPUTFORMAT_TEXT = 2;
-	//NUMBER
-	const INPUTFORMAT_NUMBER = 1;
-	//REFERENCE
-	const INPUTFORMAT_REFERENCE = 3;
-	//DATETIME
-	const INPUTFORMAT_BOOLEAN = 4;
-	//REFERENCE
-	const INPUTFORMAT_DATETIME = 5;
-	
-	const INPUTFORMAT_FILE = 6;
 
 	/**
 	 * Constructor
@@ -38,7 +26,7 @@ class ilDataCollectionRecordEditGUI
 	{
 		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->record_id = $_GET['record_id'];
-
+		include_once("class.ilDataCollectionDatatype.php");
 		if($_REQUEST['table_id']) 
 		{
 			$this->table_id = $_REQUEST['table_id'];
@@ -120,33 +108,33 @@ class ilDataCollectionRecordEditGUI
 
 			switch($field['datatype_id'])
 			{
-				case self::INPUTFORMAT_TEXT:       
+				case ilDataCollectionDatatype::INPUTFORMAT_TEXT:       
 					$item = new ilTextInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
 					break;
 					
-				case self::INPUTFORMAT_NUMBER:
+				case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
 					$item = new ilTextInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
 					break;
 
-				/*case self::INPUTFORMAT_REFERENCE:
+				/*case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 					//TODO select-list
 					//$subitem = new ilCheckboxInputGUI($lng->txt($field['title']), 'field_'.$field['id']);
 					//$opt->addSubItem($subitem);
 				break;*/
 
-				case self::INPUTFORMAT_BOOLEAN:
+				case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
 					$item = new ilCheckboxInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
 					break;
 
-				case self::INPUTFORMAT_DATETIME:
+				case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
 					$item = new ilDateTimeInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
 					break;
 				
-				case self::INPUTFORMAT_FILE:
+				case ilDataCollectionDatatype::INPUTFORMAT_FILE:
 					$item = new ilFileInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
 					break;

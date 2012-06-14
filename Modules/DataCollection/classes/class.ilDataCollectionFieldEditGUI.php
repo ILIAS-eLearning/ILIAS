@@ -18,13 +18,6 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.ph
 	
 class ilDataCollectionFieldEditGUI
 {
-	/*const INPUTFORMAT_INTEGER = 1;
-	const INPUTFORMAT_TEXT = 2;
-	const INPUTFORMAT_REFERENCE = 3;
-	const INPUTFORMAT_BOOLEAN = 4;
-	const INPUTFORMAT_DATETIME = 5;*/
-	//
-	const INPUTFORMAT_FILE = 6;
 	
 	/**
 	 * Constructor
@@ -32,6 +25,7 @@ class ilDataCollectionFieldEditGUI
 	*/
 	public function  __construct()
 	{
+		include_once("class.ilDataCollectionDatatype.php");
 		//TODO Prüfen, inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->field_obj = new ilDataCollectionField($_GET[field_id]);
 		$this->table_id = $_GET[table_id];
