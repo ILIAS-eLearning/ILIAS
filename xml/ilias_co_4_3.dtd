@@ -1,0 +1,602 @@
+<!-- ilias_co_3_6.dtd for creating ILIAS Content (Learning Modules and DigiLib Objects) -->
+<!-- new in this version: -->
+<!-- -properties -->
+<!-- , see http://www.ilias.uni-koeln.de/download/dtd/ilias_co.dtd for current version -->
+<!-- Initial version by Maik Stuehrenberg (Giessen University) for the BMBF-funded project MiLCA (Medienintensive Lehrmodule in der Computerlinguistik-Ausbildung), modelled after LOM version 1 Final Draft -->
+<!-- Modifications and adoption to ILIAS made by Maik Stuehrenberg (Giessen University), Martin Rus, Matthias Rulinski, Alexander Killing, Matthias Kunkel (ILIAS open source, University of Cologne), Sascha Hofmann (Databay AG, Aachen) -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id: ilias_co_3_7.dtd 12010 2006-09-06 14:27:27Z akill $ -->
+
+<!--
+	Things still missing in ILIAS 3 (search for TO_IMPLEMENT in this document)
+	- Test (assessment is supposed to get a dtd of its own, but we'll need
+	- a reference concept for this)
+	- Internal Link Type Bibliography (is this needed?)
+	- Structure Aliases
+	- Formula
+	- Markup
+	- Anchor
+-->
+
+<!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
+<!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
+
+<!-- Types of (textual) content -->
+<!-- TO_IMPLEMENT <!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | Markup">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor | Markup">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula | ExtLink | IntLink | Anchor">
+<!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code | Formula"> -->
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | ExtLink | IntLink">
+<!ENTITY % footnotetext "#PCDATA | br | Emph | Strong | ExtLink | IntLink">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code">
+
+<!-- ContentObject -->
+<!-- Object of highest complexity; ContentObject is a container for all content, meta data and layout information; it is comparable to an entire book-->
+<!-- ContentObjects are comparable to LOM LearningObjects of aggregation level 3 -->
+<!-- TO_IMPLEMENT <!ELEMENT ContentObject (MetaData, (StructureObject | PageObject | MediaObject)+, Test?, Glossary?, Bibliography?, Layout?)> -->
+<!ELEMENT ContentObject (MetaData, (StructureObject | PageObject | MediaObject)*, Properties?, Glossary?, Bibliography?, Layout?)>
+<!-- If ContentObject is Glossary, no StructureObjects or PageObjects must be included -->
+<!ATTLIST ContentObject
+	Type (LearningModule | LibObject | Glossary) #REQUIRED
+>
+
+<!-- StructureObject -->
+<!-- Object for structuring the learning material of a LearningModule and comparable to a chapter of a book; a StructureObject contains other StructureObjects (=chapters) and PageObjects (=pages) or a StructureAlias-->
+<!-- StructureObjects are comparable to LOM LearningObjects of aggregation level 3 -->
+<!-- TO_IMPLEMENT <!ELEMENT StructureObject (((MetaData, (StructureObject | PageObject)+) | StructureAlias), Layout?)> -->
+<!ELEMENT StructureObject ((MetaData, (StructureObject | PageObject)+), Layout?)>
+<!-- StructureAlias -->
+<!-- Alias for an already existing StructureObject; this allows an easy reuse of existing StructureObjects; an alias is not a copy but only a reference to the original object-->
+<!-- TO_IMPLEMENT <!ELEMENT StructureAlias EMPTY>
+<!ATTLIST StructureAlias
+	OriginId CDATA #REQUIRED
+> -->
+
+<!-- PageObject -->
+<!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
+<!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
+<!ELEMENT PageObject (((MetaData, PageContent*) | PageAlias), Layout?)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | Section | Resources | Map | Plugged | Tabs), BibItemIdentifier*)>
+
+<!-- enable/disable paragraph elements -->
+<!ATTLIST PageContent
+	PCID CDATA #IMPLIED
+	Enabled (True|False) #IMPLIED	
+>
+
+<!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
+<!ELEMENT BibItemIdentifier EMPTY>
+<!ATTLIST BibItemIdentifier
+	Catalog CDATA #IMPLIED
+	Entry CDATA #REQUIRED
+>
+
+<!-- PageAlias -->
+<!-- Alias for an already existing PageObject; this allows an easy reuse of existing PageObjects; an alias is not a copy but only a reference to the original object-->
+<!ELEMENT PageAlias EMPTY>
+<!ATTLIST PageAlias
+	OriginId CDATA #REQUIRED
+>
+
+<!-- PageTurn -->
+<!ELEMENT PageTurn (BibItemIdentifier)>
+<!ATTLIST PageTurn
+	NumberingType (Roman | Arabic | Alphanumeric) #REQUIRED
+	Number CDATA #IMPLIED
+>
+
+<!-- MediaObject -->
+<!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
+<!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
+<!ELEMENT MediaObject ((MetaData, MediaItem+) | (MediaAlias, MediaAliasItem+))>
+
+<!-- MediaAlias -->
+<!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
+<!ELEMENT MediaAlias EMPTY>
+<!ATTLIST MediaAlias
+	OriginId CDATA #REQUIRED
+>
+
+<!-- MediaAliasItem -->
+<!ELEMENT MediaAliasItem (Layout?, Caption?, Parameter*, MapArea*)>
+<!ATTLIST MediaAliasItem
+	Purpose (Standard | Fullscreen | Additional) #REQUIRED
+>
+
+<!-- MediaItem -->
+<!-- Location and Format as defined in Technical Section of Meta Data -->
+<!--  Max. one Standard and one Fullscreen Item per MediaObject -->
+<!ELEMENT MediaItem (Location, Format?, Layout?, Caption?, Parameter*, MapArea*)>
+<!ATTLIST MediaItem
+	Purpose (Standard | Fullscreen | Additional) #REQUIRED
+	MapHighlightMode (None | Hover | Always) #IMPLIED
+	MapHighlightClass (Accented | Light | Dark) #IMPLIED
+>
+
+<!-- MapAreas should be only defined for image objects with purpose
+	Standard or Fullscreen -->
+<!ELEMENT MapArea (ExtLink | IntLink)>
+<!ATTLIST MapArea
+	Shape (Rect | Circle | Poly) #REQUIRED
+	Coords CDATA #IMPLIED
+>
+
+<!-- Content Object Properties -->
+<!ELEMENT Properties (Property*)>
+<!ELEMENT Property EMPTY>
+<!ATTLIST Property
+	Name CDATA #REQUIRED
+	Value CDATA #REQUIRED
+>
+
+<!-- Metadata -->
+<!-- MetaData referring to LOM/SCORM standard, see http://ltsc.ieee.org/doc/wg12/LOM_1484_12_1_v1_Final_Draft.pdf for details -->
+<!-- The base scheme consists of nine categories: -->
+<!-- Relation and Classification can be used more than once in EducationalUnits but is useless in most of LearningObjects -->
+<!ELEMENT MetaData (General, Lifecycle?, Meta-Metadata?, Technical?, Educational?, Rights?, Relation*, Annotation*, Classification*)>
+<!-- 1 General information about the resource as a whole -->
+<!ELEMENT General (Identifier+, Title, Language+, Description+, Keyword+, Coverage?)>
+<!ATTLIST General
+	Structure (Atomic | Collection | Networked | Hierarchical | Linear) #REQUIRED
+>
+<!-- 1.1 A global unique label, that identifies this learning object -->
+<!ELEMENT Identifier EMPTY>
+<!ATTLIST Identifier
+	Catalog CDATA #IMPLIED
+	Entry ID #REQUIRED
+>
+<!-- 1.2 Name given to this resource-->
+<!-- Title is the only element in MetaData having non #PCDATA content! due to use outside of MetaData -->
+<!ELEMENT Title (%titletext;)*>
+<!ATTLIST Title
+	Language (%langcode;) #REQUIRED
+>
+<!-- 1.3 The primary human language used within this resource to communicate to the intended user-->
+<!ELEMENT Language EMPTY>
+<!ATTLIST Language
+	Language (%langcode;) #REQUIRED
+>
+
+<!-- 1.4 A textual description of the content of this resource being described -->
+<!ELEMENT Description (#PCDATA)>
+<!ATTLIST Description
+	Language (%langcode;) #REQUIRED
+>
+<!-- 1.5 Keywords or phrases describing this resource -->
+<!ELEMENT Keyword (#PCDATA)>
+<!ATTLIST Keyword
+	Language (%langcode;) #REQUIRED
+>
+<!-- 1.6 The span or extent of such things as time, culture, geography or region that applies to this resource -->
+<!ELEMENT Coverage (#PCDATA)>
+<!ATTLIST Coverage
+	Language (%langcode;) #REQUIRED
+>
+<!-- 2. History and current state of the resource and those who have affected this resource during its evolution -->
+<!-- Contribute: (Creator | Validator) are NOT valid Role attributes! -->
+<!ELEMENT Lifecycle (Version, Contribute+)>
+<!ATTLIST Lifecycle
+	Status (Draft | Final | Revised | Unavailable) #REQUIRED
+>
+<!--2.1 The edition of this resource -->
+<!ELEMENT Version (#PCDATA)>
+<!ATTLIST Version
+	Language (%langcode;) #REQUIRED
+>
+<!-- 2.3 This sub-category describes those people or organization that have affected the state of this resource during its evolution-->
+<!ELEMENT Contribute (Entity+, Date)>
+<!ATTLIST Contribute
+	Role (Author | Publisher | Unknown | Initiator | Terminator | Editor | GraphicalDesigner | TechnicalImplementer | ContentProvider | TechnicalValidator | EducationalValidator | ScriptWriter | InstructionalDesigner | SubjectMatterExpert | Creator | Validator) #REQUIRED
+>
+<!-- 2.3.2 The identification of and information about the people or organizations contributing to this resource, most relevant first-->
+<!-- LOM standard proposed Entity (#PCDATA | vCard). Support for vCards will be added later. -->
+<!ELEMENT Entity (#PCDATA)>
+<!-- 2.3.3 This sub-category defines the date of the contribution-->
+<!ELEMENT Date (#PCDATA)>
+<!-- 3. Specific information about the meta-data record itself -->
+<!-- Contribute: Only (Creator | Validator) are valid Role attributes! -->
+<!ELEMENT Meta-Metadata (Identifier+, Contribute+)>
+<!ATTLIST Meta-Metadata
+	MetadataScheme CDATA #FIXED "LOM v 1.0"
+	Language (%langcode;) #IMPLIED
+>
+<!-- 4. Technical requirements and characteristics of the resource -->
+<!ELEMENT Technical (Format*, Size?, Location*, (Requirement* | OrComposite*)?, InstallationRemarks?, OtherPlatformRequirements?, Duration?)>
+<!-- 4.1 Format is Mime Type e.g. (application-x-authorware-bin | application-x-authorware-map | application-x-authorware-seg | application-andrew-inset | application-excel | application-hstu | application-mac-binhex40 | application-mac-compactpro | application-msword | application-octet-stream | application-oda | application-pdf | application-postscript | application-powerpoint | application-rtf | application-smil | application-vnd.mif | application-vnd.ms-powerpoint | application-x-bcpio | application-x-cdlink | application-x-chess-pgn | application-x-compress | application-x-cpio | application-x-csh | application-x-director | application-x-dvi | application-x-futuresplash | application-x-gtar | application-x-gzip | application-x-hdf | application-x-httpd-cgi | application-x-javascript | application-x-koan | application-x-latex | application-x-mif | application-x-netcdf | application-x-sh | application-x-shar | application-x-shockwave-flash | application-x-stuffit | application-x-sv4cpio | application-x-sv4crc | application-x-tar | application-x-tcl | application-x-tex | application-x-texinfo | application-x-troff | application-x-troff-man | application-x-troff-me | application-x-troff-ms | application-x-ustar | application-x-wais-source | application-zip | audio-basic | audio-midi | audio-mpeg | audio-x-aiff | audio-x-pn-realaudio | audio-x-pn-realaudio-plugin | audio-x-realaudio | audio-x-wav | chemical-x-pdb | image-bmp | image-fif | image-gif | image-ief | image-jpeg | image-pict | image-png | image-tiff | image-x-cmu-raster | image-x-freehand | image-x-portable-anymap | image-x-portable-bitmap | image-x-portable-graymap | image-x-portable-pixmap | image-x-rgb | image-x-bmp | image-x-xbitmap | image-x-xpixmap | image-x-xwindowdump | model-iges | model-mesh | model-vrml | text-css | text-html | text-plain | text-richtext | text-sgml | text-tab-separated-values | text-x-setext | text-x-sgml | text-xml | video-mpeg | video-quicktime | video-x-msvideo | video-x-sgi-movie | x-conference-x-cooltalk | x-world-x-vrml | httpd-unix-directory) -->
+<!ELEMENT Format (#PCDATA)>
+<!-- 4.2 The size of the digital resource in bytes. Only the digits '0'..'9' should be used; the unit is bytes, not MBytes,GB,etc.-->
+<!ELEMENT Size (#PCDATA)>
+<!-- 4.3 A string that is used to access this resource, see LOM annotation-->
+<!ELEMENT Location (#PCDATA)>
+<!ATTLIST Location
+	Type (LocalFile | Reference) #REQUIRED
+>
+<!-- 4.4 Grouping of multiple requirements -->
+<!-- 4.4.1 Defining attributes of OrComposite -->
+<!-- This sub-category describes the technical capabilities required in order to use this resource -->
+<!ELEMENT OrComposite (Requirement+)>
+<!ELEMENT Requirement (Type)>
+<!ELEMENT Type (OperatingSystem | Browser)>
+<!ELEMENT OperatingSystem EMPTY>
+<!ATTLIST OperatingSystem
+	Name (PC-DOS | MS-Windows | MacOS | Unix | Multi-OS | None) #REQUIRED
+	MinimumVersion CDATA #IMPLIED
+	MaximumVersion CDATA #IMPLIED
+>
+<!ELEMENT Browser EMPTY>
+<!ATTLIST Browser
+	Name (Any | NetscapeCommunicator | MS-InternetExplorer | Opera | Amaya | Mozilla) #REQUIRED
+	MinimumVersion CDATA #IMPLIED
+	MaximumVersion CDATA #IMPLIED
+>
+<!-- 4.5 Description on how to install this resource-->
+<!ELEMENT InstallationRemarks (#PCDATA)>
+<!ATTLIST InstallationRemarks
+	Language (%langcode;) #REQUIRED
+>
+<!-- 4.6 Information about other software and hrdware requirements -->
+<!ELEMENT OtherPlatformRequirements (#PCDATA)>
+<!ATTLIST OtherPlatformRequirements
+	Language (%langcode;) #REQUIRED
+>
+<!-- 4.7 Time continuous resource takes when  -->
+<!ELEMENT Duration (#PCDATA)>
+<!-- 5. Key educational or pedagogic characteristics of the resource -->
+<!ELEMENT Educational (TypicalAgeRange+, TypicalLearningTime, Description*, Language*)>
+<!ATTLIST Educational
+	InteractivityType (Active | Expositive | Mixed) #REQUIRED
+	LearningResourceType (Exercise | Simulation | Questionnaire | Diagram | Figure | Graph | Index | Slide | Table | NarrativeText | Exam | Experiment | ProblemStatement | SelfAssessment | Lecture) #REQUIRED
+	InteractivityLevel (VeryLow | Low | Medium | High | VeryHigh) #REQUIRED
+	SemanticDensity (VeryLow | Low | Medium | High | VeryHigh) #REQUIRED
+	IntendedEndUserRole (Teacher | Author | Learner | Manager) #REQUIRED
+	Context (School | HigherEducation | Training | Other) #REQUIRED
+	Difficulty (VeryEasy | Easy | Medium | Difficult | VeryDifficult) #REQUIRED
+>
+<!-- 5.7 Age of the typical intended user-->
+<!ELEMENT TypicalAgeRange (#PCDATA)>
+<!ATTLIST TypicalAgeRange
+	Language (%langcode;) #REQUIRED
+>
+<!-- 5.9 Approximate or typical time it takes to work with this resource-->
+<!ELEMENT TypicalLearningTime (#PCDATA)>
+<!-- 6. Intellectual property rights and conditions of use for this resource -->
+<!ELEMENT Rights (Description)>
+<!ATTLIST Rights
+	Cost (Yes | No) #REQUIRED
+	CopyrightAndOtherRestrictions (Yes | No) #REQUIRED
+>
+<!-- 7. Relationship between this resource and other resources, if any -->
+<!ELEMENT Relation (Resource)>
+<!ATTLIST Relation
+	Kind (IsPartOf | HasPart | IsVersionOf | HasVersion | IsFormatOf | HasFormat | References | IsReferencedBy | IsBasedOn | IsBasisFor | Requires | IsRequiredBy) #REQUIRED
+>
+<!-- 7.2  The target resource that this relationship references -->
+<!-- the Identifier should be of type IDREF cause its value is a reference -->
+<!-- using the XML IDREF stating the CatalogEntry is obsolete (the CatalogEntry information could be retrieved with XSLT) -->
+<!ELEMENT Resource (Identifier_+, Description+)>
+<!-- 7.2.1 A globally unique label, that identifies the target learning object-->
+<!ELEMENT Identifier_ EMPTY>
+<!ATTLIST Identifier_
+	Catalog CDATA #IMPLIED
+	Entry IDREF #IMPLIED
+>
+<!-- 8. Comments on the educational use of this resource-->
+<!ELEMENT Annotation (Entity, Date, Description)>
+<!-- 9. Description where this resource is placed within a particular classification system-->
+<!ELEMENT Classification (TaxonPath+, Description, Keyword+)>
+<!ATTLIST Classification
+	Purpose (Discipline | Idea | Prerequisite | EducationalObjective | AccessibilityRestrictions | EducationalLevel | SkillLevel | SecurityLevel | Competency) #REQUIRED
+>
+<!-- 9.2 This sub-category describes a taxonomic path in a specified classification system. see LOM-->
+<!ELEMENT TaxonPath (Source, Taxon+)>
+<!-- 9.2.1 The name of the classification system-->
+<!ELEMENT Source (#PCDATA)>
+<!ATTLIST Source
+	Language (%langcode;) #REQUIRED
+>
+<!-- 9.2.2 -->
+<!ELEMENT Taxon (#PCDATA)>
+<!ATTLIST Taxon
+	Language (%langcode;) #REQUIRED
+	Id ID #IMPLIED
+>
+
+<!-- Paragraph -->
+<!-- All textual content of a PageObject has to be divided in single paragraphs -->
+<!ELEMENT Paragraph (%text;)*>
+<!ATTLIST Paragraph
+	Language (%langcode;) #REQUIRED
+	Characteristic (Headline1 | Headline2 | Headline3 | Example | Citation | Mnemonic | Additional | List | Remark | Code | TableContent) #IMPLIED
+	SubCharacteristic CDATA #IMPLIED
+	AutoIndent (y | n) #IMPLIED
+	ShowLineNumbers (y | n) #IMPLIED
+	DownloadTitle CDATA #IMPLIED
+>
+
+<!-- br -->
+<!ELEMENT br EMPTY>
+
+<!-- Comment -->
+<!ELEMENT Comment (%commenttext;)*>
+<!ATTLIST Comment
+	Language (%langcode;) #REQUIRED
+>
+
+<!-- Emph -->
+<!ELEMENT Emph (%emphtext;)*>
+<!ATTLIST Emph
+	Reason (Keyword | Intuition | MetaLanguageUse) #IMPLIED
+>
+
+<!-- Footnote -->
+<!ELEMENT Footnote (%footnotetext;)*>
+<!ATTLIST Footnote
+	Creator (Editor | Translator | Author) #IMPLIED
+>
+
+<!-- Strong -->
+<!ELEMENT Strong (%strongtext;)*>
+<!ATTLIST Strong
+	Reason (Keyword | Intuition | MetaLanguageUse) #IMPLIED
+>
+
+<!-- Quotation -->
+<!ELEMENT Quotation (%text;)*>
+<!ATTLIST Quotation
+	Language (%langcode;) #REQUIRED
+	Reference IDREF #IMPLIED
+>
+
+<!-- Code -->
+<!ELEMENT Code (#PCDATA | br)*>
+<!ATTLIST Code
+	Id ID #IMPLIED
+	ProgrammingLanguage CDATA #IMPLIED
+>
+
+<!-- Formula -->
+<!-- TO_IMPLEMENT <!ELEMENT Formula (#PCDATA | br)*>
+<!ATTLIST Formula
+	Id ID #IMPLIED
+> -->
+
+<!-- List -->
+<!ELEMENT List (Title?, ListItem+)>
+<!ATTLIST List
+	Id ID #IMPLIED
+	Type (Ordered | Unordered) #REQUIRED
+	NumberingType (Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
+>
+<!ELEMENT ListItem (PageContent*)>
+
+<!-- FileList -->
+<!ELEMENT FileList (Title?, FileItem*)>
+<!ELEMENT FileItem (Identifier, Location, Format?)>
+
+<!-- Table -->
+<!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
+<!-- Only a minimum of style elements and attributes defined -->
+<!ELEMENT Table (Title?, Caption?, Summary?, TableRow+)>
+<!ATTLIST Table
+	Language (%langcode;) #REQUIRED
+	Id ID #IMPLIED
+	Width CDATA #IMPLIED
+	Border CDATA #IMPLIED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+	CellPadding CDATA #IMPLIED
+	CellSpacing CDATA #IMPLIED
+	Class CDATA #IMPLIED
+	DataTable (y | n) #IMPLIED
+>
+<!ELEMENT Caption (%titletext;)*>
+<!ATTLIST Caption
+	Align (top | bottom) #REQUIRED
+>
+<!ELEMENT Summary (%simpletext;)*>
+<!ELEMENT TableRow (TableData+)>
+<!ELEMENT TableData (PageContent*)>
+<!ATTLIST TableData
+	Width CDATA #IMPLIED
+	Class CDATA #IMPLIED
+>
+
+<!-- ExtLink -->
+<!-- An element to link to _external_ resources outside the ILIAS system, e.g. to a web site-->
+<!-- It is fixed to xlink-type simple, only required attribute value is href -->
+<!ELEMENT ExtLink (%linktext;)*>
+<!ATTLIST ExtLink
+	Href CDATA #REQUIRED
+	Title CDATA #IMPLIED
+>
+
+<!-- IntLink -->
+<!-- An element to link to _internal_ resources via XML ID/IDREF -->
+<!-- Each Object has an Identifier attribute (type ID) in its Metadata/General element; only this one should be used! -->
+<!-- Other less usable Identifier attributes are in Metadata/Meta-Metadata and in Metadata/Resource element; they should be ignored! -->
+<!-- In case of Anchor the concerning attribute Id of the Anchor should be used! -->
+<!-- note: replaced IDREF by CDATA, IDERF does not work with links to resources outside this document -->
+<!ELEMENT IntLink (%linktext;)*>
+<!-- TO_IMPLEMENT <!ATTLIST IntLink
+	Target CDATA #REQUIRED
+	Type (StructureObject | PageObject | MediaObject | Test | TestItem | Glossary | GlossaryItem | Bibliography | Anchor) #REQUIRED
+	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
+> -->
+<!ATTLIST IntLink
+	Target CDATA #REQUIRED
+	Type (StructureObject | PageObject | MediaObject | GlossaryItem | RepositoryItem) #REQUIRED
+	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
+>
+
+<!-- Anchor -->
+<!-- Allows to jump to a specified target point within a page; the use of anchors in ILIAS is equal to its use in HTML-->
+<!-- TO_IMPLEMENT <!ELEMENT Anchor (%linktext;)*>
+<!ATTLIST Anchor
+	Id ID #REQUIRED
+> -->
+
+<!-- Markup -->
+<!-- Markup element can be used for not supported items; the processing of this element can be adjusted in the XSLT stylesheet -->
+<!-- TO_IMPLEMENT <!ELEMENT Markup (%text;)*>
+<!ATTLIST Markup
+	Type CDATA #REQUIRED
+	Attribute1 CDATA #IMPLIED
+	Attribute2 CDATA #IMPLIED
+	Attribute3 CDATA #IMPLIED
+	Attribute4 CDATA #IMPLIED
+	Attribute5 CDATA #IMPLIED
+> -->
+
+<!-- Test -->
+<!-- Only a minimum of functionality defined to support simple multiple choice tests as already known in ILIAS 2-->
+<!-- TO_IMPLEMENT <!ELEMENT Test (MetaData, TestItem+)>
+<!ELEMENT TestItem (MetaData, Introduction*, Question, Answer+, Hint*)>
+<!ELEMENT Introduction (Paragraph | MediaObject)+>
+<!ELEMENT Question (Paragraph | MediaObject)+>
+<!ELEMENT Answer (Paragraph | MediaObject)+>
+<!ATTLIST Answer
+	Solution (Right | Wrong) #IMPLIED
+>
+<!ELEMENT Hint (Paragraph | MediaObject)+> -->
+
+<!-- Question -->
+<!ELEMENT Question EMPTY>
+<!ATTLIST Question
+	QRef CDATA #REQUIRED
+>
+
+<!-- Section -->
+<!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
+<!ELEMENT Section (PageContent*)>
+<!ATTLIST Section
+	StyleClass CDATA #IMPLIED
+>
+
+<!-- Resources -->
+<!ELEMENT Resources (ResourceList*)>
+<!ELEMENT ResourceList EMPTY>
+<!ATTLIST ResourceList
+	Type CDATA #REQUIRED
+>
+
+<!-- Map -->
+<!ELEMENT Map (Layout?, MapCaption?)>
+<!ATTLIST Map
+	Latitude CDATA #REQUIRED
+	Longitude CDATA #REQUIRED
+	Zoom CDATA #REQUIRED
+>
+<!ELEMENT MapCaption (%titletext;)*>
+
+<!-- Plugged Component -->
+<!ELEMENT Plugged (PluggedParameter*)>
+<!ATTLIST Plugged
+	PluginName CDATA #REQUIRED
+	PluginVersion CDATA #REQUIRED
+>
+<!ELEMENT PluggedParameter (#PCDATA)>
+<!ATTLIST PluggedParameter
+	Name CDATA #REQUIRED
+>
+
+<!-- TabbedContent -->
+<!ELEMENT Tabs (Tab*)>
+<!ELEMENT Tab (Caption?, PageContent*)>
+<!ATTLIST Tabs
+	Type (HorizontalTabs | Accordion) #IMPLIED
+>
+
+<!-- Glossary -->
+<!-- The Glossary is a container for all GlossaryItems and always part of the LearningModule-->
+<!ELEMENT Glossary (MetaData, GlossaryItem+)>
+<!--A GlossaryItem consists of MetaData, a term and one or more definitions; it can be referred by PageObjects-->
+<!ELEMENT GlossaryItem (GlossaryTerm, Definition+)>
+<!ATTLIST GlossaryItem
+	Language (%langcode;) #REQUIRED
+	Id ID #REQUIRED
+>
+
+<!-- GlossaryTerms can be included in Paragraphs -->
+<!ELEMENT GlossaryTerm (#PCDATA)>
+<!ELEMENT Definition (MetaData, PageContent*)>
+
+<!-- Layout -->
+<!-- Layout information for formatting content output different from default layout -->
+<!ELEMENT Layout EMPTY>
+<!ATTLIST Layout
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+	Width CDATA #IMPLIED
+	Height CDATA #IMPLIED
+>
+
+<!-- Parameter -->
+<!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter
+	Name CDATA #REQUIRED
+	Value CDATA #REQUIRED
+>
+<!-- Bibliography -->
+<!ELEMENT Bibliography (BibItem+, Abstract?)>
+<!ATTLIST Bibliography
+	version CDATA #IMPLIED
+	author CDATA #IMPLIED
+	created CDATA #IMPLIED
+	lastmodified CDATA #IMPLIED
+>
+
+<!-- BibItem -->
+<!ELEMENT BibItem (Identifier, Language+, Author*, Booktitle, CrossRef*, Edition, Editor*, HowPublished, WherePublished*, Institution*, Journal?, Keyword*, Month?, Pages?, Publisher, School*, Series?, Year, (URL | (ISSN?, ISBN?)))>
+<!ATTLIST BibItem
+	Type (book | inbook | journalarticle | proceedings | inproceedings | dissertation | phdthesis | mastersthesis | techreport | manual | newspaperarticle | av | internet | unpublished) #REQUIRED
+	Label ID #REQUIRED
+>
+
+<!ELEMENT Author (FirstName*, MiddleName*, LastName)>
+<!ELEMENT Booktitle (#PCDATA)>
+<!ATTLIST Booktitle
+	Language (%langcode;) #REQUIRED
+>
+<!ELEMENT CrossRef (#PCDATA)>
+<!ELEMENT Edition (#PCDATA)>
+<!ELEMENT Editor (#PCDATA)>
+<!ELEMENT HowPublished EMPTY>
+<!ATTLIST HowPublished
+	Type (GreyLiterature | Print | Internet) #REQUIRED
+>
+<!ELEMENT WherePublished (#PCDATA)>
+<!ELEMENT Institution (#PCDATA)>
+<!ELEMENT Journal (#PCDATA)>
+<!ATTLIST Journal
+	Note CDATA #IMPLIED
+	Number CDATA #REQUIRED
+	Organization CDATA #IMPLIED
+>
+
+<!ELEMENT Month (#PCDATA)>
+<!ELEMENT Pages (#PCDATA)>
+<!ELEMENT Publisher (#PCDATA)>
+<!ELEMENT School (#PCDATA)>
+<!ELEMENT Series (SeriesTitle, SeriesEditor*, SeriesVolume?)>
+<!ELEMENT SeriesTitle (#PCDATA)>
+<!ELEMENT SeriesEditor (#PCDATA)>
+<!ELEMENT SeriesVolume (#PCDATA)>
+<!ELEMENT Volume (#PCDATA)>
+<!ELEMENT Year (#PCDATA)>
+
+<!ELEMENT Abstract (#PCDATA)>
+<!ELEMENT ISBN (#PCDATA)>
+<!ELEMENT ISSN (#PCDATA)>
+<!ELEMENT URL (#PCDATA)>
+
+<!ELEMENT LastName (#PCDATA)>
+<!ELEMENT FirstName (#PCDATA)>
+<!ELEMENT MiddleName (#PCDATA)>

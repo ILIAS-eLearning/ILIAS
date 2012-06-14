@@ -26,11 +26,7 @@ class ilCOPageDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions($a_entity)
 	{
-		switch ($a_entity)
-		{
-			case "pgtp":
-				return array("4.2.0");
-		}
+		return array("4.2.0");
 	}
 	
 	/**
@@ -39,7 +35,7 @@ class ilCOPageDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXmlNamespace($a_entity, $a_target_release)
+	function getXmlNamespace($a_entity, $a_schema_version)
 	{
 		return "http://www.ilias.de/xml/Services/COPage/".$a_entity;
 	}

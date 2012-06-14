@@ -70,11 +70,11 @@ class ilFolderExporter extends ilXmlExporter
 	/**
 	 * Get xml
 	 * @param object $a_entity
-	 * @param object $a_target_release
+	 * @param object $a_schema_version
 	 * @param object $a_id
 	 * @return 
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
 		try 
 		{

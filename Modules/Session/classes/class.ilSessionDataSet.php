@@ -20,15 +20,7 @@ class ilSessionDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions($a_entity)
 	{
-		switch ($a_entity)
-		{
-			case "sess":
-				return array("4.1.0");
-
-			case "sess_item":
-				return array("4.1.0");
-
-		}
+		return array("4.1.0");
 	}
 	
 	/**
@@ -37,7 +29,7 @@ class ilSessionDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXmlNamespace($a_entity, $a_target_release)
+	function getXmlNamespace($a_entity, $a_schema_version)
 	{
 		return "http://www.ilias.de/xml/Modules/Session/".$a_entity;
 	}

@@ -545,6 +545,11 @@ class ilContObjParser extends ilMDSaxParser
 				$this->in_media_item = true;
 				$this->media_item =& new ilMediaItem();
 				$this->media_item->setPurpose($a_attribs["Purpose"]);
+				if ($a_name == "MediaItem")
+				{
+					$this->media_item->setHighlightMode($a_attribs["MapHighlightMode"]);
+					$this->media_item->setHighlightClass($a_attribs["MapHighlightClass"]);
+				}
 				break;
 
 			case "Layout":

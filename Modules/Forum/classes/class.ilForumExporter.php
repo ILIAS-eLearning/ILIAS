@@ -31,7 +31,7 @@ class ilForumExporter extends ilXmlExporter
 	 * @param	string		id
 	 * @return	string		xml string
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
 		$xml = '';
 

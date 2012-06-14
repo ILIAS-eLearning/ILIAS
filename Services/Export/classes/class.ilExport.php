@@ -479,8 +479,8 @@ echo "1-not found:".$export_class_file."-"; exit;
 		if ($sv["uses_dataset"])
 		{
 			$attribs["xsi:schemaLocation"].= " ".
-				"http://www.ilias.de/Services/DataSet/ds/4_1 ".ILIAS_HTTP_PATH."/xml/ilias_ds_4_1.xsd";
-			$attribs["xmlns:ds"] = "http://www.ilias.de/Services/DataSet/ds/4_1";
+				"http://www.ilias.de/Services/DataSet/ds/4_3 ".ILIAS_HTTP_PATH."/xml/ilias_ds_4_3.xsd";
+			$attribs["xmlns:ds"] = "http://www.ilias.de/Services/DataSet/ds/4_3";
 		}
 
 
@@ -492,7 +492,8 @@ echo "1-not found:".$export_class_file."-"; exit;
 			$exp->setExportDirectories($set_dir_relative."/expDir_".$dir_cnt,
 				$set_dir_absolute."/expDir_".$dir_cnt);
 			$export_writer->xmlStartTag('exp:ExportItem', array("Id" => $id));
-			$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $id);
+			//$xml = $exp->getXmlRepresentation($a_entity, $a_target_release, $id);
+			$xml = $exp->getXmlRepresentation($a_entity, $sv["schema_version"], $id);
 			$export_writer->appendXml($xml);
 			$export_writer->xmlEndTag('exp:ExportItem');
 			$dir_cnt++;

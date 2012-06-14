@@ -26,17 +26,7 @@ class ilMediaObjectDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions($a_entity)
 	{
-		switch ($a_entity)
-		{
-			case "mob":
-				return array("4.1.0");
-			case "mob_media_item":
-				return array("4.1.0");
-			case "mob_mi_map_area":
-				return array("4.1.0");
-			case "mob_mi_parameter":
-				return array("4.1.0");
-		}
+		return array("4.3.0", "4.1.0");
 	}
 	
 	/**
@@ -45,7 +35,7 @@ class ilMediaObjectDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXmlNamespace($a_entity, $a_target_release)
+	function getXmlNamespace($a_entity, $a_schema_version)
 	{
 		return "http://www.ilias.de/xml/Services/MediaObject/".$a_entity;
 	}
@@ -64,6 +54,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.3.0":
 					return array(
 						"Id" => "integer",
 						"Title" => "text",
@@ -93,6 +84,24 @@ class ilMediaObjectDataSet extends ilDataSet
 						"Format" => "text",
 						"TextRepresentation" => "text"
 					);
+
+				case "4.3.0":
+					return array(
+						"Id" => "integer",
+						"MobId" => "integer",
+						"Width" => "integer",
+						"Height" => "integer",
+						"Halign" => "text",
+						"Caption" => "text",
+						"Nr" => "integer",
+						"Purpose" => "text",
+						"Location" => "text",
+						"LocationType" => "text",
+						"Format" => "text",
+						"TextRepresentation" => "text",
+						"HighlightMode" => "text",
+						"HighlightText" => "text"
+					);
 			}
 		}
 
@@ -102,6 +111,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.3.0":
 						return array(
 							"MiId" => "integer",
 							"Nr" => "integer",
@@ -123,6 +133,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.3.0":
 						return array(
 							"MiId" => "integer",
 							"Name" => "text",
@@ -174,6 +185,14 @@ class ilMediaObjectDataSet extends ilDataSet
 						" FROM media_item WHERE ".
 						$ilDB->in("mob_id", $a_ids, false, "integer"));
 					break;
+
+				case "4.3.0":
+					$this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign,".
+						"caption, nr, purpose, location, location_type, format, text_representation,".
+						" highlight_mode, highlight_class".
+						" FROM media_item WHERE ".
+						$ilDB->in("mob_id", $a_ids, false, "integer"));
+					break;
 			}
 		}	
 
@@ -184,6 +203,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.3.0":
 					$this->getDirectDataFromQuery("SELECT item_id mi_id, nr".
 						" ,shape, coords, link_type, title, href, target, type, target_frame ".
 						" FROM map_area ".
@@ -200,6 +220,7 @@ class ilMediaObjectDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
+				case "4.3.0":
 					$this->getDirectDataFromQuery("SELECT med_item_id mi_id, name, value".
 						" FROM mob_parameter ".
 						" WHERE ".
@@ -315,7 +336,8 @@ class ilMediaObjectDataSet extends ilDataSet
 				$newObj->setLocation($a_rec["Location"]);
 				$newObj->setLocationType($a_rec["LocationType"]);
 				$newObj->setFormat($a_rec["Format"]);
-				$newObj->setFormat($a_rec["Format"]);
+				$newObj->setHighlightMode($a_rec["HighlightMode"]);
+				$newObj->setHighlightClass($a_rec["HighlightClass"]);
 				$newObj->setTextRepresentation($a_rec["TextRepresentation"]);
 				$newObj->create();
 				$this->current_media_item = $newObj;
