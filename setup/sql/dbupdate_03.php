@@ -10525,7 +10525,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 				$ilDB->quote(0,'integer').",".
 				$ilDB->quote($ts_now,'integer').", ".
 				$ilDB->quote($ts_latest,'integer').", ".
-				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(1,'integer').", ".
 				$ilDB->quote(0,'integer').")";		
 			$ilDB->manipulate($query);				
 		}
