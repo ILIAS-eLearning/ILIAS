@@ -27,6 +27,8 @@ class ilDataCollectionRecordEditGUI
 	const INPUTFORMAT_BOOLEAN = 4;
 	//REFERENCE
 	const INPUTFORMAT_DATETIME = 5;
+	
+	const INPUTFORMAT_FILE = 6;
 
 	/**
 	 * Constructor
@@ -121,12 +123,12 @@ class ilDataCollectionRecordEditGUI
 				case self::INPUTFORMAT_TEXT:       
 					$item = new ilTextInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
-				break;
+					break;
 					
 				case self::INPUTFORMAT_NUMBER:
 					$item = new ilTextInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
-				break;
+					break;
 
 				/*case self::INPUTFORMAT_REFERENCE:
 					//TODO select-list
@@ -137,12 +139,17 @@ class ilDataCollectionRecordEditGUI
 				case self::INPUTFORMAT_BOOLEAN:
 					$item = new ilCheckboxInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
-				break;
+					break;
 
 				case self::INPUTFORMAT_DATETIME:
 					$item = new ilDateTimeInputGUI($field['title'], 'field_'.$field['id']);
 					$this->form->addItem($item);
-				break;
+					break;
+				
+				case self::INPUTFORMAT_FILE:
+					$item = new ilFileInputGUI($field['title'], 'field_'.$field['id']);
+					$this->form->addItem($item);
+					break;
 			}
 
 			//datetype_id mitgegeben -> wird beim speichern zu bestimmung für die storage_id benötigt
@@ -152,7 +159,7 @@ class ilDataCollectionRecordEditGUI
 		}
 
 		// save and cancel commands
-		if (isset($rec_id))
+		if(isset($rec_id))
 		{
 			$this->form->addCommandButton("update", $lng->txt("update"));
 			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
@@ -208,20 +215,53 @@ class ilDataCollectionRecordEditGUI
 		$all_fields = ilDataCollectionField::getAll($this->table_id);
 
 		$this->initForm($a_mode);
-		if ($this->form->checkInput())
+		if($this->form->checkInput())
 		{
 			$record_obj = new ilDataCollectionRecord();
 
-			$date_obj = new ilDateTime(date(), IL_CAL_DATETIME);
+			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 
 			$record_obj->setTableId($this->table_id);
-			$record_obj->setCreateDate($date_obj);
-			$record_obj->setLastUpdate($date_obj);
+			if($a_mode == "create")
+			{
+				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+			}
+			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setOwner($ilUser->getId());
 
-			foreach($all_fields as $key => $value) {
-			//TODO Properties holen und die Felder entsprechend überprüfen
-				$record_obj->setFieldvalue($this->form->getInput("field_".$value["id"]),$value["id"]);
+			foreach($all_fields as $key => $value)
+			{
+				//TODO Properties holen und die Felder entsprechend überprüfen
+				//echo "<pre>".print_r($all_fields,1)."</pre>";
+				if($value['datatype_id'] == self::INPUTFORMAT_FILE)
+				{
+					$file = $this->form->getInput("field_".$value["id"]);
+					if($file['tmp_name'])
+					{
+						include("class.ilObjDataCollectionFile.php");
+						$file_obj = new ilObjDataCollectionFile();
+						//echo "<pre>".print_r($this->form->getInput("dcl_fileupload"),1)."</pre>";
+						
+						$file_obj->setType("file");
+						$file_obj->setTitle($file["name"]);
+						$file_obj->setFileName($file["name"]);
+						include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+						$file_obj->setFileType(ilMimeTypeUtil::getMimeType("", $file["name"], $file["type"]));
+						$file_obj->setFileSize($file["size"]);
+						$file_obj->setMode("object");
+						$file_obj->create();
+						$file_obj->getUploadFile($file["tmp_name"], $file["name"]);
+						
+						$file_id = $file_obj->getId();
+
+					}
+					$record_obj->setFieldvalue($file_id, $value["id"]);
+				}
+				else
+				{
+					$record_obj->setFieldvalue($this->form->getInput("field_".$value["id"]), $value["id"]);
+				}	
+				
 			}
 
 			//We need $allFields because of the storage_location

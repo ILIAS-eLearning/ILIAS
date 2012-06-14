@@ -148,11 +148,10 @@ class ilDataCollectionRecord
 	* @param int $a_id
 	* @return array
 	*/
-	function getFieldvalues($a_id)
+	function getFieldvalues()
 	{
 		return $this->field;
 	}
-
 
 
 	/**
@@ -271,7 +270,8 @@ class ilDataCollectionRecord
 
 
 		//zugehörige Felder speichern
-		foreach($this->getFieldvalues() AS $key => $fieldvalue) {
+		foreach($this->getFieldvalues() as $key => $fieldvalue)
+		{
 			$record_field_id = $ilDB->nextId("il_dcl_record_field");
 			$query = "INSERT INTO il_dcl_record_field (
 								id,
