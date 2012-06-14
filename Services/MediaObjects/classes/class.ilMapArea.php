@@ -10,6 +10,7 @@ define("IL_AREA_WHOLE_PICTURE", "WholePicture");
 
 define("IL_INT_LINK", "int");
 define("IL_EXT_LINK", "ext");
+define("IL_NO_LINK", "no");
 
 define("IL_LT_STRUCTURE", "StructureObject");
 define("IL_LT_PAGE", "PageObject");

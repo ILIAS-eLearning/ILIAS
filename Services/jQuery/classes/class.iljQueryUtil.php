@@ -16,11 +16,16 @@ class iljQueryUtil
 	/**
 	 * Init jQuery
 	 */
-	static function initjQuery()
+	static function initjQuery($a_tpl = null)
 	{
 		global $tpl;
 		
-		 $tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
+		if ($a_tpl == null)
+		{
+			$a_tpl = $tpl;
+		}
+		
+		$a_tpl->addJavaScript(self::getLocaljQueryPath(), true, 1);
 	}
 	
 	/**

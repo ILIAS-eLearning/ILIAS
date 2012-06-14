@@ -15,6 +15,13 @@ require_once("Services/MediaObjects/classes/class.ilMapArea.php");
 */
 class ilMediaItem
 {
+	const HL_NONE = "";
+	const HL_HOVER = "Hover";
+	const HL_ALWAYS = "Always";
+	const HLCL_ACCENTED = "";
+	const HLCL_LIGHT = "Light";
+	const HLCL_DARK = "Dark";
+	
 	var $id;
 	var $purpose;
 	var $location;
@@ -118,6 +125,82 @@ class ilMediaItem
 	{
 		return $this->text_representation;
 	}
+	
+	/**
+	 * Get all highlight modes
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllHighlightModes()
+	{
+		global $lng;
+		
+		return array(
+			self::HL_NONE => $lng->txt("cont_none"),
+			self::HL_HOVER => $lng->txt("cont_hover"),
+			self::HL_ALWAYS => $lng->txt("cont_always")
+			);
+
+	}
+	
+	
+	/**
+	 * Set highlight mode
+	 *
+	 * @param string $a_val highlight mode	
+	 */
+	function setHighlightMode($a_val)
+	{
+		$this->highlight_mode = $a_val;
+	}
+	
+	/**
+	 * Get highlight mode
+	 *
+	 * @return string highlight mode
+	 */
+	function getHighlightMode()
+	{
+		return $this->highlight_mode;
+	}
+
+	/**
+	 * Get all highlight classes
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllHighlightClasses()
+	{
+		global $lng;
+		
+		return array(
+			self::HLCL_ACCENTED => $lng->txt("cont_accented"),
+			self::HLCL_LIGHT => $lng->txt("cont_light"),
+			self::HLCL_DARK => $lng->txt("cont_dark"),
+		);
+	}
+	
+	/**
+	 * Set highlight class
+	 *
+	 * @param string $a_val highlight class	
+	 */
+	function setHighlightClass($a_val)
+	{
+		$this->highlight_class = $a_val;
+	}
+	
+	/**
+	 * Get highlight class
+	 *
+	 * @return string highlight class
+	 */
+	function getHighlightClass()
+	{
+		return $this->highlight_class;
+	}
 
 	/**
 	* create persistent media item
@@ -129,7 +212,7 @@ class ilMediaItem
 		$item_id = $ilDB->nextId("media_item");
 		$query = "INSERT INTO media_item (id,mob_id, purpose, location, ".
 			"location_type, format, width, ".
-			"height, halign, caption, nr, text_representation) VALUES ".
+			"height, halign, caption, nr, highlight_mode, highlight_class, text_representation) VALUES ".
 			"(".
 			$ilDB->quote($item_id, "integer").",".
 			$ilDB->quote($this->getMobId(), "integer").",".
@@ -142,6 +225,8 @@ class ilMediaItem
 			$ilDB->quote($this->getHAlign(), "text").",".
 			$ilDB->quote($this->getCaption(), "text").",".
 			$ilDB->quote($this->getNr(), "integer").",".
+			$ilDB->quote($this->getHighlightMode(), "text").",".
+			$ilDB->quote($this->getHighlightClass(), "text").",".
 			$ilDB->quote($this->getTextRepresentation(), "text").")";
 		$ilDB->manipulate($query);
 		
@@ -187,7 +272,9 @@ class ilMediaItem
 			" height = ".$ilDB->quote($this->getHeight(), "text").",".
 			" halign = ".$ilDB->quote($this->getHAlign(), "text").",".
 			" caption = ".$ilDB->quote($this->getCaption(), "text").",".
-			" nr = ".$ilDB->quote($this->getNr(), "integer").
+			" nr = ".$ilDB->quote($this->getNr(), "integer").",".
+			" highlight_mode = ".$ilDB->quote($this->getHighlightMode(), "text").",".
+			" highlight_class = ".$ilDB->quote($this->getHighlightClass(), "text").",".
 			" text_representation = ".$ilDB->quote($this->getTextRepresentation(), "text").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
@@ -231,7 +318,7 @@ class ilMediaItem
 	function read()
 	{
 		global $ilDB;
-		
+
 		$item_id = $this->getId();
 		$mob_id = $this->getMobId();
 		$nr = $this->getNr();
@@ -265,6 +352,8 @@ class ilMediaItem
 			$this->setId($item_rec["id"]);
 			$this->setThumbTried($item_rec["tried_thumb"]);
 			$this->setTextRepresentation($item_rec["text_representation"]);
+			$this->setHighlightMode($item_rec["highlight_mode"]);
+			$this->setHighlightClass($item_rec["highlight_class"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".
@@ -397,6 +486,8 @@ class ilMediaItem
 			$media_item->setMobId($item_rec["mob_id"]);
 			$media_item->setThumbTried($item_rec["tried_thumb"]);
 			$media_item->setTextRepresentation($item_rec["text_representation"]);
+			$media_item->setHighlightMode($item_rec["highlight_mode"]);
+			$media_item->setHighlightClass($item_rec["highlight_class"]);
 
 			// get item parameter
 			$query = "SELECT * FROM mob_parameter WHERE med_item_id = ".

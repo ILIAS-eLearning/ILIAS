@@ -12665,6 +12665,14 @@ rating#:#rating_category_update#:#Save
 rating#:#rating_category_updated#:#Category saved.
 rating#:#rating_update_positions#:#Save Order
 rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.
+content#:#cont_hover#:#Hover
+content#:#cont_always#:#Always
+content#:#cont_highlight_mode#:#Highlight Mode
+content#:#cont_light#:#Light
+content#:#cont_dark#:#Dark
+content#:#cont_accented#:#Accented
+content#:#cont_set#:#Set
+content#:#cont_link_no#:#No Link
 rating#:#rating_category_deleted#:#Category deleted.
 wiki#:#wiki_activate_sideblock_rating#:#Display Rating as Side Block
 wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages

@@ -1371,6 +1371,10 @@ class ilPageObjectGUI
 		$ilBench->start("ContentPresentation", "ilPageObjectGUI_showPage");
 		
 		$this->initSelfAssessmentRendering();
+		
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		ilObjMediaObjectGUI::includePresentationJS($GLOBALS["tpl"]);
+
 
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
 		
@@ -1991,7 +1995,7 @@ class ilPageObjectGUI
 			{
 				$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");	
 			}
-//echo htmlentities($content); exit;
+//echo htmlentities($content);
 			$args = array( '/_xml' => $content, '/_xsl' => $xsl );
 			$xh = xslt_create();
 			//		echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";

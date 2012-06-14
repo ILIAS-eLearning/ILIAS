@@ -26,7 +26,7 @@ class ilImageMapEditorGUI
 	*/
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $tpl;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -46,6 +46,8 @@ class ilImageMapEditorGUI
 				break;
 
 			default:
+				require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+				ilObjMediaObjectGUI::includePresentationJS();
 				if (isset($_POST["editImagemapForward"]) ||
 					isset($_POST["editImagemapForward_x"]) ||
 					isset($_POST["editImagemapForward_y"]))
@@ -94,7 +96,7 @@ class ilImageMapEditorGUI
 	 */
 	function getToolbar()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $tpl;
 		
 		// toolbar
 		$tb = new ilToolbarGUI();
@@ -110,6 +112,25 @@ class ilImageMapEditorGUI
 		$si->setOptions($options);
 		$tb->addInputItem($si, true);
 		$tb->addFormButton($lng->txt("cont_add_area"), "addNewArea");
+		
+		
+		// highlight mode
+		if (strtolower(get_class($this)) == "ilimagemapeditorgui")
+		{
+			$st_item = $this->media_object->getMediaItem("Standard");
+			$tb->addSeparator();
+			$options = ilMediaItem::getAllHighlightModes();
+			$hl = new ilSelectInputGUI($lng->txt("cont_highlight_mode"), "highlight_mode");
+			$hl->setOptions($options);
+			$hl->setValue($st_item->getHighlightMode());
+			$tb->addInputItem($hl, true);
+			$options = ilMediaItem::getAllHighlightClasses();
+			$hc = new ilSelectInputGUI($lng->txt("cont_highlight_class"), "highlight_class");
+			$hc->setOptions($options);
+			$hc->setValue($st_item->getHighlightClass());
+			$tb->addInputItem($hc, false);
+			$tb->addFormButton($lng->txt("cont_set"), "setHighlight");
+		}
 		
 		return $tb;
 	}
@@ -461,7 +482,14 @@ class ilImageMapEditorGUI
 			$radg = new ilRadioGroupInputGUI($lng->txt("cont_link"), "area_link_type");
 			if ($_SESSION["il_map_il_ltype"] != "int")
 			{
-				$radg->setValue("ext");
+				if ($_SESSION["il_map_el_href"] == "")
+				{
+					$radg->setValue("no");
+				}
+				else
+				{
+					$radg->setValue("ext");
+				}
 			}
 			else
 			{
@@ -502,6 +530,10 @@ class ilImageMapEditorGUI
 					'</a>'
 					);
 				$int->addSubItem($ne);
+				
+			// no link
+			$no = new ilRadioOption($lng->txt("cont_link_no"), "no");
+			$radg->addOption($no);
 			
 			$form->addItem($radg);
 		}
@@ -737,7 +769,14 @@ class ilImageMapEditorGUI
 				else
 				{
 					$area->setLinkType(IL_EXT_LINK);
-					$area->setHref(ilUtil::stripSlashes($_POST["area_link_ext"]));
+					if ($_POST["area_link_type"] != IL_NO_LINK)
+					{
+						$area->setHref(ilUtil::stripSlashes($_POST["area_link_ext"]));
+					}
+					else
+					{
+						$area->setHref("");
+					}
 				}
 				$area->update();
 				break;
@@ -1106,5 +1145,23 @@ class ilImageMapEditorGUI
 
 	}
 
+	/**
+	 * Set highlight settings
+	 *
+	 * @param
+	 * @return
+	 */
+	function setHighlight()
+	{
+		global $ilCtrl, $lng;
+		
+		$st_item = $this->media_object->getMediaItem("Standard");
+		$st_item->setHighlightMode(ilUtil::stripSlashes($_POST["highlight_mode"]));
+		$st_item->setHighlightClass(ilUtil::stripSlashes($_POST["highlight_class"]));
+		$st_item->update();
+		
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editMapAreas");
+	}
 }
 ?>
