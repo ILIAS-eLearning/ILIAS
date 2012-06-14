@@ -1161,7 +1161,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'activation_online');
 		$online->setChecked(!$this->object->getOfflineStatus());
-		$online->setInfo($this->lng->txt('rep_activation_online_info'));
+		$online->setInfo($this->lng->txt('crs_activation_online_info'));
 		$form->addItem($online);				
 		
 		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'activation_type');
@@ -1189,7 +1189,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$opt->addSubItem($end);
 				
 				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
-				$visible->setInfo($this->lng->txt('rep_activation_limited_visibility_info'));
+				$visible->setInfo($this->lng->txt('crs_activation_limited_visibility_info'));
 			    $visible->setChecked($this->object->getActivationVisibility());
 				$opt->addSubItem($visible);
 				
