@@ -1355,12 +1355,6 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// title & description (meta data)
 
-		// online
-		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
-		$online->setValue(1);
-		$online->setChecked($this->object->isOnline());
-		$form->addItem($online);
-
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 		$md_obj = new ilMD($this->object->getId(), 0, "tst");
 		$md_section = $md_obj->getGeneral();
@@ -1382,19 +1376,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$form->addItem($desc);
 		}
 
-		// anonymity
-		/*
-		 * old behaviour
-		 */
-		/*
-		$anonymity = new ilCheckboxInputGUI($this->lng->txt("tst_anonymity"), "anonymity");
-		$anonymity->setValue(1);
-		if ($total) $anonymity->setDisabled(true);
-		$anonymity->setChecked($this->object->getAnonymity());
-		$anonymity->setInfo($this->lng->txt("tst_anonymity_description"));
-		$form->addItem($anonymity);
-		*/
-
+		// anonymity		
 		$anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
 		if ($total) $anonymity->setDisabled(true);
 		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_no_anonymization'), 0);
@@ -1417,32 +1399,64 @@ class ilObjTestGUI extends ilObjectGUI
 		$random->setInfo($info);
 		$form->addItem($random);
 
-		
-/*
-                $options = array(
-                    'table' => $this->lng->txt("test_enable_view_table"),
-                    'express' => $this->lng->txt("test_enable_view_express"),
-                    'both' => $this->lng->txt("test_enable_view_both"),
-                );
-		$enable_views = new ilSelectInputGUI($this->lng->txt("test_enable_views"), "enabled_view_mode");
-		$enable_views->setOptions($options);
-                $enable_views->setValue($this->object->getEnabledViewMode());
-		$form->addItem($enable_views);
-
-                // enable usage of question pool in express mode
-		$express_qpool = new ilCheckboxInputGUI($this->lng->txt("tst_express_allow_question_pool"), "express_allow_question_pool");
-		$express_qpool->setValue(1);
-		//if ($total) $random->setDisabled(true);
-		$express_qpool->setChecked($this->object->isExpressModeQuestionPoolAllowed());
-		$express_qpool->setInfo($this->lng->txt("tst_express_allow_question_pool_description"));
-		$form->addItem($express_qpool);
-*/
 		// pool usage
 		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("test_question_pool_usage"), "use_pool");
 		$pool_usage->setValue(1);
 		$pool_usage->setChecked($this->object->getPoolUsage());
 		$form->addItem($pool_usage);
+		
+					
+		// activation/availability  (no template support yet)
+		
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		$this->lng->loadLanguageModule('rep');
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('rep_activation_availability'));
+		$form->addItem($section);
+		
+		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'online');
+		$online->setChecked($this->object->isOnline());
+		$online->setInfo($this->lng->txt('tst_activation_online_info'));
+		$form->addItem($online);				
+		
+		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'activation_type');
+		$act_type->setValue($this->object->isActivationLimited() ? 
+			ilObjectActivation::TIMINGS_ACTIVATION : ilObjectActivation::TIMINGS_DEACTIVATED);
+		
+			$opt = new ilRadioOption($this->lng->txt('rep_visibility_limitless'), ilObjectActivation::TIMINGS_DEACTIVATED);
+			$opt->setInfo($this->lng->txt('tst_availability_limitless_info'));
+			$act_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
+			$opt->setInfo($this->lng->txt('tst_availability_until_info'));
 
+				$date = $this->object->getStartingTime();				
+				
+				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'starting_time');
+				#$start->setMode(ilDateTimeInputGUI::MODE_INPUT);
+				$start->setShowTime(true);
+				$start->setDate(new ilDateTime($date ? $date : time(),IL_CAL_UNIX));
+				$opt->addSubItem($start);
+				
+				$date = $this->object->getEndingTime();
+				
+				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'ending_time');
+				#$end->setMode(ilDateTimeInputGUI::MODE_INPUT);
+				$end->setShowTime(true);
+				$end->setDate(new ilDateTime($date ? $date : time(),IL_CAL_UNIX));
+				$opt->addSubItem($end);
+				
+				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
+				$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
+			    $visible->setChecked($this->object->getActivationVisibility());
+				$opt->addSubItem($visible);
+				
+			$act_type->addOption($opt);
+		
+		$form->addItem($act_type);
+		
+				
                 if(!$template || $template && $this->formShowBeginningEndingInformation($template_settings)) {
                     // general properties
                     $header = new ilFormSectionHeaderGUI();
@@ -1537,55 +1551,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
 		$processing->addSubItem($resetprocessing);
 		$form->addItem($processing);
-
-		// enable starting time
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
-		$enablestartingtime->setValue(1);
-		//$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
-
-                if ($template_settings && $template_settings['chb_starting_time'] && $template_settings['chb_starting_time']['value'])
-                    $enablestartingtime->setChecked(true);
-                else
-                    $enablestartingtime->setChecked(strlen($this->object->getStartingTime()));
-		// starting time
-		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
-		$startingtime->setShowDate(true);
-		$startingtime->setShowTime(true);
-		if (strlen($this->object->getStartingTime()))
-		{
-			$startingtime->setDate(new ilDateTime($this->object->getStartingTime(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enablestartingtime->addSubItem($startingtime);
-		if ($total) $enablestartingtime->setDisabled(true);
-		if ($total) $startingtime->setDisabled(true);
-		$form->addItem($enablestartingtime);
-
-		// enable ending time
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
-		$enableendingtime->setValue(1);
-		//$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
-                if ($template_settings && $template_settings['chb_ending_time'] && $template_settings['chb_ending_time']['value'])
-                    $enableendingtime->setChecked(true);
-                else
-                    $enableendingtime->setChecked(strlen($this->object->getEndingTime()));
-		// ending time
-		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
-		$endingtime->setShowDate(true);
-		$endingtime->setShowTime(true);
-		if (strlen($this->object->getEndingTime()))
-		{
-			$endingtime->setDate(new ilDateTime($this->object->getEndingTime(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
 
 		// test password
 		$password = new ilTextInputGUI($this->lng->txt("tst_password"), "password");
@@ -1998,20 +1963,29 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->object->setAnonymity($_POST["anonymity"]);
 				$this->object->setRandomTest($random_test);
-				$this->object->setNrOfTries($_POST["nr_of_tries"]);
-				if ($_POST['chb_starting_time'])
-				{
-					$this->object->setStartingTime(ilFormat::dateDB2timestamp($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time']));
-				}
-				else
-				{
-					$this->object->setStartingTime('');
-				}
+				$this->object->setNrOfTries($_POST["nr_of_tries"]);			
 			}
 
 			// store effective online status to model
-			$this->object->setOnline($online);
-
+			$this->object->setOnline($online);			
+			
+			// activation
+			if($_POST["activation_type"] == ilObjectActivation::TIMINGS_ACTIVATION)
+			{	
+				$this->object->setActivationLimited(true);								    			
+				$this->object->setActivationVisibility($_POST["activation_visibility"]);
+				
+				$date = new ilDateTime($_POST['starting_time']['date'] . ' ' . $_POST['starting_time']['time'], IL_CAL_DATETIME);
+				$this->object->setStartingTime($date->get(IL_CAL_UNIX));
+				
+				$date = new ilDateTime($_POST['ending_time']['date'] . ' ' . $_POST['ending_time']['time'], IL_CAL_DATETIME);
+				$this->object->setEndingTime($date->get(IL_CAL_UNIX));							
+			}
+			else
+			{
+				$this->object->setActivationLimited(false);
+			}
+			
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$this->object->setIntroduction($_POST["introduction"], false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 			$this->object->setShowInfo(($_POST["showinfo"]) ? 1 : 0);
@@ -2052,15 +2026,8 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				$this->object->setProcessingTime('');
 			}
-			$this->object->setResetProcessingTime(($_POST["chb_reset_processing_time"]) ? 1 : 0);
-			if ($_POST['chb_ending_time'])
-			{
-				$this->object->setEndingTime(ilFormat::dateDB2timestamp($_POST['ending_time']['date'] . ' ' . $_POST['ending_time']['time']));
-			}
-			else
-			{
-				$this->object->setEndingTime('');
-			}
+			$this->object->setResetProcessingTime(($_POST["chb_reset_processing_time"]) ? 1 : 0);			
+			
 			$this->object->setUsePreviousAnswers(($_POST["chb_use_previous_answers"]) ? 1 : 0);
 			$this->object->setForceJS(($_POST["forcejs"]) ? 1 : 0);
 			$this->object->setTitleOutput($_POST["title_output"]);
@@ -4511,13 +4478,13 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($starting_time)
 			{
 				$info->addProperty($this->lng->txt("tst_starting_time"),
-					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_TIMESTAMP)));
+					ilDatePresentation::formatDate(new ilDateTime($starting_time,IL_CAL_UNIX)));
 			}
 			$ending_time = $this->object->getEndingTime();
 			if ($ending_time)
 			{
 				$info->addProperty($this->lng->txt("tst_ending_time"),
-					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_TIMESTAMP)));
+					ilDatePresentation::formatDate(new ilDateTime($ending_time,IL_CAL_UNIX)));
 			}
 			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 			// forward the command

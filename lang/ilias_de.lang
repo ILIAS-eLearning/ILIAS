@@ -12641,3 +12641,17 @@ wiki#:#wiki_activate_page_rating#:#Bewertung erlauben
 wiki#:#wiki_deactivate_page_rating#:#Bewertung nicht erlauben
 rating#:#rating_overlay_title_overall#:#Gesamtbewertung
 rating#:#rating_overlay_submit#:#Bewerten
+rep#:#rep_activation_availability#:#Verfügbarkeit
+rep#:#rep_activation_online#:#Online
+crs#:#crs_activation_online_info#:#Falls nicht online, haben nur Kurs-Administratoren und Tutoren Zugriff auf den Kurs
+rep#:#rep_activation_access#:#Zugriff
+rep#:#rep_activation_limited_start#:#Startzeit
+rep#:#rep_activation_limited_end#:#Endzeit
+rep#:#rep_activation_limited_visibility#:#Immer sichtbar
+crs#:#crs_activation_limited_visibility_info#:#Falls aktiv, ist der Kurs auch ausserhab der Zugriffszeiten sichtbar.
+rep#:#rep_visibility_limitless#:#Unbegrenzt 
+rep#:#rep_visibility_until#:#Zeitlich begrenzt
+assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
+assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer - nur während eines definierten Zeitraums freizuschalten.
+assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
+assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch ausserhab der Zugriffszeiten sichtbar.

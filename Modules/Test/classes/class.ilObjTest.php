@@ -418,6 +418,8 @@ class ilObjTest extends ilObject
 	 * @var boolean
 	 */
 	private $isOfferingQuestionHintsEnabled = null;
+	
+	protected $activation_visibility;
 
 	/**
 	* Constructor
@@ -1143,39 +1145,41 @@ class ilObjTest extends ilObject
 	function saveToDb($properties_only = FALSE)
 	{
 		global $ilDB, $ilLog;
+		
+		// moved starting_time, ending_time, online_status to ilObjectActivation (see below)
 
 		// cleanup RTE images
 		$this->cleanupMediaobjectUsage();
 
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if ($this->test_id == -1)
-		{
+		{						
 			// Create new dataset
 			$next_id = $ilDB->nextId('tst_tests');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, " .
 				"finalstatement, showinfo, forcejs, customstyle, showfinalstatement, sequence_settings, " .
 				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, show_marker, " .
 				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, " .
-				"reset_processing_time, reporting_date, starting_time, ending_time, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
+				"reset_processing_time, reporting_date, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
 				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
 				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
-				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, online_status, " .
+				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, " .
 				"print_bs_with_res, offer_question_hints, highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, " . 
-				"highscore_hints, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num) " .
+				"highscore_hints, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num, online_status) " .
 				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
+				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 				array(
 					'integer', 'integer', 'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
 					'integer', 'text', 'text', 'text', 'text', 'text', 'integer',
 					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
-					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
+					'integer', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
-					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer', 'integer',
+					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer',
 					'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer',
-					'integer', 'integer', 'integer'
+					'integer', 'integer', 'integer', 'integer'
 				),
 				array(
 					$next_id, 
@@ -1203,9 +1207,7 @@ class ilObjTest extends ilObject
 					$this->getProcessingTime(),
 					$this->getEnableProcessingTime(),
 					$this->getResetProcessingTime(),
-					$this->getReportingDate(),
-					$this->getStartingTime(), 
-					$this->getEndingTime(),
+					$this->getReportingDate(),				
 					$this->isComplete(),
 					$this->getECTSOutput(),
 					strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL, 
@@ -1235,7 +1237,6 @@ class ilObjTest extends ilObject
                     $this->getEnabledViewMode(),
                     $this->getTemplate(),
                     $this->getPoolUsage(),
-					(int)$this->isOnline(),
 					(int) $this->isBestSolutionPrintedWithResult(),
 					(int) $this->isOfferingQuestionHintsEnabled(),
 					(int) $this->getHighscoreEnabled(),
@@ -1247,7 +1248,8 @@ class ilObjTest extends ilObject
 					(int) $this->getHighscoreWTime(),
 					(int) $this->getHighscoreOwnTable(),
 					(int) $this->getHighscoreTopTable(),
-					(int) $this->getHighscoreTopNum()
+					(int) $this->getHighscoreTopNum(),
+				    $this->isOnline()
 				)
 			);
 			$this->test_id = $next_id;
@@ -1277,28 +1279,30 @@ class ilObjTest extends ilObject
 				"finalstatement = %s, showinfo = %s, forcejs = %s, customstyle = %s, showfinalstatement = %s, sequence_settings = %s, " .
 				"score_reporting = %s, instant_verification = %s, answer_feedback_points = %s, answer_feedback = %s, anonymity = %s, show_cancel = %s, show_marker = %s, " .
 				"fixed_participants = %s, nr_of_tries = %s, kiosk = %s, use_previous_answers = %s, title_output = %s, processing_time = %s, enable_processing_time = %s, " . 
-				"reset_processing_time = %s, reporting_date = %s, starting_time = %s, ending_time = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
+				"reset_processing_time = %s, reporting_date = %s, complete = %s, ects_output = %s, ects_a = %s, ects_b = %s, ects_c = %s, ects_d = %s, " .
 				"ects_e = %s, ects_fx = %s, random_test = %s, random_question_count = %s, count_system = %s, mc_scoring = %s, score_cutting = %s, pass_scoring = %s, " . 
 				"shuffle_questions = %s, results_presentation = %s, show_summary = %s, password = %s, allowedusers = %s, mailnottype = %s, exportsettings = %s, " .
 				"print_bs_with_res = %s,".
 				"alloweduserstimegap = %s, certificate_visibility = %s, mailnotification = %s, tstamp = %s, enabled_view_mode = %s, template_id = %s, pool_usage = %s, " .
-				"online_status = %s, offer_question_hints = %s, highscore_enabled = %s, highscore_anon = %s, highscore_achieved_ts = %s, " . 
-				"highscore_score = %s, highscore_percentage = %s, " .
-				"highscore_hints = %s, highscore_wtime = %s, highscore_own_table = %s, highscore_top_table = %s, highscore_top_num = %s " .
+				"offer_question_hints = %s, highscore_enabled = %s, highscore_anon = %s, highscore_achieved_ts = %s, " . 
+				"highscore_score = %s, highscore_percentage = %s, ".
+				"highscore_hints = %s, highscore_wtime = %s, highscore_own_table = %s, highscore_top_table = %s, highscore_top_num = %s, " .
+				"online_status = %s ".
 				"WHERE test_id = %s",
 				array(
 					'text', 'text', 
 					'text', 'integer', 'integer', 'text', 'integer', 'integer',
 					'integer', 'text', 'text', 'text', 'text', 'text', 'integer',
 					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
-					'integer', 'text', 'text', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
+					'integer', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
 					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
 					'text', 'integer', 'integer', 'text', 'integer','integer', 'integer',
 					'integer',
 					'integer', 'text', 'integer', 'integer', 'text', 'text', 'integer', 
-					'integer', 'integer', 'integer', 'integer', 'integer', 
+					'integer', 'integer', 'integer', 'integer', 
 					'integer', 'integer', 
 					'integer', 'integer', 'integer', 'integer', 'integer', 
+					'integer',
 					'integer'
 				),
 				array(
@@ -1325,9 +1329,7 @@ class ilObjTest extends ilObject
 					$this->getProcessingTime(),
 					$this->getEnableProcessingTime(),
 					$this->getResetProcessingTime(),
-					$this->getReportingDate(),
-					$this->getStartingTime(), 
-					$this->getEndingTime(),
+					$this->getReportingDate(),					
 					$this->isComplete(),
 					$this->getECTSOutput(),
 					strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL, 
@@ -1356,8 +1358,7 @@ class ilObjTest extends ilObject
 					time(),
                     $this->getEnabledViewMode(),
                     $this->getTemplate(),
-                    $this->getPoolUsage(),
-					(int)$this->isOnline(),
+                    $this->getPoolUsage(),					
 					(int)$this->isOfferingQuestionHintsEnabled(),
 					(int) $this->getHighscoreEnabled(),
 					(int) $this->getHighscoreAnon(),
@@ -1369,6 +1370,7 @@ class ilObjTest extends ilObject
 					(int) $this->getHighscoreOwnTable(),
 					(int) $this->getHighscoreTopTable(),
 					(int) $this->getHighscoreTopNum(),
+					$this->isOnline(),
 					$this->getTestId()
 				)
 			);
@@ -1447,6 +1449,29 @@ class ilObjTest extends ilObject
 				}
 			}
 		}
+				
+		// moved activation to ilObjectActivation
+		if($this->ref_id)
+		{
+			include_once "./Services/Object/classes/class.ilObjectActivation.php";		
+			ilObjectActivation::getItem($this->ref_id);
+			
+			$item = new ilObjectActivation;			
+			if(!$this->isActivationLimited())
+			{
+				$item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
+			}
+			else
+			{				
+				$item->setTimingType(ilObjectActivation::TIMINGS_ACTIVATION);
+				$item->setTimingStart($this->getStartingTime());
+				$item->setTimingEnd($this->getEndingTime());
+				$item->toggleVisible($this->getActivationVisibility());
+			}						
+			
+			$item->update($this->ref_id);		
+		}
+		
 		if (!$this->isRandomTest())
 		{
 			$this->removeDuplicatedQuestionpools();
@@ -2094,9 +2119,7 @@ class ilObjTest extends ilObject
 			$this->setReportingDate($data->reporting_date);
 			$this->setShuffleQuestions($data->shuffle_questions);
 			$this->setResultsPresentation($data->results_presentation);
-			$this->setListOfQuestionsSettings($data->show_summary);
-			$this->setStartingTime($data->starting_time);
-			$this->setEndingTime($data->ending_time);
+			$this->setListOfQuestionsSettings($data->show_summary);			
 			$this->setECTSOutput($data->ects_output);
 			$this->setECTSGrades(
 				array(
@@ -2126,8 +2149,7 @@ class ilObjTest extends ilObject
 			$this->setCertificateVisibility($data->certificate_visibility);
                         $this->setEnabledViewMode($data->enabled_view_mode);
                         $this->setTemplate($data->template_id);
-			$this->setPoolUsage($data->pool_usage);
-			$this->setOnline($data->online_status);
+			$this->setPoolUsage($data->pool_usage);			
 			$this->setPrintBestSolutionWithResult((bool) $data->print_bs_with_res);
 			$this->setHighscoreEnabled((bool) $data->highscore_enabled);
 			$this->setHighscoreAnon((bool) $data->highscore_anon);
@@ -2139,7 +2161,28 @@ class ilObjTest extends ilObject
 			$this->setHighscoreOwnTable((bool) $data->highscore_own_table);
 			$this->setHighscoreTopTable((bool) $data->highscore_top_table);
 			$this->setHighscoreTopNum((int) $data->highscore_top_num);
+			$this->setOnline((bool) $data->online_status);
 			$this->loadQuestions();
+		}
+		
+		// moved activation to ilObjectActivation
+		if($this->ref_id)
+		{
+			include_once "./Services/Object/classes/class.ilObjectActivation.php";
+			$activation = ilObjectActivation::getItem($this->ref_id);			
+			switch($activation["timing_type"])
+			{				
+				case ilObjectActivation::TIMINGS_ACTIVATION:	
+					$this->setActivationLimited(true);
+					$this->setStartingTime($activation["timing_start"]);
+					$this->setEndingTime($activation["timing_end"]);
+					$this->setActivationVisibility($activation["visible"]);
+					break;
+				
+				default:			
+					$this->setActivationLimited(false);
+					break;							
+			}
 		}
 	}
 
@@ -10608,6 +10651,26 @@ function loadQuestions($active_id = "", $pass = NULL)
 	public function setOfferingQuestionHintsEnabled($offeringQuestionHintsEnabled)
 	{
 		$this->offeringQuestionHintsEnabled = (bool)$offeringQuestionHintsEnabled;
+	}
+	
+	function setActivationVisibility($a_value)
+	{
+		$this->activation_visibility = (bool) $a_value;
+	}
+	
+	function getActivationVisibility()
+	{
+		return $this->activation_visibility;
+	}
+	
+	function isActivationLimited()
+	{
+	   return (bool)$this->activation_limited;
+	}
+	
+	function setActivationLimited($a_value)
+	{
+	   $this->activation_limited = (bool)$a_value;
 	}
 	
 	/* GET/SET for highscore feature */

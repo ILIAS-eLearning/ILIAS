@@ -12640,12 +12640,12 @@ tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
-rep#:#rep_activation_online_info#:#If offline, only course administrators and tutors can see and edit the course.
+crs#:#crs_activation_online_info#:#If offline, only course administrators and tutors can see and edit the course.
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Starting Time
 rep#:#rep_activation_limited_end#:#Ending Time
 rep#:#rep_activation_limited_visibility#:#Always Visible
-rep#:#rep_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
+crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
 tax#:#tax_delete_taxonomy#:#Delete Taxononmy
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.
@@ -12673,3 +12673,9 @@ wiki#:#wiki_activate_page_rating#:#Activate Rating
 wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating
 rating#:#rating_overlay_title_overall#:#Overall Rating
 rating#:#rating_overlay_submit#:#Submit Rating
+rep#:#rep_visibility_limitless#:#Umlimited
+rep#:#rep_visibility_until#:#Temporarily Available
+assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participants restriction settings below).
+assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).
+assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
+assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.
