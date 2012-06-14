@@ -24,9 +24,12 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		global $lng, $tpl, $ilCtrl;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-
-	 	$this->parent_obj = $a_parent_obj;
 		
+		include_once("class.ilDataCollectionDatatype.php");
+		include_once("class.ilObjDataCollectionFile.php");
+		
+	 	$this->parent_obj = $a_parent_obj;
+		$this->recordsfields = $recordsfields;;
 		$this->setFormName('record_list');
 		
 		$this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
@@ -41,9 +44,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		{
 			foreach($tabledefinition as $key => $value)
 			{
-				$this->addColumn($value, $key, 'auto');
+				$this->addColumn($value[title], $key, 'auto');
 			}
-				$this->addColumn($lng->txt("edit"),  "edit",  "auto");
+			$this->addColumn($lng->txt("edit"),  "edit",  "auto");
 		}
 
 		$this->addMultiCommand('export', $lng->txt('export'));
@@ -63,26 +66,48 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	public function fillRow($a_set)
 	{
 		global $ilUser, $ilCtrl, $tpl, $lng;
-
 		$a_set = (object) $a_set;
 
 		$this->tpl->setVariable("TITLE", $a_set->title);
-		//$this->tpl->setVariable("AUTHOR", $a_set['author']);
-		foreach($a_set as $a)
+
+		foreach($a_set as $k => $a)
 		{
-			if (!isset($a)) {
+			if (!isset($a))
+			{
 				$a = "&nbsp;";
 			}
-							
-			$this->tpl->setCurrentBlock("field");
-			$this->tpl->setVariable("CONTENT", $a);
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setVariable('EDIT',$lng->txt('edit'));
 
-			$ilCtrl-> setParameterByClass('ildatacollectionrecordeditgui', "record_id", $a_set->id);
-		    $this->tpl->setVariable('EDIT_LINK', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
+			switch($this->tabledefinition[$k]['datatype_id'])
+			{
+				case ilDataCollectionDatatype::INPUTFORMAT_FILE:
+					if($a > 0)
+					{
+						$file_obj = new ilObjDataCollectionFile($a, false);
+						// echo "<pre>".print_r(get_class_methods($file_obj), 1)."</pre>";
+						$this->tpl->setCurrentBlock("field_link");
+						$this->tpl->setVariable("CONTENT", $file_obj->getTitle());
+						//$ilCtrl->setParameterByClass("ilobjfilegui", "id", $a);
+						//$this->tpl->setVariable("LINK", $ilCtrl->getLinkTargetByClass("ilobjfilegui", "sendfile"));
+					}
+					else
+					{
+						$this->tpl->setCurrentBlock("field");
+						$this->tpl->setVariable("CONTENT", $a);
+					}
+					break;
+					
+				default:
+					$this->tpl->setCurrentBlock("field");
+					$this->tpl->setVariable("CONTENT", $a);
+					break;
+			}
+
+			$this->tpl->parseCurrentBlock();
 		}
 
+		$this->tpl->setVariable('EDIT',$lng->txt('edit'));
+		$ilCtrl-> setParameterByClass('ildatacollectionrecordeditgui', "record_id", $a_set->id);
+		$this->tpl->setVariable('EDIT_LINK', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
 		
 		return true;
 	}

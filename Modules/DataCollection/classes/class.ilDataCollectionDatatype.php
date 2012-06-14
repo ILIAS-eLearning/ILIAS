@@ -17,6 +17,19 @@ class ilDataCollectionDatatype
 	protected $id; // [int]
 	protected $title; // [string]
 	protected $storageLocation; // [int]
+	
+	// TEXT
+	const INPUTFORMAT_TEXT 			= 2;
+	// NUMBER
+	const INPUTFORMAT_NUMBER 		= 1;
+	// REFERENCE
+	const INPUTFORMAT_REFERENCE 	= 3;
+	// DATETIME
+	const INPUTFORMAT_BOOLEAN 		= 4;
+	// REFERENCE
+	const INPUTFORMAT_DATETIME 		= 5;
+	// FILE
+	const INPUTFORMAT_FILE 			= 6;
 
 
 	/**

@@ -76,18 +76,26 @@ class ilDataCollectionRecordListGUI
 		//$recordsfields = array(0 => array('id' => 1, 'storage_location' => 1), 1 => array('id' => 2, 'storage_location' => 2), 2 => array('id' => 5, 'storage_location' => 1));
 		//...
 		//else
-			require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
-			$recordsfields = ilDataCollectionField::getAll($this->table_id);
-			$tabledefinition = array($lng->txt("id"),$lng->txt("dcl_table_id"),$lng->txt("create_date"),$lng->txt("last_update"),$lng->txt("owner"));
-			foreach($recordsfields as $recordsfield) 
-			{
-				$tabledefinition[] = $recordsfield['title'];
-			}
-
-	    $records = ilDataCollectionRecord::getAll($this->table_id,$recordsfields);
+		require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
+		$recordsfields = ilDataCollectionField::getAll($this->table_id);
+  
+		$tabledefinition = array(
+								"id" => array("title" => $lng->txt("id")), 
+								"dcl_table_id" => array("title" => $lng->txt("dcl_table_id")), 
+								"create_date" => array("title" => $lng->txt("create_date")), 
+								"last_update" => array("title" => $lng->txt("last_update")), 
+								"owner" => array("title" => $lng->txt("owner"))
+							);
+		
+		foreach($recordsfields as $recordsfield) 
+		{
+			$tabledefinition["record_field_".$recordsfield['id']] = array("title" => $recordsfield['title'], "datatype_id" => $recordsfield['datatype_id']);
+		}
+		
+	    $records = ilDataCollectionRecord::getAll($this->table_id, $recordsfields);
 
 	    require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
-		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $records,$tabledefinition);
+		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $records, $tabledefinition);
 
 		$tpl->setContent($list->getHTML());
 	}

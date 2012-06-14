@@ -17,10 +17,6 @@ require_once ("./Modules/DataCollection/classes/class.ilDataCollectionField.php"
 
 class ilDataCollectionFieldListGUI
 {
-	/*const INPUTFORMAT_TEXT = 1;
-	const INPUTFORMAT_CHECKBOX = 2;
-	const INPUTFORMAT_REFERENCE = 3;*/
-	
 	/**
 	 * Constructor
 	 *
@@ -31,8 +27,8 @@ class ilDataCollectionFieldListGUI
 	{
 		$this->mainTableId = $a_parent_obj->object->getMainTableId();
 		$this->obj_id = $a_parent_obj->obj_id;
-
-		If($table_id)
+		include_once("class.ilDataCollectionDatatype.php");
+		if($table_id)
 		{
 			$this->table_id = $table_id;
 		} 

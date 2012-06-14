@@ -223,11 +223,13 @@ class ilDataCollectionRecord
 					" val.record_field_id = rcfield.id".
 					" WHERE record.id = rc.id".
 					" ) record_field_".$recordfield["id"];
+					
+			//$query .= ",".$recordfield['datatype_id']." datatype_id";
 		}
 
 		$query .= " From il_dcl_record rc WHERE rc.table_id = ".$ilDB->quote($a_id,"integer").
 					" ORDER BY rc.id";
-
+		
 		$set = $ilDB->query($query);
 
 		$all = array();
@@ -235,7 +237,7 @@ class ilDataCollectionRecord
 		{
 			$all[$rec['id']] = $rec;
 		}
-
+		
 		return $all; 
 	}
 
