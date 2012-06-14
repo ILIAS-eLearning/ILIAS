@@ -23,7 +23,8 @@ class ilDataCollectionFieldEditGUI
 	const INPUTFORMAT_REFERENCE = 3;
 	const INPUTFORMAT_BOOLEAN = 4;
 	const INPUTFORMAT_DATETIME = 5;*/
-
+	//
+	const INPUTFORMAT_FILE = 6;
 	
 	/**
 	 * Constructor
@@ -34,6 +35,7 @@ class ilDataCollectionFieldEditGUI
 		//TODO Prüfen, inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->field_obj = new ilDataCollectionField($_GET[field_id]);
 		$this->table_id = $_GET[table_id];
+
 	}
 
 	
@@ -92,7 +94,7 @@ class ilDataCollectionFieldEditGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
-		$this->form->addCommandButton('save', 	$lng->txt('dcl__field_'.$a_mode));
+		$this->form->addCommandButton('save', 		$lng->txt('dcl__field_'.$a_mode));
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
 		
 		$this->form->setFormAction($ilCtrl->getFormAction($this, "save"));
@@ -114,7 +116,8 @@ class ilDataCollectionFieldEditGUI
 			
 			foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
 			{
-				If($property['datatype_id'] == $datatype['id']) {
+				if($property['datatype_id'] == $datatype['id'])
+				{
 						$subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
 						$opt->addSubItem($subitem);
 				}
@@ -174,12 +177,17 @@ class ilDataCollectionFieldEditGUI
 		
 		//TODO Berechtigungen prüfen
 		//$this->dcl_object->checkPermission("write");
+		//echo "<pre>".print_r($_POST,1)."</pre>";
+		
+		
+		
+		//echo "<pre>".print_r(get_class_methods($file_obj), 1)."</pre>";
+		
 		
 		$this->initForm();
 		if ($this->form->checkInput())
 		{
 			$field_obj = new ilDataCollectionField();
-		
 			$field_obj->setTitle($this->form->getInput("title"));
 			$field_obj->setDescription($this->form->getInput("description"));
 			$field_obj->setTableId($this->form->getInput("table_id"));
@@ -202,9 +210,9 @@ class ilDataCollectionFieldEditGUI
 				}
 			}
 
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
+			//ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 			
-			$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+			//$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 		}
 		else
 		{

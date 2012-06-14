@@ -23,7 +23,6 @@ class ilDataCollectionRecordViewViewdefinition
 	/**
 	* Constructor
 	* @access public
-	* @param  int $a_id View-Viewdefinition ID
 	* @param  int $a_table_id Table ID
 	*
 	*/
@@ -37,8 +36,8 @@ class ilDataCollectionRecordViewViewdefinition
 		}
 		
 		//Default-Values
-		$this->type = 0; //recordview
-		$this->formtype = 0; //copage
+		$this->type = 0; 		// recordview
+		$this->formtype = 0; 	// copage
 	}
 
 	/**
@@ -127,16 +126,16 @@ class ilDataCollectionRecordViewViewdefinition
 		$id = $ilDB->nextId("il_dcl_view");
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_view (".
-		"id".
-		", table_id".
-		", type".
-		", formtype".
-		" ) VALUES (".
+			"id".
+			", table_id".
+			", type".
+			", formtype".
+			" ) VALUES (".
 		$ilDB->quote($this->getId(), "integer")
-		.",".$ilDB->quote($this->getTableId(), "integer")
-		.",".$ilDB->quote($this->getType(), "integer")
-		.",".$ilDB->quote($this->getFormtype(), "integer")
-		.")";
+			.",".$ilDB->quote($this->getTableId(), "integer")
+			.",".$ilDB->quote($this->getType(), "integer")
+			.",".$ilDB->quote($this->getFormtype(), "integer")
+			.")";
 		$ilDB->manipulate($query);
 
 		//TODO
