@@ -653,6 +653,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		$link_xlm = "";
 
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		ilObjMediaObjectGUI::includePresentationJS($this->tpl);
 		$media_obj =& new ilObjMediaObject($_GET["mob_id"]);
 		
 		$xml = "<dummy>";
@@ -683,9 +685,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 		xslt_free($xh);
 		// unmask user html
 		$this->tpl->setVariable("MEDIA_CONTENT", $output);
-
-		$this->tpl->parseCurrentBlock();
-//		$this->tpl->show();
 	}
 
 	/**

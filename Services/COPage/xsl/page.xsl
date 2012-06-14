@@ -261,6 +261,10 @@
 		<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 		<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
 		<xsl:attribute name="target">_blank</xsl:attribute>
+		<xsl:if test="@Href = ''">
+			<xsl:attribute name="href">#</xsl:attribute>
+			<xsl:attribute name="onclick">return false;</xsl:attribute>
+		</xsl:if>
 	</xsl:for-each>
 </xsl:template>
 
@@ -2406,6 +2410,14 @@
 			or ./MapArea[@Shape != 'WholePicture'][1]">
 			<xsl:if test="name(..) != 'InteractiveImage' or $mode != 'edit'">
 				<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
+				
+				<!-- highlight mode -->
+				<xsl:variable name="hl_mode" select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/@MapHighlightMode" />
+				<xsl:variable name="hl_class" select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/@MapHighlightClass" />
+				<xsl:if test="$hl_mode != ''">
+					<xsl:attribute name="class">img_hl_<xsl:value-of select="$hl_mode"/>_<xsl:value-of select="$hl_class"/></xsl:attribute>
+				</xsl:if>
+				
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test = "$inline = 'y'">

@@ -666,7 +666,19 @@ class ilObjMediaObject extends ilObject
 				for($i=0; $i<count($media_items); $i++)
 				{
 					$item =& $media_items[$i];
-					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
+					
+					// highlight mode
+					$hm = "";
+					if ($item->getHighlightMode() != "")
+					{
+						$hm = ' MapHighlightMode="'.$item->getHighlightMode().'" ';
+						$hcl = ($item->getHighlightClass() != "")
+							? $item->getHighlightClass()
+							: "Accented";
+						$hm.= 'MapHighlightClass="'.$hcl.'" ';
+					}
+					
+					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\"".$hm.">";
 
 					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
@@ -729,7 +741,19 @@ class ilObjMediaObject extends ilObject
 				for($i=0; $i<count($media_items); $i++)
 				{
 					$item =& $media_items[$i];
-					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\">";
+					
+					// highlight mode
+					$hm = "";
+					if ($item->getHighlightMode() != "")
+					{
+						$hm = ' MapHighlightMode="'.$item->getHighlightMode().'" ';
+						$hcl = ($item->getHighlightClass() != "")
+							? $item->getHighlightClass()
+							: "Accented";
+						$hm.= 'MapHighlightClass="'.$hcl.'" ';
+					}
+					
+					$xml .= "<MediaItem Purpose=\"".$item->getPurpose()."\"".$hm.">";
 
 					// Location
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".
@@ -1773,7 +1797,5 @@ class ilObjMediaObject extends ilObject
 
 		return $new_obj;
 	}
-	
-	
 }
 ?>

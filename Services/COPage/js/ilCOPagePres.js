@@ -11,6 +11,7 @@ ilCOPagePres =
 		this.initToc();
 		this.initInteractiveImages();
 		this.updateQuestionOverviews();
+		this.initMapAreas();
 	},
 	
 	//
@@ -776,14 +777,46 @@ ilCOPagePres =
 	},
 
 	// jump to a question
-	jumpToQuestion: function(qid)
-	{
-		if (typeof pager != "undefined")
-		{
+	jumpToQuestion: function(qid) {
+		if (typeof pager != "undefined") {
 			pager.jumpToElement("container" + qid);
 		}
 		return false;
-	}
+	},
 
+	//
+	// Map area functions
+	//
+	
+	// init map areas
+	initMapAreas: function() {
+		
+		// mouseover
+		//$('img[class^="img_hl_"]').maphilight({fade:true, fillColor:'000000', strokeColor:'000000'});
+		$('img[class^="img_hl_"]').each(function(index) {
+			var cl = $(this).attr("class").split("_");
+			var opts = {};
+			if (cl[2] == "Hover") {
+				opts.fade = true;
+			} else {
+				opts.alwaysOn = true;
+			}
+			if (cl[3] == "Dark") {
+				opts.fillColor = "202020";
+				opts.strokeColor = "202020";
+			} else if (cl[3] == "Light") {
+				opts.fillColor = "F0F0F0";
+				opts.strokeColor = "F0F0F0";
+			} else {
+				opts.fillColor = "FF6633";
+				opts.strokeColor = "FF6633";
+			}
+			opts.fillOpacity = 0;
+			$(this).maphilight(opts);
+		});
+		
+		// always on
+		//$('img[class^="img_hl_"]').maphilight({alwaysOn:true, fillColor:'FFFFFF', strokeColor:'FFFFFF'});
+	}
 }
 il.Util.addOnLoad(function() {ilCOPagePres.init();});

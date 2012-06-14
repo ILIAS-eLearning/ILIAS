@@ -1829,5 +1829,23 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 	}
 	
 
+	/**
+	 * Include media object presentation JS
+	 */
+	function includePresentationJS($a_tpl = null)
+	{
+		global $tpl;
+
+		if ($a_tpl == null)
+		{
+			$a_tpl = $tpl;
+		}
+		
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQUery($a_tpl);
+		$a_tpl->addJavascript("./Modules/Scorm2004/scripts/questions/question_handling.js");
+		$a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
+	}
+	
 }
 ?>

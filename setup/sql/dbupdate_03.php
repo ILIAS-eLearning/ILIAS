@@ -10480,7 +10480,6 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 			" SET rating = ".$ilDB->quote(1, "integer").
 			" WHERE ".$ilDB->in("wiki_id", $wiki_ids, "", "integer"));		
 	}
-
 ?>
 <#3619>
 <?php
@@ -10553,3 +10552,26 @@ $ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `s
 		")");
 		
 ?>
+<#3622>
+<?php
+if (!$ilDB->tableColumnExists('media_item', 'highlight_mode'))
+{
+	$ilDB->addTableColumn("media_item", "highlight_mode", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 8,
+		"fixed" => false));
+}
+?>
+<#3623>
+<?php	
+if (!$ilDB->tableColumnExists('media_item', 'highlight_class'))
+{
+	$ilDB->addTableColumn("media_item", "highlight_class", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 8,
+		"fixed" => false));
+}
+?>
+
