@@ -1378,7 +1378,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$confirm->addHiddenItem('active_id', $_GET['active_id']);
 		$confirm->addHiddenItem('pass', $_GET['pass']);
 		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
-		$confirm->setFormAction($this->ctrl->getLinkTargetByClass($_GET['commandClass'], 'deletePass'));
+		$confirm->setFormAction($this->ctrl->getLinkTargetByClass($_GET['cmdClass'], 'deletePass'));
 		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
 		$confirm->setCancel($this->lng->txt('cancel'), 'cancelDelete');
 		$confirm->setConfirm($this->lng->txt('delete'), 'performDelete');
@@ -1533,8 +1533,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_test_result
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
-				); 
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
+				);
 			}		
 			
 			// tst_test_rnd_qst -> nothing to do
@@ -1554,12 +1555,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
 				); 
-			}		
+			}
 			
+			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			{
+				$this->object->logAction($this->lng->txtlng("assessment", "log_deleted_pass", ilObjAssessmentFolder::_getLogLanguage()));
+			}
 			// tst_result_cache
 			// Ggfls. nur renumbern.
 			require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 			assQuestion::_updateTestResultCache($active_fi);
+
+			$this->ctrl->redirectByClass('iltestoutputgui', 'outuserresultsoverview');
 	}
 }
 ?>
