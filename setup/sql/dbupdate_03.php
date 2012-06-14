@@ -10482,3 +10482,65 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 	}
 
 ?>
+<#3619>
+<?php
+	$ts_now = time();
+	$ts_latest = mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
+
+	// all limited course objects with ref_id and parent ref_id
+	$query = "SELECT t.child,t.parent,c.starting_time,c.ending_time".
+		" FROM tst_tests c".
+		" JOIN object_reference r ON (r.obj_id = c.obj_fi)".
+		" JOIN tree t ON (r.ref_id = t.child)".
+		" LEFT JOIN crs_items i ON (i.obj_id = r.ref_id)".
+		" AND i.timing_type IS NULL";
+	$set = $ilDB->query($query);
+	while($row = $ilDB->fetchAssoc($set))
+	{				
+		if($row["starting_time"] || $row["ending_time"])
+		{		
+			if(!$row["starting_time"])
+			{
+				$row["starting_time"] = time();
+			}
+			$ts_start = new ilDateTime($row["starting_time"], IL_CAL_TIMESTAMP);
+			$ts_start = $ts_start->get(IL_CAL_UNIX);
+			if(!$row["ending_time"])
+			{
+				$row["ending_time"] = mktime(0, 0, 1, 1, 1, date("Y")+3);
+			}
+			$ts_end = new ilDateTime($row["ending_time"], IL_CAL_TIMESTAMP);
+			$ts_end = $ts_end->get(IL_CAL_UNIX);
+			
+			$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,".
+				"timing_end,suggestion_start,suggestion_end,changeable,earliest_start,".
+				"latest_end,visible,position) VALUES (".
+				$ilDB->quote($row["parent"],'integer').",".
+				$ilDB->quote($row["child"],'integer').",".
+				$ilDB->quote(0,'integer').",".
+				$ilDB->quote($ts_start,'integer').",".
+				$ilDB->quote($ts_end,'integer').",".
+				$ilDB->quote($ts_now,'integer').",".
+				$ilDB->quote($ts_now,'integer').",".
+				$ilDB->quote(0,'integer').",".
+				$ilDB->quote($ts_now,'integer').", ".
+				$ilDB->quote($ts_latest,'integer').", ".
+				$ilDB->quote(0,'integer').", ".
+				$ilDB->quote(0,'integer').")";		
+			$ilDB->manipulate($query);				
+		}
+	}
+?>
+<#3620>
+<?php
+
+	if( $ilDB->tableColumnExists("tst_tests", "starting_time") )
+	{
+		$ilDB->dropTableColumn("tst_tests", "starting_time");
+	}
+	if( $ilDB->tableColumnExists("tst_tests", "ending_time") )
+	{
+		$ilDB->dropTableColumn("tst_tests", "ending_time");
+	}
+
+?>
