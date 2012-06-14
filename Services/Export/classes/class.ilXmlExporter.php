@@ -41,11 +41,11 @@ abstract class ilXmlExporter
 	 * Get xml representation
 	 *
 	 * @param	string		entity
-	 * @param	string		target release
+	 * @param	string		schema version
 	 * @param	string		id
 	 * @return	string		xml string
 	 */
-	abstract public function getXmlRepresentation($a_entity, $a_target_release, $a_id);
+	abstract public function getXmlRepresentation($a_entity, $a_schema_version, $a_id);
 
 	abstract public function init();
 

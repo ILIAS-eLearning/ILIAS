@@ -37,13 +37,13 @@ class ilWebResourceExporter extends ilXmlExporter
 	/**
 	 * Get xml
 	 * @param object $a_entity
-	 * @param object $a_target_release
+	 * @param object $a_schema_version
 	 * @param object $a_id
 	 * @return 
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		//$GLOBALS['ilLog']->write(__METHOD__.': entity: '.$a_entity.', target release: '.$a_target_release.', id: '.$a_id);
+		//$GLOBALS['ilLog']->write(__METHOD__.': entity: '.$a_entity.', target release: '.$a_schema_version.', id: '.$a_id);
 		
 		try 
 		{

@@ -30,7 +30,7 @@ class ilLearningModuleExporter extends ilXmlExporter
 	 * @param	string		id
 	 * @return	string		xml string
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
 		include_once './Modules/LearningModule/classes/class.ilObjLearningModule.php';
 		$lm = new ilObjLearningModule($a_id,false);

@@ -23,14 +23,7 @@ class ilWikiDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions($a_entity)
 	{
-		switch ($a_entity)
-		{
-			case "wiki":
-				return array("4.1.0");
-
-			case "wpg":
-				return array("4.1.0");
-		}
+		return array("4.1.0");
 	}
 	
 	/**
@@ -39,7 +32,7 @@ class ilWikiDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXmlNamespace($a_entity, $a_target_release)
+	function getXmlNamespace($a_entity, $a_schema_version)
 	{
 		return "http://www.ilias.de/xml/Modules/Wiki/".$a_entity;
 	}

@@ -24,13 +24,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions($a_entity)
 	{
-		switch ($a_entity)
-		{
-			case "mep":
-				return array("4.1.0");
-			case "mep_tree":
-				return array("4.1.0");
-		}
+		return array("4.1.0");
 	}
 	
 	/**
@@ -39,7 +33,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXmlNamespace($a_entity, $a_target_release)
+	function getXmlNamespace($a_entity, $a_schema_version)
 	{
 		return "http://www.ilias.de/xml/Modules/MediaPool/".$a_entity;
 	}

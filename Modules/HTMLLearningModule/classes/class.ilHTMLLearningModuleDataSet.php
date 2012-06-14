@@ -20,11 +20,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions($a_entity)
 	{
-		switch ($a_entity)
-		{
-			case "htlm":
-				return array("4.1.0");
-		}
+		return array("4.1.0");
 	}
 	
 	/**
@@ -33,7 +29,7 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXmlNamespace($a_entity, $a_target_release)
+	function getXmlNamespace($a_entity, $a_schema_version)
 	{
 		return "http://www.ilias.de/xml/Modules/HTMLLearningModule/".$a_entity;
 	}

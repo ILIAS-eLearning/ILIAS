@@ -59,10 +59,10 @@ class ilHTMLLearningModuleExporter extends ilXmlExporter
 	 * @param	string		id
 	 * @return	string		xml string
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
+		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 	}
 
 	/**

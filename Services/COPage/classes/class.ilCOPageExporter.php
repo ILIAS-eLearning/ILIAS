@@ -117,11 +117,11 @@ class ilCOPageExporter extends ilXmlExporter
 	 * Get xml representation
 	 *
 	 * @param string	entity
-	 * @param string	target release
+	 * @param string	schema version
 	 * @param array		ids
 	 * @return string	xml
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
 		if ($a_entity == "pg")
 		{
@@ -143,7 +143,7 @@ class ilCOPageExporter extends ilXmlExporter
 		}
 		if ($a_entity == "pgtp")
 		{
-			return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
+			return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 		}
 	}
 

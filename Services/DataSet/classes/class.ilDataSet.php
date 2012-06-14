@@ -44,10 +44,10 @@ abstract class ilDataSet
 	 * 						values only, not 4.2.0 (ask for the 4.1.0
 	 * 						version in ILIAS 4.2.0)
 	 */
-	final public function init($a_entity, $a_target_release)
+	final public function init($a_entity, $a_schema_version)
 	{
 		$this->entity = $a_entity;
-		$this->target_release = $a_target_release;
+		$this->schema_version = $a_schema_version;
 		$this->data = array();
 	}
 	
@@ -72,7 +72,7 @@ abstract class ilDataSet
 	 * Get xml namespace
 	 *
 	 */
-	abstract protected function getXmlNamespace($a_entity, $a_target_release);
+	abstract protected function getXmlNamespace($a_entity, $a_schema_version);
 	
 	/**
 	 * Read data from DB. This should result in the
@@ -238,7 +238,7 @@ abstract class ilDataSet
 	 *	</set>
 	 *  </dataset>
 	 */
-	final function getXmlRepresentation($a_entity, $a_target_release,
+	final function getXmlRepresentation($a_entity, $a_schema_version,
 		$a_ids, $a_field = "", $a_omit_header = false, $a_omit_types = false)
 	{	
 		$this->dircnt = 1;
@@ -257,7 +257,7 @@ abstract class ilDataSet
 		
 		// collect namespaces
 		$namespaces = $prefixes = array();
-		$this->getNamespaces($namespaces, $a_entity, $a_target_release);
+		$this->getNamespaces($namespaces, $a_entity, $a_schema_version);
 		$atts = array("InstallationId" => IL_INST_ID,
 			"InstallationUrl" => ILIAS_HTTP_PATH, "TopEntity" => $a_entity);
 		$cnt = 1;
@@ -274,11 +274,11 @@ abstract class ilDataSet
 		// add types
 		if (!$a_omit_types)
 		{
-			$this->addTypesXml($writer, $a_entity, $a_target_release);
+			$this->addTypesXml($writer, $a_entity, $a_schema_version);
 		}
 		
 		// add records
-		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "");
+		$this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field = "");
 		
 		
 		$writer->xmlEndTag($this->getDSPrefixString()."DataSet");
@@ -296,22 +296,22 @@ abstract class ilDataSet
 	 * @param
 	 * @return
 	 */
-	function addRecordsXml($a_writer, $a_prefixes, $a_entity, $a_target_release, $a_ids, $a_field = "")
+	function addRecordsXml($a_writer, $a_prefixes, $a_entity, $a_schema_version, $a_ids, $a_field = "")
 	{
-		$types = $this->getXmlTypes($a_entity, $a_target_release);
+		$types = $this->getXmlTypes($a_entity, $a_schema_version);
 		
-		$this->readData($a_entity, $a_target_release, $a_ids, $a_field);
+		$this->readData($a_entity, $a_schema_version, $a_ids, $a_field);
 		if (is_array($this->data))
 		{		
 			foreach ($this->data as $d)
 			{
 				$a_writer->xmlStartTag($this->getDSPrefixString()."Rec",
-					array("Entity" => $this->getXmlEntityName($a_entity, $a_target_release)));
+					array("Entity" => $this->getXmlEntityName($a_entity, $a_schema_version)));
 
 				// entity tag
-				$a_writer->xmlStartTag($this->getXmlEntityTag($a_entity, $a_target_release));
+				$a_writer->xmlStartTag($this->getXmlEntityTag($a_entity, $a_schema_version));
 
-				$rec = $this->getXmlRecord($a_entity, $a_target_release, $d);
+				$rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
 				foreach ($rec as $f => $c)
 				{
 					switch ($types[$f])
@@ -333,17 +333,17 @@ abstract class ilDataSet
 					$a_writer->xmlElement($f, array(), $c);
 				}
 
-				$a_writer->xmlEndTag($this->getXmlEntityTag($a_entity, $a_target_release));
+				$a_writer->xmlEndTag($this->getXmlEntityTag($a_entity, $a_schema_version));
 
 				$a_writer->xmlEndTag($this->getDSPrefixString()."Rec");
 
 				// foreach record records of dependent entities (no record)
-				$deps = $this->getDependencies($a_entity, $a_target_release, $rec, $a_ids);
+				$deps = $this->getDependencies($a_entity, $a_schema_version, $rec, $a_ids);
 				if (is_array($deps))
 				{
 					foreach ($deps as $dp => $par)
 					{
-						$this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_target_release, $par["ids"], $par["field"]);
+						$this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $par["ids"], $par["field"]);
 					}
 				}
 			}
@@ -351,12 +351,12 @@ abstract class ilDataSet
 		else if ($this->data === false)
 		{
 			// false -> add records of dependent entities (no record)
-			$deps = $this->getDependencies($a_entity, $a_target_release, null, $a_ids);
+			$deps = $this->getDependencies($a_entity, $a_schema_version, null, $a_ids);
 			if (is_array($deps))
 			{
 				foreach ($deps as $dp => $par)
 				{
-					$this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_target_release, $par["ids"], $par["field"]);
+					$this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $par["ids"], $par["field"]);
 				}
 			}
 		}
@@ -367,17 +367,17 @@ abstract class ilDataSet
 	 *
 	 * @param
 	 */
-	private function addTypesXml($a_writer, $a_entity, $a_target_release)
+	private function addTypesXml($a_writer, $a_entity, $a_schema_version)
 	{
-		$types = $this->getXmlTypes($a_entity, $a_target_release);
+		$types = $this->getXmlTypes($a_entity, $a_schema_version);
 		
 		// add types of current entity
 		if (is_array($types))
 		{
 			$a_writer->xmlStartTag($this->getDSPrefixString()."Types",
-				array("Entity" => $this->getXmlEntityName($a_entity, $a_target_release),
-					"TargetRelease" => $a_target_release));
-			foreach ($this->getXmlTypes($a_entity, $a_target_release) as $f => $t)
+				array("Entity" => $this->getXmlEntityName($a_entity, $a_schema_version),
+					"SchemaVersion" => $a_schema_version));
+			foreach ($this->getXmlTypes($a_entity, $a_schema_version) as $f => $t)
 			{
 				$a_writer->xmlElement($this->getDSPrefixString().'FieldType',
 					array("Name" => $f, "Type" => $t));
@@ -386,12 +386,12 @@ abstract class ilDataSet
 		}
 		
 		// add types of dependent entities
-		$deps = $this->getDependencies($a_entity, $a_target_release, null, null);
+		$deps = $this->getDependencies($a_entity, $a_schema_version, null, null);
 		if (is_array($deps))
 		{
 			foreach ($deps as $dp => $w)
 			{
-				$this->addTypesXml($a_writer, $dp, $a_target_release);
+				$this->addTypesXml($a_writer, $dp, $a_schema_version);
 			}
 		}
 		
@@ -404,20 +404,20 @@ abstract class ilDataSet
 	 * @param		string		entity
 	 * @param		string		target release
 	 */
-	function getNamespaces(&$namespaces, $a_entity, $a_target_release)
+	function getNamespaces(&$namespaces, $a_entity, $a_schema_version)
 	{
-		$ns = $this->getXmlNamespace($a_entity, $a_target_release);
+		$ns = $this->getXmlNamespace($a_entity, $a_schema_version);
 		if ($ns != "")
 		{
 			$namespaces[$a_entity] = $ns;
 		}		
 		// add types of dependent entities
-		$deps = $this->getDependencies($a_entity, $a_target_release, null, null);
+		$deps = $this->getDependencies($a_entity, $a_schema_version, null, null);
 		if (is_array($deps))
 		{
 			foreach ($deps as $dp => $w)
 			{
-				$this->getNamespaces($namespaces, $dp, $a_target_release);
+				$this->getNamespaces($namespaces, $dp, $a_schema_version);
 			}
 		}
 	}
@@ -481,7 +481,7 @@ abstract class ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXMLEntityTag($a_entity, $a_target_release)
+	function getXMLEntityTag($a_entity, $a_schema_version)
 	{
 		return $this->convertToLeadingUpper($a_entity);
 	}

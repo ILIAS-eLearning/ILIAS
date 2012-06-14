@@ -30,13 +30,13 @@ class ilSessionExporter extends ilXmlExporter
 	 * Get xml representation
 	 *
 	 * @param	string		entity
-	 * @param	string		target release
+	 * @param	string		schema version
 	 * @param	string		id
 	 * @return	string		xml string
 	 */
-	public function getXmlRepresentation($a_entity, $a_target_release, $a_id)
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		return $this->ds->getXmlRepresentation($a_entity, $a_target_release, $a_id, "", true, true);
+		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 	}
 
 	/**

@@ -18,13 +18,9 @@ class ilExerciseDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	public function getSupportedVersions($a_entity)
+	public function getSupportedVersions()
 	{
-		switch ($a_entity)
-		{
-			case "exc":
-				return array("4.1.0");
-		}
+		return array("4.1.0");
 	}
 	
 	/**
@@ -33,7 +29,7 @@ class ilExerciseDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	function getXmlNamespace($a_entity, $a_target_release)
+	function getXmlNamespace($a_entity, $a_schema_version)
 	{
 		return "http://www.ilias.de/xml/Modules/Exercise/".$a_entity;
 	}
