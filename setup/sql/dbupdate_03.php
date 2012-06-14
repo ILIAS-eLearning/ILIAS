@@ -10544,4 +10544,12 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 	}
 
 ?>
+<#3621>
+<?php
 
+$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+		" VALUES (".
+		"6, 'file', 'integer', 2".
+		")");
+		
+?>
