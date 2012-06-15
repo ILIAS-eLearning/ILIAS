@@ -10492,7 +10492,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 		" JOIN object_reference r ON (r.obj_id = c.obj_fi)".
 		" JOIN tree t ON (r.ref_id = t.child)".
 		" LEFT JOIN crs_items i ON (i.obj_id = r.ref_id)".
-		" AND i.timing_type IS NULL";
+		" WHERE i.timing_type IS NULL";
 	$set = $ilDB->query($query);
 	while($row = $ilDB->fetchAssoc($set))
 	{				
