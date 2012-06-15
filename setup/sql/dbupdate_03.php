@@ -10497,19 +10497,29 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 	while($row = $ilDB->fetchAssoc($set))
 	{				
 		if($row["starting_time"] || $row["ending_time"])
-		{		
-			if(!$row["starting_time"])
-			{
-				$row["starting_time"] = time();
+		{									
+			$ts_start = time();
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $row["starting_time"], $d_parts))
+			{			
+				$ts_start = mktime(
+					isset($d_parts[4]) ? $d_parts[4] : 0, 
+					isset($d_parts[5]) ? $d_parts[5] : 0,
+					isset($d_parts[6]) ? $d_parts[6] : 0,
+					$d_parts[2],
+					$d_parts[3],
+					$d_parts[1]);
 			}
-			$ts_start = new ilDateTime($row["starting_time"], IL_CAL_TIMESTAMP);
-			$ts_start = $ts_start->get(IL_CAL_UNIX);
-			if(!$row["ending_time"])
-			{
-				$row["ending_time"] = mktime(0, 0, 1, 1, 1, date("Y")+3);
+			$ts_end = mktime(0, 0, 1, 1, 1, date("Y")+3);
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $row["ending_time"], $d_parts))
+			{			
+				$ts_end = mktime(
+					isset($d_parts[4]) ? $d_parts[4] : 0, 
+					isset($d_parts[5]) ? $d_parts[5] : 0,
+					isset($d_parts[6]) ? $d_parts[6] : 0,
+					$d_parts[2],
+					$d_parts[3],
+					$d_parts[1]);
 			}
-			$ts_end = new ilDateTime($row["ending_time"], IL_CAL_TIMESTAMP);
-			$ts_end = $ts_end->get(IL_CAL_UNIX);
 			
 			$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,".
 				"timing_end,suggestion_start,suggestion_end,changeable,earliest_start,".
