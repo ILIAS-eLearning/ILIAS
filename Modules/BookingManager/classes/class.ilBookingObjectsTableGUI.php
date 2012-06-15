@@ -87,27 +87,34 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilUser;
+		
+		$has_booking = false;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
 		
-		if(!$this->has_schedule)
+		if(!$this->has_schedule)		
 		{									
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 			$reservation = ilBookingReservation::getList(array($a_set['booking_object_id']), 1000, 0, array());
 			$cnt = 0;			
-			$user_ids = array();			
+			$user_ids = array();				
 			foreach($reservation["data"] as $item)
 			{			
 				if($item["status"] != ilBookingReservation::STATUS_CANCELLED)
 				{
 					$cnt++;
 					$user_ids[$item["user_id"]] = ilObjUser::_lookupFullName($item['user_id']);
+					
+					if($item["user_id"] == $ilUser->getId())
+					{
+						$has_booking = true;
+					}
 				}
 			}
 			
-			$this->tpl->setVariable("VALUE_AVAIL", $cnt); 
+			$this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"]-$cnt); 
 			$this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]); 
 			
 			if ($this->may_edit)
@@ -150,9 +157,13 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
 		
-		if ($a_set["schedule_id"])
+		if(!$has_booking)
 		{
 			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
+		}
+		else
+		{
+			$items['cancel'] = array($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancelUser'));
 		}
 
 		if ($this->may_edit)
