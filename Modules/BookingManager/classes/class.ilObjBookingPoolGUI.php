@@ -140,9 +140,17 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
 		$a_form->addItem($online);
 
-		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
-		$public->setInfo($this->lng->txt("book_public_log_info"));
-		$a_form->addItem($public);
+		$type = new ilRadioGroupInputGUI($this->lng->txt("book_schedule_type"), "stype");
+		$type->setRequired(true);
+		$a_form->addItem($type);
+		
+		$fixed = new ilRadioOption($this->lng->txt("book_schedule_type_fixed"), ilObjBookingPool::TYPE_FIX_SCHEDULE);
+		$fixed->setInfo($this->lng->txt("book_schedule_type_fixed_info"));
+		$type->addOption($fixed);
+		
+		$none = new ilRadioOption($this->lng->txt("book_schedule_type_none"), ilObjBookingPool::TYPE_NO_SCHEDULE);
+		$none->setInfo($this->lng->txt("book_schedule_type_none_info"));
+		$type->addOption($none);
 
 		$slots = new ilNumberInputGUI($this->lng->txt("book_slots_no"), "slots");
 		$slots->setRequired(true);
@@ -150,7 +158,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$slots->setMinValue(1);
 		$slots->setMaxValue(24);
 		$slots->setInfo($this->lng->txt("book_slots_no_info"));
-		$a_form->addItem($slots);
+		$fixed->addSubItem($slots);
+				
+		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
+		$public->setInfo($this->lng->txt("book_public_log_info"));
+		$a_form->addItem($public);		
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -158,6 +170,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$a_values["online"] = !$this->object->isOffline();
 		$a_values["public"] = $this->object->hasPublicLog();
 		$a_values["slots"] = $this->object->getNumberOfSlots();
+		$a_values["stype"] = $this->object->getScheduleType();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -165,6 +178,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->object->setOffline(!$a_form->getInput('online'));
 		$this->object->setPublicLog($a_form->getInput('public'));
 		$this->object->setNumberOfSlots($a_form->getInput('slots'));
+		$this->object->setScheduleType($a_form->getInput('stype'));
 	}
 
 	/**

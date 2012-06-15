@@ -10639,3 +10639,16 @@ if (!$ilDB->tableColumnExists('media_item', 'highlight_class'))
 	}
 
 ?>
+<#3626>
+<?php
+
+	if (!$ilDB->tableColumnExists('booking_settings', 'schedule_type'))
+	{
+		$ilDB->addTableColumn("booking_settings", "schedule_type", array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 1));
+	}
+	
+?>

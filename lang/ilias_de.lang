@@ -12656,3 +12656,7 @@ assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den
 assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
 assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch ausserhab der Zugriffszeiten sichtbar.
 book#:#booking_nr_of_items#:#Anzahl
+book#:#book_schedule_type_fixed#:#Fester Zeitplan
+book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
+book#:#book_schedule_type_none#:#Kein Zeitplan
+book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Bücher, etc.

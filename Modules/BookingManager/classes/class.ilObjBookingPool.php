@@ -12,9 +12,13 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjBookingPool extends ilObject
 {
-	protected $offline;	   // bool
-	protected $public_log; // bool
-	protected $slots_no;   // int
+	protected $offline;			// bool
+	protected $public_log;		// bool
+	protected $schedule_type;	// int
+	protected $slots_no;		// int
+	
+	const TYPE_FIX_SCHEDULE = 1;
+	const TYPE_NO_SCHEDULE = 2;
 	
 	/**
 	* Constructor
@@ -24,9 +28,24 @@ class ilObjBookingPool extends ilObject
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
 		$this->type = "book";
+		$this->setScheduleType(self::TYPE_FIX_SCHEDULE);
 		$this->ilObject($a_id,$a_call_by_reference);
 	}
-
+	
+	/**
+	 * Parse properties for sql statements 
+	 */
+	protected function getDBFields()
+	{
+		$fields = array(
+			"schedule_type" => array("integer", $this->getScheduleType()),
+			"pool_offline" => array("integer", $this->isOffline()),
+			"public_log" => array("integer", $this->hasPublicLog()),
+			"slots_no" => array("integer", $this->getNumberOfSlots())			
+		);
+		
+		return $fields;
+	}
 
 	/**
 	* create object
@@ -37,9 +56,11 @@ class ilObjBookingPool extends ilObject
 		global $ilDB;
 		
 		$new_id = parent::create();
+		
+		$fields = $this->getDBFields();
+		$fields["booking_pool_id"] = array("integer", $new_id);
 
-		$ilDB->manipulate('INSERT INTO booking_settings (booking_pool_id)'.
-			' VALUES ('.$ilDB->quote($new_id, 'integer').')');
+		$ilDB->insert("booking_settings", $fields);
 
 		return $new_id;
 	}
@@ -59,12 +80,9 @@ class ilObjBookingPool extends ilObject
 
 		// put here object specific stuff
 		if($this->getId())
-		{
-			$ilDB->manipulate('UPDATE booking_settings'.
-				' SET pool_offline = '.$ilDB->quote($this->isOffline(), 'integer').
-				', public_log = '.$ilDB->quote($this->hasPublicLog(), 'integer').
-				', slots_no = '.$ilDB->quote($this->getNumberOfSlots(), 'integer').
-				' WHERE booking_pool_id = '.$ilDB->quote($this->getId(), 'integer'));
+		{			
+			$ilDB->update("booking_settings", $this->getDBFields(),
+				array("booking_pool_id" => array("integer", $this->getId())));			
 		}
 
 		return true;
@@ -85,6 +103,7 @@ class ilObjBookingPool extends ilObject
 			$this->setOffline($row['pool_offline']);
 			$this->setPublicLog($row['public_log']);
 			$this->setNumberOfSlots($row['slots_no']);
+			$this->setScheduleType($row['schedule_type']);
 		}
 	}
 
@@ -111,37 +130,23 @@ class ilObjBookingPool extends ilObject
 
 		$ilDB->manipulate('DELETE FROM booking_schedule'.
 				' WHERE pool_id = '.$ilDB->quote($id, 'integer'));
-
-		$types = array();
-		$set = $ilDB->query('SELECT booking_type_id FROM booking_type'.
+		
+		$objects = array();
+		$set = $ilDB->query('SELECT booking_object_id FROM booking_object'.
 			' WHERE pool_id = '.$ilDB->quote($id, 'integer'));
-	    while($row = $ilDB->fetchAssoc($set))
+		while($row = $ilDB->fetchAssoc($set))
 		{
-			$types[] = $row['booking_type_id'];
+			$objects[] = $row['booking_object_id'];
 		}
 
-		if(sizeof($types))
+		if(sizeof($objects))
 		{
-			$objects = array();
-			$set = $ilDB->query('SELECT booking_object_id FROM booking_object'.
-				' WHERE '.$ilDB->in('type_id', $types, '', 'integer'));
-			while($row = $ilDB->fetchAssoc($set))
-			{
-				$objects[] = $row['booking_object_id'];
-			}
-
-			if(sizeof($objects))
-			{
-				$ilDB->manipulate('DELETE FROM booking_reservation'.
-						' WHERE '.$ilDB->in('object_id', $objects, '', 'integer'));
-			}
-
-			$ilDB->manipulate('DELETE FROM booking_object'.
-					' WHERE '.$ilDB->in('type_id', $types, '', 'integer'));
-
-			$ilDB->manipulate('DELETE FROM booking_type'.
-					' WHERE pool_id = '.$ilDB->quote($id, 'integer'));
+			$ilDB->manipulate('DELETE FROM booking_reservation'.
+					' WHERE '.$ilDB->in('object_id', $objects, '', 'integer'));
 		}
+
+		$ilDB->manipulate('DELETE FROM booking_object'.
+			' WHERE pool_id = '.$ilDB->quote($id, 'integer'));
 
 		return true;
 	}
@@ -274,7 +279,7 @@ class ilObjBookingPool extends ilObject
 
 	/**
 	 * Set number of slots in schedules
-	 * @param bool $a_value
+	 * @param int $a_value
 	 */
 	function setNumberOfSlots($a_value = true)
     {
@@ -288,6 +293,24 @@ class ilObjBookingPool extends ilObject
 	function getNumberOfSlots()
 	{
 		return (int)$this->slots_no;
+	}
+	
+	/**
+	 * Set schedule type
+	 * @param int $a_value
+	 */
+	function setScheduleType($a_value)
+    {
+		$this->schedule_type = (int)$a_value;
+	}
+
+	/**
+	 * Get schedule type
+	 * @return int
+	 */
+	function getScheduleType()
+	{
+		return $this->schedule_type;
 	}
 }
 

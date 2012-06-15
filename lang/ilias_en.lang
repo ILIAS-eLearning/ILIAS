@@ -12688,3 +12688,7 @@ assessment#:#tst_availability_until_info#:#Choose this mode for making the test 
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
 assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.
 book#:#booking_nr_of_items#:#Nr of Items
+book#:#book_schedule_type_fixed#:#Fixed Schedule
+book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers and such
+book#:#book_schedule_type_none#:#No Schedule
+book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, books and such
