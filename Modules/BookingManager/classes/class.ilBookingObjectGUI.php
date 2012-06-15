@@ -116,6 +116,17 @@ class ilBookingObjectGUI
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
 		
+		$desc = new ilTextAreaInputGUI($lng->txt("description"), "desc");
+		$desc->setCols(40);
+		$desc->setRows(2);
+		$form_gui->addItem($desc);
+		
+		$nr = new ilNumberInputGUI($lng->txt("booking_nr_of_items"), "items");
+		$nr->setRequired(true);
+		$nr->setSize(3);
+		$nr->setMaxLength(3);
+		$form_gui->addItem($nr);
+		
 		$options = array();
 		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
 		foreach(ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->ref_id)) as $schedule)
@@ -137,12 +148,14 @@ class ilBookingObjectGUI
 			$form_gui->addItem($item);
 
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-			$type = new ilBookingObject($id);
-			$title->setValue($type->getTitle());
+			$obj = new ilBookingObject($id);
+			$title->setValue($obj->getTitle());
+			$desc->setValue($obj->getDescription());
+			$nr->setValue($obj->getNrOfItems());
 			
 			if(isset($schedule))
 			{
-				$schedule->setValue($type->getScheduleId());
+				$schedule->setValue($obj->getScheduleId());
 			}
 			
 			$form_gui->addCommandButton("update", $lng->txt("save"));
@@ -170,8 +183,10 @@ class ilBookingObjectGUI
 		{
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 			$obj = new ilBookingObject;
-			$obj->setTitle($form->getInput("title"));
 			$obj->setPoolId($this->pool_id);
+			$obj->setTitle($form->getInput("title"));
+			$obj->setDescription($form->getInput("desc"));
+			$obj->setNrOfItems($form->getInput("items"));
 			$obj->setScheduleId($form->getInput("schedule"));
 			$obj->save();
 
@@ -193,7 +208,7 @@ class ilBookingObjectGUI
 	 */
 	function update()
 	{
-		global $tpl, $ilObjDataCache, $lng;
+		global $tpl, $lng;
 
 		$form = $this->initForm('edit', (int)$_POST['object_id']);
 		if($form->checkInput())
@@ -201,6 +216,8 @@ class ilBookingObjectGUI
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 			$obj = new ilBookingObject((int)$_POST['object_id']);
 			$obj->setTitle($form->getInput("title"));
+			$obj->setDescription($form->getInput("desc"));
+			$obj->setNrOfItems($form->getInput("items"));
 			$obj->setScheduleId($form->getInput("schedule"));
 			$obj->update();
 

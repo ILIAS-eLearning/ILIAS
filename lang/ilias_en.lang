@@ -10712,7 +10712,7 @@ book#:#book_edit_type#:#Edit Type
 book#:#book_group_objects#:#Group objects
 book#:#book_group_objects_info#:#Treat objects as group, will only be differentiated internally. Please create at least 1 schedule to use this feature.
 book#:#book_schedule#:#Schedule
-book#:#book_objects_list#:#Objects of Type:
+book#:#book_objects_list#:#Booking Objects
 book#:#book_current_user#:#Booked by
 book#:#book_add_object#:#Add Object
 book#:#book_edit_object#:#Edit Object
@@ -12687,3 +12687,4 @@ assessment#:#tst_availability_limitless_info#:#Choose this mode for making the t
 assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
 assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.
+book#:#booking_nr_of_items#:#Nr of Items

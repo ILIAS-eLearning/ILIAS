@@ -14,6 +14,8 @@ class ilBookingObject
 	protected $id;			// int
 	protected $pool_id;		// int
 	protected $title;		// string
+	protected $description; // string
+	protected $nr_of_items; // int
 	protected $schedule_id; // int
 
 	/**
@@ -45,6 +47,24 @@ class ilBookingObject
 	function getTitle()
 	{
 		return $this->title;
+	}
+	
+	/**
+	 * Set object description
+	 * @param	string	$a_value
+	 */
+	function setDescription($a_value)
+	{
+		$this->description = $a_value;
+	}
+
+	/**
+	 * Get object description
+	 * @return	string
+	 */
+	function getDescription()
+	{
+		return $this->description;
 	}
 
 	/**
@@ -82,6 +102,24 @@ class ilBookingObject
 	{
 		return $this->schedule_id;
 	}
+	
+	/**
+	 * Set number of items
+	 * @param	int	$a_value
+	 */
+	function setNrOfItems($a_value)
+	{
+		$this->nr_of_items = (int)$a_value;
+	}
+
+	/**
+	 * Get number of items
+	 * @return	int
+	 */
+	function getNrOfItems()
+	{
+		return $this->nr_of_items;
+	}
 
 	/**
 	 * Get dataset from db
@@ -92,14 +130,32 @@ class ilBookingObject
 		
 		if($this->id)
 		{
-			$set = $ilDB->query('SELECT title,pool_id,schedule_id'.
+			$set = $ilDB->query('SELECT *'.
 				' FROM booking_object'.
 				' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
 			$row = $ilDB->fetchAssoc($set);
 			$this->setTitle($row['title']);
+			$this->setDescription($row['description']);
 			$this->setPoolId($row['pool_id']);
 			$this->setScheduleId($row['schedule_id']);
+			$this->setNrOfItems($row['nr_items']);
 		}
+	}
+	
+	/**
+	 * Parse properties for sql statements
+	 * @return array 
+	 */
+	protected function getDBFields()
+	{
+		$fields = array(
+			'title' => array('text', $this->getTitle()),
+			'description' => array('text', $this->getDescription()),
+			'schedule_id' => array('text', $this->getScheduleId()),
+			'nr_items' => array('text', $this->getNrOfItems())			
+		);
+		
+		return $fields;		
 	}
 
 	/**
@@ -114,13 +170,14 @@ class ilBookingObject
 		{
 			return false;
 		}
+		
+		$this->id = $ilDB->nextId('booking_object');
+		
+		$fields = $this->getDBFields();
+		$fields['booking_object_id'] = array('integer', $this->id);
+		$fields['pool_id'] = array('integer', $this->getPoolId());
 
-		$id = $ilDB->nextId('booking_object');
-
-		return $ilDB->manipulate('INSERT INTO booking_object'.
-			' (booking_object_id,title,pool_id,schedule_id)'.
-			' VALUES ('.$ilDB->quote($id, 'integer').','.$ilDB->quote($this->getTitle(), 'text').
-			','.$ilDB->quote($this->getPoolId(), 'integer').','.$ilDB->quote($this->getScheduleId(), 'integer').')');
+		return $ilDB->insert('booking_object', $fields);
 	}
 
 	/**
@@ -135,12 +192,11 @@ class ilBookingObject
 		{
 			return false;
 		}
-
-		// pool cannot change
-		return $ilDB->manipulate('UPDATE booking_object'.
-			' SET title = '.$ilDB->quote($this->getTitle(), 'text').
-			', schedule_id = '.$ilDB->quote($this->getScheduleId(), 'integer').
-			' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
+		
+		$fields = $this->getDBFields();
+						
+		return $ilDB->update('booking_object', $fields, 
+			array('booking_object_id'=>array('integer', $this->id)));
 	}
 
 	/**
@@ -152,7 +208,7 @@ class ilBookingObject
 	{
 		global $ilDB;
 
-		$set = $ilDB->query('SELECT booking_object_id,title,schedule_id'.
+		$set = $ilDB->query('SELECT *'.
 			' FROM booking_object'.
 			' WHERE pool_id = '.$ilDB->quote($a_pool_id, 'integer').
 			' ORDER BY title');
