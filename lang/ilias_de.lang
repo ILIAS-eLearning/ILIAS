@@ -12659,4 +12659,4 @@ book#:#booking_nr_of_items#:#Anzahl
 book#:#book_schedule_type_fixed#:#Fester Zeitplan
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
 book#:#book_schedule_type_none#:#Kein Zeitplan
-book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Bücher, etc.
+book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.

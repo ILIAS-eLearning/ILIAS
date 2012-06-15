@@ -54,11 +54,11 @@ class ilBookingScheduleGUI
 		
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
-			// if we have schedules but no types - show info
+			// if we have schedules but no objects - show info
 			if(!sizeof($table->getData()))
 			{
-				include_once "Modules/BookingManager/classes/class.ilBookingType.php";
-				if(sizeof(ilBookingType::getList(ilObject::_lookupObjId($this->ref_id))))
+				include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
+				if(sizeof(ilBookingObject::getList(ilObject::_lookupObjId($this->ref_id))))
 				{
 					ilUtil::sendInfo($lng->txt("book_type_warning"));
 				}

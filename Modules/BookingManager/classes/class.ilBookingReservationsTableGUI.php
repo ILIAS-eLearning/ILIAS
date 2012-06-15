@@ -117,9 +117,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 * @param	array	$filter
 	 */
 	function getItems(array $filter)
-	{
-		global $lng;
-
+	{		
 		$this->determineOffsetAndOrder();
 				
 		$ids = array();
