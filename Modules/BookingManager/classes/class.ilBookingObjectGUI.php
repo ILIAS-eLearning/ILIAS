@@ -64,7 +64,7 @@ class ilBookingObjectGUI
 		}
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
-		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id, $this->pool_id);
+		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id, $this->pool_id, $this->pool_has_schedule);
 		$tpl->setContent($bar.$table->getHTML());
 	}
 
