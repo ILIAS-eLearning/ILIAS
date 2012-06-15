@@ -30,6 +30,15 @@ class ilBookingObject
 		$this->id = (int)$a_id;
 		$this->read();
 	}
+	
+	/**
+	 * Get id
+	 * @return int 
+	 */
+	function getId()
+	{
+		return $this->id;
+	}
 
 	/**
 	 * Set object title
@@ -234,6 +243,28 @@ class ilBookingObject
 				' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
 		}
 	}
+	
+	/**
+	 * Get nr of available items 	 
+	 * @param array $a_obj_ids
+	 * @return array 
+	 */
+	static function getNrOfItemsForObjects(array $a_obj_ids)
+	{
+		global $ilDB;
+		
+		$map = array();
+		
+		$set = $ilDB->query("SELECT booking_object_id,nr_items".
+			" FROM booking_object".
+			" WHERE ".$ilDB->in("booking_object_id", $a_obj_ids, "", "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$map[$row["booking_object_id"]] = $row["nr_items"];
+		}
+		
+		return $map;
+	}	
 }
 
 ?>

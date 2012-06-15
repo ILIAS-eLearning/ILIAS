@@ -127,7 +127,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	{
 		// if we have no schedules yet - show info
 		include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
-		if(!sizeof(ilBookingSchedule::getList($this->object->getId())))
+		if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE &&
+			!sizeof(ilBookingSchedule::getList($this->object->getId())))
 		{
 			ilUtil::sendInfo($this->lng->txt("book_schedule_warning_edit"));
 		}
@@ -213,10 +214,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
-			$this->tabs_gui->addTab("schedules",
-				$this->lng->txt("book_schedules"),
-				$this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render"));
-
+			if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE)
+			{
+				$this->tabs_gui->addTab("schedules",
+					$this->lng->txt("book_schedules"),
+					$this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render"));
+			}
+			
 			$this->tabs_gui->addTab("settings",
 				$this->lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
@@ -235,61 +239,28 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function bookObject()
 	{
+		global $tpl;
+		
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt('book_back_to_list'), $this->ctrl->getLinkTarget($this, 'render'));
 
-		if(isset($_GET['object_id']))
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$obj = new ilBookingObject((int)$_GET['object_id']);
+				
+		$this->lng->loadLanguageModule("dateplaner");
+		$this->ctrl->setParameter($this, 'object_id', $obj->getId());
+		
+		if($this->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE)
 		{
-			$this->ctrl->setParameter($this, 'object_id', (int)$_GET['object_id']);
-			$this->renderBookingByObject((int)$_GET['object_id']);
+			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';		
+			$schedule = new ilBookingSchedule($obj->getScheduleId());
+
+			$tpl->setContent($this->renderList($schedule, array($obj->getId()), $obj->getTitle()));
 		}
 		else
 		{
-			$this->ctrl->setParameter($this, 'type_id', (int)$_GET['type_id']);
-			$this->renderBookingByType((int)$_GET['type_id']);
+			// :TODO:
 		}
-	}
-
-	/**
-	 * Render list of available dates for object
-	 * @param	int	$a_object_id
-	 */
-	protected function renderBookingByObject($a_object_id)
-    {
-		global $tpl;
-
-		$this->lng->loadLanguageModule("dateplaner");
-
-		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-		$obj = new ilBookingObject($a_object_id);
-		$schedule = new ilBookingSchedule($obj->getScheduleId());
-		
-		$tpl->setContent($this->renderList($schedule, array($a_object_id), $obj->getTitle()));
-	}
-
-	/**
-	 * Render list of available dates for type
-	 * @param	int	$a_type_id
-	 */
-	protected function renderBookingByType($a_type_id)
-    {
-		global $tpl;
-
-		$this->lng->loadLanguageModule("dateplaner");
-		
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		$type = new ilBookingType($a_type_id);
-		$schedule = new ilBookingSchedule($type->getScheduleId());
-		$object_ids = array();
-		foreach(ilBookingObject::getList($a_type_id) as $item)
-		{
-			$object_ids[] = $item['booking_object_id'];
-		}
-
-		$tpl->setContent($this->renderList($schedule, $object_ids, $type->getTitle()));
 	}
 
 	protected function renderList(ilBookingSchedule $schedule, array $object_ids, $title)

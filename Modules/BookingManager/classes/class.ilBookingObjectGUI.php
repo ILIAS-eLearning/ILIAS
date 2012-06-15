@@ -8,14 +8,12 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
-* 
-* @ilCtrl_Calls ilBookingObjectGUI:
-* @ilCtrl_IsCalledBy ilBookingObjectGUI:
 */
 class ilBookingObjectGUI
 {
-	protected $ref_id;
-	protected $pool_id;
+	protected $ref_id; // [int]
+	protected $pool_id; // [int]
+	protected $pool_has_schedule; // [bool]
 	
 	/**
 	 * Constructor
@@ -25,6 +23,8 @@ class ilBookingObjectGUI
 	{
 		$this->ref_id = $a_parent_obj->ref_id;
 		$this->pool_id = $a_parent_obj->object->getId();		
+		$this->pool_has_schedule = 
+			($a_parent_obj->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE);
 	}
 
 	/**
@@ -127,17 +127,19 @@ class ilBookingObjectGUI
 		$nr->setMaxLength(3);
 		$form_gui->addItem($nr);
 		
-		$options = array();
-		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-		foreach(ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->ref_id)) as $schedule)
+		if($this->pool_has_schedule)
 		{
-			$options[$schedule["booking_schedule_id"]] = $schedule["title"];
+			$options = array();
+			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+			foreach(ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->ref_id)) as $schedule)
+			{
+				$options[$schedule["booking_schedule_id"]] = $schedule["title"];
+			}	
+			$schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
+			$schedule->setRequired(true);
+			$schedule->setOptions($options);
+			$form_gui->addItem($schedule);
 		}
-
-		$schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
-		$schedule->setRequired(true);
-		$schedule->setOptions($options);
-		$form_gui->addItem($schedule);
 
 		if ($a_mode == "edit")
 		{
@@ -187,7 +189,12 @@ class ilBookingObjectGUI
 			$obj->setTitle($form->getInput("title"));
 			$obj->setDescription($form->getInput("desc"));
 			$obj->setNrOfItems($form->getInput("items"));
-			$obj->setScheduleId($form->getInput("schedule"));
+			
+			if($this->pool_has_schedule)
+			{
+				$obj->setScheduleId($form->getInput("schedule"));
+			}
+			
 			$obj->save();
 
 			ilUtil::sendSuccess($lng->txt("book_object_added"));
@@ -218,7 +225,12 @@ class ilBookingObjectGUI
 			$obj->setTitle($form->getInput("title"));
 			$obj->setDescription($form->getInput("desc"));
 			$obj->setNrOfItems($form->getInput("items"));
-			$obj->setScheduleId($form->getInput("schedule"));
+			
+			if($this->pool_has_schedule)
+			{
+				$obj->setScheduleId($form->getInput("schedule"));
+			}
+			
 			$obj->update();
 
 			ilUtil::sendSuccess($lng->txt("book_object_updated"));

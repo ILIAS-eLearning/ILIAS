@@ -12691,4 +12691,4 @@ book#:#booking_nr_of_items#:#Nr of Items
 book#:#book_schedule_type_fixed#:#Fixed Schedule
 book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers and such
 book#:#book_schedule_type_none#:#No Schedule
-book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, books and such
+book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such

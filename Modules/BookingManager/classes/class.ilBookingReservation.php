@@ -253,22 +253,28 @@ class ilBookingReservation
 	 */
 	static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true)
 	{
-		global $ilDB;
-
+		global $ilDB;				
+		
+		$nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
+		
 		$from = $ilDB->quote($a_from, 'integer');
 		$to = $ilDB->quote($a_to, 'integer');
 		
-		$set = $ilDB->query('SELECT object_id'.
+		$set = $ilDB->query('SELECT count(*) cnt, object_id'.
 			' FROM booking_reservation'.
 			' WHERE '.$ilDB->in('object_id', $a_ids, '', 'integer').
 			' AND (status IS NULL OR status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').')'.
 			' AND ((date_from <= '.$from.' AND date_to >= '.$from.')'.
 			' OR (date_from <= '.$to.' AND date_to >= '.$to.')'.
-			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))');
+			' OR (date_from >= '.$from.' AND date_to <= '.$to.'))'.
+			' GROUP BY object_id');
 		$blocked = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$blocked[] = $row['object_id'];
+			if($row['cnt'] >= $nr_map[$row['object_id']])
+			{
+				$blocked[] = $row['object_id'];
+			}
 		}
 		$available = array_diff($a_ids, $blocked);
 		if(sizeof($available))
