@@ -54,7 +54,7 @@ class ilBookingSchedule
 	
 	/**
 	 * Set booking pool id (aka parent obj ref id)
-	 * @param	int	$a_type_id
+	 * @param	int	$a_pool_id
 	 */
 	function setPoolId($a_pool_id)
 	{
@@ -327,9 +327,8 @@ class ilBookingSchedule
 		global $ilDB;
 
 		$set = $ilDB->query('SELECT s.booking_schedule_id,s.title,'.
-			'MAX(t.schedule_id) AS type_has_schedule,  MAX(o.schedule_id) AS object_has_schedule'.
+			'MAX(o.schedule_id) AS object_has_schedule'.
 			' FROM booking_schedule s'.
-			' LEFT JOIN booking_type t ON (s.booking_schedule_id = t.schedule_id)'.
 			' LEFT JOIN booking_object o ON (s.booking_schedule_id = o.schedule_id)'.
 			' WHERE s.pool_id = '.$ilDB->quote($a_pool_id, 'integer').
 			' GROUP BY s.booking_schedule_id,s.title'.
@@ -337,7 +336,7 @@ class ilBookingSchedule
 		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			if(!$row['type_has_schedule'] && !$row['object_has_schedule'])
+			if(!$row['object_has_schedule'])
 			{
 				$row['is_used'] = false;
 			}

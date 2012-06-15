@@ -9,7 +9,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingTypeGUI, ilBookingObjectGUI
+* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI
 * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
 * @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI
 * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
@@ -39,7 +39,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if(!$next_class && $cmd == 'render')
 		{
-			$this->ctrl->setCmdClass('ilBookingTypeGUI');
+			$this->ctrl->setCmdClass('ilBookingObjectGUI');
 			$next_class = $this->ctrl->getNextClass($this);
 		}
 
@@ -60,13 +60,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
-				break;
-
-			case 'ilbookingtypegui':
-				$this->tabs_gui->setTabActive('render');
-				include_once("Modules/BookingManager/classes/class.ilBookingTypeGUI.php");
-				$type_gui =& new ilBookingTypeGUI($this);
-				$ret =& $this->ctrl->forwardCommand($type_gui);
 				break;
 
 			case 'ilbookingobjectgui':
@@ -716,7 +709,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('log');
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
-		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id);
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id, $this->object->getId());
 		$tpl->setContent($table->getHTML());
 	}
 

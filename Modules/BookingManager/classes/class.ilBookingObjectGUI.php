@@ -14,6 +14,9 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilBookingObjectGUI
 {
+	protected $ref_id;
+	protected $pool_id;
+	
 	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
@@ -21,6 +24,7 @@ class ilBookingObjectGUI
 	function __construct($a_parent_obj)
 	{
 		$this->ref_id = $a_parent_obj->ref_id;
+		$this->pool_id = $a_parent_obj->object->getId();		
 	}
 
 	/**
@@ -28,7 +32,7 @@ class ilBookingObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilTabs, $ilCtrl;
+		global $ilCtrl;
 
 		$next_class = $ilCtrl->getNextClass($this);
 		
@@ -49,12 +53,7 @@ class ilBookingObjectGUI
 	 */
 	function render()
 	{
-		global $tpl, $ilCtrl, $ilTabs, $lng, $ilAccess;
-
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTargetByClass('ilBookingTypeGUI', 'render'));
-
-		$ilCtrl->setParameter($this, 'type_id', (int)$_GET['type_id']);
+		global $tpl, $ilCtrl, $lng, $ilAccess;
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -65,7 +64,7 @@ class ilBookingObjectGUI
 		}
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
-		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id, (int)$_GET['type_id']);
+		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id, $this->pool_id);
 		$tpl->setContent($bar.$table->getHTML());
 	}
 
@@ -76,8 +75,6 @@ class ilBookingObjectGUI
 	{
 		global $ilCtrl, $tpl, $lng, $ilTabs;
 
-		$ilCtrl->setParameter($this, 'type_id', (int)$_REQUEST['type_id']);
-		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
@@ -91,8 +88,6 @@ class ilBookingObjectGUI
 	function edit()
     {
 		global $tpl, $ilCtrl, $ilTabs, $lng;
-
-		$ilCtrl->setParameter($this, 'type_id', (int)$_REQUEST['type_id']);
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
@@ -120,27 +115,22 @@ class ilBookingObjectGUI
 		$title->setSize(40);
 		$title->setMaxLength(120);
 		$form_gui->addItem($title);
-
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		$type = new ilBookingType((int)$_REQUEST['type_id']);
-		if(!$type->getScheduleId())
+		
+		$options = array();
+		include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
+		foreach(ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->ref_id)) as $schedule)
 		{
-			$options = array();
-			include_once 'Modules/BookingManager/classes/class.ilBookingSchedule.php';
-			foreach(ilBookingSchedule::getList($ilObjDataCache->lookupObjId($this->ref_id)) as $schedule)
-			{
-				$options[$schedule["booking_schedule_id"]] = $schedule["title"];
-			}
-
-			$schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
-			$schedule->setRequired(true);
-			$schedule->setOptions($options);
-			$form_gui->addItem($schedule);
+			$options[$schedule["booking_schedule_id"]] = $schedule["title"];
 		}
+
+		$schedule = new ilSelectInputGUI($lng->txt("book_schedule"), "schedule");
+		$schedule->setRequired(true);
+		$schedule->setOptions($options);
+		$form_gui->addItem($schedule);
 
 		if ($a_mode == "edit")
 		{
-			$form_gui->setTitle($lng->txt("book_edit_object").": ".$type->getTitle());
+			$form_gui->setTitle($lng->txt("book_edit_object"));
 
 			$item = new ilHiddenInputGUI('object_id');
 			$item->setValue($id);
@@ -159,7 +149,7 @@ class ilBookingObjectGUI
 		}
 		else
 		{
-			$form_gui->setTitle($lng->txt("book_add_object").": ".$type->getTitle());
+			$form_gui->setTitle($lng->txt("book_add_object"));
 			$form_gui->addCommandButton("save", $lng->txt("save"));
 			$form_gui->addCommandButton("render", $lng->txt("cancel"));
 		}
@@ -181,7 +171,7 @@ class ilBookingObjectGUI
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 			$obj = new ilBookingObject;
 			$obj->setTitle($form->getInput("title"));
-			$obj->setTypeId((int)$_REQUEST["type_id"]);
+			$obj->setPoolId($this->pool_id);
 			$obj->setScheduleId($form->getInput("schedule"));
 			$obj->save();
 
@@ -189,9 +179,7 @@ class ilBookingObjectGUI
 			$this->render();
 		}
 		else
-		{
-			$ilCtrl->setParameter($this, 'type_id', (int)$_REQUEST['type_id']);
-			
+		{			
 			$ilTabs->clearTargets();
 			$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
@@ -213,7 +201,6 @@ class ilBookingObjectGUI
 			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 			$obj = new ilBookingObject((int)$_POST['object_id']);
 			$obj->setTitle($form->getInput("title"));
-			$obj->setTypeId((int)$_REQUEST['type_id']);
 			$obj->setScheduleId($form->getInput("schedule"));
 			$obj->update();
 
@@ -233,9 +220,7 @@ class ilBookingObjectGUI
 	function confirmDelete()
 	{
 		global $ilCtrl, $lng, $tpl, $ilTabs;
-
-		$ilCtrl->setParameter($this, 'type_id', (int)$_REQUEST['type_id']);
-
+		
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
 
@@ -259,8 +244,6 @@ class ilBookingObjectGUI
 	function delete()
 	{
 		global $ilCtrl, $lng;
-
-		$ilCtrl->setParameter($this, 'type_id', (int)$_REQUEST['type_id']);
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$obj = new ilBookingObject((int)$_POST['object_id']);

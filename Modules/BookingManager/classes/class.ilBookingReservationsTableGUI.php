@@ -4,7 +4,7 @@
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
- * List booking objects (for booking type)
+ * List booking objects 
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com> 
  * @version $Id$
@@ -15,20 +15,20 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 {
 	protected $ref_id;	// int
 	protected $filter;	// array
-	protected $pool;	// object
+	protected $pool_id;	// int
 
 	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
 	 * @param	string	$a_parent_cmd
 	 * @param	int		$a_ref_id
-	 * @param	int		$a_type_id
+	 * @param	int		$a_pool_id
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
+		global $ilCtrl, $lng;
 
-		$this->pool = $a_parent_obj->object;
+		$this->pool_id = $a_pool_id;
 		$this->ref_id = $a_ref_id;
 		$this->setId("bkrsv");
 
@@ -63,16 +63,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
-		include_once "Modules/BookingManager/classes/class.ilBookingType.php";
-		$options = array(""=>$this->lng->txt('book_all'));
-		foreach(ilBookingType::getList($this->pool->getId()) as $item)
-		{
-			$options[$item["booking_type_id"]] = $item["title"];
-		}
-		$item = $this->addFilterItemByMetaType("type", ilTable2GUI::FILTER_SELECT);
-		$item->setOptions($options);
-		$this->filter["type"] = $item->getValue();
-
 		$options = array(""=>$this->lng->txt('book_all'));
 		foreach(array(ilBookingReservation::STATUS_IN_USE, ilBookingReservation::STATUS_CANCELLED, -ilBookingReservation::STATUS_IN_USE, -ilBookingReservation::STATUS_CANCELLED) as $loop)
 	    {
@@ -131,9 +121,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		global $lng;
 
 		$this->determineOffsetAndOrder();
-
+				
+		$ids = array();
 		include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
-		$data = ilBookingReservation::getList(ilBookingObject::getByPoolId($this->pool->getId()), $this->getLimit(), $this->getOffset(), $filter);
+		foreach(ilBookingObject::getList($this->pool_id) as $item)
+		{
+			$ids[] = $item["booking_object_id"];
+		}
+		
+		include_once "Modules/BookingManager/classes/class.ilBookingReservation.php";
+		$data = ilBookingReservation::getList($ids, $this->getLimit(), $this->getOffset(), $filter);
 		
 		$this->setMaxCount($data['counter']);
 		$this->setData($data['data']);

@@ -62,7 +62,7 @@ class ilBookingReservation
 	}
 
 	/**
-	 * Set user type id
+	 * Set booking user id
 	 * @param	int	$a_user_id
 	 */
 	function setUserId($a_user_id)
@@ -300,8 +300,8 @@ class ilBookingReservation
 			' FROM booking_reservation'.
 			' WHERE ((date_from <= '.$now.' AND date_to >= '.$now.')'.
 			' OR date_from > '.$now.')'.
-			' AND status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
-			' AND object_id = '.$ilDB->quote($a_object_id, 'integer').
+			' AND (status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
+			' OR STATUS IS NULL) AND object_id = '.$ilDB->quote($a_object_id, 'integer').
 			' ORDER BY date_from');
 		$row = $ilDB->fetchAssoc($set);
 		return $row;
@@ -327,11 +327,7 @@ class ilBookingReservation
 			' FROM booking_reservation r'.
 			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
 
-		$where = array($ilDB->in('r.object_id', $a_object_ids, '', 'integer'));
-		if($filter['type'])
-		{
-			$where[] = 'type_id = '.$ilDB->quote($filter['type'], 'integer');
-		}
+		$where = array($ilDB->in('r.object_id', $a_object_ids, '', 'integer'));		
 		if($filter['status'])
 		{
 			if($filter['status'] > 0)
