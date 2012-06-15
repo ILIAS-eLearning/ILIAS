@@ -10584,4 +10584,37 @@ if (!$ilDB->tableColumnExists('media_item', 'highlight_class'))
 		"fixed" => false));
 }
 ?>
+<#3624>
+<?php
 
+	if (!$ilDB->tableColumnExists('booking_object', 'pool_id'))
+	{
+		$ilDB->addTableColumn("booking_object", "pool_id", array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 4,
+			"default" => 0));
+	}
+
+	$types = $ilDB->query("SELECT * FROM booking_type");
+	while($row = $ilDB->fetchAssoc($types))
+	{
+		$sql = "UPDATE booking_object SET".
+			" pool_id = ".$ilDB->quote($row["pool_id"], "integer");
+		if($row["schedule_id"])
+		{
+			$sql .= ",schedule_id = ".$ilDB->quote($row["schedule_id"], "integer");
+		}				
+		$sql .= ", title = CONCAT(title, ".$ilDB->quote(" (".$row["title"].")", "text").")".
+			" WHERE type_id = ".$ilDB->quote($row["booking_type_id"], "integer");
+		
+		$ilDB->manipulate($sql);		
+	}
+	
+	if( $ilDB->tableColumnExists("booking_object", "type_id") )
+	{
+		$ilDB->dropTableColumn("booking_object", "type_id");
+		$ilDB->dropTable("booking_type"); 
+	}
+		
+?>

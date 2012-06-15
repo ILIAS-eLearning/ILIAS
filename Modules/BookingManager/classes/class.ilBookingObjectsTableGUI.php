@@ -13,26 +13,27 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilBookingObjectsTableGUI extends ilTable2GUI
 {
+	protected $ref_id;
+	protected $pool_id;	
+	
 	/**
 	 * Constructor
 	 * @param	object	$a_parent_obj
 	 * @param	string	$a_parent_cmd
 	 * @param	int		$a_ref_id
-	 * @param	int		$a_type_id
+	 * @param	int		$a_pool_id
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_type_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilObjDataCache;
+		global $ilCtrl, $lng, $ilAccess;
 
 		$this->ref_id = $a_ref_id;
-		$this->type_id = $a_type_id;
+		$this->pool_id = $a_pool_id;
 		$this->setId("bkobj");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingType.php';
-		$type = new ilBookingType($this->type_id);
-		$this->setTitle($lng->txt("book_objects_list")." ".$type->getTitle());
+		$this->setTitle($lng->txt("book_objects_list"));
 
 		$this->setLimit(9999);
 		
@@ -51,19 +52,16 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_object_row.html", "Modules/BookingManager");
 		
-		$this->getItems($this->type_id);
+		$this->getItems();
 	}
 
 	/**
 	 * Gather data and build rows
-	 * @param	int	$a_type_id
 	 */
-	function getItems($a_type_id)
-	{
-		global $lng;
-
+	function getItems()
+	{		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		$data = ilBookingObject::getList($a_type_id);
+		$data = ilBookingObject::getList($this->pool_id);
 		
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);
