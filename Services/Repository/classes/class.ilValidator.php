@@ -824,7 +824,7 @@ class ilValidator extends PEAR
 			 "WHERE object_data.obj_id IS NULL ".
 			 "OR ".$ilDB->in('object_data.type',$this->rbac_object_types,true,'text');
 		$r = $this->db->query($q);
-		
+
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->invalid_references[] = array(
@@ -888,7 +888,6 @@ class ilValidator extends PEAR
 			 "LEFT JOIN object_data ON object_reference.obj_id = object_data.obj_id ".
 			 "WHERE object_reference.ref_id IS NULL or object_data.obj_id IS NULL";
 		$r = $this->db->query($q);
-		
 		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->invalid_childs[] = array(
@@ -1037,7 +1036,6 @@ class ilValidator extends PEAR
 			$this->writeScanLogArray($this->deleted_objects);
 			return true;
 		}
-
 		$this->writeScanLogLine("none");
 		return false;
 	}
@@ -1678,7 +1676,7 @@ restore starts here
 	function purgeTrash($a_nodes = NULL)
 	{
 		global $ilLog;
-		
+
 		// check mode: purge_trash
 		if ($this->mode["purge_trash"] !== true)
 		{
@@ -1689,9 +1687,10 @@ restore starts here
 	
 		if ($a_nodes === NULL and isset($this->deleted_objects))
 		{
+
+
 			$a_nodes = $this->deleted_objects;
 		}
-
 		$message = sprintf('%s::purgeTrash(): Started...',
 						   get_class($this));
 		$ilLog->write($message,$ilLog->WARNING);
@@ -1791,10 +1790,6 @@ restore starts here
 		{
 			$timestamp_limit -= $age_limit * 60 * 60 * 24;
 		}
-		else
-		{
-			$timestamp_limit = 0;
-		}
 		$type_limit = $ilias->account->getPref("systemcheck_type_limit");
 		if ($type_limit)
 		{
@@ -1811,7 +1806,7 @@ restore starts here
 			$this->throwError(INVALID_PARAM, WARNING, DEBUG);
 			return false;
 		}
-		
+
 		// start delete process
 		$this->writeScanLogLine("action\tref_id\tobj_id\ttype\telapsed\ttitle");
 		$count = 0;
@@ -1824,8 +1819,8 @@ restore starts here
 						);
 				continue;
 			}
-			
-			
+
+
 			$count++;
 			if ($count > $count_limit)
 			{
@@ -1835,9 +1830,9 @@ restore starts here
 			if ($node["deleted_timestamp"] > $timestamp_limit)
 			{
 				$this->writeScanLogLine("Stopped purging after ".($count - 1)." objects, because timestamp limit was reached: ".date("c", $timestamp_limit));
-				break;
+				continue;
 			}
-			
+
 			$ref_id = ($node["child"]) ? $node["child"] : $node["ref_id"];
 			$node_obj =& $ilias->obj_factory->getInstanceByRefId($ref_id,false);
 			
