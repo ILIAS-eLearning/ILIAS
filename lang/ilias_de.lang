@@ -1506,7 +1506,7 @@ book#:#book_not#:#Nicht
 book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
 book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
-book#:#book_objects_list#:#Objekte vom Typ:
+book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
 book#:#book_pool_added#:#Ein Buchungspool wurde hinzugefügt.
 book#:#book_public_log#:#Öffentliche Buchungen
@@ -12655,3 +12655,4 @@ assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um
 assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer - nur während eines definierten Zeitraums freizuschalten.
 assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
 assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch ausserhab der Zugriffszeiten sichtbar.
+book#:#booking_nr_of_items#:#Anzahl

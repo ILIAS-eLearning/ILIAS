@@ -10618,3 +10618,24 @@ if (!$ilDB->tableColumnExists('media_item', 'highlight_class'))
 	}
 		
 ?>
+<#3625>
+<?php
+
+	if (!$ilDB->tableColumnExists('booking_object', 'description'))
+	{
+		$ilDB->addTableColumn("booking_object", "description", array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 1000,
+			"fixed" => false));
+	}
+	if (!$ilDB->tableColumnExists('booking_object', 'nr_items'))
+	{
+		$ilDB->addTableColumn("booking_object", "nr_items", array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 2,
+			"default" => 1));
+	}
+
+?>

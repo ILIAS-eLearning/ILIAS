@@ -38,6 +38,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt("title"), "title");
+		$this->addColumn($this->lng->txt("description"), "description");
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
@@ -76,6 +77,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		global $lng, $ilAccess, $ilCtrl;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
 
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
