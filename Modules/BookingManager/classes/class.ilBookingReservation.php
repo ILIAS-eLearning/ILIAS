@@ -312,6 +312,19 @@ class ilBookingReservation
 		$row = $ilDB->fetchAssoc($set);
 		return $row;
 	}
+	
+	static function getObjectReservationForUser($a_object_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query('SELECT booking_reservation_id FROM booking_reservation'.
+			' WHERE user_id = '.$ilDB->quote($a_user_id, 'integer').
+			' AND object_id = '.$ilDB->quote($a_object_id, 'integer').
+			' AND (status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
+			' OR STATUS IS NULL)');
+		$row = $ilDB->fetchAssoc($set);
+		return $row['booking_reservation_id'];
+	}
 
 	/**
 	 * List all reservations

@@ -281,6 +281,28 @@ class ilBookingObjectGUI
 		ilUtil::sendSuccess($lng->txt('book_object_deleted'), true);
 		$ilCtrl->redirect($this, 'render');
 	}
+	
+	function rsvCancelUser()
+	{
+		global $ilCtrl, $ilUser, $lng;
+		
+		$id = (int)$_GET["object_id"];
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$id = ilBookingReservation::getObjectReservationForUser($id, $ilUser->getId());
+		$obj = new ilBookingReservation($id);
+		if ($obj->getUserId() != $ilUser->getId())
+		{
+			ilUtil::sendFailure($lng->txt('permission_denied'), true);
+			$ilCtrl->redirect($this, 'render');
+		}
+
+		$obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
+		$obj->update();
+
+		ilUtil::sendSuccess($lng->txt('settings_saved'));
+	    $ilCtrl->redirect($this, 'render');
+	}
 }
 
 ?>
