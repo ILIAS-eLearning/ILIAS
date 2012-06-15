@@ -694,7 +694,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('log');
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
-		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id, $this->object->getId());
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id, 
+			$this->object->getId(), ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
 		$tpl->setContent($table->getHTML());
 	}
 

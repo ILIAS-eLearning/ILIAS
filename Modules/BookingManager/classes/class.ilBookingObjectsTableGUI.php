@@ -13,8 +13,10 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilBookingObjectsTableGUI extends ilTable2GUI
 {
-	protected $ref_id;
-	protected $pool_id;	
+	protected $ref_id; // [int]
+	protected $pool_id;	// [int]
+	protected $has_schedule;	// [bool]
+	protected $may_edit;	// [bool]
 	
 	/**
 	 * Constructor
@@ -23,12 +25,15 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 * @param	int		$a_ref_id
 	 * @param	int		$a_pool_id
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_pool_has_schedule)
 	{
 		global $ilCtrl, $lng, $ilAccess;
 
 		$this->ref_id = $a_ref_id;
 		$this->pool_id = $a_pool_id;
+		$this->has_schedule = $a_pool_has_schedule;
+		$this->may_edit = $ilAccess->checkAccess('write', '', $this->ref_id);
+		
 		$this->setId("bkobj");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -39,12 +44,20 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("description"), "description");
-
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		
+		if(!$this->has_schedule)
 		{
-			$this->addColumn($this->lng->txt("status"));
+			$this->addColumn($this->lng->txt("available"));
+		}
+
+		if ($this->may_edit)
+		{			
 			$this->addColumn($this->lng->txt("book_current_user"));
-			$this->addColumn($this->lng->txt("book_period"));
+			
+			if($this->has_schedule)
+			{
+				$this->addColumn($this->lng->txt("book_period"));
+			}
 		}
 		
 		$this->addColumn($this->lng->txt("actions"));
@@ -74,43 +87,65 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilAccess, $ilCtrl;
+		global $lng, $ilCtrl;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
-
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
-		{
+		
+		if(!$this->has_schedule)
+		{									
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-			$reservation = ilBookingReservation::getCurrentOrUpcomingReservation($a_set['booking_object_id']);
-		}
-
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
-		{
-			$this->tpl->setCurrentBlock('details');
-
-			if($reservation)
-			{
-				$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
-				$date_to = new ilDateTime($reservation['date_to'], IL_CAL_UNIX);
-
-				if(in_array($reservation['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+			$reservation = ilBookingReservation::getList(array($a_set['booking_object_id']), 1000, 0, array());
+			$cnt = 0;			
+			$user_ids = array();			
+			foreach($reservation["data"] as $item)
+			{			
+				if($item["status"] != ilBookingReservation::STATUS_CANCELLED)
 				{
-					$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$reservation['status']));
+					$cnt++;
+					$user_ids[$item["user_id"]] = ilObjUser::_lookupFullName($item['user_id']);
 				}
-				$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
-				$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
 			}
-			else
+			
+			$this->tpl->setVariable("VALUE_AVAIL", $cnt); 
+			$this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]); 
+			
+			if ($this->may_edit)
 			{
-				$this->tpl->setVariable("TXT_STATUS", "");
-				$this->tpl->setVariable("TXT_CURRENT_USER", "");
-				$this->tpl->setVariable("VALUE_DATE", "");
+				if($user_ids)
+				{
+					$this->tpl->setVariable("TXT_CURRENT_USER", implode("<br />", array_unique($user_ids)));		
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_CURRENT_USER", "");
+				}			
 			}
+		}
+		else
+		{
+			if ($this->may_edit)
+			{
+				include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+				$reservation = ilBookingReservation::getCurrentOrUpcomingReservation($a_set['booking_object_id']);
+			
+				if($reservation)
+				{
+					$date_from = new ilDateTime($reservation['date_from'], IL_CAL_UNIX);
+					$date_to = new ilDateTime($reservation['date_to'], IL_CAL_UNIX);
 
-			$this->tpl->parseCurrentBlock();
+					$this->tpl->setVariable("TXT_CURRENT_USER", ilObjUser::_lookupFullName($reservation['user_id']));
+					$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
+				}
+				else
+				{
+					$this->tpl->setVariable("TXT_CURRENT_USER", "");
+					$this->tpl->setVariable("VALUE_DATE", "");
+				}
+			}
 		}
 
+		
 		$items = array();
 		
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
@@ -120,7 +155,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
 
-		if ($ilAccess->checkAccess('write', '', $this->ref_id))
+		if ($this->may_edit)
 		{
 			if(!$reservation)
 			{

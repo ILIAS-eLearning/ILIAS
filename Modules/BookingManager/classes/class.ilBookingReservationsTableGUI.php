@@ -16,6 +16,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	protected $ref_id;	// int
 	protected $filter;	// array
 	protected $pool_id;	// int
+	protected $has_schedule;	// bool
 
 	/**
 	 * Constructor
@@ -24,12 +25,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 * @param	int		$a_ref_id
 	 * @param	int		$a_pool_id
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_has_schedule)
 	{
 		global $ilCtrl, $lng;
 
 		$this->pool_id = $a_pool_id;
 		$this->ref_id = $a_ref_id;
+		$this->has_schedule = (bool)$a_has_schedule;
+		
 		$this->setId("bkrsv");
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -37,7 +40,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("book_reservations_list"));
 
 		$this->addColumn($this->lng->txt("title"));
-		$this->addColumn($this->lng->txt("book_period"));
+		
+		if($this->has_schedule)
+		{
+			$this->addColumn($this->lng->txt("book_period"));
+		}
+		
 		$this->addColumn($this->lng->txt("user"));
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("actions"));
@@ -79,8 +87,11 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$item->setOptions($options);
 		$this->filter["status"] = $item->getValue();
 
-		$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
-		$this->filter["fromto"] = $item->getDate();
+		if($this->has_schedule)
+		{
+			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
+			$this->filter["fromto"] = $item->getDate();
+		}
 	}
 
 	/**
@@ -98,17 +109,22 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		{
 			$filter["status"] = $this->filter["status"];
 		}
-		if($this->filter["fromto"]["from"] || $this->filter["fromto"]["to"])
+		
+		if($this->has_schedule)
 		{
-			if($this->filter["fromto"]["from"])
+			if($this->filter["fromto"]["from"] || $this->filter["fromto"]["to"])
 			{
-				$filter["from"] = $this->filter["fromto"]["from"]->get(IL_CAL_UNIX);
-			}
-			if($this->filter["fromto"]["to"])
-			{
-				$filter["to"] = $this->filter["fromto"]["to"]->get(IL_CAL_UNIX);
+				if($this->filter["fromto"]["from"])
+				{
+					$filter["from"] = $this->filter["fromto"]["from"]->get(IL_CAL_UNIX);
+				}
+				if($this->filter["fromto"]["to"])
+				{
+					$filter["to"] = $this->filter["fromto"]["to"]->get(IL_CAL_UNIX);
+				}
 			}
 		}
+		
 		return $filter;
 	}
 	
@@ -145,9 +161,6 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 	    $this->tpl->setVariable("RESERVATION_ID", $a_set["booking_reservation_id"]);
 
-		$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
-		$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
-
 		if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
 		{
 			$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$a_set['status']));
@@ -159,9 +172,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("HREF_PROFILE", $ilCtrl->getLinkTarget($this->parent_obj, 'showprofile'));
 		$ilCtrl->setParameter($this->parent_obj, 'user_id', '');
 
-		$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
-		
-		if ($date_from->get(IL_CAL_UNIX) > time())
+		if($this->has_schedule)
+		{
+			$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
+			$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
+			$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
+		}
+	
+		if (!$this->has_schedule || $date_from->get(IL_CAL_UNIX) > time())
 		{
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
@@ -184,10 +202,13 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				}
 				else if($a_set['status'] != ilBookingReservation::STATUS_IN_USE)
 				{
-					$alist->addItem($lng->txt('book_set_in_use'), 'in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvInUse'));
+					if($this->has_schedule)
+					{
+						$alist->addItem($lng->txt('book_set_in_use'), 'in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvInUse'));
+					}
 					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancel'));
 				}
-				else
+				else if($this->has_schedule)
 				{
 					$alist->addItem($lng->txt('book_set_not_in_use'), 'not_in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvNotInUse'));
 				}
@@ -198,7 +219,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			}
 
 			$this->tpl->setVariable('LAYER', $alist->getHTML());
-		}
+		}		
 	}
 }
 
