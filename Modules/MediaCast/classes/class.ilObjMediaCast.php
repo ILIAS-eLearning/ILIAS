@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject.php";
 
@@ -475,6 +456,68 @@ class ilObjMediaCast extends ilObject
 		}
 	}
 	
+	/**
+	 * Clone media cast
+	 *
+	 * @param int target ref_id
+	 * @param int copy id
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB, $ilUser, $ilias;
+
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setPublicFiles($this->getPublicFiles());
+		$new_obj->setDownloadable($this->getDownloadable());
+		$new_obj->setDefaultAccess($this->getDefaultAccess());
+		$new_obj->setOrder($this->getOrder());
+		$new_obj->update();
+
+		// copy items
+		$this->copyItems($new_obj);
+		
+		// copy order!?
+
+		return $new_obj;
+	}
+
+	/**
+	 * Copy items
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyItems($a_new_obj)
+	{
+		global $ilUser;
+		
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		foreach($this->readItems(true) as $item)
+		{
+			// copy media object
+			$mob_id = $item["mob_id"];
+			$mob = new ilObjMediaObject($mob_id);
+			$new_mob = $mob->duplicate();
+			
+			// copy news item
+			// create new media cast item
+			include_once("./Services/News/classes/class.ilNewsItem.php");
+			$mc_item = new ilNewsItem();
+			$mc_item->setMobId($new_mob->getId());
+			$mc_item->setContentType(NEWS_AUDIO);
+			$mc_item->setContextObjId($a_new_obj->getId());
+			$mc_item->setContextObjType($a_new_obj->getType());
+			$mc_item->setUserId($ilUser->getId());
+			$mc_item->setPlaytime($item["playtime"]);
+			$mc_item->setTitle($item["title"]);
+			$mc_item->setContent($item["content"]);
+			$mc_item->setVisibility($item["visibility"]);
+			$mc_item->create();
+
+		}
+	}
 	
-} // END class.ilObjMediaCast
+}
 ?>
