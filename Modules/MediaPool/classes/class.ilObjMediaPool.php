@@ -127,15 +127,26 @@ class ilObjMediaPool extends ilObject
 			$ilDB->quote($this->getDefaultWidth(), "integer").", ".
 			$ilDB->quote($this->getDefaultHeight(), "integer").
 			")");
-			
+
+		$this->createMepTree();
+	}
+
+	/**
+	 * Create media pool tree
+	 *
+	 * @param
+	 * @return
+	 */
+	function createMepTree()
+	{
 		// create media pool tree
-		$this->tree =& new ilTree($this->getId());
+		$this->tree = new ilTree($this->getId());
 		$this->tree->setTreeTablePK("mep_id");
 		$this->tree->setTableNames('mep_tree','mep_item');
 		$this->tree->addTree($this->getId(), 1);
-
 	}
-
+	
+	
 	/**
 	* get media pool folder tree
 	*/
@@ -644,5 +655,90 @@ class ilObjMediaPool extends ilObject
 		}
 		return false;
 	}
+	
+	/**
+	 * Clone media pool
+	 *
+	 * @access public
+	 * @param int target ref_id
+	 * @param int copy id
+	 *
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB, $ilUser, $ilias;
+
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->setDefaultWidth($this->getDefaultWidth());
+		$new_obj->setDefaultHeight($this->getDefaultHeight());
+		$new_obj->update();
+
+		// copy content
+		$this->copyTreeContent($new_obj, $new_obj->getTree()->readRootId(),
+			$this->getTree()->readRootId());
+
+		return $new_obj;
+	}
+
+	/**
+	 * Copy tree content
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyTreeContent($a_new_obj, $a_target_parent, $a_source_parent)
+	{
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+		include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+		
+		// get all chapters of root lm
+		$nodes = $this->getTree()->getChilds($a_source_parent);
+		foreach ($nodes as $node)
+		{
+			$item = new ilMediaPoolItem();
+			$item->setType($node["type"]);
+			switch ($node["type"])
+			{
+				case "mob":
+					$mob_id = ilMediaPoolItem::lookupForeignId($node["child"]);
+					$mob = new ilObjMediaObject($mob_id);
+					$new_mob = $mob->duplicate();
+					$item->setForeignId($new_mob->getId());
+					$item->setTitle($new_mob->getTitle());
+					$item->create();
+					break;
+				
+				case "pg":
+					$item->setTitle($node["title"]);
+					$item->create();
+					$page = new ilMediaPoolPage($node["child"]);
+					$new_page = new ilMediaPoolPage();
+					$new_page->setId($item->getId());
+					$new_page->create();
+					
+					// todo: make mobs being copied
+					$new_page->setXMLContent($page->copyXMLContent(true));
+					$new_page->buildDom();
+					$new_page->update();
+					break;
+					
+				case "fold":
+					$item->setTitle($node["title"]);
+					$item->create();
+					break;
+			}
+
+			// insert item into tree
+			$a_new_obj->insertInTree($item->getId(), $a_target_parent);
+			
+			// handle childs
+			$this->copyTreeContent($a_new_obj, $item->getId(), $node["child"]);
+		}
+	}
+	
 }
 ?>

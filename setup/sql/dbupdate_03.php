@@ -10652,3 +10652,7 @@ if (!$ilDB->tableColumnExists('media_item', 'highlight_class'))
 	}
 	
 ?>
+<#3627>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

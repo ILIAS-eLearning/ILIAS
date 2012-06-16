@@ -18,7 +18,7 @@ include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
 *
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilObjMediaObjectGUI, ilObjFolderGUI, ilEditClipboardGUI, ilPermissionGUI
 * @ilCtrl_Calls ilObjMediaPoolGUI: ilInfoScreenGUI, ilMediaPoolPageGUI, ilExportGUI, ilFileSystemGUI
-* @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjMediaPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI
 *
 * @ingroup ModulesMediaPool
 */

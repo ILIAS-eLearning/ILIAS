@@ -12693,3 +12693,4 @@ book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers 
 book#:#book_schedule_type_none#:#No Schedule
 book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such
 book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
+common#:#obj_mep_duplicate#:#Copy Media Pool
