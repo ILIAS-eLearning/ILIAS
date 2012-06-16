@@ -1007,7 +1007,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	* Copy content of page; replace page components with copies
 	* where necessary (e.g. questions)
 	*/
-	function copyXmlContent()
+	function copyXmlContent($a_clone_mobs = false)
 	{
 		$xml = $this->getXmlContent();
 		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?>'.$xml,
@@ -1015,7 +1015,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 
 		if(empty($error))
 		{
-			$this->handleCopiedContent($temp_dom);
+			$this->handleCopiedContent($temp_dom, true, $a_clone_mobs);
 		}
 		$xml = $temp_dom->dump_mem(0, $this->encoding);
 		$xml = eregi_replace("<\?xml[^>]*>","",$xml);
@@ -1033,8 +1033,10 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	 * @param
 	 * @return
 	 */
-	function handleCopiedContent($a_dom, $a_self_ass = true)
+	function handleCopiedContent($a_dom, $a_self_ass = true,
+		$a_clone_mobs = false)
 	{
+		// handle question elements
 		if ($a_self_ass)
 		{
 			$this->newQuestionCopies($a_dom);
@@ -1043,7 +1045,15 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		{
 			$this->removeQuestions($a_dom);
 		}
+		
+		// handle interactive images
 		$this->newIIMCopies($a_dom);
+		
+		// handle media objects
+		if ($a_clone_mobs)
+		{
+			$this->newMobCopies($a_dom);
+		}
 	}
 	
 	/**
@@ -1083,6 +1093,41 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		}
 	}
 	
+	/**
+	 * Replaces media objects with copies
+	 */
+	function newMobCopies($temp_dom)
+	{
+		// Get question IDs
+		$path = "//MediaObject/MediaAlias";
+		$xpc = xpath_new_context($temp_dom);
+		$res = & xpath_eval($xpc, $path);
+
+		$q_ids = array();
+		include_once("./Services/COPage/classes/class.ilInternalLink.php");
+		for ($i = 0; $i < count ($res->nodeset); $i++)
+		{
+			$or_id = $res->nodeset[$i]->get_attribute("OriginId");
+			
+			$inst_id = ilInternalLink::_extractInstOfTarget($or_id);
+			$mob_id = ilInternalLink::_extractObjIdOfTarget($or_id);
+
+			if (!($inst_id > 0))
+			{
+				if ($mob_id > 0)
+				{
+					include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+					$media_object = new ilObjMediaObject($mob_id);
+
+					// now copy this question and change reference to
+					// new question id
+					$new_mob = $media_object->duplicate();
+					
+					$res->nodeset[$i]->set_attribute("OriginId", "il__mob_".$new_mob->getId());
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Replaces existing question content elements with
