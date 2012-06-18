@@ -125,7 +125,15 @@ class ilRating
 			$cnt++;
 			$avg += $rec["av"];
 		}
-		return array("cnt" => $cnt, "avg" => $avg/$cnt);
+		if ($cnt > 0)
+		{
+			$avg = $avg/$cnt;
+		}
+		else
+		{
+			$avg = 0;
+		}
+		return array("cnt" => $cnt, "avg" => $avg);
 	}
 }
 
