@@ -12696,6 +12696,7 @@ book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the foll
 common#:#obj_mep_duplicate#:#Copy Media Pool
 common#:#obj_mcst_duplicate#:#Copy Mediacast
 common#:#obj_glo_duplicate#:#Copy Glossary
+common#:#obj_htlm_duplicate#:#Copy HTML Learning Module
 forum#:#order_by_posts#:#Sort by posts
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.
 forum#:#number_of_threads#:#Displayed Number of Threads per Page
