@@ -731,19 +731,22 @@ class ilObjWiki extends ilObject
 	 *
 	 * @param	int		page id
 	 */
-	function addImportantPage($a_page_id)
+	function addImportantPage($a_page_id, $a_nr = 0, $a_indent = 0)
 	{
 		global $ilDB;
 
 		if (!$this->isImportantPage($a_page_id))
 		{
-			$nr = ilObjWiki::_lookupMaxOrdNrImportantPages($this->getId()) + 10;
+			if ($a_nr == 0)
+			{
+				$a_nr = ilObjWiki::_lookupMaxOrdNrImportantPages($this->getId()) + 10;
+			}
 
 			$ilDB->manipulate("INSERT INTO il_wiki_imp_pages ".
 				"(wiki_id, ord, indent, page_id) VALUES (".
 				$ilDB->quote($this->getId(), "integer").",".
-				$ilDB->quote($nr, "integer").",".
-				$ilDB->quote(0, "integer").",".
+				$ilDB->quote($a_nr, "integer").",".
+				$ilDB->quote($a_indent, "integer").",".
 				$ilDB->quote($a_page_id, "integer").
 				")");
 		}
@@ -893,5 +896,89 @@ class ilObjWiki extends ilObject
 		return ilObjWiki::_lookup($a_wiki_id, "page_toc");
 	}
 
-} // END class.ilObjWiki
+	/**
+	 * Clone wiki
+	 *
+	 * @param int target ref_id
+	 * @param int copy id
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB, $ilUser, $ilias;
+
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setStartPage($this->getStartPage());
+		$new_obj->setShortTitle($this->getShortTitle());
+		$new_obj->setRating($this->getRating());
+		$new_obj->setRatingAsBlock($this->getRatingAsBlock());
+		$new_obj->setRatingForNewPages($this->getRatingForNewPages());
+		$new_obj->setRatingCategories($this->getRatingCategories());
+		$new_obj->setPublicNotes($this->getPublicNotes());
+		$new_obj->setIntroduction($this->getIntroduction());
+		$new_obj->setImportantPages($this->getImportantPages());
+		$new_obj->setPageToc($this->getPageToc());
+		$new_obj->update();
+
+		// set/copy stylesheet
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $this->getStyleSheetId();
+		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$new_obj->setStyleSheetId($new_id);
+			$new_obj->update();
+		}
+
+		// copy content
+		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+		$pages = ilWikiPage::getAllPages($this->getId());
+		if (count($pages) > 0)
+		{
+			// if we have any pages, delete the start page first
+			$pg_id = ilWikiPage::getPageIdForTitle($new_obj->getId(), $new_obj->getStartPage());
+			$start_page = new ilWikiPage($pg_id);
+			$start_page->delete();
+		}
+		$map = array();
+		foreach ($pages as $p)
+		{
+			$page = new ilWikiPage($p["id"]);
+			$new_page = new ilWikiPage();
+			$new_page->setTitle($page->getTitle());
+			$new_page->setWikiId($new_obj->getId());
+			$new_page->setTitle($page->getTitle());
+			$new_page->setBlocked($page->getBlocked());
+			$new_page->setRating($page->getRating());
+			$new_page->create();
+			
+			$new_page->setXMLContent($page->copyXMLContent(true));
+			$new_page->buildDom();
+			$new_page->update();
+			$map[$p["id"]] = $new_page->getId();
+		}
+		
+		// copy important pages
+		foreach (ilObjWiki::_lookupImportantPagesList($this->getId()) as $ip)
+		{
+			$new_obj->addImportantPage($map[$ip["page_id"]], $ip["ord"], $ip["indent"]);
+		}
+
+		// copy rating categories
+		include_once("./Services/Rating/classes/class.ilRatingCategory.php");
+		foreach (ilRatingCategory::getAllForObject($this->getId()) as $rc)
+		{
+			$new_rc = new ilRatingCategory();
+			$new_rc->setParentId($new_obj->getId());
+			$new_rc->setTitle($rc["title"]);
+			$new_rc->setDescription($rc["description"]);
+			$new_rc->save();
+		}
+		
+		return $new_obj;
+	}
+
+}
 ?>
