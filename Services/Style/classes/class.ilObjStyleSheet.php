@@ -1116,6 +1116,8 @@ class ilObjStyleSheet extends ilObject
 	{
 		global $log, $lng;
 		
+		$lng->loadLanguageModule("style");
+		
 		$new_obj = new ilObjStyleSheet();
 		$new_obj->setTitle($this->getTitle()." (".$lng->txt("sty_acopy").")");
 		$new_obj->setType($this->getType());

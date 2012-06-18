@@ -15,6 +15,7 @@ class ilObjTaxonomy extends ilObject2
 {
 	const SORT_ALPHABETICAL = 0;
 	const SORT_MANUAL = 1;
+	protected $node_mapping = array();
 	
 	/**
 	 * Constructor
@@ -75,6 +76,17 @@ class ilObjTaxonomy extends ilObject2
 		return false;
 	}
 	
+	/**
+	 * Get node mapping (used after cloning)
+	 *
+	 * @param
+	 * @return
+	 */
+	function getNodeMapping()
+	{
+		return $this->node_mapping;
+	}
+	
 	
 	/**
 	 * Create a new taxonomy
@@ -112,9 +124,49 @@ class ilObjTaxonomy extends ilObject2
 	{
 		global $log, $lng;
 		
+		$a_new_obj->setTitle($this->getTitle());
+		$a_new_obj->setDescription($this->getDescription());
+		$a_new_obj->setSortingMode($this->getSortingMode());
 
+		$this->node_mapping = array();
+		
+		$this->cloneNodes($a_new_obj, $a_new_obj->getTree()->readRootId(),
+			$this->getTree()->readRootId());
 	}
 
+	/**
+	 * Clone nodes
+	 *
+	 * @param
+	 * @return
+	 */
+	function cloneNodes($a_new_obj, $a_target_parent, $a_source_parent)
+	{
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
+		
+		// get all childs
+		$nodes = $this->getTree()->getChilds($a_source_parent);
+		foreach ($nodes as $node)
+		{
+			switch ($node["type"])
+			{
+				case "taxn":
+					$tax_node = new ilTaxonomyNode($node["child"]);
+					$new_node = $tax_node->copy($a_new_obj->getId());
+					break;
+			}
+
+			ilTaxonomyNode::putInTree($a_new_obj->getId(),
+				$new_node, $a_target_parent);
+			
+			$this->node_mapping[$node["child"]] = $new_node->getId();
+
+			// handle childs
+			$this->cloneNodes($a_new_obj, $new_node->getId(), $node["child"]);
+		}
+
+	}
+	
 
 	/**
 	 * Delete taxonomy object
@@ -299,6 +351,5 @@ class ilObjTaxonomy extends ilObject2
 	{
 		return self::lookup("sorting_mode", $a_id);
 	}
-	
 }
 ?>

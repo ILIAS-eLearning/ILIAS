@@ -218,12 +218,21 @@ class ilTaxonomyNode
 	/**
 	 * Copy taxonomy node
 	 */
-	function copy()
+	function copy($a_tax_id = 0)
 	{
 		$taxn = new ilTaxonomyNode();
 		$taxn->setTitle($this->getTitle());
 		$taxn->setType($this->getType());
 		$taxn->setOrderNr($this->getOrderNr());
+		if ($a_tax_id == 0)
+		{
+			$taxn->setTaxonomyId($this->getTaxonomyId());
+		}
+		else
+		{
+			$taxn->setTaxonomyId($a_tax_id);
+		}
+
 		$taxn->create();
 
 		return $taxn;
