@@ -324,5 +324,30 @@ class ilObjFileBasedLM extends ilObject
 		ilUtil::renameExecutables($this->getDataDirectory());
 	}
 	
+	/**
+	 * Clone HTML learning module
+	 *
+	 * @param int target ref_id
+	 * @param int copy id
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB, $ilUser, $ilias;
+
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	$this->cloneMetaData($new_obj);
+	 	
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+
+		// copy content
+		$new_obj->populateByDirectoy($this->getDataDirectory());
+
+		$new_obj->setStartFile($this->getStartFile());
+		$new_obj->update();
+
+		return $new_obj;
+	}
+
 }
 ?>

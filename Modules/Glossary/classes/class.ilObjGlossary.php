@@ -1136,6 +1136,7 @@ class ilObjGlossary extends ilObject
 		global $ilDB, $ilUser, $ilias;
 
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$this->cloneMetaData($new_obj);
 	 	
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setDescription($this->getDescription());
