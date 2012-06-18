@@ -3390,6 +3390,8 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($this->object->getId());
 		$frm->disableForumNotification($ilUser->getId());
 		
+		ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'));
+		
 		$this->showThreadsObject();
 	}
 	

@@ -12662,3 +12662,5 @@ book#:#book_schedule_type_none#:#Kein Zeitplan
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
 forum#:#order_by_posts#:#Sortieren nach Beiträgen
+forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Nachrichten in diesem Forum benachrichtigt.
+forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
