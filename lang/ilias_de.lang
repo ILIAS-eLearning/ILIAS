@@ -3221,8 +3221,8 @@ common#:#forum_general_notification#:#Generelle Benachrichtigung
 common#:#forum_import#:#Forum importieren
 common#:#forum_import_file#:#Importdatei
 common#:#forum_notification#:#Benachrichtigung
-common#:#forum_notify_me#:#Benachrichtigung, wenn eine Antwort gesendet wurde
-common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es eine direkte Antwort auf meinen Beitrag gibt.
+common#:#forum_notify_me#:#Benachrichtigung, wenn ein Beitrag gesendet wurde
+common#:#forum_notify_me_directly#:#Ich möchte benachrichtigt werden, wenn es einen direkten Beitrag auf meinen Beitrag gibt.
 common#:#forum_notify_me_generally#:#Ich möchte benachrichtigt werden, wenn es generell einen neuen Beitrag zu meinem Thema gibt.
 common#:#forum_post_replied#:#Ihr Forumsbeitrag wurde beantwortet.
 common#:#forums#:#Foren
@@ -7953,7 +7953,7 @@ forum#:#forums_edit_post#:#Beitrag bearbeiten
 forum#:#forums_enable_notification#:#Benachrichtigung für Thema starten
 forum#:#forums_info_censor_post#:#Sind Sie sicher, dass dieser Beitrag nicht mehr angezeigt werden soll?
 forum#:#forums_info_censor2_post#:#Sind Sie sicher, dass die Zensur für diesen Beitrag aufgehoben werden soll?
-forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller Antworten gelöscht werden soll?
+forum#:#forums_info_delete_post#:#Sind Sie sicher, dass dieser Beitrag inklusive aller darauf folgenden Beiträge gelöscht werden soll?
 forum#:#forums_mark_read#:#Alle auf gelesen setzen
 forum#:#forums_new_entries#:#Neue Foren-Einträge
 forum#:#forums_new_thread#:#Neues Thema
@@ -7992,7 +7992,7 @@ forum#:#forums_thread_marked#:#Alle Beiträge wurden als gelesen markiert.
 forum#:#forums_thread_new_entry#:#Neues Thema wurde eingetragen
 forum#:#forums_threads_not_available#:#Keine Themen verfügbar
 forum#:#forums_topics_overview#:#Themenübersicht
-forum#:#forums_your_reply#:#Ihre Antwort
+forum#:#forums_your_reply#:#Ihr Beitrag
 forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Ist diese Option eingeschaltet, können registrierte Benutzer nur mit einem Pseudonym oder ohne Nennung ihres Namens Beiträge in diesem Forum schreiben.
 forum#:#frm_default_view#:#Standardansicht
@@ -8030,7 +8030,7 @@ forum#:#make_topics_sticky#:#Thema zu "Top-Thema" machen
 forum#:#mark_moderator_posts#:#Moderatoren-Beiträge markieren
 forum#:#mark_moderator_posts_desc#:#Wenn aktiviert, werden Beiträge der Benutzer farblich hervorgehoben, die die Moderatorenrolle in diesem Forum inne haben.
 forum#:#move_chosen_topics#:#Verschiebe gewählte Themen
-forum#:#new_post#:#Neue Nachricht
+forum#:#new_post#:#Neuer Beitrag
 forum#:#no_forum_available_for_moving_threads#:#Es konnte kein Forum gefunden werden, in das die ausgewählten Themen verschoben werden können.
 forum#:#no_forum_selected#:#Kein Forum für die Verschiebeaktion ausgewählt
 forum#:#post_activation_desc#:#Wenn diese Option eingeschaltet ist, muss der Moderator neue Beiträge freischalten.
@@ -12661,3 +12661,4 @@ book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beam
 book#:#book_schedule_type_none#:#Kein Zeitplan
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
+forum#:#order_by_posts#:#Sortieren nach Beiträgen
