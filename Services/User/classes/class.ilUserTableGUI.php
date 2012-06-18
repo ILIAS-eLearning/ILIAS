@@ -23,7 +23,7 @@ class ilUserTableGUI extends ilTable2GUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_mode = self::MODE_USER_FOLDER)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_mode = self::MODE_USER_FOLDER, $a_load_items = true)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
@@ -68,6 +68,8 @@ class ilUserTableGUI extends ilTable2GUI
 		
 		if($this->getMode() == self::MODE_USER_FOLDER)
 		{
+			$this->setEnableAllCommand(true);
+			
 			$cmds = $a_parent_obj->getUserMultiCommands();
 			foreach($cmds as $cmd => $caption)
 			{
@@ -78,7 +80,11 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			$this->addMultiCommand("deleteUsers", $lng->txt("delete"));
 		}
-		$this->getItems();
+		
+		if($a_load_items)
+		{
+			$this->getItems();
+		}
 	}
 	
 	protected function setMode($a_mode)
@@ -275,6 +281,55 @@ class ilUserTableGUI extends ilTable2GUI
 
 		$this->setMaxCount($usr_data["cnt"]);
 		$this->setData($usr_data["set"]);
+	}
+		
+	public function getUserIdsForFilter()
+	{				
+		if($this->getMode() == self::MODE_USER_FOLDER)
+		{
+			// All accessible users
+			include_once './Services/User/classes/class.ilLocalUser.php';
+			$user_filter = ilLocalUser::_getFolderIds();
+		}
+		else
+		{
+			if($this->filter['time_limit_owner'])
+			{
+				$user_filter = array($this->filter['time_limit_owner']);
+			}
+			else
+			{
+				// All accessible users
+				include_once './Services/User/classes/class.ilLocalUser.php';
+				$user_filter = ilLocalUser::_getFolderIds();
+			}
+		}
+		
+		include_once("./Services/User/classes/class.ilUserQuery.php");
+		$usr_data = ilUserQuery::getUserListData(
+			ilUtil::stripSlashes($this->getOrderField()),
+			ilUtil::stripSlashes($this->getOrderDirection()),
+			0,
+			self::getAllCommandLimit(),
+			$this->filter["query"],
+			$this->filter["activation"],
+			$this->filter["last_login"],
+			$this->filter["limited_access"],
+			$this->filter["no_courses"],
+			$this->filter["course_group"],
+			$this->filter["global_role"],
+			$user_filter,
+			null,
+			null,
+			ilUtil::stripSlashes($_GET["letter"])
+			);
+		
+		$user_ids = array();
+		foreach($usr_data["set"] as $item)
+		{
+			$user_ids[] = $item["usr_id"];
+		}
+		return $user_ids;
 	}
 	
 	

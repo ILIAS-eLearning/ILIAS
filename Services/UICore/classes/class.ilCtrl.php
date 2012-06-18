@@ -964,11 +964,27 @@ class ilCtrl
 			}
 			if($cmd == "" && isset($_POST["select_cmd2"]))		// selected command in multi-list (table2)
 			{
+				if(isset($_POST["select_cmd_all2"]))
+				{
+					$_POST["select_cmd_all"] = $_POST["select_cmd_all2"];
+				}
+				else
+				{
+					$_POST["select_cmd_all"] = $_POST["select_cmd_all2"] = null;
+				}				
 				$cmd = $_POST["selected_cmd2"];
 				$this->verified_cmd = $cmd;
 			}
 			if($cmd == "" && isset($_POST["select_cmd"]))		// selected command in multi-list (table2)
 			{
+				if(isset($_POST["select_cmd_all"]))
+				{
+					$_POST["select_cmd_all2"] = $_POST["select_cmd_all"];
+				}
+				else
+				{
+					$_POST["select_cmd_all"] = $_POST["select_cmd_all2"] = null;
+				}				
 				$cmd = $_POST["selected_cmd"];
 				$this->verified_cmd = $cmd;
 			}

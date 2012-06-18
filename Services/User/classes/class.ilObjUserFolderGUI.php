@@ -614,13 +614,33 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "view");
 		}
 	}
+	
+	/**
+	 * Get selected items for table action
+	 * 
+	 * @return array
+	 */
+	protected function getActionUserIds()
+	{
+		if($_POST["select_cmd_all"])
+		{
+			include_once("./Services/User/classes/class.ilUserTableGUI.php");
+			$utab = new ilUserTableGUI($this, "view", ilUserTableGUI::MODE_USER_FOLDER, false);
+			return $utab->getUserIdsForFilter();
+		}
+		else
+		{
+			return $_POST["id"];
+		}
+	}
 
 	/**
 	* display activation confirmation screen
 	*/
 	function showActionConfirmation($action, $a_from_search = false)
 	{
-		if(!isset($_POST["id"]))
+		$user_ids = $this->getActionUserIds();	
+		if(!$user_ids)
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -651,7 +671,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$cgui->addHiddenItem("frsrch", 1);
 		}
 
-		foreach($_POST["id"] as $id)
+		foreach($user_ids as $id)
 		{
 			$user = new ilObjUser($id);
 
@@ -2690,37 +2710,38 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	
 	function usrExportX86Object()
 	{
-		if(!$_POST["id"])
+		$user_ids = $this->getActionUserIds();	
+		if(!$user_ids)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			return $this->viewObject();
 		}
-		$this->object->buildExportFile("userfolder_export_excel_x86", $_POST["id"]);		
+		$this->object->buildExportFile("userfolder_export_excel_x86", $user_ids);		
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 	}
 	
 	function usrExportCsvObject()
 	{
-		if(!$_POST["id"])
+		$user_ids = $this->getActionUserIds();	
+		if(!$user_ids)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			return $this->viewObject();
 		}
-		$this->object->buildExportFile("userfolder_export_csv", $_POST["id"]);		
+		$this->object->buildExportFile("userfolder_export_csv", $user_ids);		
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 	}
 	
 	function usrExportXmlObject()
 	{
-		if(!$_POST["id"])
+		$user_ids = $this->getActionUserIds();	
+		if(!$user_ids)
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'));
 			return $this->viewObject();
 		}
-		$this->object->buildExportFile("userfolder_export_xml", $_POST["id"]);		
+		$this->object->buildExportFile("userfolder_export_xml", $user_ids);		
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
 	}
-	
-
 } // END class.ilObjUserFolderGUI
 ?>

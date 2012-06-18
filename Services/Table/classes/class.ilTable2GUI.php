@@ -46,6 +46,8 @@ class ilTable2GUI extends ilTableGUI
 	protected $export_formats;
 	protected $export_mode;
 	protected $print_mode;
+	
+	protected $enable_command_for_all;
 
 	const FILTER_TEXT = 1;
 	const FILTER_SELECT = 2;
@@ -57,6 +59,8 @@ class ilTable2GUI extends ilTableGUI
 
 	const EXPORT_EXCEL = 1;
 	const EXPORT_CSV = 2;
+	
+	const ACTION_ALL_LIMIT = 1000;
 	
 	/**
 	* Constructor
@@ -2519,6 +2523,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		
 		if (count($this->multi) > 1 && $this->dataExists())
 		{
+			if($this->enable_command_for_all && $this->max_count <= self::getAllCommandLimit())
+			{
+				$this->tpl->setCurrentBlock("tbl_cmd_select_all");
+				$this->tpl->setVariable("TXT_SELECT_CMD_ALL", $lng->txt("all_objects"));
+				$this->tpl->parseCurrentBlock();
+			}
+			
 			$this->tpl->setCurrentBlock("tbl_cmd_select");
 			$sel = array();
 			foreach ($this->multi as $mc)
@@ -2534,6 +2545,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			
 			if ($this->getTopCommands())
 			{
+				if($this->enable_command_for_all && $this->max_count <= self::getAllCommandLimit())
+				{
+					$this->tpl->setCurrentBlock("tbl_top_cmd_select_all");
+					$this->tpl->setVariable("TXT_SELECT_CMD_ALL", $lng->txt("all_objects"));
+					$this->tpl->parseCurrentBlock();
+				}
+				
 				$this->tpl->setCurrentBlock("tbl_top_cmd_select");
 				$sel = array();
 				foreach ($this->multi as $mc)
@@ -3132,6 +3150,34 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			$a_csv->addColumn(strip_tags($value));
 		}
 		$a_csv->addRow();
+	}
+		
+	/**
+	 * Enable actions for all entries in current result
+	 * 
+	 * @param bool $a_value 
+	 */
+	public function setEnableAllCommand($a_value)
+	{
+		$this->enable_command_for_all = (bool)$a_value;
+	}
+	
+	/**
+	 * Get maximum number of entries to enable actions for all 
+	 *
+	 * @return int 
+	 */
+	public static function getAllCommandLimit()
+	{
+		global $ilClientIniFile;
+		
+		$limit = $ilClientIniFile->readVariable("system", "TABLE_ACTION_ALL_LIMIT");
+		if(!$limit)
+		{
+			$limit = self::ACTION_ALL_LIMIT;
+		}
+		
+		return $limit;
 	}
 }
 
