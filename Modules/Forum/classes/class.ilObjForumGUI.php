@@ -291,7 +291,7 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
 
-		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('answers'), ilForumProperties::VIEW_TREE));
+		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by_posts'), ilForumProperties::VIEW_TREE));
 		$rg_sort_by_date = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), ilForumProperties::VIEW_DATE);
 		$rg_pro->addOption($rg_sort_by_date);
 
@@ -962,7 +962,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$this->ctrl->setParameter($this, 'viewmode', 'answers');
-		$ilTabs->addTarget('order_by_answers', $this->ctrl->getLinkTarget($this, 'viewThread'));
+		$ilTabs->addTarget($lng->txt('order_by_posts'), $this->ctrl->getLinkTarget($this, 'viewThread'));
 	
 		// by date view
 		$this->ctrl->setParameter($this, 'viewmode', 'date');
@@ -977,7 +977,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 		else
 		{
-			$ilTabs->setTabActive('order_by_answers');
+			$ilTabs->setTabActive('order_by_posts');
 		}
 
 		/**
