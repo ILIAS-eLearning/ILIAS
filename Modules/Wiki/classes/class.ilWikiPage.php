@@ -143,9 +143,9 @@ class ilWikiPage extends ilPageObject
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getTitle(), "text")
-			.",".$ilDB->quote($this->getWikiId(), "integer")
-			.",".$ilDB->quote($this->getBlocked(), "integer")
-			.",".$ilDB->quote($this->getRating(), "integer")
+			.",".$ilDB->quote((int) $this->getWikiId(), "integer")
+			.",".$ilDB->quote((int) $this->getBlocked(), "integer")
+			.",".$ilDB->quote((int) $this->getRating(), "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -175,9 +175,9 @@ class ilWikiPage extends ilPageObject
 		// update wiki page data
 		$query = "UPDATE il_wiki_page SET ".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
-			",wiki_id = ".$ilDB->quote($this->getWikiId(), "integer").
-			",blocked = ".$ilDB->quote($this->getBlocked(), "integer").
-			",rating = ".$ilDB->quote($this->getRating(), "integer").
+			",wiki_id = ".$ilDB->quote((int) $this->getWikiId(), "integer").
+			",blocked = ".$ilDB->quote((int) $this->getBlocked(), "integer").
+			",rating = ".$ilDB->quote((int) $this->getRating(), "integer").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		parent::update($a_validate, $a_no_history);
