@@ -1125,6 +1125,83 @@ class ilObjGlossary extends ilObject
 	}
 	
 	
-} // END class.ilObjGlossary
+	/**
+	 * Clone glossary
+	 *
+	 * @param int target ref_id
+	 * @param int copy id
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB, $ilUser, $ilias;
+
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+	 	
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->setVirtualMode($this->getVirtualMode());
+		$new_obj->setPresentationMode($this->getPresentationMode());
+		$new_obj->setSnippetLength($this->getSnippetLength());
+		$new_obj->update();
+
+		// set/copy stylesheet
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $this->getStyleSheetId();
+		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$new_obj->setStyleSheetId($new_id);
+			$new_obj->update();
+		}
+		
+		// copy taxonomy
+		if (($tax_id = $this->getTaxonomyId()) > 0)
+		{
+			// clone it
+			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+			$tax = new ilObjTaxonomy($tax_id);
+			$new_tax = $tax->cloneObject(0,0,true);
+			$map = $tax->getNodeMapping();
+			
+			// assign new taxonomy to new glossary
+			ilObjTaxonomy::saveUsage($new_tax->getId(), $new_obj->getId());
+		}
+		
+		// assign new tax/new glossary
+		// handle mapping
+		
+		// prepare tax node assignments objects
+		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+		if ($tax_id > 0)
+		{
+			$tax_ass = new ilTaxNodeAssignment("glo", "term", $tax_id);
+			$new_tax_ass = new ilTaxNodeAssignment("glo", "term", $new_tax->getId());
+		}
+		
+		// copy terms
+		foreach (ilGlossaryTerm::getTermList($this->getId()) as $term)
+		{
+			$new_term_id = ilGlossaryTerm::_copyTerm($term["id"], $new_obj->getId());
+			
+			// copy tax node assignments
+			if ($tax_id > 0)
+			{
+				$assignmts = $tax_ass->getAssignmentsOfItem($term["id"]);
+				foreach ($assignmts as $a)
+				{
+					if ($map[$a["node_id"]] > 0)
+					{
+						$new_tax_ass->addAssignment($map[$a["node_id"]] ,$new_term_id);
+					}
+				}
+			}
+		}
+
+		return $new_obj;
+	}
+
+	
+}
 
 ?>

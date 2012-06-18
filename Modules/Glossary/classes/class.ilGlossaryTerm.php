@@ -559,7 +559,7 @@ class ilGlossaryTerm
 				$old_def->getPageObject()->getParentType());
 			
 			// page content
-			$new_def->getPageObject()->setXMLContent($old_def->getPageObject()->getXMLContent());
+			$new_def->getPageObject()->setXMLContent($old_def->getPageObject()->copyXmlContent(true));
 			$new_def->getPageObject()->buildDom();
 			$new_def->getPageObject()->update();
 			
@@ -588,7 +588,6 @@ class ilGlossaryTerm
 		}
 		return $ids;
 	}
-
 }
 
 ?>

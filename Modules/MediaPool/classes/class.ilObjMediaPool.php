@@ -659,10 +659,8 @@ class ilObjMediaPool extends ilObject
 	/**
 	 * Clone media pool
 	 *
-	 * @access public
 	 * @param int target ref_id
 	 * @param int copy id
-	 *
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
