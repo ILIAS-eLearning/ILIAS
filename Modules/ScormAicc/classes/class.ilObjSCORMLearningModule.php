@@ -1238,5 +1238,5 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $retAr;
 	}
 
-} // END class.ilObjSCORMLearningModule
+}
 ?>

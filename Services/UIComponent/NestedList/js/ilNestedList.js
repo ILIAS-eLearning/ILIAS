@@ -1,6 +1,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+if (typeof il == 'undefined') var il = {};
 il.NestedList =
 {
 	lists: {},
