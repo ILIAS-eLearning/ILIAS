@@ -314,82 +314,34 @@ class ilObjPollGUI extends ilObject2GUI
 	 */
 	function render()
 	{
-		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar, $ilUser, $tree;
+		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar, $ilUser;
 		
 		if(!$this->checkPermissionBool("read"))
 		{
 			ilUtil::sendInfo($lng->txt("no_permission"));
 			return;
 		}
-
+		
 		$ilTabs->activateTab("content");
 		
-		// toolbar
-		if($this->checkPermissionBool("write"))
-		{
-			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "createPosting"));
+		$ilToolbar->addButton($lng->txt("poll_add_answer"), 
+			$ilCtrl->getLinkTarget($this, "addAnswer"));
 
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-			$title = new ilTextInputGUI($lng->txt("title"), "title");
-			$ilToolbar->addInputItem($title, $lng->txt("title"));
-			
-			$ilToolbar->addFormButton($lng->txt("blog_add_posting"), "createPosting");
-						
-			// exercise blog?			
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
-			$exercises = ilObjExercise::findUserFiles($ilUser->getId(), $this->node_id);
-			if($exercises)
-			{
-				$info = array();
-				foreach($exercises as $exercise)
-				{
-					$part = $this->getExerciseInfo($exercise["ass_id"]);
-					if($part)
-					{
-						$info[] = $part;
-					}
-				}
-				ilUtil::sendInfo(implode("<br />", $info));										
-			}
-		}
+		// table gui
+		include_once "Modules/Poll/classes/class.ilPollAnswerTableGUI.php";
+		$tbl = new ilPollAnswerTableGUI($this, "render");
 		
-		$list = $nav = "";		
-		if($this->items[$this->month])
-		{						
-			$is_owner = ($this->object->getOwner() == $ilUser->getId());
-			$list = $this->renderList($this->items[$this->month], $this->month, "preview", null, $is_owner);
-			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
-		}
-					
-		$tpl->setContent($list);
-		$tpl->setRightContent($nav);
+		$tpl->setContent($tbl->getHTML());		
 	}
 	
 	/**
-	 * Return embeddable HTML chunk
+	 * return user view
 	 * 
 	 * @return string 
 	 */	
 	function getHTML()
 	{		
-		// getHTML() is called by ilRepositoryGUI::show()
-		if($this->id_type == self::REPOSITORY_NODE_ID)
-		{
-			return;
-		}
 		
-		// there is no way to do a permissions check here, we have no wsp
-		
-		$this->filterInactivePostings();
-		
-		$list = $nav = "";
-		if($this->items[$this->month])
-		{				
-			$list = $this->renderList($this->items[$this->month], $this->month, "previewEmbedded");
-			$nav = $this->renderNavigation($this->items, "gethtml", "previewEmbedded");
-		}		
-		
-		return $this->buildEmbedded($list, $nav);
 	}	
 	
 	function addLocatorItems()
@@ -418,6 +370,141 @@ class ilObjPollGUI extends ilObject2GUI
 		include("ilias.php");
 		exit;
 	}
+	
+	
+	//
+	// Answers
+	// 
+	
+	function addAnswer(ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl, $ilTabs, $lng;
+	
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+			
+		$ilTabs->activateTab("content");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAnswerForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	function editAnswer(ilPropertyFormGUI $a_form = null)
+	{		
+		global $tpl, $ilTabs, $lng, $ilCtrl;
+		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
+		$ilTabs->activateTab("content");
+		
+		$ilCtrl->setParameter($this, "pa_id", $_REQUEST["pa_id"]);
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAnswerForm($_REQUEST["pa_id"]);
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	function initAnswerForm($a_answer_id = null)
+	{		
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();		
+
+		$ta = new ilTextAreaInputGUI($lng->txt("poll_answer"), "answer");
+		$ta->setRequired(true);
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		if(!$a_answer_id)
+		{
+			$form->setFormAction($ilCtrl->getFormAction($this, "saveAnswer"));
+			$form->setTitle($lng->txt("poll_add_answer"));		
+			$form->addCommandButton("saveAnswer", $lng->txt("save"));
+		}
+		else
+		{
+			$answer = $this->object->getAnswer($a_answer_id);			
+			$ta->setValue($answer["answer"]);
+			
+			$form->setFormAction($ilCtrl->getFormAction($this, "updateAnswer"));
+			$form->setTitle($lng->txt("poll_edit_answer"));		
+			$form->addCommandButton("updateAnswer", $lng->txt("save"));
+		}
+		
+		$form->addCommandButton("render", $lng->txt("cancel"));
+
+		return $form;
+	}
+	
+	function saveAnswer()
+	{
+		global $lng, $ilCtrl;
+		
+		$form = $this->initAnswerForm();
+		if($form->checkInput())
+		{
+			$this->object->saveAnswer($form->getInput("answer"));
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "render");								
+		}
+		
+		$form->setValuesByPost();
+		$this->addAnswer($form);
+	}
+	
+	function updateAnswer()
+	{
+		global $lng, $ilCtrl;
+		
+		$form = $this->initAnswerForm($_REQUEST["pa_id"]);
+		if($form->checkInput())
+		{
+			$this->object->updateAnswer($_REQUEST["pa_id"], $form->getInput("answer"));
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+			$ilCtrl->redirect($this, "render");								
+		}
+		
+		$form->setValuesByPost();
+		$this->editAnswer($form);
+	}
+	
+	function confirmDeleteAnswers()
+	{
+		
+	}
+	
+	function deleteAnswers()
+	{
+		
+	}
+	
+	function updateAnswerOrder()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->object->updateAnswerPositions($_POST["pos"]);
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "render");
+	}	
 }
 
 ?>

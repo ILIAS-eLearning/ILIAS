@@ -207,6 +207,7 @@ class ilObjPoll extends ilObject2
 		if($this->getId())
 		{		
 			$this->deleteImage();
+			$this->deleteAllAnswers();
 			
 			if($this->ref_id)
 			{
@@ -331,6 +332,109 @@ class ilObjPoll extends ilObject2
 	{
 		// :TODO:
 		return "300x300";
+	}
+	
+	
+	//
+	// Answer
+	// 
+	
+	function getAnswers()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT * FROM il_poll_answer".
+			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer").
+			" ORDER BY pos ASC";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}
+		return $res;
+	}
+	
+	function getAnswer($a_id)
+	{
+		global $ilDB;
+		
+		$sql = "SELECT * FROM il_poll_answer".
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
+		$set = $ilDB->query($sql);
+		return (array)$ilDB->fetchAssoc($set);
+	}	
+	
+	function saveAnswer($a_text)
+	{
+		global $ilDB;
+		
+		$id = $ilDB->nextId("il_poll_answer");
+		
+		// append
+		$sql = "SELECT max(pos) pos".
+			" FROM il_poll_answer".
+			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer");
+		$set = $ilDB->query($sql);
+		$pos = $ilDB->fetchAssoc($set);
+		$pos = (int)$pos["pos"]+10;		
+		
+		$fields = array(
+			"id" => array("integer", $id),
+			"poll_id" => array("integer", $this->getId()),
+			"answer" => array("text", $a_text),
+			"pos" => array("integer", $pos)
+		);				
+		$ilDB->insert("il_poll_answer", $fields);		
+	}
+	
+	function updateAnswer($a_id, $a_text)
+	{
+		global $ilDB;
+					
+		$ilDB->update("il_poll_answer",
+			array("answer" => array("text", $a_text)),
+			array("id" => array("integer", $a_id)));	
+	}
+	
+	function updateAnswerPositions(array $a_pos)
+	{
+		global $ilDB;
+		
+		asort($a_pos);
+		
+		$pos = 0;
+		foreach(array_keys($a_pos) as $id)
+		{
+			$pos += 10;
+			
+			$ilDB->update("il_poll_answer",
+				array("pos" => array("integer", $pos)),
+				array("id" => array("integer", $id)));	
+		}
+	}
+	
+	protected function deleteAnswer($a_id)
+	{
+		global $ilDB;
+		
+		if($a_id)
+		{
+			$ilDB->manipulate("DELETE FROM il_poll_answer".
+				" WHERE id = ".$ilDB->quote($a_id, "integer"));
+		}
+	}
+	
+	protected function deleteAllAnswers()
+	{
+		global $ilDB;
+		
+		if($this->getId())
+		{
+			$ilDB->manipulate("DELETE FROM il_poll_answer".
+				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer"));
+		}
 	}
 }
 
