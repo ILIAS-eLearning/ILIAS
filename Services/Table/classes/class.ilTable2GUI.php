@@ -49,6 +49,11 @@ class ilTable2GUI extends ilTableGUI
 	
 	protected $enable_command_for_all;
 
+	/**
+	 * @var string
+	 */
+	protected $row_selector_label;
+
 	const FILTER_TEXT = 1;
 	const FILTER_SELECT = 2;
 	const FILTER_DATE = 3;
@@ -2235,7 +2240,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 						$alist->addItem($v, $k, $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
 						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_trows", "");
 					}
-					$alist->setListTitle($lng->txt("rows"));
+					$alist->setListTitle($this->getRowSelectorLabel() ? $this->getRowSelectorLabel() : $lng->txt("rows"));
 					$this->tpl->setVariable("ROW_SELECTOR", $alist->getHTML());
 				}
 
@@ -3178,6 +3183,23 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		}
 		
 		return $limit;
+	}
+
+	/**
+	 * @param string $row_selector_label
+	 */
+	public function setRowSelectorLabel($row_selector_label)
+	{
+		$this->row_selector_label = $row_selector_label;
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getRowSelectorLabel()
+	{
+		return $this->row_selector_label;
 	}
 }
 
