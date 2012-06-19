@@ -962,7 +962,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$this->ctrl->setParameter($this, 'viewmode', 'answers');
-		$ilTabs->addTarget($lng->txt('order_by_posts'), $this->ctrl->getLinkTarget($this, 'viewThread'));
+		$ilTabs->addTarget('order_by_posts', $this->ctrl->getLinkTarget($this, 'viewThread'));
 	
 		// by date view
 		$this->ctrl->setParameter($this, 'viewmode', 'date');
@@ -1837,6 +1837,11 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 
+		if(!isset($_SESSION['viewmode']))
+		{
+			$_SESSION['viewmode'] = $this->objProperties->getDefaultView();
+		}
+		
 		// quick and dirty: check for treeview
 		if(!isset($_SESSION['thread_control']['old']))
 		{
@@ -1847,7 +1852,7 @@ class ilObjForumGUI extends ilObjectGUI
 		if(isset($_SESSION['thread_control']['old']) && $_GET['thr_pk'] != $_SESSION['thread_control']['old'])
 		{
 			$_SESSION['thread_control']['new'] = $_GET['thr_pk'];
-			$_SESSION['viewmode'] = 'answers';
+//			$_SESSION['viewmode'] = 'answers';
 			//$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = array(0);
 		}
 
@@ -1857,8 +1862,7 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 
 		if( (isset($_GET['action']) &&  $_SESSION['viewmode'] != 'date')
-			||($_SESSION['viewmode'] == 'answers')
-			|| !isset($_SESSION['viewmode']))
+			||($_SESSION['viewmode'] == 'answers'))
 		{
 			$_SESSION['viewmode'] = 'answers';
 		}
@@ -1933,7 +1937,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->prepareThreadScreen($forumObj);
 		
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_threads_view.html', 'Modules/Forum');
-		
+
 		// download file
 		if($_GET['file'])
 		{
