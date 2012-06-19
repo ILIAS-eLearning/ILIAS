@@ -12731,3 +12731,10 @@ poll#:#poll_activation_online_info#:#If offline, only administrators can see and
 poll#:#poll_availability_limitless_info#:#Choose this mode for making the poll available and accessible to users.
 poll#:#poll_availability_until_info#:#Choose this mode for making the poll available and accessible to users for a fixed period of time.
 poll#:#poll_activation_limited_visibility_info#:#If chosen, the poll is visible even outside of the given availability.
+poll#:#poll_add_answer#:#Add Answer
+poll#:#poll_answer#:#Answer
+poll#:#poll_answers#:#Possible Answers
+poll#:#poll_sortorder#:#Order
+poll#:#poll_percentage#:#Current Percentage
+poll#:#poll_update_order#:#Update Order
+poll#:#poll_edit_answer#:#Edit Answer

@@ -12693,3 +12693,10 @@ poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Absti
 poll#:#poll_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Abstimmung nur während eines definierten Zeitraums freizuschalten.
 poll#:#poll_availability_until_info#:#Falls nicht online, haben nur Administratoren Zugriff auf die Abstimmung.
 poll#:#poll_activation_limited_visibility_info#:#Falls aktiv, ist die Abstimmung auch ausserhalb der Zugriffszeiten sichtbar.
+poll#:#poll_add_answer#:#Antwort hinzufügen
+poll#:#poll_answer#:#Antwort
+poll#:#poll_answers#:#Mögliche Antworten
+poll#:#poll_sortorder#:#Sortierung
+poll#:#poll_percentage#:#Aktueller Anteil
+poll#:#poll_update_order#:#Sortierung speichern
+poll#:#poll_edit_answer#:#Antwort bearbeiten

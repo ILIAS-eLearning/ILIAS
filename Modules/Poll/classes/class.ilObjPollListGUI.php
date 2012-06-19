@@ -33,6 +33,35 @@ class ilObjPollListGUI extends ilObjectListGUI
 		include_once('./Modules/Poll/classes/class.ilObjPollAccess.php');
 		$this->commands = ilObjPollAccess::_getCommands();
 	}
+	
+	/**
+	* Get item properties
+	*
+	* @return	array		array of property arrays:
+	*						"alert" (boolean) => display as an alert property (usually in red)
+	*						"property" (string) => property name
+	*						"value" (string) => property value
+	*/
+	function getProperties()
+	{
+		global $lng;
+
+		// BEGIN WebDAV: Get parent properties
+		// BEGIN ChangeEvent: Get parent properties
+		$props = parent::getProperties();
+		// END ChangeEvent: Get parent properties
+		// END WebDAV: Get parent properties
+
+		// offline
+		include_once 'Modules/Poll/classes/class.ilObjPollAccess.php';
+		if(!ilObjPollAccess::_isActivated($this->obj_id, $this->ref_id))
+		{
+			$props[] = array("alert" => true, "property" => $lng->txt("status"),
+				"value" => $lng->txt("offline"));
+		}
+
+		return $props;
+	}
 }
 
 ?>
