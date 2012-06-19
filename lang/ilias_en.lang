@@ -12738,3 +12738,4 @@ poll#:#poll_sortorder#:#Order
 poll#:#poll_percentage#:#Current Percentage
 poll#:#poll_update_order#:#Update Order
 poll#:#poll_edit_answer#:#Edit Answer
+poll#:#poll_info_delete_sure#:#Are you sure that you want to delete the following answers?

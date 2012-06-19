@@ -31,9 +31,11 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("action"));
 	
 		$this->setTitle($this->lng->txt("poll_answers"));
+		$this->setDescription($this->lng->txt("poll_question").": \"".
+			$a_parent_obj->object->getQuestion()."\"");
 
 		// $this->setSelectAllCheckbox("item_id");
-		$this->addMultiCommand("deleteAnswers", $lng->txt("delete"));
+		$this->addMultiCommand("confirmDeleteAnswers", $lng->txt("delete"));
 		$this->addCommandButton("updateAnswerOrder", $lng->txt("poll_update_order"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));

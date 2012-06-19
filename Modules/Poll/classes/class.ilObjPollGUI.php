@@ -456,6 +456,12 @@ class ilObjPollGUI extends ilObject2GUI
 	{
 		global $lng, $ilCtrl;
 		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
 		$form = $this->initAnswerForm();
 		if($form->checkInput())
 		{
@@ -473,6 +479,12 @@ class ilObjPollGUI extends ilObject2GUI
 	{
 		global $lng, $ilCtrl;
 		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
 		$form = $this->initAnswerForm($_REQUEST["pa_id"]);
 		if($form->checkInput())
 		{
@@ -488,12 +500,65 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function confirmDeleteAnswers()
 	{
+		global $lng, $ilCtrl, $ilTabs, $tpl;
 		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
+		if(!sizeof($_POST["answer_id"]))
+		{
+			ilUtil::sendFailure($lng->txt("select_one"), true);
+			$ilCtrl->redirect($this, "render");
+		}
+		
+		$ilTabs->activateTab("content");
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($lng->txt("poll_info_delete_sure"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($lng->txt("cancel"), "render");
+		$cgui->setConfirm($lng->txt("confirm"), "deleteAnswers");
+	    
+		foreach ($_POST["answer_id"] as $id)
+		{			
+			$answer = $this->object->getAnswer($id);
+			
+			$cgui->addItem("answer_id[]", $id, $answer["answer"]);			
+		}
+		
+		$tpl->setContent($cgui->getHTML());				
 	}
 	
 	function deleteAnswers()
 	{
+		global $lng, $ilCtrl;
 		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
+		if(!sizeof($_POST["answer_id"]))
+		{
+			ilUtil::sendFailure($lng->txt("select_one"), true);
+			$ilCtrl->redirect($this, "render");
+		}
+		
+		foreach ($_POST["answer_id"] as $id)
+		{	
+			$this->object->deleteAnswer($id);
+		}
+		
+		$this->object->rebuildAnswerPositions();
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "render");
 	}
 	
 	function updateAnswerOrder()
