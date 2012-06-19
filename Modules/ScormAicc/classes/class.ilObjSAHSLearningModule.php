@@ -1061,5 +1061,126 @@ class ilObjSAHSLearningModule extends ilObject
 			return null;
 		}
 	}
-} // END class.ilObjSCORMLearningModule
+	
+	/**
+	 * Populate by directory. Add a filename to do a special check for
+	 * ILIAS SCORM export files. If the corresponding directory is found
+	 * within the passed directory path (i.e. "htlm_<id>") this
+	 * subdirectory is used instead.
+	 *
+	 * @param
+	 * @return
+	 */
+	function populateByDirectoy($a_dir, $a_filename = "")
+	{
+		/*preg_match("/.*sahs_([0-9]*)\.zip/", $a_filename, $match);
+		if (is_dir($a_dir."/sahs_".$match[1]))
+		{
+			$a_dir = $a_dir."/sahs_".$match[1];
+		}*/
+		ilUtil::rCopy($a_dir, $this->getDataDirectory());
+		ilUtil::renameExecutables($this->getDataDirectory());
+	}
+
+	
+	/**
+	 * Clone scorm object
+	 *
+	 * @param int target ref_id
+	 * @param int copy id
+	 */
+	public function cloneObject($a_target_id,$a_copy_id = 0)
+	{
+		global $ilDB, $ilUser, $ilias;
+
+		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
+		$this->cloneMetaData($new_obj);
+
+		// copy properties
+		$new_obj->setTitle($this->getTitle());
+		$new_obj->setDescription($this->getDescription());
+		$new_obj->setSubType($this->getSubType());
+		$new_obj->setAPIAdapterName($this->getAPIAdapterName());
+		$new_obj->setAPIFunctionsPrefix($this->getAPIFunctionsPrefix());
+		$new_obj->setAutoReview($this->getAutoReview());
+		$new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
+		$new_obj->setEditable($this->getEditable());
+		$new_obj->setMaxAttempt($this->getMaxAttempt());
+//		$new_obj->getModuleVersion($this->getModuleVersion());	??
+		$new_obj->setModuleVersion(1);
+		$new_obj->setCreditMode($this->getCreditMode());
+		$new_obj->setAssignedGlossary($this->getAssignedGlossary());
+		$new_obj->setTries($this->getTries());
+		$new_obj->setSession($this->getSession());
+		$new_obj->setNoMenu($this->getNoMenu());
+		$new_obj->setHideNavig($this->getHideNavig());
+		$new_obj->setSequencing($this->getSequencing());
+		$new_obj->setInteractions($this->getInteractions());
+		$new_obj->setObjectives($this->getObjectives());
+		$new_obj->setComments($this->getComments());
+		$new_obj->setTime_from_lms($this->getTime_from_lms());
+		$new_obj->setDebug($this->getDebug());
+		$new_obj->setLocalization($this->getLocalization());
+		$new_obj->setSequencingExpertMode($this->getSequencingExpertMode());
+		$new_obj->setDebugPw($this->getDebugPw());
+		$new_obj->setOpenMode($this->getOpenMode());
+		$new_obj->setWidth($this->getWidth());
+		$new_obj->setHeight($this->getHeight());
+		$new_obj->setAutoContinue($this->getAutoContinue());
+		$new_obj->update();
+
+		// set/copy stylesheet
+/*		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $this->getStyleSheetId();
+		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$new_obj->setStyleSheetId($new_id);
+			$new_obj->update();
+		}*/
+		
+		// up to this point $new_obj is of type ilobjsahslearning module
+		
+		// create instance of correct subtype and call forward it to
+		// cloneIntoNewObject method
+		switch ($this->getSubType())
+		{
+			case "scorm":
+				include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
+				$source_obj = new ilObjSCORMLearningModule($this->getRefId());
+				$new_obj = new ilObjSCORMLearningModule($new_obj->getRefId());
+				$source_obj->cloneIntoNewObject($new_obj,$a_target_id,$a_copy_id);
+				break;
+				
+			case "scorm2004":
+				include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+				$source_obj = new ilObjSCORM2004LearningModule($this->getRefId());
+				$new_obj = new ilObjSCORM2004LearningModule($new_obj->getRefId());
+				break;
+
+			case "aicc":
+				include_once("./Modules/ScormAicc/classes/class.ilObjAICCLearningModule.php");
+				$source_obj = new ilObjAICCLearningModule($this->getRefId());
+				$new_obj = new ilObjAICCLearningModule($new_obj->getRefId());
+				break;
+
+			case "hacp":
+				include_once("./Modules/ScormAicc/classes/class.ilObjHACPLearningModule.php");
+				$source_obj = new ilObjHACPLearningModule($this->getRefId());
+				$new_obj = new ilObjHACPLearningModule($new_obj->getRefId());
+				break;
+
+		}
+
+		// copy data directory
+		$new_obj->populateByDirectoy($source_obj->getDataDirectory());
+
+		// read manifest file
+		$new_obj->readObject();
+
+		return $new_obj;
+	}
+
+}
 ?>
