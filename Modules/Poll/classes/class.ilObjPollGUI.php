@@ -51,76 +51,119 @@ class ilObjPollGUI extends ilObject2GUI
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng, $ilSetting;
-		
-		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
-		$a_form->addItem($notes);
-				
-		if($ilSetting->get('enable_global_profiles'))
-		{
-			$rss = new ilCheckboxInputGUI($lng->txt("blog_enable_rss"), "rss");
-			$rss->setInfo($lng->txt("blog_enable_rss_info"));
-			$a_form->addItem($rss);
-		}
+		global $lng;
 	
-		$ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
-		$a_form->addItem($ppic);
+		$question = new ilTextAreaInputGUI($lng->txt("poll_question"), "question");
+		$question->setRequired(true);
+		$question->setCols(40);
+		$question->setRows(2);
+		$a_form->addItem($question);
 		
-		$blga_set = new ilSetting("blga");
-		if($blga_set->get("banner"))
-		{		
-			$dimensions = " (".$blga_set->get("banner_width")."x".
-				$blga_set->get("banner_height").")";
+		$dimensions = " (".ilObjPoll::getImageSize()."px)";		
+		$img = new ilImageFileInputGUI($lng->txt("poll_image").$dimensions, "image");
+		$a_form->addItem($img);
 			
-			$img = new ilImageFileInputGUI($lng->txt("blog_banner").$dimensions, "banner");
-			$a_form->addItem($img);
-			
-			// show existing file
-			$file = $this->object->getImageFullPath(true);
-			if($file)
-			{
-				$img->setImage($file);
-			}
-		}		
+		// show existing file
+		$file = $this->object->getImageFullPath(true);
+		if($file)
+		{
+			$img->setImage($file);
+		}					
 		
-		$bg_color = new ilColorPickerInputGUI($lng->txt("blog_background_color"), "bg_color");
-		$a_form->addItem($bg_color);
+		$results = new ilRadioGroupInputGUI($lng->txt("poll_view_results"), "results");
+		$results->setRequired(true);
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_always"), 
+			ilObjPoll::VIEW_RESULTS_ALWAYS));
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_never"), 
+			ilObjPoll::VIEW_RESULTS_NEVER));
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_vote"), 
+			ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_period"), 
+			ilObjPoll::VIEW_RESULTS_AFTER_PERIOD));
+		$a_form->addItem($results);				
+		
+			
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		$this->lng->loadLanguageModule('rep');
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('rep_activation_availability'));
+		$a_form->addItem($section);
+		
+		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'online');		
+		$online->setInfo($this->lng->txt('poll_activation_online_info'));
+		$a_form->addItem($online);				
+		
+		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'access_type');
+		
+			$opt = new ilRadioOption($this->lng->txt('rep_visibility_limitless'), ilObjectActivation::TIMINGS_DEACTIVATED);
+			$opt->setInfo($this->lng->txt('poll_availability_limitless_info'));
+			$act_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
+			$opt->setInfo($this->lng->txt('poll_availability_until_info'));
 
-		$font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
-		$a_form->addItem($font_color);	
+				$date = $this->object->getAccessBegin();
+				
+				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'access_begin');
+				$start->setShowTime(true);		
+				$start->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$opt->addSubItem($start);
+				
+				$date = $this->object->getAccessEnd();
+				
+				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'access_end');			
+				$end->setShowTime(true);			
+				$end->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$opt->addSubItem($end);
+				
+				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
+				$visible->setInfo($this->lng->txt('poll_activation_limited_visibility_info'));
+				$opt->addSubItem($visible);
+				
+			$act_type->addOption($opt);
+		
+		$a_form->addItem($act_type);				
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
 	{
-		$a_values["notes"] = $this->object->getNotesStatus();
-		$a_values["ppic"] = $this->object->hasProfilePicture();
-		$a_values["bg_color"] = $this->object->getBackgroundColor();
-		$a_values["font_color"] = $this->object->getFontColor();
-		$a_values["banner"] = $this->object->getImage();
-		$a_values["rss"] = $this->object->hasRSS();
+		$a_values["online"] = $this->object->IsOnline();
+		$a_values["question"] = $this->object->getQuestion();
+		$a_values["image"] = $this->object->getImage();
+		$a_values["results"] = $this->object->getViewResults();
+		$a_values["access_type"] = $this->object->getAccessType();
+		// $a_values["access_begin"] = $this->object->getAccessBegin();
+		// $a_values["access_end"] = $this->object->getAccessEnd();
+		$a_values["access_visiblity"] = $this->object->getAccessVisibility();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		$this->object->setNotesStatus($a_form->getInput("notes"));
-		$this->object->setProfilePicture($a_form->getInput("ppic"));
-		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
-		$this->object->setFontColor($a_form->getInput("font_color"));
-		$this->object->setRSS($a_form->getInput("rss"));
-		
-		// banner field is optional
-		$banner = $a_form->getItemByPostVar("banner");
-		if($banner)
-		{				
-			if($_FILES["banner"]["tmp_name"]) 
-			{
-				$this->object->uploadImage($_FILES["banner"]);
-			}
-			else if($banner->getDeletionFlag())
-			{
-				$this->object->deleteImage();
-			}
+		$this->object->setQuestion($a_form->getInput("question"));
+		$this->object->setViewResults($a_form->getInput("results"));
+		$this->object->setOnline($a_form->getInput("online"));
+						
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		$this->object->setAccessType($a_form->getInput("access_type"));
+		if($this->object->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION)
+		{
+			$date = new ilDateTime($_POST['access_begin']['date'] . ' ' . $_POST['access_begin']['time'], IL_CAL_DATETIME);
+			$this->object->setAccessBegin($date->get(IL_CAL_UNIX));
+			$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);			
+			$this->object->setAccessEnd($date->get(IL_CAL_UNIX));
+			$this->object->setAccessVisibility($a_form->getInput("access_visiblity"));
 		}
+		
+		$image = $a_form->getItemByPostVar("image");				
+		if($_FILES["image"]["tmp_name"]) 
+		{
+			$this->object->uploadImage($_FILES["image"]);
+		}
+		else if($image->getDeletionFlag())
+		{
+			$this->object->deleteImage();
+		}		
 	}
 
 	function setTabs()

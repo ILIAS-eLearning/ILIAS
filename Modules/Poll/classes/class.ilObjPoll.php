@@ -19,6 +19,7 @@ class ilObjPoll extends ilObject2
 	protected $access_type; // [int]
 	protected $access_begin; // [timestamp]
 	protected $access_end; // [timestamp]
+	protected $access_visibility; // [bool]
 	protected $question; // [string]
 	protected $image; // [string]
 	protected $view_results; // [int]
@@ -83,6 +84,16 @@ class ilObjPoll extends ilObject2
 		return $this->access_end;
 	}
 	
+	function setAccessVisibility($a_value)
+	{
+		$this->access_visibility = (bool)$a_value;
+	}
+	
+	function getAccessVisibility()
+	{
+		return $this->access_visibility;
+	}
+	
 	function setQuestion($a_value)
 	{
 		$this->question = (string)$a_value;
@@ -129,8 +140,9 @@ class ilObjPoll extends ilObject2
 		{
 			$activation = ilObjectActivation::getItem($this->ref_id);			
 			$this->setAccessType($activation["timing_type"]);
-			$this->setAccessBegin($activation["timing_begin"]);
+			$this->setAccessBegin($activation["timing_start"]);
 			$this->setAccessEnd($activation["timing_end"]);							
+			$this->setAccessVisibility($activation["visible"]);							
 		}
 	}
 	
@@ -178,8 +190,9 @@ class ilObjPoll extends ilObject2
 			{
 				$activation = new ilObjectActivation();
 				$activation->setTimingType($this->getAccessType());
-				$activation->setTimingStart($this->getAcessBegin());
-				$activation->setTimingEnd($this->getAcessEnd());
+				$activation->setTimingStart($this->getAccessBegin());
+				$activation->setTimingEnd($this->getAccessEnd());
+				$activation->toggleVisible($this->getAccessVisibility());
 				$activation->update($this->ref_id);
 			}
 			
@@ -218,16 +231,17 @@ class ilObjPoll extends ilObject2
 	 */
 	function getImageFullPath($a_as_thumb = false)
 	{		
-		if($this->img)
+		$img = $this->getImage();
+		if($img)
 		{
 			$path = $this->initStorage($this->id);
 			if(!$a_as_thumb)
 			{
-				return $path.$this->img;
+				return $path.$img;
 			}
 			else
 			{
-				return $path."thb_".$this->img;
+				return $path."thb_".$img;
 			}
 		}
 	}
@@ -305,7 +319,7 @@ class ilObjPoll extends ilObject2
 			$thumb_file = ilUtil::escapeShellArg($path.$thumb);
 			$processed_file = ilUtil::escapeShellArg($path.$processed);
 			ilUtil::execConvert($original_file."[0] -geometry 100x100 -quality 100 JPEG:".$thumb_file);
-			ilUtil::execConvert($original_file."[0] -geometry ".self::getImageSize()."! -quality 100 JPEG:".$processed_file);
+			ilUtil::execConvert($original_file."[0] -geometry ".self::getImageSize()." -quality 100 JPEG:".$processed_file);
 			
 			$this->setImage($processed);
 			return true;
