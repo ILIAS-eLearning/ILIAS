@@ -19,9 +19,9 @@ class ilObjPollListGUI extends ilObjectListGUI
 	*/
 	function init()
 	{
-		$this->copy_enabled = true;
+		$this->copy_enabled = false;
 		$this->delete_enabled = true;
-		$this->cut_enabled = true;
+		$this->cut_enabled = false;
 		$this->subscribe_enabled = false;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;

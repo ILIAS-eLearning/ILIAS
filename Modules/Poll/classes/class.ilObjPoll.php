@@ -398,6 +398,19 @@ class ilObjPoll extends ilObject2
 			array("id" => array("integer", $a_id)));	
 	}
 	
+	function rebuildAnswerPositions()
+	{
+		$answers = $this->getAnswers();
+		
+		$pos = array();
+		foreach($answers as $item)
+		{
+			$pos[$item["id"]] = $item["pos"];
+		}
+		
+		$this->updateAnswerPositions($pos);
+	}
+	
 	function updateAnswerPositions(array $a_pos)
 	{
 		global $ilDB;
@@ -415,7 +428,7 @@ class ilObjPoll extends ilObject2
 		}
 	}
 	
-	protected function deleteAnswer($a_id)
+	function deleteAnswer($a_id)
 	{
 		global $ilDB;
 		
