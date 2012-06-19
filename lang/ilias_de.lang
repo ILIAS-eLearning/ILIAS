@@ -12654,7 +12654,7 @@ rep#:#rep_visibility_until#:#Zeitlich begrenzt
 assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
 assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer - nur während eines definierten Zeitraums freizuschalten.
 assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
-assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch ausserhab der Zugriffszeiten sichtbar.
+assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch ausserhalb der Zugriffszeiten sichtbar.
 book#:#booking_nr_of_items#:#Anzahl
 book#:#book_schedule_type_fixed#:#Fester Zeitplan
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
@@ -12664,3 +12664,32 @@ book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende
 forum#:#order_by_posts#:#Sortieren nach Beiträgen
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Nachrichten in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
+common#:#obj_poll#:#Abstimmung
+common#:#objs_poll#:#Abstimmungen
+common#:#obj_poll_dupliate:#:#Abstimmung kopieren
+poll#:#poll_new#:#Neue Abstimmung anlegen
+poll#:#poll_add#:#Abstimmung anlegen
+poll#:#poll_copy#:#Abstimmung kopieren
+poll#:#poll_edit#:#Abstimmung editieren
+rbac#:#poll_visible#:#Abstimmung ist sichtbar
+rbac#:#poll_read#:#Abstimmung lesen
+rbac#:#poll_write#:#Abstimmung bearbeiten
+rbac#:#poll_delete#:#Abstimmung löschen
+rbac#:#poll_copy#:#Abstimmung kopieren
+rbac#:#poll_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#root_create_poll#:#Neue Abstimmung anlegen
+rbac#:#cat_create_poll#:#Neue Abstimmung anlegen
+rbac#:#crs_create_poll#:#Neue Abstimmung anlegen
+rbac#:#fld_create_poll#:#Neue Abstimmung anlegen
+rbac#:#grp_create_poll#:#Neue Abstimmung anlegen
+poll#:#poll_question#:#Frage
+poll#:#poll_image#:#Bild
+poll#:#poll_view_results#:#Ergebnisse anzeigen
+poll#:#poll_view_results_always#:#Immer
+poll#:#poll_view_results_never#:#Niemals
+poll#:#poll_view_results_after_vote#:#Nach Stimmabgabe
+poll#:#poll_view_results_after_period#:#Nach Stimmperiode (siehe Sichtbarkeit unten)
+poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
+poll#:#poll_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Abstimmung nur während eines definierten Zeitraums freizuschalten.
+poll#:#poll_availability_until_info#:#Falls nicht online, haben nur Administratoren Zugriff auf die Abstimmung.
+poll#:#poll_activation_limited_visibility_info#:#Falls aktiv, ist die Abstimmung auch ausserhalb der Zugriffszeiten sichtbar.

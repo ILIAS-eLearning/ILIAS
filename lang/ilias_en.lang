@@ -12702,3 +12702,32 @@ forum#:#forums_forum_notification_disabled#:#You will no longer be notified abou
 forum#:#number_of_threads#:#Displayed Number of Threads per Page
 common#:#obj_wiki_duplicate#:#Copy Wiki
 common#:#obj_sahs_duplicate#:#Copy Learning Module
+common#:#obj_poll#:#Poll
+common#:#objs_poll#:#Polls
+common#:#obj_poll_dupliate:#:#Copy Poll
+poll#:#poll_new#:#Add New Poll
+poll#:#poll_add#:#Add Poll
+poll#:#poll_copy#:#Copy Poll
+poll#:#poll_edit#:#Edit Poll
+rbac#:#poll_visible#:#Poll is visible
+rbac#:#poll_read#:#Read access to poll
+rbac#:#poll_write#:#Edit Poll
+rbac#:#poll_delete#:#Delete Poll
+rbac#:#poll_copy#:#Copy Poll
+rbac#:#poll_edit_permission#:#Change permission settings
+rbac#:#root_create_poll#:#Create Poll
+rbac#:#cat_create_poll#:#Create Poll
+rbac#:#crs_create_poll#:#Create Poll
+rbac#:#fld_create_poll#:#Create Poll
+rbac#:#grp_create_poll#:#Create Poll
+poll#:#poll_question#:#Question
+poll#:#poll_image#:#Image
+poll#:#poll_view_results#:#Display Results
+poll#:#poll_view_results_always#:#Always
+poll#:#poll_view_results_never#:#Never
+poll#:#poll_view_results_after_vote#:#After Vote
+poll#:#poll_view_results_after_period#:#After Voting Period (see visibility below)
+poll#:#poll_activation_online_info#:#If offline, only administrators can see and edit the poll.
+poll#:#poll_availability_limitless_info#:#Choose this mode for making the poll available and accessible to users.
+poll#:#poll_availability_until_info#:#Choose this mode for making the poll available and accessible to users for a fixed period of time.
+poll#:#poll_activation_limited_visibility_info#:#If chosen, the poll is visible even outside of the given availability.
