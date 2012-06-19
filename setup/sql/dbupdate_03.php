@@ -10656,3 +10656,62 @@ if (!$ilDB->tableColumnExists('media_item', 'highlight_class'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3628>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$poll_type_id = ilDBUpdateNewObjectType::addNewType('poll', 'Poll Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY	
+);
+ilDBUpdateNewObjectType::addRBACOperations($poll_type_id, $rbac_ops);
+
+$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+ilDBUpdateNewObjectType::addRBACCreate('create_poll', 'Create Poll', $parent_types);
+
+ilDBUpdateNewObjectType::addCustomRBACOperation($poll_type_id, 'add_entry');
+
+?>
+<#3629>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3630>
+<?php
+  $fields = array(
+    'id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'question' => array(
+      'type' => 'text',
+      'length' => 1000
+    ),    
+    'image' => array(
+      'type' => 'text',
+      'length' => 1000
+    ),
+	'online_status' => array(
+      'type' => 'integer',
+      'length' => 1,
+	  'notnull' => true,
+	  'default' => 0
+    ),
+	'view_results' => array(
+      'type' => 'integer',
+      'length' => 1,
+	  'notnull' => true,
+	  'default' => 3
+    )   
+  ); 
+  $ilDB->createTable("il_poll", $fields);
+  $ilDB->addPrimaryKey("il_poll", array("id"));
+?>
