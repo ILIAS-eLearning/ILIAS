@@ -570,6 +570,18 @@ class ilObjPollGUI extends ilObject2GUI
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "render");
 	}	
+	
+	function vote()
+	{
+		global $tree, $ilUser;
+		
+		if($_POST["aw"])
+		{
+			$this->object->saveVote($ilUser->getId(), $_POST["aw"]);
+		}
+		
+		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
+	}
 }
 
 ?>

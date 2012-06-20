@@ -12739,3 +12739,8 @@ poll#:#poll_percentage#:#Current Percentage
 poll#:#poll_update_order#:#Update Order
 poll#:#poll_edit_answer#:#Edit Answer
 poll#:#poll_info_delete_sure#:#Are you sure that you want to delete the following answers?
+poll#:#poll_vote#:#Vote
+poll#:#poll_block_message_offline#:#This poll is offline.
+poll#:#poll_block_message_inactive#:#This poll will be available from %s.
+poll#:#poll_block_message_already_voted#:#You already voted in this poll.
+poll#:#poll_block_message_no_anwers#:#This poll is incomplete.

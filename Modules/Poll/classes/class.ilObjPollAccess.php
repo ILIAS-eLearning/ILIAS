@@ -87,6 +87,7 @@ class ilObjPollAccess extends ilObjectAccess
 		// offline?
 		if(!$row->online_status)
 		{
+			
 			return false;							
 		}
 		
