@@ -44,7 +44,7 @@ class ilObjPollAccess extends ilObjectAccess
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 				}
-				if(!$admin and !$is_visible)
+				if(!$admin and !$active and !$is_visible)
 				{
 					return false;
 				}
@@ -86,8 +86,7 @@ class ilObjPollAccess extends ilObjectAccess
 	
 		// offline?
 		if(!$row->online_status)
-		{
-			
+		{			
 			return false;							
 		}
 		
@@ -96,6 +95,7 @@ class ilObjPollAccess extends ilObjectAccess
 		switch($item['timing_type'])
 		{			
 			case ilObjectActivation::TIMINGS_DEACTIVATED:
+				$a_visible_flag = true;
 				return true;
 
 			case ilObjectActivation::TIMINGS_ACTIVATION:
