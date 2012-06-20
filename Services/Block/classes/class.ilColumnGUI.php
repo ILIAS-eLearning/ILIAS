@@ -28,7 +28,7 @@ class ilColumnGUI
 	protected $repositoryitems = array();
 	
 	// all blocks that are repository objects
-	protected $rep_block_types = array("feed");
+	protected $rep_block_types = array("feed","poll");
 	protected $block_property = array();
 	protected $admincommands = null;
 	protected $movementmode = null;
@@ -55,7 +55,8 @@ class ilColumnGUI
 		"ilHtmlBlockGUI" => "Services/Block/",
 		"ilPDFeedbackBlockGUI" => "Services/Feedback/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
-		'ilChatroomBlockGUI' => 'Modules/Chatroom/'
+		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
+		'ilPollBlockGUI' => 'Modules/Poll/'
 	);
 	
 	static protected $block_types = array(
@@ -74,7 +75,8 @@ class ilColumnGUI
 		"ilPDSelectedItemsBlockGUI" => "pditems",
 		"ilHtmlBlockGUI" => "html",
 		'ilPDTaggingBlockGUI' => 'pdtag',
-		'ilChatroomBlockGUI' => 'chatviewer'
+		'ilChatroomBlockGUI' => 'chatviewer',
+		'ilPollBlockGUI' => 'poll'
 	);
 	
 		

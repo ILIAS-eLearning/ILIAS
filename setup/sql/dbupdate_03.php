@@ -10742,3 +10742,25 @@ ilDBUpdateNewObjectType::addCustomRBACOperation($poll_type_id, 'add_entry');
   $ilDB->addPrimaryKey("il_poll_answer", array("id"));
   $ilDB->createSequence("il_poll_answer");
 ?>
+<#3632>
+<?php
+  $fields = array(
+    'user_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'poll_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    ),
+    'answer_id' => array(
+      'type' => 'integer',
+      'length' => 4,
+      'notnull' => true
+    )
+  ); 
+  $ilDB->createTable("il_poll_vote", $fields);
+  $ilDB->addPrimaryKey("il_poll_vote", array("user_id", "poll_id"));
+?>

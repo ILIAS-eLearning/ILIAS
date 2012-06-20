@@ -2189,7 +2189,7 @@ class ilTemplate extends ilTemplateX
 			//$selection->setSelectionHeaderClass("submit");
 			$selection->setUseImages(true);
 			$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT,
-				"main_page_form");
+				"select_objtype_form");
 			foreach ($this->creation_selector["options"] as $item)
 			{
 				$ttip = ilHelp::getObjCreationTooltipText($item["value"]);
@@ -2199,6 +2199,8 @@ class ilTemplate extends ilTemplateX
 			}
 			$this->setVariable("SELECT_OBJTYPE_REPOS",
 				$selection->getHTML());
+			$this->setVariable("SELECT_OBJTYPE_FORM_ACTION",
+				$this->page_form_action);
 			
 			$this->parseCurrentBlock();
 			$creation_selector = true;

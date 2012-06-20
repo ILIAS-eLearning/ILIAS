@@ -171,6 +171,15 @@ class ilObjPoll extends ilObject2
 			
 			
 			// object activation default entry will be created on demand
+			
+			
+			// block handling			
+			include_once "Modules/Poll/classes/class.ilPollBlock.php";
+			$block = new ilPollBlock();
+			$block->setType("poll");		
+			$block->setContextObjId($this->getId());
+			$block->setContextObjType("poll");
+			$block->create();
 		}
 	}
 		
@@ -434,6 +443,9 @@ class ilObjPoll extends ilObject2
 		
 		if($a_id)
 		{
+			$ilDB->manipulate("DELETE FROM il_poll_vote".
+				" WHERE answer_id = ".$ilDB->quote($this->getId(), "integer"));
+			
 			$ilDB->manipulate("DELETE FROM il_poll_answer".
 				" WHERE id = ".$ilDB->quote($a_id, "integer"));
 		}
@@ -445,9 +457,44 @@ class ilObjPoll extends ilObject2
 		
 		if($this->getId())
 		{
+			$ilDB->manipulate("DELETE FROM il_poll_vote".
+				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer"));
+			
 			$ilDB->manipulate("DELETE FROM il_poll_answer".
 				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer"));
 		}
+	}
+	
+	//
+	// votes
+	//
+	
+	function saveVote($a_user_id, $a_answer_id)
+	{
+		global $ilDB;
+		
+		if($this->hasUserVoted($a_user_id))
+		{
+			return;
+		}
+		
+		$fields = array("user_id" => array("integer", $a_user_id),
+			"poll_id" => array("integer", $this->getId()),
+			"answer_id" => array("integer", $a_answer_id));
+		
+		$ilDB->insert("il_poll_vote", $fields);
+	}
+	
+	function hasUserVoted($a_user_id)
+	{
+		global $ilDB;
+		
+		$sql = "SELECT user_id".
+			" FROM il_poll_vote".
+			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer");
+	    $set = $ilDB->query($sql);
+		return (bool)$ilDB->numRows($set);
 	}
 }
 

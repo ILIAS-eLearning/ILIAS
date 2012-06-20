@@ -6,7 +6,7 @@
 	<objects>
 		<object id="poll" class_name="Poll" dir="classes" default_pos="350" default_pres_pos="350"
 			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1" 
-			workspace="1" repository="1">
+			sideblock="1" workspace="1" repository="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>

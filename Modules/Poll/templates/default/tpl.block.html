@@ -1,0 +1,22 @@
+<tr class="{CSS_ROW}">
+	<td class="std">
+				
+		{TXT_QUESTION}
+		<!-- BEGIN image -->
+		<img src="{URL_IMAGE}" />
+		<!-- END image -->
+		<br />
+		
+		<!-- BEGIN answers -->
+		<form method="post" action="{URL_FORM}">
+		
+			<!-- BEGIN answer -->
+			<input type="radio" name="aw" value="{VALUE_ANSWER}" />{TXT_ANSWER}<br />
+			<!-- END answer -->
+		
+			<input type="submit" value="{TXT_SUBMIT}" name="cmd[{CMD_FORM}]" />
+		</form>
+		<!-- END answers -->
+		
+	</td>
+</tr>
