@@ -111,7 +111,11 @@ class ilPollBlock extends ilCustomBlock
 				return false;
 				
 			case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:				
-				// :TODO:				
+				if($this->poll->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION &&
+					$this->poll->getAccessEnd() < time())
+				{
+					return true;
+				}
 				return false;						
 		}						
 	}
@@ -131,8 +135,11 @@ class ilPollBlock extends ilCustomBlock
 			{
 				return $lng->txt("poll_block_message_offline");
 			}
-			$date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
-			return sprintf($lng->txt("poll_block_message_inactive"), $date);
+			if($this->poll->getAccessBegin() > time())
+			{
+				$date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
+				return sprintf($lng->txt("poll_block_message_inactive"), $date);
+			}
 		}
 		
 		if($this->poll->hasUserVoted($a_user_id) && 

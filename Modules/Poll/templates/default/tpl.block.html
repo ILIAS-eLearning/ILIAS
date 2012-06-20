@@ -7,16 +7,24 @@
 		<!-- END image -->
 		<br />
 		
-		<!-- BEGIN answers -->
+		<!-- BEGIN answers_vote -->
 		<form method="post" action="{URL_FORM}">
 		
 			<!-- BEGIN answer -->
-			<input type="radio" name="aw" value="{VALUE_ANSWER}" />{TXT_ANSWER}<br />
+			<input type="radio" name="aw" value="{VALUE_ANSWER}" />{TXT_ANSWER_VOTE}<br />
 			<!-- END answer -->
 		
 			<input type="submit" value="{TXT_SUBMIT}" name="cmd[{CMD_FORM}]" />
 		</form>
-		<!-- END answers -->
+		<!-- END answers_vote -->
+		
+		<!-- BEGIN answers_result -->
+		
+		<!-- BEGIN answer_result -->
+		{TXT_ANSWER_RESULT}: {PERC_ANSWER_RESULT}%<br />
+		<!-- END answer_result -->
+
+		<!-- END answers_result -->
 		
 	</td>
 </tr>

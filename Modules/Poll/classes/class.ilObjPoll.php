@@ -496,6 +496,32 @@ class ilObjPoll extends ilObject2
 	    $set = $ilDB->query($sql);
 		return (bool)$ilDB->numRows($set);
 	}
+	
+	function getVotePercentages()
+	{
+		global $ilDB;
+		
+		$res = array();
+		$cnt = 0;
+		
+		$sql = "SELECT answer_id, count(*) cnt".
+			" FROM il_poll_vote".
+			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer").
+			" GROUP BY answer_id";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$cnt += $row["cnt"];
+			$res[$row["answer_id"]] = array("abs"=>$row["cnt"], "perc"=>0);
+		}
+		
+		foreach($res as $id => $item)
+		{
+			$res[$id]["perc"] = $item["abs"]/$cnt*100;
+		}
+		
+		return $res;
+	}
 }
 
 ?>

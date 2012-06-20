@@ -58,15 +58,22 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 	function getItems()
 	{
 		$data = $this->parent_obj->object->getAnswers();
+		$perc = $this->parent_obj->object->getVotePercentages();
 		
 		// add current percentages
 		foreach($data as $idx => $item)
 		{
-			// :TODO:
-			$data[$idx]["percentage"] = 0;
+			if(!isset($perc[$item["id"]]))
+			{
+				$data[$idx]["percentage"] = 0;
+			}
+			else
+			{
+				$data[$idx]["percentage"] = number_format($perc[$item["id"]]["perc"], 2);
+			}
 		}
 
-		$this->setData($data);
+		$this->setData($data);		
 	}
 	
 	protected function fillRow($a_set)

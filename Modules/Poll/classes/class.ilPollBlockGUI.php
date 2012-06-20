@@ -91,6 +91,7 @@ class ilPollBlockGUI extends ilBlockGUI
 	{		
 		global $ilCtrl, $lng, $ilUser;
 		
+		
 		// handle messages
 		
 		$mess = $this->poll_block->getMessage($ilUser->getId());
@@ -109,17 +110,9 @@ class ilPollBlockGUI extends ilBlockGUI
 			foreach($a_poll->getAnswers() as $item)
 			{			
 				$this->tpl->setVariable("VALUE_ANSWER", $item["id"]);
-				$this->tpl->setVariable("TXT_ANSWER", nl2br($item["answer"]));
+				$this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($item["answer"]));
 				$this->tpl->parseCurrentBlock();
 			}		
-
-			$this->tpl->setVariable("TXT_QUESTION", nl2br($a_poll->getQuestion()));
-
-			$img = $a_poll->getImageFullPath();
-			if($img)
-			{
-				$this->tpl->setVariable("URL_IMAGE", $img);
-			}
 
 			$ilCtrl->setParameterByClass("ilobjpollgui",
 					"ref_id", $this->getRefId());		
@@ -137,8 +130,23 @@ class ilPollBlockGUI extends ilBlockGUI
 		
 		if($this->poll_block->maySeeResults($ilUser->getId()))
 		{	
+			$perc = $this->poll_block->getPoll()->getVotePercentages();
 			
-			
+			$this->tpl->setCurrentBlock("answer_result");
+			foreach($a_poll->getAnswers() as $item)
+			{			
+				$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($item["answer"]));
+				$this->tpl->setVariable("PERC_ANSWER_RESULT", number_format($perc[$item["id"]]["perc"], 2));
+				$this->tpl->parseCurrentBlock();
+			}		
+		}
+				
+		$this->tpl->setVariable("TXT_QUESTION", nl2br($a_poll->getQuestion()));
+
+		$img = $a_poll->getImageFullPath();
+		if($img)
+		{
+			$this->tpl->setVariable("URL_IMAGE", $img);
 		}
 	}
 
