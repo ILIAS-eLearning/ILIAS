@@ -130,7 +130,12 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 
 		 // copy page content
 		$page = $slm_page->getPageObject();
-		$page->setXMLContent($this->page_object->copyXMLContent());
+		// clone media objects, if source and target lm are not the same
+		$clone_mobs = ($this->getSLMId() == $a_target_slm->getId())
+			? false
+			: true;
+		
+		$page->setXMLContent($this->page_object->copyXMLContent($clone_mobs));
 		$page->buildDom();
 		$page->update();
 
