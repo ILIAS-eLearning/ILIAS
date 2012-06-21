@@ -57,6 +57,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setData($a_data);
 	}
 	
+	
 	/**
 	 * fill row 
 	 *
@@ -83,7 +84,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 					if($a > 0)
 					{
 						$file_obj = new ilObjDataCollectionFile($a, false);
-						// echo "<pre>".print_r(get_class_methods($file_obj), 1)."</pre>";
 						$this->tpl->setCurrentBlock("field_link");
 						$this->tpl->setVariable("CONTENT", $file_obj->getTitle());
 						//$ilCtrl->setParameterByClass("ilobjfilegui", "id", $a);
