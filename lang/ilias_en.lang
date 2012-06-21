@@ -12744,3 +12744,4 @@ poll#:#poll_block_message_offline#:#This poll is offline.
 poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
+survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)
