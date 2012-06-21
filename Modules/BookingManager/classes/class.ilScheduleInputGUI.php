@@ -67,7 +67,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	*/
 	function setValueByArray($a_values)
 	{
-		$this->setValue(self::getPostData($this->getPostVar()));
+		$this->setValue(self::getPostData($this->getPostVar(), false));
 	}
 
 	/**
@@ -79,7 +79,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 	{
 		global $lng;
 		
-		$data = self::getPostData($this->getPostVar(), true);
+		$data = self::getPostData($this->getPostVar(), false);
 		if(sizeof($data))
 		{
 			// slots may not overlap
@@ -97,7 +97,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 				
 				foreach($data as $rslot => $rdays)
 				{
-					if($slot != $rslot && array_intersect($days, $rdays))
+					if($slot != $rslot && $rdays && array_intersect($days, $rdays))
 					{
 						$rparts = explode("-", $rslot);
 						$rfrom = str_replace(":", "", $rparts[0]);
@@ -126,7 +126,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 		return true;
 	}
 	
-	static function getPostData($a_post_var, $a_remove_invalid = false)
+	static function getPostData($a_post_var, $a_remove_invalid = true)
 	{
 		$res = array();		
 		for($loop = 0; $loop < 24; $loop++)
@@ -140,9 +140,9 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 			// only if any part was edited (js based gui)
 			if($days || $from != "00:00" || $to != "00:00")
 			{				
-				if(!$a_remove_invalid || ($days && $from && $to && $from != $to))
-				{								
-					$slot = $from."-".$to;
+				$slot = $from."-".$to;				
+				if($days)
+				{
 					if(isset($res[$slot]))
 					{
 						$res[$slot] = array_unique(array_merge($res[$slot], $days));		
@@ -154,7 +154,12 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 				}
 				else
 				{
-					$res[$slot] = false;
+					$res[$slot] = array();
+				}
+				
+				if($a_remove_invalid && !($days && $from && $to && $from != $to))
+				{						
+					unset($res[$slot]);
 				}
 			}
 		}
