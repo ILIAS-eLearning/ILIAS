@@ -120,6 +120,8 @@ class ilSurveyPhrasesGUI
 	{
 		global $rbacsystem;
 		
+		$this->ctrl->setParameter($this, "p_id", "");
+		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php";
