@@ -1129,6 +1129,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setAutoContinue($this->getAutoContinue());
 		$new_obj->update();
 
+
 		// set/copy stylesheet
 /*		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
@@ -1176,9 +1177,17 @@ class ilObjSAHSLearningModule extends ilObject
 		// copy data directory
 		$new_obj->populateByDirectoy($source_obj->getDataDirectory());
 
-		// read manifest file
-		$new_obj->readObject();
-
+		// copy authored content ...
+		if ($new_obj->getEditable())
+		{
+			$source_obj->copyAuthoredContent($new_obj);
+		}
+		else 
+		{
+			// ... or read manifest file
+			$new_obj->readObject();
+		}
+		
 		return $new_obj;
 	}
 

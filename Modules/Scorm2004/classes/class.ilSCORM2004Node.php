@@ -904,16 +904,29 @@ class ilSCORM2004Node
 	}
 
 	/**
-	* Paste item (tree) from clipboard to current scorm learning module
-	*/
+	 * Paste item (tree) from clipboard or other learning module to target scorm learning module
+	 *
+	 * @param object $a_target_slm target scorm 2004 learning module object
+	 * @param int $a_item_id id of item that should be pasted
+	 * @param int $a_parent_id parent id in target tree,
+	 * @param int $a_target predecessor target node, no ID means: last child
+	 * @param string $a_insert_time cliboard insert time (not needed, if $a_from_cliboard is false)
+	 * @param array $a_copied_nodes array of IDs od copied nodes, key is ID of source node, value is ID of copied node
+	 * @param bool $a_as_copy if true, items are copied otherwise they are moved
+	 * @param bool $a_from_clipboard if true, child node information is read from clipboard, otherwise from source tree
+	 */
 	static function pasteTree($a_target_slm, $a_item_id, $a_parent_id, $a_target, $a_insert_time,
-		&$a_copied_nodes, $a_as_copy = false)
+		&$a_copied_nodes, $a_as_copy = false, $a_from_clipboard = true)
 	{
 		global $ilUser, $ilias, $ilLog;
 
+		// source lm id, item type and lm object
 		$item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
 		$item_type = ilSCORM2004Node::_lookupType($a_item_id);
-		$slm_obj = $ilias->obj_factory->getInstanceByObjId($item_slm_id);
+		//$slm_obj = $ilias->obj_factory->getInstanceByObjId($item_slm_id);
+		include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
+		$slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);
+		
 		if ($item_type == "chap")
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
@@ -958,7 +971,7 @@ class ilSCORM2004Node
 			if ($item_type == "page")
 			{
 				$page = $item->getPageObject();
-				$page->buildDom();
+				$page->buildDom($a_from_clipboard);
 				$page->setParentId($a_target_slm->getId());
 				$page->update();
 			}
@@ -980,11 +993,23 @@ class ilSCORM2004Node
 		
 		ilSCORM2004Node::putInTree($target_item, $a_parent_id, $a_target);
 		
-		$childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
+		if ($a_from_clipboard)
+		{
+			$childs = $ilUser->getClipboardChilds($item->getId(), $a_insert_time);
+		}
+		else
+		{
+			// get childs of source tree
+			$source_tree = $slm_obj->getTree();
+			$childs = $source_tree->getChilds($a_item_id);
+		}
 
 		foreach($childs as $child)
 		{
-			ilSCORM2004Node::pasteTree($a_target_slm, $child["id"], $target_item->getId(),
+			$child_id = ($a_from_clipboard)
+				? $child["id"]
+				: $child["child"];
+			ilSCORM2004Node::pasteTree($a_target_slm, $child_id, $target_item->getId(),
 				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy);
 		}
 		

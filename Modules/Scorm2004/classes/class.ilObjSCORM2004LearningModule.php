@@ -2016,5 +2016,39 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		return $retAr;
 	}
 	
+	/**
+	 * Copy authored content (everything done with the editor
+	 *
+	 * @param
+	 * @return
+	 */
+	function copyAuthoredContent($a_new_obj)
+	{
+		global $ilias;
+		
+		// set/copy stylesheet
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$style_id = $this->getStyleSheetId();
+		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+		{
+			$style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+			$new_id = $style_obj->ilClone();
+			$a_new_obj->setStyleSheetId($new_id);
+			$a_new_obj->update();
+		}
+		
+		$a_new_obj->createScorm2004Tree();
+		$source_tree = $this->getTree();
+		$target_tree_root_id = $a_new_obj->getTree()->readRootId();
+		$childs = $source_tree->getChilds($source_tree->readRootId());
+		$a_copied_nodes = array();
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+		foreach ($childs as $c)
+		{
+			ilSCORM2004Node::pasteTree($a_new_obj, $c["child"], $target_tree_root_id,
+				IL_LAST_NODE, "", $a_copied_nodes, true, false);
+		}
+	}
+	
 }
 ?>
