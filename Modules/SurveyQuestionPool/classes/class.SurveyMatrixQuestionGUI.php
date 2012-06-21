@@ -289,8 +289,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
 		// matrix rows
 		include_once "./Modules/SurveyQuestionPool/classes/class.ilMatrixRowWizardInputGUI.php";
-		$rows = new ilMatrixRowWizardInputGUI($this->lng->txt('row_text'), "rows");
-		$rows->setRequired(true);
+		$rows = new ilMatrixRowWizardInputGUI("", "rows");
+		$rows->setRequired(false);
 		$rows->setAllowMove(true);
 		$rows->setLabelText($this->lng->txt('label'));
 		$rows->setUseOtherAnswer(true);
