@@ -10764,3 +10764,7 @@ ilDBUpdateNewObjectType::addCustomRBACOperation($poll_type_id, 'add_entry');
   $ilDB->createTable("il_poll_vote", $fields);
   $ilDB->addPrimaryKey("il_poll_vote", array("user_id", "poll_id"));
 ?>
+<#3633>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
