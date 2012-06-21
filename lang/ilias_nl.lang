@@ -130,7 +130,7 @@ administration#:#language_error_write_local#:#De plaatselijke taal lijst kan nie
 administration#:#language_export_file#:#Talenbestand exporteren
 administration#:#language_file_imported#:#Het taalbestand %s is geïmporteerd.
 administration#:#language_file_scope#:#Inhoud talenbestand
-administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed MacElsy version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab.
+administration#:#language_former_file_description#:#To compare your local changes with the changes of the last update, please copy the language file of the previously installed ILIAS version to the folder of local language files. The current language file is automatically copied when you save your local language file on the 'Maintain' tab.
 administration#:#language_former_file_equal#:#De lijst <b>%s</b> is identiek aan de huidige taal lijst.
 administration#:#language_former_file_missing#:#het bestand <b>%s</b> mist.
 administration#:#language_import_file#:#Talenbestand importeren
@@ -236,12 +236,12 @@ administration#:#usr_loginname_history_info#:#De gebruiker veranderde  zijn logi
 administration#:#view_last_log#:#Toon laatste scanlog
 administration#:#view_log#:#Toon details
 adve#:#adve_grp_glo#:#Woordenlijst
-adve#:#adve_grp_lm#:#MacElsy Learning Modules
+adve#:#adve_grp_lm#:#ILIAS Learning Modules
 adve#:#adve_grp_rep#:#Studiecentrum bladzijden
 adve#:#adve_grp_scorm#:#SCORM Editing
 adve#:#adve_grp_test#:#Test & Assessment
 adve#:#adve_grp_wiki#:#Wikis
-adve#:#adve_page_editor_settings#:#MacElsy Page Editor Settings
+adve#:#adve_page_editor_settings#:#ILIAS Page Editor Settings
 adve#:#adve_rte_settings#:#Rich Text Editor Settings
 adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#0_unlimited#:#(0=onbegrensd)
@@ -673,11 +673,11 @@ assessment#:#qpl_export_excel#:#Microsoft Excel file
 assessment#:#qpl_export_select_none#:#Selecteer minstens één vraag voor export
 assessment#:#qpl_export_xml#:#QTI XML file
 assessment#:#qpl_general_properties#:#Algemene eigenschappen
-assessment#:#qpl_imagemap_preview_missing#:#MacElsy kan geen tijdelijk preview creëren. De originele afbeelding wordt in de plaats getoond. Dit betekent dat de webserver's ImageMagick tool niet goed geinstalleerd is of de tijdelijke map heeft geen schrijf rechten. Contacteer hiervoor de administrator
+assessment#:#qpl_imagemap_preview_missing#:#ILIAS kan geen tijdelijk preview creëren. De originele afbeelding wordt in de plaats getoond. Dit betekent dat de webserver's ImageMagick tool niet goed geinstalleerd is of de tijdelijke map heeft geen schrijf rechten. Contacteer hiervoor de administrator
 assessment#:#qpl_import_create_new_qpl#:#Importeer de vragen in de vragenpool
 assessment#:#qpl_import_no_items#:#Error:Het import bestand bevat geen vragen
-assessment#:#qpl_import_non_ilias_files#:#Error: Het import bestand bevat QTI files die niet gemaakt zijn door een MacElsy systeem. Contacteer de MacElsy administrator om een import filter voor QTI bestanden te verkrijgen
-assessment#:#qpl_import_verify_found_questions#:#MacElsy heeft de volgende vraag gevonden in het import bestand. Selecteer aub de vragen die u wilt importeren
+assessment#:#qpl_import_non_ilias_files#:#Error: Het import bestand bevat QTI files die niet gemaakt zijn door een ILIAS systeem. Contacteer de ILIAS administrator om een import filter voor QTI bestanden te verkrijgen
+assessment#:#qpl_import_verify_found_questions#:#ILIAS heeft de volgende vraag gevonden in het import bestand. Selecteer aub de vragen die u wilt importeren
 assessment#:#qpl_move_insert_clipboard#:#De geselecteerde vragen zijn gemarkeerd om te verwijderen
 assessment#:#qpl_move_select_none#:#Selecteer tenminste 1 vraag om te markeren voor verwijdering
 assessment#:#qpl_online_property#:#Online
@@ -801,7 +801,7 @@ assessment#:#time_format#:#UU MM SS
 assessment#:#too_many_empty_parameters#:#Vul alle lege applet-parameters in voordat u een nieuwe parameter toevoegd !
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
 assessment#:#true#:#Waar
-assessment#:#tst_access_code_created#:#Om u permanente toegang te geven tot de test resultaten en de mogelijkheid te bieden uw test later te hernemem, heeft MacElsy een toegangscode gecreërd. Schrijf deze code op zodat u ze later kan gebruiken
+assessment#:#tst_access_code_created#:#Om u permanente toegang te geven tot de test resultaten en de mogelijkheid te bieden uw test later te hernemem, heeft ILIAS een toegangscode gecreërd. Schrijf deze code op zodat u ze later kan gebruiken
 assessment#:#tst_all_user_data_deleted#:#Alle gebruikersgegevens van deze test zijn verwijderd!
 assessment#:#tst_allow_fixed_participants#:#Sta vaste deelnemers in deze test toe
 assessment#:#tst_allow_instant_verification#:#Sta onmiddellijke controle van antwoorden toe
@@ -827,11 +827,11 @@ assessment#:#tst_count_correct_solutions#:#Tel enkel volledige oplossingen
 assessment#:#tst_count_partial_solutions#:#Tel alle oplossingen
 assessment#:#tst_count_system_description#:#Als de gedeeltelijke oplossingen worden geteld, worden de punten voor een vraag gegeven afhankelijk van de antwoorden van een deelnemer. Als slechts de volledige oplossingen worden geteld, moet een deelnemer de maximum beschikbare punten voor een vraag bereiken, anders worden de resulterende punten geplaatst aan nul.
 assessment#:#tst_defaults_applied#:#De geselecteerde standaardtests zijn aangepast.
-assessment#:#tst_defaults_apply_not_possible#:#MacElsy kon de geselecteerde standaardtesten op deze test niet toepassen! Misschien bevat deze test reeds vragen en/of deelnemersgegevens.
+assessment#:#tst_defaults_apply_not_possible#:#ILIAS kon de geselecteerde standaardtesten op deze test niet toepassen! Misschien bevat deze test reeds vragen en/of deelnemersgegevens.
 assessment#:#tst_defaults_apply_select_one#:#Gelieve een standaardtest te selecteren om de standaardwaarden toe te passen voor deze test.
 assessment#:#tst_defaults_available#:#Beschikbare standaardtest
 assessment#:#tst_defaults_defaults_of_test#:#De standaardtests
-assessment#:#tst_defaults_dont_use#:#--- Gebruik toetsstandaard van MacElsy ---
+assessment#:#tst_defaults_dont_use#:#--- Gebruik toetsstandaard van ILIAS ---
 assessment#:#tst_defaults_enter_name#:#Gelieve een naam in te geven voor uw standaardtoets!
 assessment#:#tst_defaults_not_defined#:#U hebt nog  geen standaardtoets ingesteld.
 assessment#:#tst_delete_all_user_data#:#Verwijder alle gebruikersgegevens
@@ -875,7 +875,7 @@ assessment#:#tst_hide_previous_results_hide#:#Indien geselecteerd zullen de resu
 assessment#:#tst_hide_previous_results_introduction#:#Indien u meer dan 1 maal voor deze test slaagt, dan zullen de vorige resultaten van de test niet als standaard woarden opgeslagen worden
 assessment#:#tst_hide_side_list#:#Verberg vragen bestand
 assessment#:#tst_import_no_items#:#Error: Het import bestand bevat geen vragen
-assessment#:#tst_import_verify_found_questions#:#MacElsy heeft de volgende vragen gevonden in het import bestand. Selecteer de vragen die u wilt toevoegen
+assessment#:#tst_import_verify_found_questions#:#ILIAS heeft de volgende vragen gevonden in het import bestand. Selecteer de vragen die u wilt toevoegen
 assessment#:#tst_in_use_edit_questions_disabled#:#De test is in gebruik door %d gebruiker(s). U bent niet toegelaten om de test aan te passen
 assessment#:#tst_insert_missing_question#:#Selecteer a.u.b op zijn minst één vraag als u deze in de test wilt invoegen!
 assessment#:#tst_insert_questions#:#Weet u zeker, dat u de volgende vraag(vragen) aan de test wilt toevoegen
@@ -1131,12 +1131,12 @@ assessment#:#worked_through#:#Geantwoord
 assessment#:#working_time#:#Werktijd
 assessment#:#working_time_avg#:#Gemiddelde werk tijd
 assessment#:#you_received_a_of_b_points#:#U ontving  %s van %s mogelijke aantal punten
-auth#:#auth_account_migration#:#Nieuw MacElsy Account
+auth#:#auth_account_migration#:#Nieuw ILIAS Account
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
-auth#:#auth_info_add#:#Kies deze optie als u niet eerder geregistreerd bent bij MacElsy. Een nieuw account zal aangemaakt worden.
-auth#:#auth_info_migrate#:#Als u al een MacElsy account heeft, voer uw gebruikersnaam en wachtwoord in om uw persoonlijke gegevens te migreren (Mail, Toetsresultaten, ...).
+auth#:#auth_info_add#:#Kies deze optie als u niet eerder geregistreerd bent bij ILIAS. Een nieuw account zal aangemaakt worden.
+auth#:#auth_info_migrate#:#Als u al een ILIAS account heeft, voer uw gebruikersnaam en wachtwoord in om uw persoonlijke gegevens te migreren (Mail, Toetsresultaten, ...).
 auth#:#auth_openid#:#OpenId
 auth#:#auth_openid_configure#:#Configure OpenId-Authentication
 auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
@@ -1144,7 +1144,7 @@ auth#:#auth_openid_enable#:#Enable OpenId Support
 auth#:#auth_openid_login#:#Your OpenID
 auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider
 auth#:#auth_openid_migration#:#Account Migration:
-auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing MacElsy accounts to OpenId authentication.
+auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.
 auth#:#auth_openid_provider#:#Provider Selection
 auth#:#auth_openid_provider_add#:#Add Provider
 auth#:#auth_openid_provider_edit#:#Edit Provider
@@ -1157,7 +1157,7 @@ auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection
 auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.
 auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com
 auth#:#auth_rad_migration#:#Accounts Verhuizen:
-auth#:#auth_rad_migration_info#:#Activeer deze optie om nieuwe gebruikers de mogelijkheid te geven om hun MacElsy accounts naar Radius authenticatie te migreren.
+auth#:#auth_rad_migration_info#:#Activeer deze optie om nieuwe gebruikers de mogelijkheid te geven om hun ILIAS accounts naar Radius authenticatie te migreren.
 auth#:#auth_radius_charset#:#Tekenset
 auth#:#auth_radius_charset_info#:#Kies de tekenset voor de communicatie met de Radius server. Indien u onzeker bent, kies UTF-8.
 barometer#:#anonymous#:#Anonieme
@@ -1429,7 +1429,7 @@ certificate#:#certificate_var_user_country#:#USA
 certificate#:#certificate_var_user_department#:#Customer Support
 certificate#:#certificate_var_user_firstname#:#Jane
 certificate#:#certificate_var_user_fullname#:#Dr. Jane Doe
-certificate#:#certificate_var_user_institution#:#MacElsy Open Source
+certificate#:#certificate_var_user_institution#:#ILIAS Open Source
 certificate#:#certificate_var_user_lastname#:#Doe
 certificate#:#certificate_var_user_salutation#:#Mrs.
 certificate#:#certificate_var_user_street#:#100 Main Street
@@ -1556,7 +1556,7 @@ chat#:#chat_no_rename_public#:#De publieke chatruimte kan niet worden herbenoemd
 chat#:#chat_no_room_selected#:#No room has been selected.
 chat#:#chat_no_users_selected#:#U moet een gebruiker selecteren
 chat#:#chat_no_write_perm#:#Geen rechten om te schrijven
-chat#:#chat_notification_intro#:#Deze e-mail is automatisch verzonden door MacElsy %s, %
+chat#:#chat_notification_intro#:#Deze e-mail is automatisch verzonden door ILIAS %s, %
 chat#:#chat_olive#:#olive
 chat#:#chat_online_users#:#Gebruiker (online)
 chat#:#chat_open#:#Enter Room
@@ -1753,7 +1753,7 @@ common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
 common#:#accessFree#:#Remove limited Access
 common#:#accessRestrict#:#Set limited Access
 common#:#account_expires_body#:#Uw toegang is gelimiteerd. Het loopt af op:
-common#:#account_expires_subject#:#[MacElsy] Uw abonnement verloopt
+common#:#account_expires_subject#:#[ILIAS] Uw abonnement verloopt
 rbac#:#accs_edit_permission#:#Change permission settings
 rbac#:#accs_read#:#Read access to Accessibility Settings
 rbac#:#accs_visible#:#Toegankelijkheidsinstellingen zijn zichtbaar
@@ -1949,10 +1949,10 @@ common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticatie gebruiker via LDAP server
 common#:#auth_ldap_enable#:#LDAP ondersteuning
 common#:#auth_ldap_migration#:#Account Migration
-common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing MacElsy accounts to LDAP authentication.
+common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
 common#:#auth_ldap_not_configured#:#LDAP is nog niet geconfigureerd
 common#:#auth_ldap_settings_saved#:#LDAP instellingen bewaard
-common#:#auth_local#:#MacElsy gegevensbank
+common#:#auth_local#:#ILIAS gegevensbank
 common#:#auth_local_desc#:#Authenticatie gebruiker via lokale gegevensbank (standaard)
 common#:#auth_login_instructions#:#instructie op login scherm
 common#:#auth_mode#:#Authenticatie modus
@@ -1981,7 +1981,7 @@ common#:#auth_selection#:#Aanmelden bij
 common#:#auth_settings#:# Authentificatie instellingen
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method
-common#:#auth_shib_instructions#:#Lees eerst 'README' voor de instructies om Shibboleth te installeren voor MacElsy.
+common#:#auth_shib_instructions#:#Lees eerst 'README' voor de instructies om Shibboleth te installeren voor ILIAS.
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_shibboleth#:#Shibboleth
 common#:#auth_soap#:#SOAP
@@ -2002,7 +2002,7 @@ common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatical
 common#:#auth_user_default_role#:#Rol
 common#:#auth_visible#:#Authentificatie instellingen zijn zichtbaar
 common#:#auth_write#:#Wijzig authentificatie instellingen
-common#:#authenticate_ilias#:#Aanmelden bij MacElsy
+common#:#authenticate_ilias#:#Aanmelden bij ILIAS
 common#:#authenticate_with#:#Aanmelden bij:
 common#:#authentication_settings#:#Authentificatie instellingen
 common#:#author#:#Auteur
@@ -2034,7 +2034,7 @@ common#:#bkm_sendmail#:#Verstuur als bijlage
 common#:#block#:#Blok
 common#:#block_management#:#Blokbeheer
 common#:#bm#:#Favoriet
-common#:#bm_add_to_ilias#:#Add to MacElsy Bookmarks
+common#:#bm_add_to_ilias#:#Add to ILIAS Bookmarks
 common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bmf#:#Favorietmap
@@ -2198,7 +2198,7 @@ common#:#check_all#:#Selecteer alle
 common#:#check_langfile#:#Controleer uw taalbestand
 common#:#check_languages#:#Talen controleren
 common#:#check_link#:#Link gecontroleerd
-common#:#check_link_desc#:#Indien geselecteerd worden alle externe linken in MacElsy gecontroleerd
+common#:#check_link_desc#:#Indien geselecteerd worden alle externe linken in ILIAS gecontroleerd
 common#:#check_max_allowed_packet_size#:#De pagina-inhoud is te groot.
 common#:#check_user_accounts#:#Controleer gebruikersaccount
 common#:#check_user_accounts_desc#:#If cron jobs are activated and this option is enabled, all users whose account expires will be infored by email.
@@ -2206,8 +2206,8 @@ common#:#check_web_resources#:#Controleer website(s)
 common#:#check_web_resources_desc#:#Indien geselecteerd worden alle webbronnen gecontroleerd
 common#:#checked#:#Aangeduid
 common#:#checked_files#:#Te importeren bestanden
-common#:#chg_ilias_and_webfolder_password#:#Change MacElsy and Webfolder Password
-common#:#chg_ilias_password#:#Change MacElsy Password
+common#:#chg_ilias_and_webfolder_password#:#Change ILIAS and Webfolder Password
+common#:#chg_ilias_password#:#Change ILIAS Password
 common#:#chg_language#:#Taal wijzigen
 common#:#chg_password#:#Wijzig wachtwoord
 common#:#choose_language#:#Kies uw taal
@@ -2553,19 +2553,19 @@ common#:#enumerate#:#Opsommen
 common#:#err_1_param#:#Slechts 1 parameter!
 common#:#err_2_param#:#Slechts 2 parameters!
 common#:#err_auth_apache_failed#:#De authentificatie is mislukt. Misschien heeft u geen geldig gebruikers certificaat if is uw smartcard niet geinstalleerd..
-common#:#err_auth_cas_no_ilias_user#:#Login mislukt. CAS authentificatie succesvol, maar geen overeenkomstige MacElsy gebruiker gevonden. Gelieve de systeem administrator te contacteren
+common#:#err_auth_cas_no_ilias_user#:#Login mislukt. CAS authentificatie succesvol, maar geen overeenkomstige ILIAS gebruiker gevonden. Gelieve de systeem administrator te contacteren
 common#:#err_auth_ext_user_exists#:#Externe account '%s' voor authentificatie mode '%s' bestaat reeds al. (User '%s')
-common#:#err_auth_ldap_no_ilias_user#:#Login mislukt. LDAP authentificatie succesvol, maar deze gebruiker bestaat niet in MacElsy. Gelieve de systeemadministrator te contacteren.
+common#:#err_auth_ldap_no_ilias_user#:#Login mislukt. LDAP authentificatie succesvol, maar deze gebruiker bestaat niet in ILIAS. Gelieve de systeemadministrator te contacteren.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
 common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.
-common#:#err_auth_soap_no_ilias_user#:##Login mislukt. SOAP authentificatie succesvol, maar geen overeenkomstige MacElsy gebruiker gevonden. Gelieve de systeemadministrator te contacteren
+common#:#err_auth_soap_no_ilias_user#:##Login mislukt. SOAP authentificatie succesvol, maar geen overeenkomstige ILIAS gebruiker gevonden. Gelieve de systeemadministrator te contacteren
 common#:#err_check_input#:#De instellingen konden niet worden bewaard. Gelieve de instellingen te controlleren.
 common#:#err_count_param#:#Reden: Verkeerde aantal parameters
 common#:#err_enter_current_passwd#:#Voer uw huidige wachtwoord in
 common#:#err_in_line#:#Fout in regel
 common#:#err_inactive#:#Deze gebruikers is niet geactiveerd. Voor toegang neem contact op met de systeemadministrator.
 common#:#err_invalid_port#:#Ongeldig poortnummer
-common#:#err_ldap_auth_failed#:#Gebruiker niet geauthenticeerd voor LDAP-server! Verzeker u ervan dat u het zelfde wachtwoord hebt voor  MacElsy en LDAP
+common#:#err_ldap_auth_failed#:#Gebruiker niet geauthenticeerd voor LDAP-server! Verzeker u ervan dat u het zelfde wachtwoord hebt voor  ILIAS en LDAP
 common#:#err_ldap_connect_failed#:#Verbindingmaken met LDAP mislukt!. Controleer uw instellingen
 common#:#err_ldap_search_failed#:#BaseDN
 common#:#err_ldap_user_not_found#:#Gebruiker niet gevonden op de LDAP-server! Controleer attributen van gebruikersnaam en Objectclass
@@ -3139,7 +3139,7 @@ common#:#il_grp_status_open#:#Group open
 common#:#il_icrs_admin#:#LearnLinc Seminar administrator
 common#:#il_icrs_member#:#LearnLinc Seminar lid
 common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
-common#:#ilias_username#:#MacElsy Gebruikersnaam
+common#:#ilias_username#:#ILIAS Gebruikersnaam
 common#:#ilias_version#:#ILIAS versie
 common#:#ilinc_add_user#:#Voeg gebruiker(s) toe
 common#:#ilinc_akclassvalue#:#Cost center
@@ -3413,9 +3413,9 @@ common#:#link_check_body_top#:#U ontvangt deze mail omdat u geïnformeerd wou wo
 common#:#link_check_message_b#:#Indien ingeschakeld, zal u geïnformeerd worden over foute links in de leermodule
 common#:#link_check_message_disabled#:#Berichten uitgeschakeld
 common#:#link_check_message_enabled#:#Berichten ingeschakeld
-common#:#link_check_subject#:#[MacElsy] Link controle
+common#:#link_check_subject#:#[ILIAS] Link controle
 common#:#link_checker_refreshed#:#Vernieuw scherm
-common#:#link_dynamic_info#:#u kunt dynamische parameters toevoegen zoals de MacElsy gebruikersID.
+common#:#link_dynamic_info#:#u kunt dynamische parameters toevoegen zoals de ILIAS gebruikersID.
 common#:#link_selected_items#:#Koppelen
 common#:#linked_object#:#Het object is gelinkt
 common#:#linked_pages#:#Gelinkte pagina's
@@ -3430,9 +3430,9 @@ common#:#links_no_value_given#:#Gelieve een parameter waarde te kiezen
 common#:#links_not_available#:#Niet beschikbaar
 common#:#links_parameter_deleted#:#Parameter verwijderd
 common#:#links_select_one#:#- Kies één -
-common#:#links_session_id#:#MacElsy sessie ID
-common#:#links_user_id#:#MacElsy gebruikersID
-common#:#links_user_name#:#MacElsy gebruikersnaam
+common#:#links_session_id#:#ILIAS sessie ID
+common#:#links_user_id#:#ILIAS gebruikersID
+common#:#links_user_name#:#ILIAS gebruikersnaam
 common#:#links_value#:#Parameter waarde
 common#:#list#:#List
 common#:#list_of_pages#:#Paginalijst
@@ -3443,7 +3443,7 @@ common#:#lm#:#Lesmodule
 common#:#lm_a#:#een lesmodule
 common#:#lm_add#:#Lesmodule toevoegen
 common#:#lm_added#:#Toevoegen lesmodule
-common#:#lm_copy#:#Kopieër MacElsy leermodule
+common#:#lm_copy#:#Kopieër ILIAS leermodule
 common#:#lm_create#:#Creëer lesmodule
 common#:#lm_delete#:#Verwijderen Lesmodule
 common#:#lm_edit_learning_progress#:#Leerweg aanpassen
@@ -3491,10 +3491,10 @@ common#:#login_information_desc#:#PGeef de login informatie voor de respectievel
 common#:#login_information_settings_saved#:#De aanmeldingsinformatie is met success opgeslaan.
 common#:#login_invalid#:#De gekozen login is niet geldig! Alleen de vogende tekens zijn toegestaan (minimaal 4 tekens): A-Z a-z 0-9 _.-+*@!$%~
 common#:#login_time#:#Logintijd
-common#:#login_to_ilias#:#Aanmelden op MacElsy
-common#:#login_to_ilias_via_cas#:#Login to MacElsy via Central Authentication Service
-common#:#login_to_ilias_via_openid#:#Login to MacElsy via OpenID
-common#:#login_to_ilias_via_shibboleth#:#Login to MacElsy via Shibboleth
+common#:#login_to_ilias#:#Aanmelden op ILIAS
+common#:#login_to_ilias_via_cas#:#Login to ILIAS via Central Authentication Service
+common#:#login_to_ilias_via_openid#:#Login to ILIAS via OpenID
+common#:#login_to_ilias_via_shibboleth#:#Login to ILIAS via Shibboleth
 common#:#loginname_already_exists#:#This login name already exists.
 common#:#loginname_settings#:#Loginname-Settings
 common#:#logout#:#Afmelden
@@ -3511,7 +3511,7 @@ common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Adresboek
 common#:#mail_allow_smtp#:#SMTP toestaan
-common#:#mail_at_the_ilias_installation#:#U heeft %1$s nieuwe mails ontvangen op de MacElsy installatie %2$s
+common#:#mail_at_the_ilias_installation#:#U heeft %1$s nieuwe mails ontvangen op de ILIAS installatie %2$s
 common#:#mail_attachment#:#Mail attachment
 common#:#mail_attachments#:#Mail attachments
 common#:#mail_b_inbox#:#Inbox
@@ -3554,12 +3554,12 @@ common#:#mail_system#:#Systeembericht
 common#:#mail_system_message#:#Gebruiker mag interne systeemberichten verzenden
 common#:#mail_to_global_roles_not_allowed#:#Het is niet toegestaan emails naar algemne rollen te zenden
 common#:#mail_use_pear_mail#:#Gebruik Pear Mail
-common#:#mail_use_pear_mail_info#:#Gebruik Pear Mail om mailboxadressen te ontleden. De built-in parser in MacElsy is gelimiteerd. Pear Mail ondersteunt volledig internet e-mailadressen
+common#:#mail_use_pear_mail_info#:#Gebruik Pear Mail om mailboxadressen te ontleden. De built-in parser in ILIAS is gelimiteerd. Pear Mail ondersteunt volledig internet e-mailadressen
 common#:#mail_visible#:#Mailinstellingen zijn zichtbaar
 common#:#mail_write#:#Wijzigen Mailinstellingen
 common#:#mail_z_local#:#Gebruikersmappen
 common#:#mails#:#Mail
-common#:#mails_at_the_ilias_installation#:#U heeft %1$s nieuwe mails op MacElsy installatie %2$s
+common#:#mails_at_the_ilias_installation#:#U heeft %1$s nieuwe mails op ILIAS installatie %2$s
 common#:#mails_pl#:#Mail(s)
 common#:#main_menu#:#Main Menu
 common#:#main_menu_frame#:#Top Level Menu
@@ -3865,7 +3865,7 @@ common#:#obj#:#Object
 common#:#obj_accs#:#Toegankelijkheid
 common#:#obj_accs_desc#:#Instellingen voor accessibility features.
 common#:#obj_adm#:#Beheer
-common#:#obj_adm_desc#:#Bevat alle functionaliteit voor het beheer van uw MacElsy-installatie.
+common#:#obj_adm_desc#:#Bevat alle functionaliteit voor het beheer van uw ILIAS-installatie.
 common#:#obj_adve#:#Geavanceerde aanpassing
 common#:#obj_adve_desc#:#Beheerinstellingen voor geavanceerde bewerkingen zoals op JavaScript gebaseerde Rich Text Editors, LaTeX ondersteuning enz.
 common#:#obj_alm#:#AICC Lesmoduled
@@ -3899,7 +3899,7 @@ common#:#obj_exc#:#Oefening
 common#:#obj_exc_duplicate#:#Kopieer oefening
 common#:#obj_exc_select#:#-- Kies één oefening --
 common#:#obj_extt#:#Third party software
-common#:#obj_extt_desc#:#Configureer externe software of services die ondersteund worden door MacElsy
+common#:#obj_extt_desc#:#Configureer externe software of services die ondersteund worden door ILIAS
 common#:#obj_facs#:#File Access
 common#:#obj_facs_desc#:#Configure access to file objects.
 common#:#obj_feed#:#Web Feed
@@ -3923,7 +3923,7 @@ common#:#obj_icla#:#iLinc Classroom
 common#:#obj_icrs#:#iLinc Course
 common#:#obj_ldap#:#LDAP-instellingen
 common#:#obj_ldap_desc#:#Configureer de globale LDAP-instellingen hier.
-common#:#obj_lm#:#MacElsy lesmodule
+common#:#obj_lm#:#ILIAS lesmodule
 common#:#obj_lng#:#Taal
 common#:#obj_lngf#:#Talen
 common#:#obj_lngf_desc#:#Beheer uw systeemtalen hier.
@@ -3945,7 +3945,7 @@ common#:#obj_notf#:#Notitie-beheer
 common#:#obj_nwss#:#Nieuws and Web Feeds Instellingen
 common#:#obj_nwss_desc#:#Instellingen voor intern nieuws en externe web feeds.
 common#:#obj_objf#:#Objectdefinities
-common#:#obj_objf_desc#:#Beheer van MacElsy objecttypen en objectrechten. (alleen voor experts!)
+common#:#obj_objf_desc#:#Beheer van ILIAS objecttypen en objectrechten. (alleen voor experts!)
 common#:#obj_owner#:#Dit object is eigendom van
 common#:#obj_page#:#Page
 common#:#obj_pays#:#Betalingsinstellingen
@@ -3967,7 +3967,7 @@ common#:#obj_rolf_desc#:#Beheer uw rollen hier.
 common#:#obj_rolf_local#:#Lokale rollen
 common#:#obj_rolf_local_desc#:#Bevat lokale rollen van objectnr.
 common#:#obj_rolt#:#Rol-sjabloon
-common#:#obj_root#:#MacElsy hoofd knooppunt
+common#:#obj_root#:#ILIAS hoofd knooppunt
 common#:#obj_sahs#:#SCORM/AICC lesmodule
 common#:#obj_sco#:#SCO
 common#:#obj_seas#:#Zoek
@@ -4113,8 +4113,8 @@ common#:#passwd_list#:#List of Passwords
 common#:#passwd_not_match#:#Uw ingaven voor het nieuwe wachtwoord komen niet overeen! Geef uw nieuwe wachtwoord opnieuw.
 common#:#passwd_wrong#:#Het opgegeven wachtwoord is fout!
 common#:#password#:#Wachtwoord
-common#:#password_assistance_disabled#:#Wachtwoord ondersteuning is enkel beschikbaar, als gebruikers authentificatie gebeurd is via MacElsy database
-common#:#password_assistance_info#:#Indien wachtwoord ondersteuning ingeschakeld is, een link met de tekst 'Paswoord vergeten' zal zichtbaar zijn op de loginpagina van MacElsy. Gebruiker kunnen deze link gebruiken om een nieuw wachtwoord in te stellen zonder de hulp van een administrator
+common#:#password_assistance_disabled#:#Wachtwoord ondersteuning is enkel beschikbaar, als gebruikers authentificatie gebeurd is via ILIAS database
+common#:#password_assistance_info#:#Indien wachtwoord ondersteuning ingeschakeld is, een link met de tekst 'Paswoord vergeten' zal zichtbaar zijn op de loginpagina van ILIAS. Gebruiker kunnen deze link gebruiken om een nieuw wachtwoord in te stellen zonder de hulp van een administrator
 common#:#password_change_on_first_login_demand#:#Your initial password have to be changed before you can start using ILIAS services
 common#:#password_empty#:#The password must not be empty.
 common#:#password_expired#:#Your password is expired and have to be changed, because the last change was %s day(s) ago.
@@ -4277,8 +4277,8 @@ common#:#reg_mail_body_3_confirmation#:#Als deze mail u niets zegt dan kan het z
 common#:#reg_mail_body_confirmation#:#to activate your account and confirm ownership of this email address, click the link below:
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Hallo
-common#:#reg_mail_body_text1#:#Welkom bij MacElsy eLearning!
-common#:#reg_mail_body_text2#:#Om MacElsy te bereiken gebruikt u volgende gegevens:
+common#:#reg_mail_body_text1#:#Welkom bij ILIAS eLearning!
+common#:#reg_mail_body_text2#:#Om ILIAS te bereiken gebruikt u volgende gegevens:
 common#:#reg_mail_body_text3#:#Persoonlijke informatie:
 common#:#reg_mail_subject#:#ILIAS eLearning - Uw toegangsgegevens
 common#:#reg_mail_subject_confirmation#:#Macaris eLearning - Uw bevestigingslink
@@ -4396,7 +4396,7 @@ common#:#rolt_new#:#Nieuwe rol-sjabloon
 common#:#root_create_cat#:#Gebruiker mag categorieën creëren
 common#:#root_edit#:#Wijzigen systeemroot-node
 common#:#root_edit_permission#:#Wijzig instellingen van de rechten
-common#:#root_read#:#Leesrechten op het MacElsy-systeem
+common#:#root_read#:#Leesrechten op het ILIAS-systeem
 common#:#root_visible#:#Het ILIAS-systeem is zichtbaar
 common#:#root_write#:#Wijzigen metadata van de systeemroot-node
 common#:#row#:#Rij
@@ -4553,7 +4553,7 @@ common#:#shib_login_button#:#Pad naar Shibboleth login knop
 common#:#shib_login_embedded_wayf#:#Design custom login area
 common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.
 common#:#shib_login_external_wayf#:#Gebruik externe WAYF service
-common#:#shib_login_internal_wayf#:#Gebruik MacElsy WAYF service
+common#:#shib_login_internal_wayf#:#Gebruik ILIAS WAYF service
 common#:#shib_login_type#:#Organisatie selectie
 common#:#shib_member_of#:#Ik ben lid van...
 common#:#shib_phone_home#:#Attribuut voor thuis telefoon
@@ -4799,9 +4799,9 @@ common#:#tst_write#:#Test wijzigen
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#Blader naar de locatie waar u wilt toevoegen
 common#:#txt_add_object_instruction2#:#.
-common#:#txt_registered#:#U hebt u met succes aangemeld aan MacElsy. Klik op de onderstaande button om op MacElsy in te loggen met uw gebruikersaccount.
-common#:#txt_registered_passw_gen#:#U bent succesvol geregistreerd bij MacElsy. U zal een e-mail ontvangen waarin automatisch een paswoord werd gegenereerd.
-common#:#txt_submitted#:#U hebt met succes een aanvraag voor een gebruiker aan MacElsy gedaan. Uw aanvraag zal door de systeem-administrateur geïnspecteerd worden en en uw gebruiker moet binnen 48 uur geactiveerd worden. U kunt niet aanmelden voordat uw gebruiker geactiveerd is.
+common#:#txt_registered#:#U hebt u met succes aangemeld aan ILIAS. Klik op de onderstaande button om op ILIAS in te loggen met uw gebruikersaccount.
+common#:#txt_registered_passw_gen#:#U bent succesvol geregistreerd bij ILIAS. U zal een e-mail ontvangen waarin automatisch een paswoord werd gegenereerd.
+common#:#txt_submitted#:#U hebt met succes een aanvraag voor een gebruiker aan ILIAS gedaan. Uw aanvraag zal door de systeem-administrateur geïnspecteerd worden en en uw gebruiker moet binnen 48 uur geactiveerd worden. U kunt niet aanmelden voordat uw gebruiker geactiveerd is.
 common#:#typ#:#Objecttype definitie
 common#:#type#:#Type
 common#:#type_your_message_here#:#Type uw bericht hier
@@ -4828,9 +4828,9 @@ common#:#udf_value#:#Waarde
 common#:#udf_value_deleted#:#De waarde is verwijderd
 common#:#uid#:#UID
 common#:#ums_create_new_account#:#Maak een nieuwe account
-common#:#ums_explanation#:#Uw externe account kon niet gekopieerd worden naar een MacElsy account.
+common#:#ums_explanation#:#Uw externe account kon niet gekopieerd worden naar een ILIAS account.
 common#:#ums_explanation_2#:#Als dit niet uw account is, gelieve dan op 'Maak nieuwe account' te klikken.
-common#:#ums_explanation_3#:#Uw externe account kon niet gekopieërd worden naar een MacElsy account. Maar MacElsy vond meerdere accounts voor dit emailadres. Als een van deze accounts jou account is, gelieve dan aan te melden met jou MacElsy paswoord.
+common#:#ums_explanation_3#:#Uw externe account kon niet gekopieërd worden naar een ILIAS account. Maar ILIAS vond meerdere accounts voor dit emailadres. Als een van deze accounts jou account is, gelieve dan aan te melden met jou ILIAS paswoord.
 common#:#ums_explanation_4#:#Als van deze niet jou account is, gelieve dan op 'Maak nieuwe account' te klikken.
 common#:#ums_login_account#:#Login account
 common#:#unambiguousness#:#Herkenbaar
@@ -4961,7 +4961,7 @@ common#:#usrimport_action_replaced#:#Vervang actie %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Kan actie "Delete" niet uitvoeren. Gebruiker niet gevonden in database
 common#:#usrimport_cant_insert#:#Kan actie "Invoegen" niet uitvoeren. Gebruiker zit reeds in database
 common#:#usrimport_cant_update#:#Kan actie "Update" niet uitvoeren. gebruiker niet gevonden in database
-common#:#usrimport_conflict_handling_info#:#Wanneer "Negeer tijdens conflict" is geselecteerd, negeert MacElsy de actie.
+common#:#usrimport_conflict_handling_info#:#Wanneer "Negeer tijdens conflict" is geselecteerd, negeert ILIAS de actie.
 common#:#usrimport_global_role_for_action_required#:#Tenminste 1 globale rol moet gespecifieerd worden voor de "%1$s" action.
 common#:#usrimport_ignore_role#:#Negeer rol
 common#:#usrimport_login_is_not_unique#:#Login is niet uniek
@@ -6684,7 +6684,7 @@ dateplaner#:#cal_time_format_info#:#Kies een weergave voor tijd.
 dateplaner#:#cal_timezone_info#:#Kies de dichtstbijzijnde stad in uw tijdzone.
 dateplaner#:#cal_type_crs#:#Cursusagenda
 dateplaner#:#cal_type_grp#:#Groepsagenda
-dateplaner#:#cal_type_info#:#Kies een agendatype. „Publieke Agendas” zijn zichtbaar voor alle MacElsy-gebruikers.
+dateplaner#:#cal_type_info#:#Kies een agendatype. „Publieke Agendas” zijn zichtbaar voor alle ILIAS-gebruikers.
 dateplaner#:#cal_type_personal#:#Privé agenda
 dateplaner#:#cal_type_sess#:#Sessie-agenda
 dateplaner#:#cal_type_system#:#Publieke agenda
@@ -7193,7 +7193,7 @@ forum#:#enter_new_subject#:#Vul aub een nieuw onderwerp in
 forum#:#fmr_copy_threads_info#:#U heeft de mogelijkheid om thema's te kopieëren
 forum#:#forum_add_quote#:#Citaat toevoegen
 forum#:#forum_anonymize#:#Schrijf anoniem
-forum#:#forum_anonymize_desc#:#Schrijf dit bericht anoniem (Uw MacElsy-gebruikersnaam zal nergens getoond worden).
+forum#:#forum_anonymize_desc#:#Schrijf dit bericht anoniem (Uw ILIAS-gebruikersnaam zal nergens getoond worden).
 forum#:#forums#:#Fora
 forum#:#forums_all_threads_marked_read#:#Alle onderwerpen zijn gemarkeerd als gelezen.
 forum#:#forums_attachments#:#Bijlagen
@@ -7221,7 +7221,7 @@ forum#:#forums_not_available#:#Forum niet beschikbaar
 forum#:#forums_notification#:#Berichtgeving
 forum#:#forums_notification_disabled#:#Kennisgeving uitgeschakeld
 forum#:#forums_notification_enabled#:#Laat berichtgeving toe
-forum#:#forums_notification_intro#:#Deze e-mail werd automatisch verstuurd vanuit MacElsy.
+forum#:#forums_notification_intro#:#Deze e-mail werd automatisch verstuurd vanuit ILIAS.
 forum#:#forums_notification_is_disabled#:#Uw bericht in dit onderwerp is (nog) niet beschikbaar.
 forum#:#forums_notification_is_enabled#:#Op dit moment is uw bericht beschikbaar
 forum#:#forums_notification_show_post#:#Toon bericht:
@@ -7575,7 +7575,7 @@ ldap#:#ldap_group_scope#:#Werkingsgebied zoeken
 ldap#:#ldap_group_scope_info#:#Bereik voor zoeken naar groep. Als onzeker kies „Sub“
 ldap#:#ldap_group_search_base#:#Groep zoekopdracht
 ldap#:#ldap_group_user_filter#:#Filter gebruiker
-ldap#:#ldap_ilias_role#:#MacElsy Rol
+ldap#:#ldap_ilias_role#:#ILIAS Rol
 ldap#:#ldap_ilias_role_short#:#Rol:
 ldap#:#ldap_info_text#:#Informatie tekst
 ldap#:#ldap_info_text_info#:#Indien ingegeven, zal deze tekst getoond worden in het Persoonlijk scherm en op het info venster van het object
@@ -7613,7 +7613,7 @@ ldap#:#ldap_role_grp_at#:#Attribute
 ldap#:#ldap_role_grp_dn_info#:#Please enter the "Distinguished Name" of the LDAP Group.
 ldap#:#ldap_role_grp_info#:#Members of a specific LDAP Group will be assigned to the given ILIAS role.
 ldap#:#ldap_role_grp_isdn#:#Attribute value is DN
-ldap#:#ldap_role_info#:#Geef de naam in van een MacElsy-rol  die het lidmaatschap aan de  LDAP-groep zal controleren.
+ldap#:#ldap_role_info#:#Geef de naam in van een ILIAS-rol  die het lidmaatschap aan de  LDAP-groep zal controleren.
 ldap#:#ldap_role_mapping#:#LDAP-Group -> Role Mapping
 ldap#:#ldap_role_name_info#:#Please choose either a global role or enter the name of a local role.
 ldap#:#ldap_role_not_exists#:#Een rol met deze naam bestaat nog niet.
@@ -7668,7 +7668,7 @@ license#:#used_licenses#:#Consumed licenses
 license#:#used_licenses_explanation#:#Every first access of a user consumes a license.
 license#:#zero_licenses_explanation#:#Enter a 0 to deactivate the licensing.
 mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
-mail#:#advice_mail_body_secured#:#Vanwege veiligheidsaspecten heeft MacElsy enkele elementen uit uw bericht verwijderd. Controleer a.u.b. het beveiligde bericht en verstuur de mail opnieuw.
+mail#:#advice_mail_body_secured#:#Vanwege veiligheidsaspecten heeft ILIAS enkele elementen uit uw bericht verwijderd. Controleer a.u.b. het beveiligde bericht en verstuur de mail opnieuw.
 mail#:#also_as_email#:#Ook als email
 mail#:#bc#:#BCC
 mail#:#chat_select_room#:#Select Chat Room
@@ -7690,7 +7690,7 @@ mail#:#mail_add_type#:#Voeg het type mail toe dat u wilt verzenden
 mail#:#mail_addr_entries#:#Ingave
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Address Book to Mailing List
 mail#:#mail_attachments#:#Bijlagen
-mail#:#mail_auto_generated_info#:#Deze mail werd automatisch verstuurd vanuit MacElsy installatie %s, %s
+mail#:#mail_auto_generated_info#:#Deze mail werd automatisch verstuurd vanuit ILIAS installatie %s, %s
 mail#:#mail_bc_not_valid#:#De BCC-ontvanger is niet geldig
 mail#:#mail_bc_search#:#BCC-ontvanger zoeken
 mail#:#mail_byte#:#Byte
@@ -7755,14 +7755,14 @@ mail#:#mail_move_error#:#Fout verplaatsen mail
 mail#:#mail_move_to#:#Verplaatsen naar:
 mail#:#mail_moved#:#De e-mail is verplaatst
 mail#:#mail_moved_to_trash#:#De e-mail is verplaatst naar de prullenbak
-mail#:#mail_multiple_recipients_found#:#Geef een specifieker e-mailadres. MacElsy heeft meerdere ontvangers gevonden voor dit adres: %s
+mail#:#mail_multiple_recipients_found#:#Geef een specifieker e-mailadres. ILIAS heeft meerdere ontvangers gevonden voor dit adres: %s
 mail#:#mail_my_courses#:#Mijn Cursussen
 mail#:#mail_my_entries#:#Mijn Ingaven
 mail#:#mail_my_groups#:#Mijn Groepen
 mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#E-mailadres van de administrator.
 mail#:#mail_nacc_client_name#:#Clientnaam
-mail#:#mail_nacc_ilias_url#:#URL van MacElsy systeem
+mail#:#mail_nacc_ilias_url#:#URL van ILIAS systeem
 mail#:#mail_nacc_login#:#Gebruikersnaam
 mail#:#mail_nacc_no_pw_block#:#Deze tekstregel is alleen ingevoegd als er een nieuwe gebruiker is aangemaakt zonder wachtwoord.
 mail#:#mail_nacc_pw_block#:#Deze tekstregel is alleen ingevoegd als er een nieuwe gebruiker is aangemaakt met wachtwoord.
@@ -7777,7 +7777,7 @@ mail#:#mail_new_file#:#Voeg nieuw bestand toe:
 mail#:#mail_no_attach_allowed#:#Systeem berichten mogen geen bijlagen bevatten.
 mail#:#mail_no_attachments_found#:#Geen bijlagen gevonden
 mail#:#mail_no_permissions_write_smtp#:#U heeft geen rechten om externe mail te schrijven!
-mail#:#mail_no_recipient_found#:#Geef een ander e-mailadres. MacElsy kon geen ontvangers vinden.
+mail#:#mail_no_recipient_found#:#Geef een ander e-mailadres. ILIAS kon geen ontvangers vinden.
 mail#:#mail_no_valid_mailing_list#:#No Valid Mailing List
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_options_of#:#Opties
@@ -7834,7 +7834,7 @@ mcst#:#mcst_download_videoportable#:#Download Video Portable
 mcst#:#mcst_downloadable#:#Download Links
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading are provided.
 mcst#:#mcst_duration#:#Afspeeltijd
-mcst#:#mcst_duration_info#:#Als er geen waarde is ingegeven, probeert MacElsy de afspeeltijd automatisch te bepalen.
+mcst#:#mcst_duration_info#:#Als er geen waarde is ingegeven, probeert ILIAS de afspeeltijd automatisch te bepalen.
 mcst#:#mcst_edit_item#:#Edit Mediacast Item
 mcst#:#mcst_edit_settings#:#MediaCast Settings
 mcst#:#mcst_entry#:#Media Cast gegevens
@@ -8564,7 +8564,7 @@ news#:#news_no_js_click_here#:#Hier klikken als het niets niet wordt weergegeven
 news#:#news_no_news_items#:#Geen nieuws beschikbaat
 news#:#news_notifications#:#Meldingen
 news#:#news_notifications_public#:#Publieke berichten
-news#:#news_notifications_public_info#:#Als deze optie wordt toegelaten, kunnen de berichten door persoonlijk feed RSS buiten MacElsy worden verkregen. Gelieve op te merken dat dit berichten zonder echtverklaring toegankelijk maakt.
+news#:#news_notifications_public_info#:#Als deze optie wordt toegelaten, kunnen de berichten door persoonlijk feed RSS buiten ILIAS worden verkregen. Gelieve op te merken dat dit berichten zonder echtverklaring toegankelijk maakt.
 news#:#news_nr_of_items#:#Aantal van Maximum Nieuws Items per Object
 news#:#news_nr_of_items_info#:#Aantal nieuws items die bijgehouden word voor een object.
 news#:#news_pd_period#:#Personal Desktop News Period
@@ -8716,7 +8716,7 @@ payment#:#pay_hint_epay#:#Tip to ePay
 payment#:#pay_hint_paypal#:#Tip voor PayPal
 payment#:#pay_info#:#Toegang tot het volgende materiaal is niet gratis. Als u wil toetreden, gelieve dan een prijs te selecteren. U kan verschillende artikelen aankopen door op de knop 'winkelmand' te klikken.  U gaat dan onmiddelijk toegang krijgen.
 payment#:#pay_info_epay#:#When press 'pay' the ePay payment window opens. After you have completed the payment you will return to ILIAS.
-payment#:#pay_info_paypal#:#Om deze artikelen te kopen ga je MacElsy tijdelijk verlaten. Gelieve dan de stappen te volgen. Na de betaling wordt u automatisch terug verbonden naar MacElsy. Sluit de browser niet af tijdens de betaling. Anders kan de betaling niet doorgevoerd worden.
+payment#:#pay_info_paypal#:#Om deze artikelen te kopen ga je ILIAS tijdelijk verlaten. Gelieve dan de stappen te volgen. Na de betaling wordt u automatisch terug verbonden naar ILIAS. Sluit de browser niet af tijdens de betaling. Anders kan de betaling niet doorgevoerd worden.
 payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
 payment#:#pay_item_already_in_sc_choose_another#:#Dit artikel is reeds toegevoegd aan uw winkelmand
 payment#:#pay_locator#:#Betaling
@@ -8726,8 +8726,8 @@ payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of se
 payment#:#pay_message_attachment#:#Ter bevestiging van uw betaling sturen wij uw een e-mail met de rekening.
 payment#:#pay_message_hello#:#Beste
 payment#:#pay_message_regards#:#Yours sincerely
-payment#:#pay_message_subject#:#Uw MacElsy bestelling
-payment#:#pay_message_thanks#:#Bedankt voor uw MacElsy bestelling
+payment#:#pay_message_subject#:#Uw ILIAS bestelling
+payment#:#pay_message_thanks#:#Bedankt voor uw ILIAS bestelling
 payment#:#pay_no_vendors_created#:#Geen verkopers gecreëerd
 payment#:#pay_not_buyed_any_object#:#U hebt geen artikel gekocht.
 payment#:#pay_order_date_from#:#Bestellingsdatum van
@@ -8745,8 +8745,8 @@ payment#:#pay_paypal_error_prev_trans_id#:#Deze transactie-ID is reeds gebruikt 
 payment#:#pay_paypal_error_wrong_customer#:#Het controleren van deze transactie resulteerde in geen overeenkomst van de klant.
 payment#:#pay_paypal_error_wrong_items#:#Het controleren van deze transactie resulteerde in geen overeenkomst van de verkochte artikelen.
 payment#:#pay_paypal_error_wrong_vendor#:#Het controleren van deze transactie resulteerde in geen overeenkomst van de verkoper.
-payment#:#pay_paypal_failed#:#Uw aankoop van MacElsy producten met PayPal is mislukt!
-payment#:#pay_paypal_success#:#Bedankt voor de aankoop van MacElsy producten met PayPal! U zal per e-mail een bevestiging krijgen in PDF-formaat.
+payment#:#pay_paypal_failed#:#Uw aankoop van ILIAS producten met PayPal is mislukt!
+payment#:#pay_paypal_success#:#Bedankt voor de aankoop van ILIAS producten met PayPal! U zal per e-mail een bevestiging krijgen in PDF-formaat.
 payment#:#pay_paypal_unreachable#:#De verbinding met de betalingsserver van PayPal mislukte!
 payment#:#pay_personal_settings#:#Personal Settings
 payment#:#pay_reset_filter#:#Reset filter
@@ -8983,7 +8983,7 @@ payment#:#pays_epay_auth_email#:#Email Notification
 payment#:#pays_epay_auth_email_info#:#Email where information about processed transactions/payments are sent.
 payment#:#pays_epay_auth_token#:#Authentication Token
 payment#:#pays_epay_auth_token_info#:#You also need to enter this in the ePay backend. The secret prevents users from simulating payments.
-payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables MacElsy to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.
+payment#:#pays_epay_info#:#<a href="http://www.epay.dk" target="_blank">ePay</a> is a payment gateway that enables ILIAS to receive VISA, MasterCard, JCB, VISA Electron, MasterCard Maestro, Diners, AMEX etc. In order to use this you must have a seperate agreement with ePay and a Merchant Id.
 payment#:#pays_epay_instant_capture#:#Instant Capture
 payment#:#pays_epay_instant_capture_info#:#If enabled all amounts are drawn from the customer’s account immediately. Please make sure this is legal in your country before enabling this feature.
 payment#:#pays_epay_merchant_number#:#Merchant id
@@ -9116,7 +9116,7 @@ ps#:#ps_account_security_mode_customized#:#Customized Account Security
 ps#:#ps_account_security_mode_default#:#Standard Ilias Account Security
 ps#:#ps_agreement_accepted#:#Gebruikersovereenkomst geaccepteerd
 ps#:#ps_auto_https#:#Autodetect HTTPS
-ps#:#ps_auto_https_description#:#Indien ingeschakeld, probeert MacElsy de HTTP status te detecteren door de hoofding te analyseren.
+ps#:#ps_auto_https_description#:#Indien ingeschakeld, probeert ILIAS de HTTP status te detecteren door de hoofding te analyseren.
 ps#:#ps_auto_https_header_name#:#Naam van de hoofding
 ps#:#ps_auto_https_header_value#:#Waarde van de hoofding
 ps#:#ps_btn_add_value#:#Nieuwe waarde
@@ -9208,13 +9208,13 @@ pwassist#:#password_assistance#:#Wachtwoord assistentie
 pwassist#:#pwassist_enter_email#:#Gelieve een e-mailadres op te geven en het formulier te vervolledigen .\nILIAS zal dan een e-mail sturen. Deze mail bevat alle gebruikers die zich hebben ingeschreven met dat e-mailadres.\nKies een gebruikersnaam en gebruik de wachtwoordservice om een nieuw wachtwoord te zoeken. Als u geen e-mail ontvangt kan u best contact opnemen met de cursusbeheerder.
 pwassist#:#pwassist_enter_username_and_email#:#Geef de gebruikersnaam en het bijhorende e-mailadres op.\nILIAS zal dan een e-mail sturen. Het bericht bevat een website, waar je een nieuw wachtwoord kan aanmaken.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geef de gebruikersnaam en het nieuwe wachtwoord in.
-pwassist#:#pwassist_invalid_auth_mode#:#De gebruiker zal niet authentiek verklaard worden  bij MacElsy. Daardoor is het verzenden van een wachtwoord onmogelijk.
+pwassist#:#pwassist_invalid_auth_mode#:#De gebruiker zal niet authentiek verklaard worden  bij ILIAS. Daardoor is het verzenden van een wachtwoord onmogelijk.
 pwassist#:#pwassist_invalid_email#:#Gelieve een juist e-mailadres op te geven.\nHet e-mailadres kon niet worden teruggevonden in de database.
 pwassist#:#pwassist_invalid_username_or_email#:#Gelieve de tekst aan te passen.\nDe gebruikersnaam en het e-mailadres komen niet overeen met de gegevens in de database.
 pwassist#:#pwassist_login_not_match#:#Gelieve een andere gebruikersnaam op te geven.\nDe gebruikersnaam komt niet overeen met de gevraagde gebruikersnaam voor wachtwoordassistentie.
 pwassist#:#pwassist_mail_body#:#Maak een nieuw wachtwoord voor uw gebruikersaccount :\n\t%1$s\n\Dit bericht werd automatisch gegenereerd door Ilias\n\t%2$s\n\nJij of iemand anders heeft gevraagd voor wachtwoordassistentie "%4$s".\n\n\n\n- Als u perongeluk deze wachtwoordservice hebt geraadpleegd:\nverwijder dan deze mail.\n\n- Als je er zeker van bent dat u niet om wachtwoordassistentie gevraagd hebt op de Ilias-server:\nContacteer de beheerder %5$s.\n\n- Als u wel gevraagd heeft om wachtwoord-assistentie doe dan het volgende:\n\n1. Open uw browser.\n\n2. Geef het volgende adres in:\n\t%1$s\n\nbelangrijk: het adres is één regel.\n\n3. Op de webpagina, geef je een nieuw wachtwoord in.\n\nOpgelet omwille van veiligheidsreden,  je kan deze stappen maar een maal uitvoeren. Hierna is de website niet meer geldig en moet je de wachtwoordassistentie opnieuw raadplegen op de Ilias server.
 pwassist#:#pwassist_mail_sent#:#Er is een bericht verzonden naar %1$s.\n Gelieve uw e-mail te controleren.
-pwassist#:#pwassist_mail_subject#:#MacElsy wachtwoord assistentie
+pwassist#:#pwassist_mail_subject#:#ILIAS wachtwoord assistentie
 pwassist#:#pwassist_no_email_found#:#U kan de paswoord assistentie niet gebruiken, omdat er geen e-mailadres voor deze account in ingevoerd.
 pwassist#:#pwassist_not_permitted#:#Gelieve een andere gebruiksnaam te kiezen.\nWachtwoordassistentie is niet toegestaan voor deze gebruiker.
 pwassist#:#pwassist_password_assigned#:#Het password is succesvol toegekend aan gebruiker "%1$s".
@@ -9348,7 +9348,7 @@ rbac#:#rbac_repository_permissions#:#Studiecentrum permissies
 rbac#:#rbac_role_add_to_desktop#:#Voeg toe aan persoonlijk scherm
 rbac#:#rbac_role_add_to_desktop_info#:#Maak object een geselecteerd onderdeel van het persoonlijk scherm voor alle leden van de rol
 rbac#:#rbac_role_delete_qst#:#Weet u zeker dat u de volgende rol wilt verwijderen<br />Alle permissies 'granted by this role' zullen permanent verwijderd worden.
-rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some MacElsy materials.
+rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to this role. If you continue this delete operation, you may loose access to some ILIAS materials.
 rbac#:#rbac_role_exists_alert#:#Een rol met gelijke naam bestaat al in deze context. Kies aub een andere naam.
 rbac#:#rbac_role_rights_copy#:#Kopieer permissies
 rbac#:#rbac_role_rights_copy_change_existing#:#Verander bestaande objecten
@@ -9383,7 +9383,7 @@ rbac#:#root_create_glo#:#Creëer Woordenlijst
 rbac#:#root_create_grp#:#Creëer Groep
 rbac#:#root_create_htlm#:#Creëer HTML Learning Module
 rbac#:#root_create_icrs#:#Creëer LearnLinc Seminar
-rbac#:#root_create_lm#:#Creëer MacElsy Learning Module
+rbac#:#root_create_lm#:#Creëer ILIAS Learning Module
 rbac#:#root_create_mcst#:#Creëer Mediacast
 rbac#:#root_create_mep#:#Creëer Media Pool
 rbac#:#root_create_qpl#:#Creëer Vragenpool Toets
@@ -9451,7 +9451,7 @@ registration#:#reg_email_role_assignment#:#Rol toewijzing volgens domein
 registration#:#reg_enable_access_limitations#:#Toegangsbeperking instellen
 registration#:#reg_fixed#:#Selectie volgens gespecificeerde lijst
 registration#:#reg_info_pwd#:#Indien ingeschakeld wachtwoorden zullen automatische verzonden worden via e-mail.
-registration#:#reg_mail_body_approve#:#U bent al reeds geregistreerd op MacElsy en u hebt een e-mail ontvangen. Uw account is geactiveerd door de administrator.
+registration#:#reg_mail_body_approve#:#U bent al reeds geregistreerd op ILIAS en u hebt een e-mail ontvangen. Uw account is geactiveerd door de administrator.
 registration#:#reg_mail_body_confirmation#:#Om deze registratie te bevestigen: login in de MasElsy gebruikers administratie en activeer dit account.
 registration#:#reg_mail_body_profile#:#Profilel gegevens:
 registration#:#reg_mail_body_profile_changed#:#Uw profiel is aangepast
@@ -9690,7 +9690,7 @@ shib#:#shib_choose_role#:#Choose Role
 shib#:#shib_confirm_del_role_ass#:#Do you really want to delete the following rules
 shib#:#shib_deleted_rule#:#Deleted role assignments.
 shib#:#shib_global_role#:#Global Role
-shib#:#shib_ilias_role#:#MacElsy Rol Naam
+shib#:#shib_ilias_role#:#ILIAS Rol Naam
 shib#:#shib_local_role#:#Local Role
 shib#:#shib_missing_attr_name#:#Please enter the attribute name.
 shib#:#shib_missing_attr_value#:#Please enter the attribute value.
@@ -9705,7 +9705,7 @@ shib#:#shib_role_ass_table#:#New Rule for Role Assignments
 shib#:#shib_role_assignment#:#Role Assignments
 shib#:#shib_role_by_attribute#:#Shibboleth Attribute
 shib#:#shib_role_by_plugin#:#By Plugin
-shib#:#shib_role_name#:#MacElsy Rol Naam
+shib#:#shib_role_name#:#ILIAS Rol Naam
 shib#:#shib_role_name_info#:#Please choose either a global role or enter the name of a local role.
 shib#:#shib_role_selection#:#Role Selection
 shib#:#shib_rule_condition#:#Condition
@@ -10534,7 +10534,7 @@ survey#:#view_phrase#:#Toon zin
 survey#:#warning_question_in_use#:#Waarschuwing! De vraag die u wilt aanpassen is in gebruik bij de vragenlijst. Als u beslist om verder te gaan en de vraag op te slaan, dan worden alle antwoorden van de vragenlijsten verwijderd. Als u de vraag wilt wijzigen en gebruiken in een andere vragenlijst, gelieve dan te kiezen voor dupliceren.
 survey#:#warning_question_not_complete#:#De vraag is niet volledig
 survey#:#workingtime#:#Arbeidstijd
-survey#:#wrong_categories_selected_for_insert#:#MacElsy kon de gewenste actie niet uitvoeren. Gelieve precies één antwoord te controleren als doelpositie!
+survey#:#wrong_categories_selected_for_insert#:#ILIAS kon de gewenste actie niet uitvoeren. Gelieve precies één antwoord te controleren als doelpositie!
 survey#:#wrong_survey_code_used#:#U kunt de vragenlijst niet starten, omdat u probeerde om het met een onbevoegde vragenlijstcode aan te melden
 tagging#:#tagging_all_users#:#Alle gebruikers
 tagging#:#tagging_edit_settings#:#Instellingen bewerken
@@ -10862,7 +10862,7 @@ user#:#user_sure_delete_pages#:#Weet u zeker dat u de volgende pagina's wilt ver
 user#:#user_visible_in_profile#:#Zichtbaar in profiel
 user#:#usr_link_to_profile#:#Link naar Profiel
 user#:#usr_public_profile_disabled#:#Publiek profiel uitgeschakeld
-user#:#usr_public_profile_disabled_info#:#Uw informatie is alleen zichtbaar voor de MacElsy administratie
+user#:#usr_public_profile_disabled_info#:#Uw informatie is alleen zichtbaar voor de ILIAS administratie
 user#:#usr_public_profile_global#:#Globaal Zichtbaar
 user#:#usr_public_profile_global_info#:#Uw profiel is zichtbaar voor het internet.
 user#:#usr_public_profile_logged_in#:#Ingelogde gebruikers
