@@ -50,7 +50,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 		global $lng;
 		$this->show_wizard = false;
 		$this->show_save_phrase = false;
-		$this->categorytext = $lng->txt('answer');
+		$this->categorytext = $lng->txt('row_text');
 		$this->use_other_answer = false;
 	}
 	
