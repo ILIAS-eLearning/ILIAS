@@ -7746,7 +7746,7 @@ exc#:#exc_assignment_view#:#Je Übungseinheit
 exc#:#exc_assignments#:#Übungseinheiten
 exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
-exc#:#exc_blog_returned#:#Abgegebenes Blog
+exc#:#exc_blog_returned#:#Zugeordnetes Blog
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
 exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
@@ -7797,7 +7797,7 @@ exc#:#exc_pass_minimum_nr#:#Minimale Anzahl an Übungseinheiten
 exc#:#exc_pass_minimum_nr_info#:#Lerner müssen eine minimale Anzahl an Übungseinheiten bestehen, um die Übung als ganze zu bestehen. Dieser Wert muß mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
 exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
-exc#:#exc_portfolio_returned#:#Abgegebenes Portfolio
+exc#:#exc_portfolio_returned#:#Zugeordnetes Portfolio
 exc#:#exc_portfolio_selected#:#Das Portfolio wurde verknüpft.
 exc#:#exc_presentation_order#:#Reihenfolge
 exc#:#exc_public_submission#:#Öffentliche Lösungsabgaben
