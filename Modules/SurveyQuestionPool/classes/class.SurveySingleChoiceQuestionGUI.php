@@ -180,7 +180,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		$answers->setShowSavePhrase(true);
 		$answers->setUseOtherAnswer(true);
 		$answers->setShowNeutralCategory(true);
-		$answers->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
+		$answers->setNeutralCategoryTitle($this->lng->txt('svy_neutral_answer'));
 		if (!$this->object->getCategories()->getCategoryCount())
 		{
 			$this->object->getCategories()->addCategory("");

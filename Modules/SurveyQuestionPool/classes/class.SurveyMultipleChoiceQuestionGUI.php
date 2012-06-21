@@ -206,7 +206,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$answers->setShowSavePhrase(false);
 		$answers->setUseOtherAnswer(true);
 		$answers->setShowNeutralCategory(true);
-		$answers->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
+		$answers->setNeutralCategoryTitle($this->lng->txt('svy_neutral_answer'));
 		if (!$this->object->getCategories()->getCategoryCount())
 		{
 			$this->object->getCategories()->addCategory("");
