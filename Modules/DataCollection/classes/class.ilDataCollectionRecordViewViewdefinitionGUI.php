@@ -96,7 +96,7 @@ class ilDataCollectionRecordViewViewdefinitionGUI
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
-		$this->form->addCommandButton('save', 	$lng->txt('dcl__field_'.$mode));
+		$this->form->addCommandButton('save', 	$lng->txt('dcl_field_'.$a_mode));
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
 		
 		$this->form->setFormAction($ilCtrl->getFormAction($this, "save"));

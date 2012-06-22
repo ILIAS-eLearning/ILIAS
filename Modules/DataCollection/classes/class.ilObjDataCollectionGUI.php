@@ -15,11 +15,12 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * @author Fabian Schmid <fs@studer-raimann.ch>
 *
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilDataCollectionView
+* @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionFieldEditGUI, ilDataCollectionRecordEditGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordViewGUI, ilDataCollectionRecordViewViewdefinitionGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionTableEditGUI, ilDataCollectionFieldListGUI, ilObjFileGUI
+* @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordListViewdefinitionGUI
 *
 * @extends ilObject2GUI
 */
@@ -142,6 +143,16 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");
 				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this);
 				$this->ctrl->forwardCommand($recordedit_gui);
+				break;
+				
+			case "ildatacollectionrecordlistviewdefinitiongui":
+				$this->addHeaderAction($cmd);
+				$this->prepareOutput();
+				$this->addListFieldsTabs("list_viewdefinition");
+				$ilTabs->setTabActive("id_fields");
+				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordListViewdefinitionGUI.php");
+				$recordlist_gui = new ilDataCollectionRecordListViewdefinitionGUI($this);
+				$this->ctrl->forwardCommand($recordlist_gui);
 				break;
 				
 			case "ilobjfilegui":
@@ -355,7 +366,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		//TODO
 		$ilTabs->addSubTab("list_viewdefinition",
 			$lng->txt("dcl_record_list_viewdefinition"),
-			$ilCtrl->getLinkTargetByClass("ildatacollectionfieldlistgui", "listFields"));
+			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistviewdefinitiongui", "create"));
 
 		$ilTabs->activateSubTab($a_active);
 	}
@@ -395,6 +406,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$opt->addSubItem($end);
 			
 			$edit_type->addOption($opt);
+			
 		$a_form->addItem($edit_type);
 		
 		// Rating

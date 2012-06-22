@@ -253,7 +253,7 @@ class ilDataCollectionRecord
 	{
 		global $ilDB;
 
-		//Record erzeugen
+		// Record erzeugen
 		$id = $ilDB->nextId("il_dcl_record");
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_record (
@@ -271,8 +271,7 @@ class ilDataCollectionRecord
 						)";
 		$ilDB->manipulate($query);
 
-
-		//zugehörige Felder speichern
+		// zugehörige Felder speichern
 		foreach($this->getFieldvalues() as $key => $fieldvalue)
 		{
 			$record_field_id = $ilDB->nextId("il_dcl_record_field");
@@ -287,9 +286,7 @@ class ilDataCollectionRecord
 							)";
 			$ilDB->manipulate($query);
 
-
-
-			//Werte speichern
+			// Werte speichern
 			$record_value_id = $ilDB->nextId("il_dcl_stloc".$all_fields[$key]['storage_location']."_value");
 			$query = "INSERT INTO il_dcl_stloc".$all_fields[$key]['storage_location']."_value (
 								id, 
