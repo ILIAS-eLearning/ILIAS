@@ -370,7 +370,7 @@ class ilMailFolderGUI
 		{
 			if($this->askForConfirmation == true)
 			{
-				$this->tpl->setCurrentBlock('CONFIRM_EMPTY_TRASH');
+				$this->tpl->setCurrentBlock('confirm_empty_trash');
                 $this->tpl->setVariable('ACTION_EMPTY_TRASH_CONFIRMATION', $this->ctrl->getFormAction($this, 'performEmptyTrash'));
                 $this->tpl->setVariable('BUTTON_CONFIRM_EMPTY_TRASH', $this->lng->txt('confirm'));
                 $this->tpl->setVariable('BUTTON_CANCEL_EMPTY_TRASH', $this->lng->txt('cancel'));
