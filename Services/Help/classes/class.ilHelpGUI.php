@@ -179,12 +179,17 @@ class ilHelpGUI
 			{
 				include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 				$st_id = $h_id;
+				
+				if (!ilLMObject::_exists($st_id))
+				{
+					continue;
+				}
 
 				$pages = ilLMObject::getPagesOfChapter($oh_lm_id, $st_id);
 				include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 				$grp_list = new ilGroupedListGUI();
 				foreach ($pages as $pg)
-				{
+				{ 
 					$grp_list->addEntry(ilLMObject::_lookupTitle($pg["child"]), "#", "",
 						"return il.Help.showPage(".$pg["child"].");");
 				}
