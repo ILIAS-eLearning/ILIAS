@@ -8932,6 +8932,7 @@ $ilDB->manipulate("INSERT INTO tax_node ".
 $ilDB->addTableColumn("tax_node", "order_nr", array(
 		'type'	=> 'integer',
 		'length'=> 4,
+		'default'=> 0,
 		'notnull' => true
 	));
 ?>
@@ -10195,27 +10196,27 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 ?>
 <#3604>
 <?php
-		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
 			"1, 'integer', 'integer', 2".
 			")");
 
-		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
 			"2, 'text', 'text', 1".
 			")");
 
-		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
 			"3, 'reference', 'integer', 2".
 			")");
 
-		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
 			"4, 'boolean', 'integer', 2".
 			")");
 
-		$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
 			"5, 'datetime', 'date', 3".
 			")");
@@ -10347,17 +10348,17 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 <#3610>
 <?php
 $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
-			" (`id`, `title`, `datatype_id`, `inputformat`) VALUES (".
+			" (id, title, datatype_id, inputformat) VALUES (".
 			"1, 'length', 2, 1".
 			")");
 
 $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
-			" (`id`, `title`, `datatype_id`, `inputformat`) VALUES (".
+			" (id, title, datatype_id, inputformat) VALUES (".
 			"2, 'regex', 2, 1".
 			")");
 
 $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
-			" (`id`, `title`, `datatype_id`, `inputformat`) VALUES (".
+			" (id, title, datatype_id, inputformat) VALUES (".
 			"3, 'table_id', 3, 3".
 			")");
 ?>
@@ -10556,7 +10557,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 <#3621>
 <?php
 
-$ilDB->manipulate("INSERT INTO `il_dcl_datatype` (`id`, `title`, `ildb_type`, `storage_location`) ".
+$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 		" VALUES (".
 		"6, 'file', 'integer', 2".
 		")");
