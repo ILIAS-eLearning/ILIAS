@@ -226,7 +226,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	function addLocatorItems()
 	{
 		global $ilLocator;
-		
 		if (is_object($this->object))
 		{
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
@@ -328,6 +327,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		}
 	}
 
+
 	/**
 	* Add List Fields SubTabs
 	*
@@ -376,15 +376,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$edit_type = new ilRadioGroupInputGUI($this->lng->txt('dcl_edit_type'),'edit_type');	
 		
 			$opt = new ilRadioOption($this->lng->txt('dcl_edit_type_non'), 0);
-			$opt->setInfo($this->lng->txt('edit_type_non_info'));
+			$opt->setInfo($this->lng->txt('dcl_edit_type_non_info'));
 			$edit_type->addOption($opt);
 			
 			$opt = new ilRadioOption($this->lng->txt('dcl_edit_type_unlim'), 1);
-			$opt->setInfo($this->lng->txt('edit_type_unlim_info'));
+			$opt->setInfo($this->lng->txt('dcl_edit_type_unlim_info'));
 			$edit_type->addOption($opt);
 
 			$opt = new ilRadioOption($this->lng->txt('dcl_edit_type_lim'), 2);
-			$opt->setInfo($this->lng->txt('edit_type_lim_info'));
+			$opt->setInfo($this->lng->txt('dcl_edit_type_lim_info'));
 
 				$start = new ilDateTimeInputGUI($this->lng->txt('dcl_edit_start'), 'edit_start');
 				$start->setShowTime(true);
