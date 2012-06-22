@@ -24,16 +24,15 @@ class ilDataCollectionRecordListGUI
 	 */
 	public function  __construct($a_parent_obj, $table_id = NULL)
 	{
-		$this->mainTableId = $a_parent_obj->object->getMainTableId();
+		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		
-
-		If($table_id) 
+		if($table_id) 
 		{
 			$this->table_id = $table_id;
 		} 
 		else 
 		{
-			$this->table_id = $this->mainTableId;
+			$this->table_id = $this->main_table_id;
 		}
 		
 		include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");

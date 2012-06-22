@@ -166,31 +166,6 @@ class ilObjDataCollection extends ilObject2
 		}
 	}
 	
-	
-	/**
-	 * load date
-	 *
-	 * @access protected
-	 * @param
-	 * @return
-	 */
-	public function loadDate($a_field, $reverse = true)
-	{
-		global $ilUser;
-
-		if($reverse)
-		{
-			list($dt["date"], $dt["time"]) =  explode(" ", $a_field);
-		}
-		else
-		{
-			$dt = $a_field['date']." ".$a_field['time'];
-		}
-
-		return $dt;
-	}
-
-	
 	/**
 	 * set main Table Id
 	 */
