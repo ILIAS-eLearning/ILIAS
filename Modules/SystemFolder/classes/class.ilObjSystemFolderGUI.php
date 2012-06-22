@@ -1498,7 +1498,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilHelp;
 		
-		$ilHelp->setScreenIdComponent("adm");
+//		$ilHelp->setScreenIdComponent($this->object->getType());
 
 		$this->ctrl->setParameter($this,"ref_id",$this->object->getRefId());
 

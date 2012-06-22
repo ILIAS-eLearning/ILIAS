@@ -667,10 +667,12 @@ class ilObjPortfolioGUI
 
 	protected function setPagesTabs()
 	{
-		global $lng, $ilTabs, $ilCtrl;				
+		global $lng, $ilTabs, $ilCtrl, $ilHelp;				
 		
 		if($this->checkAccess("write"))
 		{
+			$ilHelp->setScreenIdComponent("prtf");
+			
 			$ilTabs->addTab("pages",
 			$lng->txt("content"),
 			$ilCtrl->getLinkTarget($this, "pages"));
