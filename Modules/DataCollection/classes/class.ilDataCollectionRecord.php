@@ -206,9 +206,9 @@ class ilDataCollectionRecord
 	* @param int $a_id
 	* @param array $recordfields
 	*/
-	function getAll($a_id,$recordfields = array())
+	static function getAll($a_id,$recordfields = array())
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
 
 		//build query
 		$query = "Select  rc.id, rc.table_id , rc.create_date, rc.last_update, rc.owner";
@@ -235,9 +235,10 @@ class ilDataCollectionRecord
 		$all = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
+			$rec['owner'] = $ilUser->_lookupLogin($rec['owner']); // Benutzername anstelle der ID
 			$all[$rec['id']] = $rec;
 		}
-		
+
 		return $all; 
 	}
 
@@ -312,10 +313,10 @@ class ilDataCollectionRecord
 	function getRecordFields()
 	{  
 		global $ilDB;
-
+		
 		$query = "SELECT rcfield.id id, field.title title, field.description description,".
 					" field.datatype_id datatype_id, dtype.title datatype,". 
-					" dtype.storage_location storage_location FROM `il_dcl_record_field` rcfield". 
+					" dtype.storage_location storage_location FROM il_dcl_record_field rcfield". 
 					" LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id". 
 					" LEFT JOIN il_dcl_datatype dtype ON dtype.id = field.datatype_id". 
 					" WHERE rcfield.record_id = ".$ilDB->quote($this->getId(),"integer");

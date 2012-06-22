@@ -86,8 +86,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 						$file_obj = new ilObjDataCollectionFile($a, false);
 						$this->tpl->setCurrentBlock("field_link");
 						$this->tpl->setVariable("CONTENT", $file_obj->getTitle());
-						//$ilCtrl->setParameterByClass("ilobjfilegui", "id", $a);
-						//$this->tpl->setVariable("LINK", $ilCtrl->getLinkTargetByClass("ilobjfilegui", "sendfile"));
+						$ilCtrl->setParameterByClass("ilObjFileGUI", "hist_id", $a);
+						$this->tpl->setVariable("LINK", $ilCtrl->getLinkTargetByClass("ilObjFileGUI", "sendfile"));
 					}
 					else
 					{
