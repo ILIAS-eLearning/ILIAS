@@ -3421,13 +3421,29 @@ $tabs_gui = $ilTabs;
 	 */
 	function showExportIDsOverview($a_validation = false)
 	{
-		global $tpl;
+		global $tpl, $ilToolbar, $lng, $ilCtrl;
 
 		$this->setTabs();
 		$this->setContentSubTabs("export_ids");
 		
 		if (ilObjContentObject::isOnlineHelpModule($this->object->getRefId()))
 		{
+			// toolbar
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$lm_tree = $this->object->getTree();
+			$childs = $lm_tree->getChilds($lm_tree->readRootId());
+			$options = array("" => $lng->txt("all"));
+			foreach ($childs as $c)
+			{
+				$options[$c["child"]] = $c["title"];
+			}
+			$si = new ilSelectInputGUI($this->lng->txt("help_component"), "help_chap");
+			$si->setOptions($options);
+			$si->setValue(ilSession::get("help_chap"));
+			$ilToolbar->addInputItem($si, true);
+			$ilToolbar->addFormButton($lng->txt("help_filter"), "filterHelpChapters");
+			
 			include_once("./Modules/LearningModule/classes/class.ilHelpMappingTableGUI.php");
 			$tbl = new ilHelpMappingTableGUI($this, "showExportIDsOverview", $a_validation, false);
 		}
@@ -3439,6 +3455,21 @@ $tabs_gui = $ilTabs;
 
 		$tpl->setContent($tbl->getHTML());
 	}
+	
+	/**
+	 * Filter help chapters
+	 *
+	 * @param
+	 * @return
+	 */
+	function filterHelpChapters()
+	{
+		global $ilCtrl;
+		
+		ilSession::set("help_chap", ilUtil::stripSlashes($_POST["help_chap"]));
+		$ilCtrl->redirect($this, "showExportIDsOverview");
+	}
+	
 
 	/**
 	 * Save export IDs
