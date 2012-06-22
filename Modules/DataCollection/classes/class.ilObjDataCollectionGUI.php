@@ -19,7 +19,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionFieldEditGUI, ilDataCollectionRecordEditGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordListGUI, ilDataCollectionRecordEditViewdefinitionGUI
 * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordViewGUI, ilDataCollectionRecordViewViewdefinitionGUI
-* @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionTableEditGUI, ilDataCollectionFieldListGUI
+* @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionTableEditGUI, ilDataCollectionFieldListGUI, ilObjFileGUI
 *
 * @extends ilObject2GUI
 */
@@ -59,7 +59,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
-
 		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -143,6 +142,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");
 				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this);
 				$this->ctrl->forwardCommand($recordedit_gui);
+				break;
+				
+			case "ilobjfilegui":
+				$this->addHeaderAction($cmd);
+				$this->prepareOutput();
+				$ilTabs->setTabActive("id_records");
+				include_once("./Modules/File/classes/class.ilObjFile.php");
+				$file_gui = new ilObjFile($this);
+				$this->ctrl->forwardCommand($file_gui);
 				break;
 
 			default:								
