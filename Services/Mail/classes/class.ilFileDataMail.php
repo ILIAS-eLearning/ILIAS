@@ -614,5 +614,114 @@ class ilFileDataMail extends ilFileData
 		}
 		return array('count'=>$count, 'size'=>$size);
 	}
+
+	/**
+ 	 * Called when an ILIAS user account should be completely deleted
+	 */
+	public function onUserDelete()
+	{
+		/**
+ 		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+		
+		// Delete uploaded mail files which are not attached to any message
+		try
+		{
+			$iter = new RegexIterator(
+				new DirectoryIterator($this->getMailPath()), '/^'.$this->user_id.'_/'
+			);
+			foreach($iter as $file)
+			{
+				/**
+				 * @var $file SplFileInfo
+				 */
+
+				if($file->isFile())
+				{
+					@unlink($file->getPathname());
+				}
+			}
+		}
+		catch(Exception $e) { }
+
+		// Select all files attached to messages which are not shared (... = 1) with other messages anymore
+		$query = '
+			SELECT DISTINCT(ma1.path)
+			FROM mail_attachment ma1
+			INNER JOIN mail
+				ON mail.mail_id = ma1.mail_id
+			WHERE mail.user_id = %s
+			AND (SELECT COUNT(tmp.path) FROM mail_attachment tmp WHERE tmp.path = ma1.path) = 1
+		';
+		$res = $ilDB->queryF(
+			$query,
+			array('integer'),
+			array($this->user_id)
+		);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			try
+			{
+				$path = $this->getMailPath().DIRECTORY_SEPARATOR.$row['path'];
+				$it = new RecursiveDirectoryIterator($path);
+				$files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+				foreach($files as $file)
+				{
+					/**
+					 * @var $file SplFileInfo
+					 */
+
+					if($file->isDir())
+					{
+						@rmdir($file->getPathname());
+					}
+					else
+					{
+						@unlink($file->getPathname());
+					}
+				}
+				@rmdir($path);
+			}
+			catch(Exception $e) { }
+		}
+
+		// Delete each mail attachment row assigned to a message of the deleted user.
+		if($ilDB->getDBType() == 'mysql')
+		{
+			$ilDB->manipulateF('
+				DELETE m1
+				FROM mail_attachment m1
+				INNER JOIN (
+					SELECT mail_attachment.mail_id
+					FROM mail
+					INNER JOIN mail_attachment
+						ON mail_attachment.mail_id = mail.mail_id
+					WHERE user_id = %s
+				) m2
+				ON m2.mail_id = m1.mail_id
+				',
+				array('integer'),
+				array($this->user_id)
+			);
+		}
+		else
+		{
+			// Oracle and Posgres (if query is not compliant to Posgres, we need to treat this in an separate way)
+			$ilDB->manipulateF(' 
+				DELETE FROM mail_attachment
+				WHERE mail_attachment.mail_id IN (
+					SELECT mail_attachment.mail_id
+					FROM mail
+					INNER JOIN mail_attachment
+						ON mail_attachment.mail_id = mail.mail_id
+					WHERE user_id = %s
+				)
+				',
+				array('integer'),
+				array($this->user_id)
+			);
+		}
+	}
 }
 ?>

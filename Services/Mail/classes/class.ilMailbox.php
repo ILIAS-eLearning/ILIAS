@@ -552,6 +552,9 @@ class ilMailbox
 	*/
 	function delete()
 	{
+		/**
+ 		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 		
 		$ilDB->manipulateF('
@@ -573,7 +576,19 @@ class ilMailbox
 			DELETE FROM mail_tree WHERE tree = %s',
 			array('integer'), array($this->user_id)
 		);
+
+		// Delete the user's files from filesystem: This has to be done before deleting the database entries in table 'mail'
+		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
+		$fdm = new ilFileDataMail($this->user_id);
+		$fdm->onUserDelete();
 		
+		// Delete mails of deleted user
+		$ilDB->manipulateF(
+			'DELETE FROM mail WHERE user_id = %s',
+			array('integer'),
+			array($this->user_id)
+		);
+
 		return true;
 	}
 
