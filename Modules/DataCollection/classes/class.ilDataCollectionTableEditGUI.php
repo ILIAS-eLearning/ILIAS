@@ -86,7 +86,7 @@ class ilDataCollectionTableEditGUI
 		$item = new ilTextInputGUI($lng->txt('title'),'title');
 		$this->form->addItem($item);
 		
-		$this->form->addCommandButton('save', 	$lng->txt('dcl_table_'.$mode));
+		$this->form->addCommandButton('save', 	$lng->txt('dcl_table_'.$a_mode));
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
 		
 		$this->form->setFormAction($ilCtrl->getFormAction($this, "save"));

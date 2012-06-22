@@ -49,7 +49,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$this->addColumn($lng->txt("edit"),  "edit",  "auto");
 		}
 
-		$this->addMultiCommand('export', $lng->txt('export'));
+		$this->addMultiCommand('export', $lng->txt('dcl_export'));
 
 		$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
 		$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"),$lng->txt("dcl_add_new_record"));
