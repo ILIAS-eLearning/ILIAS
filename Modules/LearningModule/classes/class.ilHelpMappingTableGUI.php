@@ -31,7 +31,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		
-		$this->setData(ilStructureObject::getChapterList($this->parent_obj->object->getId()));
+		$this->getChapters();
 
 		$this->setTitle($lng->txt("cont_html_export_ids"));
 
@@ -45,6 +45,33 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 
 		$this->addCommandButton("saveHelpMapping", $lng->txt("save"));
 	}
+	
+	/**
+	 * Get chapters
+	 *
+	 * @param
+	 * @return
+	 */
+	function getChapters()
+	{
+		$hc = ilSession::get("help_chap");
+		$lm_tree = $this->parent_obj->object->getTree();
+		
+		if ($hc > 0 && $lm_tree->isInTree($hc))
+		{
+			//$node = $lm_tree->getNodeData($hc);
+			//$chaps = $lm_tree->getSubTree($node);
+			$chaps = $lm_tree->getFilteredSubTree($hc, array("pg"));
+			unset($chaps[0]);
+		}
+		else
+		{
+			$chaps = ilStructureObject::getChapterList($this->parent_obj->object->getId());
+		}
+		
+		$this->setData($chaps);
+	}
+	
 
 	/**
 	 * Fill table row
