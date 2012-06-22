@@ -12745,3 +12745,45 @@ poll#:#poll_block_message_inactive#:#This poll will be available from %s.
 poll#:#poll_block_message_already_voted#:#You already voted in this poll.
 poll#:#poll_block_message_no_answers#:#This poll is incomplete.
 survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)
+dcl#:#dcl_edit_type#:#Edit Type
+dcl#:#dcl_activate_rating#:#Activate Record Rating
+dcl#:#dcl_activate_approval#:#Activate Record Approval
+dcl#:#dcl_activate_notification#:#Activate Notification
+dcl#:#dcl_table_id#:#Table ID
+dcl#:#dcl_add_new_record#:#Add New Record
+dcl#:#dcl_list_fields#:#List Fields
+dcl#:#dcl_record_view_viewdefinition#:#View Viewdefinition
+dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition
+dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition
+dcl#:#dcl_add_new_field#:#Add New Field
+dcl#:#dcl_add_new_table#:#Add New Table
+dcl#:#dcl_field_datatype#:#Field Datatype
+dcl#:#dcl_required#:#Required Field
+dcl#:#dcl_edit_type_non#:#Not editable
+dcl#:#dcl_edit_type_non_info#:#Creating New Records needs Write-Access
+dcl#:#dcl_edit_type_unlim#:#Umlimited
+dcl#:#dcl_edit_type_unlim_info#:#Users with Read-Acces can add new Records
+dcl#:#dcl_edit_type_lim#:#Limited
+dcl#:#dcl_edit_type_lim_info#:#Acces limited to the following daterange
+dcl#:#dcl_edit_start#:#Start-Date
+dcl#:#dcl_edit_end#:#End-Date
+dcl#:#dcl_export#:#Export
+dcl#:#dcl_table_list_fields#:#List Fields of current Table
+dcl#:#dcl_view_viewdefinition#:#Viewdefinition
+dcl#:#dcl_new_table#:#New Table
+dcl#:#dcl_table_create#:#Create Table
+dcl#:#dcl_table_edit#:#Edit Table
+dcl#:#dcl_new_field#:#New Field
+dcl#:#dcl_datatype#:#Datatype
+dcl#:#dcl_integer#:#Integer
+dcl#:#dcl_text#:#Text
+dcl#:#dcl_reference#:#Reference
+dcl#:#dcl_boolean#:#Boolean
+dcl#:#dcl_datetime#:#Datetime
+dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_field_description#:#Description
+dcl#:#dcl_field_required#:#Required
+dcl#:#dcl_field_edit#:#Submit Changes
+dcl#:#dcl_field_create#:#Create Field
+dcl#:#dcl_length#:#Length
+dcl#:#dcl_regex#:#Regular Expression
