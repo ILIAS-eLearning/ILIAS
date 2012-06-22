@@ -10783,3 +10783,7 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
 	$ilDB->modifyTableColumn('il_dcl_record', 'last_update', 
 								array("type" => "timestamp"));
 ?>
+<#3637>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

@@ -168,7 +168,7 @@ class ilDataCollectionRecordEditGUI
 	* get Values
 	* 
 	*/
-	//FIXME
+	// FIXME
 	public function getValues()
 	{
 
@@ -199,7 +199,7 @@ class ilDataCollectionRecordEditGUI
 	{	
 		global $tpl, $ilUser, $lng, $ilCtrl;
 
-		//Sämtliche Felder, welche gespeichert werden holen
+		// Sämtliche Felder, welche gespeichert werden holen
 		$all_fields = ilDataCollectionField::getAll($this->table_id);
 
 		$this->initForm($a_mode);
@@ -219,9 +219,8 @@ class ilDataCollectionRecordEditGUI
 
 			foreach($all_fields as $key => $value)
 			{
-				//TODO Properties holen und die Felder entsprechend überprüfen
-				//echo "<pre>".print_r($all_fields,1)."</pre>";
-				if($value['datatype_id'] == self::INPUTFORMAT_FILE)
+				// TODO Properties holen und die Felder entsprechend überprüfen
+				if($value['datatype_id'] == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 				{
 					$file = $this->form->getInput("field_".$value["id"]);
 					if($file['tmp_name'])
