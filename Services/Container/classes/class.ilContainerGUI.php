@@ -2015,7 +2015,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('CMD_SUBMIT', 'performPasteIntoMultipleObjects');
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
 		
-		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getParentReturnByClass(get_class($this)));
+		$ilToolbar->addButton($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this,'cancelMoveLink'));
+	}
+
+	/**
+	 * Cancel move|link
+	 * empty clipboard and return to parent
+	 */
+	public function cancelMoveLinkObject()
+	{
+		unset($_SESSION['clipboard']);
+		$GLOBALS['ilCtrl']->returnToParent($this);
 	}
 	
 	public function initAndDisplayMoveIntoObjectObject()
@@ -2083,7 +2093,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('CMD_SUBMIT', 'performPasteIntoMultipleObjects');
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
 		
-		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getParentReturnByClass(get_class($this)));
+		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this,'cancelMoveLink'));
 	}
 
 	/**
