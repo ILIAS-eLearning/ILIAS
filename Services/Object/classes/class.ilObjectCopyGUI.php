@@ -245,7 +245,7 @@ class ilObjectCopyGUI
 			$this->tpl->setVariable('TXT_SUBMIT', $submit);
 		}
 		
-		$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
+		$ilToolbar->addButton($this->lng->txt('cancel'), $ilCtrl->getLinkTarget($this,'cancel'));
 	}
 	
 	/**
@@ -303,7 +303,7 @@ class ilObjectCopyGUI
 		$this->tpl->setVariable('CMD_SUBMIT', 'saveSource');
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('btn_next'));
 		
-		$ilToolbar->addButton($this->lng->txt('back'), $ilCtrl->getLinkTarget($this,'cancel'));
+		$ilToolbar->addButton($this->lng->txt('cancel'), $ilCtrl->getLinkTarget($this,'cancel'));
 	}
 
 	/**
