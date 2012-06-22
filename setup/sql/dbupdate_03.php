@@ -10768,3 +10768,7 @@ ilDBUpdateNewObjectType::addCustomRBACOperation($poll_type_id, 'add_entry');
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3634>
+<?php
+$ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
+?>
