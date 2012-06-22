@@ -948,7 +948,9 @@ class ilObjForumGUI extends ilObjectGUI
 		 * @var $lng ilLanguage
 		 * @var $ilTabs ilTabsGUI
 		 */
-		global $tpl, $lng, $ilTabs;
+		global $tpl, $lng, $ilTabs, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("frm");
 		
 		$tpl->getStandardTemplate();
 		ilUtil::sendInfo();
