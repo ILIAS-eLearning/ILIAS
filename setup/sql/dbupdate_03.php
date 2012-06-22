@@ -10773,3 +10773,13 @@ ilDBUpdateNewObjectType::addCustomRBACOperation($poll_type_id, 'add_entry');
 <?php
 $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
 ?>
+<#3635>
+<?php
+	$ilDB->modifyTableColumn('il_dcl_record', 'create_date', 
+								array("type" => "timestamp"));
+?>
+<#3636>
+<?php
+	$ilDB->modifyTableColumn('il_dcl_record', 'last_update', 
+								array("type" => "timestamp"));
+?>
