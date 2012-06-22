@@ -26,7 +26,7 @@ class ilHelp
 		$rec = $ilDB->fetchAssoc($set);
 		if ($rec["tt_text"] != "")
 		{
-			return $rec["tt_text"];
+			return $rec["tt_text"]."<br/><i class='small'>".$a_tt_id."</i>";
 		}
 		else // try to get general version
 		{
@@ -38,7 +38,7 @@ class ilHelp
 			$rec = $ilDB->fetchAssoc($set);
 			if ($rec["tt_text"] != "")
 			{
-				return $rec["tt_text"];
+				return $rec["tt_text"]."<br/><i class='small'>".$a_tt_id."</i>";
 			}
 		}
 		return "<i>".$a_tt_id."</i>";

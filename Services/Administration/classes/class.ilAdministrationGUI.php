@@ -100,7 +100,7 @@ class ilAdministrationGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree, $rbacsystem, $ilias, $lng, $objDefinition;
+		global $tree, $rbacsystem, $ilias, $lng, $objDefinition, $ilHelp;
 		
 		// permission checks
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
@@ -243,6 +243,12 @@ class ilAdministrationGUI
 						? true
 						: false;
 
+					// set standard screen id
+					if (strtolower($next_class) == strtolower($this->ctrl->getCmdClass()))
+					{
+						$ilHelp->setScreenIdComponent(ilObject::_lookupType($this->cur_ref_id,true));
+					}
+						
 					$this->ctrl->setReturn($this, "return");					
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
 					$html = $this->gui_obj->getHTML();
