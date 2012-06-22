@@ -419,10 +419,18 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 */
 	public function getEditFormCustomValues(array &$a_values)
 	{
+		global $ilUser;
+		
+		$start = new ilDateTime($this->object->getEditStart(), IL_CAL_DATETIME);
+
+		$a_values['edit_start']['date'] = $start->get(IL_CAL_FKT_DATE, 'Y-m-d', $ilUser->getTimeZone());
+		$a_values['edit_start']['time'] = $start->get(IL_CAL_FKT_DATE, 'H:i:s', $ilUser->getTimeZone());
+
+		$end = new ilDateTime($this->object->getEditEnd(), IL_CAL_DATETIME);
+		$a_values['edit_end']['date'] = $end->get(IL_CAL_FKT_DATE, 'Y-m-d');
+		$a_values['edit_end']['time'] = $end->get(IL_CAL_FKT_DATE, 'H:i:s', $ilUser->getTimeZone());
+
 		$a_values["is_online"] = $this->object->getOnline();
-		$a_values["edit_type"] = $this->object->getEditType();
-		$a_values["edit_start"] = $this->object->loadDate($this->object->getEditStart(), true);
-		$a_values["edit_end"] = $this->object->loadDate($this->object->getEditEnd(), true);
 		$a_values["rating"] = $this->object->getRating();
 		$a_values["public_notes"] = $this->object->getPublicNotes();
 		$a_values["approval"] = $this->object->getApproval();
@@ -436,10 +444,16 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 */
 	public function updateCustom(ilPropertyFormGUI $a_form)
 	{
+		global $ilUser;
+		
+		$start = $a_form->getInput('edit_start');
+		$start = new ilDateTime($start['date'].' '.$start['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
+		$end = $a_form->getInput('edit_end');
+		$end = new ilDateTime($end['date'].' '.$end['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
 		$this->object->setOnline($a_form->getInput("is_online"));
 		$this->object->setEditType($a_form->getInput("edit_type"));
-		$this->object->setEditStart($this->object->loadDate($a_form->getInput("edit_start"), false));
-		$this->object->setEditEnd($this->object->loadDate($a_form->getInput("edit_end"), false));
+		$this->object->setEditStart($start->get(IL_CAL_DATETIME));
+		$this->object->setEditEnd($end->get(IL_CAL_DATETIME));
 		$this->object->setRating($a_form->getInput("rating"));
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
