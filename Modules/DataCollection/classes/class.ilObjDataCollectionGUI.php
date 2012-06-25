@@ -141,7 +141,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$this->addListFieldsTabs("view_viewdefinition");
 				$ilTabs->setTabActive("id_fields");
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");
-				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this);
+				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($recordedit_gui);
 				break;
 				

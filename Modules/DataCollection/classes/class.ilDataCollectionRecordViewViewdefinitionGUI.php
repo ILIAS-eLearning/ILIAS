@@ -14,10 +14,17 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewV
 
 class ilDataCollectionRecordViewViewdefinitionGUI
 {
-	public function __construct()
+	/**
+	 * Constructor
+	 *
+	 * @param	object	$a_parent_obj
+	 * @param	int $table_id 
+	*/
+	public function __construct($a_parent_obj, $table_id)
 	{
 		//TODO Permission-Check
-		$this->table_id = $_GET[table_id];
+		$this->obj_id = $a_parent_obj->obj_id;
+		$this->table_id = $table_id;
 	}
 
 	/**
@@ -79,6 +86,10 @@ class ilDataCollectionRecordViewViewdefinitionGUI
 		//Get fields
 		require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
 		$fields = ilDataCollectionField::getAll($this->table_id);
+
+		//DEBUG
+		//print_r($fields);
+
 		//TODO das Array enthält die Felder der Tabelle. Diese sind als Platzhalterwerte darzustellen.
 		//Bezeichnung des Platzhalters: Title; Wert welcher beim Speichern übermittelt werden soll id
 
@@ -126,7 +137,7 @@ class ilDataCollectionRecordViewViewdefinitionGUI
 	/**
 	 * save
 	 *
-	 * @param string $a_mode values: create | edit
+	 * @param string $a_mode values: create | update
 	 */
 	public function save($a_mode = "create")
 	{
