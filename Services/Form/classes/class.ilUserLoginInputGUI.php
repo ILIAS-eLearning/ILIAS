@@ -14,6 +14,7 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	protected $size = 40;
 	protected $max_length = 80;
 	protected $checkunused = 0;
+	protected $autocomplete = false;
 	
 	/**
 	* Constructor
@@ -77,6 +78,26 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 	}
 
 	/**
+	* Set autocomplete
+	*
+	* @param	bool	$a_value	Value
+	*/
+	function setAutoComplete($a_value)
+	{
+		$this->autocomplete = (bool)$a_value;
+	}
+
+	/**
+	* Get autocomplete
+	*
+	* @return	bool	Value
+	*/
+	function getAutoComplete()
+	{
+		return $this->autocomplete;
+	}
+	
+	/**
 	* Check input, strip slashes etc. set alert, if input is not ok.
 	*
 	* @return	boolean		Input ok, true/false
@@ -127,6 +148,10 @@ class ilUserLoginInputGUI extends ilFormPropertyGUI
 		{
 			$a_tpl->setVariable("DISABLED",
 				" disabled=\"disabled\"");
+		}
+		if(!$this->getAutoComplete())
+		{
+			$a_tpl->setVariable("AUTOCOMPLETE", "autocomplete=\"off\"");
 		}
 		$a_tpl->parseCurrentBlock();
 	}
