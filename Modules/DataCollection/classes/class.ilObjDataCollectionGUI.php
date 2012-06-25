@@ -34,9 +34,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 		$lng->loadLanguageModule("dcl");
 
-		If(isset($_GET['table_id']))
+		If(isset($_REQUEST['table_id']))
 		{
-			$this->table_id = $_GET['table_id'];
+			$this->table_id = $_REQUEST['table_id'];
 		}
 		elseif($a_id > 0)
 		{
@@ -95,7 +95,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$this->addListFieldsTabs("list_fields");
 				$ilTabs->setTabActive("id_fields");
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldListGUI.php");
-				$fieldlist_gui = new ilDataCollectionFieldListGUI($this);
+				$fieldlist_gui = new ilDataCollectionFieldListGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($fieldlist_gui);
 				break;
 
@@ -113,7 +113,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_fields");
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldEditGUI.php");
-				$fieldedit_gui = new ilDataCollectionFieldEditGUI($this);
+				$fieldedit_gui = new ilDataCollectionFieldEditGUI($this,$this->table_id,$_REQUEST["field_id"]);
 				$this->ctrl->forwardCommand($fieldedit_gui);
 				break;
 

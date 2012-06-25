@@ -203,6 +203,28 @@ class ilDataCollectionField
 	}
 
 	/**
+	* Set Property Value
+	*
+	* @param string $a_value
+	* @param int $a_id
+	*/
+	function setPropertyvalue($a_value, $a_id)
+	{
+		$this->property[$a_id] = $a_value;
+	}
+
+	/**
+	* Get Property Values
+	*
+	* @param int $a_id
+	* @return array
+	*/
+	function getPropertyvalues()
+	{
+		return $this->property;
+	}
+
+	/**
 	* Set has properties
 	*
 	* @param boolean $has_options hasOptions
@@ -243,11 +265,9 @@ class ilDataCollectionField
 		$this->setDatatypeId($rec["datatype_id"]);
 		$this->setRequired($rec["required"]);
 
-		
 		//Set the additional properties 
-		/* wir lassen dies einmal sein und schauen, ob wir es auch ohne dies properties auf dieser ebene schaffen. -> das ganze datenmodell, wäre dynamisch und würde nicht über die DB gesteuert
 		$this->setProperties();
-		*/
+
 		
 	}
 
@@ -311,7 +331,24 @@ class ilDataCollectionField
 		.",".$ilDB->quote($this->getRequired(), "integer")
 		.")";
 		$ilDB->manipulate($query);
+	}
 
+	/**
+	* Update field
+	*/
+	function DoUpdate()
+	{
+		global $ilDB;
+
+		$ilDB->update("il_dcl_field", array(
+								"table_id" => array("integer", $this->getTableId()),
+								"datatype_id" => array("text", $this->getDatatypeId()),
+								"title" => array("text", $this->getTitle()),
+								"description" => array("text", $this->getDescription()),
+								"required" => array("integer",$this->getRequired())
+								), array(
+								"id" => array("integer", $this->getId())
+								));
 	}
 
 
@@ -320,31 +357,49 @@ class ilDataCollectionField
 		*
 		* @return array
 		*/
-		/*function setProperties()
+		function setProperties()
 		{  
 			global $ilDB;
 			
-			$query = "SELECT property_id, title, value FROM il_dcl_field_prop fp 
-			LEFT JOIN il_dcl_property AS p ON p.id = fp.property_id
-			WHERE fp.field_id = ".$ilDB->quote($this->getId(),"integer");
+			$query = "SELECT	datatype_prop_id, 
+											title, 
+											value 
+							FROM il_dcl_field_prop fp 
+							LEFT JOIN il_dcl_datatype_prop AS p ON p.id = fp.datatype_prop_id
+							WHERE fp.field_id = ".$ilDB->quote($this->getId(),"integer");
 			$set = $ilDB->query($query);
 			
 			while($rec = $ilDB->fetchAssoc($set))
 			{
-				if ($rec['property_id'] == self::PROPERTYID_LENGTH)
-				{
-					$this->setLength($rec['value']);
-				}	
-				elseif ($rec['property_id'] == self::PROPERTYID_REGEX)
-				{
-					$this->setRegex($rec['value']); 
-				}
+				$this->setPropertyvalue($rec['value'],$rec['datatype_prop_id']);
 			}
-		}*/
+		}
 		
-		
-		
-		
+		/**
+		* Get a property of a field
+		*
+		* @param int $id Field Id
+		* @param int $prop_id Property_Id
+		*
+		* @return array
+		*/
+/*
+		function getProperty($id, $prop_id)
+		{  
+			global $ilDB;
+			
+			$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
+			LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id AND il_dcl_datatype_prop.id =".$ilDB->quote($prop_id, "integer")."
+			WHERE fp.field_id = ".$ilDB->quote($id, "integer");
+			$set = $ilDB->query($query);
+			
+			while($rec = $ilDB->fetchObject($set))
+			{
+				$data[] = $rec;
+			}
+		}
+		*/
+
 		/**
 		* Get all properties of a field
 		*
