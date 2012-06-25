@@ -156,6 +156,26 @@ class ilDataCollectionFieldProp
 			.")";
 		$ilDB->manipulate($query);
 	}
+
+
+	/**
+	* Update field property
+	*/
+	function DoUpdate()
+	{
+		global $ilDB;
+
+		$ilDB->update("il_dcl_field_prop", array(
+								"datatype_prop_id" => array("integer", $this->getDatatypePropertyId()),
+								"field_id" => array("integer", $this->getFieldId()),
+								"value" => array("text", $this->getValue())
+								), array(
+								"datatype_prop_id" => array("integer", $this->getDatatypePropertyId()),
+								"field_id" => array("integer", $this->getFieldId())
+								));
+
+	}
 }
+
 
 ?>

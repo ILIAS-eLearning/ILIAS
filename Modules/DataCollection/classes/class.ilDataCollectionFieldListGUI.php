@@ -23,19 +23,22 @@ class ilDataCollectionFieldListGUI
 	 * @param	object	$a_parent_obj
 	 * @param	int $table_id
 	*/
-	public function  __construct($a_parent_obj, $table_id = NULL)
+	public function  __construct($a_parent_obj, $table_id)
 	{
 		$this->main_table_id = $a_parent_obj->object->getMainTableId();
+		$this->table_id = $table_id;
 		$this->obj_id = $a_parent_obj->obj_id;
+
 		include_once("class.ilDataCollectionDatatype.php");
-		if($table_id)
-		{
-			$this->table_id = $table_id;
-		} 
-		else 
-		{
-			$this->table_id = $this->main_table_id;
-		}
+
+		//($table_id)
+		//{
+			//$this->table_id = $table_id;
+		//} 
+		//else 
+		//{
+		//	$this->table_id = $this->main_table_id;
+		//}
 
 		return;   
 	}
@@ -80,10 +83,12 @@ class ilDataCollectionFieldListGUI
 			);
 		$table_selection->setOptions($options);
 		$table_selection->setValue($this->table_id);
+
+		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionFieldListGUI", "doTableSwitch"));
         $ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 
-		$ilCtrl->setParameterByClass("ildatacollectiontableeditgui","table_id", $this->table_id);
+		//->setParameterByClass("ildatacollectiontableeditgui","table_id", $this->table_id);
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
 		
 		$records = ilDataCollectionField::getAll($this->table_id);
@@ -96,7 +101,11 @@ class ilDataCollectionFieldListGUI
 	}
 
 	public function doTableSwitch() {
-		return;
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI","table_id", $_POST['table_id']);
+		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI","listFields"); 			
+
 	}
 }
 

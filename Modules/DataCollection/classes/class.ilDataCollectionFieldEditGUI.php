@@ -22,14 +22,24 @@ class ilDataCollectionFieldEditGUI
 	/**
 	 * Constructor
 	 *
+	 * @param	object	$a_parent_obj
+	 * @param	int $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
+	 * @param	int $field_id The field_id of a existing fiel (edit mode) 
 	*/
-	public function  __construct()
+	public function  __construct($a_parent_obj, $table_id, $field_id)
 	{
-		include_once("class.ilDataCollectionDatatype.php");
-		//TODO Prüfen, inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
-		$this->field_obj = new ilDataCollectionField($_GET[field_id]);
-		$this->table_id = $_GET[table_id];
+		//TODO Permission-Check
 
+		$this->obj_id = $a_parent_obj->obj_id;
+
+		if(isset($field_id)) 
+		{
+			$this->field_obj = new ilDataCollectionField($field_id);
+		} else {
+			$this->field_obj = new ilDataCollectionField();
+			//TODO prüfen ob table_id gesetzt, andernfalls Fehlermeldung und abbruch
+			$this->field_obj->setTableId($table_id);
+		}
 	}
 
 	
@@ -44,6 +54,10 @@ class ilDataCollectionFieldEditGUI
 		
 		switch($cmd)
 		{
+			case "update":
+						$this->save("update");
+						break;
+
 			default:
 				$this->$cmd();
 				break;
@@ -88,16 +102,26 @@ class ilDataCollectionFieldEditGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
-		$this->form->addCommandButton('save', 		$lng->txt('dcl_field_'.$a_mode));
+		
+		if ($a_mode == "edit")
+		{
+			$hidden_prop = new ilHiddenInputGUI("field_id");
+			$this->form->addItem($hidden_prop);
+
+			$this->form->setFormAction($ilCtrl->getFormAction($this),"update");
+			$this->form->addCommandButton('update', $lng->txt('dcl_field_'.$a_mode));
+		} 
+		else 
+		{
+			$hidden_prop = new ilHiddenInputGUI("table_id");
+			$hidden_prop->setValue($this->field_obj->getTableId());
+			$this->form->addItem($hidden_prop);
+
+			$this->form->setFormAction($ilCtrl->getFormAction($this),"save");
+			$this->form->addCommandButton('save', 		$lng->txt('dcl_field_'.$a_mode));
+		}
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
-		
-		$this->form->setFormAction($ilCtrl->getFormAction($this, "save"));
-	
 		$this->form->setTitle($lng->txt('dcl_new_field'));
-		
-		$hidden_prop = new ilHiddenInputGUI("table_id");
-		$hidden_prop ->setValue($this->table_id);
-		$this->form->addItem($hidden_prop );
 		
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$this->form->addItem($text_prop);
@@ -110,7 +134,27 @@ class ilDataCollectionFieldEditGUI
 			
 			foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
 			{
-				if($property['datatype_id'] == $datatype['id'])
+				//Type Reference: List Tabels
+				if ($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) 
+				{
+				    // Get Tables
+					require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+					$arrTables = ilDataCollectionTable::getAll($this->obj_id);
+					foreach($arrTables as $table)
+					{
+						$options[$table['id']] = $table['title'];
+					}
+					$table_selection = new ilSelectInputGUI(
+						'',
+							'prop_'.$property['id']
+						);
+					$table_selection->setOptions($options);
+					//$table_selection->setValue($this->table_id);
+					$opt->addSubItem($table_selection);
+
+				} 
+				//All other Types: List properties saved in propertie definition table
+				elseif($property['datatype_id'] == $datatype['id']) 
 				{
 						$subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
 						$opt->addSubItem($subitem);
@@ -134,25 +178,27 @@ class ilDataCollectionFieldEditGUI
 	 */
 	public function getValues()
 	{
+		//Std-Values
 		$values =  array(
 			'table_id'	=>	$this->field_obj->getTableId(),
+			'field_id'	=>	$this->field_obj->getId(),
 			'title'			=>	$this->field_obj->getTitle(),
 			'datatype'		=>	$this->field_obj->getDatatypeId(),
 			'description'	=>	$this->field_obj->getDescription(),
 			'required'		=>	$this->field_obj->getRequired(),
 		);
+
+		$propertyvalues = $this->field_obj->getPropertyvalues();
+
 		
-		/*foreach(ilDataCollectionDatatype::getAllDatatypes() as $datatype)
+		//Propertie-Values - Subitems
+		foreach(ilDataCollectionDatatype::getAllDatatypes() as $datatype)
 		{
-			$this->datatype_obj = new ilDataCollectionDatatype($datatype['id']);
-			foreach($this->datatype_obj->getProperties() as $property)
+			foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
 			{
-				$values[] = "lorem";
+				$values['prop_'.$property['id']] = $propertyvalues[$property['id']];
 			}
-		}*/
-		
-		//TODO
-		//$props = ilDataCollectionField::getProperties(0);
+		}
 		
 		$this->form->setValuesByArray($values);
 		
@@ -163,7 +209,7 @@ class ilDataCollectionFieldEditGUI
 	/**
 	 * save Field
 	 *
-	 * @param string $a_mode values: create | edit
+	 * @param string $a_mode values: create | update
 	 */
 	public function save($a_mode = "create")
 	{
@@ -173,43 +219,56 @@ class ilDataCollectionFieldEditGUI
 		//$this->dcl_object->checkPermission("write");
 		//echo "<pre>".print_r($_POST,1)."</pre>";
 		
-		
-		
 		//echo "<pre>".print_r(get_class_methods($file_obj), 1)."</pre>";
-		
 		
 		$this->initForm();
 		if ($this->form->checkInput())
 		{
-			$field_obj = new ilDataCollectionField();
-			$field_obj->setTitle($this->form->getInput("title"));
-			$field_obj->setDescription($this->form->getInput("description"));
-			$field_obj->setTableId($this->form->getInput("table_id"));
-			$field_obj->setDatatypeId($this->form->getInput("datatype"));
-			$field_obj->setRequired($this->form->getInput("required"));
+			//$field_obj = new ilDataCollectionField($this->field_obj->getId());
+			$this->field_obj->setTitle($this->form->getInput("title"));
+			$this->field_obj->setDescription($this->form->getInput("description"));
+			$this->field_obj->setDatatypeId($this->form->getInput("datatype"));
+			$this->field_obj->setRequired($this->form->getInput("required"));
 			
-			$field_obj->doCreate();
+			if($a_mode == "update") 
+			{
+				$this->field_obj->doUpdate();
+			}
+			else 
+			{
+				$this->field_obj->doCreate();
+			}
 		
 			// Get possible properties and save them
 			include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldProp.php");
-			foreach(ilDataCollectionDatatype::getProperties($field_obj->getDatatypeId()) as $property)
+			foreach(ilDataCollectionDatatype::getProperties($this->field_obj->getDatatypeId()) as $property)
 			{
 				if($this->form->getInput("prop_".$property['id'])) 
 				{
 					$fieldprop_obj = new ilDataCollectionFieldProp();
 					$fieldprop_obj->setDatatypePropertyId($property['id']);
-					$fieldprop_obj->setFieldId($field_obj->getId());
+					$fieldprop_obj->setFieldId($this->field_obj->getId());
 					$fieldprop_obj->setValue($this->form->getInput("prop_".$property['id']));
-					$fieldprop_obj->doCreate();
+					if($a_mode == "update") 
+					{
+						$fieldprop_obj->doUpdate();
+					}
+					else 
+					{
+						$fieldprop_obj->doCreate();
+					}
+					
 				}
 			}
 
-			//ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
-			
-			//$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
+
+			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
+			$ilCtrl->redirect($this, "edit");
 		}
 		else
 		{
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),false);
 			$this->form_gui->setValuesByPost();
 			$this->tpl->setContent($this->form_gui->getHTML());
 		}
