@@ -12,7 +12,7 @@
 */
 class ilExport
 {
-	public static $new_file_structure = array('exc','crs','sess','file','grp','frm');
+	public static $new_file_structure = array('exc','crs','sess','file','grp','frm', 'usr');
 	
 	// this should be part of module.xml and be parsed in the future
 	static $export_implementer = array("tst", "lm", "glo");
@@ -96,9 +96,14 @@ class ilExport
 	 *
 	 * @return string export directory
 	 */
-	public static function _getExportDirectory($a_obj_id, $a_type = "xml", $a_obj_type = "")
+	public static function _getExportDirectory($a_obj_id, $a_type = "xml", $a_obj_type = "", $a_entity = "")
 	{
 		global $objDefinition;
+		
+		$ent = ($a_entity == "")
+			? ""
+			: "_".$a_entity;
+
 		
 		if ($a_obj_type == "")
 		{
@@ -109,7 +114,7 @@ class ilExport
 		{
 			include_once './Services/FileSystem/classes/class.ilFileSystemStorage.php';
 			$dir = ilUtil::getDataDir().DIRECTORY_SEPARATOR;
-			$dir .= 'il'.$objDefinition->getClassName($a_obj_type).DIRECTORY_SEPARATOR;
+			$dir .= 'il'.$objDefinition->getClassName($a_obj_type).$ent.DIRECTORY_SEPARATOR;
 			$dir .= ilFileSystemStorage::_createPathFromId($a_obj_id, $a_obj_type).DIRECTORY_SEPARATOR;
 			$dir .= ($a_type == 'xml' ? 'export' : 'export_'.$a_type);
 			return $dir;
@@ -117,7 +122,7 @@ class ilExport
 
 		include_once './Services/Export/classes/class.ilImportExportFactory.php';
 		$exporter_class = ilImportExportFactory::getExporterClass($a_obj_type);
-		$export_dir = call_user_func(array($exporter_class,'lookupExportDirectory'),$a_obj_type,$a_obj_id,$a_type);
+		$export_dir = call_user_func(array($exporter_class,'lookupExportDirectory'),$a_obj_type,$a_obj_id,$a_type,$a_entity);
 
 		$GLOBALS['ilLog']->write(__METHOD__.': Export dir is '.$export_dir);
 		return $export_dir;

@@ -56,7 +56,7 @@ abstract class ilDataSet
 	 * 
 	 * @return	array		array of supported version
 	 */
-	abstract public function getSupportedVersions($a_entity);
+	abstract public function getSupportedVersions();
 		
 	/**
 	 * Get (abstract) types for (abstract) field names.

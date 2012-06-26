@@ -27,7 +27,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 	 * @param int $a_obj_id
 	 * @param string $a_export_type 
 	 */
-	public static function  lookupExportDirectory($a_obj_type, $a_obj_id, $a_export_type = 'xml')
+	public static function  lookupExportDirectory($a_obj_type, $a_obj_id, $a_export_type = 'xml', $a_entity = "")
 	{
 		if($a_export_type == 'xml')
 		{

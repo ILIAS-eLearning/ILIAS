@@ -24,7 +24,7 @@ class ilCOPageDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	public function getSupportedVersions($a_entity)
+	public function getSupportedVersions()
 	{
 		return array("4.2.0");
 	}

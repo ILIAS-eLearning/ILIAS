@@ -1,16 +1,16 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once 'Services/Table/classes/class.ilTable2GUI.php';
 
 /**
 * Table GUI for Bookmark management
 *
 * @author Jan Posselt <jposselt@databay.de>
 * @version $Id$
+* @ingroup ServicesBookmarks
 *
 */
-
-include_once 'Services/Table/classes/class.ilTable2GUI.php';
-
 class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 {
 	/**
@@ -30,7 +30,7 @@ class ilBookmarkAdministrationTableGUI extends ilTable2GUI
 		
 		//$this->setTitle($lng->txt('bookmarks'));
 		
-		$this->setRowTemplate('tpl.bookmark_administration_row.html', 'Services/PersonalDesktop');
+		$this->setRowTemplate('tpl.bookmark_administration_row.html', 'Services/Bookmarks');
 		$this->addColumn('', '', '3%', true);
 		$this->addColumn($lng->txt('type'), '', '3%');
 		$this->addColumn($lng->txt('title'), 'title', '84%');

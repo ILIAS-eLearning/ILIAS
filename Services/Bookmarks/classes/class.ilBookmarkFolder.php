@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * bookmark folder
@@ -8,7 +9,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @author Manfred Thaler <manfred.thaler@endo7.com>
 * @version $Id$
-*
+* @ingroup ServicesBookmarks
 */
 class ilBookmarkFolder
 {
