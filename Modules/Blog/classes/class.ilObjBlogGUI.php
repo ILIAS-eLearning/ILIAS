@@ -229,6 +229,9 @@ class ilObjBlogGUI extends ilObject2GUI
 				$bpost_gui = new ilBlogPostingGUI($this->node_id, $this->getAccessHandler(),
 					$_GET["blpg"], $_GET["old_nr"], $this->object->getNotesStatus() && !$this->disable_notes);
 				
+				// needed for editor			
+				$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "blog"));
+				
 				if (!$this->checkPermissionBool("write"))
 				{
 					$bpost_gui->setEnableEditing(false);
