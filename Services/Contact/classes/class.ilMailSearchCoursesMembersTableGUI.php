@@ -89,7 +89,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		if($this->context == "mail")
 		{
 			if ($this->mailing_allowed)
-				$this->addMultiCommand('mail', $lng->txt('mail_members'));
+				$this->addMultiCommand('mail', $lng->txt('mail_member'));
 			$this->addMultiCommand('adoptMembers', $lng->txt("mail_into_addressbook"));
 		}
 		else
@@ -127,7 +127,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 		if($this->context == "mail")
 		{
 			if ($this->mailing_allowed)
-				$current_selection_list->addItem($this->lng->txt("mail_members"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
+				$current_selection_list->addItem($this->lng->txt("mail_members_asdff"), '', $ilCtrl->getLinkTarget($this->parentObject, "mail"));
 			$current_selection_list->addItem($this->lng->txt("mail_into_addressbook"), '', $ilCtrl->getLinkTarget($this->parentObject, "adoptMembers"));
 		}
 		else
