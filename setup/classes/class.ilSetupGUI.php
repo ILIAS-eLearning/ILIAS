@@ -339,6 +339,17 @@ echo "<br>+".$client_id;
 				}
 				break;
 	
+			case "proxy":
+				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "proxy")
+				{
+					$this->jumpToFirstUnfinishedSetupStep();
+				}
+				else
+				{
+					$this->displayProxy();
+				}
+				break;
+				
 			case "nic":
 				if (!isset($_GET["lang"]) and !$this->setup->getClient()->status["finish"]["status"] and $_GET["cmd"] == "nic")
 				{
@@ -408,6 +419,7 @@ echo "<br>+".$client_id;
 			case "showLongerSettings":
 			case "cloneSelectSource":
 			case "cloneSaveSource":
+			case "saveProxy":
 				$this->$cmd();
 				break;
 
@@ -1849,6 +1861,7 @@ else
 		//$steps["sess"]["text"]      = $this->lng->txt("setup_process_step_sess");
 		$steps["lang"]["text"]      = $this->lng->txt("setup_process_step_lang");
 		$steps["contact"]["text"]   = $this->lng->txt("setup_process_step_contact");
+		$steps["proxy"]["text"]		= $this->lng->txt("setup_process_step_proxy");
 		$steps["nic"]["text"]       = $this->lng->txt("setup_process_step_nic");
 		$steps["finish"]["text"]    = $this->lng->txt("setup_process_step_finish");
 		
@@ -1901,6 +1914,8 @@ else
 				$this->tpl->setCurrentBlock("status_row");
 				$this->tpl->setVariable("TXT_STEP", $this->lng->txt("step_".$key));
 				$this->tpl->setVariable("TXT_STATUS",$status);
+				
+				
 				$this->tpl->setVariable("TXT_COMMENT",$val["comment"]);
 				$this->tpl->parseCurrentBlock();
 			}
@@ -2666,7 +2681,7 @@ else
 
 		if ($check["status"])
 		{
-			$this->setButtonNext("nic");
+			$this->setButtonNext("proxy");
 		}
 		
 		$this->checkPanelMode();
@@ -2849,7 +2864,7 @@ else
 
 		}
 
-		$this->setButtonPrev("contact");
+		$this->setButtonPrev("proxy");
 		
 		if ($this->setup->getClient()->status["nic"]["status"])
 		{
@@ -3488,6 +3503,12 @@ else
 			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
 			$this->displayContactData();        
 		}
+		elseif(!$this->setup->getClient()->status['proxy']['status'])
+		{
+			$this->cmd = "proxy";
+			ilUtil::sendInfo($this->lng->txt("finish_initial_setup_first"),true);
+			$this->displayProxy();
+		}	
 		elseif (!$this->setup->getClient()->status["nic"]["status"])
 		{
 			$this->cmd = "nic";
@@ -3686,6 +3707,141 @@ else
 		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_clone"));
 		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());	
 	}
+	
+	public function displayProxy($a_omit_init = false)
+	{
+		$this->checkDisplayMode("proxy");
+		$settings = $this->setup->getClient()->getAllSettings();
 
+		if (!$a_omit_init)
+		{
+			include_once("./Services/Administration/classes/class.ilSetting.php");
+			$this->initProxyForm();
+			$this->form->setValuesByArray(array(
+				'proxy_status' => (bool)$settings['proxy_status'],
+				'proxy_host' => $settings['proxy_host'],
+				'proxy_port' => $settings['proxy_port']
+			));
+			if((bool)$settings['proxy_status'])
+			{
+				$this->setup->printProxyStatus($this->setup->client);
+			}
+		}
+		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
+		$this->tpl->setVariable("TXT_INFO", $this->lng->txt("info_text_proxy"));
+
+
+		$check = $this->setup->checkClientProxySettings($this->setup->client);
+
+		$this->setup->getClient()->status["proxy"]["status"] = $check["status"];
+		$this->setup->getClient()->status["proxy"]["comment"] = $check["comment"];
+		$this->setup->getClient()->status["proxy"]["text"] = $check["comment"];
+
+		if ($check["status"])
+		{
+			$this->setButtonNext("nic");
+		}
+
+		$this->setButtonPrev("contact");
+		$this->checkPanelMode();	
+	}
+	private function initProxyForm()
+	{
+		global $lng;
+
+		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction("setup.php?cmd=gateway");
+		
+		// Proxy status
+		$proxs = new ilCheckboxInputGUI($lng->txt('proxy_status'), 'proxy_status');
+		$proxs->setInfo($lng->txt('proxy_status_info'));
+		$proxs->setValue(1);
+		$this->form->addItem($proxs);
+
+		// Proxy availability
+		$proxa = new ilCustomInputGUI('', 'proxy_availability');
+		$proxs->addSubItem($proxa);
+
+		// Proxy
+		$prox = new ilTextInputGUI($lng->txt('proxy_host'), 'proxy_host');
+		$prox->setInfo($lng->txt('proxy_host_info'));
+		$proxs->addSubItem($prox);
+
+		// Proxy Port
+		$proxp = new ilTextInputGUI($lng->txt('proxy_port'), 'proxy_port');
+		$proxp->setInfo($lng->txt('proxy_port_info'));
+		$proxp->setSize(10);
+		$proxp->setMaxLength(10);
+		$proxs->addSubItem($proxp);
+
+		// save and cancel commands
+		$this->form->addCommandButton('saveProxy', $lng->txt('save'));
+	}
+	
+	/**
+	 *
+	 * Save proxy settings
+	 *
+	 * @access	public
+	 *
+	 */
+	public function saveProxy()
+	{
+		global $lng;
+
+		$this->initProxyForm();
+		$isFormValid = $this->form->checkInput();
+
+		$new_settings['proxy_status'] = (int)$this->form->getInput('proxy_status');
+		$new_settings['proxy_host'] = trim($this->form->getInput('proxy_host'));
+		$new_settings['proxy_port'] = trim($this->form->getInput('proxy_host'));
+		
+		if($isFormValid)
+		{
+			if($new_settings['proxy_status'] == true)
+			{
+				if(!strlen($new_settings['proxy_host']))
+				{
+					$isFormValid = false;
+					$this->form->getItemByPostVar('proxy_host')->setAlert($lng->txt('msg_input_is_required'));
+				}
+				if(!strlen($new_settings['proxy_port']))
+				{
+					$isFormValid = false;
+					$this->form->getItemByPostVar('proxy_port')->setAlert($lng->txt('msg_input_is_required'));
+				}
+				if(!preg_match('/[0-9]{1,}/', $new_settings['proxy_port']) ||
+					$new_settings['proxy_port'] < 0 ||
+					$new_settings['proxy_port'] > 65535)
+				{
+					$isFormValid = false;
+					$this->form->getItemByPostVar('proxy_port')->setAlert($lng->txt('proxy_port_numeric'));
+				}
+			}
+
+			if($isFormValid)
+			{
+				$this->setup->saveProxySettings($new_settings);
+				
+				ilUtil::sendSuccess($lng->txt('saved_successfully'));
+				$settings = $this->setup->getClient()->getAllSettings();
+				if($settings['proxy_status'] == true)
+				{
+					$this->setup->printProxyStatus($this->setup->client);
+				}
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt('form_input_not_valid'));
+			}
+		}
+
+		$this->form->setValuesByPost();
+		$this->tpl->setVariable("SETUP_CONTENT", $this->form->getHTML());
+
+	
+		$this->displayProxy(true);
+	}
 } // END class.ilSetupGUI
 ?>
