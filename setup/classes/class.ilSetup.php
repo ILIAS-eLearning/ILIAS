@@ -832,6 +832,10 @@ class ilSetup extends PEAR
 			$status["lang"]["comment"] = $status["db"]["comment"];
 			$status["contact"]["status"] = false;
 			$status["contact"]["comment"] = $status["db"]["comment"];
+
+			$status["proxy"]["status"] = false;
+			$status["proxy"]["comment"] = $status["db"]["comment"];
+
 			$status["nic"]["status"] = false;
 			$status["nic"]["comment"] = $status["db"]["comment"];
 		}
@@ -840,6 +844,7 @@ class ilSetup extends PEAR
 			//$status["sess"] = $this->checkClientSessionSettings($client);
 			$status["lang"] = $this->checkClientLanguages($client);
 			$status["contact"] = $this->checkClientContact($client);
+			$status["proxy"] = $this->checkClientProxySettings($client); 
 			$status["nic"] = $this->checkClientNIC($client);
 			$status["finish"] = $this->checkFinish($client);
 			$status["access"] = $this->checkAccess($client);
@@ -1016,6 +1021,43 @@ class ilSetup extends PEAR
 		return $arr;
 	}
 
+	/**
+	 * check client session config status
+	 * @param    object    client
+	 * @return    boolean
+	 */
+	function checkClientProxySettings(&$client, $a_as_bool = false)
+	{
+		global $ilDB;
+		$db = $ilDB;
+
+		$fields = array('proxy_status','proxy_host','proxy_port');
+
+		$query = "SELECT keyword, value FROM settings WHERE ".$db->in('keyword', $fields, false, 'text');
+		$res = $db->query($query);
+
+		$rows = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$proxy_settings[$row['keyword']] = $row['value'];
+		}
+
+		if((bool)$proxy_settings["proxy_status"] == false)
+		{
+			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("proxy_disabled");
+			$arr["text"] = $this->lng->txt("proxy_disabled");
+		}
+		else
+		{
+			$arr["status"] = true;
+			$arr["comment"] = $this->lng->txt("proxy_activated_configurated");
+			$arr["text"] = $this->lng->txt("proxy_activated_configurated");
+
+		}
+		return $arr;
+	}
+	
 	/**
 	* check client installed languages status
 	* @param	object	client
@@ -2087,7 +2129,92 @@ class ilSetup extends PEAR
         }
 		return true;
 	}
+	/**
+	 *
+	 * Print proxy settings
+	 *
+	 * @access	private
+	 *
+	 */
+	public function printProxyStatus($client)
+	{
+		require_once './Services/Http/exceptions/class.ilProxyException.php';
+		$settings = $client->getAllSettings();
+	
+		if((bool)$settings['proxy_status'] == true)
+		{
+			try
+			{
+				/**
+				 *
+				 * Verifies the proxy server connection
+				*/
+			
+				require_once 'Services/PEAR/lib/Net/Socket.php';
+	
+				$socket = new Net_Socket();
+				$socket->setErrorHandling(PEAR_ERROR_RETURN);
+				$response = $socket->connect($settings['proxy_host'], $settings['proxy_port']);
+				if(!is_bool($response))
+				{
+					global $lng;
+					throw new ilProxyException(strlen($response) ? $response : $lng->txt('proxy_not_connectable'));
+				}
+	
+				ilUtil::sendSuccess($this->lng->txt('proxy_connectable'));
+				
+			}
+			catch(ilProxyException $e)
+			{
+				ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());
+			}
+		}
+		
+	}
+	
+	public function saveProxySettings($proxy_settings)
+	{
+		$db = $this->client->getDB();
+		$proxy_fields =array('proxy_status','proxy_host','proxy_port');
+		
+		foreach($proxy_fields as $field)
+		{
+			if( isset($proxy_settings[$field]) )
+			{
+				$query = "SELECT keyword FROM settings WHERE module = %s AND keyword = %s";
+				$res = $db->queryF($query,
+					array('text', 'text'), array('common', $field));
 
+				$row = array();
+				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) break;
+
+				if( count($row) > 0 )
+				{
+					$db->update(
+						'settings',
+						array(
+							'value' => array('text', $proxy_settings[$field])
+						),
+						array(
+							'module' => array('text', 'common'),
+							'keyword' => array('text', $field)
+						)
+					);
+				}
+				else
+				{
+					$db->insert(
+						'settings',
+						array(
+							'module' => array('text', 'common'),
+							'keyword' => array('text', $field),
+							'value' => array('text', $proxy_settings[$field])
+						)
+					);
+				}
+			}
+		}
+	}
 
 
 } // END class.ilSetup

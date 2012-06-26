@@ -538,3 +538,19 @@ applied_custom_updates#:#Ausgeführte Custom Updates
 available_custom_updates#:#Verfügbare Custom Updates
 custom_update_applied#:#Custom Update ausgeführt
 apply_custom_updates#:#Custom Updates ausführen
+proxy#:#Proxy
+proxy_connectable#:#Verbindung hergestellt.
+proxy_host#:#Host
+proxy_host_info#:#Tragen Sie hier einen Host ein.
+proxy_not_connectable#:#ILIAS kann keine Verbindung zum Proxy aufbauen.
+proxy_pear_net_socket_error#:#PEAR-Net_Socket-Fehler
+proxy_port#:#Port
+proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 65535 ein, z.B. 8080.
+proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
+proxy_status#:#Proxy
+proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
+proxy_disabled#:#Proxy deaktiviert
+proxy_activated_configurated#:#Proxy aktiviert 
+info_text_proxy#:#Proxy Einstellungen
+setup_process_step_proxy#:#Proxy
+step_proxy#:#Proxy
