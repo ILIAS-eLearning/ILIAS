@@ -519,6 +519,7 @@ class ilMailSearchCoursesGUI
 						'MEMBERS_IN_ADDRESSBOOK' => $this->abook->checkEntryByLogin($login) ? $lng->txt("yes") : $lng->txt("no"),
 						'search_crs' => $crs_id
 					);
+					
 					$tableData[] = $rowData;
 				}
 			}
@@ -530,6 +531,8 @@ class ilMailSearchCoursesGUI
 				
 				$searchTpl->setVariable("TXT_MARKED_ENTRIES",$lng->txt("marked_entries"));
 			}
+			
+
 
 			$searchTpl->setVariable('TABLE', $table->getHtml());
 			$this->tpl->setContent($searchTpl->get());
