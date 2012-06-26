@@ -1137,11 +1137,12 @@ class ilObjTest extends ilObject
 	}
 
 	/**
-	* Saves a ilObjTest object to a database
-	*
-	* @param object $db A pear DB object
-	* @access public
-	*/
+	 * Saves a ilObjTest object to a database
+	 *
+	 * @global ilDB $ilDB
+	 * @param object $db A pear DB object
+	 * @access public
+	 */
 	function saveToDb($properties_only = FALSE)
 	{
 		global $ilDB, $ilLog;
@@ -1156,102 +1157,78 @@ class ilObjTest extends ilObject
 		{						
 			// Create new dataset
 			$next_id = $ilDB->nextId('tst_tests');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_tests (test_id, obj_fi, author, introduction, " .
-				"finalstatement, showinfo, forcejs, customstyle, showfinalstatement, sequence_settings, " .
-				"score_reporting, instant_verification, answer_feedback_points, answer_feedback, anonymity, show_cancel, show_marker, " .
-				"fixed_participants, nr_of_tries, kiosk, use_previous_answers, title_output, processing_time, enable_processing_time, " .
-				"reset_processing_time, reporting_date, complete, ects_output, ects_a, ects_b, ects_c, ects_d, " .
-				"ects_e, ects_fx, random_test, random_question_count, count_system, mc_scoring, score_cutting, pass_scoring, " .
-				"shuffle_questions, results_presentation, show_summary, password, allowedusers, mailnottype, exportsettings, " .
-				"alloweduserstimegap, certificate_visibility, mailnotification, created, tstamp, enabled_view_mode, template_id, pool_usage, " .
-				"print_bs_with_res, offer_question_hints, highscore_enabled, highscore_anon, highscore_achieved_ts, highscore_score, highscore_percentage, " . 
-				"highscore_hints, highscore_wtime, highscore_own_table, highscore_top_table, highscore_top_num, online_status) " .
-				"VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " .
-				"%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				array(
-					'integer', 'integer', 'text', 'text', 
-					'text', 'integer', 'integer', 'text', 'integer', 'integer',
-					'integer', 'text', 'text', 'text', 'text', 'text', 'integer',
-					'text', 'integer', 'integer', 'text', 'text', 'text', 'text',
-					'integer', 'text', 'text', 'text', 'float', 'float', 'float', 'float',
-					'float', 'float', 'text', 'integer', 'text', 'text', 'text', 'text',
-					'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer',
-					'integer', 'text', 'integer', 'integer', 'integer', 'text', 'text', 'integer',
-					'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer',
-					'integer', 'integer', 'integer', 'integer'
-				),
-				array(
-					$next_id, 
-					$this->getId(), 
-					$this->getAuthor(), 
-					ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0),
-					ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0),
-					$this->getShowInfo(), 
-					$this->getForceJS(),
-					$this->getCustomStyle(),
-					$this->getShowFinalStatement(),
-					$this->getSequenceSettings(),
-					$this->getScoreReporting(), 
-					$this->getInstantFeedbackSolution(), 
-					$this->getAnswerFeedbackPoints(),
-					$this->getAnswerFeedback(),
-					$this->getAnonymity(), 
-					$this->getShowCancel(),
-					$this->getShowMarker(),
-					$this->getFixedParticipants(),
-					$this->getNrOfTries(), 
-					$this->getKiosk(),
-					$this->getUsePreviousAnswers(),
-					$this->getTitleOutput(), 
-					$this->getProcessingTime(),
-					$this->getEnableProcessingTime(),
-					$this->getResetProcessingTime(),
-					$this->getReportingDate(),				
-					$this->isComplete(),
-					$this->getECTSOutput(),
-					strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL, 
-					strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL, 
-					strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL, 
-					strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL, 
-					strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL, 
-					$this->getECTSFX(),
-					$this->isRandomTest(), 
-					$this->getRandomQuestionCount(), 
-					$this->getCountSystem(),
-					$this->getMCScoring(), 
-					$this->getScoreCutting(), 
-					$this->getPassScoring(),
-					$this->getShuffleQuestions(), 
-					$this->getResultsPresentation(),
-					$this->getListOfQuestionsSettings(), 
-					$this->getPassword(),
-					$this->getAllowedUsers(),
-					$this->getMailNotificationType(),
-					$this->getExportSettings(),
-					$this->getAllowedUsersTimeGap(),
-					$this->getCertificateVisibility(), 
-					$this->getMailNotification(),
-					time(), 
-					time(),
-                    $this->getEnabledViewMode(),
-                    $this->getTemplate(),
-                    $this->getPoolUsage(),
-					(int) $this->isBestSolutionPrintedWithResult(),
-					(int) $this->isOfferingQuestionHintsEnabled(),
-					(int) $this->getHighscoreEnabled(),
-					(int) $this->getHighscoreAnon(),
-					(int) $this->getHighscoreAchievedTS(),
-					(int) $this->getHighscoreScore(),
-					(int) $this->getHighscorePercentage(),
-					(int) $this->getHighscoreHints(),
-					(int) $this->getHighscoreWTime(),
-					(int) $this->getHighscoreOwnTable(),
-					(int) $this->getHighscoreTopTable(),
-					(int) $this->getHighscoreTopNum(),
-				    $this->isOnline()
-				)
-			);
+			
+			$ilDB->insert('tst_tests', array(
+				'test_id' => array('integer', $next_id),
+				'obj_fi' => array('integer', $this->getId()),
+				'author' => array('text', $this->getAuthor()),
+				'introduction' => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getIntroduction(), 0)),
+				'finalstatement' => array('text', ilRTE::_replaceMediaObjectImageSrc($this->getFinalStatement(), 0)),
+				'showinfo' => array('integer', $this->getShowInfo()),
+				'forcejs' => array('integer', $this->getForceJS()),
+				'customstyle' => array('text', $this->getCustomStyle()),
+				'showfinalstatement' => array('integer', $this->getShowFinalStatement()),
+				'sequence_settings' => array('integer', $this->getSequenceSettings()),
+				'score_reporting' => array('integer', $this->getScoreReporting()),
+				'instant_verification' => array('text', $this->getInstantFeedbackSolution()),
+				'answer_feedback_points' => array('text', $this->getAnswerFeedbackPoints()),
+				'answer_feedback' => array('text', $this->getAnswerFeedback()),
+				'anonymity' => array('text', $this->getAnonymity()),
+				'show_cancel' => array('text', $this->getShowCancel()),
+				'show_marker' => array('integer', $this->getShowMarker()),
+				'fixed_participants' => array('text', $this->getFixedParticipants()),
+				'nr_of_tries' => array('integer', $this->getNrOfTries()),
+				'kiosk' => array('integer', $this->getKiosk()),
+				'use_previous_answers' => array('text', $this->getUsePreviousAnswers()),
+				'title_output' => array('text', $this->getTitleOutput()),
+				'processing_time' => array('text', $this->getProcessingTime()),
+				'enable_processing_time' => array('text', $this->getEnableProcessingTime()),
+				'reset_processing_time' => array('integer', $this->getResetProcessingTime()),
+				'reporting_date' => array('text', $this->getReportingDate()),
+				'complete' => array('text', $this->isComplete()),
+				'ects_output' => array('text', $this->getECTSOutput()),
+				'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : NULL),
+				'ects_b' => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : NULL),
+				'ects_c' => array('float', strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : NULL),
+				'ects_d' => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : NULL),
+				'ects_e' => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : NULL),
+				'ects_fx' => array('float', $this->getECTSFX()),
+				'random_test' => array('text', $this->isRandomTest()),
+				'random_question_count' => array('integer', $this->getRandomQuestionCount()),
+				'count_system' => array('text', $this->getCountSystem()),
+				'mc_scoring' => array('text', $this->getMCScoring()),
+				'score_cutting' => array('text', $this->getScoreCutting()),
+				'pass_scoring' => array('text', $this->getPassScoring()),
+				'shuffle_questions' => array('text', $this->getShuffleQuestions()),
+				'results_presentation' => array('integer', $this->getResultsPresentation()),
+				'show_summary' => array('integer', $this->getListOfQuestionsSettings()),
+				'password' => array('text', $this->getPassword()),
+				'allowedusers' => array('integer', $this->getAllowedUsers()),
+				'mailnottype' => array('integer', $this->getMailNotificationType()),
+				'exportsettings' => array('integer', $this->getExportSettings()),
+				'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
+				'certificate_visibility' => array('text', $this->getCertificateVisibility()),
+				'mailnotification' => array('integer', $this->getMailNotification()),
+				'created' => array('integer', time()),
+				'tstamp' => array('integer', time()),
+				'enabled_view_mode' => array('text', $this->getEnabledViewMode()),
+				'template_id' => array('integer', $this->getTemplate()),
+				'pool_usage' => array('integer', $this->getPoolUsage()),
+				'print_bs_with_res' => array('integer', (int) $this->isBestSolutionPrintedWithResult()),
+				'offer_question_hints' => array('integer', (int) $this->isOfferingQuestionHintsEnabled()),
+				'highscore_enabled' => array('integer', (int) $this->getHighscoreEnabled()),
+				'highscore_anon' => array('integer', (int) $this->getHighscoreAnon()),
+				'highscore_achieved_ts' => array('integer', (int) $this->getHighscoreAchievedTS()),
+				'highscore_score' => array('integer', (int) $this->getHighscoreScore()),
+				'highscore_percentage' => array('integer', (int) $this->getHighscorePercentage()),
+				'highscore_hints' => array('integer', (int) $this->getHighscoreHints()),
+				'highscore_wtime' => array('integer', (int) $this->getHighscoreWTime()),
+				'highscore_own_table' => array('integer', (int) $this->getHighscoreOwnTable()),
+				'highscore_top_table' => array('integer', (int) $this->getHighscoreTopTable()),
+				'highscore_top_num' => array('integer', (int) $this->getHighscoreTopNum()),
+				'online_status' => array('integer', (int) $this->isOnline())
+			));
+				    
 			$this->test_id = $next_id;
 
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
