@@ -25,12 +25,19 @@ class ilExportGUI
 	 * @param
 	 * @return
 	 */
-	function __construct($a_parent_gui)
+	function __construct($a_parent_gui, $a_main_obj = null)
 	{
 		global $lng,$tpl;
 		
 		$this->parent_gui = $a_parent_gui;
-		$this->obj = $a_parent_gui->object;
+		if ($a_main_obj == null)
+		{
+			$this->obj = $a_parent_gui->object;
+		}
+		else
+		{
+			$this->obj = $a_main_obj;
+		}
 		$lng->loadLanguageModule("exp");
 		$this->tpl = $tpl;
 	}

@@ -4,13 +4,13 @@
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
 
 /**
- * Exporter class for exercise
+ * Exporter class for notes data (xml)
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ModulesExercise
+ * @version $Id$
+ * @ingroup ServicesNotes
  */
-class ilExerciseExporter extends ilXmlExporter
+class ilNotesExporter extends ilXmlExporter
 {
 	private $ds;
 
@@ -19,8 +19,8 @@ class ilExerciseExporter extends ilXmlExporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Exercise/classes/class.ilExerciseDataSet.php");
-		$this->ds = new ilExerciseDataSet();
+		include_once("./Services/Notes/classes/class.ilNotesDataSet.php");
+		$this->ds = new ilNotesDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
 	}
@@ -49,15 +49,16 @@ class ilExerciseExporter extends ilXmlExporter
 	function getValidSchemaVersions($a_entity)
 	{
 		return array (
-			"4.1.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/Exercise/exc/4_1",
-				"xsd_file" => "ilias_exc_4_1.xsd",
+			"4.3.0" => array(
+				"namespace" => "http://www.ilias.de/Services/Notes/note/4_3",
+				"xsd_file" => "ilias_usr_4_3.xsd",
 				"uses_dataset" => true,
-				"min" => "4.1.0",
+				"min" => "4.3.0",
 				"max" => "")
 		);
 	}
 
+	
 }
 
 ?>

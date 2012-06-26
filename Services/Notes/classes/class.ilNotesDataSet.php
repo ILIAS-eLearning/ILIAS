@@ -4,17 +4,15 @@
 include_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 /**
- * Media Pool Data set class
+ * Notes Data set class. Entities
+ * - user_notes: All personal notes of a user (do not use this for object
+ *               related queries. Add a new entity for this purpose.
  * 
- * This class implements the following entities:
- * - mep_data: data from table mep_data
- * - mep_tree: data from a join on mep_tree and mep_item
- *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ingroup ModulesMediaPool
+ * @ingroup ingroup ServicesNotes
  */
-class ilMediaPoolDataSet extends ilDataSet
+class ilNotesDataSet extends ilDataSet
 {	
 	/**
 	 * Get supported versions
@@ -24,7 +22,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0");
+		return array("4.3.0");
 	}
 	
 	/**
@@ -35,7 +33,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	function getXmlNamespace($a_entity, $a_schema_version)
 	{
-		return "http://www.ilias.de/xml/Modules/MediaPool/".$a_entity;
+		return "http://www.ilias.de/xml/Services/Notes/".$a_entity;
 	}
 	
 	/**
@@ -46,38 +44,28 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	protected function getTypes($a_entity, $a_version)
 	{
-		// mep
-		if ($a_entity == "mep")
+		// user notes
+		if ($a_entity == "user_notes")
 		{
 			switch ($a_version)
 			{
-				case "4.1.0":
+				case "4.3.0":
 					return array(
 						"Id" => "integer",
-						"Title" => "text",
-						"Description" => "text",
-						"DefaultWidth" => "integer",
-						"DefaultHeight" => "integer");
+						"RepObjId" => "integer",
+						"ObjId" => "integer",
+						"ObjType" => "text",
+						"ObjType" => "text",
+						"Type" => "integer",
+						"Author" => "integer",
+						"CreationDate" => "timestamp",
+						"NoteText" => "text",
+						"Label" => "integer",
+						"Subject" => "text",
+						"NoRepository" => "integer"
+					);
 			}
 		}
-	
-		// mep_tree
-		if ($a_entity == "mep_tree")
-		{
-			switch ($a_version)
-			{
-				case "4.1.0":
-						return array(
-							"MepId" => "integer",
-							"Child" => "integer",
-							"Parent" => "integer",
-							"Depth" => "integer",
-							"Type" => "text",
-							"Title" => "text",
-							"ForeignId" => "integer"
-						);
-			}
-		}				
 	}
 
 	/**
@@ -94,34 +82,19 @@ class ilMediaPoolDataSet extends ilDataSet
 		{
 			$a_ids = array($a_ids);
 		}
-				
-		// mep_data
-		if ($a_entity == "mep")
-		{
-			switch ($a_version)
-			{
-				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT id, title, description, ".
-						" default_width, default_height".
-						" FROM mep_data JOIN object_data ON (mep_data.id = object_data.obj_id) ".
-						"WHERE ".
-						$ilDB->in("id", $a_ids, false, "integer"));
-					break;
-			}
-		}	
 
-		// mep_tree
-		if ($a_entity == "mep_tree")
+		// user notes
+		if ($a_entity == "user_notes")
 		{
 			switch ($a_version)
 			{
-				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT mep_id, child ".
-						" ,parent,depth,type,title,foreign_id ".
-						" FROM mep_tree JOIN mep_item ON (child = obj_id) ".
+				case "4.3.0":
+					$this->getDirectDataFromQuery("SELECT id, rep_obj_id, obj_id, obj_type, type, ".
+						" author, note_text, creation_date, label, subject, no_repository ".
+						" FROM note ".
 						" WHERE ".
-						$ilDB->in("mep_id", $a_ids, false, "integer").
-						" ORDER BY depth");
+						$ilDB->in("author", $a_ids, false, "integer").
+						" AND obj_type = ".$ilDB->quote("pd" ,"text"));
 					break;
 			}
 		}			
@@ -132,13 +105,6 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
 	{
-		switch ($a_entity)
-		{
-			case "mep":
-				return array (
-					"mep_tree" => array("ids" => $a_rec["Id"])
-				);							
-		}
 		return false;
 	}
 	
@@ -155,6 +121,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
+return;
 //echo $a_entity;
 //var_dump($a_rec);
 

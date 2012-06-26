@@ -1,25 +1,6 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 
@@ -28,6 +9,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
+* @ingroup ServicesBookmarks
 *
 * @ilCtrl_IsCalledBy ilBookmarkBlockGUI: ilColumnGUI
 */
@@ -124,7 +106,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	{
 		global $ilUser;
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkFolder.php");
+		include_once("./Services/Bookmarks/classes/class.ilBookmarkFolder.php");
 		$bm_items = ilBookmarkFolder::_getNumberOfObjects();
 		$this->num_bookmarks = $bm_items["bookmarks"];
 		$this->num_folders = $bm_items["folders"];
@@ -138,7 +120,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 			}
 			else
 			{
-				$this->setRowTemplate("tpl.bookmark_pd_list.html", "Services/PersonalDesktop");
+				$this->setRowTemplate("tpl.bookmark_pd_list.html", "Services/Bookmarks");
 				$this->getListRowData();
 				$this->setColSpan(2);
 				parent::fillDataSection();
@@ -161,7 +143,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	{
 		global $ilCtrl, $ilUser;
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkExplorer.php");
+		include_once("./Services/Bookmarks/classes/class.ilBookmarkExplorer.php");
 		
 		$showdetails = ($this->getCurrentDetailLevel() > 2);
 
@@ -256,7 +238,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	{
 		global $ilUser, $lng, $ilCtrl;
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkFolder.php");
+		include_once("./Services/Bookmarks/classes/class.ilBookmarkFolder.php");
 
 		$data = array();
 		

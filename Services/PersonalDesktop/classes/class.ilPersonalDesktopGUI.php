@@ -131,7 +131,7 @@ class ilPersonalDesktopGUI
 					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
 					return;
 				}				
-				include_once("./Services/PersonalDesktop/classes/class.ilBookmarkAdministrationGUI.php");
+				include_once("./Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php");
 				$bookmark_gui = new ilBookmarkAdministrationGUI();
 				if ($bookmark_gui->getMode() == 'tree') {
 					$this->getTreeModeTemplates();

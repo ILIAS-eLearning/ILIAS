@@ -1,15 +1,19 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/** @defgroup ServicesBookmarks Services/Bookmarks
+ */
 
 /**
-* Class Bookmarks
-* Bookmark management
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Manfred Thaler <manfred.thaler@endo7.com>
-* @version $Id$
-*
-*/
+ * Class Bookmarks
+ * Bookmark management
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Manfred Thaler <manfred.thaler@endo7.com>
+ * @version $Id$
+ * @ingroup ServicesBookmarks
+ */
 class ilBookmark
 {
 	/**

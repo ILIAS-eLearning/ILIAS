@@ -48,7 +48,7 @@ class ilColumnGUI
 		"ilUsersOnlineBlockGUI" => "Services/PersonalDesktop/",
 		"ilPDSysMessageBlockGUI" => "Services/Mail/",
 		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/",
-		"ilBookmarkBlockGUI" => "Services/PersonalDesktop/",
+		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Services/Block/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",

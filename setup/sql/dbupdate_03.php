@@ -10815,3 +10815,7 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
   $ilDB->addPrimaryKey("il_dcl_viewdefinition", array("id"));
   $ilDB->createSequence("il_dcl_viewdefinition");
 ?>
+<#3639>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

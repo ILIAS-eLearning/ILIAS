@@ -599,6 +599,11 @@ class ilPersonalProfileGUI
 			$this->lng->txt("public_profile"),
 			$this->ctrl->getLinkTarget($this, "showPublicProfile"));
 
+		// export
+		$ilTabs->addTab("export",
+			$this->lng->txt("export")."/".$this->lng->txt("import"),
+			$this->ctrl->getLinkTarget($this, "showExportImport"));
+
 		if($ilUser->getPref("public_profile") != "n" || $this->getProfilePortfolio())
 		{			
 			// profile preview
@@ -1311,6 +1316,157 @@ class ilPersonalProfileGUI
 		$this->form->setValuesByPost();
 		$tpl->showPublicProfile(true);
 	}
+	
+	/**
+	 * Show export/import
+	 *
+	 * @param
+	 * @return
+	 */
+	function showExportImport()
+	{
+		global $ilToolbar, $ilCtrl, $tpl, $ilTabs, $ilUser;
+		
+		$ilTabs->activateTab("export");
+		$ilToolbar->addButton($this->lng->txt("pd_export_profile"),
+			$ilCtrl->getLinkTarget($this, "exportPersonalData"));
+		
+		$exp_file = $ilUser->getPersonalDataExportFile();
+		if ($exp_file != "")
+		{
+			$ilToolbar->addSeparator();
+			$ilToolbar->addButton($this->lng->txt("pd_download_last_export_profile"),
+				$ilCtrl->getLinkTarget($this, "downloadPersonalData"));
+		}
+
+		$ilToolbar->addSeparator();
+		$ilToolbar->addButton($this->lng->txt("pd_import_personal_data"),
+			$ilCtrl->getLinkTarget($this, "importPersonalDataSelection"));
+		
+		$tpl->show();
+	}
+	
+	
+	/**
+	 * Export personal data
+	 */
+	function exportPersonalData()
+	{
+		global $ilCtrl, $ilUser;
+
+		$ilUser->exportPersonalData();
+		$ilCtrl->redirect($this, "showExportImport");
+	}
+	
+	/**
+	 * Download personal data export file
+	 *
+	 * @param
+	 * @return
+	 */
+	function downloadPersonalData()
+	{
+		global $ilUser;
+		
+		$ilUser->sendPersonalDataFile();
+	}
+	
+	/**
+	 * Import personal data selection
+	 *
+	 * @param
+	 * @return
+	 */
+	function importPersonalDataSelection()
+	{
+		global $lng, $ilCtrl, $tpl, $ilTabs;
+	
+		$ilTabs->activateTab("export");
+		
+		$this->initPersonalDataImportForm();
+		
+		$tpl->setContent($this->form->getHTML());
+		$tpl->show();
+	}
+	
+	/**
+	 * Init personal data import form
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPersonalDataImportForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		
+		// input file
+		$fi = new ilFileInputGUI($lng->txt("file"), "file");
+		$fi->setRequired(true);
+		$fi->setSuffixes(array("zip"));
+		$this->form->addItem($fi);
+
+		// profile data
+		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_profile_data"), "profile_data");
+		$this->form->addItem($cb);
+		
+		// settings
+		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_settings"), "settings");
+		$this->form->addItem($cb);
+		
+		// bookmarks
+		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_bookmarks"), "bookmarks");
+		$this->form->addItem($cb);
+		
+		// personal notes
+		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_notes"), "notes");
+		$this->form->addItem($cb);
+		
+		// calendar entries
+		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_calendar_entris"), "calendar");
+		$this->form->addItem($cb);
+
+		$this->form->addCommandButton("importPersonalData", $lng->txt("import"));
+		$this->form->addCommandButton("showExportImport", $lng->txt("cancel"));
+					
+		$this->form->setTitle($lng->txt("pd_import_personal_data"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+
+	}
+	
+	
+	/**
+	 * Import personal data
+	 *
+	 * @param
+	 * @return
+	 */
+	function importPersonalData()
+	{
+		global $ilUser;
+		
+		$this->initPersonalDataImportForm();
+		if ($this->form->checkInput())
+		{
+			$ilUser->importPersonalData($_FILES["file"],
+				(int) $_POST["profile_data"],
+				(int) $_POST["settings"],
+				(int) $_POST["bookmarks"],
+				(int) $_POST["notes"],
+				(int) $_POST["calendar"]
+				);
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "");
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
+	}
+	
 }
 
 ?>

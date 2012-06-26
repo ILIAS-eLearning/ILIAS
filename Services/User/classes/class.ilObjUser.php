@@ -471,7 +471,7 @@ class ilObjUser extends ilObject
 		$mail_options->createMailOptionsEntry();
 
 		// create personal bookmark folder tree
-		include_once "./Services/PersonalDesktop/classes/class.ilBookmarkFolder.php";
+		include_once "./Services/Bookmarks/classes/class.ilBookmarkFolder.php";
 		$bmf = new ilBookmarkFolder(0, $this->id);
 		$bmf->createNewBookmarkTree();
 
@@ -5103,6 +5103,76 @@ class ilObjUser extends ilObject
 	function setCaptchaVerified($a_val)
 	{
 		$_SESSION["user_captcha_verified"] = $a_val;
+	}
+	
+	/**
+	 * Export personal data
+	 *
+	 * @param
+	 * @return
+	 */
+	function exportPersonalData()
+	{
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$exp = new ilExport();
+		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "usr_profile");
+		ilUtil::delDir($dir, true);
+		$title = $this->getLastname().", ".$this->getLastname()." [".$this->getLogin()."]";
+		$exp->exportEntity("usr_profile", $this->getId(), "4.3.0",
+			"Services/User", $title, $dir);
+	}
+	
+	/**
+	 * Get personal data export file
+	 *
+	 * @param
+	 * @return
+	 */
+	function getPersonalDataExportFile()
+	{
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "usr_profile");
+		foreach(ilUtil::getDir($dir) as $entry)
+		{
+			if (is_int(strpos($entry["entry"], ".zip")))
+			{
+				return $entry["entry"];
+			}
+		}
+		
+		return "";
+	}
+	
+	/**
+	 * Send personal data file
+	 *
+	 * @param
+	 * @return
+	 */
+	function sendPersonalDataFile()
+	{
+		include_once("./Services/Export/classes/class.ilExport.php");
+		$file = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "usr_profile").
+			"/".$this->getPersonalDataExportFile();
+		if (is_file($file))
+		{
+			ilUtil::deliverFile($file, $this->getPersonalDataExportFile());
+		}
+	}
+	
+	/**
+	 * Import personal data
+	 *
+	 * @param
+	 * @return
+	 */
+	function importPersonalData($a_file, $a_profile_data, $a_settings,
+		$a_bookmarks, $a_notes, $a_calendar)
+	{
+		include_once("./Services/Export/classes/class.ilImport.php");
+		$imp = new ilImport();
+		$imp->importEntity($a_file["tmp_name"], $a_file["name"], "usr_profile",
+			"Services/User");
 	}
 	
 

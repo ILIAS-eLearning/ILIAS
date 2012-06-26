@@ -21,7 +21,7 @@ class ilWikiDataSet extends ilDataSet
 	 * @param
 	 * @return
 	 */
-	public function getSupportedVersions($a_entity)
+	public function getSupportedVersions()
 	{
 		return array("4.1.0");
 	}

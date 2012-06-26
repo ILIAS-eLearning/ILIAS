@@ -4,17 +4,13 @@
 include_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 /**
- * Media Pool Data set class
+ * Bookmarks Data set class
  * 
- * This class implements the following entities:
- * - mep_data: data from table mep_data
- * - mep_tree: data from a join on mep_tree and mep_item
- *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup ingroup ModulesMediaPool
+ * @ingroup ingroup ServicesBookmarks
  */
-class ilMediaPoolDataSet extends ilDataSet
+class ilBookmarkDataSet extends ilDataSet
 {	
 	/**
 	 * Get supported versions
@@ -24,7 +20,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0");
+		return array("4.3.0");
 	}
 	
 	/**
@@ -35,7 +31,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	function getXmlNamespace($a_entity, $a_schema_version)
 	{
-		return "http://www.ilias.de/xml/Modules/MediaPool/".$a_entity;
+		return "http://www.ilias.de/xml/Services/Bookmarks/".$a_entity;
 	}
 	
 	/**
@@ -46,35 +42,33 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	protected function getTypes($a_entity, $a_version)
 	{
-		// mep
-		if ($a_entity == "mep")
+		// bookmarks
+		if ($a_entity == "bookmarks")
 		{
 			switch ($a_version)
 			{
-				case "4.1.0":
+				case "4.3.0":
 					return array(
-						"Id" => "integer",
-						"Title" => "text",
-						"Description" => "text",
-						"DefaultWidth" => "integer",
-						"DefaultHeight" => "integer");
+						"UserId" => "integer"
+					);
 			}
 		}
 	
-		// mep_tree
-		if ($a_entity == "mep_tree")
+		// bookmark_tree
+		if ($a_entity == "bookmark_tree")
 		{
 			switch ($a_version)
 			{
-				case "4.1.0":
+				case "4.3.0":
 						return array(
-							"MepId" => "integer",
+							"UserId" => "integer",
 							"Child" => "integer",
 							"Parent" => "integer",
 							"Depth" => "integer",
 							"Type" => "text",
 							"Title" => "text",
-							"ForeignId" => "integer"
+							"Description" => "text",
+							"Target" => "text"
 						);
 			}
 		}				
@@ -95,33 +89,33 @@ class ilMediaPoolDataSet extends ilDataSet
 			$a_ids = array($a_ids);
 		}
 				
-		// mep_data
-		if ($a_entity == "mep")
+		// bookmarks
+		if ($a_entity == "bookmarks")
 		{
 			switch ($a_version)
 			{
-				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT id, title, description, ".
-						" default_width, default_height".
-						" FROM mep_data JOIN object_data ON (mep_data.id = object_data.obj_id) ".
-						"WHERE ".
-						$ilDB->in("id", $a_ids, false, "integer"));
+				case "4.3.0":
+					$this->data = array();
+					foreach ($a_ids as $id)
+					{
+						$this->data[] = array("UserId" => $id);
+					}
 					break;
 			}
 		}	
 
-		// mep_tree
-		if ($a_entity == "mep_tree")
+		// bookmark_tree
+		if ($a_entity == "bookmark_tree")
 		{
 			switch ($a_version)
 			{
-				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT mep_id, child ".
-						" ,parent,depth,type,title,foreign_id ".
-						" FROM mep_tree JOIN mep_item ON (child = obj_id) ".
+				case "4.3.0":
+					$this->getDirectDataFromQuery("SELECT tree user_id, child ".
+						" ,parent,depth,type,title,description,target ".
+						" FROM bookmark_tree JOIN bookmark_data ON (child = obj_id) ".
 						" WHERE ".
-						$ilDB->in("mep_id", $a_ids, false, "integer").
-						" ORDER BY depth");
+						$ilDB->in("tree", $a_ids, false, "integer").
+						" ORDER BY tree, depth");
 					break;
 			}
 		}			
@@ -134,9 +128,9 @@ class ilMediaPoolDataSet extends ilDataSet
 	{
 		switch ($a_entity)
 		{
-			case "mep":
+			case "bookmarks":
 				return array (
-					"mep_tree" => array("ids" => $a_rec["Id"])
+					"bookmark_tree" => array("ids" => $a_rec["UserId"])
 				);							
 		}
 		return false;
@@ -155,6 +149,7 @@ class ilMediaPoolDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
+return;
 //echo $a_entity;
 //var_dump($a_rec);
 

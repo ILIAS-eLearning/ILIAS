@@ -1,25 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
-* GUI class for personal bookmark administration. It manages folders and bookmarks
-* with the help of the two corresponding core classes ilBookmarkFolder and ilBookmark.
-* Their methods are called in this User Interface class.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Manfred Thaler <manfred.thaler@endo7.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilBookmarkAdministrationGUI:
-*/
-
-
-require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkExplorer.php");
-require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkFolder.php");
-require_once ("./Services/PersonalDesktop/classes/class.ilBookmark.php");
+require_once ("./Services/Bookmarks/classes/class.ilBookmarkExplorer.php");
+require_once ("./Services/Bookmarks/classes/class.ilBookmarkFolder.php");
+require_once ("./Services/Bookmarks/classes/class.ilBookmark.php");
 require_once ("./Services/Table/classes/class.ilTableGUI.php");
 
+/**
+ * GUI class for personal bookmark administration. It manages folders and bookmarks
+ * with the help of the two corresponding core classes ilBookmarkFolder and ilBookmark.
+ * Their methods are called in this User Interface class.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Manfred Thaler <manfred.thaler@endo7.com>
+ * @version $Id$
+ * @ingroup ServicesBookmarks
+ *
+ * @ilCtrl_Calls ilBookmarkAdministrationGUI:
+ */
 class ilBookmarkAdministrationGUI
 {
 	/**
@@ -140,7 +139,7 @@ class ilBookmarkAdministrationGUI
 		global $tpl;
 		
 		$etpl = new ilTemplate("tpl.bookmark_explorer.html", true, true,
-			"Services/PersonalDesktop");
+			"Services/Bookmarks");
 		$exp = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this),$_SESSION["AccountId"]);
 		$exp->setAllowedTypes(array('dum','bmf'));
 		$exp->setTargetGet("bmf_id");
@@ -231,7 +230,7 @@ class ilBookmarkAdministrationGUI
 //		$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this)."&set_mode=".$s_mode,
 //			$s_mode);
 
-		include_once 'Services/PersonalDesktop/classes/class.ilBookmarkAdministrationTableGUI.php';
+		include_once 'Services/Bookmarks/classes/class.ilBookmarkAdministrationTableGUI.php';
 		$table = new ilBookmarkAdministrationTableGUI($this);
 		$table->setId('bookmark_adm_table');
 		/*
@@ -752,7 +751,7 @@ return;
 			}
 		}
 
-		require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkImportExport.php");
+		require_once ("./Services/Bookmarks/classes/class.ilBookmarkImportExport.php");
 		$html_content=ilBookmarkImportExport::_exportBookmark ($export_ids,true,
 			$this->lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname());
 			
@@ -969,7 +968,7 @@ return;
 	*/
 	function &getHTML()
 	{
-		include_once("./Services/PersonalDesktop/classes/class.ilBookmarkBlockGUI.php");
+		include_once("./Services/Bookmarks/classes/class.ilBookmarkBlockGUI.php");
 		$bookmark_block_gui = new ilBookmarkBlockGUI("ilpersonaldesktopgui", "show");
 		
 		return $bookmark_block_gui->getHTML();
@@ -995,7 +994,7 @@ return;
 			$this->newFormBookmark();
 			return;
 		}
-		require_once ("./Services/PersonalDesktop/classes/class.ilBookmarkImportExport.php");
+		require_once ("./Services/Bookmarks/classes/class.ilBookmarkImportExport.php");
 		$objects=ilBookmarkImportExport::_parseFile ($_FILES["bkmfile"]['tmp_name']);
 		if ($objects===false)
 		{
