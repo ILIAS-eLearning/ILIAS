@@ -122,7 +122,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_records");
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordListGUI.php");
-				$recordlist_gui = new ilDataCollectionRecordListGUI($this);
+				$recordlist_gui = new ilDataCollectionRecordListGUI($this,$this->table_id);
 				$this->ctrl->forwardCommand($recordlist_gui);
 				break;
 
@@ -151,7 +151,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$this->addListFieldsTabs("list_viewdefinition");
 				$ilTabs->setTabActive("id_fields");
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordListViewdefinitionGUI.php");
-				$recordlist_gui = new ilDataCollectionRecordListViewdefinitionGUI($this);
+				$recordlist_gui = new ilDataCollectionRecordListViewdefinitionGUI($this, $this->table_id);
 				$this->ctrl->forwardCommand($recordlist_gui);
 				break;
 				
