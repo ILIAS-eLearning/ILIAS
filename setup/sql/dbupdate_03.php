@@ -10803,7 +10803,7 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
 	'field' => array(
 		'type' 		=> 'text',
 		'length' 	=> 255,
-		'notnull'	=> false
+		'notnull'	=> true
 	),
 	'field_order' => array(
 		'type' => 'integer',
