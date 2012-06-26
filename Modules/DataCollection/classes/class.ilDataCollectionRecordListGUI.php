@@ -1,5 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
+
 
 /**
 * Class ilDataCollectionRecordListGUI
@@ -22,20 +24,12 @@ class ilDataCollectionRecordListGUI
 	 * @param	object	$a_parent_obj
      * @param	int $table_id
 	 */
-	public function  __construct($a_parent_obj, $table_id = NULL)
+	public function  __construct($a_parent_obj, $table_id)
 	{
 		$this->main_table_id = $a_parent_obj->object->getMainTableId();
+		$this->table_id = $table_id;
+		$this->obj_id = $a_parent_obj->obj_id;
 		
-		if($table_id) 
-		{
-			$this->table_id = $table_id;
-		} 
-		else 
-		{
-			$this->table_id = $this->main_table_id;
-		}
-		
-		include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
 
 		return;
 	}
@@ -66,7 +60,25 @@ class ilDataCollectionRecordListGUI
 	{
 		global $ilTabs, $tpl, $lng, $ilCtrl, $ilToolbar;
     
-		$ilTabs->setTabActive("id_records");
+		//$ilTabs->setTabActive("id_records");
+
+		// Show tables
+		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+		$arrTables = ilDataCollectionTable::getAll($this->obj_id);
+		foreach($arrTables as $table)
+		{
+				$options[$table['id']] = $table['title'];
+		}
+		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+		$table_selection = new ilSelectInputGUI(
+			'',
+				'table_id'
+			);
+		$table_selection->setOptions($options);
+		$table_selection->setValue($this->table_id);
+		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionRecordListGUI", "doTableSwitch"));
+        $ilToolbar->addInputItem($table_selection);
+		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 
 		//TODO Falls Reihenfolge festgelegt Reihenfolge und Felder festgelegt in DB abfragen. Andernfalls alle Felder anzeigen
 		//if
@@ -97,6 +109,14 @@ class ilDataCollectionRecordListGUI
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $records, $tabledefinition);
 
 		$tpl->setContent($list->getHTML());
+	}
+
+	public function doTableSwitch() {
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI","table_id", $_POST['table_id']);
+		$ilCtrl->redirect($this,"listRecords"); 			
+
 	}
 	
 }

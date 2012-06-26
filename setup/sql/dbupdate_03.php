@@ -10787,3 +10787,31 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3638>
+<?php
+	$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'view_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'field' => array(
+		'type' 		=> 'text',
+		'length' 	=> 255,
+		'notnull'	=> false
+	),
+	'field_order' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+  ); 
+  $ilDB->createTable("il_dcl_viewdefinition", $fields);
+  $ilDB->addPrimaryKey("il_dcl_viewdefinition", array("id"));
+  $ilDB->createSequence("il_dcl_viewdefinition");
+?>
