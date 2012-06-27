@@ -338,6 +338,7 @@ class ilSessionControl
 	 * @global ilDB $ilDB
 	 * @global ilSetting $ilSetting
 	 * @param array $a_types
+	 * @return boolean $deletionSuccess
 	 */
 	private static function kickOneMinIdleSession(array $a_types)
 	{
@@ -364,10 +365,12 @@ class ilSessionControl
 
 			self::debug(__METHOD__.' --> successfully deleted one min idle session');
 
-			break;
+			return true;
 		}
 
 		self::debug(__METHOD__.' --> no min idle session available for deletion');
+		
+		return false;
 	}
 
 	/**
