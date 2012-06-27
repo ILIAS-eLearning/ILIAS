@@ -7,16 +7,16 @@ include_once 'Services/Payment/classes/class.ilFileDataShop.php';
 include_once 'Services/Payment/classes/class.ilShopVatsList.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 
- 
+
 /**
-* Class ilPaymentObjectGUI
-*
-* @author Stefan Meyer
-* @version $Id: class.ilPaymentObjectGUI.php 21617 2009-09-10 13:49:10Z jgoedvad $
-* @ilCtrl_Calls ilPaymentObjectGUI: ilPageObjectGUI
-*
-* @package core
-*/
+ * Class ilPaymentObjectGUI
+ * @author       Stefan Meyer
+ * @version      $Id: class.ilPaymentObjectGUI.php 21617 2009-09-10 13:49:10Z jgoedvad $
+ * @ilCtrl_Calls ilPaymentObjectGUI: ilPageObjectGUI
+ * @package      core
+ * 
+ * 
+ */
 class ilPaymentObjectGUI extends ilShopBaseGUI
 {
 	public $ctrl;
@@ -25,26 +25,26 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	public $pobject = null;
 
 	public function __construct($user_obj)
-	{	
+	{
 		parent::__construct();
 
 		$this->user_obj = $user_obj;
 		$this->lng->loadLanguageModule('crs');
 		ilDatePresentation::setUseRelativeDates(false);
 	}
-	
+
 	protected function prepareOutput()
 	{
 		global $ilTabs;
-		
+
 		$this->setSection(6);
-		
+
 		parent::prepareOutput();
 
 		$ilTabs->setTabActive('paya_header');
 		$ilTabs->setSubTabActive('paya_object');
 	}
-	
+
 	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
@@ -56,11 +56,11 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				if($ret != '')
 				{
 					$this->tpl->setContent($ret);
-				}				
+				}
 				break;
-			
+
 			default:
-				if(!$cmd = $this->ctrl->getCmd())
+				if(!$cmd)
 				{
 					$cmd = 'showObjects';
 				}
@@ -69,21 +69,21 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				break;
 		}
 	}
-	
+
 	public function forwardToPageObject()
-	{	
+	{
 		global $ilTabs;
-		
+
 		if(!(int)$_GET['pobject_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 			return $this->showObjects();
 		}
 		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
-		$this->__initPaymentObject((int)$_GET['pobject_id']);		
-		
+		$this->__initPaymentObject((int)$_GET['pobject_id']);
+
 		$this->lng->loadLanguageModule('content');
-		
+
 		$ilTabs->clearTargets();
 		$ilTabs->clearSubTabs();
 		$ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'editDetails'), '_top');
@@ -92,7 +92,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		include_once 'Services/COPage/classes/class.ilPageObject.php';
 		include_once 'Services/COPage/classes/class.ilPageObjectGUI.php';
 		include_once('./Services/Style/classes/class.ilObjStyleSheet.php');
-		
+
 		$this->tpl->setVariable('LOCATION_CONTENT_STYLESHEET', ilObjStyleSheet::getContentStylePath(0));
 
 		if(!ilPageObject::_exists('shop', $this->pobject->getPobjectId()))
@@ -103,7 +103,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$new_page_object->setId($this->pobject->getPobjectId());
 			$new_page_object->createFromXML();
 		}
-				
+
 		$this->ctrl->setReturnByClass('ilpageobjectgui', 'edit');
 
 		$page_gui = new ilPageObjectGUI('shop', $this->pobject->getPobjectId());
@@ -124,7 +124,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		return $this->ctrl->forwardCommand($page_gui);
 	}
-	
+
 	public function resetObjectFilter()
 	{
 		unset($_SESSION['pay_objects']);
@@ -134,58 +134,58 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		unset($_POST['pay_method']);
 		unset($_POST['updateView']);
 		unset($_POST['show_filter']);
-		
+
 		ilUtil::sendInfo($this->lng->txt('paya_filter_reseted'));
 
 		return $this->showObjects();
 	}
-	
+
 	public function showObjects()
 	{
 		global $ilToolbar;
 
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
-		
+
 		$ilToolbar->addButton($this->lng->txt('paya_sell_object'), $this->ctrl->getLinkTarget($this, 'showObjectSelector'));
-		
+
 		if(!$_POST['show_filter'] && $_POST['updateView'] == '1')
 		{
 			$this->resetObjectFilter();
 		}
 		else
-		if ($_POST['updateView'] == 1)
-		{
-			$_SESSION['pay_objects']['updateView'] = $_POST['updateView'];
-			$_SESSION['pay_objects']['show_filter'] = $_POST['show_filter'];
-			$_SESSION['pay_objects']['title_type'] = $_POST['title_type'];
-			$_SESSION['pay_objects']['title_value'] = $_POST['title_value'];			
-			$_SESSION['pay_objects']['pay_method'] = $_POST['pay_method'];			
-			$_SESSION['pay_objects']['vendor'] = $_POST['vendor'];
-		}	
-		
+			if($_POST['updateView'] == 1)
+			{
+				$_SESSION['pay_objects']['updateView']  = $_POST['updateView'];
+				$_SESSION['pay_objects']['show_filter'] = $_POST['show_filter'];
+				$_SESSION['pay_objects']['title_type']  = $_POST['title_type'];
+				$_SESSION['pay_objects']['title_value'] = $_POST['title_value'];
+				$_SESSION['pay_objects']['pay_method']  = $_POST['pay_method'];
+				$_SESSION['pay_objects']['vendor']      = $_POST['vendor'];
+			}
+
 		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
 
 		$this->__initPaymentObject();
 		$this->lng->loadLanguageModule('search');
-		
+
 		$filter_form = new ilPropertyFormGUI();
 		$filter_form->setFormAction($this->ctrl->getFormAction($this));
 		$filter_form->setTitle($this->lng->txt('pay_filter'));
 		$filter_form->setId('filter_form');
 		$filter_form->setTableWidth('100 %');
-	
+
 		//hide_filter
-		$o_hide_check = new ilCheckBoxInputGUI($this->lng->txt('show_filter'),'show_filter');
-		$o_hide_check->setValue(1);		
-		$o_hide_check->setChecked($_SESSION['pay_objects']['show_filter'] ? 1 : 0);		
-	
+		$o_hide_check = new ilCheckBoxInputGUI($this->lng->txt('show_filter'), 'show_filter');
+		$o_hide_check->setValue(1);
+		$o_hide_check->setChecked($_SESSION['pay_objects']['show_filter'] ? 1 : 0);
+
 		$o_hidden = new ilHiddenInputGUI('updateView');
 		$o_hidden->setValue(1);
 		$o_hidden->setPostVar('updateView');
 		$o_hide_check->addSubItem($o_hidden);
 
 		//title
-		$radio_group = new ilRadioGroupInputGUI($this->lng->txt('search_in_title'), 'title_type');
+		$radio_group  = new ilRadioGroupInputGUI($this->lng->txt('search_in_title'), 'title_type');
 		$radio_option = new ilRadioOption($this->lng->txt('search_any_word'), 'or');
 		$radio_group->addOption($radio_option);
 		$radio_option = new ilRadioOption($this->lng->txt('search_all_words'), 'and');
@@ -194,42 +194,42 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$radio_group->setRequired(false);
 		$radio_group->setValue('or');
 		$radio_group->setPostVar('title_type');
-		
+
 		$o_title = new ilTextInputGUI();
 		$o_title->setValue($_SESSION['pay_objects']['title_value']);
 		$o_title->setPostVar('title_value');
 		$o_title->setTitle($this->lng->txt('title'));
-		
+
 		$o_hide_check->addSubItem($radio_group);
 		$o_hide_check->addSubItem($o_title);
-		
+
 		//vendor
 		$o_vendor = new ilTextInputGUI();
 		$o_vendor->setTitle($this->lng->txt('paya_vendor'));
-		$o_vendor->setValue($_SESSION['pay_objects']['vendor']);				
+		$o_vendor->setValue($_SESSION['pay_objects']['vendor']);
 		$o_vendor->setPostVar('vendor');
 		$o_hide_check->addSubItem($o_vendor);
-		
+
 		// paymethod	
 		$o_paymethod = new ilSelectInputGUI();
 		$o_paymethod->setTitle($this->lng->txt('payment_system'));
 		$o_paymethod->setOptions(ilPaymethods::getPayMethodsOptions('all'));
 		$o_paymethod->setValue($_SESSION['pay_objects']['pay_method']);
 		$o_paymethod->setPostVar('pay_method');
-		$o_hide_check->addSubItem($o_paymethod);				
-		
+		$o_hide_check->addSubItem($o_paymethod);
+
 		$filter_form->addCommandButton('showObjects', $this->lng->txt('pay_update_view'));
 		$filter_form->addCommandButton('resetObjectFilter', $this->lng->txt('pay_reset_filter'));
-		
-		$filter_form->addItem($o_hide_check);		
+
+		$filter_form->addItem($o_hide_check);
 		if(!count($objects = ilPaymentObject::_getObjectsData($this->user_obj->getId())))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_objects_assigned'));
-			
+
 			return true;
-		}		
+		}
 		$this->tpl->setVariable('FORM', $filter_form->getHTML());
-		
+
 		$counter = 0;
 		foreach($objects as $data)
 		{
@@ -253,41 +253,41 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				case $this->pobject->STATUS_NOT_BUYABLE:
 					$f_result[$counter]['status'] = $this->lng->txt('paya_not_buyable');
 					break;
-					
+
 				case $this->pobject->STATUS_EXPIRES:
 					$f_result[$counter]['status'] = $this->lng->txt('paya_expires');
 					break;
 			}
-			$str_paymethod = ilPayMethods::getStringByPaymethod($data['pay_method']);
+			$str_paymethod                    = ilPayMethods::getStringByPaymethod($data['pay_method']);
 			$f_result[$counter]['pay_method'] = $str_paymethod;
-			
+
 			if($data['vat_id'] <= 0)
 			{
-			 	$vat_rate = $this->lng->txt('payment_vat_has_to_be_defined_by_administration_short');
+				$vat_rate = $this->lng->txt('payment_vat_has_to_be_defined_by_administration_short');
 			}
-			else 
+			else
 			{
 				try
 				{
-					$oVAT = new ilShopVats((int)$data['vat_id']);
-					$vat_rate = ilShopUtils::_formatVAT((float)$oVAT->getRate()); 
+					$oVAT     = new ilShopVats((int)$data['vat_id']);
+					$vat_rate = ilShopUtils::_formatVAT((float)$oVAT->getRate());
 				}
 				catch(ilShopException $e)
 				{
-					$vat_rate = $this->lng->txt('payment_vat_has_to_be_defined_by_administration_short');		
+					$vat_rate = $this->lng->txt('payment_vat_has_to_be_defined_by_administration_short');
 				}
 			}
 			$f_result[$counter]['vat_rate'] = $vat_rate;
-			
-			$tmp_user = ilObjectFactory::getInstanceByObjId($data['vendor_id']);
-			$f_result[$counter]['vendor'] = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';
+
+			$tmp_user                     = ilObjectFactory::getInstanceByObjId($data['vendor_id']);
+			$f_result[$counter]['vendor'] = $tmp_user->getFullname() . ' [' . $tmp_user->getLogin() . ']';
 
 			// Get number of purchasers
 			$f_result[$counter]['purchasers'] = ilPaymentBookings::_getCountBookingsByObject($data['pobject_id']);
 
 			// edit link
-			$this->ctrl->setParameter($this,'pobject_id',$data['pobject_id']);
-			$link_change = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this,"editDetails")."\">".$this->lng->txt("edit")."</a></div>";
+			$this->ctrl->setParameter($this, 'pobject_id', $data['pobject_id']);
+			$link_change = "<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"" . $this->ctrl->getLinkTarget($this, "editDetails") . "\">" . $this->lng->txt("edit") . "</a></div>";
 
 			$f_result[$counter]['options'] = $link_change;
 			unset($tmp_user);
@@ -295,83 +295,83 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 			++$counter;
 		}
-		
+
 		return $this->__showObjectsTable($f_result);
 	}
 
 	public function editDetails($a_show_confirm = false)
 	{
 		global $ilToolbar;
-		
+
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 		$genSet = ilPaymentSettings::_getInstance();
 
 		if(!(int)$_GET['pobject_id'])
-		{	
+		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 			return $this->showObjects();
 		}
-			
+
 		$this->__initPaymentObject((int)$_GET['pobject_id']);
 
-		$this->ctrl->setParameter($this,'pobject_id', (int)$_GET['pobject_id']);
-	
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');	
+		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
+
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
 		if(is_object($tmp_obj))
 		{
 			$trash = '';
 			if(ilObject::_isInTrash($this->pobject->getRefId()))
 			{
-				$trash = ' ('.$this->lng->txt('object_deleted').')';
+				$trash = ' (' . $this->lng->txt('object_deleted') . ')';
 			}
-			$tmp_object['title'] = $tmp_obj->getTitle().''.$trash;
-			$tmp_object['type'] = $tmp_obj->getType();
+			$tmp_object['title'] = $tmp_obj->getTitle() . '' . $trash;
+			$tmp_object['type']  = $tmp_obj->getType();
 		}
 		else
 		{
 			$tmp_object['title'] = $this->lng->txt('object_not_found');
-			$tmp_object['type'] = false;
+			$tmp_object['type']  = false;
 		}
-		
+
 		if($a_show_confirm)
 		{
 			include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 			$oConfirmationGUI = new ilConfirmationGUI();
-			
+
 			// set confirm/cancel commands
-			$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this,"performDelete"));
+			$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this, "performDelete"));
 			$oConfirmationGUI->setHeaderText($this->lng->txt("paya_sure_delete_object"));
 			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "editDetails");
-			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDelete");			
+			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDelete");
 
 			$oConfirmationGUI->addItem('', $tmp_object['title'], $tmp_object['title']);
-			$this->tpl->setVariable('CONFIRMATION',$oConfirmationGUI->getHTML());
-		
-			return true;	
+			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());
+
+			return true;
 		}
-		
+
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
 		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
-		
+
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($tmp_object['title']);
 		if($tmp_object['type'])
-		$oForm->setTitleIcon(ilUtil::getImagePath('icon_'.$tmp_object['type'] .'_b.gif'));
-		
+			$oForm->setTitleIcon(ilUtil::getImagePath('icon_' . $tmp_object['type'] . '_b.gif'));
+
 		// repository path
 		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
 		$oPathGUI->setValue($this->__getHTMLPath($this->pobject->getRefId()));
 		$oForm->addItem($oPathGUI);
-		
-		switch ($tmp_object['type'])
+
+		switch($tmp_object['type'])
 		{
 			case 'exc':
 				$exc_subtype_option = array();
-				$check_subtypes = ilPaymentObject::_checkExcSubtype($this->pobject->getRefId());
+				$check_subtypes     = ilPaymentObject::_checkExcSubtype($this->pobject->getRefId());
 
 				if(!in_array('download', $check_subtypes) || $this->pobject->getSubtype() == 'download')
 					$exc_subtype_option['download'] = $this->lng->txt('download');
@@ -384,32 +384,33 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				$oForm->addItem($oExcSubtype);
 
 				break;
-			default: break;
+			default:
+				break;
 		}
 		// number of purchasers
 		$oPurchasersGUI = new ilNonEditableValueGUI($this->lng->txt('paya_count_purchaser'));
 		$oPurchasersGUI->setValue(ilPaymentBookings::_getCountBookingsByObject((int)$_GET['pobject_id']));
 		$oForm->addItem($oPurchasersGUI);
-		
+
 		// vendors
-		$oVendorsGUI = new ilSelectInputGUI($this->lng->txt('paya_vendor'), 'vendor');		
+		$oVendorsGUI = new ilSelectInputGUI($this->lng->txt('paya_vendor'), 'vendor');
 		$oVendorsGUI->setOptions($this->__getVendors());
 		$oVendorsGUI->setValue($this->pobject->getVendorId());
 		$oForm->addItem($oVendorsGUI);
-		
+
 		// status
 		$oStatusGUI = new ilSelectInputGUI($this->lng->txt('status'), 'status');
 		$oStatusGUI->setOptions($this->__getStatus());
 		$oStatusGUI->setValue($this->pobject->getStatus());
 		$oForm->addItem($oStatusGUI);
-		
+
 		// pay methods
 		$oPayMethodsGUI = new ilSelectInputGUI($this->lng->txt('paya_pay_method'), 'pay_method');
-		$PMoptions = ilPaymethods::getPayMethodsOptions('not_specified');
+		$PMoptions      = ilPaymethods::getPayMethodsOptions('not_specified');
 		$oPayMethodsGUI->setOptions($PMoptions);
 		$oPayMethodsGUI->setValue($this->pobject->getPayMethod());
-		$oForm->addItem($oPayMethodsGUI);		
-		
+		$oForm->addItem($oPayMethodsGUI);
+
 		// topics
 		ilShopTopics::_getInstance()->read();
 		if(is_array($topics = ilShopTopics::_getInstance()->getTopics()) && count($topics))
@@ -417,51 +418,51 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$oTopicsGUI = new ilSelectInputGUI($this->lng->txt('topic'), 'topic_id');
 			include_once 'Services/Payment/classes/class.ilShopTopics.php';
 			ilShopTopics::_getInstance()->read();
-			$topic_options = array();
+			$topic_options     = array();
 			$topic_options[''] = $this->lng->txt('please_choose');
-			
+
 			foreach($topics as $oTopic)
-			{			
+			{
 				$topic_options[$oTopic->getId()] = $oTopic->getTitle();
 			}
-			
+
 			$oTopicsGUI->setOptions($topic_options);
 			$oTopicsGUI->setValue($this->pobject->getTopicId());
 			$oForm->addItem($oTopicsGUI);
 		}
-		
+
 		// vats
 		$oShopVatsList = new ilShopVatsList();
-		$oShopVatsList->read();			
+		$oShopVatsList->read();
 		if($oShopVatsList->hasItems())
 		{
 			$oVatsGUI = new ilSelectInputGUI($this->lng->txt('vat_rate'), 'vat_id');
 
-			$vats_options = array();				
+			$vats_options = array();
 			foreach($oShopVatsList as $oVAT)
-			{	
-				$vats_options[$oVAT->getId()] = ilShopUtils::_formatVAT($oVAT->getRate()).' -> '.$oVAT->getTitle();
+			{
+				$vats_options[$oVAT->getId()] = ilShopUtils::_formatVAT($oVAT->getRate()) . ' -> ' . $oVAT->getTitle();
 			}
-		
+
 			$oVatsGUI->setOptions($vats_options);
 			$oVatsGUI->setValue($this->pobject->getVatId());
 			$oForm->addItem($oVatsGUI);
 		}
 		else
 		{
-			$oVatsGUI = new ilNonEditableValueGUI($this->lng->txt('vat_rate'));		
-			$oVatsGUI->setValue($this->lng->txt('paya_no_vats_assigned'));	
-			$oForm->addItem($oVatsGUI);	
-		}						
-		
+			$oVatsGUI = new ilNonEditableValueGUI($this->lng->txt('vat_rate'));
+			$oVatsGUI->setValue($this->lng->txt('paya_no_vats_assigned'));
+			$oForm->addItem($oVatsGUI);
+		}
+
 		$oThumbnail = new ilImageFileInputGUI($this->lng->txt('pay_thumbnail'), 'thumbnail');
-		$oFile = new ilFileDataShop($this->pobject->getPobjectId());
+		$oFile      = new ilFileDataShop($this->pobject->getPobjectId());
 		if(($webpath_file = $oFile->getCurrentImageWebPath()) !== false)
 		{
 			$oThumbnail->setImage($webpath_file);
 		}
 		$oForm->addItem($oThumbnail);
-		
+
 		if($genSet->get('use_shop_specials'))
 		{
 			// special object
@@ -472,7 +473,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		// buttons
 		$oForm->addCommandButton('updateDetails', $this->lng->txt('save'));
-		$oForm->addCommandButton('deleteObject', $this->lng->txt('delete'));		
+		$oForm->addCommandButton('deleteObject', $this->lng->txt('delete'));
 
 		$this->tpl->setVariable('FORM', $oForm->getHTML());
 		return true;
@@ -489,7 +490,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$this->showObjects();
 			return true;
 		}
-		if(ilPaymentBookings::_getCountBookingsByObject((int) $_GET['pobject_id']))
+		if(ilPaymentBookings::_getCountBookingsByObject((int)$_GET['pobject_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_bookings_available'));
 			$this->editDetails();
@@ -498,7 +499,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		else
 		{
-			
+
 			$this->editDetails(true);
 
 			return true;
@@ -516,13 +517,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$this->showObjects();
 			return true;
 		}
-		$this->__initPaymentObject((int) $_GET['pobject_id']);
+		$this->__initPaymentObject((int)$_GET['pobject_id']);
 
 		// delete object data
 		$this->pobject->delete();
-		
+
 		// delete payment prices
-		$price_obj = new ilPaymentPrices((int) $_GET['pobject_id']);
+		$price_obj = new ilPaymentPrices((int)$_GET['pobject_id']);
 		$price_obj->deleteAllPrices();
 		unset($price_obj);
 
@@ -535,7 +536,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	public function editPayMethod()
 	{
-		$this->__initPaymentObject((int) $_GET['pobject_id']);
+		$this->__initPaymentObject((int)$_GET['pobject_id']);
 
 		switch($this->pobject->getPayMethod())
 		{
@@ -543,7 +544,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				ilUtil::sendFailure($this->lng->txt('paya_select_pay_method_first'));
 				$this->editDetails();
 				return true;
-				
+
 			default:
 				ilUtil::sendInfo($this->lng->txt('paya_no_settings_necessary'));
 				$this->editDetails();
@@ -552,16 +553,16 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	}
 
 	public function editPrices($a_show_delete = false)
-	{		
+	{
 		global $ilToolbar;
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 		$genSet = ilPaymentSettings::_getInstance();
-		
+
 		if($a_show_delete == false) unset($_SESSION['price_ids']);
-		
+
 		$_SESSION['price_ids'] = $_SESSION['price_ids'] ? $_SESSION['price_ids'] : array();
 
 		if(!$_GET['pobject_id'] && !$_POST['pobject_id'])
@@ -571,8 +572,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$this->showObjects();
 			return true;
 		}
-		
-		if(isset($_GET['pobject_id'])) 
+
+		if(isset($_GET['pobject_id']))
 		{
 			$pobject_id = (int)$_GET['pobject_id'];
 		}
@@ -580,20 +581,20 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		{
 			$pobject_id = (int)$_POST['pobject_id'];
 		}
-		
-		$this->ctrl->setParameter($this,'pobject_id',$pobject_id);
-		$this->__initPaymentObject((int) $_GET['pobject_id']);
 
-		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content",'tpl.main_view.html','Services/Payment');
-			
+		$this->ctrl->setParameter($this, 'pobject_id', $pobject_id);
+		$this->__initPaymentObject((int)$_GET['pobject_id']);
+
+		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", 'tpl.main_view.html', 'Services/Payment');
+
 		$price_obj = new ilPaymentPrices($pobject_id);
 
-		$standard_prices = array();
+		$standard_prices  = array();
 		$extension_prices = array();
-		$standard_prices = $price_obj->getPrices();
+		$standard_prices  = $price_obj->getPrices();
 		$extension_prices = $price_obj->getExtensionPrices();
 
-		$prices = array_merge($standard_prices, $extension_prices );
+		$prices = array_merge($standard_prices, $extension_prices);
 
 		// No prices created
 		if(!count($prices))
@@ -613,96 +614,96 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		// Show confirm delete
 		if($a_show_delete)
-		{	
+		{
 			$oConfirmationGUI = new ilConfirmationGUI();
-			
+
 			// set confirm/cancel commands
-			$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this,"performDeletePrice"));
+			$oConfirmationGUI->setFormAction($this->ctrl->getFormAction($this, "performDeletePrice"));
 			$oConfirmationGUI->setHeaderText($this->lng->txt("paya_sure_delete_selected_prices"));
 			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "editPrices");
-			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDeletePrice");			
-	
+			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "performDeletePrice");
+
 			$counter = 0;
-			
+
 			foreach($prices as $price)
 			{
 				$currency = $genSet->get('currency_unit');
-				if(in_array($price['price_id'],$_SESSION['price_ids']))
+				if(in_array($price['price_id'], $_SESSION['price_ids']))
 				{
-					
-					if ($price['unlimited_duration'] == '1') 
+
+					if($price['unlimited_duration'] == '1')
 					{
 						$tmp_price = $this->lng->txt('unlimited_duration');
 					}
 					else
 					{
-						$tmp_price = $price['duration'].' '.$this->lng->txt('paya_months');
+						$tmp_price = $price['duration'] . ' ' . $this->lng->txt('paya_months');
 					}
-					$delete_row = ''.$tmp_price.'  :  '.
-									ilFormat::_getLocalMoneyFormat($price['price']).' '.
-									$currency;
-									
-					$oConfirmationGUI->addItem('',$delete_row, $delete_row);
+					$delete_row = '' . $tmp_price . '  :  ' .
+						ilFormat::_getLocalMoneyFormat($price['price']) . ' ' .
+						$currency;
+
+					$oConfirmationGUI->addItem('', $delete_row, $delete_row);
 					$delete_row = '';
 				}
 				$counter++;
 			}
-				
-			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());		
-			
+
+			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());
+
 			return true;
-		}			
-	
+		}
+
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
 		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
-		
+
 		// Fill table cells
-		$tpl = new ilTemplate('tpl.table.html',true,true);
+		$tpl = new ilTemplate('tpl.table.html', true, true);
 
 		// set table header
 		$tpl->setCurrentBlock('tbl_form_header');
-		
-		$tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+
+		$tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
 		$tpl->parseCurrentBlock();
 
 		$counter = 0;
 		include_once './Services/Calendar/classes/class.ilDatePresentation.php';
 		foreach($prices as $price)
 		{
-			$data[$counter]['price_id'] = ilUtil::formCheckBox(in_array($price['price_id'],$_SESSION['price_ids']) ? 1 : 0,
-				'price_ids[]', $price['price_id']);	
+			$data[$counter]['price_id'] = ilUtil::formCheckBox(in_array($price['price_id'], $_SESSION['price_ids']) ? 1 : 0,
+				'price_ids[]', $price['price_id']);
 
 			switch($price['price_type'])
 			{
 				case ilPaymentPrices::TYPE_DURATION_MONTH:
-					$data[$counter]['duration'] = $price['duration'].' '.$this->lng->txt('paya_months');
+					$data[$counter]['duration'] = $price['duration'] . ' ' . $this->lng->txt('paya_months');
 					break;
 				case ilPaymentPrices::TYPE_DURATION_DATE:
 
 					$data[$counter]['duration'] = ilDatePresentation::formatDate(new ilDate($price['duration_from'], IL_CAL_DATE))
-						.' - '.ilDatePresentation::formatDate(new ilDate($price['duration_until'],IL_CAL_DATE));
+						. ' - ' . ilDatePresentation::formatDate(new ilDate($price['duration_until'], IL_CAL_DATE));
 					break;
 				case ilPaymentPrices::TYPE_UNLIMITED_DURATION:
-					$data[$counter]['duration'] = $this->lng->txt('unlimited_duration');	
+					$data[$counter]['duration'] = $this->lng->txt('unlimited_duration');
 					break;
 			}
-			$data[$counter]['price'] =  ilFormat::_getLocalMoneyFormat($price['price']);
+			$data[$counter]['price']         = ilFormat::_getLocalMoneyFormat($price['price']);
 			$data[$counter]['currency_unit'] = $genSet->get('currency_unit');
-			$data[$counter]['extension'] =  ilUtil::formCheckBox($price['extension'] ? 1 : 0,
+			$data[$counter]['extension']     = ilUtil::formCheckBox($price['extension'] ? 1 : 0,
 				'extension_ids[]', (int)$price['price_id'], true);
 
-			$this->ctrl->setParameter($this,"price_id",$price['price_id']);
-			$data[$counter]['edit'] = 
-			"<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"".$this->ctrl->getLinkTarget($this,"editPrice")."\">".$this->lng->txt("edit")."</a></div>";
+			$this->ctrl->setParameter($this, "price_id", $price['price_id']);
+			$data[$counter]['edit'] =
+				"<div class=\"il_ContainerItemCommands\"><a class=\"il_ContainerItemCommand\" href=\"" . $this->ctrl->getLinkTarget($this, "editPrice") . "\">" . $this->lng->txt("edit") . "</a></div>";
 
 			++$counter;
-		}			
-		$this->__editPricesTable($data);	
-	
+		}
+		$this->__editPricesTable($data);
+
 		return true;
-	}	
-		
+	}
+
 	private function __editPricesTable($a_result_set)
 	{
 		$tbl = new ilShopTableGUI($this);
@@ -716,7 +717,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		{
 			$tbl->setTitle($this->lng->txt('object_not_found'));
 		}
-		
+
 		$tbl->setId('tbl_bookings');
 		$tbl->setRowTemplate("tpl.shop_prices_row.html", "Services/Payment");
 
@@ -725,25 +726,25 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$tbl->addColumn($this->lng->txt('price_a'), 'price', '1%');
 		$tbl->addColumn($this->lng->txt('currency'), 'currency_unit', '10%');
 		$tbl->addColumn($this->lng->txt('extension_price'), 'extension', '10%');
-		$tbl->addColumn('', 'edit', '30%' );
+		$tbl->addColumn('', 'edit', '30%');
 
 		$tbl->setSelectAllCheckbox('price_id');
-		$tbl->addCommandButton('addPrice',$this->lng->txt('paya_add_price'));
+		$tbl->addCommandButton('addPrice', $this->lng->txt('paya_add_price'));
 
 		$tbl->addMultiCommand("deletePrice", $this->lng->txt("paya_delete_price"));
 		$tbl->fillFooter();
-	
+
 		$tbl->setData($a_result_set);
 
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());
 
 		return true;
-	}	
-	
+	}
+
 	public function addPrice()
 	{
 		global $ilToolbar;
-		
+
 		if(!$_GET['pobject_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
@@ -756,21 +757,21 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$genSet = ilPaymentSettings::_getInstance();
 
-		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
+		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
 
-		$this->__initPaymentObject((int) $_GET['pobject_id']);
+		$this->__initPaymentObject((int)$_GET['pobject_id']);
 
 		$ilToolbar->addButton($this->lng->txt('paya_edit_details'), $this->ctrl->getLinkTarget($this, 'editDetails'));
 		$ilToolbar->addButton($this->lng->txt('paya_edit_prices'), $this->ctrl->getLinkTarget($this, 'editPrices'));
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.main_view.html','Services/Payment');
-		
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
+
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('paya_add_price_title'));
-		
+
 		// object_title
-		$oTitle = new ilNonEditableValueGUI($this->lng->txt('title'));
+		$oTitle  = new ilNonEditableValueGUI($this->lng->txt('title'));
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
 		if(is_object($tmp_obj))
 		{
@@ -784,7 +785,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		//price_type
 
-		$radio_group = new ilRadioGroupInputGUI('','price_type');
+		$radio_group = new ilRadioGroupInputGUI('', 'price_type');
 		$radio_group->setTitle($this->lng->txt('duration'));
 		$radio_group->setRequired(true);
 		$radio_group->setValue($_POST['price_type']);
@@ -792,44 +793,44 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$radio_option_1 = new ilRadioOption($this->lng->txt('duration_month'), 'duration_month');
 
-			// duration month
-			$oDuration = new ilNumberInputGUI();
-			$oDuration->setTitle($this->lng->txt('paya_months'));
-			$oDuration->setSize('30%');
-			$oDuration->setValue($_POST['duration_month']);
+		// duration month
+		$oDuration = new ilNumberInputGUI();
+		$oDuration->setTitle($this->lng->txt('paya_months'));
+		$oDuration->setSize('30%');
+		$oDuration->setValue($_POST['duration_month']);
 
-			$oDuration->setPostVar('duration_month');
-			$radio_option_1->addSubItem($oDuration);
+		$oDuration->setPostVar('duration_month');
+		$radio_option_1->addSubItem($oDuration);
 
 		$radio_group->addOption($radio_option_1);
 
 		$radio_option_3 = new ilRadioOption($this->lng->txt('duration_date'), 'duration_date');
 
-			// duration_date from	
-			$o_date_from = new ilDateTimeInputGUI();
-			$o_date_from->setTitle($this->lng->txt('from'));
-			$o_date_from->setPostVar('duration_date_from');			
-			$radio_option_3->addSubItem($o_date_from);
+		// duration_date from	
+		$o_date_from = new ilDateTimeInputGUI();
+		$o_date_from->setTitle($this->lng->txt('from'));
+		$o_date_from->setPostVar('duration_date_from');
+		$radio_option_3->addSubItem($o_date_from);
 
-			// duration_date until
-			$o_date_until = new ilDateTimeInputGUI();
-			$o_date_until->setTitle($this->lng->txt('until'));
-			$o_date_until->setPostVar('duration_date_until');			
-			$radio_option_3->addSubItem($o_date_until);
+		// duration_date until
+		$o_date_until = new ilDateTimeInputGUI();
+		$o_date_until->setTitle($this->lng->txt('until'));
+		$o_date_until->setPostVar('duration_date_until');
+		$radio_option_3->addSubItem($o_date_until);
 
 		$radio_group->addOption($radio_option_3);
 
-		$radio_option_2 = new ilRadioOption($this->lng->txt('unlimited_duration'), 'unlimited_duration');		
+		$radio_option_2 = new ilRadioOption($this->lng->txt('unlimited_duration'), 'unlimited_duration');
 		$radio_group->addOption($radio_option_2);
 
-		$form->addItem($radio_group);				
+		$form->addItem($radio_group);
 		// description
 		$oDescription = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
 		$oDescription->setRows(4);
 		$oDescription->setCols(35);
 		$oDescription->setValue($price['description']);
 		$form->addItem($oDescription);
-			
+
 		// price
 		$oPrice = new ilNumberInputGUI();
 		$oPrice->setTitle($this->lng->txt('price_a'));
@@ -838,9 +839,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oPrice->setRequired(true);
 		$oPrice->allowDecimals(true);
 		$form->addItem($oPrice);
-		
+
 		// currency
-		$this->tpl->setVariable('TXT_PRICE_A',$genSet->get('currency_unit'));
+		$this->tpl->setVariable('TXT_PRICE_A', $genSet->get('currency_unit'));
 
 		//extension
 		$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
@@ -849,32 +850,10 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$form->addItem($oExtension);
 
-/*
- 		// TODO: show currency selector
+		$form->addCommandButton('performAddPrice', $this->lng->txt('paya_add_price'));
+		$form->addCommandButton('editPrices', $this->lng->txt('cancel'));
+		$this->tpl->setVariable('FORM', $form->getHTML());
 
-		 // currency
-		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
-		$objCurrency = new ilPaymentCurrency();
-		$currencies = $objCurrency->_getAvailableCurrencies();
-		
-		foreach($currencies as $currency)
-		{
-			$currency_options[$currency['currency_id']] = $currency['unit'];
-		}
-
-		$oCurrency = new ilSelectInputGUI($this->lng->txt('currency'), 'currency_id');
-		$oCurrency->setOptions($currency_options);
-		
-		$oCurrency->setValue($_SESSION['pay_objects']['currency_value']);
-		$oCurrency->setPostVar('currency_id');
-
-		$form->addItem($oCurrency);
-		
- */
-		$form->addCommandButton('performAddPrice',$this->lng->txt('paya_add_price'));
-		$form->addCommandButton('editPrices', $this->lng->txt('cancel'));		
-		$this->tpl->setVariable('FORM',$form->getHTML());		
-		
 		return true;
 	}
 
@@ -884,8 +863,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 
-            $this->showObjects();
-            return true;
+			$this->showObjects();
+			return true;
 		}
 
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
@@ -911,12 +890,12 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 				$po->setPriceType(ilPaymentPrices::TYPE_DURATION_DATE);
 				$po->setDuration(NULL);
 				$po->setDurationFrom(ilUtil::stripSlashes(
-						$_POST['duration_date_from']['date']['y'].'-'.
-						$_POST['duration_date_from']['date']['m'].'-'.
+					$_POST['duration_date_from']['date']['y'] . '-' .
+						$_POST['duration_date_from']['date']['m'] . '-' .
 						$_POST['duration_date_from']['date']['d']));
 				$po->setDurationUntil(ilUtil::stripSlashes(
-						$_POST['duration_date_until']['date']['y'].'-'.
-						$_POST['duration_date_until']['date']['m'].'-'.
+					$_POST['duration_date_until']['date']['y'] . '-' .
+						$_POST['duration_date_until']['date']['m'] . '-' .
 						$_POST['duration_date_until']['date']['d']));
 				break;
 
@@ -933,14 +912,14 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$po->setPrice(ilUtil::stripSlashes($_POST['price']));
 		$po->setCurrency($currency[1]['currency_id']);
 
-			if($_POST['extension_price'])
-			{
-				$po->setExtension(1);
-			}
-			else
-			{
-				$po->setExtension(0);
-			}
+		if($_POST['extension_price'])
+		{
+			$po->setExtension(1);
+		}
+		else
+		{
+			$po->setExtension(0);
+		}
 
 		try
 		{
@@ -956,7 +935,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			ilUtil::sendInfo($e->getMessage());
 			return $this->addPrice();
 		}
-	
+
 	}
 
 	public function performDeletePrice()
@@ -972,13 +951,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		if(!count($_SESSION['price_ids']))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_prices_selected'));
-			
+
 			$this->editPrices();
 			return true;
 		}
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
-		
-		$prices = new ilPaymentPrices((int) $_GET['pobject_id']);
+
+		$prices = new ilPaymentPrices((int)$_GET['pobject_id']);
 
 		foreach($_SESSION['price_ids'] as $price_id)
 		{
@@ -988,16 +967,16 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		// check if it was last price otherwise set status to 'not_buyable'
 		if(!count($prices->getPrices()))
 		{
-			$this->__initPaymentObject((int) $_GET['pobject_id']);
+			$this->__initPaymentObject((int)$_GET['pobject_id']);
 
 			$this->pobject->setStatus($this->pobject->STATUS_NOT_BUYABLE);
 			$this->pobject->update();
-			
+
 			ilUtil::sendInfo($this->lng->txt('paya_deleted_last_price'));
 		}
 		unset($prices);
 		unset($_SESSION['price_ids']);
-		
+
 		return $this->editPrices();
 	}
 
@@ -1015,7 +994,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		if(!count($_POST['price_ids']))
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_prices_selected'));
-			
+
 			$this->editPrices();
 			return true;
 		}
@@ -1023,7 +1002,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$this->editPrices(true);
 		return true;
-	}		
+	}
 
 	public function ORg_updatePrice()
 	{
@@ -1037,7 +1016,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			return true;
 		}
 		if(isset($_GET['pobject_id']))
-		{	
+		{
 			$pobject_id = (int)$_GET['pobject_id'];
 		}
 		else
@@ -1046,18 +1025,18 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		$po = new ilPaymentPrices($pobject_id);
 
-		$this->ctrl->setParameter($this,'pobject_id',$pobject_id);
+		$this->ctrl->setParameter($this, 'pobject_id', $pobject_id);
 
 		$price_id = (int)$_POST['price_id'];
 
 		// validate
 		$old_price = $po->getPrice($price_id);
 
-		
+
 		$po->setDuration((int)$_POST['duration']);
 		$po->setUnlimitedDuration($_POST['unlimited_duration']);
 		$po->setPrice($_POST['price']);
-		$po->setPriceTypw($_POST['price_type']);
+		$po->setPriceType($_POST['price_type']);
 		$po->setCurrency($old_price['currency']);
 		$po->setExtension((int)$_POST['extension']);
 
@@ -1072,7 +1051,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$this->editPrices();
 			return false;
 		}
-		
+
 		foreach($_POST['prices'] as $price_id => $price)
 		{
 			$old_price = $po->getPrice($price_id);
@@ -1081,25 +1060,25 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 //	 			$search = in_array((string)$price_id, $_POST['duration_ids']);
 				if($_POST['duration_ids'] == NULL)
 				{
-					$po->setUnlimitedDuration(0);		
-					$po->setDuration($price['duration']);	
+					$po->setUnlimitedDuration(0);
+					$po->setDuration($price['duration']);
 				}
 
-				else if( $search = in_array((string)$price_id, $_POST['duration_ids']))
+				else if($search = in_array((string)$price_id, $_POST['duration_ids']))
 				{
-					$po->setUnlimitedDuration(1);		
-					$po->setDuration(0);	
+					$po->setUnlimitedDuration(1);
+					$po->setDuration(0);
 				}
-				else 
+				else
 				{
-					$po->setUnlimitedDuration(0);	
-				}	
+					$po->setUnlimitedDuration(0);
+				}
 			}
-			
+
 			if(isset($_POST['extension_ids']))
 			{
 //	 			$search = in_array((string)$price_id, $_POST['extension_ids']);
-				if( $search = in_array((string)$price_id, $_POST['extension_ids']))
+				if($search = in_array((string)$price_id, $_POST['extension_ids']))
 				{
 					$po->setExtension(1);
 				}
@@ -1132,17 +1111,18 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			return true;
 		}
 		$this->__initPaymentObject((int)$_GET['pobject_id']);
-		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);		
+		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
 
 		// read old settings
 		$old_status = $this->pobject->getStatus();
 
 		// check status changed from not_buyable
 		if($old_status == $this->pobject->STATUS_NOT_BUYABLE and
-		   (int) $_POST['status'] != $old_status)
+			(int)$_POST['status'] != $old_status
+		)
 		{
 			// check pay_method edited
-			switch((int) $_POST['pay_method'])
+			switch((int)$_POST['pay_method'])
 			{
 				case $this->pobject->PAY_METHOD_NOT_SPECIFIED:
 					ilUtil::sendInfo($this->lng->txt('paya_select_pay_method_first'));
@@ -1156,12 +1136,12 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			// check minimum one price
 			include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 
-			$prices_obj = new ilPaymentPrices((int) $_GET['pobject_id']);
+			$prices_obj = new ilPaymentPrices((int)$_GET['pobject_id']);
 			if(!count($prices_obj->getPrices()))
 			{
 				ilUtil::sendInfo($this->lng->txt('paya_edit_prices_first'));
 				$this->editDetails();
-						
+
 				return false;
 			}
 		}
@@ -1172,7 +1152,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
 			ilPaymentShoppingCart::_deleteShoppingCartEntries($this->pobject->getPobjectId());
 		}
-		
+
 		$this->pobject->setStatus((int)$_POST['status']);
 		$this->pobject->setVendorId((int)$_POST['vendor']);
 		$this->pobject->setPayMethod((int)$_POST['pay_method']);
@@ -1201,11 +1181,11 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			}
 			else
 			{
-				ilUtil::sendInfo($oThumbnail->getAlert());	
+				ilUtil::sendInfo($oThumbnail->getAlert());
 				return $this->editDetails();
-			}	
+			}
 		}
-		
+
 		$this->pobject->update();
 
 		ilUtil::sendInfo($this->lng->txt('paya_details_updated'));
@@ -1220,19 +1200,19 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
 
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.paya_object_selector.html','Services/Payment');
+		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.paya_object_selector.html', 'Services/Payment');
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showObjects'));
 
 
 		ilUtil::sendInfo($this->lng->txt('paya_select_object_to_sell'));
 
-		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this,'showObjectSelector'), (string)strtolower(get_class($this)));
+		$exp = new ilPaymentObjectSelector($this->ctrl->getLinkTarget($this, 'showObjectSelector'), (string)strtolower(get_class($this)));
 		$exp->setExpand($_GET['paya_link_expand'] ? $_GET['paya_link_expand'] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showObjectSelector'));
-		
+		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showObjectSelector'));
+
 		$exp->setOutput(0);
 
-		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
+		$this->tpl->setVariable("EXPLORER", $exp->getOutput());
 
 		return true;
 	}
@@ -1240,69 +1220,69 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	public function showSelectedObject()
 	{
 		global $ilToolbar;
-		
+
 		if(!(int)$_GET['sell_id'])
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));			
+			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
 			return $this->showObjectSelector();
 		}
-		
+
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'showObjectSelector'));
-		
+
 		// save ref_id of selected object
 		$this->ctrl->setParameter($this, 'sell_id', (int)$_GET['sell_id']);
-		
+
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($this->lng->txt('details'));
 		$oForm->setTitleIcon(ilUtil::getImagePath('icon_pays.gif', false));
-		
+
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET['sell_id'], false);
 		if(is_object($tmp_obj))
 		{
-			$tmp_object['title'] = $tmp_obj->getTitle();
+			$tmp_object['title']       = $tmp_obj->getTitle();
 			$tmp_object['description'] = $tmp_obj->getDescription();
-			$tmp_object['owner'] = $tmp_obj->getOwnerName();
-			$tmp_object['path'] = $this->__getHTMLPath((int)$_GET['sell_id']);
+			$tmp_object['owner']       = $tmp_obj->getOwnerName();
+			$tmp_object['path']        = $this->__getHTMLPath((int)$_GET['sell_id']);
 		}
 		else
 		{
-			$tmp_object['title'] = $this->lng->txt('object_not_found');
+			$tmp_object['title']       = $this->lng->txt('object_not_found');
 			$tmp_object['description'] = '';
-			$tmp_object['owner'] = '';
-			$tmp_object['path'] = '';
+			$tmp_object['owner']       = '';
+			$tmp_object['path']        = '';
 		}
-		
+
 		// title
 		$oTitleGUI = new ilNonEditableValueGUI($this->lng->txt('title'));
 		$oTitleGUI->setValue($tmp_object['title']);
 		$oForm->addItem($oTitleGUI);
-		
+
 		// description
 		$oDescriptionGUI = new ilNonEditableValueGUI($this->lng->txt('description'));
 		$oDescriptionGUI->setValue($tmp_object['description']);
 		$oForm->addItem($oDescriptionGUI);
-		
+
 		// owner
 		$oOwnerGUI = new ilNonEditableValueGUI($this->lng->txt('owner'));
 		$oOwnerGUI->setValue($tmp_object['owner']);
 		$oForm->addItem($oOwnerGUI);
-		
+
 		// repository path
 		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
 		$oPathGUI->setValue($tmp_object['path']);
 		$oForm->addItem($oPathGUI);
-		
+
 		// vendors
-		$oVendorsGUI = new ilSelectInputGUI($this->lng->txt('paya_vendor'), 'vendor');		
+		$oVendorsGUI = new ilSelectInputGUI($this->lng->txt('paya_vendor'), 'vendor');
 		$oVendorsGUI->setOptions($this->__getVendors());
 		$oForm->addItem($oVendorsGUI);
-		
+
 		// buttons
 		$oForm->addCommandButton('addObject', $this->lng->txt('next'));
-		$oForm->addCommandButton('showObjects', $this->lng->txt('cancel'));		
-		
+		$oForm->addCommandButton('showObjects', $this->lng->txt('cancel'));
+
 		$this->tpl->setVariable('ADM_CONTENT', $oForm->getHTML());
 		return true;
 	}
@@ -1312,38 +1292,38 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		if(!$_GET['sell_id'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_object_selected'));
-			
+
 			return $this->showObjectSelector();
 		}
 		if(!(int)$_POST['vendor'])
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_no_vendor_selected'));
-			
+
 			return $this->showSelectedObject();
 		}
-		
+
 		include_once 'Services/Payment/classes/class.ilPaymentObject.php';
 		$p_obj = new ilPaymentObject($this->user_obj);
 
-		if($check_subtypes= ilPaymentObject::_checkExcSubtype($_GET['sell_id']))
+		if($check_subtypes = ilPaymentObject::_checkExcSubtype($_GET['sell_id']))
 		{
-			if(!in_array('download',$check_subtypes))
+			if(!in_array('download', $check_subtypes))
 				$p_obj->setSubtype('download');
 			else
-			if(!in_array('upload',$check_subtypes))
-				$p_obj->setSubtype('upload');
+				if(!in_array('upload', $check_subtypes))
+					$p_obj->setSubtype('upload');
 
 
 		}
 		else
-		 if(ilPaymentObject::_isPurchasable($_GET['sell_id']))
-		{
-			 // means that current object already exits in payment_objects _table ...
-			ilUtil::sendInfo($this->lng->txt('paya_object_not_purchasable'));
+			if(ilPaymentObject::_isPurchasable($_GET['sell_id']))
+			{
+				// means that current object already exits in payment_objects _table ...
+				ilUtil::sendInfo($this->lng->txt('paya_object_not_purchasable'));
 
-			return $this->showObjectSelector();
-		}
-		
+				return $this->showObjectSelector();
+			}
+
 		$p_obj->setRefId((int)$_GET['sell_id']);
 		$p_obj->setStatus($p_obj->STATUS_NOT_BUYABLE);
 		$p_obj->setPayMethod($p_obj->PAY_METHOD_NOT_SPECIFIED);
@@ -1354,7 +1334,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$new_id = $p_obj->add();
 		if($new_id)
 		{
-			ilUtil::sendInfo($this->lng->txt('paya_added_new_object'));			
+			ilUtil::sendInfo($this->lng->txt('paya_added_new_object'));
 			$_GET['pobject_id'] = $new_id;
 			return $this->editDetails();
 		}
@@ -1364,11 +1344,11 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			return $this->showObjects();
 		}
 	}
-	
+
 	private function __getVendors()
 	{
 		include_once 'Services/Payment/classes/class.ilPaymentVendors.php';
-		
+
 		$options = array();
 		$vendors = array();
 		if(ilPaymentVendors::_isVendor($this->user_obj->getId()))
@@ -1381,24 +1361,24 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 		foreach($vendors as $vendor)
 		{
-			$tmp_obj = ilObjectFactory::getInstanceByObjId($vendor, false);
-			$options[$vendor] = $tmp_obj->getFullname().' ['.$tmp_obj->getLogin().']';
+			$tmp_obj          = ilObjectFactory::getInstanceByObjId($vendor, false);
+			$options[$vendor] = $tmp_obj->getFullname() . ' [' . $tmp_obj->getLogin() . ']';
 		}
-		
+
 		return $options;
 	}
 
-	
+
 	private function __getStatus()
 	{
-		$option = array();
+		$option                                     = array();
 		$option[$this->pobject->STATUS_NOT_BUYABLE] = $this->lng->txt('paya_not_buyable');
-		$option[$this->pobject->STATUS_BUYABLE] = $this->lng->txt('paya_buyable');
-		$option[$this->pobject->STATUS_EXPIRES] = $this->lng->txt('paya_expires');
-		
+		$option[$this->pobject->STATUS_BUYABLE]     = $this->lng->txt('paya_buyable');
+		$option[$this->pobject->STATUS_EXPIRES]     = $this->lng->txt('paya_expires');
+
 		return $option;
 	}
-	
+
 	private function __showObjectsTable($a_result_set)
 	{
 		$tbl = new ilShopTableGUI($this);
@@ -1409,16 +1389,16 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		$tbl->addColumn($this->lng->txt('title'), 'title', '10%');
 		$tbl->addColumn($this->lng->txt('status'), 'status', '10%');
-		$tbl->addColumn($this->lng->txt('paya_pay_method'),'pay_method','10%');
+		$tbl->addColumn($this->lng->txt('paya_pay_method'), 'pay_method', '10%');
 		$tbl->addColumn($this->lng->txt('vat_rate'), 'vat_rate', '15%');
 		$tbl->addColumn($this->lng->txt('paya_vendor'), 'vendor', '10%');
 		$tbl->addColumn($this->lng->txt('paya_count_purchaser'), 'purchasers', '10%');
-		$tbl->addColumn('','options','10%');
+		$tbl->addColumn('', 'options', '10%');
 
 		$tbl->setData($a_result_set);
 
 		$this->tpl->setVariable('TABLE', $tbl->getHTML());
-	
+
 		return true;
 	}
 
@@ -1433,42 +1413,42 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$html = '';
 		foreach($path as $data)
 		{
-			$html .= $data['title'].' > ';
+			$html .= $data['title'] . ' > ';
 		}
-		return substr($html,0,-2);
+		return substr($html, 0, -2);
 	}
 
 	private function __initPaymentObject($a_pobject_id = 0)
 	{
 		include_once './Services/Payment/classes/class.ilPaymentObject.php';
 
-		$this->pobject = new ilPaymentObject($this->user_obj,$a_pobject_id);
+		$this->pobject = new ilPaymentObject($this->user_obj, $a_pobject_id);
 
 		return true;
 	}
-	
-public function editPrice()
-{
-	$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
 
-	$price_id = $_GET['price_id']?$_GET['price_id']: $_POST['price_id'];
-	$price= ilPaymentPrices::_getPrice($price_id);
+	public function editPrice()
+	{
+		$this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
+
+		$price_id = $_GET['price_id'] ? $_GET['price_id'] : $_POST['price_id'];
+		$price    = ilPaymentPrices::_getPrice($price_id);
 
 
-	include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-	$form = new ilPropertyFormGUI();
-	$form->setFormAction($this->ctrl->getFormAction($this));
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
 
-	
-	//price_type
 
-	$radio_group = new ilRadioGroupInputGUI('','price_type');
-	$radio_group->setTitle($this->lng->txt('duration'));
-	$radio_group->setRequired(true);
-	$radio_group->setValue($price['price_type']);
-	$radio_group->setPostVar('price_type');
+		//price_type
 
-	$radio_option_1 = new ilRadioOption($this->lng->txt('duration_month'), ilPaymentPrices::TYPE_DURATION_MONTH);
+		$radio_group = new ilRadioGroupInputGUI('', 'price_type');
+		$radio_group->setTitle($this->lng->txt('duration'));
+		$radio_group->setRequired(true);
+		$radio_group->setValue($price['price_type']);
+		$radio_group->setPostVar('price_type');
+
+		$radio_option_1 = new ilRadioOption($this->lng->txt('duration_month'), ilPaymentPrices::TYPE_DURATION_MONTH);
 
 		// duration month
 		$oDuration = new ilNumberInputGUI();
@@ -1478,75 +1458,78 @@ public function editPrice()
 		$oDuration->setPostVar('duration_month');
 		$radio_option_1->addSubItem($oDuration);
 
-	$radio_group->addOption($radio_option_1);
+		$radio_group->addOption($radio_option_1);
 
-	$radio_option_3 = new ilRadioOption($this->lng->txt('duration_date'), ilPaymentPrices::TYPE_DURATION_DATE);
+		$radio_option_3 = new ilRadioOption($this->lng->txt('duration_date'), ilPaymentPrices::TYPE_DURATION_DATE);
+
+		$now_date = date('Y-m-d');
 
 		// duration_date from	
 		$o_date_from = new ilDateTimeInputGUI();
 		$o_date_from->setTitle($this->lng->txt('from'));
-		$o_date_from->setDate(new ilDate($price['duration_from'],IL_CAL_DATE));
-		$o_date_from->setPostVar('duration_date_from');	
+
+		$o_date_from->setDate(new ilDate($price['duration_from'] == NULL ? $now_date : $price['duration_from'], IL_CAL_DATE));
+		$o_date_from->setPostVar('duration_date_from');
 		$radio_option_3->addSubItem($o_date_from);
 
 		// duration_date until
 		$o_date_until = new ilDateTimeInputGUI();
 		$o_date_until->setTitle($this->lng->txt('until'));
-		$o_date_until->setDate(new ilDate($price['duration_until'],IL_CAL_DATE));
-		$o_date_until->setPostVar('duration_date_until');			
+		$o_date_until->setDate(new ilDate($price['duration_until'] == NULL ? $now_date : $price['duration_until'], IL_CAL_DATE));
+		$o_date_until->setPostVar('duration_date_until');
 		$radio_option_3->addSubItem($o_date_until);
 
-	$radio_group->addOption($radio_option_3);
+		$radio_group->addOption($radio_option_3);
 
-	$radio_option_2 = new ilRadioOption($this->lng->txt('unlimited_duration'), ilPaymentPrices::TYPE_UNLIMITED_DURATION);		
-	$radio_group->addOption($radio_option_2);
+		$radio_option_2 = new ilRadioOption($this->lng->txt('unlimited_duration'), ilPaymentPrices::TYPE_UNLIMITED_DURATION);
+		$radio_group->addOption($radio_option_2);
 
-	$form->addItem($radio_group);		
-	
-	// description
-	$oDescription = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
-	$oDescription->setRows(4);
-	$oDescription->setCols(35);
-	$oDescription->setValue($price['description']);
-	$form->addItem($oDescription);
-		
-	// price
-	$oPrice = new ilNumberInputGUI();
-	$oPrice->setTitle($this->lng->txt('price_a'));
-	$oPrice->setRequired(true);
-	$oPrice->setSize('20%');
-	$oPrice->setValue($price['price']);
-	include_once './Services/Payment/classes/class.ilPaymentSettings.php';
-	$genSet = ilPaymentSettings::_getInstance();
-	$oPrice->setInfo($genSet->get('currency_unit'));
-	$oPrice->setPostVar('price');
-	$oPrice->allowDecimals(true);
-	$form->addItem($oPrice);
+		$form->addItem($radio_group);
 
-	//extension
-	$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
+		// description
+		$oDescription = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
+		$oDescription->setRows(4);
+		$oDescription->setCols(35);
+		$oDescription->setValue($price['description']);
+		$form->addItem($oDescription);
 
-	$oExtension->setChecked($price['extension']);
+		// price
+		$oPrice = new ilNumberInputGUI();
+		$oPrice->setTitle($this->lng->txt('price_a'));
+		$oPrice->setRequired(true);
+		$oPrice->setSize('20%');
+		$oPrice->setValue($price['price']);
+		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		$genSet = ilPaymentSettings::_getInstance();
+		$oPrice->setInfo($genSet->get('currency_unit'));
+		$oPrice->setPostVar('price');
+		$oPrice->allowDecimals(true);
+		$form->addItem($oPrice);
 
-	$form->addItem($oExtension);
-	
+		//extension
+		$oExtension = new ilCheckboxInputGUI($this->lng->txt('extension_price'), 'extension');
+
+		$oExtension->setChecked($price['extension']);
+
+		$form->addItem($oExtension);
+
 		$o_hidden_1 = new ilHiddenInputGUI('pobject_id');
-		$o_hidden_1->setValue( (int)$_GET['pobject_id']);
+		$o_hidden_1->setValue((int)$_GET['pobject_id']);
 		$o_hidden_1->setPostVar('pobject_id');
-	
+
 		$o_hidden_2 = new ilHiddenInputGUI('price_id');
-		$o_hidden_2->setValue( (int)$_GET['price_id']);
+		$o_hidden_2->setValue((int)$_GET['price_id']);
 		$o_hidden_2->setPostVar('price_id');
-		
+
 		$form->addItem($o_hidden_1);
 		$form->addItem($o_hidden_2);
-		
-		$form->addCommandButton('updatePrice',$this->lng->txt('save'));
-		$form->addCommandButton('editPrices', $this->lng->txt('cancel'));	
-	
-	$this->tpl->setVariable('FORM',$form->getHTML());
+
+		$form->addCommandButton('updatePrice', $this->lng->txt('save'));
+		$form->addCommandButton('editPrices', $this->lng->txt('cancel'));
+
+		$this->tpl->setVariable('FORM', $form->getHTML());
 //		
-}
+	}
 
 	public function updatePrice()
 	{
@@ -1560,7 +1543,7 @@ public function editPrice()
 			return true;
 		}
 		if(isset($_GET['pobject_id']))
-		{	
+		{
 			$pobject_id = (int)$_GET['pobject_id'];
 		}
 		else
@@ -1574,7 +1557,7 @@ public function editPrice()
 			return $this->editPrices();
 		}
 		if(isset($_GET['price_id']))
-		{	
+		{
 			$price_id = (int)$_GET['price_id'];
 		}
 		else
@@ -1599,12 +1582,12 @@ public function editPrice()
 				$po->setPriceType(ilPaymentPrices::TYPE_DURATION_DATE);
 				$po->setDuration(NULL);
 				$po->setDurationFrom(ilUtil::stripSlashes(
-						$_POST['duration_date_from']['date']['y'].'-'.
-						$_POST['duration_date_from']['date']['m'].'-'.
+					$_POST['duration_date_from']['date']['y'] . '-' .
+						$_POST['duration_date_from']['date']['m'] . '-' .
 						$_POST['duration_date_from']['date']['d']));
 				$po->setDurationUntil(ilUtil::stripSlashes(
-						$_POST['duration_date_until']['date']['y'].'-'.
-						$_POST['duration_date_until']['date']['m'].'-'.
+					$_POST['duration_date_until']['date']['y'] . '-' .
+						$_POST['duration_date_until']['date']['m'] . '-' .
 						$_POST['duration_date_until']['date']['d']));
 				break;
 
@@ -1642,4 +1625,5 @@ public function editPrice()
 		}
 	}
 }
+
 ?>

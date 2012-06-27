@@ -362,7 +362,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 				switch($sc[$i]["price_type"])
 				{
 					case ilPaymentPrices::TYPE_DURATION_MONTH:
-						$booking_obj->setDuration($sc[$i]['duration']);
+						$book_obj->setDuration($sc[$i]['duration']);
 						break;
 
 					case ilPaymentPrices::TYPE_DURATION_DATE:
@@ -501,8 +501,9 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		$genSet = ilPaymentSettings::_getInstance();
 		$currency = $genSet->get('currency_unit');
 
-		$tpl = new ilTemplate('./Services/Payment/templates/default/tpl.pay_bill.html', true, true, true);
-  
+//		$tpl = new ilTemplate('./Services/Payment/templates/default/tpl.pay_bill.html', true, true, true);
+		$tpl = new ilTemplate('tpl.pay_bill.html', true, true, 'Services/Payment');
+		
 		if($tpl->placeholderExists('HTTP_PATH'))
 		{
 			$http_path = ilUtil::_getHttpPath();
