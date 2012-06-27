@@ -211,7 +211,10 @@ class ilDataCollectionRecord
 		global $ilDB, $ilUser;
 
 		//build query
-		$query = "Select  rc.id, rc.table_id , rc.create_date, rc.last_update, rc.owner";
+		// TODO std-werte
+		$query= "Select  rc.id, rc.table_id , rc.create_date, rc.last_update, rc.owner";
+
+		//$query = "Select rc.last_update";
 
 		foreach($recordfields as $recordfield)
 		{

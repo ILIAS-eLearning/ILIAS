@@ -37,7 +37,7 @@ class ilDataCollectionRecordListViewdefinition
 
 		if($a_table_id != 0)
 		{
-			$this->tableId = $a_id;
+			$this->tableId = $a_table_id;
 			$this->doRead();
 		}
 	}
@@ -144,6 +144,49 @@ class ilDataCollectionRecordListViewdefinition
 		return $this->arrfieldorder;
 	}
 
+
+	/**
+	* Set table definition
+	*
+	* @param string $title
+	* @param string $a_key
+	*/
+	function setTabledefinition($title,$a_key)
+	{
+		$this->arrtabledefinition[$a_key]['title'] = $title;
+	}
+
+	/**
+	* Get table definition
+	*
+	* @return array
+	*/
+	function getArrTabledefinition()
+	{
+		return $this->arrtabledefinition;
+	}
+
+	/**
+	* Set record fields
+	*
+	* @param string $storage_location
+	* @param string $a_key
+	*/
+	function setRecordfield($storage_location,$a_key)
+	{
+		$this->arrrecordfield[$a_key]['id'] = $a_key;
+		$this->arrrecordfield[$a_key]['storage_location'] = $storage_location;
+	}
+
+	/**
+	* Get table definition
+	*
+	* @return array
+	*/
+	function getArrRecordfield()
+	{
+		return $this->arrrecordfield;
+	}
 	
 	/**
 	* Read
@@ -151,20 +194,44 @@ class ilDataCollectionRecordListViewdefinition
 	function doRead()
 	{
 		global $ilDB;
-
+/*
 		$query = "SELECT 	il_dcl_viewdefinition.field field,
-										il_dcl_viewdefinition.field_order fieldorder,
+										il_dcl_viewdefinition.field_order fieldorder
 							FROM il_dcl_view
-							LEFT JOIN il_dcl_viewdefinition viewdef ON viewdef.view_id = il_dcl_view.id 
+							LEFT JOIN il_dcl_viewdefinition ON il_dcl_viewdefinition.view_id = il_dcl_view.id 
 							WHERE table_id = ".$ilDB->quote($this->getTableId(),"integer")." 
 							AND type = ".$ilDB->quote($this->getType(),"integer")."
 							AND formtype = ".$ilDB->quote($this->getFormType(),"integer")."
+							ORDER by il_dcl_viewdefinition.field_order";*/
+
+		$query = "SELECT 	il_dcl_viewdefinition.field field,
+										il_dcl_viewdefinition.field_order fieldorder,
+										CASE il_dcl_viewdefinition.field
+											WHEN il_dcl_field.id THEN  il_dcl_field.title
+											ELSE il_dcl_viewdefinition.field
+										END title,
+										il_dcl_datatype.storage_location storage_location
+							FROM il_dcl_view
+							LEFT JOIN il_dcl_viewdefinition ON il_dcl_viewdefinition.view_id = il_dcl_view.id 
+							LEFT JOIN il_dcl_field ON il_dcl_viewdefinition.field = il_dcl_field.id 
+							LEFT JOIN il_dcl_datatype ON  il_dcl_field.datatype_id = il_dcl_datatype.id
+							WHERE il_dcl_view.table_id = ".$ilDB->quote($this->getTableId(),"integer")." 
+							AND il_dcl_view.type = ".$ilDB->quote($this->getType(),"integer")."
+							AND il_dcl_view.formtype = ".$ilDB->quote($this->getFormType(),"integer")."
 							ORDER by il_dcl_viewdefinition.field_order";
+
+
+		$set = $ilDB->query($query);
 	
 		$all = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->setArrFieldOrder($rec['fieldorder'],$rec['field']);
+			$this->setTabledefinition($rec['title'],$rec['field']);
+			if($rec['storage_location']) 
+			{
+				$this->setRecordfield($rec['storage_location'],$rec['field']);
+			}
 		}
 	}
 
@@ -176,6 +243,12 @@ class ilDataCollectionRecordListViewdefinition
 	function DoCreate()
 	{
 		global $ilDB;
+
+		//TODO nicht jedesmal löschen. Dies hier könnte stehen gelassen werden
+		$ilDB->manipulate('DELETE FROM il_dcl_view 
+										WHERE table_id = '.$ilDB->quote($this->getTableId(), "integer").' 
+										AND type = '.$ilDB->quote($this->getType(), "integer").' 
+										AND formtype = '.$ilDB->quote($this->getFormType(), "integer"));
 
 		$id = $ilDB->nextId("il_dcl_view");
 		$this->setId($id);
@@ -191,6 +264,10 @@ class ilDataCollectionRecordListViewdefinition
 		.",".$ilDB->quote($this->getFormType(), "integer")
 		.")";
 		$ilDB->manipulate($query);
+
+		//TODO
+		/*$ilDB->manipulate('DELETE FROM il_dcl_viewdefinition 
+										WHERE view_id = '.);*/
 
 		foreach($this->getArrFieldOrder() as $key => $order) 
 		{
