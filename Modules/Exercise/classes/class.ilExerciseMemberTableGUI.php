@@ -34,16 +34,53 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		$this->ass_id = $a_ass_id;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData(ilExAssignment::getMemberListData($this->exc_id, $this->ass_id));
+		
 		$this->setTitle($lng->txt("exc_assignment").": ".
 			ilExAssignment::lookupTitle($a_ass_id));
 		$this->setTopCommands(true);
 		//$this->setLimit(9999);
 		
+		$this->type = ilExAssignment::lookupType($this->ass_id);
+		
+		$data = ilExAssignment::getMemberListData($this->exc_id, $this->ass_id);
+		
+		// team upload?  (1 row == 1 team)
+		if($this->type == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$team_map = ilExAssignment::getAssignmentTeamMap($this->ass_id);
+			$tmp = array();
+			
+			foreach($data as $idx => $item)
+			{
+				$team_id = $team_map[$item["usr_id"]];
+				
+				if(!isset($tmp[$team_id]))
+				{
+					$tmp[$team_id] = $item;
+				}
+				
+				$tmp[$team_id]["team"][$item["usr_id"]] = $item["name"];
+			}
+			
+			$data = $tmp;
+			unset($tmp);
+		}
+		
+		$this->setData($data);
+		
 		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("image"), "", "1");
-		$this->addColumn($this->lng->txt("name"), "name");
-		$this->addColumn($this->lng->txt("login"), "login");
+				
+		if($this->type != ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$this->addColumn($this->lng->txt("image"), "", "1");
+			$this->addColumn($this->lng->txt("name"), "name");
+			$this->addColumn($this->lng->txt("login"), "login");
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt("exc_team"));
+		}
+		
 		$this->sent_col = ilExAssignment::lookupAnyExerciseSent($this->exc->getId(), $this->ass_id);
 		if ($this->sent_col)
 		{
@@ -72,9 +109,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		if (count(ilExAssignment::getAllDeliveredFiles($this->exc_id, $this->ass_id)))
 		{
 			$this->addCommandButton("downloadAll", $lng->txt("download_all_returned_files"));
-		}
-		
-		$this->type = ilExAssignment::lookupType($this->ass_id);
+		}		
 	}
 	
 	/**
@@ -128,15 +163,29 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$member_id);
 			
 		// name and login
-		$this->tpl->setVariable("TXT_NAME",
-			$member["name"]);
-		$this->tpl->setVariable("TXT_LOGIN",
-			"[".$member["login"]."]");
+		if(!isset($member["team"]))
+		{
+			$this->tpl->setVariable("TXT_NAME",
+				$member["name"]);
+			$this->tpl->setVariable("TXT_LOGIN",
+				"[".$member["login"]."]");
 			
-		// image
-		$this->tpl->setVariable("USR_IMAGE",
-			$mem_obj->getPersonalPicturePath("xxsmall"));
-		$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
+			// image
+			$this->tpl->setVariable("USR_IMAGE",
+				$mem_obj->getPersonalPicturePath("xxsmall"));
+			$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
+		}
+		// team upload
+		else
+		{
+			$this->tpl->setCurrentBlock("team_member");
+			asort($member["team"]);
+			foreach($member["team"] as $member_id => $member_name)
+			{
+				$this->tpl->setVariable("TXT_MEMBER_NAME", $member_name);
+				$this->tpl->parseCurrentBlock();
+			}
+		}
 
 		// submission:
 		// see if files have been resubmmited after solved
@@ -161,7 +210,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 		switch($this->type)
 		{			
 			case ilExAssignment::TYPE_UPLOAD_TEAM:
-				// :TODO: team members
+				// data is merged by team - see above
+				// fallthrough
 				
 			case ilExAssignment::TYPE_UPLOAD:
 				// nr of submitted files
@@ -327,13 +377,11 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
-		// feedback mail
-		$ilCtrl->setParameter($this, "rcp_to", $mem_obj->getLogin());
+		// feedback mail		
 		$this->tpl->setVariable("LINK_FEEDBACK",
 			$ilCtrl->getLinkTarget($this->parent_obj, "redirectFeedbackMail"));
 		$this->tpl->setVariable("TXT_FEEDBACK",
-			$lng->txt("exc_send_mail"));
-		$ilCtrl->setParameter($this->parent_obj, "rcp_to", "");
+			$lng->txt("exc_send_mail"));;
 
 		// file feedback
 		$cnt_files = $this->storage->countFeedbackFiles($member_id);

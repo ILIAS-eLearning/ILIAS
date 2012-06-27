@@ -87,7 +87,7 @@ class ilObjCourseAccess extends ilObjectAccess
 		{
 			case "visible":
 				$is_visible = false;
-				$active = ilObjCourseAccess::_isActivated($a_obj_id, $is_visible);				
+				$active = ilObjCourseAccess::_isActivated($a_obj_id, $is_visible);							
 				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);				
 				if(!$active)
 				{
@@ -258,16 +258,18 @@ class ilObjCourseAccess extends ilObjectAccess
 		if(!$row->activation_type)
 		{
 			return false;							
-		}
+		}				
 		
 		$ref_id = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = array_pop($ref_id);
+		
+		$a_visible_flag = true;	
 		
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($ref_id);		
 		switch($item['timing_type'])
 		{			
-			case ilObjectActivation::TIMINGS_DEACTIVATED:
+			case ilObjectActivation::TIMINGS_DEACTIVATED:									
 				return true;
 
 			case ilObjectActivation::TIMINGS_ACTIVATION:
@@ -279,7 +281,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				return true;
 				
-			default:
+			default:								
 				return false;
 		}
 	}

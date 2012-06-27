@@ -817,13 +817,18 @@ class ilExAssignment
 	function hasReturned($a_ass_id, $a_user_id)
 	{
 		global $ilDB;
-
-		$result = $ilDB->queryF("SELECT returned_id FROM exc_returned WHERE ass_id = %s AND user_id = %s",
-			array("integer", "integer"),
-			array($ass_id, $a_user_id));
+		
+		$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);
+		if(!$user_ids)
+		{
+			$user_ids = array($a_user_id);
+		}	
+		
+		$result = $ilDB->query("SELECT returned_id FROM exc_returned".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND ".$ilDB->in("user_id", $user_ids, "", "integer"));
 		return $ilDB->numRows($result);
 	}
-
 	
 	/**
 	 * was: getAllDeliveredFiles()
@@ -859,14 +864,18 @@ class ilExAssignment
 	{
 		global $ilDB;
 		
-		// :TODO: handle team members if team upload assignment
+		$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);
+		if(!$user_ids)
+		{
+			$user_ids = array($a_user_id);
+		}		
 
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fs = new ilFSStorageExercise($a_exc_id, $a_ass_id);
 		
-		$result = $ilDB->queryF("SELECT * FROM exc_returned WHERE ass_id = %s AND user_id = %s ORDER BY ts",
-			array("integer", "integer"),
-			array($a_ass_id, $a_user_id));
+		$result = $ilDB->query("SELECT * FROM exc_returned".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND ".$ilDB->in("user_id", $user_ids, "", "integer"));
 		
 		$delivered_files = array();
 		if ($ilDB->numRows($result))
@@ -937,7 +946,7 @@ class ilExAssignment
 			}
 		}
 	}
-
+	
 	/**
 	 * Delete all delivered files of user
 	 *
@@ -950,6 +959,8 @@ class ilExAssignment
 		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		
+		$delete_ids = array();
+		
 		// get the files and...
 		$set = $ilDB->query("SELECT * FROM exc_returned ".
 			" WHERE obj_id = ".$ilDB->quote($a_exc_id, "integer").
@@ -957,6 +968,31 @@ class ilExAssignment
 			);
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
+			$ass = new self($rec["ass_id"]);
+			if($ass->getType() == self::TYPE_UPLOAD_TEAM)
+			{
+				// switch upload to other team member
+				$team = self::getTeamMembersByAssignmentId($ass->getId(), $a_user_id);
+				if(sizeof($team) > 1)
+				{
+					$new_owner = array_pop($team);
+					while($new_owner == $a_user_id && sizeof($team))
+					{
+						$new_owner = array_pop($team);
+					}					
+					
+					$ilDB->manipulate("UPDATE exc_returned".
+						" SET user_id = ".$ilDB->quote($new_owner, "integer").
+						" WHERE returned_id = ".$ilDB->quote($rec["returned_id"], "integer")
+						);	
+					
+					// no need to delete
+					continue;
+				}
+			}
+			
+			$delete_ids[] = $rec["returned_id"];
+									
 			$fs = new ilFSStorageExercise($a_exc_id, $rec["ass_id"]);
 			
 			// ...delete files
@@ -967,11 +1003,27 @@ class ilExAssignment
 				unlink($filename);
 			}
 		}
+		
 		// delete exc_returned records
-		$ilDB->manipulate($d = "DELETE FROM exc_returned WHERE ".
-			" obj_id = ".$ilDB->quote($a_exc_id, "integer").
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
-			);
+		if($delete_ids)
+		{
+			$ilDB->manipulate("DELETE FROM exc_returned".
+				" WHERE ".$ilDB->in("returned_id", $delete_ids, ""));
+		}
+		
+		// delete il_exc_team records
+		$ass_ids = array();
+		foreach(self::getAssignmentDataOfExercise($a_exc_id) as $item)
+		{
+			$ass_ids[] = $item["ass_id"];
+		}
+		if($ass_ids)
+		{
+			$ilDB->manipulate($d = "DELETE FROM il_exc_team WHERE ".
+				"user_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND ".$ilDB->in("ass_id", $ass_ids, "", "integer")
+				);
+		}
 	}
 	
 	
@@ -1390,10 +1442,19 @@ class ilExAssignment
 	static function getLastSubmission($a_ass_id, $a_user_id)
 	{
 		global $ilDB, $lng;
+		
+		// team upload?
+		$user_ids = self::getTeamMembersByAssignmentId($a_ass_id, $a_user_id);
+		if(!$user_ids)
+		{
+			$user_ids = array($a_user_id);
+		}
+		
+		$ilDB->setLimit(1);
 
-		$q = "SELECT obj_id,user_id,ts FROM exc_returned ".
-			"WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer")." AND user_id = ".
-			$ilDB->quote($a_user_id, "integer").
+		$q = "SELECT obj_id,user_id,ts FROM exc_returned".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND ".$ilDB->in("user_id", $user_ids, "", "integer").
 			" ORDER BY ts DESC";
 
 		$usr_set = $ilDB->query($q);
@@ -1439,8 +1500,14 @@ class ilExAssignment
 	 */
 	static function lookupUpdatedSubmission($ass_id, $member_id)
 	{
-
   		global $ilDB, $lng;
+		
+		// team upload?
+		$user_ids = self::getTeamMembersByAssignmentId($ass_id, $member_id);
+		if(!$user_ids)
+		{
+			$user_ids = array($member_id);
+		}
 
   		$q="SELECT exc_mem_ass_status.status_time, exc_returned.ts ".
 			"FROM exc_mem_ass_status, exc_returned ".
@@ -1448,8 +1515,8 @@ class ilExAssignment
 			"AND NOT exc_mem_ass_status.status_time IS NULL ".
 			"AND exc_returned.ass_id = exc_mem_ass_status.ass_id ".
 			"AND exc_returned.user_id = exc_mem_ass_status.usr_id ".
-			"AND exc_returned.ass_id=".$ilDB->quote($ass_id, "integer")." AND exc_returned.user_id=".
-			$ilDB->quote($member_id, "integer");
+			"AND exc_returned.ass_id=".$ilDB->quote($ass_id, "integer").
+			" AND ".$ilDB->in("exc_returned.user_id", $user_ids, "", "integer");
 
   		$usr_set = $ilDB->query($q);
 
@@ -1473,13 +1540,20 @@ class ilExAssignment
 	static function lookupNewFiles($ass_id, $member_id)
 	{
   		global $ilDB, $ilUser;
+		
+		// team upload?
+		$user_ids = self::getTeamMembersByAssignmentId($ass_id, $member_id);
+		if(!$user_ids)
+		{
+			$user_ids = array($member_id);
+		}
 
   		$q = "SELECT exc_returned.returned_id AS id ".
 			"FROM exc_usr_tutor, exc_returned ".
 			"WHERE exc_returned.ass_id = exc_usr_tutor.ass_id ".
 			" AND exc_returned.user_id = exc_usr_tutor.usr_id ".
 			" AND exc_returned.ass_id = ".$ilDB->quote($ass_id, "integer").
-			" AND exc_returned.user_id = ".$ilDB->quote($member_id, "integer").
+			" AND ".$ilDB->in("exc_returned.user_id", $user_ids, "", "integer").
 			" AND exc_usr_tutor.tutor_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND exc_usr_tutor.download_time < exc_returned.ts ";
 
@@ -1606,9 +1680,10 @@ class ilExAssignment
 	 * team will be created if no team yet
 	 * 
 	 * @param int $a_user_id
+	 * @param bool $a_create_on_demand
 	 * @return int 
 	 */
-	function getTeamId($a_user_id)
+	function getTeamId($a_user_id, $a_create_on_demand = false)
 	{
 		global $ilDB;
 		
@@ -1619,7 +1694,7 @@ class ilExAssignment
 		$row = $ilDB->fetchAssoc($set);
 		$id = $row["id"];
 		
-		if(!$id)
+		if(!$id && $a_create_on_demand)
 		{
 			$id = $ilDB->nextId("il_exc_team");
 			
@@ -1716,6 +1791,75 @@ class ilExAssignment
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer");			
 		$ilDB->manipulate($sql);								
 	}
+	
+	/**
+	 * Find team members by assignment and team member
+	 * 
+	 * @param int $a_ass_id
+	 * @param int $a_user_id
+	 * @return array 
+	 */
+	public static function getTeamMembersByAssignmentId($a_ass_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$ids = array();
+		
+		$result = $ilDB->query("SELECT type".
+			" FROM exc_assignment".
+			" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
+		$type = $ilDB->fetchAssoc($result);
+		
+		if($type["type"] == self::TYPE_UPLOAD_TEAM)
+		{			
+			$set = $ilDB->query("SELECT id".
+				" FROM il_exc_team".
+				" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+				" AND user_id = ".$ilDB->quote($a_user_id, "integer"));
+			$team_id = $ilDB->fetchAssoc($set);
+			$team_id = $team_id["id"];
+			
+			if($team_id)
+			{
+				$set = $ilDB->query("SELECT user_id".
+					" FROM il_exc_team".
+					" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+					" AND id = ". $ilDB->quote($team_id, "integer"));
+				while($row = $ilDB->fetchAssoc($set))
+				{
+					$ids[] = $row["user_id"];
+				}	
+			}
+		}
+		
+		return $ids;
+	}
+	
+	/**
+	 * Get team structure for assignment 
+	 * 
+	 * @param int $a_ass_id
+	 * @return array 
+	 */
+	public static function getAssignmentTeamMap($a_ass_id)
+	{
+		global $ilDB;
+		
+		$map = array();
+		
+		$sql = "SELECT * FROM il_exc_team".
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer");
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$map[$row["user_id"]] = $row["id"];
+		}
+		
+		return $map;
+	}
+
+			
+			
 }
 
 ?>
