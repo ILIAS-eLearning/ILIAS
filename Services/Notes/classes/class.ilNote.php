@@ -243,9 +243,13 @@ class ilNote
 		return !$this->no_repository;
 	}
 	
-	function create()
+	function create($a_use_provided_creation_date = false)
 	{
 		global $ilDB;
+		
+		$cd = ($a_use_provided_creation_date)
+			? $this->getCreationDate()
+			: ilUtil::now();
 		
 		$this->id = $ilDB->nextId("note");
 		/*$q = "INSERT INTO note (id, rep_obj_id, obj_id, obj_type, type,".
@@ -272,7 +276,7 @@ class ilNote
 			"note_text" => array("clob", (string) $this->text),
 			"subject" => array("text", (string) $this->subject),
 			"label" => array("integer", (int) $this->label),
-			"creation_date" => array("timestamp", ilUtil::now()),
+			"creation_date" => array("timestamp", $cd),
 			"no_repository" => array("integer", $this->no_repository)
 			));
 		
