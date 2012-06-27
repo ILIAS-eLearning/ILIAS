@@ -59,13 +59,14 @@ class ilDataCollectionRecordListViewdefinitionGUI
 
 	/**
 	 * createRecordListViewdefinition
-	 * a_val = 
+	 *
+	 *
 	 */
-	public function create($a_val)
+	public function edit()
 	{
 		global $tpl;
 		
-		$this->initForm("create");
+		$this->initForm();
 		$this->getFormValues();
 		
 		$tpl->setContent($this->form->getHTML());
@@ -74,26 +75,35 @@ class ilDataCollectionRecordListViewdefinitionGUI
 	/**
 	 * initRecordListViewdefinitionForm
 	 *
-	 * @param string $a_mode values: create | edit
 	 */
-	public function initForm($a_mode = "create")
+	public function initForm()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilToolbar;
+
+		// Show tables
+		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+		$arrTables = ilDataCollectionTable::getAll($this->obj_id);
+		foreach($arrTables as $table)
+		{
+				$options[$table['id']] = $table['title'];
+		}
+		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+		$table_selection = new ilSelectInputGUI(
+			'',
+				'table_id'
+			);
+		$table_selection->setOptions($options);
+		$table_selection->setValue($this->table_id);
+		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionRecordListViewdefinitionGUI", "doTableSwitch"));
+        $ilToolbar->addInputItem($table_selection);
+		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 
 		// Form
 		require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 
-		if ($a_mode == "edit")
-		{
-			$this->form->setFormAction($ilCtrl->getFormAction($this),"update");
-			$this->form->addCommandButton('update', $lng->txt('dcl_listviewdefinition_'.$a_mode));
-		} 
-		else 
-		{
-			$this->form->setFormAction($ilCtrl->getFormAction($this),"save");
-			$this->form->addCommandButton('save', 		$lng->txt('dcl_listviewdefinition_'.$a_mode));
-		}
+		$this->form->setFormAction($ilCtrl->getFormAction($this),"save");
+		$this->form->addCommandButton('save', $lng->txt('dcl_listviewdefinition_update'));
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
 
 		//Table-ID
@@ -113,9 +123,13 @@ class ilDataCollectionRecordListViewdefinitionGUI
 								"owner" => array("title" => $lng->txt("owner"))
 							);
 
-		$fields = array_merge($tabledefinition,$fields);
-		
-		foreach($fields as $key => $field) {
+		//Array zusammenführen
+		foreach($fields as $key => $value) 
+		{
+			$tabledefinition[$key] = $value;
+		}
+
+		foreach($tabledefinition as $key => $field) {
 			$chk_prop = new ilCheckboxInputGUI($field['title'],'visible_'.$key);
 			$chk_prop->setOptionTitle($lng->txt('visible'));
 
@@ -125,8 +139,6 @@ class ilDataCollectionRecordListViewdefinitionGUI
 			$this->form->addItem($chk_prop);
 		}
 		
-		
-	
 		$this->form->setTitle($lng->txt('dcl_view_viewdefinition'));
 		
 	}
@@ -169,24 +181,24 @@ class ilDataCollectionRecordListViewdefinitionGUI
 									"last_update" => array("title" => $lng->txt("last_update")), 
 									"owner" => array("title" => $lng->txt("owner"))
 								);
-			$fields = array_merge($tabledefinition,$fields);
+			//Array zusammenführen TODO
+			foreach($fields as $key => $value) 
+			{
+				$tabledefinition[$key] = $value;
+			}
 			
-			foreach($fields as $key => $field) {
-				$this->view_obj->setArrFieldOrder($this->form->getInput("order_".$key),$key);
+			foreach($tabledefinition as $key => $field) {
+				If($this->form->getInput("visible_".$key))
+				{
+					$this->view_obj->setArrFieldOrder($this->form->getInput("order_".$key),$key);
+				}
 			}
 
-			if($a_mode == "update") 
-			{
-				$this->view_obj->doUpdate();
-			}
-			else 
-			{
-				$this->view_obj->doCreate();
-			}
+			$this->view_obj->doCreate();
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 
-			$ilCtrl->redirect($this, "create");
+			$ilCtrl->redirect($this, "edit");
 		}
 		else
 		{
@@ -194,6 +206,19 @@ class ilDataCollectionRecordListViewdefinitionGUI
 			$this->form_gui->setValuesByPost();
 			$this->tpl->setContent($this->form_gui->getHTML());
 		}
+	}
+
+
+	/**
+	 *  doTableSwitch
+	 *
+	 */
+	public function doTableSwitch() {
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI","table_id", $_POST['table_id']);
+ 		$ilCtrl->redirect($this,"edit"); 			
+
 	}
 
 }

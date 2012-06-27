@@ -363,10 +363,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 			$lng->txt("dcl_record_edit_viewdefinition"),
 			$ilCtrl->getLinkTargetByClass("ildatacollectionfieldlistgui", "listFields"));
 
-		//TODO
 		$ilTabs->addSubTab("list_viewdefinition",
 			$lng->txt("dcl_record_list_viewdefinition"),
-			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistviewdefinitiongui", "create"));
+			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistviewdefinitiongui", "edit"));
 
 		$ilTabs->activateSubTab($a_active);
 	}
