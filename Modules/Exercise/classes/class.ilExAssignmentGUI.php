@@ -220,7 +220,10 @@ class ilExAssignmentGUI
 		
 				switch($a_data["type"])
 				{
-					case ilExAssignment::TYPE_UPLOAD:					
+					case ilExAssignment::TYPE_UPLOAD:	
+						// :TOOD: list current team members
+						
+					case ilExAssignment::TYPE_UPLOAD_TEAM:					
 						$titles = array();
 						foreach($delivered_files as $file)
 						{

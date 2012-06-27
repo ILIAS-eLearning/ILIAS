@@ -10819,3 +10819,26 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3640>
+<?php
+	$fields = array(
+	'id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'ass_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	)
+  ); 
+  $ilDB->createTable("il_exc_team", $fields);
+  $ilDB->addPrimaryKey("il_exc_team", array("ass_id", "user_id"));
+  $ilDB->createSequence("il_exc_team");
+?>

@@ -13,6 +13,7 @@ class ilExAssignment
 	const TYPE_UPLOAD = 1;
 	const TYPE_BLOG = 2;
 	const TYPE_PORTFOLIO = 3;
+	const TYPE_UPLOAD_TEAM = 4;
 	
 	/**
 	 * Constructor
@@ -219,7 +220,8 @@ class ilExAssignment
 	 */
 	function isValidType($a_value)
 	{
-		if(in_array((int)$a_value, array(self::TYPE_UPLOAD, self::TYPE_BLOG, self::TYPE_PORTFOLIO)))
+		if(in_array((int)$a_value, array(self::TYPE_UPLOAD, self::TYPE_BLOG, 
+			self::TYPE_PORTFOLIO, self::TYPE_UPLOAD_TEAM)))
 		{
 			return true;
 		}
@@ -856,6 +858,8 @@ class ilExAssignment
 	function getDeliveredFiles($a_exc_id, $a_ass_id, $a_user_id, $a_filter_empty_filename = false)
 	{
 		global $ilDB;
+		
+		// :TODO: handle team members if team upload assignment
 
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fs = new ilFSStorageExercise($a_exc_id, $a_ass_id);
@@ -1592,6 +1596,126 @@ class ilExAssignment
 		$storage->uploadAssignmentFiles($a_files);
 	}
 	
+	//
+	// TEAM UPLOAD
+	// 
+	
+	/**
+	 * Get team id for member id
+	 * 
+	 * team will be created if no team yet
+	 * 
+	 * @param int $a_user_id
+	 * @return int 
+	 */
+	function getTeamId($a_user_id)
+	{
+		global $ilDB;
+		
+		$sql = "SELECT id FROM il_exc_team".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer");
+		$set = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($set);
+		$id = $row["id"];
+		
+		if(!$id)
+		{
+			$id = $ilDB->nextId("il_exc_team");
+			
+			$fields = array("id" => array("integer", $id),
+				"ass_id" => array("integer", $this->getId()),
+				"user_id" => array("integer", $a_user_id));			
+			$ilDB->insert("il_exc_team", $fields);			
+		}
+		
+		return $id;
+	}
+	
+	/**
+	 * Get members of assignment team
+	 * 
+	 * @param int $a_team_id 
+	 * @return array
+	 */
+	function getTeamMembers($a_team_id)
+	{
+		global $ilDB;
+		
+		$ids = array();
+		
+		$sql = "SELECT user_id".
+			" FROM il_exc_team".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND id = ".$ilDB->quote($a_team_id, "integer");
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$ids[] = $row["user_id"];
+		}
+		
+		return $ids;
+	}
+	
+	/**
+	 * Get members for all teams of assignment
+	 * 
+	 * @return array 
+	 */
+	function getMembersOfAllTeams()
+	{
+		global $ilDB;
+		
+		$ids = array();
+		
+		$sql = "SELECT user_id".
+			" FROM il_exc_team".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer");
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$ids[] = $row["user_id"];
+		}
+		
+		return $ids;
+	}
+	
+	/**
+	 * Add new member to team
+	 * 
+	 * @param int $a_team_id
+	 * @param int $a_user_id 
+	 */
+	function addTeamMember($a_team_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$members = $this->getTeamMembers($a_team_id);
+		if(!in_array($a_user_id, $members))
+		{
+			$fields = array("id" => array("integer", $a_team_id),
+				"ass_id" => array("integer", $this->getId()),
+				"user_id" => array("integer", $a_user_id));			
+			$ilDB->insert("il_exc_team", $fields);					
+		}									
+	}
+	
+	/**
+	 * Remove member from team
+	 * 
+	 * @param int $a_team_id
+	 * @param int $a_user_id 
+	 */
+	function removeTeamMember($a_team_id, $a_user_id)
+	{
+		global $ilDB;
+		
+		$sql = "DELETE FROM il_exc_team".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND id = ".$ilDB->quote($a_team_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer");			
+		$ilDB->manipulate($sql);								
+	}
 }
 
 ?>
