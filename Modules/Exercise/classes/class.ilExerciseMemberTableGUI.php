@@ -159,7 +159,10 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$lng->txt("exc_last_submission"));
 		
 		switch($this->type)
-		{
+		{			
+			case ilExAssignment::TYPE_UPLOAD_TEAM:
+				// :TODO: team members
+				
 			case ilExAssignment::TYPE_UPLOAD:
 				// nr of submitted files
 				$this->tpl->setVariable("TXT_SUBMITTED_FILES",

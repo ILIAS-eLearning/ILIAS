@@ -345,33 +345,83 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function submissionScreenObject()
 	{
-		global $ilUser;
-		require_once "./Services/Utilities/classes/class.ilUtil.php";
+		global $ilToolbar;
 		
 		$this->checkPermission("read");
 		
-		$this->tabs_gui->setTabActive("content");
-		$this->addContentSubTabs("content");
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+			$this->ctrl->getLinkTarget($this, "showOverview"));
+		
+		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{		
+			$this->tabs_gui->addTab("files", $this->lng->txt("files"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreen"));
+				
+			$this->tabs_gui->addTab("team", $this->lng->txt("exc_team"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreenTeam"));
+			
+			$this->tabs_gui->activateTab("files");
+		}
+						
+		// $this->tabs_gui->setTabActive("content");
+		// $this->addContentSubTabs("content");
 		
 		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
+		else
+		{
+			$ilToolbar->addButton($this->lng->txt("file_add"), 
+				$this->ctrl->getLinkTarget($this, "uploadForm"));
+			
+			$ilToolbar->addButton($this->lng->txt("header_zip"), 
+				$this->ctrl->getLinkTarget($this, "uploadZipForm"));
+		}
 
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.exc_deliver_file.html',
-			"Modules/Exercise");
-		
 		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
-		$tab = new ilExcDeliveredFilesTableGUI($this, "deliver", $this->object, $_GET["ass_id"]);
-		$this->tpl->setVariable("DELIVERED_FILES_TABLE", $tab->getHTML());
-
+		$tab = new ilExcDeliveredFilesTableGUI($this, "submissionScreen", $this->object, $_GET["ass_id"]);
+		$this->tpl->setContent($tab->getHTML());
+	}
+	
+	/**
+	 * Display form for single file upload 
+	 */
+	public function uploadFormObject()
+	{		
 		if (mktime() < $this->ass->getDeadline() || ($this->ass->getDeadline() == 0))
 		{
+			$this->tabs_gui->clearTargets();
+			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreen"));		
+			
 			$this->initUploadForm();
-			$this->tpl->setVariable("UPLOAD_SINGLE_FORM", $this->form->getHTML());
+			$this->tpl->setContent($this->form->getHTML());
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "submissionScreen");
+		}
+	}
+	
+	/**
+	 * Display form for zip file upload 
+	 */
+	public function uploadZipFormObject()
+	{		
+		if (mktime() < $this->ass->getDeadline() || ($this->ass->getDeadline() == 0))
+		{
+			$this->tabs_gui->clearTargets();
+			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreen"));		
 			
 			$this->initZipUploadForm();
-			$this->tpl->setVariable("UPLOAD_MULTI_FORM", $this->form->getHTML());
+			$this->tpl->setContent($this->form->getHTML());
+		}
+		else
+		{
+			$this->ctrl->redirect($this, "submissionScreen");
 		}
 	}
  
@@ -393,6 +443,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->form->addItem($fi);
 	
 		$this->form->addCommandButton("deliverFile", $lng->txt("upload"));
+		$this->form->addCommandButton("submissionScreen", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("file_add"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -415,6 +466,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->form->addItem($fi);
 	
 		$this->form->addCommandButton("deliverUnzip", $lng->txt("upload"));
+		$this->form->addCommandButton("submissionScreen", $lng->txt("cancel"));
 	                
 		$this->form->setTitle($lng->txt("header_zip"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -1809,7 +1861,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// type
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		$types = array(ilExAssignment::TYPE_UPLOAD => $this->lng->txt("exc_type_upload"));
+		$types = array(ilExAssignment::TYPE_UPLOAD => $this->lng->txt("exc_type_upload"),
+			ilExAssignment::TYPE_UPLOAD_TEAM => $this->lng->txt("exc_type_upload_team"));
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$types[ilExAssignment::TYPE_BLOG] = $this->lng->txt("exc_type_blog");
@@ -2388,10 +2441,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->checkPermission("read");
 		
-		// $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
 		
-		$this->tabs_gui->setTabActive("content");
-		$this->addContentSubTabs("content");
+		// $this->tabs_gui->setTabActive("content");
+		// $this->addContentSubTabs("content");
 		
 		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
@@ -2636,10 +2690,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->checkPermission("read");
 		
-		// $this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
 		
-		$this->tabs_gui->setTabActive("content");
-		$this->addContentSubTabs("content");
+		// $this->tabs_gui->setTabActive("content");
+		// $this->addContentSubTabs("content");
 		
 		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
 		{
@@ -2774,6 +2829,140 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$certificate = new ilCertificate(new ilExerciseCertificateAdapter($this->object));
 		$certificate->outCertificate(array("user_id" => $ilUser->getId()));					
 	}
+	
+	protected function initTeamSubmission($a_back_cmd)
+	{
+		global $ilUser;
+		
+		$this->checkPermission("read");
+		
+		if($this->ass->getType() != ilExAssignment::TYPE_UPLOAD_TEAM)
+		{		
+			$this->ctrl->redirect($this, "submissionScreen");
+		}
+			
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
+			$this->ctrl->getLinkTarget($this, $a_back_cmd));
+		
+		$this->tabs_gui->addTab("files", $this->lng->txt("files"), 
+			$this->ctrl->getLinkTarget($this, "submissionScreen"));
+
+		$this->tabs_gui->addTab("team", $this->lng->txt("exc_team"), 
+			$this->ctrl->getLinkTarget($this, "submissionScreenTeam"));
+
+		$this->tabs_gui->activateTab("team");
+		
+		return $this->ass->getTeamId($ilUser->getId());
+	}
+	
+	/**
+	* Displays a form which allows members to manage team uploads
+	*
+	* @access public
+	*/
+	function submissionScreenTeamObject()
+	{
+		global $ilToolbar;
+		
+		$team_id = $this->initTeamSubmission("showOverview");
+						
+		// $this->tabs_gui->setTabActive("content");
+		// $this->addContentSubTabs("content");
+		
+		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
+		{
+			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
+		}
+		else
+		{
+			$ilToolbar->addButton($this->lng->txt("exc_team_member_add"), 
+				$this->ctrl->getLinkTarget($this, "addTeamMember"));
+			
+			if($this->object->getParentMemberIds())
+			{
+				$ilToolbar->addButton($this->lng->txt("exc_team_member_container_add"), 
+					$this->ctrl->getLinkTarget($this, "addTeamMemberContainer"));
+			}
+		}
+		
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
+		$tbl = new ilExAssignmentTeamTableGUI($this, "submissionScreenTeam",
+			ilExAssignmentTeamTableGUI::MODE_EDIT, $team_id, $this->ass);
+		
+		$this->tpl->setContent($tbl->getHTML());				
+	}
+	
+	public function addTeamMemberContainerObject()
+	{		
+		$team_id = $this->initTeamSubmission("submissionScreenTeam");
+		
+		$members = $this->object->getParentMemberIds();
+		if(!$members)
+		{
+			$this->ctrl->redirect($this, "submissionScreenTeam");
+		}
+		
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
+		$tbl = new ilExAssignmentTeamTableGUI($this, "addTeamMemberContainer",
+			ilExAssignmentTeamTableGUI::MODE_ADD, $team_id, $this->ass, $members);
+		
+		$this->tpl->setContent($tbl->getHTML());
+	}
+	
+	public function addTeamMemberContainerActionObject()
+	{
+		global $ilUser;
+		
+		$ids = $_POST["id"];
+		
+		if(!sizeof($ids))
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$this->ctrl->redirect($this, "submissionScreenTeam");
+		}
+		
+		$team_id = $this->ass->getTeamId($ilUser->getId());
+		
+		foreach($ids as $id)
+		{
+			$this->ass->addTeamMember($team_id, $id);
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "submissionScreenTeam");		
+	}	
+	
+	public function removeTeamMemberObject()
+	{
+		global $ilUser;
+		
+		$ids = $_POST["id"];
+		
+		if(!sizeof($ids))
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$this->ctrl->redirect($this, "submissionScreenTeam");
+		}
+		
+		$team_id = $this->ass->getTeamId($ilUser->getId());
+		
+		if(sizeof($this->ass->getTeamMembers($team_id)) <= sizeof($ids))
+		{
+			ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
+			$this->ctrl->redirect($this, "submissionScreenTeam");
+		}
+		
+		foreach($ids as $id)
+		{
+			$this->ass->removeTeamMember($team_id, $id);
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "submissionScreenTeam");		
+	}
+	
+
 }
 
 ?>

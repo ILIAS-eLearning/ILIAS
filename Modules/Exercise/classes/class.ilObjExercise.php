@@ -1157,6 +1157,43 @@ class ilObjExercise extends ilObject
 		}
 		return false;
 	}
+	
+	/**
+	 * Get parent members object
+	 * 
+	 * @return array
+	 */
+	function getParentMemberIds()
+	{
+		global $tree;
+		
+		if($this->ref_id)
+		{
+			$members = null;
+			
+			$crs_id = $tree->checkForParentType($this->ref_id, "crs");
+			if($crs_id)
+			{
+				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
+				$members = new ilCourseParticipants(ilObject::_lookupObjId($crs_id));				
+			}
+			else
+			{
+				$grp_id = $tree->checkForParentType($this->ref_id, "grp");
+				if($grp_id)
+				{
+					include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+					$members = new ilGroupParticipants(ilObject::_lookupObjId($grp_id));				
+				}
+			}
+			
+			// :TODO: review limit, members vs. participants
+			if($members && $members->getCountParticipants() < 100)
+			{
+				return $members->getParticipants();							
+			}
+		}
+	}
 }
 
 ?>

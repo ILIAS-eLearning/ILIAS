@@ -65,6 +65,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		
 		$types_map = array(
 			ilExAssignment::TYPE_UPLOAD => $lng->txt("exc_type_upload"),
+			ilExAssignment::TYPE_UPLOAD_TEAM => $lng->txt("exc_type_upload_team"),
 			ilExAssignment::TYPE_BLOG => $lng->txt("exc_type_blog"),
 			ilExAssignment::TYPE_PORTFOLIO => $lng->txt("exc_type_portfolio")
 			);

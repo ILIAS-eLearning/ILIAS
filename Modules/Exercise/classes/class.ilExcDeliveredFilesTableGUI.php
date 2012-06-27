@@ -35,8 +35,10 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt(""), "", "1", 1);
-		$this->addColumn($this->lng->txt("filename"));
-		$this->addColumn($this->lng->txt("date"));
+		$this->addColumn($this->lng->txt("filename"), "filetitle");
+		$this->addColumn($this->lng->txt("date"), "timestamp14");
+		
+		$this->setDefaultOrderField("filetitle");
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
