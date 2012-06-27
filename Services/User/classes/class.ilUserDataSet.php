@@ -91,6 +91,17 @@ class ilUserDataSet extends ilDataSet
 			}
 		}
 
+		if ($a_entity == "personal_data")
+		{
+			switch ($a_version)
+			{
+				case "4.3.0":
+					return array(
+						"Id" => "integer"
+					);
+			}
+		}
+
 	}
 
 	/**
@@ -108,6 +119,20 @@ class ilUserDataSet extends ilDataSet
 			$a_ids = array($a_ids);
 		}
 				
+		if ($a_entity == "personal_data")
+		{
+			switch ($a_version)
+			{
+				case "4.3.0":
+					$this->data = array();
+					foreach ($a_ids as $id)
+					{
+						$this->data[] = array("Id" => $id);
+					}
+					break;
+			}
+		}
+		
 		if ($a_entity == "usr_profile")
 		{
 			switch ($a_version)
@@ -171,8 +196,9 @@ class ilUserDataSet extends ilDataSet
 	{
 		switch ($a_entity)
 		{
-			case "usr_profile":
+			case "personal_data":
 				return array (
+					"usr_profile" => array("ids" => $a_rec["Id"]),
 					"usr_setting" => array("ids" => $a_rec["Id"])
 				);							
 		}
@@ -194,42 +220,56 @@ class ilUserDataSet extends ilDataSet
 
 		switch ($a_entity)
 		{
-			case "usr_profile":
-				include_once("./Services/User/classes/class.ilUserProfile.php");
-				$prof = new ilUserProfile();
-				$prof->skipField("username");
-				$prof->skipField("password");
-				$prof->skipField("roles");
-				$prof->skipGroup("settings");
-				$fields = $prof->getStandardFields();
-				foreach ($fields as $k => $f)
-				{
-					$up_k = $this->convertToLeadingUpper($k);
-					// only change fields, when it is possible in profile
-					if (ilUserProfile::userSettingVisible($k) &&
-						!$ilSetting->get("usr_settings_disable_".$k) &&
-						$f["method"] != "" && isset($a_rec[$up_k]))
-					{
-						$set_method = "set".substr($f["method"], 3);
-						$ilUser->{$set_method}($a_rec[$up_k]);
-//echo "<br>-setting-".$set_method."-".$a_rec[$up_k]."-";
-					}
-				}
-				$ilUser->update();
-
+			case "personal_data":
 				// only users themselves import their profiles!
 				// thus we can map the import id of the dataset to the current user
 				$a_mapping->addMapping("Services/User", "usr", $a_rec["Id"], $ilUser->getId());
 				break;
+				
+			case "usr_profile":
+				$usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Id"]);
+				if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr")
+				{
+					if (!isset($this->users[$usr_id]))
+					{
+						$this->users[$usr_id] = new ilObjUser($usr_id);
+					}
+					$user = $this->users[$usr_id];
+					include_once("./Services/User/classes/class.ilUserProfile.php");
+					$prof = new ilUserProfile();
+					$prof->skipField("username");
+					$prof->skipField("password");
+					$prof->skipField("roles");
+					$prof->skipGroup("settings");
+					$fields = $prof->getStandardFields();
+					foreach ($fields as $k => $f)
+					{
+						$up_k = $this->convertToLeadingUpper($k);
+						// only change fields, when it is possible in profile
+						if (ilUserProfile::userSettingVisible($k) &&
+							!$ilSetting->get("usr_settings_disable_".$k) &&
+							$f["method"] != "" && isset($a_rec[$up_k]))
+						{
+							$set_method = "set".substr($f["method"], 3);
+							$user->{$set_method}($a_rec[$up_k]);
+	//echo "<br>-setting-".$set_method."-".$a_rec[$up_k]."-";
+						}
+					}
+					$user->update();
+				}
+				break;
 
 			case "usr_setting":
 				$usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["UserId"]);
-				if (!isset($this->users[$usr_id]))
+				if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr")
 				{
-					$this->users[$usr_id] = new ilObjUser($usr_id);
+					if (!isset($this->users[$usr_id]))
+					{
+						$this->users[$usr_id] = new ilObjUser($usr_id);
+					}
+					$user = $this->users[$usr_id];
+					$user->writePref($a_rec["Keyword"], $a_rec["Value"]);
 				}
-				$user = $this->users[$usr_id];
-				$user->writePref($a_rec["Keyword"], $a_rec["Value"]);
 				break;
 		}
 	}

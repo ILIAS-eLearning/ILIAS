@@ -15,6 +15,7 @@ class ilImport
 	protected $entities = "";
 
 	protected $mapping = null;
+	protected $skip_entity = array();
 
 	/**
 	 * Constructor
@@ -56,6 +57,17 @@ class ilImport
 	final function getEntityTypes()
 	{
 		return $this->entity_types;
+	}
+	
+	/**
+	 * Add skip entity
+	 *	
+	 * @param string $a_val component
+	 * @param string $a_val entity
+	 */
+	function addSkipEntity($a_component, $a_entity, $skip = true)
+	{
+		$this->skip_entity[$a_component][$a_entity] = $skip;
 	}
 	
 	/**
@@ -188,6 +200,7 @@ class ilImport
 			$all_importers[] = $this->importer;
 			$this->importer->setImportDirectory($dir);
 			$this->importer->init();
+			$this->current_comp = $comp;
 			$parser = new ilExportFileParser($dir."/".$expfile["path"],
 				$this, "processItemXml");
 		}
@@ -213,6 +226,12 @@ class ilImport
 	function processItemXml($a_entity, $a_schema_version, $a_id, $a_xml,$a_install_id, $a_install_url)
 	{
 		global $objDefinition;
+		
+		// skip
+		if ($this->skip_entity[$this->current_comp][$a_entity])
+		{
+			return;
+		}
 
 		if($this->getMapping()->getMapping('Services/Container', 'imported', $a_id))
 		{
@@ -222,7 +241,7 @@ class ilImport
 		$this->importer->setInstallId($a_install_id);
 		$this->importer->setInstallUrl($a_install_url);
 		$this->importer->setSchemaVersion($a_schema_version);
-
+		$this->importer->setSkipEntities($this->skip_entity);
 		$new_id = $this->importer->importXmlRepresentation($a_entity, $a_id, $a_xml, $this->mapping);
 
 		// Store information about imported obj_ids in mapping to avoid double imports of references

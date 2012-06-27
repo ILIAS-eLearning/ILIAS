@@ -10,6 +10,8 @@
  */
 abstract class ilXmlImporter
 {
+	protected $skip_entities = array();
+	
 	/**
 	 * Constructor
 	 *
@@ -106,6 +108,26 @@ abstract class ilXmlImporter
 	function getImportDirectory()
 	{
 		return $this->import_directory;
+	}
+	
+	/**
+	 * Set skip entities
+	 *
+	 * @param array $a_val entities to skip	
+	 */
+	function setSkipEntities($a_val)
+	{
+		$this->skip_entities = $a_val;
+	}
+	
+	/**
+	 * Get skip entities
+	 *
+	 * @return array entities to skip
+	 */
+	function getSkipEntities()
+	{
+		return $this->skip_entities;
 	}
 
 	/**

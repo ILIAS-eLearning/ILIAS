@@ -800,5 +800,27 @@ class ilCalendarCategories
 		}
 	}
 	
+	/**
+	 * Lookup private categories of user
+	 *
+	 * @param
+	 * @return
+	 */
+	static function lookupPrivateCategories($a_user_id)
+	{
+		global $ilDB;
+		
+		// First read private calendars of user
+		$set = $ilDB->query("SELECT * FROM cal_categories ".
+			"WHERE type = ".$ilDB->quote(ilCalendarCategory::TYPE_USR ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_user_id,'integer'));
+		$cats = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$cats[] = $rec;
+		}
+		return $cats;
+	}
+	
 }
 ?>
