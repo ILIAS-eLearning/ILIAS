@@ -1008,15 +1008,15 @@ class ilExAssignment
 		if($delete_ids)
 		{
 			$ilDB->manipulate("DELETE FROM exc_returned".
-				" WHERE ".$ilDB->in("returned_id", $delete_ids, ""));
+				" WHERE ".$ilDB->in("returned_id", $delete_ids, "", "integer"));
 		}
 		
 		// delete il_exc_team records
 		$ass_ids = array();
 		foreach(self::getAssignmentDataOfExercise($a_exc_id) as $item)
 		{
-			$ass_ids[] = $item["ass_id"];
-		}
+			$ass_ids[] = $item["id"];
+		}		
 		if($ass_ids)
 		{
 			$ilDB->manipulate($d = "DELETE FROM il_exc_team WHERE ".

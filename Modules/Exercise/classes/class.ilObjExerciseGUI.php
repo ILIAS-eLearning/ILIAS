@@ -3111,11 +3111,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$has_files = $this->ass->getDeliveredFiles($this->object->getId(), 
 			$this->ass->getId(), 
 			$ilUser->getId());
+		$all_members = $this->ass->getMembersOfAllTeams();
 		$members = $this->ass->getTeamMembers($team_id);
 		
 		foreach($a_user_ids as $user_id)
 		{
-			if(!in_array($user_id, $members))
+			if(!in_array($user_id, $all_members))
 			{
 				$this->ass->addTeamMember($team_id, $user_id);
 
@@ -3131,6 +3132,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}
 
 				// :TODO: log, notification
+			}
+			else if(!in_array($user_id, $members))
+			{
+				ilUtil::sendFailure($this->lng->txt("exc_members_already_assigned"), true);
 			}
 		}
 

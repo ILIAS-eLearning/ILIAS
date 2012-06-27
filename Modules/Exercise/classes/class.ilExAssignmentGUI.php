@@ -220,10 +220,20 @@ class ilExAssignmentGUI
 		
 				switch($a_data["type"])
 				{
-					case ilExAssignment::TYPE_UPLOAD:	
-						// :TOOD: list current team members
+					case ilExAssignment::TYPE_UPLOAD_TEAM:	
+						$members = ilExAssignment::getTeamMembersByAssignmentId($a_data["id"], $ilUser->getId());
+						if(sizeof($members) > 1)
+						{
+							$team = array();						
+							foreach($members as $member_id)
+							{
+								$team[] = ilObjUser::_lookupFullname($member_id);
+							}
+							$info->addProperty($lng->txt("exc_team_members"), implode(", ", $team));	
+						}
+						// fallthrough
 						
-					case ilExAssignment::TYPE_UPLOAD_TEAM:					
+					case ilExAssignment::TYPE_UPLOAD:					
 						$titles = array();
 						foreach($delivered_files as $file)
 						{
