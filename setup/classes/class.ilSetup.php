@@ -1024,9 +1024,8 @@ class ilSetup extends PEAR
 	/**
 	 * check client session config status
 	 * @param    object    client
-	 * @return    boolean
 	 */
-	function checkClientProxySettings(&$client, $a_as_bool = false)
+	function checkClientProxySettings(&$client)
 	{
 		global $ilDB;
 		$db = $ilDB;
@@ -1036,13 +1035,21 @@ class ilSetup extends PEAR
 		$query = "SELECT keyword, value FROM settings WHERE ".$db->in('keyword', $fields, false, 'text');
 		$res = $db->query($query);
 
-		$rows = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		$proxy_settings = array();
+		$already_saved = false;
+		while($row = $db->fetchAssoc($res))
 		{
+			$already_saved = true;
 			$proxy_settings[$row['keyword']] = $row['value'];
 		}
-
-		if((bool)$proxy_settings["proxy_status"] == false)
+		
+		if(!$already_saved)
+		{
+			$arr["status"] = false;
+			$arr["comment"] = $this->lng->txt("proxy");
+			$arr["text"] = $this->lng->txt("proxy");
+		}		
+		else if((bool)$proxy_settings["proxy_status"] == false)
 		{
 			$arr["status"] = true;
 			$arr["comment"] = $this->lng->txt("proxy_disabled");
@@ -2175,7 +2182,7 @@ class ilSetup extends PEAR
 	public function saveProxySettings($proxy_settings)
 	{
 		$db = $this->client->getDB();
-		$proxy_fields =array('proxy_status','proxy_host','proxy_port');
+		$proxy_fields = array('proxy_status','proxy_host','proxy_port');
 		
 		foreach($proxy_fields as $field)
 		{
@@ -2186,7 +2193,7 @@ class ilSetup extends PEAR
 					array('text', 'text'), array('common', $field));
 
 				$row = array();
-				while($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) break;
+				while($row = $db->fetchAssoc($res)) break;
 
 				if( count($row) > 0 )
 				{
