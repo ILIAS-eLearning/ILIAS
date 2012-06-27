@@ -121,77 +121,33 @@ class ilNotesDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-return;
-//echo $a_entity;
-//var_dump($a_rec);
-
 		switch ($a_entity)
 		{
-			case "mep":
-				include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-
-				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
+			case "user_notes":
+				$usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Author"]);
+				if ($usr_id > 0)
 				{
-					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
+					include_once("./Services/Notes/classes/class.ilNote.php");
+					
+					// only import real user (assigned to personal desktop) notes
+					// here.
+					if ((int) $a_rec["RepObjId"] == 0 &&
+						$a_rec["ObjId"] == $a_rec["Author"] &&
+						$a_rec["Type"] == IL_NOTE_PRIVATE &&
+						$a_rec["ObjType"] == "pd")
+					{
+						$note = new ilNote();
+						$note->setObject("pd", 0, $usr_id);
+						$note->setType(IL_NOTE_PRIVATE);
+						$note->setAuthor($usr_id);
+						$note->setText($a_rec["NoteText"]);
+						$note->setSubject($a_rec["Subject"]);
+						$note->setCreationDate($a_rec["CreationDate"]);
+						$note->setLabel($a_rec["Label"]);
+						$note->create(true);
+					}
 				}
-				else
-				{
-					$newObj = new ilObjMediaPool();
-					$newObj->setType("mep");
-					$newObj->create(true);
-				}
-				
-				$newObj->setTitle($a_rec["Title"]);
-				$newObj->setDescription($a_rec["Description"]);
-				$newObj->setDefaultWidth($a_rec["DefaultWidth"]);
-				$newObj->setDefaultHeight($a_rec["DefaultHeight"]);
-				$newObj->update();
-				
-				$this->current_obj = $newObj;
-				$a_mapping->addMapping("Modules/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
 				break;
-
-			case "mep_tree":
-				switch ($a_rec["Type"])
-				{
-					case "fold":
-						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
-						$fold_id =
-							$this->current_obj->createFolder($a_rec["Title"], $parent);
-						$a_mapping->addMapping("Modules/MediaPool", "mep_tree", $a_rec["Child"],
-							$fold_id);
-						break;
-
-					case "mob":
-						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
-						$mob_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["ForeignId"]);
-						$item = new ilMediaPoolItem();
-						$item->setType("mob");
-						$item->setForeignId($mob_id);
-						$item->setTitle($a_rec["Title"]);
-						$item->create();
-						if ($item->getId() > 0)
-						{
-							$this->current_obj->insertInTree($item->getId(), $parent);
-						}
-						break;
-
-					case "pg":
-						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
-
-						$item = new ilMediaPoolItem();
-						$item->setType("pg");
-						$item->setTitle($a_rec["Title"]);
-						$item->create();
-						$a_mapping->addMapping("Services/COPage", "pg", "mep:".$a_rec["Child"],
-							"mep:".$item->getId());
-						if ($item->getId() > 0)
-						{
-							$this->current_obj->insertInTree($item->getId(), $parent);
-						}
-						break;
-
-				}
 		}
 	}
 }

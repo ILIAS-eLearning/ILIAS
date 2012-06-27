@@ -149,77 +149,52 @@ class ilBookmarkDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-return;
-//echo $a_entity;
-//var_dump($a_rec);
-
 		switch ($a_entity)
 		{
-			case "mep":
-				include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-
-				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
-				{
-					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-				}
-				else
-				{
-					$newObj = new ilObjMediaPool();
-					$newObj->setType("mep");
-					$newObj->create(true);
-				}
-				
-				$newObj->setTitle($a_rec["Title"]);
-				$newObj->setDescription($a_rec["Description"]);
-				$newObj->setDefaultWidth($a_rec["DefaultWidth"]);
-				$newObj->setDefaultHeight($a_rec["DefaultHeight"]);
-				$newObj->update();
-				
-				$this->current_obj = $newObj;
-				$a_mapping->addMapping("Modules/MediaPool", "mep", $a_rec["Id"], $newObj->getId());
+			case "bookmarks":
 				break;
 
-			case "mep_tree":
-				switch ($a_rec["Type"])
+			case "bookmark_tree":
+				$usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["UserId"]);
+				if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr")
 				{
-					case "fold":
-						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
-						$fold_id =
-							$this->current_obj->createFolder($a_rec["Title"], $parent);
-						$a_mapping->addMapping("Modules/MediaPool", "mep_tree", $a_rec["Child"],
-							$fold_id);
-						break;
-
-					case "mob":
-						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
-						$mob_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["ForeignId"]);
-						$item = new ilMediaPoolItem();
-						$item->setType("mob");
-						$item->setForeignId($mob_id);
-						$item->setTitle($a_rec["Title"]);
-						$item->create();
-						if ($item->getId() > 0)
-						{
-							$this->current_obj->insertInTree($item->getId(), $parent);
-						}
-						break;
-
-					case "pg":
-						$parent = (int) $a_mapping->getMapping("Modules/MediaPool", "mep_tree", $a_rec["Parent"]);
-
-						$item = new ilMediaPoolItem();
-						$item->setType("pg");
-						$item->setTitle($a_rec["Title"]);
-						$item->create();
-						$a_mapping->addMapping("Services/COPage", "pg", "mep:".$a_rec["Child"],
-							"mep:".$item->getId());
-						if ($item->getId() > 0)
-						{
-							$this->current_obj->insertInTree($item->getId(), $parent);
-						}
-						break;
-
+					switch ($a_rec["Type"])
+					{
+						case "bmf":
+							if ($a_rec["Parent"] > 0)
+							{
+								$parent = (int) $a_mapping->getMapping("Services/Bookmarks", "bookmark_tree", $a_rec["Parent"]);
+								include_once("./Services/Bookmarks/classes/class.ilBookmarkFolder.php");
+								$bmf = new ilBookmarkFolder(0, $usr_id);
+								$bmf->setTitle($a_rec["Title"]);
+								$bmf->setParent($parent);
+								$bmf->create();
+								$fold_id = $bmf->getId();
+							}
+							else
+							{
+								$tree = new ilTree($usr_id);
+								$tree->setTableNames('bookmark_tree','bookmark_data');
+								$fold_id = $tree->readRootId();
+							}
+							$a_mapping->addMapping("Services/Bookmarks", "bookmark_tree", $a_rec["Child"],
+								$fold_id);
+							break;
+	
+						case "bm":
+							$parent = (int) $a_mapping->getMapping("Services/Bookmarks", "bookmark_tree", $a_rec["Parent"]);
+							include_once("./Services/Bookmarks/classes/class.ilBookmark.php");
+							$bm = new ilBookmark(0, $usr_id);
+							$bm->setTitle($a_rec["Title"]);
+							$bm->setDescription($a_rec["Description"]);
+							$bm->setTarget($a_rec["Target"]);
+							$bm->setParent($parent);
+							$bm->create();
+							break;
+	
+					}
 				}
+				break;
 		}
 	}
 }

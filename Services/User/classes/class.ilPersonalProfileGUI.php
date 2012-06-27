@@ -1445,7 +1445,7 @@ class ilPersonalProfileGUI
 	 */
 	function importPersonalData()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		$this->initPersonalDataImportForm();
 		if ($this->form->checkInput())
@@ -1457,7 +1457,7 @@ class ilPersonalProfileGUI
 				(int) $_POST["notes"],
 				(int) $_POST["calendar"]
 				);
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "");
 		}
 		else
