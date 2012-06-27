@@ -186,12 +186,23 @@ class ilObjExercise extends ilObject
 				$ilDB->quote($a_ass_id, "integer")
 			);
 			$ilDB->manipulate($query);
-			if (!$this->members_obj->isAssigned($user_id))
+			
+			// team upload?
+			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $user_id);
+			if(!$user_ids)
 			{
-				$this->members_obj->assignMember($user_id);
+				$user_ids = array($user_id);
 			}
-			ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
-			ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
+			
+			foreach($user_ids as $user_id)
+			{
+				if (!$this->members_obj->isAssigned($user_id))
+				{
+					$this->members_obj->assignMember($user_id);
+				}
+				ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
+				ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
+			}
 		}
 		return true;
 	}
@@ -297,8 +308,18 @@ class ilObjExercise extends ilObject
 
 		// Finally update status 'returned' of member if no file exists
 		if(!count(ilExAssignment::getDeliveredFiles($a_exc_id, $a_ass_id, $user_id)))
-		{
-			ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 0);
+		{			
+			// team upload?
+			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $user_id);
+			if(!$user_ids)
+			{
+				$user_ids = array($user_id);
+			}
+			
+			foreach($user_ids as $user_id)
+			{			
+				ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 0);
+			}
 		}
 	}
 
@@ -981,22 +1002,35 @@ class ilObjExercise extends ilObject
 
 		if($this->isCompletionBySubmissionEnabled())
 		{
-			include_once 'Modules/Exercise/classes/class.ilExAssignment.php';
-	
-			$res = $ilDB->queryF(
-				'SELECT returned_id FROM exc_returned WHERE obj_id = %s AND user_id = %s AND ass_id = %s',
-				array('integer', 'integer', 'integer'),
-				array($this->getId(), $ilUser->getId(), (int)$ass_id)
+			include_once 'Modules/Exercise/classes/class.ilExAssignment.php';	
+			
+			// team upload?
+			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $ilUser->getId());
+			if(!$user_ids)
+			{
+				$user_ids = array($ilUser->getId());
+			}
+			
+			$res = $ilDB->query(
+				'SELECT returned_id'.
+				' FROM exc_returned'.
+				' WHERE obj_id = '.$ilDB->quote($this->getId(), 'integer').
+				' AND ass_id = '.$ilDB->quote($ass_id, 'integer').
+				' AND '.$ilDB->in('user_id', $user_ids, '', 'integer')
 			);
 	
-			if($num = $ilDB->numRows($res))
+			if($ilDB->numRows($res))
 			{
-				ilExAssignment::updateStatusOfUser($ass_id, $ilUser->getId(), 'passed');
+				$status = 'passed';				
 			}
 			else
 			{
-				ilExAssignment::updateStatusOfUser($ass_id, $ilUser->getId(), 'notgraded');
-			}	
+				$status = 'notgraded';
+			}				
+			foreach($user_ids as $user_id)
+			{
+				ilExAssignment::updateStatusOfUser($ass_id, $user_id, $status);
+			}
 		}	
 	}
 
@@ -1159,32 +1193,52 @@ class ilObjExercise extends ilObject
 	}
 	
 	/**
-	 * Get parent members object
+	 * Get object id of parent course/group
 	 * 
-	 * @return array
+	 * 
+	 * @return int
 	 */
-	function getParentMemberIds()
+	function getParentContainerId()
 	{
 		global $tree;
 		
 		if($this->ref_id)
 		{
-			$members = null;
-			
 			$crs_id = $tree->checkForParentType($this->ref_id, "crs");
 			if($crs_id)
 			{
+				return $crs_id;		
+			}
+
+			$grp_id = $tree->checkForParentType($this->ref_id, "grp");
+			if($grp_id)
+			{
+				return $grp_id;		
+			}
+		}
+	}
+	
+	/**
+	 * Get parent members object
+	 * 
+	 * @return array
+	 */
+	function getParentMemberIds()
+	{		
+		$container_id = $this->getParentContainerId();		
+		if($container_id)
+		{			
+			$members = null;
+			
+			if(ilObject::_lookupType($container_id) == "crs")
+			{
 				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-				$members = new ilCourseParticipants(ilObject::_lookupObjId($crs_id));				
+				$members = new ilCourseParticipants(ilObject::_lookupObjId($container_id));				
 			}
 			else
-			{
-				$grp_id = $tree->checkForParentType($this->ref_id, "grp");
-				if($grp_id)
-				{
-					include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-					$members = new ilGroupParticipants(ilObject::_lookupObjId($grp_id));				
-				}
+			{			
+				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
+				$members = new ilGroupParticipants(ilObject::_lookupObjId($container_id));								
 			}
 			
 			// :TODO: review limit, members vs. participants

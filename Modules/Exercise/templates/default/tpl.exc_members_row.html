@@ -3,6 +3,7 @@
   {VAL_CHKBOX}
   <input type="hidden" name="id[{VAL_ID}]" value = "1" />
   </td>
+  <!-- BEGIN member_specific -->
   <td class="std" valign="top">
   <img border="0" src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" style="vertical-align:text-bottom" />
   </td>
@@ -12,6 +13,14 @@
   <td class="std" valign="top">
   {TXT_LOGIN}
   </td>
+  <!-- END member_specific -->
+  <!-- BEGIN team_specific -->
+  <td class="std" valign="top">
+	  <!-- BEGIN team_member -->
+	  {TXT_MEMBER_NAME}<br />
+	  <!-- END team_member -->
+  </td>
+  <!-- END team_specific -->
   <!-- BEGIN mail_sent -->
   <td class="std" valign="top">
   <span class="small">{TXT_MAIL_SENT}</span>
