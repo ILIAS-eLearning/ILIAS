@@ -5183,7 +5183,7 @@ class ilObjUser extends ilObject
 		{
 			$imp->addSkipEntity("Services/User", "usr_setting");
 		}
-		if (!$a_settings)
+		if (!$a_bookmarks)
 		{
 			$imp->addSkipEntity("Services/Bookmarks", "bookmarks");
 		}

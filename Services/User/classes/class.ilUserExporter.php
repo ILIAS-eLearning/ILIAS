@@ -52,6 +52,14 @@ class ilUserExporter extends ilXmlExporter
 			
 			return array (
 				array(
+					"component" => "Services/User",
+					"entity" => "usr_profile",
+					"ids" => $a_ids),
+				array(
+					"component" => "Services/User",
+					"entity" => "usr_setting",
+					"ids" => $a_ids),
+				array(
 					"component" => "Services/Bookmarks",
 					"entity" => "bookmarks",
 					"ids" => $a_ids),
