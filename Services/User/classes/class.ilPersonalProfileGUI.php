@@ -35,6 +35,7 @@ class ilPersonalProfileGUI
 		$this->ctrl =& $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
 		$lng->loadLanguageModule("jsmath");
+		$lng->loadLanguageModule("pd");
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
@@ -1335,7 +1336,7 @@ class ilPersonalProfileGUI
 		if ($exp_file != "")
 		{
 			$ilToolbar->addSeparator();
-			$ilToolbar->addButton($this->lng->txt("pd_download_last_export_profile"),
+			$ilToolbar->addButton($this->lng->txt("pd_download_last_export_file"),
 				$ilCtrl->getLinkTarget($this, "downloadPersonalData"));
 		}
 
@@ -1413,7 +1414,7 @@ class ilPersonalProfileGUI
 		$this->form->addItem($cb);
 		
 		// settings
-		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_settings"), "settings");
+		$cb = new ilCheckboxInputGUI($this->lng->txt("settings"), "settings");
 		$this->form->addItem($cb);
 		
 		// bookmarks
@@ -1425,7 +1426,7 @@ class ilPersonalProfileGUI
 		$this->form->addItem($cb);
 		
 		// calendar entries
-		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_calendar_entris"), "calendar");
+		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_private_calendars"), "calendar");
 		$this->form->addItem($cb);
 
 		$this->form->addCommandButton("importPersonalData", $lng->txt("import"));

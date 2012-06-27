@@ -38,18 +38,31 @@ class ilUserExporter extends ilXmlExporter
 	 */
 	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
-		if ($a_entity == "usr_profile")
+		if ($a_entity == "personal_data")
 		{
+			include_once("./Services/Calendar/classes/class.ilCalendarCategories.php");
+			$cal_ids = array();
+			foreach ($a_ids as $user_id)
+			{
+				foreach (ilCalendarCategories::lookupPrivateCategories($user_id) as $ct)
+				{
+					$cal_ids[] = $ct["cat_id"];
+				}
+			}
+			
 			return array (
 				array(
 					"component" => "Services/Bookmarks",
 					"entity" => "bookmarks",
-					"ids" => $a_ids)
-				,
+					"ids" => $a_ids),
 				array(
 					"component" => "Services/Notes",
 					"entity" => "user_notes",
-					"ids" => $a_ids)
+					"ids" => $a_ids),
+				array(
+					"component" => "Services/Calendar",
+					"entity" => "calendar",
+					"ids" => $cal_ids)
 				);
 		}
 		

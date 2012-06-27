@@ -5115,10 +5115,10 @@ class ilObjUser extends ilObject
 	{
 		include_once("./Services/Export/classes/class.ilExport.php");
 		$exp = new ilExport();
-		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "usr_profile");
+		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data");
 		ilUtil::delDir($dir, true);
 		$title = $this->getLastname().", ".$this->getLastname()." [".$this->getLogin()."]";
-		$exp->exportEntity("usr_profile", $this->getId(), "4.3.0",
+		$exp->exportEntity("personal_data", $this->getId(), "4.3.0",
 			"Services/User", $title, $dir);
 	}
 	
@@ -5131,7 +5131,11 @@ class ilObjUser extends ilObject
 	function getPersonalDataExportFile()
 	{
 		include_once("./Services/Export/classes/class.ilExport.php");
-		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "usr_profile");
+		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data");
+		if (!is_dir($dir))
+		{
+			return "";
+		}
 		foreach(ilUtil::getDir($dir) as $entry)
 		{
 			if (is_int(strpos($entry["entry"], ".zip")))
@@ -5152,7 +5156,7 @@ class ilObjUser extends ilObject
 	function sendPersonalDataFile()
 	{
 		include_once("./Services/Export/classes/class.ilExport.php");
-		$file = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "usr_profile").
+		$file = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data").
 			"/".$this->getPersonalDataExportFile();
 		if (is_file($file))
 		{
@@ -5171,7 +5175,27 @@ class ilObjUser extends ilObject
 	{
 		include_once("./Services/Export/classes/class.ilImport.php");
 		$imp = new ilImport();
-		$imp->importEntity($a_file["tmp_name"], $a_file["name"], "usr_profile",
+		if (!$a_profile_data)
+		{
+			$imp->addSkipEntity("Services/User", "usr_profile");
+		}
+		if (!$a_settings)
+		{
+			$imp->addSkipEntity("Services/User", "usr_setting");
+		}
+		if (!$a_settings)
+		{
+			$imp->addSkipEntity("Services/Bookmarks", "bookmarks");
+		}
+		if (!$a_notes)
+		{
+			$imp->addSkipEntity("Services/Notes", "user_notes");
+		}
+		if (!$a_calendar)
+		{
+			$imp->addSkipEntity("Services/Calendar", "calendar");
+		}
+		$imp->importEntity($a_file["tmp_name"], $a_file["name"], "personal_data",
 			"Services/User");
 	}
 	

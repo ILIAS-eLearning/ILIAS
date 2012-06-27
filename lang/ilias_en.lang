@@ -12794,3 +12794,10 @@ exc#:#exc_team_member_add#:#Add Team Member (Search)
 exc#:#exc_team_member_container_add#:#Add Team Member from Course/Group
 exc#:#exc_team_members#:#Team Members
 exc#:#exc_team_at_least_one#:#There has to be at least 1 team member.
+pd#:#pd_export_profile#:#Export Personal Data
+pd#:#pd_download_last_export_file#:#Download Last Export File
+pd#:#pd_import_personal_data#:#Import Personal Data
+pd#:#pd_profile_data#:#Profile Data
+pd#:#pd_bookmarks#:#Bookmarks
+pd#:#pd_notes#:#Personal Desktop Notes
+pd#:#pd_private_calendars#:#Private Calendars
