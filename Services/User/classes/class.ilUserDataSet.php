@@ -194,6 +194,7 @@ class ilUserDataSet extends ilDataSet
 	 */
 	protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
 	{
+		return false;
 		switch ($a_entity)
 		{
 			case "personal_data":
@@ -252,7 +253,7 @@ class ilUserDataSet extends ilDataSet
 						{
 							$set_method = "set".substr($f["method"], 3);
 							$user->{$set_method}($a_rec[$up_k]);
-	//echo "<br>-setting-".$set_method."-".$a_rec[$up_k]."-";
+//	echo "<br>-setting-".$set_method."-".$a_rec[$up_k]."-";
 						}
 					}
 					$user->update();
