@@ -134,8 +134,8 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		if($bookings[$i]['country'] == NULL)	$bookings[$i]['country'] = nl2br(utf8_decode($customer->getCountry()));
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_bill.html','Services/Payment');		
-		$tpl = new ilTemplate('./Services/Payment/templates/default/tpl.pay_bill.html', true, true, true);
-  
+		$tpl = new ilTemplate('tpl.pay_bill.html', true, true, 'Services/Payment');
+		
 		if($tpl->placeholderExists('HTTP_PATH'))
 		{
 			$http_path = ilUtil::_getHttpPath();

@@ -458,24 +458,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
      return $base . $a_pm_title . $suffix;
   }
 
-// DEPRICATED	
-//  public function cartNotEmpty()
-//  {
-//    $pay_methods = $this->_getPayMethods( true);
-//    if (is_array($pay_methods))
-//      for ($p = 0; $p < count($pay_methods); $p++)
-//	{
-//	  	if (count($items = $this->psc_obj->getEntries($pay_methods['pm_id'])))
-//	    {
-//	      foreach ($items as $item)
-//			{
-//				return true;
-//			}
-//	    }
-//	}
-//    return false;
-//  }
-
 	public function showItems()
 	{
 		global $ilObjDataCache, $ilUser, $ilToolbar;
@@ -859,76 +841,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		}
 		return true;
 	}
-	
-//// DEPRICATED
-//	public function setCoupon()
-//	{
-//		if ($_POST['coupon_code'] != '')
-//		{
-//			$coupon = $this->coupon_obj->getCouponByCode($_POST['coupon_code']);			
-//			
-//			switch ($this->coupon_obj->checkCouponValidity())
-//			{
-//				case 1:
-//				case 2:
-//					ilUtil::sendInfo($this->lng->txt('paya_coupons_not_valid'));				
-//					$this->showItems();			
-//					return true;
-//				
-//				case 3:
-//					ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_not_found'));				
-//					$this->showItems();			
-//					return true;
-//			}			
-//			
-//			$assignedItems = 0;			
-//			$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
-//			if (count($items = $this->psc_obj->getEntries(isset($_POST['payment_type']) ? $_POST['payment_type'] : 'bmf')))
-//			{
-//				foreach($items as $item)
-//				{
-//					$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
-//					
-//					if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
-//					{
-//						++$assignedItems;
-//					}					
-//				}
-//			}			
-//			if (!$assignedItems)
-//			{
-//				ilUtil::sendInfo($this->lng->txt('paya_coupons_no_object_assigned'));
-//				$this->showItems();
-//				return true;
-//			}			
-//			
-//			$coupon_session_id = $_POST['payment_type'];
-//			
-//			if (!array_key_exists($coupon['pc_pk'], $_SESSION['coupons'][$coupon_session_id]))
-//			{
-//				if (is_array($_SESSION['coupons']))
-//				{
-//					foreach ($_SESSION['coupons'] as $key => $val)
-//					{
-//						unset($_SESSION['coupons'][$key][$coupon['pc_pk']]);
-//					}
-//				}
-//				ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_added'));
-//				$_SESSION['coupons'][$coupon_session_id][$coupon['pc_pk']] = $coupon;
-//			}
-//			else
-//			{
-//				ilUtil::sendInfo($this->lng->txt('paya_coupons_already_in_use'));
-//			}
-//			
-//			$this->showItems();
-//			return true;		
-//		}	
-//		
-//		$this->showItems();
-//		return true;		
-//	}	
-	
+
 	public function removeCoupon()
 	{
 		if (is_array($_SESSION['coupons']))
@@ -1034,7 +947,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 			{
 				$tbl->setTotalData('TXT_SUB_TOTAL', $this->lng->txt('pay_bmf_subtotal_amount') . ": ");
 				$tbl->setTotalData('VAL_SUB_TOTAL', number_format($totalAmount[$a_pay_method['pm_id']], 2, ',', '.') . " " . $genSet->get('currency_unit'));
-//TODO: CURRENCY #$tbl->setTotalData('VAL_SUB_TOTAL',ilPaymentPrices::_formatPriceToString($totalAmount[$a_pay_method['pm_id']], (int)$this->default_currency['currency_id'] ));
 
 				foreach ($_SESSION['coupons'][$coupon_session] as $coupon)
 				{
