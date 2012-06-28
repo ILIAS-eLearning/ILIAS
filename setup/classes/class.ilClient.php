@@ -576,6 +576,8 @@ class ilClient
 		$response = explode("\n", $response);
 
 		$this->nic_status = $response;
+		
+		return true;
 	}
 	
 	/**
