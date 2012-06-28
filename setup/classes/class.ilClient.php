@@ -555,56 +555,27 @@ class ilClient
 	function updateNIC($a_nic_url)
 	{
 		$settings = $this->getAllSettings();
-	 
-		 if((bool)$settings['proxy_activated'] == true)
-		 {
-			 if((bool)$settings['proxy_host'] != false && (bool)$settings['proxy_port'] != false)
-			 { 
-				 $proxy_options = array('proxy_host' => $settings['proxy_host'],
-										'proxy_port' => $settings['proxy_port']);
-			 }
-			 else
-			 {
-				 $proxy_options = array();
-			 }
-	
-			include_once('HTTP/Request.php');
-			$url = $this->getURLStringForNIC($a_nic_url);
-			$req = new HTTP_Request($url, $proxy_options);
-			 
-			$req->sendRequest();
-			$this->nic_status = $req->getResponseBody();
-			
-			return true;
-		 }
-		 else
-		 { 
-			$url = $this->getURLStringForNIC($a_nic_url);
-	
-			$conn = @fopen($url,"r");
-			$input = "";
-		
-			if (!$conn) 
-			{
-				return false;
-			}
-			else
-			{
-				while(!feof($conn))
-				{
-					$input.= fgets($conn, 4096);
-				}
-	
-				fclose($conn);
-				$line = explode("\n",$input);
-				
-				$ret = $line;
-			}
-	
-			$this->nic_status = $ret;
-	
-			return true;
-		 }
+		if((bool)$settings['proxy_activated'] && strlen($settings['proxy_host']) && strlen($settings['proxy_port']))
+		{
+			$proxy_options = array(
+				'proxy_host' => $settings['proxy_host'],
+				'proxy_port' => $settings['proxy_port']
+			);
+		}
+		else
+		{
+			$proxy_options = array();
+		}
+
+		include_once('HTTP/Request.php');
+		$url = $this->getURLStringForNIC($a_nic_url);
+		$req = new HTTP_Request($url, $proxy_options);
+
+		$req->sendRequest();
+		$response = $req->getResponseBody();
+		$response = explode("\n", $response);
+
+		$this->nic_status = $response;
 	}
 	
 	/**
