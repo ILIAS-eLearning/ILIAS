@@ -3197,6 +3197,37 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->tpl->setContent($tbl->getHTML());						
 	}
+	
+	function showTeamLogObject()
+	{		
+		$this->checkPermission("write");								
+		$this->tabs_gui->activateTab("grades");	
+						
+		if(isset($_GET["lmem"]))
+		{					
+			$this->addSubmissionSubTabs("assignment");
+			
+			$this->tabs_gui->setBackTarget($this->lng->txt("back"),
+				$this->ctrl->getLinkTarget($this, "members"));
+		
+			$team_id = ilExAssignment::getTeamIdByAssignment($this->ass->getId(), (int)$_GET["lmem"]);
+		}
+		else
+		{
+			$this->addSubmissionSubTabs("participant");
+			
+			$this->tabs_gui->setBackTarget($this->lng->txt("back"),
+				$this->ctrl->getLinkTarget($this, "showParticipant"));
+		
+			$team_id = ilExAssignment::getTeamIdByAssignment($this->ass->getId(), (int)$_GET["lpart"]);
+		}
+		
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php";
+		$tbl = new ilExAssignmentTeamLogTableGUI($this, "submissionScreenTeamLog",
+			$team_id);
+		
+		$this->tpl->setContent($tbl->getHTML());						
+	}
 }
 
 ?>

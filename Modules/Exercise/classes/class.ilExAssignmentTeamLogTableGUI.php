@@ -51,29 +51,34 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
 		$data = array();
 
 		foreach(ilExAssignment::getTeamLog($this->team_id) as $item)
-		{
-			$has_object = false;
+		{;
 			switch($item["action"])
 			{
 				case ilExAssignment::TEAM_LOG_CREATE_TEAM:
 					$mess = "create_team";
 					break;
 				
-				case ilExAssignment::TEAM_LOG_ADD_MEMBER:
-					$has_object = ilObjUser::_lookupFullname($item["object_id"]);
+				case ilExAssignment::TEAM_LOG_ADD_MEMBER:					
 					$mess = "add_member";
 					break;
 				
-				case ilExAssignment::TEAM_LOG_REMOVE_MEMBER:
-					$has_object = ilObjUser::_lookupFullname($item["object_id"]);
+				case ilExAssignment::TEAM_LOG_REMOVE_MEMBER:					
 					$mess = "remove_member";
-					break;								
+					break;	
+				
+				case ilExAssignment::TEAM_LOG_ADD_FILE:					
+					$mess = "add_file";
+					break;	
+				
+				case ilExAssignment::TEAM_LOG_REMOVE_FILE:					
+					$mess = "remove_file";
+					break;	
 			}
 			
 			$details = $this->lng->txt("exc_team_log_".$mess);
-			if($has_object)
+			if($item["details"])
 			{
-				$details = sprintf($details, $has_object);
+				$details = sprintf($details, $item["details"]);
 			}			
 			
 			$data[] = array(
