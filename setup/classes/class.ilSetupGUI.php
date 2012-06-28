@@ -3795,7 +3795,7 @@ else
 
 		$new_settings['proxy_status'] = (int)$this->form->getInput('proxy_status');
 		$new_settings['proxy_host'] = trim($this->form->getInput('proxy_host'));
-		$new_settings['proxy_port'] = trim($this->form->getInput('proxy_host'));
+		$new_settings['proxy_port'] = trim($this->form->getInput('proxy_port'));
 		
 		if($isFormValid)
 		{
