@@ -651,6 +651,7 @@ class ilObjForumGUI extends ilObjectGUI
 	{
 		/**
 		 * @var $ilAccess ilAccessHandler
+		 * @var $ilHelp ilHelpGUI
 		 */
 		global $ilAccess, $ilHelp;
 		
@@ -947,6 +948,7 @@ class ilObjForumGUI extends ilObjectGUI
 		 * @var $tpl ilTemplate
 		 * @var $lng ilLanguage
 		 * @var $ilTabs ilTabsGUI
+		 * @var $ilHelp ilHelpGUI
 		 */
 		global $tpl, $lng, $ilTabs, $ilHelp;
 		
