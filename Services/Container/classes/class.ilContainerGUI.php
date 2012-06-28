@@ -1732,6 +1732,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		unset($_SESSION["clipboard"]);
 		unset($_SESSION["il_rep_clipboard"]);
+		
 		//var_dump($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
 
 		// only redirect if clipboard was cleared
@@ -1739,8 +1740,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			ilUtil::sendSuccess($this->lng->txt("msg_clear_clipboard"),true);
 
-			$this->ctrl->returnToParent($this);
+			//$this->ctrl->returnToParent($this);
 			//ilUtil::redirect($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
+			$this->disableAdministrationPanelObject();
 		}
 	}
 	
