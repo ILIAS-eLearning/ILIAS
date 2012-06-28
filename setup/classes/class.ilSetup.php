@@ -302,7 +302,7 @@ class ilSetup extends PEAR
 	* @return	boolean	ture if query was processed successfully
 	*/
 	function readDump($db, $file)
-	{
+	{     
 		// mysql (old procedure)
 		if ($db->getDBType() == "mysql")
 		{
@@ -322,9 +322,10 @@ class ilSetup extends PEAR
 						//query is complete
 						$q .= " ".substr($line,0,-1);
 						$r = $db->query($q);
-						if (mysql_errno() > 0)
+            
+						if ($db->getErrorNo() > 0)
 						{
-							echo "<br />ERROR: ".mysql_error().
+							echo "<br />ERROR: ".$db->getError().
 								"<br />SQL: $q";
 							return false;
 						}
