@@ -664,9 +664,10 @@ class ilFileDataMail extends ilFileData
 			try
 			{
 				$path = $this->getMailPath().DIRECTORY_SEPARATOR.$row['path'];
-				$it = new RecursiveDirectoryIterator($path);
-				$files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
-				foreach($files as $file)
+				$iter = new RecursiveIteratorIterator(
+					new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::CHILD_FIRST
+				);
+				foreach($iter as $file)
 				{
 					/**
 					 * @var $file SplFileInfo
@@ -707,7 +708,7 @@ class ilFileDataMail extends ilFileData
 		}
 		else
 		{
-			// Oracle and Posgres (if query is not compliant to Posgres, we need to treat this in an separate way)
+			// Oracle and Postgres
 			$ilDB->manipulateF(' 
 				DELETE FROM mail_attachment
 				WHERE mail_attachment.mail_id IN (
