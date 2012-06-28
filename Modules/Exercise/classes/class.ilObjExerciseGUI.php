@@ -3211,6 +3211,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "members"));
 		
 			$team_id = ilExAssignment::getTeamIdByAssignment($this->ass->getId(), (int)$_GET["lmem"]);
+			
+			$this->ctrl->saveParameter($this, "lmem");
 		}
 		else
 		{
@@ -3220,10 +3222,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "showParticipant"));
 		
 			$team_id = ilExAssignment::getTeamIdByAssignment($this->ass->getId(), (int)$_GET["lpart"]);
+			
+			$this->ctrl->saveParameter($this, "lpart");
 		}
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php";
-		$tbl = new ilExAssignmentTeamLogTableGUI($this, "submissionScreenTeamLog",
+		$tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog",
 			$team_id);
 		
 		$this->tpl->setContent($tbl->getHTML());						

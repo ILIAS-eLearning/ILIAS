@@ -418,7 +418,7 @@ class ilExAssignmentGUI
 					if ($cnt_files > 0)
 					{
 						$info->addSection($lng->txt("exc_fb_files"));
-						$files = $storage->getFeedbackFiles($ilUser->getId());
+						$files = $storage->getFeedbackFiles($ilUser->getId(), $a_data["type"] == ilExAssignment::TYPE_UPLOAD_TEAM);
 						foreach($files as $file)
 						{
 							$ilCtrl->setParameterByClass("ilobjexercisegui", "file", urlencode($file));
