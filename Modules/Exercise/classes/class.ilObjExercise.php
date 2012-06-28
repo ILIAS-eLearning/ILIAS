@@ -187,6 +187,9 @@ class ilObjExercise extends ilObject
 			);
 			$ilDB->manipulate($query);
 			
+			$team_id = ilExAssignment::getTeamIdByAssignment($a_ass_id, $user_id);
+			ilExAssignment::writeTeamLog($team_id, ilExAssignment::TEAM_LOG_ADD_FILE, $a_http_post_files["name"]);
+			
 			// team upload?
 			$user_ids = ilExAssignment::getTeamMembersByAssignmentId($a_ass_id, $user_id);
 			if(!$user_ids)
@@ -649,7 +652,6 @@ class ilObjExercise extends ilObject
 			}
 			ilExerciseMembers::_writeReturned($this->getId(), $ilUser->id, 1);
 			ilUtil::sendSuccess($this->lng->txt("file_added"),$persistentErrorMessage);					
-
 		} 
 		catch (ilFileUtilsException $e) 
 		{

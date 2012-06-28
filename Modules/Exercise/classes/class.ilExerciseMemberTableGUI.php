@@ -185,6 +185,12 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_MEMBER_NAME", $member_name);
 				$this->tpl->parseCurrentBlock();
 			}
+			
+			$ilCtrl->setParameter($this->parent_obj, "lmem", $member_id);
+			$this->tpl->setVariable("HREF_LOG", 
+				$ilCtrl->getLinkTarget($this->parent_obj, "showTeamLog"));
+			$this->tpl->setVariable("TXT_LOG", $lng->txt("exc_team_log"));
+			$ilCtrl->setParameter($this->parent_obj, "lmem", "");
 		}
 
 		// submission:

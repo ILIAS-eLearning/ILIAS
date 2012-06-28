@@ -913,12 +913,14 @@ class ilExAssignment
 	function deleteDeliveredFiles($a_exc_id, $a_ass_id, $file_id_array, $a_user_id)
 	{
 		global $ilDB;
-
+		
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fs = new ilFSStorageExercise($a_exc_id, $a_ass_id);
 
 		if (count($file_id_array))
-		{
+		{					
+			$team_id = ilExAssignment::getTeamIdByAssignment($a_ass_id, $a_user_id);
+				
 			$result = $ilDB->query("SELECT * FROM exc_returned WHERE user_id = ".
 				$ilDB->quote($a_user_id, "integer")." AND ".
 				$ilDB->in("returned_id", $file_id_array, false, "integer"));
@@ -944,6 +946,12 @@ class ilExAssignment
 				{
 					if($value["filename"])
 					{
+						if($team_id)
+						{
+							ilExAssignment::writeTeamLog($team_id, 
+								ilExAssignment::TEAM_LOG_REMOVE_FILE, $value["filetitle"]);
+						}
+						
 						$filename = $fs->getAbsoluteSubmissionPath().
 							"/".$value["user_id"]."/".basename($value["filename"]);
 						unlink($filename);
@@ -1709,8 +1717,9 @@ class ilExAssignment
 				"user_id" => array("integer", $a_user_id));			
 			$ilDB->insert("il_exc_team", $fields);		
 			
-			self::writeTeamLog($id, self::TEAM_LOG_CREATE_TEAM);
-			self::writeTeamLog($id, self::TEAM_LOG_ADD_MEMBER, $a_user_id);
+			self::writeTeamLog($id, self::TEAM_LOG_CREATE_TEAM);						
+			self::writeTeamLog($id, self::TEAM_LOG_ADD_MEMBER, 
+				ilObjUser::_lookupFullname($a_user_id));
 		}
 		
 		return $id;
@@ -1782,7 +1791,8 @@ class ilExAssignment
 				"user_id" => array("integer", $a_user_id));			
 			$ilDB->insert("il_exc_team", $fields);		
 			
-			self::writeTeamLog($a_team_id, self::TEAM_LOG_ADD_MEMBER, $a_user_id);
+			self::writeTeamLog($a_team_id, self::TEAM_LOG_ADD_MEMBER, 
+				ilObjUser::_lookupFullname($a_user_id));
 		}									
 	}
 	
@@ -1802,7 +1812,8 @@ class ilExAssignment
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer");			
 		$ilDB->manipulate($sql);		
 		
-		self::writeTeamLog($a_team_id, self::TEAM_LOG_REMOVE_MEMBER, $a_user_id);
+		self::writeTeamLog($a_team_id, self::TEAM_LOG_REMOVE_MEMBER, 
+			ilObjUser::_lookupFullname($a_user_id));
 	}
 	
 	/**
@@ -1818,6 +1829,33 @@ class ilExAssignment
 		
 		$ids = array();
 		
+		$team_id = self::getTeamIdByAssignment($a_ass_id, $a_user_id);			
+		if($team_id)
+		{
+			$set = $ilDB->query("SELECT user_id".
+				" FROM il_exc_team".
+				" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+				" AND id = ". $ilDB->quote($team_id, "integer"));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$ids[] = $row["user_id"];
+			}	
+		}		
+		
+		return $ids;
+	}
+	
+	/**
+	 * Find team by assignment
+	 * 
+	 * @param int $a_ass_id
+	 * @param int $a_user_id
+	 * @return int 
+	 */
+	public static function getTeamIdByAssignment($a_ass_id, $a_user_id)
+	{
+		global $ilDB;
+		
 		$result = $ilDB->query("SELECT type".
 			" FROM exc_assignment".
 			" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
@@ -1830,22 +1868,8 @@ class ilExAssignment
 				" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
 				" AND user_id = ".$ilDB->quote($a_user_id, "integer"));
 			$team_id = $ilDB->fetchAssoc($set);
-			$team_id = $team_id["id"];
-			
-			if($team_id)
-			{
-				$set = $ilDB->query("SELECT user_id".
-					" FROM il_exc_team".
-					" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
-					" AND id = ". $ilDB->quote($team_id, "integer"));
-				while($row = $ilDB->fetchAssoc($set))
-				{
-					$ids[] = $row["user_id"];
-				}	
-			}
+			return $team_id["id"];
 		}
-		
-		return $ids;
 	}
 	
 	/**
@@ -1876,9 +1900,9 @@ class ilExAssignment
 	 * 
 	 * @param int $a_team_id
 	 * @param int $a_action
-	 * @param int $a_object_id 
+	 * @param string $a_details 
 	 */
-	public static function writeTeamLog($a_team_id, $a_action, $a_object_id = null)
+	public static function writeTeamLog($a_team_id, $a_action, $a_details = null)
 	{
 		global $ilDB, $ilUser;
 		
@@ -1886,7 +1910,7 @@ class ilExAssignment
 			"team_id" => array("integer", $a_team_id),
 			"user_id" => array("integer", $ilUser->getId()),
 			"action" => array("integer", $a_action),
-			"object_id" => array("integer", $a_object_id),
+			"details" => array("text", $a_details),
 			"tstamp" => array("integer", time())
 		);
 		

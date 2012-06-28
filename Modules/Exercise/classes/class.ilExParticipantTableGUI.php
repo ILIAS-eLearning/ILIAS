@@ -109,16 +109,20 @@ class ilExParticipantTableGUI extends ilTable2GUI
 		if($d["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
 		{			
 			$members = ilExAssignment::getTeamMembersByAssignmentId($d["id"], $this->part_id);
-			if(sizeof($members) > 1)
-			{
-				$this->tpl->setCurrentBlock("ass_members");
-				foreach($members as $member_id)
-				{					
-					$this->tpl->setVariable("TXT_MEMBER_NAME", 
-						ilObjUser::_lookupFullname($member_id));
-					$this->tpl->parseCurrentBlock();					
-				}
-			}
+			
+			$this->tpl->setCurrentBlock("ass_members");
+			foreach($members as $member_id)
+			{					
+				$this->tpl->setVariable("TXT_MEMBER_NAME", 
+					ilObjUser::_lookupFullname($member_id));
+				$this->tpl->parseCurrentBlock();					
+			}			
+			
+			$ilCtrl->setParameter($this->parent_obj, "lpart", $this->part_id);
+			$this->tpl->setVariable("HREF_LOG", 
+				$ilCtrl->getLinkTarget($this->parent_obj, "showTeamLog"));
+			$this->tpl->setVariable("TXT_LOG", $lng->txt("exc_team_log"));
+			$ilCtrl->setParameter($this->parent_obj, "lpart", "");
 		}
 		
 		$this->tpl->setVariable("VAL_CHKBOX",

@@ -10855,9 +10855,9 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
 		'length' => 4,
 		'notnull' => true
 	),
-	'object_id' => array(
-		'type' => 'integer',
-		'length' => 4,
+	'details' => array(
+		'type' => 'text',
+		'length' => 500,
 		'notnull' => false
 	),
 	'action' => array(
