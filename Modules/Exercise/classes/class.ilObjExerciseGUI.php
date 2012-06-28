@@ -364,25 +364,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*/
 	function submissionScreenObject()
 	{
-		global $ilToolbar, $ilUser;
+		global $ilToolbar;
 		
-		$this->checkPermission("read");
+		$this->initTeamSubmission("showOverview", false);
+		$this->tabs_gui->activateTab("files");
 		
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
-			$this->ctrl->getLinkTarget($this, "showOverview"));
-		
-		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
-		{					
-			$this->tabs_gui->addTab("files", $this->lng->txt("files"), 
-				$this->ctrl->getLinkTarget($this, "submissionScreen"));
-				
-			$this->tabs_gui->addTab("team", $this->lng->txt("exc_team"), 
-				$this->ctrl->getLinkTarget($this, "submissionScreenTeam"));
-			
-			$this->tabs_gui->activateTab("files");
-		}
-						
 		// $this->tabs_gui->setTabActive("content");
 		// $this->addContentSubTabs("content");
 		
@@ -2948,13 +2934,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$certificate->outCertificate(array("user_id" => $ilUser->getId()));					
 	}
 	
-	protected function initTeamSubmission($a_back_cmd)
+	protected function initTeamSubmission($a_back_cmd, $a_mandatory_team = true)
 	{
 		global $ilUser;
 		
 		$this->checkPermission("read");
 		
-		if($this->ass->getType() != ilExAssignment::TYPE_UPLOAD_TEAM)
+		if($a_mandatory_team && $this->ass->getType() != ilExAssignment::TYPE_UPLOAD_TEAM)
 		{		
 			$this->ctrl->redirect($this, "submissionScreen");
 		}
@@ -2963,15 +2949,21 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
 			$this->ctrl->getLinkTarget($this, $a_back_cmd));
 		
-		$this->tabs_gui->addTab("files", $this->lng->txt("files"), 
-			$this->ctrl->getLinkTarget($this, "submissionScreen"));
-
-		$this->tabs_gui->addTab("team", $this->lng->txt("exc_team"), 
-			$this->ctrl->getLinkTarget($this, "submissionScreenTeam"));
-
-		$this->tabs_gui->activateTab("team");
+		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{			
+			$this->tabs_gui->addTab("files", $this->lng->txt("files"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreen"));
 		
-		return $this->ass->getTeamId($ilUser->getId(), true);
+			$this->tabs_gui->addTab("team", $this->lng->txt("exc_team"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreenTeam"));
+
+			$this->tabs_gui->addTab("log", $this->lng->txt("exc_team_log"), 
+				$this->ctrl->getLinkTarget($this, "submissionScreenTeamLog"));
+			
+			$this->tabs_gui->activateTab("team");
+			
+			return $this->ass->getTeamId($ilUser->getId(), true);
+		}					
 	}
 	
 	/**
@@ -3194,7 +3186,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}		
 	}
 	
-
+	function submissionScreenTeamLogObject()
+	{
+		$team_id = $this->initTeamSubmission("showOverview");
+		$this->tabs_gui->activateTab("log");
+	
+		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php";
+		$tbl = new ilExAssignmentTeamLogTableGUI($this, "submissionScreenTeamLog",
+			$team_id);
+		
+		$this->tpl->setContent($tbl->getHTML());						
+	}
 }
 
 ?>

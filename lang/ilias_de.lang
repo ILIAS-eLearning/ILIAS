@@ -12714,3 +12714,9 @@ exc#:#exc_team_member_add#:#Team-Mitglied hinzufügen (Suche)
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Kurs/Gruppe hinzufügen
 exc#:#exc_team_members#:#Team-Mitglieder
 exc#:#exc_team_at_least_one#:#Es muss mindestens 1 Team-Mitglied geben.
+exc#:#exc_team_log#:#Team Log
+exc#:#exc_team_log_remove_member#:#Mitglied %s hinzugefügt.
+exc#:#exc_team_log_add_member#:#Mitglied %s entfernt.
+exc#:#exc_team_log_create_team#:#Team erstellt.
+exc#:#exc_team_log_add_file#:#Datei %s hinzugefügt.
+exc#:#exc_team_log_remove_file#:#Datei %s entfernt.
