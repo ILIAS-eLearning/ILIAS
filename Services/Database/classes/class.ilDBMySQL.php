@@ -34,10 +34,15 @@ class ilDBMySQL extends ilDB
 			$db_port_str = ":".$this->getdbPort();
 		}
 		
-		$driver = ($this->getSubType() == "mysqli") ? "mysqli" : "mysql";
+		$driver = $this->isMySQLi() ? "mysqli" : "mysql";      
 		
 		return $driver."://".$this->getDBUser().":".$this->getDBPassword().
 			"@".$this->getdbHost().$db_port_str."/".$this->getDBName();
+	}
+	
+	protected function isMySQLi()
+	{
+		return ($this->getSubType() == "mysqli");
 	}
 
 	/**
@@ -45,7 +50,7 @@ class ilDBMySQL extends ilDB
 	*/
 	function getHostDSN()
 	{		
-		$driver = ($this->getSubType() == "mysqli") ? "mysqli" : "mysql";
+		$driver = $this->isMySQLi() ? "mysqli" : "mysql"; 
 		
 		return $driver."://".$this->getDBUser().":".$this->getDBPassword().
 			"@".$this->getdbHost();
@@ -150,7 +155,14 @@ class ilDBMySQL extends ilDB
 	*/
 	function getDBVersion()
 	{
-		$vers = @mysql_get_server_info();
+		if(!$this->isMySQLi())
+		{
+			$vers = @mysql_get_server_info();
+		}
+		else
+		{
+		    $vers = @mysqli_get_server_info($this->db->connection);
+		}		
 		if (trim($vers) == "")
 		{
 			$vers = "Unknown";
@@ -354,6 +366,30 @@ class ilDBMySQL extends ilDB
 	{
 		// InnoDB is default engine for MySQL >= 5.5
 		return array('type' => 'MyISAM');
+	}
+	
+	public function getErrorNo()
+	{
+		if(!$this->isMySQLi())
+		{
+			return mysql_errno();
+		}
+		else
+		{
+			return mysqli_errno($this->db->connection);
+		}
+	}
+	
+	public function getLastError()
+	{
+		if(!$this->isMySQLi())
+		{
+			return mysql_error();
+		}
+		else
+		{
+			return mysqli_error($this->db->connection);
+		}
 	}
 }
 ?>
