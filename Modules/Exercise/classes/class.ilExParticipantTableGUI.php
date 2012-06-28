@@ -103,8 +103,23 @@ class ilExParticipantTableGUI extends ilTable2GUI
 	protected function fillRow($d)
 	{
 		global $lng, $ilCtrl;
-
+		
 		$this->tpl->setVariable("TXT_ASS_TITLE", $d["title"]);
+		
+		if($d["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{			
+			$members = ilExAssignment::getTeamMembersByAssignmentId($d["id"], $this->part_id);
+			if(sizeof($members) > 1)
+			{
+				$this->tpl->setCurrentBlock("ass_members");
+				foreach($members as $member_id)
+				{					
+					$this->tpl->setVariable("TXT_MEMBER_NAME", 
+						ilObjUser::_lookupFullname($member_id));
+					$this->tpl->parseCurrentBlock();					
+				}
+			}
+		}
 		
 		$this->tpl->setVariable("VAL_CHKBOX",
 			ilUtil::formCheckbox(0, "assid[".$d["id"]."]",1));

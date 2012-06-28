@@ -10842,3 +10842,34 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
   $ilDB->addPrimaryKey("il_exc_team", array("ass_id", "user_id"));
   $ilDB->createSequence("il_exc_team");
 ?>
+<#3641>
+<?php
+	$fields = array(
+	'team_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'user_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+	'object_id' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false
+	),
+	'action' => array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true
+	),
+	'tstamp' => array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true
+	),
+  ); 
+  $ilDB->createTable("il_exc_team_log", $fields);
+?>

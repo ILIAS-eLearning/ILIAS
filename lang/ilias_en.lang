@@ -12801,3 +12801,9 @@ pd#:#pd_profile_data#:#Profile Data
 pd#:#pd_bookmarks#:#Bookmarks
 pd#:#pd_notes#:#Personal Desktop Notes
 pd#:#pd_private_calendars#:#Private Calendars
+exc#:#exc_team_log#:#Team Log
+exc#:#exc_team_log_remove_member#:#Removed member %s.
+exc#:#exc_team_log_add_member#:#Added member %s.
+exc#:#exc_team_log_create_team#:#Team created.
+exc#:#exc_team_log_add_file#:#Added file %s.
+exc#:#exc_team_log_remove_file#:#Removed file %s.

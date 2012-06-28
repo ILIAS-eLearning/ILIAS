@@ -15,6 +15,12 @@ class ilExAssignment
 	const TYPE_PORTFOLIO = 3;
 	const TYPE_UPLOAD_TEAM = 4;
 	
+	const TEAM_LOG_CREATE_TEAM = 1;
+	const TEAM_LOG_ADD_MEMBER = 2;
+	const TEAM_LOG_REMOVE_MEMBER = 3;
+	const TEAM_LOG_ADD_FILE = 4;
+	const TEAM_LOG_REMOVE_FILE = 5;
+	
 	/**
 	 * Constructor
 	 */
@@ -1701,7 +1707,10 @@ class ilExAssignment
 			$fields = array("id" => array("integer", $id),
 				"ass_id" => array("integer", $this->getId()),
 				"user_id" => array("integer", $a_user_id));			
-			$ilDB->insert("il_exc_team", $fields);			
+			$ilDB->insert("il_exc_team", $fields);		
+			
+			self::writeTeamLog($id, self::TEAM_LOG_CREATE_TEAM);
+			self::writeTeamLog($id, self::TEAM_LOG_ADD_MEMBER, $a_user_id);
 		}
 		
 		return $id;
@@ -1771,7 +1780,9 @@ class ilExAssignment
 			$fields = array("id" => array("integer", $a_team_id),
 				"ass_id" => array("integer", $this->getId()),
 				"user_id" => array("integer", $a_user_id));			
-			$ilDB->insert("il_exc_team", $fields);					
+			$ilDB->insert("il_exc_team", $fields);		
+			
+			self::writeTeamLog($a_team_id, self::TEAM_LOG_ADD_MEMBER, $a_user_id);
 		}									
 	}
 	
@@ -1789,7 +1800,9 @@ class ilExAssignment
 			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND id = ".$ilDB->quote($a_team_id, "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer");			
-		$ilDB->manipulate($sql);								
+		$ilDB->manipulate($sql);		
+		
+		self::writeTeamLog($a_team_id, self::TEAM_LOG_REMOVE_MEMBER, $a_user_id);
 	}
 	
 	/**
@@ -1858,8 +1871,50 @@ class ilExAssignment
 		return $map;
 	}
 
-			
-			
+	/**
+	 * Add entry to team log
+	 * 
+	 * @param int $a_team_id
+	 * @param int $a_action
+	 * @param int $a_object_id 
+	 */
+	public static function writeTeamLog($a_team_id, $a_action, $a_object_id = null)
+	{
+		global $ilDB, $ilUser;
+		
+		$fields = array(
+			"team_id" => array("integer", $a_team_id),
+			"user_id" => array("integer", $ilUser->getId()),
+			"action" => array("integer", $a_action),
+			"object_id" => array("integer", $a_object_id),
+			"tstamp" => array("integer", time())
+		);
+		
+		$ilDB->insert("il_exc_team_log", $fields);
+	}
+	
+	/**
+	 * Get all log entries for team
+	 * 
+	 * @param int $a_team_id
+	 * @return array 
+	 */
+	public static function getTeamLog($a_team_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT * FROM il_exc_team_log".
+			" WHERE team_id = ".$ilDB->quote($a_team_id, "integer").
+			" ORDER BY tstamp DESC";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}
+		return $res;
+	}						
 }
 
 ?>
