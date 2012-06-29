@@ -10965,3 +10965,34 @@ foreach($paths as $path => $number)
 }
 $ilDB->free($stmt);
 ?>
+<#3643>
+<?php
+// Delete all mails without an existing owner
+if($ilDB->getDBType() == 'mysql')
+{
+	$ilDB->manipulate('
+		DELETE m1
+		FROM mail m1
+		INNER JOIN (
+			SELECT mail.mail_id
+			FROM mail
+			LEFT JOIN usr_data
+				ON usr_data.usr_id = mail.user_id
+			WHERE usr_data.usr_id IS NULL
+		) m2
+		ON m2.mail_id = m1.mail_id');
+}
+else
+{
+	// Oracle and Postgres
+	$ilDB->manipulate(' 
+		DELETE FROM mail
+		WHERE mail.mail_id IN (
+			SELECT mail.mail_id
+			FROM mail
+			LEFT JOIN usr_data
+				ON usr_data.usr_id = mail.user_id
+			WHERE usr_data.usr_id IS NULL
+		)');
+}
+?>
