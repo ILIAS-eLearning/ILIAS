@@ -10873,3 +10873,95 @@ $ilDB->addIndex("bookmark_tree", array("child", "tree"), "i3");
   ); 
   $ilDB->createTable("il_exc_team_log", $fields);
 ?>
+<#3642>
+<?php
+// Fetch orphaned entries of table "mail_attachment"
+$res = $ilDB->query('
+	SELECT mattorphaned.mail_id, mattorphaned.path
+	FROM mail_attachment mattorphaned
+	WHERE mattorphaned.mail_id NOT IN (
+		SELECT matt.mail_id 
+		FROM mail_attachment matt
+		INNER JOIN mail 
+			ON mail.mail_id = matt.mail_id 
+		INNER JOIN usr_data
+			ON usr_data.usr_id = mail.user_id
+	)'
+);
+
+// Helper array to collect paths of orphaned entries
+$paths = array();
+
+$stmt = $ilDB->prepareManip('DELETE FROM mail_attachment WHERE mail_id = ?', array('integer'));
+// Delete the entries and store the path to check if it is shared with residual entries in the next step
+while($row = $ilDB->fetchAssoc($res))
+{
+	$ilDB->execute($stmt, array($row['mail_id']));
+
+	// Save path in key to prevent unnecessary lookups for duplicates
+	isset($paths[$row['path']]) ? $paths[$row['path']] = 0 : $paths[$row['path']]++;;
+} 
+$ilDB->free($stmt);
+
+/***************************/
+
+$stmt = $ilDB->prepare('SELECT COUNT(mail_id) cnt FROM mail_attachment WHERE path = ?', array('text'));
+foreach($paths as $path => $number)
+{
+	$res = $ilDB->execute($stmt, array($path));
+	$row = $ilDB->fetchAssoc($res);
+
+	// Check if the path is used by residual entries
+	if(isset($row['cnt']) && $row['cnt'] == 0)
+	{
+		try
+		{
+			// Delete the directory recursively
+			$basedirectory = CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'mail'.DIRECTORY_SEPARATOR.$path;
+
+			$iter = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($basedirectory), RecursiveIteratorIterator::CHILD_FIRST
+			);
+			foreach($iter as $file)
+			{
+				/**
+ 				 * @var $file SplFileInfo
+				 */
+				$filepath = $file->getPathname();
+				$bool = false;
+
+				if($file->isDir())
+				{
+					$bool = @rmdir($file->getPathname());
+				}
+				else
+				{
+					$bool = @unlink($file->getPathname());
+				}
+
+				if($bool)
+				{
+					$GLOBALS['ilLog']->write('Database Update: Deletion of file/subdirectory '.$filepath.' finished.');
+				}
+				else
+				{
+					$GLOBALS['ilLog']->write('Database Update: Deletion of file/subdirectory '.$filepath.' failed.');
+				}
+			}
+			
+			// Finally delete the base directory
+			$bool = @rmdir($basedirectory);
+			if($bool)
+			{
+				$GLOBALS['ilLog']->write('Database Update: Deletion of base directory '.$basedirectory.' finished.');
+			}
+			else
+			{
+				$GLOBALS['ilLog']->write('Database Update: Deletion of base directory '.$basedirectory.' failed.');
+			}
+		}
+		catch(Exception $e) { }
+	}
+}
+$ilDB->free($stmt);
+?>
