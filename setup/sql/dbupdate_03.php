@@ -10996,3 +10996,80 @@ else
 		)');
 }
 ?>
+<#3644>
+<?php
+$stmt = $ilDB->prepare('SELECT COUNT(mail_id) cnt FROM mail_attachment WHERE '.$ilDB->like('path', 'text', '?'), array('text'));
+try
+{
+	$iter = new RegexIterator(
+		new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator(CLIENT_DATA_DIR.DIRECTORY_SEPARATOR.'mail'),
+		RecursiveIteratorIterator::SELF_FIRST), '/mail_\d+_\d+$/'
+	);
+	foreach($iter as $file)
+	{
+		/**
+		 * @var $file SplFileInfo
+		 */
+		if($file->isDir())
+		{
+			$path = $file->getPathname();
+
+			$res = $ilDB->execute($stmt, array('%/'.$file->getFilename()));
+			
+			$row = $ilDB->fetchAssoc($res);
+			if(isset($row['cnt']) && $row['cnt'] == 0)
+			{
+				$basedirectory = $file->getPathname();
+				
+				$GLOBALS['ilLog']->write('Database Update: Directory '.$basedirectory.' not in use anymore. Processing deletion ...');
+				try
+				{
+					$delete_iter = new RecursiveIteratorIterator(
+						new RecursiveDirectoryIterator($basedirectory), RecursiveIteratorIterator::CHILD_FIRST
+					);
+					foreach($delete_iter as $file_to_delete)
+					{
+						/**
+						 * @var $file_to_delete SplFileInfo
+						 */
+						$filepath = $file_to_delete->getPathname();
+						$bool = false;
+
+						if($file_to_delete->isDir())
+						{
+							$bool = @rmdir($file_to_delete->getPathname());
+						}
+						else
+						{
+							$bool = @unlink($file_to_delete->getPathname());
+						}
+
+						if($bool)
+						{
+							$GLOBALS['ilLog']->write('Database Update: Deletion of file/subdirectory '.$filepath.' finished.');
+						}
+						else
+						{
+							$GLOBALS['ilLog']->write('Database Update: Deletion of file/subdirectory '.$filepath.' failed.');
+						}
+					}
+					
+					$bool = @rmdir($basedirectory);
+					if($bool)
+					{
+						$GLOBALS['ilLog']->write('Database Update: Deletion of base directory '.$basedirectory.' finished.');
+					}
+					else
+					{
+						$GLOBALS['ilLog']->write('Database Update: Deletion of base directory '.$basedirectory.' failed.');
+					}
+				}
+				catch(Exception $e) { }
+			}
+		}
+	}
+}
+catch(Exception $e) { }
+$ilDB->free($stmt);
+?>
