@@ -994,7 +994,20 @@ class ilObjTest extends ilObject
 
 		if (!$this->hasSingleChoiceQuestions()) return false;
 		
-		$result = $ilDB->queryF("SELECT DISTINCT(qpl_qst_sc.shuffle) foundshuffles FROM qpl_questions, qpl_qst_sc, tst_test_result, qpl_qst_type, tst_active WHERE tst_test_result.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_result.active_fi = tst_active.active_id AND qpl_questions.question_id = qpl_qst_sc.question_fi AND tst_active.test_fi = %s AND qpl_qst_type.type_tag = %s",
+		$result = $ilDB->queryF("
+				SELECT	DISTINCT(qpl_qst_sc.shuffle) foundshuffles
+				FROM	qpl_questions,
+						qpl_qst_sc,
+						tst_test_result,
+						qpl_qst_type,
+						tst_active
+				WHERE	tst_test_result.question_fi = qpl_questions.question_id
+				AND		qpl_questions.question_type_fi = qpl_qst_type.question_type_id
+				AND		tst_test_result.active_fi = tst_active.active_id
+				AND		qpl_questions.question_id = qpl_qst_sc.question_fi
+				AND		tst_active.test_fi = %s
+				AND		qpl_qst_type.type_tag = %s
+			",
 			array('integer', 'text'),
 			array($this->getTestId(), 'assSingleChoice')
 		);
