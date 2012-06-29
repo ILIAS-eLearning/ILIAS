@@ -534,21 +534,6 @@ class ilObjTest extends ilObject
 	}
 
 /**
-* Creates a database reference id for the object (saves the object
-* to the database and creates a reference id in the database)
-*
-* @access public
-*/
-	function createReference() {
-		$result = parent::createReference();
-		
-		$this->setPoolUsage(true);
-		
-		$this->saveToDb();
-		return $result;
-	}
-
-/**
 	* read object data from db into object
 	* @param	boolean
 	* @access	public
