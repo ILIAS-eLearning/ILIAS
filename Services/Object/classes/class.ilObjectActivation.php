@@ -322,10 +322,12 @@ class ilObjectActivation
 		
 		if(!isset($row["obj_id"]))
 		{			
-			$row = self::createDefaultEntry($a_ref_id);
+			$row = self::createDefaultEntry($a_ref_id);			
 		}
-		
-		self::$preloaded_data[$row["obj_id"]] = $row;
+		if($row["obj_id"])
+		{
+			self::$preloaded_data[$row["obj_id"]] = $row;
+		}
 		return $row;
 	}
 
@@ -408,6 +410,12 @@ class ilObjectActivation
 	{
 		global $ilDB, $tree;
 		
+		$parent_id = $tree->getParentId($a_ref_id);
+		if(!$parent_id)
+		{
+			return;
+		}
+		
 		$a_item = array();
 		$a_item["timing_type"]		= self::TIMINGS_DEACTIVATED;
 		$a_item["timing_start"]		= time();
@@ -425,7 +433,7 @@ class ilObjectActivation
 	 		"suggestion_start,suggestion_end, ".
 	 		"changeable,earliest_start,latest_end,visible,position) ".
 	 		"VALUES( ".
-			$ilDB->quote($tree->getParentId($a_ref_id),'integer').",".
+			$ilDB->quote($parent_id,'integer').",".
 			$ilDB->quote($a_ref_id,'integer').",".
 			$ilDB->quote($a_item["timing_type"],'integer').",".
 			$ilDB->quote($a_item["timing_start"],'integer').",".
