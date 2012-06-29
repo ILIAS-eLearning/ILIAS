@@ -2932,7 +2932,7 @@ class ilObjectListGUI
 			$om = $sahs_obj->getOpenMode();
 			$width = $sahs_obj->getWidth();
 			$height = $sahs_obj->getHeight();
-			if ($om != 0)
+			if ($om != 0 && !ilBrowser::isMobile())
 			{
 				$this->default_command["frame"]="";
 				$a_link = "javascript:void(0); onclick=startSAHS('".$a_link."','".$wtarget."',".$om.",".$width.",".$height.");";
