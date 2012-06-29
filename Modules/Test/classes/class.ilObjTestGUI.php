@@ -533,6 +533,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function afterSave(ilObject $a_new_object)
 	{
+		// added by JP and moved here by BH
+		// BH: why is the property not initialised with true within the object class per default .. ?
+		$a_new_object->setPoolUsage(true);
+		
 		$tstdef = $this->getDidacticTemplateVar("tstdef");
 		if ($tstdef) 
 		{
