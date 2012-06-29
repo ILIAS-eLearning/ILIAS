@@ -1347,7 +1347,7 @@ class ilObjTest extends ilObject
 					(int) $this->getHighscoreOwnTable(),
 					(int) $this->getHighscoreTopTable(),
 					(int) $this->getHighscoreTopNum(),
-					$this->isOnline(),
+					(int) $this->isOnline(),
 					$this->getTestId()
 				)
 			);
