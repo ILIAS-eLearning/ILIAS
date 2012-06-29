@@ -28,6 +28,28 @@ class ilAssQuestionHintTracking
 	 */
 	public static function requestsExist($questionId, $activeId, $pass)
 	{
+		if( self::getNumExistingRequests($questionId, $activeId, $pass) > 0 )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+
+	/**
+	 * Returns the number existing hint requests for the given
+	 * question relating to the given testactive and testpass or not
+	 *
+	 * @static
+	 * @access	public
+	 * @global	ilDB					$ilDB
+	 * @param	integer					$questionId
+	 * @param	integer					$activeId
+	 * @param	integer					$pass
+	 * @return	integer					$numExisingRequests
+	 */
+	public static function getNumExistingRequests($questionId, $activeId, $pass)
+	{
 		global $ilDB;
 		
 		$query = "
@@ -46,14 +68,9 @@ class ilAssQuestionHintTracking
 		
 		$row = $ilDB->fetchAssoc($res);
 		
-		if( $row['cnt'] > 0 )
-		{
-			return true;
-		}
-		
-		return false;
+		return $row['cnt'];
 	}
-	
+
 	/**
 	 * Returns the fact wether (further) hint requests are possible for the given
 	 * question relating to the given testactive and testpass or not
