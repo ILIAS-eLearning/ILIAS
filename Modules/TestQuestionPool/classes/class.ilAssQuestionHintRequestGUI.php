@@ -145,7 +145,15 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		));
 		
 		$form->addCommandButton(self::CMD_BACK_TO_QUESTION, $lng->txt('tst_question_hints_back_to_question'));
-		$form->addCommandButton(self::CMD_SHOW_LIST, $lng->txt('button_show_requested_question_hints'));
+		
+		$numExistingRequests = ilAssQuestionHintTracking::getNumExistingRequests(
+				$this->questionOBJ->getId(), $this->testSession->getActiveId(), $this->testSession->getPass()
+		);
+				
+		if($numExistingRequests > 1)
+		{
+			$form->addCommandButton(self::CMD_SHOW_LIST, $lng->txt('button_show_requested_question_hints'));
+		}
 		
 		// form input: hint text
 		
