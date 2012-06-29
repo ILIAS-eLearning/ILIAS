@@ -556,8 +556,9 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 
 			$a_new_object->setTemplate($template_id);
-			$a_new_object->saveToDb();
 		}
+		
+		$a_new_object->saveToDb();
 
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
