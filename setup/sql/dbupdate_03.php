@@ -11073,3 +11073,15 @@ try
 catch(Exception $e) { }
 $ilDB->free($stmt);
 ?>
+<#3645>
+<?php
+
+	if (!$ilDB->tableColumnExists('qpl_qst_mc', 'feedback_setting'))
+	{
+		$ilDB->addTableColumn('qpl_qst_mc', 'feedback_setting', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 1));
+	}
+?>
