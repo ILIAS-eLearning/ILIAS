@@ -95,7 +95,8 @@ if(IS_PAYMENT_ENABLED)
 	if(in_array($target_type, $shop_classes))
 	{
 		$class = $target_type;
-		if(ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'true')
+		if(ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'true'
+		|| ($_SESSION["AccountId"] != ANONYMOUS_USER_ID && ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'false'))
 		{
 			ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
 				.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
