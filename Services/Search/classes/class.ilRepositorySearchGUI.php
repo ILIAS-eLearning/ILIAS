@@ -796,9 +796,16 @@ class ilRepositorySearchGUI
 	 */
 	protected function showSearchUserTable($a_usr_ids,$a_parent_cmd)
 	{
+		$is_in_admin = ($_REQUEST['baseClass'] == 'ilAdministrationGUI');
+		if($is_in_admin)
+		{
+			// remember link target to admin search gui (this)
+			$_SESSION["usr_search_link"] = $this->ctrl->getLinkTarget($this,'show');
+		}
+		
 		include_once './Services/Search/classes/class.ilRepositoryUserResultTableGUI.php';
 		
-		$table = new ilRepositoryUserResultTableGUI($this,$a_parent_cmd);
+		$table = new ilRepositoryUserResultTableGUI($this,$a_parent_cmd,$is_in_admin);
 		if(count($this->add_options))
 		{
 			$table->addMultiItemSelectionButton(
