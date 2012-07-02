@@ -13,17 +13,17 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilRepositoryUserResultTableGUI extends ilTable2GUI
 {
-
-
 	protected static $all_selectable_cols = NULL;
+	protected $admin_mode;
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_admin_mode = false)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
 
+		$this->admin_mode = (bool)$a_admin_mode;
 
 		$this->setId("rep_search_".$ilUser->getId());
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -43,7 +43,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
 		$this->enable('select_all');
-		$this->setSelectAllCheckbox("user[]");
+		$this->setSelectAllCheckbox("user[]");				
 	}
 
 	/**
@@ -89,9 +89,9 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 		foreach($this->getSelectedColumns() as $field)
-		{
+		{			
 			switch($field)
-			{
+			{				
 				case 'gender':
 					$a_set['gender'] = $a_set['gender'] ? $this->lng->txt('gender_' . $a_set['gender']) : '';
 					$this->tpl->setCurrentBlock('custom_fields');
@@ -106,6 +106,17 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 					$this->tpl->parseCurrentBlock();
 					break;
 
+				case 'login':
+					if($this->admin_mode)
+					{
+						$ilCtrl->setParameterByClass("ilobjusergui", "ref_id", "7");
+						$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
+						$ilCtrl->setParameterByClass("ilobjusergui", "search", "1");
+						$link = $ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
+						$a_set[$field] = "<a href=\"".$link."\">".$a_set[$field]."</a>";												
+					}					
+					// fallthrough
+				
 				default:
 					$this->tpl->setCurrentBlock('custom_fields');
 					$this->tpl->setVariable('VAL_CUST', (string) ($a_set[$field] ? $a_set[$field] : ''));
