@@ -329,33 +329,62 @@ class ilPublicUserProfileGUI
 		if ($this->getPublicPref($user, "public_street") == "y" || 
 			$this->getPublicPref($user, "public_zipcode") == "y" ||
 			$this->getPublicPref($user, "public_city") == "y" ||
-			$this->getPublicPref($user, "public_countr") == "y")
-		{
-			$tpl->setCurrentBlock("address");
-			$tpl->setVariable("TXT_ADDRESS", $lng->txt("address"));
+			$this->getPublicPref($user, "public_country") == "y")
+		{		
+			$address = array();
 			$val_arr = array ("getStreet" => "street",
-			"getZipcode" => "zipcode", "getCity" => "city", "getCountry" => "country", "getSelectedCountry" => "sel_country");
+				"getZipcode" => "zipcode", 
+				"getCity" => "city", 
+				"getCountry" => "country", 
+				"getSelectedCountry" => "sel_country");			
 			foreach ($val_arr as $key => $value)
 			{
 				// if value "y" show information
 				if ($this->getPublicPref($user, "public_".$value) == "y")
 				{
-					if ($user->$key() != "")
-					{
-						if ($value == "sel_country")
+					$address_value = $user->$key();
+					
+					// only if set
+					if (trim($address_value) != "")
+					{					
+						switch($value)
 						{
-							$lng->loadLanguageModule("meta");
-							$tpl->setVariable("COUNTRY",
-								$lng->txt("meta_c_".$user->$key()));
-						}
-						else
-						{
-							$tpl->setVariable(strtoupper($value), $user->$key());
-						}
+							case "street":
+								$address[0] = $address_value;
+								break;
+							
+							case "zipcode":
+							case "city":
+								$address[1] .= " ".$address_value;
+								break;
+							
+							case "sel_country":
+								$lng->loadLanguageModule("meta");
+								$address[2] = $lng->txt("meta_c_".$address_value);
+								break;
+							
+							case "country":
+								$address[2] = $address_value;
+								break;
+						}																
 					}
 				}
 			}
-			$tpl->parseCurrentBlock();
+			if(sizeof($address))
+			{
+				$tpl->setCurrentBlock("address_line");
+				foreach($address as $line)
+				{
+					if(trim($line))
+					{
+						$tpl->setVariable("TXT_ADDRESS_LINE", trim($line));
+						$tpl->parseCurrentBlock();
+					}
+				}				
+				$tpl->setCurrentBlock("address");
+				$tpl->setVariable("TXT_ADDRESS", $lng->txt("address"));
+				$tpl->parseCurrentBlock();
+			}
 		}
 
 		// institution / department
