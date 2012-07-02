@@ -527,17 +527,17 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		$tpl->setVariable('TXT_BANK_DATA', utf8_decode($this->lng->txt('pay_bank_data')));
 
 
-		$tpl->setVariable('CUSTOMER_FIRSTNAME', $this->user_obj->getFirstname());
+		$tpl->setVariable('CUSTOMER_FIRSTNAME', utf8_decode($this->user_obj->getFirstname()));
 		$tpl->setVariable('CUSTOMER_LASTNAME',utf8_decode( $this->user_obj->getLastname()));
 		if($bookings['po_box']== '')
 		{
-			$tpl->setVariable('CUSTOMER_STREET', $bookings['street']); // contains also housenumber
+			$tpl->setVariable('CUSTOMER_STREET', utf8_decode( $bookings['street'])); // contains also housenumber
 		}
 		else
 		{
-			$tpl->setVariable('CUSTOMER_STREET', $bookings['po_box']);
+			$tpl->setVariable('CUSTOMER_STREET', utf8_decode($bookings['po_box']));
 		}
-		$tpl->setVariable('CUSTOMER_ZIPCODE', $bookings['zipcode']);
+		$tpl->setVariable('CUSTOMER_ZIPCODE', utf8_decode($bookings['zipcode']));
 		$tpl->setVariable('CUSTOMER_CITY', utf8_decode($bookings['city']));
 		$tpl->setVariable('CUSTOMER_COUNTRY', utf8_decode($bookings['country']));
 
@@ -625,7 +625,6 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 
 			$tpl->setVariable('TXT_COUPON', utf8_decode($this->lng->txt('paya_coupons_coupon')));
 			$tpl->setVariable('BONUS', number_format($bookings['total_discount'], 2, ',', '.') . ' ' . $currency);
-			// TODO: CURRENCY	$tpl->setVariable('BONUS', ilPaymentCurrency::_formatPriceToString($current_coupon_bonus * (-1),$currency_symbol));
 			$tpl->parseCurrentBlock();
 		}
 
@@ -1053,10 +1052,6 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 
 		$tbl->setTotalData('TXT_TOTAL_AMOUNT', $this->lng->txt('pay_bmf_total_amount').": ");
 		$tbl->setTotalData('VAL_TOTAL_AMOUNT',  number_format($this->totalAmount[$this->pm_id] , 2, ',', '.') . " " . $genSet->get('currency_unit')); #.$item['currency']);
-
-		// TODO: CURRENCY
-		#$currency_conversion_totalvat = (float)$_SESSION['currency_conversion'][$a_pay_method['pm_title']]['total_vat'];
-		#if($currency_conversion_totalvat > 0) $this->totalVat = $currency_conversion_totalvat;
 
 		if ($this->totalVat > 0)
 		{

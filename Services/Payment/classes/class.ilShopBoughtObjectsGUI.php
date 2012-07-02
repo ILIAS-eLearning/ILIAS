@@ -159,19 +159,19 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tpl->setVariable('TXT_BANK_DATA', utf8_decode($this->lng->txt('pay_bank_data')));
 
 
-		$tpl->setVariable('CUSTOMER_FIRSTNAME',$customer->getFirstName());// $customer['vorname']);
-		$tpl->setVariable('CUSTOMER_LASTNAME', $customer->getLastName()); //$customer['nachname']);
+		$tpl->setVariable('CUSTOMER_FIRSTNAME',utf8_decode($customer->getFirstName()));// $customer['vorname']);
+		$tpl->setVariable('CUSTOMER_LASTNAME', utf8_decode($customer->getLastName())); //$customer['nachname']);
 		if($bookings['po_box']== '')
 		{
 			$tpl->setVariable('CUSTOMER_STREET',utf8_decode( $bookings[$i]['street']));
 		}
 		else
 		{
-			$tpl->setVariable('CUSTOMER_STREET', $bookings[$i]['po_box']);
+			$tpl->setVariable('CUSTOMER_STREET', utf8_decode($bookings[$i]['po_box']));
 		}
-		$tpl->setVariable('CUSTOMER_ZIPCODE', $bookings[$i]['zipcode']);
-		$tpl->setVariable('CUSTOMER_CITY', $bookings[$i]['city']);
-		$tpl->setVariable('CUSTOMER_COUNTRY', $bookings[$i]['country']);
+		$tpl->setVariable('CUSTOMER_ZIPCODE', utf8_decode($bookings[$i]['zipcode']));
+		$tpl->setVariable('CUSTOMER_CITY', utf8_decode($bookings[$i]['city']));
+		$tpl->setVariable('CUSTOMER_COUNTRY', utf8_decode($bookings[$i]['country']));
 
 		$tpl->setVariable('BILL_NO', $transaction);
 
@@ -186,7 +186,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		for ($i = 0; $i < count($bookings[$i]); $i++)
 		{
-			$tmp_pobject = new ilPaymentObject($this->user_obj, $booking[$i]['pobject_id']);
+			$tmp_pobject = new ilPaymentObject($this->user_obj, $bookings[$i]['pobject_id']);
 
 			$obj_id = $ilObjDataCache->lookupObjId($bookings[$i]['ref_id']);
 			$obj_type = $ilObjDataCache->lookupType($obj_id);
@@ -252,11 +252,8 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 			$tpl->setVariable('TXT_COUPON', utf8_decode($this->lng->txt('paya_coupons_coupon') . ' ' . $coupon['pcc_code']));
 			$tpl->setVariable('BONUS', number_format($bookings['total_discount'], 2, ',', '.') . ' ' . $currency);
-			// TODO: CURRENCY	$tpl->setVariable('BONUS', ilPaymentCurrency::_formatPriceToString($current_coupon_bonus * (-1),$currency_symbol));
 			$tpl->parseCurrentBlock();
 		}
-
-		// TODO: CURRENCY $tpl->setVariable('SUBTOTAL_AMOUNT', ilPaymentCurrency::_formatPriceToString($sub_total_amount, $currency_symbol));
 
 		if ($bookings['total'] < 0)
 		{			
@@ -270,12 +267,9 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 
 		$tpl->setVariable('TXT_TOTAL_AMOUNT', utf8_decode($this->lng->txt('pay_bmf_total_amount')));
 		$tpl->setVariable('TOTAL_AMOUNT', number_format($bookings['total'], 2, ',', '.') . ' ' . $currency);
-		// TODO: CURRENCY $tpl->setVariable('TOTAL_AMOUNT',utf8_decode(ilPaymentCurrency::_formatPriceToString($bookings['total'], $currency_symbol) ));
 		if ($bookings['total_vat'] > 0)
 		{
 			$tpl->setVariable('TOTAL_VAT',number_format( $bookings['total_vat'], 2, ',', '.') . ' ' .$currency);
-			// TODO: CURRENCY $tpl->setVariable('TOTAL_VAT',ilPaymentCurrency::_formatPriceToString($bookings['total_vat'],$currency_symbol));
-		#	$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('pay_bmf_vat_included')));
 			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('plus_vat')));
 		}
 
@@ -304,7 +298,6 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		@unlink($genSet->get('pdf_path') . '/' . $file_name . '.html');
 		@unlink($genSet->get('pdf_path') . '/' . $file_name . '.pdf');
 	}
-/**/
 		
 	protected function prepareOutput()
 	{
@@ -376,12 +369,7 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			}
 			$f_result[$counter]['price'] = $booking['price'].' '.$booking['currency_unit'];
 			$f_result[$counter]['discount'] = ($booking['discount'] != '' ? (round($booking['discount'], 2).' '.$booking['currency_unit']) : '&nbsp;');
-// TODO CURRENCY
-/*
- 			$f_result[$counter][] = ilPaymentCurrency::_formatPriceToString($booking['price'], $booking['currency_unit']);
-			$f_result[$counter][] = ($booking['discount'] != '' ?  ilPaymentCurrency::_formatPriceToString($booking['discount']) : '&nbsp;');
 
- */
 			$payed_access = $booking['payed'] ? 
 				$this->lng->txt('yes') : 
 				$this->lng->txt('no');
