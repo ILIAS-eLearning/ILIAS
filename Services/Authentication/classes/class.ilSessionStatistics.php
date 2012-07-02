@@ -72,7 +72,7 @@ class ilSessionStatistics
 		else if(!$a_expired_at)
 		{
 			$sql = "UPDATE usr_session_stats_raw".
-				" SET end_time = ".$ilDB->quote($end_time, "integer");
+				" SET end_time = ".$ilDB->quote(time(), "integer");
 			if($a_context)
 			{
 				$sql .= ",end_context = ".$ilDB->quote($a_context, "integer");
