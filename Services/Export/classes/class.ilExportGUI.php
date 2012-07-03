@@ -202,7 +202,6 @@ class ilExportGUI
 			$table->addCustomMultiCommand($c["txt"], "multi_".$c["func"]); 
 		}
 		$tpl->setContent($table->getHTML());
-		
 	}
 	
 	/**

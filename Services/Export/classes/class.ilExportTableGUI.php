@@ -88,7 +88,6 @@ class ilExportTableGUI extends ilTable2GUI
 	 */
 	function getExportFiles()
 	{
-	
 		$types = array();
 		foreach ($this->parent_obj->getFormats() as $f)
 		{

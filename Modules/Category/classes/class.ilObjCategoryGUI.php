@@ -13,7 +13,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -149,6 +149,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($did);
 				break;
 
+			case 'ilexportgui':
+				$this->prepareOutput();
+				$this->tabs_gui->setTabActive('export');
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this);
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
+				break;
 
 			default:
 				if ($cmd == "infoScreen")
@@ -196,7 +204,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $lng, $ilHelp;
+		global $rbacsystem, $lng, $ilHelp, $ilAccess;
 
 		if ($this->ctrl->getCmd() == "editPageContent")
 		{
@@ -244,6 +252,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$tabs_gui->addTarget("administrate_users",
 				$this->ctrl->getLinkTarget($this, "listUsers"), "listUsers", get_class($this));
+		}
+
+		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget(
+				'export',
+				$this->ctrl->getLinkTargetByClass('ilexportgui',''),
+				'export',
+				'ilexportgui'
+			);
 		}
 		
 		// parent tabs (all container: edit_permission, clipboard, trash
