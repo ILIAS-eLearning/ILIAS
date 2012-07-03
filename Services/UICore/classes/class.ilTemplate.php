@@ -814,6 +814,16 @@ class ilTemplate extends ilTemplateX
 		
 		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
 		
+		// imprint
+		include_once "Modules/Imprint/classes/class.ilImprint.php";
+		if($_REQUEST["baseClass"] != "ilImprintGUI" && ilImprint::isActive())
+		{
+			$ftpl->setVariable("TXT_IMPRINT", $lng->txt("imprint"));
+			
+			include_once "Services/Link/classes/class.ilLink.php";
+			$ftpl->setVariable("URL_IMPRINT", ilLink::_getStaticLink(0, "impr"));
+		}
+		
 		$ftpl->setVariable("TXT_CONTACT", $lng->txt("contact_sysadmin"));
 		$ftpl->setVariable("URL_CONTACT", "mailto:".$ilSetting->get("admin_email"));
 
