@@ -35,7 +35,10 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $table_id;
 			
-		$a_definition_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id);
+		if(!$a_definition_id)
+		{
+			$a_definition_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id);
+		}
 		
 		// we always need a page object - create on demand
 		if(!$a_definition_id)
@@ -115,7 +118,7 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 				if($viewdef)
 				{					
 					$this->setPresentationTitle($title);					
-					$tpl->setTitle($title);
+					// $tpl->setTitle($title);
 					
 					$ilLocator->addItem($title,
 						$ilCtrl->getLinkTarget($this, "preview"));							
