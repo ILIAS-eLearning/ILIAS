@@ -11532,8 +11532,8 @@ survey#:#matrix_subtype_date#:#Datum
 survey#:#matrix_subtype_description#:#Bitte wählen Sie einen der aufgeführten Untertypen aus, um das Verhalten der Antwortfelder zu bestimmen.
 survey#:#matrix_subtype_double#:#Fließkommazahl
 survey#:#matrix_subtype_integer#:#Ganzzahl
-survey#:#matrix_subtype_mr#:#Kontrollkästchen (Mehrfachauswahl)
-survey#:#matrix_subtype_sr#:#Optionsschaltflächen (Einfachauswahl)
+survey#:#matrix_subtype_mr#:#Checkboxen (Mehrfachauswahl)
+survey#:#matrix_subtype_sr#:#Radiobuttons (Einfachauswahl)
 survey#:#matrix_subtype_text#:#Text
 survey#:#matrix_subtype_time#:#Zeit
 survey#:#maxchars#:#Maximale Anzahl erlaubter Zeichen
