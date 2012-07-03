@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-require_once("./Modules/SystemFolder/classes/class.ilImprint.php");
+require_once("./Modules/Imprint/classes/class.ilImprint.php");
 
 /**
 * Class ilImprintGUI
@@ -12,7 +12,7 @@ require_once("./Modules/SystemFolder/classes/class.ilImprint.php");
 * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
 * @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
 * 
-* @ingroup ModulesSystemFolder
+* @ingroup ModulesImprint
 */
 class ilImprintGUI extends ilPageObjectGUI
 {
@@ -74,6 +74,11 @@ class ilImprintGUI extends ilPageObjectGUI
 	{
 		global $ilCtrl, $ilLocator, $lng;
 		
+		if($_REQUEST["baseClass"] == "ilImprintGUI")
+		{
+			$this->renderFullscreen();
+		}
+		
 		$next_class = $ilCtrl->getNextClass($this);
 			
 		$title = $lng->txt("adm_imprint");
@@ -110,6 +115,34 @@ class ilImprintGUI extends ilPageObjectGUI
 		}
 		
 		return $a_output;
+	}
+	
+	protected function renderFullscreen()
+	{
+		global $tpl, $lng, $ilMainMenu;
+		
+		if(!ilImprint::isActive())
+		{
+			ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI");
+		}
+		
+		$tpl->getStandardTemplate();
+		
+		$this->setRawPageContent(true);
+		$html = $this->showPage();
+		
+		$itpl = new ilTemplate("tpl.imprint.html", true, true, "Modules/Imprint");
+		$itpl->setVariable("PAGE_TITLE", $lng->txt("imprint"));
+		$itpl->setVariable("IMPRINT", $html);
+		unset($html);
+		
+		$tpl->setContent($itpl->get());
+		
+		$ilMainMenu->showLogoOnly(true);
+		$tpl->setFrameFixedWidth(true);
+
+		echo $tpl->show("DEFAULT", true, false);
+		exit();
 	}
 }
 

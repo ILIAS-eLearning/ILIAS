@@ -8,11 +8,14 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 *
-* @ingroup ModulesSystemFolder
+* @ingroup ModulesImprint
 */
 class ilImprint extends ilPageObject
 {
-	
+	public static function isActive()
+	{
+		return self::_lookupActive(1, "impr");
+	}
 }
 
 ?>

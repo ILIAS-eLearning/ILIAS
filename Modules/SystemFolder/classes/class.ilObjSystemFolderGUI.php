@@ -55,7 +55,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilTabs->setBackTarget($this->lng->txt("back"),
 					$this->ctrl->getLinkTarget($this, ""));
 			
-				include_once("./Modules/SystemFolder/classes/class.ilImprintGUI.php");
+				include_once("./Modules/Imprint/classes/class.ilImprintGUI.php");
 				$igui = new ilImprintGUI();
 								
 				// needed for editor			

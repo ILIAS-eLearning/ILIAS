@@ -139,6 +139,12 @@ class ilMainMenuGUI
 	function setTemplateVars()
 	{
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
+		
+		if($this->logo_only)
+		{
+			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
+			return;
+		}
 
 		// get user interface plugins
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
@@ -1039,6 +1045,18 @@ class ilMainMenuGUI
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
 				"bottom center", "top center", false);
 		//}
+	}
+	
+	/**
+	 * Toggle rendering of main menu, search, user info
+	 * 
+	 * @see ilImprintGUI
+	 * 
+	 * @param bool $a_value 
+	 */
+	function showLogoOnly($a_value)
+	{
+		$this->logo_only = (bool)$a_value;
 	}
 	
 }
