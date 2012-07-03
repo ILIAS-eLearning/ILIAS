@@ -11089,3 +11089,7 @@ $ilDB->free($stmt);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3647>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
