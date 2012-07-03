@@ -61,6 +61,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				// needed for editor			
 				$igui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "impr"));
 				
+				if(!$this->checkPermissionBool("write"))
+				{
+					$igui->setEnableEditing(false);
+				}
+				
 				$ret = $this->ctrl->forwardCommand($igui);				
 				if ($ret != "")
 				{																								
