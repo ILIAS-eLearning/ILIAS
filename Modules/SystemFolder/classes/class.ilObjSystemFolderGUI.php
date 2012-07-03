@@ -9,7 +9,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
  * @author Stefan Meyer <meyer@leifos.com>
  * $Id$
  *
- * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI
  *
  * @extends ilObjectGUI
  */
@@ -36,18 +36,38 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
 	function &executeCommand()
 	{
-		global $rbacsystem;
+		global $ilTabs;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->prepareOutput();
+		
 		switch($next_class)
 		{
 			case 'ilpermissiongui':
-					include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-					$perm_gui =& new ilPermissionGUI($this);
-					$ret =& $this->ctrl->forwardCommand($perm_gui);
+				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				$perm_gui =& new ilPermissionGUI($this);
+				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-
+			
+			case 'ilimprintgui':
+				// page editor will set its own tabs
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$this->ctrl->getLinkTarget($this, ""));
+			
+				include_once("./Modules/SystemFolder/classes/class.ilImprintGUI.php");
+				$igui = new ilImprintGUI();
+								
+				// needed for editor			
+				$igui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "impr"));
+				
+				$ret = $this->ctrl->forwardCommand($igui);				
+				if ($ret != "")
+				{																								
+					$this->tpl->setContent($ret);					
+				}
+				break;
+			
 			default:
 //var_dump($_POST);
 				$cmd = $this->ctrl->getCmd("view");
@@ -1693,6 +1713,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ilTabs->addSubTabTarget("header_title", $ilCtrl->getLinkTarget($this, "showHeaderTitle"));
 		$ilTabs->addSubTabTarget("cron_jobs", $ilCtrl->getLinkTarget($this, "showCronJobs"));
 		$ilTabs->addSubTabTarget("contact_data", $ilCtrl->getLinkTarget($this, "showContactInformation"));
+		$ilTabs->addSubTabTarget("adm_imprint", $ilCtrl->getLinkTargetByClass("ilimprintgui", "preview"));
 		$ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
 		$ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
 		$ilTabs->addSubTabTarget("proxy", $ilCtrl->getLinkTarget($this, "showProxy"));
@@ -3257,7 +3278,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		// save and cancel commands
 		$this->form->addCommandButton('saveProxy', $lng->txt('save'));
 	}
-
+	
 	/**
 	 * goto target group
 	 */

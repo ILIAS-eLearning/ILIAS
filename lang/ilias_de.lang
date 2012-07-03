@@ -12720,3 +12720,5 @@ exc#:#exc_team_log_add_member#:#Mitglied %s entfernt.
 exc#:#exc_team_log_create_team#:#Team erstellt.
 exc#:#exc_team_log_add_file#:#Datei %s hinzugefügt.
 exc#:#exc_team_log_remove_file#:#Datei %s entfernt.
+administration#:#adm_imprint#:#Impressum
+administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und nicht für Benutzer erreichbar.

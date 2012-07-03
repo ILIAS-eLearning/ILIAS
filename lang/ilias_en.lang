@@ -12807,3 +12807,5 @@ exc#:#exc_team_log_add_member#:#Added member %s.
 exc#:#exc_team_log_create_team#:#Team created.
 exc#:#exc_team_log_add_file#:#Added file %s.
 exc#:#exc_team_log_remove_file#:#Removed file %s.
+administration#:#adm_imprint#:#Imprint
+administration#:#adm_imprint_inactive#:#The imprint is inactive and users are not able to access it.
