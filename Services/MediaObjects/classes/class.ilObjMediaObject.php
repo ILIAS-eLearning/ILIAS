@@ -1797,5 +1797,44 @@ class ilObjMediaObject extends ilObject
 
 		return $new_obj;
 	}
+	
+	/**
+	 * Upload video preview picture
+	 *
+	 * @param
+	 * @return
+	 */
+	function uploadVideoPreviewPic($a_prevpic)
+	{
+		$pi = pathinfo($a_prevpic["name"]);
+		$ext = $pi["extension"];
+		if (in_array($ext, array("jpg", "jpeg", "png")))
+		{
+			$this->uploadAdditionalFile("mob_vpreview.".$ext, $a_prevpic["tmp_name"]);
+		}
+	}
+
+	/**
+	 * Get video preview pic
+	 *
+	 * @param
+	 * @return
+	 */
+	function getVideoPreviewPic()
+	{
+		$dir = ilObjMediaObject::_getDirectory($this->getId());
+		$ppics = array($dir."/mob_vpreview.jpg",
+			$dir."/mob_vpreview.jpeg",
+			$dir."/mob_vpreview.png");
+		foreach ($ppics as $p)
+		{
+			if (is_file($p))
+			{
+				return $p;
+			}
+		}
+		return "";
+	}
+	
 }
 ?>

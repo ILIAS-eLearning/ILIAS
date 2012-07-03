@@ -65,6 +65,26 @@ class ilMediaPlayerGUI
 	}
 
 	/**
+	 * Set video preview picture
+	 *
+	 * @param string $a_val video preview picture	
+	 */
+	function setVideoPreviewPic($a_val)
+	{
+		$this->video_preview_pic = $a_val;
+	}
+	
+	/**
+	 * Get video preview picture
+	 *
+	 * @return string video preview picture
+	 */
+	function getVideoPreviewPic()
+	{
+		return $this->video_preview_pic;
+	}
+	
+	/**
 	* Get Html for MP3 Player
 	*/
 	function getMp3PlayerHtml()
@@ -97,21 +117,29 @@ class ilMediaPlayerGUI
 
 			return $html;
 		}
-
 		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
-		if (strpos($mimeType,"flv") === false 
-		 && strpos($mimeType,"audio/mpeg") === false
-		 && strpos($mimeType,"image/png") === false
-		 && strpos($mimeType,"image/gif") === false)		
-		{
-   			$html = '<embed src="'.$this->getFile().'" '.
-   					'type="'.$mimeType.'" '.
-   					'autoplay="false" autostart="false" '.
-   					'width="320" height="240" scale="aspect" ></embed>';
-   			return $html;
-		}
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
+		
+		// video tag
+		if ($mimeType == "video/mp4")
+		{
+			$tpl->addCss("./Services/MediaObjects/media_element_2_7_0/mediaelementplayer.min.css");
+			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_7_0/mediaelement-and-player.min.js");
+
+			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+			$mp_tpl->setCurrentBlock("video");
+			//$mp_tpl->setVariable("FILE", urlencode($this->getFile()));
+			$mp_tpl->setVariable("FILE", $this->getFile());
+			$mp_tpl->setVariable("PLAYER_NR", self::$nr);
+			$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "30");
+			$mp_tpl->setVariable("DISPLAY_WIDTH", "320");
+			$mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
+			$mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
+			self::$nr++;
+			$mp_tpl->parseCurrentBlock();
+			return $mp_tpl->get();
+		}
 		
 		// flv
 		if (is_int(strpos($mimeType,"flv")))
@@ -143,7 +171,7 @@ class ilMediaPlayerGUI
 			$mp_tpl->parseCurrentBlock();
 			return $mp_tpl->get();
 		}
-		
+
 		$tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");		
 		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 		$mp_tpl->setCurrentBlock("default");

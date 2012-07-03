@@ -149,6 +149,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
 					$mpl->setMimeType ($med->getFormat());
 					$mpl->setDisplayHeight($med->getHeight());
+					$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
 				}
 
 				$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());

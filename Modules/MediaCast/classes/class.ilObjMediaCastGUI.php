@@ -352,6 +352,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
         		$clearCheckBox->setTitle($lng->txt("mcst_clear_purpose_title"));
         		$this->form_gui->addItem($clearCheckBox);
     		} else {
+    			
+    			// mime type selection
     			$mimeTypeSelection = new ilSelectInputGUI();
     			$mimeTypeSelection->setPostVar("mimetype_".$purpose);
     			$mimeTypeSelection->setTitle($lng->txt("mcst_mimetype"));
@@ -360,6 +362,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
     			$options = array_merge($options, $this->mimeTypes);
     			$mimeTypeSelection->setOptions($options);    			
     			$this->form_gui->addItem($mimeTypeSelection);
+    			
+    			// preview picure
+    			$pp = new ilImageFileInputGUI($lng->txt("mcst_preview_picture"), "preview_pic");
+    			$pp->setSuffixes(array("png", "jpeg", "jpg"));
+    			//$fi->setInfo($lng->txt(""));
+    			$this->form_gui->addItem($pp);
+    			
     		}
     		
 		}
@@ -386,6 +395,21 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	public function getCastItemValues()
 	{
 		global $lng;
+		
+		// get mob
+		$this->mcst_item = new ilNewsItem($_GET["item_id"]);
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		$mob = new ilObjMediaObject($this->mcst_item->getMobId());
+		
+		// preview
+		$ppic = $mob->getVideoPreviewPic();
+		if ($ppic != "")
+		{
+			$i = $this->form_gui->getItemByPostVar("preview_pic");
+			$i->setImage($ppic);
+		}
+		
+		
 	    $values = array();
 		$mediaItems = $this->getMediaItems($_GET["item_id"]);
 		if (count ($mediaItems) > 0)
@@ -681,7 +705,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			
   			        $mob->setTitle($title);
   			        $mob->setDescription($description);
-    			    
+  			        
+  			        $prevpic = $this->form_gui->getInput("preview_pic");
+  			        if ($prevpic["size"] > 0)
+  			        {
+  			        	$mob->uploadVideoPreviewPic($prevpic);
+  			        }
     			}			    
 			}
 			
