@@ -704,7 +704,7 @@ class ilPersonalProfileGUI
 	function setHeader()
 	{
 //		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
-		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_profile'));
+		$this->tpl->setTitle($this->lng->txt('personal_profile'));
 	}
 
 	//
@@ -1329,6 +1329,8 @@ class ilPersonalProfileGUI
 		global $ilToolbar, $ilCtrl, $tpl, $ilTabs, $ilUser;
 		
 		$ilTabs->activateTab("export");
+		$this->setHeader();
+		
 		$ilToolbar->addButton($this->lng->txt("pd_export_profile"),
 			$ilCtrl->getLinkTarget($this, "exportPersonalData"));
 		
@@ -1356,6 +1358,7 @@ class ilPersonalProfileGUI
 		global $ilCtrl, $ilUser;
 
 		$ilUser->exportPersonalData();
+		$ilUser->sendPersonalDataFile();
 		$ilCtrl->redirect($this, "showExportImport");
 	}
 	
@@ -1383,6 +1386,7 @@ class ilPersonalProfileGUI
 		global $lng, $ilCtrl, $tpl, $ilTabs;
 	
 		$ilTabs->activateTab("export");
+		$this->setHeader();
 		
 		$this->initPersonalDataImportForm();
 		
