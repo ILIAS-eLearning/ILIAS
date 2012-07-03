@@ -19,7 +19,7 @@ class ilFFmpeg
 	 */
 	static function enabled()
 	{
-		if (defined("PATH_TO_CONVERT") && PATH_TO_CONVERT != "")
+		if (defined("PATH_TO_FFMPEG") && PATH_TO_FFMPEG != "")
 		{
 			return true;
 		}
