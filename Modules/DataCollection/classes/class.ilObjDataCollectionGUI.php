@@ -29,7 +29,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 	    parent::__construct($a_id, $a_id_type, $a_parent_node_id);		
 
 		$lng->loadLanguageModule("dcl");
@@ -42,6 +42,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		{
 			$this->table_id = $this->object->getMainTableId();
 		}
+		
+		
+		$ilCtrl->saveParameter($this, "table_id");
+
 	}
 	
 	function getStandardCmd()
@@ -138,11 +142,32 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 			case "ildatacollectionrecordviewviewdefinitiongui":
 				$this->addHeaderAction($cmd);
 				$this->prepareOutput();
+										
+				// page editor will set its own tabs
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$ilCtrl->getLinkTargetByClass("ildatacollectionfieldlistgui", "listFields"));
+				/*
 				$this->addListFieldsTabs("view_viewdefinition");
-				$ilTabs->setTabActive("id_fields");
+				$ilTabs->setTabActive("id_fields");				 
+				*/
+				
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");
 				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this, $this->table_id);
-				$this->ctrl->forwardCommand($recordedit_gui);
+								
+				// needed for editor			
+				$recordedit_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "dcl"));
+				
+				if (!$this->checkPermissionBool("write"))
+				{
+					$recordedit_gui->setEnableEditing(false);
+				}				
+				
+				$ret = $this->ctrl->forwardCommand($recordedit_gui);				
+				if ($ret != "")
+				{																								
+					$this->tpl->setContent($ret);					
+				}
 				break;
 				
 			case "ildatacollectionrecordlistviewdefinitiongui":
@@ -356,7 +381,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$ilCtrl->setParameterByClass("ildatacollectionrecordviewviewdefinitiongui","table_id", $this->table_id);
 		$ilTabs->addSubTab("view_viewdefinition",
 			$lng->txt("dcl_record_view_viewdefinition"),
-			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewviewdefinitiongui","create"));
+			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewviewdefinitiongui","preview"));
 
 		//TODO
 		$ilTabs->addSubTab("edit_viewdefinition",
