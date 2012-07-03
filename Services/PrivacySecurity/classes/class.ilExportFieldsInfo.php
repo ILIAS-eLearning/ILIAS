@@ -144,7 +144,7 @@ class ilExportFieldsInfo
 					break;
 	
 				case 'username':
-					$fields['login']['txt'] = $lng->txt('login');
+					$fields['login']['txt'] = $lng->txt('username');
 					$fields['login']['default'] = 1;
 					break;
 				default:
