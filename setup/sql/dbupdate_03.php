@@ -11085,3 +11085,7 @@ $ilDB->free($stmt);
 			"default" => 1));
 	}
 ?>
+<#3646>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
