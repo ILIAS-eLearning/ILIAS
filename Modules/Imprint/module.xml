@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<service xmlns="http://www.w3.org" version="$Id$"
+<module xmlns="http://www.w3.org" version="$Id$"
 	id="impr">
 	<baseclasses>
 		<baseclass name="ilImprintGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 	</objects>
-</service>
+</module>
