@@ -12729,3 +12729,6 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und ni
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige Objekte ohne Zugriff
 cat#:#cat_import#:#Kategorie importieren
+objref#:#objref_edit_ref#:#referenzziel
+objref#:#objref_edit_title#:#Titel
+objref#:#objref_title_settings#:#Titel der Referenz

@@ -32,9 +32,13 @@
 */
 class ilContainerReference extends ilObject
 {
+	const TITLE_TYPE_REUSE = 1;
+	const TITLE_TYPE_CUSTOM = 2;
+	
 	protected $db = null;
 	protected $target_id = null;
 	protected $target_ref_id = null;
+	protected $title_type = self::TITLE_TYPE_REUSE;
 	
 	/**
 	 * Constructor 
@@ -193,6 +197,24 @@ class ilContainerReference extends ilObject
 	}
 	
 	/**
+	 * get title type
+	 * @return type 
+	 */
+	public function getTitleType()
+	{
+		return $this->title_type;
+	}
+	
+	/**
+	 * Set title type
+	 * @param type $type 
+	 */
+	public function setTitleType($type)
+	{
+		$this->title_type = $type;
+	}
+	
+	/**
 	 * read
 	 *
 	 * @access public
@@ -207,15 +229,20 @@ class ilContainerReference extends ilObject
 		$query = "SELECT * FROM container_reference ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ";
 		$res = $ilDB->query($query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$this->setTargetId($row->target_obj_id);
+			$this->setTitleType($row->title_type);
 		}
+		
 		$ref_ids = ilObject::_getAllReferences($this->getTargetId());
 		$this->setTargetRefId(current($ref_ids));
 		
-		$this->title = $this->lng->txt('reference_of').' '.ilObject::_lookupTitle($this->getTargetId());
-		
+		if($this->getTitleType() == ilContainerReference::TITLE_TYPE_REUSE)
+		{
+			$this->title = $this->lng->txt('reference_of').' '.ilObject::_lookupTitle($this->getTargetId());
+		}
 	}
 	
 	/**
@@ -235,10 +262,11 @@ class ilContainerReference extends ilObject
 			"WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." ";
 		$ilDB->manipulate($query);
 		
-		$query = "INSERT INTO container_reference (obj_id, target_obj_id) ".
+		$query = "INSERT INTO container_reference (obj_id, target_obj_id, title_type) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId(),'integer').", ".
-			$ilDB->quote($this->getTargetId(),'integer')." ".
+			$ilDB->quote($this->getTargetId(),'integer').", ".
+			$ilDB->quote($this->getTitleType(),'integer').' '.
 			")";
 		$ilDB->manipulate($query);
 	}
@@ -280,10 +308,11 @@ class ilContainerReference extends ilObject
 		
 	 	$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	 	
-		$query = "INSERT INTO container_reference (obj_id, target_obj_id) ".
+		$query = "INSERT INTO container_reference (obj_id, target_obj_id, title_type) ".
 			"VALUES( ".
 			$ilDB->quote($new_obj->getId(),'integer').", ".
-			$ilDB->quote($this->getTargetId(),'integer')." ".
+			$ilDB->quote($this->getTargetId(),'integer').", ".
+			$ilDB->quote($this->getTitleType(),'integer').' '.
 			")";
 		$ilDB->manipulate($query);
 	}

@@ -11093,3 +11093,19 @@ $ilDB->free($stmt);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3648>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#3649>
+<?php
+
+	if(!$ilDB->tableColumnExists('container_reference','title_type'))
+	{
+		$ilDB->addTableColumn('container_reference', 'title_type', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 1));
+	}
+?>
