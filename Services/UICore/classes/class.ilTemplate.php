@@ -237,7 +237,6 @@ class ilTemplate extends ilTemplateX
 			$this->fillSideIcons();
 			$this->fillScreenReaderFocus();
 			$this->fillStopFloating();
-			$this->fillPageFormAction();
 			$this->fillLeftContent();
 			$this->fillLeftNav();
 			$this->fillRightContent();
@@ -489,7 +488,6 @@ class ilTemplate extends ilTemplateX
 			$this->fillSideIcons();
 			$this->fillScreenReaderFocus();
 			$this->fillStopFloating();
-			$this->fillPageFormAction();
 			$this->fillLeftContent();
 			$this->fillLeftNav();
 			$this->fillRightContent();
@@ -2164,6 +2162,8 @@ class ilTemplate extends ilTemplateX
 
 		if ($adm_cmds)
 		{
+			$this->fillPageFormAction();
+			
 			$this->setCurrentBlock("adm_view_components");
 			$this->setVariable("ADM_PANEL1", $toolb->getHTML());
 			$this->parseCurrentBlock();
@@ -2187,30 +2187,26 @@ class ilTemplate extends ilTemplateX
 			}
 			
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-			$selection = new ilAdvancedSelectionListGUI();
-			$selection->setFormSelectMode("new_type", "", false,
-				"", "", "",
-				"", $this->creation_selector["txt"], "", $this->creation_selector["command"]);
+			$selection = new ilAdvancedSelectionListGUI();			
 			$selection->setListTitle($lng->txt("cntr_add_new_item"));
 			$selection->setId("item_creation");
-			//$selection->setSelectionHeaderClass("MMInactive");
 			$selection->setHeaderIcon(ilUtil::getImagePath("cmd_add_s.gif"));
 			$selection->setItemLinkClass("xsmall");
-			//$selection->setSelectionHeaderClass("submit");
 			$selection->setUseImages(true);
-			$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_FORM_SUBMIT,
-				"select_objtype_form");
+			
 			foreach ($this->creation_selector["options"] as $item)
 			{
+				$link = $this->page_form_action."&new_type=".$item["value"];
+				$link = str_replace("cmd=post", "cmd=".$this->creation_selector["command"], $link);
+				
 				$ttip = ilHelp::getObjCreationTooltipText($item["value"]);
-				$selection->addItem($item["title"], $item["value"], "",
+				$selection->addItem($item["title"], "", $link,
 					$item["img"], $item["title"], "", "", false, "", $ttip,
 					"right center", "left center", false);
 			}
+			
 			$this->setVariable("SELECT_OBJTYPE_REPOS",
 				$selection->getHTML());
-			$this->setVariable("SELECT_OBJTYPE_FORM_ACTION",
-				$this->page_form_action);
 			
 			$this->parseCurrentBlock();
 			$creation_selector = true;

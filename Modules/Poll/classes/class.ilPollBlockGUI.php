@@ -102,44 +102,49 @@ class ilPollBlockGUI extends ilBlockGUI
 		}		
 		
 		
-		// vote
-		
-		if($this->poll_block->mayVote($ilUser->getId()))
-		{		
-			$this->tpl->setCurrentBlock("answer");
-			foreach($a_poll->getAnswers() as $item)
-			{			
-				$this->tpl->setVariable("VALUE_ANSWER", $item["id"]);
-				$this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($item["answer"]));
-				$this->tpl->parseCurrentBlock();
-			}		
+		// nested form problem
+		if(!$_SESSION["il_cont_admin_panel"])
+		{
+			// vote
 
-			$ilCtrl->setParameterByClass("ilobjpollgui",
-					"ref_id", $this->getRefId());		
-			$url = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
-						"vote");
-			$ilCtrl->clearParametersByClass("ilobjpollgui");
+			if($this->poll_block->mayVote($ilUser->getId()))
+			{		
+				$this->tpl->setCurrentBlock("answer");
+				foreach($a_poll->getAnswers() as $item)
+				{			
+					$this->tpl->setVariable("VALUE_ANSWER", $item["id"]);
+					$this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($item["answer"]));
+					$this->tpl->parseCurrentBlock();
+				}		
 
-			$this->tpl->setVariable("URL_FORM", $url);
-			$this->tpl->setVariable("CMD_FORM", "vote");
-			$this->tpl->setVariable("TXT_SUBMIT", $lng->txt("poll_vote"));		
+				$ilCtrl->setParameterByClass("ilobjpollgui",
+						"ref_id", $this->getRefId());		
+				$url = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+							"vote");
+				$ilCtrl->clearParametersByClass("ilobjpollgui");
+
+				$this->tpl->setVariable("URL_FORM", $url);
+				$this->tpl->setVariable("CMD_FORM", "vote");
+				$this->tpl->setVariable("TXT_SUBMIT", $lng->txt("poll_vote"));		
+			}
+
+
+			// result
+
+			if($this->poll_block->maySeeResults($ilUser->getId()))
+			{	
+				$perc = $this->poll_block->getPoll()->getVotePercentages();
+
+				$this->tpl->setCurrentBlock("answer_result");
+				foreach($a_poll->getAnswers() as $item)
+				{			
+					$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($item["answer"]));
+					$this->tpl->setVariable("PERC_ANSWER_RESULT", number_format($perc[$item["id"]]["perc"], 2));
+					$this->tpl->parseCurrentBlock();
+				}		
+			}
 		}
 		
-		
-		// result
-		
-		if($this->poll_block->maySeeResults($ilUser->getId()))
-		{	
-			$perc = $this->poll_block->getPoll()->getVotePercentages();
-			
-			$this->tpl->setCurrentBlock("answer_result");
-			foreach($a_poll->getAnswers() as $item)
-			{			
-				$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($item["answer"]));
-				$this->tpl->setVariable("PERC_ANSWER_RESULT", number_format($perc[$item["id"]]["perc"], 2));
-				$this->tpl->parseCurrentBlock();
-			}		
-		}
 				
 		$this->tpl->setVariable("TXT_QUESTION", nl2br($a_poll->getQuestion()));
 
@@ -168,7 +173,7 @@ class ilPollBlockGUI extends ilBlockGUI
 		
 		$this->setTitle($lng->txt("obj_poll"));
 		$this->setData(array($this->poll_block->getPoll()));	
-		
+	
 		if ($this->may_write)
 		{
 			$ilCtrl->setParameterByClass("ilobjpollgui",
