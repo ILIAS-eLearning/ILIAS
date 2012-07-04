@@ -84,6 +84,7 @@
 <!-- BEGIN tabs_outer_start --><table class="ilTabContentOuter"><tr><td><!-- END tabs_outer_start -->
 <div style="clear:both;">{SUB_TABS}</div><span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
 <!-- BEGIN tabs_inner_start --><div class="ilTabContentInner"><!-- END tabs_inner_start -->
+<!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
 <table class="il_ColumnLayout{COL_LAY_SKIN}" style="clear:both;"><tr>
 <!-- BEGIN left_columnt -->
 <td></td>
@@ -91,9 +92,7 @@
 <td>{MESSAGE}
 	<!-- BEGIN add_commands -->
 	<div style="text-align: right; padding-right:19px; margin-bottom: 5px;">
-		<form id="select_objtype_form" action="{SELECT_OBJTYPE_FORM_ACTION}" method="post">
 		{SELECT_OBJTYPE_REPOS}
-		</form>
 	</div>
 	<!-- END add_commands -->
 	<!-- BEGIN adm_view_components -->
@@ -108,7 +107,6 @@
 <td class="il_LeftColumn" id="il_left_col_td"><div id="il_left_col">{LEFT_CONTENT}</div></td>
 <!-- END left_column -->
 <td class="il_CenterColumn" id="il_CenterColumn">
-<!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
 <!-- BEGIN adv_layout_init -->
 <div id="il_adv_center_col" style="width:800px; height:450px;"></div>
 <style type="text/css">
@@ -144,13 +142,13 @@ layoutEl.render();
 	<div style="margin-bottom:10px;">{ADM_PANEL2}</div>
 	<!-- END adm_view_components2 -->
 </div>
-<!-- BEGIN page_form_end --></form><!-- END page_form_end -->
 </td>
 <!-- BEGIN right_column -->
 <td class="il_RightColumn">{RIGHT_CONTENT}</td>
 <!-- END right_column -->
 </tr></table>
 <!-- BEGIN print_content --><div style="padding-left: 15px; padding-right: 15px;">{PRINT_CONTENT}</div><!-- END print_content -->
+<!-- BEGIN page_form_end --></form><!-- END page_form_end -->
 <!-- BEGIN tabs_inner_end --></div><!-- END tabs_inner_end -->
 <!-- BEGIN tabs_outer_end --></td></tr></table><!-- END tabs_outer_end -->
 <div class="ilPermaLink">{PRMLINK}</div>
