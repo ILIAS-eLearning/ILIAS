@@ -243,6 +243,13 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$this->addFilterItem($rs);
 		$rs->readFromSession();
 		$this->filter["area"] = $rs->getValue();
+		
+		// hide "not started yet"
+		include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+		$cb = new ilCheckboxInputGUI($lng->txt("trac_filter_has_status"), "status");
+		$this->addFilterItem($cb);
+		$cb->readFromSession();
+		$this->filter["status"] = $cb->getChecked();
 	}
 
     /**

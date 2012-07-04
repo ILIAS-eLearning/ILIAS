@@ -129,7 +129,14 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 					$data = ilTrQuery::getObjectsStatusForUser($this->tracked_user->getId(), $obj_ids);
 					foreach($data as $idx => $item)
 					{
-						$data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($item["obj_id"], $item["type"]);
+						if(!$item["status"] && $this->filter["status"])
+						{
+							unset($data[$idx]);
+						}
+						else
+						{
+							$data[$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($item["obj_id"], $item["type"]);
+						}
 					}
 					break;
 			}			

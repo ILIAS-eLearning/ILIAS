@@ -12810,3 +12810,4 @@ exc#:#exc_team_log_remove_file#:#Removed file %s.
 administration#:#adm_imprint#:#Imprint
 administration#:#adm_imprint_inactive#:#The imprint is inactive and users are not able to access it.
 common#:#imprint#:#Imprint
+trac#:#trac_filter_has_status#:#Restrict to accessed objects
