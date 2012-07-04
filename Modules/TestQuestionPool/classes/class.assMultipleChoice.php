@@ -170,6 +170,15 @@ class assMultipleChoice extends assQuestion
 		parent::saveToDb($original_id);
 	}
 	
+	public function saveFeedbackSetting($a_feedback_setting)
+	{
+		global $ilDB;
+		$ilDB->manipulate(
+			'UPDATE qpl_qst_mc 
+			SET feedback_setting = ' . $ilDB->quote($a_feedback_setting,'integer') . '
+			WHERE question_fi = ' .$ilDB->quote($this->getId(), 'integer'));
+	}
+	
 	/*
 	* Rebuild the thumbnail images with a new thumbnail size
 	*/
@@ -251,6 +260,7 @@ class assMultipleChoice extends assQuestion
 			$this->setThumbSize($data['thumb_size']);
 			$this->isSingleline = ($data['allow_images']) ? false : true;
 			$this->lastChange = $data['tstamp'];
+			$this->feedback_setting = $data['feedback_setting'];
 		}
 
 		$result = $ilDB->queryF("SELECT * FROM qpl_a_mc WHERE question_fi = %s ORDER BY aorder ASC",
@@ -1164,6 +1174,41 @@ class assMultipleChoice extends assQuestion
 	{
 		global $ilUser;
 		$ilUser->writePref("tst_multiline_answers", $a_setting);
+	}
+	
+	/**
+	 * Sets the feedback settings in effect for the question.
+	 * Options are:
+	 * 1 - Feedback is shown for all answer options.
+	 * 2 - Feedback is shown for all checked/selected options.
+	 * 3 - Feedback is shown for all correct options.
+	 * 
+	 * @param int $a_feedback_setting 
+	 */
+	function setFeedbackSetting($a_feedback_setting)
+	{
+		$this->feedback_setting = $a_feedback_setting;
+	}
+	
+	/**
+	 * Gets the current feedback settings in effect for the question.
+	 * Values are:
+	 * 1 - Feedback is shown for all answer options.
+	 * 2 - Feedback is shown for all checked/selected options.
+	 * 3 - Feedback is shown for all correct options.
+	 * 
+	 * @return integer 
+	 */
+	function getFeedbackSetting()
+	{
+		if ($this->feedback_setting)
+		{
+			return $this->feedback_setting;
+		}
+		else
+		{
+			return 1;
+		}
 	}
 }
 

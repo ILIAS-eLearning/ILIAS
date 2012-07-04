@@ -1263,6 +1263,10 @@ assessment#:#tst_highscore_top_table_description#:#Steuert, ob eine Tabelle mit 
 assessment#:#tst_highscore_top_num#:#Anzahl der zu zeigenden Top Platzierungen
 assessment#:#tst_highscore_top_num_description#:#Steuert, wie viele Platzierungen in der Tabelle Top Platzierungen eingeblendet werden soll.
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen
+assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
+assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
+assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.
+assessment#:#feedback_correct#:#Zeige Feedback bei richtigen Antworten.(Richtige Antworten sind die, die zu einer positiven Punktvergabe führen.)
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten Code
