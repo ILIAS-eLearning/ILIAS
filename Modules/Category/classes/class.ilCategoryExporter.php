@@ -68,7 +68,7 @@ class ilCategoryExporter extends ilXmlExporter
 
 		$writer = new ilCategoryXmlWriter($category);
 		$writer->setMode(ilCategoryXmlWriter::MODE_EXPORT);
-		$writer->export();
+		$writer->export(false);
 		return $writer->getXml();
 	}
 

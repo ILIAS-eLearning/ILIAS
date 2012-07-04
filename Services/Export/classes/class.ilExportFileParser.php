@@ -42,7 +42,6 @@ class ilExportFileParser extends ilSaxParser
 		xml_set_element_handler($a_xml_parser, 'handleBeginTag', 'handleEndTag');
 		xml_set_character_data_handler($a_xml_parser, 'handleCharacterData');
 	}
-
 	
 	/**
 	 * Start parser

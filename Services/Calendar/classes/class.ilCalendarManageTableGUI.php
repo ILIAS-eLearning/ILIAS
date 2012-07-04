@@ -53,9 +53,9 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 	 	
 		parent::__construct($a_parent_obj, 'manage');
 		$this->setFormName('categories');
-	 	$this->addColumn('','','5%', true);
-		$this->addColumn($this->lng->txt('type'), '', '10%');
-	 	$this->addColumn($this->lng->txt('title'),'title', '50%');
+	 	$this->addColumn('','','1px', true);
+		$this->addColumn($this->lng->txt('type'), 'type', '1%');
+	 	$this->addColumn($this->lng->txt('title'),'title', '64%');
 	 	$this->addColumn('','','35%');
 	 	
 	 	$this->setPrefix('categories');

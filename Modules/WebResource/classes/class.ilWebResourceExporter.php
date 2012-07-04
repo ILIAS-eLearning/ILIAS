@@ -43,8 +43,6 @@ class ilWebResourceExporter extends ilXmlExporter
 	 */
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
-		//$GLOBALS['ilLog']->write(__METHOD__.': entity: '.$a_entity.', target release: '.$a_schema_version.', id: '.$a_id);
-		
 		try 
 		{
 			$this->writer = new ilWebLinkXmlWriter(false);

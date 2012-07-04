@@ -32,6 +32,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// CONTROL OPTIONS
 		//$this->ctrl =& $ilCtrl;
 		//$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
+		$GLOBALS['lng']->loadLanguageModule('cat');
 
 		$this->type = "cat";
 		$this->ilContainerGUI($a_data,(int) $a_id,$a_call_by_reference,false);
@@ -285,7 +286,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	protected function initCreationForms($a_new_type)
 	{
 		$forms = parent::initCreationForms($a_new_type);
-		unset($forms[self::CFORM_IMPORT]);
+		//unset($forms[self::CFORM_IMPORT]);
 		return $forms;
 	}
 
