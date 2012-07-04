@@ -670,7 +670,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							}
 							else
 							{
-								ilUtil::sendInfo('click_to_buy_info');
+								ilUtil::sendInfo($this->lng->txt('click_to_buy_info'));
 								$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
 								$tpl->setVariable('SCRIPT_LINK', $this->ctrl->getLinkTargetByClass('ilPurchaseBillGUI', ''));
 								$tpl->parseCurrentBlock('terms_checkbox');
