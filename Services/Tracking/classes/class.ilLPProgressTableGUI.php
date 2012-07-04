@@ -129,7 +129,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 					$data = ilTrQuery::getObjectsStatusForUser($this->tracked_user->getId(), $obj_ids);
 					foreach($data as $idx => $item)
 					{
-						if(!$item["status"] && $this->filter["status"])
+						if(!$item["status"] && !$this->filter["status"])
 						{
 							unset($data[$idx]);
 						}
