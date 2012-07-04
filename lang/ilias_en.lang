@@ -1097,6 +1097,10 @@ assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top r
 assessment#:#tst_highscore_top_num#:#Number of ranks
 assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.
 assessment#:#tst_highscore_top_num_unit#:#entries
+assessment#:#feedback_setting#:#Mode of answer specific feedback.
+assessment#:#feedback_all#:#Show answer specific feedback for all answers.
+assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
+assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account

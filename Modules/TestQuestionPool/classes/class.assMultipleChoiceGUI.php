@@ -86,6 +86,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$_POST["Estimated"]["mm"],
 				$_POST["Estimated"]["ss"]
 			);
+			
+			$this->object->setFeedbackSetting($_POST['feedback_setting']);
 			if ($this->getSelfAssessmentEditingMode())
 			{
 				$this->object->setNrOfTries($_POST['nr_of_tries']);
@@ -214,7 +216,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$thumb_size->setRequired(false);
 			$form->addItem($thumb_size);
 		}
-
+				
 		// Choices
 		include_once "./Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php";
 		$choices = new ilMultipleChoiceWizardInputGUI($this->lng->txt("answers"), "choice");
@@ -433,11 +435,43 @@ class assMultipleChoiceGUI extends assQuestionGUI
 				$template->setVariable("ANSWER_IMAGE_TITLE", ilUtil::prepareFormOutput($alt));
 				$template->parseCurrentBlock();
 			}
+		
 			if ($show_feedback)
 			{
-				foreach ($user_solution as $mc_solution)
+				
+				if ($this->object->getFeedbackSetting() == 2)
 				{
-					if (strcmp($mc_solution, $answer_id) == 0)
+					foreach ($user_solution as $mc_solution)
+					{
+						if (strcmp($mc_solution, $answer_id) == 0)
+						{
+							$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+							if (strlen($fb))
+							{
+								$template->setCurrentBlock("feedback");
+								$template->setVariable("FEEDBACK", $fb);
+								$template->parseCurrentBlock();
+							}
+						}
+					}
+				}
+				
+				if ($this->object->getFeedbackSetting() == 1)
+				{
+					$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+					if (strlen($fb))
+					{
+						$template->setCurrentBlock("feedback");
+						$template->setVariable("FEEDBACK", $fb);
+						$template->parseCurrentBlock();
+					}					
+				}
+				
+				if ($this->object->getFeedbackSetting() == 3)
+				{
+					$answer = $this->object->getAnswer($answer_id);
+					
+					if ($answer->getPoints() > 0)
 					{
 						$fb = $this->object->getFeedbackSingleAnswer($answer_id);
 						if (strlen($fb))
@@ -447,6 +481,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 							$template->parseCurrentBlock();
 						}
 					}
+					
 				}
 			}
 			$template->setCurrentBlock("answer_row");
@@ -623,23 +658,51 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					$template->parseCurrentBlock();
 				}
 			}
-
-			foreach ($user_solution as $mc_solution)
-			{
-				if (strcmp($mc_solution, $answer_id) == 0)
+			if ($show_feedback && $this->object->getFeedbackSetting() == 2)
 				{
-					if ($show_feedback)
+					foreach ($user_solution as $mc_solution)
 					{
-						$feedback = $this->object->getFeedbackSingleAnswer($answer_id);
-						if (strlen($feedback))
+						if (strcmp($mc_solution, $answer_id) == 0)
 						{
-							$template->setCurrentBlock("feedback");
-							$template->setVariable("FEEDBACK", $feedback);
-							$template->parseCurrentBlock();
+							$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+							if (strlen($fb))
+							{
+								$template->setCurrentBlock("feedback");
+								$template->setVariable("FEEDBACK", $fb);
+								$template->parseCurrentBlock();
+							}
 						}
 					}
 				}
-			}
+
+				if ($show_feedback && $this->object->getFeedbackSetting() == 1)
+				{
+					$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+					if (strlen($fb))
+					{
+						$template->setCurrentBlock("feedback");
+						$template->setVariable("FEEDBACK", $fb);
+						$template->parseCurrentBlock();
+					}					
+				}
+
+				if ($show_feedback && $this->object->getFeedbackSetting() == 3)
+				{
+					$answer = $this->object->getAnswer($answer_id);
+
+					if ($answer->getPoints() > 0)
+					{
+						$fb = $this->object->getFeedbackSingleAnswer($answer_id);
+						if (strlen($fb))
+						{
+							$template->setCurrentBlock("feedback");
+							$template->setVariable("FEEDBACK", $fb);
+							$template->parseCurrentBlock();
+						}
+					}
+
+				}					
+			
 
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
@@ -671,6 +734,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$errors = $this->feedback(true);
 		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
 		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		$this->object->saveFeedbackSetting($_POST['feedback_setting']);
 		foreach ($this->object->answers as $index => $answer)
 		{
 			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
@@ -728,6 +792,16 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
 		$form->addItem($incomplete);
 
+		require_once './Services/Form/classes/class.ilRadioGroupInputGUI.php';
+		require_once './Services/Form/classes/class.ilRadioOption.php';
+		
+		$feedback = new ilRadioGroupInputGUI($this->lng->txt('feedback_setting'), 'feedback_setting');
+		$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_all'), 1), true);
+		$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_checked'), 2));
+		$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_correct'), 3));
+		$feedback->setValue($this->object->getFeedbackSetting());
+		$form->addItem($feedback);
+		
 		if (!$this->getSelfAssessmentEditingMode())
 		{
 			foreach ($this->object->answers as $index => $answer)
