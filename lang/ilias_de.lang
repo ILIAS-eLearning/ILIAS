@@ -12723,3 +12723,4 @@ exc#:#exc_team_log_remove_file#:#Datei %s entfernt.
 administration#:#adm_imprint#:#Impressum
 administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und nicht für Benutzer erreichbar.
 common#:#imprint#:#Impressum
+trac#:#trac_filter_has_status#:#Nur Objekte auf die zugegriffen wurde
