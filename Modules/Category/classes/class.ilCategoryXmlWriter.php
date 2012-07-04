@@ -62,15 +62,22 @@ class ilCategoryXmlWriter extends ilXmlWriter
 	}
 
 
-	public function export()
+	/**
+	 * Start wrting xml
+	 */
+	public function export($a_with_header = true)
 	{
 		if($this->getMode() == self::MODE_EXPORT)
 		{
-			$this->buildHeader();
+			if($a_with_header)
+			{
+				$this->buildHeader();
+			}
 			$this->buildCategory();
+			$this->buildTranslations();
+			$this->buildSorting();
 			$this->buildFooter();
 		}
-		
 	}
 
 	/**
@@ -113,6 +120,52 @@ class ilCategoryXmlWriter extends ilXmlWriter
 	protected function buildFooter()
 	{
 		$this->xmlEndTag('Category');
+	}
+	
+	/**
+	 * Add Translations
+	 */
+	protected function buildTranslations()
+	{
+		$this->xmlStartTag('Translations');
+		
+		$translations = $this->getCategory()->getTranslations();
+		
+		
+		$first = true;
+		foreach((array) $translations['Fobject'] as $translation)
+		{
+			$this->xmlStartTag('Translation', array('default' => (int) $first, 'language' => $translation['lang']));
+			$this->xmlElement('Title', array(),$translation['title']);
+			$this->xmlElement('Description',array(),$translation['desc']);
+			$this->xmlEndTag('Translation');
+			
+			$first = false;
+		}
+		$this->xmlEndTag('Translations');
+	}
+	
+	/**
+	 * Add sorting
+	 */
+	protected function buildSorting()
+	{
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		include_once './Services/Container/classes/class.ilContainer.php';
+		
+		$sorting = new ilContainerSortingSettings($this->getCategory()->getId());
+		switch($sorting->getSortMode())
+		{
+			case ilContainer::SORT_MANUAL:
+				$type = 'Manual';
+				break;
+			
+			default:
+				$type = 'Title';
+				break;
+				
+		}
+		$this->xmlElement('Sorting', array('type' => $type));
 	}
 
 

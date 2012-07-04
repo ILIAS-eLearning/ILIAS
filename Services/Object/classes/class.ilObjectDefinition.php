@@ -51,6 +51,7 @@ class ilObjectDefinition extends ilSaxParser
 		$this->readDefinitionData();
 		$this->ilias = $ilias;
 
+		
 		parent::ilSaxParser(ILIAS_ABSOLUTE_PATH."/objects.xml");
 		
 		// removing this line leads to segmentation faults in

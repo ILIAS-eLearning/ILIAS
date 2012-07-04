@@ -81,6 +81,7 @@ class ilImport
 	}
 	
 	/**
+	 * 
 	 * Get currrent dataset
 	 *
 	 * @return	object	currrent dataset
@@ -201,8 +202,15 @@ class ilImport
 			$this->importer->setImportDirectory($dir);
 			$this->importer->init();
 			$this->current_comp = $comp;
-			$parser = new ilExportFileParser($dir."/".$expfile["path"],
-				$this, "processItemXml");
+			
+			try {
+				$parser = new ilExportFileParser($dir."/".$expfile["path"],$this, "processItemXml");
+			}
+			catch(Exception $e)
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Import failed with message: '.$e->getMessage());
+				$GLOBALS['ilLog']->write(__METHOD__.': '.file_get_contents($dir.'/'.$expfile['path']));
+			}
 		}
 
 		// final processing
