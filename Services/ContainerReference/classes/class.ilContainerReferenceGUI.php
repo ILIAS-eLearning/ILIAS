@@ -80,27 +80,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		}
 
 		return $this->initTargetSelection(self::MODE_CREATE);
-		
-		/*
-		if(!count($this->existing_objects = ilUtil::_getObjectsByOperations(
-			$this->getTargetType(),
-			'read',
-			$ilUser->getId(),
-			self::MAX_SELECTION_ENTRIES)))
-		{
-			// TODO: No Objects with read permission found => send error message 
-			return false;
-		}
-		
-		if(count($this->existing_objs) >= $max_entries)
-		{
-			return $this->initTargetSelection();
-		}
-		else
-		{
-			return $this->showSelection();
-		}
-		*/
 	}
 	
 	
@@ -145,7 +124,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$a_new_object->update();
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-		$this->ctrl->returnToParent($this);
+		$this->ctrl->setParameter($this,'ref_id',$a_new_object->getRefId());
+		$this->ctrl->redirect($this,'edit');
 	}
 	
 	/**
@@ -160,27 +140,94 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		global $ilUser,$ilSetting,$ilTabs;
 		
 		$ilTabs->setTabActive('edit');
-		
+		$ilTabs->addSubTab('edit',$this->lng->txt('objref_edit_ref'),$this->ctrl->getLinkTarget($this,'edit'));
+		$ilTabs->addSubTab('editTitle',$this->lng->txt('objref_edit_title'),$this->ctrl->getLinkTarget($this,'editTitle'));
+		$ilTabs->setTabActive('edit');
+		$ilTabs->activateSubTab('edit');
 		$this->initTargetSelection(self::MODE_EDIT);
-		
-		/*
-		$max_entries = $ilSetting->get('search_max_hits',10);
-		if(!count($this->existing_objects = ilUtil::_getObjectsByOperations($this->getTargetType(),'read',$ilUser->getId(),$max_entries)))
-		{
-			// TODO: No Objects with read permission found => send error message 
-			return false;
-		}
-		
-		$this->initFormEditSelection();
-		$this->tpl->setContent($this->form->getHTML());
-		return true;
-		
-		*/
 	}
 
 	public function editReferenceObject()
 	{
 		$this->editObject();
+	}
+	
+	/**
+	 * edit title
+	 */
+	protected function editTitleObject(ilPropertyFormGUI $form = null)
+	{
+		global $ilTabs;
+		
+		$ilTabs->addSubTab('edit',$this->lng->txt('objref_edit_ref'),$this->ctrl->getLinkTarget($this,'edit'));
+		$ilTabs->addSubTab('editTitle',$this->lng->txt('objref_edit_title'),$this->ctrl->getLinkTarget($this,'editTitle'));
+		$ilTabs->setTabActive('edit');		
+		$ilTabs->activateSubTab('editTitle');
+		
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormTitle();
+		}
+		$GLOBALS['tpl']->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Init title form
+	 * @return ilPropertyFormGUI 
+	 */
+	protected function initFormTitle()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('objref_title_settings'));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton('updateTitle', $this->lng->txt('save'));
+		
+		// title type 
+		$ttype = new ilRadioGroupInputGUI($this->lng->txt('title'), 'title_type');
+		$ttype->setValue($this->object->getTitleType());
+		$reuse = new ilRadioOption($this->lng->txt('objref_reuse_title'));
+		$reuse->setValue(ilContainerReference::TITLE_TYPE_REUSE);
+		$ttype->addOption($reuse);
+		
+		$custom = new ilRadioOption($this->lng->txt('objref_custom_title'));
+		$custom->setValue(ilContainerReference::TITLE_TYPE_CUSTOM);
+		
+		// title 
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setMaxLength(128);
+		$title->setSize(40);
+		$title->setRequired(true);
+		$title->setValue($this->object->getTitle());
+		$custom->addSubItem($title);
+		
+		$ttype->addOption($custom);
+		
+		$form->addItem($ttype);
+		
+		return $form;
+	}
+	
+	/**
+	 * update title
+	 */
+	protected function updateTitleObject()
+	{
+		$form = $this->initFormTitle();
+		if($form->checkInput())
+		{
+			$this->object->setTitleType($form->getInput('title_type'));
+			if($form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM)
+			{
+				$this->object->setTitle($form->getInput('title'));
+			}
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			$this->ctrl->redirect($this,'editTitle');
+		}
+		$form->setValuesByPost();
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->editTitleObject($form);
 	}
 	
 	/**
