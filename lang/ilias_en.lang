@@ -12816,7 +12816,6 @@ administration#:#adm_imprint_inactive#:#The imprint is inactive and users are no
 common#:#imprint#:#Imprint
 trac#:#trac_filter_has_status#:#Show not attempted objects
 cat#:#cat_import#:#Import Category
-objref#:#objref_edit_ref#:#Referenzziel
 objref#:#objref_edit_ref#:#Target Settings
 objref#:#objref_edit_title#:#Title Settings
 objref#:#objref_title_settings#:#Edit Reference Title

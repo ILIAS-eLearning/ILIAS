@@ -48,7 +48,11 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		 parent::__construct($a_data, $a_id,$a_call_by_reference,$a_prepare_output);
+		global $lng; 
+		parent::__construct($a_data, $a_id,$a_call_by_reference,$a_prepare_output);
+		
+		$lng->loadLanguageModule('objref');
+		 
 	}
 	
 	/**
