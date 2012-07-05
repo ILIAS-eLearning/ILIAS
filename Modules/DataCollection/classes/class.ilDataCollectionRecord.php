@@ -23,11 +23,11 @@ class ilDataCollectionRecord
 	*/
 	public function __construct($a_id = 0)
 	{
-	if ($a_id != 0) 
-	{
-		$this->id = $a_id;
-		$this->doRead();
-	}    
+		if($a_id != 0) 
+		{
+			$this->id = $a_id;
+			$this->doRead();
+		}
 	}
 
 	/**

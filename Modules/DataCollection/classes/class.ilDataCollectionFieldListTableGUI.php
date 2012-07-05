@@ -26,9 +26,10 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 	 	$this->parent_obj = $a_parent_obj;
-	
-		$this->addColumn($lng->txt("title"),  "title",  "auto");
-		$this->addColumn($lng->txt("description"),  "description",  "auto");
+	 	
+	 	$this->addColumn($lng->txt("dcl_order"),  "order",  "30px");
+		$this->addColumn($lng->txt("dcl_title"),  "title",  "auto");
+		$this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
 		$this->addColumn($lng->txt("dcl_field_datatype"),  "datatype",  "auto");
 		$this->addColumn($lng->txt("dcl_required"),  "required",  "auto");
 		$this->addColumn($lng->txt("edit"), 	 "edit", 	 "auto");
@@ -40,6 +41,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setFormName('field_list');
 		$this->setData($a_data);
+		$this->order = 10;
 		
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php');
 		$this->datatypes = ilDataCollectionDatatype::getAllDatatypes();
@@ -61,9 +63,14 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		
 		$a_set = (object) $a_set;
 		
+		
+		$this->tpl->setVariable('NAME', "order[".$a_set->id."]");
+		$this->tpl->setVariable('VALUE', $this->order);
+		$this->order = $this->order + 10;
 		$this->tpl->setVariable('TITLE', $a_set->title);
 		$this->tpl->setVariable('DESCRIPTION', $a_set->description);
 		$this->tpl->setVariable('DATATYPE', $this->datatypes[$a_set->datatype_id]['title']);
+		
 		switch($a_set->required)
 		{
 			case 0:
