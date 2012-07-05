@@ -319,16 +319,21 @@ class ilWorkspaceAccessHandler
 		$obj_ids = $this->getPossibleSharedTargets();
 		
 		$user_ids = array();
-		$set = $ilDB->query("SELECT DISTINCT(obj.owner)".
+		$set = $ilDB->query("SELECT DISTINCT(obj.owner), u.lastname, u.firstname, u.title".
 			" FROM object_data obj".
 			" JOIN object_reference_ws ref ON (obj.obj_id = ref.obj_id)".
 			" JOIN tree_workspace tree ON (tree.child = ref.wsp_id)".
 			" JOIN acl_ws acl ON (acl.node_id = tree.child)".
+			" JOIN usr_data u on (u.usr_id = obj.owner)".
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
 			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer"));
 		while ($row = $ilDB->fetchAssoc($set))
 		{
-			$user_ids[$row["owner"]] = ilObject::_lookupTitle($row["owner"]);
+			$user_ids[$row["owner"]] = $row["lastname"].", ".$row["firstname"];
+			if($row["title"])
+			{
+				$user_ids[$row["owner"]] .= ", ".$row["title"];
+			}
 		}
 		
 		asort($user_ids);
