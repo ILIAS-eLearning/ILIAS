@@ -179,6 +179,33 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 		$row = $ilDB->fetchAssoc($set);
 		return $row["id"];
 	}
+	
+	/**
+	 * Get all placeholders for table id
+	 * @param int $a_table_id
+	 * @param bool $a_verbose
+	 * @return array 
+	 */
+	public static function getAvailablePlaceholders($a_table_id, $a_verbose = false)
+	{
+		$all = array();
+			
+		require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
+		$fields = ilDataCollectionField::getAll($a_table_id);
+		foreach($fields as $field)
+		{
+			if(!$a_verbose)
+			{
+				$all[] = "[".$field["title"]."]";
+			}
+			else
+			{
+				$all["[".$field["title"]."]"] = $field;
+			}
+		}
+		
+		return $all;
+	}
 }
 
 ?>
