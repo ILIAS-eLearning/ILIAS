@@ -1056,6 +1056,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$ch->setChecked($public_feed);
 			$this->form_gui->addItem($ch);
 			
+				// keep minimal x number of items
+				$ni = new ilNumberInputGUI($this->lng->txt("news_keep_minimal_x_items"), "keep_rss_min");
+				$ni->setMaxValue(100);
+				$ni->setMinValue(0);
+				$ni->setMaxLength(3);
+				$ni->setSize(3);
+				$ni->setInfo($this->lng->txt("news_keep_minimal_x_items_info")." (".
+					ilNewsItem::_lookupRSSPeriod()." ".$lng->txt("days").")");
+				$ni->setValue((int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $this->object->getId()));
+				$ch->addSubItem($ni);
+			
 			// Include Files in Pubic Items
 			$incl_files = new ilCheckboxInputGUI($lng->txt("mcst_incl_files_in_rss"), "public_files");
 			$incl_files->setChecked($this->object->getPublicFiles());
@@ -1103,6 +1114,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				include_once("./Services/Block/classes/class.ilBlockSetting.php");
 				ilBlockSetting::_write("news", "public_feed",
 					$this->form_gui->getInput("extra_feed"),
+					0, $this->object->getId());
+
+				ilBlockSetting::_write("news", "keep_rss_min",
+					$this->form_gui->getInput("keep_rss_min"),
 					0, $this->object->getId());
 			}
 			
