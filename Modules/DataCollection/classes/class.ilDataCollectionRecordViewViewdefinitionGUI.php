@@ -127,6 +127,22 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		}
 	}
 	
+	function showPage()
+	{
+		// :TODO: temporary legend of available placeholders
+		if($this->getOutputMode() == IL_PAGE_EDIT)
+		{
+			$legend = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id);		
+			if(sizeof($legend))
+			{
+				$this->setPrependingHtml("<span class=\"small\">".$this->lng->txt("dcl_legend_placeholders").
+					": ".implode(" ", $legend)."</span>");
+			}
+		}
+		
+		return parent::showPage();
+	}
+	
 	/**
 	 * Finalizing output processing
 	 *
@@ -135,13 +151,6 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 */
 	function postOutputProcessing($a_output)
 	{
-		//Get fields
-		// require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
-		// $fields = ilDataCollectionField::getAll($this->table_id);
-
-		//DEBUG
-		//print_r($fields);
-
 		//TODO das Array enthält die Felder der Tabelle. Diese sind als Platzhalterwerte darzustellen.
 		//Bezeichnung des Platzhalters: Title; Wert welcher beim Speichern übermittelt werden soll id
 
@@ -158,17 +167,32 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		
 		// You can use this to parse placeholders and the like before outputting		
 		
-		// user view
+		
+		// user view (IL_PAGE_PRESENTATION?)
 		if($this->getOutputMode() == IL_PAGE_PREVIEW)
-		{
-			// [id] to [field]
-			// var_dump($a_output);
+		{						
+			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+			
+			// :TODO: find a suitable presentation for matched placeholders
+			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);	
+			foreach($allp as $id => $item)
+			{			
+				$parsed_item = new ilTextInputGUI("", "fields[".$item["id"]."]");
+				$parsed_item = $parsed_item->getToolbarHTML();
+				
+				$a_output = str_replace($id, $item["title"].": ".$parsed_item, $a_output);
+			}
 		}
 		// editor
 		else if($this->getOutputMode() == IL_PAGE_EDIT)
 		{
-			// [id] to [fieldname]
-			// var_dump($a_output);
+			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id);			
+			
+			// :TODO: find a suitable markup for matched placeholders
+			foreach($allp as $item)
+			{
+				$a_output = str_replace($item, "<span style=\"color:green\">".$item."</span>", $a_output);
+			}
 		}
 		
 		return $a_output;
