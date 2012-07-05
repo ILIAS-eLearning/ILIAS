@@ -365,24 +365,32 @@ class ilRepositoryExplorer extends ilExplorer
 		{
 			return false;
 		}
-		if ($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
+		
+		$is_course = false;
+		$container_parent_id = $tree->checkForParentType($a_ref_id,'grp');
+		if(!$container_parent_id)
 		{
-			// do not display session materials for container course
-			if($ilSetting->get("repository_tree_pres")  == "all_types" && $crs_id != $a_ref_id)
+			$is_course = true;
+			$container_parent_id = $tree->checkForParentType($a_ref_id,'crs');
+		}	
+		if($container_parent_id)
+		{
+			// do not display session materials for container course/group
+			if($ilSetting->get("repository_tree_pres")  == "all_types" && $container_parent_id != $a_ref_id)
 			{
 				// get container event items only once
-				if(!isset($this->session_materials[$crs_id]))
+				if(!isset($this->session_materials[$container_parent_id]))
 				{
 					include_once './Modules/Session/classes/class.ilEventItems.php';
-					$this->session_materials[$crs_id] = ilEventItems::_getItemsOfContainer($crs_id);
+					$this->session_materials[$container_parent_id] = ilEventItems::_getItemsOfContainer($container_parent_id);
 				}			
-				if(in_array($a_ref_id, $this->session_materials[$crs_id]))
+				if(in_array($a_ref_id, $this->session_materials[$container_parent_id]))
 				{
 					return false;
 				}
 			}		
 						
-			if(!$rbacsystem->checkAccess('write',$crs_id))
+			if($is_course && !$rbacsystem->checkAccess('write',$crs_id))
 			{
 				// Show only activated courses
 				$tmp_obj =& ilObjectFactory::getInstanceByRefId($crs_id,false);
