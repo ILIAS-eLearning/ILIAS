@@ -107,6 +107,56 @@ class ilObjMediaCast extends ilObject
 	}
 
 	/**
+	 * Get sorted items array
+	 *
+	 * @param
+	 * @return
+	 */
+	function getSortedItemsArray()
+	{
+		$med_items = $this->getItemsArray();
+
+		// sort by order setting
+		switch($this->getOrder())
+		{
+			case ilObjMediaCast::ORDER_TITLE:
+				$med_items = ilUtil::sortArray($med_items, "title", "asc", false, true);
+				break;
+			
+			case ilObjMediaCast::ORDER_CREATION_DATE_ASC:
+				$med_items = ilUtil::sortArray($med_items, "creation_date", "asc", false, true);
+				break;
+			
+			case ilObjMediaCast::ORDER_CREATION_DATE_DESC:
+				$med_items = ilUtil::sortArray($med_items, "creation_date", "desc", false, true);
+				break;
+			
+			case ilObjMediaCast::ORDER_MANUAL:
+				$med_items = $this->getManualOrderedItems();
+				$order = array_flip($this->object->readOrder());		
+				$pos = sizeof($order);
+				foreach(array_keys($med_items) as $idx)
+				{
+					if(array_key_exists($idx, $order))
+					{
+						$med_items[$idx]["order"] = ($order[$idx]+1)*10;
+					}
+					// item has no order yet
+					else
+					{
+						$med_items[$idx]["order"] = (++$pos)*10;
+					}
+				}	
+				
+				$med_items = ilUtil::sortArray($med_items, "order", "asc", true, true);
+				break;			
+		}
+
+		return $med_items;
+	}
+	
+	
+	/**
 	* Set Downloadable.
 	*
 	* @param	boolean	$a_downloadable	Downloadable

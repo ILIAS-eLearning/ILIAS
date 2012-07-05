@@ -68,6 +68,30 @@ class ilFFmpeg
 		
 		return $formats;
 	}
+	
+	/**
+	 * Get file info
+	 *
+	 * @param
+	 * @return
+	 */
+	function getFileInfo()
+	{
+		//$info = `ffmpeg -i $path$file 2>&1 /dev/null`;
+		//@fields = split(/\n/, $info);
+	}
+	
+	/**
+	 * Convert to h264/mp4
+	 *
+	 * @param
+	 * @return
+	 */
+	function convertToMp4H264()
+	{
+		//ffmpeg -i MOV012.3gp -vcodec libx264 -strict experimental -acodec aac -sameq -ab 64k -ar 44100 MOV012.mp4
+	}
+	
 }
 
 ?>

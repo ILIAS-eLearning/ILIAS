@@ -1,0 +1,16 @@
+<!-- BEGIN item -->
+<div id="item_{ID}" class="ilMediaCastItem" style="width:320px; margin-right:20px; margin-bottom:20px; background-color:#F0F0F0; float:left;">
+	<div style="width:320px; height:240px;">{PREVIEW_PIC}</div>
+	<div>{TITLE}</div>
+	<div class="small">{TIME}</div>
+	<div class="ilLightboxWrapper" id="player_wrapper_{ID}" style="display:none;"><div>{PLAYER}</div></div>
+</div>
+<!-- END item -->
+<div id="ilLightbox" style="display:none; position: absolute; top: 0px; bottom: 0px; right: 0px; left: 0px; background-color:#303030;">
+	<div style="background-color:#606060; margin-right:auto; margin-left:auto; width:320px; margin-bottom: 30px; margin-top:20px; color:#C0C0C0; padding:5px;">
+		<a href="#" onclick="il.MediaCast.previous(); return false;" style="color:#C0C0C0;">Previous</a> |
+		<a href="#" onclick="il.MediaCast.next(); return false;" style="color:#C0C0C0;">Next</a> | 
+		<a href="#" onclick="il.MediaCast.deactivateLightboxView(); return false;" style="color:#C0C0C0;">Return</a>
+	</div>
+	<div id="ilLighboxContent" style="margin-right:auto; margin-left:auto; width:320px;">{LIGHTBOX_CONTENT}</div>
+</div>
