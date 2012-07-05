@@ -2032,16 +2032,29 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// add members
 		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		
+		if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
+		{
+			$types = array(
+				ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
+				ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor"),
+				ilCourseConstants::CRS_ADMIN => $lng->txt("crs_admin")
+			);
+		}
+		else
+		{
+			$types = array(
+				ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
+				ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor")
+			);
+		}
+		
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
 			$ilToolbar,
 			array(
 				'auto_complete_name'	=> $lng->txt('user'),
-				'user_type'				=> array(
-					ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
-					ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor"),
-					ilCourseConstants::CRS_ADMIN => $lng->txt("crs_admin")
-				),
+				'user_type'				=> $types,
 				'submit_name'			=> $lng->txt('add')
 			)
 		);
@@ -4351,14 +4364,30 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilrepositorysearchgui':
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search =& new ilRepositorySearchGUI();
-				$rep_search->setCallback($this,
-					'assignMembersObject',
-					array(
-						ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
-						ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
-						ilCourseConstants::CRS_ADMIN => $this->lng->txt('crs_admin')
-						)
-					);
+				
+				if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
+				{
+					$rep_search->setCallback($this,
+						'assignMembersObject',
+						array(
+							ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
+							ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
+							ilCourseConstants::CRS_ADMIN => $this->lng->txt('crs_admin')
+							)
+						);
+				}
+				else
+				{
+					$rep_search->setCallback($this,
+						'assignMembersObject',
+						array(
+							ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
+							ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
+							)
+						);
+					
+				}
+				
 
 				$this->checkLicenses();
 						
