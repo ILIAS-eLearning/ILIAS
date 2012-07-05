@@ -40,11 +40,19 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		// Spalten werden aufgrund von allen verfügbaren array_keys erstellt, ev. manuell oder gefiltert
 		//
         //TODO derzeit entspreicht die Reihenfolge der Überschrift nicht der Reihenfolge der Werte.
-		if(is_array($tabledefinition))
+		/*if(is_array($tabledefinition))
 		{
 			foreach($tabledefinition as $key => $value)
 			{
 				$this->addColumn($value[title], $key, 'auto');
+			}
+			$this->addColumn($lng->txt("edit"),  "edit",  "auto");
+		}*/
+		if(is_array($a_data[0]) && count($a_data[0]) > 0)
+		{
+			foreach($a_data[0] as $key => $value)
+			{
+				$this->addColumn($key, $key, 'auto');
 			}
 			$this->addColumn($lng->txt("edit"),  "edit",  "auto");
 		}

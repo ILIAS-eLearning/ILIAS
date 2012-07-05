@@ -117,7 +117,7 @@ class ilDataCollectionRecordListViewdefinitionGUI
 
 		$tabledefinition = array(
 								"id" => array("title" => $lng->txt("id")), 
-								"dcl_table_id" => array("title" => $lng->txt("dcl_table_id")), 
+								"table_id" => array("title" => $lng->txt("dcl_table_id")), 
 								"create_date" => array("title" => $lng->txt("create_date")), 
 								"last_update" => array("title" => $lng->txt("last_update")), 
 								"owner" => array("title" => $lng->txt("owner"))
@@ -176,7 +176,7 @@ class ilDataCollectionRecordListViewdefinitionGUI
 			//TODO tabledefs global definieren
 			$tabledefinition = array(
 									"id" => array("title" => $lng->txt("id")), 
-									"dcl_table_id" => array("title" => $lng->txt("dcl_table_id")), 
+									"table_id" => array("title" => $lng->txt("dcl_table_id")), 
 									"create_date" => array("title" => $lng->txt("create_date")), 
 									"last_update" => array("title" => $lng->txt("last_update")), 
 									"owner" => array("title" => $lng->txt("owner"))
