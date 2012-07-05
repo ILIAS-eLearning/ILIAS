@@ -350,7 +350,7 @@ class ilNewsItem extends ilNewsItemGen
 				$starting_date = ilBlockSetting::_lookup("news", "hide_news_date",
 					0, $obj_id);
 			}
-			}
+		}
 
 		if ($obj_type == "cat" && !$a_stopnesting)
 		{
@@ -670,7 +670,7 @@ class ilNewsItem extends ilNewsItemGen
      * @param    boolean        do not include auto generated news items
 	 */
 	public function queryNewsForContext($a_for_rss_use = false, $a_time_period = 0,
-        $a_starting_date = "", $a_no_auto_generated = false, $a_oldest_first = false)
+        $a_starting_date = "", $a_no_auto_generated = false, $a_oldest_first = false, $a_limit = 0)
 	{
 		global $ilDB, $ilUser, $lng;
 
@@ -743,12 +743,33 @@ class ilNewsItem extends ilNewsItemGen
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
+			if ($a_limit > 0 && count($result) >= $a_limit)
+			{
+				continue;
+			}
 			if (!$a_for_rss_use || 	(ilNewsItem::getPrivateFeedId() != false) || ($rec["visibility"] == NEWS_PUBLIC ||
 				($rec["priority"] == 0 &&
 				ilBlockSetting::_lookup("news", "public_notifications",
 				0, $rec["context_obj_id"]))))
 			{
 				$result[$rec["id"]] = $rec;
+			}
+		}
+
+		// do we get data for rss and may the time limit by an issue?
+		// do a second query without time limit.
+		// this is not very performant, but I do not have a better
+		// idea. The keep_rss_min setting is currently (Jul 2012) only set
+		// by mediacasts
+		if ($a_time_period != "" && $a_for_rss_use)
+		{
+			include_once("./Services/Block/classes/class.ilBlockSetting.php");
+			$keep_rss_min = ilBlockSetting::_lookup("news", "keep_rss_min",
+				0, $this->getContextObjId());
+			if ($keep_rss_min > 0)
+			{
+				return $this->queryNewsForContext(true, 0,
+					$a_starting_date, $a_no_auto_generated, $a_oldest_first, $keep_rss_min);
 			}
 		}
 
