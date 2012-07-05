@@ -153,7 +153,23 @@ class ilDataCollectionRecord
 		return $this->field;
 	}
 
-
+	/**
+	 * getStandardFields
+	 * @return array
+	 */
+	public function getStandardFields()
+	{
+		$stdfields = array(
+			"id",
+			"table_id",
+			"create_date",
+			"last_update",
+			"owner"
+		);
+		
+		return $stdfields;
+	}
+	
 	/**
 	* Read record
 	*/
@@ -206,15 +222,31 @@ class ilDataCollectionRecord
 	* @param int $a_id
 	* @param array $recordfields
 	*/
-	static function getAll($a_id,$recordfields = array())
+	static function getAll($a_id, $recordfields = array(), $tabledefinition)
 	{
 		global $ilDB, $ilUser;
 
-		//build query
-		// TODO std-werte
-		$query= "Select  rc.id, rc.table_id , rc.create_date, rc.last_update, rc.owner";
-
-		//$query = "Select rc.last_update";
+		$query= "Select ";
+		
+		if(is_array($tabledefinition) && count($tabledefinition) > 0 && !$tabledefinition[0])
+		{
+			foreach($tabledefinition as $key => $value)
+			{
+				if(in_array($key, self::getStandardFields()))
+				{
+					$query .= "rc.".$key.",";
+				}
+			}
+		}
+		else
+		{
+			foreach(self::getStandardFields() as $key)
+			{
+				$query .= "rc.".$key.",";
+			}
+		}
+		
+		$query = substr($query, 0, -1);
 
 		foreach($recordfields as $recordfield)
 		{
@@ -232,14 +264,14 @@ class ilDataCollectionRecord
 
 		$query .= " From il_dcl_record rc WHERE rc.table_id = ".$ilDB->quote($a_id,"integer").
 					" ORDER BY rc.id";
-		
+
 		$set = $ilDB->query($query);
 
 		$all = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$rec['owner'] = $ilUser->_lookupLogin($rec['owner']); // Benutzername anstelle der ID
-			$all[$rec['id']] = $rec;
+			$all[] = $rec; //$rec['id']
 		}
 
 		return $all; 

@@ -87,9 +87,10 @@ class ilDataCollectionRecordListGUI
 		if(is_array($listViewdefinition->getArrTabledefinition()))
 		{
 			$tabledefinition = $listViewdefinition->getArrTabledefinition();
-			$recordsfields		 = $listViewdefinition->getArrRecordfield();
+			$recordsfields	 = $listViewdefinition->getArrRecordfield();
 		}
-		else {
+		else
+		{
 			require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
 			$recordsfields = ilDataCollectionField::getAll($this->table_id);
   
@@ -106,24 +107,30 @@ class ilDataCollectionRecordListGUI
 				$tabledefinition["record_field_".$recordsfield['id']] = array("title" => $recordsfield['title'], "datatype_id" => $recordsfield['datatype_id']);
 			}
 		}					
+
+		$records = ilDataCollectionRecord::getAll($this->table_id, $recordsfields, $tabledefinition);
+		//echo "<pre>".print_r($records,1)."</pre>";
+		/*echo "<pre>".print_r($tabledefinition,1)."</pre>";
+		echo "<pre>".print_r($recordsfields,1)."</pre>";
+		echo "<pre>".print_r($records,1)."</pre>";*/
 		
-		/*print_r($recordsfields);
-		print_r($tabledefinition);*/
-
-	    $records = ilDataCollectionRecord::getAll($this->table_id, $recordsfields);
-
-	    require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
+		
+		require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $records, $tabledefinition);
-
+		
 		$tpl->setContent($list->getHTML());
 	}
-
-	public function doTableSwitch() {
+	
+	
+	/**
+	 * doTableSwitch
+	 */
+	public function doTableSwitch()
+	{
 		global $ilCtrl;
 
-		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI","table_id", $_POST['table_id']);
-		$ilCtrl->redirect($this,"listRecords"); 			
-
+		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
+		$ilCtrl->redirect($this, "listRecords"); 			
 	}
 	
 }

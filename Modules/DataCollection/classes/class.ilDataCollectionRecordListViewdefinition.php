@@ -226,8 +226,9 @@ class ilDataCollectionRecordListViewdefinition
 		$all = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
-			$this->setArrFieldOrder($rec['fieldorder'],$rec['field']);
-			$this->setTabledefinition($rec['title'],$rec['field']);
+			$this->setArrFieldOrder($rec['fieldorder'], $rec['field']);
+
+			$this->setTabledefinition($rec['title'], $rec['field']);
 			if($rec['storage_location']) 
 			{
 				$this->setRecordfield($rec['storage_location'],$rec['field']);
