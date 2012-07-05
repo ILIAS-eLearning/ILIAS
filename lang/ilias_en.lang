@@ -12816,6 +12816,8 @@ administration#:#adm_imprint_inactive#:#The imprint is inactive and users are no
 common#:#imprint#:#Imprint
 trac#:#trac_filter_has_status#:#Show not attempted objects
 cat#:#cat_import#:#Import Category
+mcst#:#mcst_preview_picture#:#Preview Picture
+mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 objref#:#objref_edit_ref#:#Target Settings
 objref#:#objref_edit_title#:#Title Settings
 objref#:#objref_title_settings#:#Edit Reference Title

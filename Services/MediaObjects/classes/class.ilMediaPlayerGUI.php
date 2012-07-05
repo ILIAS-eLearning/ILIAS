@@ -122,7 +122,7 @@ class ilMediaPlayerGUI
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
 		// video tag
-		if ($mimeType == "video/mp4")
+		if (in_array($mimeType, array("video/mp4", "video/3gpp")))
 		{
 			$tpl->addCss("./Services/MediaObjects/media_element_2_7_0/mediaelementplayer.min.css");
 			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_7_0/mediaelement-and-player.min.js");

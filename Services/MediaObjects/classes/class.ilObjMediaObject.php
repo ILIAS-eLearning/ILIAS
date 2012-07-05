@@ -1393,6 +1393,7 @@ class ilObjMediaObject extends ilObject
 	function getExt2MimeMap()
 	{
 		$types_map = array (
+			'.3gp'    => 'video/3gpp',
 			'.a'      => 'application/octet-stream',
 			'.ai'     => 'application/postscript',
 			'.aif'    => 'audio/x-aiff',
