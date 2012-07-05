@@ -2190,7 +2190,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					'id' => $user_data["active_id"],
 					'name' => $user_data["sortname"],
 					'login' => $user_data["login"],
-					'last_access' => ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_UNIX))
+					'last_access' => $last_access
 				));
 			}
 		}
@@ -2220,7 +2220,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				'id' => $user_data["active_id"],
 				'name' => $user_data["sortname"],
 				'login' => $user_data["login"],
-				'last_access' => ilDatePresentation::formatDate(new ilDateTime($last_access,IL_CAL_UNIX))
+				'last_access' => $last_access
 			));
 		}
 		$table_gui->setData($data);
