@@ -12821,5 +12821,7 @@ mcst#:#mcst_preview_picture_info#:#Only supported by the following main media ty
 objref#:#objref_edit_ref#:#Target Settings
 objref#:#objref_edit_title#:#Title Settings
 objref#:#objref_title_settings#:#Edit Reference Title
+objref#:#objref_reuse_title#:#Reuse Title of Reference
+objref#:#objref_custom_title#:#Use Custom Title
 news#:#news_keep_minimal_x_items#:#Keep at least x items
 news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.

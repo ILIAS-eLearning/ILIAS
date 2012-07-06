@@ -113,7 +113,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
 		
 		$target_ref_ids = ilObject::_getAllReferences($target_obj_id);
 		$target_ref_id = current($target_ref_ids);
-		$target_title = ilObject::_lookupTitle($target_obj_id);
+		$target_title = ilContainerReference::_lookupTitle($a_obj_id);
 		$target_description = ilObject::_lookupDescription($target_obj_id);
 		
 		$this->deleted = $tree->isDeleted($target_ref_id);

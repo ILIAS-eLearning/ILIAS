@@ -12732,3 +12732,5 @@ cat#:#cat_import#:#Kategorie importieren
 objref#:#objref_edit_ref#:#Ziel der Referenz 
 objref#:#objref_edit_title#:#Titel
 objref#:#objref_title_settings#:#Titel der Referenz
+objref#:#objref_reuse_title#:#Titel der Referenz übernehmen
+objref#:#objref_custom_title#:#Eigenen Titel verwenden
