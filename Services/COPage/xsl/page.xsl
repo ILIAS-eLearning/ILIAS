@@ -2779,7 +2779,7 @@
 
 		<!-- flv -->
 		<xsl:when test = "substring-before($data,'.flv') != ''"> 
-			<object data="./Services/MediaObjects/media_element_2_7_0/flashmediaelement.swf"
+			<object data="./Services/MediaObjects/media_element_2_9_1/flashmediaelement.swf"
 				type="application/x-shockwave-flash" >
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
@@ -2809,7 +2809,7 @@
 						</xsl:choose>
 					</xsl:if>
 				</param>
-				<param name="movie"><xsl:attribute name="value">./Services/MediaObjects/lib/media_element_2_7_0/flashmediaelement.swf</xsl:attribute></param>
+				<param name="movie"><xsl:attribute name="value">./Services/MediaObjects/lib/media_element_2_9_1/flashmediaelement.swf</xsl:attribute></param>
 				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 			</object>
 		</xsl:when>
