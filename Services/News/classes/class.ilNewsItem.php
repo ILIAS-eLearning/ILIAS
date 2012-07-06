@@ -237,7 +237,7 @@ class ilNewsItem extends ilNewsItemGen
 	static function _getNewsItemsOfUser($a_user_id, $a_only_public = false,
 		$a_prevent_aggregation = false, $a_per = 0, &$a_cnt = NULL)
 	{
-		global $ilAccess, $ilUser;
+		global $ilAccess;
 				
 		$news_item = new ilNewsItem();
 		$news_set = new ilSetting("news");
@@ -264,8 +264,8 @@ class ilNewsItem extends ilNewsItemGen
 			
 			// get all memberships
 			include_once 'Services/Membership/classes/class.ilParticipants.php';
-			$crs_mbs = ilParticipants::_getMembershipByType($ilUser->getId(), 'crs');
-			$grp_mbs = ilParticipants::_getMembershipByType($ilUser->getId(), 'grp');
+			$crs_mbs = ilParticipants::_getMembershipByType($a_user_id, 'crs');
+			$grp_mbs = ilParticipants::_getMembershipByType($a_user_id, 'grp');
 			$items = array_merge($crs_mbs, $grp_mbs);
 			foreach($items as $i)
 			{
