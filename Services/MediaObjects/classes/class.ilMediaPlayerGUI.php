@@ -13,7 +13,8 @@
 class ilMediaPlayerGUI
 {
 	var $file;
-	var $displayHeight;
+	var $displayHeight = "240";
+	var $displayWidth = "320";
 	var $mimeType;
 	static $nr = 1;
 
@@ -59,6 +60,25 @@ class ilMediaPlayerGUI
 		return $this->displayHeight;
 	}
 
+	/**
+	 * Set display width
+	 *
+	 * @param string $a_val display width	
+	 */
+	function setDisplayWidth($a_val)
+	{
+		$this->displayWidth = $a_val;
+	}
+	
+	/**
+	 * Get display width
+	 *
+	 * @return string display width
+	 */
+	function getDisplayWidth()
+	{
+		return $this->displayWidth;
+	}
 
 	function setMimeType ($value) {
 	    $this->mimeType = $value;
@@ -122,18 +142,29 @@ class ilMediaPlayerGUI
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
 		// video tag
-		if (in_array($mimeType, array("video/mp4", "video/3gpp")))
+		if (in_array($mimeType, array("video/mp4", "video/x-flv")))
 		{
 			$tpl->addCss("./Services/MediaObjects/media_element_2_7_0/mediaelementplayer.min.css");
 			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_7_0/mediaelement-and-player.min.js");
 
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
-			$mp_tpl->setCurrentBlock("video");
-			//$mp_tpl->setVariable("FILE", urlencode($this->getFile()));
+			
+			// sources
+			$mp_tpl->setCurrentBlock("source");
 			$mp_tpl->setVariable("FILE", $this->getFile());
+			$mp_tpl->setVariable("MIME", $mimeType);
+			$mp_tpl->parseCurrentBlock();
+			
+			$mp_tpl->setCurrentBlock("video");
 			$mp_tpl->setVariable("PLAYER_NR", self::$nr);
-			$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "30");
-			$mp_tpl->setVariable("DISPLAY_WIDTH", "320");
+			$height = $this->getDisplayHeight();
+			$width = $this->getDisplayWidth();
+			if (is_int(strpos($mimeType,"audio/mpeg")))
+			{
+				$height = "30";
+			}
+			$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
+			$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
 			$mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
 			$mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
 			self::$nr++;

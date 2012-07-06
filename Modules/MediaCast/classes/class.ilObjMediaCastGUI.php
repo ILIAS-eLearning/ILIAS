@@ -1316,10 +1316,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			}
 			
 			// player
-			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-			$mpl = new ilMediaPlayerGUI();
 			if (is_object($med))
 			{
+				include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
+				$mpl = new ilMediaPlayerGUI();
+				
 				if (strcasecmp("Reference", $med->getLocationType()) == 0)
 				{
 					$mpl->setFile($med->getLocation());
@@ -1329,12 +1330,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
 				}
 				$mpl->setMimeType ($med->getFormat());
-				$mpl->setDisplayHeight($med->getHeight());
+				//$mpl->setDisplayHeight($med->getHeight());
+				$mpl->setDisplayHeight("480");
+				$mpl->setDisplayWidth("640");
 				$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+				$ctpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
 			}
 
-			$ctpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
-
+			$ctpl->setVariable("LIGHTBOX_WIDTH", "640px");
 			
 			$ctpl->parseCurrentBlock();
 		}

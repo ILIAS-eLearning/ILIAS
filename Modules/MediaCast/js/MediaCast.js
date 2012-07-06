@@ -9,7 +9,7 @@ il.MediaCast = {
 	wrappers: [],
 	
 	initItems: function() {
-		$(".ilMediaCastItem").click(function() {
+		$(".ilMediaCastPreviewPic").click(function() {
 			il.MediaCast.itemClicked(this);
   		});
   		$('.ilLightboxWrapper').each(function() {
