@@ -11109,3 +11109,41 @@ $ilDB->free($stmt);
 			"default" => 1));
 	}
 ?>
+<#3650>
+<?php
+
+	if (!$ilDB->tableExists('qpl_fb_cloze'))
+	{
+		$fields = array(
+			'feedback_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'question_fi' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'answer' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'feedback' => array(
+				'type' => 'text',
+				'length' => 4000,
+				'notnull' => false
+			),
+			'tstamp' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			)
+		);
+		
+		$ilDB->createTable('qpl_fb_cloze', $fields);
+		$ilDB->addIndex('qpl_fb_cloze', array('question_fi'), 'i1');
+		$ilDB->createSequence('qpl_fb_cloze');
+	}
+?>
