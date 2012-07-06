@@ -18,7 +18,7 @@ class ilPlayerUtil
 	 */
 	static function getFlashVideoPlayerDirectory()
 	{
-		return "Services/MediaObjects/media_element_2_7_0";
+		return "Services/MediaObjects/media_element_2_9_1";
 	}
 	
 	/**

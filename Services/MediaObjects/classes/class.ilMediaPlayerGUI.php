@@ -144,8 +144,8 @@ class ilMediaPlayerGUI
 		// video tag
 		if (in_array($mimeType, array("video/mp4", "video/x-flv")))
 		{
-			$tpl->addCss("./Services/MediaObjects/media_element_2_7_0/mediaelementplayer.min.css");
-			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_7_0/mediaelement-and-player.min.js");
+			$tpl->addCss("./Services/MediaObjects/media_element_2_9_1/mediaelementplayer.min.css");
+			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_9_1/mediaelement-and-player.min.js");
 
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 			
@@ -190,8 +190,8 @@ class ilMediaPlayerGUI
 		// audio/mpeg
 		if (is_int(strpos($mimeType,"audio/mpeg")))
 		{
-			$tpl->addCss("./Services/MediaObjects/media_element_2_7_0/mediaelementplayer.min.css");
-			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_7_0/mediaelement-and-player.min.js");
+			$tpl->addCss("./Services/MediaObjects/media_element_2_9_1/mediaelementplayer.min.css");
+			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_9_1/mediaelement-and-player.min.js");
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 			$mp_tpl->setCurrentBlock("audio");
 			$mp_tpl->setVariable("AFILE", $this->getFile());
