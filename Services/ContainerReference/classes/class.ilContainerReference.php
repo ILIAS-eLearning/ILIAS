@@ -103,7 +103,20 @@ class ilContainerReference extends ilObject
 	  */
 	 public static function _lookupTitle($a_obj_id)
 	 {
-	 	return ilContainerReference::_lookupTargetTitle($a_obj_id);
+		 global $ilDB;
+		 
+		 $query = 'SELECT title,title_type FROM container_reference cr '.
+				 'JOIN object_data od ON cr.obj_id = od.obj_id '.
+				 'WHERE cr.obj_id = '.$ilDB->quote($a_obj_id,'integer');
+		 $res = $ilDB->query($query);
+		 while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		 {
+			 if($row->title_type == ilContainerReference::TITLE_TYPE_CUSTOM)
+			 {
+				 return $row->title;
+			 }
+		 }
+		 return ilContainerReference::_lookupTargetTitle($a_obj_id);
 	 }
 	
 	/**
@@ -235,7 +248,6 @@ class ilContainerReference extends ilObject
 			$this->setTargetId($row->target_obj_id);
 			$this->setTitleType($row->title_type);
 		}
-		
 		$ref_ids = ilObject::_getAllReferences($this->getTargetId());
 		$this->setTargetRefId(current($ref_ids));
 		
