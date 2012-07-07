@@ -35,7 +35,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 		//$this->setTitle($lng->txt("sahs_objectives_alignment"));
 		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 		$this->setTitle(ilScorm2004Node::_lookupTitle($this->chap),
-			"icon_chap.gif");
+			"icon_chap.png");
 	}
 	
 	/**
@@ -89,7 +89,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("objective");
 			$this->tpl->setVariable("TXT_LEARNING_OBJECTIVE",
 				ilSCORM2004Sco::convertLists($data->getObjectiveID()));
-			$this->tpl->setVariable("IMG_LOBJ", ilUtil::getImagePath("icon_lobj_s.gif"));
+			$this->tpl->setVariable("IMG_LOBJ", ilUtil::getImagePath("icon_lobj_s.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -115,7 +115,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("TXT_QUESTION", $qtext);
 					$this->tpl->setVariable("TXT_QTYPE", $lng->txt($qtype));
 					$this->tpl->setVariable("IMG_QST",
-						ilUtil::getImagePath("comment_question.gif"));
+						ilUtil::getImagePath("comment_question.png"));
 					$this->tpl->parseCurrentBlock();
 				}
 
@@ -123,7 +123,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 				$page_title = ilSCORM2004Node::_lookupTitle($child["child"]);
 				$this->tpl->setCurrentBlock("page");
 				$this->tpl->setVariable("TXT_PAGE_TITLE", $page_title);
-				$this->tpl->setVariable("IMG_PAGE", ilUtil::getImagePath("icon_pg_s.gif"));
+				$this->tpl->setVariable("IMG_PAGE", ilUtil::getImagePath("icon_pg_s.png"));
 				$ilCtrl->setParameterByClass("ilscorm2004pagenodegui", "obj_id", $child["child"]);
 				$this->tpl->setVariable("HREF_EDIT_PAGE",
 					$ilCtrl->getLinkTargetByClass("ilscorm2004pagenodegui",
@@ -134,7 +134,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 		
 		// sco title
 		$this->tpl->setVariable("TXT_SCO_TITLE", $a_set["title"]);
-		$this->tpl->setVariable("IMG_SCO", ilUtil::getImagePath("icon_sco_s.gif"));
+		$this->tpl->setVariable("IMG_SCO", ilUtil::getImagePath("icon_sco_s.png"));
 		$ilCtrl->setParameterByClass("ilscorm2004scogui", "obj_id", $a_set["child"]);
 		$this->tpl->setVariable("HREF_EDIT_SCO",
 			$ilCtrl->getLinkTargetByClass("ilscorm2004scogui",

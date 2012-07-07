@@ -221,7 +221,7 @@ class ilSkillTreeNodeGUI
 						$ilLocator->addItem($path[$i]["title"],
 							$ilCtrl->getLinkTargetByClass("ilskillmanagementgui",
 							"ilskillcategorygui"), "", 0, $path[$i]["type"],
-							ilUtil::getImagePath("icon_skmg_s.gif"));
+							ilUtil::getImagePath("icon_skmg_s.png"));
 						break;
 
 					case "skll":
@@ -230,7 +230,7 @@ class ilSkillTreeNodeGUI
 						$ilLocator->addItem($path[$i]["title"],
 							$ilCtrl->getLinkTargetByClass("ilskillmanagementgui",
 							"ilbasicskillgui"), "", 0, $path[$i]["type"],
-							ilUtil::getImagePath("icon_skmg_s.gif"));
+							ilUtil::getImagePath("icon_skmg_s.png"));
 						break;
 						
 				}

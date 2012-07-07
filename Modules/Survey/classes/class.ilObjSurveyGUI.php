@@ -3393,10 +3393,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
 				$this->tpl->setVariable("QUESTION_NR", "$counter");
 				$this->tpl->setVariable("TITLE", "$title");
-				$icontype = "question.gif";
+				$icontype = "question.png";
 				if ($data["questionblock_id"] > 0)
 				{
-					$icontype = "questionblock.gif";
+					$icontype = "questionblock.png";
 				}
 				$this->tpl->setVariable("TYPE", "$type: ");
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -3425,12 +3425,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->tpl->setCurrentBlock("delete_button");
 				$this->tpl->setVariable("BTN_DELETE", $this->lng->txt("delete"));
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.png") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 				$this->tpl->parseCurrentBlock();
 			}
 
 			$this->tpl->setCurrentBlock("buttons");
-			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
+			$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.png") . "\" alt=\"".$this->lng->txt("arrow_downright")."\">");
 			$this->tpl->setVariable("BTN_CREATE_CONSTRAINTS", $this->lng->txt("constraint_add"));
 			$this->tpl->parseCurrentBlock();
 		}

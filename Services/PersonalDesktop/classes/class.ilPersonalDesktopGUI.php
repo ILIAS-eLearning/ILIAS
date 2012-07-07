@@ -114,9 +114,9 @@ class ilPersonalDesktopGUI
 				$this->getStandardTemplates();
 				$this->setTabs();
 				$this->tpl->setTitle($this->lng->txt("personal_desktop"));
-				//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+				//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 				//	$this->lng->txt("personal_desktop"));
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 					"");
 
 				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
@@ -330,12 +330,12 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 		//	$this->lng->txt("personal_desktop"));
-//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 //			"");
 		$this->tpl->setTitle($this->lng->txt("overview"));
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 		
 		$this->tpl->setContent($this->getCenterColumnHTML());
 		$this->tpl->setRightContent($this->getRightColumnHTML());
@@ -496,12 +496,12 @@ class ilPersonalDesktopGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 		//	$this->lng->txt("personal_desktop"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 	}
 
 
@@ -794,9 +794,9 @@ class ilPersonalDesktopGUI
 	*/
 	function displayHeader()
 	{
-		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+		//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 		//	$this->lng->txt("personal_desktop"));
-//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"),
+//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
 //			"");
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 	}

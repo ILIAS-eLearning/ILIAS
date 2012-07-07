@@ -470,7 +470,7 @@ class ilPublicUserProfileGUI
 			$tpl->setCurrentBlock("delicious_row");
 			$tpl->setVariable("TXT_DELICIOUS", $lng->txt("delicious"));
 			$tpl->setVariable("TXT_DEL_ICON", $lng->txt("delicious"));
-			$tpl->setVariable("SRC_DEL_ICON", ilUtil::getImagePath("icon_delicious.gif"));
+			$tpl->setVariable("SRC_DEL_ICON", ilUtil::getImagePath("icon_delicious.png"));
 			$tpl->setVariable("DEL_ACCOUNT", $user->getDelicious());
 			$tpl->parseCurrentBlock();
 		}

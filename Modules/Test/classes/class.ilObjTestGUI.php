@@ -887,7 +887,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("FOUND_QUESTIONS_INTRODUCTION", $this->lng->txt("tst_import_verify_found_questions"));
 		$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setVariable("QUESTIONPOOL_ID", $_POST["qpl"]);
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
@@ -3271,7 +3271,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("Footer");
-				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.gif") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
+				$this->tpl->setVariable("ARROW", "<img src=\"" . ilUtil::getImagePath("arrow_downright.png") . "\" alt=\"".$this->lng->txt("arrow_downright")."\"/>");
 				$this->tpl->setVariable("BUTTON_EDIT", $this->lng->txt("edit"));
 				$this->tpl->setVariable("BUTTON_DELETE", $this->lng->txt("delete"));
 				$this->tpl->parseCurrentBlock();
@@ -3465,7 +3465,7 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$user = ilObjUser::_lookupName($user_id);
 			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.gif"));
+			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.png"));
 			$this->tpl->setVariable("USER_ALT", $this->lng->txt("usr"));
 			$this->tpl->setVariable("USER_TITLE", $this->lng->txt("usr"));
 			if ($this->object->getAnonymity())

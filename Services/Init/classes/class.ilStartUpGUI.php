@@ -576,7 +576,7 @@ class ilStartUpGUI
 		{
 			$tpl = new ilTemplate('tpl.login_form_cas.html', true, true, 'Services/Init');
 			$tpl->setVariable("TXT_CAS_LOGIN", $lng->txt("login_to_ilias_via_cas"));
-			$tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.gif"));
+			$tpl->setVariable("TXT_CAS_LOGIN_BUTTON", ilUtil::getImagePath("cas_login_button.png"));
 			$tpl->setVariable("TXT_CAS_LOGIN_INSTRUCTIONS", $ilSetting->get("cas_login_instructions"));
 			$this->ctrl->setParameter($this, "forceCASLogin", "1");
 			$tpl->setVariable("TARGET_CAS_LOGIN",$this->ctrl->getLinkTarget($this, "showLogin"));
@@ -916,7 +916,7 @@ class ilStartUpGUI
 		$tpl->setVariable('TXT_MSG_LOGIN_FAILED', $a_mess);
 		$tpl->setVariable("MESSAGE_HEADING", $lng->txt("failure_message"));
 		$tpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt("failure_message"));
-		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
+		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.png"));
 		$tpl->parseCurrentBlock();
 	}
 	
@@ -928,7 +928,7 @@ class ilStartUpGUI
 		$tpl->setVariable('TXT_MSG_LOGIN_SUCCESS', $a_mess);
 		$tpl->setVariable('MESSAGE_HEADING', $lng->txt('success_message'));
 		$tpl->setVariable('ALT_IMAGE', $lng->txt('icon').' '.$lng->txt('success_message'));
-		$tpl->setVariable('SRC_IMAGE', ilUtil::getImagePath('mess_success.gif'));
+		$tpl->setVariable('SRC_IMAGE', ilUtil::getImagePath('mess_success.png'));
 		$tpl->parseCurrentBlock();
 	}
 	

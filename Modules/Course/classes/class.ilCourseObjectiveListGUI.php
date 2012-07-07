@@ -179,7 +179,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 		{
 			case IL_OBJECTIVE_STATUS_NONE:
 				$this->tpl->setVariable('TXT_PROGRESS_INFO',$this->lng->txt('crs_objective_status'));
-				$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/not_attempted.gif'));
+				$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/not_attempted.png'));
 				$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_no_attempted'));
 				break;
 				
@@ -188,12 +188,12 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 				$this->tpl->setVariable('TXT_PROGRESS_INFO',$this->lng->txt('crs_objective_pretest'));
 				if(ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id))
 				{
-					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.gif'));
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.png'));
 					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_failed'));
 				}
 				else
 				{
-					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.gif'));
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.png'));
 					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_passed'));
 				}
 				break;
@@ -203,12 +203,12 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 				$this->tpl->setVariable('TXT_PROGRESS_INFO',$this->lng->txt('crs_objective_result'));
 				if(ilCourseObjectiveResultCache::isSuggested($ilUser->getId(),$this->getContainerObject()->object->getId(),$this->obj_id))
 				{
-					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.gif'));
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.png'));
 					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_failed'));
 				}
 				else
 				{
-					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.gif'));
+					$this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/passed.png'));
 					$this->tpl->setVariable('PROGRESS_ALT_IMG',$this->lng->txt('trac_passed'));
 				}
 				break;	

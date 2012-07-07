@@ -1348,7 +1348,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				else
 				{
 					$this->tpl->setVariable("TBL_HEADER_CELL_NO_LINK",
-						ilUtil::img(ilUtil::getImagePath("spacer.gif"), $lng->txt("action")));
+						ilUtil::img(ilUtil::getImagePath("spacer.png"), $lng->txt("action")));
 				}
 				$this->tpl->setVariable("HEAD_CELL_NL_ID", "thc_".$this->getId()."_".$ccnt);
 				
@@ -1363,7 +1363,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			if (($column["sort_field"] == $this->order_field) && ($this->order_direction != ""))
 			{
 				$this->tpl->setCurrentBlock("tbl_order_image");
-				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.gif"));
+				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
 				$this->tpl->setVariable("IMG_ORDER_ALT", $this->lng->txt("change_sort_direction"));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -1731,7 +1731,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$this->tpl->setCurrentBlock("tbl_header_img_link");
 				$this->tpl->setVariable("ALT_IMG_LINK",$lng->txt("close"));
 				$this->tpl->setVariable("HREF_IMG_LINK",$this->close_command);
-				$this->tpl->setVariable("SRC_IMG_LINK",ilUtil::getImagePath("icon_close2.gif"));
+				$this->tpl->setVariable("SRC_IMG_LINK",ilUtil::getImagePath("icon_close2.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 
@@ -2602,14 +2602,14 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		if ($arrow)
 		{
 			$this->tpl->setCurrentBlock("tbl_action_img_arrow");
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
 			$this->tpl->parseCurrentBlock();
 
 			if ($this->getTopCommands())
 			{
 				$this->tpl->setCurrentBlock("tbl_top_action_img_arrow");
-				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_upright.gif"));
+				$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_upright.png"));
 				$this->tpl->setVariable("ALT_ARROW", $lng->txt("action"));
 				$this->tpl->parseCurrentBlock();
 			}

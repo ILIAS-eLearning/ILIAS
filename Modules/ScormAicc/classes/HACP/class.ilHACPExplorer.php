@@ -84,7 +84,7 @@ class ilHACPExplorer extends ilAICCExplorer
 					$target = $this->createTarget('+',$a_node_id);
 					$tpl->setCurrentBlock("expander");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
+					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.png"));
 					$tpl->parseCurrentBlock();
 				}
 	
@@ -93,7 +93,7 @@ class ilHACPExplorer extends ilAICCExplorer
 					$target = $this->createTarget('-',$a_node_id);
 					$tpl->setCurrentBlock("expander");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
+					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.png"));
 					$tpl->parseCurrentBlock();
 				}
 	
@@ -103,7 +103,7 @@ class ilHACPExplorer extends ilAICCExplorer
 				{
 					$picture = 'blank';
 					$tpl->setCurrentBlock("lines");
-					$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
+					$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".png"));
 					$tpl->parseCurrentBlock();
 				}
 			}

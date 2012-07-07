@@ -254,7 +254,7 @@ class ilPDNewsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ALT_CONTEXT_TITLE",
 			$lng->txt("icon")." ".$lng->txt("obj_".$obj_type));
 		$this->tpl->setVariable("IMG_CONTEXT_TITLE",
-			ilUtil::getImagePath("icon_".$obj_type."_b.gif"));
+			ilUtil::getImagePath("icon_".$obj_type."_b.png"));
 		$this->tpl->parseCurrentBlock();
 
 		$this->tpl->setVariable("HREF_TITLE", $url_target);

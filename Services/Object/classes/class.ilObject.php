@@ -1934,7 +1934,7 @@ class ilObject
 			if (ilContainer::_lookupContainerSetting($a_obj_id, "icon_".$a_size))
 			{
 				$cont_dir = ilContainer::_getContainerDirectory($a_obj_id);
-				$file_name = $cont_dir."/icon_".$a_size.".gif";
+				$file_name = $cont_dir."/icon_".$a_size.".png";
 	
 				if (is_file($file_name))
 				{
@@ -1955,7 +1955,7 @@ class ilObject
 			{
 				if (!$objDefinition->isPlugin($a_type))
 				{
-					return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+					return ilUtil::getImagePath("icon_".$a_type.$suff.".png");
 				}
 				else
 				{
@@ -1963,11 +1963,11 @@ class ilObject
 					return ilRepositoryObjectPlugin::_getIcon($a_type, $a_size);
 				}
 			}
-			return ilUtil::getImagePath("icon_".$a_type.$suff.".gif");
+			return ilUtil::getImagePath("icon_".$a_type.$suff.".png");
 		}
 		else
 		{
-			return "./images/icon_".$a_type.$suff.".gif";
+			return "./images/icon_".$a_type.$suff.".png";
 		}
 	}
 

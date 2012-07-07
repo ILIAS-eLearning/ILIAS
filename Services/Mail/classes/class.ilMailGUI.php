@@ -255,7 +255,7 @@ class ilMailGUI
 //		$this->tpl->getStandardTemplate();
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mail_b.png"));
 		
 		// display infopanel if something happened
 		ilUtil::infoPanel();
@@ -296,7 +296,7 @@ class ilMailGUI
 			$this->tpl->setTreeFlatIcon(
 				$this->ctrl->getLinkTarget($this),
 				"tree");
-			//$this->tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_treeview.gif"));
+			//$this->tpl->setVariable("IMG_TREE", ilUtil::getImagePath("ic_treeview.png"));
 			//$this->tpl->parseCurrentBlock();
 		}
 		else
@@ -319,7 +319,7 @@ class ilMailGUI
 		require_once "Services/Mail/classes/class.ilMailExplorer.php";
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 		
 		$this->exp = new ilMailExplorer($this->ctrl->getLinkTargetByClass("ilmailfoldergui"),$ilUser->getId());
 		$this->exp->setTargetGet("mobj_id");

@@ -132,7 +132,7 @@ class ilGlossaryTermGUI
 		$ilTabs->activateTab("properties");
 		
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -346,7 +346,7 @@ class ilGlossaryTermGUI
 		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
 		$this->tpl->setTitle(
 			$this->lng->txt("cont_term").": ".$this->term->getTerm());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
@@ -445,7 +445,7 @@ class ilGlossaryTermGUI
 
 		$this->tpl->setTitle(
 			$this->lng->txt("cont_term").": ".$this->term->getTerm());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 
 		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
 		ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
@@ -523,7 +523,7 @@ class ilGlossaryTermGUI
 		$ilTabs->activateTab("definitions");
 		
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
@@ -687,7 +687,7 @@ class ilGlossaryTermGUI
 		$ilTabs->activateTab("usage");
 		
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 		
 		include_once("./Modules/Glossary/classes/class.ilTermUsagesTableGUI.php");
 		$tab = new ilTermUsagesTableGUI($this, "listUsages", $_GET["term_id"]);

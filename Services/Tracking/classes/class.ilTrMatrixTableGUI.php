@@ -294,7 +294,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 								$timing = "";
 							}
 							$this->tpl->setCurrentBlock('warning_img');
-							$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.gif'));
+							$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.png'));
 							$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
 							$this->tpl->parseCurrentBlock();
 						}

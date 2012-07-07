@@ -213,7 +213,7 @@ class ilMailFolderGUI
 		
 		$this->tpl->setVariable("TBL_TITLE", $this->lng->txt("profile_of")." ".
 			ilObjUser::_lookupLogin($_GET["user"]));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_usr.gif"));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_usr.png"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT", $this->lng->txt("public_profile"));
 		
 		include_once './Services/User/classes/class.ilPublicUserProfileGUI.php';		

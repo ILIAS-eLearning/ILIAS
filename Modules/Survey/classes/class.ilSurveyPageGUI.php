@@ -1338,23 +1338,23 @@ class ilSurveyPageGUI
 
 				// help
 				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.gif"));
+				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.png"));
 				$ttpl->parseCurrentBlock();
 				$ttpl->setCurrentBlock("help_section");
 				$ttpl->setVariable("TXT_HELP",	$lng->txt("form_hierarchy_add_elements"));
 				$ttpl->parseCurrentBlock();
 
 				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.gif"));
+				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
 				$ttpl->parseCurrentBlock();
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("drop_streaked_area.gif"));
+				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("drop_streaked_area.png"));
 				$ttpl->parseCurrentBlock();
 				$ttpl->setCurrentBlock("help_section");
 				$ttpl->setVariable("TXT_HELP",	$lng->txt("form_hierarchy_drag_drop_help"));
 				$ttpl->parseCurrentBlock();
 
 				$ttpl->setCurrentBlock("help_img");
-				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.gif"));
+				$ttpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
 				$ttpl->parseCurrentBlock();
 				$ttpl->setCurrentBlock("help_section");
 				$ttpl->setVariable("TXT_HELP",	$lng->txt("survey_dnd_double_click_to_delete"));
@@ -1411,7 +1411,7 @@ class ilSurveyPageGUI
 				{
 					$ttpl->setCurrentBlock("multi_cmds");
 					$ttpl->setVariable("MCMD_ALT", $lng->txt("commands"));
-					$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.gif"));
+					$ttpl->setVariable("MCMD_IMG", ilUtil::getImagePath("arrow_downright.png"));
 					$ttpl->parseCurrentBlock();
 				}
 
@@ -1694,7 +1694,7 @@ class ilSurveyPageGUI
 		{
 			$a_tpl->setCurrentBlock("drop_area");
 			$a_tpl->setVariable("DNODE_ID", $node_id);
-			$a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.gif"));
+			$a_tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("spacer.png"));
 			$a_tpl->parseCurrentBlock();
 		}
 

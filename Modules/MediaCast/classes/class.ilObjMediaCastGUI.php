@@ -190,7 +190,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         				    }
         				    $url = ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&"."ref_id=".$_GET["ref_id"]."&purpose=$purpose";
         				    $title = $lng->txt("news_feed_url");
-        				    $icon = ilUtil::getImagePath("rss_icon_".strtolower($purpose).".gif");
+        				    $icon = ilUtil::getImagePath("rss_icon_".strtolower($purpose).".png");
         				    $target = "_blank";
 
         				    //$row1 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
@@ -199,7 +199,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             				{
             				    $url = preg_replace("/https?/i","itpc",$url);
             				    $title = $lng->txt("news_feed_url");
-            				    $icon = ilUtil::getImagePath("itunes_icon.gif");
+            				    $icon = ilUtil::getImagePath("itunes_icon.png");
             				    //$row2 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
 								$row2 .= "<A href='$url' target='$target'><img src='$icon' alt='$title'/></A>";
             				}
@@ -821,7 +821,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$item = new ilNewsItem($item_id);
 			$c_gui->addItem("item_id[]", $item_id, $item->getTitle(),
-				ilUtil::getImagePath("icon_mcst.gif"));
+				ilUtil::getImagePath("icon_mcst.png"));
 		}
 		
 		$tpl->setContent($c_gui->getHTML());

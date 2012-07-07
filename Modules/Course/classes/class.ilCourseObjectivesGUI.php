@@ -112,7 +112,7 @@ class ilCourseObjectivesGUI
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
 		$table = new ilCourseObjectivesTableGUI($this,$this->course_obj);
-		$table->setTitle($this->lng->txt('crs_objectives'),'icon_lobj.gif',$this->lng->txt('crs_objectives'));
+		$table->setTitle($this->lng->txt('crs_objectives'),'icon_lobj.png',$this->lng->txt('crs_objectives'));
 		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId()));
 		
 		$this->tpl->setVariable('OBJECTIVES_TABLE',$table->getHTML());
@@ -196,7 +196,7 @@ class ilCourseObjectivesGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",1);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
 		$tpl->parseCurrentBlock();
 
 
@@ -205,7 +205,7 @@ class ilCourseObjectivesGUI
 		$tbl->setStyle('table','std');
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("crs_objectives"),"icon_lobj.gif",$this->lng->txt("crs_objectives"));
+		$tbl->setTitle($this->lng->txt("crs_objectives"),"icon_lobj.png",$this->lng->txt("crs_objectives"));
 
 		$tbl->setHeaderNames(array($this->lng->txt("title")));
 		$tbl->setHeaderVars(array("title"), 
@@ -283,7 +283,7 @@ class ilCourseObjectivesGUI
 
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php');
 		$table = new ilCourseObjectiveQuestionsTableGUI($this,$this->course_obj);
-		$table->setTitle($this->lng->txt('crs_objectives_edit_question_assignments'),'icon_lobj.gif',$this->lng->txt('crs_objectives'));
+		$table->setTitle($this->lng->txt('crs_objectives_edit_question_assignments'),'icon_lobj.png',$this->lng->txt('crs_objectives'));
 		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId()));
 		
 		$this->tpl->setContent($table->getHTML());
@@ -539,7 +539,7 @@ class ilCourseObjectivesGUI
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterialAssignmentTableGUI.php');
 		$table = new ilCourseObjectiveMaterialAssignmentTableGUI($this,$this->course_obj,(int) $_GET['objective_id']);
 		$table->setTitle($this->lng->txt('crs_objective_wiz_materials'),
-			'icon_lobj.gif',$this->lng->txt('crs_objectives'));
+			'icon_lobj.png',$this->lng->txt('crs_objectives'));
 
 		include_once('Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
 		$table->parse(ilCourseObjectiveMaterials::_getAssignableMaterials($this->course_obj->getRefId()));
@@ -636,7 +636,7 @@ class ilCourseObjectivesGUI
 			(int) $_GET['objective_id'],
 			ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT);
 		$table->setTitle($this->lng->txt('crs_objective_wiz_self'),
-			'icon_lobj.gif',$this->lng->txt('crs_objective'));
+			'icon_lobj.png',$this->lng->txt('crs_objective'));
 		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
@@ -831,7 +831,7 @@ class ilCourseObjectivesGUI
 			ilCourseObjectiveQuestion::TYPE_FINAL_TEST);
 
 		$table->setTitle($this->lng->txt('crs_objective_wiz_final'),
-			'icon_lobj.gif',$this->lng->txt('crs_objective'));
+			'icon_lobj.png',$this->lng->txt('crs_objective'));
 		$table->parse(ilCourseObjectiveQuestion::_getAssignableTests($this->course_obj->getRefId()));
 		
 		$this->__initQuestionObject((int) $_GET['objective_id']);
@@ -992,7 +992,7 @@ class ilCourseObjectivesGUI
 		}
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTableWidth('100%');
-		$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.gif'),$this->lng->txt('crs_objective'));
+		$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.png'),$this->lng->txt('crs_objective'));
 		
 		switch($a_mode)
 		{
@@ -1094,7 +1094,7 @@ class ilCourseObjectivesGUI
 			$this->form = new ilPropertyFormGUI();
 		}
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
-		$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.gif'),$this->lng->txt('crs_objective'));
+		$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.png'),$this->lng->txt('crs_objective'));
 		
 		switch($a_mode)
 		{
@@ -1178,7 +1178,7 @@ class ilCourseObjectivesGUI
 		}
 		
 		
-		$tpl->setVariable('WIZ_IMG',ilUtil::getImagePath('icon_lobj.gif'));
+		$tpl->setVariable('WIZ_IMG',ilUtil::getImagePath('icon_lobj.png'));
 		$tpl->setVariable('WIZ_IMG_ALT',$this->lng->txt('crs_objectives'));
 		
 		if($_SESSION['objective_mode'] == self::MODE_CREATE)

@@ -113,7 +113,7 @@ class ilFeedbackGUI
 		$tbl->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tbl->tpl->parseCurrentBlock();
 		$tbl->setTitle($this->lng->txt("feedb_feedback_list"),
-			"icon_feedb.gif", $this->lng->txt("feedb_feedback_list"));
+			"icon_feedb.png", $this->lng->txt("feedb_feedback_list"));
 		$tbl->setHeaderNames(array("",$this->lng->txt("title"),$this->lng->txt("status"),$this->lng->txt("time"),$this->lng->txt("options")));
 		$tbl->setHeaderVars(array("checkbox","title","stauts","running","options"));
 		$tbl->setData($rows);
@@ -144,7 +144,7 @@ class ilFeedbackGUI
 
 
 		$tbl->tpl->setVariable("COLUMN_COUNTS",5);
-		$tbl->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$tbl->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 
 		$tbl->tpl->setCurrentBlock("tbl_action_select");
 		//$tbl->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect(1,"action",array('delete'),false,true));
@@ -299,7 +299,7 @@ class ilFeedbackGUI
 		$this->ctrl->setParameter($this,"barometer_id",$_GET['barometer_id']);
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HEADER", $this->lng->txt("feedb_edit_feedback"));
-		$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("icon_feedb.gif"));
+		$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("icon_feedb.png"));
 		$tpl->setVariable("ALT_FEEDB", $this->lng->txt("feedb_edit_feedback"));
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$tpl->setVariable("VALUE_TITLE",$data['title']);
@@ -498,7 +498,7 @@ class ilFeedbackGUI
 		$tpl = new ilTemplate("tpl.feedback_edit.html", true, true, "Services/Feedback");
 		$tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TXT_HEADER", $this->lng->txt("bar_create"));
-		$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("icon_feedb.gif"));
+		$tpl->setVariable("IMG_FEEDB", ilUtil::getImagePath("icon_feedb.png"));
 		$tpl->setVariable("ALT_FEEDB", $this->lng->txt("bar_create"));
 		$tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
 		$tpl->setVariable("TXT_TIME", $this->lng->txt("feedb_time"));
@@ -666,7 +666,7 @@ class ilFeedbackGUI
 			if ($a_header)
 			{
 				$tpl->setCurrentBlock("vote_head");
-				$tpl->setVariable("IMG_VHEAD", ilUtil::getImagePath("icon_crs.gif"));
+				$tpl->setVariable("IMG_VHEAD", ilUtil::getImagePath("icon_crs.png"));
 				$tpl->setVariable("TXT_CRS_TITLE", ilObject::_lookupTitle($feedback->getObjId()));
 				$tpl->parseCurrentBlock();
 			}

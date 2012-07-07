@@ -495,7 +495,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("other_row");
-						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
 						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
@@ -505,7 +505,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 					else
 					{
 						$template->setCurrentBlock("mc_row");
-						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+						$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 						$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 						$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
 						$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($cat->title));
@@ -518,7 +518,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$template->setCurrentBlock("checkbox_col");
-					$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+					$template->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 					$template->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 					$template->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
 					$template->parseCurrentBlock();

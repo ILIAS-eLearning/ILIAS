@@ -109,7 +109,7 @@ class ilForumLocatorGUI
 				
 				$this->tpl->setCurrentBlock("locator_img");
 				$this->tpl->setVariable("IMG_SRC", $icon_path);
-				#$this->tpl->setVariable("IMG_SRC", ilUtil::getImagePath("icon_".$row["type"]."_s.gif"));
+				#$this->tpl->setVariable("IMG_SRC", ilUtil::getImagePath("icon_".$row["type"]."_s.png"));
 				$this->tpl->setVariable("IMG_ALT", $lng->txt("obj_".$row['type']));
 				$this->tpl->parseCurrentBlock();
 			}

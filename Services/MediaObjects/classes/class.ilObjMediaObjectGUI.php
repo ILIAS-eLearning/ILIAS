@@ -1232,7 +1232,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "deleteFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
@@ -1280,7 +1280,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 					$this->tpl->parseCurrentBlock();
 
 					$this->tpl->setVariable("ICON", "<img src=\"".
-						ilUtil::getImagePath("icon_cat.gif")."\">");
+						ilUtil::getImagePath("icon_cat.png")."\">");
 				}
 				else
 				{
@@ -1716,13 +1716,13 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		//$tabs_gui->setTargetScript($this->ctrl->getLinkTarget($this));
 		if (is_object($this->object) && strtolower(get_class($this->object)) == "ilobjmediaobject")
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
 			$this->tpl->setTitle($this->object->getTitle());
 		}
 		else
 		{
 			//$title = $this->object->getTitle();
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
 			$this->tpl->setTitle($this->lng->txt("cont_create_mob"));
 		}
 	}

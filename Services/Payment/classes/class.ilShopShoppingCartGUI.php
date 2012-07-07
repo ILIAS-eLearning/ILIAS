@@ -869,7 +869,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		
 		$tpl->setVariable('COUPON_FORMACTION', $this->ctrl->getFormAction($this));
 		$tpl->setVariable('TITLE', $this->lng->txt('paya_coupons_coupons'));
-		$tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_pays_b.gif'));		
+		$tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_pays_b.png'));		
 		$tpl->setVariable('ALT_IMG', $this->lng->txt('obj_usr'));
 		
 		$tpl->setVariable('TXT_CODE', $this->lng->txt('paya_coupons_code'));

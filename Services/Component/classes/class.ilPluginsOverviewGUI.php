@@ -132,7 +132,7 @@ class ilComponentsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_REP_OBJECT_ID",
 					$rt["id"]);
 				$this->tpl->setVariable("IMG_REP_OBJECT",
-					ilUtil::getImagePath("icon_".$rt["id"].".gif"));
+					ilUtil::getImagePath("icon_".$rt["id"].".png"));
 					
 				// add new position
 				$this->tpl->setVariable("TXT_ADD_NEW_POS",

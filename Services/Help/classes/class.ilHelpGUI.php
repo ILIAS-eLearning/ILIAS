@@ -199,7 +199,7 @@ class ilHelpGUI
 			$h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
 			$h_tpl->setVariable("HEAD", $lng->txt("help"));
 			$h_tpl->setVariable("CONTENT", $acc->getHTML());
-			$h_tpl->setVariable("CLOSE_IMG", ilUtil::img(ilUtil::getImagePath("icon_close2_s.gif")));
+			$h_tpl->setVariable("CLOSE_IMG", ilUtil::img(ilUtil::getImagePath("icon_close2_s.png")));
 			echo $h_tpl->get();
 		}
 		exit;
@@ -254,7 +254,7 @@ class ilHelpGUI
 		$ret = $page_gui->showPage();
 
 		$h_tpl->setVariable("CONTENT", $ret);
-		$h_tpl->setVariable("CLOSE_IMG", ilUtil::img(ilUtil::getImagePath("icon_close2_s.gif")));
+		$h_tpl->setVariable("CLOSE_IMG", ilUtil::img(ilUtil::getImagePath("icon_close2_s.png")));
 		
 		
 		echo $h_tpl->get();

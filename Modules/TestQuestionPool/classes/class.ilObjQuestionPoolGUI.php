@@ -525,7 +525,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			//$this->tpl->setVariable("FORMACTION", $this->getFormAction("save","adm_object.php?cmd=gateway&ref_id=".$_GET["ref_id"]."&new_type=".$this->type));
 		}
-		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
 		$value_questions_only = 0;
@@ -1198,13 +1198,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			}
 			$this->tpl->setTitle($title);
 			$this->tpl->setDescription($q_gui->object->getComment());
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_qpl"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_qpl"));
 		}
 		else
 		{
 			$this->tpl->setTitle($this->object->getTitle());
 			$this->tpl->setDescription($this->object->getLongDescription());
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_qpl"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_qpl"));
 		}
 	}
 

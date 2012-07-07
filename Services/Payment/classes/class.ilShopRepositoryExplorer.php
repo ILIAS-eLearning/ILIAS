@@ -342,7 +342,7 @@ class ilShopRepositoryExplorer extends ilExplorer
 			require_once("./Services/Container/classes/class.ilContainer.php");
 			if (($path = ilContainer::_lookupIconPath($a_obj_id, "tiny")) == "")
 			{
-				$path = ilUtil::getImagePath("icon_root_s.gif");
+				$path = ilUtil::getImagePath("icon_root_s.png");
 			}
 		}*/
 

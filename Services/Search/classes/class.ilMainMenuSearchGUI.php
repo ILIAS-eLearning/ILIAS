@@ -75,11 +75,11 @@ class ilMainMenuSearchGUI
 		// $this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
 		$this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
 		
-		$this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(ilUtil::getImagePath("icon_seas_s.gif")));
+		$this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(ilUtil::getImagePath("icon_seas_s.png")));
 		
 		// search link menu
-		//$this->tpl->setVariable('ARROW', ilUtil::getImagePath("mm_down_arrow_dark.gif"));
-		//$this->tpl->setVariable('SRC_ICON', ilUtil::getImagePath("icon_seas_s.gif"));
+		//$this->tpl->setVariable('ARROW', ilUtil::getImagePath("mm_down_arrow_dark.png"));
+		//$this->tpl->setVariable('SRC_ICON', ilUtil::getImagePath("icon_seas_s.png"));
 		//$this->tpl->setVariable('TXT_LAST_SEARCH', " > ".$lng->txt("last_search_result"));
 		//$this->tpl->setVariable('HREF_LAST_SEARCH', "ilias.php?baseClass=ilSearchController");
 		

@@ -264,8 +264,8 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
 				$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.gif'));
-				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.gif'));
+				$tpl->setVariable("UP_BUTTON", ilUtil::getImagePath('a_up.png'));
+				$tpl->setVariable("DOWN_BUTTON", ilUtil::getImagePath('a_down.png'));
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setCurrentBlock("row");

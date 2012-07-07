@@ -228,12 +228,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_list.html", "Services/AccessControl");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.png'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
 		$this->tpl->setVariable("BTN_DELETE",$this->lng->txt('delete'));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
 
 		$counter = 0;
 
@@ -285,7 +285,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_ask_delete_desktop_item.html", "Services/AccessControl");
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.gif'));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath('icon_role.png'));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt('obj_role'));
 		$this->tpl->setVariable("TBL_TITLE",$this->lng->txt('role_assigned_desk_items').' ('.$this->object->getTitle().')');
 		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
@@ -1219,9 +1219,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".gif"));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".png"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
-		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.gif"));
+		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.png"));
 		$this->tpl->setVariable("TBL_HELP_LINK","tbl_help.php");
 		$this->tpl->setVariable("TBL_HELP_IMG_ALT",$this->lng->txt("help"));
 		
@@ -1378,7 +1378,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			'role',
 			$this->object->getId(),
 			$this->object->getTitle(),
-			ilUtil::getImagePath('icon_role.gif')
+			ilUtil::getImagePath('icon_role.png')
 		);
 		
 		$this->tpl->setContent($confirm->getHTML());
@@ -1921,7 +1921,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$tpl->setCurrentBlock("tbl_action_row");
 
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 
 		foreach ($actions as $name => $value)
 		{
@@ -1946,7 +1946,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,"cmd","userassignment");
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("assigned_users"),"icon_usr.gif",$this->lng->txt("users"));
+		$tbl->setTitle($this->lng->txt("assigned_users"),"icon_usr.png",$this->lng->txt("users"));
 
 		//user must be administrator
 		$tbl->setHeaderNames(array("",$this->lng->txt("username"),$this->lng->txt("firstname"),
@@ -2254,10 +2254,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",4);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr.gif",$this->lng->txt("role_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr.png",$this->lng->txt("role_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -2315,10 +2315,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",4);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr.gif",$this->lng->txt("role_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("role_header_edit_users"),"icon_usr.png",$this->lng->txt("role_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_role"),
 								   $this->lng->txt("role_count_users")));
@@ -2375,10 +2375,10 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",4);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr.gif",$this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"),"icon_usr.png",$this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_grp"),
 								   $this->lng->txt("grp_count_members")));
@@ -2571,7 +2571,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		$this->tpl->setTitle($this->lng->txt('role'));
 		$this->tpl->setDescription($this->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_role.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_role.png"));
 
 		$this->getTabs($this->tabs_gui);
 	}

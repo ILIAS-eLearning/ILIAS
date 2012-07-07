@@ -279,7 +279,7 @@ class ilPermanentLinkGUI
 			$loc_tpl = new ilTemplate('tpl.single_link.html', true, true, 'Services/PermanentLink');
 			$loc_tpl->setVariable("TXT_ADD_TO_ILIAS_BM", $lng->txt("bm_add_to_ilias"));
 			$loc_tpl->setVariable("URL_ADD_TO_BM", 'ilias.php?cmd=redirect&baseClass=ilPersonalDesktopGUI&redirectClass=ilbookmarkadministrationgui&redirectCmd=newFormBookmark&param_bmf_id=1&param_return_to=true&param_bm_title='. urlencode($title) . '&param_bm_link=' . urlencode(urlencode($href))."&param_return_to_url=".urlencode(urlencode($_SERVER['REQUEST_URI'])));
-			$loc_tpl->setVariable("ICON", ilUtil::getImagePath('icon_bm.gif'));
+			$loc_tpl->setVariable("ICON", ilUtil::getImagePath('icon_bm.png'));
 			return $loc_tpl->get();
 		}
 		else if ($cnt >= 1)

@@ -227,9 +227,9 @@ class ilExParticipantTableGUI extends ilTable2GUI
 		}
 		switch($status)
 		{
-			case "passed": 	$pic = "scorm/passed.gif"; break;
-			case "failed":	$pic = "scorm/failed.gif"; break;
-			default: 		$pic = "scorm/not_attempted.gif"; break;
+			case "passed": 	$pic = "scorm/passed.png"; break;
+			case "failed":	$pic = "scorm/failed.png"; break;
+			default: 		$pic = "scorm/not_attempted.png"; break;
 		}
 		$this->tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 		$this->tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$status));

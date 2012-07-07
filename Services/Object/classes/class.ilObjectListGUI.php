@@ -1549,8 +1549,8 @@ class ilObjectListGUI
 		$this->tpl->setVariable('VAL_REL',sprintf("%.02f %%",$this->getRelevance()));
 		$this->tpl->setVariable('WIDTH_A',$width1);
 		$this->tpl->setVariable('WIDTH_B',$width2);
-		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
-		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
+		$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
+		$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
 		$this->tpl->parseCurrentBlock();
 		
 	}
@@ -1812,7 +1812,7 @@ class ilObjectListGUI
 					$this->ctpl = new ilTemplate("tpl.container_list_item_commands.html", true, true,
 						"Services/Container", "DEFAULT", false, true);
 					$this->ctpl->setCurrentBlock('payment');
-					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.gif'));
+					$this->ctpl->setVariable('PAYMENT_TYPE_IMG', ilUtil::getImagePath('icon_pays.png'));
 					$this->ctpl->setVariable('PAYMENT_ALT_IMG', $this->lng->txt('payment_system') . ': ' . $this->lng->txt('payment_buyable'));
 					$this->ctpl->parseCurrentBlock();
 
@@ -2090,7 +2090,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
 			$this->insertCommand($cmd_link, $this->lng->txt("delete"), "",
-				ilUtil::getImagePath("cmd_delete_s.gif"));
+				ilUtil::getImagePath("cmd_delete_s.png"));
 			$this->adm_commands_included = true;
 		}
 	}
@@ -2139,7 +2139,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
 			$this->insertCommand($cmd_link, $this->lng->txt("link"), "",
-				ilUtil::getImagePath("cmd_link_s.gif"));
+				ilUtil::getImagePath("cmd_link_s.png"));
 			$this->adm_commands_included = true;
 		}
 	}
@@ -2187,13 +2187,13 @@ class ilObjectListGUI
 			{
 				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
 				$this->insertCommand($cmd_link, $this->lng->txt("move"), "",
-					ilUtil::getImagePath("cmd_move_s.gif"));
+					ilUtil::getImagePath("cmd_move_s.png"));
 			}
 			else
 			{
 				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut_for_repository");
 				$this->insertCommand($cmd_link, $this->lng->txt("wsp_move_to_repository"), "",
-					ilUtil::getImagePath("cmd_move_s.gif"));
+					ilUtil::getImagePath("cmd_move_s.png"));
 			}
 			
 			$this->adm_commands_included = true;
@@ -2338,7 +2338,7 @@ class ilObjectListGUI
 						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
 						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"), "",
-							ilUtil::getImagePath("cmd_pd_put_s.gif"));
+							ilUtil::getImagePath("cmd_pd_put_s.png"));
 					}					
 				}
 			}
@@ -2350,7 +2350,7 @@ class ilObjectListGUI
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
 					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
-						ilUtil::getImagePath("cmd_pd_rem_s.gif"));
+						ilUtil::getImagePath("cmd_pd_rem_s.png"));
 				}
 			}
 		}
@@ -2368,7 +2368,7 @@ class ilObjectListGUI
 		$cmd_link = $this->getCommandLink("infoScreen");
 		$cmd_frame = $this->getCommandFrame("infoScreen");
 		$this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
-			ilUtil::getImagePath("cmd_info_s.gif"));
+			ilUtil::getImagePath("cmd_info_s.png"));
 	}		
 	
 	/**
@@ -2521,7 +2521,7 @@ class ilObjectListGUI
 						// standard edit icon
 						if ($command["lang_var"] == "edit" && $command["img"] == "")
 						{
-							$command["img"] = ilUtil::getImagePath("cmd_edit_s.gif");
+							$command["img"] = ilUtil::getImagePath("cmd_edit_s.png");
 						}
 
 						$cmd_link = $command["link"];
@@ -2801,7 +2801,7 @@ class ilObjectListGUI
 				include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 				$lng->loadLanguageModule("tagging");
 				$this->addHeaderIcon("tags", 					
-					ilUtil::getImagePath("icon_tags_s.gif"),
+					ilUtil::getImagePath("icon_tags_s.png"),
 					$lng->txt("tagging_tags").": ".count($tags),
 					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js),
 					count($tags));				
@@ -2819,7 +2819,7 @@ class ilObjectListGUI
 			if($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0)
 			{
 				$this->addHeaderIcon("notes",
-					ilUtil::getImagePath("note_unlabeled.gif"),
+					ilUtil::getImagePath("note_unlabeled.png"),
 					$lng->txt("private_notes").": ".$cnt[$this->obj_id][IL_NOTE_PRIVATE],
 					ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js),
 					$cnt[$this->obj_id][IL_NOTE_PRIVATE]
@@ -2831,7 +2831,7 @@ class ilObjectListGUI
 				$lng->loadLanguageModule("notes");
 				
 				$this->addHeaderIcon("comments",
-					ilUtil::getImagePath("comment_unlabeled.gif"),
+					ilUtil::getImagePath("comment_unlabeled.png"),
 					$lng->txt("notes_public_comments").": ".$cnt[$this->obj_id][IL_NOTE_PUBLIC],
 					ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js),
 					$cnt[$this->obj_id][IL_NOTE_PUBLIC]);
@@ -3002,7 +3002,7 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);			
-				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/minus.gif'));
+				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/minus.png'));
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.png'));
 			$this->tpl->setVariable('EXP_ALT',$this->lng->txt('collapse'));
 			}
@@ -3011,7 +3011,7 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
-				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/plus.gif'));
+				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/plus.png'));
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.png'));
 				$this->tpl->setVariable('EXP_ALT',$this->lng->txt('expand'));
 			}

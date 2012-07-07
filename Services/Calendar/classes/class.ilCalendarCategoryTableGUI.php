@@ -101,18 +101,18 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		switch($a_set['type'])
 		{
 			case ilCalendarCategory::TYPE_GLOBAL:
-				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg_s.gif'));
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_calg_s.png'));
 				$this->tpl->setVariable('IMG_ALT', $this->lng->txt('cal_type_system'));
 				break;
 				
 			case ilCalendarCategory::TYPE_USR:
-				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usr_s.gif'));
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_usr_s.png'));
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_personal'));
 				break;
 			
 			case ilCalendarCategory::TYPE_OBJ:
 				$type = ilObject::_lookupType($a_set['obj_id']);
-				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'_s.gif'));
+				$this->tpl->setVariable('IMG_SRC',ilUtil::getImagePath('icon_'.$type.'_s.png'));
 				$this->tpl->setVariable('IMG_ALT',$this->lng->txt('cal_type_'.$type));
 				break;				
 		}
@@ -124,7 +124,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		}
 
 		// Subscription link
-		$this->tpl->setVariable('SUB_SRC',ilUtil::getImagePath('ical.gif','Services/Calendar'));
+		$this->tpl->setVariable('SUB_SRC',ilUtil::getImagePath('ical.png','Services/Calendar'));
 		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',$a_set['id']);
 		$this->tpl->setVariable('SUB_LINK',$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui')));
 		$this->tpl->setVariable('SUB_ALT',$this->lng->txt('ical_export'));

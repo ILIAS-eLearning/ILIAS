@@ -31,7 +31,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		
 		parent::ilBlockGUI();
 		
-		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
+		$this->setImage(ilUtil::getImagePath("icon_news_s.png"));
 
 		$lng->loadLanguageModule("news");
 		include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -230,7 +230,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTarget($this, "showFeedUrl"),
-				$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.gif"), true);
+				$lng->txt("news_get_feed_url"), "", ilUtil::getImagePath("rss.png"), true);
 		}
 
 		if ($allow_shorter_periods || $allow_longer_periods || $enable_private_feed)
@@ -294,7 +294,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			$tpl = new ilTemplate("tpl.show_priv_feed_url.html", true, true, "Services/News");				
 
-			$tpl->setVariable("IMG_PRIV_RSS", ilUtil::getImagePath("privrss.gif"));
+			$tpl->setVariable("IMG_PRIV_RSS", ilUtil::getImagePath("privrss.png"));
 			$tpl->setVariable("TXT_PRIV_TITLE", $lng->txt("news_get_priv_feed_title"));
 			$tpl->setVariable("TXT_PRIV_INFO", $lng->txt("news_get_priv_feed_info"));
 			$tpl->setVariable("TXT_PRIV_FEED_URL", $lng->txt("news_feed_url"));
@@ -323,7 +323,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
-		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
+		$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
 
@@ -376,7 +376,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
 
 			$form->setTitle($lng->txt("news_settings"));
-			$form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+			$form->setTitleIcon(ilUtil::getImagePath("icon_news.png"));
 
 			$form->setTableWidth("100%");
 
@@ -428,7 +428,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		{
 			$feed_form = new ilPropertyFormGUI();
 			$feed_form->setTitle($lng->txt("priv_feed_settings"));
-			$feed_form->setTitleIcon(ilUtil::getImagePath("privrss.gif"));
+			$feed_form->setTitleIcon(ilUtil::getImagePath("privrss.png"));
 	
 			$feed_form->setTableWidth("100%");
 	

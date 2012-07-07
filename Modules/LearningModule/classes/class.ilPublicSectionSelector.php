@@ -174,7 +174,7 @@ class ilPublicSectionSelector extends ilLMExplorer
 		if ($this->output_icons)
 		{
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".gif"));
+			$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["type"].".png"));
 			$tpl->setVariable("PAGE_ID" , $a_node_id);
 			
 			//$this->iconList[] = "iconid_".$a_node_id;

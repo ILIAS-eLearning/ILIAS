@@ -40,7 +40,7 @@ class ilOrgUnitTreeExplorerGUI
 		}
 		
 		$this->tpl->setCurrentBlock('exp_item_icon');
-		$this->tpl->setVariable('ITEM_ICON_SRC', ilUtil::getImagePath('icon_root_s.gif'));
+		$this->tpl->setVariable('ITEM_ICON_SRC', ilUtil::getImagePath('icon_root_s.png'));
 		$this->tpl->parseCurrentBlock();
 
 		if($a_unit->getId() == ilOrgUnitTree::ROOT_UNIT_ID)
@@ -90,7 +90,7 @@ class ilOrgUnitTreeExplorerGUI
 				}
 
 				$this->tpl->setCurrentBlock('exp_item_icon');
-				$this->tpl->setVariable('ITEM_ICON_SRC', ilUtil::getImagePath('icon_usr_s.gif'));
+				$this->tpl->setVariable('ITEM_ICON_SRC', ilUtil::getImagePath('icon_usr_s.png'));
 				$this->tpl->parseCurrentBlock();
 
 				$this->tpl->setCurrentBlock('exp_item_title');

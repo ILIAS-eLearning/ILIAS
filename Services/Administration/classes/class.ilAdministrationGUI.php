@@ -569,7 +569,7 @@ class ilAdministrationGUI
 						}
 						else
 						{
-							$path = ilUtil::getImagePath("icon_".$titems[$e]["type"]."_s.gif");
+							$path = ilUtil::getImagePath("icon_".$titems[$e]["type"]."_s.png");
 							$icon = ($path != "")
 								? ilUtil::img($path)." "
 								: "";

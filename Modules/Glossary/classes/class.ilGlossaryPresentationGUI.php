@@ -148,7 +148,7 @@ class ilGlossaryPresentationGUI
 		$title = $this->glossary->getTitle();
 
 		$this->tpl->setTitle($title);
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.png"));
 
 		$this->setLocator();
 	}
@@ -347,7 +347,7 @@ class ilGlossaryPresentationGUI
 			}
 			$tpl->parseCurrentBlock();
 
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 
 			// load template for table
@@ -612,12 +612,12 @@ class ilGlossaryPresentationGUI
 
 		if (!$this->offlineMode())
 		{
-			$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output");
+			$enlarge_path = ilUtil::getImagePath("enlarge.png", false, "output");
 			$wb_path = ilUtil::getWebspaceDir("output")."/";
 		}
 		else
 		{
-			$enlarge_path = "images/enlarge.gif";
+			$enlarge_path = "images/enlarge.png";
 			$wb_path = "";
 		}
 
@@ -666,8 +666,8 @@ class ilGlossaryPresentationGUI
 		
 		// set title header
 		$this->tpl->setTitle($this->glossary->getTitle());
-		//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.gif"));
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.gif"));
+		//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_glo_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.png"));
 
 		// create table
 		require_once("./Services/Table/classes/class.ilTableGUI.php");
@@ -1059,7 +1059,7 @@ class ilGlossaryPresentationGUI
 		}
 		else
 		{
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.gif"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_term_b.png"));
 			$term = new ilGlossaryTerm((int) $_GET["term_id"]);
 			$tpl->setTitle($this->lng->txt("cont_term").": ".$term->getTerm());
 			$this->showDefinitionTabs("print_view");

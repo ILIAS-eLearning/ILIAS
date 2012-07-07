@@ -116,7 +116,7 @@ class ilPasswordAssistanceGUI
 			$this->ctrl->getFormAction($this));
 		$tpl->setVariable("TARGET","target=\"_parent\"");
 		$tpl->setVariable("IMG_AUTH",
-			ilUtil::getImagePath("icon_auth_b.gif"));
+			ilUtil::getImagePath("icon_auth_b.png"));
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
 	
 		$contact_address = $ilias->getSetting("admin_email");
@@ -181,7 +181,7 @@ class ilPasswordAssistanceGUI
 		$tpl->setVariable("FORMACTION",
 			$this->ctrl->getFormAction($this));
 		$tpl->setVariable("IMG_AUTH",
-			ilUtil::getImagePath("icon_auth_b.gif"));
+			ilUtil::getImagePath("icon_auth_b.png"));
 		$tpl->setVariable("TARGET","target=\"_parent\"");
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
 	
@@ -595,7 +595,7 @@ class ilPasswordAssistanceGUI
 				$this->ctrl->getFormAction($this));
 			$tpl->setVariable("TARGET","target=\"_parent\"");
 			$tpl->setVariable("IMG_AUTH",
-				ilUtil::getImagePath("icon_auth_b.gif"));
+				ilUtil::getImagePath("icon_auth_b.png"));
 			$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
 			$tpl->setVariable("TXT_ENTER_USERNAME_AND_NEW_PASSWORD", $lng->txt("pwassist_enter_username_and_new_password"));
 			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
@@ -766,7 +766,7 @@ class ilPasswordAssistanceGUI
 
 		$tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("password_assistance"));
 		$tpl->setVariable("IMG_AUTH",
-			ilUtil::getImagePath("icon_auth_b.gif"));
+			ilUtil::getImagePath("icon_auth_b.png"));
 		$tpl->setVariable("TXT_TEXT",str_replace("\\n","<br>",$text));
 		$tpl->setVariable("BACK", $lng->txt("back"));
 		$tpl->setVariable("LINK_BACK",

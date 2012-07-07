@@ -118,7 +118,7 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$this->tpl->setTitle('['.$this->object->getLogin().'] '.$this->object->getTitle());
 			$this->tpl->setDescription($this->object->getLongDescription());
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_" . $this->object->getType()));
 		}
 		else
 		{
@@ -3323,7 +3323,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$tpl->setCurrentBlock("tbl_action_row");
 
 			$tpl->setVariable("COLUMN_COUNTS",4);
-			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 
             foreach ($actions as $name => $value)
 			{
@@ -3350,7 +3350,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$this->ctrl->setParameter($this,"cmd","roleassignment");
 
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("edit_roleassignment"),"icon_role.gif",$this->lng->txt("roles"));
+		$tbl->setTitle($this->lng->txt("edit_roleassignment"),"icon_role.png",$this->lng->txt("roles"));
 
 		//user must be administrator
 		$tbl->setHeaderNames(array("",$this->lng->txt("role"),$this->lng->txt("description"),$this->lng->txt("context")));

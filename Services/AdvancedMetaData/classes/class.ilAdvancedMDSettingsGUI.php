@@ -974,7 +974,7 @@ class ilAdvancedMDSettingsGUI
 			
 			// Show section
 			$section = new ilFormSectionHeaderGUI();
-			$section->setSectionIcon(ilUtil::getImagePath('icon_'.$obj_type.'_s.gif'),$this->lng->txt('objs_'.$obj_type));
+			$section->setSectionIcon(ilUtil::getImagePath('icon_'.$obj_type.'_s.png'),$this->lng->txt('objs_'.$obj_type));
 			$section->setTitle($this->lng->txt('objs_'.$obj_type));
 			$this->form->addItem($section);
 			

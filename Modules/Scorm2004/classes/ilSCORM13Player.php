@@ -409,14 +409,14 @@ class ilSCORM13Player
 	function getInlineCSS()
 	{
 		$is_tpl = new ilTemplate("tpl.scorm2004.inlinecss.html", true, true, "Modules/Scorm2004");
-		$is_tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset_s.gif",false));
-		$is_tpl->setVariable('IC_COMPLETED', ilUtil::getImagePath("scorm/completed_s.gif",false));
-		$is_tpl->setVariable('IC_NOTATTEMPTED', ilUtil::getImagePath("scorm/not_attempted_s.gif",false));
-		$is_tpl->setVariable('IC_RUNNING', ilUtil::getImagePath("scorm/running_s.gif",false));
-		$is_tpl->setVariable('IC_INCOMPLETE', ilUtil::getImagePath("scorm/incomplete_s.gif",false));
-		$is_tpl->setVariable('IC_PASSED', ilUtil::getImagePath("scorm/passed_s.gif",false));
-		$is_tpl->setVariable('IC_FAILED', ilUtil::getImagePath("scorm/failed_s.gif",false));
-		$is_tpl->setVariable('IC_BROWSED', ilUtil::getImagePath("scorm/browsed.gif",false));
+		$is_tpl->setVariable('IC_ASSET', ilUtil::getImagePath("scorm/asset_s.png",false));
+		$is_tpl->setVariable('IC_COMPLETED', ilUtil::getImagePath("scorm/completed_s.png",false));
+		$is_tpl->setVariable('IC_NOTATTEMPTED', ilUtil::getImagePath("scorm/not_attempted_s.png",false));
+		$is_tpl->setVariable('IC_RUNNING', ilUtil::getImagePath("scorm/running_s.png",false));
+		$is_tpl->setVariable('IC_INCOMPLETE', ilUtil::getImagePath("scorm/incomplete_s.png",false));
+		$is_tpl->setVariable('IC_PASSED', ilUtil::getImagePath("scorm/passed_s.png",false));
+		$is_tpl->setVariable('IC_FAILED', ilUtil::getImagePath("scorm/failed_s.png",false));
+		$is_tpl->setVariable('IC_BROWSED', ilUtil::getImagePath("scorm/browsed.png",false));
 		return $is_tpl->get();
 	}
 

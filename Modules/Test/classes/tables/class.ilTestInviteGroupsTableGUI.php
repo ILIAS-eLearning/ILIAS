@@ -57,7 +57,7 @@ class ilTestInviteGroupsTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("title"),'title', '');
 		$this->addColumn($this->lng->txt("description"),'description', '');
 	
-		$this->setTitle($this->lng->txt('search_groups'), 'icon_grp.gif', $this->lng->txt('grp'));
+		$this->setTitle($this->lng->txt('search_groups'), 'icon_grp.png', $this->lng->txt('grp'));
 	
 		$this->setRowTemplate("tpl.il_as_tst_invite_groups_row.html", "Modules/Test");
 

@@ -497,7 +497,7 @@ class assClozeTestGUI extends assQuestionGUI
 					if ($check["best"])
 					{
 						$gaptemplate->setCurrentBlock("icon_ok");
-						$gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+						$gaptemplate->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
 						$gaptemplate->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 						$gaptemplate->parseCurrentBlock();
 					}
@@ -506,12 +506,12 @@ class assClozeTestGUI extends assQuestionGUI
 						$gaptemplate->setCurrentBlock("icon_not_ok");
 						if ($check["positive"])
 						{
-							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.gif"));
+							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
 							$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
 						}
 						else
 						{
-							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+							$gaptemplate->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
 							$gaptemplate->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 						}
 						$gaptemplate->parseCurrentBlock();

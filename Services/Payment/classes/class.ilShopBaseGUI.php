@@ -36,7 +36,7 @@ class ilShopBaseGUI
 	{		
 		$this->tpl->getStandardTemplate();
 
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pays_cart_b.gif"), $this->lng->txt("search"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pays_cart_b.png"), $this->lng->txt("search"));
 		$this->tpl->setTitle($this->lng->txt("shop"));
 
 		ilUtil::infoPanel();

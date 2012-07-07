@@ -399,7 +399,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 		
 		$a_tpl = new ilTemplate("tpl.lp_object_statistics_lp_details.html", true, true, "Services/Tracking");
 		$a_tpl->setVariable("CONTENT", $lp_table->getHTML());
-		$a_tpl->setVariable('CLOSE_IMG_SRC', ilUtil::getImagePath('icon_close2_s.gif'));
+		$a_tpl->setVariable('CLOSE_IMG_SRC', ilUtil::getImagePath('icon_close2_s.png'));
 		$a_tpl->setVariable('CLOSE_IMG_TXT', $this->lng->txt('close'));
 		echo $a_tpl->get();
 		exit();	

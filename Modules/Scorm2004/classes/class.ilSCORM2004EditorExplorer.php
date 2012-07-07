@@ -84,7 +84,7 @@ class ilScorm2004EditorExplorer extends ilExplorer
 		global $lng, $ilias, $ilCtrl;
 		
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_sahs_s.gif"));
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_sahs_s.png"));
 		$tpl->setVariable("TXT_ALT_IMG", $this->slm_obj->getTitle());
 		$tpl->parseCurrentBlock();
 
@@ -111,7 +111,7 @@ class ilScorm2004EditorExplorer extends ilExplorer
 		global $lng;
 		
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"]."_s.gif", $a_option["type"], $a_obj_id));
+		$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"]."_s.png", $a_option["type"], $a_obj_id));
 		$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 		$this->iconList[] = "iconid_".$a_node_id;
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt($a_option["desc"]));

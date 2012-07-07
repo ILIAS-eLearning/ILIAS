@@ -262,14 +262,14 @@ class assNumericGUI extends assQuestionGUI
 					if ($this->object->getReachedPoints($active_id, $pass) == $this->object->getMaximumPoints())
 					{
 						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
 						$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 						$template->parseCurrentBlock();
 					}
 					else
 					{
 						$template->setCurrentBlock("icon_ok");
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 						$template->parseCurrentBlock();
 					}

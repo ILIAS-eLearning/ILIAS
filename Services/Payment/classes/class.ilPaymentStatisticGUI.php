@@ -547,7 +547,7 @@ class ilPaymentStatisticGUI extends ilShopBaseGUI
 		$oForm->setFormAction($this->ctrl->getFormAction($this));
 		$oForm->setId('stat_form');
 		$oForm->setTableWidth('50 %');		
-		$oForm->setTitleIcon(ilUtil::getImagePath('icon_usr.gif'));
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_usr.png'));
 		if(is_object($tmp_user))
 		{
 			$frm_user = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';

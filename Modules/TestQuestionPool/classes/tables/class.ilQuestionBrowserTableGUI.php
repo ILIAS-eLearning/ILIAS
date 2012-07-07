@@ -257,7 +257,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			if ($data["complete"] == 0)
 			{
 				$this->tpl->setCurrentBlock("qpl_warning");
-				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
+				$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
 				$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 				$this->tpl->parseCurrentBlock();
@@ -282,7 +282,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
 					$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
 					include_once "./Services/Utilities/classes/class.ilUtil.php";
-					$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
+					$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.png", "Modules/TestQuestionPool"));
 					$this->tpl->parseCurrentBlock();
 				}
 				if (strcmp($c, 'author') == 0)

@@ -117,8 +117,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
-		$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("ok")."\" />";
-		$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.gif") . "\" alt=\"".$this->lng->txt("ok")."\" />" ;
+		$finished = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.png") . "\" alt=\"".$this->lng->txt("ok")."\" />";
+		$started  = "<img border=\"0\" align=\"middle\" src=\"".ilUtil::getImagePath("icon_ok.png") . "\" alt=\"".$this->lng->txt("ok")."\" />" ;
 		$passes = ($data['maxpass']) ? (($data['maxpass'] == 1) ? sprintf($this->lng->txt("pass_finished"), $data['maxpass']) : sprintf($this->lng->txt("passes_finished"), $data['maxpass'])) : '';
 		$this->tpl->setVariable("USER_ID", $data['usr_id']);
 		$this->tpl->setVariable("LOGIN", $data['login']);

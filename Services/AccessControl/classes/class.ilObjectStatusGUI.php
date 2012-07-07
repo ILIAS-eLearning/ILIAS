@@ -116,7 +116,7 @@ class ilObjectStatusGUI
 		$tpl =& $tbl->getTemplateObject();
 
 		// title & header columns
-		$tbl->setTitle($lng->txt("info_access_permissions"),"icon_perm.gif",$lng->txt("info_access_permissions"));
+		$tbl->setTitle($lng->txt("info_access_permissions"),"icon_perm.png",$lng->txt("info_access_permissions"));
 
 		//user must be member
 		$tbl->setHeaderNames(array("",$lng->txt("operation"),$lng->txt("info_from_role")));
@@ -141,7 +141,7 @@ class ilObjectStatusGUI
 		$tpl =& $tbl->getTemplateObject();
 
 		// title & header columns
-		$tbl->setTitle($lng->txt("info_available_roles"),"icon_rolf.gif",$lng->txt("info_available_roles"));
+		$tbl->setTitle($lng->txt("info_available_roles"),"icon_rolf.png",$lng->txt("info_available_roles"));
 
 		$tbl->setHeaderNames(array("",$lng->txt("role"),str_replace(" ","&nbsp;",$lng->txt("info_permission_source")),str_replace(" ","&nbsp;",$lng->txt("info_permission_origin"))));
 		$tbl->setColumnWidth(array("1%","19%","40%","40%"));
@@ -174,7 +174,7 @@ class ilObjectStatusGUI
 		$tpl->parseCurrentBlock();
 		
 		$tpl->setVariable("COLUMN_COUNTS",7);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("spacer.gif"));
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("spacer.png"));
 
 		$tpl->setVariable("TPLPATH",$this->tpl->tplPath);
 
@@ -243,8 +243,8 @@ class ilObjectStatusGUI
 		global $ilAccess,$lng,$rbacreview,$ilUser,$ilObjDataCache,$objDefinition;
 
 		// icon handlers
-		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
-		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$lng->txt("info_not_assigned")."\" title=\"".$lng->txt("info_not_assigned")."\" border=\"0\" vspace=\"0\"/>";
+		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.png")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
+		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.png")."\" alt=\"".$lng->txt("info_not_assigned")."\" title=\"".$lng->txt("info_not_assigned")."\" border=\"0\" vspace=\"0\"/>";
 		
 		// get all possible operation of current object
 		$ops_list = ilRbacReview::_getOperationList($this->object->getType());
@@ -314,8 +314,8 @@ class ilObjectStatusGUI
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		// icon handlers
-		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
-		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$lng->txt("info_not_assigned")."\" title=\"".$lng->txt("info_not_assigned")."\" border=\"0\" vspace=\"0\"/>";
+		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.png")."\" alt=\"".$lng->txt("info_assigned")."\" title=\"".$lng->txt("info_assigned")."\" border=\"0\" vspace=\"0\"/>";
+		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.png")."\" alt=\"".$lng->txt("info_not_assigned")."\" title=\"".$lng->txt("info_not_assigned")."\" border=\"0\" vspace=\"0\"/>";
 
 		$path = array_reverse($tree->getPathId($this->object->getRefId()));
 		

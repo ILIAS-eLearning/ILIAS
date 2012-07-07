@@ -1483,7 +1483,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$ex_tpl->setVariable("EX_TEXT", "ABC abc 123");
 		if (in_array($a_type, array("media_cont", "qimg")))
 		{
-			$ex_tpl->setVariable("IMG_MEDIA_DISABLED", ilUtil::getImagePath("media_disabled.gif"));
+			$ex_tpl->setVariable("IMG_MEDIA_DISABLED", ilUtil::getImagePath("media_disabled.png"));
 		}
 		if (in_array($a_type, array("table", "table_caption")))
 		{

@@ -1519,7 +1519,7 @@ class ilPageObjectGUI
 					$tpl->setVariable("TXT_DELETE_SELECTED", $this->lng->txt("cont_delete_selected"));
 					$tpl->setVariable("TXT_COPY_SELECTED", $this->lng->txt("copy"));
 					$tpl->setVariable("TXT_CUT_SELECTED", $this->lng->txt("cut"));
-					$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+					$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -1831,20 +1831,20 @@ class ilPageObjectGUI
 		// get title
 		$pg_title = $this->getPresentationTitle();
 
-		$add_path = ilUtil::getImagePath("add.gif");
-		$col_path = ilUtil::getImagePath("col.gif");
-		$row_path = ilUtil::getImagePath("row.gif");
-		$item_path = ilUtil::getImagePath("item.gif");
-		$med_disabled_path = ilUtil::getImagePath("media_disabled.gif");
+		$add_path = ilUtil::getImagePath("add.png");
+		$col_path = ilUtil::getImagePath("col.png");
+		$row_path = ilUtil::getImagePath("row.png");
+		$item_path = ilUtil::getImagePath("item.png");
+		$med_disabled_path = ilUtil::getImagePath("media_disabled.png");
 
 		if ($this->getOutputMode() != "offline")
 		{
-			$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+			$enlarge_path = ilUtil::getImagePath("enlarge.png");
 			$wb_path = ilUtil::getWebspaceDir("output")."/";
 		}
 		else
 		{
-			$enlarge_path = "images/enlarge.gif";
+			$enlarge_path = "images/enlarge.png";
 			$wb_path = "";
 		}
 		$pg_title_class = ($this->getOutputMode() == "print")
@@ -2308,7 +2308,7 @@ class ilPageObjectGUI
 
 		// paste from word
 		$btpl->setCurrentBlock("pword_button");
-		$btpl->setVariable("IMG_PWORD", ilUtil::img(ilUtil::getImagePath("tn_pword.gif"),
+		$btpl->setVariable("IMG_PWORD", ilUtil::img(ilUtil::getImagePath("tn_pword.png"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
 		ilTooltipGUI::addTooltip("il_edm_pword",
@@ -2317,7 +2317,7 @@ class ilPageObjectGUI
 		
 		// bullet list
 		$btpl->setCurrentBlock("blist_button");
-		$btpl->setVariable("IMG_BLIST", ilUtil::img(ilUtil::getImagePath("tn_blist.gif"),
+		$btpl->setVariable("IMG_BLIST", ilUtil::img(ilUtil::getImagePath("tn_blist.png"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
 		ilTooltipGUI::addTooltip("il_edm_blist",
@@ -2326,7 +2326,7 @@ class ilPageObjectGUI
 
 		// numbered list
 		$btpl->setCurrentBlock("nlist_button");
-		$btpl->setVariable("IMG_NLIST", ilUtil::img(ilUtil::getImagePath("tn_nlist.gif"),
+		$btpl->setVariable("IMG_NLIST", ilUtil::img(ilUtil::getImagePath("tn_nlist.png"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
 		ilTooltipGUI::addTooltip("il_edm_nlist",
@@ -2335,7 +2335,7 @@ class ilPageObjectGUI
 
 		// list indent
 		$btpl->setCurrentBlock("list_indent");
-		$btpl->setVariable("IMG_LIST_INDENT", ilUtil::img(ilUtil::getImagePath("tn_indent.gif"),
+		$btpl->setVariable("IMG_LIST_INDENT", ilUtil::img(ilUtil::getImagePath("tn_indent.png"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
 		ilTooltipGUI::addTooltip("ilIndentBut",
@@ -2345,7 +2345,7 @@ class ilPageObjectGUI
 
 		// list outdent
 		$btpl->setCurrentBlock("list_outdent");
-		$btpl->setVariable("IMG_LIST_OUTDENT", ilUtil::img(ilUtil::getImagePath("tn_outdent.gif"),
+		$btpl->setVariable("IMG_LIST_OUTDENT", ilUtil::img(ilUtil::getImagePath("tn_outdent.png"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
 		ilTooltipGUI::addTooltip("ilOutdentBut",
@@ -2363,7 +2363,7 @@ class ilPageObjectGUI
 
 		// remove format
 		$btpl->setCurrentBlock("rformat_button");
-		$btpl->setVariable("IMG_RFORMAT", ilUtil::img(ilUtil::getImagePath("tn_rformat.gif"),
+		$btpl->setVariable("IMG_RFORMAT", ilUtil::img(ilUtil::getImagePath("tn_rformat.png"),
 			"", 20, 20));
 		$btpl->parseCurrentBlock();
 		ilTooltipGUI::addTooltip("il_edm_rformat", $lng->txt("cont_remove_format"),
@@ -2657,7 +2657,7 @@ class ilPageObjectGUI
 //echo "<b>XML:</b>".htmlentities($xml);
 		// determine target frames for internal links
 		$wb_path = ilUtil::getWebspaceDir("output")."/";
-		$enlarge_path = ilUtil::getImagePath("enlarge.gif");
+		$enlarge_path = ilUtil::getImagePath("enlarge.png");
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$_GET["ref_id"],'fullscreen_link' => "",
 			'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
@@ -2927,24 +2927,24 @@ class ilPageObjectGUI
 		global $lng;
 		
 		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.gif"));
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("streaked_area.png"));
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->setCurrentBlock("help_item");
 		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_add_elements"));
 		$a_tpl->parseCurrentBlock();
 		
 		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.gif"));
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("drop_streaked_area.gif"));
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("drop_streaked_area.png"));
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->setCurrentBlock("help_item");
 		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_drag_and_drop_elements"));
 		$a_tpl->parseCurrentBlock();
 
 		$a_tpl->setCurrentBlock("help_img");
-		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.gif"));
+		$a_tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_cont_el_s.png"));
 		$a_tpl->parseCurrentBlock();
 		$a_tpl->setCurrentBlock("help_item");
 		$a_tpl->setVariable("TXT_HELP", $lng->txt("cont_double_click_to_delete"));

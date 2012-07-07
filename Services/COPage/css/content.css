@@ -74,7 +74,7 @@ a.ilc_page_lnavlink_LeftNavigationLink
 
 img.ilc_page_lnavimage_LeftNavigationImage
 {
-	background-image: url(../../../templates/default/images/nav_arr_L_s.gif);
+	background-image: url(../../../templates/default/images/nav_arr_L_s.png);
 	background-repeat: no-repeat;
 	background-position: left 1px;
 	width: 16px;
@@ -93,7 +93,7 @@ a.ilc_page_rnavlink_RightNavigationLink
 
 img.ilc_page_rnavimage_RightNavigationImage
 {
-	background-image: url(../../../templates/default/images/nav_arr_R_s.gif);
+	background-image: url(../../../templates/default/images/nav_arr_R_s.png);
 	background-repeat: no-repeat;
 	background-position: right 1px;
 	width: 16px;
@@ -403,7 +403,7 @@ div.ilc_section_Block {
 	margin: 10px 0px;
 	border-color: #A0A0A0;
 	background-color: #FFFFFF;
-	background-image: url(../../../templates/default/images/FramedBack.gif);
+	background-image: url(../../../templates/default/images/FramedBack.png);
 	background-repeat:repeat-x;
 }
 
@@ -414,7 +414,7 @@ div.ilc_section_Special {
 	margin: 10px 0px;
 	border-color: #A0A0A0;
 	background-color: #FFF7F7;
-	background-image: url(../../../templates/default/images/SpecialBack.gif);
+	background-image: url(../../../templates/default/images/SpecialBack.png);
 	background-repeat:repeat-x;
 }
 
@@ -425,7 +425,7 @@ div.ilc_section_Excursus {
 	margin: 10px 0px;
 	border-color: #A0A0A0;
 	background-color: #F7FFF7;
-	background-image: url(../../../templates/default/images/ExcursusBack.gif);
+	background-image: url(../../../templates/default/images/ExcursusBack.png);
 	background-repeat: repeat-x;
 }
 
@@ -456,7 +456,7 @@ div.ilc_question_Standard
 	border-width: 1px;
 	border-color: #D0D0FF;
 	border-style: solid;
-	background-image: url(../../../templates/default/images/qmark.gif);
+	background-image: url(../../../templates/default/images/qmark.png);
 	background-repeat: no-repeat;
 	background-position: top right;
 }
@@ -688,7 +688,7 @@ div.ilc_va_ihead_VAccordIHead
 	background-color: #E2EAF4;
 	text-align:left;
 	cursor: pointer;
-	background-image: url(../../../templates/default/images/accordion_arrow.gif);
+	background-image: url(../../../templates/default/images/accordion_arrow.png);
 	background-repeat: no-repeat;
 	background-position: 3px 4px;
 }
@@ -723,7 +723,7 @@ div.ilc_ha_ihead_HAccordIHead
 	background-color: #E2EAF4;
 	text-align:left;
 	cursor: pointer;
-	background-image: url(../../../templates/default/images/haccordion_arrow.gif);
+	background-image: url(../../../templates/default/images/haccordion_arrow.png);
 	background-repeat: no-repeat;
 	background-position: 3px 4px;
 }

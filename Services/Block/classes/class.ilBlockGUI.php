@@ -936,11 +936,11 @@ abstract class ilBlockGUI
 					" (".$lng->txt("block")."): ".*/ $lng->txt("close");				
 				if ($this->getBigMode())
 				{
-					 $img = ilUtil::getImagePath("icon_close2.gif");
+					 $img = ilUtil::getImagePath("icon_close2.png");
 				}
 				else
 				{
-					 $img =ilUtil::getImagePath("icon_close2_s.gif");
+					 $img =ilUtil::getImagePath("icon_close2_s.png");
 				}
 				if ($this->close_command != "")
 				{
@@ -1362,7 +1362,7 @@ abstract class ilBlockGUI
 					$this->tpl->touchBlock("det_item");					
 					*/
 					
-					$icon = ilUtil::getImagePath("details".$i.".gif");
+					$icon = ilUtil::getImagePath("details".$i.".png");
 					$text = /* strip_tags(str_replace(array("'",'"'), "", $this->getTitle())).
 						" (".$lng->txt("block")."): ".*/ $lng->txt("details")." ".$i;
 					$url = $ilCtrl->getLinkTargetByClass("ilcolumngui",	"");
@@ -1387,7 +1387,7 @@ abstract class ilBlockGUI
 						" (".$lng->txt("block")."): ".$lng->txt("details")." ".$i.
 						" (".$lng->txt("selected").")");
 					$this->tpl->setVariable("SRC_NO_LINK",
-						ilUtil::getImagePath("details".$i."off.gif"));
+						ilUtil::getImagePath("details".$i."off.png"));
 					$this->tpl->parseCurrentBlock();
 					$this->tpl->touchBlock("det_item");					 
 					*/
@@ -1401,7 +1401,7 @@ abstract class ilBlockGUI
 				$this->tpl->setVariable("INFO_TEXT", $this->getFooterInfo(true));
 				$this->tpl->setVariable("ALT_DET_INFO", $lng->txt("info_short"));
 				$this->tpl->setVariable("DI_BLOCK_ID", $this->getBlockType()."_".$this->getBlockId());
-				$this->tpl->setVariable("IMG_DET_INFO", ilUtil::getImagePath("icon_info_s.gif"));
+				$this->tpl->setVariable("IMG_DET_INFO", ilUtil::getImagePath("icon_info_s.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 			
@@ -1428,19 +1428,19 @@ abstract class ilBlockGUI
 		{
 			if ($this->getAllowMove("left"))
 			{
-				$this->fillMoveLink("left", "icon_left_s.gif", $lng->txt("move_left"));
+				$this->fillMoveLink("left", "icon_left_s.png", $lng->txt("move_left"));
 			}
 			if ($this->getAllowMove("up"))
 			{
-				$this->fillMoveLink("up", "icon_up_s.gif", $lng->txt("move_up"));
+				$this->fillMoveLink("up", "icon_up_s.png", $lng->txt("move_up"));
 			}
 			if ($this->getAllowMove("down"))
 			{
-				$this->fillMoveLink("down", "icon_down_s.gif", $lng->txt("move_down"));
+				$this->fillMoveLink("down", "icon_down_s.png", $lng->txt("move_down"));
 			}
 			if ($this->getAllowMove("right"))
 			{
-				$this->fillMoveLink("right", "icon_right_s.gif", $lng->txt("move_right"));
+				$this->fillMoveLink("right", "icon_right_s.png", $lng->txt("move_right"));
 			}
 			$ilCtrl->setParameter($this, $this->getMoveParameter(), "");
 			

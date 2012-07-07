@@ -131,7 +131,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		if ($this->getWriteAccess() && !$this->getTotal() && $data["obj_fi"] > 0) 
 		{
                         if (!$data['complete']) {
-                            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
+                            $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
                             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
                             $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
                         }
@@ -150,11 +150,11 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		{
 			if ($data["sequence"] != 1)
 			{
-				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&up=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_up.gif") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
+				$this->tpl->setVariable("BUTTON_UP", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&up=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_up.png") . "\" alt=\"" . $this->lng->txt("up") . "\" border=\"0\" /></a>");
 			}
 			if ($data["sequence"] != count($this->getData()))
 			{
-				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.gif") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
+				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.png") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 			}
 		}
 		$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);

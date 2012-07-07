@@ -266,7 +266,7 @@ class ilLearningProgressBaseGUI
 		if($this->getMode() == LP_MODE_PERSONAL_DESKTOP)
 		{
 			//$this->tpl->setCurrentBlock("header_image");
-			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.gif"));
+			//$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_pd_b.png"));
 			//$this->tpl->parseCurrentBlock();
 			//$this->tpl->setVariable("HEADER",$this->lng->txt("personal_desktop"));
 			$this->tpl->setTitle($this->lng->txt("learning_progress"));
@@ -352,28 +352,28 @@ class ilLearningProgressBaseGUI
 			case LP_STATUS_IN_PROGRESS_NUM:
 			case LP_STATUS_IN_PROGRESS:
 			case LP_STATUS_REGISTERED:
-				return ilUtil::getImagePath('scorm/incomplete.gif');
+				return ilUtil::getImagePath('scorm/incomplete.png');
 				break;
 
 			case LP_STATUS_COMPLETED_NUM:
 			case LP_STATUS_COMPLETED:
 			case LP_STATUS_PARTICIPATED:
-				return ilUtil::getImagePath('scorm/complete.gif');
+				return ilUtil::getImagePath('scorm/complete.png');
 				break;
 			
 			case LP_STATUS_NOT_ATTEMPTED:
 			case LP_STATUS_NOT_PARTICIPATED:
 			case LP_STATUS_NOT_REGISTERED:
-				return ilUtil::getImagePath('scorm/not_attempted.gif');
+				return ilUtil::getImagePath('scorm/not_attempted.png');
 				break;
 
 			case LP_STATUS_FAILED_NUM:
 			case LP_STATUS_FAILED:
-				return ilUtil::getImagePath('scorm/failed.gif');
+				return ilUtil::getImagePath('scorm/failed.png');
 				break;
 			
 			default:
-				return ilUtil::getImagePath('scorm/not_attempted.gif');
+				return ilUtil::getImagePath('scorm/not_attempted.png');
 				break;
 		}		
 	}
@@ -673,13 +673,13 @@ class ilLearningProgressBaseGUI
 		
 		$tpl = new ilTemplate("tpl.lp_legend.html", true, true, "Services/Tracking");
 		$tpl->setVariable("IMG_NOT_ATTEMPTED",
-			ilUtil::getImagePath("scorm/not_attempted.gif"));
+			ilUtil::getImagePath("scorm/not_attempted.png"));
 		$tpl->setVariable("IMG_IN_PROGRESS",
-			ilUtil::getImagePath("scorm/incomplete.gif"));
+			ilUtil::getImagePath("scorm/incomplete.png"));
 		$tpl->setVariable("IMG_COMPLETED",
-			ilUtil::getImagePath("scorm/completed.gif"));
+			ilUtil::getImagePath("scorm/completed.png"));
 		$tpl->setVariable("IMG_FAILED",
-			ilUtil::getImagePath("scorm/failed.gif"));
+			ilUtil::getImagePath("scorm/failed.png"));
 		$tpl->setVariable("TXT_NOT_ATTEMPTED",
 			$lng->txt("trac_not_attempted"));
 		$tpl->setVariable("TXT_IN_PROGRESS",

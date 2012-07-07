@@ -1080,7 +1080,7 @@ class ilLMPresentationGUI
 		{
 			$this->tpl->addBlockFile("EXPL_TOP", "exp_top", "tpl.explorer_top.html");
 			//$this->tpl->setVariable("DUMMY", "&nbsp;");
-			$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+			$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 		}
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("overview"));
 		$this->tpl->setVariable("EXPLORER",$output);
@@ -1117,11 +1117,11 @@ class ilLMPresentationGUI
 		$this->tpl->setCurrentBlock("header_image");
 		if ($this->offlineMode())
 		{
-			$this->tpl->setVariable("IMG_HEADER", "./images/icon_lm.gif");
+			$this->tpl->setVariable("IMG_HEADER", "./images/icon_lm.png");
 		}
 		else
 		{
-			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.gif"));
+			$this->tpl->setVariable("IMG_HEADER", ilUtil::getImagePath("icon_lm.png"));
 		}
 		$this->tpl->parseCurrentBlock();
 		$this->tpl->setCurrentBlock("lm_head");
@@ -1717,7 +1717,7 @@ class ilLMPresentationGUI
 			$mtpl = new ilTemplate("tpl.no_content_message.html", true, true,
 				"Modules/LearningModule");
 			$mtpl->setVariable("MESSAGE", $this->lng->txt("cont_no_page_in_chapter"));
-			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.gif",
+			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_st.png",
 			//	false, "output", $this->offlineMode()));
 			$mtpl->setVariable("ITEM_TITLE",
 				ilLMObject::_lookupTitle($_GET["obj_id"]));
@@ -1741,7 +1741,7 @@ class ilLMPresentationGUI
 					"</p>";
 			}
 			$mtpl->setVariable("MESSAGE", $m);
-			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.gif",
+			//$mtpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_pg.png",
 			//	false, "output", $this->offlineMode()));
 			$mtpl->setVariable("ITEM_TITLE",
 				ilLMObject::_lookupTitle($_GET["obj_id"]));
@@ -2324,7 +2324,7 @@ class ilLMPresentationGUI
 		$mode = ($_GET["cmd"] == "fullscreen")
 			? "fullscreen"
 			: "media";
-		$enlarge_path = ilUtil::getImagePath("enlarge.gif", false, "output", $this->offlineMode());
+		$enlarge_path = ilUtil::getImagePath("enlarge.png", false, "output", $this->offlineMode());
 		$fullscreen_link =
 			$this->getLink($this->lm->getRefId(), "fullscreen");
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
@@ -2404,7 +2404,7 @@ class ilLMPresentationGUI
 				$back_target = 'target="'.ilFrameTargetInfo::_getFrame("MainContent").'" ';
 			}
 			$back_img =
-				ilUtil::getImagePath("nav_arr2_L.gif", false, "output", $this->offlineMode());
+				ilUtil::getImagePath("nav_arr2_L.png", false, "output", $this->offlineMode());
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev");
 			$this->tpl->setVariable("IMG_PREV", $back_img);
 			$this->tpl->setVariable("HREF_PREV", $back_href);
@@ -2414,8 +2414,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("PREV_ACC_KEY",
 				ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS));
 			$this->tpl->setVariable("SPACER_PREV", $this->offlineMode()
-				? "images/spacer.gif"
-				: ilUtil::getImagePath("spacer.gif"));
+				? "images/spacer.png"
+				: ilUtil::getImagePath("spacer.png"));
 			$this->tpl->parseCurrentBlock();
 			$this->tpl->setCurrentBlock("ilLMNavigation_Prev2");
 			$this->tpl->setVariable("IMG_PREV2", $back_img);
@@ -2424,8 +2424,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("TXT_PREV2", $this->lng->txt("back"));
 			$this->tpl->setVariable("ALT_PREV2", $this->lng->txt("back"));
 			$this->tpl->setVariable("SPACER_PREV2", $this->offlineMode()
-				? "images/spacer.gif"
-				: ilUtil::getImagePath("spacer.gif"));
+				? "images/spacer.png"
+				: ilUtil::getImagePath("spacer.png"));
 			$this->tpl->parseCurrentBlock();
 			return;
 		}
@@ -2569,7 +2569,7 @@ class ilLMPresentationGUI
 				$this->lm_set->get("time_scheduled_page_activation"));
 			$prev_title = ilUtil::shortenText($prev_title, 50, true);
 			$prev_img = 
-				ilUtil::getImagePath("nav_arr_L.gif", false, "output", $this->offlineMode());
+				ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offlineMode());
 
 			if (!$this->lm->cleanFrames())
 			{
@@ -2605,8 +2605,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("TXT_PREV", $prev_title);
 			$this->tpl->setVariable("ALT_PREV", $this->lng->txt("previous"));
 			$this->tpl->setVariable("SPACER_PREV", $this->offlineMode()
-				? "images/spacer.gif"
-				: ilUtil::getImagePath("spacer.gif"));
+				? "images/spacer.png"
+				: ilUtil::getImagePath("spacer.png"));
 			$this->tpl->setVariable("PREV_ACC_KEY",
 				ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS));
 			$this->tpl->parseCurrentBlock();
@@ -2617,8 +2617,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("TXT_PREV2", $prev_title);
 			$this->tpl->setVariable("ALT_PREV2", $this->lng->txt("previous"));
 			$this->tpl->setVariable("SPACER_PREV2", $this->offlineMode()
-				? "images/spacer.gif"
-				: ilUtil::getImagePath("spacer.gif"));
+				? "images/spacer.png"
+				: ilUtil::getImagePath("spacer.png"));
 			$this->tpl->parseCurrentBlock();
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputPredecessor");
 		}
@@ -2633,7 +2633,7 @@ class ilLMPresentationGUI
 				$this->lm_set->get("time_scheduled_page_activation"));
 			$succ_title = ilUtil::shortenText($succ_title, 50, true);
 			$succ_img =
-				ilUtil::getImagePath("nav_arr_R.gif", false, "output", $this->offlineMode());
+				ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offlineMode());
 			if (!$this->lm->cleanFrames())
 			{
 				$succ_href =
@@ -2668,8 +2668,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("TXT_SUCC", $succ_title);
 			$this->tpl->setVariable("ALT_SUCC", $this->lng->txt("next"));
 			$this->tpl->setVariable("SPACER_SUCC", $this->offlineMode()
-				? "images/spacer.gif"
-				: ilUtil::getImagePath("spacer.gif"));
+				? "images/spacer.png"
+				: ilUtil::getImagePath("spacer.png"));
 			$this->tpl->setVariable("NEXT_ACC_KEY",
 				ilAccessKeyGUI::getAttribute(ilAccessKey::NEXT));
 			$this->tpl->parseCurrentBlock();
@@ -2680,8 +2680,8 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("TXT_SUCC2", $succ_title);
 			$this->tpl->setVariable("ALT_SUCC2", $this->lng->txt("next"));
 			$this->tpl->setVariable("SPACER_SUCC2", $this->offlineMode()
-				? "images/spacer.gif"
-				: ilUtil::getImagePath("spacer.gif"));
+				? "images/spacer.png"
+				: ilUtil::getImagePath("spacer.png"));
 			$this->tpl->parseCurrentBlock();
 			$ilBench->stop("ContentPresentation", "ilLMNavigation_outputSuccessor");
 		}
@@ -2827,7 +2827,7 @@ class ilLMPresentationGUI
 		// set title header
 		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
 
 		/*
 		if (!$this->offlineMode())
@@ -2954,7 +2954,7 @@ class ilLMPresentationGUI
 
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
 
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), "info", true));
@@ -3067,7 +3067,7 @@ class ilLMPresentationGUI
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
 		
 		/*$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
@@ -3128,14 +3128,14 @@ class ilLMPresentationGUI
 							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$img_src = ilUtil::getImagePath("icon_pg_s.gif");
+					$img_src = ilUtil::getImagePath("icon_pg_s.png");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("pg");
 					break;
 
 				// learning module
 				case "du":
 					$text = $this->lm->getTitle();
-					$img_src = ilUtil::getImagePath("icon_lm_s.gif");
+					$img_src = ilUtil::getImagePath("icon_lm_s.png");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("obj_lm");
 					break;
 
@@ -3153,7 +3153,7 @@ class ilLMPresentationGUI
 							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$img_src = ilUtil::getImagePath("icon_st_s.gif");
+					$img_src = ilUtil::getImagePath("icon_st_s.png");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("st");
 					break;
 			}
@@ -3185,7 +3185,7 @@ class ilLMPresentationGUI
 					$text.= " (".$this->lng->txt("cont_no_access").")";
 				}
 			}
-			$img_src = ilUtil::getImagePath("icon_pg_s.gif");
+			$img_src = ilUtil::getImagePath("icon_pg_s.png");
 			$id = $_GET["obj_id"];
 
 			$checked = true;
@@ -3758,7 +3758,7 @@ class ilLMPresentationGUI
 					for ($j=1; $j < $node2["depth"]; $j++)
 					{
 						$this->tpl->setCurrentBlock("indent");
-						$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+						$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.png"));
 						$this->tpl->parseCurrentBlock();
 					}
 					$this->tpl->setCurrentBlock("toc_entry");
@@ -3773,7 +3773,7 @@ class ilLMPresentationGUI
 			foreach ($annexes as $annex)
 			{
 				$this->tpl->setCurrentBlock("indent");
-				$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.gif"));
+				$this->tpl->setVariable("IMG_BLANK", ilUtil::getImagePath("browser/blank.png"));
 				$this->tpl->parseCurrentBlock();
 				$this->tpl->setCurrentBlock("toc_entry");
 				$this->tpl->setVariable("TXT_TOC_TITLE", $annex);
@@ -3937,7 +3937,7 @@ class ilLMPresentationGUI
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
 		
 		/*
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));

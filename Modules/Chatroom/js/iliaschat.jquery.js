@@ -1034,7 +1034,7 @@ if (initial.private_rooms_enabled) {
 
 					menuEntries.push({
 						label: this.label,
-						icon: 'templates/default/images/' + (!room.id ? 'icon_chtr_s.gif' : 'icon_chtr_private_s.gif'),
+						icon: 'templates/default/images/' + (!room.id ? 'icon_chtr_s.png' : 'icon_chtr_private_s.png'),
 						addClass: classes.join(' '),
 						callback: function() {
 							if (!room.id) {

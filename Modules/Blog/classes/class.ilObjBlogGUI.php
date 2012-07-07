@@ -1179,7 +1179,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 			$wtpl->setCurrentBlock("rss");
 			$wtpl->setVariable("URL_RSS", $url);
-			$wtpl->setVariable("IMG_RSS", ilUtil::getImagePath("rss.gif"));
+			$wtpl->setVariable("IMG_RSS", ilUtil::getImagePath("rss.png"));
 			$wtpl->parseCurrentBlock();
 		}
 
@@ -1208,7 +1208,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		// system style html exporter
 		include_once("./Services/Style/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($export_dir);
-	    $this->sys_style_html_export->addImage("icon_blog_b.gif");
+	    $this->sys_style_html_export->addImage("icon_blog_b.png");
 		$this->sys_style_html_export->export();
 
 		// init co page html exporter

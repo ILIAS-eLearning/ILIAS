@@ -393,16 +393,16 @@ class ilSurveyExecutionGUI
 				
 				$this->tpl->setVariable("ALT_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
 				$this->tpl->setVariable("TITLE_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
-				$this->tpl->setVariable("IMG_SUSPEND", ilUtil::getImagePath("cancel.gif"));
+				$this->tpl->setVariable("IMG_SUSPEND", ilUtil::getImagePath("cancel.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->outNavigationButtons("top", $page);
 			$this->tpl->setCurrentBlock("percentage");
 			$percentage = (int)(($page[0]["position"])*100);
-			$this->tpl->setVariable("PERCENT_BAR_START", ilUtil::getImagePath("bar_start.gif"));
-			$this->tpl->setVariable("PERCENT_BAR_FILLED", ilUtil::getImagePath("bar_filled.gif"));
-			$this->tpl->setVariable("PERCENT_BAR_EMPTY", ilUtil::getImagePath("bar_empty.gif"));
-			$this->tpl->setVariable("PERCENT_BAR_END", ilUtil::getImagePath("bar_end.gif"));
+			$this->tpl->setVariable("PERCENT_BAR_START", ilUtil::getImagePath("bar_start.png"));
+			$this->tpl->setVariable("PERCENT_BAR_FILLED", ilUtil::getImagePath("bar_filled.png"));
+			$this->tpl->setVariable("PERCENT_BAR_EMPTY", ilUtil::getImagePath("bar_empty.png"));
+			$this->tpl->setVariable("PERCENT_BAR_END", ilUtil::getImagePath("bar_end.png"));
 			$this->tpl->setVariable("PERCENTAGE_ALT", $this->lng->txt("percentage"));
 			$this->tpl->setVariable("PERCENTAGE_VALUE", $percentage);
 			$this->tpl->setVariable("PERCENTAGE_UNFINISHED", 100-$percentage);

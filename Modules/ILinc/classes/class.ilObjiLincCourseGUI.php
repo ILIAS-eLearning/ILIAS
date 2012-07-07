@@ -350,10 +350,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.png",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("username"),
 								   $this->lng->txt("firstname"),
@@ -411,10 +411,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.png",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_role"),
 								   $this->lng->txt("grp_count_members")));
@@ -469,10 +469,10 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.gif",$this->lng->txt("ilinc_header_edit_users"));
+		$tbl->setTitle($this->lng->txt("ilinc_header_edit_users"),"icon_usr_b.png",$this->lng->txt("ilinc_header_edit_users"));
 		$tbl->setHeaderNames(array("",
 								   $this->lng->txt("obj_grp"),
 								   $this->lng->txt("grp_count_members")));
@@ -727,9 +727,9 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 		
 		//if current user is admin he is able to add new members to group
-		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_send_mail")."\" title=\"".$this->lng->txt("ilinc_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
-		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_change_status")."\" title=\"".$this->lng->txt("ilinc_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
-		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.gif")."\" alt=\"".$this->lng->txt("ilinc_mem_leave")."\" title=\"".$this->lng->txt("ilinc_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
+		$val_contact = "<img src=\"".ilUtil::getImagePath("icon_pencil_b.png")."\" alt=\"".$this->lng->txt("ilinc_mem_send_mail")."\" title=\"".$this->lng->txt("ilinc_mem_send_mail")."\" border=\"0\" vspace=\"0\"/>";
+		$val_change = "<img src=\"".ilUtil::getImagePath("icon_change_b.png")."\" alt=\"".$this->lng->txt("ilinc_mem_change_status")."\" title=\"".$this->lng->txt("ilinc_mem_change_status")."\" border=\"0\" vspace=\"0\"/>";
+		$val_leave = "<img src=\"".ilUtil::getImagePath("icon_group_out_b.png")."\" alt=\"".$this->lng->txt("ilinc_mem_leave")."\" title=\"".$this->lng->txt("ilinc_mem_leave")."\" border=\"0\" vspace=\"0\"/>";
 
 		// store access checks to improve performance
 		$access_leave = $ilAccess->checkAccess('leave', '', $this->object->getRefId());
@@ -800,7 +800,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		
 		include_once 'Modules/ILinc/classes/class.iliLinkMembersTableGUI.php';
 		$oTable = new iliLinkMembersTableGUI($this, $result_set, 'show', 'members', 'members');		
-		$oTable->setTitle($this->lng->txt('ilinc_involved_users'), 'icon_usr_b.gif', $this->lng->txt('ilinc_involved_users'));
+		$oTable->setTitle($this->lng->txt('ilinc_involved_users'), 'icon_usr_b.png', $this->lng->txt('ilinc_involved_users'));
 			
 		return $this->tpl->setVariable('MEMBER_TABLE', $oTable->getHTML());
     }
@@ -1381,7 +1381,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		include_once 'Modules/ILinc/classes/class.iliLinkMembersTableGUI.php';
 		$this->ctrl->setParameter($this, 'mem_id_arr', implode(',', $member_ids));
 		$oTable = new iliLinkMembersTableGUI($this, $data, 'change', 'changeMember', 'changeMember');		
-		$oTable->setTitle($this->lng->txt('grp_mem_change_status'), 'icon_usr_b.gif', $this->lng->txt('grp_mem_change_status'));
+		$oTable->setTitle($this->lng->txt('grp_mem_change_status'), 'icon_usr_b.png', $this->lng->txt('grp_mem_change_status'));
 		
 		return $this->tpl->setContent($oTable->getHTML());
 	}
@@ -1642,7 +1642,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'mailMembers', array(), array('type' => 'role')));
 		$this->tpl->setVariable('ADDITIONAL_MESSAGE_TEXT', $link_to_seminar);		
-		$this->tpl->setVariable('IMG_ARROW', ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable('IMG_ARROW', ilUtil::getImagePath('arrow_downright.png'));
 		$this->tpl->setVariable('OK', $this->lng->txt('ok'));
 		
 		$role_folder = $rbacreview->getRoleFolderOfObject( $this->object->getRefId() );

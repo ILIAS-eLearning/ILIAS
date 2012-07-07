@@ -306,7 +306,7 @@ class ilNewsItemGUI
 		$this->form_gui->setTitle($lng->txt("news_news_item_head"));
 		$this->form_gui->setFormAction($this->ctrl->getFormAction($this));
 
-		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_news.png"));
 
 		$news_set = new ilSetting("news");
 		if (!$news_set->get("enable_rss_for_internal"))
@@ -530,7 +530,7 @@ class ilNewsItemGUI
 		{
 			$news = new ilNewsItem($news_id);
 			$c_gui->addItem("news_id[]", $news_id, $news->getTitle(),
-				ilUtil::getImagePath("icon_news.gif"));
+				ilUtil::getImagePath("icon_news.png"));
 		}
 
 		return $c_gui->getHTML();
@@ -636,7 +636,7 @@ class ilNewsItemGUI
 		$table_gui->setDefaultOrderField("creation_date");
 		$table_gui->setDefaultOrderDirection("desc");
 		$table_gui->addMultiCommand("confirmDeletionNewsItems", $lng->txt("delete"));
-		$table_gui->setTitle($lng->txt("news"), "icon_news.gif", $lng->txt("news"));
+		$table_gui->setTitle($lng->txt("news"), "icon_news.png", $lng->txt("news"));
 		$table_gui->setSelectAllCheckbox("news_id");
 
 

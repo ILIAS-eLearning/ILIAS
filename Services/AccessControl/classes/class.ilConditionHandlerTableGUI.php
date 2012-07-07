@@ -49,7 +49,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 		if(!$this->enable_editing)
 		{
 			$this->tpl->setCurrentBlock("obligatory_static");
-			$this->tpl->setVariable('OBL_SRC', ilUtil::getImagePath($a_row['obligatory'] ? 'icon_ok.gif' : 'icon_not_ok.gif'));
+			$this->tpl->setVariable('OBL_SRC', ilUtil::getImagePath($a_row['obligatory'] ? 'icon_ok.png' : 'icon_not_ok.png'));
 			$this->tpl->setVariable(
 				'OBL_ALT',
 				$this->lng->txt($a_row['obligatory'] ?
@@ -90,7 +90,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
 			$row['type'] = $condition['trigger_type'];
 			$row['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
 			$row['description'] = ilObject::_lookupDescription($condition['trigger_obj_id']);
-			$row['icon'] = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.gif');
+			$row['icon'] = ilUtil::getImagePath('icon_'.$condition['trigger_type'].'_s.png');
 			$row['icon_alt'] = $this->lng->txt('obj_'.$condition['trigger_type']);
 			$row['condition'] = $this->lng->txt('condition_'.$condition['operator']);
 			$row['obligatory'] = $condition['obligatory'];

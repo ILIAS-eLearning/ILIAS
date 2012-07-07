@@ -316,12 +316,12 @@ class ilObjectGUI
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			// alt text would be same as heading -> empty alt text
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"),
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"),
 				"");
 		}
 		else
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"),
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"),
 				$this->lng->txt("obj_" . $this->object->getType()));
 		}
 
@@ -778,7 +778,7 @@ class ilObjectGUI
 				if (is_object($cf) && get_class($cf) == "ilPropertyFormGUI")
 				{
 					$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
-//					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
+//					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.png"));
 					
 					// using custom form titles (used for repository plugins)
 					$form_title = "";
@@ -1688,10 +1688,10 @@ class ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",3);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("spacer.gif"));
+		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("spacer.png"));
 		$tpl->parseCurrentBlock();
 		
-		$tbl->setTitle($this->lng->txt("clipboard"),"icon_typ_b.gif",$this->lng->txt("clipboard"));
+		$tbl->setTitle($this->lng->txt("clipboard"),"icon_typ_b.png",$this->lng->txt("clipboard"));
 		$tbl->setHeaderNames(array($this->lng->txt('obj_type'),
 								   $this->lng->txt('title'),
 								   $this->lng->txt('action')));

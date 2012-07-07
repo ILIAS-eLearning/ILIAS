@@ -721,12 +721,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTarget($this,"editMenuEntry"));
 				$this->tpl->setVariable("TARGET_EDIT", "content");
 				$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-				$this->tpl->setVariable("IMG_EDIT", ilUtil::getImagePath("icon_pencil.gif"));
+				$this->tpl->setVariable("IMG_EDIT", ilUtil::getImagePath("icon_pencil.png"));
 
 				$this->tpl->setVariable("LINK_DROP", $this->ctrl->getLinkTarget($this,"deleteMenuEntry"));
 				$this->tpl->setVariable("TARGET_DROP", "content");
 				$this->tpl->setVariable("TXT_DROP", $this->lng->txt("drop"));
-				$this->tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.gif"));
+				$this->tpl->setVariable("IMG_DROP", ilUtil::getImagePath("delete.png"));
 
 				$this->tpl->parseCurrentBlock();
 			}
@@ -794,7 +794,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		//$this->tpl = new ilTemplate("tpl.explorer.html", false, false);
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 
 		require_once ("./Modules/LearningModule/classes/class.ilLMEditorExplorer.php");
 		$exp = new ilLMEditorExplorer($this->ctrl->getLinkTarget($this, "view"),
@@ -1208,7 +1208,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$form_gui = new ilChapterHierarchyFormGUI($this->object->getType());
 			$form_gui->setFormAction($ilCtrl->getFormAction($this));
 			$form_gui->setTitle($this->object->getTitle());
-			$form_gui->setIcon(ilUtil::getImagePath("icon_lm.gif"));
+			$form_gui->setIcon(ilUtil::getImagePath("icon_lm.png"));
 			$form_gui->setTree($this->lm_tree);
 			$form_gui->setMaxDepth(0);
 			$form_gui->setCurrentTopNodeId($this->tree->getRootId());
@@ -1219,7 +1219,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			{	
 				$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
 			}
-			$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.gif"));
+			$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.png"));
 			$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 			$up_gui = ($this->object->getType() == "dbk")
 				? "ilobjdlbookgui"
@@ -1263,7 +1263,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				// checkbox
 				$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.png"));
 	
 				// link
 				$this->ctrl->setParameter($this, "backcmd", "");
@@ -1385,7 +1385,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			if (!$active)
 			{
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d".$img_sc.".gif"));
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_d".$img_sc.".png"));
 				$this->tpl->setVariable("IMG_ALT",
 					$this->lng->txt("cont_page_deactivated"));
 			}
@@ -1394,13 +1394,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				if (ilPageObject::_lookupContainsDeactivatedElements($page["obj_id"],
 					$this->object->getType()))
 				{
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del".$img_sc.".gif"));
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg_del".$img_sc.".png"));
 					$this->tpl->setVariable("IMG_ALT",
 						$this->lng->txt("cont_page_deactivated_elements"));
 				}
 				else
 				{
-					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg".$img_sc.".gif"));
+					$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg".$img_sc.".png"));
 					$this->tpl->setVariable("IMG_ALT",
 						$this->lng->txt("pg"));
 				}
@@ -1853,7 +1853,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			}
 
 			$this->tpl->setCurrentBlock("operation");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -2505,7 +2505,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		$this->addTabs($a_act);
 		$this->tpl->setTitle($this->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"),
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"),
 			$lng->txt("obj_lm"));
 	}
 
@@ -3705,7 +3705,7 @@ $tabs_gui = $ilTabs;
 		$option = array();
 		if ($a_def_option != "")
 		{
-			if (is_file($im = ilUtil::getImagePath("layout_".$a_def_option.".gif")))
+			if (is_file($im = ilUtil::getImagePath("layout_".$a_def_option.".png")))
 			{
 				$im_tag = ilUtil::img($im, $a_def_option);
 			}
@@ -3716,7 +3716,7 @@ $tabs_gui = $ilTabs;
 		foreach(ilObjContentObject::getAvailableLayouts() as $l)
 		{
 			$im_tag = "";
-			if (is_file($im = ilUtil::getImagePath("layout_".$l.".gif")))
+			if (is_file($im = ilUtil::getImagePath("layout_".$l.".png")))
 			{
 				$im_tag = ilUtil::img($im, $l);
 			}

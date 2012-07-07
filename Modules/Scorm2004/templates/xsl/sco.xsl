@@ -227,7 +227,7 @@
 			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea');</xsl:attribute>
 			<xsl:attribute name="onClick"> doMouseClick(event, 'TARGET' + '<xsl:value-of
 					select="@HierId"/>'); </xsl:attribute>
-			<img src="./templates/default/images/empty.gif" border="0" width="8" height="8"/>
+			<img src="./templates/default/images/empty.png" border="0" width="8" height="8"/>
 		</div>
 	</xsl:template>
 

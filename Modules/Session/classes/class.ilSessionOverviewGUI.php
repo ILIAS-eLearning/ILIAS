@@ -120,7 +120,7 @@ class ilSessionOverviewGUI
 		// Table 
 		$tbl = new ilTableGUI();
 		$tbl->setTitle($this->lng->txt("event_overview"),
-					   'icon_usr.gif',
+					   'icon_usr.png',
 					   $this->lng->txt('obj_usr'));
 		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);	
 		
@@ -177,8 +177,8 @@ class ilSessionOverviewGUI
 										
 				{			
 					$this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ? 
-											ilUtil::getImagePath('icon_ok.gif') :
-											ilUtil::getImagePath('icon_not_ok.gif'));
+											ilUtil::getImagePath('icon_ok.png') :
+											ilUtil::getImagePath('icon_not_ok.png'));
 					
 					$this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
 										$this->lng->txt('event_participated') :

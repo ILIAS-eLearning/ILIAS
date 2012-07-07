@@ -664,7 +664,7 @@ class ilAccountRegistrationGUI
 			"Services/Registration");
 
 		$this->tpl->setVariable("IMG_USER",
-			ilUtil::getImagePath("icon_usr_b.gif"));
+			ilUtil::getImagePath("icon_usr_b.png"));
 		$this->tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("registration"));
 		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome").", ".$this->userObj->getTitle()."!");
 

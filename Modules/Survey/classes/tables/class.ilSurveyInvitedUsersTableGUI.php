@@ -58,7 +58,7 @@ class ilSurveyInvitedUsersTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("firstname"),'firstname', '');
 		$this->addColumn($this->lng->txt("lastname"),'lastname', '');
 	
-		$this->setTitle($this->lng->txt('invited_users'), 'icon_usr.gif', $this->lng->txt('usr'));
+		$this->setTitle($this->lng->txt('invited_users'), 'icon_usr.png', $this->lng->txt('usr'));
 	
 		$this->setRowTemplate("tpl.il_svy_svy_invite_users_row.html", "Modules/Survey");
 

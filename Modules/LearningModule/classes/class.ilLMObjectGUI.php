@@ -235,7 +235,7 @@ class ilLMObjectGUI
 			}
 
 			$this->tpl->setCurrentBlock("operation");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}

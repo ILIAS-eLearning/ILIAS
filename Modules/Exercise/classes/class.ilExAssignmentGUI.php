@@ -73,15 +73,15 @@ class ilExAssignmentGUI
 			$mand = " (".$lng->txt("exc_mandatory").")";
 		}
 		$tpl->setVariable("TITLE", $a_data["title"].$mand);
-//		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.gif"));
+//		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.png"));
 		
 		// status icon
 		$stat = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());
 		switch ($stat)
 		{
-			case "passed": 	$pic = "scorm/passed.gif"; break;
-			case "failed":	$pic = "scorm/failed.gif"; break;
-			default: 		$pic = "scorm/not_attempted.gif"; break;
+			case "passed": 	$pic = "scorm/passed.png"; break;
+			case "failed":	$pic = "scorm/failed.png"; break;
+			default: 		$pic = "scorm/not_attempted.png"; break;
 		}
 		$tpl->setVariable("IMG_STATUS", ilUtil::getImagePath($pic));
 		$tpl->setVariable("ALT_STATUS", $lng->txt("exc_".$stat));
@@ -408,7 +408,7 @@ class ilExAssignmentGUI
 					}
 					else if ($status != "notgraded")
 					{
-						$img = '<img border="0" src="'.ilUtil::getImagePath("scorm/".$status.".gif").'" '.
+						$img = '<img border="0" src="'.ilUtil::getImagePath("scorm/".$status.".png").'" '.
 							' alt="'.$lng->txt("exc_".$status).'" title="'.$lng->txt("exc_".$status).
 							'" style="vertical-align:middle;"/>';
 						$info->addProperty($lng->txt("status"),

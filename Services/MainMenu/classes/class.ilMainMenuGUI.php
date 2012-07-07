@@ -303,7 +303,7 @@ class ilMainMenuGUI
 	
 			$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
-			$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.gif"));
+			$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.png"));
 			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 	
 			// set link to return to desktop, not depending on a specific position in the hierarchy
@@ -339,7 +339,7 @@ class ilMainMenuGUI
 				$a_tpl->parseCurrentBlock();
 			}
 			$a_tpl->setCurrentBlock('status_item');
-			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail_s.gif'));
+			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail_s.png'));
 			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
 			$a_tpl->parseCurrentBlock();
 			$box = true;
@@ -488,7 +488,7 @@ class ilMainMenuGUI
 			$gl = new ilGroupedListGUI();
 			
 			include_once("./Services/Link/classes/class.ilLink.php");
-			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
 			$icon = ilUtil::img(ilObject::_getIcon(ilObject::_lookupObjId(1), "tiny"));
 			
 			$gl->addEntry($icon." ".$a_txt." - ".$lng->txt("rep_main_page"), ilLink::_getStaticLink(1,'root',true),
@@ -536,7 +536,7 @@ class ilMainMenuGUI
 		{
 			$gl = new ilGroupedListGUI();
 			
-			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
 			
 			// overview
 			$gl->addEntry($lng->txt("overview"),
@@ -693,7 +693,7 @@ class ilMainMenuGUI
 			if ($a_id == "shop")
 			{
 				$gl = new ilGroupedListGUI();
-				$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.gif"));
+				$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
 
 				// shop_content
 				$gl->addEntry($lng->txt("content"),
@@ -811,7 +811,7 @@ class ilMainMenuGUI
 		
 		$this->tpl->setVariable('TXT_MM_HEADER',$lng->txt('mem_view_long'));
 		$this->tpl->setVariable('TXT_MM_CLOSE_PREVIEW',$lng->txt('mem_view_close'));
-		$this->tpl->setVariable('MM_CLOSE_IMG',ilUtil::getImagePath('cancel.gif'));
+		$this->tpl->setVariable('MM_CLOSE_IMG',ilUtil::getImagePath('cancel.png'));
 
 		include_once './Services/Link/classes/class.ilLink.php';
 		

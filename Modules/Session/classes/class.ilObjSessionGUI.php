@@ -782,7 +782,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		#$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'materials'));
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_sess.gif'));
+		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_sess.png'));
 		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
 		$this->tpl->setVariable("TABLE_TITLE",$this->lng->txt('event_assign_materials_table'));
 		$this->tpl->setVariable("TABLE_INFO",$this->lng->txt('event_assign_materials_info'));
@@ -823,7 +823,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			$this->tpl->setCurrentBlock("material_row");
 			
-			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.gif'));
+			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.png'));
 			$this->tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$node['type']));
 			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor($counter,'tblrow1','tblrow2'));
 			$this->tpl->setVariable("CHECK_COLL",ilUtil::formCheckbox(in_array($node['ref_id'],$items) ? 1 : 0,
@@ -835,8 +835,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->tpl->setVariable("COLL_DESC",$node['description']);
 			}
 			$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($node['ref_id'],$items) ? 
-									ilUtil::getImagePath('icon_ok.gif') :
-									ilUtil::getImagePath('icon_not_ok.gif'));
+									ilUtil::getImagePath('icon_ok.png') :
+									ilUtil::getImagePath('icon_not_ok.png'));
 			$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
 			$this->tpl->setVariable("COLL_PATH",$this->formatPath($node['ref_id']));
 			$this->tpl->parseCurrentBlock();
@@ -844,7 +844,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 		$this->tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
 		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
 	}
 	
@@ -930,7 +930,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_admins'),'icon_usr.gif',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_admins'),'icon_usr.png',$this->lng->txt('event_tbl_admins'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($admins);
 			$table->parse();
@@ -962,7 +962,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_tutors'),'icon_usr.gif',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_tutors'),'icon_usr.png',$this->lng->txt('event_tbl_admins'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($tutors);
 			$table->parse();
@@ -994,7 +994,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->ctrl->clearParameters($this);
 			}
 			$table->addCommandButton('updateMembers',$this->lng->txt('save'));
-			$table->setTitle($this->lng->txt('event_tbl_members'),'icon_usr.gif',$this->lng->txt('event_tbl_admins'));
+			$table->setTitle($this->lng->txt('event_tbl_members'),'icon_usr.png',$this->lng->txt('event_tbl_admins'));
 			$table->enableRegistration($this->object->enabledRegistration());
 			$table->setParticipants($members);
 			$table->parse();
@@ -1204,7 +1204,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Table 
 		$tbl = new ilTableGUI();
 		$tbl->setTitle($this->lng->txt("event_overview"),
-					   'icon_usr.gif',
+					   'icon_usr.png',
 					   $this->lng->txt('obj_usr'));
 		$this->ctrl->setParameter($this,'offset',(int) $_GET['offset']);	
 		
@@ -1262,8 +1262,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 										
 				{			
 					$this->tpl->setVariable("IMAGE_PARTICIPATED", $event_part->hasParticipated($user_id) ? 
-											ilUtil::getImagePath('icon_ok.gif') :
-											ilUtil::getImagePath('icon_not_ok.gif'));
+											ilUtil::getImagePath('icon_ok.png') :
+											ilUtil::getImagePath('icon_not_ok.png'));
 					
 					$this->tpl->setVariable("PARTICIPATED", $event_part->hasParticipated($user_id) ?
 										$this->lng->txt('event_participated') :
@@ -1468,7 +1468,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			case 'create':
 				$this->form->setTitle($this->lng->txt('event_table_create'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.gif'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.png'));
 		
 				$this->form->addCommandButton('save',$this->lng->txt('event_btn_add'));
 				$this->form->addCommandButton('saveAndAssignMaterials',$this->lng->txt('event_btn_add_edit'));
@@ -1478,7 +1478,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			case 'edit':
 				$this->form->setTitle($this->lng->txt('event_table_update'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.gif'));
+				$this->form->setTitleIcon(ilUtil::getImagePath('icon_event.png'));
 			
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));

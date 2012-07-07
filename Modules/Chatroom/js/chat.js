@@ -6,8 +6,8 @@
 	});
 	
 	var iconsByType = {
-		user: 'templates/default/images/icon_usr_s.gif',
-		room: 'templates/default/images/icon_chat_s.gif'
+		user: 'templates/default/images/icon_usr_s.png',
+		room: 'templates/default/images/icon_chat_s.png'
 	}
 
 
@@ -333,7 +333,7 @@
 					line.addClass('self');
 				}
 				else if (options.type == 'user') {
-					line.find('.label').append($('<img>').attr('src', 'templates/default/images/mm_down_arrow_dark.gif').css('margin-left', '5px'));
+					line.find('.label').append($('<img>').attr('src', 'templates/default/images/mm_down_arrow_dark.png').css('margin-left', '5px'));
 				}
 				else if (options.type == 'room' && options.owner == personalUserInfo.userid) {
 					line.addClass('self');

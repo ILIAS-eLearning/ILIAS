@@ -69,13 +69,13 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 		}
 		if($a_set['status'])
 		{
-			$this->tpl->setVariable('STATUS_SRC',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('STATUS_SRC',ilUtil::getImagePath('icon_ok.png'));
 			$this->tpl->setVariable('STATUS_ALT', $this->lng->txt('active'));
 			$this->tpl->setVariable('CHECKED_LANGKEY', 'checked="checked"');
 		}
 		else
 		{
-			$this->tpl->setVariable('STATUS_SRC',ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable('STATUS_SRC',ilUtil::getImagePath('icon_not_ok.png'));
 			$this->tpl->setVariable('STATUS_ALT', $this->lng->txt('inactive'));
 		}
 		$this->tpl->setVariable('LINK_TXT',$this->lng->txt('edit'));

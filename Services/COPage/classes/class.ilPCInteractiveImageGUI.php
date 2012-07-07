@@ -41,7 +41,7 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
 
 		if (is_object ($this->content_obj))
 		{
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
 			$this->getTabs($this->tabs_gui);
 
 /*			$mob = $this->content_obj->getMediaObject();

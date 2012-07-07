@@ -458,8 +458,8 @@ class ilSearchResultPresentation
 		$tpl->setVariable('VAL_REL',sprintf("%d %%",$this->getRelevance($a_obj_id)));
 		$tpl->setVariable('WIDTH_A',$width1);
 		$tpl->setVariable('WIDTH_B',$width2);
-		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
-		$tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
+		$tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
+		$tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
 		$tpl->parseCurrentBlock();
 		$html = $tpl->get();
 		return $html;

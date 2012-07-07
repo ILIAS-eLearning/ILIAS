@@ -187,7 +187,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		
-		$img = "icon_".$a_item["type"].".gif";
+		$img = "icon_".$a_item["type"].".png";
 		
 		if ($a_item["type"] == "pg")
 		{
@@ -202,11 +202,11 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 				? "_sc"
 				: "";
 				
-			$img = "icon_pg".$img_sc.".gif";
+			$img = "icon_pg".$img_sc.".png";
 
 			if (!$active)
 			{
-				$img = "icon_pg_d".$img_sc.".gif";
+				$img = "icon_pg_d".$img_sc.".png";
 			}
 			else
 			{
@@ -215,7 +215,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 					$this->lm_type);
 				if ($contains_dis)
 				{
-					$img = "icon_pg_del".$img_sc.".gif";
+					$img = "icon_pg_del".$img_sc.".png";
 				}
 			}
 		}
@@ -254,7 +254,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 				}
 			}
 		}
-		return ilUtil::getImagePath("icon_".$a_item["type"].".gif");
+		return ilUtil::getImagePath("icon_".$a_item["type"].".png");
 	}
 
 	/**

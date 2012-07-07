@@ -1162,7 +1162,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($tmp_object['title']);
-		$oForm->setTitleIcon(ilUtil::getImagePath('icon_'.$tmp_object['type'].'_b.gif'));
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_'.$tmp_object['type'].'_b.png'));
 		
 		// repository path
 		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
@@ -1964,7 +1964,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$oForm->setFormAction($this->ctrl->getFormAction($this));
 		$oForm->setId('stat_form');
 		$oForm->setTableWidth('50 %');		
-		$oForm->setTitleIcon(ilUtil::getImagePath('icon_usr.gif'));
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_usr.png'));
 		if(is_object($tmp_user))
 		{
 			$frm_user = $tmp_user->getFullname().' ['.$tmp_user->getLogin().']';

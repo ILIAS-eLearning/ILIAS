@@ -532,7 +532,7 @@ class ilPersonalSettingsGUI
 	 */
 	function setHeader()
 	{
-//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.gif"), "");
+//		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"), "");
 		$this->tpl->setVariable('HEADER', $this->lng->txt('personal_settings'));
 	}
 

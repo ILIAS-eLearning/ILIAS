@@ -235,7 +235,7 @@ class assFileUploadGUI extends assQuestionGUI
 			{
 				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
 				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
-				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.gif', $this->lng->txt('already_delivered_files'));
+				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.png', $this->lng->txt('already_delivered_files'));
 				$table_gui->setData($files);
 				$table_gui->setRowTemplate("tpl.il_as_qpl_fileupload_file_view_row.html", "Modules/TestQuestionPool");
 				$table_gui->setSelectAllCheckbox("");
@@ -257,7 +257,7 @@ class assFileUploadGUI extends assQuestionGUI
 				if ($reached_points == $this->object->getMaximumPoints())
 				{
 					$template->setCurrentBlock("icon_ok");
-					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.gif"));
+					$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
 					$template->setVariable("TEXT_OK", $this->lng->txt("answer_is_right"));
 					$template->parseCurrentBlock();
 				}
@@ -266,12 +266,12 @@ class assFileUploadGUI extends assQuestionGUI
 					$template->setCurrentBlock("icon_ok");
 					if ($reached_points > 0)
 					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.gif"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_mostly_ok.png"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_not_correct_but_positive"));
 					}
 					else
 					{
-						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.gif"));
+						$template->setVariable("ICON_NOT_OK", ilUtil::getImagePath("icon_not_ok.png"));
 						$template->setVariable("TEXT_NOT_OK", $this->lng->txt("answer_is_wrong"));
 					}
 					$template->parseCurrentBlock();
@@ -349,7 +349,7 @@ class assFileUploadGUI extends assQuestionGUI
 			{
 				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
 				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
-				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.gif', $this->lng->txt('already_delivered_files'));
+				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.png', $this->lng->txt('already_delivered_files'));
 				$table_gui->setData($files);
 				$template->setCurrentBlock("files");
 				$template->setVariable('FILES', $table_gui->getHTML());	

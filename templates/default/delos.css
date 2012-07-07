@@ -16,7 +16,7 @@ body, input, textarea {
 }
 
 body.std {
-	background-image: url(images/frame_back.gif);
+	background-image: url(images/frame_back.png);
 	background-repeat: repeat-x;
 	background-color: #f0f0f0;
 }
@@ -45,7 +45,7 @@ div.ilStartupFrame{
 
 /* --- creates bug in IE6, if hasLayout not given (zoom: 1;) */
 div.ilFrameH{
-	background-image: url(images/head_back.gif);
+	background-image: url(images/head_back.png);
 	background-repeat: repeat-x;
 	background-color: #F0F0F0;
     zoom: 1;
@@ -273,7 +273,7 @@ th.il_invisible, td.il_invisible {
 	color:#222222;
 	font-weight:bold;
 	background-color: #EDEDED;
-	background-image: url(images/TableHeader.gif);
+	background-image: url(images/TableHeader.png);
 	background-repeat:repeat-x;
 }
 
@@ -573,7 +573,7 @@ input.ilHFormHighlighted
 
 table.ilForm
 {
-	background-image: url(images/form_back.gif);
+	background-image: url(images/form_back.png);
 	background-repeat: repeat-y;
 	background-color:#F6F6F6;
 	border-spacing:0px;
@@ -586,7 +586,7 @@ table.ilForm
 td.ilFormHeader, td.ilFormFooter
 {
 	background-color:#E3E3E3;
-	background-image: url(images/form_top_back.gif);
+	background-image: url(images/form_top_back.png);
 	background-repeat: repeat-y;
 	padding: 3px 5px 3px 5px;
 	font-size:90%;
@@ -704,7 +704,7 @@ td.il_InfoScreenPropertyValue
 table.ilExplorer {
 	width:100%;
 	background-color: #F6F6F6;
-	/* background-image: url(images/head_back.gif);
+	/* background-image: url(images/head_back.png);
 	background-repeat: repeat-x;
 	background-color: #a7d3ff; */
 }
@@ -1221,7 +1221,7 @@ input.submit, a.submit, a.submit:hover
 	font-size: 80%;
 	font-weight:normal;
 	line-height:17px; /* Safari */
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	color:#335599;
@@ -1256,7 +1256,7 @@ input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
 
 a.ilEditSubmit {
 	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	padding: 2px;
@@ -1282,7 +1282,7 @@ input.ilEditSubmit {
 	cursor:pointer;
 	
 	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	border-width:1px;
@@ -1396,7 +1396,7 @@ div.il_droparea
 	border-width: 1px;
 	border-color: #D0D0D0;
 	font-size: 1px;
-	background-image: url(images/drop_back.gif);
+	background-image: url(images/drop_back.png);
 	background-repeat: repeat;
 	padding: 0px 0px;
 	text-align: center;
@@ -1410,7 +1410,7 @@ div.il_droparea_active
 	border-width: 1px;
 	border-color: #000000;
 	font-size: 1px;
-	background-image: url(images/drop_back_active.gif);
+	background-image: url(images/drop_back_active.png);
 	background-repeat: repeat;
 	text-align: center;
 	height: 12px;
@@ -1423,7 +1423,7 @@ div.il_droparea_valid_target
 	border-width: 1px;
 	border-color: #000000;
 	font-size: 1px;
-	background-image: url(images/drop_back.gif);
+	background-image: url(images/drop_back.png);
 	background-repeat: repeat;
 	text-align: center;
 	height: 12px;
@@ -2062,7 +2062,7 @@ div.ilMainHeader {
 
 div.ilMainMenuSection {
 	background-repeat: repeat-x;
-	background-image: url(images/mm_back.gif);
+	background-image: url(images/mm_back.png);
 	min-height:31px;
 	clear:both;
 }
@@ -2123,7 +2123,7 @@ a.MMInactive:link, a.MMInactive:visited
 	margin-left: -1px;
 	margin-top: 1px;
 	background-repeat: repeat-x;
-	background-image: url(images/mm_back2.gif);
+	background-image: url(images/mm_back2.png);
 }
 
 a.MMInactive:hover
@@ -2132,7 +2132,7 @@ a.MMInactive:hover
 	text-decoration:none;
 	background-color: #d0e8ff;
 	background-repeat: repeat-x;
-	background-image: url(images/mm_back3.gif);
+	background-image: url(images/mm_back3.png);
 }
 
 a.MMActive:link, a.MMActive:visited
@@ -2150,7 +2150,7 @@ a.MMActive:link, a.MMActive:visited
 	margin-left: -1px;
 	margin-top: 1px;
 	background-repeat: repeat-x;
-	background-image: url(images/mm_back3.gif);
+	background-image: url(images/mm_back3.png);
 }
 
 a.MMActive:hover
@@ -2165,7 +2165,7 @@ div.ilMainMenuSearch {
 	margin: 1px 0px 2px -1px;
 	line-height: 26px;
 	background-repeat: repeat-x;
-	background-image: url(images/mm_back2.gif);
+	background-image: url(images/mm_back2.png);
 }
 
 form.ilMainMenuSearch
@@ -2322,7 +2322,7 @@ a.tabinactive
     padding: 4px 7px 4px 7px;
 	font-size: 80%;
 	text-decoration: none;
-	background:url("images/TabInactive.gif") repeat-x left bottom;
+	background:url("images/TabInactive.png") repeat-x left bottom;
 }
 
 a.tabinactive:hover
@@ -2370,7 +2370,7 @@ a.backtab, a.backtab:hover
 {
 	float: left;
 	display:block;
-	background:url("images/BackTab.gif") no-repeat left top;
+	background:url("images/BackTab.png") no-repeat left top;
     padding: 3px 8px 3px 12px;
 	font-size: 80%;
 }
@@ -2386,7 +2386,7 @@ a.back2tab, a.back2tab:hover
 {
 	float: left;
 	display:block;
-	background:url("images/Back2Tab.gif") no-repeat left top;
+	background:url("images/Back2Tab.png") no-repeat left top;
     padding: 3px 8px 3px 12px;
 	font-size: 80%;
 }
@@ -2550,7 +2550,7 @@ td.ilBlockHeader, td.ilBlockHeaderBig
 	font-size: 90%;
 	color: #404040;
 	background-color: #F8F8F8;
-	background-image: url(images/block_top.gif);
+	background-image: url(images/block_top.png);
 	background-repeat: repeat-x;
 	border-bottom:1px solid #E9E9E9;
 }
@@ -2591,7 +2591,7 @@ th.ilContainerBlockHeader
 	text-align:left;
 	vertical-align: middle;
 	background-color: #F8F8F8;
-	background-image: url(images/block_top.gif);
+	background-image: url(images/block_top.png);
 	background-repeat: repeat-x;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
@@ -2808,7 +2808,7 @@ div.ilTableHeaderTitleBlock
 	font-size: 90%;
 	color: #404040;
 	background-color: #F8F8F8;
-	background-image: url(images/block_top.gif);
+	background-image: url(images/block_top.png);
 	background-repeat: repeat-x;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
@@ -3128,7 +3128,7 @@ div.ilProfile {
 	width: 450px;
 	margin-left:auto;
 	margin-right:auto;
-	background-image: url(images/form_back.gif);
+	background-image: url(images/form_back.png);
 	background-repeat: repeat-y;
 	background-color:#F6F6F6;
 	border-width:1px;
@@ -3304,7 +3304,7 @@ div.ilBlogListItemSnippet {
 }
 
 div.ilBox {
-	background-image:url('./images/FramedBack.gif');
+	background-image:url('./images/FramedBack.png');
 	background-repeat:repeat-x;
 	border: 1px solid #E0E0E0;
 	padding: 10px;
@@ -3315,7 +3315,7 @@ div.ilBox {
 /* Services/Skill */
 
 div.ilSkill {
-	background-image:url('./images/FramedBack.gif');
+	background-image:url('./images/FramedBack.png');
 	background-repeat:repeat-x;
 	border: 1px solid #E0E0E0;
 	padding: 5px;

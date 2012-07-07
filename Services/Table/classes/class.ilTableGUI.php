@@ -667,8 +667,8 @@ class ilTableGUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
-			$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("arrow_downright.gif"));
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
+			$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("arrow_downright.png"));
 			$this->tpl->setVariable("COLUMN_COUNTS", $this->getColumnCount());
 			$this->tpl->parseCurrentBlock();
 		}
@@ -709,7 +709,7 @@ class ilTableGUI
 				if (strcmp($this->header_vars[$key], "") != 0)
 				{
 					$this->tpl->setCurrentBlock("tbl_order_image");
-					$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.gif"));
+					$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
 					$this->tpl->parseCurrentBlock();
 				}
 			}
