@@ -210,7 +210,7 @@ class ilObjFileGUI extends ilObject2GUI
 		$single_form_gui->setTableWidth("600px");
 		$single_form_gui->setTarget($this->getTargetFrame("save"));
 		$single_form_gui->setTitle($this->lng->txt($this->type."_new"));
-		$single_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+		$single_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.png'), $this->lng->txt('obj_file'));
 		
 		$this->ctrl->setParameter($this, "new_type", "file");
 	
@@ -340,7 +340,7 @@ class ilObjFileGUI extends ilObject2GUI
 		$zip_form_gui->setTableWidth("600px");
 		$zip_form_gui->setTarget($this->getTargetFrame("save"));
 		$zip_form_gui->setTitle($this->lng->txt("header_zip"));
-		$zip_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+		$zip_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.png'), $this->lng->txt('obj_file'));
 		
 		$this->ctrl->setParameter($this, "new_type", "file");
 		

@@ -686,7 +686,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("other_row");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
 						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
 						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
@@ -696,7 +696,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					else
 					{
 						$template->setCurrentBlock("row");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
 						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
 						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
@@ -709,7 +709,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$template->setCurrentBlock("radio_col");
-					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
 					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
 					$template->parseCurrentBlock();

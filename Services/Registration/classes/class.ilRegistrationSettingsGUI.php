@@ -289,7 +289,7 @@ class ilRegistrationSettingsGUI
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("TXT_SELECTABLE_ROLES",$this->lng->txt('reg_selectable_roles'));
-		$this->tpl->setVariable("ARR_DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("ARR_DOWNRIGHT",ilUtil::getImagePath('arrow_downright.png'));
 		$this->tpl->setVariable("ACTIONS",$this->lng->txt('actions'));
 		$this->tpl->setVariable("UPDATE",$this->lng->txt('save'));
 		$this->tpl->setVariable("CANCEL",$this->lng->txt('cancel'));
@@ -360,7 +360,7 @@ class ilRegistrationSettingsGUI
 		$this->tpl->setVariable("TXT_MAIL",$this->lng->txt('reg_email'));
 		$this->tpl->setVariable("TXT_ROLE",$this->lng->txt('obj_role'));
 		$this->tpl->setVariable("TXT_DEFAULT",$this->lng->txt('reg_default'));
-		$this->tpl->setVariable("ARR_DOWNRIGHT",ilUtil::getImagePath('arrow_downright.gif'));
+		$this->tpl->setVariable("ARR_DOWNRIGHT",ilUtil::getImagePath('arrow_downright.png'));
 		$this->tpl->setVariable("TXT_DOMAIN",$this->lng->txt('reg_domain'));
 
 		

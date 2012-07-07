@@ -105,7 +105,7 @@
 				<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active', null, null);</xsl:attribute>
 				<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
 				<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-			<img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
+			<img src="./templates/default/images/ed_plus.png" border="0" width="30" height="12" />
 			</div>
 			<!-- insert menu for drop area -->
 			<xsl:call-template name="EditMenu">
@@ -425,7 +425,7 @@
 					<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active', null, null);</xsl:attribute>
 					<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
 					<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-					<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
+					<xsl:attribute name="id">TARGET<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:attribute><img src="./templates/default/images/ed_plus.png" border="0" width="30" height="12" />
 				</div>
 			</xsl:if>
 	
@@ -960,7 +960,7 @@
 			<xsl:attribute name="onMouseOver">doMouseOver(this.id, 'il_droparea_active', null, null);</xsl:attribute>
 			<xsl:attribute name="onMouseOut">doMouseOut(this.id, 'il_droparea', null, null);</xsl:attribute>
 			<xsl:attribute name="onClick">doMouseClick(event, 'TARGET' + '<xsl:value-of select="@HierId"/>' + ':' + '<xsl:value-of select="@PCID"/>', null, null);</xsl:attribute>
-		<img src="./templates/default/images/ed_plus.gif" border="0" width="30" height="12" />
+		<img src="./templates/default/images/ed_plus.png" border="0" width="30" height="12" />
 		</div>
 	</xsl:if>
 	<!-- insert menu for drop area -->
@@ -1117,7 +1117,7 @@
 	
 	<xsl:if test="$href != '-1'">
 		<tr><td colspan="2"><div>
-		<a href="{$href}"><img src="{$img_path}download.gif" align="middle" alt="{$downloadtitle}" border="0" /></a>
+		<a href="{$href}"><img src="{$img_path}download.png" align="middle" alt="{$downloadtitle}" border="0" /></a>
 
 		<xsl:if test="$paragraph_plugins != '-1' and $subchar != '-1'">		
 			<xsl:call-template name="plugins">

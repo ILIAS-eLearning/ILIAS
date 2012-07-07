@@ -99,7 +99,7 @@ class ilExportIDTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("STYLE",
 					" style='background-color: #FCEAEA;' ");
 				$this->tpl->setVariable("ALERT_IMG",
-					ilUtil::img(ilUtil::getImagePath("icon_alert_s.gif"),
+					ilUtil::img(ilUtil::getImagePath("icon_alert_s.png"),
 					$lng->txt("alert"))
 					);
 			}
@@ -118,7 +118,7 @@ class ilExportIDTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("ITEM_ADD_TXT",
 				$lng->txt("cont_exp_id_used_multiple"));
 			$this->tpl->setVariable("ALERT_IMG",
-				ilUtil::img(ilUtil::getImagePath("icon_alert_s.gif"),
+				ilUtil::img(ilUtil::getImagePath("icon_alert_s.png"),
 				$lng->txt("alert"))
 				);
 			if (!$this->dup_info_given)

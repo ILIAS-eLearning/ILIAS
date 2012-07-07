@@ -274,7 +274,7 @@ class ilAICCPresentationGUI extends ilSCORMPresentationGUI
 		global $lng;
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
-		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.gif"));
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.png"));
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "
 			.$lng->txt("cont_sc_stat_running")

@@ -109,8 +109,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$img = new ilTemplate('tpl.obj_settings_img_row.html',true,true,'Services/Tracking');
 		$img->setVariable("IMG_SRC",
 			$activated = ilObjUserTracking::_enabledLearningProgress()
-				? ilUtil::getImagePath('icon_ok.gif')
-				: ilUtil::getImagePath('icon_not_ok.gif')
+				? ilUtil::getImagePath('icon_ok.png')
+				: ilUtil::getImagePath('icon_not_ok.png')
 		);
 		$act->setHTML($img->get());
 		$form->addItem($act);
@@ -120,8 +120,8 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$img = new ilTemplate('tpl.obj_settings_img_row.html',true,true,'Services/Tracking');
 		$img->setVariable("IMG_SRC",
 			$anonymized = !ilObjUserTracking::_enabledUserRelatedData()
-				? ilUtil::getImagePath('icon_ok.gif')
-				: ilUtil::getImagePath('icon_not_ok.gif')
+				? ilUtil::getImagePath('icon_ok.png')
+				: ilUtil::getImagePath('icon_not_ok.png')
 		);
 		$ano->setHTML($img->get());
 		$form->addItem($ano);

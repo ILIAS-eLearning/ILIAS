@@ -386,7 +386,7 @@ class ilTemplate extends ilTemplateX
 		$mtpl->setVariable("TEXT", $a_txt);
 		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
 		$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($a_type."_message"));
-		$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$a_type.".gif"));
+		$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$a_type.".png"));
 		$mtpl->parseCurrentBlock();
 		
 		return $mtpl->get();
@@ -1928,7 +1928,7 @@ class ilTemplate extends ilTemplateX
 	
 			$this->setCurrentBlock("top");
 			$this->setVariable("LINK_TOP", $this->upper_icon);
-			$this->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.gif"));
+			$this->setVariable("IMG_TOP",ilUtil::getImagePath("ic_top.png"));
 			$this->parseCurrentBlock();
 		}
 		
@@ -1941,12 +1941,12 @@ class ilTemplate extends ilTemplateX
 			{
 				if ($this->tree_flat_mode == "tree")
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.gif"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.png"));
 					$this->setVariable("RIGHT", "Right");
 				}
 				else
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.gif"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.png"));
 					$this->setVariable("RIGHT", "Right");
 				}
 			}
@@ -1954,11 +1954,11 @@ class ilTemplate extends ilTemplateX
 			{
 				if ($this->tree_flat_mode == "tree")
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.gif"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_right.png"));
 				}
 				else
 				{
-					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.gif"));
+					$this->setVariable("IMG_TREE",ilUtil::getImagePath("ic_sidebar_left.png"));
 				}
 			}
 			$this->setVariable("ALT_TREE",$lng->txt($this->tree_flat_mode."view"));
@@ -1983,7 +1983,7 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("mount_webfolder");
 			$this->setVariable("LINK_MOUNT_WEBFOLDER", $a_link);
 			$this->setVariable("FOLDER_MOUNT_WEBFOLDER", $a_folder);
-			$this->setVariable("IMG_MOUNT_WEBFOLDER",ilUtil::getImagePath("ic_mount_webfolder.gif"));
+			$this->setVariable("IMG_MOUNT_WEBFOLDER",ilUtil::getImagePath("ic_mount_webfolder.png"));
 			$this->setVariable("ALT_MOUNT_WEBFOLDER",$lng->txt("mount_webfolder"));
 			$this->setVariable("TARGET_MOUNT_WEBFOLDER", '_blank');
 			$this->parseCurrentBlock();
@@ -2157,7 +2157,7 @@ class ilTemplate extends ilTemplateX
 		// Add arrow if desired
 		if($this->admin_panel_arrow)
 		{
-			$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.gif"), $lng->txt("actions"));
+			$toolb->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), $lng->txt("actions"));
 		}
 
 		if ($adm_cmds)
@@ -2190,7 +2190,7 @@ class ilTemplate extends ilTemplateX
 			$selection = new ilAdvancedSelectionListGUI();			
 			$selection->setListTitle($lng->txt("cntr_add_new_item"));
 			$selection->setId("item_creation");
-			$selection->setHeaderIcon(ilUtil::getImagePath("cmd_add_s.gif"));
+			$selection->setHeaderIcon(ilUtil::getImagePath("cmd_add_s.png"));
 			$selection->setItemLinkClass("xsmall");
 			$selection->setUseImages(true);
 			
@@ -2217,7 +2217,7 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("adm_view_components2");
 			if ($this->admin_panel_arrow)
 			{
-				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.gif"), $lng->txt("actions"));
+				$toolb->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), $lng->txt("actions"));
 			}
 			$this->setVariable("ADM_PANEL2", $toolb->getHTML());
 

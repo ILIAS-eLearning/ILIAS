@@ -952,7 +952,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 			$this->tpl->setHeaderPageTitle($this->lng->txt("translation"));
 			$this->tpl->setTitle($this->lng->txt("translation"). " "
 									.$this->lng->txt("meta_l_".$this->object->key));
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lng_b.gif"),
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lng_b.png"),
 									 $this->lng->txt("obj_" . $this->object->getType()));
 		}
 		else
@@ -991,7 +991,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	{
 		$this->tpl->setTitle($this->lng->txt("meta_l_".$this->object->getTitle()));
 		// $this->tpl->setDescription($this->object->getLongDescription());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif"), $this->lng->txt("obj_" . $this->object->getType()));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_" . $this->object->getType()));
 	}
 
 

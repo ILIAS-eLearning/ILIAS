@@ -22,7 +22,7 @@ class ilPDSysMessageBlockGUI extends ilPDMailBlockGUI
 	{
 		global $lng;
 		parent::__construct();
-		$this->setImage(ilUtil::getImagePath("icon_sysmess_s.gif"));
+		$this->setImage(ilUtil::getImagePath("icon_sysmess_s.png"));
 		$this->setTitle($lng->txt("show_system_messages"));
 		$this->setAvailableDetailLevels(3, 1);
 		$this->mail_mode = "system";

@@ -51,7 +51,7 @@ class ilCopyWizardExplorer extends ilExplorer
 	*/
 	public function getImage($a_name, $a_type = "", $a_obj_id = "")
 	{
-		return ilUtil::getImagePath('icon_'.$a_type.'_s.gif');
+		return ilUtil::getImagePath('icon_'.$a_type.'_s.png');
 	}
 	
 	/**

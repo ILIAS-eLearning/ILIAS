@@ -88,7 +88,7 @@ class ilObjPortfolioGUI
 			$title .= ": ".$this->portfolio->getTitle();	
 		}
 		$tpl->setTitle($title);
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf_b.gif"), 
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_prtf_b.png"), 
 			$lng->txt("portfolio"));
 
 		switch($next_class)

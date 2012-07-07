@@ -74,10 +74,10 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		switch($a_set->required)
 		{
 			case 0:
-				$required = ilUtil::getImagePath('icon_not_ok.gif');
+				$required = ilUtil::getImagePath('icon_not_ok.png');
 				break;
 			case 1:
-				$required = ilUtil::getImagePath('icon_ok.gif');
+				$required = ilUtil::getImagePath('icon_ok.png');
 				break;
 		}
 

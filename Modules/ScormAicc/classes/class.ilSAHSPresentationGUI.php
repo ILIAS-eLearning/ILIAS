@@ -436,7 +436,7 @@ class ilSAHSPresentationGUI
 		global $lng;
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
-		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.gif"));
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.png"));
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "
 			.$lng->txt("cont_sc_stat_running")
@@ -494,7 +494,7 @@ class ilSAHSPresentationGUI
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath(
-			"scorm/".str_replace(" ", "_", $_GET["status"]).'.gif')
+			"scorm/".str_replace(" ", "_", $_GET["status"]).'.png')
 		);
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "
@@ -608,7 +608,7 @@ class ilSAHSPresentationGUI
 
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->slm_gui->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.png"));
 		
 		$ilLocator->addRepositoryItems();
 		$ilLocator->addItem($this->slm_gui->object->getTitle(),

@@ -252,7 +252,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 		switch ($a_cmd)
 		{
 			case "continue":
-				return ilUtil::getImagePath("cmd_continue_s.gif");
+				return ilUtil::getImagePath("cmd_continue_s.png");
 			
 			default:
 				return "";

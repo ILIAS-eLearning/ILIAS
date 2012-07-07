@@ -59,7 +59,7 @@ class ilAdministrationExplorer extends ilExplorer
 		}
 
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.gif"));
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_root.png"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("repository"));
 		$tpl->parseCurrentBlock();
 

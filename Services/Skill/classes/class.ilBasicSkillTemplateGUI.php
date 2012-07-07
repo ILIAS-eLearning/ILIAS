@@ -182,7 +182,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 			
 			$ilTabs->activateTab($a_tab);
 
-			//$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktp_b.gif"), $lng->txt("skmg_skill_template"));
+			//$tpl->setTitleIcon(ilUtil::getImagePath("icon_sktp_b.png"), $lng->txt("skmg_skill_template"));
 			parent::setTitleIcon();
 		
 			$this->setSkillNodeDescription();

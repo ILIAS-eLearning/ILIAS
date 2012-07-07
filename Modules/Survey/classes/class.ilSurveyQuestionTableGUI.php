@@ -277,7 +277,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 				}
 				else if($a_set["obligatory"])
 				{
-					$obligatory = "<img src=\"".ilUtil::getImagePath("obligatory.gif", "Modules/Survey").
+					$obligatory = "<img src=\"".ilUtil::getImagePath("obligatory.png", "Modules/Survey").
 						"\" alt=\"".$lng->txt("question_obligatory").
 						"\" title=\"".$lng->txt("question_obligatory")."\" />";
 				}

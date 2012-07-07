@@ -572,7 +572,7 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 			{
 				$node_obj = ilSkillTreeNodeFactory::getInstance($id);
 				$confirmation_gui->addItem("id[]", $node_obj->getId(),
-					$node_obj->getTitle(), ilUtil::getImagePath("icon_".$node_obj->getType().".gif"));
+					$node_obj->getTitle(), ilUtil::getImagePath("icon_".$node_obj->getType().".png"));
 			}
 		}
 
@@ -970,7 +970,7 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 //		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
 
 //		$this->tpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 
 		require_once ("./Services/Skill/classes/class.ilSkillExplorer.php");
 		$exp = new ilSkillExplorer($ilCtrl->getLinkTarget($a_gui, $a_gui_cmd),

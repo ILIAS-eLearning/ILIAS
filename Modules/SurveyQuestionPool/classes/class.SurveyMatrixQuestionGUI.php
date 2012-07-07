@@ -1070,7 +1070,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						if ($cat->neutral)
 						{
 							$tplrow->setCurrentBlock("neutral_radiobutton");
-							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
 							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
 							$tplrow->parseCurrentBlock();
@@ -1078,7 +1078,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						else
 						{
 							$tplrow->setCurrentBlock("radiobutton");
-							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.gif")));
+							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
 							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
 							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
 							$tplrow->parseCurrentBlock();
@@ -1088,7 +1088,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						if ($cat->neutral)
 						{
 							$tplrow->setCurrentBlock("neutral_checkbox");
-							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
 							$tplrow->parseCurrentBlock();
@@ -1096,7 +1096,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						else
 						{
 							$tplrow->setCurrentBlock("checkbox");
-							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.gif")));
+							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
 							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
 							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
 							$tplrow->parseCurrentBlock();

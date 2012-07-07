@@ -243,7 +243,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 			$this->tpl->setVariable('BILL_CONFIRM_FORMACTION',$this->ctrl->getFormAction($this));
 	
 			// set table header
-			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_pays_b.gif'));
+			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_pays_b.png'));
 			$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_usr'));
 	
 			// set plain text variables

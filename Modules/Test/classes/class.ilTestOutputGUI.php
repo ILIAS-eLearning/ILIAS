@@ -402,7 +402,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
 			$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "outIntroductionPage") . "&cancelTest=true");
 			$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "outIntroductionPage") . "&cancelTest=true");
-			$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.gif"));
+			$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
 			$this->tpl->parseCurrentBlock();
 		}		
 

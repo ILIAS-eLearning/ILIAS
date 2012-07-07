@@ -112,8 +112,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 		
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType())." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setTitle($this->lng->txt("obj_".$this->object->getType())." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.png",$this->lng->txt("help"));
 		
 		foreach ($this->data["cols"] as $val)
 		{
@@ -325,8 +325,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$tbl = new ilTableGUI();
 		
 		// title & header columns
-		$tbl->setTitle($this->lng->txt("edit_operations")." ".strtolower($this->lng->txt("of"))." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.gif",$this->lng->txt("obj_".$this->object->getType()));
-		$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		$tbl->setTitle($this->lng->txt("edit_operations")." ".strtolower($this->lng->txt("of"))." '".$this->object->getTitle()."'","icon_".$this->object->getType()."_b.png",$this->lng->txt("obj_".$this->object->getType()));
+		$tbl->setHelp("tbl_help.php","icon_help.png",$this->lng->txt("help"));
 		
 		foreach ($this->data["cols"] as $val)
 		{
@@ -346,7 +346,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 		$tbl->setMaxCount($this->maxcount);
 		
 		// SHOW VALID ACTIONS
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
 		
 		// footer

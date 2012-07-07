@@ -34,15 +34,15 @@ class ilUtil
 		{
 			$big = "_b";
 		}
-		$filename = "icon_".$a_type."$big.gif";
+		$filename = "icon_".$a_type."$big.png";
 
 		return "<img src=\"".ilUtil::getImagePath($filename)."\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
-		//return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.gif\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
+		//return "<img src=\"".$a_path."/images/"."icon_".$a_type."$big.png\" alt=\"".$lng->txt("obj_".$a_type)."\" title=\"".$lng->txt("obj_".$a_type)."\" border=\"0\" vspace=\"0\"/>";
 	}
 
 	/**
 	 * Get type icon path path
-	 * Return image path for icon_xxx.gifs
+	 * Return image path for icon_xxx.pngs
 	 * Or (if enabled) path to custom icon
 	 *
 	 * @access public
@@ -74,13 +74,13 @@ class ilUtil
 	 	switch($a_size)
 	 	{
 	 		case 'tiny':
-	 			$postfix = '_s.gif';
+	 			$postfix = '_s.png';
 	 			break;
 	 		case 'big':
-	 			$postfix = '_b.gif';
+	 			$postfix = '_b.png';
 	 			break;
 	 		default:
-	 			$postfix = '.gif';
+	 			$postfix = '.png';
 	 			break;
 	 	}
 	 	return ilUtil::getImagePath('icon_'.$a_type.$postfix);
@@ -90,9 +90,9 @@ class ilUtil
 	* get image path (for images located in a template directory)
 	*
 	* @access	public
-	* @param	string		full image filename (e.g. myimage.gif)
+	* @param	string		full image filename (e.g. myimage.png)
 	* @param	boolean		should be set to true, if the image is within a module
-	*						template directory (e.g. content/templates/default/images/test.gif)
+	*						template directory (e.g. content/templates/default/images/test.png)
 	* @static
 	*
 	*/

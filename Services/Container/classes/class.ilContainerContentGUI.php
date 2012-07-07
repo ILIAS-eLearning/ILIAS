@@ -633,7 +633,7 @@ abstract class ilContainerContentGUI
 		if ($ilSetting->get("icon_position_in_lists") != "item_rows" &&
 			$a_type != "")
 		{
-			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+			$icon = ilUtil::getImagePath("icon_".$a_type.".png");
 
 			$a_tpl->setCurrentBlock("container_header_row_image");
 			$a_tpl->setVariable("HEADER_IMG", $icon);
@@ -755,7 +755,7 @@ abstract class ilContainerContentGUI
 		$lng->loadLanguageModule("rep");
 		
 		$tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
-		$tpl->setVariable("IMG_REP_LARGE", ilUtil::getImagePath("icon_root_xxl.gif"));
+		$tpl->setVariable("IMG_REP_LARGE", ilUtil::getImagePath("icon_root_xxl.png"));
 		$tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
 		$tpl->setVariable("TXT_INTRO_1", $lng->txt("rep_intro1"));
 		$tpl->setVariable("TXT_INTRO_2", $lng->txt("rep_intro2"));

@@ -149,7 +149,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setExplorerUpdater("tree", "tree_div",
 				$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
 				
-				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
 				$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 				if ($this->content_object->getLayoutPerPage())
 				{
@@ -447,7 +447,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		{
 			$page_gui->setEnabledScheduledActivation(true);
 		}
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
 		$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 		$ilCtrl->getHTML($page_gui);
 		$ilTabs->setTabActive("cont_layout");
@@ -470,7 +470,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		// default layout
 		$layout = new ilRadioMatrixInputGUI($lng->txt("cont_layout"), "layout");
 		$option = array();
-		if (is_file($im = ilUtil::getImagePath("layout_".$this->content_object->getLayout().".gif")))
+		if (is_file($im = ilUtil::getImagePath("layout_".$this->content_object->getLayout().".png")))
 		{
 			$im_tag = ilUtil::img($im, $this->content_object->getLayout());
 		}
@@ -480,7 +480,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		foreach(ilObjContentObject::getAvailableLayouts() as $l)
 		{
 			$im_tag = "";
-			if (is_file($im = ilUtil::getImagePath("layout_".$l.".gif")))
+			if (is_file($im = ilUtil::getImagePath("layout_".$l.".png")))
 			{
 				$im_tag = ilUtil::img($im, $l);
 			}

@@ -99,7 +99,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 				// set page view link
 				$view_frame = ilFrameTargetInfo::_getFrame("MainContent");
 				$page_gui->setLinkParams("ref_id=".$this->slm_object->getRefId());				
-				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
 				
 				$page_gui->activateMetaDataEditor($this->slm_object->getID(),
 					$this->node_object->getId(), $this->node_object->getType(),
@@ -143,7 +143,7 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 			 $ilCtrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");*/
 			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
 		$tpl->setTitle(
 			$lng->txt("sahs_page").": ".$this->node_object->getTitle());
 	}

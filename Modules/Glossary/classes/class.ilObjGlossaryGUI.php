@@ -667,7 +667,7 @@ return;
 			"Modules/Glossary");
 		
 //		$this->tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
-//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+//		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 		
 		$this->tpl->setVariable("FORMACTION1", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("CMD_REFR", "quickList");
@@ -693,7 +693,7 @@ return;
 
 		// title & header columns
 		//$tbl->setTitle($this->lng->txt("cont_terms"));
-		//$tbl->setHelp("tbl_help.php","icon_help.gif",$this->lng->txt("help"));
+		//$tbl->setHelp("tbl_help.php","icon_help.png",$this->lng->txt("help"));
 
 		$tbl->setHeaderNames(array($this->lng->txt("cont_term")));
 
@@ -844,7 +844,7 @@ return;
 			}
 
 			$this->tpl->setCurrentBlock("tbl_action_row");
-			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 	}
@@ -1087,7 +1087,7 @@ return;
 		$this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
@@ -1497,7 +1497,7 @@ return;
 		}
 		else
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.gif"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo_b.png"));
 			$this->tpl->setTitle($this->lng->txt("glo").": ".$title);
 		}
 	}

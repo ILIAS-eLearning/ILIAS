@@ -284,8 +284,8 @@ class ilCourseObjectivePresentationGUI
 			$this->tpl->setVariable("OBJ_TITLE_1_OBJECTIVES",$tmp_objective->getTitle());
 
 			$img = !in_array($objective_ids[$i],$this->suggested) ?
-				ilUtil::getImagePath('icon_ok.gif') :
-				ilUtil::getImagePath('icon_not_ok.gif');
+				ilUtil::getImagePath('icon_ok.png') :
+				ilUtil::getImagePath('icon_not_ok.png');
 
 			$txt = !in_array($objective_ids[$i],$this->suggested) ?
 				$this->lng->txt('crs_objective_accomplished') :
@@ -319,8 +319,8 @@ class ilCourseObjectivePresentationGUI
 				$objective_id = $objective_ids[$i + $max / 2];
 
 				$img = !in_array($objective_id,$this->suggested) ?
-					ilUtil::getImagePath('icon_ok.gif') :
-					ilUtil::getImagePath('icon_not_ok.gif');
+					ilUtil::getImagePath('icon_ok.png') :
+					ilUtil::getImagePath('icon_not_ok.png');
 
 				$txt = !in_array($objective_id,$this->suggested) ?
 					$this->lng->txt('crs_objective_accomplished') :
@@ -498,7 +498,7 @@ class ilCourseObjectivePresentationGUI
 				$this->tpl->setVariable("OBJ_CLASS_LMS",'option_value');
 			}
 			$this->tpl->setCurrentBlock("lm_row");
-			$this->tpl->setVariable('IMG_TYPE_MAT',ilUtil::getImagePath('icon_'.$obj_type.'.gif'));
+			$this->tpl->setVariable('IMG_TYPE_MAT',ilUtil::getImagePath('icon_'.$obj_type.'.png'));
 			$this->tpl->setVariable('TXT_IMG_MAT',$this->lng->txt('obj_'.$obj_type));
 			$this->tpl->setVariable("OBJ_NR_LMS",$counter.'.');
 			$this->tpl->parseCurrentBlock();
@@ -754,8 +754,8 @@ class ilCourseObjectivePresentationGUI
 		$this->ctrl->setParameter($this,'show_hide_'.$a_part,'');
 
 		$this->tpl->setVariable("HIDE_SHOW_IMG_".strtoupper($a_part),$_SESSION['crs_hide_'.$a_part] ? 
-								ilUtil::getImagePath('a_down.gif') :
-								ilUtil::getImagePath('a_up.gif'));
+								ilUtil::getImagePath('a_down.png') :
+								ilUtil::getImagePath('a_up.png'));
 
 		return true;
 	}

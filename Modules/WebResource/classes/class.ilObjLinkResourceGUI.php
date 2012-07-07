@@ -1409,7 +1409,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			{
 				$this->tpl->setCurrentBlock("locator_img");
 				$this->tpl->setVariable("IMG_SRC",
-					ilUtil::getImagePath("icon_".$row["type"]."_s.gif"));
+					ilUtil::getImagePath("icon_".$row["type"]."_s.png"));
 				$this->tpl->setVariable("IMG_ALT",
 					$lng->txt("obj_".$type));
 				$this->tpl->parseCurrentBlock();

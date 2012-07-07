@@ -136,7 +136,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		}
 		$info_tpl = new ilTemplate('tpl.crs_objectives_view_info_table.html',true,true,'Modules/Course');
 		$info_tpl->setVariable("INFO_STRING",$lng->txt('crs_objectives_info_'.$status));
-		$info_tpl->setVariable("IMG_INFO", ilUtil::getImagePath("mess_info.gif"));
+		$info_tpl->setVariable("IMG_INFO", ilUtil::getImagePath("mess_info.png"));
 
 		$this->output_html .= $info_tpl->get();
 	}
@@ -218,7 +218,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		$append = $this->details_level == self::DETAILS_TITLE ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
-		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.png'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getRefId());
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "1");
@@ -228,7 +228,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
 		$append = $this->details_level == self::DETAILS_ALL ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
-		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.png'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "2");
 		$tpl->setVariable('DETAILS_LINK',

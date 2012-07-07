@@ -284,7 +284,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		
 		$append = $this->details_level == 1 ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
-		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details1'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details1'.$append.'.png'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 1');
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getRefId());
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "1");
@@ -294,7 +294,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
 		$append = $this->details_level == 2 ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
-		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.png'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "2");
 		$tpl->setVariable('DETAILS_LINK',
@@ -303,7 +303,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
 		$append = $this->details_level == 3 ? 'off' : '';
 		$tpl->setCurrentBlock('details_img');
-		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.gif'));
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.png'));
 		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "3");
 		$tpl->setVariable('DETAILS_LINK',

@@ -46,7 +46,7 @@ class ilHtmlBlockGUI extends ilHtmlBlockGUIGen
 		parent::__construct();
 		parent::ilBlockGUI();
 		
-		//$this->setImage(ilUtil::getImagePath("icon_feed_s.gif"));
+		//$this->setImage(ilUtil::getImagePath("icon_feed_s.png"));
 
 		$lng->loadLanguageModule("block_html");
 

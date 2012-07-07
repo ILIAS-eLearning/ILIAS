@@ -473,10 +473,10 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS", 5);
-		$tpl->setVariable("IMG_ARROW", ilUtil :: getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW", ilUtil :: getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"), "icon_usr_b.gif", $this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"), "icon_usr_b.png", $this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array ("", $this->lng->txt("username"), $this->lng->txt("firstname"), $this->lng->txt("lastname"), $this->lng->txt("last_visit")));
 		$tbl->setHeaderVars(array ("", "login", "firstname", "lastname", "last_visit"), array ("ref_id" => $this->ref_id, "cmd" => $a_cmd, "cmdClass" => "ilobjgroupgui", "cmdNode" => $_GET["cmdNode"]));
 
@@ -520,10 +520,10 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS", 5);
-		$tpl->setVariable("IMG_ARROW", ilUtil :: getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW", ilUtil :: getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"), "icon_usr_b.gif", $this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"), "icon_usr_b.png", $this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array ("", $this->lng->txt("obj_role"), $this->lng->txt("grp_count_members")));
 		$tbl->setHeaderVars(array ("", "title", "nr_members"), array ("ref_id" => $this->ref_id, "cmd" => "search", "cmdClass" => "ilobjgroupgui", "cmdNode" => $_GET["cmdNode"]));
 
@@ -598,10 +598,10 @@ class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS", 5);
-		$tpl->setVariable("IMG_ARROW", ilUtil :: getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW", ilUtil :: getImagePath("arrow_downright.png"));
 		$tpl->parseCurrentBlock();
 
-		$tbl->setTitle($this->lng->txt("grp_header_edit_members"), "icon_usr_b.gif", $this->lng->txt("grp_header_edit_members"));
+		$tbl->setTitle($this->lng->txt("grp_header_edit_members"), "icon_usr_b.png", $this->lng->txt("grp_header_edit_members"));
 		$tbl->setHeaderNames(array ("", $this->lng->txt("obj_grp"), $this->lng->txt("grp_count_members")));
 		$tbl->setHeaderVars(array ("", "title", "nr_members"), array ("ref_id" => $this->ref_id, "cmd" => "search", "cmdClass" => "ilobjgroupgui", "cmdNode" => $_GET["cmdNode"]));
 

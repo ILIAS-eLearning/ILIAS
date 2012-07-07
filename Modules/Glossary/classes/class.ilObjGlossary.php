@@ -585,22 +585,22 @@ class ilObjGlossary extends ilObject
 		$image_dir = $a_target_dir."/images";
 		ilUtil::makeDir($image_dir);
 		ilUtil::makeDir($image_dir."/browser");
-		copy(ilUtil::getImagePath("enlarge.gif", false, "filesystem"),
-			$image_dir."/enlarge.gif");
-		copy(ilUtil::getImagePath("browser/blank.gif", false, "filesystem"),
-			$image_dir."/browser/plus.gif");
-		copy(ilUtil::getImagePath("browser/blank.gif", false, "filesystem"),
-			$image_dir."/browser/minus.gif");
-		copy(ilUtil::getImagePath("browser/blank.gif", false, "filesystem"),
-			$image_dir."/browser/blank.gif");
-		copy(ilUtil::getImagePath("icon_st.gif", false, "filesystem"),
-			$image_dir."/icon_st.gif");
-		copy(ilUtil::getImagePath("icon_pg.gif", false, "filesystem"),
-			$image_dir."/icon_pg.gif");
-		copy(ilUtil::getImagePath("nav_arr_L.gif", false, "filesystem"),
-			$image_dir."/nav_arr_L.gif");
-		copy(ilUtil::getImagePath("nav_arr_R.gif", false, "filesystem"),
-			$image_dir."/nav_arr_R.gif");
+		copy(ilUtil::getImagePath("enlarge.png", false, "filesystem"),
+			$image_dir."/enlarge.png");
+		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
+			$image_dir."/browser/plus.png");
+		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
+			$image_dir."/browser/minus.png");
+		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
+			$image_dir."/browser/blank.png");
+		copy(ilUtil::getImagePath("icon_st.png", false, "filesystem"),
+			$image_dir."/icon_st.png");
+		copy(ilUtil::getImagePath("icon_pg.png", false, "filesystem"),
+			$image_dir."/icon_pg.png");
+		copy(ilUtil::getImagePath("nav_arr_L.png", false, "filesystem"),
+			$image_dir."/nav_arr_L.png");
+		copy(ilUtil::getImagePath("nav_arr_R.png", false, "filesystem"),
+			$image_dir."/nav_arr_R.png");
 			
 		// template workaround: reset of template 
 		$tpl = new ilTemplate("tpl.main.html", true, true);

@@ -193,12 +193,12 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock('registered_col');
 			if($a_set['registered'])
 			{
-				$this->tpl->setVariable('IMAGE_REGISTERED',ilUtil::getImagePath('icon_ok.gif'));
+				$this->tpl->setVariable('IMAGE_REGISTERED',ilUtil::getImagePath('icon_ok.png'));
 				$this->tpl->setVariable('REGISTERED',$this->lng->txt('event_registered'));			
 			}
 			else
 			{
-				$this->tpl->setVariable('IMAGE_REGISTERED',ilUtil::getImagePath('icon_not_ok.gif'));
+				$this->tpl->setVariable('IMAGE_REGISTERED',ilUtil::getImagePath('icon_not_ok.png'));
 				$this->tpl->setVariable('REGISTERED',$this->lng->txt('event_not_registered'));			
 			}
 			$this->tpl->parseCurrentBlock();

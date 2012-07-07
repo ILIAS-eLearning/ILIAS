@@ -262,7 +262,7 @@ class ilCalendarCategoryGUI
 		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',(int) $_GET['category_id']);
 		$info->addProperty(
 			$this->lng->txt('cal_ical_infoscreen'),
-			'<img src="'.ilUtil::getImagePath('ical.gif','Services/Calendar').'" />',
+			'<img src="'.ilUtil::getImagePath('ical.png','Services/Calendar').'" />',
 			$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui'))
 		);
 

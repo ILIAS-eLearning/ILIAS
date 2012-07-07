@@ -27,21 +27,21 @@ class ilSystemStyleHTMLExport
 		$this->img_browser_dir = $a_exp_dir."/images/browser";
 		
 		// add standard images
-		$this->addImage("enlarge.gif");
-		$this->addImage("browser/blank.gif", "/browser/plus.gif");
-		$this->addImage("browser/blank.gif", "/browser/minus.gif");
-		$this->addImage("browser/blank.gif", "/browser/blank.gif");
-		$this->addImage("spacer.gif");
-		$this->addImage("icon_st.gif");
-		$this->addImage("icon_st_s.gif");
-		$this->addImage("icon_pg.gif");
-		$this->addImage("icon_pg_s.gif");
-		$this->addImage("icon_lm.gif");
-		$this->addImage("icon_lm_s.gif");
-		$this->addImage("nav_arr_L.gif");
-		$this->addImage("nav_arr_R.gif");
-		$this->addImage("browser/forceexp.gif");
-		$this->addImage("download.gif");
+		$this->addImage("enlarge.png");
+		$this->addImage("browser/blank.png", "/browser/plus.png");
+		$this->addImage("browser/blank.png", "/browser/minus.png");
+		$this->addImage("browser/blank.png", "/browser/blank.png");
+		$this->addImage("spacer.png");
+		$this->addImage("icon_st.png");
+		$this->addImage("icon_st_s.png");
+		$this->addImage("icon_pg.png");
+		$this->addImage("icon_pg_s.png");
+		$this->addImage("icon_lm.png");
+		$this->addImage("icon_lm_s.png");
+		$this->addImage("nav_arr_L.png");
+		$this->addImage("nav_arr_R.png");
+		$this->addImage("browser/forceexp.png");
+		$this->addImage("download.png");
 	}
 
 	/**

@@ -91,12 +91,12 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 		
 		if($a_set['accepted'])
 		{
-			$this->tpl->setVariable('ACC_IMG',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('ACC_IMG',ilUtil::getImagePath('icon_ok.png'));
 			$this->tpl->setVariable('ALT_ACC',$this->lng->txt('cal_accepted'));
 		}
 		if($a_set['declined'])
 		{
-			$this->tpl->setVariable('DEC_IMG',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('DEC_IMG',ilUtil::getImagePath('icon_ok.png'));
 			$this->tpl->setVariable('ALT_DEC',$this->lng->txt('cal_declined'));
 		}
 	}

@@ -620,7 +620,7 @@ class ilLDAPSettingsGUI
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setCurrentBlock('delete_btn');
-			$this->tpl->setVariable('SOURCE',ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable('SOURCE',ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->setVariable('TXT_DELETE',$this->lng->txt('delete'));
 			$this->tpl->parseCurrentBlock();
 		}

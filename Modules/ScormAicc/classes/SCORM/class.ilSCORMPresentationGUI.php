@@ -472,14 +472,14 @@ class ilSCORMPresentationGUI
 			.'b_debug:'.$b_debug.','
 			.'dataDirectory:"'.encodeURIComponent($this->slm->getDataDirectory("output").'/').'",'
 			.'img:{'
-				.'asset:"'.encodeURIComponent(ilUtil::getImagePath('scorm/asset.gif')).'",'
-				.'browsed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/browsed.gif')).'",'
-				.'completed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/completed.gif')).'",'
-				.'failed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/failed.gif')).'",'
-				.'incomplete:"'.encodeURIComponent(ilUtil::getImagePath('scorm/incomplete.gif')).'",'
-				.'not_attempted:"'.encodeURIComponent(ilUtil::getImagePath('scorm/not_attempted.gif')).'",'
-				.'passed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/passed.gif')).'",'
-				.'running:"'.encodeURIComponent(ilUtil::getImagePath('scorm/running.gif')).'"'
+				.'asset:"'.encodeURIComponent(ilUtil::getImagePath('scorm/asset.png')).'",'
+				.'browsed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/browsed.png')).'",'
+				.'completed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/completed.png')).'",'
+				.'failed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/failed.png')).'",'
+				.'incomplete:"'.encodeURIComponent(ilUtil::getImagePath('scorm/incomplete.png')).'",'
+				.'not_attempted:"'.encodeURIComponent(ilUtil::getImagePath('scorm/not_attempted.png')).'",'
+				.'passed:"'.encodeURIComponent(ilUtil::getImagePath('scorm/passed.png')).'",'
+				.'running:"'.encodeURIComponent(ilUtil::getImagePath('scorm/running.png')).'"'
 			.'},'
 			.'statusTxt:{'
 				.'wait:"'.encodeURIComponent($lng->txt("please_wait")).'",'
@@ -768,7 +768,7 @@ class ilSCORMPresentationGUI
 		global $lng;
 		$this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
-		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.gif"));
+		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath("scorm/running.png"));
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "
 			.$lng->txt("cont_sc_stat_running")
@@ -838,7 +838,7 @@ class ilSCORMPresentationGUI
 		// $this->tpl->setCurrentBlock("switch_icon");
 		$this->tpl->setVariable("SCO_ID", $_GET["sahs_id"]);
 		$this->tpl->setVariable("SCO_ICO", ilUtil::getImagePath(
-			"scorm/".str_replace(" ", "_", $_GET["status"]).'.gif')
+			"scorm/".str_replace(" ", "_", $_GET["status"]).'.png')
 		);
 		$this->tpl->setVariable("SCO_ALT",
 			 $lng->txt("cont_status").": "

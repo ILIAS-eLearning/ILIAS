@@ -1874,7 +1874,7 @@ else
 			$stpl->setCurrentBlock("menu_row");
 			$stpl->setVariable("TXT_STEP",$this->lng->txt("step")." ".$num.": &nbsp;");
 			$stpl->setVariable("TXT_ACTION",$val["text"]);
-			$stpl->setVariable("IMG_ARROW", "spacer.gif");
+			$stpl->setVariable("IMG_ARROW", "spacer.png");
 			
 			$num++;
 

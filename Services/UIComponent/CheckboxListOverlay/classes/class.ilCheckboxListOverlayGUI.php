@@ -11,8 +11,8 @@ class ilCheckboxListOverlayGUI
 {
 	private $items = array();
 	
-	const DOWN_ARROW_LIGHT = "mm_down_arrow.gif";
-	const DOWN_ARROW_DARK = "mm_down_arrow_dark.gif";
+	const DOWN_ARROW_LIGHT = "mm_down_arrow.png";
+	const DOWN_ARROW_DARK = "mm_down_arrow_dark.png";
 	const NO_ICON = "";
 	
 

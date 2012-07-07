@@ -47,7 +47,7 @@ class ilWikiSearchBlockGUI extends ilBlockGUI
 		
 		parent::ilBlockGUI();
 		
-		//$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
+		//$this->setImage(ilUtil::getImagePath("icon_news_s.png"));
 
 		$lng->loadLanguageModule("wiki");
 		//$this->setBlockId(...);

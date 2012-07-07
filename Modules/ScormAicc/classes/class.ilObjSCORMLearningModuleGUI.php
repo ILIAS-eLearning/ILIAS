@@ -215,7 +215,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	   // display import form
 	   $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
     
-	   $this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
+	   $this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.png'));
 	   $this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
     
 	   $this->ctrl->setParameter($this, "new_type", "sahs");
@@ -609,7 +609,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 6);
 		
 		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "deleteTrackingForUser");
 		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("delete"));
@@ -820,7 +820,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	    // display import form
 	    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_tracking_data_import.html", "Modules/ScormAicc");
        
-	    $this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
+	    $this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.png'));
 	    $this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
        
 	    $this->ctrl->setParameter($this, "new_type", "sahs");
@@ -886,7 +886,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	    // display import form
 	    $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_tracking_data_export.html", "Modules/ScormAicc");
       
-	    $this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.gif'));
+	    $this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.png'));
 	    $this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
       
 	    $this->tpl->setVariable("TXT_EXPORT", $this->lng->txt("cont_export_options"));

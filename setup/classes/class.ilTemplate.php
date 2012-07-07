@@ -264,7 +264,7 @@ class ilTemplate extends ilTemplateX
 		$mtpl->setVariable("TEXT", $a_txt);
 		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
 		$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($a_type."_message"));
-		$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$a_type.".gif"));
+		$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$a_type.".png"));
 		$mtpl->parseCurrentBlock();
 		
 		return $mtpl->get();
@@ -395,7 +395,7 @@ class ilTemplate extends ilTemplateX
 				$mtpl->setVariable("TEXT", $txt);
 				$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($m."_message"));
 				$mtpl->setVariable("ALT_IMAGE", $lng->txt("icon")." ".$lng->txt($m."_message"));
-				$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$m.".gif"));
+				$mtpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_".$m.".png"));
 				$mtpl->parseCurrentBlock();
 				$out.= $mtpl->get();
 			}

@@ -35,7 +35,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$lng->loadLanguageModule('pd');
 		
-		//$this->setImage(ilUtil::getImagePath("icon_bm_s.gif"));		
+		//$this->setImage(ilUtil::getImagePath("icon_bm_s.png"));		
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
 //		$this->setColSpan(2);
@@ -1093,7 +1093,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
 		global $objDefinition;
 		
-		$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+		$icon = ilUtil::getImagePath("icon_".$a_type.".png");
 		if (!$objDefinition->isPlugin($a_type))
 		{
 			$title = $this->lng->txt("objs_".$a_type);
@@ -1139,11 +1139,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$type = ilObject::_lookupType($par_id);
 		if (!in_array($type, array("lm", "dbk", "sahs", "htlm")))
 		{
-			$icon = ilUtil::getImagePath("icon_".$type.".gif");
+			$icon = ilUtil::getImagePath("icon_".$type.".png");
 		}
 		else
 		{
-			$icon = ilUtil::getImagePath("icon_lm.gif");
+			$icon = ilUtil::getImagePath("icon_lm.png");
 		}
 		
 		// custom icon
@@ -1227,12 +1227,12 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		{
 			if (!is_array($a_image_type) && !in_array($a_image_type, array("lm", "dbk", "htlm", "sahs")))
 			{
-				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
+				$icon = ilUtil::getImagePath("icon_".$a_image_type.".png");
 				$title = $this->lng->txt("obj_".$a_image_type);
 			}
 			else
 			{
-				$icon = ilUtil::getImagePath("icon_lm.gif");
+				$icon = ilUtil::getImagePath("icon_lm.png");
 				$title = $this->lng->txt("learning_resource");
 			}
 			
@@ -1277,7 +1277,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		{
 			case self::VIEW_MY_MEMBERSHIPS:
 				$tpl = new ilTemplate('tpl.pd_my_memberships_intro.html', true, true, 'Services/PersonalDesktop');
-				$tpl->setVariable('IMG_PD_LARGE', ilUtil::getImagePath('icon_pd_xxl.gif'));
+				$tpl->setVariable('IMG_PD_LARGE', ilUtil::getImagePath('icon_pd_xxl.png'));
 				$tpl->setVariable('TXT_WELCOME', $lng->txt('pd_my_memberships_intro'));
 				$tpl->setVariable('TXT_INTRO_1', $lng->txt('pd_my_memberships_intro2'));
 				break;
@@ -1293,7 +1293,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				}
 				
 				$tpl = new ilTemplate("tpl.pd_intro.html", true, true, "Services/PersonalDesktop");
-				$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.gif"));
+				$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.png"));
 				$tpl->setVariable("TXT_WELCOME", $lng->txt("pdesk_intro"));
 				$tpl->setVariable("TXT_INTRO_1", sprintf($lng->txt("pdesk_intro2"), $lng->txt("to_desktop")));
 				$tpl->setVariable("TXT_INTRO_2", sprintf($lng->txt("pdesk_intro3"),

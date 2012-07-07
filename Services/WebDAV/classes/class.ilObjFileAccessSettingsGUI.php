@@ -670,7 +670,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.disk_quota_reminder_mail.html',
 			"Services/WebDAV");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.gif"));
+		$this->tpl->setVariable("IMG_MAIL", ilUtil::getImagePath("icon_mail.png"));
 
 		$lng->loadLanguageModule("meta");
 		$lng->loadLanguageModule("mail");

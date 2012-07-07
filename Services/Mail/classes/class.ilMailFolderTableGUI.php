@@ -351,12 +351,12 @@ class ilMailFolderTableGUI extends ilTable2GUI
 		if($this->_folderNode['m_type'] == 'user_folder')
 		{
 			$txt_folder = $this->_folderNode['title'];
-			$img_folder = 'icon_user_folder.gif';
+			$img_folder = 'icon_user_folder.png';
 		}
 		else
 		{
 			$txt_folder = $this->lng->txt('mail_' . $this->_folderNode['title']);
-			$img_folder = 'icon' . substr($this->_folderNode['title'], 1) . '.gif';
+			$img_folder = 'icon' . substr($this->_folderNode['title'], 1) . '.png';
 		}
 		$this->setTitleData($txt_folder, $data['cnt'], $data['cnt_unread'], $img_folder);
 

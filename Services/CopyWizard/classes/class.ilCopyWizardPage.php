@@ -201,7 +201,7 @@ die("ilCopyWizardPage->initTemplate. Deprecated.");
 		{
 			$this->tpl->setVariable('OPTION_CLASS','option');
 		}		
-		$this->tpl->setVariable('OBJ_IMG',ilUtil::getImagePath('icon_'.$this->item_type.'.gif'));
+		$this->tpl->setVariable('OBJ_IMG',ilUtil::getImagePath('icon_'.$this->item_type.'.png'));
 		$this->tpl->setVariable('OBJ_ALT',$this->lng->txt('objs_'.$this->item_type));
 		$this->tpl->setVariable('ROWSPAN',count($this->items) + 1);
 	}

@@ -310,7 +310,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->tpl->setCurrentBlock("tbl_action_row");
 			$this->tpl->setVariable("COLUMN_COUNTS",count($this->data["cols"]));
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -1428,7 +1428,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 		// SET TEXT VARIABLES
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt("obj_usr"));
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_usr_b.gif"));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath("icon_usr_b.png"));
 		$this->tpl->setVariable("TITLE",$title);
 		$this->tpl->setVariable("TXT_TIME_LIMIT",$this->lng->txt("time_limit"));
 		$this->tpl->setVariable("TXT_TIME_LIMIT_START",$this->lng->txt("crs_start"));
@@ -1547,13 +1547,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$tpl->setCurrentBlock("tbl_action_row");
 		$tpl->setVariable("COLUMN_COUNTS",5);
-		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 		$tpl->parseCurrentBlock();
 
 
 
-		$tbl->setTitle($this->lng->txt("time_limit_applied_users"),"icon_usr_b.gif",$this->lng->txt("users"));
+		$tbl->setTitle($this->lng->txt("time_limit_applied_users"),"icon_usr_b.png",$this->lng->txt("users"));
 		$tbl->setHeaderNames(array('',
 								   $this->lng->txt("login"),
 								   $this->lng->txt("firstname"),
@@ -2206,7 +2206,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->tpl->setVariable("COLUMN_COUNTS", 4);
 
 		// delete button
-		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 		$this->tpl->setCurrentBlock("tbl_action_btn");
 		$this->tpl->setVariable("BTN_NAME", "confirmDeleteExportFile");
@@ -2291,7 +2291,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		
-		$form->setTitleIcon(ilUtil::getImagePath("icon_mail.gif"));
+		$form->setTitleIcon(ilUtil::getImagePath("icon_mail.png"));
 		$form->setTitle($lng->txt("user_new_account_mail"));
 		$form->setDescription($lng->txt("user_new_account_mail_desc"));
 				

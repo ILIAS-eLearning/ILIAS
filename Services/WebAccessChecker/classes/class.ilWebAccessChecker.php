@@ -891,7 +891,7 @@ class ilWebAccessChecker
 
 		$tpl->setCurrentBlock("content");
 		$tpl->setVariable("ERROR_MESSAGE",($this->errortext));
-		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
+		$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.png"));
 		$tpl->parseCurrentBlock();
 
 		$tpl->show();

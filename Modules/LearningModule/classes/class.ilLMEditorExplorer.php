@@ -70,7 +70,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 		global $lng, $ilias;
 		
 		$tpl->setCurrentBlock("icon");
-		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_lm_s.gif"));
+		$tpl->setVariable("ICON_IMAGE" , ilUtil::getImagePath("icon_lm_s.png"));
 		$tpl->setVariable("TXT_ALT_IMG", $lng->txt("obj_".$this->lm_obj->getType()));
 		$tpl->parseCurrentBlock();
 
@@ -174,11 +174,11 @@ class ilLMEditorExplorer extends ilLMExplorer
 				? "_sc"
 				: "";
 				
-			$a_name = "icon_pg".$img_sc."_s.gif";
+			$a_name = "icon_pg".$img_sc."_s.png";
 
 			if (!$active)
 			{
-				$a_name = "icon_pg_d".$img_sc."_s.gif";
+				$a_name = "icon_pg_d".$img_sc."_s.png";
 			}
 			else
 			{
@@ -187,7 +187,7 @@ class ilLMEditorExplorer extends ilLMExplorer
 					$this->lm_obj->getType());
 				if ($contains_dis)
 				{
-					$a_name = "icon_pg_del".$img_sc."_s.gif";
+					$a_name = "icon_pg_del".$img_sc."_s.png";
 				}
 			}
 		}

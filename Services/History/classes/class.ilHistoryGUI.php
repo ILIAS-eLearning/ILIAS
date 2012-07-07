@@ -139,7 +139,7 @@ class ilHistoryGUI
 					}
 
 					$this->tpl->setCurrentBlock("item_icon");
-					$this->tpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_".$img_type.".gif"));
+					$this->tpl->setVariable("SRC_ICON", ilUtil::getImagePath("icon_".$img_type.".png"));
 					$this->tpl->parseCurrentBlock();
 					
 					if ($class != "")

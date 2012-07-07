@@ -83,7 +83,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
 		if (is_object ($this->content_obj))
 		{
-			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+			$tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
 			$this->getTabs($this->tabs_gui);
 
 			$mob = $this->content_obj->getMediaObject();
@@ -105,7 +105,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 		{
 			case "ilobjmediaobjectgui":
 				include_once ("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.gif"));
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_mob_b.png"));
 				$this->tpl->setTitle($this->lng->txt("mob").": ".
 					$this->content_obj->getMediaObject()->getTitle());
 				$mob_gui =& new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);

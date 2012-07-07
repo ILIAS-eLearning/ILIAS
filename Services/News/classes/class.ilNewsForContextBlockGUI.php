@@ -29,7 +29,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		parent::ilBlockGUI();
 		
-		$this->setImage(ilUtil::getImagePath("icon_news_s.gif"));
+		$this->setImage(ilUtil::getImagePath("icon_news_s.png"));
 
 		$lng->loadLanguageModule("news");
 		$ilHelp->addHelpSection("news_block");
@@ -269,7 +269,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 					ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&".
 						"ref_id=".$_GET["ref_id"],
 						$lng->txt("news_feed_url"), "_blank",
-						ilUtil::getImagePath("rss.gif"));
+						ilUtil::getImagePath("rss.png"));
 			}
 		}
 
@@ -783,7 +783,7 @@ if (empty(self::$st_data))
 			$content_block->setTitle($lng->txt("news_internal_news"));
 		}
 		//$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
+		$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$this->addCloseCommand($content_block);
 
 		// previous
@@ -984,7 +984,7 @@ if (empty(self::$st_data))
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->settings_form = new ilPropertyFormGUI();
 		$this->settings_form->setTitle($lng->txt("news_settings"));
-		$this->settings_form->setTitleIcon(ilUtil::getImagePath("icon_news.gif"));
+		$this->settings_form->setTitleIcon(ilUtil::getImagePath("icon_news.png"));
 		
 		// hide news block for learners
 		if ($this->getProperty("hide_news_block_option"))
@@ -1166,7 +1166,7 @@ if (empty(self::$st_data))
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
-		$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
+		$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$content_block->addHeaderCommand($ilCtrl->getParentReturn($this),
 			$lng->txt("close"), true);
 

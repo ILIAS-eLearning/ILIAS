@@ -551,7 +551,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->create_form_gui->setTableWidth('600px');
 		
 		$this->create_form_gui->setTitle($this->lng->txt('frm_new'));
-		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));
+		$this->create_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.png'));
 		
 		// form action
 		$this->ctrl->setParameter($this, 'new_type', $object_type);
@@ -778,7 +778,7 @@ class ilObjForumGUI extends ilObjectGUI
 		
 		$tbl = new ilForumStatisticsTableGUI($this, 'showStatistics');
 		$tbl->setId('il_frm_statistic_table_'.(int) $_GET['ref_id']);
-		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr_b.gif', $this->lng->txt('obj_'.$this->object->getType()));
+		$tbl->setTitle($this->lng->txt('statistic'), 'icon_usr_b.png', $this->lng->txt('obj_'.$this->object->getType()));
 		
 		$data = $this->object->Forum->getUserStatistic($this->is_moderator);
 		$result = array();
@@ -958,7 +958,7 @@ class ilObjForumGUI extends ilObjectGUI
 		ilUtil::sendInfo();
 		ilUtil::infoPanel();
 		
-		$tpl->setTitleIcon(ilUtil::getImagePath('icon_frm_b.gif'));
+		$tpl->setTitleIcon(ilUtil::getImagePath('icon_frm_b.png'));
 
         $ilTabs->setBackTarget($lng->txt('all_topics'), 'repository.php?ref_id='.$_GET['ref_id']);
 	
@@ -2481,7 +2481,7 @@ class ilObjForumGUI extends ilObjectGUI
 							}
 							$tpl->setCurrentBlock('attachments');
 							$tpl->setVariable('TXT_ATTACHMENTS_DOWNLOAD',$lng->txt('forums_attachments'));
-							$tpl->setVariable('DOWNLOAD_IMG', ilUtil::getImagePath('icon_attachment.gif'));
+							$tpl->setVariable('DOWNLOAD_IMG', ilUtil::getImagePath('icon_attachment.png'));
 							$tpl->setVariable('TXT_DOWNLOAD_ATTACHMENT', $lng->txt('forums_download_attachment'));
 							$tpl->parseCurrentBlock();
 						}
@@ -2496,7 +2496,7 @@ class ilObjForumGUI extends ilObjectGUI
 				//	$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
 					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
 					$tpl->setVariable('PERMA_TARGET', '_top');
-					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.gif'));
+					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.png'));
 
 					if($this->objProperties->getMarkModeratorPosts() == 1)
 					{
@@ -3113,7 +3113,7 @@ class ilObjForumGUI extends ilObjectGUI
 		$this->create_topic_form_gui = new ilPropertyFormGUI();
 		
 		$this->create_topic_form_gui->setTitle($this->lng->txt('forums_new_thread'));
-		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.gif'));
+		$this->create_topic_form_gui->setTitleIcon(ilUtil::getImagePath('icon_frm.png'));
 		$this->create_topic_form_gui->setTableWidth('100%');
 		
 		// form action
@@ -3479,7 +3479,7 @@ class ilObjForumGUI extends ilObjectGUI
 	 	
 	 	$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.frm_wizard_page.html', 'Modules/Forum');
 	 	$this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this));
-	 	$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_'.$new_type.'.gif'));
+	 	$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_'.$new_type.'.png'));
 	 	$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_'.$new_type));
 	 	$this->tpl->setVariable('TXT_DUPLICATE', $this->lng->txt('frm_wizard_page'));
 	 	$this->tpl->setVariable('INFO_THREADS', $this->lng->txt('fmr_copy_threads_info'));
@@ -3650,8 +3650,8 @@ class ilObjForumGUI extends ilObjectGUI
 	public function getIcon($user_toggle_noti)
 	{
 		$icon = $user_toggle_noti
-		? "<img src=\"".ilUtil::getImagePath("icon_ok.gif")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>"
-		: "<img src=\"".ilUtil::getImagePath("icon_not_ok.gif")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
+		? "<img src=\"".ilUtil::getImagePath("icon_ok.png")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>"
+		: "<img src=\"".ilUtil::getImagePath("icon_not_ok.png")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
 		return $icon;
 	}
 	

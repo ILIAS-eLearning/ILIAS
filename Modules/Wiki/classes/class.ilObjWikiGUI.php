@@ -637,7 +637,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($page_toc);
 
 		// Form action and save button
-		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.gif"));
+		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.png"));
 		if ($a_mode != "create")
 		{
 			$this->form_gui->setTitle($lng->txt("wiki_settings"));

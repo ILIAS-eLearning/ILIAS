@@ -77,37 +77,37 @@ class ilNoteGUI
 		
 		$this->note_img = array(
 			IL_NOTE_UNLABELED => array(
-				"img" => ilUtil::getImagePath("note_unlabeled.gif"),
+				"img" => ilUtil::getImagePath("note_unlabeled.png"),
 				"alt" => $lng->txt("note")),
 			IL_NOTE_IMPORTANT => array(
-				"img" => ilUtil::getImagePath("note_important.gif"),
+				"img" => ilUtil::getImagePath("note_important.png"),
 				"alt" => $lng->txt("note").", ".$lng->txt("important")),
 			IL_NOTE_QUESTION => array(
-				"img" => ilUtil::getImagePath("note_question.gif"),
+				"img" => ilUtil::getImagePath("note_question.png"),
 				"alt" => $lng->txt("note").", ".$lng->txt("question")),
 			IL_NOTE_PRO => array(
-				"img" => ilUtil::getImagePath("note_pro.gif"),
+				"img" => ilUtil::getImagePath("note_pro.png"),
 				"alt" => $lng->txt("note").", ".$lng->txt("pro")),
 			IL_NOTE_CONTRA => array(
-				"img" => ilUtil::getImagePath("note_contra.gif"),
+				"img" => ilUtil::getImagePath("note_contra.png"),
 				"alt" => $lng->txt("note").", ".$lng->txt("contra"))
 			);
 			
 		$this->comment_img = array(
 			IL_NOTE_UNLABELED => array(
-				"img" => ilUtil::getImagePath("comment_unlabeled.gif"),
+				"img" => ilUtil::getImagePath("comment_unlabeled.png"),
 				"alt" => $lng->txt("notes_comment")),
 			IL_NOTE_IMPORTANT => array(
-				"img" => ilUtil::getImagePath("comment_important.gif"),
+				"img" => ilUtil::getImagePath("comment_important.png"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("important")),
 			IL_NOTE_QUESTION => array(
-				"img" => ilUtil::getImagePath("comment_question.gif"),
+				"img" => ilUtil::getImagePath("comment_question.png"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("question")),
 			IL_NOTE_PRO => array(
-				"img" => ilUtil::getImagePath("comment_pro.gif"),
+				"img" => ilUtil::getImagePath("comment_pro.png"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("pro")),
 			IL_NOTE_CONTRA => array(
-				"img" => ilUtil::getImagePath("comment_contra.gif"),
+				"img" => ilUtil::getImagePath("comment_contra.png"),
 				"alt" => $lng->txt("notes_comment").", ".$lng->txt("contra"))
 			);
 		
@@ -439,12 +439,12 @@ if ($this->private_enabled && $this->public_enabled
 			$tpl->setCurrentBlock("notes_img");
 			if ($a_type == IL_NOTE_PUBLIC)
 			{
-				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_comment.gif"));
+				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_comment.png"));
 				$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("notes_public_comments"));
 			}
 			else
 			{
-				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.gif"));
+				$tpl->setVariable("IMG_NOTES", ilUtil::getImagePath("icon_note.png"));
 				$tpl->setVariable("ALT_NOTES", $lng->txt("icon")." ".$lng->txt("private_notes"));
 			}
 			$tpl->parseCurrentBlock();
@@ -783,7 +783,7 @@ if ($this->private_enabled && $this->public_enabled
 				
 				$tpl->setCurrentBlock("multiple_commands");
 				$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
-				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+				$tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 				$tpl->setVariable("ALT_ARROW", $this->lng->txt("actions"));
 				$tpl->setVariable("TXT_PRINT_NOTES", $this->lng->txt("print"));
 				$tpl->setVariable("TXT_EXPORT_NOTES", $this->lng->txt("exp_html"));
@@ -1050,7 +1050,7 @@ return;
 			return;
 		}
 		
-		$img = ilUtil::getImagePath("note_".$note->getLabel().".gif");
+		$img = ilUtil::getImagePath("note_".$note->getLabel().".png");
 		$alt = $lng->txt("note");
 		
 		$tpl->setCurrentBlock("edit_note");
@@ -1131,7 +1131,7 @@ return;
 									$sub_link = "goto.php?target=sahs_".$vis_ref_id."_".$a_obj_id;
 									include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 									$sub_title = ilSCORM2004Node::_lookupTitle($a_obj_id);
-									$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.gif");
+									$sub_icon = ilUtil::getImagePath("icon_".$a_obj_type."_s.png");
 								}
 							}
 							else if ($a_obj_type != "pg")

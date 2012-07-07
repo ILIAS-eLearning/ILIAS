@@ -404,9 +404,9 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 
 		
 		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".gif"));
+		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".png"));
 		$this->tpl->setVariable("TBL_TITLE_IMG_ALT",$this->lng->txt($this->object->getType()));
-		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.gif"));
+		$this->tpl->setVariable("TBL_HELP_IMG",ilUtil::getImagePath("icon_help.png"));
 		$this->tpl->setVariable("TBL_HELP_LINK","tbl_help.php");
 		$this->tpl->setVariable("TBL_HELP_IMG_ALT",$this->lng->txt("help"));
 

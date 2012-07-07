@@ -614,11 +614,11 @@ class assErrorText extends assQuestion
 					{
 						if ($this->getPointsForSelectedPositions(array($counter)) >= 0)
 						{
-							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.gif") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
+							$img = ' <img src="' . ilUtil::getImagePath("icon_ok.png") . '" alt="' . $this->lng->txt("answer_is_right") . '" title="' . $this->lng->txt("answer_is_right") . '" /> ';
 						}
 						else
 						{
-							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.gif") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
+							$img = ' <img src="' . ilUtil::getImagePath("icon_not_ok.png") . '" alt="' . $this->lng->txt("answer_is_wrong") . '" title="' . $this->lng->txt("answer_is_wrong") . '" /> ';
 						}
 					}
 				}

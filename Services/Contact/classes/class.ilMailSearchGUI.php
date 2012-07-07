@@ -483,7 +483,7 @@ class ilMailSearchGUI
 		
 		if (count($users) || count($groups) || count($entries))
 		{
-			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->setVariable("ALT_ARROW", '');
 			
 			if($_GET["ref"] != "wsp")

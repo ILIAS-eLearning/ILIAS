@@ -87,7 +87,7 @@ class ilSCORMExplorer extends ilExplorer
 
 		$tpl->setCurrentBlock("row");
 		//$tpl->setVariable("TYPE", $a_option["c_type"]);
-		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["c_type"].".gif"));
+		//$tpl->setVariable("ICON_IMAGE" ,ilUtil::getImagePath("icon_".$a_option["c_type"].".png"));
 		$tpl->setVariable("TITLE", $lng->txt("cont_manifest"));
 		$tpl->setVariable("LINK_TARGET", $this->target."&".$this->target_get."=".$a_obj_id);
 		$tpl->setVariable("TARGET", " target=\"".$this->frame_target."\"");
@@ -341,7 +341,7 @@ class ilSCORMExplorer extends ilExplorer
 					$target = $this->createTarget('+',$a_node_id);
 					$tpl->setCurrentBlock("expander");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.gif"));
+					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/plus.png"));
 					$tpl->parseCurrentBlock();
 				}
 
@@ -350,7 +350,7 @@ class ilSCORMExplorer extends ilExplorer
 					$target = $this->createTarget('-',$a_node_id);
 					$tpl->setCurrentBlock("expander");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.gif"));
+					$tpl->setVariable("IMGPATH", ilUtil::getImagePath("browser/minus.png"));
 					$tpl->parseCurrentBlock();
 				}
 	
@@ -359,7 +359,7 @@ class ilSCORMExplorer extends ilExplorer
 				{
 					$picture = 'blank';
 					$tpl->setCurrentBlock("lines");
-					$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".gif"));
+					$tpl->setVariable("IMGPATH_LINES", ilUtil::getImagePath("browser/".$picture.".png"));
 					$tpl->parseCurrentBlock();
 				}
 			}
@@ -435,7 +435,7 @@ class ilSCORMExplorer extends ilExplorer
 
 			if ($scormtype == 'asset') 
 			{
-				$tpl->setVariable('ICON_IMAGE', ilUtil::getImagePath($this->getIconImagePathPrefix()."asset.gif"));
+				$tpl->setVariable('ICON_IMAGE', ilUtil::getImagePath($this->getIconImagePathPrefix()."asset.png"));
 				$tpl->setVariable('TXT_ALT_IMG', '');
 				$tpl->parseCurrentBlock();
 				return;
@@ -482,7 +482,7 @@ class ilSCORMExplorer extends ilExplorer
 			}
 
 			$tpl->setVariable("ICON_NAME", 'scoIcon'.$a_node_id);
-			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath($this->getIconImagePathPrefix().str_replace(" ", "_", $status).".gif"));
+			$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath($this->getIconImagePathPrefix().str_replace(" ", "_", $status).".png"));
 			$tpl->setVariable("TXT_ALT_IMG", $alt);
 			$tpl->parseCurrentBlock();
 

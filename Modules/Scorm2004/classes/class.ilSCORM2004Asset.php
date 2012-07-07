@@ -334,7 +334,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			
 			if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset")
 			{
-				self::renderNavigation($sco_tpl, "./images/spacer.gif", $lk);
+				self::renderNavigation($sco_tpl, "./images/spacer.png", $lk);
 			}
 
 			$sco_tpl->touchBlock("finish");
@@ -558,7 +558,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 		
 		if ($a_spacer_img == "")
 		{
-			$a_spacer_img = ilUtil::getImagePath("spacer.gif");
+			$a_spacer_img = ilUtil::getImagePath("spacer.png");
 		}
 		if ($a_lang == "")
 		{

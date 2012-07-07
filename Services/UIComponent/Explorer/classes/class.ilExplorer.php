@@ -861,7 +861,7 @@ class ilExplorer
 			{
 				$mtpl->setVariable("TXT_EXPLORER_HEADER", $this->getTitle());
 			}
-			$mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.gif", false));
+			$mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 			$mtpl->setCurrentBlock("content");
 			$mtpl->setVariable("EXPLORER", $html);
 			$mtpl->setVariable("EXP_REFRESH", $lng->txt("refresh"));
@@ -979,7 +979,7 @@ class ilExplorer
 					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('".$target."', 'tree_div');\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
-				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.gif"));
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.png"));
 				$tpl->parseCurrentBlock();
 				$pic = true;
 			}
@@ -993,7 +993,7 @@ class ilExplorer
 				$tpl->setCurrentBlock("expander");
 				$tpl->setVariable("LINK_NAME", $a_node_id);
 				$tpl->setVariable("LINK_TARGET_EXPANDER", $target);
-				$tpl->setVariable("IMGPATH", $this->getImage("browser/forceexp.gif"));
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/forceexp.png"));
 				$tpl->parseCurrentBlock();
 				$pic = true;
 			}
@@ -1016,7 +1016,7 @@ class ilExplorer
 					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('".$target."', 'tree_div');\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
-				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.gif"));
+				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.png"));
 				$tpl->parseCurrentBlock();
 				$pic = true;
 			}
@@ -1027,7 +1027,7 @@ class ilExplorer
 			{
 				$picture = "blank";
 				$tpl->setCurrentBlock("lines");
-				$tpl->setVariable("IMGPATH_LINES", $this->getImage("browser/".$picture.".gif"));
+				$tpl->setVariable("IMGPATH_LINES", $this->getImage("browser/".$picture.".png"));
 				$tpl->parseCurrentBlock();
 			}
 			*/
@@ -1036,14 +1036,14 @@ class ilExplorer
 		if (!$pic)
 		{
 			$tpl->setCurrentBlock("blank");
-			$tpl->setVariable("BLANK_PATH", $this->getImage("browser/blank.gif"));
+			$tpl->setVariable("BLANK_PATH", $this->getImage("browser/blank.png"));
 			$tpl->parseCurrentBlock();
 		}
 
 		if ($this->output_icons)
 		{
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"]."_s.gif", $a_option["type"], $a_obj_id));
+			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"]."_s.png", $a_option["type"], $a_obj_id));
 			
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			$this->iconList[] = "iconid_".$a_node_id;

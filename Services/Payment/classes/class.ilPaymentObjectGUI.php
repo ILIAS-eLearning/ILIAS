@@ -360,7 +360,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($tmp_object['title']);
 		if($tmp_object['type'])
-			$oForm->setTitleIcon(ilUtil::getImagePath('icon_' . $tmp_object['type'] . '_b.gif'));
+			$oForm->setTitleIcon(ilUtil::getImagePath('icon_' . $tmp_object['type'] . '_b.png'));
 
 		// repository path
 		$oPathGUI = new ilNonEditableValueGUI($this->lng->txt('path'));
@@ -1236,7 +1236,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oForm = new ilPropertyFormGUI();
 		$oForm->setFormAction($this->ctrl->getFormAction($this, 'updateDetails'));
 		$oForm->setTitle($this->lng->txt('details'));
-		$oForm->setTitleIcon(ilUtil::getImagePath('icon_pays.gif', false));
+		$oForm->setTitleIcon(ilUtil::getImagePath('icon_pays.png', false));
 
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($_GET['sell_id'], false);
 		if(is_object($tmp_obj))

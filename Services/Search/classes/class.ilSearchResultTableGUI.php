@@ -98,8 +98,8 @@ class ilSearchResultTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_REL',sprintf("%d %%",$relevance));
 			$this->tpl->setVariable('WIDTH_A',$width1);
 			$this->tpl->setVariable('WIDTH_B',$width2);
-			$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.gif"));
-			$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.gif"));
+			$this->tpl->setVariable('IMG_A',ilUtil::getImagePath("relevance_blue.png"));
+			$this->tpl->setVariable('IMG_B',ilUtil::getImagePath("relevance_dark.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -108,7 +108,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		if(!$objDefinition->isPlugin($type))
 		{
 			$type_txt = $lng->txt('icon').' '.$lng->txt('obj_'.$type);
-			$icon  = ilUtil::getImagePath('icon_'.$type.'.gif');
+			$icon  = ilUtil::getImagePath('icon_'.$type.'.png');
 		}
 		else
 		{

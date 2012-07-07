@@ -28,7 +28,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$this->setLimit(10);
-		$this->setImage(ilUtil::getImagePath("icon_grp_s.gif"));
+		$this->setImage(ilUtil::getImagePath("icon_grp_s.png"));
 		$this->setTitle($lng->txt("users_online"));
 		$this->setAvailableDetailLevels(3);
 
@@ -337,14 +337,14 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 								
 							case "msn":
 								$im_url = "http://messenger.live.com";
-								$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+								$im_img = ilUtil::getImagePath($im_name.'offline.png'); // online check not possible
 								break;
 		
 							case "aim":
 								//$im_url = "aim:GoIM?screenname=".$im_id;
 								$im_url = "http://aimexpress.aim.com";
 								//$im_img = "http://api.oscar.aol.com/SOA/key=<put_your_key_here>/presence/".$im_id; // doesn't work. you need a key
-								$im_img = ilUtil::getImagePath($im_name.'offline.gif'); // online check not possible
+								$im_img = ilUtil::getImagePath($im_name.'offline.png'); // online check not possible
 								break;
 		
 							case "skype":
@@ -369,7 +369,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 						else
 						{
 							$this->tpl->setVariable("URL_IM",$im_url);
-							$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.gif'));
+							$this->tpl->setVariable("IMG_IM_ICON", $im_check ? $im_img : ilUtil::getImagePath($im_name.'offline.png'));
 						}
 						
 						$this->tpl->setVariable("TXT_IM_ICON", $lng->txt("im_".$im_name));

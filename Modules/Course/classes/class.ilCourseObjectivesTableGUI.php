@@ -103,7 +103,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				foreach($data['items'] as $pg_st)
 				{
 					$this->tpl->setCurrentBlock('st_pg');
-					$this->tpl->setVariable('MAT_IMG',ilUtil::getImagePath('icon_'.$pg_st['type'].'_s.gif'));
+					$this->tpl->setVariable('MAT_IMG',ilUtil::getImagePath('icon_'.$pg_st['type'].'_s.png'));
 					$this->tpl->setVariable('MAT_ALT',$this->lng->txt('obj_'.$pg_st['type']));
 					include_once('Modules/LearningModule/classes/class.ilLMObject.php');
 					$title = ilLMObject::_lookupTitle($pg_st['obj_id']);
@@ -117,7 +117,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->tpl->touchBlock('new_line');
 			}
 			$this->tpl->setCurrentBlock('mat_row');
-			$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_'.$data['type'].'_s.gif'));
+			$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_'.$data['type'].'_s.png'));
 			$this->tpl->setVariable('LM_ALT',$this->lng->txt('obj_'.$data['type']));
 			$this->tpl->setVariable('LM_TITLE',ilObject::_lookupTitle($data['obj_id']));
 			$this->tpl->parseCurrentBlock();
@@ -133,7 +133,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock('self_test_row');
-			$this->tpl->setVariable('SELF_TST_IMG',ilUtil::getImagePath('icon_tst_s.gif'));
+			$this->tpl->setVariable('SELF_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
 			$this->tpl->setVariable('SELF_TST_ALT',$this->lng->txt('obj_tst'));
 			$this->tpl->setVariable('SELF_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
 			$this->tpl->parseCurrentBlock();	
@@ -149,7 +149,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 			$this->tpl->setCurrentBlock('final_test_row');
-			$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.gif'));
+			$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
 			$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
 			$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
 			$this->tpl->parseCurrentBlock();	

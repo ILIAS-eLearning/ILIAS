@@ -205,7 +205,7 @@ class ilObjTestListGUI extends ilObjectListGUI
 		switch ($a_cmd)
 		{
 			case "outEvaluation":
-				return ilUtil::getImagePath("cmd_evaluation_s.gif");
+				return ilUtil::getImagePath("cmd_evaluation_s.png");
 			
 			default:
 				return "";

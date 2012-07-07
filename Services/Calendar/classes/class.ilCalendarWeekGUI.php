@@ -197,7 +197,7 @@ class ilCalendarWeekGUI
 				if ($settings->getEnableGroupMilestones())
 				{
 					$this->tpl->setCurrentBlock("new_ms");
-					$this->tpl->setVariable('H_NEW_MS_SRC', ilUtil::getImagePath('ms_add.gif'));
+					$this->tpl->setVariable('H_NEW_MS_SRC', ilUtil::getImagePath('ms_add.png'));
 					$this->tpl->setVariable('H_NEW_MS_ALT', $this->lng->txt('cal_new_ms'));
 					$this->tpl->setVariable('NEW_MS_LINK', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
 					$this->tpl->parseCurrentBlock();
@@ -207,7 +207,7 @@ class ilCalendarWeekGUI
 				$this->tpl->setCurrentBlock("new_app");
 				$this->tpl->setVariable('NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-				$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+				$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.png'));
 				$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
 				$this->tpl->parseCurrentBlock();
 			}
@@ -303,7 +303,7 @@ class ilCalendarWeekGUI
 					$this->tpl->setVariable('DAY_NEW_APP_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
 					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 				
-					$this->tpl->setVariable('DAY_NEW_APP_SRC',ilUtil::getImagePath('date_add.gif'));
+					$this->tpl->setVariable('DAY_NEW_APP_SRC',ilUtil::getImagePath('date_add.png'));
 					$this->tpl->setVariable('DAY_NEW_APP_ALT',$this->lng->txt('cal_new_app'));
 					$this->tpl->setVariable('DAY_NEW_ID',++$new_link_counter);
 					$this->tpl->parseCurrentBlock();
@@ -363,7 +363,7 @@ class ilCalendarWeekGUI
 		{
 			$this->tpl->setCurrentBlock('fullday_ms_icon');
 			$this->tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
-			$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms_s.gif"));
+			$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms_s.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 

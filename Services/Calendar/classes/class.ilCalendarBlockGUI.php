@@ -58,7 +58,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		parent::ilBlockGUI();
 		
 		$this->ctrl = $ilCtrl;
-		$this->setImage(ilUtil::getImagePath("icon_cals_s.gif"));
+		$this->setImage(ilUtil::getImagePath("icon_cals_s.png"));
 		
 		$lng->loadLanguageModule("dateplaner");
 		$ilHelp->addHelpSection("cal_block");
@@ -490,7 +490,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
 				$lng->txt('ical_export'),
 				'',
-				ilUtil::getImagePath('ical.gif','Services/Calendar'),
+				ilUtil::getImagePath('ical.png','Services/Calendar'),
 				true
 			);
 		}
@@ -711,7 +711,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$content_block = new ilPDContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("calendar"));
-		#$content_block->setImage(ilUtil::getImagePath("icon_news.gif"));
+		#$content_block->setImage(ilUtil::getImagePath("icon_news.png"));
 		$content_block->addHeaderCommand($this->ctrl->getParentReturn($this),
 			$lng->txt("selected_items_back"));
 

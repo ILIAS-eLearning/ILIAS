@@ -102,7 +102,7 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 			 $ilCtrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");
 			 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_chap_b.gif"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_chap_b.png"));
 		$tpl->setTitle(
 			$lng->txt("sahs_chapter").": ".$this->node_object->getTitle());
 	}

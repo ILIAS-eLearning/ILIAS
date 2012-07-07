@@ -73,7 +73,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 		}
 		return ilPlugin::_getImagePath(IL_COMP_SERVICE, "Repository", "robj",
 			ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj",$a_type),
-			"icon_".$a_type.$suff.".gif");
+			"icon_".$a_type.$suff.".png");
 	}
 	
 	/**

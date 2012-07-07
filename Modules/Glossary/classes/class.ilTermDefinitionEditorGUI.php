@@ -97,7 +97,7 @@ $this->tpl->getStandardTemplate();
 			$this->definition->getNr());
 		if ($this->ctrl->getNextClass() == "ilpageobjectgui")
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_def_b.gif"));
+			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_def_b.png"));
 		}
 
 		switch ($next_class)

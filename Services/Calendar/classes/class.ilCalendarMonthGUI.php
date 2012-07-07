@@ -185,15 +185,15 @@ class ilCalendarMonthGUI
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
 					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
 					$this->tpl->setCurrentBlock("new_ms");
-					$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.gif'));
+					$this->tpl->setVariable('H_NEW_MS_SRC',ilUtil::getImagePath('ms_add.png'));
 					$this->tpl->setVariable('H_NEW_MS_ALT',$this->lng->txt('cal_new_ms'));
 					$this->tpl->setVariable('NEW_MS_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','addMilestone'));
 					$this->tpl->parseCurrentBlock();
 				}
 			
 				$this->tpl->setCurrentBlock("new_app");
-				#$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.gif','calendar'));
-				$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('date_add.gif'));
+				#$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('new.png','calendar'));
+				$this->tpl->setVariable('NEW_SRC',ilUtil::getImagePath('date_add.png'));
 				$this->tpl->setVariable('NEW_ALT',$this->lng->txt('cal_new_app'));
 				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
 				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$date->get(IL_CAL_DATE));
@@ -323,7 +323,7 @@ class ilCalendarMonthGUI
 			{
 				$this->tpl->setCurrentBlock('fullday_ms_icon');
 				$this->tpl->setVariable('ALT_FD_MS', $this->lng->txt("cal_milestone"));
-				$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms_s.gif"));
+				$this->tpl->setVariable('SRC_FD_MS', ilUtil::getImagePath("icon_ms_s.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 

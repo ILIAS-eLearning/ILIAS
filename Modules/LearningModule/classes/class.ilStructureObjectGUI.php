@@ -190,7 +190,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				// checkbox
 				$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 				$this->tpl->setVariable("CSS_ROW", $css_row);
-				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.gif"));
+				$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_pg.png"));
 	
 				// link
 				$this->ctrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $child["obj_id"]);
@@ -229,7 +229,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			//$this->showPossibleSubObjects("st");
 			$subobj = array("pg");
 			$opts = ilUtil::formSelect(12,"new_type",$subobj);
-			//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+			//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 			//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
@@ -264,7 +264,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType());
 		$form_gui->setFormAction($ilCtrl->getFormAction($this));
 		$form_gui->setTitle($this->obj->getTitle());
-		$form_gui->setIcon(ilUtil::getImagePath("icon_st.gif"));
+		$form_gui->setIcon(ilUtil::getImagePath("icon_st.png"));
 		$form_gui->setTree($this->tree);
 		$form_gui->setCurrentTopNodeId($this->obj->getId());
 		$form_gui->addMultiCommand($lng->txt("delete"), "delete");
@@ -275,7 +275,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{	
 			$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayout");
 		}
-		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg_s.gif"));
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg_s.png"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 		$form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
 		$up_gui = ($this->content_object->getType() == "dbk")
@@ -445,7 +445,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			// checkbox
 			$this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
 			$this->tpl->setVariable("CSS_ROW", $css_row);
-			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.gif"));
+			$this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.png"));
 
 			// type
 			$this->ctrl->setParameterByClass("ilStructureObjectGUI", "obj_id", $child["obj_id"]);
@@ -484,7 +484,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		//$this->showPossibleSubObjects("st");
 		$subobj = array("st");
 		$opts = ilUtil::formSelect(12,"new_type",$subobj);
-		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.gif"));
+		//$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 		$this->tpl->setCurrentBlock("add_object");
 		$this->tpl->setVariable("SELECT_OBJTYPE", $opts);
 		//$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
@@ -949,7 +949,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");
 			 
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st_b.png"));
 		$this->tpl->setTitle(
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
 

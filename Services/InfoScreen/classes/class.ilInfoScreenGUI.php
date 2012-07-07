@@ -459,7 +459,7 @@ class ilInfoScreenGUI
 				{
 					$lng->loadLanguageModule("delic");
 					$del_link = '<br/><a class="small" href="http://del.icio.us/post?desc=nn&url='.
-						urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.gif").
+						urlencode($href).'"><img border="0" src="'.ilUtil::getImagePath("icon_delicious_s.png").
 						'" /> '.$lng->txt("delic_add_to_delicious").
 						'</a>';
 				}

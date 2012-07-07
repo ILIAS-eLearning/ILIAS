@@ -210,7 +210,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		if ($data["complete"] == 0)
 		{
 			$this->tpl->setCurrentBlock("qpl_warning");
-			$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.gif"));
+			$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("warning.png"));
 			$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
 			$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 			$this->tpl->parseCurrentBlock();

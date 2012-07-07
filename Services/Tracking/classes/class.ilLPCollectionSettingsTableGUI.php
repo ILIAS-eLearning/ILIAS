@@ -101,7 +101,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 		if($this->getMode() == LP_MODE_SCORM)
 		{
-			$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_sco_s.gif'));
+			$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_sco_s.png'));
 			$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_sco'));
 		}
 		else
@@ -109,7 +109,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			include_once './Services/Tree/classes/class.ilPathGUI.php';
 			$path = new ilPathGUI();
 
-			$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_' . $a_set['type'] . '_s.gif'));
+			$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_' . $a_set['type'] . '_s.png'));
 			$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
 			$this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
 			$this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
@@ -133,8 +133,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 		// Assigned ?
 		$this->tpl->setVariable("ASSIGNED_IMG_OK", $a_set['status']
-				? ilUtil::getImagePath('icon_ok.gif')
-				: ilUtil::getImagePath('icon_not_ok.gif')
+				? ilUtil::getImagePath('icon_ok.png')
+				: ilUtil::getImagePath('icon_not_ok.png')
 		);
 		$this->tpl->setVariable("ASSIGNED_STATUS", $a_set['status']
 				? $this->lng->txt('trac_assigned')

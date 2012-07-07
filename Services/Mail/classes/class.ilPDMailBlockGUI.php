@@ -28,7 +28,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		parent::__construct();
 
 		$this->setLimit(5);
-		$this->setImage(ilUtil::getImagePath('icon_mail_s.gif'));
+		$this->setImage(ilUtil::getImagePath('icon_mail_s.png'));
 		$this->setTitle($lng->txt('mail'));
 		$this->setAvailableDetailLevels(3);
 	}
@@ -233,7 +233,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 			$_GET["mobj_id"]));
 		$content_block->setTitle($lng->txt("message"));
 		$content_block->setColSpan(2);
-		$content_block->setImage(ilUtil::getImagePath("icon_mail.gif"));
+		$content_block->setImage(ilUtil::getImagePath("icon_mail.png"));
 		$content_block->addHeaderCommand($ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "show"),
 			$lng->txt("selected_items_back"));
 

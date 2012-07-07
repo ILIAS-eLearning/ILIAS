@@ -81,22 +81,22 @@ class ilLDAPRoleAssignmentTableGUI extends ilTable2GUI
 		
 		if($a_set['add'])
 		{
-			$this->tpl->setVariable('STATA_SRC',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('STATA_SRC',ilUtil::getImagePath('icon_ok.png'));
 			$this->tpl->setVariable('STATA_ALT',$this->lng->txt('yes'));
 		}
 		else
 		{
-			$this->tpl->setVariable('STATA_SRC',ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable('STATA_SRC',ilUtil::getImagePath('icon_not_ok.png'));
 			$this->tpl->setVariable('STATA_ALT',$this->lng->txt('no'));
 		}
 		if($a_set['remove'])
 		{
-			$this->tpl->setVariable('STATB_SRC',ilUtil::getImagePath('icon_ok.gif'));
+			$this->tpl->setVariable('STATB_SRC',ilUtil::getImagePath('icon_ok.png'));
 			$this->tpl->setVariable('STATB_ALT',$this->lng->txt('yes'));
 		}
 		else
 		{
-			$this->tpl->setVariable('STATB_SRC',ilUtil::getImagePath('icon_not_ok.gif'));
+			$this->tpl->setVariable('STATB_SRC',ilUtil::getImagePath('icon_not_ok.png'));
 			$this->tpl->setVariable('STATB_ALT',$this->lng->txt('no'));
 		}
 		

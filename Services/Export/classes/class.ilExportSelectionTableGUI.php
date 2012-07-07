@@ -76,7 +76,7 @@ class ilExportSelectionTableGUI extends ilTable2GUI
 			$this->tpl->touchBlock('padding');
 			$this->tpl->touchBlock('end_padding');
 		}
-		$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$s['type'].'_s.gif'));
+		$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$s['type'].'_s.png'));
 		$this->tpl->setVariable('TREE_ALT_IMG',$this->lng->txt('obj_'.$s['type']));
 		$this->tpl->setVariable('TREE_TITLE',$s['title']);
 		

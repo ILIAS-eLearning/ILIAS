@@ -271,7 +271,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				true, "Services/Container");
 			$wtpl->setVariable("ALT_WARNING", $lng->txt("warning"));
 			$wtpl->setVariable("IMG_WARNING",
-				ilUtil::getImagePath("icon_alert_s.gif"));
+				ilUtil::getImagePath("icon_alert_s.png"));
 			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
 			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
 			$wtpl->setVariable("HREF_SWITCH_TO_NEW_EDITOR",
@@ -427,7 +427,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->tpl->setDescription($this->object->getLongDescription());
 	
 			// set tile icon
-			$icon = ilUtil::getImagePath("icon_".$this->object->getType()."_b.gif");
+			$icon = ilUtil::getImagePath("icon_".$this->object->getType()."_b.png");
 			if ($ilias->getSetting("custom_icons") &&
 				in_array($this->object->getType(), array("cat","grp","crs", "root")))
 			{
@@ -636,7 +636,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				if ($this->object->gotItems())
 				{
 					$toolbar->setLeadingImage(
-						ilUtil::getImagePath("arrow_upright.gif"),
+						ilUtil::getImagePath("arrow_upright.png"),
 						$lng->txt("actions")
 					);
 					$toolbar->addFormButton(
@@ -848,7 +848,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$tpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_old_editor_warning"));
 		$tpl->setVariable("TXT_MIGRATION_OPEN_STD_EDITOR", $lng->txt("cntr_old_editor_open_standard_editor"));
-		$tpl->setVariable("IMG_WARNING", ilUtil::getImagePath("icon_alert_s.gif"));
+		$tpl->setVariable("IMG_WARNING", ilUtil::getImagePath("icon_alert_s.png"));
 		$tpl->setVariable("HREF_OPEN_STD_EDITOR", $ilCtrl->getLinkTarget($this, "switchToStdEditor"));
 		$tpl->setVariable("ALT_WARNING", $lng->txt("warning"));
 		
@@ -1225,7 +1225,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function addHeaderRow(&$a_tpl, $a_type, $a_show_image = true)
 	{
-		$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+		$icon = ilUtil::getImagePath("icon_".$a_type.".png");
 		$title = $this->lng->txt("objs_".$a_type);
 		
 		if ($a_show_image)
@@ -1263,7 +1263,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$nbsp = true;
 		if ($this->ilias->getSetting("icon_position_in_lists") == "item_rows")
 		{
-			$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
+			$icon = ilUtil::getImagePath("icon_".$a_image_type.".png");
 			$alt = $this->lng->txt("obj_".$a_image_type);
 			
 			// custom icon
@@ -2676,7 +2676,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.container_wizard_page.html',
 	 		"Services/Container");
 	 	$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
-	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.gif'));
+	 	$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$new_type.'.png'));
 	 	$this->tpl->setVariable('ALT_IMG',$this->lng->txt('obj_'.$new_type));
 	 	$this->tpl->setVariable('TXT_DUPLICATE',$this->lng->txt($new_type.'_wizard_page'));
 	 	$this->tpl->setVariable('INFO_DUPLICATE',$this->lng->txt($new_type.'_copy_threads_info'));
@@ -2725,7 +2725,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$copy_wizard_page->fillTreeSelection($node['ref_id'],$node['type'],$node['depth']);
 				
 				$this->tpl->setCurrentBlock('tree_row');
-				$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.gif'));
+				$this->tpl->setVariable('TREE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.png'));
 				$this->tpl->setVariable('TREE_ALT_IMG',$this->lng->txt('obj_'.$node['type']));
 				$this->tpl->setVariable('TREE_TITLE',$node['title']);
 				$this->tpl->parseCurrentBlock();
@@ -2994,7 +2994,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->object->getId());
 		$page_gui->setStyleId($this->object->getStyleSheetId());
 		$page_gui->setTabHook($this, "addPageTabs");
-//		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.gif"));
+//		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
 //		$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 		$ilCtrl->getHTML($page_gui);
 		$ilTabs->setTabActive("obj_sty");

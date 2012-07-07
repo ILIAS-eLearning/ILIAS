@@ -8,7 +8,7 @@ $tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
 
 $tpl->setCurrentBlock("content");
 $tpl->setVariable("ERROR_MESSAGE",($_SESSION["failure"]));
-$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.gif"));
+$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.png"));
 $tpl->parseCurrentBlock();
 
 ilSession::clear("referer");

@@ -99,7 +99,7 @@ class ilSCORM2004AssetGUI extends ilSCORM2004ScoGUI
 			$lng->txt("cont_preview"),
 			$ilCtrl->getLinkTarget($this,'sco_preview'), "_blank");
 
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_ass_b.gif"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_ass_b.png"));
 		$tpl->setTitle(
 		$lng->txt("obj_ass").": ".$this->node_object->getTitle());
 	}

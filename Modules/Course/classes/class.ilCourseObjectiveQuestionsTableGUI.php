@@ -105,7 +105,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setVariable('SELF_TST_DESC',$tst['description']);
 			}
-			$this->tpl->setVariable('SELF_TYPE_IMG',ilUtil::getImagePath('icon_tst_s.gif'));
+			$this->tpl->setVariable('SELF_TYPE_IMG',ilUtil::getImagePath('icon_tst_s.png'));
 			$this->tpl->setVariable('SELF_TYPE_ALT',$this->lng->txt('obj_tst'));
 			$this->tpl->parseCurrentBlock();
 		}
@@ -139,7 +139,7 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setVariable('FINAL_TST_DESC',$tst['description']);
 			}
-			$this->tpl->setVariable('FINAL_TYPE_IMG',ilUtil::getImagePath('icon_tst_s.gif'));
+			$this->tpl->setVariable('FINAL_TYPE_IMG',ilUtil::getImagePath('icon_tst_s.png'));
 			$this->tpl->setVariable('FINAL_TYPE_ALT',$this->lng->txt('obj_tst'));
 			$this->tpl->parseCurrentBlock();
 		}

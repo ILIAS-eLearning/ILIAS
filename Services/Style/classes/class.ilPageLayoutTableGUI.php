@@ -102,11 +102,11 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		
 		if ($a_set['active'])
 		{
-			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_on_s.gif"));
+			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_on_s.png"));
 		}
 		else
 		{
-			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_off_s.gif"));
+			$this->tpl->setVariable("IMG_ACTIVE",ilUtil::getImagePath("icon_led_off_s.png"));
 		}
 		$this->tpl->setVariable("VAL_TITLE", $a_set['title']);
 		$this->tpl->setVariable("VAL_DESCRIPTION", $a_set['description']);

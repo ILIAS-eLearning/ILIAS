@@ -35,7 +35,7 @@ class ilClipboardTableGUI extends ilTable2GUI
 		$this->getItems();
 		
 		// title
-		$this->setTitle($lng->txt("clipboard"), "icon_clip.gif", $lng->txt("clipboard"));
+		$this->setTitle($lng->txt("clipboard"), "icon_clip.png", $lng->txt("clipboard"));
 
 		$this->setDefaultOrderField("title");
 		
@@ -89,7 +89,7 @@ class ilClipboardTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock("thumbnail");
 			$this->tpl->setVariable("IMG_THUMB",
-				ilUtil::getImagePath("icon_pg.gif"));
+				ilUtil::getImagePath("icon_pg.png"));
 			$this->tpl->parseCurrentBlock();
 		}
 

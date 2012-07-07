@@ -433,7 +433,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','disabled="disabled"');
 
 			$this->tpl->setCurrentBlock('search_engine_alert');
-			$this->tpl->setVariable('SE_ALERT_IMG',ilUtil::getImagePath('icon_alert_s.gif'));
+			$this->tpl->setVariable('SE_ALERT_IMG',ilUtil::getImagePath('icon_alert_s.png'));
 			$this->tpl->setVariable('SE_ALT_ALERT',$this->lng->txt('alert'));
 			$this->tpl->setVariable('TXT_SE_ALERT',$this->lng->txt('mod_rewrite_disabled'));
 			$this->tpl->parseCurrentBlock();
@@ -444,7 +444,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','disabled="disabled"');
 
 			$this->tpl->setCurrentBlock('search_engine_alert');
-			$this->tpl->setVariable('SE_ALERT_IMG',ilUtil::getImagePath('icon_alert_s.gif'));
+			$this->tpl->setVariable('SE_ALERT_IMG',ilUtil::getImagePath('icon_alert_s.png'));
 			$this->tpl->setVariable('SE_ALT_ALERT',$this->lng->txt('alert'));
 			$this->tpl->setVariable('TXT_SE_ALERT',$this->lng->txt('allow_override_alert'));
 			$this->tpl->parseCurrentBlock();
@@ -3162,14 +3162,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			ilProxySettings::_getInstance()->checkConnection();
 			$this->form->getItemByPostVar('proxy_availability')->setHTML(
-				'<img src="'.ilUtil::getImagePath('icon_ok.gif').'" /> '.
+				'<img src="'.ilUtil::getImagePath('icon_ok.png').'" /> '.
 				$this->lng->txt('proxy_connectable')
 			);	
 		}
 		catch(ilProxyException $e)
 		{
 			$this->form->getItemByPostVar('proxy_availability')->setHTML(
-				'<img src="'.ilUtil::getImagePath('icon_not_ok.gif').'" /> '.
+				'<img src="'.ilUtil::getImagePath('icon_not_ok.png').'" /> '.
 				$this->lng->txt('proxy_not_connectable')
 			);
 			ilUtil::sendFailure($this->lng->txt('proxy_pear_net_socket_error').': '.$e->getMessage());

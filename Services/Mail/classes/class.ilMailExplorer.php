@@ -249,7 +249,7 @@ class ilMailExplorer extends ilExplorer
 	*/
 	function getImage($a_name, $a_type = "", $a_obj_id = "")
 	{
-		if ($a_type) return ilUtil::getImagePath("icon_".$a_type."_s.gif");
+		if ($a_type) return ilUtil::getImagePath("icon_".$a_type."_s.png");
 		else return ilUtil::getImagePath($a_name);
 	}
 

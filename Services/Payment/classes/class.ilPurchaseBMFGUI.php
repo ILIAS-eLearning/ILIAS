@@ -209,7 +209,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 		$this->tpl->setVariable("PAYMENT_TYPE_FORMACTION",$this->ctrl->getFormAction($this));
 
 		// set table header
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays_b.gif'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays_b.png'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("HEADER",$this->lng->txt('pay_step2'));
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_payment_type'));
@@ -309,7 +309,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 		$this->tpl->setVariable("DEBIT_ENTRY_FORMACTION",$this->ctrl->getFormAction($this));
 
 		// set table header
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays_b.gif'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays_b.png'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("HEADER",$this->lng->txt('pay_step3_debit_entry'));
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_debit_entry_data'));
@@ -666,7 +666,7 @@ class ilPurchaseBMFGUI extends ilPurchaseBaseGUI
 		$this->tpl->setVariable("CREDIT_CARD_FORMACTION",$this->ctrl->getFormAction($this));
 
 		// set table header
-		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays_b.gif'));
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_pays_b.png'));
 		$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_usr'));
 		$this->tpl->setVariable("HEADER",$this->lng->txt('pay_step3_credit_card'));
 		$this->tpl->setVariable("TITLE",$this->lng->txt('pay_bmf_credit_card_data'));

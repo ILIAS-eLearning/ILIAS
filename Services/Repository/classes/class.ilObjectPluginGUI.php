@@ -42,7 +42,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 		if (!$this->getCreationMode())
 		{
 			$tpl->setTitle($this->object->getTitle());
-			$tpl->setTitleIcon($this->plugin->getImagePath("icon_".$this->object->getType()."_b.gif"),
+			$tpl->setTitleIcon($this->plugin->getImagePath("icon_".$this->object->getType()."_b.png"),
 				$lng->txt("icon")." ".$this->txt("obj_".$this->object->getType()));
 				
 			// set tabs

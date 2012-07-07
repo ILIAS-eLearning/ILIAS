@@ -562,7 +562,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.gif"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
 		$this->tpl->setTitle($this->object->getTitle());
 		$this->getTabs($this->tabs_gui);
 	}

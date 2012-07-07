@@ -4,13 +4,13 @@ body.ilSetup{
 
 div.ilSetupFrame{
 	padding:15px;
-	background-image: url(../../templates/default/images/frame_back.gif);
+	background-image: url(../../templates/default/images/frame_back.png);
 	background-repeat: repeat-x;
 	background-color: #f0f0f0;
 }
 
 div.ilSetupFrameH{
-	background-image: url(../../templates/default/images/head_back.gif);
+	background-image: url(../../templates/default/images/head_back.png);
 	background-repeat: repeat-x;
 	background-color: #a7d3ff;
 	min-width:850px;
@@ -19,24 +19,24 @@ div.ilSetupFrameH{
 }
 
 div.ilSetupFrameTL{
-	background-image: url(../../templates/default/images/tl.gif);
+	background-image: url(../../templates/default/images/tl.png);
 	background-repeat: no-repeat;
 }
 
 div.ilSetupFrameTR{
-	background-image: url(../../templates/default/images/tr.gif);
+	background-image: url(../../templates/default/images/tr.png);
 	background-repeat: no-repeat;
 	background-position: top right;
 }
 
 div.ilSetupFrameBL{
-	background-image: url(../../templates/default/images/bl.gif);
+	background-image: url(../../templates/default/images/bl.png);
 	background-repeat: no-repeat;
 	background-position: bottom left;
 }
 
 div.ilSetupFrameBR{
-	background-image: url(../../templates/default/images/br.gif);
+	background-image: url(../../templates/default/images/br.png);
 	background-repeat: no-repeat;
 	background-position: bottom right;
 	padding: 10px 20px;
@@ -112,7 +112,7 @@ div.ilSetupInfoMessage {
 	padding: 10px 45px;
 	min-height: 20px;
 	vertical-align: middle;
-	background-image: url('../../templates/default/images/mess_info.gif');
+	background-image: url('../../templates/default/images/mess_info.png');
 	background-repeat: no-repeat;
 	background-position: 5px 5px;
 	font-size: 90%;
@@ -125,7 +125,7 @@ div.ilSetupFailureMessage {
 	padding: 10px 45px;
 	min-height: 20px;
 	vertical-align: middle;
-	background-image: url('../../templates/default/images/mess_failure.gif');
+	background-image: url('../../templates/default/images/mess_failure.png');
 	background-repeat: no-repeat;
 	background-position: 5px 5px;
 	font-size: 90%;

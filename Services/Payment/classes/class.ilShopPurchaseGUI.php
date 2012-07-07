@@ -105,7 +105,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 
 		if($this->object)
 		{
-			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
+			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.png'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
 			$this->tpl->setVariable("TITLE",$this->object->getTitle());
 		}
@@ -251,7 +251,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 	*/
 	private function addHeaderRow($a_tpl, $a_type, $a_show_image = true)
 	{
-		$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+		$icon = ilUtil::getImagePath("icon_".$a_type.".png");
 		$title = $this->lng->txt("objs_".$a_type);
 		$header_id = "th_".$a_type;
 
@@ -293,12 +293,12 @@ class ilShopPurchaseGUI extends ilObjectGUI
 		{
 			if (!is_array($a_image_type) && !in_array($a_image_type, array("lm", "dbk", "htlm", "sahs")))
 			{
-				$icon = ilUtil::getImagePath("icon_".$a_image_type.".gif");
+				$icon = ilUtil::getImagePath("icon_".$a_image_type.".png");
 				$title = $this->lng->txt("obj_".$a_image_type);
 			}
 			else
 			{
-				$icon = ilUtil::getImagePath("icon_lm.gif");
+				$icon = ilUtil::getImagePath("icon_lm.png");
 				$title = $this->lng->txt("learning_resource");
 			}
 			
@@ -419,7 +419,7 @@ class ilShopPurchaseGUI extends ilObjectGUI
 			}
 
 			$this->tpl->setVariable("DETAILS_FORMACTION",$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.gif'));
+			$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$this->object->getType().'_b.png'));
 			$this->tpl->setVariable("ALT_IMG",$this->lng->txt('obj_'.$this->object->getType()));
 			$this->tpl->setVariable("TITLE",$this->object->getTitle().' '.$subtype);
 		}

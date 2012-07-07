@@ -407,12 +407,12 @@ class ilShopResultPresentationGUI
 	{
 		if ($a_type != "lres")
 		{
-			$icon = ilUtil::getImagePath("icon_".$a_type.".gif");
+			$icon = ilUtil::getImagePath("icon_".$a_type.".png");
 			$title = $this->lng->txt("objs_".$a_type);
 		}
 		else
 		{
-			$icon = ilUtil::getImagePath("icon_lm.gif");
+			$icon = ilUtil::getImagePath("icon_lm.png");
 			$title = $this->lng->txt("learning_resources");
 		}
 

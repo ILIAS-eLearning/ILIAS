@@ -73,7 +73,7 @@ input.fullwidth_marked {
 	background-color: #FFFFFF;
 	color:#222222;
 	padding:3px;
-	background-image: url(images/rowback.gif);
+	background-image: url(images/rowback.png);
 	background-repeat:repeat-x;
 }
 
@@ -81,7 +81,7 @@ input.fullwidth_marked {
 	background-color:#FFFFFF;
 	color:#222222;
 	padding:3px;
-	background-image: url(images/rowback.gif);
+	background-image: url(images/rowback.png);
 	background-repeat:repeat-x;
 }*/
 
@@ -264,7 +264,7 @@ th.il_invisible, td.il_invisible {
 	color:#222222;
 	font-size: 110%;
 	background-color: #EDEDED;
-	background-image: url(images/TableHeader.gif);
+	background-image: url(images/TableHeader.png);
 	background-repeat:repeat-x;
 }
 
@@ -445,7 +445,7 @@ a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited, a.il_Containe
 	text-decoration:none;
 	font-weight: normal;
 	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	font-size: 70%;
@@ -756,7 +756,7 @@ form.ilNavHistoryForm
 /* MainMenu Tabs */
 div.il_MainMenu
 {
-	background-image: url(images/MainMenuBack.gif);
+	background-image: url(images/MainMenuBack.png);
 	background-repeat: repeat-x;
 	background-position: bottom;	
 	margin: 0px;
@@ -819,7 +819,7 @@ div.il_Tab
     width:100%;
 	padding-left:0px;
     line-height:normal;
-	background:#FFFFFF url(images/TabBack.gif) repeat-x bottom;
+	background:#FFFFFF url(images/TabBack.png) repeat-x bottom;
 }
 
 ul.il_Tab
@@ -832,7 +832,7 @@ ul.il_Tab
 li.tabinactive
 {
 	float:left;
-	background:url("images/TabInactiveRightWhite.gif")
+	background:url("images/TabInactiveRightWhite.png")
 		no-repeat right top;
 	margin:0;
 	padding:0;
@@ -845,7 +845,7 @@ a.tabinactive:link, a.tabinactive:visited, a.tabinactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/TabInactiveLeftWhite.gif") no-repeat left top;
+	background:url("images/TabInactiveLeftWhite.png") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
 	text-decoration: none;
@@ -854,7 +854,7 @@ a.tabinactive:link, a.tabinactive:visited, a.tabinactive:hover
 li.tabactive
 {
 	float:left;
-	background:url("images/TabActiveRightWhite.gif")
+	background:url("images/TabActiveRightWhite.png")
 		no-repeat right top;
 	margin:0;
 	padding:0;
@@ -867,7 +867,7 @@ a.tabactive:link, a.tabactive:visited, a.tabactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/TabActiveLeftWhite.gif") no-repeat left top;
+	background:url("images/TabActiveLeftWhite.png") no-repeat left top;
     padding: 3px 8px;
 	font-size: 80%;
 	text-decoration: none;
@@ -888,7 +888,7 @@ a.backtab, a.backtab:hover
 {
 	float: left;
 	display:block;
-	background:url("images/BackTab.gif") no-repeat left top;
+	background:url("images/BackTab.png") no-repeat left top;
     padding: 3px 8px 3px 12px;
 	font-size: 80%;
 }
@@ -908,7 +908,7 @@ a.back2tab, a.back2tab:hover
 {
 	float: left;
 	display:block;
-	background:url("images/Back2Tab.gif") no-repeat left top;
+	background:url("images/Back2Tab.png") no-repeat left top;
     padding: 3px 8px 3px 16px;
 	font-size: 80%;
 }
@@ -948,7 +948,7 @@ a.subtabinactive, a.subtabinactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/SubTabInactiveLeft.gif") no-repeat left top;
+	background:url("images/SubTabInactiveLeft.png") no-repeat left top;
     padding: 3px 10px 3px 12px;
 	font-size: 80%;
 }
@@ -964,7 +964,7 @@ a.subtabactive, a.subtabactive:hover
 {
 	float: left;
 	display:block;
-	background:url("images/SubTabActiveLeft.gif") no-repeat left top;
+	background:url("images/SubTabActiveLeft.png") no-repeat left top;
     padding: 3px 10px 3px 12px;
 	font-size: 80%;
 }
@@ -1152,14 +1152,14 @@ div.il_TreeIcons
 
 div.ilMainHeaderOld
 {
-	background-image: url(images/HeaderBackground3.gif);
+	background-image: url(images/HeaderBackground3.png);
 	background-repeat: repeat-x;
 	background-color: #8CC6FF;
 	right: 0px;
 }
 div.ilMainHeader
 {
-	background-image: url(images/HeaderBackground3.gif);
+	background-image: url(images/HeaderBackground3.png);
 	background-repeat: repeat-x;
 	background-color: #FFFFFF;
 	right: 0px;
@@ -1182,7 +1182,7 @@ a.ilMainHeader, a.ilMainHeader:hover
 
 div.ilLoginOld
 {
-	background-image: url(images/login_back.gif);
+	background-image: url(images/login_back.png);
 	background-position: bottom left;
 	padding:2px 20px 3px 10px;
 	margin-top:0px;
@@ -1220,7 +1220,7 @@ a.ilLogin, a.ilLogin:visited, input.ilLogin
 	font-weight:normal;
 	cursor:pointer;
 	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 }
@@ -1484,7 +1484,7 @@ div.il_ButtonGroup
 input.submit, a.submit, a.submit:hover
 {
 	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	color:#2255a0;
@@ -1531,7 +1531,7 @@ input[type=checkbox], input[type=radio]
 
 a.ilEditSubmit {
 	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	padding: 2px;
@@ -1557,7 +1557,7 @@ input.ilEditSubmit {
 	cursor:pointer;
 	
 	background-color: #FFFFFF;
-	background-image: url(images/ButtonsBack.gif);
+	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
 	border-width:1px;
@@ -1656,7 +1656,7 @@ div.il_droparea
 	border-width: 1px;
 	border-color: #D0D0D0;
 	font-size: 1px;
-	background-image: url(images/drop_back.gif);
+	background-image: url(images/drop_back.png);
 	background-repeat: repeat;
 	margin: 3px 0px;
 }
@@ -1668,7 +1668,7 @@ div.il_droparea_active
 	border-width: 1px;
 	border-color: #000000;
 	font-size: 1px;
-	background-image: url(images/drop_back_active.gif);
+	background-image: url(images/drop_back_active.png);
 	background-repeat: repeat;
 }
 
@@ -1949,7 +1949,7 @@ table.ilc_LMNavigation {
 	border-spacing: 0px;
 	margin: 0px;
 	padding: 0px;
-	background-image: url(images/TableHeader.gif);
+	background-image: url(images/TableHeader.png);
 	background-repeat:repeat-x;
 	background-color: #EDEDED;
 	width:100%;
@@ -1964,7 +1964,7 @@ td.ilc_LMNavigation
 	border-right-width: 0px;
 	border-top-width: 1px;
 	border-bottom-width: 1px;
-	background-image: url(images/TableHeader.gif);
+	background-image: url(images/TableHeader.png);
 	background-color: #EDEDED;
 	margin-bottom: 0px;
 }
@@ -2017,7 +2017,7 @@ th.ilc_FileList
 {
 	text-align: left;
 	padding: 3px;
-	background-image: url(images/TableHeader.gif);
+	background-image: url(images/TableHeader.png);
 }
 
 td.ilc_FileItem
