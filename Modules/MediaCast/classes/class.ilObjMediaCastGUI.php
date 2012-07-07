@@ -245,8 +245,61 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	*/
 	function editCastItemObject()
 	{
-		global $tpl;		
+		global $tpl, $ilToolbar, $ilCtrl;
+		
 		$this->checkPermission("write");
+		
+		// conversion toolbar
+		include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
+		if (ilFFmpeg::enabled())
+		{
+			$this->mcst_item = new ilNewsItem($_GET["item_id"]);
+			include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+			$mob = new ilObjMediaObject($this->mcst_item->getMobId());
+
+			$conv_cnt = 0;
+			// we had other purposes as source as well, but
+			// currently only "Standard" is implemented in the convertFile method
+		    foreach (array("Standard") as $p)
+		    {
+		    	$med = $mob->getMediaItem($p);
+		    	if (is_object($med))
+		    	{
+					$options = ilFFmpeg::getPossibleTargetMimeTypes($med->getFormat());
+					if (count($options) > 0)
+					{
+						if ($conv_cnt > 0)
+						{
+							$ilToolbar->addSeparator();
+						}
+						
+						include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+						$si = new ilSelectInputGUI($this->lng->txt("mcst_conv_".
+							strtolower($p)."_to"), "target_format");
+						$si->setOptions($options);
+						$ilToolbar->addInputItem($si, true);
+						
+						$si = new ilSelectInputGUI(", ".$this->lng->txt("mcst_target").": ",
+							"target_purpose");
+						$si->setOptions(array("Standard" => $this->lng->txt("mcst_purpose_standard"),
+							"VideoAlternative" => $this->lng->txt("mcst_purpose_videoalternative")
+							));
+						$si->setValue($p);
+						$ilToolbar->addInputItem($si, true);
+						
+						$ilToolbar->addFormButton($this->lng->txt("mcst_convert"), "convertFile");
+						
+						$conv_cnt++;
+					}
+				}
+				
+				if ($conv_cnt > 0)
+				{
+					$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+				}
+		    }
+		}
+		
 		$this->initAddCastItemForm("edit");
 		$this->getCastItemValues();
 		$tpl->setContent($this->form_gui->getHTML());
@@ -305,6 +358,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		foreach (ilObjMediaCast::$purposes as $purpose)
 		{
+			if ($purpose == "VideoAlternative" &&
+				$a_mode == "create")
+			{
+				continue;
+			}
+			
     		$section = new ilFormSectionHeaderGUI();    		
     		$section->setTitle($lng->txt("mcst_".strtolower($purpose)."_title"));
     		$this->form_gui->addItem($section);
@@ -1334,6 +1393,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$mpl->setDisplayHeight("480");
 				$mpl->setDisplayWidth("640");
 				$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+				$med_alt = $mob->getMediaItem("VideoAlternative");
+				if (is_object($med_alt))
+				{
+					$mpl->setAlternativeVideoFile(ilObjMediaObject::_getURL($mob->getId())."/".
+						$med_alt->getLocation());
+					$mpl->setAlternativeVideoMimeType($med_alt->getFormat());
+				}
+				
 				$ctpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
 			}
 
@@ -1343,6 +1410,66 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 		
 		$tpl->setContent($ctpl->get());
+	}
+	
+	/**
+	 * Convert file object
+	 *
+	 * @param
+	 * @return
+	 */
+	function convertFileObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission("write");
+		
+		$this->mcst_item = new ilNewsItem($_GET["item_id"]);
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		$mob = new ilObjMediaObject($this->mcst_item->getMobId());
+		
+		$target_purpose = ilUtil::stripSlashes($_POST["target_purpose"]);
+		$target_format = ilUtil::stripSlashes($_POST["target_format"]);
+		
+		try
+		{
+			include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
+			$med = $mob->getMediaItem("Standard");
+			$mob_file = ilObjMediaObject::_getDirectory($mob->getId())."/".$med->getLocation();
+			$new_file = ilFFmpeg::convert($mob_file, $target_format);
+			$ret = ilFFmpeg::getLastReturnValues();
+			$pi = pathinfo($new_file);
+			$med = $mob->getMediaItem($target_purpose);
+			if (!is_object($med))
+			{
+				$med = new ilMediaItem();
+				$med->setMobId($mob->getId());
+				$mob->addMediaItem($med);
+				$mob->update();
+				$med->setPurpose($target_purpose);
+			}
+			$med->setFormat($target_format);
+			$med->setLocation($pi["basename"]);
+			$med->setLocationType("LocalFile");
+			$med->update();
+			
+			$add = (is_array($ret) && count($ret) > 0)
+				? "<br />".implode($ret, "<br />")
+				: "";
+			
+			ilUtil::sendInfo($this->lng->txt("mcst_converted_file").$add, true);
+		}
+		catch (ilException $e)
+		{
+			$ret = ilFFmpeg::getLastReturnValues();
+			$add = (is_array($ret) && count($ret) > 0)
+				? "<br />".implode($ret, "<br />")
+				: "";
+			ilUtil::sendFailure($e->getMessage().$add, true);
+		}
+		
+		
+		$ilCtrl->redirect($this, "editCastItem");
 	}
 	
 }

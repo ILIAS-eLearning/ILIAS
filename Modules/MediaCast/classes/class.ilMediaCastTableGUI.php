@@ -151,6 +151,14 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					//$mpl->setDisplayHeight($med->getHeight());
 					$mpl->setDisplayHeight("240");
 					$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+					
+					$med_alt = $mob->getMediaItem("VideoAlternative");
+					if (is_object($med_alt))
+					{
+						$mpl->setAlternativeVideoFile(ilObjMediaObject::_getURL($mob->getId())."/".
+							$med_alt->getLocation());
+						$mpl->setAlternativeVideoMimeType($med_alt->getFormat());
+					}
 				}
 
 				$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());

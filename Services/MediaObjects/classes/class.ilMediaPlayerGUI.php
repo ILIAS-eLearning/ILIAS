@@ -41,6 +41,46 @@ class ilMediaPlayerGUI
 	{
 		return $this->file;
 	}
+	
+	/**
+	 * Set alternative video file
+	 *
+	 * @param string $a_val alternative video file	
+	 */
+	function setAlternativeVideoFile($a_val)
+	{
+		$this->alt_video_file = $a_val;
+	}
+	
+	/**
+	 * Get alternative video file
+	 *
+	 * @return string alternative video file
+	 */
+	function getAlternativeVideoFile()
+	{
+		return $this->alt_video_file;
+	}
+	
+	/**
+	 * Set alternative video mime type
+	 *
+	 * @param string $a_val alternative video mime type	
+	 */
+	function setAlternativeVideoMimeType($a_val)
+	{
+		$this->alt_video_mime = $a_val;
+	}
+	
+	/**
+	 * Get alternative video mime type
+	 *
+	 * @return string alternative video mime type
+	 */
+	function getAlternativeVideoMimeType()
+	{
+		return $this->alt_video_mime;
+	}
 
 	/**
 	 * set display height
@@ -142,7 +182,7 @@ class ilMediaPlayerGUI
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
 		// video tag
-		if (in_array($mimeType, array("video/mp4", "video/x-flv")))
+		if (in_array($mimeType, array("video/mp4", "video/x-flv", "video/webm")))
 		{
 			$tpl->addCss("./Services/MediaObjects/media_element_2_9_1/mediaelementplayer.min.css");
 			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_9_1/mediaelement-and-player.min.js");
@@ -154,6 +194,14 @@ class ilMediaPlayerGUI
 			$mp_tpl->setVariable("FILE", $this->getFile());
 			$mp_tpl->setVariable("MIME", $mimeType);
 			$mp_tpl->parseCurrentBlock();
+			
+			if (in_array($this->getAlternativeVideoMimeType(), array("video/mp4", "video/webm")))
+			{
+				$mp_tpl->setCurrentBlock("source");
+				$mp_tpl->setVariable("FILE", $this->getAlternativeVideoFile());
+				$mp_tpl->setVariable("MIME", $this->getAlternativeVideoMimeType());
+				$mp_tpl->parseCurrentBlock();
+			}
 			
 			$mp_tpl->setCurrentBlock("video");
 			$mp_tpl->setVariable("PLAYER_NR", self::$nr);
@@ -169,7 +217,9 @@ class ilMediaPlayerGUI
 			$mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
 			self::$nr++;
 			$mp_tpl->parseCurrentBlock();
-			return $mp_tpl->get();
+			$r = $mp_tpl->get();
+
+			return $r;
 		}
 		
 		// flv
