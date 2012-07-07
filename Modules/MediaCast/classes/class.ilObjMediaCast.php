@@ -13,7 +13,7 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjMediaCast extends ilObject
 {
-	public static $purposes = array ("Standard","VideoPortable", "AudioPortable");    
+	public static $purposes = array ("Standard", "VideoAlternative", "VideoPortable", "AudioPortable");    
     protected $online = false;
 	protected $publicfiles = false;
 	protected $downloadable = true;

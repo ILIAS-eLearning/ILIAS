@@ -7485,7 +7485,7 @@ mcst#:#mcst_set_playtime#:#Playtime has been set.
 mcst#:#mcst_settings#:#Mediacast Settings
 mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format
-mcst#:#mcst_standard_title#:#Normal Media File
+mcst#:#mcst_standard_title#:#Standard Media File
 mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.
 mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format
@@ -12825,3 +12825,11 @@ objref#:#objref_reuse_title#:#Reuse Title of Reference
 objref#:#objref_custom_title#:#Use Custom Title
 news#:#news_keep_minimal_x_items#:#Keep at least x items
 news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.
+mcst#:#mcst_conv_standard_to#:#Convert Standard File to
+mcst#:#mcst_conv_videoalternative_to#:#Convert Alternative Video File to
+mcst#:#mcst_target#:#Target
+mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)
+mcst#:#mcst_convert#:#Convert
+mcst#:#mcst_purpose_standard#:#Standard File
+mcst#:#mcst_purpose_videoalternative#:#Alternative Video File
+mcst#:#mcst_converted_file#:#File has been converted.

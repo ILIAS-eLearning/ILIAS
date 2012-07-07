@@ -21,6 +21,7 @@ class ilPlayerUtil
 		return "Services/MediaObjects/media_element_2_9_1";
 	}
 	
+	
 	/**
 	 * Get flash video player file name
 	 *
