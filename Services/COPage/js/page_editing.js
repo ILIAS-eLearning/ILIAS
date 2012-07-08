@@ -906,7 +906,7 @@ this.copyInputToGhost(false);
 				if (r.className != null)
 				{
 					var st = r.className.substring(15);
-					ilAdvancedSelectionList.selectItem('style_selection', st);
+					il.AdvancedSelectionList.selectItem('style_selection', st);
 				}
 
 				ed.getWin().focus();
