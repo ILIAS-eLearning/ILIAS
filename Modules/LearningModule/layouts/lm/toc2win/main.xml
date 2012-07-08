@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ilLayout>
-	<ilFrame name="content" cols="30%,70%">
-		<ilFrame name="toc" template="tpl.toc.html" template_location="module">
+	<ilFrame name="maincontent">
+		<StructureObject template="tpl.page_new.html" template_location="module">
 			<ilTOC target_frame="maincontent" />
-		</ilFrame>
-		<ilFrame name="maincontent">
-			<StructureObject template="tpl.page.html" template_location="module">
-				<ilPage/>
-				<ilLMNavigation/>
-				<ilLocator/>
-				<ilMainMenu/>
-				<ilLMMenu />
-				<ilLMHead />
-				<ilLMSubMenu />
-				<ilLMNotes />
-			</StructureObject>
-			<PageObject template="tpl.page.html" template_location="module">
-				<ilPage/>
-				<ilLMNavigation/>
-				<ilLocator/>
-				<ilMainMenu/>
-				<ilLMMenu />
-				<ilLMHead />
-				<ilLMSubMenu />
-				<ilLMNotes />
-			</PageObject>
-		</ilFrame>
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+			<ilMainMenu/>
+			<ilLMMenu />
+			<ilLMHead />
+			<ilLMSubMenu />
+			<ilLMNotes />
+		</StructureObject>
+		<PageObject template="tpl.page_new.html" template_location="module">
+			<ilTOC target_frame="maincontent" />
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+			<ilMainMenu/>
+			<ilLMMenu />
+			<ilLMHead />
+			<ilLMSubMenu />
+			<ilLMNotes />
+		</PageObject>
 	</ilFrame>
 	<ilLinkTargets>
 		<LinkTarget Type="New" Frame="_blank"/>

@@ -1063,9 +1063,10 @@ class ilLMPresentationGUI
 		$exp->setOutput(0);
 		$output = $exp->getOutput();
 
-		$this->renderPageTitle();
+//		$this->renderPageTitle();
 
 		// set style sheets
+/*
 		if (!$this->offlineMode())
 		{
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
@@ -1074,20 +1075,21 @@ class ilLMPresentationGUI
 		{
 			$style_name = $this->ilias->account->prefs["style"].".css";;
 			$this->tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
-		}
+		}*/
 
 		if (!$this->offlineMode())
 		{
-			$this->tpl->addBlockFile("EXPL_TOP", "exp_top", "tpl.explorer_top.html");
+//			$this->tpl->addBlockFile("EXPL_TOP", "exp_top", "tpl.explorer_top.html");
 			//$this->tpl->setVariable("DUMMY", "&nbsp;");
-			$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
+//			$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 		}
 		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("overview"));
 		$this->tpl->setVariable("EXPLORER",$output);
+
 		$this->tpl->setVariable("ACTION",
 			$this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]).
 			"&lmexpand=".$_GET["lmexpand"]);
-		$this->tpl->parseCurrentBlock();
+//		$this->tpl->parseCurrentBlock();
 		$ilBench->stop("ContentPresentation", "ilTOC");
 		if ($_GET["lmexpand"] == "")
 		{
