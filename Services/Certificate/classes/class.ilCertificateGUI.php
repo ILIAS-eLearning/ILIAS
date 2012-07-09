@@ -174,7 +174,7 @@ class ilCertificateGUI
 		$cgui->setCancel($this->lng->txt("no"), "certificateEditor");
 		$cgui->setConfirm($this->lng->txt("yes"), "certificateDeleteConfirm");
 		
-		$this->tpl->setContent($c_gui->getHTML());
+		$this->tpl->setContent($cgui->getHTML());
 	}
 	
 	/**
