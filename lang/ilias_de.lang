@@ -12739,3 +12739,4 @@ dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_tbl#:#Kalendertermine importieren
 dateplaner#:#cal_import_file#:#Importdatei
 dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.
+dateplaner#:#cal_imported_success#:#Es wurden %1$s neue Termine importiert. 
