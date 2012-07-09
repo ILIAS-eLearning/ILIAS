@@ -12734,3 +12734,8 @@ objref#:#objref_edit_title#:#Titel
 objref#:#objref_title_settings#:#Titel der Referenz
 objref#:#objref_reuse_title#:#Titel der Referenz übernehmen
 objref#:#objref_custom_title#:#Eigenen Titel verwenden
+dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
+dateplaner#:#cal_import_appointments#:#Termine importieren
+dateplaner#:#cal_import_tbl#:#Kalendertermine importieren
+dateplaner#:#cal_import_file#:#Importdatei
+dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.

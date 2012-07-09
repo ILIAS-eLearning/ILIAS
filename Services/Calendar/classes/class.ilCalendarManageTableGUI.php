@@ -55,8 +55,8 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		$this->setFormName('categories');
 	 	$this->addColumn('','','1px', true);
 		$this->addColumn($this->lng->txt('type'), 'type', '1%');
-	 	$this->addColumn($this->lng->txt('title'),'title', '64%');
-	 	$this->addColumn('','','35%');
+	 	$this->addColumn($this->lng->txt('title'),'title', '79%');
+	 	$this->addColumn('','','20%');
 	 	
 	 	$this->setPrefix('categories');
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "manage"));
@@ -96,7 +96,11 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
 
 		// repository calendars cannot be edited
-		if($a_set['editable'] && !in_array($a_set['type'], array(ilCalendarCategory::TYPE_OBJ, ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
+		if($a_set['editable'] && 
+				!in_array($a_set['type'], array(
+					ilCalendarCategory::TYPE_OBJ, 
+					ilCalendarCategory::TYPE_CH, 
+					ilCalendarCategory::TYPE_BOOK)))
 		{
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'edit');
 			$current_selection_list->addItem($this->lng->txt('edit'), '', $url);
@@ -104,6 +108,16 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("checkbox");
 			$this->tpl->setVariable('VAL_ID',$a_set['id']);
 			$this->tpl->parseCurrentBlock();
+		}
+		
+		// import (ics appointments)
+		if($a_set['editable'] &&
+				!in_array($a_set['type'], array(
+					ilCalendarCategory::TYPE_CH,
+					ilCalendarCategory::TYPE_BOOK)))
+		{
+			$url = $this->ctrl->getLinkTarget($this->getParentObject(),'importAppointments');
+			$current_selection_list->addItem($this->lng->txt('cal_import_appointments'),'', $url);
 		}
 
 		if($a_set['accepted'])
@@ -191,7 +205,11 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 				{
 					foreach(ilObject::_getAllReferences($cat['obj_id']) as $ref_id)
 					{
-						$cat['path'] = $this->buildPath($ref_id);
+						include_once './Services/Tree/classes/class.ilPathGUI.php';
+						$path = new ilPathGUI();
+						$path->setUseImages(false);
+						$path->enableTextOnly(false);
+						$cat['path'] = $path->getPath(ROOT_FOLDER_ID, $ref_id);
 						break;					
 					}
 				}
@@ -200,29 +218,5 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		}
 		$this->setData($path_categories ? $path_categories : array());
 	}
-	
-	protected function buildPath($a_ref_id)
-	{
-		global $tree;
-
-		$path_arr = $tree->getPathFull($a_ref_id,ROOT_FOLDER_ID);
-		$counter = 0;
-		unset($path_arr[count($path_arr) - 1]);
-
-		foreach($path_arr as $data)
-		{
-			if($counter++)
-			{
-				$path .= " -> ";
-			}
-			$path .= $data['title'];
-		}
-		if(strlen($path) > 30)
-		{
-			return '...'.substr($path,-30);
-		}
-		return $path;
-	}
-	
 }
 ?>

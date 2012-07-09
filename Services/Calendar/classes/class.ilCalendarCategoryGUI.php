@@ -507,7 +507,8 @@ class ilCalendarCategoryGUI
 		$table->setTitle($this->lng->txt('cal_shared_header'));
 		$table->setCalendarId((int) $_GET['category_id']);
 		$table->parse();
-		$tpl->setContent($this->form->getHTML().$table->getHTML());
+		
+		$tpl->setContent($this->form->getHTML().'<br />'.$table->getHTML());
 	}
 	
 	/**
@@ -1152,18 +1153,22 @@ class ilCalendarCategoryGUI
 		
 		$this->editable = false;
 		$this->visible = false;
+		$this->importable = false;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarShared.php');
 		
 		$shared = ilCalendarShared::getSharedCalendarsForUser($ilUser->getId());
 		$cat = new ilCalendarCategory((int) $_GET['category_id']);
+		
 		switch($cat->getType())
 		{
 			case ilCalendarCategory::TYPE_USR:
+				
 				if($cat->getObjId() == $ilUser->getId())
 				{
 					$this->visible = true;
 					$this->editable = true;
+					$this->importable = true;
 				}
 				elseif(isset($shared[$cat->getCategoryID()]))
 				{
@@ -1172,7 +1177,7 @@ class ilCalendarCategoryGUI
 				break;
 			
 			case ilCalendarCategory::TYPE_GLOBAL:
-				$this->editable = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+				$this->importable = $this->editable = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
 				$this->visible = true;
 				break;
 				
@@ -1185,7 +1190,10 @@ class ilCalendarCategoryGUI
 					if($ilAccess->checkAccess('read','',$ref))
 					{
 						$this->visible = true;
-						break;
+					}
+					if($ilAccess->checkAccess('edit_event','',$ref))
+					{
+						$this->importable = true;
 					}
 				}
 				break;
@@ -1194,6 +1202,7 @@ class ilCalendarCategoryGUI
 			case ilCalendarCategory::TYPE_CH:
 				$this->editable = $ilUser->getId() == $cat->getCategoryID();
 				$this->visible = true;
+				$this->importable = false;
 				break;
 		}
 		
@@ -1224,6 +1233,12 @@ class ilCalendarCategoryGUI
 		return $this->editable;
 	}
 	
+	protected function isImportable()
+	{
+		return $this->importable;
+	}
+
+
 	/**
 	 * Show links to references
 	 * @param int $a_obj_id $obj_id
@@ -1262,6 +1277,12 @@ class ilCalendarCategoryGUI
 		return $tpl->get();
 	}
 
+	/**
+	 * Manage calendars
+	 * @global type $lng
+	 * @global type $ilCtrl
+	 * @global type $tpl 
+	 */
 	protected function manage()
 	{
 		global $lng, $ilCtrl, $tpl;
@@ -1272,9 +1293,110 @@ class ilCalendarCategoryGUI
 
 		include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
 		$toolbar = new ilToolbarGui();
-		$toolbar->addButton($lng->txt("add"), $ilCtrl->getLinkTarget($this, "add"));
+		$toolbar->addButton($lng->txt("cal_add_calendar"), $ilCtrl->getLinkTarget($this, "add"));
 
 		$tpl->setContent($toolbar->getHTML().$table_gui->getHTML());
+	}
+	
+	/**
+	 * import appointments
+	 */
+	protected function importAppointments(ilPropertyFormGUI $form = null)
+	{
+		global $ilTabs, $tpl;
+		
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		
+		$this->ctrl->setParameter($this,'category_id',(int) $_GET['category_id']);
+
+		// Check permissions
+		$this->readPermissions();
+		$this->checkVisible();
+		
+		if(!$this->isImportable())
+		{
+			ilUtil::sendFailure($this->lng->txt('permission_denied'));
+			$this->manage();
+			return false;
+		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
+
+
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initImportForm();
+		}
+		$tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Create import form
+	 */
+	protected function initImportForm()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('cal_import_tbl'));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$form->addCommandButton('uploadAppointments',$this->lng->txt('import'));
+		
+		$ics = new ilFileInputGUI($this->lng->txt('cal_import_file'), 'file');
+		$ics->setALlowDeletion(false);
+		$ics->setSuffixes(array('ics'));
+		$ics->setInfo($this->lng->txt('cal_import_file_info'));
+		$form->addItem($ics);
+		
+		return $form;
+	}
+	
+	/**
+	 * Upload appointments
+	 */
+	protected function uploadAppointments()
+	{
+		// @todo permission check
+		
+		$form = $this->initImportForm();
+		if($form->checkInput())
+		{
+			$file = $form->getInput('file');
+			$tmp = ilUtil::ilTempnam();
+			
+			ilUtil::moveUploadedFile($file['tmp_name'], $file['name'], $tmp);
+			
+			$num = $this->doImportFile($tmp, (int) $_REQUEST['category_id']);
+			
+			ilUtil::sendSuccess($this->lng->txt('cal_imported_success'),true);
+			$this->ctrl->redirect($this,'manage');
+		}
+		
+		ilUtil::sendFailure($this->lng->txt('cal_err_file_upload'),true);
+		$this->initImportForm($form);
+	}
+	
+	/**
+	 * Import ics
+	 * @param type $file
+	 * @param type $category_id 
+	 */
+	protected function doImportFile($file, $category_id)
+	{
+		include_once './Services/Calendar/classes/../classes/iCal/class.ilICalParser.php';
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': Starting ical import...');
+		
+		$parser = new ilICalParser($file,ilICalParser::INPUT_FILE);
+		$parser->setCategoryId($category_id);
+		$parser->parse();
+		$GLOBALS['ilLog']->write(__METHOD__.': Importing in category '. $category_id);
+		return true;
 	}
 }
 ?>

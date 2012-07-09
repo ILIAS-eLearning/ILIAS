@@ -62,14 +62,14 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 	private $freq_until_date = null;
 	private $freq_until_count;
 	
-	private $interval;
-	private $byday;
-	private $byweekno;
-	private $bymonth;
-	private $bymonthday;
-	private $byyearday;
-	private $bysetpos;
-	private $weekstart;
+	private $interval = 0;
+	private $byday = '';
+	private $byweekno = '';
+	private $bymonth = '';
+	private $bymonthday = '';
+	private $byyearday = '';
+	private $bysetpos = '';
+	private $weekstart = '';
 	
 	private $exclusion_dates = array();
 	
@@ -675,17 +675,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 			$ilDB->quote($next_id,'integer').", ".
 	 		$this->db->quote($this->cal_id ,'integer').", ".
 	 		$ilDB->quote(1,'integer').", ".
-	 		$ilDB->quote($this->getFrequenceType() ,'text').", ".
+	 		$ilDB->quote((string) $this->getFrequenceType() ,'text').", ".
 	 		$this->db->quote($until_date,'timestamp').", ".
-			$this->db->quote($this->getFrequenceUntilCount() ,'integer').", ".
-			$this->db->quote($this->getInterval() ,'integer').", ".
-			$this->db->quote($this->getBYDAY() ,'text').", ".
-			$this->db->quote($this->getBYWEEKNO() ,'text').", ".
-			$this->db->quote($this->getBYMONTH() ,'text').", ".
-			$this->db->quote($this->getBYMONTHDAY() ,'text').", ".
-			$this->db->quote($this->getBYYEARDAY() ,'text').", ".
-			$this->db->quote($this->getBYSETPOS() ,'text').", ".
-			$this->db->quote($this->getWeekstart() ,'text')." ".
+			$this->db->quote((int) $this->getFrequenceUntilCount() ,'integer').", ".
+			$this->db->quote((int) $this->getInterval() ,'integer').", ".
+			$this->db->quote((string) $this->getBYDAY() ,'text').", ".
+			$this->db->quote((string) $this->getBYWEEKNO() ,'text').", ".
+			$this->db->quote((string) $this->getBYMONTH() ,'text').", ".
+			$this->db->quote((string) $this->getBYMONTHDAY() ,'text').", ".
+			$this->db->quote((string) $this->getBYYEARDAY() ,'text').", ".
+			$this->db->quote((string) $this->getBYSETPOS() ,'text').", ".
+			$this->db->quote((string) $this->getWeekstart() ,'text')." ".
 			")";
 		$res = $ilDB->manipulate($query);
 		$this->recurrence_id = $next_id;
