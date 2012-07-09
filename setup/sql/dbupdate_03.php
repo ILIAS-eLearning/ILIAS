@@ -11147,3 +11147,7 @@ $ilDB->free($stmt);
 		$ilDB->createSequence('qpl_fb_cloze');
 	}
 ?>
+<#3651>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

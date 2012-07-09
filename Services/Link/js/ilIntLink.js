@@ -7,6 +7,7 @@ il.IntLink =
 {
 	int_link_url: '',
 	cfg: {},
+	id: '',
 
 	refresh: function()
 	{
@@ -15,13 +16,29 @@ il.IntLink =
 
 	init: function(cfg)
 	{
-		this.cfg = cfg;
-		var el = document.getElementById("iosEditInternalLinkTrigger");
-
-		if (el)
+		// new: get link dynamically
+		if(cfg.url == "")
 		{
-			YAHOO.util.Event.addListener(el, "click", this.openIntLink);
-			this.setInternalLinkUrl(cfg.url);
+			$("a.iosEditInternalLinkTrigger").each(function(idx, el) {
+				var link = $(el).attr("href");
+				var id = $(el).attr("id");
+				$(el).click(function() {
+					il.IntLink.initPanel(link, id);
+					return false;
+				});
+			});
+		}
+		// old: static id
+		else
+		{
+			this.cfg = cfg;
+			var el = document.getElementById("iosEditInternalLinkTrigger");
+
+			if (el)
+			{
+				YAHOO.util.Event.addListener(el, "click", this.openIntLink);
+				this.setInternalLinkUrl(cfg.url);
+			}
 		}
 	},
 
@@ -35,7 +52,6 @@ il.IntLink =
 		return this.int_link_url;
 	},
 
-
 	// click event handler
 	openIntLink: function(ev)
 	{
@@ -44,8 +60,15 @@ il.IntLink =
 		YAHOO.util.Event.stopPropagation(ev);
 	},
 
-	initPanel: function()
+	initPanel: function(internal_link, id)
 	{
+		// new: get link from onclick event
+		if(internal_link != undefined)
+		{
+			this.setInternalLinkUrl(internal_link);
+			this.id = id.substring(0, id.length-5);
+		}
+		
 		var obj = document.getElementById('ilEditorPanel_c');
 		if (!obj)
 		{
@@ -259,8 +282,8 @@ il.IntLink =
 			ilCOPage.cmdIntLink(b, e);
 		}
 		else
-		{
-			addInternalLink(b,e);
+		{			
+			addInternalLink(b,e,this.id);
 		}
 
 		il.IntLink.panel.hide();

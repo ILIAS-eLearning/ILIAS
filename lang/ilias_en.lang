@@ -12839,3 +12839,6 @@ mcst#:#mcst_purpose_standard#:#Standard File
 mcst#:#mcst_purpose_videoalternative#:#Alternative Video File
 mcst#:#mcst_converted_file#:#File has been converted.
 dateplaner#:#cal_imported_success#:#Imported %1$s appointments.
+form#:#form_link_internal#:#Internal
+form#:#form_link_external#:#External
+form#:#form_get_link#:#Select Target Object

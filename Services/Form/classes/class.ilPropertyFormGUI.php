@@ -88,9 +88,10 @@ class ilPropertyFormGUI extends ilFormGUI
 		switch($next_class)
 		{
 			case 'ilformpropertydispatchgui':
+				$ilCtrl->saveParameter($this, 'postvar');		
 				include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
 				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
-				$item = $this->getItemByPostVar($_GET["postvar"]);
+				$item = $this->getItemByPostVar($_REQUEST["postvar"]);
 				$form_prop_dispatch->setItem($item);
 				return $ilCtrl->forwardCommand($form_prop_dispatch);
 				break;
