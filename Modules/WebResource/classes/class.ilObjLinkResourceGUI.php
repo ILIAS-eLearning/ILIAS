@@ -14,6 +14,7 @@ require_once 'Services/LinkChecker/interfaces/interface.ilLinkCheckerGUIRowHandl
 * 
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilMDEditorGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjLinkResourceGUI: ilExportGUI, ilWorkspaceAccessGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjLinkResourceGUI: ilPropertyFormGUI, ilInternalLinkGUI
 * 
 *
 * @ingroup ModulesWebResource
@@ -96,7 +97,23 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
-				
+			
+			case "ilpropertyformgui":													
+				include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+				$this->initFormLink(self::LINK_MOD_EDIT);
+				$this->ctrl->forwardCommand($this->form);
+				break;
+			
+			case "ilinternallinkgui":
+				$this->lng->loadLanguageModule("content");
+				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
+				$link_gui->filterLinkType("RepositoryItem");
+				$link_gui->setFilterWhiteList(true);
+				$link_gui->setMode("asynch");			
+				$ilCtrl->forwardCommand($link_gui);
+				break;
+			
 			default:
 				if(!$cmd)
 				{
@@ -449,12 +466,22 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			ilUtil::sendFailure($this->lng->txt('select_one'),TRUE);
 			$ilCtrl->redirect($this,'view');
 		}
-	
+		
 		// Validate
 		$invalid = array();
 		foreach($_POST['ids'] as $link_id)
 		{
 			$data = $_POST['links'][$link_id];
+	
+			// handle internal links
+			if($_POST['tar_'.$link_id.'_ajax_type'] &&
+				$_POST['tar_'.$link_id.'_ajax_id'])
+			{
+				$data['tar'] = $_POST['links'][$link_id]['tar'] = 
+					$_POST['tar_'.$link_id.'_ajax_type'].'|'.
+					$_POST['tar_'.$link_id.'_ajax_id'];	
+			}
+			
 			
 			if(!strlen($data['tit']))
 			{
@@ -691,12 +718,18 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		}
 
 		// Target
+		/*
 		$tar = new ilTextInputGUI($this->lng->txt('webr_link_target'),'tar');
 		$tar->setValue("http://");
-		$tar->setRequired(true);
+		
 		$tar->setSize(40);
 		$tar->setMaxLength(500);
-		$this->form->addItem($tar);
+		*/
+		include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
+		$tar = new ilLinkInputGUI($this->lng->txt('webr_link_target'),'tar');
+		
+		$tar->setRequired(true);
+		$this->form->addItem($tar);		
 		
 		// Title
 		$tit = new ilTextInputGUI($this->lng->txt('webr_link_title'),'tit');
@@ -865,8 +898,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		include_once './Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php';
 		$table = new ilWebResourceEditableLinkTableGUI($this,'view');
 		$table->parse();
+		
+		include_once './Modules/LearningModule/classes/class.ilInternalLinkGUI.php';
+		$js = ilInternalLinkGUI::getInitHTML("");
+		
+		$this->tpl->addJavaScript("Modules/WebResource/js/intLink.js");
 
-		$this->tpl->setVariable('TABLE_LINKS',$table->getHTML());
+		$this->tpl->setVariable('TABLE_LINKS',$table->getHTML().$js);
 	}
 	
 	/**
@@ -1454,6 +1492,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		{
 			$url = ilLinkResourceItems::_getFirstLink($obj_id);
 			
+			// handle internal links
+			if(stristr($url["target"], "|"))
+			{
+				$parts = explode("|", $url["target"]);
+				$url["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
+			}
+			
 			include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 			if(ilParameterAppender::_isEnabled())
 			{
@@ -1475,6 +1520,13 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			$item = $items->getItem($_REQUEST["link_id"]);
 			if($item["target"])
 			{
+				// handle internal links
+				if(stristr($item["target"], "|"))
+				{
+					$parts = explode("|", $item["target"]);
+					$item["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
+				}
+				
 				include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 				if(ilParameterAppender::_isEnabled())
 				{

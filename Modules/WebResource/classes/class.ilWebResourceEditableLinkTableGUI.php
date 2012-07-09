@@ -121,6 +121,11 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$tmp['name'] = $_POST['links'][$link_id]['nam'];
 			$tmp['params'] = array();
 			
+			var_dump($_POST, $link_id);
+			
+			var_dump($_POST['tar_'.$link_id.'_ajax_type']);
+			var_dump($_POST['tar_'.$link_id.'_ajax_id']);
+			
 			$rows[] = $tmp;
 		}
 		$this->setData($rows);
@@ -165,26 +170,38 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl,$lng;
 		
-		if(in_array($a_set['id'], $this->getInvalidLinks()))
+		if(!stristr($a_set['target'], '|'))
 		{
-			$this->tpl->setVariable('CSS_ROW','warn');
+			$this->tpl->setCurrentBlock('external');
+			$this->tpl->setVariable('VAL_ID',$a_set['id']);
+			$this->tpl->setVariable('VAL_TARGET',$a_set['target']);
+			$this->tpl->parseCurrentBlock();
 		}
-		
-		// Check
-		$this->tpl->setVariable('VAL_ID',$a_set['id']);
-		$this->tpl->setVariable('VAL_CHECKBOX',
-			ilUtil::formCheckbox(false, 'link_ids[]',$a_set['id'])
-		);
-		
-		// Column title
-		$this->tpl->setVariable('TXT_TITLE',$this->lng->txt('title'));
-		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
-		$this->tpl->setVariable('TXT_DESC',$this->lng->txt('description'));
-		$this->tpl->setVariable('VAL_DESC',$a_set['description']);
-		
-		// Column Target
-		$this->tpl->setVariable('TXT_TARGET',$this->lng->txt('target'));
-		$this->tpl->setVariable('VAL_TARGET',$a_set['target']);
+		else
+		{
+			$ilCtrl->setParameterByClass('ilinternallinkgui', 'postvar','tar_'.$a_set['id']);
+			$trigger_link = array(get_class($this->parent_obj), 'ilinternallinkgui');
+			$trigger_link = $ilCtrl->getLinkTargetByClass($trigger_link, '', false, true, false);
+			$ilCtrl->setParameterByClass('ilinternallinkgui', 'postvar', '');
+			
+			$this->tpl->setCurrentBlock('internal');
+			$this->tpl->setVariable('VAL_ID',$a_set['id']);			
+			$this->tpl->setVariable('VAL_TRIGGER_INTERNAL',$trigger_link);
+			$this->tpl->setVariable('TXT_TRIGGER_INTERNAL',$this->lng->txt('edit'));
+				
+			// info about current link
+			if($a_set['target'])
+			{			
+				$parts = explode('|', $a_set['target']);
+				$this->tpl->setVariable('VAL_INTERNAL_TYPE',$parts[0]);
+				$this->tpl->setVariable('VAL_INTERNAL_ID',$parts[1]);
+				
+				$this->tpl->setVariable('TXT_TRIGGER_INFO', $this->lng->txt('obj_'.$parts[0]).' "'.					
+					ilObject::_lookupTitle(ilObject::_lookupObjId($parts[1])).'"');				
+			}
+			
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		$this->tpl->setVariable('TXT_LAST_CHECK',$this->lng->txt('webr_last_check_table'));
 		$this->tpl->setVariable('LAST_CHECK',
@@ -246,22 +263,27 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-
-		// Edit
-		/*
-		$ilCtrl->setParameterByClass(get_class($this->getParentObject()), 'link_id', $a_set['id']);
-		$this->tpl->setVariable('EDIT_LINK',
-			$ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()),'editLink')
-		);
-		$ilCtrl->clearParametersByClass(get_class($this->getParentObject()));
-		$this->tpl->setVariable('EDIT_ALT',$this->lng->txt('edit'));
-		*/
+		if(in_array($a_set['id'], $this->getInvalidLinks()))
+		{
+			$this->tpl->setVariable('CSS_ROW','warn');
+		}
 		
+		// Check
+		$this->tpl->setVariable('VAL_ID',$a_set['id']);
+		$this->tpl->setVariable('VAL_CHECKBOX',
+			ilUtil::formCheckbox(false, 'link_ids[]',$a_set['id'])
+		);
+		
+		// Column title
+		$this->tpl->setVariable('TXT_TITLE',$this->lng->txt('title'));
+		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
+		$this->tpl->setVariable('TXT_DESC',$this->lng->txt('description'));
+		$this->tpl->setVariable('VAL_DESC',$a_set['description']);
+		
+		// Column Target
+		$this->tpl->setVariable('TXT_TARGET',$this->lng->txt('target'));
 	}
-	
-	
-	
-	
+		
 	/**
 	 * Get Web resource items object
 	 * @return object	ilLinkResourceItems

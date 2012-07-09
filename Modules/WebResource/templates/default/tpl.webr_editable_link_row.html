@@ -13,7 +13,16 @@
 	<td class="std" style="vertical-align: top; padding: 8px;">
 		<span class="small">
 			{TXT_TARGET}: <span class="asterisk">*</span><br />
-			<input type="text" name="links[{VAL_ID}][tar]" value="{VAL_TARGET}" size="40" maxlength="500" /><br />
+			<!-- BEGIN external -->
+			<input type="text" name="links[{VAL_ID}][tar]" value="{VAL_TARGET}" size="40" maxlength="500" />
+			<!-- END external -->
+			<!-- BEGIN internal -->
+			{TXT_TRIGGER_INFO}
+			<a id="tar_{VAL_ID}_ajax" class="iosEditInternalLinkTrigger" href="{VAL_TRIGGER_INTERNAL}">&raquo; {TXT_TRIGGER_INTERNAL}</a>		
+			<input type="hidden" name="tar_{VAL_ID}_ajax_type" value="{VAL_INTERNAL_TYPE}" />
+			<input type="hidden" name="tar_{VAL_ID}_ajax_id" value="{VAL_INTERNAL_ID}" />
+			<!-- END internal -->
+			<br />
 			<div style="margin-top:8px" />
 			{TXT_LAST_CHECK} {LAST_CHECK}
 			<!-- BEGIN dyn_del_rows -->
