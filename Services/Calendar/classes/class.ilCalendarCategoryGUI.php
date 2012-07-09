@@ -223,6 +223,11 @@ class ilCalendarCategoryGUI
 			include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
 			$toolbar = new ilToolbarGui();
 			$toolbar->addButton($this->lng->txt("cal_add_appointment"), $this->ctrl->getLinkTargetByClass("ilcalendarappointmentgui", "add"));
+			
+			if(!in_array($category->getType(), array(ilCalendarCategory::TYPE_CH, ilCalendarCategory::TYPE_BOOK)))
+			{
+				$toolbar->addButton($this->lng->txt("cal_import_appointments"), $this->ctrl->getLinkTarget($this, "importAppointments"));
+			}
 			$toolbar = $toolbar->getHTML();
 		}
 		
