@@ -133,6 +133,24 @@ class ilCalendarCategoryAssignments
 		}
 		return $cal_ids ? $cal_ids : array();
 	}
+	
+	/**
+	 * Get number of assigned appoitments
+	 * @param type $a_cat_id 
+	 */
+	public static function lookupNumberOfAssignedAppointments($a_cat_ids)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT COUNT(*) num FROM cal_cat_assignments '.
+				'WHERE '.$ilDB->in('cat_id', $a_cat_ids, false, 'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->num;
+		}
+		return 0;
+	}
 
 	/**
 	 * get automatic generated appointments of category

@@ -1378,7 +1378,7 @@ class ilCalendarCategoryGUI
 			
 			$num = $this->doImportFile($tmp, (int) $_REQUEST['category_id']);
 			
-			ilUtil::sendSuccess($this->lng->txt('cal_imported_success'),true);
+			ilUtil::sendSuccess(sprintf($this->lng->txt('cal_imported_success'), (int) $num),true);
 			$this->ctrl->redirect($this,'manage');
 		}
 		
@@ -1394,14 +1394,19 @@ class ilCalendarCategoryGUI
 	protected function doImportFile($file, $category_id)
 	{
 		include_once './Services/Calendar/classes/../classes/iCal/class.ilICalParser.php';
+		include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': Starting ical import...');
+		
+		$assigned_before = ilCalendarCategoryAssignments::lookupNumberOfAssignedAppointments(array($category_id));
 		
 		$parser = new ilICalParser($file,ilICalParser::INPUT_FILE);
 		$parser->setCategoryId($category_id);
 		$parser->parse();
-		$GLOBALS['ilLog']->write(__METHOD__.': Importing in category '. $category_id);
-		return true;
+		
+		$assigned_after = ilCalendarCategoryAssignments::lookupNumberOfAssignedAppointments(array($category_id));
+		
+		return $assigned_after - $assigned_before;
 	}
 }
 ?>
