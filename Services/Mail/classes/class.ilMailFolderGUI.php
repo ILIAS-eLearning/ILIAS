@@ -709,7 +709,7 @@ class ilMailFolderGUI
 		 */
 		$sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
 
-		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
+		if($sender && $sender->getId() && $sender->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int)$_GET['mail_id']);
 			$this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
@@ -733,7 +733,7 @@ class ilMailFolderGUI
 		$ilToolbar->addButton($this->lng->txt('delete'), $this->ctrl->getLinkTarget($this), '', ilAccessKey::DELETE);
 		$this->ctrl->clearParameters($this);
 
-		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
+		if($sender && $sender->getId() && $sender->getId() != ANONYMOUS_USER_ID)
 		{
 			$linked_fullname    = $sender->getPublicName();
 			$picture            = ilUtil::img($sender->getPersonalPicturePath('xsmall'), $sender->getPublicName());
@@ -770,7 +770,7 @@ class ilMailFolderGUI
 			$from->setHtml($picture . ' ' . $linked_fullname . $add_to_addb_button);
 			$form->addItem($from);
 		}
-		else if(!$sender)
+		else if(!$sender || !$sender->getId())
 		{
 			$from = new ilCustomInputGUI($this->lng->txt('from'));
 			$from->setHtml($mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
@@ -923,11 +923,11 @@ class ilMailFolderGUI
 		$sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
 
 		$tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));
-		if($sender && $sender->getId() != ANONYMOUS_USER_ID)
+		if($sender && $sender->getId() && $sender->getId() != ANONYMOUS_USER_ID)
 		{
 			$tplprint->setVariable('FROM', $sender->getPublicName());
 		}
-		else if(!$sender)
+		else if(!$sender || !$sender->getId())
 		{
 			$tplprint->setVariable('FROM',  $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 		}
