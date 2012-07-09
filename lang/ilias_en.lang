@@ -12825,6 +12825,11 @@ objref#:#objref_reuse_title#:#Reuse Title of Reference
 objref#:#objref_custom_title#:#Use Custom Title
 news#:#news_keep_minimal_x_items#:#Keep at least x items
 news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.
+dateplaner#:#cal_add_calendar#:#Add Calendar
+dateplaner#:#cal_import_appointments#:#Import Appointments
+dateplaner#:#cal_import_tbl#:#Import Appointments
+dateplaner#:#cal_import_file#:#Import File
+dateplaner#:#cal_import_file_info#:#Choose the file, that contains your calendar appointments.
 mcst#:#mcst_conv_standard_to#:#Convert Standard File to
 mcst#:#mcst_conv_videoalternative_to#:#Convert Alternative Video File to
 mcst#:#mcst_target#:#Target

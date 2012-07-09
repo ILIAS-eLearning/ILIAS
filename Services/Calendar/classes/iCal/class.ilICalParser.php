@@ -32,6 +32,8 @@ include_once('./Services/Calendar/classes/iCal/class.ilICalProperty.php');
 include_once('./Services/Calendar/classes/iCal/class.ilICalParameter.php');
 include_once('./Services/Calendar/classes/iCal/class.ilICalValue.php');
 
+include_once './Services/Calendar/exceptions/class.ilICalParserException.php';
+
 /** 
 * 
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -61,6 +63,8 @@ class ilICalParser
 	 * @access public
 	 * @param string ical string
 	 * 
+	 * @throws ilICalParserException
+	 * 
 	 */
 	public function __construct($a_ical,$a_type)
 	{
@@ -74,6 +78,12 @@ class ilICalParser
 		{
 			$this->file = $a_ical;
 			$this->ical = file_get_contents($a_ical);
+			
+			if(!strlen($this->ical))
+			{
+				throw new ilICalParserException($GLOBALS['cal_err_no_input']);
+			}
+			#$GLOBALS['ilLog']->write(__METHOD__.': Ical content: '. $this->ical);
 		}
 	 	$this->log = $ilLog;
 	}
@@ -102,6 +112,12 @@ class ilICalParser
 		$this->default_timezone = ilTimeZone::_getInstance();
 		
 		$lines = $this->tokenize($this->ical,ilICalUtils::ICAL_EOL);
+		
+		if(count(lines) == 1)
+		{
+			$lines = $this->tokenize($this->ical, ilICalUtils::ICAL_EOL_FB);
+		}
+		
 	 	for($i = 0; $i < count($lines); $i++)
 		{
 			$line = $lines[$i];
@@ -503,6 +519,7 @@ class ilICalParser
 			{
 				$end = new ilDate($end->getValue(),
 					IL_CAL_DATE);
+				$end->increment(IL_CAL_DAY,-1);
 			}
 			else
 			{
@@ -539,7 +556,7 @@ class ilICalParser
 					case 'WEEKLY':
 					case 'MONTHLY':
 					case 'YEARLY':
-						$rec->setFrequenceType($freq->getValue());
+						$rec->setFrequenceType((string) $freq->getValue());
 						break;
 						
 					default:
@@ -550,7 +567,7 @@ class ilICalParser
 			
 			foreach($recurrence->getItemsByName('COUNT') as $value)
 			{
-				$rec->setFrequenceUntilCount($value->getValue());
+				$rec->setFrequenceUntilCount((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('UNTIL') as $until)
@@ -560,42 +577,42 @@ class ilICalParser
 			}
 			foreach($recurrence->getItemsByName('INTERVAL') as $value)
 			{
-				$rec->setInterval($value->getValue());
+				$rec->setInterval((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('BYDAY') as $value)
 			{
-				$rec->setBYDAY($value->getValue());
+				$rec->setBYDAY((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('BYWEEKNO') as $value)
 			{
-				$rec->setBYWEEKNO($value->getValue());
+				$rec->setBYWEEKNO((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('BYMONTH') as $value)
 			{
-				$rec->setBYMONTH($value->getValue());
+				$rec->setBYMONTH((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('BYMONTHDAY') as $value)
 			{
-				$rec->setBYMONTHDAY($value->getValue());
+				$rec->setBYMONTHDAY((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('BYYEARDAY') as $value)
 			{
-				$rec->setBYYEARDAY($value->getValue());
+				$rec->setBYYEARDAY((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('BYSETPOS') as $value)
 			{
-				$rec->setBYSETPOS($value->getValue());
+				$rec->setBYSETPOS((string) $value->getValue());
 				break;						
 			}
 			foreach($recurrence->getItemsByName('WKST') as $value)
 			{
-				$rec->setWeekstart($value->getValue());
+				$rec->setWeekstart((string) $value->getValue());
 				break;						
 			}
 			$rec->save();
