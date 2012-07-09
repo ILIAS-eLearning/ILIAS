@@ -98,10 +98,12 @@ class ilNotification
 		}
 		else
 		{
-			$ilDB->query("REPLACE INTO notification (type, user_id, id)".
-				" VALUES(".$ilDB->quote($type, "integer").
-				", ".$ilDB->quote($user_id, "integer").
-				", ".$ilDB->quote($id, "integer").")");
+			$fields = array(
+				"type" => array("integer", $type),
+				"user_id" => array("integer", $user_id),
+				"id" => array("integer", $id)
+			);			
+			$ilDB->replace("notification", $fields, array());			
 		}
 	}
 
