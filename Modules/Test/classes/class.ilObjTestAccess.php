@@ -872,8 +872,11 @@ function _getQuestionCount($test_id)
 	{	
 		if(self::_isOffline($a_obj_id))
 		{
+			$a_visible_flag = false;
 			return false;							
 		}
+		
+		$a_visible_flag = true;
 		
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($a_ref_id);		
