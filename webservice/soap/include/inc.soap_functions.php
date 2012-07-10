@@ -1000,6 +1000,21 @@ class ilSoapFunctions {
 		return $s->getTriggerOfAllCertificates($sid, $usr_id);
 	}
 	*/
+	
+	/**
+	 * Delete progress
+	 * @param string $sid
+	 * @param array $ref_ids
+	 * @param array $usr_ids
+	 * @param array $type_filter
+	 * @return type 
+	 */
+	public static function deleteProgress($sid, $ref_ids, $usr_ids, $type_filter)
+	{
+		include_once './webservice/soap/classes/class.ilSoapLearningProgressAdministration.php';
+		$sla = new ilSoapLearningProgressAdministration();
+		return $sla->deleteProgress($sid, $ref_ids, $usr_ids, $type_filter);
+	}
 }
 
 /*	function  ilClone($sid,$copy_identifier)
