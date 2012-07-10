@@ -1534,7 +1534,8 @@ else
 		
 		// db type
 		$options = array(
-			"mysql" => "MySQL 5.0.x or higher",
+			"mysql" => "MySQL 5.0.x or higher (MyISAM engine)",
+			"innodb" => "MySQL 5.0.x or higher (InnoDB engine)",
 			"oracle" => "Oracle 10g or higher",
 			"postgres" => "Postgres (experimental)"
 			);
@@ -1632,7 +1633,7 @@ else
 		$this->form->addItem($ti);
 		
 		// db name
-		if (in_array($_SESSION["db_type"], array("mysql", "postgres")))
+		if (in_array($_SESSION["db_type"], array("mysql", "postgres", "innodb")))
 		{
 			$ti = new ilTextInputGUI($lng->txt("db_name"), "db_name");
 			$ti->setRequired(true);
@@ -2046,7 +2047,8 @@ else
 		$this->form->addItem($ne);
 
 		// version
-		if ($this->setup->getClient()->getDBType() == "mysql")
+		if ($this->setup->getClient()->getDBType() == "mysql" ||
+			$this->setup->getClient()->getDBType() == "innodb")
 		{
 			$ne = new ilNonEditableValueGUI($lng->txt("version"), "db_version");
 			$ilDB = $this->setup->getClient()->db;
@@ -2071,7 +2073,8 @@ else
 		$this->form->addItem($ne);
 		
 		// creation / collation for mysql
-		if ($this->setup->getClient()->getDBType() == "mysql" && $a_install)
+		if (($this->setup->getClient()->getDBType() == "mysql" ||
+			$this->setup->getClient()->getDBType() == "innodb") && $a_install)
 		{
 			// create database 
 			$cb = new ilCheckboxInputGUI($lng->txt("database_create"), "chk_db_create");

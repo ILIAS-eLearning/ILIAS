@@ -1,6 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once ("./Services/Database/classes/class.ilDB.php");
 
@@ -114,8 +114,8 @@ class ilDBMySQL extends ilDB
 	}
 	
 	/**
-	* Initialize the database connection
-	*/
+	 * Initialize the database connection
+	 */
 	function initConnection()
 	{
 		// SET 'max_allowed_packet' (only possible for mysql version 4)
@@ -131,6 +131,7 @@ class ilDBMySQL extends ilDB
 			$this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
 		}
 
+		$this->query("SET SESSION STORAGE_ENGINE = 'MYISAM'");
 	}
 
 	/**
@@ -239,7 +240,7 @@ class ilDBMySQL extends ilDB
 	*
 	* todo@: This is MySQL specific and should go to a MySQL specific class.
 	*/
-	private function setMaxAllowedPacket()
+	protected function setMaxAllowedPacket()
 	{
 		$version = $this->getDBVersion();
 

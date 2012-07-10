@@ -115,7 +115,7 @@ db_conn#:#Database Connection
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')
 db_error_please_check#:#Please check database hostname, username and password.
 db_host#:#Database Host
-db_mysql#:#MySQL
+db_mysql#:#MySQL (MyISAM)
 db_name#:#Database Name
 db_needs_update#:#Database needs update.
 db_not_installed#:#Database not installed.
@@ -559,3 +559,4 @@ proxy_activated_configurated#:#Proxy enabled
 info_text_proxy#:#Proxy Settings
 setup_process_step_proxy#:#Proxy
 step_proxy#:#Proxy
+db_innodb#:#MySQL (InnoDB)
