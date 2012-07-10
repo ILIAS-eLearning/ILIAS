@@ -1062,60 +1062,6 @@ class ilColumnGUI
 
 	}
 
-	function moveBlock()
-	{
-		global $ilUser, $ilCtrl;
-		
-		$this->determineBlocks();
-		
-		if (in_array($this->getColType(), array("pd", "crs", "cat", "grp")))
-		{
-			$bid = explode("_", $_GET["block_id"]);
-			$i = 2;
-			foreach($this->blocks[$this->getCmdSide()] as $block)
-			{
-				// only handle non-hidden blocks (or repository mode, here we cannot hide blocks)
-				if ($this->getRepositoryMode() || ilBlockSetting::_lookupDetailLevel($block["type"],
-					$ilUser->getId(), $block["id"]) != 0)
-				{
-					$user_id = ($this->getRepositoryMode())
-						? 0
-						: $ilUser->getId();
-
-					ilBlockSetting::_writeNumber($block["type"], $i, $user_id, $block["id"]);
-
-					if ($block["type"] == $bid[0] && $block["id"] == $bid[1])
-					{
-						if ($_GET["move_dir"] == "up")
-						{
-							ilBlockSetting::_writeNumber($block["type"], $i-3, $user_id, $block["id"]);
-						}
-						if ($_GET["move_dir"] == "down")
-						{
-							ilBlockSetting::_writeNumber($block["type"], $i+3, $user_id, $block["id"]);
-						}
-						if ($_GET["move_dir"] == "left")
-						{
-							ilBlockSetting::_writeNumber($block["type"], 200, $user_id, $block["id"]);
-							ilBlockSetting::_writeSide($block["type"], IL_COL_LEFT, $user_id, $block["id"]);
-						}
-						if ($_GET["move_dir"] == "right")
-						{
-							ilBlockSetting::_writeNumber($block["type"], 200, $user_id, $block["id"]);
-							ilBlockSetting::_writeSide($block["type"], IL_COL_RIGHT, $user_id, $block["id"]);
-						}
-					}
-					else
-					{
-						ilBlockSetting::_writeNumber($block["type"], $i, $user_id, $block["id"]);
-					}
-					$i+=2;
-				}
-			}
-		}
-		$ilCtrl->returnToParent($this);
-	}
-	
 	/**
 	* Check whether a block type is globally activated
 	*/
