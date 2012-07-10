@@ -1289,6 +1289,23 @@ class ilNusoapUserAdministrationAdapter
 			SERVICE_USE,
 			'ILIAS updateWebLink():update existing weblink, update weblink properties from xml (see ilias_weblink_4_0.dtd for details).');
 
+		
+		$this->server->register('deleteProgress',
+				array(
+					'sid' => 'xsd:string',
+					'ref_ids' => 'tns:intArray',
+					'usr_ids' => 'tns:intArray',
+					'type_filter' => 'tns:stringArray'
+				),
+				array('status' => 'xsd:boolean'),
+				SERVICE_NAMESPACE,
+				SERVICE_NAMESPACE.'#deleteProgress',
+				SERVICE_STYLE,
+				SERVICE_USE,
+				'Delete user progress data of objects. '
+			);
+				
+								
 		return true;
 
 	}
