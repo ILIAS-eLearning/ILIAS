@@ -89,7 +89,6 @@ class ilChatroomSettingsTask extends ilDBayTaskHandler
 
 	    $settingsForm->setTitle( $lng->txt('settings_title') );
 	    $settingsForm->addCommandButton( 'settings-saveGeneral', $lng->txt( 'save' ) );
-	    $settingsForm->addCommandButton( 'settings-general', $lng->txt( 'cancel' ) );
 	    $settingsForm->setFormAction(
 		$ilCtrl->getFormAction( $this->gui, 'settings-saveGeneral' )
 	    );
