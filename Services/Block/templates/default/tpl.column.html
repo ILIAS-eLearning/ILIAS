@@ -3,6 +3,20 @@
 <!-- END col_block -->
 
 <!-- BEGIN block_management -->
+<!-- BEGIN block_sorting -->
+<script type="text/javascript">
+	(function($) {
+
+		$(function($) {
+			$("{BLOCK_COLUMN_SELECTOR}").ilBlockMoving({
+				url: "{BLOCK_SORTING_STORAGE_URL}",
+				columns: {BLOCK_COLUMNS_TYPES}
+			});
+		});
+
+	})(jQuery);
+</script>
+<!-- END block_sorting -->
 <table class="il_Block" datatable="0">
 <tr><td class="ilBlockHeader" colspan="1">{TXT_BLOCK_MANAGEMENT}</td></tr>
 <!-- BEGIN hidden_block_selector -->

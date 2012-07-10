@@ -449,7 +449,6 @@ class ilColumnGUI
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 				$block_gui->setAdminCommands($this->getAdminCommands());
-				$block_gui->setConfigMode($this->getMovementMode());
 
 				if (in_array($gui_class, $this->custom_blocks[$this->getColType()]) ||
 					in_array($cur_block_type, $this->rep_block_types))
@@ -514,6 +513,8 @@ class ilColumnGUI
 		
 		$i = 1;
 		$sum_moveable = count($this->blocks[$this->getSide()]);
+		
+		$block_rendered = false;
 
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
@@ -537,8 +538,6 @@ class ilColumnGUI
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 				$block_gui->setAdminCommands($this->getAdminCommands());
-				$block_gui->setConfigMode($this->getMovementMode());
-				$this->setPossibleMoves($block_gui, $i, $sum_moveable);
 				
 				// get block for custom blocks
 				if ($block["custom"])
@@ -569,7 +568,6 @@ class ilColumnGUI
 					$bl->setBlockId($block["id"]);
 					$bl->setBlockType($block["type"]);
 					$bl->setTitle($lng->txt("invisible_block"));
-					$this->setPossibleMoves($bl, $i, $sum_moveable);
 					$bl->setConfigMode($this->getMovementMode());
 					$html = $bl->getHTML();
 				}
@@ -580,6 +578,7 @@ class ilColumnGUI
 					$this->tpl->setVariable("BLOCK", $html);
 					$this->tpl->parseCurrentBlock();
 					$ilCtrl->setParameter($this, "block_type", "");
+					$block_rendered = true;
 				}
 				
 				// count (moveable) blocks
@@ -594,25 +593,11 @@ class ilColumnGUI
 				}
 			}
 		}
-	}
 
-	function setPossibleMoves($a_block_gui, $i, $sum_moveable)
-	{
-		if ($this->getSide() == IL_COL_LEFT)
+		// Workaround for an empty column
+		if(!$block_rendered && !$this->getRepositoryMode() && $this->getMovementMode())
 		{
-			$a_block_gui->setAllowMove("right");
-		}
-		else if ($this->getSide() == IL_COL_RIGHT && !$this->getRepositoryMode())
-		{
-			$a_block_gui->setAllowMove("left");
-		}
-		if ($i > 1)
-		{
-			$a_block_gui->setAllowMove("up");
-		}
-		if ($i < $sum_moveable)
-		{
-			$a_block_gui->setAllowMove("down");
+			$this->tpl->touchBlock('col_block');
 		}
 	}
 	
@@ -749,6 +734,38 @@ class ilColumnGUI
 					$lng->txt("move_blocks"));
 			}
 			$this->tpl->parseCurrentBlock();
+			
+			if($this->getMovementMode())
+			{
+				/**
+				 * @var $tpl ilTemplate
+				 * @var $ilCtrl ilCtrl
+				 * @var $ilBrowser ilBrowser
+				 */
+				global $tpl, $ilBrowser;
+	
+				include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+				iljQueryUtil::initjQuery();
+				iljQueryUtil::initjQueryUI();
+
+				if($ilBrowser->isMobile())
+				{
+					$tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
+				}
+				
+				$tpl->addJavaScript('./Services/Block/js/block_sorting.js');
+				
+				// set the col_side parameter to pass the ctrl structure flow
+				$ilCtrl->setParameter($this, 'col_side', IL_COL_CENTER);
+	
+				$this->tpl->setVariable('BLOCK_SORTING_STORAGE_URL', $ilCtrl->getLinkTarget($this, 'saveBlockSortingAsynch', '', true, false));
+				$this->tpl->setVariable('BLOCK_COLUMN_SELECTOR', '#il_left_col,#il_right_col');
+				$this->tpl->setVariable('BLOCK_COLUMNS_TYPES', json_encode(array(IL_COL_LEFT, IL_COL_RIGHT)));
+	
+				// restore col_side parameter
+				$ilCtrl->setParameter($this, 'col_side' ,$this->getSide());
+			}
+			
 			$bl_management = true;
 		}
 		
@@ -815,25 +832,6 @@ class ilColumnGUI
 				$block_gui->setRepositoryMode($this->getRepositoryMode());
 				$block_gui->setEnableEdit($this->getEnableEdit());
 				$block_gui->setAdminCommands($this->getAdminCommands());
-				$block_gui->setConfigMode($this->getMovementMode());
-				
-				if ($this->getSide() == IL_COL_LEFT)
-				{
-					$block_gui->setAllowMove("right");
-				}
-				else if ($this->getSide() == IL_COL_RIGHT &&
-					!$this->getRepositoryMode())
-				{
-					$block_gui->setAllowMove("left");
-				}
-				if ($i > 1)
-				{
-					$block_gui->setAllowMove("up");
-				}
-				if ($i < $sum_moveable)
-				{
-					$block_gui->setAllowMove("down");
-				}
 				
 				// get block for custom blocks
 				if ($block["custom"])
@@ -901,7 +899,6 @@ class ilColumnGUI
 		$block_gui->setRepositoryMode($this->getRepositoryMode());
 		$block_gui->setEnableEdit($this->getEnableEdit());
 		$block_gui->setAdminCommands($this->getAdminCommands());
-		$block_gui->setConfigMode($this->getMovementMode());
 		
 		$ilCtrl->setParameter($this, "block_type", $_POST["block_type"]);
 		$html = $ilCtrl->forwardCommand($block_gui);
@@ -1194,4 +1191,44 @@ class ilColumnGUI
 		return false;
 	}
 
+	/**
+ 	 * Stores the block sequence asynchronously
+	 */
+	public function saveBlockSortingAsynch()
+	{
+		/**
+ 		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
+		$response = new stdClass();
+		$response->success = false;
+
+		if(!isset($_POST[IL_COL_LEFT]['sequence']) && !isset($_POST[IL_COL_RIGHT]['sequence']))
+		{
+			echo json_encode($response);
+			return;
+		};
+
+		if(in_array($this->getColType(), array('pd')))
+		{
+			$response->success = true;
+			
+			foreach(array(IL_COL_LEFT => (array)$_POST[IL_COL_LEFT]['sequence'], IL_COL_RIGHT => (array)$_POST[IL_COL_RIGHT]['sequence']) as $side => $blocks)
+			{
+				$i = 2;
+				foreach($blocks as  $block)
+				{
+					$bid = explode('_', $block);
+					ilBlockSetting::_writeNumber($bid[1], $i, $ilUser->getId(), $bid[2]);
+					ilBlockSetting::_writeSide($bid[1], $side, $ilUser->getId(), $bid[2]);
+
+					$i +=2;
+				}
+			}
+		}
+
+		echo json_encode($response);
+		exit();
+	}
 }

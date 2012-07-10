@@ -680,26 +680,6 @@ abstract class ilBlockGUI
 		}
 	}
 */
-	
-	/**
-	* Set Config Mode (move blocks).
-	*
-	* @param	boolean	$a_configmode	Config Mode (move blocks)
-	*/
-	function setConfigMode($a_configmode)
-	{
-		$this->config_mode = $a_configmode;
-	}
-
-	/**
-	* Get Config Mode (move blocks).
-	*
-	* @return	boolean	Config Mode (move blocks)
-	*/
-	function getConfigMode()
-	{
-		return $this->config_mode;
-	}
 
 	/**
 	* Get HTML.
@@ -807,12 +787,6 @@ abstract class ilBlockGUI
 		// fill row for setting details
 		$this->fillDetailRow();
 
-		// fill row for setting details
-		if ($this->allow_moving)
-		{
-			$this->fillMoveRow();
-		}
-
 		// header links
 		if(count($this->getHeaderLinks()))
 		{
@@ -915,7 +889,7 @@ abstract class ilBlockGUI
 		// header commands
 		if (count($this->getHeaderCommands()) > 0 ||
 			($this->detail_max > $this->detail_min && $this->detail_min == 0) ||
-			$this->close_command != "" || $this->allow_moving)
+			$this->close_command != "")
 		{
 
 			foreach($this->getHeaderCommands() as $command)
@@ -1415,66 +1389,6 @@ abstract class ilBlockGUI
 			$ilCtrl->setParameterByClass("ilcolumngui",
 				$this->getDetailParameter(), "");
 		}
-	}
-	
-	/**
-	* Fill row for Moving
-	*/
-	function fillMoveRow()
-	{
-		global $ilCtrl, $lng;
-		
-		if ($this->config_mode)
-		{
-			if ($this->getAllowMove("left"))
-			{
-				$this->fillMoveLink("left", "icon_left_s.png", $lng->txt("move_left"));
-			}
-			if ($this->getAllowMove("up"))
-			{
-				$this->fillMoveLink("up", "icon_up_s.png", $lng->txt("move_up"));
-			}
-			if ($this->getAllowMove("down"))
-			{
-				$this->fillMoveLink("down", "icon_down_s.png", $lng->txt("move_down"));
-			}
-			if ($this->getAllowMove("right"))
-			{
-				$this->fillMoveLink("right", "icon_right_s.png", $lng->txt("move_right"));
-			}
-			$ilCtrl->setParameter($this, $this->getMoveParameter(), "");
-			
-			$this->tpl->setCurrentBlock("move");
-			$this->tpl->parseCurrentBlock();
-		}
-	}
-	
-	function getAllowMove($a_direction)
-	{
-		return $this->move[$a_direction];
-	}
-
-	function setAllowMove($a_direction, $a_allow = true)
-	{
-		$this->move[$a_direction] = $a_allow;
-//var_dump($this->move);
-	}
-	
-	function fillMoveLink($a_value, $a_img, $a_txt)
-	{
-		global $ilCtrl, $lng;
-
-		$ilCtrl->setParameterByClass("ilcolumngui", "block_id", 
-			$this->getBlockType()."_".$this->getBlockId());
-		$ilCtrl->setParameterByClass("ilcolumngui", "move_dir", 
-			$a_value);
-		$this->tpl->setCurrentBlock("move_link");
-		$this->tpl->setVariable("IMG_MOVE", ilUtil::getImagePath($a_img));
-		$this->tpl->setVariable("ALT_MOVE", $a_txt);
-		$this->tpl->setVariable("HREF_MOVE",
-			$ilCtrl->getLinkTargetByClass("ilcolumngui",
-			"moveBlock"));
-		$this->tpl->parseCurrentBlock();
 	}
 
 	/**
