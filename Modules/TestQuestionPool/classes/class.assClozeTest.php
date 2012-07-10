@@ -1483,7 +1483,7 @@ class assClozeTest extends assQuestion
 		if (strlen($feedback))
 		{
 			include_once("./Services/RTE/classes/class.ilRTE.php");
-			$next_id = $ilDB->nextId('qpl_fb_mc');
+			$next_id = $ilDB->nextId('qpl_fb_cloze');
 			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_cloze (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
 				array('integer','integer','integer','text','integer'),
 				array(
