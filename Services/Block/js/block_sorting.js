@@ -63,6 +63,15 @@
 									// finally enable all sortable objects
 									for(i in internals.sortableContainer) {
 										$(internals.sortableContainer[i]).sortable('enable');
+
+										$(internals.sortableContainer[i]).find("tr.il_adv_sel").each(function() {
+											$(this).attr('onclick', $(this).attr('onclick').replace(/col_side=(left|right)/, 'col_side=' + data.properties.columns[i]));
+										});
+
+										$(internals.sortableContainer[i]).find("td.il_adv_sel a").each(function() {
+											$(this).attr('href', $(this).attr('href').replace(/col_side=(left|right)/, 'col_side=' + data.properties.columns[i]));
+										});
+										
 									}
 								}
 							}).fail(function(jqXHR, textStatus) {
