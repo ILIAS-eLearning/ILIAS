@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -822,7 +822,7 @@ common#:#administrate_users#:#Quản trị người sử dụng nội bộ
 common#:#administration#:#Quản trị
 common#:#administrator#:#Người quản trị
 common#:#adopt#:#Thừa hưởng
-common#:#adopt_perm_from_template#:#Thừa hưởng thiết lập quyền hạn từ vai trò mẫu
+rbac#:#adopt_perm_from_template#:#Thừa hưởng thiết lập quyền hạn từ vai trò mẫu
 common#:#agree_date#:#Đồng ý từ
 common#:#all_authors#:#Tất cả tác giả
 common#:#all_global_roles#:#Vai trò toàn cục
@@ -979,38 +979,38 @@ common#:#cat#:#Chuyên mục
 common#:#cat_a#:#một chuyên mục
 common#:#cat_add#:#Thêm chuyên mục
 common#:#cat_added#:#Đã thêm chuyên mục
-common#:#cat_cat_administrate_users#:#Quản trị các người sử dụng nội bộ
-common#:#cat_create#:#Tạo chuyên mục
+rbac#:#cat_cat_administrate_users#:#Quản trị các người sử dụng nội bộ
+rbac#:#cat_create#:#Tạo chuyên mục
 common#:#cat_create_alm#:#Tạo học phần AICC
-common#:#cat_create_cat#:#Tạo chuyên mục
+rbac#:#cat_create_cat#:#Tạo chuyên mục
 common#:#cat_create_chat#:#Tạo chat
-common#:#cat_create_crs#:#Tạo khóa học
+rbac#:#cat_create_crs#:#Tạo khóa học
 common#:#cat_create_dbk#:#Tạo Digilib Book
-common#:#cat_create_exc#:#Tạo bài tập
-common#:#cat_create_file#:#Tải lên file
-common#:#cat_create_frm#:#Tạo diễn đàn
-common#:#cat_create_glo#:#Tạo bảng chú giải
-common#:#cat_create_grp#:#Tạo nhóm
+rbac#:#cat_create_exc#:#Tạo bài tập
+rbac#:#cat_create_file#:#Tải lên file
+rbac#:#cat_create_frm#:#Tạo diễn đàn
+rbac#:#cat_create_glo#:#Tạo bảng chú giải
+rbac#:#cat_create_grp#:#Tạo nhóm
 common#:#cat_create_hlm#:#Tạo học phần HACP
-common#:#cat_create_htlm#:#Tạo học phần HTML
-common#:#cat_create_icrs#:#Tạo chuyên đề hội thảo chuyên đề LearnLinc
-common#:#cat_create_lm#:#Tạo học phần ILIAS
-common#:#cat_create_mep#:#Tạo thư viện phương tiện
-common#:#cat_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
-common#:#cat_create_sahs#:#Tạo học phần SCORM/AICC
-common#:#cat_create_spl#:#Tạo thư viện câu hỏi khảo sát
-common#:#cat_create_svy#:#Tạo khảo sát
-common#:#cat_create_tst#:#Tạo bài kiểm tra
+rbac#:#cat_create_htlm#:#Tạo học phần HTML
+rbac#:#cat_create_icrs#:#Tạo chuyên đề hội thảo chuyên đề LearnLinc
+rbac#:#cat_create_lm#:#Tạo học phần ILIAS
+rbac#:#cat_create_mep#:#Tạo thư viện phương tiện
+rbac#:#cat_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
+rbac#:#cat_create_sahs#:#Tạo học phần SCORM/AICC
+rbac#:#cat_create_spl#:#Tạo thư viện câu hỏi khảo sát
+rbac#:#cat_create_svy#:#Tạo khảo sát
+rbac#:#cat_create_tst#:#Tạo bài kiểm tra
 common#:#cat_create_url#:#Tạo URL
-common#:#cat_create_webr#:#Tạo tài nguyên web mới
-common#:#cat_delete#:#Xóa chuyên mục
+rbac#:#cat_create_webr#:#Tạo tài nguyên web mới
+rbac#:#cat_delete#:#Xóa chuyên mục
 common#:#cat_edit#:#Sửa chuyên mục
-common#:#cat_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#cat_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#cat_new#:#Chuyên mục mới
-common#:#cat_read#:#Đọc chuyên mục
-common#:#cat_read_users#:#Đọc tài khoản người sử dụng nội bộ
-common#:#cat_visible#:#Nhìn thấy chuyên mục
-common#:#cat_write#:#Sửa chuyên mục
+rbac#:#cat_read#:#Đọc chuyên mục
+rbac#:#cat_read_users#:#Đọc tài khoản người sử dụng nội bộ
+rbac#:#cat_visible#:#Nhìn thấy chuyên mục
+rbac#:#cat_write#:#Sửa chuyên mục
 common#:#categories#:#Chuyên mục
 common#:#categories_imported#:#Hoàn thành nhập chuyên mục.
 common#:#cc#:#Người đồng nhận
@@ -1032,7 +1032,7 @@ common#:#chac_write#:#Sửa thiết lập chat
 common#:#change#:#Thay đổi
 common#:#change_active_assignment#:#Thay đổi nhiệm vụ hoạt động
 common#:#change_assignment#:#Thay đổi nhiệm vụ
-common#:#change_existing_objects#:#Thay đổi các đối tượng đang tồn tại
+rbac#:#change_existing_objects#:#Thay đổi các đối tượng đang tồn tại
 common#:#change_header_title#:#Sửa tiêu đề
 common#:#change_lo_info#:#Thay đổi LO Info
 common#:#change_metadata#:#Thay đổi siêu dữ liệu
@@ -1152,41 +1152,41 @@ common#:#crs_create#:#Tạo khóa học
 common#:#crs_create_alm#:#Tạo học phần AICC
 common#:#crs_create_chat#:#Tạo Chat
 common#:#crs_create_dbk#:#Tạo Digilib Book
-common#:#crs_create_exc#:#Tạo bài tập
-common#:#crs_create_file#:#Tải lên File
-common#:#crs_create_fold#:#Tạo thư mục
-common#:#crs_create_frm#:#Tạo diễn đàn
-common#:#crs_create_glo#:#Tạo bảng chú giải
-common#:#crs_create_grp#:#Tạo nhóm
+rbac#:#crs_create_exc#:#Tạo bài tập
+rbac#:#crs_create_file#:#Tải lên File
+rbac#:#crs_create_fold#:#Tạo thư mục
+rbac#:#crs_create_frm#:#Tạo diễn đàn
+rbac#:#crs_create_glo#:#Tạo bảng chú giải
+rbac#:#crs_create_grp#:#Tạo nhóm
 common#:#crs_create_hlm#:#Tạo học phần HACP
-common#:#crs_create_htlm#:#Tạo học phần HTML
-common#:#crs_create_icrs#:#Tạo hội thảo chuyên đề LearnLinc
-common#:#crs_create_lm#:#Tạo học phần ILIAS
-common#:#crs_create_mep#:#Tạo thư viện phương tiện
-common#:#crs_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
-common#:#crs_create_sahs#:#Tạo học phần SCORM/AICC
-common#:#crs_create_spl#:#Tạo thư viện câu hỏi khảo sát
-common#:#crs_create_svy#:#Tạo khảo sát
-common#:#crs_create_tst#:#Tạo bài kiểm tra
-common#:#crs_create_webr#:#Tạo tài nguyên web mới
-common#:#crs_delete#:#Xóa khóa học
+rbac#:#crs_create_htlm#:#Tạo học phần HTML
+rbac#:#crs_create_icrs#:#Tạo hội thảo chuyên đề LearnLinc
+rbac#:#crs_create_lm#:#Tạo học phần ILIAS
+rbac#:#crs_create_mep#:#Tạo thư viện phương tiện
+rbac#:#crs_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
+rbac#:#crs_create_sahs#:#Tạo học phần SCORM/AICC
+rbac#:#crs_create_spl#:#Tạo thư viện câu hỏi khảo sát
+rbac#:#crs_create_svy#:#Tạo khảo sát
+rbac#:#crs_create_tst#:#Tạo bài kiểm tra
+rbac#:#crs_create_webr#:#Tạo tài nguyên web mới
+rbac#:#crs_delete#:#Xóa khóa học
 common#:#crs_edit#:#Sửa khóa học
-common#:#crs_edit_learning_progress#:#Sửa tiến trình học tập
-common#:#crs_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#crs_edit_learning_progress#:#Sửa tiến trình học tập
+rbac#:#crs_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#crs_info#:#Thông tin
-common#:#crs_join#:#Đăng ký khóa học
-common#:#crs_leave#:#Hủy đăng ký khóa học
+rbac#:#crs_join#:#Đăng ký khóa học
+rbac#:#crs_leave#:#Hủy đăng ký khóa học
 common#:#crs_management_system#:#Hệ thống quản lý khóa học
 common#:#crs_member_not_passed#:#Không đạt
 common#:#crs_member_passed#:#Đạt
 common#:#crs_new#:#Khóa học mới
 common#:#crs_no_content#:#Không có nội dung
-common#:#crs_read#:#Đọc khóa học
+rbac#:#crs_read#:#Đọc khóa học
 common#:#crs_status_blocked#:#[Từ chối truy cập]
 common#:#crs_status_pending#:#[Đang chờ đăng ký]
 common#:#crs_subscribers_assigned#:#Đã chỉ định (những) người sử dụng mới
-common#:#crs_visible#:#Nhìn thấy khóa học
-common#:#crs_write#:#Sửa khóa học
+rbac#:#crs_visible#:#Nhìn thấy khóa học
+rbac#:#crs_write#:#Sửa khóa học
 common#:#cumulative_time#:#Thời gian lũy tích
 common#:#cur_number_rec#:#Số bản ghi hiện thời
 common#:#current_ip#:#Địa chỉ IP hiện thời:
@@ -1318,10 +1318,10 @@ common#:#exc_assign_usr#:#Chỉ định người sử dụng
 common#:#exc_create#:#Tạo bài tập
 common#:#exc_date_not_valid#:#Ngày không hợp lệ
 common#:#exc_deassign_members#:#Xóa (các) thành viên
-common#:#exc_delete#:#Xóa bài tập
+rbac#:#exc_delete#:#Xóa bài tập
 common#:#exc_edit#:#Đã tạo bài tập mới
 common#:#exc_edit_exercise#:#Sửa bài tập
-common#:#exc_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#exc_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#exc_edit_until#:#Sửa đến khi
 common#:#exc_files#:#File
 common#:#exc_files_returned#:#Các file nộp lại
@@ -1334,7 +1334,7 @@ common#:#exc_new#:#Bài tập mới
 common#:#exc_no_members_assigned#:#Không có thành viên nào được chỉ định
 common#:#exc_notices#:#Thông báo
 common#:#exc_obj#:#Bài tập
-common#:#exc_read#:#Truy cập bài tập
+rbac#:#exc_read#:#Truy cập bài tập
 common#:#exc_roles#:#Vai trò
 common#:#exc_save_changes#:#Ghi
 common#:#exc_search_for#:#Tìm để có
@@ -1345,8 +1345,8 @@ common#:#exc_status_saved#:#Bài tập đã cập nhật
 common#:#exc_status_solved#:#Đã giải quyết
 common#:#exc_upload_error#:#Lỗi khi tải lên file
 common#:#exc_users#:#Người sử dụng
-common#:#exc_visible#:#Nhìn thấy bài tập
-common#:#exc_write#:#Sửa bài tập
+rbac#:#exc_visible#:#Nhìn thấy bài tập
+rbac#:#exc_write#:#Sửa bài tập
 common#:#excs#:#Bài tập
 common#:#execute#:#Thực hiện
 common#:#exercise_time_over#:#Bạn đã hết giờ làm việc với bài tập. Bạn không thể nộp các file nữa!
@@ -1385,9 +1385,9 @@ common#:#file_a#:#một file
 common#:#file_add#:#Tải lên file
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata###04 May 2006 new variable
 common#:#file_added#:#Đã tải lên file
-common#:#file_delete#:#Xóa file
+rbac#:#file_delete#:#Xóa file
 common#:#file_edit#:#Sửa file
-common#:#file_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#file_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#file_icon#:#File icon###28 Feb 2006 new variable
 common#:#file_info#:#Thông tin file
 common#:#file_is_infected#:#File này bị nhiễm virus.
@@ -1395,11 +1395,11 @@ common#:#file_new#:#File mới
 common#:#file_not_found#:#Không tìm thấy file
 common#:#file_not_valid#:#File không hợp lệ!
 common#:#file_notice#:#Hãy chú ý kích thước lớn nhất của file là
-common#:#file_read#:#Tải xuống file
+rbac#:#file_read#:#Tải xuống file
 common#:#file_valid#:#File hợp lệ!
 common#:#file_version#:#Các phiên bản được cung cấp của File
-common#:#file_visible#:#Nhìn thấy file
-common#:#file_write#:#Sửa file
+rbac#:#file_visible#:#Nhìn thấy file
+rbac#:#file_write#:#Sửa file
 common#:#filename#:#Tên file
 common#:#files#:#File
 common#:#files_location#:#Vị trí các file
@@ -5926,13 +5926,13 @@ common#:#cat_pages_not_created#:#Category page not createded yet.###25 02 2007 n
 common#:#cat_pages_undone#:#Last changes for cagegory page undone.###25 02 2007 new variable
 common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###25 02 2007 new variable
 common#:#perm_special_options#:#Special Options###25 02 2007 new variable
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.###25 02 2007 new variable
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.###25 02 2007 new variable
 common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.###25 02 2007 new variable
-common#:#change_existing_prefix#:#Change existing###25 02 2007 new variable
-common#:#change_existing_suffix#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_prefix_single#:#Change###25 02 2007 new variable
-common#:#change_existing_suffix_single#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type###25 02 2007 new variable
+rbac#:#change_existing_prefix#:#Change existing###25 02 2007 new variable
+rbac#:#change_existing_suffix#:#&nbsp;###25 02 2007 new variable
+rbac#:#change_existing_prefix_single#:#Change###25 02 2007 new variable
+rbac#:#change_existing_suffix_single#:#&nbsp;###25 02 2007 new variable
+rbac#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type###25 02 2007 new variable
 common#:#cnt_new#:#(%s New)###25 02 2007 new variable
 common#:#crs_activation_start_invalid#:#The start and the end time is not valid.###25 02 2007 new variable
 common#:#crs_members_gallery#:#Course Members Gallery###25 02 2007 new variable
@@ -5953,7 +5953,7 @@ common#:#exc_details#:#Exercise details###25 02 2007 new variable
 common#:#exc_download_all#:#Download All###25 02 2007 new variable
 common#:#exc_download_files#:#Download Files###25 02 2007 new variable
 common#:#exc_download_new#:#Download New###25 02 2007 new variable
-common#:#exc_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
+rbac#:#exc_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
 common#:#exc_exercise_sent#:#Exercise Sent###25 02 2007 new variable
 common#:#exc_feedback_sent#:#Feedback Sent###25 02 2007 new variable
 common#:#exc_last_submission#:#Last Submission###25 02 2007 new variable
@@ -6940,7 +6940,7 @@ common#:#obj_svy_select#:#-- Please select one Survey --###25 02 2007 new variab
 common#:#obj_crs_duplicate#:#Copy Course###25 02 2007 new variable
 common#:#obj_crs_select#:#-- Please select one Course --###25 02 2007 new variable
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)###25 02 2007 new variable
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
+rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
 common#:#omit_all#:#Omit all###25 02 2007 new variable
 common#:#copy_all#:#Copy all###25 02 2007 new variable
 common#:#link_all#:#Link all###25 02 2007 new variable
@@ -6987,10 +6987,10 @@ common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The
 common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.###02 04 2007 new variable
 common#:#obj_feed#:#Web Feed###02 04 2007 new variable
 common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
-common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
-common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
-common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
+rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
+rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
+rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
 common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
 common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
@@ -6999,12 +6999,12 @@ common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new vari
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
-common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
 common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
@@ -7161,7 +7161,7 @@ pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are remo
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
 common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
-common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
 jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
@@ -7735,7 +7735,7 @@ rbac#:#cals_write#:#Edit Calendar settings###11 03 2008 new variable
 common#:#obj_cat_duplicate#:#Copy Category###11 03 2008 new variable
 common#:#obj_cat_select#:#-- Please select one Category --###11 03 2008 new variable
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
 payment#:#object_deleted#:#Object Deleted###11 03 2008 new variable
 payment#:#user_deleted#:#User Deleted###11 03 2008 new variable
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
@@ -8525,7 +8525,7 @@ rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
 rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
 rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
 rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
-rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
+common#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
 common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
 common#:#objs_crsr#:#Course References###23 09 2008 new variable
 rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
@@ -8534,7 +8534,7 @@ rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
 rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
 rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
 rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
-rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
+common#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
 common#:#obj_catr#:#Category Reference###23 09 2008 new variable
 common#:#objs_catr#:#Category References###23 09 2008 new variable
 common#:#crsr#:#Course Reference###23 09 2008 new variable
@@ -10769,10 +10769,10 @@ book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
 book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
 book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
 book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
-common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
-common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
-common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
-common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
+rbac#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
+rbac#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
+rbac#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
+rbac#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
 rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
@@ -11739,10 +11739,10 @@ notes#:#note_update_note#:#Update Note###06 08 2011 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
 notes#:#notes_comments#:#Comments###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_visible#:#Visible###06 08 2011 new variable
+rbac#:#chtr_read#:#Read###06 08 2011 new variable
+rbac#:#chtr_write#:#Write###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
@@ -12158,7 +12158,7 @@ wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
 wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable

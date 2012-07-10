@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2012 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1175,44 +1175,44 @@ common#:#cat#:#Kategorija
 common#:#cat_a#:#Kategorija
 common#:#cat_add#:#Pridėti Kategoriją
 common#:#cat_added#:#Kategorija Pridėta
-common#:#cat_cat_administrate_users#:#Administruoti Lokalių vartotojų paskyras
+rbac#:#cat_cat_administrate_users#:#Administruoti Lokalių vartotojų paskyras
 common#:#cat_clear_page#:#Išvalyti Puslapį
-common#:#cat_create#:#Sukurti Kategoriją
+rbac#:#cat_create#:#Sukurti Kategoriją
 common#:#cat_create_alm#:#Sukurti AICC Mokymo Modulį
-common#:#cat_create_cat#:#Sukurti Kategoriją
+rbac#:#cat_create_cat#:#Sukurti Kategoriją
 common#:#cat_create_chat#:#Sukurti Pokalbių Kambarį
-common#:#cat_create_crs#:#Sukurti Kursą
+rbac#:#cat_create_crs#:#Sukurti Kursą
 common#:#cat_create_dbk#:#Sukurti Digilib Knygą
-common#:#cat_create_exc#:#Sukurti Pratimą
-common#:#cat_create_file#:#Įkelti Failą
-common#:#cat_create_frm#:#Sukurti Forumą
-common#:#cat_create_glo#:#Sukurti Glosarijų
-common#:#cat_create_grp#:#Sukurti Grupę
+rbac#:#cat_create_exc#:#Sukurti Pratimą
+rbac#:#cat_create_file#:#Įkelti Failą
+rbac#:#cat_create_frm#:#Sukurti Forumą
+rbac#:#cat_create_glo#:#Sukurti Glosarijų
+rbac#:#cat_create_grp#:#Sukurti Grupę
 common#:#cat_create_hlm#:#Sukurti HACP Mokymo Modulį
-common#:#cat_create_htlm#:#Sukurti HTML Mokymo Modulį
-common#:#cat_create_icrs#:#Sukurti LearnLinc Seminarą
-common#:#cat_create_lm#:#Sukurti ILIAS Mokymo Modulį
-common#:#cat_create_mep#:#Sukurti Media Klausimyną
-common#:#cat_create_qpl#:#Sukurti Klausimyną Testui
-common#:#cat_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-common#:#cat_create_spl#:#Sukurti Klausimyną Apklausai
-common#:#cat_create_svy#:#Sukurti Apklausą
-common#:#cat_create_tst#:#Sukurti Testą
+rbac#:#cat_create_htlm#:#Sukurti HTML Mokymo Modulį
+rbac#:#cat_create_icrs#:#Sukurti LearnLinc Seminarą
+rbac#:#cat_create_lm#:#Sukurti ILIAS Mokymo Modulį
+rbac#:#cat_create_mep#:#Sukurti Media Klausimyną
+rbac#:#cat_create_qpl#:#Sukurti Klausimyną Testui
+rbac#:#cat_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
+rbac#:#cat_create_spl#:#Sukurti Klausimyną Apklausai
+rbac#:#cat_create_svy#:#Sukurti Apklausą
+rbac#:#cat_create_tst#:#Sukurti Testą
 common#:#cat_create_url#:#Sukurti URL
-common#:#cat_create_webr#:#Sukurti Web Resursus
-common#:#cat_delete#:#Ištrinti Kategoriją
+rbac#:#cat_create_webr#:#Sukurti Web Resursus
+rbac#:#cat_delete#:#Ištrinti Kategoriją
 common#:#cat_edit#:#Redaguoti Kategoriją
-common#:#cat_edit_permission#:#Keisti leidimų nustatymus
+rbac#:#cat_edit_permission#:#Keisti leidimų nustatymus
 common#:#cat_new#:#Nauja Kategorija
 common#:#cat_pages#:#Kategorijos puslapiai
 common#:#cat_pages_clear#:#Kategorijos puslapis išvalytas
 common#:#cat_pages_not_created#:#Kategorijos puslapis dar nesukurtas
 common#:#cat_pages_undone#:#Paskutiniai pakeitimaikategorijos puslapiui atstatyti
-common#:#cat_read#:#Galimybė skaityti Kategoriją
-common#:#cat_read_users#:#Galimybė skaityti lokalių vartotojų paskyras
+rbac#:#cat_read#:#Galimybė skaityti Kategoriją
+rbac#:#cat_read_users#:#Galimybė skaityti lokalių vartotojų paskyras
 common#:#cat_undo_last_page_changes#:#Panaikinti Paskutinius Puslapio Pakeitimus
-common#:#cat_visible#:#Kategorija yra matoma
-common#:#cat_write#:#Redaguoti Kategoriją
+rbac#:#cat_visible#:#Kategorija yra matoma
+rbac#:#cat_write#:#Redaguoti Kategoriją
 common#:#categories#:#Kategorijos
 common#:#categories_imported#:#Kategorijų importavimas baigtas.
 common#:#cc#:#Kopija
@@ -1234,7 +1234,7 @@ common#:#chac_write#:#Redaguoti pokalbių nustatymas
 common#:#change#:#Keisti
 common#:#change_active_assignment#:#Pakeisti aktyvų priskyrimą
 common#:#change_assignment#:#Pakeisti priskyrimą
-common#:#change_existing_objects#:#Pakeisti egzistuojančius Objektus
+rbac#:#change_existing_objects#:#Pakeisti egzistuojančius Objektus
 common#:#change_header_title#:#Redaguoti Antraštės Pavadinimą
 common#:#change_lo_info#:#Keisti LO Informaciją
 common#:#change_metadata#:#Keisti Metaduomenis
@@ -1356,42 +1356,42 @@ common#:#crs_create#:#Sukurti Kursą
 common#:#crs_create_alm#:#Sukurti AICC Mokymo Modulį
 common#:#crs_create_chat#:#Sukurti Pokalbį
 common#:#crs_create_dbk#:#Sukurti Digilib Knygą
-common#:#crs_create_exc#:#Sukurti Pratimą
-common#:#crs_create_file#:#Įkelti Failą
-common#:#crs_create_fold#:#Sukurti Katalogą
-common#:#crs_create_frm#:#Sukurti Forumą
-common#:#crs_create_glo#:#Sukurti Glosarijų
-common#:#crs_create_grp#:#Sukurti Grupę
+rbac#:#crs_create_exc#:#Sukurti Pratimą
+rbac#:#crs_create_file#:#Įkelti Failą
+rbac#:#crs_create_fold#:#Sukurti Katalogą
+rbac#:#crs_create_frm#:#Sukurti Forumą
+rbac#:#crs_create_glo#:#Sukurti Glosarijų
+rbac#:#crs_create_grp#:#Sukurti Grupę
 common#:#crs_create_hlm#:#Sukurti HACP Mokymo Modulį
-common#:#crs_create_htlm#:#Sukurti HTML Mokymo Modulį
-common#:#crs_create_icrs#:#Sukurti LearnLinc Seminarą
-common#:#crs_create_lm#:#Sukurti ILIAS Mokymo Modulį
-common#:#crs_create_mep#:#Sukurti Media Klausimyną
-common#:#crs_create_qpl#:#Sukurti Klausimyną Testui
-common#:#crs_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-common#:#crs_create_spl#:#Sukurti Klausimyną Apklausai
-common#:#crs_create_svy#:#Sukurti Apklausą
-common#:#crs_create_tst#:#Sukurti Testą
-common#:#crs_create_webr#:#Sukurti Web Resursą
-common#:#crs_delete#:#Ištrinti Kursą
+rbac#:#crs_create_htlm#:#Sukurti HTML Mokymo Modulį
+rbac#:#crs_create_icrs#:#Sukurti LearnLinc Seminarą
+rbac#:#crs_create_lm#:#Sukurti ILIAS Mokymo Modulį
+rbac#:#crs_create_mep#:#Sukurti Media Klausimyną
+rbac#:#crs_create_qpl#:#Sukurti Klausimyną Testui
+rbac#:#crs_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
+rbac#:#crs_create_spl#:#Sukurti Klausimyną Apklausai
+rbac#:#crs_create_svy#:#Sukurti Apklausą
+rbac#:#crs_create_tst#:#Sukurti Testą
+rbac#:#crs_create_webr#:#Sukurti Web Resursą
+rbac#:#crs_delete#:#Ištrinti Kursą
 common#:#crs_edit#:#Redaguoti Kursą
-common#:#crs_edit_learning_progress#:#Redaguoti mokymosi progresą
-common#:#crs_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#crs_edit_learning_progress#:#Redaguoti mokymosi progresą
+rbac#:#crs_edit_permission#:#Keisti leidimo nustatymus
 common#:#crs_info#:#Informacija
-common#:#crs_join#:#Prisijungti prie Kurso
-common#:#crs_leave#:#Palikti Kursą
+rbac#:#crs_join#:#Prisijungti prie Kurso
+rbac#:#crs_leave#:#Palikti Kursą
 common#:#crs_management_system#:#Kursų Valdymo Sistema
 common#:#crs_member_not_passed#:#Neišlaikė
 common#:#crs_member_passed#:#Išlaikė
 common#:#crs_members_gallery#:#Kurso Narių Galerija
 common#:#crs_new#:#Naujas Kursas
 common#:#crs_no_content#:#Be turinio
-common#:#crs_read#:#Galimybė skaityti Kursą
+rbac#:#crs_read#:#Galimybė skaityti Kursą
 common#:#crs_status_blocked#:#[Priėjimas neduotas]
 common#:#crs_status_pending#:#[Laukiame registracijos]
 common#:#crs_subscribers_assigned#:#Priskirtas(-i) naujas(-i) vartotojas(-ai)
-common#:#crs_visible#:#Kursas yra matomas
-common#:#crs_write#:#Redaguoti Kursą
+rbac#:#crs_visible#:#Kursas yra matomas
+rbac#:#crs_write#:#Redaguoti Kursą
 common#:#cumulative_time#:#Kumuliatyvus laikas
 common#:#cur_number_rec#:#Dabartinis įrašų skaičius
 common#:#current_ip#:#Dabartinis IP:
@@ -1535,15 +1535,15 @@ common#:#exc_assign_usr#:#Priskirti Vartotoją
 common#:#exc_create#:#Sukurti pratimą
 common#:#exc_date_not_valid#:#Data netinkama
 common#:#exc_deassign_members#:#Ištrinti vartotoją(-us)
-common#:#exc_delete#:#Ištrinti pratimą
+rbac#:#exc_delete#:#Ištrinti pratimą
 common#:#exc_details#:#Pratimo detalės
 common#:#exc_download_all#:#Parsisiųsti Viską
 common#:#exc_download_files#:#Parsisiųsti Failus
 common#:#exc_download_new#:#Parsisiųsti Naujus
 common#:#exc_edit#:#Naujas pratimas sukurtas
 common#:#exc_edit_exercise#:#Redaguoti pratimą
-common#:#exc_edit_learning_progress#:#Redaguoti Mokymo Procesą
-common#:#exc_edit_permission#:#Keisti leidimų nustatymus
+rbac#:#exc_edit_learning_progress#:#Redaguoti Mokymo Procesą
+rbac#:#exc_edit_permission#:#Keisti leidimų nustatymus
 common#:#exc_edit_until#:#Redaguoti iki
 common#:#exc_exercise_sent#:#Pratimas Išsiųstas
 common#:#exc_feedback_sent#:#Atsiliepimai Išsiųsti
@@ -1561,7 +1561,7 @@ common#:#exc_new#:#Naujos pratybos
 common#:#exc_no_members_assigned#:#Nėra priskirtų narių
 common#:#exc_notices#:#Įspėjimai
 common#:#exc_obj#:#Pratybos
-common#:#exc_read#:#Eiti į pratybas
+rbac#:#exc_read#:#Eiti į pratybas
 common#:#exc_resubmitted_advice#:#Šis simbolis bus rodomas tam, kad perspėti, jog jau pažymėjus žymę "Išspręsta", buvo įkeltas naujas failas
 common#:#exc_roles#:#Rolės
 common#:#exc_save_changes#:#Saugoti
@@ -1582,8 +1582,8 @@ common#:#exc_time_over_short#:#Laikas baigėsi.
 common#:#exc_time_to_send#:#Likęs Darbo Laikas
 common#:#exc_upload_error#:#Klaida įkeliant failą
 common#:#exc_users#:#Vartotojai
-common#:#exc_visible#:#Pratybos yra matomos
-common#:#exc_write#:#Redaguoti pratybas
+rbac#:#exc_visible#:#Pratybos yra matomos
+rbac#:#exc_write#:#Redaguoti pratybas
 common#:#excs#:#Pratybos
 common#:#execute#:#Vykdyti
 common#:#exercise_time_over#:#Šių pratybų laikas baigėsi. Failų atsiųsti nebegalite!
@@ -1630,9 +1630,9 @@ common#:#file_a#:#Failas
 common#:#file_add#:#Įkelti Failą
 common#:#file_add_and_metadata#:#Įkelti Failą ir Redaguoti Metaduomenis
 common#:#file_added#:#Failas įkeltas
-common#:#file_delete#:#Trinti Failą
+rbac#:#file_delete#:#Trinti Failą
 common#:#file_edit#:#Redaguoti Failą
-common#:#file_edit_permission#:#Keisti Leidimo nustatymus
+rbac#:#file_edit_permission#:#Keisti Leidimo nustatymus
 common#:#file_icon#:#Failo ikona
 common#:#file_info#:#Failo Informacija
 common#:#file_is_infected#:#Failas užkrėstas virusu.
@@ -1640,13 +1640,13 @@ common#:#file_new#:#Naujas Failas
 common#:#file_not_found#:#Failas Nerastas
 common#:#file_not_valid#:#Failas neteisingo formato!
 common#:#file_notice#:#Prašome atkreipti dėmesį į maksimalų failo dydį
-common#:#file_read#:#Atsisiųsti Failą
+rbac#:#file_read#:#Atsisiųsti Failą
 common#:#file_suffix_repl#:#Failo Įkėlimo Plėtinio Keitimas
 common#:#file_suffix_repl_info#:#Failai, besibaigiantys šiais plėtiniais (atskirti kableliais) bus pervardinti pakeičiant plėtinį į ".sec" , jei bus įkelti į serverį. Tai daroma pagal nutylėjimą šiems plėtiniams:
 common#:#file_valid#:#Failas tinkamas!
 common#:#file_version#:#Versija Pateikta Faile
-common#:#file_visible#:#Failas yra matomas
-common#:#file_write#:#Redaguoti Failą
+rbac#:#file_visible#:#Failas yra matomas
+rbac#:#file_write#:#Redaguoti Failą
 common#:#filename#:#Failo Pavadinimas
 common#:#files#:#Failai
 common#:#files_location#:#Failų Vieta
@@ -6401,7 +6401,7 @@ assessment#:#tst_instant_verification#:#Greitasis tikrinimas
 assessment#:#tst_password_entered_wrong_password#:#Jūs negalite pradėti testo, nes įvedėte neteisingą testo slaptažodį!
 common#:#btn_add#:#Pridėti
 survey#:#wrong_categories_selected_for_insert#:#ILIAS negalėjo įvykdyti nurodyto veiksmo. Psirinkite tik vieną atsakymą kaip tikslą!
-common#:#adopt_perm_from_template#:#Kopijuoti Leidimų Nuostatas
+rbac#:#adopt_perm_from_template#:#Kopijuoti Leidimų Nuostatas
 crs#:#crs_mail_permanent_link#:#Norėdami pasiekti kurso turinį, pasinaudokite šia nuoroda
 grp#:#crs_add_grouping#:#Pridėti Narystės Ribojimą
 grp#:#crs_grp_enter_title#:#Užpildykite visus būtinus laukus
@@ -6791,13 +6791,13 @@ common#:#objs_mcst#:#MediaCasts###25 02 2007 new variable
 common#:#mcst_new#:#New MediaCast###25 02 2007 new variable
 common#:#mcst_add#:#Add MediaCast###25 02 2007 new variable
 common#:#perm_special_options#:#Specialios Nuostatos
-common#:#change_existing_objects_desc#:#Šios rolės leidimų nuostatos bus pritaikytos VISIEMS egzistuojantiems objektams. Jei norite pakeisti tik atitinkamų objektų leidimų nuostatas, pažymėkite atitinkamas žymeles dešiniau norimų objektų tipų.
+rbac#:#change_existing_objects_desc#:#Šios rolės leidimų nuostatos bus pritaikytos VISIEMS egzistuojantiems objektams. Jei norite pakeisti tik atitinkamų objektų leidimų nuostatas, pažymėkite atitinkamas žymeles dešiniau norimų objektų tipų.
 common#:#role_protect_permissions_desc#:#Objektų leidimų nuostatos daugiau negali būti keičiamos.  Be to, tik aukštesnio lygio administratoriai gali keisti leidimų nuostatas.
-common#:#change_existing_prefix#:#Keisti egzistuojantį
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_prefix_single#:#Keisti
-common#:#change_existing_suffix_single#:#&nbsp;
-common#:#change_existing_object_type_desc#:#Taip pat pakeisti jau egzistuojančių šio tipo objektų leidimų nuostatas
+rbac#:#change_existing_prefix#:#Keisti egzistuojantį
+rbac#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_prefix_single#:#Keisti
+rbac#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#Taip pat pakeisti jau egzistuojančių šio tipo objektų leidimų nuostatas
 common#:#defaults#:#Standartinės Nuostatos
 common#:#frm_latest_postings#:#Naujausi Pranešimai
 common#:#file_created#:#NAujas failas įkeltas.
@@ -6999,7 +6999,7 @@ common#:#obj_svy_select#:#-- Please select one Survey --###25 02 2007 new variab
 common#:#obj_crs_duplicate#:#Copy Course###25 02 2007 new variable
 common#:#obj_crs_select#:#-- Please select one Course --###25 02 2007 new variable
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)###25 02 2007 new variable
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
+rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
 common#:#omit_all#:#Omit all###25 02 2007 new variable
 common#:#copy_all#:#Copy all###25 02 2007 new variable
 common#:#link_all#:#Link all###25 02 2007 new variable
@@ -7046,10 +7046,10 @@ common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The
 common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.###02 04 2007 new variable
 common#:#obj_feed#:#Web Feed###02 04 2007 new variable
 common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
-common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
-common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
-common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
+rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
+rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
+rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
 common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
 common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
@@ -7058,12 +7058,12 @@ common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new vari
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
-common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
 common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
@@ -7220,7 +7220,7 @@ pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are remo
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
 common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
-common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
 jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
@@ -7794,7 +7794,7 @@ rbac#:#cals_write#:#Edit Calendar settings###11 03 2008 new variable
 common#:#obj_cat_duplicate#:#Copy Category###11 03 2008 new variable
 common#:#obj_cat_select#:#-- Please select one Category --###11 03 2008 new variable
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
 payment#:#object_deleted#:#Objektas Ištrintas
 payment#:#user_deleted#:#Naudotojas Ištrintas
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
@@ -8585,7 +8585,7 @@ rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
 rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
 rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
 rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
-rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
+common#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
 common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
 common#:#objs_crsr#:#Course References###23 09 2008 new variable
 rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
@@ -8594,7 +8594,7 @@ rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
 rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
 rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
 rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
-rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
+common#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
 common#:#obj_catr#:#Category Reference###23 09 2008 new variable
 common#:#objs_catr#:#Category References###23 09 2008 new variable
 common#:#crsr#:#Course Reference###23 09 2008 new variable
@@ -10767,10 +10767,10 @@ book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
 book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
 book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
 book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
-common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
-common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
-common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
-common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
+rbac#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
+rbac#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
+rbac#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
+rbac#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
 rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
@@ -11737,10 +11737,10 @@ notes#:#note_update_note#:#Update Note###06 08 2011 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
 notes#:#notes_comments#:#Comments###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_visible#:#Visible###06 08 2011 new variable
+rbac#:#chtr_read#:#Read###06 08 2011 new variable
+rbac#:#chtr_write#:#Write###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
@@ -12156,7 +12156,7 @@ wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
 wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable

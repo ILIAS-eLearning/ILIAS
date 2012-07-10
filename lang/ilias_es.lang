@@ -2138,7 +2138,7 @@ common#:#administrate_users#:#Administración local de usuarios
 common#:#administration#:#Administración
 common#:#administrator#:#Administrador
 common#:#adopt#:#Adoptar
-common#:#adopt_perm_from_template#:#Copiar configuración de permisos desde plantilla
+rbac#:#adopt_perm_from_template#:#Copiar configuración de permisos desde plantilla
 common#:#advanced_editing_allow_html_tags#:#Permitir las siguientes etiquetas HTML para la edición de texto
 common#:#advanced_editing_allow_javascript_editor#:#Habilitar un editor de texto enriquecido
 common#:#advanced_editing_assessment_settings#:#Tags HTML permitidos para la herramienta de Test y Encuestas
@@ -2382,10 +2382,10 @@ common#:#bm_add_to_social_bookmarks#:#Añadir a marcadores sociales
 common#:#bm_manage_social_bm#:#Gestionar marcadores sociales
 common#:#bmf#:#Carpeta de favoritos
 common#:#bold#:#Negrita
-common#:#book_edit_permission#:#Cambiar configuración de permisos
-common#:#book_read#:#Acceso de lectura para hoja de reservas
-common#:#book_visible#:#Hoja de reservas visible
-common#:#book_write#:#Editar hoja de reservas
+rbac#:#book_edit_permission#:#Cambiar configuración de permisos
+rbac#:#book_read#:#Acceso de lectura para hoja de reservas
+rbac#:#book_visible#:#Hoja de reservas visible
+rbac#:#book_write#:#Editar hoja de reservas
 common#:#bookings#:#Reservas
 common#:#bookmark_added#:#El favoritos ha sido creado.
 common#:#bookmark_edit#:#Editar favorito
@@ -2424,51 +2424,51 @@ common#:#cat#:#Categoría
 common#:#cat_a#:#una categoría
 common#:#cat_add#:#Añadir Categoría
 common#:#cat_added#:#Categoría añadida
-common#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
+rbac#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
 common#:#cat_clear_page#:#Limpiar Página
 common#:#cat_copy#:#Copiar Categoría
-common#:#cat_copy_threads_info#:#Por favor, elige qué elementos de la categoría deberán copiarse, enlazarse u omitirse
-common#:#cat_create#:#Crear Categoría
+rbac#:#cat_copy_threads_info#:#Por favor, elige qué elementos de la categoría deberán copiarse, enlazarse u omitirse
+rbac#:#cat_create#:#Crear Categoría
 common#:#cat_create_alm#:#Crear Módulo de aprendizaje AICC
-common#:#cat_create_cat#:#Crear Categoría
+rbac#:#cat_create_cat#:#Crear Categoría
 common#:#cat_create_chat#:#Crear Chat
-common#:#cat_create_crs#:#Crear Curso
+rbac#:#cat_create_crs#:#Crear Curso
 common#:#cat_create_dbk#:#Crear Libro Digital
-common#:#cat_create_exc#:#Crear entrega de ejercicios
-common#:#cat_create_feed#:#Crear feed
-common#:#cat_create_file#:#Enviar archivo
-common#:#cat_create_frm#:#Crear Foro
-common#:#cat_create_glo#:#Crear Glosario
-common#:#cat_create_grp#:#Crear Grupo
+rbac#:#cat_create_exc#:#Crear entrega de ejercicios
+rbac#:#cat_create_feed#:#Crear feed
+rbac#:#cat_create_file#:#Enviar archivo
+rbac#:#cat_create_frm#:#Crear Foro
+rbac#:#cat_create_glo#:#Crear Glosario
+rbac#:#cat_create_grp#:#Crear Grupo
 common#:#cat_create_hlm#:#Crear Módulo de aprendizaje HACP
-common#:#cat_create_htlm#:#Crear Módulo de aprendizaje HTML
-common#:#cat_create_icrs#:#Crear Seminario LearnLinc
-common#:#cat_create_lm#:#Crear Módulo de aprendizaje
-common#:#cat_create_mcst#:#Crear MediaCast
-common#:#cat_create_mep#:#Crear Banco Multimedia
-common#:#cat_create_qpl#:#Crear Banco de Preguntas
-common#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
-common#:#cat_create_spl#:#Crear banco de preguntas (para encuestas)
-common#:#cat_create_svy#:#Crear Encuesta
-common#:#cat_create_tst#:#Crear Test
+rbac#:#cat_create_htlm#:#Crear Módulo de aprendizaje HTML
+rbac#:#cat_create_icrs#:#Crear Seminario LearnLinc
+rbac#:#cat_create_lm#:#Crear Módulo de aprendizaje
+rbac#:#cat_create_mcst#:#Crear MediaCast
+rbac#:#cat_create_mep#:#Crear Banco Multimedia
+rbac#:#cat_create_qpl#:#Crear Banco de Preguntas
+rbac#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
+rbac#:#cat_create_spl#:#Crear banco de preguntas (para encuestas)
+rbac#:#cat_create_svy#:#Crear Encuesta
+rbac#:#cat_create_tst#:#Crear Test
 common#:#cat_create_url#:#Crear URL
-common#:#cat_create_webr#:#Crear nuevo Recurso Web
+rbac#:#cat_create_webr#:#Crear nuevo Recurso Web
 common#:#cat_create_write#:#Crear Wiki
-common#:#cat_delete#:#Eliminar Categoría
+rbac#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
-common#:#cat_edit_permission#:#Modificar configuración de permisos
+rbac#:#cat_edit_permission#:#Modificar configuración de permisos
 common#:#cat_new#:#Nueva Categoría
 common#:#cat_pages#:#Páginas de Categoría
 common#:#cat_pages_clear#:#Página de Categoría borrada.
 common#:#cat_pages_not_created#:#Página de Categoría no creada aún
 common#:#cat_pages_undone#:#Últimas modificaciones de página de categoría deshechas
-common#:#cat_read#:#Acceso de lectura a Categoría
-common#:#cat_read_users#:#Acceso de lectura a las cuentas de usuario locales
+rbac#:#cat_read#:#Acceso de lectura a Categoría
+rbac#:#cat_read_users#:#Acceso de lectura a las cuentas de usuario locales
 common#:#cat_title#:#Título de categoría
 common#:#cat_undo_last_page_changes#:#Deshacer últimas modificaciones de página
-common#:#cat_visible#:#La Categoría es visible
+rbac#:#cat_visible#:#La Categoría es visible
 common#:#cat_wizard_page#:#Copiar Categoría (Paso 2/2)
-common#:#cat_write#:#Editar Categoría
+rbac#:#cat_write#:#Editar Categoría
 common#:#categories#:#Categorías
 common#:#categories_imported#:#Importación de Categorías completada.
 common#:#catr#:#Enlace a categoría
@@ -2499,13 +2499,13 @@ common#:#chac_write#:#Editar Configuración del Chat
 common#:#change#:#modificar
 common#:#change_active_assignment#:#Modificar asignación activa
 common#:#change_assignment#:#modificar asignación
-common#:#change_existing_object_type_desc#:#También modifica los permisos de objetos ya existentes de ese tipo
-common#:#change_existing_objects#:#Modificar Objetos existentes
-common#:#change_existing_objects_desc#:#La configuración de permisos de este rol será adoptado por TODOS los objetos existentes. Si quieres modificar permisos sólo para tipos de objeto específico, por favor haz click en las casillas a la derecha del tipo de objeto apropiado.
-common#:#change_existing_prefix#:#Modificar
-common#:#change_existing_prefix_single#:#Modificar
-common#:#change_existing_suffix#:#existentes
-common#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#También modifica los permisos de objetos ya existentes de ese tipo
+rbac#:#change_existing_objects#:#Modificar Objetos existentes
+rbac#:#change_existing_objects_desc#:#La configuración de permisos de este rol será adoptado por TODOS los objetos existentes. Si quieres modificar permisos sólo para tipos de objeto específico, por favor haz click en las casillas a la derecha del tipo de objeto apropiado.
+rbac#:#change_existing_prefix#:#Modificar
+rbac#:#change_existing_prefix_single#:#Modificar
+rbac#:#change_existing_suffix#:#existentes
+rbac#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_header_title#:#Editar Título de Cabecera
 common#:#change_lo_info#:#Modificar Info
 common#:#change_metadata#:#Modificar metadatos
@@ -2559,11 +2559,11 @@ common#:#choose_location#:#Elija una ruta
 common#:#choose_only_one_language#:#Por favor elija sólo un idioma
 common#:#chown_warning#:#Atención, puede perder permisos de acceso sobre este objeto tras cambiar el propietario.
 common#:#chtr_copy#:#Copiar sala del chat
-common#:#chtr_edit_permission#:#Cambiar permisos
-common#:#chtr_moderate#:#Moderar sala del chat
-common#:#chtr_read#:#Lectura
-common#:#chtr_visible#:#Visible
-common#:#chtr_write#:#Escritura
+rbac#:#chtr_edit_permission#:#Cambiar permisos
+rbac#:#chtr_moderate#:#Moderar sala del chat
+rbac#:#chtr_read#:#Lectura
+rbac#:#chtr_visible#:#Visible
+rbac#:#chtr_write#:#Escritura
 common#:#city#:#Ciudad
 common#:#cleaned_file#:#El archivo ha sido limpiado.
 common#:#cleaning_failed#:#La limpieza falló.
@@ -2678,54 +2678,54 @@ common#:#crs_available#:#Curso disponible
 common#:#crs_cancel_waiting_list#:#¿De verdad quieres que lo retiren de la lista de espera, de acuerdo, "%s"?
 common#:#crs_container_link_not_allowed#:#No es posible enlazar a objetos contenedor
 common#:#crs_copy#:#Copiar Curso
-common#:#crs_copy_threads_info#:#Por favor decida qué materiales del curso deben ser copiados, enlazados o bien omitidos.
+rbac#:#crs_copy_threads_info#:#Por favor decida qué materiales del curso deben ser copiados, enlazados o bien omitidos.
 common#:#crs_create#:#Crear Curso
 common#:#crs_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#crs_create_chat#:#Crear Chat
 common#:#crs_create_dbk#:#Crear Libro Digital
-common#:#crs_create_exc#:#Crear entrega de ejercicios
-common#:#crs_create_feed#:#Crear canal de noticias
-common#:#crs_create_file#:#Enviar archivo
-common#:#crs_create_fold#:#Crear Carpeta
-common#:#crs_create_frm#:#Crear Foro
-common#:#crs_create_glo#:#Crear Glosario
-common#:#crs_create_grp#:#Crear Grupo
+rbac#:#crs_create_exc#:#Crear entrega de ejercicios
+rbac#:#crs_create_feed#:#Crear canal de noticias
+rbac#:#crs_create_file#:#Enviar archivo
+rbac#:#crs_create_fold#:#Crear Carpeta
+rbac#:#crs_create_frm#:#Crear Foro
+rbac#:#crs_create_glo#:#Crear Glosario
+rbac#:#crs_create_grp#:#Crear Grupo
 common#:#crs_create_hlm#:#Crear Módulo de aprendizaje HACP
-common#:#crs_create_htlm#:#Crear Módulo de Aprendizaje HTML
-common#:#crs_create_icrs#:#Crear Seminario LearnLinc
-common#:#crs_create_lm#:#Crear Módulo de Aprendizaje
-common#:#crs_create_mcst#:#Crear MediaCast
-common#:#crs_create_mep#:#Crear Banco Multimedia
-common#:#crs_create_qpl#:#Crear Banco de Preguntas para Test
-common#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
-common#:#crs_create_spl#:#Crear Banco de Preguntas para Encuesta
-common#:#crs_create_svy#:#Crear Encuesta
-common#:#crs_create_tst#:#Crear Test
-common#:#crs_create_webr#:#Crear nuevo recurso Web
+rbac#:#crs_create_htlm#:#Crear Módulo de Aprendizaje HTML
+rbac#:#crs_create_icrs#:#Crear Seminario LearnLinc
+rbac#:#crs_create_lm#:#Crear Módulo de Aprendizaje
+rbac#:#crs_create_mcst#:#Crear MediaCast
+rbac#:#crs_create_mep#:#Crear Banco Multimedia
+rbac#:#crs_create_qpl#:#Crear Banco de Preguntas para Test
+rbac#:#crs_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
+rbac#:#crs_create_spl#:#Crear Banco de Preguntas para Encuesta
+rbac#:#crs_create_svy#:#Crear Encuesta
+rbac#:#crs_create_tst#:#Crear Test
+rbac#:#crs_create_webr#:#Crear nuevo recurso Web
 common#:#crs_create_write#:#Crear Wiki
-common#:#crs_delete#:#Eliminar curso
+rbac#:#crs_delete#:#Eliminar curso
 common#:#crs_edit#:#Editar Curso
-common#:#crs_edit_learning_progress#:#Editar seguimiento
-common#:#crs_edit_permission#:#Modificar configuración de permisos
+rbac#:#crs_edit_learning_progress#:#Editar seguimiento
+rbac#:#crs_edit_permission#:#Modificar configuración de permisos
 common#:#crs_info#:#Info
-common#:#crs_join#:#Subscribir al curso
-common#:#crs_leave#:#Darse de baja en el curso
+rbac#:#crs_join#:#Subscribir al curso
+rbac#:#crs_leave#:#Darse de baja en el curso
 common#:#crs_management_system#:#Sistema de Gestión de Cursos
 common#:#crs_member_not_passed#:#No superado
 common#:#crs_member_passed#:#Superado
 common#:#crs_members_gallery#:#Orla del Curso
 common#:#crs_new#:#Nuevo Curso
 common#:#crs_no_content#:#Sin contenido
-common#:#crs_read#:#Acceso de lectura al curso
+rbac#:#crs_read#:#Acceso de lectura al curso
 common#:#crs_removed_from_waiting_list#:#Usted ha sido suprimido de la lista de espera, de acuerdo, "%s".
 common#:#crs_status_blocked#:#[Acceso denegado]
 common#:#crs_status_pending#:#[Esperando confirmación de matricula]
 common#:#crs_subscribers_assigned#:#Nuevo(s) usuario(s) asignado(s)
 common#:#crs_title#:#Título del curso
 common#:#crs_unsubscribe#:#Darse de baja
-common#:#crs_visible#:#El curso está visible
+rbac#:#crs_visible#:#El curso está visible
 common#:#crs_wizard_page#:#Copiar Curso (Paso 2/2)
-common#:#crs_write#:#Editar configuración del curso
+rbac#:#crs_write#:#Editar configuración del curso
 common#:#crsr#:#Enlace a curso
 common#:#crsr_edit#:#Editar Enlace a Curso
 common#:#crsr_edit_info#:#Por favor, seleccione un curso para crear un enlace nuevo
@@ -2955,15 +2955,15 @@ common#:#exc_copy#:#Copiar entrega de ejercicios
 common#:#exc_create#:#Crear entrega de ejercicios
 common#:#exc_date_not_valid#:#La fecha no es válida
 common#:#exc_deassign_members#:#Eliminar miembro(s)
-common#:#exc_delete#:#Eliminar entrega de ejercicios
+rbac#:#exc_delete#:#Eliminar entrega de ejercicios
 common#:#exc_details#:#Detalles del ejercicio
 common#:#exc_download_all#:#Descargar todo
 common#:#exc_download_files#:#Descargar archivos
 common#:#exc_download_new#:#Descargar nuevos
 common#:#exc_edit#:#Nueva entrega de ejercicios creada
 common#:#exc_edit_exercise#:#Editar entrega de ejercicios
-common#:#exc_edit_learning_progress#:#Editar Progreso de Aprendizaje
-common#:#exc_edit_permission#:#Modificar configuración de permisos
+rbac#:#exc_edit_learning_progress#:#Editar Progreso de Aprendizaje
+rbac#:#exc_edit_permission#:#Modificar configuración de permisos
 common#:#exc_edit_until#:#Fecha límite de entrega
 common#:#exc_exercise_sent#:#Ejercicio Enviado
 common#:#exc_feedback_sent#:#Feedback Enviado
@@ -2982,7 +2982,7 @@ common#:#exc_next_deadline#:#Próxima fecha limite
 common#:#exc_no_members_assigned#:#Ningún miembro asignado
 common#:#exc_notices#:#Comentarios
 common#:#exc_obj#:#Entrega de ejercicios
-common#:#exc_read#:#Acceso entrega de ejercicios
+rbac#:#exc_read#:#Acceso entrega de ejercicios
 common#:#exc_resubmitted_advice#:#Este símbolo se muestro en caso de que un nuevo archivo haya sido enviado tras haber marcado el campo "resuelto"
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Guardar
@@ -3003,8 +3003,8 @@ common#:#exc_time_over_short#:#El tiempo de entrega finalizó
 common#:#exc_time_to_send#:#Tiempo de trabajo restante
 common#:#exc_upload_error#:#Error cargando archivo
 common#:#exc_users#:#Usuarios
-common#:#exc_visible#:#Entrega de ejercicios visible
-common#:#exc_write#:#Editar entrega de ejercicios
+rbac#:#exc_visible#:#Entrega de ejercicios visible
+rbac#:#exc_write#:#Editar entrega de ejercicios
 common#:#excs#:#Entrega de ejercicios
 common#:#execute#:#Ejecutar
 common#:#exercise_time_over#:#Ha alcanzado el tiempo límite de entrega de ejercicios. ¡Ya no puede enviar archivos!
@@ -3051,11 +3051,11 @@ common#:#failure_message#:#Mensaje de Error
 common#:#faq_exercise#:#Actividad FAQ
 common#:#fax#:#Fax
 common#:#feed#:#Canal de noticias
-common#:#feed_delete#:#Eliminar canal de noticias
-common#:#feed_edit_permission#:#Modificar configuración de permisos
-common#:#feed_read#:#Acceso de lectura al canal de noticias
-common#:#feed_visible#:#El canal de noticias está visible
-common#:#feed_write#:#Editar canal de noticias
+rbac#:#feed_delete#:#Eliminar canal de noticias
+rbac#:#feed_edit_permission#:#Modificar configuración de permisos
+rbac#:#feed_read#:#Acceso de lectura al canal de noticias
+rbac#:#feed_visible#:#El canal de noticias está visible
+rbac#:#feed_write#:#Editar canal de noticias
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Destinatario feedback
 common#:#field_name#:#Nombre de campo
@@ -3068,9 +3068,9 @@ common#:#file_added#:#Archivo enviado
 common#:#file_allowed_suffixes#:#Tipos de archivos permitidos:
 common#:#file_copy#:#Copiar Archivo
 common#:#file_created#:#Un nuevo archivo fue añadido.
-common#:#file_delete#:#Eliminar archivo
+rbac#:#file_delete#:#Eliminar archivo
 common#:#file_edit#:#Editar archivo
-common#:#file_edit_permission#:#Modificar configuración de permisos
+rbac#:#file_edit_permission#:#Modificar configuración de permisos
 common#:#file_icon#:#Archivo de icono
 common#:#file_info#:#Información de archivo
 common#:#file_is_infected#:#El archivo está infectado por un virus.
@@ -3080,15 +3080,15 @@ common#:#file_new#:#Nuevo archivo
 common#:#file_not_found#:#Archivo no encontrado
 common#:#file_not_valid#:#Archivo no válido
 common#:#file_notice#:#Por favor tenga en cuenta el tamaño limite de archivos de
-common#:#file_read#:#Descarga archivo
+rbac#:#file_read#:#Descarga archivo
 common#:#file_suffix_repl#:#Reemplazo de extensión en la carga de archivos
 common#:#file_suffix_repl_info#:#Los archivos terminados con estas extensiones (separadas por coma) serán renombradas con una extensión ".sec" si se cargan en el espacio web. Esto se realiza por defecto con las extensiones:
 common#:#file_updated#:#El archivo ha sido actualizado.
 common#:#file_upload_pending#:#Pendiente envío de archivo
 common#:#file_valid#:#Archivo válido
 common#:#file_version#:#versión facilitada en el archivo
-common#:#file_visible#:#El archivo es visible
-common#:#file_write#:#Editar archivo
+rbac#:#file_visible#:#El archivo es visible
+rbac#:#file_write#:#Editar archivo
 common#:#filename#:#Nombre de archivo
 common#:#filename_extension_missing#:#Falta la extensión del archivo
 common#:#filename_extension_short#:#Extensión
@@ -10093,7 +10093,7 @@ rbac#:#cat_create_chtr#:#Crear canal de charla
 rbac#:#cat_create_crsr#:#Crear nuevo enlace a curso
 rbac#:#cat_create_rcrs#:#Crear enlace a curso
 rbac#:#cat_create_wiki#:#Crear Wiki
-rbac#:#catr_copy#:#Copiar enlace de categoría
+common#:#catr_copy#:#Copiar enlace de categoría
 rbac#:#catr_delete#:#Borrar enlace a categoría
 rbac#:#catr_edit_permission#:#Cambiar opciones de permisos
 rbac#:#catr_read#:#Acceso de lectura al enlace de la categoría
@@ -10110,7 +10110,7 @@ rbac#:#crs_create_crsr#:#Crear enlace a curso
 rbac#:#crs_create_sess#:#Crear sesión
 rbac#:#crs_create_wiki#:#Crear Wiki
 rbac#:#crs_edit_event#:#Editar eventos de calendario
-rbac#:#crsr_copy#:#Copiar enlace de curso
+common#:#crsr_copy#:#Copiar enlace de curso
 rbac#:#crsr_delete#:#Borrar enlace a curso
 rbac#:#crsr_edit_permission#:#Cambiar opciones de permisos
 rbac#:#crsr_read#:#Acceso de lectura al enlace del curso

@@ -2147,10 +2147,10 @@ common#:#accessFree#:#Zeitliche Begrenzung aufheben
 common#:#accessRestrict#:#Zugriff zeitlich begrenzen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
-rbac#:#accs_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#accs_read#:#Lesezugriff auf Einstellungen Barrierefreiheit
-rbac#:#accs_visible#:#Einstellungen Barrierefreiheit sichtbar
-rbac#:#accs_write#:#Einstellungen Barrierefreiheit bearbeiten
+rbac#:#accs_edit_permission#:#Rechteeinstellungen der Einstellungen Barrierefreiheit ändern
+rbac#:#accs_read#:#Einstellungen Barrierefreiheit in Administration können gelesen werden
+rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar  !! Recht wird nicht mehr genutzt !!
+rbac#:#accs_write#:#Einstellungen Barrierefreiheit in Administration können bearbeiten werden
 common#:#action#:#Aktion
 common#:#action_aborted#:#Aktion abgebrochen
 common#:#actions#:#Aktionen
@@ -2182,10 +2182,10 @@ common#:#added_to_desktop#:#Das Objekt wurde auf den Schreibtisch gelegt.
 common#:#additional_info#:#Zusätzliche Informationen
 common#:#address#:#Adresse
 common#:#adm_create_tax#:#Neue Taxonomie anlegen
-rbac#:#adm_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#adm_read#:#Lesezugriff auf Systemeinstellungen
-rbac#:#adm_visible#:#Systemeinstellungen sind sichtbar
-rbac#:#adm_write#:#Systemgrunddaten bearbeiten
+rbac#:#adm_edit_permission#:#Rechteeinstellungen für die Allgemeinen Einstellungen der Administration ändern
+rbac#:#adm_read#:#Allgemeine Einstellungen der Administration können gelesen werden
+rbac#:#adm_visible#:#Allgemeine Einstellungen sind sichtbar !! Recht wird nicht mehr genutzt !!
+rbac#:#adm_write#:#Allgemeine Einstellungen in Administration können bearbeiten werden
 common#:#admin_force_noti#:#Benachrichtigung aktiv
 common#:#admin_panel#:#Administrationsmenü
 common#:#administrate#:#Administrieren
@@ -2193,7 +2193,7 @@ common#:#administrate_users#:#Lokale Benutzerverwaltung
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
 common#:#adopt#:#Übernehmen
-common#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
+rbac#:#adopt_perm_from_template#:#Rechteeinstellungen kopieren
 common#:#advanced_editing_allow_html_tags#:#Erlaube die ausgewählten HTML-Auszeichnungen in Textfeldern
 common#:#advanced_editing_allow_javascript_editor#:#Bearbeitung mit einem Rich-Text-Editor aktivieren
 common#:#advanced_editing_assessment_settings#:#Erlaubte HTML-Auszeichnungen für das Test und Assessment-Werkzeug
@@ -2439,10 +2439,11 @@ common#:#bm_add_to_social_bookmarks#:#Speichere als Bookmark
 common#:#bm_manage_social_bm#:#Social-Bookmarks verwalten
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
-common#:#book_edit_permission#:#Rechteeinstellungen ändern
-common#:#book_read#:#Lesezugriff auf Buchungspool
-common#:#book_visible#:#Buchungspool sichtbar
-common#:#book_write#:#Buchungspool bearbeiten
+rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
+rbac#:#book_read#:#Buchungen in Buchungspool durchführen
+rbac#:#book_visible#:#Buchungspool ist sichtbar
+rbac#:#book_delete#:#Buchungspool löschen oder verschieben
+rbac#:#book_write#:#Buchungsobjekte anlegen und Einstellungen des Buchungspools bearbeiten
 common#:#bookings#:#Bestellungen
 common#:#bookmark_added#:#Bookmark wurde angelegt!
 common#:#bookmark_edit#:#Bookmark bearbeiten
@@ -2481,51 +2482,51 @@ common#:#cat#:#Kategorie
 common#:#cat_a#:#eine Kategorie
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
-common#:#cat_cat_administrate_users#:#Lokale Benutzer verwalten
+rbac#:#cat_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
 common#:#cat_clear_page#:#Seite leeren
 common#:#cat_copy#:#Kategorie kopieren
-common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
-common#:#cat_create#:#Neue Kategorie anlegen
+rbac#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+rbac#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC-Lernmodul anlegen
-common#:#cat_create_cat#:#Neue Kategorie anlegen
+rbac#:#cat_create_cat#:#Neue Kategorie anlegen
 common#:#cat_create_chat#:#Neuen Chat anlegen
-common#:#cat_create_crs#:#Neuen Kurs anlegen
+rbac#:#cat_create_crs#:#Neuen Kurs anlegen
 common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
-common#:#cat_create_exc#:#Neue Übung anlegen
-common#:#cat_create_feed#:#Neuen Webfeed anlegen
-common#:#cat_create_file#:#Neue Datei hochladen
-common#:#cat_create_frm#:#Neues Forum anlegen
-common#:#cat_create_glo#:#Neues Glossar anlegen
-common#:#cat_create_grp#:#Neue Gruppe anlegen
+rbac#:#cat_create_exc#:#Neue Übung anlegen
+rbac#:#cat_create_feed#:#Neuen Webfeed anlegen
+rbac#:#cat_create_file#:#Neue Datei hochladen
+rbac#:#cat_create_frm#:#Neues Forum anlegen
+rbac#:#cat_create_glo#:#Neues Glossar anlegen
+rbac#:#cat_create_grp#:#Neue Gruppe anlegen
 common#:#cat_create_hlm#:#Neues HACP-Lernmodul anlegen
-common#:#cat_create_htlm#:#Neues HTML-Lernmodul anlegen
-common#:#cat_create_icrs#:#Neues LearnLinc-Seminar anlegen
-common#:#cat_create_lm#:#Neues ILIAS-Lernmodul anlegen
-common#:#cat_create_mcst#:#Neuen Mediacast anlegen
-common#:#cat_create_mep#:#Neuen Medienpool anlegen
-common#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
-common#:#cat_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-common#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
-common#:#cat_create_svy#:#Neue Umfrage anlegen
-common#:#cat_create_tst#:#Neuen Test anlegen
+rbac#:#cat_create_htlm#:#Neues HTML-Lernmodul anlegen
+rbac#:#cat_create_icrs#:#Neues LearnLinc-Seminar anlegen
+rbac#:#cat_create_lm#:#Neues ILIAS-Lernmodul anlegen
+rbac#:#cat_create_mcst#:#Neuen Mediacast anlegen
+rbac#:#cat_create_mep#:#Neuen Medienpool anlegen
+rbac#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#cat_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
+rbac#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#cat_create_svy#:#Neue Umfrage anlegen
+rbac#:#cat_create_tst#:#Neuen Test anlegen
 common#:#cat_create_url#:#Neue URL anlegen
-common#:#cat_create_webr#:#Neuen Weblink anlegen
+rbac#:#cat_create_webr#:#Neuen Weblink anlegen
 common#:#cat_create_write#:#Neues Wiki anlegen
-common#:#cat_delete#:#Kategorie löschen
+rbac#:#cat_delete#:#Kategorie löschen oder verschieben
 common#:#cat_edit#:#Kategorie bearbeiten
-common#:#cat_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie anlegen
 common#:#cat_pages#:#Kategorienseiten
 common#:#cat_pages_clear#:#Kategorienseite geleert
 common#:#cat_pages_not_created#:#Kategorienseite wurde noch nicht erzeugt.
 common#:#cat_pages_undone#:#Letzte Änderung der Kategorienseite rückgängig machen
-common#:#cat_read#:#Lesezugriff auf Kategorie
-common#:#cat_read_users#:#Lesezugriff auf lokale Benutzer
+rbac#:#cat_read#:#Seiteninhalt der Kategorie kann gelesen werden
+rbac#:#cat_read_users#:#Lokale Benutzerkonten dieser Kategorie können eingesehen werden
 common#:#cat_title#:#Kategorietitel
 common#:#cat_undo_last_page_changes#:#Letzte Änderung der Seite rückgängig machen
-common#:#cat_visible#:#Kategorie ist sichtbar
+rbac#:#cat_visible#:#Kategorie ist sichtbar
 common#:#cat_wizard_page#:#Kategorie kopieren (Schritt 2/2)
-common#:#cat_write#:#Kategorie bearbeiten
+rbac#:#cat_write#:#Einstellungen der Kategorie bearbeiten und Inhalte verwalten
 common#:#categories#:#Kategorien
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#catr#:#Kategorie-Referenz
@@ -2556,13 +2557,13 @@ common#:#chac_write#:#Chateinstellungen bearbeiten
 common#:#change#:#Ändern
 common#:#change_active_assignment#:#Aktive Zuweisung ändern
 common#:#change_assignment#:#Zuweisung ändern
-common#:#change_existing_object_type_desc#:#Ändere auch die Rechte von bereits vorhandenen Objekten dieses Typs
-common#:#change_existing_objects#:#Vorhandene Objekte ändern
-common#:#change_existing_objects_desc#:#Die Rechteeinstellungen von dieser Rolle werden auf ALLE vorhandenen Objekte übertragen. Um die Rechte einzelner Objekttypen anzupassen, klicken Sie bitte die jeweiligen Checkboxen auf der rechten Seite an.
-common#:#change_existing_prefix#:#Vorhandene
-common#:#change_existing_prefix_single#:#&nbsp;
-common#:#change_existing_suffix#:#ändern
-common#:#change_existing_suffix_single#:#anpassen
+rbac#:#change_existing_object_type_desc#:#Wenn aktiviert, werden auch die Rechte von bereits vorhandenen Objekten dieses Typs geändert. Ansonstern gilt die Rechteänderung nur für künftig erstellte Objekte.
+rbac#:#change_existing_objects#:#Vorhandene Objekte ändern
+rbac#:#change_existing_objects_desc#:#Wenn aktiviert, werden die geänderten Rechteeinstellungen dieser Rolle auch auf alle bereits bestehenden Objekte übertragen. Um nur die Rechte einzelner Objekttypen anzupassen, klicken Sie bitte die jeweiligen Checkboxen auf der rechten Seite an.
+rbac#:#change_existing_prefix#:#Bereits vorhandene
+rbac#:#change_existing_prefix_single#:#&nbsp;
+rbac#:#change_existing_suffix#:#ändern
+rbac#:#change_existing_suffix_single#:#anpassen
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
 common#:#change_lo_info#:#Lerneinheiten-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
@@ -2616,11 +2617,11 @@ common#:#choose_location#:#Position wählen
 common#:#choose_only_one_language#:#Bitte nur eine Sprache auswählen!
 common#:#chown_warning#:#Achtung! Das Ändern des Besitzers eines Objektes kann dazu führen, dass diese Person alle Zugriffsrechte an dem Objekt verliert.
 common#:#chtr_copy#:#Chatraum kopieren
-common#:#chtr_edit_permission#:#Rechteeinstellungen ändern
-common#:#chtr_moderate#:#Chatraum moderieren
-common#:#chtr_read#:#Lesezugriff auf Chatraum
-common#:#chtr_visible#:#Chatraum sichtbar
-common#:#chtr_write#:#Chatraum bearbeiten
+rbac#:#chtr_edit_permission#:#Rechteeinstellungen für Chatraum ändern
+rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
+rbac#:#chtr_read#:#An Diskussion im Chatraum teilnehmen
+rbac#:#chtr_visible#:#Chatraum ist sichtbar
+rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren 
 common#:#city#:#Ort
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
@@ -2734,54 +2735,54 @@ common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
 common#:#crs_copy#:#Kurs kopieren
-common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+rbac#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#crs_create#:#Neuen Kurs anlegen
 common#:#crs_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#crs_create_chat#:#Neuen Chat anlegen
 common#:#crs_create_dbk#:#Neues Digilib-Buch anlegen
-common#:#crs_create_exc#:#Neue Übung anlegen
-common#:#crs_create_feed#:#Neuen Webfeed anlegen
-common#:#crs_create_file#:#Neue Datei hochladen
-common#:#crs_create_fold#:#Neuen Ordner anlegen
-common#:#crs_create_frm#:#Neues Forum anlegen
-common#:#crs_create_glo#:#Neues Glossar anlegen
-common#:#crs_create_grp#:#Neue Gruppe anlegen
+rbac#:#crs_create_exc#:#Neue Übung anlegen
+rbac#:#crs_create_feed#:#Neuen Webfeed anlegen
+rbac#:#crs_create_file#:#Neue Datei hochladen
+rbac#:#crs_create_fold#:#Neuen Ordner anlegen
+rbac#:#crs_create_frm#:#Neues Forum anlegen
+rbac#:#crs_create_glo#:#Neues Glossar anlegen
+rbac#:#crs_create_grp#:#Neue Gruppe anlegen
 common#:#crs_create_hlm#:#Neues HACP-Lernmodul anlegen
-common#:#crs_create_htlm#:#Neues HTML-Lernmodul anlegen
-common#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
-common#:#crs_create_lm#:#Neues ILIAS-Lernmodul anlegen
-common#:#crs_create_mcst#:#Neuen Mediacast anlegen
-common#:#crs_create_mep#:#Neuen Medienpool anlegen
-common#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
-common#:#crs_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-common#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
-common#:#crs_create_svy#:#Neue Umfrage anlegen
-common#:#crs_create_tst#:#Neuen Test anlegen
-common#:#crs_create_webr#:#Neuen Weblink anlegen
+rbac#:#crs_create_htlm#:#Neues HTML-Lernmodul anlegen
+rbac#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
+rbac#:#crs_create_lm#:#Neues ILIAS-Lernmodul anlegen
+rbac#:#crs_create_mcst#:#Neuen Mediacast anlegen
+rbac#:#crs_create_mep#:#Neuen Medienpool anlegen
+rbac#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#crs_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
+rbac#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#crs_create_svy#:#Neue Umfrage anlegen
+rbac#:#crs_create_tst#:#Neuen Test anlegen
+rbac#:#crs_create_webr#:#Neuen Weblink anlegen
 common#:#crs_create_write#:#Wiki anlegen
-common#:#crs_delete#:#Kurs löschen
+rbac#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
-common#:#crs_edit_learning_progress#:#Lernfortschritt bearbeiten
-common#:#crs_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#crs_edit_learning_progress#:#Lernfortschritt bearbeiten
+rbac#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_info#:#Info
-common#:#crs_join#:#Kurs beitreten
-common#:#crs_leave#:#Kurs verlassen
+rbac#:#crs_join#:#Kurs beitreten
+rbac#:#crs_leave#:#Kurs verlassen
 common#:#crs_management_system#:#Kursmanagementsystem
 common#:#crs_member_not_passed#:#Nicht bestanden
 common#:#crs_member_passed#:#Bestanden
 common#:#crs_members_gallery#:#Mitgliedergalerie
 common#:#crs_new#:#Neuen Kurs anlegen
 common#:#crs_no_content#:#Ohne Inhalt
-common#:#crs_read#:#Kurs lesen
+rbac#:#crs_read#:#Kurs lesen
 common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Kurses "%s" ausgetragen.
 common#:#crs_status_blocked#:#[Zugang gesperrt]
 common#:#crs_status_pending#:#[Antrag wird bearbeitet]
 common#:#crs_subscribers_assigned#:#Ein neuer Benutzer wurde aufgenommen.
 common#:#crs_title#:#Kurstitel
 common#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
-common#:#crs_visible#:#Kurs ist sichtbar
+rbac#:#crs_visible#:#Kurs ist sichtbar
 common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
-common#:#crs_write#:#Kurs bearbeiten
+rbac#:#crs_write#:#Kurs bearbeiten
 common#:#crsr#:#Kurs-Referenz
 common#:#crsr_edit#:#Kurs-Referenz bearbeiten
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
@@ -3011,15 +3012,15 @@ common#:#exc_copy#:#Übung kopieren
 common#:#exc_create#:#Neue Übung anlegen
 common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
 common#:#exc_deassign_members#:#Mitglied(er) löschen
-common#:#exc_delete#:#Übung löschen
+rbac#:#exc_delete#:#Übung löschen oder verschieben
 common#:#exc_details#:#Übungsdetails
 common#:#exc_download_all#:#Alle herunterladen
 common#:#exc_download_files#:#Download-Dateien
 common#:#exc_download_new#:#Neue herunterladen
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
-common#:#exc_edit_learning_progress#:#Lernfortschritt bearbeiten
-common#:#exc_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#exc_edit_learning_progress#:#Lernfortschritt bearbeiten
+rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_exercise_sent#:#Übung versandt
 common#:#exc_feedback_sent#:#Feedback versandt
@@ -3038,7 +3039,7 @@ common#:#exc_next_deadline#:#Nächster Abgabetermin
 common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
 common#:#exc_notices#:#Bemerkungen
 common#:#exc_obj#:#Übung
-common#:#exc_read#:#An Übung teilnehmen
+rbac#:#exc_read#:#An Übung teilnehmen
 common#:#exc_resubmitted_advice#:#Dieses Zeichen erscheint, wenn eine neue Lösungsdatei abgegeben wird, nachdem für den Benutzer das Häkchen "Gelöst" gewählt wurde.
 common#:#exc_roles#:#Rollen
 common#:#exc_save_changes#:#Änderungen speichern
@@ -3059,8 +3060,8 @@ common#:#exc_time_over_short#:#Die Zeit ist abgelaufen
 common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
-common#:#exc_visible#:#Übung ist sichtbar
-common#:#exc_write#:#Übung bearbeiten
+rbac#:#exc_visible#:#Übung ist sichtbar
+rbac#:#exc_write#:#Einstellungen und Aufgaben der Übung bearbeiten
 common#:#excs#:#Übungen
 common#:#execute#:#Ausführen
 common#:#exercise_time_over#:#Sie haben das Ende der Bearbeitungszeit dieser Übung erreicht. Sie können keine Lösung mehr abgeben!
@@ -3107,11 +3108,11 @@ common#:#failure_message#:#Fehlermeldung
 common#:#faq_exercise#:#FAQ/Übungskapitel
 common#:#fax#:#Fax
 common#:#feed#:#Webfeed
-common#:#feed_delete#:#Webfeed löschen
-common#:#feed_edit_permission#:#Rechteeinstellungen ändern
-common#:#feed_read#:#Webfeed lesen
-common#:#feed_visible#:#Webfeed ist sichtbar
-common#:#feed_write#:#Webfeed bearbeiten
+rbac#:#feed_delete#:#Webfeed löschen
+rbac#:#feed_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#feed_read#:#Inhalt des Webfeeds lesen
+rbac#:#feed_visible#:#Webfeed ist sichtbar
+rbac#:#feed_write#:#Einstellungen des Webfeeds bearbeiten
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Empfänger von Feedbackmeldungen
 common#:#field_name#:#Feldname
@@ -3124,9 +3125,9 @@ common#:#file_added#:#Datei hochgeladen
 common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 common#:#file_copy#:#Datei kopieren
 common#:#file_created#:#Die Datei wurde hinzugefügt.
-common#:#file_delete#:#Datei löschen
+rbac#:#file_delete#:#Datei verschieben oder löschen
 common#:#file_edit#:#Dateieinstellungen bearbeiten und neue Version hochladen
-common#:#file_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_icon#:#Dateisymbol
 common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
@@ -3136,15 +3137,15 @@ common#:#file_new#:#Neue Datei anlegen
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Bitte beachten Sie bei Ihrem Dateiupload die folgende Uploadgrenze:
-common#:#file_read#:#Datei herunterladen
+rbac#:#file_read#:#Datei herunterladen
 common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
 common#:#file_suffix_repl_info#:#Dateien mit diesen Endungen (komma-separiert) erhalten als Dateiendung ".sec", wenn Sie in den Webspace hochgeladen werden. Dies geschieht standardmässig für folgende Endungen:
 common#:#file_updated#:#Die Datei wurde aktualisiert.
 common#:#file_upload_pending#:#Hochgeladene Datei
 common#:#file_valid#:#Datei ist gültig!
 common#:#file_version#:#Verfügbare Version
-common#:#file_visible#:#Datei ist sichtbar
-common#:#file_write#:#Datei bearbeiten
+rbac#:#file_visible#:#Datei ist sichtbar
+rbac#:#file_write#:#Einstellungen der Datei bearbeiten und neue Version hochladen
 common#:#filename#:#Dateiname
 common#:#filename_extension_missing#:#Dateiendung fehlt
 common#:#filename_extension_short#:#Endung
@@ -10134,18 +10135,18 @@ rbac#:#cals_read#:#Lesezugriff auf Kalendereinstellungen
 rbac#:#cals_visible#:#Kalendereinstellungen sind sichtbar
 rbac#:#cals_write#:#Schreibzugriff auf Kalendereinstellungen
 rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
-rbac#:#cat_create_book#:#Buchungspool anlegen
+rbac#:#cat_create_book#:#Neuen Buchungspool anlegen
 rbac#:#cat_create_catr#:#Neue Kategorie-Referenz anlegen
 rbac#:#cat_create_chtr#:#Neuen Chatraum anlegen
 rbac#:#cat_create_crsr#:#Neue Kurs-Referenz anlegen
 rbac#:#cat_create_rcrs#:#Neuen ECS-Kurslink anlegen
 rbac#:#cat_create_wiki#:#Neues Wiki anlegen
-rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
-rbac#:#catr_delete#:#Kategorie-Referenzen löschen
+common#:#catr_copy#:#Kategorie-Referenzen kopieren
+rbac#:#catr_delete#:#Kategorie-Referenzen verschieben oder löschen
 rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
-rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar
-rbac#:#catr_write#:#Kategorie-Referenzen bearbeiten
+rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar und können genutzt werden
+rbac#:#catr_write#:#Einstellungen der Kategorie-Referenzen bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Komponenteneinstellungen
 rbac#:#cmps_visible#:#Komponenteneinstellungen sind sichtbar
@@ -10157,12 +10158,12 @@ rbac#:#crs_create_crsr#:#Neue Kurs-Referenz anlegen
 rbac#:#crs_create_sess#:#Sitzung anlegen
 rbac#:#crs_create_wiki#:#Neues Wiki anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
-rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
-rbac#:#crsr_delete#:#Kurs-Referenzen löschen
+common#:#crsr_copy#:#Kurs-Referenzen kopieren
+rbac#:#crsr_delete#:#Kurs-Referenzen verschieben oder löschen
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
-rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar
-rbac#:#crsr_write#:#Kurs-Referenzen bearbeiten
+rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar und können genutzt werden
+rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
@@ -10309,7 +10310,7 @@ rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurslink
 rbac#:#rcrs_visible#:#ECS-Kurslinks sind sichtbar
 rbac#:#rcrs_write#:#ECS-Kurslinks bearbeiten
-rbac#:#read_users#:#Lesezugriff auf lokale Benutzerkonten
+rbac#:#read_users#:#Lokale Benutzerkonten lesen
 rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
 rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
@@ -12743,3 +12744,9 @@ dateplaner#:#cal_imported_success#:#Es wurden %1$s neue Termine importiert.
 form#:#form_link_internal#:#Intern
 form#:#form_link_external#:#Extern
 form#:#form_get_link#:#Ziel-Objekt wählen
+rbac#:#cat_copy#:#Kategorie kopieren
+rbac#:#crs_copy#:#Kurs kopieren
+rbac#:#exc_copy#:#Übung kopieren
+rbac#:#catr_copy#:#Kategorie-Referenz kopieren
+rbac#:#crsr_copy#:#Kurs-Referenz kopieren
+rbac#:#file_copy#:#Datei kopieren

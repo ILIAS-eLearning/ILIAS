@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -2015,7 +2015,7 @@ common#:#administrate_users#:#Správa lokálního uživatele
 common#:#administration#:#Správa
 common#:#administrator#:#Správce
 common#:#adopt#:#Převzít
-common#:#adopt_perm_from_template#:#Zkopírovat nastavení oprávnění
+rbac#:#adopt_perm_from_template#:#Zkopírovat nastavení oprávnění
 common#:#advanced_editing_allow_html_tags#:#Povolit vybrané HTML tagy pro editaci textu
 common#:#advanced_editing_allow_javascript_editor#:#Zapnout Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#HTML tagy pro testy a hodnocení ILIAS povoleny
@@ -2258,10 +2258,10 @@ common#:#bm_add_to_social_bookmarks#:#Přidat do záložek
 common#:#bm_manage_social_bm#:#Spravovat společenské záložky
 common#:#bmf#:#Složka záložek
 common#:#bold#:#Tučný
-common#:#book_edit_permission#:#Změnit nastavení oprávnění
-common#:#book_read#:#Právo číst na zásobník objednávek
-common#:#book_visible#:#Zásobník objednávek je viditelný
-common#:#book_write#:#Upravit zásobník objednávek
+rbac#:#book_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#book_read#:#Právo číst na zásobník objednávek
+rbac#:#book_visible#:#Zásobník objednávek je viditelný
+rbac#:#book_write#:#Upravit zásobník objednávek
 common#:#bookings#:#Rezervace
 common#:#bookmark_added#:#Záložka byla vytvořena.
 common#:#bookmark_edit#:#Upravit záložku
@@ -2300,51 +2300,51 @@ common#:#cat#:#Kategorie
 common#:#cat_a#:#kategorie
 common#:#cat_add#:#Přidat kategorii
 common#:#cat_added#:#Kategorie přidána
-common#:#cat_cat_administrate_users#:#Správa lokálních účtů uživatelů
+rbac#:#cat_cat_administrate_users#:#Správa lokálních účtů uživatelů
 common#:#cat_clear_page#:#Smazat stránku
 common#:#cat_copy#:#Kopírovat kategorii
-common#:#cat_copy_threads_info#:#Rozhodněte prosím, která kategorie položek má být zkopírována, připojena, nebo odmítnuta.
-common#:#cat_create#:#Vytvořit kategorii
+rbac#:#cat_copy_threads_info#:#Rozhodněte prosím, která kategorie položek má být zkopírována, připojena, nebo odmítnuta.
+rbac#:#cat_create#:#Vytvořit kategorii
 common#:#cat_create_alm#:#Vytvořit výukový modul AICC
-common#:#cat_create_cat#:#Vytvořit kategorii
+rbac#:#cat_create_cat#:#Vytvořit kategorii
 common#:#cat_create_chat#:#Vytvořit diskusi
-common#:#cat_create_crs#:#Vytvořit kurz
+rbac#:#cat_create_crs#:#Vytvořit kurz
 common#:#cat_create_dbk#:#Vytvořit digitální knihu
-common#:#cat_create_exc#:#Vytvořit cvičení
-common#:#cat_create_feed#:#Vytvořit webový zásobník
-common#:#cat_create_file#:#Odeslat soubor
-common#:#cat_create_frm#:#Vytvořit fórum
-common#:#cat_create_glo#:#Vytvořit glosář
-common#:#cat_create_grp#:#Vytvořit skupinu
+rbac#:#cat_create_exc#:#Vytvořit cvičení
+rbac#:#cat_create_feed#:#Vytvořit webový zásobník
+rbac#:#cat_create_file#:#Odeslat soubor
+rbac#:#cat_create_frm#:#Vytvořit fórum
+rbac#:#cat_create_glo#:#Vytvořit glosář
+rbac#:#cat_create_grp#:#Vytvořit skupinu
 common#:#cat_create_hlm#:#Vytvořit výukový modul HACP
-common#:#cat_create_htlm#:#Vytvořit výukový modul HTML
-common#:#cat_create_icrs#:#Vytvořit LearnLinc Seminář
-common#:#cat_create_lm#:#Vytvořit výukový modul ILIAS
-common#:#cat_create_mcst#:#Vytvořit MediaCast
-common#:#cat_create_mep#:#Vytvořit zásobník multimédií
-common#:#cat_create_qpl#:#Vytvořit zásobník otázek testu
-common#:#cat_create_sahs#:#Vytvořit výukový modul SCORM/AICC
-common#:#cat_create_spl#:#Vytvořit zásobník otázek ankety
-common#:#cat_create_svy#:#Vytvořit anketu
-common#:#cat_create_tst#:#Vytvořit test
+rbac#:#cat_create_htlm#:#Vytvořit výukový modul HTML
+rbac#:#cat_create_icrs#:#Vytvořit LearnLinc Seminář
+rbac#:#cat_create_lm#:#Vytvořit výukový modul ILIAS
+rbac#:#cat_create_mcst#:#Vytvořit MediaCast
+rbac#:#cat_create_mep#:#Vytvořit zásobník multimédií
+rbac#:#cat_create_qpl#:#Vytvořit zásobník otázek testu
+rbac#:#cat_create_sahs#:#Vytvořit výukový modul SCORM/AICC
+rbac#:#cat_create_spl#:#Vytvořit zásobník otázek ankety
+rbac#:#cat_create_svy#:#Vytvořit anketu
+rbac#:#cat_create_tst#:#Vytvořit test
 common#:#cat_create_url#:#Vytvořit URL
-common#:#cat_create_webr#:#Vytvořit nový webový odkaz
+rbac#:#cat_create_webr#:#Vytvořit nový webový odkaz
 common#:#cat_create_write#:#Vytvořit Wiki
-common#:#cat_delete#:#Smazat kategorii
+rbac#:#cat_delete#:#Smazat kategorii
 common#:#cat_edit#:#Upravit kategorii
-common#:#cat_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#cat_edit_permission#:#Změnit nastavení oprávnění
 common#:#cat_new#:#Nová kategorie
 common#:#cat_pages#:#Stránky kategorie
 common#:#cat_pages_clear#:#Stránky kategorie smazány.
 common#:#cat_pages_not_created#:#Stránka kategorie dosud nevytvořeny
 common#:#cat_pages_undone#:#Poslední změny stránky kategorie neprovedeny
-common#:#cat_read#:#Právo číst na kategorii
-common#:#cat_read_users#:#Právo číst na lokální účty uživatelů
+rbac#:#cat_read#:#Právo číst na kategorii
+rbac#:#cat_read_users#:#Právo číst na lokální účty uživatelů
 common#:#cat_title#:#Název kategorie
 common#:#cat_undo_last_page_changes#:#Vrátit změny poslední stránky
-common#:#cat_visible#:#Kategorie je viditelná
+rbac#:#cat_visible#:#Kategorie je viditelná
 common#:#cat_wizard_page#:#Kopírovat kategorii (Krok 2/2)
-common#:#cat_write#:#Upravit kategorii
+rbac#:#cat_write#:#Upravit kategorii
 common#:#categories#:#Kategorie
 common#:#categories_imported#:#Import kategorie proveden
 common#:#catr#:#Odkazy kategorie
@@ -2375,13 +2375,13 @@ common#:#chac_write#:#Upravit nastavení diskusi
 common#:#change#:#Změnit
 common#:#change_active_assignment#:#Změnit aktivní přiřazení
 common#:#change_assignment#:#Změnit přiřazení
-common#:#change_existing_object_type_desc#:#Změnit oprávnění také již existujících objektů tohoto typu
-common#:#change_existing_objects#:#Změnit existující objekty
-common#:#change_existing_objects_desc#:#Nastavení oprávnění této role bude aplikováno na VŠECHNY existující objekty. pokud chcete změnit oprávnění jen na specifikované typy objektů klepněte prosím na zaškrtávací pole k oprávnění příslušného typu objektu.
-common#:#change_existing_prefix#:#Změnit existující
-common#:#change_existing_prefix_single#:#Změnit
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#Změnit oprávnění také již existujících objektů tohoto typu
+rbac#:#change_existing_objects#:#Změnit existující objekty
+rbac#:#change_existing_objects_desc#:#Nastavení oprávnění této role bude aplikováno na VŠECHNY existující objekty. pokud chcete změnit oprávnění jen na specifikované typy objektů klepněte prosím na zaškrtávací pole k oprávnění příslušného typu objektu.
+rbac#:#change_existing_prefix#:#Změnit existující
+rbac#:#change_existing_prefix_single#:#Změnit
+rbac#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_header_title#:#Upravit název hlavičky
 common#:#change_lo_info#:#Změnit informace o výukovém objektu
 common#:#change_metadata#:#Změnit metadata
@@ -2434,10 +2434,10 @@ common#:#choose_language#:#Vyberte svůj jazyk
 common#:#choose_location#:#Vyberte umístění
 common#:#choose_only_one_language#:#Vyberte prosím pouze jeden jazyk
 common#:#chown_warning#:#Pozor, po změně vlastníka můžete ztratit oprávnění přístupu k tomuto objektu.
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_read#:#Read###06 08 2011 new variable
+rbac#:#chtr_visible#:#Visible###06 08 2011 new variable
+rbac#:#chtr_write#:#Write###06 08 2011 new variable
 common#:#city#:#Město, okres
 common#:#cleaned_file#:#Soubor byl vyčištěn.
 common#:#cleaning_failed#:#Čištění selhalo.
@@ -2549,54 +2549,54 @@ common#:#crs_available#:#Dostupné kurzy
 common#:#crs_cancel_waiting_list#:#Skutečně se chcete vymazat ze seznamu čekatelů kurzu "%s"?
 common#:#crs_container_link_not_allowed#:#Není možné spojit kontejner objektů
 common#:#crs_copy#:#Kopírovat kurz
-common#:#crs_copy_threads_info#:#Určete prosím, které materiály kurzu mají být zkopírovány, připojeny či dokonce vynechány.
+rbac#:#crs_copy_threads_info#:#Určete prosím, které materiály kurzu mají být zkopírovány, připojeny či dokonce vynechány.
 common#:#crs_create#:#Vytvořit kurz
 common#:#crs_create_alm#:#Vytvořit výukový modul AICC
 common#:#crs_create_chat#:#Vytvořit diskusi
 common#:#crs_create_dbk#:#Vytvořit digitální knihu
-common#:#crs_create_exc#:#Vytvořit cvičení
-common#:#crs_create_feed#:#Vytvořit webový zásobník
-common#:#crs_create_file#:#Odeslat soubor
-common#:#crs_create_fold#:#Vytvořit složku
-common#:#crs_create_frm#:#Vytvořit fórum
-common#:#crs_create_glo#:#Vytvořit glosář
-common#:#crs_create_grp#:#Vytvořit skupinu
+rbac#:#crs_create_exc#:#Vytvořit cvičení
+rbac#:#crs_create_feed#:#Vytvořit webový zásobník
+rbac#:#crs_create_file#:#Odeslat soubor
+rbac#:#crs_create_fold#:#Vytvořit složku
+rbac#:#crs_create_frm#:#Vytvořit fórum
+rbac#:#crs_create_glo#:#Vytvořit glosář
+rbac#:#crs_create_grp#:#Vytvořit skupinu
 common#:#crs_create_hlm#:#Vytvořit výukový modul HACP
-common#:#crs_create_htlm#:#Vytvořit výukový modul HTML
-common#:#crs_create_icrs#:#Vytvořit seminář LearnLinc
-common#:#crs_create_lm#:#Vytvořit výukový modul
-common#:#crs_create_mcst#:#Vytvořit MediaCast
-common#:#crs_create_mep#:#Vytvořit zásobník multimédií
-common#:#crs_create_qpl#:#Vytvořit zásobník otázek testu
-common#:#crs_create_sahs#:#Vytvořit výukový modul SCORM/AICC
-common#:#crs_create_spl#:#Vytvořit zásobník otázek ankety
-common#:#crs_create_svy#:#Vytvořit anketu
-common#:#crs_create_tst#:#Vytvořit test
-common#:#crs_create_webr#:#Vytvořit webový odkaz
+rbac#:#crs_create_htlm#:#Vytvořit výukový modul HTML
+rbac#:#crs_create_icrs#:#Vytvořit seminář LearnLinc
+rbac#:#crs_create_lm#:#Vytvořit výukový modul
+rbac#:#crs_create_mcst#:#Vytvořit MediaCast
+rbac#:#crs_create_mep#:#Vytvořit zásobník multimédií
+rbac#:#crs_create_qpl#:#Vytvořit zásobník otázek testu
+rbac#:#crs_create_sahs#:#Vytvořit výukový modul SCORM/AICC
+rbac#:#crs_create_spl#:#Vytvořit zásobník otázek ankety
+rbac#:#crs_create_svy#:#Vytvořit anketu
+rbac#:#crs_create_tst#:#Vytvořit test
+rbac#:#crs_create_webr#:#Vytvořit webový odkaz
 common#:#crs_create_write#:#Vytvořit Wiki
-common#:#crs_delete#:#Smazat kurz
+rbac#:#crs_delete#:#Smazat kurz
 common#:#crs_edit#:#Upravit kurz
-common#:#crs_edit_learning_progress#:#Upravit výukový postup
-common#:#crs_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#crs_edit_learning_progress#:#Upravit výukový postup
+rbac#:#crs_edit_permission#:#Změnit nastavení oprávnění
 common#:#crs_info#:#Info
-common#:#crs_join#:#Přihlásit se do kurzu
-common#:#crs_leave#:#Opustit kurz
+rbac#:#crs_join#:#Přihlásit se do kurzu
+rbac#:#crs_leave#:#Opustit kurz
 common#:#crs_management_system#:#Systém správy kurzů
 common#:#crs_member_not_passed#:#Neprošel
 common#:#crs_member_passed#:#Prošel
 common#:#crs_members_gallery#:#Galerie příslušníků kurzu
 common#:#crs_new#:#Nový kurz
 common#:#crs_no_content#:#Bez obsahu
-common#:#crs_read#:#Právo číst do kurzu
+rbac#:#crs_read#:#Právo číst do kurzu
 common#:#crs_removed_from_waiting_list#:#Byl(a) jste odstraněn(a) ze seznamu čekatelů kurzu "%s".
 common#:#crs_status_blocked#:#[Přístup zamítnut]
 common#:#crs_status_pending#:#[Čekání na registraci]
 common#:#crs_subscribers_assigned#:#Zařazení noví uživatelé
 common#:#crs_title#:#Název kurzu
 common#:#crs_unsubscribe#:#Odhlásit se
-common#:#crs_visible#:#Kurz je viditelný
+rbac#:#crs_visible#:#Kurz je viditelný
 common#:#crs_wizard_page#:#Kopírovat kurz (Krok 2/2)
-common#:#crs_write#:#Upravit kurz
+rbac#:#crs_write#:#Upravit kurz
 common#:#crsr#:#Odkazy kurzu
 common#:#crsr_edit#:#Upravit odkazy kurzu
 common#:#crsr_edit_info#:#Vyberte prosím jeden kurz pro vytvoření nového odkazu.
@@ -2823,15 +2823,15 @@ common#:#exc_copy#:#Kopírovat cvičení
 common#:#exc_create#:#Vytvořit cvičení
 common#:#exc_date_not_valid#:#Datum je neplatné
 common#:#exc_deassign_members#:#Odstranit účastníky
-common#:#exc_delete#:#Smazat cvičení
+rbac#:#exc_delete#:#Smazat cvičení
 common#:#exc_details#:#Detaily cvičení
 common#:#exc_download_all#:#Stáhnout vše
 common#:#exc_download_files#:#Stažené soubory
 common#:#exc_download_new#:#Stáhnout nový
 common#:#exc_edit#:#Nové cvičení přidáno
 common#:#exc_edit_exercise#:#Upravit cvičení
-common#:#exc_edit_learning_progress#:#Upravit výukový postup
-common#:#exc_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#exc_edit_learning_progress#:#Upravit výukový postup
+rbac#:#exc_edit_permission#:#Změnit nastavení oprávnění
 common#:#exc_edit_until#:#Upravit do
 common#:#exc_exercise_sent#:#Cvičení posláno
 common#:#exc_feedback_sent#:#Odezvu poslal
@@ -2850,7 +2850,7 @@ common#:#exc_next_deadline#:#Next Deadline###18 07 2011 new variable
 common#:#exc_no_members_assigned#:#Žádní přiřazení členové
 common#:#exc_notices#:#Upozornění
 common#:#exc_obj#:#Cvičení
-common#:#exc_read#:#Přístup do cvičení
+rbac#:#exc_read#:#Přístup do cvičení
 common#:#exc_resubmitted_advice#:#Tento symbol bude zobrazen v případě, že nový soubor byl odeslán po zatrhnutí pole "vyřešený"
 common#:#exc_roles#:#Role
 common#:#exc_save_changes#:#Uložit
@@ -2871,8 +2871,8 @@ common#:#exc_time_over_short#:#čas vypršel
 common#:#exc_time_to_send#:#Zbývající pracovní čas
 common#:#exc_upload_error#:#Chyba při odesílání souboru
 common#:#exc_users#:#Uživatelé
-common#:#exc_visible#:#Cvičení je viditelné
-common#:#exc_write#:#Upravit cvičení
+rbac#:#exc_visible#:#Cvičení je viditelné
+rbac#:#exc_write#:#Upravit cvičení
 common#:#excs#:#Cvičení
 common#:#execute#:#Vykonat
 common#:#exercise_time_over#:#Překročil(a) jste konečný termín pro zpracování tohoto cvičení. Dále už nemůžete soubory odevzdávat.
@@ -2919,11 +2919,11 @@ common#:#failure_message#:#Chybová zpráva
 common#:#faq_exercise#:#FAQ Cvičení
 common#:#fax#:#Fax
 common#:#feed#:#Webový zdroj zpráv
-common#:#feed_delete#:#Smazat webový zdroj zpráv
-common#:#feed_edit_permission#:#Změnit nastavení oprávnění
-common#:#feed_read#:#Přístup číst webový zdroj zpráv
-common#:#feed_visible#:#Webový zdroj zpráv je viditelný
-common#:#feed_write#:#Upravit webový zásobník
+rbac#:#feed_delete#:#Smazat webový zdroj zpráv
+rbac#:#feed_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#feed_read#:#Přístup číst webový zdroj zpráv
+rbac#:#feed_visible#:#Webový zdroj zpráv je viditelný
+rbac#:#feed_write#:#Upravit webový zásobník
 common#:#feedback#:#Odezva
 common#:#feedback_recipient#:#Příjemce odezvy
 common#:#field_name#:#Název pole
@@ -2936,9 +2936,9 @@ common#:#file_added#:#Soubor uložen
 common#:#file_allowed_suffixes#:#Přípustné typy souborů:
 common#:#file_copy#:#Kopírovat soubor
 common#:#file_created#:#Nový soubor byl přidán.
-common#:#file_delete#:#Smazat soubor
+rbac#:#file_delete#:#Smazat soubor
 common#:#file_edit#:#Upravit soubor
-common#:#file_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#file_edit_permission#:#Změnit nastavení oprávnění
 common#:#file_icon#:#Ikona souboru
 common#:#file_info#:#Informace o souboru
 common#:#file_is_infected#:#Soubor infikován virem.The file is infected by a virus.
@@ -2948,15 +2948,15 @@ common#:#file_new#:#Odeslat samostatný soubor
 common#:#file_not_found#:#Soubor nenalezen
 common#:#file_not_valid#:#Soubor není platný!
 common#:#file_notice#:#Dbejte prosím na limit velikosti souborů
-common#:#file_read#:#Stáhnout soubor
+rbac#:#file_read#:#Stáhnout soubor
 common#:#file_suffix_repl#:#Změnit příponu odesílaného souboru
 common#:#file_suffix_repl_info#:#Soubory s těmito příponami (odděleno čárkou) budou přejmenovány s příponou ".sec" když budou uloženy do webového prostoru. To je výchozí nastavení pro přípony:
 common#:#file_updated#:#Soubor byl aktualizován.
 common#:#file_upload_pending#:#Pending file###12 06 2011 new variable
 common#:#file_valid#:#Soubor je v pořádku!
 common#:#file_version#:#Verze poskytnutá v souboru
-common#:#file_visible#:#Soubor je viditelný
-common#:#file_write#:#Upravit soubor
+rbac#:#file_visible#:#Soubor je viditelný
+rbac#:#file_write#:#Upravit soubor
 common#:#filename#:#Název souboru
 common#:#filename_extension_missing#:#Schází přípona souboru
 common#:#filename_extension_short#:#Přípona
@@ -9852,7 +9852,7 @@ rbac#:#cat_create_catr#:#Vytvořit odkaz kategorie
 rbac#:#cat_create_crsr#:#Vytvořit nové odkazy kategorie
 rbac#:#cat_create_rcrs#:#Vytvořit odkazy kurzu
 rbac#:#cat_create_wiki#:#Vytvořit Wiki
-rbac#:#catr_copy#:#Kopírovat odkaz kurzu
+common#:#catr_copy#:#Kopírovat odkaz kurzu
 rbac#:#catr_delete#:#Smazat odkaz kategorie
 rbac#:#catr_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#catr_read#:#Právo číst na odkaz kategorie
@@ -9868,7 +9868,7 @@ rbac#:#crs_create_crsr#:#Create new Course Reference###28 10 2010 new variable
 rbac#:#crs_create_sess#:#Vytvořit lekci
 rbac#:#crs_create_wiki#:#Vytvořit Wiki
 rbac#:#crs_edit_event#:#Upravit události kalendáře
-rbac#:#crsr_copy#:#Kopírovat odkaz kurzu
+common#:#crsr_copy#:#Kopírovat odkaz kurzu
 rbac#:#crsr_delete#:#Smazat odkaz kurzu
 rbac#:#crsr_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#crsr_read#:#Právo číst na odkaz kurzu
@@ -12158,7 +12158,7 @@ wiki#:#wiki_delete_page#:#Delete Page###10 11 2011 new variable
 wiki#:#wiki_rate_page#:#Rate this Wiki Page###10 11 2011 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###10 11 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###10 11 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###10 11 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###10 11 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###10 11 2011 new variable
 chatroom#:#user_invited#:#The user has been invited.###10 11 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###10 11 2011 new variable

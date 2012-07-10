@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1177,44 +1177,44 @@ common#:#cat#:#Kategorija
 common#:#cat_a#:#Kategorija
 common#:#cat_add#:#Dodajte kategoriju
 common#:#cat_added#:#Kategorija dodata
-common#:#cat_cat_administrate_users#:#Administrirajte naloge lokalnih korisnika
+rbac#:#cat_cat_administrate_users#:#Administrirajte naloge lokalnih korisnika
 common#:#cat_clear_page#:#Clear Page###07 Aug 2006 new variable
-common#:#cat_create#:#Kreirajte kategoriju
+rbac#:#cat_create#:#Kreirajte kategoriju
 common#:#cat_create_alm#:#Kreirajte AICC metod ucenja
-common#:#cat_create_cat#:#Kreirajte kategoriju
+rbac#:#cat_create_cat#:#Kreirajte kategoriju
 common#:#cat_create_chat#:#Kreirajte caskanje
-common#:#cat_create_crs#:#Kreirajte kurs
+rbac#:#cat_create_crs#:#Kreirajte kurs
 common#:#cat_create_dbk#:#Kreirajte Digilib knjigu
-common#:#cat_create_exc#:#Kreirajte vežbu
-common#:#cat_create_file#:#Pošaljite datoteku
-common#:#cat_create_frm#:#Kreirajte forum
-common#:#cat_create_glo#:#Kreirajte recnik termina
-common#:#cat_create_grp#:#Kreirajte grupu
+rbac#:#cat_create_exc#:#Kreirajte vežbu
+rbac#:#cat_create_file#:#Pošaljite datoteku
+rbac#:#cat_create_frm#:#Kreirajte forum
+rbac#:#cat_create_glo#:#Kreirajte recnik termina
+rbac#:#cat_create_grp#:#Kreirajte grupu
 common#:#cat_create_hlm#:#Kreirajte HACP metod ucenja
-common#:#cat_create_htlm#:#Kreirajte HTML metod ucenja
-common#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
-common#:#cat_create_lm#:#Kreirajte ILIAS metod ucenja
-common#:#cat_create_mep#:#Kreirajte bazu medija
-common#:#cat_create_qpl#:#Kreirajte bazu pitanja za test
-common#:#cat_create_sahs#:#Kreirajte SCORM/AICC metod ucenja
-common#:#cat_create_spl#:#Kreirajte bazu pitanja za anketu
-common#:#cat_create_svy#:#Kreirajte anketu
-common#:#cat_create_tst#:#Kreirajte test
+rbac#:#cat_create_htlm#:#Kreirajte HTML metod ucenja
+rbac#:#cat_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+rbac#:#cat_create_lm#:#Kreirajte ILIAS metod ucenja
+rbac#:#cat_create_mep#:#Kreirajte bazu medija
+rbac#:#cat_create_qpl#:#Kreirajte bazu pitanja za test
+rbac#:#cat_create_sahs#:#Kreirajte SCORM/AICC metod ucenja
+rbac#:#cat_create_spl#:#Kreirajte bazu pitanja za anketu
+rbac#:#cat_create_svy#:#Kreirajte anketu
+rbac#:#cat_create_tst#:#Kreirajte test
 common#:#cat_create_url#:#Kreirajte test
-common#:#cat_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#cat_delete#:#Obrišite kategoriju
+rbac#:#cat_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#cat_delete#:#Obrišite kategoriju
 common#:#cat_edit#:#Uredite kategoriju
-common#:#cat_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#cat_edit_permission#:#Promenite okvir za dozvolu
 common#:#cat_new#:#Nova kategorija
 common#:#cat_pages#:#Category Pages###07 Aug 2006 new variable
 common#:#cat_pages_clear#:#Category page cleared.###07 Aug 2006 new variable
 common#:#cat_pages_not_created#:#Category page not createded yet.###07 Aug 2006 new variable
 common#:#cat_pages_undone#:#Last changes for cagegory page undone.###07 Aug 2006 new variable
-common#:#cat_read#:#Procitajte pristup kategoriji
-common#:#cat_read_users#:#Procitajte pristup nalozima lokalnih korisnika
+rbac#:#cat_read#:#Procitajte pristup kategoriji
+rbac#:#cat_read_users#:#Procitajte pristup nalozima lokalnih korisnika
 common#:#cat_undo_last_page_changes#:#Undo Last Page Changes###07 Aug 2006 new variable
-common#:#cat_visible#:#Kategorija je vidljiva
-common#:#cat_write#:#Uredite kategoriju
+rbac#:#cat_visible#:#Kategorija je vidljiva
+rbac#:#cat_write#:#Uredite kategoriju
 common#:#categories#:#Kategorije
 common#:#categories_imported#:#Unos kategorije je završen.
 common#:#cc#:#CC
@@ -1236,7 +1236,7 @@ common#:#chac_write#:#Uredite podešavanja za caskanje
 common#:#change#:#Promeni
 common#:#change_active_assignment#:#Promenite aktivnu namenu
 common#:#change_assignment#:#Promenite namenu
-common#:#change_existing_objects#:#Promenite postojeci cilj
+rbac#:#change_existing_objects#:#Promenite postojeci cilj
 common#:#change_header_title#:#Izmenite naziv zaglavlja
 common#:#change_lo_info#:#Promenite LO informacije
 common#:#change_metadata#:#Promenite metapodatke
@@ -1358,42 +1358,42 @@ common#:#crs_create#:#Kreiraj Kurs
 common#:#crs_create_alm#:#Kreiraj AICC metod ucenja
 common#:#crs_create_chat#:#Kreiraj Caskanje
 common#:#crs_create_dbk#:#Kreiraj Digilib knjigu
-common#:#crs_create_exc#:#Kreiraj Vežbu
-common#:#crs_create_file#:#Postavi datoteku
-common#:#crs_create_fold#:#Kreiraj Registrator
-common#:#crs_create_frm#:#Kreiraj Forum
-common#:#crs_create_glo#:#Kreiraj Recnik termina
-common#:#crs_create_grp#:#Kreiraj grupu
+rbac#:#crs_create_exc#:#Kreiraj Vežbu
+rbac#:#crs_create_file#:#Postavi datoteku
+rbac#:#crs_create_fold#:#Kreiraj Registrator
+rbac#:#crs_create_frm#:#Kreiraj Forum
+rbac#:#crs_create_glo#:#Kreiraj Recnik termina
+rbac#:#crs_create_grp#:#Kreiraj grupu
 common#:#crs_create_hlm#:#Kreiraj HACP metod ucenja
-common#:#crs_create_htlm#:#Kreiraj HTML metod ucenja
-common#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
-common#:#crs_create_lm#:#Kreiraj ILIAS metod ucenja
-common#:#crs_create_mep#:#Kreiraj bazu sredstava
-common#:#crs_create_qpl#:#Kreiraj bazu pitanja za test
-common#:#crs_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
-common#:#crs_create_spl#:#Kreiraj Bazu pitanja za test Anketu
-common#:#crs_create_svy#:#Kreiraj Anketu
-common#:#crs_create_tst#:#Kreiraj Test
-common#:#crs_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#crs_delete#:#Obriši Kurs
+rbac#:#crs_create_htlm#:#Kreiraj HTML metod ucenja
+rbac#:#crs_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+rbac#:#crs_create_lm#:#Kreiraj ILIAS metod ucenja
+rbac#:#crs_create_mep#:#Kreiraj bazu sredstava
+rbac#:#crs_create_qpl#:#Kreiraj bazu pitanja za test
+rbac#:#crs_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
+rbac#:#crs_create_spl#:#Kreiraj Bazu pitanja za test Anketu
+rbac#:#crs_create_svy#:#Kreiraj Anketu
+rbac#:#crs_create_tst#:#Kreiraj Test
+rbac#:#crs_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#crs_delete#:#Obriši Kurs
 common#:#crs_edit#:#Uredi Kurs
-common#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#crs_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#crs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#crs_edit_permission#:#Promenite okvir za dozvolu
 common#:#crs_info#:#Info###05 Aug 2005 new variable
-common#:#crs_join#:#Prijavite se na Kurs###23 Dec 2005 content changed
-common#:#crs_leave#:#Ispišite se sa Kursa###23 Dec 2005 content changed
+rbac#:#crs_join#:#Prijavite se na Kurs###23 Dec 2005 content changed
+rbac#:#crs_leave#:#Ispišite se sa Kursa###23 Dec 2005 content changed
 common#:#crs_management_system#:#Sistem upravljanja Kursom
 common#:#crs_member_not_passed#:#Nije prošao
 common#:#crs_member_passed#:#Prošao
 common#:#crs_members_gallery#:#Course members gallery###10 Jul 2006 new variable
 common#:#crs_new#:#Novi Kurs
 common#:#crs_no_content#:#Bez sadržaja
-common#:#crs_read#:#Procitajte pristup Kursu
+rbac#:#crs_read#:#Procitajte pristup Kursu
 common#:#crs_status_blocked#:#[Pristu odbijen]
 common#:#crs_status_pending#:#[Cekanje na registraciju]
 common#:#crs_subscribers_assigned#:#Pridružen(i) novi korsinik(ci)
-common#:#crs_visible#:#Kurs je vidljiv
-common#:#crs_write#:#Uredi Kurs
+rbac#:#crs_visible#:#Kurs je vidljiv
+rbac#:#crs_write#:#Uredi Kurs
 common#:#cumulative_time#:#Ukupno vreme
 common#:#cur_number_rec#:#Trenutni broj zapisa
 common#:#current_ip#:#Current IP:###20 Jul 2005 new variable
@@ -1537,15 +1537,15 @@ common#:#exc_assign_usr#:#Pridruži Korisnika
 common#:#exc_create#:#Kreiraj Vežbu
 common#:#exc_date_not_valid#:#Datum nije ispravan
 common#:#exc_deassign_members#:#Obriši clana / clanove
-common#:#exc_delete#:#Obriši vežbu
+rbac#:#exc_delete#:#Obriši vežbu
 common#:#exc_details#:#Exercise details###10 Jul 2006 new variable
 common#:#exc_download_all#:#Download All###30 Jul 2006 new variable
 common#:#exc_download_files#:#Download Files###28 Jul 2006 new variable
 common#:#exc_download_new#:#Download New###30 Jul 2006 new variable
 common#:#exc_edit#:#Nova vežba je kreirana
 common#:#exc_edit_exercise#:#Uredi vežbu
-common#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
-common#:#exc_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#exc_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+rbac#:#exc_edit_permission#:#Promenite okvir za dozvolu
 common#:#exc_edit_until#:#Uredi do###30 Jul 2006 content changed
 common#:#exc_exercise_sent#:#Exercise Sent###30 Jul 2006 new variable
 common#:#exc_feedback_sent#:#Feedback Sent###30 Jul 2006 new variable
@@ -1563,7 +1563,7 @@ common#:#exc_new#:#Nova vežba
 common#:#exc_no_members_assigned#:#Nema pridruženi clanova
 common#:#exc_notices#:#Beleške
 common#:#exc_obj#:#Vežbe
-common#:#exc_read#:#Pristupite vežbi
+rbac#:#exc_read#:#Pristupite vežbi
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked###10 Jul 2006 new variable
 common#:#exc_roles#:#Funkcije
 common#:#exc_save_changes#:#Snimi
@@ -1584,8 +1584,8 @@ common#:#exc_time_over_short#:#time is over###10 Jul 2006 new variable
 common#:#exc_time_to_send#:#Remaining working time###10 Jul 2006 new variable
 common#:#exc_upload_error#:#Greška prilikom slanja datoteke.
 common#:#exc_users#:#Korisnici
-common#:#exc_visible#:#Vežba je vidljiva
-common#:#exc_write#:#Uredi vežbu
+rbac#:#exc_visible#:#Vežba je vidljiva
+rbac#:#exc_write#:#Uredi vežbu
 common#:#excs#:#Vežbe
 common#:#execute#:#Izvrši
 common#:#exercise_time_over#:#Vreme za vežbu vam je isteklo. Više ne možete isporucivati fajlove!
@@ -1632,9 +1632,9 @@ common#:#file_a#:#Fajl
 common#:#file_add#:#Postavi fajl
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata###10 Jul 2006 new variable
 common#:#file_added#:#Fajl postavljen
-common#:#file_delete#:#Obriši fajl
+rbac#:#file_delete#:#Obriši fajl
 common#:#file_edit#:#Uredi fajl
-common#:#file_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#file_edit_permission#:#Promenite okvir za dozvolu
 common#:#file_icon#:#File icon###06 Feb 2006 new variable
 common#:#file_info#:#File Information###23 Dec 2005 new variable
 common#:#file_is_infected#:#Fajl je zaražen virusom.
@@ -1642,13 +1642,13 @@ common#:#file_new#:#Novi fajl
 common#:#file_not_found#:#Fajl nije pronaden
 common#:#file_not_valid#:#Fajl nije valjan!
 common#:#file_notice#:#Molimo obratite pažnju na maksimalnu velicinu fajla od
-common#:#file_read#:#Prebacite fajl
+rbac#:#file_read#:#Prebacite fajl
 common#:#file_suffix_repl#:#File Upload Suffix Replacement###04 Aug 2006 new variable
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###04 Aug 2006 new variable
 common#:#file_valid#:#Fajl nije valjan!
 common#:#file_version#:#Verzija obezbedena u fajlu
-common#:#file_visible#:#Fajl je vidljiv
-common#:#file_write#:#Uredi fajl
+rbac#:#file_visible#:#Fajl je vidljiv
+rbac#:#file_write#:#Uredi fajl
 common#:#filename#:#Naziv fajla
 common#:#files#:#Fajlovi
 common#:#files_location#:#Mesto fajlova
@@ -6401,7 +6401,7 @@ crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned
 crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by email about new registrations.###04 09 2006 new variable
 assessment#:#tst_allow_instant_verification#:#Allow instant verification of answers###05 09 2006 new variable
 assessment#:#tst_instant_verification#:#Instant verification###05 09 2006 new variable
-common#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
+rbac#:#adopt_perm_from_template#:#Copy Permission Settings###05 09 2006 new variable
 crs#:#crs_mail_permanent_link#:#Choose the following link to access the course content:###07 09 2006 new variable
 grp#:#crs_add_grouping#:#Add Membership Limitation###07 09 2006 new variable
 grp#:#crs_grp_enter_title#:#Please fill out all required fields.###07 09 2006 new variable
@@ -6729,13 +6729,13 @@ common#:#objs_mcst#:#MediaCasts###25 02 2007 new variable
 common#:#mcst_new#:#New MediaCast###25 02 2007 new variable
 common#:#mcst_add#:#Add MediaCast###25 02 2007 new variable
 common#:#perm_special_options#:#Special Options###25 02 2007 new variable
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.###25 02 2007 new variable
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.###25 02 2007 new variable
 common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.###25 02 2007 new variable
-common#:#change_existing_prefix#:#Change existing###25 02 2007 new variable
-common#:#change_existing_suffix#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_prefix_single#:#Change###25 02 2007 new variable
-common#:#change_existing_suffix_single#:#&nbsp;###25 02 2007 new variable
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type###25 02 2007 new variable
+rbac#:#change_existing_prefix#:#Change existing###25 02 2007 new variable
+rbac#:#change_existing_suffix#:#&nbsp;###25 02 2007 new variable
+rbac#:#change_existing_prefix_single#:#Change###25 02 2007 new variable
+rbac#:#change_existing_suffix_single#:#&nbsp;###25 02 2007 new variable
+rbac#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type###25 02 2007 new variable
 common#:#defaults#:#Defaults###25 02 2007 new variable
 common#:#frm_latest_postings#:#Latest Articles###25 02 2007 new variable
 common#:#file_created#:#A new file has been added.###25 02 2007 new variable
@@ -6938,7 +6938,7 @@ common#:#obj_svy_select#:#-- Please select one Survey --###25 02 2007 new variab
 common#:#obj_crs_duplicate#:#Copy Course###25 02 2007 new variable
 common#:#obj_crs_select#:#-- Please select one Course --###25 02 2007 new variable
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)###25 02 2007 new variable
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
+rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###25 02 2007 new variable
 common#:#omit_all#:#Omit all###25 02 2007 new variable
 common#:#copy_all#:#Copy all###25 02 2007 new variable
 common#:#link_all#:#Link all###25 02 2007 new variable
@@ -6985,10 +6985,10 @@ common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The
 common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.###02 04 2007 new variable
 common#:#obj_feed#:#Web Feed###02 04 2007 new variable
 common#:#objs_feed#:#Web Feeds###02 04 2007 new variable
-common#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
-common#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
-common#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
+rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
+rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
+rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
 common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
 common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
@@ -6997,12 +6997,12 @@ common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new vari
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
-common#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
 common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
@@ -7159,7 +7159,7 @@ pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are remo
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
 common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
-common#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
+rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
 jsmath#:#jsmath_enable_jsmath#:#Enable jsMath###29 05 2007 new variable
@@ -7733,7 +7733,7 @@ rbac#:#cals_write#:#Edit Calendar settings###11 03 2008 new variable
 common#:#obj_cat_duplicate#:#Copy Category###11 03 2008 new variable
 common#:#obj_cat_select#:#-- Please select one Category --###11 03 2008 new variable
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)###11 03 2008 new variable
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###11 03 2008 new variable
 payment#:#object_deleted#:#Object Deleted###11 03 2008 new variable
 payment#:#user_deleted#:#User Deleted###11 03 2008 new variable
 payment#:#statistics_filter_advice#:#Please choose your favoured filter settings and press the "Update View" button.###11 03 2008 new variable
@@ -8523,7 +8523,7 @@ rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
 rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
 rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
 rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
-rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
+common#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
 common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
 common#:#objs_crsr#:#Course References###23 09 2008 new variable
 rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
@@ -8532,7 +8532,7 @@ rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
 rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
 rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
 rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
-rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
+common#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
 common#:#obj_catr#:#Category Reference###23 09 2008 new variable
 common#:#objs_catr#:#Category References###23 09 2008 new variable
 common#:#crsr#:#Course Reference###23 09 2008 new variable
@@ -10767,10 +10767,10 @@ book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
 book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
 book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
 book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
-common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
-common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
-common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
-common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
+rbac#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
+rbac#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
+rbac#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
+rbac#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
 rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
@@ -11737,10 +11737,10 @@ notes#:#note_update_note#:#Update Note###06 08 2011 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
 notes#:#notes_comments#:#Comments###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_visible#:#Visible###06 08 2011 new variable
+rbac#:#chtr_read#:#Read###06 08 2011 new variable
+rbac#:#chtr_write#:#Write###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
@@ -12156,7 +12156,7 @@ wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
 wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable
