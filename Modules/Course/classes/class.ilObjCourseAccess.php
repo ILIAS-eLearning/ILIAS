@@ -245,7 +245,8 @@ class ilObjCourseAccess extends ilObjectAccess
 		
 		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
 		if(ilMemberViewSettings::getInstance()->isActive())
-		{
+		{		
+			$a_visible_flag = true;			
 			return true;
 		}
 
@@ -257,19 +258,20 @@ class ilObjCourseAccess extends ilObjectAccess
 		// offline?
 		if(!$row->activation_type)
 		{
+			$a_visible_flag = false;
 			return false;							
 		}				
 		
 		$ref_id = ilObject::_getAllReferences($a_obj_id);
-		$ref_id = array_pop($ref_id);
+		$ref_id = array_pop($ref_id);		
 		
-		$a_visible_flag = true;	
+		$a_visible_flag = true;		
 		
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($ref_id);		
 		switch($item['timing_type'])
 		{			
-			case ilObjectActivation::TIMINGS_DEACTIVATED:									
+			case ilObjectActivation::TIMINGS_DEACTIVATED:						
 				return true;
 
 			case ilObjectActivation::TIMINGS_ACTIVATION:
@@ -281,7 +283,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				return true;
 				
-			default:								
+			default:			
 				return false;
 		}
 	}

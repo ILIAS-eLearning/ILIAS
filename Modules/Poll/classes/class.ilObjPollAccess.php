@@ -87,15 +87,17 @@ class ilObjPollAccess extends ilObjectAccess
 		// offline?
 		if(!$row->online_status)
 		{			
+			$a_visible_flag = false;
 			return false;							
 		}
+		
+		$a_visible_flag = true;
 		
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($a_ref_id);		
 		switch($item['timing_type'])
 		{			
-			case ilObjectActivation::TIMINGS_DEACTIVATED:
-				$a_visible_flag = true;
+			case ilObjectActivation::TIMINGS_DEACTIVATED:				
 				return true;
 
 			case ilObjectActivation::TIMINGS_ACTIVATION:
