@@ -96,8 +96,11 @@
 						placeholder: 'iosPdBlockDragAndDropPlaceholder',
 						connectWith: ".iosPdBlockSortableContainer",
 						forcePlaceholderSize: true,
+						cursor: 'move',
 						items: '>div'
 					}).disableSelection();
+					
+					$this.find("div .ilBlockHeader").css("cursor", "move");
 
 					internals.sortableContainer.push($this);
 				});
