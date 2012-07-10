@@ -262,6 +262,7 @@ class ilClient
 				break;
 				
 			case "mysql":
+			case "innodb":
 			default:
 				$db_port_str = "";
 				if (trim($this->getdbPort()) != "")

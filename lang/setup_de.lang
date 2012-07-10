@@ -101,7 +101,7 @@ db_conn#:#Verbindungsdaten zur Datenbank
 db_control_structure_missing#:#Kontrollstruktur fehlt. (Siehe 'Details' -> 'Tools')
 db_error_please_check#:#Bitte überprüfen Sie Datenbank Host, Benutzer und Passwort.
 db_host#:#Datenbankserver
-db_mysql#:#MySQL###26 06 2009 new variable
+db_mysql#:#MySQL (MyISAM)
 db_name#:#Datenbankname
 db_needs_update#:#Datenbank benötigt Update
 db_not_installed#:#Datenbank nicht installiert
@@ -554,3 +554,4 @@ proxy_activated_configurated#:#Proxy aktiviert
 info_text_proxy#:#Proxy Einstellungen
 setup_process_step_proxy#:#Proxy
 step_proxy#:#Proxy
+db_innodb#:#MySQL (InnoDB)

@@ -10968,7 +10968,7 @@ $ilDB->free($stmt);
 <#3643>
 <?php
 // Delete all mails without an existing owner
-if($ilDB->getDBType() == 'mysql')
+if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 {
 	$ilDB->manipulate('
 		DELETE m1

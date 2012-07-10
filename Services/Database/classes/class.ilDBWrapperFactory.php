@@ -47,6 +47,24 @@ class ilDBWrapperFactory
 				
 				break;
 
+			case "innodb":
+				include_once("./Services/Database/classes/class.ilDBInnoDB.php");
+				$ilDB = new ilDBInnoDB();		
+				
+				if($a_inactive_mysqli === null && 
+					is_object($ilClientIniFile))
+				{					
+					$a_inactive_mysqli = $ilClientIniFile->readVariable("db","inactive_mysqli");
+				}
+				
+				// default: use mysqli driver if not prevented by ini setting
+				if(!(bool)$a_inactive_mysqli)
+				{
+					$ilDB->setSubType("mysqli");
+				}
+				
+				break;
+
 			case "postgres":
 				include_once("./Services/Database/classes/class.ilDBPostgreSQL.php");
 				$ilDB = new ilDBPostgreSQL();
