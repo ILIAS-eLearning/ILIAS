@@ -2972,7 +2972,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		global $ilTabs;
 		
 		$this->checkPermission('write');
-		$ilTabs->activateTab('members');
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt('back'),
+			$this->ctrl->getLinkTarget($this, 'members'));
 		
 		$list = $this->initAttendanceList();
 		$form = $list->initForm('printMembersOutput');
