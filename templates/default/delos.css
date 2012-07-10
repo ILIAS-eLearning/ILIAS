@@ -3475,3 +3475,9 @@ div.ilSideBarContent{
 .ui-menu .ui-menu-item a.ui-state-active {
 	background-color: #FFFF99;
 }
+
+.iosPdBlockDragAndDropPlaceholder {
+	border: 1px #000000 solid;
+	background-image: url(images/drop_back_active.png);
+	background-repeat: repeat;
+}
