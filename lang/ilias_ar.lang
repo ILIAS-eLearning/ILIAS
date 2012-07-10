@@ -1,10 +1,10 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
 * @module		language file arabic
 * @modulegroup	language
-* @author 		Matthias Kunkel <m.kunkel@uni-koeln.de>
+* @author 		Matthias Kunkel <mkunkel@me.com>
 * @version		$Id: ilias_en.lang 25461 2010-08-30 13:20:45Z jluetzen $
 */
 
@@ -1651,7 +1651,7 @@ common#:#administrate_users#:#Local User Administration
 common#:#administrate#:#Administrate
 common#:#administration#:#Administration
 common#:#administrator#:#Administrator
-common#:#adopt_perm_from_template#:#Copy Permission Settings
+rbac#:#adopt_perm_from_template#:#Copy Permission Settings
 common#:#adopt#:#Adopt
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
@@ -1928,51 +1928,51 @@ common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if th
 common#:#cat_a#:#a Category
 common#:#cat_add#:#Add Category
 common#:#cat_added#:#Category added
-common#:#cat_cat_administrate_users#:#Administrate local user accounts
+rbac#:#cat_cat_administrate_users#:#Administrate local user accounts
 common#:#cat_clear_page#:#Clear Page
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 common#:#cat_copy#:#Copy Category
 common#:#cat_create_alm#:#Create AICC Learning Module
-common#:#cat_create_cat#:#Create Category
+rbac#:#cat_create_cat#:#Create Category
 common#:#cat_create_chat#:#Create Chat
-common#:#cat_create_crs#:#Create Course
+rbac#:#cat_create_crs#:#Create Course
 common#:#cat_create_dbk#:#Create Digilib Book
-common#:#cat_create_exc#:#Create Exercise
-common#:#cat_create_feed#:#Create Web Feed
-common#:#cat_create_file#:#Upload File
-common#:#cat_create_frm#:#Create Forum
-common#:#cat_create_glo#:#Create Glossary
-common#:#cat_create_grp#:#Create Group
+rbac#:#cat_create_exc#:#Create Exercise
+rbac#:#cat_create_feed#:#Create Web Feed
+rbac#:#cat_create_file#:#Upload File
+rbac#:#cat_create_frm#:#Create Forum
+rbac#:#cat_create_glo#:#Create Glossary
+rbac#:#cat_create_grp#:#Create Group
 common#:#cat_create_hlm#:#Create HACP Learning Module
-common#:#cat_create_htlm#:#Create HTML Learning Module
-common#:#cat_create_icrs#:#Create LearnLinc Seminar
-common#:#cat_create_lm#:#Create ILIAS Learning Module
-common#:#cat_create_mcst#:#Create Mediacast
-common#:#cat_create_mep#:#Create Media Pool
-common#:#cat_create_qpl#:#Create Question Pool Test
-common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#cat_create_spl#:#Create Question Pool Survey
-common#:#cat_create_svy#:#Create Survey
-common#:#cat_create_tst#:#Create Test
+rbac#:#cat_create_htlm#:#Create HTML Learning Module
+rbac#:#cat_create_icrs#:#Create LearnLinc Seminar
+rbac#:#cat_create_lm#:#Create ILIAS Learning Module
+rbac#:#cat_create_mcst#:#Create Mediacast
+rbac#:#cat_create_mep#:#Create Media Pool
+rbac#:#cat_create_qpl#:#Create Question Pool Test
+rbac#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#cat_create_spl#:#Create Question Pool Survey
+rbac#:#cat_create_svy#:#Create Survey
+rbac#:#cat_create_tst#:#Create Test
 common#:#cat_create_url#:#Create URL
-common#:#cat_create_webr#:#Create Weblink
+rbac#:#cat_create_webr#:#Create Weblink
 common#:#cat_create_write#:#Create Wiki
-common#:#cat_create#:#Create Category
-common#:#cat_delete#:#Delete Category
-common#:#cat_edit_permission#:#Change permission settings
+rbac#:#cat_create#:#Create Category
+rbac#:#cat_delete#:#Delete Category
+rbac#:#cat_edit_permission#:#Change permission settings
 common#:#cat_edit#:#Edit Category
 common#:#cat_new#:#New Category
 common#:#cat_pages_clear#:#Category page cleared.
 common#:#cat_pages_not_created#:#Category page not createded yet.
 common#:#cat_pages_undone#:#Last changes for cagegory page undone.
 common#:#cat_pages#:#Category Pages
-common#:#cat_read_users#:#Read access to local user accounts
-common#:#cat_read#:#Read access to Category
+rbac#:#cat_read_users#:#Read access to local user accounts
+rbac#:#cat_read#:#Read access to Category
 common#:#cat_title#:#Category Title
 common#:#cat_undo_last_page_changes#:#Undo Last Page Changes
-common#:#cat_visible#:#Category is visible
+rbac#:#cat_visible#:#Category is visible
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
-common#:#cat_write#:#Edit Category
+rbac#:#cat_write#:#Edit Category
 common#:#cat#:#Category
 common#:#categories_imported#:#Category import complete.
 common#:#categories#:#Categories
@@ -2003,13 +2003,13 @@ common#:#chac_visible#:#Chat settings are visible
 common#:#chac_write#:#Edit chat settings
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
-common#:#change_existing_objects#:#Change Existing Objects
-common#:#change_existing_prefix_single#:#Change
-common#:#change_existing_prefix#:#Change Existing
-common#:#change_existing_suffix_single#:#&nbsp;
-common#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
+rbac#:#change_existing_objects#:#Change Existing Objects
+rbac#:#change_existing_prefix_single#:#Change
+rbac#:#change_existing_prefix#:#Change Existing
+rbac#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_suffix#:#&nbsp;
 common#:#change_header_title#:#Edit Header Title
 common#:#change_lo_info#:#Change LO Info
 common#:#change_metadata#:#Change Metadata
@@ -2163,55 +2163,55 @@ common#:#crs_at_least_one_admin#:#There has to be at least one course administra
 common#:#crs_available#:#Available Courses
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
+rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 common#:#crs_copy#:#Copy Course
 common#:#crs_create_alm#:#Create AICC Learning Module
 common#:#crs_create_chat#:#Create Chat
 common#:#crs_create_dbk#:#Create Digilib Book
-common#:#crs_create_exc#:#Create Exercise
-common#:#crs_create_feed#:#Create Web Feed
-common#:#crs_create_file#:#Upload File
-common#:#crs_create_fold#:#Create Folder
-common#:#crs_create_frm#:#Create Forum
-common#:#crs_create_glo#:#Create Glossary
-common#:#crs_create_grp#:#Create Group
+rbac#:#crs_create_exc#:#Create Exercise
+rbac#:#crs_create_feed#:#Create Web Feed
+rbac#:#crs_create_file#:#Upload File
+rbac#:#crs_create_fold#:#Create Folder
+rbac#:#crs_create_frm#:#Create Forum
+rbac#:#crs_create_glo#:#Create Glossary
+rbac#:#crs_create_grp#:#Create Group
 common#:#crs_create_hlm#:#Create HACP Learning Module
-common#:#crs_create_htlm#:#Create HTML Learning Module
-common#:#crs_create_icrs#:#Create LearnLinc Seminar
-common#:#crs_create_lm#:#Create ILIAS Learning Module
-common#:#crs_create_mcst#:#Create Mediacast
-common#:#crs_create_mep#:#Create Media Pool
-common#:#crs_create_qpl#:#Create Question Pool Test
-common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#crs_create_spl#:#Create Question Pool Survey
-common#:#crs_create_svy#:#Create Survey
-common#:#crs_create_tst#:#Create Test
-common#:#crs_create_webr#:#Create Weblink
+rbac#:#crs_create_htlm#:#Create HTML Learning Module
+rbac#:#crs_create_icrs#:#Create LearnLinc Seminar
+rbac#:#crs_create_lm#:#Create ILIAS Learning Module
+rbac#:#crs_create_mcst#:#Create Mediacast
+rbac#:#crs_create_mep#:#Create Media Pool
+rbac#:#crs_create_qpl#:#Create Question Pool Test
+rbac#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#crs_create_spl#:#Create Question Pool Survey
+rbac#:#crs_create_svy#:#Create Survey
+rbac#:#crs_create_tst#:#Create Test
+rbac#:#crs_create_webr#:#Create Weblink
 common#:#crs_create_write#:#Create Wiki
 common#:#crs_create#:#Create Course
-common#:#crs_delete#:#Delete Course
-common#:#crs_edit_learning_progress#:#Edit Learning Progress
-common#:#crs_edit_permission#:#Change permission settings
+rbac#:#crs_delete#:#Delete Course
+rbac#:#crs_edit_learning_progress#:#Edit Learning Progress
+rbac#:#crs_edit_permission#:#Change permission settings
 common#:#crs_edit#:#Edit Course
 common#:#crs_info#:#Info
-common#:#crs_join#:#Join Course
-common#:#crs_leave#:#Leave Course
+rbac#:#crs_join#:#Join Course
+rbac#:#crs_leave#:#Leave Course
 common#:#crs_management_system#:#Course Management System
 common#:#crs_member_not_passed#:#Not passed
 common#:#crs_member_passed#:#Passed
 common#:#crs_members_gallery#:#Course Members Gallery
 common#:#crs_new#:#New Course
 common#:#crs_no_content#:#Without content
-common#:#crs_read#:#Read access to Course
+rbac#:#crs_read#:#Read access to Course
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
 common#:#crs_status_blocked#:#[Access refused]
 common#:#crs_status_pending#:#[Waiting for registration]
 common#:#crs_subscribers_assigned#:#Assigned new user(s)
 common#:#crs_title#:#Course Title
 common#:#crs_unsubscribe#:#Unsubscribe
-common#:#crs_visible#:#Course is visible
+rbac#:#crs_visible#:#Course is visible
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
-common#:#crs_write#:#Edit Course
+rbac#:#crs_write#:#Edit Course
 common#:#crs#:#Course
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
 common#:#crsr_edit#:#Edit Course Reference
@@ -2417,14 +2417,14 @@ common#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
 common#:#exc_deassign_members#:#Remove Participant(s)
-common#:#exc_delete#:#Delete exercise
+rbac#:#exc_delete#:#Delete exercise
 common#:#exc_details#:#Exercise details
 common#:#exc_download_all#:#Download All
 common#:#exc_download_files#:#Download Files
 common#:#exc_download_new#:#Download New
 common#:#exc_edit_exercise#:#Edit exercise
-common#:#exc_edit_learning_progress#:#Edit Learning Progress
-common#:#exc_edit_permission#:#Change permission settings
+rbac#:#exc_edit_learning_progress#:#Edit Learning Progress
+rbac#:#exc_edit_permission#:#Change permission settings
 common#:#exc_edit_until#:#Edit Until
 common#:#exc_edit#:#New exercise created
 common#:#exc_exercise_sent#:#Exercise Sent
@@ -2443,7 +2443,7 @@ common#:#exc_new#:#New Exercise
 common#:#exc_no_members_assigned#:#No members assigned
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
-common#:#exc_read#:#Access exercise
+rbac#:#exc_read#:#Access exercise
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
@@ -2464,8 +2464,8 @@ common#:#exc_time_over_short#:#Time is up.
 common#:#exc_time_to_send#:#Remaining Working Time
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#Users
-common#:#exc_visible#:#Exercise is visible
-common#:#exc_write#:#Edit exercise
+rbac#:#exc_visible#:#Exercise is visible
+rbac#:#exc_write#:#Edit exercise
 common#:#exc#:#Exercise
 common#:#excs#:#Exercises
 common#:#execute#:#Execute
@@ -2512,11 +2512,11 @@ common#:#extt_write#:#Configure third party software
 common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#FAQ Exercise
 common#:#fax#:#Fax
-common#:#feed_delete#:#Delete Web Feed
-common#:#feed_edit_permission#:#Change permission settings
-common#:#feed_read#:#Read access to Web Feed
-common#:#feed_visible#:#Web Feed is visible
-common#:#feed_write#:#Edit Web Feed
+rbac#:#feed_delete#:#Delete Web Feed
+rbac#:#feed_edit_permission#:#Change permission settings
+rbac#:#feed_read#:#Read access to Web Feed
+rbac#:#feed_visible#:#Web Feed is visible
+rbac#:#feed_write#:#Edit Web Feed
 common#:#feed#:#Web Feed
 common#:#feedback_recipient#:#Feedback Recipient
 common#:#feedback#:#Feedback
@@ -2529,8 +2529,8 @@ common#:#file_added#:#File uploaded
 common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_copy#:#Copy File
 common#:#file_created#:#File has been added.
-common#:#file_delete#:#Delete File
-common#:#file_edit_permission#:#Change Permission settings
+rbac#:#file_delete#:#Delete File
+rbac#:#file_edit_permission#:#Change Permission settings
 common#:#file_edit#:#Edit File and Upload New Version
 common#:#file_icon#:#File icon
 common#:#file_info#:#File Information
@@ -2541,14 +2541,14 @@ common#:#file_new#:#Upload Single File
 common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Please take note of the maximum file size of
-common#:#file_read#:#Download File
+rbac#:#file_read#:#Download File
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_updated#:#File has been updated.
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
-common#:#file_visible#:#File is visible
-common#:#file_write#:#Edit File
+rbac#:#file_visible#:#File is visible
+rbac#:#file_write#:#Edit File
 common#:#file#:#File
 common#:#filename_extension_missing#:#Filename extension missing
 common#:#filename_extension_short#:#Extension
@@ -8818,7 +8818,7 @@ rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create new Course Reference
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Create Wiki
-rbac#:#catr_copy#:#Copy Category Reference
+common#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
 rbac#:#catr_edit_permission#:#Change Permission Settings
 rbac#:#catr_read#:#Read access to Category Reference
@@ -8831,7 +8831,7 @@ rbac#:#cmps_write#:#Edit component settings
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-rbac#:#crsr_copy#:#Copy Course Reference
+common#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Delete Course Reference
 rbac#:#crsr_edit_permission#:#Change Permission Settings
 rbac#:#crsr_read#:#Read access to Course Reference
@@ -10788,10 +10788,10 @@ book#:#book_set_in_use#:#Is in Use
 book#:#book_set_not_in_use#:#Not in Use
 book#:#book_set_cancel#:#Cancel Reservation
 book#:#book_set_not_cancel#:#Undo Cancel
-common#:#book_edit_permission#:#Change permission settings
-common#:#book_visible#:#Booking Pool is visible
-common#:#book_read#:#Read access to Booking Pool
-common#:#book_write#:#Edit Booking Pool
+rbac#:#book_edit_permission#:#Change permission settings
+rbac#:#book_visible#:#Booking Pool is visible
+rbac#:#book_read#:#Read access to Booking Pool
+rbac#:#book_write#:#Edit Booking Pool
 rbac#:#cat_create_book#:#Create Booking Pool
 rbac#:#grp_create_book#:#Create Booking Pool
 rbac#:#fold_create_book#:#Create Booking Pool
@@ -11738,10 +11738,10 @@ notes#:#note_update_note#:#Update Note###06 08 2011 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
 notes#:#notes_comments#:#Comments###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_visible#:#Visible###06 08 2011 new variable
+rbac#:#chtr_read#:#Read###06 08 2011 new variable
+rbac#:#chtr_write#:#Write###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
@@ -12157,7 +12157,7 @@ wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
 wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable

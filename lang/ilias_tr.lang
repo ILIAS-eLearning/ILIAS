@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -6,10 +6,6 @@
 * @modulegroup  language
 * @author       Dilek Kazmaz <kazmaz@qualitus.de>
 * @version      $Id: ilias_en.lang 25507 2010-09-01 10:14:10Z nkrzywon $
-* @il_server    http://localhost:8888/ilias-trunk
-* @il_version   4.1.0 RC2 2010-08-27
-* @created      2010-09-06 16:43:42
-* @created_by   Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -1765,7 +1761,7 @@ common#:#administrate_users#:#Yerel kullanıcı yönetimi
 common#:#administration#:#Yönetim
 common#:#administrator#:#Yönetici
 common#:#adopt#:#Benimse
-common#:#adopt_perm_from_template#:#Yetki Ayarlarını Kopyala
+rbac#:#adopt_perm_from_template#:#Yetki Ayarlarını Kopyala
 common#:#advanced_editing_allow_html_tags#:#Seçili HTML etiketlerinin metin düzenlemesi yapılmasına izin ver
 common#:#advanced_editing_allow_javascript_editor#:#Zengin Metin Editörünü Etkinleştir
 common#:#advanced_editing_assessment_settings#:#ILIAS Test ve Değerlendirme aracı için HTML etiketlerine izin verildi
@@ -2006,10 +2002,10 @@ common#:#bm_add_to_social_bookmarks#:#Add to Bookmarks
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bmf#:#Yerimi Klasörü
 common#:#bold#:#Bold
-common#:#book_edit_permission#:#Change permission settings
-common#:#book_read#:#Read access to Booking Pool
-common#:#book_visible#:#Booking Pool is visible
-common#:#book_write#:#Edit Booking Pool
+rbac#:#book_edit_permission#:#Change permission settings
+rbac#:#book_read#:#Read access to Booking Pool
+rbac#:#book_visible#:#Booking Pool is visible
+rbac#:#book_write#:#Edit Booking Pool
 common#:#bookings#:#Bookings
 common#:#bookmark_added#:#The Bookmark has been created.
 common#:#bookmark_edit#:#Yerimi Düzenle
@@ -2047,51 +2043,51 @@ common#:#cat#:#Kategori
 common#:#cat_a#:#bir Kategori
 common#:#cat_add#:#Kategori Ekle
 common#:#cat_added#:#Kategori eklendi
-common#:#cat_cat_administrate_users#:#Yerel kullanıcı hesaplarını yönet
+rbac#:#cat_cat_administrate_users#:#Yerel kullanıcı hesaplarını yönet
 common#:#cat_clear_page#:#Sayfayı Temizle
 common#:#cat_copy#:#Copy Category
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-common#:#cat_create#:#Kategori Oluştur
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
+rbac#:#cat_create#:#Kategori Oluştur
 common#:#cat_create_alm#:#AICC Öğrenme Modülü Oluştur
-common#:#cat_create_cat#:#Kategori Oluştur
+rbac#:#cat_create_cat#:#Kategori Oluştur
 common#:#cat_create_chat#:#Sohbet Oluştur
-common#:#cat_create_crs#:#Kurs Oluştur
+rbac#:#cat_create_crs#:#Kurs Oluştur
 common#:#cat_create_dbk#:#Digilib Kitabı Oluştur
-common#:#cat_create_exc#:#Alıştırma Oluştur
-common#:#cat_create_feed#:#Create Web Feed
-common#:#cat_create_file#:#Dosya Yükle
-common#:#cat_create_frm#:#Forum Oluştur
-common#:#cat_create_glo#:#Sözlükçe Oluştur
-common#:#cat_create_grp#:#Grup Oluştur
+rbac#:#cat_create_exc#:#Alıştırma Oluştur
+rbac#:#cat_create_feed#:#Create Web Feed
+rbac#:#cat_create_file#:#Dosya Yükle
+rbac#:#cat_create_frm#:#Forum Oluştur
+rbac#:#cat_create_glo#:#Sözlükçe Oluştur
+rbac#:#cat_create_grp#:#Grup Oluştur
 common#:#cat_create_hlm#:#HACP Öğrenme Modülü Oluştur
-common#:#cat_create_htlm#:#HTML Öğrenme Modülü Oluştur
-common#:#cat_create_icrs#:#LearnLinc Semineri Oluştur
-common#:#cat_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-common#:#cat_create_mcst#:#Create Mediacast
-common#:#cat_create_mep#:#Ortam Havuzu Oluştur
-common#:#cat_create_qpl#:#Test İçin Soru Havuzu Oluştur
-common#:#cat_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
-common#:#cat_create_spl#:#Anket İçin Soru Havuzu Oluştur
-common#:#cat_create_svy#:#Anket Oluştur
-common#:#cat_create_tst#:#Test Oluştur
+rbac#:#cat_create_htlm#:#HTML Öğrenme Modülü Oluştur
+rbac#:#cat_create_icrs#:#LearnLinc Semineri Oluştur
+rbac#:#cat_create_lm#:#ILIAS Öğrenme Modülü Oluştur
+rbac#:#cat_create_mcst#:#Create Mediacast
+rbac#:#cat_create_mep#:#Ortam Havuzu Oluştur
+rbac#:#cat_create_qpl#:#Test İçin Soru Havuzu Oluştur
+rbac#:#cat_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
+rbac#:#cat_create_spl#:#Anket İçin Soru Havuzu Oluştur
+rbac#:#cat_create_svy#:#Anket Oluştur
+rbac#:#cat_create_tst#:#Test Oluştur
 common#:#cat_create_url#:#URL Oluştur
-common#:#cat_create_webr#:#Web Kaynağı Oluştur
+rbac#:#cat_create_webr#:#Web Kaynağı Oluştur
 common#:#cat_create_write#:#Create Wiki
-common#:#cat_delete#:#Kategori Sil
+rbac#:#cat_delete#:#Kategori Sil
 common#:#cat_edit#:#Kategori Düzenle
-common#:#cat_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#cat_edit_permission#:#İzin ayarlarını değiştir
 common#:#cat_new#:#Yeni Kategori
 common#:#cat_pages#:#Kategori Sayfaları
 common#:#cat_pages_clear#:#Kategori sayfası temizlendi.
 common#:#cat_pages_not_created#:#Kategori sayfası henüz oluşturulmadı.
 common#:#cat_pages_undone#:#Kategori sayfasındaki son değişiklikler geri alındı.
-common#:#cat_read#:#Kategoriye okuma erişimi
-common#:#cat_read_users#:#Yerel kullanıcı hesaplarına okuma erişimi
+rbac#:#cat_read#:#Kategoriye okuma erişimi
+rbac#:#cat_read_users#:#Yerel kullanıcı hesaplarına okuma erişimi
 common#:#cat_title#:#Category Title
 common#:#cat_undo_last_page_changes#:#Son Sayfa Değişikliklerini Geri Al
-common#:#cat_visible#:#Kategori görünür halde
+rbac#:#cat_visible#:#Kategori görünür halde
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
-common#:#cat_write#:#Kategori Düzenle
+rbac#:#cat_write#:#Kategori Düzenle
 common#:#categories#:#Kategoriler
 common#:#categories_imported#:#Kategori içeri aktarma işlemi tamamlandı.
 common#:#catr#:#Category Reference
@@ -2122,13 +2118,13 @@ common#:#chac_write#:#Sohbet ayarlarını düzenle
 common#:#change#:#Değiştir
 common#:#change_active_assignment#:#Etkin atananları değiştir
 common#:#change_assignment#:#Atananı Değiştir
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
-common#:#change_existing_objects#:#Mevcut Nesneleri değiştir
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
-common#:#change_existing_prefix#:#Change Existing
-common#:#change_existing_prefix_single#:#Change
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
+rbac#:#change_existing_objects#:#Mevcut Nesneleri değiştir
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
+rbac#:#change_existing_prefix#:#Change Existing
+rbac#:#change_existing_prefix_single#:#Change
+rbac#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_header_title#:#Sayfa Başlığının Adını Düzenle
 common#:#change_lo_info#:#LO Bilgilerini Değiştir
 common#:#change_metadata#:#Metaverileri değiştir
@@ -2289,54 +2285,54 @@ common#:#crs_available#:#Müsait Kurslar
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#CONTAINER nesneleri bağlantılandırmak mümkün değildir
 common#:#crs_copy#:#Copy Course
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
+rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 common#:#crs_create#:#Kurs Oluştur
 common#:#crs_create_alm#:#AICC Öğrenme Modülü Oluştur
 common#:#crs_create_chat#:#Sohbet Oluştur
 common#:#crs_create_dbk#:#Digilib Kitabı Oluştur
-common#:#crs_create_exc#:#Alıştırma Oluştur
-common#:#crs_create_feed#:#Create Web Feed
-common#:#crs_create_file#:#Dosya Yükle
-common#:#crs_create_fold#:#Klasör Oluştur
-common#:#crs_create_frm#:#Forum Oluştur
-common#:#crs_create_glo#:#Sözlükçe Oluştur
-common#:#crs_create_grp#:#Grup Oluştur
+rbac#:#crs_create_exc#:#Alıştırma Oluştur
+rbac#:#crs_create_feed#:#Create Web Feed
+rbac#:#crs_create_file#:#Dosya Yükle
+rbac#:#crs_create_fold#:#Klasör Oluştur
+rbac#:#crs_create_frm#:#Forum Oluştur
+rbac#:#crs_create_glo#:#Sözlükçe Oluştur
+rbac#:#crs_create_grp#:#Grup Oluştur
 common#:#crs_create_hlm#:#HACP Öğrenme Modülü Oluştur
-common#:#crs_create_htlm#:#HTML Öğrenme Modülü Oluştur
-common#:#crs_create_icrs#:#LearnLinc Semineri Oluştur
-common#:#crs_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-common#:#crs_create_mcst#:#Create Mediacast
-common#:#crs_create_mep#:#Ortam Havuzu Oluştur
-common#:#crs_create_qpl#:#Test İçin Soru Havuzu Oluştur
-common#:#crs_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
-common#:#crs_create_spl#:#Anket İçin Soru Havuzu Oluştur
-common#:#crs_create_svy#:#Anket Oluştur
-common#:#crs_create_tst#:#Test Oluştur
-common#:#crs_create_webr#:#Web Kaynağı Oluştur
+rbac#:#crs_create_htlm#:#HTML Öğrenme Modülü Oluştur
+rbac#:#crs_create_icrs#:#LearnLinc Semineri Oluştur
+rbac#:#crs_create_lm#:#ILIAS Öğrenme Modülü Oluştur
+rbac#:#crs_create_mcst#:#Create Mediacast
+rbac#:#crs_create_mep#:#Ortam Havuzu Oluştur
+rbac#:#crs_create_qpl#:#Test İçin Soru Havuzu Oluştur
+rbac#:#crs_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
+rbac#:#crs_create_spl#:#Anket İçin Soru Havuzu Oluştur
+rbac#:#crs_create_svy#:#Anket Oluştur
+rbac#:#crs_create_tst#:#Test Oluştur
+rbac#:#crs_create_webr#:#Web Kaynağı Oluştur
 common#:#crs_create_write#:#Create Wiki
-common#:#crs_delete#:#Kurs Sil
+rbac#:#crs_delete#:#Kurs Sil
 common#:#crs_edit#:#Kurs Düzenle
-common#:#crs_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeleri düzenle
-common#:#crs_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#crs_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeleri düzenle
+rbac#:#crs_edit_permission#:#İzin ayarlarını değiştir
 common#:#crs_info#:#Bilgi
-common#:#crs_join#:#Kursa Yazıl
-common#:#crs_leave#:#Kurstan Ayrıl
+rbac#:#crs_join#:#Kursa Yazıl
+rbac#:#crs_leave#:#Kurstan Ayrıl
 common#:#crs_management_system#:#Kurs İdare Sistemi
 common#:#crs_member_not_passed#:#Geçemedi
 common#:#crs_member_passed#:#Geçti
 common#:#crs_members_gallery#:#Kurs Üyeleri Galerisi
 common#:#crs_new#:#Yeni Kurs
 common#:#crs_no_content#:#İçerik olmadan
-common#:#crs_read#:#Kursa okuma erişimi
+rbac#:#crs_read#:#Kursa okuma erişimi
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
 common#:#crs_status_blocked#:#[Access refused]
 common#:#crs_status_pending#:#[Waiting for registration]
 common#:#crs_subscribers_assigned#:#Yeni kullanıcı(lar) atandı
 common#:#crs_title#:#Course Title
 common#:#crs_unsubscribe#:#Unsubscribe
-common#:#crs_visible#:#Kurs görünür halde
+rbac#:#crs_visible#:#Kurs görünür halde
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
-common#:#crs_write#:#Kurs Düzenle
+rbac#:#crs_write#:#Kurs Düzenle
 common#:#crsr#:#Course Reference
 common#:#crsr_edit#:#Edit Course Reference
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
@@ -2559,15 +2555,15 @@ common#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#Alıştırma oluştur
 common#:#exc_date_not_valid#:#Bu tarih geçersiz
 common#:#exc_deassign_members#:#Üye(leri) sil
-common#:#exc_delete#:#Alıştırma sil
+rbac#:#exc_delete#:#Alıştırma sil
 common#:#exc_details#:#Alıştırma ayrıntıları
 common#:#exc_download_all#:#Tümünü İndir
 common#:#exc_download_files#:#Dosya İndir
 common#:#exc_download_new#:#Yenileri İndir
 common#:#exc_edit#:#Yeni alıştırma oluşturuldu
 common#:#exc_edit_exercise#:#Alıştırma düzenle
-common#:#exc_edit_learning_progress#:#Öğrenmede Kaydedilen İlerlemeyi Düzenle
-common#:#exc_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#exc_edit_learning_progress#:#Öğrenmede Kaydedilen İlerlemeyi Düzenle
+rbac#:#exc_edit_permission#:#İzin ayarlarını değiştir
 common#:#exc_edit_until#:#Şuraya kadar düzenle
 common#:#exc_exercise_sent#:#Alıştırma Gönderildi
 common#:#exc_feedback_sent#:#Geribildirim Gönderildi
@@ -2585,7 +2581,7 @@ common#:#exc_new#:#Yeni alıştırma
 common#:#exc_no_members_assigned#:#Atanan üye yok
 common#:#exc_notices#:#Uyarılar
 common#:#exc_obj#:#Alıştırma
-common#:#exc_read#:#Alıştırmaya erişim
+rbac#:#exc_read#:#Alıştırmaya erişim
 common#:#exc_resubmitted_advice#:#“Çözüldü” alanı işaretlendikten sonra yeni bir dosya gönderildiği durumlarda bu simge görüntülenecektir
 common#:#exc_roles#:#Roller
 common#:#exc_save_changes#:#Kaydet
@@ -2606,8 +2602,8 @@ common#:#exc_time_over_short#:#Zaman bitti.
 common#:#exc_time_to_send#:#Kalan Çalışma Zamanı
 common#:#exc_upload_error#:#Dosya yüklemede hata
 common#:#exc_users#:#Kullanıcılar
-common#:#exc_visible#:#Alıştırma görünür halde
-common#:#exc_write#:#Alıştırma düzenle
+rbac#:#exc_visible#:#Alıştırma görünür halde
+rbac#:#exc_write#:#Alıştırma düzenle
 common#:#excs#:#Alıştırmalar
 common#:#execute#:#Yürüt
 common#:#exercise_time_over#:#Alıştırmanın bitme zamanı gelmiştir. Artık dosya dağıtamazsınız!
@@ -2654,11 +2650,11 @@ common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#SSS Alıştırması
 common#:#fax#:#Faks
 common#:#feed#:#Web Feed
-common#:#feed_delete#:#Delete Web Feed
-common#:#feed_edit_permission#:#Change permission settings
-common#:#feed_read#:#Read access to Web Feed
-common#:#feed_visible#:#Web Feed is visible
-common#:#feed_write#:#Edit Web Feed
+rbac#:#feed_delete#:#Delete Web Feed
+rbac#:#feed_edit_permission#:#Change permission settings
+rbac#:#feed_read#:#Read access to Web Feed
+rbac#:#feed_visible#:#Web Feed is visible
+rbac#:#feed_write#:#Edit Web Feed
 common#:#feedback#:#Geribildirim
 common#:#feedback_recipient#:#Geribildirimi Alacak Kişi
 common#:#field_name#:#Alan Adı
@@ -2671,9 +2667,9 @@ common#:#file_added#:#Dosya yüklendi
 common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_copy#:#Copy File
 common#:#file_created#:#File has been added.
-common#:#file_delete#:#Dosya Sil
+rbac#:#file_delete#:#Dosya Sil
 common#:#file_edit#:#Dosya Düzenle
-common#:#file_edit_permission#:#İzin Ayarlarını değiştir
+rbac#:#file_edit_permission#:#İzin Ayarlarını değiştir
 common#:#file_icon#:#Dosya ikonu
 common#:#file_info#:#Dosya Bilgileri
 common#:#file_is_infected#:#Bu dosya virüslü.
@@ -2683,14 +2679,14 @@ common#:#file_new#:#Yeni Dosya
 common#:#file_not_found#:#Dosya Bulunamadı
 common#:#file_not_valid#:#Dosya geçersiz!
 common#:#file_notice#:#Lütfen şunun maksimum dosya büyüklüğünü not edin
-common#:#file_read#:#Dosya İndir
+rbac#:#file_read#:#Dosya İndir
 common#:#file_suffix_repl#:#Dosya Yükleme Başka Sonek Kullan
 common#:#file_suffix_repl_info#:#Bu soneklerle biten dosyalar (virgüller ayrılmış), İnternet’e yüklendiği taktirde “.sec” soneki ile yeniden adlandırılacaktır. Bu işlem şu sonekler için otomatikman yapılır:
 common#:#file_updated#:#File has been updated.
 common#:#file_valid#:#Dosya geçerli!
 common#:#file_version#:#Dosyada şu Sürüm Sağlanmıştır
-common#:#file_visible#:#Dosya görünür halde
-common#:#file_write#:#Dosya Düzenle
+rbac#:#file_visible#:#Dosya görünür halde
+rbac#:#file_write#:#Dosya Düzenle
 common#:#filename#:#Dosya adı
 common#:#filename_extension_missing#:#Filename extension missing
 common#:#filename_extension_short#:#Extension
@@ -9182,7 +9178,7 @@ rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create new Course Reference
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Create Wiki
-rbac#:#catr_copy#:#Copy Category Reference
+common#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
 rbac#:#catr_edit_permission#:#Change Permission Settings
 rbac#:#catr_read#:#Read access to Category Reference
@@ -9196,7 +9192,7 @@ rbac#:#crs_create_book#:#Create Booking Pool
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-rbac#:#crsr_copy#:#Copy Course Reference
+common#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Delete Course Reference
 rbac#:#crsr_edit_permission#:#Change Permission Settings
 rbac#:#crsr_read#:#Read access to Course Reference
@@ -11741,10 +11737,10 @@ notes#:#note_update_note#:#Update Note###06 08 2011 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
 notes#:#notes_comments#:#Comments###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_visible#:#Visible###06 08 2011 new variable
+rbac#:#chtr_read#:#Read###06 08 2011 new variable
+rbac#:#chtr_write#:#Write###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
@@ -12160,7 +12156,7 @@ wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
 wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable

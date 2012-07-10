@@ -471,44 +471,44 @@ common#:#stop_moving_blocks#:#Afslut blokflytning
 common#:#cat_a#:#en kategori
 common#:#cat_add#:#Tilføj kategori
 common#:#cat_added#:#Kategori tilføjet
-common#:#cat_cat_administrate_users#:#Administrer lokale brugerkonti
+rbac#:#cat_cat_administrate_users#:#Administrer lokale brugerkonti
 common#:#cat_clear_page#:#Clear Page
-common#:#cat_create#:#Opret kategori
+rbac#:#cat_create#:#Opret kategori
 common#:#cat_create_alm#:#Opret AICC Læremodul
-common#:#cat_create_cat#:#Opret kategori
+rbac#:#cat_create_cat#:#Opret kategori
 common#:#cat_create_chat#:#Opret chatsted
-common#:#cat_create_crs#:#Opret kursus
+rbac#:#cat_create_crs#:#Opret kursus
 common#:#cat_create_dbk#:#Opret digilibbog
-common#:#cat_create_exc#:#Opret øvelse
-common#:#cat_create_file#:#Upload Fil
-common#:#cat_create_frm#:#Opret forum
-common#:#cat_create_glo#:#Opret ordbog
-common#:#cat_create_grp#:#Opret gruppe
+rbac#:#cat_create_exc#:#Opret øvelse
+rbac#:#cat_create_file#:#Upload Fil
+rbac#:#cat_create_frm#:#Opret forum
+rbac#:#cat_create_glo#:#Opret ordbog
+rbac#:#cat_create_grp#:#Opret gruppe
 common#:#cat_create_hlm#:#Opret HACP Læremodul
-common#:#cat_create_htlm#:#Opret HTML Læremodul
-common#:#cat_create_icrs#:#Opret LearnLincmodul
-common#:#cat_create_lm#:#Opret ILIAS Læremodul
-common#:#cat_create_mep#:#Opret afstemning
-common#:#cat_create_qpl#:#Opret spørgsmål til tests
-common#:#cat_create_sahs#:#Opret SCORM/AICC Læremodul
-common#:#cat_create_spl#:#Opret spørgsmål til afstemninger/undersøgelser
-common#:#cat_create_svy#:#Opret undersøgelse
-common#:#cat_create_tst#:#Opret test
+rbac#:#cat_create_htlm#:#Opret HTML Læremodul
+rbac#:#cat_create_icrs#:#Opret LearnLincmodul
+rbac#:#cat_create_lm#:#Opret ILIAS Læremodul
+rbac#:#cat_create_mep#:#Opret afstemning
+rbac#:#cat_create_qpl#:#Opret spørgsmål til tests
+rbac#:#cat_create_sahs#:#Opret SCORM/AICC Læremodul
+rbac#:#cat_create_spl#:#Opret spørgsmål til afstemninger/undersøgelser
+rbac#:#cat_create_svy#:#Opret undersøgelse
+rbac#:#cat_create_tst#:#Opret test
 common#:#cat_create_url#:#Opret URL
-common#:#cat_create_webr#:#Opret weblink
-common#:#cat_delete#:#Slet kategori
+rbac#:#cat_create_webr#:#Opret weblink
+rbac#:#cat_delete#:#Slet kategori
 common#:#cat_edit#:#Rediger kategori
-common#:#cat_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#cat_edit_permission#:#Ændre rettighedsindstillinger
 common#:#cat_new#:#Ny kategori
 common#:#cat_pages#:#Kategorisider
 common#:#cat_pages_clear#:#Kategoriside renset.
 common#:#cat_pages_not_created#:#Category page not createded yet.
 common#:#cat_pages_undone#:#De seneste ændringer for kategorisiden er rullet tilbage.
-common#:#cat_read#:#Læserettigheder til kategori
-common#:#cat_read_users#:#Læserettigheder til lokale brugere
+rbac#:#cat_read#:#Læserettigheder til kategori
+rbac#:#cat_read_users#:#Læserettigheder til lokale brugere
 common#:#cat_undo_last_page_changes#:#Tilbagerul seneste sideændringer
-common#:#cat_visible#:#Kategorien er synlig
-common#:#cat_write#:#Rediger kategori
+rbac#:#cat_visible#:#Kategorien er synlig
+rbac#:#cat_write#:#Rediger kategori
 common#:#categories#:#Kategorier
 common#:#categories_imported#:#Import af kategorier er gennemført
 common#:#cc#:#CC
@@ -531,14 +531,14 @@ common#:#change#:#Ret
 common#:#change_active_assignment#:#ændre aktiv opgave
 common#:#change_assignment#:#Skift tildelinger
 common#:#perm_special_options#:#Særligt
-common#:#change_existing_objects#:#Ændrer eksisterende objekter
-common#:#change_existing_objects_desc#:#Rettighedsindstillingerne for denne rolle vil blive anvendt på ALLE eksisterende objekter. Hvis du kun ønsker at ændre rettighederne for specifikke objekttyper så vælg i afkrydsboksene til højre for objekttypen.
+rbac#:#change_existing_objects#:#Ændrer eksisterende objekter
+rbac#:#change_existing_objects_desc#:#Rettighedsindstillingerne for denne rolle vil blive anvendt på ALLE eksisterende objekter. Hvis du kun ønsker at ændre rettighederne for specifikke objekttyper så vælg i afkrydsboksene til højre for objekttypen.
 common#:#role_protect_permissions_desc#:#Rettighederne til objektet kan ikke længere ændres. Kun administratorer på et højere niveau må ændre disse indstillinger.
-common#:#change_existing_prefix#:#Ret eksisterende
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_prefix_single#:#Ret
-common#:#change_existing_suffix_single#:#&nbsp;
-common#:#change_existing_object_type_desc#:#Ret rettigheder på eksisterende objekter af denne type
+rbac#:#change_existing_prefix#:#Ret eksisterende
+rbac#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_prefix_single#:#Ret
+rbac#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#Ret rettigheder på eksisterende objekter af denne type
 common#:#change_header_title#:#Rediger overskift
 common#:#change_lo_info#:#Rediger LO Info
 common#:#change_metadata#:#Rediger Metadata
@@ -666,42 +666,42 @@ common#:#crs_create#:#Opret kursus
 common#:#crs_create_alm#:#Opret AICC Læremodul
 common#:#crs_create_chat#:#Opret chat
 common#:#crs_create_dbk#:#Opret Digilibbog
-common#:#crs_create_exc#:#Opret øvelse
-common#:#crs_create_file#:#Upload Fil
-common#:#crs_create_fold#:#Opret mappe
-common#:#crs_create_frm#:#Opret forum
-common#:#crs_create_glo#:#Opret ordbog
-common#:#crs_create_grp#:#Opret gruppe
+rbac#:#crs_create_exc#:#Opret øvelse
+rbac#:#crs_create_file#:#Upload Fil
+rbac#:#crs_create_fold#:#Opret mappe
+rbac#:#crs_create_frm#:#Opret forum
+rbac#:#crs_create_glo#:#Opret ordbog
+rbac#:#crs_create_grp#:#Opret gruppe
 common#:#crs_create_hlm#:#Opret HACP Læremodul
-common#:#crs_create_htlm#:#Opret HTML Læremodul
-common#:#crs_create_icrs#:#Opret LearnLincmodul
-common#:#crs_create_lm#:#Opret ILIAS Læremodul
-common#:#crs_create_mep#:#Opret mediesamling
-common#:#crs_create_qpl#:#Opret spørgsmålsbibliotek til tests
-common#:#crs_create_sahs#:#Opret SCORM/AICC Læremodul
-common#:#crs_create_spl#:#Opret spørgsmål til undersøgelse
-common#:#crs_create_svy#:#Opret undersøgelse
-common#:#crs_create_tst#:#Opret test
-common#:#crs_create_webr#:#Opret ny webresource
-common#:#crs_delete#:#Slet kursus
+rbac#:#crs_create_htlm#:#Opret HTML Læremodul
+rbac#:#crs_create_icrs#:#Opret LearnLincmodul
+rbac#:#crs_create_lm#:#Opret ILIAS Læremodul
+rbac#:#crs_create_mep#:#Opret mediesamling
+rbac#:#crs_create_qpl#:#Opret spørgsmålsbibliotek til tests
+rbac#:#crs_create_sahs#:#Opret SCORM/AICC Læremodul
+rbac#:#crs_create_spl#:#Opret spørgsmål til undersøgelse
+rbac#:#crs_create_svy#:#Opret undersøgelse
+rbac#:#crs_create_tst#:#Opret test
+rbac#:#crs_create_webr#:#Opret ny webresource
+rbac#:#crs_delete#:#Slet kursus
 common#:#crs_edit#:#Rediger Kursus
-common#:#crs_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#crs_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#crs_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#crs_edit_permission#:#Ændre rettighedsindstillinger
 common#:#crs_info#:#Info
-common#:#crs_join#:#Tilmeld kursus
-common#:#crs_leave#:#Forlad kursus
+rbac#:#crs_join#:#Tilmeld kursus
+rbac#:#crs_leave#:#Forlad kursus
 common#:#crs_management_system#:#Kursus styringssystem
 common#:#crs_member_not_passed#:#Ikke Bestået
 common#:#crs_member_passed#:#Bestået
 common#:#crs_members_gallery#:#Galleri
 common#:#crs_new#:#Nyt kursus
 common#:#crs_no_content#:#Uden Indhold
-common#:#crs_read#:#Læseadgang til kursus
+rbac#:#crs_read#:#Læseadgang til kursus
 common#:#crs_status_blocked#:#[Adgang Nægtet]
 common#:#crs_status_pending#:#[Venter på Registrering]
 common#:#crs_subscribers_assigned#:#Tilmeldte nye bruger(e)
-common#:#crs_visible#:#Kursus er synligt
-common#:#crs_write#:#Rediger Kursus
+rbac#:#crs_visible#:#Kursus er synligt
+rbac#:#crs_write#:#Rediger Kursus
 common#:#cumulative_time#:#Akkumuleret tid
 common#:#cur_number_rec#:#Nuværende antal registrerede
 common#:#current_ip#:#Nuværende IP:
@@ -841,15 +841,15 @@ common#:#exc_assign_usr#:#Tildel Bruger
 common#:#exc_create#:#Opret øvelse
 common#:#exc_date_not_valid#:#Datoen er ikke gyldig
 common#:#exc_deassign_members#:#Slet medlem(mer)
-common#:#exc_delete#:#Slet øvelse
+rbac#:#exc_delete#:#Slet øvelse
 common#:#exc_details#:#Exercise details
 common#:#exc_download_all#:#Download alt
 common#:#exc_download_files#:#Download filer
 common#:#exc_download_new#:#Download ny
 common#:#exc_edit#:#Ny øvelse er blevet oprettet
 common#:#exc_edit_exercise#:#Rediger øvelse
-common#:#exc_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#exc_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#exc_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#exc_edit_permission#:#Ændre rettighedsindstillinger
 common#:#exc_edit_until#:#Rediger indtil
 common#:#exc_exercise_sent#:#Exercise Sent
 common#:#exc_feedback_sent#:#Feedback Sent
@@ -867,7 +867,7 @@ common#:#exc_new#:#Ny øvelse
 common#:#exc_no_members_assigned#:#Ingen medlemmer tildelt
 common#:#exc_notices#:#Notits
 common#:#exc_obj#:#øvelser
-common#:#exc_read#:#Adgangsøvelse
+rbac#:#exc_read#:#Adgangsøvelse
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roller
 common#:#exc_save_changes#:#Gem
@@ -888,8 +888,8 @@ common#:#exc_time_over_short#:#Tiden er gået.
 common#:#exc_time_to_send#:#Tilbageværende arbejdstid
 common#:#exc_upload_error#:#Fejl i upload af fil
 common#:#exc_users#:#Brugere
-common#:#exc_visible#:#Øvelsen er synlig
-common#:#exc_write#:#Rediger øvelse
+rbac#:#exc_visible#:#Øvelsen er synlig
+rbac#:#exc_write#:#Rediger øvelse
 common#:#excs#:#Øvelser
 common#:#execute#:#Udfør
 common#:#exercise_time_over#:#Du har nået sluttidspunktet. Du kan ikke længere aflevere.
@@ -935,9 +935,9 @@ common#:#file_a#:#en Fil
 common#:#file_add#:#Upload Fil
 common#:#file_add_and_metadata#:#Upload fil og rediger metadata
 common#:#file_added#:#Filen er  uploaded
-common#:#file_delete#:#Slet Fil
+rbac#:#file_delete#:#Slet Fil
 common#:#file_edit#:#Rediger fil
-common#:#file_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#file_edit_permission#:#Ændre rettighedsindstillinger
 common#:#file_icon#:#Fil ikon
 common#:#file_info#:#Fil information
 common#:#file_is_infected#:#Denne fil er inficeret med en virus.
@@ -946,13 +946,13 @@ common#:#file_not_found#:#Filen er ikke fundet
 common#:#file_not_valid#:#Filen er ikke gyldig!
 common#:#file_notice#:#Bemærk at den maksimale størrelse er 
 common#:#file_allowed_suffixes#:#Tilladte filtyper:
-common#:#file_read#:#Download fil
+rbac#:#file_read#:#Download fil
 common#:#file_suffix_repl#:#Erstatning af filendelser
 common#:#file_suffix_repl_info#:#Filer med disse endelser (separeret af komma) vil blive omdøbt til ".sec" når de uploades i webspace. Dette gøres som standard for endelser:
 common#:#file_valid#:#Filen er gyldig!
 common#:#file_version#:#Version er vist i Filen
-common#:#file_visible#:#Filen er synlig
-common#:#file_write#:#Rediger fil
+rbac#:#file_visible#:#Filen er synlig
+rbac#:#file_write#:#Rediger fil
 common#:#filename#:#Filnavn
 common#:#files#:#Filer
 common#:#files_location#:#Fil placering
@@ -1667,7 +1667,7 @@ common#:#mep_read#:#Læs indhold i mediebeholder
 common#:#mep_visible#:#Mediabeholder er synlig
 common#:#mep_write#:#Rediger indhold i mediebeholder
 common#:#mcst_delete#:#Slet Mediacast
-common#:#feed_delete#:#Slet Web feed
+rbac#:#feed_delete#:#Slet Web feed
 common#:#message#:#Besked
 common#:#message_content#:#Indhold
 common#:#message_no_delivered_files#:#Du har ikke vedhæftet en fil!
@@ -1823,10 +1823,10 @@ common#:#html_block#:#HTML bolk
 common#:#feed#:#Nyheds feed
 common#:#obj_feed#:#Web feed
 common#:#objs_feed#:#Web feeds
-common#:#feed_edit_permission#:#Ret sikkerhedsindstillinger
-common#:#feed_visible#:#Web feed er synligt
-common#:#feed_read#:#Læseadgang til Web feed
-common#:#feed_write#:#Ret webfeed
+rbac#:#feed_edit_permission#:#Ret sikkerhedsindstillinger
+rbac#:#feed_visible#:#Web feed er synligt
+rbac#:#feed_read#:#Læseadgang til Web feed
+rbac#:#feed_write#:#Ret webfeed
 common#:#mcst_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#mcst_visible#:#MediaCast er synligt
 common#:#mcst_read#:#Læseadgang til MediaCast
@@ -1835,12 +1835,12 @@ common#:#nwss_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#nwss_visible#:#Nyheds og web feeds indstillinger er synlige
 common#:#nwss_read#:#Indstillinger for læseadgang til Nyheds- og Webfeeds
 common#:#nwss_write#:#Rediger nyheds og web feeds indstillinger
-common#:#cat_create_feed#:#Opret web feed
+rbac#:#cat_create_feed#:#Opret web feed
 common#:#grp_create_feed#:#Opret web feed
-common#:#crs_create_feed#:#Opret web feed
-common#:#cat_create_mcst#:#Opret MediaCast
+rbac#:#crs_create_feed#:#Opret web feed
+rbac#:#cat_create_mcst#:#Opret MediaCast
 common#:#grp_create_mcst#:#Opret MediaCast
-common#:#crs_create_mcst#:#Opret MediaCast
+rbac#:#crs_create_mcst#:#Opret MediaCast
 common#:#fold_create_mcst#:#Lav MediaCast
 common#:#access_users#:#Indloggede brugere
 common#:#access_public#:#Offentlig
@@ -2791,7 +2791,7 @@ common#:#zipcode#:#Postnummer
 common#:#no_start_file#:#Ingen startfil
 common#:#select_one#:#Vælg en
 common#:#access_until#:#Adgang til
-common#:#adopt_perm_from_template#:#Kopiering af rettighedsindstillinger
+rbac#:#adopt_perm_from_template#:#Kopiering af rettighedsindstillinger
 common#:#edit_grouping#:#Ret medlemsbegrænsninger
 common#:#grouping_select_exactly_one#:#Vælg venligst en medlemsbegrænsning
 common#:#mail_settings#:#Besked indstillinger
@@ -2830,7 +2830,7 @@ common#:#obj_svy_select#:# Vælg venligst en afstemning
 common#:#obj_crs_duplicate#:#Kopier kursus
 common#:#obj_crs_select#:#Du skal vælge et kursus
 common#:#crs_wizard_page#:#Kopier kursus (skridt 2/2)
-common#:#crs_copy_threads_info#:#Vælg hvilke kursusmaterialer der skal kopieres, linkes eller udeladt.
+rbac#:#crs_copy_threads_info#:#Vælg hvilke kursusmaterialer der skal kopieres, linkes eller udeladt.
 common#:#omit_all#:#Udelad alle
 common#:#copy_all#:#Kopier alle
 common#:#link_all#:#Link alle
@@ -7810,7 +7810,7 @@ rbac#:#cals_write#:#Ret kalenderindstillinger
 common#:#obj_cat_duplicate#:#Kopier kategori
 common#:#obj_cat_select#:#-- Vælg venligst en kategori --
 common#:#cat_wizard_page#:#Kopier kategori (Skridt 2/2)
-common#:#cat_copy_threads_info#:#Vælg hvilke kategori objekter der skal kopieres, linkes eller udelades
+rbac#:#cat_copy_threads_info#:#Vælg hvilke kategori objekter der skal kopieres, linkes eller udelades
 payment#:#object_deleted#:#Varen slettet
 payment#:#user_deleted#:#Slettet bruger
 payment#:#statistics_filter_advice#:#Vælg de værdier du ønsker at filtrere på og tryk derefter 'Opdater' knappen.
@@ -8600,7 +8600,7 @@ rbac#:#crsr_read#:#Læseadgang til kursusreference
 rbac#:#crsr_delete#:#Slet kursusreference
 rbac#:#cat_create_crsr#:#Lav ny kursusreference
 rbac#:#crsr_write#:#Ret kursusreference
-rbac#:#crsr_copy#:#Kopier kursusreference
+common#:#crsr_copy#:#Kopier kursusreference
 common#:#obj_crsr#:#Kursusreference
 common#:#objs_crsr#:#Kursusreference
 rbac#:#catr_edit_permission#:#Ændre rettighedsindstillinger
@@ -8609,7 +8609,7 @@ rbac#:#catr_read#:#Læseadgang til kategorireference
 rbac#:#catr_delete#:#Slet kategorireference
 rbac#:#cat_create_catr#:#Lav kategorireference
 rbac#:#catr_write#:#Ret kategorireference
-rbac#:#catr_copy#:#Kopier kategorireference
+common#:#catr_copy#:#Kopier kategorireference
 common#:#obj_catr#:#Kategorireference
 common#:#objs_catr#:#Kategorireferencer
 common#:#crsr#:#Kursusreferencer
@@ -10767,10 +10767,10 @@ book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
 book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
 book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
 book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
-common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
-common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
-common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
-common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
+rbac#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
+rbac#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
+rbac#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
+rbac#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
 rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
@@ -11737,10 +11737,10 @@ notes#:#note_update_note#:#Opdater note
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#Objektet blev fjernet fra skrivebordet.
 notes#:#notes_comments#:#Kommentarer
-common#:#chtr_visible#:#Synlig
-common#:#chtr_read#:#Læs
-common#:#chtr_write#:#Skriv
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_visible#:#Synlig
+rbac#:#chtr_read#:#Læs
+rbac#:#chtr_write#:#Skriv
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
@@ -12156,7 +12156,7 @@ wiki#:#wiki_delete_page#:#Slet side
 wiki#:#wiki_rate_page#:#Vurder siden
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable

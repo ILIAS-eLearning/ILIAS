@@ -1799,7 +1799,7 @@ common#:#administrate_users#:#Lokale gebruikers-beheer
 common#:#administration#:#Beheer
 common#:#administrator#:#Administrator
 common#:#adopt#:#toevoegen
-common#:#adopt_perm_from_template#:#Kopieer instellingen van de rechten
+rbac#:#adopt_perm_from_template#:#Kopieer instellingen van de rechten
 common#:#advanced_editing_allow_html_tags#:#HTML tag voor tekst aanpassing toelaten
 common#:#advanced_editing_allow_javascript_editor#:#Laat Rich Text Editor toe
 common#:#advanced_editing_assessment_settings#:#HTML tags voor ILIAS Test&Assessment
@@ -2039,10 +2039,10 @@ common#:#bm_add_to_social_bookmarks#:#Add to Social Bookmarks
 common#:#bm_manage_social_bm#:#Manage Social Bookmarks
 common#:#bmf#:#Favorietmap
 common#:#bold#:#Bold
-common#:#book_edit_permission#:#Verander permissie instellingen
-common#:#book_read#:#Read access to Booking Pool
-common#:#book_visible#:#reserverings pool is zichtbaar
-common#:#book_write#:#Bewerk reserverings pool
+rbac#:#book_edit_permission#:#Verander permissie instellingen
+rbac#:#book_read#:#Read access to Booking Pool
+rbac#:#book_visible#:#reserverings pool is zichtbaar
+rbac#:#book_write#:#Bewerk reserverings pool
 common#:#bookings#:#Bookings
 common#:#bookmark_added#:#The Bookmark has been created.
 common#:#bookmark_edit#:#Favoriet wijzigen
@@ -2080,51 +2080,51 @@ common#:#cat#:#Categorie
 common#:#cat_a#:#een categorie
 common#:#cat_add#:#Categorie toevoegen
 common#:#cat_added#:#Categorie toegevoegd
-common#:#cat_cat_administrate_users#:#Lokale gebruikers beheren
+rbac#:#cat_cat_administrate_users#:#Lokale gebruikers beheren
 common#:#cat_clear_page#:#Verwijder pagina
 common#:#cat_copy#:#Kopieër Categorie
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-common#:#cat_create#:#Creër categorie
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
+rbac#:#cat_create#:#Creër categorie
 common#:#cat_create_alm#:#Creëer AICC Lesmodule
-common#:#cat_create_cat#:#Creëer categorie
+rbac#:#cat_create_cat#:#Creëer categorie
 common#:#cat_create_chat#:#Creëer chat
-common#:#cat_create_crs#:#Creëer cursu
+rbac#:#cat_create_crs#:#Creëer cursu
 common#:#cat_create_dbk#:#Creëer digibook
-common#:#cat_create_exc#:#Creëer oefening
-common#:#cat_create_feed#:#Maak Web Feed
-common#:#cat_create_file#:#Creër bestand
-common#:#cat_create_frm#:#Creëer forumd
-common#:#cat_create_glo#:#Creëer woordenlijst
-common#:#cat_create_grp#:#Creëer groep
+rbac#:#cat_create_exc#:#Creëer oefening
+rbac#:#cat_create_feed#:#Maak Web Feed
+rbac#:#cat_create_file#:#Creër bestand
+rbac#:#cat_create_frm#:#Creëer forumd
+rbac#:#cat_create_glo#:#Creëer woordenlijst
+rbac#:#cat_create_grp#:#Creëer groep
 common#:#cat_create_hlm#:#Creëer HACP lesmodule
-common#:#cat_create_htlm#:#Creëer HTML lesmodule
-common#:#cat_create_icrs#:#Creëer LearnLinc Seminar
-common#:#cat_create_lm#:#Creëer lesmodule
-common#:#cat_create_mcst#:#Maak MediaCast
-common#:#cat_create_mep#:#Creëer Media-pool
-common#:#cat_create_qpl#:#Creëer Vraagpool
-common#:#cat_create_sahs#:#Creëer SCORM/AICC lesmodule
-common#:#cat_create_spl#:#Creëer Vraagpool(Enquête)
-common#:#cat_create_svy#:#Creëer Enquête
-common#:#cat_create_tst#:#Creëer een test
+rbac#:#cat_create_htlm#:#Creëer HTML lesmodule
+rbac#:#cat_create_icrs#:#Creëer LearnLinc Seminar
+rbac#:#cat_create_lm#:#Creëer lesmodule
+rbac#:#cat_create_mcst#:#Maak MediaCast
+rbac#:#cat_create_mep#:#Creëer Media-pool
+rbac#:#cat_create_qpl#:#Creëer Vraagpool
+rbac#:#cat_create_sahs#:#Creëer SCORM/AICC lesmodule
+rbac#:#cat_create_spl#:#Creëer Vraagpool(Enquête)
+rbac#:#cat_create_svy#:#Creëer Enquête
+rbac#:#cat_create_tst#:#Creëer een test
 common#:#cat_create_url#:#Create URL
-common#:#cat_create_webr#:#Nieuwe website toevoegen
+rbac#:#cat_create_webr#:#Nieuwe website toevoegen
 common#:#cat_create_write#:#Create Wiki
-common#:#cat_delete#:#Verwijder categorie
+rbac#:#cat_delete#:#Verwijder categorie
 common#:#cat_edit#:#Wijzig categorie
-common#:#cat_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#cat_edit_permission#:#Wijzig instellingen van de rechten
 common#:#cat_new#:#Nieuwe categorie
 common#:#cat_pages#:#Categorie pagina's
 common#:#cat_pages_clear#:#Categorie pagina's verwijderd
 common#:#cat_pages_not_created#:#Categorie pagina's nog niet gecreëerd
 common#:#cat_pages_undone#:#Laatste wijzigingen voor categorie pagina's ongedaan gemaakt
-common#:#cat_read#:#Leestoegang categorie
-common#:#cat_read_users#:#Leesrechten op locale gebruikers
+rbac#:#cat_read#:#Leestoegang categorie
+rbac#:#cat_read_users#:#Leesrechten op locale gebruikers
 common#:#cat_title#:#Category Title
 common#:#cat_undo_last_page_changes#:#Ongedaan maken laatste pagina veranderingen
-common#:#cat_visible#:#Categorie is zichtbaar
+rbac#:#cat_visible#:#Categorie is zichtbaar
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
-common#:#cat_write#:#Wijzig categorie
+rbac#:#cat_write#:#Wijzig categorie
 common#:#categories#:#Categorieën
 common#:#categories_imported#:#Categorie import gereed.
 common#:#catr#:#Category Reference
@@ -2155,13 +2155,13 @@ common#:#chac_write#:#Wijzig Chat-instellingen
 common#:#change#:#Wijzigen
 common#:#change_active_assignment#:#wijzig de actieve toewijziging
 common#:#change_assignment#:#Toewijzing wijzigen
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
-common#:#change_existing_objects#:#Bestaande objecten wijzigen
-common#:#change_existing_objects_desc#:#De toestemmingsinstellingen van deze rol zullen toegevoegd worden aan ALLE bestaande objecten. Als u toestemmingen slechts voor specifieke objecttypes wilt ruilen gelieve dan met de rechtermuisknop te klikken op de checkboxes van het aangewezen objecttype.
-common#:#change_existing_prefix#:#Verander bestaande
-common#:#change_existing_prefix_single#:#Verander
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
+rbac#:#change_existing_objects#:#Bestaande objecten wijzigen
+rbac#:#change_existing_objects_desc#:#De toestemmingsinstellingen van deze rol zullen toegevoegd worden aan ALLE bestaande objecten. Als u toestemmingen slechts voor specifieke objecttypes wilt ruilen gelieve dan met de rechtermuisknop te klikken op de checkboxes van het aangewezen objecttype.
+rbac#:#change_existing_prefix#:#Verander bestaande
+rbac#:#change_existing_prefix_single#:#Verander
+rbac#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_header_title#:#Wijzig hoofdtitel
 common#:#change_lo_info#:#Leerobject-informatie wijzigen
 common#:#change_metadata#:#Metadata wijzigen
@@ -2322,54 +2322,54 @@ common#:#crs_available#:#Beschikbare cursussen
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"
 common#:#crs_container_link_not_allowed#:#Het is niet mogelijk om container-objecten te linken
 common#:#crs_copy#:#Kopieër Cursus
-common#:#crs_copy_threads_info#:#Gelieve te beslissen welke cursusmaterialen gekopieerd moeten worden.
+rbac#:#crs_copy_threads_info#:#Gelieve te beslissen welke cursusmaterialen gekopieerd moeten worden.
 common#:#crs_create#:#Creëer cursus
 common#:#crs_create_alm#:#Creëer AICC Lesmodule
 common#:#crs_create_chat#:#Creëer chat
 common#:#crs_create_dbk#:#Creëer Digilib Book
-common#:#crs_create_exc#:#Creëer oefening
-common#:#crs_create_feed#:#Maak Web Feed
-common#:#crs_create_file#:#Creër bestand
-common#:#crs_create_fold#:#Creëer map
-common#:#crs_create_frm#:#Creëer forum
-common#:#crs_create_glo#:#Creëer woordenlijst
-common#:#crs_create_grp#:#Creëer nieuwe groep
+rbac#:#crs_create_exc#:#Creëer oefening
+rbac#:#crs_create_feed#:#Maak Web Feed
+rbac#:#crs_create_file#:#Creër bestand
+rbac#:#crs_create_fold#:#Creëer map
+rbac#:#crs_create_frm#:#Creëer forum
+rbac#:#crs_create_glo#:#Creëer woordenlijst
+rbac#:#crs_create_grp#:#Creëer nieuwe groep
 common#:#crs_create_hlm#:#Creëer HACP lesmodule
-common#:#crs_create_htlm#:#Creëer HTML Learning Module
-common#:#crs_create_icrs#:#Creëer LearnLinc Seminar
-common#:#crs_create_lm#:#Creëer lesmodule
-common#:#crs_create_mcst#:#Maak MediaCast
-common#:#crs_create_mep#:#Creëer Media Pool
-common#:#crs_create_qpl#:#Creëer Question Pool for Test
-common#:#crs_create_sahs#:#Creëer SCORM/AICC lesmodule
-common#:#crs_create_spl#:#Creëer Vragenpool voor enquête
-common#:#crs_create_svy#:#Creëer Enquête
-common#:#crs_create_tst#:#Creëer Test
-common#:#crs_create_webr#:#Nieuwe website toevoegen
+rbac#:#crs_create_htlm#:#Creëer HTML Learning Module
+rbac#:#crs_create_icrs#:#Creëer LearnLinc Seminar
+rbac#:#crs_create_lm#:#Creëer lesmodule
+rbac#:#crs_create_mcst#:#Maak MediaCast
+rbac#:#crs_create_mep#:#Creëer Media Pool
+rbac#:#crs_create_qpl#:#Creëer Question Pool for Test
+rbac#:#crs_create_sahs#:#Creëer SCORM/AICC lesmodule
+rbac#:#crs_create_spl#:#Creëer Vragenpool voor enquête
+rbac#:#crs_create_svy#:#Creëer Enquête
+rbac#:#crs_create_tst#:#Creëer Test
+rbac#:#crs_create_webr#:#Nieuwe website toevoegen
 common#:#crs_create_write#:#Create Wiki
-common#:#crs_delete#:#Cursus verwijderen
+rbac#:#crs_delete#:#Cursus verwijderen
 common#:#crs_edit#:#Cursus wijzigen
-common#:#crs_edit_learning_progress#:#Leerweg aanpassen
-common#:#crs_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#crs_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#crs_edit_permission#:#Wijzig instellingen van de rechten
 common#:#crs_info#:#Info
-common#:#crs_join#:#Abonneren op cursus
-common#:#crs_leave#:#Abonnement op cursus beëindigen
+rbac#:#crs_join#:#Abonneren op cursus
+rbac#:#crs_leave#:#Abonnement op cursus beëindigen
 common#:#crs_management_system#:#Cursus managementsysteem
 common#:#crs_member_not_passed#:#Niet gehaald
 common#:#crs_member_passed#:#Met succes afgelegd
 common#:#crs_members_gallery#:#Cursusleden
 common#:#crs_new#:#Nieuwe cursus
 common#:#crs_no_content#:#Zonder inhoud
-common#:#crs_read#:#Leestoegang op cursus
+rbac#:#crs_read#:#Leestoegang op cursus
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
 common#:#crs_status_blocked#:#[Toegang geweigerd]
 common#:#crs_status_pending#:#[Wacht op registratie]
 common#:#crs_subscribers_assigned#:#Toegewezen nieuwe gebruiker(s)
 common#:#crs_title#:#Course Title
 common#:#crs_unsubscribe#:#Unsubscribe
-common#:#crs_visible#:#Cursus is zichtbaar
+rbac#:#crs_visible#:#Cursus is zichtbaar
 common#:#crs_wizard_page#:#Kopieer cursus (Stap 2/2)
-common#:#crs_write#:#Cursus wijzigen
+rbac#:#crs_write#:#Cursus wijzigen
 common#:#crsr#:#Course Reference
 common#:#crsr_edit#:#Edit Course Reference
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
@@ -2593,15 +2593,15 @@ common#:#exc_copy#:#Kopieër oefening
 common#:#exc_create#:#Creëer oefening
 common#:#exc_date_not_valid#:#De datum is niet geldig
 common#:#exc_deassign_members#:#Verwijderen lid/leden
-common#:#exc_delete#:#Verwijder oefening
+rbac#:#exc_delete#:#Verwijder oefening
 common#:#exc_details#:#Oefening details
 common#:#exc_download_all#:#Download Alles
 common#:#exc_download_files#:#Download Bestanden
 common#:#exc_download_new#:#Download Nieuw
 common#:#exc_edit#:#Nieuwe oefening gecreëerd
 common#:#exc_edit_exercise#:#Wijzigen oefening
-common#:#exc_edit_learning_progress#:#Leerweg aanpassen
-common#:#exc_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#exc_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#exc_edit_permission#:#Wijzig instellingen van de rechten
 common#:#exc_edit_until#:#Wijzigen tot
 common#:#exc_exercise_sent#:#Oefening verzonden
 common#:#exc_feedback_sent#:#Feedback verzonden
@@ -2619,7 +2619,7 @@ common#:#exc_new#:#Nieuwe oefening
 common#:#exc_no_members_assigned#:#Geen leden toegewezen
 common#:#exc_notices#:#Notities
 common#:#exc_obj#:#Oefening
-common#:#exc_read#:#Oefening benaderen
+rbac#:#exc_read#:#Oefening benaderen
 common#:#exc_resubmitted_advice#:#Dit symbool zal getoond worden in geval dat een nieuw bestand worden geladen nadat het "solved" aangeduid werd
 common#:#exc_roles#:#Rollen
 common#:#exc_save_changes#:#Opslaan
@@ -2640,8 +2640,8 @@ common#:#exc_time_over_short#:#Tijd is verstreken
 common#:#exc_time_to_send#:#Overgebleven werktijd
 common#:#exc_upload_error#:#Fout bij het uploaden van het bestand
 common#:#exc_users#:#Gebruikers
-common#:#exc_visible#:#Oefening is zichtbaar
-common#:#exc_write#:#Wijzigen oefening
+rbac#:#exc_visible#:#Oefening is zichtbaar
+rbac#:#exc_write#:#Wijzigen oefening
 common#:#excs#:#Oefeningen
 common#:#execute#:#Uitvoeren
 common#:#exercise_time_over#:#U hebt de eindtijd van de oefening bereikt. u kunt niet langer bestanden afleveren
@@ -2688,11 +2688,11 @@ common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#FAQ oefening
 common#:#fax#:#Fax
 common#:#feed#:#Nieuws Feed
-common#:#feed_delete#:#Verwijder web feed
-common#:#feed_edit_permission#:#Verander instellingen van de rechten
-common#:#feed_read#:#Leesrechten voor Web Feed
-common#:#feed_visible#:#Web Feed is zichtbaar
-common#:#feed_write#:#Wijzig Web Feed
+rbac#:#feed_delete#:#Verwijder web feed
+rbac#:#feed_edit_permission#:#Verander instellingen van de rechten
+rbac#:#feed_read#:#Leesrechten voor Web Feed
+rbac#:#feed_visible#:#Web Feed is zichtbaar
+rbac#:#feed_write#:#Wijzig Web Feed
 common#:#feedback#:#Feedback
 common#:#feedback_recipient#:#Feedback ontvanger
 common#:#field_name#:#Veld naam
@@ -2705,9 +2705,9 @@ common#:#file_added#:#Bestand geupload
 common#:#file_allowed_suffixes#:#Toegestane bestandtypes:
 common#:#file_copy#:#Kopieër Bestand
 common#:#file_created#:#Een nieuw bestand is toegevoegd.
-common#:#file_delete#:#Verwijder bestand
+rbac#:#file_delete#:#Verwijder bestand
 common#:#file_edit#:#Wijzig bestand
-common#:#file_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#file_edit_permission#:#Wijzig instellingen van de rechten
 common#:#file_icon#:#Bestands icoon
 common#:#file_info#:#Bestands informatie
 common#:#file_is_infected#:#Het bestand is geïnfecteerd door een virus
@@ -2717,14 +2717,14 @@ common#:#file_new#:#Nieuw bestand
 common#:#file_not_found#:#Bestand niet gevonden
 common#:#file_not_valid#:#Bestand niet geldig!
 common#:#file_notice#:#Neem notitie van de maximum bestandsgrootte van
-common#:#file_read#:#Download bestand
+rbac#:#file_read#:#Download bestand
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
 common#:#file_updated#:#Bestand is geüpdate
 common#:#file_valid#:#Bestand is geldig!
 common#:#file_version#:#Versie is in bestand
-common#:#file_visible#:#Bestand is zichtbaar
-common#:#file_write#:#Wijzig bestand
+rbac#:#file_visible#:#Bestand is zichtbaar
+rbac#:#file_write#:#Wijzig bestand
 common#:#filename#:#Bestandsnaam
 common#:#filename_extension_missing#:#Filename extension missing
 common#:#filename_extension_short#:#Extension
@@ -9239,7 +9239,7 @@ rbac#:#cat_create_catr#:#Creëer Categorie referentie
 rbac#:#cat_create_crsr#:#Creëer nieuwe cursus referentie
 rbac#:#cat_create_rcrs#:#Creëer Cursus links
 rbac#:#cat_create_wiki#:#Creëer Wiki
-rbac#:#catr_copy#:#Kopieer categorie referentie
+common#:#catr_copy#:#Kopieer categorie referentie
 rbac#:#catr_delete#:#Verwijder Categorie Referentie
 rbac#:#catr_edit_permission#:#Permissie instellingen wijzigen
 rbac#:#catr_read#:#Lees toegang in categorie referentie
@@ -9255,7 +9255,7 @@ rbac#:#crs_create_crsr#:#Creëer cursus referentie
 rbac#:#crs_create_sess#:#Creëer Sessie
 rbac#:#crs_create_wiki#:#Creëer Wiki
 rbac#:#crs_edit_event#:#Agenda-afspraken bewerken
-rbac#:#crsr_copy#:#Kopieer cursus refentie
+common#:#crsr_copy#:#Kopieer cursus refentie
 rbac#:#crsr_delete#:#Verwijder Cursus referentie
 rbac#:#crsr_edit_permission#:#Permissie instellingen wijzigen
 rbac#:#crsr_read#:#Lees toegang tot Cursus Referentie
@@ -11750,10 +11750,10 @@ notes#:#note_update_note#:#Update Note###18 01 2012 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###18 01 2012 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###18 01 2012 new variable
 notes#:#notes_comments#:#Comments###18 01 2012 new variable
-common#:#chtr_visible#:#Chatroom is visible###18 01 2012 new variable
-common#:#chtr_read#:#Read access to Chatroom###18 01 2012 new variable
-common#:#chtr_write#:#Edit Chatroom###18 01 2012 new variable
-common#:#chtr_edit_permission#:#Change Permission Settings###18 01 2012 new variable
+rbac#:#chtr_visible#:#Chatroom is visible###18 01 2012 new variable
+rbac#:#chtr_read#:#Read access to Chatroom###18 01 2012 new variable
+rbac#:#chtr_write#:#Edit Chatroom###18 01 2012 new variable
+rbac#:#chtr_edit_permission#:#Change Permission Settings###18 01 2012 new variable
 common#:#objs_chtr#:#Chatrooms###18 01 2012 new variable
 common#:#obj_chta#:#Chat###18 01 2012 new variable
 chatroom#:#history_by_day#:#Daily History###18 01 2012 new variable
@@ -12165,7 +12165,7 @@ wiki#:#wiki_rename#:#Rename###18 01 2012 new variable
 wiki#:#wiki_rate_page#:#Rate this Wiki Page###18 01 2012 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###18 01 2012 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###18 01 2012 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###18 01 2012 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###18 01 2012 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###18 01 2012 new variable
 chatroom#:#user_invited#:#The user has been invited.###18 01 2012 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###18 01 2012 new variable

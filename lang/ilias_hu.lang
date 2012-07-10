@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2011 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2012 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1651,7 +1651,7 @@ common#:#administrate_users#:#Helyi felhasználó adminisztrációja
 common#:#administrate#:#Adminisztrálás
 common#:#administration#:#Adminisztráció
 common#:#administrator#:#Adminisztrátor
-common#:#adopt_perm_from_template#:#Jogosultsági beállítások másolása
+rbac#:#adopt_perm_from_template#:#Jogosultsági beállítások másolása
 common#:#adopt#:#Csatolás
 common#:#advanced_editing_allow_html_tags#:#A kiválasztott HTML-tagek szövegként szerkesztésének engedélyezése
 common#:#advanced_editing_allow_javascript_editor#:#Rich Text szerkesztő engedélyezése
@@ -1928,51 +1928,51 @@ common#:#cant_deactivate_if_users_assigned#:#Nem tudja kikapcsolni a stílust, a
 common#:#cat_a#:#egy kategória
 common#:#cat_add#:#Kategória felvétele
 common#:#cat_added#:#Kategória felvéve.
-common#:#cat_cat_administrate_users#:#Helyi felhasználói fiókok adminisztrálása
+rbac#:#cat_cat_administrate_users#:#Helyi felhasználói fiókok adminisztrálása
 common#:#cat_clear_page#:#Lap törlése
-common#:#cat_copy_threads_info#:#Döntse el melyik kategóriatételeket kell másolni, linkelni vagy kihagyni!
+rbac#:#cat_copy_threads_info#:#Döntse el melyik kategóriatételeket kell másolni, linkelni vagy kihagyni!
 common#:#cat_copy#:#Kategória másolása
 common#:#cat_create_alm#:#AICC-tananyag létrehozása
-common#:#cat_create_cat#:#Kategória létrehozása
+rbac#:#cat_create_cat#:#Kategória létrehozása
 common#:#cat_create_chat#:#Csevegés létrehozása
-common#:#cat_create_crs#:#Kurzus létrehozása
+rbac#:#cat_create_crs#:#Kurzus létrehozása
 common#:#cat_create_dbk#:#Digitális könyvtári könyv létrehozása
-common#:#cat_create_exc#:#Gyakorlat létrehozása
-common#:#cat_create_feed#:#Webhírforrás létrehozása
-common#:#cat_create_file#:#Fájl feltöltése
-common#:#cat_create_frm#:#Fórum létrehozása
-common#:#cat_create_glo#:#Fogalomtár létrehozása
-common#:#cat_create_grp#:#Csoport létrehozása
+rbac#:#cat_create_exc#:#Gyakorlat létrehozása
+rbac#:#cat_create_feed#:#Webhírforrás létrehozása
+rbac#:#cat_create_file#:#Fájl feltöltése
+rbac#:#cat_create_frm#:#Fórum létrehozása
+rbac#:#cat_create_glo#:#Fogalomtár létrehozása
+rbac#:#cat_create_grp#:#Csoport létrehozása
 common#:#cat_create_hlm#:#HACP-tananyag létrehozása
-common#:#cat_create_htlm#:#HTML-tananyag létrehozása
-common#:#cat_create_icrs#:#LearnLinc-szeminárium létrehozása
-common#:#cat_create_lm#:#Tananyag létrehozása
-common#:#cat_create_mcst#:#MediaCast létrehozása
-common#:#cat_create_mep#:#Médiagyűjtemény létrehozása
-common#:#cat_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-common#:#cat_create_sahs#:#SCORM/AICC-tananyag létrehozása
-common#:#cat_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-common#:#cat_create_svy#:#Kérdőív létrehozása
-common#:#cat_create_tst#:#Teszt létrehozása
+rbac#:#cat_create_htlm#:#HTML-tananyag létrehozása
+rbac#:#cat_create_icrs#:#LearnLinc-szeminárium létrehozása
+rbac#:#cat_create_lm#:#Tananyag létrehozása
+rbac#:#cat_create_mcst#:#MediaCast létrehozása
+rbac#:#cat_create_mep#:#Médiagyűjtemény létrehozása
+rbac#:#cat_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
+rbac#:#cat_create_sahs#:#SCORM/AICC-tananyag létrehozása
+rbac#:#cat_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
+rbac#:#cat_create_svy#:#Kérdőív létrehozása
+rbac#:#cat_create_tst#:#Teszt létrehozása
 common#:#cat_create_url#:#URL létrehozása
-common#:#cat_create_webr#:#Weblink létrehozása
+rbac#:#cat_create_webr#:#Weblink létrehozása
 common#:#cat_create_write#:#Wiki létrehozása
-common#:#cat_create#:#Kategória létrehozása
-common#:#cat_delete#:#Kategória törlése
-common#:#cat_edit_permission#:#Engedélyezett beállítások cseréje
+rbac#:#cat_create#:#Kategória létrehozása
+rbac#:#cat_delete#:#Kategória törlése
+rbac#:#cat_edit_permission#:#Engedélyezett beállítások cseréje
 common#:#cat_edit#:#Kategória szerkesztése
 common#:#cat_new#:#Új kategória
 common#:#cat_pages_clear#:#A kategórialap üres.
 common#:#cat_pages_not_created#:#Nincs még létrehozva kategórialap.
 common#:#cat_pages_undone#:#A kategórialap utolsó változtatásai visszavonva.
 common#:#cat_pages#:#Kategórialapok
-common#:#cat_read_users#:#Olvasási elérés a helyi felhasználói fiókokhoz
-common#:#cat_read#:#Olvasási elérés kategóriához
+rbac#:#cat_read_users#:#Olvasási elérés a helyi felhasználói fiókokhoz
+rbac#:#cat_read#:#Olvasási elérés kategóriához
 common#:#cat_title#:#Kategóriacím
 common#:#cat_undo_last_page_changes#:#Lap utolsó változtatásainak visszavonása
-common#:#cat_visible#:#A kategória látható
+rbac#:#cat_visible#:#A kategória látható
 common#:#cat_wizard_page#:#Kategória másolása (2/2. lépés)
-common#:#cat_write#:#Kategória szerkesztése
+rbac#:#cat_write#:#Kategória szerkesztése
 common#:#cat#:#Kategória
 common#:#categories_imported#:#A kategória importja befejeződött.
 common#:#categories#:#Kategóriák
@@ -2003,13 +2003,13 @@ common#:#chac_visible#:#Csevegésbeállítások láthatóak
 common#:#chac_write#:#Csevegésbeállítások szerkesztése
 common#:#change_active_assignment#:#Aktív hozzárendelés változtatása
 common#:#change_assignment#:#Hozzárendelés változtatása
-common#:#change_existing_object_type_desc#:#A típus már létező objektumai elérésének változtatása is
-common#:#change_existing_objects_desc#:#Ennek a szerepnek az engedélyezési beállításai MINDEN létező objektumra alkalmazásra kerülnek. Ha csak bizonyos objektumtípusokhoz akarja megváltoztatni az engedélyeket, kattintson az objektum jobb oldalán levő jelölőnégyzetekre!
-common#:#change_existing_objects#:#A fastruktúra jelen pontjától örökítés
-common#:#change_existing_prefix_single#:#Változtatás
-common#:#change_existing_prefix#:#Létező változtatása
-common#:#change_existing_suffix_single#:#&nbsp;
-common#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#A típus már létező objektumai elérésének változtatása is
+rbac#:#change_existing_objects_desc#:#Ennek a szerepnek az engedélyezési beállításai MINDEN létező objektumra alkalmazásra kerülnek. Ha csak bizonyos objektumtípusokhoz akarja megváltoztatni az engedélyeket, kattintson az objektum jobb oldalán levő jelölőnégyzetekre!
+rbac#:#change_existing_objects#:#A fastruktúra jelen pontjától örökítés
+rbac#:#change_existing_prefix_single#:#Változtatás
+rbac#:#change_existing_prefix#:#Létező változtatása
+rbac#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_suffix#:#&nbsp;
 common#:#change_header_title#:#Feljéccím szerkesztése
 common#:#change_lo_info#:#Tananyagobjektum információjának változtatása
 common#:#change_metadata#:#Metaadat-változtatás
@@ -2163,55 +2163,55 @@ common#:#crs_at_least_one_admin#:#Legalább egy kurzusadminisztrátornak kell le
 common#:#crs_available#:#Elérhető kurzusok
 common#:#crs_cancel_waiting_list#:#Biztos hogy le akarja venni magát a(z) "%s" kurzus várólistájáról?
 common#:#crs_container_link_not_allowed#:#Nem lehet konténer objektumokhoz linkelni.
-common#:#crs_copy_threads_info#:#Döntse el, mely kurzusanyagok lesznek másolva, linkelve vagy kihagyva.
+rbac#:#crs_copy_threads_info#:#Döntse el, mely kurzusanyagok lesznek másolva, linkelve vagy kihagyva.
 common#:#crs_copy#:#Kurzus másolása
 common#:#crs_create_alm#:#AICC-tananyag létrehozása
 common#:#crs_create_chat#:#Csevegés létrehozása
 common#:#crs_create_dbk#:#Digitális könyvtári könyv létrehozása
-common#:#crs_create_exc#:#Gyakorlat létrehozása
-common#:#crs_create_feed#:#Webhírforrás létrehozása
-common#:#crs_create_file#:#Fájl feltöltése
-common#:#crs_create_fold#:#Mappa létrehozása
-common#:#crs_create_frm#:#Fórum létrehozása
-common#:#crs_create_glo#:#Fogalomtár létrehozása
-common#:#crs_create_grp#:#Csoport létrehozása
+rbac#:#crs_create_exc#:#Gyakorlat létrehozása
+rbac#:#crs_create_feed#:#Webhírforrás létrehozása
+rbac#:#crs_create_file#:#Fájl feltöltése
+rbac#:#crs_create_fold#:#Mappa létrehozása
+rbac#:#crs_create_frm#:#Fórum létrehozása
+rbac#:#crs_create_glo#:#Fogalomtár létrehozása
+rbac#:#crs_create_grp#:#Csoport létrehozása
 common#:#crs_create_hlm#:#HACP-tananyag létrehozása
-common#:#crs_create_htlm#:#HTML-tananyag létrehozása
-common#:#crs_create_icrs#:#LearnLinc-szeminárium létrehozása
-common#:#crs_create_lm#:#ILIAS-tananyag létrehozása
-common#:#crs_create_mcst#:#MediaCast létrehozása
-common#:#crs_create_mep#:#Médiagyűjtemény létrehozása
-common#:#crs_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-common#:#crs_create_sahs#:#SCORM/AICC-tananyag létrehozása
-common#:#crs_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-common#:#crs_create_svy#:#Kérdőív létrehozása
-common#:#crs_create_tst#:#Teszt létrehozása
-common#:#crs_create_webr#:#Weblink létrehozása
+rbac#:#crs_create_htlm#:#HTML-tananyag létrehozása
+rbac#:#crs_create_icrs#:#LearnLinc-szeminárium létrehozása
+rbac#:#crs_create_lm#:#ILIAS-tananyag létrehozása
+rbac#:#crs_create_mcst#:#MediaCast létrehozása
+rbac#:#crs_create_mep#:#Médiagyűjtemény létrehozása
+rbac#:#crs_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
+rbac#:#crs_create_sahs#:#SCORM/AICC-tananyag létrehozása
+rbac#:#crs_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
+rbac#:#crs_create_svy#:#Kérdőív létrehozása
+rbac#:#crs_create_tst#:#Teszt létrehozása
+rbac#:#crs_create_webr#:#Weblink létrehozása
 common#:#crs_create_write#:#Wiki létrehozása
 common#:#crs_create#:#Kurzus létrehozása
-common#:#crs_delete#:#Kurzus törlése
-common#:#crs_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#crs_edit_permission#:#Engedélyezett beállítások változtatása
+rbac#:#crs_delete#:#Kurzus törlése
+rbac#:#crs_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#crs_edit_permission#:#Engedélyezett beállítások változtatása
 common#:#crs_edit#:#Kurzus szerkesztése
 common#:#crs_info#:#Információ
-common#:#crs_join#:#Csatlakozás a kurzushoz
-common#:#crs_leave#:#Kurzus elhagyása
+rbac#:#crs_join#:#Csatlakozás a kurzushoz
+rbac#:#crs_leave#:#Kurzus elhagyása
 common#:#crs_management_system#:#Kurzusmenedzsment-rendszer
 common#:#crs_member_not_passed#:#Nem teljesített
 common#:#crs_member_passed#:#Teljesített
 common#:#crs_members_gallery#:#Kurzustagok képtára
 common#:#crs_new#:#Új kurzus
 common#:#crs_no_content#:#Tartalom nélkül
-common#:#crs_read#:#Olvasási elérés kurzushoz
+rbac#:#crs_read#:#Olvasási elérés kurzushoz
 common#:#crs_removed_from_waiting_list#:#Lekerült a(z) "%s" kurzus várólistájáról.
 common#:#crs_status_blocked#:#[Hozzáférés elutasítva]
 common#:#crs_status_pending#:#[Regisztrációra várakozás]
 common#:#crs_subscribers_assigned#:#Új felhasználó(k) hozzárendelve.
 common#:#crs_title#:#Kurzuscím
 common#:#crs_unsubscribe#:#Leiratkozás
-common#:#crs_visible#:#A kurzus látható
+rbac#:#crs_visible#:#A kurzus látható
 common#:#crs_wizard_page#:#Kurzus másolása (2/2. lépés)
-common#:#crs_write#:#Kurzus szerkesztése
+rbac#:#crs_write#:#Kurzus szerkesztése
 common#:#crs#:#Kurzus
 common#:#crsr_edit_info#:#Válasszon egy kurzust új ajánlás létrehozásához!
 common#:#crsr_edit#:#Kurzusajánlás szerkesztése
@@ -2417,14 +2417,14 @@ common#:#exc_copy#:#Gyakorlat másolása
 common#:#exc_create#:#Gyakorlat létrehozása
 common#:#exc_date_not_valid#:#A dátum nem érvényes
 common#:#exc_deassign_members#:#Résztvevő(k) törlése
-common#:#exc_delete#:#Gyakorlat törlése
+rbac#:#exc_delete#:#Gyakorlat törlése
 common#:#exc_details#:#Gyakorlat részletei
 common#:#exc_download_all#:#Minden letöltése
 common#:#exc_download_files#:#Fájlok letöltése
 common#:#exc_download_new#:#Új letöltése
 common#:#exc_edit_exercise#:#Gyakorlat szerkesztése
-common#:#exc_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#exc_edit_permission#:#Engedélyezési beállítások változtatása
+rbac#:#exc_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#exc_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#exc_edit_until#:#Kidolgozási határidő
 common#:#exc_edit#:#Új gyakorlat létrehozva.
 common#:#exc_exercise_sent#:#Gyakorlat küldése
@@ -2443,7 +2443,7 @@ common#:#exc_new#:#Új gyakorlat
 common#:#exc_no_members_assigned#:#Nincs tag hozzárendelve.
 common#:#exc_notices#:#Megjegyzések
 common#:#exc_obj#:#Gyakorlat
-common#:#exc_read#:#Gyakorlat elérése
+rbac#:#exc_read#:#Gyakorlat elérése
 common#:#exc_resubmitted_advice#:#Ez a szimbólum fogja jelezni, ha egy új fájl érkezett a "Megoldva" mező bejelölése után.
 common#:#exc_roles#:#Szerepek
 common#:#exc_save_changes#:#Mentés
@@ -2464,8 +2464,8 @@ common#:#exc_time_over_short#:#Lejárt az idő.
 common#:#exc_time_to_send#:#Fennmaradó munkaidő
 common#:#exc_upload_error#:#Fájlfeltöltési hiba
 common#:#exc_users#:#Felhasználók
-common#:#exc_visible#:#A gyakorlat látható
-common#:#exc_write#:#Gyakorlat szerkesztése
+rbac#:#exc_visible#:#A gyakorlat látható
+rbac#:#exc_write#:#Gyakorlat szerkesztése
 common#:#exc#:#Gyakorlat
 common#:#excs#:#Gyakorlatok
 common#:#execute#:#Mehet
@@ -2512,11 +2512,11 @@ common#:#extt_write#:#3. fél szoftverének konfigurálása
 common#:#failure_message#:#Hibaüzenet
 common#:#faq_exercise#:#GYIK gyakorlat
 common#:#fax#:#Fax
-common#:#feed_delete#:#Webhírforrás törlése
-common#:#feed_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#feed_read#:#Olvasási jog webhírforráshoz
-common#:#feed_visible#:#Webhírforrás látható
-common#:#feed_write#:#Webhírforrás szerkesztése
+rbac#:#feed_delete#:#Webhírforrás törlése
+rbac#:#feed_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#feed_read#:#Olvasási jog webhírforráshoz
+rbac#:#feed_visible#:#Webhírforrás látható
+rbac#:#feed_write#:#Webhírforrás szerkesztése
 common#:#feed#:#Webhírforrás
 common#:#feedback_recipient#:#Visszajelzés címzettje
 common#:#feedback#:#Visszajelzés
@@ -2529,8 +2529,8 @@ common#:#file_added#:#Fájl feltöltve.
 common#:#file_allowed_suffixes#:#Engedélyezett fájltípusok:
 common#:#file_copy#:#Fájl másolása
 common#:#file_created#:#A fájl felvételre került.
-common#:#file_delete#:#Fájl törlése
-common#:#file_edit_permission#:#Engedélyezési beállítások változtatása
+rbac#:#file_delete#:#Fájl törlése
+rbac#:#file_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#file_edit#:#Fájl szerkesztése és új verzió feltöltése
 common#:#file_icon#:#Fájlikon
 common#:#file_info#:#Fájlinformációk
@@ -2541,14 +2541,14 @@ common#:#file_new#:#Egyetlen fájl feltöltése
 common#:#file_not_found#:#A fájl nem található
 common#:#file_not_valid#:#A fájl nem érvényes.
 common#:#file_notice#:#Maximális feltöltési méret:
-common#:#file_read#:#Fájl letöltése
+rbac#:#file_read#:#Fájl letöltése
 common#:#file_suffix_repl_info#:#Ezzel a kiterjesztéssel feltöltött fájlok (vesszővel elválasztva) ".sec" kiterjesztésűre lesznek átnevezve, ha a webhelyre töltődnek. A kiterjesztés megváltoztatása alapértelmezettként ezekre a kiterjesztésekre történik meg:
 common#:#file_suffix_repl#:#Fájlfeltöltés a kiterjesztés megváltoztatásával
 common#:#file_updated#:#A fájl feltöltésre került.
 common#:#file_valid#:#A fájl érvényes.
 common#:#file_version#:#A verziót a fájl tartalmazza.
-common#:#file_visible#:#A fájl látható.
-common#:#file_write#:#Fájl szerkesztése
+rbac#:#file_visible#:#A fájl látható.
+rbac#:#file_write#:#Fájl szerkesztése
 common#:#file#:#Fájl
 common#:#filename_extension_missing#:#Hiányzik a fájlnévkiterjesztés
 common#:#filename_extension_short#:#Kiterjesztés
@@ -8817,7 +8817,7 @@ rbac#:#cat_create_catr#:#Kategóriaajánlás létrehozása
 rbac#:#cat_create_crsr#:#Új kurzusajánlás létrehozása
 rbac#:#cat_create_rcrs#:#Kurzuslink létrehozása
 rbac#:#cat_create_wiki#:#Wiki létrehozása
-rbac#:#catr_copy#:#Kategóriaajánlás másolása
+common#:#catr_copy#:#Kategóriaajánlás másolása
 rbac#:#catr_delete#:#Kategóriaajánlás törlése
 rbac#:#catr_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#catr_read#:#Olvasási elérés kategóriaajánláshoz
@@ -8830,7 +8830,7 @@ rbac#:#cmps_write#:#Komponensbeállítások szerkesztése
 rbac#:#crs_create_sess#:#Kurzusesemény létrehozása
 rbac#:#crs_create_wiki#:#Wiki létrehozása
 rbac#:#crs_edit_event#:#Határidőnapló-események szerkesztése
-rbac#:#crsr_copy#:#Kurzusajánlás másolása
+common#:#crsr_copy#:#Kurzusajánlás másolása
 rbac#:#crsr_delete#:#Kurzusajánlás törlése
 rbac#:#crsr_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#crsr_read#:#Olvasási elérés kurzusajánláshoz
@@ -10796,10 +10796,10 @@ book#:#book_set_in_use#:#Használatban
 book#:#book_set_not_in_use#:#Nincs használatban
 book#:#book_set_cancel#:#Foglalás törlése
 book#:#book_set_not_cancel#:#Törlés visszavonása
-common#:#book_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#book_visible#:#A foglalási sor látható
-common#:#book_read#:#Olvasási elérés a foglalási sorhoz
-common#:#book_write#:#Foglalási sor szerkesztése
+rbac#:#book_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#book_visible#:#A foglalási sor látható
+rbac#:#book_read#:#Olvasási elérés a foglalási sorhoz
+rbac#:#book_write#:#Foglalási sor szerkesztése
 rbac#:#cat_create_book#:#Foglalási sor létrehozása
 rbac#:#grp_create_book#:#Foglalási sor létrehozása
 rbac#:#fold_create_book#:#Foglalási sor létrehozása
@@ -11736,10 +11736,10 @@ notes#:#note_update_note#:#Jegyzet frissítése
 common#:#added_to_desktop#:#A tétel felvételre került a munkaasztalra.
 common#:#removed_from_desktop#:#A tétel levételre került a munkaasztalról.
 notes#:#notes_comments#:#Megjegyzések
-common#:#chtr_visible#:#A csevegőszoba látható
-common#:#chtr_read#:#Olvasási elérés a csevegőszobához
-common#:#chtr_write#:#Csevegőszoba szerkesztése
-common#:#chtr_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#chtr_visible#:#A csevegőszoba látható
+rbac#:#chtr_read#:#Olvasási elérés a csevegőszobához
+rbac#:#chtr_write#:#Csevegőszoba szerkesztése
+rbac#:#chtr_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#objs_chtr#:#Csevegőszobák
 common#:#obj_chta#:#Csevegés
 chatroom#:#history_by_day#:#Napi előzmények
@@ -12156,7 +12156,7 @@ wiki#:#wiki_rename#:#Átnevezés
 wiki#:#wiki_rate_page#:#Ezen wikilap értékelése
 auth#:#auth_login_editor#:#Bejelentkezési lap szerkesztése
 didactic#:#didactic_edit_tpl#:#Didaktikai sablon szerkesztése
-common#:#chtr_moderate#:#Csevegőszoba moderálása
+rbac#:#chtr_moderate#:#Csevegőszoba moderálása
 chatroom#:#welcome_to_chat#:#Üdvözöljük a csevegőszobában!
 chatroom#:#user_invited#:#A felhasználó meghívásra került.
 chatroom#:#user_kicked#:#A(z) <b>#user#</b> felhasználó kizárásra került.

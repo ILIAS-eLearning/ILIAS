@@ -1,15 +1,10 @@
-﻿/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
 * @module		    language file simplied Chinese
 * @modulegroup		language
-* @author 范柏泉     (Fan Baiquan) <baiquan.fan@helsinki.fi>
 * @author 蔚福江     (Jason Wei) <jason.wei@hartung.com.cn>
-* @il_server		http://www.ilias.de/test40x
-* @il_version		4.0.0 Beta2 2009-08-19
-* @created		    2009-08-27 15:29:24
-* @created_by		Matthias Kunkel <m.kunkel@uni-koeln.de>
 */
 	+-----------------------------------------------------------------------------+
     | ILIAS open source （开放代码软件）                                           |
@@ -1622,7 +1617,7 @@ common#:#administrate_users#:#Local user administration
 common#:#administration#:#管理
 common#:#administrator#:#管理员
 common#:#adopt#:#采用
-common#:#adopt_perm_from_template#:#从角色模板选定许可设置
+rbac#:#adopt_perm_from_template#:#从角色模板选定许可设置
 common#:#advanced_editing_allow_html_tags#:#Allow the selected HTML tags for text editing
 common#:#advanced_editing_allow_javascript_editor#:#Enable a Rich Text Editor
 common#:#advanced_editing_assessment_settings#:#Allowed HTML Tags for the ILIAS Test&Assessment tool
@@ -1897,51 +1892,51 @@ common#:#cat#:#类别
 common#:#cat_a#:#一个类别
 common#:#cat_add#:#增加类别
 common#:#cat_added#:#类别已增加
-common#:#cat_cat_administrate_users#:#Administrate local user accounts
+rbac#:#cat_cat_administrate_users#:#Administrate local user accounts
 common#:#cat_clear_page#:#Clear Page
 common#:#cat_copy#:#Copy Category
-common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-common#:#cat_create#:#创建类别
+rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
+rbac#:#cat_create#:#创建类别
 common#:#cat_create_alm#:#Create AICC Learning Module
-common#:#cat_create_cat#:#创建类别
+rbac#:#cat_create_cat#:#创建类别
 common#:#cat_create_chat#:#Create chat
-common#:#cat_create_crs#:#创建课程
+rbac#:#cat_create_crs#:#创建课程
 common#:#cat_create_dbk#:#创建电子图书
-common#:#cat_create_exc#:#创建练习
-common#:#cat_create_feed#:#Create Web Feed
-common#:#cat_create_file#:#Upload File
-common#:#cat_create_frm#:#创建论坛
-common#:#cat_create_glo#:#创建术语表
-common#:#cat_create_grp#:#创建组
+rbac#:#cat_create_exc#:#创建练习
+rbac#:#cat_create_feed#:#Create Web Feed
+rbac#:#cat_create_file#:#Upload File
+rbac#:#cat_create_frm#:#创建论坛
+rbac#:#cat_create_glo#:#创建术语表
+rbac#:#cat_create_grp#:#创建组
 common#:#cat_create_hlm#:#Create HACP Learning Module
-common#:#cat_create_htlm#:#Create HTML Learning Module
-common#:#cat_create_icrs#:#Create LearnLinc Seminar
-common#:#cat_create_lm#:#创建学习模块
-common#:#cat_create_mcst#:#Create MediaCast
-common#:#cat_create_mep#:#Create Media Pool
-common#:#cat_create_qpl#:#创建问题集
-common#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#cat_create_spl#:#Create Question Pool (Survey)
-common#:#cat_create_svy#:#Create Survey
-common#:#cat_create_tst#:#创建测试
+rbac#:#cat_create_htlm#:#Create HTML Learning Module
+rbac#:#cat_create_icrs#:#Create LearnLinc Seminar
+rbac#:#cat_create_lm#:#创建学习模块
+rbac#:#cat_create_mcst#:#Create MediaCast
+rbac#:#cat_create_mep#:#Create Media Pool
+rbac#:#cat_create_qpl#:#创建问题集
+rbac#:#cat_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#cat_create_spl#:#Create Question Pool (Survey)
+rbac#:#cat_create_svy#:#Create Survey
+rbac#:#cat_create_tst#:#创建测试
 common#:#cat_create_url#:#Create URL
-common#:#cat_create_webr#:#Create new web resource
+rbac#:#cat_create_webr#:#Create new web resource
 common#:#cat_create_write#:#Create Wiki
-common#:#cat_delete#:#删除类别
+rbac#:#cat_delete#:#删除类别
 common#:#cat_edit#:#编辑类别
-common#:#cat_edit_permission#:#更改许可设置
+rbac#:#cat_edit_permission#:#更改许可设置
 common#:#cat_new#:#新类别
 common#:#cat_pages#:#Category Pages
 common#:#cat_pages_clear#:#Category page cleared.
 common#:#cat_pages_not_created#:#Category page not createded yet.
 common#:#cat_pages_undone#:#Last changes for cagegory page undone.
-common#:#cat_read#:#类别设为读访问
-common#:#cat_read_users#:#Read access to local user accounts
+rbac#:#cat_read#:#类别设为读访问
+rbac#:#cat_read_users#:#Read access to local user accounts
 common#:#cat_title#:#Category Title
 common#:#cat_undo_last_page_changes#:#Undo Last Page Changes
-common#:#cat_visible#:#类别可视
+rbac#:#cat_visible#:#类别可视
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
-common#:#cat_write#:#编辑类别
+rbac#:#cat_write#:#编辑类别
 common#:#categories#:#类别
 common#:#categories_imported#:#Category import complete.
 common#:#catr#:#Category Reference
@@ -1972,13 +1967,13 @@ common#:#chac_write#:#编辑聊天室设置
 common#:#change#:#更改
 common#:#change_active_assignment#:#更改当前任务
 common#:#change_assignment#:#更改任务
-common#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
-common#:#change_existing_objects#:#更改现有对象
-common#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
-common#:#change_existing_prefix#:#Change existing
-common#:#change_existing_prefix_single#:#Change
-common#:#change_existing_suffix#:#&nbsp;
-common#:#change_existing_suffix_single#:#&nbsp;
+rbac#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
+rbac#:#change_existing_objects#:#更改现有对象
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
+rbac#:#change_existing_prefix#:#Change existing
+rbac#:#change_existing_prefix_single#:#Change
+rbac#:#change_existing_suffix#:#&nbsp;
+rbac#:#change_existing_suffix_single#:#&nbsp;
 common#:#change_header_title#:#编辑标题
 common#:#change_lo_info#:#更改学习对象信息
 common#:#change_metadata#:#更改元数据
@@ -2131,54 +2126,54 @@ common#:#crs_available#:#可提供的课程
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#不能连接容器对象
 common#:#crs_copy#:#Copy Course
-common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
+rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 common#:#crs_create#:#创建课程
 common#:#crs_create_alm#:#创建 AICC 学习课程
 common#:#crs_create_chat#:#创建 Chat
 common#:#crs_create_dbk#:#Create Digilib Book
-common#:#crs_create_exc#:#Create Exercise
-common#:#crs_create_feed#:#Create Web Feed
-common#:#crs_create_file#:#Upload File
-common#:#crs_create_fold#:#Create Folder
-common#:#crs_create_frm#:#创建论坛
-common#:#crs_create_glo#:#创建术语表
-common#:#crs_create_grp#:#Create Group
+rbac#:#crs_create_exc#:#Create Exercise
+rbac#:#crs_create_feed#:#Create Web Feed
+rbac#:#crs_create_file#:#Upload File
+rbac#:#crs_create_fold#:#Create Folder
+rbac#:#crs_create_frm#:#创建论坛
+rbac#:#crs_create_glo#:#创建术语表
+rbac#:#crs_create_grp#:#Create Group
 common#:#crs_create_hlm#:#Create HACP Learning Module
-common#:#crs_create_htlm#:#Create HTML Learning Module
-common#:#crs_create_icrs#:#Create LearnLinc Seminar
-common#:#crs_create_lm#:#创建学习模块
-common#:#crs_create_mcst#:#Create MediaCast
-common#:#crs_create_mep#:#Create Media Pool
-common#:#crs_create_qpl#:#Create Question Pool for Test
-common#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#crs_create_spl#:#Create Question Pool for Survey
-common#:#crs_create_svy#:#Create Survey
-common#:#crs_create_tst#:#Create Test
-common#:#crs_create_webr#:#Create new web resource
+rbac#:#crs_create_htlm#:#Create HTML Learning Module
+rbac#:#crs_create_icrs#:#Create LearnLinc Seminar
+rbac#:#crs_create_lm#:#创建学习模块
+rbac#:#crs_create_mcst#:#Create MediaCast
+rbac#:#crs_create_mep#:#Create Media Pool
+rbac#:#crs_create_qpl#:#Create Question Pool for Test
+rbac#:#crs_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#crs_create_spl#:#Create Question Pool for Survey
+rbac#:#crs_create_svy#:#Create Survey
+rbac#:#crs_create_tst#:#Create Test
+rbac#:#crs_create_webr#:#Create new web resource
 common#:#crs_create_write#:#Create Wiki
-common#:#crs_delete#:#删除课程
+rbac#:#crs_delete#:#删除课程
 common#:#crs_edit#:#编辑课程
-common#:#crs_edit_learning_progress#:#Edit learning progress
-common#:#crs_edit_permission#:#更改许可设置
+rbac#:#crs_edit_learning_progress#:#Edit learning progress
+rbac#:#crs_edit_permission#:#更改许可设置
 common#:#crs_info#:#Info
-common#:#crs_join#:#注册课程
-common#:#crs_leave#:#注销课程
+rbac#:#crs_join#:#注册课程
+rbac#:#crs_leave#:#注销课程
 common#:#crs_management_system#:#课程管理系统
 common#:#crs_member_not_passed#:#Not passed
 common#:#crs_member_passed#:#Passed
 common#:#crs_members_gallery#:#Course Members Gallery
 common#:#crs_new#:#新课程
 common#:#crs_no_content#:#Without content
-common#:#crs_read#:#课程设为读访问
+rbac#:#crs_read#:#课程设为读访问
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
 common#:#crs_status_blocked#:#[Access refused]
 common#:#crs_status_pending#:#[Waiting for registration]
 common#:#crs_subscribers_assigned#:#Assigned new user(s)
 common#:#crs_title#:#Course Title
 common#:#crs_unsubscribe#:#Unsubscribe
-common#:#crs_visible#:#课程可视
+rbac#:#crs_visible#:#课程可视
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
-common#:#crs_write#:#编辑课程
+rbac#:#crs_write#:#编辑课程
 common#:#crsr#:#Course Reference
 common#:#crsr_edit#:#Edit Course Reference
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
@@ -2380,15 +2375,15 @@ common#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#创建练习
 common#:#exc_date_not_valid#:#日期无效
 common#:#exc_deassign_members#:#删除用户
-common#:#exc_delete#:#删除练习
+rbac#:#exc_delete#:#删除练习
 common#:#exc_details#:#Exercise details
 common#:#exc_download_all#:#Download All
 common#:#exc_download_files#:#Download Files
 common#:#exc_download_new#:#Download New
 common#:#exc_edit#:#已创建新练习
 common#:#exc_edit_exercise#:#编辑练习
-common#:#exc_edit_learning_progress#:#Edit Learning Progress
-common#:#exc_edit_permission#:#更改许可设置
+rbac#:#exc_edit_learning_progress#:#Edit Learning Progress
+rbac#:#exc_edit_permission#:#更改许可设置
 common#:#exc_edit_until#:#编辑到
 common#:#exc_exercise_sent#:#Exercise Sent
 common#:#exc_feedback_sent#:#Feedback Sent
@@ -2406,7 +2401,7 @@ common#:#exc_new#:#新练习
 common#:#exc_no_members_assigned#:#无成员被指定
 common#:#exc_notices#:#通知
 common#:#exc_obj#:#练习
-common#:#exc_read#:#访问练习
+rbac#:#exc_read#:#访问练习
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#保存
@@ -2427,8 +2422,8 @@ common#:#exc_time_over_short#:#Time is over.
 common#:#exc_time_to_send#:#Remaining Working Time
 common#:#exc_upload_error#:#上载文件出错
 common#:#exc_users#:#用户
-common#:#exc_visible#:#练习可视
-common#:#exc_write#:#编辑练习
+rbac#:#exc_visible#:#练习可视
+rbac#:#exc_write#:#编辑练习
 common#:#excs#:#练习
 common#:#execute#:#执行
 common#:#exercise_time_over#:#You have reached the end time of the exercise. You cannot longer deliver files!
@@ -2475,11 +2470,11 @@ common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#常见问题解答　练习
 common#:#fax#:#传真
 common#:#feed#:#News Feed
-common#:#feed_delete#:#Delete Web Feed
-common#:#feed_edit_permission#:#Change permission settings
-common#:#feed_read#:#Read access to Web Feed
-common#:#feed_visible#:#Web Feed is visible
-common#:#feed_write#:#Edit Web Feed
+rbac#:#feed_delete#:#Delete Web Feed
+rbac#:#feed_edit_permission#:#Change permission settings
+rbac#:#feed_read#:#Read access to Web Feed
+rbac#:#feed_visible#:#Web Feed is visible
+rbac#:#feed_write#:#Edit Web Feed
 common#:#feedback#:#反馈
 common#:#feedback_recipient#:#反馈收件人
 common#:#field_name#:#Field Name
@@ -2492,9 +2487,9 @@ common#:#file_added#:#文件已上载
 common#:#file_allowed_suffixes#:#Allowed file types:
 common#:#file_copy#:#Copy File
 common#:#file_created#:#A new file has been added.
-common#:#file_delete#:#Delete File
+rbac#:#file_delete#:#Delete File
 common#:#file_edit#:#Edit File
-common#:#file_edit_permission#:#Change Permission settings
+rbac#:#file_edit_permission#:#Change Permission settings
 common#:#file_icon#:#File icon
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
@@ -2504,14 +2499,14 @@ common#:#file_new#:#新文件
 common#:#file_not_found#:#未找到文件！
 common#:#file_not_valid#:#文件无效！
 common#:#file_notice#:#Please take care of the filesizelimit of  
-common#:#file_read#:#Download File
+rbac#:#file_read#:#Download File
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
 common#:#file_updated#:#File has been updated.
 common#:#file_valid#:#文件有效！
 common#:#file_version#:#文件中提供的版本
-common#:#file_visible#:#File is visible
-common#:#file_write#:#Edit File
+rbac#:#file_visible#:#File is visible
+rbac#:#file_write#:#Edit File
 common#:#filename#:#Filename
 common#:#filename_extension_missing#:#Filename extension missing
 common#:#filename_extension_short#:#Extension
@@ -8474,7 +8469,7 @@ rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create new Course Reference
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Create Wiki
-rbac#:#catr_copy#:#Copy Category Reference
+common#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
 rbac#:#catr_edit_permission#:#Change Permission Settings
 rbac#:#catr_read#:#Read access to Category Reference
@@ -8487,7 +8482,7 @@ rbac#:#cmps_write#:#Edit component settings
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-rbac#:#crsr_copy#:#Copy Course Reference
+common#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Delete Course Reference
 rbac#:#crsr_edit_permission#:#Change Permission Settings
 rbac#:#crsr_read#:#Read access to Course Reference
@@ -10785,10 +10780,10 @@ book#:#book_set_in_use#:#Is in Use###28 07 2010 new variable
 book#:#book_set_not_in_use#:#Not in Use###28 07 2010 new variable
 book#:#book_set_cancel#:#Cancel Reservation###28 07 2010 new variable
 book#:#book_set_not_cancel#:#Undo Cance###28 07 2010 new variable
-common#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
-common#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
-common#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
-common#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
+rbac#:#book_edit_permission#:#Change permission settings###06 08 2010 new variable
+rbac#:#book_visible#:#Booking Pool is visible###06 08 2010 new variable
+rbac#:#book_read#:#Read access to Booking Pool###06 08 2010 new variable
+rbac#:#book_write#:#Edit Booking Pool###06 08 2010 new variable
 rbac#:#cat_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#grp_create_book#:#Create Booking Pool###06 08 2010 new variable
 rbac#:#fold_create_book#:#Create Booking Pool###06 08 2010 new variable
@@ -11755,10 +11750,10 @@ notes#:#note_update_note#:#Update Note###06 08 2011 new variable
 common#:#added_to_desktop#:#The item has been added to the desktop.###06 08 2011 new variable
 common#:#removed_from_desktop#:#The item has been removed from the desktop.###06 08 2011 new variable
 notes#:#notes_comments#:#Comments###06 08 2011 new variable
-common#:#chtr_visible#:#Visible###06 08 2011 new variable
-common#:#chtr_read#:#Read###06 08 2011 new variable
-common#:#chtr_write#:#Write###06 08 2011 new variable
-common#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
+rbac#:#chtr_visible#:#Visible###06 08 2011 new variable
+rbac#:#chtr_read#:#Read###06 08 2011 new variable
+rbac#:#chtr_write#:#Write###06 08 2011 new variable
+rbac#:#chtr_edit_permission#:#Change Permissions###06 08 2011 new variable
 common#:#objs_chtr#:#Chats###06 08 2011 new variable
 common#:#obj_chta#:#Chatrooms###06 08 2011 new variable
 chatroom#:#history_by_day#:#Daily history###06 08 2011 new variable
@@ -12174,7 +12169,7 @@ wiki#:#wiki_delete_page#:#Delete Page###14 09 2011 new variable
 wiki#:#wiki_rate_page#:#Rate this Page###14 09 2011 new variable
 auth#:#auth_login_editor#:#Loginscreen Editor###14 09 2011 new variable
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template###14 09 2011 new variable
-common#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
+rbac#:#chtr_moderate#:#Moderate Chatroom###14 09 2011 new variable
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom###14 09 2011 new variable
 chatroom#:#user_invited#:#The user <b>#user#</b> has been invited.###14 09 2011 new variable
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.###14 09 2011 new variable
