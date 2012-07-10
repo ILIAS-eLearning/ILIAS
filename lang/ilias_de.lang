@@ -10232,7 +10232,7 @@ rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der 
 rbac#:#precondition_obligatory#:#Obligatorisch
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingen müssen erfüllt werden, um Zugriff zu erlangen.
-rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedinungen
+rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedingungen
 rbac#:#prfa_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#prfa_read#:#Lesezugriff auf Portfolio-Administration
 rbac#:#prfa_visible#:#Portfolio-Administration ist sichtbar
