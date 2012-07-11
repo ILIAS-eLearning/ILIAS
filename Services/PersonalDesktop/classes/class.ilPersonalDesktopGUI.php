@@ -5,6 +5,7 @@
 include_once './Services/User/classes/class.ilObjUser.php';
 include_once "Services/Mail/classes/class.ilMail.php";
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
 * GUI class for personal desktop
@@ -27,6 +28,11 @@ class ilPersonalDesktopGUI
 	var $ilias;
 	
 	var $cmdClass = '';
+
+	/**
+	 * @var ilAdvancedSelectionListGUI
+	 */
+	protected $action_menu;
 
 	/**
 	* constructor
@@ -55,6 +61,8 @@ class ilPersonalDesktopGUI
 		$this->cmdClass = $_GET['cmdClass'];
 		
 		//$tree->useCache(false);
+
+		$this->action_menu = new ilAdvancedSelectionListGUI();
 	}
 	
 	/**
@@ -340,6 +348,31 @@ class ilPersonalDesktopGUI
 		$this->tpl->setContent($this->getCenterColumnHTML());
 		$this->tpl->setRightContent($this->getRightColumnHTML());
 		$this->tpl->setLeftContent($this->getLeftColumnHTML());
+
+		if(count($this->action_menu->getItems()))
+		{
+			/**
+ 			 * @var $tpl ilTemplate
+			 * @var $lng ilLanguage
+			 */
+			global $tpl, $lng;
+
+			$this->action_menu->setAsynch(false);
+			$this->action_menu->setAsynchUrl('');
+			$this->action_menu->setListTitle($lng->txt('actions'));
+			$this->action_menu->setId('act_pd');
+			$this->action_menu->setSelectionHeaderClass('small');
+			$this->action_menu->setItemLinkClass('xsmall');
+			$this->action_menu->setLinksMode('il_ContainerItemCommand2');
+			$this->action_menu->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
+			$this->action_menu->setUseImages(false);
+
+			$htpl = new ilTemplate('tpl.header_action.html', true, true, 'Services/Repository');
+			$htpl->setVariable('ACTION_DROP_DOWN', $this->action_menu->getHTML());
+
+			$tpl->setHeaderActionMenu($htpl->get());
+		}
+		
 		$this->tpl->show();
 	}
 	
@@ -779,6 +812,7 @@ class ilPersonalDesktopGUI
 
 	/**
 	* Init ilColumnGUI
+	 * @var ilColumnGUI $a_column_gui
 	*/
 	function initColumn($a_column_gui)
 	{
