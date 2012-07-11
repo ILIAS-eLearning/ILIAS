@@ -1484,7 +1484,12 @@ class ilObjBlogGUI extends ilObject2GUI
 	
 	protected function initHeaderAction($sub_type = null, $sub_id = null, $a_is_preview = false)
 	{
-		global $ilUser, $ilCtrl;		
+		global $ilUser, $ilCtrl;	
+		
+		if(!$this->node_id)
+		{
+			return false;
+		}
 
 		$sub_type = $sub_id = null;
 		if($_GET["blpg"])
