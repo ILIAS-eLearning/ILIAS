@@ -1,22 +1,22 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
-* Class ilObjiLincCourseGUI
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de> 
-*
-* @version $Id$
-* 
-* @extends ilObjectGUI
-* 
-* @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI, ilInfoScreenGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilObjiLincCourseGUI: ilPublicUserProfileGUI, ilColumnGUI
-*
-*/
 
 include_once "./Services/Container/classes/class.ilContainerGUI.php";
 
+/**
+ * Class ilObjiLincCourseGUI
+ *
+ * @author Sascha Hofmann <saschahofmann@gmx.de> 
+ *
+ * @version $Id$
+ * 
+ * @extends ilObjectGUI
+ * 
+ * @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI, ilInfoScreenGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls ilObjiLincCourseGUI: ilPublicUserProfileGUI, ilColumnGUI
+ *
+ */
 class ilObjiLincCourseGUI extends ilContainerGUI
 {
 	private $form_gui = null;
