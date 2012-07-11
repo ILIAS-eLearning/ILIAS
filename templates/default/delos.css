@@ -3477,7 +3477,7 @@ div.ilSideBarContent{
 }
 
 .iosPdBlockDragAndDropPlaceholder {
-	border: 1px #000000 solid;
-	background-image: url(images/drop_back_active.png);
-	background-repeat: repeat;
+	border: 3px #C0C0C0 dashed;
+	border-radius: 8px;
+	margin-bottom: 15px;
 }
