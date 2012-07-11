@@ -12836,3 +12836,4 @@ rbac#:#exc_copy#:#User can copy exercise
 rbac#:#catr_copy#:#User can copy category reference
 rbac#:#crsr_copy#:#User can copy course reference
 rbac#:#file_copy#:#User can copy file
+style#:#sty_move_user_styles#:#Change Style of Users
