@@ -1,37 +1,16 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
-* parses the template.xml that defines all styles of the current template
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @extends ilSaxParser
-*/
+ * parses the template.xml that defines all styles of the current template
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ */
 require_once("./Services/Xml/classes/class.ilSaxParser.php");
-
 class ilStyleDefinition extends ilSaxParser
 {
 	/**
@@ -384,5 +363,48 @@ class ilStyleDefinition extends ilSaxParser
 	{
 		self::$current_style = $a_style;
 	}
+	
+	/**
+	 * Get all skins/styles
+	 *
+	 * @param
+	 * @return
+	 */
+	public static function getAllSkinStyles()
+	{
+		global $styleDefinition;
+		
+		$all_styles = array();
+		
+		$templates = $styleDefinition->getAllTemplates();
+		
+		foreach ($templates as $template)
+		{
+			// get styles definition for template
+			$styleDef = new ilStyleDefinition($template["id"]);
+			$styleDef->startParsing();
+			$styles = $styleDef->getStyles();
+
+			foreach ($styles as $style)
+			{
+				$num_users = ilObjUser::_getNumberOfUsersForStyle($template["id"], $style["id"]);
+				
+				// default selection list
+				$all_styles[$template["id"].":".$style["id"]] =
+					array (
+						"title" => $styleDef->getTemplateName()." / ".$style["name"],
+						"id" => $template["id"].":".$style["id"],
+						"template_id" => $template["id"],
+						"style_id" => $style["id"],
+						"template_name" => $styleDef->getTemplateName(),
+						"style_name" => $style["name"],
+						"users" => $num_users
+						);
+			}
+		}
+
+		return $all_styles;
+	}
+	
 }
 ?>
