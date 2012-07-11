@@ -811,9 +811,9 @@ class ilPersonalDesktopGUI
 	}
 
 	/**
-	* Init ilColumnGUI
+	 * Init ilColumnGUI
 	 * @var ilColumnGUI $a_column_gui
-	*/
+	 */
 	function initColumn($a_column_gui)
 	{
 		$pd_set = new ilSetting("pd");
@@ -821,6 +821,7 @@ class ilPersonalDesktopGUI
 		{
 			$a_column_gui->setEnableMovement(true);
 		}
+		$a_column_gui->setActionMenu($this->action_menu);
 	}
 	
 	/**
