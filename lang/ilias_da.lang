@@ -4227,7 +4227,7 @@ content#:#cont_browser_not_js_capable#:#JavaScript enabled editing is not suppor
 content#:#cont_cant_copy_folders#:#Mapper kan ikke kopieres til udklipsholder
 content#:#cont_cant_del_full#:#Deletion of fullscreen file not possible.
 content#:#cont_cant_del_std#:#Deletion of standard view file not possible.###21 Apr 2005 new variable
-content#:#cont_caption#:#Caption###21 Apr 2005 new variable
+content#:#cont_caption#:#Undertekst
 content#:#cont_change_type#:#ændre type
 content#:#cont_chap_and_pages#:#Kapitler og sider
 content#:#cont_chap_copy_select_target_now#:#Chapter marked for copying. Select target now.###20 Jun 2005 new variable
@@ -11481,20 +11481,20 @@ content#:#content_some_export_ids_multiple_times#:#Some export IDs are used mult
 content#:#cont_exp_id_used_multiple#:#Export ID used multiple times###12 06 2011 new variable
 content#:#mob_upload_dir#:#Upload Directory###12 06 2011 new variable
 content#:#mob_upload_dir_info#:#Server directory from which multiple files can be used to create media objects in media pools. Only ILIAS administrators will see a selection of files from this directory. Please enter a full server path without trailing slash.###12 06 2011 new variable
-mep#:#mep_create_from_upload_dir#:#Create Media Objects from Upload Directory###12 06 2011 new variable
-mep#:#mep_sel_upload_dir_files#:#Select Files/Directories###12 06 2011 new variable
-mep#:#mep_upload_dir_files#:#Files from Upload Directory###12 06 2011 new variable
-mep#:#mep_file#:#File###12 06 2011 new variable
-mep#:#mep_create_media_files#:#Create Media Objects###12 06 2011 new variable
-mep#:#mep_up_dir_move#:#Move Files from Upload Directory (Faster)###12 06 2011 new variable
-mep#:#mep_up_dir_copy#:#Copy Files from Upload Directory (Keeps files in the upload directory)###12 06 2011 new variable
+mep#:#mep_create_from_upload_dir#:#Lav medieobjekter fra upload mappe
+mep#:#mep_sel_upload_dir_files#:#Vælg filer/mapper
+mep#:#mep_upload_dir_files#:#Filer fra upload mappe
+mep#:#mep_file#:#Fil
+mep#:#mep_create_media_files#:#Lav medieobjekter
+mep#:#mep_up_dir_move#:#Flyt filer fra upload mappe (hurtigere)
+mep#:#mep_up_dir_copy#:#Kopier filer fra upload mappe (filer forbliver i mappen)
 content#:#cont_exp_ids_not_resp_format3#:#The ID must not start with a number.###12 06 2011 new variable
-content#:#cont_current_usages#:#Current Usages###12 06 2011 new variable
-content#:#cont_all_usages#:#Include History###12 06 2011 new variable
+content#:#cont_current_usages#:#Aktuel anvendelse
+content#:#cont_all_usages#:#Inklusiv historik
 content#:#cont_set_layout#:#Set Layout###12 06 2011 new variable
 mep#:#mep_content_snippet_used_in_older_versions#:#Please note: This snippet is used in older versions of some pages. If these pages are rolled back to a version that includes this snippet, the snippet will be missing in the page.###12 06 2011 new variable
 content#:#cont_missing_snippet#:#Missing Content Snippet. The snippet has been deleted.###12 06 2011 new variable
-content#:#cont_enable_page_history#:#Page History###12 06 2011 new variable
+content#:#cont_enable_page_history#:#Sidehistorik
 content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.###12 06 2011 new variable
 style#:#sty_type_qover#:#Question Overview###12 06 2011 new variable
 ecs#:#ecs_tbl_settings_for_server#:#ECS Settings for %s###12 06 2011 new variable
@@ -11543,10 +11543,10 @@ user#:#user_profile_portfolio#:#Du kan bruge en portfolio som din offentlige pro
 wsp#:#wsp_type_webr#:#Weblink###18 07 2011 new variable
 content#:#cont_maintenance#:#Vedligeholdelse
 content#:#cont_switch_to_media_pool#:#Switch to other Media Pool###18 07 2011 new variable
-mep#:#mep_choose_from_mep#:#Choose from Pool###18 07 2011 new variable
-ecs#:#ecs_cert_valid_until#:#Certificate valid until###18 07 2011 new variable
-mep#:#mep_choose_from_folder#:#Choose from Folder###18 07 2011 new variable
-trac#:#trac_object_statistics#:#Object Statistics###18 07 2011 new variable
+mep#:#mep_choose_from_mep#:#Vælg fra samling
+ecs#:#ecs_cert_valid_until#:#Certifikat gyldigt indtil
+mep#:#mep_choose_from_folder#:#Vælg fra mappe
+trac#:#trac_object_statistics#:#Objektstatistik
 ecs#:#ecs_auth_type#:#Authentication Type###18 07 2011 new variable
 ecs#:#ecs_auth_type_cert#:#Certificate-Base###18 07 2011 new variable
 ecs#:#ecs_auth_type_apache#:#Username/Password###18 07 2011 new variable
