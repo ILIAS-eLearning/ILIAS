@@ -286,6 +286,43 @@ class assErrorTextGUI extends assQuestionGUI
 
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+	
+		// Generic feedback:
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		
+		if ($show_feedback)
+		{
+			$feedback .= '<br /><br /><table><tbody>';
+			
+			foreach ($selections as $index => $answer)
+			{
+				$caption = $ordinal = $index+1 .'.<i> ';
+				$elements = explode(' ', $this->object->errortext);
+				$caption .= $elements[$answer];
+				$caption = str_replace('#', '', $caption);
+				$caption .= '</i>:';
+
+				$feedback .= '<tr><td>';
+				
+				$feedback .= $caption .'</td><td>';
+				foreach ($this->object->getErrorData() as $idx => $ans)
+				{
+					$cand = '#'.$ans->text_wrong;
+					if ($elements[$answer] == $cand)
+					{
+						$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+					}
+				}
+				#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';
+			}
+			$feedback .= '</tbody></table>';
+		}
+		
+		if (strlen($feedback)) 
+		{
+			$solutiontemplate->setCurrentBlock('feedback');
+			$solutiontemplate->setVariable("FEEDBACK", $feedback);
+		}
 		$solutionoutput = $solutiontemplate->get(); 
 		if (!$show_question_only)
 		{
@@ -354,6 +391,44 @@ class assErrorTextGUI extends assQuestionGUI
 		$template->setVariable("ERRORTEXT", $errortext);
 		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
 		$template->setVariable("ERRORTEXT_VALUE", $errortext_value);
+		
+		// Generic feedback:
+		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		
+		if ($show_feedback)
+		{
+			$feedback .= '<br /><br /><table><tbody>';
+			
+			foreach ($selections as $index => $answer)
+			{
+				$caption = $ordinal = $index+1 .'.<i> ';
+				$elements = explode(' ', $this->object->errortext);
+				$caption .= $elements[$answer];
+				$caption = str_replace('#', '', $caption);
+				$caption .= '</i>:';
+
+				$feedback .= '<tr><td>';
+				
+				$feedback .= $caption .'</td><td>';
+				foreach ($this->object->getErrorData() as $idx => $ans)
+				{
+					$cand = '#'.$ans->text_wrong;
+					if ($elements[$answer] == $cand)
+					{
+						$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+					}
+				}
+				#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';
+			}
+			$feedback .= '</tbody></table>';
+		}
+		
+		if (strlen($feedback)) 
+		{
+			$template->setCurrentBlock('feedback');
+			$template->setVariable("FEEDBACK", $feedback);
+		}
+				
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
@@ -385,6 +460,11 @@ class assErrorTextGUI extends assQuestionGUI
 		$errors = $this->feedback(true);
 		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
 		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		foreach ($this->object->getErrorData() as $index => $answer)
+		{
+			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
+		}
+		
 		$this->object->cleanupMediaObjectUsage();
 		parent::saveFeedback();
 	}
@@ -493,5 +573,95 @@ class assErrorTextGUI extends assQuestionGUI
 			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
 		}
 	}
+	
+			/**
+	* Creates the output of the feedback page for a single choice question
+	*
+	* @access public
+	*/
+	function feedback($checkonly = false)
+	{
+		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('feedback_answers'));
+		$form->setTableWidth("98%");
+		$form->setId("feedback");
+
+		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
+		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
+		$complete->setRequired(false);
+		$complete->setRows(10);
+		$complete->setCols(80);
+		if (!$this->getPreventRteUsage())
+		{
+			$complete->setUseRte(true);
+		}
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+		$complete->addPlugin("latex");
+		$complete->addButton("latex");
+		$complete->addButton("pastelatex");
+		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($complete);
+
+		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
+		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
+		$incomplete->setRequired(false);
+		$incomplete->setRows(10);
+		$incomplete->setCols(80);
+		if (!$this->getPreventRteUsage())
+		{
+			$incomplete->setUseRte(true);
+		}
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+		$incomplete->addPlugin("latex");
+		$incomplete->addButton("latex");
+		$incomplete->addButton("pastelatex");
+		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($incomplete);
+	
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			foreach ($this->object->getErrorData() as $index => $answer)
+			{
+				$caption = $ordinal = $index+1;
+				$caption .= '. <br />"' . $answer->text_wrong . '" =&gt; ';
+				$caption .= '"' . $answer->text_correct . '"';
+				$caption .= '</i>';
+				
+				$answerobj = new ilTextAreaInputGUI($this->object->prepareTextareaOutput($caption, true), "feedback_answer_$index");
+				$answerobj->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)));
+				$answerobj->setRequired(false);
+				$answerobj->setRows(10);
+				$answerobj->setCols(80);
+				$answerobj->setUseRte(true);
+				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$answerobj->addPlugin("latex");
+				$answerobj->addButton("latex");
+				$answerobj->addButton("pastelatex");
+				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
+				$form->addItem($answerobj);
+			}
+		}
+
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
+		{
+			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		}
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+		}
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
+
 }
 ?>
