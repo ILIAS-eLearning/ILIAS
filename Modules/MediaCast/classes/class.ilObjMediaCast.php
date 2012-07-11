@@ -132,8 +132,7 @@ class ilObjMediaCast extends ilObject
 				break;
 			
 			case ilObjMediaCast::ORDER_MANUAL:
-				$med_items = $this->getManualOrderedItems();
-				$order = array_flip($this->object->readOrder());		
+				$order = array_flip($this->readOrder());		
 				$pos = sizeof($order);
 				foreach(array_keys($med_items) as $idx)
 				{
