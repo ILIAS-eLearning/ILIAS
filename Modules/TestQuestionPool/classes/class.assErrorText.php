@@ -938,6 +938,64 @@ class assErrorText extends assQuestion
 
 		return json_encode($result);
 	}
+	
+	/**
+	* Saves feedback for a single selected answer to the database
+	*
+	* @param integer $answer_index The index of the answer
+	* @param string $feedback Feedback text
+	* @access public
+	*/
+	function saveFeedbackSingleAnswer($answer_index, $feedback)
+	{
+		global $ilDB;
+		
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_errortext WHERE question_fi = %s AND answer = %s",
+			array('integer','integer'),
+			array($this->getId(), $answer_index)
+		);
+		if (strlen($feedback))
+		{
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$next_id = $ilDB->nextId('qpl_fb_errortext');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_errortext (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+				array('integer','integer','integer','text','integer'),
+				array(
+					$next_id,
+					$this->getId(),
+					$answer_index,
+					ilRTE::_replaceMediaObjectImageSrc($feedback, 0),
+					time()
+				)
+			);
+		}
+	}
+	
+	/**
+	* Returns the feedback for a single selected answer
+	*
+	* @param integer $answer_index The index of the answer
+	* @return string Feedback text
+	* @access public
+	*/
+	function getFeedbackSingleAnswer($answer_index)
+	{
+		global $ilDB;
+		
+		$feedback = "";
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_errortext WHERE question_fi = %s AND answer = %s",
+			array('integer','integer'),
+			array($this->getId(), $answer_index)
+		);
+		if ($result->numRows())
+		{
+			$row = $ilDB->fetchAssoc($result);
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+		}
+		return $feedback;
+	}
+	
 }
 
 ?>
