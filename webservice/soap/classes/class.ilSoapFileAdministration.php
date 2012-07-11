@@ -57,7 +57,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-        global $rbacsystem, $tree, $ilLog;
+        global $rbacsystem, $tree, $ilLog, $ilAccess;
 
         if(!$target_obj =& ilObjectFactory::getInstanceByRefId($target_id,false))
 		{
@@ -77,7 +77,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 			return $this->__raiseError('No valid target type. Target must be reference id of "course, group, category or folder"', 'Client');
 		}
 
-	    if(!$rbacsystem->checkAccess('create',$target_id,"file"))
+	    if(!$ilAccess->checkAccess('create','',$target_id,"file"))
 		{
 			return $this->__raiseError('No permission to create Files in target  '.$target_id.'!', 'Client');
 		}
@@ -139,7 +139,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
 		}
-        global $rbacsystem, $tree, $ilLog;
+        global $rbacsystem, $tree, $ilLog, $ilAccess;
 
 		if(ilObject::_isInTrash($ref_id))
 		{
@@ -156,7 +156,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		$permission_ok = false;
 		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
 		{
-			if($rbacsystem->checkAccess('edit',$ref_id))
+			if($ilAccess->checkAccess('write','',$ref_id))
 			{
 				$permission_ok = true;
 				break;
@@ -224,7 +224,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 			return $this->__raiseError('No ref id given. Aborting!',
 									   'Client');
 		}
-		global $rbacsystem, $tree, $ilLog;
+		global $rbacsystem, $tree, $ilLog, $ilAccess;
 
 
 		// get obj_id
@@ -243,7 +243,7 @@ class ilSoapFileAdministration extends ilSoapAdministration
 		$permission_ok = false;
 		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
 		{
-			if($rbacsystem->checkAccess('read',$ref_id))
+			if($ilAccess->checkAccess('read','',$ref_id))
 			{
 				$permission_ok = true;
 				break;
