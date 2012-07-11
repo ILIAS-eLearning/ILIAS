@@ -33,6 +33,11 @@ class ilColumnGUI
 	protected $admincommands = null;
 	protected $movementmode = null;
 	protected $enablemovement = false;
+
+	/**
+	 * @var ilAdvancedSelectionListGUI
+	 */
+	protected $action_menu;
 	
 	//
 	// This two arrays may be replaced by some
@@ -142,7 +147,7 @@ class ilColumnGUI
 	*
 	* @param
 	*/
-	function ilColumnGUI($a_col_type = "", $a_side = "", $use_std_context = false)
+	public function __construct($a_col_type = "", $a_side = "", $use_std_context = false)
 	{
 		global $ilUser, $tpl, $ilCtrl;
 
@@ -606,10 +611,14 @@ class ilColumnGUI
 	*/
 	function addHiddenBlockSelector()
 	{
-		global $lng, $ilUser, $ilCtrl, $ilSetting;
-		
-		$bl_management = false;
-		
+		/**
+ 		 * @var $lng ilLanguage
+		 * @var $ilUser ilObjUser
+		 * @var $ilCtrl ilCtrl
+		 * $var $tpl ilTemplate
+		 */
+		global $lng, $ilUser, $ilCtrl, $tpl;
+
 		// show selector for hidden blocks
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$hidden_blocks = array();
@@ -662,18 +671,14 @@ class ilColumnGUI
 				}
 			}
 		}
-		if (count($hidden_blocks) > 0)
+		if(count($hidden_blocks) > 0)
 		{
-			$this->tpl->setCurrentBlock("hidden_block_selector");
-			$this->tpl->setVariable("HB_ACTION", $ilCtrl->getFormAction($this));
-			$this->tpl->setVariable("BLOCK_SEL", ilUtil::formSelect("", "block", $hidden_blocks,
-				false, true, 0, "ilEditSelect", array("id" => "il_show_bl_sel_".$this->getSide())));
-			$this->tpl->setVariable("LAB_ID", "il_show_bl_sel_".$this->getSide());
-			$this->tpl->setVariable("TXT_ACTIVATE", $lng->txt("show"));
-			$this->tpl->setVariable("TXT_SHOW_HIDDEN_BLOCK",
-				$lng->txt("show_hidden_block"));
-			$this->tpl->parseCurrentBlock();
-			$bl_management = true;
+			foreach($hidden_blocks as $id => $title)
+			{
+				$ilCtrl->setParameter($this, 'block', $id);
+				$this->action_menu->addItem($lng->txt('show').': '.$title, '', $ilCtrl->getLinkTarget($this, 'activateBlock'));
+				$ilCtrl->setParameter($this, 'block', '');
+			}
 		}
 		
 		// create block selection list
@@ -702,47 +707,34 @@ class ilColumnGUI
 					}
 				}
 			}
-			if (count($add_blocks) > 0)
+			if(count($add_blocks) > 0)
 			{
-				$this->tpl->setCurrentBlock("add_block_selector");
-				$ilCtrl->setParameter($this, "block_type", "");
-				$this->tpl->setVariable("AB_ACTION", $ilCtrl->getFormAction($this));
-				$this->tpl->setVariable("ADD_BLOCK_SEL", ilUtil::formSelect("", "block_type", $add_blocks,
-					false, true, 0, "ilEditSelect", array("id" => "il_add_bl_sel_".$this->getSide())));
-				$this->tpl->setVariable("LAB_ID", "il_add_bl_sel_".$this->getSide());
-				$this->tpl->setVariable("TXT_ADD", $lng->txt("create"));
-				$this->tpl->setVariable("TXT_CREATE_BLOCK",
-					$lng->txt("create_block"));
-				$this->tpl->parseCurrentBlock();
-				$bl_management = true;
+				foreach($add_blocks as $id => $title)
+				{
+					$ilCtrl->setParameter($this, 'block_type', $id);
+					$this->action_menu->addItem($lng->txt('create').': '.$title, '', $ilCtrl->getLinkTarget($this, 'addBlock'));
+					$ilCtrl->setParameter($this, 'block_type', '');
+				}
 			}
 		}
 		
-		if ($this->getSide() == IL_COL_RIGHT && $this->getEnableMovement())
+		if($this->getSide() == IL_COL_RIGHT && $this->getEnableMovement())
 		{
-			$this->tpl->setCurrentBlock("toggle_movement");
-			$this->tpl->setVariable("HREF_TOGGLE_MOVEMENT",
-				$ilCtrl->getLinkTarget($this, "toggleMovement"));
-			if ($_SESSION["col_".$this->getColType()."_movement"] == "on")
+			if($_SESSION['col_'.$this->getColType().'_movement'] == 'on')
 			{
-				$this->tpl->setVariable("TXT_TOGGLE_MOVEMENT",
-					$lng->txt("stop_moving_blocks"));
+				$this->action_menu->addItem($lng->txt('stop_moving_blocks'), '', $ilCtrl->getLinkTarget($this, 'toggleMovement'));
 			}
 			else
 			{
-				$this->tpl->setVariable("TXT_TOGGLE_MOVEMENT",
-					$lng->txt("move_blocks"));
+				$this->action_menu->addItem($lng->txt('move_blocks'), '', $ilCtrl->getLinkTarget($this, 'toggleMovement'));
 			}
-			$this->tpl->parseCurrentBlock();
-			
+
 			if($this->getMovementMode())
 			{
 				/**
-				 * @var $tpl ilTemplate
-				 * @var $ilCtrl ilCtrl
 				 * @var $ilBrowser ilBrowser
 				 */
-				global $tpl, $ilBrowser;
+				global $ilBrowser;
 	
 				include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 				iljQueryUtil::initjQuery();
@@ -765,20 +757,7 @@ class ilColumnGUI
 				// restore col_side parameter
 				$ilCtrl->setParameter($this, 'col_side' ,$this->getSide());
 			}
-			
-			$bl_management = true;
 		}
-		
-		if ($bl_management)
-		{
-			$this->tpl->setCurrentBlock("block_management");
-			$this->tpl->setVariable("TXT_BLOCK_MANAGEMENT",
-				$lng->txt("block_management"));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		//return $tpl->get();
-
 	}
 	
 	function toggleMovement()
@@ -872,9 +851,9 @@ class ilColumnGUI
 	{
 		global $ilUser, $ilCtrl;
 
-		if ($_POST["block"] != "")
+		if ($_GET["block"] != "")
 		{
-			$block = explode("_", $_POST["block"]);
+			$block = explode("_", $_GET["block"]);
 			include_once("Services/Block/classes/class.ilBlockSetting.php");
 			ilBlockSetting::_writeDetailLevel($block[0], 2, $ilUser->getId(), $block[1]);
 		}
@@ -886,21 +865,22 @@ class ilColumnGUI
 	* Add a block
 	*/
 	function addBlock()
+		
 	{
 		global $ilCtrl;
 		
-		$class = array_search($_POST["block_type"], self::$block_types);
+		$class = array_search($_GET["block_type"], self::$block_types);
 
 		$ilCtrl->setCmdClass($class);
 		$ilCtrl->setCmd("create");
 		include_once("./".self::$locations[$class]."classes/class.".$class.".php");
 		$block_gui = new $class();
-		$block_gui->setProperties($this->block_property[$_POST["block_type"]]);
+		$block_gui->setProperties($this->block_property[$_GET["block_type"]]);
 		$block_gui->setRepositoryMode($this->getRepositoryMode());
 		$block_gui->setEnableEdit($this->getEnableEdit());
 		$block_gui->setAdminCommands($this->getAdminCommands());
 		
-		$ilCtrl->setParameter($this, "block_type", $_POST["block_type"]);
+		$ilCtrl->setParameter($this, "block_type", $_GET["block_type"]);
 		$html = $ilCtrl->forwardCommand($block_gui);
 		$ilCtrl->setParameter($this, "block_type", "");
 		return $html;
@@ -1176,5 +1156,23 @@ class ilColumnGUI
 
 		echo json_encode($response);
 		exit();
+	}
+
+	/**
+	 * @param \ilAdvancedSelectionListGUI $action_menu
+	 * @return ilColumnGUI
+	 */
+	public function setActionMenu($action_menu)
+	{
+		$this->action_menu = $action_menu;
+		return $this;
+	}
+
+	/**
+	 * @return \ilAdvancedSelectionListGUI
+	 */
+	public function getActionMenu()
+	{
+		return $this->action_menu;
 	}
 }
