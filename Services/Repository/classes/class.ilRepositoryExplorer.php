@@ -390,17 +390,17 @@ class ilRepositoryExplorer extends ilExplorer
 				}
 			}		
 						
-			if($is_course && !$rbacsystem->checkAccess('write',$crs_id))
+			if($is_course && !$rbacsystem->checkAccess('write',$container_parent_id))
 			{
 				// Show only activated courses
-				$tmp_obj =& ilObjectFactory::getInstanceByRefId($crs_id,false);
+				$tmp_obj =& ilObjectFactory::getInstanceByRefId($container_parent_id,false);
 
 				if(!$tmp_obj->isActivated())
 				{
 					unset($tmp_obj);
 					return false;
 				}
-				if(($crs_id != $a_ref_id) and $tmp_obj->isArchived())
+				if(($container_parent_id != $a_ref_id) and $tmp_obj->isArchived())
 				{
 					return false;
 				}				
