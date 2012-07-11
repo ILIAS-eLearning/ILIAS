@@ -32,7 +32,7 @@
 					$this.addClass('iosPdBlockSortableContainer');
 
 					// workaround for an empty side
-					if ($.trim($this.html()).length == 0) {
+					if ($this.find("> div").size() == 0) {
 						$this.css('height', $this.parent().height());
 					}
 
