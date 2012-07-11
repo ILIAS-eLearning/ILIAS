@@ -688,7 +688,7 @@ class ilFileDataMail extends ilFileData
 		}
 
 		// Delete each mail attachment row assigned to a message of the deleted user.
-		if($ilDB->getDBType() == 'mysql')
+		if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 		{
 			$ilDB->manipulateF('
 				DELETE m1
