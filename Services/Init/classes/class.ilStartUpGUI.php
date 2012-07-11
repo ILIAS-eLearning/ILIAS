@@ -1639,14 +1639,18 @@ class ilStartUpGUI
 			{
 				$ref_id = $t_arr[1];		
 			}
-				
-			$path_obj = array();
+			
+			include_once "Services/Membership/classes/class.ilParticipants.php";
+			$block_obj = array();			
 			
 			// walk path to find parent container
 			$path = $tree->getPathId($ref_id);
 			array_pop($path);			
-			foreach(array_reverse($path) as $path_ref_id)
+			foreach($path as $path_ref_id)
 			{
+				$redirect_infopage = false;
+				$add_member_role = false;
+				
 				$ptype = ilObject::_lookupType($path_ref_id, true);
 				if($ptype == "crs")
 				{					
@@ -1662,8 +1666,13 @@ class ilStartUpGUI
 						if(ilObjCourse::_isActivated($crs_obj_id) &&
 							ilObjCourse::_registrationEnabled($crs_obj_id))
 						{
-							$path_obj[] = $path_ref_id;
+							$block_obj[] = $path_ref_id;
+							$add_member_role = true;
 						}			
+						else
+						{
+							$redirect_infopage = true;
+						}
 					}
 				}
 				else if($ptype == "grp")
@@ -1677,45 +1686,61 @@ class ilStartUpGUI
 						$group_obj = new ilObjGroup($path_ref_id);
 						if($group_obj->isRegistrationEnabled())
 						{
-							$path_obj[] = $path_ref_id;
+							$block_obj[] = $path_ref_id;
+							$add_member_role = true;
 						}			
+						else
+						{
+							$redirect_infopage = true;
+						}
 					}
 				}
-			}	
-			
-			if(sizeof($path_obj))
-			{										
-				// add members roles for all "blocking" objects
-				$path_obj = array_reverse($path_obj);				
-				include_once "Services/Membership/classes/class.ilParticipants.php";
-				foreach($path_obj as $path_ref_id)
-				{					
-					// cannot join? goto will never work, so abort
+				
+				// add members roles for all "blocking" objects	
+				if($add_member_role)
+				{
+					// cannot join? goto will never work, so redirect to current object
 					$rbacsystem->resetPACache($ilUser->getId(), $path_ref_id);
 					if(!$rbacsystem->checkAccess("join", $path_ref_id))
+					{					
+						$redirect_infopage = true;					
+					}
+					else
+					{
+						$rbacsystem->addTemporaryRole($ilUser->getId(), 
+							ilParticipants::getDefaultMemberRole($path_ref_id));		
+					}
+				}
+				
+				// redirect to infopage of 1st blocking object in path	
+				if($redirect_infopage)
+				{
+					if($rbacsystem->checkAccess("visible", $path_ref_id))
+					{										
+						ilUtil::redirect("ilias.php?baseClass=ilRepositoryGUI".
+							"&ref_id=".$path_ref_id."&cmd=infoScreen");		
+					}
+					else
 					{
 						return false;
 					}
-																
-					$rbacsystem->addTemporaryRole($ilUser->getId(), 
-						ilParticipants::getDefaultMemberRole($path_ref_id));						
 				}
-																		
-				// check if access will be possible with all member roles added
-				$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
-				if($rbacsystem->checkAccess("read", $ref_id))
-				{																		
-					// this won't work with lm-pages (see above)
-					// include_once "Services/Link/classes/class.ilLink.php";
-					// $_SESSION["pending_goto"] = ilLink::_getStaticLink($ref_id, $type);					
-									
-					// keep original target
-					$_SESSION["pending_goto"] = "goto.php?target=".$a_target;
-					
-					// redirect to 1st blocking object in path						
-					ilUtil::redirect("ilias.php?baseClass=ilRepositoryGUI".
-						"&ref_id=".array_shift($path_obj));									 
-				}
+			}	
+																											
+			// check if access will be possible with all (possible) member roles added
+			$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
+			if($rbacsystem->checkAccess("read", $ref_id))
+			{																		
+				// this won't work with lm-pages (see above)
+				// include_once "Services/Link/classes/class.ilLink.php";
+				// $_SESSION["pending_goto"] = ilLink::_getStaticLink($ref_id, $type);					
+
+				// keep original target
+				$_SESSION["pending_goto"] = "goto.php?target=".$a_target;
+
+				// redirect to 1st non-member object in path						
+				ilUtil::redirect("ilias.php?baseClass=ilRepositoryGUI".
+					"&ref_id=".array_shift($block_obj));									 				
 			}
 		}		
 		
