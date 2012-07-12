@@ -29,6 +29,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("default"));
 		$this->addColumn($this->lng->txt("users"));
 		$this->addColumn($this->lng->txt("active"));
+		$this->addColumn($this->lng->txt("sty_substyles"));
+		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.sys_styles_row.html", "Services/Style");
@@ -90,7 +92,26 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilClientIniFile;;
+		global $lng, $ilClientIniFile, $ilCtrl;
+//var_dump($a_set);
+
+		if (is_array($a_set["substyle"]))
+		{
+			foreach ($a_set["substyle"] as $substyle)
+			{
+				$this->tpl->setCurrentBlock("substyle");
+				$this->tpl->setVariable("SUB_STYLE", $substyle["name"]);
+				$this->tpl->parseCurrentBlock();
+			}
+			$this->tpl->touchBlock("substyles");
+			
+			$ilCtrl->setParameter($this->parent_obj, "style_id", urlencode($a_set["id"]));
+			$this->tpl->setCurrentBlock("cmd");
+			$this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj,
+				"assignStylesToCats"));
+			$this->tpl->setVariable("TXT_CMD", $lng->txt("sty_assign_categories"));
+			$this->tpl->parseCurrentBlock();
+		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("ID", $a_set["id"]);
