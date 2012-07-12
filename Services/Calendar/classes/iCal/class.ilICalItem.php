@@ -70,7 +70,7 @@ abstract class ilICalItem
 	 */
 	public function getValue()
 	{
-	 	return $this->value;
+	 	return trim($this->value);
 	}
 	
 	/**

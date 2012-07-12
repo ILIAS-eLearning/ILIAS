@@ -12755,3 +12755,5 @@ dateplaner#:#cal_type_local#:#Lokaler Kalender
 dateplaner#:#cal_type_remote#:#Web-Kalender
 dateplaner#:#cal_remote_url#:#URL des Kalenders
 dateplaner#:#cal_type_rl_info#:#Wenn Ihnen die Adresse eines Kalenders bekannt ist, können Sie diese hier eingeben. Auf Web-Kalender kann lesend zugegriffen werden.
+dateplaner#:#cal_cal_synchronize#:#Kalender synchronisieren
+dateplaner#:#cal_cal_sync_success#:#Die Kalendertermine wurden aktualisiert.
