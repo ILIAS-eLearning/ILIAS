@@ -2040,7 +2040,7 @@ class ilObjectGUI
 	static function _gotoRepositoryNode($a_ref_id, $a_cmd = "frameset")
 	{
 		global $ilAccess, $ilErr;
-		
+
 		$_GET["cmd"] = $a_cmd;
 		$_GET["target"] = "";
 		$_GET["ref_id"] = $a_ref_id;

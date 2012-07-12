@@ -339,10 +339,55 @@ class ilStyleDefinition extends ilSaxParser
 	 */
 	public static function getCurrentStyle()
 	{
-		global $ilias;	
+		global $ilias, $tree, $styleDefinition, $tree;	
 		
-		return isset(self::$current_style) ? self::$current_style : 	
-											$ilias->account->prefs['style'];
+		if (isset(self::$current_style))
+		{
+			return self::$current_style;
+		}
+
+		$cs = $ilias->account->prefs['style'];
+		
+		if (is_object($styleDefinition))
+		{
+			// are there any substyles?
+			$styles = $styleDefinition->getStyles();
+			if (is_array($styles[$cs]["substyle"]))
+			{
+				// read assignments, if given
+				$assignmnts = self::getSystemStyleCategoryAssignments(self::getCurrentSkin(), $cs);
+				if (count($assignmnts) > 0)
+				{
+					$ref_ass = array();
+					foreach ($assignmnts as $a)
+					{
+						$ref_ass[$a["ref_id"]] = $a["substyle"];
+					}
+
+					// check whether any ref id assigns a new style
+					if (is_object($tree) && $_GET["ref_id"] > 0 &&
+						$tree->isInTree($_GET["ref_id"]))
+					{
+						$path = $tree->getPathId((int) $_GET["ref_id"]);
+						for ($i = count($path) - 1; $i >= 0; $i--)
+						{
+							if (isset($ref_ass[$path[$i]]))
+							{
+								self::$current_style = $ref_ass[$path[$i]];
+								return self::$current_style;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if ($_GET["ref_id"] != "")
+		{
+			self::$current_style = $cs;
+		}
+		
+		return $cs;
 	}
 	
 	/**
@@ -425,20 +470,59 @@ class ilStyleDefinition extends ilSaxParser
 	 * @param string $a_style_id style id
 	 * @return array ref ids
 	 */
-	function getSystemStyleCategoryAssignments($a_skin_id, $a_style_id)
+	static function getSystemStyleCategoryAssignments($a_skin_id, $a_style_id)
 	{
 		global $ilDB;
 		
 		$assignmnts = array();
-		$set = $ilDB->query("SELECT category_ref_id FROM syst_style_cat ".
+		$set = $ilDB->query("SELECT substyle, category_ref_id FROM syst_style_cat ".
 			" WHERE skin_id = ".$ilDB->quote($a_skin_id, "text").
 			" AND style_id = ".$ilDB->quote($a_style_id, "text")
 			);
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$assignmnts[] = $rec["category_ref_id"];
+			$assignmnts[] = array("substyle" => $rec["substyle"],
+				"ref_id" => $rec["category_ref_id"]);
 		}
 		return $assignmnts;
+	}
+	
+	/**
+	 * Write category assignment
+	 *
+	 * @param
+	 * @return
+	 */
+	function writeSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
+		$a_substyle, $a_ref_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("INSERT INTO syst_style_cat ".
+			"(skin_id, style_id, substyle, category_ref_id) VALUES (".
+			$ilDB->quote($a_skin_id, "text").",".
+			$ilDB->quote($a_style_id, "text").",".
+			$ilDB->quote($a_substyle, "text").",".
+			$ilDB->quote($a_ref_id, "integer").
+			")");
+	}
+	
+	/**
+	 * Delete category style assignment
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteSystemStyleCategoryAssignment($a_skin_id, $a_style_id,
+		$a_substyle, $a_ref_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM syst_style_cat WHERE ".
+			" skin_id = ".$ilDB->quote($a_skin_id, "text").
+			" AND style_id = ".$ilDB->quote($a_style_id, "text").
+			" AND substyle = ".$ilDB->quote($a_substyle, "text").
+			" AND category_ref_id = ".$ilDB->quote($a_ref_id, "integer"));
 	}
 	
 }

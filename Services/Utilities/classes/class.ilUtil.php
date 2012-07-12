@@ -189,12 +189,17 @@ class ilUtil
 	public static function getStyleSheetLocation($mode = "output", $a_css_name = "", $a_css_location = "")
 	{
 		global $ilias;
-
+		
 		// add version as parameter to force reload for new releases
 		// use ilStyleDefinition instead of account to get the current style
 		require_once("./Services/Style/classes/class.ilStyleDefinition.php");
-		$stylesheet_name = (strlen($a_css_name)) ? $a_css_name : ilStyleDefinition::getCurrentStyle().".css";
-		if (strlen($a_css_location) && (strcmp(substr($a_css_location, -1), "/") != 0)) $a_css_location = $a_css_location . "/";
+		$stylesheet_name = (strlen($a_css_name))
+			? $a_css_name
+			: ilStyleDefinition::getCurrentStyle().".css";
+		if (strlen($a_css_location) && (strcmp(substr($a_css_location, -1), "/") != 0))
+		{
+			$a_css_location = $a_css_location . "/";
+		}
 
 		$filename = "";
 		// use ilStyleDefinition instead of account to get the current skin

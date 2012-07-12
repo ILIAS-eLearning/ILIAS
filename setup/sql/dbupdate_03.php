@@ -11295,3 +11295,52 @@ if(!$ilDB->tableExists('syst_style_cat'))
 	$ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'category_ref_id'));
 }
 ?>
+<#3657>
+<?php
+$ilDB->dropTable("syst_style_cat");
+$fields = array(
+	'skin_id'	=> array(
+		'type'		=> 'text',
+		'length'	=> 50,
+		'fixed'			=> false,
+		'notnull'		=> true
+	),
+	'style_id'	=> array(
+		'type'		=> 'text',
+		'length'	=> 50,
+		'fixed'			=> false,
+		'notnull'		=> true
+	),
+	'substyle'	=> array(
+		'type'		=> 'text',
+		'length'	=> 50,
+		'fixed'			=> false,
+		'notnull'		=> true
+	),
+	'category_ref_id' 		=> array(
+		'type' 			=> 'integer',
+		'length' 		=> 1,
+	)
+);
+
+$ilDB->createTable('syst_style_cat',$fields);
+$ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'substyle', 'category_ref_id'));
+
+?>
+<#3658>
+<?php
+
+	$ilDB->manipulate("DELETE FROM syst_style_cat");
+	
+	$ilDB->dropPrimaryKey('syst_style_cat');
+	$ilDB->dropTableColumn('syst_style_cat', 'category_ref_id');
+	
+	$ilDB->addTableColumn("syst_style_cat", "category_ref_id", array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+		));
+	
+	$ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'substyle', 'category_ref_id'));
+?>
