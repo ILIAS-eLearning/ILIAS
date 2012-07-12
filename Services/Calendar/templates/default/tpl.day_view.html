@@ -81,7 +81,8 @@
 		<!-- END fullday_apps -->
 		<!-- BEGIN time_row -->
 		<tr class="calstdtime">
-			<td class="calheadertime" width="1" style="vertical-align: top" nowrap="nowrap">
+			<!-- BEGIN time_txt -->
+			<td class="calheadertime" width="1" style="vertical-align: top" nowrap="nowrap" rowspan="{TIME_ROWSPAN}">
 				{TIME}
 				<!-- BEGIN new_app2 -->
 				<a class="callink" href="{NEW_APP_HOUR_LINK}">
@@ -89,6 +90,7 @@
 				</a>
 				<!-- END new_app2 -->
 			</td>
+			<!-- END time_txt -->
 			<!-- BEGIN app -->
 			<!-- PLEASE APPLY ALL CHANGES TO THIS BLOCK ALSO TO THE NEXT scrd_app BLOCK -->
 			<td id="show_{PANEL_NUM}" class="calevent" style="background-color: {APP_BGCOLOR};color: {APP_COLOR}" rowspan="{APP_ROWSPAN}">
@@ -111,7 +113,7 @@
 			</td>
 			<!-- END scrd_app_cell -->
 			<!-- BEGIN empty_cell -->
-			<td class="calempty" width="{EMPTY_WIDTH}"></td>
+			<td class="calempty{EMPTY_STYLE}" width="{EMPTY_WIDTH}"></td>
 			<!-- END empty_cell -->
 		</tr>
 		<!-- END time_row -->
