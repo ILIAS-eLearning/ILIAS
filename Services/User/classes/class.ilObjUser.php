@@ -5086,6 +5086,21 @@ class ilObjUser extends ilObject
 		}
 		return $let;
 	}
+	
+	// begin-patch deleteProgress
+	public static function userExists($a_usr_ids = array())
+	{
+		global $ilDB;
+		
+		$query = 'SELECT count(*) num FROM object_data od '.
+				'JOIN usr_data ud ON obj_id = usr_id '.
+				'WHERE '.$ilDB->in('obj_id',$a_usr_ids,false,'integer').' ';
+		$res = $ilDB->query($query);
+		$num_rows = $res->numRows();
+		
+		return $num_rows == count((array) $a_usr_ids);
+	}
+	// end-patch deleteProgress
 
 	/**
 	 * Is user captcha verified?
