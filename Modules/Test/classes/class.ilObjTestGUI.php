@@ -2660,14 +2660,8 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmRemoveQuestionsObject()
 	{
 		ilUtil::sendSuccess($this->lng->txt("tst_questions_removed"));
-		$checked_questions = array();
-
-		foreach ($_POST as $key => $value) {
-			if (preg_match("/id_(\d+)/", $key, $matches)) {
-				array_push($checked_questions, $matches[1]);
-			}
-		}
-
+		$checked_questions = $_POST["q_id"];
+		
 		$questions = $this->object->getQuestionTitlesAndIndexes();
 		$first = null;
 		
@@ -2733,49 +2727,56 @@ class ilObjTestGUI extends ilObjectGUI
 	* @access	public
 	*/
 	function removeQuestionsForm($checked_questions)
-	{
-		ilUtil::sendInfo();
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_remove_questions.html", "Modules/Test");
-		$removablequestions =& $this->object->getTestQuestions();
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
+	{		
+		$total = $this->object->evalTotalPersons();
+		if ($total) 
+		{
+			// the test was executed previously
+			$question = sprintf($this->lng->txt("tst_remove_questions_and_results"), $total);
+		} 
+		else 
+		{
+			if (count($checked_questions) == 1)
+			{
+				$question = $this->lng->txt("tst_remove_question");
+			}
+			else
+			{
+				$question = $this->lng->txt("tst_remove_questions");
+			}
+		}
+				
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($question);
+
+		$this->ctrl->saveParameter($this, 'test_express_mode');
+		$this->ctrl->saveParameter($this, 'q_id');
+		
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelRemoveQuestions");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmRemoveQuestions");
+								
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$removablequestions =& $this->object->getTestQuestions();				
 		if (count($removablequestions))
 		{
 			foreach ($removablequestions as $data)
 			{
 				if (in_array($data["question_id"], $checked_questions))
 				{
-					$this->tpl->setCurrentBlock("row");
-					$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-					$this->tpl->setVariable("TXT_TITLE", $data["title"]);
-					$this->tpl->setVariable("TXT_DESCRIPTION", $data["description"]);
-					$this->tpl->setVariable("TXT_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
-					$this->tpl->parseCurrentBlock();
-					$counter++;
+					$txt = $data["title"]." (".assQuestion::_getQuestionTypeName($data["type_tag"]).")";
+					if($data["description"])
+					{
+						$txt .= "<div class=\"small\">".$data["description"]."</div>";
+					}
+					
+					$cgui->addItem("q_id[]", $data["question_id"], $txt);
 				}
-			}
+			}		
 		}
-		foreach ($checked_questions as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "id_$id");
-			$this->tpl->setVariable("HIDDEN_VALUE", "1");
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("tst_question_title"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("tst_question_type"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-
-		$this->ctrl->saveParameter($this, 'test_express_mode');
-		$this->ctrl->saveParameter($this, 'q_id');
 		
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->setContent($cgui->getHTML());		
 	}
 
 	/**
@@ -2793,20 +2794,7 @@ class ilObjTestGUI extends ilObjectGUI
 		    $checked_questions = array($checked_questions);
 		}
 		if (count($checked_questions) > 0) 
-		{
-			$total = $this->object->evalTotalPersons();
-			if ($total) 
-			{
-				// the test was executed previously
-				ilUtil::sendInfo(sprintf($this->lng->txt("tst_remove_questions_and_results"), $total));
-			} 
-			else 
-			{
-			    if (count($checked_questions) == 1)
-				ilUtil::sendQuestion($this->lng->txt("tst_remove_question"));
-			    else
-				ilUtil::sendQuestion($this->lng->txt("tst_remove_questions"));
-			}
+		{			
 			$this->removeQuestionsForm($checked_questions);
 			return;
 		} 
@@ -3392,6 +3380,8 @@ class ilObjTestGUI extends ilObjectGUI
 	* Asks for a confirmation to delete all user data of the test object
 	*
 	* Asks for a confirmation to delete all user data of the test object
+	* 
+	* DEPRECATED?
 	*
 	* @access	public
 	*/
@@ -3440,19 +3430,16 @@ class ilObjTestGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("select_one_user"), TRUE);
 			$this->ctrl->redirect($this, "participants");
 		}
-		ilUtil::sendQuestion($this->lng->txt("confirm_delete_single_user_data"));
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_maintenance.html", "Modules/Test");
-
-		foreach ($_POST["chbUser"] as $key => $value)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("USER_ID", $value);
-			$this->tpl->parseCurrentBlock();
-		}
 		
-		include_once './Services/User/classes/class.ilObjUser.php';
-		$color_class = array("tblrow1", "tblrow2");
-		$counter = 0;
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("confirm_delete_single_user_data"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteSelectedUserData");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmDeleteSelectedUserData");
+								
+		include_once './Services/User/classes/class.ilObjUser.php';	
 		foreach ($_POST["chbUser"] as $key => $active_id)
 		{
 			if ($this->object->getFixedParticipants())
@@ -3464,44 +3451,26 @@ class ilObjTestGUI extends ilObjectGUI
 				$user_id = $this->object->_getUserIdFromActiveId($active_id);
 			}
 			$user = ilObjUser::_lookupName($user_id);
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("USER_ICON", ilUtil::getImagePath("icon_usr.png"));
-			$this->tpl->setVariable("USER_ALT", $this->lng->txt("usr"));
-			$this->tpl->setVariable("USER_TITLE", $this->lng->txt("usr"));
+		
 			if ($this->object->getAnonymity())
 			{
-				$this->tpl->setVariable("TXT_FIRSTNAME", "");
-				$this->tpl->setVariable("TXT_LASTNAME", $this->lng->txt("unknown"));
-				$this->tpl->setVariable("TXT_LOGIN", "");
+				$name = $this->lng->txt("unknown");
+			}
+			else if($user["lastname"])
+			{
+				$name = $user["lastname"].", ".$user["firstname"]." (".
+					$user["login"].")";
 			}
 			else
 			{
-				$this->tpl->setVariable("TXT_FIRSTNAME", $user["firstname"]);
-				if (strlen($user["lastname"]))
-				{
-					$this->tpl->setVariable("TXT_LASTNAME", $user["lastname"]);
-				}
-				else
-				{
-					$this->tpl->setVariable("TXT_LASTNAME", $this->lng->txt("deleted_user"));
-				}
-				$this->tpl->setVariable("TXT_LOGIN", ilObjUser::_lookupLogin($user_id));
+				$name = $this->lng->txt("deleted_user");				
 			}
-			$this->tpl->setVariable("ROW_CLASS", $color_class[$counter % 2]);
-			$this->tpl->parseCurrentBlock();
-			$counter++;
+		
+			$cgui->addItem("chbUser[]", $user_id, $name,
+				ilUtil::getImagePath("icon_usr.png"), $this->lng->txt("usr"));
 		}
-		$this->tpl->setCurrentBlock("selectedusers");
-		$this->tpl->setVariable("HEADER_TXT_FIRSTNAME", $this->lng->txt("firstname"));
-		$this->tpl->setVariable("HEADER_TXT_LASTNAME", $this->lng->txt("lastname"));
-		$this->tpl->setVariable("HEADER_TXT_LOGIN", $this->lng->txt("login"));
-		$this->tpl->setVariable("BTN_CONFIRM_DELETE_SELECTED", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL_DELETE_SELECTED", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setContent($cgui->getHTML());
 	}
 	
 	/**

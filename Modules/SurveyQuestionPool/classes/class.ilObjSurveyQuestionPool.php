@@ -1057,7 +1057,10 @@ class ilObjSurveyQuestionPool extends ilObject
 			{
 				if (in_array($data["question_id"], $question_ids))
 				{
-					array_push($found, array('title' => $data["title"], 'description' => $data["description"], 'type_tag' => $data["type_tag"]));
+					array_push($found, array('id' => $data["question_id"], 
+						'title' => $data["title"], 
+						'description' => $data["description"], 
+						'type_tag' => $data["type_tag"]));				
 				}
 			}
 		}

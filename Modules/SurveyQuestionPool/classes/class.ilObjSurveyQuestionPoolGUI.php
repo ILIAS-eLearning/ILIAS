@@ -256,17 +256,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		ilUtil::sendInfo();
 		// create an array of all checked checkboxes
 		$checked_questions = $_POST['q_id'];
 		if (count($checked_questions) > 0) 
 		{
-			if ($rbacsystem->checkAccess('write', $this->ref_id)) 
-			{
-				ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
-			} 
-			else 
-			{
+			if (!$rbacsystem->checkAccess('write', $this->ref_id)) 
+			{				
 				ilUtil::sendFailure($this->lng->txt("qpl_delete_rbac_error"));
 				$this->questionsObject();
 				return;
@@ -278,37 +273,30 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$this->questionsObject();
 			return;
 		}
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_qpl_confirm_delete_questions.html", "Modules/SurveyQuestionPool");
-		$infos = $this->object->getQuestionInfos($checked_questions);
-		$colors = array("tblrow1", "tblrow2");
-		$counter = 0;
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("qpl_confirm_delete_questions"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteQuestions");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmDeleteQuestions");
+						
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+		$infos = $this->object->getQuestionInfos($checked_questions);			
 		foreach ($infos as $data)
 		{
-			$this->tpl->setCurrentBlock("row");
-			$this->tpl->setVariable("COLOR_CLASS", $colors[$counter % 2]);
-			$this->tpl->setVariable("TXT_TITLE", $data["title"]);
-			$this->tpl->setVariable("TXT_DESCRIPTION", $data["description"]);
-			$this->tpl->setVariable("TXT_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
-			$this->tpl->parseCurrentBlock();
-			$counter++;
+			$txt = $data["title"]." (".
+				SurveyQuestion::_getQuestionTypeName($data["type_tag"]).")";
+			if($data["description"])
+			{
+				$txt .= "<div class=\"small\">".$data["description"]."</div>";
+			}
+			
+			$cgui->addItem("q_id[]", $data["id"], $txt);
 		}
-		foreach ($checked_questions as $id)
-		{
-			$this->tpl->setCurrentBlock("hidden");
-			$this->tpl->setVariable("HIDDEN_NAME", "q_id[]");
-			$this->tpl->setVariable("HIDDEN_VALUE", $id);
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("description"));
-		$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("question_type"));
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
