@@ -130,6 +130,12 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'shareSearch');
 			$current_selection_list->addItem($this->lng->txt('cal_share'), '', $url);
 		}
+		
+		if($a_set['remote'])
+		{
+			$url = $this->ctrl->getLinkTarget($this->getParentObject(), 'synchroniseCalendar');
+			$current_selection_list->addItem($this->lng->txt('cal_cal_synchronize'),'',$url);
+		}
 
 		$this->ctrl->setParameter($this->getParentObject(),'category_id','');
 
@@ -189,6 +195,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 			$tmp_arr['color'] = $category['color'];
 			$tmp_arr['editable'] = $category['editable'];
 			$tmp_arr['accepted'] = $category['accepted'];
+			$tmp_arr['remote'] = $category['remote'];
 
 			$categories[] = $tmp_arr;
 			

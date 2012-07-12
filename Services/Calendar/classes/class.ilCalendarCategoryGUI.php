@@ -164,6 +164,22 @@ class ilCalendarCategoryGUI
 		}
 		$category->add();
 		
+		
+		try {
+			
+			if($category->getLocationType() == ilCalendarCategory::LTYPE_REMOTE)
+			{
+				$this->doSynchronisation($category);
+			}
+		}
+		catch(Exception $e)
+		{
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			ilUtil::sendFailure($e->getMessage());
+			$this->manage();
+			return true;
+		}
+		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		// $this->ctrl->returnToParent($this);
 		$this->manage();
@@ -276,6 +292,42 @@ class ilCalendarCategoryGUI
 		);
 
 		$tpl->setContent($toolbar.$info->getHTML().$this->showAssignedAppointments());
+	}
+	
+	protected function synchroniseCalendar()
+	{
+		if(!$_GET['category_id'])
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		
+		$category = new ilCalendarCategory((int) $_GET['category_id']);
+
+		try {
+			$this->doSynchronisation($category);
+		}
+		catch(Exception $e) {
+			ilUtil::sendFailure($e->getMessage(),true);
+			$this->ctrl->redirect($this,'manage');
+		}
+		ilUtil::sendSuccess($this->lng->txt('cal_cal_sync_success'),true);
+		$this->ctrl->redirect($this,'manage');
+	}
+	
+	/**
+	 * Sync calendar
+	 * @param ilCalendarCategory $cat 
+	 */
+	protected function doSynchronisation(ilCalendarCategory $category)
+	{
+		include_once './Services/Calendar/classes/class.ilCalendarRemoteReader.php';
+		$remote = new ilCalendarRemoteReader($category->getRemoteUrl());
+		$remote->setUser($category->getRemoteUser());
+		$remote->setPass($category->getRemotePass());
+		$remote->read();
+		$remote->import($category);
+		
 	}
 	
 	/**
@@ -943,35 +995,39 @@ class ilCalendarCategoryGUI
 		$this->form->addItem($color);
 		
 		$location = new ilRadioGroupInputGUI($this->lng->txt('cal_type_rl'), 'type_rl');
+		$location->setDisabled($a_mode == 'edit');
 		$location_local = new ilRadioOption($this->lng->txt('cal_type_local'), ilCalendarCategory::LTYPE_LOCAL);
 		$location->addOption($location_local);
 		$location_remote = new ilRadioOption($this->lng->txt('cal_type_remote'), ilCalendarCategory::LTYPE_REMOTE);
 		$location->addOption($location_remote);
 		$location->setValue($category->getLocationType());
 		
+		
 		$url = new ilTextInputGUI($this->lng->txt('cal_remote_url'), 'remote_url');
+		$url->setDisabled($a_mode == 'edit');
+		$url->setValue($category->getRemoteUrl());
 		$url->setMaxLength(500);
 		$url->setSize(60);
 		$url->setRequired(true);
 		$location_remote->addSubItem($url);
 		
 		$user = new ilTextInputGUI($this->lng->txt('username'),'remote_user');
+		$user->setDisabled($a_mode == 'edit');
+		$user->setValue($category->getRemoteUser());
 		$user->setMaxLength(50);
 		$user->setSize(20);
 		$user->setRequired(false);
 		$location_remote->addSubItem($user);
 		
 		$pass = new ilPasswordInputGUI($this->lng->txt('password'),'remote_pass');
+		$pass->setDisabled($a_mode == 'edit');
+		$pass->setValue($category->getRemotePass());
 		$pass->setMaxLength(50);
 		$pass->setSize(20);
 		$pass->setRetype(false);
 		$location_remote->addSubItem($pass);
 		
-		
 		$this->form->addItem($location);
-		
-		
-		
 		
 	}
 

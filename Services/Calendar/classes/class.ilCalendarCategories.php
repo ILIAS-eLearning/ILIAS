@@ -566,6 +566,8 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $rbacsystem->checkAccess('edit_event',ilCalendarSettings::_getInstance()->getCalendarSettingsId());
 			$this->categories_info[$row->cat_id]['accepted'] = false;
+			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
+			
 		}
 		
 		return true;
@@ -618,6 +620,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = $row->obj_id == $ilUser->getId();
 			$this->categories_info[$row->cat_id]['accepted'] = in_array($row->cat_id, $accepted_ids);
+			$this->categories_info[$row->cat_id]['remote'] = ($row->loc_type == ilCalendarCategory::LTYPE_REMOTE);
 		}
 	}
 	
@@ -649,6 +652,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = false;
 			$this->categories_info[$row->cat_id]['accepted'] = false;
+			$this->categories_info[$row->cat_id]['remote'] = false;
 		}
 	}
 
@@ -680,6 +684,7 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
 			$this->categories_info[$row->cat_id]['editable'] = false;
 			$this->categories_info[$row->cat_id]['accepted'] = false;
+			$this->categories_info[$row->cat_id]['remote'] = false;
 		}
 	}
 	
@@ -736,6 +741,8 @@ class ilCalendarCategories
 			$this->categories_info[$row->cat_id]['title'] = $row->title;
 			$this->categories_info[$row->cat_id]['obj_type'] = ilObject::_lookupType($row->obj_id);
 			$this->categories_info[$row->cat_id]['type'] = $row->type;
+			$this->categories_info[$row->cat_id]['remote'] = false;
+			
 		}
 	}
 	
