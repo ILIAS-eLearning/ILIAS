@@ -934,7 +934,14 @@ return;
 			$add = "<br/>".sprintf($lng->txt("glo_term_is_used_n_times"), $nr)." ".$link;
 		}
 		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($this->lng->txt("info_delete_sure").$add);
 
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelDefinitionDeletion");
+		$cgui->setConfirm($this->lng->txt("confirm"), "deleteDefinition");
+		
 		// content style
 		$this->setContentStyleSheet($this->tpl);
 
@@ -943,15 +950,6 @@ return;
 		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
-
-
-		//$this->tpl->setVariable("HEADER",
-		//	$this->lng->txt("cont_term").": ".$term->getTerm());
-
-		$this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
-		ilUtil::sendQuestion($this->lng->txt("info_delete_sure").$add);
-
-		$this->tpl->setVariable("TXT_TERM", $term->getTerm());
 
 		$definition =& new ilGlossaryDefinition($_GET["def"]);
 		//$page =& new ilPageObject("gdf", $definition->getId());
@@ -962,17 +960,10 @@ return;
 		$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=".$_GET["ref_id"]);
 		$output = $page_gui->preview();
-
-		$this->tpl->setCurrentBlock("definition");
-		$this->tpl->setVariable("PAGE_CONTENT", $output);
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("LINK_CANCEL",
-			$this->ctrl->getLinkTarget($this, "cancelDefinitionDeletion"));
-		$this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirm"));
-		$this->ctrl->setParameter($this, "def", $definition->getId());
-		$this->tpl->setVariable("LINK_CONFIRM",
-			$this->ctrl->getLinkTarget($this, "deleteDefinition"));
-		$this->tpl->parseCurrentBlock();
+		
+		$cgui->addItem("def", $_GET["def"], $term->getTerm().$output);
+		
+		$this->tpl->setContent($cgui->getHTML());
 	}
 	
 	function cancelDefinitionDeletion()
@@ -983,7 +974,7 @@ return;
 
 	function deleteDefinition()
 	{
-		$definition =& new ilGlossaryDefinition($_GET["def"]);
+		$definition =& new ilGlossaryDefinition($_REQUEST["def"]);
 		$definition->delete();
 		$this->ctrl->redirect($this, "listTerms");
 	}
