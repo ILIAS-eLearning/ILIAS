@@ -15,7 +15,7 @@ include_once "./Services/Container/classes/class.ilContainerGUI.php";
  * 
  * @ilCtrl_Calls ilObjiLincCourseGUI: ilObjiLincClassroomGUI, ilPermissionGUI, ilInfoScreenGUI, ilRepositorySearchGUI
  * @ilCtrl_Calls ilObjiLincCourseGUI: ilPublicUserProfileGUI, ilColumnGUI
- *
+ * @ilCtrl_Calls ilObjiLincCourseGUI: ilCommonActionDispatcherGUI
  */
 class ilObjiLincCourseGUI extends ilContainerGUI
 {
