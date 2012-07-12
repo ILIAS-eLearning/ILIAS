@@ -12844,6 +12844,8 @@ dateplaner#:#cal_type_local#:#Local Calendar
 dateplaner#:#cal_type_remote#:#Web Calendar
 dateplaner#:#cal_remote_url#:#URL
 dateplaner#:#cal_type_rl_info#:#If you know the address to a calendar (in ical format), you can type the address here.
-style#:#sty_move_user_styles#:#Change Style of Users
 dateplaner#:#cal_cal_synchronize#:#Synchronise Calendar
 dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar
+style#:#sty_substyle#:#Substyle
+style#:#sty_cat_assignments#:#Style/Category Assignments
+style#:#sty_add_assignment#:#Add Assignment

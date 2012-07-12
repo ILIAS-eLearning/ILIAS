@@ -93,12 +93,32 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilClientIniFile, $ilCtrl;
-//var_dump($a_set);
+
+		$cat_ass = ilStyleDefinition::getSystemStyleCategoryAssignments($a_set["template_id"],
+			$a_set["style_id"]);
 
 		if (is_array($a_set["substyle"]))
 		{
 			foreach ($a_set["substyle"] as $substyle)
 			{
+				reset($cat_ass);
+				$cats = false;
+				foreach($cat_ass as $ca)
+				{
+					if ($ca["substyle"] == $substyle["id"])
+					{
+						$this->tpl->setCurrentBlock("cat");
+						$this->tpl->setVariable("CAT", ilObject::_lookupTitle(
+							ilObject::_lookupObjId($ca["ref_id"])));
+						$this->tpl->parseCurrentBlock();
+						$cats = true;
+					}
+				}
+				if ($cats)
+				{
+					$this->tpl->touchBlock("cats");
+				}
+				
 				$this->tpl->setCurrentBlock("substyle");
 				$this->tpl->setVariable("SUB_STYLE", $substyle["name"]);
 				$this->tpl->parseCurrentBlock();

@@ -22,20 +22,24 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->getStyleCatAssignments();
-		$this->setTitle($lng->txt(""));
+		
 		
 		$style_arr = explode(":", $_GET["style_id"]);
 		$this->skin_id = $style_arr[0];
 		$this->style_id = $style_arr[1];
 		
-		$this->addColumn($this->lng->txt(""), "", "1");
+		$this->getStyleCatAssignments();
+		$this->setTitle($lng->txt("sty_cat_assignments").", ".
+			$this->skin_id."/".$this->style_id);
+		
+		$this->addColumn("", "", "1");
+		$this->addColumn($this->lng->txt("sty_substyle"));
+		$this->addColumn($this->lng->txt("obj_cat"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl..html", "");
+		$this->setRowTemplate("tpl.sty_cat_ass_row.html", "Services/Style");
 
-		$this->addMultiCommand("", $lng->txt(""));
-		$this->addCommandButton("", $lng->txt(""));
+		$this->addMultiCommand("deleteSysStyleCatAssignments", $lng->txt("delete"));
 	}
 	
 	/**
@@ -46,10 +50,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
 	 */
 	function getStyleCatAssignments()
 	{
-		$stdef = new ilStyleDefinition($this->skin_id);
-//var_dump($stdef);
-
-//		$this->setData();
+		$this->setData(ilStyleDefinition::getSystemStyleCategoryAssignments($this->skin_id, $this->style_id));
 	}
 	
 	
@@ -60,7 +61,10 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		//$this->tpl->setVariable("", );
+		$this->tpl->setVariable("REF_ID", $a_set["ref_id"]);
+		$this->tpl->setVariable("SUBSTYLE", $a_set["substyle"]);
+		$this->tpl->setVariable("CATEGORY",
+			ilObject::_lookupTitle(ilObject::_lookupObjId($a_set["ref_id"])));
 	}
 
 }

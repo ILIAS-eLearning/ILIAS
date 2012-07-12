@@ -1171,12 +1171,35 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	  */
 	 function assignStylesToCatsObject()
 	 {
-	 	global $ilToolbar, $ilCtrl, $tpl, $lng;
+	 	global $ilToolbar, $ilCtrl, $tpl, $lng, $rbacsystem;
 	 	
 	 	$ilCtrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
 	 	
-	 	$ilToolbar->addButton($lng->txt("sty_add_assignment"),
-	 		$ilCtrl->getLinkTarget($this, "addStyleCatAssignment"));
+	 	if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			return;
+		}
+	 	
+	 	$all_styles = ilStyleDefinition::getAllSkinStyles();
+	 	$sel_style = $all_styles[$_GET["style_id"]];
+
+	 	$options = array();
+	 	if (is_array($sel_style["substyle"]))
+	 	{
+	 		foreach ($sel_style["substyle"] as $subst)
+	 		{
+	 			$options[$subst["id"]] = $subst["name"];
+	 		}
+	 	}
+	 	
+	 	// substyle
+	 	include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+	 	$si = new ilSelectInputGUI($this->lng->txt("sty_substyle"), "substyle");
+	 	$si->setOptions($options);
+	 	$ilToolbar->addInputItem($si, true);
+	 	
+	 	$ilToolbar->addFormButton($lng->txt("sty_add_assignment"), "addStyleCatAssignment");
+	 	$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 	 	
 	 	include_once("./Services/Style/classes/class.ilSysStyleCatAssignmentTableGUI.php");
 	 	$tab = new ilSysStyleCatAssignmentTableGUI($this, "assignStylesToCats");
@@ -1184,5 +1207,92 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 	$tpl->setContent($tab->getHTML());
 	 }
 	 
+	 
+	/**
+	 * Add style category assignment
+	 *
+	 * @param
+	 * @return
+	 */
+	function addStyleCatAssignmentObject()
+	{
+		global $ilCtrl, $ilTabs, $lng, $tree, $tpl, $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			return;
+		}
+
+		$ilCtrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
+		$ilCtrl->setParameter($this, "substyle", urlencode($_REQUEST["substyle"]));
+		
+		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
+		$exp = new ilSearchRootSelector(
+			$ilCtrl->getLinkTarget($this,'addStyleCatAssignment'));
+		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
+		$exp->setExpandTarget($ilCtrl->getLinkTarget($this,'addStyleCatAssignment'));
+		$exp->setTargetClass(get_class($this));
+		$exp->setCmd('saveStyleCatAssignment');
+		$exp->setClickableTypes(array("cat"));
+		
+		// build html-output
+		$exp->setOutput(0);
+		$tpl->setContent($exp->getOutput());
+	}
+	
+	
+	/**
+	 * Save style category assignment
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveStyleCatAssignmentObject()
+	{
+		global $lng, $ilCtrl, $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			return;
+		}
+
+		$ilCtrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
+		
+		$style_arr = explode(":", $_GET["style_id"]);
+		ilStyleDefinition::writeSystemStyleCategoryAssignment($style_arr[0], $style_arr[1],
+			$_GET["substyle"], $_GET["root_id"]);
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+		$ilCtrl->redirect($this, "assignStylesToCats");
+	}
+	
+	/**
+	 * Delete system style to category assignments
+	 */
+	function deleteSysStyleCatAssignmentsObject()
+	{
+		global $ilCtrl, $lng, $rbacsystem;
+		
+		if (!$rbacsystem->checkAccess("write", $this->object->getRefId()))
+		{
+			return;
+		}
+
+		$ilCtrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
+		$style_arr = explode(":", $_GET["style_id"]);
+		if (is_array($_POST["id"]))
+		{
+			foreach ($_POST["id"] as $id)
+			{
+				$id_arr = explode(":", $id);
+				ilStyleDefinition::deleteSystemStyleCategoryAssignment($style_arr[0], $style_arr[1],
+					$id_arr[0], $id_arr[1]);
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		
+		$ilCtrl->redirect($this, "assignStylesToCats");
+	}
+	
 }
 ?>
