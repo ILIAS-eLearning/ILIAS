@@ -192,6 +192,7 @@ class ilStyleDefinition extends ilSaxParser
 				break;
 
 			case "style" :
+				$this->last_style_id = $a_attribs["id"];
 				$this->styles[$a_attribs["id"]] =
 					array(	"id" => $a_attribs["id"],
 							"name" => $a_attribs["name"],
@@ -205,6 +206,16 @@ class ilStyleDefinition extends ilSaxParser
 				{
 					$this->styles[$a_attribs["id"]]["browsers"][] = trim($val);
 				}
+				break;
+				
+			case "substyle":
+				$this->styles[$this->last_style_id]["substyle"][$a_attribs["id"]] =
+					array(	"id" => $a_attribs["id"],
+							"name" => $a_attribs["name"],
+							"css_file" => $a_attribs["id"].".css",
+							"image_directory" => $a_attribs["image_directory"],
+							"sound_directory" => $a_attribs["sound_directory"]
+					);
 				break;
 		}
 	}
@@ -342,7 +353,7 @@ class ilStyleDefinition extends ilSaxParser
 	public static function setCurrentSkin($a_skin)
 	{
 		global $styleDefinition;
-		
+
 		if (is_object($styleDefinition)
 		and $styleDefinition->getTemplateId() != $a_skin)
 		{
@@ -397,6 +408,7 @@ class ilStyleDefinition extends ilSaxParser
 						"template_id" => $template["id"],
 						"style_id" => $style["id"],
 						"template_name" => $styleDef->getTemplateName(),
+						"substyle" => $style["substyle"],
 						"style_name" => $style["name"],
 						"users" => $num_users
 						);
@@ -404,6 +416,29 @@ class ilStyleDefinition extends ilSaxParser
 		}
 
 		return $all_styles;
+	}
+	
+	/**
+	 * Get all system style category assignments
+	 *
+	 * @param string $a_skin_id skin id
+	 * @param string $a_style_id style id
+	 * @return array ref ids
+	 */
+	function getSystemStyleCategoryAssignments($a_skin_id, $a_style_id)
+	{
+		global $ilDB;
+		
+		$assignmnts = array();
+		$set = $ilDB->query("SELECT category_ref_id FROM syst_style_cat ".
+			" WHERE skin_id = ".$ilDB->quote($a_skin_id, "text").
+			" AND style_id = ".$ilDB->quote($a_style_id, "text")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$assignmnts[] = $rec["category_ref_id"];
+		}
+		return $assignmnts;
 	}
 	
 }

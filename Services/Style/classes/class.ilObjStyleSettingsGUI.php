@@ -1162,5 +1162,27 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 	 		$tpl->setContent($form->getHtml());
 	 	}
 	 }
+	 
+	 /**
+	  * Assign styles to cats
+	  *
+	  * @param
+	  * @return
+	  */
+	 function assignStylesToCatsObject()
+	 {
+	 	global $ilToolbar, $ilCtrl, $tpl, $lng;
+	 	
+	 	$ilCtrl->setParameter($this, "style_id", urlencode($_GET["style_id"]));
+	 	
+	 	$ilToolbar->addButton($lng->txt("sty_add_assignment"),
+	 		$ilCtrl->getLinkTarget($this, "addStyleCatAssignment"));
+	 	
+	 	include_once("./Services/Style/classes/class.ilSysStyleCatAssignmentTableGUI.php");
+	 	$tab = new ilSysStyleCatAssignmentTableGUI($this, "assignStylesToCats");
+	 	
+	 	$tpl->setContent($tab->getHTML());
+	 }
+	 
 }
 ?>

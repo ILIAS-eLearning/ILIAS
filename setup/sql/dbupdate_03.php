@@ -11267,3 +11267,31 @@ $ilDB->free($stmt);
 		));
 	}
 ?>
+
+<#3656>
+<?php
+
+if(!$ilDB->tableExists('syst_style_cat'))
+{
+	$fields = array(
+		'skin_id'	=> array(
+			'type'		=> 'text',
+			'length'	=> 100,
+			'fixed'			=> false,
+			'notnull'		=> true
+		),
+		'style_id'	=> array(
+			'type'		=> 'text',
+			'length'	=> 100,
+			'fixed'			=> false,
+			'notnull'		=> true
+		),
+		'category_ref_id' 		=> array(
+			'type' 			=> 'integer',
+			'length' 		=> 1,
+		)
+	);
+	$ilDB->createTable('syst_style_cat',$fields);
+	$ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'category_ref_id'));
+}
+?>
