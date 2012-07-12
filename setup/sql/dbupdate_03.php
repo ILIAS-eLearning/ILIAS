@@ -11227,3 +11227,7 @@ $ilDB->free($stmt);
 		$ilDB->createSequence('qpl_fb_matching');
 	}
 ?>
+<#3654>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
