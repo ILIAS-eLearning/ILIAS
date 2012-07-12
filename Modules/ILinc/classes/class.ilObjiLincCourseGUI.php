@@ -141,46 +141,53 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$ilinc = new ilnetucateXMLAPI();
 			$ilinc->addCourse($_POST['Fobject']);
 			
-			$response = $ilinc->sendRequest();			
-			if($response->isError())
+			$this->iLincAddCourseResponse = $ilinc->sendRequest();			
+			if($this->iLincAddCourseResponse->isError())
 			{
-				$this->ilErr->raiseError($response->getErrorMsg(), $this->ilErr->MESSAGE);
+				$this->ilErr->raiseError($this->iLincAddCourseResponse->getErrorMsg(), $this->ilErr->MESSAGE);
 			}			
 			
-			// if everything ok, create and insert ilinc course in ILIAS
-			$icrsObj = parent::saveObject();
-	
-			// save ilinc_id in ILIAS and save data
-			$icrsObj->storeiLincId($response->getFirstID());
-			$icrsObj->saveActivationStatus(ilUtil::tf2yn((bool)$this->form_gui->getInput('activated')));
-			$icrsObj->saveAKClassValues(
-				$this->form_gui->getInput('akclassvalue1'), 
-				$this->form_gui->getInput('akclassvalue2')
-			);
-			
-			// ...finally assign icrsadmin role to creator of icrs object
-			$success = $icrsObj->addMember($this->ilias->account, $icrsObj->getDefaultAdminRole(), true);
-	
-			if(!$success)
-			{
-				$this->ilErr->raiseError($icrsObj->getErrorMsg(), $this->ilErr->MESSAGE);
-			}
-	
-	//		$icrsObj->setRegistrationFlag($_POST["enable_registration"]); //0=no registration, 1=registration enabled 2=passwordregistration
-	//		$icrsObj->setPassword($_POST["password"]);
-	//		$icrsObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
-	
-			$this->ilias->account->addDesktopItem($icrsObj->getRefId(), 'icrs');	
-	
-			// always send a message
-			ilUtil::sendInfo($this->lng->txt('icrs_added'), true);			
-			$this->redirectToRefId((int)$_GET['ref_id']);
+			// if everything ok
+			parent::saveObject();
 		}
 		else
 		{
 			$this->form_gui->setValuesByPost();
 			return $this->tpl->setVariable('ADM_CONTENT', $this->form_gui->getHtml());
 		}
+	}
+	
+	/**
+	 * @param ilObjiLincCourse $a_new_object 
+	 */
+	protected function afterSave(ilObject $a_new_object)
+	{
+		// save ilinc_id in ILIAS and save data
+		$a_new_object->storeiLincId($this->iLincAddCourseResponse->getFirstID());
+		$a_new_object->saveActivationStatus(ilUtil::tf2yn((bool)$this->form_gui->getInput('activated')));
+		$a_new_object->saveAKClassValues(
+			$this->form_gui->getInput('akclassvalue1'), 
+			$this->form_gui->getInput('akclassvalue2')
+		);
+
+		// ...finally assign icrsadmin role to creator of icrs object
+		$success = $a_new_object->addMember($this->ilias->account, $a_new_object->getDefaultAdminRole(), true);
+
+		if(!$success)
+		{
+			ilUtil::sendFailure($a_new_object->getErrorMsg(), true);
+			$this->ctrl->returnToParent($this);
+		}
+
+//		$icrsObj->setRegistrationFlag($_POST["enable_registration"]); //0=no registration, 1=registration enabled 2=passwordregistration
+//		$icrsObj->setPassword($_POST["password"]);
+//		$icrsObj->setExpirationDateTime($_POST["expirationdate"]." ".$_POST["expirationtime"].":00");
+
+		$this->ilias->account->addDesktopItem($a_new_object->getRefId(), 'icrs');	
+
+		// always send a message
+		ilUtil::sendInfo($this->lng->txt('icrs_added'), true);			
+		$this->redirectToRefId((int)$_GET['ref_id']);
 	}
 	
 	/**
