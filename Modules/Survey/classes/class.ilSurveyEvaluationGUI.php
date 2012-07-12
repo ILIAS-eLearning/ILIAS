@@ -495,13 +495,17 @@ class ilSurveyEvaluationGUI
 		$surveyname = ilUtil::getASCIIFilename(preg_replace("/\s/", "_", $this->object->getTitle()));
 		$csvfile = array();
 		$csvrow = array();
+		$csvrow2 = array();
 		$questions = array();
 		$questions =& $this->object->getSurveyQuestions(true);
 		array_push($csvrow, $this->lng->txt("username"));
 		array_push($csvrow, $this->lng->txt("login"));
+		array_push($csvrow2, "");
+		array_push($csvrow2, "");
 		if ($this->object->canExportSurveyCode())
 		{
 			array_push($csvrow, $this->lng->txt("codes"));
+			array_push($csvrow2, "");
 		}
 		/* #8211
 		if ($this->object->getAnonymize() == ANONYMIZE_OFF)
@@ -510,14 +514,34 @@ class ilSurveyEvaluationGUI
 		}		 
 	    */
 		$cellcounter = 1;
+		
 		foreach ($questions as $question_id => $question_data)
 		{
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question = SurveyQuestion::_instanciateQuestion($question_data["question_id"]);
-			$question->addUserSpecificResultsExportTitles($csvrow, $export_label);
+			switch ($export_label)
+			{
+				case "label_only":
+					$question->addUserSpecificResultsExportTitles($csvrow, true);					
+					break;
+					
+				case "title_only":
+					$question->addUserSpecificResultsExportTitles($csvrow, false);	
+					break;
+					
+				default:
+					$question->addUserSpecificResultsExportTitles($csvrow, false);		
+					$question->addUserSpecificResultsExportTitles($csvrow2, true, false);		
+					break;
+			}
+			
 			$questions[$question_data["question_id"]] = $question;
 		}
 		array_push($csvfile, $csvrow);
+		if(sizeof($csvrow2) && implode("", $csvrow2))
+		{
+			array_push($csvfile, $csvrow2);
+		}
 		$participants =& $this->object->getSurveyFinishedIds();
 		foreach ($participants as $user_id)
 		{

@@ -1904,23 +1904,26 @@ class SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
+	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
 	{
-		// get title by label option
-		switch($a_export_label)
+		if(!$a_use_label)
 		{
-			case "label_only":
-				array_push($a_array, $this->label ? $this->label : $this->title);		
-				break;
-				
-			case "title_only":
-				array_push($a_array, $this->title);
-				break;
-				
-			default:
-				array_push($a_array, $this->label  ? $this->title.' - '.$this->label : $this->title);		
-				break;
+			$title = $this->title;			
 		}
+		else
+		{
+			if($a_substitute)
+			{
+				$title = $this->label ? $this->label : $this->title;
+			}
+			else
+			{
+				$title = $this->label;
+			}
+		}	
+		
+		array_push($a_array, $title);
+		return $title;
 	}
 
 	/**
