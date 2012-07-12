@@ -750,7 +750,7 @@ div.il_ExplorerTree
 
 ul.il_Explorer
 {
-	margin: 0px 0px 0px 10px;
+	margin: 0px;
 	padding: 0px;
 	list-style:none;
 }
@@ -764,7 +764,7 @@ ul.il_ExplorerNoIndent
 
 li.il_Explorer
 {
-	margin: 0px;
+	margin: 0px 0px 0px 25px;
 	padding: 0px;
 	white-space: nowrap;
 }

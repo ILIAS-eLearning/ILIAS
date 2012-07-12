@@ -209,9 +209,17 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 		}
 		else			// output text only
 		{
+			$obj_title = ilUtil::shortenText(
+				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true);
+			
+			// highlight current node
+			if($a_node_id == $this->highlighted)
+			{
+				$obj_title = "<span class=\"ilHighlighted\">".$obj_title."</span>";
+			}
+			
 			$tpl->setCurrentBlock("text");
-			$tpl->setVariable("OBJ_TITLE", ilUtil::shortenText(
-				$this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]), $this->textwidth, true));
+			$tpl->setVariable("OBJ_TITLE", $obj_title);
 			$tpl->setVariable("OBJ_DESC", ilUtil::shortenText(
 				$this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]), $this->textwidth, true));			
 			$tpl->parseCurrentBlock();

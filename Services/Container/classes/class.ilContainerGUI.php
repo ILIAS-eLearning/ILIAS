@@ -2072,7 +2072,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$exp->setTargetGet('ref_id');				
 		$exp->setPostVar('node');
 		$exp->setCheckedItems(array((int)$_POST['node']));
-
+		$exp->highlightNode($_GET['ref_id']);
+		
 		if($_GET['paste_cut_repexpand'] == '')
 		{
 			$expanded = $this->tree->readRootId();
