@@ -12836,4 +12836,9 @@ rbac#:#exc_copy#:#User can copy exercise
 rbac#:#catr_copy#:#User can copy category reference
 rbac#:#crsr_copy#:#User can copy course reference
 rbac#:#file_copy#:#User can copy file
+dateplaner#:#cal_type_rl#:#Calendar Location
+dateplaner#:#cal_type_local#:#Local Calendar
+dateplaner#:#cal_type_remote#:#Web Calendar
+dateplaner#:#cal_remote_url#:#URL
+dateplaner#:#cal_type_rl_info#:#If you know the address to a calendar (in ical format), you can type the address here.
 style#:#sty_move_user_styles#:#Change Style of Users
