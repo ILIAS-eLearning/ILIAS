@@ -1993,6 +1993,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showLinkIntoMultipleObjectsTree'));
 		$exp->setTargetGet('ref_id');				
 		$exp->setPostVar('nodes[]');
+		$exp->highlightNode($_GET['ref_id']);
 		is_array($_POST['nodes']) ? $exp->setCheckedItems((array)$_POST['nodes']) : $exp->setCheckedItems(array());
 
 		if($_GET['paste_linked_repexpand'] == '')
