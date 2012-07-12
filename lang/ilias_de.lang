@@ -5762,7 +5762,7 @@ content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
 content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
 content#:#cont_ed_insert_section#:#Block einfügen
 content#:#cont_ed_insert_skills#:#Kompetenzen einfügen
-content#:#cont_ed_insert_tabs#:#Register einfügen
+content#:#cont_ed_insert_tabs#:#Akkordeon einfügen
 content#:#cont_ed_insert_verification#:#Zertifikat einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
 content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
@@ -5919,7 +5919,7 @@ content#:#cont_insert_src#:#Programmcode einfügen
 content#:#cont_insert_subchapter#:#Unterkapitel einfügen
 content#:#cont_insert_subchapter_from_clip#:#Unterkapitel aus Zwischenablage einfügen
 content#:#cont_insert_table#:#Tabelle einfügen
-content#:#cont_insert_tabs#:#Register einfügen
+content#:#cont_insert_tabs#:#Akkordeon einfügen
 content#:#cont_insert_verification#:#Zertifikat hinzufügen
 content#:#cont_inst_map_areas#:#Verlinkte Bereiche der Instanz
 content#:#cont_interactions#:#Speicherung der Ergebnisse aus Aufgaben (interactions) ermöglichen
@@ -6351,7 +6351,7 @@ content#:#cont_tabs#:#Register
 content#:#cont_tabs_acc_hor#:#Horizontales Akkordeon
 content#:#cont_tabs_acc_ver#:#Vertikales Akkordeon
 content#:#cont_tabs_accordion#:#Akkordeon
-content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass alle Tabs und ihre Inhalte gelöscht werden sollen.
+content#:#cont_tabs_confirm_deletion#:#Sind Sie sicher, dass diese Register mit ihren Inhalten gelöscht werden sollen?
 content#:#cont_tabs_hor_align_info#:#Horizontale Akkordeons sind immer linksbündig angeordnet.
 content#:#cont_tabs_hor_tabs#:#Horizontale Akkordeons
 content#:#cont_target_missing#:#Zielpunkt fehlt
