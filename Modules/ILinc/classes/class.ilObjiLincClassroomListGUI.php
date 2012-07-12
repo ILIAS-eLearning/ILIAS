@@ -84,18 +84,17 @@ class ilObjiLincClassroomListGUI extends ilObjectListGUI
 		// initialization
 		$this->tpl = new ilTemplate("tpl.container_list_item.html", true, true,
 			"Services/Container");
-		$this->ctpl = new ilTemplate("tpl.container_list_item_commands.html", true, true,
-			"Services/Container");
+
 		$this->initItem($a_icrs_ref_id, $a_icla_id, $a_title, $a_description);
 
 		// commands
-		$this->insertCommands();
+		$cmdSelList = $this->insertCommands();
 		
 		if($this->getCommandsStatus())
 		{
 			if(!$this->getSeparateCommands())
 			{
-				$this->tpl->setVariable("COMMANDS", $this->ctpl->get());
+				$this->tpl->setVariable("COMMAND_SELECTION_LIST", $cmdSelList);
 			}
 		}
 
