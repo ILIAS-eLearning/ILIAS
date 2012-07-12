@@ -1720,33 +1720,42 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
+	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
 	{		
-		parent::addUserSpecificResultsExportTitles($a_array, $a_export_label);
+		parent::addUserSpecificResultsExportTitles($a_array, $a_use_label, $a_substitute);
 	
 		for ($i = 0; $i < $this->getRowCount(); $i++)
 		{
 			// create row title according label, add 'other column'
 			$row = $this->getRow($i);
-			switch ($a_export_label)
+			
+			if(!$a_use_label)
 			{
-				case "label_only":
-					$title = $row->label ? $row->label : $row->title;
-					break;
-					
-				case "title_only":
-					$title = $row->title;
-					break;
-					
-				default:
-					$title = $row->label ? $row->title." - ".$row->label : $row->title;
-					break;
+				$title = $row->title;	
 			}
+			else
+			{
+				if($a_substitute)
+				{
+					$title = $row->label ? $row->label : $row->title;
+				}
+				else
+				{
+					$title = $row->label;
+				}
+			}				
 			array_push($a_array, $title);
 
 			if ($row->other)
 			{
-				array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
+				if(!$a_use_label || $a_substitute)
+				{
+					array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
+				}
+				else
+				{
+					array_push($a_array, "");
+				}
 			}
 			
 			switch ($this->getSubtype())
@@ -1757,7 +1766,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
 					for ($index = 0; $index < $this->getColumnCount(); $index++)
 					{
 						$col = $this->getColumn($index);
-						array_push($a_array, ($index+1) . " - " . $col->title);
+						if(!$a_use_label || $a_substitute)
+						{
+							array_push($a_array, ($index+1) . " - " . $col->title);
+						}
+						else
+						{
+							array_push($a_array, "");
+						}
 					}
 					break;
 			}

@@ -675,20 +675,35 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
+	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
 	{
-		parent::addUserSpecificResultsExportTitles($a_array, $a_export_label);
+		parent::addUserSpecificResultsExportTitles($a_array, $a_use_label, $a_substitute);
 		
 		for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 		{
 			$category = $this->categories->getCategory($index);
 			$title = $category->title;
-			array_push($a_array, $title);
+			
+			if(!$a_use_label || $a_substitute)
+			{
+				array_push($a_array, $title);
+			}
+			else
+			{
+				array_push($a_array, "");
+			}
 			
 			// optionally add headers for text answers
 			if ($category->other)
 			{
-				array_push($a_array, $title . " - ". $this->lng->txt("other"));
+				if(!$a_use_label || $a_substitute)
+				{
+					array_push($a_array, $title . " - ". $this->lng->txt("other"));
+				}
+				else
+				{
+					array_push($a_array, "");
+				}
 			}
 		}
 	}

@@ -775,24 +775,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 	* @param array $a_array An array which is used to append the title row entries
 	* @access public
 	*/
-	function addUserSpecificResultsExportTitles(&$a_array, $a_export_label = "")
+	function addUserSpecificResultsExportTitles(&$a_array, $a_use_label = false, $a_substitute = true)
 	{
-		// add label dependent title
-		switch($a_export_label)
-		{
-			case "label_only":
-				$title = $this->label ? $this->label : $this->title;		
-				break;
-				
-			case "title_only":
-				$title = $this->title;
-				break;
-				
-			default:
-				$title = $this->label  ? $this->title.' - '.$this->label : $this->title;		
-				break;		
-		}	
-		array_push($a_array, $title);
+		$title = parent::addUserSpecificResultsExportTitles($a_array, $a_use_label, $a_substitute);
 
 		// optionally add header for text answer
 		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
@@ -800,7 +785,14 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
 			$cat = $this->categories->getCategory($i);
 			if ($cat->other)
 			{
-				array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
+				if(!$a_use_label || $a_substitute)
+				{
+					array_push($a_array, $title. ' - '. $this->lng->txt('other'));	
+				}
+				else
+				{
+					array_push($a_array, "");
+				}
 				break;	
 			}
 		}
