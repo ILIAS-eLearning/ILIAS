@@ -120,7 +120,21 @@ class ilCalendarDayGUI
 	protected function show()
 	{
 		global $lng, $ilUser;
+				
+		// config
+		$raster = 15;	
+		if($this->user_settings->getDayStart())
+		{
+			// push starting point to last "slot" of hour BEFORE morning aggregation
+			$morning_aggr = ($this->user_settings->getDayStart()-1)*60+(60-$raster);
+		}
+		else
+		{
+			$morning_aggr = 0;
+		}
+		$evening_aggr = $this->user_settings->getDayEnd()*60;
 		
+						
 		$this->tpl = new ilTemplate('tpl.day_view.html',true,true,'Services/Calendar');
 		
 		include_once('./Services/YUI/classes/class.ilYuiUtil.php');
@@ -147,9 +161,10 @@ class ilCalendarDayGUI
 		$this->scheduler->addSubitemCalendars(true);
 		$this->scheduler->calculate();
 		$daily_apps = $this->scheduler->getByDay($this->seed,$this->timezone);
-		$hours = $this->parseHourInfo($daily_apps,
-			$this->user_settings->getDayStart(),
-			$this->user_settings->getDayEnd()
+		$hours = $this->parseInfoIntoRaster($daily_apps,
+			$morning_aggr,
+			$evening_aggr,
+			$raster		
 		);
 		
 		$colspan = $this->calculateColspan($hours);
@@ -205,23 +220,43 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('COLSPAN',$colspan - 1);
 		$this->tpl->parseCurrentBlock();
 		
-
 		// parse the hour rows
 		foreach($hours as $numeric => $hour)
-		{
-			if(!$no_add)
-			{
-				$this->tpl->setCurrentBlock("new_app2");
-				$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
-				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
-				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->seed->get(IL_CAL_DATE));
-				$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',$numeric);
-				$this->tpl->setVariable('NEW_APP_HOUR_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
-				$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.png'));
-				$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
-				$this->tpl->parseCurrentBlock();
+		{						
+			if(!($numeric%60) || ($numeric == $morning_aggr && $morning_aggr) || 
+				($numeric == $evening_aggr && $evening_aggr))
+			{				
+				if(!$no_add)
+				{
+					$this->tpl->setCurrentBlock("new_app2");
+					$this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','seed',$this->seed->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','idate',$this->seed->get(IL_CAL_DATE));
+					$this->ctrl->setParameterByClass('ilcalendarappointmentgui','hour',floor($numeric/60));
+					$this->tpl->setVariable('NEW_APP_HOUR_LINK',$this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui','add'));
+					$this->tpl->setVariable('NEW_APP_SRC',ilUtil::getImagePath('date_add.png'));
+					$this->tpl->setVariable('NEW_APP_ALT',$this->lng->txt('cal_new_app'));
+					$this->tpl->parseCurrentBlock();
+				}		
+				
+				// aggregation rows 
+				if(($numeric == $morning_aggr && $morning_aggr) || 
+					($numeric == $evening_aggr && $evening_aggr))
+				{
+					$this->tpl->setVariable('TIME_ROWSPAN', 1);
+				}
+				// rastered hour
+				else
+				{
+					$this->tpl->setVariable('TIME_ROWSPAN', 60/$raster);
+				}
+				
+				$this->tpl->setCurrentBlock('time_txt');
+				
+				$this->tpl->setVariable('TIME',$hour['txt']);
+				$this->tpl->parseCurrentBlock();				
 			}
-
+			
 			foreach($hour['apps_start'] as $app)
 			{
 				$this->showAppointment($app);
@@ -236,12 +271,19 @@ class ilCalendarDayGUI
 			{
 				$this->tpl->setCurrentBlock('empty_cell');
 				$this->tpl->setVariable('EMPTY_WIDTH',(100 / (int) ($colspan - 1)).'%');
+				
+				// last "slot" of hour needs border
+				if($numeric%60 == 60-$raster || 
+					($numeric == $morning_aggr && $morning_aggr) || 
+					($numeric == $evening_aggr && $evening_aggr))
+				{
+					$this->tpl->setVariable('EMPTY_STYLE', ' calempty_border');
+				}
+				
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock('time_row');
-			$this->tpl->setVariable('TIME',$hour['txt']);
-			$this->tpl->parseCurrentBlock();
 			
+			$this->tpl->touchBlock('time_row');			
 		}
 	}
 	
@@ -406,9 +448,10 @@ class ilCalendarDayGUI
 	 * @access protected
 	 * @return array hours
 	 */
-	protected function parseHourInfo($daily_apps, $morning_aggr = 7,$evening_aggr = 20)
-	{
-		for($i = $morning_aggr;$i <= $evening_aggr;$i++)
+	protected function parseInfoIntoRaster($daily_apps, $morning_aggr, $evening_aggr, $raster)
+	{		
+		$hours = array();
+		for($i = $morning_aggr;$i <= $evening_aggr;$i+=$raster)
 		{
 			$hours[$i]['apps_start'] = array();
 			$hours[$i]['apps_num'] = 0;
@@ -418,10 +461,14 @@ class ilCalendarDayGUI
 				case ilCalendarSettings::TIME_FORMAT_24:
 					if ($morning_aggr > 0 && $i == $morning_aggr)
 					{
-						$hours[$i]['txt'] = sprintf('%02d:00',0)."-";
+						$hours[$i]['txt'] = sprintf('%02d:00',0)."-".
+							sprintf('%02d:00',ceil(($i+1)/60));
 					}
-					$hours[$i]['txt'].= sprintf('%02d:00',$i);
-					if ($evening_aggr < 23 && $i == $evening_aggr)
+					else
+					{
+						$hours[$i]['txt'].= sprintf('%02d:%02d',floor($i/60),$i%60);
+					}
+					if ($evening_aggr < 23*60 && $i == $evening_aggr)
 					{
 						$hours[$i]['txt'].= "-".sprintf('%02d:00',23);
 					}
@@ -432,8 +479,8 @@ class ilCalendarDayGUI
 					{
 						$hours[$i]['txt'] = date('h a',mktime(0,0,0,1,1,2000))."-";
 					}
-					$hours[$i]['txt'] = date('h a',mktime($i,0,0,1,1,2000));
-					if ($evening_aggr < 23 && $i == $evening_aggr)
+					$hours[$i]['txt'] = date('h a',mktime(floor($i/60),$i%60,0,1,1,2000));
+					if ($evening_aggr < 23*60 && $i == $evening_aggr)
 					{
 						$hours[$i]['txt'].= "-".date('h a',mktime(23,0,0,1,1,2000));
 					}
@@ -458,26 +505,26 @@ class ilCalendarDayGUI
 			}
 			else
 			{
-				$start = $app['start_info']['hours'];
+				$start = $app['start_info']['hours']*60+$app['start_info']['minutes'];
 			}
 			// end hour for this day
 			if($app['end_info']['mday'] != $this->seed_info['mday'])
 			{
-				$end = 23;
+				$end = 23*60;
 			}
 			elseif($app['start_info']['hours'] == $app['end_info']['hours'])
 			{
-				$end = $start +1;
+				$end = $start+$raster;
 			}
 			else
 			{
-				$end = $app['end_info']['hours'];
+				$end = $app['end_info']['hours']*60+$app['end_info']['minutes'];
 			}
 			
 			// set end to next hour for screen readers
 			if ($ilUser->prefs["screen_reader_optimization"])
 			{
-				$end = $start +1;
+				$end = $start+$raster;
 			}
 			
 			if ($start < $morning_aggr)
@@ -486,29 +533,33 @@ class ilCalendarDayGUI
 			}
 			if ($end <= $morning_aggr)
 			{
-				$end = $morning_aggr+1;
+				$end = $morning_aggr+$raster;
 			}
 			if ($start > $evening_aggr)
 			{
 				$start = $evening_aggr;
 			}
-			if ($end > $evening_aggr+1)
+			if ($end > $evening_aggr+$raster)
 			{
-				$end = $evening_aggr+1;
+				$end = $evening_aggr+$raster;
 			}
 			if ($end <= $start)
 			{
-				$end = $start + 1;
+				$end = $start+$raster;
 			}
 			
+			// map start and end to raster
+			$start = floor($start/$raster)*$raster;
+			$end = ceil($end/$raster)*$raster;
+						
 			$first = true;
-			for($i = $start;$i < $end;$i++)
+			for($i = $start;$i < $end;$i+=$raster)
 			{
 				if($first)
 				{
 					if (!$ilUser->prefs["screen_reader_optimization"])
 					{
-						$app['rowspan'] = $end - $start;
+						$app['rowspan'] = ceil(($end - $start)/$raster);								
 					}
 					else  	// screen readers get always a rowspan of 1
 					{
@@ -520,6 +571,7 @@ class ilCalendarDayGUI
 				$hours[$i]['apps_num']++;
 			}
 		}
+		
 		return $hours;
 	}
 	

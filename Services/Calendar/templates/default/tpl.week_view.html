@@ -107,9 +107,11 @@
 		<!-- END fullday_apps -->
 		<!-- BEGIN time_row -->
 		<tr class="calstdtime">
-			<td class="calheadertime" style="vertical-align: top" nowrap="nowrap">
+			<!-- BEGIN time_txt -->
+			<td class="calheadertime" style="vertical-align: top" nowrap="nowrap" rowspan="{TIME_ROWSPAN}">
 				{TIME}
 			</td>
+			<!-- END time_txt -->
 			<!-- BEGIN scrd_day_cell -->
 			<td id="show_{DAY_CELL_NUM}" class="{TD_CLASS}" style="{TD_STYLE}" valign="top" rowspan="{TD_ROWSPAN}"
 				onmouseover="timer = setTimeout('showNewAppLink({DAY_ID})',400)"

@@ -45,6 +45,14 @@ td.calempty {
 	background-color:#ffffff;
 	border-spacing:0px;
 	border-bottom-width:1px;
+	border-bottom-style:dotted;
+	border-bottom-color:#D6D6D6;
+}
+
+td.calempty_border {
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-bottom-width:1px;
 	border-bottom-style:solid;
 	border-bottom-color:#D6D6D6;
 }
@@ -67,7 +75,7 @@ tr.calstd {
 }
 
 tr.calstdtime {
-	height: 2.5em;
+	height: 1.2em;
 	background-color: inherit;
 	border-right-width:1px;
 	border-right-style:solid;
