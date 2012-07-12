@@ -11231,3 +11231,39 @@ $ilDB->free($stmt);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3655>
+<?php
+
+	if(!$ilDB->tableColumnExists('cal_categories','loc_type'))
+	{
+		$ilDB->addTableColumn('cal_categories', 'loc_type', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 1));
+	}
+	if(!$ilDB->tableColumnExists('cal_categories','remote_url'))
+	{
+		$ilDB->addTableColumn('cal_categories', 'remote_url', array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 500
+		));
+	}
+	if(!$ilDB->tableColumnExists('cal_categories','remote_user'))
+	{
+		$ilDB->addTableColumn('cal_categories', 'remote_user', array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50
+		));
+	}
+	if(!$ilDB->tableColumnExists('cal_categories','remote_pass'))
+	{
+		$ilDB->addTableColumn('cal_categories', 'remote_pass', array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50
+		));
+	}
+?>

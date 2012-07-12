@@ -140,6 +140,10 @@ class ilCalendarCategoryGUI
 		$category = new ilCalendarCategory(0);
 		$category->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$category->setColor('#'.ilUtil::stripSlashes($_POST['color']));
+		$category->setLocationType((int) $_POST['type_rl']);
+		$category->setRemoteUrl(ilUtil::stripSlashes($_POST['remote_url']));
+		$category->setRemoteUser(ilUtil::stripSlashes($_POST['remote_user']));
+		$category->setRemotePass(ilUtil::stripSlashes($_POST['remote_pass']));
 		
 		if(isset($_POST['type']) and $_POST['type'] == ilCalendarCategory::TYPE_GLOBAL)
 		{
@@ -865,7 +869,7 @@ class ilCalendarCategoryGUI
 		$cat_info = ilCalendarCategories::_getInstance()->getCategoryInfo((int) $_GET['category_id']);
 		
 		$this->form = new ilPropertyFormGUI();
-		$this->form->setTableWidth('40%');
+		#$this->form->setTableWidth('40%');
 		switch($a_mode)
 		{
 			case 'edit':
@@ -936,7 +940,39 @@ class ilCalendarCategoryGUI
 			$color->setDisabled(true);
 		}
 		$color->setRequired(true);
-		$this->form->addItem($color);	
+		$this->form->addItem($color);
+		
+		$location = new ilRadioGroupInputGUI($this->lng->txt('cal_type_rl'), 'type_rl');
+		$location_local = new ilRadioOption($this->lng->txt('cal_type_local'), ilCalendarCategory::LTYPE_LOCAL);
+		$location->addOption($location_local);
+		$location_remote = new ilRadioOption($this->lng->txt('cal_type_remote'), ilCalendarCategory::LTYPE_REMOTE);
+		$location->addOption($location_remote);
+		$location->setValue($category->getLocationType());
+		
+		$url = new ilTextInputGUI($this->lng->txt('cal_remote_url'), 'remote_url');
+		$url->setMaxLength(500);
+		$url->setSize(60);
+		$url->setRequired(true);
+		$location_remote->addSubItem($url);
+		
+		$user = new ilTextInputGUI($this->lng->txt('username'),'remote_user');
+		$user->setMaxLength(50);
+		$user->setSize(20);
+		$user->setRequired(false);
+		$location_remote->addSubItem($user);
+		
+		$pass = new ilPasswordInputGUI($this->lng->txt('password'),'remote_pass');
+		$pass->setMaxLength(50);
+		$pass->setSize(20);
+		$pass->setRetype(false);
+		$location_remote->addSubItem($pass);
+		
+		
+		$this->form->addItem($location);
+		
+		
+		
+		
 	}
 
 	/**

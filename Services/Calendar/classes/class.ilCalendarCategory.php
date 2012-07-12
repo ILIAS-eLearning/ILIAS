@@ -32,6 +32,9 @@
 
 class ilCalendarCategory
 {
+	const LTYPE_LOCAL = 1;
+	const LTYPE_REMOTE = 2;
+	
 	private static $instances = null;
 
 	const DEFAULT_COLOR = '#04427e';
@@ -48,6 +51,11 @@ class ilCalendarCategory
 	protected $obj_id;
 	protected $obj_type = null;
 	protected $title;
+	
+	protected $location = self::LTYPE_LOCAL;
+	protected $remote_url;
+	protected $remote_user;
+	protected $remote_pass;
 	
 	protected $db;
 	
@@ -102,8 +110,7 @@ class ilCalendarCategory
 		 }
 		 return self::$instances[$a_cat_id];
 	 }
-
-
+	 
 	 /**
 	  * get all assigned appointment ids
 	  * @return 
@@ -235,6 +242,46 @@ class ilCalendarCategory
 		return $this->obj_type;
 	}
 	
+	public function getLocationType()
+	{
+		return $this->location;
+	}
+	
+	public function setLocationType($a_type)
+	{
+		$this->location = $a_type;
+	}
+	
+	public function setRemoteUrl($a_url)
+	{
+		$this->remote_url = $a_url;
+	}
+	
+	public function getRemoteUrl()
+	{
+		return $this->remote_url;
+	}
+
+	public function setRemoteUser($a_user)
+	{
+		$this->remote_user = $a_user;
+	}
+	
+	public function getRemoteUser()
+	{
+		return $this->remote_user;
+	}
+	
+	public function setRemotePass($a_pass)
+	{
+		$this->remote_pass = $a_pass;
+	}
+	
+	public function getRemotePass()
+	{
+		return $this->remote_pass;
+	}
+
 	
 	/**
 	 * add new category
@@ -248,13 +295,17 @@ class ilCalendarCategory
 
 		$next_id = $ilDB->nextId('cal_categories');
 		
-		$query = "INSERT INTO cal_categories (cat_id,obj_id,color,type,title) ".
+		$query = "INSERT INTO cal_categories (cat_id,obj_id,color,type,title,loc_type,remote_url,remote_user,remote_pass) ".
 			"VALUES ( ".
 			$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getObjId() ,'integer').", ".
 			$this->db->quote($this->getColor() ,'text').", ".
 			$this->db->quote($this->getType() ,'integer').", ".
-			$this->db->quote($this->getTitle() ,'text')." ".
+			$this->db->quote($this->getTitle() ,'text').", ".
+			$this->db->quote($this->getLocationType(),'integer').', '.
+			$this->db->quote($this->getRemoteUrl(),'text').', '.
+			$this->db->quote($this->getRemoteUser(),'text').', '.
+			$this->db->quote($this->getRemotePass(),'text').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -276,7 +327,11 @@ class ilCalendarCategory
 			"SET obj_id = ".$this->db->quote($this->getObjId() ,'integer').", ".
 			"color = ".$this->db->quote($this->getColor() ,'text').", ".
 			"type = ".$this->db->quote($this->getType() ,'integer').", ".
-			"title = ".$this->db->quote($this->getTitle() ,'text')." ".
+			"title = ".$this->db->quote($this->getTitle() ,'text').", ".
+			"loc_type = ".$this->db->quote($this->getLocationType(),'integer').', '.
+			"remote_url = ".$this->db->quote($this->getRemoteUrl(),'text').', '.
+			"remote_user = ".$this->db->quote($this->getRemoteUser(),'text').', '.
+			"remote_pass = ".$this->db->quote($this->getRemotePass(),'text').' '.
 			"WHERE cat_id = ".$this->db->quote($this->cat_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		return true;
@@ -343,6 +398,10 @@ class ilCalendarCategory
 			$this->type = $row->type;
 			$this->color = $row->color;
 			$this->title = $row->title;
+			$this->location = $row->loc_type;
+			$this->remote_url = $row->remote_url;
+			$this->remote_user = $row->remote_user;
+			$this->remote_pass = $row->remote_pass;
 		}
 		if($this->getType() == self::TYPE_OBJ)
 		{

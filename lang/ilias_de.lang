@@ -12750,3 +12750,8 @@ rbac#:#exc_copy#:#Übung kopieren
 rbac#:#catr_copy#:#Kategorie-Referenz kopieren
 rbac#:#crsr_copy#:#Kurs-Referenz kopieren
 rbac#:#file_copy#:#Datei kopieren
+dateplaner#:#cal_type_rl#:#Ort des Kalenders
+dateplaner#:#cal_type_local#:#Lokaler Kalender
+dateplaner#:#cal_type_remote#:#Web-Kalender
+dateplaner#:#cal_remote_url#:#URL des Kalenders
+dateplaner#:#cal_type_rl_info#:#Wenn Ihnen die Adresse eines Kalenders bekannt ist, können Sie diese hier eingeben. Auf Web-Kalender kann lesend zugegriffen werden.
