@@ -693,8 +693,11 @@ class ilTestExport
 			$participantcount = count($data->getParticipants());
 			$allusersheet = false;
 			$pages = 0;
+			$i = 0;
 			foreach ($data->getParticipants() as $active_id => $userdata) 
 			{
+				$i++;
+				
 				$username = (!is_null($userdata) && ilExcelUtils::_convert_text($userdata->getName())) ? ilExcelUtils::_convert_text($userdata->getName()) : "ID $active_id";
 				if (array_key_exists($username, $usernames))
 				{
