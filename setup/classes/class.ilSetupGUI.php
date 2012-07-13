@@ -408,12 +408,14 @@ echo "<br>+".$client_id;
 			case "installDatabase":
 			case "displayDatabase":
 			case "updateDatabase":
+			case "showUpdateSteps":
 			case "saveLanguages":
 			case "saveContact":
 			case "displayContactData":
 			case "displayNIC":
 			case "saveRegistration":
 			case "applyHotfix":
+			case "showHotfixSteps":
 			case "applyCustomUpdates":
 			case "changeSettingsType":
 			case "showLongerSettings":
@@ -2161,6 +2163,7 @@ else
 					ilUtil::sendInfo($this->lng->txt("database_needs_update"));
 				}
 				$this->form->addCommandButton("updateDatabase", $lng->txt("database_update"));
+				$this->form->addCommandButton("showUpdateSteps", $lng->txt("show_update_steps"));
 			}
 			else if ($hotfix_available)
 			{
@@ -2175,6 +2178,7 @@ else
 				$this->form->addItem($ne);
 
 				$this->form->addCommandButton("applyHotfix", $lng->txt("apply_hotfixes"));
+				$this->form->addCommandButton("showHotfixSteps", $lng->txt("show_update_steps"));
 				ilUtil::sendInfo($this->lng->txt("database_needs_update"));
 			}
 			elseif($custom_updates_available)
@@ -2362,6 +2366,61 @@ else
 		ilUtil::redirect("setup.php?cmd=displayDatabase");
 	}
 	
+	////
+	//// UPDATE DATABASE
+	////
+
+	/**
+	 * Show hotfix steps
+	 *
+	 * @param
+	 * @return
+	 */
+	function showHotfixSteps()
+	{
+		$this->showUpdateSteps(true);
+	}
+	
+	
+	/**
+	 * Update database
+	 */
+	function showUpdateSteps($a_hotfix = false)
+	{
+		global $ilCtrlStructureReader;
+		
+		$this->checkDisplayMode("setup_database");
+		
+		//$this->tpl->addBlockFile("SETUP_CONTENT","setup_content","tpl.clientsetup_db.html", "setup");
+
+		// database is intalled
+		if ($this->setup->getClient()->db_installed)
+		{
+			$ilDB = $this->setup->getClient()->db;
+			$this->lng->setDbHandler($ilDB);
+			$dbupdate = new ilDBUpdate($ilDB);
+			$db_status = $dbupdate->getDBVersionStatus();
+			$hotfix_available = $dbupdate->hotfixAvailable();
+			$custom_updates_available = $dbupdate->customUpdatesAvailable();
+//			$this->initClientDbForm(false, $dbupdate, $db_status, $hotfix_available, $custom_updates_available);
+//			$this->getClientDbFormValues($dbupdate);
+			
+			$ntpl = new ilTemplate("tpl.setup_steps.html", true, true, "setup");
+			if ($a_hotfix)
+			{
+				$ntpl->setVariable("CONTENT", $dbupdate->getHotfixSteps());
+			}
+			else
+			{
+				$ntpl->setVariable("CONTENT", $dbupdate->getUpdateSteps($_POST["update_break"]));
+			}
+			$ntpl->setVariable("BACK", $this->lng->txt("back"));
+			$ntpl->setVariable("HREF_BACK", "./setup.php?client_id=&cmd=db");
+			$this->tpl->setVariable("SETUP_CONTENT", $ntpl->get());
+		}
+	}
+		
+
 	////
 	//// Apply hotfixes
 	////
