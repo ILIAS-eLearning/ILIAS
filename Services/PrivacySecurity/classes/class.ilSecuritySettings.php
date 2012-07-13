@@ -59,17 +59,27 @@ class ilSecuritySettings
 	private $https_header_value;
 	private $https_enable;
 
-	private $account_security_mode				= self::ACCOUNT_SECURITY_MODE_DEFAULT;
-	private $password_chars_and_numbers_enabled	= false;
-	private $password_special_chars_enabled		= false;
-	private $password_min_length				= 0;
-	private $password_max_length				= 0;
-	private $password_max_age					= 0;
-	private $login_max_attempts					= 0;
+	const DEFAULT_ACCOUNT_SECURITY_MODE					= self::ACCOUNT_SECURITY_MODE_DEFAULT;
+	const DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED	= true;
+	const DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED		= false;
+	const DEFAULT_PASSWORD_MIN_LENGTH					= 8;
+	const DEFAULT_PASSWORD_MAX_LENGTH					= 0;
+	const DEFAULT_PASSWORD_MAX_AGE						= 90;
+	const DEFAULT_LOGIN_MAX_ATTEMPTS					= 5;
 
-	private $password_change_on_first_login_enabled = false;
-	
-	private $prevent_simultaneous_logins = false;
+	const DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED = false;
+	const DEFAULT_PREVENT_SIMULTANEOUS_LOGINS = false;
+
+	private $account_security_mode				= self::DEFAULT_ACCOUNT_SECURITY_MODE;
+	private $password_chars_and_numbers_enabled	= self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED;
+	private $password_special_chars_enabled		= self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED;
+	private $password_min_length				= self::DEFAULT_PASSWORD_MIN_LENGTH;
+	private $password_max_length				= self::DEFAULT_PASSWORD_MAX_LENGTH;
+	private $password_max_age					= self::DEFAULT_PASSWORD_MAX_AGE;
+	private $login_max_attempts					= self::DEFAULT_LOGIN_MAX_ATTEMPTS;
+
+	private $password_change_on_first_login_enabled = self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED;
+	private $prevent_simultaneous_logins = self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS;
 
 	/**
 	 * Private constructor: use _getInstance()
@@ -417,16 +427,16 @@ class ilSecuritySettings
 		$this->https_header_value = (string) $this->settings->get('ps_auto_https_headervalue',"1");
 		$this->https_enable = (boolean) $this->settings->get('https', false);
 
-		$this->account_security_mode = (int) $this->settings->get('ps_account_security_mode',0);
-		$this->password_chars_and_numbers_enabled = (bool) $this->settings->get('ps_password_chars_and_numbers_enabled',false);
-		$this->password_special_chars_enabled = (bool) $this->settings->get('ps_password_special_chars_enabled',false);
-		$this->password_min_length = (int) $this->settings->get('ps_password_min_length',0);
-		$this->password_max_length = (int)  $this->settings->get('ps_password_max_length',0);
-		$this->password_max_age = (int) $this->settings->get('ps_password_max_age',0);
-		$this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts',0);
+		$this->account_security_mode = (int) $this->settings->get('ps_account_security_mode', self::DEFAULT_ACCOUNT_SECURITY_MODE);
+		$this->password_chars_and_numbers_enabled = (bool) $this->settings->get('ps_password_chars_and_numbers_enabled', self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED);
+		$this->password_special_chars_enabled = (bool) $this->settings->get('ps_password_special_chars_enabled', self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED);
+		$this->password_min_length = (int) $this->settings->get('ps_password_min_length', self::DEFAULT_PASSWORD_MIN_LENGTH);
+		$this->password_max_length = (int)  $this->settings->get('ps_password_max_length', self::DEFAULT_PASSWORD_MAX_LENGTH);
+		$this->password_max_age = (int) $this->settings->get('ps_password_max_age', self::DEFAULT_PASSWORD_MAX_AGE);
+		$this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts', self::DEFAULT_LOGIN_MAX_ATTEMPTS);
 
-		$this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled',false);
-		$this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins', false);
+		$this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled', self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED);
+		$this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins', self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS);
 	}
 
 	/**
