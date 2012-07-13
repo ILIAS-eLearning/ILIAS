@@ -826,5 +826,114 @@ class ilDBUpdate
 
 		return $this->loadXMLInfo();
 	}
+	
+	/**
+	 * Get update steps as string (for presentation)
+	 *
+	 * @return string steps from the update file
+	 */
+	function getUpdateSteps($a_break = 0)
+	{
+		global $ilCtrlStructureReader, $ilMySQLAbstraction;
+		
+		$str = "";
+		
+		$f = $this->fileVersion;
+		$c = $this->currentVersion;
+		
+		if ($a_break > $this->currentVersion &&
+			$a_break < $this->fileVersion)
+		{
+			$f = $a_break;
+		}
+
+		if ($c < $f)
+		{
+			$msg = array();
+			for ($i=($c+1); $i<=$f; $i++)
+			{
+				// check wether next update file must be loaded
+				if ($this->current_file != $this->getFileForStep($i))
+				{
+					$this->DB_UPDATE_FILE = $this->PATH."setup/sql/".$this->getFileForStep($i);
+					$this->readDBUpdateFile();
+				}
+				
+				$str.= $this->getUpdateStepNr($i);
+			}
+
+		}
+		return $str;
+	}
+
+	/**
+	 * Get hotfix steps
+	 *
+	 * @return string steps from the update file
+	 */
+	function getHotfixSteps()
+	{
+		$this->readHotfixInfo(true);
+		
+		$str = "";
+		
+		$f = $this->getHotfixFileVersion();
+		$c = $this->getHotfixCurrentVersion();
+		
+		if ($c < $f)
+		{
+			$msg = array();
+			for ($i=($c+1); $i<=$f; $i++)
+			{
+				$this->filecontent = $this->hotfix_content;
+				
+				$str.= $this->getUpdateStepNr($i, true);
+			}
+		}
+		
+		return $str;
+	}
+	
+	
+	/**
+	 * Get single update step for presentation
+	 */
+	function getUpdateStepNr($nr, $hotfix = false, $custom_update = false)
+	{
+		global $ilDB,$ilErr,$ilUser,$ilCtrlStructureReader,$ilModuleReader,$ilMySQLAbstraction;
+
+		$str = "";
+		
+		//search for desired $nr
+		reset($this->filecontent);
+
+		//init
+		$i = 0;
+
+	    //go through filecontent
+		while (!ereg("^<#".$nr.">", $this->filecontent[$i]) && $i<count($this->filecontent))
+		{
+			$i++;
+		}
+
+		//update not found
+		if ($i == count($this->filecontent))
+		{
+			return false;
+		}
+
+		$i++;
+
+		//update found, now extract this update to a new array
+		$update = array();
+		while ($i<count($this->filecontent) && !ereg("^<#".($nr+1).">", $this->filecontent[$i]))
+		{
+			$str.= $this->filecontent[$i];
+			$i++;
+		}
+
+		return "<pre><b><#".$nr."></b>\n".htmlentities($str)."</pre>";
+	}
+
 } // END class.DBUdate
 ?>

@@ -560,3 +560,4 @@ info_text_proxy#:#Proxy Settings
 setup_process_step_proxy#:#Proxy
 step_proxy#:#Proxy
 db_innodb#:#MySQL (InnoDB)
+show_update_steps#:#Show Update Steps
