@@ -1544,7 +1544,7 @@ book#:#book_schedule_type_flexible#:#Flexibel
 book#:#book_schedule_type_flexible_info#:#Es kann frei zu bestimmten Tagen und Zeiten gebucht werden.
 book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
 book#:#book_schedule_warning#:#Es sind momentan keine Zeitpläne vorhanden. Um Buchungsobjekte anlegen zu können, muss zuerst ein Zeitplan angelegt werden.
-book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden.
+book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden (oder der Typ des Buchungspools geändert werden).
 book#:#book_schedules#:#Zeitpläne
 book#:#book_set_cancel#:#Stornieren
 book#:#book_set_in_use#:#Ist in Benutzung
