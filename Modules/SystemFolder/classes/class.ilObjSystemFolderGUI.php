@@ -2070,6 +2070,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$pl->setValue(1);
 		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
 		$this->form->addItem($pl);
+		
+		// starting point
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		$si = new ilSelectInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
+		$si->setInfo($this->lng->txt("adm_user_starting_point_info"));
+		$si->setOptions(ilUserUtil::getPossibleStartingPoints());
+		$si->setValue(ilUserUtil::getStartingPoint());
+		$this->form->addItem($si);
 
 		// save and cancel commands
 		$this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
@@ -2167,6 +2175,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			
 			$ilSetting->set("rep_shorten_description", $this->form->getInput('rep_shorten_description'));
 			$ilSetting->set("rep_shorten_description_length", (int)$this->form->getInput('rep_shorten_description_length'));
+			
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'));
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");
