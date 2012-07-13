@@ -25,6 +25,8 @@ class ilStyleDefinition extends ilSaxParser
 	 * @var string
 	 */
 	static $current_style;
+	
+	static $current_master_style;
 
 
 	/**
@@ -103,8 +105,12 @@ class ilStyleDefinition extends ilSaxParser
 	}
 
 
-	function getImageDirectory($a_id)
+	function getImageDirectory($a_master_style, $a_substyle = "")
 	{
+		if ($a_substyle != $a_master_style && $a_substyle != "")
+		{
+			return $this->styles[$a_master_style]["substyle"][$a_substyle]["image_directory"];
+		}
 		return $this->styles[$a_id]["image_directory"];
 	}
 
@@ -389,6 +395,31 @@ class ilStyleDefinition extends ilSaxParser
 		
 		return $cs;
 	}
+	
+		/**
+	 * get the current style
+	 *
+	 * use always this function instead of getting the account's style
+	 * the current style may be changed on the fly by setCurrentStyle()
+
+	 * @return	string	style id
+	 */
+	public static function getCurrentMasterStyle()
+	{
+		global $ilias;	
+		
+		if (isset(self::$current_master_style))
+		{
+			return self::$current_master_style;
+		}
+
+		$cs = $ilias->account->prefs['style'];
+
+		self::$current_master_style = $cs;
+		
+		return $cs;
+	}
+
 	
 	/**
 	 * set a new current skin
