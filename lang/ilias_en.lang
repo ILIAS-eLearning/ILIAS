@@ -12849,3 +12849,5 @@ dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar
 style#:#sty_substyle#:#Substyle
 style#:#sty_cat_assignments#:#Style/Category Assignments
 style#:#sty_add_assignment#:#Add Assignment
+administration#:#adm_user_starting_point#:#Personal Starting Point
+administration#:#adm_user_starting_point_info#:#Select the page which is shown after login.

@@ -1547,7 +1547,8 @@ class ilStartUpGUI
 			if(!$_GET["target"])
 			{										
 				// Redirect here to switch back to http if desired
-				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+				include_once './Services/User/classes/class.ilUserUtil.php';						
+				ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
 			}
 			else
 			{
