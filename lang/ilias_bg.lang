@@ -1659,7 +1659,7 @@ common#:#lang_pt#:#Португалски
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
 common#:#lang_sv#:#Шведски
-common#:#lang_timeformat#:#Ч:м:с
+common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i###25 Jun 2006 new variable
 common#:#lang_version#:#1
 common#:#lang_vi#:#Виетнамски
