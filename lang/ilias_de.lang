@@ -12759,3 +12759,6 @@ dateplaner#:#cal_cal_synchronize#:#Kalender synchronisieren
 dateplaner#:#cal_cal_sync_success#:#Die Kalendertermine wurden aktualisiert.
 administration#:#adm_user_starting_point#:#Persönliche Startseite
 administration#:#adm_user_starting_point_info#:#Wählen Sie die Seite, die nach dem Login gezeigt wird.
+content#:#cont_AdvancedKnowledge#:#Vertiefungswissen
+content#:#cont_show_adv#:#Vertiefungswissen anzeigen
+content#:#cont_hide_adv#:#Vertiefungswissen verbergen

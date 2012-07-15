@@ -541,6 +541,21 @@
 	<StyleParameter Name="padding-right" Value="10px"/>
 	<StyleParameter Name="padding-left" Value="10px"/>
 </Style>
+<Style Tag="div" Type="section" Class="AdvancedKnowledge">
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="background-color" Value="#FFF9EF"/>
+	<StyleParameter Name="border-color" Value="#FFDDA5"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding-bottom" Value="10px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="20px"/>
+	<StyleParameter Name="padding-left" Value="20px"/>
+	<StyleParameter Name="background-image" Value="advknow.png"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="top right"/>	
+</Style>
 
 <!-- Table -->
 <Style Tag="table" Type="table" Class="StandardTable">

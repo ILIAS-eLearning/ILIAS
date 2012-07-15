@@ -85,6 +85,9 @@
 <xsl:param name="enable_skills"/>
 
 <xsl:template match="PageObject">
+	<xsl:if test="$mode != 'edit'">
+	<a class="small" id="ilPageShowAdvContent" style="display:none; text-align:right;" href="#"><span>{{{{{LV_show_adv}}}}}</span><span>{{{{{LV_hide_adv}}}}}</span></a>
+	</xsl:if>
 	<!-- <xsl:value-of select="@HierId"/> -->
 	<xsl:if test="$pg_title != ''">
 		<h1 class="ilc_page_title_PageTitle">

@@ -2046,6 +2046,9 @@ class ilPageObjectGUI
 		{
 			$output = $this->insertPageToc($output);
 		}
+		
+		// insert advanced output trigger
+		$output = $this->insertAdvTrigger($output);
 
 		// workaround for preventing template engine
 		// from hiding paragraph text that is enclosed
@@ -2909,6 +2912,25 @@ class ilPageObjectGUI
 
 		return $a_output;
 	}
+	
+	/**
+	 * Insert adv content trigger
+	 *
+	 * @param string $a_output output
+	 * @return string modified output
+	 */
+	function insertAdvTrigger($a_output)
+	{
+		global $lng;
+		
+		$a_output = str_replace("{{{{{LV_show_adv}}}}}",
+			$lng->txt("cont_show_adv"), $a_output);
+		$a_output = str_replace("{{{{{LV_hide_adv}}}}}",
+			$lng->txt("cont_hide_adv"), $a_output);
+		
+		return $a_output;
+	}
+	
 	
 	/**
 	 * Finalizing output processing. Maybe overwritten in derived

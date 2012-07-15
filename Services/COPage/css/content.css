@@ -429,6 +429,19 @@ div.ilc_section_Excursus {
 	background-repeat: repeat-x;
 }
 
+div.ilc_section_AdvancedKnowledge
+{
+	margin: 20px 0px;
+	padding: 10px 60px 10px 30px;
+	background-color: #fff9ef;
+	border-width: 1px;
+	border-color: #ffdda5;
+	border-style: solid;
+	background-image: url(../../../templates/default/images/advknow.png);
+	background-repeat: no-repeat;
+	background-position: top right;
+}
+
 
 /* Media */
 table.ilc_media_cont_MediaContainer
