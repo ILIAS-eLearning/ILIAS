@@ -41,7 +41,8 @@ class ilPCSectionGUI extends ilPageContentGUI
 			"Example" => $lng->txt("cont_Example"),
 			"Additional" => $lng->txt("cont_Additional"),
 			"Special" => $lng->txt("cont_Special"),
-			"Excursus" => $lng->txt("cont_Excursus"));
+			"Excursus" => $lng->txt("cont_Excursus"),
+			"AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
 	}
 	
 	/**

@@ -12,6 +12,7 @@ ilCOPagePres =
 		this.initInteractiveImages();
 		this.updateQuestionOverviews();
 		this.initMapAreas();
+		this.initAdvancedContent();
 	},
 	
 	//
@@ -817,6 +818,46 @@ ilCOPagePres =
 		
 		// always on
 		//$('img[class^="img_hl_"]').maphilight({alwaysOn:true, fillColor:'FFFFFF', strokeColor:'FFFFFF'});
+	},
+	
+	////
+	//// Handle advanced content
+	////
+	showadvcont: true,
+	initAdvancedContent: function() {
+		var c = $("div.ilc_section_AdvancedKnowledge");
+		var b = $("#ilPageShowAdvContent");
+		if (c.length > 0 && b.length > 0) {
+			var cookiePos = document.cookie.indexOf("pg_hideadv=");
+			if (cookiePos > -1 && document.cookie.charAt(cookiePos + 11) == 1) {
+				this.showadvcont = false;
+			}
+
+			$("#ilPageShowAdvContent").css("display", "block");
+			if (ilCOPagePres.showadvcont) {
+				$("div.ilc_section_AdvancedKnowledge").css("display", "");
+				$("#ilPageShowAdvContent > span:nth-child(1)").css("display", "none");
+			} else {
+				$("div.ilc_section_AdvancedKnowledge").css("display", "none");
+				$("#ilPageShowAdvContent > span:nth-child(2)").css("display", "none");
+			}
+			$("#ilPageShowAdvContent").click(function () {
+				if (ilCOPagePres.showadvcont) {
+					$("div.ilc_section_AdvancedKnowledge").css("display", "none");
+					$("#ilPageShowAdvContent > span:nth-child(1)").css("display", "");
+					$("#ilPageShowAdvContent > span:nth-child(2)").css("display", "none");
+					ilCOPagePres.showadvcont = false;
+					document.cookie = "pg_hideadv=1";
+				} else {
+					$("div.ilc_section_AdvancedKnowledge").css("display", "");
+					$("#ilPageShowAdvContent > span:nth-child(1)").css("display", "none");
+					$("#ilPageShowAdvContent > span:nth-child(2)").css("display", "");
+					ilCOPagePres.showadvcont = true;
+					document.cookie = "pg_hideadv=0";
+				}
+				return false;
+			});
+		}
 	}
 }
 il.Util.addOnLoad(function() {ilCOPagePres.init();});

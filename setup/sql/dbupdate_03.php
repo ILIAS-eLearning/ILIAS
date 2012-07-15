@@ -11344,3 +11344,43 @@ $ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'substyle', '
 	
 	$ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'substyle', 'category_ref_id'));
 ?>
+<#3659>
+<?php
+	include_once("./Services/Migration/DBUpdate_3136/classes/class.ilDBUpdate3136.php");
+	ilDBUpdate3136::addStyleClass("AdvancedKnowledge", "section", "div",
+				array("margin-bottom" => "20px",
+					  "margin-top" => "20px",
+					  "background-color" => "#FFF9EF",
+					  "border-color" => "#FFDDA5",
+					  "border-style" => "solid",
+					  "border-width" => "1px",
+					  "padding-bottom" => "10px",
+					  "padding-top" => "10px",
+					  "padding-right" => "20px",
+					  "padding-left" => "20px",
+					  "background-image" => "advknow.png",
+					  "background-repeat" => "no-repeat",
+					  "background-position" => "right top",
+					  ));
+?>
+<#3660>
+<?php
+		// check, whether core style class exists
+		$sets = $ilDB->query("SELECT * FROM object_data WHERE type = 'sty'");
+		
+		while ($rec = $ilDB->fetchAssoc($sets))
+		{
+			// now check, whether some core image files are missing
+			ilUtil::makeDir(CLIENT_WEB_DIR."/sty");
+			ilUtil::makeDir(CLIENT_WEB_DIR."/sty_".$rec["obj_id"]);
+			$tdir = CLIENT_WEB_DIR."/sty/sty_".$rec["obj_id"]."/images";
+			ilUtil::makeDir($tdir);
+			$sfile = "./Services/Style/basic_style/images/advknow.png";
+			$cim = "advknow.png";
+			if (!is_file($tdir."/".$cim) && is_file($sfile))
+			{
+				copy($sfile, $tdir."/".$cim);
+			}
+		}
+
+?>
