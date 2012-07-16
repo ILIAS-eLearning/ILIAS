@@ -233,6 +233,35 @@ class ilAccountRegistrationGUI
 
 		
 		// custom validation
+		
+		// validate email against restricted domains
+		$email = $this->form->getInput("usr_email");
+		if($email)
+		{
+			$domains = $this->registration_settings->getAllowedDomains();
+			if(sizeof($domains))
+			{				
+				$mail_valid = false;
+				foreach($domains as $domain)
+				{
+					$domain = str_replace("*", "~~~", $domain);
+					$domain = preg_quote($domain);
+					$domain = str_replace("~~~", ".+", $domain);					
+					if(preg_match("/^".$domain."$/", $email, $hit))
+					{
+						$mail_valid = true;
+						break;
+					}
+				}
+				if(!$mail_valid)
+				{
+					$mail_obj = $this->form->getItemByPostVar('usr_email');
+					$mail_obj->setAlert(sprintf($lng->txt("reg_email_domains"),
+						implode(", ", $domains)));
+					$form_valid = false;
+				}
+			}
+		}
 
 		if(!$this->form->getInput("usr_agreement"))
 		{

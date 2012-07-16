@@ -49,8 +49,16 @@ class ilRegistrationSettings
 	
 	const REG_HASH_LIFETIME_MIN_VALUE = 60;
 
+	private $registration_type;
+	private $password_generation_enabled;
+	private $access_limitation;
+	private $approve_recipient_logins;
+	private $approve_recipient_ids;
+	private $role_type;
+	private $unknown;		
 	private $reg_hash_life_time = 0;
 	private $reg_allow_codes = false;
+	private $allowed_domains;	
 	
 	function ilRegistrationSettings()
 	{
@@ -177,10 +185,19 @@ class ilRegistrationSettings
 		return $this->reg_allow_codes;
 	}
 	
-	function validate()
+	public function setAllowedDomains($a_value)
 	{
-		global $ilAccess;
-
+		$a_value = explode(";", trim($a_value));
+		$this->allowed_domains = $a_value;
+	}
+	
+	public function getAllowedDomains()
+	{
+		return (array)$this->allowed_domains;
+	}
+	
+	function validate()
+	{		
 		$this->unknown = array();
 		$this->mail_perm = array();
 
@@ -224,8 +241,9 @@ class ilRegistrationSettings
 		$ilias->setSetting('approve_recipient',addslashes(serialize($this->approve_recipient_ids)));
 		$ilias->setSetting('reg_access_limitation',$this->access_limitation);
 		$ilias->setSetting('reg_hash_life_time',$this->reg_hash_life_time);
-		$ilias->setSetting('reg_allow_codes',$this->reg_allow_codes);
-
+		$ilias->setSetting('reg_allow_codes',$this->reg_allow_codes);	
+		$ilias->setSetting('reg_allowed_domains',implode(';', $this->allowed_domains));
+		
 		return true;
 	}
 
@@ -254,7 +272,9 @@ class ilRegistrationSettings
 				$tmp_logins[] = $login;
 			}
 		}
-		$this->approve_recipient_logins = implode(',',$tmp_logins);
+		$this->approve_recipient_logins = implode(';',$tmp_logins);
+
+		$this->setAllowedDomains($ilias->getSetting('reg_allowed_domains'));
 	}
 }
 ?>
