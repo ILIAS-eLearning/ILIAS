@@ -75,33 +75,74 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	function createObject()
 	{
 		global $rbacsystem, $lng, $tpl;
-
-		//$this->setTabs();
-
-		$this->lng =& $lng;
-		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.sty_create.html','Services/Style');
-
-		$this->tpl->setVariable("TXT_ACTION", $this->lng->txt("sty_create_new_stylesheet"));
-
-		$this->tpl->setVariable("TXT_STYLE_BY_IMPORT", $this->lng->txt("sty_import_stylesheet"));
-		$this->tpl->setVariable("TXT_STYLE_BY_COPY", $this->lng->txt("sty_copy_other_stylesheet"));
-		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("import_file"));
-		$this->tpl->setVariable("TXT_SOURCE", $this->lng->txt("sty_source"));
-		$this->tpl->setVariable("TXT_TITLE", $this->lng->txt("title"));
-		$this->tpl->setVariable("TXT_DESC", $this->lng->txt("description"));
 		
-		$this->ctrl->setParameter($this, "new_type", "sty");
-		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-		$this->tpl->setVariable("TXT_IMPORT", $this->lng->txt("import"));
-		$this->tpl->setVariable("TXT_COPY", $this->lng->txt("copy"));
-		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->setVariable("TXT_REQUIRED_FLD", $this->lng->txt("required_field"));
+		$forms = array();
 		
-		// get all learning module styles
-		$clonable_styles = ilObjStyleSheet::_getClonableContentStyles();
-		$select = ilUtil::formSelect("", "source_style", $clonable_styles, false, true);
-		$this->tpl->setVariable("SOURCE_SELECT", $select);
+		
+		// --- create
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("sty_create_new_stylesheet"));
+		
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "style_title");
+		$ti->setMaxLength(128);
+		$ti->setSize(40);
+		$ti->setRequired(true);
+		$form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "style_description");
+		$ta->setCols(40);
+		$ta->setRows(2);
+		$form->addItem($ta);
+
+		$form->addCommandButton("save", $this->lng->txt("save"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		
+		$forms[] = $form;
+		
+		
+		// --- import
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("sty_import_stylesheet"));
+		
+		// title
+		$ti = new ilFileInputGUI($this->lng->txt("import_file"), "stylefile");
+		$ti->setRequired(true);
+		$form->addItem($ti);
+		
+		$form->addCommandButton("importStyle", $this->lng->txt("import"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		
+		$forms[] = $form;
+		
+		
+		// --- clone
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt("sty_copy_other_stylesheet"));
+		
+		// source
+		$ti = new ilSelectInputGUI($this->lng->txt("sty_source"), "source_style");
+		$ti->setRequired(true);
+		$ti->setOptions(ilObjStyleSheet::_getClonableContentStyles());
+		$form->addItem($ti);
+		
+		$form->addCommandButton("copyStyle", $this->lng->txt("copy"));
+		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
+		
+		$forms[] = $form;
+		
+		
+		$this->tpl->setContent($this->getCreationFormsHTML($forms));
 	}
 
 	/**
