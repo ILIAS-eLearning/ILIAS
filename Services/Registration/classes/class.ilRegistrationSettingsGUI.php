@@ -165,6 +165,10 @@ class ilRegistrationSettingsGUI
 			$list->setHtml($this->__parseRoleList($this->__prepareAccessLimitationRoleList(), $edit));
 			$limit->addSubItem($list);
 		$this->form_gui->addItem($limit);
+		
+		$domains = new ilTextInputGUI($this->lng->txt('reg_allowed_domains'), 'reg_allowed_domains');
+		$domains->setInfo($this->lng->txt('reg_allowed_domains_info'));
+		$this->form_gui->addItem($domains);
 
 		$this->form_gui->addCommandButton('save', $this->lng->txt('save'));
 	}
@@ -186,7 +190,8 @@ class ilRegistrationSettingsGUI
 			'reg_pwd' => $this->registration_settings->passwordGenerationEnabled(),
 			'reg_approver' => $this->registration_settings->getApproveRecipientLogins(),
 			'reg_role_type' => $role_type,
-			'reg_access_limitation' => $this->registration_settings->getAccessLimitation()
+			'reg_access_limitation' => $this->registration_settings->getAccessLimitation(),
+			'reg_allowed_domains' => implode(';', $this->registration_settings->getAllowedDomains())
 			);
 
 		$allow_codes = $this->registration_settings->getAllowCodes();
@@ -235,6 +240,7 @@ class ilRegistrationSettingsGUI
 		$this->registration_settings->setApproveRecipientLogins(ilUtil::stripSlashes($_POST['reg_approver']));
 		$this->registration_settings->setRoleType((int) $_POST['reg_role_type']);
 		$this->registration_settings->setAccessLimitation((int) $_POST['reg_access_limitation']);
+		$this->registration_settings->setAllowedDomains($_POST['reg_allowed_domains']);
 		
 		$allow_codes = false;
 		if(in_array((int)$_POST['reg_type'], array(IL_REG_DIRECT, IL_REG_APPROVE, IL_REG_ACTIVATION)))

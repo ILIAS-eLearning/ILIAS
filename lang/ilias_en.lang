@@ -12854,3 +12854,6 @@ administration#:#adm_user_starting_point_info#:#Select the page which is shown a
 content#:#cont_AdvancedKnowledge#:#Advanced Knowledge
 content#:#cont_show_adv#:#Show Advanced Knowledge
 content#:#cont_hide_adv#:#Hide Advanced Knowledge
+registration#:#reg_email_domains#:#The following email address domain are valid: %s
+registration#:#reg_allowed_domains#:#Allowed Email-Domains
+registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator.
