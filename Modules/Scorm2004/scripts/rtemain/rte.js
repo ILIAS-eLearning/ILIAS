@@ -336,19 +336,14 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	
 	//allows to set data ignoring the status
 	function SetValueIntern(sPath,sValue) {
-		//setReturn(-1, 'GetValueIntern(' + sPath + ')');
-		if (typeof sValue === "number") 
-		{
-			sValue = ""+sValue.toFixed(3);
+		if (typeof sValue == "string") { //all ok
+		} else if (typeof sValue == "number") {
+			sValue = sValue.toString(10);
+		} else { 
+			sValue = "";
 		}
-		else 
-		{
-			sValue = String(sValue);
-		}		
 		var r = setValue(sPath, sValue);
-		//sclogdump("ReturnInern: "+sPath + " : "+ r);
-		return error ? '' : setReturn(0, '', r); 	
-		
+		return error ? '' : setReturn(0, '', r);
 	}
 
 	/**
@@ -383,17 +378,28 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);					
 					return setReturn(351, 'Param 1 cannot be empty string', 'false');
 				}
-				// we do not test datatype for there are to many scorm editors out there
-				// that do send numerics in there APIWrappers that we cast input
-				// as if we were an applet or object implementation
-				// so we fix these errors here
-				if (typeof sValue === "number") 
-				{
-					sValue = ""+sValue.toFixed(3);
+				if ((typeof sValue == "undefined") || sValue == null) {
+					if (logActive) sendLogEntry(getMsecSinceStart(),"SetValue",sPath,""+sValue,"false",406);
+					return setReturn(406, 'Value cannot be undefined or null', 'false');
 				}
-				else 
-				{
-					sValue = String(sValue);
+				else if (typeof sValue == "object") {
+					if (logActive) sendLogEntry(getMsecSinceStart(),"SetValue",sPath,"object: "+String(sValue),"false",406);
+					return setReturn(406, 'Value cannot be an object', 'false');
+				}
+				else if (typeof sValue == "function") {
+					if (logActive) sendLogEntry(getMsecSinceStart(),"SetValue",sPath,"function: "+sValue.toString(),"false",406);
+					return setReturn(406, 'Value cannot be a function', 'false');
+				}
+				else if (typeof sValue == "number") {
+					sValue = sValue.toString(10);
+					fixedFailure=true;
+				}
+				else if (typeof sValue == "boolean") {
+					sValue = ""+sValue;
+					fixedFailure=true;
+				}
+				else {
+					sValue = ""+sValue;
 				}
 				try 
 				{

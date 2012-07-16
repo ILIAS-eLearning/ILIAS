@@ -1,4 +1,4 @@
-// Build: 2012324164121 
+// Build: 2012717010028 
 
 function ADLAuxiliaryResource()
 {}
@@ -3142,10 +3142,7 @@ sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",123);return setRetu
 function GetValueIntern(sPath){var r=getValue(sPath,false);return error?'':setReturn(0,'',r);}
 function getValue(path,sudo)
 {var tokens=path.split('.');return walk(cmiItem,Runtime.models[tokens[0]],tokens,null,sudo,{parent:[]});}
-function SetValueIntern(sPath,sValue){if(typeof sValue==="number")
-{sValue=""+sValue.toFixed(3);}
-else
-{sValue=String(sValue);}
+function SetValueIntern(sPath,sValue){if(typeof sValue=="string"){}else if(typeof sValue=="number"){sValue=sValue.toString(10);}else{sValue="";}
 var r=setValue(sPath,sValue);return error?'':setReturn(0,'',r);}
 function SetValue(sPath,sValue)
 {setReturn(-1,'SetValue('+sPath+', '+sValue+')');switch(state)
@@ -3156,10 +3153,12 @@ sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",201);return set
 if(sPath==='')
 {if(logActive)
 sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);return setReturn(351,'Param 1 cannot be empty string','false');}
-if(typeof sValue==="number")
-{sValue=""+sValue.toFixed(3);}
-else
-{sValue=String(sValue);}
+if((typeof sValue=="undefined")||sValue==null){if(logActive)sendLogEntry(getMsecSinceStart(),"SetValue",sPath,""+sValue,"false",406);return setReturn(406,'Value cannot be undefined or null','false');}
+else if(typeof sValue=="object"){if(logActive)sendLogEntry(getMsecSinceStart(),"SetValue",sPath,"object: "+String(sValue),"false",406);return setReturn(406,'Value cannot be an object','false');}
+else if(typeof sValue=="function"){if(logActive)sendLogEntry(getMsecSinceStart(),"SetValue",sPath,"function: "+sValue.toString(),"false",406);return setReturn(406,'Value cannot be a function','false');}
+else if(typeof sValue=="number"){sValue=sValue.toString(10);fixedFailure=true;}
+else if(typeof sValue=="boolean"){sValue=""+sValue;fixedFailure=true;}
+else{sValue=""+sValue;}
 try
 {var r=setValue(sPath,sValue);if(!error){if(logActive){sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"true",0);removeByElement(scoDebugValues,sPath);removeByElement(scoDebugValuesTest,sPath);}
 var lastToken=sPath.substring(sPath.lastIndexOf('.')+1);if(lastToken=="completion_status"||lastToken=="success_status"){setValue(sPath+"_SetBySco","true");}
