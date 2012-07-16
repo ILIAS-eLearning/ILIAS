@@ -4796,7 +4796,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			$contributors[$page["last_change_user"]][$page["page_id"]] = 1;
 		}
 
-		$set = $ilDB->queryF("SELECT count(*) as cnt, page_id, user_id FROM page_history ".
+		$set = $ilDB->queryF("SELECT count(DISTINCT page_id, parent_type, hdate) as cnt, page_id, user_id FROM page_history ".
 			" WHERE parent_id = %s AND parent_type = %s AND user_id != %s ".
 			" GROUP BY page_id, user_id ",
 			array("integer", "text", "integer"),
@@ -4810,9 +4810,12 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$c = array();
 		foreach ($contributors as $k => $co)
 		{
-			$name = ilObjUser::_lookupName($k);
-			$c[] = array("user_id" => $k, "pages" => $co,
-				"lastname" => $name["lastname"], "firstname" => $name["firstname"]);
+			if (ilObject::_lookupType($k) == "usr")
+			{
+				$name = ilObjUser::_lookupName($k);
+				$c[] = array("user_id" => $k, "pages" => $co,
+					"lastname" => $name["lastname"], "firstname" => $name["firstname"]);
+			}
 		}
 		
 		return $c;
