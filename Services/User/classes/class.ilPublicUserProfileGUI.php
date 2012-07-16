@@ -233,7 +233,7 @@ class ilPublicUserProfileGUI
 				return;
 			}		
 			
-			return $this->getEmbeddable();	
+			return $this->getEmbeddable(true);	
 		}		
 	}
 	
@@ -242,10 +242,10 @@ class ilPublicUserProfileGUI
 	 * 
 	 * Used in Personal Profile (as preview) and Portfolio (as page block)
 	 */
-	function getEmbeddable()
+	function getEmbeddable($a_add_goto = false)
 	{
-		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilTabs;
-
+		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting;
+		
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))
 		{
@@ -288,19 +288,6 @@ class ilPublicUserProfileGUI
 			$ilCtrl->setParameter($this, "user", $this->getUserId());
 			$tpl->setVariable("HREF_VCARD", $ilCtrl->getLinkTarget($this, "deliverVCard"));
 			//$tpl->setVariable("IMG_VCARD", ilUtil::getImagePath("vcard.png"));
-
-			/*
-			// link to global profile
-			if ($user->prefs["public_profile"] == "g" && $ilSetting->get('enable_global_profiles'))
-			{
-				$tpl->setCurrentBlock("link");
-				$tpl->setVariable("TXT_LINK", $lng->txt("usr_link_to_profile"));
-				include_once("./Services/Link/classes/class.ilLink.php");
-				$tpl->setVariable("HREF_LINK",
-					ilLink::_getStaticLink($user->getId(), "usr"));
-				$tpl->parseCurrentBlock();
-			}			 
-			*/
 		}
 		
 		$webspace_dir = ilUtil::getWebspaceDir("user");
@@ -529,8 +516,16 @@ class ilPublicUserProfileGUI
 				$tpl->parseCurrentBlock();
 			}
 		}
+		
+		$goto = "";
+		if($a_add_goto)
+		{			
+			include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+			$goto = new ilPermanentLinkGUI("usr", $user->getId());
+			$goto = $goto->getHTML();					
+		}
 
-		return $tpl->get();
+		return $tpl->get().$goto;
 	}
 	
 	/**
