@@ -635,7 +635,7 @@ abstract class ilBlockGUI
 	*/
 	function handleDetailLevel()
 	{
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 
 		// set/get detail level
 		if ($this->detail_max > $this->detail_min)
@@ -646,6 +646,7 @@ abstract class ilBlockGUI
 				ilBlockSetting::_writeDetailLevel($this->getBlockType(), $_GET[$this->getDetailParameter()],
 					$ilUser->getId(), $this->block_id);
 				$this->setCurrentDetailLevel($_GET[$this->getDetailParameter()]);
+				$ilCtrl->redirectByClass("ilcolumngui", "");
 			}
 			else
 			{
