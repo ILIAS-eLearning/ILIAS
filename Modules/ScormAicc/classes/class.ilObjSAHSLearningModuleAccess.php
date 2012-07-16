@@ -177,24 +177,6 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
     }
 
 	/**
-	* Checks whether the SCORM module has a certificate or not
-	* @param int user id.
-	* @return true/false
-	*/
-	public static function _lookupCertificate($a_id)
-	{
-		$certificatefile = CLIENT_WEB_DIR . "/certificates/scorm/" . $a_id . "/certificate.xml";
-		if (@file_exists($certificatefile))
-		{
-			return (ilSetting::_lookupValue('scorm', 'certificate_'.$a_id) == 1) ? true : false;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	/**
 		* Checks whether a certificate exists for the active user or not
 		* @param int obj_id Object ID of the SCORM Learning Module
 		* @param int usr_id Object ID of the user. If not given, the active user will be taken
@@ -207,7 +189,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess
 		
 		$completed = false;
 		// check for certificates
-		if (ilObjSAHSLearningModuleAccess::_lookupCertificate($obj_id))
+		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+		if (ilCertificate::isActive() && ilCertificate::isObjectActive($obj_id))
 		{
 			$lpdata = false;
 			include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";

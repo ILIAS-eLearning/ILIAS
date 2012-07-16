@@ -1171,7 +1171,7 @@ class ilObjExercise extends ilObject
 	{
 		// show certificate?
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		if(ilCertificate::isActive())
+		if(ilCertificate::isActive() && ilCertificate::isObjectActive($this->getId()))
 		{
 			$certificate_visible = $this->getCertificateVisibility();
 			// if not never

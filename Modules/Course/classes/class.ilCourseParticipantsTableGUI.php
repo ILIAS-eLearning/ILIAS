@@ -158,9 +158,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->initFilter();
-		
+			
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		$this->enable_certificates = ilCertificate::isActive();
+		$this->enable_certificates = ilCertificate::isActive();		
+		if($this->enable_certificates)
+		{
+			$this->enable_certificates = ilCertificate::isObjectActive($a_parent_obj->object->getId());
+		}
 		if($this->enable_certificates)
 		{
 			$lng->loadLanguageModule('certificate');

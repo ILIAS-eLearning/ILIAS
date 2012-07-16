@@ -608,11 +608,19 @@ class ilCertificate
 	*/
 	public function isComplete()
 	{
-		if (file_exists($this->getAdapter()->getCertificatePath()))
+		if(self::isActive())
 		{
-			if (file_exists($this->getXSLPath()) && (filesize($this->getXSLPath()) > 0))
+			$obj_id = $this->getAdapter()->getCertificateID();
+			if($obj_id && !self::isObjectActive($obj_id))
 			{
-				return TRUE;
+				return FALSE;
+			}
+			if (file_exists($this->getAdapter()->getCertificatePath()))
+			{
+				if (file_exists($this->getXSLPath()) && (filesize($this->getXSLPath()) > 0))
+				{
+					return TRUE;
+				}
 			}
 		}
 		return FALSE;
@@ -628,13 +636,22 @@ class ilCertificate
 	{
 		if (is_object($adapter) && method_exists($adapter, "getCertificatePath"))
 		{
-			$certificatepath = $adapter->getCertificatePath();
-			if (file_exists($certificatepath))
+			if(self::isActive())
 			{
-				$xslpath = $adapter->getCertificatePath() . ilCertificate::_getXSLName();
-				if (file_exists($xslpath) && (filesize($xslpath) > 0))
+				$obj_id = $adapter->getCertificateID();
+				if($obj_id && !self::isObjectActive($obj_id))
 				{
-					return TRUE;
+					return FALSE;
+				}
+			
+				$certificatepath = $adapter->getCertificatePath();
+				if (file_exists($certificatepath))
+				{
+					$xslpath = $adapter->getCertificatePath() . ilCertificate::_getXSLName();
+					if (file_exists($xslpath) && (filesize($xslpath) > 0))
+					{
+						return TRUE;
+					}
 				}
 			}
 		}
@@ -881,21 +898,77 @@ class ilCertificate
 	}
 	
 	public static function isActive()
-	{
+	{				
 		if(self::$is_active === null)
 		{
+			// basic admin setting active?
 			$certificate_active = new ilSetting("certificate");
 			$certificate_active = (bool)$certificate_active->get("active");
+			
+			// java/rtpc-server active?
 			if($certificate_active)
 			{
 				include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-				$certificate_active = ilRPCServerSettings::getInstance()->isEnabled();
+				$certificate_active = ilRPCServerSettings::getInstance()->isEnabled();			
 			}
+			
 			self::$is_active = (bool)$certificate_active;
 		}
 		return self::$is_active;
 	}
 	
+	public static function isObjectActive($a_obj_id)
+	{
+		$chk = self::areObjectsActive(array($a_obj_id));
+		return $chk[$a_obj_id];		
+	}
+	public static function areObjectsActive(array $a_obj_ids)
+	{
+		global $ilDB;
+		
+		$all = array();
+		foreach($a_obj_ids as $id)
+		{
+			$all[$id] = false;
+		}
+		
+		$set = $ilDB->query("SELECT obj_id FROM il_certificate".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$all[$row["obj_id"]] = true;
+		}
+		return $all;
+	}
+	
+	public function readActive()
+	{
+		global $ilDB;
+		
+		$obj_id = $this->adapter->getCertificateID();
+		$set = $ilDB->query("SELECT obj_id FROM il_certificate".
+			" WHERE obj_id = ".$ilDB->quote($obj_id, "integer"));
+	    return $ilDB->numRows($set);
+	}	
+	
+	public function writeActive($a_value)
+	{
+		global $ilDB;
+		
+		$obj_id = $this->adapter->getCertificateID();
+		
+		if((bool)$a_value)
+		{
+			$ilDB->replace("il_certificate",
+				array("obj_id"=>array("integer", $obj_id)),
+				array());		
+		}
+		else
+		{
+			$ilDB->manipulate("DELETE FROM il_certificate".
+				" WHERE obj_id = ".$ilDB->quote($obj_id, "integer"));
+		}
+	}	
 	
 	/**
 	* Creates a redirect to a certificate download
