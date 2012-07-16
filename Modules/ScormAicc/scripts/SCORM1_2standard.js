@@ -506,16 +506,24 @@ function LMSSetValue(s_el,value){
 	function setreturn(thisErrorCode,thisDiag){
 		errorCode=thisErrorCode;
 		diag=thisDiag;
-		var s_return="false";
+		var s_return="false",s_v='"';
 		if(errorCode==0) s_return="true";
-		showCalls('LMSSetValue("'+s_el+'","'+value+'")',s_return,errorCode,diag);
+		if(errorCode==405) s_v='';
+		showCalls('LMSSetValue("'+s_el+'",'+s_v+value+s_v+')',s_return,errorCode,diag);
 		return s_return;
 	}
-	s_el=""+s_el;
-	if (value==null) value="";
+	//check value
+	if (typeof value == "undefined") return setreturn(405,"Value cannot be type undefined");
+	else if (value==null) return setreturn(405,"Value cannot be null");
+	else if (typeof value == "object") return setreturn(405,"Value cannot be an object");
+	else if (typeof value == "function") return setreturn(405,"Value cannot be a function");
+	else if (typeof value == "number") value = value.toString(10);
 	value=""+value;
+	//check state
 	if (!Initialized) return setreturn(301,"");
+	//check element
 	if (s_el=="" || s_el==null) return setreturn(201,"LMSSetValue without element");
+	if (typeof s_el != "string") return setreturn(201,"element of LMSSetValue must be type string");
 	//check if keyword
 	if (s_el.indexOf('_children')>-1 || s_el.indexOf('_count')>-1) return setreturn(402,"");
 	//check if model exists
