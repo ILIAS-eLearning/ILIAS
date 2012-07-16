@@ -12763,5 +12763,5 @@ content#:#cont_AdvancedKnowledge#:#Vertiefungswissen
 content#:#cont_show_adv#:#Vertiefungswissen anzeigen
 content#:#cont_hide_adv#:#Vertiefungswissen verbergen
 registration#:#reg_email_domains#:#Die folgenden Email-Adressdomains sind gültig: %s
-registration#:#reg_allowed_domains#:#Erlaute Email-Adressdomänen
+registration#:#reg_allowed_domains#:#Erlaubte Email-Adressdomänen
 registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen.
