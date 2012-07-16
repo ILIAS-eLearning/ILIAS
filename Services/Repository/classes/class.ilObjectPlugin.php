@@ -20,7 +20,7 @@ abstract class ilObjectPlugin extends ilObject2
 	function __construct($a_ref_id = 0)
 	{
 		$this->initType();
-		parent::__construct($a_id = 0, true);
+		parent::__construct($a_ref_id, true);
 		$this->plugin =
 			ilPlugin::getPluginObject(IL_COMP_SERVICE, "Repository", "robj",
 				ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType()));
