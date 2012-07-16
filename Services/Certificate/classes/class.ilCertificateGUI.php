@@ -216,7 +216,8 @@ class ilCertificateGUI
 			"margin_body_left" => ilUtil::stripSlashes($_POST["margin_body"]["left"]),
 			"certificate_text" => ilUtil::stripSlashes($_POST["certificate_text"], FALSE),
 			"pageheight" => ilUtil::stripSlashes($_POST["pageheight"]),
-			"pagewidth" => ilUtil::stripSlashes($_POST["pagewidth"])
+			"pagewidth" => ilUtil::stripSlashes($_POST["pagewidth"]),
+			"active" => ilUtil::stripSlashes($_POST["active"])
 		);
 		$this->object->getAdapter()->addFormFieldsFromPOST($form_fields);
 		return $form_fields;
@@ -226,8 +227,9 @@ class ilCertificateGUI
 	* Get the form values from the certificate xsl-fo
 	*/
 	private function getFormFieldsFromFO()
-	{
+	{		
 		$form_fields = $this->object->getFormFieldsFromFO();
+		$form_fields["active"] = $this->object->readActive();
 		$this->object->getAdapter()->addFormFieldsFromObject($form_fields);
 		return $form_fields;
 	}
@@ -255,6 +257,10 @@ class ilCertificateGUI
 		$form->setMultipart(TRUE);
 		$form->setTableWidth("100%");
 		$form->setId("certificate");
+		
+		$active = new ilCheckboxInputGUI($this->lng->txt("active"), "active");
+		$active->setChecked($form_fields["active"]);
+		$form->addItem($active);
 
 		$import = new ilFileInputGUI($this->lng->txt("import"), "certificate_import");
 		$import->setRequired(FALSE);
@@ -424,7 +430,8 @@ class ilCertificateGUI
 				{
 					$xslfo = $this->object->processXHTML2FO($form_fields);
 					$this->object->getAdapter()->saveFormFields($form_fields);
-					$this->object->saveCertificate($xslfo);
+					$this->object->saveCertificate($xslfo);					
+					$this->object->writeActive($form_fields["active"]);					
 					ilUtil::sendSuccess($this->lng->txt("saved_successfully"), TRUE);
 					$this->ctrl->redirect($this, "certificateEditor");
 				}

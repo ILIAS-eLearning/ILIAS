@@ -185,14 +185,20 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 				self::$has_certificate[$usr_id][$obj_id] = false;
 			}
 		}
+		
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		if (ilCertificate::isActive())
 		{
+			$obj_active = ilCertificate::areObjectsActive($a_obj_ids);
+		
 			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 			$data = ilCourseParticipants::getPassedUsersForObjects($a_obj_ids, $a_usr_ids);			
 			foreach($data as $rec)
-			{								
-				self::$has_certificate[$rec["usr_id"]][$rec["obj_id"]] = true;
+			{					
+				if($obj_active[$rec["obj_id"]])
+				{
+					self::$has_certificate[$rec["usr_id"]][$rec["obj_id"]] = true;
+				}
 			}
 		}
 	}
@@ -213,6 +219,7 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 			return self::$has_certificate[$a_usr_id][$a_obj_id];
 		}
 		
+		// obsolete?
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		return ilCourseParticipants::getDateTimeOfPassed($a_obj_id, $a_usr_id);				
 	}

@@ -5263,6 +5263,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			// certificate
 			include_once "Services/Certificate/classes/class.ilCertificate.php";
 			if (ilCertificate::isActive() &&
+				ilCertificate::isObjectActive($this->object->getId()) && 
 				ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $ilUser->getId()))
 			{			    
 				$cert_url = $this->ctrl->getLinkTarget($this, "deliverCertificate");
@@ -5327,6 +5328,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		if(!ilCertificate::isActive() ||
+			!ilCertificate::isObjectActive($this->object->getId()) ||
 			!ilCourseParticipants::getDateTimeOfPassed($this->object->getId(), $user_id))
 		{
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);

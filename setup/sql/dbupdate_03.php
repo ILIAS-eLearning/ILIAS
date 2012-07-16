@@ -11384,3 +11384,41 @@ $ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'substyle', '
 		}
 
 ?>
+<#3661>
+<?php
+$fields = array(
+	'obj_id'	=> array(
+		'type'		=> 'integer',
+		'length'	=> 4,
+		'notnull'		=> true
+	)
+);
+
+$ilDB->createTable('il_certificate',$fields);
+$ilDB->addPrimaryKey('il_certificate',array('obj_id'));
+
+?>
+<#3662>
+<?php
+
+$cdirs = array(
+	CLIENT_WEB_DIR . "/course/certificates/",
+	CLIENT_WEB_DIR . "/exercise/certificates/",
+	CLIENT_WEB_DIR . "/certificates/scorm/",
+	CLIENT_WEB_DIR . "/certificates/skill/",
+	CLIENT_WEB_DIR . "/assessment/certificates/"
+);
+$coids = array();
+foreach($cdirs as $cdir)
+{
+	foreach(glob($cdir."*", GLOB_ONLYDIR) as $codir)
+	{
+		$coids[] = str_replace($cdir, "", $codir);		
+	}	
+}
+foreach($coids as $coid)
+{
+	$ilDB->insert("il_certificate", array("obj_id"=>array("integer", $coid)));	
+}
+
+?>
