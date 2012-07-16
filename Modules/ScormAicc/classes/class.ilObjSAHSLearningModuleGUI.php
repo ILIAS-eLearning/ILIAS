@@ -174,6 +174,12 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				{
 					$cmd.= "Object";
 				}
+				
+				// #9225
+				if($cmd == "redrawHeaderAction")
+				{
+					$cmd .= "Object";
+				}
 
 				$ret =& $this->$cmd();
 				break;
