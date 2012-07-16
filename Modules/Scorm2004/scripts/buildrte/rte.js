@@ -1,4 +1,4 @@
-// Build: 2012717010028 
+// Build: 2012717012045 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13130,11 +13130,11 @@ function init(config)
 			launchTarget(tolaunch);
 		} else {
 			loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);	
+			updateControls();
+			updateNav();
 		}
 	}
 	
-	updateControls();
-	updateNav();
 	if (logActive==true) {
 		var elm = all("toggleLog");
 		elm.style.display ="inline";
