@@ -1,4 +1,4 @@
-// Build: 2012717010028 
+// Build: 2012717012045 
 
 function ADLAuxiliaryResource()
 {}
@@ -2757,8 +2757,8 @@ for(var element in tempCur){msequencer.mSeqTree.mActivityMap[element]["mCurTrack
 initStatusArray();if(wasSuspended==true){mlaunch=msequencer.navigate(NAV_RESUMEALL);}else{mlaunch=msequencer.navigate(NAV_NONE);if(mlaunch.mNavState.mStart){mlaunch=msequencer.navigate(NAV_START);}}
 var tolaunch=null;var count=0;for(var myitem in mlaunch.mNavState.mChoice){if(mlaunch.mNavState.mChoice[myitem].mInChoice==true&&mlaunch.mNavState.mChoice[myitem].mIsSelectable==true&&mlaunch.mNavState.mChoice[myitem].mIsEnabled==true){tolaunch=mlaunch.mNavState.mChoice[myitem].mID;count=count+1;}}
 if(count==1||this.config.hide_navig==1){toggleView();}
-if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID],wasSuspended);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
-updateControls();updateNav();if(logActive==true){var elm=all("toggleLog");elm.style.display="inline";}
+if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID],wasSuspended);}else{if(count==1&&tolaunch!=null){launchTarget(tolaunch);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);updateControls();updateNav();}}
+if(logActive==true){var elm=all("toggleLog");elm.style.display="inline";}
 if(this.config.session_ping>0)
 {setTimeout("pingSession()",this.config.session_ping*1000);}}
 function initStatusArray(){for(element in msequencer.mSeqTree.mActivityMap){statusArray[element]=new Object();statusArray[element]['completion']=null;statusArray[element]['success']=null;}}
