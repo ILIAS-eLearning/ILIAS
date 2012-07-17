@@ -43,17 +43,12 @@ class ilGoogleMapGUI
 	function ilGoogleMapGUI()
 	{
 		global $lng, $tpl;
-		
-		$gm_set = new ilSetting("google_maps");
+			
 		$lng->loadLanguageModule("gmaps");
 		
-		if ($gm_set->get("api_key") != "")
-		{
-			$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
-				$gm_set->get("api_key"), false);
-//			$tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
-			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
-		}
+		$tpl->addJavaScript("http://maps.google.com/maps/api/js?sensor=false", false);
+		$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
+		
 	}
 
 	/**
@@ -295,111 +290,95 @@ class ilGoogleMapGUI
 		
 		$this->tpl = new ilTemplate("tpl.google_map.html",
 			true, true, "Services/GoogleMaps");
-			
-		$gm_set = new ilSetting("google_maps");
-		if ($gm_set->get("api_key") != "")
-		{
-			$tpl->addJavaScript("http://maps.google.com/maps?file=api&amp;v=2&amp;key=".
-				$gm_set->get("api_key"));
-//			$tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
-			$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
-			
-			// add user markers
-			$cnt = 0;
-			foreach($this->user_marker as $user_id)
-			{
-				if (ilObject::_exists($user_id))
-				{
-					$user = new ilObjUser($user_id);
-					if ($user->getLatitude() != 0 && $user->getLongitude() != 0 &&
-						$user->getPref("public_location") == "y")
-					{
-						$this->tpl->setCurrentBlock("user_marker");
-						$this->tpl->setVariable("UMAP_ID",
-							$this->getMapId());
-						$this->tpl->setVariable("CNT", $cnt);
+		
+		$tpl->addJavaScript("http://maps.google.com/maps/api/js?sensor=false", false);
+		$tpl->addJavaScript("Services/GoogleMaps/js/ServiceGoogleMaps.js");
 
-						$this->tpl->setVariable("ULAT", htmlspecialchars($user->getLatitude()));
-						$this->tpl->setVariable("ULONG", htmlspecialchars($user->getLongitude()));
-						$info = htmlspecialchars($user->getFirstName()." ".$user->getLastName());
-						$delim = "<br \/>";
-						if ($user->getPref("public_institution") == "y")
-						{
-							$info.= $delim.htmlspecialchars($user->getInstitution());
-							$delim = ", ";
-						}
-						if ($user->getPref("public_department") == "y")
-						{
-							$info.= $delim.htmlspecialchars($user->getDepartment());
-						}
-						$delim = "<br \/>";
-						if ($user->getPref("public_street") == "y")
-						{
-							$info.= $delim.htmlspecialchars($user->getStreet());
-						}
-						if ($user->getPref("public_zip") == "y")
-						{
-							$info.= $delim.htmlspecialchars($user->getZipcode());
-							$delim = " ";
-						}
-						if ($user->getPref("public_city") == "y")
-						{
-							$info.= $delim.htmlspecialchars($user->getCity());
-						}
-						$delim = "<br \/>";
-						if ($user->getPref("public_country") == "y")
-						{
-							$info.= $delim.htmlspecialchars($user->getCountry());
-						}
-						$this->tpl->setVariable("USER_INFO",
-							$info);
-						$this->tpl->setVariable("IMG_USER",
-							$user->getPersonalPicturePath("xsmall"));
-						$this->tpl->parseCurrentBlock();
-						$cnt++;
+		// add user markers
+		$cnt = 0;
+		foreach($this->user_marker as $user_id)
+		{
+			if (ilObject::_exists($user_id))
+			{
+				$user = new ilObjUser($user_id);
+				if ($user->getLatitude() != 0 && $user->getLongitude() != 0 &&
+					$user->getPref("public_location") == "y")
+				{
+					$this->tpl->setCurrentBlock("user_marker");
+					$this->tpl->setVariable("UMAP_ID",
+						$this->getMapId());
+					$this->tpl->setVariable("CNT", $cnt);
+
+					$this->tpl->setVariable("ULAT", htmlspecialchars($user->getLatitude()));
+					$this->tpl->setVariable("ULONG", htmlspecialchars($user->getLongitude()));
+					$info = htmlspecialchars($user->getFirstName()." ".$user->getLastName());
+					$delim = "<br \/>";
+					if ($user->getPref("public_institution") == "y")
+					{
+						$info.= $delim.htmlspecialchars($user->getInstitution());
+						$delim = ", ";
 					}
+					if ($user->getPref("public_department") == "y")
+					{
+						$info.= $delim.htmlspecialchars($user->getDepartment());
+					}
+					$delim = "<br \/>";
+					if ($user->getPref("public_street") == "y")
+					{
+						$info.= $delim.htmlspecialchars($user->getStreet());
+					}
+					if ($user->getPref("public_zip") == "y")
+					{
+						$info.= $delim.htmlspecialchars($user->getZipcode());
+						$delim = " ";
+					}
+					if ($user->getPref("public_city") == "y")
+					{
+						$info.= $delim.htmlspecialchars($user->getCity());
+					}
+					$delim = "<br \/>";
+					if ($user->getPref("public_country") == "y")
+					{
+						$info.= $delim.htmlspecialchars($user->getCountry());
+					}
+					$this->tpl->setVariable("USER_INFO",
+						$info);
+					$this->tpl->setVariable("IMG_USER",
+						$user->getPersonalPicturePath("xsmall"));
+					$this->tpl->parseCurrentBlock();
+					$cnt++;
 				}
 			}
-
-			$this->tpl->setVariable("MAP_ID", $this->getMapId());
-			$lat = is_numeric($this->getLatitude())
-				? $this->getLatitude()
-				: 0;
-			$long = is_numeric($this->getLongitude())
-				? $this->getLongitude()
-				: 0;
-			$this->tpl->setVariable("WIDTH", $this->getWidth());
-			$this->tpl->setVariable("HEIGHT", $this->getHeight());
-			$this->tpl->setVariable("LAT", $this->getLatitude());
-			$this->tpl->setVariable("LONG", $this->getLongitude());
-			$this->tpl->setVariable("ZOOM", (int) $this->getZoom());
-			$type_control = $this->getEnableTypeControl()
-				? "true"
-				: "false";
-			$this->tpl->setVariable("TYPE_CONTROL", $type_control);
-			$nav_control = $this->getEnableNavigationControl()
-				? "true"
-				: "false";
-			$this->tpl->setVariable("NAV_CONTROL", $nav_control);
-			$update_listener = $this->getEnableUpdateListener()
-				? "true"
-				: "false";
-			$this->tpl->setVariable("UPDATE_LISTENER", $update_listener);
-			$large_map_control = $this->getEnableLargeMapControl()
-				? "true"
-				: "false";
-			$this->tpl->setVariable("LARGE_CONTROL", $large_map_control);
-			$central_marker = $this->getEnableCentralMarker()
-				? "true"
-				: "false";
-			$this->tpl->setVariable("CENTRAL_MARKER", $central_marker);
-
-			return $this->tpl->get();
 		}
-		else
-		{
-			return "";
-		}
+
+		$this->tpl->setVariable("MAP_ID", $this->getMapId());
+		$this->tpl->setVariable("WIDTH", $this->getWidth());
+		$this->tpl->setVariable("HEIGHT", $this->getHeight());
+		$this->tpl->setVariable("LAT", $this->getLatitude());
+		$this->tpl->setVariable("LONG", $this->getLongitude());
+		$this->tpl->setVariable("ZOOM", (int) $this->getZoom());
+		$type_control = $this->getEnableTypeControl()
+			? "true"
+			: "false";
+		$this->tpl->setVariable("TYPE_CONTROL", $type_control);
+		$nav_control = $this->getEnableNavigationControl()
+			? "true"
+			: "false";
+		$this->tpl->setVariable("NAV_CONTROL", $nav_control);
+		$update_listener = $this->getEnableUpdateListener()
+			? "true"
+			: "false";
+		$this->tpl->setVariable("UPDATE_LISTENER", $update_listener);
+		$large_map_control = $this->getEnableLargeMapControl()
+			? "true"
+			: "false";
+		$this->tpl->setVariable("LARGE_CONTROL", $large_map_control);
+		$central_marker = $this->getEnableCentralMarker()
+			? "true"
+			: "false";
+		$this->tpl->setVariable("CENTRAL_MARKER", $central_marker);
+
+		return $this->tpl->get();
 	}
 	
 	/**
