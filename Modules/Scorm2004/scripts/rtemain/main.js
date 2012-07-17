@@ -780,12 +780,12 @@ Interaction.prototype =
 	cmi_interaction_id : 0,
 	description : null,
 	id : null,
-	latency : 0,
+	latency : null,
 	learner_response : null,
 	result : null,
 	timestamp : null,
 	type : null,
-	weighting : 0
+	weighting : null
 };
 
 function Comment(cmi_node_id) 

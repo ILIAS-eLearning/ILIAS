@@ -1,4 +1,4 @@
-// Build: 2012717012045 
+// Build: 2012717082342 
 
 function ADLAuxiliaryResource()
 {}
@@ -2445,7 +2445,7 @@ if(typeof d==="number")d=new Date(d);var r=[d.getFullYear(),'-',f(d.getMonth()+1
 {this.cmi_node_id="$"+remoteInsertId++;this.hideLMSUIs=new Object();this.objectives=new Object();this.primaryObjective=new Object();this.comments=new Object();this.interactions=new Object();this.rules=new Object();}
 this.Activity=Activity;Activity.prototype={dirty:0,accesscount:0,accessduration:0,accessed:0,activityAbsoluteDuration:0,activityAbsoluteDurationLimit:0,activityAttemptCount:0,activityExperiencedDuration:0,activityExperiencedDurationLimit:0,activityProgressStatus:false,attemptAbsoluteDuration:0,attemptAbsoluteDurationLimit:null,attemptCompletionAmount:0,attemptCompletionStatus:false,attemptExperiencedDuration:0,attemptExperiencedDurationLimit:0,attemptLimit:0,attemptProgressStatus:false,audio_captioning:0,audio_level:0,beginTimeLimit:0,choice:true,choiceExit:true,completion:0,completion_status:null,completionSetByContent:false,completionThreshold:null,constrainChoice:false,cp_node_id:null,created:0,credit:'credit',dataFromLMS:null,delivery_speed:0,endTimeLimit:0,entry:'ab-initio',exit:null,flow:false,foreignId:0,forwardOnly:false,id:null,index:0,isvisible:true,language:null,location:null,max:null,measureSatisfactionIfActive:true,min:null,modified:0,objectiveMeasureWeight:1.0,objectiveSetByContent:false,parameters:null,parent:null,preventActivation:false,progress_measure:null,randomizationTiming:'never',raw:null,reorderChildren:false,requiredForCompleted:'always',requiredForIncomplete:'always',requiredForNotSatisfied:'always',requiredForSatisfied:'always',resourceId:null,rollupObjectiveSatisfied:true,rollupProgressCompletion:true,scaled:null,scaled_passing_score:null,selectCount:0,selectionTiming:'never',session_time:0,success_status:null,suspend_data:null,timeLimitAction:null,title:null,total_time:'PT0H0M0S',tracked:true,useCurrentAttemptObjectiveInfo:true,useCurrentAttemptProgressInfo:true};function Interaction(cmi_node_id)
 {this.cmi_node_id=cmi_node_id;this.correct_responses=new Object();this.objectives=new Object();}
-this.Interaction=Interaction;Interaction.prototype={cmi_interaction_id:0,description:null,id:null,latency:0,learner_response:null,result:null,timestamp:null,type:null,weighting:0};function Comment(cmi_node_id)
+this.Interaction=Interaction;Interaction.prototype={cmi_interaction_id:0,description:null,id:null,latency:null,learner_response:null,result:null,timestamp:null,type:null,weighting:null};function Comment(cmi_node_id)
 {this.cmi_node_id=cmi_node_id;}
 this.Comment=Comment;Comment.prototype={cmi_comment_id:0,comment:null,timestamp:null,location:null,sourceIsLMS:false};function CorrectResponse(cmi_interaction_id)
 {this.cmi_interaction_id=cmi_interaction_id;}
@@ -2850,7 +2850,7 @@ if(typeof this.config.time==="number"&&this.config.time>10)
 isSaving=false;return i;}
 function getAPI(cp_node_id)
 {function getAPISet(k,dat,api)
-{if(dat!=undefined&&dat!==null)
+{if(typeof dat!="undefined"&&dat!==null)
 {api[k]=dat.toString();}}
 function getADLExtensionWalk(model,data,api)
 {var k,i;if(!model.children)return;}
@@ -2890,7 +2890,7 @@ else if(mod.type===Array)
 {var map=mod.mapping||{name:k.substr(0,k.length-1)};map.dbtable=map.name+"s";map.dbname='cmi_'+map.name+'_id';map.clsname=map.name.charAt().toUpperCase()+map.name.substr(1);for(i in ap)
 {var dat=data[map.dbtable];var row=ap[i];if(map.refunc)
 {var remap=map.refunc(dat[i]);row[remap[0]]=remap[1];}
-if(!row[map.dbname])row[map.dbname]='$'+(remoteInsertId++);var id=row[mod.unique]||row[map.dbname];var cls=this[map.clsname]||Object;if(!dat[id])
+if((typeof row[map.dbname]=="undefined"||!row[map.dbname]))row[map.dbname]=i;var id=row[mod.unique]||row[map.dbname];var cls=this[map.clsname]||Object;if(!dat[id])
 {dat[id]=new cls;}
 setAPIWalk(mod,dat[id],row);}}
 else

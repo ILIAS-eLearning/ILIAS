@@ -1,4 +1,4 @@
-// Build: 2012717012045 
+// Build: 2012717082342 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11560,12 +11560,12 @@ Interaction.prototype =
 	cmi_interaction_id : 0,
 	description : null,
 	id : null,
-	latency : 0,
+	latency : null,
 	learner_response : null,
 	result : null,
 	timestamp : null,
 	type : null,
-	weighting : 0
+	weighting : null
 };
 
 function Comment(cmi_node_id) 
@@ -13520,7 +13520,7 @@ function getAPI(cp_node_id)
 {
 	function getAPISet (k, dat, api) 
 	{
-		if (dat!=undefined && dat!==null) 
+		if (typeof dat!="undefined" && dat!==null) 
 		{
 		
 			api[k] = dat.toString();
@@ -13692,7 +13692,7 @@ function setAPI(cp_node_id, api)
 						var remap = map.refunc(dat[i]);
 						row[remap[0]] = remap[1];
 					}
-					if (!row[map.dbname]) row[map.dbname] = '$'+(remoteInsertId++);
+					if ((typeof row[map.dbname]=="undefined" || !row[map.dbname])) row[map.dbname]=i;
 					var id = row[mod.unique] || row[map.dbname];
 					var cls = this[map.clsname] || Object;
 					if (!dat[id]) 
