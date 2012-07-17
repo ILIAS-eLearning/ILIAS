@@ -1517,7 +1517,7 @@ class ilTrQuery
 		}
 	}
 	
-	static public function searchObjects($a_type, $a_title = null, $a_root = null, $a_hidden = null)
+	static public function searchObjects($a_type, $a_title = null, $a_root = null, $a_hidden = null, $a_preset_obj_ids = null)
 	{
 		global $ilDB, $tree;
 		
@@ -1550,6 +1550,11 @@ class ilTrQuery
 		if(is_array($a_hidden))
 		{
 			$sql .= " AND ".$ilDB->in("o.obj_id", $a_hidden, true, "integer");
+		}
+		
+		if(is_array($a_preset_obj_ids))
+		{
+			$sql .= " AND ".$ilDB->in("o.obj_id", $a_preset_obj_ids, false, "integer");
 		}
 		
 		$set = $ilDB->query($sql);
