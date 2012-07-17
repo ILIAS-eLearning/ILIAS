@@ -3,26 +3,40 @@
 
 
 /**
-* Class ilPaymentVendors
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id: class.ilPaymentVendors.php 22133 2009-10-16 08:09:11Z nkrzywon $
-*
-* @extends ilObject
-* @package ilias-core
-*/
+ * Class ilPaymentVendors
+ * @author  Nadia Ahmad  <nahmad@databay.de>
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id: class.ilPaymentVendors.php 22133 2009-10-16 08:09:11Z nkrzywon $
+ * @package ilias-core
+ */
 
 class ilPaymentVendors
 {
-	var $db = null;
-
-	var $vendors = array();
+	private static $_instance;
 
 	/**
-	* Constructor
-	* @access	public
-	*/
-	public function __construct()
+	 * @var $db ilDB
+	 */
+	public $db = null;
+
+	public $vendors = array();
+
+
+	public static function getInstance()
+	{
+		if(!isset(self::$_instance))
+		{
+			self::$_instance = new ilPaymentVendors();
+		}
+
+		return self::$_instance;
+	}
+
+	/**
+	 * Constructor
+	 * @access    private
+	 */
+	private function __construct()
 	{
 		global $ilDB;
 
@@ -48,31 +62,28 @@ class ilPaymentVendors
 			die("class.ilPaymentVendors::add() Vendor already exists");
 		}
 
-		$statement = $this->db->manipulateF('
-			INSERT INTO payment_vendors
-			(	vendor_id,
-				cost_center
-			) VALUES (%s,%s)',
-			array('integer', 'text'),
-			array($a_usr_id, 'IL_INST_ID_'.$a_usr_id));
-		
+		$this->db->insert('payment_vendors',
+			array(
+				'vendor_id'       => array('integer', $a_usr_id),
+				'cost_center'     => array('text', 'IL_INST_ID_' . $a_usr_id)
+			));
+
 		$this->__read();
 
 		return true;
 	}
+
 	public function update($a_usr_id, $a_cost_center)
 	{
-		$statement = $this->db->manipulateF('
-			UPDATE payment_vendors 
-			SET cost_center = %s
-			WHERE vendor_id = %s',
-			array('text', 'integer'),
-			array($a_cost_center, $a_usr_id));	
-		
+		$this->db->update('payment_vendors',
+			array('cost_center'    => array('text', $a_cost_center)),
+			array('vendor_id'    => array('integer', $a_usr_id)));
+
 		$this->__read();
 
 		return true;
 	}
+
 	public function delete($a_usr_id)
 	{
 		if(!isset($this->vendors[$a_usr_id]))
@@ -80,13 +91,15 @@ class ilPaymentVendors
 			die("class.ilPaymentVendors::delete() Vendor does not exist");
 		}
 
-		$statement = $this->db->manipulateF('
+		$this->db->manipulateF('
 			DELETE FROM payment_vendors WHERE vendor_id = %s',
 			array('integer'),
-			array($a_usr_id)); 
+			array($a_usr_id));
+
+		// deleting of trustees is done by gui as a next step    
 
 		$this->__read();
-		
+
 		return true;
 	}
 
@@ -97,10 +110,10 @@ class ilPaymentVendors
 
 		$res = $this->db->query('SELECT * FROM payment_vendors');
 
-				
+
 		while($row = $this->db->fetchObject($res))
 		{
-			$this->vendors[$row->vendor_id]['vendor_id'] = $row->vendor_id;
+			$this->vendors[$row->vendor_id]['vendor_id']   = $row->vendor_id;
 			$this->vendors[$row->vendor_id]['cost_center'] = $row->cost_center;
 		}
 		return true;
@@ -109,29 +122,35 @@ class ilPaymentVendors
 	// STATIC
 	public static function _isVendor($a_usr_id)
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
 		$res = $ilDB->queryf('
 			SELECT * FROM payment_vendors WHERE vendor_id = %s',
 			array('integer'), array($a_usr_id));
-		
-		return $res->numRows() ? true : false;
+
+		return $ilDB->numRows($res) ? true : false;
 	}
 
 	public static function _getCostCenter($a_usr_id)
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
 		$res = $ilDB->queryf('
 			SELECT * FROM payment_vendors WHERE vendor_id = %s',
-			array('integer'),array($a_usr_id));
-	
+			array('integer'), array($a_usr_id));
+
 		while($row = $ilDB->fetchObject($res))
 		{
 			return $row->cost_center;
 		}
 		return -1;
-	}		
+	}
 
 } // END class.ilPaymentVendors
 ?>

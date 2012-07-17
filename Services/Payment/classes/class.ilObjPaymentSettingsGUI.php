@@ -4,6 +4,7 @@
 /**
 * Class ilObjPaymentSettingsGUI
 *
+* @author Nadia Ahmad <nahmad@databay.de> 
 * @author Stefan Meyer <meyer@leifos.com> 
 * @author Jens Conze <jc@databay.de> 
 * @author Jesper Godvad <jesper@ilias.dk>
@@ -35,7 +36,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	const CONDITIONS_EDITOR_PAGE_ID = 99999997;
 
 	public $user_obj = null;
+	
 	public $pobject = null;
+	/**
+	 * @var $genSetData ilPaymentSettings
+	 */
 	public $genSetData = null;
 
 	public $active_sub_tab;
@@ -45,6 +50,18 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	public $form = null;
 	
 	public $ilErr = null;
+	public $vendors_obj = null;
+
+	/**
+	 * @var $ctrl ilCtrl
+	 */
+	public $ctrl = null;
+
+	/**
+	 * @var $tabs_gui ilTabsGUI
+	 */
+	public $tabs_gui = null;
+	
 	/**
 	* Constructor
 	* @access public
@@ -59,7 +76,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$this->pobject = new ilPaymentObject($this->user_obj);
 		
 		$this->genSetData = ilPaymentSettings::_getInstance();
-		#$this->genSetData = $genSet->getAll();
+		$this->vendors_obj = ilPaymentVendors::getInstance();
 
 		$this->type = 'pays';
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
@@ -167,8 +184,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			return $this->vatsObject();
 		}
 // check vendors
-		$this->object->initPaymentVendorsObject();
-		$vendors = $this->object->payment_vendors_obj->getVendors();
+		$vendors = $this->vendors_obj->getVendors();
 
 		if(count($vendors)  == 0)
 		{
@@ -194,7 +210,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
  */
 		
 		/**
-		 * @class  $ilToolbar ilToolbar
+		 * @var  $ilToolbar ilToolbarGUI
 		 */
 
 		global $ilToolbar;
@@ -341,7 +357,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	}
 	
 	public function forwardToPageObject()
-	{	
+	{
+		/**
+ 		 * @var $ilTabs ilTabsGUI
+		 */
 		global $ilTabs;
 		
 		if(!(int)$_GET['pobject_id'])
@@ -397,6 +416,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 	public function saveBmfSettingsObject()
 	{
+		/**
+ 		 * @var $rbacsystem $RbacSystem
+		 */
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'read'
@@ -1329,13 +1351,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 	private function __getVendors()
 	{
-		include_once 'Services/Payment/classes/class.ilPaymentVendors.php';
-		
 		$options = array();		
 		$vendors = array();
 		
-		$vendor_obj = new ilPaymentVendors();
-		$all_vendors = $vendor_obj->getVendors();
+		$all_vendors = $this->vendors_obj->getVendors();
 		if (is_array($all_vendors))
 		{
 			foreach ($all_vendors as $vendor)
@@ -3042,8 +3061,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ilToolbar->addFormButton($this->lng->txt("add"), "search");
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 
-		$this->object->initPaymentVendorsObject();
-		if(!count($vendors = $this->object->payment_vendors_obj->getVendors()))
+		if(!count($vendors = $this->vendors_obj->getVendors()))
 		{
 			ilUtil::sendInfo($this->lng->txt('pay_no_vendors_created'));
 		}
@@ -3249,8 +3267,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		include_once './Services/Excel/classes/class.ilExcelUtils.php';
 
-		$this->object->initPaymentVendorsObject();
-
 		$workbook = $pewa->getWorkbook();
 		$worksheet = $workbook->addWorksheet($this->lng->txt('pays_vendor'));
 
@@ -3270,7 +3286,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$worksheet->writeString(1,1,$this->lng->txt('fullname'),$pewa->getFormatHeader());
 		$worksheet->writeString(1,2,$this->lng->txt('pays_cost_center'),$pewa->getFormatHeader());
 
-		if(!count($vendors = $this->object->payment_vendors_obj->getVendors()))
+		if(!count($vendors = $this->vendors_obj->getVendors()))
 		{
 			return false;
 		}
@@ -3314,13 +3330,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$oConfirmationGUI->setHeaderText($this->lng->txt("info_delete_sure"));
 			$oConfirmationGUI->setCancel($this->lng->txt("cancel"), "paymethods");
 			$oConfirmationGUI->setConfirm($this->lng->txt("confirm"), "deleteAddressesForPaymethods");
-			
+			var_dump($_POST);
 			foreach($askForDeletingAddresses as $pm_id)
 			{
 				$pm_obj = new ilPayMethods($pm_id);
-				
-				$oConfirmationGUI->addHiddenItem('pm_id[]',$pm_id);
-				$oConfirmationGUI->additem('paymethod',$pm_obj->getPmId(), $this->lng->txt('delete_addresses_bill').' -> '.ilPayMethods::getStringByPaymethod($pm_obj->getPmTitle()));
+				$oConfirmationGUI->additem('paymethod['.$pm_obj->getPmId().']',$pm_obj->getPmId(), $this->lng->txt('delete_addresses_bill').' -> '.ilPayMethods::getStringByPaymethod($pm_obj->getPmTitle()));
 			}
 			
 			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHtml());
@@ -3474,11 +3488,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilErr->MESSAGE);
 		}
 
-		$this->object->initPaymentVendorsObject();
-
 		foreach($_SESSION['pays_vendor'] as $vendor)
 		{
-			$this->object->payment_vendors_obj->delete($vendor);
+			$this->vendors_obj->delete($vendor);
 			ilPaymentTrustees::_deleteTrusteesOfVendor($vendor);
 		}
 
@@ -3517,9 +3529,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$_SESSION['pays_vendor'] = $_POST['vendor'][0];
 
-		$this->object->initPaymentVendorsObject();
-
-		if (!is_array($this->object->payment_vendors_obj->vendors[$_SESSION['pays_vendor']]))
+		if (!is_array($this->vendors_obj->vendors[$_SESSION['pays_vendor']]))
 		{
 			$this->vendorsObject();
 
@@ -3533,13 +3543,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$form_gui->setTitle($this->lng->txt('pays_vendor'));
 
 		$oVendorGUI = new ilNonEditableValueGUI($this->lng->txt('pays_vendor'));		
-		$oVendorGUI->setValue(ilObjUser::getLoginByUserId($this->object->payment_vendors_obj->vendors[$_SESSION['pays_vendor']]['vendor_id']), true);	
+		$oVendorGUI->setValue(ilObjUser::getLoginByUserId($this->vendors_obj->vendors[$_SESSION['pays_vendor']]['vendor_id']), true);	
 		$form_gui->addItem($oVendorGUI);	
 		
 		$oCostcenterGUI = new ilTextInputGUI($this->lng->txt('pays_cost_center'),'cost_center');
 		$oCostcenterGUI->setValue($this->error != '' && isset($_POST['cost_center'])
 								? ilUtil::prepareFormOutput($_POST['cost_center'],true)
-								: ilUtil::prepareFormOutput($this->object->payment_vendors_obj->vendors[$_SESSION['pays_vendor']]['cost_center'],true));
+								: ilUtil::prepareFormOutput($this->vendors_obj->vendors[$_SESSION['pays_vendor']]['cost_center'],true));
 		$form_gui->addItem($oCostcenterGUI);	
 
 		$form_gui->addCommandButton('performEditVendor',$this->lng->txt('save'));
@@ -3572,9 +3582,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			return true;
 		}
 
-		$this->object->initPaymentVendorsObject();
-
-		if (!is_array($this->object->payment_vendors_obj->vendors[$_SESSION['pays_vendor']]))
+		if (!is_array($this->vendors_obj->vendors[$_SESSION['pays_vendor']]))
 		{
 			$this->vendorsObject();
 			return true;
@@ -3589,8 +3597,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			
 		}
 
-		$this->object->initPaymentVendorsObject();
-		$this->object->payment_vendors_obj->update($_SESSION['pays_vendor'], $_POST['cost_center']);
+		$this->vendors_obj->update($_SESSION['pays_vendor'], $_POST['cost_center']);
 
 		unset($_SESSION['pays_vendor']);
 
@@ -3736,16 +3743,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			return true;
 		}
 		
-		$this->object->initPaymentVendorsObject();
-
-		if($this->object->payment_vendors_obj->isAssigned($usr_id))
+		if($this->vendors_obj->isAssigned($usr_id))
 		{
 			ilUtil::sendFailure($this->lng->txt('pays_user_already_assigned'));
 			$this->vendorsObject();
 
 			return true;
 		}
-		$this->object->payment_vendors_obj->add($usr_id);
+		$this->vendors_obj->add($usr_id);
 
 		ilUtil::sendSuccess($this->lng->txt('pays_added_vendor'));
 		$this->vendorsObject();
@@ -3772,17 +3777,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			return false;
 		}
 		
-		$this->object->initPaymentVendorsObject();
-
 		$already_assigned = $assigned = 0;
 		foreach($_POST['user'] as $usr_id)
 		{
-			if($this->object->payment_vendors_obj->isAssigned($usr_id))
+			if($this->vendors_obj->isAssigned($usr_id))
 			{
 				++$already_assigned;
 				continue;
 			}
-			$this->object->payment_vendors_obj->add($usr_id);
+			$this->vendors_obj->add($usr_id);
 			++$assigned;
 			
 			// TODO: SEND NOTIFICATION
@@ -4611,10 +4614,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{
 		// delete addresses here
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
-		
 		$this->__initBookingObject();	
 		
-		foreach($_POST['pm_id'] as $pay_method)
+		foreach($_POST['paymethod'] as $pay_method)
 		{
 			ilPayMethods::_disableSaveUserAddress($pay_method);
 			$del_bookings = $this->booking_obj->deleteAddressesByPaymethod((int)$pay_method);

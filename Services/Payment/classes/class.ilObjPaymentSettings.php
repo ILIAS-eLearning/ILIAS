@@ -53,15 +53,5 @@ class ilObjPaymentSettings extends ilObject
 		return true;
 	}
 
-	public function initPaymentVendorsObject()
-	{
-		if(!is_object($this->payment_vendors_obj))
-		{
-			include_once "./Services/Payment/classes/class.ilPaymentVendors.php";
-
-			$this->payment_vendors_obj = new ilPaymentVendors();
-		}
-		return true;
-	}
 } // END class.ilObjPaymentSettings
 ?>
