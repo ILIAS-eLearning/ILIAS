@@ -693,7 +693,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	*/
 	function editGoogleMapsObject()
 	{
-		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
+		global $ilAccess, $lng, $ilCtrl, $tpl;
 		
 		$gm_set = new ilSetting("google_maps");
 		
@@ -703,8 +703,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		}
 		
 		$this->__initSubTabs("editGoogleMaps");
-
-		$api_key = $gm_set->get("api_key");
+		
 		$std_latitude = $gm_set->get("std_latitude");
 		$std_longitude = $gm_set->get("std_longitude");
 		$std_zoom = $gm_set->get("std_zoom");
@@ -721,15 +720,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$enable->setInfo($lng->txt("gmaps_enable_gmaps_info"));
 		$form->addItem($enable);
 
-		// API key
-		$text_prop = new ilTextInputGUI($lng->txt("gmaps_api_key"), "api_key");
-		$text_prop->setInfo($lng->txt("gmaps_api_key_desc").' <a href="'.$api_url.'" target="_blank">'.$api_url.'</a>');
-		$text_prop->setValue($api_key);
-		$text_prop->setRequired(false);
-		$text_prop->setMaxLength(200);
-		$text_prop->setSize(60);
-		$form->addItem($text_prop);
-		
 		// location property
 		$loc_prop = new ilLocationInputGUI($lng->txt("gmaps_std_location"),
 			"std_location");
@@ -755,7 +745,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$gm_set = new ilSetting("google_maps");
 		
 		$gm_set->set("enable", ilUtil::stripSlashes($_POST["enable"]));
-		$gm_set->set("api_key", ilUtil::stripSlashes($_POST["api_key"]));
 		$gm_set->set("std_latitude", ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
 		$gm_set->set("std_longitude", ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
 		$gm_set->set("std_zoom", ilUtil::stripSlashes($_POST["std_location"]["zoom"]));

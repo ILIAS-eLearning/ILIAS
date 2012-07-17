@@ -1,28 +1,26 @@
 ilMapData = Array();
 ilMap = Array();
-ilMgr = Array();
 ilCM = Array();
 ilMapUserMarker = Array();
 
-// if (typeof(GIcon) == "function") // would do the same
-if (window.GIcon)
+if (google.maps)
 {
-	ilMarkerIcon = new GIcon();
-	ilMarkerIcon.image = "./Services/GoogleMaps/images/mm_20_blue.png";
-	ilMarkerIcon.shadow = "./Services/GoogleMaps/images/mm_20_shadow.png";
-	ilMarkerIcon.iconSize = new GSize(12, 20);
-	ilMarkerIcon.shadowSize = new GSize(22, 20);
-	ilMarkerIcon.iconAnchor = new GPoint(6, 20);
-	ilMarkerIcon.infoWindowAnchor = new GPoint(5, 1);
+	var ilMarkerImage = new google.maps.MarkerImage(
+		"./Services/GoogleMaps/images/mm_20_blue.png",      
+		new google.maps.Size(12, 20),
+		new google.maps.Point(0,0),
+		new google.maps.Point(6, 20));
+		
+	var ilMarkerShadow = new google.maps.MarkerImage(
+		"./Services/GoogleMaps/images/mm_20_shadow.png",
+		new google.maps.Size(22, 20),
+		new google.maps.Point(0,0),
+		new google.maps.Point(0, 32));
 }
 
-if (window.GIcon)
+if (google.maps)
 {
-	// init all maps on load
-	il.Util.addOnLoad(ilInitMaps)
-
-	// Call google unload function
-	il.Util.addOnUnload(GUnload)
+	il.Util.addOnLoad(ilInitMaps);
 }
 
 /** 
@@ -48,99 +46,78 @@ function ilInitMaps()
 	}
 }
 
-
 /** 
 * Init a goole map
 */
 function ilInitMap(id, latitude, longitude, zoom, type_control,
 	nav_control, update_listener, large_map_control, central_marker)
-{
-	if (GBrowserIsCompatible())
-	{
-		// IMPORTANT: setCenter MUST be the first thing we
-		// do with the map, do not add any code between the next two lines
-		var map = new GMap2(document.getElementById(id));
-		map.setCenter(new GLatLng(latitude, longitude), zoom);
-		
-		var mgr = new GMarkerManager(map);
-		mgr.addMarkers(ilGetUserMarkers(id, map), 1);
-		
-		if (nav_control)
-		{
-			map.addControl(new GSmallMapControl());
-		}
-		if (type_control)
-		{
-			map.addControl(new GMapTypeControl());
-		}
-		if (large_map_control)
-		{
-			map.addControl(new GLargeMapControl());
-		}
-		if (update_listener)
-		{
-			GEvent.addListener(map, "moveend", function() {
-				ilUpdateZoomInput(id, map)});
-		}
-		if (central_marker)
-		{
-			//var cm = [];
-			point = new GLatLng(latitude, longitude);
-			var marker = new GMarker(point, {icon: ilMarkerIcon});
-			//cm.push(marker);
-			//mgr.addMarkers(cm, 1);
-			ilCM[id] = marker;
-			map.addOverlay(marker);
-			
-			GEvent.addListener(map, "click", function(marker, point)
-			{
-				ilMapClicked(map, point, id);
-			});
-		}
-
-		ilMap[id] = map;
-		ilMgr[id] = mgr;
-
-		mgr.refresh();
+{	
+	var mapLatLng = new google.maps.LatLng(latitude, longitude);	
+	var mapOptions = {
+		zoom: zoom,
+		center: mapLatLng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		streetViewControl: false,
+		mapTypeControl: type_control,
+		scaleControl: true,
+		panControl: (nav_control || large_map_control)
 	}
+	var map = new google.maps.Map(document.getElementById(id), mapOptions);
+
+	ilGetUserMarkers(id, map);
+
+	if (update_listener)
+	{
+		google.maps.event.addListener(map, "zoom_changed", function() {
+			ilUpdateZoomInput(id, map)});
+	}
+
+	if (central_marker)
+	{	
+		ilCM[id] = ilCreateMarker(map, latitude, longitude);	
+		
+		google.maps.event.addListener(map, "click", function(event){
+			ilMapClicked(id, map, event.latLng);
+		});
+	}
+
+	ilMap[id] = map;
 }
 
 /**
 *  Update input fields from map properties
 */
-function ilUpdateLocationInput(id, map, loc)
+function ilUpdateLocationInput(id, map, loc, address)
 {
-	//loc = map.getCenter();
 	zoom = map.getZoom();
 	lat_input = document.getElementById(id + "_lat");
 	if (!lat_input)
 	{
 		return;
 	}
-	//lat_input.setAttribute("value", loc.lat());
 	lat_input.value = loc.lat();
 	lng_input = document.getElementById(id + "_lng");
-	//lng_input.setAttribute("value", loc.lng());
 	lng_input.value = loc.lng();
 	zoom_input = document.getElementById(id + "_zoom");
 	zoom_input.selectedIndex = zoom;
 	
+	if(address != "undefined")
+	{
+		addr_input = document.getElementById(id + "_addr");
+		addr_input.value = address;
+	}
+	
 	if (ilCM[id])
 	{
-		ilCM[id].setPoint(loc);
-		map.removeOverlay(ilCM[id]);
-		var marker = new GMarker(loc, {icon: ilMarkerIcon});
-		ilCM[id] = marker;
-		map.addOverlay(marker);
+		ilCM[id].setPosition(loc);
 	}
 }
 
 /**
 *  Update input fields from map properties
 */
-function ilUpdateZoomInput(id, map, loc)
+function ilUpdateZoomInput(id, map)
 {
-	//loc = map.getCenter();
 	zoom = map.getZoom();
 	zoom_input = document.getElementById(id + "_zoom");
 	zoom_input.selectedIndex = zoom;
@@ -178,97 +155,91 @@ function ilUpdateMap(id)
 	
 	zoom_input = document.getElementById(id + "_zoom");
 	var zoom = zoom_input.value;
-
 	map.setZoom(parseInt(zoom));
-	map.panTo(new GLatLng(lat, lng));
+	
+	var loc = new google.maps.LatLng(lat, lng);
+	map.setCenter(loc);
 	lng_input.value = lng;
 	lat_input.value = lat;
+	
 	if (ilCM[id])
 	{
-		map.removeOverlay(ilCM[id]);
-		point = new GLatLng(lat, lng);
-		var marker = new GMarker(point, {icon: ilMarkerIcon});
-		ilCM[id] = marker;
-		map.addOverlay(marker);
+		ilCM[id].setPosition(loc);
 	}
+}
+
+function ilCreateMarker(map, latitude, longitude)
+{
+	var point = new google.maps.LatLng(latitude, longitude);
+	var marker = new google.maps.Marker({
+			position: point,
+			icon: ilMarkerImage,
+			shadow: ilMarkerShadow,
+			map: map
+	});				
+   return marker;
 }
 
 /**
 * Get set of user markers for a map
 */
 function ilGetUserMarkers(id, map)
-{
-	var batch = [];
-	var t;
-	var j;
-	
-	// Creates a marker at the given point with the given number label
-        function ilCreateMarker(id, point, number) {
-          var marker = new GMarker(point, {icon: ilMarkerIcon});
-          GEvent.addListener(marker, "click", function() {
-			ilMapOpenInfoWindow(marker, id, number);
-          });
-          return marker;
-        }
-
+{			
 	if (ilMapUserMarker[id])
-	{
-	
+	{	
 		for (var i=0;i<ilMapUserMarker[id].length;i++)
 		{
-			point = new GLatLng(ilMapUserMarker[id][i][0],
-				ilMapUserMarker[id][i][1]);
-			marker = ilCreateMarker(id, point, i);
+			var number = i;
+			var marker = ilCreateMarker(map, ilMapUserMarker[id][i][0], 
+				ilMapUserMarker[id][i][1]);						
 			ilMapUserMarker[id][i][3] = marker;
-			batch.push(marker);
-		}
-		
-		/* we do not know, why this is not working...
-		for (var i=0;i<ilMapUserMarker[id].length;i++)
-		{
-			point = new GLatLng(ilMapUserMarker[id][i][0],
-				ilMapUserMarker[id][i][1]);
-			marker = new GMarker(point, {icon: ilMarkerIcon});
-			
-			GEvent.addListener(marker, "click", function() {
-				ilMapOpenInfoWindow(marker, id, i);
+							
+			google.maps.event.addListener(marker, "click", function() {
+				ilMapOpenInfoWindow(id, map, marker, number);
 			});
-			batch.push(marker);
-		}*/
+		}		
 	}
-	return batch;
 }
 
-function ilMapOpenInfoWindow(marker, id, j)
-{
-	marker.openInfoWindowHtml(ilMapUserMarker[id][j][2]);
+function ilMapOpenInfoWindow(id, map, marker, j)
+{	
+	var infowindow = new google.maps.InfoWindow({
+		content: ilMapUserMarker[id][j][2]
+	});
+	infowindow.open(map, marker);
 }
 
 function ilShowUserMarker(id, j)
 {
-	ilMap[id].panTo(new GLatLng(ilMapUserMarker[id][j][0], ilMapUserMarker[id][j][1]));
-	ilMapUserMarker[id][j][3].openInfoWindowHtml(ilMapUserMarker[id][j][2]);
+	var loc = new google.maps.LatLng(ilMapUserMarker[id][j][0], ilMapUserMarker[id][j][1]);
+	ilMap[id].setCenter(loc);
+	
+	var infowindow = new google.maps.InfoWindow({
+		content: ilMapUserMarker[id][j][2]
+	});
+	infowindow.open(ilMap[id], ilMapUserMarker[id][j][3]);
+	
 	return false;
 }
 
-function ilMapClicked(map, point, id)
+function ilMapClicked(id, map, location)
 {
-	//alert("hallo " + id);
-	map.panTo(point);
-	ilUpdateLocationInput(id, map, point);
+	map.setCenter(location);
+    ilUpdateLocationInput(id, map, location);
 }
 
 function ilLookupAddress(id, address)
 {
 	var map = ilMap[id];
 	
-	var geocoder = new GClientGeocoder();
-	geocoder.getLatLng(address, function(point)
+	var geocoder = new google.maps.Geocoder();
+	geocoder.geocode({address: address}, function(result)
 	{
-		if (point)
+		if (result[0]["geometry"])
 		{
-			map.panTo(point);
-			ilUpdateLocationInput(id, map, point);
+			map.setCenter(result[0]["geometry"]["location"]);
+			ilUpdateLocationInput(id, map, result[0]["geometry"]["location"],
+				result[0]["formatted_address"]);
 		}
 		else
 		{
