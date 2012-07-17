@@ -2912,7 +2912,7 @@ function setAPI(cp_node_id, api)
 						var remap = map.refunc(dat[i]);
 						row[remap[0]] = remap[1];
 					}
-					if (!row[map.dbname]) row[map.dbname] = '$'+(remoteInsertId++);
+					if ((typeof row[map.dbname]=="undefined" || !row[map.dbname])) row[map.dbname]=i;
 					var id = row[mod.unique] || row[map.dbname];
 					var cls = this[map.clsname] || Object;
 					if (!dat[id]) 
