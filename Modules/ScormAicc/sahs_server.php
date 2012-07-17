@@ -99,11 +99,7 @@ switch ($type)
 				break;
 	default:
 				//unknown type
-				$fp=fopen("./Modules/ScormAicc/log/scorm.log", "a+");
-				fputs($fp, "unknown type >$type< in sahs_server\n");
-				foreach ($_POST as $k=>$v)
-					fputs($fp, "POST_VARS[$k]=$v \n");
-				fclose($fp);
+				$GLOBALS['ilLog']->write('sahs_server.php: unknown type >'.$type.'<');
 }
 
 exit;
