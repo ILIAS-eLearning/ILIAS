@@ -2740,7 +2740,7 @@ function getAPI(cp_node_id)
 {
 	function getAPISet (k, dat, api) 
 	{
-		if (dat!=undefined && dat!==null) 
+		if (typeof dat!="undefined" && dat!==null) 
 		{
 		
 			api[k] = dat.toString();
