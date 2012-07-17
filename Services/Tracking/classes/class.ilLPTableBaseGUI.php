@@ -96,7 +96,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 * @param	string	$permission
 	 * @return	array
 	 */
-	protected function searchObjects(array $filter, $permission)
+	protected function searchObjects(array $filter, $permission, array $preset_obj_ids = null)
 	{
 		global $ilObjDataCache;
 				
@@ -129,6 +129,10 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
 		$object_search =& new ilLikeObjectSearch($query_parser);
 		$object_search->setFilter($filter["type"]);
+		if($preset_obj_ids)
+		{
+			$object_search->setIdFilter($preset_obj_ids);
+		}		
 		$res =& $object_search->performSearch();
 		$res->setRequiredPermission($permission);
 		$res->setMaxHits(1000);

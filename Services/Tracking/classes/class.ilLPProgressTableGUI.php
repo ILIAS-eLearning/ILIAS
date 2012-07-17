@@ -110,10 +110,20 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$obj_ids = $this->obj_ids;
 		if(!$obj_ids && !$this->details)
 	    {
-			$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read");
+			// restrict courses/groups to objects where current user is member
+			$membership_ids = null;
+			if($this->filter["type"] == "crs" || $this->filter["type"] == "grp")
+			{
+				include_once "Services/Membership/classes/class.ilParticipants.php";
+				$membership_ids = ilParticipants::_getMembershipByType($this->tracked_user->getId(), 
+					$this->filter["type"]);
+			}
+						
+			$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read",
+				$membership_ids);
 		}
 		if($obj_ids)
-		{
+		{		
 			include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 			switch($this->mode)
 			{
