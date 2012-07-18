@@ -407,7 +407,9 @@ die("deprecated");
 					ilSCORM2004ScoGUI::getGlossaryOverviewId(), $this->node_object);
 			}
 			$sco_tpl->setCurrentBlock("page_preview");
-			$sco_tpl->setVariable("PAGE_PRV", $page_obj->showPage("export"));
+			$html = $ilCtrl->getHTML($page_obj);
+			//$sco_tpl->setVariable("PAGE_PRV", $page_obj->showPage("export"));
+			$sco_tpl->setVariable("PAGE_PRV", $html);
 			$sco_tpl->parseCurrentBlock();
 		}
 

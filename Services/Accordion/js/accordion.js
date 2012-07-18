@@ -68,25 +68,27 @@ accordion.prototype =
 		for (k in accordions)
 		{
 			var accordion = accordions[k];
-
-			YAHOO.util.Event.addListener(accordion, "click", this.clickHandler, accordion, this);
-			accordion.onclick = function() {return false;};
 			
-			var n = ilGetNextSibling(accordion);
-			
-			if (n != undefined)
-			{
+			if (accordion.parentNode.parentNode.id == container) {
+				YAHOO.util.Event.addListener(accordion, "click", this.clickHandler, accordion, this);
+				accordion.onclick = function() {return false;};
 				
-				if (this.options.direction == 'horizontal')
+				var n = ilGetNextSibling(accordion);
+				
+				if (n != undefined)
 				{
-					n.style.width = '0px';
+					
+					if (this.options.direction == 'horizontal')
+					{
+						n.style.width = '0px';
+					}
+					else
+					{
+						n.style.height = '0px';
+					}
+					n.style.display = 'none';
+					this.currentAccordion = n;
 				}
-				else
-				{
-					n.style.height = '0px';
-				}
-				n.style.display = 'none';
-				this.currentAccordion = n;
 			}
 		}			
 	},

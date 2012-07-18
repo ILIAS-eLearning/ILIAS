@@ -175,8 +175,8 @@ class ilWebAccessChecker
 			$this->setSendMimetype($_GET['send_mimetype']);
 		}		
 		
-		/* debugging
-		echo "<pre>";
+		// debugging
+		/*echo "<pre>";
 		echo "REQUEST_URI:         ". $_SERVER["REQUEST_URI"]. "\n";
 		echo "Parsed URI:          ". $uri["path"]. "\n";
 		echo "DOCUMENT_ROOT:       ". $_SERVER["DOCUMENT_ROOT"]. "\n";
@@ -196,8 +196,8 @@ class ilWebAccessChecker
 		echo "send_mimetype:       ". $this->send_mimetype. "\n";
 		echo "</pre>";
 		echo phpinfo();
-		exit;
-		*/
+		exit;*/
+		
 		
 		if (!file_exists($this->file))
 		{
@@ -335,83 +335,9 @@ class ilWebAccessChecker
 
 			// media object	
 			case 'mob':
-				$usages = ilObjMediaObject::lookupUsages($obj_id);
-				
-				foreach($usages as $usage)
+				if ($this->checkAccessMob($obj_id))
 				{
-					$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
-					
-					switch($usage['type'])
-					{
-						case 'lm:pg':
-							if ($oid > 0)
-							{
-								if ($this->checkAccessLM($oid, 'lm', $usage['id']))
-								{
-									return true;
-								}
-							}
-							break;
-						case 'news':
-							// media objects in news (media casts)
-							include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
-							include_once("./Services/News/classes/class.ilNewsItem.php");
-						
-							if ($this->checkAccessObject($oid, 'mcst'))
-							{
-								return true;
-							}
-							elseif (ilObjMediaCastAccess::_lookupPublicFiles($oid) && ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC)
-							{
-								return true;
-							}
-							break;
-							
-							
-						case 'frm~:html':
-							// $oid = userid
-							foreach ($this->check_users as $user_id)
-							{
-								if ($ilObjDataCache->lookupType($oid) == 'usr' && $oid == $user_id)
-								{
-									return true;
-								}
-							}
-							break;
-
-						case 'qpl:pg':
-						case 'qpl:html':
-							// test questions
-							if ($this->checkAccessTestQuestion($oid, $usage['id']))
-							{
-								return true;
-							}
-							break;
-
-						case 'gdf:pg':
-							// special check for glossary terms
-							if ($this->checkAccessGlossaryTerm($oid, $usage['id']))
-							{
-	                            return true;
-							}
-							break;
-							
-						case 'sahs:pg':
-							// check for scorm pages
-							if ($this->checkAccessObject($oid, 'sahs'))
-							{
-								return true;
-							}
-							break;
-						
-						default:
-							// standard object check
-							if ($this->checkAccessObject($oid))
-							{
-								return true;
-							}
-							break;
-					}
+					return true;
 				}
 				break;
 
@@ -429,6 +355,130 @@ class ilWebAccessChecker
 		$this->errortext = $this->lng->txt('msg_no_perm_read');
 		return false;
 	}
+	
+	/**
+	 * Check access to media object
+	 *
+	 * @param
+	 * @return
+	 */
+	function checkAccessMob($obj_id)
+	{
+		$usages = ilObjMediaObject::lookupUsages($obj_id);
+
+		foreach($usages as $usage)
+		{
+			$oid = ilObjMediaObject::getParentObjectIdForUsage($usage, true);
+
+			// for content snippets we must get their usages and check them
+			if ($usage["type"] == "mep:pg")
+			{
+				include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
+				$usages2 = ilMediaPoolPage::lookupUsages($usage["id"]);
+				foreach($usages2 as $usage2)
+				{
+					$oid2 = ilObjMediaObject::getParentObjectIdForUsage($usage2, true);
+					if ($this->checkAccessMobUsage($usage2, $oid2))
+					{
+						return true;
+					}
+				}
+			}
+			else // none content snippets just go the usual way
+			{
+				if ($this->checkAccessMobUsage($usage, $oid))
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+		
+	/**
+	 * 
+	 *
+	 * @param
+	 * @return
+	 */
+	function checkAccessMobUsage($usage, $oid)
+	{
+		switch($usage['type'])
+		{
+			case 'lm:pg':
+				if ($oid > 0)
+				{
+					if ($this->checkAccessLM($oid, 'lm', $usage['id']))
+					{
+						return true;
+					}
+				}
+				break;
+			case 'news':
+				// media objects in news (media casts)
+				include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
+				include_once("./Services/News/classes/class.ilNewsItem.php");
+			
+				if ($this->checkAccessObject($oid, 'mcst'))
+				{
+					return true;
+				}
+				elseif (ilObjMediaCastAccess::_lookupPublicFiles($oid) && ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC)
+				{
+					return true;
+				}
+				break;
+				
+				
+			case 'frm~:html':
+				// $oid = userid
+				foreach ($this->check_users as $user_id)
+				{
+					if ($ilObjDataCache->lookupType($oid) == 'usr' && $oid == $user_id)
+					{
+						return true;
+					}
+				}
+				break;
+
+			case 'qpl:pg':
+			case 'qpl:html':
+				// test questions
+				if ($this->checkAccessTestQuestion($oid, $usage['id']))
+				{
+					return true;
+				}
+				break;
+
+			case 'gdf:pg':
+				// special check for glossary terms
+				if ($this->checkAccessGlossaryTerm($oid, $usage['id']))
+				{
+					return true;
+				}
+				break;
+				
+			case 'sahs:pg':
+				// check for scorm pages
+				if ($this->checkAccessObject($oid, 'sahs'))
+				{
+					return true;
+				}
+				break;
+
+			default:
+				// standard object check
+				if ($this->checkAccessObject($oid))
+				{
+					return true;
+				}
+				break;
+		}
+		
+		return false;
+	}
+	
 	
 	/**
 	 * check access for ILIAS learning modules
@@ -449,7 +499,7 @@ class ilWebAccessChecker
 			{
 				foreach ($this->check_users as $user_id)
 				{
-					if ($this->ilAccess->checkAccessOfUser($user_id, "read", "view", $ref_id, $obj_id, $obj_type))
+					if ($this->ilAccess->checkAccessOfUser($user_id, "read", "view", $ref_id, $obj_type, $obj_id))
 					{
 						return true;
 					}

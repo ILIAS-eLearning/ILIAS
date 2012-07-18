@@ -78,8 +78,11 @@ il.AdvancedSelectionList =
 	setHiddenInput: function (id, hid_name, hid_val)
 	{
 		hidden_el = document.getElementById("ilAdvSelListHidden_" + id);
-		hidden_el.name = hid_name;
-		hidden_el.value = hid_val;
+//console.trace();
+		if (hidden_el) {
+			hidden_el.name = hid_name;
+			hidden_el.value = hid_val;
+		}
 	},
 
 	getHiddenInput: function (id)
