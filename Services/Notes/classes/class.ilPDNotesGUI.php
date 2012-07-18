@@ -124,6 +124,13 @@ class ilPDNotesGUI
 		// output related item selection (if more than one)
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$rel_objs = ilNote::_getRelatedObjectsOfUser($this->getMode());
+		
+		// prepend personal dektop, if first object 
+		if ($rel_objs[0]["rep_obj_id"] > 0 && $this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
+		{
+			$rel_objs = array_merge(array(0), $rel_objs);
+		}
+		
 		$first = true;
 		foreach ($rel_objs as $r)
 		{
@@ -177,13 +184,7 @@ class ilPDNotesGUI
 		
 		if (count($rel_objs) > 1 ||
 			($rel_objs[0]["rep_obj_id"] > 0))
-		{
-			// prepend personal dektop, if first object 
-			if ($rel_objs[0]["rep_obj_id"] > 0 && $this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
-			{
-				$rel_objs = array_merge(array(0), $rel_objs);
-			}
-
+		{			
 			foreach($rel_objs as $obj)
 			{
 				$this->tpl->setCurrentBlock("related_option");
