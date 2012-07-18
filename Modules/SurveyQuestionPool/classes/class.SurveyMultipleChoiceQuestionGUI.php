@@ -529,14 +529,14 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 					if ($cat->other)
 					{
 						$template->setCurrentBlock("other_text_col");
-						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($this->object->other_answer_label));
+						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
 						$template->setVariable("OTHER_ANSWER", "&nbsp;");
 						$template->parseCurrentBlock();
 					}
 					else
 					{
 						$template->setCurrentBlock("text_col");
-						$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($category));
+						$template->setVariable("TEXT_MC", ilUtil::prepareFormOutput($cat->title));
 						$template->parseCurrentBlock();
 					}
 				}
