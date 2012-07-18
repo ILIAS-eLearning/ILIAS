@@ -195,7 +195,7 @@ class ilGlossaryTermGUI
 	 * @param
 	 * @return
 	 */
-	function getOverlayHTML($a_close_el_id, $a_glo_ov_id = "", $a_lang = "")
+	function getOverlayHTML($a_close_el_id, $a_glo_ov_id = "", $a_lang = "", $a_outputmode = "offline")
 	{
 		global $lng;
 		
@@ -205,7 +205,19 @@ class ilGlossaryTermGUI
 		}
 
 		$tpl = new ilTemplate("tpl.glossary_overlay.html", true, true, "Modules/Glossary");
-		$this->output(true, $tpl);
+//		$this->output(true, $tpl);
+		if ($a_outputmode == "preview")
+		{
+			$a_outputmode = "presentation";
+		}
+		if ($a_outputmode == "offline")
+		{
+			$this->output(true, $tpl, $a_outputmode);
+		}
+		else
+		{
+			$this->output(false, $tpl, $a_outputmode);
+		}
 		if ($a_glo_ov_id != "")
 		{
 			$tpl->setCurrentBlock("glovlink");
@@ -223,7 +235,7 @@ class ilGlossaryTermGUI
 	 *
 	 * used in ilLMPresentationGUI->ilGlossary()
 	 */
-	function output($a_offline = false, $a_tpl = "")
+	function output($a_offline = false, $a_tpl = "", $a_outputmode = "presentation")
 	{
 		if ($a_tpl != "")
 		{
@@ -259,7 +271,7 @@ class ilGlossaryTermGUI
 
 			if (!$a_offline)
 			{
-				$page_gui->setOutputMode("presentation");
+				$page_gui->setOutputMode($a_outputmode);
 			}
 			else
 			{

@@ -2084,7 +2084,8 @@ class ilPageObjectGUI
 		$output = $this->selfAssessmentRendering($output);
 
 		// output
-		if ($ilCtrl->isAsynch() && !$this->getRawPageContent())
+		if ($ilCtrl->isAsynch() && !$this->getRawPageContent() &&
+			$this->getOutputMode() == "edit")
 		{
 			if ($_GET["updated_pc_id_str"] != "")
 			{

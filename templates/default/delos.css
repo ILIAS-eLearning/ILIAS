@@ -3165,8 +3165,8 @@ h3.ilProfileSectionHead {
 	border: solid #FFDD77 2px;
 	line-height: 100%;
 	background-color: #FFFF99;
-	-moz-border-radius: 5px;
-	-moz-box-shadow: 2px 2px 2px #888;
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px #888;
 	-webkit-border-radius: 5px;
 	-webkit-box-shadow: 2px 2px 2px #888;
 	max-width: 300px;
