@@ -12765,3 +12765,13 @@ content#:#cont_hide_adv#:#Vertiefungswissen verbergen
 registration#:#reg_email_domains#:#Die folgenden Email-Adressdomains sind gültig: %s
 registration#:#reg_allowed_domains#:#Erlaubte Email-Adressdomänen
 registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen.
+pd#:#block_show_pdcal#:#Show Calendar
+pd#:#block_show_pdmail#:#Show Mail
+pd#:#block_show_pdtag#:#Show My Tags
+pd#:#block_show_pdnews#:#Show News
+pd#:#block_show_pdusers#:#Show Active Users
+pd#:#block_show_pdnotes#:#Show Notes
+pd#:#block_show_chatviewer#:#Show Chatviewer
+pd#:#block_show_pdbookm#:#Show Bookmarks
+pd#:#block_create_pdfeed#:#Add New Webfeed
+pd#:#block_show_x#:#Show %s
