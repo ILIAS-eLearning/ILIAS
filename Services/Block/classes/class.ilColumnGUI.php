@@ -622,19 +622,6 @@ class ilColumnGUI
 		// show selector for hidden blocks
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		$hidden_blocks = array();
-		$blocks = array("pdmail" => $lng->txt("mail"),
-			"pdnotes" => $lng->txt("notes"),
-			"pdusers" => $lng->txt("users_online"),
-			"pdnews" => $lng->txt("news"),
-			"pdbookm" => $lng->txt("my_bms"),
-			"news" => $lng->txt("news_internal_news"),
-			"feed" => $lng->txt("feed"),
-			"pdfeed" => $lng->txt("feed"),
-			"html" => $lng->txt("html_block"),
-			"pdtag" => $lng->txt("tagging_my_tags"),
-			"pdcal" => $lng->txt('calendar'),
-			"chatviewer" => $lng->txt('chat_chatviewer'),
-			);
 
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
@@ -647,7 +634,7 @@ class ilColumnGUI
 				{
 					if (ilBlockSetting::_lookupDetailLevel($block["type"], $ilUser->getId()) == 0)
 					{
-						$hidden_blocks[$block["type"]] = $blocks[$block["type"]];
+						$hidden_blocks[$block["type"]] = $lng->txt('block_show_'.$block["type"]);
 					}
 				}
 				else if ($ilCtrl->getContextObjType() != "")
@@ -655,7 +642,7 @@ class ilColumnGUI
 					if (ilBlockSetting::_lookupDetailLevel($block["type"], $ilUser->getId(),
 						$ilCtrl->getContextObjId()) == 0)
 					{
-						$hidden_blocks[$block["type"]."_".$ilCtrl->getContextObjId()] = $blocks[$block["type"]];
+						$hidden_blocks[$block["type"]."_".$ilCtrl->getContextObjId()] = $lng->txt('block_show_'.$block["type"]);
 					}
 				}
 			}
@@ -666,8 +653,7 @@ class ilColumnGUI
 				{
 					include_once("./Services/Block/classes/class.ilCustomBlock.php");
 					$cblock = new ilCustomBlock($block["id"]);
-					$hidden_blocks[$block["type"]."_".$block["id"]] =
-						$cblock->getTitle();
+					$hidden_blocks[$block["type"]."_".$block["id"]] = sprintf($lng->txt('block_show_x'), $cblock->getTitle());
 				}
 			}
 		}
@@ -676,7 +662,7 @@ class ilColumnGUI
 			foreach($hidden_blocks as $id => $title)
 			{
 				$ilCtrl->setParameter($this, 'block', $id);
-				$this->action_menu->addItem($lng->txt('show').': '.$title, '', $ilCtrl->getLinkTarget($this, 'activateBlock'));
+				$this->action_menu->addItem($title, '', $ilCtrl->getLinkTarget($this, 'activateBlock'));
 				$ilCtrl->setParameter($this, 'block', '');
 			}
 		}
@@ -701,7 +687,7 @@ class ilColumnGUI
 							// check if number of blocks is limited
 							if (!$this->exceededLimit($block_type))
 							{
-								$add_blocks[$block_type] = $blocks[$block_type];
+								$add_blocks[$block_type] = $lng->txt('block_create_'.$block_type);
 							}
 						}
 					}
@@ -712,13 +698,13 @@ class ilColumnGUI
 				foreach($add_blocks as $id => $title)
 				{
 					$ilCtrl->setParameter($this, 'block_type', $id);
-					$this->action_menu->addItem($lng->txt('create').': '.$title, '', $ilCtrl->getLinkTarget($this, 'addBlock'));
+					$this->action_menu->addItem($title, '', $ilCtrl->getLinkTarget($this, 'addBlock'));
 					$ilCtrl->setParameter($this, 'block_type', '');
 				}
 			}
 		}
 		
-		if($this->getSide() == IL_COL_RIGHT && $this->getEnableMovement())
+		if($this->getSide() == IL_COL_LEFT && $this->getEnableMovement())
 		{
 			if($_SESSION['col_'.$this->getColType().'_movement'] == 'on')
 			{

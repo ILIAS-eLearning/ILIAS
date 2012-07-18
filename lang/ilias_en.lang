@@ -12857,3 +12857,13 @@ content#:#cont_hide_adv#:#Hide Advanced Knowledge
 registration#:#reg_email_domains#:#The following email address domains are valid: %s
 registration#:#reg_allowed_domains#:#Allowed Email Address Domains
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator.
+pd#:#block_show_pdcal#:#Kalender anzeigen
+pd#:#block_show_pdmail#:#Mail anzeigen
+pd#:#block_show_pdtag#:#Tags anzeigen
+pd#:#block_show_pdnews#:#Nachrichten anzeigen
+pd#:#block_show_pdusers#:#Benutzer anzeigen
+pd#:#block_show_pdnotes#:#Notizen anzeigen
+pd#:#block_show_pdbookm#:#Bookmarks anzeigen
+pd#:#block_show_chatviewer#:#Chatviewer anzeigen
+pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
+pd#:#block_show_x#:#%s anzeigen
