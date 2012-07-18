@@ -727,7 +727,7 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					else
 					{
 						$template->setCurrentBlock("text_col");
-						$template->setVariable("TEXT_SC", $cat->title);
+						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
 						$template->parseCurrentBlock();
 					}
 				}
