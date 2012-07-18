@@ -486,7 +486,11 @@ class ilNote
 			$reps = array();
 			while($rep_rec = $ilDB->fetchAssoc($set))
 			{
-				$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+				// #9343: deleted objects
+				if(ilObject::_lookupType($rep_rec["rep_obj_id"]))
+				{
+					$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+				}
 			}
 		}
 		else
@@ -502,7 +506,11 @@ class ilNote
 			$reps = array();
 			while($rep_rec = $ilDB->fetchAssoc($set))
 			{
-				$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+				// #9343: deleted objects
+				if(ilObject::_lookupType($rep_rec["rep_obj_id"]))
+				{
+					$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+				}
 			}
 			
 			// additionally all objects on the personal desktop of the user
