@@ -105,7 +105,7 @@ class ilPCQuestion extends ilPageContent
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$question = assQuestion::_instanciateQuestion($a_q_id);
-		$duplicate_id = $question->duplicate(false);
+		$duplicate_id = $question->copyObject(0, $question->getTitle());
 		$duplicate = assQuestion::_instanciateQuestion($duplicate_id);
 		$duplicate->setObjId(0);
 		
