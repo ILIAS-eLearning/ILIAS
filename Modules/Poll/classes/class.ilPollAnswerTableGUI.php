@@ -69,7 +69,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 			}
 			else
 			{
-				$data[$idx]["percentage"] = number_format($perc[$item["id"]]["perc"], 2);
+				$data[$idx]["percentage"] = number_format($perc[$item["id"]]["perc"], 0);
 			}
 		}
 

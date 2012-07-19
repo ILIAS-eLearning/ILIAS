@@ -139,7 +139,7 @@ class ilPollBlockGUI extends ilBlockGUI
 				foreach($a_poll->getAnswers() as $item)
 				{			
 					$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($item["answer"]));
-					$this->tpl->setVariable("PERC_ANSWER_RESULT", number_format($perc[$item["id"]]["perc"], 2));
+					$this->tpl->setVariable("PERC_ANSWER_RESULT", number_format($perc[$item["id"]]["perc"], 0));
 					$this->tpl->parseCurrentBlock();
 				}		
 			}
