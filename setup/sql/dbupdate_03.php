@@ -11422,3 +11422,15 @@ foreach($coids as $coid)
 }
 
 ?>
+<#3663>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests','specific_feedback'))
+{
+	$ilDB->addTableColumn('tst_tests', 'specific_feedback', array(
+		"type" => "integer",
+		"notnull" => false,
+		"length" => 4,
+		'default' => 0
+	));
+}
+?>
