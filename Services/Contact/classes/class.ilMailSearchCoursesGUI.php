@@ -484,7 +484,8 @@ class ilMailSearchCoursesGUI
 
 			$lng->loadLanguageModule('crs');
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
-			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs');
+			$context = $_GET["ref"] ? $_GET["ref"] : "mail"; 
+			$table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $context);
 			$table->setId('show_crs_mmbrs_tbl');
 			$tableData = array();
 			$searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
