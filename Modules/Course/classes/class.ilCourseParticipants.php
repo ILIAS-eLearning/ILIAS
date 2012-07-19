@@ -137,13 +137,13 @@ class ilCourseParticipants extends ilParticipants
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM crs_members ".
+		$query = "SELECT * FROM obj_members ".
 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 		"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
-			$query = "UPDATE crs_members SET ".
+			$query = "UPDATE obj_members SET ".
 				"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
 				"origin = ".$ilDB->quote((int) $a_origin,'integer').", ".
 				"origin_ts = ".$ilDB->quote(time(),'integer')." ".
@@ -152,7 +152,7 @@ class ilCourseParticipants extends ilParticipants
 		}
 		else
 		{
-			$query = "INSERT INTO crs_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) ".
+			$query = "INSERT INTO obj_members (passed,obj_id,usr_id,notification,blocked,origin,origin_ts) ".
 				"VALUES ( ".
 				$ilDB->quote((int) $a_passed,'integer').", ".
 				$ilDB->quote($a_obj_id,'integer').", ".
@@ -177,7 +177,7 @@ class ilCourseParticipants extends ilParticipants
 		global $ilDB;
 		
 		$sql = "SELECT origin, origin_ts".
-			" FROM crs_members".
+			" FROM obj_members".
 			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer").
 			" AND usr_id = ".$ilDB->quote($a_usr_id, "integer");
 		$set = $ilDB->query($sql);
@@ -388,7 +388,7 @@ class ilCourseParticipants extends ilParticipants
 	{
 		global $ilDB;
 		
-		$sql = "SELECT origin_ts FROM crs_members".
+		$sql = "SELECT origin_ts FROM obj_members".
 			" WHERE usr_id = ".$ilDB->quote($a_usr_id, "integer").
 			" AND obj_id = ".$ilDB->quote($a_obj_id, "integer").
 			" AND passed = ".$ilDB->quote(1, "integer");
@@ -406,7 +406,7 @@ class ilCourseParticipants extends ilParticipants
 		
 		$res = array();
 		
-		$sql = "SELECT usr_id,obj_id FROM crs_members".
+		$sql = "SELECT usr_id,obj_id FROM obj_members".
 			" WHERE ".$ilDB->in("usr_id", $a_usr_ids, "", "integer").
 			" AND ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
 			" AND passed = ".$ilDB->quote(1, "integer");		

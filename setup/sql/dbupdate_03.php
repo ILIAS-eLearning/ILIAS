@@ -11434,3 +11434,9 @@ if(!$ilDB->tableColumnExists('tst_tests','specific_feedback'))
 	));
 }
 ?>
+
+<#3664>
+<?php
+	
+	$ilDB->renameTable('crs_members','obj_members');
+?>
