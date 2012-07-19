@@ -61,6 +61,20 @@ class ilPortfolioHTMLExport
 		$this->co_page_html_export->createDirectories();
 		$this->co_page_html_export->exportStyles();
 		$this->co_page_html_export->exportSupportScripts();
+		
+		// banner / profile picture
+		$prfa_set = new ilSetting("prfa");
+		if($prfa_set->get("banner"))
+		{		
+			$banner = $this->object->getImageFullPath();
+			copy($banner, $this->export_dir."/".basename($banner));
+		}
+		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "big");
+		if($ppic)
+		{
+			$ppic = array_shift(explode("?", $ppic));
+			copy($ppic, $this->export_dir."/".basename($ppic));
+		}	
 
 		// export pages
 		$this->exportHTMLPages();
@@ -162,6 +176,9 @@ class ilPortfolioHTMLExport
 			
 			$ilTabs->activateTab($this->active_tab);
 		}
+		
+		ilObjPortfolioGUI::renderFullscreenHeader($this->object, $this->tpl, $this->object->getOwner(), true);
+		$this->tpl->setFrameFixedWidth(true);
 		
 		return $this->tpl;
 	}

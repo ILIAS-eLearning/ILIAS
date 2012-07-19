@@ -1356,8 +1356,28 @@ class ilObjPortfolioGUI
 			$plink = $this->perma_link;
 		}
 		
+		self::renderFullscreenHeader($this->portfolio, $tpl, $user_id);
 		
-		$name = ilObjUser::_lookupName($user_id);
+		// wiki/forum will set locator items
+		$tpl->setVariable("LOCATOR", "");
+		
+		$tpl->setContent($content.$notes.$plink);			
+		$tpl->setFrameFixedWidth(true);
+		
+		echo $tpl->show("DEFAULT", true, true);
+		exit();
+	}
+	
+	/**
+	 * Render banner, user name
+	 * 
+	 * @param object  $a_tpl
+	 * @param int $a_user_id 
+	 * @param bool $a_export_path
+	 */
+	public static function renderFullscreenHeader($a_portfolio, $a_tpl, $a_user_id, $a_export = false)
+	{		
+		$name = ilObjUser::_lookupName($a_user_id);
 		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
 		
 		// show banner?
@@ -1365,36 +1385,36 @@ class ilObjPortfolioGUI
 		$prfa_set = new ilSetting("prfa");
 		if($prfa_set->get("banner"))
 		{		
-			$banner = $this->portfolio->getImageFullPath();
+			$banner = $a_portfolio->getImageFullPath();
 			$banner_width = $prfa_set->get("banner_width");
 			$banner_height = $prfa_set->get("banner_height");
+			if($a_export)
+			{
+				$banner = basename($banner);
+			}
 		}
 		
 		// profile picture
 		$ppic = null;
-		if($this->portfolio->hasProfilePicture())
+		if($a_portfolio->hasProfilePicture())
 		{
-			$ppic = ilObjUser::_getPersonalPicturePath($user_id, "big");
+			$ppic = ilObjUser::_getPersonalPicturePath($a_user_id, "big");
+			if($a_export)
+			{
+				$ppic = basename($ppic);
+			}
 		}
 		
-		// wiki/forum will set locator items
-		$tpl->setVariable("LOCATOR", "");
-		
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-		$tpl->setFullscreenHeader($this->portfolio->getTitle(), 
+		$a_tpl->setFullscreenHeader($a_portfolio->getTitle(), 
 			$name, 	
 			$ppic,
 			$banner,
-			$this->portfolio->getBackgroundColor(),
-			$this->portfolio->getFontColor(),
+			$a_portfolio->getBackgroundColor(),
+			$a_portfolio->getFontColor(),
 			$banner_width,
-			$banner_height);
-		
-		$tpl->setContent($content.$notes.$plink);			
-		$tpl->setFrameFixedWidth(true);
-		
-		echo $tpl->show("DEFAULT", true, true);
-		exit();
+			$banner_height,
+			$a_export);				
 	}
 			
 	function export()
