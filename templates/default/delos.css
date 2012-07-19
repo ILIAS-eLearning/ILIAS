@@ -3479,3 +3479,47 @@ div.ilSideBarContent{
 	border-radius: 8px;
 	margin-bottom: 15px;
 }
+
+/* poll */
+
+.ilPollQuestion {
+	margin: 5px;
+	font-weight: bold;
+	font-size: 90%;
+}
+
+.ilPollQuestionImage {
+	margin-top: 5px;
+}
+
+.ilPollQuestionAnswers {
+	margin: 5px;
+	font-size: 80%;
+}
+
+.ilPollQuestionAnswer {
+	margin-bottom: 5px;
+}
+
+.ilPollQuestionResults {
+	margin: 10px;
+	font-size: 80%;
+}
+
+.ilPollQuestionResult {
+	margin-bottom: 5px;
+}
+
+.ilPollQuestionResultBar {
+	width: 80%;
+	border: 1px solid #aaa;
+	float: left;
+}
+
+.ilPollQuestionResultBarInner {
+	background-color: #C2E1FF;
+}
+
+.ilPollQuestionResultPerc {
+	float: right;
+}

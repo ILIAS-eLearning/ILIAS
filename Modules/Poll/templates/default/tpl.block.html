@@ -18,7 +18,7 @@
 				</div>
 				<!-- END answer -->
 
-				<input type="submit" value="{TXT_SUBMIT}" name="cmd[{CMD_FORM}]" />
+				<input type="submit" class="submit" value="{TXT_SUBMIT}" name="cmd[{CMD_FORM}]" />
 			</form>
 		</div>
 		<!-- END answers_vote -->
@@ -27,7 +27,14 @@
 		<div class="ilPollQuestionResults">
 			<!-- BEGIN answer_result -->
 			<div class="ilPollQuestionResult">
-				{TXT_ANSWER_RESULT}: {PERC_ANSWER_RESULT}%
+				{TXT_ANSWER_RESULT}<br />
+				<div class="ilPollQuestionResultBar">
+					<div style="width:{PERC_ANSWER_RESULT}%" class="ilPollQuestionResultBarInner">&nbsp;</div>
+				</div>
+				<div class="ilPollQuestionResultPerc">
+					{PERC_ANSWER_RESULT}%
+				</div>
+				<br style="clear:both" />
 			</div>
 			<!-- END answer_result -->
 		</div>
