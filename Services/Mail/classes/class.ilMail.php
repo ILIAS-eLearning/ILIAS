@@ -2521,9 +2521,18 @@ class ilMail
 			//      installed. We use the @ operator to prevent PHP from issuing a
 			//      warning while we test for PEAR MAIL.
 			$is_pear_mail_installed = @include_once 'Mail/RFC822.php';
-			if ($is_pear_mail_installed) {
+			if($is_pear_mail_installed == false)
+			{
+				//try_use_ilias_pear 
+				$is_pear_mail_installed = @include_once './Services/PEAR/lib/Mail/RFC822.php';
+			}
+			
+			if ($is_pear_mail_installed) 
+			{
 				$result = true;
-			} else {
+			} 
+			else 
+			{
 				// Disable Pear Mail, when we detect that it is not
 				// installed
 				global $log;
