@@ -502,7 +502,7 @@ class ilAdministrationGUI
 		$layout = array(
 			1 => array(
 				"basic" =>
-					array("adm", "stys", "adve", "lngf", "cmps", "accs", "trac"),
+					array("adm", "stys", "adve", "lngf", "cmps", "accs", "hlps", "trac"),
 				"users" =>
 					array("usrf", "rolf", "auth", "ps")
 				),
