@@ -2416,9 +2416,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		// show certificate?
 		if($this->object->hasUserCertificate($ilUser->getId()))
-		{										
-			$ilToolbar->addButton($this->lng->txt("certificate"),
-				$this->ctrl->getLinkTarget($this, "outCertificate"));
+		{					
+			include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
+			include_once "./Services/Certificate/classes/class.ilCertificate.php";
+			$adapter = new ilExerciseCertificateAdapter($this->object);
+			if(ilCertificate::_isComplete($adapter))
+			{
+				$ilToolbar->addButton($this->lng->txt("certificate"),
+					$this->ctrl->getLinkTarget($this, "outCertificate"));
+			}
 		}	
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
