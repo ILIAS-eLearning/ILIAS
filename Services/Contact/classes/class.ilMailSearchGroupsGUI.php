@@ -420,7 +420,8 @@ class ilMailSearchGroupsGUI
 		{
 			$this->tpl->setTitle($this->lng->txt("mail"));
 			include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
-			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp');
+			$context = $_GET["ref"] ? $_GET["ref"] : "mail"; 	
+			$table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $context);
 			$table->setId('show_grps_mmbrs_tbl');
 			$lng->loadLanguageModule('crs');
 	
