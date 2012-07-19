@@ -1224,7 +1224,8 @@ class ilObjTest extends ilObject
 				'highscore_own_table' => array('integer', (int) $this->getHighscoreOwnTable()),
 				'highscore_top_table' => array('integer', (int) $this->getHighscoreTopTable()),
 				'highscore_top_num' => array('integer', (int) $this->getHighscoreTopNum()),
-				'online_status' => array('integer', (int) $this->isOnline())
+				'online_status' => array('integer', (int) $this->isOnline()),
+				'specific_feedback' => array('integer', (int)$this->getSpecificAnswerFeedback())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1262,7 +1263,7 @@ class ilObjTest extends ilObject
 				"offer_question_hints = %s, highscore_enabled = %s, highscore_anon = %s, highscore_achieved_ts = %s, " . 
 				"highscore_score = %s, highscore_percentage = %s, ".
 				"highscore_hints = %s, highscore_wtime = %s, highscore_own_table = %s, highscore_top_table = %s, highscore_top_num = %s, " .
-				"online_status = %s ".
+				"online_status = %s, specific_feedback = %s ".
 				"WHERE test_id = %s",
 				array(
 					'text', 'text', 
@@ -1277,7 +1278,7 @@ class ilObjTest extends ilObject
 					'integer', 'integer', 'integer', 'integer', 
 					'integer', 'integer', 
 					'integer', 'integer', 'integer', 'integer', 'integer', 
-					'integer',
+					'integer', 'integer',
 					'integer'
 				),
 				array(
@@ -1292,7 +1293,7 @@ class ilObjTest extends ilObject
 					$this->getScoreReporting(), 
 					$this->getInstantFeedbackSolution(), 
 					$this->getAnswerFeedbackPoints(),
-					$this->getAnswerFeedback(),
+					$this->getGenericAnswerFeedback(),
 					$this->getAnonymity(), 
 					$this->getShowCancel(),
 					$this->getShowMarker(),
@@ -1346,6 +1347,7 @@ class ilObjTest extends ilObject
 					(int) $this->getHighscoreTopTable(),
 					(int) $this->getHighscoreTopNum(),
 					(int) $this->isOnline(),
+					(int) $this->getSpecificAnswerFeedback(),
 					$this->getTestId()
 				)
 			);
@@ -2137,6 +2139,7 @@ class ilObjTest extends ilObject
 			$this->setHighscoreTopTable((bool) $data->highscore_top_table);
 			$this->setHighscoreTopNum((int) $data->highscore_top_num);
 			$this->setOnline((bool) $data->online_status);
+			$this->setSpecificAnswerFeedback((int) $data->specific_feedback);
 			$this->loadQuestions();
 		}
 		
@@ -2593,25 +2596,44 @@ function loadQuestions($active_id = "", $pass = NULL)
   }
 
 /**
-* Sets the answer specific feedback for the test
-*
+* Sets the generic feedback for the test
+* @deprecate Use setGenericAnswerFeedback instead.
 * @param integer $answer_feedback If 1, answer specific feedback will be shown after answering a question
 * @access public
 * @see $answer_feedback
 */
-  function setAnswerFeedback($answer_feedback = 0)
+function setAnswerFeedback($answer_feedback = 0)
+{
+	switch ($answer_feedback)
 	{
-		switch ($answer_feedback)
-		{
-			case 1:
-				$this->answer_feedback = 1;
-				break;
-			default:
-				$this->answer_feedback = 0;
-				break;
-		}
-  }
+		case 1:
+			$this->answer_feedback = 1;
+			break;
+		default:
+			$this->answer_feedback = 0;
+			break;
+	}
+}
 
+/**
+ * Sets if the generic feedback is to be shown in the test.
+ * 
+ * @param int $generic_answer_feedback
+ * @todo Rename "$this->answer_feedback to something more meaningful.
+ */
+function setGenericAnswerFeedback($generic_answer_feedback = 0)
+{
+	switch ($generic_answer_feedback)
+	{
+		case 1:
+			$this->answer_feedback = 1;
+			break;
+		default:
+			$this->answer_feedback = 0;
+			break;
+	}
+}	
+	
 /**
 * Sets the answer specific feedback of reached points for the test
 *
@@ -2712,18 +2734,32 @@ function loadQuestions($active_id = "", $pass = NULL)
 		return ($this->instant_verification) ? $this->instant_verification : 0;
 	}
 
-/**
-* Returns 1 if answer specific feedback is activated
-*
-* @return integer The status of the answer specific feedback
-* @access public
-* @see $answer_feedback
-*/
-	function getAnswerFeedback()
+	/**
+	 * Returns 1 if generic answer feedback is activated
+	 *
+	 * @deprecated Use getGenericAnswerFeedback instead.
+	 * @return integer The status of the answer specific feedback
+	 * @access     public
+	 * @see        $answer_feedback
+	 */
+	public function getAnswerFeedback()
 	{
 		return ($this->answer_feedback) ? $this->answer_feedback : 0;
 	}
 
+	/**
+	 * Returns 1 if generic answer feedback is to be shown.
+	 *
+	 * @return integer 1, if answer specific feedback is to be shown.
+	 * @access public
+	 * @see    $answer_feedback
+	 * @todo Rename $this->answer_feedback to something more meaningful.
+	 */
+	public function getGenericAnswerFeedback()
+	{
+		return ($this->answer_feedback) ? $this->answer_feedback : 0;
+	}
+	
 /**
 * Returns 1 if answer specific feedback as reached points is activated
 *
@@ -2731,10 +2767,10 @@ function loadQuestions($active_id = "", $pass = NULL)
 * @access public
 * @see $answer_feedback_points
 */
-	function getAnswerFeedbackPoints()
-	{
-		return ($this->answer_feedback_points) ? $this->answer_feedback_points : 0;
-	}
+function getAnswerFeedbackPoints()
+{
+	return ($this->answer_feedback_points) ? $this->answer_feedback_points : 0;
+}
 
 /**
 * Gets the count system for the calculation of points
@@ -10461,10 +10497,14 @@ function loadQuestions($active_id = "", $pass = NULL)
         }
 
         public function setScoringFeedbackOptionsByArray($options) {
-            $this->setAnswerFeedback((is_array($options) && in_array('instant_feedback_answer', $options)) ? 1 : 0);
-            $this->setAnswerFeedbackPoints((is_array($options) && in_array('instant_feedback_points', $options)) ? 1 : 0);
-            $this->setInstantFeedbackSolution((is_array($options) && in_array('instant_feedback_solution', $options)) ? 1 : 0);
-        }
+			if (is_array($options))
+			{
+				$this->setGenericAnswerFeedback(	in_array('instant_feedback_generic',  $options) ? 1 : 0);
+				$this->setSpecificAnswerFeedback(	in_array('instant_feedback_specific', $options) ? 1 : 0);
+				$this->setAnswerFeedbackPoints(		in_array('instant_feedback_points',   $options) ? 1 : 0);
+				$this->setInstantFeedbackSolution(	in_array('instant_feedback_solution', $options) ? 1 : 0);
+        	}
+		}
 
         public function setResultsPresentationOptionsByArray($options) {
             $setter = array(
@@ -10887,7 +10927,29 @@ function loadQuestions($active_id = "", $pass = NULL)
 	}
 	/* End GET/SET for highscore feature*/
 
+	public function setSpecificAnswerFeedback($specific_answer_feedback)
+	{
+		switch ($specific_answer_feedback)
+		{
+			case 1:
+				$this->specific_answer_feedback = 1;
+				break;
+			default:
+				$this->specific_answer_feedback = 0;
+				break;
+		}		
+	}
 	
+	public function getSpecificAnswerFeedback()
+	{
+		switch ($this->specific_answer_feedback)
+		{
+			case 1:
+				return 1;
+			default:
+				return 0;
+		}
+	}
 } // END class.ilObjTest
 
 ?>

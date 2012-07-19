@@ -1211,11 +1211,13 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// instant feedback
 		$instant_feedback = new ilCheckboxGroupInputGUI($this->lng->txt("tst_instant_feedback"), "instant_feedback");
-		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_answer_specific"), 'instant_feedback_answer', ''));
+		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_answer_specific"), 'instant_feedback_specific', ''));
+		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_answer_generic"), 'instant_feedback_generic', ''));
 		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_results"), 'instant_feedback_points', ''));
 		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt("tst_instant_feedback_solution"), 'instant_feedback_solution', ''));
 		$values = array();
-		if ($this->object->getAnswerFeedback()) array_push($values, 'instant_feedback_answer');
+		if ($this->object->getSpecificAnswerFeedback()) array_push($values, 'instant_feedback_specific');
+		if ($this->object->getGenericAnswerFeedback()) array_push($values, 'instant_feedback_generic');
 		if ($this->object->getAnswerFeedbackPoints()) array_push($values, 'instant_feedback_points');
 		if ($this->object->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
 		$instant_feedback->setValue($values);

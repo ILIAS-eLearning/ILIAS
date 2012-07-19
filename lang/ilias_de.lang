@@ -958,6 +958,7 @@ assessment#:#tst_insert_questions#:#Sind Sie sicher, dass Sie die folgende(n) Fr
 assessment#:#tst_insert_questions_and_results#:#Dieser Test wurde bereits von %s Benutzern durchgeführt. Das Hinzufügen von Fragen wird dazu führen, dass alle bestehenden Testergebnisse dieses Tests gelöscht werden! Sind Sie sicher, dass Sie die folgende(n) Frage(n) hinzufügen wollen?
 assessment#:#tst_instant_feedback#:#Sofortige Rückmeldung - Diese Informationen werden nach der Beantwortung einer Frage angezeigt
 assessment#:#tst_instant_feedback_answer_specific#:#Antwortspezifische Rückmeldungen anzeigen
+assessment#:#tst_instant_feedback_answer_generic#:#Generische Rückmeldung ("Richtig/Falsch") anzeigen
 assessment#:#tst_instant_feedback_description#:#Wenn eine dieser Optionen ausgewählt ist, wird eine direkte Rückmeldung im Anschluss an die Beantwortung einer Frage angezeigt. Wenn antwortspezifische Rückmeldung ausgewählt wurde, wird eine Rückmeldung abhängig von der Beantwortung der Frage angezeigt. Wenn das Ergebnis ausgewählt ist, werden die erzielten Punkte angezeigt. Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
 assessment#:#tst_instant_feedback_results#:#Ergebnisse anzeigen (nur Angabe der erreichten Punkte)
 assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
