@@ -289,7 +289,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	function postOutputProcessing($a_output)
 	{
 		// #8626
-		if($this->getOutputMode() == "preview" && !$this->getAbstractOnly() && $this->add_date)
+		if(($this->getOutputMode() == "preview" || $this->getOutputMode() == "offline") 
+			&& !$this->getAbstractOnly() && $this->add_date)
 		{			
 			if(!$this->isInWorkspace())		
 			{

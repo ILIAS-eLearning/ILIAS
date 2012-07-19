@@ -1310,6 +1310,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$blp_gui = new ilBlogPostingGUI(0, null, $page["id"]);
 				$blp_gui->setOutputMode("offline");
+				$blp_gui->add_date = true;
 				$page_content = $blp_gui->showPage();
 							
 				$back = $this->buildExportLink($a_link_template, "list", 
