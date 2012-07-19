@@ -171,8 +171,9 @@ class ilPollBlockGUI extends ilBlockGUI
 			return "";
 		}
 		
-		$this->setTitle($lng->txt("obj_poll"));
-		$this->setData(array($this->poll_block->getPoll()));	
+		$poll_obj = $this->poll_block->getPoll();
+		$this->setTitle($poll_obj->getTitle());
+		$this->setData(array($poll_obj));	
 	
 		if ($this->may_write)
 		{
