@@ -51,25 +51,8 @@ class ilObjPollGUI extends ilObject2GUI
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $lng;
-	
-		$question = new ilTextAreaInputGUI($lng->txt("poll_question"), "question");
-		$question->setRequired(true);
-		$question->setCols(40);
-		$question->setRows(2);
-		$a_form->addItem($question);
-		
-		$dimensions = " (".ilObjPoll::getImageSize()."px)";		
-		$img = new ilImageFileInputGUI($lng->txt("poll_image").$dimensions, "image");
-		$a_form->addItem($img);
-			
-		// show existing file
-		$file = $this->object->getImageFullPath(true);
-		if($file)
-		{
-			$img->setImage($file);
-		}					
-		
+		global $lng;					
+				
 		$results = new ilRadioGroupInputGUI($lng->txt("poll_view_results"), "results");
 		$results->setRequired(true);
 		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_always"), 
@@ -80,8 +63,7 @@ class ilObjPollGUI extends ilObject2GUI
 			ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
 		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_period"), 
 			ilObjPoll::VIEW_RESULTS_AFTER_PERIOD));
-		$a_form->addItem($results);				
-		
+		$a_form->addItem($results);			
 			
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		$this->lng->loadLanguageModule('rep');
@@ -139,8 +121,7 @@ class ilObjPollGUI extends ilObject2GUI
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
-	{
-		$this->object->setQuestion($a_form->getInput("question"));
+	{		
 		$this->object->setViewResults($a_form->getInput("results"));
 		$this->object->setOnline($a_form->getInput("online"));
 						
@@ -153,16 +134,6 @@ class ilObjPollGUI extends ilObject2GUI
 			$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);			
 			$this->object->setAccessEnd($date->get(IL_CAL_UNIX));
 			$this->object->setAccessVisibility($a_form->getInput("access_visiblity"));
-		}
-		
-		$image = $a_form->getItemByPostVar("image");				
-		if($_FILES["image"]["tmp_name"]) 
-		{
-			$this->object->uploadImage($_FILES["image"]);
-		}
-		else if($image->getDeletionFlag())
-		{
-			$this->object->deleteImage();
 		}		
 	}
 
@@ -312,7 +283,7 @@ class ilObjPollGUI extends ilObject2GUI
 	/**
 	 * Render object context
 	 */
-	function render()
+	function render($a_form = null)
 	{
 		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar, $ilUser;
 		
@@ -326,12 +297,77 @@ class ilObjPollGUI extends ilObject2GUI
 		
 		$ilToolbar->addButton($lng->txt("poll_add_answer"), 
 			$ilCtrl->getLinkTarget($this, "addAnswer"));
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initQuestionForm();
+		}
 
 		// table gui
 		include_once "Modules/Poll/classes/class.ilPollAnswerTableGUI.php";
 		$tbl = new ilPollAnswerTableGUI($this, "render");
 		
-		$tpl->setContent($tbl->getHTML());		
+		$tpl->setContent($a_form->getHTML()."<br />".$tbl->getHTML());		
+	}
+	
+	protected function initQuestionForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "saveQuestion"));
+		$form->setTitle($lng->txt("obj_poll"));
+		
+		$question = new ilTextAreaInputGUI($lng->txt("poll_question"), "question");
+		$question->setRequired(true);
+		$question->setCols(40);
+		$question->setRows(2);
+		$question->setValue($this->object->getQuestion());
+		$form->addItem($question);
+		
+		$dimensions = " (".ilObjPoll::getImageSize()."px)";		
+		$img = new ilImageFileInputGUI($lng->txt("poll_image").$dimensions, "image");
+		$form->addItem($img);
+			
+		// show existing file
+		$file = $this->object->getImageFullPath(true);
+		if($file)
+		{
+			$img->setImage($file);
+		}					
+		
+		$form->addCommandButton("saveQuestion", $lng->txt("save"));
+		
+		return $form;
+	}
+	
+	function saveQuestion()
+	{
+		$form = $this->initQuestionForm();
+		if($form->checkInput())
+		{
+			$this->object->setQuestion($form->getInput("question"));
+						
+			$image = $form->getItemByPostVar("image");				
+			if($_FILES["image"]["tmp_name"]) 
+			{
+				$this->object->uploadImage($_FILES["image"]);
+			}
+			else if($image->getDeletionFlag())
+			{
+				$this->object->deleteImage();
+			}
+			
+			if($this->object->update())
+			{
+				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+				$this->ctrl->redirect($this, "render");
+			}
+		}
+		
+		$form->setValuesByPost();
+		$this->render($form);
 	}
 	
 	/**
