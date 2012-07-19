@@ -198,7 +198,7 @@ abstract class ilParticipant
 	{
 	 	global $ilDB;
 
-	 	$query = "SELECT * FROM crs_members ".
+	 	$query = "SELECT * FROM obj_members ".
 	 		"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
 			'AND usr_id = '.$ilDB->quote($this->getUserId(),'integer');
 
@@ -290,7 +290,7 @@ abstract class ilParticipant
 			$rbacadmin->deassignUser($role_id,$a_usr_id);
 		}
 		
-		$query = "DELETE FROM crs_members ".
+		$query = "DELETE FROM obj_members ".
 			"WHERE usr_id = ".$ilDB->quote($a_usr_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer');
 		$res = $ilDB->manipulate($query);
@@ -368,20 +368,20 @@ abstract class ilParticipant
 		
 		$this->participants_status[$a_usr_id]['notification'] = (int) $a_notification;
 
-		$query = "SELECT * FROM crs_members ".
+		$query = "SELECT * FROM obj_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
 			"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
-			$query = "UPDATE crs_members SET ".
+			$query = "UPDATE obj_members SET ".
 				"notification = ".$ilDB->quote((int) $a_notification ,'integer')." ".
 				"WHERE obj_id = ".$ilDB->quote($this->obj_id ,'integer')." ".
 				"AND usr_id = ".$ilDB->quote($a_usr_id ,'integer');
 		}
 		else
 		{
-			$query = "INSERT INTO crs_members (notification,obj_id,usr_id,passed,blocked) ".
+			$query = "INSERT INTO obj_members (notification,obj_id,usr_id,passed,blocked) ".
 				"VALUES ( ".
 				$ilDB->quote((int) $a_notification ,'integer').", ".
 				$ilDB->quote($this->obj_id ,'integer').", ".

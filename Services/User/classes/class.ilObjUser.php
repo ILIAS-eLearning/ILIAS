@@ -2719,14 +2719,14 @@ class ilObjUser extends ilObject
 			{
 				case 3:
 					// show only users without courses
-					$join_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.usr_id IS NULL AND ";
+					$join_filter = " LEFT JOIN obj_members ON usr_data.usr_id = obj_members.usr_id WHERE obj_members.usr_id IS NULL AND ";
 					break;
 				case 5:
 					// show only users with a certain course membership
 					$ref_id = $_SESSION["user_filter_data"];
 					if ($ref_id)
 					{
-						$join_filter = " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id WHERE crs_members.obj_id = ".
+						$join_filter = " LEFT JOIN obj_members ON usr_data.usr_id = obj_members.usr_id WHERE obj_members.obj_id = ".
 							"(SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($ref_id, "integer").") AND ";
 					}
 					break;
@@ -2945,8 +2945,8 @@ class ilObjUser extends ilObject
 					$ref_id = $_SESSION["user_filter_data"];
 					if ($ref_id)
 					{
-						$q .= " LEFT JOIN crs_members ON usr_data.usr_id = crs_members.usr_id ".
-							"WHERE crs_members.obj_id = (SELECT obj_id FROM object_reference ".
+						$q .= " LEFT JOIN obj_members ON usr_data.usr_id = obj_members.usr_id ".
+							"WHERE obj_members.obj_id = (SELECT obj_id FROM object_reference ".
 							"WHERE ref_id = ".$ilDB->quote($ref_id, "integer").") ";
 					}
 					break;

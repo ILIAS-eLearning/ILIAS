@@ -1987,7 +1987,16 @@ class ilRbacReview
 	 */
 	public function getObjectOfRole($a_role_id)
 	{
+		// internal cache
+		static $obj_cache = array();
+
 		global $ilDB;
+		
+		
+		if(isset($obj_cache[$a_role_id]) and $obj_cache[$a_role_id])
+		{
+			return $obj_cache[$a_role_id];
+		}
 		
 		$query = "SELECT obr.obj_id FROM rbac_fa rfa ".
 			"JOIN tree ON rfa.parent = tree.child ".
@@ -1996,12 +2005,13 @@ class ilRbacReview
 			"AND assign = 'y' ".
 			"AND rol_id = ".$ilDB->quote($a_role_id,'integer')." ";
 		$res = $ilDB->query($query);
+		
+		$obj_cache[$a_role_id] = 0;
 		while($row = $ilDB->fetchObject($res))
 		{
-			$obj_id = $row->obj_id;
+			$obj_cache[$a_role_id] = $row->obj_id;
 		}
-		
-		return $obj_id ? $obj_id : 0;
+		return $obj_cache[$a_role_id];
 	}
 	
 	/**
