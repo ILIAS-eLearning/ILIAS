@@ -2812,8 +2812,17 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function moveQuestionsObject()
 	{
-		$_SESSION['tst_qst_move_' . $this->object->getTestId()] = $_POST['q_id'];
-		ilUtil::sendSuccess($this->lng->txt("msg_selected_for_move"), true);
+		$selected_questions = NULL;
+		$selected_questions = $_POST['q_id'];
+		if (is_array($selected_questions))
+		{
+			$_SESSION['tst_qst_move_' . $this->object->getTestId()] = $_POST['q_id'];
+			ilUtil::sendSuccess($this->lng->txt("msg_selected_for_move"), true);
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('no_selection_for_move'), TRUE);
+		}
 		$this->ctrl->redirect($this, 'questions');
 	}
 	

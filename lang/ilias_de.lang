@@ -639,6 +639,7 @@ assessment#:#msg_questions_moved#:#Frage(n) verschoben
 assessment#:#msg_randompool_duplicate_qpl#:#Bitte wählen Sie keine identischen Fragenpools aus.
 assessment#:#msg_rect_added#:#Rechteck hinzugefügt
 assessment#:#msg_selected_for_move#:#Frage(n) zum Verschieben ausgewählt
+assessment#:#no_selection_for_move#:#Keine Frage zum Verschieben ausgewählt
 assessment#:#msg_total_questions_too_high#:#Die Anzahl der Fragen überschreitet die maximal verfügbare Anzahl der Fragen in den ausgewählten Fragenpools
 assessment#:#multiline_answers_hide#:#Einzeilige Antworten verwenden
 assessment#:#multiline_answers_show#:#Mehrzeilige Antworten verwenden
