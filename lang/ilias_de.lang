@@ -12776,3 +12776,9 @@ pd#:#block_show_chatviewer#:#Show Chatviewer
 pd#:#block_show_pdbookm#:#Show Bookmarks
 pd#:#block_create_pdfeed#:#Add New Webfeed
 pd#:#block_show_x#:#Show %s
+common#:#crs_list_reg_start#:#Anmeldungsbeginn
+common#:#crs_list_reg_end#:#Anmeldungsende
+common#:#crs_list_reg_noreg#:#Keine Anmeldung möglich
+common#:#crs_list_reg_limit_full#:#Keine freien Plätze verfügbar
+common#:#crs_list_reg_limit_places#:#Freie Plätze
+common#:#crs_list_reg_period#:#Anmeldungszeitraum

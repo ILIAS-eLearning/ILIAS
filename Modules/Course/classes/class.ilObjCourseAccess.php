@@ -327,6 +327,80 @@ class ilObjCourseAccess extends ilObjectAccess
 		}
 		return false;
 	}
+	
+	public static function lookupRegistrationInfo($a_obj_id)
+	{
+		global $ilDB, $ilUser, $lng;
+		
+		$query = 'SELECT sub_limitation_type, sub_start, sub_end, sub_mem_limit, sub_max_members FROM crs_settings '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id);
+		$res = $ilDB->query($query);
+		
+		$info = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$info['reg_info_start'] = new ilDateTime($row->sub_start, IL_CAL_UNIX);
+			$info['reg_info_end'] = new ilDateTime($row->sub_end, IL_CAL_UNIX);
+			$info['reg_info_type'] = $row->sub_limitation_type;
+			$info['reg_info_max_members'] = $row->sub_max_members;
+			$info['reg_info_mem_limit'] = $row->sub_mem_limit;
+		}
+		
+		$registration_possible = true;
+
+		// Limited registration
+		if($info['reg_info_type'] == ilCourseConstants::SUBSCRIPTION_LIMITED)
+		{
+			$dt = new ilDateTime(time(),IL_CAL_UNIX);
+			if(ilDateTime::_before($dt, $info['reg_info_start']))
+			{
+				$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_start');
+				$info['reg_info_list_prop']['value'] = ilDatePresentation::formatDate($info['reg_info_start']);
+			}
+			elseif(ilDateTime::_before($dt, $info['reg_info_end']))
+			{
+				$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_end');
+				$info['reg_info_list_prop']['value'] = ilDatePresentation::formatDate($info['reg_info_end']);
+			}
+			else
+			{
+				$registration_possible = false;
+				$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_period');
+				$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
+			}
+		}
+		else
+		{
+			$registration_possible = false;
+			$info['reg_info_list_prop']['property'] = $lng->txt('crs_list_reg_period');
+			$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
+		}
+		
+		if($info['reg_info_mem_limit'] && $registration_possible)
+		{
+			// Check if users are on waiting list
+			// @todo
+			
+			
+			// Check for free places
+			$part = ilCourseParticipant::_getInstanceByObjId($a_obj_id, $ilUser->getId());
+			if($part->getNumberOfMembers() <= $info['reg_info_max_members'])
+			{
+				$info['reg_info_list_prop_limit']['property'] = $lng->txt('crs_list_reg_limit_places');
+				$info['reg_info_list_prop_limit']['value'] = max(
+						0,
+						$info['reg_info_max_members'] - $part->getNumberOfMembers()
+					);
+			}
+			else
+			{
+				$info['reg_info_list_prop_limit']['property'] = '';
+				$info['reg_info_list_prop_limit']['value'] = $lng->txt('crs_list_reg_limit_full');
+			}
+		}
+		
+		return $info;
+	}
 
 	/**
 	 * Type-specific implementation of general status

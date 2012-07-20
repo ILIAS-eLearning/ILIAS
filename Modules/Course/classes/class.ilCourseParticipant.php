@@ -70,6 +70,7 @@ class ilCourseParticipant extends ilParticipant
 	 * @static
 	 *
 	 * @param int obj_id
+	 * @return ilCourseParticipant
 	 */
 	public static function _getInstanceByObjId($a_obj_id,$a_usr_id)
 	{
