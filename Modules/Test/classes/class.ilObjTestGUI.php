@@ -232,7 +232,7 @@ class ilObjTestGUI extends ilObjectGUI
 							// :FIXME: does not work
 							// $this->ctrl->saveParameterByClass(array('iltestexpresspageobjectgui', 'assorderingquestiongui', 'ilpageeditorgui', 'ilpcquestion', 'ilpcquestiongui'), 'test_express_mode');
 
-							if (!$qid) {
+							if (!$qid || $qid == 'Array') {
                                 $questions = $this->object->getQuestionTitlesAndIndexes();
                                 if (!is_array($questions))
                                     $questions = array();
@@ -273,12 +273,12 @@ class ilObjTestGUI extends ilObjectGUI
                             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 
                             $q_gui =& assQuestionGUI::_getQuestionGUI("", $qid);
-                            #$q_gui->setQuestionTabs();
-                            $q_gui->outAdditionalOutput();
-                            $q_gui->object->setObjId($this->object->getId());
-                            $question =& $q_gui->object;
-                            $this->ctrl->saveParameter($this, "q_id");
 
+							$q_gui->outAdditionalOutput();
+							$q_gui->object->setObjId($this->object->getId());
+							$question =& $q_gui->object;
+							$this->ctrl->saveParameter($this, "q_id");
+							
                             #$this->lng->loadLanguageModule("content");
                             $this->ctrl->setReturnByClass("ilTestExpressPageObjectGUI", "view");
                             $this->ctrl->setReturn($this, "questions");
