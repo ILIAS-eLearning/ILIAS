@@ -3687,7 +3687,7 @@ class ilObjTestGUI extends ilObjectGUI
 			include_once "./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php";
 			$table_gui = new ilTestParticipantsTableGUI($this, 'participants', $this->object->getAnonymity(), count($rows));
 			$table_gui->setFilterCommand('npSetFilter');
-			$table_gui->setResetCommand('npResetFiler');
+			$table_gui->setResetCommand('npResetFilter');
 			$rows = $this->applyFilterCriteria($rows);
 			$table_gui->setData($rows);
 			$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
@@ -3741,7 +3741,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function fpSetFilterObject()
 	{
 		include_once("./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php");
-		$table_gui = new ilTestFixedParticipantsTableGUI($this, "participants");
+		$table_gui = new ilTestFixedParticipantsTableGUI($this, "participants", $this->object->getAnonymity(), count($rows));
 		$table_gui->writeFilterToSession();        // writes filter to session
 		$table_gui->resetOffset();                // sets record offest to 0 (first page)
 		$this->participantsObject();
@@ -3750,7 +3750,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function fpResetFilterObject()
 	{
 		include_once("./Modules/Test/classes/tables/class.ilTestFixedParticipantsTableGUI.php");
-		$table_gui = new ilTestFixedParticipantsTableGUI($this, "participants");
+		$table_gui = new ilTestFixedParticipantsTableGUI($this, "participants", $this->object->getAnonymity(), count($rows));
 		$table_gui->resetFilter();        // writes filter to session
 		$table_gui->resetOffset();                // sets record offest to 0 (first page)
 		$this->participantsObject();
@@ -3759,7 +3759,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function npSetFilterObject()
 	{
 		include_once("./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php");
-		$table_gui = new ilTestParticipantsTableGUI($this, "participants");
+		$table_gui = new ilTestParticipantsTableGUI($this, "participants", $this->object->getAnonymity(), count($rows));
 		$table_gui->writeFilterToSession();        // writes filter to session
 		$table_gui->resetOffset();                // sets record offest to 0 (first page)
 		$this->participantsObject();
@@ -3769,7 +3769,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function npResetFilterObject()
 	{
 		include_once("./Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php");
-		$table_gui = new ilTestParticipantsTableGUI($this, "participants");
+		$table_gui = new ilTestParticipantsTableGUI($this, "participants", $this->object->getAnonymity(), count($rows));
 		$table_gui->resetFilter();        // writes filter to session
 		$table_gui->resetOffset();                // sets record offest to 0 (first page)
 		$this->participantsObject();
