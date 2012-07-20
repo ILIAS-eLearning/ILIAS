@@ -12783,3 +12783,6 @@ common#:#crs_list_reg_noreg#:#Keine Anmeldung möglich
 common#:#crs_list_reg_limit_full#:#Keine freien Plätze verfügbar
 common#:#crs_list_reg_limit_places#:#Freie Plätze
 common#:#crs_list_reg_period#:#Anmeldungszeitraum
+search#:#lucene_offline_filter_setting#:#Offline-Filter
+search#:#lucene_offline_filter_setting_info#:#Wenn aktiviert, kann in der "Erweiterten Suche" nach Objekten gesucht werden, deren Status "Offline" ist.
+search#:#lucene_offline_filter#:#Offline-Status

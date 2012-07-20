@@ -30,6 +30,7 @@ class ilSearchSettings
 	protected $last_index_date = null;
 	protected $lucene_item_filter_enabled = false;
 	protected $lucene_item_filter = array();
+	protected $lucene_offline_filter = true;
 	
 	
 	
@@ -48,8 +49,8 @@ class ilSearchSettings
 	/**
 	 * 
 	 *
-	 * @return
 	 * @static
+	 * @return ilSearchSettings
 	 */
 	public static function getInstance()
 	{
@@ -260,6 +261,16 @@ class ilSearchSettings
 		$this->lucene_item_filter = $a_filter;
 	}
 	
+	public function enableLuceneOfflineFilter($a_stat)
+	{
+		$this->lucene_offline_filter = $a_stat;
+	}
+	
+	public function isLuceneOfflineFilterEnabled()
+	{
+		return $this->lucene_offline_filter;
+	}
+	
 	/**
 	 * @param object instance of ilDateTime 
 	 */
@@ -286,6 +297,7 @@ class ilSearchSettings
 		$this->ilias->setSetting('auto_complete_length',(int) $this->getAutoCompleteLength());
 		$this->ilias->setSetting('lucene_item_filter_enabled',(int) $this->isLuceneItemFilterEnabled());
 		$this->ilias->setSetting('lucene_item_filter',serialize($this->getLuceneItemFilter()));
+		#$this->ilias->setSetting('lucene_offline_filter',(int) $this->isLuceneOfflineFilterEnabled());
 
 		return true;
 	}
@@ -319,6 +331,7 @@ class ilSearchSettings
 		
 		$filter = $this->ilias->getSetting('lucene_item_filter',serialize($this->getLuceneItemFilter()));
 		$this->setLuceneItemFilter(unserialize($filter));
+		#$this->enableLuceneOfflineFilter($this->ilias->getSetting('lucene_offline_filter'), $this->isLuceneOfflineFilterEnabled());
 	}
 }
 ?>
