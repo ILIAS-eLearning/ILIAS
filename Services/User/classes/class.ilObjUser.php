@@ -1294,7 +1294,7 @@ class ilObjUser extends ilObject
 		include_once ("Services/Mail/classes/class.ilMailbox.php");
 		$mailbox = new ilMailbox($this->getId());
 		$mailbox->delete();
-		$mailbox->updateMailsOfDeletedUser();
+		$mailbox->updateMailsOfDeletedUser($this->getLogin());
 
 		// delete feed blocks on personal desktop
 		include_once("./Services/Block/classes/class.ilCustomBlock.php");
