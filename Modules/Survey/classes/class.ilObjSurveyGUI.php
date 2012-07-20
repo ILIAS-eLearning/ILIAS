@@ -3161,18 +3161,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTableWidth("100%");
 		$form->setId("constraintsForm");
-
-		$title = "";
-		if ($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_id"] > 0)
+				
+		$title = array();		
+		$title_ids = $_SESSION["includeElements"];
+		if(!$title_ids)
 		{
-			$title = $this->lng->txt("questionblock") . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["questionblock_title"];
+			$title_ids = array($_GET["start"]);
 		}
-		else
+		foreach($title_ids as $title_id)
 		{
-			$title = $this->lng->txt($survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["type_tag"]) . ": " . $survey_questions[$_SESSION["constraintstructure"][$_GET["start"]][0]]["title"];
+			// question block
+			if ($survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["questionblock_id"] > 0)
+			{
+				$title[] = $this->lng->txt("questionblock") . ": " . $survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["questionblock_title"];
+			}
+			// question
+			else
+			{
+				$title[] = $this->lng->txt($survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["type_tag"]) . ": " . 
+					$survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["title"];
+			}
 		}
 		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($title);
+		$header->setTitle(implode("<br/>", $title));
 		$form->addItem($header);
 		
 		$fulfilled = new ilRadioGroupInputGUI($this->lng->txt("constraint_fulfilled"), "c");
