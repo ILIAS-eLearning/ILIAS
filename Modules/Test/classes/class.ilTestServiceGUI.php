@@ -185,10 +185,12 @@ class ilTestServiceGUI
 							'tst_pass_delete', 
 							$this->ctrl->getLinkTargetByClass($targetclass, 'confirmDeletePass')
 						);
-												
-						
-						#$template->setVariable("HREF_PASS_DETAILS", $this->ctrl->getLinkTargetByClass($targetclass, $targetcommand));
-						$template->setVariable("TEXT_PASS_DETAILS", $aslgui->getHTML());
+
+						// Suppress output of advanced selection list for pdf-generation as solution for Mantis #9359 
+						if (!($_GET['pdf'] == 1))
+						{
+							$template->setVariable("TEXT_PASS_DETAILS", $aslgui->getHTML());
+						}
 						$template->parseCurrentBlock();
 					}
 				}
