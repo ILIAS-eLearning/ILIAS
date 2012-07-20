@@ -81,31 +81,35 @@ class ilLuceneAdvancedSearchFields
 		
 		$lng->loadLanguageModule('meta');
 		
-		$fields = array(
-			'lom_content'				=> $lng->txt('content'),
-			//'lom_type'					=> $lng->txt('type'),
-			'lom_language'				=> $lng->txt('language'),
-			'lom_keyword'				=> $lng->txt('meta_keyword'),	
-			'lom_coverage'				=> $lng->txt('meta_coverage'),	
-			'lom_structure'				=> $lng->txt('meta_structure'),	
-			'lom_status'				=> $lng->txt('meta_status'),	
-			'lom_version'				=> $lng->txt('meta_version'),	
-			'lom_contribute'			=> $lng->txt('meta_contribute'),	
-			'lom_format'				=> $lng->txt('meta_format'),	
-			'lom_operating_system'		=> $lng->txt('meta_operating_system'),	
-			'lom_browser'				=> $lng->txt('meta_browser'),	
-			'lom_interactivity'			=> $lng->txt('meta_interactivity_type'),	
-			'lom_resource'				=> $lng->txt('meta_learning_resource_type'),	
-			'lom_level'					=> $lng->txt('meta_interactivity_level'),	
-			'lom_density'				=> $lng->txt('meta_semantic_density'),	
-			'lom_user_role'				=> $lng->txt('meta_intended_end_user_role'),	
-			'lom_context'				=> $lng->txt('meta_context'),	
-			'lom_difficulty'			=> $lng->txt('meta_difficulty'),	
-			'lom_costs'					=> $lng->txt('meta_cost'),	
-			'lom_copyright'				=> $lng->txt('meta_copyright_and_other_restrictions'),	
-			'lom_purpose'				=> $lng->txt('meta_purpose'),	
-			'lom_taxon'					=> $lng->txt('meta_taxon')
-			);
+		$fields['lom_content']				= $lng->txt('content');
+		
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		if(ilSearchSettings::getInstance()->enabledLucene())
+		{
+			$fields['general_offline']		= $lng->txt('lucene_offline_filter');
+		}
+		//'lom_type'					= $lng->txt('type');
+		$fields['lom_language']				= $lng->txt('language');
+		$fields['lom_keyword']				= $lng->txt('meta_keyword');
+		$fields['lom_coverage']				= $lng->txt('meta_coverage');
+		$fields['lom_structure']			= $lng->txt('meta_structure');
+		$fields['lom_status']				= $lng->txt('meta_status');
+		$fields['lom_version']				= $lng->txt('meta_version');
+		$fields['lom_contribute']			= $lng->txt('meta_contribute');
+		$fields['lom_format']				= $lng->txt('meta_format');
+		$fields['lom_operating_system']		= $lng->txt('meta_operating_system');
+		$fields['lom_browser']				= $lng->txt('meta_browser');
+		$fields['lom_interactivity']		= $lng->txt('meta_interactivity_type');
+		$fields['lom_resource']				= $lng->txt('meta_learning_resource_type');
+		$fields['lom_level']				= $lng->txt('meta_interactivity_level');
+		$fields['lom_density']				= $lng->txt('meta_semantic_density');
+		$fields['lom_user_role']			= $lng->txt('meta_intended_end_user_role');
+		$fields['lom_context']				= $lng->txt('meta_context');
+		$fields['lom_difficulty']			= $lng->txt('meta_difficulty');
+		$fields['lom_costs']				= $lng->txt('meta_cost');
+		$fields['lom_copyright']			= $lng->txt('meta_copyright_and_other_restrictions');
+		$fields['lom_purpose']				= $lng->txt('meta_purpose');
+		$fields['lom_taxon']				= $lng->txt('meta_taxon');
 			
 		// Append all advanced meta data fields
 		include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
@@ -144,6 +148,12 @@ class ilLuceneAdvancedSearchFields
 
 		switch($a_field_name)
 		{
+			case 'general_offline':
+				$offline = new ilCheckboxInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$offline->setValue(1);
+				$offline->setChecked($a_query['general_offline']);
+				return $offline;
+			
 			case 'lom_content':
 				$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
 				$text->setSubmitFormOnEnter(true);
@@ -450,6 +460,9 @@ class ilLuceneAdvancedSearchFields
 			case 'lom_content':
 				return $a_query;
 				
+			case 'general_offline':
+				return 'offline:1';
+				
 			// General
 			case 'lom_language':
 				return 'lomLanguage:'.$a_query;
@@ -697,6 +710,12 @@ class ilLuceneAdvancedSearchFields
 					$this->active_sections['default']['fields'][] = 'lom_content';
 					$this->active_sections['default']['name'] = '';
 					break;
+				
+				case 'general_offline':
+					$this->active_sections['default']['fields'][] = 'general_offline';
+					$this->active_sections['default']['name'] = '';
+					break;
+				
 				case 'lom_type':
 					$this->active_sections['default']['fields'][] = 'lom_type';
 					$this->active_sections['default']['name'] = '';

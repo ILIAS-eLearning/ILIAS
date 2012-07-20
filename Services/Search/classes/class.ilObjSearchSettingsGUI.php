@@ -190,6 +190,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$hits->setInfo($this->lng->txt('seas_max_hits_info'));
 		$this->form->addItem($hits);
 		
+		
 		// Search type
 		$type = new ilRadioGroupInputGUI($this->lng->txt('search_type'),'search_type');
 		
@@ -335,6 +336,15 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$operator->addOption($or);
 		$this->form->addItem($operator);
 		
+		// Offline filter
+		/*
+		$offline = new ilCheckboxInputGUI($this->lng->txt('lucene_offline_filter_setting'),'offline_filter');
+		$offline->setInfo($this->lng->txt('lucene_offline_filter_setting_info'));
+		$offline->setValue(1);
+		$offline->setChecked($this->settings->isLuceneOfflineFilterEnabled());
+		$this->form->addItem($offline);
+		 */
+		
 		// Item filter
 		$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter_form'),'if');
 		$if->setValue(1);
@@ -418,6 +428,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$settings->showRelevance((int) $_POST['relevance']);
 		$settings->enableLuceneItemFilter((int) $_POST['if']);
 		$settings->setLuceneItemFilter((array) $_POST['filter']);
+		$settings->enableLuceneOfflineFilter((int) $_POST['offline_filter']);
 		
 		if($this->form->checkInput())
 		{
