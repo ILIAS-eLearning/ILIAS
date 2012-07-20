@@ -56,6 +56,13 @@ class ilNotificationDatabaseHandler
 		return self::fillPlaceholders($results, $vars, $langVarToTypeDict);
 	}
 
+	/**
+	 * @static
+	 * @param array $results
+	 * @param array $vars
+	 * @param array $langVarToTypeDict
+	 * @return array mixed
+	 */
 	protected static function fillPlaceholders($results, $vars, $langVarToTypeDict)
 	{
 		$pattern_old = '/##(.+?)##/im';
@@ -69,18 +76,10 @@ class ilNotificationDatabaseHandler
 			foreach($res->lang_untouched as $iso2shorthandle => $translation)
 			{
 				$translation = str_replace("\\n", "\n", $translation);
-
-				$foundPlaceholders = array();
-				preg_match_all($pattern, $translation, $foundPlaceholders);
-				$placeholdersStack[] = $foundPlaceholders[1];
-
-				$translation = self::replaceFields($translation, $foundPlaceholders[1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '[', ']');
-
-				$foundPlaceholders = array();
-				preg_match_all($pattern_old, $translation, $foundPlaceholders);
-				$placeholdersStack[] = $foundPlaceholders[1];
-
-				$res->lang[$iso2shorthandle] = self::replaceFields($translation, $foundPlaceholders[1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '##', '##');
+				$placeholdersStack[] = self::findPlaceholders($pattern, $translation);
+				$translation = self::replaceFields($translation, $placeholdersStack[count($placeholdersStack) - 1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '[', ']');
+				$placeholdersStack[] = self::findPlaceholders($pattern_old, $translation);
+				$res->lang[$iso2shorthandle] = self::replaceFields($translation, $placeholdersStack[count($placeholdersStack) - 1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '##', '##');
 			}
 
 			$res->params = array_diff(
@@ -92,6 +91,19 @@ class ilNotificationDatabaseHandler
 		}
 
 		return $results;
+	}
+
+	/**
+	 * @static
+	 * @param string $pattern
+	 * @param string $translation
+	 * @return array
+	 */
+	protected static function findPlaceholders($pattern, $translation)
+	{
+		$foundPlaceholders = array();
+		preg_match_all($pattern, $translation, $foundPlaceholders);
+		return (array)$foundPlaceholders[1];
 	}
 
 	/**
