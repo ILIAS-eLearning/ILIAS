@@ -20,5 +20,14 @@
 			<Field store="YES" index="ANALYZED" column="contact_email" type="text" name="propertyMedium" />
 			<Field store="YES" index="ANALYZED" column="contact_consultation" type="text" name="propertyLow" />
 		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT 1 as offline FROM crs_settings
+				WHERE activation_type = 0
+				AND obj_id IN(?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="offline" type="text" name="offline" />
+		</DataSource>
 	</Document>
 </ObjectDefinition>
