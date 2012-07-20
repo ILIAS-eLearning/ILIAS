@@ -25,7 +25,7 @@
 include_once './Services/Membership/classes/class.ilParticipants.php';
 
 /**
-* Base class for course and group participants
+* Base class for course and group participant
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
@@ -42,6 +42,8 @@ abstract class ilParticipant
 	private $admins = false;
 	private $tutors = false;
 	private $members = false;
+	
+	private $numMembers = 0;
 
 	private $participants_status = array();
 
@@ -104,6 +106,11 @@ abstract class ilParticipant
 		return (bool) $this->participants;
 	}
 	
+	public function getNumberOfMembers()
+	{
+		return $this->numMembers;
+	}
+	
 
 	/**
 	 * Read participant
@@ -128,6 +135,8 @@ abstract class ilParticipant
 		$users = array();
 		$this->participants = array();
 		$this->members = $this->admins = $this->tutors = array();
+		
+		$member_roles = array();
 
 		foreach($this->roles as $role_id)
 		{
@@ -135,6 +144,7 @@ abstract class ilParticipant
 			switch(substr($title,0,8))
 			{
 				case 'il_crs_m':
+					$member_roles[] = $role_id;
 					$this->role_data[IL_CRS_MEMBER] = $role_id;
 					if($rbacreview->isAssigned($this->getUserId(),$role_id))
 					{
@@ -171,6 +181,7 @@ abstract class ilParticipant
 					break;
 
 				case 'il_grp_m':
+					$member_roles[] = $role_id;
 					$this->role_data[IL_GRP_MEMBER] = $role_id;
 					if($rbacreview->isAssigned($this->getUserId(),$role_id))
 					{
@@ -180,6 +191,8 @@ abstract class ilParticipant
 					break;
 
 				default:
+					
+					$member_roles[] = $role_id;
 					if($rbacreview->isAssigned($this->getUserId(),$role_id))
 					{
 						$this->participants = true;
@@ -188,6 +201,7 @@ abstract class ilParticipant
 					break;
 			}
 		}
+		$this->numMembers = $rbacreview->getNumberOfAssignedUsers((array) $member_roles);
 	}
 
 	/**

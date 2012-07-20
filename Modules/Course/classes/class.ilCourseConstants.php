@@ -22,6 +22,7 @@
 */
 
 
+// @deprecated
 define('IL_CRS_ACTIVATION_OFFLINE',0);
 define('IL_CRS_ACTIVATION_UNLIMITED',1);
 define('IL_CRS_ACTIVATION_LIMITED',2);
@@ -44,11 +45,16 @@ define('IL_CRS_VIEW_BY_TYPE', 5);
 define('IL_CRS_ARCHIVE_DOWNLOAD',3);
 define('IL_CRS_ARCHIVE_NONE',0);
 
+
 class ilCourseConstants
 {
 	const CRS_ADMIN = 1;
 	const CRS_MEMBER = 2;
 	const CRS_TUTOR = 3;
+	
+	const SUBSCRIPTION_DEACTIVATED = 0;
+	const SUBSCRIPTION_UNLIMITED = 1;
+	const SUBSCRIPTION_LIMITED = 2;
 }
 
 ?>

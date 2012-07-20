@@ -12868,3 +12868,9 @@ pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
 pd#:#block_show_x#:#%s anzeigen
+common#:#crs_list_reg_start#:#Registration Begin
+common#:#crs_list_reg_end#:#Registration End
+common#:#crs_list_reg_noreg#:#No Registration Possible
+common#:#crs_list_reg_period#:#Registration Period
+common#:#crs_list_reg_limit_full#:#No places left
+common#:#crs_list_reg_limit_places#:#Free places

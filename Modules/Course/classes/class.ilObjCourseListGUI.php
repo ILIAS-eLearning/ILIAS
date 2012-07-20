@@ -100,16 +100,13 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	{
 		global $lng, $ilUser;
 
-		// BEGIN WebDAV: Get parent properties
-		// BEGIN ChangeEvent: Get parent properties
 		$props = parent::getProperties();
-		// END ChangeEvent: Get parent properties
-		// END WebDAV: Get parent properties
-
+		
 		// offline
 		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
 		if(ilObjCourseAccess::_isOffline($this->obj_id))
 		{
+			$showRegistrationInfo = false;
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));
 		}
@@ -130,6 +127,31 @@ class ilObjCourseListGUI extends ilObjectListGUI
 			$props[] = array("alert" => true, "property" => $lng->txt("member_status"),
 				"value" => $lng->txt("crs_status_pending"));
 		}
+		
+		include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
+		$info = ilObjCourseAccess::lookupRegistrationInfo($this->obj_id);
+		if($info['reg_info_list_prop'])
+		{
+			$props[] = array(
+				'alert' => false,
+				'newline' => true,
+				'property' => $info['reg_info_list_prop']['property'],
+				'value' => $info['reg_info_list_prop']['value']
+			);
+		}
+		if($info['reg_info_list_prop_limit'])
+		{
+			
+			$props[] = array(
+				'alert' => false,
+				'newline' => false,
+				'property' => $info['reg_info_list_prop_limit']['property'],
+				'propertyNameVisible' => strlen($info['reg_info_list_prop_limit']['property']) ? true : false,
+				'value' => $info['reg_info_list_prop_limit']['value']
+			);
+		}
+		
+		
 		// waiting list
 		include_once './Modules/Course/classes/class.ilCourseWaitingList.php';
 		if(ilCourseWaitingList::_isOnList($ilUser->getId(),$this->obj_id))
