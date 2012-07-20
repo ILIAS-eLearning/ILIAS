@@ -5790,7 +5790,7 @@ crs#:#crs_lms_already_assigned#:#These learning materials were already assigned.
 crs#:#crs_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the course:
 crs#:#crs_map_location#:#Course Map Location
 crs#:#crs_map_settings#:#Map Settings
-crs#:#crs_materials#:#Course Materials
+crs#:#crs_materials#:#Materials
 crs#:#crs_max_members_reached#:#The maximum number of members has been reached
 crs#:#crs_mem_change_status#:#Change status
 crs#:#crs_mem_send_mail#:#Send Mail
@@ -6108,8 +6108,8 @@ crs#:#crs_youre_position#:#Your Position on the Waiting List
 crs#:#edit_content#:#Edit Content
 crs#:#edit_timings_list#:#Edit Timings
 crs#:#event_add_new_event#:#Added new session
-crs#:#event_assign_materials_info#:#Assigned course materials will be displayed directly below the session.
-crs#:#event_assign_materials_table#:#Assignment of Course Materials
+crs#:#event_assign_materials_info#:#Assigned materials will be displayed directly below the session.
+crs#:#event_assign_materials_table#:#Assignment of Materials
 crs#:#event_assign_materials#:#Assign Materials
 crs#:#event_btn_add_edit#:#Add Session and Assign Materials
 crs#:#event_btn_add#:#Add Session
