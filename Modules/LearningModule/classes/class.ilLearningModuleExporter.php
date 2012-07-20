@@ -21,7 +21,6 @@ class ilLearningModuleExporter extends ilXmlExporter
 	{
 	}
 
-
 	/**
 	 * Get xml representation
 	 *

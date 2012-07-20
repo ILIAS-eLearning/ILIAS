@@ -171,6 +171,15 @@ class ilContObjectExport
 		// dump xml document to file
 		$this->xml->xmlDumpFile($this->export_dir."/".$this->subdir."/".$this->filename
 			, false);
+		
+		// help export (workaround to use ref id here)
+		if (ilObjContentObject::isOnlineHelpModule((int) $_GET["ref_id"]))
+		{
+			include_once("./Services/Export/classes/class.ilExport.php");
+			$exp = new ilExport();
+			$exp->exportEntity("help", $this->cont_obj->getId(), "4.3.0", "Services/Help",
+				"OnlineHelp", $this->export_dir."/".$this->subdir);
+		}
 
 		// zip the file
 		ilUtil::zip($this->export_dir."/".$this->subdir,
