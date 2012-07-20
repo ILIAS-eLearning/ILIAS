@@ -6,30 +6,30 @@ class ilNotificationDatabaseHandler
 {
 	/**
 	 * @static
-	 * @param array $vars An array of placeholder types(title, longDescription or shortDescription, ...) and the corresponding ilNotificationParameter instance as their value
+	 * @param array $vars An array of placeholder types (title, longDescription or shortDescription, ...) and the corresponding ilNotificationParameter instance as their value
 	 * @return array
 	 */
-	public static function getLanguageVars($vars = array())
+	public static function getTranslatedLanguageVariablesOfNotificationParameters($vars = array())
 	{
 		/**
 		 * @var $ilDB ilDB
 		 */
 		global $ilDB;
 
-		$where         = array();
+		$where             = array();
 		$langVarToTypeDict = array();
 
 		foreach($vars as $type => $var)
 		{
 			/**
- 			 * @var $type string (title, longDescription or shortDescription, ...)
-			 * @var $var ilNotificationParameter
+			 * @var $type string (title, longDescription or shortDescription, ...)
+			 * @var $var  ilNotificationParameter
 			 */
 			if(!$var)
 			{
 				continue;
 			}
-			$where[]                        = sprintf('module = %s AND identifier = %s', $ilDB->quote($var->getLanguageModule()), $ilDB->quote($var->getName()));
+			$where[]                            = sprintf('module = %s AND identifier = %s', $ilDB->quote($var->getLanguageModule()), $ilDB->quote($var->getName()));
 			$langVarToTypeDict[$var->getName()] = $type;
 		}
 
@@ -53,29 +53,33 @@ class ilNotificationDatabaseHandler
 			$results[$row['identifier']]->lang_untouched[$row['lang_key']] = $row['value'];
 		}
 
+		return self::fillPlaceholders($results, $vars, $langVarToTypeDict);
+	}
+
+	protected static function fillPlaceholders($results, $vars, $langVarToTypeDict)
+	{
 		$pattern_old = '/##(.+?)##/im';
-		$pattern = '/\[(.+?)\]/im';
+		$pattern     = '/\[(.+?)\]/im';
+
 		foreach($results as $langVar => $res)
 		{
-			$placeholdersStack   = array();
-			$res->lang = array();
+			$placeholdersStack = array();
+			$res->lang         = array();
 
 			foreach($res->lang_untouched as $iso2shorthandle => $translation)
 			{
 				$translation = str_replace("\\n", "\n", $translation);
 
-				$translation .= "| Einladung von [inviter_name] in den Chatraum [room_name] | Einladung von ##INVITER_NAME## in den Chatraum ##ROOM_NAME## | Einladung von ##inviter_name## in den Chatraum ##room_name##";
-
 				$foundPlaceholders = array();
 				preg_match_all($pattern, $translation, $foundPlaceholders);
 				$placeholdersStack[] = $foundPlaceholders[1];
-				
+
 				$translation = self::replaceFields($translation, $foundPlaceholders[1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '[', ']');
 
 				$foundPlaceholders = array();
 				preg_match_all($pattern_old, $translation, $foundPlaceholders);
 				$placeholdersStack[] = $foundPlaceholders[1];
-				
+
 				$res->lang[$iso2shorthandle] = self::replaceFields($translation, $foundPlaceholders[1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '##', '##');
 			}
 
