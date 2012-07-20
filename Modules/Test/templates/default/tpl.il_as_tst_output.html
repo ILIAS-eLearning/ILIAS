@@ -62,7 +62,7 @@
 			<div class="ilc_Page" id="ilc_Page">
 				<div id="javascript_switch" style="z-index: 10; float: right; display: none;"><a href="{JAVASCRIPT_URL}"><img src="{JAVASCRIPT_IMAGE}" alt="{JAVASCRIPT_IMAGE_ALT}" title="{JAVASCRIPT_IMAGE_TITLE}" /></a></div>
 				{QUESTION_OUTPUT}
-			</div>
+            </div>
 			<!-- BEGIN question_related_navigation -->
 			<div class="ilAssQuestionRelatedNavigationContainer">
 				<!-- BEGIN direct_feedback -->
@@ -76,17 +76,20 @@
 				<!-- END button_show_requested_question_hints -->
 			</div>
 			<!-- END question_related_navigation -->
-			<!-- BEGIN answer_feedback -->
-			<p>{ANSWER_FEEDBACK}</p>
-			<!-- END answer_feedback -->
-			<!-- BEGIN solution_output -->
+            <p>{RECEIVED_POINTS_INFORMATION}</p>
+            <!-- BEGIN answer_feedback -->
+            <p>{ANSWER_FEEDBACK}</p>
+            <!-- END answer_feedback -->
+            <!-- BEGIN specific_feedback -->
+            <p>{SPECIFIC_FEEDBACK}</p>
+            <!-- END specific_feedback -->
+            <!-- BEGIN solution_output -->
 			<!-- BEGIN solution_output_details -->
 			<p><strong>{CORRECT_SOLUTION}</strong>:</p>
 			<div class="ilc_Page" id="ilc_Page">
 			{QUESTION_FEEDBACK}
 			</div>
 			<!-- END solution_output_details -->
-			<p>{RECEIVED_POINTS_INFORMATION}</p>
 			<!-- END solution_output -->
 		</td>
 	</tr>

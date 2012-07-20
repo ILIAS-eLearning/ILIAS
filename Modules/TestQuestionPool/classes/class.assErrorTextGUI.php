@@ -286,43 +286,7 @@ class assErrorTextGUI extends assQuestionGUI
 
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
-	
-		// Generic feedback:
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		
-		if ($show_feedback)
-		{
-			$feedback .= '<br /><br /><table><tbody>';
-			
-			foreach ($selections as $index => $answer)
-			{
-				$caption = $ordinal = $index+1 .'.<i> ';
-				$elements = explode(' ', $this->object->errortext);
-				$caption .= $elements[$answer];
-				$caption = str_replace('#', '', $caption);
-				$caption .= '</i>:';
 
-				$feedback .= '<tr><td>';
-				
-				$feedback .= $caption .'</td><td>';
-				foreach ($this->object->getErrorData() as $idx => $ans)
-				{
-					$cand = '#'.$ans->text_wrong;
-					if ($elements[$answer] == $cand)
-					{
-						$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
-					}
-				}
-				#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';
-			}
-			$feedback .= '</tbody></table>';
-		}
-		
-		if (strlen($feedback)) 
-		{
-			$solutiontemplate->setCurrentBlock('feedback');
-			$solutiontemplate->setVariable("FEEDBACK", $feedback);
-		}
 		$solutionoutput = $solutiontemplate->get(); 
 		if (!$show_question_only)
 		{
@@ -391,44 +355,7 @@ class assErrorTextGUI extends assQuestionGUI
 		$template->setVariable("ERRORTEXT", $errortext);
 		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
 		$template->setVariable("ERRORTEXT_VALUE", $errortext_value);
-		
-		// Generic feedback:
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		
-		if ($show_feedback)
-		{
-			$feedback .= '<br /><br /><table><tbody>';
 			
-			foreach ($selections as $index => $answer)
-			{
-				$caption = $ordinal = $index+1 .'.<i> ';
-				$elements = explode(' ', $this->object->errortext);
-				$caption .= $elements[$answer];
-				$caption = str_replace('#', '', $caption);
-				$caption .= '</i>:';
-
-				$feedback .= '<tr><td>';
-				
-				$feedback .= $caption .'</td><td>';
-				foreach ($this->object->getErrorData() as $idx => $ans)
-				{
-					$cand = '#'.$ans->text_wrong;
-					if ($elements[$answer] == $cand)
-					{
-						$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
-					}
-				}
-				#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';
-			}
-			$feedback .= '</tbody></table>';
-		}
-		
-		if (strlen($feedback)) 
-		{
-			$template->setCurrentBlock('feedback');
-			$template->setVariable("FEEDBACK", $feedback);
-		}
-				
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
@@ -661,6 +588,35 @@ class assErrorTextGUI extends assQuestionGUI
 		}
 		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 		return $errors;
+	}
+	
+	function getSpecificFeedbackOutput($active_id, $pass)
+	{
+		$feedback = '<table><tbody>';
+		$selection = $this->object->getBestSelection();
+		foreach ($selection as $index => $answer)
+		{
+			$caption = $ordinal = $index+1 .'.<i> ';
+			$elements = explode(' ', $this->object->errortext);
+			$caption .= $elements[$answer];
+			$caption = str_replace('#', '', $caption);
+			$caption .= '</i>:';
+
+			$feedback .= '<tr><td>';
+
+			$feedback .= $caption .'</td><td>';
+			foreach ($this->object->getErrorData() as $idx => $ans)
+			{
+				$cand = '#'.$ans->text_wrong;
+				if ($elements[$answer] == $cand)
+				{
+					$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+				}
+			}
+			#$feedback .= $this->object->getFeedbackSingleAnswer($answer) . '</td> </tr>';
+		}
+		$feedback .= '</tbody></table>';		
+		return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
 
 }

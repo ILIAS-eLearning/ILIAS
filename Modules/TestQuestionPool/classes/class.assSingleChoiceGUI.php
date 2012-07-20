@@ -290,9 +290,17 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_question_postponed = FALSE, 
+								$user_post_solutions = FALSE, $show_inline_specific_feedback = FALSE)
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
+		$test_output = $this->getTestOutput(
+			$active_id, 
+			$pass, 
+			$is_question_postponed, 
+			$user_post_solutions, 
+			$show_inline_specific_feedback
+		);
+		
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
@@ -862,6 +870,13 @@ class assSingleChoiceGUI extends assQuestionGUI
 		}
 		$_SESSION["choicekeys"] = $this->choiceKeys;
 		return $this->choiceKeys;
+	}
+	
+	function getSpecificFeedbackOutput($active_id, $pass)
+	{
+		// No return value, this question type supports inline specific feedback.
+		$output = "";
+		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 }
 ?>

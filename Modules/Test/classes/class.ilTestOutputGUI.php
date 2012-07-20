@@ -256,33 +256,17 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		global $ilUser;
 
 		if ($sequence < 1) $sequence = $this->object->getTestSequence()->getFirstSequence();
-		$active_time_id = $this->object->startWorkingTime($this->object->getTestSession()->getActiveId(), $this->object->getTestSession()->getPass());
-		$_SESSION["active_time_id"] = $active_time_id;
+		
+		$_SESSION["active_time_id"]= $this->object->startWorkingTime($this->object->getTestSession()->getActiveId(), 
+																	 $this->object->getTestSession()->getPass()
+		);
 
-		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
-		$this->tpl->setCurrentBlock("ContentStyle");
-		$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-		ilObjStyleSheet::getContentStylePath(0));
-		$this->tpl->parseCurrentBlock();
-
-		// syntax style
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-		ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
+		$this->populateContentStyleBlock();
+		$this->populateSyntaxStyleBlock();
 
 		if ($this->object->getListOfQuestions())
 		{
-			$show_side_list = $ilUser->getPref('side_list_of_questions');
-			$this->tpl->setCurrentBlock('view_sidelist');
-			$this->tpl->setVariable('IMAGE_SIDELIST', ($show_side_list) ? ilUtil::getImagePath('view_remove.png') : ilUtil::getImagePath('view_choose.png'));
-			$this->tpl->setVariable('TEXT_SIDELIST', ($show_side_list) ? $this->lng->txt('tst_hide_side_list') : $this->lng->txt('tst_show_side_list'));
-			$this->tpl->parseCurrentBlock();
-			if ($show_side_list)
-			{
-				$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta_split.css", "Modules/Test"), "screen");
-				$this->outQuestionSummary(false);
-			}
+			$this->showSideList();
 		}
 		
 		$question_gui = $this->object->createQuestionGUI("", $this->object->getTestSequence()->getQuestionForSequence($sequence));
@@ -298,6 +282,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 
 		$question_gui->setSequenceNumber($this->object->getTestSequence()->getPositionOfSequence($sequence));
 		$question_gui->setQuestionCount($this->object->getTestSequence()->getUserQuestionCount());
+		
+		
 		// output question
 		$user_post_solution = FALSE;
 		if (array_key_exists("previouspost", $_SESSION))
@@ -305,136 +291,118 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			$user_post_solution = $_SESSION["previouspost"];
 			unset($_SESSION["previouspost"]);
 		}
+
+		global $ilNavigationHistory;
+		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"), "tst");
+
+		// Determine $answer_feedback: It should hold a boolean stating if answer-specific-feedback is to be given.
+		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
+		// $directfeedback holds a boolean stating if the instant feedback was requested using the "Check" button.
 		$answer_feedback = FALSE;
-		if (($directfeedback) && ($this->object->getAnswerFeedback()))
+		if (($directfeedback) && ($this->object->getGenericAnswerFeedback()))
 		{
 			$answer_feedback = TRUE;
 		}
 		
-		global $ilNavigationHistory;
-		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"), "tst");
-		
-		$question_gui->outQuestionForTest($formaction, $this->object->getTestSession()->getActiveId(), NULL, $is_postponed, $user_post_solution, $answer_feedback);
-		
+		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
+		// Notation of the params prior to getting rid of this crap in favor of a class
+		$question_gui->outQuestionForTest(
+				$formaction, 										#form_action
+				$this->object->getTestSession()->getActiveId(), 	#active_id
+				NULL, 												#pass
+				$is_postponed, 										#is_postponed
+				$user_post_solution, 								#user_post_solution
+				$answer_feedback									#answer_feedback == inline_specific_feedback
+			);
+		// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
+		// have the possibility to embed the specific feedback into their output while maintaining compatibility to
+		// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
+		// questions, while the multiple-choice questions do well.
+				
 		$this->fillQuestionRelatedNavigation($question_gui);
-		
+
 		if ($directfeedback)
 		{
+			// This controls if the solution should be shown.
+			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"			
 			if ($this->object->getInstantFeedbackSolution())
 			{
-				$solutionoutput = $question_gui->getSolutionOutput($this->object->getTestSession()->getActiveId(), NULL, FALSE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE);
-				$this->tpl->setCurrentBlock("solution_output");
-				$this->tpl->setVariable("CORRECT_SOLUTION", $this->lng->txt("tst_best_solution_is"));
-				$this->tpl->setVariable("QUESTION_FEEDBACK", $solutionoutput);
-				$this->tpl->parseCurrentBlock();
+				$show_question_inline_score = $this->determineInlineScoreDisplay();
+				
+				// Notation of the params prior to getting rid of this crap in favor of a class
+				$solutionoutput = $question_gui->getSolutionOutput(
+					$this->object->getTestSession()->getActiveId(), 	#active_id
+					NULL, 												#pass
+					TRUE, 												#graphical_output
+					$show_question_inline_score,						#result_output
+					FALSE, 												#show_question_only
+					FALSE,												#show_feedback
+					TRUE, 												#show_correct_solution
+					FALSE, 												#show_manual_scoring
+					FALSE												#show_question_text
+				);
+				$this->populateSolutionBlock( $solutionoutput );
 			}
+			
+			// This controls if the score should be shown.
+			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Results (Only Points)"				
 			if ($this->object->getAnswerFeedbackPoints())
 			{
-                            $reachedPoints = $question_gui->object->calculateReachedPoints($this->object->getTestSession()->getActiveId(), NULL);
-                            $reachedPoints = $question_gui->object->getAdjustedReachedPoints($this->object->getTestSession()->getActiveId(), NULL);
-                            $maxPoints = $question_gui->object->getMaximumPoints();
-                            
-                            $this->tpl->setCurrentBlock("solution_output");
-                            $this->tpl->setVariable("RECEIVED_POINTS_INFORMATION", sprintf($this->lng->txt("you_received_a_of_b_points"), $reachedPoints, $maxPoints));
-                            $this->tpl->parseCurrentBlock();
+				$reachedPoints = $question_gui->object->getAdjustedReachedPoints($this->object->getTestSession()->getActiveId(), NULL);
+				$maxPoints = $question_gui->object->getMaximumPoints();
+
+				$this->populateScoreBlock( $reachedPoints, $maxPoints );
 			}
-			if ($this->object->getAnswerFeedback())
+			
+			// This controls if the generic feedback should be shown.
+			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Solutions"				
+			if ($this->object->getGenericAnswerFeedback())
 			{
-				$this->tpl->setCurrentBlock("answer_feedback");
-				$this->tpl->setVariable("ANSWER_FEEDBACK", $question_gui->getAnswerFeedbackOutput($this->object->getTestSession()->getActiveId(), NULL));
-				$this->tpl->parseCurrentBlock();
+				$this->populateGenericFeedbackBlock( $question_gui );
+			}
+			
+			// This controls if the specific feedback should be shown.
+			// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
+			if ($this->object->getSpecificAnswerFeedback())
+			{
+				$this->populateSpecificFeedbackBlock( $question_gui );				
 			}
 		}
 
-		if ($sequence == $this->object->getTestSequence()->getFirstSequence())
-		{
-			$this->tpl->setCurrentBlock("prev");
-			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("prev_bottom");
-			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_introduction"));
-			$this->tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$this->tpl->setCurrentBlock("prev");
-			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("prev_bottom");
-			$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("save_previous"));
-			$this->tpl->parseCurrentBlock();
-		}
+		$this->populatePreviousButtons( $sequence );
 
-		if ($postpone_allowed)
+		if ($postpone_allowed && !$is_postponed)
 		{
-			if (!$is_postponed)
-			{
-				if (!$finish)
-				{
-					$this->tpl->setCurrentBlock("postpone");
-					$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
-					$this->tpl->parseCurrentBlock();
-					$this->tpl->setCurrentBlock("postpone_bottom");
-					$this->tpl->setVariable("BTN_POSTPONE", $this->lng->txt("postpone"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
+			$this->populatePostponeButtons();
 		}
 		
 		if ($this->object->getListOfQuestions()) 
 		{
 			if (!(($finish) && ($this->object->getListOfQuestionsEnd())))
 			{
-				$this->tpl->setCurrentBlock("summary");
-				$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("summary_bottom");
-				$this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
-				$this->tpl->parseCurrentBlock();
+				$this->populateSummaryButtons();
 			}
 		}
 
 		if ($this->object->getShowCancel()) 
 		{
-			$this->tpl->setCurrentBlock("cancel_test");
-			$this->tpl->setVariable("TEXT_CANCELTEST", $this->lng->txt("cancel_test"));
-			$this->tpl->setVariable("TEXT_ALTCANCELTEXT", $this->lng->txt("cancel_test"));
-			$this->tpl->setVariable("TEXT_TITLECANCELTEXT", $this->lng->txt("cancel_test"));
-			$this->tpl->setVariable("HREF_IMGCANCELTEST", $this->ctrl->getLinkTargetByClass(get_class($this), "outIntroductionPage") . "&cancelTest=true");
-			$this->tpl->setVariable("HREF_CANCELTEXT", $this->ctrl->getLinkTargetByClass(get_class($this), "outIntroductionPage") . "&cancelTest=true");
-			$this->tpl->setVariable("IMAGE_CANCEL", ilUtil::getImagePath("cancel.png"));
-			$this->tpl->parseCurrentBlock();
+			$this->populateCancelButtonBlock();
 		}		
 
-		if ($this->object->getTestSequence()->getQuestionForSequence($this->object->getTestSequence()->getLastSequence()) == $question_gui->object->getId())
+		if ($this->isLastQuestionInSequence( $question_gui ))
 		{
 			if ($this->object->getListOfQuestionsEnd()) 
 			{
-				$this->tpl->setCurrentBlock("next");
-				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("question_summary") . " &gt;&gt;");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("next_bottom");
-				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("question_summary") . " &gt;&gt;");
-				$this->tpl->parseCurrentBlock();				
+				$this->populateNextButtonsLeadingToSummary();				
 			} 
 			else 
 			{
-				$this->tpl->setCurrentBlock("next");
-				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-				$this->tpl->parseCurrentBlock();
-				$this->tpl->setCurrentBlock("next_bottom");
-				$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_finish") . " &gt;&gt;");
-				$this->tpl->parseCurrentBlock();
+				$this->populateNextButtonsLeadingToEndOfTest();
 			}
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock("next");
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("next_bottom");
-			$this->tpl->setVariable("BTN_NEXT", $this->lng->txt("save_next") . " &gt;&gt;");
-			$this->tpl->parseCurrentBlock();
+			$this->populateNextButtonsLeadingToQuestion();
 		}
 
 		if ($this->object->getShowMarker())
@@ -451,17 +419,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			
 			if ($solved==1) 
 			{
-				$this->tpl->setCurrentBlock("ismarked");
-				$this->tpl->setVariable("IMAGE_SET", ilUtil::getImagePath("marked.png"));
-				$this->tpl->setVariable("TEXT_SET", $this->lng->txt("tst_remove_mark"));
-				$this->tpl->parseCurrentBlock();
+				$this->populateQuestionMarkingBlockAsMarked();
 			} 
 			else 
 			{
-				$this->tpl->setCurrentBlock("isnotmarked");
-				$this->tpl->setVariable("IMAGE_UNSET", ilUtil::getImagePath("marked_.png"));
-				$this->tpl->setVariable("TEXT_UNSET", $this->lng->txt("tst_question_mark"));
-				$this->tpl->parseCurrentBlock();
+				$this->populateQuestionMarkingBlockAsUnmarked();
 			}
 		}
 
@@ -488,10 +450,300 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
+		
 		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
 	}
-	
-/**
+
+	private function determineInlineScoreDisplay()
+	{
+		$show_question_inline_score = FALSE;
+		if ($this->object->getAnswerFeedbackPoints())
+		{
+			$show_question_inline_score = TRUE;
+			return $show_question_inline_score;
+		}
+		return $show_question_inline_score;
+	}
+
+	private function populatePreviousButtons($sequence)
+	{
+		if ($this->isFirstPageInSequence( $sequence ))
+		{
+			$this->populatePreviousButtonsLeadingToIntroduction();
+		}
+		else
+		{
+			$this->populatePreviousButtonLeadingToQuestion();
+		}
+	}
+
+	private function populateQuestionMarkingBlockAsUnmarked()
+	{
+		$this->tpl->setCurrentBlock( "isnotmarked" );
+		$this->tpl->setVariable( "IMAGE_UNSET", ilUtil::getImagePath( "marked_.png" ) );
+		$this->tpl->setVariable( "TEXT_UNSET", $this->lng->txt( "tst_question_mark" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateQuestionMarkingBlockAsMarked()
+	{
+		$this->tpl->setCurrentBlock( "ismarked" );
+		$this->tpl->setVariable( "IMAGE_SET", ilUtil::getImagePath( "marked.png" ) );
+		$this->tpl->setVariable( "TEXT_SET", $this->lng->txt( "tst_remove_mark" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateNextButtonsLeadingToQuestion()
+	{
+		$this->populateUpperNextButtonBlockLeadingToQuestion();
+		$this->populateLowerNextButtonBlockLeadingToQuestion();
+	}
+
+	private function populateLowerNextButtonBlockLeadingToQuestion()
+	{
+		$this->tpl->setCurrentBlock( "next_bottom" );
+		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_next" ) . " &gt;&gt;" );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateUpperNextButtonBlockLeadingToQuestion()
+	{
+		$this->tpl->setCurrentBlock( "next" );
+		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_next" ) . " &gt;&gt;" );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function isLastQuestionInSequence($question_gui)
+	{
+		return $this->object->getTestSequence()->getQuestionForSequence( $this->object->getTestSequence()
+																			 ->getLastSequence()
+		) == $question_gui->object->getId();
+	}
+
+	private function populateNextButtonsLeadingToEndOfTest()
+	{
+		$this->populateUpperNextButtonBlockLeadingToEndOfTest();
+		$this->populateLowerNextButtonBlockLeadingToEndOfTest();
+	}
+
+	private function populateLowerNextButtonBlockLeadingToEndOfTest()
+	{
+		$this->tpl->setCurrentBlock( "next_bottom" );
+		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_finish" ) . " &gt;&gt;" );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateUpperNextButtonBlockLeadingToEndOfTest()
+	{
+		$this->tpl->setCurrentBlock( "next" );
+		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "save_finish" ) . " &gt;&gt;" );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateNextButtonsLeadingToSummary()
+	{
+		$this->populateUpperNextButtonBlockLeadingToSummary();
+		$this->populateLowerNextButtonBlockLeadingToSummary();
+	}
+
+	private function populateLowerNextButtonBlockLeadingToSummary()
+	{
+		$this->tpl->setCurrentBlock( "next_bottom" );
+		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "question_summary" ) . " &gt;&gt;" );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateUpperNextButtonBlockLeadingToSummary()
+	{
+		$this->tpl->setCurrentBlock( "next" );
+		$this->tpl->setVariable( "BTN_NEXT", $this->lng->txt( "question_summary" ) . " &gt;&gt;" );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateCancelButtonBlock()
+	{
+		$this->tpl->setCurrentBlock( "cancel_test" );
+		$this->tpl->setVariable( "TEXT_CANCELTEST", $this->lng->txt( "cancel_test" ) );
+		$this->tpl->setVariable( "TEXT_ALTCANCELTEXT", $this->lng->txt( "cancel_test" ) );
+		$this->tpl->setVariable( "TEXT_TITLECANCELTEXT", $this->lng->txt( "cancel_test" ) );
+		$this->tpl->setVariable( "HREF_IMGCANCELTEST",
+								 $this->ctrl->getLinkTargetByClass( get_class( $this ), "outIntroductionPage"
+								 ) . "&cancelTest=true"
+		);
+		$this->tpl->setVariable( "HREF_CANCELTEXT",
+								 $this->ctrl->getLinkTargetByClass( get_class( $this ), "outIntroductionPage"
+								 ) . "&cancelTest=true"
+		);
+		$this->tpl->setVariable( "IMAGE_CANCEL", ilUtil::getImagePath( "cancel.png" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateSummaryButtons()
+	{
+		$this->populateUpperSummaryButtonBlock();
+		$this->populateLowerSummaryButtonBlock();
+	}
+
+	private function populateLowerSummaryButtonBlock()
+	{
+		$this->tpl->setCurrentBlock( "summary_bottom" );
+		$this->tpl->setVariable( "BTN_SUMMARY", $this->lng->txt( "question_summary" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateUpperSummaryButtonBlock()
+	{
+		$this->tpl->setCurrentBlock( "summary" );
+		$this->tpl->setVariable( "BTN_SUMMARY", $this->lng->txt( "question_summary" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populatePostponeButtons()
+	{
+		$this->populateUpperPostponeButtonBlock();
+		$this->populateLowerPostponeButtonBlock();
+	}
+
+	private function populateLowerPostponeButtonBlock()
+	{
+		$this->tpl->setCurrentBlock( "postpone_bottom" );
+		$this->tpl->setVariable( "BTN_POSTPONE", $this->lng->txt( "postpone" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateUpperPostponeButtonBlock()
+	{
+		$this->tpl->setCurrentBlock( "postpone" );
+		$this->tpl->setVariable( "BTN_POSTPONE", $this->lng->txt( "postpone" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function isFirstPageInSequence($sequence)
+	{
+		return $sequence == $this->object->getTestSequence()->getFirstSequence();
+	}
+
+	private function populatePreviousButtonLeadingToQuestion()
+	{
+		$this->populateUpperPreviousButtonBlockLeadingToQuestion();
+		$this->populateLowerPreviousButtonBlockLeadingToQuestion();
+	}
+
+	private function populateLowerPreviousButtonBlockLeadingToQuestion()
+	{
+		$this->tpl->setCurrentBlock( "prev_bottom" );
+		$this->tpl->setVariable( "BTN_PREV", "&lt;&lt; " . $this->lng->txt( "save_previous" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateUpperPreviousButtonBlockLeadingToQuestion()
+	{
+		$this->tpl->setCurrentBlock( "prev" );
+		$this->tpl->setVariable( "BTN_PREV", "&lt;&lt; " . $this->lng->txt( "save_previous" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populatePreviousButtonsLeadingToIntroduction()
+	{
+		$this->populateUpperPreviousButtonBlockLeadingToIntroduction();
+		$this->populateLowerPreviousButtonBlockLeadingToIntroduction();
+	}
+
+	private function populateLowerPreviousButtonBlockLeadingToIntroduction()
+	{
+		$this->tpl->setCurrentBlock( "prev_bottom" );
+		$this->tpl->setVariable( "BTN_PREV", "&lt;&lt; " . $this->lng->txt( "save_introduction" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateUpperPreviousButtonBlockLeadingToIntroduction()
+	{
+		$this->tpl->setCurrentBlock( "prev" );
+		$this->tpl->setVariable( "BTN_PREV", "&lt;&lt; " . $this->lng->txt( "save_introduction" ) );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateSpecificFeedbackBlock($question_gui)
+	{
+		$this->tpl->setCurrentBlock( "specific_feedback" );
+		$this->tpl->setVariable( "SPECIFIC_FEEDBACK",
+								 $question_gui->getSpecificFeedbackOutput(
+									 $this->object->getTestSession()->getActiveId(),
+									 NULL
+								 )
+		);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateGenericFeedbackBlock($question_gui)
+	{
+		$this->tpl->setCurrentBlock( "answer_feedback" );
+		$this->tpl->setVariable( "ANSWER_FEEDBACK",
+								 $question_gui->getAnswerFeedbackOutput( $this->object->getTestSession()->getActiveId(),
+																		 NULL
+								 )
+		);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateScoreBlock($reachedPoints, $maxPoints)
+	{
+		$this->tpl->setCurrentBlock( "solution_output" );
+		$this->tpl->setVariable( "RECEIVED_POINTS_INFORMATION",
+								 sprintf( $this->lng->txt( "you_received_a_of_b_points" ), $reachedPoints, $maxPoints )
+		);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateSolutionBlock($solutionoutput)
+	{
+		$this->tpl->setCurrentBlock( "solution_output" );
+		$this->tpl->setVariable( "CORRECT_SOLUTION", $this->lng->txt( "tst_best_solution_is" ) );
+		$this->tpl->setVariable( "QUESTION_FEEDBACK", $solutionoutput );
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function showSideList()
+	{
+		global $ilUser;
+		$show_side_list = $ilUser->getPref( 'side_list_of_questions' );
+		$this->tpl->setCurrentBlock( 'view_sidelist' );
+		$this->tpl->setVariable( 'IMAGE_SIDELIST',
+								 ($show_side_list) ? ilUtil::getImagePath( 'view_remove.png'
+								 ) : ilUtil::getImagePath( 'view_choose.png' )
+		);
+		$this->tpl->setVariable( 'TEXT_SIDELIST',
+								 ($show_side_list) ? $this->lng->txt( 'tst_hide_side_list'
+								 ) : $this->lng->txt( 'tst_show_side_list' )
+		);
+		$this->tpl->parseCurrentBlock();
+		if ($show_side_list)
+		{
+			$this->tpl->addCss( ilUtil::getStyleSheetLocation( "output", "ta_split.css", "Modules/Test" ), "screen" );
+			$this->outQuestionSummary( false );
+		}
+	}
+
+	private function populateSyntaxStyleBlock()
+	{
+		$this->tpl->setCurrentBlock( "SyntaxStyle" );
+		$this->tpl->setVariable( "LOCATION_SYNTAX_STYLESHEET",
+								 ilObjStyleSheet::getSyntaxStylePath()
+		);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	private function populateContentStyleBlock()
+	{
+		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
+		$this->tpl->setCurrentBlock( "ContentStyle" );
+		$this->tpl->setVariable( "LOCATION_CONTENT_STYLESHEET",
+								 ilObjStyleSheet::getContentStylePath( 0 )
+		);
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
 * Displays a password protection page when a test password is set
 *
 * @access public

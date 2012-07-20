@@ -230,33 +230,37 @@ class assTextQuestionGUI extends assQuestionGUI
 	)
 	{
 		// get the solution of the user for the active pass or from the last pass if allowed
-		$user_solution = "";
+		
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			foreach ($solutions as $idx => $solution_value)
-			{
-				$user_solution = $solution_value["value1"];
-			}
+			$solution = $this->getUserAnswer( $active_id, $pass );
 		}
 		else
 		{
-			$keywords = $this->object->getKeywordList();
-			if (count($keywords))
-			{
-				$user_solution = $this->lng->txt("solution_may_contain_keywords") . ": " . join(",", $keywords);
-			}
+			$solution = $this->getBestAnswer();
 		}
+		$user_solution = $this->getUserAnswer( $active_id, $pass );
 		
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($user_solution, TRUE));
+		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($solution, TRUE));
 		$questiontext = $this->object->getQuestion();
-		$max_no_of_chars = $this->object->getMaxNumOfChars();
-		$act_no_of_chars = strlen(strip_tags($user_solution));
-		$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . $this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
+		
+		if (!$show_correct_solution)
+		{
+			$max_no_of_chars = $this->object->getMaxNumOfChars();
+			
+			if ($max_no_of_chars == 0)
+			{
+				$max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
+			}
+			
+			$act_no_of_chars = strlen(strip_tags($user_solution));
+			$template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' . 
+				$this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
+		}
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
 			if ($graphicalOutput)
@@ -292,7 +296,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
 		$questionoutput = $template->get();
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		$feedback = ($show_feedback) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -304,7 +308,29 @@ class assTextQuestionGUI extends assQuestionGUI
 		}
 		return $solutionoutput;
 	}
-	
+
+	private function getBestAnswer()
+	{
+		$keywords = $this->object->getKeywordList();
+		if (count( $keywords ))
+		{
+			$user_solution = $this->lng->txt( "solution_may_contain_keywords" ) . ": <br />" . join( ",", $keywords );
+			return $user_solution;
+		}
+		return $user_solution;
+	}
+
+	private function getUserAnswer($active_id, $pass)
+	{
+		$user_solution = "";
+		$solutions     = $this->object->getSolutionValues( $active_id, $pass );
+		foreach ($solutions as $idx => $solution_value)
+		{
+			$user_solution = $solution_value["value1"];
+		}
+		return $user_solution;
+	}
+
 	function getPreview($show_question_only = FALSE)
 	{
 		// generate the question output
@@ -525,5 +551,12 @@ class assTextQuestionGUI extends assQuestionGUI
 			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
 		}
 	}
+
+	function getSpecificFeedbackOutput($active_id, $pass)
+	{
+		$output = "";
+		return $this->object->prepareTextareaOutput($output, TRUE);
+	}
+
 }
 ?>
