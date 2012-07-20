@@ -526,6 +526,7 @@ assessment#:#msg_question_count_too_low#:#Please enter a question count greater 
 assessment#:#msg_questions_moved#:#Question(s) moved
 assessment#:#msg_rect_added#:#Rectangle added
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving
+assessment#:#no_selection_for_move#:#No question selected for moving
 assessment#:#msg_total_questions_too_high#:#The number of questions is greater than the number of available questions in the selected questionpools
 assessment#:#multiline_answers_hide#:#Use Single-Line Answers
 assessment#:#multiline_answers_show#:#Use Multi-Line Answers
