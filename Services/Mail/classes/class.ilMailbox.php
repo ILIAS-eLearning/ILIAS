@@ -593,22 +593,18 @@ class ilMailbox
 	}
 
 	/**
-	 * Update existing mails. Set sender id to null and import name to login name.
+	 * Update existing mails. Set sender id to 0 and import name to login name.
 	 * This is only necessary for deleted users.
 	 *
 	 * @access	public
-	 * @return	boolean	true on successful deletion
+	 * @param string $nameToShow
 	 */
-	function updateMailsOfDeletedUser()
+	public function updateMailsOfDeletedUser($nameToShow)
 	{
+		/**
+ 		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
-
-		$tmp_user = ilObjectFactory::getInstanceByObjId($this->user_id, false);
-
-		if(!$tmp_user)
-		{
-			return false;
-		}
 
 		$ilDB->manipulateF('
 			UPDATE mail 
@@ -616,10 +612,7 @@ class ilMailbox
 				import_name = %s
 			WHERE sender_id = %s',
 			array('integer', 'text', 'integer'),
-			array('0', $tmp_user->getLogin(), $this->user_id));
-		
-		return true;
+			array(0, $nameToShow, $this->user_id));
 	}
-		
 }
 ?>
