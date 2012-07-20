@@ -96,9 +96,11 @@ class ilNotificationConfig {
 
 	/**
 	 * Sets the name of the language variable to use as title. The translation may
-	 * include ##name## parts wich will be replaced by the matching parameter found
+	 * include [NAME] parts wich will be replaced by the matching parameter found
 	 * in $parameters. The language var is loaded from the language module
 	 * given as third parameter.
+	 * 
+	 * Placeholders of type ##name## are deprecated
 	 *  
 	 * @param type $name
 	 * @param type $parameters
@@ -114,9 +116,11 @@ class ilNotificationConfig {
 
 	/**
 	 * Sets the name of the language variable to use as short description text. The translation may
-	 * include ##name## parts wich will be replaced by the matching parameter found
+	 * include [NAME] parts wich will be replaced by the matching parameter found
 	 * in $parameters. The language var is loaded from the language module
 	 * given as third parameter.
+	 * 
+	 * Placeholders of type ##name## are deprecated
 	 * 
 	 * The channel itself decided if the short description or the long description
 	 * should be used
@@ -135,12 +139,14 @@ class ilNotificationConfig {
 	
 	/**
 	 * Sets the name of the language variable to use as long description text. The translation may
-	 * include ##name## parts wich will be replaced by the matching parameter found
+	 * include [name] parts wich will be replaced by the matching parameter found
 	 * in $parameters. The language var is loaded from the language module
 	 * given as third parameter.
 	 * 
 	 * The channel itself decided if the short description or the long description
 	 * should be used
+	 * 
+	 * Placeholders of type ##name## are deprecated
 	 *  
 	 * @param string $name
 	 * @param array  $parameters

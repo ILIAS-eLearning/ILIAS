@@ -2,73 +2,118 @@
 
 require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
 
-class ilNotificationDatabaseHandler {
+class ilNotificationDatabaseHandler
+{
+	/**
+	 * @static
+	 * @param array $vars An array of placeholder types(title, longDescription or shortDescription, ...) and the corresponding ilNotificationParameter instance as their value
+	 * @return array
+	 */
+	public static function getLanguageVars($vars = array())
+	{
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
 
-    public static function getLanguageVars($vars = array()) {
-        global $ilDB;
+		$where         = array();
+		$langVarToTypeDict = array();
 
-        $varToTypeDict = array();
+		foreach($vars as $type => $var)
+		{
+			/**
+ 			 * @var $type string (title, longDescription or shortDescription, ...)
+			 * @var $var ilNotificationParameter
+			 */
+			if(!$var)
+			{
+				continue;
+			}
+			$where[]                        = sprintf('module = %s AND identifier = %s', $ilDB->quote($var->getLanguageModule()), $ilDB->quote($var->getName()));
+			$langVarToTypeDict[$var->getName()] = $type;
+		}
 
-        foreach ($vars as $type => $var) {
-            if (!$var) {
-                continue;
-            }
-            $where[] = sprintf('module=%s AND identifier=%s', $ilDB->quote($var->getLanguageModule()), $ilDB->quote($var->getName()));
+		if(!$where)
+		{
+			return array();
+		}
 
-            $varToTypeDict[$var->getName()] = $type;
-        }
+		$query   = 'SELECT identifier, lang_key, value FROM lng_data WHERE (' . join(') OR (', $where) . ')';
+		$res     = $ilDB->query($query);
+		$results = array();
 
-        if (!$where) {
-            return array();
-        }
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			if(!$results[$row['identifier']])
+			{
+				$results[$row['identifier']]                 = new stdClass();
+				$results[$row['identifier']]->lang_untouched = array();
+				$results[$row['identifier']]->params         = array();
+			}
+			$results[$row['identifier']]->lang_untouched[$row['lang_key']] = $row['value'];
+		}
 
-        $query = 'SELECT identifier, lang_key, value FROM lng_data WHERE (' . join(') OR (', $where) . ')';
-        $res = $ilDB->query($query);
-        $results = array();
+		$pattern_old = '/##(.+?)##/im';
+		$pattern = '/\[(.+?)\]/im';
+		foreach($results as $langVar => $res)
+		{
+			$placeholdersStack   = array();
+			$res->lang = array();
 
-        while ($row = $ilDB->fetchAssoc($res)) {
-            if (!$results[$row['identifier']]) {
-                $results[$row['identifier']] = new stdClass();
-                $results[$row['identifier']]->lang_untouched = array();
-                $results[$row['identifier']]->params = array();
-            }
-            $results[$row['identifier']]->lang_untouched[$row['lang_key']] = $row['value'];
-        }
+			foreach($res->lang_untouched as $iso2shorthandle => $translation)
+			{
+				$translation = str_replace("\\n", "\n", $translation);
 
-        $pattern = '/##(.*?)##/im';
-        foreach ($results as $key => $res) {
-            $keyVars = array();
-            $res->lang = array();
+				$translation .= "| Einladung von [inviter_name] in den Chatraum [room_name] | Einladung von ##INVITER_NAME## in den Chatraum ##ROOM_NAME## | Einladung von ##inviter_name## in den Chatraum ##room_name##";
 
-            #var_dump($vars, $varToTypeDict[$key]);
+				$foundPlaceholders = array();
+				preg_match_all($pattern, $translation, $foundPlaceholders);
+				$placeholdersStack[] = $foundPlaceholders[1];
+				
+				$translation = self::replaceFields($translation, $foundPlaceholders[1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '[', ']');
 
-            foreach ($res->lang_untouched as $lng => $value) {
-		$value = str_replace("\\n", "\n", $value);
-                preg_match_all($pattern, $value, $matches);
-                $keyVars[] = $matches[1];
+				$foundPlaceholders = array();
+				preg_match_all($pattern_old, $translation, $foundPlaceholders);
+				$placeholdersStack[] = $foundPlaceholders[1];
+				
+				$res->lang[$iso2shorthandle] = self::replaceFields($translation, $foundPlaceholders[1], $vars[$langVarToTypeDict[$langVar]]->getParameters(), '##', '##');
+			}
 
-                $res->lang[$lng] = self::replaceFields($value, $matches[1], $vars[$varToTypeDict[$key]]->getParameters());
-            }
+			$res->params = array_diff(
+				array_unique(
+					call_user_func_array('array_merge', $placeholdersStack)
+				),
+				array_keys($vars[$langVarToTypeDict[$langVar]]->getParameters())
+			);
+		}
 
-            $res->params = array_diff(
-                            array_unique(
-                                    call_user_func_array('array_merge', $keyVars)
-                            ),
-                            array_keys($vars[$varToTypeDict[$key]]->getParameters())
-            );
-        }
+		return $results;
+	}
 
-        return $results;
-    }
-
-    private static function replaceFields($string, $keys, $params) {
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $params)) {
-                $string = str_replace('##' . $key . '##', $params[$key], $string);
-            }
-        }
-        return $string;
-    }
+	/**
+	 * @static
+	 * @param string $string
+	 * @param array $foundPlaceholders
+	 * @param array $params
+	 * @param string $startTag
+	 * @param string $endTag
+	 * @return string
+	 */
+	private static function replaceFields($string, $foundPlaceholders, $params, $startTag, $endTage)
+	{
+		foreach($foundPlaceholders as $placeholder)
+		{
+			if(array_key_exists(strtoupper($placeholder), $params))
+			{
+				$string = str_ireplace($startTag . $placeholder . $endTage, $params[strtoupper($placeholder)], $string);
+			}
+			if(array_key_exists(strtolower($placeholder), $params))
+			{
+				$string = str_ireplace($startTag . $placeholder . $endTage, $params[strtolower($placeholder)], $string);
+			}
+		}
+		return $string;
+	}
 
 	/**
 	 * Sets the configuration for all given configurations. Old configurations are
