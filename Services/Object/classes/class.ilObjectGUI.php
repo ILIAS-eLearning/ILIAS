@@ -708,6 +708,13 @@ class ilObjectGUI
 
 		$new_type = $_REQUEST["new_type"];
 
+		
+		// add new object to custom parent container
+		$this->ctrl->saveParameter($this, "crtptrefid");
+		// use forced callback after object creation
+		$this->ctrl->saveParameter($this, "crtcb");
+		
+		
 		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
@@ -955,14 +962,32 @@ class ilObjectGUI
 			$newObj->setTitle($form->getInput("title"));
 			$newObj->setDescription($form->getInput("desc"));
 			$newObj->create();
+			
+			// add new object to custom parent container
+			$parent_node_id = null;
+			if($_REQUEST["crtptrefid"])
+			{
+				$parent_node_id = $_REQUEST["crtptrefid"];
+			}
 
-			$this->putObjectInTree($newObj);
+			$this->putObjectInTree($newObj, $parent_node_id);
 
 			// apply didactic template?
 			$dtpl = $this->getDidacticTemplateVar("dtpl");
 			if($dtpl)
 			{
 				$newObj->applyDidacticTemplate($dtpl);
+			}
+			
+			// use forced callback after object creation
+			if($_REQUEST["crtcb"])
+			{
+				$callback_type = ilObject::_lookupType((int)$_REQUEST["crtcb"], true);
+				$class_name = "ilObj".$objDefinition->getClassName($callback_type)."GUI";
+				$location = $objDefinition->getLocation($callback_type);
+				include_once($location."/class.".$class_name.".php");	
+				$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true);
+				$callback_obj->afterSaveCallback($newObj);
 			}
 
 			// additional paramters are added to afterSave()

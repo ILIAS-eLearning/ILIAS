@@ -24,8 +24,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public $ctrl;
 	public $tpl;
 	
-	protected $course_ref_id = 0;
-	protected $course_obj_id = 0;
+	protected $container_ref_id = 0;
+	protected $container_obj_id = 0;
 	
 	protected $files = array();
 
@@ -761,6 +761,23 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;	
 	}
 	
+	protected function initContainer()
+	{
+		global $tree;
+		
+		$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		if(!$this->container_ref_id)
+		{
+			$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'grp');
+		}
+		if(!$this->container_ref_id)
+		{
+			ilUtil::sendFailure('No container object found. Aborting');
+			return true;
+		}
+		$this->container_obj_id = ilObject::_lookupObjId($this->container_ref_id);
+	}
+	
 	/**
 	 * show material assignment
 	 *
@@ -773,6 +790,37 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $tree, $objDefinition;
 
 		$this->tabs_gui->setTabActive('crs_materials');
+		
+		$this->initContainer();
+		
+		// add new item
+		$root = $tree->getNodeData($this->container_ref_id);
+		$subtypes = $objDefinition->getCreatableSubObjects($root['type'], ilObjectDefinition::MODE_REPOSITORY);
+		if($subtypes)
+		{
+			$subobj = array();
+			foreach(array_keys($subtypes) as $type)
+			{				
+				$subobj[] = array('value' => $type,
+								  'title' => $this->lng->txt('obj_'.$type),
+								  'img' => ilObject::_getIcon('', 'tiny', $type),
+								  'alt' => $this->lng->txt('obj_'.$type));
+			}			
+			$subobj = ilUtil::sortArray($subobj, 'title', 1);
+			
+			// add new object to parent container instead		
+			$this->ctrl->setParameter($this, 'crtptrefid', $this->container_ref_id);
+			// force after creation callback
+			$this->ctrl->setParameter($this, 'crtcb', $this->ref_id);
+			
+			$this->lng->loadLanguageModule('cntr');
+			$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
+				$subobj, 'create', $this->lng->txt('add'));
+			
+			$this->ctrl->setParameter($this, 'crtptrefid', '');
+		}
+		
+		
 
 		include_once 'Modules/Session/classes/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->object->getId());
@@ -787,15 +835,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable("TABLE_TITLE",$this->lng->txt('event_assign_materials_table'));
 		$this->tpl->setVariable("TABLE_INFO",$this->lng->txt('event_assign_materials_info'));
 
-		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
-		if(!$this->course_ref_id)
-		{
-			ilUtil::sendFailure('No course object found. Aborting');
-			return true;
-		}
-		
 		$materials = array();
-		$nodes = $tree->getSubTree($tree->getNodeData($this->course_ref_id));
+		$nodes = $tree->getSubTree($tree->getNodeData($this->container_ref_id));
 		foreach($nodes as $node)
 		{
 			// No side blocks here
@@ -887,18 +928,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
 
-		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
-		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
-		if(!$this->course_ref_id)
-		{
-			ilUtil::sendFailure('No course object found. Aborting');
-			return true;
-		}
-
+		$this->initContainer();
+		
 		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->container_obj_id);
 		$event_part = new ilEventParticipants($this->object->getId());
 		
 		// Save hide/show table settings		
@@ -1047,17 +1082,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 
-		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
-		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
-		if(!$this->course_ref_id)
-		{
-			ilUtil::sendFailure('No course object found. Aborting');
-			return true;
-		}
+		$this->initContainer();
 		
 		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
 
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->container_obj_id);
 		$event_part = new ilEventParticipants($this->object->getId());
 
 		$visible = $_POST['visible_participants'] ? $_POST['visible_participants'] : array();
@@ -1101,7 +1130,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	protected function initAttendanceList()
 	{
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_obj_id);
+		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->container_obj_id);
 		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
 		$list = new ilAttendanceList($this, $members_obj);	
@@ -1136,13 +1165,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->checkPermission('write');
 		
-		$this->course_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
-		$this->course_obj_id = ilObject::_lookupObjId($this->course_ref_id);
-		if(!$this->course_ref_id)
-		{
-			ilUtil::sendFailure('No course object found. Aborting');
-			return true;
-		}
+		$this->initContainer();
 													
 		$list = $this->initAttendanceList();		
 		$list->initFromForm();					
@@ -1677,7 +1700,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$path = $this->lng->txt('path') . ': ';
 		$first = true;
-		foreach($tree->getPathFull($a_ref_id,$this->course_ref_id) as $node)
+		foreach($tree->getPathFull($a_ref_id,$this->container_ref_id) as $node)
 		{
 			if($node['ref_id'] != $a_ref_id)
 			{
@@ -1757,5 +1780,23 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 	
 	}
 	
+	/**
+	 * Custom callback after object is created (in parent containert
+	 * 
+	 * @param ilObject $a_obj 
+	 */	
+	public function afterSaveCallback(ilObject $a_obj)
+	{		
+		// add new object to materials
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		$event_items = new ilEventItems($this->object->getId());
+		$event_items->addItem($a_obj->getRefId());
+		$event_items->update();
+
+		/*
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+		$this->ctrl->redirect($this, "materials");
+		*/
+	}	
 }
 ?>

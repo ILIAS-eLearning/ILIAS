@@ -3162,6 +3162,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->setTableWidth("100%");
 		$form->setId("constraintsForm");
 				
+		// #9366
 		$title = array();		
 		$title_ids = $_SESSION["includeElements"];
 		if(!$title_ids)
