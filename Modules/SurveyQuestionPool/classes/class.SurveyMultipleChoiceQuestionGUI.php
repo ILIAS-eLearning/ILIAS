@@ -368,10 +368,28 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				}
 				break;
 			case 1:
-				// horizontal orientation
+				// horizontal orientation	
+				
+				// #9363: split categories in answer and answer+text
+				// as we have 2 table rows we have to keep them in sync
+				$ordered_ids = array(0=>array(), 1=>array());				
 				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
 				{
 					$cat = $this->object->categories->getCategory($i);
+					if ($cat->other)
+					{
+						$ordered_ids[1][] = $cat;
+					}
+					else
+					{
+						$ordered_ids[0][] = $cat;
+					}
+				}				
+				$ordered_ids = array_merge($ordered_ids[0], $ordered_ids[1]);	
+							
+				foreach ($ordered_ids as $i => $cat) 
+				{			
+					// checkbox
 					$template->setCurrentBlock("checkbox_col");
 					if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
 					$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
@@ -393,12 +411,10 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						}
 					}
 					$template->parseCurrentBlock();
-				}
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$cat = $this->object->categories->getCategory($i);
+					
+					// answer & input 
 					if ($cat->other)
-					{
+					{						
 						$template->setCurrentBlock("text_other_col");
 						$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
 						$template->setVariable("QUESTION_ID", $this->object->getId());
@@ -421,9 +437,9 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						}
 						$template->parseCurrentBlock();
 					}
+					// answer
 					else
-					{
-						$category = $this->object->categories->getCategory($i);
+					{						
 						$template->setCurrentBlock("text_col");
 						if ($cat->neutral) $template->setVariable('COLCLASS', ' neutral');
 						$template->setVariable("VALUE_MC", ($cat->scale) ? ($cat->scale - 1) : $i);
@@ -431,8 +447,8 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 						$template->setVariable("QUESTION_ID", $this->object->getId());
 						$template->parseCurrentBlock();
 					}
-					$template->touchBlock('text_outer_col');
-				}
+					// $template->touchBlock('text_outer_col');																				
+				}				
 				break;
 		}
 		
