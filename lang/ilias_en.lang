@@ -12878,3 +12878,9 @@ common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter_setting#:#Offline Filter
 search#:#lucene_offline_filter_setting_info#:#If enabled, objects can filtered in the "Advanced Search" by their online/offline status.
 search#:#lucene_offline_filter#:#Offline-Status
+common#:#obj_hlps_desc#:#Settings for the online help
+common#:#obj_hlps#:#Help System
+rbac#:#hlps_edit_permission#:#User can change permissions of Help System Settings  in Administration.
+rbac#:#hlps_read#:#User has read access to Help System Settings in Administration.
+rbac#:#hlps_visible#:#Help System Settings are visible in Administration.
+rbac#:#hlps_write#:#User can edit Help System Settings in Administration.

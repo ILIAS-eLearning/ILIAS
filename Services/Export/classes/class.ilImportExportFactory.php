@@ -18,7 +18,11 @@ class ilImportExportFactory
 		$c = explode("/", $comp);
 		$class = "il".$c[1]."Exporter";
 
-		if(@include_once "./".$comp."/classes/class.".$class.".php")
+		// the next line had a "@" in front of the include_once
+		// I removed this because it tages ages to track down errors
+		// if the include class contains parse errors.
+		// Alex, 20 Jul 2012
+		if(include_once "./".$comp."/classes/class.".$class.".php")
 		{
 			return $class;
 		}
