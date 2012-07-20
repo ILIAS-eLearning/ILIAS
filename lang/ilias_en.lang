@@ -11799,8 +11799,8 @@ chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_create_private_room_button#:#Create Private Room
 chatroom#:#moderate#:#Moderate
 chatroom#:#chatroom_smiley_keyword#:#Keyword
-chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to Chatroom ##room_name##
-chatroom#:#chat_invitation_long#:###salutation##\n\nYou have been invited to a chatroom:\nChatroom Title: ##room_name##\nInvited by: ##inviter_name##\nURL: ##link##\n\nIf you want to join the chatroom please follow the given URL.
+chatroom#:#chat_invitation#:#Invitation from [INVITER_NAME] to Chatroom [ROOM_NAME]
+chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nYou have been invited to a chatroom:\nChatroom Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]\nURL: [LINK]\n\nIf you want to join the chatroom please follow the given URL.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#settings_title#:#Settings
 chatroom#:#history_byday_title#:#Show Conversation per Day

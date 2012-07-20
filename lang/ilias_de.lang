@@ -1896,8 +1896,8 @@ chatroom#:#chat_connection_established#:#+++ <b>#username#</b> hat den Chatraum 
 chatroom#:#chat_create_new_private_room#:#Neues Séparée anlegen
 chatroom#:#chat_create_private_room_button#:#Séparée anlegen
 chatroom#:#chat_delete#:#Löschen
-chatroom#:#chat_invitation#:#Einladung von ##inviter_name## in den Chatraum ##room_name##
-chatroom#:#chat_invitation_long#:###salutation##\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: ##room_name##\nEingeladen von: ##inviter_name##\nURL: ##link##\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
+chatroom#:#chat_invitation#:#Einladung von [INVITER_NAME] in den Chatraum [ROOM_NAME]
+chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nSie wurden in einen Chatraum eingeladen:\nTitel des Chatraums: [ROOM_NAME]\nEingeladen von: [INVITER_NAME]\nURL: [LINK]\n\nZum Betreten des Chatraums folgen Sie bitte der angegebenen URL.
 chatroom#:#chat_invitation_short#:#Klicken Sie auf den Titel um den Chatraum zu betreten.
 chatroom#:#chat_invite#:#Einladen
 chatroom#:#chat_invite_users#:#Benutzer einladen
