@@ -318,7 +318,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 	    $existing_pool->addSubItem($pools);
 
 
-	    $name = new ilTextInputGUI($this->lng->txt("cat_create_qpl"), "txt_qpl");
+	    $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
 	    $name->setSize(50);
 	    $name->setMaxLength(50);
 	    $new_pool->addSubItem($name);
