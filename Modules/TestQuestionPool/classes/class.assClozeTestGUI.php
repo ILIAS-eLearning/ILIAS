@@ -621,37 +621,7 @@ class assClozeTestGUI extends assQuestionGUI
 		// generate the question output
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$questionoutput = $template->get();
-		
-		// Generic feedback:
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		
-		if ($show_feedback)
-		{
-			$feedback .= '<br /><br /><table><tbody>';
-			
-			foreach ($this->object->gaps as $index => $answer)
-			{
-				$caption = $ordinal = $index+1 .':<i> ';
-				foreach ($answer->items as $item)
-				{
-					$caption .= '"' . $item->answertext.'" / ';
-				}
-				$caption = substr($caption, 0, strlen($caption)-3);
-				$caption .= '</i>';
 
-				$feedback .= '<tr><td>';
-				
-				$feedback .= $caption .'</td><td>';
-				$feedback .= $this->object->getFeedbackSingleAnswer($index) . '</td> </tr>';
-			}
-			$feedback .= '</tbody></table>';
-		}
-		
-		if (strlen($feedback)) 
-		{
-			$solutiontemplate->setCurrentBlock('feedback');
-			$solutiontemplate->setVariable("FEEDBACK", $feedback);
-		}
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
@@ -1005,6 +975,29 @@ class assClozeTestGUI extends assQuestionGUI
 		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
 		return $errors;
 	}
+	
+	function getSpecificFeedbackOutput($active_id, $pass)
+	{
+		$feedback = '<table><tbody>';
 
+		foreach ($this->object->gaps as $index => $answer)
+		{
+			$caption = $ordinal = $index+1 .':<i> ';
+			foreach ($answer->items as $item)
+			{
+				$caption .= '"' . $item->answertext.'" / ';
+			}
+			$caption = substr($caption, 0, strlen($caption)-3);
+			$caption .= '</i>';
+
+			$feedback .= '<tr><td>';
+
+			$feedback .= $caption .'</td><td>';
+			$feedback .= $this->object->getFeedbackSingleAnswer($index) . '</td> </tr>';
+		}
+		$feedback .= '</tbody></table>';
+
+		return $this->object->prepareTextareaOutput($feedback, TRUE);
+	}
 }
 ?>

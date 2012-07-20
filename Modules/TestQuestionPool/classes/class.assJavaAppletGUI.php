@@ -798,5 +798,10 @@ class assJavaAppletGUI extends assQuestionGUI
 			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
 		}
 	}
+	
+	function getSpecificFeedbackOutput($active_id, $pass)
+	{
+		$output = "";
+		return $this->object->prepareTextareaOutput($output, TRUE);
+	}
 }
-?>

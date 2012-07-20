@@ -293,9 +293,17 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		$this->editQuestion();
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
+	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_question_postponed = FALSE, 
+								$user_post_solutions = FALSE, $show_specific_inline_feedback = FALSE)
 	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
+		$test_output = $this->getTestOutput(
+			$active_id, 
+			$pass, 
+			$is_question_postponed, 
+			$user_post_solutions, 
+			$show_specific_inline_feedback
+		);
+		
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
@@ -517,8 +525,8 @@ class assMultipleChoiceGUI extends assQuestionGUI
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
 		$questionoutput = $template->get();
-		$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
+		#$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+		#if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 		$solutionoutput = $solutiontemplate->get(); 
@@ -963,6 +971,13 @@ class assMultipleChoiceGUI extends assQuestionGUI
 		}
 		$_SESSION["choicekeys"] = $this->choiceKeys;
 		return $this->choiceKeys;
+	}
+
+	function getSpecificFeedbackOutput($active_id, $pass)
+	{
+		// No return value, this question type supports inline specific feedback.
+		$output = "";
+		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 }
 ?>

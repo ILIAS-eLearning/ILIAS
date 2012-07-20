@@ -1023,13 +1023,12 @@ abstract class assQuestionGUI
 	
 	
 	/**
-	* Returns the answer specific feedback depending on the results of the question
+	* Returns the answer generic feedback depending on the results of the question
 	*
-	* Returns the answer specific feedback depending on the results of the question
-	*
+	* @deprecated Use getGenericFeedbackOutput instead.
 	* @param integer $active_id Active ID of the user
 	* @param integer $pass Active pass
-	* @result string HTML Code with the answer specific feedback
+	* @return string HTML Code with the answer specific feedback
 	* @access public
 	*/
 	function getAnswerFeedbackOutput($active_id, $pass)
@@ -1058,6 +1057,55 @@ abstract class assQuestionGUI
 		}
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
+
+	/**
+	 * Returns the answer specific feedback for the question
+
+	 *
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $pass Active pass
+	 * @return string HTML Code with the answer specific feedback
+	 * @access public
+	 */
+	function getGenericFeedbackOutput($active_id, $pass)
+	{
+		$output = "";
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		$manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
+		if (strlen($manual_feedback))
+		{
+			return $manual_feedback;
+		}
+		$correct_feedback = $this->object->getFeedbackGeneric(1);
+		$incorrect_feedback = $this->object->getFeedbackGeneric(0);
+		if (strlen($correct_feedback.$incorrect_feedback))
+		{
+			$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
+			$max_points = $this->object->getMaximumPoints();
+			if ($reached_points == $max_points)
+			{
+				$output = $correct_feedback;
+			}
+			else
+			{
+				$output = $incorrect_feedback;
+			}
+		}
+		return $this->object->prepareTextareaOutput($output, TRUE);
+	}
+
+	/**
+	 * Returns the answer specific feedback for the question
+	 * 
+	 * This method should be overwritten by the actual question.
+	 * 
+	 * @todo Mark this method abstract!
+	 * @param integer $active_id Active ID of the user
+	 * @param integer $pass Active pass
+	 * @return string HTML Code with the answer specific feedback
+	 * @access public
+	 */
+	abstract function getSpecificFeedbackOutput($active_id, $pass);
 
 	/**
 	* Creates the output of the feedback page for the question

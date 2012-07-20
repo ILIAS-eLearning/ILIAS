@@ -526,24 +526,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
 		
-		if ($show_feedback)
-		{
-			$feedback .= '<br /><br /><table><tbody>';
-			
-				foreach ($this->object->getMatchingPairs() as $idx => $ans)
-				{
-					$feedback .= '<tr><td><b><i>' . $ans->definition->text . '</i></b></td><td>'. $this->lng->txt("matches") . '&nbsp;';
-					$feedback .= '</td><td><b><i>' . $ans->term->text . '</i></b></td><td>';
-					$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
-				}
-
-			$feedback .= '</tbody></table>';
-		}
-		
 		$questionoutput = $template->get();
-		
-		$feedback .= ($show_feedback) ? '<br />' . $this->getAnswerFeedbackOutput($active_id, $pass) : "";
-		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
@@ -1422,5 +1405,18 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		return $errors;
 	}
 
+	function getSpecificFeedbackOutput($active_id, $pass)
+	{
+		$feedback = '<table><tbody>';
+
+		foreach ($this->object->getMatchingPairs() as $idx => $ans)
+		{
+			$feedback .= '<tr><td><b><i>' . $ans->definition->text . '</i></b></td><td>'. $this->lng->txt("matches") . '&nbsp;';
+			$feedback .= '</td><td><b><i>' . $ans->term->text . '</i></b></td><td>&nbsp;</td><td>';
+			$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+		}
+
+		$feedback .= '</tbody></table>';
+		return $this->object->prepareTextareaOutput($feedback, TRUE);
+	}
 }
-?>
