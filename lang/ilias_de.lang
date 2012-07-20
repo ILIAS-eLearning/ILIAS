@@ -6700,7 +6700,7 @@ crs#:#crs_lms_already_assigned#:#Diese Lernmaterialien wurde bereits zugeordnet.
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
 crs#:#crs_map_location#:#Ort auf Karte zum Kurs
 crs#:#crs_map_settings#:#Einstellungen Karte
-crs#:#crs_materials#:#Kursmaterialien
+crs#:#crs_materials#:#Materialien
 crs#:#crs_max_members_reached#:#Die maximale Mitgliederanzahl wurde überschritten
 crs#:#crs_mem_change_status#:#Status ändern
 crs#:#crs_mem_send_mail#:#Mail verschicken
@@ -7034,8 +7034,8 @@ crs#:#edit_timings_list#:#Lernplanung bearbeiten
 crs#:#event#:#Sitzung
 crs#:#event_add_new_event#:#Eine neue Sitzung wurde angelegt.
 crs#:#event_assign_materials#:#Materialien zuordnen
-crs#:#event_assign_materials_info#:#Hier können Sie der Sitzung Kursmaterialien zuordnen. Diese werden dann direkt unterhalb der Sitzung angezeigt.
-crs#:#event_assign_materials_table#:#Zuordnung von Kursmaterialien
+crs#:#event_assign_materials_info#:#Hier können Sie der Sitzung Materialien zuordnen. Diese werden dann direkt unterhalb der Sitzung angezeigt.
+crs#:#event_assign_materials_table#:#Zuordnung von Materialien
 crs#:#event_blank_columns#:#Zusätzliche Spalten
 crs#:#event_btn_add#:#Sitzung anlegen
 crs#:#event_btn_add_edit#:#Sitzung anlegen und Materialien zuordnen
