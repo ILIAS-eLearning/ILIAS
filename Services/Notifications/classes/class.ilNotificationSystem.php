@@ -83,7 +83,7 @@ class ilNotificationSystem {
 			// load all available types
             $types = ilNotificationDatabaseHandler::getAvailableTypes();
 			// preload translation vars
-            $lang = ilNotificationDatabaseHandler::getLanguageVars($notification->getLanguageParameters());
+            $lang = ilNotificationDatabaseHandler::getTranslatedLanguageVariablesOfNotificationParameters($notification->getLanguageParameters());
 
             $user_by_handler = array();
 
