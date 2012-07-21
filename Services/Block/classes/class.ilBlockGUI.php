@@ -646,7 +646,10 @@ abstract class ilBlockGUI
 				ilBlockSetting::_writeDetailLevel($this->getBlockType(), $_GET[$this->getDetailParameter()],
 					$ilUser->getId(), $this->block_id);
 				$this->setCurrentDetailLevel($_GET[$this->getDetailParameter()]);
-				$ilCtrl->redirectByClass("ilcolumngui", "");
+				if ((int) $_GET[$this->getDetailParameter()] == 0)
+				{
+					$ilCtrl->redirectByClass("ilcolumngui", "");
+				}
 			}
 			else
 			{
