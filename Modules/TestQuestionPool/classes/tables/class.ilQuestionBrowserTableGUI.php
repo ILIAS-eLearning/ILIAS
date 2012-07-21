@@ -282,7 +282,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("LINK_ASSESSMENT", $this->ctrl->getLinkTargetByClass($class, "assessment"));
 					$this->tpl->setVariable("TXT_ASSESSMENT", $this->lng->txt("statistics"));
 					include_once "./Services/Utilities/classes/class.ilUtil.php";
-					$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.png", "Modules/TestQuestionPool"));
+					$this->tpl->setVariable("IMG_ASSESSMENT", ilUtil::getImagePath("assessment.gif", "Modules/TestQuestionPool"));
 					$this->tpl->parseCurrentBlock();
 				}
 				if (strcmp($c, 'author') == 0)
