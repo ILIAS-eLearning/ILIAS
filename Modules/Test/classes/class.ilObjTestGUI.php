@@ -3505,6 +3505,8 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTarget("_top");
+		$new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
+		$this->ctrl->setParameter($this, "new_type", $new_type);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("import_tst"));
 
