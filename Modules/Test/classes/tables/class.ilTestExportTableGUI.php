@@ -102,6 +102,20 @@ class ilTestExportTableGUI extends ilTable2GUI
 	}
 
 	/**
+	 * @param string $column
+	 * @return bool
+	 */
+	public function numericOrdering($column)
+	{
+		if(in_array($column, array('size', 'date')))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * fill row 
 	 *
 	 * @access public
@@ -125,8 +139,8 @@ class ilTestExportTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable("ID", $this->counter++);
 		$this->tpl->setVariable("FILE", $data['file']);
-		$this->tpl->setVariable("SIZE", $data['size']);
-		$this->tpl->setVariable("DATE", $data['date']);
+		$this->tpl->setVariable("SIZE", ilFormat::formatSize($data['size'], 'long'));
+		$this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($data['date'], IL_CAL_UNIX)));
 	}
 }
 ?>

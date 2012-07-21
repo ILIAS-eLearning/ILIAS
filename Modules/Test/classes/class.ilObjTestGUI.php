@@ -601,11 +601,10 @@ class ilObjTestGUI extends ilObjectGUI
 			foreach($export_files as $exp_file)
 			{
 				$file_arr = explode("__", $exp_file);
-				$date = new ilDateTime($file_arr[0], IL_CAL_UNIX);
 				array_push($data, array(
 					'file' => $exp_file,
 					'size' => filesize($export_dir."/".$exp_file),
-					'date' => $date->get(IL_CAL_DATETIME)
+					'date' => $file_arr[0]
 				));
 			}
 		}
@@ -701,11 +700,10 @@ class ilObjTestGUI extends ilObjectGUI
 			foreach ($_POST["file"] as $exp_file)
 			{
 				$file_arr = explode("__", $exp_file);
-				$date = new ilDateTime($file_arr[0], IL_CAL_UNIX);
 				array_push($data, array(
 					'file' => $exp_file,
 					'size' => filesize($export_dir."/".$exp_file),
-					'date' => $date->get(IL_CAL_DATETIME)
+					'date' => $file_arr[0]
 				));
 			}
 		}
