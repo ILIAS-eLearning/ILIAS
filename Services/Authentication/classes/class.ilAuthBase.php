@@ -215,38 +215,27 @@ abstract class ilAuthBase
 			', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
 			', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
 		);
-		
-		// :TODO: what about $a_auth->getUsername()?
-		$username = ilUtil::stripSlashes($_POST['username']);
-		if($username)
+
+		require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+		$security = ilSecuritySettings::_getInstance();
+		if($a_username &&
+			$security->getAccountSecurityMode() == ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED
+		)
 		{
-			// differentiate account security mode
-			require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-			$security = ilSecuritySettings::_getInstance();
-			if($security->getAccountSecurityMode() == 
-				ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED)
-			{								
-				include_once "Services/User/classes/class.ilObjUser.php";			
-				$usr_id = ilObjUser::_loginExists($username);
-				if($usr_id != ANONYMOUS_USER_ID)
+			$usr_id = ilObjUser::_lookupId($a_username);
+			if(!in_array($usr_id, array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
+			{
+				ilObjUser::_incrementLoginAttempts($usr_id);
+
+				$login_attempts = ilObjUser::_getLoginAttempts($usr_id);
+				$max_attempts   = $security->getLoginMaxAttempts();
+				if((int)$max_attempts && $login_attempts >= $max_attempts)
 				{
-					// handle max. login attempts
-					
-					ilObjUser::_incrementLoginAttempts($usr_id);
-
-					$login_attempts = ilObjUser::_getLoginAttempts($usr_id);
-					$max_attempts = $security->getLoginMaxAttempts();
-
-					if($login_attempts >= $max_attempts &&
-						$usr_id != SYSTEM_USER_ID &&
-						$max_attempts > 0)
-					{
-						ilObjUser::_setUserInactive($usr_id);
-					}
-				}		
+					ilObjUser::_setUserInactive($usr_id);
+				}
 			}
 		}
-	
+
 		return $this->getContainer()->failedLoginObserver($a_username,$a_auth);
 	}
 
