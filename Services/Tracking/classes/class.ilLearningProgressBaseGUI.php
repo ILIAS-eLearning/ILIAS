@@ -478,7 +478,7 @@ class ilLearningProgressBaseGUI
 			$info->addProperty($this->lng->txt('last_login'),
 				ilDatePresentation::formatDate(new ilDateTime($a_user->getLastLogin(),IL_CAL_DATETIME)));
 			$info->addProperty($this->lng->txt('trac_total_online'),
-							   ilFormat::_secondsToString(ilOnlineTracking::_getOnlineTime($a_user->getId())));
+							   ilFormat::_secondsToString(ilOnlineTracking::getOnlineTime($a_user->getId())));
 		   return true;
 		}
 	}
