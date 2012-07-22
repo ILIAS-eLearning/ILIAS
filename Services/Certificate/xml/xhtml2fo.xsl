@@ -23,7 +23,7 @@
 					</xsl:attribute>
 					<fo:region-body>
 						<xsl:attribute name="margin">
-							<xsl:text>0</xsl:text>
+							<xsl:value-of select="$marginbody"/>
 						</xsl:attribute>
 					</fo:region-body>
 					<xsl:if test="$backgroundimage">
@@ -57,9 +57,6 @@
 				<fo:flow>
 					<xsl:attribute name="flow-name">
 						<xsl:text>xsl-region-body</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="margin">
-						<xsl:value-of select="$marginbody"/>
 					</xsl:attribute>
 					<fo:block padding-top="10cm">
 						<xsl:attribute name="padding-top">

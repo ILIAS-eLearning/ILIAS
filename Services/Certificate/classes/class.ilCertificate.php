@@ -291,7 +291,7 @@ class ilCertificate
 		$marginbody_right = "2cm";
 		$marginbody_bottom = "0cm";
 		$marginbody_left = "2cm";
-		if (preg_match("/fo:flow[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
+		if(preg_match("/fo:region-body[^>]*margin\=\"([^\"]+)\"/", $xslfo, $matches))
 		{
 			$marginbody = $matches[1];
 			if (preg_match_all("/([^\s]+)/", $marginbody, $matches))

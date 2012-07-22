@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-	<xsl:output method="xml"></xsl:output>
+	<xsl:output method="xml"/>
 	<xsl:param name="pageheight" select="'29.7cm'"/>
 	<xsl:param name="pagewidth" select="'21cm'"/>
 	<xsl:param name="backgroundimage"/>
@@ -8,18 +8,24 @@
 	<xsl:param name="paddingtop" select="'10cm'"/>
 
 	<xsl:template match="/">
-		<xsl:apply-templates select="node()"></xsl:apply-templates>
+		<xsl:apply-templates select="node()"/>
 	</xsl:template>
-		
+
 	<xsl:template match="//body">
 		<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
 			<fo:layout-master-set>
 				<fo:simple-page-master master-name="ILIAS_certificate">
-					<xsl:attribute name="page-height"><xsl:value-of select="$pageheight"></xsl:value-of></xsl:attribute>
-					<xsl:attribute name="page-width"><xsl:value-of select="$pagewidth"></xsl:value-of></xsl:attribute>
-						<fo:region-body>
-							<xsl:attribute name="margin"><xsl:text>0</xsl:text></xsl:attribute>
-						</fo:region-body>
+					<xsl:attribute name="page-height">
+						<xsl:value-of select="$pageheight"/>
+					</xsl:attribute>
+					<xsl:attribute name="page-width">
+						<xsl:value-of select="$pagewidth"/>
+					</xsl:attribute>
+					<fo:region-body>
+						<xsl:attribute name="margin">
+							<xsl:value-of select="$marginbody"/>
+						</xsl:attribute>
+					</fo:region-body>
 					<xsl:if test="$backgroundimage">
 						<fo:region-before region-name="background-image" extent="0"/>
 					</xsl:if>
@@ -44,7 +50,6 @@
 				</xsl:if>	
 				<fo:flow>
 					<xsl:attribute name="flow-name"><xsl:text>xsl-region-body</xsl:text></xsl:attribute>
-					<xsl:attribute name="margin"><xsl:value-of select="$marginbody"></xsl:value-of></xsl:attribute>
 					<fo:block padding-top="10cm">
 						<xsl:attribute name="padding-top">
 							<xsl:value-of select="$paddingtop"></xsl:value-of>
