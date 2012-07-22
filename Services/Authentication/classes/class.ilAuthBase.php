@@ -149,58 +149,55 @@ abstract class ilAuthBase
 					$this->status = AUTH_USER_SIMULTANEOUS_LOGIN;
 					return;
 				}
-													
-				
-				// --- user is valid
-				
-				include_once './Services/Tracking/classes/class.ilOnlineTracking.php';
-				ilOnlineTracking::_addUser($user_id);
-												
-				// update last forum visit
-				include_once './Modules/Forum/classes/class.ilObjForum.php';
-				ilObjForum::_updateOldAccess($user_id);	
-				
-				
-				// handle login attempts
-				
-				require_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+
+				include_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
+				ilOnlineTracking::addUser($user_id);
+
+				include_once 'Modules/Forum/classes/class.ilObjForum.php';
+				ilObjForum::_updateOldAccess($user_id);
+
+				require_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
 				$security_settings = ilSecuritySettings::_getInstance();
 
 				// determine first login of user for setting an indicator
 				// which still is available in PersonalDesktop, Repository, ...
 				// (last login date is set to current date in next step)		
-				if( $security_settings->isPasswordChangeOnFirstLoginEnabled() &&
-					$user->getLastLogin() == null )
+				if($security_settings->isPasswordChangeOnFirstLoginEnabled() &&
+					$user->getLastLogin() == null
+				)
 				{
 					$user->resetLastPasswordChange();
 				}
 
-				$user->refreshLogin();			
+				$user->refreshLogin();
 
 				// differentiate account security mode		
-				if( $security_settings->getAccountSecurityMode() ==
-					ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
+				if($security_settings->getAccountSecurityMode() ==
+					ilSecuritySettings::ACCOUNT_SECURITY_MODE_CUSTOMIZED
+				)
 				{
 					// reset counter for failed logins
-					ilObjUser::_resetLoginAttempts( $user_id );
-				}										
-			}		
-			
-			
+					ilObjUser::_resetLoginAttempts($user_id);
+				}
+			}
+
 			// --- anonymous/registered user
-			
-			$ilLog->write(__METHOD__.': logged in as '.$a_auth->getUsername().
-				', remote:'.$_SERVER['REMOTE_ADDR'].':'.$_SERVER['REMOTE_PORT'].
-				', server:'.$_SERVER['SERVER_ADDR'].':'.$_SERVER['SERVER_PORT']
-				);			
-			
+
+			$ilLog->write(
+				__METHOD__ . ': logged in as ' . $a_auth->getUsername() .
+				', remote:' . $_SERVER['REMOTE_ADDR'] . ':' . $_SERVER['REMOTE_PORT'] .
+				', server:' . $_SERVER['SERVER_ADDR'] . ':' . $_SERVER['SERVER_PORT']
+			);
+
 			ilSessionControl::handleLoginEvent($a_auth->getUsername(), $a_auth);
-			
-			$ilAppEventHandler->raise("Services/Authentication", "afterLogin",
-				array("username" => $a_auth->getUsername()));			
-		}		
-	}	
-	
+
+			$ilAppEventHandler->raise(
+				'Services/Authentication', 'afterLogin',
+				array('username' => $a_auth->getUsername())
+			);
+		}
+	}
+
 	/**
 	 * Called after failed login
 	 * @return 

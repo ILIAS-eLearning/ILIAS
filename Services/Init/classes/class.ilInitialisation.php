@@ -1142,59 +1142,45 @@ class ilInitialisation
 			}		
 		}					
 	}
-	
+
 	/**
-	 * Handle successful authentication
+	 * @static
 	 */
 	protected static function handleAuthenticationSuccess()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
-										
-		// Store online time of user		
+
 		require_once 'Services/Tracking/classes/class.ilOnlineTracking.php';
-		ilOnlineTracking::_updateAccess($ilUser);		
+		ilOnlineTracking::updateAccess($ilUser);
 	}
-			
+
 	/**
-	 * Handle failed authentication
+	 * @static
 	 */
 	protected static function handleAuthenticationFail()
 	{
+		/**
+		 * @var $ilAuth    Auth
+		 * @var $ilSetting ilSetting
+		 */
 		global $ilAuth, $ilSetting;
-		
-		/* DEPERECATED			
-		// handle ILIAS 2 imported users:
-		// check ilias 2 password, if authentication failed
-		// only if AUTH_LOCAL
-		if (AUTH_CURRENT == AUTH_LOCAL && !$ilAuth->getAuth() && $_POST["username"] != "")
-		{
-			if (ilObjUser::_lookupHasIlias2Password(ilUtil::stripSlashes($_POST["username"])))
-			{
-				if (ilObjUser::_switchToIlias3Password(
-					ilUtil::stripSlashes($_POST["username"]),
-					ilUtil::stripSlashes($_POST["password"])))
-				{
-					$ilAuth->start();
-					$ilias->setAuthError($ilErr->getLastError());
 
-					self::redirect("index.php", "Account has been migrated.");					
-				}
-			}		
-		}			
-		*/
-		
-		$status = $ilAuth->getStatus();										
-		
-		if ($ilSetting->get("pub_section") &&
-			($status == "" || $status == AUTH_EXPIRED || $status == AUTH_IDLED) &&
-			$_GET["reloadpublic"] != "1")
+		$status = $ilAuth->getStatus();
+
+		if($ilSetting->get('pub_section') &&
+			($status == '' || $status == AUTH_EXPIRED || $status == AUTH_IDLED) &&
+			$_GET['reloadpublic'] != '1'
+		)
 		{
 			self::goToPublicSection($status);
 		}
 		else
 		{
 			self::goToLogin($status);
-		} 												
+		}
 	}
 	
 	/**

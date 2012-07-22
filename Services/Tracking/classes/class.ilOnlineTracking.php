@@ -1,105 +1,118 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilOnlineTracking
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @extends ilObjectGUI
-* @package ilias-core
-*
-* Stores total online time of users
-*
-*/
-
+ * Class ilOnlineTracking
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @extends ilObjectGUI
+ * @package ilias-core
+ *          Stores total online time of users
+ */
 class ilOnlineTracking
 {
-	// Static
-	function _getOnlineTime($a_user_id)
+	/**
+	 * This static variable is used to prevent two database request (addUser and updateAccess) on login
+	 * @var int
+	 * @static
+	 */
+	protected static $last_access_time = null;
+
+	/**
+	 * @static
+	 * @param int $a_user_id
+	 * @return int
+	 */
+	public static function getOnlineTime($a_user_id)
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
-			$ilDB->quote($a_user_id, "integer"));
-		while ($row = $ilDB->fetchObject($res))
+		$res = $ilDB->query('SELECT online_time FROM ut_online WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer'));
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$access_time = $row->access_time;
-			$online_time = $row->online_time;
+			return (int)$row['online_time'];
 		}
-		return (int) $online_time;
-	}
 
-		
+		return 0;
+	}
 
 	/**
 	 * Add access time
 	 * @param int $a_user_id
-	 * @return 
+	 * @return bool
+	 * @static
 	 */
-	function _addUser($a_user_id)
+	public static function addUser($a_user_id)
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		$res = $ilDB->query("SELECT * FROM ut_online WHERE usr_id = ".
-			$ilDB->quote($a_user_id, "integer"));
-		
-		if($res->numRows())
+		$res = $ilDB->query('SELECT access_time FROM ut_online WHERE usr_id = ' . $ilDB->quote($a_user_id, 'integer'));
+		if($ilDB->numRows($res))
 		{
+			$row = $ilDB->fetchAssoc($res);
+			self::$last_access_time = (int)$row['access_time'];
 			return false;
 		}
 
-		$ilDB->manipulate(sprintf("INSERT INTO ut_online (usr_id, access_time) VALUES (%s,%s)",
-			$ilDB->quote($a_user_id, "integer"),
-			$ilDB->quote(time(), "integer")));
+		$ilDB->manipulateF(
+			'INSERT INTO ut_online (usr_id, access_time) VALUES (%s, %s)',
+			array('integer', 'integer'),
+			array($a_user_id, time())
+		);
+		self::$last_access_time = time();
 
 		return true;
 	}
 
 	/**
 	 * Update access time
-	 * @param int $a_usr_id
-	 * @return 
+	 * @param ilObjUser $user
+	 * @return bool
+	 * @static
 	 */
-	function _updateAccess($a_usr_id)
+	public static function updateAccess(ilObjUser $user)
 	{
-		global $ilDB,$ilias;
-		
-		$access_time = 0;
+		/**
+		 * @var $ilDB      ilDB
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilDB, $ilSetting;
 
-		$query = "SELECT * FROM ut_online WHERE usr_id = ".
-			$ilDB->quote($a_usr_id,'integer');
-		$res = $ilDB->query($query);
-		
-		if(!$res->numRows())
+		if(null === self::$last_access_time)
 		{
-			return false;
+			$query = 'SELECT access_time FROM ut_online WHERE usr_id = ' . $ilDB->quote($user->getId(), 'integer');
+			$res   = $ilDB->query($query);
+			if(!$ilDB->numRows($res))
+			{
+				return false;
+			}
+			$row = $ilDB->fetchAssoc($res);
+			self::$last_access_time = $row['access_time'];
 		}
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$access_time = $row->access_time;
-			$online_time = $row->online_time;
-		}
-		$time_span = (int) $ilias->getSetting("tracking_time_span",300);
 
-		if(($diff = time() - $access_time) <= $time_span)
+		$time_span = (int)$ilSetting->get('tracking_time_span', 300);
+		if(($diff = time() - self::$last_access_time) <= $time_span)
 		{
-			$ilDB->manipulate(sprintf("UPDATE ut_online SET online_time = online_time + %s, ".
-				"access_time = %s WHERE usr_id = %s",
-				$ilDB->quote($diff, "integer"),
-				$ilDB->quote(time(), "integer"),
-				$ilDB->quote($a_usr_id, "integer")));
+			$ilDB->manipulateF(
+				'UPDATE ut_online SET online_time = online_time + %s, access_time = %s WHERE usr_id = %s',
+				array('integer', 'integer', 'integer'),
+				array($diff, time(), $user->getId())
+			);
 		}
 		else
 		{
-			$ilDB->manipulate(sprintf("UPDATE ut_online SET ".
-				"access_time = %s WHERE usr_id = %s",
-				$ilDB->quote(time(), "integer"),
-				$ilDB->quote($a_usr_id, "integer")));
+			$ilDB->manipulateF(
+				'UPDATE ut_online SET access_time = %s WHERE usr_id = %s',
+				array('integer', 'integer'),
+				array(time(), $user->getId())
+			);
 		}
 		return true;
 	}
 }
-?>
