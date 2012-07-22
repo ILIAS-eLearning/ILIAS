@@ -240,7 +240,14 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		 */
 		global $ilAccess, $ilUser, $lng;
 
-		$result = new stdClass();
+		$result     = new stdClass();
+		$result->ok = false;
+		
+		if(!(int)$_REQUEST['ref_id'])
+		{
+			echo ilJsonUtil::encode($result);
+			exit();
+		}
 
 		/**
 		 * @var $object ilObjChatroom
@@ -254,10 +261,9 @@ class ilChatroomBlockGUI extends ilBlockGUI
 				0
 			);
 
-			$result->ok       = false;
 			$result->errormsg = $lng->txt('msg_no_perm_read');
 			echo ilJsonUtil::encode($result);
-			exit;
+			exit();
 		}
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
@@ -282,6 +288,6 @@ class ilChatroomBlockGUI extends ilBlockGUI
 
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 		echo ilJsonUtil::encode($result);
-		exit;
+		exit();
 	}
 }
