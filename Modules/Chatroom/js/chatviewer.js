@@ -61,8 +61,13 @@
 			},
 			getPollingUrl:    function () {
 				var data = this.data('chatviewer');
-				
-				return data.properties.base_url.replace('#__ref_id', $(data.properties.room_selector).val());
+				var url = data.properties.base_url.replace(
+					/col_side=(left|right)/,
+					'col_side=' + (
+						$(data.properties.message_container_selector).closest('#il_left_col').size() ? 'left' : 'right'
+					)
+				);
+				return url.replace(/#__ref_id/, $(data.properties.room_selector).val());
 			},
 			doAutoscroll:     function () {
 				var data = this.data('chatviewer');
