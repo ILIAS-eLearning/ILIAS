@@ -1083,7 +1083,7 @@ class ilObjUser extends ilObject
 	*/
 	function writePref($a_keyword, $a_value)
 	{
-		ilObjUser::_writePref($this->id, $a_keyword, $a_value);
+		self::_writePref($this->id, $a_keyword, $a_value);
 		$this->setPref($a_keyword, $a_value);
 	}
 
@@ -1095,20 +1095,26 @@ class ilObjUser extends ilObject
 	*/
 	function deletePref($a_keyword)
 	{
-		ilObjUser::_deletePref($this->getId(), $a_keyword);
+		self::_deletePref($this->getId(), $a_keyword);
 	}
 
 	/**
-	* Deletes a userpref value of the user from the database
-	* @access	public
-	* @param	string	keyword
-	*/
-	function _deletePref($a_user_id, $a_keyword)
+	 * @static
+	 * @param int $a_user_id
+	 * @param string $a_keyword
+	 */
+	public static function _deletePref($a_user_id, $a_keyword)
 	{
+		/**
+ 		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		$ilDB->manipulateF("DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s",
-			array("integer", "text"), array($a_user_id, $a_keyword));
+		$ilDB->manipulateF(
+			'DELETE FROM usr_pref WHERE usr_id = %s AND keyword = %s',
+			array('integer', 'text'),
+			array($a_user_id, $a_keyword)
+		);
 	}
 
 	/**
@@ -1125,17 +1131,26 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* Write preference
-	*/
-	function _writePref($a_usr_id, $a_keyword, $a_value)
+	 * @static
+	 * @param int $a_usr_id
+	 * @param string $a_keyword
+	 * @param string $a_value
+	 */
+	public static function _writePref($a_usr_id, $a_keyword, $a_value)
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 
-		ilObjUser::_deletePref($a_usr_id, $a_keyword);
-		if (strlen($a_value))
+		self::_deletePref($a_usr_id, $a_keyword);
+		if(strlen($a_value))
 		{
-			$ilDB->manipulateF("INSERT INTO usr_pref (usr_id, keyword, value) VALUES (%s,%s,%s)",
-				array("integer", "text", "text"), array($a_usr_id, $a_keyword, $a_value));
+			$ilDB->manipulateF(
+				'INSERT INTO usr_pref (usr_id, keyword, value) VALUES (%s, %s, %s)',
+				array('integer', 'text', 'text'),
+				array($a_usr_id, $a_keyword, $a_value)
+			);
 		}
 	}
 
@@ -1150,7 +1165,7 @@ class ilObjUser extends ilObject
 		ilObjUser::_deleteAllPref($this->id);
 		foreach ($this->prefs as $keyword => $value)
 		{
-			ilObjUser::_writePref($this->id, $keyword, $value);
+			self::_writePref($this->id, $keyword, $value);
 		}
 	}
 
@@ -3046,8 +3061,8 @@ class ilObjUser extends ilObject
 
 		while ($usr_rec = $ilDB->fetchAssoc($usr_set))
 		{
-			ilObjUser::_writePref($usr_rec["usr_id"], "skin", $a_to_skin);
-			ilObjUser::_writePref($usr_rec["usr_id"], "style", $a_to_style);
+			self::_writePref($usr_rec["usr_id"], "skin", $a_to_skin);
+			self::_writePref($usr_rec["usr_id"], "style", $a_to_style);
 		}
 	}
 
@@ -3877,7 +3892,7 @@ class ilObjUser extends ilObject
 		ilUtil::execConvert($tmp_file . "[0] -geometry 30x30 -quality 100 JPEG:".$xxthumb_file);
 
 		// store filename
-		ilObjUser::_writePref($obj_id, "profile_image", $store_file);
+		self::_writePref($obj_id, "profile_image", $store_file);
 
 		return TRUE;
 	}
@@ -4365,7 +4380,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 		
-		ilObjUser::_writePref($a_user_id, "priv_feed_pass",
+		self::_writePref($a_user_id, "priv_feed_pass",
 			($a_password=="") ? "" : md5($a_password));
 	}
 
