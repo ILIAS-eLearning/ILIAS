@@ -115,6 +115,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($data)
 	{
+		ilDatePresentation::setUseRelativeDates(false);
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
 		foreach ($this->getSelectedColumns() as $c)
 		{
@@ -166,6 +167,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
+		ilDatePresentation::setUseRelativeDates(true);
 	}
 
 	/**
