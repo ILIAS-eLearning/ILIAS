@@ -836,7 +836,7 @@ class ilObjUser extends ilObject
 				break;
 
 			case IL_PASSWD_CRYPT:
-				if (_makeIlias2Password($a_old) != $this->passwd)
+				if (self::_makeIlias2Password($a_old) != $this->passwd)
 				{
 					return false;
 				}
@@ -895,57 +895,14 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* get encrypted Ilias 2 password (needed for imported ilias 2 users)
-	*/
-	function _makeIlias2Password($a_passwd)
+	 * get encrypted Ilias 2 password (needed for imported ilias 2 users)
+	 * @todo: Remove this? Alex, Stefan?
+	 */
+	public static function _makeIlias2Password($a_passwd)
 	{
 		return (crypt($a_passwd,substr($a_passwd,0,2)));
 	}
 
-	/**
-	* check if user has ilias 2 password (imported user)
-	*/
-	function _lookupHasIlias2Password($a_user_login)
-	{
-		global $ilias, $ilDB;
-
-		$user_set = $ilDB->queryF("SELECT i2passwd FROM usr_data ".
-			 "WHERE login = %s", array("text"), array($a_user_login));
-		if ($user_rec = $ilDB->fetchAssoc($user_set))
-		{
-			if ($user_rec["i2passwd"] != "")
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	* check if user has ilias 2 password (imported user)
-	*/
-	function _switchToIlias3Password($a_user, $a_pw)
-	{
-		global $ilias, $ilDB;
-
-		$user_set = $ilDB->queryF("SELECT i2passwd FROM usr_data ".
-			 "WHERE login = %s", array("text"), array($a_user_login));
-		if ($user_rec = $ilDB->fetchAssoc($user_set))
-		{
-			if ($user_rec["i2passwd"] == ilObjUser::_makeIlias2Password($a_pw))
-			{
-				$ilDB->manipulateF("UPDATE usr_data SET passwd = %s, i2passwd = %s".
-					"WHERE login = %s",
-					array("text", "text", "text"),
-					array(md5($a_pw), "", $a_user));
-				return true;
-			}
-		}
-
-		return false;
-	}
-	
 	/**
 	 * 
 	 * Checks wether the passed loginname already exists in history
