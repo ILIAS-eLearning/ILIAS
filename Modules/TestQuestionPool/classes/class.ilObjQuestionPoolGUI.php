@@ -934,7 +934,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 		include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolPrintViewTableGUI.php";
 		$table_gui = new ilQuestionPoolPrintViewTableGUI($this, 'print', $_POST['output']);
-		$data =& $this->object->getPrintviewQuestions();
+		$data = $this->object->getPrintviewQuestions();
 		$table_gui->setData($data);
 		$this->tpl->setVariable('TABLE', $table_gui->getHTML());
 	}

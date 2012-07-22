@@ -520,11 +520,11 @@ class ilObjQuestionPool extends ilObject
 	*
 	* @access public
 	*/
-	function &getPrintviewQuestions()
+	public function getPrintviewQuestions()
 	{
 		global $ilDB;
 		
-		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin FROM qpl_questions, qpl_qst_type WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s",
+		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_qst_type.plugin, qpl_questions.tstamp updated FROM qpl_questions, qpl_qst_type WHERE qpl_questions.original_id IS NULL AND qpl_questions.tstamp > 0 AND qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND qpl_questions.obj_fi = %s",
 			array('integer'),
 			array($this->getId())
 		);
@@ -547,7 +547,7 @@ class ilObjQuestionPool extends ilObject
 					array_push($rows, $row);
 				}
 			}
-		}print_r($row);
+		}
 		return $rows;
 	}
 
