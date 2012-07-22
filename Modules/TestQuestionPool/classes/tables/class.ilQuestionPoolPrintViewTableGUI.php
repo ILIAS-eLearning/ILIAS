@@ -136,16 +136,16 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($data['ttype']));
 				$this->tpl->parseCurrentBlock();
 			}
-			if (strcmp($c, 'created') == 0)
+			if(strcmp($c, 'created') == 0)
 			{
 				$this->tpl->setCurrentBlock('created');
-				$this->tpl->setVariable("CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
+				$this->tpl->setVariable('CREATED', ilDatePresentation::formatDate(new ilDateTime($data['created'], IL_CAL_UNIX)));
 				$this->tpl->parseCurrentBlock();
 			}
-			if (strcmp($c, 'updated') == 0)
+			if(strcmp($c, 'updated') == 0)
 			{
 				$this->tpl->setCurrentBlock('updated');
-				$this->tpl->setVariable("UPDATED", ilDatePresentation::formatDate(new ilDate($data['tstamp'],IL_CAL_UNIX)));
+				$this->tpl->setVariable('UPDATED', ilDatePresentation::formatDate(new ilDateTime($data['updated'], IL_CAL_UNIX)));
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -167,5 +167,18 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 	}
+
+	/**
+	 * @param string $column
+	 * @return bool
+	 */
+	public function numericOrdering($column)
+	{
+		if(in_array($column, array('created', 'updated')))
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
-?>
