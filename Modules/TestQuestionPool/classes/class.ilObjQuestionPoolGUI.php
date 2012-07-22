@@ -120,7 +120,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			case 'ilmdeditorgui':
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
-				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+				$md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 				$this->ctrl->forwardCommand($md_gui);
 				break;
@@ -137,11 +137,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 					ilObjStyleSheet::getSyntaxStylePath());
 				$this->tpl->parseCurrentBlock();
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-				$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+				$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
 				$q_gui->setQuestionTabs();
 				$q_gui->outAdditionalOutput();
 				$q_gui->object->setObjId($this->object->getId());
-				$question =& $q_gui->object;
+				$question = $q_gui->object;
 				$this->ctrl->saveParameter($this, "q_id");
 				include_once("./Services/COPage/classes/class.ilPageObject.php");
 				include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
@@ -149,7 +149,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->setReturnByClass("ilPageObjectGUI", "view");
 				$this->ctrl->setReturn($this, "questions");
 				//$page =& new ilPageObject("qpl", $_GET["q_id"]);
-				$page_gui =& new ilPageObjectGUI("qpl", $_GET["q_id"]);
+				$page_gui = new ilPageObjectGUI("qpl", $_GET["q_id"]);
 				$page_gui->setEditPreview(true);
 				$page_gui->setEnabledTabs(false);
 				$page_gui->setEnabledInternalLinks(false);
@@ -167,14 +167,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "fullscreen"));
 				$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this));
 				$page_gui->setPresentationTitle($question->getTitle());
-				$ret =& $this->ctrl->forwardCommand($page_gui);
+				$ret = $this->ctrl->forwardCommand($page_gui);
 				$tpl->setContent($ret);
 				break;
 				
 			case 'ilpermissiongui':
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-				$perm_gui =& new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$perm_gui = new ilPermissionGUI($this);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case 'ilobjectcopygui':
@@ -205,7 +205,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 				// set context tabs
 				require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-				$questionGUI =& assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
+				$questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $_GET['q_id']);
 				$questionGUI->object->setObjId($this->object->getId());
 				$questionGUI->setQuestionTabs();
 				
@@ -225,16 +225,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				
 				$cmd.= "Object";
-				$ret =& $this->$cmd();
+				$ret = $this->$cmd();
 				break;
 				
 			default:
 				$this->ctrl->setReturn($this, "questions");
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-				$q_gui =& assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
+				$q_gui = assQuestionGUI::_getQuestionGUI($q_type, $_GET["q_id"]);
 				$q_gui->object->setObjId($this->object->getId());
 				$q_gui->setQuestionTabs();
-				$ret =& $this->ctrl->forwardCommand($q_gui);
+				$ret = $this->ctrl->forwardCommand($q_gui);
 				break;
 		}
 
@@ -1093,11 +1093,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($_GET["q_id"] > 0)
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-			$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-			$q_gui->object->setObjId($this->object->getId());
-			if ($_GET["q_id"] > 0)
+			$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			if($q_gui->object instanceof assQuestion)
 			{
-				$ilLocator->addItem($q_gui->object->getTitle(), $this->ctrl->getLinkTargetByClass(get_class($q_gui), "editQuestion"));
+				$q_gui->object->setObjId($this->object->getId());
+				$title = $q_gui->object->getTitle();
+				if(!$title)
+				{
+					$title = $this->lng->txt('new').': '.assQuestion::_getQuestionTypeName($q_gui->object->getQuestionType());
+				}
+				$ilLocator->addItem($title, $this->ctrl->getLinkTargetByClass(get_class($q_gui), "editQuestion"));
+			}
+			else
+			{
+				// Workaround for context issues: If no object was found, redirect without q_id parameter
+				$this->ctrl->setParameter($this, 'q_id', '');
+				$this->ctrl->redirect($this);
 			}
 		}
 	}
@@ -1111,16 +1122,29 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($_GET["q_id"] > 0)
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-			$q_gui =& assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
-			$q_gui->object->setObjId($this->object->getId());
-			$title = $q_gui->object->getTitle();
-			if (strcmp($this->ctrl->getCmd(), "assessment") == 0)
+			$q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+			if($q_gui->object instanceof assQuestion)
 			{
-				$title .= " - " . $this->lng->txt("statistics");
+				$q_gui->object->setObjId($this->object->getId());
+				$title = $q_gui->object->getTitle();
+				if (strcmp($this->ctrl->getCmd(), "assessment") == 0)
+				{
+					$title .= " - " . $this->lng->txt("statistics");
+				}
+				if(!$title)
+				{
+					$title = $this->lng->txt('new').': '.assQuestion::_getQuestionTypeName($q_gui->object->getQuestionType());
+				}
+				$this->tpl->setTitle($title);
+				$this->tpl->setDescription($q_gui->object->getComment());
+				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_qpl"));
 			}
-			$this->tpl->setTitle($title);
-			$this->tpl->setDescription($q_gui->object->getComment());
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_qpl"));
+			else
+			{
+				// Workaround for context issues: If no object was found, redirect without q_id parameter
+				$this->ctrl->setParameter($this, 'q_id', '');
+				$this->ctrl->redirect($this);
+			}
 		}
 		else
 		{
