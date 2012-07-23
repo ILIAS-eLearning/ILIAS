@@ -218,7 +218,7 @@ class assNumeric extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($this_id);
+		$clone->duplicateGenericFeedback($this_id);
 
 		$clone->onDuplicate($this_id);
 		return $clone->id;
@@ -254,7 +254,7 @@ class assNumeric extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateGenericFeedback($original_id);
 
 		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->id;

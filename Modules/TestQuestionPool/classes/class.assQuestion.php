@@ -1439,6 +1439,8 @@ abstract class assQuestion
 		{
 			$this->deleteAdditionalTableData($question_id);
 			$this->deleteAnswers($question_id);
+			$this->deleteFeedbackGeneric($question_id);
+			$this->deleteFeedbackSpecific($question_id);
 		}
 		catch (Exception $e)
 		{
@@ -3053,7 +3055,7 @@ abstract class assQuestion
 	* @param integer $original_id The database ID of the original question
 	* @access public
 	*/
-	function duplicateFeedbackGeneric($original_id)
+	function duplicateGenericFeedback($original_id)
 	{
 		global $ilDB;
 		
@@ -3506,6 +3508,21 @@ abstract class assQuestion
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
 		ilAssQuestionHintList::duplicateListForQuestion($originalQuestionId, $duplicateQuestionId);
+	}
+
+	protected function deleteFeedbackSpecific($question_id)
+	{
+		return;
+	}
+
+	private function deleteFeedbackGeneric($question_id)
+	{
+		global $ilDB;
+		$ilDB->manipulateF(
+			'DELETE FROM qpl_fb_generic WHERE question_fi = %s',
+			array('integer'),
+			array($question_id)
+		);
 	}
 }
 

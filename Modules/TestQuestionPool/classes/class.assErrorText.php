@@ -210,7 +210,9 @@ class assErrorText extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($this_id);
+		$clone->duplicateGenericFeedback($this_id);
+		// duplicate the specific feedback
+		$clone->duplicateSpecificFeedback($this_id);
 
 		$clone->onDuplicate($this_id);
 		return $clone->id;
@@ -244,7 +246,9 @@ class assErrorText extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateGenericFeedback($original_id);
+		// duplicate the specific feedback
+		$clone->duplicateSpecificFeedback($original_id);
 
 		$clone->onCopy($this->getObjId(), $this->getId());
 
@@ -443,16 +447,7 @@ class assErrorText extends assQuestion
 	*/
 	public function getAnswerTableName()
 	{
-		return "";
-	}
-	
-	/**
-	* Deletes datasets from answers tables
-	*
-	* @param integer $question_id The question id which should be deleted in the answers table
-	*/
-	public function deleteAnswers($question_id)
-	{
+		return "qpl_a_errortext";
 	}
 
 	/**
@@ -995,7 +990,50 @@ class assErrorText extends assQuestion
 		}
 		return $feedback;
 	}
-	
-}
 
-?>
+	/**
+	 * Duplicates the answer specific feedback
+	 *
+	 * @param integer $original_id The database ID of the original question
+	 * @access public
+	 */
+	function duplicateSpecificFeedback($original_id)
+	{
+		global $ilDB;
+
+		$feedback = "";
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_errortext WHERE question_fi = %s",
+								array('integer'),
+								array($original_id)
+		);
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$next_id = $ilDB->nextId('qpl_fb_errortext');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_errortext (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+												   array('integer','integer','integer','text','integer'),
+												   array(
+													   $next_id,
+													   $this->getId(),
+													   $row["answer"],
+													   $row["feedback"],
+													   time()
+												   )
+				);
+			}
+		}
+	}
+
+	protected function deleteFeedbackSpecific($question_id)
+	{
+		global $ilDB;
+		$ilDB->manipulateF(
+			'DELETE 
+			FROM qpl_fb_errortext 
+			WHERE question_fi = %s',
+			array('integer'),
+			array($question_id)
+		);
+	}
+}

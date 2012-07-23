@@ -334,7 +334,7 @@ class assMultipleChoice extends assQuestion
 		// duplicate the images
 		$clone->duplicateImages($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($this_id);
+		$clone->duplicateGenericFeedback($this_id);
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($this_id);
 
@@ -375,7 +375,7 @@ class assMultipleChoice extends assQuestion
 		// duplicate the image
 		$clone->copyImages($original_id, $source_questionpool);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateGenericFeedback($original_id);
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($original_id);
 

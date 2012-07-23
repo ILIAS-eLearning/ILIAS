@@ -204,7 +204,7 @@ class assFlashQuestion extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($this_id);
+		$clone->duplicateGenericFeedback($this_id);
 		// duplicate the applet
 		$clone->duplicateApplet($this_id);
 
@@ -244,7 +244,7 @@ class assFlashQuestion extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateGenericFeedback($original_id);
 
 		// duplicate the applet
 		$clone->copyApplet($original_id, $source_questionpool);
