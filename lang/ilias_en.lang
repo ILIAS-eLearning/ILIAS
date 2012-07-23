@@ -815,7 +815,7 @@ assessment#:#tst_insert_questions_and_results#:#This test was already executed b
 assessment#:#tst_insert_questions#:#Are you sure you want to insert the following question(s) to the test?
 assessment#:#tst_instant_feedback_answer_specific#:#Show Answer-Specific Feedback
 assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong") Feedback
-assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question. If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant. If results (in points) are selected, the reached points will be shown. If solutions are selected, the correct solution will be shown too.
+assessment#:#tst_instant_feedback_description#:#If one of the options is selected, the instant feedback information will be shown directly after a participant answered a question. If answer-specific feedback is selected, the predefined feedback will be shown, depending on the answers of the participant (if supported by the question type). The generic feedback prints a simple "right" or "wrong" feedback according to configuration of the question. If results (in points) are selected, the reached points will be shown. If solutions are selected, the correct solution will be shown too.
 assessment#:#tst_instant_feedback_results#:#Show Results (Only Points)
 assessment#:#tst_instant_feedback_solution#:#Show Solutions
 assessment#:#tst_instant_feedback#:#Instant Feedback
