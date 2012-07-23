@@ -1216,15 +1216,29 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
  **/
 	function saveLayout()
 	{
-		$this->object->saveLayout($_POST["percent_row"], $_POST['percent_columns'], $_POST['percent_bipolar_adjective1'], $_POST['percent_bipolar_adjective2'], $_POST["percent_neutral"]);
 		$percent_values = array(
-			"percent_row" => $_POST["percent_row"],
-			"percent_columns" => $_POST["percent_columns"],
-			"percent_bipolar_adjective1" => $_POST['percent_bipolar_adjective1'],
-			"percent_bipolar_adjective2" => $_POST['percent_bipolar_adjective2'],
-			"percent_neutral" => $_POST["percent_neutral"]
+			"percent_row" => (int)$_POST["percent_row"],
+			"percent_columns" => (int)$_POST["percent_columns"],
+			"percent_bipolar_adjective1" => (int)$_POST['percent_bipolar_adjective1'],
+			"percent_bipolar_adjective2" => (int)$_POST['percent_bipolar_adjective2'],
+			"percent_neutral" => (int)$_POST["percent_neutral"]
 		);
 		$this->object->setLayout($percent_values);
+		
+		// #9364
+		if(array_sum($percent_values) == 100)
+		{		
+			$this->object->saveLayout($percent_values["percent_row"], 
+				$percent_values['percent_columns'], 
+				$percent_values['percent_bipolar_adjective1'], 
+				$percent_values['percent_bipolar_adjective2'], 
+				$percent_values["percent_neutral"]);						
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"));
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("svy_matrix_layout_percentages_sum_invalid"));
+		}
 		$this->layout();
 	}
 
@@ -1248,16 +1262,17 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$template->setVariable("STYLE", " style=\"width:" . $percent_values["percent_bipolar_adjective2"] . "%\"");
 			$template->parseCurrentBlock();
 		}
+		$counter = $this->object->getColumnCount();
 		if (strlen($this->object->hasNeutralColumn()))
 		{
-			$template->setCurrentBlock("bipolar_end");
+			$template->setCurrentBlock("neutral_start");
 			$template->setVariable("VALUE_PERCENT_NEUTRAL", " value=\"" . $percent_values["percent_neutral"] . "\"");
 			$template->setVariable("STYLE_NEUTRAL", " style=\"width:" . $percent_values["percent_neutral"] . "%\"");
 			$template->parseCurrentBlock();
+			$counter--;
 		}
 		$template->setVariable("VALUE_PERCENT_ROW", " value=\"" . $percent_values["percent_row"] . "\"");
-		$template->setVariable("STYLE_ROW", " style=\"width:" . $percent_values["percent_row"] . "%\"");
-		$counter = $this->object->getColumnCount();
+		$template->setVariable("STYLE_ROW", " style=\"width:" . $percent_values["percent_row"] . "%\"");		
 		$template->setVariable("COLSPAN_COLUMNS", $counter);
 		$template->setVariable("VALUE_PERCENT_COLUMNS", " value=\"" . $percent_values["percent_columns"] . "\"");
 		$template->setVariable("STYLE_COLUMNS", " style=\"width:" . $percent_values["percent_columns"] . "%\"");

@@ -2306,8 +2306,9 @@ class SurveyMatrixQuestion extends SurveyQuestion
 	 **/
 	function hasNeutralColumn()
 	{
-		foreach ($this->columns as $column)
+		for ($i = 0; $i < $this->getColumnCount(); $i++)
 		{
+			$column = $this->getColumn($i);
 			if ($column->neutral && strlen($column->title)) return true;
 		}
 		return FALSE;

@@ -12884,3 +12884,4 @@ rbac#:#hlps_edit_permission#:#User can change permissions of Help System Setting
 rbac#:#hlps_read#:#User has read access to Help System Settings in Administration.
 rbac#:#hlps_visible#:#Help System Settings are visible in Administration.
 rbac#:#hlps_write#:#User can edit Help System Settings in Administration.
+survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
