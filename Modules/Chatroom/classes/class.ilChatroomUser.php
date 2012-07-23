@@ -116,8 +116,6 @@ class ilChatroomUser
 	 */
 	public function getChatNameSuggestions()
 	{
-	    $firstname	= $this->user->getFirstname();
-	    $lastname	= $this->user->getLastname();
 	    $options	= array();
 
 	    if( $this->user->getId() == ANONYMOUS_USER_ID )
@@ -165,7 +163,7 @@ class ilChatroomUser
 	 */
 	public function buildFullname()
 	{
-	    return $this->user->getFullname();
+	    return $this->user->getPublicName();
 	}
 
 	/**
