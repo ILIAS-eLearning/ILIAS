@@ -47,7 +47,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 		
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($this->lng->txt("title"), "title", "80%");
-		$this->addColumn($this->lng->txt("members"), "members", "20%");
+		$this->addColumn($this->lng->txt("members"), "member", "20%");
 		
 		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 		$this->setRowTemplate("tpl.rep_search_obj_result_row.html", "Services/Search");
