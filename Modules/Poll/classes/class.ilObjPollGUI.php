@@ -111,8 +111,8 @@ class ilObjPollGUI extends ilObject2GUI
 	protected function getEditFormCustomValues(array &$a_values)
 	{
 		$a_values["online"] = $this->object->IsOnline();
-		$a_values["question"] = $this->object->getQuestion();
-		$a_values["image"] = $this->object->getImage();
+		// $a_values["question"] = $this->object->getQuestion();
+		// $a_values["image"] = $this->object->getImage();
 		$a_values["results"] = $this->object->getViewResults();
 		$a_values["access_type"] = $this->object->getAccessType();
 		// $a_values["access_begin"] = $this->object->getAccessBegin();
