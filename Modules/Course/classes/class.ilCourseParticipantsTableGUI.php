@@ -58,13 +58,15 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$a_show_learning_progress = false,
 		$a_show_timings = false,
 		$a_show_edit_link= true,
-		$a_role_id = 0)
+		$a_role_id = 0,
+		$a_show_lp_status_sync = false)
 	{
 		global $lng, $ilCtrl;
 
-		$this->show_learning_progress = $a_show_learning_progress;
+		$this->show_learning_progress = $a_show_learning_progress;		
 		$this->show_timings = $a_show_timings;
 		$this->show_edit_link = $a_show_edit_link;
+		$this->show_lp_status_sync = $a_show_lp_status_sync;
 
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -103,7 +105,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt('last_access'), 'access_ut', '16em');
 		}
+		
 		$this->addColumn($this->lng->txt('crs_member_passed'), 'passed');
+		if($this->show_lp_status_sync)
+		{
+			$this->addColumn($this->lng->txt('crs_member_passed_status_changed'));
+		}
+		
 		if($this->type == 'admin')
 		{
 			$this->setSelectAllCheckbox('admins');
@@ -331,7 +339,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
 		
-		if($a_set["passed_info"]["user_id"])
+		if($this->show_lp_status_sync && $a_set["passed_info"]["user_id"])
 		{
 			if($a_set["passed_info"]["user_id"] < 0)
 			{
@@ -342,9 +350,9 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 				$name = ilObjUser::_lookupName($a_set["passed_info"]["user_id"]);
 				$passed_info = $name["login"];
 			}
-			$passed_info .= " - ".ilDatePresentation::formatDate($a_set["passed_info"]["timestamp"]);
+			$passed_info .= "<br />".ilDatePresentation::formatDate($a_set["passed_info"]["timestamp"]);
 			
-			$this->tpl->setVariable('PASSED_INFO', "<br />".$passed_info);			
+			$this->tpl->setVariable('PASSED_INFO', $passed_info);			
 		}
 		
 		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);

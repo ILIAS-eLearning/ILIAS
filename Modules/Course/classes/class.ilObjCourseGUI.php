@@ -1979,7 +1979,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tmp_data['lastname'] = $name['lastname'];
 			$tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
 			$tmp_data['passed'] = $this->object->getMembersObject()->hasPassed($usr_id) ? 1 : 0;
-			$tmp_data['passed_info'] = $this->object->getMembersObject()->getPassedInfo($usr_id);
+			if($this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
+			{
+				$tmp_data['passed_info'] = $this->object->getMembersObject()->getPassedInfo($usr_id);
+			}
 			$tmp_data['notification'] = $this->object->getMembersObject()->isNotificationEnabled($usr_id) ? 1 : 0;
 			$tmp_data['blocked'] = $this->object->getMembersObject()->isBlocked($usr_id) ? 1 : 0;
 			$tmp_data['usr_id'] = $usr_id;
@@ -2188,7 +2191,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					$showEditLink,
-					$this->object->getDefaultAdminRole()
+					$this->object->getDefaultAdminRole(),
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
@@ -2206,7 +2210,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					$showEditLink,
-					$this->object->getDefaultAdminRole()
+					$this->object->getDefaultAdminRole(),					
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
@@ -2230,7 +2235,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					true,
-					$this->object->getDefaultTutorRole()
+					$this->object->getDefaultTutorRole(),
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'tutor_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
@@ -2248,7 +2254,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					true,
-					$this->object->getDefaultTutorRole()
+					$this->object->getDefaultTutorRole(),
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'tutor_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
@@ -2272,7 +2279,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					true,
-					$this->object->getDefaultMemberRole()
+					$this->object->getDefaultMemberRole(),
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 
 				$this->ctrl->setParameter($this,'member_hide',0);
@@ -2291,7 +2299,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					true,
-					$this->object->getDefaultMemberRole()
+					$this->object->getDefaultMemberRole(),
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
@@ -2319,7 +2328,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					true,
-					$role_id
+					$role_id,
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,0);
 				$table_gui->addHeaderCommand(
@@ -2339,7 +2349,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->show_tracking,
 					$this->timings_enabled,
 					true,
-					$role_id
+					$role_id,
+					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
 				);
 				$this->ctrl->setParameter($this,'role_hide_'.$role_id,1);
 				$table_gui->addHeaderCommand(
