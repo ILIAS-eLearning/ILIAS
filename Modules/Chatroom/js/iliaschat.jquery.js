@@ -69,6 +69,7 @@ var usermanager = (function() {
 var translate, subRoomId, replaceSmileys;
 
 il.Util.addOnLoad(function() {
+	$("#submit_message_text").focus();
 
         function closeMenus() {
             $('.menu_attached').removeClass('menu_attached');
@@ -949,12 +950,13 @@ if (initial.private_rooms_enabled) {
 									response = $.getAsObject(response);
 									$('#invite_users_available').html('');
 
-									if (response.response.results) {
-										$.each(response.response.results, function() {
-											var login = this.login;
+									if ($(response).size()) {
+										$(response).each(function() {
+											var login = this.value;
+											var publicName = this.label;
 											$('<li class="invite_user_line_login invite_user_line"></li>')
 											.append($('<a href="#"></a>')
-												.text(this.lastname + ', ' + this.firstname + ' [' + this.login + ']')
+												.text(publicName)
 												.click(function(e) {
 													e.preventDefault();
 													e.stopPropagation();
