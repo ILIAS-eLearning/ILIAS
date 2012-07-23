@@ -12787,3 +12787,4 @@ search#:#lucene_offline_filter_setting#:#Offline-Filter
 search#:#lucene_offline_filter_setting_info#:#Wenn aktiviert, kann in der "Erweiterten Suche" nach Objekten gesucht werden, deren Status "Offline" ist.
 search#:#lucene_offline_filter#:#Offline-Status
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
+crs#:#crs_member_passed_status_changed#:#Bestanden Status Änderung 
