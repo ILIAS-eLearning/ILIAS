@@ -941,7 +941,7 @@ if (initial.private_rooms_enabled) {
 
 					var oldValue = $('#invite_user_text').val();
 					invitationChangeTimeout = window.setTimeout(cb = function() {
-						if ($('#invite_user_text').val() != oldValue) {
+						if ($('#invite_user_text').val() != oldValue && $('#invite_user_text').val().length) {
 							oldValue = $('#invite_user_text').val();
 							$.get(
 								posturl.replace(/postMessage/, 'inviteUsersToPrivateRoom-getUserList') + '&q=' + $('#invite_user_text').val(),
@@ -970,6 +970,9 @@ if (initial.private_rooms_enabled) {
 								'json');
 						}
 						else {
+							if(!$('#invite_user_text').val().length) {
+								$('#invite_users_available').html('');
+							}
 							invitationChangeTimeout = window.setTimeout(cb, 300);
 						}
 					}, 500);
