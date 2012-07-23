@@ -324,7 +324,7 @@ class assMatchingQuestion extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateGenericFeedback($this_id);
 		// duplicate the specific feedback
-		$clone->duplicateFeedbackSpecific($this_id);
+		$clone->duplicateSpecificFeedback($this_id);
 
 		// duplicate the image
 		$clone->duplicateImages($this_id);
