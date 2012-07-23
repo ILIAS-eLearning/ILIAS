@@ -10503,7 +10503,12 @@ function getAnswerFeedbackPoints()
 				$this->setSpecificAnswerFeedback(	in_array('instant_feedback_specific', $options) ? 1 : 0);
 				$this->setAnswerFeedbackPoints(		in_array('instant_feedback_points',   $options) ? 1 : 0);
 				$this->setInstantFeedbackSolution(	in_array('instant_feedback_solution', $options) ? 1 : 0);
-        	}
+        	} else {
+				$this->setGenericAnswerFeedback(0);
+				$this->setSpecificAnswerFeedback(0);
+				$this->setAnswerFeedbackPoints(0);
+				$this->setInstantFeedbackSolution(0);
+			}
 		}
 
         public function setResultsPresentationOptionsByArray($options) {
