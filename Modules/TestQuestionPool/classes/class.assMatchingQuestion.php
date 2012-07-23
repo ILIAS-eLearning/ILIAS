@@ -322,7 +322,9 @@ class assMatchingQuestion extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($this_id);
+		$clone->duplicateGenericFeedback($this_id);
+		// duplicate the specific feedback
+		$clone->duplicateFeedbackSpecific($this_id);
 
 		// duplicate the image
 		$clone->duplicateImages($this_id);
@@ -358,7 +360,9 @@ class assMatchingQuestion extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateGenericFeedback($original_id);
+		// duplicate specific feedback
+		$clone->duplicateSpecificFeedback($original_id);
 
 		// duplicate the image
 		$clone->copyImages($original_id, $source_questionpool);
@@ -1421,5 +1425,51 @@ class assMatchingQuestion extends assQuestion
 			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
 		}
 		return $feedback;
+	}
+
+	protected function deleteFeedbackSpecific($question_id)
+	{
+		global $ilDB;
+		$ilDB->manipulateF(
+			'DELETE 
+			FROM qpl_fb_matching 
+			WHERE question_fi = %s',
+			array('integer'),
+			array($question_id)
+		);
+	}
+
+	/**
+	 * Duplicates the answer specific feedback
+	 *
+	 * @param integer $original_id The database ID of the original question
+	 * @access public
+	 */
+	function duplicateSpecificFeedback($original_id)
+	{
+		global $ilDB;
+
+		$feedback = "";
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_matching WHERE question_fi = %s",
+								array('integer'),
+								array($original_id)
+		);
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$next_id = $ilDB->nextId('qpl_fb_matching');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_matching (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+												   array('integer','integer','integer','text','integer'),
+												   array(
+													   $next_id,
+													   $this->getId(),
+													   $row["answer"],
+													   $row["feedback"],
+													   time()
+												   )
+				);
+			}
+		}
 	}
 }

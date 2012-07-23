@@ -783,13 +783,48 @@ class assClozeTest extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($this_id);
+		$clone->duplicateGenericFeedback($this_id);
+		// duplicate the specific feedback
+		$clone->duplicateSpecificFeedback($this_id);
 
 		$clone->onDuplicate($this_id);
 
 		return $clone->getId();
 	}
 
+	/**
+	 * Duplicates the answer specific feedback
+	 *
+	 * @param integer $original_id The database ID of the original question
+	 * @access public
+	 */
+	function duplicateSpecificFeedback($original_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_cloze WHERE question_fi = %s",
+								array('integer'),
+								array($original_id)
+		);
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$next_id = $ilDB->nextId('qpl_fb_cloze');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_cloze (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+												   array('integer','integer','integer','text','integer'),
+												   array(
+													   $next_id,
+													   $this->getId(),
+													   $row["answer"],
+													   $row["feedback"],
+													   time()
+												   )
+				);
+			}
+		}
+	}	
+	
 	/**
 	* Copies an assClozeTest object
 	*
@@ -819,7 +854,9 @@ class assClozeTest extends assQuestion
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		// duplicate the generic feedback
-		$clone->duplicateFeedbackGeneric($original_id);
+		$clone->duplicateGenericFeedback($original_id);
+		// duplicate specific feedback
+		$clone->duplicateSpecificFeedback($original_id);
 
 		$clone->onCopy($this->getObjId(), $this->getId());
 		return $clone->getId();
@@ -1521,7 +1558,16 @@ class assClozeTest extends assQuestion
 		}
 		return $feedback;
 	}
-	
-	
+
+	protected function deleteFeedbackSpecific($question_id)
+	{
+		global $ilDB;
+		$ilDB->manipulateF(
+			'DELETE 
+			FROM qpl_fb_cloze 
+			WHERE question_fi = %s',
+			array('integer'),
+			array($question_id)
+		);
+	}
 }
-?>
