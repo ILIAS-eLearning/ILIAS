@@ -972,34 +972,47 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->object->setAutoNotiDisabled($_POST['deact_auto_noti'] == 1 ? true : false);
 		
+		
+		$show_lp_sync_confirmation = false;
+		
 		// could be hidden in form
 		if(isset($_POST['status_dt']))
 		{
-			$this->object->setStatusDetermination((int) $_POST['status_dt']);				
+			if($this->object->getStatusDetermination() != ilObjCourse::STATUS_DETERMINATION_LP &&
+				(int)$_POST['status_dt'] == ilObjCourse::STATUS_DETERMINATION_LP)
+			{
+				$show_lp_sync_confirmation = true;
+			}
+			else
+			{
+				$this->object->setStatusDetermination((int)$_POST['status_dt']);		
+			}
 		}	
 
+		
 		if($this->object->validate())
 		{
 			$this->object->update();
 			
-			if((bool)$_POST['status_sync'])
-			{
-				$this->object->syncMembersStatusWithLP();				
-			}
-
 			// BEGIN ChangeEvent: Record write event
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			global $ilUser;
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
 			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
 			// END ChangeEvent: Record write event
-
+			
 			// Update ecs export settings
 			if(!$this->updateECSExportSettings())
 			{
 				$this->editObject();
 				return false;
 			}
+			
+			if($show_lp_sync_confirmation)
+			{
+				return $this->confirmLPSync();
+			}
+			
 			return $this->afterUpdate();
 		}
 		else
@@ -1009,7 +1022,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 	}
-
+	
 	/**
 	 * Update ECS Export Settings
 	 *
@@ -1094,6 +1107,31 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		return true;
+	}
+		
+	protected function confirmLPSync()
+	{
+		global $tpl;
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "setLPSync"));
+		$cgui->setHeaderText($this->lng->txt("crs_status_determination_sync"));
+		$cgui->setCancel($this->lng->txt("cancel"), "edit");
+		$cgui->setConfirm($this->lng->txt("confirm"), "setLPSync");
+		
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	protected function setLPSyncObject()
+	{
+		$this->object->setStatusDetermination(ilObjCourse::STATUS_DETERMINATION_LP);
+		$this->object->update();
+
+		$this->object->syncMembersStatusWithLP();
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "edit");
 	}
 	
 	/**
@@ -1449,12 +1487,6 @@ class ilObjCourseGUI extends ilContainerGUI
 				$lp_status_options->addOption(new ilRadioOption($this->lng->txt('crs_status_determination_manual'),
 					ilObjCourse::STATUS_DETERMINATION_MANUAL));			
 				
-				if($this->object->getStatusDetermination() != ilObjCourse::STATUS_DETERMINATION_LP)
-				{
-					$lp_sync = new ilCheckboxInputGUI($this->lng->txt('crs_status_determination_sync'), "status_sync");			
-					$lp_option->addSubItem($lp_sync);
-				}
-
 				$form->addItem($lp_status_options);		
 			}
 		}
