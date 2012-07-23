@@ -100,8 +100,11 @@ class ilChatroomInviteUsersToPrivateRoomTask extends ilDBayTaskHandler
 	public function getUserList()
 	{
 		require_once 'Services/User/classes/class.ilUserAutoComplete.php';
-		$autocomplete = new ilUserAutoComplete();
-		echo $autocomplete->getList($_REQUEST['q']);
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields(array('login','firstname','lastname'));
+		$auto->setResultField('login');
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['q']);
 		exit;
 	}
 
