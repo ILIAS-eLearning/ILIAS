@@ -11548,4 +11548,37 @@ $ilDB->addTableColumn("help_map", "module_id", array(
 $ilDB->dropPrimaryKey("help_map");
 $ilDB->addPrimaryKey('help_map', array('component', 'screen_id', 'screen_sub_id', 'chap', 'perm', 'module_id'));
 ?>
+<#3675>
+<?php
 
+// #9396: fixing custom rbac operations for dcl, poll
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$poll_type_id = ilDBUpdateNewObjectType::getObjectTypeId('poll');
+if($poll_type_id)
+{
+	$ilDB->manipulate('DELETE FROM rbac_operations WHERE operation = '.
+		$ilDB->quote($poll_type_id, 'text'));
+}
+$dcl_type_id = ilDBUpdateNewObjectType::getObjectTypeId('dcl');
+if($dcl_type_id)
+{
+	$ilDB->manipulate('DELETE FROM rbac_operations WHERE operation = '.
+		$ilDB->quote($dcl_type_id, 'text'));
+	
+	// re-doing dcl
+	$ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('add_entry', 'Add Entry', 'object', 3200);
+	if($ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($dcl_type_id, $ops_id);
+	}
+}
+
+?>
+<#3676>
+<?php
+
+#6969
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::updateOperationOrder('invite', 2600);
+
+?>
