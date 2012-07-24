@@ -11371,7 +11371,7 @@ $ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'substyle', '
 		{
 			// now check, whether some core image files are missing
 			ilUtil::makeDir(CLIENT_WEB_DIR."/sty");
-			ilUtil::makeDir(CLIENT_WEB_DIR."/sty_".$rec["obj_id"]);
+			ilUtil::makeDir(CLIENT_WEB_DIR."/sty/sty_".$rec["obj_id"]);
 			$tdir = CLIENT_WEB_DIR."/sty/sty_".$rec["obj_id"]."/images";
 			ilUtil::makeDir($tdir);
 			$sfile = "./Services/Style/basic_style/images/advknow.png";
