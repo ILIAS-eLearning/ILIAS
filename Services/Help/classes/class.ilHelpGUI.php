@@ -95,6 +95,8 @@ class ilHelpGUI
 	 */
 	function hasSections()
 	{
+		global $ilSetting;
+		
 		include_once("./Services/Help/classes/class.ilHelpMapping.php");
 		return ilHelpMapping::hasScreenIdSections($this->getScreenId(), (int) $_GET["ref_id"]);
 	}
@@ -152,7 +154,7 @@ class ilHelpGUI
 	 */
 	function showHelp()
 	{
-		global $ilHelp, $lng;
+		global $ilHelp, $lng, $ilSetting;
 		
 		if ($_GET["help_ids"] != "")
 		{
@@ -166,9 +168,19 @@ class ilHelpGUI
 		
 		$help_arr = explode(",", $help_ids);
 		
-		if (OH_REF_ID > 0 && count($help_arr) > 0)
+		$hm = (int) $ilSetting->get("help_module");
+		
+		if ((OH_REF_ID > 0 || $hm > 0) && count($help_arr) > 0)
 		{
-			$oh_lm_id = ilObject::_lookupObjId(OH_REF_ID);
+			if (OH_REF_ID > 0)
+			{
+				$oh_lm_id = ilObject::_lookupObjId(OH_REF_ID);
+			}
+			else
+			{
+				include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
+				$oh_lm_id = ilObjHelpSettings::lookupModuleLmId($hm);
+			}
 			
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();

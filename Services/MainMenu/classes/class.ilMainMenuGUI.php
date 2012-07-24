@@ -991,10 +991,10 @@ class ilMainMenuGUI
 	 */
 	function renderHelpButtons()
 	{
-		global $ilHelp, $lng, $ilCtrl, $tpl;
+		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting;
 		
 		// screen id
-		if ((defined("OH_REF_ID") && OH_REF_ID > 0) || (DEVMODE))
+		if (defined("OH_REF_ID") && OH_REF_ID > 0)
 		{
 			if ($ilHelp->getScreenId() != "")
 			{
@@ -1032,8 +1032,10 @@ class ilMainMenuGUI
 				"bottom center", "top center", false);
 		}
 		
-		//if ($ilHelp->getScreenId() != "")
-		//{
+		
+		$module_id = (int) $ilSetting->get("help_module");
+		if (OH_REF_ID > 0 || $module_id > 0)
+		{
 			$lng->loadLanguageModule("help");
 			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			$this->tpl->setCurrentBlock("help_tt_icon");
@@ -1044,7 +1046,7 @@ class ilMainMenuGUI
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
 				"bottom center", "top center", false);
-		//}
+		}
 	}
 	
 	/**

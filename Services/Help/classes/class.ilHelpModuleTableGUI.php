@@ -52,10 +52,30 @@ class ilHelpModuleTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
+		global $lng, $ilSetting, $ilCtrl;
+
+		$ilCtrl->setParameter($this->parent_obj, "hm_id", $a_set["id"]);
+		if ($a_set["id"] == $ilSetting->get("help_module"))
+		{
+			$this->tpl->setCurrentBlock("cmd");
+			$this->tpl->setVariable("HREF_CMD",
+				$ilCtrl->getLinkTarget($this->parent_obj, "deactivateModule"));
+			$this->tpl->setVariable("TXT_CMD", $lng->txt("deactivate"));
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("cmd");
+			$this->tpl->setVariable("HREF_CMD",
+				$ilCtrl->getLinkTarget($this->parent_obj, "activateModule"));
+			$this->tpl->setVariable("TXT_CMD", $lng->txt("activate"));
+			$this->tpl->parseCurrentBlock();
+		}
+		$ilCtrl->setParameter($this->parent_obj, "hm_id", "");
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("ID", $a_set["id"]);
+		
 	}
 
 }
