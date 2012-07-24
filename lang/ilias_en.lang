@@ -7062,7 +7062,7 @@ grp#:#grp_users_added#:#Added user to the group.
 grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.
 grp#:#grp_users_removed_from_list#:#The selected users have been removed from the waiting list.
 grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
-grp#:#grp_waiting_list#:#Enable Waiting List
+grp#:#grp_waiting_list#:#Waiting List
 grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
