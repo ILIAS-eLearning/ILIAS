@@ -787,31 +787,35 @@ class ilNewsItem extends ilNewsItemGen
 	public function checkNewsExistsForGroupCourse($a_ref_id, $a_time_period = 1)
 	{
 		global $tree, $ilDB;
+		
+		$all = array();
 
 		// parse repository branch of group
 		$nodes = array();
 		$node = $tree->getNodeData($a_ref_id);
-		foreach($tree->getSubTree($node) as $child)
-		{
-			if($child["type"] != "rolf")
+		if(is_array($node))
+		{			
+			foreach($tree->getSubTree($node) as $child)
 			{
-				$nodes[$child["obj_id"]] = $child["type"];
+				if($child["type"] != "rolf")
+				{
+					$nodes[$child["obj_id"]] = $child["type"];
+				}
 			}
-		}
 
-		$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
+			$limit_ts = date('Y-m-d H:i:s', time() - ($a_time_period * 24 * 60 * 60));
 
-		// are there any news items for relevant objects and?
-		$all = array();
-		$query = $ilDB->query("SELECT id,context_obj_id,context_obj_type".
-			" FROM il_news_item".
-			" WHERE ".$ilDB->in("context_obj_id", array_keys($nodes), false, "integer").
-			" AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp"));
-		while($rec = $ilDB->fetchAssoc($query))
-		{
-			if ($nodes[$rec["context_obj_id"]] == $rec["context_obj_type"])
+			// are there any news items for relevant objects and?
+			$query = $ilDB->query("SELECT id,context_obj_id,context_obj_type".
+				" FROM il_news_item".
+				" WHERE ".$ilDB->in("context_obj_id", array_keys($nodes), false, "integer").
+				" AND creation_date >= ".$ilDB->quote($limit_ts, "timestamp"));
+			while($rec = $ilDB->fetchAssoc($query))
 			{
-				$all[] = $rec["id"];
+				if ($nodes[$rec["context_obj_id"]] == $rec["context_obj_type"])
+				{
+					$all[] = $rec["id"];
+				}
 			}
 		}
 		
