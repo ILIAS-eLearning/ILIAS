@@ -56,25 +56,17 @@ class ilCronObjectStatisticsCheck
 	{
 		global $tree, $ilDB;
 				
-		// gather objects in trash
-		$trashed_objects = array();
-		$tmp = $tree->getSavedNodeData(ROOT_FOLDER_ID);
-		if($tmp)
-		{
-			foreach($tmp as $item)
-			{
-				$trashed_objects[] = $item["obj_id"];
-			}
-		}
-						
 		// process all courses
-		$all_courses = ilObject::_getObjectsByType("crs");	
+		$all_courses = array_keys(ilObject::_getObjectsByType("crs"));	
 		if($all_courses)
 		{
+			// gather objects in trash
+			$trashed_objects = $tree->getSavedNodeObjIds($all_courses);
+			
 			include_once 'Services/Tracking/classes/class.ilLPObjSettings.php';
 			include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 			include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";				
-			foreach($all_courses as $crs_id => $item)
+			foreach($all_courses as $crs_id)
 			{
 				// only if LP is active
 				$mode = ilLPObjSettings::_lookupMode($crs_id);
@@ -99,7 +91,7 @@ class ilCronObjectStatisticsCheck
 					$failed = count(ilLPStatusWrapper::_lookupFailedForObject($crs_id, $members));
 					
 					// calculate with other values - there is not direct method
-					$not_attempted = $participants - $in_progress - $completed - $failed;
+					$not_attempted = count($members) - $in_progress - $completed - $failed;
 					
 					$set = array(
 						"type" => array("text", "crs"),
