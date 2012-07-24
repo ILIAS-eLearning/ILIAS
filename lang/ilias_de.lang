@@ -6858,7 +6858,7 @@ crs#:#crs_reg_code_link#:#Registrierungslink
 crs#:#crs_reg_code_value#:#Zugangsschlüssel
 crs#:#crs_reg_deactivated#:#Anmeldung ausgeschaltet
 crs#:#crs_reg_lim_info#:#Beitritte sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
-crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die sich selbst registrieren können. Wird die Zahl überschritten, sind keine Beitritte mehr möglich. ('0' bedeutet unbegrenzt)
+crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die selbst beitreten können. Wird die Zahl überschritten, ist keine Selbstanmeldung möglich. ('0' bedeutet unbegrenzt)
 crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und -tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
 crs#:#crs_reg_period#:#Selbstregistrierung
 crs#:#crs_reg_subject#:#Nachricht
@@ -6938,8 +6938,8 @@ crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers#:#Aufnahmeanträge
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
 crs#:#crs_subscription#:#Beitrittsverfahren
-crs#:#crs_subscription_max_members#:#Maximale Mitgliederanzahl
-crs#:#crs_subscription_max_members_short#:#Teilnehmergröße
+crs#:#crs_subscription_max_members#:#Begrenzte Anzahl Mitglieder
+crs#:#crs_subscription_max_members_short#:#Mitgliederanzahl
 crs#:#crs_subscription_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_subscription_options_confirmation#:#Antrag mit Bestätigung
 crs#:#crs_subscription_options_deactivated#:#Beantragung ausgeschaltet
@@ -8174,7 +8174,7 @@ grp#:#grp_reg_limit_num#:#Begrenzung der Teilnehmeranzahl
 grp#:#grp_reg_limit_num_info#:#Zeitliche Begrenzung der Anmeldung
 grp#:#grp_reg_limit_time#:#Zeitlich begrenzte Anmeldung
 grp#:#grp_reg_limited#:#Anmeldungszeitraum
-grp#:#grp_reg_max_members_info#:#Sie können hier die maximale Anzahl von Gruppenmitgliedern festlegen. Wird die Zahl überschritten, sind keine Beitritte mehr möglich.
+grp#:#grp_reg_max_members_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die selbst beitreten können. Wird die Zahl überschritten, ist keine Selbstanmeldung möglich. ('0' bedeutet unbegrenzt)
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_password_info#:#Interessierte Benutzer müssen das Passwort kennen, um der Gruppe beitreten zu können.
 grp#:#grp_reg_period#:#Registrierungszeitraum
@@ -8206,15 +8206,15 @@ grp#:#grp_view_info_by_type#:#Diese Gruppenansicht ordnet alle Gruppeninhalte na
 grp#:#grp_view_info_simple#:#Diese Gruppenansicht stellt alle Gruppeninhalte in einer Liste dar.
 grp#:#grp_view_inherit#:#Standard
 grp#:#grp_view_inherit_info#:#Die Gruppenansicht wird vom übergeodneten Kurs übernommen.
-grp#:#grp_waiting_list#:#Warteliste aktivieren
-grp#:#grp_waiting_list_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer automatisch auf eine Warteliste setzen lassen.
+grp#:#grp_waiting_list#:#Warteliste
+grp#:#grp_waiting_list_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer auf eine Warteliste setzen lassen.
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist überschritten. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Gruppenleitung angenommen oder abgelehnt wurde.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzen lassen. Sie erhalten eine Nachricht, sobald Ihr Aufnahmeantrag von der Gruppenleitung angenommen oder abgelehnt wurde.
 grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
-grp#:#reg_grp_max_members#:#Begrenzte Teilnehmeranzahl
-grp#:#reg_grp_max_members_short#:#Teilnehmeranzahl
+grp#:#reg_grp_max_members_short#:#Mitgliederanzahl
+grp#:#reg_grp_max_members#:#Begrenzte Anzahl Mitglieder
 ilinc#:#akclassvalue1#:#Kostenstelle 1
 ilinc#:#akclassvalue2#:#Kostenstelle 2
 ilinc#:#akclassvalues#:#Kostenstellen
