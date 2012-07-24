@@ -790,11 +790,11 @@ class ilNewsItem extends ilNewsItemGen
 		
 		$all = array();
 
-		// parse repository branch of group
-		$nodes = array();
-		$node = $tree->getNodeData($a_ref_id);
-		if(is_array($node))
-		{			
+		if(!$tree->isDeleted($a_ref_id))
+		{
+			// parse repository branch of group
+			$nodes = array();
+			$node = $tree->getNodeData($a_ref_id);					
 			foreach($tree->getSubTree($node) as $child)
 			{
 				if($child["type"] != "rolf")
@@ -816,7 +816,7 @@ class ilNewsItem extends ilNewsItemGen
 				{
 					$all[] = $rec["id"];
 				}
-			}
+			}		
 		}
 		
 		return $all;		
