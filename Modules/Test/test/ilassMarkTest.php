@@ -36,9 +36,16 @@ class ilassMarkTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		ilUnitUtil::performInitialisation();
-                
+		if (defined('ILIAS_PHPUNIT_CONTEXT'))
+		{
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
+		else
+		{
+			chdir( dirname( __FILE__ ) );
+			chdir('../../../');
+		}
                 // Arrange
 		include_once './Modules/Test/classes/class.assMark.php';
                 $this->ass_mark = new ASS_Mark();
@@ -176,4 +183,3 @@ class ilassMarkTest extends PHPUnit_Framework_TestCase
             );            
         }
 }
-?>

@@ -193,9 +193,7 @@ class ASS_Mark {
 * @see $minimum_level
 */
   function setMinimumLevel($minimum_level = 0) {
-    if (($minmum_level >= 0) and ($minimum_level <= 100))
+    if (($minimum_level >= 0) and ($minimum_level <= 100))
       $this->minimum_level = $minimum_level;
   }
 }
-
-?>
