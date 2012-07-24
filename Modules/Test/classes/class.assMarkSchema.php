@@ -462,5 +462,3 @@ class ASS_MarkSchema
 		ilObjAssessmentFolder::_addLog($ilUser->id, ilObjTest::_getObjectIDFromTestID($test_id), $logtext, "", "", TRUE, $_GET["ref_id"]);
 	}
 }
-
-?>

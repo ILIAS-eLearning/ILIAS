@@ -36,12 +36,19 @@ class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
 
 	protected function setUp()
 	{
-		include_once "./Services/PHPUnit/classes/class.ilUnitUtil.php";
-		ilUnitUtil::performInitialisation();
-                
-                // Arrange
+		if (defined('ILIAS_PHPUNIT_CONTEXT'))
+		{
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
+		else
+		{
+			chdir( dirname( __FILE__ ) );
+			chdir('../../../');
+		}
+		// Arrange
 		include_once './Modules/Test/classes/class.assMarkSchema.php';
-                $this->ass_mark_schema = new ASS_MarkSchema();
+		$this->ass_mark_schema = new ASS_MarkSchema();
 	}
         
         /**
