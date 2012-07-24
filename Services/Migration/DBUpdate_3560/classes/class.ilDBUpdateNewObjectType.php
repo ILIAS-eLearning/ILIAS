@@ -74,7 +74,7 @@ class ilDBUpdateNewObjectType
 	 * @param int $a_type_id
 	 * @param int $a_ops_id 
 	 */
-	protected static function addRBACOperation($a_type_id, $a_ops_id)
+	public static function addRBACOperation($a_type_id, $a_ops_id)
 	{
 		global $ilDB;
 		
@@ -183,18 +183,31 @@ class ilDBUpdateNewObjectType
 	 * 
 	 * @param string $a_id
 	 * @param string $a_title 
+	 * @param string $a_class 
+	 * @param string $a_pos 
 	 * @return int ops_id
 	 */
-	public static function addCustomRBACOperation($a_id, $a_title)
+	public static function addCustomRBACOperation($a_id, $a_title, $a_class, $a_pos)
 	{
 		global $ilDB;
+		
+		if(!in_array($a_class, array('create', 'object', 'general')))
+		{
+			return;
+		}
+		if($a_class == 'create')
+		{
+			$a_pos = 9999;
+		}
 		
 		$ops_id = $ilDB->nextId('rbac_operations');
 		
 		$fields = array(
 			'ops_id' => array('integer', $ops_id),
 			'operation' => array('text', $a_id),
-			'description' => array('text', $a_title)
+			'description' => array('text', $a_title),
+			'class' => array('text', $a_class),
+			'op_order' => array('integer', $a_pos),
 		);		
 		$ilDB->insert('rbac_operations', $fields);
 		
@@ -228,7 +241,7 @@ class ilDBUpdateNewObjectType
 	 */
 	public static function addRBACCreate($a_id, $a_title, array $a_parent_types)
 	{		
-		$ops_id = self::addCustomRBACOperation($a_id, $a_title);
+		$ops_id = self::addCustomRBACOperation($a_id, $a_title, 'create', 9999);
 		
 		foreach($a_parent_types as $type)
 		{
@@ -239,6 +252,22 @@ class ilDBUpdateNewObjectType
 			}
 		}		
 	}	
+	
+	/**
+	 * Change order of operations
+	 * 
+	 * @param string $a_operation
+	 * @param int $a_pos 
+	 */
+	public static function updateOperationOrder($a_operation, $a_pos)
+	{
+		global $ilDB;
+		
+		$ilDB->update('rbac_operations', 
+			array('op_order' => array('integer', $a_pos)),
+			array('operation' => array('text', $a_operation))		
+		);
+	}
 }
 
 ?>
