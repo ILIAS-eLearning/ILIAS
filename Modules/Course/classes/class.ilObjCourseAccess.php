@@ -328,6 +328,14 @@ class ilObjCourseAccess extends ilObjectAccess
 		return false;
 	}
 	
+	/**
+	 * Lookup registration info
+	 * @global ilDB $ilDB
+	 * @global ilObjUser $ilUser
+	 * @global ilLanguage $lng
+	 * @param int $a_obj_id
+	 * @return array
+	 */
 	public static function lookupRegistrationInfo($a_obj_id)
 	{
 		global $ilDB, $ilUser, $lng;
