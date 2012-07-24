@@ -67,17 +67,17 @@ class ilCronObjectStatisticsCheck
 			include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 			include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";				
 			foreach($all_courses as $crs_id)
-			{
-				// only if LP is active
-				$mode = ilLPObjSettings::_lookupMode($crs_id);
-				if($mode == LP_MODE_DEACTIVATED || $mode == LP_MODE_UNDEFINED)
-				{
-					continue;
-				}
-				
+			{				
 				// trashed objects will not change
 				if(!in_array($crs_id, $trashed_objects))
-				{					
+				{
+					// only if LP is active
+					$mode = ilLPObjSettings::_lookupMode($crs_id);
+					if($mode == LP_MODE_DEACTIVATED || $mode == LP_MODE_UNDEFINED)
+					{
+						continue;
+					}
+									
 					// only save once per day
 					$ilDB->manipulate("DELETE FROM obj_lp_stat WHERE".
 						" obj_id = ".$ilDB->quote($crs_id, "integer").
