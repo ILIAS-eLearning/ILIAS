@@ -16,12 +16,13 @@ class ilHelp
 	 * @param
 	 * @return
 	 */
-	static function getTooltipPresentationText($a_tt_id)
+	static function getTooltipPresentationText($a_tt_id, $a_module_id = 0)
 	{
 		global $ilDB;
 		
 		$set = $ilDB->query("SELECT tt_text FROM help_tooltip ".
-			" WHERE tt_id = ".$ilDB->quote($a_tt_id, "text")
+			" WHERE tt_id = ".$ilDB->quote($a_tt_id, "text").
+			" AND module_id = ".$ilDB->quote($a_module_id, "integer")
 			);
 		$rec = $ilDB->fetchAssoc($set);
 		if ($rec["tt_text"] != "")
@@ -33,7 +34,8 @@ class ilHelp
 			$fu = strpos($a_tt_id, "_");
 			$gen_tt_id = "*".substr($a_tt_id, $fu);
 			$set = $ilDB->query("SELECT tt_text FROM help_tooltip ".
-				" WHERE tt_id = ".$ilDB->quote($gen_tt_id, "text")
+				" WHERE tt_id = ".$ilDB->quote($gen_tt_id, "text").
+				" AND module_id = ".$ilDB->quote($a_module_id, "integer")
 				);
 			$rec = $ilDB->fetchAssoc($set);
 			if ($rec["tt_text"] != "")
@@ -45,14 +47,14 @@ class ilHelp
 	}
 
 	/**
-	 * Get tab tooltip text
+	 * Get object_creation tooltip tab text
 	 *
 	 * @param string $a_tab_id tab id
 	 * @return string tooltip text
 	 */
-	static function getObjCreationTooltipText($a_type)
+	static function getObjCreationTooltipText($a_type, $a_module_id = 0)
 	{
-		return self::getTooltipPresentationText($a_type."_create");
+		return self::getTooltipPresentationText($a_type."_create", $a_module_id);
 	}
 
 	/**
@@ -61,9 +63,9 @@ class ilHelp
 	 * @param string $a_mm_id 
 	 * @return string tooltip text
 	 */
-	static function getMainMenuTooltip($a_item_id)
+	static function getMainMenuTooltip($a_item_id, $a_module_id = 0)
 	{
-		return self::getTooltipPresentationText($a_item_id);
+		return self::getTooltipPresentationText($a_item_id, $a_module_id);
 	}
 
 	
@@ -73,14 +75,15 @@ class ilHelp
 	 * @param
 	 * @return
 	 */
-	static function getAllTooltips($a_comp = "")
+	static function getAllTooltips($a_comp = "", $a_module_id = 0)
 	{
 		global $ilDB;
 		
 		$q = "SELECT * FROM help_tooltip";
+		$q.= " WHERE module_id = ".$ilDB->quote($a_module_id, "integer");
 		if ($a_comp != "")
 		{
-			$q.= " WHERE comp = ".$ilDB->quote($a_comp, "text");
+			$q.= " AND comp = ".$ilDB->quote($a_comp, "text");
 		}
 		$set = $ilDB->query($q);
 		$tts = array();
@@ -98,7 +101,7 @@ class ilHelp
 	 * @param
 	 * @return
 	 */
-	function addTooltip($a_tt_id, $a_text)
+	static function addTooltip($a_tt_id, $a_text, $a_module_id = 0)
 	{
 		global $ilDB;
 		
@@ -107,11 +110,12 @@ class ilHelp
 		
 		$nid = $ilDB->nextId("help_tooltip");
 		$ilDB->manipulate("INSERT INTO help_tooltip ".
-			"(id, tt_text, tt_id, comp) VALUES (".
+			"(id, tt_text, tt_id, comp,module_id) VALUES (".
 			$ilDB->quote($nid, "integer").",".
 			$ilDB->quote($a_text, "text").",".
 			$ilDB->quote($a_tt_id, "text").",".
-			$ilDB->quote($comp, "text").
+			$ilDB->quote($comp, "text").",".
+			$ilDB->quote($a_module_id, "integer").
 			")");
 	}
 	
@@ -143,11 +147,12 @@ class ilHelp
 	 * @param
 	 * @return
 	 */
-	static function getTooltipComponents()
+	static function getTooltipComponents($a_module_id = 0)
 	{
 		global $ilDB, $lng;
 		
 		$set = $ilDB->query("SELECT DISTINCT comp FROM help_tooltip ".
+			" WHERE module_id = ".$ilDB->quote($a_module_id, "integer").
 			" ORDER BY comp ");
 		$comps[""] = "- ".$lng->txt("help_all")." -";
 		while ($rec = $ilDB->fetchAssoc($set))
@@ -170,6 +175,22 @@ class ilHelp
 		$ilDB->manipulate("DELETE FROM help_tooltip WHERE ".
 			" id = ".$ilDB->quote($a_id, "integer")
 			);
+	}
+	
+	/**
+	 * Delete tooltips of module
+	 *
+	 * @param
+	 * @return
+	 */
+	static function deleteTooltipsOfModule($a_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM help_tooltip WHERE ".
+			" module_id = ".$ilDB->quote($a_id, "integer")
+			);
+		
 	}
 	
 }

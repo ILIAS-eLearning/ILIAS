@@ -34,5 +34,152 @@ class ilObjHelpSettings extends ilObject2
 		$this->type = "hlps";
 	}
 
+	/**
+	 * Create help module
+	 *
+	 * @param
+	 * @return
+	 */
+	static function createHelpModule()
+	{
+		global $ilDB;
+		
+		$id = $ilDB->nextId("help_module");
+		
+		$ilDB->manipulate("INSERT INTO help_module ".
+			"(id) VALUES (".
+			$ilDB->quote($id, "integer").
+			")");
+		
+		return $id;
+	}
+	
+	/**
+	 * Write help module lm id
+	 *
+	 * @param
+	 * @return
+	 */
+	static function writeHelpModuleLmId($a_id, $a_lm_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE help_module SET ".
+			" lm_id = ".$ilDB->quote($a_lm_id, "integer").
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+	}
+	
+	
+	/**
+	 * Upload help file
+	 *
+	 * @param
+	 * @return
+	 */
+	function uploadHelpModule($a_file)
+	{
+		$id = $this->createHelpModule();
+		
+		// create and insert object in objecttree
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+		$newObj = new ilObjContentObject();
+		$newObj->setType("lm");
+		$newObj->setTitle("Help Module");
+		$newObj->create(true);
+		$newObj->createLMTree();
+		
+		self::writeHelpModuleLmId($id, $newObj->getId());
+
+		// import help learning module
+		$mess = $newObj->importFromZipFile($a_file["tmp_name"], $a_file["name"],
+			false, $id);
+	}
+	
+	/**
+	 * Get help modules
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHelpModules()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM help_module");
+		
+		$mods = array();
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			if (ilObject::_lookupType($rec["lm_id"]) == "lm")
+			{
+				$rec["title"] = ilObject::_lookupTitle($rec["lm_id"]);
+//				$rec["create_date"] = ilObject::_lookupCreationDate($rec["lm_id"]);
+			}
+			
+			$mods[] = $rec;
+		}
+		
+		return $mods;
+	}
+	
+	/**
+	 * lookup module title
+	 *
+	 * @param
+	 * @return
+	 */
+	function lookupModuleTitle($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM help_module ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+		$rec  = $ilDB->fetchAssoc($set);
+		if (ilObject::_lookupType($rec["lm_id"]) == "lm")
+		{
+			return ilObject::_lookupTitle($rec["lm_id"]);
+		}
+		return "";
+	}
+	
+	/**
+	 * Delete module
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteModule($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT * FROM help_module ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+		$rec  = $ilDB->fetchAssoc($set);
+
+		// delete learning module
+		if (ilObject::_lookupType($rec["lm_id"]) == "lm")
+		{
+			include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
+			$lm = new ilObjLearningModule($rec["lm_id"], false);
+			$lm->delete();
+		}
+		
+		// delete mappings
+		include_once("./Services/Help/classes/class.ilHelpMapping.php");
+		ilHelpMapping::deleteEntriesOfModule($a_id);
+		
+		// delete tooltips
+		include_once("./Services/Help/classes/class.ilHelp.php");
+		ilHelp::deleteTooltipsOfModule($a_id);
+		
+		// delete help module record
+		$ilDB->manipulate("DELETE FROM help_module WHERE ".
+			" id = ".$ilDB->quote($a_id, "integer"));
+		
+	}
+	
 }
 ?>

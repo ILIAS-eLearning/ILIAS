@@ -67,7 +67,8 @@ class ilHelpDataSet extends ilDataSet
 						"Id" => "integer",
 						"TtText" => "text",
 						"TtId" => "text",
-						"Comp" => "text"
+						"Comp" => "text",
+						"Lang" => "text"
 					);
 			}
 		}
@@ -94,7 +95,7 @@ class ilHelpDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
-					$this->getDirectDataFromQuery("SELECT * ".
+					$this->getDirectDataFromQuery("SELECT chap, component, screen_id, screen_sub_id, perm ".
 						" FROM help_map ".
 						"WHERE ".
 						$ilDB->in("chap", $a_ids, false, "integer"));
@@ -107,7 +108,7 @@ class ilHelpDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
-					$this->getDirectDataFromQuery("SELECT * FROM help_tooltip");
+					$this->getDirectDataFromQuery("SELECT id, tt_text, tt_id, comp, lang FROM help_tooltip");
 					break;
 			}
 		}
@@ -131,38 +132,36 @@ class ilHelpDataSet extends ilDataSet
 	 */
 	function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
 	{
-return;
-//echo $a_entity;
-//var_dump($a_rec);
-
 		switch ($a_entity)
 		{
-			case "mcst":
-				include_once("./Modules/MediaCast/classes/class.ilObjMediaCast.php");
+			case "help_map":
 				
-				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
-				{
-					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-				}
-				else
-				{
-					$newObj = new ilObjMediaCast();
-					$newObj->setType("mcst");
-					$newObj->create(true);
-				}
+				include_once("./Services/Help/classes/class.ilHelpMapping.php");
 				
-				$newObj->setTitle($a_rec["Title"]);
-				$newObj->setDescription($a_rec["Description"]);
-				$newObj->setDefaultAccess($a_rec["DefaultAccess"]);
-				$newObj->setDownloadable($a_rec["Downloadable"]);
-				$newObj->setPublicFiles($a_rec["PublicFiles"]);
-				$newObj->update(true);
-				$this->current_obj = $newObj;
-				$a_mapping->addMapping("Modules/MediaCast", "mcst", $a_rec["Id"], $newObj->getId());
-				$a_mapping->addMapping("Services/News", "news_context",
-					$a_rec["Id"].":mcst:0:",
-					$newObj->getId().":mcst:0:");
-//var_dump($a_mapping->mappings["Services/News"]["news_context"]);
+				// without module ID we do nothing
+				$module_id = $a_mapping->getMapping('Services/Help','help_module', 0);
+				if ($module_id)
+				{
+					ilHelpMapping::saveMappingEntry($a_rec["Chap"],
+						$a_rec["Component"],
+						$a_rec["ScreenId"],
+						$a_rec["ScreenSubId"],
+						$a_rec["Perm"],
+						$module_id
+						);
+				}
+				break;
+				
+			case "help_tooltip":
+				
+				include_once("./Services/Help/classes/class.ilHelp.php");
+				
+				// without module ID we do nothing
+				$module_id = $a_mapping->getMapping('Services/Help','help_module',0);
+				if ($module_id)
+				{
+					ilHelp::addTooltip($a_rec["TtId"], $a_rec["TtText"], $module_id);
+				}
 				break;
 		}
 	}

@@ -48,7 +48,8 @@ class ilHelpMapping
 							"component" => array("text", $id[0]),
 							"screen_id" => array("text", $id[1]),
 							"screen_sub_id" => array("text", $id2[0]),
-							"perm" => array("text", $id2[1])
+							"perm" => array("text", $id2[1]),
+							"module_id" => array("integer", 0)
 							),
 						array()
 						);
@@ -58,17 +59,42 @@ class ilHelpMapping
 	}
 	
 	/**
+	 * Save mapping entry
+	 *
+	 * @param
+	 * @return
+	 */
+	static function saveMappingEntry($a_chap, $a_comp, $a_screen_id,
+		$a_screen_sub_id, $a_perm, $a_module_id = 0)
+	{
+		global $ilDB;
+		
+		$ilDB->replace("help_map",
+			array("chap" => array("integer", $a_chap),
+				"component" => array("text", $a_comp),
+				"screen_id" => array("text", $a_screen_id),
+				"screen_sub_id" => array("text", $a_screen_sub_id),
+				"perm" => array("text", $a_perm),
+				"module_id" => array("integer", $a_module_id)
+				),
+			array()
+			);
+	}
+	
+	
+	/**
 	 * Remove screen ids of chapter
 	 *
 	 * @param
 	 * @return
 	 */
-	function removeScreenIdsOfChapter($a_chap)
+	function removeScreenIdsOfChapter($a_chap, $a_module_id = 0)
 	{
 		global $ilDB;
 		
 		$ilDB->manipulate("DELETE FROM help_map WHERE ".
-			" chap = ".$ilDB->quote($a_chap, "integer")
+			" chap = ".$ilDB->quote($a_chap, "integer").
+			" AND module_id = ".$ilDB->quote($a_module_id, "integer")
 			);
 	}
 	
@@ -78,12 +104,13 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	function getScreenIdsOfChapter($a_chap)
+	function getScreenIdsOfChapter($a_chap, $a_module_id = 0)
 	{
 		global $ilDB;
 		
 		$set = $ilDB->query("SELECT * FROM help_map ".
 			" WHERE chap = ".$ilDB->quote($a_chap, "integer").
+			" AND module_id = ".$ilDB->quote($a_module_id, "integer").
 			" ORDER BY component, screen_id, screen_sub_id"
 			);
 		$screen_ids = array();
@@ -113,7 +140,7 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	static function getHelpSectionsForId($a_screen_id, $a_ref_id)
+	static function getHelpSectionsForId($a_screen_id, $a_ref_id, $a_module_id = 0)
 	{
 		global $ilDB, $ilAccess;
 		
@@ -133,7 +160,8 @@ class ilHelpMapping
 				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
 				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
-				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
+				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text").
+				" AND module_id = ".$ilDB->quote($a_module_id, "integer")
 				);
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
@@ -159,7 +187,7 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	function hasScreenIdSections($a_screen_id, $a_ref_id)
+	function hasScreenIdSections($a_screen_id, $a_ref_id, $a_module_id = 0)
 	{
 				
 		global $ilDB, $ilAccess;
@@ -179,7 +207,8 @@ class ilHelpMapping
 				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
 				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
-				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text")
+				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text").
+				" AND module_id = ".$ilDB->quote($a_module_id, "integer")
 				);
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
@@ -198,6 +227,22 @@ class ilHelpMapping
 		}
 		return false;
 	}
+	
+	/**
+	 * Delete entries of module
+	 *
+	 * @param
+	 * @return
+	 */
+	static function deleteEntriesOfModule($a_id)
+	{
+		global $ilDB;
+		
+		$ilDB->manipulate("DELETE FROM help_map WHERE ".
+			" module_id = ".$ilDB->quote($a_id, "integer"));
+		
+	}
+	
 	
 }
 
