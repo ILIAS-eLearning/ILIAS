@@ -2034,7 +2034,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		global $ilToolbar;
 		global $lng;
 
-		if ((!$rbacsystem->checkAccess("visible,invite", $this->ref_id)) && (!$rbacsystem->checkAccess("write", $this->ref_id))) 
+		if (!$rbacsystem->checkAccess("visible,invite", $this->ref_id)) 
 		{
 			// allow only read and write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), true);
@@ -4051,7 +4051,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 				 "");
 		}
 
-		if (($ilAccess->checkAccess("write", "", $this->ref_id) || $ilAccess->checkAccess("invite", "", $this->ref_id)) &&
+		// #6969
+		if ($ilAccess->checkAccess("invite", "", $this->ref_id) &&
 			!in_array("invitation", $hidden_tabs))
 		{
 			// invite
