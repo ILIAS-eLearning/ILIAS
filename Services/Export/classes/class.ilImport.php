@@ -114,9 +114,9 @@ class ilImport
 	 * Import entity
 	 */
 	final public function importEntity($a_tmp_file, $a_filename,
-		$a_entity, $a_component)
+		$a_entity, $a_component, $a_copy_file = false)
 	{
-		$this->importObject(null, $a_tmp_file, $a_filename, $a_entity, $a_component);
+		$this->importObject(null, $a_tmp_file, $a_filename, $a_entity, $a_component, $a_copy_file);
 	}
 	
 	
@@ -126,12 +126,19 @@ class ilImport
 	 * @param	string		absolute filename of temporary upload file
 	 */
 	final public function importObject($a_new_obj, $a_tmp_file, $a_filename, $a_type,
-		$a_comp = "")
+		$a_comp = "", $a_copy_file = false)
 	{
 		// create temporary directory
 		$tmpdir = ilUtil::ilTempnam();
 		ilUtil::makeDir($tmpdir);
-		ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
+		if ($a_copy_file)
+		{
+			copy($a_tmp_file, $tmpdir."/".$a_filename);
+		}
+		else
+		{
+			ilUtil::moveUploadedFile($a_tmp_file, $a_filename, $tmpdir."/".$a_filename);
+		}
 		ilUtil::unzip($tmpdir."/".$a_filename);
 		$dir = $tmpdir."/".substr($a_filename, 0, strlen($a_filename) - 4);
 		

@@ -11494,3 +11494,58 @@ ilDBUpdateNewObjectType::deleteRBACOperation('feed',
 	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE);
 
 ?>
+<#3668>
+<?php
+	$fields = array (
+		'id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0)
+		);
+	$ilDB->createTable('help_file', $fields);
+	$ilDB->addPrimaryKey('help_file', array('id'));
+	$ilDB->createSequence("help_file");
+?>
+<#3669>
+<?php
+$ilDB->dropSequence("help_file");
+$ilDB->dropTable("help_file");
+?>
+<#3670>
+<?php
+	$fields = array (
+		'id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+		'lm_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0)
+		);
+	$ilDB->createTable('help_module', $fields);
+	$ilDB->addPrimaryKey('help_module', array('id'));
+	$ilDB->createSequence("help_module");
+?>
+<#3671>
+<?php
+$ilDB->addTableColumn("help_tooltip", "lang", array(
+	"type" => "text",
+	"notnull" => true,
+	"length" => 2,
+	"fixed" => true,
+	"default" => "de"));
+?>
+<#3672>
+<?php
+$ilDB->addTableColumn("help_tooltip", "module_id", array(
+	"type" => "integer",
+	"notnull" => true,
+	"length" => 4,
+	"default" => 0));
+?>
+<#3673>
+<?php
+$ilDB->addTableColumn("help_map", "module_id", array(
+	"type" => "integer",
+	"notnull" => true,
+	"length" => 4,
+	"default" => 0));
+?>
+<#3674>
+<?php
+$ilDB->dropPrimaryKey("help_map");
+$ilDB->addPrimaryKey('help_map', array('component', 'screen_id', 'screen_sub_id', 'chap', 'perm', 'module_id'));
+?>
+
