@@ -2674,6 +2674,14 @@ class ilObjContentObject extends ilObject
 					include_once("./Services/Export/classes/class.ilImport.php");
 					$imp = new ilImport();
 					$imp->getMapping()->addMapping('Services/Help', 'help_module', 0, $a_import_into_help_module);
+					include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+					$chaps = ilLMObject::getObjectList($this->getId(), "st");
+					foreach ($chaps as $chap)
+					{
+						$chap_arr = explode("_", $chap["import_id"]);
+						$imp->getMapping()->addMapping('Services/Help', 'help_chap',
+							$chap_arr[count($chap_arr) - 1], $chap["obj_id"]);
+					}
 					$imp->importEntity($dir."/".$file["entry"], $file["entry"],
 						"help", "Services/Help", true);
 				}

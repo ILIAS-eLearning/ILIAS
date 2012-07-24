@@ -140,10 +140,23 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	static function getHelpSectionsForId($a_screen_id, $a_ref_id, $a_module_id = 0)
+	static function getHelpSectionsForId($a_screen_id, $a_ref_id)
 	{
-		global $ilDB, $ilAccess;
+		global $ilDB, $ilAccess, $ilSetting;
 		
+		if (OH_REF_ID > 0)
+		{
+			$module = 0;
+		}
+		else
+		{
+			$module = (int) $ilSetting->get("help_module");
+			if ($module == 0)
+			{
+				return array();
+			}
+		}
+
 		$sc_id = explode("/", $a_screen_id);
 		$chaps = array();
 		if ($sc_id[0] != "")
@@ -161,7 +174,7 @@ class ilHelpMapping
 				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
 				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text").
-				" AND module_id = ".$ilDB->quote($a_module_id, "integer")
+				" AND module_id = ".$ilDB->quote($module, "integer")
 				);
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
@@ -187,10 +200,22 @@ class ilHelpMapping
 	 * @param
 	 * @return
 	 */
-	function hasScreenIdSections($a_screen_id, $a_ref_id, $a_module_id = 0)
+	function hasScreenIdSections($a_screen_id, $a_ref_id)
 	{
-				
-		global $ilDB, $ilAccess;
+		global $ilDB, $ilAccess, $ilSetting;
+	
+		if (OH_REF_ID > 0)
+		{
+			$module = 0;
+		}
+		else
+		{
+			$module = (int) $ilSetting->get("help_module");
+			if ($module == 0)
+			{
+				return false;
+			}
+		}
 		
 		$sc_id = explode("/", $a_screen_id);
 		if ($sc_id[0] != "")
@@ -208,7 +233,7 @@ class ilHelpMapping
 				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
 				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text").
-				" AND module_id = ".$ilDB->quote($a_module_id, "integer")
+				" AND module_id = ".$ilDB->quote($module, "integer")
 				);
 			while ($rec = $ilDB->fetchAssoc($set))
 			{

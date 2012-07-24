@@ -145,6 +145,23 @@ class ilObjHelpSettings extends ilObject2
 	}
 	
 	/**
+	 * lookup module lm id
+	 *
+	 * @param
+	 * @return
+	 */
+	function lookupModuleLmId($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT lm_id FROM help_module ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+		$rec  = $ilDB->fetchAssoc($set);
+		return $rec["lm_id"];
+	}
+	
+	/**
 	 * Delete module
 	 *
 	 * @param
@@ -152,7 +169,13 @@ class ilObjHelpSettings extends ilObject2
 	 */
 	function deleteModule($a_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
+		
+		// if this is the currently activated one, deactivate it first
+		if ($a_id == (int) $ilSetting->get("help_module"))
+		{
+			$ilSetting->set("help_module", "");
+		}
 		
 		$set = $ilDB->query("SELECT * FROM help_module ".
 			" WHERE id = ".$ilDB->quote($a_id, "integer")

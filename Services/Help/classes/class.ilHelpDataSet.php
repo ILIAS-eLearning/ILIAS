@@ -142,13 +142,19 @@ class ilHelpDataSet extends ilDataSet
 				$module_id = $a_mapping->getMapping('Services/Help','help_module', 0);
 				if ($module_id)
 				{
-					ilHelpMapping::saveMappingEntry($a_rec["Chap"],
-						$a_rec["Component"],
-						$a_rec["ScreenId"],
-						$a_rec["ScreenSubId"],
-						$a_rec["Perm"],
-						$module_id
-						);
+					$new_chap = $a_mapping->getMapping('Services/Help', 'help_chap',
+						$a_rec["Chap"]);
+
+					if ($new_chap > 0)
+					{
+						ilHelpMapping::saveMappingEntry($new_chap,
+							$a_rec["Component"],
+							$a_rec["ScreenId"],
+							$a_rec["ScreenSubId"],
+							$a_rec["Perm"],
+							$module_id
+							);
+					}
 				}
 				break;
 				

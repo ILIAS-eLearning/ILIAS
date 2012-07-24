@@ -12892,3 +12892,7 @@ common#:#grp_list_reg_limit_full#:#No places left
 common#:#grp_list_reg_limit_places#:#Free places
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
 crs#:#crs_member_passed_status_changed#:#Passed Status Changed
+help#:#help_help_file#:#Help Package File
+help#:#help_modules#:#Help Packages
+help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?
+help#:#help_module_uploaded#:#Help package uploaded.

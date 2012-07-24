@@ -89,6 +89,12 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		
 		$ilTabs->activateTab("settings");
 		
+		if (OH_REF_ID > 0)
+		{
+			ilUtil::sendInfo("This installation is used for online help authoring. Help modules cannot be imported.");
+			return;
+		}
+		
 		if ($this->checkPermissionBool("write"))
 		{
 			// help file
@@ -200,6 +206,39 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 			}
 		}
 		
+		$ilCtrl->redirect($this, "editSettings");
+	}
+	
+	/**
+	 * Activate module
+	 *
+	 * @param
+	 * @return
+	 */
+	function activateModule()
+	{
+		global $ilSetting, $lng, $ilCtrl;
+		
+		$ilSetting->set("help_module", (int) $_GET["hm_id"]);
+		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "editSettings");
+	}
+	
+	/**
+	 * Deactivate module
+	 *
+	 * @param
+	 * @return
+	 */
+	function deactivateModule()
+	{
+		global $ilSetting, $lng, $ilCtrl;
+		
+		if ($ilSetting->get("help_module") == (int) $_GET["hm_id"])
+		{
+			$ilSetting->set("help_module", "");
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
 		$ilCtrl->redirect($this, "editSettings");
 	}
 	

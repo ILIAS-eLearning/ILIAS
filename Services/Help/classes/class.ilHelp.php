@@ -16,18 +16,36 @@ class ilHelp
 	 * @param
 	 * @return
 	 */
-	static function getTooltipPresentationText($a_tt_id, $a_module_id = 0)
+	static function getTooltipPresentationText($a_tt_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilSetting;
+		
+		if (OH_REF_ID > 0)
+		{
+			$module_id = 0;
+		}
+		else
+		{
+			$module_id = (int) $ilSetting->get("help_module");
+			if ($module_id == 0)
+			{
+				return "";
+			}
+		}
 		
 		$set = $ilDB->query("SELECT tt_text FROM help_tooltip ".
 			" WHERE tt_id = ".$ilDB->quote($a_tt_id, "text").
-			" AND module_id = ".$ilDB->quote($a_module_id, "integer")
+			" AND module_id = ".$ilDB->quote($module_id, "integer")
 			);
 		$rec = $ilDB->fetchAssoc($set);
 		if ($rec["tt_text"] != "")
 		{
-			return $rec["tt_text"]."<br/><i class='small'>".$a_tt_id."</i>";
+			$t = $rec["tt_text"];
+			if ($module_id == 0)
+			{
+				$t.="<br/><i class='small'>".$a_tt_id."</i>";
+			}
+			return $t;
 		}
 		else // try to get general version
 		{
@@ -35,15 +53,24 @@ class ilHelp
 			$gen_tt_id = "*".substr($a_tt_id, $fu);
 			$set = $ilDB->query("SELECT tt_text FROM help_tooltip ".
 				" WHERE tt_id = ".$ilDB->quote($gen_tt_id, "text").
-				" AND module_id = ".$ilDB->quote($a_module_id, "integer")
+				" AND module_id = ".$ilDB->quote($module_id, "integer")
 				);
 			$rec = $ilDB->fetchAssoc($set);
 			if ($rec["tt_text"] != "")
 			{
-				return $rec["tt_text"]."<br/><i class='small'>".$a_tt_id."</i>";
+				$t = $rec["tt_text"];
+				if ($module_id == 0)
+				{
+					$t.="<br/><i class='small'>".$a_tt_id."</i>";
+				}
+				return $t;
 			}
 		}
-		return "<i>".$a_tt_id."</i>";
+		if ($module_id == 0)
+		{
+			return "<i>".$a_tt_id."</i>";
+		}
+		return "";
 	}
 
 	/**
@@ -52,9 +79,9 @@ class ilHelp
 	 * @param string $a_tab_id tab id
 	 * @return string tooltip text
 	 */
-	static function getObjCreationTooltipText($a_type, $a_module_id = 0)
+	static function getObjCreationTooltipText($a_type)
 	{
-		return self::getTooltipPresentationText($a_type."_create", $a_module_id);
+		return self::getTooltipPresentationText($a_type."_create");
 	}
 
 	/**
@@ -63,9 +90,9 @@ class ilHelp
 	 * @param string $a_mm_id 
 	 * @return string tooltip text
 	 */
-	static function getMainMenuTooltip($a_item_id, $a_module_id = 0)
+	static function getMainMenuTooltip($a_item_id)
 	{
-		return self::getTooltipPresentationText($a_item_id, $a_module_id);
+		return self::getTooltipPresentationText($a_item_id);
 	}
 
 	

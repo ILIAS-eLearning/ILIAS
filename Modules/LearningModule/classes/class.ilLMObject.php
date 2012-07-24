@@ -660,6 +660,7 @@ class ilLMObject
 		{
 			$obj_list[] = array("obj_id" => $obj_rec["obj_id"],
 								"title" => $obj_rec["title"],
+								"import_id" => $obj_rec["import_id"],
 								"type" => $obj_rec["type"]);
 		}
 		return $obj_list;
