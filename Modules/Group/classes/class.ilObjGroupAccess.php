@@ -225,6 +225,100 @@ class ilObjGroupAccess extends ilObjectAccess
 		include_once("./Modules/Group/classes/class.ilGroupWaitingList.php");
 		ilGroupWaitingList::_preloadOnListInfo($ilUser->getId(), $a_obj_ids);
 	}
+	
+	/**
+	 * Lookup registration info
+	 * @global ilDB $ilDB
+	 * @global ilObjUser $ilUser
+	 * @global ilLanguage $lng
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function lookupRegistrationInfo($a_obj_id)
+	{
+		global $ilDB, $ilUser, $lng;
+		
+		$query = 'SELECT registration_type, registration_enabled, registration_unlimited,  registration_start, '.
+			'registration_end, registration_mem_limit, registration_max_members FROM grp_settings '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id);
+		$res = $ilDB->query($query);
+		
+		$info = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$info['reg_info_start'] = new ilDateTime($row->registration_start, IL_CAL_DATETIME);
+			$info['reg_info_end'] = new ilDateTime($row->registration_end, IL_CAL_DATETIME);
+			$info['reg_info_type'] = $row->registration_type;
+			$info['reg_info_max_members'] = $row->registration_max_members;
+			$info['reg_info_mem_limit'] = $row->registration_mem_limit;
+			$info['reg_info_unlimited'] = $row->registration_unlimited;
+			
+			$info['reg_info_max_members'] = 0;
+			if($info['reg_info_mem_limit'])
+			{
+				$info['reg_info_max_members'] = $row->registration_max_members;
+			}
+			
+			$info['reg_info_enabled'] = $row->registration_enabled;
+		}
+		
+		$registration_possible = $info['reg_info_enabled'];
+
+		// Limited registration
+		if(!$info['reg_info_unlimited'])
+		{
+			$dt = new ilDateTime(time(),IL_CAL_UNIX);
+			if(ilDateTime::_before($dt, $info['reg_info_start']))
+			{
+				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_start');
+				$info['reg_info_list_prop']['value'] = ilDatePresentation::formatDate($info['reg_info_start']);
+			}
+			elseif(ilDateTime::_before($dt, $info['reg_info_end']))
+			{
+				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_end');
+				$info['reg_info_list_prop']['value'] = ilDatePresentation::formatDate($info['reg_info_end']);
+			}
+			else
+			{
+				$registration_possible = false;
+				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_period');
+				$info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
+			}
+		}
+		else
+		{
+			$registration_possible = false;
+			$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_period');
+			$info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
+		}
+		
+		if($info['reg_info_mem_limit'] && $registration_possible)
+		{
+			// Check if users are on waiting list
+			// @todo
+			
+			
+			// Check for free places
+			include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+			$part = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
+			if($part->getCountMembers() <= $info['reg_info_max_members'])
+			{
+				$info['reg_info_list_prop_limit']['property'] = $lng->txt('grp_list_reg_limit_places');
+				$info['reg_info_list_prop_limit']['value'] = max(
+						0,
+						$info['reg_info_max_members'] - $part->getCountMembers()
+					);
+			}
+			else
+			{
+				$info['reg_info_list_prop_limit']['property'] = '';
+				$info['reg_info_list_prop_limit']['value'] = $lng->txt('grp_list_reg_limit_full');
+			}
+		}
+		
+		return $info;
+	}
+	
 
 }
 ?>

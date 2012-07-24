@@ -12884,5 +12884,11 @@ rbac#:#hlps_edit_permission#:#User can change permissions of Help System Setting
 rbac#:#hlps_read#:#User has read access to Help System Settings in Administration.
 rbac#:#hlps_visible#:#Help System Settings are visible in Administration.
 rbac#:#hlps_write#:#User can edit Help System Settings in Administration.
+common#:#grp_list_reg_start#:#Registration Begin
+common#:#grp_list_reg_end#:#Registration End
+common#:#grp_list_reg_noreg#:#No Registration Possible
+common#:#grp_list_reg_period#:#Registration Period
+common#:#grp_list_reg_limit_full#:#No places left
+common#:#grp_list_reg_limit_places#:#Free places
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.
 crs#:#crs_member_passed_status_changed#:#Passed Status Changed
