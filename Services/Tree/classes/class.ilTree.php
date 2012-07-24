@@ -2389,6 +2389,29 @@ class ilTree
 
 		return $saved ? $saved : array();
 	}
+	
+	/**
+	* get object id of saved/deleted nodes
+	* @return	array	data
+	* @param	array	object ids to check
+	* @access	public
+	*/
+	function getSavedNodeObjIds(array $a_obj_ids)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT '.$this->table_obj_data.'.obj_id FROM '.$this->table_tree.' '.
+			$this->buildJoin().
+			'WHERE '.$this->table_tree.'.'.$this->tree_pk.' < '.$ilDB->quote(0, 'integer').' '.
+			'AND '.$ilDB->in($this->table_obj_data.'.obj_id', $a_obj_ids, '', 'integer');
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$saved[] = $row['obj_id'];
+		}
+
+		return $saved ? $saved : array();
+	}
 
 	/**
 	* get parent id of given node
