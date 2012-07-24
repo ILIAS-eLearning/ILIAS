@@ -9468,8 +9468,7 @@ $ilCtrlStructureReader->getStructure();
 <?php
 
 	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
-	ilDBUpdateNewObjectType::deleteRBACOperation(
-		ilDBUpdateNewObjectType::getObjectTypeId('sess'),
+	ilDBUpdateNewObjectType::deleteRBACOperation('sess',
 		ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_event')
 	);
 	
@@ -11484,4 +11483,14 @@ ilDBUpdateNewObjectType::addRBACOperations($hlps_type_id, $rbac_ops);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3667>
+<?php
+	
+#9350: removing visible permission for side blocks (feed, poll)
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::deleteRBACOperation('poll', 
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE);
+ilDBUpdateNewObjectType::deleteRBACOperation('feed', 
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE);
 
+?>

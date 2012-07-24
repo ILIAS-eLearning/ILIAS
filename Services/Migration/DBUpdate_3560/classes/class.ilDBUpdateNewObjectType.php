@@ -87,21 +87,55 @@ class ilDBUpdateNewObjectType
 
 	/**
 	 * Delete rbac operation
-	 * @global ilDB $ilDB
-	 * @param int $a_type_id
+	 * 
+	 * @param int $a_type
 	 * @param int $a_ops_id 
 	 */
-	public static function deleteRBACOperation($a_type_id, $a_ops_id)
+	public static function deleteRBACOperation($a_type, $a_ops_id)
 	{
 		global $ilDB;
+		
+		if(!$a_type || !$a_ops_id)
+		{
+			return;
+		}
+		
+		$type_id = self::getObjectTypeId($a_type);
+		if(!$type_id)
+		{
+			return;
+		}
 
 		$query = 'DELETE FROM rbac_ta WHERE '.
-			'typ_id = '.$ilDB->quote($a_type_id,'integer').' AND '.
-			'ops_id = '.$ilDB->quote($a_ops_id,'integer'). ' ';
+			'typ_id = '.$ilDB->quote($type_id,'integer').' AND '.
+			'ops_id = '.$ilDB->quote($a_ops_id,'integer');		
 		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
-		$ilDB->manipulate($query);
+		$ilDB->manipulate($query);		
+		
+		self::deleteRBACTemplateOperation($a_type, $a_ops_id);
 	}
+	
+	/**
+	 * Delete operation for type in templates
+	 * 
+	 * @param string $a_type
+	 * @param int $a_ops_id
+	 */
+	public static function deleteRBACTemplateOperation($a_type, $a_ops_id)
+	{
+		global $ilDB;
+		
+		if(!$a_type || !$a_ops_id)
+		{
+			return;
+		}
 
+		$query = 'DELETE FROM rbac_templates WHERE '.
+			'type = '.$ilDB->quote($a_type,'text').' AND '.
+			'ops_id = '.$ilDB->quote($a_ops_id,'integer');	
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$query);
+		$ilDB->manipulate($query);	
+	}
 
 	/**
 	 * Check if given RBAC operation id is valid

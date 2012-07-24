@@ -694,7 +694,7 @@ abstract class ilBlockGUI
 		
 		if ($this->isRepositoryObject())
 		{
-			if (!$ilAccess->checkAccess("visible", "", $this->getRefId()))
+			if (!$ilAccess->checkAccess("read", "", $this->getRefId()))
 			{
 				return "";
 			}
