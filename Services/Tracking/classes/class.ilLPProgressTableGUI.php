@@ -72,7 +72,12 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			$this->addColumn($this->lng->txt("trac_title"), "title", "31%");
 			$this->addColumn($this->lng->txt("status"), "status", "7%");
 			
-			if($this->mode != LP_MODE_SCORM && $this->mode != LP_MODE_OBJECTIVES)
+			if($this->mode == LP_MODE_SCORM)
+			{
+				$this->lng->loadLanguageModule('content');
+				$this->addColumn($this->lng->txt('cont_score'),'score','10%');
+			}
+			else if($this->mode != LP_MODE_OBJECTIVES)
 			{
 				$this->addColumn($this->lng->txt('trac_status_changed'),'status_changed','10%');
 				$this->addColumn($this->lng->txt("trac_percentage"), "percentage", "7%");
@@ -159,7 +164,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($a_set)
 	{
-		global $ilObjDataCache, $ilCtrl;
+		global $ilCtrl;
 
 		if(!$this->details)
 		{
@@ -183,7 +188,11 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText($a_set["status"]));
 		$this->tpl->setVariable("STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus($a_set["status"]));
 
-		if($this->mode != LP_MODE_SCORM && $this->mode != LP_MODE_OBJECTIVES)
+		if($this->mode == LP_MODE_SCORM)
+		{
+			$this->tpl->setVariable('SCORE_VAL', $a_set["score"]); 
+		}
+		else if($this->mode != LP_MODE_OBJECTIVES)
 		{
 			$this->tpl->setCurrentBlock("status_details");		
 			

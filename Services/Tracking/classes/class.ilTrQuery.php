@@ -114,6 +114,36 @@ class ilTrQuery
 	{
 		self::refreshObjectsStatus(array($a_parent_obj_id), array($a_user_id));	
 		
+		// import score from tracking data
+		$scores_raw = $scores = array();
+		include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
+		$subtype = ilObjSAHSLearningModule::_lookupSubType($a_parent_obj_id);		
+		switch($subtype)
+		{
+			case 'hacp':
+			case 'aicc':			
+			case 'scorm':
+				include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMLearningModule.php';
+				$module = new ilObjSCORMLearningModule($a_parent_obj_id, false);
+				$scores_raw = $module->getTrackingDataAgg($a_user_id);
+				break;
+				
+			case 'scorm2004':
+				include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
+				$module = new ilObjSCORM2004LearningModule($a_parent_obj_id, false);
+				$scores_raw = $module->getTrackingDataAgg($a_user_id);
+				break;
+		}
+		if($scores_raw)
+		{
+			foreach($scores_raw as $item)
+			{
+				$scores[$item["sco_id"]] = $item["score"];
+			}
+			unset($module);
+			unset($scores_raw);
+		}		
+		
 		include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 		$status_info = ilLPStatusWrapper::_getStatusInfo($a_parent_obj_id);
 		
@@ -140,7 +170,8 @@ class ilTrQuery
 			$items[$sco_id] = array(
 				"title" => $status_info["scos_title"][$sco_id],
 				"status" => $status,
-				"type" => "sahs"
+				"type" => "sahs",
+				"score" => (int)$scores[$sco_id]
 				);						
 		}
 		
