@@ -244,14 +244,17 @@ class ilPDNotesGUI
 	*/
 	function setTabs()
 	{
-		global $ilTabs, $ilUser, $ilCtrl;
-		
+		global $ilTabs, $ilSetting, $ilCtrl;
+				
 		$ilTabs->addTarget("private_notes",
 			$ilCtrl->getLinkTarget($this, "showPrivateNotes"), "", "", "",
-			($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES));
-		$ilTabs->addTarget("notes_public_comments",
-			$ilCtrl->getLinkTarget($this, "showPublicComments"), "", "", "",
-			($this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS));
+			($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES));		
+		if(!$ilSetting->get("disable_comments"))
+		{
+			$ilTabs->addTarget("notes_public_comments",
+				$ilCtrl->getLinkTarget($this, "showPublicComments"), "", "", "",
+				($this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS));
+		}
 	}
 	
 	/**
@@ -270,7 +273,12 @@ class ilPDNotesGUI
 	*/
 	function showPublicComments()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $ilSetting;
+		
+		if($ilSetting->get("disable_comments"))
+		{
+			$ilCtrl->redirect($this, "showPrivateNotes");
+		}
 		
 		$ilUser->writePref("pd_notes_mode", ilPDNotesGUI::PUBLIC_COMMENTS);
 		$ilCtrl->redirect($this, "");
@@ -281,9 +289,10 @@ class ilPDNotesGUI
 	*/
 	function getMode()
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
 		
-		if ($ilUser->getPref("pd_notes_mode") == ilPDNotesGUI::PUBLIC_COMMENTS)
+		if ($ilUser->getPref("pd_notes_mode") == ilPDNotesGUI::PUBLIC_COMMENTS &&
+			!$ilSetting->get("disable_comments"))
 		{
 			return ilPDNotesGUI::PUBLIC_COMMENTS;
 		}
