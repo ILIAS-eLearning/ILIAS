@@ -699,8 +699,8 @@ class ilCertificate
 			"letterlandscape" => array(
 				"name" => $this->lng->txt("certificate_letter_landscape"), // (11 inch x 8.5 inch)
 				"value" => "letterlandscape",
-				"width" => "8.5in",
-				"height" => "11in"
+				"width" => "11in",
+				"height" => "8.5in"
 			),
 			"custom" => array(
 				"name" => $this->lng->txt("certificate_custom"),
