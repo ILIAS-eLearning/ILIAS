@@ -429,7 +429,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 	}
 	
 	
-	function getTrackingDataAgg($a_sco_id, $raw = false)
+	function getTrackingDataAgg($a_user_id, $raw = false)
 	{
 		global $ilDB;
       
@@ -448,9 +448,9 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			array_push($scos,$val_rec['cp_node_id']);
 		}
-		
+						
 		foreach ($scos as $sco) 
-		{
+		{			
 			$data_set = $ilDB->queryF('
 				SELECT c_timestamp last_access, session_time, success_status, completion_status,
 					   c_raw, cp_node_id
@@ -458,7 +458,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 				WHERE cp_node_id = %s
 				AND user_id = %s',
 				array('integer','integer'),
-				array($sco,$_GET["user_id"])
+				array($sco,$a_user_id)
 			);	
 			
 			while($data_rec = $ilDB->fetchAssoc($data_set))
@@ -478,7 +478,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					$score = $data_rec["c_raw"];
 					$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
 					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
-					 $data[] = array("user_id" => $data_rec["user_id"],
+					 $data[] = array("user_id" => $data_rec["user_id"], "sco_id"=>$data_rec["cp_node_id"],
 						"score" => $score, "time" => $time, "status" => $status,"last_access"=>$last_access,"title"=>$title);
 				}
 				else
