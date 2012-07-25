@@ -1419,14 +1419,18 @@ abstract class assQuestionGUI
 
 		ilUtil::sendInfo($this->lng->txt("select_object_to_link"));
 
+		$parent_ref_id = $tree->getParentId($_GET["ref_id"]);
 		$exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this, 'suggestedsolution'), get_class($this));
-
-		$exp->setExpand($_GET["expand"] ? $_GET["expand"] : $tree->getParentId($_GET["ref_id"]));
+		$exp->setExpand($_GET['expand_sol'] ? $_GET['expand_sol'] : $parent_ref_id);
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'outSolutionExplorer'));
 		$exp->setTargetGet("ref_id");
 		$exp->setRefId($_GET["ref_id"]);
 		$exp->addFilter($type);
 		$exp->setSelectableType($type);
+		if(isset($_GET['expandCurrentPath']) && $_GET['expandCurrentPath'])
+		{
+			$exp->expandPathByRefId($parent_ref_id);
+		}
 
 		// build html-output
 		$exp->setOutput(0);
