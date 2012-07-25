@@ -207,6 +207,19 @@ class ilObjGroupGUI extends ilContainerGUI
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
+				
+				// #9401 - see also ilStartupGUI::_checkGoto()
+				if($cmd == 'infoScreenGoto')
+				{										
+					if($this->object->isRegistrationEnabled())
+					{
+						$cmd = 'join';						
+					}
+					else
+					{
+						$cmd = 'infoScreen';
+					}
+				}
 
 				// check read permission
 				if ((!$this->getCreationMode()
@@ -2383,7 +2396,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			// to do: force flat view
 			if ($ilAccess->checkAccess("visible", "", $a_target))
 			{
-				ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+				ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreenGoto");
 			}
 			else
 			{
