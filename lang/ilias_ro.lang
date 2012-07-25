@@ -1662,30 +1662,30 @@ common#:#fold_added#:#Dosar adaugat
 common#:#fold_create_alm#:#Creati Modul de Invatare AICC
 common#:#fold_create_chat#:#Creati Chat
 common#:#fold_create_dbk#:#Creati Carte din Biblioteca Digitala
-common#:#fold_create_exc#:#Creati Exercitiu
-common#:#fold_create_file#:#Incarcati fisier
-common#:#fold_create_fold#:#Creati Dosar
-common#:#fold_create_frm#:#Creati Forum
-common#:#fold_create_glo#:#Creati Glosar
+rbac#:#fold_create_exc#:#Creati Exercitiu
+rbac#:#fold_create_file#:#Incarcati fisier
+rbac#:#fold_create_fold#:#Creati Dosar
+rbac#:#fold_create_frm#:#Creati Forum
+rbac#:#fold_create_glo#:#Creati Glosar
 common#:#fold_create_hlm#:#Creati Modul de Invatare HACP
-common#:#fold_create_htlm#:#Creati Modul de Invatare HTML
-common#:#fold_create_icrs#:#Create LearnLinc Seminar ### 2006-8-11 --- Add new translation here.
-common#:#fold_create_lm#:#Creati Modul de Invatare ILIAS
-common#:#fold_create_mep#:#Creati Baza Media
-common#:#fold_create_qpl#:#Creati Baza de Intrebari pentru Test
-common#:#fold_create_sahs#:#Creati Modul de Invatare SCORM/AICC
-common#:#fold_create_spl#:#Creati Baza de Intrebari pentru Sondaj
-common#:#fold_create_svy#:#Creati Sondaj
-common#:#fold_create_tst#:#Creati Test
-common#:#fold_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#fold_delete#:#Stergeti Dosar
+rbac#:#fold_create_htlm#:#Creati Modul de Invatare HTML
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar ### 2006-8-11 --- Add new translation here.
+rbac#:#fold_create_lm#:#Creati Modul de Invatare ILIAS
+rbac#:#fold_create_mep#:#Creati Baza Media
+rbac#:#fold_create_qpl#:#Creati Baza de Intrebari pentru Test
+rbac#:#fold_create_sahs#:#Creati Modul de Invatare SCORM/AICC
+rbac#:#fold_create_spl#:#Creati Baza de Intrebari pentru Sondaj
+rbac#:#fold_create_svy#:#Creati Sondaj
+rbac#:#fold_create_tst#:#Creati Test
+rbac#:#fold_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#fold_delete#:#Stergeti Dosar
 common#:#fold_edit#:#Editati Dosar
-common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
-common#:#fold_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+rbac#:#fold_edit_permission#:#Schimbati setarile de permisiune
 common#:#fold_new#:#Dosar nou
-common#:#fold_read#:#Permisiune de citire a dosarului
+rbac#:#fold_read#:#Permisiune de citire a dosarului
 common#:#fold_visible#:#Dosarul este vizibil
-common#:#fold_write#:#Editati Dosarul
+rbac#:#fold_write#:#Editati Dosarul
 common#:#folder#:#Dosar
 common#:#folders#:#Dosare
 common#:#force_accept_usr_agreement#:#Trebuie sa fiti de acord cu termenii impusi utilizatorului!
@@ -6702,7 +6702,7 @@ common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
+rbac#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###25 02 2007 new variable
 assessment#:#externalscript_additional_parameters#:#Script Parameters###25 02 2007 new variable
 assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
@@ -7003,7 +7003,7 @@ rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable

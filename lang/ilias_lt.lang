@@ -1661,30 +1661,30 @@ common#:#fold_added#:#Katalogas sukurtas
 common#:#fold_create_alm#:#Sukurti AICC Mokymo Modulį
 common#:#fold_create_chat#:#Sukurti Pokalbį
 common#:#fold_create_dbk#:#Sukurti Digilib Knygą
-common#:#fold_create_exc#:#Sukurti Užduotį
-common#:#fold_create_file#:#Įkelti Failą
-common#:#fold_create_fold#:#Sukurti Katalogą
-common#:#fold_create_frm#:#Sukurti Forumą
-common#:#fold_create_glo#:#Sukurti Glosarijų
+rbac#:#fold_create_exc#:#Sukurti Užduotį
+rbac#:#fold_create_file#:#Įkelti Failą
+rbac#:#fold_create_fold#:#Sukurti Katalogą
+rbac#:#fold_create_frm#:#Sukurti Forumą
+rbac#:#fold_create_glo#:#Sukurti Glosarijų
 common#:#fold_create_hlm#:#Sukurti HACP Mokymo Modulį
-common#:#fold_create_htlm#:#Skurti HTML Mokymo Modulį
-common#:#fold_create_icrs#:#sukurti LearnLinc Seminarą
-common#:#fold_create_lm#:#Sukurti ILIAS Mokymo Modulį
-common#:#fold_create_mep#:#Sukurti Media Apklausą
-common#:#fold_create_qpl#:#Sukurti Klausimyną Testui
-common#:#fold_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-common#:#fold_create_spl#:#Sukurti Klausimyną Apklausai
-common#:#fold_create_svy#:#Sukurti Apklausą
-common#:#fold_create_tst#:#Sukurti Testą
-common#:#fold_create_webr#:#Sukurti Web Resursą
-common#:#fold_delete#:#Ištrinti Katalogą
+rbac#:#fold_create_htlm#:#Skurti HTML Mokymo Modulį
+rbac#:#fold_create_icrs#:#sukurti LearnLinc Seminarą
+rbac#:#fold_create_lm#:#Sukurti ILIAS Mokymo Modulį
+rbac#:#fold_create_mep#:#Sukurti Media Apklausą
+rbac#:#fold_create_qpl#:#Sukurti Klausimyną Testui
+rbac#:#fold_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
+rbac#:#fold_create_spl#:#Sukurti Klausimyną Apklausai
+rbac#:#fold_create_svy#:#Sukurti Apklausą
+rbac#:#fold_create_tst#:#Sukurti Testą
+rbac#:#fold_create_webr#:#Sukurti Web Resursą
+rbac#:#fold_delete#:#Ištrinti Katalogą
 common#:#fold_edit#:#Redaguoti Katalogą
-common#:#fold_edit_learning_progress#:#Redaguoti Mokymo Progresą
-common#:#fold_edit_permission#:#Keisti Leidimų nustatymus
+rbac#:#fold_edit_learning_progress#:#Redaguoti Mokymo Progresą
+rbac#:#fold_edit_permission#:#Keisti Leidimų nustatymus
 common#:#fold_new#:#Naujas Katalogas
-common#:#fold_read#:#Skaitymo leidimas Katalogui
+rbac#:#fold_read#:#Skaitymo leidimas Katalogui
 common#:#fold_visible#:#Katalogas yra matomas
-common#:#fold_write#:#Redaguoti Katalogą
+rbac#:#fold_write#:#Redaguoti Katalogą
 common#:#folder#:#Katalogas
 common#:#folders#:#Katalogai
 common#:#force_accept_usr_agreement#:#Privalote sutikti su vartotojų sutartimi!
@@ -6764,7 +6764,7 @@ common#:#im_msn_icon#:#MSN Logo
 common#:#im_aim_icon#:#AIM Logo
 common#:#im_skype_icon#:#Skype Logo
 common#:#not_enabled_or_configured#:#Nesukonfigūruota ar neįjungta
-common#:#fold_create_grp#:#Sukurti naują Grupę
+rbac#:#fold_create_grp#:#Sukurti naują Grupę
 assessment#:#error_random_question_generation#:#Atsitiktinių klausimų testui generavimo metu įvyko klaidą. Susisiekite su administratoriumi ir pateikite šią informaciją: Sistema negalėjo sukurti aktyvų ID vartotojui ID %s ir testui ID %s.
 assessment#:#externalscript_additional_parameters#:#Skripto Parametrai
 assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
@@ -7064,7 +7064,7 @@ rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable

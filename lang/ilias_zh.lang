@@ -2541,34 +2541,34 @@ common#:#fold_copy_threads_info#:#Please decide which materials should be copied
 common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
 common#:#fold_create_dbk#:#Create Digilib Book
-common#:#fold_create_exc#:#Create Exercise
-common#:#fold_create_file#:#Upload File
-common#:#fold_create_fold#:#Create Folder
-common#:#fold_create_frm#:#Create Forum
-common#:#fold_create_glo#:#Create Glossary
-common#:#fold_create_grp#:#Add new Group
+rbac#:#fold_create_exc#:#Create Exercise
+rbac#:#fold_create_file#:#Upload File
+rbac#:#fold_create_fold#:#Create Folder
+rbac#:#fold_create_frm#:#Create Forum
+rbac#:#fold_create_glo#:#Create Glossary
+rbac#:#fold_create_grp#:#Add new Group
 common#:#fold_create_hlm#:#Create HACP Learning Module
-common#:#fold_create_htlm#:#Create HTML Learning Module
-common#:#fold_create_icrs#:#Create LearnLinc Seminar
-common#:#fold_create_lm#:#Create Learning Module
-common#:#fold_create_mcst#:#Create MediaCast
-common#:#fold_create_mep#:#Create Media Pool
-common#:#fold_create_qpl#:#Create Question Pool for Test
-common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#fold_create_spl#:#Create Question Pool for Survey
-common#:#fold_create_svy#:#Create Survey
-common#:#fold_create_tst#:#Create Test
-common#:#fold_create_webr#:#Create new Web Resource
+rbac#:#fold_create_htlm#:#Create HTML Learning Module
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar
+rbac#:#fold_create_lm#:#Create Learning Module
+rbac#:#fold_create_mcst#:#Create MediaCast
+rbac#:#fold_create_mep#:#Create Media Pool
+rbac#:#fold_create_qpl#:#Create Question Pool for Test
+rbac#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#fold_create_spl#:#Create Question Pool for Survey
+rbac#:#fold_create_svy#:#Create Survey
+rbac#:#fold_create_tst#:#Create Test
+rbac#:#fold_create_webr#:#Create new Web Resource
 common#:#fold_create_write#:#Create Wiki
-common#:#fold_delete#:#Delete Folder
+rbac#:#fold_delete#:#Delete Folder
 common#:#fold_edit#:#Edit Folder
-common#:#fold_edit_learning_progress#:#Edit Learning Progress
-common#:#fold_edit_permission#:#Change Permission settings
+rbac#:#fold_edit_learning_progress#:#Edit Learning Progress
+rbac#:#fold_edit_permission#:#Change Permission settings
 common#:#fold_new#:#新文件夹
-common#:#fold_read#:#Read access to Folder
+rbac#:#fold_read#:#Read access to Folder
 common#:#fold_visible#:#Folder is visible
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
-common#:#fold_write#:#Edit Folder
+rbac#:#fold_write#:#Edit Folder
 common#:#folder#:#文件夹
 common#:#folders#:#文件夹
 common#:#force_accept_usr_agreement#:#您必须接受用户协议！

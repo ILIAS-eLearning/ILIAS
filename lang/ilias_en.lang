@@ -2471,7 +2471,7 @@ common#:#exc_new#:#New Exercise
 common#:#exc_no_members_assigned#:#No members assigned
 common#:#exc_notices#:#Notices
 common#:#exc_obj#:#Exercise
-rbac#:#exc_read#:#Participate at exercise
+rbac#:#exc_read#:#User can participate at exercise
 common#:#exc_resubmitted_advice#:#This symbol will be displayed in case that a new file has been submitted after the "solved" field has been checked
 common#:#exc_roles#:#Roles
 common#:#exc_save_changes#:#Save
@@ -2608,37 +2608,32 @@ common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#fold_copy#:#Copy Folder
-common#:#fold_create_alm#:#Create AICC Learning Module
-common#:#fold_create_chat#:#Create Chat
-common#:#fold_create_dbk#:#Create Digilib Book
-common#:#fold_create_exc#:#Create Exercise
-common#:#fold_create_file#:#Upload File
-common#:#fold_create_fold#:#Create Folder
-common#:#fold_create_frm#:#Create Forum
-common#:#fold_create_glo#:#Create Glossary
-common#:#fold_create_grp#:#Add new Group
-common#:#fold_create_hlm#:#Create HACP Learning Module
-common#:#fold_create_htlm#:#Create HTML Learning Module
-common#:#fold_create_icrs#:#Create LearnLinc Seminar
-common#:#fold_create_lm#:#Create ILIAS Learning Module
-common#:#fold_create_mcst#:#Create Mediacast
-common#:#fold_create_mep#:#Create Media Pool
-common#:#fold_create_qpl#:#Create Question Pool Test
-common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#fold_create_spl#:#Create Question Pool Survey
-common#:#fold_create_svy#:#Create Survey
-common#:#fold_create_tst#:#Create Test
-common#:#fold_create_webr#:#Create Weblink
-common#:#fold_create_write#:#Create Wiki
-common#:#fold_delete#:#Delete Folder
-common#:#fold_edit_learning_progress#:#Edit Learning Progress
-common#:#fold_edit_permission#:#Change Permission settings
+rbac#:#fold_create_exc#:#Create Exercise
+rbac#:#fold_create_file#:#Upload File
+rbac#:#fold_create_fold#:#Create Folder
+rbac#:#fold_create_frm#:#Create Forum
+rbac#:#fold_create_glo#:#Create Glossary
+rbac#:#fold_create_grp#:#Create Group
+rbac#:#fold_create_htlm#:#Create HTML Learning Module
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar
+rbac#:#fold_create_lm#:#Create ILIAS Learning Module
+rbac#:#fold_create_mcst#:#Create Mediacast
+rbac#:#fold_create_mep#:#Create Media Pool
+rbac#:#fold_create_qpl#:#Create Question Pool Test
+rbac#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#fold_create_spl#:#Create Question Pool Survey
+rbac#:#fold_create_svy#:#Create Survey
+rbac#:#fold_create_tst#:#Create Test
+rbac#:#fold_create_webr#:#Create Weblink
+rbac#:#fold_delete#:#User can delete or move folder
+rbac#:#fold_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#fold_edit_permission#:#User can change permission settings
 common#:#fold_edit#:#Edit Folder
 common#:#fold_new#:#New Folder
-common#:#fold_read#:#Read access to Folder
+rbac#:#fold_read#:#User has read access to folder
 common#:#fold_visible#:#Folder is visible
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
-common#:#fold_write#:#Edit Folder
+rbac#:#fold_write#:#User can edit settings of folder and manage content
 common#:#fold#:#Folder
 common#:#folder#:#Folder
 common#:#folders#:#Folders
@@ -12609,7 +12604,7 @@ rbac#:#dcl_copy#:#Copy Data Collection
 rbac#:#dcl_write#:#Edit Data Collection
 rbac#:#dcl_delete#:#Delete Data Collection
 rbac#:#dcl_edit_permission#:#Change permission settings
-rbac#:#dcl_add_entry#:#Add Entry
+rbac#:#dcl_add_entry#:#User can add an entry to the data collection
 rbac#:#crs_create_dcl#:#Create Data Collection
 rbac#:#root_create_dcl#:#Create Data Collection
 rbac#:#fold_create_dcl#:#Create Data Collection
@@ -12896,3 +12891,6 @@ help#:#help_help_file#:#Help Package File
 help#:#help_modules#:#Help Packages
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?
 help#:#help_module_uploaded#:#Help package uploaded.
+common#:#add_entry#:#Add entry
+rbac#:#fold_copy#:#User can copy folder
+rbac#:#fold_create_poll#:#Create Poll

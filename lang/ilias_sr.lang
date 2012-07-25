@@ -1663,30 +1663,30 @@ common#:#fold_added#:#Registrator je dodat
 common#:#fold_create_alm#:#Kreiraj AICC metod ucenja
 common#:#fold_create_chat#:#Kreiraj Caskanje
 common#:#fold_create_dbk#:#Kreiraj Digilib knjigu
-common#:#fold_create_exc#:#Kreiraj Vežbu
-common#:#fold_create_file#:#Postavi fajl
-common#:#fold_create_fold#:#Kreiraj Registrator
-common#:#fold_create_frm#:#Kreiraj Forum
-common#:#fold_create_glo#:#Kreiraj Recnik termina
+rbac#:#fold_create_exc#:#Kreiraj Vežbu
+rbac#:#fold_create_file#:#Postavi fajl
+rbac#:#fold_create_fold#:#Kreiraj Registrator
+rbac#:#fold_create_frm#:#Kreiraj Forum
+rbac#:#fold_create_glo#:#Kreiraj Recnik termina
 common#:#fold_create_hlm#:#Kreiraj HACP metod ucenja
-common#:#fold_create_htlm#:#Kreiraj HTML metod ucenja
-common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
-common#:#fold_create_lm#:#Kreiraj ILIAS metod ucenja
-common#:#fold_create_mep#:#Kreiraj bazu sredstava
-common#:#fold_create_qpl#:#Kreiraj Bazu pitanja za test
-common#:#fold_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
-common#:#fold_create_spl#:#Kreiraj Bazu pitanja za proveru
-common#:#fold_create_svy#:#Kreiraj Proveru
-common#:#fold_create_tst#:#Kreiraj Test
-common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
-common#:#fold_delete#:#Obriši Registrator
+rbac#:#fold_create_htlm#:#Kreiraj HTML metod ucenja
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+rbac#:#fold_create_lm#:#Kreiraj ILIAS metod ucenja
+rbac#:#fold_create_mep#:#Kreiraj bazu sredstava
+rbac#:#fold_create_qpl#:#Kreiraj Bazu pitanja za test
+rbac#:#fold_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
+rbac#:#fold_create_spl#:#Kreiraj Bazu pitanja za proveru
+rbac#:#fold_create_svy#:#Kreiraj Proveru
+rbac#:#fold_create_tst#:#Kreiraj Test
+rbac#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
+rbac#:#fold_delete#:#Obriši Registrator
 common#:#fold_edit#:#Uredi Registrator
-common#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
-common#:#fold_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+rbac#:#fold_edit_permission#:#Promenite okvir za dozvolu
 common#:#fold_new#:#Novi Registrator
-common#:#fold_read#:#Upoznajte pristup Registratoru
+rbac#:#fold_read#:#Upoznajte pristup Registratoru
 common#:#fold_visible#:#Registrator je vidljiv
-common#:#fold_write#:#Uredi Registrator
+rbac#:#fold_write#:#Uredi Registrator
 common#:#folder#:#Registrator
 common#:#folders#:#Registratori
 common#:#force_accept_usr_agreement#:#Morate prihvatiti Korisnicki sporazum!
@@ -6702,7 +6702,7 @@ common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
+rbac#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###25 02 2007 new variable
 assessment#:#externalscript_additional_parameters#:#Script Parameters###25 02 2007 new variable
 assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
@@ -7003,7 +7003,7 @@ rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable

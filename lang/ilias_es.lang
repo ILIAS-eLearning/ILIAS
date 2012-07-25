@@ -3124,35 +3124,35 @@ common#:#fold_copy_threads_info#:#Por favor decida qué materiales deben ser cop
 common#:#fold_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#fold_create_chat#:#Crear Chat
 common#:#fold_create_dbk#:#Crear Libro Digital
-common#:#fold_create_exc#:#Crear entrega de ejercicios
-common#:#fold_create_file#:#Enviar Archivo
-common#:#fold_create_fold#:#Crear Carpeta
-common#:#fold_create_frm#:#Crear Foro
-common#:#fold_create_glo#:#Crear Glosario
-common#:#fold_create_grp#:#Añadir nuevo grupo
+rbac#:#fold_create_exc#:#Crear entrega de ejercicios
+rbac#:#fold_create_file#:#Enviar Archivo
+rbac#:#fold_create_fold#:#Crear Carpeta
+rbac#:#fold_create_frm#:#Crear Foro
+rbac#:#fold_create_glo#:#Crear Glosario
+rbac#:#fold_create_grp#:#Añadir nuevo grupo
 common#:#fold_create_hlm#:#Crear Módulo de aprendizaje HACP
-common#:#fold_create_htlm#:#Crear Módulo de aprendizaje HTML
-common#:#fold_create_icrs#:#Crear Seminario LearnLinc
-common#:#fold_create_lm#:#Crear Módulo de aprendizaje
-common#:#fold_create_mcst#:#Crear MediaCast
-common#:#fold_create_mep#:#Crear Banco Multimedia
-common#:#fold_create_qpl#:#Crear Banco de Preguntas para Test
-common#:#fold_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
-common#:#fold_create_spl#:#Crear Banco de Preguntas para Encuesta
-common#:#fold_create_svy#:#Crear Encuesta
-common#:#fold_create_tst#:#Crear Test
-common#:#fold_create_webr#:#Crear nuevo Recurso Web
+rbac#:#fold_create_htlm#:#Crear Módulo de aprendizaje HTML
+rbac#:#fold_create_icrs#:#Crear Seminario LearnLinc
+rbac#:#fold_create_lm#:#Crear Módulo de aprendizaje
+rbac#:#fold_create_mcst#:#Crear MediaCast
+rbac#:#fold_create_mep#:#Crear Banco Multimedia
+rbac#:#fold_create_qpl#:#Crear Banco de Preguntas para Test
+rbac#:#fold_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
+rbac#:#fold_create_spl#:#Crear Banco de Preguntas para Encuesta
+rbac#:#fold_create_svy#:#Crear Encuesta
+rbac#:#fold_create_tst#:#Crear Test
+rbac#:#fold_create_webr#:#Crear nuevo Recurso Web
 common#:#fold_create_write#:#Crear Wiki
-common#:#fold_delete#:#Borrar Carpeta
+rbac#:#fold_delete#:#Borrar Carpeta
 common#:#fold_edit#:#Editar Carpeta
-common#:#fold_edit_learning_progress#:#Editar Progreso de Aprendizaje
-common#:#fold_edit_permission#:#Modificar configuración de permisos
+rbac#:#fold_edit_learning_progress#:#Editar Progreso de Aprendizaje
+rbac#:#fold_edit_permission#:#Modificar configuración de permisos
 common#:#fold_new#:#Nueva Carpeta
-common#:#fold_read#:#acceso de lectura a la Carpeta
+rbac#:#fold_read#:#acceso de lectura a la Carpeta
 common#:#fold_type#:#Tipo de carpeta
 common#:#fold_visible#:#La carpeta es visible
 common#:#fold_wizard_page#:#Copiar Carpeta (Paso 2/2)
-common#:#fold_write#:#Editar Carpeta
+rbac#:#fold_write#:#Editar Carpeta
 common#:#folder#:#carpeta
 common#:#folders#:#carpeta
 common#:#follow_link_to_read_mails#:#haz click en el siguiente enlace para leer estos correos:

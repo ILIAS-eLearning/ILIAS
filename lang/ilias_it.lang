@@ -2554,34 +2554,34 @@ common#:#fold_copy_threads_info#:#Please decide which materials should be copied
 common#:#fold_create_alm#:#Creare un modulo AICC
 common#:#fold_create_chat#:#Creare una chat
 common#:#fold_create_dbk#:#Creare una libreria digitale
-common#:#fold_create_exc#:#Creare un esercizio
-common#:#fold_create_file#:#Creare un file
-common#:#fold_create_fold#:#Creare una cartella
-common#:#fold_create_frm#:#Creare un forum
-common#:#fold_create_glo#:#Creare un glossario
-common#:#fold_create_grp#:#Aggiungi nuovo Group
+rbac#:#fold_create_exc#:#Creare un esercizio
+rbac#:#fold_create_file#:#Creare un file
+rbac#:#fold_create_fold#:#Creare una cartella
+rbac#:#fold_create_frm#:#Creare un forum
+rbac#:#fold_create_glo#:#Creare un glossario
+rbac#:#fold_create_grp#:#Aggiungi nuovo Group
 common#:#fold_create_hlm#:#Creare un modulo HACP
-common#:#fold_create_htlm#:#Creare un modulo HTML
-common#:#fold_create_icrs#:#Creare un seminario LearnLinc
-common#:#fold_create_lm#:#Creare un modulo ILIAS
-common#:#fold_create_mcst#:#Creare MediaCast
-common#:#fold_create_mep#:#Creare una raccolta multimediale
-common#:#fold_create_qpl#:#Creare una raccolta di domande per test
-common#:#fold_create_sahs#:#Creare un modulo SCORM/AICC
-common#:#fold_create_spl#:#Creare una raccolta di domande per sondaggi
-common#:#fold_create_svy#:#Creare un sondaggio
-common#:#fold_create_tst#:#Creare un test
-common#:#fold_create_webr#:#Creare una Risorsa Web
+rbac#:#fold_create_htlm#:#Creare un modulo HTML
+rbac#:#fold_create_icrs#:#Creare un seminario LearnLinc
+rbac#:#fold_create_lm#:#Creare un modulo ILIAS
+rbac#:#fold_create_mcst#:#Creare MediaCast
+rbac#:#fold_create_mep#:#Creare una raccolta multimediale
+rbac#:#fold_create_qpl#:#Creare una raccolta di domande per test
+rbac#:#fold_create_sahs#:#Creare un modulo SCORM/AICC
+rbac#:#fold_create_spl#:#Creare una raccolta di domande per sondaggi
+rbac#:#fold_create_svy#:#Creare un sondaggio
+rbac#:#fold_create_tst#:#Creare un test
+rbac#:#fold_create_webr#:#Creare una Risorsa Web
 common#:#fold_create_write#:#Creare Wiki
-common#:#fold_delete#:#Cancellare una cartella
+rbac#:#fold_delete#:#Cancellare una cartella
 common#:#fold_edit#:#Modificare una cartella
-common#:#fold_edit_learning_progress#:#Modifica i Progressi di apprendimento
-common#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#fold_edit_learning_progress#:#Modifica i Progressi di apprendimento
+rbac#:#fold_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#fold_new#:#Nuova cartella
-common#:#fold_read#:#Accedere in lettura ad una cartella
+rbac#:#fold_read#:#Accedere in lettura ad una cartella
 common#:#fold_visible#:#Vedere una cartella
 common#:#fold_wizard_page#:#Copia Cartella (Passo 2/2)
-common#:#fold_write#:#Modificare una cartella
+rbac#:#fold_write#:#Modificare una cartella
 common#:#folder#:#Cartella
 common#:#folders#:#Cartelle
 common#:#force_accept_usr_agreement#:#Hai accettato l&#039;accordo utente!
