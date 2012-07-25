@@ -65,7 +65,7 @@ class ilSolutionExplorer extends ilExplorer
 		$this->root_id = $this->tree->readRootId();
 		$this->order_column = "title";
 
-		$this->setSessionExpandVariable("expand");
+		$this->setSessionExpandVariable("expand_sol");
 
 		// add here all container objects
 		$this->addFilter("root");
@@ -76,6 +76,31 @@ class ilSolutionExplorer extends ilExplorer
 
 		$this->setFilterMode(IL_FM_POSITIVE);
 		$this->setFiltered(true);
+	}
+
+	/**
+	 * @param int $ref_id
+	 */
+	public function expandPathByRefId($ref_id)
+	{
+		/**
+		 * @var $tree ilTree
+		 */
+		global $tree;
+
+		if(!$_SESSION[$this->expand_variable])
+		{
+			$_SESSION[$this->expand_variable] = array();
+		}
+
+		$path = $tree->getPathId($ref_id);
+		foreach((array)$path as $node_id)
+		{
+			if(!in_array($node_id, $_SESSION[$this->expand_variable]))
+				$_SESSION[$this->expand_variable][] = $node_id;
+		}
+
+		$this->expanded = $_SESSION[$this->expand_variable];
 	}
 
 	function setSelectableType($a_type)
