@@ -4570,7 +4570,22 @@ class ilObjCourseGUI extends ilContainerGUI
 				{
 					$ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 				}
-				*/
+				*/		
+				
+				// #9401 - see also ilStartupGUI::_checkGoto()
+				if($cmd == 'infoScreenGoto')
+				{											
+					if(ilObjCourse::_isActivated($this->object->getId()) &&
+						ilObjCourse::_registrationEnabled($this->object->getId()))
+					{
+						$cmd = 'join';						
+					}
+					else
+					{
+						$cmd = 'infoScreen';
+					}
+				}
+				
 				if( !$this->creation_mode
 					&& $cmd != 'infoScreen'
 					&& $cmd != 'sendfile'
@@ -4579,7 +4594,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					&& !$ilAccess->checkAccess("read",'',$this->object->getRefId())
 					|| $cmd == 'join'
 					|| $cmd == 'subscribe')
-				{
+				{											
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 					if($rbacsystem->checkAccess('join',$this->object->getRefId()) &&
 						!ilCourseParticipants::_isParticipant($this->object->getRefId(),$ilUser->getId()))
@@ -4815,7 +4830,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			// to do: force flat view
 			if ($ilAccess->checkAccess("visible", "", $a_target))
 			{
-				ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+				ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreenGoto");
 			}
 			else
 			{
