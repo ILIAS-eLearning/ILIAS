@@ -280,6 +280,10 @@ class ilCertificate
 		{
 			$pagesize = "letterlandscape";
 		}
+		else
+		{
+			$pagesize = "custom";
+		}
 		if (!strlen($xslfo)) $pagesize = $certificatesettings->get("pageformat");;
 		
 		$paddingtop = "0cm";
