@@ -9501,7 +9501,8 @@ ilDBUpdateNewObjectType::addRBACOperations($dcl_type_id, $rbac_ops);
 $parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
 ilDBUpdateNewObjectType::addRBACCreate('create_dcl', 'Create Data Collection', $parent_types);
 
-ilDBUpdateNewObjectType::addCustomRBACOperation($dcl_type_id, 'add_entry');
+// see 3675
+// ilDBUpdateNewObjectType::addCustomRBACOperation($dcl_type_id, 'add_entry');
 
 ?>
 <#3569>
@@ -10676,7 +10677,8 @@ ilDBUpdateNewObjectType::addRBACOperations($poll_type_id, $rbac_ops);
 $parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
 ilDBUpdateNewObjectType::addRBACCreate('create_poll', 'Create Poll', $parent_types);
 
-ilDBUpdateNewObjectType::addCustomRBACOperation($poll_type_id, 'add_entry');
+// see 3675
+// ilDBUpdateNewObjectType::addCustomRBACOperation($poll_type_id, 'add_entry');
 
 ?>
 <#3629>
