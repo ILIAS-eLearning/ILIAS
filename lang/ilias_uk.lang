@@ -1412,29 +1412,29 @@ common#:#fold_added#:#Папка додана
 common#:#fold_create_alm#:#Створити AICC Учбовий Модуль
 common#:#fold_create_chat#:#Створити Чат
 common#:#fold_create_dbk#:#Створити Digilib Книгу
-common#:#fold_create_exc#:#Створити Вправу
-common#:#fold_create_file#:#Завантажити Файл
-common#:#fold_create_fold#:#Створити Папку
-common#:#fold_create_frm#:#Створити Форум
-common#:#fold_create_glo#:#Створити Глосарій
+rbac#:#fold_create_exc#:#Створити Вправу
+rbac#:#fold_create_file#:#Завантажити Файл
+rbac#:#fold_create_fold#:#Створити Папку
+rbac#:#fold_create_frm#:#Створити Форум
+rbac#:#fold_create_glo#:#Створити Глосарій
 common#:#fold_create_hlm#:#Створити HACP Учбовий Модуль
-common#:#fold_create_htlm#:#Створити HTML Учбовий Модуль
-common#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
-common#:#fold_create_lm#:#Створити Учбовий Модуль
-common#:#fold_create_mep#:#Створити Медіа Пул
-common#:#fold_create_qpl#:#Створити Пул Питань для Тесту
-common#:#fold_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
-common#:#fold_create_spl#:#Створити Пул Питань для Голосування
-common#:#fold_create_svy#:#Створити Опитування
-common#:#fold_create_tst#:#Створити Тест
-common#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
-common#:#fold_delete#:#Видалити Папку
+rbac#:#fold_create_htlm#:#Створити HTML Учбовий Модуль
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+rbac#:#fold_create_lm#:#Створити Учбовий Модуль
+rbac#:#fold_create_mep#:#Створити Медіа Пул
+rbac#:#fold_create_qpl#:#Створити Пул Питань для Тесту
+rbac#:#fold_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
+rbac#:#fold_create_spl#:#Створити Пул Питань для Голосування
+rbac#:#fold_create_svy#:#Створити Опитування
+rbac#:#fold_create_tst#:#Створити Тест
+rbac#:#fold_create_webr#:#Create new Web Resource###14 Jul 2005 new variable
+rbac#:#fold_delete#:#Видалити Папку
 common#:#fold_edit#:#РЕдагувати Папку
-common#:#fold_edit_permission#:#Змінити настройки прав
+rbac#:#fold_edit_permission#:#Змінити настройки прав
 common#:#fold_new#:#Нова Папка
-common#:#fold_read#:#Доступ на читання до Папки
+rbac#:#fold_read#:#Доступ на читання до Папки
 common#:#fold_visible#:#Папка є видимою
-common#:#fold_write#:#Редагувати Папку
+rbac#:#fold_write#:#Редагувати Папку
 common#:#folder#:#папка
 common#:#folders#:#Папки
 common#:#force_accept_usr_agreement#:#Ви маєте прийняти угоду користувача!
@@ -5598,7 +5598,7 @@ common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
+rbac#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
 assessment#:#delete_image#:#Delete Image###25 02 2007 new variable
 assessment#:#detailed_evaluation#:#Detailed Evaluation###25 02 2007 new variable
@@ -5977,7 +5977,7 @@ common#:#field_name#:#Field Name###25 02 2007 new variable
 common#:#field_type#:#Field Type###25 02 2007 new variable
 common#:#file_suffix_repl#:#File Upload Suffix Replacement###25 02 2007 new variable
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###25 02 2007 new variable
-common#:#fold_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
+rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
 common#:#forum_direct_notification#:#Dir. Notification###25 02 2007 new variable
 common#:#forum_general_notification#:#Gen. Notification###25 02 2007 new variable
 common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###25 02 2007 new variable
@@ -7003,7 +7003,7 @@ rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable

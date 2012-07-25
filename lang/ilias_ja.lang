@@ -3124,35 +3124,35 @@ common#:#fold_copy_threads_info#:#どの教材をコピー、リンクもしく�
 common#:#fold_create_alm#:#AICCラーニングモジュールを作成
 common#:#fold_create_chat#:#チャットを作成
 common#:#fold_create_dbk#:#Digilibブックを作成
-common#:#fold_create_exc#:#練習問題を作成
-common#:#fold_create_file#:#アップロードファイル
-common#:#fold_create_fold#:#フォルダを作成
-common#:#fold_create_frm#:#フォーラムを作成
-common#:#fold_create_glo#:#用語集を作成
-common#:#fold_create_grp#:#新規グループを追加
+rbac#:#fold_create_exc#:#練習問題を作成
+rbac#:#fold_create_file#:#アップロードファイル
+rbac#:#fold_create_fold#:#フォルダを作成
+rbac#:#fold_create_frm#:#フォーラムを作成
+rbac#:#fold_create_glo#:#用語集を作成
+rbac#:#fold_create_grp#:#新規グループを追加
 common#:#fold_create_hlm#:#HACPラーニングモジュールを作成
-common#:#fold_create_htlm#:#Create HTML ラーニングモジュール
-common#:#fold_create_icrs#:#LearnLincセミナーを作成
-common#:#fold_create_lm#:#ILIASラーニングモジュールを作成
-common#:#fold_create_mcst#:#メディアキャストを作成
-common#:#fold_create_mep#:#メディアプールを作成
-common#:#fold_create_qpl#:#テスト問題集を作成
-common#:#fold_create_sahs#:#SCORM/AICCラーニングモジュールを作成
-common#:#fold_create_spl#:#問題集サーベイを作成
-common#:#fold_create_svy#:#サーベイを作成
-common#:#fold_create_tst#:#テストを作成
-common#:#fold_create_webr#:#Webリンクを作成
+rbac#:#fold_create_htlm#:#Create HTML ラーニングモジュール
+rbac#:#fold_create_icrs#:#LearnLincセミナーを作成
+rbac#:#fold_create_lm#:#ILIASラーニングモジュールを作成
+rbac#:#fold_create_mcst#:#メディアキャストを作成
+rbac#:#fold_create_mep#:#メディアプールを作成
+rbac#:#fold_create_qpl#:#テスト問題集を作成
+rbac#:#fold_create_sahs#:#SCORM/AICCラーニングモジュールを作成
+rbac#:#fold_create_spl#:#問題集サーベイを作成
+rbac#:#fold_create_svy#:#サーベイを作成
+rbac#:#fold_create_tst#:#テストを作成
+rbac#:#fold_create_webr#:#Webリンクを作成
 common#:#fold_create_write#:#Wikiを作成
-common#:#fold_delete#:#フォルダを削除
+rbac#:#fold_delete#:#フォルダを削除
 common#:#fold_edit#:#フォルダを編集
-common#:#fold_edit_learning_progress#:#学習進捗を編集
-common#:#fold_edit_permission#:#アクセス権限設定を変更
+rbac#:#fold_edit_learning_progress#:#学習進捗を編集
+rbac#:#fold_edit_permission#:#アクセス権限設定を変更
 common#:#fold_new#:#新規フォルダ
-common#:#fold_read#:#フォルダへの読込アクセス
+rbac#:#fold_read#:#フォルダへの読込アクセス
 common#:#fold_type#:#フォルダータイプ
 common#:#fold_visible#:#フォルダを表示
 common#:#fold_wizard_page#:#フォルダをコピー (Step 2/2)
-common#:#fold_write#:#フォルダを編集
+rbac#:#fold_write#:#フォルダを編集
 common#:#folder#:#フォルダ
 common#:#folders#:#フォルダ
 common#:#follow_link_to_read_mails#:#メールを読むには次のリンクをクリックします

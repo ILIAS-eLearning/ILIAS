@@ -3126,35 +3126,35 @@ common#:#fold_copy_threads_info#:#Zdecyduj, które materiały powinny być skopi
 common#:#fold_create_alm#:#Twórz Moduły Nauczania AICC
 common#:#fold_create_chat#:#Twórz czat
 common#:#fold_create_dbk#:#Twórz Książkę Cyfrową
-common#:#fold_create_exc#:#Twórz Ćwiczenie
-common#:#fold_create_file#:#Załaduj plik
-common#:#fold_create_fold#:#Twórz Folder
-common#:#fold_create_frm#:#Twórz Forum
-common#:#fold_create_glo#:#Twórz Słownik
-common#:#fold_create_grp#:#Dodaj nową grupę
+rbac#:#fold_create_exc#:#Twórz Ćwiczenie
+rbac#:#fold_create_file#:#Załaduj plik
+rbac#:#fold_create_fold#:#Twórz Folder
+rbac#:#fold_create_frm#:#Twórz Forum
+rbac#:#fold_create_glo#:#Twórz Słownik
+rbac#:#fold_create_grp#:#Dodaj nową grupę
 common#:#fold_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#fold_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#fold_create_icrs#:#Twórz seminarium LearnLinc
-common#:#fold_create_lm#:#Twórz Moduł Nauczania
-common#:#fold_create_mcst#:#Utwórz MediaCast
-common#:#fold_create_mep#:#Twórz pulę Mediów
-common#:#fold_create_qpl#:#Twórz pulę pytań dla Testów
-common#:#fold_create_sahs#:#Twórz moduł nauczania SCORM/AICC
-common#:#fold_create_spl#:#Twórz pulę pytań dla ankiet
-common#:#fold_create_svy#:#Twórz Ankietę
-common#:#fold_create_tst#:#Twórz Test
-common#:#fold_create_webr#:#Twórz nowy zasób web
+rbac#:#fold_create_htlm#:#Twórz Moduł Nauczania HTML
+rbac#:#fold_create_icrs#:#Twórz seminarium LearnLinc
+rbac#:#fold_create_lm#:#Twórz Moduł Nauczania
+rbac#:#fold_create_mcst#:#Utwórz MediaCast
+rbac#:#fold_create_mep#:#Twórz pulę Mediów
+rbac#:#fold_create_qpl#:#Twórz pulę pytań dla Testów
+rbac#:#fold_create_sahs#:#Twórz moduł nauczania SCORM/AICC
+rbac#:#fold_create_spl#:#Twórz pulę pytań dla ankiet
+rbac#:#fold_create_svy#:#Twórz Ankietę
+rbac#:#fold_create_tst#:#Twórz Test
+rbac#:#fold_create_webr#:#Twórz nowy zasób web
 common#:#fold_create_write#:#Create Wiki
-common#:#fold_delete#:#Usuń Folder
+rbac#:#fold_delete#:#Usuń Folder
 common#:#fold_edit#:#Edytuj Folder
-common#:#fold_edit_learning_progress#:#Edycja procesu nauczania
-common#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
+rbac#:#fold_edit_learning_progress#:#Edycja procesu nauczania
+rbac#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
 common#:#fold_new#:#Nowy Folder
-common#:#fold_read#:#Prawo czytania Folderu
+rbac#:#fold_read#:#Prawo czytania Folderu
 common#:#fold_type#:#Folder Type
 common#:#fold_visible#:#Folder jest widoczny
 common#:#fold_wizard_page#:#Kopiuj Folder (etap 2/2)
-common#:#fold_write#:#Edycja Folderu
+rbac#:#fold_write#:#Edycja Folderu
 common#:#folder#:#Folder
 common#:#folders#:#Foldery
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:

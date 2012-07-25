@@ -1206,27 +1206,27 @@ common#:#fold_added#:#Каталог добавлен
 common#:#fold_create_alm#:#Созадть AICC Обучающий Модуль
 common#:#fold_create_chat#:#Создать Чат
 common#:#fold_create_dbk#:#Создать Цифровую книгу
-common#:#fold_create_exc#:#Создать пример
-common#:#fold_create_file#:#Переслать/Создать файл
-common#:#fold_create_fold#:#Создать каталог
-common#:#fold_create_frm#:#Создать Форум
-common#:#fold_create_glo#:#Создать Словарь
+rbac#:#fold_create_exc#:#Создать пример
+rbac#:#fold_create_file#:#Переслать/Создать файл
+rbac#:#fold_create_fold#:#Создать каталог
+rbac#:#fold_create_frm#:#Создать Форум
+rbac#:#fold_create_glo#:#Создать Словарь
 common#:#fold_create_hlm#:#Создать HACP Обучающий Модуль
-common#:#fold_create_htlm#:#Создать HTML Обучающий Модуль
-common#:#fold_create_lm#:#Создать ILIAS Обучающий Модуль
-common#:#fold_create_mep#:#Создать Медиа Набор
-common#:#fold_create_qpl#:#Создать Набор Вопросов теста
-common#:#fold_create_sahs#:#Создать SCORM/AICC Обучающий Модуль
-common#:#fold_create_spl#:#Создать Набор Вопросов опроса
-common#:#fold_create_svy#:#Создать опрос
-common#:#fold_create_tst#:#Создать Тест
-common#:#fold_delete#:#Удалить Каталог
+rbac#:#fold_create_htlm#:#Создать HTML Обучающий Модуль
+rbac#:#fold_create_lm#:#Создать ILIAS Обучающий Модуль
+rbac#:#fold_create_mep#:#Создать Медиа Набор
+rbac#:#fold_create_qpl#:#Создать Набор Вопросов теста
+rbac#:#fold_create_sahs#:#Создать SCORM/AICC Обучающий Модуль
+rbac#:#fold_create_spl#:#Создать Набор Вопросов опроса
+rbac#:#fold_create_svy#:#Создать опрос
+rbac#:#fold_create_tst#:#Создать Тест
+rbac#:#fold_delete#:#Удалить Каталог
 common#:#fold_edit#:#Редактировать Каталог
-common#:#fold_edit_permission#:#Может изменять параметры доступа
+rbac#:#fold_edit_permission#:#Может изменять параметры доступа
 common#:#fold_new#:#Новый каталог
-common#:#fold_read#:#Доступ для чтения к Каталогу
+rbac#:#fold_read#:#Доступ для чтения к Каталогу
 common#:#fold_visible#:#Каталог виден
-common#:#fold_write#:#Редактировать Каталог
+rbac#:#fold_write#:#Редактировать Каталог
 common#:#folder#:#Каталог
 common#:#folders#:#Каталоги
 common#:#force_accept_usr_agreement#:#Вы должны принять соглашение с пользователем!
@@ -5221,8 +5221,8 @@ common#:#extt_remark#:#All software and services listed above are not part of IL
 common#:#extt_title_configure#:#Configure external software###06 09 2006 new variable
 common#:#extt_visible#:#Third party software settings are visible###06 09 2006 new variable
 common#:#extt_write#:#Configure third party software###06 09 2006 new variable
-common#:#fold_create_icrs#:#Create LearnLinc Seminar###06 09 2006 new variable
-common#:#fold_create_webr#:#Create Web Resource###06 09 2006 new variable
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar###06 09 2006 new variable
+rbac#:#fold_create_webr#:#Create Web Resource###06 09 2006 new variable
 common#:#forgot_username#:#Forgot username?###06 09 2006 new variable
 common#:#forums_articles#:#Articles###06 09 2006 new variable
 common#:#forums_last_post#:#Last Article###06 09 2006 new variable
@@ -5598,7 +5598,7 @@ common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
+rbac#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
 assessment#:#delete_image#:#Delete Image###25 02 2007 new variable
 assessment#:#detailed_evaluation#:#Detailed Evaluation###25 02 2007 new variable
@@ -5977,7 +5977,7 @@ common#:#field_name#:#Field Name###25 02 2007 new variable
 common#:#field_type#:#Field Type###25 02 2007 new variable
 common#:#file_suffix_repl#:#File Upload Suffix Replacement###25 02 2007 new variable
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###25 02 2007 new variable
-common#:#fold_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
+rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
 common#:#forum_direct_notification#:#Dir. Notification###25 02 2007 new variable
 common#:#forum_general_notification#:#Gen. Notification###25 02 2007 new variable
 common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###25 02 2007 new variable
@@ -7003,7 +7003,7 @@ rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable

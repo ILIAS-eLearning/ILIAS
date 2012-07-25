@@ -2759,34 +2759,34 @@ common#:#fold_copy_threads_info#:#Gelieve te beslissen welk leermateriaal gekopi
 common#:#fold_create_alm#:#Creëer AICC Lesmodule
 common#:#fold_create_chat#:#Creëer chat
 common#:#fold_create_dbk#:#Creër Digilibboek
-common#:#fold_create_exc#:#Creëer oefening
-common#:#fold_create_file#:#Upload-bestand
-common#:#fold_create_fold#:#Creëer Map
-common#:#fold_create_frm#:#Creëer forum
-common#:#fold_create_glo#:#Creëer woordenlijst
-common#:#fold_create_grp#:#Voeg een nieuwe groep toe
+rbac#:#fold_create_exc#:#Creëer oefening
+rbac#:#fold_create_file#:#Upload-bestand
+rbac#:#fold_create_fold#:#Creëer Map
+rbac#:#fold_create_frm#:#Creëer forum
+rbac#:#fold_create_glo#:#Creëer woordenlijst
+rbac#:#fold_create_grp#:#Voeg een nieuwe groep toe
 common#:#fold_create_hlm#:#Creëer HACP lesmodule
-common#:#fold_create_htlm#:#Creëer HTML Learning Module
-common#:#fold_create_icrs#:#Creëer LearnLinc Seminar
-common#:#fold_create_lm#:#Creëer lesmodule
-common#:#fold_create_mcst#:#Maak MediaCast
-common#:#fold_create_mep#:#Creëer Media Poole
-common#:#fold_create_qpl#:#Creëer Vragenpool voor test
-common#:#fold_create_sahs#:#Creëer SCORM/AICC lesmodule
-common#:#fold_create_spl#:#Creëer Vragenpool voor enquête
-common#:#fold_create_svy#:#Creëer Enquête
-common#:#fold_create_tst#:#Creëer Test
-common#:#fold_create_webr#:#Nieuwe website toevoegen
+rbac#:#fold_create_htlm#:#Creëer HTML Learning Module
+rbac#:#fold_create_icrs#:#Creëer LearnLinc Seminar
+rbac#:#fold_create_lm#:#Creëer lesmodule
+rbac#:#fold_create_mcst#:#Maak MediaCast
+rbac#:#fold_create_mep#:#Creëer Media Poole
+rbac#:#fold_create_qpl#:#Creëer Vragenpool voor test
+rbac#:#fold_create_sahs#:#Creëer SCORM/AICC lesmodule
+rbac#:#fold_create_spl#:#Creëer Vragenpool voor enquête
+rbac#:#fold_create_svy#:#Creëer Enquête
+rbac#:#fold_create_tst#:#Creëer Test
+rbac#:#fold_create_webr#:#Nieuwe website toevoegen
 common#:#fold_create_write#:#Create Wiki
-common#:#fold_delete#:#Verwijder Ma
+rbac#:#fold_delete#:#Verwijder Ma
 common#:#fold_edit#:#Wijzig Map
-common#:#fold_edit_learning_progress#:#Leerweg aanpassen
-common#:#fold_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#fold_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#fold_edit_permission#:#Wijzig instellingen van de rechten
 common#:#fold_new#:#Nieuwe map
-common#:#fold_read#:#Leesrechten op Map
+rbac#:#fold_read#:#Leesrechten op Map
 common#:#fold_visible#:#Map is zichtbaar
 common#:#fold_wizard_page#:#Kopieër Map (Stap 2/2)
-common#:#fold_write#:#Wijzig Map
+rbac#:#fold_write#:#Wijzig Map
 common#:#folder#:#Map
 common#:#folders#:#Mappen
 common#:#follow_link_to_read_mails#:#Klik op de volgende link om deze mails te lezen:

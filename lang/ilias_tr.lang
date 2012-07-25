@@ -2721,34 +2721,34 @@ common#:#fold_copy_threads_info#:#Please decide which materials should be copied
 common#:#fold_create_alm#:#AICC Öğrenme Modülü Oluştur
 common#:#fold_create_chat#:#Sohbet Oluştur
 common#:#fold_create_dbk#:#Digilib Kitabı Oluştur
-common#:#fold_create_exc#:#Alıştırma Oluştur
-common#:#fold_create_file#:#Dosya Yükle
-common#:#fold_create_fold#:#Dosya Oluştur
-common#:#fold_create_frm#:#Forum Oluştur
-common#:#fold_create_glo#:#Sözlükçe Oluştur
-common#:#fold_create_grp#:#Add new Group
+rbac#:#fold_create_exc#:#Alıştırma Oluştur
+rbac#:#fold_create_file#:#Dosya Yükle
+rbac#:#fold_create_fold#:#Dosya Oluştur
+rbac#:#fold_create_frm#:#Forum Oluştur
+rbac#:#fold_create_glo#:#Sözlükçe Oluştur
+rbac#:#fold_create_grp#:#Add new Group
 common#:#fold_create_hlm#:#HACP Öğrenme Modülü Oluştur
-common#:#fold_create_htlm#:#HTML Öğrenme Modülü Oluştur
-common#:#fold_create_icrs#:#LearnLinc Semineri Oluştur
-common#:#fold_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-common#:#fold_create_mcst#:#Create Mediacast
-common#:#fold_create_mep#:#Ortam Havuzu Oluştur
-common#:#fold_create_qpl#:#Test İçin Soru Havuzu Oluştur
-common#:#fold_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
-common#:#fold_create_spl#:#Anket İçin Soru Havuzu Oluştur
-common#:#fold_create_svy#:#Anket Oluştur
-common#:#fold_create_tst#:#Test Oluştur
-common#:#fold_create_webr#:#Web Kaynağı Oluştur
+rbac#:#fold_create_htlm#:#HTML Öğrenme Modülü Oluştur
+rbac#:#fold_create_icrs#:#LearnLinc Semineri Oluştur
+rbac#:#fold_create_lm#:#ILIAS Öğrenme Modülü Oluştur
+rbac#:#fold_create_mcst#:#Create Mediacast
+rbac#:#fold_create_mep#:#Ortam Havuzu Oluştur
+rbac#:#fold_create_qpl#:#Test İçin Soru Havuzu Oluştur
+rbac#:#fold_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
+rbac#:#fold_create_spl#:#Anket İçin Soru Havuzu Oluştur
+rbac#:#fold_create_svy#:#Anket Oluştur
+rbac#:#fold_create_tst#:#Test Oluştur
+rbac#:#fold_create_webr#:#Web Kaynağı Oluştur
 common#:#fold_create_write#:#Create Wiki
-common#:#fold_delete#:#Dosya Sil
+rbac#:#fold_delete#:#Dosya Sil
 common#:#fold_edit#:#Dosya Düzenle
-common#:#fold_edit_learning_progress#:#Öğrenmede Kaydedilen İlerlemeyi Düzenle
-common#:#fold_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#fold_edit_learning_progress#:#Öğrenmede Kaydedilen İlerlemeyi Düzenle
+rbac#:#fold_edit_permission#:#İzin ayarlarını değiştir
 common#:#fold_new#:#Yeni Dosya
-common#:#fold_read#:#Dosyaya okuma erişimi
+rbac#:#fold_read#:#Dosyaya okuma erişimi
 common#:#fold_visible#:#Dosya görünür halde
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
-common#:#fold_write#:#Dosya Düzenle
+rbac#:#fold_write#:#Dosya Düzenle
 common#:#folder#:#Dosya
 common#:#folders#:#Dosyalar
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:

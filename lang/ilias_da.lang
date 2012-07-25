@@ -156,7 +156,7 @@ common#:#im_msn_icon#:#MSN Logo
 common#:#im_aim_icon#:#AIM Logo
 common#:#im_skype_icon#:#Skype Logo
 common#:#not_enabled_or_configured#:#Ikke konfigureret eller aktiveret
-common#:#fold_create_grp#:#Tilføj ny gruppe
+rbac#:#fold_create_grp#:#Tilføj ny gruppe
 common#:#width#:#bredde
 common#:#height#:#højde
 common#:#create_date#:#Oprettet på
@@ -966,30 +966,30 @@ common#:#fold_added#:#Mappen er tilføjet
 common#:#fold_create_alm#:#Oprettet AICC Læremodul
 common#:#fold_create_chat#:#Opret chat
 common#:#fold_create_dbk#:#Opret digilibbog
-common#:#fold_create_exc#:#Opret øvelse
-common#:#fold_create_file#:#Upload Fil
-common#:#fold_create_fold#:#Opret mappe
-common#:#fold_create_frm#:#Opret forum
-common#:#fold_create_glo#:#Opret ordbog
+rbac#:#fold_create_exc#:#Opret øvelse
+rbac#:#fold_create_file#:#Upload Fil
+rbac#:#fold_create_fold#:#Opret mappe
+rbac#:#fold_create_frm#:#Opret forum
+rbac#:#fold_create_glo#:#Opret ordbog
 common#:#fold_create_hlm#:#Opret HACP Læremodul
-common#:#fold_create_htlm#:#Opret HTML Læremodul
-common#:#fold_create_icrs#:#Opret LearnLincseminar
-common#:#fold_create_lm#:#Opret ILIAS Læremodul
-common#:#fold_create_mep#:#Opret mediebeholder
-common#:#fold_create_qpl#:#Opret spørgsmålssamling til test
-common#:#fold_create_sahs#:#Opret SCORM/AICC Læremodul
-common#:#fold_create_spl#:#Opret spørgsmål til undersøgelse
-common#:#fold_create_svy#:#Opret undersøgelse
-common#:#fold_create_tst#:#Opret test
-common#:#fold_create_webr#:#Opret webresurse
-common#:#fold_delete#:#Slet mappe
+rbac#:#fold_create_htlm#:#Opret HTML Læremodul
+rbac#:#fold_create_icrs#:#Opret LearnLincseminar
+rbac#:#fold_create_lm#:#Opret ILIAS Læremodul
+rbac#:#fold_create_mep#:#Opret mediebeholder
+rbac#:#fold_create_qpl#:#Opret spørgsmålssamling til test
+rbac#:#fold_create_sahs#:#Opret SCORM/AICC Læremodul
+rbac#:#fold_create_spl#:#Opret spørgsmål til undersøgelse
+rbac#:#fold_create_svy#:#Opret undersøgelse
+rbac#:#fold_create_tst#:#Opret test
+rbac#:#fold_create_webr#:#Opret webresurse
+rbac#:#fold_delete#:#Slet mappe
 common#:#fold_edit#:#Rediger mappe
-common#:#fold_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#fold_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#fold_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#fold_edit_permission#:#Ændre rettighedsindstillinger
 common#:#fold_new#:#Ny mappe
-common#:#fold_read#:#Læseadgang til mappe
+rbac#:#fold_read#:#Læseadgang til mappe
 common#:#fold_visible#:#Mappen er synlig
-common#:#fold_write#:#Rediger mappe
+rbac#:#fold_write#:#Rediger mappe
 common#:#folder#:#Mappe
 common#:#folders#:#Mapper
 common#:#force_accept_usr_agreement#:#Du skal acceptere bruger aftalen!
@@ -1841,7 +1841,7 @@ rbac#:#crs_create_feed#:#Opret web feed
 rbac#:#cat_create_mcst#:#Opret MediaCast
 common#:#grp_create_mcst#:#Opret MediaCast
 rbac#:#crs_create_mcst#:#Opret MediaCast
-common#:#fold_create_mcst#:#Lav MediaCast
+rbac#:#fold_create_mcst#:#Lav MediaCast
 common#:#access_users#:#Indloggede brugere
 common#:#access_public#:#Offentlig
 common#:#access_scope#:#Adgang

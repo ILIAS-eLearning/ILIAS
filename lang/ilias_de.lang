@@ -2764,7 +2764,7 @@ rbac#:#crs_create_webr#:#Neuen Weblink anlegen
 common#:#crs_create_write#:#Wiki anlegen
 rbac#:#crs_delete#:#Kurs löschen
 common#:#crs_edit#:#Kurs bearbeiten
-rbac#:#crs_edit_learning_progress#:#Lernfortschritt bearbeiten
+rbac#:#crs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_info#:#Info
 rbac#:#crs_join#:#Kurs beitreten
@@ -2819,19 +2819,6 @@ common#:#db_pass#:#Datenbank-Password
 common#:#db_type#:#Datenbank Typ
 common#:#db_user#:#Datenbankbenutzer
 common#:#db_version#:#Datenbankversion
-common#:#dbk#:#Digilib-Buch
-common#:#dbk_a#:#ein Digilib-Buch
-common#:#dbk_add#:#Digilib-Buch anlegen
-common#:#dbk_added#:#Digilib-Buch angelegt
-common#:#dbk_copy#:#Digilib-Buch kopieren
-common#:#dbk_create#:#Neues Digilib-Buch anlegen
-common#:#dbk_delete#:#Digilib-Buch löschen
-common#:#dbk_edit_learning_progress#:#Lernfortschritt bearbeiten
-common#:#dbk_edit_permission#:#Rechteeinstellungen ändern
-common#:#dbk_new#:#Neues Digilib-Buch anlegen
-common#:#dbk_read#:#Digilib-Buch lesen
-common#:#dbk_visible#:#Digilib-Buch ist sichtbar
-common#:#dbk_write#:#Digilib-Buch bearbeiten
 common#:#dd_mm_yyyy#:#TT.MM.JJJJ
 common#:#deactivate#:#Deaktivieren
 common#:#decrease_attempts#:#Versuche - 1
@@ -3021,7 +3008,7 @@ common#:#exc_download_files#:#Download-Dateien
 common#:#exc_download_new#:#Neue herunterladen
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
-rbac#:#exc_edit_learning_progress#:#Lernfortschritt bearbeiten
+rbac#:#exc_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_exercise_sent#:#Übung versandt
@@ -3183,35 +3170,35 @@ common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopi
 common#:#fold_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#fold_create_chat#:#Neuen Chat anlegen
 common#:#fold_create_dbk#:#Neues Digilib-Buch anlegen
-common#:#fold_create_exc#:#Neue Übung anlegen
-common#:#fold_create_file#:#Neue Datei hochladen
-common#:#fold_create_fold#:#Neuen Ordner anlegen
-common#:#fold_create_frm#:#Neues Forum anlegen
-common#:#fold_create_glo#:#Neues Glossar anlegen
-common#:#fold_create_grp#:#Neue Gruppe anlegen
+rbac#:#fold_create_exc#:#Neue Übung anlegen
+rbac#:#fold_create_file#:#Neue Datei hochladen
+rbac#:#fold_create_fold#:#Neuen Ordner anlegen
+rbac#:#fold_create_frm#:#Neues Forum anlegen
+rbac#:#fold_create_glo#:#Neues Glossar anlegen
+rbac#:#fold_create_grp#:#Neue Gruppe anlegen
 common#:#fold_create_hlm#:#Neues HACP-Lernmodul anlegen
-common#:#fold_create_htlm#:#Neues HTML-Lernmodul anlegen
-common#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
-common#:#fold_create_lm#:#Neues ILIAS-Lernmodul anlegen
-common#:#fold_create_mcst#:#Neuen Mediacast anlegen
-common#:#fold_create_mep#:#Neuen Medienpool anlegen
-common#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
-common#:#fold_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-common#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
-common#:#fold_create_svy#:#Neue Umfrage anlegen
-common#:#fold_create_tst#:#Neuen Test anlegen
-common#:#fold_create_webr#:#Neuen Weblink anlegen
+rbac#:#fold_create_htlm#:#Neues HTML-Lernmodul anlegen
+rbac#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
+rbac#:#fold_create_lm#:#Neues ILIAS-Lernmodul anlegen
+rbac#:#fold_create_mcst#:#Neuen Mediacast anlegen
+rbac#:#fold_create_mep#:#Neuen Medienpool anlegen
+rbac#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#fold_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
+rbac#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#fold_create_svy#:#Neue Umfrage anlegen
+rbac#:#fold_create_tst#:#Neuen Test anlegen
+rbac#:#fold_create_webr#:#Neuen Weblink anlegen
 common#:#fold_create_write#:#Wiki anlegen
-common#:#fold_delete#:#Ordner löschen
+rbac#:#fold_delete#:#Ordner löschen
 common#:#fold_edit#:#Ordner bearbeiten
-common#:#fold_edit_learning_progress#:#Lernfortschritt bearbeiten
-common#:#fold_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#fold_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#fold_edit_permission#:#Rechteeinstellungen ändern
 common#:#fold_new#:#Neuen Ordner anlegen
-common#:#fold_read#:#Lesezugriff auf Ordner
+rbac#:#fold_read#:#Lesezugriff auf Ordner
 common#:#fold_type#:#Ordnerart
 common#:#fold_visible#:#Ordner ist sichtbar
 common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
-common#:#fold_write#:#Ordner bearbeiten
+rbac#:#fold_write#:#Ordner bearbeiten
 common#:#folder#:#Ordner
 common#:#folders#:#Ordner
 common#:#follow_link_to_read_mails#:#Um diese Mails zu lesen, klicken Sie bitte auf den folgenden Link:
@@ -3400,7 +3387,7 @@ common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
 common#:#grp_edit#:#Gruppe bearbeiten
-common#:#grp_edit_learning_progress#:#Lernfortschritt bearbeiten
+common#:#grp_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 common#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppenadministrator benötigt
@@ -3509,7 +3496,7 @@ common#:#htlm_add#:#HTML-Lernmodul hinzufügen
 common#:#htlm_copy#:#HTML-Lerneinheit kopieren
 common#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
-common#:#htlm_edit_learning_progress#:#Lernfortschritt bearbeiten
+common#:#htlm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 common#:#htlm_edit_permission#:#Rechteeinstellungen ändern
 common#:#htlm_new#:#Neues HTML-Lernmodul anlegen
 common#:#htlm_read#:#HTML-Lernmodul ansehen
@@ -3852,7 +3839,7 @@ common#:#lm_added#:#ILIAS-Lernmodul angelegt
 common#:#lm_copy#:#ILIAS-Lernmodul kopieren
 common#:#lm_create#:#Neues ILIAS-Lernmodul anlegen
 common#:#lm_delete#:#ILIAS-Lernmodul löschen
-common#:#lm_edit_learning_progress#:#Lernfortschritt bearbeiten
+common#:#lm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#ILIAS-Lernmodul abonnieren
 common#:#lm_leave#:#ILIAS-Lernmodulabonnement aufheben
@@ -4851,7 +4838,7 @@ common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
 common#:#sahs_copy#:#Lernmodul SCORM/AICC kopieren
 common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
 common#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen
-common#:#sahs_edit_learning_progress#:#Lernfortschritt bearbeiten
+common#:#sahs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 common#:#sahs_edit_permission#:#Rechteeinstellungen ändern
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
@@ -5236,7 +5223,7 @@ common#:#tst_add#:#Test hinzufügen
 common#:#tst_anon_eval#:#Resultate
 common#:#tst_copy#:#Test kopieren
 common#:#tst_delete#:#Test löschen
-common#:#tst_edit_learning_progress#:#Lernfortschritt bearbeiten
+common#:#tst_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_edit_questions#:#Fragen bearbeiten
 common#:#tst_new#:#Neuen Test anlegen
@@ -12612,7 +12599,7 @@ rbac#:#dcl_copy#:#Datensammlung kopieren
 rbac#:#dcl_write#:#Datensammlung bearbeiten
 rbac#:#dcl_delete#:#Datensammlung löschen
 rbac#:#dcl_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#dcl_add_entry#:#Eintrag hinzufügen
+rbac#:#dcl_add_entry#:#Datensatz hinzufügen
 rbac#:#crs_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#root_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#fold_create_dcl#:#Neue Datensammlung anlegen
@@ -12794,3 +12781,6 @@ common#:#grp_list_reg_limit_full#:#Keine freien Plätze verfügbar
 common#:#grp_list_reg_limit_places#:#Freie Plätze
 common#:#grp_list_reg_period#:#Anmeldungszeitraum
 crs#:#crs_member_passed_status_changed#:#Bestanden Status Änderung 
+common#:#obj_hlps#:#Online-Hilfe
+common#:#add_entry#:#Eintragen
+rbac#:#fold_copy#:#Ordner kopieren

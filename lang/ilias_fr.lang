@@ -3089,35 +3089,35 @@ common#:#fold_copy#:#Copier Dossier
 common#:#fold_create_alm#:#Créer document AICC
 common#:#fold_create_chat#:#Créer chat
 common#:#fold_create_dbk#:#Créer livre Digilib
-common#:#fold_create_exc#:#Créer évaluation (exercice)
-common#:#fold_create_file#:#Téléverser fichier
-common#:#fold_create_fold#:#Créer dossier
-common#:#fold_create_frm#:#Créer forum
-common#:#fold_create_glo#:#Créer glossaire
-common#:#fold_create_grp#:#Ajouter nouveau Groupe
+rbac#:#fold_create_exc#:#Créer évaluation (exercice)
+rbac#:#fold_create_file#:#Téléverser fichier
+rbac#:#fold_create_fold#:#Créer dossier
+rbac#:#fold_create_frm#:#Créer forum
+rbac#:#fold_create_glo#:#Créer glossaire
+rbac#:#fold_create_grp#:#Ajouter nouveau Groupe
 common#:#fold_create_hlm#:#Créer document HACP
-common#:#fold_create_htlm#:# Créer document HTML importé
-common#:#fold_create_icrs#:#Créer un Séminaire LearnLinc
-common#:#fold_create_lm#:#Créer document ILIAS
-common#:#fold_create_mcst#:#Créer MediaCast
-common#:#fold_create_mep#:#Créer jeu de ressources multimédia
-common#:#fold_create_qpl#:#Créer jeu de question pour des tests
-common#:#fold_create_sahs#:#Créer document SCORM/AICC
-common#:#fold_create_spl#:#Créer un jeu de questions pour des enquêtes
-common#:#fold_create_svy#:#Créer enquête
-common#:#fold_create_tst#:#Créer test
-common#:#fold_create_webr#:#Créer une nouvelle ressource web
+rbac#:#fold_create_htlm#:# Créer document HTML importé
+rbac#:#fold_create_icrs#:#Créer un Séminaire LearnLinc
+rbac#:#fold_create_lm#:#Créer document ILIAS
+rbac#:#fold_create_mcst#:#Créer MediaCast
+rbac#:#fold_create_mep#:#Créer jeu de ressources multimédia
+rbac#:#fold_create_qpl#:#Créer jeu de question pour des tests
+rbac#:#fold_create_sahs#:#Créer document SCORM/AICC
+rbac#:#fold_create_spl#:#Créer un jeu de questions pour des enquêtes
+rbac#:#fold_create_svy#:#Créer enquête
+rbac#:#fold_create_tst#:#Créer test
+rbac#:#fold_create_webr#:#Créer une nouvelle ressource web
 common#:#fold_create_write#:#Créer  Wiki
-common#:#fold_delete#:#Supprimer le dossier
-common#:#fold_edit_learning_progress#:#Éditer le suivi de l'utilisateur
-common#:#fold_edit_permission#:#Modifier paramètres de permission
+rbac#:#fold_delete#:#Supprimer le dossier
+rbac#:#fold_edit_learning_progress#:#Éditer le suivi de l'utilisateur
+rbac#:#fold_edit_permission#:#Modifier paramètres de permission
 common#:#fold_edit#:#Modifier dossier
 common#:#fold_new#:#Nouveau dossier
-common#:#fold_read#:#Accès en lecture au dossier
+rbac#:#fold_read#:#Accès en lecture au dossier
 common#:#fold_type#:#Folder Type###02 09 2011 new variable
 common#:#fold_visible#:#Le dossier est visible
 common#:#fold_wizard_page#:#Copier Dossier (étape 2/2)
-common#:#fold_write#:#Modifier dossier
+rbac#:#fold_write#:#Modifier dossier
 common#:#fold#:#Dossier
 common#:#folder#:#dossier
 common#:#folders#:#Dossiers

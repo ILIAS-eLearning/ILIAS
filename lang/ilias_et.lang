@@ -1664,30 +1664,30 @@ common#:#fold_added#:#Kaust lisatud
 common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
 common#:#fold_create_dbk#:#Loo Digilib-raamat
-common#:#fold_create_exc#:#Create Exercise
-common#:#fold_create_file#:#Upload File
-common#:#fold_create_fold#:#Loo kaust
-common#:#fold_create_frm#:#Loo foorum
-common#:#fold_create_glo#:#Loo sõnastik
+rbac#:#fold_create_exc#:#Create Exercise
+rbac#:#fold_create_file#:#Upload File
+rbac#:#fold_create_fold#:#Loo kaust
+rbac#:#fold_create_frm#:#Loo foorum
+rbac#:#fold_create_glo#:#Loo sõnastik
 common#:#fold_create_hlm#:#Create HACP Learning Module
-common#:#fold_create_htlm#:#Create HTML Learning Module
-common#:#fold_create_icrs#:#Create LearnLinc Seminar
-common#:#fold_create_lm#:#Create ILIAS Learning Module
-common#:#fold_create_mep#:#Create Media Pool
-common#:#fold_create_qpl#:#Create Question Pool for Test
-common#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#fold_create_spl#:#Create Question Pool for Survey
-common#:#fold_create_svy#:#Create Survey
-common#:#fold_create_tst#:#Create Test
-common#:#fold_create_webr#:#Create Web Resource
-common#:#fold_delete#:#Kustuta kaust
+rbac#:#fold_create_htlm#:#Create HTML Learning Module
+rbac#:#fold_create_icrs#:#Create LearnLinc Seminar
+rbac#:#fold_create_lm#:#Create ILIAS Learning Module
+rbac#:#fold_create_mep#:#Create Media Pool
+rbac#:#fold_create_qpl#:#Create Question Pool for Test
+rbac#:#fold_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#fold_create_spl#:#Create Question Pool for Survey
+rbac#:#fold_create_svy#:#Create Survey
+rbac#:#fold_create_tst#:#Create Test
+rbac#:#fold_create_webr#:#Create Web Resource
+rbac#:#fold_delete#:#Kustuta kaust
 common#:#fold_edit#:#Muuda kausta
-common#:#fold_edit_learning_progress#:#Muuda õpitulemusi
-common#:#fold_edit_permission#:#Change Permission settings
+rbac#:#fold_edit_learning_progress#:#Muuda õpitulemusi
+rbac#:#fold_edit_permission#:#Change Permission settings
 common#:#fold_new#:#Uus kaust
-common#:#fold_read#:#Read access to Folder
+rbac#:#fold_read#:#Read access to Folder
 common#:#fold_visible#:#Folder is visible
-common#:#fold_write#:#Muuda kausta
+rbac#:#fold_write#:#Muuda kausta
 common#:#folder#:#Kaust
 common#:#folders#:#Kaustad
 common#:#force_accept_usr_agreement#:#You must accept the user agreement!
@@ -6702,7 +6702,7 @@ common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
+rbac#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#error_random_question_generation#:#A fatal error occured during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.###25 02 2007 new variable
 assessment#:#externalscript_additional_parameters#:#Script Parameters###25 02 2007 new variable
 assessment#:#externalscript_use_kvc#:#Please use key-value-coding for the script paramters!###25 02 2007 new variable
@@ -7003,7 +7003,7 @@ rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable

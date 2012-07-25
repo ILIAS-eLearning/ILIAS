@@ -1414,29 +1414,29 @@ common#:#fold_added#:#Đã thêm thư mục
 common#:#fold_create_alm#:#Tạo học phần AICC
 common#:#fold_create_chat#:#Tạo Chat
 common#:#fold_create_dbk#:#Tạo Digilib Book
-common#:#fold_create_exc#:#Tạo bài tập
-common#:#fold_create_file#:#Tải lên File
-common#:#fold_create_fold#:#Tạo thư mục
-common#:#fold_create_frm#:#Tạo diễn đàn
-common#:#fold_create_glo#:#Tạo bảng chú giải
+rbac#:#fold_create_exc#:#Tạo bài tập
+rbac#:#fold_create_file#:#Tải lên File
+rbac#:#fold_create_fold#:#Tạo thư mục
+rbac#:#fold_create_frm#:#Tạo diễn đàn
+rbac#:#fold_create_glo#:#Tạo bảng chú giải
 common#:#fold_create_hlm#:#Tạo học phần HACP
-common#:#fold_create_htlm#:#Tạo học phần HTML
-common#:#fold_create_icrs#:#Tạo hội thảo chuyên đề LearnLinc
-common#:#fold_create_lm#:#Tạo học phần ILIAS
-common#:#fold_create_mep#:#Tạo thư viện phương tiện
-common#:#fold_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
-common#:#fold_create_sahs#:#Tạo học phần SCORM/AICC
-common#:#fold_create_spl#:#Tạo thư viện câu hỏi khảo sát
-common#:#fold_create_svy#:#Tạo khảo sát
-common#:#fold_create_tst#:#Tạo bài kiểm tra
-common#:#fold_create_webr#:#Tạo tài nguyên web mới
-common#:#fold_delete#:#Xóa thư mục
+rbac#:#fold_create_htlm#:#Tạo học phần HTML
+rbac#:#fold_create_icrs#:#Tạo hội thảo chuyên đề LearnLinc
+rbac#:#fold_create_lm#:#Tạo học phần ILIAS
+rbac#:#fold_create_mep#:#Tạo thư viện phương tiện
+rbac#:#fold_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
+rbac#:#fold_create_sahs#:#Tạo học phần SCORM/AICC
+rbac#:#fold_create_spl#:#Tạo thư viện câu hỏi khảo sát
+rbac#:#fold_create_svy#:#Tạo khảo sát
+rbac#:#fold_create_tst#:#Tạo bài kiểm tra
+rbac#:#fold_create_webr#:#Tạo tài nguyên web mới
+rbac#:#fold_delete#:#Xóa thư mục
 common#:#fold_edit#:#Sửa thư mục
-common#:#fold_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#fold_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#fold_new#:#Thư mục mới
-common#:#fold_read#:#Đọc thư mục
+rbac#:#fold_read#:#Đọc thư mục
 common#:#fold_visible#:#Nhìn thấy thư mục
-common#:#fold_write#:#Sửa thư mục
+rbac#:#fold_write#:#Sửa thư mục
 common#:#folder#:#Thư mục
 common#:#folders#:#Thư mục
 common#:#force_accept_usr_agreement#:#Bạn phải đồng ý thỏa thuận sử dụng!
@@ -5600,7 +5600,7 @@ common#:#im_msn_icon#:#MSN Logo###25 02 2007 new variable
 common#:#im_aim_icon#:#AIM Logo###25 02 2007 new variable
 common#:#im_skype_icon#:#Skype Logo###25 02 2007 new variable
 common#:#not_enabled_or_configured#:#Not configured or enabled###25 02 2007 new variable
-common#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
+rbac#:#fold_create_grp#:#Add new Group###25 02 2007 new variable
 assessment#:#codebase#:#Codebase###25 02 2007 new variable
 assessment#:#delete_image#:#Delete Image###25 02 2007 new variable
 assessment#:#detailed_evaluation#:#Detailed Evaluation###25 02 2007 new variable
@@ -5979,7 +5979,7 @@ common#:#field_name#:#Field Name###25 02 2007 new variable
 common#:#field_type#:#Field Type###25 02 2007 new variable
 common#:#file_suffix_repl#:#File Upload Suffix Replacement###25 02 2007 new variable
 common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:###25 02 2007 new variable
-common#:#fold_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
+rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
 common#:#forum_direct_notification#:#Dir. Notification###25 02 2007 new variable
 common#:#forum_general_notification#:#Gen. Notification###25 02 2007 new variable
 common#:#forum_notify_me_directly#:#Please inform me about direct answers to my contribution.###25 02 2007 new variable
@@ -7005,7 +7005,7 @@ rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
 common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.###02 04 2007 new variable
 news#:#news_related_to#:#Related to###02 04 2007 new variable

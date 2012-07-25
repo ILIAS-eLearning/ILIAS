@@ -2177,34 +2177,34 @@ common#:#fold_copy_threads_info#:#Please decide which materials should be copied
 common#:#fold_create_alm#:#Δημιουργία εκπαιδευτικής μονάδας AICC
 common#:#fold_create_chat#:#Δημιουργία συζήτησης
 common#:#fold_create_dbk#:#Δημιουργία βιβλίου Digilib
-common#:#fold_create_exc#:#Δημιουργία άσκησης
-common#:#fold_create_file#:#Ανέβασμα αρχείου
-common#:#fold_create_fold#:#Δημιουργία φακέλου
-common#:#fold_create_frm#:#Δημιουργία Φόρουμ
-common#:#fold_create_glo#:#Δημιουργία γλωσσάριου
-common#:#fold_create_grp#:#Add new Group
+rbac#:#fold_create_exc#:#Δημιουργία άσκησης
+rbac#:#fold_create_file#:#Ανέβασμα αρχείου
+rbac#:#fold_create_fold#:#Δημιουργία φακέλου
+rbac#:#fold_create_frm#:#Δημιουργία Φόρουμ
+rbac#:#fold_create_glo#:#Δημιουργία γλωσσάριου
+rbac#:#fold_create_grp#:#Add new Group
 common#:#fold_create_hlm#:#Δημιουργία εκπαιδευτικής μονάδας HACP
-common#:#fold_create_htlm#:#Δημιουργία εκπαιδευτικής μονάδας HTML
-common#:#fold_create_icrs#:#Δημιουργία σεμιναρίου LearnLinc
-common#:#fold_create_lm#:#Δημιουργία εκπαιδευτικής μονάδας ILIAS
-common#:#fold_create_mcst#:#Create MediaCast
-common#:#fold_create_mep#:#Δημιουργία μνήμης πολυμέσων
-common#:#fold_create_qpl#:#Δημιουργία μνήμης ερωτήσεων για διαγώνισμα
-common#:#fold_create_sahs#:#Δημιουργία εκπαιδευτικής μονάδας SCORM/AICC
-common#:#fold_create_spl#:#Δημιουργία μνήμης ερωτήσεων για έρευνα
-common#:#fold_create_svy#:#Δημιουργία έρευνας
-common#:#fold_create_tst#:#Δημιουργία διαγωνίσματος
-common#:#fold_create_webr#:#Δημιουργία πηγής Ιστού
+rbac#:#fold_create_htlm#:#Δημιουργία εκπαιδευτικής μονάδας HTML
+rbac#:#fold_create_icrs#:#Δημιουργία σεμιναρίου LearnLinc
+rbac#:#fold_create_lm#:#Δημιουργία εκπαιδευτικής μονάδας ILIAS
+rbac#:#fold_create_mcst#:#Create MediaCast
+rbac#:#fold_create_mep#:#Δημιουργία μνήμης πολυμέσων
+rbac#:#fold_create_qpl#:#Δημιουργία μνήμης ερωτήσεων για διαγώνισμα
+rbac#:#fold_create_sahs#:#Δημιουργία εκπαιδευτικής μονάδας SCORM/AICC
+rbac#:#fold_create_spl#:#Δημιουργία μνήμης ερωτήσεων για έρευνα
+rbac#:#fold_create_svy#:#Δημιουργία έρευνας
+rbac#:#fold_create_tst#:#Δημιουργία διαγωνίσματος
+rbac#:#fold_create_webr#:#Δημιουργία πηγής Ιστού
 common#:#fold_create_write#:#Create Wiki
-common#:#fold_delete#:#Διαγραφή φακέλου
+rbac#:#fold_delete#:#Διαγραφή φακέλου
 common#:#fold_edit#:#Επεξεργασία φακέλου
-common#:#fold_edit_learning_progress#:#Επεξεργασία Εκπαιδευτικής Προόδου
-common#:#fold_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#fold_edit_learning_progress#:#Επεξεργασία Εκπαιδευτικής Προόδου
+rbac#:#fold_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#fold_new#:#Νέος φάκελος
-common#:#fold_read#:#Πρόσβαση ανάγνωσης στο φάκελο
+rbac#:#fold_read#:#Πρόσβαση ανάγνωσης στο φάκελο
 common#:#fold_visible#:#Ο φάκελος είναι ορατός
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
-common#:#fold_write#:#Επεξεργασία φακέλου
+rbac#:#fold_write#:#Επεξεργασία φακέλου
 common#:#force_accept_usr_agreement#:#Πρέπει να αποδεχτείτε τη συμφωνία χρήστη!
 common#:#forename#:#Μικρό όνομα
 common#:#forgot_password#:#Ξεχάσατε το συνθηματικό σας;

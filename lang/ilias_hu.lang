@@ -2583,34 +2583,34 @@ common#:#fold_copy#:#Mappa másolása
 common#:#fold_create_alm#:#AICC-tananyag létrehozása
 common#:#fold_create_chat#:#Csevegés létrehozása
 common#:#fold_create_dbk#:#Digitális könyvtári könyv létrehozása
-common#:#fold_create_exc#:#Gyakorlat létrehozása
-common#:#fold_create_file#:#Fájl feltöltése
-common#:#fold_create_fold#:#Mappa létrehozása
-common#:#fold_create_frm#:#Fórum létrehozása
-common#:#fold_create_glo#:#Fogalomtár létrehozása
-common#:#fold_create_grp#:#Új csoport felvétele
+rbac#:#fold_create_exc#:#Gyakorlat létrehozása
+rbac#:#fold_create_file#:#Fájl feltöltése
+rbac#:#fold_create_fold#:#Mappa létrehozása
+rbac#:#fold_create_frm#:#Fórum létrehozása
+rbac#:#fold_create_glo#:#Fogalomtár létrehozása
+rbac#:#fold_create_grp#:#Új csoport felvétele
 common#:#fold_create_hlm#:#HACP-tananyag létrehozása
-common#:#fold_create_htlm#:#HTML-tananyag létrehozása
-common#:#fold_create_icrs#:#LearnLinc-szeminárium létrehozása
-common#:#fold_create_lm#:#ILIAS-tananyag létrehozása
-common#:#fold_create_mcst#:#MediaCast létrehozása
-common#:#fold_create_mep#:#Médiagyűjtemény létrehozása
-common#:#fold_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-common#:#fold_create_sahs#:#SCORM/AICC-tananyag létrehozása
-common#:#fold_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-common#:#fold_create_svy#:#Kérdőív létrehozása
-common#:#fold_create_tst#:#Teszt létrehozása
-common#:#fold_create_webr#:#Weblink létrehozása
+rbac#:#fold_create_htlm#:#HTML-tananyag létrehozása
+rbac#:#fold_create_icrs#:#LearnLinc-szeminárium létrehozása
+rbac#:#fold_create_lm#:#ILIAS-tananyag létrehozása
+rbac#:#fold_create_mcst#:#MediaCast létrehozása
+rbac#:#fold_create_mep#:#Médiagyűjtemény létrehozása
+rbac#:#fold_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
+rbac#:#fold_create_sahs#:#SCORM/AICC-tananyag létrehozása
+rbac#:#fold_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
+rbac#:#fold_create_svy#:#Kérdőív létrehozása
+rbac#:#fold_create_tst#:#Teszt létrehozása
+rbac#:#fold_create_webr#:#Weblink létrehozása
 common#:#fold_create_write#:#Wiki létrehozása
-common#:#fold_delete#:#Mappa törlése
-common#:#fold_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#fold_edit_permission#:#Engedélyezési beállítások változtatása
+rbac#:#fold_delete#:#Mappa törlése
+rbac#:#fold_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#fold_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#fold_edit#:#Mappa szerkesztése
 common#:#fold_new#:#Új mappa
-common#:#fold_read#:#Olvasási elérés a mappához
+rbac#:#fold_read#:#Olvasási elérés a mappához
 common#:#fold_visible#:#A mappa látható
 common#:#fold_wizard_page#:#Mappa másolása (2/2. lépés)
-common#:#fold_write#:#Mappa szerkesztése
+rbac#:#fold_write#:#Mappa szerkesztése
 common#:#fold#:#Mappa
 common#:#folder#:#Mappa
 common#:#folders#:#Mappák

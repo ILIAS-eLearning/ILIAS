@@ -2717,34 +2717,34 @@ common#:#fold_copy_threads_info#:#Rozhodněte prosím, které soubory mají být
 common#:#fold_create_alm#:#Vytvořit výukový modul AICC
 common#:#fold_create_chat#:#Vytvořit diskusi
 common#:#fold_create_dbk#:#Vytvořit digitální knihu
-common#:#fold_create_exc#:#Vytvořit cvičení
-common#:#fold_create_file#:#Odeslat soubor
-common#:#fold_create_fold#:#Vytvořit složku
-common#:#fold_create_frm#:#Vytvořit fórum
-common#:#fold_create_glo#:#Vytvořit glosář
-common#:#fold_create_grp#:#Přidat novou skupinu
+rbac#:#fold_create_exc#:#Vytvořit cvičení
+rbac#:#fold_create_file#:#Odeslat soubor
+rbac#:#fold_create_fold#:#Vytvořit složku
+rbac#:#fold_create_frm#:#Vytvořit fórum
+rbac#:#fold_create_glo#:#Vytvořit glosář
+rbac#:#fold_create_grp#:#Přidat novou skupinu
 common#:#fold_create_hlm#:#Vytvořit výukový modul HACP
-common#:#fold_create_htlm#:#Vytvořit výukový modul HTML
-common#:#fold_create_icrs#:#Vytvořit seminář LearnLinc
-common#:#fold_create_lm#:#Vytvořit výukový modul
-common#:#fold_create_mcst#:#Vytvožit MediaCast
-common#:#fold_create_mep#:#Vytvořit zásobník multimédií
-common#:#fold_create_qpl#:#Vytvořit zásobník otázek pro test
-common#:#fold_create_sahs#:#Vytvořit výukový modul SCORM/AICC
-common#:#fold_create_spl#:#Vytvořit zásobník otázek pro anketu
-common#:#fold_create_svy#:#Vytvořit anketu
-common#:#fold_create_tst#:#Vytvořit test
-common#:#fold_create_webr#:#Vytvořit nový webový zdroj
+rbac#:#fold_create_htlm#:#Vytvořit výukový modul HTML
+rbac#:#fold_create_icrs#:#Vytvořit seminář LearnLinc
+rbac#:#fold_create_lm#:#Vytvořit výukový modul
+rbac#:#fold_create_mcst#:#Vytvožit MediaCast
+rbac#:#fold_create_mep#:#Vytvořit zásobník multimédií
+rbac#:#fold_create_qpl#:#Vytvořit zásobník otázek pro test
+rbac#:#fold_create_sahs#:#Vytvořit výukový modul SCORM/AICC
+rbac#:#fold_create_spl#:#Vytvořit zásobník otázek pro anketu
+rbac#:#fold_create_svy#:#Vytvořit anketu
+rbac#:#fold_create_tst#:#Vytvořit test
+rbac#:#fold_create_webr#:#Vytvořit nový webový zdroj
 common#:#fold_create_write#:#Vytvořit Wiki
-common#:#fold_delete#:#Smazat složku
+rbac#:#fold_delete#:#Smazat složku
 common#:#fold_edit#:#Upravit složku
-common#:#fold_edit_learning_progress#:#Upravit postup výuky
-common#:#fold_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#fold_edit_learning_progress#:#Upravit postup výuky
+rbac#:#fold_edit_permission#:#Změnit nastavení oprávnění
 common#:#fold_new#:#Nová složka
-common#:#fold_read#:#Právo číst na složku
+rbac#:#fold_read#:#Právo číst na složku
 common#:#fold_visible#:#Složka je viditelná
 common#:#fold_wizard_page#:#Kopírovat složku (krok 2/2)
-common#:#fold_write#:#Upravit složku
+rbac#:#fold_write#:#Upravit složku
 common#:#folder#:#Složka
 common#:#folders#:#Složky
 common#:#force_accept_usr_agreement#:#Musíte akceptovat uživatelské ujednání!
