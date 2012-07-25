@@ -1837,12 +1837,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function settingsObject()
 	{
-		global $tpl, $lng, $ilias;
+		global $tpl, $lng, $ilias, $ilTabs;
 
 		include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
 		$lng->loadLanguageModule("administration");
 		$lng->loadLanguageModule("mail");
 		$this->setSubTabs('settings');
+		$ilTabs->activateTab('settings');
+		$ilTabs->activateSubTab('standard_fields');
 
 		include_once("./Services/User/classes/class.ilUserFieldSettingsTableGUI.php");
 		$tab = new ilUserFieldSettingsTableGUI($this, "settings");
