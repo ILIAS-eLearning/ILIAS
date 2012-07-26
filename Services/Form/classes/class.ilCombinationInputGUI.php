@@ -172,8 +172,16 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 			foreach($a_value as $id => $value)
 			{
 				if(isset($this->items[$id]))
-				{
-					$this->items[$id]->setValue($value);
+				{					
+					if(method_exists($this->items[$id], "setValue"))
+					{
+						$this->items[$id]->setValue($value);
+					}
+					// datetime
+					else if(method_exists($this->items[$id], "setDate"))
+					{
+						$this->items[$id]->setDate($value);
+					}
 				}
 			}
 		}
@@ -213,7 +221,15 @@ class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 		$result = array();
 		foreach($this->items as $id => $obj)
 		{
-			$result[$id] = $obj->getValue();
+			if(method_exists($obj, "getValue"))
+			{
+				$result[$id] = $obj->getValue();
+			}
+			// datetime
+			else if(method_exists($obj, "setDate"))
+			{
+				$result[$id] = $obj->getDate();
+			}
 		}
 		return $result;
 	}
