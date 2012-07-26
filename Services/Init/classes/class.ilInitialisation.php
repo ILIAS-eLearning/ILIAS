@@ -893,7 +893,10 @@ class ilInitialisation
 			$tree->initLangCode();
 
 			if(ilContext::hasHTML())
-			{															
+			{													
+				include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
+				ilECSTaskScheduler::start();					
+				
 				self::initHTML();		
 			}							
 		}					
@@ -1020,13 +1023,7 @@ class ilInitialisation
 		unset($tree);
 				
 		self::initGlobal("ilCtrl", "ilCtrl",
-				"./Services/UICore/classes/class.ilCtrl.php");	
-				
-		if(ilContext::hasHTML())
-		{						
-			include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-			ilECSTaskScheduler::start();				
-		}		
+				"./Services/UICore/classes/class.ilCtrl.php");			
 	}
 	
 	/**
