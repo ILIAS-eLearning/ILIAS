@@ -183,6 +183,16 @@ class ilContext
 	{
 		return (bool)self::callContext("doAuthentication");	
 	}
+	
+	/**
+	 * Get context type
+	 * 
+	 * @return int
+	 */
+	public static function getType()
+	{
+		return self::$type;
+	}
 }
 
 ?>

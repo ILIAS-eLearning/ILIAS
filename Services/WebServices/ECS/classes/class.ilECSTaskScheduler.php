@@ -530,7 +530,7 @@ class ilECSTaskScheduler
 		{
 			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
 			include_once('./webservice/soap/include/inc.soap_functions.php');
-			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id,$this->settings->getServerId(), false);
+			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id,$this->settings->getServerId());
 		}
 	}
 }
