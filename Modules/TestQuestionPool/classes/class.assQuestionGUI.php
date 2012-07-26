@@ -1473,6 +1473,10 @@ abstract class assQuestionGUI
 				return $this->suggestedsolution();
 				break;
 		}
+		if(isset($_POST['solutiontype']))
+		{
+			$this->ctrl->setParameter($this, 'expandCurrentPath', 1);
+		}
 		$this->ctrl->setParameter($this, "link_new_type", $type);
 		$this->ctrl->setParameter($this, "search_link_type", $search);
 		$this->ctrl->redirect($this, "outSolutionExplorer");
