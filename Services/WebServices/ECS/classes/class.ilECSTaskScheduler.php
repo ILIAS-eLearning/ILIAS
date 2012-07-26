@@ -190,22 +190,22 @@ class ilECSTaskScheduler
 	 	{
 	 		if(!$event = $this->event_reader->shift())
 	 		{
-	 			$this->log->write(__METHOD__.': No more pending events found.');
+	 			$this->log->write(__METHOD__.': No more pending events found. DONE');
 	 			break;
 	 		}
-			$GLOBALS['ilLog']->write(__METHOD__.': ---------------------------- Handle event '.$event['op']);
 			if($event['op'] == ilECSEvent::DESTROYED)
 			{
 				$this->handleDelete($event['id']);
+	 			$this->log->write(__METHOD__.': Handling delete. DONE');
 				continue;
 			}
 			if($event['op'] == ilECSEvent::NEW_EXPORT)
 			{
 				$this->handleNewlyCreate($event['id']);
+	 			$this->log->write(__METHOD__.': Handling new creation. DONE');
 				continue;
 			}
 
-			$GLOBALS['ilLog']->write(__METHOD__.': Handling creation/update');
 	 		// Operation is create or update
 	 		// get econtent
 	 		try
@@ -222,13 +222,13 @@ class ilECSTaskScheduler
 	 		}
 	 		if(!$reader->getEContent() instanceof ilECSEContent)
 	 		{
-				$this->log->write(__METHOD__.': Deleting deprecated remote course.');
 	 			$this->handleDelete($event['id']);
+	 			$this->log->write(__METHOD__.': Handling delete of deprecated remote courses. DONE');
 	 		}
 	 		else
 	 		{
-				$this->log->write(__METHOD__.': Starting update of remote courses.');
 	 			$this->handleUpdate($reader->getEContent(),$reader->getEContentDetails());
+	 			$this->log->write(__METHOD__.': Handling update. DONE');
 	 		}
 	 	}
 	}
@@ -344,6 +344,9 @@ class ilECSTaskScheduler
 	private function handleUpdate(ilECSEContent $content,  ilECSEContentDetails $details)
 	{
 		global $ilLog, $ilAppEventHandler;
+
+
+		$GLOBALS['ilLog']->write(__METHOD__.': Receivers are '. print_r($details->getReceivers(),true));
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
 		if(!ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->isImportAllowed($content->getOwner()))
@@ -355,24 +358,24 @@ class ilECSTaskScheduler
 		include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
 
 		// new mids
-		#foreach(array_intersect($this->mids,$details->getReceivers()) as $mid)
-		foreach($this->mids as $mid)
+		#foreach($this->mids as $mid)
+		foreach(array_intersect($this->mids,$details->getReceivers()) as $mid)
 		{
 			// Update existing
 			if($obj_id = ilECSImport::_isImported($this->settings->getServerId(),$content->getEContentId(),$mid))
 			{
+				$ilLog->write(__METHOD__.': Handling update for existing object');
 				$remote = ilObjectFactory::getInstanceByObjId($obj_id,false);
 				if($remote->getType() != 'rcrs')
 				{
 					$this->log->write(__METHOD__.': Cannot instantiate remote course. Got object type '.$remote->getType());
 					continue;
 				}
-				$ilLog->write(__METHOD__.': ... update called.');
 				$remote->updateFromECSContent($this->getServer()->getServerId(),$content);
 			}
 			else
 			{
-				$ilLog->write(__METHOD__.': ... create called.');
+				$ilLog->write(__METHOD__.': Handling create for non existing object');
 				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
 				$remote_crs = ilObjRemoteCourse::_createFromECSEContent($this->settings->getServerId(),$content,$mid);	
 				
@@ -386,11 +389,13 @@ class ilECSTaskScheduler
 				);
 			}
 
+			/*
 			// deprecated mids
 			foreach(array_diff(ilECSImport::_lookupMIDs($this->settings->getServerId(),$content->getEContentId()),$details->getReceivers()) as $deprecated)
 			{
 				$this->handleDelete($content->getEContentId(),$deprecated);
 			}
+			*/
 	 	}	
 	}
 	

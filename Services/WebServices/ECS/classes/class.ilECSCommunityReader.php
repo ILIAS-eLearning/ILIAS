@@ -165,7 +165,6 @@ class ilECSCommunityReader
 	public function getParticipantByMID($a_mid)
 	{
 	 	return isset($this->participants[$a_mid]) ? $this->participants[$a_mid] : false;
-	 	
 	}
 
 	/**

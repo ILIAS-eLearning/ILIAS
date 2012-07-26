@@ -117,7 +117,7 @@ class ilECSEContent
 	 */
 	public function getOrganization()
 	{
-	 	return $this->organization;
+	 	return $this->organisation;
 	}
 	
 	/**
@@ -501,7 +501,7 @@ class ilECSEContent
 			$ilLog->write(__METHOD__.': Cannot load from JSON. No object given.');
 			throw new ilECSReaderException('Cannot parse ECSContent.');
 		}
-		#$this->organization = $a_json->organization;
+		$this->organisation = $a_json->organisation;
 		$this->study_courses = $a_json->study_courses ? $a_json->study_courses : array();
 		$this->title = $a_json->title;
 		$this->abstract = $a_json->abstract;

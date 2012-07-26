@@ -36,6 +36,7 @@ include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
 class ilECSEventQueueReader
 {
 	const TYPE_ECONTENT = 'econtents';
+	const TYPE_DIRECTORY_TREES = 'directory_tree';
 	const TYPE_EXPORTED = 'exported';
 	
 	const ADMIN_RESET = 'reset';
@@ -309,17 +310,36 @@ class ilECSEventQueueReader
 					include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
 					$event = new ilECSEvent($result);
 
+					$GLOBALS['ilLog']->write(__METHOD__.' ---------------------------- Handling new event ');
+					$GLOBALS['ilLog']->write(__METHOD__.print_r($event,true));
+					$GLOBALS['ilLog']->write(__METHOD__.' ---------------------------- Done! ');
+
 					// Fill command queue
 					$this->writeEventToDB($event);
 				}
 				// Delete from fifo
 				$connector->readEventFifo(true);
 			}
+
 		}
 		catch(ilECSConnectorException $e)
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Cannot read event fifo. Aborting');
 		}
+	}
+
+	/**
+	 * Delete by server id
+	 * @global ilDB $ilDB
+	 * @param int $a_server_id 
+	 */
+	public static function deleteServer($a_server_id)
+	{
+		global $ilDB;
+
+		$query = 'DELETE FROM ecs_events '.
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
 	}
 
 	/**
@@ -329,8 +349,23 @@ class ilECSEventQueueReader
 	{
 		global $ilDB;
 
+		$GLOBALS['ilLog']->write('--------------------------- Writing new event for '. $ev->getRessourceType());
+
+		switch($ev->getRessourceType()) {
+
+			case 'courselinks':
+				$type = self::TYPE_ECONTENT;
+				break;
+
+			case 'directory_trees':
+				$type = self::TYPE_DIRECTORY_TREES;
+				break;
+		}
+
+
+
 		$query = "SELECT * FROM ecs_events ".
-			"WHERE type = ".$ilDB->quote(self::TYPE_ECONTENT,'integer')." ".
+			"WHERE type = ".$ilDB->quote($type,'integer')." ".
 			"AND id = ".$ilDB->quote($ev->getRessourceId(),'integer')." ".
 			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$res = $ilDB->query($query);
@@ -341,15 +376,13 @@ class ilECSEventQueueReader
 			$event_id = $row->event_id;
 		}
 
-		$GLOBALS['ilLog']->write(__METHOD__.': Handling new event '.$ev->getStatus().' for econtent '.$ev->getRessourceId());
-
 		if(!$event_id)
 		{
 			// No previous entry exists => perform insert
 			$query = "INSERT ecs_events (event_id,type,id,op,server_id) ".
 				"VALUES( ".
 				$ilDB->quote($ilDB->nextId('ecs_events'),'integer').','.
-				$ilDB->quote(self::TYPE_ECONTENT,'text').', '.
+				$ilDB->quote($type,'text').', '.
 				$ilDB->quote($ev->getRessourceId(),'integer').', '.
 				$ilDB->quote($ev->getStatus(),'text').', '.
 				$ilDB->quote($this->getServer()->getServerId(),'integer').' '.
@@ -382,6 +415,7 @@ class ilECSEventQueueReader
 		$query = "UPDATE ecs_events ".
 			"SET op = ".$ilDB->quote($ev->getStatus(),'text')." ".
 			"WHERE event_id = ".$ilDB->quote($event_id,'integer').' '.
+			'AND type = '.$ilDB->quote($type).' '.
 			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 		$ilDB->manipulate($query);
 		return true;

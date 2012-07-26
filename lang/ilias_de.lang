@@ -7617,7 +7617,7 @@ ecs#:#ecs_available_ecs#:#Verfügbare ECS
 ecs#:#ecs_back_settings#:#ECS-Einstellungen
 ecs#:#ecs_ca_cert#:#CA Zertifikat
 ecs#:#ecs_campus_connect_title#:#CampusConnect-Zuordnungen
-ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um ECS-Objekte z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
+ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um ECS-Kurslinks z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
 ecs#:#ecs_cat_mapping_duration#:#Zeitrahmen
 ecs#:#ecs_cat_mapping_fixed#:#Feste Werte
 ecs#:#ecs_cat_mapping_fixed_info#:#Wählen Sie diese Einstellung, um die Zuordnung anhand von festen Werten vorzunehmen. Mehrere Werte können durch Komma getrennt eingegeben werden.
@@ -7688,8 +7688,8 @@ ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu ILIAS Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
-ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung zu Kategorien
-ecs#:#ecs_new_econtent_subject#:#Neuer externer Kurs
+ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kurslinks zu Kategorien
+ecs#:#ecs_new_econtent_subject#:#Neuer ECS-Kurslink
 ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
 ecs#:#ecs_new_user_profile#:#Profildaten:
 ecs#:#ecs_new_user_subject#:#Neue ECS-Benutzer 

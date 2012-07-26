@@ -6592,9 +6592,9 @@ ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma sepe
 ecs#:#ecs_approval_rcp#:#Notification About Approved Courses
 ecs#:#ecs_attribute_name#:#Attribute Name
 ecs#:#ecs_ca_cert#:#CA Certificate
-ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning remote objects based on date ranges (e.g starting time of a course).
+ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course Links based on date ranges (e.g starting time of a course).
 ecs#:#ecs_cat_mapping_duration#:#Date Range
-ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning remote objects to categories based on fixed values. Multiple values can be comma-separated.
+ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course Links to categories based on fixed values.
 ecs#:#ecs_cat_mapping_fixed#:#Fixed Values
 ecs#:#ecs_cat_mapping_type#:#Assignment Type
 ecs#:#ecs_cat_mapping_values#:#Attribute Value
@@ -6638,7 +6638,7 @@ ecs#:#ecs_field_term#:#Term
 ecs#:#ecs_field_time#:#Time
 ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.
 ecs#:#ecs_ignore_field#:#Disable export/update of this field
-ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new remote objects will be created
+ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course Links will be created
 ecs#:#ecs_import_id#:#Import ID
 ecs#:#ecs_import#:#Imported Objects
 ecs#:#ecs_imported_content#:#Imported E-Content
@@ -6649,7 +6649,7 @@ ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data
 ecs#:#ecs_mappings#:#ECS Data Mapping
 ecs#:#ecs_meta_data#:#Meta Data
 ecs#:#ecs_new_approval_subject#:#A new course has been released
-ecs#:#ecs_new_category_mapping#:#New Assignment to Categories
+ecs#:#ecs_new_category_mapping#:#New Assignment of Course Links to Categories
 ecs#:#ecs_new_econtent_subject#:#New E-Content created
 ecs#:#ecs_new_user_body#:#A new ECS user account has been created.
 ecs#:#ecs_new_user_profile#:#User profile data:
@@ -6667,8 +6667,8 @@ ecs#:#ecs_protocol#:#Protocol
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_published_for#:#Published for:
-ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course-Link has been created:
-ecs#:#ecs_read_remote_links#:#Update Remote Objects
+ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course Link has been created:
+ecs#:#ecs_read_remote_links#:#Update ECS Course Links
 ecs#:#ecs_released_content#:#Released E-Content
 ecs#:#ecs_released#:#Released Objects
 ecs#:#ecs_remote_imported#:#Information about ECS Course-Links has been refreshed.

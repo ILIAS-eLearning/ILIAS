@@ -381,10 +381,12 @@ class ilECSContentWriter
 			#$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$this->getParticipantIds()));
 			if($this->getParticipantIds() == null)
 			{
+				$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($details->getReceivers(),true));
 				$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$details->getReceivers()));
 			}
 			else
 			{
+				$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($this->getParticipantIds(),true));
 				$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$this->getParticipantIds()));
 			}
 			
@@ -520,7 +522,23 @@ class ilECSContentWriter
 			{
 				throw new ilECSContentWriterException('Missing ECS owner id.');
 			}
-		}	
+		}
+
+		// Add organisation
+		// todo: this must be cached in ecs_part_settings
+		if($this->mode == self::UPDATE_ALL)
+		{
+			try {
+				include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+				$reader = ilECSCommunityReader::getInstanceByServerId($this->getServerId());
+				$part = $reader->getParticipantByMID($this->getOwnerId());
+				$this->json->organisation = $part->getOrganisation()->getName();
+			}
+			catch(Exception $e)
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': '.$e->getMessage());
+			}
+		}
 
 		// meta language
 		include_once('./Services/MetaData/classes/class.ilMDLanguage.php');

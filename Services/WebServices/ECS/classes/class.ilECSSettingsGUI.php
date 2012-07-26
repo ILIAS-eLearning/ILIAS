@@ -275,6 +275,25 @@ class ilECSSettingsGUI
 		$this->initSettings($_REQUEST['server_id']);
 		$this->settings->delete();
 
+		// Delete communities
+		include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
+		ilECSCommunitiesCache::delete((int) $_REQUEST['server_id']);
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php';
+		ilECSDataMappingSettings::delete((int) $_REQUEST['server_id']);
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
+		ilECSEventQueueReader::deleteServer((int) $_REQUEST['server_id']);
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
+		ilECSExport::deleteByServer((int) $_REQUEST['server_id']);
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		ilECSImport::deleteByServer((int) $_REQUEST['server_id']);
+
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
+		ilECSParticipantSettings::deleteByServer((int) $_REQUEST['server_id']);
+
 		ilUtil::sendSuccess($this->lng->txt('ecs_setting_deleted'),true);
 		$this->ctrl->redirect($this,'overview');
 	}
@@ -924,6 +943,14 @@ class ilECSSettingsGUI
 		$settings->readInactiveServers();
 		
 		$sel_srv = (int)$_REQUEST["ecs_mapping_server"];
+		if(!$sel_srv)
+		{
+			$sel_srv = $_SESSION["ecs_sel_srv"];
+		}
+		else
+		{
+			$_SESSION["ecs_sel_srv"] = $sel_srv;
+		}
 		
 		// Iterate all servers
 		$options = array(0 => $this->lng->txt("please_choose"));
@@ -980,6 +1007,14 @@ class ilECSSettingsGUI
 		$settings->readInactiveServers();
 				
 		$sel_srv = (int)$_REQUEST["ecs_mapping_server"];
+		if(!$sel_srv)
+		{
+			$sel_srv = $_SESSION["ecs_sel_srv"];
+		}
+		else
+		{
+			$_SESSION["ecs_sel_srv"] = $sel_srv;
+		}
 		
 		// Iterate all servers
 		$options = array(0 => $this->lng->txt("please_choose"));

@@ -37,9 +37,10 @@ class ilECSEvent
 	const NEW_EXPORT = 'new_export';
 
 	protected $json_obj = null;
-	protected $status = '';
-	protected $ressource = '';
-	protected $ressource_id = 0;
+	public $status = '';
+	public $ressource = '';
+	public $ressource_id = 0;
+	public $ressource_type = '';
 	
 	/**
 	 * Constructor
@@ -84,6 +85,16 @@ class ilECSEvent
 		return $this->ressource_id;
 	}
 
+
+	/**
+	 * Get ressource type
+	 * @return string
+	 */
+	public function getRessourceType()
+	{
+		return $this->ressource_type;
+	}
+
 	
 	/**
 	 * Read community entries and participants
@@ -97,7 +108,9 @@ class ilECSEvent
 	 	$this->ressource = $this->json_obj->ressource;
 
 		$res_arr = (array) explode('/',$this->getRessource());
-		$this->ressource_id = end($res_arr);
+
+		$this->ressource_id = array_pop($res_arr);
+		$this->ressource_type = array_pop($res_arr);
 	}
 }
 ?>

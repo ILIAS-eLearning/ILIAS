@@ -32,6 +32,7 @@ class ilECSTreeReader
 	 */
 	public function read()
 	{
+		$GLOBALS['ilLog']->write(__METHOD__.': Begin read');
 		try
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSDirectoryTreeConnector.php';
@@ -39,7 +40,7 @@ class ilECSTreeReader
 					ilECSSetting::getInstanceByServerId($this->server_id)
 			);
 			$trees = $dir_reader->getDirectoryTrees();
-
+			$GLOBALS['ilLog']->write(__METHOD__.' '.print_r($trees,true));
 			if($trees instanceof ilECSUriList)
 			{
 				foreach((array) $trees->getLinkIds() as $tree_id)

@@ -202,10 +202,10 @@ class ilECSParticipant
 	 	$this->participantname = $this->json_obj->name;
 		$this->is_self = $this->json_obj->itsyou;
 
+		include_once './Services/WebServices/ECS/classes/class.ilECSOrganisation.php';
+		$this->org = new ilECSOrganisation();
 		if(is_object($this->json_obj->org))
 		{
-			include_once './Services/WebServices/ECS/classes/class.ilECSOrganisation.php';
-			$this->org = new ilECSOrganisation();
 			$this->org->loadFromJson($this->json_obj->org);
 		}
 		return true;

@@ -70,8 +70,13 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 			$this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
 			$res = $this->call();
 
+			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($res,true));
+
+
 			// workaround for unimplemented ecs functionalities
 			$json = file_get_contents($res);
+
+			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($json,true));
 
 			$ecs_result = new ilECSResult($json);
 			return $ecs_result->getResult();
