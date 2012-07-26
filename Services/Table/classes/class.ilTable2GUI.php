@@ -700,10 +700,12 @@ class ilTable2GUI extends ilTableGUI
 				$combi_item = new ilDurationInputGUI("", $id."_from");
 				$combi_item->setShowMonths(false);
 				$combi_item->setShowDays(true);
+				$combi_item->setShowSeconds(true);
 				$item->addCombinationItem("from", $combi_item, $lng->txt("from"));
 				$combi_item = new ilDurationInputGUI("", $id."_to");
 				$combi_item->setShowMonths(false);
 				$combi_item->setShowDays(true);
+				$combi_item->setShowSeconds(true);
 				$item->addCombinationItem("to", $combi_item, $lng->txt("to"));
 				$item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
 				break;
