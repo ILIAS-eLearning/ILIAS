@@ -11,28 +11,26 @@ require_once ("./Services/Table/classes/class.ilTableGUI.php");
  * GUI class for personal bookmark administration. It manages folders and bookmarks
  * with the help of the two corresponding core classes ilBookmarkFolder and ilBookmark.
  * Their methods are called in this User Interface class.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @author Manfred Thaler <manfred.thaler@endo7.com>
- * @version $Id$
- * @ingroup ServicesBookmarks
- *
+ * @author       Alex Killing <alex.killing@gmx.de>
+ * @author       Manfred Thaler <manfred.thaler@endo7.com>
+ * @version      $Id$
+ * @ingroup      ServicesBookmarks
  * @ilCtrl_Calls ilBookmarkAdministrationGUI:
  */
 class ilBookmarkAdministrationGUI
 {
 	/**
-	* User Id
-	* @var integer
-	* @access public
-	*/
+	 * User Id
+	 * @var integer
+	 * @access public
+	 */
 	var $user_id;
 
 	/**
-	* ilias object
-	* @var object ilias
-	* @access public
-	*/
+	 * ilias object
+	 * @var object ilias
+	 * @access public
+	 */
 	var $ilias;
 	var $tpl;
 	var $lng;
@@ -40,21 +38,21 @@ class ilBookmarkAdministrationGUI
 	var $tree;
 	var $id;
 	var $data;
-	var $textwidth=100;
+	var $textwidth = 100;
 
 	/**
-	* Constructor
-	* @access	public
-	* @param	integer		user_id (optional)
-	*/
+	 * Constructor
+	 * @access    public
+	 * @param    integer        user_id (optional)
+	 */
 	function ilBookmarkAdministrationGUI()
 	{
 		global $ilias, $tpl, $lng, $ilCtrl;
-		
+
 //		$tpl->enableAdvancedColumnLayout(true, false);
-		
+
 		$tpl->getStandardTemplate();
-		
+
 		//print_r($_SESSION["error_post_vars"]);
 		// if no bookmark folder id is given, take dummy root node id (that is 1)
 		$this->id = (empty($_GET["bmf_id"]))
@@ -63,14 +61,14 @@ class ilBookmarkAdministrationGUI
 
 		// initiate variables
 		$this->ilias =& $ilias;
-		$this->tpl =& $tpl;
-		$this->lng =& $lng;
-		$this->ctrl =& $ilCtrl;
+		$this->tpl   =& $tpl;
+		$this->lng   =& $lng;
+		$this->ctrl  =& $ilCtrl;
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
 		$this->user_id = $_SESSION["AccountId"];
 
 		$this->tree = new ilTree($_SESSION["AccountId"]);
-		$this->tree->setTableNames('bookmark_tree','bookmark_data');
+		$this->tree->setTableNames('bookmark_tree', 'bookmark_data');
 		$this->root_id = $this->tree->readRootId();
 		// set current bookmark view mode
 		//if (!empty($_GET["set_mode"]))
@@ -82,8 +80,8 @@ class ilBookmarkAdministrationGUI
 	}
 
 	/**
-	* execute command
-	*/
+	 * execute command
+	 */
 	function &executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass();
@@ -94,7 +92,7 @@ class ilBookmarkAdministrationGUI
 				$cmd = $this->ctrl->getCmd("view");
 				$this->displayHeader();
 				$this->$cmd();
-				if ($this->getMode() == 'tree')
+				if($this->getMode() == 'tree')
 				{
 					$this->explorer();
 				}
@@ -103,6 +101,7 @@ class ilBookmarkAdministrationGUI
 		$this->tpl->show(true);
 		return true;
 	}
+
 	function executeAction()
 	{
 		switch($_POST["selected_cmd"])
@@ -124,33 +123,34 @@ class ilBookmarkAdministrationGUI
 	}
 
 	/**
-	* return display mode
-	* flat or tree
-	*/
-	function getMode() {
+	 * return display mode
+	 * flat or tree
+	 */
+	function getMode()
+	{
 		return $this->mode;
 	}
 
 	/**
-	* output explorer tree with bookmark folders
-	*/
+	 * output explorer tree with bookmark folders
+	 */
 	function explorer()
 	{
 		global $tpl;
-		
+
 		$etpl = new ilTemplate("tpl.bookmark_explorer.html", true, true,
 			"Services/Bookmarks");
-		$exp = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this),$_SESSION["AccountId"]);
-		$exp->setAllowedTypes(array('dum','bmf'));
+		$exp  = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this), $_SESSION["AccountId"]);
+		$exp->setAllowedTypes(array('dum', 'bmf'));
 		$exp->setTargetGet("bmf_id");
 		$exp->setSessionExpandVariable('mexpand');
 		$exp->setExpand($this->id);
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this));
-		if ($_GET["mexpand"] == "")
+		if($_GET["mexpand"] == "")
 		{
 			$mtree = new ilTree($_SESSION["AccountId"]);
-			$mtree->setTableNames('bookmark_tree','bookmark_data');
+			$mtree->setTableNames('bookmark_tree', 'bookmark_data');
 			$expanded = $mtree->readRootId();
 		}
 		else
@@ -170,23 +170,24 @@ class ilBookmarkAdministrationGUI
 		$etpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("bookmarks"));
 		$this->ctrl->setParameter($this, "bmf_id", 1);
 
-		if ($_REQUEST['bm_link'])
+		if($_REQUEST['bm_link'])
 		{
 			$link = $_SERVER['REQUEST_URI'];
 			$link = ereg_replace('bmf_id=[0-9]*', 'bmf_id=1', $link);
-			$etpl->setVariable("LINK_EXPLORER_HEADER",$link);
+			$etpl->setVariable("LINK_EXPLORER_HEADER", $link);
 		}
 		else
-			$etpl->setVariable("LINK_EXPLORER_HEADER",$this->ctrl->getLinkTarget($this));
+			$etpl->setVariable("LINK_EXPLORER_HEADER", $this->ctrl->getLinkTarget($this));
 
-		$etpl->setVariable("EXPLORER",$output);
-		$tpl->setLeftNavContent($etpl->get());;
+		$etpl->setVariable("EXPLORER", $output);
+		$tpl->setLeftNavContent($etpl->get());
+		;
 	}
 
 
 	/**
-	* display header and locator
-	*/
+	 * display header and locator
+	 */
 	function displayHeader()
 	{
 		// output locator
@@ -212,20 +213,21 @@ class ilBookmarkAdministrationGUI
 		global $tree, $ilCtrl;
 
 		include_once("./Services/UICore/classes/class.ilFrameTargetInfo.php");
-		
-		if ($this->id > 0 && !$this->tree->isInTree($this->id))
+
+		if($this->id > 0 && !$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
-		
+
 		$mtree = new ilTree($_SESSION["AccountId"]);
-		$mtree->setTableNames('bookmark_tree','bookmark_data');
+		$mtree->setTableNames('bookmark_tree', 'bookmark_data');
 
 		$objects = ilBookmarkFolder::getObjects($this->id);
 
 		$s_mode = ($this->mode == "tree")
-				? "flat"
-				: "tree";
+			? "flat"
+			: "tree";
 
 //		$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this)."&set_mode=".$s_mode,
 //			$s_mode);
@@ -260,11 +262,11 @@ class ilBookmarkAdministrationGUI
 	}
 
 	/**
-	* output a cell in object list
-	*/
+	 * output a cell in object list
+	 */
 	function add_cell($val, $link = "")
 	{
-		if (!empty($link))
+		if(!empty($link))
 		{
 			$this->tpl->setCurrentBlock("begin_link");
 			$this->tpl->setVariable("LINK_TARGET", $link);
@@ -280,18 +282,18 @@ class ilBookmarkAdministrationGUI
 	}
 
 	/**
-	* display locator
-	*/
+	 * display locator
+	 */
 	function displayLocator()
 	{
 		global $lng;
 
-		if (empty($this->id))
+		if(empty($this->id))
 		{
 			return;
 		}
-		
-		if (!$this->tree->isInTree($this->id))
+
+		if(!$this->tree->isInTree($this->id))
 		{
 			return;
 		}
@@ -302,8 +304,8 @@ class ilBookmarkAdministrationGUI
 //print_r($path);
 		$modifier = 1;
 
-return;
-		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
+		return;
+		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->touchBlock("locator_separator");
 		$this->tpl->touchBlock("locator_item");
 		//$this->tpl->setCurrentBlock("locator_item");
@@ -313,9 +315,9 @@ return;
 		//	ilFrameTargetInfo::_getFrame("MainContent")."\"");
 		//$this->tpl->parseCurrentBlock();
 
-		foreach ($path as $key => $row)
+		foreach($path as $key => $row)
 		{
-			if ($key < count($path)-$modifier)
+			if($key < count($path) - $modifier)
 			{
 				$this->tpl->touchBlock("locator_separator");
 			}
@@ -337,11 +339,11 @@ return;
 	}
 
 	/**
-	* new form
-	*/
+	 * new form
+	 */
 	function newForm($type)
 	{
-		if (!$type)
+		if(!$type)
 			$type = $_POST["type"];
 		switch($type)
 		{
@@ -356,13 +358,14 @@ return;
 	}
 
 	/**
-	* display new bookmark folder form
-	*/
+	 * display new bookmark folder form
+	 */
 	function newFormBookmarkFolder()
 	{
-		if (!$this->tree->isInTree($this->id))
+		if(!$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		$form = $this->initFormBookmarkFolder();
@@ -370,43 +373,44 @@ return;
 	}
 
 	/**
-	* init bookmark folder create/edit form
-	* @param string form action type; valid values: createBookmark, updateBookmark
-	*/
+	 * init bookmark folder create/edit form
+	 * @param string form action type; valid values: createBookmark, updateBookmark
+	 */
 	private function initFormBookmarkFolder($action = 'createBookmarkFolder')
 	{
 		global $lng, $ilCtrl, $ilUser;
-		
-		if (!$this->tree->isInTree($this->id))
+
+		if(!$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setTopAnchor("bookmark_top");
-		
+
 		$form->setTitle($lng->txt("bookmark_folder_new"));
-		
-		if ($action == 'updateBookmarkFolder')
+
+		if($action == 'updateBookmarkFolder')
 		{
 			$ilCtrl->setParameter($this, 'bmf_id', $this->id);
 			$ilCtrl->setParameter($this, 'obj_id', $_GET["obj_id"]);
 		}
-		
+
 		$hash = ($ilUser->prefs["screen_reader_optimization"])
 			? "bookmark_top"
 			: "";
 
 		$form->setFormAction($ilCtrl->getFormAction($this, $action, $hash));
-		
+
 		$ilCtrl->clearParameters($this);
 
 		// title
 		$prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$prop->setRequired(true);
 		$form->addItem($prop);
-		
+
 		// buttons
 		$form->addCommandButton($action, $lng->txt('save'));
 		$form->addCommandButton('cancel', $lng->txt('cancel'));
@@ -414,17 +418,17 @@ return;
 	}
 
 	/**
-	* display edit bookmark folder form
-	*/
+	 * display edit bookmark folder form
+	 */
 	function editFormBookmarkFolder()
 	{
-		$bmf = new ilBookmarkFolder($_GET["obj_id"]);
+		$bmf  = new ilBookmarkFolder($_GET["obj_id"]);
 		$form = $this->initFormBookmarkFolder('updateBookmarkFolder', $this->id);
 		$form->setValuesByArray
 		(
 			array
 			(
-				"title" => $this->get_last("title", $bmf->getTitle()),
+				"title"  => $this->get_last("title", $bmf->getTitle()),
 				"obj_id" => $_GET["obj_id"],
 			)
 		);
@@ -433,30 +437,31 @@ return;
 
 
 	/**
-	* init Bookmark create/edit form
-	* @param string form action type; valid values: createBookmark, updateBookmark
-	*/
+	 * init Bookmark create/edit form
+	 * @param string form action type; valid values: createBookmark, updateBookmark
+	 */
 	private function initFormBookmark($action = 'createBookmark')
 	{
 		global $lng, $ilCtrl, $ilUser;
-		
-		if (!$this->tree->isInTree($this->id))
+
+		if(!$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setTopAnchor("bookmark_top");
-		
+
 		$form->setTitle($lng->txt("bookmark_new"));
-		
-		if ($action == 'updateBookmark')
+
+		if($action == 'updateBookmark')
 		{
 			$ilCtrl->setParameter($this, 'bmf_id', $this->id);
 			$ilCtrl->setParameter($this, 'obj_id', $_GET["obj_id"]);
 		}
-		
+
 		$hash = ($ilUser->prefs["screen_reader_optimization"])
 			? "bookmark_top"
 			: "";
@@ -468,36 +473,36 @@ return;
 		$prop->setValue($_GET['bm_title']);
 		$prop->setRequired(true);
 		$form->addItem($prop);
-		
+
 		// description
 		$prop = new ilTextAreaInputGUI($lng->txt('description'), 'description');
 		$form->addItem($prop);
-		
+
 		// target link
 		$prop = new ilTextInputGUI($lng->txt('bookmark_target'), 'target');
 		$prop->setValue($_GET['bm_link']);
 		$prop->setRequired(true);
 		$form->addItem($prop);
-		
+
 		// hidden redirect field
-		if ($_GET['return_to'])
+		if($_GET['return_to'])
 		{
 			$prop = new ilHiddenInputGUI('return_to');
 			$prop->setValue($_GET['return_to']);
 			$form->addItem($prop);
-			
+
 			$prop = new ilHiddenInputGUI('return_to_url');
-			if ($_GET['return_to_url'])
+			if($_GET['return_to_url'])
 				$prop->setValue($_GET['return_to_url']);
 			else
-				$prop->setValue($_GET['bm_link']);		
+				$prop->setValue($_GET['bm_link']);
 			$form->addItem($prop);
 		}
-		
+
 		// buttons
 		$form->addCommandButton($action, $lng->txt('save'));
 		$form->addCommandButton('cancel', $lng->txt('cancel'));
-		
+
 		// keep imports? 
 		/*
 		$this->tpl->setCurrentBlock('bkm_import');
@@ -507,85 +512,89 @@ return;
 		$this->tpl->parseCurrentBlock();
 		//vd($_POST);
 		*/
-		
+
 		return $form;
 	}
-	
+
 	/**
-	* Init import bookmark form
-	*
-	*/
+	 * Init import bookmark form
+
+	 */
 	private function initImportBookmarksForm()
 	{
 		global $lng, $ilCtrl, $ilUser;
-		
-		if (!$this->tree->isInTree($this->id))
+
+		if(!$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setTopAnchor("bookmark_top");
 		$form->setTitle($lng->txt("bkm_import"));
-		
+
 		$fi = new ilFileInputGUI($lng->txt("file_add"), "bkmfile");
 		$fi->setRequired(true);
 		$form->addItem($fi);
 
 		$form->addCommandButton("importFile", $lng->txt('import'));
 		$form->addCommandButton('cancel', $lng->txt('cancel'));
-		
+
 		return $form;
 	}
 
 	/**
-	* display new bookmark form
-	*/
+	 * display new bookmark form
+	 */
 	function newFormBookmark()
 	{
-		$form = $this->initFormBookmark();
+		$form  = $this->initFormBookmark();
 		$html1 = $form->getHTML();
 		$html2 = '';
-		if (!$_REQUEST["bm_link"])
+		if(!$_REQUEST["bm_link"])
 		{
 			$form2 = $this->initImportBookmarksForm();
 			$html2 = "<br />" . $form2->getHTML();
 		}
-		$this->tpl->setVariable("ADM_CONTENT", $html1.$html2);
+		$this->tpl->setVariable("ADM_CONTENT", $html1 . $html2);
 	}
 
 
 	/**
-	* get stored post var in case of an error/warning otherwise return passed value
-	*/
+	 * get stored post var in case of an error/warning otherwise return passed value
+	 */
 	function get_last($a_var, $a_value)
 	{
-		return 	(!empty($_POST[$a_var])) ?
-			ilUtil::prepareFormOutput(($_POST[$a_var]),true) :
+		return (!empty($_POST[$a_var])) ?
+			ilUtil::prepareFormOutput(($_POST[$a_var]), true) :
 			ilUtil::prepareFormOutput($a_value);
 	}
 
 	/**
-	* display edit bookmark form
-	*/
+	 * display edit bookmark form
+	 */
 	function editFormBookmark()
 	{
 		global $lng, $ilCtrl;
-		if (!$this->tree->isInTree($_GET["obj_id"]))
+
+		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
-		$form = $this->initFormBookmark('updateBookmark');
+
+		$form     = $this->initFormBookmark('updateBookmark');
 		$bookmark = new ilBookmark($_GET["obj_id"]);
 		$form->setValuesByArray
 		(
 			array
 			(
-				"title" => $bookmark->getTitle(),
-				"target" => $bookmark->getTarget(),
+				"title"       => $bookmark->getTitle(),
+				"target"      => $bookmark->getTarget(),
 				"description" => $bookmark->getDescription(),
-				"obj_id" => $_GET["obj_id"],
+				"obj_id"      => $_GET["obj_id"],
 			)
 		);
 		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
@@ -593,17 +602,18 @@ return;
 
 
 	/**
-	* create new bookmark folder in db
-	*/
+	 * create new bookmark folder in db
+	 */
 	function createBookmarkFolder()
 	{
-		if (!$this->tree->isInTree($this->id))
+		if(!$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		// check title
-		if (empty($_POST["title"]))
+		if(empty($_POST["title"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->newFormBookmarkFolder();
@@ -624,17 +634,18 @@ return;
 
 
 	/**
-	* update bookmark folder
-	*/
+	 * update bookmark folder
+	 */
 	function updateBookmarkFolder()
 	{
-		if (!$this->tree->isInTree($_GET["obj_id"]))
+		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		// check title
-		if (empty($_POST["title"]))
+		if(empty($_POST["title"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->editFormBookmarkFolder();
@@ -645,7 +656,7 @@ return;
 			$bmf = new ilBookmarkFolder($_GET["obj_id"]);
 			$bmf->setTitle(ilUtil::stripSlashes($_POST["title"]));
 			$bmf->update();
-			
+
 			global $ilCtrl;
 			$ilCtrl->saveParameter($this, 'bmf_id');
 			$ilCtrl->redirect($this, 'view');
@@ -654,23 +665,25 @@ return;
 
 
 	/**
-	* create new bookmark in db
-	*/
+	 * create new bookmark in db
+	 */
 	function createBookmark()
 	{
 		global $lng, $ilCtrl;
-		if (!$this->tree->isInTree($this->id))
+
+		if(!$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		// check title and target
-		if (empty($_POST["title"]))
+		if(empty($_POST["title"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->newFormBookmark();
 		}
-		else if (empty($_POST["target"]))
+		else if(empty($_POST["target"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("please_enter_target"));
 			$this->newFormBookmark();
@@ -686,33 +699,35 @@ return;
 			$bm->create();
 
 			ilUtil::sendInfo($lng->txt('bookmark_added'), true);
-			
-			if ($_POST['return_to'])
+
+			if($_POST['return_to'])
 				ilUtil::redirect($_POST['return_to_url']);
-			else {
-			    $ilCtrl->saveParameter($this, 'bmf_id');
-			    $ilCtrl->redirect($this, 'view');
+			else
+			{
+				$ilCtrl->saveParameter($this, 'bmf_id');
+				$ilCtrl->redirect($this, 'view');
 			}
 		}
 	}
 
 	/**
-	* update bookmark in db
-	*/
+	 * update bookmark in db
+	 */
 	function updateBookmark()
 	{
-		if (!$this->tree->isInTree($_GET["obj_id"]))
+		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
 		// check title and target
-		if (empty($_POST["title"]))
+		if(empty($_POST["title"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("please_enter_title"));
 			$this->editFormBookmark();
 		}
-		else if (empty($_POST["target"]))
+		else if(empty($_POST["target"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("please_enter_target"));
 			$this->editFormBookmark();
@@ -731,31 +746,31 @@ return;
 	}
 
 	/**
-	* export bookmarks
-	*/
-	function export($deliver=true)
+	 * export bookmarks
+	 */
+	function export($deliver = true)
 	{
 		$bm_ids = $_GET['bm_id'] ? array($_GET['bm_id']) : $_POST['bm_id'];
-		if (!$bm_ids)
+		if(!$bm_ids)
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
 		}
-		$export_ids=array();
+		$export_ids = array();
 		foreach($bm_ids as $id)
 		{
-			if ($this->tree->isInTree($id))
+			if($this->tree->isInTree($id))
 			{
 				//list($type, $obj_id) = explode(":", $id);
 				//$export_ids[]=$obj_id;
-				$export_ids[]=$id;
+				$export_ids[] = $id;
 			}
 		}
 
 		require_once ("./Services/Bookmarks/classes/class.ilBookmarkImportExport.php");
-		$html_content=ilBookmarkImportExport::_exportBookmark ($export_ids,true,
-			$this->lng->txt("bookmarks_of")." ".$this->ilias->account->getFullname());
-			
-		if ($deliver)
+		$html_content = ilBookmarkImportExport::_exportBookmark($export_ids, true,
+			$this->lng->txt("bookmarks_of") . " " . $this->ilias->account->getFullname());
+
+		if($deliver)
 		{
 			ilUtil::deliverData($html_content, 'bookmarks.html', "application/save", $charset = "");
 		}
@@ -764,9 +779,10 @@ return;
 			return $html_content;
 		}
 	}
+
 	/**
-	* send  bookmarks as attachment
-	*/
+	 * send  bookmarks as attachment
+	 */
 	function sendmail()
 	{
 		global $ilUser;
@@ -775,34 +791,35 @@ return;
 		$mfile = new ilFileDataMail($ilUser->getId());
 		$umail = new ilFormatMail($ilUser->getId());
 
-		$html_content=$this->export(false);
-		$tempfile=ilUtil::ilTempnam();
-		$fp=fopen($tempfile,'w');
+		$html_content = $this->export(false);
+		$tempfile     = ilUtil::ilTempnam();
+		$fp           = fopen($tempfile, 'w');
 		fwrite($fp, $html_content);
 		fclose($fp);
-		$filename='bookmarks.html';
-		$mfile->copyAttachmentFile($tempfile,$filename);
-		$umail->savePostData($ilUser->getId(),array($filename),
-						 '','','','','',
-						 '',
-						 '', 0);
+		$filename = 'bookmarks.html';
+		$mfile->copyAttachmentFile($tempfile, $filename);
+		$umail->savePostData($ilUser->getId(), array($filename),
+			'', '', '', '', '',
+			'',
+			'', 0);
 
-        require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, '', array(), array('type' => 'attach')));
 	}
+
 	/**
-	* display deletion conformation screen
-	*/
+	 * display deletion conformation screen
+	 */
 	function delete()
 	{
 		$bm_ids = $_GET['bm_id'] ? array($_GET['bm_id']) : $_POST['bm_id'];
-		if (!$bm_ids)
+		if(!$bm_ids)
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
 		}
-			
+
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
-		
+
 		// display confirmation message
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
@@ -810,40 +827,40 @@ return;
 		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
 		$cgui->setCancel($this->lng->txt("cancel"), "cancel");
 		$cgui->setConfirm($this->lng->txt("confirm"), "confirm");
-						
+
 		foreach($bm_ids as $obj_id)
 		{
 			$type = ilBookmark::_getTypeOfId($obj_id);
 
-			if (!$this->tree->isInTree($obj_id))
+			if(!$this->tree->isInTree($obj_id))
 			{
 				continue;
 			}
-			
+
 			switch($type)
 			{
 				case "bmf":
 					$BookmarkFolder = new ilBookmarkFolder($obj_id);
-					$title = $BookmarkFolder->getTitle();
-					$target = "";
+					$title          = $BookmarkFolder->getTitle();
+					$target         = "";
 					unset($BookmarkFolder);
 					break;
 
 				case "bm":
 					$Bookmark = new ilBookmark($obj_id);
-					$title = $Bookmark->getTitle();
-					$target = $Bookmark->getTarget();
+					$title    = $Bookmark->getTitle();
+					$target   = $Bookmark->getTarget();
 					unset($Bookmark);
 					break;
 			}
-			
-			$caption = ilUtil::getImageTagByType($type, $this->tpl->tplPath).					
-					" ".$title;			
+
+			$caption = ilUtil::getImageTagByType($type, $this->tpl->tplPath) .
+				" " . $title;
 			if($target)
 			{
-				$caption .= " (".ilUtil::shortenText($target, $this->textwidth, true).")";
+				$caption .= " (" . ilUtil::shortenText($target, $this->textwidth, true) . ")";
 			}
-			
+
 			$cgui->addItem("id[]", $obj_id, $caption);
 		}
 
@@ -851,37 +868,37 @@ return;
 	}
 
 	/**
-	* cancel deletion,insert, update
-	*/
+	 * cancel deletion,insert, update
+	 */
 	function cancel()
 	{
-		if ($_POST['return_to'])
+		if($_POST['return_to'])
 			ilUtil::redirect($_POST['return_to_url']);
 		else
 			$this->view();
 	}
 
 	/**
-	* deletion confirmed -> delete folders / bookmarks
-	*/
+	 * deletion confirmed -> delete folders / bookmarks
+	 */
 	function confirm()
 	{
 		global $tree, $rbacsystem, $rbacadmin;
 		// AT LEAST ONE OBJECT HAS TO BE CHOSEN.
-		if (!$_POST["id"])
+		if(!$_POST["id"])
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
 		}
 
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_POST["id"] as $id)
+		foreach($_POST["id"] as $id)
 		{
 			$type = ilBookmark::_getTypeOfId($id);
 
 			// get node data and subtree nodes
-			if ($this->tree->isInTree($id))
+			if($this->tree->isInTree($id))
 			{
-				$node_data = $this->tree->getNodeData($id);
+				$node_data     = $this->tree->getNodeData($id);
 				$subtree_nodes = $this->tree->getSubTree($node_data);
 			}
 			else
@@ -893,9 +910,9 @@ return;
 			$this->tree->deleteTree($node_data);
 
 			// delete objects of subtree nodes
-			foreach ($subtree_nodes as $node)
+			foreach($subtree_nodes as $node)
 			{
-				switch ($node["type"])
+				switch($node["type"])
 				{
 					case "bmf":
 						$BookmarkFolder = new ilBookmarkFolder($node["obj_id"]);
@@ -911,29 +928,29 @@ return;
 		}
 
 		// Feedback
-		ilUtil::sendSuccess($this->lng->txt("info_deleted"),true);
+		ilUtil::sendSuccess($this->lng->txt("info_deleted"), true);
 
 		$this->view();
 	}
 
 
 	/**
-	* display subobject addition selection
-	*/
+	 * display subobject addition selection
+	 */
 	function showPossibleSubObjects()
 	{
 		$actions = array(
-				"delete"=>$this->lng->txt("delete"),
-				"export"=>$this->lng->txt("export"),
-				"sendmail"=>$this->lng->txt("bkm_sendmail"),
+			"delete"  => $this->lng->txt("delete"),
+			"export"  => $this->lng->txt("export"),
+			"sendmail"=> $this->lng->txt("bkm_sendmail"),
 		);
 
 		$subobj = array("bm", "bmf");
-		
-		if (is_array($subobj))
+
+		if(is_array($subobj))
 		{
 			//build form
-			$opts = ilUtil::formSelect("","type",$subobj);
+			$opts = ilUtil::formSelect("", "type", $subobj);
 
 			$this->tpl->setCurrentBlock("add_object");
 			$this->tpl->setVariable("COLUMN_COUNTS", 7);
@@ -943,12 +960,12 @@ return;
 			$this->tpl->parseCurrentBlock();
 		}
 
-		$this->tpl->setVariable("TPLPATH",$this->tpl->tplPath);
+		$this->tpl->setVariable("TPLPATH", $this->tpl->tplPath);
 
 		$this->tpl->setCurrentBlock("tbl_action_select");
-		$this->tpl->setVariable("SELECT_ACTION",ilUtil::formSelect($_SESSION["error_post_vars"]['action'],"action",$actions,false,true));
-		$this->tpl->setVariable("BTN_NAME","executeAction");
-		$this->tpl->setVariable("BTN_VALUE",$this->lng->txt("execute"));
+		$this->tpl->setVariable("SELECT_ACTION", ilUtil::formSelect($_SESSION["error_post_vars"]['action'], "action", $actions, false, true));
+		$this->tpl->setVariable("BTN_NAME", "executeAction");
+		$this->tpl->setVariable("BTN_VALUE", $this->lng->txt("execute"));
 
 		/*
 		$this->tpl->setVariable("BTN_NAME","delete");
@@ -964,73 +981,74 @@ return;
 	}
 
 	/**
-	* Get Bookmark list for personal desktop.
-	*/
-	function &getHTML()
+	 * Get Bookmark list for personal desktop.
+	 */
+	function getHTML()
 	{
 		include_once("./Services/Bookmarks/classes/class.ilBookmarkBlockGUI.php");
 		$bookmark_block_gui = new ilBookmarkBlockGUI("ilpersonaldesktopgui", "show");
-		
+
 		return $bookmark_block_gui->getHTML();
 	}
 
 	/**
-	* imports a bookmark file into database
-	* display status information or report errors messages
-	* in case of error
-	*
-	* @access	public
-	*/
+	 * imports a bookmark file into database
+	 * display status information or report errors messages
+	 * in case of error
+	 * @access    public
+	 */
 	function importFile()
 	{
-		if (!$this->tree->isInTree($this->id))
+		if(!$this->tree->isInTree($this->id))
 		{
-			return;
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
 		}
 
-		if ($_FILES["bkmfile"]["error"] > UPLOAD_ERR_OK)
+		if($_FILES["bkmfile"]["error"] > UPLOAD_ERR_OK)
 		{
 			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
 			$this->newFormBookmark();
 			return;
 		}
 		require_once ("./Services/Bookmarks/classes/class.ilBookmarkImportExport.php");
-		$objects=ilBookmarkImportExport::_parseFile ($_FILES["bkmfile"]['tmp_name']);
-		if ($objects===false)
+		$objects = ilBookmarkImportExport::_parseFile($_FILES["bkmfile"]['tmp_name']);
+		if($objects === false)
 		{
 			ilUtil::sendFailure($this->lng->txt("import_file_not_valid"));
 			$this->newFormBookmark();
 			return;
 		}
 		// holds the number of created objects
-		$num_create=array('bm'=>0,'bmf'=>0);
-		$this->__importBookmarks($objects,$num_create,$this->id,0);
+		$num_create = array('bm'=> 0, 'bmf'=> 0);
+		$this->__importBookmarks($objects, $num_create, $this->id, 0);
 
-		ilUtil::sendSuccess(sprintf($this->lng->txt("bkm_import_ok"),$num_create['bm'],
-			$num_create[ 'bmf']));
+		ilUtil::sendSuccess(sprintf($this->lng->txt("bkm_import_ok"), $num_create['bm'],
+			$num_create['bmf']));
 		$this->view();
 
 
 	}
+
 	/**
-	* creates the bookmarks and folders
-	* @param	array		array of objects
-	* @param	array		stores the number of created objects
-	* @param	folder_id		id where to store the bookmarks
-	* @param	start_key		key of the objects array where to start
-	* @access	private
-	*/
-	function __importBookmarks(&$objects,&$num_create,$folder_id,$start_key=0)
+	 * creates the bookmarks and folders
+	 * @param    array            array of objects
+	 * @param    array            stores the number of created objects
+	 * @param    folder_id        id where to store the bookmarks
+	 * @param    start_key        key of the objects array where to start
+	 * @access    private
+	 */
+	function __importBookmarks(&$objects, &$num_create, $folder_id, $start_key = 0)
 	{
-		if (is_array($objects[$start_key]))
+		if(is_array($objects[$start_key]))
 		{
-			foreach ($objects[$start_key] as $obj_key=>$object)
+			foreach($objects[$start_key] as $obj_key=> $object)
 			{
-				switch ($object['type'])
+				switch($object['type'])
 				{
 					case 'bm':
-						if (!$object["title"]) continue;
-						if (!$object["target"]) continue;
+						if(!$object["title"]) continue;
+						if(!$object["target"]) continue;
 						$bm = new ilBookmark();
 						$bm->setTitle($object["title"]);
 						$bm->setDescription($object["description"]);
@@ -1038,70 +1056,70 @@ return;
 						$bm->setParent($folder_id);
 						$bm->create();
 						$num_create['bm']++;
-					break;
+						break;
 					case 'bmf':
-						if (!$object["title"]) continue;
+						if(!$object["title"]) continue;
 						$bmf = new ilBookmarkFolder();
 						$bmf->setTitle($object["title"]);
 						$bmf->setParent($folder_id);
 						$bmf->create();
 						$num_create['bmf']++;
-						if (is_array($objects[$obj_key]))
+						if(is_array($objects[$obj_key]))
 						{
-							$this->__importBookmarks($objects,$num_create,
-								$bmf->getId(),$obj_key);
+							$this->__importBookmarks($objects, $num_create,
+								$bmf->getId(), $obj_key);
 						}
-					break;
+						break;
 				}
 			}
 		}
 	}
-	
+
 	function move()
 	{
 		global $ilUser, $ilTabs;
-	
+
 		$bm_ids = $_REQUEST['bm_id'];
-		if (!$bm_ids)
-		{			
+		if(!$bm_ids)
+		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return $this->view();
 		}
-				
+
 		$ilTabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
-		
+
 		$this->ctrl->setParameter($this, "bm_id_tgt", implode(";", $bm_ids));
 		$exp = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this, "confirmedMove"), $ilUser->getId());
 		$exp->setAllowedTypes(array('bmf'));
-		$exp->setTargetGet("bmfmv_id");			
-		$exp->forceExpandAll(true, false);	
+		$exp->setTargetGet("bmfmv_id");
+		$exp->forceExpandAll(true, false);
 		$exp->addRoot($this->lng->txt("bookmarks"));
-		$exp->setOutput(0);		
-		
+		$exp->setOutput(0);
+
 		ilUtil::sendInfo($this->lng->txt("bookmark_select_target"));
 		$this->tpl->setContent($exp->getOutput());
-		
+
 		// do not display navigation tree
 		$this->mode = "flat";
 	}
-	
+
 	function confirmedMove()
 	{
 		global $ilUser;
-	
-		$tgt = (int)$_REQUEST["bmfmv_id"];
+
+		$tgt    = (int)$_REQUEST["bmfmv_id"];
 		$bm_ids = explode(";", $_REQUEST['bm_id_tgt']);
-		if (!$bm_ids || !$tgt)
-		{			
+		if(!$bm_ids || !$tgt)
+		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
 			return $this->view();
 		}
-		
+
 		$tree = new ilTree($ilUser->getId());
-		$tree->setTableNames('bookmark_tree','bookmark_data');
-		
+		$tree->setTableNames('bookmark_tree', 'bookmark_data');
+
 		$tgt_node = $tree->getNodeData($tgt);
-		
+
 		// sanity check
 		foreach($bm_ids as $node_id)
 		{
@@ -1110,22 +1128,20 @@ return;
 				ilUtil::sendFailure($this->lng->txt("error"), true);
 				$this->ctrl->redirect($this, "view");
 			}
-			
+
 			$node = $tree->getNodeData($node_id);
-			
+
 			// already at correct position
 			if($node["parent"] == $tgt)
-			{				
+			{
 				continue;
 			}
-			
+
 			$tree->moveTree($node_id, $tgt);
 		}
-		
+
 		ilUtil::sendSuccess($this->lng->txt("bookmark_moved_ok"), true);
 		$this->ctrl->setParameter($this, "bmf_id", $tgt);
 		$this->ctrl->redirect($this, "view");
 	}
 }
-
-?>
