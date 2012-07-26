@@ -59,7 +59,7 @@ class ilObjRemoteCourseListGUI extends ilObjectListGUI
 		$this->link_enabled = true;
 		$this->info_screen_enabled = true;
 		$this->type = 'rcrs';
-		$this->gui_class_name = 'ilremotecoursegui';
+		$this->gui_class_name = 'ilobjremotecoursegui';
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
 		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);

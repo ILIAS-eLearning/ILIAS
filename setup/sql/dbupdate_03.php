@@ -11747,3 +11747,7 @@ if(!$ilDB->tableExists('ecs_cms_data'))
 		$ilDB->createSequence('ecs_container_mapping',++$rows);
 	}
 ?>
+<#3682>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
