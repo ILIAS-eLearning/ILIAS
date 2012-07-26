@@ -6584,8 +6584,7 @@ $ilDB->manipulate("UPDATE style_parameter SET ".
 ?>
 <#3395>
 <?php
-
-	if($ilDB->tableExists('ecs_container_mapping_seq'))
+	if(!$ilDB->sequenceExists('ecs_container_mapping'))
 	{
 		$res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping ');
 		$rows = $res->numRows();
@@ -11583,4 +11582,168 @@ if($dcl_type_id)
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::updateOperationOrder('invite', 2600);
 
+?>
+<#3677>
+<?php
+global $ilDB;
+
+if(!$ilDB->tableExists('ecs_node_mapping_a'))
+{
+	$fields = array(
+		'server_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'cs_root' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'cs_id' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'title_update' => array(
+			'type' => 'integer',
+			'length' => 1
+		),
+		'position_update' => array(
+			'type' => 'integer',
+			'length' => 1
+		),
+		'tree_update' => array(
+			'type' => 'integer',
+			'length' => 1
+		)
+	);
+	$ilDB->createTable('ecs_node_mapping_a', $fields);
+	$ilDB->addPrimaryKey('ecs_node_mapping_a', array('server_id', 'mid', 'cs_root', 'cs_id'));
+}
+?>
+
+<#3678>
+<?php
+global $ilDB;
+
+if(!$ilDB->tableExists('ecs_cms_tree'))
+{
+	$fields = array(
+		'tree' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'child' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'parent' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'lft' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'rgt' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'depth' => array(
+			'type' => 'integer',
+			'length' => 4
+		)
+	);
+	$ilDB->createTable('ecs_cms_tree', $fields);
+	$ilDB->addPrimaryKey('ecs_cms_tree', array('tree', 'child'));
+}
+if(!$ilDB->tableExists('ecs_cms_data'))
+{
+	$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'server_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'tree_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'cms_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 512,
+			'notnull' => false
+		)
+	);
+	$ilDB->createTable('ecs_cms_data', $fields);
+	$ilDB->addPrimaryKey('ecs_cms_data', array('obj_id'));
+	$ilDB->createSequence('ecs_cms_data');
+}
+?>
+<#3679>
+<?php
+
+	global $ilDB;
+
+	if(!$ilDB->tableColumnExists('ecs_cms_data','term'))
+	{
+		$ilDB->addTableColumn(
+			'ecs_cms_data',
+			'term',
+			array(
+				'type'	=> 'text',
+				'length' => 255,
+				'notnull' => false
+			)
+		);
+	}
+?>
+<#3680>
+<?php
+	global $ilDB;
+
+	if(!$ilDB->tableColumnExists('ecs_cms_data','status'))
+	{
+		$ilDB->addTableColumn(
+			'ecs_cms_data',
+			'status',
+			array(
+				'type'	=> 'integer',
+				'length' => 2,
+				'notnull' => true,
+				'default' => 1
+			)
+		);
+	}
+?>
+<#3681>
+<?php
+	// original update step (#3395) was broken
+	if(!$ilDB->sequenceExists('ecs_container_mapping'))
+	{
+		$res = $ilDB->query('SELECT mapping_id FROM ecs_container_mapping');
+		$rows = $res->numRows();
+		$ilDB->createSequence('ecs_container_mapping',++$rows);
+	}
 ?>
