@@ -327,9 +327,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 				case "first_access":
 				case "last_access":
-				case "create_date":
-				case "birthday":
+				case "create_date":				
 				case 'status_changed':
+					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_DATETIME_RANGE, true, $meta["txt"]);
+					$this->filter[$column] = $item->getDate();
+					break;
+				
+				case "birthday":
 					$item = $this->addFilterItemByMetaType($column, ilTable2GUI::FILTER_DATE_RANGE, true, $meta["txt"]);
 					$this->filter[$column] = $item->getDate();
 					break;
