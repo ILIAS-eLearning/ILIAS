@@ -502,9 +502,22 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				 case "registration":
 				 case "create_date":
 				 case "first_access":
-				 case "last_access":
-				 case "birthday":
+				 case "last_access":				
 				 case 'status_changed':
+					 if($value)
+					 {
+						 if($value["from"])
+						 {
+							 $result[$id]["from"] = $value["from"]->get(IL_CAL_DATETIME);
+						 }
+						 if($value["to"])
+						 {
+							 $result[$id]["to"] = $value["to"]->get(IL_CAL_DATETIME);
+						 }
+					 }
+					 break;
+					 
+				 case "birthday":
 					 if($value)
 					 {
 						 if($value["from"])
