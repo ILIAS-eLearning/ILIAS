@@ -7617,8 +7617,8 @@ ecs#:#ecs_available_ecs#:#Verfügbare ECS
 ecs#:#ecs_back_settings#:#ECS-Einstellungen
 ecs#:#ecs_ca_cert#:#CA Zertifikat
 ecs#:#ecs_campus_connect_title#:#CampusConnect-Zuordnungen
+ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um ECS-Objekte z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
 ecs#:#ecs_cat_mapping_duration#:#Zeitrahmen
-ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um ECS-Kurslinks z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
 ecs#:#ecs_cat_mapping_fixed#:#Feste Werte
 ecs#:#ecs_cat_mapping_fixed_info#:#Wählen Sie diese Einstellung, um die Zuordnung anhand von festen Werten vorzunehmen. Mehrere Werte können durch Komma getrennt eingegeben werden.
 ecs#:#ecs_cat_mapping_type#:#Art der Zuordnung
@@ -7645,7 +7645,7 @@ ecs#:#ecs_edit_category_mapping#:#Zuordnung bearbeiten
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
 ecs#:#ecs_err_invalid_dates#:#Der Starttermin muss vor dem Endtermin liegen. Bitte überprüfen Sie Ihre Eingabe.
-ecs#:#ecs_err_invalid_type#:#Bitte wählen Sie eine Art der Zuordnung aus.
+ecs#:#ecs_err_invalid_type#:#Bitte geben Sie eine gültige Kategorie-Objekt-Id an.
 ecs#:#ecs_err_missing_value#:#Bitte überprüfen Sie Ihre Eingaben für die Attributwerte.
 ecs#:#ecs_error_extract_serial#:#Fehler beim Auslesen Seriennummer des Zertifikates. Bitte überprüfen Sie das Clientzertifikat.
 ecs#:#ecs_event_appointment#:#Veranstaltungstermin
@@ -7674,8 +7674,8 @@ ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue 
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
 ecs#:#ecs_import#:#Externe Kurse
 ecs#:#ecs_import_cms#:#Campus Managment
+ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_id#:#Import-ID
-ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Kurslinks angelegt werden sollen.
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
 ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment" nur für maximal einen Teilnehmer auswählen.
@@ -7688,8 +7688,8 @@ ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu ILIAS Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
-ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kurslinks zu Kategorien
-ecs#:#ecs_new_econtent_subject#:#Neuer ECS-Kurslink
+ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung zu Kategorien
+ecs#:#ecs_new_econtent_subject#:#Neuer externer Kurs
 ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
 ecs#:#ecs_new_user_profile#:#Profildaten:
 ecs#:#ecs_new_user_subject#:#Neue ECS-Benutzer 
@@ -12470,6 +12470,15 @@ wsp#:#wsp_type_file#:#Datei
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+ecs#:#ecs_general_info#:#Allgemeine Informationen
+ecs#:#ecs_local_informations#:#Weitere Informationen
+ecs#:#ecs_delete_setting#:#Sind Sie sicher, dass Sie die folgenden ECS löschen wollen?
+ecs#:#ecs_setting_deleted#:#ECS wurde gelöscht.
+ecs#:#ecs_cat_mapping_by_type#:#Nach Typ
+ecs#:#ecs_cat_mapping_by_type_info#:#Wählen Sie diese Einstellung, um nach Objekt-Typ zuzuordnen.
+ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
+common#:#obj_rcat#:#ECS-Kategorie
+ecs#:#ecs_server_deleted#:#Server gelöscht
 blog#:#blog_edit_date#:#Datum editieren
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
 certificate#:#certificate_file_basename#:#Zertifikat

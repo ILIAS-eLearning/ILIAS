@@ -40,10 +40,12 @@ class ilECSCategoryMappingRule
 	
 	const TYPE_FIXED = 0;
 	const TYPE_DURATION = 1;
+	const TYPE_BY_TYPE = 2;
 	
 	const ERR_MISSING_VALUE = 'ecs_err_missing_value';
 	const ERR_INVALID_DATES = 'ecs_err_invalid_dates';
 	const ERR_INVALID_TYPE = 'ecs_err_invalid_type';
+	const ERR_MISSING_BY_TYPE = 'ecs_err_invalid_by_type';
 	
 	protected $db;
 	
@@ -54,6 +56,7 @@ class ilECSCategoryMappingRule
 	private $mapping_value;
 	private $range_dt_start;
 	private $range_dt_end;
+	private $by_type;
 	
 	/**
 	 * Constructor 
@@ -218,6 +221,25 @@ class ilECSCategoryMappingRule
 	}
 	
 	/**
+	 * set mapping by type 
+	 * @param string	$type	Mapping type
+	 * @return
+	 */
+	public function setByType($a_type)
+	{
+		$this->by_type = $a_type;
+	}
+	
+	/**
+	 * get mapping by type
+	 * @return string
+	 */
+	public function getByType()
+	{
+		return $this->by_type;	 
+	}
+	
+	/**
 	 * delete rule
 	 * @return
 	 */
@@ -235,6 +257,15 @@ class ilECSCategoryMappingRule
 	 */
 	public function update()
 	{
+		if($this->getMappingType() == self::TYPE_BY_TYPE)
+		{
+			$mapping_value = $this->getByType();
+		}
+		else
+		{
+			$mapping_value = $this->getMappingValue();
+		}
+		
 		$sta = $this->db->manipulateF(
 			'UPDATE ecs_container_mapping SET '.
 			'container_id = %s, '.
@@ -249,7 +280,7 @@ class ilECSCategoryMappingRule
 			$this->getContainerId(),
 			$this->getFieldName(),
 			$this->getMappingType(),
-			$this->getMappingValue(),
+			$mapping_value,
 			$this->getDateRangeStart()->get(IL_CAL_UNIX),
 			$this->getDateRangeEnd()->get(IL_CAL_UNIX),
 			$this->getMappingId())
@@ -264,6 +295,15 @@ class ilECSCategoryMappingRule
 	{
 		global $ilDB;
 		
+		if($this->getMappingType() == self::TYPE_BY_TYPE)
+		{
+			$mapping_value = $this->getByType();
+		}
+		else
+		{
+			$mapping_value = $this->getMappingValue();
+		}
+		
 		$mapping_id = $ilDB->nextId('ecs_container_mapping');
 		$sta = $this->db->manipulateF(
 			'INSERT INTO ecs_container_mapping  '.
@@ -275,7 +315,7 @@ class ilECSCategoryMappingRule
 				$this->getContainerId(),
 				$this->getFieldName(),
 				$this->getMappingType(),
-				$this->getMappingValue(),
+				$mapping_value,
 				$this->getDateRangeStart()->get(IL_CAL_UNIX),
 				$this->getDateRangeEnd()->get(IL_CAL_UNIX))
 			);
@@ -295,7 +335,20 @@ class ilECSCategoryMappingRule
 		{
 			return self::ERR_INVALID_DATES;
 		}
+		if($this->getMappingType() == self::TYPE_DURATION && !in_array($this->getFieldName(), array('begin', 'end')))
+		{
+			return self::ERR_MISSING_VALUE;
+		}
+		// handled by form gui?
 		if($this->getMappingType() == self::TYPE_FIXED and !$this->getMappingValue())
+		{
+			return self::ERR_MISSING_VALUE;
+		}
+		if($this->getMappingType() == self::TYPE_BY_TYPE && $this->getFieldName() != 'type')
+		{
+			return self::ERR_MISSING_BY_TYPE;
+		}
+		if($this->getMappingType() != self::TYPE_BY_TYPE && $this->getFieldName() == 'type')
 		{
 			return self::ERR_MISSING_VALUE;
 		}
@@ -325,6 +378,9 @@ class ilECSCategoryMappingRule
 				return $lng->txt('ecs_field_'.$this->getFieldName()).': '.ilDatePresentation::formatPeriod(
 					$this->getDateRangeStart(),
 					$this->getDateRangeEnd());
+				
+			case self::TYPE_BY_TYPE:			
+				return $lng->txt('type').': '.$lng->txt('obj_'.$this->getByType());
 		}	 
 	}
 	
@@ -476,14 +532,23 @@ class ilECSCategoryMappingRule
 			array($this->getMappingId())
 		);
 		while($row = $this->db->fetchObject($res))
-		{
+		{			
 			$this->setMappingId($row->mapping_id);
 			$this->setDateRangeStart($row->date_range_start ? new ilDate($row->date_range_start,IL_CAL_UNIX) : null);
 			$this->setDateRangeEnd($row->date_range_end ? new ilDate($row->date_range_end,IL_CAL_UNIX) : null);
-			$this->setMappingType($row->mapping_type);
-			$this->setMappingValue($row->mapping_value);
+			$this->setMappingType($row->mapping_type);			
 			$this->setFieldName($row->field_name);
 			$this->setContainerId($row->container_id);
+			
+			if($this->getMappingType() == self::TYPE_BY_TYPE)
+			{
+				$this->setByType($row->mapping_value);
+			}
+			else
+			{
+				$this->setMappingValue($row->mapping_value);
+			}
+			
 		}
 		return true;
 	}

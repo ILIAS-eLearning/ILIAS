@@ -248,6 +248,9 @@ class ilAuthContainerECS extends Auth_Container
 		$userObj->setTimeLimitFrom(time());
 		$userObj->setTimeLimitUntil(time() + $ilClientIniFile->readVariable("session", "expire"));
 
+		$now = new ilDateTime(time(), IL_CAL_UNIX);
+		$userObj->setAgreeDate($now->get(IL_CAL_DATETIME));
+
 		// Create user in DB
 		$userObj->setOwner(6);
 		$userObj->create();

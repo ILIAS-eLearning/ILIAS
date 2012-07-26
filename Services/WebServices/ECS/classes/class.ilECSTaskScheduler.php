@@ -343,7 +343,7 @@ class ilECSTaskScheduler
 	 */
 	private function handleUpdate(ilECSEContent $content,  ilECSEContentDetails $details)
 	{
-		global $ilLog;
+		global $ilLog, $ilAppEventHandler;
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
 		if(!ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->isImportAllowed($content->getOwner()))
@@ -374,7 +374,16 @@ class ilECSTaskScheduler
 			{
 				$ilLog->write(__METHOD__.': ... create called.');
 				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
-				$remote_crs = ilObjRemoteCourse::_createFromECSEContent($this->settings->getServerId(),$content,$mid);
+				$remote_crs = ilObjRemoteCourse::_createFromECSEContent($this->settings->getServerId(),$content,$mid);	
+				
+				$ilAppEventHandler->raise(
+					'Modules/RemoteCourse',
+					'create',
+					array(
+						'rcrs' => $remote_crs,
+						'server_id' => $this->settings->getServerId()
+					)
+				);
 			}
 
 			// deprecated mids

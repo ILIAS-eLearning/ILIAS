@@ -607,7 +607,6 @@ class ilObjectDefinition extends ilSaxParser
 
 		// remove role folder object from list 
 		unset($subobjects["rolf"]);
-		unset($subobjects['rcrs']);
 		
 		$sub_types = array_keys($subobjects);
 

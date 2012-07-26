@@ -200,19 +200,27 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 			
 			$mid = ilObjRemoteCourse::_lookupMID($obj_id);
 
-			try {
-				$reader = ilECSCommunityReader::getInstanceByServerId($tmp_arr['sid']);
-			}
-			catch(ilECSConnectorException $e)
+			if($tmp_arr['sid'])
 			{
-				$reader = null;
+				try {
+					$reader = ilECSCommunityReader::getInstanceByServerId($tmp_arr['sid']);
+				}
+				catch(ilECSConnectorException $e)
+				{
+					$reader = null;
+				}
+
+				if($reader and ($participant = $reader->getParticipantByMID($mid)))
+				{
+					$tmp_arr['from'] = $participant->getParticipantName();
+					$tmp_arr['from_info'] = $participant->getDescription();
+				}
 			}
-					
-			if($reader and ($participant = $reader->getParticipantByMID($mid)))
+			else
 			{
-				$tmp_arr['from'] = $participant->getParticipantName();
-				$tmp_arr['from_info'] = $participant->getDescription();
+				$tmp_arr['from'] = $this->lng->txt("ecs_server_deleted");
 			}
+			
 			$tmp_arr['last_update'] = $ilObjDataCache->lookupLastUpdate($obj_id);
 			$content[] = $tmp_arr;
 		}

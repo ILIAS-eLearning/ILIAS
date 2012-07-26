@@ -133,5 +133,55 @@ class ilECSUtils
 			return '';	
 		}
 	}
+	
+	/**
+	 * Get all possible remote object types
+	 * 
+	 * @param bool $a_with_captions
+	 * @return array
+	 */
+	public static function getPossibleRemoteTypes($a_with_captions = false)
+	{
+		global $lng;
+		
+		$all = array("rcrs", "rcat");
+		
+		if(!$a_with_captions)
+		{
+			return $all;			
+		}
+		
+		$res = array();
+		foreach($all as $id)
+		{
+			$res[$id] = $lng->txt("obj_".$id);
+		}
+		return $res;
+	}
+	
+	/**
+	 * Get all possible release object types
+	 * 
+	 * @param bool $a_with_captions
+	 * @return array
+	 */
+	public static function getPossibleReleaseTypes($a_with_captions = false)
+	{
+		global $lng;
+		
+		$all = array("crs", "cat");
+		
+		if(!$a_with_captions)
+		{
+			return $all;			
+		}
+		
+		$res = array();
+		foreach($all as $id)
+		{
+			$res[$id] = $lng->txt("obj_".$id);
+		}
+		return $res;
+	}
 }
 ?>
