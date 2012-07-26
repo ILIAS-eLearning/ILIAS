@@ -40,6 +40,12 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$this->ctrl->forwardCommand(new ilPermissionGUI($this));
 				break;
+			
+			case "ilcommonactiondispatchergui":
+				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+				$this->ctrl->forwardCommand($gui);
+				break;
 
 			default:
 				if(!$cmd || $cmd == 'view')

@@ -10,6 +10,7 @@ include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php')
 * 
 * 
 * @ilCtrl_Calls ilObjRemoteCourseGUI: ilPermissionGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjRemoteCourseGUI: ilCommonActionDispatcherGUI
 * @ingroup ModulesRemoteCourse 
 */
 

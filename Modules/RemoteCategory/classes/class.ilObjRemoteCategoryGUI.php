@@ -11,6 +11,7 @@ include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php')
 * 
 * 
 * @ilCtrl_Calls ilObjRemoteCategoryGUI: ilPermissionGUI, ilInfoScreenGUI
+* @ilCtrl_Calls ilObjRemoteCategoryGUI: ilCommonActionDispatcherGUI
 * @ingroup ModulesRemoteCategory
 */
 
