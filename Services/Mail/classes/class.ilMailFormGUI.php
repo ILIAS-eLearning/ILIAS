@@ -117,7 +117,10 @@ class ilMailFormGUI
 		{
 			foreach($_POST['attachments'] as $value)
 			{
-				$files[] = urldecode($value);
+				if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
+				{
+					$files[] = urldecode($value);
+				}
 			}
 		}
 		
@@ -148,7 +151,14 @@ class ilMailFormGUI
 			{
 				foreach($_POST['attachments'] as $key => $value)
 				{
-					$_POST['attachments'][$key] = urldecode($value);
+					if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . urldecode($value)))
+					{
+						$_POST['attachments'][$key] = urldecode($value);
+					}
+					else
+					{
+						unset($_POST['attachments'][$key]);
+					}
 				}
 			}
 			ilUtil::sendInfo($errorMessage);
@@ -729,12 +739,15 @@ class ilMailFormGUI
 		{
 			foreach($mailData["attachments"] as $data)
 			{
-				$hidden = new ilHiddenInputGUI('attachments[]');
-				$hidden->setValue(urlencode($data));
-				$form_gui->addItem($hidden);
-				$size = filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data);
-				$label = $data . " [" . ilFormat::formatSize($size) . "]";
-				$att->addItem($label);
+				if(is_file($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data))
+				{
+					$hidden = new ilHiddenInputGUI('attachments[]');
+					$form_gui->addItem($hidden);
+					$size = filesize($this->mfile->getMailPath() . '/' . $ilUser->getId() . "_" . $data);
+					$label = $data . " [" . ilFormat::formatSize($size) . "]";
+					$att->addItem($label);
+					$hidden->setValue(urlencode($data));
+				}
 			}
 		}
 		$form_gui->addItem($att);
