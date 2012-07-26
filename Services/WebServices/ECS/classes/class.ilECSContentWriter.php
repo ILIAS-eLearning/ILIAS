@@ -54,10 +54,10 @@ class ilECSContentWriter
 	 * Constructor
 	 *
 	 * @access public
-	 * @param object content obj (e.g course_obj)
+	 * @param ilObject content obj (e.g course_obj)
 	 * 
 	 */
-	public function __construct($a_cont_obj,$a_server_id)
+	public function __construct(ilObject $a_cont_obj,$a_server_id)
 	{
 	 	global $ilLog;
 	 	

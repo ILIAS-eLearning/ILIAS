@@ -6592,9 +6592,9 @@ ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma sepe
 ecs#:#ecs_approval_rcp#:#Notification About Approved Courses
 ecs#:#ecs_attribute_name#:#Attribute Name
 ecs#:#ecs_ca_cert#:#CA Certificate
-ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course-Links based on date ranges (e.g starting time of a course).
+ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning remote objects based on date ranges (e.g starting time of a course).
 ecs#:#ecs_cat_mapping_duration#:#Date Range
-ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course-Links to categories based on fixed values.
+ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning remote objects to categories based on fixed values. Multiple values can be comma-separated.
 ecs#:#ecs_cat_mapping_fixed#:#Fixed Values
 ecs#:#ecs_cat_mapping_type#:#Assignment Type
 ecs#:#ecs_cat_mapping_values#:#Attribute Value
@@ -6612,7 +6612,7 @@ ecs#:#ecs_edit_category_mapping#:#Edit Assignment
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Allow Im/Export
 ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.
-ecs#:#ecs_err_invalid_type#:#Please choose an assignment mode.
+ecs#:#ecs_err_invalid_type#:#Please state a valid category object id.
 ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.
 ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.
 ecs#:#ecs_event_appointment#:#Event Date
@@ -6638,9 +6638,9 @@ ecs#:#ecs_field_term#:#Term
 ecs#:#ecs_field_time#:#Time
 ecs#:#ecs_global_role_info#:#The chosen role will be assigned to newly created ECS user accounts.
 ecs#:#ecs_ignore_field#:#Disable export/update of this field
-ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new Course-Links will be created
+ecs#:#ecs_import_id_info#:#Please enter the ID of the category, where new remote objects will be created
 ecs#:#ecs_import_id#:#Import ID
-ecs#:#ecs_import#:#Imported Courses
+ecs#:#ecs_import#:#Imported Objects
 ecs#:#ecs_imported_content#:#Imported E-Content
 ecs#:#ecs_imported_from#:#Imported From
 ecs#:#ecs_key_password#:#Key Password
@@ -6649,7 +6649,7 @@ ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data
 ecs#:#ecs_mappings#:#ECS Data Mapping
 ecs#:#ecs_meta_data#:#Meta Data
 ecs#:#ecs_new_approval_subject#:#A new course has been released
-ecs#:#ecs_new_category_mapping#:#New Assignment of Course-Links to Categories
+ecs#:#ecs_new_category_mapping#:#New Assignment to Categories
 ecs#:#ecs_new_econtent_subject#:#New E-Content created
 ecs#:#ecs_new_user_body#:#A new ECS user account has been created.
 ecs#:#ecs_new_user_profile#:#User profile data:
@@ -6668,9 +6668,9 @@ ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_published_for#:#Published for:
 ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course-Link has been created:
-ecs#:#ecs_read_remote_links#:#Update Remote-Courses
+ecs#:#ecs_read_remote_links#:#Update Remote Objects
 ecs#:#ecs_released_content#:#Released E-Content
-ecs#:#ecs_released#:#Released Courses
+ecs#:#ecs_released#:#Released Objects
 ecs#:#ecs_remote_imported#:#Information about ECS Course-Links has been refreshed.
 ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
 ecs#:#ecs_role#:#Role Assignment
@@ -11497,7 +11497,7 @@ ecs#:#ecs_back_settings#:#ECS Settings
 ecs#:#ecs_crs_alloc_set#:#Edit Course Allocation
 ecs#:#ecs_dir_alloc_set#:#Edit Directory Allocation
 ecs#:#ecs_crs_alloc#:#Course Allocation
-ecs#:#ecs_dir_alloc#:#directory Allocation
+ecs#:#ecs_dir_alloc#:#Directory Allocation
 wsp#:#wsp_tab_personal#:#My Resources
 wsp#:#wsp_tab_shared#:#Resources of Other Users
 wsp#:#wsp_shared_resources#:#Shared Resources
@@ -12389,6 +12389,25 @@ dateplaner#:#cal_reg_registered#:#You have been registered.
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.
 content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.
 exercise#:#exc_start_date_should_be_before_end_date#:#Start time should be before deadline.
+ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees
+ecs#:#ecs_node_mapping_status_1#:#Mapping of the Whole Tree
+ecs#:#ecs_node_mapping_status_2#:#Manual Mapping
+ecs#:#ecs_node_mapping_status_3#:#Unmapped
+ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus managment tree?
+ecs#:#ecs_cms_tree_deleted#:#The campus managment tree assignments have been deleted.
+ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System
+ecs#:#ecs_title_updates#:#Transfer Title Updates
+ecs#:#ecs_tree_updates#:#Transfer Tree Updates
+ecs#:#ecs_position_updates#:#Transfer Position Updates
+ecs#:#ecs_general_info#:#General Information
+ecs#:#ecs_local_information#:#Further Information
+ecs#:#ecs_delete_setting#:#Are you sure you want to delete the following ECS?
+ecs#:#ecs_setting_deleted#:#ECS deleted
+ecs#:#ecs_cat_mapping_by_type#:#By Type
+ecs#:#ecs_cat_mapping_by_type_info#:#Choose this mode to assign by object type.
+ecs#:#ecs_err_invalid_by_type#:#Please select a type when assigning by type.
+common#:#obj_rcat#:#ECS-Category
+ecs#:#ecs_server_deleted#:#Deleted Server
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.
 trac#:#trac_manual_display#:#Display in Learning Progress

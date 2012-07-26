@@ -87,6 +87,11 @@ class ilECSConnector
 		return (array) $this->header_strings;
 	}
 
+	public function setHeader($a_header_strings)
+	{
+		$this->header_strings = $a_header_strings;
+	}
+
 	/**
 	 * Get current server setting
 	 * @return ilECSSetting
@@ -568,9 +573,11 @@ class ilECSConnector
 	 * @access private
 	 * @throws ilCurlConnectionException
 	 */
-	private function prepareConnection()
+	protected function prepareConnection()
 	{
-	 	try
+	 	$GLOBALS['ilLog']->write(__METHOD__.': '.$this->settings->getServerURI());
+
+		try
 	 	{
 			$this->curl = new ilCurlConnection($this->settings->getServerURI().$this->path_postfix);
  			$this->curl->init();
@@ -612,7 +619,7 @@ class ilECSConnector
 	 * @access private
 	 * @throws ilCurlConnectionException 
 	 */
-	private function call()
+	protected function call()
 	{
  		try
  		{

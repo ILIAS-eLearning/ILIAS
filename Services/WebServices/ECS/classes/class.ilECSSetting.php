@@ -832,11 +832,40 @@ class ilECSSetting
 	public function delete()
 	{
 		global $ilDB;
+		
+		// --- cascading delete
 
+		include_once 'Services/WebServices/ECS/classes/class.ilECSCmsData.php';
+		ilECSCmsData::deleteByServerId($this->getServerId());
+		
+		include_once 'Services/WebServices/ECS/classes/class.ilECSCommunityCache.php';
+		ilECSCommunityCache::deleteByServerId($this->getServerId());
+		
+		include_once 'Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php';
+		ilECSDataMappingSetting::deleteByServerId($this->getServerId());
+		
+		include_once 'Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php';
+		ilECSEventQueueReader::deleteByServerId($this->getServerId());
+		
+		include_once 'Services/WebServices/ECS/classes/class.ilECSNodeMappingAssignment.php';
+		ilECSNodeMappingAssignment::deleteByServerId($this->getServerId());
+		
+		include_once 'Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+		ilECSParticipantSetting::deleteByServerId($this->getServerId());
+		
+		include_once 'Services/WebServices/ECS/classes/class.ilECSExport.php';
+		ilECSExport::deleteByServerId($this->getServerId());		
+				
+		// resetting server id to flag items in imported list
+		include_once 'Services/WebServices/ECS/classes/class.ilECSImport.php';
+		ilECSImport::resetServerId($this->getServerId());
+						
 		$ilDB->manipulate(
 			'DELETE FROM ecs_server '.
 			'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer')
-		);
+		);		
+		
+		$this->server_id = NULL;		
 		return true;
 	}
 

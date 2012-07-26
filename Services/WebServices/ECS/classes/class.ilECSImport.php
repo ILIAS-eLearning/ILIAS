@@ -377,5 +377,15 @@ class ilECSImport
 			$this->mid = $row->mid;
 	 	}
 	}
+	
+	public static function resetServerId($a_server_id)
+	{
+		global $ilDB;
+
+		$query = 'UPDATE ecs_import SET server_id = '.$ilDB->quote(0,'integer').
+			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
 }
 ?>

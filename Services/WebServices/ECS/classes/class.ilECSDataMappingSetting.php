@@ -198,6 +198,15 @@ class ilECSDataMappingSetting
 			}
 		}
 	}
+	
+	public static function deleteByServerId($a_server_id)
+	{
+		global $ilDB;
 
+		$query = 'DELETE FROM ecs_data_mapping'.
+			' WHERE sid = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
 }
 ?>

@@ -126,8 +126,7 @@ class ilObjRemoteCourseListGUI extends ilObjectListGUI
 		{
 			case 'show':
 				include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-				include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-				
+				include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');				
 				if(ilECSExport::_isRemote(
 					ilECSImport::lookupServerId($this->obj_id),
 					ilECSImport::_lookupEContentId($this->obj_id)))

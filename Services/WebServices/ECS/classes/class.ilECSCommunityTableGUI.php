@@ -136,6 +136,8 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 
 		include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 		$list = new ilAdvancedSelectionListGUI();
+		$list->setItemLinkClass('small');
+		$list->setSelectionHeaderClass('small');
 		$list->setId('actl_'.$set['server_id'].'_'.$a_set['mid']);
 		$list->setListTitle($this->lng->txt('actions'));
 
@@ -156,20 +158,27 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 				break;
 
 			case ilECSParticipantSetting::IMPORT_CMS:
+
+				$ilCtrl->setParameter($this->getParentObject(),'server_id',$this->getServer()->getServerId());
+				$ilCtrl->setParameter($this->getParentObject(),'mid',$a_set['mid']);
 				// Possible action => Edit course allocation, edit node mapping
-				$list->addItem(
-					$this->lng->txt('ecs_crs_alloc_set'),
-					'',
-					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cStart')
-				);
 				$list->addItem(
 					$this->lng->txt('ecs_dir_alloc_set'),
 					'',
 					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','dStart')
 				);
+				$list->addItem(
+					$this->lng->txt('ecs_crs_alloc_set'),
+					'',
+					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cStart')
+				);
 				$this->tpl->setVariable('ACTIONS',$list->getHTML());
 				break;
 		}
+
+
+
+
 	}
 	
 	/**

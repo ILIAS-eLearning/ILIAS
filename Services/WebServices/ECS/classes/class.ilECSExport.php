@@ -134,6 +134,25 @@ class ilECSExport
 		}
 		return $obj_ids ? $obj_ids : array();
 	}
+	
+	/**
+	 * Get exported ids by type
+	 * @global ilDB $ilDB
+	 * @return array
+	 */
+	public static function getExportedIdsByType($a_type)
+	{
+		global $ilDB;
+		$query = "SELECT e.obj_id FROM ecs_export e".
+			" JOIN object_data o ON (e.obj_id = o.obj_id)".
+			" WHERE o.type = ".$ilDB->quote($a_type, "text");
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}
+		return $obj_ids ? $obj_ids : array();
+	}
 
 	/**
 	 * lookup server ids of exported materials
@@ -192,8 +211,8 @@ class ilECSExport
 		$res = $ilDB->query($query);
 		$sids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$sids[] = $row->server_id;
+		{			
+			$sids[] = $row->server_id;			
 		}
 		return $sids;
 	}
@@ -336,6 +355,16 @@ class ilECSExport
 	 		$this->econtent_id = $row->econtent_id;
 	 		$this->exported = true;
 	 	}
+	}
+	
+	public static function deleteByServerId($a_server_id)
+	{
+		global $ilDB;
+
+		$query = 'DELETE FROM ecs_export'.
+			' WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
+		return true;
 	}
 }
 ?>

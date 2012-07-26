@@ -171,14 +171,25 @@ class ilECSCategoryMapping
 	 */
 	public static function getPossibleFields()
 	{
-		return array(
-			'community',
-			'part_id',
-			'study_courses',
-			'courseType',
-			'term',
-			'credits',
-			'begin');
+		global $lng;
+		
+		$options = array(
+			"community" => $lng->txt("ecs_field_community"),
+			"part_id" => $lng->txt("ecs_field_part_id"),
+			"type" => $lng->txt("type")
+		);
+		
+		// will be handled by server soon?
+		
+		// only courses for now
+		include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
+		$course_fields = ilECSUtils::_getOptionalECourseFields();
+		foreach($course_fields as $field)
+		{
+			$options[$field] = $lng->txt("obj_rcrs")." - ".$lng->txt("ecs_field_".$field);
+		}
+		
+		return $options;
 	}
 }
 ?>
