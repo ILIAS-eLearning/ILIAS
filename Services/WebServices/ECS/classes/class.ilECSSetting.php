@@ -905,7 +905,7 @@ class ilECSSetting
 	private function fetchSerialID()
 	{
 	 	global $ilLog;
-	 	
+		
 	 	if(function_exists('openssl_x509_parse') and $cert = openssl_x509_parse('file://'.$this->getClientCertPath()))
 	 	{
 			if(isset($cert['serialNumber']) and $cert['serialNumber'])

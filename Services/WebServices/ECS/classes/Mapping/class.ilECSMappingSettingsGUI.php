@@ -339,6 +339,8 @@ class ilECSMappingSettingsGUI
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsData.php';
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
 
+		$GLOBALS['ilLog']->write('Deleting tree');
+
 		$tree = new ilECSCmsTree((int) $_REQUEST['tid']);
 		$tree->deleteTree($tree->getNodeData(ilECSCmsTree::lookupRootId((int) $_REQUEST['tid'])));
 

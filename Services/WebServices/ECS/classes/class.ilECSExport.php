@@ -239,6 +239,20 @@ class ilECSExport
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
+
+	/**
+	 * Delete by server id
+	 * @global ilDB $ilDB
+	 * @param int $a_server_id 
+	 */
+	public static function deleteByServer($a_server_id)
+	{
+		global $ilDB;
+
+		$query = 'DELETE FROM ecs_export '.
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
+	}
 	
 	/**
 	 * is remote object

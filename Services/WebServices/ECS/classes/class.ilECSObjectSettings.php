@@ -243,7 +243,7 @@ class ilECSObjectSettings
 	{
 		try
 		{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');			
+			include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
 			$writer = new ilECSContentWriter($a_content_object,$a_server_id);
 			$writer->setExportable($a_export);
 			$writer->setOwnerId($a_owner);

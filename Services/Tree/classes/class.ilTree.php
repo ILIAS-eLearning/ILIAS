@@ -1012,6 +1012,8 @@ class ilTree
 	function deleteTree($a_node)
 	{
 		global $ilDB;
+
+		$GLOBALS['ilLog']->write(__METHOD__.': Delete tree with node '. $a_node);
 		
 		if (!is_array($a_node))
 		{

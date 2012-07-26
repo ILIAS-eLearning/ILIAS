@@ -125,6 +125,20 @@ class ilECSParticipantSettings
 	}
 
 	/**
+	 * Delete by server
+	 * @global  $ilDB
+	 * @param int $a_server_id 
+	 */
+	public static function deleteByServer($a_server_id)
+	{
+		global $ilDB;
+
+		$query = 'DELETE from ecs_part_settings '.
+			'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
+	}
+
+	/**
 	 * Get server id
 	 * @return int
 	 */

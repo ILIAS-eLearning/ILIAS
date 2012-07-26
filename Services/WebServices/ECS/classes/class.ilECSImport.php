@@ -249,6 +249,21 @@ class ilECSImport
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
+
+	/**
+	 * Delete by server id
+	 * @global ilDB $ilDB
+	 * @param int $a_server_id
+	 */
+	public static function deleteByServer($a_server_id)
+	{
+		global $ilDB;
+
+		$query = 'DELETE FROM ecs_import '.
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
+	}
+
 	
 	
 	/**

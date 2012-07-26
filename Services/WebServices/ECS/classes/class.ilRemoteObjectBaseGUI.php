@@ -330,16 +330,18 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	*/
 	public static function _goto($a_target)
 	{
-		global $ilErr, $lng;
+		global $ilErr, $lng, $ilAccess;
 
-		if ($this->checkPermissionBool("visible", "", "", $a_target))
+		//static if ($this->checkPermissionBool("visible", "", "", $a_target))
+		if($ilAccess->checkAccess('visible','',$a_target))
 		{
 			$_GET["cmd"] = "infoScreen";
 			$_GET["ref_id"] = $a_target;
 			include("repository.php");
 			exit;
 		}
-		else if ($this->checkPermissionBool("read", "", "", ROOT_FOLDER_ID))
+		//static else if ($this->checkPermissionBool("read", "", "", ROOT_FOLDER_ID))
+		if($ilAccess->checkAccess('read','',ROOT_FOLDER_ID))
 		{
 			$_GET["cmd"] = "frameset";
 			$_GET["target"] = "";

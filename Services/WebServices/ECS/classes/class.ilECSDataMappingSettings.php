@@ -81,6 +81,20 @@ class ilECSDataMappingSettings
 	}
 
 	/**
+	 * Delete server
+	 * @global ilDB $ilDB
+	 * @param int $a_server_id 
+	 */
+	public static function delete($a_server_id)
+	{
+		global $ilDB;
+
+		$query = 'DELETE from ecs_data_mapping '.
+			'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
+		$ilDB->manipulate($query);
+	}
+
+	/**
 	 * Get actice ecs setting
 	 * @return ilECSSetting
 	 */

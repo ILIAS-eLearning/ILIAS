@@ -102,7 +102,7 @@ abstract class ilAuthBase
 					
 			    // check if profile is complete						
 				include_once "Services/User/classes/class.ilUserProfile.php";
-				if(ilUserProfile::isProfileIncomplete($user))
+				if(ilUserProfile::isProfileIncomplete($user) and ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS)
 				{
 					$user->setProfileIncomplete(true);
 					$user->update();

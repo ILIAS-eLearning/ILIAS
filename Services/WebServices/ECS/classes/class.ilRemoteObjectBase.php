@@ -349,9 +349,14 @@ abstract class ilRemoteObjectBase extends ilObject2
 		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php' ;
 		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
 		$ecs_settings = ilECSSetting::getInstanceByServerId($a_server_id);
-		
-		$remote_obj = new self();
-		$remote_obj->setType($this->type);
+
+		// Cannot instantiate abstract class
+		#$remote_obj = new self();
+		include_once './Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php';
+		$remote_obj = new ilObjRemoteCourse();
+		$remote_obj->setType('rcrs');
+		// Static
+		#$remote_obj->setType($this->type);
 		$remote_obj->setOwner(0);
 		$new_obj_id = $remote_obj->create();
 		
