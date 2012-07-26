@@ -915,7 +915,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$file_obj->create();
 		$record_gui->saveValues();
 
-		$this->object->updateECSContent();
+		// Update ecs content
+		include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
+		if(ilECSObjectSettings::isActive($this->object->getId()))
+		{
+			ilECSObjectSettings::updateECSContent($this->object);
+		}
 
 		ilUtil::sendSuccess($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
@@ -1002,10 +1007,14 @@ class ilObjCourseGUI extends ilContainerGUI
 			// END ChangeEvent: Record write event
 			
 			// Update ecs export settings
-			if(!$this->updateECSExportSettings())
+			include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
+			if(ilECSObjectSettings::isActive($this->object->getId()))
 			{
-				$this->editObject();
-				return false;
+				if(!ilECSObjectSettings::updateECSExportSettings($this->object))
+				{
+					$this->editObject();
+					return false;
+				}
 			}
 			
 			if($show_lp_sync_confirmation)
@@ -1022,118 +1031,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 	}
-	
-	/**
-	 * Update ECS Export Settings
-	 *
-	 * @access protected
-	 */
-	protected function updateECSExportSettings()
-	{
-		global $rbacadmin;
-
-		// ECS enabled
-		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
-		if(!ilECSServerSettings::getInstance()->activeServerExists())
-		{
-			return true;
-		}
-
-		// Parse post data
-		$mids = array();
-		foreach((array) $_POST['ecs_sid'] as $sid_mid)
-		{
-			$tmp = explode('_',$sid_mid);
-			$mids[$tmp[0]][] = $tmp[1];
-		}
-
-		try
-		{
-			include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
-			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-
-			// Update for each server
-			foreach(ilECSParticipantSettings::getExportServers() as $server_id)
-			{
-				// Export
-				$export = true;
-				if(!$_POST['ecs_export'])
-				{
-					$export = false;
-				}
-				if(!count($mids[$server_id]))
-				{
-					$export = false;
-				}
-				$this->object->handleECSSettings(
-					$server_id,
-					$export,
-					ilECSCommunitiesCache::getInstance()->lookupOwnId($server_id,$mids[$server_id][0]),
-					$mids[$server_id]
-				);
-				// Permission handling
-				include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
-				include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
-				foreach(ilECSServerSettings::getInstance()->getServers() as $settings)
-				{
-					$export = new ilECSExport($settings->getServerId(), $this->object->getId());
-					if($export->isExported())
-					{
-						$rbacadmin->grantPermission(
-							$settings->getGlobalRole(),
-							ilRbacReview::_getOperationIdsByName(array('join','visible')),
-							$this->object->getRefId()
-						);
-					}
-					else
-					{
-						$rbacadmin->revokePermission(
-							$this->object->getRefId(),
-							$settings->getGlobalRole()
-						);
-					}
-				}
-			}
-			return true;
-		}
-		catch(ilECSConnectorException $exc)
-		{
-			ilUtil::sendFailure('Error connecting to ECS server: '.$exc->getMessage());
-			return false;
-		}
-		catch(ilECSContentWriterException $exc)
-		{
-			ilUtil::sendFailure('Course export failed with message: '.$exc->getMessage());
-			return false;
-		}
-		return true;
-	}
 		
-	protected function confirmLPSync()
-	{
-		global $tpl;
-		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		$cgui->setFormAction($this->ctrl->getFormAction($this, "setLPSync"));
-		$cgui->setHeaderText($this->lng->txt("crs_status_determination_sync"));
-		$cgui->setCancel($this->lng->txt("cancel"), "edit");
-		$cgui->setConfirm($this->lng->txt("confirm"), "setLPSync");
-		
-		$tpl->setContent($cgui->getHTML());
-	}
-	
-	protected function setLPSyncObject()
-	{
-		$this->object->setStatusDetermination(ilObjCourse::STATUS_DETERMINATION_LP);
-		$this->object->update();
-
-		$this->object->syncMembersStatusWithLP();
-		
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-		$this->ctrl->redirect($this, "edit");
-	}
-	
 	/**
 	 * edit object
 	 *
@@ -1505,7 +1403,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$mem->setInfo($this->lng->txt('crs_show_members_info'));
 		$form->addItem($mem);
 		
-		$this->fillECSExportSettings($form);
+		// Edit ecs export settings
+		include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
+		if(ilECSObjectSettings::isActive($this->object->getId()))
+		{
+			ilECSObjectSettings::fillECSExportSettings($this->object->getId(), $form);
+		}
 
 		return $form;
 	}
@@ -1514,105 +1417,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		// values are done in initEditForm()
 	}
-
-
-	/**
-	 * Fill ECS export settings "multiple servers"
-	 * @param ilPropertyFormGUI $a_formm
-	 */
-	protected function fillECSExportSettings(ilPropertyFormGUI $a_form)
-	{
-		global $ilLog;
-
-		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
-		if(!ilECSServerSettings::getInstance()->activeServerExists())
-		{
-			return true;
-		}
-
-		// Return if no participant is enabled for export and the current object is not released
-		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
-		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
-
-		$exportablePart = ilECSParticipantSettings::getExportableParticipants();
-		if(!$exportablePart and !ilECSExport::_isExported($this->object->getId()))
-		{
-			return true;
-		}
-
-		$GLOBALS['lng']->loadLanguageModule('ecs');
-
-		// show ecs property form section
-		$ecs = new ilFormSectionHeaderGUI();
-		$ecs->setTitle($this->lng->txt('ecs_export'));
-		$a_form->addItem($ecs);
-
-
-		// release or not
-		$exp = new ilRadioGroupInputGUI($this->lng->txt('ecs_export_obj_settings'),'ecs_export');
-		$exp->setRequired(true);
-		$exp->setValue(ilECSExport::_isExported($this->object->getId()) ? 1 : 0);
-		$off = new ilRadioOption($this->lng->txt('ecs_export_disabled'),0);
-		$exp->addOption($off);
-		$on = new ilRadioOption($this->lng->txt('ecs_export_enabled'),1);
-		$exp->addOption($on);
-		$a_form->addItem($exp);
-
-		// Show all exportable participants
-		$publish_for = new ilCheckboxGroupInputGUI($this->lng->txt('ecs_publish_for'),'ecs_sid');
-
-		// @TODO: Active checkboxes for recipients
-		//$publish_for->setValue((array) $members);
-
-		// Read receivers
-		$receivers = array();
-		foreach(ilECSExport::getExportServerIds($this->object->getId()) as $sid)
-		{
-			$exp = new ilECSExport($sid, $this->object->getId());
-			$eid = $exp->getEContentId();
-			try
-			{
-				include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
-				$econtent_reader = new ilECSEContentReader($sid,$eid);
-				$econtent_reader->read(true);
-				$details = $econtent_reader->getEContentDetails();
-				if($details instanceof ilECSEContentDetails)
-				{
-					foreach($details->getReceivers() as $mid)
-					{
-						$receivers[] = $sid.'_'.$mid;
-					}
-					#$owner = $details->getFirstSender();
-				}
-			}
-			catch(ilECSConnectorException $exc)
-			{
-				$ilLog->write(__METHOD__.': Error connecting to ECS server. '.$exc->getMessage());
-			}
-			catch(ilECSReaderException $exc)
-			{
-				$ilLog->write(__METHOD__.': Error parsing ECS query: '.$exc->getMessage());
-			}
-		}
-
-		$publish_for->setValue($receivers);
-
-		foreach($exportablePart as $pInfo)
-		{
-			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
-			$partSetting = new ilECSParticipantSetting($pInfo['sid'], $pInfo['mid']);
-
-			$com = new ilCheckboxInputGUI(
-				$partSetting->getCommunityName().': '.$partSetting->getTitle(),
-				'sid_mid'
-			);
-			$com->setValue($pInfo['sid'].'_'.$pInfo['mid']);
-			$publish_for->addOption($com);
-		}
-		$on->addSubItem($publish_for);
-		return true;
-	}
-
 
 	/**
 	* edit container icons

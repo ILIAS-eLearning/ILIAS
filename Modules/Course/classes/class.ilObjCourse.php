@@ -1804,37 +1804,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 	
 	/**
-	 * Save ECS settings (add- update- deleteResource)
-	 *
-	 * @access public
-	 * @param bool Export flag
-	 * @param int owner mid
-	 * @param array array of participant mids
-	 * @throws ilECSConnectorException, ilECSContentWriterException
-	 */
-	public function handleECSSettings($a_server_id,$a_export,$a_owner,$a_mids)
-	{
-		try
-		{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
-			
-			$writer = new ilECSContentWriter($this,$a_server_id);
-			$writer->setExportable($a_export);
-			$writer->setOwnerId($a_owner);
-			$writer->setParticipantIds((array) $a_mids);
-			$writer->refresh();
-		}
-		catch(ilECSConnectorException $exc)
-		{
-			throw $exc;
-		}
-		catch(ilECSContentWriterException $exc)
-		{
-			throw $exc;
-		}
-	}
-	
-	/**
 	 * Overwriten Metadata update listener for ECS functionalities
 	 *
 	 * @access public
@@ -1848,47 +1817,18 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 	
 	 	switch($a_element)
 	 	{
-	 		case 'General':
-				$this->updateECSContent();
+	 		case 'General':				
+				// Update ecs content
+				include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
+				if(ilECSObjectSettings::isActive($this->getId()))
+				{
+					ilECSObjectSettings::updateECSContent($this);
+				}
 	 			break;
+				
 	 		default:
 	 			return true;
 	 	}
-	}
-	
-	/**
-	 * Update ECS Content
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function updateECSContent()
-	{
-		global $ilLog;
-
-
-		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
-
-		$export_servers = ilECSExport::getExportServerIds($this->getId());
-		foreach($export_servers as $server_id)
-		{
-			include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
-			if(ilECSSetting::getInstanceByServerId($server_id)->isEnabled())
-			{
-				try {
-					// Update ECS EContent
-					include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
-					$writer = new ilECSContentWriter($this,$server_id);
-					$writer->refreshSettings();
-			 	}
-				catch(ilException $exc)
-				{
-					$ilLog->write(__METHOD__.': Cannot save ECS settings. '.$exc->getMessage());
-					return false;
-				}
-			}
-		}
 	}
 	
 	/**

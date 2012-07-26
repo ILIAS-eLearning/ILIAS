@@ -521,7 +521,7 @@ class ilECSTaskScheduler
 		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
 		$client_id = $_COOKIE['ilClientId'];
 
-		if($soap_client->init() and 0)
+		if($soap_client->init())
 		{
 			$ilLog->write(__METHOD__.': Calling soap handleECSTasks method...');
 			$res = $soap_client->call('handleECSTasks',array($new_session_id.'::'.$client_id,$this->settings->getServerId()));
@@ -530,7 +530,7 @@ class ilECSTaskScheduler
 		{
 			$ilLog->write(__METHOD__.': SOAP call failed. Calling clone method manually. ');
 			include_once('./webservice/soap/include/inc.soap_functions.php');
-			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id,$this->settings->getServerId());
+			$res = ilSoapFunctions::handleECSTasks($new_session_id.'::'.$client_id,$this->settings->getServerId(), false);
 		}
 	}
 }
