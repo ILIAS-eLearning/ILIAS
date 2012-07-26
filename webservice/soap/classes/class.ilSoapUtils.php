@@ -590,15 +590,18 @@ class ilSoapUtils extends ilSoapAdministration
    		return true;
 	}
 	
-	public function handleECSTasks($sid,$a_server_id)
+	public function handleECSTasks($sid,$a_server_id,$a_do_init = true)
 	{
-		$this->initAuth($sid);
-		$this->initIlias();
-
-		if(!$this->__checkSession($sid))
+		if($a_do_init)
 		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}			
+			$this->initAuth($sid);
+			$this->initIlias();
+			
+			if(!$this->__checkSession($sid))
+			{
+				return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+			}			
+		}
 
 		include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 
