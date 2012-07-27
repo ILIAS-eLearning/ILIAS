@@ -1143,26 +1143,26 @@ class ilUtil
 		// BEGIN Mail: If possible, use PearMail to validate e-mail address
 		global $ilErr, $ilias;
 
-		// Note the use of @include_once here. We need this, because
-		// inclusion fails when the function is_email is called from setup.php.
-		$successfulInclude = @include_once ('Services/Mail/classes/class.ilMail.php');
-
-		// additional checks for include and ilias object are needed,
+		// additional check for ilias object is needed,
 		// otherwise setup will fail with this if branch
-		if ($successfulInclude && is_object($ilias) && ilMail::_usePearMail())
+		if(is_object($ilias))
 		{
-			require_once 'Mail/RFC822.php';
-			$parser = &new Mail_RFC822();
+			require_once './Services/PEAR/lib/Mail/RFC822.php';
+			$parser = new Mail_RFC822();
 			PEAR::setErrorHandling(PEAR_ERROR_EXCEPTION);
-			try {
+			try
+			{
 				$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
-				if (! is_a($addresses, 'PEAR_Error') &&
-					count($addresses) == 1 && $addresses[0]->host != 'ilias')
+				if(!is_a($addresses, 'PEAR_Error') &&
+					count($addresses) == 1 && $addresses[0]->host != 'ilias'
+				)
 				{
 					PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 					return true;
 				}
-			} catch (Exception $e) {
+			}
+			catch(Exception $e)
+			{
 				PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 				return false;
 			}
