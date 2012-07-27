@@ -81,22 +81,9 @@ class ilObjMailGUI extends ilObjectGUI
 		$system_sender_name->setInfo($this->lng->txt('mail_system_sender_name_info'));
 		$system_sender_name->setMaxLength(255);
 		$this->form->addItem($system_sender_name);
-		
-		// Pear Mail extension
-		// Note: We use the include statement to determine whether PEAR MAIL is
-		//      installed. We use the @ operator to prevent PHP from issuing a
-		//      warning while we test for PEAR MAIL.
-		$is_pear_mail_installed = @include_once 'Mail/RFC822.php';		
-		$cb = new ilCheckboxInputGUI($this->lng->txt('mail_use_pear_mail'), 'pear_mail_enable');			
-		if($is_pear_mail_installed)
-		{
-			$cb->setInfo($this->lng->txt('mail_use_pear_mail_info'));
-		}
-		else
-		{
-			$cb->setInfo($this->lng->txt('mail_use_pear_mail_info').' '.
-						 $this->lng->txt('mail_pear_mail_needed'));				
-		}
+
+		$cb = new ilCheckboxInputGUI($this->lng->txt('mail_use_pear_mail'), 'pear_mail_enable');
+		$cb->setInfo($this->lng->txt('mail_use_pear_mail_info'));
 		$cb->setValue('y');
 		$this->form->addItem($cb);
 		
@@ -147,13 +134,11 @@ class ilObjMailGUI extends ilObjectGUI
 	
 	private function setDefaultValues()
 	{
-		$settings = $this->ilias->getAllSettings();		
-		$is_pear_mail_installed = @include_once 'Mail/RFC822.php';	
-		
+		$settings = $this->ilias->getAllSettings();
 		$this->form->setValuesByArray(array(
 			'mail_subject_prefix' => $settings['mail_subject_prefix'] ? $settings['mail_subject_prefix'] : '[ILIAS]',
 			'mail_incoming_mail' => (int)$settings['mail_incoming_mail'],
-			'pear_mail_enable' => ($settings['pear_mail_enable'] == 'y' && $is_pear_mail_installed) ? true : false,
+			'pear_mail_enable' => $settings['pear_mail_enable'] == 'y' ? true : false,
 			'mail_external_sender_noreply' => $settings['mail_external_sender_noreply'],
 			'prevent_smtp_globally' => ($settings['prevent_smtp_globally'] == '1') ? true : false,
 			'mail_maxsize_attach' => $settings['mail_maxsize_attach'],
