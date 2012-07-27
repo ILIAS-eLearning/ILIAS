@@ -109,12 +109,11 @@ class ilRbacReview
 		$role_ids = array();
 		
 		include_once "Services/Mail/classes/class.ilMail.php";
-		if (ilMail::_usePearMail())
+		if(ilMail::_usePearMail())
 		{
-			require_once 'Mail/RFC822.php';
-			$parser = &new Mail_RFC822();
+			require_once './Services/PEAR/lib/Mail/RFC822.php';
+			$parser = new Mail_RFC822();
 			$parsedList = $parser->parseAddressList($a_address_list, "ilias", false, true);
-			//echo '<br>ilRBACReview '.var_export($parsedList,false);
 			foreach ($parsedList as $address)
 			{
 				$local_part = $address->mailbox;
