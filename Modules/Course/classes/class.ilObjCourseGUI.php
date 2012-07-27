@@ -4121,7 +4121,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->infoScreen();	// forwards command
 				break;
 
-			case 'ilmdeditorgui':
+			case 'ilmdeditorgui':				
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());

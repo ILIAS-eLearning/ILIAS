@@ -36,7 +36,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs;
+		global $ilCtrl, $ilTabs, $ilErr, $ilAccess;
 		
 		
 		//if($this->ctrl->getTargetScript() == 'link_resources.php')
@@ -59,6 +59,11 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case 'ilmdeditorgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				
 				$this->prepareOutput();	
 				$ilTabs->activateTab('id_meta_data');
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';

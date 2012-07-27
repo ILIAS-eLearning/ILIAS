@@ -36,7 +36,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess, $ilTabs;
+		global $ilAccess, $ilTabs, $ilErr;
 		
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 			$this->getCreationMode() == true)
@@ -56,7 +56,11 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());

@@ -131,8 +131,17 @@ class ilExportGUI
 	 */
 	function executeCommand()
 	{
-		global $ilCtrl;
-	
+		global $ilCtrl, $ilAccess, $ilErr, $lng;
+		
+		// this should work (at least) for repository objects 
+		if(method_exists($this->obj, 'getRefId'))
+		{		
+			if(!$ilAccess->checkAccess('write','',$this->obj->getRefId()))
+			{
+				$ilErr->raiseError($lng->txt('permission_denied'),$ilErr->WARNING);
+			}
+		}
+			
 		$cmd = $ilCtrl->getCmd("listExportFiles");
 		
 		switch ($cmd)

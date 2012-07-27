@@ -31,7 +31,7 @@ class ilObjFileGUI extends ilObject2GUI
 	
 	function executeCommand()
 	{
-		global $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs;
+		global $ilNavigationHistory, $ilCtrl, $ilUser, $ilTabs, $ilAccess, $ilErr;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -83,6 +83,11 @@ class ilObjFileGUI extends ilObject2GUI
 				break;
 
 			case 'ilmdeditorgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				
 				$ilTabs->activateTab("id_meta");
 
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';

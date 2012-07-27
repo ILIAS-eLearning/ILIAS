@@ -58,7 +58,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	* execute command
 	*/
 	function &executeCommand()
-	{
+	{		
 //echo "<br>:cmd:".$this->ctrl->getCmd().":cmdClass:".$this->ctrl->getCmdClass().":";
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -66,7 +66,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
-
+				
 				$this->setTabs();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 

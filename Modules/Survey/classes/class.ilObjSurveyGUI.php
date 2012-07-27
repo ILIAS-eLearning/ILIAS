@@ -71,7 +71,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory,$ilCtrl;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr;
 
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -130,6 +130,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 			
 			case 'ilmdeditorgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				
 				$this->addHeaderAction();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 				$md_gui =& new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
