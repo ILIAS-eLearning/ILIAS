@@ -768,8 +768,8 @@ class ilMDEditorGUI
 				$this->md_section = $this->md_obj->addEducational();
 				$this->md_section->save();
 			}
-			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['mo'],$_POST['tlt']['d'],
-															  $_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
+			$this->md_section->setPhysicalTypicalLearningTime((int)$_POST['tlt']['mo'],(int)$_POST['tlt']['d'],
+															  (int)$_POST['tlt']['h'],(int)$_POST['tlt']['m'],(int)$_POST['tlt']['s']);
 			$this->md_section->update();
 		}
 		else
@@ -1103,8 +1103,8 @@ class ilMDEditorGUI
 				$this->md_section = $this->md_obj->addEducational();
 				$this->md_section->save();
 			}
-			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['mo'],$_POST['tlt']['d'],
-															  $_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
+			$this->md_section->setPhysicalTypicalLearningTime((int)$_POST['tlt']['mo'],(int)$_POST['tlt']['d'],
+															  (int)$_POST['tlt']['h'],(int)$_POST['tlt']['m'],(int)$_POST['tlt']['s']);
 			$this->md_section->update();
 		}
 		else
@@ -2593,8 +2593,8 @@ class ilMDEditorGUI
 		if($_POST['tlt']['mo'] or $_POST['tlt']['d'] or 
 		   $_POST['tlt']['h'] or $_POST['tlt']['m'] or $_POST['tlt']['s'])
 		{
-			$this->md_section->setPhysicalTypicalLearningTime($_POST['tlt']['mo'],$_POST['tlt']['d'],
-															  $_POST['tlt']['h'],$_POST['tlt']['m'],$_POST['tlt']['s']);
+			$this->md_section->setPhysicalTypicalLearningTime((int)$_POST['tlt']['mo'],(int)$_POST['tlt']['d'],
+															  (int)$_POST['tlt']['h'],(int)$_POST['tlt']['m'],(int)$_POST['tlt']['s']);
 		}
 		else
 		{
