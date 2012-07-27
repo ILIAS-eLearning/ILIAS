@@ -77,19 +77,13 @@ class ilObjectSearch extends ilAbstractSearch
 	function __createInStatement()
 	{
 		global $ilDB;
-		
-		$type = "('";
-		$type .= implode("','",$this->object_types);
-		$type .= "')";
-		
-		$in = " AND type IN ".$type;
-		
+
+		$in = ' AND '.$ilDB->in('type',(array) $this->object_types,false,'text');
 		if($this->getIdFilter())
 		{
 			$in .= ' AND ';
 			$in .= $ilDB->in('obj_id',$this->getIdFilter(),false,'integer');
 		}
-
 		return $in;
 	}
 }
