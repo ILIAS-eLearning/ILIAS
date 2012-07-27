@@ -41,6 +41,8 @@ $preview = "";
 $arr_tinyMCE_image_files = array();
 $request_uri = urldecode(empty($_POST['request_uri'])?(empty($_GET['request_uri'])?'':$_GET['request_uri']):$_POST['request_uri']);
 $request_uri = ilUtil::stripSlashes($request_uri);
+$_GET['request_uri'] = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $_GET['request_uri']);
+$request_uri = str_replace(array("\x00", "\n", "\r", "\\", "'", '"', "\x1a"), "", $request_uri);
 
 
 $img = isset($_POST['imglist'])?$_POST['imglist']:'';
