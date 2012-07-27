@@ -60,7 +60,7 @@ class ilBookmarkImportExport
 				// extract description
 				$desc=ilBookmarkImportExport::_convertCharset(trim($match[1]),$charset);
 				$desc=ilBookmarkImportExport::_decodeEntities($desc);
-				$result[$parent_id][$id]['description']=$desc;
+				$result[$parent_id][$id]['description']=strip_tags($desc);
 			}
 			elseif (preg_match('/<DT><H3[^>]*>(.*)<\/H3>/i',$line,$match))
 			{
@@ -71,7 +71,7 @@ class ilBookmarkImportExport
 				$id++;
 				$result[$parent_id][$id]=array(
 					'type'=>'bmf',
-					'title'=>$name,
+					'title'=>strip_tags($name),
 				);
 			}
 			elseif (preg_match('/<DT><A HREF="([^"]*)[^>]*>(.*)<\/A>/i', $line,	$match))
@@ -88,8 +88,8 @@ class ilBookmarkImportExport
 				if (preg_match("/LAST_MODIFIED=\"([^\"]*)/i", $line, $match)) $modified = $match[1]; else $modified=0;
 				$result[$parent_id][$id]=array(
 					'type'=>'bm',
-					'target'=>$url,
-					'title'=>$name,
+					'target'=>strip_tags($url),
+					'title'=>strip_tags($name),
 					'add_date'=>$add_date,
 					'visited'=>$visited,
 					'modified'=>$modified,
