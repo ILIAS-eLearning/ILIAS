@@ -765,8 +765,20 @@ class ilFileSystemGUI
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
 		$file = $cur_dir."/".$_POST["file"][0];
-
-		if (@is_file($file) && !(@is_dir($file)))
+		
+		// validate against files of current directory
+		$valid = false;
+		foreach(ilUtil::getDir($cur_dir) as $entry)
+		{
+			if($entry["type"] == "file" &&
+				$cur_dir."/".$entry["entry"] == $file)
+			{
+				$valid = true;
+				break;
+			}
+		}
+		
+		if (@is_file($file) && !(@is_dir($file)) && $valid)
 		{
 			ilUtil::deliverFile($file, $_POST["file"][0]);
 			exit;
