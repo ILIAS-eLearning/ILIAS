@@ -47,35 +47,30 @@ class ilBookmarkAdministrationGUI
 	 */
 	function ilBookmarkAdministrationGUI()
 	{
-		global $ilias, $tpl, $lng, $ilCtrl;
+		global $ilias, $tpl, $lng, $ilCtrl, $ilUser;
 
 //		$tpl->enableAdvancedColumnLayout(true, false);
 
 		$tpl->getStandardTemplate();
-
+		
 		//print_r($_SESSION["error_post_vars"]);
 		// if no bookmark folder id is given, take dummy root node id (that is 1)
 		$this->id = (empty($_GET["bmf_id"]))
-			? $bmf_id = 1
+			? 1
 			: $_GET["bmf_id"];
-
+	
 		// initiate variables
 		$this->ilias =& $ilias;
 		$this->tpl   =& $tpl;
 		$this->lng   =& $lng;
 		$this->ctrl  =& $ilCtrl;
 		$this->ctrl->setParameter($this, "bmf_id", $this->id);
-		$this->user_id = $_SESSION["AccountId"];
+		$this->user_id = $ilUser->getId();
 
-		$this->tree = new ilTree($_SESSION["AccountId"]);
+		$this->tree = new ilTree($this->user_id);
 		$this->tree->setTableNames('bookmark_tree', 'bookmark_data');
 		$this->root_id = $this->tree->readRootId();
-		// set current bookmark view mode
-		//if (!empty($_GET["set_mode"]))
-		//{
-		//	$this->ilias->account->writePref("il_bkm_mode", $_GET["set_mode"]);
-		//}
-		//$this->mode = $this->ilias->account->getPref("il_bkm_mode");
+		
 		$this->mode = "tree";
 	}
 
@@ -140,7 +135,7 @@ class ilBookmarkAdministrationGUI
 
 		$etpl = new ilTemplate("tpl.bookmark_explorer.html", true, true,
 			"Services/Bookmarks");
-		$exp  = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this), $_SESSION["AccountId"]);
+		$exp  = new ilBookmarkExplorer($this->ctrl->getLinkTarget($this), $this->user_id);
 		$exp->setAllowedTypes(array('dum', 'bmf'));
 		$exp->setTargetGet("bmf_id");
 		$exp->setSessionExpandVariable('mexpand');
@@ -149,7 +144,7 @@ class ilBookmarkAdministrationGUI
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this));
 		if($_GET["mexpand"] == "")
 		{
-			$mtree = new ilTree($_SESSION["AccountId"]);
+			$mtree = new ilTree($this->user_id);
 			$mtree->setTableNames('bookmark_tree', 'bookmark_data');
 			$expanded = $mtree->readRootId();
 		}
@@ -209,54 +204,18 @@ class ilBookmarkAdministrationGUI
 	* display content of bookmark folder
 	*/
 	function view()
-	{
-		global $tree, $ilCtrl;
-
-		include_once("./Services/UICore/classes/class.ilFrameTargetInfo.php");
-
+	{		
 		if($this->id > 0 && !$this->tree->isInTree($this->id))
 		{
 			$this->ctrl->setParameter($this, 'bmf_id', '');
 			$this->ctrl->redirect($this);
 		}
 
-		$mtree = new ilTree($_SESSION["AccountId"]);
-		$mtree->setTableNames('bookmark_tree', 'bookmark_data');
-
 		$objects = ilBookmarkFolder::getObjects($this->id);
-
-		$s_mode = ($this->mode == "tree")
-			? "flat"
-			: "tree";
-
-//		$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this)."&set_mode=".$s_mode,
-//			$s_mode);
 
 		include_once 'Services/Bookmarks/classes/class.ilBookmarkAdministrationTableGUI.php';
 		$table = new ilBookmarkAdministrationTableGUI($this);
-		$table->setId('bookmark_adm_table');
-		/*
-		// return to parent folder
-		// disabled
-		if ($this->id != $mtree->readRootId() || $this->id =="")
-		{
-			$ilCtrl->setParameter($this, "bmf_id", $mtree->getParentId($this->id));
-			$objects = array_merge
-			(
-				array
-				(
-					array
-					(
-						"title" => "..",
-						"target" => $ilCtrl->getLinkTarget($this),
-						"type" => 'parent',
-						"obj_id" => $mtree->getParentId($this->id),
-					)
-				),
-				$objects
-			);
-		}
-		*/
+		$table->setId('bookmark_adm_table');		
 		$table->setData($objects);
 		$this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
 	}
@@ -421,7 +380,13 @@ class ilBookmarkAdministrationGUI
 	 * display edit bookmark folder form
 	 */
 	function editFormBookmarkFolder()
-	{
+	{		
+		if(!$this->tree->isInTree($_GET["obj_id"]))
+		{
+			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->redirect($this);
+		}
+		
 		$bmf  = new ilBookmarkFolder($_GET["obj_id"]);
 		$form = $this->initFormBookmarkFolder('updateBookmarkFolder', $this->id);
 		$form->setValuesByArray
