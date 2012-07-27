@@ -215,6 +215,8 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 	{
 		global $lng;
 
+		$_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
+		
 		// remove trailing '/'
 		while (substr($_FILES[$this->getPostVar()]["name"],-1) == '/')
 		{
