@@ -182,6 +182,7 @@ adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS Content Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
+assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action
 assessment#:#add_answer_tf#:#True/False Answers
