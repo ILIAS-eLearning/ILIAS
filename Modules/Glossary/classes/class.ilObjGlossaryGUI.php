@@ -50,7 +50,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $lng, $ilAccess, $ilTabs;
+		global $lng, $ilAccess, $ilTabs, $ilErr;
 		
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
@@ -58,6 +58,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		switch ($next_class)
 		{
 			case 'ilmdeditorgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				
 				$this->getTemplate();
 				$this->setTabs();
 				$this->setLocator();

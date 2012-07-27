@@ -41,7 +41,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function &executeCommand()
 	{
-		global $ilAccess, $lng, $ilTabs, $ilCtrl;
+		global $ilAccess, $lng, $ilTabs, $ilCtrl, $ilErr;
 		
 		if ($this->ctrl->getRedirectSource() == "ilinternallinkgui")
 		{
@@ -75,6 +75,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case 'ilmdeditorgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				
 				$this->addHeaderAction();
 				$this->addLocations();
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';

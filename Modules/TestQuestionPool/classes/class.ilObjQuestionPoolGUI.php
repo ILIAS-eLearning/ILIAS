@@ -76,7 +76,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl;
+		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr;
 		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -118,6 +118,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		switch($next_class)
 		{
 			case 'ilmdeditorgui':
+				if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
+				}
+				
 				include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
 
 				$md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());

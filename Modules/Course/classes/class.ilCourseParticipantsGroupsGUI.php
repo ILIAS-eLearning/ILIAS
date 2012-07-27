@@ -21,7 +21,12 @@ class ilCourseParticipantsGroupsGUI
 
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilErr, $ilAccess, $lng;
+		
+		if(!$ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			$ilErr->raiseError($lng->txt('permission_denied'),$ilErr->WARNING);
+		}
 
 		$cmd = $ilCtrl->getCmd();
 		if(!$cmd)
