@@ -2243,8 +2243,8 @@ class ilMail
 		{
 			if (strlen(trim($a_recipients)) > 0)
 			{
-				require_once 'Mail/RFC822.php';
-				$parser = &new Mail_RFC822();
+				require_once './Services/PEAR/lib/Mail/RFC822.php';
+				$parser = new Mail_RFC822();
 				return $parser->parseAddressList($a_recipients, "ilias", false, true);
 			} else {
 				return array();
@@ -2512,35 +2512,12 @@ class ilMail
 	 */
 	public static function _usePearMail()
 	{
-		global $ilias;
+		/**
+ 		 * @var $ilSetting ilSetting
+		 */
+		global $ilSetting;
 
-		$result = false;
-		if ($ilias->getSetting('pear_mail_enable') == true)
-		{
-			// Note: We use the include statement to determine whether PEAR MAIL is
-			//      installed. We use the @ operator to prevent PHP from issuing a
-			//      warning while we test for PEAR MAIL.
-			$is_pear_mail_installed = @include_once 'Mail/RFC822.php';
-			if($is_pear_mail_installed == false)
-			{
-				//try_use_ilias_pear 
-				$is_pear_mail_installed = @include_once './Services/PEAR/lib/Mail/RFC822.php';
-			}
-			
-			if ($is_pear_mail_installed) 
-			{
-				$result = true;
-			} 
-			else 
-			{
-				// Disable Pear Mail, when we detect that it is not
-				// installed
-				global $log;
-				$log->write("WARNING: ilMail::_userPearMail disabled Pear Mail support, because include 'Mail/RFC822.php' failed.");
-				$ilias->setSetting('pear_mail_enable', false);
-			}
-		}
-		return $result;
+		return $ilSetting->get('pear_mail_enable', 0);
 	}
 
 	/**

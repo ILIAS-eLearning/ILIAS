@@ -3932,7 +3932,6 @@ common#:#mail_multiple_recipients_found#:#Geben Sie eine genauere E-Mail-Adresse
 common#:#mail_no_recipient_found#:#Geben Sie bitte eine andere E-Mail-Adresse an. ILIAS konnte keinen zugehörigen Empfänger finden.
 common#:#mail_no_valid_group_role#:#Diese Rolle existiert nicht.
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
-common#:#mail_pear_mail_needed#:#Sie benötigen PEAR-Mail um diese Funktion zu verwenden. Geben Sie im Terminal-Fenster <code>pear install Mail</code> ein.
 common#:#mail_read#:#Lesezugriff auf Maileinstellungen
 common#:#mail_search_courses_not_found#:#Es wurden keine Kurse gefunden, in denen Sie Mitglied sind.
 common#:#mail_search_groups_not_found#:#Es wurden keine Gruppen gefunden, in denen Sie Mitglied sind.
