@@ -384,6 +384,7 @@ class ilBookmarkAdministrationGUI
 		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
 			$this->ctrl->setParameter($this, 'bmf_id', '');
+			$this->ctrl->setParameter($this, 'obj_id', '');
 			$this->ctrl->redirect($this);
 		}
 		
@@ -546,6 +547,7 @@ class ilBookmarkAdministrationGUI
 
 		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
+			$this->ctrl->setParameter($this, 'obj_id', '');
 			$this->ctrl->setParameter($this, 'bmf_id', '');
 			$this->ctrl->redirect($this);
 		}
@@ -605,6 +607,7 @@ class ilBookmarkAdministrationGUI
 	{
 		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
+			$this->ctrl->setParameter($this, 'obj_id', '');
 			$this->ctrl->setParameter($this, 'bmf_id', '');
 			$this->ctrl->redirect($this);
 		}
@@ -682,6 +685,7 @@ class ilBookmarkAdministrationGUI
 	{
 		if(!$this->tree->isInTree($_GET["obj_id"]))
 		{
+			$this->ctrl->setParameter($this, 'obj_id', '');
 			$this->ctrl->setParameter($this, 'bmf_id', '');
 			$this->ctrl->redirect($this);
 		}
