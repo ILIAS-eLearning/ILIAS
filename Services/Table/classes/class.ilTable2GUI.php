@@ -2853,6 +2853,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	public function restoreTemplate($a_name)
 	{
 		global $ilUser;
+		
+		$a_name = ilUtil::stripSlashes($a_name);
 
 		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
@@ -2889,6 +2891,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	{
 		global $ilUser;
 		
+		$a_name = ilUtil::stripSlashes($a_name);
+		
 		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
@@ -2914,6 +2918,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	public function deleteTemplate($a_name)
 	{
 		global $ilUser;
+		
+		$a_name = ilUtil::stripSlashes($a_name);
 
 		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
