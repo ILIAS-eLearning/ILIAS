@@ -278,4 +278,30 @@ class ilassMarkSchemaTest extends PHPUnit_Framework_TestCase
                 'Failed on $failed_passed'
             );
         }
+	
+	function testSaveToDb_regular()
+	{
+		/*
+		// Arrange
+		require_once 'Services/Database/classes/class.ilDB.php';
+		$ildb_stub = $this->getMock('ilDB');
+
+		$ildb_stub->expects($this->any())
+			->method('query')
+			->will($this->returnValue('foo'));
+
+		$ildb_stub->expects($this->any())
+			->method('numRows')
+			->will($this->returnValue(1));
+
+		$db_result_1 = array('cmi_node_id' => 8);
+		$db_result_2 = array('cmi_node_id' => 10);
+		$db_result_3 = array('cmi_node_id' => 12);
+		$db_result_4 = array('cmi_node_id' => 14);
+
+		$ildb_stub->expects($this->any())
+			->method('fetchAssoc')
+			->will($this->onConsecutiveCalls($db_result_1, $db_result_2, $db_result_3, $db_result_4));
+		*/
+	}
 }

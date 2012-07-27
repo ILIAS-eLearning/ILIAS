@@ -3172,12 +3172,19 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function saveMarksObject()
 	{
-		$this->saveMarkSchemaFormData();
+		try
+		{
+			$this->saveMarkSchemaFormData();
+			$mark_check = $this->object->checkMarks();
+		}
+		catch (Exception $ex)
+		{
+			$mark_check = $this->lng->txt('mark_schema_invalid');
+		}
 		
-		$mark_check = $this->object->checkMarks();
 		if ($mark_check !== true)
 		{
-			ilUtil::sendInfo($this->lng->txt($mark_check));
+			ilUtil::sendFailure($mark_check);
 		}
 		elseif ($_POST["chbECTS"] && ((strcmp($_POST["ects_grade_a"], "") == 0) or (strcmp($_POST["ects_grade_b"], "") == 0) or (strcmp($_POST["ects_grade_c"], "") == 0) or (strcmp($_POST["ects_grade_d"], "") == 0) or (strcmp($_POST["ects_grade_e"], "") == 0)))
 		{
@@ -3357,8 +3364,9 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmDeleteSelectedUserDataObject()
 	{
 		$active_ids = array();
-		foreach ($_POST["chbUser"] as $active_id)
+		foreach ($_POST["chbUser"] as $user_id)
 		{
+			$active_id = $this->object->getActiveIdOfUser($user_id);
 			if ($this->object->getFixedParticipants())
 			{
 				array_push($active_ids, $this->object->getActiveIdOfUser($active_id));
@@ -3468,7 +3476,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 			if ($this->object->getAnonymity())
 			{
-				$name = $this->lng->txt("unknown");
+				$name = $this->lng->txt("anonymous");
 			}
 			else if($user["lastname"])
 			{

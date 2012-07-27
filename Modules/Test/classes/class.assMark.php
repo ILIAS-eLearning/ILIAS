@@ -58,7 +58,7 @@ class ASS_Mark {
 *
 * @var double
 */
-  var $minimum_level;
+	var $minimum_level = 0;
 
 /**
 * The passed status of the mark
@@ -86,12 +86,12 @@ class ASS_Mark {
 		$passed = 0
   ) 
   {
-    $this->short_name = $short_name;
-    $this->official_name = $official_name;
-    $this->minimum_level = $minimum_level;
-		$this->passed = $passed;
-  }
-  
+    $this->setShortName($short_name);
+    $this->setOfficialName($official_name);
+    $this->setMinimumLevel($minimum_level);
+	$this->setPassed($passed);
+  }	
+
 /**
 * Returns the short name of the mark
 * 
@@ -192,8 +192,19 @@ class ASS_Mark {
 * @access public
 * @see $minimum_level
 */
-  function setMinimumLevel($minimum_level = 0) {
-    if (($minimum_level >= 0) and ($minimum_level <= 100))
+  function setMinimumLevel($minimum_level) 
+  {
+	if (!is_numeric($minimum_level))
+	{
+		throw new Exception ('Markstep: minimum level must be numeric.');
+	}
+    else if (($minimum_level >= 0) && ($minimum_level <= 100))
+	{
       $this->minimum_level = $minimum_level;
+	}
+	else
+	{
+		throw new Exception ('Markstep: minimum level must be between 0 and 100');
+	}
   }
 }
