@@ -4,14 +4,34 @@
 <!-- BEGIN block_sorting -->
 <script type="text/javascript">
 	(function($) {
+		$(function() {
 
-		$(function($) {
-			$("{BLOCK_COLUMN_SELECTOR}").ilBlockMoving({
+			$.each({BLOCK_COLUMNS}, function(index, value){
+				if ($('#' + value).length == 0) {
+					if (index == 0) {
+						$("<td class=\"il_LeftColumn\" id=\"il_left_col_td\"><div id=\"" + value + "\"></div></td>")
+							.css({
+								'min-height': $('#il_CenterColumn').height(),
+								'width': '0px'
+							})
+							.insertBefore('#il_CenterColumn');
+					} else if (index == 1) {
+						$("<td class=\"il_RightColumn\"><div id=\"" + value + "\"></div></td>")
+							.css({
+								'min-height': $('#il_CenterColumn').height(),
+								'width': '0px'
+							})
+							.insertAfter('#il_CenterColumn');
+					}
+				}
+			});
+
+			$('{BLOCK_COLUMN_SELECTOR}').ilBlockMoving({
 				url: "{BLOCK_SORTING_STORAGE_URL}",
 				columns: {BLOCK_COLUMNS_TYPES}
 			});
-		});
 
+		});
 	})(jQuery);
 </script>
 <!-- END block_sorting -->

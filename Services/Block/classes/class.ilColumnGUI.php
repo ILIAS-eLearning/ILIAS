@@ -513,13 +513,9 @@ class ilColumnGUI
 	function showBlocks()
 	{
 		global $ilCtrl, $lng, $ilUser, $ilBench;
-		
-		$blocks = array();
-		
+
 		$i = 1;
 		$sum_moveable = count($this->blocks[$this->getSide()]);
-		
-		$block_rendered = false;
 
 		foreach($this->blocks[$this->getSide()] as $block)
 		{
@@ -583,7 +579,6 @@ class ilColumnGUI
 					$this->tpl->setVariable("BLOCK", $html);
 					$this->tpl->parseCurrentBlock();
 					$ilCtrl->setParameter($this, "block_type", "");
-					$block_rendered = true;
 				}
 				
 				// count (moveable) blocks
@@ -597,12 +592,6 @@ class ilColumnGUI
 					$sum_moveable--;
 				}
 			}
-		}
-
-		// Workaround for an empty column
-		if(!$block_rendered && !$this->getRepositoryMode() && $this->getMovementMode())
-		{
-			$this->tpl->touchBlock('col_block');
 		}
 	}
 	
@@ -703,46 +692,35 @@ class ilColumnGUI
 				}
 			}
 		}
-		
-		if($this->getSide() == IL_COL_LEFT && $this->getEnableMovement())
+
+		if($this->getSide() == IL_COL_CENTER && $this->getEnableMovement())
 		{
-			if($_SESSION['col_'.$this->getColType().'_movement'] == 'on')
-			{
-				$this->action_menu->addItem($lng->txt('stop_moving_blocks'), '', $ilCtrl->getLinkTarget($this, 'toggleMovement'));
-			}
-			else
-			{
-				$this->action_menu->addItem($lng->txt('move_blocks'), '', $ilCtrl->getLinkTarget($this, 'toggleMovement'));
-			}
+			/**
+			 * @var $ilBrowser ilBrowser
+			 */
+			global $ilBrowser;
 
-			if($this->getMovementMode())
-			{
-				/**
-				 * @var $ilBrowser ilBrowser
-				 */
-				global $ilBrowser;
-	
-				include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-				iljQueryUtil::initjQuery();
-				iljQueryUtil::initjQueryUI();
+			include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+			iljQueryUtil::initjQuery();
+			iljQueryUtil::initjQueryUI();
 
-				if($ilBrowser->isMobile())
-				{
-					$tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
-				}
-				
-				$tpl->addJavaScript('./Services/Block/js/block_sorting.js');
-				
-				// set the col_side parameter to pass the ctrl structure flow
-				$ilCtrl->setParameter($this, 'col_side', IL_COL_CENTER);
-	
-				$this->tpl->setVariable('BLOCK_SORTING_STORAGE_URL', $ilCtrl->getLinkTarget($this, 'saveBlockSortingAsynch', '', true, false));
-				$this->tpl->setVariable('BLOCK_COLUMN_SELECTOR', '#il_left_col,#il_right_col');
-				$this->tpl->setVariable('BLOCK_COLUMNS_TYPES', json_encode(array(IL_COL_LEFT, IL_COL_RIGHT)));
-	
-				// restore col_side parameter
-				$ilCtrl->setParameter($this, 'col_side' ,$this->getSide());
+			if($ilBrowser->isMobile() || $ilBrowser->isIpad())
+			{
+				$tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
 			}
+			
+			$tpl->addJavaScript('./Services/Block/js/block_sorting.js');
+			
+			// set the col_side parameter to pass the ctrl structure flow
+			$ilCtrl->setParameter($this, 'col_side', IL_COL_CENTER);
+
+			$this->tpl->setVariable('BLOCK_SORTING_STORAGE_URL', $ilCtrl->getLinkTarget($this, 'saveBlockSortingAsynch', '', true, false));
+			$this->tpl->setVariable('BLOCK_COLUMNS', json_encode(array('il_left_col', 'il_right_col')));
+			$this->tpl->setVariable('BLOCK_COLUMN_SELECTOR', '#il_left_col,#il_right_col');
+			$this->tpl->setVariable('BLOCK_COLUMNS_TYPES', json_encode(array(IL_COL_LEFT, IL_COL_RIGHT)));
+
+			// restore col_side parameter
+			$ilCtrl->setParameter($this, 'col_side' ,$this->getSide());
 		}
 	}
 	

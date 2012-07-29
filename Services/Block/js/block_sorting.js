@@ -10,6 +10,12 @@
 
 		return str.join('&');
 	};
+	
+	var jquis_mouseStart = $.ui.sortable.prototype._mouseStart;
+	$.ui.sortable.prototype._mouseStart = function(event, overrideHandle, noActivation) {
+		this._trigger("onElementDragStart", event, this._uiHash());
+		jquis_mouseStart.call(this, event, overrideHandle, noActivation);
+	};
 
 
 	$.fn.ilBlockMoving = function (method) {
@@ -29,23 +35,44 @@
 						)
 					};
 
-					$this.addClass('iosPdBlockSortableContainer');
-
-					// workaround for an empty side
-					if ($this.find("> div").size() == 0) {
-						$this.css('height', $this.parent().height());
-					}
+					$this.addClass('iosPdBlockSortableContainer').find("div .ilBlockHeader").css("cursor", "move");
+					internals.sortableContainer.push($this);
 
 					$this.sortable({
+						onElementDragStart: function(event, ui) {
+
+							for(i in internals.sortableContainer) {
+								var $elm = $(internals.sortableContainer[i]);
+								if ($('>div', $elm).size() == 0) {
+									var $container = $elm.parent();
+									$container.css("width", "");
+									$elm.css({
+										"width": $container.width(),
+										"min-width": $container.width(),
+										"height": $container.height(),
+										"min-height": $container.height()
+									});
+								}
+							}
+
+						},
 						stop: function(event, ui) {
 
 							var postData = new Array();
 
 							for(i in internals.sortableContainer) {
-								// reset the height
-								$(internals.sortableContainer[i]).css('height', 'auto');
-								// disable all sortable objects
-								$(internals.sortableContainer[i]).sortable('disable');
+								var $elm = $(internals.sortableContainer[i]);
+								$elm.sortable('disable');
+								if ($('>div', $elm).size() == 0) {
+									var $container = $elm.parent();
+									$container.css("width", "0px");
+									$elm.css({
+										"width": '',
+										"min-width": '',
+										"height": '',
+										"min-height": ''
+									});
+								}
 							}
 
 							// get serialized data of the concerning sortable objects
@@ -91,10 +118,6 @@
 						cursor: 'move',
 						items: '>div'
 					}).disableSelection();
-					
-					$this.find("div .ilBlockHeader").css("cursor", "move");
-
-					internals.sortableContainer.push($this);
 				});
 			}
 		}
