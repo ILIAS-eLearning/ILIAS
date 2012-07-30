@@ -51,6 +51,12 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("edit");
+		
+		// #9440: prepareOutput will fail if not set properly
+		if($cmd == "save")
+		{
+			$this->setCreationMode(true);
+		}
 
 		$this->prepareOutput();
 		switch($next_class)
@@ -869,6 +875,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function saveObject()
 	{
+		if(!trim($_POST["style_title"]))
+		{
+			$this->ctrl->redirect($this, "create");
+		}
+		
 //echo "HH"; exit;
 		$class_name = "ilObjStyleSheet";
 		require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
