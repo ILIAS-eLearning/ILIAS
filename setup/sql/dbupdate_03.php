@@ -11751,3 +11751,7 @@ if(!$ilDB->tableExists('ecs_cms_data'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3683>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
