@@ -131,6 +131,14 @@ class ilPDNotesGUI
 			$rel_objs = array_merge(array(0), $rel_objs);
 		}
 		
+		// #9410
+		if(!$rel_objs)
+		{
+			$lng->loadLanguageModule("notes");
+			ilUtil::sendInfo($lng->txt("msg_no_search_result"));
+			return;
+		}
+		
 		$first = true;
 		foreach ($rel_objs as $r)
 		{
