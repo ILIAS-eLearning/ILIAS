@@ -293,7 +293,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
-		$form->addCommandButton("addTranslationForm", $this->lng->txt("add_translation"));
+		$form->addCommandButton("addTranslation", $this->lng->txt("add_translation"));
 
 		return $form;
 	}
