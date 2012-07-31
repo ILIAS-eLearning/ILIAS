@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 
@@ -965,7 +965,7 @@ class ilMainMenuGUI
 				$selection->setListTitle($lng->txt("administration"));
 				$selection->setId("dd_adm");
 				$selection->setAsynch(true);
-				$selection->setAsynchUrl("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown");
+				$selection->setAsynchUrl("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch");
 							//$this->renderEntry($a_tpl, "administration",
 			//	$lng->txt("administration"),
 			//	$this->getScriptTarget("ilias.php?baseClass=ilAdministrationGUI"),

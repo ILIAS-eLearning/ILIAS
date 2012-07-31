@@ -77,7 +77,10 @@ class ilGroupedListGUI
 	 */
 	function getHTML()
 	{
+		global $ilCtrl;
+		
 		$tpl = new ilTemplate("tpl.grouped_list.html", true, true, "Services/UIComponent/GroupedList");
+		$tt_calls = "";
 		foreach ($this->items as $i)
 		{
 			switch($i["type"])
@@ -134,8 +137,16 @@ class ilGroupedListGUI
 						if ($i["ttip"] != "" && $i["id"] != "")
 						{
 							include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-							ilTooltipGUI::addTooltip($i["id"], $i["ttip"],
-								"", $i["tt_my"], $i["tt_at"], $i["tt_use_htmlspecialchars"]);
+							if ($ilCtrl->isAsynch())
+							{
+								$tt_calls.= " ".ilTooltipGUI::getTooltip($i["id"], $i["ttip"],
+									"", $i["tt_my"], $i["tt_at"], $i["tt_use_htmlspecialchars"]);
+							}
+							else
+							{
+								ilTooltipGUI::addTooltip($i["id"], $i["ttip"],
+									"", $i["tt_my"], $i["tt_at"], $i["tt_use_htmlspecialchars"]);
+							}
 						}
 
 					}
@@ -147,6 +158,13 @@ class ilGroupedListGUI
 		{
 			$tpl->touchBlock("multi_start");
 			$tpl->touchBlock("multi_end");
+		}
+		
+		if ($tt_calls != "")
+		{
+			$tpl->setCurrentBlock("script");
+			$tpl->setVariable("TT_CALLS", $tt_calls);
+			$tpl->parseCurrentBlock();
 		}
 		
 		return $tpl->get();

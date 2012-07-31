@@ -244,10 +244,11 @@ class ilAdministrationGUI
 						: false;
 
 					// set standard screen id
-					if (strtolower($next_class) == strtolower($this->ctrl->getCmdClass()))
-					{
+//					if (strtolower($next_class) == strtolower($this->ctrl->getCmdClass()) ||
+//						"ilpermissiongui" == strtolower($this->ctrl->getCmdClass()))
+//					{
 						$ilHelp->setScreenIdComponent(ilObject::_lookupType($this->cur_ref_id,true));
-					}
+//					}
 						
 					$this->ctrl->setReturn($this, "return");					
 					$ret =& $this->ctrl->forwardCommand($this->gui_obj);
@@ -579,14 +580,18 @@ class ilAdministrationGUI
 								$gl->addEntry($icon.$titems[$e]["title"],
 									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
 									$titems[$e]["ref_id"]."&amp;admin_mode=repository",
-									"_top");
+									"_top", "", "", "mm_adm_rep",
+									ilHelp::getMainMenuTooltip("mm_adm_rep"),
+									"bottom center", "top center", false);
 							}
 							else
 							{
 								$gl->addEntry($icon.$titems[$e]["title"],
 									"ilias.php?baseClass=ilAdministrationGUI&amp;ref_id=".
 										$titems[$e]["ref_id"]."&amp;cmd=jump",
-									"_top");
+									"_top", "", "", "mm_adm_".$titems[$e]["type"],
+									ilHelp::getMainMenuTooltip("mm_adm_".$titems[$e]["type"]),
+									"bottom center", "top center", false);
 							}
 						}
 					}
