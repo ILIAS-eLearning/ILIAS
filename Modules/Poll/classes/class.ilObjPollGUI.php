@@ -46,7 +46,7 @@ class ilObjPollGUI extends ilObject2GUI
 		global $ilCtrl;
 		
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);		
-		$ilCtrl->redirect($this, "");
+		$ilCtrl->redirect($this, "edit");
 	}
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
