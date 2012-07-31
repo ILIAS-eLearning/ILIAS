@@ -11783,3 +11783,19 @@ if(!$ilDB->tableExists('qpl_a_essay'))
 	$ilDB->createSequence('qpl_a_essay');	
 }
 ?>
+<#3685>
+<?php
+	if(!$ilDB->tableColumnExists('qpl_qst_essay','keyword_relation'))
+	{
+		$ilDB->addTableColumn(
+			'qpl_qst_essay',
+			'keyword_relation',
+			array(
+				'type'	=> 'text',
+				'length' => 3,
+				'notnull' => true,
+				'default' => 'any'
+			)
+		);
+	}
+?>
