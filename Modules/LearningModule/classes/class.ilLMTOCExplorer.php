@@ -77,7 +77,7 @@ class ilLMTOCExplorer extends ilLMExplorer
 			{
 				return ilLMPageObject::_getPresentationTitle($a_id,
 					$this->lm_obj->getPageHeader(), $this->lm_obj->isActiveNumbering(),
-					$this->lm_set->get("time_scheduled_page_activation"));
+					$this->lm_set->get("time_scheduled_page_activation"), true);
 			}
 		}
 	}
