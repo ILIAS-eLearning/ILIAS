@@ -547,7 +547,7 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function formRadioButton($checked,$varname,$value,$onclick)
+	public static function formRadioButton($checked,$varname,$value,$onclick=null)
 	{
 		$str = '<input ';
 
