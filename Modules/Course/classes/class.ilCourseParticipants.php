@@ -137,18 +137,23 @@ class ilCourseParticipants extends ilParticipants
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM obj_members ".
+		$query = "SELECT passed FROM obj_members ".
 		"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 		"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->query($query);
 		if($res->numRows())
 		{
-			$query = "UPDATE obj_members SET ".
-				"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
-				"origin = ".$ilDB->quote((int) $a_origin,'integer').", ".
-				"origin_ts = ".$ilDB->quote(time(),'integer')." ".
-				"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
-				"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
+			// #9284 - only needs updating when status has changed
+			$old = $ilDB->fetchAssoc($res);			
+			if((int)$old["passed"] != (int)$a_passed)
+			{			
+				$query = "UPDATE obj_members SET ".
+					"passed = ".$ilDB->quote((int) $a_passed,'integer').", ".
+					"origin = ".$ilDB->quote((int) $a_origin,'integer').", ".
+					"origin_ts = ".$ilDB->quote(time(),'integer')." ".
+					"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
+					"AND usr_id = ".$ilDB->quote($a_usr_id,'integer');
+			}
 		}
 		else
 		{
