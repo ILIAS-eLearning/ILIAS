@@ -11755,3 +11755,31 @@ if(!$ilDB->tableExists('ecs_cms_data'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3684>
+<?php
+if(!$ilDB->tableExists('qpl_a_essay'))
+{
+	$fields = array(
+		'answer_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+		),
+		'answertext' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false
+		),		
+		'points' => array(
+			'type' => 'integer',
+			'length' => 4,
+		)
+	);
+	$ilDB->createTable('qpl_a_essay', $fields);
+	$ilDB->addPrimaryKey('qpl_a_essay', array('answer_id'));
+	$ilDB->createSequence('qpl_a_essay');	
+}
+?>
