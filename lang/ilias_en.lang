@@ -12913,3 +12913,4 @@ help#:#help_module_uploaded#:#Help package uploaded.
 common#:#add_entry#:#Add entry
 rbac#:#fold_copy#:#User can copy folder
 rbac#:#fold_create_poll#:#Create Poll
+common#:#obj_poll_duplicate#:#Copy Poll
