@@ -410,7 +410,8 @@ class ilLMPageObject extends ilLMObject
 	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
 	*/
 	function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
-		$a_include_numbers = false, $a_time_scheduled_activation = false)
+		$a_include_numbers = false, $a_time_scheduled_activation = false,
+		$a_force_content = false)
 	{
 		global $ilDB;
 
@@ -420,7 +421,7 @@ class ilLMPageObject extends ilLMObject
 		$pg_set = $ilDB->query($query);
 		$pg_rec = $ilDB->fetchAssoc($pg_set);
 
-		if($a_mode == IL_NO_HEADER)
+		if($a_mode == IL_NO_HEADER && !$a_force_content)
 		{
 			return "";
 		}
