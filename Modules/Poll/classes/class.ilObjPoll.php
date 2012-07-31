@@ -207,7 +207,6 @@ class ilObjPoll extends ilObject2
 			
 		}
 	}
-
 	
 	protected function doDelete()
 	{
@@ -228,7 +227,41 @@ class ilObjPoll extends ilObject2
 		}
 	}
 	
-	
+	/**
+	 * Clone poll
+	 *
+	 * @param ilObjPoll new object
+	 * @param int target ref_id
+	 * @param int copy id
+	 * @return ilObjPoll
+	 */
+	public function doCloneObject(ilObjPoll $new_obj, $a_target_id, $a_copy_id = 0)
+	{		
+		// question/image
+		$new_obj->setQuestion($this->getQuestion());		
+		$image = $this->getImageFullPath();
+		if($image)
+		{
+			$image = array("tmp_name"=>$image,
+				"name"=>$this->getImage());		
+			$new_obj->uploadImage($image, true);
+		}		
+		$new_obj->setViewResults($this->getViewResults());
+		$new_obj->update();
+		
+		// answers
+		$answers = $this->getAnswers();
+		if($answers)
+		{
+			foreach($answers as $item)
+			{
+			   $new_obj->saveAnswer($item["answer"]);					
+			}						
+		}				
+		
+		return $new_obj;
+	}
+		
 	
 	//
 	// image
@@ -305,7 +338,7 @@ class ilObjPoll extends ilObject2
 	 * @param array $a_upload
 	 * @return bool
 	 */
-	function uploadImage(array $a_upload)
+	function uploadImage(array $a_upload, $a_clone = false)
 	{
 		if(!$this->id)
 		{
@@ -319,7 +352,17 @@ class ilObjPoll extends ilObject2
 		$thumb = "thb_".$this->id."_".$a_upload["name"];
 		$processed = $this->id."_".$a_upload["name"];
 		
-		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+		$success = false;
+		if(!$a_clone)
+		{
+			$success = @move_uploaded_file($a_upload["tmp_name"], $path.$original);
+		}
+		else
+		{
+			$success = @copy($a_upload["tmp_name"], $path.$original);
+		}
+		
+		if($success)
 		{
 			chmod($path.$original, 0770);
 
