@@ -2156,15 +2156,15 @@ common#:#advanced_editing_settings#:#Zaawansowane ustawienia edycji
 common#:#advanced_editing_survey_settings#:#Włączona obsługa znaczników HTML dla ankiet
 common#:#advanced_editing_tinymce#:#Edytor TinyMCE
 common#:#adve_assessment_settings#:#Ustawienia Testów i Oceniania
-common#:#adve_edit_permission#:#Zmień ustawienia praw dostępu
+rbac#:#adve_edit_permission#:#Zmień ustawienia praw dostępu
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Ustawienia ogólne
 common#:#adve_lm_settings#:#Ustawienia MU / Słowników
-common#:#adve_read#:#Dostęp do administracji zaawansowanej edycji
+rbac#:#adve_read#:#Dostęp do administracji zaawansowanej edycji
 common#:#adve_rep_settings#:#Repository Settings
 common#:#adve_survey_settings#:#Ustawienia ankiet
-common#:#adve_visible#:#Administracja zawansowaną edycją jest widoczna
-common#:#adve_write#:#Administracja zaawansowaną edycją
+rbac#:#adve_visible#:#Administracja zawansowaną edycją jest widoczna
+rbac#:#adve_write#:#Administracja zaawansowaną edycją
 common#:#agree_date#:#Zgoda na
 common#:#all_authors#:#Wszyscy autorzy
 common#:#all_commands#:#All Commands
@@ -2249,11 +2249,11 @@ common#:#assessment_use_javascript#:#JavaScript dla Przeciągnij i Upuść
 common#:#assessment_use_javascript_desc#:#Aktywuje JavaScript dla operacji Przeciągnij i Upuść domyślnie za pierwszym razem.
 common#:#assf_allowed_questiontypes#:#Dostępne typy pytań
 common#:#assf_allowed_questiontypes_desc#:#Wszystkie wybrane typy pytań będą dostępne w tej instalacji ILIAS. Jeśli nie chcesz zezwalać na tworzenie pytań określonego typu, musicz usunąć wybór w polu wyboru.
-common#:#assf_edit_permission#:#Zmiana praw dostępu
+rbac#:#assf_edit_permission#:#Zmiana praw dostępu
 common#:#assf_questiontypes#:#Ustawienia Pytań
-common#:#assf_read#:#Dostęp do zarządzania Testami i Oceniania
-common#:#assf_visible#:#Testy i Ocenianie są widoczne
-common#:#assf_write#:#Edycja zarządzania Testami i Ocenianiem
+rbac#:#assf_read#:#Dostęp do zarządzania Testami i Oceniania
+rbac#:#assf_visible#:#Testy i Ocenianie są widoczne
+rbac#:#assf_write#:#Edycja zarządzania Testami i Ocenianiem
 common#:#assign#:#Przydziel
 common#:#assign_global_role#:#Przydziel do globalnej roli
 common#:#assign_lo_forum#:#Przydziel forum (PN)
@@ -2287,7 +2287,7 @@ common#:#auth_create_users#:#Twórz automatycznie nieistniejących użytkownikó
 common#:#auth_default#:#Ustawienia domyślne
 common#:#auth_default_mode_changed_to#:#Domyślny tryb identyfikacji został zmieniony na
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Zmień prawa dostępu
+rbac#:#auth_edit_permission#:#Zmień prawa dostępu
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Identyfikuj użytkowników za pomocą serwera LDAP
 common#:#auth_ldap_enable#:#Włącz LDAP
@@ -2314,7 +2314,7 @@ common#:#auth_radius_server#:#Serwery
 common#:#auth_radius_server_desc#:#Możesz dodać wiele nazw serwerów rozdzieloych przecinkami. Serwery są cyklicznie zmieniane w pętli przy zapytaniach.
 common#:#auth_radius_settings_saved#:#Zapisano ustawienia RADIUS
 common#:#auth_radius_shared_secret#:#Klucz publiczny
-common#:#auth_read#:#Ustawienia identyfikacji
+rbac#:#auth_read#:#Ustawienia identyfikacji
 common#:#auth_remark_non_local_auth#:#Gdy zostanie ustawiony określony tryb identyfikacji (za wyjątkiem domyślnego) to nazwy użytkownika i hasła nie mogą być już zmieniane i rejestracja nowych użytkowników zostanie wyłączona.
 common#:#auth_role_auth_mode#:#Tryb identyfikacji
 common#:#auth_script#:#Wybrany
@@ -2343,8 +2343,8 @@ common#:#auth_soap_use_https#:#Użyj HTTPS
 common#:#auth_soap_user_default_role#:#Domyślna rola przydzielona dla użytkowników zidentyfikowanych poprzez SOAP
 common#:#auth_soap_user_default_role_desc#:#Ta rola jest przydzielona użytkownikom automatycznie utworzonym poprzez SOAP.
 common#:#auth_user_default_role#:#Domyslna rola
-common#:#auth_visible#:#Ustawienia identyfikacji są widoczne
-common#:#auth_write#:#Edycja ustawień identyfikacji
+rbac#:#auth_visible#:#Ustawienia identyfikacji są widoczne
+rbac#:#auth_write#:#Edycja ustawień identyfikacji
 common#:#authenticate_ilias#:#Loguj do ILIAS
 common#:#authenticate_with#:#Loguj do:
 common#:#authentication_settings#:#Identyfikacja
@@ -2489,10 +2489,10 @@ common#:#censorship#:#Cenzura
 common#:#centra_account#:#Konto administratora Centra
 common#:#centra_rooms#:#Pokoje Centra
 common#:#centra_server#:#Serwer Centra
-common#:#cert_edit_permission#:#Zmień ustawienia uprawnień
-common#:#cert_read#:#Read access to Certificate Settings
-common#:#cert_visible#:#Ustawienia Certyfikatów są Widoczne
-common#:#cert_write#:#Edycja Ustawień Certyfikatów
+rbac#:#cert_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#cert_read#:#Read access to Certificate Settings
+rbac#:#cert_visible#:#Ustawienia Certyfikatów są Widoczne
+rbac#:#cert_write#:#Edycja Ustawień Certyfikatów
 common#:#certificate#:#Certyfikat
 common#:#chac_edit_permission#:#Zmień ustawienia uprawnień
 common#:#chac_read#:#Prawo czytania ustawień czatu
@@ -2869,7 +2869,7 @@ common#:#edit_page#:#Edytuj stronę
 common#:#edit_page_content#:#Edytuj zawartość strony
 common#:#edit_perm_ruleset#:#Edycja domyślnych reguł uprawnień
 common#:#edit_properties#:#Edytuj właściwości
-common#:#edit_roleassignment#:#Edycja przydziału ról
+rbac#:#edit_roleassignment#:#Edycja przydziału ról
 common#:#edit_stylesheet#:#Edytuj styl
 common#:#edited_at#:#Edytowany
 common#:#editor#:#Edytor
@@ -3025,7 +3025,7 @@ common#:#ext_acccount_required#:#Podaj nazwą konta zewnętrznego.
 common#:#ext_cat_settings#:#Edit Advanced Category Settings
 common#:#ext_link#:#Link
 common#:#extt_configure#:#konfiguruje...
-common#:#extt_edit_permission#:#Zmiana ustawień praw dostępu
+rbac#:#extt_edit_permission#:#Zmiana ustawień praw dostępu
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Opcje dodatkowe
 common#:#extt_ilinc_akclassvalues_active#:#Włącz centra kosztów
@@ -3044,11 +3044,11 @@ common#:#extt_ilinc_server#:#Serwer
 common#:#extt_ilinc_settings_saved#:#Ustawienia LearnLinc zachowane
 common#:#extt_ilinc_timeout#:#Maksymalny czas oczekiwania na odpowiedź serwera
 common#:#extt_name#:#Oprogramowanie/Serwis
-common#:#extt_read#:#Ustawienia dostępu do oprogramowania innych firm
+rbac#:#extt_read#:#Ustawienia dostępu do oprogramowania innych firm
 common#:#extt_remark#:#Całe oprogramowanie i serwisy pokazane powyżej nie są częścią systemu ILIAS i nie są objęte otwartą licencją ILIAS.
 common#:#extt_title_configure#:#Konfiguruj zewnętrzne oprogramowanie
-common#:#extt_visible#:#Ustawienia oprogramowania innych firm jest widoczne
-common#:#extt_write#:#Konfiguruj Oprogramowanie Innych Firm
+rbac#:#extt_visible#:#Ustawienia oprogramowania innych firm jest widoczne
+rbac#:#extt_write#:#Konfiguruj Oprogramowanie Innych Firm
 common#:#failure_message#:#Komunikat Błedu
 common#:#faq_exercise#:#Ćwiczenie (FAQ)
 common#:#fax#:#Faks

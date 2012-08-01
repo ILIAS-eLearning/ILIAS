@@ -877,10 +877,10 @@ common#:#assessment_log_user_answer#:#Користувач відповів на
 common#:#assessment_log_user_answers#:#Показати дії користувача
 common#:#assessment_settings#:#Адміністративні настройки Тестування & Оцінювання###23 Dec 2005 content changed
 common#:#assessment_settings_reporting_language#:#Reporting language###13 May 2005 new variable
-common#:#assf_edit_permission#:#Змінити настройки прав
-common#:#assf_read#:#Доступ до адміністрування Тестами & Оцінюванням###23 Dec 2005 content changed
-common#:#assf_visible#:#Адміністрування Тестами & Оцінюванням є видимим
-common#:#assf_write#:#Редагувати адміністрування Тестами & Оцінюванням
+rbac#:#assf_edit_permission#:#Змінити настройки прав
+rbac#:#assf_read#:#Доступ до адміністрування Тестами & Оцінюванням###23 Dec 2005 content changed
+rbac#:#assf_visible#:#Адміністрування Тестами & Оцінюванням є видимим
+rbac#:#assf_write#:#Редагувати адміністрування Тестами & Оцінюванням
 common#:#assign#:#Призначити
 common#:#assign_global_role#:#Призначити глобальну роль###23 Dec 2005 content changed
 common#:#assign_lo_forum#:#Призначити LO Форум
@@ -899,7 +899,7 @@ common#:#auth_active_roles#:#Global roles activated for registration###08 Jul 20
 common#:#auth_configure#:#конфігурувати...
 common#:#auth_default#:#Default setting###08 Jul 2005 new variable
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
-common#:#auth_edit_permission#:#Змінити настройки прав
+rbac#:#auth_edit_permission#:#Змінити настройки прав
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Аутентифікувати користувачів через LDAP сервер
 common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
@@ -920,7 +920,7 @@ common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
 common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
 common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
 common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
-common#:#auth_read#:#Настройки аутентифікації
+rbac#:#auth_read#:#Настройки аутентифікації
 common#:#auth_remark_non_local_auth#:#Коли вибирається інший режим аутентифікації крім режима по замовчанню, логіни та паролі користувачів більше не можуть бути змінені та опція нової реєстрації заблокована.###08 Jul 2005 content changed
 common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Заказ
@@ -930,8 +930,8 @@ common#:#auth_shib#:#Shibboleth###13 May 2005 new variable
 common#:#auth_shib_desc#:#Authenticate users via Shibboleth, can be used as second authentication method###13 May 2005 new variable
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet###13 May 2005 new variable
 common#:#auth_shibboleth#:#Shibboleth###08 Jul 2005 new variable
-common#:#auth_visible#:#Настройки аутентифікації є видимі
-common#:#auth_write#:#Редагувати настройки аутентифікації
+rbac#:#auth_visible#:#Настройки аутентифікації є видимі
+rbac#:#auth_write#:#Редагувати настройки аутентифікації
 common#:#author#:#Автор
 common#:#authors#:#Атвори
 common#:#auto_registration#:#Автоматично схвалювати реєстрацію
@@ -1264,7 +1264,7 @@ common#:#edit_data#:#редагувати дані
 common#:#edit_operations#:#Редагувати Операції
 common#:#edit_perm_ruleset#:#Редагувати правила прав по замовчанню
 common#:#edit_properties#:#Редагувати Властивості
-common#:#edit_roleassignment#:#Редагувати призначення ролі
+rbac#:#edit_roleassignment#:#Редагувати призначення ролі
 common#:#edit_stylesheet#:#Редагувати Стиль
 common#:#edited_at#:#Редагований
 common#:#editor#:#Редактор
@@ -1356,7 +1356,7 @@ common#:#export_group_members#:#Експортувати членів групи
 common#:#export_html#:#експортувати як HTML файл
 common#:#export_xml#:#експортувати як XML файл
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
-common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+rbac#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
 common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_configure#:#Configure netucate LearnLinc###28 Feb 2006 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###14 Jul 2005 new variable
@@ -1369,11 +1369,11 @@ common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
 common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
-common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+rbac#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
-common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
-common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
+rbac#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+rbac#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#FAQ Вправа
 common#:#fax#:#Факс
 common#:#feedback#:#Зворотній зв'язокk
@@ -5848,13 +5848,13 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings###25 02 2007 new 
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool###25 02 2007 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE Editor###25 02 2007 new variable
 common#:#adve_assessment_settings#:#Test & Assessment Settings###25 02 2007 new variable
-common#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
 common#:#adve_general_settings#:#General Settings###25 02 2007 new variable
 common#:#adve_lm_settings#:#LM / Glossary Settings###25 02 2007 new variable
-common#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
 common#:#adve_survey_settings#:#Survey Settings###25 02 2007 new variable
-common#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
-common#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
+rbac#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
 common#:#all_topics#:#All Topics###25 02 2007 new variable
 common#:#anonymous#:#Anonymous###25 02 2007 new variable
 common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###25 02 2007 new variable
@@ -8598,10 +8598,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable

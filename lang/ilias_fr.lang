@@ -2124,15 +2124,15 @@ common#:#advanced_editing_settings#:#Configuration avancée de l'édition
 common#:#advanced_editing_survey_settings#:#Activer l'utilisation de balises HTML avec l'outil Questionnaire d'enquête d'ILIAS
 common#:#advanced_editing_tinymce#:#TinyMCE editor
 common#:#adve_assessment_settings#:#Configuration de Test&Évaluation
-common#:#adve_edit_permission#:#Modifier les paramètres des permissions
+rbac#:#adve_edit_permission#:#Modifier les paramètres des permissions
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Configuration générale
 common#:#adve_lm_settings#:#Paramètres des Documents et Glossaires ILIAS
-common#:#adve_read#:#Accès à l'administration de l'édition enrichie
+rbac#:#adve_read#:#Accès à l'administration de l'édition enrichie
 common#:#adve_rep_settings#:#Paramètres des "Activités"
 common#:#adve_survey_settings#:#Configuration de l'outil d'enquête par questionnaire
-common#:#adve_visible#:#L'administration de l'édition enrichie est visible
-common#:#adve_write#:#Administration de l'édition enrichie
+rbac#:#adve_visible#:#L'administration de l'édition enrichie est visible
+rbac#:#adve_write#:#Administration de l'édition enrichie
 common#:#agree_date#:#Accepté le
 common#:#all_authors#:#Tous les auteurs
 common#:#all_commands#:#Commandes
@@ -2216,11 +2216,11 @@ common#:#assessment_use_javascript_desc#:#Activer JavaScript pour le glisser-dé
 common#:#assessment_use_javascript#:#JavaScript pour glisser-déposer
 common#:#assf_allowed_questiontypes_desc#:#Tous les types de questions cochés seront disponibles dans votre installation ILIAS. Si vous ne voulez pas autoriser la création de certains types de questions dans votre installation, vous devez décocher les cases correspondantes.
 common#:#assf_allowed_questiontypes#:#Types de questions disponibles
-common#:#assf_edit_permission#:#Modifier les paramètres de permission
+rbac#:#assf_edit_permission#:#Modifier les paramètres de permission
 common#:#assf_questiontypes#:#Paramètres question
-common#:#assf_read#:#Accéder à l'administration des tests & évaluations
-common#:#assf_visible#:#Administration des tests & évaluations est visible
-common#:#assf_write#:#Modifier administration des tests & évaluations
+rbac#:#assf_read#:#Accéder à l'administration des tests & évaluations
+rbac#:#assf_visible#:#Administration des tests & évaluations est visible
+rbac#:#assf_write#:#Modifier administration des tests & évaluations
 common#:#assign_global_role#:#Assigner à un rôle global
 common#:#assign_lo_forum#:#Assigner le forum de cours
 common#:#assign_local_role#:#Assigner à un rôle local
@@ -2254,7 +2254,7 @@ common#:#auth_create_users#:#Crée automatiquement les comptes non existants
 common#:#auth_default_mode_changed_to#:#Le mode d'authentification par défaut a été changé en
 common#:#auth_default#:#Paramètres par défaut
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Changer les paramètres de permission
+rbac#:#auth_edit_permission#:#Changer les paramètres de permission
 common#:#auth_ldap_desc#:#Authentifier les utilisateurs avec LDAP
 common#:#auth_ldap_enable#:#Autoriser le support LDAP
 common#:#auth_ldap_migration_info#:#Activer cette option permet aux nouveaux utilisateurs de migrer leur compte existant sur ILIAS sur une authentification LDAP
@@ -2281,7 +2281,7 @@ common#:#auth_radius_server#:#Serveurs
 common#:#auth_radius_settings_saved#:#Configuration de RADIUS enregistrée
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_radius#:#RADIUS
-common#:#auth_read#:#Accéder aux paramètres d'authentification
+rbac#:#auth_read#:#Accéder aux paramètres d'authentification
 common#:#auth_remark_non_local_auth#:#Quand un mode d'authentification autre que le mode par défaut est choisi, il n'est plus possible de changer les logins et mots de passe des utilisateurs et l'enregistrement de nouveaux utilisateurs est désactivé.
 common#:#auth_role_auth_mode#:#Mode d'authentification
 common#:#auth_script_desc#:#Authentifier les utilisateurs par un script externe
@@ -2310,8 +2310,8 @@ common#:#auth_soap_user_default_role_desc#:#Ce rôle est attribué aux utilisate
 common#:#auth_soap_user_default_role#:#Rôle attribué par défaut aux utilisateurs authentifiés par SOAP
 common#:#auth_soap#:#SOAP (Simple Object Access Protocol)
 common#:#auth_user_default_role#:#Rôle par défaut
-common#:#auth_visible#:#Les paramètres d'authentification sont visibles
-common#:#auth_write#:#Modifier les paramètres d'authentification
+rbac#:#auth_visible#:#Les paramètres d'authentification sont visibles
+rbac#:#auth_write#:#Modifier les paramètres d'authentification
 common#:#authenticate_ilias#:#Connexion à ILIAS
 common#:#authenticate_with#:#Connexion à :
 common#:#authentication_settings#:#Authentification
@@ -2456,10 +2456,10 @@ common#:#censorship#:#censurer
 common#:#centra_account#:#Compte d'administration Centra
 common#:#centra_rooms#:#Salles Centra
 common#:#centra_server#:#Serveur Centra
-common#:#cert_edit_permission#:#Changer les paramètres de permission
-common#:#cert_read#:#Read access to Certificate Settings
-common#:#cert_visible#:#Les Paramètres du Certificat sont visibles
-common#:#cert_write#:#Edit Certificate Settings
+rbac#:#cert_edit_permission#:#Changer les paramètres de permission
+rbac#:#cert_read#:#Read access to Certificate Settings
+rbac#:#cert_visible#:#Les Paramètres du Certificat sont visibles
+rbac#:#cert_write#:#Edit Certificate Settings
 common#:#certificate#:#Certificat
 common#:#chac_edit_permission#:#Changer les paramètres de permission
 common#:#chac_read#:#Accès en lecture aux paramètres du chat
@@ -2832,7 +2832,7 @@ common#:#edit_page_content#:#Éditer le contenu de la page Content
 common#:#edit_page#:#Éditer Page
 common#:#edit_perm_ruleset#:#Modifier règles de permission par défaut
 common#:#edit_properties#:#Modifier propriétés
-common#:#edit_roleassignment#:#Modifier assignation de rôle
+rbac#:#edit_roleassignment#:#Modifier assignation de rôle
 common#:#edit_stylesheet#:#Modifier le Style
 common#:#edit#:#Modifier
 common#:#edited_at#:#Modifié le
@@ -2989,7 +2989,7 @@ common#:#ext_acccount_required#:#Please enter the name of the external account.
 common#:#ext_cat_settings#:#Modifier les paramètres avancés de la Catégorie
 common#:#ext_link#:#Link
 common#:#extt_configure#:#configurer...
-common#:#extt_edit_permission#:#Changer les paramètres de permission
+rbac#:#extt_edit_permission#:#Changer les paramètres de permission
 common#:#extt_ilinc_additional_options#:#Options supplémentaires
 common#:#extt_ilinc_akclassvalues_active_info#:#Vous pouvez utiliser les centres de coûts iLinc pour les séminaires LearnLinc et les salles de classe.
 common#:#extt_ilinc_akclassvalues_active#:#Activer les centres de coûts
@@ -3008,11 +3008,11 @@ common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_ilinc_timeout#:#Temps maximum d'attente d'une réponse du serveur
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_name#:#Software/Service
-common#:#extt_read#:#Paramètres d'accès aux logiciels tiers
+rbac#:#extt_read#:#Paramètres d'accès aux logiciels tiers
 common#:#extt_remark#:#Tous les services et logiciels énumérés ci-dessous ne font pas partie de l'application ILIAS et ne sont pas sous la licence Open Source d'ILIAS.
 common#:#extt_title_configure#:#Configurer un logiciel externe
-common#:#extt_visible#:#Les paramètres du logiciel tiers sont visibles
-common#:#extt_write#:#Configurer un logiciel tiers
+rbac#:#extt_visible#:#Les paramètres du logiciel tiers sont visibles
+rbac#:#extt_write#:#Configurer un logiciel tiers
 common#:#failure_message#:#L'action a échoué :
 common#:#faq_exercise#:#Exercice de FAQ
 common#:#fax#:#Fax

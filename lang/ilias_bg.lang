@@ -808,10 +808,10 @@ common#:#assessment_log_text#:#Съобщение за регистрация
 common#:#assessment_log_user_answer#:#Потребителят отговори на въпрос
 common#:#assessment_log_user_answers#:#Показване действията на потребителя
 common#:#assessment_settings#:#Настройки за администрирането на теста и оценяването###23 Dec 2005 content changed
-common#:#assf_edit_permission#:#Промяна на разрешителните настройки
-common#:#assf_read#:#Достъп за администриране на теста и оценяването###23 Dec 2005 content changed
-common#:#assf_visible#:#Администрирането на теста и оценяването е видимо
-common#:#assf_write#:#Редактиране на администрирането на теста и оценяването
+rbac#:#assf_edit_permission#:#Промяна на разрешителните настройки
+rbac#:#assf_read#:#Достъп за администриране на теста и оценяването###23 Dec 2005 content changed
+rbac#:#assf_visible#:#Администрирането на теста и оценяването е видимо
+rbac#:#assf_write#:#Редактиране на администрирането на теста и оценяването
 common#:#assign#:#Задаване
 common#:#assign_global_role#:#Задаване на глобална роля###23 Dec 2005 content changed
 common#:#assign_lo_forum#:#Задаване на обект за обучение (LO) форум
@@ -824,7 +824,7 @@ common#:#attachment#:#Прикрепен
 common#:#attachments#:#Прикрепени
 common#:#attend#:#Участие
 common#:#auth_configure#:#конфигуриране...
-common#:#auth_edit_permission#:#Промяна на разрешителните настройки
+rbac#:#auth_edit_permission#:#Промяна на разрешителните настройки
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Идентифициране на потребители чрез LDAP сървър
 common#:#auth_ldap_not_configured#:#LDAP все още не е конфигуриран
@@ -835,13 +835,13 @@ common#:#auth_mode_not_changed#:#(Нищо не е променено)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###15 Jun 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Идентифициране на потребители чрез RADIUS сървър
-common#:#auth_read#:#Достъп до настройките за идентификацията
+rbac#:#auth_read#:#Достъп до настройките за идентификацията
 common#:#auth_remark_non_local_auth#:#При избиране на режим на идентификация, различен от този по подразбиране, потребителските регистрационни имена и пароли не могат да бъдат променяни повече и опцията за регистриране на нови потребители се изключва.
 common#:#auth_script#:#Нестандартен
 common#:#auth_script_desc#:#Идентифициране на потребители чрез външен скрипт
 common#:#auth_select#:#Избор на режим за идентификация
-common#:#auth_visible#:#Настройките на идентификацията са видими
-common#:#auth_write#:#Редактиране на настройките за идентификация
+rbac#:#auth_visible#:#Настройките на идентификацията са видими
+rbac#:#auth_write#:#Редактиране на настройките за идентификация
 common#:#author#:#Автор
 common#:#authors#:#Автори
 common#:#auto_registration#:#Автоматично одобряване на регистрацията
@@ -1145,7 +1145,7 @@ common#:#edit_data#:#редактиране на данни
 common#:#edit_operations#:#Редактиране на операции
 common#:#edit_perm_ruleset#:#Редактиране на правилата за разрешение по подразбиране
 common#:#edit_properties#:#Редактиране на характеристиките
-common#:#edit_roleassignment#:#Редактиране разпределението на ролите
+rbac#:#edit_roleassignment#:#Редактиране разпределението на ролите
 common#:#edit_stylesheet#:#Редактиране на стила
 common#:#edited_at#:#Редактирано на
 common#:#editor#:#Редактор
@@ -5050,7 +5050,7 @@ common#:#edit_content#:#Edit content###06 09 2006 new variable
 common#:#enable_calendar#:#Enable Calendar###06 09 2006 new variable
 common#:#err_no_cookies#:#Please enable session cookies in your browser!###06 09 2006 new variable
 common#:#extt_configure#:#configure...###06 09 2006 new variable
-common#:#extt_edit_permission#:#Change permission settings###06 09 2006 new variable
+rbac#:#extt_edit_permission#:#Change permission settings###06 09 2006 new variable
 common#:#extt_ilinc#:#netucate LearnLinc###06 09 2006 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###06 09 2006 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###06 09 2006 new variable
@@ -5060,10 +5060,10 @@ common#:#extt_ilinc_registrar_passwd#:#Password###06 09 2006 new variable
 common#:#extt_ilinc_server#:#Server###06 09 2006 new variable
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###06 09 2006 new variable
 common#:#extt_name#:#Software/Service###06 09 2006 new variable
-common#:#extt_read#:#Access third party software settings###06 09 2006 new variable
+rbac#:#extt_read#:#Access third party software settings###06 09 2006 new variable
 common#:#extt_title_configure#:#Configure external software###06 09 2006 new variable
-common#:#extt_visible#:#Third party software settings are visible###06 09 2006 new variable
-common#:#extt_write#:#Configure third party software###06 09 2006 new variable
+rbac#:#extt_visible#:#Third party software settings are visible###06 09 2006 new variable
+rbac#:#extt_write#:#Configure third party software###06 09 2006 new variable
 rbac#:#fold_create_icrs#:#Create LearnLinc Seminar###06 09 2006 new variable
 rbac#:#fold_create_webr#:#Create Web Resource###06 09 2006 new variable
 common#:#forgot_username#:#Forgot username?###06 09 2006 new variable
@@ -5848,13 +5848,13 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings###25 02 2007 new 
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool###25 02 2007 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE Editor###25 02 2007 new variable
 common#:#adve_assessment_settings#:#Test & Assessment Settings###25 02 2007 new variable
-common#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
 common#:#adve_general_settings#:#General Settings###25 02 2007 new variable
 common#:#adve_lm_settings#:#LM / Glossary Settings###25 02 2007 new variable
-common#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
 common#:#adve_survey_settings#:#Survey Settings###25 02 2007 new variable
-common#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
-common#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
+rbac#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
 common#:#all_topics#:#All Topics###25 02 2007 new variable
 common#:#anonymous#:#Anonymous###25 02 2007 new variable
 common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###25 02 2007 new variable
@@ -8600,10 +8600,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable

@@ -1668,15 +1668,15 @@ common#:#advanced_editing_settings#:#Szerkesztési beállítások
 common#:#advanced_editing_survey_settings#:#Engedélyezett HTML-tagek az ILIAS kérdőíveszközhöz
 common#:#advanced_editing_tinymce#:#TinyMCE szerkesztő
 common#:#adve_assessment_settings#:#Teszt- és kiértékelés-eszközök
-common#:#adve_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#adve_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#adve_frm_post_settings#:#Fórumhozzászólások
 common#:#adve_general_settings#:#Általános beállítások
 common#:#adve_lm_settings#:#Tananyag- / fogalomtár-beállítások
-common#:#adve_read#:#Szerkesztési adminisztráció elérése
+rbac#:#adve_read#:#Szerkesztési adminisztráció elérése
 common#:#adve_rep_settings#:#Taneszköz tároló beállításai
 common#:#adve_survey_settings#:#Kérdőív-beállítások
-common#:#adve_visible#:#Szerkesztési adminisztráció látható
-common#:#adve_write#:#Szerkesztési adminisztráció
+rbac#:#adve_visible#:#Szerkesztési adminisztráció látható
+rbac#:#adve_write#:#Szerkesztési adminisztráció
 common#:#agree_date#:#Egyetértek:
 common#:#all_authors#:#Minden szerző
 common#:#all_commands#:#Minden parancs
@@ -1759,11 +1759,11 @@ common#:#assessment_use_javascript_desc#:#JavaScript kimenet aktiválása fogd �
 common#:#assessment_use_javascript#:#JavaScript fogd és viddhez
 common#:#assf_allowed_questiontypes_desc#:#A bejelölt kérdéstípusok elérhetők ILIAS-installációjában.
 common#:#assf_allowed_questiontypes#:#Elérhető kérdéstípusok
-common#:#assf_edit_permission#:#Engedélyezési beállítások változtatása
+rbac#:#assf_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#assf_questiontypes#:#Kérdésbeállítások
-common#:#assf_read#:#Teszt és kiértékelési adminisztráció elérése
-common#:#assf_visible#:#Teszt és kiértékelési adminisztráció látható
-common#:#assf_write#:#Teszt és kiértékelési adminisztráció
+rbac#:#assf_read#:#Teszt és kiértékelési adminisztráció elérése
+rbac#:#assf_visible#:#Teszt és kiértékelési adminisztráció látható
+rbac#:#assf_write#:#Teszt és kiértékelési adminisztráció
 common#:#assign_global_role#:#Globális szerephez hozzárendelés
 common#:#assign_lo_forum#:#Tananyagobjektum hozzárendelése
 common#:#assign_local_role#:#Helyi szerephez hozzárendelés
@@ -1797,7 +1797,7 @@ common#:#auth_create_users#:#Nemlétező felhasználók automatikus létrehozás
 common#:#auth_default_mode_changed_to#:#Alapértelmezett hitelesítési mód a következőre változott:
 common#:#auth_default#:#Alapértelmezett beállítás
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Engedélyezési beállítások változtatása
+rbac#:#auth_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#auth_ldap_desc#:#Felhasználói hitelesítés LDAP szerveren keresztül
 common#:#auth_ldap_enable#:#LDAP támogatás engedélyezése
 common#:#auth_ldap_migration_info#:#Aktiválja a beállítást, hogy az új felhasználók rendelkezzenek ILIAS felhasználói fiókjuk LDAP azonosításához szükséges migráció lehetőségével.
@@ -1824,7 +1824,7 @@ common#:#auth_radius_server#:#Szerverek
 common#:#auth_radius_settings_saved#:#A RADIUS-beállítások mentésre kerültek
 common#:#auth_radius_shared_secret#:#Megosztott titok
 common#:#auth_radius#:#RADIUS
-common#:#auth_read#:#Hitelesítési beállítások elérése
+rbac#:#auth_read#:#Hitelesítési beállítások elérése
 common#:#auth_remark_non_local_auth#:#Ha az ILIAS-adatbázistól eltérő hitelesítési módot választ, nem változtathatja meg a továbbiakban felhasználói nevét és jelszavát.
 common#:#auth_role_auth_mode#:#Hitelesítési mód
 common#:#auth_script_desc#:#Felhasználók hitelesítése külső script-en keresztül
@@ -1853,8 +1853,8 @@ common#:#auth_soap_user_default_role_desc#:#Ez a szerep kerül hozzárendelésre
 common#:#auth_soap_user_default_role#:#Az alapértelmezett szerep hozzárendelése SOAP hitelesítési felhasználókhoz
 common#:#auth_soap#:#SOAP
 common#:#auth_user_default_role#:#Alapértelmezett szerep
-common#:#auth_visible#:#Az hitelesítési beállítások láthatók
-common#:#auth_write#:#Hitelesítési beállítások szerkesztése
+rbac#:#auth_visible#:#Az hitelesítési beállítások láthatók
+rbac#:#auth_write#:#Hitelesítési beállítások szerkesztése
 common#:#authenticate_ilias#:#ILIAS natív bejelentkezés
 common#:#authenticate_with#:#Bejelentkezés ide:
 common#:#authentication_settings#:#Hitelesítés
@@ -1992,10 +1992,10 @@ common#:#censorship#:#Cenzúra
 common#:#centra_account#:#Centra admin felhasználói fiók
 common#:#centra_rooms#:#Centra szobák
 common#:#centra_server#:#Centra szerver
-common#:#cert_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#cert_read#:#Olvasási elérés a bizonyítvány-beálíltásokhoz
-common#:#cert_visible#:#A bizonyítvány beállításai láthatók
-common#:#cert_write#:#Bizonyítvány-beállítások szerkesztése
+rbac#:#cert_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#cert_read#:#Olvasási elérés a bizonyítvány-beálíltásokhoz
+rbac#:#cert_visible#:#A bizonyítvány beállításai láthatók
+rbac#:#cert_write#:#Bizonyítvány-beállítások szerkesztése
 common#:#certificate#:#Bizonyítvány
 common#:#chac_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#chac_read#:#Olvasási elérés a csevegésbeállításokhoz
@@ -2338,7 +2338,7 @@ common#:#edit_page_content#:#Laptartalom szerkesztése
 common#:#edit_page#:#Lap szerkesztése
 common#:#edit_perm_ruleset#:#Engedélyezett hibaszabályok szerkesztése
 common#:#edit_properties#:#Tulajdonságok szerkesztése
-common#:#edit_roleassignment#:#Szerephozzárendelés szerkesztése
+rbac#:#edit_roleassignment#:#Szerephozzárendelés szerkesztése
 common#:#edit_stylesheet#:#Stílus szerkesztése
 common#:#edit#:#Szerkesztés
 common#:#edited_at#:#Szerkesztve
@@ -2485,7 +2485,7 @@ common#:#ext_acccount_required#:#Adja meg a külső felhasználó fiók nevét!
 common#:#ext_cat_settings#:#Továbbfejlesztett katagóriabeállítások szerkesztése
 common#:#ext_link#:#Link
 common#:#extt_configure#:#konfigurálás…
-common#:#extt_edit_permission#:#Engedély változtatása
+rbac#:#extt_edit_permission#:#Engedély változtatása
 common#:#extt_ilinc_additional_options#:#További beállítások
 common#:#extt_ilinc_akclassvalues_active_info#:#Ezzel a beállítással engedélyezett, hogy Ön használja az iLinc-költségközpontokat a LearnLinc-szemináriumokhoz és osztálytermekhez.
 common#:#extt_ilinc_akclassvalues_active#:#Költségközpontok engedélyezése
@@ -2504,11 +2504,11 @@ common#:#extt_ilinc_settings_saved#:#LearnLinc-beállítások mentésre kerülte
 common#:#extt_ilinc_timeout#:#Szerver válaszára várakozás maximális ideje
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_name#:#Szoftver/szolgáltatás
-common#:#extt_read#:#3. fél szoftverbeállításaihoz hozzáférés
+rbac#:#extt_read#:#3. fél szoftverbeállításaihoz hozzáférés
 common#:#extt_remark#:#A fent felsorolt szolgáltatások nem részei az ILIAS-nak, és nem esnek az ILIAS nyílt forrású licenszegyezmény alá.
 common#:#extt_title_configure#:#Külső szoftver konfigurálása
-common#:#extt_visible#:#3. fél szoftverbeállításai láthatók
-common#:#extt_write#:#3. fél szoftverének konfigurálása
+rbac#:#extt_visible#:#3. fél szoftverbeállításai láthatók
+rbac#:#extt_write#:#3. fél szoftverének konfigurálása
 common#:#failure_message#:#Hibaüzenet
 common#:#faq_exercise#:#GYIK gyakorlat
 common#:#fax#:#Fax

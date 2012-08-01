@@ -1777,15 +1777,15 @@ common#:#advanced_editing_settings#:#Gelişmiş Düzenleme Ayarları
 common#:#advanced_editing_survey_settings#:#ILIAS anket aracı için HTML etiketlerine izin verildi
 common#:#advanced_editing_tinymce#:#TinyMCE Editörü
 common#:#adve_assessment_settings#:#Test ve Değerlendirme Ayarları
-common#:#adve_edit_permission#:#Yetki Ayarlarını Değiştir
+rbac#:#adve_edit_permission#:#Yetki Ayarlarını Değiştir
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Genel Ayarlar
 common#:#adve_lm_settings#:#Öğrenme Modülü / Sözlükçe Ayarları
-common#:#adve_read#:#Gelişmiş Düzenleme Yönetimine Erişim
+rbac#:#adve_read#:#Gelişmiş Düzenleme Yönetimine Erişim
 common#:#adve_rep_settings#:#Repository Settings
 common#:#adve_survey_settings#:#Anket Ayarları
-common#:#adve_visible#:#Gelişmiş Düzenleme Yönetimi Görünür Halde
-common#:#adve_write#:#Gelişmiş Düzenleme Yönetimi
+rbac#:#adve_visible#:#Gelişmiş Düzenleme Yönetimi Görünür Halde
+rbac#:#adve_write#:#Gelişmiş Düzenleme Yönetimi
 common#:#agree_date#:#Şu konuda hemfikir
 common#:#all_authors#:#Tüm yazarlar
 common#:#all_commands#:#All Commands
@@ -1868,11 +1868,11 @@ common#:#assessment_use_javascript#:#JavaScript for Drag & Drop
 common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
-common#:#assf_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#assf_edit_permission#:#İzin ayarlarını değiştir
 common#:#assf_questiontypes#:#Question Settings
-common#:#assf_read#:#Test ve Değerlendirme Yönetimine Erişim
-common#:#assf_visible#:#Test ve Değerlendirme yönetimi görünür halde
-common#:#assf_write#:#Test ve Değerlendirme yönetimini düzenle
+rbac#:#assf_read#:#Test ve Değerlendirme Yönetimine Erişim
+rbac#:#assf_visible#:#Test ve Değerlendirme yönetimi görünür halde
+rbac#:#assf_write#:#Test ve Değerlendirme yönetimini düzenle
 common#:#assign#:#Ata
 common#:#assign_global_role#:#Genel Role ata
 common#:#assign_lo_forum#:#LO Forumu ata
@@ -1906,7 +1906,7 @@ common#:#auth_create_users#:#Mevcut olmayan kullanıcıları otomatik olarak olu
 common#:#auth_default#:#Varsayılan ayar
 common#:#auth_default_mode_changed_to#:#Varsayılan doğrulama modu şuna değiştirildi:
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#auth_edit_permission#:#İzin ayarlarını değiştir
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Kullanıcıları LDAP sunucu vasıtasıyla doğrula
 common#:#auth_ldap_enable#:#LDAP desteğini etkinleştir
@@ -1933,7 +1933,7 @@ common#:#auth_radius_server#:#Sunucular
 common#:#auth_radius_server_desc#:#Virgülle ayrılmış birden fazla sunucu ekleyebilirsiniz. Sorgulandıklarında sunucular sırayla devreye girer.
 common#:#auth_radius_settings_saved#:#RADIUS ayarları kaydedildi
 common#:#auth_radius_shared_secret#:#Paylaşılan sır
-common#:#auth_read#:#Doğrulama ayarlarına erişim
+rbac#:#auth_read#:#Doğrulama ayarlarına erişim
 common#:#auth_remark_non_local_auth#:#ILIAS veritabanı dışında bir doğrulama modu seçerseniz bir daha kullanıcının kullanıcı adını ve parolasını değiştiremezsiniz.
 common#:#auth_role_auth_mode#:#Doğrulama modu
 common#:#auth_script#:#Özel
@@ -1962,8 +1962,8 @@ common#:#auth_soap_use_https#:#HTTPS Kullan
 common#:#auth_soap_user_default_role#:#SOAP ile doğrulanan kullanıcılara atanan varsayılan rol
 common#:#auth_soap_user_default_role_desc#:#Bu rol, otomatik olarak oluşturulan SOAP kullanıcılarına verilir.
 common#:#auth_user_default_role#:#Varsayılan Rol
-common#:#auth_visible#:#Doğrulama ayarları görünür halde
-common#:#auth_write#:#Doğrulama ayarlarını düzenle
+rbac#:#auth_visible#:#Doğrulama ayarları görünür halde
+rbac#:#auth_write#:#Doğrulama ayarlarını düzenle
 common#:#authenticate_ilias#:#ILIAS Native Authentication
 common#:#authenticate_with#:#Login to:
 common#:#authentication_settings#:#Doğrulama
@@ -2106,10 +2106,10 @@ common#:#censorship#:#Sansür
 common#:#centra_account#:#Centra Yönetici Hesabı
 common#:#centra_rooms#:#Centra Odaları
 common#:#centra_server#:#Centra Sunucusu
-common#:#cert_edit_permission#:#Change permission settings
-common#:#cert_read#:#Read access to Certificate Settings
-common#:#cert_visible#:#Certificate Settings are visible
-common#:#cert_write#:#Edit Certificate Settings
+rbac#:#cert_edit_permission#:#Change permission settings
+rbac#:#cert_read#:#Read access to Certificate Settings
+rbac#:#cert_visible#:#Certificate Settings are visible
+rbac#:#cert_write#:#Edit Certificate Settings
 common#:#certificate#:#Certificate
 common#:#chac_edit_permission#:#İzin ayarlarını değiştir
 common#:#chac_read#:#Sohbet ayarlarına okuma erişimi
@@ -2474,7 +2474,7 @@ common#:#edit_page#:#Sayfayı Düzenle
 common#:#edit_page_content#:#Sayfa İçeriğini Düzenle
 common#:#edit_perm_ruleset#:#Varsayılan yetki kurallarını düzenle
 common#:#edit_properties#:#Özellikleri Düzenle
-common#:#edit_roleassignment#:#Rol atamalarını düzenle
+rbac#:#edit_roleassignment#:#Rol atamalarını düzenle
 common#:#edit_stylesheet#:#Biçem Düzenle
 common#:#edited_at#:#Şurada düzenlendi:
 common#:#editor#:#Düzenleyen
@@ -2622,7 +2622,7 @@ common#:#ext_acccount_required#:#Please enter the name of the external account.
 common#:#ext_cat_settings#:#Edit Advanced Category Settings
 common#:#ext_link#:#Link
 common#:#extt_configure#:#yapılandır...
-common#:#extt_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#extt_edit_permission#:#İzin ayarlarını değiştir
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Ek Seçenekler
 common#:#extt_ilinc_akclassvalues_active#:#Maliyet merkezlerini etkinleştir
@@ -2641,11 +2641,11 @@ common#:#extt_ilinc_server#:#Sunucu
 common#:#extt_ilinc_settings_saved#:#LearnLinc ayarları kaydedildi
 common#:#extt_ilinc_timeout#:#Sunucunun yanıt vermesi için beklenecek maksimum süre
 common#:#extt_name#:#Yazılım/Hizmet
-common#:#extt_read#:#Üçüncü parti yazılım ayarlarına erişin
+rbac#:#extt_read#:#Üçüncü parti yazılım ayarlarına erişin
 common#:#extt_remark#:#Yukarıda listelenen yazılım ve hizmetlerin hiçbiri ILIAS’ın bir parçası olmayıp ILIAS açık kaynak lisans sözleşmesine dahil değildir.
 common#:#extt_title_configure#:#Dış yazılım yapılandır
-common#:#extt_visible#:#Üçüncü parti yazılım ayarları görünür halde
-common#:#extt_write#:#Üçüncü parti yazılımı yapılandır
+rbac#:#extt_visible#:#Üçüncü parti yazılım ayarları görünür halde
+rbac#:#extt_write#:#Üçüncü parti yazılımı yapılandır
 common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#SSS Alıştırması
 common#:#fax#:#Faks

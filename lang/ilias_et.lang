@@ -974,13 +974,13 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & Assessment Settings
-common#:#adve_edit_permission#:#Change Permission Settings
+rbac#:#adve_edit_permission#:#Change Permission Settings
 common#:#adve_general_settings#:#Üldised seaded
 common#:#adve_lm_settings#:#LM / Glossary Settings
-common#:#adve_read#:#Access Advanced Editing Administration
+rbac#:#adve_read#:#Access Advanced Editing Administration
 common#:#adve_survey_settings#:#Survey Settings
-common#:#adve_visible#:#Advanced Editing Administration is Visible
-common#:#adve_write#:#Advanced Editing Administration
+rbac#:#adve_visible#:#Advanced Editing Administration is Visible
+rbac#:#adve_write#:#Advanced Editing Administration
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#Kõik autorid
 common#:#all_global_roles#:#Üldised rollid
@@ -1039,10 +1039,10 @@ common#:#assessment_log_user_answer#:#User answered a question
 common#:#assessment_log_user_answers#:#Show user actions
 common#:#assessment_settings#:#Test&Assessment Administration Settings
 common#:#assessment_settings_reporting_language#:#Reporting language
-common#:#assf_edit_permission#:#Change permission settings
-common#:#assf_read#:#Access Test&Assessment Administration
-common#:#assf_visible#:#Test&Assessment administration is visible
-common#:#assf_write#:#Edit Test&Assessment administration
+rbac#:#assf_edit_permission#:#Change permission settings
+rbac#:#assf_read#:#Access Test&Assessment Administration
+rbac#:#assf_visible#:#Test&Assessment administration is visible
+rbac#:#assf_write#:#Edit Test&Assessment administration
 common#:#assign#:#Assign
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_lo_forum#:#Assign LO Forum
@@ -1073,7 +1073,7 @@ common#:#auth_configure#:#configure...
 common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_default#:#Vaikimisi seadmine
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
-common#:#auth_edit_permission#:#Change permission settings
+rbac#:#auth_edit_permission#:#Change permission settings
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_enable#:#Enable LDAP support
@@ -1097,7 +1097,7 @@ common#:#auth_radius_server#:#Servers
 common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.
 common#:#auth_radius_settings_saved#:#RADIUS settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
-common#:#auth_read#:#Access authentication settings
+rbac#:#auth_read#:#Access authentication settings
 common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
 common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_script#:#Custom
@@ -1123,8 +1123,8 @@ common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
 common#:#auth_user_default_role#:#Roll vaikimisi
-common#:#auth_visible#:#Authentication settings are visible
-common#:#auth_write#:#Edit authentication settings
+rbac#:#auth_visible#:#Authentication settings are visible
+rbac#:#auth_write#:#Edit authentication settings
 common#:#authentication_settings#:#Authentication
 common#:#author#:#Autor
 common#:#authors#:#Autorid
@@ -1478,7 +1478,7 @@ common#:#edit_page#:#Muuda lehte
 common#:#edit_page_content#:#Edit Page Content
 common#:#edit_perm_ruleset#:#Edit default permission rules
 common#:#edit_properties#:#Muuda seadeid
-common#:#edit_roleassignment#:#Edit role assignment
+rbac#:#edit_roleassignment#:#Edit role assignment
 common#:#edit_stylesheet#:#Muuda stiili
 common#:#edited_at#:#Edited at
 common#:#editor#:#Editor
@@ -1598,7 +1598,7 @@ common#:#export_group_members#:#Ekspordi grupi liikmed (Microsoft Excel)
 common#:#export_html#:#export as HTML file
 common#:#export_xml#:#export as XML file
 common#:#extt_configure#:#configure...
-common#:#extt_edit_permission#:#Change permission settings
+rbac#:#extt_edit_permission#:#Change permission settings
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Lisavalikud
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
@@ -1617,11 +1617,11 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_ilinc_timeout#:#Max time waiting for server response
 common#:#extt_name#:#Software/Service
-common#:#extt_read#:#Access third party software settings
+rbac#:#extt_read#:#Access third party software settings
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.
 common#:#extt_title_configure#:#Configure external software
-common#:#extt_visible#:#Third party software settings are visible
-common#:#extt_write#:#Configure third party software
+rbac#:#extt_visible#:#Third party software settings are visible
+rbac#:#extt_write#:#Configure third party software
 common#:#faq_exercise#:#FAQ Exercise
 common#:#fax#:#Faks
 common#:#feedback#:#Tagasiside
@@ -8598,10 +8598,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable

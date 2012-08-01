@@ -974,13 +974,13 @@ common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
 common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
-common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
+rbac#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
 common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
 common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
-common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
+rbac#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
 common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
-common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
-common#:#adve_write#:#Advanced editing administration###10 Jul 2006 new variable
+rbac#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
+rbac#:#adve_write#:#Advanced editing administration###10 Jul 2006 new variable
 common#:#agree_date#:#Agreed on ### 2006-8-11 --- Add new translation here.
 common#:#all_authors#:#Toti autorii
 common#:#all_global_roles#:#Roluri globale
@@ -1039,10 +1039,10 @@ common#:#assessment_log_user_answer#:#User answered a question ### 2006-8-11 ---
 common#:#assessment_log_user_answers#:#Show user actions ### 2006-8-11 --- Add new translation here.
 common#:#assessment_settings#:#Setari administrative de Testare si Evaluare###23 Dec 2005 content changed
 common#:#assessment_settings_reporting_language#:#Reporting language ### 2006-8-11 --- Add new translation here.
-common#:#assf_edit_permission#:#Schimbati setarile de permisiune
-common#:#assf_read#:#Acces la administrarea Testarii si Evaluarii###23 Dec 2005 content changed
-common#:#assf_visible#:#Administrarea Testarii si Evaluarii aste vizibila
-common#:#assf_write#:#Editati administrarea Testarii si Evaluarii
+rbac#:#assf_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#assf_read#:#Acces la administrarea Testarii si Evaluarii###23 Dec 2005 content changed
+rbac#:#assf_visible#:#Administrarea Testarii si Evaluarii aste vizibila
+rbac#:#assf_write#:#Editati administrarea Testarii si Evaluarii
 common#:#assign#:#Distribuiti
 common#:#assign_global_role#:#Distribuiti  catre rol global###23 Dec 2005 content changed
 common#:#assign_lo_forum#:#Distribuiti Forum Obiecte de Studiu
@@ -1073,7 +1073,7 @@ common#:#auth_configure#:#configure... ### 2006-8-11 --- Add new translation her
 common#:#auth_create_users#:#Create non-existing users automatically###10 Jul 2006 new variable
 common#:#auth_default#:#Default setting ### 2006-8-11 --- Add new translation here.
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to ### 2006-8-11 --- Add new translation here.
-common#:#auth_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#auth_edit_permission#:#Schimbati setarile de permisiune
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autentificati utilizatorii prin server LDAP
 common#:#auth_ldap_enable#:#Enable LDAP support ### 2006-8-11 --- Add new translation here.
@@ -1097,7 +1097,7 @@ common#:#auth_radius_server#:#Servers ### 2006-8-11 --- Add new translation here
 common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried. ### 2006-8-11 --- Add new translation here.
 common#:#auth_radius_settings_saved#:#RADIUS settings saved ### 2006-8-11 --- Add new translation here.
 common#:#auth_radius_shared_secret#:#Shared secret ### 2006-8-11 --- Add new translation here.
-common#:#auth_read#:#Acces la setarile de autentificare
+rbac#:#auth_read#:#Acces la setarile de autentificare
 common#:#auth_remark_non_local_auth#:#Cand selectati un alt mod de autentificare decat cel implicit, login-urile si parolele nu mai pot fi schimbate iar optiunea de a inregistra alti utilizatori este dezafectata.###10 Jul 2006 content changed
 common#:#auth_role_auth_mode#:#Authentication mode ### 2006-8-11 --- Add new translation here.
 common#:#auth_script#:#Normal
@@ -1123,8 +1123,8 @@ common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
 common#:#auth_user_default_role#:#Default Role###10 Jul 2006 new variable
-common#:#auth_visible#:#Setarile de Autentificare sunt vizibile
-common#:#auth_write#:#Editati setarile de autentificare
+rbac#:#auth_visible#:#Setarile de Autentificare sunt vizibile
+rbac#:#auth_write#:#Editati setarile de autentificare
 common#:#authentication_settings#:#Authentication###10 Jul 2006 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autori
@@ -1476,7 +1476,7 @@ common#:#edit_page#:#Edit Page###10 Jul 2006 new variable
 common#:#edit_page_content#:#Edit Page Content###10 Jul 2006 new variable
 common#:#edit_perm_ruleset#:#Editati regulile de permisiune implicite
 common#:#edit_properties#:#Editati Proprietatile
-common#:#edit_roleassignment#:#Editati desemnarea rolurilor
+rbac#:#edit_roleassignment#:#Editati desemnarea rolurilor
 common#:#edit_stylesheet#:#Editati Stil
 common#:#edited_at#:#Editat la
 common#:#editor#:#Editor
@@ -1596,7 +1596,7 @@ common#:#export_group_members#:#Exportati membrii grupului (catre Microsoft Exce
 common#:#export_html#:#Exportati ca fisier HTML
 common#:#export_xml#:#Exportati ca fisier XML
 common#:#extt_configure#:#configure... ### 2006-8-11 --- Add new translation here.
-common#:#extt_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+rbac#:#extt_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
 common#:#extt_ilinc#:#netucate LearnLinc ### 2006-8-11 --- Add new translation here.
 common#:#extt_ilinc_additional_options#:#Additional Options###10 Jul 2006 new variable
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers###10 Jul 2006 new variable
@@ -1615,11 +1615,11 @@ common#:#extt_ilinc_server#:#Server ### 2006-8-11 --- Add new translation here.
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved ### 2006-8-11 --- Add new translation here.
 common#:#extt_ilinc_timeout#:#Max time waiting for server response ### 2006-8-11 --- Add new translation here.
 common#:#extt_name#:#Software/Service ### 2006-8-11 --- Add new translation here.
-common#:#extt_read#:#Access third party software settings ### 2006-8-11 --- Add new translation here.
+rbac#:#extt_read#:#Access third party software settings ### 2006-8-11 --- Add new translation here.
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement. ### 2006-8-11 --- Add new translation here.
 common#:#extt_title_configure#:#Configure external software ### 2006-8-11 --- Add new translation here.
-common#:#extt_visible#:#Third party software settings are visible ### 2006-8-11 --- Add new translation here.
-common#:#extt_write#:#Configure third party software ### 2006-8-11 --- Add new translation here.
+rbac#:#extt_visible#:#Third party software settings are visible ### 2006-8-11 --- Add new translation here.
+rbac#:#extt_write#:#Configure third party software ### 2006-8-11 --- Add new translation here.
 common#:#faq_exercise#:#Exercitiu FAQ
 common#:#fax#:#Fax
 common#:#feedback#:#Feedback
@@ -8598,10 +8598,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable

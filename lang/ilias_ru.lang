@@ -743,10 +743,10 @@ common#:#assessment_log_text#:#Лог сообщения
 common#:#assessment_log_user_answer#:#Пользователь ответил на вопрос
 common#:#assessment_log_user_answers#:#Показать активность пользователя
 common#:#assessment_settings#:#Тест&Оценка Административные установки
-common#:#assf_edit_permission#:#Изменить установки прав
-common#:#assf_read#:#Доступ Тест&Оценка администрирование
-common#:#assf_visible#:#Тест&Оценка администрирование видимы
-common#:#assf_write#:#Редактирование Тест&Оценка администрирование
+rbac#:#assf_edit_permission#:#Изменить установки прав
+rbac#:#assf_read#:#Доступ Тест&Оценка администрирование
+rbac#:#assf_visible#:#Тест&Оценка администрирование видимы
+rbac#:#assf_write#:#Редактирование Тест&Оценка администрирование
 common#:#assign#:#Назначение
 common#:#assign_global_role#:#Назначить глобальный статус
 common#:#assign_lo_forum#:#Назначить LO Форума
@@ -760,7 +760,7 @@ common#:#attachment#:#Присоединение
 common#:#attachments#:#Присоединения
 common#:#attend#:#Сопровождать
 common#:#auth_configure#:#конфигурировать...
-common#:#auth_edit_permission#:#Изменить права установок
+rbac#:#auth_edit_permission#:#Изменить права установок
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Удостоверить пользователей через LDAP Сервер
 common#:#auth_ldap_not_configured#:#LDAP до сих пор не сконфигурирован
@@ -771,13 +771,13 @@ common#:#auth_mode_not_changed#:#(Ничего не изменено)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###15 Jun 2006 new variable
 common#:#auth_radius#:#RADIUS
 common#:#auth_radius_desc#:#Удостоверить пользователей через RADIUS Сервер
-common#:#auth_read#:#Чтение параметров доступа
+rbac#:#auth_read#:#Чтение параметров доступа
 common#:#auth_remark_non_local_auth#:#В случае выбора другой модели доступа, отличной от модели по умолчанию, недоступно изменение логинов пользователей и паролей, и отключена регистрация нового пользователя.
 common#:#auth_script#:#Пользователь
 common#:#auth_script_desc#:#Аутонифицировать пользователей через external script
 common#:#auth_select#:#Выбор модели доступа
-common#:#auth_visible#:#Параметры доступа видимы
-common#:#auth_write#:#Редактировать параметры доступа 
+rbac#:#auth_visible#:#Параметры доступа видимы
+rbac#:#auth_write#:#Редактировать параметры доступа 
 common#:#author#:#Автор
 common#:#authors#:#Авторы
 common#:#auto_registration#:#Автоматическое подтверждение регистрации
@@ -1080,7 +1080,7 @@ common#:#edit_data#:#Редактировать данные
 common#:#edit_operations#:#Редактировать операции
 common#:#edit_perm_ruleset#:#Редактировать параметры статусов
 common#:#edit_properties#:#Редактировать
-common#:#edit_roleassignment#:#Редактировать назначения статусов
+rbac#:#edit_roleassignment#:#Редактировать назначения статусов
 common#:#edit_stylesheet#:#Редактировать стиль
 common#:#edited_at#:#Редактировать в
 common#:#editor#:#Редактор
@@ -5204,7 +5204,7 @@ common#:#enable_custom_icons#:#Enable custom icons###06 09 2006 new variable
 common#:#enable_custom_icons_info#:#This allows to define custom icons for single categories, courses and groups. The properties section of categories, courses and groups will provide an image upload dialog.###06 09 2006 new variable
 common#:#err_no_cookies#:#Please enable session cookies in your browser!###06 09 2006 new variable
 common#:#extt_configure#:#configure...###06 09 2006 new variable
-common#:#extt_edit_permission#:#Change permission settings###06 09 2006 new variable
+rbac#:#extt_edit_permission#:#Change permission settings###06 09 2006 new variable
 common#:#extt_ilinc#:#netucate LearnLinc###06 09 2006 new variable
 common#:#extt_ilinc_customer_id#:#Customer ID###06 09 2006 new variable
 common#:#extt_ilinc_desc#:#Provides virtual classrooms. Commercial service. For an account and further information please contact netucate at www.netucate.com###06 09 2006 new variable
@@ -5216,11 +5216,11 @@ common#:#extt_ilinc_server#:#Server###06 09 2006 new variable
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###06 09 2006 new variable
 common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 09 2006 new variable
 common#:#extt_name#:#Software/Service###06 09 2006 new variable
-common#:#extt_read#:#Access third party software settings###06 09 2006 new variable
+rbac#:#extt_read#:#Access third party software settings###06 09 2006 new variable
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 09 2006 new variable
 common#:#extt_title_configure#:#Configure external software###06 09 2006 new variable
-common#:#extt_visible#:#Third party software settings are visible###06 09 2006 new variable
-common#:#extt_write#:#Configure third party software###06 09 2006 new variable
+rbac#:#extt_visible#:#Third party software settings are visible###06 09 2006 new variable
+rbac#:#extt_write#:#Configure third party software###06 09 2006 new variable
 rbac#:#fold_create_icrs#:#Create LearnLinc Seminar###06 09 2006 new variable
 rbac#:#fold_create_webr#:#Create Web Resource###06 09 2006 new variable
 common#:#forgot_username#:#Forgot username?###06 09 2006 new variable
@@ -5848,13 +5848,13 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings###25 02 2007 new 
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool###25 02 2007 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE Editor###25 02 2007 new variable
 common#:#adve_assessment_settings#:#Test & Assessment Settings###25 02 2007 new variable
-common#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
 common#:#adve_general_settings#:#General Settings###25 02 2007 new variable
 common#:#adve_lm_settings#:#LM / Glossary Settings###25 02 2007 new variable
-common#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
 common#:#adve_survey_settings#:#Survey Settings###25 02 2007 new variable
-common#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
-common#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
+rbac#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
 common#:#all_topics#:#All Topics###25 02 2007 new variable
 common#:#anonymous#:#Anonymous###25 02 2007 new variable
 common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###25 02 2007 new variable
@@ -8598,10 +8598,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable
