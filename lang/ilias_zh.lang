@@ -1633,15 +1633,15 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & Assessment Settings
-common#:#adve_edit_permission#:#Change Permission Settings
+rbac#:#adve_edit_permission#:#Change Permission Settings
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_lm_settings#:#LM / Glossary Settings
-common#:#adve_read#:#Access Advanced Editing Administration
+rbac#:#adve_read#:#Access Advanced Editing Administration
 common#:#adve_rep_settings#:#Repository Settings
 common#:#adve_survey_settings#:#Survey Settings
-common#:#adve_visible#:#Advanced Editing Administration is Visible
-common#:#adve_write#:#Advanced Editing Administration
+rbac#:#adve_visible#:#Advanced Editing Administration is Visible
+rbac#:#adve_write#:#Advanced Editing Administration
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#All authors
 common#:#all_commands#:#All Commands
@@ -1724,11 +1724,11 @@ common#:#assessment_use_javascript#:#JavaScript for Drag & Drop
 common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag&drop actions by default for the first time
 common#:#assf_allowed_questiontypes#:#Available Question Types
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
-common#:#assf_edit_permission#:#Change permission settings
+rbac#:#assf_edit_permission#:#Change permission settings
 common#:#assf_questiontypes#:#Question Settings
-common#:#assf_read#:#Access Test&Assessment administration
-common#:#assf_visible#:#Test&Assessment administration is visible
-common#:#assf_write#:#Edit Test&Assessment administration
+rbac#:#assf_read#:#Access Test&Assessment administration
+rbac#:#assf_visible#:#Test&Assessment administration is visible
+rbac#:#assf_write#:#Edit Test&Assessment administration
 common#:#assign#:#指定
 common#:#assign_global_role#:#Assign to global role
 common#:#assign_lo_forum#:#指定学习对象论坛
@@ -1762,7 +1762,7 @@ common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_default#:#Default setting
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Change permission settings
+rbac#:#auth_edit_permission#:#Change permission settings
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_enable#:#Enable LDAP support
@@ -1788,7 +1788,7 @@ common#:#auth_radius_server#:#Servers
 common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.
 common#:#auth_radius_settings_saved#:#RADIUS settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
-common#:#auth_read#:#Access	authentication settings
+rbac#:#auth_read#:#Access	authentication settings
 common#:#auth_remark_non_local_auth#:#When selecting another authentication mode except default mode user logins and passwords cannot be changed anymore and the new registration option is disabled.
 common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_script#:#Custom
@@ -1817,8 +1817,8 @@ common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
 common#:#auth_user_default_role#:#Default Role
-common#:#auth_visible#:#Authentication settings are visible
-common#:#auth_write#:#Edit authentication settings
+rbac#:#auth_visible#:#Authentication settings are visible
+rbac#:#auth_write#:#Edit authentication settings
 common#:#authenticate_ilias#:#Login to ILIAS
 common#:#authenticate_with#:#Login to:
 common#:#authentication_settings#:#Authentication
@@ -1955,10 +1955,10 @@ common#:#censorship#:#审查
 common#:#centra_account#:#Centra Admin Account
 common#:#centra_rooms#:#Centra Rooms
 common#:#centra_server#:#Centra Server
-common#:#cert_edit_permission#:#Change permission settings
-common#:#cert_read#:#Read access to Certificate Settings
-common#:#cert_visible#:#Certificate Settings are visible
-common#:#cert_write#:#Edit Certificate Settings
+rbac#:#cert_edit_permission#:#Change permission settings
+rbac#:#cert_read#:#Read access to Certificate Settings
+rbac#:#cert_visible#:#Certificate Settings are visible
+rbac#:#cert_write#:#Edit Certificate Settings
 common#:#certificate#:#Certificate
 common#:#chac_edit_permission#:#Change permission settings
 common#:#chac_read#:#Read access to chat settings
@@ -2298,7 +2298,7 @@ common#:#edit_page#:#Edit Page
 common#:#edit_page_content#:#Edit Page Content
 common#:#edit_perm_ruleset#:#Edit default permission rules
 common#:#edit_properties#:#编辑属性
-common#:#edit_roleassignment#:#Edit role assignment
+rbac#:#edit_roleassignment#:#Edit role assignment
 common#:#edit_stylesheet#:#编辑风格
 common#:#edited_at#:#编辑于
 common#:#editor#:#编辑器
@@ -2442,7 +2442,7 @@ common#:#ext_acccount_required#:#Please enter the name of the external account.
 common#:#ext_cat_settings#:#Edit Advanced Category Settings
 common#:#ext_link#:#Link
 common#:#extt_configure#:#configure...
-common#:#extt_edit_permission#:#Change permission settings
+rbac#:#extt_edit_permission#:#Change permission settings
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Additional Options
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
@@ -2461,11 +2461,11 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_ilinc_timeout#:#Max time waiting for server response
 common#:#extt_name#:#Software/Service
-common#:#extt_read#:#Access third party software settings
+rbac#:#extt_read#:#Access third party software settings
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.
 common#:#extt_title_configure#:#Configure external software
-common#:#extt_visible#:#Third party software settings are visible
-common#:#extt_write#:#Configure third party software
+rbac#:#extt_visible#:#Third party software settings are visible
+rbac#:#extt_write#:#Configure third party software
 common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#常见问题解答　练习
 common#:#fax#:#传真

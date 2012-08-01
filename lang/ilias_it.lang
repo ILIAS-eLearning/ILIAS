@@ -1645,15 +1645,15 @@ common#:#advanced_editing_settings#:#Advanced editing settings
 common#:#advanced_editing_survey_settings#:#Tag HTML consentiti per lo strumento per i sondaggi di ILIAS
 common#:#advanced_editing_tinymce#:#TinyMCE editor
 common#:#adve_assessment_settings#:#Test&Assessment settings
-common#:#adve_edit_permission#:#Modifica Impostazioni dei Permessi
+rbac#:#adve_edit_permission#:#Modifica Impostazioni dei Permessi
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Impostazioni Generali
 common#:#adve_lm_settings#:#LM / Glossary Settings
-common#:#adve_read#:#Gestione avanzata dell'amministrazione
+rbac#:#adve_read#:#Gestione avanzata dell'amministrazione
 common#:#adve_rep_settings#:#Repository Settings
 common#:#adve_survey_settings#:#Survey settings
-common#:#adve_visible#:#L'amministrazione avanzata dell'Editing è visibile
-common#:#adve_write#:#Amministrazione Avanzata Editing
+rbac#:#adve_visible#:#L'amministrazione avanzata dell'Editing è visibile
+rbac#:#adve_write#:#Amministrazione Avanzata Editing
 common#:#agree_date#:#Accettato il
 common#:#all_authors#:#tutti gli utenti
 common#:#all_commands#:#All Commands
@@ -1736,11 +1736,11 @@ common#:#assessment_use_javascript#:#JavaScript for Drag & Drop
 common#:#assessment_use_javascript_desc#:#Attiva l'output predefinito JavaScript per le azioni drag&drop per la prima volta
 common#:#assf_allowed_questiontypes#:#Tipi di Domande disponibili
 common#:#assf_allowed_questiontypes_desc#:#Tutte le domande selezionate saranno disponibili in questa installazione di ILIAS. Se non vuoi consentire la creazione di un certo tipo di domande devi rimuovere la selezione della casella di spunta associata.
-common#:#assf_edit_permission#:#Modificare i permessi
+rbac#:#assf_edit_permission#:#Modificare i permessi
 common#:#assf_questiontypes#:#Question Settings
-common#:#assf_read#:#Accedere in lettura alla Amministrazione di Test e Valutazioni
-common#:#assf_visible#:#Vedere Test&Valutazioni
-common#:#assf_write#:#Modificare Test&Valutazioni
+rbac#:#assf_read#:#Accedere in lettura alla Amministrazione di Test e Valutazioni
+rbac#:#assf_visible#:#Vedere Test&Valutazioni
+rbac#:#assf_write#:#Modificare Test&Valutazioni
 common#:#assign#:#Accetta
 common#:#assign_global_role#:#Assegnato ad un ruolo globale
 common#:#assign_lo_forum#:#Assegna al forum
@@ -1774,7 +1774,7 @@ common#:#auth_create_users#:#Creare utenti non-esistenti automaticamente
 common#:#auth_default#:#Impostazioni predefinite
 common#:#auth_default_mode_changed_to#:#Modificato il tipo di autenticazione predefinito in
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Modificare la modalit&#224; di autenticazione
+rbac#:#auth_edit_permission#:#Modificare la modalit&#224; di autenticazione
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticazione degli utenti tramite server LDAP
 common#:#auth_ldap_enable#:#Abilita il supporto LDAP
@@ -1800,7 +1800,7 @@ common#:#auth_radius_server#:#Server
 common#:#auth_radius_server_desc#:#E&#039; possibile definire pi&#249; un server (utilizzare la virgola come separatore). I server vengono interrogati a rotazione con un meccanismo Round robin.
 common#:#auth_radius_settings_saved#:#Salvate impostazioni del RADIUS
 common#:#auth_radius_shared_secret#:#Condivisione password
-common#:#auth_read#:#Accedere in lettura alla modalita' di autenticazione
+rbac#:#auth_read#:#Accedere in lettura alla modalita' di autenticazione
 common#:#auth_remark_non_local_auth#:#Quando selezioni un&#039;altra modalit&#224; di autenticazione diversa da quella predefinita, nome utente e password non possono essere cambiate e l&#039;opzione nuova registrazione &#232; disabilitata.
 common#:#auth_role_auth_mode#:#Modalit&#224; di autenticazione
 common#:#auth_script#:#Personale
@@ -1829,8 +1829,8 @@ common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Ruolo di Default assegnato agli utenti autenticati SOAP
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
 common#:#auth_user_default_role#:#Ruolo di default
-common#:#auth_visible#:#Vedere la modalit&#224; di autenticazione
-common#:#auth_write#:#Modificare la modalit&#224; di autenticazione
+rbac#:#auth_visible#:#Vedere la modalit&#224; di autenticazione
+rbac#:#auth_write#:#Modificare la modalit&#224; di autenticazione
 common#:#authenticate_ilias#:#Login to ILIAS
 common#:#authenticate_with#:#Login to:
 common#:#authentication_settings#:#Authentication
@@ -1967,10 +1967,10 @@ common#:#censorship#:#Moderatore
 common#:#centra_account#:#Amministratore principale
 common#:#centra_rooms#:#Stanze principali
 common#:#centra_server#:#Server principale
-common#:#cert_edit_permission#:#Modifica impostazioni dei permessi
-common#:#cert_read#:#Read access to Certificate Settings
-common#:#cert_visible#:#Impostazioni di Certificato visibili
-common#:#cert_write#:#Modifica le impostazioni di Certificato
+rbac#:#cert_edit_permission#:#Modifica impostazioni dei permessi
+rbac#:#cert_read#:#Read access to Certificate Settings
+rbac#:#cert_visible#:#Impostazioni di Certificato visibili
+rbac#:#cert_write#:#Modifica le impostazioni di Certificato
 common#:#certificate#:#Certificato
 common#:#chac_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#chac_read#:#Accedere in lettura alle impostazioni della chat
@@ -2311,7 +2311,7 @@ common#:#edit_page#:#Modifica Pagina
 common#:#edit_page_content#:#Modfiica il Contenuto della Pagina
 common#:#edit_perm_ruleset#:#Modificare le regole predefinite dei permessi
 common#:#edit_properties#:#Propriet&#224;
-common#:#edit_roleassignment#:#Modifica l&#039;assegnamento dei ruoli
+rbac#:#edit_roleassignment#:#Modifica l&#039;assegnamento dei ruoli
 common#:#edit_stylesheet#:#Modifica lo stile
 common#:#edited_at#:#Modifica a
 common#:#editor#:#Editor
@@ -2455,7 +2455,7 @@ common#:#ext_acccount_required#:#Please enter the name of the external account.
 common#:#ext_cat_settings#:#Modifica Impostazioni per le Categorie Avanzate
 common#:#ext_link#:#Link
 common#:#extt_configure#:#configura ...
-common#:#extt_edit_permission#:#Modifica le impostazioni dei permessi
+rbac#:#extt_edit_permission#:#Modifica le impostazioni dei permessi
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Opzioni aggiuntive
 common#:#extt_ilinc_akclassvalues_active#:#Abilita i centri di costo
@@ -2474,11 +2474,11 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#Impostazioni LearnLinc salvate
 common#:#extt_ilinc_timeout#:#Tempo massimo di attesa di una risposta dal server
 common#:#extt_name#:#Software/Servizi
-common#:#extt_read#:#Accedere alle impostazioni del software di una terza parte
+rbac#:#extt_read#:#Accedere alle impostazioni del software di una terza parte
 common#:#extt_remark#:#Tutto il software ed i servizi indicati sopra non fanno parte di ILIAS e non sono sottoposti allo stesso tipo licenza Open Source di ILIAS.
 common#:#extt_title_configure#:#Configura software esterno
-common#:#extt_visible#:#Vedere le impostazioni del software di terze parti
-common#:#extt_write#:#Modificare le impostazioni del software di terze parti
+rbac#:#extt_visible#:#Vedere le impostazioni del software di terze parti
+rbac#:#extt_write#:#Modificare le impostazioni del software di terze parti
 common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#FAQ/Esercitazioni
 common#:#fax#:#Fax

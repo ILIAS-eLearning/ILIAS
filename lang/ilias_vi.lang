@@ -879,10 +879,10 @@ common#:#assessment_log_user_answer#:#Người sử dụng đã trả lời mộ
 common#:#assessment_log_user_answers#:#Hiện các hoạt động của người sử dụng
 common#:#assessment_settings#:#Thiết lập quản trị kiểm tra&đánh giá
 common#:#assessment_settings_reporting_language#:#Ngôn ngữ báo cáo
-common#:#assf_edit_permission#:#Thay đổi thiết lập quyền hạn
-common#:#assf_read#:#Truy cập quản trị kiểm tra&đánh giá
-common#:#assf_visible#:#Nhìn thấy quản trị kiểm tra&đánh giá
-common#:#assf_write#:#Sửa quản trị kiểm tra&đánh giá
+rbac#:#assf_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#assf_read#:#Truy cập quản trị kiểm tra&đánh giá
+rbac#:#assf_visible#:#Nhìn thấy quản trị kiểm tra&đánh giá
+rbac#:#assf_write#:#Sửa quản trị kiểm tra&đánh giá
 common#:#assign#:#Chỉ định
 common#:#assign_global_role#:#Chỉ định vai trò toàn cục
 common#:#assign_lo_forum#:#Chỉ định LO Forum
@@ -901,7 +901,7 @@ common#:#auth_active_roles#:#Kích hoạt vai trò toàn cục để đăng ký
 common#:#auth_configure#:#cấu hình...
 common#:#auth_default#:#Thiết lập mặc định
 common#:#auth_default_mode_changed_to#:#Phương thức xác thực mặc định thay đổi thành
-common#:#auth_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#auth_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Xác thực người sử dụng qua máy chủ LDAP
 common#:#auth_ldap_enable#:#Cho phép hỗ trợ LDAP
@@ -922,7 +922,7 @@ common#:#auth_radius_server#:#Máy chủ
 common#:#auth_radius_server_desc#:#Bạn có thể thêm nhiều máy chủ phân tách bằng dấu phẩy. Máy chủ được xoay vòng trong Round robin fashion khi được truy vấn.
 common#:#auth_radius_settings_saved#:#Đã ghi thiết lập RADIUS
 common#:#auth_radius_shared_secret#:#Bí mật được chia sẻ
-common#:#auth_read#:#Truy cập thiết lập xác thực
+rbac#:#auth_read#:#Truy cập thiết lập xác thực
 common#:#auth_remark_non_local_auth#:#Khi chọn một phương thức xác thực khác phương thức mặc định, tên đăng nhập của người sử dụng và mật khẩu không thể thay đổi và tùy chọn đăng ký mới người sử dụng bị khóa.
 common#:#auth_role_auth_mode#:#Phương thức xác thực
 common#:#auth_script#:#Theo ý khách hàng
@@ -932,8 +932,8 @@ common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Xác thực người sử dụng thông qua Shibboleth, có thể sử dụng như phương thức xác thực thứ hai
 common#:#auth_shib_not_configured#:#Chưa cấu hình Shibboleth
 common#:#auth_shibboleth#:#Shibboleth
-common#:#auth_visible#:#Nhìn thấy thiết lập xác thực
-common#:#auth_write#:#Sửa thiết lập xác thực
+rbac#:#auth_visible#:#Nhìn thấy thiết lập xác thực
+rbac#:#auth_write#:#Sửa thiết lập xác thực
 common#:#author#:#Tác giả
 common#:#authors#:#Các tác giả
 common#:#auto_registration#:#Tự động phê chuẩn đăng ký
@@ -1266,7 +1266,7 @@ common#:#edit_data#:#sửa dữ liệu
 common#:#edit_operations#:#Sửa thao tác
 common#:#edit_perm_ruleset#:#Sửa quyền hạn mặc định của vai trò
 common#:#edit_properties#:#Sửa thuộc tính
-common#:#edit_roleassignment#:#Sửa vai trò chỉ định
+rbac#:#edit_roleassignment#:#Sửa vai trò chỉ định
 common#:#edit_stylesheet#:#Sửa giao diện
 common#:#edited_at#:#Đã sửa tại
 common#:#editor#:#Người soạn thảo
@@ -1358,7 +1358,7 @@ common#:#export_group_members#:#Xuất thành viên của nhóm (sang Microsoft 
 common#:#export_html#:#xuất ra dạng HTML
 common#:#export_xml#:#xuất ra dạng XML
 common#:#extt_configure#:#cấu hình...
-common#:#extt_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#extt_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_configure#:#Cấu hình LearnLinc
 common#:#extt_ilinc_customer_id#:#ID khách hàng
@@ -1371,11 +1371,11 @@ common#:#extt_ilinc_server#:#Máy chủ
 common#:#extt_ilinc_settings_saved#:#Đã ghi thiết lập LearnLinc
 common#:#extt_ilinc_timeout#:#Thời gian tối đa chờ trả lời của máy chủ
 common#:#extt_name#:#Phần mềm/Dịch vụ
-common#:#extt_read#:#Truy cập thiết lập phần mềm bên thứ ba
+rbac#:#extt_read#:#Truy cập thiết lập phần mềm bên thứ ba
 common#:#extt_remark#:#Tất cả phần mềm và dịch vụ được liệt kê ở trên không phải là một phần của ILIAS và không theo thảo thuận sử dụng của ILIAS.
 common#:#extt_title_configure#:#Cấu hình phần mềm bên ngoài
-common#:#extt_visible#:#Thiết lập phần mềm bên thứ ba nhìn thấy được
-common#:#extt_write#:#Cấu hình phần mềm bên thứ ba
+rbac#:#extt_visible#:#Thiết lập phần mềm bên thứ ba nhìn thấy được
+rbac#:#extt_write#:#Cấu hình phần mềm bên thứ ba
 common#:#faq_exercise#:#Các câu hỏi thường gặp liên quan đến bài tập
 common#:#fax#:#Fax
 common#:#feedback#:#Phản hồi
@@ -5850,13 +5850,13 @@ common#:#advanced_editing_settings#:#Advanced Editing Settings###25 02 2007 new 
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool###25 02 2007 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE Editor###25 02 2007 new variable
 common#:#adve_assessment_settings#:#Test & Assessment Settings###25 02 2007 new variable
-common#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#adve_edit_permission#:#Change Permission Settings###25 02 2007 new variable
 common#:#adve_general_settings#:#General Settings###25 02 2007 new variable
 common#:#adve_lm_settings#:#LM / Glossary Settings###25 02 2007 new variable
-common#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_read#:#Access Advanced Editing Administration###25 02 2007 new variable
 common#:#adve_survey_settings#:#Survey Settings###25 02 2007 new variable
-common#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
-common#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
+rbac#:#adve_visible#:#Advanced Editing Administration is Visible###25 02 2007 new variable
+rbac#:#adve_write#:#Advanced Editing Administration###25 02 2007 new variable
 common#:#all_topics#:#All Topics###25 02 2007 new variable
 common#:#anonymous#:#Anonymous###25 02 2007 new variable
 common#:#assessment_log_deleted#:#The Test & Assessment log data has been deleted in the administration###25 02 2007 new variable
@@ -8600,10 +8600,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable

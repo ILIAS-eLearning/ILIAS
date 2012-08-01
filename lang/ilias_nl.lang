@@ -1815,15 +1815,15 @@ common#:#advanced_editing_settings#:#Geavanceerde opties aanpassen
 common#:#advanced_editing_survey_settings#:#HTML tags voor ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE editor
 common#:#adve_assessment_settings#:#Test&Assessment instellingen
-common#:#adve_edit_permission#:# Verander instellingen van de rechten
+rbac#:#adve_edit_permission#:# Verander instellingen van de rechten
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#Algemene instellingen
 common#:#adve_lm_settings#:#LM / Woordenlijst instellingen
-common#:#adve_read#:#Geavanceerde bewerkings-beheer benaderen
+rbac#:#adve_read#:#Geavanceerde bewerkings-beheer benaderen
 common#:#adve_rep_settings#:#Studiecentrum instellingen
 common#:#adve_survey_settings#:#Survey instellingen
-common#:#adve_visible#:#Geavanceerde administrator instellingen is zichtbaar
-common#:#adve_write#:#Geavanceerde administrator instellingen
+rbac#:#adve_visible#:#Geavanceerde administrator instellingen is zichtbaar
+rbac#:#adve_write#:#Geavanceerde administrator instellingen
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#Alle auteurs
 common#:#all_commands#:#All Commands
@@ -1906,11 +1906,11 @@ common#:#assessment_use_javascript#:#JavaScript voor Drag & Drop
 common#:#assessment_use_javascript_desc#:#Activeerd JavaScript uitvoer voor drag&drop acties
 common#:#assf_allowed_questiontypes#:#Beschikbare vraagtypes
 common#:#assf_allowed_questiontypes_desc#:#Alle gecontroleerde vraagtypes zullen in deze installatie beschikbaar zijn. Als u niet de verwezenlijking van een bepaald vraagtype in deze installatie wilt toestaan, moet u de selectie in de bijbehorende checkbox verwijderen.
-common#:#assf_edit_permission#:# Verander instellingen van de rechten
+rbac#:#assf_edit_permission#:# Verander instellingen van de rechten
 common#:#assf_questiontypes#:#Vraaginstellingen
-common#:#assf_read#:#Test- en assessmentbeheer benaderen
-common#:#assf_visible#:#Test- en assessment-beheer is zichtbaar
-common#:#assf_write#:#Test- en assessment-beheer bewerken
+rbac#:#assf_read#:#Test- en assessmentbeheer benaderen
+rbac#:#assf_visible#:#Test- en assessment-beheer is zichtbaar
+rbac#:#assf_write#:#Test- en assessment-beheer bewerken
 common#:#assign#:#Toewijzen
 common#:#assign_global_role#:#Toewijzen aan een globale rol
 common#:#assign_lo_forum#:#Leerobject forum toewijzen
@@ -1944,7 +1944,7 @@ common#:#auth_create_users#:#Creëer automatisch gebruikers
 common#:#auth_default#:#Standaard instellingen
 common#:#auth_default_mode_changed_to#:#Standaard authentificatie methode gewijzigd in
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#auth_edit_permission#:#Wijzig instellingen van de rechten
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authenticatie gebruiker via LDAP server
 common#:#auth_ldap_enable#:#LDAP ondersteuning
@@ -1971,7 +1971,7 @@ common#:#auth_radius_server#:#Servers
 common#:#auth_radius_server_desc#:#U kan meerdere servers toevoegen, gescheiden door een komma.
 common#:#auth_radius_settings_saved#:#RADIUS instellingen bewaard
 common#:#auth_radius_shared_secret#:#Gedeeld geheim
-common#:#auth_read#:#Authenticatie-instellingen benaderen
+rbac#:#auth_read#:#Authenticatie-instellingen benaderen
 common#:#auth_remark_non_local_auth#:#Wanneer u een andere authenticiteit modus kiest dan de standaard modus kunnen gebruikersnamen en wachtwoorden niet meer gewijzigd worden en de optie om nieuwe gebruikers te registreren wordt uitgeschakeld.
 common#:#auth_role_auth_mode#:#Authentificatie mode
 common#:#auth_script#:#Door gebruiker gedefinieerd
@@ -2000,8 +2000,8 @@ common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Rol assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
 common#:#auth_user_default_role#:#Rol
-common#:#auth_visible#:#Authentificatie instellingen zijn zichtbaar
-common#:#auth_write#:#Wijzig authentificatie instellingen
+rbac#:#auth_visible#:#Authentificatie instellingen zijn zichtbaar
+rbac#:#auth_write#:#Wijzig authentificatie instellingen
 common#:#authenticate_ilias#:#Aanmelden bij ILIAS
 common#:#authenticate_with#:#Aanmelden bij:
 common#:#authentication_settings#:#Authentificatie instellingen
@@ -2143,10 +2143,10 @@ common#:#censorship#:#Censuur
 common#:#centra_account#:#Centra Admin gebruiker
 common#:#centra_rooms#:#Centra Ruimtes
 common#:#centra_server#:#Centra-server
-common#:#cert_edit_permission#:#Change permission settings
-common#:#cert_read#:#Read access to Certificate Settings
-common#:#cert_visible#:#Certificate Settings are visible
-common#:#cert_write#:#Edit Certificate Settings
+rbac#:#cert_edit_permission#:#Change permission settings
+rbac#:#cert_read#:#Read access to Certificate Settings
+rbac#:#cert_visible#:#Certificate Settings are visible
+rbac#:#cert_write#:#Edit Certificate Settings
 common#:#certificate#:#Certificaat
 common#:#chac_edit_permission#:#Wijzig instellingen van de rechten
 common#:#chac_read#:#Leesrechten op Chat-instellingen
@@ -2511,7 +2511,7 @@ common#:#edit_page#:#Wijzig pagina
 common#:#edit_page_content#:#Wijzig pagina inhoud
 common#:#edit_perm_ruleset#:#Wijzig standaard rechtenregels
 common#:#edit_properties#:#Eigenschappen wijzigen
-common#:#edit_roleassignment#:#Wijzig roltaak
+rbac#:#edit_roleassignment#:#Wijzig roltaak
 common#:#edit_stylesheet#:#Wijzig stijl
 common#:#edited_at#:#Gewijzigd op
 common#:#editor#:#Auteur
@@ -2660,7 +2660,7 @@ common#:#ext_acccount_required#:#Gelieve de naam in te voeren van de externe acc
 common#:#ext_cat_settings#:#Edit Advanced Category Settings
 common#:#ext_link#:#Link
 common#:#extt_configure#:#configureren...
-common#:#extt_edit_permission#:# Verander instellingen van de rechten
+rbac#:#extt_edit_permission#:# Verander instellingen van de rechten
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Bijkomende opties
 common#:#extt_ilinc_akclassvalues_active#:#Schakel kosten center in
@@ -2679,11 +2679,11 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLinc instellingen bewaard
 common#:#extt_ilinc_timeout#:#Maximum tijd voor antwoord van de server
 common#:#extt_name#:#Software/Service
-common#:#extt_read#:#Toegang tot instellingen van derde partij software
+rbac#:#extt_read#:#Toegang tot instellingen van derde partij software
 common#:#extt_remark#:#Alle software en services in de lijst hierboven maken niet deel uit van ILIAS en behoren niet tot het ILIAS open source licence agreement.
 common#:#extt_title_configure#:#Configureer externe software
-common#:#extt_visible#:#Third party software instellingen zijn zichtbaar
-common#:#extt_write#:#Configureer third party software
+rbac#:#extt_visible#:#Third party software instellingen zijn zichtbaar
+rbac#:#extt_write#:#Configureer third party software
 common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#FAQ oefening
 common#:#fax#:#Fax

@@ -1776,15 +1776,15 @@ common#:#advanced_editing_settings#:#Rozšířená nastavení editace
 common#:#advanced_editing_survey_settings#:#Povolené HTML tagy pro nástroje ankety ILIAS
 common#:#advanced_editing_tinymce#:#Editor TinyMCE
 common#:#adve_assessment_settings#:#Nastavení testu a hodnocení
-common#:#adve_edit_permission#:#Změna nastavení oprávnění
+rbac#:#adve_edit_permission#:#Změna nastavení oprávnění
 common#:#adve_frm_post_settings#:#Zasílání fóra
 common#:#adve_general_settings#:#Obecná nastavení
 common#:#adve_lm_settings#:#Nastavení VM/glosář
-common#:#adve_read#:#Rozšířená nastavení správy přístupu
+rbac#:#adve_read#:#Rozšířená nastavení správy přístupu
 common#:#adve_rep_settings#:#Nastavení úložiště
 common#:#adve_survey_settings#:#Nastavení ankety
-common#:#adve_visible#:#Rozšířená správa editace je viditelná
-common#:#adve_write#:#Rozšířená správa editace
+rbac#:#adve_visible#:#Rozšířená správa editace je viditelná
+rbac#:#adve_write#:#Rozšířená správa editace
 common#:#agree_date#:#Shoda na
 common#:#all_authors#:#Všichni autoři
 common#:#all_commands#:#Všechny příkazy
@@ -1867,11 +1867,11 @@ common#:#assessment_use_javascript#:#JavaScript pro uchop a táhni
 common#:#assessment_use_javascript_desc#:#Aktivuje výstup JavaScriptu pro akce uchop a táhni jako výchozí pro první čas
 common#:#assf_allowed_questiontypes#:#Dosažitelné typy otázek
 common#:#assf_allowed_questiontypes_desc#:#Všechny vybrané typy otázek budou v této instalaci ILIAS k dispozici. Pokud nechcete umožnit tvorbu jistého typu otázky v této instalaci, musíte odstranit výběr v příslušném zaškrtávacím poli.
-common#:#assf_edit_permission#:#Změna nastavení práv
+rbac#:#assf_edit_permission#:#Změna nastavení práv
 common#:#assf_questiontypes#:#Nastavení otázek
-common#:#assf_read#:#Správa přístupu k testu a hodnocení
-common#:#assf_visible#:#Správa přístupu k testu a hodnocení je viditelná
-common#:#assf_write#:#Správa editace testu a hodnocení
+rbac#:#assf_read#:#Správa přístupu k testu a hodnocení
+rbac#:#assf_visible#:#Správa přístupu k testu a hodnocení je viditelná
+rbac#:#assf_write#:#Správa editace testu a hodnocení
 common#:#assign#:#Přiřadit
 common#:#assign_global_role#:#Přiřadit ke globální roli
 common#:#assign_lo_forum#:#Přiřadit výukovému objektu fórum
@@ -1905,7 +1905,7 @@ common#:#auth_create_users#:#Vytvořit neexistující uživatele automaticky
 common#:#auth_default#:#Výchozí nastavení
 common#:#auth_default_mode_changed_to#:#Výchozí mód autentizace změněn na
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Změna nastavení práv
+rbac#:#auth_edit_permission#:#Změna nastavení práv
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autentizovat uživatele automaticky pomocí LDAP serveru
 common#:#auth_ldap_enable#:#Zapnout podporu LDAP serveru
@@ -1932,7 +1932,7 @@ common#:#auth_radius_server#:#Servery
 common#:#auth_radius_server_desc#:#Můžete přidat více serverů oddělených čárkou. Servery jsou cyklicky měněny podle dotazů.
 common#:#auth_radius_settings_saved#:#Nastavení RADIUS uloženo
 common#:#auth_radius_shared_secret#:#Sdílené tajemství
-common#:#auth_read#:#Nastavení autentizace přístupu
+rbac#:#auth_read#:#Nastavení autentizace přístupu
 common#:#auth_remark_non_local_auth#:#Když vybrán jiný autentizační mód než základní, nelze kdykoliv příště změnit uživatelské jméno a heslo a volba nové registrace je vypnuta.
 common#:#auth_role_auth_mode#:#Mód autentizace
 common#:#auth_script#:#Zákaznický
@@ -1961,8 +1961,8 @@ common#:#auth_soap_use_https#:#Použít HTTPS
 common#:#auth_soap_user_default_role#:#Výchozí role přiřazená autentizovaným uživatelům SOAP
 common#:#auth_soap_user_default_role_desc#:#Tato role je přiřazena automaticky vytvořeným uživatelům SOAP.
 common#:#auth_user_default_role#:#Výchozí role
-common#:#auth_visible#:#Nastavení autentizace jsou viditelné
-common#:#auth_write#:#Upravit nastavení autentizace
+rbac#:#auth_visible#:#Nastavení autentizace jsou viditelné
+rbac#:#auth_write#:#Upravit nastavení autentizace
 common#:#authenticate_ilias#:#Login do ILIAS
 common#:#authenticate_with#:#Login do:
 common#:#authentication_settings#:#Autentizace
@@ -2105,10 +2105,10 @@ common#:#censorship#:#Cenzura
 common#:#centra_account#:#Účet administrátora Centra
 common#:#centra_rooms#:#Místnosti Centra
 common#:#centra_server#:#Server Centra
-common#:#cert_edit_permission#:#Změna nastavení oprávnění
-common#:#cert_read#:#Právo číst na nastavení certifikátu
-common#:#cert_visible#:#Nastavení certifikátu viditelné
-common#:#cert_write#:#Upravit nastavení certifikátu
+rbac#:#cert_edit_permission#:#Změna nastavení oprávnění
+rbac#:#cert_read#:#Právo číst na nastavení certifikátu
+rbac#:#cert_visible#:#Nastavení certifikátu viditelné
+rbac#:#cert_write#:#Upravit nastavení certifikátu
 common#:#certificate#:#Certifikát
 common#:#chac_edit_permission#:#Změnit nastavení oprávnění
 common#:#chac_read#:#Právo číst do nastaveni diskuse
@@ -2470,7 +2470,7 @@ common#:#edit_page#:#Upravit stránku
 common#:#edit_page_content#:#Upravit obsah stránky
 common#:#edit_perm_ruleset#:#Upravit pravidla výchozích oprávnění
 common#:#edit_properties#:#Upravit vlastnosti
-common#:#edit_roleassignment#:#Upravit přidělení role
+rbac#:#edit_roleassignment#:#Upravit přidělení role
 common#:#edit_stylesheet#:#Upravit styl
 common#:#edited_at#:#Upraveno v
 common#:#editor#:#Upravil
@@ -2618,7 +2618,7 @@ common#:#ext_acccount_required#:#Vložte prosím jméno externího účtu.
 common#:#ext_cat_settings#:#Upravit rozšířené nastavení kategorie
 common#:#ext_link#:#Odkaz
 common#:#extt_configure#:#konfiguruji...
-common#:#extt_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#extt_edit_permission#:#Změnit nastavení oprávnění
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Další nastavení
 common#:#extt_ilinc_akclassvalues_active#:#Zapnout hodnotící centra
@@ -2637,11 +2637,11 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#Nastavení LearnLinc uloženo
 common#:#extt_ilinc_timeout#:#Max. čas čekání na odpověď serveru
 common#:#extt_name#:#Software/Služba
-common#:#extt_read#:#Přístup do nastavení software 3. stran
+rbac#:#extt_read#:#Přístup do nastavení software 3. stran
 common#:#extt_remark#:#Všechen výše uvedený software a služby nejsou součástí ILIAS a nespadají pod open source licenci ILIAS.
 common#:#extt_title_configure#:#Konfigurace externího software
-common#:#extt_visible#:#Nastavení software 3.stran je viditelné
-common#:#extt_write#:#Nastavení software 3.stran
+rbac#:#extt_visible#:#Nastavení software 3.stran je viditelné
+rbac#:#extt_write#:#Nastavení software 3.stran
 common#:#failure_message#:#Chybová zpráva
 common#:#faq_exercise#:#FAQ Cvičení
 common#:#fax#:#Fax

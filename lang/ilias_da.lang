@@ -242,13 +242,13 @@ common#:#advanced_editing_settings#:#Indstillinger for avanceret redigering
 common#:#advanced_editing_survey_settings#:#Tilladte HTML tags i ILIAS afstemingsværktøj
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test & evalueringsindstillinger
-common#:#adve_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#adve_edit_permission#:#Ændre rettighedsindstillinger
 common#:#adve_general_settings#:#Generelle indstillinger
 common#:#adve_lm_settings#:#LM / Ordliste indstillinger
-common#:#adve_read#:#Access Advanced Editing Administration
+rbac#:#adve_read#:#Access Advanced Editing Administration
 common#:#adve_survey_settings#:#Afstemningsindstillinger
-common#:#adve_visible#:#Avanceret redigering administration er synlig
-common#:#adve_write#:#Avanceret redigering administration
+rbac#:#adve_visible#:#Avanceret redigering administration er synlig
+rbac#:#adve_write#:#Avanceret redigering administration
 common#:#agree_date#:#Accepteret den
 common#:#all_authors#:#Alle forfattere
 common#:#all_global_roles#:#Globale roller
@@ -321,10 +321,10 @@ common#:#ass_log_available_tests#:#Tilgængelige tests
 common#:#ass_log_delete_entries#:#Slet log indgange
 common#:#ass_log_deleted#:#Logningsdata for de valgte tests er blevet sluttet.
 common#:#ass_log_delete_no_selection#:#Vælg mindst en test som logningsdata skal slettes for.
-common#:#assf_edit_permission#:#Ændre rettighedsindstillinger
-common#:#assf_read#:#Gå til test- og assessmentadministration
-common#:#assf_visible#:#Test- og assessmentadministration er synlig
-common#:#assf_write#:#Rediger test- og assessmentadministration
+rbac#:#assf_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#assf_read#:#Gå til test- og assessmentadministration
+rbac#:#assf_visible#:#Test- og assessmentadministration er synlig
+rbac#:#assf_write#:#Rediger test- og assessmentadministration
 common#:#assf_questiontypes#:#Spørgsmålsindstillinger
 common#:#assf_allowed_questiontypes#:#Tilgængelige spørgsmålstyper
 common#:#assf_allowed_questiontypes_desc#:#Alle afkrydsede spørgsmålstyper er tilgængelige i ILIAS installationen. Hvis du ikke ønsker bestemte spørgsmålstyper skal være tilgængelige skal du fjerne afkrydsningen.
@@ -358,7 +358,7 @@ common#:#auth_configure#:#Konfigurer...
 common#:#auth_create_users#:#Opret automatisk ikke-eksisterende brugere
 common#:#auth_default#:#Standardinstillinger
 common#:#auth_default_mode_changed_to#:#Standard autentificerings metode ændret til 
-common#:#auth_edit_permission#:#Rediger rettighedsindstillinger
+rbac#:#auth_edit_permission#:#Rediger rettighedsindstillinger
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Verificer brugere via LDAP serveren
 common#:#auth_ldap_enable#:#Aktiver LDAP
@@ -382,7 +382,7 @@ common#:#auth_radius_server#:#Servere
 common#:#auth_radius_server_desc#:#Du kan tilføje flere servere ved at kommaseperere. Serverne roteres med Round robin algoritme når de forespørges.
 common#:#auth_radius_settings_saved#:#RADIUS indstillinger gemt
 common#:#auth_radius_shared_secret#:#Delt hemmelighed
-common#:#auth_read#:#Adgang til verifikationsindstllinger
+rbac#:#auth_read#:#Adgang til verifikationsindstllinger
 common#:#auth_remark_non_local_auth#:#Når man vælger en anden verifikationstilstand end standarden bliver brugerlogin og passwords slået fra og der kan ikke oprettes nye brugere
 common#:#auth_role_auth_mode#:#Autoriseringstilstand
 common#:#auth_script#:#Brugervalgte
@@ -408,8 +408,8 @@ common#:#auth_soap_use_https#:#Use HTTPS
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.
 common#:#auth_user_default_role#:#Standardrolle
-common#:#auth_visible#:#Autentifikationsindstillinger er synlige
-common#:#auth_write#:#Rediger verifikationsadgang
+rbac#:#auth_visible#:#Autentifikationsindstillinger er synlige
+rbac#:#auth_write#:#Rediger verifikationsadgang
 common#:#authentication_settings#:#Autentificering
 common#:#author#:#Forfatter
 common#:#authors#:#Forfattere
@@ -781,7 +781,7 @@ common#:#edit_operations#:#Rediger Operationer
 common#:#edit_page#:#Rediger side
 common#:#edit_page_content#:#Rediger sideindhold
 common#:#edit_perm_ruleset#:#Rediger standardregler for rettigheder
-common#:#edit_roleassignment#:#Rediger rolletildeling
+rbac#:#edit_roleassignment#:#Rediger rolletildeling
 common#:#edit_stylesheet#:#Rediger Stil
 common#:#edited_at#:#Redigeret den
 common#:#editor#:#Redigeret af
@@ -900,7 +900,7 @@ common#:#export_group_members#:#Eksporter gruppemedlemmer (til Microsoft Excel)
 common#:#export_html#:#Eksporter som HTMLfil
 common#:#export_xml#:#Eksporter som en XMLfil
 common#:#extt_configure#:#konfigurer...
-common#:#extt_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#extt_edit_permission#:#Ændre rettighedsindstillinger
 common#:#extt_ilinc#:#Netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Flere muligheder
 common#:#extt_ilinc_akclassvalues_active#:#Omkostningscentre
@@ -919,11 +919,11 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLincindstillinger er gemt
 common#:#extt_ilinc_timeout#:#Maksimaltid for svar fra serveren
 common#:#extt_name#:#Software/service
-common#:#extt_read#:#Læseadgang til indstillinger
+rbac#:#extt_read#:#Læseadgang til indstillinger
 common#:#extt_remark#:#Alt software og services herunder er ikke en del af ILIAS og hører ikke ind under ILIAS open source brugeraftale
 common#:#extt_title_configure#:#Konfigurer ekstern software
-common#:#extt_visible#:#3.parts software er aktiveret
-common#:#extt_write#:#Konfigurer 3.parts software
+rbac#:#extt_visible#:#3.parts software er aktiveret
+rbac#:#extt_write#:#Konfigurer 3.parts software
 common#:#faq_exercise#:#FAQ øvelse
 common#:#fax#:#Fax
 common#:#feedback#:#Tilbagemelding
@@ -8675,10 +8675,10 @@ rbac#:#facs_write#:#Ret fil- og mappeindstillinger
 common#:#objs_mail#:#Mail
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#Den indtastede værdi er ikke i et gyldigt format
-common#:#cert_edit_permission#:#Ændre rettighedsindstillinger
-common#:#cert_visible#:#Certifikatindstillinger er synlige
-common#:#cert_read#:#Læseadgang til certifikatindstillinger
-common#:#cert_write#:#Ret certifikatindstillinger
+rbac#:#cert_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#cert_visible#:#Certifikatindstillinger er synlige
+rbac#:#cert_read#:#Læseadgang til certifikatindstillinger
+rbac#:#cert_write#:#Ret certifikatindstillinger
 gmaps#:#gmaps_lookup_address#:#Adresseopslag
 common#:#obj_cert#:#Certifikater
 common#:#obj_cert_desc#:#Certifikatindstillinger

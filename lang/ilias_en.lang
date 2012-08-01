@@ -1505,15 +1505,15 @@ common#:#advanced_editing_settings#:#Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test and Assessment Settings
-common#:#adve_edit_permission#:#Change Permission Settings
+rbac#:#adve_edit_permission#:#User can change permission settings of Editing Administration
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_lm_settings#:#LM / Glossary Settings
-common#:#adve_read#:#Access Editing Administration
+rbac#:#adve_read#:#User has read access to Editing Administration
 common#:#adve_rep_settings#:#Repository Settings
 common#:#adve_survey_settings#:#Survey Settings
-common#:#adve_visible#:#Editing Administration is Visible
-common#:#adve_write#:#Editing Administration
+rbac#:#adve_visible#:#Editing Administration is visible
+rbac#:#adve_write#:#User can edit settings of Editing Administration
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#All authors
 common#:#all_commands#:#All Commands
@@ -1586,11 +1586,11 @@ common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag a
 common#:#assessment_use_javascript#:#JavaScript for Drag and Drop
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_allowed_questiontypes#:#Available Question Types
-common#:#assf_edit_permission#:#Change permission settings
+rbac#:#assf_edit_permission#:#User can change permission settings of Test and Assessment Administration
 common#:#assf_questiontypes#:#Question Settings
-common#:#assf_read#:#Access Test and Assessment Administration
-common#:#assf_visible#:#Test and Assessment administration is visible
-common#:#assf_write#:#Edit Test and Assessment administration
+rbac#:#assf_read#:#User has read access Test and Assessment Administration
+rbac#:#assf_visible#:#Test and Assessment administration is visible
+rbac#:#assf_write#:#User can edit settings of Test and Assessment Administration
 common#:#assign_global_role#:#Assign to Global Role
 common#:#assign_lo_forum#:#Assign LO Forum
 common#:#assign_local_role#:#Assign to Local Role
@@ -1624,7 +1624,7 @@ common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_default#:#Default setting
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Change permission settings
+rbac#:#auth_edit_permission#:#User can change permission settings of Authentication and Registration
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_enable#:#Enable LDAP support
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
@@ -1651,7 +1651,7 @@ common#:#auth_radius_server#:#Servers
 common#:#auth_radius_settings_saved#:#RADIUS settings saved
 common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_radius#:#RADIUS
-common#:#auth_read#:#Access authentication settings
+rbac#:#auth_read#:#User has read access to administration of Authentication and Registration
 common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
 common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_script_desc#:#Authenticate users via external script
@@ -1680,8 +1680,8 @@ common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatical
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users
 common#:#auth_soap#:#SOAP
 common#:#auth_user_default_role#:#Default Role
-common#:#auth_visible#:#Authentication settings are visible
-common#:#auth_write#:#Edit authentication settings
+rbac#:#auth_visible#:#Administration of Authentication and Registration is visible
+rbac#:#auth_write#:#User can edit settings for Authentication and Registration
 common#:#authenticate_ilias#:#ILIAS Native Authentication
 common#:#authenticate_with#:#Login to:
 common#:#authentication_settings#:#Authentication
@@ -1805,10 +1805,10 @@ common#:#censorship#:#Censorship
 common#:#centra_account#:#Centra Admin Account
 common#:#centra_rooms#:#Centra Rooms
 common#:#centra_server#:#Centra Server
-common#:#cert_edit_permission#:#Change permission settings
-common#:#cert_read#:#Read access to Certificate Settings
-common#:#cert_visible#:#Certificate Settings are visible
-common#:#cert_write#:#Edit Certificate Settings
+rbac#:#cert_edit_permission#:#User can change permission settings in administration
+rbac#:#cert_read#:#User has read access to Certificates Administration
+rbac#:#cert_visible#:#Certificates Administration is visible
+rbac#:#cert_write#:#User can edit settings in Certificates Administration
 common#:#certificate#:#Certificate
 common#:#chac_edit_permission#:#Change permission settings
 common#:#chac_read#:#Read access to chat settings
@@ -2119,7 +2119,7 @@ common#:#edit_page_content#:#Edit Page Content
 common#:#edit_page#:#Edit Page
 common#:#edit_perm_ruleset#:#Edit default permission rules
 common#:#edit_properties#:#Edit Properties
-common#:#edit_roleassignment#:#Edit role assignment
+rbac#:#edit_roleassignment#:#Edit role assignment
 common#:#edit_stylesheet#:#Edit Style
 common#:#edit#:#Edit
 common#:#edited_at#:#Edited at
@@ -2266,7 +2266,7 @@ common#:#ext_acccount_required#:#Please enter the name of the external account.
 common#:#ext_cat_settings#:#Edit Advanced Category Settings
 common#:#ext_link#:#Link
 common#:#extt_configure#:#configure...
-common#:#extt_edit_permission#:#Change permission settings
+rbac#:#extt_edit_permission#:#User can change permission settings in administration
 common#:#extt_ilinc_additional_options#:#Additional Options
 common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
@@ -2285,11 +2285,11 @@ common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved
 common#:#extt_ilinc_timeout#:#Max time waiting for server response
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_name#:#Software/Service
-common#:#extt_read#:#Access third party software settings
+rbac#:#extt_read#:#User has read access to administration of Third Party Software
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.
 common#:#extt_title_configure#:#Configure external software
-common#:#extt_visible#:#Third party software settings are visible
-common#:#extt_write#:#Configure third party software
+rbac#:#extt_visible#:#Administration of Third Party Software is visible
+rbac#:#extt_write#:#User can edit settings of Third Party Software
 common#:#failure_message#:#Failure Message
 common#:#faq_exercise#:#FAQ Exercise
 common#:#fax#:#Fax
@@ -3510,7 +3510,7 @@ common#:#obj_rolf_local_desc#:#Contains local roles of object no.
 common#:#obj_rolf_local#:#Local Roles
 common#:#obj_rolf#:#Roles
 common#:#obj_rolt#:#Role Template
-common#:#obj_root#:#ILIAS root node
+common#:#obj_root#:#Repository - Home
 common#:#obj_sahs#:#Learning Module SCORM/AICC
 common#:#obj_sco#:#SCO
 common#:#obj_seas_desc#:#Manage the search settings here.
@@ -3767,7 +3767,7 @@ common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to c
 common#:#proxy_status#:#Proxy
 common#:#proxy#:#Proxy
 common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_export_member_data#:#User may Access Member Data
+common#:#ps_export_member_data#:#User can access and export member data
 common#:#ps_read#:#Read Access to Privacy/Security Settings
 common#:#ps_visible#:#Privacy/Security Settings are Visible
 common#:#ps_write#:#Edit Privacy/Security
@@ -8538,11 +8538,11 @@ pwassist#:#pwassist_username_mail_body#:#These are the active username found for
 rating#:#rating_average_rating#:#Average Rating
 rating#:#rating_nr_users#:#%s User(s)
 rating#:#rating_your_rating#:#Your Rating
-rbac#:#cals_edit_event#:#Create and Administrate Public Calendars
-rbac#:#cals_edit_permission#:#Change permission settings
-rbac#:#cals_read#:#Read access to Calendar settings
-rbac#:#cals_visible#:#Calendar settings are visible
-rbac#:#cals_write#:#Edit Calendar settings
+rbac#:#cals_edit_event#:#User can create and edit public calendars and events
+rbac#:#cals_edit_permission#:#User can change permission settings for Calendar Administration
+rbac#:#cals_read#:#User has read access to Calendar Administration
+rbac#:#cals_visible#:#Calendar Administration is visible
+rbac#:#cals_write#:#User can edit settings of Calendar Administration
 rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create Course Reference
 rbac#:#cat_create_rcrs#:#Create ECS Course Link
@@ -8553,10 +8553,10 @@ rbac#:#catr_edit_permission#:#User can change permission settings
 rbac#:#catr_read#:#Read access to Category Reference
 rbac#:#catr_visible#:#Category reference is visible
 rbac#:#catr_write#:#User can edit settings of category reference
-rbac#:#cmps_edit_permission#:#Change permission settings
-rbac#:#cmps_read#:#Read access to component settings
-rbac#:#cmps_visible#:#Component settings are visible
-rbac#:#cmps_write#:#Edit component settings
+rbac#:#cmps_edit_permission#:#User can change permission settings
+rbac#:#cmps_read#:#User has read access to administration of Plugins, Modules and Services
+rbac#:#cmps_visible#:#Administration of Plugins, Modules and Services settings is visible
+rbac#:#cmps_write#:#User can edit settings of Plugins, Modules and Services
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
@@ -10217,7 +10217,7 @@ dateplaner#:#cal_manage#:#Calendars
 dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
 dateplaner#:#cal_back_to_cal#:#Back to Calendar
-rbac#:#cals_add_consultation_hours#:#Add Consultation Hours Calendar
+rbac#:#cals_add_consultation_hours#:#User can offer and edit consultation hours in calendar
 dateplaner#:#cal_ch_form_header#:#Consultation Hours
 dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. 
 dateplaner#:#cal_ch_form#:#Enable Consultation Hours
@@ -10602,7 +10602,7 @@ trac#:#trac_average#:#Average
 trac#:#trac_sum#:#Sum
 trac#:#trac_others#:#Others
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)
-rbac#:#add_consultation_hours#:#Add Consultation Hours Calendar
+rbac#:#add_consultation_hours#:#Add Consultation Hours
 common#:#cron_mail_notification_message#:#Send Mail Notifications with Mail-Message
 common#:#cron_mail_notification_message_info#:#If enabled, all users will get notifications with complete mail message by external mail.
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
@@ -10623,7 +10623,7 @@ administration#:#language_error_local_missed#:#The local language file does not 
 administration#:#language_error_delete_local#:#The local language file can't be deleted!
 administration#:#language_local_file_deleted#:#The local language file was deleted.
 administration#:#language_remove_local_file#:#Delete the local language file
-rbac#:#export_member_data#:#Access to User Data
+rbac#:#export_member_data#:#Access User Data
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adpoted to ALL existing objects.
 rbac#:#crs_create_catr#:#Create Category Reference
 rbac#:#crs_create_crsr#:#Create Course Reference
@@ -12047,9 +12047,9 @@ rbac#:#skmg_read#:#Read access to Skill Management
 rbac#:#skmg_write#:#Edit Skill Management
 rbac#:#skmg_edit_permission#:#Change permission settings
 rbac#:#blga_visible#:#Blog Administration is visible
-rbac#:#blga_read#:#Read access to Blog Administration
-rbac#:#blga_write#:#Edit Blog Administration
-rbac#:#blga_edit_permission#:#Change permission settings
+rbac#:#blga_read#:#User has read access to Blog Administration
+rbac#:#blga_write#:#User can edit settings in Blog Administration
+rbac#:#blga_edit_permission#:#User can change permission settings in Blog Administration
 prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.
 blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?

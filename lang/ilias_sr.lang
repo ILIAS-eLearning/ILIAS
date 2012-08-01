@@ -973,13 +973,13 @@ common#:#advanced_editing_settings#:#Advanced editing settings###10 Jul 2006 new
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool ###18 Jul 2006 new variable
 common#:#advanced_editing_tinymce#:#TinyMCE editor###10 Jul 2006 new variable
 common#:#adve_assessment_settings#:#Test&Assessment settings###18 Jul 2006 new variable
-common#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
+rbac#:#adve_edit_permission#:#Change permission settings###10 Jul 2006 new variable
 common#:#adve_general_settings#:#General settings###18 Jul 2006 new variable
 common#:#adve_lm_settings#:#LM / Glossary Settings###04 Aug 2006 new variable
-common#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
+rbac#:#adve_read#:#Access advanced editing administration###10 Jul 2006 new variable
 common#:#adve_survey_settings#:#Survey settings###18 Jul 2006 new variable
-common#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
-common#:#adve_write#:#Advanced editing administration###10 Jul 2006 new variable
+rbac#:#adve_visible#:#Advanced editing administration is visible###10 Jul 2006 new variable
+rbac#:#adve_write#:#Advanced editing administration###10 Jul 2006 new variable
 common#:#agree_date#:#Agreed on###20 Jun 2005 new variable
 common#:#all_authors#:#Svi autori
 common#:#all_global_roles#:#Opšte funkcije
@@ -1038,10 +1038,10 @@ common#:#assessment_log_user_answer#:#Korisnik je odgovorio na pitanje
 common#:#assessment_log_user_answers#:#Prikaži rad korisnika
 common#:#assessment_settings#:#Test i procena upravljackih podešavanja###23 Dec 2005 content changed
 common#:#assessment_settings_reporting_language#:#Reporting language ### 2006-8-11 --- Add new translation here.
-common#:#assf_edit_permission#:#Promenite okvir za dozvolu
-common#:#assf_read#:#Pristupi testu i proveri upravljanja###23 Dec 2005 content changed
-common#:#assf_visible#:#Test i procena upravljackih podešavanja su vidljivi
-common#:#assf_write#:#Uredi test i provenu upravljanja
+rbac#:#assf_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#assf_read#:#Pristupi testu i proveri upravljanja###23 Dec 2005 content changed
+rbac#:#assf_visible#:#Test i procena upravljackih podešavanja su vidljivi
+rbac#:#assf_write#:#Uredi test i provenu upravljanja
 common#:#assign#:#Pridružiti
 common#:#assign_global_role#:#Pridruži opštoj funkciji###23 Dec 2005 content changed
 common#:#assign_lo_forum#:#Pridruži LO forum
@@ -1072,7 +1072,7 @@ common#:#auth_configure#:#uoblici...
 common#:#auth_create_users#:#Create non-existing users automatically###10 Jul 2006 new variable
 common#:#auth_default#:#Default setting###08 Jul 2005 new variable
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to###08 Jul 2005 new variable
-common#:#auth_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#auth_edit_permission#:#Promenite okvir za dozvolu
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Potvrdite korisnike preko LDAP servera
 common#:#auth_ldap_enable#:#Enable LDAP support###08 Jul 2005 new variable
@@ -1096,7 +1096,7 @@ common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
 common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
 common#:#auth_radius_settings_saved#:#RADIUS settings saved###08 Jul 2005 new variable
 common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
-common#:#auth_read#:#Pristupi podešavanjima autenticnosti
+rbac#:#auth_read#:#Pristupi podešavanjima autenticnosti
 common#:#auth_remark_non_local_auth#:#Kada odaberete drugaciji autenticni metod od standardnog, registracije i šifre korisnika više se ne mogu menjati i opcija za registraciju novih korisnika je onemogucena.###08 Jul 2005 content changed
 common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_script#:#Prilagodi
@@ -1122,8 +1122,8 @@ common#:#auth_soap_use_https#:#Use HTTPS###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role#:#Default role assigned to SOAP authenticated users###10 Jul 2006 new variable
 common#:#auth_soap_user_default_role_desc#:#This role is assigned to automatically created SOAP users.###10 Jul 2006 new variable
 common#:#auth_user_default_role#:#Default Role###10 Jul 2006 new variable
-common#:#auth_visible#:#Autenticna podešavanja su vidljiva
-common#:#auth_write#:#Uredite autenticna podešavanja
+rbac#:#auth_visible#:#Autenticna podešavanja su vidljiva
+rbac#:#auth_write#:#Uredite autenticna podešavanja
 common#:#authentication_settings#:#Authentication###10 Jul 2006 new variable
 common#:#author#:#Autor
 common#:#authors#:#Autori
@@ -1477,7 +1477,7 @@ common#:#edit_page#:#Edit Page###10 Jul 2006 new variable
 common#:#edit_page_content#:#Edit Page Content###10 Jul 2006 new variable
 common#:#edit_perm_ruleset#:#Uredi standardna pravila za dozvolu
 common#:#edit_properties#:#Uredi osobine
-common#:#edit_roleassignment#:#Uredi raspodelu funkcije
+rbac#:#edit_roleassignment#:#Uredi raspodelu funkcije
 common#:#edit_stylesheet#:#Uredi stil
 common#:#edited_at#:#Prikaži na
 common#:#editor#:#Izdavac
@@ -1597,7 +1597,7 @@ common#:#export_group_members#:#Izvezi clanove grupe (u Microsoft Excel)
 common#:#export_html#:#Izvezi kao HTML fajl
 common#:#export_xml#:#Izvezi kao XML fajl
 common#:#extt_configure#:#configure...###14 Jul 2005 new variable
-common#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
+rbac#:#extt_edit_permission#:#Change permission settings###14 Jul 2005 new variable
 common#:#extt_ilinc#:#netucate LearnLinc###14 Jul 2005 new variable
 common#:#extt_ilinc_additional_options#:#Additional Options###10 Jul 2006 new variable
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers###10 Jul 2006 new variable
@@ -1616,11 +1616,11 @@ common#:#extt_ilinc_server#:#Server###14 Jul 2005 new variable
 common#:#extt_ilinc_settings_saved#:#LearnLinc settings saved###15 Jul 2005 new variable
 common#:#extt_ilinc_timeout#:#Max time waiting for server response###06 Aug 2005 new variable
 common#:#extt_name#:#Software/Service###14 Jul 2005 new variable
-common#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
+rbac#:#extt_read#:#Access third party software settings###14 Jul 2005 new variable
 common#:#extt_remark#:#All software and services listed above are not part of ILIAS and do not fall under the ILIAS open source licence agreement.###06 Aug 2005 new variable
 common#:#extt_title_configure#:#Configure external software###14 Jul 2005 new variable
-common#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
-common#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
+rbac#:#extt_visible#:#Third party software settings are visible###14 Jul 2005 new variable
+rbac#:#extt_write#:#Configure third party software###14 Jul 2005 new variable
 common#:#faq_exercise#:#Vežba cesto postavljanih pitanja
 common#:#fax#:#Faks
 common#:#feedback#:#Povratna informacija
@@ -8598,10 +8598,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable

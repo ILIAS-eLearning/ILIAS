@@ -2212,15 +2212,15 @@ common#:#advanced_editing_settings#:#Editoreinstellungen
 common#:#advanced_editing_survey_settings#:#Erlaubte HTML-Auszeichnungen für das Umfrage-Werkzeug
 common#:#advanced_editing_tinymce#:#TinyMCE-Editor
 common#:#adve_assessment_settings#:#Test und Assessment-Einstellungen
-common#:#adve_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#adve_edit_permission#:#Rechteeinstellungen ändern
 common#:#adve_frm_post_settings#:#Forenbeiträge
 common#:#adve_general_settings#:#Allgemeine Einstellungen
 common#:#adve_lm_settings#:#Lernmodul-/Glossar-Einstellungen
-common#:#adve_read#:#Zugriff auf die Editoreinstellungen
+rbac#:#adve_read#:#Zugriff auf die Editoreinstellungen
 common#:#adve_rep_settings#:#Magazineinstellungen
 common#:#adve_survey_settings#:#Umfrage-Einstellungen
-common#:#adve_visible#:#Editoreinstellungen sind sichtbar
-common#:#adve_write#:#Editoreinstellungen bearbeiten
+rbac#:#adve_visible#:#Editoreinstellungen sind sichtbar
+rbac#:#adve_write#:#Editoreinstellungen bearbeiten
 common#:#agree_date#:#Zugestimmt am
 common#:#all_authors#:#Alle Autoren
 common#:#all_commands#:#Alle Funktionen
@@ -2295,11 +2295,11 @@ common#:#assessment_use_javascript#:#JavaScript für Ziehen und Ablegen
 common#:#assessment_use_javascript_desc#:#Selektiert die JavaScript-Unterstützung für Ziehen und Ablegen in Tests, wenn NutzerInnen diese zum ersten Mal aufrufen
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_allowed_questiontypes_desc#:#Alle ausgewählten Fragetypen werden für diese ILIAS-Installation zur Verfügung stehen. Wenn Sie die Erzeugung von bestimmten Fragetypen verhindern wollen, müssen Sie die Auswahl bei diesen Fragetypen entfernen.
-common#:#assf_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#assf_edit_permission#:#Rechteeinstellungen ändern
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assf_read#:#Zugriff auf die Test und Assessment-Administration
-common#:#assf_visible#:#Test und Assessment-Administration ist sichtbar
-common#:#assf_write#:#Bearbeiten der Test und Assessment-Administration
+rbac#:#assf_read#:#Zugriff auf die Test und Assessment-Administration
+rbac#:#assf_visible#:#Test und Assessment-Administration ist sichtbar
+rbac#:#assf_write#:#Bearbeiten der Test und Assessment-Administration
 common#:#assign#:#Als Mitglied aufnehmen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_lo_forum#:#Lernmodul-Forum zuordnen
@@ -2335,7 +2335,7 @@ common#:#auth_create_users#:#Lege noch nicht eingetragene Benutzer automatisch a
 common#:#auth_default#:#Standardeinstellung
 common#:#auth_default_mode_changed_to#:#Standard-Authentifizierungsmodus gewechselt nach
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#auth_edit_permission#:#Rechteeinstellungen für die Administration ändern
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Authentifizierung über einen LDAP-Server
 common#:#auth_ldap_enable#:#LDAP-Unterstützung aktivieren
@@ -2362,7 +2362,7 @@ common#:#auth_radius_server#:#Server
 common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
 common#:#auth_radius_settings_saved#:#RADIUS-Einstellungen gespeichert
 common#:#auth_radius_shared_secret#:#Shared Secret
-common#:#auth_read#:#Lesezugriff auf Authentifizierung
+rbac#:#auth_read#:#Lesezugriff auf Administration für Authentifizierung/Neuanmeldung
 common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_script#:#Benutzerdefiniert
@@ -2391,8 +2391,8 @@ common#:#auth_soap_use_https#:#HTTPS verwenden
 common#:#auth_soap_user_default_role#:#Standardrolle SOAP-Benutzer
 common#:#auth_soap_user_default_role_desc#:#Diese Rolle erhalten gegen SOAP authentifizierte Benutzer.
 common#:#auth_user_default_role#:#Standardrolle
-common#:#auth_visible#:#Authentifizierung ist sichtbar
-common#:#auth_write#:#Authentifizierungseinstellungen bearbeiten
+rbac#:#auth_visible#:#Administration für Authentifizierung/Neuanmeldung ist sichtbar
+rbac#:#auth_write#:#Einstellungen für Authentifizierung/Neuanmeldung bearbeiten
 common#:#authenticate_ilias#:#Direkt über die ILIAS-Datenbank anmelden
 common#:#authenticate_with#:#Anmelden bei:
 common#:#authentication_settings#:#Authentifizierung
@@ -2527,21 +2527,11 @@ common#:#catr_edit#:#Kategorie-Referenz bearbeiten
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie eine Referenz erstellen möchten.
 common#:#catr_new#:#Neue Kategorie-Referenz anlegen
 common#:#cc#:#CC
-common#:#cen#:#Centra-Ereignis
-common#:#cen_add#:#Füge Centra-Ereignis
-common#:#cen_added#:#Centra-Ereignis hinzugefügt
-common#:#cen_delete#:#Centra-Ereignis löschen
-common#:#cen_edit#:#Centra-Ereignis bearbeiten
-common#:#cen_new#:#Neues Centra-Ereignis
-common#:#cen_save#:#Centra-Ereignis abspeichern
 common#:#censorship#:#Zensur
-common#:#centra_account#:#Centra-Administratorenaccount
-common#:#centra_rooms#:#Centra-Räume
-common#:#centra_server#:#Centra-Server
-common#:#cert_edit_permission#:#Rechteeinstellungen ändern
-common#:#cert_read#:#Lesezugriff zu den Zertifikat-Einstellungen
-common#:#cert_visible#:#Zertifikat-Einstellungen sind sichtbar
-common#:#cert_write#:#Zertifikat-Einstellungen bearbeiten
+rbac#:#cert_edit_permission#:#Rechteeinstellungen in Administration ändern
+rbac#:#cert_read#:#Lesezugriff auf die Zertifikatsverwaltung
+rbac#:#cert_visible#:#Zertifikatsverwaltung ist sichtbar
+rbac#:#cert_write#:#Einstellungen der Zertifikatsverwaltung bearbeiten
 common#:#certificate#:#Zertifikat
 common#:#chac_edit_permission#:#Rechteeinstellungen ändern
 common#:#chac_read#:#Lesezugriff auf Chateinstellungen
@@ -2890,7 +2880,7 @@ common#:#edit_page#:#Seite bearbeiten
 common#:#edit_page_content#:#Seiteninhalt bearbeiten
 common#:#edit_perm_ruleset#:#Rechtevorgaben bearbeiten
 common#:#edit_properties#:#Eigenschaften
-common#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
+rbac#:#edit_roleassignment#:#Rollenzuweisung bearbeiten
 common#:#edit_stylesheet#:#Style bearbeiten
 common#:#edited_at#:#Bearbeitet am
 common#:#editor#:#Editor
@@ -3046,7 +3036,7 @@ common#:#ext_acccount_required#:#Bitte geben Sie den Namen des externen Benutzer
 common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
 common#:#ext_link#:#Link
 common#:#extt_configure#:#konfigurieren...
-common#:#extt_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#extt_edit_permission#:#Rechteeinstellungen ändern
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Weitere Einstellungen
 common#:#extt_ilinc_akclassvalues_active#:#Kostenstellen aktivieren
@@ -3065,11 +3055,11 @@ common#:#extt_ilinc_server#:#Server
 common#:#extt_ilinc_settings_saved#:#LearnLinc-Einstellungen gespeichert
 common#:#extt_ilinc_timeout#:#Maximale Wartezeit auf Serverantwort
 common#:#extt_name#:#Software/Dienst
-common#:#extt_read#:#Lesezugriff auf Software von Drittanbietern
+rbac#:#extt_read#:#Lesezugriff auf Administration der Software von Drittanbietern
 common#:#extt_remark#:#Die oben aufgeführten Softwareprogramme oder Dienste sind nicht Bestandteil von ILIAS und es gelten ggf. andere Lizenzbestimmungen.
 common#:#extt_title_configure#:#Software von Drittanbietern einrichten
-common#:#extt_visible#:#Software von Drittanbietern ist sichtbar
-common#:#extt_write#:#Software von Drittanbietern konfigurieren
+rbac#:#extt_visible#:#Administration der Software von Drittanbietern ist sichtbar
+rbac#:#extt_write#:#Software von Drittanbietern konfigurieren
 common#:#failure_message#:#Fehlermeldung
 common#:#faq_exercise#:#FAQ/Übungskapitel
 common#:#fax#:#Fax
@@ -4312,7 +4302,7 @@ common#:#obj_rolf_desc#:#Rollenverwaltung
 common#:#obj_rolf_local#:#Lokale Rollen
 common#:#obj_rolf_local_desc#:#Enthält lokale Rollen für Objekt Nr.
 common#:#obj_rolt#:#Rollenvorlage
-common#:#obj_root#:#ILIAS-System
+common#:#obj_root#:#Magazin - Einstiegsseite
 common#:#obj_sahs#:#Lernmodul SCORM/AICC
 common#:#obj_sco#:#SCO
 common#:#obj_seas#:#Suche
@@ -4594,7 +4584,7 @@ common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
 common#:#ps_edit_permission#:#Rechteeinstellungen ändern
-common#:#ps_export_member_data#:#Erlaube den Zugriff auf Mitgliederdaten
+common#:#ps_export_member_data#:#Zugriff auf Mitgliederdaten und Export erlauben
 common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
 common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
 common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
@@ -10053,16 +10043,16 @@ rbac#:#active_preconditions#:#Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_post#:#Beitrag anlegen
 rbac#:#add_thread#:#Thema anlegen
-rbac#:#blga_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändern
 rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
 rbac#:#blga_visible#:#Blog-Administration ist sichtbar
-rbac#:#blga_write#:#Blog-Administration bearbeiten
-rbac#:#cals_add_consultation_hours#:#Sprechstundentermine anlegen
-rbac#:#cals_edit_event#:#Öffentliche Kalender anlegen und verwalten
-rbac#:#cals_edit_permission#:#Rechteeinstellung ändern
-rbac#:#cals_read#:#Lesezugriff auf Kalendereinstellungen
-rbac#:#cals_visible#:#Kalendereinstellungen sind sichtbar
-rbac#:#cals_write#:#Schreibzugriff auf Kalendereinstellungen
+rbac#:#blga_write#:#Einstellungen in Blog-Administration bearbeiten
+rbac#:#cals_add_consultation_hours#:#Benutzer kann in Kalender Sprechstundentermine anlegen und bearbeiten
+rbac#:#cals_edit_event#:#Öffentliche Kalender und Termine anlegen und verwalten
+rbac#:#cals_edit_permission#:#Rechteeinstellung der Administration ändern
+rbac#:#cals_read#:#Lesezugriff auf Einstellungen der Kalender-Administration
+rbac#:#cals_visible#:#Kalender-Administration sind sichtbar
+rbac#:#cals_write#:#Einstellungen der Kalender-Administration bearbeiten
 rbac#:#cat_administrate_users#:#Lokale Benutzerkonten verwalten
 rbac#:#cat_create_book#:#Neuen Buchungspool anlegen
 rbac#:#cat_create_catr#:#Neue Kategorie-Referenz anlegen
@@ -10077,9 +10067,9 @@ rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
 rbac#:#catr_visible#:#Kategorie-Referenzen sind sichtbar und können genutzt werden
 rbac#:#catr_write#:#Einstellungen der Kategorie-Referenzen bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
-rbac#:#cmps_read#:#Lesezugriff auf Komponenteneinstellungen
-rbac#:#cmps_visible#:#Komponenteneinstellungen sind sichtbar
-rbac#:#cmps_write#:#Komponenteneinstellungen bearbeiten
+rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
+rbac#:#cmps_visible#:#Administration für Plugins, Module und Dienste ist sichtbar
+rbac#:#cmps_write#:#Einstellungen für Plugins, Module und Dienste bearbeiten
 rbac#:#crs_create_book#:#Buchungspool anlegen
 rbac#:#crs_create_catr#:#Neue Kategorie-Referenz anlegen
 rbac#:#crs_create_chtr#:#Neuen Chatraum anlegen
@@ -10096,7 +10086,7 @@ rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
-rbac#:#export_member_data#:#Zugriff auf Benutzerdaten
+rbac#:#export_member_data#:#Zugriff Benutzerdaten
 rbac#:#facs_edit_permission#:#Rechteeinstellung ändern
 rbac#:#facs_read#:#Lesezugriff auf Einstellungen Dateien und Ordner
 rbac#:#facs_visible#:#Einstellungen Dateien und Ordner sind sichtbar

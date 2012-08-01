@@ -2154,15 +2154,15 @@ common#:#advanced_editing_settings#:#Configuración de edición avanzada
 common#:#advanced_editing_survey_settings#:#Tags HTML permitidos para la herramienta de encuestas
 common#:#advanced_editing_tinymce#:#Editor TinyMCE
 common#:#adve_assessment_settings#:#Configuración de Test y Encuestas
-common#:#adve_edit_permission#:#Modificar configuración de permisos
+rbac#:#adve_edit_permission#:#Modificar configuración de permisos
 common#:#adve_frm_post_settings#:#Entradas de foros
 common#:#adve_general_settings#:#Configuración General
 common#:#adve_lm_settings#:#LM / Configuración de Glosario
-common#:#adve_read#:#Acceso a Administración de edición avanzada
+rbac#:#adve_read#:#Acceso a Administración de edición avanzada
 common#:#adve_rep_settings#:#Ajustes de repositorio
 common#:#adve_survey_settings#:#Configuración de Encuestas
-common#:#adve_visible#:#La administración de edición avanzada es visible
-common#:#adve_write#:#Administración de edición avanzada
+rbac#:#adve_visible#:#La administración de edición avanzada es visible
+rbac#:#adve_write#:#Administración de edición avanzada
 common#:#agree_date#:#De acuerdo en
 common#:#all_authors#:#Todos los autores
 common#:#all_commands#:#Comandos de Administración
@@ -2247,11 +2247,11 @@ common#:#assessment_use_javascript#:#JavaScript para Drag and Drop
 common#:#assessment_use_javascript_desc#:#Activa JavaScript para acciones de 'arrastrar y soltar' por defecto
 common#:#assf_allowed_questiontypes#:#Tipos de preguntas disponibles
 common#:#assf_allowed_questiontypes_desc#:#Todos los tipos de pregunta marcados estarán disponibles en esta instalación ILIAS. Si no quiere permitir la creación de ciertos tipos de pregunta en esta instalación, debe eliminar la selección en la casilla asociada.
-common#:#assf_edit_permission#:#Modificar configuración de permisos
+rbac#:#assf_edit_permission#:#Modificar configuración de permisos
 common#:#assf_questiontypes#:#Configuración de Pregunta
-common#:#assf_read#:#Acceso a la administración de Tests
-common#:#assf_visible#:#La administración de Test es visible
-common#:#assf_write#:#Editar administración de Tests
+rbac#:#assf_read#:#Acceso a la administración de Tests
+rbac#:#assf_visible#:#La administración de Test es visible
+rbac#:#assf_write#:#Editar administración de Tests
 common#:#assign#:#Asignar
 common#:#assign_global_role#:#Asignar al rol global
 common#:#assign_lo_forum#:#asignar objeto de aprendizaje foro
@@ -2285,7 +2285,7 @@ common#:#auth_create_users#:#Crear usuarios no existentes automáticamente
 common#:#auth_default#:#Configuración por defecto
 common#:#auth_default_mode_changed_to#:#Modo de autenticación por defecto cambiado a
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#Modificar configuración de permisos
+rbac#:#auth_edit_permission#:#Modificar configuración de permisos
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autenticar usuarios mediante servidor LDAP
 common#:#auth_ldap_enable#:#Habilitar soporte LDAP
@@ -2312,7 +2312,7 @@ common#:#auth_radius_server#:#Servidores
 common#:#auth_radius_server_desc#:#Puede añadir múltiples servidores separados por comas. Los servidores rotan a modo "Round-robin" cuando son consultados.
 common#:#auth_radius_settings_saved#:#Configuración RADIUS salvada
 common#:#auth_radius_shared_secret#:#Secreto compartido
-common#:#auth_read#:#Configuración de autenticación
+rbac#:#auth_read#:#Configuración de autenticación
 common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo 'base de datos ILIAS', no podrá modificar el usuario y contraseña nunca más.
 common#:#auth_role_auth_mode#:#Modo de Autenticación
 common#:#auth_script#:#Personalizado
@@ -2341,8 +2341,8 @@ common#:#auth_soap_use_https#:#Usar HTTPS
 common#:#auth_soap_user_default_role#:#Rol por defecto asignado a usuarios SOAP
 common#:#auth_soap_user_default_role_desc#:#Este rol se asigna a los usuarios SOAP creados automáticamente
 common#:#auth_user_default_role#:#Rol por defecto
-common#:#auth_visible#:#Configuración de autenticación visible
-common#:#auth_write#:#Editar Configuración de autenticación
+rbac#:#auth_visible#:#Configuración de autenticación visible
+rbac#:#auth_write#:#Editar Configuración de autenticación
 common#:#authenticate_ilias#:#Entrar a ILIAS
 common#:#authenticate_with#:#Entrar a:
 common#:#authentication_settings#:#Autenticación
@@ -2487,10 +2487,10 @@ common#:#censorship#:#Censurar
 common#:#centra_account#:#Cuenta de Administrador Centra
 common#:#centra_rooms#:#Habitaciones Centra
 common#:#centra_server#:#Servidor Centra
-common#:#cert_edit_permission#:#Cambiar configuración de permisos
-common#:#cert_read#:#Acceso de lectura a la Configuración del informe
-common#:#cert_visible#:#Las configuraciones de los informes son visibles
-common#:#cert_write#:#Editar la configuraciones de los informes
+rbac#:#cert_edit_permission#:#Cambiar configuración de permisos
+rbac#:#cert_read#:#Acceso de lectura a la Configuración del informe
+rbac#:#cert_visible#:#Las configuraciones de los informes son visibles
+rbac#:#cert_write#:#Editar la configuraciones de los informes
 common#:#certificate#:#Informe
 common#:#chac_edit_permission#:#Editar permisos
 common#:#chac_read#:#Acceso de lectura a la Configuración de Chat
@@ -2867,7 +2867,7 @@ common#:#edit_page#:#Editar Página
 common#:#edit_page_content#:#Editar Contenido de la página
 common#:#edit_perm_ruleset#:#Editar reglas de permisos por defecto
 common#:#edit_properties#:#Editar propiedades
-common#:#edit_roleassignment#:#Editar asignación de rol
+rbac#:#edit_roleassignment#:#Editar asignación de rol
 common#:#edit_stylesheet#:#Editar hoja de estilos
 common#:#edited_at#:#Editado en
 common#:#editor#:#Editor
@@ -3023,7 +3023,7 @@ common#:#ext_acccount_required#:#Por favor introduzca el nombre de la cuenta ext
 common#:#ext_cat_settings#:#Editar configuración avanzada de categoría
 common#:#ext_link#:#Enlace
 common#:#extt_configure#:#configurar...
-common#:#extt_edit_permission#:#Modificar configuración de permisos
+rbac#:#extt_edit_permission#:#Modificar configuración de permisos
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Opciones Adicionales
 common#:#extt_ilinc_akclassvalues_active#:#Habilitar centros de gasto
@@ -3042,11 +3042,11 @@ common#:#extt_ilinc_server#:#Servidor
 common#:#extt_ilinc_settings_saved#:#Configuración LearnLinc grabada
 common#:#extt_ilinc_timeout#:#Máximo tiempo de espera para respuesta del servidor
 common#:#extt_name#:#Software/Servicio
-common#:#extt_read#:#Acceso a configuración de software externo
+rbac#:#extt_read#:#Acceso a configuración de software externo
 common#:#extt_remark#:#Todo el software y servicios listados arriba no están bajo el acuerdo de licencia 'open source' de ILIAS
 common#:#extt_title_configure#:#Configurar software externo
-common#:#extt_visible#:#Configuración de software externo visible
-common#:#extt_write#:#Configurar software externo
+rbac#:#extt_visible#:#Configuración de software externo visible
+rbac#:#extt_write#:#Configurar software externo
 common#:#failure_message#:#Mensaje de Error
 common#:#faq_exercise#:#Actividad FAQ
 common#:#fax#:#Fax

@@ -972,13 +972,13 @@ common#:#advanced_editing_settings#:#Išplėstiniai Redagavimo Nustatymai
 common#:#advanced_editing_survey_settings#:#Leidžiamos HTML Žymės ILIAS apklausos įrankiui
 common#:#advanced_editing_tinymce#:#TinyMCE Redaktorius
 common#:#adve_assessment_settings#:#Testavimo ir Vertinimo Nustatymai
-common#:#adve_edit_permission#:#Keisti Leidimų Nustatymus
+rbac#:#adve_edit_permission#:#Keisti Leidimų Nustatymus
 common#:#adve_general_settings#:#Bendri Nustatymai
 common#:#adve_lm_settings#:#LM / Glosarijaus Nustatymai
-common#:#adve_read#:#Eiti į Išplėstinio Redagavimo Administravimą
+rbac#:#adve_read#:#Eiti į Išplėstinio Redagavimo Administravimą
 common#:#adve_survey_settings#:#Apklausos Nustatymas
-common#:#adve_visible#:#Išplėstinio Redagavimo Administravimas yra Matomas
-common#:#adve_write#:#Išplėstinio Redagavimo Administravimas
+rbac#:#adve_visible#:#Išplėstinio Redagavimo Administravimas yra Matomas
+rbac#:#adve_write#:#Išplėstinio Redagavimo Administravimas
 common#:#agree_date#:#Sutiko su
 common#:#all_authors#:#Visi autoriai
 common#:#all_global_roles#:#Globalios rolės
@@ -1037,10 +1037,10 @@ common#:#assessment_log_user_answer#:#Vartotojas atsakė į klausimą
 common#:#assessment_log_user_answers#:#Rodyti vartotojo veiksmus
 common#:#assessment_settings#:#Testavimo ir Vertinimo Administravimo Nustatymai
 common#:#assessment_settings_reporting_language#:#Ataskaitos kalba
-common#:#assf_edit_permission#:#Keisti leidimų nustatymus
-common#:#assf_read#:#Eiti į Testavimo ir Vertinimo Administravimą
-common#:#assf_visible#:#Testavimo ir Vertinimo administravimas yra matomas
-common#:#assf_write#:#Redaguoti Testavimo ir Įvertinimo administravimą
+rbac#:#assf_edit_permission#:#Keisti leidimų nustatymus
+rbac#:#assf_read#:#Eiti į Testavimo ir Vertinimo Administravimą
+rbac#:#assf_visible#:#Testavimo ir Vertinimo administravimas yra matomas
+rbac#:#assf_write#:#Redaguoti Testavimo ir Įvertinimo administravimą
 common#:#assign#:#Priskirti
 common#:#assign_global_role#:#Priskirti Globaliai Rolei
 common#:#assign_lo_forum#:#Priskirti LO Forumui
@@ -1071,7 +1071,7 @@ common#:#auth_configure#:#konfigūruoti...
 common#:#auth_create_users#:#Automatiškai sukurti neegzistuojanius vartotojus
 common#:#auth_default#:#Standartinis nustatymas
 common#:#auth_default_mode_changed_to#:#Standartinis autorizacijos būdas pakeistas į
-common#:#auth_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#auth_edit_permission#:#Keisti leidimo nustatymus
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#Autorizuoti vartotojus naudojant LDAP serverį
 common#:#auth_ldap_enable#:#Įjungti LDAP palaikymą
@@ -1095,7 +1095,7 @@ common#:#auth_radius_server#:#Serveriai
 common#:#auth_radius_server_desc#:#Galite pridėti keletą serverių, atskirdami juos kableliais. Užklausimų metu serveriai keičiami Round robin būdu.
 common#:#auth_radius_settings_saved#:#RADIUS nustatymai išsaugoti
 common#:#auth_radius_shared_secret#:#Prieinama paslaptis
-common#:#auth_read#:#Eiti į autorizavimo nustatymus
+rbac#:#auth_read#:#Eiti į autorizavimo nustatymus
 common#:#auth_remark_non_local_auth#:#Pasirinkdami kitą atorizavimo būdą (ne ILIAS duomenų bazę), negalėsite keisti vartotojų prisijungimo vardų ir slaptažodžių.
 common#:#auth_role_auth_mode#:#Autorizavimo būdas
 common#:#auth_script#:#Savas
@@ -1121,8 +1121,8 @@ common#:#auth_soap_use_https#:#Naudoti HTTPS
 common#:#auth_soap_user_default_role#:#SOAP autorizuotiems vartotojams priskirta rolė
 common#:#auth_soap_user_default_role_desc#:#Ši rolė priskirta automatiškai sukurtiems SOAP vartotojams.
 common#:#auth_user_default_role#:#Standartinė Rolė
-common#:#auth_visible#:#Autorizacijos nustatymai yra matomi
-common#:#auth_write#:#Redaguoti autorizacijos nustatymus
+rbac#:#auth_visible#:#Autorizacijos nustatymai yra matomi
+rbac#:#auth_write#:#Redaguoti autorizacijos nustatymus
 common#:#authentication_settings#:#Autorizacija
 common#:#author#:#Autorius
 common#:#authors#:#Autoriai
@@ -1475,7 +1475,7 @@ common#:#edit_page#:#Redaguoti Puslapį
 common#:#edit_page_content#:#Redaguoti Puslapio Turinį
 common#:#edit_perm_ruleset#:#Redaguoti standartines leidimų taisykles
 common#:#edit_properties#:#Redaguoti Savybes
-common#:#edit_roleassignment#:#Redaguoti rolių priskyrimą
+rbac#:#edit_roleassignment#:#Redaguoti rolių priskyrimą
 common#:#edit_stylesheet#:#Redaguoti Stilių
 common#:#edited_at#:#Redaguota
 common#:#editor#:#Redagavo
@@ -1595,7 +1595,7 @@ common#:#export_group_members#:#Eksportuoti grupės narius (į Microsoft Excel)
 common#:#export_html#:#eksportuoti kaip HTML failą
 common#:#export_xml#:#eksportuoti kaip XML failą
 common#:#extt_configure#:#konfigūruoti...
-common#:#extt_edit_permission#:#Keisti leidimų nustatymus
+rbac#:#extt_edit_permission#:#Keisti leidimų nustatymus
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#Papildomos Parinktys
 common#:#extt_ilinc_akclassvalues_active#:#Įjungti kainos centrus
@@ -1614,11 +1614,11 @@ common#:#extt_ilinc_server#:#Serveris
 common#:#extt_ilinc_settings_saved#:#LearnLinc nustatymai išsaugoti
 common#:#extt_ilinc_timeout#:#Maksimalus serverio atsakymo laukimo laikas
 common#:#extt_name#:#Programinė Įranga/Paslauga
-common#:#extt_read#:#Eiti į 3-ios šalies programinės įrangos nustatymus
+rbac#:#extt_read#:#Eiti į 3-ios šalies programinės įrangos nustatymus
 common#:#extt_remark#:#Visa aukščiau pateikta programinė įranga ir paslaugos nėra ILIAS dalis ir jai netaikoma atvirojo kodo licensija.
 common#:#extt_title_configure#:#Konfiguruoti išorinę programinę įrangą
-common#:#extt_visible#:#3-ios šalies programinės įrangos nustatymai yra matomi
-common#:#extt_write#:#Konfiguruoti 3-ios šalies programinę įrangą
+rbac#:#extt_visible#:#3-ios šalies programinės įrangos nustatymai yra matomi
+rbac#:#extt_write#:#Konfiguruoti 3-ios šalies programinę įrangą
 common#:#faq_exercise#:#Pratybų DUK
 common#:#fax#:#Faks.
 common#:#feedback#:#Atsiliepimai
@@ -8660,10 +8660,10 @@ rbac#:#facs_write#:#Edit files & foldes settings###06 11 2008 new variable
 common#:#objs_mail#:#Mail###06 11 2008 new variable
 common#:#assessment_imap_line_color#:#Imagemap Line Color###24 02 2009 new variable
 common#:#msg_wrong_format#:#The value you entered is not a valid format.###24 02 2009 new variable
-common#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
-common#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
-common#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
+rbac#:#cert_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#cert_visible#:#Certificate Settings are visible###24 02 2009 new variable
+rbac#:#cert_read#:#Read access to Certificate Settings###24 02 2009 new variable
+rbac#:#cert_write#:#Edit Certificate Settings###24 02 2009 new variable
 gmaps#:#gmaps_lookup_address#:#Lookup Address###24 02 2009 new variable
 common#:#obj_cert#:#Certificates###24 02 2009 new variable
 common#:#obj_cert_desc#:#Settings for certificates###24 02 2009 new variable

@@ -2153,15 +2153,15 @@ common#:#advanced_editing_settings#:#詳細編集設定
 common#:#advanced_editing_survey_settings#:#ILIAS調査ツール用の許可されたHTMLタグ
 common#:#advanced_editing_tinymce#:#TinyMCEエディター
 common#:#adve_assessment_settings#:#テストとアセスメント設定
-common#:#adve_edit_permission#:#アクセス権限設定を変更
+rbac#:#adve_edit_permission#:#アクセス権限設定を変更
 common#:#adve_frm_post_settings#:#フォーラム投稿
 common#:#adve_general_settings#:#全体設定
 common#:#adve_lm_settings#:#LM / 用語集設定
-common#:#adve_read#:#詳細編集管理をアクセス
+rbac#:#adve_read#:#詳細編集管理をアクセス
 common#:#adve_rep_settings#:#リポジトリー設定
 common#:#adve_survey_settings#:#調査設定
-common#:#adve_visible#:#詳細編集管理を表示
-common#:#adve_write#:#詳細編集管理
+rbac#:#adve_visible#:#詳細編集管理を表示
+rbac#:#adve_write#:#詳細編集管理
 common#:#agree_date#:#Agreed on
 common#:#all_authors#:#全作成者
 common#:#all_commands#:#全コマンド
@@ -2246,11 +2246,11 @@ common#:#assessment_use_javascript#:#ドラッグアンドドロップ用のJava
 common#:#assessment_use_javascript_desc#:#最初は初期設定でドラッグアンドドロップによるJavaScript出力を可能にする
 common#:#assf_allowed_questiontypes#:#利用できる問題タイプ
 common#:#assf_allowed_questiontypes_desc#:#全てのチェックした問題タイプはILIASインストレーションで利用可能になります。今回のインストールにおいて特定の問題タイプの作成を許可したくない時は、該当するチェックボックスを外す必要があります。
-common#:#assf_edit_permission#:#アクセス権限設定を変更
+rbac#:#assf_edit_permission#:#アクセス権限設定を変更
 common#:#assf_questiontypes#:#問題設定
-common#:#assf_read#:#テストとアセスメント管理をアクセス
-common#:#assf_visible#:#テストとアセスメント管理を表示
-common#:#assf_write#:#テストとアセスメント管理を編集
+rbac#:#assf_read#:#テストとアセスメント管理をアクセス
+rbac#:#assf_visible#:#テストとアセスメント管理を表示
+rbac#:#assf_write#:#テストとアセスメント管理を編集
 common#:#assign#:#割当てる
 common#:#assign_global_role#:#グローバル役割を割当てる
 common#:#assign_lo_forum#:#LO フォーラムを割当てる
@@ -2284,7 +2284,7 @@ common#:#auth_create_users#:#存在しないユーザーを自動的に作成
 common#:#auth_default#:#初期設定設定
 common#:#auth_default_mode_changed_to#:#初期設定認証モードを変更
 common#:#auth_ecs#:#ECS
-common#:#auth_edit_permission#:#アクセス権限設定を変更
+rbac#:#auth_edit_permission#:#アクセス権限設定を変更
 common#:#auth_ldap#:#LDAP
 common#:#auth_ldap_desc#:#LDAPサーバー経由の認証ユーザー
 common#:#auth_ldap_enable#:#LDAPサポートを有効にする
@@ -2311,7 +2311,7 @@ common#:#auth_radius_server#:#サーバー
 common#:#auth_radius_server_desc#:#カンマ区切りで複数のサーバーを追加できます。 サーバーは問い合わせに対してラウンドロビン様式で再帰します。
 common#:#auth_radius_settings_saved#:#RADIUS設定を保存
 common#:#auth_radius_shared_secret#:#共有秘密
-common#:#auth_read#:#認証設定をアクセス
+rbac#:#auth_read#:#認証設定をアクセス
 common#:#auth_remark_non_local_auth#:#ILIASデータベース以外の認証モードを選択すると以降のユーザーのログイン名とパスワードを変更できなくなります。
 common#:#auth_role_auth_mode#:#認証モード
 common#:#auth_script#:#カスタム
@@ -2340,8 +2340,8 @@ common#:#auth_soap_use_https#:#HTTPSを使用
 common#:#auth_soap_user_default_role#:#SOAP認証ユーザーへ割当てられる初期設定の役割
 common#:#auth_soap_user_default_role_desc#:#この役割は自動的に作成したSOAPユーザーに割り当てます。
 common#:#auth_user_default_role#:#役割初期設定
-common#:#auth_visible#:#認証設定を表示
-common#:#auth_write#:#認証設定を編集
+rbac#:#auth_visible#:#認証設定を表示
+rbac#:#auth_write#:#認証設定を編集
 common#:#authenticate_ilias#:#ILIASのネイティブ認証
 common#:#authenticate_with#:#ログイン
 common#:#authentication_settings#:#認証
@@ -2486,10 +2486,10 @@ common#:#censorship#:#検閲
 common#:#centra_account#:#Centra Adminアカウント
 common#:#centra_rooms#:#中央ルーム
 common#:#centra_server#:#中央サーバー
-common#:#cert_edit_permission#:#アクセス権限設定を変更
-common#:#cert_read#:#証明書設定を読み込む
-common#:#cert_visible#:#証明書設定を表示
-common#:#cert_write#:#証明書設定を編集
+rbac#:#cert_edit_permission#:#アクセス権限設定を変更
+rbac#:#cert_read#:#証明書設定を読み込む
+rbac#:#cert_visible#:#証明書設定を表示
+rbac#:#cert_write#:#証明書設定を編集
 common#:#certificate#:#証明書
 common#:#chac_edit_permission#:#アクセス権限設定を変更
 common#:#chac_read#:#チャット設定を読み込む
@@ -2867,7 +2867,7 @@ common#:#edit_page#:#ページを編集
 common#:#edit_page_content#:#ページコンテンツを編集
 common#:#edit_perm_ruleset#:#アクセス権限役割初期設定を編集
 common#:#edit_properties#:#プロパティを編集
-common#:#edit_roleassignment#:#役割割当てを編集
+rbac#:#edit_roleassignment#:#役割割当てを編集
 common#:#edit_stylesheet#:#スタイルを編集
 common#:#edited_at#:#編集時間
 common#:#editor#:#エディター
@@ -3023,7 +3023,7 @@ common#:#ext_acccount_required#:#外部アカウント名を入力してくだ�
 common#:#ext_cat_settings#:#詳細カテゴリー設定を編集
 common#:#ext_link#:#リンク
 common#:#extt_configure#:#構成中...
-common#:#extt_edit_permission#:#アクセス権限設定を変更
+rbac#:#extt_edit_permission#:#アクセス権限設定を変更
 common#:#extt_ilinc#:#netucate LearnLinc
 common#:#extt_ilinc_additional_options#:#追加オプション
 common#:#extt_ilinc_akclassvalues_active#:#コストセンターを有効にする
@@ -3042,11 +3042,11 @@ common#:#extt_ilinc_server#:#サーバー
 common#:#extt_ilinc_settings_saved#:#LearnLinc設定を保存
 common#:#extt_ilinc_timeout#:#サーバー応答待ちMax time
 common#:#extt_name#:#ソフトウェア/サービス
-common#:#extt_read#:#サードパーティソフトウェア設定にアクセス
+rbac#:#extt_read#:#サードパーティソフトウェア設定にアクセス
 common#:#extt_remark#:#下記に示す全てのソフトウェアとサービスはILIASの一部ではありませんが、ILIASオープンソースライセンス契約に違反するものではありません。
 common#:#extt_title_configure#:#外部ソフトウェアの構成
-common#:#extt_visible#:#サードパーティサードパーティ設定を表示
-common#:#extt_write#:#サードパーティソフトウェアを構成
+rbac#:#extt_visible#:#サードパーティサードパーティ設定を表示
+rbac#:#extt_write#:#サードパーティソフトウェアを構成
 common#:#failure_message#:#失敗メッセージ
 common#:#faq_exercise#:#FAQ練習問題
 common#:#fax#:#Fax
