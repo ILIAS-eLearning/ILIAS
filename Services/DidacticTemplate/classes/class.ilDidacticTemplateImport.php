@@ -152,7 +152,7 @@ class ilDidacticTemplateImport
 				foreach($tpl->role as $roleDef)
 				{
 					include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
-					$rimporter = new ilRoleXmlImporter();
+					$rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
 					$role_id = $rimporter->importSimpleXml($roleDef);
 					$act->setRoleTemplateId($role_id);
 				}
@@ -254,7 +254,7 @@ class ilDidacticTemplateImport
 				foreach($lpo->role as $roleDef)
 				{
 					include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
-					$rimporter = new ilRoleXmlImporter();
+					$rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
 					$role_id = $rimporter->importSimpleXml($roleDef);
 					$act->setRoleTemplateId($role_id);
 				}

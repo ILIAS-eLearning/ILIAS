@@ -134,7 +134,7 @@ class ilExportGUI
 		global $ilCtrl, $ilAccess, $ilErr, $lng;
 		
 		// this should work (at least) for repository objects 
-		if(method_exists($this->obj, 'getRefId'))
+		if(method_exists($this->obj, 'getRefId') and $this->obj->getRefId())
 		{		
 			if(!$ilAccess->checkAccess('write','',$this->obj->getRefId()))
 			{

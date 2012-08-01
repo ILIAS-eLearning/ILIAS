@@ -32,7 +32,7 @@ class ilImport
 	
 	/**
 	 * Get mapping object
-	 * @return object ilImportMapping 
+	 * @return ilImportMapping ilImportMapping 
 	 */
 	public function getMapping()
 	{
@@ -216,7 +216,8 @@ class ilImport
 			catch(Exception $e)
 			{
 				$GLOBALS['ilLog']->write(__METHOD__.': Import failed with message: '.$e->getMessage());
-				$GLOBALS['ilLog']->write(__METHOD__.': '.file_get_contents($dir.'/'.$expfile['path']));
+				#$GLOBALS['ilLog']->write(__METHOD__.': '.file_get_contents($dir.'/'.$expfile['path']));
+				throw $e;
 			}
 		}
 
