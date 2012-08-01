@@ -471,7 +471,7 @@ class ilNote
 	*/
 	function _getRelatedObjectsOfUser($a_mode)
 	{
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $tree;
 		
 		if ($a_mode == ilPDNotesGUI::PRIVATE_NOTES)
 		{
@@ -543,6 +543,47 @@ class ilNote
 					{
 						$reps[] = array("rep_obj_id" => $rec["rep_obj_id"]);
 					}
+				}
+			}
+		}
+				
+		if(sizeof($reps))
+		{
+			// check if notes/comments belong to objects in trash
+			// see ilNoteGUI::showTargets()
+			foreach($reps as $idx => $rep)
+			{				
+				$has_active_ref = false;
+				
+				// repository?
+				$ref_ids = ilObject::_getAllReferences($rep["rep_obj_id"]);
+				if($ref_ids)
+				{
+					foreach($ref_ids as $ref_id)
+					{
+						if(!$tree->isDeleted($ref_id))
+						{
+							$has_active_ref = true;
+							break;
+						}
+					}
+				}				
+				else
+				{					
+					// personal workspace?
+					include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+					include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+					$wsp_tree = new ilWorkspaceTree($ilUser->getId());						
+					$node_id = $wsp_tree->lookupNodeId($rep["rep_obj_id"]);
+					if($node_id)
+					{
+						$has_active_ref = true;
+					}
+				}
+				
+				if(!$has_active_ref)
+				{
+					unset($reps[$idx]);
 				}
 			}
 		}
