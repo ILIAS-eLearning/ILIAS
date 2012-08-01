@@ -7997,7 +7997,6 @@ forum#:#to_forum#:#In Forum
 forum#:#topic_close#:#geschlossen
 forum#:#topics_please_select_one_action#:#Bitte wählen Sie eine Aktion aus.
 forum#:#user_decides_notification#:#Benutzer entscheidet selbst über Benachrichtigung
-frm#:#frm_import#:#Forum importieren
 gmaps#:#gmaps_api_key#:#API-Schlüssel
 gmaps#:#gmaps_api_key_desc#:#Um die Google Maps-Erweiterung nutzen zu können, müssen Sie einen Google-Map-API-Schlüssel beantragen bei:
 gmaps#:#gmaps_enable_gmaps#:#Google Maps aktivieren
@@ -12758,7 +12757,7 @@ rbac#:#qpl_copy#:#Fragenpool für Tests kopieren
 rbac#:#sahs_copy#:#SCORM/AICC-Lernmodul kopieren
 rbac#:#sess_copy#:#Sitzung kopieren
 rbac#:#spl_copy#:#Fragenpool für Umfragen kopieren
-rbac#:#spl_copy#:#Umfrage kopieren
+rbac#:#svy_copy#:#Umfrage kopieren
 rbac#:#tst_copy#:#Test kopieren
 rbac#:#webr_copy#:#Weblink kopieren
 rbac#:#wiki_copy#:#Wiki kopieren
