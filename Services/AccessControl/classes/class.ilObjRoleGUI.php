@@ -12,7 +12,7 @@ include_once './Services/AccessControl/classes/class.ilObjRole.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI, ilExportGUI
 *
 * @ingroup	ServicesAccessControl
 */
@@ -100,6 +100,15 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->tabs_gui->setTabActive('user_assignment');
 				$this->ctrl->setReturn($this,'userassignment');
 				$ret =& $this->ctrl->forwardCommand($rep_search);
+				break;
+			
+			case 'ilexportgui':
+					
+				$this->tabs_gui->setTabActive('export');
+				include_once './Services/Export/classes/class.ilExportGUI.php';
+				$exp = new ilExportGUI($this, new ilObjRole($this->object->getId()));
+				$exp->addFormat('xml');
+				$this->ctrl->forwardCommand($exp);
 				break;
 
 			default:
@@ -2729,6 +2738,15 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "listDesktopItems"),
 				array("listDesktopItems", "deleteDesktopItems", "selectDesktopItem", "askDeleteDesktopItem"),
 				get_class($this));
+		}
+		if($this->checkAccess('write','edit_permission'))
+		{
+			$tabs_gui->addTarget(
+					'export',
+					$this->ctrl->getLinkTargetByClass('ilExportGUI'),
+					array()
+				);
+					
 		}
 	}
 

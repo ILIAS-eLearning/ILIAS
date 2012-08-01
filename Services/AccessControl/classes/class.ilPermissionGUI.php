@@ -31,6 +31,55 @@ class ilPermissionGUI extends ilPermission2GUI
 	}
 	
 	/**
+	 * Execute command
+	 * @return 
+	 */
+	public function executeCommand()
+	{
+		global $rbacsystem, $ilErr;
+
+		// access to all functions in this class are only allowed if edit_permission is granted
+		if (!$rbacsystem->checkAccess("edit_permission",$this->gui_obj->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
+		}
+
+		$next_class = $this->ctrl->getNextClass($this);
+
+		switch($next_class)
+		{
+			case "ilobjrolegui":
+				include_once("Services/AccessControl/classes/class.ilObjRoleGUI.php");
+				$this->gui_obj = new ilObjRoleGUI("",(int) $_GET["obj_id"], false, false);
+				$this->gui_obj->setBackTarget($this->lng->txt("perm_settings"),$this->ctrl->getLinkTarget($this, "perm"));
+				$ret = $this->ctrl->forwardCommand($this->gui_obj);
+				break;
+
+			case 'ildidactictemplategui':
+				$this->ctrl->setReturn($this,'perm');
+				include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
+				$did = new ilDidacticTemplateGUI($this->gui_obj);
+				$this->ctrl->forwardCommand($did);
+				break;
+			
+			case 'ilrepositorysearchgui':
+				// used for owner autocomplete
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search = new ilRepositorySearchGUI();
+				$this->ctrl->forwardCommand($rep_search);
+				break;
+				
+			default:
+				$cmd = $this->ctrl->getCmd();
+				$this->$cmd();
+				break;
+		}
+
+		return true;
+	}
+	
+	
+	/**
 	 * Get current object
 	 * @return ilObject
 	 */
@@ -72,13 +121,16 @@ class ilPermissionGUI extends ilPermission2GUI
 		}
 		
 		if($objDefinition->hasLocalRoles($this->getCurrentObject()->getType()) and
-			!$this->isAdminRoleFolder() and
 			!$this->isAdministrationObject()
 		)
 		{
-			// Show new role button
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-			$ilToolbar->addButton($this->lng->txt('rbac_add_new_local_role'),$this->ctrl->getLinkTarget($this,'displayAddRoleForm'));
+
+			if(!$this->isAdminRoleFolder())
+			{
+				$ilToolbar->addButton($this->lng->txt('rbac_add_new_local_role'),$this->ctrl->getLinkTarget($this,'displayAddRoleForm'));
+			}
+			$ilToolbar->addButton($this->lng->txt('rbac_import_role'),$this->ctrl->getLinkTarget($this,'displayImportRoleForm'));
 		}
 
 		$this->__initSubTabs("perm");
@@ -470,5 +522,179 @@ class ilPermissionGUI extends ilPermission2GUI
 		
 		return $objDefinition->isContainer($a_type) and $a_type != 'root' and $a_type != 'adm' and $a_type != 'rolf';
 	}
+
+	/**
+	 * Show import form
+	 * @param ilPropertyFormGUI $form 
+	 */
+	protected function displayImportRoleForm(ilPropertyFormGUI $form = null)
+	{
+		$GLOBALS['ilTabs']->clearTargets();
+		
+		if(!$form)
+		{
+			$form = $this->initImportForm();
+		}
+		$GLOBALS['tpl']->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Perform import
+	 */
+	protected function doImportRole()
+	{
+		global $rbacreview;
+		
+		$form = $this->initImportForm();
+		if($form->checkInput())
+		{
+			try {
+			
+				include_once './Services/Export/classes/class.ilImport.php';
+				$imp = new ilImport($this->getCurrentObject()->getRefId());
+				$imp->getMapping()->addMapping(
+						'Services/AccessControl', 
+						'rolf', 
+						0, 
+						$rbacreview->getRoleFolderIdOfObject($this->getCurrentObject()->getRefId())
+				);
+
+				$imp->importObject(
+						null, 
+						$_FILES["importfile"]["tmp_name"],
+						$_FILES["importfile"]["name"],
+						'role'
+				);
+				ilUtil::sendSuccess($this->lng->txt('rbac_role_imported'),true);
+				$this->ctrl->redirect($this,'perm');
+				return;
+			}
+			catch(Exception $e)
+			{
+				ilUtil::sendFailure($e->getMessage());
+				$form->setValuesByPost();
+				$this->displayImportRoleForm($form);
+				return;
+			}
+		}
+		$form->setValuesByPost();
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$this->displayImportRoleForm($form);
+	}
+	
+	/**
+	 * init import form
+	 */
+	protected function initImportForm()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('role_import'));
+		$form->addCommandButton('doImportRole', $this->lng->txt('import'));
+		$form->addCommandButton('perm', $this->lng->txt('cancel'));
+		
+		$zip = new ilFileInputGUI($this->lng->txt('import_file'),'importfile');
+		$zip->setSuffixes(array('zip'));
+		$form->addItem($zip);
+		
+		return $form;
+	}
+	
+	/**
+	 * Shoew add role
+	 * @global type $rbacreview
+	 * @global type $objDefinition
+	 * @return ilPropertyFormGUI 
+	 */
+	protected function initRoleForm()
+    {
+		global $rbacreview,$objDefinition;
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('role_new'));
+		$form->addCommandButton('addrole',$this->lng->txt('role_new'));
+		$form->addCommandButton('perm', $this->lng->txt('cancel'));
+
+		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
+		$title->setValidationRegexp('/^(?!il_).*$/');
+		$title->setValidationFailureMessage($this->lng->txt('msg_role_reserved_prefix'));
+		$title->setSize(40);
+		$title->setMaxLength(70);
+		$title->setRequired(true);
+		$form->addItem($title);
+
+		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		$desc->setCols(40);
+		$desc->setRows(3);
+		$form->addItem($desc);
+
+		$pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'),'pro');
+		$pro->setInfo($this->lng->txt('role_protect_permissions_desc'));
+		$pro->setValue(1);
+		$form->addItem($pro);
+
+		$pd = new ilCheckboxInputGUI($this->lng->txt('rbac_role_add_to_desktop'),'desktop');
+		$pd->setInfo($this->lng->txt('rbac_role_add_to_desktop_info'));
+		$pd->setValue(1);
+		$form->addItem($pd);
+
+		$rights = new ilRadioGroupInputGUI($this->lng->txt("rbac_role_rights_copy"), 'rights');
+		$option = new ilRadioOption($this->lng->txt("rbac_role_rights_copy_empty"), 0);
+	    $rights->addOption($option);
+
+		$parent_role_ids = $rbacreview->getParentRoleIds($this->gui_obj->object->getRefId(),true);
+		$ids = array();
+		foreach($parent_role_ids as $id => $tmp)
+		{
+			$ids[] = $id;
+		}
+
+		// Sort ids
+		$sorted_ids = ilUtil::_sortIds($ids,'object_data','type DESC,title','obj_id');
+
+		// Sort roles by title
+		$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
+		$key = 0;
+
+		foreach($sorted_ids as $id)
+		{
+			$par = $parent_role_ids[$id];
+			if ($par["obj_id"] != SYSTEM_ROLE_ID)
+			{
+				include_once './Services/AccessControl/classes/class.ilObjRole.php';
+				$option = new ilRadioOption(($par["type"] == 'role' ? $this->lng->txt('obj_role') : $this->lng->txt('obj_rolt')).": ".ilObjRole::_getTranslation($par["title"]), $par["obj_id"]);
+				$option->setInfo($par["desc"]);
+				$rights->addOption($option);
+			}
+			$key++;
+		}
+		$form->addItem($rights);
+
+		// Local policy only for containers
+		if($objDefinition->isContainer($this->getCurrentObject()->getType()))
+		{
+			$check = new ilCheckboxInputGui($this->lng->txt("rbac_role_rights_copy_change_existing"), 'existing');
+			$check->setInfo($this->lng->txt('rbac_change_existing_objects_desc_new_role'));
+			$form->addItem($check);
+			
+		}
+	
+		return $form;
+	}
+
+	/**
+	 * Show add role form
+	 */
+	protected function displayAddRoleForm()
+	{
+		$GLOBALS['ilTabs']->clearTargets();
+
+		$form = $this->initRoleForm();
+		$this->tpl->setContent($form->getHTML());
+	}
+	
 }
 ?>

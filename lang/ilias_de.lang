@@ -12762,3 +12762,5 @@ rbac#:#tst_copy#:#Test kopieren
 rbac#:#webr_copy#:#Weblink kopieren
 rbac#:#wiki_copy#:#Wiki kopieren
 common#:#obj_poll_duplicate#:#Abstimmung kopieren
+rbac#:#rbac_import_role#:#Rolle importieren
+rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert.

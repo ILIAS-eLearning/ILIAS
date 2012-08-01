@@ -12673,3 +12673,5 @@ rbac#:#tst_copy#:#User can copy test
 rbac#:#webr_copy#:#User can copy weblink
 rbac#:#wiki_copy#:#User can copy wiki
 common#:#obj_poll_duplicate#:#Copy Poll
+rbac#:#rbac_import_role#:#Import Role
+rbac#:#rbac_role_imported#:#The role has been imported.
