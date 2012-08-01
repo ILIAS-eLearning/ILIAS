@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/AccessControl/exceptions/class.ilRoleImporterException.php';
+
 /**
  * Description of class
  *
@@ -9,15 +11,38 @@
  */
 class ilRoleXmlImporter
 {
-    /**
+    protected $role_folder = 0;
+	protected $role = null;
+	
+	protected $xml = '';
+	
+	/**
 	 * Constructor
 	 */
-	public function __construct()
+	public function __construct($a_role_folder_id = 0)
 	{
-
-
+		$this->role_folder = $a_role_folder_id;
 	}
-
+	
+	public function setXml($a_xml)
+	{
+		$this->xml = $a_xml;
+	}
+	
+	public function getXml()
+	{
+		return $this->xml;
+	}
+	
+	/**
+	 * Get role folder id
+	 * @return int 
+	 */
+	public function getRoleFolderId()
+	{
+		return $this->role_folder;
+	}
+	
 	/**
 	 * Get role
 	 * @return ilObjRole
@@ -25,6 +50,37 @@ class ilRoleXmlImporter
 	public function getRole()
 	{
 		return $this->role;
+	}
+	
+	/**
+	 * Set role or role template
+	 * @param ilObject $role 
+	 */
+	public function setRole(ilObject $role)
+	{
+		$this->role = $role;
+	}
+	
+	/**
+	 * import role | role templatae
+	 * @throws ilRoleXmlImporterException
+	 */
+	public function import()
+	{
+		libxml_use_internal_errors(true);
+		
+		$root = simplexml_load_string($this->getXml());
+		
+		if(!$root instanceof SimpleXMLElement)
+		{
+			throw new ilRoleImporterException($this->parseXmlErrors());
+		}
+		foreach($root->role as $roleElement)
+		{
+			$this->importSimpleXml($roleElement);
+			// only one role is parsed
+			break;
+		}
 	}
 
 
@@ -57,14 +113,9 @@ class ilRoleXmlImporter
 			$this->getRole()->create();
 		}
 
-		$rbacadmin->assignRoleToFolder(
-			$this->getRole()->getId(),
-			ROLE_FOLDER_ID,
-			$this->getRole() instanceof ilObjRole ? 'y' : 'n'
-		);
+		$this->assignToRoleFolder();
 
 		// Add operations
-
 		$ops = $rbacreview->getOperations();
 		$operations = array();
 		foreach($ops as $ope)
@@ -89,7 +140,7 @@ class ilRoleXmlImporter
 					$this->getRole()->getId(),
 					trim((string) $sxml_op['group']),
 					array($operations[trim((string) $sxml_op)]),
-					ROLE_FOLDER_ID
+					$this->getRole()
 				);
 
 			}
@@ -97,10 +148,36 @@ class ilRoleXmlImporter
 
 		return $this->getRole()->getId();
 	}
+	
+	/**
+	 * Assign role to folder
+	 * @global type $rbacadmin
+	 * @return type 
+	 */
+	protected function assigntoRoleFolder()
+	{
+		global $rbacadmin;
+		
+		if(!$this->getRoleFolderId())
+		{
+			return;
+		}
+		
+		$rbacadmin->assignRoleToFolder(
+			$this->getRole()->getId(),
+			$this->getRoleFolderId(),
+			$this->getRole() instanceof ilObjRole ? 'y' : 'n'
+		);
+	}
 
 
 	protected function initRole($import_id)
 	{
+		if($this->getRole())
+		{
+			return true;
+		}
+		
 		$obj_id = ilObject::_lookupObjIdByImportId($import_id);
 		include_once './Services/Object/classes/class.ilObjectFactory.php';
 		if($obj_id)
@@ -113,6 +190,17 @@ class ilRoleXmlImporter
 			$this->role = new ilObjRoleTemplate();
 		}
 		return true;
+	}
+	
+	protected function parseXmlErrors()
+	{
+		$errors = '';
+		
+		foreach(libxml_get_errors() as $err)
+		{
+			$errors .= $err->code.'<br/>';
+		}
+		return $errors;
 	}
 }
 ?>
