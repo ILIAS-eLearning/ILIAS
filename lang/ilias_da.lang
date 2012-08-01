@@ -1554,7 +1554,7 @@ common#:#lm_added#:#ILIAS Læremodul er tilføjet
 common#:#lm_create#:#Opret ILIAS læremodul
 rbac#:#lm_delete#:#Slet ILIAS Læremodul
 rbac#:#lm_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#lm_edit_permission#:#Ændrer rettighedsindstillinger
+rbac#:#lm_edit_permission#:#Ændrer rettighedsindstillinger
 common#:#lm_join#:#tilmeld til ILIAS Læremodul
 common#:#lm_leave#:#Afmeld ILIAS Læremodul
 common#:#lm_new#:#Nyt ILIAS Læremodul
@@ -2290,12 +2290,12 @@ common#:#rolt_add#:#Tilføj rolleskabelon
 common#:#rolt_added#:#Rolleskabelon tilføjet
 common#:#rolt_edit#:#Rediger rolleskabelon
 common#:#rolt_new#:#Ny rolleskabelon
-common#:#root_create_cat#:#Bruger kan oprette kategorier
+rbac#:#root_create_cat#:#Bruger kan oprette kategorier
 common#:#root_edit#:#Rediger system root node
-common#:#root_edit_permission#:#Ændre rettighedsindstillinger
-common#:#root_read#:#Læseadgang til ILIASsystemet
-common#:#root_visible#:#ILIASsystemet er synligt
-common#:#root_write#:#Rediger metadata fra system root node
+rbac#:#root_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#root_read#:#Læseadgang til ILIASsystemet
+rbac#:#root_visible#:#ILIASsystemet er synligt
+rbac#:#root_write#:#Rediger metadata fra system root node
 common#:#row#:#Række
 common#:#rows#:#Rækker
 common#:#rte_editor_enabled#:#Rig tekst editor aktiveret
@@ -2849,24 +2849,24 @@ common#:#search_engine#:#Søgemaskiner
 common#:#enable_search_engine#:#Åben det offentlige område overfor søgemaskiner, så som Google.
 common#:#mod_rewrite_disabled#:#Apache modulet 'mod_rewrite' er ikke tilgængeligt.
 common#:#allow_override_alert#:#Regler for .htaccess fortolkes ikke korrekt
-common#:#cat_copy#:#Kopier kategori
+rbac#:#cat_copy#:#Kopier kategori
 common#:#chat_copy#:#Kopier chat
-common#:#crs_copy#:#Kopier kursus
+rbac#:#crs_copy#:#Kopier kursus
 common#:#dbk_copy#:#Kopier Digilibbog
-common#:#exc_copy#:#Kopier øvelse
-common#:#file_copy#:#Kopier fil
-common#:#fold_copy#:#Kopier mappe
-common#:#frm_copy#:#Kopier forum
-common#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
-common#:#grp_copy#:#Kopier gruppe
-common#:#htlm_copy#:#Kopier HTML læremodul
+rbac#:#exc_copy#:#Kopier øvelse
+rbac#:#file_copy#:#Kopier fil
+rbac#:#fold_copy#:#Kopier mappe
+rbac#:#frm_copy#:#Kopier forum
+rbac#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
+rbac#:#grp_copy#:#Kopier gruppe
+rbac#:#htlm_copy#:#Kopier HTML læremodul
 common#:#icrs_copy#:#Copy LearnLinc Seminar###02 04 2007 new variable
-common#:#lm_copy#:#Kopier ILIAS læremodul
-common#:#mcst_copy#:#Kopier MedieCast
+rbac#:#lm_copy#:#Kopier ILIAS læremodul
+rbac#:#mcst_copy#:#Kopier MedieCast
 common#:#sahs_copy#:#Kopier SCORM/AICC læremodul
-common#:#svy_copy#:#Kopier undersøgelse
-common#:#tst_copy#:#Kopier test
-common#:#webr_copy#:#Kopier webresurse
+rbac#:#svy_copy#:#Kopier undersøgelse
+rbac#:#tst_copy#:#Kopier test
+rbac#:#webr_copy#:#Kopier webresurse
 common#:#missing_perm#:#Missing Permission###02 04 2007 new variable
 common#:#forums_anonymized#:#Forum anonymiseret
 common#:#forums_anonymous#:#anonym
@@ -8406,7 +8406,7 @@ dateplaner#:#cal_share_search_role_header#:#Rollevalg
 common#:#assigned_members#:#Medlemmer
 rbac#:#wiki_read#:#Læs wiki
 rbac#:#wiki_delete#:#Slet wiki
-common#:#wiki_copy#:#Kopier wiki
+rbac#:#wiki_copy#:#Kopier wiki
 rbac#:#wiki_visible#:#Wiki er synlig
 rbac#:#wiki_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#il_crs_non_member#:#Kursus ikke-medlem
@@ -8600,7 +8600,7 @@ rbac#:#crsr_read#:#Læseadgang til kursusreference
 rbac#:#crsr_delete#:#Slet kursusreference
 rbac#:#cat_create_crsr#:#Lav ny kursusreference
 rbac#:#crsr_write#:#Ret kursusreference
-common#:#crsr_copy#:#Kopier kursusreference
+rbac#:#crsr_copy#:#Kopier kursusreference
 common#:#obj_crsr#:#Kursusreference
 common#:#objs_crsr#:#Kursusreference
 rbac#:#catr_edit_permission#:#Ændre rettighedsindstillinger
@@ -8609,7 +8609,7 @@ rbac#:#catr_read#:#Læseadgang til kategorireference
 rbac#:#catr_delete#:#Slet kategorireference
 rbac#:#cat_create_catr#:#Lav kategorireference
 rbac#:#catr_write#:#Ret kategorireference
-common#:#catr_copy#:#Kopier kategorireference
+rbac#:#catr_copy#:#Kopier kategorireference
 common#:#obj_catr#:#Kategorireference
 common#:#objs_catr#:#Kategorireferencer
 common#:#crsr#:#Kursusreferencer
@@ -10019,8 +10019,8 @@ grp#:#grp_mail_status_bod#:#Din status i gruppe "%s" er blevet ændret.
 grp#:#grp_new_status#:#Din nye status er:
 grp#:#grp_notify_on#:#Advisering om nye registreringer aktiveret
 grp#:#grp_notify_off#:#Advisering om nye registreringer deaktiveret
-common#:#spl_copy#:#Kopier spørgsmål til afstemning
-common#:#qpl_copy#:#Kopier spørgsmål til test
+rbac#:#spl_copy#:#Kopier spørgsmål til afstemning
+rbac#:#qpl_copy#:#Kopier spørgsmål til test
 common#:#title_required#:#Indtastning af titel er krævet.
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
 registration#:#reg_mail_new_user#:#Ny brugeroprettelse
@@ -10110,7 +10110,7 @@ common#:#moderators#:#Moderatorer
 common#:#tutors#:#Hjælpeinstruktøter
 common#:#settings_for_new_members#:#Indstillinger for nye medlemmer
 common#:#forums_notification_settings#:#Forum adviseringsindstillinger
-common#:#sess_copy#:#Kopier session
+rbac#:#sess_copy#:#Kopier session
 content#:#cont_import_validation_errors#:#Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors.###03 11 2009 new variable
 dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.###03 11 2009 new variable
 dateplaner#:#cal_subscription_header#:#Kalender adresse

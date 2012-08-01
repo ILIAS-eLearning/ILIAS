@@ -1931,7 +1931,7 @@ common#:#cat_added#:#Kategória felvéve.
 rbac#:#cat_cat_administrate_users#:#Helyi felhasználói fiókok adminisztrálása
 common#:#cat_clear_page#:#Lap törlése
 rbac#:#cat_copy_threads_info#:#Döntse el melyik kategóriatételeket kell másolni, linkelni vagy kihagyni!
-common#:#cat_copy#:#Kategória másolása
+rbac#:#cat_copy#:#Kategória másolása
 common#:#cat_create_alm#:#AICC-tananyag létrehozása
 rbac#:#cat_create_cat#:#Kategória létrehozása
 common#:#cat_create_chat#:#Csevegés létrehozása
@@ -2164,7 +2164,7 @@ common#:#crs_available#:#Elérhető kurzusok
 common#:#crs_cancel_waiting_list#:#Biztos hogy le akarja venni magát a(z) "%s" kurzus várólistájáról?
 common#:#crs_container_link_not_allowed#:#Nem lehet konténer objektumokhoz linkelni.
 rbac#:#crs_copy_threads_info#:#Döntse el, mely kurzusanyagok lesznek másolva, linkelve vagy kihagyva.
-common#:#crs_copy#:#Kurzus másolása
+rbac#:#crs_copy#:#Kurzus másolása
 common#:#crs_create_alm#:#AICC-tananyag létrehozása
 common#:#crs_create_chat#:#Csevegés létrehozása
 common#:#crs_create_dbk#:#Digitális könyvtári könyv létrehozása
@@ -2413,7 +2413,7 @@ common#:#exc_add#:#Gyakorlat felvétele
 common#:#exc_added#:#Gyakorlat felvéve.
 common#:#exc_ask_delete#:#Törli a fájlt?
 common#:#exc_assign_usr#:#Felhasználó hozzárendelése
-common#:#exc_copy#:#Gyakorlat másolása
+rbac#:#exc_copy#:#Gyakorlat másolása
 common#:#exc_create#:#Gyakorlat létrehozása
 common#:#exc_date_not_valid#:#A dátum nem érvényes
 common#:#exc_deassign_members#:#Résztvevő(k) törlése
@@ -2527,7 +2527,7 @@ common#:#file_add_and_metadata#:#Fájl feltöltése és metaadatok szerkesztése
 common#:#file_add#:#Fájl feltöltése
 common#:#file_added#:#Fájl feltöltve.
 common#:#file_allowed_suffixes#:#Engedélyezett fájltípusok:
-common#:#file_copy#:#Fájl másolása
+rbac#:#file_copy#:#Fájl másolása
 common#:#file_created#:#A fájl felvételre került.
 rbac#:#file_delete#:#Fájl törlése
 rbac#:#file_edit_permission#:#Engedélyezési beállítások változtatása
@@ -2579,7 +2579,7 @@ common#:#fold_a#:#egy mappa
 common#:#fold_add#:#Mappa felvétele
 common#:#fold_added#:#Mappa felvéve.
 common#:#fold_copy_threads_info#:#Jelölje be, mely segédanyagok legyenek másolva, linkelve vagy kihagyva.
-common#:#fold_copy#:#Mappa másolása
+rbac#:#fold_copy#:#Mappa másolása
 common#:#fold_create_alm#:#AICC-tananyag létrehozása
 common#:#fold_create_chat#:#Csevegés létrehozása
 common#:#fold_create_dbk#:#Digitális könyvtári könyv létrehozása
@@ -2652,7 +2652,7 @@ rbac#:#frm_add_thread#:#Új téma felvétele
 common#:#frm_add#:#Fórum felvétele
 common#:#frm_added#:#Fórum felvéve.
 common#:#frm_article#:#hozzászólás
-common#:#frm_copy#:#Fórum másolása
+rbac#:#frm_copy#:#Fórum másolása
 common#:#frm_create#:#Fórum létrehozása
 common#:#frm_delete_post#:#Hozzászólás szerkesztése és törlése
 rbac#:#frm_delete#:#Fórum törlése
@@ -2683,7 +2683,7 @@ common#:#generate#:#Generálás
 common#:#glo_a#:#egy fogalomtár
 common#:#glo_add#:#Fogalomtár felvétele
 common#:#glo_added#:#Fogalomtár felvéve.
-common#:#glo_copy#:#Fogalomtár másolása
+rbac#:#glo_copy#:#Fogalomtár másolása
 common#:#glo_create#:#Fogalomtár létrehozása
 rbac#:#glo_delete#:#Fogalomtár törlése
 rbac#:#glo_edit_permission#:#Jogosultsági beállítások változtatása
@@ -2762,7 +2762,7 @@ common#:#grp_back#:#Vissza
 common#:#grp_btn_unsubscribe#:#Kiíratkozás a csoportból
 common#:#grp_cancel_waiting_list#:#Biztos hogy le akarja venni magát a(z) "%s" csoport várólistájáról?
 common#:#grp_copy_threads_info#:#Döntse el, mely segédanyagok lesznek másolva, linkelve vagy kihagyva.
-common#:#grp_copy#:#Csoport másolása
+rbac#:#grp_copy#:#Csoport másolása
 common#:#grp_count_members#:#Tagok száma
 common#:#grp_create_alm#:#AICC-tananyag létrehozása
 common#:#grp_create_chat#:#Csevegés létrehozása
@@ -2902,7 +2902,7 @@ common#:#hour#:#Óra
 common#:#hours_of_day#:#A nap órái
 common#:#hours#:#óra
 common#:#htlm_add#:#HTML-tananyag felvétele
-common#:#htlm_copy#:#HTML-tananyag másolása
+rbac#:#htlm_copy#:#HTML-tananyag másolása
 rbac#:#htlm_delete#:#HTML-tananyag törlése
 rbac#:#htlm_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
 rbac#:#htlm_edit_permission#:#Jogosultsági beállítások változtatása
@@ -3265,11 +3265,11 @@ common#:#literature#:#Irodalom
 common#:#lm_a#:#egy ILIAS-tananyag
 common#:#lm_add#:#ILIAS-tananyag felvétele
 common#:#lm_added#:#ILIAS-tananyag felvéve.
-common#:#lm_copy#:#ILIAS-tananyag másolása
+rbac#:#lm_copy#:#ILIAS-tananyag másolása
 common#:#lm_create#:#ILIAS-tananyag létrehozása
 rbac#:#lm_delete#:#ILIAS-tananyag törlése
 rbac#:#lm_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#lm_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#lm_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#lm_join#:#ILIAS-tananyag felvétele
 common#:#lm_leave#:#ILIAS-tananyag leadása
 common#:#lm_new#:#Új ILIAS-tananyag
@@ -3389,7 +3389,7 @@ common#:#matriculation#:#Törzskönyvi szám
 common#:#max_number_rec#:#Maximális rekordszám
 common#:#max_time#:#Maximális idő
 common#:#mcst_add#:#MediaCast felvétele
-common#:#mcst_copy#:#MediaCast másolása
+rbac#:#mcst_copy#:#MediaCast másolása
 rbac#:#mcst_delete#:#MediaCast törlése
 rbac#:#mcst_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#mcst_new#:#Új MediaCast
@@ -4055,7 +4055,7 @@ common#:#published#:#Publikálva
 common#:#publishing_organisation#:#Publikáló szervezet
 common#:#purpose#:#Cél
 common#:#qpl_add#:#Teszt-kérdésgyűjtemény felvétele
-common#:#qpl_copy#:#Teszt-kérdésgyűjtemény másolása
+rbac#:#qpl_copy#:#Teszt-kérdésgyűjtemény másolása
 rbac#:#qpl_delete#:#Teszt-kérdésgyűjtemény törlése
 rbac#:#qpl_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#qpl_new#:#Új teszt-kérdésgyűjtemény
@@ -4205,12 +4205,12 @@ common#:#rolt_added#:#Szerepminta felvéve.
 common#:#rolt_edit#:#Szerepminta szerkesztése
 common#:#rolt_new#:#Új szerepminta
 common#:#rolt#:#Szerepminta
-common#:#root_create_cat#:#A felhasználó kategóriákat hozhat létre
-common#:#root_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#root_create_cat#:#A felhasználó kategóriákat hozhat létre
+rbac#:#root_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#root_edit#:#Rendszer gyökércsomópont szerkesztése
-common#:#root_read#:#Olvasási elérés az ILIAS rendszerhez
-common#:#root_visible#:#Az ILIAS rendszer látható
-common#:#root_write#:#ILIAS gyökércsomópont metaadatainak szerkesztése
+rbac#:#root_read#:#Olvasási elérés az ILIAS rendszerhez
+rbac#:#root_visible#:#Az ILIAS rendszer látható
+rbac#:#root_write#:#ILIAS gyökércsomópont metaadatainak szerkesztése
 common#:#row#:#sor
 common#:#rows#:#Sorok
 common#:#rte_editor_disabled#:#Rich Text szerkesztő nincs engedélyezve
@@ -4305,7 +4305,7 @@ common#:#sequences#:#Sorrendek
 common#:#server_data#:#Szerveradatok
 common#:#server_software#:#Szerverszoftver
 common#:#server#:#Szerver
-common#:#sess_copy#:#Copy Session
+rbac#:#sess_copy#:#Copy Session
 common#:#sess#:#Kurzusesemény
 common#:#session_reminder_alert#:#Munkamenete %s perc múlva lejár. (A jelenlegi idő: %s.) Kattintson az OK gombra, ha folytatni szeretné munkamenetét!
 common#:#session_reminder_extended#:#Munkamenete meghosszabbításra került: %s
@@ -4403,7 +4403,7 @@ common#:#sorting_save#:#Rendezés mentése
 common#:#sorting_title_header#:#Cím szerinti rendezés
 common#:#spacer#:#Térközállító
 common#:#spl_add#:#Kérdőív-kérdésgyűjtemény felvétele
-common#:#spl_copy#:#Kérdőív-kérdésgyűjtemény másolása
+rbac#:#spl_copy#:#Kérdőív-kérdésgyűjtemény másolása
 rbac#:#spl_delete#:#Kérdőív-kérdésgyűjtemény törlése
 rbac#:#spl_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#spl_new#:#Új kérdőív-kérdésgyűjtemény
@@ -4458,7 +4458,7 @@ common#:#survey_defaults#:#Alapértelmezett beállítások kérdőívekhez
 common#:#survey_unlimited_invitation_desc#:#Nem korlátozott meghívás kérdőívekhez. Minden regisztrált felhasználó munkaasztalára kikerül a kérdőív.
 common#:#survey_unlimited_invitation#:#Nem korlátozott meghívás
 common#:#svy_add#:#Kérdőív felvétele
-common#:#svy_copy#:#Kérdőív másolása
+rbac#:#svy_copy#:#Kérdőív másolása
 rbac#:#svy_delete#:#Kérdőív törlése
 rbac#:#svy_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#svy_evaluation#:#Statisztika
@@ -4570,7 +4570,7 @@ common#:#tree#:#Fa
 common#:#treeview#:#Oldalsáv megjelenítése
 common#:#tst_add#:#Teszt felvétele
 common#:#tst_anon_eval#:#Eredmények
-common#:#tst_copy#:#Teszt másolása
+rbac#:#tst_copy#:#Teszt másolása
 rbac#:#tst_delete#:#Teszt törlése
 rbac#:#tst_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
 rbac#:#tst_edit_permission#:#Jogosultsági beállítások változtatása
@@ -4798,7 +4798,7 @@ common#:#webfolder#:#Webmappa
 common#:#webr_active#:#Aktív
 common#:#webr_add_item#:#Weblink felvétele
 common#:#webr_add#:#Weblink felvétele
-common#:#webr_copy#:#Weblink másolása
+rbac#:#webr_copy#:#Weblink másolása
 common#:#webr_delete_items#:#Weblink(ek) törlése
 rbac#:#webr_delete#:#Weblinklista törlése
 common#:#webr_deleted_items#:#Törölt weblinkek.
@@ -4830,7 +4830,7 @@ common#:#who_is_online#:#Ki van online?
 common#:#width_x_height#:#Szélesség x magasság
 common#:#width#:#Szélesség
 common#:#wiki_add#:#Wiki felvétele
-common#:#wiki_copy#:#Wiki másolása
+rbac#:#wiki_copy#:#Wiki másolása
 rbac#:#wiki_delete#:#Wiki törlése
 rbac#:#wiki_edit_content#:#Wikilap szerkesztése
 rbac#:#wiki_edit_permission#:#Jogosultsági beállítások változtatása
@@ -8817,7 +8817,7 @@ rbac#:#cat_create_catr#:#Kategóriaajánlás létrehozása
 rbac#:#cat_create_crsr#:#Új kurzusajánlás létrehozása
 rbac#:#cat_create_rcrs#:#Kurzuslink létrehozása
 rbac#:#cat_create_wiki#:#Wiki létrehozása
-common#:#catr_copy#:#Kategóriaajánlás másolása
+rbac#:#catr_copy#:#Kategóriaajánlás másolása
 rbac#:#catr_delete#:#Kategóriaajánlás törlése
 rbac#:#catr_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#catr_read#:#Olvasási elérés kategóriaajánláshoz
@@ -8830,7 +8830,7 @@ rbac#:#cmps_write#:#Komponensbeállítások szerkesztése
 rbac#:#crs_create_sess#:#Kurzusesemény létrehozása
 rbac#:#crs_create_wiki#:#Wiki létrehozása
 rbac#:#crs_edit_event#:#Határidőnapló-események szerkesztése
-common#:#crsr_copy#:#Kurzusajánlás másolása
+rbac#:#crsr_copy#:#Kurzusajánlás másolása
 rbac#:#crsr_delete#:#Kurzusajánlás törlése
 rbac#:#crsr_edit_permission#:#Jogosultsági beállítások változtatása
 rbac#:#crsr_read#:#Olvasási elérés kurzusajánláshoz

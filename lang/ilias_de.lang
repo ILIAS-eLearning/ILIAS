@@ -2477,7 +2477,7 @@ common#:#cat_add#:#Kategorie anlegen
 common#:#cat_added#:#Kategorie angelegt
 rbac#:#cat_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
 common#:#cat_clear_page#:#Seite leeren
-common#:#cat_copy#:#Kategorie kopieren
+rbac#:#cat_copy#:#Kategorie kopieren
 rbac#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#cat_create#:#Neue Kategorie anlegen
 common#:#cat_create_alm#:#Neues AICC-Lernmodul anlegen
@@ -2727,7 +2727,7 @@ common#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator 
 common#:#crs_available#:#Verfügbare Kurse
 common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
-common#:#crs_copy#:#Kurs kopieren
+rbac#:#crs_copy#:#Kurs kopieren
 rbac#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#crs_create#:#Neuen Kurs anlegen
 common#:#crs_create_alm#:#Neues AICC-Lernmodul anlegen
@@ -2988,7 +2988,7 @@ common#:#exc_add#:#Übung anlegen
 common#:#exc_added#:#Eine neue Übung wurde angelegt
 common#:#exc_ask_delete#:#Datei löschen?
 common#:#exc_assign_usr#:#Benutzer hinzufügen
-common#:#exc_copy#:#Übung kopieren
+rbac#:#exc_copy#:#Übung kopieren
 common#:#exc_create#:#Neue Übung anlegen
 common#:#exc_date_not_valid#:#Das Datum ist nicht gültig
 common#:#exc_deassign_members#:#Mitglied(er) löschen
@@ -3103,7 +3103,7 @@ common#:#file_add#:#Datei hochladen
 common#:#file_add_and_metadata#:#Datei hochladen und Metadaten editieren
 common#:#file_added#:#Datei hochgeladen
 common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
-common#:#file_copy#:#Datei kopieren
+rbac#:#file_copy#:#Datei kopieren
 common#:#file_created#:#Die Datei wurde hinzugefügt.
 rbac#:#file_delete#:#Datei verschieben oder löschen
 common#:#file_edit#:#Dateieinstellungen bearbeiten und neue Version hochladen
@@ -3156,7 +3156,7 @@ common#:#fold#:#Ordner
 common#:#fold_a#:#ein Ordner
 common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
-common#:#fold_copy#:#Ordner kopieren
+rbac#:#fold_copy#:#Ordner kopieren
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#fold_create_alm#:#Neues AICC-Lernmodul anlegen
 common#:#fold_create_chat#:#Neuen Chat anlegen
@@ -3232,7 +3232,7 @@ rbac#:#frm_add_post#:#Forenbeitrag anlegen
 rbac#:#frm_add_thread#:#Forenthema anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_article#:#Beitrag
-common#:#frm_copy#:#Forum kopieren
+rbac#:#frm_copy#:#Forum kopieren
 common#:#frm_create#:#Neues Forum anlegen
 rbac#:#frm_delete#:#Forum löschen oder verschieben
 common#:#frm_delete_post#:#Forenbeiträge löschen und zensieren
@@ -3267,7 +3267,7 @@ common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar
 common#:#glo_add#:#Glossar hinzufügen
 common#:#glo_added#:#Glossar hinzugefügt
-common#:#glo_copy#:#Glossar kopieren
+rbac#:#glo_copy#:#Glossar kopieren
 common#:#glo_create#:#Neues Glossar anlegen
 rbac#:#glo_delete#:#Glossar löschen oder verschieben
 rbac#:#glo_edit_permission#:#Rechteeinstellungen ändern
@@ -3346,7 +3346,7 @@ common#:#grp_app_send_mail#:#Bewerber eine Nachricht senden
 common#:#grp_back#:#Zurück
 common#:#grp_btn_unsubscribe#:#Gruppenmitgliedschaft beenden
 common#:#grp_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste der Gruppe "%s" austragen möchten?
-common#:#grp_copy#:#Gruppe kopieren
+rbac#:#grp_copy#:#Gruppe kopieren
 common#:#grp_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create#:#Neue Gruppe anlegen
@@ -3470,7 +3470,7 @@ common#:#hours#:#Stunde(n)
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
 common#:#htlm_add#:#HTML-Lernmodul hinzufügen
-common#:#htlm_copy#:#HTML-Lernmodul kopieren
+rbac#:#htlm_copy#:#HTML-Lernmodul kopieren
 rbac#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
 rbac#:#htlm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
@@ -3792,11 +3792,11 @@ common#:#lm#:#Lernmodul ILIAS
 common#:#lm_a#:#ein ILIAS-Lernmodul
 common#:#lm_add#:#ILIAS-Lernmodul anlegen
 common#:#lm_added#:#ILIAS-Lernmodul angelegt
-common#:#lm_copy#:#ILIAS-Lernmodul kopieren
+rbac#:#lm_copy#:#ILIAS-Lernmodul kopieren
 common#:#lm_create#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#lm_delete#:#ILIAS-Lernmodul löschen
 rbac#:#lm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
-common#:#lm_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#ILIAS-Lernmodul abonnieren
 common#:#lm_leave#:#ILIAS-Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues ILIAS-Lernmodul anlegen
@@ -3920,7 +3920,7 @@ common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Mediacast hinzufügen
-common#:#mcst_copy#:#Mediacast kopieren
+rbac#:#mcst_copy#:#Mediacast kopieren
 rbac#:#mcst_delete#:#Mediacast löschen oder verschieben
 rbac#:#mcst_edit_permission#:#Rechteeinstellung ändern
 common#:#mcst_new#:#Neuen Mediacast anlegen
@@ -4626,7 +4626,7 @@ common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#purpose#:#Verwendung
 common#:#qpl#:#Fragenpool für Tests
 common#:#qpl_add#:#Fragenpool hinzufügen
-common#:#qpl_copy#:#Fragenpool kopieren
+rbac#:#qpl_copy#:#Fragenpool kopieren
 rbac#:#qpl_delete#:#Fragenpool löschen oder verschieben
 rbac#:#qpl_edit_permission#:#Rechteeinstellungen ändern
 common#:#qpl_new#:#Neuer Fragenpool für Tests
@@ -4778,12 +4778,12 @@ common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
-common#:#root_create_cat#:#Benutzer kann Kategorien anlegen
+rbac#:#root_create_cat#:#Benutzer kann Kategorien anlegen
 common#:#root_edit#:#Systemknoten bearbeiten
-common#:#root_edit_permission#:#Rechteeinstellungen ändern
-common#:#root_read#:#Lesezugriff auf ILIAS System
-common#:#root_visible#:#ILIAS System ist sichtbar
-common#:#root_write#:#Daten des Systemknotens bearbeiten
+rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#root_read#:#Lesezugriff auf ILIAS System
+rbac#:#root_visible#:#ILIAS System ist sichtbar
+rbac#:#root_write#:#Daten des Systemknotens bearbeiten
 common#:#row#:#Zeile
 common#:#rows#:#Zeilen
 common#:#rte_editor_disabled#:#Ohne Rich-Text-Editor arbeiten
@@ -4882,7 +4882,7 @@ common#:#server_data#:#Serverdaten
 common#:#server_disabled#:#Der Chat ist deaktiviert
 common#:#server_software#:#Server-Software
 common#:#sess#:#Sitzung
-common#:#sess_copy#:#Sitzung kopieren
+rbac#:#sess_copy#:#Sitzung kopieren
 common#:#sess_fixed_duration#:#Fixe Session-Dauer
 common#:#sess_load_dependent_session_handling#:#Lastabhängige Session-Einstellungen
 common#:#sess_mode#:#Session-Modus
@@ -5004,7 +5004,7 @@ common#:#sorting_title_header#:#Nach Titel
 common#:#spacer#:#Trenner
 common#:#spl#:#Fragenpool für Umfrage
 common#:#spl_add#:#Fragenpool hinzufügen
-common#:#spl_copy#:#Fragenpool für Umfrage kopieren
+rbac#:#spl_copy#:#Fragenpool für Umfrage kopieren
 rbac#:#spl_delete#:#Fragenpool löschen oder verschieben
 rbac#:#spl_edit_permission#:#Rechteeinstellungen ändern
 common#:#spl_import#:#Fragenpool für Umfrage importieren
@@ -5061,7 +5061,7 @@ common#:#survey_unlimited_invitation#:#Unbegrenzte Einladung
 common#:#survey_unlimited_invitation_desc#:#Erlaubt unbegrenzte Einladung zu Umfragen. Eine unbegrenzte Einladung legt die Umfrage auf den Persönlichen Schreibtisch jedes registrierten Benutzers.
 common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage hinzufügen
-common#:#svy_copy#:#Umfrage kopieren
+rbac#:#svy_copy#:#Umfrage kopieren
 rbac#:#svy_delete#:#Umfrage löschen oder verschieben
 rbac#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Statistik
@@ -5176,7 +5176,7 @@ common#:#treeview#:#Baumansicht ein
 common#:#tst#:#Test
 common#:#tst_add#:#Test hinzufügen
 common#:#tst_anon_eval#:#Resultate
-common#:#tst_copy#:#Test kopieren
+rbac#:#tst_copy#:#Test kopieren
 rbac#:#tst_delete#:#Test löschen oder verschieben
 rbac#:#tst_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
@@ -5412,7 +5412,7 @@ common#:#webr#:#Weblink
 common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Weblink hinzufügen
 common#:#webr_add_item#:#Weblink hinzufügen
-common#:#webr_copy#:#Weblinksammlung kopieren
+rbac#:#webr_copy#:#Weblinksammlung kopieren
 rbac#:#webr_delete#:#Weblinksammlung löschen
 common#:#webr_delete_items#:#Weblink löschen oder verschieben
 common#:#webr_deleted_items#:#Der/die Weblink(s) wurde(n) gelöscht.
@@ -5444,7 +5444,7 @@ common#:#width#:#Breite
 common#:#width_x_height#:#Breite mal Höhe
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Wiki hinzufügen
-common#:#wiki_copy#:#Wiki kopieren
+rbac#:#wiki_copy#:#Wiki kopieren
 rbac#:#wiki_delete#:#Wiki löschen oder verschieben
 rbac#:#wiki_edit_content#:#Wiki-Seiten anlegen und bearbeiten
 rbac#:#wiki_edit_permission#:#Rechteeinstellungen ändern
@@ -10084,7 +10084,7 @@ rbac#:#cat_create_chtr#:#Neuen Chatraum anlegen
 rbac#:#cat_create_crsr#:#Neue Kurs-Referenz anlegen
 rbac#:#cat_create_rcrs#:#Neuen ECS-Kurslink anlegen
 rbac#:#cat_create_wiki#:#Neues Wiki anlegen
-common#:#catr_copy#:#Kategorie-Referenzen kopieren
+rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
 rbac#:#catr_delete#:#Kategorie-Referenzen verschieben oder löschen
 rbac#:#catr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#catr_read#:#Lesezugriff auf Kategorie-Referenzen
@@ -10101,7 +10101,7 @@ rbac#:#crs_create_crsr#:#Neue Kurs-Referenz anlegen
 rbac#:#crs_create_sess#:#Sitzung anlegen
 rbac#:#crs_create_wiki#:#Neues Wiki anlegen
 rbac#:#crs_edit_event#:#Kalendertermine bearbeiten
-common#:#crsr_copy#:#Kurs-Referenzen kopieren
+rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
 rbac#:#crsr_delete#:#Kurs-Referenzen verschieben oder löschen
 rbac#:#crsr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
@@ -12696,12 +12696,6 @@ dateplaner#:#cal_imported_success#:#Es wurden %1$s neue Termine importiert.
 form#:#form_link_internal#:#Intern
 form#:#form_link_external#:#Extern
 form#:#form_get_link#:#Ziel-Objekt wählen
-rbac#:#cat_copy#:#Kategorie kopieren
-rbac#:#crs_copy#:#Kurs kopieren
-rbac#:#exc_copy#:#Übung kopieren
-rbac#:#catr_copy#:#Kategorie-Referenz kopieren
-rbac#:#crsr_copy#:#Kurs-Referenz kopieren
-rbac#:#file_copy#:#Datei kopieren
 dateplaner#:#cal_type_rl#:#Ort des Kalenders
 dateplaner#:#cal_type_local#:#Lokaler Kalender
 dateplaner#:#cal_type_remote#:#Web-Kalender
@@ -12746,21 +12740,6 @@ common#:#grp_list_reg_period#:#Anmeldungszeitraum
 crs#:#crs_member_passed_status_changed#:#Bestanden Status Änderung 
 common#:#obj_hlps#:#Online-Hilfe
 common#:#add_entry#:#Eintragen
-rbac#:#fold_copy#:#Ordner kopieren
-rbac#:#frm_copy#:#Forum kopieren
-rbac#:#glo_copy#:#Glossar kopieren
-rbac#:#grp_copy#:#Gruppe kopieren
-rbac#:#htlm_copy#:#HTML-Lernmodul kopieren
-rbac#:#lm_copy#:#ILIAS-Lernmodul kopieren
-rbac#:#mcst_copy#:#Mediacast kopieren
-rbac#:#qpl_copy#:#Fragenpool für Tests kopieren
-rbac#:#sahs_copy#:#SCORM/AICC-Lernmodul kopieren
-rbac#:#sess_copy#:#Sitzung kopieren
-rbac#:#spl_copy#:#Fragenpool für Umfragen kopieren
-rbac#:#svy_copy#:#Umfrage kopieren
-rbac#:#tst_copy#:#Test kopieren
-rbac#:#webr_copy#:#Weblink kopieren
-rbac#:#wiki_copy#:#Wiki kopieren
 common#:#obj_poll_duplicate#:#Abstimmung kopieren
 rbac#:#rbac_import_role#:#Rolle importieren
 rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert.

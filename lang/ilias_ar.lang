@@ -1931,7 +1931,7 @@ common#:#cat_added#:#Category added
 rbac#:#cat_cat_administrate_users#:#Administrate local user accounts
 common#:#cat_clear_page#:#Clear Page
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
-common#:#cat_copy#:#Copy Category
+rbac#:#cat_copy#:#Copy Category
 common#:#cat_create_alm#:#Create AICC Learning Module
 rbac#:#cat_create_cat#:#Create Category
 common#:#cat_create_chat#:#Create Chat
@@ -2164,7 +2164,7 @@ common#:#crs_available#:#Available Courses
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
-common#:#crs_copy#:#Copy Course
+rbac#:#crs_copy#:#Copy Course
 common#:#crs_create_alm#:#Create AICC Learning Module
 common#:#crs_create_chat#:#Create Chat
 common#:#crs_create_dbk#:#Create Digilib Book
@@ -2413,7 +2413,7 @@ common#:#exc_add#:#Add Exercise
 common#:#exc_added#:#Exercise added
 common#:#exc_ask_delete#:#Delete file?
 common#:#exc_assign_usr#:#Assign User
-common#:#exc_copy#:#Copy Exercise
+rbac#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
 common#:#exc_deassign_members#:#Remove Participant(s)
@@ -2527,7 +2527,7 @@ common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_add#:#Upload File
 common#:#file_added#:#File uploaded
 common#:#file_allowed_suffixes#:#Allowed file types:
-common#:#file_copy#:#Copy File
+rbac#:#file_copy#:#Copy File
 common#:#file_created#:#File has been added.
 rbac#:#file_delete#:#Delete File
 rbac#:#file_edit_permission#:#Change Permission settings
@@ -2579,7 +2579,7 @@ common#:#fold_a#:#a Folder
 common#:#fold_add#:#Add Folder
 common#:#fold_added#:#Folder added
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-common#:#fold_copy#:#Copy Folder
+rbac#:#fold_copy#:#Copy Folder
 common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
 common#:#fold_create_dbk#:#Create Digilib Book
@@ -2652,7 +2652,7 @@ rbac#:#frm_add_thread#:#Add new topic
 common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_article#:#article
-common#:#frm_copy#:#Copy Forum
+rbac#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#Create Forum
 common#:#frm_delete_post#:#Edit and delete postings
 rbac#:#frm_delete#:#Delete Forum
@@ -2683,7 +2683,7 @@ common#:#generate#:#Generate
 common#:#glo_a#:#a Glossary
 common#:#glo_add#:#Add Glossary
 common#:#glo_added#:#Glossary added
-common#:#glo_copy#:#Copy Glossary
+rbac#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#Create Glossary
 rbac#:#glo_delete#:#Delete Glossary
 rbac#:#glo_edit_permission#:#Change permission settings
@@ -2762,7 +2762,7 @@ common#:#grp_back#:#Back
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? 
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-common#:#grp_copy#:#Copy Group
+rbac#:#grp_copy#:#Copy Group
 common#:#grp_count_members#:#Number of members
 common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Create Chat
@@ -2902,7 +2902,7 @@ common#:#hour#:#Hour
 common#:#hours_of_day#:#Hours of day
 common#:#hours#:#Hour(s)
 common#:#htlm_add#:#Add HTML Learning Module
-common#:#htlm_copy#:#Copy HTML Learning Module
+rbac#:#htlm_copy#:#Copy HTML Learning Module
 rbac#:#htlm_delete#:#Delete HTML Learning Module
 rbac#:#htlm_edit_learning_progress#:#Edit Learning Progress
 rbac#:#htlm_edit_permission#:#Change permission settings
@@ -3264,11 +3264,11 @@ common#:#literature#:#Literature
 common#:#lm_a#:#an ILIAS Learning Module
 common#:#lm_add#:#Add ILIAS Learning Module
 common#:#lm_added#:#ILIAS Learning Module added
-common#:#lm_copy#:#Copy ILIAS Lernmodul
+rbac#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#Create ILIAS Learning Module
 rbac#:#lm_delete#:#Delete ILIAS Learning Module
 rbac#:#lm_edit_learning_progress#:#Edit Learning Progress
-common#:#lm_edit_permission#:#Change permission settings
+rbac#:#lm_edit_permission#:#Change permission settings
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
 common#:#lm_new#:#New ILIAS Learning Module
@@ -3388,7 +3388,7 @@ common#:#matriculation#:#Matriculation number
 common#:#max_number_rec#:#Maximum number of records
 common#:#max_time#:#Maximum time
 common#:#mcst_add#:#Add Mediacast
-common#:#mcst_copy#:#Copy Mediacast
+rbac#:#mcst_copy#:#Copy Mediacast
 rbac#:#mcst_delete#:#Delete Mediacast
 rbac#:#mcst_edit_permission#:#Change permission settings
 common#:#mcst_new#:#New Mediacast
@@ -4054,7 +4054,7 @@ common#:#published#:#Published
 common#:#publishing_organisation#:#Publishing Organization
 common#:#purpose#:#Purpose
 common#:#qpl_add#:#Add Question Pool Test
-common#:#qpl_copy#:#Copy Test Question Pool
+rbac#:#qpl_copy#:#Copy Test Question Pool
 rbac#:#qpl_delete#:#Delete Question Pool Test
 rbac#:#qpl_edit_permission#:#Change permission settings
 common#:#qpl_new#:#New Question Pool Test
@@ -4204,12 +4204,12 @@ common#:#rolt_added#:#Role template added
 common#:#rolt_edit#:#Edit Role Template
 common#:#rolt_new#:#New Role Template
 common#:#rolt#:#Role Template
-common#:#root_create_cat#:#User may create Categories
-common#:#root_edit_permission#:#Change permission settings
+rbac#:#root_create_cat#:#User may create Categories
+rbac#:#root_edit_permission#:#Change permission settings
 common#:#root_edit#:#Edit system root node
-common#:#root_read#:#Read access to ILIAS system
-common#:#root_visible#:#ILIAS system is visible
-common#:#root_write#:#Edit metadata of system root node
+rbac#:#root_read#:#Read access to ILIAS system
+rbac#:#root_visible#:#ILIAS system is visible
+rbac#:#root_write#:#Edit metadata of system root node
 common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
@@ -4304,7 +4304,7 @@ common#:#sequences#:#Sequences
 common#:#server_data#:#Server Data
 common#:#server_software#:#Server Software
 common#:#server#:#Server
-common#:#sess_copy#:#Copy Session
+rbac#:#sess_copy#:#Copy Session
 common#:#sess#:#Session
 common#:#session_reminder_alert#:#Your session expires in %s (Current Time: %s). Please choose OK to continue your Session.
 common#:#session_reminder_extended#:#Your Session was extended for %s
@@ -4402,7 +4402,7 @@ common#:#sorting_save#:#Save Sorting
 common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Spacer
 common#:#spl_add#:#Add Question Pool Survey
-common#:#spl_copy#:#Copy Survey Question Pool
+rbac#:#spl_copy#:#Copy Survey Question Pool
 rbac#:#spl_delete#:#Delete Question Pool Survey
 rbac#:#spl_edit_permission#:#Change permission settings
 common#:#spl_new#:#New Question Pool Survey
@@ -4457,7 +4457,7 @@ common#:#survey_defaults#:#Default Settings for Surveys
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#svy_add#:#Add survey
-common#:#svy_copy#:#Copy Survey
+rbac#:#svy_copy#:#Copy Survey
 rbac#:#svy_delete#:#Delete survey
 rbac#:#svy_edit_permission#:#Change permission settings
 common#:#svy_evaluation#:#Statistics
@@ -4569,7 +4569,7 @@ common#:#tree#:#Tree
 common#:#treeview#:#Show Sidebar
 common#:#tst_add#:#Add test
 common#:#tst_anon_eval#:#Results
-common#:#tst_copy#:#Copy Test
+rbac#:#tst_copy#:#Copy Test
 rbac#:#tst_delete#:#Delete Test
 rbac#:#tst_edit_learning_progress#:#Edit Learning Progress
 rbac#:#tst_edit_permission#:#Change permission settings
@@ -4797,7 +4797,7 @@ common#:#webfolder#:#Webfolder
 common#:#webr_active#:#Active
 common#:#webr_add_item#:#Add Weblink
 common#:#webr_add#:#Add Weblink
-common#:#webr_copy#:#Copy Weblink
+rbac#:#webr_copy#:#Copy Weblink
 common#:#webr_delete_items#:#Delete Weblink(s)
 rbac#:#webr_delete#:#Delete Weblink list
 common#:#webr_deleted_items#:#Deleted Weblink(s).
@@ -4829,7 +4829,7 @@ common#:#who_is_online#:#Who is online?
 common#:#width_x_height#:#Width x Height
 common#:#width#:#Width
 common#:#wiki_add#:#Add Wiki
-common#:#wiki_copy#:#Copy Wiki
+rbac#:#wiki_copy#:#Copy Wiki
 rbac#:#wiki_delete#:#Delete Wiki
 rbac#:#wiki_edit_content#:#Edit Wiki Pages
 rbac#:#wiki_edit_permission#:#Change permission settings
@@ -8818,7 +8818,7 @@ rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create new Course Reference
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Create Wiki
-common#:#catr_copy#:#Copy Category Reference
+rbac#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
 rbac#:#catr_edit_permission#:#Change Permission Settings
 rbac#:#catr_read#:#Read access to Category Reference
@@ -8831,7 +8831,7 @@ rbac#:#cmps_write#:#Edit component settings
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-common#:#crsr_copy#:#Copy Course Reference
+rbac#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Delete Course Reference
 rbac#:#crsr_edit_permission#:#Change Permission Settings
 rbac#:#crsr_read#:#Read access to Course Reference

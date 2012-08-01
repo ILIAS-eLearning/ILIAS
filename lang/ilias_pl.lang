@@ -2428,7 +2428,7 @@ common#:#cat_add#:#Dodaj kategorię
 common#:#cat_added#:#Kategoria dodana
 rbac#:#cat_cat_administrate_users#:#Administracja kontami lokalnych użytkowników
 common#:#cat_clear_page#:#Wyczyść stronę
-common#:#cat_copy#:#Kopiuj Kategorię
+rbac#:#cat_copy#:#Kopiuj Kategorię
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_create#:#Twórz Kategorię
 common#:#cat_create_alm#:#Twórz Moduł Nauczania AICC
@@ -2679,7 +2679,7 @@ common#:#crs_at_least_one_admin#:#Musi być conajmniej jeden administrator kursu
 common#:#crs_available#:#Dostępne kursy
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#Nie można dołączyć obiektów kontenerów
-common#:#crs_copy#:#Kopiuj Kurs
+rbac#:#crs_copy#:#Kopiuj Kurs
 rbac#:#crs_copy_threads_info#:#Zdecyduj, które materiały kursu mają być skopiowane, złączone lub pominięte.
 common#:#crs_create#:#Twórz Kurs
 common#:#crs_create_alm#:#Twórz Moduł Nauczania AICC
@@ -2953,7 +2953,7 @@ common#:#exc_add#:#Dodaj ćwiczenie
 common#:#exc_added#:#Ćwiczenie zostało dodane
 common#:#exc_ask_delete#:#Usunąć plik?
 common#:#exc_assign_usr#:#Przydziel użytkownika
-common#:#exc_copy#:#Kopiuj Ćwiczenie
+rbac#:#exc_copy#:#Kopiuj Ćwiczenie
 common#:#exc_create#:#Twórz ćwiczenie
 common#:#exc_date_not_valid#:#Data jest nieprawidłowa
 common#:#exc_deassign_members#:#Usuń uczestników
@@ -3068,7 +3068,7 @@ common#:#file_add#:#Wyślij plik
 common#:#file_add_and_metadata#:#Załaduj plik i edytuj metedane
 common#:#file_added#:#Plik załadowany
 common#:#file_allowed_suffixes#:#Dopuszczalne typy plików:
-common#:#file_copy#:#Kopiuj Plik
+rbac#:#file_copy#:#Kopiuj Plik
 common#:#file_created#:#Dodano nowy plik.
 rbac#:#file_delete#:#Usuń plik
 common#:#file_edit#:#Edytuj plik
@@ -3121,7 +3121,7 @@ common#:#fold#:#Folder
 common#:#fold_a#:#Folder
 common#:#fold_add#:#Dodaj Folder
 common#:#fold_added#:#Folder dodany
-common#:#fold_copy#:#Kopiuj Folder
+rbac#:#fold_copy#:#Kopiuj Folder
 common#:#fold_copy_threads_info#:#Zdecyduj, które materiały powinny być skopiowane, złaczone lub pominięte.
 common#:#fold_create_alm#:#Twórz Moduły Nauczania AICC
 common#:#fold_create_chat#:#Twórz czat
@@ -3197,7 +3197,7 @@ rbac#:#frm_add_post#:#Add new post
 rbac#:#frm_add_thread#:#Dodaj nowy temat
 common#:#frm_added#:#Forum dodane
 common#:#frm_article#:#Artykuł
-common#:#frm_copy#:#Kopiuj Forum
+rbac#:#frm_copy#:#Kopiuj Forum
 common#:#frm_create#:#Twórz Forum
 rbac#:#frm_delete#:#Usuń Forum
 common#:#frm_delete_post#:#Usuń wiadomość
@@ -3232,7 +3232,7 @@ common#:#glo#:#Słownik
 common#:#glo_a#:#Słownik
 common#:#glo_add#:#Dodaj słownik
 common#:#glo_added#:#Słownik został dodany
-common#:#glo_copy#:#Kopiuj Słownik
+rbac#:#glo_copy#:#Kopiuj Słownik
 common#:#glo_create#:#Twórz Słownik
 rbac#:#glo_delete#:#Usuń Słownik
 rbac#:#glo_edit_permission#:#Zmień ustawienia uprawnień
@@ -3311,7 +3311,7 @@ common#:#grp_app_send_mail#:#Wyślij zgłaszającemu się wiadomość
 common#:#grp_back#:#Powrót
 common#:#grp_btn_unsubscribe#:#Wypisz się z Grupy
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
-common#:#grp_copy#:#Kopiuj Grupę
+rbac#:#grp_copy#:#Kopiuj Grupę
 common#:#grp_copy_threads_info#:#Zdecyduj, które materiały powinny być skopiowane, złaczone lub pominięte.
 common#:#grp_count_members#:#Liczba członków
 common#:#grp_create#:#Twórz Grupę
@@ -3449,7 +3449,7 @@ common#:#hours#:#Godziny
 common#:#hours_of_day#:#Godziny dnia
 common#:#htlm#:#Moduł Nauczania HTML
 common#:#htlm_add#:#dodajModuł Nauczania HTML
-common#:#htlm_copy#:#Kopiuj moduł nauczania HTML
+rbac#:#htlm_copy#:#Kopiuj moduł nauczania HTML
 rbac#:#htlm_delete#:#Usuń Moduł Nauczania HTML
 common#:#htlm_edit#:#Edytuj właściwości Modułu Nauczania HTML
 rbac#:#htlm_edit_learning_progress#:#Edycja postępu nauczania
@@ -3820,11 +3820,11 @@ common#:#lm#:#Moduł nauczania
 common#:#lm_a#:#Moduł nauczania
 common#:#lm_add#:#Dodaj moduł nauczania
 common#:#lm_added#:#Moduł nauczania został dodany
-common#:#lm_copy#:#Kopiuj moduł nauczania ILIAS
+rbac#:#lm_copy#:#Kopiuj moduł nauczania ILIAS
 common#:#lm_create#:#Twórz Moduł Nauczania
 rbac#:#lm_delete#:#Usuń Moduł Nauczania
 rbac#:#lm_edit_learning_progress#:#Edycja postępu nauczania
-common#:#lm_edit_permission#:#Zmień prawa dostępu
+rbac#:#lm_edit_permission#:#Zmień prawa dostępu
 common#:#lm_join#:#Subskrybuj Moduł Nauczania
 common#:#lm_leave#:#Rezygnuję z subskrypcji Modułu Nauczania
 common#:#lm_new#:#Nowy moduł nauczania
@@ -3949,7 +3949,7 @@ common#:#max_number_rec#:#Maksymalna liczba rekordów
 common#:#max_time#:#Maksymalny czas
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Dodaj MediaCast
-common#:#mcst_copy#:#Kopiuj MediaCast
+rbac#:#mcst_copy#:#Kopiuj MediaCast
 rbac#:#mcst_delete#:#Usuń Mediacast
 rbac#:#mcst_edit_permission#:#Zmień prawa dostępu
 common#:#mcst_new#:#Nowy MediaCast
@@ -4654,7 +4654,7 @@ common#:#publishing_organisation#:#Organizacja publikująca
 common#:#purpose#:#Cel
 common#:#qpl#:#Pula pytań
 common#:#qpl_add#:#Dodaj pulę pytań
-common#:#qpl_copy#:#Copy Test Question Pool
+rbac#:#qpl_copy#:#Copy Test Question Pool
 rbac#:#qpl_delete#:#Usuń pulę pytań
 rbac#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
 common#:#qpl_new#:#Nowa pula pytań
@@ -4806,12 +4806,12 @@ common#:#rolt_add#:#Dodaj szablon roli
 common#:#rolt_added#:#Szablon roli został dodany
 common#:#rolt_edit#:#Edytuj szablon roli
 common#:#rolt_new#:#Nowy szablon roli
-common#:#root_create_cat#:#Użytkownik może tworzyć Kategorie
+rbac#:#root_create_cat#:#Użytkownik może tworzyć Kategorie
 common#:#root_edit#:#Edycja korzenia systemu
-common#:#root_edit_permission#:#Zmień ustawienia uprawnień
-common#:#root_read#:#Prawo czytania systemu ILIAS
-common#:#root_visible#:#System ILIAS jest widoczny
-common#:#root_write#:#Edycja danych korzenia systemu ILIAS
+rbac#:#root_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#root_read#:#Prawo czytania systemu ILIAS
+rbac#:#root_visible#:#System ILIAS jest widoczny
+rbac#:#root_write#:#Edycja danych korzenia systemu ILIAS
 common#:#row#:#Wiersz
 common#:#rows#:#Wiersze
 common#:#rte_editor_disabled#:#Edytor Rich Text wyłączony
@@ -4910,7 +4910,7 @@ common#:#server_data#:#Dane serwera
 common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#Oprogramowanie serwera
 common#:#sess#:#Session
-common#:#sess_copy#:#Copy Session
+rbac#:#sess_copy#:#Copy Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
@@ -5031,7 +5031,7 @@ common#:#sorting_title_header#:#Sortuj wg. Tytułów
 common#:#spacer#:#Odstępnik
 common#:#spl#:#Pula pytań (ankieta)
 common#:#spl_add#:#Dodaj pulę pytań
-common#:#spl_copy#:#Copy Survey Question Pool
+rbac#:#spl_copy#:#Copy Survey Question Pool
 rbac#:#spl_delete#:#Usuń pulę pytań
 rbac#:#spl_edit_permission#:#Zmiana uprawnień dostępu
 common#:#spl_import#:#Import Question Pool Survey
@@ -5087,7 +5087,7 @@ common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 common#:#svy#:#Ankieta
 common#:#svy_add#:#Dodaj ankietę
-common#:#svy_copy#:#Kopiuj Ankietę
+rbac#:#svy_copy#:#Kopiuj Ankietę
 rbac#:#svy_delete#:#Usuń ankietę
 rbac#:#svy_edit_permission#:#Zmiana uprawnień dostępu
 common#:#svy_evaluation#:#Ewaluacja
@@ -5202,7 +5202,7 @@ common#:#treeview#:#Widok drzewa
 common#:#tst#:#Test
 common#:#tst_add#:#Dodaj test
 common#:#tst_anon_eval#:#Rezultaty
-common#:#tst_copy#:#Kopiuj Test
+rbac#:#tst_copy#:#Kopiuj Test
 rbac#:#tst_delete#:#Usuń Test
 rbac#:#tst_edit_learning_progress#:#Edycja postępu nauczania
 rbac#:#tst_edit_permission#:#Zmień ustawienia uprawnień
@@ -5437,7 +5437,7 @@ common#:#webr#:#Zasób web
 common#:#webr_active#:#Aktywny
 common#:#webr_add#:#Dodaj zasób web
 common#:#webr_add_item#:#Dodaj zasób web
-common#:#webr_copy#:#Kopiuj zasób web
+rbac#:#webr_copy#:#Kopiuj zasób web
 rbac#:#webr_delete#:#Usuń zasób web
 common#:#webr_delete_items#:#Usuń zasoby web
 common#:#webr_deleted_items#:#Usunięte zasoby web.
@@ -5469,7 +5469,7 @@ common#:#width#:#Szerokość
 common#:#width_x_height#:#Szerokość x Wysokość
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Dodaj Wiki
-common#:#wiki_copy#:#Copy Wiki
+rbac#:#wiki_copy#:#Copy Wiki
 rbac#:#wiki_delete#:#Usuń Wiki
 rbac#:#wiki_edit_content#:#Edit Wiki Pages
 rbac#:#wiki_edit_permission#:#Zmień ustawienia uprawnień
@@ -10104,7 +10104,7 @@ rbac#:#cat_create_chtr#:#Create Chatroom
 rbac#:#cat_create_crsr#:#Twórz Nowe Odwołanie do Kursu
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Twórz Wiki
-common#:#catr_copy#:#Kopiuj Odwołanie do Kategorii
+rbac#:#catr_copy#:#Kopiuj Odwołanie do Kategorii
 rbac#:#catr_delete#:#Usuń Odwołanie do Kategorii
 rbac#:#catr_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#catr_read#:#Read access to Category Reference
@@ -10121,7 +10121,7 @@ rbac#:#crs_create_crsr#:#Create new Course Reference
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edytuj Wydarzenia w Kalendarzu
-common#:#crsr_copy#:#Kopiuj Odwołanie do Kursu
+rbac#:#crsr_copy#:#Kopiuj Odwołanie do Kursu
 rbac#:#crsr_delete#:#Usuń Odwołanie do Kursu
 rbac#:#crsr_edit_permission#:#Zmień ustawienia uprawnień
 rbac#:#crsr_read#:#Read access to Course Reference

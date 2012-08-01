@@ -2045,7 +2045,7 @@ common#:#cat_add#:#Kategori Ekle
 common#:#cat_added#:#Kategori eklendi
 rbac#:#cat_cat_administrate_users#:#Yerel kullanıcı hesaplarını yönet
 common#:#cat_clear_page#:#Sayfayı Temizle
-common#:#cat_copy#:#Copy Category
+rbac#:#cat_copy#:#Copy Category
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_create#:#Kategori Oluştur
 common#:#cat_create_alm#:#AICC Öğrenme Modülü Oluştur
@@ -2284,7 +2284,7 @@ common#:#crs_at_least_one_admin#:#En az bir kurs yöneticisi olmak zorunda.
 common#:#crs_available#:#Müsait Kurslar
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#CONTAINER nesneleri bağlantılandırmak mümkün değildir
-common#:#crs_copy#:#Copy Course
+rbac#:#crs_copy#:#Copy Course
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 common#:#crs_create#:#Kurs Oluştur
 common#:#crs_create_alm#:#AICC Öğrenme Modülü Oluştur
@@ -2551,7 +2551,7 @@ common#:#exc_add#:#Alıştırma Ekle
 common#:#exc_added#:#Alıştırma eklendi
 common#:#exc_ask_delete#:#Dosya silinsin mi?
 common#:#exc_assign_usr#:#Kullanıcı Ata
-common#:#exc_copy#:#Copy Exercise
+rbac#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#Alıştırma oluştur
 common#:#exc_date_not_valid#:#Bu tarih geçersiz
 common#:#exc_deassign_members#:#Üye(leri) sil
@@ -2665,7 +2665,7 @@ common#:#file_add#:#Dosya Yükle
 common#:#file_add_and_metadata#:#Dosya Yükle ve Metaverileri Düzenle
 common#:#file_added#:#Dosya yüklendi
 common#:#file_allowed_suffixes#:#Allowed file types:
-common#:#file_copy#:#Copy File
+rbac#:#file_copy#:#Copy File
 common#:#file_created#:#File has been added.
 rbac#:#file_delete#:#Dosya Sil
 common#:#file_edit#:#Dosya Düzenle
@@ -2716,7 +2716,7 @@ common#:#fold#:#Dosya
 common#:#fold_a#:#bir Dosya
 common#:#fold_add#:#Dosya Ekle
 common#:#fold_added#:#Dosya eklendi
-common#:#fold_copy#:#Copy Folder
+rbac#:#fold_copy#:#Copy Folder
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#fold_create_alm#:#AICC Öğrenme Modülü Oluştur
 common#:#fold_create_chat#:#Sohbet Oluştur
@@ -2791,7 +2791,7 @@ rbac#:#frm_add_post#:#Add new posting
 rbac#:#frm_add_thread#:#Add new topic
 common#:#frm_added#:#Forum eklendi
 common#:#frm_article#:#makale
-common#:#frm_copy#:#Copy Forum
+rbac#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#Forum Oluştur
 rbac#:#frm_delete#:#Forum Sil
 common#:#frm_delete_post#:#Foruma gönderilen mesajı sil, sansür
@@ -2822,7 +2822,7 @@ common#:#glo#:#Sözlükçe
 common#:#glo_a#:#bir Sözlükçe
 common#:#glo_add#:#Sözlükçe Ekle
 common#:#glo_added#:#Sözlükçe eklendi
-common#:#glo_copy#:#Copy Glossary
+rbac#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#Sözlükçe Oluştur
 rbac#:#glo_delete#:#Sözlükçe Sil
 rbac#:#glo_edit_permission#:#İzin ayarlarını değiştir
@@ -2900,7 +2900,7 @@ common#:#grp_app_send_mail#:#Başvuran kişiye mesaj gönder
 common#:#grp_back#:#Geri
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
-common#:#grp_copy#:#Copy Group
+rbac#:#grp_copy#:#Copy Group
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#grp_count_members#:#Üye sayısı
 common#:#grp_create#:#Grup Oluştur
@@ -3038,7 +3038,7 @@ common#:#hours#:#Saat(ler)
 common#:#hours_of_day#:#Günün saatleri
 common#:#htlm#:#HTML Öğrenme Modülü
 common#:#htlm_add#:#HTML Öğrenme Modülü Ekle
-common#:#htlm_copy#:#Copy HTML Learning Module
+rbac#:#htlm_copy#:#Copy HTML Learning Module
 rbac#:#htlm_delete#:#HTML Öğrenme Modülü Sil
 common#:#htlm_edit#:#HTML Öğrenme Modülü Özelliklerini Düzenle
 rbac#:#htlm_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
@@ -3400,11 +3400,11 @@ common#:#lm#:#ILIAS Öğrenme Modülü
 common#:#lm_a#:#bir ILIAS Öğrenme Modülü
 common#:#lm_add#:#ILIAS Öğrenme Modülü Ekle
 common#:#lm_added#:#ILIAS Öğrenme Modülü eklendi
-common#:#lm_copy#:#Copy ILIAS Lernmodul
+rbac#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#ILIAS Öğrenme Modülü Oluştur
 rbac#:#lm_delete#:#ILIAS Öğrenme Modülü Sil
 rbac#:#lm_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
-common#:#lm_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#lm_edit_permission#:#İzin ayarlarını değiştir
 common#:#lm_join#:#ILIAS Öğrenme Modülüne Üye Ol
 common#:#lm_leave#:#ILIAS Öğrenme Modülü Üyeliğinden Ayrıl
 common#:#lm_new#:#Yeni ILIAS Öğrenme Modülü
@@ -3529,7 +3529,7 @@ common#:#max_number_rec#:#Maksimum kayıt sayısı
 common#:#max_time#:#Maksimum süre
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Add Mediacast
-common#:#mcst_copy#:#Copy Mediacast
+rbac#:#mcst_copy#:#Copy Mediacast
 rbac#:#mcst_delete#:#Delete Mediacast
 rbac#:#mcst_edit_permission#:#Change permission settings
 common#:#mcst_new#:#New Mediacast
@@ -4199,7 +4199,7 @@ common#:#publishing_organisation#:#Yayımcı Kuruluş
 common#:#purpose#:#Amaç
 common#:#qpl#:#Test Soru Havuzu
 common#:#qpl_add#:#Test için soru havuzu ekle
-common#:#qpl_copy#:#Copy Test Question Pool
+rbac#:#qpl_copy#:#Copy Test Question Pool
 rbac#:#qpl_delete#:#Testin Soru Havuzunu Sil
 rbac#:#qpl_edit_permission#:#Yetki ayarlarını değiştir
 common#:#qpl_new#:#Test için yeni soru havuzu
@@ -4349,12 +4349,12 @@ common#:#rolt_add#:#Rol Şablonu Ekle
 common#:#rolt_added#:#Rol Şablonu eklendi
 common#:#rolt_edit#:#Rol Şablonunu Düzenle
 common#:#rolt_new#:#Yeni Rol Şablonu
-common#:#root_create_cat#:#Kullanıcı Kategori oluşturabilir
+rbac#:#root_create_cat#:#Kullanıcı Kategori oluşturabilir
 common#:#root_edit#:#Sistem kök düğümünü düzenle
-common#:#root_edit_permission#:#Yetki ayarlarını değiştir
-common#:#root_read#:#ILIAS sistemine okuma erişimi
-common#:#root_visible#:#ILIAS sistemi görünür halde
-common#:#root_write#:#Sistem kök düğümünün metaverilerini düzenle
+rbac#:#root_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#root_read#:#ILIAS sistemine okuma erişimi
+rbac#:#root_visible#:#ILIAS sistemi görünür halde
+rbac#:#root_write#:#Sistem kök düğümünün metaverilerini düzenle
 common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
@@ -4451,7 +4451,7 @@ common#:#server#:#Sunucu
 common#:#server_data#:#Sunucu verileri
 common#:#server_software#:#Sunucu Yazılımı
 common#:#sess#:#Session
-common#:#sess_copy#:#Copy Session
+rbac#:#sess_copy#:#Copy Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
@@ -4569,7 +4569,7 @@ common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Aralık aygıtı
 common#:#spl#:#Anket Soru Havuzu
 common#:#spl_add#:#Anket için soru havuzu ekle
-common#:#spl_copy#:#Copy Survey Question Pool
+rbac#:#spl_copy#:#Copy Survey Question Pool
 rbac#:#spl_delete#:#Anket için Soru Havuzunu Sil
 rbac#:#spl_edit_permission#:#Yetki ayarlarını değiştir
 common#:#spl_new#:#Anket için yeni soru havuzu
@@ -4624,7 +4624,7 @@ common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 common#:#svy#:#Anket
 common#:#svy_add#:#Anket ekle
-common#:#svy_copy#:#Copy Survey
+rbac#:#svy_copy#:#Copy Survey
 rbac#:#svy_delete#:#Anket sil
 rbac#:#svy_edit_permission#:#Yetki ayarlarını değiştir
 common#:#svy_evaluation#:#Değerlendirme
@@ -4736,7 +4736,7 @@ common#:#treeview#:#Ağaç Görünümü
 common#:#tst#:#Test
 common#:#tst_add#:#Test ekle
 common#:#tst_anon_eval#:#Sonuçlar
-common#:#tst_copy#:#Copy Test
+rbac#:#tst_copy#:#Copy Test
 rbac#:#tst_delete#:#Testi Sil
 rbac#:#tst_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
 rbac#:#tst_edit_permission#:#Yetki ayarlarını değiştir
@@ -4965,7 +4965,7 @@ common#:#webr#:#Web Kaynağı
 common#:#webr_active#:#Aktif
 common#:#webr_add#:#Web Kaynağı Ekle
 common#:#webr_add_item#:#Web Kaynağı Ekle
-common#:#webr_copy#:#Copy Weblink
+rbac#:#webr_copy#:#Copy Weblink
 rbac#:#webr_delete#:#Web Kaynağı Sil
 common#:#webr_delete_items#:#Web Kaynaklarını Sil
 common#:#webr_deleted_items#:#Web Kaynakları silindi.
@@ -4997,7 +4997,7 @@ common#:#width#:#Width
 common#:#width_x_height#:#En x Yükseklik
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
-common#:#wiki_copy#:#Copy Wiki
+rbac#:#wiki_copy#:#Copy Wiki
 rbac#:#wiki_delete#:#Delete Wiki
 rbac#:#wiki_edit_content#:#Edit Wiki Pages
 rbac#:#wiki_edit_permission#:#Change permission settings
@@ -9178,7 +9178,7 @@ rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create new Course Reference
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Create Wiki
-common#:#catr_copy#:#Copy Category Reference
+rbac#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
 rbac#:#catr_edit_permission#:#Change Permission Settings
 rbac#:#catr_read#:#Read access to Category Reference
@@ -9192,7 +9192,7 @@ rbac#:#crs_create_book#:#Create Booking Pool
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-common#:#crsr_copy#:#Copy Course Reference
+rbac#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Delete Course Reference
 rbac#:#crsr_edit_permission#:#Change Permission Settings
 rbac#:#crsr_read#:#Read access to Course Reference

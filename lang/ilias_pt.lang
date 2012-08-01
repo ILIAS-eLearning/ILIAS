@@ -2426,7 +2426,7 @@ common#:#cat_add#:#Adicionar Categoria
 common#:#cat_added#:#Categoria adicionada
 rbac#:#cat_cat_administrate_users#:#Administrar contas locais do usuário ###11 Sep 2004 new variable
 common#:#cat_clear_page#:#Clear Page
-common#:#cat_copy#:#Copiar Categoria###02 04 2007 new variable
+rbac#:#cat_copy#:#Copiar Categoria###02 04 2007 new variable
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_create#:#Criar Categoria
 common#:#cat_create_alm#:#Create AICC Learning Module
@@ -2677,7 +2677,7 @@ common#:#crs_at_least_one_admin#:#There has to be at least one course administra
 common#:#crs_available#:#Cursos disponíveis
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
-common#:#crs_copy#:#Copiar Curso###02 04 2007 new variable
+rbac#:#crs_copy#:#Copiar Curso###02 04 2007 new variable
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 common#:#crs_create#:#Criar Curso
 common#:#crs_create_alm#:#Create AICC Learning Module
@@ -2951,7 +2951,7 @@ common#:#exc_add#:#Adicionar Exercício
 common#:#exc_added#:#Exercício adicionado
 common#:#exc_ask_delete#:#Apagar ficheiro?
 common#:#exc_assign_usr#:#Atribuir Utilizador
-common#:#exc_copy#:#Copy Exercise
+rbac#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#Criar exercício
 common#:#exc_date_not_valid#:#A data não é válida
 common#:#exc_deassign_members#:#Apagar membro(s)
@@ -3066,7 +3066,7 @@ common#:#file_add#:#Enviar ficheiro
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#Ficheiro enviado
 common#:#file_allowed_suffixes#:#Allowed file types:
-common#:#file_copy#:#Copy File
+rbac#:#file_copy#:#Copy File
 common#:#file_created#:#A new file has been added.
 rbac#:#file_delete#:#Delete File
 common#:#file_edit#:#Edit File
@@ -3119,7 +3119,7 @@ common#:#fold#:#Pasta
 common#:#fold_a#:#uma Pasta
 common#:#fold_add#:#Adicionar Pasta
 common#:#fold_added#:#Pasta adicionada
-common#:#fold_copy#:#Copy Folder
+rbac#:#fold_copy#:#Copy Folder
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
@@ -3195,7 +3195,7 @@ rbac#:#frm_add_post#:#Add new post
 rbac#:#frm_add_thread#:#Adicionar novo tópico ###25 09 2007 new variable
 common#:#frm_added#:#Fórum adicionado
 common#:#frm_article#:#article
-common#:#frm_copy#:#Copy Forum
+rbac#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#Criar Fórum
 rbac#:#frm_delete#:#Apagar Fórum
 common#:#frm_delete_post#:#Apagar uma mensagem
@@ -3230,7 +3230,7 @@ common#:#glo#:#Glossário
 common#:#glo_a#:#um Glossário
 common#:#glo_add#:#Adicionar Glossário
 common#:#glo_added#:#Glossário adicionado
-common#:#glo_copy#:#Copy Glossary
+rbac#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#Criar Glossário
 rbac#:#glo_delete#:#Apagar Glossário
 rbac#:#glo_edit_permission#:#Mudar definições de permissões
@@ -3309,7 +3309,7 @@ common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_back#:#Retornar###18 Apr 2004 new variable
 common#:#grp_btn_unsubscribe#:#Cancelar a inscrição/Grupo###26 06 2009 new variable
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
-common#:#grp_copy#:#Copy Group
+rbac#:#grp_copy#:#Copy Group
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#Criar Grupo
@@ -3447,7 +3447,7 @@ common#:#hours#:#hora(s)###28 Feb 2006 new variable
 common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#HTML Learning Module
 common#:#htlm_add#:#Add HTML Learning Module
-common#:#htlm_copy#:#Copy HTML Learning Module
+rbac#:#htlm_copy#:#Copy HTML Learning Module
 rbac#:#htlm_delete#:#Delete HTML Learning Module
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
 rbac#:#htlm_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
@@ -3819,11 +3819,11 @@ common#:#lm#:#Módulo de Aprendizagem
 common#:#lm_a#:#um Módulo de Aprendizagem
 common#:#lm_add#:#Adicionar Módulo de Aprendizagem
 common#:#lm_added#:#Módulo de Aprendizagem adicionado
-common#:#lm_copy#:#Copy ILIAS Lernmodul
+rbac#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#Criar Módulo de Aprendizagem
 rbac#:#lm_delete#:#Apagar Módulo de Aprendizagem
 rbac#:#lm_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
-common#:#lm_edit_permission#:#Mudar definições de permissões
+rbac#:#lm_edit_permission#:#Mudar definições de permissões
 common#:#lm_join#:#Inscrever-se ao Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#lm_leave#:#Desistir do Módulo de Aprendizagem
 common#:#lm_new#:#Novo Módulo de Aprendizagem
@@ -3948,7 +3948,7 @@ common#:#max_number_rec#:#Número máximo de registos
 common#:#max_time#:#Maximum time
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Add MediaCast
-common#:#mcst_copy#:#Copy MediaCast
+rbac#:#mcst_copy#:#Copy MediaCast
 rbac#:#mcst_delete#:#Delete Mediacast
 rbac#:#mcst_edit_permission#:#Change permission settings
 common#:#mcst_new#:#New MediaCast
@@ -4653,7 +4653,7 @@ common#:#publishing_organisation#:#Organização Públicadora
 common#:#purpose#:#Purpose
 common#:#qpl#:#Banco de Questões
 common#:#qpl_add#:#Adicionar banco de questões
-common#:#qpl_copy#:#Copy Test Question Pool
+rbac#:#qpl_copy#:#Copy Test Question Pool
 rbac#:#qpl_delete#:#Apagar Banco de Questões
 rbac#:#qpl_edit_permission#:#Mudar definições de permissões
 common#:#qpl_new#:#Novo banco de questões
@@ -4805,12 +4805,12 @@ common#:#rolt_add#:#Adicionar Modelo de Papel
 common#:#rolt_added#:#Modelo de Papel Adicionado
 common#:#rolt_edit#:#Editar Modelo de Papel
 common#:#rolt_new#:#Novo Modelo de Papel
-common#:#root_create_cat#:#O usuário pode criar Categorias###07 Apr 2005 content changed
+rbac#:#root_create_cat#:#O usuário pode criar Categorias###07 Apr 2005 content changed
 common#:#root_edit#:#Editar o nó raiz do sistema
-common#:#root_edit_permission#:#Mudar definições de permissões
-common#:#root_read#:#Acesso de Leitura ao sistema ILIAS###07 Apr 2005 content changed
-common#:#root_visible#:#O sistema ILIAS é visível
-common#:#root_write#:#Editar metadados do nó raiz do sistema
+rbac#:#root_edit_permission#:#Mudar definições de permissões
+rbac#:#root_read#:#Acesso de Leitura ao sistema ILIAS###07 Apr 2005 content changed
+rbac#:#root_visible#:#O sistema ILIAS é visível
+rbac#:#root_write#:#Editar metadados do nó raiz do sistema
 common#:#row#:#Row
 common#:#rows#:#Filas###25 02 2007 new variable
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
@@ -4909,7 +4909,7 @@ common#:#server_data#:#Dados do servidor
 common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#Software Servidor
 common#:#sess#:#Session
-common#:#sess_copy#:#Copy Session
+rbac#:#sess_copy#:#Copy Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
@@ -5030,7 +5030,7 @@ common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Spacer
 common#:#spl#:#Question pool (Survey)
 common#:#spl_add#:#Adicionar banco de questões###07 May 2004 new variable
-common#:#spl_copy#:#Copy Survey Question Pool
+rbac#:#spl_copy#:#Copy Survey Question Pool
 rbac#:#spl_delete#:#Delete Question Pool
 rbac#:#spl_edit_permission#:#Change permission settings
 common#:#spl_import#:#Import Question Pool Survey
@@ -5086,7 +5086,7 @@ common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 common#:#svy#:#Survey
 common#:#svy_add#:#Adicionar pesquisa ###07 May 2004 new variable
-common#:#svy_copy#:#Copy Survey
+rbac#:#svy_copy#:#Copy Survey
 rbac#:#svy_delete#:#Delete survey
 rbac#:#svy_edit_permission#:#Change permission settings
 common#:#svy_evaluation#:#Evaluation
@@ -5201,7 +5201,7 @@ common#:#treeview#:#Vista em Árvore
 common#:#tst#:#Teste
 common#:#tst_add#:#Adicionar teste
 common#:#tst_anon_eval#:#Results
-common#:#tst_copy#:#Copy Test
+rbac#:#tst_copy#:#Copy Test
 rbac#:#tst_delete#:#Apagar Teste
 rbac#:#tst_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
 rbac#:#tst_edit_permission#:#Mudar definições de permissões
@@ -5436,7 +5436,7 @@ common#:#webr#:#Web resource
 common#:#webr_active#:#Active
 common#:#webr_add#:#Adicionar endereço Web###11 Mar 2005 new variable
 common#:#webr_add_item#:#Adicionar Recurso Web ###11 Mar 2005 new variable
-common#:#webr_copy#:#Copy Web Resource
+rbac#:#webr_copy#:#Copy Web Resource
 rbac#:#webr_delete#:#Delete web resource
 common#:#webr_delete_items#:#Delete Web Resource(s)
 common#:#webr_deleted_items#:#Deleted Web Resource(s).
@@ -5468,7 +5468,7 @@ common#:#width#:#Width
 common#:#width_x_height#:#Width x Height
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Adicionar Wiki###11 03 2008 new variable
-common#:#wiki_copy#:#Copy Wiki
+rbac#:#wiki_copy#:#Copy Wiki
 rbac#:#wiki_delete#:#Delete Wiki
 rbac#:#wiki_edit_content#:#Edit Wiki Pages
 rbac#:#wiki_edit_permission#:#Change permission settings
@@ -10094,7 +10094,7 @@ rbac#:#cat_create_chtr#:#Criar sala de bate-papo###10 11 2011 new variable
 rbac#:#cat_create_crsr#:#Criar nova referência ao curso###23 09 2008 new variable
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Criar Wiki###23 07 2008 new variable
-common#:#catr_copy#:#Copy Category Reference
+rbac#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
 rbac#:#catr_edit_permission#:#Change Permission Settings
 rbac#:#catr_read#:#Read access to Category Reference
@@ -10111,7 +10111,7 @@ rbac#:#crs_create_crsr#:#Create new Course Reference
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-common#:#crsr_copy#:#Copy Course Reference
+rbac#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Delete Course Reference
 rbac#:#crsr_edit_permission#:#Change Permission Settings
 rbac#:#crsr_read#:#Read access to Course Reference

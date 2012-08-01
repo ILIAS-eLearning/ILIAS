@@ -2425,7 +2425,7 @@ common#:#cat_add#:#カテゴリーを追加
 common#:#cat_added#:#カテゴリーが追加されました
 rbac#:#cat_cat_administrate_users#:#ローカルユーザーアカウントを管理
 common#:#cat_clear_page#:#ページを消去
-common#:#cat_copy#:#カテゴリーをコピー
+rbac#:#cat_copy#:#カテゴリーをコピー
 rbac#:#cat_copy_threads_info#:#どのカテゴリーアイテムをコピー、リンク、省略するのか決定してください。
 rbac#:#cat_create#:#カテゴリーを作成
 common#:#cat_create_alm#:#AICCラーニングモジュールを作成
@@ -2676,7 +2676,7 @@ common#:#crs_at_least_one_admin#:#最低一人のコース管理者がいなけ�
 common#:#crs_available#:#可能なコース
 common#:#crs_cancel_waiting_list#:#本当にコース "%s"の待ちリストからあなたを削除しますか?
 common#:#crs_container_link_not_allowed#:#コンテナオブジェクトへリンクする事はできません
-common#:#crs_copy#:#コースをコピー
+rbac#:#crs_copy#:#コースをコピー
 rbac#:#crs_copy_threads_info#:#どのコースの教材をコピー、リンク、省略すべきか決定してください。
 common#:#crs_create#:#コースを作成
 common#:#crs_create_alm#:#AICCラーニングモジュールを作成
@@ -2951,7 +2951,7 @@ common#:#exc_add#:#練習問題を追加
 common#:#exc_added#:#練習問題追加
 common#:#exc_ask_delete#:#ファイルを削除しますか?
 common#:#exc_assign_usr#:#ユーザーを割当て
-common#:#exc_copy#:#練習問題をコピー
+rbac#:#exc_copy#:#練習問題をコピー
 common#:#exc_create#:#練習問題を作成
 common#:#exc_date_not_valid#:#日付まちがい
 common#:#exc_deassign_members#:#メンバーを削除
@@ -3066,7 +3066,7 @@ common#:#file_add#:#アップロードファイル
 common#:#file_add_and_metadata#:#アップロードファイルとメタデータ編集
 common#:#file_added#:#アップロードのファイル
 common#:#file_allowed_suffixes#:#対応ファイル形式
-common#:#file_copy#:#コピーファイル
+rbac#:#file_copy#:#コピーファイル
 common#:#file_created#:#ファイルが追加されました。
 rbac#:#file_delete#:#ファイルを削除
 common#:#file_edit#:#ファイルを編集
@@ -3119,7 +3119,7 @@ common#:#fold#:#フォルダ
 common#:#fold_a#:#フォルダ
 common#:#fold_add#:#フォルダを追加
 common#:#fold_added#:#フォルダの追加
-common#:#fold_copy#:#フォルダをコピー
+rbac#:#fold_copy#:#フォルダをコピー
 common#:#fold_copy_threads_info#:#どの教材をコピー、リンクもしくは省略すべきか決定してください。
 common#:#fold_create_alm#:#AICCラーニングモジュールを作成
 common#:#fold_create_chat#:#チャットを作成
@@ -3195,7 +3195,7 @@ rbac#:#frm_add_post#:#新規投稿を追加
 rbac#:#frm_add_thread#:#新規トッピクを追加
 common#:#frm_added#:#フォーラムの追加
 common#:#frm_article#:#記事
-common#:#frm_copy#:#フォーラムをコピー
+rbac#:#frm_copy#:#フォーラムをコピー
 common#:#frm_create#:#フォーラムを作成
 rbac#:#frm_delete#:#フォーラムを削除
 common#:#frm_delete_post#:#投稿を編集と削除
@@ -3230,7 +3230,7 @@ common#:#glo#:#用語集
 common#:#glo_a#:#用語集
 common#:#glo_add#:#用語集を追加
 common#:#glo_added#:#用語集の追加
-common#:#glo_copy#:#用語集をコピー
+rbac#:#glo_copy#:#用語集をコピー
 common#:#glo_create#:#用語集を作成
 rbac#:#glo_delete#:#用語集を削除
 rbac#:#glo_edit_permission#:#アクセス権限設定を変更
@@ -3309,7 +3309,7 @@ common#:#grp_app_send_mail#:#応募者へメッセージを送る
 common#:#grp_back#:#Back
 common#:#grp_btn_unsubscribe#:#グループから登録削除
 common#:#grp_cancel_waiting_list#:#本当にグループ"%s"の待ちリストから自身を削除しますか?
-common#:#grp_copy#:#グループをコピー
+rbac#:#grp_copy#:#グループをコピー
 common#:#grp_copy_threads_info#:#どの教材をコピー、リンクもしくは省略するか決定してください。
 common#:#grp_count_members#:#メンバーの数
 common#:#grp_create#:#グループを作成
@@ -3447,7 +3447,7 @@ common#:#hours#:#時間
 common#:#hours_of_day#:#1日の時間
 common#:#htlm#:#ラーニングモジュール HTML
 common#:#htlm_add#:#HTML ラーニングモジュールを追加
-common#:#htlm_copy#:#HTML ラーニングモジュールを追加コピー
+rbac#:#htlm_copy#:#HTML ラーニングモジュールを追加コピー
 rbac#:#htlm_delete#:#HTML ラーニングモジュールを削除
 common#:#htlm_edit#:#HTML ラーニングモジュールプロパティを編集
 rbac#:#htlm_edit_learning_progress#:#学習進捗を編集
@@ -3821,11 +3821,11 @@ common#:#lm#:#ラーニングモジュール ILIAS
 common#:#lm_a#:#ILIAS ラーニングモジュール
 common#:#lm_add#:#ILIAS ラーニングモジュールを追加
 common#:#lm_added#:#ILIAS ラーニングモジュールが追加されました
-common#:#lm_copy#:#ILIAS Lernmodulをコピー
+rbac#:#lm_copy#:#ILIAS Lernmodulをコピー
 common#:#lm_create#:#ILIASラーニングモジュールを作成
 rbac#:#lm_delete#:#ILIAS ラーニングモジュールを削除
 rbac#:#lm_edit_learning_progress#:#学習進捗を編集
-common#:#lm_edit_permission#:#アクセス権限設定を変更
+rbac#:#lm_edit_permission#:#アクセス権限設定を変更
 common#:#lm_join#:#ILIAS ラーニングモジュールを購読
 common#:#lm_leave#:#ILIASラーニングモジュールを解除
 common#:#lm_new#:#New ILIAS ラーニングモジュール
@@ -3951,7 +3951,7 @@ common#:#max_number_rec#:#レコード数の最大
 common#:#max_time#:#最大時間
 common#:#mcst#:#メディアキャスト
 common#:#mcst_add#:#メディアキャストを作成追加
-common#:#mcst_copy#:#メディアキャストをコピー
+rbac#:#mcst_copy#:#メディアキャストをコピー
 rbac#:#mcst_delete#:#メディアキャストを削除
 rbac#:#mcst_edit_permission#:#アクセス権限設定を変更
 common#:#mcst_new#:#新しいメディアキャスト
@@ -4659,7 +4659,7 @@ common#:#publishing_organisation#:#発行組織
 common#:#purpose#:#目的
 common#:#qpl#:#テスト問題集
 common#:#qpl_add#:#テスト問題集を追加
-common#:#qpl_copy#:#テスト問題集をコピー
+rbac#:#qpl_copy#:#テスト問題集をコピー
 rbac#:#qpl_delete#:#テスト問題集を削除
 rbac#:#qpl_edit_permission#:#アクセス権限設定を変更
 common#:#qpl_new#:#新規テスト問題集
@@ -4812,12 +4812,12 @@ common#:#rolt_add#:#役割テンプレートを追加
 common#:#rolt_added#:#役割テンプレート追加
 common#:#rolt_edit#:#役割 テンプレート編集
 common#:#rolt_new#:#新規役割 テンプレート
-common#:#root_create_cat#:#ユーザーはカテゴリー作成ができます
+rbac#:#root_create_cat#:#ユーザーはカテゴリー作成ができます
 common#:#root_edit#:#システムルートノードを編集
-common#:#root_edit_permission#:#アクセス権限設定を変更
-common#:#root_read#:#ILIASシステムを読み込む
-common#:#root_visible#:#ILIASシステムを表示
-common#:#root_write#:#システムルートノードのmetadata
+rbac#:#root_edit_permission#:#アクセス権限設定を変更
+rbac#:#root_read#:#ILIASシステムを読み込む
+rbac#:#root_visible#:#ILIASシステムを表示
+rbac#:#root_write#:#システムルートノードのmetadata
 common#:#row#:#列
 common#:#rows#:#列
 common#:#rte_editor_disabled#:#Rich テキストエディターを使用しない
@@ -4916,7 +4916,7 @@ common#:#server_data#:#サーバーデータ
 common#:#server_disabled#:#チャットはオフです
 common#:#server_software#:#サーバーソフトウェア
 common#:#sess#:#セッション
-common#:#sess_copy#:#セッションをコピー
+rbac#:#sess_copy#:#セッションをコピー
 common#:#sess_fixed_duration#:#固定のセッション期間
 common#:#sess_load_dependent_session_handling#:#依存しているセッション処理を読み込む
 common#:#sess_mode#:#セッションモード
@@ -5037,7 +5037,7 @@ common#:#sorting_title_header#:#タイトルで並び替え
 common#:#spacer#:#スペーサー
 common#:#spl#:#問題集サーベイ
 common#:#spl_add#:#問題集サーベイを追加
-common#:#spl_copy#:#サーベイ問題集をコピー
+rbac#:#spl_copy#:#サーベイ問題集をコピー
 rbac#:#spl_delete#:#問題集サーベイを削除
 rbac#:#spl_edit_permission#:#アクセス権限設定を変更
 common#:#spl_import#:#問題集サーベイをインポート
@@ -5093,7 +5093,7 @@ common#:#survey_unlimited_invitation#:#無制限の招待
 common#:#survey_unlimited_invitation_desc#:#サーベイの無制限招待ができます。無制限の招待は全ての登録済ユーザーのパーソナルデスクトップへサーベイを追加します。
 common#:#svy#:#サーベイ
 common#:#svy_add#:#サーベイを追加
-common#:#svy_copy#:#サーベイをコピー
+rbac#:#svy_copy#:#サーベイをコピー
 rbac#:#svy_delete#:#サーベイを削除
 rbac#:#svy_edit_permission#:#アクセス権限設定を変更
 common#:#svy_evaluation#:#統計値
@@ -5208,7 +5208,7 @@ common#:#treeview#:#サイドバーを表示
 common#:#tst#:#テスト
 common#:#tst_add#:#テストを追加
 common#:#tst_anon_eval#:#結果
-common#:#tst_copy#:#テストをコピー
+rbac#:#tst_copy#:#テストをコピー
 rbac#:#tst_delete#:#テストを削除
 rbac#:#tst_edit_learning_progress#:#学習進捗を編集
 rbac#:#tst_edit_permission#:#アクセス権限設定を変更
@@ -5445,7 +5445,7 @@ common#:#webr#:#Webリンク
 common#:#webr_active#:#アクティブ
 common#:#webr_add#:#Webリンクを追加
 common#:#webr_add_item#:#Webリンクを追加
-common#:#webr_copy#:#Webリンクを追加コピー
+rbac#:#webr_copy#:#Webリンクを追加コピー
 rbac#:#webr_delete#:#Webリンクリストを削除
 common#:#webr_delete_items#:#Webリンクを削除
 common#:#webr_deleted_items#:#Webリンクを削除しました。
@@ -5477,7 +5477,7 @@ common#:#width#:#幅
 common#:#width_x_height#:#幅 x 高さ
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Wikiに追加
-common#:#wiki_copy#:#Wikiをコピー
+rbac#:#wiki_copy#:#Wikiをコピー
 rbac#:#wiki_delete#:#Wikiをコピー削除
 rbac#:#wiki_edit_content#:#Wikiページを編集
 rbac#:#wiki_edit_permission#:#アクセス権限設定を変更
@@ -10122,7 +10122,7 @@ rbac#:#cat_create_chtr#:#チャットルームを作成
 rbac#:#cat_create_crsr#:#新コースレファレンスを作成
 rbac#:#cat_create_rcrs#:#コースリンクを作成
 rbac#:#cat_create_wiki#:#Wikiを作成
-common#:#catr_copy#:#カテゴリー参照をコピー
+rbac#:#catr_copy#:#カテゴリー参照をコピー
 rbac#:#catr_delete#:#カテゴリー参照を削除
 rbac#:#catr_edit_permission#:#アクセス権限設定を変更
 rbac#:#catr_read#:#カテゴリー参照を読込み
@@ -10139,7 +10139,7 @@ rbac#:#crs_create_crsr#:#新規コース参照の作成
 rbac#:#crs_create_sess#:#セクションを作成
 rbac#:#crs_create_wiki#:#Wikiを作成
 rbac#:#crs_edit_event#:#カレンダー行事を編集
-common#:#crsr_copy#:#コース参照をコピー
+rbac#:#crsr_copy#:#コース参照をコピー
 rbac#:#crsr_delete#:#コース参照を削除
 rbac#:#crsr_edit_permission#:#アクセス権限設定を変更
 rbac#:#crsr_read#:#コース参照を読込む

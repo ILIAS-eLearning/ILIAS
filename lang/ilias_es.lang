@@ -2426,7 +2426,7 @@ common#:#cat_add#:#Añadir Categoría
 common#:#cat_added#:#Categoría añadida
 rbac#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
 common#:#cat_clear_page#:#Limpiar Página
-common#:#cat_copy#:#Copiar Categoría
+rbac#:#cat_copy#:#Copiar Categoría
 rbac#:#cat_copy_threads_info#:#Por favor, elige qué elementos de la categoría deberán copiarse, enlazarse u omitirse
 rbac#:#cat_create#:#Crear Categoría
 common#:#cat_create_alm#:#Crear Módulo de aprendizaje AICC
@@ -2677,7 +2677,7 @@ common#:#crs_at_least_one_admin#:#Debe haber al menos un administrador de curso.
 common#:#crs_available#:#Curso disponible
 common#:#crs_cancel_waiting_list#:#¿De verdad quieres que lo retiren de la lista de espera, de acuerdo, "%s"?
 common#:#crs_container_link_not_allowed#:#No es posible enlazar a objetos contenedor
-common#:#crs_copy#:#Copiar Curso
+rbac#:#crs_copy#:#Copiar Curso
 rbac#:#crs_copy_threads_info#:#Por favor decida qué materiales del curso deben ser copiados, enlazados o bien omitidos.
 common#:#crs_create#:#Crear Curso
 common#:#crs_create_alm#:#Crear Módulo de aprendizaje AICC
@@ -2951,7 +2951,7 @@ common#:#exc_add#:#Añadir entrega de ejercicios
 common#:#exc_added#:#Entrega de ejercicios añadida
 common#:#exc_ask_delete#:#¿Eliminar archivo?
 common#:#exc_assign_usr#:#Asignar Usuario
-common#:#exc_copy#:#Copiar entrega de ejercicios
+rbac#:#exc_copy#:#Copiar entrega de ejercicios
 common#:#exc_create#:#Crear entrega de ejercicios
 common#:#exc_date_not_valid#:#La fecha no es válida
 common#:#exc_deassign_members#:#Eliminar miembro(s)
@@ -3066,7 +3066,7 @@ common#:#file_add#:#Enviar archivo
 common#:#file_add_and_metadata#:#Enviar archivo y editar metadatos
 common#:#file_added#:#Archivo enviado
 common#:#file_allowed_suffixes#:#Tipos de archivos permitidos:
-common#:#file_copy#:#Copiar Archivo
+rbac#:#file_copy#:#Copiar Archivo
 common#:#file_created#:#Un nuevo archivo fue añadido.
 rbac#:#file_delete#:#Eliminar archivo
 common#:#file_edit#:#Editar archivo
@@ -3119,7 +3119,7 @@ common#:#fold#:#Carpeta
 common#:#fold_a#:#una Carpeta
 common#:#fold_add#:#Añadir Carpeta
 common#:#fold_added#:#Carpeta Añadida
-common#:#fold_copy#:#Copiar Carpeta
+rbac#:#fold_copy#:#Copiar Carpeta
 common#:#fold_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
 common#:#fold_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#fold_create_chat#:#Crear Chat
@@ -3195,7 +3195,7 @@ rbac#:#frm_add_post#:#Añadir nuevo mensaje
 rbac#:#frm_add_thread#:#Añadir nuevo tema
 common#:#frm_added#:#Foro añadido
 common#:#frm_article#:#mensaje
-common#:#frm_copy#:#Copiar Foro
+rbac#:#frm_copy#:#Copiar Foro
 common#:#frm_create#:#Crear Foro
 rbac#:#frm_delete#:#Eliminar Foro
 common#:#frm_delete_post#:#Editar y borrar mensajes
@@ -3230,7 +3230,7 @@ common#:#glo#:#Glosario
 common#:#glo_a#:#un Glosario
 common#:#glo_add#:#Añadir Glosario
 common#:#glo_added#:#glosario añadido
-common#:#glo_copy#:#Copiar Glosario
+rbac#:#glo_copy#:#Copiar Glosario
 common#:#glo_create#:#Crear Glosario
 rbac#:#glo_delete#:#Eliminar Glosario
 rbac#:#glo_edit_permission#:#Modificar configuración de permisos
@@ -3309,7 +3309,7 @@ common#:#grp_app_send_mail#:#Mandar al solicitante un mensaje
 common#:#grp_back#:#Volver
 common#:#grp_btn_unsubscribe#:#Darse de baja del grupo
 common#:#grp_cancel_waiting_list#:#¿De verdad quieres que lo retiren de la lista de espera de grupo "%s"?
-common#:#grp_copy#:#Copiar Grupo
+rbac#:#grp_copy#:#Copiar Grupo
 common#:#grp_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
 common#:#grp_count_members#:#Número de miembros
 common#:#grp_create#:#Crear Grupo
@@ -3446,7 +3446,7 @@ common#:#hours#:#hora(s)
 common#:#hours_of_day#:#Horas del día
 common#:#htlm#:#Módulo de aprendizaje HTML
 common#:#htlm_add#:#Añadir Módulo de Aprendizaje HTML
-common#:#htlm_copy#:#Copiar Módulo de Aprendizaje HTML
+rbac#:#htlm_copy#:#Copiar Módulo de Aprendizaje HTML
 rbac#:#htlm_delete#:#Eliminar Módulo de Aprendizaje HTML
 common#:#htlm_edit#:#Editar propiedades del Módulo de Aprendizaje HTML
 rbac#:#htlm_edit_learning_progress#:#Editar seguimiento
@@ -3817,11 +3817,11 @@ common#:#lm#:#Módulo de Aprendizaje
 common#:#lm_a#:#un Módulo de Aprendizaje
 common#:#lm_add#:#Añadir Módulo de Aprendizaje
 common#:#lm_added#:#Módulo de Aprendizaje añadido
-common#:#lm_copy#:#Copiar Módulo de aprendizaje ILIAS
+rbac#:#lm_copy#:#Copiar Módulo de aprendizaje ILIAS
 common#:#lm_create#:#Crear Módulo de Aprendizaje
 rbac#:#lm_delete#:#Eliminar Módulo de Aprendizaje
 rbac#:#lm_edit_learning_progress#:#Editar seguimiento
-common#:#lm_edit_permission#:#Modificar configuración de permisos
+rbac#:#lm_edit_permission#:#Modificar configuración de permisos
 common#:#lm_join#:#Suscribir a un Módulo de Aprendizaje
 common#:#lm_leave#:#Darse de baja en el Módulo de Aprendizaje
 common#:#lm_new#:#Nuevo Módulo de Aprendizaje
@@ -3946,7 +3946,7 @@ common#:#max_number_rec#:#Máximo número de registros
 common#:#max_time#:#Tiempo Máximo
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Añadir MediaCast
-common#:#mcst_copy#:#Copiar MediaCast
+rbac#:#mcst_copy#:#Copiar MediaCast
 rbac#:#mcst_delete#:#Eliminar Mediacast
 rbac#:#mcst_edit_permission#:#Modificar configuración de permisos
 common#:#mcst_new#:#Nuevo MediaCast
@@ -4651,7 +4651,7 @@ common#:#publishing_organisation#:#organización de publicación
 common#:#purpose#:#Propósito
 common#:#qpl#:#Banco de preguntas (Test)
 common#:#qpl_add#:#Añadir banco de preguntas
-common#:#qpl_copy#:#Copiar Banco de Preguntas Test
+rbac#:#qpl_copy#:#Copiar Banco de Preguntas Test
 rbac#:#qpl_delete#:#Eliminar banco de preguntas
 rbac#:#qpl_edit_permission#:#Modificar configuración de permisos
 common#:#qpl_new#:#Nuevo banco de preguntas
@@ -4803,12 +4803,12 @@ common#:#rolt_add#:#Añadir Plantilla de Rol
 common#:#rolt_added#:#Plantilla de Rol añadida
 common#:#rolt_edit#:#Editar Plantilla de Rol
 common#:#rolt_new#:#Nueva Plantilla de Rol
-common#:#root_create_cat#:#El Usuario puede crear Categorías
+rbac#:#root_create_cat#:#El Usuario puede crear Categorías
 common#:#root_edit#:#Editar nodo raíz del sistema
-common#:#root_edit_permission#:#Modificar configuración de permisos
-common#:#root_read#:#Acceso de lectura al sistema ILIAS
-common#:#root_visible#:#el sistema ILIAS es visible
-common#:#root_write#:#Editar datos del nodo raíz ILIAS
+rbac#:#root_edit_permission#:#Modificar configuración de permisos
+rbac#:#root_read#:#Acceso de lectura al sistema ILIAS
+rbac#:#root_visible#:#el sistema ILIAS es visible
+rbac#:#root_write#:#Editar datos del nodo raíz ILIAS
 common#:#row#:#Fila
 common#:#rows#:#Filas
 common#:#rte_editor_disabled#:#Editor de texto enriquecido desactivado
@@ -4907,7 +4907,7 @@ common#:#server_data#:#Datos del Servidor
 common#:#server_disabled#:#El chat está desactivado
 common#:#server_software#:#software del servidor
 common#:#sess#:#Sesión
-common#:#sess_copy#:#Copiar Sesión
+rbac#:#sess_copy#:#Copiar Sesión
 common#:#sess_fixed_duration#:#Fijada la duración de sesión
 common#:#sess_load_dependent_session_handling#:#Manejo de carga de sesión dependiente
 common#:#sess_mode#:#Modo de sesión
@@ -5028,7 +5028,7 @@ common#:#sorting_title_header#:#Ordenar por título
 common#:#spacer#:#Separador
 common#:#spl#:#Banco de preguntas (Encuesta)
 common#:#spl_add#:#Añadir banco de preguntas
-common#:#spl_copy#:#Copiar banco de Preguntas de Encuestas
+rbac#:#spl_copy#:#Copiar banco de Preguntas de Encuestas
 rbac#:#spl_delete#:#Eliminar banco de preguntas
 rbac#:#spl_edit_permission#:#Modificar configuración de permisos
 common#:#spl_import#:#Importar banco de preguntas
@@ -5084,7 +5084,7 @@ common#:#survey_unlimited_invitation#:#Invitación Ilimitada
 common#:#survey_unlimited_invitation_desc#:#Permite invitaciones ilimitadas en encuestas. Las invitaciones ilimitadas a&ntilde;aden la encuesta en el escritorio de todos los usuarios registrados
 common#:#svy#:#Encuesta
 common#:#svy_add#:#Añadir encuesta
-common#:#svy_copy#:#Copiar Encuesta
+rbac#:#svy_copy#:#Copiar Encuesta
 rbac#:#svy_delete#:#Eliminar encuesta
 rbac#:#svy_edit_permission#:#Modificar configuración de permisos
 common#:#svy_evaluation#:#Evaluación
@@ -5199,7 +5199,7 @@ common#:#treeview#:#Vista árbol
 common#:#tst#:#Test
 common#:#tst_add#:#Añadir Test
 common#:#tst_anon_eval#:#Resultados
-common#:#tst_copy#:#Copiar Test
+rbac#:#tst_copy#:#Copiar Test
 rbac#:#tst_delete#:#Eliminar Test
 rbac#:#tst_edit_learning_progress#:#Editar seguimiento
 rbac#:#tst_edit_permission#:#Modificar configuración permisos
@@ -5434,7 +5434,7 @@ common#:#webr#:#Recurso Web
 common#:#webr_active#:#Activo
 common#:#webr_add#:#Añadir dirección Web
 common#:#webr_add_item#:#Añadir Recurso Web
-common#:#webr_copy#:#Copiar recurso web
+rbac#:#webr_copy#:#Copiar recurso web
 rbac#:#webr_delete#:#Eliminar Recurso Web
 common#:#webr_delete_items#:#Eliminar Recurso(s) Web
 common#:#webr_deleted_items#:#Recurso(s) Web Eliminado(s).
@@ -5466,7 +5466,7 @@ common#:#width#:#Anchura
 common#:#width_x_height#:#Anchura x Altura
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#A&ntilde;adir Wiki
-common#:#wiki_copy#:#Copiar Wiki
+rbac#:#wiki_copy#:#Copiar Wiki
 rbac#:#wiki_delete#:#Eliminar Wiki
 rbac#:#wiki_edit_content#:#Editar Páginas de la Wiki
 rbac#:#wiki_edit_permission#:#Cambiar permisos
@@ -10093,7 +10093,7 @@ rbac#:#cat_create_chtr#:#Crear canal de charla
 rbac#:#cat_create_crsr#:#Crear nuevo enlace a curso
 rbac#:#cat_create_rcrs#:#Crear enlace a curso
 rbac#:#cat_create_wiki#:#Crear Wiki
-common#:#catr_copy#:#Copiar enlace de categoría
+rbac#:#catr_copy#:#Copiar enlace de categoría
 rbac#:#catr_delete#:#Borrar enlace a categoría
 rbac#:#catr_edit_permission#:#Cambiar opciones de permisos
 rbac#:#catr_read#:#Acceso de lectura al enlace de la categoría
@@ -10110,7 +10110,7 @@ rbac#:#crs_create_crsr#:#Crear enlace a curso
 rbac#:#crs_create_sess#:#Crear sesión
 rbac#:#crs_create_wiki#:#Crear Wiki
 rbac#:#crs_edit_event#:#Editar eventos de calendario
-common#:#crsr_copy#:#Copiar enlace de curso
+rbac#:#crsr_copy#:#Copiar enlace de curso
 rbac#:#crsr_delete#:#Borrar enlace a curso
 rbac#:#crsr_edit_permission#:#Cambiar opciones de permisos
 rbac#:#crsr_read#:#Acceso de lectura al enlace del curso
