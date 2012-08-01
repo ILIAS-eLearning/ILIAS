@@ -1394,7 +1394,7 @@ chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit_smiley#:#Edit Smiley
 chat#:#chat_edit#:#Edit chat
 chat#:#chat_empty#:#Empty
-chat#:#chat_enable_autoscroll#:#Enable Autoscroll
+chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chat#:#chat_enter_valid_username#:#Please enter a valid username.
 chat#:#chat_export_all#:#No restrictions (all users with access may export)
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
@@ -1432,14 +1432,14 @@ chat#:#chat_level_fatal#:#Fatal
 chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
-chat#:#chat_message_notify_activate#:#Chat Notifications
+chatroom#:#chat_message_notify_activate#:#Chat Notifications
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify
 chat#:#chat_message_notify#:#Message Notifier
 chat#:#chat_messages_deleted#:#Messages have been deleted.
 chat#:#chat_moderator_password#:#Moderator password
 chat#:#chat_navy#:#navy
-chat#:#chat_new_invitation_sound_status#:#Play a sound when user receives an invitation to the chat
-chat#:#chat_new_message_sound_status#:#Play a sound when a new message has been posted to the chat
+chatroom#:#chat_new_invitation_sound_status#:#Play a sound when user receives an invitation to the chat
+chatroom#:#chat_new_message_sound_status#:#Play a sound when a new message has been posted to the chat
 chat#:#chat_new_message#:#New message
 chat#:#chat_no_active_users#:#No further users present.
 chat#:#chat_no_blocked#:#No blocked users available
