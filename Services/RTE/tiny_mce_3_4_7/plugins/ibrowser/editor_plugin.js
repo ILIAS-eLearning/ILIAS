@@ -75,7 +75,6 @@
 				}
 				parameters += "&obj_id=" + obj_id;
 				parameters += "&obj_type=" + obj_type;
-				parameters += "&session_id=" + session_id;
 
 				ed.windowManager.open({
 					file : url + '/imagemanager.php' + parameters,
