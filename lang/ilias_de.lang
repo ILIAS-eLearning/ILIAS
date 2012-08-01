@@ -2569,25 +2569,11 @@ common#:#chapter#:#Kapitel
 common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#characters#:#Zeichen
-common#:#chat#:#Chat
-common#:#chat_active_in#:#Aktiv in Chat:
-common#:#chat_add#:#Chat hinzufügen
-common#:#chat_copy#:#Chat kopieren
-common#:#chat_delete#:#Chat löschen
-common#:#chat_edit_permission#:#Rechteeinstellungen ändern
 common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentl. Chat eintreten.
-common#:#chat_invite#:#Chat
-common#:#chat_invite_public_room#:#Chat
 common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
-common#:#chat_link_to_this_chat#:#Link zu diesem Chat
-common#:#chat_moderate#:#Chat moderieren
-common#:#chat_new#:#Neuen Chat anlegen
-common#:#chat_read#:#Lese/Schreibzugriff auf Chat
-common#:#chat_settings#:#Chat-Einstellungen
-common#:#chat_users_active#:#Aktive Benutzer
-common#:#chat_visible#:#Chat ist sichtbar
-common#:#chat_write#:#Chat bearbeiten
+chatroom#:#chat_settings#:#Chat-Einstellungen
+chatroom#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Prüfen
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
