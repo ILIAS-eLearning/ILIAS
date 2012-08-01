@@ -31,7 +31,6 @@ class ilChatroomBlockGUI extends ilBlockGUI
 
 		parent::__construct();
 
-		$lng->loadLanguageModule('chat');
 		$lng->loadLanguageModule('chatroom');
 		
 		$this->setImage(ilUtil::getImagePath('icon_chat.png'));
