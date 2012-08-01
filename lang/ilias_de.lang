@@ -12743,3 +12743,5 @@ common#:#add_entry#:#Eintragen
 common#:#obj_poll_duplicate#:#Abstimmung kopieren
 rbac#:#rbac_import_role#:#Rolle importieren
 rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert.
+common#:#obj_rcat#:#ECS-Kategorienlink
+common#:#objs_rcat#:#ECS-Kategorienlinks
