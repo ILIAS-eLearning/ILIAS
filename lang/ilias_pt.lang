@@ -3150,7 +3150,7 @@ rbac#:#fold_edit_permission#:#Change Permission settings
 common#:#fold_new#:#Nova Pasta
 rbac#:#fold_read#:#Read access to Folder
 common#:#fold_type#:#Folder Type
-common#:#fold_visible#:#Folder is visible
+rbac#:#fold_visible#:#Folder is visible
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 rbac#:#fold_write#:#Edit Folder
 common#:#folder#:#Pasta
@@ -3191,26 +3191,26 @@ common#:#forums_your_name#:#Seu Nome###02 04 2007 new variable
 common#:#frm#:#Fórum
 common#:#frm_a#:#um Fórum
 common#:#frm_add#:#Adicionar Fórum
-common#:#frm_add_post#:#Add new post
-common#:#frm_add_thread#:#Adicionar novo tópico ###25 09 2007 new variable
+rbac#:#frm_add_post#:#Add new post
+rbac#:#frm_add_thread#:#Adicionar novo tópico ###25 09 2007 new variable
 common#:#frm_added#:#Fórum adicionado
 common#:#frm_article#:#article
 common#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#Criar Fórum
-common#:#frm_delete#:#Apagar Fórum
+rbac#:#frm_delete#:#Apagar Fórum
 common#:#frm_delete_post#:#Apagar uma mensagem
 common#:#frm_edit#:#Editar Fórum
-common#:#frm_edit_permission#:#Modificar definições de permissões###07 Apr 2005 content changed
+rbac#:#frm_edit_permission#:#Modificar definições de permissões###07 Apr 2005 content changed
 common#:#frm_edit_post#:#Editar uma mensagem
 common#:#frm_latest_postings#:#Latest Articles
-common#:#frm_moderate_frm#:#Delete a post, censorship
+rbac#:#frm_moderate_frm#:#Delete a post, censorship
 common#:#frm_new#:#Novo Fórum
-common#:#frm_read#:#Acesso de Leitura ao Fórum
+rbac#:#frm_read#:#Acesso de Leitura ao Fórum
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new#:#Status 'Novo'###15 Apr 2005 new variable
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
-common#:#frm_visible#:#O Fórum é visível
-common#:#frm_write#:#Editar fórum/escrever mensagem
+rbac#:#frm_visible#:#O Fórum é visível
+rbac#:#frm_write#:#Editar fórum/escrever mensagem
 common#:#frma_edit_permission#:#Change permission settings
 common#:#frma_read#:#Read access to Forum Administration
 common#:#frma_visible#:#Forum Administration is visible
@@ -3232,8 +3232,8 @@ common#:#glo_add#:#Adicionar Glossário
 common#:#glo_added#:#Glossário adicionado
 common#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#Criar Glossário
-common#:#glo_delete#:#Apagar Glossário
-common#:#glo_edit_permission#:#Mudar definições de permissões
+rbac#:#glo_delete#:#Apagar Glossário
+rbac#:#glo_edit_permission#:#Mudar definições de permissões
 common#:#glo_import#:#Importar Glossário###01 04 2011 new variable
 common#:#glo_join#:#Inscrever-se ao Glossário###07 Apr 2005 content changed
 common#:#glo_leave#:#Cancelar do Glossário###07 Apr 2005 content changed
@@ -3243,10 +3243,10 @@ common#:#glo_mode_level#:#virtual (this level only)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (entire subtree)
 common#:#glo_new#:#Novo Glossário
-common#:#glo_read#:#Acesso de Leitura ao Glossário
+rbac#:#glo_read#:#Acesso de Leitura ao Glossário
 common#:#glo_upload_file#:#File
-common#:#glo_visible#:#O Glossário é visível
-common#:#glo_write#:#Editar Glossário
+rbac#:#glo_visible#:#O Glossário é visível
+rbac#:#glo_write#:#Editar Glossário
 common#:#global#:#Global
 common#:#global_default#:#Padrão Global ###01 Mar 2005 new variable
 common#:#global_fixed#:#Global foi fixada ###01 Mar 2005 new variable
@@ -3316,33 +3316,33 @@ common#:#grp_create#:#Criar Grupo
 common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Criar Chat
 common#:#grp_create_dbk#:#Create Digibook
-common#:#grp_create_exc#:#Create Exercise
-common#:#grp_create_feed#:#Create Web Feed
-common#:#grp_create_file#:#O Utilizador pode enviar Ficheiros
-common#:#grp_create_fold#:#O Utilizador pode criar Pastas
-common#:#grp_create_frm#:#Criar Fórum
-common#:#grp_create_glo#:#Create Glossary
-common#:#grp_create_grp#:#Create Group
+rbac#:#grp_create_exc#:#Create Exercise
+rbac#:#grp_create_feed#:#Create Web Feed
+rbac#:#grp_create_file#:#O Utilizador pode enviar Ficheiros
+rbac#:#grp_create_fold#:#O Utilizador pode criar Pastas
+rbac#:#grp_create_frm#:#Criar Fórum
+rbac#:#grp_create_glo#:#Create Glossary
+rbac#:#grp_create_grp#:#Create Group
 common#:#grp_create_hlm#:#Create HACP Learning Module
-common#:#grp_create_htlm#:#Create HTML Learning Module
-common#:#grp_create_icrs#:#Create LearnLinc Seminar
-common#:#grp_create_lm#:#Criar Módulo de Aprendizagem
-common#:#grp_create_mcst#:#Create MediaCast
-common#:#grp_create_mep#:#Create Media Pool
-common#:#grp_create_qpl#:#Create Question Pool for Test
-common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#grp_create_spl#:#Create Question Pool for Survey
-common#:#grp_create_svy#:#Criar Pesquisa###19 Oct 2004 new variable
-common#:#grp_create_tst#:#Create Test
-common#:#grp_create_webr#:#Create new web resource
+rbac#:#grp_create_htlm#:#Create HTML Learning Module
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar
+rbac#:#grp_create_lm#:#Criar Módulo de Aprendizagem
+rbac#:#grp_create_mcst#:#Create MediaCast
+rbac#:#grp_create_mep#:#Create Media Pool
+rbac#:#grp_create_qpl#:#Create Question Pool for Test
+rbac#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#grp_create_spl#:#Create Question Pool for Survey
+rbac#:#grp_create_svy#:#Criar Pesquisa###19 Oct 2004 new variable
+rbac#:#grp_create_tst#:#Create Test
+rbac#:#grp_create_webr#:#Create new web resource
 common#:#grp_create_write#:#Criar Wiki###02 06 2008 new variable
-common#:#grp_delete#:#Apagar Grupo
+rbac#:#grp_delete#:#Apagar Grupo
 common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Tem a certeza que quer dispensar os seguintes membros do grupo.
 common#:#grp_dismiss_myself#:#Tem a certeza que quer dispensar-se do grupo.
 common#:#grp_edit#:#Editar Grupo
-common#:#grp_edit_learning_progress#:#Editar Progresso de aprendizagem###25 02 2007 new variable
-common#:#grp_edit_permission#:#Mudar definições de permissões
+rbac#:#grp_edit_learning_progress#:#Editar Progresso de aprendizagem###25 02 2007 new variable
+rbac#:#grp_edit_permission#:#Mudar definições de permissões
 common#:#grp_err_administrator_required#:#O Membro não pôde ser removido, é necessário pelo menos um administrador por grupo !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necessita de pelo menos um administrador de grupo
 common#:#grp_err_error#:#Ocorreu um erro
@@ -3351,8 +3351,8 @@ common#:#grp_err_member_could_not_be_removed#:#O membro não pôde ser removido.
 common#:#grp_err_no_permission#:#Você não possui as permissões para esta operação.
 common#:#grp_err_registration_data#:#Por favor forneça uma senha, a data e hora de expiração para um período válido de inscrição !###07 Apr 2005 content changed
 common#:#grp_header_edit_members#:#Edit members
-common#:#grp_join#:#O utilizador pode juntar-se ao Grupo
-common#:#grp_leave#:#O utilizador pode sair do Grupo
+rbac#:#grp_join#:#O utilizador pode juntar-se ao Grupo
+rbac#:#grp_leave#:#O utilizador pode sair do Grupo
 common#:#grp_list_users#:#List users
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
@@ -3373,7 +3373,7 @@ common#:#grp_no_groups_selected#:#No group selected
 common#:#grp_no_results_found#:#No results found
 common#:#grp_no_roles_selected#:#No roles selected
 common#:#grp_options#:#Options
-common#:#grp_read#:#Acesso de Leitura ao Grupo
+rbac#:#grp_read#:#Acesso de Leitura ao Grupo
 common#:#grp_register#:#Inscrever
 common#:#grp_registration#:#Inscrever-se ao grupo###23 Dec 2005 new variable
 common#:#grp_registration_completed#:#Inscrição completa
@@ -3382,9 +3382,9 @@ common#:#grp_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search
 common#:#grp_select_one_file#:#Please select one file.
 common#:#grp_select_one_file_only#:#Please select exactly one file.
-common#:#grp_visible#:#O Grupo é visível
+rbac#:#grp_visible#:#O Grupo é visível
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
-common#:#grp_write#:#Editar Grupo
+rbac#:#grp_write#:#Editar Grupo
 common#:#guest#:#Convidado
 common#:#guests#:#Convidados
 common#:#header_searchable#:#Searchable
@@ -3448,14 +3448,14 @@ common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#HTML Learning Module
 common#:#htlm_add#:#Add HTML Learning Module
 common#:#htlm_copy#:#Copy HTML Learning Module
-common#:#htlm_delete#:#Delete HTML Learning Module
+rbac#:#htlm_delete#:#Delete HTML Learning Module
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
-common#:#htlm_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
-common#:#htlm_edit_permission#:#Change permission settings
+rbac#:#htlm_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
+rbac#:#htlm_edit_permission#:#Change permission settings
 common#:#htlm_new#:#New HTML Learning Module
-common#:#htlm_read#:#Read HTML Learning Module
-common#:#htlm_visible#:#HTML Learning Module is visible
-common#:#htlm_write#:#Edit HTML Learning Module
+rbac#:#htlm_read#:#Read HTML Learning Module
+rbac#:#htlm_visible#:#HTML Learning Module is visible
+rbac#:#htlm_write#:#Edit HTML Learning Module
 common#:#html_block#:#Blog HTML###25 02 2007 new variable
 common#:#http#:#HTTP
 common#:#http_not_possible#:#This server is not supporting http requests.
@@ -3821,19 +3821,19 @@ common#:#lm_add#:#Adicionar Módulo de Aprendizagem
 common#:#lm_added#:#Módulo de Aprendizagem adicionado
 common#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#Criar Módulo de Aprendizagem
-common#:#lm_delete#:#Apagar Módulo de Aprendizagem
-common#:#lm_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
+rbac#:#lm_delete#:#Apagar Módulo de Aprendizagem
+rbac#:#lm_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Mudar definições de permissões
 common#:#lm_join#:#Inscrever-se ao Módulo de Aprendizagem###24 Sep 2004 content changed
 common#:#lm_leave#:#Desistir do Módulo de Aprendizagem
 common#:#lm_new#:#Novo Módulo de Aprendizagem
-common#:#lm_read#:#Acesso de Leitura ao Módulo de Aprendizagem
+rbac#:#lm_read#:#Acesso de Leitura ao Módulo de Aprendizagem
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#O Módulo de Aprendizagem é visível
-common#:#lm_write#:#Editar Módulo de Aprendizagem
+rbac#:#lm_visible#:#O Módulo de Aprendizagem é visível
+rbac#:#lm_write#:#Editar Módulo de Aprendizagem
 common#:#lng#:#Linguagem
 common#:#lngf#:#Linguagens
 common#:#lngf_edit_permission#:#Mudar definições de permissões
@@ -3949,12 +3949,12 @@ common#:#max_time#:#Maximum time
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Add MediaCast
 common#:#mcst_copy#:#Copy MediaCast
-common#:#mcst_delete#:#Delete Mediacast
-common#:#mcst_edit_permission#:#Change permission settings
+rbac#:#mcst_delete#:#Delete Mediacast
+rbac#:#mcst_edit_permission#:#Change permission settings
 common#:#mcst_new#:#New MediaCast
-common#:#mcst_read#:#Read access to MediaCast
-common#:#mcst_visible#:#MediaCast is visible
-common#:#mcst_write#:#Edit MediaCast
+rbac#:#mcst_read#:#Read access to MediaCast
+rbac#:#mcst_visible#:#MediaCast is visible
+rbac#:#mcst_write#:#Edit MediaCast
 common#:#mem_add_to_wl#:#Adicionar para a Liste de Espera###26 06 2009 new variable
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_end#:#Registration End:
@@ -3981,14 +3981,14 @@ common#:#membership_leave#:#Leave
 common#:#mep#:#Banco de Média
 common#:#mep_add#:#Adicionar Banco de Média
 common#:#mep_added#:#Banco de Média Adicionado
-common#:#mep_delete#:#Apagar Banco de Média
+rbac#:#mep_delete#:#Apagar Banco de Média
 common#:#mep_edit#:#Editar Propriedades do Banco de Média
-common#:#mep_edit_permission#:#Mudar definições de permissões
+rbac#:#mep_edit_permission#:#Mudar definições de permissões
 common#:#mep_new#:#Novo Banco de Média
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
-common#:#mep_read#:#Ler Conteúdo do Banco de Média
-common#:#mep_visible#:#O Banco de Média é visível
-common#:#mep_write#:#Editar Conteúdo do Banco de Média
+rbac#:#mep_read#:#Ler Conteúdo do Banco de Média
+rbac#:#mep_visible#:#O Banco de Média é visível
+rbac#:#mep_write#:#Editar Conteúdo do Banco de Média
 common#:#message#:#Mensagem
 common#:#message_content#:#Conteúdo da Mensagem
 common#:#message_no_delivered_files#:#You don't have delivered a file!
@@ -4654,13 +4654,13 @@ common#:#purpose#:#Purpose
 common#:#qpl#:#Banco de Questões
 common#:#qpl_add#:#Adicionar banco de questões
 common#:#qpl_copy#:#Copy Test Question Pool
-common#:#qpl_delete#:#Apagar Banco de Questões
-common#:#qpl_edit_permission#:#Mudar definições de permissões
+rbac#:#qpl_delete#:#Apagar Banco de Questões
+rbac#:#qpl_edit_permission#:#Mudar definições de permissões
 common#:#qpl_new#:#Novo banco de questões
-common#:#qpl_read#:#Acesso de Leitura ao Banco de Questões
+rbac#:#qpl_read#:#Acesso de Leitura ao Banco de Questões
 common#:#qpl_upload_file#:#Upload file
-common#:#qpl_visible#:#O Banco de Questões é visível
-common#:#qpl_write#:#Editar Banco de Questões
+rbac#:#qpl_visible#:#O Banco de Questões é visível
+rbac#:#qpl_write#:#Editar Banco de Questões
 common#:#quarterly#:#quarterly
 common#:#query_data#:#Query data
 common#:#question#:#Questão
@@ -4819,17 +4819,17 @@ common#:#sahs#:#Módulo de aprendizagem SCORM/AICC ###11 Sep 2004 new variable
 common#:#sahs_added#:#SCORM/AICC Learning Module added
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
-common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
-common#:#sahs_edit_learning_progress#:#Editar processo de aprendizagem###23 Dec 2005 new variable
-common#:#sahs_edit_permission#:#Change permission settings
+rbac#:#sahs_delete#:#Delete SCORM/AICC Learning Module
+rbac#:#sahs_edit_learning_progress#:#Editar processo de aprendizagem###23 Dec 2005 new variable
+rbac#:#sahs_edit_permission#:#Change permission settings
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Cancelar de modulo SCORM/AICC###11 Sep 2004 new variable
-common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
-common#:#sahs_visible#:#SCORM/AICC Learning Module is visible
-common#:#sahs_write#:#Edit SCORM/AICC Learning Module
+rbac#:#sahs_read#:#Read access to SCORM/AICC Learning Module
+rbac#:#sahs_visible#:#SCORM/AICC Learning Module is visible
+rbac#:#sahs_write#:#Edit SCORM/AICC Learning Module
 common#:#salutation#:#Saudação
 common#:#salutation_f#:#Sr./Sra.
 common#:#salutation_m#:#Sr.
@@ -5031,14 +5031,14 @@ common#:#spacer#:#Spacer
 common#:#spl#:#Question pool (Survey)
 common#:#spl_add#:#Adicionar banco de questões###07 May 2004 new variable
 common#:#spl_copy#:#Copy Survey Question Pool
-common#:#spl_delete#:#Delete Question Pool
-common#:#spl_edit_permission#:#Change permission settings
+rbac#:#spl_delete#:#Delete Question Pool
+rbac#:#spl_edit_permission#:#Change permission settings
 common#:#spl_import#:#Import Question Pool Survey
 common#:#spl_new#:#New question pool
-common#:#spl_read#:#Read access to Question Pool
+rbac#:#spl_read#:#Read access to Question Pool
 common#:#spl_upload_file#:#Upload file
-common#:#spl_visible#:#Question Pool is visible
-common#:#spl_write#:#Edit Question Pool
+rbac#:#spl_visible#:#Question Pool is visible
+rbac#:#spl_write#:#Edit Question Pool
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#um capítulo
 common#:#st_add#:#Adicionar capítulo
@@ -5087,22 +5087,22 @@ common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surve
 common#:#svy#:#Survey
 common#:#svy_add#:#Adicionar pesquisa ###07 May 2004 new variable
 common#:#svy_copy#:#Copy Survey
-common#:#svy_delete#:#Delete survey
-common#:#svy_edit_permission#:#Change permission settings
+rbac#:#svy_delete#:#Delete survey
+rbac#:#svy_edit_permission#:#Change permission settings
 common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#completed
-common#:#svy_invite#:#Invite users to a survey
+rbac#:#svy_invite#:#Invite users to a survey
 common#:#svy_new#:#New survey
 common#:#svy_no_content#:#No surveys available
 common#:#svy_not_finished#:#A pesquisa não foi concluída ainda###20 Jun 2005 new variable
 common#:#svy_not_started#:#not started
 common#:#svy_participate#:#Participate in a survey
-common#:#svy_read#:#Read access to survey
+rbac#:#svy_read#:#Read access to survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Upload file
-common#:#svy_visible#:#Survey is visible
+rbac#:#svy_visible#:#Survey is visible
 common#:#svy_warning_survey_not_complete#:#The survey is not complete!
-common#:#svy_write#:#Edit survey
+rbac#:#svy_write#:#Edit survey
 common#:#system#:#Sistema
 common#:#system_check#:#Verificação de Sistema
 common#:#system_choose_language#:#Escolha idioma de sistema###07 Apr 2005 content changed
@@ -5202,23 +5202,23 @@ common#:#tst#:#Teste
 common#:#tst_add#:#Adicionar teste
 common#:#tst_anon_eval#:#Results
 common#:#tst_copy#:#Copy Test
-common#:#tst_delete#:#Apagar Teste
-common#:#tst_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
-common#:#tst_edit_permission#:#Mudar definições de permissões
+rbac#:#tst_delete#:#Apagar Teste
+rbac#:#tst_edit_learning_progress#:#Editar Progresso de aprendizagem###23 Dec 2005 new variable
+rbac#:#tst_edit_permission#:#Mudar definições de permissões
 common#:#tst_edit_questions#:#Edit Questions
 common#:#tst_new#:#Novo teste
 common#:#tst_no_content#:#No tests available
 common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>
-common#:#tst_read#:#Leia acesso ao Teste###07 Apr 2005 content changed
+rbac#:#tst_read#:#Leia acesso ao Teste###07 Apr 2005 content changed
 common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Estatísticas avaliação###20 Jun 2005 new variable
 common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
-common#:#tst_visible#:#O Teste é visível
+rbac#:#tst_visible#:#O Teste é visível
 common#:#tst_warning_test_not_complete#:#The test is not complete!
-common#:#tst_write#:#Editar Teste
+rbac#:#tst_write#:#Editar Teste
 common#:#tutors#:#Tutores###28 10 2009 new variable
 common#:#txt_add_object_instruction1#:#Indique a localização onde quer adicionar
 common#:#txt_add_object_instruction2#:#.
@@ -5437,13 +5437,13 @@ common#:#webr_active#:#Active
 common#:#webr_add#:#Adicionar endereço Web###11 Mar 2005 new variable
 common#:#webr_add_item#:#Adicionar Recurso Web ###11 Mar 2005 new variable
 common#:#webr_copy#:#Copy Web Resource
-common#:#webr_delete#:#Delete web resource
+rbac#:#webr_delete#:#Delete web resource
 common#:#webr_delete_items#:#Delete Web Resource(s)
 common#:#webr_deleted_items#:#Deleted Web Resource(s).
 common#:#webr_disable_check#:#Disable check
 common#:#webr_edit#:#Edit web resource
 common#:#webr_edit_item#:#Edit web resource
-common#:#webr_edit_permission#:#Change permission settings
+rbac#:#webr_edit_permission#:#Change permission settings
 common#:#webr_fillout_all#:#Please fill out all required fields.
 common#:#webr_item_updated#:#Saved modifications
 common#:#webr_join#:#Subscribe web resource
@@ -5454,10 +5454,10 @@ common#:#webr_modified_items#:#Saved modifications.
 common#:#webr_never_checked#:#Never checked
 common#:#webr_new#:#Adicionar novo Recurso Web###11 Mar 2005 new variable
 common#:#webr_no_items_created#:#No web resources created
-common#:#webr_read#:#Read access to web resource
+rbac#:#webr_read#:#Read access to web resource
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?
-common#:#webr_visible#:#web resource is visible
-common#:#webr_write#:#Edit web resource
+rbac#:#webr_visible#:#web resource is visible
+rbac#:#webr_write#:#Edit web resource
 common#:#webservices#:#Webservices
 common#:#week#:#Semana
 common#:#weekly#:#weekly
@@ -5469,13 +5469,13 @@ common#:#width_x_height#:#Width x Height
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Adicionar Wiki###11 03 2008 new variable
 common#:#wiki_copy#:#Copy Wiki
-common#:#wiki_delete#:#Delete Wiki
-common#:#wiki_edit_content#:#Edit Wiki Pages
-common#:#wiki_edit_permission#:#Change permission settings
+rbac#:#wiki_delete#:#Delete Wiki
+rbac#:#wiki_edit_content#:#Edit Wiki Pages
+rbac#:#wiki_edit_permission#:#Change permission settings
 common#:#wiki_new#:#New Wiki
-common#:#wiki_read#:#Read Wiki
-common#:#wiki_visible#:#Wiki is visible
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+rbac#:#wiki_read#:#Read Wiki
+rbac#:#wiki_visible#:#Wiki is visible
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
 common#:#with#:#com
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.

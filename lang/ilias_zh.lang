@@ -2566,7 +2566,7 @@ rbac#:#fold_edit_learning_progress#:#Edit Learning Progress
 rbac#:#fold_edit_permission#:#Change Permission settings
 common#:#fold_new#:#新文件夹
 rbac#:#fold_read#:#Read access to Folder
-common#:#fold_visible#:#Folder is visible
+rbac#:#fold_visible#:#Folder is visible
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 rbac#:#fold_write#:#Edit Folder
 common#:#folder#:#文件夹
@@ -2605,26 +2605,26 @@ common#:#forums_your_name#:#Your Name
 common#:#frm#:#论坛
 common#:#frm_a#:#一个论坛
 common#:#frm_add#:#增加论坛
-common#:#frm_add_post#:#Add new post
-common#:#frm_add_thread#:#Add new topi
+rbac#:#frm_add_post#:#Add new post
+rbac#:#frm_add_thread#:#Add new topi
 common#:#frm_added#:#论坛已增加
 common#:#frm_article#:#article
 common#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#创建论坛
-common#:#frm_delete#:#删除论坛
+rbac#:#frm_delete#:#删除论坛
 common#:#frm_delete_post#:#删除帖子
 common#:#frm_edit#:#编辑论坛
-common#:#frm_edit_permission#:#更改许可设置
+rbac#:#frm_edit_permission#:#更改许可设置
 common#:#frm_edit_post#:#编辑帖子
 common#:#frm_latest_postings#:#Latest Articles
-common#:#frm_moderate_frm#:#Delete a post, censorship
+rbac#:#frm_moderate_frm#:#Delete a post, censorship
 common#:#frm_new#:#新论坛
-common#:#frm_read#:#论坛设为读访问
+rbac#:#frm_read#:#论坛设为读访问
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new#:#Status 'New'
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
-common#:#frm_visible#:#论坛可视Forum is visible
-common#:#frm_write#:#编辑论坛
+rbac#:#frm_visible#:#论坛可视Forum is visible
+rbac#:#frm_write#:#编辑论坛
 common#:#from#:#从
 common#:#fullname#:#名字
 common#:#functions#:#功能
@@ -2642,8 +2642,8 @@ common#:#glo_add#:#增加词汇表
 common#:#glo_added#:#词汇表已增加
 common#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#创建术语表
-common#:#glo_delete#:#删除术语表
-common#:#glo_edit_permission#:#更改许可设置
+rbac#:#glo_delete#:#删除术语表
+rbac#:#glo_edit_permission#:#更改许可设置
 common#:#glo_join#:#注册术语表
 common#:#glo_leave#:#注销术语表
 common#:#glo_mode#:#Mode
@@ -2652,10 +2652,10 @@ common#:#glo_mode_level#:#virtual (this level only)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (entire subtree)
 common#:#glo_new#:#新词汇表
-common#:#glo_read#:#术语表设为读访问
+rbac#:#glo_read#:#术语表设为读访问
 common#:#glo_upload_file#:#File
-common#:#glo_visible#:#术语表可视
-common#:#glo_write#:#编辑术语表
+rbac#:#glo_visible#:#术语表可视
+rbac#:#glo_write#:#编辑术语表
 common#:#global#:#Global
 common#:#global_default#:#Global Default
 common#:#global_fixed#:#Global Fixed
@@ -2724,33 +2724,33 @@ common#:#grp_create#:#创建组
 common#:#grp_create_alm#:#Create AICC Learning Module
 common#:#grp_create_chat#:#Create Chat
 common#:#grp_create_dbk#:#Create Digibook
-common#:#grp_create_exc#:#Create Exercise
-common#:#grp_create_feed#:#Create Web Feed
-common#:#grp_create_file#:#用户可以上载文件
-common#:#grp_create_fold#:#用户可以创建文件夹
-common#:#grp_create_frm#:#创建论坛
-common#:#grp_create_glo#:#Create Glossary
-common#:#grp_create_grp#:#Create Group
+rbac#:#grp_create_exc#:#Create Exercise
+rbac#:#grp_create_feed#:#Create Web Feed
+rbac#:#grp_create_file#:#用户可以上载文件
+rbac#:#grp_create_fold#:#用户可以创建文件夹
+rbac#:#grp_create_frm#:#创建论坛
+rbac#:#grp_create_glo#:#Create Glossary
+rbac#:#grp_create_grp#:#Create Group
 common#:#grp_create_hlm#:#Create HACP Learning Module
-common#:#grp_create_htlm#:#Create HTML Learning Module
-common#:#grp_create_icrs#:#Create LearnLinc Seminar
-common#:#grp_create_lm#:#创建学习模块
-common#:#grp_create_mcst#:#Create MediaCast
-common#:#grp_create_mep#:#Create Media Pool
-common#:#grp_create_qpl#:#Create Question Pool for Test
-common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#grp_create_spl#:#Create Question Pool for Survey
-common#:#grp_create_svy#:#Create Survey
-common#:#grp_create_tst#:#Create Test
-common#:#grp_create_webr#:#Create new web resource
+rbac#:#grp_create_htlm#:#Create HTML Learning Module
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar
+rbac#:#grp_create_lm#:#创建学习模块
+rbac#:#grp_create_mcst#:#Create MediaCast
+rbac#:#grp_create_mep#:#Create Media Pool
+rbac#:#grp_create_qpl#:#Create Question Pool for Test
+rbac#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#grp_create_spl#:#Create Question Pool for Survey
+rbac#:#grp_create_svy#:#Create Survey
+rbac#:#grp_create_tst#:#Create Test
+rbac#:#grp_create_webr#:#Create new web resource
 common#:#grp_create_write#:#Create Wiki
-common#:#grp_delete#:#删除组
+rbac#:#grp_delete#:#删除组
 common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#您肯定要从组中撤消下述成员吗？
 common#:#grp_dismiss_myself#:#您肯定要从组中撤消您自己吗？
 common#:#grp_edit#:#编辑组
-common#:#grp_edit_learning_progress#:#Edit Learning Progress
-common#:#grp_edit_permission#:#更改许可设置e
+rbac#:#grp_edit_learning_progress#:#Edit Learning Progress
+rbac#:#grp_edit_permission#:#更改许可设置e
 common#:#grp_err_administrator_required#:#不能删除成员，每个组至少要求一个管理员！
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#每个组至少需要一个组管理员！
 common#:#grp_err_error#:#出现错误
@@ -2759,8 +2759,8 @@ common#:#grp_err_member_could_not_be_removed#:#不能删除成员。请验证此
 common#:#grp_err_no_permission#:#您没有进行此项操作的许可。
 common#:#grp_err_registration_data#:#请输入一个口令以及一个有效注册期间的截止日期和时间！
 common#:#grp_header_edit_members#:#Edit members
-common#:#grp_join#:#用户可以加入组
-common#:#grp_leave#:#用户可以离开组
+rbac#:#grp_join#:#用户可以加入组
+rbac#:#grp_leave#:#用户可以离开组
 common#:#grp_list_users#:#List users
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
@@ -2781,7 +2781,7 @@ common#:#grp_no_groups_selected#:#No group selected
 common#:#grp_no_results_found#:#No results found
 common#:#grp_no_roles_selected#:#No roles selected
 common#:#grp_options#:#Options
-common#:#grp_read#:#组设为读访问
+rbac#:#grp_read#:#组设为读访问
 common#:#grp_register#:#注册
 common#:#grp_registration#:#Join group
 common#:#grp_registration_completed#:#注册成功
@@ -2790,9 +2790,9 @@ common#:#grp_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search
 common#:#grp_select_one_file#:#Please select one file.
 common#:#grp_select_one_file_only#:#Please select exactly one file.
-common#:#grp_visible#:#组可视
+rbac#:#grp_visible#:#组可视
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
-common#:#grp_write#:#编辑组
+rbac#:#grp_write#:#编辑组
 common#:#guest#:#客人
 common#:#guests#:#客人
 common#:#header_searchable#:#Searchable
@@ -2854,14 +2854,14 @@ common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#HTML Learning Module
 common#:#htlm_add#:#Add HTML Learning Module
 common#:#htlm_copy#:#Copy HTML Learning Module
-common#:#htlm_delete#:#Delete HTML Learning Module
+rbac#:#htlm_delete#:#Delete HTML Learning Module
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
-common#:#htlm_edit_learning_progress#:#Edit learning progress
-common#:#htlm_edit_permission#:#Change permission settings
+rbac#:#htlm_edit_learning_progress#:#Edit learning progress
+rbac#:#htlm_edit_permission#:#Change permission settings
 common#:#htlm_new#:#New HTML Learning Module
-common#:#htlm_read#:#Read HTML Learning Module
-common#:#htlm_visible#:#HTML Learning Module is visible
-common#:#htlm_write#:#Edit HTML Learning Module
+rbac#:#htlm_read#:#Read HTML Learning Module
+rbac#:#htlm_visible#:#HTML Learning Module is visible
+rbac#:#htlm_write#:#Edit HTML Learning Module
 common#:#html_block#:#HTML Block
 common#:#http#:#HTTP
 common#:#http_not_possible#:#This server is not supporting http requests.
@@ -3214,19 +3214,19 @@ common#:#lm_add#:#增加学习模块
 common#:#lm_added#:#学习模块已增加
 common#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#创建学习模块
-common#:#lm_delete#:#删除学习模块
-common#:#lm_edit_learning_progress#:#Edit learning progress
+rbac#:#lm_delete#:#删除学习模块
+rbac#:#lm_edit_learning_progress#:#Edit learning progress
 common#:#lm_edit_permission#:#更改许可设置
 common#:#lm_join#:#注册到学习模块
 common#:#lm_leave#:#从学习模块中注销
 common#:#lm_new#:#新学习模块
-common#:#lm_read#:#学习模块设为读访问
+rbac#:#lm_read#:#学习模块设为读访问
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#学习模块可视
-common#:#lm_write#:#编辑学习模块
+rbac#:#lm_visible#:#学习模块可视
+rbac#:#lm_write#:#编辑学习模块
 common#:#lng#:#语言
 common#:#lngf#:#语言文件夹
 common#:#lngf_edit_permission#:#更改许可设置
@@ -3336,12 +3336,12 @@ common#:#max_time#:#Maximum time
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Add MediaCast
 common#:#mcst_copy#:#Copy MediaCast
-common#:#mcst_delete#:#Delete Mediacast
-common#:#mcst_edit_permission#:#Change permission settings
+rbac#:#mcst_delete#:#Delete Mediacast
+rbac#:#mcst_edit_permission#:#Change permission settings
 common#:#mcst_new#:#New MediaCast
-common#:#mcst_read#:#Read access to MediaCast
-common#:#mcst_visible#:#MediaCast is visible
-common#:#mcst_write#:#Edit MediaCast
+rbac#:#mcst_read#:#Read access to MediaCast
+rbac#:#mcst_visible#:#MediaCast is visible
+rbac#:#mcst_write#:#Edit MediaCast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_end#:#Registration End:
@@ -3368,14 +3368,14 @@ common#:#membership_leave#:#Leave
 common#:#mep#:#Media Pool
 common#:#mep_add#:#Add Media Pool
 common#:#mep_added#:#Added Media Pool
-common#:#mep_delete#:#Delete Media Pool
+rbac#:#mep_delete#:#Delete Media Pool
 common#:#mep_edit#:#Edit Media Pool Properties
-common#:#mep_edit_permission#:#Change permission settings
+rbac#:#mep_edit_permission#:#Change permission settings
 common#:#mep_new#:#New Media Pool
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
-common#:#mep_read#:#Read Media Pool Content
-common#:#mep_visible#:#Media Pool is visible
-common#:#mep_write#:#Edit Media Pool Content
+rbac#:#mep_read#:#Read Media Pool Content
+rbac#:#mep_visible#:#Media Pool is visible
+rbac#:#mep_write#:#Edit Media Pool Content
 common#:#message#:#消息
 common#:#message_content#:#消息内容
 common#:#message_no_delivered_files#:#You don't have delivered a file!
@@ -3978,13 +3978,13 @@ common#:#publishing_organisation#:#出版组织
 common#:#purpose#:#Purpose
 common#:#qpl#:#问题集
 common#:#qpl_add#:#增加问题集
-common#:#qpl_delete#:#删除问题集
-common#:#qpl_edit_permission#:#更改许可设置
+rbac#:#qpl_delete#:#删除问题集
+rbac#:#qpl_edit_permission#:#更改许可设置
 common#:#qpl_new#:#新问题集
-common#:#qpl_read#:#问题集设为读访问
+rbac#:#qpl_read#:#问题集设为读访问
 common#:#qpl_upload_file#:#Upload file
-common#:#qpl_visible#:#问题集可视
-common#:#qpl_write#:#编辑问题集
+rbac#:#qpl_visible#:#问题集可视
+rbac#:#qpl_write#:#编辑问题集
 common#:#quarterly#:#quarterly
 common#:#query_data#:#Query data
 common#:#question#:#问题
@@ -4140,17 +4140,17 @@ common#:#sahs#:#SCORM/AICC Learning Module
 common#:#sahs_added#:#SCORM/AICC Learning Module added
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
-common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
-common#:#sahs_edit_learning_progress#:#Edit learning progress
-common#:#sahs_edit_permission#:#Change permission settings
+rbac#:#sahs_delete#:#Delete SCORM/AICC Learning Module
+rbac#:#sahs_edit_learning_progress#:#Edit learning progress
+rbac#:#sahs_edit_permission#:#Change permission settings
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
-common#:#sahs_visible#:#SCORM/AICC Learning Module is visible
-common#:#sahs_write#:#Edit SCORM/AICC Learning Module
+rbac#:#sahs_read#:#Read access to SCORM/AICC Learning Module
+rbac#:#sahs_visible#:#SCORM/AICC Learning Module is visible
+rbac#:#sahs_write#:#Edit SCORM/AICC Learning Module
 common#:#salutation#:#问候
 common#:#salutation_f#:#先生/女士
 common#:#salutation_m#:#先生
@@ -4314,13 +4314,13 @@ common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Spacer
 common#:#spl#:#Question pool (Survey)
 common#:#spl_add#:#Add question pool
-common#:#spl_delete#:#Delete Question Pool
-common#:#spl_edit_permission#:#Change permission settings
+rbac#:#spl_delete#:#Delete Question Pool
+rbac#:#spl_edit_permission#:#Change permission settings
 common#:#spl_new#:#New question pool
-common#:#spl_read#:#Read access to Question Pool
+rbac#:#spl_read#:#Read access to Question Pool
 common#:#spl_upload_file#:#Upload file
-common#:#spl_visible#:#Question Pool is visible
-common#:#spl_write#:#Edit Question Pool
+rbac#:#spl_visible#:#Question Pool is visible
+rbac#:#spl_write#:#Edit Question Pool
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#一章
 common#:#st_add#:#增加章
@@ -4368,22 +4368,22 @@ common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surve
 common#:#svy#:#Survey
 common#:#svy_add#:#Add survey
 common#:#svy_copy#:#Copy Survey
-common#:#svy_delete#:#Delete survey
-common#:#svy_edit_permission#:#Change permission settings
+rbac#:#svy_delete#:#Delete survey
+rbac#:#svy_edit_permission#:#Change permission settings
 common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#completed
-common#:#svy_invite#:#Invite users to a survey
+rbac#:#svy_invite#:#Invite users to a survey
 common#:#svy_new#:#New survey
 common#:#svy_no_content#:#No surveys available
 common#:#svy_not_finished#:#not completed
 common#:#svy_not_started#:#not started
 common#:#svy_participate#:#Participate in a survey
-common#:#svy_read#:#Read access to survey
+rbac#:#svy_read#:#Read access to survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Upload file
-common#:#svy_visible#:#Survey is visible
+rbac#:#svy_visible#:#Survey is visible
 common#:#svy_warning_survey_not_complete#:#The survey is not complete!
-common#:#svy_write#:#Edit survey
+rbac#:#svy_write#:#Edit survey
 common#:#system#:#系统
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#系统选择语言
@@ -4479,21 +4479,21 @@ common#:#tst#:#测验e
 common#:#tst_add#:#增加测验
 common#:#tst_anon_eval#:#Results
 common#:#tst_copy#:#Copy Test
-common#:#tst_delete#:#删除测验
-common#:#tst_edit_learning_progress#:#Edit learning progress
-common#:#tst_edit_permission#:#更改许可设置
+rbac#:#tst_delete#:#删除测验
+rbac#:#tst_edit_learning_progress#:#Edit learning progress
+rbac#:#tst_edit_permission#:#更改许可设置
 common#:#tst_new#:#新测验
 common#:#tst_no_content#:#No tests available
-common#:#tst_read#:#测试设为读访问
+rbac#:#tst_read#:#测试设为读访问
 common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
 common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
-common#:#tst_visible#:#测验可视
+rbac#:#tst_visible#:#测验可视
 common#:#tst_warning_test_not_complete#:#The test is not complete!
-common#:#tst_write#:#编辑测验
+rbac#:#tst_write#:#编辑测验
 common#:#txt_add_object_instruction1#:#浏览到您要增加的地方
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#您已成功登录到ILIAS。请用您的用户账号按下面按钮登录到ILIAS。
@@ -4702,13 +4702,13 @@ common#:#webr_active#:#Active
 common#:#webr_add#:#Add web resource
 common#:#webr_add_item#:#Add web resource
 common#:#webr_copy#:#Copy Web Resource
-common#:#webr_delete#:#Delete web resource
+rbac#:#webr_delete#:#Delete web resource
 common#:#webr_delete_items#:#Delete Web Resource(s)
 common#:#webr_deleted_items#:#Deleted Web Resource(s).
 common#:#webr_disable_check#:#Disable check 
 common#:#webr_edit#:#Edit web resource
 common#:#webr_edit_item#:#Edit web resource
-common#:#webr_edit_permission#:#Change permission settings
+rbac#:#webr_edit_permission#:#Change permission settings
 common#:#webr_fillout_all#:#Please fill out all required fields.
 common#:#webr_item_updated#:#Saved modifications
 common#:#webr_join#:#Subscribe web resource
@@ -4719,10 +4719,10 @@ common#:#webr_modified_items#:#Saved modifications.
 common#:#webr_never_checked#:#Never checked
 common#:#webr_new#:#Add new web resource
 common#:#webr_no_items_created#:#No web resources created
-common#:#webr_read#:#Read access to web resource
+rbac#:#webr_read#:#Read access to web resource
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)?
-common#:#webr_visible#:#web resource is visible
-common#:#webr_write#:#Edit web resource
+rbac#:#webr_visible#:#web resource is visible
+rbac#:#webr_write#:#Edit web resource
 common#:#webservices#:#Webservices
 common#:#week#:#星期
 common#:#weekly#:#weekly
@@ -4734,13 +4734,13 @@ common#:#width_x_height#:#Width x Height
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
 common#:#wiki_copy#:#Copy Wiki
-common#:#wiki_delete#:#Delete Wiki
-common#:#wiki_edit_content#:#Edit Wiki Pages
-common#:#wiki_edit_permission#:#Change permission settings
+rbac#:#wiki_delete#:#Delete Wiki
+rbac#:#wiki_edit_content#:#Edit Wiki Pages
+rbac#:#wiki_edit_permission#:#Change permission settings
 common#:#wiki_new#:#New Wiki
-common#:#wiki_read#:#Read Wiki
-common#:#wiki_visible#:#Wiki is visible
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+rbac#:#wiki_read#:#Read Wiki
+rbac#:#wiki_visible#:#Wiki is visible
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
 common#:#with#:#同
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.
@@ -12397,7 +12397,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

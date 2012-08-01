@@ -3150,7 +3150,7 @@ rbac#:#fold_edit_permission#:#Modificar configuración de permisos
 common#:#fold_new#:#Nueva Carpeta
 rbac#:#fold_read#:#acceso de lectura a la Carpeta
 common#:#fold_type#:#Tipo de carpeta
-common#:#fold_visible#:#La carpeta es visible
+rbac#:#fold_visible#:#La carpeta es visible
 common#:#fold_wizard_page#:#Copiar Carpeta (Paso 2/2)
 rbac#:#fold_write#:#Editar Carpeta
 common#:#folder#:#carpeta
@@ -3191,26 +3191,26 @@ common#:#forums_your_name#:#Su nombre
 common#:#frm#:#Foro de debate
 common#:#frm_a#:#un Foro
 common#:#frm_add#:#Añadir Foro
-common#:#frm_add_post#:#Añadir nuevo mensaje
-common#:#frm_add_thread#:#Añadir nuevo tema
+rbac#:#frm_add_post#:#Añadir nuevo mensaje
+rbac#:#frm_add_thread#:#Añadir nuevo tema
 common#:#frm_added#:#Foro añadido
 common#:#frm_article#:#mensaje
 common#:#frm_copy#:#Copiar Foro
 common#:#frm_create#:#Crear Foro
-common#:#frm_delete#:#Eliminar Foro
+rbac#:#frm_delete#:#Eliminar Foro
 common#:#frm_delete_post#:#Editar y borrar mensajes
 common#:#frm_edit#:#Editar Foro
-common#:#frm_edit_permission#:#Modificar configuración de permisos
+rbac#:#frm_edit_permission#:#Modificar configuración de permisos
 common#:#frm_edit_post#:#Añadir nuevo mensaje
 common#:#frm_latest_postings#:#Últimos mensajes
-common#:#frm_moderate_frm#:#Eliminar y borrar mensajes
+rbac#:#frm_moderate_frm#:#Eliminar y borrar mensajes
 common#:#frm_new#:#Nuevo Foro
-common#:#frm_read#:#Acceso de Lectura al Foro
+rbac#:#frm_read#:#Acceso de Lectura al Foro
 common#:#frm_statistics_ranking#:#Clasificación
 common#:#frm_status_new#:#Estado 'Nuevo'
 common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado 'Nuevo' para las entradas de los foros.
-common#:#frm_visible#:#El foro es visible
-common#:#frm_write#:#Editar foro
+rbac#:#frm_visible#:#El foro es visible
+rbac#:#frm_write#:#Editar foro
 common#:#frma_edit_permission#:#Cambiar configuración de permisos
 common#:#frma_read#:#Acceso de lectura para la administración del foro
 common#:#frma_visible#:#La administración del foro es visible
@@ -3232,8 +3232,8 @@ common#:#glo_add#:#Añadir Glosario
 common#:#glo_added#:#glosario añadido
 common#:#glo_copy#:#Copiar Glosario
 common#:#glo_create#:#Crear Glosario
-common#:#glo_delete#:#Eliminar Glosario
-common#:#glo_edit_permission#:#Modificar configuración de permisos
+rbac#:#glo_delete#:#Eliminar Glosario
+rbac#:#glo_edit_permission#:#Modificar configuración de permisos
 common#:#glo_import#:#Importar Glosario
 common#:#glo_join#:#Suscribir al Glosario
 common#:#glo_leave#:#Darse de baja en el Glosario
@@ -3243,10 +3243,10 @@ common#:#glo_mode_level#:#virtual (este nivel sólo)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (subárbol completo)
 common#:#glo_new#:#Nuevo Glosario
-common#:#glo_read#:#Acceso de lectura al Glosario
+rbac#:#glo_read#:#Acceso de lectura al Glosario
 common#:#glo_upload_file#:#Archivo
-common#:#glo_visible#:#El Glosario es visible
-common#:#glo_write#:#Editar Glosario
+rbac#:#glo_visible#:#El Glosario es visible
+rbac#:#glo_write#:#Editar Glosario
 common#:#global#:#Global
 common#:#global_default#:#Global por defecto
 common#:#global_fixed#:#Global ajustado
@@ -3316,33 +3316,33 @@ common#:#grp_create#:#Crear Grupo
 common#:#grp_create_alm#:#Crear Módulo de aprendizaje AICC
 common#:#grp_create_chat#:#Crear Chat
 common#:#grp_create_dbk#:#Crear Digibook
-common#:#grp_create_exc#:#Crear entrega de ejercicios
-common#:#grp_create_feed#:#Crear feed
-common#:#grp_create_file#:#El Usuario puede enviar archivos
-common#:#grp_create_fold#:#El Usuario puede crear carpetas
-common#:#grp_create_frm#:#Crear Foro
-common#:#grp_create_glo#:#Crear Glosario
-common#:#grp_create_grp#:#Crear Grupo
+rbac#:#grp_create_exc#:#Crear entrega de ejercicios
+rbac#:#grp_create_feed#:#Crear feed
+rbac#:#grp_create_file#:#El Usuario puede enviar archivos
+rbac#:#grp_create_fold#:#El Usuario puede crear carpetas
+rbac#:#grp_create_frm#:#Crear Foro
+rbac#:#grp_create_glo#:#Crear Glosario
+rbac#:#grp_create_grp#:#Crear Grupo
 common#:#grp_create_hlm#:#Crear Módulo de aprendizaje HACP
-common#:#grp_create_htlm#:#Crear Módulo de aprendizaje HTML
-common#:#grp_create_icrs#:#Crear Seminario LearnLinc
-common#:#grp_create_lm#:#Crear Módulo de Aprendizaje
-common#:#grp_create_mcst#:#Crear MediaCast
-common#:#grp_create_mep#:#Crear Banco Multimedia
-common#:#grp_create_qpl#:#Crear Banco de Preguntas para Test
-common#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
-common#:#grp_create_spl#:#Crear Banco de Preguntas para Encuesta
-common#:#grp_create_svy#:#Crear Encuesta
-common#:#grp_create_tst#:#Crear Test
-common#:#grp_create_webr#:#Crear nuevo Recurso Web
+rbac#:#grp_create_htlm#:#Crear Módulo de aprendizaje HTML
+rbac#:#grp_create_icrs#:#Crear Seminario LearnLinc
+rbac#:#grp_create_lm#:#Crear Módulo de Aprendizaje
+rbac#:#grp_create_mcst#:#Crear MediaCast
+rbac#:#grp_create_mep#:#Crear Banco Multimedia
+rbac#:#grp_create_qpl#:#Crear Banco de Preguntas para Test
+rbac#:#grp_create_sahs#:#Crear Módulo de Aprendizaje SCORM/AICC
+rbac#:#grp_create_spl#:#Crear Banco de Preguntas para Encuesta
+rbac#:#grp_create_svy#:#Crear Encuesta
+rbac#:#grp_create_tst#:#Crear Test
+rbac#:#grp_create_webr#:#Crear nuevo Recurso Web
 common#:#grp_create_write#:#Crear Wiki
-common#:#grp_delete#:#Eliminar Grupo
+rbac#:#grp_delete#:#Eliminar Grupo
 common#:#grp_deleted_export_files#:#Archivos seleccionados eliminados.
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
 common#:#grp_dismiss_myself#:#¿Está seguro de que darse de baja en el grupo?
 common#:#grp_edit#:#Editar grupo
-common#:#grp_edit_learning_progress#:#Editar Progreso de Aprendizaje
-common#:#grp_edit_permission#:#Modificar configuración de permisos
+rbac#:#grp_edit_learning_progress#:#Editar Progreso de Aprendizaje
+rbac#:#grp_edit_permission#:#Modificar configuración de permisos
 common#:#grp_err_administrator_required#:#El miembro no puede ser borrado, al menos se requiere un administrador por grupo!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Cada grupo necesita al menos un administrador de grupo
 common#:#grp_err_error#:#Ocurrió un error
@@ -3351,8 +3351,8 @@ common#:#grp_err_member_could_not_be_removed#:#El Miembro no pudo ser eliminado.
 common#:#grp_err_no_permission#:#No tiene permiso para esta operación.
 common#:#grp_err_registration_data#:#¡Por favor introduzca una contraseña, la fecha de expiración y un período de registro válido!
 common#:#grp_header_edit_members#:#Editar Miembros
-common#:#grp_join#:#El Usuario puede unirse al Grupo
-common#:#grp_leave#:#El Usuario puede dejar el Grupo
+rbac#:#grp_join#:#El Usuario puede unirse al Grupo
+rbac#:#grp_leave#:#El Usuario puede dejar el Grupo
 common#:#grp_list_users#:#Listar usuarios
 common#:#grp_mail_body_new_subscription#:#Has sido suscrito a este grupo.
 common#:#grp_mail_body_subscription_cancelled#:#Su pertenencia ha sido cancelada.
@@ -3373,7 +3373,7 @@ common#:#grp_no_groups_selected#:#No se ha seleccionado un grupo
 common#:#grp_no_results_found#:#No se han encontrado resultados
 common#:#grp_no_roles_selected#:#No hay roles seleccionados
 common#:#grp_options#:#Opciones
-common#:#grp_read#:#Acceso de lectura al Grupo
+rbac#:#grp_read#:#Acceso de lectura al Grupo
 common#:#grp_register#:#Registrar
 common#:#grp_registration#:#Unirse al grupo
 common#:#grp_registration_completed#:#Registro completado
@@ -3382,9 +3382,9 @@ common#:#grp_search_enter_search_string#:#Por favor entre una cadena de búsqued
 common#:#grp_search_members#:#Búsqueda de usuarios (miembros)
 common#:#grp_select_one_file#:#Por favor seleccione un archivo
 common#:#grp_select_one_file_only#:#Por favor seleccione exactamente un archivo.
-common#:#grp_visible#:#Grupo visible
+rbac#:#grp_visible#:#Grupo visible
 common#:#grp_wizard_page#:#Copiar Grupo (Paso 2/2)
-common#:#grp_write#:#Configurar Grupo
+rbac#:#grp_write#:#Configurar Grupo
 common#:#guest#:#Invitado
 common#:#guests#:#Invitados
 common#:#header_searchable#:#Búsqueda
@@ -3447,14 +3447,14 @@ common#:#hours_of_day#:#Horas del día
 common#:#htlm#:#Módulo de aprendizaje HTML
 common#:#htlm_add#:#Añadir Módulo de Aprendizaje HTML
 common#:#htlm_copy#:#Copiar Módulo de Aprendizaje HTML
-common#:#htlm_delete#:#Eliminar Módulo de Aprendizaje HTML
+rbac#:#htlm_delete#:#Eliminar Módulo de Aprendizaje HTML
 common#:#htlm_edit#:#Editar propiedades del Módulo de Aprendizaje HTML
-common#:#htlm_edit_learning_progress#:#Editar seguimiento
-common#:#htlm_edit_permission#:#Modificar configuración de permisos
+rbac#:#htlm_edit_learning_progress#:#Editar seguimiento
+rbac#:#htlm_edit_permission#:#Modificar configuración de permisos
 common#:#htlm_new#:#Nuevo Módulo de Aprendizaje HTML
-common#:#htlm_read#:#Leer Módulo de Aprendizaje HTML
-common#:#htlm_visible#:#El módulo de aprendizaje HTML es visible
-common#:#htlm_write#:#Editar Módulo de aprendizaje HTML
+rbac#:#htlm_read#:#Leer Módulo de Aprendizaje HTML
+rbac#:#htlm_visible#:#El módulo de aprendizaje HTML es visible
+rbac#:#htlm_write#:#Editar Módulo de aprendizaje HTML
 common#:#html_block#:#Bloque HTML
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Este servidor no soporta peticiones HTTP.
@@ -3819,19 +3819,19 @@ common#:#lm_add#:#Añadir Módulo de Aprendizaje
 common#:#lm_added#:#Módulo de Aprendizaje añadido
 common#:#lm_copy#:#Copiar Módulo de aprendizaje ILIAS
 common#:#lm_create#:#Crear Módulo de Aprendizaje
-common#:#lm_delete#:#Eliminar Módulo de Aprendizaje
-common#:#lm_edit_learning_progress#:#Editar seguimiento
+rbac#:#lm_delete#:#Eliminar Módulo de Aprendizaje
+rbac#:#lm_edit_learning_progress#:#Editar seguimiento
 common#:#lm_edit_permission#:#Modificar configuración de permisos
 common#:#lm_join#:#Suscribir a un Módulo de Aprendizaje
 common#:#lm_leave#:#Darse de baja en el Módulo de Aprendizaje
 common#:#lm_new#:#Nuevo Módulo de Aprendizaje
-common#:#lm_read#:#Acceso de lectura a Módulo de Aprendizaje
+rbac#:#lm_read#:#Acceso de lectura a Módulo de Aprendizaje
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#Módulo de Aprendizaje es visible
-common#:#lm_write#:#Editar Módulo de Aprendizaje
+rbac#:#lm_visible#:#Módulo de Aprendizaje es visible
+rbac#:#lm_write#:#Editar Módulo de Aprendizaje
 common#:#lng#:#Idioma
 common#:#lngf#:#Idiomas
 common#:#lngf_edit_permission#:#Modificar configuración de permisos
@@ -3947,12 +3947,12 @@ common#:#max_time#:#Tiempo Máximo
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Añadir MediaCast
 common#:#mcst_copy#:#Copiar MediaCast
-common#:#mcst_delete#:#Eliminar Mediacast
-common#:#mcst_edit_permission#:#Modificar configuración de permisos
+rbac#:#mcst_delete#:#Eliminar Mediacast
+rbac#:#mcst_edit_permission#:#Modificar configuración de permisos
 common#:#mcst_new#:#Nuevo MediaCast
-common#:#mcst_read#:#Acceso de lectura al MediaCast
-common#:#mcst_visible#:#MediaCast es visible
-common#:#mcst_write#:#Editar MediaCast
+rbac#:#mcst_read#:#Acceso de lectura al MediaCast
+rbac#:#mcst_visible#:#MediaCast es visible
+rbac#:#mcst_write#:#Editar MediaCast
 common#:#mem_add_to_wl#:#Añadir a la Lista de Espera
 common#:#mem_alert_no_places#:#No hay plazas disponibles.
 common#:#mem_end#:#Registro termina:
@@ -3979,14 +3979,14 @@ common#:#membership_leave#:#Salir
 common#:#mep#:#Banco Multimedia
 common#:#mep_add#:#Añadir Banco Multimedia
 common#:#mep_added#:#Banco Multimedia añadido
-common#:#mep_delete#:#Eliminar Banco Multimedia
+rbac#:#mep_delete#:#Eliminar Banco Multimedia
 common#:#mep_edit#:#Editar propiedades de Banco Multimedia
-common#:#mep_edit_permission#:#Modificar configuración de permisos
+rbac#:#mep_edit_permission#:#Modificar configuración de permisos
 common#:#mep_new#:#Nuevo Banco Multimedia
 common#:#mep_not_insert_already_exist#:#Los siguientes items no han sido insertados porque ya están en el banco multimedia:
-common#:#mep_read#:#Leer contenido del Banco Multimedia
-common#:#mep_visible#:#Nuevo Banco Multimedia visible
-common#:#mep_write#:#Editar contenido del Banco Multimedia
+rbac#:#mep_read#:#Leer contenido del Banco Multimedia
+rbac#:#mep_visible#:#Nuevo Banco Multimedia visible
+rbac#:#mep_write#:#Editar contenido del Banco Multimedia
 common#:#message#:#mensaje
 common#:#message_content#:#Contenido del mensaje
 common#:#message_no_delivered_files#:#No ha enviado ningún archivo
@@ -4652,13 +4652,13 @@ common#:#purpose#:#Propósito
 common#:#qpl#:#Banco de preguntas (Test)
 common#:#qpl_add#:#Añadir banco de preguntas
 common#:#qpl_copy#:#Copiar Banco de Preguntas Test
-common#:#qpl_delete#:#Eliminar banco de preguntas
-common#:#qpl_edit_permission#:#Modificar configuración de permisos
+rbac#:#qpl_delete#:#Eliminar banco de preguntas
+rbac#:#qpl_edit_permission#:#Modificar configuración de permisos
 common#:#qpl_new#:#Nuevo banco de preguntas
-common#:#qpl_read#:#Acceso de lectura a Banco de Preguntas
+rbac#:#qpl_read#:#Acceso de lectura a Banco de Preguntas
 common#:#qpl_upload_file#:#Enviar archivo
-common#:#qpl_visible#:#Banco de Preguntas visible
-common#:#qpl_write#:#Editar Banco de Preguntas
+rbac#:#qpl_visible#:#Banco de Preguntas visible
+rbac#:#qpl_write#:#Editar Banco de Preguntas
 common#:#quarterly#:#4 veces al año
 common#:#query_data#:#Consultar datos
 common#:#question#:#Pregunta
@@ -4817,17 +4817,17 @@ common#:#sahs#:#Módulo de aprendizaje SCORM/AICC
 common#:#sahs_added#:#Módulo de aprendizaje SCORM/AICC añadido
 common#:#sahs_copy#:#Copiar Módulo de aprendizaje SCORM/AICC
 common#:#sahs_create#:#Crear Módulo de aprendizaje SCORM/AICC
-common#:#sahs_delete#:#Eliminar Módulo de aprendizaje SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Editar seguimiento
-common#:#sahs_edit_permission#:#Modificar configuración de permisos
+rbac#:#sahs_delete#:#Eliminar Módulo de aprendizaje SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Editar seguimiento
+rbac#:#sahs_edit_permission#:#Modificar configuración de permisos
 common#:#sahs_insert_chap_from_clip#:#Pegar capítulos desde el Portapapeles
 common#:#sahs_insert_page_from_clip#:#Pegar páginas desde el Portapapeles
 common#:#sahs_insert_sco_from_clip#:#Pegar SCOs desde el Portapapeles
 common#:#sahs_join#:#Subscribirse a Módulo de aprendizaje SCORM/AICC
 common#:#sahs_leave#:#Desuscribirse de Módulo de aprendizaje SCORM/AICC
-common#:#sahs_read#:#Acceso de lectura a Módulo de aprendizaje SCORM/AICC
-common#:#sahs_visible#:#Módulo de aprendizaje SCORM/AICC visible
-common#:#sahs_write#:#Editar Módulo de aprendizaje SCORM/AICC
+rbac#:#sahs_read#:#Acceso de lectura a Módulo de aprendizaje SCORM/AICC
+rbac#:#sahs_visible#:#Módulo de aprendizaje SCORM/AICC visible
+rbac#:#sahs_write#:#Editar Módulo de aprendizaje SCORM/AICC
 common#:#salutation#:#saludo
 common#:#salutation_f#:#Sr./Sra.
 common#:#salutation_m#:#Sr.
@@ -5029,14 +5029,14 @@ common#:#spacer#:#Separador
 common#:#spl#:#Banco de preguntas (Encuesta)
 common#:#spl_add#:#Añadir banco de preguntas
 common#:#spl_copy#:#Copiar banco de Preguntas de Encuestas
-common#:#spl_delete#:#Eliminar banco de preguntas
-common#:#spl_edit_permission#:#Modificar configuración de permisos
+rbac#:#spl_delete#:#Eliminar banco de preguntas
+rbac#:#spl_edit_permission#:#Modificar configuración de permisos
 common#:#spl_import#:#Importar banco de preguntas
 common#:#spl_new#:#Nuevo banco de preguntas
-common#:#spl_read#:#Acceso de lectura al banco de preguntas
+rbac#:#spl_read#:#Acceso de lectura al banco de preguntas
 common#:#spl_upload_file#:#Enviar archivo
-common#:#spl_visible#:#Banco de preguntas visible
-common#:#spl_write#:#Editar banco de preguntas
+rbac#:#spl_visible#:#Banco de preguntas visible
+rbac#:#spl_write#:#Editar banco de preguntas
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#un capítulo
 common#:#st_add#:#Añadir capítulo
@@ -5085,22 +5085,22 @@ common#:#survey_unlimited_invitation_desc#:#Permite invitaciones ilimitadas en e
 common#:#svy#:#Encuesta
 common#:#svy_add#:#Añadir encuesta
 common#:#svy_copy#:#Copiar Encuesta
-common#:#svy_delete#:#Eliminar encuesta
-common#:#svy_edit_permission#:#Modificar configuración de permisos
+rbac#:#svy_delete#:#Eliminar encuesta
+rbac#:#svy_edit_permission#:#Modificar configuración de permisos
 common#:#svy_evaluation#:#Evaluación
 common#:#svy_finished#:#completada
-common#:#svy_invite#:#Invitar usuarios a encuesta
+rbac#:#svy_invite#:#Invitar usuarios a encuesta
 common#:#svy_new#:#Nueva encuesta
 common#:#svy_no_content#:#No hay encuestas disponibles
 common#:#svy_not_finished#:#no completada
 common#:#svy_not_started#:#no comenzada
 common#:#svy_participate#:#Participar en encuesta
-common#:#svy_read#:#Acceso de lectura a la encuesta
+rbac#:#svy_read#:#Acceso de lectura a la encuesta
 common#:#svy_run#:#Ejecutar
 common#:#svy_upload_file#:#Enviar archivo
-common#:#svy_visible#:#Encuesta visible
+rbac#:#svy_visible#:#Encuesta visible
 common#:#svy_warning_survey_not_complete#:#¡La encuesta no está completa!
-common#:#svy_write#:#Editar encuesta
+rbac#:#svy_write#:#Editar encuesta
 common#:#system#:#sistema
 common#:#system_check#:#Chequear Sistema
 common#:#system_choose_language#:#elegir idioma de sistema
@@ -5200,23 +5200,23 @@ common#:#tst#:#Test
 common#:#tst_add#:#Añadir Test
 common#:#tst_anon_eval#:#Resultados
 common#:#tst_copy#:#Copiar Test
-common#:#tst_delete#:#Eliminar Test
-common#:#tst_edit_learning_progress#:#Editar seguimiento
-common#:#tst_edit_permission#:#Modificar configuración permisos
+rbac#:#tst_delete#:#Eliminar Test
+rbac#:#tst_edit_learning_progress#:#Editar seguimiento
+rbac#:#tst_edit_permission#:#Modificar configuración permisos
 common#:#tst_edit_questions#:#Editar preguntas
 common#:#tst_new#:#Nuevo test
 common#:#tst_no_content#:#No hay tests disponibles
 common#:#tst_random_test_description_warning#:#<br /><b>Este test tiene preguntas que NO están asignados a un banco de preguntas. Si cambia a modo de test al azar, estas preguntas se perderán</b>
-common#:#tst_read#:#Acceso de lectura al Test
+rbac#:#tst_read#:#Acceso de lectura al Test
 common#:#tst_run#:#Ejecutar
 common#:#tst_statistical_evaluation#:#Estadísticas
 common#:#tst_statistics#:#Acceso a estadísticas del test
 common#:#tst_upload_file#:#Enviar archivo
 common#:#tst_user_not_invited#:#Usted no debe realizar este examen.
 common#:#tst_user_wrong_clientip#:#No tiene la IP correcta para usar este test
-common#:#tst_visible#:#Test visible
+rbac#:#tst_visible#:#Test visible
 common#:#tst_warning_test_not_complete#:#¡El test no está completo!
-common#:#tst_write#:#Editar Test
+rbac#:#tst_write#:#Editar Test
 common#:#tutors#:#Tutores
 common#:#txt_add_object_instruction1#:#-Navegue al sitio donde quiere añadir-
 common#:#txt_add_object_instruction2#:#.
@@ -5435,13 +5435,13 @@ common#:#webr_active#:#Activo
 common#:#webr_add#:#Añadir dirección Web
 common#:#webr_add_item#:#Añadir Recurso Web
 common#:#webr_copy#:#Copiar recurso web
-common#:#webr_delete#:#Eliminar Recurso Web
+rbac#:#webr_delete#:#Eliminar Recurso Web
 common#:#webr_delete_items#:#Eliminar Recurso(s) Web
 common#:#webr_deleted_items#:#Recurso(s) Web Eliminado(s).
 common#:#webr_disable_check#:#Deshabilitar comprobación
 common#:#webr_edit#:#Editar Recurso Web
 common#:#webr_edit_item#:#Editar Recurso Web
-common#:#webr_edit_permission#:#Modificar configuración de permisos
+rbac#:#webr_edit_permission#:#Modificar configuración de permisos
 common#:#webr_fillout_all#:#Por favor rellene todos los campos requeridos
 common#:#webr_item_updated#:#Modificaciones guardadas
 common#:#webr_join#:#Suscribirse a Recurso Web
@@ -5452,10 +5452,10 @@ common#:#webr_modified_items#:#Modificaciones guardadas
 common#:#webr_never_checked#:#Nunca comprobado
 common#:#webr_new#:#Añadir nuevo Recurso Web
 common#:#webr_no_items_created#:#No se han creado Recursos Web
-common#:#webr_read#:#Acceso de lectura a Recurso Web
+rbac#:#webr_read#:#Acceso de lectura a Recurso Web
 common#:#webr_sure_delete_items#:#Realmente quiere eliminar el/los siguiente(s) Recurso(s) Web?
-common#:#webr_visible#:#El Recurso Web visible
-common#:#webr_write#:#Editar Recurso Web
+rbac#:#webr_visible#:#El Recurso Web visible
+rbac#:#webr_write#:#Editar Recurso Web
 common#:#webservices#:#Servicios Web (SOAP)
 common#:#week#:#Semana
 common#:#weekly#:#semanalmente
@@ -5467,13 +5467,13 @@ common#:#width_x_height#:#Anchura x Altura
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#A&ntilde;adir Wiki
 common#:#wiki_copy#:#Copiar Wiki
-common#:#wiki_delete#:#Eliminar Wiki
-common#:#wiki_edit_content#:#Editar Páginas de la Wiki
-common#:#wiki_edit_permission#:#Cambiar permisos
+rbac#:#wiki_delete#:#Eliminar Wiki
+rbac#:#wiki_edit_content#:#Editar Páginas de la Wiki
+rbac#:#wiki_edit_permission#:#Cambiar permisos
 common#:#wiki_new#:#Nuevo Wiki
-common#:#wiki_read#:#Leer Wiki
-common#:#wiki_visible#:#Wiki está visible
-common#:#wiki_write#:#Cambiar propiedades wiki, calificar alumnos
+rbac#:#wiki_read#:#Leer Wiki
+rbac#:#wiki_visible#:#Wiki está visible
+rbac#:#wiki_write#:#Cambiar propiedades wiki, calificar alumnos
 common#:#with#:#con
 common#:#wizard_search_list#:#Su búsqueda produjo los siguientes resultados. Por favor seleccione uno.
 common#:#wizard_title_info#:#Por favor introduzca el título del objeto que quiere duplicar.

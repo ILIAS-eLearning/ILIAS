@@ -2608,7 +2608,7 @@ rbac#:#fold_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#fold_edit#:#Mappa szerkesztése
 common#:#fold_new#:#Új mappa
 rbac#:#fold_read#:#Olvasási elérés a mappához
-common#:#fold_visible#:#A mappa látható
+rbac#:#fold_visible#:#A mappa látható
 common#:#fold_wizard_page#:#Mappa másolása (2/2. lépés)
 rbac#:#fold_write#:#Mappa szerkesztése
 common#:#fold#:#Mappa
@@ -2647,27 +2647,27 @@ common#:#forums_use_alias#:#Használhat álnevet a hozzászóláshoz. Ha üresen
 common#:#forums_your_name#:#Az Ön neve
 common#:#forums#:#Fórumok
 common#:#frm_a#:#egy fórum
-common#:#frm_add_post#:#Új hozzászólás felvétele
-common#:#frm_add_thread#:#Új téma felvétele
+rbac#:#frm_add_post#:#Új hozzászólás felvétele
+rbac#:#frm_add_thread#:#Új téma felvétele
 common#:#frm_add#:#Fórum felvétele
 common#:#frm_added#:#Fórum felvéve.
 common#:#frm_article#:#hozzászólás
 common#:#frm_copy#:#Fórum másolása
 common#:#frm_create#:#Fórum létrehozása
 common#:#frm_delete_post#:#Hozzászólás szerkesztése és törlése
-common#:#frm_delete#:#Fórum törlése
-common#:#frm_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#frm_delete#:#Fórum törlése
+rbac#:#frm_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#frm_edit_post#:#Új téma felvétele
 common#:#frm_edit#:#Fórum szerkesztése
 common#:#frm_latest_postings#:#Utolsó hozzászólások
-common#:#frm_moderate_frm#:#Hozzászólások szerkesztése és törlése
+rbac#:#frm_moderate_frm#:#Hozzászólások szerkesztése és törlése
 common#:#frm_new#:#Új fórum
-common#:#frm_read#:#Olvasási elérés a fórumhoz
+rbac#:#frm_read#:#Olvasási elérés a fórumhoz
 common#:#frm_statistics_ranking#:#Rangsorolás
 common#:#frm_status_new_desc#:#Válasszon egy időtartamot, hogy meddig legyenek 'Új' állapotúak a fórumbejegyzések!
 common#:#frm_status_new#:#Új' állapot
-common#:#frm_visible#:#A fórum látható
-common#:#frm_write#:#Fórum szerkesztése
+rbac#:#frm_visible#:#A fórum látható
+rbac#:#frm_write#:#Fórum szerkesztése
 common#:#frm#:#Fórum
 common#:#from#:#&#205;rta:
 common#:#fullname#:#Teljes név
@@ -2685,8 +2685,8 @@ common#:#glo_add#:#Fogalomtár felvétele
 common#:#glo_added#:#Fogalomtár felvéve.
 common#:#glo_copy#:#Fogalomtár másolása
 common#:#glo_create#:#Fogalomtár létrehozása
-common#:#glo_delete#:#Fogalomtár törlése
-common#:#glo_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#glo_delete#:#Fogalomtár törlése
+rbac#:#glo_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#glo_join#:#Fogalomtár felvétele
 common#:#glo_leave#:#Fogalomtár leadása
 common#:#glo_mode_desc#:#A virtuális fogalomtár úgy működik, mint a normál fogalomtár. A különbség azokhoz képest, hogy tartalmazza a taneszköz tárolóban vele azonos szinten, illetve a pozíciójától lejjebb elhelyezkedő fogalomtárak fogalmait is.
@@ -2695,10 +2695,10 @@ common#:#glo_mode_normal#:#normál
 common#:#glo_mode_subtree#:#virtuális (létező alszint)
 common#:#glo_mode#:#Mód
 common#:#glo_new#:#Új fogalomtár
-common#:#glo_read#:#Olvasási elérés a fogalomtárhoz
+rbac#:#glo_read#:#Olvasási elérés a fogalomtárhoz
 common#:#glo_upload_file#:#Fájl
-common#:#glo_visible#:#A fogalomtár látható
-common#:#glo_write#:#Fogalomtár szerkesztése
+rbac#:#glo_visible#:#A fogalomtár látható
+rbac#:#glo_write#:#Fogalomtár szerkesztése
 common#:#glo#:#Fogalomtár
 common#:#global_default#:#Globális alapértelmezett
 common#:#global_fixed#:#Globálisan meghatározott
@@ -2767,33 +2767,33 @@ common#:#grp_count_members#:#Tagok száma
 common#:#grp_create_alm#:#AICC-tananyag létrehozása
 common#:#grp_create_chat#:#Csevegés létrehozása
 common#:#grp_create_dbk#:#Digitális könyvtári könyv létrehozása
-common#:#grp_create_exc#:#Gyakorlat létrehozása
-common#:#grp_create_feed#:#Webhírforrás létrehozása
-common#:#grp_create_file#:#Fájl feltöltése
-common#:#grp_create_fold#:#Mappa létrehozása
-common#:#grp_create_frm#:#Fórum létrehozása
-common#:#grp_create_glo#:#Fogalomtár létrehozása
-common#:#grp_create_grp#:#Csoport létrehozása
+rbac#:#grp_create_exc#:#Gyakorlat létrehozása
+rbac#:#grp_create_feed#:#Webhírforrás létrehozása
+rbac#:#grp_create_file#:#Fájl feltöltése
+rbac#:#grp_create_fold#:#Mappa létrehozása
+rbac#:#grp_create_frm#:#Fórum létrehozása
+rbac#:#grp_create_glo#:#Fogalomtár létrehozása
+rbac#:#grp_create_grp#:#Csoport létrehozása
 common#:#grp_create_hlm#:#HACP-tananyag létrehozása
-common#:#grp_create_htlm#:#HTML-tananyag létrehozása
-common#:#grp_create_icrs#:#LearnLinc-szeminárium létrehozása
-common#:#grp_create_lm#:#ILIAS-tananyag létrehozása
-common#:#grp_create_mcst#:#MediaCast létrehozása
-common#:#grp_create_mep#:#Médiagyűjtemény létrehozása
-common#:#grp_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
-common#:#grp_create_sahs#:#SCORM/AICC-tananyag létrehozása
-common#:#grp_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
-common#:#grp_create_svy#:#Kérdőív létrehozása
-common#:#grp_create_tst#:#Teszt létrehozása
-common#:#grp_create_webr#:#Weblink létrehozása
+rbac#:#grp_create_htlm#:#HTML-tananyag létrehozása
+rbac#:#grp_create_icrs#:#LearnLinc-szeminárium létrehozása
+rbac#:#grp_create_lm#:#ILIAS-tananyag létrehozása
+rbac#:#grp_create_mcst#:#MediaCast létrehozása
+rbac#:#grp_create_mep#:#Médiagyűjtemény létrehozása
+rbac#:#grp_create_qpl#:#Teszt-kérdésgyűjtemény létrehozása
+rbac#:#grp_create_sahs#:#SCORM/AICC-tananyag létrehozása
+rbac#:#grp_create_spl#:#Kérdőív-kérdésgyűjtemény létrehozása
+rbac#:#grp_create_svy#:#Kérdőív létrehozása
+rbac#:#grp_create_tst#:#Teszt létrehozása
+rbac#:#grp_create_webr#:#Weblink létrehozása
 common#:#grp_create_write#:#Wiki létrehozása
 common#:#grp_create#:#Csoport létrehozása
-common#:#grp_delete#:#Csoport törlése
+rbac#:#grp_delete#:#Csoport törlése
 common#:#grp_deleted_export_files#:#Kiválasztott fájlok törölve.
 common#:#grp_dismiss_member#:#Biztosan meg akar válni a csoport alábbi tagjaitól?
 common#:#grp_dismiss_myself#:#Biztosan el akarja hagyni a csoportot?
-common#:#grp_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#grp_edit_permission#:#Engedélyezett beállítások cseréje
+rbac#:#grp_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#grp_edit_permission#:#Engedélyezett beállítások cseréje
 common#:#grp_edit#:#Csoport szerkesztése
 common#:#grp_err_administrator_required#:#A tag nem távolítható el, mert legalább egy adminisztrátornak kell lennie csoportonként.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Az egyes csoportoknak legalább egy adminisztrátora kell hogy legyen
@@ -2803,8 +2803,8 @@ common#:#grp_err_member_could_not_be_removed#:#A tag nem távolítható el. Erő
 common#:#grp_err_no_permission#:#Nem rendelkezik jogosultságokkal erre a műveletre.
 common#:#grp_err_registration_data#:#Egy érvényes csatlakozási időszakhoz adjon megy egy jelszót, a lejárati dátumot és időt!
 common#:#grp_header_edit_members#:#Tagok szerkesztése
-common#:#grp_join#:#A felhasználó csatlakozhat a csoporthoz
-common#:#grp_leave#:#A felhasználó távozhat a csoportból
+rbac#:#grp_join#:#A felhasználó csatlakozhat a csoporthoz
+rbac#:#grp_leave#:#A felhasználó távozhat a csoportból
 common#:#grp_list_users#:#Felhasználók listázása
 common#:#grp_mail_body_new_subscription#:#Feliratkozott ehhez a csoporthoz.
 common#:#grp_mail_body_subscription_cancelled#:#Tagsága törlésre került.
@@ -2825,7 +2825,7 @@ common#:#grp_no_groups_selected#:#Válasszon ki egy csoportot!
 common#:#grp_no_results_found#:#Nincs eredmény.
 common#:#grp_no_roles_selected#:#Válasszon ki egy szerepet
 common#:#grp_options#:#Választások
-common#:#grp_read#:#Olvasási elérés csoporthoz
+rbac#:#grp_read#:#Olvasási elérés csoporthoz
 common#:#grp_register#:#Jelentkezés
 common#:#grp_registration_completed#:#Csatlakozott a csoporthoz.
 common#:#grp_registration#:#Csatalkozás csoporthoz
@@ -2834,9 +2834,9 @@ common#:#grp_search_enter_search_string#:#Adjon meg keresési szöveget
 common#:#grp_search_members#:#Felhasználói keresés
 common#:#grp_select_one_file_only#:#Pontosan egy fájlt válasszon!
 common#:#grp_select_one_file#:#Válasszon egy fájlt!
-common#:#grp_visible#:#A csoport látható
+rbac#:#grp_visible#:#A csoport látható
 common#:#grp_wizard_page#:#Csoport másolása (2/2. lépés)
-common#:#grp_write#:#Csoport szerkesztése
+rbac#:#grp_write#:#Csoport szerkesztése
 common#:#grp#:#Csoport
 common#:#guest#:#Vendég
 common#:#guests#:#vendég
@@ -2903,14 +2903,14 @@ common#:#hours_of_day#:#A nap órái
 common#:#hours#:#óra
 common#:#htlm_add#:#HTML-tananyag felvétele
 common#:#htlm_copy#:#HTML-tananyag másolása
-common#:#htlm_delete#:#HTML-tananyag törlése
-common#:#htlm_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#htlm_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#htlm_delete#:#HTML-tananyag törlése
+rbac#:#htlm_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#htlm_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#htlm_edit#:#HTML-tananyag tulajdonságainak szerkesztése
 common#:#htlm_new#:#Új HTML-tananyag
-common#:#htlm_read#:#HTML-tananyag olvasása
-common#:#htlm_visible#:#HTML-tananyag látható
-common#:#htlm_write#:#HTML-tananyag szerkesztése
+rbac#:#htlm_read#:#HTML-tananyag olvasása
+rbac#:#htlm_visible#:#HTML-tananyag látható
+rbac#:#htlm_write#:#HTML-tananyag szerkesztése
 common#:#htlm#:#HTML-tananyag
 common#:#html_block#:#HTML blokk
 common#:#http_not_possible#:#Ez a szerver nem támogatja a http-kéréseket.
@@ -3267,19 +3267,19 @@ common#:#lm_add#:#ILIAS-tananyag felvétele
 common#:#lm_added#:#ILIAS-tananyag felvéve.
 common#:#lm_copy#:#ILIAS-tananyag másolása
 common#:#lm_create#:#ILIAS-tananyag létrehozása
-common#:#lm_delete#:#ILIAS-tananyag törlése
-common#:#lm_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#lm_delete#:#ILIAS-tananyag törlése
+rbac#:#lm_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
 common#:#lm_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#lm_join#:#ILIAS-tananyag felvétele
 common#:#lm_leave#:#ILIAS-tananyag leadása
 common#:#lm_new#:#Új ILIAS-tananyag
-common#:#lm_read#:#Olvasási elérés a tananyaghoz
+rbac#:#lm_read#:#Olvasási elérés a tananyaghoz
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd/4th Edition
-common#:#lm_visible#:#ILIAS-tananyag látható
-common#:#lm_write#:#ILIAS-tananyag szerkesztése
+rbac#:#lm_visible#:#ILIAS-tananyag látható
+rbac#:#lm_write#:#ILIAS-tananyag szerkesztése
 common#:#lm#:#Tananyag
 common#:#lng#:#Nyelv
 common#:#lngf_edit_permission#:#Jogosultsági beállítások változtatása
@@ -3390,12 +3390,12 @@ common#:#max_number_rec#:#Maximális rekordszám
 common#:#max_time#:#Maximális idő
 common#:#mcst_add#:#MediaCast felvétele
 common#:#mcst_copy#:#MediaCast másolása
-common#:#mcst_delete#:#MediaCast törlése
-common#:#mcst_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#mcst_delete#:#MediaCast törlése
+rbac#:#mcst_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#mcst_new#:#Új MediaCast
-common#:#mcst_read#:#Olvasási elérés MediaCast-hoz
-common#:#mcst_visible#:#MediaCast látható
-common#:#mcst_write#:#MediaCast szerkesztése
+rbac#:#mcst_read#:#Olvasási elérés MediaCast-hoz
+rbac#:#mcst_visible#:#MediaCast látható
+rbac#:#mcst_write#:#MediaCast szerkesztése
 common#:#mcst#:#MediaCast
 common#:#mem_add_to_wl#:#Felvétel a várólistára
 common#:#mem_alert_no_places#:#Nem érhetők el szabad helyek.
@@ -3422,14 +3422,14 @@ common#:#membership_annulled#:#Tagságát felbontották
 common#:#membership_leave#:#Elhagyás
 common#:#mep_add#:#Médiagyűjtemény felvétele
 common#:#mep_added#:#Felvett médiagyűjtemény
-common#:#mep_delete#:#Médiagyűjtemény törlése
-common#:#mep_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#mep_delete#:#Médiagyűjtemény törlése
+rbac#:#mep_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#mep_edit#:#Médiagyűjtemény tulajdonságainak szerkesztése
 common#:#mep_new#:#Új médiagyűjtemény
 common#:#mep_not_insert_already_exist#:#Az alábbi elemek nem kerültek beszúrásra, mert már benne vannak a médiagyűjteményben:
-common#:#mep_read#:#Médiagyűjtemény-tartalom olvasása
-common#:#mep_visible#:#A médiagyűjtemény látható
-common#:#mep_write#:#Médiagyűjtemény-tartalom szerkesztése
+rbac#:#mep_read#:#Médiagyűjtemény-tartalom olvasása
+rbac#:#mep_visible#:#A médiagyűjtemény látható
+rbac#:#mep_write#:#Médiagyűjtemény-tartalom szerkesztése
 common#:#mep#:#Médiagyűjtemény
 common#:#message_content#:#Üzenetszöveg
 common#:#message_no_delivered_files#:#Nem küldött be még fájlt.
@@ -4056,13 +4056,13 @@ common#:#publishing_organisation#:#Publikáló szervezet
 common#:#purpose#:#Cél
 common#:#qpl_add#:#Teszt-kérdésgyűjtemény felvétele
 common#:#qpl_copy#:#Teszt-kérdésgyűjtemény másolása
-common#:#qpl_delete#:#Teszt-kérdésgyűjtemény törlése
-common#:#qpl_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#qpl_delete#:#Teszt-kérdésgyűjtemény törlése
+rbac#:#qpl_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#qpl_new#:#Új teszt-kérdésgyűjtemény
-common#:#qpl_read#:#Olvasási elérés a teszt-kérdésgyűjteményhez
+rbac#:#qpl_read#:#Olvasási elérés a teszt-kérdésgyűjteményhez
 common#:#qpl_upload_file#:#Fájl feltöltése
-common#:#qpl_visible#:#A teszt-kérdésgyűjtemény látható
-common#:#qpl_write#:#Teszt-kérdésgyűjtemény szerkesztése
+rbac#:#qpl_visible#:#A teszt-kérdésgyűjtemény látható
+rbac#:#qpl_write#:#Teszt-kérdésgyűjtemény szerkesztése
 common#:#qpl#:#Teszt-kérdésgyűjtemény
 common#:#quarterly#:#negyedévi
 common#:#query_data#:#Adatok lekérdezése
@@ -4218,17 +4218,17 @@ common#:#rte_editor_enabled#:#Rich Text szerkesztő engedélyezve
 common#:#sahs_added#:#SCORM/AICC-tananyag felvéve.
 common#:#sahs_copy#:#SCORM/AICC-tananyag másolása
 common#:#sahs_create#:#SCORM/AICC-tananyag létrehozása
-common#:#sahs_delete#:#SCORM/AICC-tananyag törlése
-common#:#sahs_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#sahs_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#sahs_delete#:#SCORM/AICC-tananyag törlése
+rbac#:#sahs_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#sahs_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#sahs_insert_chap_from_clip#:#Fejezetek beillesztése vágólapról
 common#:#sahs_insert_page_from_clip#:#Lapok beillesztése vágólapról
 common#:#sahs_insert_sco_from_clip#:#SCO-k beillesztése vágólapról
 common#:#sahs_join#:#SCORM/AICC-tananyag felvétele
 common#:#sahs_leave#:#SCORM/AICC-tananyag leadása
-common#:#sahs_read#:#Olvasási elérés SCORM/AICC-tananyaghoz
-common#:#sahs_visible#:#SCORM/AICC-tananyag látható
-common#:#sahs_write#:#SCORM/AICC-tananyag szerkesztése
+rbac#:#sahs_read#:#Olvasási elérés SCORM/AICC-tananyaghoz
+rbac#:#sahs_visible#:#SCORM/AICC-tananyag látható
+rbac#:#sahs_write#:#SCORM/AICC-tananyag szerkesztése
 common#:#sahs#:#SCORM/AICC-tananyag
 common#:#salutation_f#:#Kisasszony / Asszony
 common#:#salutation_m#:#Úr
@@ -4404,13 +4404,13 @@ common#:#sorting_title_header#:#Cím szerinti rendezés
 common#:#spacer#:#Térközállító
 common#:#spl_add#:#Kérdőív-kérdésgyűjtemény felvétele
 common#:#spl_copy#:#Kérdőív-kérdésgyűjtemény másolása
-common#:#spl_delete#:#Kérdőív-kérdésgyűjtemény törlése
-common#:#spl_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#spl_delete#:#Kérdőív-kérdésgyűjtemény törlése
+rbac#:#spl_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#spl_new#:#Új kérdőív-kérdésgyűjtemény
-common#:#spl_read#:#Olvasási elérés kérdőív-kérdésgyűjteményhez
+rbac#:#spl_read#:#Olvasási elérés kérdőív-kérdésgyűjteményhez
 common#:#spl_upload_file#:#Fájl feltöltése
-common#:#spl_visible#:#Kérdőív-kérdésgyűjtemény látható
-common#:#spl_write#:#Kérdőív-kérdésgyűjtemény szerkesztése
+rbac#:#spl_visible#:#Kérdőív-kérdésgyűjtemény látható
+rbac#:#spl_write#:#Kérdőív-kérdésgyűjtemény szerkesztése
 common#:#spl#:#Kérdőív-kérdésgyűjtemény
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#egy fejezet
@@ -4459,22 +4459,22 @@ common#:#survey_unlimited_invitation_desc#:#Nem korlátozott meghívás kérdő�
 common#:#survey_unlimited_invitation#:#Nem korlátozott meghívás
 common#:#svy_add#:#Kérdőív felvétele
 common#:#svy_copy#:#Kérdőív másolása
-common#:#svy_delete#:#Kérdőív törlése
-common#:#svy_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#svy_delete#:#Kérdőív törlése
+rbac#:#svy_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#svy_evaluation#:#Statisztika
 common#:#svy_finished#:#Befejezte a kérdőív kitöltését.
-common#:#svy_invite#:#Felhasználók meghívása kérdőív készítésére
+rbac#:#svy_invite#:#Felhasználók meghívása kérdőív készítésére
 common#:#svy_new#:#Új kérdőív
 common#:#svy_no_content#:#Nincs elérhető kérdőív
 common#:#svy_not_finished#:#Még nem fejezte be a kérdőív kitöltését.
 common#:#svy_not_started#:#Nem vett részt annek a kérdőívnek a kitöltésében.
 common#:#svy_participate#:#Részvétel kérdőív kitöltésében
-common#:#svy_read#:#Olvasási elérés kérdőívhez
+rbac#:#svy_read#:#Olvasási elérés kérdőívhez
 common#:#svy_run#:#Indítás
 common#:#svy_upload_file#:#Fájl feltöltése
-common#:#svy_visible#:#A kérdőív látható
+rbac#:#svy_visible#:#A kérdőív látható
 common#:#svy_warning_survey_not_complete#:#A kérdőívet még nem fejezte be.
-common#:#svy_write#:#Kérdőív szerkesztése
+rbac#:#svy_write#:#Kérdőív szerkesztése
 common#:#svy#:#Kérdőív
 common#:#system_check#:#Rendszerellenőrzés
 common#:#system_choose_language#:#Választott rendszernyelv
@@ -4571,21 +4571,21 @@ common#:#treeview#:#Oldalsáv megjelenítése
 common#:#tst_add#:#Teszt felvétele
 common#:#tst_anon_eval#:#Eredmények
 common#:#tst_copy#:#Teszt másolása
-common#:#tst_delete#:#Teszt törlése
-common#:#tst_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
-common#:#tst_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#tst_delete#:#Teszt törlése
+rbac#:#tst_edit_learning_progress#:#Tanulmányi előmenetel szerkesztése
+rbac#:#tst_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#tst_new#:#Új teszt
 common#:#tst_no_content#:#Nem érhetők el tesztek
-common#:#tst_read#:#Olvasási elérés teszthez
+rbac#:#tst_read#:#Olvasási elérés teszthez
 common#:#tst_run#:#Indítás
 common#:#tst_statistical_evaluation#:#Statisztikák
 common#:#tst_statistics#:#Hozzáférés a statisztikákhoz
 common#:#tst_upload_file#:#Fájl feltöltése
 common#:#tst_user_not_invited#:#Nem vehet részt ebben a tesztben.
 common#:#tst_user_wrong_clientip#:#Nem rendelkezik megfelelő IP-címmel ehhez a teszthez.
-common#:#tst_visible#:#A teszt látható
+rbac#:#tst_visible#:#A teszt látható
 common#:#tst_warning_test_not_complete#:#A teszt még nincs kész.
-common#:#tst_write#:#Teszt szerkesztése
+rbac#:#tst_write#:#Teszt szerkesztése
 common#:#tst#:#Teszt
 common#:#tutors#:#Tutorok
 common#:#txt_add_object_instruction1#:#Válassza ki, hová akarja felvenni!
@@ -4800,11 +4800,11 @@ common#:#webr_add_item#:#Weblink felvétele
 common#:#webr_add#:#Weblink felvétele
 common#:#webr_copy#:#Weblink másolása
 common#:#webr_delete_items#:#Weblink(ek) törlése
-common#:#webr_delete#:#Weblinklista törlése
+rbac#:#webr_delete#:#Weblinklista törlése
 common#:#webr_deleted_items#:#Törölt weblinkek.
 common#:#webr_disable_check#:#Ellenőrzés letiltása
 common#:#webr_edit_item#:#Weblink szerkesztése
-common#:#webr_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#webr_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#webr_edit#:#Weblink szerkesztése
 common#:#webr_fillout_all#:#Minden szükséges mezőt töltsön ki!
 common#:#webr_item_updated#:#Módosítások mentése
@@ -4816,10 +4816,10 @@ common#:#webr_modified_items#:#Mentett módosítások.
 common#:#webr_never_checked#:#Sosem ellenőrzött
 common#:#webr_new#:#Új weblink felvétele
 common#:#webr_no_items_created#:#Nincsenek létrehozva weblinkek.
-common#:#webr_read#:#Olvasási elérés weblinkekhez
+rbac#:#webr_read#:#Olvasási elérés weblinkekhez
 common#:#webr_sure_delete_items#:#Biztosan törölni akarja az alábbi weblinke(eke)t?
-common#:#webr_visible#:#A webforrás látható
-common#:#webr_write#:#Weblinkek szerkesztése
+rbac#:#webr_visible#:#A webforrás látható
+rbac#:#webr_write#:#Weblinkek szerkesztése
 common#:#webr#:#Weblink
 common#:#webservices#:#Webszolgáltatások
 common#:#week#:#Hét
@@ -4831,13 +4831,13 @@ common#:#width_x_height#:#Szélesség x magasság
 common#:#width#:#Szélesség
 common#:#wiki_add#:#Wiki felvétele
 common#:#wiki_copy#:#Wiki másolása
-common#:#wiki_delete#:#Wiki törlése
-common#:#wiki_edit_content#:#Wikilap szerkesztése
-common#:#wiki_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#wiki_delete#:#Wiki törlése
+rbac#:#wiki_edit_content#:#Wikilap szerkesztése
+rbac#:#wiki_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#wiki_new#:#Új wiki
-common#:#wiki_read#:#Wiki olvasása
-common#:#wiki_visible#:#Wiki látható
-common#:#wiki_write#:#Wikibeállítások, tanulók osztályozása
+rbac#:#wiki_read#:#Wiki olvasása
+rbac#:#wiki_visible#:#Wiki látható
+rbac#:#wiki_write#:#Wikibeállítások, tanulók osztályozása
 common#:#wiki#:#Wiki
 common#:#with#:#ezzel:
 common#:#wizard_search_list#:#Keresése az alábbi találatokat eredményezte. Válasszon egyet közülük.

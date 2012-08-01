@@ -1683,7 +1683,7 @@ rbac#:#fold_edit_learning_progress#:#Redaguoti Mokymo Progresą
 rbac#:#fold_edit_permission#:#Keisti Leidimų nustatymus
 common#:#fold_new#:#Naujas Katalogas
 rbac#:#fold_read#:#Skaitymo leidimas Katalogui
-common#:#fold_visible#:#Katalogas yra matomas
+rbac#:#fold_visible#:#Katalogas yra matomas
 rbac#:#fold_write#:#Redaguoti Katalogą
 common#:#folder#:#Katalogas
 common#:#folders#:#Katalogai
@@ -1715,18 +1715,18 @@ common#:#frm_add#:#Pridėti Forumą
 common#:#frm_added#:#Forumas pridėtą
 common#:#frm_article#:#straipsnis
 common#:#frm_create#:#Sukurti Forumą
-common#:#frm_delete#:#Ištrinti Forumą
+rbac#:#frm_delete#:#Ištrinti Forumą
 common#:#frm_delete_post#:#Ištrinti žinutę, cenzūra
 common#:#frm_edit#:#Redaguoti Forumą
-common#:#frm_edit_permission#:#Pakeisti leidimų nustatymus
+rbac#:#frm_edit_permission#:#Pakeisti leidimų nustatymus
 common#:#frm_edit_post#:#Sukurti naują temą, skelbti
 common#:#frm_new#:#Nauajs Forumas
-common#:#frm_read#:#Galimybė skaityti Forumą
+rbac#:#frm_read#:#Galimybė skaityti Forumą
 common#:#frm_statistics_ranking#:#Rangas
 common#:#frm_status_new#:#Statusas 'Nauja'
 common#:#frm_status_new_desc#:#Pasirinkite, kiek laiko forumo žinutės bus pažymėtos ženklu "Nauja".
-common#:#frm_visible#:#Forumas yra matomas
-common#:#frm_write#:#Redaguoti forumą
+rbac#:#frm_visible#:#Forumas yra matomas
+rbac#:#frm_write#:#Redaguoti forumą
 common#:#from#:#Nuo
 common#:#fullname#:#Pilnas vardas
 common#:#functions#:#Funkcijos
@@ -1742,8 +1742,8 @@ common#:#glo_a#:#Glosarijus
 common#:#glo_add#:#Pridėti Glosarijų
 common#:#glo_added#:#Glosarijus pridėtas
 common#:#glo_create#:#Sukurti Glosarijų
-common#:#glo_delete#:#Ištrinti Glosarijų
-common#:#glo_edit_permission#:#Pakeisti leidimų nustatymus
+rbac#:#glo_delete#:#Ištrinti Glosarijų
+rbac#:#glo_edit_permission#:#Pakeisti leidimų nustatymus
 common#:#glo_join#:#Užsisakyti Glosarijų
 common#:#glo_leave#:#Atsisakyti Glosarijų
 common#:#glo_mode#:#Būdas
@@ -1752,10 +1752,10 @@ common#:#glo_mode_level#:#virtualus (tik šis lygis)
 common#:#glo_mode_normal#:#normalus
 common#:#glo_mode_subtree#:#virtualus (pilnas sub-medis)
 common#:#glo_new#:#Naujas Glosarijus
-common#:#glo_read#:#Galimybė skaityti Glosarijų
+rbac#:#glo_read#:#Galimybė skaityti Glosarijų
 common#:#glo_upload_file#:#Failas
-common#:#glo_visible#:#Glosarijus yra matomas
-common#:#glo_write#:#Redaguoti Glosarijų
+rbac#:#glo_visible#:#Glosarijus yra matomas
+rbac#:#glo_write#:#Redaguoti Glosarijų
 common#:#global#:#Globalus
 common#:#global_default#:#Globalus pagal Nutylėjimą
 common#:#global_fixed#:#Globalus Fiksuotas
@@ -1818,30 +1818,30 @@ common#:#grp_create#:#Sukurti Grupę
 common#:#grp_create_alm#:#Sukurti AICC Mokymo Modulį
 common#:#grp_create_chat#:#Sukurti Pokalbį
 common#:#grp_create_dbk#:#Sukurti Digilib Knygą
-common#:#grp_create_exc#:#Sukurti Užduotį
-common#:#grp_create_file#:#Įkelti Failą
-common#:#grp_create_fold#:#Sukurti Katalogą
-common#:#grp_create_frm#:#Sukurti Forumą
-common#:#grp_create_glo#:#Sukurti Glosarijų
-common#:#grp_create_grp#:#Sukurti Grupę
+rbac#:#grp_create_exc#:#Sukurti Užduotį
+rbac#:#grp_create_file#:#Įkelti Failą
+rbac#:#grp_create_fold#:#Sukurti Katalogą
+rbac#:#grp_create_frm#:#Sukurti Forumą
+rbac#:#grp_create_glo#:#Sukurti Glosarijų
+rbac#:#grp_create_grp#:#Sukurti Grupę
 common#:#grp_create_hlm#:#Sukurti HACP Mokymo Modulį
-common#:#grp_create_htlm#:#Sukurti HTML Mokymo Modulį
-common#:#grp_create_icrs#:#Sukurti LearnLinc Seminarą
-common#:#grp_create_lm#:#Sukurti ILIAS Mokymo Modulį
-common#:#grp_create_mep#:#Sukurti Media Apklausą
-common#:#grp_create_qpl#:#Sukurti Klausimyną Testui
-common#:#grp_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
-common#:#grp_create_spl#:#Sukurti Klausimyną Apklausai
-common#:#grp_create_svy#:#Sukurti Apklausą
-common#:#grp_create_tst#:#Sukurti Testą
-common#:#grp_create_webr#:#Sukurti Web Resursą
-common#:#grp_delete#:#Ištrinti Grupę
+rbac#:#grp_create_htlm#:#Sukurti HTML Mokymo Modulį
+rbac#:#grp_create_icrs#:#Sukurti LearnLinc Seminarą
+rbac#:#grp_create_lm#:#Sukurti ILIAS Mokymo Modulį
+rbac#:#grp_create_mep#:#Sukurti Media Apklausą
+rbac#:#grp_create_qpl#:#Sukurti Klausimyną Testui
+rbac#:#grp_create_sahs#:#Sukurti SCORM/AICC Mokymo Modulį
+rbac#:#grp_create_spl#:#Sukurti Klausimyną Apklausai
+rbac#:#grp_create_svy#:#Sukurti Apklausą
+rbac#:#grp_create_tst#:#Sukurti Testą
+rbac#:#grp_create_webr#:#Sukurti Web Resursą
+rbac#:#grp_delete#:#Ištrinti Grupę
 common#:#grp_deleted_export_files#:#Ištrinti pasirinkti failai.
 common#:#grp_dismiss_member#:#Ar jūs tikrai norite pašalinti pasirinktą(-us) šį(-iuos) narį(-ius) iš grupės?
 common#:#grp_dismiss_myself#:#Ar tikrai norite palikti šią grupę?
 common#:#grp_edit#:#Redaguoti Grupę
-common#:#grp_edit_learning_progress#:#Redaguoti Mokymo Progresą
-common#:#grp_edit_permission#:#Keisti leidimų nustatymus
+rbac#:#grp_edit_learning_progress#:#Redaguoti Mokymo Progresą
+rbac#:#grp_edit_permission#:#Keisti leidimų nustatymus
 common#:#grp_err_administrator_required#:#Narys negali būti pašalintas, nes reikalingas bent vienas administratorius grupėje !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Kiekvienoje grupėje reikalingas bent vienas administratorius
 common#:#grp_err_error#:#Įvyko klaida
@@ -1850,8 +1850,8 @@ common#:#grp_err_member_could_not_be_removed#:#Narys negali būti pašalintas. P
 common#:#grp_err_no_permission#:#Šiai operacijai jūs neturite leidimo.
 common#:#grp_err_registration_data#:#Prašome įrašyti slaptažodį,prisijungimo galiojimo datą ir laiką !
 common#:#grp_header_edit_members#:#Redaguoti narius
-common#:#grp_join#:#Vartotojai gali prisijungti prie Grupės
-common#:#grp_leave#:#Vartotojai gali palikti Grupę
+rbac#:#grp_join#:#Vartotojai gali prisijungti prie Grupės
+rbac#:#grp_leave#:#Vartotojai gali palikti Grupę
 common#:#grp_list_users#:#Išskleisti vartotojus
 common#:#grp_mail_body_new_subscription#:#Jūs buvote užregistruoti šioje grupėje.
 common#:#grp_mail_body_subscription_cancelled#:#Jūsų narystė buvo atšaukta.
@@ -1872,7 +1872,7 @@ common#:#grp_no_groups_selected#:#pasirinkite grupę
 common#:#grp_no_results_found#:#Nieko nerasta
 common#:#grp_no_roles_selected#:#Pasirinkite rolę
 common#:#grp_options#:#Parinktys
-common#:#grp_read#:#Skaitymo leidimas Grupei
+rbac#:#grp_read#:#Skaitymo leidimas Grupei
 common#:#grp_register#:#Prisijungti
 common#:#grp_registration#:#Prisijungti prie Grupės
 common#:#grp_registration_completed#:#Jūs prisijungėte prie grupės
@@ -1880,8 +1880,8 @@ common#:#grp_search_enter_search_string#:#Įrašykite paieškos kriterijų
 common#:#grp_search_members#:#Vartotojo paieška
 common#:#grp_select_one_file#:#Pasirinkite vieną failą.
 common#:#grp_select_one_file_only#:#Pasirinkite tik vieną failą.
-common#:#grp_visible#:#Grupė yra matoma
-common#:#grp_write#:#Redaguoti Grupę
+rbac#:#grp_visible#:#Grupė yra matoma
+rbac#:#grp_write#:#Redaguoti Grupę
 common#:#guest#:#Svečias
 common#:#guests#:#Svečiai
 common#:#header_searchable#:#Ieškotina
@@ -1934,14 +1934,14 @@ common#:#hours#:#Valanda(-os)
 common#:#hours_of_day#:#Dienos valandos
 common#:#htlm#:#Mokymo Modulis HTML
 common#:#htlm_add#:#Pridėti HTML Mokymo Modulį
-common#:#htlm_delete#:#Ištrinti HTML Mokymo Modulį
+rbac#:#htlm_delete#:#Ištrinti HTML Mokymo Modulį
 common#:#htlm_edit#:#Redaguoti HTML Mokymo Modulio Savybes
-common#:#htlm_edit_learning_progress#:#Redaguoti mokymosi progresą
-common#:#htlm_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#htlm_edit_learning_progress#:#Redaguoti mokymosi progresą
+rbac#:#htlm_edit_permission#:#Keisti leidimo nustatymus
 common#:#htlm_new#:#Naujas HTML Mokymo Modulis
-common#:#htlm_read#:#Skaityti HTML Mokymo Modulį
-common#:#htlm_visible#:#HTML Mokymo Modulis yra matomas
-common#:#htlm_write#:#Redaguoti HTML Mokymo Modulį
+rbac#:#htlm_read#:#Skaityti HTML Mokymo Modulį
+rbac#:#htlm_visible#:#HTML Mokymo Modulis yra matomas
+rbac#:#htlm_write#:#Redaguoti HTML Mokymo Modulį
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Šis serveris nepalaiko http užklausų.
 common#:#http_path#:#Http Kelias
@@ -2241,18 +2241,18 @@ common#:#lm_a#:#ILIAS Mokymo Modulis
 common#:#lm_add#:#Pridėti ILIAS Mokymo Modulį
 common#:#lm_added#:#ILIAS Mokymo Modulis pridėtas
 common#:#lm_create#:#Sukurti ILIAS Mokymo Modulį
-common#:#lm_delete#:#Ištrinti ILIAS Mokymo Modulį
-common#:#lm_edit_learning_progress#:#Redaguoti mokymo progresą
+rbac#:#lm_delete#:#Ištrinti ILIAS Mokymo Modulį
+rbac#:#lm_edit_learning_progress#:#Redaguoti mokymo progresą
 common#:#lm_edit_permission#:#Keisti leidimo nustatymus
 common#:#lm_join#:#Prisijungti prie ILIAS Mokymo Modulio
 common#:#lm_leave#:#Atsijungti nuo ILIAS Mokymo Modulio
 common#:#lm_new#:#Naujas ILIAS Mokymo Modulis
-common#:#lm_read#:#Galimybė skaityti ILIAS Mokymo Modulį
+rbac#:#lm_read#:#Galimybė skaityti ILIAS Mokymo Modulį
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#ILIAS Mokymo Modulis yra matomas
-common#:#lm_write#:#Redaguoti ILIAS Mokymo Modulį
+rbac#:#lm_visible#:#ILIAS Mokymo Modulis yra matomas
+rbac#:#lm_write#:#Redaguoti ILIAS Mokymo Modulį
 common#:#lng#:#Kalba
 common#:#lngf#:#Kalbos
 common#:#lngf_edit_permission#:#Keisti leidimo nustatymus
@@ -2341,14 +2341,14 @@ common#:#membership_annulled#:#Jūsų narystė atšaukta
 common#:#mep#:#Media Apklausa
 common#:#mep_add#:#Pridėti Media Apklausą
 common#:#mep_added#:#Media Apklausa pridėta
-common#:#mep_delete#:#Ištrinti Media Apklausą
+rbac#:#mep_delete#:#Ištrinti Media Apklausą
 common#:#mep_edit#:#Redaguoti Media Apklausos Savybes
-common#:#mep_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#mep_edit_permission#:#Keisti leidimo nustatymus
 common#:#mep_new#:#Nauja Media Apklausa
 common#:#mep_not_insert_already_exist#:#Šie objektai nebuvo įterpti, kadangi jie jau yra media apklausoje:
-common#:#mep_read#:#Skaityti Media Apklausos Turinį
-common#:#mep_visible#:#Media Apklausa yra matoma
-common#:#mep_write#:#Redaguoti Media Apklausos Turinį
+rbac#:#mep_read#:#Skaityti Media Apklausos Turinį
+rbac#:#mep_visible#:#Media Apklausa yra matoma
+rbac#:#mep_write#:#Redaguoti Media Apklausos Turinį
 common#:#message#:#Pranešimas
 common#:#message_content#:#Pranešimo Turinys
 common#:#message_no_delivered_files#:#Jūs neturite atsiųsto failo!
@@ -2801,13 +2801,13 @@ common#:#publishing_organisation#:#Leidėjas
 common#:#purpose#:#Tikslas
 common#:#qpl#:#Klausimynas Testui
 common#:#qpl_add#:#Pridėti klausimyną testui
-common#:#qpl_delete#:#Ištrinti Klausimyną Testui
-common#:#qpl_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#qpl_delete#:#Ištrinti Klausimyną Testui
+rbac#:#qpl_edit_permission#:#Keisti leidimo nustatymus
 common#:#qpl_new#:#Naujas klausimynas testui
-common#:#qpl_read#:#Galimybė skaityti Klausimyną Testui
+rbac#:#qpl_read#:#Galimybė skaityti Klausimyną Testui
 common#:#qpl_upload_file#:#Įkelti failą
-common#:#qpl_visible#:#Klausimynas Testui yra matomas
-common#:#qpl_write#:#Redaguoti Klausimyną Testui
+rbac#:#qpl_visible#:#Klausimynas Testui yra matomas
+rbac#:#qpl_write#:#Redaguoti Klausimyną Testui
 common#:#quarterly#:#kas ketvirtį
 common#:#query_data#:#Užklausos duomenys
 common#:#question#:#Klausimas
@@ -2943,14 +2943,14 @@ common#:#root_write#:#Redaguoti šakninio mazgo metaduomenis
 common#:#sahs#:#Mokymo Modulis SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Mokymo Modulis pridėtas
 common#:#sahs_create#:#Sukurti SCORM/AICC Mokymo Modulį
-common#:#sahs_delete#:#Ištrinti SCORM/AICC Mokymo Modulį
-common#:#sahs_edit_learning_progress#:#Redaguoti mokymo progresą
-common#:#sahs_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#sahs_delete#:#Ištrinti SCORM/AICC Mokymo Modulį
+rbac#:#sahs_edit_learning_progress#:#Redaguoti mokymo progresą
+rbac#:#sahs_edit_permission#:#Keisti leidimo nustatymus
 common#:#sahs_join#:#Prisijungti prie SCORM/AICC Mokymo Modulio
 common#:#sahs_leave#:#Atsijungti nuo SCORM/AICC Mokymo Modulio
-common#:#sahs_read#:#Galimybė skaityti SCORM/AICC Mokymo Modulį
-common#:#sahs_visible#:#SCORM/AICC Mokymo Modulis yra matomas
-common#:#sahs_write#:#Redaguoti SCORM/AICC Mokymo Modulį
+rbac#:#sahs_read#:#Galimybė skaityti SCORM/AICC Mokymo Modulį
+rbac#:#sahs_visible#:#SCORM/AICC Mokymo Modulis yra matomas
+rbac#:#sahs_write#:#Redaguoti SCORM/AICC Mokymo Modulį
 common#:#salutation#:#Pasveikinimas
 common#:#salutation_f#:#p./p.
 common#:#salutation_m#:#p.
@@ -3070,13 +3070,13 @@ common#:#sort_by_this_column#:#Rūšiuoti pagal šį stulpelį
 common#:#spacer#:#Tarpelis
 common#:#spl#:#Klausimynas Apklausai
 common#:#spl_add#:#Pridėti klausimyną apklausai
-common#:#spl_delete#:#Ištrinti Klausimyną Apklausai
-common#:#spl_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#spl_delete#:#Ištrinti Klausimyną Apklausai
+rbac#:#spl_edit_permission#:#Keisti leidimo nustatymus
 common#:#spl_new#:#Naujas klausimynas apklausai
-common#:#spl_read#:#Galimybė skaityti Klausimyną Apklausai
+rbac#:#spl_read#:#Galimybė skaityti Klausimyną Apklausai
 common#:#spl_upload_file#:#Įkelti failą
-common#:#spl_visible#:#Klausimynas Apklausai yra matomas
-common#:#spl_write#:#Redaguoti Klausimyną Apklausai
+rbac#:#spl_visible#:#Klausimynas Apklausai yra matomas
+rbac#:#spl_write#:#Redaguoti Klausimyną Apklausai
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#skyrius
 common#:#st_add#:#Pridėti skyrių
@@ -3108,22 +3108,22 @@ common#:#summary#:#Santrauka
 common#:#sure_delete_selected_users#:#Ar tikrai norite ištrinti pasirinktą(-us) vartotoją(-us)
 common#:#svy#:#Apklausa
 common#:#svy_add#:#Pridėti apklausą
-common#:#svy_delete#:#Ištrinti apklausą
-common#:#svy_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#svy_delete#:#Ištrinti apklausą
+rbac#:#svy_edit_permission#:#Keisti leidimo nustatymus
 common#:#svy_evaluation#:#Įvertinimas
 common#:#svy_finished#:#baigta
-common#:#svy_invite#:#Pakviesti vartotojus apklausai
+rbac#:#svy_invite#:#Pakviesti vartotojus apklausai
 common#:#svy_new#:#Nauja apklausa
 common#:#svy_no_content#:#Prieinamų apklausų nėra
 common#:#svy_not_finished#:#nebaigta
 common#:#svy_not_started#:#nepradėta
 common#:#svy_participate#:#Dalyvauti apklausoje
-common#:#svy_read#:#Galimybė skaityti apklausą
+rbac#:#svy_read#:#Galimybė skaityti apklausą
 common#:#svy_run#:#Vykdyti
 common#:#svy_upload_file#:#Įkelti failą
-common#:#svy_visible#:#Apklausa yra matoma
+rbac#:#svy_visible#:#Apklausa yra matoma
 common#:#svy_warning_survey_not_complete#:#Apklausa nebaigta!
-common#:#svy_write#:#Redaguoti apklausą
+rbac#:#svy_write#:#Redaguoti apklausą
 common#:#system#:#Sistema
 common#:#system_check#:#Sistemos Patikrinimas
 common#:#system_choose_language#:#Pasirinkite Sistemos Kalbą
@@ -3202,20 +3202,20 @@ common#:#treeview#:#Medžio Struktūra
 common#:#tst#:#Testas
 common#:#tst_add#:#Pridėti testą
 common#:#tst_anon_eval#:#Rezultatai
-common#:#tst_delete#:#Ištrinti Testą
-common#:#tst_edit_learning_progress#:#Redaguoti mokymo progresą
-common#:#tst_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#tst_delete#:#Ištrinti Testą
+rbac#:#tst_edit_learning_progress#:#Redaguoti mokymo progresą
+rbac#:#tst_edit_permission#:#Keisti leidimo nustatymus
 common#:#tst_new#:#Naujas testas
 common#:#tst_no_content#:#Prieinamų testų nėra
-common#:#tst_read#:#Galimybė skaityti Testą
+rbac#:#tst_read#:#Galimybė skaityti Testą
 common#:#tst_run#:#Vykdyti
 common#:#tst_statistical_evaluation#:#Statistika
 common#:#tst_upload_file#:#Įkelti failą
 common#:#tst_user_not_invited#:#Jums nereikia laikti šio egzamino.
 common#:#tst_user_wrong_clientip#:#Jūsų IP netinkamas šiam testui
-common#:#tst_visible#:#Testas yra matomas
+rbac#:#tst_visible#:#Testas yra matomas
 common#:#tst_warning_test_not_complete#:#Testas nebaigtas!
-common#:#tst_write#:#Redaguoti Testą
+rbac#:#tst_write#:#Redaguoti Testą
 common#:#txt_add_object_instruction1#:#Eikite į vietą, kur norite pridėti
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Jūs sėkmingai užsiregistravote ILIAS sistemoje. Norėdami prisijungi prie sistemos, spauskite žemiau esantį mygtuką.
@@ -3387,13 +3387,13 @@ common#:#webr#:#Web Resursas
 common#:#webr_active#:#Aktyvu
 common#:#webr_add#:#Pridėti Web Resursą
 common#:#webr_add_item#:#Pridėti Web Resursą
-common#:#webr_delete#:#Ištrinti Web Resursą
+rbac#:#webr_delete#:#Ištrinti Web Resursą
 common#:#webr_delete_items#:#Ištrinti Web Resursą(-us)
 common#:#webr_deleted_items#:#Ištrintas(-i) Web Resursas(-ai).
 common#:#webr_disable_check#:#Išjungti patikrinimą
 common#:#webr_edit#:#Redaguoti Web Resursą
 common#:#webr_edit_item#:#Redaguoti Web Resursą
-common#:#webr_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#webr_edit_permission#:#Keisti leidimo nustatymus
 common#:#webr_fillout_all#:#Užpildykite visus būtinus laukus.
 common#:#webr_item_updated#:#Išsaugoti pakeitimai
 common#:#webr_join#:#Užsisakyti Web Resursus
@@ -3404,10 +3404,10 @@ common#:#webr_modified_items#:#Išsaugoti pakeitimai.
 common#:#webr_never_checked#:#Niekada netikrinta
 common#:#webr_new#:#Pridėti naują Web Resursą
 common#:#webr_no_items_created#:#Web Resursų nesukurta
-common#:#webr_read#:#Galimybė skaityti Web Resursą
+rbac#:#webr_read#:#Galimybė skaityti Web Resursą
 common#:#webr_sure_delete_items#:#Ar tikrai norite ištrinti šį(-iuos) Web Resursą(-us)?
-common#:#webr_visible#:#Web Resursas yra matomas
-common#:#webr_write#:#Redaguoti Web Resursą
+rbac#:#webr_visible#:#Web Resursas yra matomas
+rbac#:#webr_write#:#Redaguoti Web Resursą
 common#:#webservices#:#Webservisai
 common#:#week#:#Savaitė
 common#:#weekly#:#kas savaitę
@@ -7050,19 +7050,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7219,7 +7219,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7579,7 +7579,7 @@ common#:#sorting_info_title#:#Rinkitės šią veikseną norėdami rikiuoti objek
 common#:#sorting_manual_header#:#Rikiuoti Rankiniu Būdu
 common#:#sorting_info_manual#:#Ši veiksena leidžia rikiuoti objektus rankiniu būdu.
 common#:#sorting_save#:#Išsaugoti Rikiavimą
-common#:#frm_add_thread#:#Sukurti temą
+rbac#:#frm_add_thread#:#Sukurti temą
 news#:#news_x_files_created#:#Įkelta Failų: %s
 news#:#news_x_files_updated#:#Atnaujinta Failų: %s
 news#:#news_1_file_created#:#Įkeltas 1 Failas
@@ -7599,8 +7599,8 @@ common#:#mail_search_groups_not_found#:#Nerasta grupių, kuriose jūs dalyvaujat
 common#:#mail_search_courses_not_found#:#Nerasta kursų, kuriuose jūs dalyvaujate.
 auth#:#auth_radius_charset#:#Teksto Koduotė
 auth#:#auth_radius_charset_info#:#Pasirinkite teksto koduotę bendravimui su radius serveriu. Jei nesate tikri, rinkitės UTF-8.
-common#:#frm_add_post#:#Rašyti naują žinutę
-common#:#frm_moderate_frm#:#Ištrinti žinutę, cenzūra
+rbac#:#frm_add_post#:#Rašyti naują žinutę
+rbac#:#frm_moderate_frm#:#Ištrinti žinutę, cenzūra
 chat#:#chat_user_dropped_private#:#Vartotojui buvo atšauktas kvietimas/pašalintas iš privataus pokalbių kambario.
 chat#:#chat_user_invited_public#:#Vartotojas buvo pakviestas į pokalbį
 chat#:#chat_user_invited_private#:#Vartotojas buvo pakviestas į privatų pokalbio kambarį
@@ -7859,8 +7859,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8389,11 +8389,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

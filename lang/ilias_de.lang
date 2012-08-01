@@ -1722,7 +1722,7 @@ chat#:#chat_drop_user#:#Benutzer entfernt
 chat#:#chat_edit#:#Chat bearbeiten
 chat#:#chat_edit_smiley#:#Smiley bearbeiten
 chat#:#chat_empty#:#Leeren
-chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
+chat#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
 chat#:#chat_enter_valid_username#:#Bitte geben Sie einen gültigen Benutzernamen ein.
 chat#:#chat_export_all#:#Jeder mit Zugang zum Chatraum
 chat#:#chat_export_info#:#Zeigt eine Export-Schaltfläche für den aktuellen Chat-Raum an. Beiträge werden als HTML-Datei exportiert.
@@ -1761,14 +1761,14 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
 chat#:#chat_message_notify#:#Chat-Benachrichtigungen
-chatroom#:#chat_message_notify_activate#:#Aktivieren
+chat#:#chat_message_notify_activate#:#Aktivieren
 chat#:#chat_message_notify_deactivate#:#Deaktivieren
 chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
 chat#:#chat_moderator_password#:#Moderatorenpasswort
 chat#:#chat_navy#:#navy
-chatroom#:#chat_new_invitation_sound_status#:#Einen Klang abspielen, wenn Benutzer eine Einladung zu einem Chat erhalten hat.
+chat#:#chat_new_invitation_sound_status#:#Einen Klang abspielen, wenn Benutzer eine Einladung zu einem Chat erhalten hat.
 chat#:#chat_new_message#:#Neue Nachricht
-chatroom#:#chat_new_message_sound_status#:#Einen Klang abspielen, wenn es im Chat einen neuen Beitrag gibt.
+chat#:#chat_new_message_sound_status#:#Einen Klang abspielen, wenn es im Chat einen neuen Beitrag gibt.
 chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
 chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
 chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chat-Server hergestellt werden.
@@ -2236,16 +2236,6 @@ common#:#allow_assign_users#:#Benutzerzuweisung für lokale Administratoren erla
 common#:#allow_override_alert#:#Die Regeln der .htaccess-Datei können nicht ausgewertet werden.
 common#:#allow_register#:#Verfügbar im Registrierungsformular
 common#:#allow_user_toggle_noti#:#Mitglied darf Benachrichtigung deaktivieren
-common#:#alm#:#Lernmodul AICC
-common#:#alm_added#:#AICC-Lernmodul angelegt
-common#:#alm_create#:#Neues AICC-Lernmodul anlegen
-common#:#alm_delete#:#AICC-Lernmodul löschen
-common#:#alm_edit_permission#:#Rechteeinstellungen ändern
-common#:#alm_join#:#AICC-Lernmodul abonnieren
-common#:#alm_leave#:#AICC-Lernmodulabonnement aufheben
-common#:#alm_read#:#AICC-Lernmodul lesen
-common#:#alm_visible#:#AICC-Lernmodul ist sichtbar
-common#:#alm_write#:#AICC-Lernmodul bearbeiten
 common#:#already_delivered_files#:#Bereits abgegebene Dateien
 common#:#and#:#und
 common#:#announce#:#Ankündigen
@@ -2568,7 +2558,7 @@ rbac#:#change_existing_prefix_single#:#&nbsp;
 rbac#:#change_existing_suffix#:#ändern
 rbac#:#change_existing_suffix_single#:#anpassen
 common#:#change_header_title#:#Installationsüberschrift bearbeiten
-common#:#change_lo_info#:#Lerneinheiten-Infos ändern
+common#:#change_lo_info#:#Lernmodul-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
 common#:#change_owner#:#Besitzer ändern
 common#:#change_sort_direction#:#Sortierrichtung ändern
@@ -2603,7 +2593,7 @@ common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externe Links überprüfen
-common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lerneinheiten nach ungültigen externen Links überprüft.
+common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule nach ungültigen externen Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
 common#:#check_user_accounts_desc#:#Wenn Cron-jobs aktiviert sind und diese Option eingeschaltet ist, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
@@ -2763,7 +2753,7 @@ rbac#:#crs_create_svy#:#Neue Umfrage anlegen
 rbac#:#crs_create_tst#:#Neuen Test anlegen
 rbac#:#crs_create_webr#:#Neuen Weblink anlegen
 common#:#crs_create_write#:#Wiki anlegen
-rbac#:#crs_delete#:#Kurs löschen
+rbac#:#crs_delete#:#Kurs löschen oder verschieben
 common#:#crs_edit#:#Kurs bearbeiten
 rbac#:#crs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#crs_edit_permission#:#Rechteeinstellungen ändern
@@ -3190,14 +3180,14 @@ rbac#:#fold_create_svy#:#Neue Umfrage anlegen
 rbac#:#fold_create_tst#:#Neuen Test anlegen
 rbac#:#fold_create_webr#:#Neuen Weblink anlegen
 common#:#fold_create_write#:#Wiki anlegen
-rbac#:#fold_delete#:#Ordner löschen
+rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
 rbac#:#fold_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#fold_edit_permission#:#Rechteeinstellungen ändern
 common#:#fold_new#:#Neuen Ordner anlegen
 rbac#:#fold_read#:#Lesezugriff auf Ordner
 common#:#fold_type#:#Ordnerart
-common#:#fold_visible#:#Ordner ist sichtbar
+rbac#:#fold_visible#:#Ordner ist sichtbar
 common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
 rbac#:#fold_write#:#Ordner bearbeiten
 common#:#folder#:#Ordner
@@ -3238,26 +3228,26 @@ common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
-common#:#frm_add_post#:#Forenbeitrag anlegen
-common#:#frm_add_thread#:#Forumthema anlegen
+rbac#:#frm_add_post#:#Forenbeitrag anlegen
+rbac#:#frm_add_thread#:#Forenthema anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_article#:#Beitrag
 common#:#frm_copy#:#Forum kopieren
 common#:#frm_create#:#Neues Forum anlegen
-common#:#frm_delete#:#Forum löschen
+rbac#:#frm_delete#:#Forum löschen oder verschieben
 common#:#frm_delete_post#:#Forenbeiträge löschen und zensieren
 common#:#frm_edit#:#Forum bearbeiten
-common#:#frm_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#frm_edit_permission#:#Rechteeinstellungen ändern
 common#:#frm_edit_post#:#Forenbeiträge anlegen
 common#:#frm_latest_postings#:#Letzte Beiträge
-common#:#frm_moderate_frm#:#Forenbeiträge löschen und zensieren
+rbac#:#frm_moderate_frm#:#Forenbeiträge löschen und zensieren
 common#:#frm_new#:#Neues Forum anlegen
-common#:#frm_read#:#Forum lesen
+rbac#:#frm_read#:#Forum und Beiträge lesen
 common#:#frm_statistics_ranking#:#Rangliste
 common#:#frm_status_new#:#Status 'Neu'
 common#:#frm_status_new_desc#:#Bitte wählen Sie eine Zeitdauer, wie lange der Status 'Neu' für Forenbeiträge angezeigt wird.
-common#:#frm_visible#:#Forum ist sichtbar
-common#:#frm_write#:#Forum bearbeiten
+rbac#:#frm_visible#:#Forum ist sichtbar
+rbac#:#frm_write#:#Foreneinstellungen bearbeiten und Moderatoren verwalten
 common#:#frma_edit_permission#:#Rechteeinstellungen ändern
 common#:#frma_read#:#Lesezugriff auf Foreneinstellungen
 common#:#frma_visible#:#Foreneinstellungen sind sichtbar
@@ -3279,8 +3269,8 @@ common#:#glo_add#:#Glossar hinzufügen
 common#:#glo_added#:#Glossar hinzugefügt
 common#:#glo_copy#:#Glossar kopieren
 common#:#glo_create#:#Neues Glossar anlegen
-common#:#glo_delete#:#Glossar löschen
-common#:#glo_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#glo_delete#:#Glossar löschen oder verschieben
+rbac#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_import#:#Glossar importieren
 common#:#glo_join#:#Glossar abonnieren
 common#:#glo_leave#:#Glossarabonnement aufheben
@@ -3290,10 +3280,10 @@ common#:#glo_mode_level#:#virtuell (nur diese Ebene)
 common#:#glo_mode_normal#:#Normal
 common#:#glo_mode_subtree#:#virtuell (gesamter Teilbaum)
 common#:#glo_new#:#Neues Glossar anlegen
-common#:#glo_read#:#Glossar lesen
+rbac#:#glo_read#:#Glossarinhalt lesen
 common#:#glo_upload_file#:#Datei
-common#:#glo_visible#:#Glossar ist sichtbar
-common#:#glo_write#:#Glossar bearbeiten
+rbac#:#glo_visible#:#Glossar ist sichtbar
+rbac#:#glo_write#:#Inhalt und Einstellungen des Glossars bearbeiten
 common#:#global#:#Global
 common#:#global_default#:#Standard-Stylesheet (global)
 common#:#global_fixed#:#Einheits-Stylesheet (global)
@@ -3360,36 +3350,32 @@ common#:#grp_copy#:#Gruppe kopieren
 common#:#grp_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#grp_count_members#:#Anzahl der Mitglieder
 common#:#grp_create#:#Neue Gruppe anlegen
-common#:#grp_create_alm#:#Neues AICC-Lernmodul anlegen
-common#:#grp_create_chat#:#Neuen Chat anlegen
-common#:#grp_create_dbk#:#Neues Digilib-Buch anlegen
-common#:#grp_create_exc#:#Neue Übung anlegen
-common#:#grp_create_feed#:#Neuen Webfeed anlegen
-common#:#grp_create_file#:#Neue Datei hochladen
-common#:#grp_create_fold#:#Neuen Ordner anlegen
-common#:#grp_create_frm#:#Neues Forum anlegen
-common#:#grp_create_glo#:#Neues Glossar anlegen
-common#:#grp_create_grp#:#Neue Gruppe anlegen
-common#:#grp_create_hlm#:#Neues HACP-Lernmodul anlegen
-common#:#grp_create_htlm#:#Neues HTML-Lernmodul anlegen
-common#:#grp_create_icrs#:#Neues LearnLinc-Seminar anlegen
-common#:#grp_create_lm#:#Neues ILIAS-Lernmodul anlegen
-common#:#grp_create_mcst#:#Neuen Mediacast anlegen
-common#:#grp_create_mep#:#Neuen Medienpool anlegen
-common#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
-common#:#grp_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-common#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
-common#:#grp_create_svy#:#Neue Umfrage anlegen
-common#:#grp_create_tst#:#Neuen Test anlegen
-common#:#grp_create_webr#:#Neuen Weblink anlegen
+rbac#:#grp_create_exc#:#Neue Übung anlegen
+rbac#:#grp_create_feed#:#Neuen Webfeed anlegen
+rbac#:#grp_create_file#:#Neue Datei hochladen
+rbac#:#grp_create_fold#:#Neuen Ordner anlegen
+rbac#:#grp_create_frm#:#Neues Forum anlegen
+rbac#:#grp_create_glo#:#Neues Glossar anlegen
+rbac#:#grp_create_grp#:#Neue Gruppe anlegen
+rbac#:#grp_create_htlm#:#Neues HTML-Lernmodul anlegen
+rbac#:#grp_create_icrs#:#Neues LearnLinc-Seminar anlegen
+rbac#:#grp_create_lm#:#Neues ILIAS-Lernmodul anlegen
+rbac#:#grp_create_mcst#:#Neuen Mediacast anlegen
+rbac#:#grp_create_mep#:#Neuen Medienpool anlegen
+rbac#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#grp_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
+rbac#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#grp_create_svy#:#Neue Umfrage anlegen
+rbac#:#grp_create_tst#:#Neuen Test anlegen
+rbac#:#grp_create_webr#:#Neuen Weblink anlegen
 common#:#grp_create_write#:#Wiki anlegen
-common#:#grp_delete#:#Gruppe löschen
+rbac#:#grp_delete#:#Gruppe löschen oder verschieben
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
 common#:#grp_edit#:#Gruppe bearbeiten
-common#:#grp_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
-common#:#grp_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#grp_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppenadministrator benötigt
 common#:#grp_err_error#:#Ein Fehler ist aufgetreten, die Aktion wurde nicht durchgeführt
@@ -3398,8 +3384,8 @@ common#:#grp_err_member_could_not_be_removed#:#Gruppenmitglied konnte nicht entf
 common#:#grp_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte diese Operation durchzuführen.
 common#:#grp_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Beitrittszeitraums an !
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
-common#:#grp_join#:#Benutzer kann Gruppe beitreten
-common#:#grp_leave#:#Benutzer kann Gruppe verlassen
+rbac#:#grp_join#:#Benutzer kann Gruppe beitreten
+rbac#:#grp_leave#:#Benutzer kann Gruppenmitgliedschaft beenden
 common#:#grp_list_users#:#Benutzer auflisten
 common#:#grp_mail_body_new_subscription#:#Sie sind in der Gruppe als Teilnehmer aufgenommen worden.
 common#:#grp_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
@@ -3420,7 +3406,7 @@ common#:#grp_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 common#:#grp_no_results_found#:#Es wurden keine passenden Ergebnisse gefunden
 common#:#grp_no_roles_selected#:#Sie haben keine Rolle ausgewählt
 common#:#grp_options#:#Optionen
-common#:#grp_read#:#Lesezugriff auf Gruppe
+rbac#:#grp_read#:#Lesezugriff auf Gruppe
 common#:#grp_register#:#Beitreten
 common#:#grp_registration#:#Zur Gruppe beitreten
 common#:#grp_registration_completed#:#Sie sind zur Gruppe beigetreten
@@ -3429,9 +3415,9 @@ common#:#grp_search_enter_search_string#:#Bitte geben Sie einen Suchbegriff ein
 common#:#grp_search_members#:#Benutzersuche
 common#:#grp_select_one_file#:#Bitte wählen Sie eine Datei aus.
 common#:#grp_select_one_file_only#:#Bitte wählen Sie genau eine Datei aus.
-common#:#grp_visible#:#Gruppe ist sichtbar
+rbac#:#grp_visible#:#Gruppe ist sichtbar
 common#:#grp_wizard_page#:#Gruppe kopieren (Schritt 2/2)
-common#:#grp_write#:#Gruppe bearbeiten
+rbac#:#grp_write#:#Einstellungen der Gruppe und Inhalt bearbeiten
 common#:#guest#:#Gast
 common#:#guests#:#Gäste
 common#:#header_searchable#:#Durchsuchbar
@@ -3476,16 +3462,6 @@ common#:#hist_webr_delete#:#Weblink wurde gelöscht. Titel: "%1"
 common#:#hist_webr_update#:#Weblink wurde aktualisiert. Titel: "%1"
 common#:#history#:#Verlauf
 common#:#hits_per_page#:#Treffer/Seite
-common#:#hlm#:#Lernmodul HACP
-common#:#hlm_added#:#HACP-Lernmodul angelegt
-common#:#hlm_create#:#Neues HACP-Lernmodul anlegen
-common#:#hlm_delete#:#HACP-Lernmodul löschen
-common#:#hlm_edit_permission#:#Rechteeinstellungen ändern
-common#:#hlm_join#:#HACP-Lernmodul abonnieren
-common#:#hlm_leave#:#HACP-Lernmodulabonnement aufheben
-common#:#hlm_read#:#HACP-Lernmodul lesen
-common#:#hlm_visible#:#HACP-Lernmodul ist sichtbar
-common#:#hlm_write#:#HACP-Lernmodul bearbeiten
 common#:#hobby#:#Interessen/Hobbies
 common#:#home#:#Zum öffentlichen Bereich
 common#:#host#:#Host
@@ -3494,15 +3470,15 @@ common#:#hours#:#Stunde(n)
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
 common#:#htlm_add#:#HTML-Lernmodul hinzufügen
-common#:#htlm_copy#:#HTML-Lerneinheit kopieren
-common#:#htlm_delete#:#HTML-Lernmodul löschen
+common#:#htlm_copy#:#HTML-Lernmodul kopieren
+rbac#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
-common#:#htlm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
-common#:#htlm_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#htlm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#htlm_edit_permission#:#Rechteeinstellungen ändern
 common#:#htlm_new#:#Neues HTML-Lernmodul anlegen
-common#:#htlm_read#:#HTML-Lernmodul ansehen
-common#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
-common#:#htlm_write#:#HTML-Lernmodul bearbeiten
+rbac#:#htlm_read#:#HTML-Lernmodul lesen
+rbac#:#htlm_visible#:#HTML-Lernmodul ist sichtbar
+rbac#:#htlm_write#:#HTML-Lernmodul bearbeiten
 common#:#html_block#:#HTML-Block
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Dieser Server unterstützt keine HTTP-Anfragen.
@@ -3682,27 +3658,6 @@ common#:#info_trash#:#Gelöschte Objekte
 common#:#info_view_of_user#:#Benutzer
 common#:#inform_user_mail#:#Benutzer per Mail über Änderungen informieren
 common#:#information_abbr#:#Infos
-common#:#ingmedia_all_offers#:#Alle LE
-common#:#ingmedia_back_to_le#:#Zurück zur Lerneinheit
-common#:#ingmedia_good_afternoon#:#Guten Nachmittag
-common#:#ingmedia_good_evening#:#Guten Abend
-common#:#ingmedia_good_morning#:#Guten Morgen
-common#:#ingmedia_good_night#:#Gute Nacht
-common#:#ingmedia_hello#:#Guten Tag
-common#:#ingmedia_info_about_work1#:#Sie haben hier am
-common#:#ingmedia_info_about_work2#:#zum letzten Mal gearbeitet. Sie können jetzt dort weitermachen, wo Sie damals aufgehört haben:
-common#:#ingmedia_level_zero#:#Eine Ebene nach oben
-common#:#ingmedia_pers_dates#:#Persönliche Daten
-common#:#ingmedia_reg_fo#:#Registrierte Foren
-common#:#ingmedia_reg_le#:#Registrierte LE
-common#:#ingmedia_use_info1#:#Hier können Sie Ihre persönliche Daten ändern. Sie sind NICHT verpflichtet, außer dem INGMEDIA Benutzername und Passwort weitere Daten einzugeben. Alle anderen Felder dürfen Sie mit sonstigen Zeichen füllen.
-common#:#ingmedia_use_info2#:#Der INGMEDIA Benutzername darf KEINE Sonderzeichen sowie Leerzeichen beinhalten! Um INGMEDIA benutzen zu dürfen, müssen Sie mit der Nutzungsvereinbarung einverstanden sein.
-common#:#ingmedia_use_info3#:#Bitte wählen Sie einen, von denen auf der linken Seite eingeblendeten Links, aus.
-common#:#ingmedia_use_title#:#Benutzerdaten ändern
-common#:#ingmedia_user_agree#:#Nutzungsvereinbarung
-common#:#ingmedia_vis_le#:#Besuchte LE
-common#:#ingmedia_visited_le#:#Alle besuchten Lerneinheiten
-common#:#ingmedia_welcome#:#, willkommen an Ihrem persönlichen Schreibtisch!
 common#:#inifile#:#INI-Datei
 common#:#inline_file_extensions#:#Im Browser anzeigbare Dateien
 common#:#inline_file_extensions_info#:#Dateien mit diesen Endungen werden direkt im Browser angezeigt.<br/>Zum Beispiel: <b>gif jpg jpeg mp3 pdf png</b><br/> Alle übrigen Dateien werden zum Herunterladen angeboten.
@@ -3732,7 +3687,7 @@ common#:#is_already_your#:#ist bereits Ihre
 common#:#item#:#Begriff
 common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
-common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
+common#:#java_server_info#:#Wenn aktiviert, kann auch in HTML-Lernmodulen sowie PDF-Dateien gesucht werden.
 common#:#java_server_no_connection#:#Achtung: Es kann keine Verbindung zum Java-Server hergestellt werden.
 common#:#java_server_port#:#Port
 common#:#java_server_readme#:#Zur Installationsanleitung
@@ -3803,7 +3758,7 @@ common#:#licenses#:#Lizenzen
 common#:#link#:#Verknüpfen
 common#:#link_all#:#Alle verknüpfen
 common#:#link_check#:#Externe Links überprüfen
-common#:#link_check_body_top#:#Sie erhalten diese Nachricht, da sie über ungültige Weblinks der folgenden ILIAS Lerneinheiten informiert werden möchten:
+common#:#link_check_body_top#:#Sie erhalten diese Nachricht, da sie über ungültige Weblinks der folgenden ILIAS-Lernmodule informiert werden möchten:
 common#:#link_check_message_b#:#Benachrichtigung aktiv<br />Wenn diese Option ausgewählt ist, werden sie per Mail über ungültige Externe Links benachrichtigt. Voraussetzung ist allerdings, dass der dazugehörige Cron-Job in der Administration aktiviert wurde.
 common#:#link_check_message_disabled#:#Der Versand von Nachrichten ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Nachrichten ist aktiviert.
@@ -3839,26 +3794,26 @@ common#:#lm_add#:#ILIAS-Lernmodul anlegen
 common#:#lm_added#:#ILIAS-Lernmodul angelegt
 common#:#lm_copy#:#ILIAS-Lernmodul kopieren
 common#:#lm_create#:#Neues ILIAS-Lernmodul anlegen
-common#:#lm_delete#:#ILIAS-Lernmodul löschen
-common#:#lm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#lm_delete#:#ILIAS-Lernmodul löschen
+rbac#:#lm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 common#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#ILIAS-Lernmodul abonnieren
 common#:#lm_leave#:#ILIAS-Lernmodulabonnement aufheben
 common#:#lm_new#:#Neues ILIAS-Lernmodul anlegen
-common#:#lm_read#:#ILIAS-Lernmodul lesen
+rbac#:#lm_read#:#ILIAS-Lernmodul lesen
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd/4th Edition
-common#:#lm_visible#:#ILIAS-Lernmodul ist sichtbar
-common#:#lm_write#:#ILIAS-Lernmodul bearbeiten
+rbac#:#lm_visible#:#ILIAS-Lernmodul ist sichtbar
+rbac#:#lm_write#:#ILIAS-Lernmodul bearbeiten
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
 common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
 common#:#lngf_read#:#Lesezugriff auf Spracheinstellungen
 common#:#lngf_visible#:#Spracheinstellungen sind sichtbar
 common#:#lngf_write#:#Schreibzugriff, wird für erweiterte Sprachverwaltung benötigt.
-common#:#lo#:#Lerneinheit
+common#:#lo#:#Lernmodul
 common#:#lo_available#:#Lernmaterialien
 common#:#lo_categories#:#Kategorien
 common#:#lo_edit#:#Lernmodule editieren
@@ -3966,12 +3921,12 @@ common#:#max_time#:#Maximale Zeit
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Mediacast hinzufügen
 common#:#mcst_copy#:#Mediacast kopieren
-common#:#mcst_delete#:#Mediacast löschen
-common#:#mcst_edit_permission#:#Rechteeinstellung ändern
+rbac#:#mcst_delete#:#Mediacast löschen oder verschieben
+rbac#:#mcst_edit_permission#:#Rechteeinstellung ändern
 common#:#mcst_new#:#Neuen Mediacast anlegen
-common#:#mcst_read#:#Mediacast lesen
-common#:#mcst_visible#:#Mediacast ist sichtbar
-common#:#mcst_write#:#Mediacast bearbeiten
+rbac#:#mcst_read#:#Mediacast lesen
+rbac#:#mcst_visible#:#Mediacast ist sichtbar
+rbac#:#mcst_write#:#Inhalt und Einstellungen des Mediacasts bearbeiten
 common#:#mem_add_to_wl#:#Zur Warteliste hinzufügen
 common#:#mem_alert_no_places#:#Es sind keine freien Plätze verfügbar.
 common#:#mem_end#:#Anmeldungsende:
@@ -3998,14 +3953,14 @@ common#:#membership_leave#:#Abmelden
 common#:#mep#:#Medienpool
 common#:#mep_add#:#Medienpool hinzufügen
 common#:#mep_added#:#Medienpool hinzugefügt
-common#:#mep_delete#:#Medienpool löschen
+rbac#:#mep_delete#:#Medienpool löschen oder verschieben
 common#:#mep_edit#:#Eigenschaften des Medienpools bearbeiten
-common#:#mep_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#mep_edit_permission#:#Rechteeinstellungen ändern
 common#:#mep_new#:#Neuen Medienpool anlegen
 common#:#mep_not_insert_already_exist#:#Die folgenden Objekte wurden nicht hinzugefügt, da sie bereits im Medienpool enthalten sind.
-common#:#mep_read#:#Inhalt des Medienpools lesen
-common#:#mep_visible#:#Medienpool ist sichtbar
-common#:#mep_write#:#Inhalt des Medienpools bearbeiten
+rbac#:#mep_read#:#Lesezugriff auf Inhalte des Mediapools
+rbac#:#mep_visible#:#Medienpool ist sichtbar
+rbac#:#mep_write#:#Inhalt und Einstellungen des Medienpools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Nachrichteninhalt
 common#:#message_no_delivered_files#:#Sie haben noch keine Lösungsergebnisse abgegeben!
@@ -4669,16 +4624,16 @@ common#:#publication_date#:#Veröffentlichungsdatum
 common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#purpose#:#Verwendung
-common#:#qpl#:#Fragenpool für Test
+common#:#qpl#:#Fragenpool für Tests
 common#:#qpl_add#:#Fragenpool hinzufügen
-common#:#qpl_copy#:#Fragenpool für Test kopieren
-common#:#qpl_delete#:#Fragenpool löschen
-common#:#qpl_edit_permission#:#Rechteeinstellungen ändern
-common#:#qpl_new#:#Neuer Fragenpool für Test
-common#:#qpl_read#:#Lesezugriff auf Fragenpool
+common#:#qpl_copy#:#Fragenpool kopieren
+rbac#:#qpl_delete#:#Fragenpool löschen oder verschieben
+rbac#:#qpl_edit_permission#:#Rechteeinstellungen ändern
+common#:#qpl_new#:#Neuer Fragenpool für Tests
+rbac#:#qpl_read#:#Fragen im Pool können eingesehen und für Tests übernommen werden
 common#:#qpl_upload_file#:#Datei hochladen
-common#:#qpl_visible#:#Fragenpool ist sichtbar
-common#:#qpl_write#:#Fragenpool bearbeiten
+rbac#:#qpl_visible#:#Fragenpool ist sichtbar
+rbac#:#qpl_write#:#Fragen und Einstellungen des Fragenpools bearbeiten
 common#:#quarterly#:#Vierteljährlich
 common#:#query_data#:#Daten anzeigen
 common#:#question#:#Frage
@@ -4837,17 +4792,17 @@ common#:#sahs#:#Lernmodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
 common#:#sahs_copy#:#Lernmodul SCORM/AICC kopieren
 common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
-common#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen
-common#:#sahs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
-common#:#sahs_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen oder verschieben
+rbac#:#sahs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#sahs_edit_permission#:#Rechteeinstellungen ändern
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
 common#:#sahs_insert_sco_from_clip#:#Füge SCOs aus Zwischenablage ein
 common#:#sahs_join#:#SCORM/AICC-Lernmodul abonnieren
 common#:#sahs_leave#:#SCORM/AICC-Lernmodulabonnement aufheben
-common#:#sahs_read#:#SCORM/AICC-Lernmodul lesen
-common#:#sahs_visible#:#SCORM/AICC-Lernmodul ist sichtbar
-common#:#sahs_write#:#SCORM/AICC-Lernmodul bearbeiten
+rbac#:#sahs_read#:#SCORM/AICC-Lernmodul lesen
+rbac#:#sahs_visible#:#SCORM/AICC-Lernmodul ist sichtbar
+rbac#:#sahs_write#:#Inhalt und Einstellungen des SCORM/AICC-Lernmoduls bearbeiten
 common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
@@ -5050,14 +5005,14 @@ common#:#spacer#:#Trenner
 common#:#spl#:#Fragenpool für Umfrage
 common#:#spl_add#:#Fragenpool hinzufügen
 common#:#spl_copy#:#Fragenpool für Umfrage kopieren
-common#:#spl_delete#:#Fragenpool löschen
-common#:#spl_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#spl_delete#:#Fragenpool löschen oder verschieben
+rbac#:#spl_edit_permission#:#Rechteeinstellungen ändern
 common#:#spl_import#:#Fragenpool für Umfrage importieren
 common#:#spl_new#:#Neuer Fragenpool für Umfrage
-common#:#spl_read#:#Lesezugriff auf Fragenpool
+rbac#:#spl_read#:#Fragen im Pool können eingesehen und für Umfrage übernommen werden
 common#:#spl_upload_file#:#Datei hochladen
-common#:#spl_visible#:#Fragenpool ist sichtbar
-common#:#spl_write#:#Fragenpool kann bearbeitet werden
+rbac#:#spl_visible#:#Fragenpool ist sichtbar
+rbac#:#spl_write#:#Fragen und Einstellungen des Fragenpools bearbeiten
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#ein Kapitel
 common#:#st_add#:#Kapitel anlegen
@@ -5107,22 +5062,22 @@ common#:#survey_unlimited_invitation_desc#:#Erlaubt unbegrenzte Einladung zu Umf
 common#:#svy#:#Umfrage
 common#:#svy_add#:#Umfrage hinzufügen
 common#:#svy_copy#:#Umfrage kopieren
-common#:#svy_delete#:#Umfrage löschen
-common#:#svy_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#svy_delete#:#Umfrage löschen oder verschieben
+rbac#:#svy_edit_permission#:#Rechteeinstellungen ändern
 common#:#svy_evaluation#:#Statistik
 common#:#svy_finished#:#Sie haben bereits an dieser Umfrage teilgenommen
-common#:#svy_invite#:#NutzerInnen zu einer Umfrage einladen
+rbac#:#svy_invite#:#Andere zu einer Umfrage einladen
 common#:#svy_new#:#Neue Umfrage anlegen
 common#:#svy_no_content#:#Es sind keine Umfragen vorhanden.
 common#:#svy_not_finished#:#Sie haben diese Umfrage begonnen, aber noch nicht abgeschlossen
 common#:#svy_not_started#:#Sie haben an dieser Umfrage noch nicht teilgenommen
 common#:#svy_participate#:#An einer Umfrage teilnehmen
-common#:#svy_read#:#Lesezugriff auf Umfrage
+rbac#:#svy_read#:#An Umfrage teilnehmen
 common#:#svy_run#:#Ausführen
 common#:#svy_upload_file#:#Datei hochladen
-common#:#svy_visible#:#Umfrage ist sichtbar
+rbac#:#svy_visible#:#Umfrage ist sichtbar
 common#:#svy_warning_survey_not_complete#:#Die Umfrage ist unvollständig
-common#:#svy_write#:#Umfrage kann bearbeitet werden
+rbac#:#svy_write#:#Umfrage zusammenstellen und Einstellungen bearbeiten
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#Systemsprache wählen
@@ -5222,24 +5177,24 @@ common#:#tst#:#Test
 common#:#tst_add#:#Test hinzufügen
 common#:#tst_anon_eval#:#Resultate
 common#:#tst_copy#:#Test kopieren
-common#:#tst_delete#:#Test löschen
-common#:#tst_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
-common#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
+rbac#:#tst_delete#:#Test löschen oder verschieben
+rbac#:#tst_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_edit_questions#:#Fragen bearbeiten
 common#:#tst_new#:#Neuen Test anlegen
 common#:#tst_no_content#:#Es sind keine Tests vorhanden.
 common#:#tst_random_test_description_warning#:#<br /><b>Dieser Test beinhaltet Fragen, die zu keinem Fragenpool gehören. Wenn Sei zum Modus "Zufallstest" wechseln, gehen diese Fragen verloren.
-common#:#tst_read#:#Lesezugriff auf Test
+rbac#:#tst_read#:#Test durchführen
 common#:#tst_run#:#Ausführen
 common#:#tst_statistical_evaluation#:#Statistik
-common#:#tst_statistics#:#Zugriff auf Teststatistiken
-common#:#tst_tst_statistics#:#Zugriff auf Teststatistiken
+common#:#tst_statistics#:#Statistik
+rbac#:#tst_tst_statistics#:#Zugriff auf Teststatistik
 common#:#tst_upload_file#:#Datei hochladen
 common#:#tst_user_not_invited#:#Sie dürfen an dieser Online-Prüfung nicht teilnehmen.
 common#:#tst_user_wrong_clientip#:#Sie haben nicht die korrekte IP-Adresse, um an der Online-Prüfung teilzunehmen.
-common#:#tst_visible#:#Test ist sichtbar
+rbac#:#tst_visible#:#Test ist sichtbar
 common#:#tst_warning_test_not_complete#:#Der Test ist nicht vollständig!
-common#:#tst_write#:#Test bearbeiten
+rbac#:#tst_write#:#Test zusammenstellen und Einstellungen bearbeiten
 common#:#tutors#:#Tutoren
 common#:#txt_add_object_instruction1#:#Wählen Sie links die Position, an der Sie
 common#:#txt_add_object_instruction2#:#einfügen möchten.
@@ -5458,13 +5413,13 @@ common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Weblink hinzufügen
 common#:#webr_add_item#:#Weblink hinzufügen
 common#:#webr_copy#:#Weblinksammlung kopieren
-common#:#webr_delete#:#Weblinksammlung löschen
-common#:#webr_delete_items#:#Weblinksammlung löschen.
+rbac#:#webr_delete#:#Weblinksammlung löschen
+common#:#webr_delete_items#:#Weblink löschen oder verschieben
 common#:#webr_deleted_items#:#Der/die Weblink(s) wurde(n) gelöscht.
 common#:#webr_disable_check#:#Überprüfung deaktivieren
 common#:#webr_edit#:#Weblink bearbeiten
 common#:#webr_edit_item#:#Weblink bearbeiten
-common#:#webr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#webr_edit_permission#:#Rechteeinstellungen ändern
 common#:#webr_fillout_all#:#Bitte füllen Sie alle Felder aus.
 common#:#webr_item_updated#:#Die Änderungen wurden übernommen
 common#:#webr_join#:#Weblinksammlung abonnieren
@@ -5475,10 +5430,10 @@ common#:#webr_modified_items#:#Die Änderungen wurden übernommen.
 common#:#webr_never_checked#:#Noch nicht überprüft
 common#:#webr_new#:#Neuen Weblink anlegen
 common#:#webr_no_items_created#:#Es sind keine Weblinks angelegt
-common#:#webr_read#:#Lesezugriff auf Weblinks
+rbac#:#webr_read#:#Weblinks aufrufen
 common#:#webr_sure_delete_items#:#Sind Sie sicher, dass Sie die folgenden Weblinks löschen möchten?
-common#:#webr_visible#:#Weblinks sind sichtbar
-common#:#webr_write#:#Weblinks bearbeiten
+rbac#:#webr_visible#:#Weblinks sind sichtbar
+rbac#:#webr_write#:#Einstellungen der Weblinks bearbeiten
 common#:#webservices#:#Web-Services
 common#:#week#:#Woche
 common#:#weekly#:#Wöchentlich
@@ -5490,13 +5445,13 @@ common#:#width_x_height#:#Breite mal Höhe
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Wiki hinzufügen
 common#:#wiki_copy#:#Wiki kopieren
-common#:#wiki_delete#:#Wiki löschen
-common#:#wiki_edit_content#:#Wiki-Seiten bearbeiten
-common#:#wiki_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#wiki_delete#:#Wiki löschen oder verschieben
+rbac#:#wiki_edit_content#:#Wiki-Seiten anlegen und bearbeiten
+rbac#:#wiki_edit_permission#:#Rechteeinstellungen ändern
 common#:#wiki_new#:#Neues Wiki anlegen
-common#:#wiki_read#:#Wiki-Inhalte lesen
-common#:#wiki_visible#:#Wiki ist sichtbar
-common#:#wiki_write#:#Wiki-Einstellungen ändern, Lerner bewerten
+rbac#:#wiki_read#:#Wiki-Inhalte lesen
+rbac#:#wiki_visible#:#Wiki ist sichtbar
+rbac#:#wiki_write#:#Einstellungen des Wikis bearbeiten
 common#:#with#:#mit
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
 common#:#wizard_title_info#:#Bitte geben Sie den Titel des zu kopierenden Objektes ein.
@@ -5882,7 +5837,7 @@ content#:#cont_id_ref#:#identifierref
 content#:#cont_imagemap#:#Image Map
 content#:#cont_import_id#:#identifier
 content#:#cont_import_tracking#:#Protokolldaten importieren
-content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung der Lerneinheit kann trotzdem funktionieren. Allerdings ist es wahrscheinlich, dass die fehlerhaften Seiten nicht editiert werden können.
+content#:#cont_import_validation_errors#:#Bei der Validierung des Lernmoduls sind Fehler aufgetreten. Die Darstellung kann trotzdem funktionieren. Allerdings ist es wahrscheinlich, dass die fehlerhaften Seiten nicht editiert werden können.
 content#:#cont_insert_as_chapter#:#Als Kapitel einfügen
 content#:#cont_insert_as_subchapter#:#Als Unterkapitel einfügen
 content#:#cont_insert_blog#:#Blog-Eintrag hinzufügen
@@ -6728,10 +6683,10 @@ crs#:#crs_no_groupings_assigned#:#Diesem Kurs sind keine Gruppierungen zugeordne
 crs#:#crs_no_groups_selected#:#Sie haben keine Gruppe ausgewählt
 crs#:#crs_no_items_found#:#Es sind keine Objekte vorhanden
 crs#:#crs_no_language#:#Keine Sprache angegeben
-crs#:#crs_no_lm_selected#:#Bitte wählen Sie mindestens eine Lerneinheit aus.
+crs#:#crs_no_lm_selected#:#Bitte wählen Sie mindestens ein Lernmodul aus.
 crs#:#crs_no_lms_assigned#:#Diesem Lernziel sind keine Lernmaterialien zugeordnet.
 crs#:#crs_no_lms_inside_course#:#Keine Lernmaterialien in diesem Kurs gefunden.
-crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lerneinheiten, die diesem Lernziel zugeordnet werden könnten.
+crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lernmodule, die diesem Lernziel zugeordnet werden könnten.
 crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
 crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
 crs#:#crs_no_notify#:#Keine Benachrichtigung bei Beitritten
@@ -6875,9 +6830,9 @@ crs#:#crs_search_members#:#Benutzersuche
 crs#:#crs_search_str#:#Suchbegriff
 crs#:#crs_search_users#:#Benutzer suchen
 crs#:#crs_select_archive_language#:#Bitte wählen Sie eine Sprache, in der das Archiv erstellt werden soll.
-crs#:#crs_select_exactly_one_lm#:#Bitte wählen Sie genau eine Lerneinheit aus.
+crs#:#crs_select_exactly_one_lm#:#Bitte wählen Sie genau ein Lernmodul aus.
 crs#:#crs_select_exactly_one_tst#:#Bitte wählen Sie genau einen Test aus.
-crs#:#crs_select_native_lm#:#Einzelne Kapitel können nur aus ILIAS-Lerneinheiten zugeordnet werden.
+crs#:#crs_select_native_lm#:#Einzelne Kapitel können nur aus ILIAS-Lernmodulen zugeordnet werden.
 crs#:#crs_select_one_archive#:#Bitte wählen Sie genau ein Archiv aus
 crs#:#crs_select_one_object#:#Bitte wählen Sie mindestens ein Objekt aus.
 crs#:#crs_select_registration_type#:#Bitte wählen Sie ein Beitrittsverfahren aus.
@@ -10762,7 +10717,7 @@ search#:#search_lm_meta#:#Lernmaterialien (Metadaten)
 search#:#search_lom#:#LOM Metadaten
 search#:#search_lucene#:#Lucene-Suche
 search#:#search_lucene_host#:#Lucene-Server
-search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lerneinheiten sowie PDF-Dateien gesucht werden.
+search#:#search_lucene_info#:#Wenn aktiviert, kann auch in HTML-Lernmodulen sowie PDF-Dateien gesucht werden.
 search#:#search_lucene_port#:#Lucene-Port
 search#:#search_lucene_readme#:#Zur Installationsanleitung
 search#:#search_meta#:#Metadaten
@@ -12793,4 +12748,17 @@ crs#:#crs_member_passed_status_changed#:#Bestanden Status Änderung
 common#:#obj_hlps#:#Online-Hilfe
 common#:#add_entry#:#Eintragen
 rbac#:#fold_copy#:#Ordner kopieren
-common#:#obj_poll_duplicate#:#Abstimmung kopieren
+rbac#:#frm_copy#:#Forum kopieren
+rbac#:#glo_copy#:#Glossar kopieren
+rbac#:#grp_copy#:#Gruppe kopieren
+rbac#:#htlm_copy#:#HTML-Lernmodul kopieren
+rbac#:#lm_copy#:#ILIAS-Lernmodul kopieren
+rbac#:#mcst_copy#:#Mediacast kopieren
+rbac#:#qpl_copy#:#Fragenpool für Tests kopieren
+rbac#:#sahs_copy#:#SCORM/AICC-Lernmodul kopieren
+rbac#:#sess_copy#:#Sitzung kopieren
+rbac#:#spl_copy#:#Fragenpool für Umfragen kopieren
+rbac#:#spl_copy#:#Umfrage kopieren
+rbac#:#tst_copy#:#Test kopieren
+rbac#:#webr_copy#:#Weblink kopieren
+rbac#:#wiki_copy#:#Wiki kopieren

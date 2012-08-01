@@ -1394,7 +1394,7 @@ chat#:#chat_drop_user#:#User kicked
 chat#:#chat_edit_smiley#:#Edit Smiley
 chat#:#chat_edit#:#Edit chat
 chat#:#chat_empty#:#Empty
-chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
+chat#:#chat_enable_autoscroll#:#Enable Autoscroll
 chat#:#chat_enter_valid_username#:#Please enter a valid username.
 chat#:#chat_export_all#:#No restrictions (all users with access may export)
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
@@ -1432,14 +1432,14 @@ chat#:#chat_level_fatal#:#Fatal
 chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
-chatroom#:#chat_message_notify_activate#:#Chat Notifications
+chat#:#chat_message_notify_activate#:#Chat Notifications
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify
 chat#:#chat_message_notify#:#Message Notifier
 chat#:#chat_messages_deleted#:#Messages have been deleted.
 chat#:#chat_moderator_password#:#Moderator password
 chat#:#chat_navy#:#navy
-chatroom#:#chat_new_invitation_sound_status#:#Play a sound when user receives an invitation to the chat
-chatroom#:#chat_new_message_sound_status#:#Play a sound when a new message has been posted to the chat
+chat#:#chat_new_invitation_sound_status#:#Play a sound when user receives an invitation to the chat
+chat#:#chat_new_message_sound_status#:#Play a sound when a new message has been posted to the chat
 chat#:#chat_new_message#:#New message
 chat#:#chat_no_active_users#:#No further users present.
 chat#:#chat_no_blocked#:#No blocked users available
@@ -1733,16 +1733,6 @@ common#:#all_users#:#All Users
 common#:#allow_assign_users#:#Allow user assignment for local administrators.
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.
 common#:#allow_register#:#Available in registration form for new users
-common#:#alm_added#:#AICC Learning Module added
-common#:#alm_create#:#Create AICC Learning Module
-common#:#alm_delete#:#Delete AICC Learning Module
-common#:#alm_edit_permission#:#Change permission settings
-common#:#alm_join#:#Subscribe to AICC Learning Module
-common#:#alm_leave#:#Unsubscribe from AICC Learning Module
-common#:#alm_read#:#Read access to AICC Learning Module
-common#:#alm_visible#:#AICC Learning Module is visible
-common#:#alm_write#:#Edit AICC Learning Module
-common#:#alm#:#Learning Module AICC
 common#:#already_delivered_files#:#Submitted Files
 common#:#and#:#and
 common#:#announce_changes#:#Announce Changes
@@ -1993,7 +1983,7 @@ rbac#:#cat_create_spl#:#Create Question Pool Survey
 rbac#:#cat_create_svy#:#Create Survey
 rbac#:#cat_create_tst#:#Create Test
 rbac#:#cat_create_webr#:#Create Weblink
-rbac#:#cat_delete#:#User can celete or move category
+rbac#:#cat_delete#:#User can move or delete category
 rbac#:#cat_edit_permission#:#User can change permission settings
 common#:#cat_edit#:#Edit Category
 common#:#cat_new#:#New Category
@@ -2016,13 +2006,6 @@ common#:#catr_edit#:#Edit Category Reference
 common#:#catr_new#:#Create Category Reference
 common#:#catr#:#Category Reference
 common#:#cc#:#CC
-common#:#cen_add#:#Add Centra Event
-common#:#cen_added#:#Centra Event added
-common#:#cen_delete#:#Delete Centra Event
-common#:#cen_edit#:#Edit Centra Event
-common#:#cen_new#:#New Centra Event
-common#:#cen_save#:#Save Centra Event
-common#:#cen#:#Centra Event
 common#:#censorship#:#Censorship
 common#:#centra_account#:#Centra Admin Account
 common#:#centra_rooms#:#Centra Rooms
@@ -2218,8 +2201,8 @@ rbac#:#crs_create_spl#:#Create Question Pool Survey
 rbac#:#crs_create_svy#:#Create Survey
 rbac#:#crs_create_tst#:#Create Test
 rbac#:#crs_create_webr#:#Create Weblink
-rbac#:#crs_delete#:#Delete Course
-rbac#:#crs_edit_learning_progress#:#Edit Learning Progress
+rbac#:#crs_delete#:#User can move or delete course
+rbac#:#crs_edit_learning_progress#:#User can see learning progress of course members and edit learning progress settings
 rbac#:#crs_edit_permission#:#Change permission settings
 common#:#crs_edit#:#Edit Course
 common#:#crs_info#:#Info
@@ -2274,19 +2257,6 @@ common#:#db_pass#:#Database Password
 common#:#db_type#:#Database Type
 common#:#db_user#:#Database User
 common#:#db_version#:#Database Version
-common#:#dbk_a#:#a Digilib Book
-common#:#dbk_add#:#Add Digilib Book
-common#:#dbk_added#:#Digilib Book added
-common#:#dbk_copy#:#Copy Digilib-Book
-common#:#dbk_create#:#Create Digilib Book
-common#:#dbk_delete#:#Delete Digilib Book
-common#:#dbk_edit_learning_progress#:#Edit Learning Progress
-common#:#dbk_edit_permission#:#Change permission settings
-common#:#dbk_new#:#New Digilib Book
-common#:#dbk_read#:#Read access to Digilib Book
-common#:#dbk_visible#:#Digilib Book is visible
-common#:#dbk_write#:#Edit Digilib Book
-common#:#dbk#:#Digilib Book
 common#:#deactivate#:#Set Inactive
 common#:#decrease_attempts#:#Attempts - 1
 common#:#def_repository_view#:#Default repository view
@@ -2446,13 +2416,13 @@ common#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#Create exercise
 common#:#exc_date_not_valid#:#The date is not valid
 common#:#exc_deassign_members#:#Remove Participant(s)
-rbac#:#exc_delete#:#User can delete or move exercise
+rbac#:#exc_delete#:#User can move or delete exercise
 common#:#exc_details#:#Exercise details
 common#:#exc_download_all#:#Download All
 common#:#exc_download_files#:#Download Files
 common#:#exc_download_new#:#Download New
 common#:#exc_edit_exercise#:#Edit exercise
-rbac#:#exc_edit_learning_progress#:#User can edit learning progress
+rbac#:#exc_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
 rbac#:#exc_edit_permission#:#User can change permission settings
 common#:#exc_edit_until#:#Edit Until
 common#:#exc_edit#:#New exercise created
@@ -2626,13 +2596,13 @@ rbac#:#fold_create_spl#:#Create Question Pool Survey
 rbac#:#fold_create_svy#:#Create Survey
 rbac#:#fold_create_tst#:#Create Test
 rbac#:#fold_create_webr#:#Create Weblink
-rbac#:#fold_delete#:#User can delete or move folder
+rbac#:#fold_delete#:#User can move or delete folder
 rbac#:#fold_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
 rbac#:#fold_edit_permission#:#User can change permission settings
 common#:#fold_edit#:#Edit Folder
 common#:#fold_new#:#New Folder
 rbac#:#fold_read#:#User has read access to folder
-common#:#fold_visible#:#Folder is visible
+rbac#:#fold_visible#:#Folder is visible
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 rbac#:#fold_write#:#User can edit settings of folder and manage content
 common#:#fold#:#Folder
@@ -2671,27 +2641,27 @@ common#:#forums_use_alias#:#You may use a pseudonym for your posting. If you lea
 common#:#forums_your_name#:#Your Name
 common#:#forums#:#Forums
 common#:#frm_a#:#a Forum
-common#:#frm_add_post#:#Add new posting
-common#:#frm_add_thread#:#Add new topic
+rbac#:#frm_add_post#:#User can reply to a posting
+rbac#:#frm_add_thread#:#User can add a new topic
 common#:#frm_add#:#Add Forum
 common#:#frm_added#:#Forum added
 common#:#frm_article#:#article
 common#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#Create Forum
 common#:#frm_delete_post#:#Edit and delete postings
-common#:#frm_delete#:#Delete Forum
-common#:#frm_edit_permission#:#Change permission settings
+rbac#:#frm_delete#:#User can move or delete forum
+rbac#:#frm_edit_permission#:#User can change permission settings
 common#:#frm_edit_post#:#Add new posting
 common#:#frm_edit#:#Edit Forum
 common#:#frm_latest_postings#:#Latest Articles
-common#:#frm_moderate_frm#:#Edit and delete postings
+rbac#:#frm_moderate_frm#:#User can edit, censor and delete postings
 common#:#frm_new#:#New Forum
-common#:#frm_read#:#Read access to forum
+rbac#:#frm_read#:#User can read forum content
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
 common#:#frm_status_new#:#Status 'New'
-common#:#frm_visible#:#Forum is visible
-common#:#frm_write#:#Edit forum
+rbac#:#frm_visible#:#Forum is visible
+rbac#:#frm_write#:#User can edit forum settings and moderators
 common#:#frm#:#Forum
 common#:#from#:#From
 common#:#fullname#:#Full name
@@ -2709,8 +2679,8 @@ common#:#glo_add#:#Add Glossary
 common#:#glo_added#:#Glossary added
 common#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#Create Glossary
-common#:#glo_delete#:#Delete Glossary
-common#:#glo_edit_permission#:#Change permission settings
+rbac#:#glo_delete#:#User can move or delete glossary
+rbac#:#glo_edit_permission#:#User can change permission settings
 common#:#glo_join#:#Subscribe to Glossary
 common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
@@ -2719,10 +2689,10 @@ common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (entire subtree)
 common#:#glo_mode#:#Mode
 common#:#glo_new#:#New Glossary
-common#:#glo_read#:#Read access to Glossary
+rbac#:#glo_read#:#User can read glossary content
 common#:#glo_upload_file#:#File
-common#:#glo_visible#:#Glossary is visible
-common#:#glo_write#:#Edit Glossary
+rbac#:#glo_visible#:#Glossary is visible
+rbac#:#glo_write#:#Edit content and settings of glossary
 common#:#glo#:#Glossary
 common#:#global_default#:#Global Default
 common#:#global_fixed#:#Global Fixed
@@ -2788,36 +2758,31 @@ common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from th
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#grp_copy#:#Copy Group
 common#:#grp_count_members#:#Number of members
-common#:#grp_create_alm#:#Create AICC Learning Module
-common#:#grp_create_chat#:#Create Chat
-common#:#grp_create_dbk#:#Create Digilib Book
-common#:#grp_create_exc#:#Create Exercise
-common#:#grp_create_feed#:#Create Web Feed
-common#:#grp_create_file#:#Upload File
-common#:#grp_create_fold#:#Create Folder
-common#:#grp_create_frm#:#Create Forum
-common#:#grp_create_glo#:#Create Glossary
-common#:#grp_create_grp#:#Create Group
-common#:#grp_create_hlm#:#Create HACP Learning Module
-common#:#grp_create_htlm#:#Create HTML Learning Module
-common#:#grp_create_icrs#:#Create LearnLinc Seminar
-common#:#grp_create_lm#:#Create ILIAS Learning Module
-common#:#grp_create_mcst#:#Create Mediacast
-common#:#grp_create_mep#:#Create Media Pool
-common#:#grp_create_qpl#:#Create Question Pool Test
-common#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
-common#:#grp_create_spl#:#Create Question Pool Survey
-common#:#grp_create_svy#:#Create Survey
-common#:#grp_create_tst#:#Create Test
-common#:#grp_create_webr#:#Create Weblink
-common#:#grp_create_write#:#Create Wiki
+rbac#:#grp_create_exc#:#Create Exercise
+rbac#:#grp_create_feed#:#Create Web Feed
+rbac#:#grp_create_file#:#Upload File
+rbac#:#grp_create_fold#:#Create Folder
+rbac#:#grp_create_frm#:#Create Forum
+rbac#:#grp_create_glo#:#Create Glossary
+rbac#:#grp_create_grp#:#Create Group
+rbac#:#grp_create_htlm#:#Create HTML Learning Module
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar
+rbac#:#grp_create_lm#:#Create ILIAS Learning Module
+rbac#:#grp_create_mcst#:#Create Mediacast
+rbac#:#grp_create_mep#:#Create Media Pool
+rbac#:#grp_create_qpl#:#Create Question Pool Test
+rbac#:#grp_create_sahs#:#Create SCORM/AICC Learning Module
+rbac#:#grp_create_spl#:#Create Question Pool Survey
+rbac#:#grp_create_svy#:#Create Survey
+rbac#:#grp_create_tst#:#Create Test
+rbac#:#grp_create_webr#:#Create Weblink
 common#:#grp_create#:#Create Group
-common#:#grp_delete#:#Delete Group
+rbac#:#grp_delete#:#User can move or delete group
 common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to leave the group?
-common#:#grp_edit_learning_progress#:#Edit Learning Progress
-common#:#grp_edit_permission#:#Change permission settings
+rbac#:#grp_edit_learning_progress#:#User can see learning progress of group members and edit learning progress settings
+rbac#:#grp_edit_permission#:#User can change permission settings
 common#:#grp_edit#:#Edit Group
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Each group needs at least one group administrator
@@ -2827,8 +2792,8 @@ common#:#grp_err_member_could_not_be_removed#:#Member could not be removed. Plea
 common#:#grp_err_no_permission#:#You do not possess the permissions for this operation.
 common#:#grp_err_registration_data#:#Please enter a password, the expiration date and time for a valid joining period !
 common#:#grp_header_edit_members#:#Edit members
-common#:#grp_join#:#User may join Group
-common#:#grp_leave#:#User may leave Group
+rbac#:#grp_join#:#User can join group
+rbac#:#grp_leave#:#User can unsubscribe from group
 common#:#grp_list_users#:#List users
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.
@@ -2849,7 +2814,7 @@ common#:#grp_no_groups_selected#:#Please select a group
 common#:#grp_no_results_found#:#No results found
 common#:#grp_no_roles_selected#:#Please select a role
 common#:#grp_options#:#Options
-common#:#grp_read#:#Read access to Group
+rbac#:#grp_read#:#User has read access to group
 common#:#grp_register#:#Join
 common#:#grp_registration_completed#:#You have joined the group
 common#:#grp_registration#:#Join Group
@@ -2858,9 +2823,9 @@ common#:#grp_search_enter_search_string#:#Please enter a search string
 common#:#grp_search_members#:#User search
 common#:#grp_select_one_file_only#:#Please select exactly one file.
 common#:#grp_select_one_file#:#Please select one file.
-common#:#grp_visible#:#Group is visible
+rbac#:#grp_visible#:#Group is visible
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
-common#:#grp_write#:#Edit Group
+rbac#:#grp_write#:#User can edit settings of group and manage content
 common#:#grp#:#Group
 common#:#guest#:#Guest
 common#:#guests#:#Guests
@@ -2909,16 +2874,6 @@ common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
 common#:#hist_webr_update#:#Modified Weblink with title: "%1"
 common#:#history#:#History
 common#:#hits_per_page#:#Hits/Page
-common#:#hlm_added#:#HACP Learning Module added
-common#:#hlm_create#:#Create HACP Learning Module
-common#:#hlm_delete#:#Delete HACP Learning Module
-common#:#hlm_edit_permission#:#Change permission settings
-common#:#hlm_join#:#Subscribe to HACP Learning Module
-common#:#hlm_leave#:#Unsubscribe from HACP Learning Module
-common#:#hlm_read#:#Read access to HACP Learning Module
-common#:#hlm_visible#:#HACP Learning Module is visible
-common#:#hlm_write#:#Edit HACP Learning Module
-common#:#hlm#:#Learning Module HACP
 common#:#hobby#:#Interests/Hobbies
 common#:#home#:#Public Area
 common#:#host#:#Host
@@ -2927,18 +2882,18 @@ common#:#hours_of_day#:#Hours of day
 common#:#hours#:#Hour(s)
 common#:#htlm_add#:#Add HTML Learning Module
 common#:#htlm_copy#:#Copy HTML Learning Module
-common#:#htlm_delete#:#Delete HTML Learning Module
-common#:#htlm_edit_learning_progress#:#Edit Learning Progress
-common#:#htlm_edit_permission#:#Change permission settings
+rbac#:#htlm_delete#:#User can move or delete HTML learning module
+rbac#:#htlm_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#htlm_edit_permission#:#User can change permission settings
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
 common#:#htlm_new#:#New HTML Learning Module
-common#:#htlm_read#:#Read HTML Learning Module
-common#:#htlm_visible#:#HTML Learning Module is visible
-common#:#htlm_write#:#Edit HTML Learning Module
+rbac#:#htlm_read#:#User can read HTML learning module
+rbac#:#htlm_visible#:#HTML learning module is visible
+rbac#:#htlm_write#:#User can edit content and settings of HTML learning module
 common#:#htlm#:#Learning Module HTML
 common#:#html_block#:#HTML Block
 common#:#http_not_possible#:#This server is not supporting http requests.
-common#:#http_path#:#Http Path
+common#:#http_path#:#HTTP Path
 common#:#http#:#HTTP
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#i2passwd#:#ILIAS 2 password
@@ -3059,7 +3014,6 @@ common#:#import_forum_finished#:#The forum has been imported.
 common#:#import_glossary#:#Import Glossary
 common#:#import_grp_finished#:#Imported group without any error
 common#:#import_grp#:#Import Group
-common#:#import_hlm#:#Import HACP Package
 common#:#import_lm#:#Import ILIAS Learning module
 common#:#import_qpl#:#Import Question Pool Test
 common#:#import_questions_into_qpl#:#Import question(s) into question pool
@@ -3261,19 +3215,19 @@ common#:#lm_add#:#Add ILIAS Learning Module
 common#:#lm_added#:#ILIAS Learning Module added
 common#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#Create ILIAS Learning Module
-common#:#lm_delete#:#Delete ILIAS Learning Module
-common#:#lm_edit_learning_progress#:#Edit Learning Progress
+rbac#:#lm_delete#:#User can move or delete ILIAS learning module
+rbac#:#lm_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
 common#:#lm_edit_permission#:#Change permission settings
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
 common#:#lm_new#:#New ILIAS Learning Module
-common#:#lm_read#:#Read access to ILIAS Learning Module
+rbac#:#lm_read#:#User can read ILIAS learning module
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd/4th Edition
-common#:#lm_visible#:#ILIAS Learning Module is visible
-common#:#lm_write#:#Edit ILIAS Learning Module
+rbac#:#lm_visible#:#ILIAS Learning Module is visible
+rbac#:#lm_write#:#User can edit content and settings of ILIAS learning module
 common#:#lm#:#Learning Module ILIAS
 common#:#lng#:#Language
 common#:#lngf_edit_permission#:#Change permission settings
@@ -3383,12 +3337,12 @@ common#:#max_number_rec#:#Maximum number of records
 common#:#max_time#:#Maximum time
 common#:#mcst_add#:#Add Mediacast
 common#:#mcst_copy#:#Copy Mediacast
-common#:#mcst_delete#:#Delete Mediacast
-common#:#mcst_edit_permission#:#Change permission settings
+rbac#:#mcst_delete#:#User can move or delete mediacast
+rbac#:#mcst_edit_permission#:#User can change permission settings
 common#:#mcst_new#:#New Mediacast
-common#:#mcst_read#:#Read access to Mediacast
-common#:#mcst_visible#:#Mediacast is visible
-common#:#mcst_write#:#Edit Mediacast
+rbac#:#mcst_read#:#User can read mediacast
+rbac#:#mcst_visible#:#Mediacast is visible
+rbac#:#mcst_write#:#Edit content and settings of mediacast
 common#:#mcst#:#Mediacast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
@@ -3415,14 +3369,14 @@ common#:#membership_annulled#:#Your membership has been cancelled
 common#:#membership_leave#:#Leave
 common#:#mep_add#:#Add Media Pool
 common#:#mep_added#:#Added Media Pool
-common#:#mep_delete#:#Delete Media Pool
-common#:#mep_edit_permission#:#Change permission settings
+rbac#:#mep_delete#:#User can move or delete media pool
+rbac#:#mep_edit_permission#:#User can change permission settings
 common#:#mep_edit#:#Edit Media Pool Properties
 common#:#mep_new#:#New Media Pool
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
-common#:#mep_read#:#Read Media Pool Content
-common#:#mep_visible#:#Media Pool is visible
-common#:#mep_write#:#Edit Media Pool Content
+rbac#:#mep_read#:#User has read access on content of media pool
+rbac#:#mep_visible#:#Media pool is visible
+rbac#:#mep_write#:#User can edit content and settings of media pool
 common#:#mep#:#Media Pool
 common#:#message_content#:#Message Content
 common#:#message_no_delivered_files#:#You have not submitted any files.
@@ -3724,7 +3678,6 @@ common#:#obj_glo#:#Glossary
 common#:#obj_grp_duplicate#:#Copy Group
 common#:#obj_grp_select#:#-- Please select one Group --
 common#:#obj_grp#:#Group
-common#:#obj_hlm#:#Learning Module HACP
 common#:#obj_htlm#:#Learning Module HTML
 common#:#obj_icla#:#LearnLinc Classroom
 common#:#obj_icrs#:#LearnLinc Seminar
@@ -3845,7 +3798,6 @@ common#:#objs_fold#:#Folders
 common#:#objs_frm#:#Forums
 common#:#objs_glo#:#Glossaries
 common#:#objs_grp#:#Groups
-common#:#objs_hlm#:#HACP Learning Modules
 common#:#objs_htlm#:#HTML Learning Modules
 common#:#objs_icla#:#LearnLinc Classrooms
 common#:#objs_icrs#:#LearnLinc Seminars
@@ -4048,14 +4000,14 @@ common#:#published#:#Published
 common#:#publishing_organisation#:#Publishing Organization
 common#:#purpose#:#Purpose
 common#:#qpl_add#:#Add Question Pool Test
-common#:#qpl_copy#:#Copy Test Question Pool
-common#:#qpl_delete#:#Delete Question Pool Test
-common#:#qpl_edit_permission#:#Change permission settings
+common#:#qpl_copy#:#Copy Question Pool Test
+rbac#:#qpl_delete#:#User can move or delete question pool
+rbac#:#qpl_edit_permission#:#User can change permission settings
 common#:#qpl_new#:#New Question Pool Test
-common#:#qpl_read#:#Read access to Question Pool Test
+rbac#:#qpl_read#:#User can read test questions in pool and insert them in tests
 common#:#qpl_upload_file#:#Upload file
-common#:#qpl_visible#:#Question Pool Test is visible
-common#:#qpl_write#:#Edit Question Pool Test
+rbac#:#qpl_visible#:#Question pool is visible
+rbac#:#qpl_write#:#User can edit test questions and settings of question pool
 common#:#qpl#:#Question Pool Test
 common#:#quarterly#:#quarterly
 common#:#query_data#:#Query data
@@ -4211,17 +4163,17 @@ common#:#rte_editor_enabled#:#Rich Text Editor enabled
 common#:#sahs_added#:#SCORM/AICC Learning Module added
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
-common#:#sahs_delete#:#Delete SCORM/AICC Learning Module
-common#:#sahs_edit_learning_progress#:#Edit Learning Progress
-common#:#sahs_edit_permission#:#Change permission settings
+rbac#:#sahs_delete#:#User can move or delete SCORM/AICC learning module
+rbac#:#sahs_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#sahs_edit_permission#:#User can change permission settings
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
-common#:#sahs_visible#:#SCORM/AICC Learning Module is visible
-common#:#sahs_write#:#Edit SCORM/AICC Learning Module
+rbac#:#sahs_read#:#Read SCORM/AICC learning module
+rbac#:#sahs_visible#:#SCORM/AICC learning module is visible
+rbac#:#sahs_write#:#Edit content and settings of SCORM/AICC learning module
 common#:#sahs#:#Learning Module SCORM/AICC
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -4397,13 +4349,13 @@ common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Spacer
 common#:#spl_add#:#Add Question Pool Survey
 common#:#spl_copy#:#Copy Survey Question Pool
-common#:#spl_delete#:#Delete Question Pool Survey
-common#:#spl_edit_permission#:#Change permission settings
+rbac#:#spl_delete#:#User can move or delete question pool
+rbac#:#spl_edit_permission#:#User can change permission settings
 common#:#spl_new#:#New Question Pool Survey
-common#:#spl_read#:#Read access to Question Pool Survey
+rbac#:#spl_read#:#User can read survey questions in pool and insert them in survey
 common#:#spl_upload_file#:#Upload file
-common#:#spl_visible#:#Question Pool Survey is visible
-common#:#spl_write#:#Edit Question Pool Survey
+rbac#:#spl_visible#:#Question pool is visible
+rbac#:#spl_write#:#User can edit survey questions and settings of question pool
 common#:#spl#:#Question Pool Survey
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#a chapter
@@ -4452,22 +4404,22 @@ common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surve
 common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#svy_add#:#Add survey
 common#:#svy_copy#:#Copy Survey
-common#:#svy_delete#:#Delete survey
-common#:#svy_edit_permission#:#Change permission settings
+rbac#:#svy_delete#:#User can move or delete survey
+rbac#:#svy_edit_permission#:#User can change permission settings
 common#:#svy_evaluation#:#Statistics
 common#:#svy_finished#:#You have completed the survey
-common#:#svy_invite#:#Invite users to a survey
+rbac#:#svy_invite#:#User can invite others to a survey
 common#:#svy_new#:#New survey
 common#:#svy_no_content#:#No surveys available
 common#:#svy_not_finished#:#The survey has not been completed yet
 common#:#svy_not_started#:#You did not take part in this survey
 common#:#svy_participate#:#Participate in a survey
-common#:#svy_read#:#Read access to survey
+rbac#:#svy_read#:#Participate at a survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Upload file
-common#:#svy_visible#:#Survey is visible
+rbac#:#svy_visible#:#Survey is visible
 common#:#svy_warning_survey_not_complete#:#The survey is incomplete
-common#:#svy_write#:#Edit survey
+rbac#:#svy_write#:#Edit content and settings of survey
 common#:#svy#:#Survey
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -4564,21 +4516,21 @@ common#:#treeview#:#Show Sidebar
 common#:#tst_add#:#Add test
 common#:#tst_anon_eval#:#Results
 common#:#tst_copy#:#Copy Test
-common#:#tst_delete#:#Delete Test
-common#:#tst_edit_learning_progress#:#Edit Learning Progress
-common#:#tst_edit_permission#:#Change permission settings
+rbac#:#tst_delete#:#User can move or delete test
+rbac#:#tst_edit_learning_progress#:#User can see learning progress of test participants and edit learning progress settings
+rbac#:#tst_edit_permission#:#User can change permission settings
 common#:#tst_new#:#New test
 common#:#tst_no_content#:#No tests available
-common#:#tst_read#:#Read access to Test
+rbac#:#tst_read#:#User can perform the test
 common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistics
-common#:#tst_statistics#:#Access to Test Statistics
+common#:#tst_statistics#:#Statistics
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
-common#:#tst_visible#:#Test is visible
+rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
-common#:#tst_write#:#Edit Test
+rbac#:#tst_write#:#Edit content and settings of test
 common#:#tst#:#Test
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
@@ -4793,11 +4745,11 @@ common#:#webr_add_item#:#Add Weblink
 common#:#webr_add#:#Add Weblink
 common#:#webr_copy#:#Copy Weblink
 common#:#webr_delete_items#:#Delete Weblink(s)
-common#:#webr_delete#:#Delete Weblink list
+rbac#:#webr_delete#:#User can move or delete weblink
 common#:#webr_deleted_items#:#Deleted Weblink(s).
 common#:#webr_disable_check#:#Disable Validation
 common#:#webr_edit_item#:#Edit Weblink
-common#:#webr_edit_permission#:#Change permission settings
+rbac#:#webr_edit_permission#:#User can change permission settings
 common#:#webr_edit#:#Edit Weblink
 common#:#webr_fillout_all#:#Please fill out all required fields.
 common#:#webr_item_updated#:#Saved modifications
@@ -4809,10 +4761,10 @@ common#:#webr_modified_items#:#Saved modifications.
 common#:#webr_never_checked#:#Never checked
 common#:#webr_new#:#Add New Weblink
 common#:#webr_no_items_created#:#No Weblinks created
-common#:#webr_read#:#Read access to Weblinks
+rbac#:#webr_read#:#User can read and use weblinks
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Weblink(s)?
-common#:#webr_visible#:#Weblink is visible
-common#:#webr_write#:#Edit Weblinks
+rbac#:#webr_visible#:#Weblink is visible
+rbac#:#webr_write#:#User can edit settings of weblinks
 common#:#webr#:#Weblink
 common#:#webservices#:#Webservices
 common#:#week#:#Week
@@ -4824,13 +4776,13 @@ common#:#width_x_height#:#Width x Height
 common#:#width#:#Width
 common#:#wiki_add#:#Add Wiki
 common#:#wiki_copy#:#Copy Wiki
-common#:#wiki_delete#:#Delete Wiki
-common#:#wiki_edit_content#:#Edit Wiki Pages
-common#:#wiki_edit_permission#:#Change permission settings
+rbac#:#wiki_delete#:#User can move or delete wiki
+rbac#:#wiki_edit_content#:#User can create and edit wiki pages
+rbac#:#wiki_edit_permission#:#User can change permission settings
 common#:#wiki_new#:#New Wiki
-common#:#wiki_read#:#Read Wiki
-common#:#wiki_visible#:#Wiki is visible
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+rbac#:#wiki_read#:#User can read wiki content
+rbac#:#wiki_visible#:#Wiki is visible
+rbac#:#wiki_write#:#User can edit settings of wiki
 common#:#wiki#:#Wiki
 common#:#with#:#with
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
@@ -8813,7 +8765,7 @@ rbac#:#cat_create_crsr#:#Create Course Reference
 rbac#:#cat_create_rcrs#:#Create ECS Course-Link
 rbac#:#cat_create_wiki#:#Create Wiki
 common#:#catr_copy#:#Copy Category Reference
-rbac#:#catr_delete#:#User can delete or move category reference
+rbac#:#catr_delete#:#User can move or delete category reference
 rbac#:#catr_edit_permission#:#User can change permission settings
 rbac#:#catr_read#:#Read access to Category Reference
 rbac#:#catr_visible#:#Category reference is visible
@@ -8884,7 +8836,7 @@ rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to t
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
-rbac#:#rcrs_delete#:#Delete ECS Course-Link
+rbac#:#rcrs_delete#:#User can move or delete ECS course link
 rbac#:#rcrs_edit_permission#:#Change permission settings
 rbac#:#rcrs_read#:#Read access to ECS Course-Link
 rbac#:#rcrs_visible#:#ECS Course-Link is visible
@@ -8917,7 +8869,7 @@ rbac#:#root_create_svy#:#Create Survey
 rbac#:#root_create_tst#:#Create Test
 rbac#:#root_create_webr#:#Create Weblink
 rbac#:#root_create_wiki#:#Create Wiki
-rbac#:#sess_delete#:#Delete Session
+rbac#:#sess_delete#:#User can move or delete session
 rbac#:#sess_edit_event#:#Edit Calendar Events
 rbac#:#sess_edit_permission#:#Change Permission Settings
 rbac#:#sess_read#:#Read access to Sessions
@@ -12376,7 +12328,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen
 common#:#attach_sr_invoice#:#An Email anhängen
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email
-common#:#tst_tst_statistics#:#Access to Test Statistics
+rbac#:#tst_tst_statistics#:#User has access to test statistics
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.
@@ -12913,4 +12865,17 @@ help#:#help_module_uploaded#:#Help package uploaded.
 common#:#add_entry#:#Add entry
 rbac#:#fold_copy#:#User can copy folder
 rbac#:#fold_create_poll#:#Create Poll
-common#:#obj_poll_duplicate#:#Copy Poll
+rbac#:#frm_copy#:#User can copy forum
+rbac#:#glo_copy#:#User can copy glossary
+rbac#:#grp#:#User can copy group
+rbac#:#htlm_copy#:#User can copy HTML learning module
+rbac#:#lm_copy#:#User can copy ILIAS learning module
+rbac#:#mcst_copy#:#User can copy mediacast
+rbac#:#qpl_copy#:#User can copy question pool for tests
+rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module
+rbac#:#sess_copy#:#User can copy session
+rbac#:#spl_copy#:#User can copy question pool for surveys
+rbac#:#svy_copy#:#User can copy survey
+rbac#:#tst_copy#:#User can copy test
+rbac#:#webr_copy#:#User can copy weblink
+rbac#:#wiki_copy#:#User can copy wiki

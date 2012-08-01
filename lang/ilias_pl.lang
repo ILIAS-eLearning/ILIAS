@@ -3152,7 +3152,7 @@ rbac#:#fold_edit_permission#:#Zmiana ustawienia uprawnień
 common#:#fold_new#:#Nowy Folder
 rbac#:#fold_read#:#Prawo czytania Folderu
 common#:#fold_type#:#Folder Type
-common#:#fold_visible#:#Folder jest widoczny
+rbac#:#fold_visible#:#Folder jest widoczny
 common#:#fold_wizard_page#:#Kopiuj Folder (etap 2/2)
 rbac#:#fold_write#:#Edycja Folderu
 common#:#folder#:#Folder
@@ -3193,26 +3193,26 @@ common#:#forums_your_name#:#Twoja nazwa
 common#:#frm#:#Forum
 common#:#frm_a#:#Forum
 common#:#frm_add#:#Dodaj Forum
-common#:#frm_add_post#:#Add new post
-common#:#frm_add_thread#:#Dodaj nowy temat
+rbac#:#frm_add_post#:#Add new post
+rbac#:#frm_add_thread#:#Dodaj nowy temat
 common#:#frm_added#:#Forum dodane
 common#:#frm_article#:#Artykuł
 common#:#frm_copy#:#Kopiuj Forum
 common#:#frm_create#:#Twórz Forum
-common#:#frm_delete#:#Usuń Forum
+rbac#:#frm_delete#:#Usuń Forum
 common#:#frm_delete_post#:#Usuń wiadomość
 common#:#frm_edit#:#Edytuj Forum
-common#:#frm_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#frm_edit_permission#:#Zmień ustawienia uprawnień
 common#:#frm_edit_post#:#Edytuj wiadomość
 common#:#frm_latest_postings#:#Ostatnie artykuły
-common#:#frm_moderate_frm#:#Usuń post, cenzura
+rbac#:#frm_moderate_frm#:#Usuń post, cenzura
 common#:#frm_new#:#Nowe Forum
-common#:#frm_read#:#Prawo czytania Forum
+rbac#:#frm_read#:#Prawo czytania Forum
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new#:#Status 'Nowy'
 common#:#frm_status_new_desc#:#Wybierz okres jak długo ma być utrzymywany status 'Nowy' dla wpisów w forum.
-common#:#frm_visible#:#Forum jest widoczne
-common#:#frm_write#:#Edycja Forum
+rbac#:#frm_visible#:#Forum jest widoczne
+rbac#:#frm_write#:#Edycja Forum
 common#:#frma_edit_permission#:#Change permission settings
 common#:#frma_read#:#Read access to Forum Administration
 common#:#frma_visible#:#Forum Administration is visible
@@ -3234,8 +3234,8 @@ common#:#glo_add#:#Dodaj słownik
 common#:#glo_added#:#Słownik został dodany
 common#:#glo_copy#:#Kopiuj Słownik
 common#:#glo_create#:#Twórz Słownik
-common#:#glo_delete#:#Usuń Słownik
-common#:#glo_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#glo_delete#:#Usuń Słownik
+rbac#:#glo_edit_permission#:#Zmień ustawienia uprawnień
 common#:#glo_import#:#Import Glossary
 common#:#glo_join#:#Subskrybuj Słownik
 common#:#glo_leave#:#Rezygnuję z subskrypcji Słownika
@@ -3245,10 +3245,10 @@ common#:#glo_mode_level#:#wirtualny (tylko ten sam poziom)
 common#:#glo_mode_normal#:#normalny
 common#:#glo_mode_subtree#:#wirtualny (zawiera też poziomy poniżej)
 common#:#glo_new#:#Nowy Słownik
-common#:#glo_read#:#Prawo czytania Słownika
+rbac#:#glo_read#:#Prawo czytania Słownika
 common#:#glo_upload_file#:#Plik
-common#:#glo_visible#:#Słownik jest widoczny
-common#:#glo_write#:#Edycja Słownika
+rbac#:#glo_visible#:#Słownik jest widoczny
+rbac#:#glo_write#:#Edycja Słownika
 common#:#global#:#Globalny
 common#:#global_default#:#Domyślne ustawienia globalne
 common#:#global_fixed#:#Ustawienia globalne zapisane
@@ -3318,33 +3318,33 @@ common#:#grp_create#:#Twórz Grupę
 common#:#grp_create_alm#:#Twórz Moduł Nauczania AICC
 common#:#grp_create_chat#:#Twórz czat
 common#:#grp_create_dbk#:#Twórz Książkę Cyfrową
-common#:#grp_create_exc#:#Twórz Ćwiczenie
-common#:#grp_create_feed#:#Utwórz Web Feed
-common#:#grp_create_file#:#Użytkownik może przysyłać pliki
-common#:#grp_create_fold#:#Użytkownik może tworzyć foldery
-common#:#grp_create_frm#:#Twórz Forum
-common#:#grp_create_glo#:#Twórz Słownik
-common#:#grp_create_grp#:#Twórz grupę
+rbac#:#grp_create_exc#:#Twórz Ćwiczenie
+rbac#:#grp_create_feed#:#Utwórz Web Feed
+rbac#:#grp_create_file#:#Użytkownik może przysyłać pliki
+rbac#:#grp_create_fold#:#Użytkownik może tworzyć foldery
+rbac#:#grp_create_frm#:#Twórz Forum
+rbac#:#grp_create_glo#:#Twórz Słownik
+rbac#:#grp_create_grp#:#Twórz grupę
 common#:#grp_create_hlm#:#Twórz Moduł Nauczania HACP
-common#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
-common#:#grp_create_icrs#:#Twórz seminarium LearnLinc
-common#:#grp_create_lm#:#Twórz Moduł Nauczania
-common#:#grp_create_mcst#:#Utwórz MediaCast
-common#:#grp_create_mep#:#Twórz Pulę Mediów
-common#:#grp_create_qpl#:#Twórz pulę pytań dla Testów
-common#:#grp_create_sahs#:#Twórz moduł nauczania SCORM/AICC
-common#:#grp_create_spl#:#Twórz pulę pytań dla Ankiet
-common#:#grp_create_svy#:#Twórz Ankietę
-common#:#grp_create_tst#:#Twórz Test
-common#:#grp_create_webr#:#Twórz nowy zasób web
+rbac#:#grp_create_htlm#:#Twórz Moduł Nauczania HTML
+rbac#:#grp_create_icrs#:#Twórz seminarium LearnLinc
+rbac#:#grp_create_lm#:#Twórz Moduł Nauczania
+rbac#:#grp_create_mcst#:#Utwórz MediaCast
+rbac#:#grp_create_mep#:#Twórz Pulę Mediów
+rbac#:#grp_create_qpl#:#Twórz pulę pytań dla Testów
+rbac#:#grp_create_sahs#:#Twórz moduł nauczania SCORM/AICC
+rbac#:#grp_create_spl#:#Twórz pulę pytań dla Ankiet
+rbac#:#grp_create_svy#:#Twórz Ankietę
+rbac#:#grp_create_tst#:#Twórz Test
+rbac#:#grp_create_webr#:#Twórz nowy zasób web
 common#:#grp_create_write#:#Create Wiki
-common#:#grp_delete#:#Usuń Grupę
+rbac#:#grp_delete#:#Usuń Grupę
 common#:#grp_deleted_export_files#:#Usunięto wybrane pliki.
 common#:#grp_dismiss_member#:#Czy jesteś pewien, że chcesz usunąć następujących członków z grupy?
 common#:#grp_dismiss_myself#:#Czy jesteś pewien, że chcesz usunąć siebie z grupy?
 common#:#grp_edit#:#Edytuj Grupę
-common#:#grp_edit_learning_progress#:#Edytuj proces nauczania
-common#:#grp_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#grp_edit_learning_progress#:#Edytuj proces nauczania
+rbac#:#grp_edit_permission#:#Zmień ustawienia uprawnień
 common#:#grp_err_administrator_required#:#Ten członek grupy nie może być usunięty, powinien być conajmniej jeden admninistrator grupy!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Każda grupa musi mieć conajmniej jednego administratora grupy.
 common#:#grp_err_error#:#Wystąpił błąd
@@ -3353,8 +3353,8 @@ common#:#grp_err_member_could_not_be_removed#:#Członek grupy nie może być usu
 common#:#grp_err_no_permission#:#Nie masz uprawnień do wykonania tej operacji.
 common#:#grp_err_registration_data#:#Podaj hasło, datę i czas ważności dla okresu rejestracji!
 common#:#grp_header_edit_members#:#Edycja członków
-common#:#grp_join#:#Użytkownik może wstąpić do grupy
-common#:#grp_leave#:#Użytkownik może opuścić grupę
+rbac#:#grp_join#:#Użytkownik może wstąpić do grupy
+rbac#:#grp_leave#:#Użytkownik może opuścić grupę
 common#:#grp_list_users#:#Lista użytkowników
 common#:#grp_mail_body_new_subscription#:#Zostałeś zapisany do tej grupy.
 common#:#grp_mail_body_subscription_cancelled#:#Twoje członkostwo zostało anulowane.
@@ -3375,7 +3375,7 @@ common#:#grp_no_groups_selected#:#Nie wybrano grupy
 common#:#grp_no_results_found#:#Brak rezultatów
 common#:#grp_no_roles_selected#:#Nie wybrano Roli
 common#:#grp_options#:#Opcje
-common#:#grp_read#:#Prawo czytania Grupy
+rbac#:#grp_read#:#Prawo czytania Grupy
 common#:#grp_register#:#Zarejestruj się
 common#:#grp_registration#:#Wstąp do grupy
 common#:#grp_registration_completed#:#Rejestracja dokonana
@@ -3384,9 +3384,9 @@ common#:#grp_search_enter_search_string#:#Podaj szukaną frazę
 common#:#grp_search_members#:#Szukanie użytkownika
 common#:#grp_select_one_file#:#Wybierz jeden plik.
 common#:#grp_select_one_file_only#:#Wybierz dokładnie jeden plik.
-common#:#grp_visible#:#Grupa jest widoczna
+rbac#:#grp_visible#:#Grupa jest widoczna
 common#:#grp_wizard_page#:#Kopiuj Grupę (etap 2/2)
-common#:#grp_write#:#Edycja Grupy
+rbac#:#grp_write#:#Edycja Grupy
 common#:#guest#:#Gość
 common#:#guests#:#Goście
 common#:#header_searchable#:#Przeszukiwane
@@ -3450,14 +3450,14 @@ common#:#hours_of_day#:#Godziny dnia
 common#:#htlm#:#Moduł Nauczania HTML
 common#:#htlm_add#:#dodajModuł Nauczania HTML
 common#:#htlm_copy#:#Kopiuj moduł nauczania HTML
-common#:#htlm_delete#:#Usuń Moduł Nauczania HTML
+rbac#:#htlm_delete#:#Usuń Moduł Nauczania HTML
 common#:#htlm_edit#:#Edytuj właściwości Modułu Nauczania HTML
-common#:#htlm_edit_learning_progress#:#Edycja postępu nauczania
-common#:#htlm_edit_permission#:#Zmiana uprawnień dostępu
+rbac#:#htlm_edit_learning_progress#:#Edycja postępu nauczania
+rbac#:#htlm_edit_permission#:#Zmiana uprawnień dostępu
 common#:#htlm_new#:#Nowy Moduł Nauczania HTML
-common#:#htlm_read#:#Czytanie Modułu Nauczania HTML
-common#:#htlm_visible#:#Moduł Nauczania HTML jest widoczny
-common#:#htlm_write#:#Edycja Modułu Nauczania HTML
+rbac#:#htlm_read#:#Czytanie Modułu Nauczania HTML
+rbac#:#htlm_visible#:#Moduł Nauczania HTML jest widoczny
+rbac#:#htlm_write#:#Edycja Modułu Nauczania HTML
 common#:#html_block#:#Blok HTML
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Ten serwer nie obsługuje wywołań http.
@@ -3822,19 +3822,19 @@ common#:#lm_add#:#Dodaj moduł nauczania
 common#:#lm_added#:#Moduł nauczania został dodany
 common#:#lm_copy#:#Kopiuj moduł nauczania ILIAS
 common#:#lm_create#:#Twórz Moduł Nauczania
-common#:#lm_delete#:#Usuń Moduł Nauczania
-common#:#lm_edit_learning_progress#:#Edycja postępu nauczania
+rbac#:#lm_delete#:#Usuń Moduł Nauczania
+rbac#:#lm_edit_learning_progress#:#Edycja postępu nauczania
 common#:#lm_edit_permission#:#Zmień prawa dostępu
 common#:#lm_join#:#Subskrybuj Moduł Nauczania
 common#:#lm_leave#:#Rezygnuję z subskrypcji Modułu Nauczania
 common#:#lm_new#:#Nowy moduł nauczania
-common#:#lm_read#:#Prawo czytania Modułu Nauczania
+rbac#:#lm_read#:#Prawo czytania Modułu Nauczania
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#Moduł Nauczania jest widoczny
-common#:#lm_write#:#Edycja Modułu Nauczania
+rbac#:#lm_visible#:#Moduł Nauczania jest widoczny
+rbac#:#lm_write#:#Edycja Modułu Nauczania
 common#:#lng#:#Język
 common#:#lngf#:#Folder języka
 common#:#lngf_edit_permission#:#Zmień ustawienia uprawnień
@@ -3950,12 +3950,12 @@ common#:#max_time#:#Maksymalny czas
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Dodaj MediaCast
 common#:#mcst_copy#:#Kopiuj MediaCast
-common#:#mcst_delete#:#Usuń Mediacast
-common#:#mcst_edit_permission#:#Zmień prawa dostępu
+rbac#:#mcst_delete#:#Usuń Mediacast
+rbac#:#mcst_edit_permission#:#Zmień prawa dostępu
 common#:#mcst_new#:#Nowy MediaCast
-common#:#mcst_read#:#Prawo do odczytu MediaCast
-common#:#mcst_visible#:#MediaCast jest widoczny
-common#:#mcst_write#:#Edycja MediaCast
+rbac#:#mcst_read#:#Prawo do odczytu MediaCast
+rbac#:#mcst_visible#:#MediaCast jest widoczny
+rbac#:#mcst_write#:#Edycja MediaCast
 common#:#mem_add_to_wl#:#Dodaj do Listy Oczekujących
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_end#:#Rejestracja kończy się:
@@ -3982,14 +3982,14 @@ common#:#membership_leave#:#Leave
 common#:#mep#:#Pula mediów
 common#:#mep_add#:#Dodaj pulę mediów
 common#:#mep_added#:#Dodano pulę mediów
-common#:#mep_delete#:#Usuń pulę mediów
+rbac#:#mep_delete#:#Usuń pulę mediów
 common#:#mep_edit#:#Edytuj właściwości puli mediów
-common#:#mep_edit_permission#:#Zmiana ustawień uprawnień
+rbac#:#mep_edit_permission#:#Zmiana ustawień uprawnień
 common#:#mep_new#:#Nowa pula mediów
 common#:#mep_not_insert_already_exist#:#Następujące pozycje nie zostały wstawione, ponieważ są już w puli mediów:
-common#:#mep_read#:#Czytanie zawartości puli mediów
-common#:#mep_visible#:#Pula mediów jest widoczna
-common#:#mep_write#:#Edycja zawartości puli mediów
+rbac#:#mep_read#:#Czytanie zawartości puli mediów
+rbac#:#mep_visible#:#Pula mediów jest widoczna
+rbac#:#mep_write#:#Edycja zawartości puli mediów
 common#:#message#:#Wiadomość
 common#:#message_content#:#Treść wiadomości
 common#:#message_no_delivered_files#:#Nie dostarczyłeś plików!
@@ -4655,13 +4655,13 @@ common#:#purpose#:#Cel
 common#:#qpl#:#Pula pytań
 common#:#qpl_add#:#Dodaj pulę pytań
 common#:#qpl_copy#:#Copy Test Question Pool
-common#:#qpl_delete#:#Usuń pulę pytań
-common#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#qpl_delete#:#Usuń pulę pytań
+rbac#:#qpl_edit_permission#:#Zmień ustawienia uprawnień
 common#:#qpl_new#:#Nowa pula pytań
-common#:#qpl_read#:#Prawo czytania puli pytań
+rbac#:#qpl_read#:#Prawo czytania puli pytań
 common#:#qpl_upload_file#:#Załaduj plik
-common#:#qpl_visible#:#Pula pytań jest widoczna
-common#:#qpl_write#:#Edycja puli pytań
+rbac#:#qpl_visible#:#Pula pytań jest widoczna
+rbac#:#qpl_write#:#Edycja puli pytań
 common#:#quarterly#:#kwartalnie
 common#:#query_data#:#Dane zapytań
 common#:#question#:#Pytanie
@@ -4820,17 +4820,17 @@ common#:#sahs#:#Moduł Nauczania SCORM/AICC
 common#:#sahs_added#:#Dodano moduł nauczania SCORM/AICC
 common#:#sahs_copy#:#Kopiuj moduł nauczania SCORM/AICC
 common#:#sahs_create#:#Twórz moduł nauczania SCORM/AICC
-common#:#sahs_delete#:#Usuń moduł nauczania SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Edycja postępu nauczania
-common#:#sahs_edit_permission#:#Zmień prawa dostępu
+rbac#:#sahs_delete#:#Usuń moduł nauczania SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Edycja postępu nauczania
+rbac#:#sahs_edit_permission#:#Zmień prawa dostępu
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#Subskrypcja modułu nauczania SCORM/AICC
 common#:#sahs_leave#:#Rezygnacja z subskrypcji modułu nauczania SCORM/AICC
-common#:#sahs_read#:#Prawo czytania modułu nauczania SCORM/AICC
-common#:#sahs_visible#:#Moduł nauczania SCORM/AICC jest widoczny
-common#:#sahs_write#:#Edycja modułu nauczania SCORM/AICC
+rbac#:#sahs_read#:#Prawo czytania modułu nauczania SCORM/AICC
+rbac#:#sahs_visible#:#Moduł nauczania SCORM/AICC jest widoczny
+rbac#:#sahs_write#:#Edycja modułu nauczania SCORM/AICC
 common#:#salutation#:#Pozdrowienie
 common#:#salutation_f#:#Pan/Pani
 common#:#salutation_m#:#Pan
@@ -5032,14 +5032,14 @@ common#:#spacer#:#Odstępnik
 common#:#spl#:#Pula pytań (ankieta)
 common#:#spl_add#:#Dodaj pulę pytań
 common#:#spl_copy#:#Copy Survey Question Pool
-common#:#spl_delete#:#Usuń pulę pytań
-common#:#spl_edit_permission#:#Zmiana uprawnień dostępu
+rbac#:#spl_delete#:#Usuń pulę pytań
+rbac#:#spl_edit_permission#:#Zmiana uprawnień dostępu
 common#:#spl_import#:#Import Question Pool Survey
 common#:#spl_new#:#Nowa pula pytań
-common#:#spl_read#:#Prawo czytania puli pytań
+rbac#:#spl_read#:#Prawo czytania puli pytań
 common#:#spl_upload_file#:#Załaduj plik
-common#:#spl_visible#:#Pula pytań jest widoczna
-common#:#spl_write#:#Edycja puli pytań
+rbac#:#spl_visible#:#Pula pytań jest widoczna
+rbac#:#spl_write#:#Edycja puli pytań
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#rozdział
 common#:#st_add#:#Dodaj rozdział
@@ -5088,22 +5088,22 @@ common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surve
 common#:#svy#:#Ankieta
 common#:#svy_add#:#Dodaj ankietę
 common#:#svy_copy#:#Kopiuj Ankietę
-common#:#svy_delete#:#Usuń ankietę
-common#:#svy_edit_permission#:#Zmiana uprawnień dostępu
+rbac#:#svy_delete#:#Usuń ankietę
+rbac#:#svy_edit_permission#:#Zmiana uprawnień dostępu
 common#:#svy_evaluation#:#Ewaluacja
 common#:#svy_finished#:#skompletowany
-common#:#svy_invite#:#Zaproś użytkowników do ankiety
+rbac#:#svy_invite#:#Zaproś użytkowników do ankiety
 common#:#svy_new#:#Nowa ankieta
 common#:#svy_no_content#:#Brak dostępnych ankiet
 common#:#svy_not_finished#:#nie skompletowany
 common#:#svy_not_started#:#nieuruchomiony
 common#:#svy_participate#:#Udział w ankiecie
-common#:#svy_read#:#Prawo czytania ankiety
+rbac#:#svy_read#:#Prawo czytania ankiety
 common#:#svy_run#:#Uruchom
 common#:#svy_upload_file#:#Załaduj plik
-common#:#svy_visible#:#Ankieta jest widoczna
+rbac#:#svy_visible#:#Ankieta jest widoczna
 common#:#svy_warning_survey_not_complete#:#Ankieta nie jest kompletna!
-common#:#svy_write#:#Edycja ankiety
+rbac#:#svy_write#:#Edycja ankiety
 common#:#system#:#System
 common#:#system_check#:#Sprawdzenie Systemu
 common#:#system_choose_language#:#Wybór języka systemowego
@@ -5203,23 +5203,23 @@ common#:#tst#:#Test
 common#:#tst_add#:#Dodaj test
 common#:#tst_anon_eval#:#Rezultaty
 common#:#tst_copy#:#Kopiuj Test
-common#:#tst_delete#:#Usuń Test
-common#:#tst_edit_learning_progress#:#Edycja postępu nauczania
-common#:#tst_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#tst_delete#:#Usuń Test
+rbac#:#tst_edit_learning_progress#:#Edycja postępu nauczania
+rbac#:#tst_edit_permission#:#Zmień ustawienia uprawnień
 common#:#tst_edit_questions#:#Edytuj Pytania
 common#:#tst_new#:#Nowy test
 common#:#tst_no_content#:#Brak dostępnych testów
 common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>
-common#:#tst_read#:#Prawo czytania testu
+rbac#:#tst_read#:#Prawo czytania testu
 common#:#tst_run#:#Uruchom
 common#:#tst_statistical_evaluation#:#Statystyka
 common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Załaduj plik
 common#:#tst_user_not_invited#:#Nie zostałeś dopuszczony do tego egzaminu.
 common#:#tst_user_wrong_clientip#:#Nie masz uprawnień do użycia tego testu.
-common#:#tst_visible#:#Test jest widoczny
+rbac#:#tst_visible#:#Test jest widoczny
 common#:#tst_warning_test_not_complete#:#Test nie jest kompletny!
-common#:#tst_write#:#Edycja Testu
+rbac#:#tst_write#:#Edycja Testu
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#Przejdź do miejsca gdzie chcesz dodać
 common#:#txt_add_object_instruction2#:#.
@@ -5438,13 +5438,13 @@ common#:#webr_active#:#Aktywny
 common#:#webr_add#:#Dodaj zasób web
 common#:#webr_add_item#:#Dodaj zasób web
 common#:#webr_copy#:#Kopiuj zasób web
-common#:#webr_delete#:#Usuń zasób web
+rbac#:#webr_delete#:#Usuń zasób web
 common#:#webr_delete_items#:#Usuń zasoby web
 common#:#webr_deleted_items#:#Usunięte zasoby web.
 common#:#webr_disable_check#:#Zablokuj wybór
 common#:#webr_edit#:#Edytuj zasób web
 common#:#webr_edit_item#:#Edytuj zasób web
-common#:#webr_edit_permission#:#Zmień prawa dostępu
+rbac#:#webr_edit_permission#:#Zmień prawa dostępu
 common#:#webr_fillout_all#:#Wypełnij wszystkie wymagane pola.
 common#:#webr_item_updated#:#Modyfikacje zapisane
 common#:#webr_join#:#Subskrybuj zasób web
@@ -5455,10 +5455,10 @@ common#:#webr_modified_items#:#Modyfikacje zapisane.
 common#:#webr_never_checked#:#Nigdy nie sprawdzane
 common#:#webr_new#:#Dodaj nowy zasób web
 common#:#webr_no_items_created#:#Nie utworzono zasobu web
-common#:#webr_read#:#Prawo czytania zasobu web
+rbac#:#webr_read#:#Prawo czytania zasobu web
 common#:#webr_sure_delete_items#:#Czy chcesz usunąć następujące zasoby web?
-common#:#webr_visible#:#Zasoby web są widoczne
-common#:#webr_write#:#Edytuj zasób web
+rbac#:#webr_visible#:#Zasoby web są widoczne
+rbac#:#webr_write#:#Edytuj zasób web
 common#:#webservices#:#Serwisy Internetowe
 common#:#week#:#Tydzień
 common#:#weekly#:#tygodniowo
@@ -5470,13 +5470,13 @@ common#:#width_x_height#:#Szerokość x Wysokość
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Dodaj Wiki
 common#:#wiki_copy#:#Copy Wiki
-common#:#wiki_delete#:#Usuń Wiki
-common#:#wiki_edit_content#:#Edit Wiki Pages
-common#:#wiki_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#wiki_delete#:#Usuń Wiki
+rbac#:#wiki_edit_content#:#Edit Wiki Pages
+rbac#:#wiki_edit_permission#:#Zmień ustawienia uprawnień
 common#:#wiki_new#:#New Wiki
-common#:#wiki_read#:#Read Wiki
-common#:#wiki_visible#:#Wiki is visible
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+rbac#:#wiki_read#:#Read Wiki
+rbac#:#wiki_visible#:#Wiki is visible
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
 common#:#with#:#z
 common#:#wizard_search_list#:#Twoje wyszukanie dało następujące wyniki. Wybierz jeden z nich.
 common#:#wizard_title_info#:#Wprowadź tytuł obiektu, który chcesz z duplikować.
@@ -12501,7 +12501,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###18 01 2012 new variable

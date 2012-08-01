@@ -2746,7 +2746,7 @@ rbac#:#fold_edit_learning_progress#:#Öğrenmede Kaydedilen İlerlemeyi Düzenle
 rbac#:#fold_edit_permission#:#İzin ayarlarını değiştir
 common#:#fold_new#:#Yeni Dosya
 rbac#:#fold_read#:#Dosyaya okuma erişimi
-common#:#fold_visible#:#Dosya görünür halde
+rbac#:#fold_visible#:#Dosya görünür halde
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 rbac#:#fold_write#:#Dosya Düzenle
 common#:#folder#:#Dosya
@@ -2787,26 +2787,26 @@ common#:#forums_your_name#:#Your Name
 common#:#frm#:#Forum
 common#:#frm_a#:#bir Forum
 common#:#frm_add#:#Forum Ekle
-common#:#frm_add_post#:#Add new posting
-common#:#frm_add_thread#:#Add new topic
+rbac#:#frm_add_post#:#Add new posting
+rbac#:#frm_add_thread#:#Add new topic
 common#:#frm_added#:#Forum eklendi
 common#:#frm_article#:#makale
 common#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#Forum Oluştur
-common#:#frm_delete#:#Forum Sil
+rbac#:#frm_delete#:#Forum Sil
 common#:#frm_delete_post#:#Foruma gönderilen mesajı sil, sansür
 common#:#frm_edit#:#Forum Düzenle
-common#:#frm_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#frm_edit_permission#:#İzin ayarlarını değiştir
 common#:#frm_edit_post#:#Yeni izlek, foruma yeni mesaj ekle
 common#:#frm_latest_postings#:#Latest Articles
-common#:#frm_moderate_frm#:#Edit and delete postings
+rbac#:#frm_moderate_frm#:#Edit and delete postings
 common#:#frm_new#:#Yeni Forum
-common#:#frm_read#:#Foruma okuma erişimi
+rbac#:#frm_read#:#Foruma okuma erişimi
 common#:#frm_statistics_ranking#:#Sıralama
 common#:#frm_status_new#:#Durum ‘Yeni’
 common#:#frm_status_new_desc#:#Lütfen forum girdilerinin ne kadar süre için ‘Yeni’ kabul edileceğini seçin.
-common#:#frm_visible#:#Forum görünür halde
-common#:#frm_write#:#Forum düzenle
+rbac#:#frm_visible#:#Forum görünür halde
+rbac#:#frm_write#:#Forum düzenle
 common#:#from#:#Gönderen
 common#:#fullname#:#Tam adı
 common#:#functions#:#İşlevler
@@ -2824,8 +2824,8 @@ common#:#glo_add#:#Sözlükçe Ekle
 common#:#glo_added#:#Sözlükçe eklendi
 common#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#Sözlükçe Oluştur
-common#:#glo_delete#:#Sözlükçe Sil
-common#:#glo_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#glo_delete#:#Sözlükçe Sil
+rbac#:#glo_edit_permission#:#İzin ayarlarını değiştir
 common#:#glo_join#:#Sözlükçeye Üye Ol
 common#:#glo_leave#:#Sözlükçe Üyeliğinden Ayrıl
 common#:#glo_mode#:#Mod
@@ -2834,10 +2834,10 @@ common#:#glo_mode_level#:#sanal (sadece bu düzey)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#sanal (altağaçların tümü)
 common#:#glo_new#:#Yeni Sözlükçe
-common#:#glo_read#:#Sözlükçeye okuma erişimi
+rbac#:#glo_read#:#Sözlükçeye okuma erişimi
 common#:#glo_upload_file#:#Dosya
-common#:#glo_visible#:#Sözlükçe görünür halde
-common#:#glo_write#:#Sözlükçe Düzenle
+rbac#:#glo_visible#:#Sözlükçe görünür halde
+rbac#:#glo_write#:#Sözlükçe Düzenle
 common#:#global#:#Genel
 common#:#global_default#:#Genel Varsayılanlar
 common#:#global_fixed#:#Genel Sabit
@@ -2907,33 +2907,33 @@ common#:#grp_create#:#Grup Oluştur
 common#:#grp_create_alm#:#AICC Öğrenme Modülü Oluştur
 common#:#grp_create_chat#:#Sohbet Oluştur
 common#:#grp_create_dbk#:#Digilib Kitabı Oluştur
-common#:#grp_create_exc#:#Alıştırma Oluştur
-common#:#grp_create_feed#:#Create Web Feed
-common#:#grp_create_file#:#Dosya Yükle
-common#:#grp_create_fold#:#Klasör Oluştur
-common#:#grp_create_frm#:#Forum Oluştur
-common#:#grp_create_glo#:#Sözlükçe Oluştur
-common#:#grp_create_grp#:#Grup Oluştur
+rbac#:#grp_create_exc#:#Alıştırma Oluştur
+rbac#:#grp_create_feed#:#Create Web Feed
+rbac#:#grp_create_file#:#Dosya Yükle
+rbac#:#grp_create_fold#:#Klasör Oluştur
+rbac#:#grp_create_frm#:#Forum Oluştur
+rbac#:#grp_create_glo#:#Sözlükçe Oluştur
+rbac#:#grp_create_grp#:#Grup Oluştur
 common#:#grp_create_hlm#:#HACP Öğrenme Modülü Oluştur
-common#:#grp_create_htlm#:#HTML Öğrenme Modülü Oluştur
-common#:#grp_create_icrs#:#LearnLinc Semineri Oluştur
-common#:#grp_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-common#:#grp_create_mcst#:#Create Mediacast
-common#:#grp_create_mep#:#Ortam Havuzu Oluştur
-common#:#grp_create_qpl#:#Test İçin Soru Havuzu Oluştur
-common#:#grp_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
-common#:#grp_create_spl#:#Anket İçin Soru Havuzu Oluştur
-common#:#grp_create_svy#:#Anket Oluştur
-common#:#grp_create_tst#:#Test Oluştur
-common#:#grp_create_webr#:#Web Kaynağı Oluştur
+rbac#:#grp_create_htlm#:#HTML Öğrenme Modülü Oluştur
+rbac#:#grp_create_icrs#:#LearnLinc Semineri Oluştur
+rbac#:#grp_create_lm#:#ILIAS Öğrenme Modülü Oluştur
+rbac#:#grp_create_mcst#:#Create Mediacast
+rbac#:#grp_create_mep#:#Ortam Havuzu Oluştur
+rbac#:#grp_create_qpl#:#Test İçin Soru Havuzu Oluştur
+rbac#:#grp_create_sahs#:#SCORM/AICC Öğrenme Modülü Oluştur
+rbac#:#grp_create_spl#:#Anket İçin Soru Havuzu Oluştur
+rbac#:#grp_create_svy#:#Anket Oluştur
+rbac#:#grp_create_tst#:#Test Oluştur
+rbac#:#grp_create_webr#:#Web Kaynağı Oluştur
 common#:#grp_create_write#:#Create Wiki
-common#:#grp_delete#:#Grup Sil
+rbac#:#grp_delete#:#Grup Sil
 common#:#grp_deleted_export_files#:#Seçili dosyalar silindi.
 common#:#grp_dismiss_member#:#Aşağıdaki üye(leri) gruptan göndermek istediğinizden emin misiniz?
 common#:#grp_dismiss_myself#:#Bu gruptan ayrılmak istediğinizden emin misiniz?
 common#:#grp_edit#:#Grup Düzenle
-common#:#grp_edit_learning_progress#:#Öğrenmede Kaydedilen İlerlemeyi Düzenle
-common#:#grp_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#grp_edit_learning_progress#:#Öğrenmede Kaydedilen İlerlemeyi Düzenle
+rbac#:#grp_edit_permission#:#İzin ayarlarını değiştir
 common#:#grp_err_administrator_required#:#Üye çıkarılamadı; her grupta en az bir yönetici olması şarttır!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Her grupta en az bir grup yöneticisi olmalıdır.
 common#:#grp_err_error#:#Bir hata oldu
@@ -2942,8 +2942,8 @@ common#:#grp_err_member_could_not_be_removed#:#Üye çıkarılamadı. Lütfen bu
 common#:#grp_err_no_permission#:#Bu işlemi yapma yetkisine sahip değilsiniz.
 common#:#grp_err_registration_data#:#Lütfen bir parola ve geçerli bir katılım dönemine uygun bir süre sonlandırma tarihi ve saati girin!
 common#:#grp_header_edit_members#:#Üyeleri düzenle
-common#:#grp_join#:#Kullanıcı Gruba katılabilir
-common#:#grp_leave#:#Kullanıcı Gruptan ayrılabilir
+rbac#:#grp_join#:#Kullanıcı Gruba katılabilir
+rbac#:#grp_leave#:#Kullanıcı Gruptan ayrılabilir
 common#:#grp_list_users#:#Kullanıcıları listele
 common#:#grp_mail_body_new_subscription#:#Bu gruba kaydınız yapıldı.
 common#:#grp_mail_body_subscription_cancelled#:#Üyeliğiniz iptal edildi.
@@ -2964,7 +2964,7 @@ common#:#grp_no_groups_selected#:#Lütfen bir grup seçin
 common#:#grp_no_results_found#:#Hiç sonuç bulunamadı
 common#:#grp_no_roles_selected#:#Lütfen bir rol seçin
 common#:#grp_options#:#Seçenekler
-common#:#grp_read#:#Gruba okuma erişimi
+rbac#:#grp_read#:#Gruba okuma erişimi
 common#:#grp_register#:#Katıl
 common#:#grp_registration#:#Gruba katıl
 common#:#grp_registration_completed#:#Gruba katıldınız
@@ -2973,9 +2973,9 @@ common#:#grp_search_enter_search_string#:#Lütfen bir arama dizgisi girin
 common#:#grp_search_members#:#Kullanıcı ara
 common#:#grp_select_one_file#:#Lütfen bir dosya seçin.
 common#:#grp_select_one_file_only#:#Lütfen sadece bir dosya seçin.
-common#:#grp_visible#:#Grup görünür halde
+rbac#:#grp_visible#:#Grup görünür halde
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
-common#:#grp_write#:#Grup Düzenle
+rbac#:#grp_write#:#Grup Düzenle
 common#:#guest#:#Ziyaretçi
 common#:#guests#:#Ziyaretçiler
 common#:#header_searchable#:#Aranabilir
@@ -3039,14 +3039,14 @@ common#:#hours_of_day#:#Günün saatleri
 common#:#htlm#:#HTML Öğrenme Modülü
 common#:#htlm_add#:#HTML Öğrenme Modülü Ekle
 common#:#htlm_copy#:#Copy HTML Learning Module
-common#:#htlm_delete#:#HTML Öğrenme Modülü Sil
+rbac#:#htlm_delete#:#HTML Öğrenme Modülü Sil
 common#:#htlm_edit#:#HTML Öğrenme Modülü Özelliklerini Düzenle
-common#:#htlm_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
-common#:#htlm_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#htlm_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
+rbac#:#htlm_edit_permission#:#İzin ayarlarını değiştir
 common#:#htlm_new#:#Yeni HTML Öğrenme Modülü
-common#:#htlm_read#:#HTML Öğrenme Modülü oku
-common#:#htlm_visible#:#HTML Öğrenme Modülü görünür halde
-common#:#htlm_write#:#HTML Öğrenme Modülünü Düzenle
+rbac#:#htlm_read#:#HTML Öğrenme Modülü oku
+rbac#:#htlm_visible#:#HTML Öğrenme Modülü görünür halde
+rbac#:#htlm_write#:#HTML Öğrenme Modülünü Düzenle
 common#:#html_block#:#HTML Block
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Bu sunucu http taleplerini desteklemiyor.
@@ -3402,19 +3402,19 @@ common#:#lm_add#:#ILIAS Öğrenme Modülü Ekle
 common#:#lm_added#:#ILIAS Öğrenme Modülü eklendi
 common#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#ILIAS Öğrenme Modülü Oluştur
-common#:#lm_delete#:#ILIAS Öğrenme Modülü Sil
-common#:#lm_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
+rbac#:#lm_delete#:#ILIAS Öğrenme Modülü Sil
+rbac#:#lm_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
 common#:#lm_edit_permission#:#İzin ayarlarını değiştir
 common#:#lm_join#:#ILIAS Öğrenme Modülüne Üye Ol
 common#:#lm_leave#:#ILIAS Öğrenme Modülü Üyeliğinden Ayrıl
 common#:#lm_new#:#Yeni ILIAS Öğrenme Modülü
-common#:#lm_read#:#ILIAS Okuma Modülüne okuma erişimi
+rbac#:#lm_read#:#ILIAS Okuma Modülüne okuma erişimi
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2 (Java-RTE)
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd Edition (JavaScript-RTE)
-common#:#lm_visible#:#ILIAS Öğrenme Modülü görünür halde
-common#:#lm_write#:#ILIAS Öğrenme Modülünü düzenle
+rbac#:#lm_visible#:#ILIAS Öğrenme Modülü görünür halde
+rbac#:#lm_write#:#ILIAS Öğrenme Modülünü düzenle
 common#:#lng#:#Dil
 common#:#lngf#:#Diller
 common#:#lngf_edit_permission#:#İzin ayarlarını değiştir
@@ -3530,12 +3530,12 @@ common#:#max_time#:#Maksimum süre
 common#:#mcst#:#Mediacast
 common#:#mcst_add#:#Add Mediacast
 common#:#mcst_copy#:#Copy Mediacast
-common#:#mcst_delete#:#Delete Mediacast
-common#:#mcst_edit_permission#:#Change permission settings
+rbac#:#mcst_delete#:#Delete Mediacast
+rbac#:#mcst_edit_permission#:#Change permission settings
 common#:#mcst_new#:#New Mediacast
-common#:#mcst_read#:#Read access to Mediacast
-common#:#mcst_visible#:#Mediacast is visible
-common#:#mcst_write#:#Edit Mediacast
+rbac#:#mcst_read#:#Read access to Mediacast
+rbac#:#mcst_visible#:#Mediacast is visible
+rbac#:#mcst_write#:#Edit Mediacast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_end#:#Registration End:
@@ -3562,14 +3562,14 @@ common#:#membership_leave#:#Leave
 common#:#mep#:#Ortam Havuzu
 common#:#mep_add#:#Ortam Havuzu Ekle
 common#:#mep_added#:#Ortam Havuzu eklendi
-common#:#mep_delete#:#Ortam Havuzu Sil
+rbac#:#mep_delete#:#Ortam Havuzu Sil
 common#:#mep_edit#:#Ortam Havuzu Özelliklerini Düzenle
-common#:#mep_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#mep_edit_permission#:#Yetki ayarlarını değiştir
 common#:#mep_new#:#Yeni Ortam Havuzu
 common#:#mep_not_insert_already_exist#:#Aşağıdaki öğeler zaten ortam havuzunda olduğundan eklenmedi:
-common#:#mep_read#:#Ortam Havuzu İçeriği oku
-common#:#mep_visible#:#Ortam Havuzu görünür halde
-common#:#mep_write#:#Ortam Havuzu İçeriğini Düzenle
+rbac#:#mep_read#:#Ortam Havuzu İçeriği oku
+rbac#:#mep_visible#:#Ortam Havuzu görünür halde
+rbac#:#mep_write#:#Ortam Havuzu İçeriğini Düzenle
 common#:#message#:#Mesaj
 common#:#message_content#:#Mesaj İçeriği
 common#:#message_no_delivered_files#:#Hiç dosya sunmamışsınız.
@@ -4200,13 +4200,13 @@ common#:#purpose#:#Amaç
 common#:#qpl#:#Test Soru Havuzu
 common#:#qpl_add#:#Test için soru havuzu ekle
 common#:#qpl_copy#:#Copy Test Question Pool
-common#:#qpl_delete#:#Testin Soru Havuzunu Sil
-common#:#qpl_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#qpl_delete#:#Testin Soru Havuzunu Sil
+rbac#:#qpl_edit_permission#:#Yetki ayarlarını değiştir
 common#:#qpl_new#:#Test için yeni soru havuzu
-common#:#qpl_read#:#Testin Soru Havuzuna okuma erişimi
+rbac#:#qpl_read#:#Testin Soru Havuzuna okuma erişimi
 common#:#qpl_upload_file#:#Dosya yükle
-common#:#qpl_visible#:#Test için Soru Havuzu görünür halde
-common#:#qpl_write#:#Test Soru Havuzunu düzenle
+rbac#:#qpl_visible#:#Test için Soru Havuzu görünür halde
+rbac#:#qpl_write#:#Test Soru Havuzunu düzenle
 common#:#quarterly#:#mevsimlik
 common#:#query_data#:#Sorgulama verileri
 common#:#question#:#Soru
@@ -4363,17 +4363,17 @@ common#:#sahs#:#SCORM/AICC Öğrenme Modülü
 common#:#sahs_added#:#SCORM/AICC Öğrenme Modülü eklendi
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#sahs_create#:#SCORM/AICC Öğrenme Modülü Oluştur
-common#:#sahs_delete#:#SCORM/AICC Öğrenme Modülü Sil
-common#:#sahs_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
-common#:#sahs_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#sahs_delete#:#SCORM/AICC Öğrenme Modülü Sil
+rbac#:#sahs_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
+rbac#:#sahs_edit_permission#:#Yetki ayarlarını değiştir
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#SCORM/AICC Öğrenme Modülüne Üye Ol
 common#:#sahs_leave#:#SCORM/AICC Öğrenme Modülü Üyeliğinden Ayrıl
-common#:#sahs_read#:#SCORM/AICC Öğrenme Modülü okuma erişimi
-common#:#sahs_visible#:#SCORM/AICC Öğrenme Modülü görünür halde
-common#:#sahs_write#:#SCORM/AICC Öğrenme Modülünü Düzenle
+rbac#:#sahs_read#:#SCORM/AICC Öğrenme Modülü okuma erişimi
+rbac#:#sahs_visible#:#SCORM/AICC Öğrenme Modülü görünür halde
+rbac#:#sahs_write#:#SCORM/AICC Öğrenme Modülünü Düzenle
 common#:#salutation#:#Selamlama
 common#:#salutation_f#:#Bayan
 common#:#salutation_m#:#Bay
@@ -4570,13 +4570,13 @@ common#:#spacer#:#Aralık aygıtı
 common#:#spl#:#Anket Soru Havuzu
 common#:#spl_add#:#Anket için soru havuzu ekle
 common#:#spl_copy#:#Copy Survey Question Pool
-common#:#spl_delete#:#Anket için Soru Havuzunu Sil
-common#:#spl_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#spl_delete#:#Anket için Soru Havuzunu Sil
+rbac#:#spl_edit_permission#:#Yetki ayarlarını değiştir
 common#:#spl_new#:#Anket için yeni soru havuzu
-common#:#spl_read#:#Anket için Soru Havuzu okuma erişimi
+rbac#:#spl_read#:#Anket için Soru Havuzu okuma erişimi
 common#:#spl_upload_file#:#Dosya yükle
-common#:#spl_visible#:#Anket için Soru Havuzu görünür halde
-common#:#spl_write#:#Anket için Soru Havuzunu Düzenle
+rbac#:#spl_visible#:#Anket için Soru Havuzu görünür halde
+rbac#:#spl_write#:#Anket için Soru Havuzunu Düzenle
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#bir bölüm
 common#:#st_add#:#Bölüm ekle
@@ -4625,22 +4625,22 @@ common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surve
 common#:#svy#:#Anket
 common#:#svy_add#:#Anket ekle
 common#:#svy_copy#:#Copy Survey
-common#:#svy_delete#:#Anket sil
-common#:#svy_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#svy_delete#:#Anket sil
+rbac#:#svy_edit_permission#:#Yetki ayarlarını değiştir
 common#:#svy_evaluation#:#Değerlendirme
 common#:#svy_finished#:#bitti
-common#:#svy_invite#:#Ankete kullanıcı davet et
+rbac#:#svy_invite#:#Ankete kullanıcı davet et
 common#:#svy_new#:#Yeni anket
 common#:#svy_no_content#:#Uygun anket yok
 common#:#svy_not_finished#:#bitmedi
 common#:#svy_not_started#:#başlanmadı
 common#:#svy_participate#:#Ankete katıl
-common#:#svy_read#:#Ankete okuma erişimi
+rbac#:#svy_read#:#Ankete okuma erişimi
 common#:#svy_run#:#Çalıştır
 common#:#svy_upload_file#:#Dosya yükle
-common#:#svy_visible#:#Anket görünür halde
+rbac#:#svy_visible#:#Anket görünür halde
 common#:#svy_warning_survey_not_complete#:#Anket bitmedi!
-common#:#svy_write#:#Anketi düzenle
+rbac#:#svy_write#:#Anketi düzenle
 common#:#system#:#Sistem
 common#:#system_check#:#Sistem Kontrol
 common#:#system_choose_language#:#Sistem Dili Seç
@@ -4737,21 +4737,21 @@ common#:#tst#:#Test
 common#:#tst_add#:#Test ekle
 common#:#tst_anon_eval#:#Sonuçlar
 common#:#tst_copy#:#Copy Test
-common#:#tst_delete#:#Testi Sil
-common#:#tst_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
-common#:#tst_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#tst_delete#:#Testi Sil
+rbac#:#tst_edit_learning_progress#:#Öğrenmede kaydedilen ilerlemeyi düzenle
+rbac#:#tst_edit_permission#:#Yetki ayarlarını değiştir
 common#:#tst_new#:#Yeni test
 common#:#tst_no_content#:#Uygun test yok
-common#:#tst_read#:#Teste okuma erişimi
+rbac#:#tst_read#:#Teste okuma erişimi
 common#:#tst_run#:#Çalıştır
 common#:#tst_statistical_evaluation#:#İstatistikler
 common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Dosya yükle
 common#:#tst_user_not_invited#:#Sizin bu sınavı almanız gerekmiyor.
 common#:#tst_user_wrong_clientip#:#Bu testi kullanmak için doğru IP adresinde sahip değilsiniz
-common#:#tst_visible#:#Test görünür halde
+rbac#:#tst_visible#:#Test görünür halde
 common#:#tst_warning_test_not_complete#:#Test tamamlanmamış!
-common#:#tst_write#:#Testi Düzenle
+rbac#:#tst_write#:#Testi Düzenle
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#Eklemek istediğiniz konuma gözatın
 common#:#txt_add_object_instruction2#:#.
@@ -4966,13 +4966,13 @@ common#:#webr_active#:#Aktif
 common#:#webr_add#:#Web Kaynağı Ekle
 common#:#webr_add_item#:#Web Kaynağı Ekle
 common#:#webr_copy#:#Copy Weblink
-common#:#webr_delete#:#Web Kaynağı Sil
+rbac#:#webr_delete#:#Web Kaynağı Sil
 common#:#webr_delete_items#:#Web Kaynaklarını Sil
 common#:#webr_deleted_items#:#Web Kaynakları silindi.
 common#:#webr_disable_check#:#İşaretleyi devre dışı bırak
 common#:#webr_edit#:#Web Kaynağı Düzenle
 common#:#webr_edit_item#:#Web Kaynağı Düzenle
-common#:#webr_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#webr_edit_permission#:#Yetki ayarlarını değiştir
 common#:#webr_fillout_all#:#Lütfen tüm zorunlu alanları doldurun.
 common#:#webr_item_updated#:#Kaydedilen değişiklikler
 common#:#webr_join#:#Web Kaynağını Üye Yap
@@ -4983,10 +4983,10 @@ common#:#webr_modified_items#:#Kaydedilen değişiklikler.
 common#:#webr_never_checked#:#Hiç denetlenmedi
 common#:#webr_new#:#Yeni Web Kaynağı ekle
 common#:#webr_no_items_created#:#Hiç Web Kaynağı oluşturulmadı
-common#:#webr_read#:#Web Kaynağına okuma erişimi
+rbac#:#webr_read#:#Web Kaynağına okuma erişimi
 common#:#webr_sure_delete_items#:#Aşağıdaki Web Kaynaklarını gerçekten silmek istiyor musunuz?
-common#:#webr_visible#:#Web Kaynağı görünür halde
-common#:#webr_write#:#Web Kaynağı Düzenle
+rbac#:#webr_visible#:#Web Kaynağı görünür halde
+rbac#:#webr_write#:#Web Kaynağı Düzenle
 common#:#webservices#:#Web hizmetleri
 common#:#week#:#Hafta
 common#:#weekly#:#her hafta
@@ -4998,13 +4998,13 @@ common#:#width_x_height#:#En x Yükseklik
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
 common#:#wiki_copy#:#Copy Wiki
-common#:#wiki_delete#:#Delete Wiki
-common#:#wiki_edit_content#:#Edit Wiki Pages
-common#:#wiki_edit_permission#:#Change permission settings
+rbac#:#wiki_delete#:#Delete Wiki
+rbac#:#wiki_edit_content#:#Edit Wiki Pages
+rbac#:#wiki_edit_permission#:#Change permission settings
 common#:#wiki_new#:#New Wiki
-common#:#wiki_read#:#Read Wiki
-common#:#wiki_visible#:#Wiki is visible
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+rbac#:#wiki_read#:#Read Wiki
+rbac#:#wiki_visible#:#Wiki is visible
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
 common#:#with#:#ile
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

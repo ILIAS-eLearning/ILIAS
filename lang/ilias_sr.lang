@@ -1685,7 +1685,7 @@ rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new va
 rbac#:#fold_edit_permission#:#Promenite okvir za dozvolu
 common#:#fold_new#:#Novi Registrator
 rbac#:#fold_read#:#Upoznajte pristup Registratoru
-common#:#fold_visible#:#Registrator je vidljiv
+rbac#:#fold_visible#:#Registrator je vidljiv
 rbac#:#fold_write#:#Uredi Registrator
 common#:#folder#:#Registrator
 common#:#folders#:#Registratori
@@ -1717,16 +1717,16 @@ common#:#frm_add#:#Dodaj Forum
 common#:#frm_added#:#Forum je dodat
 common#:#frm_article#:#article ### 2006-8-11 --- Add new translation here.
 common#:#frm_create#:#Kreiraj Forum
-common#:#frm_delete#:#Ukloni Forum
+rbac#:#frm_delete#:#Ukloni Forum
 common#:#frm_delete_post#:#Ukloni oglas, cenzuru
 common#:#frm_edit#:#Uredi Forum
-common#:#frm_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#frm_edit_permission#:#Promenite okvir za dozvolu
 common#:#frm_edit_post#:#Dodaj novu nit, stub
 common#:#frm_new#:#Novi Forum
-common#:#frm_read#:#Upoznajte pristup Forumu
+rbac#:#frm_read#:#Upoznajte pristup Forumu
 common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
-common#:#frm_visible#:#Forum je vidljiv
-common#:#frm_write#:#Uredi Forum
+rbac#:#frm_visible#:#Forum je vidljiv
+rbac#:#frm_write#:#Uredi Forum
 common#:#from#:#Od
 common#:#fullname#:#Puno ime
 common#:#functions#:#Funkcije
@@ -1742,8 +1742,8 @@ common#:#glo_a#:#Recnik
 common#:#glo_add#:#Dodaj Recnik
 common#:#glo_added#:#Recnik je dodat
 common#:#glo_create#:#Kreiraj Recnik 
-common#:#glo_delete#:#Obriši Recnik 
-common#:#glo_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#glo_delete#:#Obriši Recnik 
+rbac#:#glo_edit_permission#:#Promenite okvir za dozvolu
 common#:#glo_join#:#Pretplatite se na Recnik
 common#:#glo_leave#:#Odjavite se sa Recnika 
 common#:#glo_mode#:#Mode###20 Jun 2005 new variable
@@ -1752,10 +1752,10 @@ common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
 common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
 common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#Novi Recnik 
-common#:#glo_read#:#Upoznajte pristup Recniku
+rbac#:#glo_read#:#Upoznajte pristup Recniku
 common#:#glo_upload_file#:#Fajl
-common#:#glo_visible#:#Recnik termina je vidljiv
-common#:#glo_write#:#Uredi Recnik
+rbac#:#glo_visible#:#Recnik termina je vidljiv
+rbac#:#glo_write#:#Uredi Recnik
 common#:#global#:#Opšte
 common#:#global_default#:#Opšti standardi
 common#:#global_fixed#:#Opšte utvrdeni
@@ -1818,30 +1818,30 @@ common#:#grp_create#:#Kreiraj Grupu
 common#:#grp_create_alm#:#Kreiraj AICC metod ucenja
 common#:#grp_create_chat#:#Kreiraj Caskanje
 common#:#grp_create_dbk#:#Kreiraj Digilib knjigu
-common#:#grp_create_exc#:#Kreiraj Vežbu
-common#:#grp_create_file#:#Postavi fajl
-common#:#grp_create_fold#:#Kreiraj Registrator
-common#:#grp_create_frm#:#Kreiraj Forum
-common#:#grp_create_glo#:#Kreiraj Recnik termina
-common#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
+rbac#:#grp_create_exc#:#Kreiraj Vežbu
+rbac#:#grp_create_file#:#Postavi fajl
+rbac#:#grp_create_fold#:#Kreiraj Registrator
+rbac#:#grp_create_frm#:#Kreiraj Forum
+rbac#:#grp_create_glo#:#Kreiraj Recnik termina
+rbac#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
 common#:#grp_create_hlm#:#Kreiraj HACP metod ucenja
-common#:#grp_create_htlm#:#Kreiraj HTML metod ucenja
-common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
-common#:#grp_create_lm#:#Kreiraj ILIAS metod ucenja
-common#:#grp_create_mep#:#Kreiraj bazu sredstava
-common#:#grp_create_qpl#:#Kreiraj bazu pitanja za test
-common#:#grp_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
-common#:#grp_create_spl#:#Kreiraj Bazu pitanja za proveru
-common#:#grp_create_svy#:#Kreiraj Proveru
-common#:#grp_create_tst#:#Kreiraj Test
-common#:#grp_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#grp_delete#:#Obriši Grupu
+rbac#:#grp_create_htlm#:#Kreiraj HTML metod ucenja
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+rbac#:#grp_create_lm#:#Kreiraj ILIAS metod ucenja
+rbac#:#grp_create_mep#:#Kreiraj bazu sredstava
+rbac#:#grp_create_qpl#:#Kreiraj bazu pitanja za test
+rbac#:#grp_create_sahs#:#Kreiraj SCORM/AICC metod ucenja
+rbac#:#grp_create_spl#:#Kreiraj Bazu pitanja za proveru
+rbac#:#grp_create_svy#:#Kreiraj Proveru
+rbac#:#grp_create_tst#:#Kreiraj Test
+rbac#:#grp_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#grp_delete#:#Obriši Grupu
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Da li ste sigurni da želite da udaljite sledece(g) clanove/clana iz grupe?
 common#:#grp_dismiss_myself#:#Da li ste sigurni da želite da udaljite sebe iz grupe?###23 Dec 2005 content changed
 common#:#grp_edit#:#Uredi Grupu
-common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
-common#:#grp_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+rbac#:#grp_edit_permission#:#Promenite okvir za dozvolu
 common#:#grp_err_administrator_required#:#Clan ne može biti uklonjen, najmanje jedan administrator po grupi je potreban!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Svakoj grupi je potreban najmanje jedan administrator grupe
 common#:#grp_err_error#:#Dogodila se greška
@@ -1850,8 +1850,8 @@ common#:#grp_err_member_could_not_be_removed#:#Clan ne može biti uklonjen. Moli
 common#:#grp_err_no_permission#:#Nemate dozvolu za ovu operaciju.
 common#:#grp_err_registration_data#:#Molimo unesite šifru, datum i vreme isteka za važeci registracioni period!###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Uredi clanove
-common#:#grp_join#:#Korisnik se može pridružiti Grupi
-common#:#grp_leave#:#Korisnik može napustiti Grupu
+rbac#:#grp_join#:#Korisnik se može pridružiti Grupi
+rbac#:#grp_leave#:#Korisnik može napustiti Grupu
 common#:#grp_list_users#:#Lista korisnika
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
@@ -1872,7 +1872,7 @@ common#:#grp_no_groups_selected#:#Molimo odaberite grupu
 common#:#grp_no_results_found#:#Nema nadenih rezultata
 common#:#grp_no_roles_selected#:#Molimo odaberite funkciju
 common#:#grp_options#:#Opcije
-common#:#grp_read#:#Upoznajte se sa pristupom Grupi
+rbac#:#grp_read#:#Upoznajte se sa pristupom Grupi
 common#:#grp_register#:#Registruj###23 Dec 2005 content changed
 common#:#grp_registration#:#Join group###23 Dec 2005 new variable
 common#:#grp_registration_completed#:#Registracija je kompletirana###23 Dec 2005 content changed
@@ -1880,8 +1880,8 @@ common#:#grp_search_enter_search_string#:#Molimo vas da odaberete redosled pretr
 common#:#grp_search_members#:#Pretraga korisnika
 common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
 common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
-common#:#grp_visible#:#Grupa je vidljiva
-common#:#grp_write#:#Uredi Grupu
+rbac#:#grp_visible#:#Grupa je vidljiva
+rbac#:#grp_write#:#Uredi Grupu
 common#:#guest#:#Gost
 common#:#guests#:#Gosti
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
@@ -1934,14 +1934,14 @@ common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Sati u danu
 common#:#htlm#:#Metod ucenja HTML
 common#:#htlm_add#:#Dodaj HTML metod ucenja
-common#:#htlm_delete#:#Obriši HTML metod ucenja
+rbac#:#htlm_delete#:#Obriši HTML metod ucenja
 common#:#htlm_edit#:#Uredi karakteristike HTML metode ucenja
-common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#htlm_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#htlm_edit_permission#:#Promenite okvir za dozvolu
 common#:#htlm_new#:#Novi HTML metod ucenja
-common#:#htlm_read#:#Upoznaj HTML metod ucenja
-common#:#htlm_visible#:#HTML metod ucenja je vidljiv
-common#:#htlm_write#:#Uredi HTML metod ucenja
+rbac#:#htlm_read#:#Upoznaj HTML metod ucenja
+rbac#:#htlm_visible#:#HTML metod ucenja je vidljiv
+rbac#:#htlm_write#:#Uredi HTML metod ucenja
 common#:#http#:#HTTP###03 Nov 2005 new variable
 common#:#http_not_possible#:#Ovaj server ne podržava http zahteve
 common#:#http_path#:#Http putanja
@@ -2241,18 +2241,18 @@ common#:#lm_a#:#jedan ILIAS metod ucenja
 common#:#lm_add#:#Dodaj ILIAS metod ucenja
 common#:#lm_added#:#ILIAS metod ucenja je dodat
 common#:#lm_create#:#Kreiraj ILIAS metod ucenja
-common#:#lm_delete#:#Odriši ILIAS metod ucenja
-common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#lm_delete#:#Odriši ILIAS metod ucenja
+rbac#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Promenite okvir za dozvolu
 common#:#lm_join#:#Prijavite se na ILIAS metod ucenja
 common#:#lm_leave#:#Odjavite se sa ILIAS metode ucenja
 common#:#lm_new#:#Novi ILIAS metod ucenja
-common#:#lm_read#:#Procitajte o pristupu ILIAS metodama ucenja
+rbac#:#lm_read#:#Procitajte o pristupu ILIAS metodama ucenja
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#ILIAS metod ucenja je vidljiv
-common#:#lm_write#:#Uredi ILIAS metod ucenja
+rbac#:#lm_visible#:#ILIAS metod ucenja je vidljiv
+rbac#:#lm_write#:#Uredi ILIAS metod ucenja
 common#:#lng#:#Jezik
 common#:#lngf#:#Jezici
 common#:#lngf_edit_permission#:#Promenite okvir za dozvolu
@@ -2341,14 +2341,14 @@ common#:#membership_annulled#:#Vaše clanstvo je otkazano
 common#:#mep#:#Baza sredstava
 common#:#mep_add#:#Dodaj Bazu sredstava
 common#:#mep_added#:#Baza sredstava je dodata
-common#:#mep_delete#:#Obriši Bazu sredstava
+rbac#:#mep_delete#:#Obriši Bazu sredstava
 common#:#mep_edit#:#Uredi podešavanja Baze sredstava
-common#:#mep_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#mep_edit_permission#:#Promenite okvir za dozvolu
 common#:#mep_new#:#Nova Baza sredstava
 common#:#mep_not_insert_already_exist#:#Sledeci predmeti nisu ubaceni u bazu medija pošto se vec nalaze u njoj:
-common#:#mep_read#:#Procitaj sadržaj beze sredstava
-common#:#mep_visible#:#Baza sredstavja je vidljiva
-common#:#mep_write#:#Uredi sadržaj Baze sredstava
+rbac#:#mep_read#:#Procitaj sadržaj beze sredstava
+rbac#:#mep_visible#:#Baza sredstavja je vidljiva
+rbac#:#mep_write#:#Uredi sadržaj Baze sredstava
 common#:#message#:#Poruka
 common#:#message_content#:#Dsadržaj poruke
 common#:#message_no_delivered_files#:#Nemate isporucenih fajlova!###10 Jul 2006 content changed
@@ -2801,13 +2801,13 @@ common#:#publishing_organisation#:#Štamparska firma
 common#:#purpose#:#Svrha
 common#:#qpl#:#Baza pitanja za test
 common#:#qpl_add#:#Dodajte bazu pitanja za test
-common#:#qpl_delete#:#Obrišite bazu pitanja za test
-common#:#qpl_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#qpl_delete#:#Obrišite bazu pitanja za test
+rbac#:#qpl_edit_permission#:#Promenite okvir za dozvolu
 common#:#qpl_new#:#Nova baza pitanja za test
-common#:#qpl_read#:#Procitaj o pristupu bazi pitanja za test
+rbac#:#qpl_read#:#Procitaj o pristupu bazi pitanja za test
 common#:#qpl_upload_file#:#Pošalji fajlove
-common#:#qpl_visible#:#Baza pitanja za test je vidljiva
-common#:#qpl_write#:#Uredi bazu pitanja za test
+rbac#:#qpl_visible#:#Baza pitanja za test je vidljiva
+rbac#:#qpl_write#:#Uredi bazu pitanja za test
 common#:#quarterly#:#quarterly ### 2006-8-11 --- Add new translation here.
 common#:#query_data#:#Podaci o pitanjima
 common#:#question#:#Pitanje
@@ -2943,14 +2943,14 @@ common#:#root_write#:#Uredi meta podatke sistema ......
 common#:#sahs#:#SCORM/AICC metod ucenja
 common#:#sahs_added#:#SCORM/AICC metod ucenja je dodat
 common#:#sahs_create#:#Kreiraj SCORM/AICC metod ucenja
-common#:#sahs_delete#:#Obriši SCORM/AICC metod ucenja
-common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#sahs_edit_permission#:#Promeni okvir za dozvolu
+rbac#:#sahs_delete#:#Obriši SCORM/AICC metod ucenja
+rbac#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#sahs_edit_permission#:#Promeni okvir za dozvolu
 common#:#sahs_join#:#Prijavi se na SCORM/AICC metod ucenja
 common#:#sahs_leave#:#Odjavi se sa SCORM/AICC metode ucenja
-common#:#sahs_read#:#Procitaj o pristupu SCORM/AICC metodi ucenja
-common#:#sahs_visible#:#SCORM/AICC metod ucenja je vidljiv
-common#:#sahs_write#:#Uredi SCORM/AICC metod ucenja
+rbac#:#sahs_read#:#Procitaj o pristupu SCORM/AICC metodi ucenja
+rbac#:#sahs_visible#:#SCORM/AICC metod ucenja je vidljiv
+rbac#:#sahs_write#:#Uredi SCORM/AICC metod ucenja
 common#:#salutation#:#Pozdrav
 common#:#salutation_f#:#G-da/G-dica
 common#:#salutation_m#:#G-din
@@ -3069,13 +3069,13 @@ common#:#sort_by_this_column#:#Razvrstaj po ovoj koloni
 common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Baza pitanja za Anketu
 common#:#spl_add#:#Dodaj bazu pitanja za Anketu
-common#:#spl_delete#:#Obriši bazu pitanja za Anketu
-common#:#spl_edit_permission#:#Promeni okvir za dozvolu
+rbac#:#spl_delete#:#Obriši bazu pitanja za Anketu
+rbac#:#spl_edit_permission#:#Promeni okvir za dozvolu
 common#:#spl_new#:#Nova baza pitanja za Anketu
-common#:#spl_read#:#Procitaj o pristupu bazi pitanja za Anketu
+rbac#:#spl_read#:#Procitaj o pristupu bazi pitanja za Anketu
 common#:#spl_upload_file#:#Pošalji fajlove
-common#:#spl_visible#:#Baza pitanja za Anketu je vidljiva
-common#:#spl_write#:#Uredi Bazu pitanja za Anketu
+rbac#:#spl_visible#:#Baza pitanja za Anketu je vidljiva
+rbac#:#spl_write#:#Uredi Bazu pitanja za Anketu
 common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
 common#:#st_a#:#poglavlje
 common#:#st_add#:#Dodaj poglavlje
@@ -3107,22 +3107,22 @@ common#:#summary#:#Ukratko
 common#:#sure_delete_selected_users#:#Da li ste sigurni da želite da obrišete sledece(g) korisnike/a?
 common#:#svy#:#Anketa
 common#:#svy_add#:#Dodaj Anketu
-common#:#svy_delete#:#Obri[I anketu
-common#:#svy_edit_permission#:#Promeni okvir za dozvolu
+rbac#:#svy_delete#:#Obri[I anketu
+rbac#:#svy_edit_permission#:#Promeni okvir za dozvolu
 common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
 common#:#svy_finished#:#completed###20 Jun 2005 new variable
-common#:#svy_invite#:#Pozovite korisnike na anketu
+rbac#:#svy_invite#:#Pozovite korisnike na anketu
 common#:#svy_new#:#Nova anketa
 common#:#svy_no_content#:#Nema raspoloživih anketa
 common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
 common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Ucestvuj u anketi
-common#:#svy_read#:#Procitaj o pristupu anketi
+rbac#:#svy_read#:#Procitaj o pristupu anketi
 common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Pošalji fajl
-common#:#svy_visible#:#Anketa je vidljiva
+rbac#:#svy_visible#:#Anketa je vidljiva
 common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
-common#:#svy_write#:#Uredi anketu
+rbac#:#svy_write#:#Uredi anketu
 common#:#system#:#Sistem
 common#:#system_check#:#Sistemska provera
 common#:#system_choose_language#:#Sistemski odabir jezika
@@ -3201,20 +3201,20 @@ common#:#treeview#:#Pregled stabla
 common#:#tst#:#Test
 common#:#tst_add#:#Dodaj Test
 common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
-common#:#tst_delete#:#Obriši Test
-common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#tst_edit_permission#:#Promeni okvir za dozvolu
+rbac#:#tst_delete#:#Obriši Test
+rbac#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#tst_edit_permission#:#Promeni okvir za dozvolu
 common#:#tst_new#:#Novi Test
 common#:#tst_no_content#:#Nema testova na raspolaganju
-common#:#tst_read#:#Procitaj pristup testu
+rbac#:#tst_read#:#Procitaj pristup testu
 common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Pošalji fajlove
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
-common#:#tst_visible#:#Test je vidljiv
+rbac#:#tst_visible#:#Test je vidljiv
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
-common#:#tst_write#:#Uredi Test
+rbac#:#tst_write#:#Uredi Test
 common#:#txt_add_object_instruction1#:#Pregledajte lokaciju gde želite da dodate
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Uspešno ste registrovani na ILIAS. Molimo kliknite na dugme ispod kako biste pristupili ILIAS-u sa vašim korisnickim nalogom.
@@ -3386,13 +3386,13 @@ common#:#webr#:#Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_active#:#Active ### 2006-8-11 --- Add new translation here.
 common#:#webr_add#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_add_item#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#webr_delete#:#Delete Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_delete#:#Delete Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_delete_items#:#Delete Web Resource(s) ### 2006-8-11 --- Add new translation here.
 common#:#webr_deleted_items#:#Deleted Web Resource(s). ### 2006-8-11 --- Add new translation here.
 common#:#webr_disable_check#:#Disable check ### 2006-8-11 --- Add new translation here.
 common#:#webr_edit#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_edit_item#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#webr_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
 common#:#webr_fillout_all#:#Please fill out all required fields. ### 2006-8-11 --- Add new translation here.
 common#:#webr_item_updated#:#Saved modifications ### 2006-8-11 --- Add new translation here.
 common#:#webr_join#:#Subscribe Web Resource ### 2006-8-11 --- Add new translation here.
@@ -3403,10 +3403,10 @@ common#:#webr_modified_items#:#Saved modifications. ### 2006-8-11 --- Add new tr
 common#:#webr_never_checked#:#Never checked ### 2006-8-11 --- Add new translation here.
 common#:#webr_new#:#Add new Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_no_items_created#:#No Web Resources created ### 2006-8-11 --- Add new translation here.
-common#:#webr_read#:#Read access to Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_read#:#Read access to Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)? ### 2006-8-11 --- Add new translation here.
-common#:#webr_visible#:#Web Resource is visible ### 2006-8-11 --- Add new translation here.
-common#:#webr_write#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_visible#:#Web Resource is visible ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_write#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webservices#:#Web servisi
 common#:#week#:#Nedelja
 common#:#weekly#:#weekly ### 2006-8-11 --- Add new translation here.
@@ -6989,19 +6989,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7158,7 +7158,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7518,7 +7518,7 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+rbac#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
 news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
 news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
 news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
@@ -7538,8 +7538,8 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+rbac#:#frm_add_post#:#Add new post###23 10 2007 new variable
+rbac#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
@@ -7798,8 +7798,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8327,11 +8327,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

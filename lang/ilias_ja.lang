@@ -3150,7 +3150,7 @@ rbac#:#fold_edit_permission#:#アクセス権限設定を変更
 common#:#fold_new#:#新規フォルダ
 rbac#:#fold_read#:#フォルダへの読込アクセス
 common#:#fold_type#:#フォルダータイプ
-common#:#fold_visible#:#フォルダを表示
+rbac#:#fold_visible#:#フォルダを表示
 common#:#fold_wizard_page#:#フォルダをコピー (Step 2/2)
 rbac#:#fold_write#:#フォルダを編集
 common#:#folder#:#フォルダ
@@ -3191,26 +3191,26 @@ common#:#forums_your_name#:#名前
 common#:#frm#:#フォーラム
 common#:#frm_a#:#フォーラム
 common#:#frm_add#:#フォーラムを追加
-common#:#frm_add_post#:#新規投稿を追加
-common#:#frm_add_thread#:#新規トッピクを追加
+rbac#:#frm_add_post#:#新規投稿を追加
+rbac#:#frm_add_thread#:#新規トッピクを追加
 common#:#frm_added#:#フォーラムの追加
 common#:#frm_article#:#記事
 common#:#frm_copy#:#フォーラムをコピー
 common#:#frm_create#:#フォーラムを作成
-common#:#frm_delete#:#フォーラムを削除
+rbac#:#frm_delete#:#フォーラムを削除
 common#:#frm_delete_post#:#投稿を編集と削除
 common#:#frm_edit#:#フォーラムを編集
-common#:#frm_edit_permission#:#アクセス権限設定を変更
+rbac#:#frm_edit_permission#:#アクセス権限設定を変更
 common#:#frm_edit_post#:#新規投稿を追加
 common#:#frm_latest_postings#:#最新記事
-common#:#frm_moderate_frm#:#投稿を編集と削除
+rbac#:#frm_moderate_frm#:#投稿を編集と削除
 common#:#frm_new#:#新規フォーラム
-common#:#frm_read#:#フォーラムを読み込む
+rbac#:#frm_read#:#フォーラムを読み込む
 common#:#frm_statistics_ranking#:#ランキング
 common#:#frm_status_new#:#'新規'のステータス
 common#:#frm_status_new_desc#:#フォーラムエントリーに"新規"状態をどれくらいの時間保持するか選択してください。
-common#:#frm_visible#:#フォーラムを表示
-common#:#frm_write#:#フォ－ラムを編集
+rbac#:#frm_visible#:#フォーラムを表示
+rbac#:#frm_write#:#フォ－ラムを編集
 common#:#frma_edit_permission#:#アクセス権設定を変更
 common#:#frma_read#:#フォーラム管理を読み込む
 common#:#frma_visible#:#フォーラム管理を表示
@@ -3232,8 +3232,8 @@ common#:#glo_add#:#用語集を追加
 common#:#glo_added#:#用語集の追加
 common#:#glo_copy#:#用語集をコピー
 common#:#glo_create#:#用語集を作成
-common#:#glo_delete#:#用語集を削除
-common#:#glo_edit_permission#:#アクセス権限設定を変更
+rbac#:#glo_delete#:#用語集を削除
+rbac#:#glo_edit_permission#:#アクセス権限設定を変更
 common#:#glo_import#:#用語集をインポート
 common#:#glo_join#:#用語集を申込む
 common#:#glo_leave#:#用語集から退会
@@ -3243,10 +3243,10 @@ common#:#glo_mode_level#:#バーチャル(このレベルのみ)
 common#:#glo_mode_normal#:#ノーマル
 common#:#glo_mode_subtree#:#バーチャル(エントリーサブツリー)
 common#:#glo_new#:#新しい用語集
-common#:#glo_read#:#用語集を読み込む
+rbac#:#glo_read#:#用語集を読み込む
 common#:#glo_upload_file#:#ファイル
-common#:#glo_visible#:#用語集を表示
-common#:#glo_write#:#用語集を編集
+rbac#:#glo_visible#:#用語集を表示
+rbac#:#glo_write#:#用語集を編集
 common#:#global#:#グローバル
 common#:#global_default#:#グローバル 初期設定
 common#:#global_fixed#:#グローバル固定
@@ -3316,33 +3316,33 @@ common#:#grp_create#:#グループを作成
 common#:#grp_create_alm#:#AICCラーニングモジュール
 common#:#grp_create_chat#:#チャットを作成
 common#:#grp_create_dbk#:#Digilibブックを作成
-common#:#grp_create_exc#:#練習問題を作成
-common#:#grp_create_feed#:#Webフィードを作成
-common#:#grp_create_file#:#アップロードファイル
-common#:#grp_create_fold#:#フォルダを作成
-common#:#grp_create_frm#:#フォーラムを作成
-common#:#grp_create_glo#:#用語集を作成
-common#:#grp_create_grp#:#グループを作成
+rbac#:#grp_create_exc#:#練習問題を作成
+rbac#:#grp_create_feed#:#Webフィードを作成
+rbac#:#grp_create_file#:#アップロードファイル
+rbac#:#grp_create_fold#:#フォルダを作成
+rbac#:#grp_create_frm#:#フォーラムを作成
+rbac#:#grp_create_glo#:#用語集を作成
+rbac#:#grp_create_grp#:#グループを作成
 common#:#grp_create_hlm#:#HACPラーニングモジュールを作成
-common#:#grp_create_htlm#:#HTML ラーニングモジュールを作成
-common#:#grp_create_icrs#:#LearnLincセミナーを作成
-common#:#grp_create_lm#:#ILIASラーニングモジュールを作成
-common#:#grp_create_mcst#:#メディアキャストを作成
-common#:#grp_create_mep#:#メディアプールを作成
-common#:#grp_create_qpl#:#テスト問題集を作成
-common#:#grp_create_sahs#:#SCORM/AICCラーニングモジュールを作成
-common#:#grp_create_spl#:#問題集サーベイを作成
-common#:#grp_create_svy#:#サーベイを作成
-common#:#grp_create_tst#:#テストを作成
-common#:#grp_create_webr#:#Webリンクを作成
+rbac#:#grp_create_htlm#:#HTML ラーニングモジュールを作成
+rbac#:#grp_create_icrs#:#LearnLincセミナーを作成
+rbac#:#grp_create_lm#:#ILIASラーニングモジュールを作成
+rbac#:#grp_create_mcst#:#メディアキャストを作成
+rbac#:#grp_create_mep#:#メディアプールを作成
+rbac#:#grp_create_qpl#:#テスト問題集を作成
+rbac#:#grp_create_sahs#:#SCORM/AICCラーニングモジュールを作成
+rbac#:#grp_create_spl#:#問題集サーベイを作成
+rbac#:#grp_create_svy#:#サーベイを作成
+rbac#:#grp_create_tst#:#テストを作成
+rbac#:#grp_create_webr#:#Webリンクを作成
 common#:#grp_create_write#:#Wikiを作成
-common#:#grp_delete#:#グループを削除
+rbac#:#grp_delete#:#グループを削除
 common#:#grp_deleted_export_files#:#選択したファイルを削除.
 common#:#grp_dismiss_member#:#本当にグループから次のメンバーを外しますか?
 common#:#grp_dismiss_myself#:#本当にグループから削除しますか?
 common#:#grp_edit#:#グループを編集
-common#:#grp_edit_learning_progress#:#学習進捗を編集
-common#:#grp_edit_permission#:#アクセス権限設定を変更
+rbac#:#grp_edit_learning_progress#:#学習進捗を編集
+rbac#:#grp_edit_permission#:#アクセス権限設定を変更
 common#:#grp_err_administrator_required#:#メンバーは削除できません。グループあたり最低一人の管理者が必須です!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#各グループには最低一人のグループ管理者が必要です
 common#:#grp_err_error#:#エラーが一つ発生しました
@@ -3351,8 +3351,8 @@ common#:#grp_err_member_could_not_be_removed#:#最後のメンバーは削除で
 common#:#grp_err_no_permission#:#この操作のアクセス権限がありません。
 common#:#grp_err_registration_data#:#加入有効期間のパスワード、締め切り日、時間を入力してください!
 common#:#grp_header_edit_members#:#メンバーを編集
-common#:#grp_join#:#ユーザーはグループに加入可能
-common#:#grp_leave#:#ユーザーはグループ退出可能
+rbac#:#grp_join#:#ユーザーはグループに加入可能
+rbac#:#grp_leave#:#ユーザーはグループ退出可能
 common#:#grp_list_users#:#ユーザーをリスト
 common#:#grp_mail_body_new_subscription#:#このグループへ応募しています。
 common#:#grp_mail_body_subscription_cancelled#:#メンバーシップはキャンセルされました。
@@ -3373,7 +3373,7 @@ common#:#grp_no_groups_selected#:#グループを選択してください
 common#:#grp_no_results_found#:#結果が見つかりません
 common#:#grp_no_roles_selected#:#役割を選択してください
 common#:#grp_options#:#オプション
-common#:#grp_read#:#グループを読み込む
+rbac#:#grp_read#:#グループを読み込む
 common#:#grp_register#:#加入
 common#:#grp_registration#:#グループへ参加
 common#:#grp_registration_completed#:#グループへ参加しました
@@ -3382,9 +3382,9 @@ common#:#grp_search_enter_search_string#:#検索ストリングを入力して�
 common#:#grp_search_members#:#ユーザー検索
 common#:#grp_select_one_file#:#一つファイルを選択してください。
 common#:#grp_select_one_file_only#:#正確に一つファイルを選択してください。
-common#:#grp_visible#:#グループを表示
+rbac#:#grp_visible#:#グループを表示
 common#:#grp_wizard_page#:#コピーグループ(Step 2/2)
-common#:#grp_write#:#グループを編集
+rbac#:#grp_write#:#グループを編集
 common#:#guest#:#ゲスト
 common#:#guests#:#ゲスト
 common#:#header_searchable#:#検索可能
@@ -3448,14 +3448,14 @@ common#:#hours_of_day#:#1日の時間
 common#:#htlm#:#ラーニングモジュール HTML
 common#:#htlm_add#:#HTML ラーニングモジュールを追加
 common#:#htlm_copy#:#HTML ラーニングモジュールを追加コピー
-common#:#htlm_delete#:#HTML ラーニングモジュールを削除
+rbac#:#htlm_delete#:#HTML ラーニングモジュールを削除
 common#:#htlm_edit#:#HTML ラーニングモジュールプロパティを編集
-common#:#htlm_edit_learning_progress#:#学習進捗を編集
-common#:#htlm_edit_permission#:#アクセス権限設定を変更
+rbac#:#htlm_edit_learning_progress#:#学習進捗を編集
+rbac#:#htlm_edit_permission#:#アクセス権限設定を変更
 common#:#htlm_new#:#New HTML ラーニングモジュール
-common#:#htlm_read#:#HTML ラーニングモジュールを読込む
-common#:#htlm_visible#:#HTML ラーニングモジュールを表示
-common#:#htlm_write#:#HTML ラーニングモジュールを編集
+rbac#:#htlm_read#:#HTML ラーニングモジュールを読込む
+rbac#:#htlm_visible#:#HTML ラーニングモジュールを表示
+rbac#:#htlm_write#:#HTML ラーニングモジュールを編集
 common#:#html_block#:#HTMLブロック
 common#:#http#:#HTTP
 common#:#http_not_possible#:#このサーバーはhttpsリクエストをサポートしていません。
@@ -3823,19 +3823,19 @@ common#:#lm_add#:#ILIAS ラーニングモジュールを追加
 common#:#lm_added#:#ILIAS ラーニングモジュールが追加されました
 common#:#lm_copy#:#ILIAS Lernmodulをコピー
 common#:#lm_create#:#ILIASラーニングモジュールを作成
-common#:#lm_delete#:#ILIAS ラーニングモジュールを削除
-common#:#lm_edit_learning_progress#:#学習進捗を編集
+rbac#:#lm_delete#:#ILIAS ラーニングモジュールを削除
+rbac#:#lm_edit_learning_progress#:#学習進捗を編集
 common#:#lm_edit_permission#:#アクセス権限設定を変更
 common#:#lm_join#:#ILIAS ラーニングモジュールを購読
 common#:#lm_leave#:#ILIASラーニングモジュールを解除
 common#:#lm_new#:#New ILIAS ラーニングモジュール
-common#:#lm_read#:#ILIAS ラーニングモジュールを読み込む
+rbac#:#lm_read#:#ILIAS ラーニングモジュールを読み込む
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2 (Java-RTE)
 common#:#lm_type_scorm2004#:#SCORM 2004 3rd Edition (JavaScript-RTE)
-common#:#lm_visible#:#ILIAS ラーニングモジュールを表示
-common#:#lm_write#:#ILIAS ラーニングモジュールを編集
+rbac#:#lm_visible#:#ILIAS ラーニングモジュールを表示
+rbac#:#lm_write#:#ILIAS ラーニングモジュールを編集
 common#:#lng#:#言語
 common#:#lngf#:#言語
 common#:#lngf_edit_permission#:#アクセス権限設定を変更
@@ -3952,12 +3952,12 @@ common#:#max_time#:#最大時間
 common#:#mcst#:#メディアキャスト
 common#:#mcst_add#:#メディアキャストを作成追加
 common#:#mcst_copy#:#メディアキャストをコピー
-common#:#mcst_delete#:#メディアキャストを削除
-common#:#mcst_edit_permission#:#アクセス権限設定を変更
+rbac#:#mcst_delete#:#メディアキャストを削除
+rbac#:#mcst_edit_permission#:#アクセス権限設定を変更
 common#:#mcst_new#:#新しいメディアキャスト
-common#:#mcst_read#:#メディアキャストを読み込む
-common#:#mcst_visible#:#メディアキャストを表示
-common#:#mcst_write#:#メディアキャストを編集
+rbac#:#mcst_read#:#メディアキャストを読み込む
+rbac#:#mcst_visible#:#メディアキャストを表示
+rbac#:#mcst_write#:#メディアキャストを編集
 common#:#mem_add_to_wl#:#待ちリストへ追加
 common#:#mem_alert_no_places#:#空席がありません。
 common#:#mem_end#:#登録終了
@@ -3984,14 +3984,14 @@ common#:#membership_leave#:#退室
 common#:#mep#:#メディアプール
 common#:#mep_add#:#メディアプールを作成追加
 common#:#mep_added#:#メディアプールを追加
-common#:#mep_delete#:#メディアプールを削除
+rbac#:#mep_delete#:#メディアプールを削除
 common#:#mep_edit#:#メディアプールプロパティを編集
-common#:#mep_edit_permission#:#アクセス権限設定を変更
+rbac#:#mep_edit_permission#:#アクセス権限設定を変更
 common#:#mep_new#:#新しいメディアプール
 common#:#mep_not_insert_already_exist#:#次のアイテムはそれらがメディアプールの中に既にあるために挿入されません。
-common#:#mep_read#:#メディアプールコンテンツを読み込む
-common#:#mep_visible#:#メディアプールを表示
-common#:#mep_write#:#メディアプールコンテンツを編集
+rbac#:#mep_read#:#メディアプールコンテンツを読み込む
+rbac#:#mep_visible#:#メディアプールを表示
+rbac#:#mep_write#:#メディアプールコンテンツを編集
 common#:#message#:#メッセージ
 common#:#message_content#:#メッセージ本文
 common#:#message_no_delivered_files#:#ファイル未提出です
@@ -4660,13 +4660,13 @@ common#:#purpose#:#目的
 common#:#qpl#:#テスト問題集
 common#:#qpl_add#:#テスト問題集を追加
 common#:#qpl_copy#:#テスト問題集をコピー
-common#:#qpl_delete#:#テスト問題集を削除
-common#:#qpl_edit_permission#:#アクセス権限設定を変更
+rbac#:#qpl_delete#:#テスト問題集を削除
+rbac#:#qpl_edit_permission#:#アクセス権限設定を変更
 common#:#qpl_new#:#新規テスト問題集
-common#:#qpl_read#:#テスト問題集を読み込む
+rbac#:#qpl_read#:#テスト問題集を読み込む
 common#:#qpl_upload_file#:#アップロードファイル
-common#:#qpl_visible#:#テスト問題集を表示
-common#:#qpl_write#:#テスト問題集を編集
+rbac#:#qpl_visible#:#テスト問題集を表示
+rbac#:#qpl_write#:#テスト問題集を編集
 common#:#quarterly#:#年4期に分けて
 common#:#query_data#:#データの問合せ
 common#:#question#:#問題
@@ -4826,17 +4826,17 @@ common#:#sahs#:#ラーニングモジュール SCORM/AICC
 common#:#sahs_added#:#SCORM/AICCラーニングモジュール追加
 common#:#sahs_copy#:#SCORM/AICCラーニングモジュールをコピー
 common#:#sahs_create#:#SCORM/AICCラーニングモジュールを作成
-common#:#sahs_delete#:#SCORM/AICCラーニングモジュールを削除
-common#:#sahs_edit_learning_progress#:#学習進捗を編集
-common#:#sahs_edit_permission#:#アクセス権限設定を変更
+rbac#:#sahs_delete#:#SCORM/AICCラーニングモジュールを削除
+rbac#:#sahs_edit_learning_progress#:#学習進捗を編集
+rbac#:#sahs_edit_permission#:#アクセス権限設定を変更
 common#:#sahs_insert_chap_from_clip#:#クリップボードの章を貼付ける
 common#:#sahs_insert_page_from_clip#:#クリップボードのページﾞを貼り付ける
 common#:#sahs_insert_sco_from_clip#:#クリップボードのSCOを貼付ける
 common#:#sahs_join#:#SCORM/AICCラーニングモジュールを申し込む
 common#:#sahs_leave#:#SCORM/AICCラーニングモジュールを退会
-common#:#sahs_read#:#SCORM/AICCラーニングモジュールを読み込む
-common#:#sahs_visible#:#SCORM/AICCラーニングモジュールを表示
-common#:#sahs_write#:#SCORM/AICCラーニングモジュールを編集
+rbac#:#sahs_read#:#SCORM/AICCラーニングモジュールを読み込む
+rbac#:#sahs_visible#:#SCORM/AICCラーニングモジュールを表示
+rbac#:#sahs_write#:#SCORM/AICCラーニングモジュールを編集
 common#:#salutation#:#挨拶
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -5038,14 +5038,14 @@ common#:#spacer#:#スペーサー
 common#:#spl#:#問題集サーベイ
 common#:#spl_add#:#問題集サーベイを追加
 common#:#spl_copy#:#サーベイ問題集をコピー
-common#:#spl_delete#:#問題集サーベイを削除
-common#:#spl_edit_permission#:#アクセス権限設定を変更
+rbac#:#spl_delete#:#問題集サーベイを削除
+rbac#:#spl_edit_permission#:#アクセス権限設定を変更
 common#:#spl_import#:#問題集サーベイをインポート
 common#:#spl_new#:#新規問題集サーベイ
-common#:#spl_read#:#問題集サーベイを読み込む
+rbac#:#spl_read#:#問題集サーベイを読み込む
 common#:#spl_upload_file#:#アップロードファイル
-common#:#spl_visible#:#問題集サーベイを表示
-common#:#spl_write#:#問題集サーベイを編集
+rbac#:#spl_visible#:#問題集サーベイを表示
+rbac#:#spl_write#:#問題集サーベイを編集
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#章
 common#:#st_add#:#章を追加
@@ -5094,22 +5094,22 @@ common#:#survey_unlimited_invitation_desc#:#サーベイの無制限招待がで
 common#:#svy#:#サーベイ
 common#:#svy_add#:#サーベイを追加
 common#:#svy_copy#:#サーベイをコピー
-common#:#svy_delete#:#サーベイを削除
-common#:#svy_edit_permission#:#アクセス権限設定を変更
+rbac#:#svy_delete#:#サーベイを削除
+rbac#:#svy_edit_permission#:#アクセス権限設定を変更
 common#:#svy_evaluation#:#統計値
 common#:#svy_finished#:#サーベイを完了しました
-common#:#svy_invite#:#ユーザーをサーベイへ招待
+rbac#:#svy_invite#:#ユーザーをサーベイへ招待
 common#:#svy_new#:#新規サーベイ
 common#:#svy_no_content#:#サーベイは利用できません
 common#:#svy_not_finished#:#サーベイがまだ完了していません
 common#:#svy_not_started#:#このサーベイに参加
 common#:#svy_participate#:#サーベイに参加してください
-common#:#svy_read#:#サーベイを読み込む
+rbac#:#svy_read#:#サーベイを読み込む
 common#:#svy_run#:#実行
 common#:#svy_upload_file#:#アップロードファイル
-common#:#svy_visible#:#サーベイを表示
+rbac#:#svy_visible#:#サーベイを表示
 common#:#svy_warning_survey_not_complete#:#サーベイは未完了
-common#:#svy_write#:#サーベイを編集
+rbac#:#svy_write#:#サーベイを編集
 common#:#system#:#システム
 common#:#system_check#:#システムチェック
 common#:#system_choose_language#:#システムは言語を選択します
@@ -5209,24 +5209,24 @@ common#:#tst#:#テスト
 common#:#tst_add#:#テストを追加
 common#:#tst_anon_eval#:#結果
 common#:#tst_copy#:#テストをコピー
-common#:#tst_delete#:#テストを削除
-common#:#tst_edit_learning_progress#:#学習進捗を編集
-common#:#tst_edit_permission#:#アクセス権限設定を変更
+rbac#:#tst_delete#:#テストを削除
+rbac#:#tst_edit_learning_progress#:#学習進捗を編集
+rbac#:#tst_edit_permission#:#アクセス権限設定を変更
 common#:#tst_edit_questions#:#問題を編集
 common#:#tst_new#:#新テスト
 common#:#tst_no_content#:#新テストは利用できません
 common#:#tst_random_test_description_warning#:#<br /><b>このテストは問題集に割当てられていない質問です。レンダムテストモードに切り替えるとこの質問は消去します。</b>
-common#:#tst_read#:#テストを読み込む
+rbac#:#tst_read#:#テストを読み込む
 common#:#tst_run#:#実行
 common#:#tst_statistical_evaluation#:#統計値
 common#:#tst_statistics#:#テスト統計へアクセス
-common#:#tst_tst_statistics#:#テスト統計値へアクセス
+rbac#:#tst_tst_statistics#:#テスト統計値へアクセス
 common#:#tst_upload_file#:#アップロードファイル
 common#:#tst_user_not_invited#:#このテストを受けるべきではありません。
 common#:#tst_user_wrong_clientip#:#このテストに使用しているIPは正しくありません
-common#:#tst_visible#:#テストを表示
+rbac#:#tst_visible#:#テストを表示
 common#:#tst_warning_test_not_complete#:#テストは完了していません!
-common#:#tst_write#:#テストを編集
+rbac#:#tst_write#:#テストを編集
 common#:#tutors#:#指導教員
 common#:#txt_add_object_instruction1#:#追加したい場所をブラウズします
 common#:#txt_add_object_instruction2#:#.
@@ -5446,13 +5446,13 @@ common#:#webr_active#:#アクティブ
 common#:#webr_add#:#Webリンクを追加
 common#:#webr_add_item#:#Webリンクを追加
 common#:#webr_copy#:#Webリンクを追加コピー
-common#:#webr_delete#:#Webリンクリストを削除
+rbac#:#webr_delete#:#Webリンクリストを削除
 common#:#webr_delete_items#:#Webリンクを削除
 common#:#webr_deleted_items#:#Webリンクを削除しました。
 common#:#webr_disable_check#:#バリデーションを無効
 common#:#webr_edit#:#Webリンクを編集
 common#:#webr_edit_item#:#Webリンクを編集
-common#:#webr_edit_permission#:#アクセス権限設定を変更
+rbac#:#webr_edit_permission#:#アクセス権限設定を変更
 common#:#webr_fillout_all#:#全ての必須項目を埋めてください。
 common#:#webr_item_updated#:#保存済修正
 common#:#webr_join#:#Webリンクを申し込む
@@ -5463,10 +5463,10 @@ common#:#webr_modified_items#:#修正を保存しました。
 common#:#webr_never_checked#:#チェック歴なし
 common#:#webr_new#:#新規Webリンクを追加
 common#:#webr_no_items_created#:#Webリンク作成なし
-common#:#webr_read#:#Webリンクを読み込む
+rbac#:#webr_read#:#Webリンクを読み込む
 common#:#webr_sure_delete_items#:#本当に次のWebリンクを削除しますか?
-common#:#webr_visible#:#Webリンクを表示
-common#:#webr_write#:#Webリンクを編集
+rbac#:#webr_visible#:#Webリンクを表示
+rbac#:#webr_write#:#Webリンクを編集
 common#:#webservices#:#Webサービス
 common#:#week#:#週
 common#:#weekly#:#週間
@@ -5478,13 +5478,13 @@ common#:#width_x_height#:#幅 x 高さ
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Wikiに追加
 common#:#wiki_copy#:#Wikiをコピー
-common#:#wiki_delete#:#Wikiをコピー削除
-common#:#wiki_edit_content#:#Wikiページを編集
-common#:#wiki_edit_permission#:#アクセス権限設定を変更
+rbac#:#wiki_delete#:#Wikiをコピー削除
+rbac#:#wiki_edit_content#:#Wikiページを編集
+rbac#:#wiki_edit_permission#:#アクセス権限設定を変更
 common#:#wiki_new#:#新規Wiki
-common#:#wiki_read#:#Wikiを読み込む
-common#:#wiki_visible#:#Wikiを表示
-common#:#wiki_write#:#Wiki設定、学習者の評価を変更
+rbac#:#wiki_read#:#Wikiを読み込む
+rbac#:#wiki_visible#:#Wikiを表示
+rbac#:#wiki_write#:#Wiki設定、学習者の評価を変更
 common#:#with#:#with
 common#:#wizard_search_list#:#検索の結果次のヒットがありました。どれか一つ選択してください。
 common#:#wizard_title_info#:#複製したいオブジェクトのタイトルを入力してください。
