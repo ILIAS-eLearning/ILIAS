@@ -1816,8 +1816,8 @@ common#:#chac_visible#:#Chat settings are visible
 common#:#chac_write#:#Edit chat settings
 common#:#change_active_assignment#:#Change active assignment
 common#:#change_assignment#:#Change assignment
-rbac#:#change_existing_object_type_desc#:#Also change permissions of already existing objects of that type
-rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropiate object type.
+rbac#:#change_existing_object_type_desc#:#This will also change the permissions of already existing objects of that type
+rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adpoted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropriate object type.
 rbac#:#change_existing_objects#:#Change Existing Objects
 rbac#:#change_existing_prefix_single#:#Change
 rbac#:#change_existing_prefix#:#Change Existing
@@ -1985,18 +1985,18 @@ rbac#:#crs_create_tst#:#Create Test
 rbac#:#crs_create_webr#:#Create Weblink
 rbac#:#crs_delete#:#User can move or delete course
 rbac#:#crs_edit_learning_progress#:#User can see learning progress of course members and edit learning progress settings
-rbac#:#crs_edit_permission#:#Change permission settings
+rbac#:#crs_edit_permission#:#User can change permission settings
 common#:#crs_edit#:#Edit Course
 common#:#crs_info#:#Info
-rbac#:#crs_join#:#Join Course
-rbac#:#crs_leave#:#Leave Course
+rbac#:#crs_join#:#User can join course
+rbac#:#crs_leave#:#User can unsubscribe from course
 common#:#crs_management_system#:#Course Management System
 common#:#crs_member_not_passed#:#Not passed
 common#:#crs_member_passed#:#Passed
 common#:#crs_members_gallery#:#Course Members Gallery
 common#:#crs_new#:#New Course
 common#:#crs_no_content#:#Without content
-rbac#:#crs_read#:#Read access to Course
+rbac#:#crs_read#:#User has read access to course
 common#:#crs_removed_from_waiting_list#:#You have been detached from the waiting list of course "%s".
 common#:#crs_status_blocked#:#[Access refused]
 common#:#crs_status_pending#:#[Waiting for registration]
@@ -2005,7 +2005,7 @@ common#:#crs_title#:#Course Title
 common#:#crs_unsubscribe#:#Unsubscribe
 rbac#:#crs_visible#:#Course is visible
 common#:#crs_wizard_page#:#Copy Course (Step 2/2)
-rbac#:#crs_write#:#Edit Course
+rbac#:#crs_write#:#User can edit course settings and manage content
 common#:#crs#:#Course
 common#:#crsr_edit_info#:#Please choose one course, for creating a new reference.
 common#:#crsr_edit#:#Edit Course Reference
@@ -2246,7 +2246,7 @@ common#:#exc_time_to_send#:#Remaining Working Time
 common#:#exc_upload_error#:#Error uploading file
 common#:#exc_users#:#Users
 rbac#:#exc_visible#:#Exercise is visible
-rbac#:#exc_write#:#Edit settings and assignments of exercise
+rbac#:#exc_write#:#User can edit settings and assignments of exercise
 common#:#exc#:#Exercise
 common#:#excs#:#Exercises
 common#:#execute#:#Execute
@@ -2297,7 +2297,7 @@ rbac#:#feed_delete#:#User can move or delete web feed
 rbac#:#feed_edit_permission#:#User can change permission settings
 rbac#:#feed_read#:#User can read content of web feed
 rbac#:#feed_visible#:#Web feed is visible
-rbac#:#feed_write#:#Edit web feed settings
+rbac#:#feed_write#:#User can edit web feed settings
 common#:#feed#:#Web Feed
 common#:#feedback_recipient#:#Feedback Recipient
 common#:#feedback#:#Feedback
@@ -2329,7 +2329,7 @@ common#:#file_updated#:#File has been updated.
 common#:#file_valid#:#File is valid!
 common#:#file_version#:#Version Provided in File
 rbac#:#file_visible#:#File is visible
-rbac#:#file_write#:#Edit file settings and upload new version
+rbac#:#file_write#:#User can edit file settings and upload new version of file
 common#:#file#:#File
 common#:#filename_extension_missing#:#File name extension missing
 common#:#filename_extension_short#:#Extension
@@ -2474,7 +2474,7 @@ common#:#glo_new#:#New Glossary
 rbac#:#glo_read#:#User can read glossary content
 common#:#glo_upload_file#:#File
 rbac#:#glo_visible#:#Glossary is visible
-rbac#:#glo_write#:#Edit content and settings of glossary
+rbac#:#glo_write#:#User can edit content and settings of glossary
 common#:#glo#:#Glossary
 common#:#global_default#:#Global Default
 common#:#global_fixed#:#Global Fixed
@@ -2536,7 +2536,8 @@ common#:#grp_already_applied#:#You have already applied to this group! Please wa
 common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_back#:#Back
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
-common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? 
+common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
+rbac#:#grp_copy#:#User can copy group
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 rbac#:#grp#:#User can copy group
 common#:#grp_count_members#:#Number of members
@@ -2607,7 +2608,7 @@ common#:#grp_select_one_file_only#:#Please select exactly one file.
 common#:#grp_select_one_file#:#Please select one file.
 rbac#:#grp_visible#:#Group is visible
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
-rbac#:#grp_write#:#User can edit settings of group and manage content
+rbac#:#grp_write#:#User can edit group settings and manage content
 common#:#grp#:#Group
 common#:#guest#:#Guest
 common#:#guests#:#Guests
@@ -3124,7 +3125,7 @@ rbac#:#mcst_edit_permission#:#User can change permission settings
 common#:#mcst_new#:#New Mediacast
 rbac#:#mcst_read#:#User can read mediacast
 rbac#:#mcst_visible#:#Mediacast is visible
-rbac#:#mcst_write#:#Edit content and settings of mediacast
+rbac#:#mcst_write#:#User can edit content and settings of mediacast
 common#:#mcst#:#Mediacast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
@@ -3156,7 +3157,7 @@ rbac#:#mep_edit_permission#:#User can change permission settings
 common#:#mep_edit#:#Edit Media Pool Properties
 common#:#mep_new#:#New Media Pool
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
-rbac#:#mep_read#:#User has read access on content of media pool
+rbac#:#mep_read#:#User has read access to media pool and can reuse media objects
 rbac#:#mep_visible#:#Media pool is visible
 rbac#:#mep_write#:#User can edit content and settings of media pool
 common#:#mep#:#Media Pool
@@ -3953,9 +3954,9 @@ common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-rbac#:#sahs_read#:#Read SCORM/AICC learning module
+rbac#:#sahs_read#:#User can read SCORM/AICC learning module
 rbac#:#sahs_visible#:#SCORM/AICC learning module is visible
-rbac#:#sahs_write#:#Edit content and settings of SCORM/AICC learning module
+rbac#:#sahs_write#:#User can edit content and settings of SCORM/AICC learning module
 common#:#sahs#:#Learning Module SCORM/AICC
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -4196,12 +4197,12 @@ common#:#svy_no_content#:#No surveys available
 common#:#svy_not_finished#:#The survey has not been completed yet
 common#:#svy_not_started#:#You did not take part in this survey
 common#:#svy_participate#:#Participate in a survey
-rbac#:#svy_read#:#Participate at a survey
+rbac#:#svy_read#:#User can participate at a survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Upload file
 rbac#:#svy_visible#:#Survey is visible
 common#:#svy_warning_survey_not_complete#:#The survey is incomplete
-rbac#:#svy_write#:#Edit content and settings of survey
+rbac#:#svy_write#:#User can edit content and settings of survey
 common#:#svy#:#Survey
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -4312,7 +4313,7 @@ common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
 rbac#:#tst_visible#:#Test is visible
 common#:#tst_warning_test_not_complete#:#The test is not complete!
-rbac#:#tst_write#:#Edit content and settings of test
+rbac#:#tst_write#:#User can edit content and settings of test
 common#:#tst#:#Test
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
@@ -8619,11 +8620,11 @@ rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
 rbac#:#rcrs_delete#:#User can move or delete ECS Course Link
-rbac#:#rcrs_edit_permission#:#Change permission settings
-rbac#:#rcrs_read#:#Read access to ECS Course Link
+rbac#:#rcrs_edit_permission#:#User can change permission settings
+rbac#:#rcrs_read#:#User can use ECS Course Link
 rbac#:#rcrs_visible#:#ECS Course Link is visible
-rbac#:#rcrs_write#:#Edit ECS Course Link
-rbac#:#recf_edit_permission#:#Change permission settings
+rbac#:#rcrs_write#:#User can edit settings of ECS Course Link
+rbac#:#recf_edit_permission#:#User can change permission settings
 rbac#:#recf_read#:#Read access to Restored Objects
 rbac#:#recf_visible#:#Restored Objects are visible
 rbac#:#recf_write#:#Edit Restored Objects
@@ -8653,10 +8654,10 @@ rbac#:#root_create_webr#:#Create Weblink
 rbac#:#root_create_wiki#:#Create Wiki
 rbac#:#sess_delete#:#User can move or delete session
 rbac#:#sess_edit_event#:#Edit Calendar Events
-rbac#:#sess_edit_permission#:#Change Permission Settings
-rbac#:#sess_read#:#Read access to Sessions
+rbac#:#sess_edit_permission#:#User can change permission settings
+rbac#:#sess_read#:#User has read access to sessions
 rbac#:#sess_visible#:#Sessions are visible
-rbac#:#sess_write#:#Edit Sessions
+rbac#:#sess_write#:#User can edit session content and settings
 rbac#:#svyf_edit_permission#:#Change permission settings
 rbac#:#svyf_read#:#Read access to survey settings
 rbac#:#svyf_visible#:#Survey settings are visible
@@ -10524,11 +10525,11 @@ book#:#book_set_in_use#:#Is in Use
 book#:#book_set_not_in_use#:#Not in Use
 book#:#book_set_cancel#:#Cancel Reservation
 book#:#book_set_not_cancel#:#Undo Cancel
-rbac#:#book_edit_permission#:#User can change permission settings for Booking Pool
-rbac#:#book_visible#:#Booking Pool is visible
-rbac#:#book_read#:#User can book resources / objects in Booking Pool
-rbac#:#book_delete#:#User can delete or move Booking Pool
-rbac#:#book_write#:#User can edit settings and content of Booking Pool
+rbac#:#book_edit_permission#:#User can change permission settings for booking pool
+rbac#:#book_visible#:#Booking pool is visible
+rbac#:#book_read#:#User can book resources / objects in booking pool
+rbac#:#book_delete#:#User can move or delete booking pool
+rbac#:#book_write#:#User can edit settings and content of booking pool
 rbac#:#cat_create_book#:#Create Booking Pool
 rbac#:#grp_create_book#:#Create Booking Pool
 rbac#:#fold_create_book#:#Create Booking Pool
@@ -11884,7 +11885,7 @@ wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_rate_page#:#Rate this Wiki Page
 auth#:#auth_login_editor#:#Loginscreen Editor
 didactic#:#didactic_edit_tpl#:#Edit Didactic Template
-rbac#:#chtr_moderate#:#Moderate Chatroom
+rbac#:#chtr_moderate#:#User can moderate discussion in chatroom
 chatroom#:#welcome_to_chat#:#Welcome to the chatroom
 chatroom#:#user_invited#:#The user has been invited.
 chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
@@ -12138,7 +12139,7 @@ ecs#:#ecs_setting_deleted#:#ECS deleted
 ecs#:#ecs_cat_mapping_by_type#:#By Type
 ecs#:#ecs_cat_mapping_by_type_info#:#Choose this mode to assign by object type.
 ecs#:#ecs_err_invalid_by_type#:#Please select a type when assigning by type.
-common#:#obj_rcat#:#ECS-Category
+common#:#obj_rcat#:#ECS Category Link
 ecs#:#ecs_server_deleted#:#Deleted Server
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.
@@ -12330,11 +12331,11 @@ common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Copy Blog
 blog#:#blog_copy#:#Copy Blog
 rbac#:#blog_visible#:#Blog is visible
-rbac#:#blog_read#:#Read access to blog
-rbac#:#blog_copy#:#Copy Blog
-rbac#:#blog_write#:#Edit Blog
-rbac#:#blog_delete#:#Delete Blog
-rbac#:#blog_edit_permission#:#Change permission settings
+rbac#:#blog_read#:#User can read blog content
+rbac#:#blog_copy#:#User can copy blog
+rbac#:#blog_write#:#User can edit blog settings
+rbac#:#blog_delete#:#User can move or delete blog
+rbac#:#blog_edit_permission#:#User can change permission settings
 rbac#:#crs_create_blog#:#Create Blog
 rbac#:#root_create_blog#:#Create Blog
 rbac#:#fold_create_blog#:#Create Blog
@@ -12351,10 +12352,10 @@ dcl#:#dcl_copy#:#Copy Data Collection
 dcl#:#dcl_edit#:#Edit Data Collection
 rbac#:#dcl_visible#:#Data Collection is visible
 rbac#:#dcl_read#:#Read access to Data Collection
-rbac#:#dcl_copy#:#Copy Data Collection
-rbac#:#dcl_write#:#Edit Data Collection
-rbac#:#dcl_delete#:#Delete Data Collection
-rbac#:#dcl_edit_permission#:#Change permission settings
+rbac#:#dcl_copy#:#User can copy data collection
+rbac#:#dcl_write#:#User can edit settings and content of data collection
+rbac#:#dcl_delete#:#User can move or delete data collection
+rbac#:#dcl_edit_permission#:#User can change permission settings
 rbac#:#dcl_add_entry#:#User can add an entry to the data collection
 rbac#:#crs_create_dcl#:#Create Data Collection
 rbac#:#root_create_dcl#:#Create Data Collection
@@ -12450,11 +12451,11 @@ poll#:#poll_add#:#Add Poll
 poll#:#poll_copy#:#Copy Poll
 poll#:#poll_edit#:#Edit Poll
 rbac#:#poll_visible#:#Poll is visible
-rbac#:#poll_read#:#Read access to poll
-rbac#:#poll_write#:#Edit Poll
-rbac#:#poll_delete#:#Delete Poll
-rbac#:#poll_copy#:#Copy Poll
-rbac#:#poll_edit_permission#:#Change permission settings
+rbac#:#poll_read#:#User can participate at poll
+rbac#:#poll_write#:#User can edit poll settings and content
+rbac#:#poll_delete#:#User can move or delete poll
+rbac#:#poll_copy#:#User can copy poll
+rbac#:#poll_edit_permission#:#User can change permission settings
 rbac#:#root_create_poll#:#Create Poll
 rbac#:#cat_create_poll#:#Create Poll
 rbac#:#crs_create_poll#:#Create Poll
@@ -12641,5 +12642,7 @@ rbac#:#fold_create_poll#:#Create Poll
 common#:#obj_poll_duplicate#:#Copy Poll
 rbac#:#rbac_import_role#:#Import Role
 rbac#:#rbac_role_imported#:#The role has been imported.
-common#:#obj_rcat#:#ECS Category Link
 common#:#objs_rcat#:#ECS Category Links
+rbac#:#grp_create_catr#:#Create Category Reference
+rbac#:#grp_create_sess#:#Create Session
+rbac#:#grp_create_crsr#:#Create Course Reference

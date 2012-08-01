@@ -12417,7 +12417,7 @@ ecs#:#ecs_setting_deleted#:#ECS wurde gelöscht.
 ecs#:#ecs_cat_mapping_by_type#:#Nach Typ
 ecs#:#ecs_cat_mapping_by_type_info#:#Wählen Sie diese Einstellung, um nach Objekt-Typ zuzuordnen.
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
-common#:#obj_rcat#:#ECS-Kategorie
+common#:#obj_rcat#:#ECS-Kategorienlink
 ecs#:#ecs_server_deleted#:#Server gelöscht
 blog#:#blog_edit_date#:#Datum editieren
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
@@ -12729,5 +12729,7 @@ common#:#add_entry#:#Eintragen
 common#:#obj_poll_duplicate#:#Abstimmung kopieren
 rbac#:#rbac_import_role#:#Rolle importieren
 rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert.
-common#:#obj_rcat#:#ECS-Kategorienlink
 common#:#objs_rcat#:#ECS-Kategorienlinks
+rbac#:#grp_create_catr#:#Kategorienreferenz anlegen
+rbac#:#grp_create_sess#:#Sitzung anlegen
+rbac#:#grp_create_crsr#:#Kursreferenz anlegen
