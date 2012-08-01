@@ -1498,7 +1498,7 @@ chat#:#chat_drop_user#:#Gebruiker verwijderd
 chat#:#chat_edit#:#Wijzig Chat
 chat#:#chat_edit_smiley#:#Edit Smiley
 chat#:#chat_empty#:#Leeg
-chat#:#chat_enable_autoscroll#:#Enable Autoscroll
+chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chat#:#chat_enter_valid_username#:#Gelieve een geldige gebruikersnaam te geven
 chat#:#chat_export_all#:#No restrictions (all users with access may export)
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
@@ -1537,14 +1537,14 @@ chat#:#chat_level_info#:#Informatie
 chat#:#chat_lime#:#lime
 chat#:#chat_maroon#:#maroon
 chat#:#chat_message_notify#:#Message Notifier
-chat#:#chat_message_notify_activate#:#Activate Message Notify
+chatroom#:#chat_message_notify_activate#:#Activate Message Notify
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify
 chat#:#chat_messages_deleted#:#Bericht werd verwijderd.
 chat#:#chat_moderator_password#:#Moderator wachtwoord
 chat#:#chat_navy#:#navy
-chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
+chatroom#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
 chat#:#chat_new_message#:#Nieuw bericht
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
+chatroom#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
 chat#:#chat_no_active_users#:#Geen gebruikers aanwezig.
 chat#:#chat_no_blocked#:#No blocked users available
 chat#:#chat_no_connection#:#Kan geen verbinding met server maken.

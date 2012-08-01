@@ -1330,7 +1330,7 @@ chat#:#chat_drop_user#:#Utente rimosso
 chat#:#chat_edit#:#Modifica chat
 chat#:#chat_edit_smiley#:#Elabora lo smiley
 chat#:#chat_empty#:#Vuoto
-chat#:#chat_enable_autoscroll#:#Attiva l'autoscroll
+chatroom#:#chat_enable_autoscroll#:#Attiva l'autoscroll
 chat#:#chat_enter_valid_username#:#Inserisci un nome utente valido.
 chat#:#chat_export_all#:#Nessuna restrizione (tutti gli utenti possono esportare)
 chat#:#chat_export_info#:#Mostra un pulsante di export per la chatroom corrente. Il messaggio sarà esportato in HTML.
@@ -1369,14 +1369,14 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#giallo limone
 chat#:#chat_maroon#:#rosso bordeaux
 chat#:#chat_message_notify#:#Notifica dei messaggi
-chat#:#chat_message_notify_activate#:#Attiva la notifica dei messaggi
+chatroom#:#chat_message_notify_activate#:#Attiva la notifica dei messaggi
 chat#:#chat_message_notify_deactivate#:#Disattivare la notifica dei messaggi
 chat#:#chat_messages_deleted#:#I messaggi sono stati cancellati.
 chat#:#chat_moderator_password#:#Password del moderatore
 chat#:#chat_navy#:#avio
-chat#:#chat_new_invitation_sound_status#:#Avvisa con un segnale acustico se vieni invitato in una nuova chat
+chatroom#:#chat_new_invitation_sound_status#:#Avvisa con un segnale acustico se vieni invitato in una nuova chat
 chat#:#chat_new_message#:#Nuovo messaggio
-chat#:#chat_new_message_sound_status#:#Fai uno squillo all'arrivo di un nuovo messaggio
+chatroom#:#chat_new_message_sound_status#:#Fai uno squillo all'arrivo di un nuovo messaggio
 chat#:#chat_no_active_users#:#Non sono presenti ulteriori utenti
 chat#:#chat_no_blocked#:#Nessun utente bloccato disponibile
 chat#:#chat_no_connection#:#Impossibile contattare il server di chat

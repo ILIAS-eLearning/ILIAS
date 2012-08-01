@@ -1117,7 +1117,7 @@ chat#:#chat_maroon#:#Μπορντώ
 chat#:#chat_messages_deleted#:#Τα μηνύματα διαγράφηκαν
 chat#:#chat_moderator_password#:#Κωδικός διαχειριστή
 chat#:#chat_navy#:#γαλάζιο
-chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
+chatroom#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
 chat#:#chat_new_message#:#Νέο μήνυμα
 chat#:#chat_notification_intro#:#This e-mail was automatically sent to you by the ILIAS installation %s, %
 chat#:#chat_no_active_users#:#Δεν υπάρχουν άλλοι παρόντες χρήστες
@@ -9114,15 +9114,15 @@ chat#:#chat_smiley_keywords_one_per_line_note#:#You can enter multiple Keywords 
 chat#:#chat_upload_smiley#:#Upload Smiley###30 04 2009 new variable
 chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.###30 04 2009 new variable
 chat#:#chat_delete_selected#:#Delete selected Smilies###30 04 2009 new variable
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
+chatroom#:#chat_new_message_sound_status#:#Play a sound if a new Message is received###30 04 2009 new variable
 chat#:#edit_smilies#:#Edit Smilies###30 04 2009 new variable
 chat#:#chat_message_notify#:#Message Notifier###30 04 2009 new variable
-chat#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
+chatroom#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 new variable
 chat#:#chat_smilies_status#:#Chat Smilies###30 04 2009 new variable
 chat#:#chat_smilies_activate#:#Activate Smilies###30 04 2009 new variable
 chat#:#chat_smilies_deactivate#:#Deactivate Smilies###30 04 2009 new variable
-chat#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
+chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll###30 04 2009 new variable
 chat#:#chat_chatviewer#:#Chat Viewer###30 04 2009 new variable
 chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
 chat#:#chat_user_hidden#:#hidden###30 04 2009 new variable

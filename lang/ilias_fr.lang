@@ -1638,7 +1638,7 @@ chat#:#chat_drop_user#:#Utilisateur expulsé
 chat#:#chat_edit_smiley#:#Modifier l'émoticône
 chat#:#chat_edit#:#Modifier le Chat
 chat#:#chat_empty#:#Vide
-chat#:#chat_enable_autoscroll#:#Activer le défilement automatique
+chatroom#:#chat_enable_autoscroll#:#Activer le défilement automatique
 chat#:#chat_enter_valid_username#:#Saisissez un identifiant d'utilisateur valide.
 chat#:#chat_export_all#:#Aucune restriction (tous les utilisateurs avec accès peuvent exporter)
 chat#:#chat_export_info#:#Affiche un bouton d'exportation pour la salle de cours. Les messages seront exportés au format HTML.
@@ -1676,14 +1676,14 @@ chat#:#chat_level_fatal#:#Fatal
 chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#vert acide
 chat#:#chat_maroon#:#marron
-chat#:#chat_message_notify_activate#:#Activer le message de notification
+chatroom#:#chat_message_notify_activate#:#Activer le message de notification
 chat#:#chat_message_notify_deactivate#:#Désactiver le message de notification
 chat#:#chat_message_notify#:#Message de notification
 chat#:#chat_messages_deleted#:#Les messages ont été détruits
 chat#:#chat_moderator_password#:#Mot de passe du modérateur
 chat#:#chat_navy#:#bleu marine
-chat#:#chat_new_invitation_sound_status#:#Jouer un son si un utilisateur reçoit une nouvelle invitation au Chat
-chat#:#chat_new_message_sound_status#:#Jouer un son si un nouveau message est reçu
+chatroom#:#chat_new_invitation_sound_status#:#Jouer un son si un utilisateur reçoit une nouvelle invitation au Chat
+chatroom#:#chat_new_message_sound_status#:#Jouer un son si un nouveau message est reçu
 chat#:#chat_new_message#:#Nouveau message
 chat#:#chat_no_active_users#:#Pas d'utilisateurs présents
 chat#:#chat_no_blocked#:#Aucun utilisateur bloqué

@@ -1663,7 +1663,7 @@ chat#:#chat_drop_user#:#Usuario expulsado
 chat#:#chat_edit#:#Editar chat
 chat#:#chat_edit_smiley#:#Editar emoticono
 chat#:#chat_empty#:#limpiar chat
-chat#:#chat_enable_autoscroll#:#Habilitar desplazamiento automático
+chatroom#:#chat_enable_autoscroll#:#Habilitar desplazamiento automático
 chat#:#chat_enter_valid_username#:#Por favor introduzca un nombre de usuario válido.
 chat#:#chat_export_all#:#Sin restricciones (todos los usuarios con acceso puede exportar)
 chat#:#chat_export_info#:#Muestra un botón de exportación para la sala actual. Los mensajes serán exportados a HTML.
@@ -1702,14 +1702,14 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lima
 chat#:#chat_maroon#:#granate
 chat#:#chat_message_notify#:#Mensaje de notificación
-chat#:#chat_message_notify_activate#:#Activar notificación de mensajes
+chatroom#:#chat_message_notify_activate#:#Activar notificación de mensajes
 chat#:#chat_message_notify_deactivate#:#Desactivar notificación de mensajes
 chat#:#chat_messages_deleted#:#Los mensajes han sido eliminados.
 chat#:#chat_moderator_password#:#contraseña del moderador
 chat#:#chat_navy#:#azul marino
-chat#:#chat_new_invitation_sound_status#:#Reproduce un sonido si un usuario recibe una invitación al chat
+chatroom#:#chat_new_invitation_sound_status#:#Reproduce un sonido si un usuario recibe una invitación al chat
 chat#:#chat_new_message#:#Nuevo mensaje
-chat#:#chat_new_message_sound_status#:#Reproducir un sonido si llega un nuevo mensaje
+chatroom#:#chat_new_message_sound_status#:#Reproducir un sonido si llega un nuevo mensaje
 chat#:#chat_no_active_users#:#No hay otros usuarios presentes
 chat#:#chat_no_blocked#:#No hay usuarios bloqueados disponibles
 chat#:#chat_no_connection#:#No se puede conectar al servidor chat

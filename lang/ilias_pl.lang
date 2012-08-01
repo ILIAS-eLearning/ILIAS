@@ -1666,7 +1666,7 @@ chat#:#chat_drop_user#:#Odrzuceni użytkownicy
 chat#:#chat_edit#:#Edytuj czat
 chat#:#chat_edit_smiley#:#Edytuj Buźkę
 chat#:#chat_empty#:#Wyczyść
-chat#:#chat_enable_autoscroll#:#Włącz Autoprzewijanie
+chatroom#:#chat_enable_autoscroll#:#Włącz Autoprzewijanie
 chat#:#chat_enter_valid_username#:#Podaj poprawną nazwę użytkownika.
 chat#:#chat_export_all#:#No restrictions (all users with access may export)
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
@@ -1705,14 +1705,14 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#limona
 chat#:#chat_maroon#:#kasztanowaty
 chat#:#chat_message_notify#:#Wiadomość Przypomnienia
-chat#:#chat_message_notify_activate#:#Aktywowanie Wiadomości Przypomnienia
+chatroom#:#chat_message_notify_activate#:#Aktywowanie Wiadomości Przypomnienia
 chat#:#chat_message_notify_deactivate#:#Deaktywowanie Wiadomości Przypomnienia
 chat#:#chat_messages_deleted#:#Wiadomości zostały usunięte.
 chat#:#chat_moderator_password#:#Hasło Moderatora
 chat#:#chat_navy#:#granatowy
-chat#:#chat_new_invitation_sound_status#:#Odtwórz dźwięk, gdy użytkownik otrzymuje nowe zaproszenie do czatu.
+chatroom#:#chat_new_invitation_sound_status#:#Odtwórz dźwięk, gdy użytkownik otrzymuje nowe zaproszenie do czatu.
 chat#:#chat_new_message#:#Nowa wiadomość
-chat#:#chat_new_message_sound_status#:#Odtwórz dźwięk w trakcie otrzymania nową wiadomości.
+chatroom#:#chat_new_message_sound_status#:#Odtwórz dźwięk w trakcie otrzymania nową wiadomości.
 chat#:#chat_no_active_users#:#Brak obecnych użytkowników.
 chat#:#chat_no_blocked#:#Brak użytkowników zablokowanych.
 chat#:#chat_no_connection#:#Nie można skontaktować się z serwerem czat.
