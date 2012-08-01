@@ -842,14 +842,16 @@ class ilCtrl
 		}
 		if (substr($a_target_node, 0, strlen($a_source_node)) != $a_source_node)
 		{
-			echo "ERROR: Path not found. Source:".$a_source_node.
+			$failure =  "ERROR: Path not found. Source:".$a_source_node.
 				", Target:".$a_target_node;
-				
 			if (DEVMODE == 1)
 			{
+				echo $failure;
 				ilUtil::printBacktrace();
+				exit;
 			}
-			exit;
+			$GLOBALS['ilLog']->write(__METHOD__.' '.$failure);
+			ilUtil::redirect('./repository.php');
 		}
 //echo "<br>:::$a_source_node:::";
 		$temp_node = $a_source_node;
