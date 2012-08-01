@@ -3115,7 +3115,7 @@ common#:#fold_edit#:#Modifier dossier
 common#:#fold_new#:#Nouveau dossier
 rbac#:#fold_read#:#Accès en lecture au dossier
 common#:#fold_type#:#Folder Type###02 09 2011 new variable
-common#:#fold_visible#:#Le dossier est visible
+rbac#:#fold_visible#:#Le dossier est visible
 common#:#fold_wizard_page#:#Copier Dossier (étape 2/2)
 rbac#:#fold_write#:#Modifier dossier
 common#:#fold#:#Dossier
@@ -3155,27 +3155,27 @@ common#:#forums_use_alias#:#Vous pouvez utiliser cet alias pour vos contribution
 common#:#forums_your_name#:#Votre nom
 common#:#forums#:#Forums
 common#:#frm_a#:#un Forum
-common#:#frm_add_post#:#Ajouter un nouveau message
-common#:#frm_add_thread#:#Créer une nouvelle discussion
+rbac#:#frm_add_post#:#Ajouter un nouveau message
+rbac#:#frm_add_thread#:#Créer une nouvelle discussion
 common#:#frm_add#:#Ajouter Forum
 common#:#frm_added#:#Forum ajouté
 common#:#frm_article#:#article
 common#:#frm_copy#:#Copier Forum
 common#:#frm_create#:#Créer forum
 common#:#frm_delete_post#:#Éditer et supprimer le  message
-common#:#frm_delete#:#Supprimer le forum
-common#:#frm_edit_permission#:#Modifier les paramètres de permission
+rbac#:#frm_delete#:#Supprimer le forum
+rbac#:#frm_edit_permission#:#Modifier les paramètres de permission
 common#:#frm_edit_post#:#Modifier un message
 common#:#frm_edit#:#Modifier forum
 common#:#frm_latest_postings#:#Derniers articles
-common#:#frm_moderate_frm#:#Supprimer un message, le censurer
+rbac#:#frm_moderate_frm#:#Supprimer un message, le censurer
 common#:#frm_new#:#Nouveau forum
-common#:#frm_read#:#Accès en lecture au forum
+rbac#:#frm_read#:#Accès en lecture au forum
 common#:#frm_statistics_ranking#:#Classement
 common#:#frm_status_new_desc#:#Définir le délai de maintien du statut 'Nouveau' pour les derniers messages de forum .
 common#:#frm_status_new#:#Statut 'Nouveau'
-common#:#frm_visible#:#Le forum est visible
-common#:#frm_write#:#Modifier forum
+rbac#:#frm_visible#:#Le forum est visible
+rbac#:#frm_write#:#Modifier forum
 common#:#frm#:#Forum
 common#:#frma_edit_permission#:#Changer les paramètres de permission
 common#:#frma_read#:#Read access to Forum Administration
@@ -3197,8 +3197,8 @@ common#:#glo_add#:#Ajouter Glossaire
 common#:#glo_added#:#Glossaire ajouté
 common#:#glo_copy#:#Copier Glossaire
 common#:#glo_create#:#Créer glossaire
-common#:#glo_delete#:#Supprimer le glossaire
-common#:#glo_edit_permission#:#Modifier les paramètres de permission
+rbac#:#glo_delete#:#Supprimer le glossaire
+rbac#:#glo_edit_permission#:#Modifier les paramètres de permission
 common#:#glo_import#:#Import Glossary###01 04 2011 new variable
 common#:#glo_join#:#S'abonner au glossaire
 common#:#glo_leave#:#Se désabonner du glossaire
@@ -3208,10 +3208,10 @@ common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtuel (niveaux inférieurs)
 common#:#glo_mode#:#Mode
 common#:#glo_new#:#Nouveau glossaire
-common#:#glo_read#:#Accès en lecture au glossaire
+rbac#:#glo_read#:#Accès en lecture au glossaire
 common#:#glo_upload_file#:#Fichier
-common#:#glo_visible#:#Le glossaire est visible
-common#:#glo_write#:#Modifier glossaire
+rbac#:#glo_visible#:#Le glossaire est visible
+rbac#:#glo_write#:#Modifier glossaire
 common#:#glo#:#Glossaire
 common#:#global_default#:#Valeur par défaut globale
 common#:#global_fixed#:#Valeur fixée globale
@@ -3280,33 +3280,33 @@ common#:#grp_count_members#:#Nombre de membres
 common#:#grp_create_alm#:#Créer document
 common#:#grp_create_chat#:#Créer chat
 common#:#grp_create_dbk#:#Créer livre Digilib
-common#:#grp_create_exc#:#Créer évaluation (exercice)
-common#:#grp_create_feed#:#Créer flux externe d'actualité (RSS)
-common#:#grp_create_file#:#L'utilisateur peut téléverser des fichiers
-common#:#grp_create_fold#:#L'utilisateur peut créer des dossiers
-common#:#grp_create_frm#:#Créer Forum
-common#:#grp_create_glo#:#Créer glossaire
-common#:#grp_create_grp#:#Créer le Groupe
+rbac#:#grp_create_exc#:#Créer évaluation (exercice)
+rbac#:#grp_create_feed#:#Créer flux externe d'actualité (RSS)
+rbac#:#grp_create_file#:#L'utilisateur peut téléverser des fichiers
+rbac#:#grp_create_fold#:#L'utilisateur peut créer des dossiers
+rbac#:#grp_create_frm#:#Créer Forum
+rbac#:#grp_create_glo#:#Créer glossaire
+rbac#:#grp_create_grp#:#Créer le Groupe
 common#:#grp_create_hlm#:#Créer document HACP
-common#:#grp_create_htlm#:#Créer document HTML importé
-common#:#grp_create_icrs#:#Créer un Séminaire LearnLinc
-common#:#grp_create_lm#:#Créer document ILIAS
-common#:#grp_create_mcst#:#Créer MediaCast
-common#:#grp_create_mep#:#Créer galerie multimédia
-common#:#grp_create_qpl#:#Créer jeu de questions pour des tests
-common#:#grp_create_sahs#:#Créer document  SCORM/AICC
-common#:#grp_create_spl#:#Créer jeu de questions pour des enquêtes
-common#:#grp_create_svy#:#Créer enquête
-common#:#grp_create_tst#:#Créer test
-common#:#grp_create_webr#:#Créer nouvelle ressource web
+rbac#:#grp_create_htlm#:#Créer document HTML importé
+rbac#:#grp_create_icrs#:#Créer un Séminaire LearnLinc
+rbac#:#grp_create_lm#:#Créer document ILIAS
+rbac#:#grp_create_mcst#:#Créer MediaCast
+rbac#:#grp_create_mep#:#Créer galerie multimédia
+rbac#:#grp_create_qpl#:#Créer jeu de questions pour des tests
+rbac#:#grp_create_sahs#:#Créer document  SCORM/AICC
+rbac#:#grp_create_spl#:#Créer jeu de questions pour des enquêtes
+rbac#:#grp_create_svy#:#Créer enquête
+rbac#:#grp_create_tst#:#Créer test
+rbac#:#grp_create_webr#:#Créer nouvelle ressource web
 common#:#grp_create_write#:#Créer Wiki
 common#:#grp_create#:#Créer le Groupe
-common#:#grp_delete#:#Supprimer le groupe
+rbac#:#grp_delete#:#Supprimer le groupe
 common#:#grp_deleted_export_files#:#Fichiers sélectionnés supprimés.
 common#:#grp_dismiss_member#:#Etes-vous sûr(e) de vouloir exclure les utilisateurs suivants du groupe ?
 common#:#grp_dismiss_myself#:#Etes-vous sûr(e) de vouloir vous exclure du groupe ?
-common#:#grp_edit_learning_progress#:#Éditer Suivi utilisateur
-common#:#grp_edit_permission#:#Modifier les paramètres de permission
+rbac#:#grp_edit_learning_progress#:#Éditer Suivi utilisateur
+rbac#:#grp_edit_permission#:#Modifier les paramètres de permission
 common#:#grp_edit#:#Modifier groupe
 common#:#grp_err_administrator_required#:#L'utilisateur ne peut pas être exclu du groupe : au moins un administrateur par groupe est nécessaire !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Chaque groupe doit posséder au moins un administrateur
@@ -3316,8 +3316,8 @@ common#:#grp_err_member_could_not_be_removed#:#Le membre ne peut pas être exclu
 common#:#grp_err_no_permission#:#Vous n'avez pas les permissions nécessaires pour cette opération.
 common#:#grp_err_registration_data#:#Veuillez saisir un mot de passe, la date d'expiration et le moment dans une période d'inscription valide
 common#:#grp_header_edit_members#:#Modifier les membres
-common#:#grp_join#:#L'utilisateur peut s'inscrire dans le groupe
-common#:#grp_leave#:#L'utilisateur peut quitter le groupe
+rbac#:#grp_join#:#L'utilisateur peut s'inscrire dans le groupe
+rbac#:#grp_leave#:#L'utilisateur peut quitter le groupe
 common#:#grp_list_users#:#Liste des utilisateurs
 common#:#grp_mail_body_new_subscription#:#Vous avez été inscrit à ce groupe.
 common#:#grp_mail_body_subscription_cancelled#:#Votre inscription a été annulée.
@@ -3338,7 +3338,7 @@ common#:#grp_no_groups_selected#:#Aucun groupe sélectionné
 common#:#grp_no_results_found#:#Aucun résultat
 common#:#grp_no_roles_selected#:#Aucun rôle sélectionné
 common#:#grp_options#:#Options
-common#:#grp_read#:#Accès en lecture au groupe
+rbac#:#grp_read#:#Accès en lecture au groupe
 common#:#grp_register#:#Enregistrement
 common#:#grp_registration_completed#:#Enregistrement terminé
 common#:#grp_registration#:#Rejoignez le groupe
@@ -3347,9 +3347,9 @@ common#:#grp_search_enter_search_string#:#Veuillez saisir une chaîne de recherc
 common#:#grp_search_members#:#Recherche d'utilisateur
 common#:#grp_select_one_file_only#:#Veuillez sélectionner un seul fichier, s'il vous plaît.
 common#:#grp_select_one_file#:#Veuillez sélectionner un fichier, s'il vous plaît.
-common#:#grp_visible#:#Le groupe est visible
+rbac#:#grp_visible#:#Le groupe est visible
 common#:#grp_wizard_page#:#Copier le Groupe (étape 2/2)
-common#:#grp_write#:#Modifier groupe
+rbac#:#grp_write#:#Modifier groupe
 common#:#grp#:#Groupe
 common#:#guest#:#Invité
 common#:#guests#:#Invités
@@ -3413,14 +3413,14 @@ common#:#hours_of_day#:#Heures du jour
 common#:#hours#:#heure(s)
 common#:#htlm_add#:#Ajouter document HTML importé
 common#:#htlm_copy#:#Copier Document HTML importé
-common#:#htlm_delete#:#Supprimer le document HTML importé
-common#:#htlm_edit_learning_progress#:#Editer suivi
-common#:#htlm_edit_permission#:#Modifier les paramètres de permission
+rbac#:#htlm_delete#:#Supprimer le document HTML importé
+rbac#:#htlm_edit_learning_progress#:#Editer suivi
+rbac#:#htlm_edit_permission#:#Modifier les paramètres de permission
 common#:#htlm_edit#:#Modifier propriétés du document HTML importé
 common#:#htlm_new#:#Nouveau document HTML importé
-common#:#htlm_read#:#Lire document HTML importé
-common#:#htlm_visible#:#Le document HTML importé est visible
-common#:#htlm_write#:#Modifier document HTML importé
+rbac#:#htlm_read#:#Lire document HTML importé
+rbac#:#htlm_visible#:#Le document HTML importé est visible
+rbac#:#htlm_write#:#Modifier document HTML importé
 common#:#htlm#:#Document HTML importé
 common#:#html_block#:#Bloc HTML
 common#:#http_not_possible#:#Ce serveur ne permet pas les connexions HTTP.
@@ -3785,19 +3785,19 @@ common#:#lm_add#:#Ajouter document ILIAS
 common#:#lm_added#:# Document ILIAS ajouté
 common#:#lm_copy#:#Copier Document ILIAS
 common#:#lm_create#:#Créer document ILIAS
-common#:#lm_delete#:#Supprimer le document ILIAS
-common#:#lm_edit_learning_progress#:#Editer suivi
+rbac#:#lm_delete#:#Supprimer le document ILIAS
+rbac#:#lm_edit_learning_progress#:#Editer suivi
 common#:#lm_edit_permission#:#Modifier les paramètres de permission
 common#:#lm_join#:#S'abonner au document ILIAS
 common#:#lm_leave#:#Se désabonner du document ILIAS
 common#:#lm_new#:# Document ILIAS
-common#:#lm_read#:#Accès en lecture au document ILIAS
+rbac#:#lm_read#:#Accès en lecture au document ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#Le document ILIAS est visible
-common#:#lm_write#:#Modifier document ILIAS
+rbac#:#lm_visible#:#Le document ILIAS est visible
+rbac#:#lm_write#:#Modifier document ILIAS
 common#:#lm#:#Document ILIAS
 common#:#lng#:#Langue
 common#:#lngf_edit_permission#:#Modifier les paramètres de permission
@@ -3913,12 +3913,12 @@ common#:#max_number_rec#:#Nombre maximum d'enregistrement
 common#:#max_time#:#Durée maximale
 common#:#mcst_add#:#Ajouter MediaCast
 common#:#mcst_copy#:#Copier MediaCast
-common#:#mcst_delete#:#Supprimer Mediacast
-common#:#mcst_edit_permission#:#Modifier les paramètres de permission
+rbac#:#mcst_delete#:#Supprimer Mediacast
+rbac#:#mcst_edit_permission#:#Modifier les paramètres de permission
 common#:#mcst_new#:#Nouveau MediaCast
-common#:#mcst_read#:#Accès en lecture au MediaCast
-common#:#mcst_visible#:#Le MediaCast est visible
-common#:#mcst_write#:#Modifier MediaCast
+rbac#:#mcst_read#:#Accès en lecture au MediaCast
+rbac#:#mcst_visible#:#Le MediaCast est visible
+rbac#:#mcst_write#:#Modifier MediaCast
 common#:#mcst#:#MediaCast
 common#:#mem_add_to_wl#:#Ajouter à la liste d'attente
 common#:#mem_alert_no_places#:#There are no free places available.
@@ -3945,14 +3945,14 @@ common#:#membership_annulled#:#Votre inscription a été annulée
 common#:#membership_leave#:#Leave
 common#:#mep_add#:#Ajouter Galerie multimédia
 common#:#mep_added#:#Galerie multimédia ajoutée
-common#:#mep_delete#:#Supprimer la galerie multimédia
-common#:#mep_edit_permission#:#Modifier les paramètres de permission
+rbac#:#mep_delete#:#Supprimer la galerie multimédia
+rbac#:#mep_edit_permission#:#Modifier les paramètres de permission
 common#:#mep_edit#:#Modifier propriétés de la galerie multimédia
 common#:#mep_new#:#Nouvelle galerie multimédia
 common#:#mep_not_insert_already_exist#:#Les objets suivants n'ont pas été insérés, car ils sont déjà dans le jeu de ressources multimédia.
-common#:#mep_read#:#Lire le contenu de la galerie multimédia
-common#:#mep_visible#:#La galerie multimédia est visible
-common#:#mep_write#:#Modifier contenu de la galerie multimédia
+rbac#:#mep_read#:#Lire le contenu de la galerie multimédia
+rbac#:#mep_visible#:#La galerie multimédia est visible
+rbac#:#mep_write#:#Modifier contenu de la galerie multimédia
 common#:#mep#:#Galerie multimédia
 common#:#message_content#:#Contenu du message
 common#:#message_no_delivered_files#:#Aucun fichier remis
@@ -4618,13 +4618,13 @@ common#:#publishing_organisation#:#Organisation de publication
 common#:#purpose#:#But
 common#:#qpl_add#:#Ajouter Jeu de Questions (test)
 common#:#qpl_copy#:#Copier un jeu de questions de test
-common#:#qpl_delete#:#Supprimer le jeu de questions (test)
-common#:#qpl_edit_permission#:#Modifier les paramètres de permission
+rbac#:#qpl_delete#:#Supprimer le jeu de questions (test)
+rbac#:#qpl_edit_permission#:#Modifier les paramètres de permission
 common#:#qpl_new#:#Nouveau jeu de questions (test)
-common#:#qpl_read#:#Accès en lecture au jeu de questions (test)
+rbac#:#qpl_read#:#Accès en lecture au jeu de questions (test)
 common#:#qpl_upload_file#:#Téléverser fichier
-common#:#qpl_visible#:#Le jeu de questions (test) est visible
-common#:#qpl_write#:#Modifier jeu de questions (test)
+rbac#:#qpl_visible#:#Le jeu de questions (test) est visible
+rbac#:#qpl_write#:#Modifier jeu de questions (test)
 common#:#qpl#:#Jeu de questions (test)
 common#:#quarterly#:#trimestriel
 common#:#query_data#:#Lancer la requête
@@ -4783,17 +4783,17 @@ common#:#rte_editor_enabled#:#Éditeur de texte enrichi activé
 common#:#sahs_added#:# Document SCORM/AICC ajouté
 common#:#sahs_copy#:#Copier Document SCORM/AICC
 common#:#sahs_create#:#Créer document SCORM/AICC
-common#:#sahs_delete#:#Supprimer le document SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Editer suivi
-common#:#sahs_edit_permission#:#Modifier les paramètres de permission
+rbac#:#sahs_delete#:#Supprimer le document SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Editer suivi
+rbac#:#sahs_edit_permission#:#Modifier les paramètres de permission
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#S'abonner au document SCORM/AICC
 common#:#sahs_leave#:#Se désabonner du document SCORM/AICC
-common#:#sahs_read#:#Accès en lecture au document SCORM/AICC
-common#:#sahs_visible#:#Le document SCORM/AICC est visible
-common#:#sahs_write#:#Modifier document SCORM/AICC
+rbac#:#sahs_read#:#Accès en lecture au document SCORM/AICC
+rbac#:#sahs_visible#:#Le document SCORM/AICC est visible
+rbac#:#sahs_write#:#Modifier document SCORM/AICC
 common#:#sahs#:#Document SCORM/AICC
 common#:#salutation_f#:#Mme/Mlle
 common#:#salutation_m#:#M.
@@ -4994,13 +4994,13 @@ common#:#sorting_title_header#:#Trié selon le titre
 common#:#spacer#:#Séparateur
 common#:#spl_add#:#Ajouter Jeu de Questions (enquête)
 common#:#spl_copy#:#Copier un jeu de questions d'enquête
-common#:#spl_delete#:#Supprimer le jeu de questions (enquête)
-common#:#spl_edit_permission#:#Modifier les paramètres de permission
+rbac#:#spl_delete#:#Supprimer le jeu de questions (enquête)
+rbac#:#spl_edit_permission#:#Modifier les paramètres de permission
 common#:#spl_new#:#Nouveau jeu de questions (enquête)
-common#:#spl_read#:#Accès en lecture au jeu de questions (enquête)
+rbac#:#spl_read#:#Accès en lecture au jeu de questions (enquête)
 common#:#spl_upload_file#:#Téléverser fichier
-common#:#spl_visible#:#Le jeu de questions (enquête) est visible
-common#:#spl_write#:#Modifier jeu de questions (enquête)
+rbac#:#spl_visible#:#Le jeu de questions (enquête) est visible
+rbac#:#spl_write#:#Modifier jeu de questions (enquête)
 common#:#spl#:#Jeu de questions (enquête)
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#un chapitre
@@ -5049,22 +5049,22 @@ common#:#survey_unlimited_invitation_desc#:#Permet l'invitation illimitée dans 
 common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#svy_add#:#Ajouter Enquête
 common#:#svy_copy#:#Copier Enquête
-common#:#svy_delete#:#Supprimer le Enquête
-common#:#svy_edit_permission#:#Modifier les paramètres de permission
+rbac#:#svy_delete#:#Supprimer le Enquête
+rbac#:#svy_edit_permission#:#Modifier les paramètres de permission
 common#:#svy_evaluation#:#Résultats
 common#:#svy_finished#:#Complet
-common#:#svy_invite#:#Inviter les utilisateurs à une Enquête
+rbac#:#svy_invite#:#Inviter les utilisateurs à une Enquête
 common#:#svy_new#:#Nouvelle Enquête
 common#:#svy_no_content#:#Pas d'Enquête disponible
 common#:#svy_not_finished#:#Incomplet
 common#:#svy_not_started#:#Non commencé
 common#:#svy_participate#:#Participer à une Enquête
-common#:#svy_read#:#Accès en lecture à l'Enquête
+rbac#:#svy_read#:#Accès en lecture à l'Enquête
 common#:#svy_run#:#Démarrer
 common#:#svy_upload_file#:#Téléverser fichier
-common#:#svy_visible#:#L'enquête  est visible
+rbac#:#svy_visible#:#L'enquête  est visible
 common#:#svy_warning_survey_not_complete#:#L'enquête est incomplète !
-common#:#svy_write#:#Modifier enquête
+rbac#:#svy_write#:#Modifier enquête
 common#:#svy#:#Enquête
 common#:#system_check#:#Vérification du système
 common#:#system_choose_language#:#Choix de la langue système
@@ -5163,23 +5163,23 @@ common#:#treeview#:#Arborescence
 common#:#tst_add#:#Ajouter Test
 common#:#tst_anon_eval#:#Résultats
 common#:#tst_copy#:#Copier Test
-common#:#tst_delete#:#Supprimer le test
-common#:#tst_edit_learning_progress#:#Editer suivi
-common#:#tst_edit_permission#:#Modifier les paramètres de permission
+rbac#:#tst_delete#:#Supprimer le test
+rbac#:#tst_edit_learning_progress#:#Editer suivi
+rbac#:#tst_edit_permission#:#Modifier les paramètres de permission
 common#:#tst_edit_questions#:#Edit Questions###12 06 2011 new variable
 common#:#tst_new#:#Nouveau test
 common#:#tst_no_content#:#Pas de test disponible
 common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>###12 06 2011 new variable
-common#:#tst_read#:#Accès en lecture au test
+rbac#:#tst_read#:#Accès en lecture au test
 common#:#tst_run#:#Démarrer
 common#:#tst_statistical_evaluation#:#Résultats
 common#:#tst_statistics#:#Accès aux résultats du test
 common#:#tst_upload_file#:#Téléverser fichier
 common#:#tst_user_not_invited#:#Vous n'êtes pas censé passer cet examen.
 common#:#tst_user_wrong_clientip#:#Vous n'avez pas la bonne adresse IP pour ce test
-common#:#tst_visible#:#Le test est visible
+rbac#:#tst_visible#:#Le test est visible
 common#:#tst_warning_test_not_complete#:#Ce test est incomplet !
-common#:#tst_write#:#Modifier test
+rbac#:#tst_write#:#Modifier test
 common#:#tst#:#Test
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#Parcourez jusqu'à l'endroit où vous voulez ajouter
@@ -5399,11 +5399,11 @@ common#:#webr_add_item#:#Ajouter ressource web
 common#:#webr_add#:#Ajouter une ressource web
 common#:#webr_copy#:#Copier Ressource Web
 common#:#webr_delete_items#:#Supprimer ressource(s) web
-common#:#webr_delete#:#Supprimer ressource web
+rbac#:#webr_delete#:#Supprimer ressource web
 common#:#webr_deleted_items#:#Supprimer ressource(s) web
 common#:#webr_disable_check#:#Désactiver la validation
 common#:#webr_edit_item#:#Modifier ressource web
-common#:#webr_edit_permission#:#Modifier paramètres de permission
+rbac#:#webr_edit_permission#:#Modifier paramètres de permission
 common#:#webr_edit#:#Modifier ressource web
 common#:#webr_fillout_all#:#Veuillez remplir tous les champs obligatoires
 common#:#webr_item_updated#:#Modifications enregistrées
@@ -5415,10 +5415,10 @@ common#:#webr_modified_items#:#Modifications enregistrées
 common#:#webr_never_checked#:#Jamais vérifié
 common#:#webr_new#:#Ajouter nouvelle ressource web
 common#:#webr_no_items_created#:#Pas de ressource web créée
-common#:#webr_read#:#Accès en lecture à la ressource web
+rbac#:#webr_read#:#Accès en lecture à la ressource web
 common#:#webr_sure_delete_items#:#Voulez-vous vraiment supprimer la(les) ressource(s) web suivante(s) ?
-common#:#webr_visible#:#La ressource web est visible
-common#:#webr_write#:#Modifier ressource web
+rbac#:#webr_visible#:#La ressource web est visible
+rbac#:#webr_write#:#Modifier ressource web
 common#:#webr#:#Ressource web
 common#:#webservices#:#Services Web
 common#:#week#:#Semaine
@@ -5430,13 +5430,13 @@ common#:#width_x_height#:#Largeur x Hauteur
 common#:#width#:#Largeur
 common#:#wiki_add#:#Ajouter Wiki
 common#:#wiki_copy#:#Copier Wiki
-common#:#wiki_delete#:#Supprimer Wiki
-common#:#wiki_edit_content#:#Editer les pages Wiki
-common#:#wiki_edit_permission#:#Modifier les paramètres de permission
+rbac#:#wiki_delete#:#Supprimer Wiki
+rbac#:#wiki_edit_content#:#Editer les pages Wiki
+rbac#:#wiki_edit_permission#:#Modifier les paramètres de permission
 common#:#wiki_new#:#Nouveau Wiki
-common#:#wiki_read#:#Lire Wiki
-common#:#wiki_visible#:#Wiki visible
-common#:#wiki_write#:#Modifier les paramètres du Wiki, le classement des apprenants
+rbac#:#wiki_read#:#Lire Wiki
+rbac#:#wiki_visible#:#Wiki visible
+rbac#:#wiki_write#:#Modifier les paramètres du Wiki, le classement des apprenants
 common#:#wiki#:#Wiki
 common#:#with#:#avec
 common#:#wizard_search_list#:#Votre recherche a produit les résultats suivants. Veuillez en sélectionner un
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

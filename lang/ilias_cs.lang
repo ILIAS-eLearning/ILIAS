@@ -3017,7 +3017,7 @@ rbac#:#fold_edit_learning_progress#:#Upravit postup výuky
 rbac#:#fold_edit_permission#:#Změnit nastavení oprávnění
 common#:#fold_new#:#Nová složka
 rbac#:#fold_read#:#Právo číst na složku
-common#:#fold_visible#:#Složka je viditelná
+rbac#:#fold_visible#:#Složka je viditelná
 common#:#fold_wizard_page#:#Kopírovat složku (krok 2/2)
 rbac#:#fold_write#:#Upravit složku
 common#:#folder#:#Složka
@@ -3058,26 +3058,26 @@ common#:#forums_your_name#:#Vaše jméno
 common#:#frm#:#Fórum
 common#:#frm_a#:#fórum
 common#:#frm_add#:#Přidat fórum
-common#:#frm_add_post#:#Přidat novou poštu
-common#:#frm_add_thread#:#Přidat nové téma
+rbac#:#frm_add_post#:#Přidat novou poštu
+rbac#:#frm_add_thread#:#Přidat nové téma
 common#:#frm_added#:#Fórum přidáno
 common#:#frm_article#:#článek
 common#:#frm_copy#:#Kopírovat fórum
 common#:#frm_create#:#Vytvořit fórum
-common#:#frm_delete#:#Smazat fórum
+rbac#:#frm_delete#:#Smazat fórum
 common#:#frm_delete_post#:#Smazat poštu, cenzúra
 common#:#frm_edit#:#Upravit fórum
-common#:#frm_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#frm_edit_permission#:#Změnit nastavení oprávnění
 common#:#frm_edit_post#:#Přidat nový zápis
 common#:#frm_latest_postings#:#Poslední články
-common#:#frm_moderate_frm#:#Smazat poštu, cenzúra
+rbac#:#frm_moderate_frm#:#Smazat poštu, cenzúra
 common#:#frm_new#:#Nové fórum
-common#:#frm_read#:#Právo číst do fóra
+rbac#:#frm_read#:#Právo číst do fóra
 common#:#frm_statistics_ranking#:#Klasifikace
 common#:#frm_status_new#:#Status 'Nový'
 common#:#frm_status_new_desc#:#Vyberte prosím délku trvání stavu 'Nový' ve vstupech fóra.
-common#:#frm_visible#:#Fórum je viditelné
-common#:#frm_write#:#Upravit fórum
+rbac#:#frm_visible#:#Fórum je viditelné
+rbac#:#frm_write#:#Upravit fórum
 common#:#frma_edit_permission#:#Change permission settings###28 10 2010 new variable
 common#:#frma_read#:#Read access to Forum Administration###28 10 2010 new variable
 common#:#frma_visible#:#Forum Administration is visible###28 10 2010 new variable
@@ -3099,8 +3099,8 @@ common#:#glo_add#:#Přidat glosář
 common#:#glo_added#:#Glosář přidán
 common#:#glo_copy#:#Kopírovat glosář
 common#:#glo_create#:#Vytvořit glosář
-common#:#glo_delete#:#Smazat glosář
-common#:#glo_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#glo_delete#:#Smazat glosář
+rbac#:#glo_edit_permission#:#Změnit nastavení oprávnění
 common#:#glo_import#:#Import Glossary###01 04 2011 new variable
 common#:#glo_join#:#Odebírat glosář
 common#:#glo_leave#:#Odepsat se z glosáře
@@ -3110,10 +3110,10 @@ common#:#glo_mode_level#:#virtuální (jen tato úroveň)
 common#:#glo_mode_normal#:#normální
 common#:#glo_mode_subtree#:#virtuální (včetně podstromu)
 common#:#glo_new#:#Nový glosář
-common#:#glo_read#:#Právo číst na glosář
+rbac#:#glo_read#:#Právo číst na glosář
 common#:#glo_upload_file#:#Soubor
-common#:#glo_visible#:#Glosář je viditelný
-common#:#glo_write#:#Upravit glosář
+rbac#:#glo_visible#:#Glosář je viditelný
+rbac#:#glo_write#:#Upravit glosář
 common#:#global#:#Globální
 common#:#global_default#:#Globální výchozí
 common#:#global_fixed#:#Globální zapsáno
@@ -3183,33 +3183,33 @@ common#:#grp_create#:#Vytvořit skupinu
 common#:#grp_create_alm#:#Vytvořit výukový modul AICC
 common#:#grp_create_chat#:#Vytvořit diskusi
 common#:#grp_create_dbk#:#Vytvořit digitální knihu
-common#:#grp_create_exc#:#Vytvořit cvičení
-common#:#grp_create_feed#:#Vytvořit webový zásobník
-common#:#grp_create_file#:#Uživatel může ukládat soubory
-common#:#grp_create_fold#:#Uživatel může vytvářet složky
-common#:#grp_create_frm#:#Vytvořit fórum
-common#:#grp_create_glo#:#Vytvořit glosář
-common#:#grp_create_grp#:#Vytvořit skupiny
+rbac#:#grp_create_exc#:#Vytvořit cvičení
+rbac#:#grp_create_feed#:#Vytvořit webový zásobník
+rbac#:#grp_create_file#:#Uživatel může ukládat soubory
+rbac#:#grp_create_fold#:#Uživatel může vytvářet složky
+rbac#:#grp_create_frm#:#Vytvořit fórum
+rbac#:#grp_create_glo#:#Vytvořit glosář
+rbac#:#grp_create_grp#:#Vytvořit skupiny
 common#:#grp_create_hlm#:#Vytvořit výukový modul HACP
-common#:#grp_create_htlm#:#Vytvořit výukový modul SCORM/AICC
-common#:#grp_create_icrs#:#Vytvořit seminář LearnLinc
-common#:#grp_create_lm#:#Vytvořit výukový modul
-common#:#grp_create_mcst#:#Vytvořit MediaCast
-common#:#grp_create_mep#:#Vytvořit zásobník multimédií
-common#:#grp_create_qpl#:#Vytvořit zásobník otázek pro test
-common#:#grp_create_sahs#:#Vytvořit výukový modul HACP
-common#:#grp_create_spl#:#Vytvořit zásobník otázek pro anketu
-common#:#grp_create_svy#:#Vytvořit anketu
-common#:#grp_create_tst#:#Vytvořit test
-common#:#grp_create_webr#:#Vytvořit nový web zdroj
+rbac#:#grp_create_htlm#:#Vytvořit výukový modul SCORM/AICC
+rbac#:#grp_create_icrs#:#Vytvořit seminář LearnLinc
+rbac#:#grp_create_lm#:#Vytvořit výukový modul
+rbac#:#grp_create_mcst#:#Vytvořit MediaCast
+rbac#:#grp_create_mep#:#Vytvořit zásobník multimédií
+rbac#:#grp_create_qpl#:#Vytvořit zásobník otázek pro test
+rbac#:#grp_create_sahs#:#Vytvořit výukový modul HACP
+rbac#:#grp_create_spl#:#Vytvořit zásobník otázek pro anketu
+rbac#:#grp_create_svy#:#Vytvořit anketu
+rbac#:#grp_create_tst#:#Vytvořit test
+rbac#:#grp_create_webr#:#Vytvořit nový web zdroj
 common#:#grp_create_write#:#Vytvořit Wiki
-common#:#grp_delete#:#Smazat skupinu
+rbac#:#grp_delete#:#Smazat skupinu
 common#:#grp_deleted_export_files#:#Vybrané soubory smazané.
 common#:#grp_dismiss_member#:#Určitě chcete vyloučit následující členy ze skupiny?
 common#:#grp_dismiss_myself#:#Určitě se chcete vyloučit ze skupiny?
 common#:#grp_edit#:#Upravit skupinu
-common#:#grp_edit_learning_progress#:#Upravit výukový postup
-common#:#grp_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#grp_edit_learning_progress#:#Upravit výukový postup
+rbac#:#grp_edit_permission#:#Změnit nastavení oprávnění
 common#:#grp_err_administrator_required#:#Uživatel nemůže být odstraněn. Alespoň jeden administrátor je vyžadován pro každou skupinu!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Každá skupina potřebuje mít alespoň jednoho administrátora
 common#:#grp_err_error#:#Došlo k chybě
@@ -3218,8 +3218,8 @@ common#:#grp_err_member_could_not_be_removed#:#Uživatel nemůže být odstraně
 common#:#grp_err_no_permission#:#Nemáte práva pro tuto operaci.
 common#:#grp_err_registration_data#:#Zadejte prosím heslo, datum a čas platného registračního období!
 common#:#grp_header_edit_members#:#Upravit členy
-common#:#grp_join#:#Uživatel se může připojit je skupině.
-common#:#grp_leave#:#Uživatel může opustit skupinu
+rbac#:#grp_join#:#Uživatel se může připojit je skupině.
+rbac#:#grp_leave#:#Uživatel může opustit skupinu
 common#:#grp_list_users#:#Seznam uživatelů
 common#:#grp_mail_body_new_subscription#:#Byl jste zapsán do této skupiny.
 common#:#grp_mail_body_subscription_cancelled#:#Vaše členství bylo ukončeno.
@@ -3240,7 +3240,7 @@ common#:#grp_no_groups_selected#:#Nevybrána žádná skupina
 common#:#grp_no_results_found#:#Žádný výsledek nenalezen
 common#:#grp_no_roles_selected#:#Nevybrána žádná role
 common#:#grp_options#:#Volby
-common#:#grp_read#:#Přístup číst pro skupinu
+rbac#:#grp_read#:#Přístup číst pro skupinu
 common#:#grp_register#:#Připojit se
 common#:#grp_registration#:#Připojit ke skupině
 common#:#grp_registration_completed#:#Registrace ukončena
@@ -3249,9 +3249,9 @@ common#:#grp_search_enter_search_string#:#Vložte prosím hledaný řetězec
 common#:#grp_search_members#:#Hledání uživatele
 common#:#grp_select_one_file#:#Vložte prosím jeden soubor
 common#:#grp_select_one_file_only#:#Vložte prosím přesně jeden soubor.
-common#:#grp_visible#:#Skupina je viditelná
+rbac#:#grp_visible#:#Skupina je viditelná
 common#:#grp_wizard_page#:#Kopírovat skupinu (krok 2/2)
-common#:#grp_write#:#Úprava skupiny
+rbac#:#grp_write#:#Úprava skupiny
 common#:#guest#:#Host
 common#:#guests#:#Hosté
 common#:#header_searchable#:#Prohledané
@@ -3315,14 +3315,14 @@ common#:#hours_of_day#:#Hodiny dne
 common#:#htlm#:#Výukový modul HTML
 common#:#htlm_add#:#Přidat výukový modul HTML
 common#:#htlm_copy#:#Kopírovat výukový modul HTML
-common#:#htlm_delete#:#Smazat výukový modul HTML
+rbac#:#htlm_delete#:#Smazat výukový modul HTML
 common#:#htlm_edit#:#Upravit vlastnosti výukového modulu HTML
-common#:#htlm_edit_learning_progress#:#Upravit postup výuky
-common#:#htlm_edit_permission#:#Změna nastavení oprávnění
+rbac#:#htlm_edit_learning_progress#:#Upravit postup výuky
+rbac#:#htlm_edit_permission#:#Změna nastavení oprávnění
 common#:#htlm_new#:#Nový výukový modul HTML
-common#:#htlm_read#:#Čtení výukového modulu HTML
-common#:#htlm_visible#:#Výukový modul HTML je viditelný
-common#:#htlm_write#:#Upravit výukový modul HTML
+rbac#:#htlm_read#:#Čtení výukového modulu HTML
+rbac#:#htlm_visible#:#Výukový modul HTML je viditelný
+rbac#:#htlm_write#:#Upravit výukový modul HTML
 common#:#html_block#:#Blok HTML
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Tento server nepodporuje požadavky HTTP.
@@ -3683,19 +3683,19 @@ common#:#lm_add#:#Přidat výukový modul ILIAS
 common#:#lm_added#:#Výukový modul ILIAS přidán
 common#:#lm_copy#:#Kopírovat výukový modul ILIAS
 common#:#lm_create#:#Vytvořit výukový modul ILIAS
-common#:#lm_delete#:#Smazat výukový modul ILIAS
-common#:#lm_edit_learning_progress#:#Upravit postup výuky
+rbac#:#lm_delete#:#Smazat výukový modul ILIAS
+rbac#:#lm_edit_learning_progress#:#Upravit postup výuky
 common#:#lm_edit_permission#:#Změnit nastavení oprávnění
 common#:#lm_join#:#Zapsat do výukového modulu ILIAS
 common#:#lm_leave#:#Odepsat z výukového modulu ILIAS
 common#:#lm_new#:#Nový výukový modul ILIAS
-common#:#lm_read#:#Právo číst výukový modul
+rbac#:#lm_read#:#Právo číst výukový modul
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM 1.2 (Java-RTE)
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#Výukový modul ILIAS je viditelný
-common#:#lm_write#:#Upravit výukový modul ILIAS
+rbac#:#lm_visible#:#Výukový modul ILIAS je viditelný
+rbac#:#lm_write#:#Upravit výukový modul ILIAS
 common#:#lng#:#Jazyk
 common#:#lngf#:#Jazyky
 common#:#lngf_edit_permission#:#Změnit nastavení oprávnění
@@ -3811,12 +3811,12 @@ common#:#max_time#:#Maximální čas
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Přidat MediaCast
 common#:#mcst_copy#:#Kopírovat MediaCast
-common#:#mcst_delete#:#Smazat Mediacast
-common#:#mcst_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#mcst_delete#:#Smazat Mediacast
+rbac#:#mcst_edit_permission#:#Změnit nastavení oprávnění
 common#:#mcst_new#:#Nový MediaCast
-common#:#mcst_read#:#Přístup číst k MediaCast
-common#:#mcst_visible#:#MediaCast je viditelný
-common#:#mcst_write#:#Upravit MediaCast
+rbac#:#mcst_read#:#Přístup číst k MediaCast
+rbac#:#mcst_visible#:#MediaCast je viditelný
+rbac#:#mcst_write#:#Upravit MediaCast
 common#:#mem_add_to_wl#:#Přidat do seznamu čekatelů
 common#:#mem_alert_no_places#:#Zde není žádné volné místo.
 common#:#mem_end#:#Konec registrace:
@@ -3843,14 +3843,14 @@ common#:#membership_leave#:#Opustit
 common#:#mep#:#Mediální zásobník
 common#:#mep_add#:#Přidat zásobník multimédií
 common#:#mep_added#:#Zásobník multimédií přidán
-common#:#mep_delete#:#Smazat zásobník multimédií
+rbac#:#mep_delete#:#Smazat zásobník multimédií
 common#:#mep_edit#:#Upravit vlastnosti zásobníku multimédií
-common#:#mep_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#mep_edit_permission#:#Změnit nastavení oprávnění
 common#:#mep_new#:#Nová zásobník multimédií
 common#:#mep_not_insert_already_exist#:#Následující položky nebyly vloženy, protože v zásobníku multimédií již existují:
-common#:#mep_read#:#Čtení obsahu zásobníku multimédií
-common#:#mep_visible#:#Zásobník multimédií je viditelný
-common#:#mep_write#:#Upravit obsah zásobníku multimédií
+rbac#:#mep_read#:#Čtení obsahu zásobníku multimédií
+rbac#:#mep_visible#:#Zásobník multimédií je viditelný
+rbac#:#mep_write#:#Upravit obsah zásobníku multimédií
 common#:#message#:#Zpráva
 common#:#message_content#:#Obsah zprávy
 common#:#message_no_delivered_files#:#Nebyly Vám zaslány žádné soubory!
@@ -4509,13 +4509,13 @@ common#:#purpose#:#Účel
 common#:#qpl#:#Zásobník otázek testu
 common#:#qpl_add#:#Přidat zásobník otázek testu
 common#:#qpl_copy#:#Kopírovat zásobník otázek testu
-common#:#qpl_delete#:#Smazat zásobník otázek testu
-common#:#qpl_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#qpl_delete#:#Smazat zásobník otázek testu
+rbac#:#qpl_edit_permission#:#Změnit nastavení oprávnění
 common#:#qpl_new#:#Nový zásobník otázek testu
-common#:#qpl_read#:#Přístup číst k zásobníku otázek testu
+rbac#:#qpl_read#:#Přístup číst k zásobníku otázek testu
 common#:#qpl_upload_file#:#Odeslat soubor
-common#:#qpl_visible#:#Zásobník otázek testu je viditelný
-common#:#qpl_write#:#Upravit zásobník otázek testu
+rbac#:#qpl_visible#:#Zásobník otázek testu je viditelný
+rbac#:#qpl_write#:#Upravit zásobník otázek testu
 common#:#quarterly#:#čtvrtletně
 common#:#query_data#:#Data dotazu
 common#:#question#:#Otázka
@@ -4674,17 +4674,17 @@ common#:#sahs#:#Výukový modul SCORM/AICC
 common#:#sahs_added#:#Výukový modul SCORM/AICC přidán
 common#:#sahs_copy#:#Kopírovat výukový modul SCORM/AICC
 common#:#sahs_create#:#Vytvořit výukový modul SCORM/AICC
-common#:#sahs_delete#:#Smazat  výukový modul SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Upravit postup výuky
-common#:#sahs_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#sahs_delete#:#Smazat  výukový modul SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Upravit postup výuky
+rbac#:#sahs_edit_permission#:#Změnit nastavení oprávnění
 common#:#sahs_insert_chap_from_clip#:#Vložit kapitoly ze schránky
 common#:#sahs_insert_page_from_clip#:#Vložit stránky ze schránky
 common#:#sahs_insert_sco_from_clip#:#Vložit SCO ze schránky
 common#:#sahs_join#:#Zapsat do výukového modulu SCORM/AICC
 common#:#sahs_leave#:#Vyškrtnout z výukového modulu SCORM/AICC
-common#:#sahs_read#:#Přístup číst na výukový modul SCORM/AICC
-common#:#sahs_visible#:#Výukový modul SCORM/AICC je viditelný
-common#:#sahs_write#:#Upravit výukový modul SCORM/AICC
+rbac#:#sahs_read#:#Přístup číst na výukový modul SCORM/AICC
+rbac#:#sahs_visible#:#Výukový modul SCORM/AICC je viditelný
+rbac#:#sahs_write#:#Upravit výukový modul SCORM/AICC
 common#:#salutation#:#Oslovení
 common#:#salutation_f#:#paní/slečna
 common#:#salutation_m#:#pan
@@ -4884,13 +4884,13 @@ common#:#spacer#:#Mezerník
 common#:#spl#:#Zásobník otázek ankety
 common#:#spl_add#:#Přidat zásobník otázek ankety
 common#:#spl_copy#:#Kopírovat zásobník otázek ankety
-common#:#spl_delete#:#Smazat zásobník otázek ankety
-common#:#spl_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#spl_delete#:#Smazat zásobník otázek ankety
+rbac#:#spl_edit_permission#:#Změnit nastavení oprávnění
 common#:#spl_new#:#Nový zásobník otázek
-common#:#spl_read#:#Přístup číst na zásobník otázek ankety
+rbac#:#spl_read#:#Přístup číst na zásobník otázek ankety
 common#:#spl_upload_file#:#Odeslat soubor
-common#:#spl_visible#:#Zásobník otázek je viditelný
-common#:#spl_write#:#Upravit zásobník otázek
+rbac#:#spl_visible#:#Zásobník otázek je viditelný
+rbac#:#spl_write#:#Upravit zásobník otázek
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#kapitola
 common#:#st_add#:#Přidat kapitolu
@@ -4939,22 +4939,22 @@ common#:#survey_unlimited_invitation_desc#:#Umožňuje neomezené pozvání do a
 common#:#svy#:#Anketa
 common#:#svy_add#:#Přidat anketu
 common#:#svy_copy#:#Kopírovat anketu
-common#:#svy_delete#:#Smazat anketu
-common#:#svy_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#svy_delete#:#Smazat anketu
+rbac#:#svy_edit_permission#:#Změnit nastavení oprávnění
 common#:#svy_evaluation#:#Statistiky
 common#:#svy_finished#:#ukončeno
-common#:#svy_invite#:#Pozvat uživatele do ankety
+rbac#:#svy_invite#:#Pozvat uživatele do ankety
 common#:#svy_new#:#Nová anketa
 common#:#svy_no_content#:#Žádná anketa k dispozici
 common#:#svy_not_finished#:#neukončeno
 common#:#svy_not_started#:#nezapočato
 common#:#svy_participate#:#Účastnit se ankety
-common#:#svy_read#:#Přístup číst k anketě
+rbac#:#svy_read#:#Přístup číst k anketě
 common#:#svy_run#:#Spustit
 common#:#svy_upload_file#:#Odeslat soubor
-common#:#svy_visible#:#Anketa je viditelná
+rbac#:#svy_visible#:#Anketa je viditelná
 common#:#svy_warning_survey_not_complete#:#Anketa není ukončena!
-common#:#svy_write#:#Upravit anketu
+rbac#:#svy_write#:#Upravit anketu
 common#:#system#:#Systém
 common#:#system_check#:#Kontrola systému
 common#:#system_choose_language#:#Vybrat systémový jazyk
@@ -5053,22 +5053,22 @@ common#:#tst#:#Test
 common#:#tst_add#:#Přidat test
 common#:#tst_anon_eval#:#Výsledky
 common#:#tst_copy#:#Kopírovat test
-common#:#tst_delete#:#Smazat test
-common#:#tst_edit_learning_progress#:#Upravit postup výuky
-common#:#tst_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#tst_delete#:#Smazat test
+rbac#:#tst_edit_learning_progress#:#Upravit postup výuky
+rbac#:#tst_edit_permission#:#Změnit nastavení oprávnění
 common#:#tst_edit_questions#:#Edit Questions###12 06 2011 new variable
 common#:#tst_new#:#Nový test
 common#:#tst_no_content#:#Žádný test není k dispozici
 common#:#tst_random_test_description_warning#:#<br /><b>V tomto testu jsou otázky, které nejsou zařazeny do zásobníku otázek. Pokud přepnete na mód náhodných otázek, tyto otázky budou ztraceny.</b>
-common#:#tst_read#:#Přístup číst na test
+rbac#:#tst_read#:#Přístup číst na test
 common#:#tst_run#:#Spustit
 common#:#tst_statistical_evaluation#:#Statistiky
 common#:#tst_upload_file#:#Odeslat soubor
 common#:#tst_user_not_invited#:#Nejste pozván(a) k této zkoušce.
 common#:#tst_user_wrong_clientip#:#Nemáte oprávněnou IP adresu ke vstupu do tohoto testu.
-common#:#tst_visible#:#Test je viditelný
+rbac#:#tst_visible#:#Test je viditelný
 common#:#tst_warning_test_not_complete#:#Test není kompletní!
-common#:#tst_write#:#Upravit test
+rbac#:#tst_write#:#Upravit test
 common#:#tutors#:#Lektoři
 common#:#txt_add_object_instruction1#:#Nalezněte místo kam chcete přidat
 common#:#txt_add_object_instruction2#:#.
@@ -5287,13 +5287,13 @@ common#:#webr_active#:#Aktivní
 common#:#webr_add#:#Přidat webový zdroj
 common#:#webr_add_item#:#Přidat webový zdroj
 common#:#webr_copy#:#Kopírovat webový zdroj
-common#:#webr_delete#:#Smazat webový zdroj
+rbac#:#webr_delete#:#Smazat webový zdroj
 common#:#webr_delete_items#:#Smazat webové zdroje
 common#:#webr_deleted_items#:#Smazané webové zdroje
 common#:#webr_disable_check#:#Vypnout kontrolu
 common#:#webr_edit#:#Upravit webový zdroj
 common#:#webr_edit_item#:#Upravit webový zdroj
-common#:#webr_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#webr_edit_permission#:#Změnit nastavení oprávnění
 common#:#webr_fillout_all#:#Vyplňte prosím požadovaná pole.
 common#:#webr_item_updated#:#Uložené modifikace
 common#:#webr_join#:#Odebírat webový zdroj
@@ -5304,10 +5304,10 @@ common#:#webr_modified_items#:#Uložené modifikace.
 common#:#webr_never_checked#:#Nikdy nezkontrolováno
 common#:#webr_new#:#Přidat nový webový zdroj
 common#:#webr_no_items_created#:#Žádný webový zdroj nebyl připojen
-common#:#webr_read#:#Přístup číst webový zdroj
+rbac#:#webr_read#:#Přístup číst webový zdroj
 common#:#webr_sure_delete_items#:#Skutečně chcete smazat následující webový zdroj?
-common#:#webr_visible#:#Webový zdroj je viditelný
-common#:#webr_write#:#Upravit webový zdroj
+rbac#:#webr_visible#:#Webový zdroj je viditelný
+rbac#:#webr_write#:#Upravit webový zdroj
 common#:#webservices#:#Webové služby
 common#:#week#:#Týden
 common#:#weekly#:#týdně
@@ -5319,13 +5319,13 @@ common#:#width_x_height#:#Šířka x Výška
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Přidat Wiki
 common#:#wiki_copy#:#Kopírovat Wiki
-common#:#wiki_delete#:#Smazat Wiki
-common#:#wiki_edit_content#:#Upravit stránky Wiki
-common#:#wiki_edit_permission#:#Změna nastavení oprávnění
+rbac#:#wiki_delete#:#Smazat Wiki
+rbac#:#wiki_edit_content#:#Upravit stránky Wiki
+rbac#:#wiki_edit_permission#:#Změna nastavení oprávnění
 common#:#wiki_new#:#Nové Wiki
-common#:#wiki_read#:#Právo číst Wiki
-common#:#wiki_visible#:#Wiki je viditelné
-common#:#wiki_write#:#Změnit nastavení Wiki, hodnocení studentů
+rbac#:#wiki_read#:#Právo číst Wiki
+rbac#:#wiki_visible#:#Wiki je viditelné
+rbac#:#wiki_write#:#Změnit nastavení Wiki, hodnocení studentů
 common#:#with#:#s
 common#:#wizard_search_list#:#Vaše hledání nalezlo následující položky. Vyberte prosím jednu z nich.
 common#:#wizard_title_info#:#Vložte prosím název objektu, který chcete duplikovat.
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

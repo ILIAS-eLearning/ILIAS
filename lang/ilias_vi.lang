@@ -1435,7 +1435,7 @@ common#:#fold_edit#:#Sửa thư mục
 rbac#:#fold_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#fold_new#:#Thư mục mới
 rbac#:#fold_read#:#Đọc thư mục
-common#:#fold_visible#:#Nhìn thấy thư mục
+rbac#:#fold_visible#:#Nhìn thấy thư mục
 rbac#:#fold_write#:#Sửa thư mục
 common#:#folder#:#Thư mục
 common#:#folders#:#Thư mục
@@ -1463,17 +1463,17 @@ common#:#frm_add#:#Thêm diễn đàn
 common#:#frm_added#:#Đã thêm diễn đàn
 common#:#frm_article#:#bài
 common#:#frm_create#:#Tạo diễn đàn
-common#:#frm_delete#:#Xóa diễn đàn
+rbac#:#frm_delete#:#Xóa diễn đàn
 common#:#frm_delete_post#:#Xóa một bài, kiểm duyệt
 common#:#frm_edit#:#Sửa diễn đàn
-common#:#frm_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#frm_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#frm_edit_post#:#Thêm bài mới, gửi
 common#:#frm_new#:#Diễn đàn mới
-common#:#frm_read#:#Đọc diễn đàn
+rbac#:#frm_read#:#Đọc diễn đàn
 common#:#frm_status_new#:#Trạng thái 'Mới'
 common#:#frm_status_new_desc#:#Hãy chọn thời gian giữ trạng thái 'Mới' cho các mục trên diễn đàn.
-common#:#frm_visible#:#Nhìn thấy diễn đàn
-common#:#frm_write#:#Sửa diễn đàn
+rbac#:#frm_visible#:#Nhìn thấy diễn đàn
+rbac#:#frm_write#:#Sửa diễn đàn
 common#:#from#:#Từ
 common#:#fullname#:#Tên đầy đủ
 common#:#functions#:#Các chức năng
@@ -1489,8 +1489,8 @@ common#:#glo_a#:#một bảng chú giải
 common#:#glo_add#:#Thêm bảng chú giải
 common#:#glo_added#:#Đã thêm bảng chú giải
 common#:#glo_create#:#Tạo bảng chú giải
-common#:#glo_delete#:#Xóa bảng chú giải
-common#:#glo_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#glo_delete#:#Xóa bảng chú giải
+rbac#:#glo_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#glo_join#:#Đăng ký vào bảng chú giải
 common#:#glo_leave#:#Hủy đăng ký khỏi bảng chú giải
 common#:#glo_mode#:#Chế độ
@@ -1499,10 +1499,10 @@ common#:#glo_mode_level#:#ảo (chỉ mức này)
 common#:#glo_mode_normal#:#bình thường
 common#:#glo_mode_subtree#:#ảo (toàn bộ cây con)
 common#:#glo_new#:#Bảng chú giải mới
-common#:#glo_read#:#Đọc bảng chú giải
+rbac#:#glo_read#:#Đọc bảng chú giải
 common#:#glo_upload_file#:#File
-common#:#glo_visible#:#Nhìn thấy bảng chú giải
-common#:#glo_write#:#Sửa bảng chú giải
+rbac#:#glo_visible#:#Nhìn thấy bảng chú giải
+rbac#:#glo_write#:#Sửa bảng chú giải
 common#:#global#:#Toàn cục
 common#:#global_default#:#Mặc định toàn cục
 common#:#global_fixed#:#Cố định toàn cục
@@ -1562,29 +1562,29 @@ common#:#grp_create#:#Tạo nhóm
 common#:#grp_create_alm#:#Tạo học phần AICC
 common#:#grp_create_chat#:#Tạo Chat
 common#:#grp_create_dbk#:#Tạo Digilib Book
-common#:#grp_create_exc#:#Tạo bài tập
-common#:#grp_create_file#:#Tải lên File
-common#:#grp_create_fold#:#Tạo thư mục
-common#:#grp_create_frm#:#Tạo diễn đàn
-common#:#grp_create_glo#:#Tạo bảng chú giải
-common#:#grp_create_grp#:#Create Group###13 Mar 2006 new variable
+rbac#:#grp_create_exc#:#Tạo bài tập
+rbac#:#grp_create_file#:#Tải lên File
+rbac#:#grp_create_fold#:#Tạo thư mục
+rbac#:#grp_create_frm#:#Tạo diễn đàn
+rbac#:#grp_create_glo#:#Tạo bảng chú giải
+rbac#:#grp_create_grp#:#Create Group###13 Mar 2006 new variable
 common#:#grp_create_hlm#:#Tạo học phần HACP
-common#:#grp_create_htlm#:#Tạo học phần HTML
-common#:#grp_create_icrs#:#Tạo hội thảo chuyên đề LearnLinc
-common#:#grp_create_lm#:#Tạo học phần ILIAS
-common#:#grp_create_mep#:#Tạo thư viện phương tiện
-common#:#grp_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
-common#:#grp_create_sahs#:#Tạo học phần SCORM/AICC
-common#:#grp_create_spl#:#Tạo thư viện câu hỏi khảo sát
-common#:#grp_create_svy#:#Tạo khảo sát
-common#:#grp_create_tst#:#Tạo bài kiểm tra
-common#:#grp_create_webr#:#Tạo tài nguyên web mới
-common#:#grp_delete#:#Xóa nhóm
+rbac#:#grp_create_htlm#:#Tạo học phần HTML
+rbac#:#grp_create_icrs#:#Tạo hội thảo chuyên đề LearnLinc
+rbac#:#grp_create_lm#:#Tạo học phần ILIAS
+rbac#:#grp_create_mep#:#Tạo thư viện phương tiện
+rbac#:#grp_create_qpl#:#Tạo thư viện câu hỏi kiểm tra
+rbac#:#grp_create_sahs#:#Tạo học phần SCORM/AICC
+rbac#:#grp_create_spl#:#Tạo thư viện câu hỏi khảo sát
+rbac#:#grp_create_svy#:#Tạo khảo sát
+rbac#:#grp_create_tst#:#Tạo bài kiểm tra
+rbac#:#grp_create_webr#:#Tạo tài nguyên web mới
+rbac#:#grp_delete#:#Xóa nhóm
 common#:#grp_deleted_export_files#:#Đã xóa những file đã chọn.
 common#:#grp_dismiss_member#:#Bạn có chắc bạn muốn gạt bỏ những thành viên sau ra khỏi nhóm?
 common#:#grp_dismiss_myself#:#Bạn có chắc bạn muốn gạt bỏ chính bạn ra khỏi nhóm?
 common#:#grp_edit#:#Sửa nhóm
-common#:#grp_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#grp_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#grp_err_administrator_required#:#Không thể bỏ thành viên, cần ít nhất một quản trị cho nhóm!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Mỗi nhóm cần ít nhất một quản trị nhóm
 common#:#grp_err_error#:#Một lỗi xảy ra
@@ -1593,8 +1593,8 @@ common#:#grp_err_member_could_not_be_removed#:#Thành viên không thể xóa. H
 common#:#grp_err_no_permission#:#Bạn không có quyền thực hiện thao tác này.
 common#:#grp_err_registration_data#:#Hãy nhập vào mật khẩu, ngày hết hạn và thời gian có thể đăng ký được !
 common#:#grp_header_edit_members#:#Sửa các thành viên
-common#:#grp_join#:#Người sử dụng có thể gia nhập nhóm
-common#:#grp_leave#:#Người sử dụng có thể ra khỏi nhóm
+rbac#:#grp_join#:#Người sử dụng có thể gia nhập nhóm
+rbac#:#grp_leave#:#Người sử dụng có thể ra khỏi nhóm
 common#:#grp_list_users#:#List những người sử dụng
 common#:#grp_mail_body_new_subscription#:#Bạn đã đăng ký vào nhóm này.
 common#:#grp_mail_body_subscription_cancelled#:#Quyền thành viên của bạn đã bị hủy.
@@ -1614,7 +1614,7 @@ common#:#grp_no_groups_selected#:#Hãy chọn một nhóm
 common#:#grp_no_results_found#:#Không tìm thấy kết quả nào
 common#:#grp_no_roles_selected#:#Hãy chọn một vai trò
 common#:#grp_options#:#Tùy chọn
-common#:#grp_read#:#Đọc nhóm
+rbac#:#grp_read#:#Đọc nhóm
 common#:#grp_register#:#Đăng ký
 common#:#grp_registration#:#Gia nhập nhóm
 common#:#grp_registration_completed#:#Đã hoàn thành đăng ký
@@ -1622,8 +1622,8 @@ common#:#grp_search_enter_search_string#:#Hãy nhập vào một xâu để tìm
 common#:#grp_search_members#:#Tìm kiếm người sử dụng
 common#:#grp_select_one_file#:#Hãy chọn một file.
 common#:#grp_select_one_file_only#:#Hãy chọn chính xác một file.
-common#:#grp_visible#:#Nhìn thấy nhóm
-common#:#grp_write#:#Sửa nhóm
+rbac#:#grp_visible#:#Nhìn thấy nhóm
+rbac#:#grp_write#:#Sửa nhóm
 common#:#guest#:#Khách
 common#:#guests#:#Khách
 common#:#header_title#:#Tiêu đề trên cùng
@@ -1657,14 +1657,14 @@ common#:#hours#:#hour(s)###28 Feb 2006 new variable
 common#:#hours_of_day#:#Giờ trong ngày
 common#:#htlm#:#Học phần HTML
 common#:#htlm_add#:#Thêm học phần HTML
-common#:#htlm_delete#:#Xóa học phần HTML
+rbac#:#htlm_delete#:#Xóa học phần HTML
 common#:#htlm_edit#:#Sửa thuộc tính học phần HTML
-common#:#htlm_edit_learning_progress#:#Sửa tiến trình học tập
-common#:#htlm_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#htlm_edit_learning_progress#:#Sửa tiến trình học tập
+rbac#:#htlm_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#htlm_new#:#Học phần HTML mới
-common#:#htlm_read#:#Đọc học phần HTML
-common#:#htlm_visible#:#Nhìn thấy học phần HTML
-common#:#htlm_write#:#Sửa học phần HTML
+rbac#:#htlm_read#:#Đọc học phần HTML
+rbac#:#htlm_visible#:#Nhìn thấy học phần HTML
+rbac#:#htlm_write#:#Sửa học phần HTML
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Máy chủ này không hỗ trợ các yêu cầu HTTP.
 common#:#http_path#:#Đường dẫn Http
@@ -1952,18 +1952,18 @@ common#:#lm_a#:#một học phần ILIAS
 common#:#lm_add#:#Thêm học phần ILIAS
 common#:#lm_added#:#Đã thêm học phần ILIAS
 common#:#lm_create#:#Tạo học phần ILIAS
-common#:#lm_delete#:#Xóa học phần ILIAS
-common#:#lm_edit_learning_progress#:#Sửa tiến trình học tập
+rbac#:#lm_delete#:#Xóa học phần ILIAS
+rbac#:#lm_edit_learning_progress#:#Sửa tiến trình học tập
 common#:#lm_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#lm_join#:#Đăng ký học phần ILIAS
 common#:#lm_leave#:#Hủy đăng ký học phần ILIAS
 common#:#lm_new#:#Học phần ILIAS mới
-common#:#lm_read#:#Đọc học phần ILIAS
+rbac#:#lm_read#:#Đọc học phần ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Nhìn thấy học phần ILIAS
-common#:#lm_write#:#Sửa học phần ILIAS
+rbac#:#lm_visible#:#Nhìn thấy học phần ILIAS
+rbac#:#lm_write#:#Sửa học phần ILIAS
 common#:#lng#:#Ngôn ngữ
 common#:#lngf#:#Ngôn ngữ
 common#:#lngf_edit_permission#:#Thay đổi thiết lập quyền hạn
@@ -2050,14 +2050,14 @@ common#:#membership_annulled#:#Quyền thành viên của bạn đã bị hủy 
 common#:#mep#:#Thư viện phương tiện
 common#:#mep_add#:#Thêm thư viện phương tiện
 common#:#mep_added#:#Đã thêm thư viện phương tiện
-common#:#mep_delete#:#Xóa thư viện phương tiện
+rbac#:#mep_delete#:#Xóa thư viện phương tiện
 common#:#mep_edit#:#Sửa thuộc tính thư viện phương tiện
-common#:#mep_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#mep_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#mep_new#:#Thư viện phương tiện mới
 common#:#mep_not_insert_already_exist#:#Các mục sau không chèn được vì đã ở trong thư viện:
-common#:#mep_read#:#Đọc nội dung thư viện phương tiện
-common#:#mep_visible#:#Nhìn thấy thư viện phương tiện
-common#:#mep_write#:#Sửa nội dung thư viện phương tiện
+rbac#:#mep_read#:#Đọc nội dung thư viện phương tiện
+rbac#:#mep_visible#:#Nhìn thấy thư viện phương tiện
+rbac#:#mep_write#:#Sửa nội dung thư viện phương tiện
 common#:#message#:#Nội dung
 common#:#message_content#:#Nội dung thư
 common#:#message_no_delivered_files#:#Bạn chưa nộp file nào!
@@ -2481,13 +2481,13 @@ common#:#publishing_organisation#:#Tổ chức công bố - xuất bản
 common#:#purpose#:#Mục đích
 common#:#qpl#:#Thư viện câu hỏi kiểm tra
 common#:#qpl_add#:#Thêm thư viện câu hỏi kiểm tra
-common#:#qpl_delete#:#Xóa thư viện câu hỏi kiểm tra
-common#:#qpl_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#qpl_delete#:#Xóa thư viện câu hỏi kiểm tra
+rbac#:#qpl_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#qpl_new#:#Thư viện câu hỏi kiểm tra mới
-common#:#qpl_read#:#Đọc thư viện câu hỏi kiểm tra
+rbac#:#qpl_read#:#Đọc thư viện câu hỏi kiểm tra
 common#:#qpl_upload_file#:#Tải lên file
-common#:#qpl_visible#:#Nhìn thấy thư viện câu hỏi kiểm tra
-common#:#qpl_write#:#Sửa thư viện câu hỏi kiểm tra
+rbac#:#qpl_visible#:#Nhìn thấy thư viện câu hỏi kiểm tra
+rbac#:#qpl_write#:#Sửa thư viện câu hỏi kiểm tra
 common#:#quarterly#:#hàng quý
 common#:#query_data#:#Truy vấn thông tin
 common#:#question#:#Câu hỏi
@@ -2622,14 +2622,14 @@ common#:#root_write#:#Sửa siêu dữ liệu của nút gốc hệ thống
 common#:#sahs#:#Học phần SCORM/AICC
 common#:#sahs_added#:#Đã thêm học phần SCORM/AICC
 common#:#sahs_create#:#Tạo học phần SCORM/AICC
-common#:#sahs_delete#:#Xóa học phần SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Sửa tiến trình học tập
-common#:#sahs_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#sahs_delete#:#Xóa học phần SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Sửa tiến trình học tập
+rbac#:#sahs_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#sahs_join#:#Đăng ký vào học phần SCORM/AICC
 common#:#sahs_leave#:#Đăng ký bỏ học phần SCORM/AICC
-common#:#sahs_read#:#Đọc vào học phần SCORM/AICC
-common#:#sahs_visible#:#Nhìn thấy học phần SCORM/AICC
-common#:#sahs_write#:#Sửa học phần SCORM/AICC
+rbac#:#sahs_read#:#Đọc vào học phần SCORM/AICC
+rbac#:#sahs_visible#:#Nhìn thấy học phần SCORM/AICC
+rbac#:#sahs_write#:#Sửa học phần SCORM/AICC
 common#:#salutation#:#Lời chào
 common#:#salutation_f#:#Cô./Bà.
 common#:#salutation_m#:#Ông.
@@ -2738,13 +2738,13 @@ common#:#sort_by_this_column#:#Sắp xếp theo cột này
 common#:#spacer#:#Spacer///
 common#:#spl#:#Thư viện câu hỏi khảo sát
 common#:#spl_add#:#Thêm thư viện câu hỏi khảo sát
-common#:#spl_delete#:#Xóa thư viện câu hỏi khảo sát
-common#:#spl_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#spl_delete#:#Xóa thư viện câu hỏi khảo sát
+rbac#:#spl_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#spl_new#:#Thư viện câu hỏi khảo sát mới
-common#:#spl_read#:#Đọc thư viện câu hỏi khảo sát
+rbac#:#spl_read#:#Đọc thư viện câu hỏi khảo sát
 common#:#spl_upload_file#:#Tải lên file
-common#:#spl_visible#:#Nhìn thấy thư viện câu hỏi khảo sát
-common#:#spl_write#:#Sửa thư viện câu hỏi khảo sát
+rbac#:#spl_visible#:#Nhìn thấy thư viện câu hỏi khảo sát
+rbac#:#spl_write#:#Sửa thư viện câu hỏi khảo sát
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#một chương
 common#:#st_add#:#Thêm chương
@@ -2775,22 +2775,22 @@ common#:#summary#:#Tóm tắt
 common#:#sure_delete_selected_users#:#Bạn có chắc bạn muốn xóa những) người sử dụng đã chọn?
 common#:#svy#:#Khảo sát
 common#:#svy_add#:#Thêm khảo sát
-common#:#svy_delete#:#Xóa khảo sát
-common#:#svy_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#svy_delete#:#Xóa khảo sát
+rbac#:#svy_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#svy_evaluation#:#Ước lượng
 common#:#svy_finished#:#đã hoàn thành
-common#:#svy_invite#:#Mời người sử dụng vào một khảo sát
+rbac#:#svy_invite#:#Mời người sử dụng vào một khảo sát
 common#:#svy_new#:#Khảo sát mới
 common#:#svy_no_content#:#Không có khảo sát nào sử dụng được
 common#:#svy_not_finished#:#chưa hoàn thành
 common#:#svy_not_started#:#chưa bắt đầu
 common#:#svy_participate#:#Tham gia trong một khảo sát
-common#:#svy_read#:#Đọc khảo sát
+rbac#:#svy_read#:#Đọc khảo sát
 common#:#svy_run#:#Chạy
 common#:#svy_upload_file#:#Tải lên file
-common#:#svy_visible#:#Nhìn thấy khảo sát
+rbac#:#svy_visible#:#Nhìn thấy khảo sát
 common#:#svy_warning_survey_not_complete#:#Chưa hoàn thành khảo sát!
-common#:#svy_write#:#Sửa khảo sát
+rbac#:#svy_write#:#Sửa khảo sát
 common#:#system#:#Hệ thống
 common#:#system_check#:#Kiểm tra hệ thống
 common#:#system_choose_language#:#Hệ thống lựa chọn ngôn ngữ
@@ -2864,20 +2864,20 @@ common#:#treeview#:#Xem kiểu cây
 common#:#tst#:#Bài kiểm tra
 common#:#tst_add#:#Thêm bài kiểm tra
 common#:#tst_anon_eval#:#Kết quả
-common#:#tst_delete#:#Xóa bài kiểm tra
-common#:#tst_edit_learning_progress#:#Sửa tiến trình học tập
-common#:#tst_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#tst_delete#:#Xóa bài kiểm tra
+rbac#:#tst_edit_learning_progress#:#Sửa tiến trình học tập
+rbac#:#tst_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#tst_new#:#Bài kiểm tra mới
 common#:#tst_no_content#:#Không có bài kiểm tra nào
-common#:#tst_read#:#Đọc bài kiểm tra
+rbac#:#tst_read#:#Đọc bài kiểm tra
 common#:#tst_run#:#Chạy
 common#:#tst_statistical_evaluation#:#Thống kê
 common#:#tst_upload_file#:#Tải lên file
 common#:#tst_user_not_invited#:#Bạn không được mời làm bài này.
 common#:#tst_user_wrong_clientip#:#Bạn không có địa chỉ IP đúng để sử dụng bài kiểm tra này
-common#:#tst_visible#:#Nhìn thấy bài kiểm tra
+rbac#:#tst_visible#:#Nhìn thấy bài kiểm tra
 common#:#tst_warning_test_not_complete#:#Chưa hoàn thành bài kiểm tra !
-common#:#tst_write#:#Sửa bài kiểm tra
+rbac#:#tst_write#:#Sửa bài kiểm tra
 common#:#txt_add_object_instruction1#:#Duyệt tìm vị trí bạn muốn thêm
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Bạn đã đăng ký thành công. Hãy kích chuột vào nút phía dưới để đăng nhập với tài khoản người sử dụng của bạn.
@@ -3018,13 +3018,13 @@ common#:#webr#:#Tài nguyên web
 common#:#webr_active#:#Hoạt động
 common#:#webr_add#:#Thêm tài nguyên web
 common#:#webr_add_item#:#Thêm tài nguyên web
-common#:#webr_delete#:#Xóa tài nguyên web
+rbac#:#webr_delete#:#Xóa tài nguyên web
 common#:#webr_delete_items#:#Xóa (các) tài nguyên web
 common#:#webr_deleted_items#:#Đã xóa (các) tài nguyên web.
 common#:#webr_disable_check#:#Không kiểm tra
 common#:#webr_edit#:#Sửa tài nguyên web
 common#:#webr_edit_item#:#Sửa tài nguyên web
-common#:#webr_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#webr_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#webr_fillout_all#:#Hãy điền đủ các ô.
 common#:#webr_item_updated#:#Đã ghi các thay đổi
 common#:#webr_join#:#Đăng ký tài nguyên web
@@ -3035,10 +3035,10 @@ common#:#webr_modified_items#:#Đã ghi các thay đổi.
 common#:#webr_never_checked#:#Không kiểm tra
 common#:#webr_new#:#Thêm tài nguyên web mới
 common#:#webr_no_items_created#:#Không có tài nguyên web nào được tạo
-common#:#webr_read#:#Đọc tài nguyên web
+rbac#:#webr_read#:#Đọc tài nguyên web
 common#:#webr_sure_delete_items#:#Bạn có chắc muốn xóa (các) tài nguyên web sau?
-common#:#webr_visible#:#Nhìn thấy tài nguyên web
-common#:#webr_write#:#Sửa tài nguyên web
+rbac#:#webr_visible#:#Nhìn thấy tài nguyên web
+rbac#:#webr_write#:#Sửa tài nguyên web
 common#:#webservices#:#Dịch vụ web
 common#:#week#:#Tuần
 common#:#weekly#:#hàng tuần
@@ -5989,7 +5989,7 @@ common#:#frm_statistics_ranking#:#Ranking###25 02 2007 new variable
 common#:#groupings#:#Membership Limitations###25 02 2007 new variable
 common#:#groupings_assigned_obj_crs#:#Assigned Courses###25 02 2007 new variable
 common#:#groupings_assigned_obj_grp#:#Assigned Groups###25 02 2007 new variable
-common#:#grp_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
+rbac#:#grp_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
 common#:#grp_members_gallery#:#Group Members Gallery###25 02 2007 new variable
 common#:#header_searchable#:#Searchable###25 02 2007 new variable
 common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.###25 02 2007 new variable
@@ -6991,19 +6991,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7160,7 +7160,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7520,7 +7520,7 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+rbac#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
 news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
 news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
 news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
@@ -7540,8 +7540,8 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+rbac#:#frm_add_post#:#Add new post###23 10 2007 new variable
+rbac#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
@@ -7800,8 +7800,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8329,11 +8329,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12386,7 +12386,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

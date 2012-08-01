@@ -1685,7 +1685,7 @@ rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new va
 rbac#:#fold_edit_permission#:#Ndërro konfigurimet e të Drejtave
 common#:#fold_new#:#Direktorium i Ri
 rbac#:#fold_read#:#Qasje për Lexim në Direktorium
-common#:#fold_visible#:#Direktoriumi është i dukshëm
+rbac#:#fold_visible#:#Direktoriumi është i dukshëm
 rbac#:#fold_write#:#Edito Direktorium
 common#:#folder#:#Direktorium
 common#:#folders#:#Direktoriumet
@@ -1717,16 +1717,16 @@ common#:#frm_add#:#Shto Forum
 common#:#frm_added#:#Forumi u shtua
 common#:#frm_article#:#article ### 2006-8-11 --- Add new translation here.
 common#:#frm_create#:#Krijo Forum
-common#:#frm_delete#:#Fshij Forumin
+rbac#:#frm_delete#:#Fshij Forumin
 common#:#frm_delete_post#:#Fshij një postim, censuroj
 common#:#frm_edit#:#Edito Forumin
-common#:#frm_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#frm_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#frm_edit_post#:#Shto një temë, postim
 common#:#frm_new#:#Forum i Ri 
-common#:#frm_read#:#Qasje për Lexim në Forum
+rbac#:#frm_read#:#Qasje për Lexim në Forum
 common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
-common#:#frm_visible#:#Forumi është i dukshëm
-common#:#frm_write#:#Edito forumin
+rbac#:#frm_visible#:#Forumi është i dukshëm
+rbac#:#frm_write#:#Edito forumin
 common#:#from#:#Nga
 common#:#fullname#:#Emri i plotë
 common#:#functions#:#Funksionet
@@ -1742,8 +1742,8 @@ common#:#glo_a#:#një Fjalorth
 common#:#glo_add#:#Shto Fjalorth
 common#:#glo_added#:#Fjalorthi u shtua
 common#:#glo_create#:#Krijo Fjalorth
-common#:#glo_delete#:#Fshij Fjalorthin
-common#:#glo_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#glo_delete#:#Fshij Fjalorthin
+rbac#:#glo_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#glo_join#:#Abono në Fjalorth
 common#:#glo_leave#:#Çregjistrohu nga Fjalorthi
 common#:#glo_mode#:#Mode###20 Jun 2005 new variable
@@ -1752,10 +1752,10 @@ common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
 common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
 common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#Fjalorth i Ri
-common#:#glo_read#:#Qasje për lexim në Fjalorth
+rbac#:#glo_read#:#Qasje për lexim në Fjalorth
 common#:#glo_upload_file#:#Skedar
-common#:#glo_visible#:#Fjalorthi është i dukshëm
-common#:#glo_write#:#Edito Fjalorthin
+rbac#:#glo_visible#:#Fjalorthi është i dukshëm
+rbac#:#glo_write#:#Edito Fjalorthin
 common#:#global#:#Globale
 common#:#global_default#:#Globale te Paradefinuara
 common#:#global_fixed#:#Gjithsejt të Fiksuara
@@ -1818,30 +1818,30 @@ common#:#grp_create#:#Krijo Grup
 common#:#grp_create_alm#:#Krijo Modul Mësimor AICC
 common#:#grp_create_chat#:#Krijo Chat
 common#:#grp_create_dbk#:#Krijo Libër Diglib
-common#:#grp_create_exc#:#Krijo ushtrim
-common#:#grp_create_file#:#Ngarko skedar
-common#:#grp_create_fold#:#Krijo Direktorium
-common#:#grp_create_frm#:#Krijo Forum
-common#:#grp_create_glo#:#Krijo Fjalorth
-common#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
+rbac#:#grp_create_exc#:#Krijo ushtrim
+rbac#:#grp_create_file#:#Ngarko skedar
+rbac#:#grp_create_fold#:#Krijo Direktorium
+rbac#:#grp_create_frm#:#Krijo Forum
+rbac#:#grp_create_glo#:#Krijo Fjalorth
+rbac#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
 common#:#grp_create_hlm#:#Krijo Modul Mësimor HACP
-common#:#grp_create_htlm#:#Krijo Modul Mësimor HTML
-common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
-common#:#grp_create_lm#:#Krijo Modul Mësimor ILIAS
-common#:#grp_create_mep#:#Krijo Fond Multimedial
-common#:#grp_create_qpl#:#Krijo Fond Pyetjesh për Test
-common#:#grp_create_sahs#:#Krijo Modul Mësimor SCORM/AICC
-common#:#grp_create_spl#:#Krijo Fond Pyetjesh për Kuestioner
-common#:#grp_create_svy#:#Krijo Kuestioner
-common#:#grp_create_tst#:#Krijo Test
-common#:#grp_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#grp_delete#:#Krijo Grup
+rbac#:#grp_create_htlm#:#Krijo Modul Mësimor HTML
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+rbac#:#grp_create_lm#:#Krijo Modul Mësimor ILIAS
+rbac#:#grp_create_mep#:#Krijo Fond Multimedial
+rbac#:#grp_create_qpl#:#Krijo Fond Pyetjesh për Test
+rbac#:#grp_create_sahs#:#Krijo Modul Mësimor SCORM/AICC
+rbac#:#grp_create_spl#:#Krijo Fond Pyetjesh për Kuestioner
+rbac#:#grp_create_svy#:#Krijo Kuestioner
+rbac#:#grp_create_tst#:#Krijo Test
+rbac#:#grp_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#grp_delete#:#Krijo Grup
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#A jeni të sigurt për t'i larguar anëtarët e mëposhtëm nga grupi? 
 common#:#grp_dismiss_myself#:#A jeni të sigurt për ta larguar vetveten nga grupi?###23 Dec 2005 content changed
 common#:#grp_edit#:#Edito Grupin
-common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
-common#:#grp_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+rbac#:#grp_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#grp_err_administrator_required#:#Anëtarët nuk mund të largohen, së paku një administrator për grup kërkohet !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Secili grup duhet së paku të ketë një administrator
 common#:#grp_err_error#:#Është shkaktuar një gabim
@@ -1850,8 +1850,8 @@ common#:#grp_err_member_could_not_be_removed#:#Anëtari nuk u largua. Ju lutem t
 common#:#grp_err_no_permission#:#Nuk posedoni të drejta për këtë veprim.
 common#:#grp_err_registration_data#:#Ju lutem të shënoni një parullë, kohën dhe datën e skadimit për periudhë valide të regjistrimit !###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Edito anëtarët
-common#:#grp_join#:#Shfrytëzuesi mund t'i bashkohet Grupit 
-common#:#grp_leave#:#Shfrytëzuesi mund të largohet nga Grupi
+rbac#:#grp_join#:#Shfrytëzuesi mund t'i bashkohet Grupit 
+rbac#:#grp_leave#:#Shfrytëzuesi mund të largohet nga Grupi
 common#:#grp_list_users#:#Listo shfrytëzuesit
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
@@ -1872,7 +1872,7 @@ common#:#grp_no_groups_selected#:#Ju lutem të zgjedhni një grup
 common#:#grp_no_results_found#:#Nuk janë gjetur rezultate
 common#:#grp_no_roles_selected#:#Ju lutem të zgjedhni një rol
 common#:#grp_options#:#Opsione
-common#:#grp_read#:#Qasje për Lexim në Grup
+rbac#:#grp_read#:#Qasje për Lexim në Grup
 common#:#grp_register#:#Regjistrohu###23 Dec 2005 content changed
 common#:#grp_registration#:#Join group###23 Dec 2005 new variable
 common#:#grp_registration_completed#:#Regjistrimi është kompletuar###23 Dec 2005 content changed
@@ -1880,8 +1880,8 @@ common#:#grp_search_enter_search_string#:#Ju lutem shënoni një fjalë për kë
 common#:#grp_search_members#:#Kërkim i shfrytëzuesit
 common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
 common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
-common#:#grp_visible#:#Grupi është i dukshëm
-common#:#grp_write#:#Edito Grupin
+rbac#:#grp_visible#:#Grupi është i dukshëm
+rbac#:#grp_write#:#Edito Grupin
 common#:#guest#:#Vizitor
 common#:#guests#:#Vizitorët
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
@@ -1934,14 +1934,14 @@ common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Orë për ditë
 common#:#htlm#:#Modul Mësimor HTML
 common#:#htlm_add#:#Shto Modul Mësimor HTML
-common#:#htlm_delete#:#Fshij Modulin Mësimor HTML
+rbac#:#htlm_delete#:#Fshij Modulin Mësimor HTML
 common#:#htlm_edit#:#Edito Karakteristikat e Modulit Mësimor HTML
-common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#htlm_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#htlm_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#htlm_new#:#Modul Mësimor HTML i RI
-common#:#htlm_read#:#Lexo Modulin Mësimor HTML
-common#:#htlm_visible#:#Moduli Mësimor HTML është i dukshëm
-common#:#htlm_write#:#Edito Modulin Mësimor HACP
+rbac#:#htlm_read#:#Lexo Modulin Mësimor HTML
+rbac#:#htlm_visible#:#Moduli Mësimor HTML është i dukshëm
+rbac#:#htlm_write#:#Edito Modulin Mësimor HACP
 common#:#http#:#HTTP###03 Nov 2005 new variable
 common#:#http_not_possible#:#Ky server nuk mundëson kërkesa http.
 common#:#http_path#:#Shtegu http
@@ -2241,18 +2241,18 @@ common#:#lm_a#:#një Modul Mësimor ILIAS
 common#:#lm_add#:#Shto Modul Mësimor ILIAS
 common#:#lm_added#:#Moduli Mësimor ILIAS u shtua
 common#:#lm_create#:#Krijo Modul Mësimor ILIAS
-common#:#lm_delete#:#Fshij Modulin Mësimor ILIAS
-common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#lm_delete#:#Fshij Modulin Mësimor ILIAS
+rbac#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#lm_join#:#Abono në Modulin Mësimor ILIAS
 common#:#lm_leave#:#Çregjistrohu nga Moduli Mësimor ILIAS
 common#:#lm_new#:#Modul Mësimor ILIAS i Ri
-common#:#lm_read#:#Qasje për Lexim në Modulin Mësimor ILIAS
+rbac#:#lm_read#:#Qasje për Lexim në Modulin Mësimor ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HCAP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Moduli Mësimor ILIAS është i dukshëm
-common#:#lm_write#:#Edito Modulin Mësimor ILIAS
+rbac#:#lm_visible#:#Moduli Mësimor ILIAS është i dukshëm
+rbac#:#lm_write#:#Edito Modulin Mësimor ILIAS
 common#:#lng#:#Gjuha
 common#:#lngf#:#Gjuhët
 common#:#lngf_edit_permission#:#Ndërro konfigurimet e të drejtave
@@ -2341,14 +2341,14 @@ common#:#membership_annulled#:#Anëtarësimi juaj është anuluar
 common#:#mep#:#Fond Multimedial
 common#:#mep_add#:#Shto Fond Multimedial
 common#:#mep_added#:#Fondi Multimedial është Shtuar
-common#:#mep_delete#:#Fshij Fondin Multimedial
+rbac#:#mep_delete#:#Fshij Fondin Multimedial
 common#:#mep_edit#:#Edito Karakteristikat e Fondit Multimedial
-common#:#mep_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#mep_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#mep_new#:#Fond Multimedial i Ri
 common#:#mep_not_insert_already_exist#:#Artikujt vijues nuk janë futur për arsye se ata tanimë janë në këtë fond multimedial:
-common#:#mep_read#:#Lexo Përmbajtjen e Fondit Multimedial
-common#:#mep_visible#:#Fondi Multimedial është i dukshëm
-common#:#mep_write#:#Edito Përmbajtjen e Fondit Multimedial
+rbac#:#mep_read#:#Lexo Përmbajtjen e Fondit Multimedial
+rbac#:#mep_visible#:#Fondi Multimedial është i dukshëm
+rbac#:#mep_write#:#Edito Përmbajtjen e Fondit Multimedial
 common#:#message#:#Porosi
 common#:#message_content#:#Përmbajtja e Porosisë
 common#:#message_no_delivered_files#:#Nuk e keni dërguar skedarin!###10 Jul 2006 content changed
@@ -2801,13 +2801,13 @@ common#:#publishing_organisation#:#Organizata e Botimit
 common#:#purpose#:#Qëllimi
 common#:#qpl#:#Fond Pyetjesh për Test
 common#:#qpl_add#:#Shto fond pyetjesh për test
-common#:#qpl_delete#:#Fshij fondin e pyetjeve për test
-common#:#qpl_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#qpl_delete#:#Fshij fondin e pyetjeve për test
+rbac#:#qpl_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#qpl_new#:#Fond Pyetjesh i Ri për Test
-common#:#qpl_read#:#Qasje për Lexim në Fondin e Pyetjeve për Test
+rbac#:#qpl_read#:#Qasje për Lexim në Fondin e Pyetjeve për Test
 common#:#qpl_upload_file#:#Ngarko Skedar
-common#:#qpl_visible#:#Fondi i Pyetjeve për Test është i dukshëm
-common#:#qpl_write#:#Edito Fondin e Pyetjeve për Test
+rbac#:#qpl_visible#:#Fondi i Pyetjeve për Test është i dukshëm
+rbac#:#qpl_write#:#Edito Fondin e Pyetjeve për Test
 common#:#quarterly#:#quarterly ### 2006-8-11 --- Add new translation here.
 common#:#query_data#:#Kërko shënime
 common#:#question#:#Pyetje
@@ -2943,14 +2943,14 @@ common#:#root_write#:#Edito metadata të Sistemit ILIAS
 common#:#sahs#:#Modul Mësimor SCORM/AICC
 common#:#sahs_added#:#Moduli Mësimor SCORM/AICC u shtua
 common#:#sahs_create#:#Krijo Modul Mësimor SCORM/AICC
-common#:#sahs_delete#:#Fshij Modulin Mësimor SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#sahs_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#sahs_delete#:#Fshij Modulin Mësimor SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#sahs_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#sahs_join#:#Abono për Modulin Mësimor SCORM/AICC
 common#:#sahs_leave#:#Çregjistrohu nga Moduli Mësimor SCORM/AICC
-common#:#sahs_read#:#Qasje për Lexim në Modulin Mësimor SCORM/AICC
-common#:#sahs_visible#:#Moduli Mësimor SCORM/AICC është i dukshëm
-common#:#sahs_write#:#Edito Modulin Mësimor SCORM/AICC
+rbac#:#sahs_read#:#Qasje për Lexim në Modulin Mësimor SCORM/AICC
+rbac#:#sahs_visible#:#Moduli Mësimor SCORM/AICC është i dukshëm
+rbac#:#sahs_write#:#Edito Modulin Mësimor SCORM/AICC
 common#:#salutation#:#Përshëndetja
 common#:#salutation_f#:#Zonjusha/Zonja
 common#:#salutation_m#:#Zotëri
@@ -3069,13 +3069,13 @@ common#:#sort_by_this_column#:#Radhit sipas kësaj kolone
 common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Fond pyetjesh për Kuestioner
 common#:#spl_add#:#Shto Fond Pyetjesh për Kuestioner
-common#:#spl_delete#:#Fshij Fondin e Pyetjeve për Kuestioner
-common#:#spl_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#spl_delete#:#Fshij Fondin e Pyetjeve për Kuestioner
+rbac#:#spl_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#spl_new#:#Fond Pyetjesh për Kuestioner i Ri
-common#:#spl_read#:#Qasje për Lexim në Fondin e Pyetjeve për Kuestioner
+rbac#:#spl_read#:#Qasje për Lexim në Fondin e Pyetjeve për Kuestioner
 common#:#spl_upload_file#:#Ngarko Skedar
-common#:#spl_visible#:#Fondi i Pyetjeve për Kuestioner është i dukshëm
-common#:#spl_write#:#Edito Fondin e Pyetjeve për Kuestioner
+rbac#:#spl_visible#:#Fondi i Pyetjeve për Kuestioner është i dukshëm
+rbac#:#spl_write#:#Edito Fondin e Pyetjeve për Kuestioner
 common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
 common#:#st_a#:#një kapitull
 common#:#st_add#:#Shto Kapitull
@@ -3107,22 +3107,22 @@ common#:#summary#:#Përmbledhja
 common#:#sure_delete_selected_users#:#A jeni të sigurt për t'i fshirë shfrytëzuesit vijues? 
 common#:#svy#:#Kuestioner
 common#:#svy_add#:#Shto Kuestioner
-common#:#svy_delete#:#Fshij Kuestionerin
-common#:#svy_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#svy_delete#:#Fshij Kuestionerin
+rbac#:#svy_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
 common#:#svy_finished#:#completed###20 Jun 2005 new variable
-common#:#svy_invite#:#Fto shfrytëzues në Kuestioner
+rbac#:#svy_invite#:#Fto shfrytëzues në Kuestioner
 common#:#svy_new#:#Kuestioner i Ri
 common#:#svy_no_content#:#Nuk ka Kuestioner në dispozicion
 common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
 common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Participo në Kuestioner
-common#:#svy_read#:#Qasje për Lexim në Kuestioner
+rbac#:#svy_read#:#Qasje për Lexim në Kuestioner
 common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Ngarko Skedar
-common#:#svy_visible#:#Kuestioneri është i dukshëm
+rbac#:#svy_visible#:#Kuestioneri është i dukshëm
 common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
-common#:#svy_write#:#Edito Kuestionerin
+rbac#:#svy_write#:#Edito Kuestionerin
 common#:#system#:#Sistemi
 common#:#system_check#:#Kontroll e Sistemit
 common#:#system_choose_language#:#Zgjedh Gjuhën e Sistemit
@@ -3201,20 +3201,20 @@ common#:#treeview#:#Pamje Strukturore
 common#:#tst#:#Testi
 common#:#tst_add#:#Shto Test
 common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
-common#:#tst_delete#:#Fshij Testin
-common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#tst_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#tst_delete#:#Fshij Testin
+rbac#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#tst_edit_permission#:#Ndërro konfigurimet e të drejtave
 common#:#tst_new#:#Test i Ri
 common#:#tst_no_content#:#Nuk ka test në dispozicion
-common#:#tst_read#:#Qasje për Lexim në Test
+rbac#:#tst_read#:#Qasje për Lexim në Test
 common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Ngarko Skedar
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
-common#:#tst_visible#:#Testi është i dukshëm
+rbac#:#tst_visible#:#Testi është i dukshëm
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
-common#:#tst_write#:#Edito Testin
+rbac#:#tst_write#:#Edito Testin
 common#:#txt_add_object_instruction1#:#Kërko për lokacionin ku dëshiron 
 common#:#txt_add_object_instruction2#:#të vendoset.
 common#:#txt_registered#:#Keni kryer me sukses procedurën e regjistrimit në ILIAS. Ju lutem tani klikoni në butonin më poshtë për tu identifikuar.
@@ -3386,13 +3386,13 @@ common#:#webr#:#Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_active#:#Active ### 2006-8-11 --- Add new translation here.
 common#:#webr_add#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_add_item#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#webr_delete#:#Delete Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_delete#:#Delete Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_delete_items#:#Delete Web Resource(s) ### 2006-8-11 --- Add new translation here.
 common#:#webr_deleted_items#:#Deleted Web Resource(s). ### 2006-8-11 --- Add new translation here.
 common#:#webr_disable_check#:#Disable check ### 2006-8-11 --- Add new translation here.
 common#:#webr_edit#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_edit_item#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#webr_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
 common#:#webr_fillout_all#:#Please fill out all required fields. ### 2006-8-11 --- Add new translation here.
 common#:#webr_item_updated#:#Saved modifications ### 2006-8-11 --- Add new translation here.
 common#:#webr_join#:#Subscribe Web Resource ### 2006-8-11 --- Add new translation here.
@@ -3403,10 +3403,10 @@ common#:#webr_modified_items#:#Saved modifications. ### 2006-8-11 --- Add new tr
 common#:#webr_never_checked#:#Never checked ### 2006-8-11 --- Add new translation here.
 common#:#webr_new#:#Add new Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_no_items_created#:#No Web Resources created ### 2006-8-11 --- Add new translation here.
-common#:#webr_read#:#Read access to Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_read#:#Read access to Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)? ### 2006-8-11 --- Add new translation here.
-common#:#webr_visible#:#Web Resource is visible ### 2006-8-11 --- Add new translation here.
-common#:#webr_write#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_visible#:#Web Resource is visible ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_write#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webservices#:#Servise të Web-it
 common#:#week#:#Java
 common#:#weekly#:#weekly ### 2006-8-11 --- Add new translation here.
@@ -6989,19 +6989,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7158,7 +7158,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7518,7 +7518,7 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+rbac#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
 news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
 news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
 news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
@@ -7538,8 +7538,8 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+rbac#:#frm_add_post#:#Add new post###23 10 2007 new variable
+rbac#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
@@ -7798,8 +7798,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8327,11 +8327,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

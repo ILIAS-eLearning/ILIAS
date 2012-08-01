@@ -2784,7 +2784,7 @@ rbac#:#fold_edit_learning_progress#:#Leerweg aanpassen
 rbac#:#fold_edit_permission#:#Wijzig instellingen van de rechten
 common#:#fold_new#:#Nieuwe map
 rbac#:#fold_read#:#Leesrechten op Map
-common#:#fold_visible#:#Map is zichtbaar
+rbac#:#fold_visible#:#Map is zichtbaar
 common#:#fold_wizard_page#:#Kopieër Map (Stap 2/2)
 rbac#:#fold_write#:#Wijzig Map
 common#:#folder#:#Map
@@ -2825,26 +2825,26 @@ common#:#forums_your_name#:#Uw naam
 common#:#frm#:#Forum
 common#:#frm_a#:#een forum
 common#:#frm_add#:#Forum toevoegen
-common#:#frm_add_post#:#Add new post
-common#:#frm_add_thread#:#Add new topi
+rbac#:#frm_add_post#:#Add new post
+rbac#:#frm_add_thread#:#Add new topi
 common#:#frm_added#:#Forum toegevoegd
 common#:#frm_article#:#Artiekel
 common#:#frm_copy#:#Kopieër Forum
 common#:#frm_create#:#Creëer forum
-common#:#frm_delete#:#Verwijder forum
+rbac#:#frm_delete#:#Verwijder forum
 common#:#frm_delete_post#:#Verwijder een bijdrage, censuur
 common#:#frm_edit#:#Forum wijzigen
-common#:#frm_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#frm_edit_permission#:#Wijzig instellingen van de rechten
 common#:#frm_edit_post#:#Voeg nieuwe onderwerp, post toe
 common#:#frm_latest_postings#:#Laatste bericht
-common#:#frm_moderate_frm#:#Delete a post, censorship
+rbac#:#frm_moderate_frm#:#Delete a post, censorship
 common#:#frm_new#:#Nieuw Forum
-common#:#frm_read#:#Leesrecht op forum
+rbac#:#frm_read#:#Leesrecht op forum
 common#:#frm_statistics_ranking#:#Rangschikking
 common#:#frm_status_new#:#Status 'Nieuw'
 common#:#frm_status_new_desc#:#Gelieve een tijdsduur te bepalen hoe lang de status 'Nieuw' is in het forum.
-common#:#frm_visible#:#Forum is zichtbaar
-common#:#frm_write#:#Forum wijzigen
+rbac#:#frm_visible#:#Forum is zichtbaar
+rbac#:#frm_write#:#Forum wijzigen
 common#:#frma_edit_permission#:#Verander permissie instellingen
 common#:#frma_read#:#Read access to Forum Administration
 common#:#frma_visible#:#Forum administratie is zichtbaar
@@ -2866,8 +2866,8 @@ common#:#glo_add#:#Woordenlijst toevoegen
 common#:#glo_added#:#Woordenlijst toegevoegd
 common#:#glo_copy#:#Kopieër Woordenlijst
 common#:#glo_create#:#Creëer woordenlijst
-common#:#glo_delete#:#Verwijder woordenlijst
-common#:#glo_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#glo_delete#:#Verwijder woordenlijst
+rbac#:#glo_edit_permission#:#Wijzig instellingen van de rechten
 common#:#glo_join#:#Abonneer op een woordenlijst
 common#:#glo_leave#:#Abonnement op woordenlijst beëindigen
 common#:#glo_mode#:#Mode
@@ -2876,10 +2876,10 @@ common#:#glo_mode_level#:#virtueel (enkel dit level)
 common#:#glo_mode_normal#:#normaal
 common#:#glo_mode_subtree#:#virtueel (volledig niveau)
 common#:#glo_new#:#Nieuwe Woordenlijs
-common#:#glo_read#:#Leesrecht op woordenlijst
+rbac#:#glo_read#:#Leesrecht op woordenlijst
 common#:#glo_upload_file#:#Bestand
-common#:#glo_visible#:#Woordenlijst is zichtbaar
-common#:#glo_write#:#Wijzigen woordenlijst
+rbac#:#glo_visible#:#Woordenlijst is zichtbaar
+rbac#:#glo_write#:#Wijzigen woordenlijst
 common#:#global#:#Globaal
 common#:#global_default#:#Globaal standaard
 common#:#global_fixed#:#Globaal geregeld
@@ -2949,33 +2949,33 @@ common#:#grp_create#:#Creëer groep
 common#:#grp_create_alm#:#Creëer AICC Lesmodule
 common#:#grp_create_chat#:#Creëer chat
 common#:#grp_create_dbk#:#Creëer digiboek
-common#:#grp_create_exc#:#Creëer oefening
-common#:#grp_create_feed#:#Maak Web Feed
-common#:#grp_create_file#:#Uploap bestand
-common#:#grp_create_fold#:#Creëer Map
-common#:#grp_create_frm#:#Creëer forum
-common#:#grp_create_glo#:#Creëer woordenlijst
-common#:#grp_create_grp#:#Creëer nieuwe groep
+rbac#:#grp_create_exc#:#Creëer oefening
+rbac#:#grp_create_feed#:#Maak Web Feed
+rbac#:#grp_create_file#:#Uploap bestand
+rbac#:#grp_create_fold#:#Creëer Map
+rbac#:#grp_create_frm#:#Creëer forum
+rbac#:#grp_create_glo#:#Creëer woordenlijst
+rbac#:#grp_create_grp#:#Creëer nieuwe groep
 common#:#grp_create_hlm#:#Creëer HACP lesmodule
-common#:#grp_create_htlm#:#Creëer HTML lesmodule
-common#:#grp_create_icrs#:#Creëer LearnLinc Seminar
-common#:#grp_create_lm#:#Creëer lesmodule
-common#:#grp_create_mcst#:#Maak MediaCast
-common#:#grp_create_mep#:#Creëer Mediapool
-common#:#grp_create_qpl#:#Creëer Vragenpool voor Test
-common#:#grp_create_sahs#:#Creëer SCORM/AICC lesmodule
-common#:#grp_create_spl#:#Creëer Vragenpool voor enquête
-common#:#grp_create_svy#:#Creëer Enquête
-common#:#grp_create_tst#:#Creëer Test
-common#:#grp_create_webr#:#Nieuwe website toevoegen
+rbac#:#grp_create_htlm#:#Creëer HTML lesmodule
+rbac#:#grp_create_icrs#:#Creëer LearnLinc Seminar
+rbac#:#grp_create_lm#:#Creëer lesmodule
+rbac#:#grp_create_mcst#:#Maak MediaCast
+rbac#:#grp_create_mep#:#Creëer Mediapool
+rbac#:#grp_create_qpl#:#Creëer Vragenpool voor Test
+rbac#:#grp_create_sahs#:#Creëer SCORM/AICC lesmodule
+rbac#:#grp_create_spl#:#Creëer Vragenpool voor enquête
+rbac#:#grp_create_svy#:#Creëer Enquête
+rbac#:#grp_create_tst#:#Creëer Test
+rbac#:#grp_create_webr#:#Nieuwe website toevoegen
 common#:#grp_create_write#:#Create Wiki
-common#:#grp_delete#:#Verwijder groep
+rbac#:#grp_delete#:#Verwijder groep
 common#:#grp_deleted_export_files#:#Verwijder geselecteerde bestanden
 common#:#grp_dismiss_member#:#Weet u het zeker, dat u de volgende leden van de groep wil verwijderen
 common#:#grp_dismiss_myself#:#Weet u het zeker, dat u uzelf van de groep wilt verwijderen
 common#:#grp_edit#:#Groep wijzigen
-common#:#grp_edit_learning_progress#:#Leerweg aanpassen
-common#:#grp_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#grp_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#grp_edit_permission#:#Wijzig instellingen van de rechten
 common#:#grp_err_administrator_required#:#Lid kan niet verwijderd worden, tenminste één administrateur per groep is verplicht !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Elke groep heeft op zijn minst één groepsadministrateur nodig
 common#:#grp_err_error#:#Er is een fout opgetreden
@@ -2984,8 +2984,8 @@ common#:#grp_err_member_could_not_be_removed#:#Lid kan niet verwijderd worden. C
 common#:#grp_err_no_permission#:#U bezit niet de rechten voor deze handeling.
 common#:#grp_err_registration_data#:#Voer een wachtwoord, de vervaldatum en -tijd voor een geldige registratieperiode !
 common#:#grp_header_edit_members#:#Wijzig leden
-common#:#grp_join#:#Gebruiker mag deelnemen aan groep
-common#:#grp_leave#:#Gebruiker mag groep verlaten
+rbac#:#grp_join#:#Gebruiker mag deelnemen aan groep
+rbac#:#grp_leave#:#Gebruiker mag groep verlaten
 common#:#grp_list_users#:#Gebruikerslijst
 common#:#grp_mail_body_new_subscription#:#U bent ingeschreven in deze groep
 common#:#grp_mail_body_subscription_cancelled#:#Uw lidmaatschap is geannuleerd
@@ -3006,7 +3006,7 @@ common#:#grp_no_groups_selected#:#Selecteer een groep
 common#:#grp_no_results_found#:#Geen resultaten gevonden
 common#:#grp_no_roles_selected#:#Selecteer een rol
 common#:#grp_options#:#Optiesd
-common#:#grp_read#:#Leesrechten op groep
+rbac#:#grp_read#:#Leesrechten op groep
 common#:#grp_register#:#Registreer
 common#:#grp_registration#:#Word lid van de groep
 common#:#grp_registration_completed#:#De registratie is klaar
@@ -3015,9 +3015,9 @@ common#:#grp_search_enter_search_string#:#Voer een zoekstring in
 common#:#grp_search_members#:#Gebruiker zoeken
 common#:#grp_select_one_file#:#Gelieve een bestand te selecteren
 common#:#grp_select_one_file_only#:#Gelieve precies 1 bestand te selecteren
-common#:#grp_visible#:#Groep is zichtbaar
+rbac#:#grp_visible#:#Groep is zichtbaar
 common#:#grp_wizard_page#:#Kopieër Groep (Stap 2/2)
-common#:#grp_write#:#Groep wijzigen
+rbac#:#grp_write#:#Groep wijzigen
 common#:#guest#:#Gast
 common#:#guests#:#Gasten
 common#:#header_searchable#:#Zoekbaar
@@ -3081,14 +3081,14 @@ common#:#hours_of_day#:#Uren van de dag
 common#:#htlm#:#HTML Lesmodule
 common#:#htlm_add#:#Voeg HTML lesmodule toe
 common#:#htlm_copy#:#Kopieër HTML Leermodule
-common#:#htlm_delete#:#Verwijder HTML lesmodule
+rbac#:#htlm_delete#:#Verwijder HTML lesmodule
 common#:#htlm_edit#:#Wijzig eigenschappen lesmodule
-common#:#htlm_edit_learning_progress#:#Leerweg aanpassen
-common#:#htlm_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#htlm_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#htlm_edit_permission#:#Wijzig instellingen van de rechten
 common#:#htlm_new#:#Nieuwe HTML lesmodule
-common#:#htlm_read#:#Lezen HTML lesmodule
-common#:#htlm_visible#:#HTML lesmodule is zichtbaar
-common#:#htlm_write#:#Wijzig HTML lesmodule
+rbac#:#htlm_read#:#Lezen HTML lesmodule
+rbac#:#htlm_visible#:#HTML lesmodule is zichtbaar
+rbac#:#htlm_write#:#Wijzig HTML lesmodule
 common#:#html_block#:#HTML blok
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Deze server ondersteunt geen HTTP verbindingen.
@@ -3445,19 +3445,19 @@ common#:#lm_add#:#Lesmodule toevoegen
 common#:#lm_added#:#Toevoegen lesmodule
 common#:#lm_copy#:#Kopieër ILIAS leermodule
 common#:#lm_create#:#Creëer lesmodule
-common#:#lm_delete#:#Verwijderen Lesmodule
-common#:#lm_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#lm_delete#:#Verwijderen Lesmodule
+rbac#:#lm_edit_learning_progress#:#Leerweg aanpassen
 common#:#lm_edit_permission#:#Wijzig instellingen van de rechten
 common#:#lm_join#:#Abonneren op lesmodule
 common#:#lm_leave#:#Abonnement beëindigen op lesmodule
 common#:#lm_new#:#Nieuwe lesmodule
-common#:#lm_read#:#Leesrechten op lesmodule
+rbac#:#lm_read#:#Leesrechten op lesmodule
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#Lesmodule is zichtbaar
-common#:#lm_write#:#Wijzigen Lesmodule
+rbac#:#lm_visible#:#Lesmodule is zichtbaar
+rbac#:#lm_write#:#Wijzigen Lesmodule
 common#:#lng#:#Taal
 common#:#lngf#:#Talen
 common#:#lngf_edit_permission#:#Recht-instellingen wijzigen
@@ -3573,12 +3573,12 @@ common#:#max_time#:#Maximum tijd
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Voeg MediaCast toe
 common#:#mcst_copy#:#kopieër MediaCast
-common#:#mcst_delete#:#Verwijder Mediacast
-common#:#mcst_edit_permission#:#Verander instellingen van de rechten
+rbac#:#mcst_delete#:#Verwijder Mediacast
+rbac#:#mcst_edit_permission#:#Verander instellingen van de rechten
 common#:#mcst_new#:#Nieuwe MediaCast
-common#:#mcst_read#:#Leesrechten voor MediaCast
-common#:#mcst_visible#:#MediaCast is zichtbaar
-common#:#mcst_write#:#Wijzig MediaCast
+rbac#:#mcst_read#:#Leesrechten voor MediaCast
+rbac#:#mcst_visible#:#MediaCast is zichtbaar
+rbac#:#mcst_write#:#Wijzig MediaCast
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
 common#:#mem_end#:#Registration End:
@@ -3605,14 +3605,14 @@ common#:#membership_leave#:#Leave
 common#:#mep#:#Mediapool
 common#:#mep_add#:#Voeg Mediapool toe
 common#:#mep_added#:#Voeg Mediapool toe
-common#:#mep_delete#:#Verwijder Mediapool
+rbac#:#mep_delete#:#Verwijder Mediapool
 common#:#mep_edit#:#Wijzig eigenschappen Mediapool
-common#:#mep_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#mep_edit_permission#:#Wijzig instellingen van de rechten
 common#:#mep_new#:#Nieuwe Mediapool
 common#:#mep_not_insert_already_exist#:#De volgende item zijn niet ingevoegd omdat ze reeds al in de mediapool zitten
-common#:#mep_read#:#Lezen inhoud Mediapool
-common#:#mep_visible#:#Mediapool is zichtbaar
-common#:#mep_write#:#Wijzig inhoud Mediapool
+rbac#:#mep_read#:#Lezen inhoud Mediapool
+rbac#:#mep_visible#:#Mediapool is zichtbaar
+rbac#:#mep_write#:#Wijzig inhoud Mediapool
 common#:#message#:#Bericht
 common#:#message_content#:#Bericht
 common#:#message_no_delivered_files#:#U hebt geen bestand afgeleverd
@@ -4244,13 +4244,13 @@ common#:#purpose#:#Voorstel
 common#:#qpl#:#Vragenpool (Toets)
 common#:#qpl_add#:#Toevoegen vragenpool
 common#:#qpl_copy#:#Copy Test Question Pool
-common#:#qpl_delete#:#Vraag verwijderen uit vragenpool
-common#:#qpl_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#qpl_delete#:#Vraag verwijderen uit vragenpool
+rbac#:#qpl_edit_permission#:#Wijzig instellingen van de rechten
 common#:#qpl_new#:#Nieuw vragenpool
-common#:#qpl_read#:#Leesrechten op vragenpool
+rbac#:#qpl_read#:#Leesrechten op vragenpool
 common#:#qpl_upload_file#:#Upload bestand
-common#:#qpl_visible#:#Vragenpool is zichtbaar
-common#:#qpl_write#:#Wijzigen Vragenpool
+rbac#:#qpl_visible#:#Vragenpool is zichtbaar
+rbac#:#qpl_write#:#Wijzigen Vragenpool
 common#:#quarterly#:#per kwartaal
 common#:#query_data#:#Gegevens opvragen
 common#:#question#:#Vraag
@@ -4407,17 +4407,17 @@ common#:#sahs#:#SCORM/AICC Lesmodule
 common#:#sahs_added#:#SCORM/AICC lesmodule toegevoegd
 common#:#sahs_copy#:#Kopieër SCORM/AICC leermodule
 common#:#sahs_create#:#Creëer SCORM/AICC lesmodule
-common#:#sahs_delete#:#Verwijder SCORM/AICC lesmodul
-common#:#sahs_edit_learning_progress#:#Leerweg aanpassen
-common#:#sahs_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#sahs_delete#:#Verwijder SCORM/AICC lesmodul
+rbac#:#sahs_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#sahs_edit_permission#:#Wijzig instellingen van de rechten
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
 common#:#sahs_insert_sco_from_clip#:#Paste SCOs from Clipboard
 common#:#sahs_join#:#Abonneren op SCORM/AICC Lesmodule
 common#:#sahs_leave#:#Abonnement beëindigen van SCORM/AICC Lesmodule
-common#:#sahs_read#:#Leesrechten op SCORM/AICC lesmodule
-common#:#sahs_visible#:#SCORM/AICC lesmodule is zichtbaar
-common#:#sahs_write#:#Wijzig SCORM/AICC lesmodule
+rbac#:#sahs_read#:#Leesrechten op SCORM/AICC lesmodule
+rbac#:#sahs_visible#:#SCORM/AICC lesmodule is zichtbaar
+rbac#:#sahs_write#:#Wijzig SCORM/AICC lesmodule
 common#:#salutation#:#Aanhef
 common#:#salutation_f#:#Jfr./Mevr.
 common#:#salutation_m#:#Mr.
@@ -4614,13 +4614,13 @@ common#:#spacer#:#Spacer
 common#:#spl#:#Vragenpool (Enquête)
 common#:#spl_add#:#Vraag toevoegen aan vragenpool
 common#:#spl_copy#:#Copy Survey Question Pool
-common#:#spl_delete#:#Vraag verwijderen uit vragenpool
-common#:#spl_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#spl_delete#:#Vraag verwijderen uit vragenpool
+rbac#:#spl_edit_permission#:#Wijzig instellingen van de rechten
 common#:#spl_new#:#Nieuw vragenpool
-common#:#spl_read#:#Leesrechten op vragenpool
+rbac#:#spl_read#:#Leesrechten op vragenpool
 common#:#spl_upload_file#:#Upload bestanden
-common#:#spl_visible#:#Vragenpool is zichtbaar
-common#:#spl_write#:#WVragenpool wijzigen
+rbac#:#spl_visible#:#Vragenpool is zichtbaar
+rbac#:#spl_write#:#WVragenpool wijzigen
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#een hoofdstuk
 common#:#st_add#:#Voeg hoofdstuk toe
@@ -4669,22 +4669,22 @@ common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surve
 common#:#svy#:#Enquête
 common#:#svy_add#:#Voeg een enquête toe
 common#:#svy_copy#:#Kopieër Enquête
-common#:#svy_delete#:#Verwijder enquête
-common#:#svy_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#svy_delete#:#Verwijder enquête
+rbac#:#svy_edit_permission#:#Wijzig instellingen van de rechten
 common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#Completed
-common#:#svy_invite#:#Nodig gebruikers uit voor een enquête
+rbac#:#svy_invite#:#Nodig gebruikers uit voor een enquête
 common#:#svy_new#:#Nieuw enquête
 common#:#svy_no_content#:#Geen enquêtes beschikbaar
 common#:#svy_not_finished#:#niet voltooid
 common#:#svy_not_started#:#niet gestart
 common#:#svy_participate#:#Deelnemen in een enquête
-common#:#svy_read#:#Leesrechten op enquête
+rbac#:#svy_read#:#Leesrechten op enquête
 common#:#svy_run#:#Start
 common#:#svy_upload_file#:#Upload bestand
-common#:#svy_visible#:#Enquête is zichtbaar
+rbac#:#svy_visible#:#Enquête is zichtbaar
 common#:#svy_warning_survey_not_complete#:#The enquête is niet compleet
-common#:#svy_write#:#Wijzig enquête
+rbac#:#svy_write#:#Wijzig enquête
 common#:#system#:#Systeem
 common#:#system_check#:#Systeemcontrole
 common#:#system_choose_language#:#Systeemtaal kiezen
@@ -4781,21 +4781,21 @@ common#:#tst#:#Test
 common#:#tst_add#:#Toevoegen test
 common#:#tst_anon_eval#:#Results
 common#:#tst_copy#:#Kopieër Test
-common#:#tst_delete#:#Verwijderen test
-common#:#tst_edit_learning_progress#:#Leerweg aanpassen
-common#:#tst_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#tst_delete#:#Verwijderen test
+rbac#:#tst_edit_learning_progress#:#Leerweg aanpassen
+rbac#:#tst_edit_permission#:#Wijzig instellingen van de rechten
 common#:#tst_new#:#Nieuwe test
 common#:#tst_no_content#:#Geen test beschikbaar
-common#:#tst_read#:#Leesrechten op test
+rbac#:#tst_read#:#Leesrechten op test
 common#:#tst_run#:#Start
 common#:#tst_statistical_evaluation#:#Statistieken
-common#:#tst_tst_statistics#:#Toegang tot toetsstatistieken
+rbac#:#tst_tst_statistics#:#Toegang tot toetsstatistieken
 common#:#tst_upload_file#:#Upload bestanden
 common#:#tst_user_not_invited#:#U wordt niet verondersteld dit examen af te leggen
 common#:#tst_user_wrong_clientip#:#U hebt niet het juiste IPadres om de test af te leggen
-common#:#tst_visible#:#De test is zichtbaar
+rbac#:#tst_visible#:#De test is zichtbaar
 common#:#tst_warning_test_not_complete#:#The test is niet compleet
-common#:#tst_write#:#Test wijzigen
+rbac#:#tst_write#:#Test wijzigen
 common#:#tutors#:#Tutors
 common#:#txt_add_object_instruction1#:#Blader naar de locatie waar u wilt toevoegen
 common#:#txt_add_object_instruction2#:#.
@@ -5012,13 +5012,13 @@ common#:#webr_active#:#Actief
 common#:#webr_add#:#Website toevoegen
 common#:#webr_add_item#:#Website toevoegen
 common#:#webr_copy#:#Website kopiëren
-common#:#webr_delete#:#Website verwijderen
+rbac#:#webr_delete#:#Website verwijderen
 common#:#webr_delete_items#:#Website(s) verwijderen
 common#:#webr_deleted_items#:#Website(s) verwijderen.
 common#:#webr_disable_check#:#Verberg controle
 common#:#webr_edit#:#Website aanpassen
 common#:#webr_edit_item#:#Website aanpassen
-common#:#webr_edit_permission#:# Verander instellingen van de rechten
+rbac#:#webr_edit_permission#:# Verander instellingen van de rechten
 common#:#webr_fillout_all#:#Gelieve alle verplichte velden in te vullen
 common#:#webr_item_updated#:#Aanpassingen opgeslaan
 common#:#webr_join#:#Inschrijven web resource
@@ -5029,10 +5029,10 @@ common#:#webr_modified_items#:#Aanpassingen opgeslaan
 common#:#webr_never_checked#:#Nooit gecontroleerd
 common#:#webr_new#:#Nieuwe website toevoegen
 common#:#webr_no_items_created#:#Geen websites toegevoegd
-common#:#webr_read#:#Leesrechten voor web resource
+rbac#:#webr_read#:#Leesrechten voor web resource
 common#:#webr_sure_delete_items#:#Ben je zeker dat je de volgende website(s) wil verwijderen
-common#:#webr_visible#:#Website is zichtbaar
-common#:#webr_write#:#Website aanpassen
+rbac#:#webr_visible#:#Website is zichtbaar
+rbac#:#webr_write#:#Website aanpassen
 common#:#webservices#:#Webservices
 common#:#week#:#Week
 common#:#weekly#:#Wekelijks
@@ -5044,13 +5044,13 @@ common#:#width_x_height#:#Breedte x Hoogte
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
 common#:#wiki_copy#:#Copy Wiki
-common#:#wiki_delete#:#Delete Wiki
-common#:#wiki_edit_content#:#Edit Wiki Pages
-common#:#wiki_edit_permission#:#Change permission settings
+rbac#:#wiki_delete#:#Delete Wiki
+rbac#:#wiki_edit_content#:#Edit Wiki Pages
+rbac#:#wiki_edit_permission#:#Change permission settings
 common#:#wiki_new#:#New Wiki
-common#:#wiki_read#:#Read Wiki
-common#:#wiki_visible#:#Wiki is visible
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+rbac#:#wiki_read#:#Read Wiki
+rbac#:#wiki_visible#:#Wiki is visible
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
 common#:#with#:#met
 common#:#wizard_search_list#:#Uw zoekactie heeft volgende items gevonden. Gelieve één te selecteren
 common#:#wizard_title_info#:#Gelieve een titel te geven aan het object dat u wilt dupliceren.

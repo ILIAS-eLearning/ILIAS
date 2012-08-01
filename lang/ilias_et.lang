@@ -1686,7 +1686,7 @@ rbac#:#fold_edit_learning_progress#:#Muuda õpitulemusi
 rbac#:#fold_edit_permission#:#Change Permission settings
 common#:#fold_new#:#Uus kaust
 rbac#:#fold_read#:#Read access to Folder
-common#:#fold_visible#:#Folder is visible
+rbac#:#fold_visible#:#Folder is visible
 rbac#:#fold_write#:#Muuda kausta
 common#:#folder#:#Kaust
 common#:#folders#:#Kaustad
@@ -1718,18 +1718,18 @@ common#:#frm_add#:#Lisa foorum
 common#:#frm_added#:#Foorum on lisatud
 common#:#frm_article#:#article
 common#:#frm_create#:#Loo foorum
-common#:#frm_delete#:#Kustuta foorum
+rbac#:#frm_delete#:#Kustuta foorum
 common#:#frm_delete_post#:#Delete a post, censorship
 common#:#frm_edit#:#Muuda foorumit
-common#:#frm_edit_permission#:#Change permission settings
+rbac#:#frm_edit_permission#:#Change permission settings
 common#:#frm_edit_post#:#Add new thread, posting
 common#:#frm_new#:#Uus foorum
-common#:#frm_read#:#Read access to Forum
+rbac#:#frm_read#:#Read access to Forum
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new#:#Staatus 'Uus'
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
-common#:#frm_visible#:#Foorum on nähtav
-common#:#frm_write#:#Muuda foorumit
+rbac#:#frm_visible#:#Foorum on nähtav
+rbac#:#frm_write#:#Muuda foorumit
 common#:#from#:#Kellelt
 common#:#fullname#:#Full name
 common#:#functions#:#Functions
@@ -1745,8 +1745,8 @@ common#:#glo_a#:#a Glossary
 common#:#glo_add#:#Lisa sõnastik
 common#:#glo_added#:#Sõnastik on lisatud
 common#:#glo_create#:#Loo sõnastik
-common#:#glo_delete#:#Kustuta sõnastik
-common#:#glo_edit_permission#:#Muuda õiguste seadeid
+rbac#:#glo_delete#:#Kustuta sõnastik
+rbac#:#glo_edit_permission#:#Muuda õiguste seadeid
 common#:#glo_join#:#Subscribe to Glossary
 common#:#glo_leave#:#Unsubscribe from Glossary
 common#:#glo_mode#:#Olek
@@ -1755,10 +1755,10 @@ common#:#glo_mode_level#:#virtual (this level only)
 common#:#glo_mode_normal#:#normal
 common#:#glo_mode_subtree#:#virtual (entire subtree)
 common#:#glo_new#:#Uus sõnastik
-common#:#glo_read#:#Read access to Glossary
+rbac#:#glo_read#:#Read access to Glossary
 common#:#glo_upload_file#:#Fail
-common#:#glo_visible#:#Sõnaraamat on nähtav
-common#:#glo_write#:#Muuda sõnaraamatut
+rbac#:#glo_visible#:#Sõnaraamat on nähtav
+rbac#:#glo_write#:#Muuda sõnaraamatut
 common#:#global#:#Üldine
 common#:#global_default#:#Üldine vaikimisi
 common#:#global_fixed#:#Global Fixed
@@ -1821,30 +1821,30 @@ common#:#grp_create#:#Loo grupp
 common#:#grp_create_alm#:#Loo AICC õpiobjekt
 common#:#grp_create_chat#:#Loo jutukas
 common#:#grp_create_dbk#:#Loo Digilib-raamat
-common#:#grp_create_exc#:#Loo ülesanne
-common#:#grp_create_file#:#Lae fail üles
-common#:#grp_create_fold#:#Loo kaust
-common#:#grp_create_frm#:#Loo foorum
-common#:#grp_create_glo#:#Loo sõnaraamat
-common#:#grp_create_grp#:#Loo grupp
+rbac#:#grp_create_exc#:#Loo ülesanne
+rbac#:#grp_create_file#:#Lae fail üles
+rbac#:#grp_create_fold#:#Loo kaust
+rbac#:#grp_create_frm#:#Loo foorum
+rbac#:#grp_create_glo#:#Loo sõnaraamat
+rbac#:#grp_create_grp#:#Loo grupp
 common#:#grp_create_hlm#:#Loo HACP õpiobjekt
-common#:#grp_create_htlm#:#Loo HTML õpiobjekt
-common#:#grp_create_icrs#:#Loo LearnLinc seminar
-common#:#grp_create_lm#:#Loo ILIASe õpiobjekt
-common#:#grp_create_mep#:#Loo meediabassein
-common#:#grp_create_qpl#:#Loo testi küsimuste bassein
-common#:#grp_create_sahs#:#Loo SCORM/AICC õpiobjekt
-common#:#grp_create_spl#:#Loo ankeetküsitluse küsimuste bassein
-common#:#grp_create_svy#:#Loo ankeetküsitlus
-common#:#grp_create_tst#:#Loo test
-common#:#grp_create_webr#:#Loo veebiallikas
-common#:#grp_delete#:#Kustuta grupp
+rbac#:#grp_create_htlm#:#Loo HTML õpiobjekt
+rbac#:#grp_create_icrs#:#Loo LearnLinc seminar
+rbac#:#grp_create_lm#:#Loo ILIASe õpiobjekt
+rbac#:#grp_create_mep#:#Loo meediabassein
+rbac#:#grp_create_qpl#:#Loo testi küsimuste bassein
+rbac#:#grp_create_sahs#:#Loo SCORM/AICC õpiobjekt
+rbac#:#grp_create_spl#:#Loo ankeetküsitluse küsimuste bassein
+rbac#:#grp_create_svy#:#Loo ankeetküsitlus
+rbac#:#grp_create_tst#:#Loo test
+rbac#:#grp_create_webr#:#Loo veebiallikas
+rbac#:#grp_delete#:#Kustuta grupp
 common#:#grp_deleted_export_files#:#Kustutatud failid
 common#:#grp_dismiss_member#:#Kas tahad kindlasti järgmisi liikmeid grupist vabastada?
 common#:#grp_dismiss_myself#:#Kas tahad kindlasti grupist  lahkuda?
 common#:#grp_edit#:#Muuda gruppi
-common#:#grp_edit_learning_progress#:#Muuda õpitulemusi
-common#:#grp_edit_permission#:#Change permission settings
+rbac#:#grp_edit_learning_progress#:#Muuda õpitulemusi
+rbac#:#grp_edit_permission#:#Change permission settings
 common#:#grp_err_administrator_required#:#Liiget ei saa eemaldada, grupi kohta peab olema vähemalt üks administraator !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Igas grupis peab olema vähemalt üks grupiadministraator
 common#:#grp_err_error#:#Tekkis viga
@@ -1853,8 +1853,8 @@ common#:#grp_err_member_could_not_be_removed#:#Liiget ei saa eemaldada. Palun ko
 common#:#grp_err_no_permission#:#Sul pole selleks toiminguks piisavalt õigusi.
 common#:#grp_err_registration_data#:#Palun sisesta kehtiva liitumisperioodi jaoks salasõna ning aegumise kuupäev ja kellaaeg !
 common#:#grp_header_edit_members#:#Muuda liikmeid
-common#:#grp_join#:#Kasutaja võib grupiga liituda
-common#:#grp_leave#:#Kasutaja võib grupist lahkuda
+rbac#:#grp_join#:#Kasutaja võib grupiga liituda
+rbac#:#grp_leave#:#Kasutaja võib grupist lahkuda
 common#:#grp_list_users#:#Kasutajate nimestik
 common#:#grp_mail_body_new_subscription#:#Sind on selle grupiga liidetud.
 common#:#grp_mail_body_subscription_cancelled#:#Sinu liikmelisus on tühistatud.
@@ -1875,7 +1875,7 @@ common#:#grp_no_groups_selected#:#Palun vali grupp
 common#:#grp_no_results_found#:#Midagi ei leitud.
 common#:#grp_no_roles_selected#:#Palun vali roll
 common#:#grp_options#:#Valikud
-common#:#grp_read#:#Read access to Group
+rbac#:#grp_read#:#Read access to Group
 common#:#grp_register#:#Liitu
 common#:#grp_registration#:#Liitu grupiga
 common#:#grp_registration_completed#:#Sa oled liitunud grupiga
@@ -1883,8 +1883,8 @@ common#:#grp_search_enter_search_string#:#Palun sisesta otsisõna
 common#:#grp_search_members#:#Kasutajate otsing
 common#:#grp_select_one_file#:#Palun vali üks fail.
 common#:#grp_select_one_file_only#:#Palun vali ainult üks fail.
-common#:#grp_visible#:#Grupp on nähtav
-common#:#grp_write#:#Muuda gruppi
+rbac#:#grp_visible#:#Grupp on nähtav
+rbac#:#grp_write#:#Muuda gruppi
 common#:#guest#:#Külaline
 common#:#guests#:#Külalised
 common#:#header_searchable#:#Otsitav
@@ -1937,14 +1937,14 @@ common#:#hours#:#tund(i)
 common#:#hours_of_day#:#Tundi päevas
 common#:#htlm#:#HTML õppemoodul
 common#:#htlm_add#:#Lisa HTML õppemoodul
-common#:#htlm_delete#:#Kustuta HTML õppemoodul
+rbac#:#htlm_delete#:#Kustuta HTML õppemoodul
 common#:#htlm_edit#:#Muuda HTML õppemooduli omadusi
-common#:#htlm_edit_learning_progress#:#Muuda õpitulemusi
-common#:#htlm_edit_permission#:#Muuda õiguste seadeid
+rbac#:#htlm_edit_learning_progress#:#Muuda õpitulemusi
+rbac#:#htlm_edit_permission#:#Muuda õiguste seadeid
 common#:#htlm_new#:#Uus HTML õppemoodul
-common#:#htlm_read#:#Loe HTML õppemoodulit
-common#:#htlm_visible#:#HTML õppemoodul on nähtav
-common#:#htlm_write#:#Muuda HTML õppemoodulit
+rbac#:#htlm_read#:#Loe HTML õppemoodulit
+rbac#:#htlm_visible#:#HTML õppemoodul on nähtav
+rbac#:#htlm_write#:#Muuda HTML õppemoodulit
 common#:#http#:#HTTP
 common#:#http_not_possible#:#See server ei toeta http päringuid.
 common#:#http_path#:#Http Path
@@ -2244,18 +2244,18 @@ common#:#lm_a#:#an ILIAS Learning Module
 common#:#lm_add#:#Lisa ILIAS õpiobjekt
 common#:#lm_added#:#ILIAS õpiobjekt lisatud
 common#:#lm_create#:#Loo ILIAS õpiobjekt
-common#:#lm_delete#:#Kustuta ILIAS õpiobjekt
-common#:#lm_edit_learning_progress#:#Muuda edasijõudmist
+rbac#:#lm_delete#:#Kustuta ILIAS õpiobjekt
+rbac#:#lm_edit_learning_progress#:#Muuda edasijõudmist
 common#:#lm_edit_permission#:#Muuda õiguste seadeid
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
 common#:#lm_new#:#Uus ILIAS õpiobjekt
-common#:#lm_read#:#Read access to ILIAS Learning Module
+rbac#:#lm_read#:#Read access to ILIAS Learning Module
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#ILIAS õpiobjekt on nähtav
-common#:#lm_write#:#Muuda ILIAS õpiobjekti
+rbac#:#lm_visible#:#ILIAS õpiobjekt on nähtav
+rbac#:#lm_write#:#Muuda ILIAS õpiobjekti
 common#:#lng#:#Keel
 common#:#lngf#:#Keeled
 common#:#lngf_edit_permission#:#Muuda õiguste seadeid
@@ -2344,14 +2344,14 @@ common#:#membership_annulled#:#Sinu liikmelisus on tühistatud
 common#:#mep#:#Meediabassein
 common#:#mep_add#:#Lisa meediabassein
 common#:#mep_added#:#Meediabassein lisatud
-common#:#mep_delete#:#Kustuta meediabassein
+rbac#:#mep_delete#:#Kustuta meediabassein
 common#:#mep_edit#:#Muuda meediabasseini seadeid
-common#:#mep_edit_permission#:#Muuda õiguste seadeid
+rbac#:#mep_edit_permission#:#Muuda õiguste seadeid
 common#:#mep_new#:#Uus meediabassein
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool:
-common#:#mep_read#:#Read Media Pool Content
-common#:#mep_visible#:#Meediabassein on nähtav
-common#:#mep_write#:#Muuda meediabasseini sisu
+rbac#:#mep_read#:#Read Media Pool Content
+rbac#:#mep_visible#:#Meediabassein on nähtav
+rbac#:#mep_write#:#Muuda meediabasseini sisu
 common#:#message#:#Teade
 common#:#message_content#:#Teate sisu
 common#:#message_no_delivered_files#:#Sa ei ole faili saatnud!
@@ -2804,13 +2804,13 @@ common#:#publishing_organisation#:#Publishing Organization
 common#:#purpose#:#Purpose
 common#:#qpl#:#Testi küsimustebassein
 common#:#qpl_add#:#Lisa küsimustebassein testi jaoks
-common#:#qpl_delete#:#Kustuta testi küsimustebassein
-common#:#qpl_edit_permission#:#Change permission settings
+rbac#:#qpl_delete#:#Kustuta testi küsimustebassein
+rbac#:#qpl_edit_permission#:#Change permission settings
 common#:#qpl_new#:#New question pool for test
-common#:#qpl_read#:#Read access to Question Pool for Test
+rbac#:#qpl_read#:#Read access to Question Pool for Test
 common#:#qpl_upload_file#:#Upload file
-common#:#qpl_visible#:#Question Pool for Test is visible
-common#:#qpl_write#:#Muuda testi küsimustebasseini
+rbac#:#qpl_visible#:#Question Pool for Test is visible
+rbac#:#qpl_write#:#Muuda testi küsimustebasseini
 common#:#quarterly#:#quarterly
 common#:#query_data#:#Query data
 common#:#question#:#Question
@@ -2946,14 +2946,14 @@ common#:#root_write#:#Edit metadata of system root node
 common#:#sahs#:#SCORM/AICC õppemoodul
 common#:#sahs_added#:#SCORM/AICC õppemoodul on lisatud
 common#:#sahs_create#:#Loo SCORM/AICC õppemoodul
-common#:#sahs_delete#:#Kustuta  SCORM/AICC õppemoodul
-common#:#sahs_edit_learning_progress#:#Muuda õpitulemusi
-common#:#sahs_edit_permission#:#Change permission settings
+rbac#:#sahs_delete#:#Kustuta  SCORM/AICC õppemoodul
+rbac#:#sahs_edit_learning_progress#:#Muuda õpitulemusi
+rbac#:#sahs_edit_permission#:#Change permission settings
 common#:#sahs_join#:#Subscribe to SCORM/AICC Learning Module
 common#:#sahs_leave#:#Unsubscribe from SCORM/AICC Learning Module
-common#:#sahs_read#:#Read access to SCORM/AICC Learning Module
-common#:#sahs_visible#:#SCORM/AICC õppemoodul on nähtav
-common#:#sahs_write#:#Muuda SCORM/AICC õppemoodulit
+rbac#:#sahs_read#:#Read access to SCORM/AICC Learning Module
+rbac#:#sahs_visible#:#SCORM/AICC õppemoodul on nähtav
+rbac#:#sahs_write#:#Muuda SCORM/AICC õppemoodulit
 common#:#salutation#:#Tervitus
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
@@ -3073,13 +3073,13 @@ common#:#sort_by_this_column#:#Sort by this column
 common#:#spacer#:#Spacer
 common#:#spl#:#Question Pool Survey
 common#:#spl_add#:#Add question pool for survey
-common#:#spl_delete#:#Delete Question Pool for Survey
-common#:#spl_edit_permission#:#Change permission settings
+rbac#:#spl_delete#:#Delete Question Pool for Survey
+rbac#:#spl_edit_permission#:#Change permission settings
 common#:#spl_new#:#New question pool for survey
-common#:#spl_read#:#Read access to Question Pool for Survey
+rbac#:#spl_read#:#Read access to Question Pool for Survey
 common#:#spl_upload_file#:#Upload file
-common#:#spl_visible#:#Question Pool for Survey is visible
-common#:#spl_write#:#Edit Question Pool for Survey
+rbac#:#spl_visible#:#Question Pool for Survey is visible
+rbac#:#spl_write#:#Edit Question Pool for Survey
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#a chapter
 common#:#st_add#:#Add chapter
@@ -3111,22 +3111,22 @@ common#:#summary#:#Kokkuvõte
 common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)
 common#:#svy#:#Küsitlus
 common#:#svy_add#:#Lisa küsitlus
-common#:#svy_delete#:#Kustuta küsitlus
-common#:#svy_edit_permission#:#Muuda õiguste seadeid
+rbac#:#svy_delete#:#Kustuta küsitlus
+rbac#:#svy_edit_permission#:#Muuda õiguste seadeid
 common#:#svy_evaluation#:#Evaluation
 common#:#svy_finished#:#finished
-common#:#svy_invite#:#Kutsu kasutajad küsitlusse
+rbac#:#svy_invite#:#Kutsu kasutajad küsitlusse
 common#:#svy_new#:#Uus küsitlus
 common#:#svy_no_content#:#Küsitlusi pole saadaval
 common#:#svy_not_finished#:#pole lõpetatud
 common#:#svy_not_started#:#pole alustatud
 common#:#svy_participate#:#Osale küsitluses
-common#:#svy_read#:#Read access to survey
+rbac#:#svy_read#:#Read access to survey
 common#:#svy_run#:#Run
 common#:#svy_upload_file#:#Lae fail alla
-common#:#svy_visible#:#Küsitlus on nähtav!
+rbac#:#svy_visible#:#Küsitlus on nähtav!
 common#:#svy_warning_survey_not_complete#:#Küsitlus pole lõpetatud!
-common#:#svy_write#:#Muuda küsitlust
+rbac#:#svy_write#:#Muuda küsitlust
 common#:#system#:#System
 common#:#system_check#:#System Check
 common#:#system_choose_language#:#System Choose Language
@@ -3205,20 +3205,20 @@ common#:#treeview#:#Puu vaade
 common#:#tst#:#Test
 common#:#tst_add#:#Lisa test
 common#:#tst_anon_eval#:#Tulemused
-common#:#tst_delete#:#Kustuta test
-common#:#tst_edit_learning_progress#:#Muuda edasijõudmist
-common#:#tst_edit_permission#:#Muuda õiguseid
+rbac#:#tst_delete#:#Kustuta test
+rbac#:#tst_edit_learning_progress#:#Muuda edasijõudmist
+rbac#:#tst_edit_permission#:#Muuda õiguseid
 common#:#tst_new#:#Uus test
 common#:#tst_no_content#:#No tests available
-common#:#tst_read#:#Read access to Test
+rbac#:#tst_read#:#Read access to Test
 common#:#tst_run#:#Run
 common#:#tst_statistical_evaluation#:#Statistika
 common#:#tst_upload_file#:#Upload file
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test
-common#:#tst_visible#:#Test on nähtav
+rbac#:#tst_visible#:#Test on nähtav
 common#:#tst_warning_test_not_complete#:#Test pole valmis!
-common#:#tst_write#:#Muuda testi
+rbac#:#tst_write#:#Muuda testi
 common#:#txt_add_object_instruction1#:#Browse to the location where you want to add
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.
@@ -3390,13 +3390,13 @@ common#:#webr#:#Veebiallikas
 common#:#webr_active#:#Active
 common#:#webr_add#:#Lisa veebiallikas
 common#:#webr_add_item#:#Lisa veebiallikas
-common#:#webr_delete#:#Kustuta veebiallikas
+rbac#:#webr_delete#:#Kustuta veebiallikas
 common#:#webr_delete_items#:#Kustuta veebiallikas
 common#:#webr_deleted_items#:#Kustutatud veebiallikas
 common#:#webr_disable_check#:#Disable check 
 common#:#webr_edit#:#Muuda veebiallikat
 common#:#webr_edit_item#:#Muuda veebiallikat
-common#:#webr_edit_permission#:#Change permission settings
+rbac#:#webr_edit_permission#:#Change permission settings
 common#:#webr_fillout_all#:#.Palun täida kõik nõutud väljad.
 common#:#webr_item_updated#:#Saved modifications
 common#:#webr_join#:#Subscribe Web Resource
@@ -3407,10 +3407,10 @@ common#:#webr_modified_items#:#Saved modifications.
 common#:#webr_never_checked#:#Never checked
 common#:#webr_new#:#Add new Web Resource
 common#:#webr_no_items_created#:#No Web Resources created
-common#:#webr_read#:#Read access to Web Resource
+rbac#:#webr_read#:#Read access to Web Resource
 common#:#webr_sure_delete_items#:#Kas soovid kindlasti kustutada järgmise(d) veebiallika(d)?
-common#:#webr_visible#:#Veebiallikas on nähtaval
-common#:#webr_write#:#Muuda veebiallikat
+rbac#:#webr_visible#:#Veebiallikas on nähtaval
+rbac#:#webr_write#:#Muuda veebiallikat
 common#:#webservices#:#Webservices
 common#:#week#:#Nädal
 common#:#weekly#:#iganädalane
@@ -6989,19 +6989,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7158,7 +7158,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7518,7 +7518,7 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+rbac#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
 news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
 news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
 news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
@@ -7538,8 +7538,8 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+rbac#:#frm_add_post#:#Add new post###23 10 2007 new variable
+rbac#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
@@ -7798,8 +7798,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8327,11 +8327,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

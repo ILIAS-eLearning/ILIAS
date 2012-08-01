@@ -1225,7 +1225,7 @@ common#:#fold_edit#:#Редактировать Каталог
 rbac#:#fold_edit_permission#:#Может изменять параметры доступа
 common#:#fold_new#:#Новый каталог
 rbac#:#fold_read#:#Доступ для чтения к Каталогу
-common#:#fold_visible#:#Каталог виден
+rbac#:#fold_visible#:#Каталог виден
 rbac#:#fold_write#:#Редактировать Каталог
 common#:#folder#:#Каталог
 common#:#folders#:#Каталоги
@@ -1247,17 +1247,17 @@ common#:#frm_add#:#Добавить Форум
 common#:#frm_added#:#Форум добавлен
 common#:#frm_article#:#статья
 common#:#frm_create#:#Создать Форум
-common#:#frm_delete#:#Удалить Форум
+rbac#:#frm_delete#:#Удалить Форум
 common#:#frm_delete_post#:#Удалить сообщение, цензура
 common#:#frm_edit#:#Редактировать форум
-common#:#frm_edit_permission#:#Может изменять параметры доступа
+rbac#:#frm_edit_permission#:#Может изменять параметры доступа
 common#:#frm_edit_post#:#Добавить новую ветвь, запись
 common#:#frm_new#:#Новый Форум
-common#:#frm_read#:#Доступ на чтение для Форума
+rbac#:#frm_read#:#Доступ на чтение для Форума
 common#:#frm_status_new#:#Статус 'Новый'
 common#:#frm_status_new_desc#:#Пожалуйста, выберите период времени как долго статус 'Новый' будет виден в заголовке.
-common#:#frm_visible#:#Форум виден
-common#:#frm_write#:#Редактировать форум
+rbac#:#frm_visible#:#Форум виден
+rbac#:#frm_write#:#Редактировать форум
 common#:#from#:#От
 common#:#fullname#:#Полное имя
 common#:#functions#:#Функции
@@ -1273,15 +1273,15 @@ common#:#glo_a#:#Словарь
 common#:#glo_add#:#Добавить Словарь
 common#:#glo_added#:#Словарь добавлен
 common#:#glo_create#:#Создать Словарь
-common#:#glo_delete#:#Удалить Словарь
-common#:#glo_edit_permission#:#Может изменять параметры доступа
+rbac#:#glo_delete#:#Удалить Словарь
+rbac#:#glo_edit_permission#:#Может изменять параметры доступа
 common#:#glo_join#:#Подписаться на Словарь
 common#:#glo_leave#:#Отписаться от Словаря
 common#:#glo_new#:#Новый Словарь
-common#:#glo_read#:#Доступ для чтения к Словарю
+rbac#:#glo_read#:#Доступ для чтения к Словарю
 common#:#glo_upload_file#:#файл
-common#:#glo_visible#:#Словарь виден
-common#:#glo_write#:#Редактировать Словарь
+rbac#:#glo_visible#:#Словарь виден
+rbac#:#glo_write#:#Редактировать Словарь
 common#:#global#:#Общий
 common#:#global_default#:#Общий по умолчанию
 common#:#global_fixed#:#Общий Фиксированный
@@ -1341,27 +1341,27 @@ common#:#grp_create#:#Создать Группу
 common#:#grp_create_alm#:#Создать AICC Обучающий модуль
 common#:#grp_create_chat#:#Создать Чат
 common#:#grp_create_dbk#:#Создать Цифровую книгу
-common#:#grp_create_exc#:#Создать Упражнение
-common#:#grp_create_file#:#Переслать файл
-common#:#grp_create_fold#:#Создать каталог
-common#:#grp_create_frm#:#Создать Форум
-common#:#grp_create_glo#:#Создать Словарь
-common#:#grp_create_grp#:#Create Group###13 Mar 2006 new variable
+rbac#:#grp_create_exc#:#Создать Упражнение
+rbac#:#grp_create_file#:#Переслать файл
+rbac#:#grp_create_fold#:#Создать каталог
+rbac#:#grp_create_frm#:#Создать Форум
+rbac#:#grp_create_glo#:#Создать Словарь
+rbac#:#grp_create_grp#:#Create Group###13 Mar 2006 new variable
 common#:#grp_create_hlm#:#Создать HACP Обучающий модуль
-common#:#grp_create_htlm#:#Создать HTML Обучающий модуль
-common#:#grp_create_lm#:#Создать ILIAS Обучающий модуль
-common#:#grp_create_mep#:#Создать Медиа Набор
-common#:#grp_create_qpl#:#Создать Набор вопросов теста
-common#:#grp_create_sahs#:#Создать SCORM/AICC Обучающий модуль
-common#:#grp_create_spl#:#Создать Набор вопросов опроса
-common#:#grp_create_svy#:#Создать опрос
-common#:#grp_create_tst#:#Создать Тест
-common#:#grp_create_webr#:#Создать новый Веб-ресурс
-common#:#grp_delete#:#Удалить Группу
+rbac#:#grp_create_htlm#:#Создать HTML Обучающий модуль
+rbac#:#grp_create_lm#:#Создать ILIAS Обучающий модуль
+rbac#:#grp_create_mep#:#Создать Медиа Набор
+rbac#:#grp_create_qpl#:#Создать Набор вопросов теста
+rbac#:#grp_create_sahs#:#Создать SCORM/AICC Обучающий модуль
+rbac#:#grp_create_spl#:#Создать Набор вопросов опроса
+rbac#:#grp_create_svy#:#Создать опрос
+rbac#:#grp_create_tst#:#Создать Тест
+rbac#:#grp_create_webr#:#Создать новый Веб-ресурс
+rbac#:#grp_delete#:#Удалить Группу
 common#:#grp_dismiss_member#:#Вы уверены, что хотите отклонить следующих членов группы?
 common#:#grp_dismiss_myself#:#Вы уверены, что хотите исключить себя из группы?
 common#:#grp_edit#:#Редактировать Группу
-common#:#grp_edit_permission#:#Может изменять параметры доступа
+rbac#:#grp_edit_permission#:#Может изменять параметры доступа
 common#:#grp_err_administrator_required#:#Член не может быть удален - в группе должен быть хотя бы один администратор!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Каждой группе требуется хотя бы один администратор
 common#:#grp_err_error#:#Встретилась ошибка
@@ -1370,8 +1370,8 @@ common#:#grp_err_member_could_not_be_removed#:#Невозможно переме
 common#:#grp_err_no_permission#:#У вас нет разрешения на эту операцию.
 common#:#grp_err_registration_data#:#Пожалуйста, введите пароль, дату и время окончания действия периода регистрации!
 common#:#grp_header_edit_members#:#Редактировать членов
-common#:#grp_join#:#Пользователь может присоединиться к Группе
-common#:#grp_leave#:#Пользователь может покинуть Группу
+rbac#:#grp_join#:#Пользователь может присоединиться к Группе
+rbac#:#grp_leave#:#Пользователь может покинуть Группу
 common#:#grp_list_users#:#Список пользователей
 common#:#grp_mem_change_status#:#Изменить статус члена
 common#:#grp_mem_leave#:#Распустить членов этой группы
@@ -1387,14 +1387,14 @@ common#:#grp_no_groups_selected#:#Пожалуйста, выберите гру�
 common#:#grp_no_results_found#:#Результаты не найдены
 common#:#grp_no_roles_selected#:#Пожалуйста, выберите Роль
 common#:#grp_options#:#Опции
-common#:#grp_read#:#Доступ для чтения к Группе
+rbac#:#grp_read#:#Доступ для чтения к Группе
 common#:#grp_register#:#Регистрация
 common#:#grp_registration#:#Join group###23 Dec 2005 new variable
 common#:#grp_registration_completed#:#Регистрация завершена
 common#:#grp_search_enter_search_string#:#Пожалуйста, введите строку поиска
 common#:#grp_search_members#:#Поиск пользователя
-common#:#grp_visible#:#Группа видима
-common#:#grp_write#:#Редактировать Группу
+rbac#:#grp_visible#:#Группа видима
+rbac#:#grp_write#:#Редактировать Группу
 common#:#guest#:#Гость
 common#:#guests#:#Гости
 common#:#header_title#:#Заголовок названия(книги)
@@ -1427,14 +1427,14 @@ common#:#hours#:#hour(s)###28 Feb 2006 new variable
 common#:#hours_of_day#:#Часов в день
 common#:#htlm#:#Обучающий модуль HTML
 common#:#htlm_add#:#Добавить HTML Обучающий модуль
-common#:#htlm_delete#:#Удалить HTML Обучающий модуль
+rbac#:#htlm_delete#:#Удалить HTML Обучающий модуль
 common#:#htlm_edit#:#Редактировать свойства HTML Обучающего модуля
-common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#htlm_edit_permission#:#Может изменять параметры доступа
+rbac#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#htlm_edit_permission#:#Может изменять параметры доступа
 common#:#htlm_new#:#Новый HTML Обучающий модуль
-common#:#htlm_read#:#Доступ для чтения на HTML Обучающий модуль
-common#:#htlm_visible#:#HTML Обучающий модуль видим
-common#:#htlm_write#:#Редактировать HTML Обучающий модуль
+rbac#:#htlm_read#:#Доступ для чтения на HTML Обучающий модуль
+rbac#:#htlm_visible#:#HTML Обучающий модуль видим
+rbac#:#htlm_write#:#Редактировать HTML Обучающий модуль
 common#:#http_not_possible#:#Этот сервер не поддерживает http запросы.
 common#:#http_path#:#Http путь
 common#:#https_not_possible#:#Этот сервер не поддерживает HTTPS соединения.
@@ -1617,18 +1617,18 @@ common#:#lm_a#:#ILIAS обучающий модуль
 common#:#lm_add#:#Добавить обучающий модуль ILIAS
 common#:#lm_added#:#Обучающий модуль ILIAS добавлен
 common#:#lm_create#:#Создать обучающий модуль ILIAS
-common#:#lm_delete#:#Удалить обучающий модуль ILIAS
-common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#lm_delete#:#Удалить обучающий модуль ILIAS
+rbac#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Change permission settings
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Отписаться от обучающего модуля ILIAS
 common#:#lm_new#:#Новый обучающий модуль ILIAS
-common#:#lm_read#:#Доступ на чтение к обучающему модулю ILIAS
+rbac#:#lm_read#:#Доступ на чтение к обучающему модулю ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Обучающий модуль ILIAS виден
-common#:#lm_write#:#Редактировать обучающий модуль ILIAS
+rbac#:#lm_visible#:#Обучающий модуль ILIAS виден
+rbac#:#lm_write#:#Редактировать обучающий модуль ILIAS
 common#:#lng#:#Язык
 common#:#lngf#:#Языки
 common#:#lngf_edit_permission#:#Может изменять 
@@ -1708,14 +1708,14 @@ common#:#membership_annulled#:#Ваше членство было отменен
 common#:#mep#:#Media набор
 common#:#mep_add#:#Добавить медиа набор
 common#:#mep_added#:#Медиа набор добавлен
-common#:#mep_delete#:#Удалить медиа набор
+rbac#:#mep_delete#:#Удалить медиа набор
 common#:#mep_edit#:#Редактировать свойства медиа набора
-common#:#mep_edit_permission#:#Может изменять параметры доступа
+rbac#:#mep_edit_permission#:#Может изменять параметры доступа
 common#:#mep_new#:#Новый медиа набор
 common#:#mep_not_insert_already_exist#:#Следующие части не были добавлены, так они уже есть в медиа наборе:
-common#:#mep_read#:#Читать содержимое медиа набора
-common#:#mep_visible#:#Медиа набор видим
-common#:#mep_write#:#Редактировать содержимое медиа набора
+rbac#:#mep_read#:#Читать содержимое медиа набора
+rbac#:#mep_visible#:#Медиа набор видим
+rbac#:#mep_write#:#Редактировать содержимое медиа набора
 common#:#message#:#Сообщение
 common#:#message_content#:#Тело сообщения
 common#:#message_no_delivered_files#:#У Вас нет полученных файлов!
@@ -2120,13 +2120,13 @@ common#:#publishing_organisation#:#Публикующая организация
 common#:#purpose#:#Цель
 common#:#qpl#:#Сборник вопросов теста (Question Pool Test)
 common#:#qpl_add#:#Добавить вопрос в сборник вопросов теста
-common#:#qpl_delete#:#Удалить Сборник вопросов теста
-common#:#qpl_edit_permission#:#Изменить параметры доступа
+rbac#:#qpl_delete#:#Удалить Сборник вопросов теста
+rbac#:#qpl_edit_permission#:#Изменить параметры доступа
 common#:#qpl_new#:#Новый вопрос в сборник теста
-common#:#qpl_read#:#Доступ на чтение в сборник вопросов теста
+rbac#:#qpl_read#:#Доступ на чтение в сборник вопросов теста
 common#:#qpl_upload_file#:#Загруженный файл
-common#:#qpl_visible#:#Сборник вопросов теста видим 
-common#:#qpl_write#:#Редактировать Сборник вопросов теста
+rbac#:#qpl_visible#:#Сборник вопросов теста видим 
+rbac#:#qpl_write#:#Редактировать Сборник вопросов теста
 common#:#quarterly#:#квартальный
 common#:#query_data#:#Данные запроса
 common#:#question#:#Вопрос
@@ -2260,14 +2260,14 @@ common#:#root_write#:#Редактировать метаданные корне
 common#:#sahs#:#Обучающий модуль SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Обучающий модуль добавлен
 common#:#sahs_create#:#Создать Обучающий модуль SCORM/AICC
-common#:#sahs_delete#:#Удалить Обучающий модуль SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#sahs_edit_permission#:#Изменить параметры доступа
+rbac#:#sahs_delete#:#Удалить Обучающий модуль SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#sahs_edit_permission#:#Изменить параметры доступа
 common#:#sahs_join#:#Подписаться на Обучающий модуль SCORM/AICC
 common#:#sahs_leave#:#Отписаться от Обучающего модуля SCORM/AICC
-common#:#sahs_read#:#Доступ для чтения к Обучающему модулю SCORM/AICC
-common#:#sahs_visible#:#SCORM/AICC Обучающий модуль виден
-common#:#sahs_write#:#Редактировать SCORM/AICC Обучающий модуль
+rbac#:#sahs_read#:#Доступ для чтения к Обучающему модулю SCORM/AICC
+rbac#:#sahs_visible#:#SCORM/AICC Обучающий модуль виден
+rbac#:#sahs_write#:#Редактировать SCORM/AICC Обучающий модуль
 common#:#salutation#:#Приветствие
 common#:#salutation_f#:#Госпожа/Мадемуазель
 common#:#salutation_m#:#Господин
@@ -2336,13 +2336,13 @@ common#:#sort_by_this_column#:#Сортировать по этому столб
 common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Набор определений теста (Question Pool Survey)
 common#:#spl_add#:#Добавить вопрос для сборника вопросов опроса
-common#:#spl_delete#:#Удалить Question Pool for Survey
-common#:#spl_edit_permission#:#Изменить установки разрешений
+rbac#:#spl_delete#:#Удалить Question Pool for Survey
+rbac#:#spl_edit_permission#:#Изменить установки разрешений
 common#:#spl_new#:#Новый вопрос для (question pool for survey)
-common#:#spl_read#:#Доступ для чтения Question Pool for Survey
+rbac#:#spl_read#:#Доступ для чтения Question Pool for Survey
 common#:#spl_upload_file#:#Закачанный файл
-common#:#spl_visible#:#Question Pool for Survey is visible
-common#:#spl_write#:#Редактирование сборника вопросов для опроса
+rbac#:#spl_visible#:#Question Pool for Survey is visible
+rbac#:#spl_write#:#Редактирование сборника вопросов для опроса
 common#:#st_a#:#глава
 common#:#st_add#:#Добавить главу
 common#:#st_added#:#Глава удалена
@@ -2372,16 +2372,16 @@ common#:#summary#:#Общее
 common#:#sure_delete_selected_users#:#Вы уверены, что хотите удалить выбранных пользователей
 common#:#svy#:#опрос
 common#:#svy_add#:#Добавить опрос
-common#:#svy_delete#:#Удалить опрос
-common#:#svy_edit_permission#:#Может изменять параметры доступа
-common#:#svy_invite#:#Пригласить пользователей на опрос
+rbac#:#svy_delete#:#Удалить опрос
+rbac#:#svy_edit_permission#:#Может изменять параметры доступа
+rbac#:#svy_invite#:#Пригласить пользователей на опрос
 common#:#svy_new#:#Новый опрос
 common#:#svy_no_content#:#Нет доступных опросов
 common#:#svy_participate#:#Участвовать в опросе (Survey)
-common#:#svy_read#:#Доступ для чтения в опрос (Read access to survey)
+rbac#:#svy_read#:#Доступ для чтения в опрос (Read access to survey)
 common#:#svy_upload_file#:#Закачать файл
-common#:#svy_visible#:#опрос видим
-common#:#svy_write#:#Редактировать опрос
+rbac#:#svy_visible#:#опрос видим
+rbac#:#svy_write#:#Редактировать опрос
 common#:#system#:#Система
 common#:#system_check#:#Проверка системы
 common#:#system_choose_language#:#Выбор языка системы
@@ -2448,15 +2448,15 @@ common#:#trash#:#Корзина
 common#:#treeview#:#Просмотреть дерево
 common#:#tst#:#Тест
 common#:#tst_add#:#Добавить тест
-common#:#tst_delete#:#Удалить тест
-common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#tst_edit_permission#:#Может изменять параметры доступа
+rbac#:#tst_delete#:#Удалить тест
+rbac#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#tst_edit_permission#:#Может изменять параметры доступа
 common#:#tst_new#:#Новый тест
 common#:#tst_no_content#:#Нет доступных тестов
-common#:#tst_read#:#Доступ для чтения к Тесту
+rbac#:#tst_read#:#Доступ для чтения к Тесту
 common#:#tst_upload_file#:#Загрузить файл
-common#:#tst_visible#:#Тест видим
-common#:#tst_write#:#Редактировать тест
+rbac#:#tst_visible#:#Тест видим
+rbac#:#tst_write#:#Редактировать тест
 common#:#txt_add_object_instruction1#:#Выберите место, куда вы хотите добавить
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Вы успешно зарегистрировали ILIAS. Пожалуйста, нажмите на кнопку ниже для входа в ILIAS с вашими данными пользователя.
@@ -2582,13 +2582,13 @@ common#:#webr#:#Веб-ресурс
 common#:#webr_active#:#Действие
 common#:#webr_add#:#Добавить Веб-ресурс
 common#:#webr_add_item#:#Добавить Веб-ресурс
-common#:#webr_delete#:#Удалить Веб-ресурс
+rbac#:#webr_delete#:#Удалить Веб-ресурс
 common#:#webr_delete_items#:#Удалить Веб-ресурс(ы)
 common#:#webr_deleted_items#:#Веб-ресурс(ы) удалены.
 common#:#webr_disable_check#:#Отключить проверку
 common#:#webr_edit#:#Редактировать Веб-ресурс
 common#:#webr_edit_item#:#Редактировать Веб-ресурс
-common#:#webr_edit_permission#:#Может изменять параметры доступа
+rbac#:#webr_edit_permission#:#Может изменять параметры доступа
 common#:#webr_fillout_all#:#Пожалуйста, заполните все обязательные поля.
 common#:#webr_item_updated#:#Модификации сохранены
 common#:#webr_join#:#Подписаться на Веб-ресурс
@@ -2599,10 +2599,10 @@ common#:#webr_modified_items#:#Сохранить модификации.
 common#:#webr_never_checked#:#Никогда не проверялся
 common#:#webr_new#:#Добавить новый Веб-ресурс
 common#:#webr_no_items_created#:#Нет созданных Веб-ресурсов
-common#:#webr_read#:#Доступ на чтение к Веб-ресурсу
+rbac#:#webr_read#:#Доступ на чтение к Веб-ресурсу
 common#:#webr_sure_delete_items#:#Вы действительно хотите удалить следующие Веб-ресурс(ы)?
-common#:#webr_visible#:#Веб-ресурс видим
-common#:#webr_write#:#Редактировать Веб-ресурс
+rbac#:#webr_visible#:#Веб-ресурс видим
+rbac#:#webr_write#:#Редактировать Веб-ресурс
 common#:#webservices#:#Веб-сервисы
 common#:#week#:#Неделя
 common#:#weekly#:#еженедельно
@@ -5234,7 +5234,7 @@ common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additi
 common#:#glo_mode_level#:#virtual (this level only)###06 09 2006 new variable
 common#:#glo_mode_normal#:#normal###06 09 2006 new variable
 common#:#glo_mode_subtree#:#virtual (entire subtree)###06 09 2006 new variable
-common#:#grp_create_icrs#:#Create LearnLinc Seminar###06 09 2006 new variable
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar###06 09 2006 new variable
 common#:#grp_deleted_export_files#:#Deleted selected files.###06 09 2006 new variable
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###06 09 2006 new variable
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###06 09 2006 new variable
@@ -5987,7 +5987,7 @@ common#:#frm_statistics_ranking#:#Ranking###25 02 2007 new variable
 common#:#groupings#:#Membership Limitations###25 02 2007 new variable
 common#:#groupings_assigned_obj_crs#:#Assigned Courses###25 02 2007 new variable
 common#:#groupings_assigned_obj_grp#:#Assigned Groups###25 02 2007 new variable
-common#:#grp_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
+rbac#:#grp_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
 common#:#grp_members_gallery#:#Group Members Gallery###25 02 2007 new variable
 common#:#header_searchable#:#Searchable###25 02 2007 new variable
 common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.###25 02 2007 new variable
@@ -6989,19 +6989,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7158,7 +7158,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7518,7 +7518,7 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+rbac#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
 news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
 news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
 news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
@@ -7538,8 +7538,8 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+rbac#:#frm_add_post#:#Add new post###23 10 2007 new variable
+rbac#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
@@ -7798,8 +7798,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8327,11 +8327,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

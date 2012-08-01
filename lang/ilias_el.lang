@@ -2202,7 +2202,7 @@ rbac#:#fold_edit_learning_progress#:#Επεξεργασία Εκπαιδευτι
 rbac#:#fold_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#fold_new#:#Νέος φάκελος
 rbac#:#fold_read#:#Πρόσβαση ανάγνωσης στο φάκελο
-common#:#fold_visible#:#Ο φάκελος είναι ορατός
+rbac#:#fold_visible#:#Ο φάκελος είναι ορατός
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 rbac#:#fold_write#:#Επεξεργασία φακέλου
 common#:#force_accept_usr_agreement#:#Πρέπει να αποδεχτείτε τη συμφωνία χρήστη!
@@ -2239,25 +2239,25 @@ common#:#frm#:#Φόρουμ
 common#:#frm_a#:#ένα Φόρουμ
 common#:#frm_add#:#Προσθήκη Φόρουμ
 common#:#frm_added#:#Το φόρουμ προστέθηκε
-common#:#frm_add_post#:#Add new post
-common#:#frm_add_thread#:#Add new topi
+rbac#:#frm_add_post#:#Add new post
+rbac#:#frm_add_thread#:#Add new topi
 common#:#frm_article#:#άρθρο
 common#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#Δημιουργία φόρουμ
-common#:#frm_delete#:#Διαγραφή φόρουμ
+rbac#:#frm_delete#:#Διαγραφή φόρουμ
 common#:#frm_delete_post#:#Διαγραφή μιας ανακοίνωσης, λογοκρισία
 common#:#frm_edit#:#Επεξεργασία φόρουμ
-common#:#frm_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#frm_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#frm_edit_post#:#Προσθήκη νέου θέματος, γνωστοποίηση
 common#:#frm_latest_postings#:#Latest Articles
-common#:#frm_moderate_frm#:#Delete a post, censorship
+rbac#:#frm_moderate_frm#:#Delete a post, censorship
 common#:#frm_new#:#Νέο φόρουμ
-common#:#frm_read#:#Πρόσβαση ανάγνωσης στο φόρουμ
+rbac#:#frm_read#:#Πρόσβαση ανάγνωσης στο φόρουμ
 common#:#frm_statistics_ranking#:#Κατάταξη
 common#:#frm_status_new#:#Κατάσταση 'Νέο'
 common#:#frm_status_new_desc#:#Παρακαλώ επιλέξτε τη διάρκεια του πόσο θα παραμένει η κατάσταση 'Νέος' για τους νεοεισερχόμενους στο φόρουμ.
-common#:#frm_visible#:#Το φόρουμ είναι ορατό
-common#:#frm_write#:#Επεξεργασία φόρουμ
+rbac#:#frm_visible#:#Το φόρουμ είναι ορατό
+rbac#:#frm_write#:#Επεξεργασία φόρουμ
 common#:#from#:#Από
 common#:#fullname#:#Πλήρες όνομα
 common#:#functions#:#Λειτουργίες
@@ -2283,8 +2283,8 @@ common#:#glo_add#:#Προσθήκη γλωσσαρίου
 common#:#glo_added#:#Το γλωσσάριο προστέθηκε
 common#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#Δημιουργία γλωσσάριου
-common#:#glo_delete#:#Διαγραφή γλωσσαρίου
-common#:#glo_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#glo_delete#:#Διαγραφή γλωσσαρίου
+rbac#:#glo_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#glo_join#:#Εγγραφή στο γλωσσάριο
 common#:#glo_leave#:#Απεγγραφή από το γλωσσάριο
 common#:#glo_mode#:#Κατάσταση
@@ -2293,10 +2293,10 @@ common#:#glo_mode_level#:#εικονικό (αυτό το επίπεδο μόν�
 common#:#glo_mode_normal#:#κανονικό
 common#:#glo_mode_subtree#:#εικονικό (ολόκληρο το υποδέντρο)
 common#:#glo_new#:#Νέο γλωσσάρι
-common#:#glo_read#:#Πρόσβαση ανάγνωσης στο Γλωσσάρι
+rbac#:#glo_read#:#Πρόσβαση ανάγνωσης στο Γλωσσάρι
 common#:#glo_upload_file#:#Αρχείο
-common#:#glo_visible#:#Το γλωσσάριο είναι ορατό
-common#:#glo_write#:#Επεξεργασία γλωσσάριου
+rbac#:#glo_visible#:#Το γλωσσάριο είναι ορατό
+rbac#:#glo_write#:#Επεξεργασία γλωσσάριου
 common#:#go#:#Go
 common#:#groupings#:#Περιορισμοί μελών
 common#:#groupings_assigned_obj_crs#:#Ανατεθημένα μαθήματα
@@ -2355,33 +2355,33 @@ common#:#grp_create#:#Δημιουργία Ομάδας
 common#:#grp_create_alm#:#Δημιουργία εκπαιδευτικής μονάδας AICC
 common#:#grp_create_chat#:#Δημιουργία συνομιλίας
 common#:#grp_create_dbk#:#Δημιουργία βιβλίου Digilib
-common#:#grp_create_exc#:#Δημιουργία άσκησης
-common#:#grp_create_feed#:#Create Web Feed
-common#:#grp_create_file#:#Ανέβασμα αρχείου
-common#:#grp_create_fold#:#Δημιουργία φακέλου
-common#:#grp_create_frm#:#Δημιουργία φόρουμ
-common#:#grp_create_glo#:#Δημιουργία γλωσσάριου
-common#:#grp_create_grp#:#Δημιουργία Ομάδας
+rbac#:#grp_create_exc#:#Δημιουργία άσκησης
+rbac#:#grp_create_feed#:#Create Web Feed
+rbac#:#grp_create_file#:#Ανέβασμα αρχείου
+rbac#:#grp_create_fold#:#Δημιουργία φακέλου
+rbac#:#grp_create_frm#:#Δημιουργία φόρουμ
+rbac#:#grp_create_glo#:#Δημιουργία γλωσσάριου
+rbac#:#grp_create_grp#:#Δημιουργία Ομάδας
 common#:#grp_create_hlm#:#Δημιουργία εκπαιδευτικής μονάδας HACP
-common#:#grp_create_htlm#:#Δημιουργία εκπαιδευτικής μονάδας HTML
-common#:#grp_create_icrs#:#Δημιουργία σεμιναρίου Learnlinc
-common#:#grp_create_lm#:#Δημιουργία εκπαιδευτικής μονάδας ILIAS
-common#:#grp_create_mcst#:#Create MediaCast
-common#:#grp_create_mep#:#Δημιουργία μνήμης πολυμέσων
-common#:#grp_create_qpl#:#Δημιουργία μνήμης ερωτήσεων για διαγώνισμα
-common#:#grp_create_sahs#:#Δημιουργία εκπαιδευτικής μονάδας SCORM/ AICC
-common#:#grp_create_spl#:#Δημιουργία μνήμης ερωτήσεων για έρευνα
-common#:#grp_create_svy#:#Δημιουργία έρευνας
-common#:#grp_create_tst#:#Δημιουργία διαγωνίσματος
-common#:#grp_create_webr#:#Δημιουργία πόρου ιστού
+rbac#:#grp_create_htlm#:#Δημιουργία εκπαιδευτικής μονάδας HTML
+rbac#:#grp_create_icrs#:#Δημιουργία σεμιναρίου Learnlinc
+rbac#:#grp_create_lm#:#Δημιουργία εκπαιδευτικής μονάδας ILIAS
+rbac#:#grp_create_mcst#:#Create MediaCast
+rbac#:#grp_create_mep#:#Δημιουργία μνήμης πολυμέσων
+rbac#:#grp_create_qpl#:#Δημιουργία μνήμης ερωτήσεων για διαγώνισμα
+rbac#:#grp_create_sahs#:#Δημιουργία εκπαιδευτικής μονάδας SCORM/ AICC
+rbac#:#grp_create_spl#:#Δημιουργία μνήμης ερωτήσεων για έρευνα
+rbac#:#grp_create_svy#:#Δημιουργία έρευνας
+rbac#:#grp_create_tst#:#Δημιουργία διαγωνίσματος
+rbac#:#grp_create_webr#:#Δημιουργία πόρου ιστού
 common#:#grp_create_write#:#Create Wiki
-common#:#grp_delete#:#Διαγραφή ομάδας
+rbac#:#grp_delete#:#Διαγραφή ομάδας
 common#:#grp_deleted_export_files#:#Τα επιλεγμένα αρχεία διαγράφηκαν.
 common#:#grp_dismiss_member#:#Είστε βέβαιοι οτι θέλετε να διαγράψετε το παρακάτω μέλος/η από την ομάδα;
 common#:#grp_dismiss_myself#:#Είστε βέβαιοι οτι θέλετε να διαγράψετε τον εαυτό σας από την ομάδα;
 common#:#grp_edit#:#Επεξεργασία ομάδας
-common#:#grp_edit_learning_progress#:#Επεξεργασία Εκπαιδευτικής Προόδου
-common#:#grp_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#grp_edit_learning_progress#:#Επεξεργασία Εκπαιδευτικής Προόδου
+rbac#:#grp_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#grp_err_administrator_required#:#Το μέλος δεν μπορεί να διαγραφεί, απαιτείται τουλάχιστον ένας διαχειριστής ανά ομάδα!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Κάθε ομάδα χρειάζεται τουλάχιστον έναν διαχειριστή
 common#:#grp_err_error#:#Εμφανίστηκε λάθος
@@ -2390,8 +2390,8 @@ common#:#grp_err_member_could_not_be_removed#:#Το μέλος δεν μπορε
 common#:#grp_err_no_permission#:#Δεν κατέχετε τις άδειες για αυτή την λειτουργία.
 common#:#grp_err_registration_data#:#Παρακαλώ εισάγετε έναν κωδικό, ημερομηνία και ώρα λήξης για μία έγκυρη περίοδο εγγραφής !
 common#:#grp_header_edit_members#:#Επεξεργασία μελών
-common#:#grp_join#:#Ο χρήστης μπορεί να συμμετάσχει στην ομάδα
-common#:#grp_leave#:#Ο χρήστης μπορεί να φύγει από την ομάδα
+rbac#:#grp_join#:#Ο χρήστης μπορεί να συμμετάσχει στην ομάδα
+rbac#:#grp_leave#:#Ο χρήστης μπορεί να φύγει από την ομάδα
 common#:#grp_list_users#:#Λίστα χρηστών
 common#:#grp_mail_body_new_subscription#:#Έχετε εγγραφεί σε αυτή την ομάδα.
 common#:#grp_mail_body_subscription_cancelled#:#Η εγγραφή σας ακυρώθηκε.
@@ -2412,7 +2412,7 @@ common#:#grp_no_groups_selected#:#Παρακαλώ επιλέξτε μια ομ�
 common#:#grp_no_results_found#:#Δεν βρέθηκαν αποτελέσματα
 common#:#grp_no_roles_selected#:#Παρακαλώ επιλέξτε ένα ρόλο
 common#:#grp_options#:#Επιλογές
-common#:#grp_read#:#Πρόσβαση ανάγνωσης στην ομάδα
+rbac#:#grp_read#:#Πρόσβαση ανάγνωσης στην ομάδα
 common#:#grp_register#:#Εγγραφή
 common#:#grp_registration#:#Εγγραφή στην ομάδα
 common#:#grp_registration_completed#:#Η εγγραφή ολοκληρώθηκε
@@ -2420,9 +2420,9 @@ common#:#grp_search_enter_search_string#:#Παρακαλώ εισάγετε έν
 common#:#grp_search_members#:#Αναζήτηση χρήστη
 common#:#grp_select_one_file#:#Παρακαλώ επιλέξτε ένα αρχείο.
 common#:#grp_select_one_file_only#:#Παρακαλώ επιλέξτε μόνο ένα αρχείο.
-common#:#grp_visible#:#Η ομάδα είναι ορατή
+rbac#:#grp_visible#:#Η ομάδα είναι ορατή
 common#:#grp_wizard_page#:#Copy Group (Step 2/2)
-common#:#grp_write#:#Επεξεργασία ομάδας
+rbac#:#grp_write#:#Επεξεργασία ομάδας
 common#:#guest#:#Επισκέπτης
 common#:#guests#:#Επισκέπτες
 common#:#header_searchable#:#Αναζητήσιμο
@@ -2482,14 +2482,14 @@ common#:#hours_of_day#:#Ώρες την ημέρα
 common#:#htlm#:#Εκπαιδευτική Μονάδα HTML
 common#:#htlm_add#:#Προσθήκη εκπαιδευτικής μονάδας HTML
 common#:#htlm_copy#:#Copy HTML Learning Module
-common#:#htlm_delete#:#Διαγραφή εκπαιδευτική μονάδας HTML
+rbac#:#htlm_delete#:#Διαγραφή εκπαιδευτική μονάδας HTML
 common#:#htlm_edit#:#Επεξεργασία ιδιοτήτων εκπαιδευτικής μονάδας HTML
-common#:#htlm_edit_learning_progress#:#Πρόοδος επεξεργασίας εκπαίδευσης
-common#:#htlm_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#htlm_edit_learning_progress#:#Πρόοδος επεξεργασίας εκπαίδευσης
+rbac#:#htlm_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#htlm_new#:#Νέα εκπαιδευτική μονάδα HTML
-common#:#htlm_read#:#Ανάγνωση εκπαιδευτικής μονάδας HTML
-common#:#htlm_visible#:#Η εκπαιδευτική μονάδα HTML είναι ορατή
-common#:#htlm_write#:#Επεξεργασία εκπαιδευτική μονάδας HTML
+rbac#:#htlm_read#:#Ανάγνωση εκπαιδευτικής μονάδας HTML
+rbac#:#htlm_visible#:#Η εκπαιδευτική μονάδα HTML είναι ορατή
+rbac#:#htlm_write#:#Επεξεργασία εκπαιδευτική μονάδας HTML
 common#:#html_block#:#HTML Κιβώτιο
 common#:#http#:#HTTP
 common#:#https_not_possible#:#Αυτός ο διακομιστής δεν υποστηρίζει συνδέσεις HTTPS.
@@ -2827,19 +2827,19 @@ common#:#lm_add#:#Προσθήκη εκπαιδευτικής μονάδας ILI
 common#:#lm_added#:#Η εκπαιδευτική μονάδα ILIAS προστέθηκε
 common#:#lm_copy#:#Αντιγραφή του ILIAS Lernmodul
 common#:#lm_create#:#Δημιουργία εκπαιδευτικής μονάδας ILIAS
-common#:#lm_delete#:#Διαγραφή εκπαιδευτικής μονάδας ILIAS
-common#:#lm_edit_learning_progress#:#Επεξεργασία εκπαιδευτικής προόδου
+rbac#:#lm_delete#:#Διαγραφή εκπαιδευτικής μονάδας ILIAS
+rbac#:#lm_edit_learning_progress#:#Επεξεργασία εκπαιδευτικής προόδου
 common#:#lm_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#lm_join#:#Εγγραφή στην εκπαιδευτική μονάδα ILIAS
 common#:#lm_leave#:#Διαγραφή από την εκπαιδευτική μονάδα ILIAS
 common#:#lm_new#:#Νέα εκπαιδευτική μονάδα ILIAS
-common#:#lm_read#:#Πρόσβαση ανάγνωσης στην εκπαιδευτική μονάδα ILIAS
+rbac#:#lm_read#:#Πρόσβαση ανάγνωσης στην εκπαιδευτική μονάδα ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#Η εκπαιδευτική μονάδα ILIAS είναι ορατή
-common#:#lm_write#:#Επεξεργασία εκπαιδευτικής μονάδας ILIAS
+rbac#:#lm_visible#:#Η εκπαιδευτική μονάδα ILIAS είναι ορατή
+rbac#:#lm_write#:#Επεξεργασία εκπαιδευτικής μονάδας ILIAS
 common#:#lng#:#Γλώσσα
 common#:#lngf#:#Γλώσσες
 common#:#lngf_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
@@ -2940,12 +2940,12 @@ common#:#max_time#:#Μέγιστος χρόνος
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Add MediaCast
 common#:#mcst_copy#:#Αντιγραφή Εκπομπής Μέσων
-common#:#mcst_delete#:#Διαγραφή Εκπομπής Μέσων
-common#:#mcst_edit_permission#:#Αλλαγή Ρυθμίσεων Πρόσβασης
+rbac#:#mcst_delete#:#Διαγραφή Εκπομπής Μέσων
+rbac#:#mcst_edit_permission#:#Αλλαγή Ρυθμίσεων Πρόσβασης
 common#:#mcst_new#:#New MediaCast
-common#:#mcst_read#:#Προσβαση ανάγνωσης στην Εκπομπή Μέσων
-common#:#mcst_visible#:#Η Εκπομπή Μέσων είναι ορατή
-common#:#mcst_write#:#Επεξεργασία Εκπομπής Μέσων
+rbac#:#mcst_read#:#Προσβαση ανάγνωσης στην Εκπομπή Μέσων
+rbac#:#mcst_visible#:#Η Εκπομπή Μέσων είναι ορατή
+rbac#:#mcst_write#:#Επεξεργασία Εκπομπής Μέσων
 common#:#member#:#Μέλος
 common#:#members#:#Μέλη
 common#:#membership_annulled#:#Η ιδιότητα μέλους σας έχει ακυρωθεί
@@ -2966,14 +2966,14 @@ common#:#mem_waiting_list_position#:#Your Position on the Waiting List:
 common#:#mep#:#Μνήμη πολυμέσων
 common#:#mep_add#:#Προσθήκη μνήμης πολυμέσων
 common#:#mep_added#:#Η μνήμη πολυμέσων προστέθηκε
-common#:#mep_delete#:#Διαγραφή μνήμης πολυμέσων
+rbac#:#mep_delete#:#Διαγραφή μνήμης πολυμέσων
 common#:#mep_edit#:#Επεξεργασία ιδιοτήτων μνήμης πολυμέσων
-common#:#mep_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#mep_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#mep_new#:#Νέα μνήμη πολυμέσων
 common#:#mep_not_insert_already_exist#:#Τα ακόλουθα αντικείμενα δεν εισάχθηκαν γιατί βρίσκονται ήδη στη μνήμη πολυμέσων:
-common#:#mep_read#:#Ανάγνωση περιεχομένων μνήμης πολυμέσων
-common#:#mep_visible#:#Η μνήμη πολυμέσων είναι ορατή
-common#:#mep_write#:#Επεξεργασία περιεχομένων μνήμης πολυμέσων
+rbac#:#mep_read#:#Ανάγνωση περιεχομένων μνήμης πολυμέσων
+rbac#:#mep_visible#:#Η μνήμη πολυμέσων είναι ορατή
+rbac#:#mep_write#:#Επεξεργασία περιεχομένων μνήμης πολυμέσων
 common#:#message#:#Μήνυμα
 common#:#message_content#:#Περιεχόμενο μηνύματος
 common#:#message_no_delivered_files#:#Δεν έχετε παραδώσει κάποιο αρχείο!
@@ -3534,13 +3534,13 @@ common#:#pub_section#:#Δημόσια περιοχή
 common#:#purpose#:#Σκοπός
 common#:#qpl#:#Μνήμη ερωτήσεων διαγωνίσματος
 common#:#qpl_add#:#Προσθήκη μνήμης ερωτήσεων για το διαγώνισμα
-common#:#qpl_delete#:#Διαγραφή μνήμης ερωτήσεων για το διαγώνισμα
-common#:#qpl_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#qpl_delete#:#Διαγραφή μνήμης ερωτήσεων για το διαγώνισμα
+rbac#:#qpl_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#qpl_new#:#Νέα μνήμη ερωτήσεων για το διαγώνισμα
-common#:#qpl_read#:#Πρόσβαση ανάγνωσης στη μνήμη ερωτήσεων για το διαγώνισμα
+rbac#:#qpl_read#:#Πρόσβαση ανάγνωσης στη μνήμη ερωτήσεων για το διαγώνισμα
 common#:#qpl_upload_file#:#Εκφόρτωση αρχείου
-common#:#qpl_visible#:#Η μνήμη ερωτήσεων για το διαγώνισμα είναι ορατή
-common#:#qpl_write#:#Επεξεργασία μνήμης ερωτήσεων για το διαγώνισμα
+rbac#:#qpl_visible#:#Η μνήμη ερωτήσεων για το διαγώνισμα είναι ορατή
+rbac#:#qpl_write#:#Επεξεργασία μνήμης ερωτήσεων για το διαγώνισμα
 common#:#quarterly#:#τριμηνιαία
 common#:#query_data#:#Ερώτηση στα δεδομένα
 common#:#question#:#Ερώτηση
@@ -3689,14 +3689,14 @@ common#:#sahs#:#Εκπαιδευτική Μονάδα SCORM/AICC
 common#:#sahs_added#:#Η εκπαιδευτική μονάδα SCORM/AICC προστέθηκε
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module
 common#:#sahs_create#:#Δημιουργία εκπαιδευτικής μονάδας SCORM/AICC
-common#:#sahs_delete#:#Διαγραφή εκπαιδευτικής μονάδας SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Επεξεργασία εκπαιδευτικής προόδου
-common#:#sahs_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#sahs_delete#:#Διαγραφή εκπαιδευτικής μονάδας SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Επεξεργασία εκπαιδευτικής προόδου
+rbac#:#sahs_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#sahs_join#:#Εγγραφή στην εκπαιδευτική μονάδα SCORM/AICC
 common#:#sahs_leave#:#Διαγραφή από την εκπαιδευτική μονάδα SCORM/AICC
-common#:#sahs_read#:#Πρόσβαση μόνο για ανάγνωση στην εκπαιδευτική μονάδα SCORM/AICC
-common#:#sahs_visible#:#Η εκπαιδευτική μονάδα SCORM/AICC είναι ορατή
-common#:#sahs_write#:#Επεξεργασία Εκπαιδευτικής Μονάδας SCORM/AICC
+rbac#:#sahs_read#:#Πρόσβαση μόνο για ανάγνωση στην εκπαιδευτική μονάδα SCORM/AICC
+rbac#:#sahs_visible#:#Η εκπαιδευτική μονάδα SCORM/AICC είναι ορατή
+rbac#:#sahs_write#:#Επεξεργασία Εκπαιδευτικής Μονάδας SCORM/AICC
 common#:#salutation#:#Χαιρετισμός
 common#:#salutation_f#:#Κα..
 common#:#salutation_m#:#Κ.
@@ -3836,13 +3836,13 @@ common#:#sort_by_this_column#:#Ταξινόμιση κατα αυτή τη στ�
 common#:#spacer#:#Διαχωριστικό
 common#:#spl#:#Μνήμη ερωτήσεων για έρευνα
 common#:#spl_add#:#Προσθήκη μνήμης ερωτήσεων για έρευνα
-common#:#spl_delete#:#Διαγραφή μνήμης ερωτήσεων για έρευνα
-common#:#spl_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#spl_delete#:#Διαγραφή μνήμης ερωτήσεων για έρευνα
+rbac#:#spl_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#spl_new#:#Νέα μνήμη ερωτήσεων για έρευνα
-common#:#spl_read#:#Πρόσβαση ανάγνωσης στη μνήμη ερωτήσεων για έρευνα
+rbac#:#spl_read#:#Πρόσβαση ανάγνωσης στη μνήμη ερωτήσεων για έρευνα
 common#:#spl_upload_file#:#Εκφόρτωση αρχείου
-common#:#spl_visible#:#Η μνήμη ερωτήσεων για έρευνα είναι ορατή
-common#:#spl_write#:#Επεξεργασία μνήμης ερωτήσεων για έρευνα
+rbac#:#spl_visible#:#Η μνήμη ερωτήσεων για έρευνα είναι ορατή
+rbac#:#spl_write#:#Επεξεργασία μνήμης ερωτήσεων για έρευνα
 common#:#ssl#:#SSL (HTTPS)
 common#:#standard_fields#:#Προκαθορισμένα πεδία
 common#:#standard_icon#:#Τυπική εικόνα
@@ -3884,22 +3884,22 @@ common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surve
 common#:#svy#:#Έρευνα
 common#:#svy_add#:#Προσθήκη έρευνας
 common#:#svy_copy#:#Copy Survey
-common#:#svy_delete#:#Διαγραφή έρευνας
-common#:#svy_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#svy_delete#:#Διαγραφή έρευνας
+rbac#:#svy_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#svy_evaluation#:#Αξιολόγηση
 common#:#svy_finished#:#ολοκληρώθηκε
-common#:#svy_invite#:#Πρόσκληση χρηστών σε έρευνα
+rbac#:#svy_invite#:#Πρόσκληση χρηστών σε έρευνα
 common#:#svy_new#:#Νέα έρευνα
 common#:#svy_not_finished#:#δεν ολοκληρώθηκε
 common#:#svy_not_started#:#δεν ξεκίνησε
 common#:#svy_no_content#:#Δεν υπάρχουν διαθέσιμες έρευνες
 common#:#svy_participate#:#Συμμετοχή σε έρευνα
-common#:#svy_read#:#Πρόσβαση ανάγνωσης σε έρευνα
+rbac#:#svy_read#:#Πρόσβαση ανάγνωσης σε έρευνα
 common#:#svy_run#:#Εκτέλεση
 common#:#svy_upload_file#:#Εκφόρτωση αρχείου
-common#:#svy_visible#:#Η έρευνα είναι ορατή
+rbac#:#svy_visible#:#Η έρευνα είναι ορατή
 common#:#svy_warning_survey_not_complete#:#Η έρευνα δεν είναι ολοκληρωμένη!
-common#:#svy_write#:#Επεξεργασία έρευνας
+rbac#:#svy_write#:#Επεξεργασία έρευνας
 common#:#system#:#Σύστημα
 common#:#system_check#:#Έλεγχος συστήματος
 common#:#system_choose_language#:#Επιλογή γλώσσας συστήματος
@@ -3990,21 +3990,21 @@ common#:#tst#:#Εξέταση
 common#:#tst_add#:#Προσθήκη εξέτασης
 common#:#tst_anon_eval#:#Αποτελέσματα
 common#:#tst_copy#:#Copy Test
-common#:#tst_delete#:#Διαγραφή εξέτασης
-common#:#tst_edit_learning_progress#:#Επεξεργασία εκπαιδευτικής προόδου
-common#:#tst_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#tst_delete#:#Διαγραφή εξέτασης
+rbac#:#tst_edit_learning_progress#:#Επεξεργασία εκπαιδευτικής προόδου
+rbac#:#tst_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#tst_new#:#Νέα εξέταση
 common#:#tst_no_content#:#Δεν υπάρχουν διαθέσιμες εξετάσεις
-common#:#tst_read#:#Πρόσβαση ανάγνωσης στην εξέταση
+rbac#:#tst_read#:#Πρόσβαση ανάγνωσης στην εξέταση
 common#:#tst_run#:#Εκτέλεση
 common#:#tst_statistical_evaluation#:#Στατιστικά
 common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_upload_file#:#Εκφόρτωση αρχείου
 common#:#tst_user_not_invited#:#Δεν πρέπει να συμμετέχετε σε αυτό το διαγώνισμα.
 common#:#tst_user_wrong_clientip#:#Δεν έχετε τη σωστή ip για χρήση αυτού του διαγωνίσματος
-common#:#tst_visible#:#Το διαγώνισμα είναι ορατό
+rbac#:#tst_visible#:#Το διαγώνισμα είναι ορατό
 common#:#tst_warning_test_not_complete#:#Το διαγώνισμα δεν είναι ολοκληρωμένο!
-common#:#tst_write#:#Επεξεργασία διαγωνίσματος
+rbac#:#tst_write#:#Επεξεργασία διαγωνίσματος
 common#:#txt_add_object_instruction1#:#Αναζήτηση της τοποθεσίας στην οποία θέλετε να προσθέσετε
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Έχετε επιτυχώς εγγραφεί στο ILIAS. Παρακαλώ πατήστε το κουμπί από κάτω για να συνδεθείτε στο ILIAS μέσω του λογαριασμού χρήσης σας.
@@ -4206,13 +4206,13 @@ common#:#webr_active#:#Ενεργό
 common#:#webr_add#:#Προσθήκη Πηγής Ιστού
 common#:#webr_add_item#:#Προσθήκη Πηγής Ιστού
 common#:#webr_copy#:#Copy Web Resource
-common#:#webr_delete#:#Διαγραφή Πηγής Ιστού
+rbac#:#webr_delete#:#Διαγραφή Πηγής Ιστού
 common#:#webr_deleted_items#:#Διεγραμμένη Πηγή/ές Ιστού.
 common#:#webr_delete_items#:#Διαγραφή Πηγής/ών Ιστού
 common#:#webr_disable_check#:#Απενεργοποίηση ελέγχου
 common#:#webr_edit#:#Επεξεργασία Πηγής Ιστού
 common#:#webr_edit_item#:#Επεξεργασία Πηγής Ιστού
-common#:#webr_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#webr_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
 common#:#webr_fillout_all#:#Παρακαλώ συμπληρώστε όλα τα απαιτούμενα πεδία.
 common#:#webr_item_updated#:#Αποθηκευμένες τροποποιήσεις
 common#:#webr_join#:#Εγγραφή Πηγής Ιστού
@@ -4223,10 +4223,10 @@ common#:#webr_modified_items#:#Αποθηκευμένες τροποποιήσε
 common#:#webr_never_checked#:#Δεν ελέγχθηκε ποτέ
 common#:#webr_new#:#Προσθήκη νέας Πηγής Ιστού
 common#:#webr_no_items_created#:#Δεν δημιουργήθηκαν Πηγές Ιστού
-common#:#webr_read#:#Πρόσβαση ανάγνωσης στην Πηγή Ιστού
+rbac#:#webr_read#:#Πρόσβαση ανάγνωσης στην Πηγή Ιστού
 common#:#webr_sure_delete_items#:#Θέλετε πραγματικά να διαγράψετε την ακόλουθη/ες Πηγή/ές Ιστού;
-common#:#webr_visible#:#Η πηγή Ιστού είναι ορατή
-common#:#webr_write#:#Επεξεργασία Πηγής Ιστού
+rbac#:#webr_visible#:#Η πηγή Ιστού είναι ορατή
+rbac#:#webr_write#:#Επεξεργασία Πηγής Ιστού
 common#:#webservices#:#Υπηρεσίες Ιστού
 common#:#web_resources#:#Πηγές Ιστού
 common#:#week#:#Εβδομάδα
@@ -4239,13 +4239,13 @@ common#:#width_x_height#:#Πλάτος x Ύψος
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
 common#:#wiki_copy#:#Copy Wiki
-common#:#wiki_delete#:#Delete Wiki
-common#:#wiki_edit_content#:#Edit Wiki Pages
-common#:#wiki_edit_permission#:#Change permission settings
+rbac#:#wiki_delete#:#Delete Wiki
+rbac#:#wiki_edit_content#:#Edit Wiki Pages
+rbac#:#wiki_edit_permission#:#Change permission settings
 common#:#wiki_new#:#New Wiki
-common#:#wiki_read#:#Read Wiki
-common#:#wiki_visible#:#Wiki is visible
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners
+rbac#:#wiki_read#:#Read Wiki
+rbac#:#wiki_visible#:#Wiki is visible
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
 common#:#with#:#μαζί
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them
 common#:#wizard_title_info#:#Please enter the title of the object you want to duplicate.
@@ -12389,7 +12389,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

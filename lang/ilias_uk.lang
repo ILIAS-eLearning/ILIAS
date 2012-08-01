@@ -1433,7 +1433,7 @@ common#:#fold_edit#:#РЕдагувати Папку
 rbac#:#fold_edit_permission#:#Змінити настройки прав
 common#:#fold_new#:#Нова Папка
 rbac#:#fold_read#:#Доступ на читання до Папки
-common#:#fold_visible#:#Папка є видимою
+rbac#:#fold_visible#:#Папка є видимою
 rbac#:#fold_write#:#Редагувати Папку
 common#:#folder#:#папка
 common#:#folders#:#Папки
@@ -1461,15 +1461,15 @@ common#:#frm_add#:#Додати Форум
 common#:#frm_added#:#Форум доданий
 common#:#frm_article#:#article###13 May 2005 new variable
 common#:#frm_create#:#Створити Форум
-common#:#frm_delete#:#Видалити Форум
+rbac#:#frm_delete#:#Видалити Форум
 common#:#frm_delete_post#:#Видалити пост, цензура
 common#:#frm_edit#:#Редагувати Форум
-common#:#frm_edit_permission#:#Змінити настройки прав
+rbac#:#frm_edit_permission#:#Змінити настройки прав
 common#:#frm_edit_post#:#Додати нову гілку, запис
 common#:#frm_new#:#Новий Форум
-common#:#frm_read#:#Доступ на читання до Форума
-common#:#frm_visible#:#Форум є видимим
-common#:#frm_write#:#Редагувати форум
+rbac#:#frm_read#:#Доступ на читання до Форума
+rbac#:#frm_visible#:#Форум є видимим
+rbac#:#frm_write#:#Редагувати форум
 common#:#from#:#Від
 common#:#fullname#:#Повне ім'я
 common#:#functions#:#Функції
@@ -1485,8 +1485,8 @@ common#:#glo_a#:#Глосарій
 common#:#glo_add#:#Додати Глосарій
 common#:#glo_added#:#Глосарій доданий
 common#:#glo_create#:#Створити Глосарій
-common#:#glo_delete#:#Видалити Глосарій
-common#:#glo_edit_permission#:#Змінити настройки прав
+rbac#:#glo_delete#:#Видалити Глосарій
+rbac#:#glo_edit_permission#:#Змінити настройки прав
 common#:#glo_join#:#Підписатить на Глосарій
 common#:#glo_leave#:#Відписатись від Глосарію
 common#:#glo_mode#:#Mode###20 Jun 2005 new variable
@@ -1495,10 +1495,10 @@ common#:#glo_mode_level#:#virtual (this level only)###20 Jun 2005 new variable
 common#:#glo_mode_normal#:#normal###20 Jun 2005 new variable
 common#:#glo_mode_subtree#:#virtual (entire subtree)###20 Jun 2005 new variable
 common#:#glo_new#:#Новий Глосарій
-common#:#glo_read#:#Доступ на читання до Глосарію
+rbac#:#glo_read#:#Доступ на читання до Глосарію
 common#:#glo_upload_file#:#Файл
-common#:#glo_visible#:#Глосарій є видимим
-common#:#glo_write#:#Редагувати Глосарій
+rbac#:#glo_visible#:#Глосарій є видимим
+rbac#:#glo_write#:#Редагувати Глосарій
 common#:#global#:#Глобальний
 common#:#global_default#:#Global Default
 common#:#global_fixed#:#Global Fixed
@@ -1558,29 +1558,29 @@ common#:#grp_create#:#Створити Групу
 common#:#grp_create_alm#:#Створити AICC Учбовий Модуль
 common#:#grp_create_chat#:#Створити Чат
 common#:#grp_create_dbk#:#Створити Digibook
-common#:#grp_create_exc#:#Створити Вправу
-common#:#grp_create_file#:#Завантажити Файл
-common#:#grp_create_fold#:#Створити Папку
-common#:#grp_create_frm#:#Створити Форум
-common#:#grp_create_glo#:#Створити Глосарій
-common#:#grp_create_grp#:#Create Group###13 Mar 2006 new variable
+rbac#:#grp_create_exc#:#Створити Вправу
+rbac#:#grp_create_file#:#Завантажити Файл
+rbac#:#grp_create_fold#:#Створити Папку
+rbac#:#grp_create_frm#:#Створити Форум
+rbac#:#grp_create_glo#:#Створити Глосарій
+rbac#:#grp_create_grp#:#Create Group###13 Mar 2006 new variable
 common#:#grp_create_hlm#:#Створити HACP Учбовий Модуль
-common#:#grp_create_htlm#:#Створити HTML Учбовий Модуль
-common#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
-common#:#grp_create_lm#:#Створити ILIAS Учбовий Модуль
-common#:#grp_create_mep#:#Створити Медіа Пул
-common#:#grp_create_qpl#:#Створити Пул питань для Теста
-common#:#grp_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
-common#:#grp_create_spl#:#Створити Пул Питань для Опитування
-common#:#grp_create_svy#:#Створити Опитування
-common#:#grp_create_tst#:#Створити Тест
-common#:#grp_create_webr#:#Створити новий Веб Ресурс###15 Jul 2005 content changed
-common#:#grp_delete#:#Видалити Групу
+rbac#:#grp_create_htlm#:#Створити HTML Учбовий Модуль
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar###14 Jul 2005 new variable
+rbac#:#grp_create_lm#:#Створити ILIAS Учбовий Модуль
+rbac#:#grp_create_mep#:#Створити Медіа Пул
+rbac#:#grp_create_qpl#:#Створити Пул питань для Теста
+rbac#:#grp_create_sahs#:#Створити SCORM/AICC Учбовий Модуль
+rbac#:#grp_create_spl#:#Створити Пул Питань для Опитування
+rbac#:#grp_create_svy#:#Створити Опитування
+rbac#:#grp_create_tst#:#Створити Тест
+rbac#:#grp_create_webr#:#Створити новий Веб Ресурс###15 Jul 2005 content changed
+rbac#:#grp_delete#:#Видалити Групу
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Ви впевнені що бажаєте виключити наступних користувачів з групи?
 common#:#grp_dismiss_myself#:#Ви впевнені що бажаєе виключити себе з групи?###23 Dec 2005 content changed
 common#:#grp_edit#:#Редагувати Групу
-common#:#grp_edit_permission#:#Змінити настройки прав
+rbac#:#grp_edit_permission#:#Змінити настройки прав
 common#:#grp_err_administrator_required#:#Член не може бути видалений, потрібен хоча б один адміністратор на групу !
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Кожна група потребує принаймні одного адміністратора
 common#:#grp_err_error#:#Трапилась помилка
@@ -1589,8 +1589,8 @@ common#:#grp_err_member_could_not_be_removed#:#Член не може бути �
 common#:#grp_err_no_permission#:#Ви не володієте правами для цієї операції.
 common#:#grp_err_registration_data#:#Будь ласка введіть пароль, дату закінчення та час для дійсного періоду реєстрації !###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Редагувати членів
-common#:#grp_join#:#Користувач може приєднатись до групи
-common#:#grp_leave#:#Користувач може залишити групу
+rbac#:#grp_join#:#Користувач може приєднатись до групи
+rbac#:#grp_leave#:#Користувач може залишити групу
 common#:#grp_list_users#:#Список користувачів
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
@@ -1610,7 +1610,7 @@ common#:#grp_no_groups_selected#:#Не вибрано жодної групи
 common#:#grp_no_results_found#:#Не знайдено жодного результату
 common#:#grp_no_roles_selected#:#Жодної ролі не вибрано
 common#:#grp_options#:#Опції
-common#:#grp_read#:#Доступ на читання до Групи
+rbac#:#grp_read#:#Доступ на читання до Групи
 common#:#grp_register#:#Зареєструватись###23 Dec 2005 content changed
 common#:#grp_registration#:#Join group###23 Dec 2005 new variable
 common#:#grp_registration_completed#:#Реєстрація закінчена###23 Dec 2005 content changed
@@ -1618,8 +1618,8 @@ common#:#grp_search_enter_search_string#:#Будь ласка введіть с�
 common#:#grp_search_members#:#Пошук користувача
 common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
 common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
-common#:#grp_visible#:#Група видима
-common#:#grp_write#:#Редагувати Групу
+rbac#:#grp_visible#:#Група видима
+rbac#:#grp_write#:#Редагувати Групу
 common#:#guest#:#Гість
 common#:#guests#:#Гості
 common#:#header_title#:#Назва Заголовку
@@ -1653,14 +1653,14 @@ common#:#hours#:#hour(s)###28 Feb 2006 new variable
 common#:#hours_of_day#:#Годин на день
 common#:#htlm#:#HTML Учбовий Модуль
 common#:#htlm_add#:#Додати HTML Учбовий Модуль
-common#:#htlm_delete#:#Видалити HTML Учбовий Модуль
+rbac#:#htlm_delete#:#Видалити HTML Учбовий Модуль
 common#:#htlm_edit#:#Редагувати Властивості HTML Учбового Модуля
-common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#htlm_edit_permission#:#Змінити настройки прав
+rbac#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#htlm_edit_permission#:#Змінити настройки прав
 common#:#htlm_new#:#Новий HTML Учбовий Модуль
-common#:#htlm_read#:#Читати HTML Учбовий Модуль
-common#:#htlm_visible#:#HTML Учбовий Модуль є видимим
-common#:#htlm_write#:#Редагувати HTML Учбовий Модуль
+rbac#:#htlm_read#:#Читати HTML Учбовий Модуль
+rbac#:#htlm_visible#:#HTML Учбовий Модуль є видимим
+rbac#:#htlm_write#:#Редагувати HTML Учбовий Модуль
 common#:#http#:#HTTP###03 Nov 2005 new variable
 common#:#http_not_possible#:#Цей сервер не підтримує http запити.
 common#:#http_path#:#Http Шлях
@@ -1945,18 +1945,18 @@ common#:#lm_a#:#ILIAS Учбовий Модуль
 common#:#lm_add#:#Додати ILIAS Учбовий Модудь
 common#:#lm_added#:#Учбовий Модуль ILIAS доданий
 common#:#lm_create#:#Створити ILIAS Учбовий Модуль
-common#:#lm_delete#:#Видалити ILIAS Учбовий Модуль
-common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#lm_delete#:#Видалити ILIAS Учбовий Модуль
+rbac#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Змінити настройки прав
 common#:#lm_join#:#Підписатись на ILIAS Учбовий Модуль
 common#:#lm_leave#:#Відписатись від Учбового Модуля ILIAS
 common#:#lm_new#:#Новий ILIAS Учбовий Модуль
-common#:#lm_read#:#Доступ на читання до Учбового Модуля ILIAS
+rbac#:#lm_read#:#Доступ на читання до Учбового Модуля ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Учбовий Модуль ILIAS є видимим
-common#:#lm_write#:#Редагувати ILIAS Учбовий Модуль
+rbac#:#lm_visible#:#Учбовий Модуль ILIAS є видимим
+rbac#:#lm_write#:#Редагувати ILIAS Учбовий Модуль
 common#:#lng#:#Мова
 common#:#lngf#:#Мови
 common#:#lngf_edit_permission#:#Змінити настройки прав
@@ -2040,14 +2040,14 @@ common#:#membership_annulled#:#Ваше членство було відміне
 common#:#mep#:#Медіа Банк
 common#:#mep_add#:#Додати Медіа Банк
 common#:#mep_added#:#Доданий Медіа Банк
-common#:#mep_delete#:#Видалити Медіа Банк
+rbac#:#mep_delete#:#Видалити Медіа Банк
 common#:#mep_edit#:#Редагувати Властивості Медіа Банку
-common#:#mep_edit_permission#:#Змінити настройки прав
+rbac#:#mep_edit_permission#:#Змінити настройки прав
 common#:#mep_new#:#Новий Медіа Банк
 common#:#mep_not_insert_already_exist#:#Наступні об'єкти не вставлені тому що вони вже пристуні в медіа банку:
-common#:#mep_read#:#Читати Вмсіст Медіа Банку
-common#:#mep_visible#:#Медіа Банк є видимим
-common#:#mep_write#:#Редагувати Вміст Медіа Банку
+rbac#:#mep_read#:#Читати Вмсіст Медіа Банку
+rbac#:#mep_visible#:#Медіа Банк є видимим
+rbac#:#mep_write#:#Редагувати Вміст Медіа Банку
 common#:#message#:#Повідомлення
 common#:#message_content#:#Зміст Повідомлення
 common#:#message_no_delivered_files#:#Ви не доставили файл!
@@ -2471,13 +2471,13 @@ common#:#publishing_organisation#:#Організація що Публікує
 common#:#purpose#:#Призначення
 common#:#qpl#:#Банк Питань для Тесту
 common#:#qpl_add#:#Додати банк питань для тесту
-common#:#qpl_delete#:#Видалити Пул Питань для Тесту
-common#:#qpl_edit_permission#:#Змінити настройки прав
+rbac#:#qpl_delete#:#Видалити Пул Питань для Тесту
+rbac#:#qpl_edit_permission#:#Змінити настройки прав
 common#:#qpl_new#:#Новий пул питань для тесту
-common#:#qpl_read#:#Доступ на читання до Банку Питань до Тесту
+rbac#:#qpl_read#:#Доступ на читання до Банку Питань до Тесту
 common#:#qpl_upload_file#:#Завантажити файл
-common#:#qpl_visible#:#Банк Питань для Тесту є видимим
-common#:#qpl_write#:#Редагувати Пул Питань для Тесту
+rbac#:#qpl_visible#:#Банк Питань для Тесту є видимим
+rbac#:#qpl_write#:#Редагувати Пул Питань для Тесту
 common#:#quarterly#:#квартальний
 common#:#query_data#:#Дані запиту
 common#:#question#:#Питання
@@ -2612,14 +2612,14 @@ common#:#root_write#:#Редагувати ILIAS root node data
 common#:#sahs#:#SCORM/AICC Учбовий Модуль
 common#:#sahs_added#:#SCORM/AICC Учюовий Модуль доданий
 common#:#sahs_create#:#Створити SCORM/AICC Учбовий Модуль
-common#:#sahs_delete#:#Видалити SCORM/AICC Учбовий Модуль
-common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#sahs_edit_permission#:#Змінити настройки прав
+rbac#:#sahs_delete#:#Видалити SCORM/AICC Учбовий Модуль
+rbac#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#sahs_edit_permission#:#Змінити настройки прав
 common#:#sahs_join#:#Підписатись на SCORM/AICC Учбовий Модуль
 common#:#sahs_leave#:#Відписатись від SCORM/AICC Учбового Модуля
-common#:#sahs_read#:#Доступ на читання до SCORM/AICC Учбового Модуля
-common#:#sahs_visible#:#SCORM/AICC Учбовий Модуль є видимим
-common#:#sahs_write#:#Редагувати SCORM/AICC Учбовий Модуль
+rbac#:#sahs_read#:#Доступ на читання до SCORM/AICC Учбового Модуля
+rbac#:#sahs_visible#:#SCORM/AICC Учбовий Модуль є видимим
+rbac#:#sahs_write#:#Редагувати SCORM/AICC Учбовий Модуль
 common#:#salutation#:#Привітання
 common#:#salutation_f#:#Місс/Місіс
 common#:#salutation_m#:#Містер
@@ -2727,13 +2727,13 @@ common#:#sort_by_this_column#:#Сортувати по цій колонці
 common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Банк питань (Опитування)
 common#:#spl_add#:#Додати банк питань
-common#:#spl_delete#:#Видалити Банк Питань
-common#:#spl_edit_permission#:#Змінити настройки прав
+rbac#:#spl_delete#:#Видалити Банк Питань
+rbac#:#spl_edit_permission#:#Змінити настройки прав
 common#:#spl_new#:#Новий пул питань
-common#:#spl_read#:#Доступ на читання до Банку Питань
+rbac#:#spl_read#:#Доступ на читання до Банку Питань
 common#:#spl_upload_file#:#Завантажити Файл
-common#:#spl_visible#:#Пул Питань є видимим
-common#:#spl_write#:#Редагувати Пул Питань
+rbac#:#spl_visible#:#Пул Питань є видимим
+rbac#:#spl_write#:#Редагувати Пул Питань
 common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
 common#:#st_a#:#глава
 common#:#st_add#:#Додати главу
@@ -2764,22 +2764,22 @@ common#:#summary#:#Ітого
 common#:#sure_delete_selected_users#:#Ви впевнені що ви бажаєте видалити вибраних користувачів
 common#:#svy#:#Опитування
 common#:#svy_add#:#Додати опитування
-common#:#svy_delete#:#Видалити опитування
-common#:#svy_edit_permission#:#Змінити настройки прав
+rbac#:#svy_delete#:#Видалити опитування
+rbac#:#svy_edit_permission#:#Змінити настройки прав
 common#:#svy_evaluation#:#Evaluation###20 Jun 2005 new variable
 common#:#svy_finished#:#completed###20 Jun 2005 new variable
-common#:#svy_invite#:#Запросити користувачів до опитування
+rbac#:#svy_invite#:#Запросити користувачів до опитування
 common#:#svy_new#:#Нове опитування
 common#:#svy_no_content#:#Немає доступних опитувань
 common#:#svy_not_finished#:#not completed###20 Jun 2005 new variable
 common#:#svy_not_started#:#not started###20 Jun 2005 new variable
 common#:#svy_participate#:#Брати участь в опитуванні
-common#:#svy_read#:#Доступ на читання до опитування
+rbac#:#svy_read#:#Доступ на читання до опитування
 common#:#svy_run#:#Run###20 Jun 2005 new variable
 common#:#svy_upload_file#:#Завантажити файл
-common#:#svy_visible#:#Опитування є видимим
+rbac#:#svy_visible#:#Опитування є видимим
 common#:#svy_warning_survey_not_complete#:#The survey is not complete!###20 Jun 2005 new variable
-common#:#svy_write#:#Редагувати опитування
+rbac#:#svy_write#:#Редагувати опитування
 common#:#system#:#Система
 common#:#system_check#:#Перевірка Системи
 common#:#system_choose_language#:#Вибір системної Мови
@@ -2853,20 +2853,20 @@ common#:#treeview#:#Огляд у вигляді дерева
 common#:#tst#:#Тест
 common#:#tst_add#:#Додати тест
 common#:#tst_anon_eval#:#Results###20 Jun 2005 new variable
-common#:#tst_delete#:#Видалити Тест
-common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#tst_edit_permission#:#Змінити настройки прав
+rbac#:#tst_delete#:#Видалити Тест
+rbac#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#tst_edit_permission#:#Змінити настройки прав
 common#:#tst_new#:#Новий тест
 common#:#tst_no_content#:#Немає доступних тестів
-common#:#tst_read#:#Доступ на читання до Тесту
+rbac#:#tst_read#:#Доступ на читання до Тесту
 common#:#tst_run#:#Run###20 Jun 2005 new variable
 common#:#tst_statistical_evaluation#:#Statistics###20 Jun 2005 new variable
 common#:#tst_upload_file#:#Завантажити файл
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.###06 Aug 2005 new variable
 common#:#tst_user_wrong_clientip#:#You don't have the right ip using this test###06 Aug 2005 new variable
-common#:#tst_visible#:#Тест є видимим
+rbac#:#tst_visible#:#Тест є видимим
 common#:#tst_warning_test_not_complete#:#The test is not complete!###20 Jun 2005 new variable
-common#:#tst_write#:#Редагувати Тест
+rbac#:#tst_write#:#Редагувати Тест
 common#:#txt_add_object_instruction1#:#Вкажіть місце куди ви бажаєте додати
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#Ви вдало зареєстувались в ILIAS. Будь ласка клікніть на кнопку внизу щоб увійти в ILIAS під вашим аккаунтом.
@@ -3007,13 +3007,13 @@ common#:#webr#:#Веб Ресурс
 common#:#webr_active#:#Активний
 common#:#webr_add#:#Додати Веб Ресурс
 common#:#webr_add_item#:#Додати Веб Ресурс
-common#:#webr_delete#:#Видалити Веб Ресурс
+rbac#:#webr_delete#:#Видалити Веб Ресурс
 common#:#webr_delete_items#:#Видалити Веб Ресурс(и)
 common#:#webr_deleted_items#:#Видалити Веб Ресурс(и).
 common#:#webr_disable_check#:#Відключити перевірку 
 common#:#webr_edit#:#Редагувати Веб Ресурс
 common#:#webr_edit_item#:#Редагувати Веб Ресурс
-common#:#webr_edit_permission#:#Змінити настройки прав
+rbac#:#webr_edit_permission#:#Змінити настройки прав
 common#:#webr_fillout_all#:#Будь ласка заповніть усі необхідні поля.
 common#:#webr_item_updated#:#Збережені модифікації
 common#:#webr_join#:#Підписатись на Веб Ресурс
@@ -3024,10 +3024,10 @@ common#:#webr_modified_items#:#Збережені модифікації.
 common#:#webr_never_checked#:#Ніколи не перевірявся
 common#:#webr_new#:#Додати новий Веб Ресурс
 common#:#webr_no_items_created#:#Немає створених Веб Ресурсів
-common#:#webr_read#:#Доступ на читання до Веб Ресурсу
+rbac#:#webr_read#:#Доступ на читання до Веб Ресурсу
 common#:#webr_sure_delete_items#:#Ви дійсно бажаєье видалити наступні Веб Ресурси?
-common#:#webr_visible#:#Веб Ресурс є видимим
-common#:#webr_write#:#Редагувати Веб Ресурс
+rbac#:#webr_visible#:#Веб Ресурс є видимим
+rbac#:#webr_write#:#Редагувати Веб Ресурс
 common#:#webservices#:#Вебсервіси
 common#:#week#:#Тиждень
 common#:#weekly#:#тижневий
@@ -5987,7 +5987,7 @@ common#:#frm_statistics_ranking#:#Ranking###25 02 2007 new variable
 common#:#groupings#:#Membership Limitations###25 02 2007 new variable
 common#:#groupings_assigned_obj_crs#:#Assigned Courses###25 02 2007 new variable
 common#:#groupings_assigned_obj_grp#:#Assigned Groups###25 02 2007 new variable
-common#:#grp_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
+rbac#:#grp_edit_learning_progress#:#Edit Learning Progress###25 02 2007 new variable
 common#:#grp_members_gallery#:#Group Members Gallery###25 02 2007 new variable
 common#:#header_searchable#:#Searchable###25 02 2007 new variable
 common#:#hist_dbk_delete_pg#:#Page "%1" [%2] has been deleted.###25 02 2007 new variable
@@ -6989,19 +6989,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7158,7 +7158,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7518,7 +7518,7 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+rbac#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
 news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
 news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
 news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
@@ -7538,8 +7538,8 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+rbac#:#frm_add_post#:#Add new post###23 10 2007 new variable
+rbac#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
@@ -7798,8 +7798,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8327,11 +8327,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable

@@ -988,7 +988,7 @@ rbac#:#fold_edit_learning_progress#:#Rediger læringsfremskridt
 rbac#:#fold_edit_permission#:#Ændre rettighedsindstillinger
 common#:#fold_new#:#Ny mappe
 rbac#:#fold_read#:#Læseadgang til mappe
-common#:#fold_visible#:#Mappen er synlig
+rbac#:#fold_visible#:#Mappen er synlig
 rbac#:#fold_write#:#Rediger mappe
 common#:#folder#:#Mappe
 common#:#folders#:#Mapper
@@ -1021,18 +1021,18 @@ common#:#frm_add#:#Tilføj forum
 common#:#frm_added#:#Forum er tilføjet
 common#:#frm_article#:#indlæg
 common#:#frm_create#:#Opret forum
-common#:#frm_delete#:#Slet forum
+rbac#:#frm_delete#:#Slet forum
 common#:#frm_delete_post#:#Slet indlæg, censurering
 common#:#frm_edit#:#Rediger Forum
-common#:#frm_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#frm_edit_permission#:#Ændre rettighedsindstillinger
 common#:#frm_edit_post#:#Skriv indlæg
 common#:#frm_new#:#Nyt forum
-common#:#frm_read#:#Læseadgang til forum
+rbac#:#frm_read#:#Læseadgang til forum
 common#:#frm_statistics_ranking#:#Ranking
 common#:#frm_status_new#:#Status \'Ny\'
 common#:#frm_status_new_desc#:#Venligst vælg en periode for hvor længe indhold har status som \'Ny\'.
-common#:#frm_visible#:#Forum er synligt
-common#:#frm_write#:#Rediger forum
+rbac#:#frm_visible#:#Forum er synligt
+rbac#:#frm_write#:#Rediger forum
 common#:#fullname#:#Fulde navn
 common#:#functions#:#Funktioner
 common#:#gdf_add#:#Tilføj definitation
@@ -1047,8 +1047,8 @@ common#:#glo_a#:#en ordbog
 common#:#glo_add#:#TIlføj ordbog
 common#:#glo_added#:#Ordbog er tilføjet
 common#:#glo_create#:#Opret ordbog
-common#:#glo_delete#:#Slet ordbog
-common#:#glo_edit_permission#:#ændre rettighedsindstillinger
+rbac#:#glo_delete#:#Slet ordbog
+rbac#:#glo_edit_permission#:#ændre rettighedsindstillinger
 common#:#glo_join#:#Skriv til ordbog
 common#:#glo_leave#:#Slet fra ordbog
 common#:#glo_mode#:#Mode
@@ -1057,10 +1057,10 @@ common#:#glo_mode_level#:#Virtuel (kun dette niveau)
 common#:#glo_mode_normal#:#Normal
 common#:#glo_mode_subtree#:#Virtuel (under hele biblioteket)
 common#:#glo_new#:#Ny ordbog
-common#:#glo_read#:#Læserettigheder til ordbog
+rbac#:#glo_read#:#Læserettigheder til ordbog
 common#:#glo_upload_file#:#Fil
-common#:#glo_visible#:#Ordbog er synlig
-common#:#glo_write#:#Ændre ordbog
+rbac#:#glo_visible#:#Ordbog er synlig
+rbac#:#glo_write#:#Ændre ordbog
 common#:#global#:#Global
 common#:#global_default#:#Global standard
 common#:#global_fixed#:#Rettet globalt
@@ -1123,30 +1123,30 @@ common#:#grp_create#:#Opret gruppe
 common#:#grp_create_alm#:#Opret AICC Læremodul
 common#:#grp_create_chat#:#Opret chat
 common#:#grp_create_dbk#:#Opret Digilib Bog
-common#:#grp_create_exc#:#Opret øvelse
-common#:#grp_create_file#:#Upload Fil
-common#:#grp_create_fold#:#Opret mappe
-common#:#grp_create_frm#:#Opret forum
-common#:#grp_create_glo#:#Opret ordbog
-common#:#grp_create_grp#:#Opret gruppe
+rbac#:#grp_create_exc#:#Opret øvelse
+rbac#:#grp_create_file#:#Upload Fil
+rbac#:#grp_create_fold#:#Opret mappe
+rbac#:#grp_create_frm#:#Opret forum
+rbac#:#grp_create_glo#:#Opret ordbog
+rbac#:#grp_create_grp#:#Opret gruppe
 common#:#grp_create_hlm#:#Opret HACP Læremodul
-common#:#grp_create_htlm#:#Opret HTML Læremodul
-common#:#grp_create_icrs#:#Opret LearnLincseminar
-common#:#grp_create_lm#:#Opret ILIAS Læremodul
-common#:#grp_create_mep#:#Opret Mediebeholder
-common#:#grp_create_qpl#:#Opret spørgsmålsbibliotek til tests
-common#:#grp_create_sahs#:#Opret SCORM/AICC Læremodul
-common#:#grp_create_spl#:#Opret spørgsmålsbibliotek til unsersøgelser
-common#:#grp_create_svy#:#Opret undersøgelse
-common#:#grp_create_tst#:#Opret test
-common#:#grp_create_webr#:#Opret webresurse
-common#:#grp_delete#:#Slet gruppe
+rbac#:#grp_create_htlm#:#Opret HTML Læremodul
+rbac#:#grp_create_icrs#:#Opret LearnLincseminar
+rbac#:#grp_create_lm#:#Opret ILIAS Læremodul
+rbac#:#grp_create_mep#:#Opret Mediebeholder
+rbac#:#grp_create_qpl#:#Opret spørgsmålsbibliotek til tests
+rbac#:#grp_create_sahs#:#Opret SCORM/AICC Læremodul
+rbac#:#grp_create_spl#:#Opret spørgsmålsbibliotek til unsersøgelser
+rbac#:#grp_create_svy#:#Opret undersøgelse
+rbac#:#grp_create_tst#:#Opret test
+rbac#:#grp_create_webr#:#Opret webresurse
+rbac#:#grp_delete#:#Slet gruppe
 common#:#grp_deleted_export_files#:#Slet valgte filer.
 common#:#grp_dismiss_member#:#Er du sikker på at du vil afmelde den følgende bruger(e) fra gruppen
 common#:#grp_dismiss_myself#:#Er du sikker på du vil udmelde dig af gruppen?
 common#:#grp_edit#:#Rediger gruppe
-common#:#grp_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#grp_edit_permission#:#ændre rettighedsindstillinger
+rbac#:#grp_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#grp_edit_permission#:#ændre rettighedsindstillinger
 common#:#grp_err_administrator_required#:#Bruger kunne ikke blive fjernet, en administrator per gruppe er nødvendig!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Hver gruppe skal mindst have en administrator
 common#:#grp_err_error#:#En fejl opstod
@@ -1155,8 +1155,8 @@ common#:#grp_err_member_could_not_be_removed#:#bruger kan ikke blive fjernet.
 common#:#grp_err_no_permission#:#du har ikke rettigeder til denne handling
 common#:#grp_err_registration_data#:#Skriv venligst et password, udløbsdatoen og tidsforløb for en gyldig deltagelsesperiode!
 common#:#grp_header_edit_members#:#ændre medlem
-common#:#grp_join#:#Brugeren kan tilmelde sig gruppen
-common#:#grp_leave#:#Brugeren kan forlade gruppen
+rbac#:#grp_join#:#Brugeren kan tilmelde sig gruppen
+rbac#:#grp_leave#:#Brugeren kan forlade gruppen
 common#:#grp_list_users#:#List brugere
 common#:#grp_mail_body_new_subscription#:#Du er indmeldt i gruppen som står i emnefeltet. Velkommen.
 common#:#grp_mail_body_subscription_cancelled#:#Du er blevet udmeldt af gruppen som står i emnefeltet.
@@ -1177,7 +1177,7 @@ common#:#grp_no_groups_selected#:#Vælg venligst en gruppe
 common#:#grp_no_results_found#:#Der blev ikke fundet nogen resultater.
 common#:#grp_no_roles_selected#:#Vælg venligst en rolle
 common#:#grp_options#:#Muligheder
-common#:#grp_read#:#Læserettighed til en gruppe
+rbac#:#grp_read#:#Læserettighed til en gruppe
 common#:#grp_register#:#Tilmeld
 common#:#grp_registration#:#Tilmeld
 common#:#grp_registration_completed#:#Registreringen er gennemført
@@ -1185,8 +1185,8 @@ common#:#grp_search_enter_search_string#:#Skriv et søgeord
 common#:#grp_search_members#:#Søg bruger
 common#:#grp_select_one_file#:#Vælg en fil.
 common#:#grp_select_one_file_only#:#Vælg kun en enkelt fil.
-common#:#grp_visible#:#Gruppe er synlig
-common#:#grp_write#:#Rediger gruppe
+rbac#:#grp_visible#:#Gruppe er synlig
+rbac#:#grp_write#:#Rediger gruppe
 common#:#guest#:#Gæst
 common#:#guests#:#Gæster
 common#:#header_searchable#:#Søgbar
@@ -1240,14 +1240,14 @@ common#:#hour#:#Hour
 common#:#hours_of_day#:#Timer på en dag
 common#:#htlm#:#Læremodul HTML
 common#:#htlm_add#:#Tilføj HTML Læremodul
-common#:#htlm_delete#:#Slet HTML Læremodul
+rbac#:#htlm_delete#:#Slet HTML Læremodul
 common#:#htlm_edit#:#Rediger HTML læremoduls Egenskaber
-common#:#htlm_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#htlm_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#htlm_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#htlm_edit_permission#:#Ændre rettighedsindstillinger
 common#:#htlm_new#:#Nyt HTML Læremodul
-common#:#htlm_read#:#Læs HTML Læremodul
-common#:#htlm_visible#:#HTML læremodule er synligt
-common#:#htlm_write#:#Rediger HTML Læremodul
+rbac#:#htlm_read#:#Læs HTML Læremodul
+rbac#:#htlm_visible#:#HTML læremodule er synligt
+rbac#:#htlm_write#:#Rediger HTML Læremodul
 common#:#http#:#HTTP
 common#:#http_not_possible#:#Denne server understøtter ikke http Forespørgelser.
 common#:#http_path#:#Http Sti
@@ -1552,19 +1552,19 @@ common#:#lm_a#:#et ILIAS Læremodul
 common#:#lm_add#:#Tilføj ILIAS Læremodul
 common#:#lm_added#:#ILIAS Læremodul er tilføjet
 common#:#lm_create#:#Opret ILIAS læremodul
-common#:#lm_delete#:#Slet ILIAS Læremodul
-common#:#lm_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#lm_delete#:#Slet ILIAS Læremodul
+rbac#:#lm_edit_learning_progress#:#Rediger læringsfremskridt
 common#:#lm_edit_permission#:#Ændrer rettighedsindstillinger
 common#:#lm_join#:#tilmeld til ILIAS Læremodul
 common#:#lm_leave#:#Afmeld ILIAS Læremodul
 common#:#lm_new#:#Nyt ILIAS Læremodul
-common#:#lm_read#:#Læseadgang til ILIAS læremodul
+rbac#:#lm_read#:#Læseadgang til ILIAS læremodul
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
 common#:#lm_type_scorm2004#:#SCORM 2004
-common#:#lm_visible#:#ILIAS Læremodul er synligt
-common#:#lm_write#:#Rediger ILIAS Læremodul
+rbac#:#lm_visible#:#ILIAS Læremodul er synligt
+rbac#:#lm_write#:#Rediger ILIAS Læremodul
 common#:#lng#:#Sprog
 common#:#lngf#:#Sprog
 common#:#lngf_edit_permission#:#Ændre rettighedsindstillinger
@@ -1658,15 +1658,15 @@ common#:#membership_annulled#:#Dit medlemskab er blevet annulleret
 common#:#mep#:#Mediebeholder
 common#:#mep_add#:#tilføj Mediebeholder
 common#:#mep_added#:#Tilføjede Mediebeholdere
-common#:#mep_delete#:#Slet Mediebeholer
+rbac#:#mep_delete#:#Slet Mediebeholer
 common#:#mep_edit#:#Rediger mediebeholder indstillinger
-common#:#mep_edit_permission#:#ændrer rettighedsindstillinger
+rbac#:#mep_edit_permission#:#ændrer rettighedsindstillinger
 common#:#mep_new#:#Ny mediebeholder
 common#:#mep_not_insert_already_exist#:#De følgende objekter er ikke blevet indsat fordi de allerede findes i mediebiblioteket:
-common#:#mep_read#:#Læs indhold i mediebeholder
-common#:#mep_visible#:#Mediabeholder er synlig
-common#:#mep_write#:#Rediger indhold i mediebeholder
-common#:#mcst_delete#:#Slet Mediacast
+rbac#:#mep_read#:#Læs indhold i mediebeholder
+rbac#:#mep_visible#:#Mediabeholder er synlig
+rbac#:#mep_write#:#Rediger indhold i mediebeholder
+rbac#:#mcst_delete#:#Slet Mediacast
 rbac#:#feed_delete#:#Slet Web feed
 common#:#message#:#Besked
 common#:#message_content#:#Indhold
@@ -1827,19 +1827,19 @@ rbac#:#feed_edit_permission#:#Ret sikkerhedsindstillinger
 rbac#:#feed_visible#:#Web feed er synligt
 rbac#:#feed_read#:#Læseadgang til Web feed
 rbac#:#feed_write#:#Ret webfeed
-common#:#mcst_edit_permission#:#Ret sikkerhedsindstillinger
-common#:#mcst_visible#:#MediaCast er synligt
-common#:#mcst_read#:#Læseadgang til MediaCast
-common#:#mcst_write#:#Rediger MediaCast
+rbac#:#mcst_edit_permission#:#Ret sikkerhedsindstillinger
+rbac#:#mcst_visible#:#MediaCast er synligt
+rbac#:#mcst_read#:#Læseadgang til MediaCast
+rbac#:#mcst_write#:#Rediger MediaCast
 common#:#nwss_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#nwss_visible#:#Nyheds og web feeds indstillinger er synlige
 common#:#nwss_read#:#Indstillinger for læseadgang til Nyheds- og Webfeeds
 common#:#nwss_write#:#Rediger nyheds og web feeds indstillinger
 rbac#:#cat_create_feed#:#Opret web feed
-common#:#grp_create_feed#:#Opret web feed
+rbac#:#grp_create_feed#:#Opret web feed
 rbac#:#crs_create_feed#:#Opret web feed
 rbac#:#cat_create_mcst#:#Opret MediaCast
-common#:#grp_create_mcst#:#Opret MediaCast
+rbac#:#grp_create_mcst#:#Opret MediaCast
 rbac#:#crs_create_mcst#:#Opret MediaCast
 rbac#:#fold_create_mcst#:#Lav MediaCast
 common#:#access_users#:#Indloggede brugere
@@ -2157,13 +2157,13 @@ common#:#publishing_organisation#:#Udgivende organisation
 common#:#purpose#:#Formål
 common#:#qpl#:#Spørgsmål til test
 common#:#qpl_add#:#tilføj spørgsmål til test
-common#:#qpl_delete#:#Slet spørgsmål til test
-common#:#qpl_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#qpl_delete#:#Slet spørgsmål til test
+rbac#:#qpl_edit_permission#:#Ændre rettighedsindstillinger
 common#:#qpl_new#:#Ny spørgsmål til test
-common#:#qpl_read#:#Læseadgang til spørgsmålsbibliotek til test
+rbac#:#qpl_read#:#Læseadgang til spørgsmålsbibliotek til test
 common#:#qpl_upload_file#:#Upload fil
-common#:#qpl_visible#:#Spørgsmålssamling til tests er synlig
-common#:#qpl_write#:#Rediger spørgsmålssamling til tests
+rbac#:#qpl_visible#:#Spørgsmålssamling til tests er synlig
+rbac#:#qpl_write#:#Rediger spørgsmålssamling til tests
 common#:#quarterly#:#Kvartalvis
 common#:#query_data#:#Vis resultat
 common#:#question#:#Spørgsmål
@@ -2303,14 +2303,14 @@ common#:#rte_editor_disabled#:#Rig tekst editor deaktiveret
 common#:#sahs#:#Læremodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC Læremodul tilføjet
 common#:#sahs_create#:#Opret SCORM/AICC Læremodul
-common#:#sahs_delete#:#Slet SCORM/AICC Læremodul
-common#:#sahs_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#sahs_edit_permission#:#ændrer rettighedsindstillinger
+rbac#:#sahs_delete#:#Slet SCORM/AICC Læremodul
+rbac#:#sahs_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#sahs_edit_permission#:#ændrer rettighedsindstillinger
 common#:#sahs_join#:#Tilmeld til SCORM/AICC Læremodul
 common#:#sahs_leave#:#Afmeld SCORM/AICC Læremodul
-common#:#sahs_read#:#Læseadgang til SCORM/AICC læremodul
-common#:#sahs_visible#:#SCORM/AICC læremoduler synlige
-common#:#sahs_write#:#Rediger SCORM/AICC Læremodul
+rbac#:#sahs_read#:#Læseadgang til SCORM/AICC læremodul
+rbac#:#sahs_visible#:#SCORM/AICC læremoduler synlige
+rbac#:#sahs_write#:#Rediger SCORM/AICC Læremodul
 common#:#salutation#:#Titulering
 common#:#salutation_f#:#frk/fru
 common#:#salutation_m#:#Hr.
@@ -2436,13 +2436,13 @@ common#:#sort_by_this_column#:#Sorter efter denne kolonne
 common#:#spacer#:#Mellemrum
 common#:#spl#:#Spørgsmål til afstemninger/undersøgelser
 common#:#spl_add#:#Opret spørgsmålssamling
-common#:#spl_delete#:#Slet afstemningen til undersøgelsen
-common#:#spl_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#spl_delete#:#Slet afstemningen til undersøgelsen
+rbac#:#spl_edit_permission#:#Ændre rettighedsindstillinger
 common#:#spl_new#:#Ny spørgsmålssamling til undersøgelse
-common#:#spl_read#:#Læseadgang til spørgsmålssamling til brug ved undersøgelse
+rbac#:#spl_read#:#Læseadgang til spørgsmålssamling til brug ved undersøgelse
 common#:#spl_upload_file#:#Upload fil
-common#:#spl_visible#:#Afstemnning til undersøgelse
-common#:#spl_write#:#Rediger Spørgsmål til undersøgelsen
+rbac#:#spl_visible#:#Afstemnning til undersøgelse
+rbac#:#spl_write#:#Rediger Spørgsmål til undersøgelsen
 common#:#ssl#:#SSL (HTTPS)
 common#:#st_a#:#et kapitel
 common#:#st_add#:#Tilføj kapitel
@@ -2473,22 +2473,22 @@ common#:#summary#:#Gennemgang
 common#:#sure_delete_selected_users#:#Er du sikker på at du vil slettet følgende brugere
 common#:#svy#:#Undersøgelse
 common#:#svy_add#:#Opret undersøgelse
-common#:#svy_delete#:#Slet undersøgelse
-common#:#svy_edit_permission#:#ændrer rettighedsindstillinger
+rbac#:#svy_delete#:#Slet undersøgelse
+rbac#:#svy_edit_permission#:#ændrer rettighedsindstillinger
 common#:#svy_evaluation#:#Evaluering
 common#:#svy_finished#:#Afsluttet
-common#:#svy_invite#:#Inviter brugere til en undersøgelse
+rbac#:#svy_invite#:#Inviter brugere til en undersøgelse
 common#:#svy_new#:#Ny undersøgelse
 common#:#svy_no_content#:#Ingen undersøgelser er tilgængelige.
 common#:#svy_not_finished#:#ikke afsluttet
 common#:#svy_not_started#:#Ikke påbegyndt
 common#:#svy_participate#:#Deltag I en undersøgelse
-common#:#svy_read#:#Læseadgang til undersøgelsen
+rbac#:#svy_read#:#Læseadgang til undersøgelsen
 common#:#svy_run#:#Kør
 common#:#svy_upload_file#:#Upload fil
-common#:#svy_visible#:#Undersøgelsen er synlig
+rbac#:#svy_visible#:#Undersøgelsen er synlig
 common#:#svy_warning_survey_not_complete#:#Spørgeskemaet er ikke færdigt!
-common#:#svy_write#:#Rediger Undersøgelse
+rbac#:#svy_write#:#Rediger Undersøgelse
 common#:#system#:#System
 common#:#system_check#:#Systemcheck
 common#:#system_choose_language#:#valg af system sprog
@@ -2565,21 +2565,21 @@ common#:#treeview#:#Træoversigt
 common#:#tst#:#Test
 common#:#tst_add#:#Lav test
 common#:#tst_anon_eval#:#Resultater
-common#:#tst_delete#:#Slet test
-common#:#tst_edit_learning_progress#:#Rediger læringsfremskridt
-common#:#tst_edit_permission#:#Ændre systemindstillinger
+rbac#:#tst_delete#:#Slet test
+rbac#:#tst_edit_learning_progress#:#Rediger læringsfremskridt
+rbac#:#tst_edit_permission#:#Ændre systemindstillinger
 common#:#tst_new#:#Ny test
 common#:#tst_no_content#:#Ingen tests tilgængelige
-common#:#tst_read#:#Læseadgang til test
+rbac#:#tst_read#:#Læseadgang til test
 common#:#tst_run#:#Kør
 common#:#tst_statistics#:#Adgang til teststatistiker
 common#:#tst_statistical_evaluation#:#Statistik
 common#:#tst_upload_file#:#Upload fil
 common#:#tst_user_not_invited#:#Du ikke en af de studerende der skal tage denne test
 common#:#tst_user_wrong_clientip#:#Du kan ikke tilgå testen med din nuværende ip-adresse
-common#:#tst_visible#:#Testen er synlig
+rbac#:#tst_visible#:#Testen er synlig
 common#:#tst_warning_test_not_complete#:#Testen er endnu ikke færdiggjort
-common#:#tst_write#:#Rediger Test
+rbac#:#tst_write#:#Rediger Test
 common#:#txt_add_object_instruction1#:#Gå til placeringen hvor du vil tilføje
 common#:#txt_add_object_instruction2#:#.###21 Apr 2005 new variable
 common#:#txt_registered#:#Din ILIAS-konto er nu oprettet. Klik på knappen nedenfor for at logge ind. 
@@ -2752,13 +2752,13 @@ common#:#webr#:#Webresurse
 common#:#webr_active#:#Aktiv
 common#:#webr_add#:#Tilføj webresurse
 common#:#webr_add_item#:#Tilføj webresurse
-common#:#webr_delete#:#Fjern webresurse
+rbac#:#webr_delete#:#Fjern webresurse
 common#:#webr_delete_items#:#Fjern webresurse
 common#:#webr_deleted_items#:#Fjernede webresurse(r)
 common#:#webr_disable_check#:#Slå check fra
 common#:#webr_edit#:#Rediger webresurse
 common#:#webr_edit_item#:#Rediger webresurse
-common#:#webr_edit_permission#:#Ændre rettighedsopsætninger
+rbac#:#webr_edit_permission#:#Ændre rettighedsopsætninger
 common#:#webr_fillout_all#:#Vær venlig at udfylde alle krævede felter
 common#:#webr_item_updated#:#Gemte ændringer
 common#:#webr_join#:#Abonner på webresurse
@@ -2769,10 +2769,10 @@ common#:#webr_modified_items#:#Gemte ændringer
 common#:#webr_never_checked#:#Er aldrig blevet checket
 common#:#webr_new#:#Tilføj ny webresurse
 common#:#webr_no_items_created#:#Der er ikke lavet webresurser
-common#:#webr_read#:#Læseadgang til webresurse
+rbac#:#webr_read#:#Læseadgang til webresurse
 common#:#webr_sure_delete_items#:#Er du sikker på at du vil fjerne de(n) følgende webresurse(r) ?
-common#:#webr_visible#:#Webresursen er synlig
-common#:#webr_write#:#Rediger webresursen
+rbac#:#webr_visible#:#Webresursen er synlig
+rbac#:#webr_write#:#Rediger webresursen
 common#:#webservices#:#Webservices
 common#:#week#:#Uge
 common#:#weekly#:#Ugentlig
@@ -7593,7 +7593,7 @@ common#:#sorting_info_title#:#Vælg denne indstilling for at sortere emner autom
 common#:#sorting_manual_header#:#Manuel
 common#:#sorting_info_manual#:#Denne indstilling gør det muligt at sortere elementerne manuelt
 common#:#sorting_save#:#Gem sortering
-common#:#frm_add_thread#:#Tilføj nyt emne
+rbac#:#frm_add_thread#:#Tilføj nyt emne
 news#:#news_x_files_created#:#%s filer er blevet tilføjet
 news#:#news_x_files_updated#:#%s filer er blevet opdateret
 news#:#news_1_file_created#:#1 fil tilføjet
@@ -7615,8 +7615,8 @@ common#:#mail_search_groups_not_found#:#Du er ikke medlem af nogen gruppe.
 common#:#mail_search_courses_not_found#:#Du er ikke medlem af nogen kurser.
 auth#:#auth_radius_charset#:#Tegnsæt enkodning
 auth#:#auth_radius_charset_info#:#Vælg hvilken encoding der skal anvendes i kommunikation med Radius serveren. Hvis du er usikker, så vælg UTF-8.
-common#:#frm_add_post#:#Skriv indlæg
-common#:#frm_moderate_frm#:#Slet indlæg, censur
+rbac#:#frm_add_post#:#Skriv indlæg
+rbac#:#frm_moderate_frm#:#Slet indlæg, censur
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#Brugeren er inviteret til den offentlige chat.
 chat#:#chat_user_invited_private#:#Brugeren blev inviteret til det private chatrum
@@ -7875,8 +7875,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Tast password igen
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Ret Wiki sider
-common#:#wiki_write#:#Ændre indstillinger, bedøm studerende
+rbac#:#wiki_edit_content#:#Ret Wiki sider
+rbac#:#wiki_write#:#Ændre indstillinger, bedøm studerende
 common#:#cat_create_write#:#Opret Wiki
 common#:#fold_create_write#:#Opret Wiki
 common#:#crs_create_write#:#Opret Wiki
@@ -8404,11 +8404,11 @@ payment#:#payment_shop_not_objects_found#:#Der blev ikke fundet nogen objekter t
 payment#:#payment_login_to_buy_object#:#Du skal logge ind før du kan anvende indkøbskurven. Hvis du endnu ikke har et brugernavn skal du oprette en brugerkonto først.
 dateplaner#:#cal_share_search_role_header#:#Rollevalg
 common#:#assigned_members#:#Medlemmer
-common#:#wiki_read#:#Læs wiki
-common#:#wiki_delete#:#Slet wiki
+rbac#:#wiki_read#:#Læs wiki
+rbac#:#wiki_delete#:#Slet wiki
 common#:#wiki_copy#:#Kopier wiki
-common#:#wiki_visible#:#Wiki er synlig
-common#:#wiki_edit_permission#:#Ret sikkerhedsindstillinger
+rbac#:#wiki_visible#:#Wiki er synlig
+rbac#:#wiki_edit_permission#:#Ret sikkerhedsindstillinger
 common#:#il_crs_non_member#:#Kursus ikke-medlem
 common#:#il_grp_status_closed#:#Gruppen er lukket
 common#:#il_grp_status_open#:#Gruppen er åben

@@ -1684,7 +1684,7 @@ rbac#:#fold_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new va
 rbac#:#fold_edit_permission#:#Schimbati setarile de permisiune
 common#:#fold_new#:#Dosar nou
 rbac#:#fold_read#:#Permisiune de citire a dosarului
-common#:#fold_visible#:#Dosarul este vizibil
+rbac#:#fold_visible#:#Dosarul este vizibil
 rbac#:#fold_write#:#Editati Dosarul
 common#:#folder#:#Dosar
 common#:#folders#:#Dosare
@@ -1716,18 +1716,18 @@ common#:#frm_add#:#Adaugati Forum
 common#:#frm_added#:#Forum adaugat
 common#:#frm_article#:#article ### 2006-8-11 --- Add new translation here.
 common#:#frm_create#:#Creati Forum
-common#:#frm_delete#:#Stergeti Forum
+rbac#:#frm_delete#:#Stergeti Forum
 common#:#frm_delete_post#:#Stergeti un mesaj, cenzura
 common#:#frm_edit#:#Editati Forumul
-common#:#frm_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#frm_edit_permission#:#Schimbati setarile de permisiune
 common#:#frm_edit_post#:#Adaugati thread nou, posta
 common#:#frm_new#:#Forum nou
-common#:#frm_read#:#Permisiune de citire a Forumului
+rbac#:#frm_read#:#Permisiune de citire a Forumului
 common#:#frm_statistics_ranking#:#Ranking###19 Feb 2006 new variable
 common#:#frm_status_new#:#Stare 'Nou' 
 common#:#frm_status_new_desc#:#Va rugam selectati durata pentru care starea 'Nou' este pastrata pentru intrarile in forum 
-common#:#frm_visible#:#Forumul este vizibil
-common#:#frm_write#:#Editati forumul
+rbac#:#frm_visible#:#Forumul este vizibil
+rbac#:#frm_write#:#Editati forumul
 common#:#from#:#De la
 common#:#fullname#:#Nume complet
 common#:#functions#:#Functii
@@ -1743,8 +1743,8 @@ common#:#glo_a#:#un Glosar
 common#:#glo_add#:#Adaugati Glosar
 common#:#glo_added#:#Glosar adaugat
 common#:#glo_create#:#Creati Glosar
-common#:#glo_delete#:#Stergeti Glosar
-common#:#glo_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#glo_delete#:#Stergeti Glosar
+rbac#:#glo_edit_permission#:#Schimbati setarile de permisiune
 common#:#glo_join#:#Inscriere in Glosar
 common#:#glo_leave#:#Retragere din Glosar
 common#:#glo_mode#:#Mode ### 2006-8-11 --- Add new translation here.
@@ -1753,10 +1753,10 @@ common#:#glo_mode_level#:#virtual (this level only) ### 2006-8-11 --- Add new tr
 common#:#glo_mode_normal#:#normal ### 2006-8-11 --- Add new translation here.
 common#:#glo_mode_subtree#:#virtual (entire subtree) ### 2006-8-11 --- Add new translation here.
 common#:#glo_new#:#Glosar nou
-common#:#glo_read#:#Permisiune de citire a Glosarului
+rbac#:#glo_read#:#Permisiune de citire a Glosarului
 common#:#glo_upload_file#:#Fisier
-common#:#glo_visible#:#Glosarul este vizibil
-common#:#glo_write#:#Editati Glosarul
+rbac#:#glo_visible#:#Glosarul este vizibil
+rbac#:#glo_write#:#Editati Glosarul
 common#:#global#:#Global
 common#:#global_default#:#Global Default ### 2006-8-11 --- Add new translation here.
 common#:#global_fixed#:#Global Fixed ### 2006-8-11 --- Add new translation here.
@@ -1819,30 +1819,30 @@ common#:#grp_create#:#Creaza Grup
 common#:#grp_create_alm#:#Creati Modul de Invatare AICC
 common#:#grp_create_chat#:#Creati Chat
 common#:#grp_create_dbk#:#Creati Carte din Biblioteca Digitala
-common#:#grp_create_exc#:#Creati Exercitiu
-common#:#grp_create_file#:#Incarcati Fisier
-common#:#grp_create_fold#:#Creati Dosar
-common#:#grp_create_frm#:#Creati Forum
-common#:#grp_create_glo#:#Creati Glosar
-common#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
+rbac#:#grp_create_exc#:#Creati Exercitiu
+rbac#:#grp_create_file#:#Incarcati Fisier
+rbac#:#grp_create_fold#:#Creati Dosar
+rbac#:#grp_create_frm#:#Creati Forum
+rbac#:#grp_create_glo#:#Creati Glosar
+rbac#:#grp_create_grp#:#Create Group###10 Jul 2006 new variable
 common#:#grp_create_hlm#:#Creati Modul de Invatare HACP
-common#:#grp_create_htlm#:#Creati Modul de Invatare HTML
-common#:#grp_create_icrs#:#Create LearnLinc Seminar ### 2006-8-11 --- Add new translation here.
-common#:#grp_create_lm#:#Creati Modul de Invatare ILIAS
-common#:#grp_create_mep#:#Creati Baza Media
-common#:#grp_create_qpl#:#Creati Baza de Intrebari pentru Test
-common#:#grp_create_sahs#:#Creati Modul de Invatare SCORM/AICC
-common#:#grp_create_spl#:#Creati Baza de Intrebari pentru Sondaj
-common#:#grp_create_svy#:#Creati Sondaj
-common#:#grp_create_tst#:#Creati Test
-common#:#grp_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#grp_delete#:#Stergeti Grup
+rbac#:#grp_create_htlm#:#Creati Modul de Invatare HTML
+rbac#:#grp_create_icrs#:#Create LearnLinc Seminar ### 2006-8-11 --- Add new translation here.
+rbac#:#grp_create_lm#:#Creati Modul de Invatare ILIAS
+rbac#:#grp_create_mep#:#Creati Baza Media
+rbac#:#grp_create_qpl#:#Creati Baza de Intrebari pentru Test
+rbac#:#grp_create_sahs#:#Creati Modul de Invatare SCORM/AICC
+rbac#:#grp_create_spl#:#Creati Baza de Intrebari pentru Sondaj
+rbac#:#grp_create_svy#:#Creati Sondaj
+rbac#:#grp_create_tst#:#Creati Test
+rbac#:#grp_create_webr#:#Create Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#grp_delete#:#Stergeti Grup
 common#:#grp_deleted_export_files#:#Deleted selected files.###03 Nov 2005 new variable
 common#:#grp_dismiss_member#:#Sunteti sigur/a ca doriti sa eliminati urmatorii membrii din grup?
 common#:#grp_dismiss_myself#:# Sunteti sigur/a ca doriti sa va eliminati din grup?###23 Dec 2005 content changed
 common#:#grp_edit#:#Editati Grup
-common#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
-common#:#grp_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#grp_edit_learning_progress#:#Edit Learning Progress###01 Aug 2006 new variable
+rbac#:#grp_edit_permission#:#Schimbati setarile de permisiune
 common#:#grp_err_administrator_required#:#Membrul nu a fost eliminat, este necesar cel putin un administrator pe grup!
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#Fiecare grup are nevoie de cel putin un administrator de grup
 common#:#grp_err_error#:#A aparut o eroare
@@ -1851,8 +1851,8 @@ common#:#grp_err_member_could_not_be_removed#:#Membrul nu a putut fi eliminat. V
 common#:#grp_err_no_permission#:#Nu aveti permisiunea de a efectua aceasta operatiune.
 common#:#grp_err_registration_data#:#Va rugam introduceti o parola, data si timpul de expirare pentru o perioada de inregistrare valabila!###23 Dec 2005 content changed
 common#:#grp_header_edit_members#:#Editati membrii
-common#:#grp_join#:#Utilizatorul poate intra in grup
-common#:#grp_leave#:#Utilizatorul poate iesi din grup
+rbac#:#grp_join#:#Utilizatorul poate intra in grup
+rbac#:#grp_leave#:#Utilizatorul poate iesi din grup
 common#:#grp_list_users#:#Afisati utilizatorii
 common#:#grp_mail_body_new_subscription#:#You have been subscribed to this group.###03 Nov 2005 new variable
 common#:#grp_mail_body_subscription_cancelled#:#Your membership has been cancelled.###03 Nov 2005 new variable
@@ -1873,7 +1873,7 @@ common#:#grp_no_groups_selected#:#Va rugam selectati un grup
 common#:#grp_no_results_found#:#Fara rezultat
 common#:#grp_no_roles_selected#:#Va rugam selectati un rol
 common#:#grp_options#:#Optiuni
-common#:#grp_read#:#Permisiune de citire a grupului
+rbac#:#grp_read#:#Permisiune de citire a grupului
 common#:#grp_register#:#Inregistrare###23 Dec 2005 content changed
 common#:#grp_registration#:#Join group###23 Dec 2005 new variable
 common#:#grp_registration_completed#:#Inregistrare completa###23 Dec 2005 content changed
@@ -1881,8 +1881,8 @@ common#:#grp_search_enter_search_string#:#Va rugam introduceti un sir de cautari
 common#:#grp_search_members#:#Cautare utilizator
 common#:#grp_select_one_file#:#Please select one file.###03 Nov 2005 new variable
 common#:#grp_select_one_file_only#:#Please select exactly one file.###03 Nov 2005 new variable
-common#:#grp_visible#:#Grupul este vizibil
-common#:#grp_write#:#Editati Grupul
+rbac#:#grp_visible#:#Grupul este vizibil
+rbac#:#grp_write#:#Editati Grupul
 common#:#guest#:#Invitat
 common#:#guests#:#Invitati
 common#:#header_searchable#:#Searchable###27 Jan 2006 new variable
@@ -1935,14 +1935,14 @@ common#:#hours#:#hour(s)###09 Feb 2006 new variable
 common#:#hours_of_day#:#Ore din zi
 common#:#htlm#:#Modul de Invatare HTML
 common#:#htlm_add#:#Adaugati Modul de Invatare HTML
-common#:#htlm_delete#:#Stergeti Modul de Invatare HTML
+rbac#:#htlm_delete#:#Stergeti Modul de Invatare HTML
 common#:#htlm_edit#:#Editati proprietatile Modulului de Invatare HTML
-common#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#htlm_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#htlm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#htlm_edit_permission#:#Schimbati setarile de permisiune
 common#:#htlm_new#:#Modul de Invatare HTML nou
-common#:#htlm_read#:#Cititi Modulul de Invatare HTML
-common#:#htlm_visible#:#Modulul de Invatare HTML este vizibil
-common#:#htlm_write#:#Editati Modulul de Invatare HTML
+rbac#:#htlm_read#:#Cititi Modulul de Invatare HTML
+rbac#:#htlm_visible#:#Modulul de Invatare HTML este vizibil
+rbac#:#htlm_write#:#Editati Modulul de Invatare HTML
 common#:#http#:#HTTP###03 Nov 2005 new variable
 common#:#http_not_possible#:#Acest server nu suporta cereri http.
 common#:#http_path#:#Path HTTP
@@ -2241,18 +2241,18 @@ common#:#lm_a#:#un Modul de Invatare ILIAS
 common#:#lm_add#:#Adaugati Modul de Invatare ILIAS Learning Module
 common#:#lm_added#:# Modul de Invatare ILIAS
 common#:#lm_create#:#Creati Modul de Invatare ILIAS
-common#:#lm_delete#:#Stergeti Modulul de Invatare ILIAS
-common#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#lm_delete#:#Stergeti Modulul de Invatare ILIAS
+rbac#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
 common#:#lm_edit_permission#:#Schimbati setarile de permisiune
 common#:#lm_join#:#Inscriere la Modulul de Invatare ILIAS
 common#:#lm_leave#:#Iesire din Modulul de Invatare ILIAS
 common#:#lm_new#:#Nou Modul de Invatare ILIAS
-common#:#lm_read#:#Permisiune de citire a Modulului de Invatare ILIAS
+rbac#:#lm_read#:#Permisiune de citire a Modulului de Invatare ILIAS
 common#:#lm_type_aicc#:#AICC
 common#:#lm_type_hacp#:#HACP
 common#:#lm_type_scorm#:#SCORM
-common#:#lm_visible#:#Modulul de Invatare ILIAS este vizibil
-common#:#lm_write#:#Editati Modulul de Invatare ILIAS
+rbac#:#lm_visible#:#Modulul de Invatare ILIAS este vizibil
+rbac#:#lm_write#:#Editati Modulul de Invatare ILIAS
 common#:#lng#:#Limba
 common#:#lngf#:#Limbi
 common#:#lngf_edit_permission#:#Schimbati setarile de permisiune
@@ -2341,14 +2341,14 @@ common#:#membership_annulled#:#Calitatea de membru v-a fost anulata
 common#:#mep#:#Baza Media
 common#:#mep_add#:#Adaugati Baza Media
 common#:#mep_added#:#Baza Media adaugata
-common#:#mep_delete#:#Baza Media adaugata
+rbac#:#mep_delete#:#Baza Media adaugata
 common#:#mep_edit#:#Editati Proprietatile Bazei Media
-common#:#mep_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#mep_edit_permission#:#Schimbati setarile de permisiune
 common#:#mep_new#:#Baza Media noua
 common#:#mep_not_insert_already_exist#:#The following items have not been inserted because they are already in the media pool: ### 2006-8-11 --- Add new translation here.
-common#:#mep_read#:#Cititi Continutul Bazei Media
-common#:#mep_visible#:#Baza Media este vizibila
-common#:#mep_write#:#Editati Continutul Bazei Media
+rbac#:#mep_read#:#Cititi Continutul Bazei Media
+rbac#:#mep_visible#:#Baza Media este vizibila
+rbac#:#mep_write#:#Editati Continutul Bazei Media
 common#:#message#:#Mesaj
 common#:#message_content#:#Continutul Mesajului
 common#:#message_no_delivered_files#:#Nu ati livrat un fisier!###10 Jul 2006 content changed
@@ -2801,13 +2801,13 @@ common#:#publishing_organisation#:#Organizatia care a publicat
 common#:#purpose#:#Purpose ### 2006-8-11 --- Add new translation here.
 common#:#qpl#:#Test din Baza de Intrebari
 common#:#qpl_add#:#Adaugati baza de intrebari pentru test
-common#:#qpl_delete#:#Stergeti baza de intrebari pentru test
-common#:#qpl_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#qpl_delete#:#Stergeti baza de intrebari pentru test
+rbac#:#qpl_edit_permission#:#Schimbati setarile de permisiune
 common#:#qpl_new#:#Noua Baza de Intrebari pentru test
-common#:#qpl_read#:#Permisiune de citire a Bazei de Intrebari pentru Test
+rbac#:#qpl_read#:#Permisiune de citire a Bazei de Intrebari pentru Test
 common#:#qpl_upload_file#:#Incarcati fisier
-common#:#qpl_visible#:#Baza de Intrebari pentru test este vizibila
-common#:#qpl_write#:#Editati Baza de Intrebari pentru test
+rbac#:#qpl_visible#:#Baza de Intrebari pentru test este vizibila
+rbac#:#qpl_write#:#Editati Baza de Intrebari pentru test
 common#:#quarterly#:#quarterly ### 2006-8-11 --- Add new translation here.
 common#:#query_data#:#date pentru sondaj
 common#:#question#:#Intrebare
@@ -2943,14 +2943,14 @@ common#:#root_write#:#Editati meta-datele nucleului de baza al sistemului
 common#:#sahs#:#Modul de Invatare SCORM/AICC
 common#:#sahs_added#:#Modul de Invatare SCORM/AICC adaugat
 common#:#sahs_create#:#Creati Modul de Invatare SCORM/AICC
-common#:#sahs_delete#:#Stergeti Modulul de Invatare SCORM/AICC
-common#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#sahs_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#sahs_delete#:#Stergeti Modulul de Invatare SCORM/AICC
+rbac#:#sahs_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#sahs_edit_permission#:#Schimbati setarile de permisiune
 common#:#sahs_join#:#Inscriere la Modulul de Invatare SCORM/AICC
 common#:#sahs_leave#:#Iesire din Modulul de Invatare SCORM/AICC
-common#:#sahs_read#:#Permisiune de citire a Modulului de Invatare SCORM/AICC
-common#:#sahs_visible#:#Modulul de Invatare SCORM/AICC este vizibil
-common#:#sahs_write#:#Editati Modulul de Invatare SCORM/AICC
+rbac#:#sahs_read#:#Permisiune de citire a Modulului de Invatare SCORM/AICC
+rbac#:#sahs_visible#:#Modulul de Invatare SCORM/AICC este vizibil
+rbac#:#sahs_write#:#Editati Modulul de Invatare SCORM/AICC
 common#:#salutation#:#Formula de salut
 common#:#salutation_f#:#Dra./Dna.
 common#:#salutation_m#:#Dl.
@@ -3069,13 +3069,13 @@ common#:#sort_by_this_column#:#Sortati dupa aceasta coloana
 common#:#spacer#:#Spacer###23 Dec 2005 new variable
 common#:#spl#:#Sondaj din Bazele de Intrebari
 common#:#spl_add#:#Adaugati Baza de Intrebari pentru Sondaj
-common#:#spl_delete#:#Stergeti Baza de Intrebari pentru Sondaj
-common#:#spl_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#spl_delete#:#Stergeti Baza de Intrebari pentru Sondaj
+rbac#:#spl_edit_permission#:#Schimbati setarile de permisiune
 common#:#spl_new#:#Noua Baza de Intrebari pentru Sondaj
-common#:#spl_read#:#Permisiune de citire a bazei de intrebari pentru sondaj
+rbac#:#spl_read#:#Permisiune de citire a bazei de intrebari pentru sondaj
 common#:#spl_upload_file#:#Incarcati fisier
-common#:#spl_visible#:#Baza de Intrebari pentru Sondaj este vizibila
-common#:#spl_write#:#Editati Baza de Intrebari pentru Sondaj
+rbac#:#spl_visible#:#Baza de Intrebari pentru Sondaj este vizibila
+rbac#:#spl_write#:#Editati Baza de Intrebari pentru Sondaj
 common#:#ssl#:#SSL (HTTPS)###03 Nov 2005 new variable
 common#:#st_a#:#un capitol
 common#:#st_add#:#Adaugati capitol
@@ -3107,22 +3107,22 @@ common#:#summary#:#Sumar
 common#:#sure_delete_selected_users#:#Sunteti sigur/a ca doriti sa-i stergeti pe utilizatorii selectati?
 common#:#svy#:#Sondaj
 common#:#svy_add#:#Adaugati sondaj
-common#:#svy_delete#:#Stergeti sondajul
-common#:#svy_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#svy_delete#:#Stergeti sondajul
+rbac#:#svy_edit_permission#:#Schimbati setarile de permisiune
 common#:#svy_evaluation#:#Evaluation ### 2006-8-11 --- Add new translation here.
 common#:#svy_finished#:#finished ### 2006-8-11 --- Add new translation here.
-common#:#svy_invite#:#Invitati utilizatorii la un sondaj
+rbac#:#svy_invite#:#Invitati utilizatorii la un sondaj
 common#:#svy_new#:#Sondaj nou
 common#:#svy_no_content#:#No surveys available ### 2006-8-11 --- Add new translation here.
 common#:#svy_not_finished#:#not finished ### 2006-8-11 --- Add new translation here.
 common#:#svy_not_started#:#not started ### 2006-8-11 --- Add new translation here.
 common#:#svy_participate#:#Participati la un sondaj
-common#:#svy_read#:#Permisiune de citire a sondajului
+rbac#:#svy_read#:#Permisiune de citire a sondajului
 common#:#svy_run#:#Run ### 2006-8-11 --- Add new translation here.
 common#:#svy_upload_file#:#incarcati fisierul
-common#:#svy_visible#:#Sondajul este vizibil
+rbac#:#svy_visible#:#Sondajul este vizibil
 common#:#svy_warning_survey_not_complete#:#The survey is not finished! ### 2006-8-11 --- Add new translation here.
-common#:#svy_write#:#Editati sondajul
+rbac#:#svy_write#:#Editati sondajul
 common#:#system#:#Sistem
 common#:#system_check#:#Verificarea Sistemului
 common#:#system_choose_language#:#Alegeti limba Sistemului
@@ -3201,19 +3201,19 @@ common#:#treeview#:#Vizualizarea structurata
 common#:#tst#:#Test
 common#:#tst_add#:#Adaugati test
 common#:#tst_anon_eval#:#Results ### 2006-8-11 --- Add new translation here.
-common#:#tst_delete#:#Stergeti testul
-common#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#tst_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#tst_delete#:#Stergeti testul
+rbac#:#tst_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
+rbac#:#tst_edit_permission#:#Schimbati setarile de permisiune
 common#:#tst_new#:#Test nou
 common#:#tst_no_content#:#No tests available ### 2006-8-11 --- Add new translation here.
-common#:#tst_read#:#Permisiune de citire a testului
+rbac#:#tst_read#:#Permisiune de citire a testului
 common#:#tst_run#:#Run ### 2006-8-11 --- Add new translation here.
 common#:#tst_statistical_evaluation#:#Statistics ### 2006-8-11 --- Add new translation here.
 common#:#tst_upload_file#:#Incarcati fisierul
 common#:#tst_user_not_invited#:#You are not supposed to take this exam. ### 2006-8-11 --- Add new translation here.
-common#:#tst_visible#:#Testul este vizibil
+rbac#:#tst_visible#:#Testul este vizibil
 common#:#tst_warning_test_not_complete#:#The test is not complete! ### 2006-8-11 --- Add new translation here.
-common#:#tst_write#:#Editati testul
+rbac#:#tst_write#:#Editati testul
 common#:#txt_add_object_instruction1#:#Cautati locatia unde doriti sa adaugati
 common#:#txt_add_object_instruction2#:#.
 common#:#txt_registered#:#V-ati inregistrat cu succes la ILIAS. Va rugam apasati pe butonul de mai jos daca doriti sa va logati la ILIAS folosind contul dumneavoastra de utilizator.
@@ -3380,13 +3380,13 @@ common#:#webr#:#Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_active#:#Active ### 2006-8-11 --- Add new translation here.
 common#:#webr_add#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_add_item#:#Add Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#webr_delete#:#Delete Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_delete#:#Delete Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_delete_items#:#Delete Web Resource(s) ### 2006-8-11 --- Add new translation here.
 common#:#webr_deleted_items#:#Deleted Web Resource(s). ### 2006-8-11 --- Add new translation here.
 common#:#webr_disable_check#:#Disable check ### 2006-8-11 --- Add new translation here.
 common#:#webr_edit#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_edit_item#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
-common#:#webr_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
 common#:#webr_fillout_all#:#Please fill out all required fields. ### 2006-8-11 --- Add new translation here.
 common#:#webr_item_updated#:#Saved modifications ### 2006-8-11 --- Add new translation here.
 common#:#webr_join#:#Subscribe Web Resource ### 2006-8-11 --- Add new translation here.
@@ -3397,10 +3397,10 @@ common#:#webr_modified_items#:#Saved modifications. ### 2006-8-11 --- Add new tr
 common#:#webr_never_checked#:#Never checked ### 2006-8-11 --- Add new translation here.
 common#:#webr_new#:#Add new Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_no_items_created#:#No Web Resources created ### 2006-8-11 --- Add new translation here.
-common#:#webr_read#:#Read access to Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_read#:#Read access to Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webr_sure_delete_items#:#Do you really want to delete the following Web Resource(s)? ### 2006-8-11 --- Add new translation here.
-common#:#webr_visible#:#Web Resource is visible ### 2006-8-11 --- Add new translation here.
-common#:#webr_write#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_visible#:#Web Resource is visible ### 2006-8-11 --- Add new translation here.
+rbac#:#webr_write#:#Edit Web Resource ### 2006-8-11 --- Add new translation here.
 common#:#webservices#:#Webservices ### 2006-8-11 --- Add new translation here.
 common#:#week#:#Saptamana
 common#:#weekly#:#weekly ### 2006-8-11 --- Add new translation here.
@@ -6989,19 +6989,19 @@ rbac#:#feed_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#feed_visible#:#Web Feed is visible###02 04 2007 new variable
 rbac#:#feed_read#:#Read access to Web Feed###02 04 2007 new variable
 rbac#:#feed_write#:#Edit Web Feed###02 04 2007 new variable
-common#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
-common#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
-common#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
+rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
+rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
+rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
 common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
 common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
 common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
 common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
-common#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
+rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#cat_create_mcst#:#Create MediaCast###02 04 2007 new variable
-common#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
+rbac#:#grp_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#crs_create_mcst#:#Create MediaCast###02 04 2007 new variable
 rbac#:#fold_create_mcst#:#Create MediaCast###02 04 2007 new variable
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object###02 04 2007 new variable
@@ -7158,7 +7158,7 @@ pd#:#pd_time_before_removal#:#Maximum Inactivity Time (Minutes)###29 05 2007 new
 pd#:#pd_time_before_removal_info#:#After this time of inactivity, users are removed from the list of "Active Users".###29 05 2007 new variable
 pd#:#pd_osi_host#:#OSI Host###29 05 2007 new variable
 pd#:#pd_osi_host_info#:#Instant Messenger Online Status Indicator Host (optional). See:###29 05 2007 new variable
-common#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
+rbac#:#mcst_delete#:#Delete Mediacast###29 05 2007 new variable
 rbac#:#feed_delete#:#Delete Web Feed###29 05 2007 new variable
 jsmath#:#jsmath_extt_jsmath#:#jsMath###29 05 2007 new variable
 jsmath#:#jsmath_settings#:#jsMath Settings###29 05 2007 new variable
@@ -7518,7 +7518,7 @@ common#:#sorting_info_title#:#Choose this mode to sort items automatically by ti
 common#:#sorting_manual_header#:#Sort Manually###25 09 2007 new variable
 common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.###25 09 2007 new variable
 common#:#sorting_save#:#Save Sorting###25 09 2007 new variable
-common#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
+rbac#:#frm_add_thread#:#Add new topi###25 09 2007 new variable
 news#:#news_x_files_created#:#%s Files have been added.###23 10 2007 new variable
 news#:#news_x_files_updated#:#%s Files have been updated.###23 10 2007 new variable
 news#:#news_1_file_created#:#1 File has been added.###23 10 2007 new variable
@@ -7538,8 +7538,8 @@ common#:#mail_search_groups_not_found#:#No groups were found you are belonging t
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.###23 10 2007 new variable
 auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
 auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-common#:#frm_add_post#:#Add new post###23 10 2007 new variable
-common#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
+rbac#:#frm_add_post#:#Add new post###23 10 2007 new variable
+rbac#:#frm_moderate_frm#:#Delete a post, censorship###23 10 2007 new variable
 chat#:#chat_user_dropped_private#:#The user was disinvited/removed from the private chatroom.###23 10 2007 new variable
 chat#:#chat_user_invited_public#:#The user was invited to the public chat.###23 10 2007 new variable
 chat#:#chat_user_invited_private#:#The user was invited to the private chatroom.###23 10 2007 new variable
@@ -7798,8 +7798,8 @@ assessment#:#reset_terms#:#Reset Term Positions###02 06 2008 new variable
 form#:#form_retype_password#:#Retype Password###02 06 2008 new variable
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.###02 06 2008 new variable
 form#:#form_password_not_allowed_for_auth#:#It is not possible to change the password for the chosen authentication method.###02 06 2008 new variable
-common#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
-common#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
+rbac#:#wiki_edit_content#:#Edit Wiki Pages###02 06 2008 new variable
+rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners###02 06 2008 new variable
 common#:#cat_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#fold_create_write#:#Create Wiki###02 06 2008 new variable
 common#:#crs_create_write#:#Create Wiki###02 06 2008 new variable
@@ -8327,11 +8327,11 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.###
 payment#:#payment_login_to_buy_object#:#Please login to ILIAS to put objects into the shopping cart.###23 07 2008 new variable
 dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new variable
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
-common#:#wiki_read#:#Read Wiki###26 07 2008 new variable
-common#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
+rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
+rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
 common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
-common#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
-common#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
+rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
+rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
 common#:#il_grp_status_closed#:#Group closed###26 07 2008 new variable
 common#:#il_grp_status_open#:#Group open###26 07 2008 new variable
@@ -12384,7 +12384,7 @@ common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###18 01 2012 new variable
 common#:#attach_sr_invoice#:#An Email anhängen###18 01 2012 new variable
 common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###18 01 2012 new variable
 common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###18 01 2012 new variable
-common#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
+rbac#:#tst_tst_statistics#:#Access to Test Statistics###18 01 2012 new variable
 common#:#ignore_required_fields#:#Ignore required fields###18 01 2012 new variable
 common#:#ignore_required_fields_info#:#If activated, mandatory fields are not validated anymore (if possible) after submitting this form. The concerned user has to complete his personal profile after the next login.###18 01 2012 new variable
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.###18 01 2012 new variable
