@@ -68,13 +68,12 @@
 				} 
 
 				var template = new Array();
-				var parameters = "?client_id=" + client_id;
-				if (src.length > 0)
-				{
+				var parameters = new String();
+				parameters += "?obj_id=" + obj_id;
+				parameters += "&obj_type=" + obj_type;
+				if (src.length > 0) {
 					parameters += "&update=1";
 				}
-				parameters += "&obj_id=" + obj_id;
-				parameters += "&obj_type=" + obj_type;
 
 				ed.windowManager.open({
 					file : url + '/imagemanager.php' + parameters,
