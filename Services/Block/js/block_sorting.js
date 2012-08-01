@@ -43,7 +43,7 @@
 
 							for(i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
-								if ($('>div', $elm).size() == 0) {
+								if ($(">div", $elm).size() == 0) {
 									var $container = $elm.parent();
 									$container.css("width", "");
 									$elm.css({
@@ -62,8 +62,8 @@
 
 							for(i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
-								$elm.sortable('disable');
-								if ($('>div', $elm).size() == 0) {
+								$elm.sortable("disable");
+								if ($(">div", $elm).size() == 0) {
 									var $container = $elm.parent();
 									$container.css("width", "0px");
 									$elm.css({
@@ -75,48 +75,45 @@
 								}
 							}
 
-							// get serialized data of the concerning sortable objects
 							for(i in internals.sortableContainer) {
-								postData.push($(internals.sortableContainer[i]).sortable('ilColumnSideSerialize', data.properties.columns[i]));
+								postData.push($(internals.sortableContainer[i]).sortable("ilColumnSideSerialize", data.properties.column_parameter[i]));
 							}
 
 							// send data to server
 							$.ajax({
-								type:    'POST',
-								dataType:'json',
-								data:    postData.join('&'),
+								type:    "POST",
+								dataType:"json",
+								data:    postData.join("&"),
 								url:     data.properties.url,
 								success: function (response) {
-									// finally enable all sortable objects
 									for(i in internals.sortableContainer) {
-										$(internals.sortableContainer[i]).sortable('enable');
+										$(internals.sortableContainer[i]).sortable("enable");
 
 										$(internals.sortableContainer[i]).find("tr.il_adv_sel").each(function() {
-											$(this).attr('onclick', $(this).attr('onclick').replace(/col_side=(left|right)/, 'col_side=' + data.properties.columns[i]));
+											$(this).attr("onclick", $(this).attr("onclick").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
 										});
 
 										$(internals.sortableContainer[i]).find("td.il_adv_sel a").each(function() {
-											$(this).attr('href', $(this).attr('href').replace(/col_side=(left|right)/, 'col_side=' + data.properties.columns[i]));
+											$(this).attr("href", $(this).attr("href").replace(/col_side=(left|right)/, "col_side=" + data.properties.column_parameter[i]));
 										});
 										
 									}
 								}
 							}).fail(function(jqXHR, textStatus) {
-								// finally enable all sortable objects
 								for(i in internals.sortableContainer) {
-									$(internals.sortableContainer[i]).sortable('enable');
+									$(internals.sortableContainer[i]).sortable("enable");
 								}
 							});
 
 						},
 						opacity: 0.6,
 						revert: true,
-						handle: '.ilBlockHeader',
-						placeholder: 'iosPdBlockDragAndDropPlaceholder',
+						handle: ".ilBlockHeader",
+						placeholder: "iosPdBlockDragAndDropPlaceholder",
 						connectWith: ".iosPdBlockSortableContainer",
 						forcePlaceholderSize: true,
-						cursor: 'move',
-						items: '>div'
+						cursor: "move",
+						items: ">div"
 					}).disableSelection();
 				});
 			}

@@ -149,20 +149,7 @@ class ilColumnGUI
 	*/
 	public function __construct($a_col_type = "", $a_side = "", $use_std_context = false)
 	{
-		global $ilUser, $tpl, $ilCtrl;
-
 		$this->setColType($a_col_type);
-		//if ($a_side == "")
-		//{
-		//	$a_side = $_GET["col_side"];
-		//}
-
-		if (isset($_SESSION["col_".$this->getColType()."_movement"]) &&
-			$_SESSION["col_".$this->getColType()."_movement"] == "on")
-		{
-			$this->setMovementMode(true);
-		}
-		
 		$this->setSide($a_side);
 	}
 
@@ -693,12 +680,22 @@ class ilColumnGUI
 			}
 		}
 
+		$this->addBlockSorting();
+	}
+
+	/**
+ 	 *
+	 */
+	protected function addBlockSorting()
+	{
 		if($this->getSide() == IL_COL_CENTER && $this->getEnableMovement())
 		{
 			/**
 			 * @var $ilBrowser ilBrowser
+			 * @var $tpl ilTemplate
+			 * @var $ilCtrl ilCtrl
 			 */
-			global $ilBrowser;
+			global $ilBrowser, $tpl, $ilCtrl;
 
 			include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
 			iljQueryUtil::initjQuery();
@@ -708,35 +705,19 @@ class ilColumnGUI
 			{
 				$tpl->addJavaScript('./Services/jQuery/js/jquery.ui.touch-punch.min.js');
 			}
-			
 			$tpl->addJavaScript('./Services/Block/js/block_sorting.js');
-			
+
 			// set the col_side parameter to pass the ctrl structure flow
 			$ilCtrl->setParameter($this, 'col_side', IL_COL_CENTER);
 
 			$this->tpl->setVariable('BLOCK_SORTING_STORAGE_URL', $ilCtrl->getLinkTarget($this, 'saveBlockSortingAsynch', '', true, false));
 			$this->tpl->setVariable('BLOCK_COLUMNS', json_encode(array('il_left_col', 'il_right_col')));
-			$this->tpl->setVariable('BLOCK_COLUMN_SELECTOR', '#il_left_col,#il_right_col');
-			$this->tpl->setVariable('BLOCK_COLUMNS_TYPES', json_encode(array(IL_COL_LEFT, IL_COL_RIGHT)));
+			$this->tpl->setVariable('BLOCK_COLUMNS_SELECTOR', '#il_left_col,#il_right_col');
+			$this->tpl->setVariable('BLOCK_COLUMNS_PARAMETERS', json_encode(array(IL_COL_LEFT, IL_COL_RIGHT)));
 
 			// restore col_side parameter
-			$ilCtrl->setParameter($this, 'col_side' ,$this->getSide());
-		}
-	}
-	
-	function toggleMovement()
-	{
-		global $ilCtrl;
-		
-		if ($_SESSION["col_".$this->getColType()."_movement"] == "on")
-		{
-			$_SESSION["col_".$this->getColType()."_movement"] = "off";
-		}
-		else
-		{
-			$_SESSION["col_".$this->getColType()."_movement"] = "on";
-		}
-		$ilCtrl->returnToParent($this);
+			$ilCtrl->setParameter($this, 'col_side', $this->getSide());
+ 		}
 	}
 
 	/**
