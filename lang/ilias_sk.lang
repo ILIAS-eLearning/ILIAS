@@ -1459,7 +1459,7 @@ chat#:#chat_drop_user#:#Uživatel vyhozen
 chat#:#chat_edit#:#Upravit diskusi
 chat#:#chat_edit_smiley#:#Upravit smajlík
 chat#:#chat_empty#:#Prázdný
-chat#:#chat_enable_autoscroll#:#Zapnout automatické rolování
+chatroom#:#chat_enable_autoscroll#:#Zapnout automatické rolování
 chat#:#chat_enter_valid_username#:#Vložte prosím platné jméno uživatele.
 chat#:#chat_export_all#:#Bez omezení (všichni uživatelé s přístupem mohou být exportovány)
 chat#:#chat_export_info#:#Zobrazí exportního tlačítka pro aktuální hovornu. Zprávy budou exportovány do html.
@@ -1498,14 +1498,14 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#citrónová
 chat#:#chat_maroon#:#kaštanová
 chat#:#chat_message_notify#:#Oznámení zpráv
-chat#:#chat_message_notify_activate#:#Aktivovat oznámení zpráv
+chatroom#:#chat_message_notify_activate#:#Aktivovat oznámení zpráv
 chat#:#chat_message_notify_deactivate#:#Deaktivovat upozornění zprávy
 chat#:#chat_messages_deleted#:#Zprávy byly smazány.
 chat#:#chat_moderator_password#:#Heslo moderátora
 chat#:#chat_navy#:#tmavomodrá
-chat#:#chat_new_invitation_sound_status#:#Přehrát zvuk, když uživatel obdrží pozvání k nové diskuzi
+chatroom#:#chat_new_invitation_sound_status#:#Přehrát zvuk, když uživatel obdrží pozvání k nové diskuzi
 chat#:#chat_new_message#:#Nová zpráva
-chat#:#chat_new_message_sound_status#:#Přehrát zvuk, když do diskuze byla vložena nová zpráva
+chatroom#:#chat_new_message_sound_status#:#Přehrát zvuk, když do diskuze byla vložena nová zpráva
 chat#:#chat_no_active_users#:#Žádný uživatel není přítomen.
 chat#:#chat_no_blocked#:#Žádný blokovaný uživatel není dostupný
 chat#:#chat_no_connection#:#Nemohu se spojit s diskusním serverem.

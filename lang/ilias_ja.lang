@@ -1663,7 +1663,7 @@ chat#:#chat_drop_user#:#ユーザーをキック
 chat#:#chat_edit#:#チャットを編集
 chat#:#chat_edit_smiley#:#スマイルを編集
 chat#:#chat_empty#:#空
-chat#:#chat_enable_autoscroll#:#自動スクロールを有効
+chatroom#:#chat_enable_autoscroll#:#自動スクロールを有効
 chat#:#chat_enter_valid_username#:#正しいユーザー名を入力してください。
 chat#:#chat_export_all#:#制限なし(アクセスユーザー全てをエクスポート可能）
 chat#:#chat_export_info#:#現在のルーム用のエクスポートボタンを表示します。メッセージはhtmlへエクスポ－トされます。
@@ -1702,14 +1702,14 @@ chat#:#chat_level_info#:#参考情報
 chat#:#chat_lime#:#ライム
 chat#:#chat_maroon#:#マルーン
 chat#:#chat_message_notify#:#メッセージ通知機能
-chat#:#chat_message_notify_activate#:#チャットの通知
+chatroom#:#chat_message_notify_activate#:#チャットの通知
 chat#:#chat_message_notify_deactivate#:#メッセージ通知を使用しない
 chat#:#chat_messages_deleted#:#メッセージは削除されました。
 chat#:#chat_moderator_password#:#モデレータのパスワード
 chat#:#chat_navy#:#navy
-chat#:#chat_new_invitation_sound_status#:#チャットへの招待をユーザーが受領したら音で通知
+chatroom#:#chat_new_invitation_sound_status#:#チャットへの招待をユーザーが受領したら音で通知
 chat#:#chat_new_message#:#新しいメッセージ
-chat#:#chat_new_message_sound_status#:#チャットへ新規メッセージが投稿された音で通知
+chatroom#:#chat_new_message_sound_status#:#チャットへ新規メッセージが投稿された音で通知
 chat#:#chat_no_active_users#:#もうユーザーはいません。
 chat#:#chat_no_blocked#:#ブロックされたユーザーはいません
 chat#:#chat_no_connection#:#チャットサーバーへコンタクトできません

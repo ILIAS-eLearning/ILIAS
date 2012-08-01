@@ -1352,7 +1352,7 @@ chat#:#chat_drop_user#:#Felhasználó kizárva.
 chat#:#chat_edit_smiley#:#Hangulatjel szerkesztése
 chat#:#chat_edit#:#Csevegés szerkesztése
 chat#:#chat_empty#:#Kiürítés
-chat#:#chat_enable_autoscroll#:#Automatikus görgetés engedélyezése
+chatroom#:#chat_enable_autoscroll#:#Automatikus görgetés engedélyezése
 chat#:#chat_enter_valid_username#:#Adjon meg egy érvényes felhasználói nevet!
 chat#:#chat_export_all#:#Nincs megkötés (minden felhasználó, aki eléri az objektumot, jogosult az exportálásra)
 chat#:#chat_export_info#:#Exportgomb megjenítése a jelenlegi szobához. Az üzenetek html formába kerülnek exportálásra.
@@ -1390,14 +1390,14 @@ chat#:#chat_level_fatal#:#Végzetes
 chat#:#chat_level_info#:#Információ
 chat#:#chat_lime#:#borostyánszín
 chat#:#chat_maroon#:#gesztenyebarna
-chat#:#chat_message_notify_activate#:#Csevegésüzenetek
+chatroom#:#chat_message_notify_activate#:#Csevegésüzenetek
 chat#:#chat_message_notify_deactivate#:#Üzenetértesítő kikapcsolása
 chat#:#chat_message_notify#:#Üzenetértesítő
 chat#:#chat_messages_deleted#:#Az üzenetek törlésre kerültek.
 chat#:#chat_moderator_password#:#Moderátor jelszava
 chat#:#chat_navy#:#matrózkék
-chat#:#chat_new_invitation_sound_status#:#Hang lejátszása, ha a felhasználó  meghívást kap a csevegésbe
-chat#:#chat_new_message_sound_status#:#Hang lejátszása, ha új üzenetet írtak a csevegésbe
+chatroom#:#chat_new_invitation_sound_status#:#Hang lejátszása, ha a felhasználó  meghívást kap a csevegésbe
+chatroom#:#chat_new_message_sound_status#:#Hang lejátszása, ha új üzenetet írtak a csevegésbe
 chat#:#chat_new_message#:#Új üzenet
 chat#:#chat_no_active_users#:#Nincs jelen más felhasználó.
 chat#:#chat_no_blocked#:#A nem blokkolt felhasználók elérhetők

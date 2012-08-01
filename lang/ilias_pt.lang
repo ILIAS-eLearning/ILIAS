@@ -1664,7 +1664,7 @@ chat#:#chat_drop_user#:#Utilizador dispensado
 chat#:#chat_edit#:#Editar chat
 chat#:#chat_edit_smiley#:#Edit Smiley
 chat#:#chat_empty#:#Empty
-chat#:#chat_enable_autoscroll#:#Enable Autoscroll
+chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chat#:#chat_enter_valid_username#:#Please enter a valid username.
 chat#:#chat_export_all#:#No restrictions (all users with access may export)
 chat#:#chat_export_info#:#Displays an export button for the current room. The messages will be exported to html.
@@ -1703,14 +1703,14 @@ chat#:#chat_level_info#:#Info
 chat#:#chat_lime#:#lima
 chat#:#chat_maroon#:#castanho avermelhado
 chat#:#chat_message_notify#:#Message Notifier
-chat#:#chat_message_notify_activate#:#Activate Message Notify
+chatroom#:#chat_message_notify_activate#:#Activate Message Notify
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify
 chat#:#chat_messages_deleted#:#As mensagens form apagadas.
 chat#:#chat_moderator_password#:#Senha do Moderador###07 Apr 2005 content changed
 chat#:#chat_navy#:#azul-marinho
-chat#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
+chatroom#:#chat_new_invitation_sound_status#:#Play a sound if a user receives a new chat invitation
 chat#:#chat_new_message#:#New message
-chat#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
+chatroom#:#chat_new_message_sound_status#:#Play a sound if a new Message is received
 chat#:#chat_no_active_users#:#Nenhuns utilizadores presentes.
 chat#:#chat_no_blocked#:#No blocked users available
 chat#:#chat_no_connection#:#Não pode contactar o servidor de chat.

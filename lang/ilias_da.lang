@@ -8567,7 +8567,7 @@ mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Medlemmerne af
 chat#:#chat_chat_invitation#:#Chat invitationer
 chat#:#chat_general_settings#:#Generelle indstillinger
 chat#:#chat_sounds#:#Lyde
-chat#:#chat_new_invitation_sound_status#:#Afspil en lyd hvis brugeren modtager en chatinvitation
+chatroom#:#chat_new_invitation_sound_status#:#Afspil en lyd hvis brugeren modtager en chatinvitation
 chat#:#chat_sound_status_activate#:#Aktiver lyde
 chat#:#chat_sound_status_deactivate#:#Deaktiver lyde
 assessment#:#reset_pictures#:#Ryd billedpositioner
@@ -9123,15 +9123,15 @@ chat#:#chat_smiley_keywords_one_per_line_note#:#Du kan indtaste flere tekster fo
 chat#:#chat_upload_smiley#:#Upload smiley
 chat#:#chat_smiley_image_only_if_changed#:#Please enter a new Image only if you want to change the existing. If no new Image is given, the existing won't be changed.###30 04 2009 new variable
 chat#:#chat_delete_selected#:#Slet valgte smilies
-chat#:#chat_new_message_sound_status#:#Afspil en lyd når der kommer en ny besked
+chatroom#:#chat_new_message_sound_status#:#Afspil en lyd når der kommer en ny besked
 chat#:#edit_smilies#:#Ret smilies
 chat#:#chat_message_notify#:#Message Notifier###30 04 2009 new variable
-chat#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
+chatroom#:#chat_message_notify_activate#:#Activate Message Notify###30 04 2009 new variable
 chat#:#chat_message_notify_deactivate#:#Deactivate Message Notify###30 04 2009 new variable
 chat#:#chat_smilies_status#:#Chat smilies
 chat#:#chat_smilies_activate#:#Aktiver smilies
 chat#:#chat_smilies_deactivate#:#Deaktiver smilies
-chat#:#chat_enable_autoscroll#:#Aktiver autoscroll
+chatroom#:#chat_enable_autoscroll#:#Aktiver autoscroll
 chat#:#chat_chatviewer#:#Chatviser
 chat#:#chat_room_does_not_exist#:#The Chat Room does not exist. Maybe it has been removed or you used an invalid link.###30 04 2009 new variable
 chat#:#chat_user_hidden#:#skjult
