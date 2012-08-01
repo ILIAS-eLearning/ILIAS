@@ -11836,3 +11836,7 @@ if(!$ilDB->tableExists('qpl_a_essay'))
 		$ilDB->createSequence('qpl_fb_essay');
 	}
 ?>
+<#3687>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
