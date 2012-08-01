@@ -1836,25 +1836,12 @@ common#:#chapter_number#:#Chapter Number
 common#:#chapter_title#:#Chapter Title
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_active_in#:#Active in chat:
-common#:#chat_add#:#Add Chat
-common#:#chat_copy#:#Copy Chat
-common#:#chat_delete#:#Delete chat
-common#:#chat_edit_permission#:#Change permission settings
 common#:#chat_enter_public_room_tooltip#:#Enter public chat.
 common#:#chat_enter_public_room#:#Public Chat
 common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
 common#:#chat_invite_public_room#:#Public Chat
-common#:#chat_invite#:#Chat
-common#:#chat_link_to_this_chat#:#Link to this chat
-common#:#chat_moderate#:#Moderate chat
-common#:#chat_new#:#New Chat
-common#:#chat_read#:#Read/Write access to chat
-common#:#chat_settings#:#Chat Settings
-common#:#chat_users_active#:#Active users
-common#:#chat_visible#:#Chat is visible
-common#:#chat_write#:#Edit chat
-common#:#chat#:#Chat
+chatroom#:#chat_settings#:#Chat Settings
+chatroom#:#chat_users_active#:#Active users
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
 common#:#check_languages#:#Check All Languages
