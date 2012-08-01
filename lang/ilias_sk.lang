@@ -2044,7 +2044,7 @@ common#:#cat_add#:#Přidat kategorii
 common#:#cat_added#:#Kategorie přidána
 rbac#:#cat_cat_administrate_users#:#Správa lokálních účtů uživatelů
 common#:#cat_clear_page#:#Smazat stránku
-common#:#cat_copy#:#Kopírovat kategorii
+rbac#:#cat_copy#:#Kopírovat kategorii
 rbac#:#cat_copy_threads_info#:#Rozhodněte prosím, která kategorie položek má být zkopírována, připojena, nebo odmítnuta.
 rbac#:#cat_create#:#Vytvořit kategorii
 common#:#cat_create_alm#:#Vytvořit výukový modul AICC
@@ -2281,7 +2281,7 @@ common#:#crs_at_least_one_admin#:#Zde musí být alespoň jeden správce kurzu.
 common#:#crs_available#:#Dostupné kurzy
 common#:#crs_cancel_waiting_list#:#Skutečně se chcete vymazat ze seznamu čekatelů kurzu "%s"?
 common#:#crs_container_link_not_allowed#:#Není možné spojit kontejner objektů
-common#:#crs_copy#:#Kopírovat kurz
+rbac#:#crs_copy#:#Kopírovat kurz
 rbac#:#crs_copy_threads_info#:#Určete prosím, které materiály kurzu mají být zkopírovány, připojeny či dokonce vynechány.
 common#:#crs_create#:#Vytvořit kurz
 common#:#crs_create_alm#:#Vytvořit výukový modul AICC
@@ -2547,7 +2547,7 @@ common#:#exc_add#:#Přidat cvičení
 common#:#exc_added#:#Cvičení přidáno
 common#:#exc_ask_delete#:#Smazat soubor?
 common#:#exc_assign_usr#:#Přiřadit uživatele
-common#:#exc_copy#:#Kopírovat cvičení
+rbac#:#exc_copy#:#Kopírovat cvičení
 common#:#exc_create#:#Vytvořit cvičení
 common#:#exc_date_not_valid#:#Datum je neplatné
 common#:#exc_deassign_members#:#Odstranit účastníky
@@ -2661,7 +2661,7 @@ common#:#file_add#:#Odeslat soubor
 common#:#file_add_and_metadata#:#Odeslat a upravit Metadata
 common#:#file_added#:#Soubor uložen
 common#:#file_allowed_suffixes#:#Přípustné typy souborů:
-common#:#file_copy#:#Kopírovat soubor
+rbac#:#file_copy#:#Kopírovat soubor
 common#:#file_created#:#Nový soubor byl přidán.
 rbac#:#file_delete#:#Smazat soubor
 common#:#file_edit#:#Upravit soubor
@@ -2712,7 +2712,7 @@ common#:#fold#:#Složka
 common#:#fold_a#:#složka
 common#:#fold_add#:#Přidat složku
 common#:#fold_added#:#Složka přidána
-common#:#fold_copy#:#Kopírovat složku
+rbac#:#fold_copy#:#Kopírovat složku
 common#:#fold_copy_threads_info#:#Rozhodněte prosím, které soubory mají být kopírovány, připojeny, nebo zamítnuty.
 common#:#fold_create_alm#:#Vytvořit výukový modul AICC
 common#:#fold_create_chat#:#Vytvořit diskusi
@@ -2786,7 +2786,7 @@ rbac#:#frm_add_post#:#Přidat novou poštu
 rbac#:#frm_add_thread#:#Přidat nové téma
 common#:#frm_added#:#Fórum přidáno
 common#:#frm_article#:#článek
-common#:#frm_copy#:#Kopírovat fórum
+rbac#:#frm_copy#:#Kopírovat fórum
 common#:#frm_create#:#Vytvořit fórum
 rbac#:#frm_delete#:#Smazat fórum
 common#:#frm_delete_post#:#Smazat poštu, cenzúra
@@ -2817,7 +2817,7 @@ common#:#glo#:#Glosář
 common#:#glo_a#:#Glosář
 common#:#glo_add#:#Přidat glosář
 common#:#glo_added#:#Glosář přidán
-common#:#glo_copy#:#Kopírovat glosář
+rbac#:#glo_copy#:#Kopírovat glosář
 common#:#glo_create#:#Vytvořit glosář
 rbac#:#glo_delete#:#Smazat glosář
 rbac#:#glo_edit_permission#:#Změnit nastavení oprávnění
@@ -2895,7 +2895,7 @@ common#:#grp_app_send_mail#:#Zaslat žadateli zprávu.
 common#:#grp_back#:#Zpět
 common#:#grp_btn_unsubscribe#:#Odhlásit ze skupiny
 common#:#grp_cancel_waiting_list#:#Skutečně se chcete vymazat ze seznamu čekatelů skupiny "%s"?
-common#:#grp_copy#:#Kopírovat skupinu
+rbac#:#grp_copy#:#Kopírovat skupinu
 common#:#grp_copy_threads_info#:#Rozhodněte prosím, které materiály mají být kopírovány, připojeny, nebo dokonce zamítnuty.
 common#:#grp_count_members#:#Počet členů
 common#:#grp_create#:#Vytvořit skupinu
@@ -3033,7 +3033,7 @@ common#:#hours#:#Hodin(y)
 common#:#hours_of_day#:#Hodiny dne
 common#:#htlm#:#Výukový modul HTML
 common#:#htlm_add#:#Přidat výukový modul HTML
-common#:#htlm_copy#:#Kopírovat výukový modul HTML
+rbac#:#htlm_copy#:#Kopírovat výukový modul HTML
 rbac#:#htlm_delete#:#Smazat výukový modul HTML
 common#:#htlm_edit#:#Upravit vlastnosti výukového modulu HTML
 rbac#:#htlm_edit_learning_progress#:#Upravit postup výuky
@@ -3395,11 +3395,11 @@ common#:#lm#:#Výukový modul ILIAS
 common#:#lm_a#:#výukový modul ILIAS
 common#:#lm_add#:#Přidat výukový modul ILIAS
 common#:#lm_added#:#Výukový modul ILIAS přidán
-common#:#lm_copy#:#Kopírovat výukový modul ILIAS
+rbac#:#lm_copy#:#Kopírovat výukový modul ILIAS
 common#:#lm_create#:#Vytvořit výukový modul ILIAS
 rbac#:#lm_delete#:#Smazat výukový modul ILIAS
 rbac#:#lm_edit_learning_progress#:#Upravit postup výuky
-common#:#lm_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#lm_edit_permission#:#Změnit nastavení oprávnění
 common#:#lm_join#:#Zapsat do výukového modulu ILIAS
 common#:#lm_leave#:#Odepsat z výukového modulu ILIAS
 common#:#lm_new#:#Nový výukový modul ILIAS
@@ -3522,7 +3522,7 @@ common#:#max_number_rec#:#Maximální počet záznamů
 common#:#max_time#:#Maximální čas
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Přidat MediaCast
-common#:#mcst_copy#:#Kopírovat MediaCast
+rbac#:#mcst_copy#:#Kopírovat MediaCast
 rbac#:#mcst_delete#:#Smazat Mediacast
 rbac#:#mcst_edit_permission#:#Změnit nastavení oprávnění
 common#:#mcst_new#:#Nový MediaCast
@@ -4192,7 +4192,7 @@ common#:#publishing_organisation#:#Publikováno organizací
 common#:#purpose#:#Účel
 common#:#qpl#:#Zásobník otázek testu
 common#:#qpl_add#:#Přidat zásobník otázek testu
-common#:#qpl_copy#:#Kopírovat zásobník otázek testu
+rbac#:#qpl_copy#:#Kopírovat zásobník otázek testu
 rbac#:#qpl_delete#:#Smazat zásobník otázek testu
 rbac#:#qpl_edit_permission#:#Změnit nastavení oprávnění
 common#:#qpl_new#:#Nový zásobník otázek testu
@@ -4342,12 +4342,12 @@ common#:#rolt_add#:#Přidat šablonu role
 common#:#rolt_added#:#Šablona role přidána
 common#:#rolt_edit#:#Upravit šablonu role
 common#:#rolt_new#:#Nová šablona role
-common#:#root_create_cat#:#Uživatel může vytvářet kategorie
+rbac#:#root_create_cat#:#Uživatel může vytvářet kategorie
 common#:#root_edit#:#Upravit uzel root systému
-common#:#root_edit_permission#:#Změnit nastavení oprávnění
-common#:#root_read#:#Přístup číst k systému ILIAS
-common#:#root_visible#:#Systém ILIAS je viditelný
-common#:#root_write#:#Upravit metadata root uzlu systému
+rbac#:#root_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#root_read#:#Přístup číst k systému ILIAS
+rbac#:#root_visible#:#Systém ILIAS je viditelný
+rbac#:#root_write#:#Upravit metadata root uzlu systému
 common#:#row#:#Řádek
 common#:#rows#:#Řádky
 common#:#rte_editor_disabled#:#Editor Rich Text vypnut
@@ -4444,7 +4444,7 @@ common#:#server#:#Server
 common#:#server_data#:#Data serveru
 common#:#server_software#:#Software serveru
 common#:#sess#:#Sezení
-common#:#sess_copy#:#Kopírovat lekci
+rbac#:#sess_copy#:#Kopírovat lekci
 common#:#sess_fixed_duration#:#Pevná doba sezení
 common#:#sess_load_dependent_session_handling#:#Načti závislé ovládání sezení
 common#:#sess_mode#:#Mód sezení
@@ -4562,7 +4562,7 @@ common#:#sorting_title_header#:#Seřadit podle názvu
 common#:#spacer#:#Mezerník
 common#:#spl#:#Zásobník otázek ankety
 common#:#spl_add#:#Přidat zásobník otázek ankety
-common#:#spl_copy#:#Kopírovat zásobník otázek ankety
+rbac#:#spl_copy#:#Kopírovat zásobník otázek ankety
 rbac#:#spl_delete#:#Smazat zásobník otázek ankety
 rbac#:#spl_edit_permission#:#Změnit nastavení oprávnění
 common#:#spl_new#:#Nový zásobník otázek
@@ -4617,7 +4617,7 @@ common#:#survey_unlimited_invitation#:#Neomezené pozvání
 common#:#survey_unlimited_invitation_desc#:#Umožňuje neomezené pozvání do anket. Neomezené pozvání přidává anketu na osobní plochu každého registrovaného uživatele.
 common#:#svy#:#Anketa
 common#:#svy_add#:#Přidat anketu
-common#:#svy_copy#:#Kopírovat anketu
+rbac#:#svy_copy#:#Kopírovat anketu
 rbac#:#svy_delete#:#Smazat anketu
 rbac#:#svy_edit_permission#:#Změnit nastavení oprávnění
 common#:#svy_evaluation#:#Statistiky
@@ -4729,7 +4729,7 @@ common#:#treeview#:#Náhled stromu
 common#:#tst#:#Test
 common#:#tst_add#:#Přidat test
 common#:#tst_anon_eval#:#Výsledky
-common#:#tst_copy#:#Kopírovat test
+rbac#:#tst_copy#:#Kopírovat test
 rbac#:#tst_delete#:#Smazat test
 rbac#:#tst_edit_learning_progress#:#Upravit postup výuky
 rbac#:#tst_edit_permission#:#Změnit nastavení oprávnění
@@ -4957,7 +4957,7 @@ common#:#webr#:#Webový zdroj
 common#:#webr_active#:#Aktivní
 common#:#webr_add#:#Přidat webový zdroj
 common#:#webr_add_item#:#Přidat webový zdroj
-common#:#webr_copy#:#Kopírovat webový zdroj
+rbac#:#webr_copy#:#Kopírovat webový zdroj
 rbac#:#webr_delete#:#Smazat webový zdroj
 common#:#webr_delete_items#:#Smazat webové zdroje
 common#:#webr_deleted_items#:#Smazané webové zdroje
@@ -4989,7 +4989,7 @@ common#:#width#:#Šířka
 common#:#width_x_height#:#Šířka x Výška
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Přidat Wiki
-common#:#wiki_copy#:#Kopírovat Wiki
+rbac#:#wiki_copy#:#Kopírovat Wiki
 rbac#:#wiki_delete#:#Smazat Wiki
 rbac#:#wiki_edit_content#:#Upravit stránky Wiki
 rbac#:#wiki_edit_permission#:#Změna nastavení oprávnění
@@ -9171,7 +9171,7 @@ rbac#:#cat_create_catr#:#Vytvořit odkaz kategorie
 rbac#:#cat_create_crsr#:#Vytvořit nové odkazy kategorie
 rbac#:#cat_create_rcrs#:#Vytvořit odkazy kurzu
 rbac#:#cat_create_wiki#:#Vytvořit Wiki
-common#:#catr_copy#:#Kopírovat odkaz kurzu
+rbac#:#catr_copy#:#Kopírovat odkaz kurzu
 rbac#:#catr_delete#:#Smazat odkaz kategorie
 rbac#:#catr_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#catr_read#:#Právo číst na odkaz kategorie
@@ -9185,7 +9185,7 @@ rbac#:#crs_create_book#:#Vytvořit zásobník objednávek
 rbac#:#crs_create_sess#:#Vytvořit lekci
 rbac#:#crs_create_wiki#:#Vytvořit Wiki
 rbac#:#crs_edit_event#:#Upravit události kalendáře
-common#:#crsr_copy#:#Kopírovat odkaz kurzu
+rbac#:#crsr_copy#:#Kopírovat odkaz kurzu
 rbac#:#crsr_delete#:#Smazat odkaz kurzu
 rbac#:#crsr_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#crsr_read#:#Právo číst na odkaz kurzu

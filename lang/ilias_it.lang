@@ -1906,7 +1906,7 @@ common#:#cat_add#:#Aggiungi contesto
 common#:#cat_added#:#Contesto aggiunto
 rbac#:#cat_cat_administrate_users#:#Amministrare utenti locali
 common#:#cat_clear_page#:#Azzera pagina
-common#:#cat_copy#:#Copia Categoria
+rbac#:#cat_copy#:#Copia Categoria
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_create#:#Crea un contesto
 common#:#cat_create_alm#:#Creare un modulo AICC
@@ -2138,7 +2138,7 @@ common#:#crs_at_least_one_admin#:#Deve essere definito almeno un amministratore 
 common#:#crs_available#:#Corsi disponibili
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#Non &#232; possibile collegare contenitori di oggetti
-common#:#crs_copy#:#Copia Corso
+rbac#:#crs_copy#:#Copia Corso
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 common#:#crs_create#:#Creare un corso
 common#:#crs_create_alm#:#Creare un modulo AICC
@@ -2384,7 +2384,7 @@ common#:#exc_add#:#Aggiungi esercitazione
 common#:#exc_added#:#Esercitazione aggiunto
 common#:#exc_ask_delete#:#Vuoi eliminare il file?
 common#:#exc_assign_usr#:#Assegna utente
-common#:#exc_copy#:#Copia Esercizio
+rbac#:#exc_copy#:#Copia Esercizio
 common#:#exc_create#:#Crea una esercitazione
 common#:#exc_date_not_valid#:#La data non &#232; valida
 common#:#exc_deassign_members#:#Rimuovi membro(i)
@@ -2498,7 +2498,7 @@ common#:#file_add#:#Aggiungi file
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#Importazione del file eseguita
 common#:#file_allowed_suffixes#:#File types consentiti:
-common#:#file_copy#:#Copia File
+rbac#:#file_copy#:#Copia File
 common#:#file_created#:#Un nuovo file e' stato aggiunto.
 rbac#:#file_delete#:#Cancellare un file
 common#:#file_edit#:#Modificare un file
@@ -2549,7 +2549,7 @@ common#:#fold#:#Cartella
 common#:#fold_a#:#una cartella
 common#:#fold_add#:#Aggiungi cartella
 common#:#fold_added#:#Cartella aggiunta
-common#:#fold_copy#:#Copia Cartella
+rbac#:#fold_copy#:#Copia Cartella
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#fold_create_alm#:#Creare un modulo AICC
 common#:#fold_create_chat#:#Creare una chat
@@ -2622,7 +2622,7 @@ rbac#:#frm_add_post#:#Aggiungi nuovo post
 rbac#:#frm_add_thread#:#Aggiungi nuovo argomento
 common#:#frm_added#:#Forum aggiunto
 common#:#frm_article#:#articolo
-common#:#frm_copy#:#Copia Forum
+rbac#:#frm_copy#:#Copia Forum
 common#:#frm_create#:#Crea un forum
 rbac#:#frm_delete#:#Cancellare un forum
 common#:#frm_delete_post#:#Cancellare un messaggio
@@ -2653,7 +2653,7 @@ common#:#glo#:#Glossario
 common#:#glo_a#:#un glossario
 common#:#glo_add#:#Aggiungi glossario
 common#:#glo_added#:#Glossario aggiunto
-common#:#glo_copy#:#Copia Glossario
+rbac#:#glo_copy#:#Copia Glossario
 common#:#glo_create#:#Crea un glossario
 rbac#:#glo_delete#:#Eliminare un glossario
 rbac#:#glo_edit_permission#:#Modificare le impostazioni dei permessi
@@ -2730,7 +2730,7 @@ common#:#grp_app_send_mail#:#Invia una eMail al mittente
 common#:#grp_back#:#Indietro
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"?
-common#:#grp_copy#:#Copia Gruppo
+rbac#:#grp_copy#:#Copia Gruppo
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#grp_count_members#:#Numero di membri
 common#:#grp_create#:#Crea un gruppo
@@ -2866,7 +2866,7 @@ common#:#hours#:#ora(e)
 common#:#hours_of_day#:#Ore nel giorno
 common#:#htlm#:#Modulo HTML
 common#:#htlm_add#:#Aggiungi modulo HTML
-common#:#htlm_copy#:#Copia Learning Module HTML
+rbac#:#htlm_copy#:#Copia Learning Module HTML
 rbac#:#htlm_delete#:#Cancellare un modulo HTML
 common#:#htlm_edit#:#Modificare un modulo HTML
 rbac#:#htlm_edit_learning_progress#:#Modificare i progressi degli utenti
@@ -3227,11 +3227,11 @@ common#:#lm#:#Modulo ILIAS
 common#:#lm_a#:#un Modulo ILIAS
 common#:#lm_add#:#Aggiungi modulo ILIAS
 common#:#lm_added#:#Modulo aggiunto
-common#:#lm_copy#:#Copia ILIAS Learning Module
+rbac#:#lm_copy#:#Copia ILIAS Learning Module
 common#:#lm_create#:#Crea un modulo ILIAS
 rbac#:#lm_delete#:#Eliminare un modulo ILIAS
 rbac#:#lm_edit_learning_progress#:#Modifica i progressi didattici
-common#:#lm_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#lm_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#lm_join#:#Iscrivere ad un modulo ILIAS
 common#:#lm_leave#:#Annullare iscrizione ad un modulo ILIAS
 common#:#lm_new#:#Nuovo modulo ILIAS
@@ -3350,7 +3350,7 @@ common#:#max_number_rec#:#Numero massimo di record
 common#:#max_time#:#Tempo massimo
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Aggiungi MediaCast
-common#:#mcst_copy#:#Copia MediaCast
+rbac#:#mcst_copy#:#Copia MediaCast
 rbac#:#mcst_delete#:#Cancella Mediacast
 rbac#:#mcst_edit_permission#:#Modifica impostazioni dei permessi
 common#:#mcst_new#:#New MediaCast
@@ -3996,7 +3996,7 @@ common#:#publishing_organisation#:#Casa editrice
 common#:#purpose#:#Scopo
 common#:#qpl#:#Raccolta di domande (per test)
 common#:#qpl_add#:#Aggiungi raccolta di domande
-common#:#qpl_copy#:#Copy Test Question Pool
+rbac#:#qpl_copy#:#Copy Test Question Pool
 rbac#:#qpl_delete#:#Eliminare una raccolta di domande
 rbac#:#qpl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#qpl_new#:#Nuova raccolta di domande
@@ -4145,12 +4145,12 @@ common#:#rolt_add#:#Aggiungi template di ruolo
 common#:#rolt_added#:#Template di ruolo aggiunto
 common#:#rolt_edit#:#Modifica template di ruolo
 common#:#rolt_new#:#Nuovo template di ruolo
-common#:#root_create_cat#:#Creare nuovi contesti
+rbac#:#root_create_cat#:#Creare nuovi contesti
 common#:#root_edit#:#Modificare il nodo di sistema
-common#:#root_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#root_read#:#Accedere in lettura al sistema
-common#:#root_visible#:#Vedere il sistema
-common#:#root_write#:#Modificare il nodo radice di ILIAS
+rbac#:#root_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#root_read#:#Accedere in lettura al sistema
+rbac#:#root_visible#:#Vedere il sistema
+rbac#:#root_write#:#Modificare il nodo radice di ILIAS
 common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
@@ -4339,7 +4339,7 @@ common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Spaziatore
 common#:#spl#:#Raccolta di domande (per sondaggi)
 common#:#spl_add#:#Aggiungi raccolta di domande
-common#:#spl_copy#:#Copy Survey Question Pool
+rbac#:#spl_copy#:#Copy Survey Question Pool
 rbac#:#spl_delete#:#Eliminare una raccolta di domande
 rbac#:#spl_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#spl_new#:#Nuova raccolta di domande
@@ -4394,7 +4394,7 @@ common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Consenti inviti illimitati nei sondaggi. Il sondaggio verra' aggiunto al personal desktop di ogni utente registrato.
 common#:#svy#:#Sondaggio
 common#:#svy_add#:#Aggiungi sondaggio
-common#:#svy_copy#:#Copia Sondaggio
+rbac#:#svy_copy#:#Copia Sondaggio
 rbac#:#svy_delete#:#Eliminare un sondaggio
 rbac#:#svy_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#svy_evaluation#:#Sondaggio di valuazione
@@ -4506,7 +4506,7 @@ common#:#treeview#:#Vista ad albero
 common#:#tst#:#Test
 common#:#tst_add#:#Aggiungi test
 common#:#tst_anon_eval#:#Risultati
-common#:#tst_copy#:#Copia Test
+rbac#:#tst_copy#:#Copia Test
 rbac#:#tst_delete#:#Eliminare un test
 rbac#:#tst_edit_learning_progress#:#Modificare i progressi didattici
 rbac#:#tst_edit_permission#:#Modificare le impostazioni dei permessi
@@ -4729,7 +4729,7 @@ common#:#webr#:#Risorsa web
 common#:#webr_active#:#Attivo
 common#:#webr_add#:#Aggiungi risorsa web
 common#:#webr_add_item#:#Aggiungi risorsa web
-common#:#webr_copy#:#Copia Risorsa Web
+rbac#:#webr_copy#:#Copia Risorsa Web
 rbac#:#webr_delete#:#Elimina risorsa web
 common#:#webr_delete_items#:#Eliminare una risorsa web
 common#:#webr_deleted_items#:#Eliminata risorsa web
@@ -4761,7 +4761,7 @@ common#:#width#:#Width
 common#:#width_x_height#:#Larghezza x Altezza
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Aggiungi Wiki
-common#:#wiki_copy#:#Copia Wiki
+rbac#:#wiki_copy#:#Copia Wiki
 rbac#:#wiki_delete#:#Cancella Wiki
 rbac#:#wiki_edit_content#:#Modifica Pagine Wiki
 rbac#:#wiki_edit_permission#:#Modifica impostazioni dei permessi
@@ -8595,7 +8595,7 @@ rbac#:#cat_create_catr#:#Creare il Riferimento di Categoria
 rbac#:#cat_create_crsr#:#Creare nuovi riferimenti di Corso
 rbac#:#cat_create_rcrs#:#Creare i Link al Corso
 rbac#:#cat_create_wiki#:#Creare Wiki
-common#:#catr_copy#:#Copia il riferimento di Categoria
+rbac#:#catr_copy#:#Copia il riferimento di Categoria
 rbac#:#catr_delete#:#Cancella il Riferimento di Categoria
 rbac#:#catr_edit_permission#:#Cambia le impostazioni dei permessi
 rbac#:#catr_read#:#Accesso in lettura ai riferimenti di Categoria
@@ -8608,7 +8608,7 @@ rbac#:#cmps_write#:#Edita le impostazioni dei Componenti
 rbac#:#crs_create_sess#:#Creare sessione
 rbac#:#crs_create_wiki#:#Creare Wiki
 rbac#:#crs_edit_event#:#Edita gli Eventi del Calendario
-common#:#crsr_copy#:#Copia il Riferimento del Corso
+rbac#:#crsr_copy#:#Copia il Riferimento del Corso
 rbac#:#crsr_delete#:#Cancella il Riferimento del Corso
 rbac#:#crsr_edit_permission#:#Cambia le impostazioni dei permessi
 rbac#:#crsr_read#:#Accesso in lettura ai riferimenti del Corso
@@ -10114,7 +10114,7 @@ common#:#moderators#:#Moderators###28 10 2009 new variable
 common#:#tutors#:#Tutors###28 10 2009 new variable
 common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
 common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable
-common#:#sess_copy#:#Copy Session###03 11 2009 new variable
+rbac#:#sess_copy#:#Copy Session###03 11 2009 new variable
 content#:#cont_import_validation_errors#:#Errori durante la validazione del learning module. La presentazione del learning module può essere corretta, ma le pagine contenenti errori potrebbero non essere modificabili
 dateplaner#:#cal_subscription_info#:#Per cortesia usa i seguenti indirizzi per accedere al tuo calendario da altre applicazioni. Puoi copiare e incollarle in ogni altro calendario che supporti il formato ical.
 dateplaner#:#cal_subscription_header#:#Indirizzo Calendario

@@ -2395,7 +2395,7 @@ common#:#cat_added#:#Categorie ajoutée
 rbac#:#cat_cat_administrate_users#:#Administration des utilisateurs locaux
 common#:#cat_clear_page#:#Effacer le contenu de la page
 rbac#:#cat_copy_threads_info#:#SVP, décidez quels éléments de catégorie doivent être copiés, liés ou même omis.
-common#:#cat_copy#:#Copier Catégorie
+rbac#:#cat_copy#:#Copier Catégorie
 common#:#cat_create_alm#:#Créer document AICC
 rbac#:#cat_create_cat#:#Créer catégorie
 common#:#cat_create_chat#:#Créer chat
@@ -2643,7 +2643,7 @@ common#:#crs_available#:#Cours disponibles
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#Il n'est pas possible de lier des objets conteneurs
 rbac#:#crs_copy_threads_info#:#Veuillez désigner quels matériaux de cours doit être copié, lié ou même omis.
-common#:#crs_copy#:#Copier Cours
+rbac#:#crs_copy#:#Copier Cours
 common#:#crs_create_alm#:#Créer document AICC
 common#:#crs_create_chat#:#Créer Chat
 common#:#crs_create_dbk#:#Créer livre Digilib
@@ -2916,7 +2916,7 @@ common#:#exc_add#:#Ajouter évaluation (exercice)
 common#:#exc_added#:#Evaluation (exercice) ajoutée
 common#:#exc_ask_delete#:#Supprimer le fichier ?
 common#:#exc_assign_usr#:#Assigner utilisateur
-common#:#exc_copy#:#Copier évaluation (exercice)
+rbac#:#exc_copy#:#Copier évaluation (exercice)
 common#:#exc_create#:#Créer évaluation (exercice)
 common#:#exc_date_not_valid#:#La date n'est pas valide
 common#:#exc_deassign_members#:#Retirer participant(s)
@@ -3031,7 +3031,7 @@ common#:#file_add_and_metadata#:#Téléverser le fichier et éditer les métadon
 common#:#file_add#:#Téléverser
 common#:#file_added#:#Fichier téléchargé
 common#:#file_allowed_suffixes#:#Types de fichiers autorisés :
-common#:#file_copy#:#Copier Fichier
+rbac#:#file_copy#:#Copier Fichier
 common#:#file_created#:#Un nouveau fichier a été ajouté.
 rbac#:#file_delete#:#Supprimer le fichier
 rbac#:#file_edit_permission#:#Modifier les paramètres de permission
@@ -3085,7 +3085,7 @@ common#:#fold_a#:#un dossier
 common#:#fold_add#:#Ajouter dossier
 common#:#fold_added#:#Dossier ajouté
 common#:#fold_copy_threads_info#:#Veuillez désigner quels matériaux de cours devraient être copiés, liés ou même omis.
-common#:#fold_copy#:#Copier Dossier
+rbac#:#fold_copy#:#Copier Dossier
 common#:#fold_create_alm#:#Créer document AICC
 common#:#fold_create_chat#:#Créer chat
 common#:#fold_create_dbk#:#Créer livre Digilib
@@ -3160,7 +3160,7 @@ rbac#:#frm_add_thread#:#Créer une nouvelle discussion
 common#:#frm_add#:#Ajouter Forum
 common#:#frm_added#:#Forum ajouté
 common#:#frm_article#:#article
-common#:#frm_copy#:#Copier Forum
+rbac#:#frm_copy#:#Copier Forum
 common#:#frm_create#:#Créer forum
 common#:#frm_delete_post#:#Éditer et supprimer le  message
 rbac#:#frm_delete#:#Supprimer le forum
@@ -3195,7 +3195,7 @@ common#:#generate#:#Générer
 common#:#glo_a#:#un glossaire
 common#:#glo_add#:#Ajouter Glossaire
 common#:#glo_added#:#Glossaire ajouté
-common#:#glo_copy#:#Copier Glossaire
+rbac#:#glo_copy#:#Copier Glossaire
 common#:#glo_create#:#Créer glossaire
 rbac#:#glo_delete#:#Supprimer le glossaire
 rbac#:#glo_edit_permission#:#Modifier les paramètres de permission
@@ -3275,7 +3275,7 @@ common#:#grp_back#:#Retour
 common#:#grp_btn_unsubscribe#:#Désinscrire du Groupe
 common#:#grp_cancel_waiting_list#:#Voulez-vous vraiment vous retirer de la liste d'attente du groupe "%s"?
 common#:#grp_copy_threads_info#:#Veuillez désigner quels matériaux devraient être copiés, liés ou même omis.
-common#:#grp_copy#:#Copier le Groupe
+rbac#:#grp_copy#:#Copier le Groupe
 common#:#grp_count_members#:#Nombre de membres
 common#:#grp_create_alm#:#Créer document
 common#:#grp_create_chat#:#Créer chat
@@ -3412,7 +3412,7 @@ common#:#hour#:#Heure
 common#:#hours_of_day#:#Heures du jour
 common#:#hours#:#heure(s)
 common#:#htlm_add#:#Ajouter document HTML importé
-common#:#htlm_copy#:#Copier Document HTML importé
+rbac#:#htlm_copy#:#Copier Document HTML importé
 rbac#:#htlm_delete#:#Supprimer le document HTML importé
 rbac#:#htlm_edit_learning_progress#:#Editer suivi
 rbac#:#htlm_edit_permission#:#Modifier les paramètres de permission
@@ -3783,11 +3783,11 @@ common#:#literature#:#Bibliographie
 common#:#lm_a#:#un document ILIAS
 common#:#lm_add#:#Ajouter document ILIAS
 common#:#lm_added#:# Document ILIAS ajouté
-common#:#lm_copy#:#Copier Document ILIAS
+rbac#:#lm_copy#:#Copier Document ILIAS
 common#:#lm_create#:#Créer document ILIAS
 rbac#:#lm_delete#:#Supprimer le document ILIAS
 rbac#:#lm_edit_learning_progress#:#Editer suivi
-common#:#lm_edit_permission#:#Modifier les paramètres de permission
+rbac#:#lm_edit_permission#:#Modifier les paramètres de permission
 common#:#lm_join#:#S'abonner au document ILIAS
 common#:#lm_leave#:#Se désabonner du document ILIAS
 common#:#lm_new#:# Document ILIAS
@@ -3912,7 +3912,7 @@ common#:#matriculation#:#Numéro d'immatriculation
 common#:#max_number_rec#:#Nombre maximum d'enregistrement
 common#:#max_time#:#Durée maximale
 common#:#mcst_add#:#Ajouter MediaCast
-common#:#mcst_copy#:#Copier MediaCast
+rbac#:#mcst_copy#:#Copier MediaCast
 rbac#:#mcst_delete#:#Supprimer Mediacast
 rbac#:#mcst_edit_permission#:#Modifier les paramètres de permission
 common#:#mcst_new#:#Nouveau MediaCast
@@ -4617,7 +4617,7 @@ common#:#published#:#Publié
 common#:#publishing_organisation#:#Organisation de publication
 common#:#purpose#:#But
 common#:#qpl_add#:#Ajouter Jeu de Questions (test)
-common#:#qpl_copy#:#Copier un jeu de questions de test
+rbac#:#qpl_copy#:#Copier un jeu de questions de test
 rbac#:#qpl_delete#:#Supprimer le jeu de questions (test)
 rbac#:#qpl_edit_permission#:#Modifier les paramètres de permission
 common#:#qpl_new#:#Nouveau jeu de questions (test)
@@ -4770,12 +4770,12 @@ common#:#rolt_added#:#Modèle de rôle ajouté
 common#:#rolt_edit#:#Modifier modèle de rôle
 common#:#rolt_new#:#Nouveau modèle de rôle
 common#:#rolt#:#Modèle de rôle
-common#:#root_create_cat#:#L'utilisateur peut créer des catégories
-common#:#root_edit_permission#:#Modifier les paramètres de permission
+rbac#:#root_create_cat#:#L'utilisateur peut créer des catégories
+rbac#:#root_edit_permission#:#Modifier les paramètres de permission
 common#:#root_edit#:#Modifier noeud racine du système
-common#:#root_read#:#Accès en lecture au système ILIAS
-common#:#root_visible#:#Le système ILIAS est visible
-common#:#root_write#:#Modifier données du noeud racine d'ILIAS
+rbac#:#root_read#:#Accès en lecture au système ILIAS
+rbac#:#root_visible#:#Le système ILIAS est visible
+rbac#:#root_write#:#Modifier données du noeud racine d'ILIAS
 common#:#row#:#Ligne
 common#:#rows#:#Lignes
 common#:#rte_editor_disabled#:#Éditeur de texte enrichi désactivé
@@ -4872,7 +4872,7 @@ common#:#sequences#:#Séquences
 common#:#server_data#:#Données Serveur
 common#:#server_software#:#Logiciel serveur
 common#:#server#:#Serveur
-common#:#sess_copy#:#Copy Session
+rbac#:#sess_copy#:#Copy Session
 common#:#sess_fixed_duration#:#Durée fixée de la session
 common#:#sess_load_dependent_session_handling#:#Charge la gestion dépendante de la session.
 common#:#sess_mode#:#Mode de de session
@@ -4993,7 +4993,7 @@ common#:#sorting_save#:#Sauvegarder le classement
 common#:#sorting_title_header#:#Trié selon le titre
 common#:#spacer#:#Séparateur
 common#:#spl_add#:#Ajouter Jeu de Questions (enquête)
-common#:#spl_copy#:#Copier un jeu de questions d'enquête
+rbac#:#spl_copy#:#Copier un jeu de questions d'enquête
 rbac#:#spl_delete#:#Supprimer le jeu de questions (enquête)
 rbac#:#spl_edit_permission#:#Modifier les paramètres de permission
 common#:#spl_new#:#Nouveau jeu de questions (enquête)
@@ -5048,7 +5048,7 @@ common#:#survey_defaults#:#Paramètres par défaut des enquêtes
 common#:#survey_unlimited_invitation_desc#:#Permet l'invitation illimitée dans les sondages. L'invitation illimitée ajoute l'enquête sur le Bureau personnel de chaque utilisateur enregistré.
 common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#svy_add#:#Ajouter Enquête
-common#:#svy_copy#:#Copier Enquête
+rbac#:#svy_copy#:#Copier Enquête
 rbac#:#svy_delete#:#Supprimer le Enquête
 rbac#:#svy_edit_permission#:#Modifier les paramètres de permission
 common#:#svy_evaluation#:#Résultats
@@ -5162,7 +5162,7 @@ common#:#tree#:#Arbre
 common#:#treeview#:#Arborescence
 common#:#tst_add#:#Ajouter Test
 common#:#tst_anon_eval#:#Résultats
-common#:#tst_copy#:#Copier Test
+rbac#:#tst_copy#:#Copier Test
 rbac#:#tst_delete#:#Supprimer le test
 rbac#:#tst_edit_learning_progress#:#Editer suivi
 rbac#:#tst_edit_permission#:#Modifier les paramètres de permission
@@ -5397,7 +5397,7 @@ common#:#webfolder#:#Webfolder
 common#:#webr_active#:#Actif
 common#:#webr_add_item#:#Ajouter ressource web
 common#:#webr_add#:#Ajouter une ressource web
-common#:#webr_copy#:#Copier Ressource Web
+rbac#:#webr_copy#:#Copier Ressource Web
 common#:#webr_delete_items#:#Supprimer ressource(s) web
 rbac#:#webr_delete#:#Supprimer ressource web
 common#:#webr_deleted_items#:#Supprimer ressource(s) web
@@ -5429,7 +5429,7 @@ common#:#who_is_online#:#Qui est connecté ?
 common#:#width_x_height#:#Largeur x Hauteur
 common#:#width#:#Largeur
 common#:#wiki_add#:#Ajouter Wiki
-common#:#wiki_copy#:#Copier Wiki
+rbac#:#wiki_copy#:#Copier Wiki
 rbac#:#wiki_delete#:#Supprimer Wiki
 rbac#:#wiki_edit_content#:#Editer les pages Wiki
 rbac#:#wiki_edit_permission#:#Modifier les paramètres de permission
@@ -10038,7 +10038,7 @@ rbac#:#cat_create_catr#:#Créer un Modèle de Catégorie
 rbac#:#cat_create_crsr#:#Créer un nouveau Modèle de Cours
 rbac#:#cat_create_rcrs#:#Créer un lien vers un Cours
 rbac#:#cat_create_wiki#:#Créer Wiki
-common#:#catr_copy#:#Copier le Modèle de Catégorie
+rbac#:#catr_copy#:#Copier le Modèle de Catégorie
 rbac#:#catr_delete#:#Effacer le Modèle de Catégorie
 rbac#:#catr_edit_permission#:#Modifier les paramètres de permission
 rbac#:#catr_read#:#Lire l'accès à la Catégorie de référence
@@ -10054,7 +10054,7 @@ rbac#:#crs_create_crsr#:#Créer un nouveau Modèle de Cours
 rbac#:#crs_create_sess#:#Créer une Session
 rbac#:#crs_create_wiki#:#Créer Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-common#:#crsr_copy#:#Copier le Modèle de Catégorie
+rbac#:#crsr_copy#:#Copier le Modèle de Catégorie
 rbac#:#crsr_delete#:#Effacer Modèle de Cours
 rbac#:#crsr_edit_permission#:#Modifier les paramètres de permission
 rbac#:#crsr_read#:#Accès en lecture au Modèle de Cours

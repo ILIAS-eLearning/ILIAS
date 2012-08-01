@@ -1739,7 +1739,7 @@ common#:#lm_added#:#ILIAS модулът за обучение добавен
 common#:#lm_create#:#Създаване на ILIAS модул за обучение
 rbac#:#lm_delete#:#Изтриване на ILIAS модул за обучение
 rbac#:#lm_edit_learning_progress#:#Edit learning progress###23 Dec 2005 new variable
-common#:#lm_edit_permission#:#Промяна на разрешителните настройки
+rbac#:#lm_edit_permission#:#Промяна на разрешителните настройки
 common#:#lm_join#:#Абониране за ILIAS модул за обучение
 common#:#lm_leave#:#Прекратяване на абонамент за ILIAS модул за обучение
 common#:#lm_new#:#Нов ILIAS модул за обучение
@@ -2349,12 +2349,12 @@ common#:#rolt_add#:#Добавяне на шаблон с роли
 common#:#rolt_added#:#Шаблонът с роли добавен
 common#:#rolt_edit#:#Редактиране на шаблон с роли
 common#:#rolt_new#:#Нов шаблон с роли
-common#:#root_create_cat#:#Потребителят може да създава категории
+rbac#:#root_create_cat#:#Потребителят може да създава категории
 common#:#root_edit#:#Редактиране на основния възел на системата
-common#:#root_edit_permission#:#Промяна на разрешителните настройки
-common#:#root_read#:#Достъп за четене от ILIAS системата
-common#:#root_visible#:#ILIAS системата е видима
-common#:#root_write#:#Редактиране на метаданните в основния възел на системата
+rbac#:#root_edit_permission#:#Промяна на разрешителните настройки
+rbac#:#root_read#:#Достъп за четене от ILIAS системата
+rbac#:#root_visible#:#ILIAS системата е видима
+rbac#:#root_write#:#Редактиране на метаданните в основния възел на системата
 common#:#sahs#:#Модул за обучение SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC модулът за обучение добавен
 common#:#sahs_create#:#Създаване на SCORM/AICC модул за обучение
@@ -7053,24 +7053,24 @@ common#:#search_engine#:#Search Engines###02 04 2007 new variable
 common#:#enable_search_engine#:#Open Public Area for Internet Search Engines (e.g Google).###02 04 2007 new variable
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.###02 04 2007 new variable
 common#:#allow_override_alert#:#Rules for .htaccess are not interpreted correctly.###02 04 2007 new variable
-common#:#cat_copy#:#Copy Category###02 04 2007 new variable
+rbac#:#cat_copy#:#Copy Category###02 04 2007 new variable
 common#:#chat_copy#:#Copy Chat###02 04 2007 new variable
-common#:#crs_copy#:#Copy Course###02 04 2007 new variable
+rbac#:#crs_copy#:#Copy Course###02 04 2007 new variable
 common#:#dbk_copy#:#Copy Digilib-Book###02 04 2007 new variable
-common#:#exc_copy#:#Copy Exercise###02 04 2007 new variable
-common#:#file_copy#:#Copy File###02 04 2007 new variable
-common#:#fold_copy#:#Copy Folder###02 04 2007 new variable
-common#:#frm_copy#:#Copy Forum###02 04 2007 new variable
-common#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
-common#:#grp_copy#:#Copy Group###02 04 2007 new variable
-common#:#htlm_copy#:#Copy HTML Learning Module###02 04 2007 new variable
+rbac#:#exc_copy#:#Copy Exercise###02 04 2007 new variable
+rbac#:#file_copy#:#Copy File###02 04 2007 new variable
+rbac#:#fold_copy#:#Copy Folder###02 04 2007 new variable
+rbac#:#frm_copy#:#Copy Forum###02 04 2007 new variable
+rbac#:#glo_copy#:#Copy Glossary###02 04 2007 new variable
+rbac#:#grp_copy#:#Copy Group###02 04 2007 new variable
+rbac#:#htlm_copy#:#Copy HTML Learning Module###02 04 2007 new variable
 common#:#icrs_copy#:#Copy LearnLinc Seminar###02 04 2007 new variable
-common#:#lm_copy#:#Copy ILIAS Lernmodul###02 04 2007 new variable
-common#:#mcst_copy#:#Copy MediaCast###02 04 2007 new variable
+rbac#:#lm_copy#:#Copy ILIAS Lernmodul###02 04 2007 new variable
+rbac#:#mcst_copy#:#Copy MediaCast###02 04 2007 new variable
 common#:#sahs_copy#:#Copy SCORM/AICC Learning Module###02 04 2007 new variable
-common#:#svy_copy#:#Copy Survey###02 04 2007 new variable
-common#:#tst_copy#:#Copy Test###02 04 2007 new variable
-common#:#webr_copy#:#Copy Web Resource###02 04 2007 new variable
+rbac#:#svy_copy#:#Copy Survey###02 04 2007 new variable
+rbac#:#tst_copy#:#Copy Test###02 04 2007 new variable
+rbac#:#webr_copy#:#Copy Web Resource###02 04 2007 new variable
 common#:#missing_perm#:#Missing Permission###02 04 2007 new variable
 registration#:#auth_radius_name#:#Name of RADIUS Configuration###02 04 2007 new variable
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration###02 04 2007 new variable
@@ -8331,7 +8331,7 @@ dateplaner#:#cal_share_search_role_header#:#Role Selection###23 07 2008 new vari
 common#:#assigned_members#:#Assigned Members###23 07 2008 new variable
 rbac#:#wiki_read#:#Read Wiki###26 07 2008 new variable
 rbac#:#wiki_delete#:#Delete Wiki###26 07 2008 new variable
-common#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
+rbac#:#wiki_copy#:#Copy Wiki###26 07 2008 new variable
 rbac#:#wiki_visible#:#Wiki is visible###26 07 2008 new variable
 rbac#:#wiki_edit_permission#:#Change permission settings###26 07 2008 new variable
 common#:#il_crs_non_member#:#Course non-member###26 07 2008 new variable
@@ -8525,7 +8525,7 @@ rbac#:#crsr_read#:#Read access to Course Reference###23 09 2008 new variable
 rbac#:#crsr_delete#:#Delete Course Reference###23 09 2008 new variable
 rbac#:#cat_create_crsr#:#Create new Course Reference###23 09 2008 new variable
 rbac#:#crsr_write#:#Edit Course Reference###23 09 2008 new variable
-common#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
+rbac#:#crsr_copy#:#Copy Course Reference###23 09 2008 new variable
 common#:#obj_crsr#:#Course Reference###23 09 2008 new variable
 common#:#objs_crsr#:#Course References###23 09 2008 new variable
 rbac#:#catr_edit_permission#:#Change Permission Settings###23 09 2008 new variable
@@ -8534,7 +8534,7 @@ rbac#:#catr_read#:#Read access to Category Reference###23 09 2008 new variable
 rbac#:#catr_delete#:#Delete Category Reference###23 09 2008 new variable
 rbac#:#cat_create_catr#:#Create Category Reference###23 09 2008 new variable
 rbac#:#catr_write#:#Edit Category Reference###23 09 2008 new variable
-common#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
+rbac#:#catr_copy#:#Copy Category Reference###23 09 2008 new variable
 common#:#obj_catr#:#Category Reference###23 09 2008 new variable
 common#:#objs_catr#:#Category References###23 09 2008 new variable
 common#:#crsr#:#Course Reference###23 09 2008 new variable
@@ -10019,8 +10019,8 @@ grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
 grp#:#grp_notify_on#:#Notification about new registrations enabled###21 09 2009 new variable
 grp#:#grp_notify_off#:#Notification about new registrations disabled###21 09 2009 new variable
-common#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
-common#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
+rbac#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
+rbac#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
 common#:#title_required#:#Please insert a title###21 09 2009 new variable
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
 registration#:#reg_mail_new_user#:#New user registration###22 09 2009 new variable
@@ -10110,7 +10110,7 @@ common#:#moderators#:#Moderators###28 10 2009 new variable
 common#:#tutors#:#Tutors###28 10 2009 new variable
 common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
 common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable
-common#:#sess_copy#:#Copy Session###03 11 2009 new variable
+rbac#:#sess_copy#:#Copy Session###03 11 2009 new variable
 content#:#cont_import_validation_errors#:#Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors.###03 11 2009 new variable
 dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.###03 11 2009 new variable
 dateplaner#:#cal_subscription_header#:#Calendar Address###03 11 2009 new variable

@@ -1894,7 +1894,7 @@ common#:#cat_add#:#增加类别
 common#:#cat_added#:#类别已增加
 rbac#:#cat_cat_administrate_users#:#Administrate local user accounts
 common#:#cat_clear_page#:#Clear Page
-common#:#cat_copy#:#Copy Category
+rbac#:#cat_copy#:#Copy Category
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_create#:#创建类别
 common#:#cat_create_alm#:#Create AICC Learning Module
@@ -2125,7 +2125,7 @@ common#:#crs_at_least_one_admin#:#There has to be at least one course administra
 common#:#crs_available#:#可提供的课程
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#不能连接容器对象
-common#:#crs_copy#:#Copy Course
+rbac#:#crs_copy#:#Copy Course
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 common#:#crs_create#:#创建课程
 common#:#crs_create_alm#:#创建 AICC 学习课程
@@ -2371,7 +2371,7 @@ common#:#exc_add#:#增加练习
 common#:#exc_added#:#练习已增加
 common#:#exc_ask_delete#:#删除文件？
 common#:#exc_assign_usr#:#指定用户
-common#:#exc_copy#:#Copy Exercise
+rbac#:#exc_copy#:#Copy Exercise
 common#:#exc_create#:#创建练习
 common#:#exc_date_not_valid#:#日期无效
 common#:#exc_deassign_members#:#删除用户
@@ -2485,7 +2485,7 @@ common#:#file_add#:#上载文件
 common#:#file_add_and_metadata#:#Upload File and Edit Metadata
 common#:#file_added#:#文件已上载
 common#:#file_allowed_suffixes#:#Allowed file types:
-common#:#file_copy#:#Copy File
+rbac#:#file_copy#:#Copy File
 common#:#file_created#:#A new file has been added.
 rbac#:#file_delete#:#Delete File
 common#:#file_edit#:#Edit File
@@ -2536,7 +2536,7 @@ common#:#fold#:#文件夹
 common#:#fold_a#:#一个文件夹
 common#:#fold_add#:#增加文件夹
 common#:#fold_added#:#文件夹已增加
-common#:#fold_copy#:#Copy Folder
+rbac#:#fold_copy#:#Copy Folder
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#fold_create_alm#:#Create AICC Learning Module
 common#:#fold_create_chat#:#Create Chat
@@ -2609,7 +2609,7 @@ rbac#:#frm_add_post#:#Add new post
 rbac#:#frm_add_thread#:#Add new topi
 common#:#frm_added#:#论坛已增加
 common#:#frm_article#:#article
-common#:#frm_copy#:#Copy Forum
+rbac#:#frm_copy#:#Copy Forum
 common#:#frm_create#:#创建论坛
 rbac#:#frm_delete#:#删除论坛
 common#:#frm_delete_post#:#删除帖子
@@ -2640,7 +2640,7 @@ common#:#glo#:#词汇表
 common#:#glo_a#:#一个词汇表
 common#:#glo_add#:#增加词汇表
 common#:#glo_added#:#词汇表已增加
-common#:#glo_copy#:#Copy Glossary
+rbac#:#glo_copy#:#Copy Glossary
 common#:#glo_create#:#创建术语表
 rbac#:#glo_delete#:#删除术语表
 rbac#:#glo_edit_permission#:#更改许可设置
@@ -2717,7 +2717,7 @@ common#:#grp_app_send_mail#:#Send applicant a message
 common#:#grp_back#:#Back
 common#:#grp_btn_unsubscribe#:#Unsubscribe From Group
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"? 
-common#:#grp_copy#:#Copy Group
+rbac#:#grp_copy#:#Copy Group
 common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 common#:#grp_count_members#:#Number of members
 common#:#grp_create#:#创建组
@@ -2853,7 +2853,7 @@ common#:#hours#:#hour(s)
 common#:#hours_of_day#:#Hours of day
 common#:#htlm#:#HTML Learning Module
 common#:#htlm_add#:#Add HTML Learning Module
-common#:#htlm_copy#:#Copy HTML Learning Module
+rbac#:#htlm_copy#:#Copy HTML Learning Module
 rbac#:#htlm_delete#:#Delete HTML Learning Module
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
 rbac#:#htlm_edit_learning_progress#:#Edit learning progress
@@ -3212,11 +3212,11 @@ common#:#lm#:#学习模块
 common#:#lm_a#:#一个学习模块
 common#:#lm_add#:#增加学习模块
 common#:#lm_added#:#学习模块已增加
-common#:#lm_copy#:#Copy ILIAS Lernmodul
+rbac#:#lm_copy#:#Copy ILIAS Lernmodul
 common#:#lm_create#:#创建学习模块
 rbac#:#lm_delete#:#删除学习模块
 rbac#:#lm_edit_learning_progress#:#Edit learning progress
-common#:#lm_edit_permission#:#更改许可设置
+rbac#:#lm_edit_permission#:#更改许可设置
 common#:#lm_join#:#注册到学习模块
 common#:#lm_leave#:#从学习模块中注销
 common#:#lm_new#:#新学习模块
@@ -3335,7 +3335,7 @@ common#:#max_number_rec#:#Maximum number of records
 common#:#max_time#:#Maximum time
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Add MediaCast
-common#:#mcst_copy#:#Copy MediaCast
+rbac#:#mcst_copy#:#Copy MediaCast
 rbac#:#mcst_delete#:#Delete Mediacast
 rbac#:#mcst_edit_permission#:#Change permission settings
 common#:#mcst_new#:#New MediaCast
@@ -4126,12 +4126,12 @@ common#:#rolt_add#:#增加角色模板
 common#:#rolt_added#:#已增加角色模板
 common#:#rolt_edit#:#编辑角色模板
 common#:#rolt_new#:#新角色模板
-common#:#root_create_cat#:#用户可以创建类别
+rbac#:#root_create_cat#:#用户可以创建类别
 common#:#root_edit#:#编辑系统根节点
-common#:#root_edit_permission#:#更改许可设置
-common#:#root_read#:#ILIAS系统设为读访问
-common#:#root_visible#:#ILIAS系统可视
-common#:#root_write#:#编辑ILIAS根节点数据
+rbac#:#root_edit_permission#:#更改许可设置
+rbac#:#root_read#:#ILIAS系统设为读访问
+rbac#:#root_visible#:#ILIAS系统可视
+rbac#:#root_write#:#编辑ILIAS根节点数据
 common#:#row#:#Row
 common#:#rows#:#Rows
 common#:#rte_editor_disabled#:#Rich Text Editor disabled
@@ -4367,7 +4367,7 @@ common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 common#:#svy#:#Survey
 common#:#svy_add#:#Add survey
-common#:#svy_copy#:#Copy Survey
+rbac#:#svy_copy#:#Copy Survey
 rbac#:#svy_delete#:#Delete survey
 rbac#:#svy_edit_permission#:#Change permission settings
 common#:#svy_evaluation#:#Evaluation
@@ -4478,7 +4478,7 @@ common#:#treeview#:#树形视图
 common#:#tst#:#测验e
 common#:#tst_add#:#增加测验
 common#:#tst_anon_eval#:#Results
-common#:#tst_copy#:#Copy Test
+rbac#:#tst_copy#:#Copy Test
 rbac#:#tst_delete#:#删除测验
 rbac#:#tst_edit_learning_progress#:#Edit learning progress
 rbac#:#tst_edit_permission#:#更改许可设置
@@ -4701,7 +4701,7 @@ common#:#webr#:#Web resource
 common#:#webr_active#:#Active
 common#:#webr_add#:#Add web resource
 common#:#webr_add_item#:#Add web resource
-common#:#webr_copy#:#Copy Web Resource
+rbac#:#webr_copy#:#Copy Web Resource
 rbac#:#webr_delete#:#Delete web resource
 common#:#webr_delete_items#:#Delete Web Resource(s)
 common#:#webr_deleted_items#:#Deleted Web Resource(s).
@@ -4733,7 +4733,7 @@ common#:#width#:#Width
 common#:#width_x_height#:#Width x Height
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
-common#:#wiki_copy#:#Copy Wiki
+rbac#:#wiki_copy#:#Copy Wiki
 rbac#:#wiki_delete#:#Delete Wiki
 rbac#:#wiki_edit_content#:#Edit Wiki Pages
 rbac#:#wiki_edit_permission#:#Change permission settings
@@ -8469,7 +8469,7 @@ rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create new Course Reference
 rbac#:#cat_create_rcrs#:#Create Course-Links
 rbac#:#cat_create_wiki#:#Create Wiki
-common#:#catr_copy#:#Copy Category Reference
+rbac#:#catr_copy#:#Copy Category Reference
 rbac#:#catr_delete#:#Delete Category Reference
 rbac#:#catr_edit_permission#:#Change Permission Settings
 rbac#:#catr_read#:#Read access to Category Reference
@@ -8482,7 +8482,7 @@ rbac#:#cmps_write#:#Edit component settings
 rbac#:#crs_create_sess#:#Create Session
 rbac#:#crs_create_wiki#:#Create Wiki
 rbac#:#crs_edit_event#:#Edit Calendar Events
-common#:#crsr_copy#:#Copy Course Reference
+rbac#:#crsr_copy#:#Copy Course Reference
 rbac#:#crsr_delete#:#Delete Course Reference
 rbac#:#crsr_edit_permission#:#Change Permission Settings
 rbac#:#crsr_read#:#Read access to Course Reference
@@ -10032,8 +10032,8 @@ grp#:#grp_mail_status_bod#:#your status in group "%s" has been changed.###21 09 
 grp#:#grp_new_status#:#Your new status is:###21 09 2009 new variable
 grp#:#grp_notify_on#:#Notification about new registrations enabled###21 09 2009 new variable
 grp#:#grp_notify_off#:#Notification about new registrations disabled###21 09 2009 new variable
-common#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
-common#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
+rbac#:#spl_copy#:#Copy Survey Question Pool###21 09 2009 new variable
+rbac#:#qpl_copy#:#Copy Test Question Pool###21 09 2009 new variable
 common#:#title_required#:#Please insert a title###21 09 2009 new variable
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.###22 09 2009 new variable
 registration#:#reg_mail_new_user#:#New user registration###22 09 2009 new variable
@@ -10123,7 +10123,7 @@ common#:#moderators#:#Moderators###28 10 2009 new variable
 common#:#tutors#:#Tutors###28 10 2009 new variable
 common#:#settings_for_new_members#:#Settings for new Members###28 10 2009 new variable
 common#:#forums_notification_settings#:#Forums Notification Setting###28 10 2009 new variable
-common#:#sess_copy#:#Copy Session###03 11 2009 new variable
+rbac#:#sess_copy#:#Copy Session###03 11 2009 new variable
 content#:#cont_import_validation_errors#:#Some errors occured during validation of the learning module. The presentation of the learning module may be ok, but it is likely that you are not able to edit the pages that contain errors.###03 11 2009 new variable
 dateplaner#:#cal_subscription_info#:#Please use the following address to access your calendar from other applications. You can copy and paste this into any calendar product that supports the ical format.###03 11 2009 new variable
 dateplaner#:#cal_subscription_header#:#Calendar Address###03 11 2009 new variable

@@ -2082,7 +2082,7 @@ common#:#cat_add#:#Categorie toevoegen
 common#:#cat_added#:#Categorie toegevoegd
 rbac#:#cat_cat_administrate_users#:#Lokale gebruikers beheren
 common#:#cat_clear_page#:#Verwijder pagina
-common#:#cat_copy#:#Kopieër Categorie
+rbac#:#cat_copy#:#Kopieër Categorie
 rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_create#:#Creër categorie
 common#:#cat_create_alm#:#Creëer AICC Lesmodule
@@ -2321,7 +2321,7 @@ common#:#crs_at_least_one_admin#:#Er moet tenminste 1 cursusadministrator zijn
 common#:#crs_available#:#Beschikbare cursussen
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"
 common#:#crs_container_link_not_allowed#:#Het is niet mogelijk om container-objecten te linken
-common#:#crs_copy#:#Kopieër Cursus
+rbac#:#crs_copy#:#Kopieër Cursus
 rbac#:#crs_copy_threads_info#:#Gelieve te beslissen welke cursusmaterialen gekopieerd moeten worden.
 common#:#crs_create#:#Creëer cursus
 common#:#crs_create_alm#:#Creëer AICC Lesmodule
@@ -2589,7 +2589,7 @@ common#:#exc_add#:#Toevoegen oefening
 common#:#exc_added#:#Oefening toegevoegd
 common#:#exc_ask_delete#:#Verwijderen bestand
 common#:#exc_assign_usr#:#Toewijzen gebruiker
-common#:#exc_copy#:#Kopieër oefening
+rbac#:#exc_copy#:#Kopieër oefening
 common#:#exc_create#:#Creëer oefening
 common#:#exc_date_not_valid#:#De datum is niet geldig
 common#:#exc_deassign_members#:#Verwijderen lid/leden
@@ -2703,7 +2703,7 @@ common#:#file_add#:#Upload bestand
 common#:#file_add_and_metadata#:#Upload bestand en pas meta gegevens aan
 common#:#file_added#:#Bestand geupload
 common#:#file_allowed_suffixes#:#Toegestane bestandtypes:
-common#:#file_copy#:#Kopieër Bestand
+rbac#:#file_copy#:#Kopieër Bestand
 common#:#file_created#:#Een nieuw bestand is toegevoegd.
 rbac#:#file_delete#:#Verwijder bestand
 common#:#file_edit#:#Wijzig bestand
@@ -2754,7 +2754,7 @@ common#:#fold#:#Map
 common#:#fold_a#:#een map
 common#:#fold_add#:#map toevoegen
 common#:#fold_added#:#Map toegevoegd
-common#:#fold_copy#:#Kopieër Map
+rbac#:#fold_copy#:#Kopieër Map
 common#:#fold_copy_threads_info#:#Gelieve te beslissen welk leermateriaal gekopieerd moet worden.
 common#:#fold_create_alm#:#Creëer AICC Lesmodule
 common#:#fold_create_chat#:#Creëer chat
@@ -2829,7 +2829,7 @@ rbac#:#frm_add_post#:#Add new post
 rbac#:#frm_add_thread#:#Add new topi
 common#:#frm_added#:#Forum toegevoegd
 common#:#frm_article#:#Artiekel
-common#:#frm_copy#:#Kopieër Forum
+rbac#:#frm_copy#:#Kopieër Forum
 common#:#frm_create#:#Creëer forum
 rbac#:#frm_delete#:#Verwijder forum
 common#:#frm_delete_post#:#Verwijder een bijdrage, censuur
@@ -2864,7 +2864,7 @@ common#:#glo#:#Woordenlijst
 common#:#glo_a#:#een woordenlijst
 common#:#glo_add#:#Woordenlijst toevoegen
 common#:#glo_added#:#Woordenlijst toegevoegd
-common#:#glo_copy#:#Kopieër Woordenlijst
+rbac#:#glo_copy#:#Kopieër Woordenlijst
 common#:#glo_create#:#Creëer woordenlijst
 rbac#:#glo_delete#:#Verwijder woordenlijst
 rbac#:#glo_edit_permission#:#Wijzig instellingen van de rechten
@@ -2942,7 +2942,7 @@ common#:#grp_app_send_mail#:#Stuur applicant een bericht
 common#:#grp_back#:#Terug
 common#:#grp_btn_unsubscribe#:#Uitschrijven uit groep
 common#:#grp_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of group "%s"
-common#:#grp_copy#:#Kopieër Groep
+rbac#:#grp_copy#:#Kopieër Groep
 common#:#grp_copy_threads_info#:#Gelieve te beslissen welk leermateriaal gekopieerd moet worden.
 common#:#grp_count_members#:#Aantal lede
 common#:#grp_create#:#Creëer groep
@@ -3080,7 +3080,7 @@ common#:#hours#:#Uren
 common#:#hours_of_day#:#Uren van de dag
 common#:#htlm#:#HTML Lesmodule
 common#:#htlm_add#:#Voeg HTML lesmodule toe
-common#:#htlm_copy#:#Kopieër HTML Leermodule
+rbac#:#htlm_copy#:#Kopieër HTML Leermodule
 rbac#:#htlm_delete#:#Verwijder HTML lesmodule
 common#:#htlm_edit#:#Wijzig eigenschappen lesmodule
 rbac#:#htlm_edit_learning_progress#:#Leerweg aanpassen
@@ -3443,11 +3443,11 @@ common#:#lm#:#Lesmodule
 common#:#lm_a#:#een lesmodule
 common#:#lm_add#:#Lesmodule toevoegen
 common#:#lm_added#:#Toevoegen lesmodule
-common#:#lm_copy#:#Kopieër ILIAS leermodule
+rbac#:#lm_copy#:#Kopieër ILIAS leermodule
 common#:#lm_create#:#Creëer lesmodule
 rbac#:#lm_delete#:#Verwijderen Lesmodule
 rbac#:#lm_edit_learning_progress#:#Leerweg aanpassen
-common#:#lm_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#lm_edit_permission#:#Wijzig instellingen van de rechten
 common#:#lm_join#:#Abonneren op lesmodule
 common#:#lm_leave#:#Abonnement beëindigen op lesmodule
 common#:#lm_new#:#Nieuwe lesmodule
@@ -3572,7 +3572,7 @@ common#:#max_number_rec#:#Maximum aantal records
 common#:#max_time#:#Maximum tijd
 common#:#mcst#:#MediaCast
 common#:#mcst_add#:#Voeg MediaCast toe
-common#:#mcst_copy#:#kopieër MediaCast
+rbac#:#mcst_copy#:#kopieër MediaCast
 rbac#:#mcst_delete#:#Verwijder Mediacast
 rbac#:#mcst_edit_permission#:#Verander instellingen van de rechten
 common#:#mcst_new#:#Nieuwe MediaCast
@@ -4243,7 +4243,7 @@ common#:#publishing_organisation#:#Uitgeversorganisatie
 common#:#purpose#:#Voorstel
 common#:#qpl#:#Vragenpool (Toets)
 common#:#qpl_add#:#Toevoegen vragenpool
-common#:#qpl_copy#:#Copy Test Question Pool
+rbac#:#qpl_copy#:#Copy Test Question Pool
 rbac#:#qpl_delete#:#Vraag verwijderen uit vragenpool
 rbac#:#qpl_edit_permission#:#Wijzig instellingen van de rechten
 common#:#qpl_new#:#Nieuw vragenpool
@@ -4393,12 +4393,12 @@ common#:#rolt_add#:#Toevoegen rol-sjabloon
 common#:#rolt_added#:#Rol-sjabloon toegevoegd
 common#:#rolt_edit#:#Wijzigen rol-sjabloon
 common#:#rolt_new#:#Nieuwe rol-sjabloon
-common#:#root_create_cat#:#Gebruiker mag categorieën creëren
+rbac#:#root_create_cat#:#Gebruiker mag categorieën creëren
 common#:#root_edit#:#Wijzigen systeemroot-node
-common#:#root_edit_permission#:#Wijzig instellingen van de rechten
-common#:#root_read#:#Leesrechten op het ILIAS-systeem
-common#:#root_visible#:#Het ILIAS-systeem is zichtbaar
-common#:#root_write#:#Wijzigen metadata van de systeemroot-node
+rbac#:#root_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#root_read#:#Leesrechten op het ILIAS-systeem
+rbac#:#root_visible#:#Het ILIAS-systeem is zichtbaar
+rbac#:#root_write#:#Wijzigen metadata van de systeemroot-node
 common#:#row#:#Rij
 common#:#rows#:#Rijen
 common#:#rte_editor_disabled#:#Rich Text Editor uitgeschakeld
@@ -4495,7 +4495,7 @@ common#:#server#:#Server
 common#:#server_data#:#Servergegevens
 common#:#server_software#:#Serversoftwared
 common#:#sess#:#Session
-common#:#sess_copy#:#Copy Session
+rbac#:#sess_copy#:#Copy Session
 common#:#sess_fixed_duration#:#Leg duur van een sessie vast
 common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Sessie modus
@@ -4613,7 +4613,7 @@ common#:#sorting_title_header#:#Sort by Title
 common#:#spacer#:#Spacer
 common#:#spl#:#Vragenpool (Enquête)
 common#:#spl_add#:#Vraag toevoegen aan vragenpool
-common#:#spl_copy#:#Copy Survey Question Pool
+rbac#:#spl_copy#:#Copy Survey Question Pool
 rbac#:#spl_delete#:#Vraag verwijderen uit vragenpool
 rbac#:#spl_edit_permission#:#Wijzig instellingen van de rechten
 common#:#spl_new#:#Nieuw vragenpool
@@ -4668,7 +4668,7 @@ common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 common#:#svy#:#Enquête
 common#:#svy_add#:#Voeg een enquête toe
-common#:#svy_copy#:#Kopieër Enquête
+rbac#:#svy_copy#:#Kopieër Enquête
 rbac#:#svy_delete#:#Verwijder enquête
 rbac#:#svy_edit_permission#:#Wijzig instellingen van de rechten
 common#:#svy_evaluation#:#Evaluation
@@ -4780,7 +4780,7 @@ common#:#treeview#:#Tonen
 common#:#tst#:#Test
 common#:#tst_add#:#Toevoegen test
 common#:#tst_anon_eval#:#Results
-common#:#tst_copy#:#Kopieër Test
+rbac#:#tst_copy#:#Kopieër Test
 rbac#:#tst_delete#:#Verwijderen test
 rbac#:#tst_edit_learning_progress#:#Leerweg aanpassen
 rbac#:#tst_edit_permission#:#Wijzig instellingen van de rechten
@@ -5011,7 +5011,7 @@ common#:#webr#:#Website
 common#:#webr_active#:#Actief
 common#:#webr_add#:#Website toevoegen
 common#:#webr_add_item#:#Website toevoegen
-common#:#webr_copy#:#Website kopiëren
+rbac#:#webr_copy#:#Website kopiëren
 rbac#:#webr_delete#:#Website verwijderen
 common#:#webr_delete_items#:#Website(s) verwijderen
 common#:#webr_deleted_items#:#Website(s) verwijderen.
@@ -5043,7 +5043,7 @@ common#:#width#:#Breedte
 common#:#width_x_height#:#Breedte x Hoogte
 common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
-common#:#wiki_copy#:#Copy Wiki
+rbac#:#wiki_copy#:#Copy Wiki
 rbac#:#wiki_delete#:#Delete Wiki
 rbac#:#wiki_edit_content#:#Edit Wiki Pages
 rbac#:#wiki_edit_permission#:#Change permission settings
@@ -9239,7 +9239,7 @@ rbac#:#cat_create_catr#:#Creëer Categorie referentie
 rbac#:#cat_create_crsr#:#Creëer nieuwe cursus referentie
 rbac#:#cat_create_rcrs#:#Creëer Cursus links
 rbac#:#cat_create_wiki#:#Creëer Wiki
-common#:#catr_copy#:#Kopieer categorie referentie
+rbac#:#catr_copy#:#Kopieer categorie referentie
 rbac#:#catr_delete#:#Verwijder Categorie Referentie
 rbac#:#catr_edit_permission#:#Permissie instellingen wijzigen
 rbac#:#catr_read#:#Lees toegang in categorie referentie
@@ -9255,7 +9255,7 @@ rbac#:#crs_create_crsr#:#Creëer cursus referentie
 rbac#:#crs_create_sess#:#Creëer Sessie
 rbac#:#crs_create_wiki#:#Creëer Wiki
 rbac#:#crs_edit_event#:#Agenda-afspraken bewerken
-common#:#crsr_copy#:#Kopieer cursus refentie
+rbac#:#crsr_copy#:#Kopieer cursus refentie
 rbac#:#crsr_delete#:#Verwijder Cursus referentie
 rbac#:#crsr_edit_permission#:#Permissie instellingen wijzigen
 rbac#:#crsr_read#:#Lees toegang tot Cursus Referentie
