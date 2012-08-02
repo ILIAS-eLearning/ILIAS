@@ -12077,10 +12077,10 @@ blog#:#blog_notification_toggle_off#:#Deactivate Notification
 blog#:#blog_notification_activated#:#Notification Activated
 blog#:#blog_notification_deactivated#:#Notification Deactivated
 wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented
-chatroom_adm#:#chta_visible#:#Chatroom Administration is visible
-chatroom_adm#:#chta_read#:#Read access to Chatroom Administration
-chatroom_adm#:#chta_write#:#Edit Chatroom Administration
-chatroom_adm#:#chta_edit_permission#:#Change Permission Settings
+common#:#chta_visible#:#Chatroom Administration is visible
+common#:#chta_read#:#Read access to Chatroom Administration
+common#:#chta_write#:#Edit Chatroom Administration
+common#:#chta_edit_permission#:#Change Permission Settings
 rbac#:#moderate#:#Moderate
 common#:#apache_auth#:#Apache Authentication
 common#:#server_disabled#:#The Chat is Disabled

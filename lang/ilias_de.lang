@@ -2022,10 +2022,10 @@ chatroom_adm#:#chatroom_smiley_keywords#:#Platzhalter
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Ein Platzhalter pro Zeile
 chatroom_adm#:#chatroom_upload_smiley#:#Smiley hochladen
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Einstellungen
-chatroom_adm#:#chta_edit_permission#:#Rechteeinstellungen ändern
-chatroom_adm#:#chta_read#:#Lesezugriff auf Chat Administration
-chatroom_adm#:#chta_visible#:#Chat Administration sichtbar
-chatroom_adm#:#chta_write#:#Chat Administration bearbeiten
+common#:#chta_edit_permission#:#Rechteeinstellungen ändern
+common#:#chta_read#:#Lesezugriff auf Chat Administration
+common#:#chta_visible#:#Chat Administration sichtbar
+common#:#chta_write#:#Chat Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
