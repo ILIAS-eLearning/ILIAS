@@ -3213,10 +3213,10 @@ common#:#frm_status_new#:#Status 'Nowy'
 common#:#frm_status_new_desc#:#Wybierz okres jak długo ma być utrzymywany status 'Nowy' dla wpisów w forum.
 rbac#:#frm_visible#:#Forum jest widoczne
 rbac#:#frm_write#:#Edycja Forum
-common#:#frma_edit_permission#:#Change permission settings
-common#:#frma_read#:#Read access to Forum Administration
-common#:#frma_visible#:#Forum Administration is visible
-common#:#frma_write#:#Write access to Forum Administration
+rbac#:#frma_edit_permission#:#Change permission settings
+rbac#:#frma_read#:#Read access to Forum Administration
+rbac#:#frma_visible#:#Forum Administration is visible
+rbac#:#frma_write#:#Write access to Forum Administration
 common#:#from#:#Od
 common#:#fullname#:#Pełna nazwa
 common#:#functions#:#Funkcje
@@ -3837,10 +3837,10 @@ rbac#:#lm_visible#:#Moduł Nauczania jest widoczny
 rbac#:#lm_write#:#Edycja Modułu Nauczania
 common#:#lng#:#Język
 common#:#lngf#:#Folder języka
-common#:#lngf_edit_permission#:#Zmień ustawienia uprawnień
-common#:#lngf_read#:#Prawo czytania ustawień Języka
-common#:#lngf_visible#:#Ustawienia Języka są widoczne
-common#:#lngf_write#:#Write access, needed for extended language maintenance
+rbac#:#lngf_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#lngf_read#:#Prawo czytania ustawień Języka
+rbac#:#lngf_visible#:#Ustawienia Języka są widoczne
+rbac#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lo#:#Przedmiot Nauczania (PN)
 common#:#lo_available#:#Przegląd modułów nauczania i kursów
 common#:#lo_categories#:#Kategorie (PN)
@@ -3880,10 +3880,10 @@ common#:#logs#:#Dane Logu
 common#:#los#:#Przedmioty Nauczania (PN)
 common#:#los_last_visited#:#Ostatnio odwiedzane przedmioty nauczania
 common#:#lres#:#Zasoby nauczania
-common#:#lrss_edit_permission#:#Zmień ustawienia uprawnień
-common#:#lrss_read#:#Read access to Learning Resources Settings
-common#:#lrss_visible#:#Ustawienia Zasobów Nauczania są Widoczne
-common#:#lrss_write#:#Udytuj Ustawienia Zasobów Nauczania
+rbac#:#lrss_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#lrss_read#:#Read access to Learning Resources Settings
+rbac#:#lrss_visible#:#Ustawienia Zasobów Nauczania są Widoczne
+rbac#:#lrss_write#:#Udytuj Ustawienia Zasobów Nauczania
 common#:#mail#:#Poczta elektroniczna
 common#:#mail_a_root#:#Skrzynka pocztowa
 common#:#mail_addressbook#:#Kontakty
@@ -3903,8 +3903,8 @@ common#:#mail_folders#:#Foldery pocztowe
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Plik eksportowy ILIAS 2
 common#:#mail_intern_enable#:#Wybierz
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles
-common#:#mail_mail_visible#:#Użytkownik może używać systemu pocztowego
+rbac#:#mail_mail_to_global_roles#:#User may send Emails to global roles
+rbac#:#mail_mail_visible#:#Użytkownik może używać systemu pocztowego
 common#:#mail_mails_of#:#Poczta
 common#:#mail_maxsize_attach#:#Maks. rozmiar załącznika
 common#:#mail_maxsize_box#:#Maks. rozmiar skrzynki pocztowej
@@ -3917,7 +3917,7 @@ common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn'
 common#:#mail_no_valid_group_role#:#No valid group role
 common#:#mail_not_sent#:#poczta nie została wysłana!
 common#:#mail_pear_mail_needed#:#. Powinieneś zainstalować Pear Mail dla używania tej funkcji. Aby to zrobić wprowadź w terminalu: <code>pear install Mail</code>.
-common#:#mail_read#:#Prawo czytania ustawień poczty
+rbac#:#mail_read#:#Prawo czytania ustawień poczty
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#Nie znaleziono pozycji
@@ -3926,14 +3926,14 @@ common#:#mail_select_one#:#Musisz wybrać jedną wiadomość
 common#:#mail_send_error#:#Błąd wysyłania wiadomości
 common#:#mail_sent#:#Wiadomość została wysłana!
 common#:#mail_settings#:#Ustawienia poczty
-common#:#mail_smtp_mail#:#Użytkownik może wysłać pocztę poprzez SMTP
+rbac#:#mail_smtp_mail#:#Użytkownik może wysłać pocztę poprzez SMTP
 common#:#mail_system#:#Wiadomość systemowa
-common#:#mail_system_message#:#Użytkownik może wysłać wewnętrzną wiadomość systemową
+rbac#:#mail_system_message#:#Użytkownik może wysłać wewnętrzną wiadomość systemową
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_use_pear_mail#:#Użyj Pear Mail
 common#:#mail_use_pear_mail_info#:#Użyj Pear Mail do przetwarzania adresów skrzynki pocztowej. Wbudoany w ILIAS parser jest bardzo ograniczony. Pear Mail w pełni wspiera internetowe adresy e-mail.
-common#:#mail_visible#:#Ustawienia poczty są widoczne
-common#:#mail_write#:#Edycja ustawień poczty
+rbac#:#mail_visible#:#Ustawienia poczty są widoczne
+rbac#:#mail_write#:#Edycja ustawień poczty
 common#:#mail_z_local#:#Foldery użytkownika
 common#:#mails#:#Wiadomości
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s

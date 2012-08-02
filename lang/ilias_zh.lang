@@ -3229,10 +3229,10 @@ rbac#:#lm_visible#:#学习模块可视
 rbac#:#lm_write#:#编辑学习模块
 common#:#lng#:#语言
 common#:#lngf#:#语言文件夹
-common#:#lngf_edit_permission#:#更改许可设置
-common#:#lngf_read#:#语言设置为读访问
-common#:#lngf_visible#:#语言设置可视
-common#:#lngf_write#:#Write access, needed for extended language maintenance
+rbac#:#lngf_edit_permission#:#更改许可设置
+rbac#:#lngf_read#:#语言设置为读访问
+rbac#:#lngf_visible#:#语言设置可视
+rbac#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lo#:#学习对象
 common#:#lo_available#:#学习模块及课程概观
 common#:#lo_categories#:#学习对象类别
@@ -3271,10 +3271,10 @@ common#:#logs#:#Log data
 common#:#los#:#学习对象
 common#:#los_last_visited#:#上次访问的学习对象
 common#:#lres#:#Learning Resources
-common#:#lrss_edit_permission#:#Change permission settings
-common#:#lrss_read#:#Read access to Learning Resources Settings
-common#:#lrss_visible#:#Learning Resources Settings are visible
-common#:#lrss_write#:#Edit Learning Resources Settings
+rbac#:#lrss_edit_permission#:#Change permission settings
+rbac#:#lrss_read#:#Read access to Learning Resources Settings
+rbac#:#lrss_visible#:#Learning Resources Settings are visible
+rbac#:#lrss_write#:#Edit Learning Resources Settings
 common#:#mail#:#邮件
 common#:#mail_a_root#:#邮箱
 common#:#mail_addressbook#:#地址簿
@@ -3293,7 +3293,7 @@ common#:#mail_folders#:#邮件夹
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#ILIAS 2 export file
 common#:#mail_intern_enable#:#激活
-common#:#mail_mail_visible#:#User may use mail system
+rbac#:#mail_mail_visible#:#User may use mail system
 common#:#mail_mails_of#:#邮件
 common#:#mail_maxsize_attach#:#附件最大字节数
 common#:#mail_maxsize_box#:#邮箱最大字节数
@@ -3305,7 +3305,7 @@ common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. IL
 common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
 common#:#mail_not_sent#:#邮件未被发送！
 common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
-common#:#mail_read#:#邮件设置为读访问
+rbac#:#mail_read#:#邮件设置为读访问
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#未找到条目
@@ -3314,13 +3314,13 @@ common#:#mail_select_one#:#您必须选择一个邮件
 common#:#mail_send_error#:#发送邮件出错
 common#:#mail_sent#:#邮件已发送！
 common#:#mail_settings#:#邮件设置
-common#:#mail_smtp_mail#:#用户可通过SMTP发送邮件
+rbac#:#mail_smtp_mail#:#用户可通过SMTP发送邮件
 common#:#mail_system#:#系统消息
-common#:#mail_system_message#:#用户可以发送内部系统消息
+rbac#:#mail_system_message#:#用户可以发送内部系统消息
 common#:#mail_use_pear_mail#:#Use Pear Mail
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
-common#:#mail_visible#:#邮件设置可视
-common#:#mail_write#:#编辑邮件设置
+rbac#:#mail_visible#:#邮件设置可视
+rbac#:#mail_write#:#编辑邮件设置
 common#:#mail_z_local#:#用户文件夹
 common#:#mails#:#邮件
 common#:#mails_pl#:#Mail(s)
@@ -10321,7 +10321,7 @@ common#:#session_max_idle_after_first_request#:#Max session idle after first req
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.###16 07 2010 new variable
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.###16 07 2010 new variable
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
+rbac#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles###16 07 2010 new variable
 common#:#mail_no_valid_group_role#:#No valid group role###16 07 2010 new variable
 payment#:#paya_bill_history#:#Bill History###16 07 2010 new variable
@@ -10946,10 +10946,10 @@ administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticat
 wiki#:#wiki_change_notification_salutation#:#Hello %s,###20 10 2010 new variable
 assessment#:#tst_export_settings#:#Export settings###20 10 2010 new variable
 assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions###20 10 2010 new variable
-common#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
-common#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
-common#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
-common#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
+rbac#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
+rbac#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
 common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new variable
 rbac#:#usrf_create_usr#:#Create User###20 10 2010 new variable
 trac#:#trac_all#:#All###20 10 2010 new variable

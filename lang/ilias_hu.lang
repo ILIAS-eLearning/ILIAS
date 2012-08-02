@@ -3282,10 +3282,10 @@ rbac#:#lm_visible#:#ILIAS-tananyag látható
 rbac#:#lm_write#:#ILIAS-tananyag szerkesztése
 common#:#lm#:#Tananyag
 common#:#lng#:#Nyelv
-common#:#lngf_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#lngf_read#:#Olvasási jog a nyelvi beállításokhoz
-common#:#lngf_visible#:#A nyelvi beállítások láthatóak
-common#:#lngf_write#:#Írási jog szükséges a kiterjesztett nyelvkarbantartáshoz
+rbac#:#lngf_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#lngf_read#:#Olvasási jog a nyelvi beállításokhoz
+rbac#:#lngf_visible#:#A nyelvi beállítások láthatóak
+rbac#:#lngf_write#:#Írási jog szükséges a kiterjesztett nyelvkarbantartáshoz
 common#:#lngf#:#Nyelvek
 common#:#lo_available#:#Tananyagok és kurzusok áttekintése
 common#:#lo_categories#:#Tananyagobjektum kategóriák
@@ -3326,10 +3326,10 @@ common#:#logs#:#Naplófájladatok
 common#:#los_last_visited#:#Utoljára látogatott tananyagobjektumok
 common#:#los#:#Tananyagobjektumok
 common#:#lres#:#Tananyagforrások
-common#:#lrss_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#lrss_read#:#Olvasási elérés a tananyagforrások beállításaihoz
-common#:#lrss_visible#:#A tananyagforrások beállításai láthatók
-common#:#lrss_write#:#Tananyagforrások beállításainak szerkesztése
+rbac#:#lrss_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#lrss_read#:#Olvasási elérés a tananyagforrások beállításaihoz
+rbac#:#lrss_visible#:#A tananyagforrások beállításai láthatók
+rbac#:#lrss_write#:#Tananyagforrások beállításainak szerkesztése
 common#:#mail_a_root#:#Postaláda
 common#:#mail_addressbook#:#Címlista
 common#:#mail_allow_smtp#:#SMTP számára elérhető
@@ -3347,7 +3347,7 @@ common#:#mail_folders#:#E-mail mappák
 common#:#mail_import_file#:#Fájl importálása
 common#:#mail_import#:#Importálás
 common#:#mail_intern_enable#:#Engedélyezett
-common#:#mail_mail_visible#:#A felhasználó használhatja a levelezőrendszert
+rbac#:#mail_mail_visible#:#A felhasználó használhatja a levelezőrendszert
 common#:#mail_mails_of#:#E-mail
 common#:#mail_maxsize_attach#:#Csatolás maximális mérete
 common#:#mail_maxsize_box#:#Levelesláda maximális mérete
@@ -3359,7 +3359,7 @@ common#:#mail_multiple_recipients_found#:#Jellemzőbb e-mail címet adjon meg! A
 common#:#mail_no_recipient_found#:#Adjon meg egy másik e-mail címet! Az ILIAS nem talál címzettet ezzel az e-mail címmel.
 common#:#mail_not_sent#:#Az e-mail nem került elküldésre!
 common#:#mail_pear_mail_needed#:#Ennek a funkciónak a használatához installálnia kell a Pear Mail-t Ehhez a terminálon adja meg: <code>pear install Mail</code>
-common#:#mail_read#:#Olvasási jog az e-mail beállításaihoz
+rbac#:#mail_read#:#Olvasási jog az e-mail beállításaihoz
 common#:#mail_search_courses_not_found#:#Nem található olyan kurzus, amelynek Ön is tagja.
 common#:#mail_search_groups_not_found#:#Nem található olyan csoport, amelynek Ön is tagja.
 common#:#mail_search_no#:#Bejegyzések nem találhatók.
@@ -3368,13 +3368,13 @@ common#:#mail_select_one#:#Ki kell választania egy e-mail-t
 common#:#mail_send_error#:#Hiba lépett fel az e-mail elküldése közben
 common#:#mail_sent#:#E-mail elküldve.
 common#:#mail_settings#:#Levelezési beállítások
-common#:#mail_smtp_mail#:#A felhasználó SMTP-n keresztül küldhet e-mail-t
-common#:#mail_system_message#:#A felhasználó belső rendszerüzeneteket küldhet
+rbac#:#mail_smtp_mail#:#A felhasználó SMTP-n keresztül küldhet e-mail-t
+rbac#:#mail_system_message#:#A felhasználó belső rendszerüzeneteket küldhet
 common#:#mail_system#:#Rendszerüzenet
 common#:#mail_use_pear_mail_info#:#Pear Mail használata postaládacímek elemzéséhez. Az ILIAS-ba beépített elemző képességei igen korlátozottak. A Pear Mail teljes mértékben támogatja az e-mail címek internet-kompatibilitását.
 common#:#mail_use_pear_mail#:#Pear Mail használata
-common#:#mail_visible#:#Belső e-mail beállítások használata
-common#:#mail_write#:#E-mail beállítások szerkesztése
+rbac#:#mail_visible#:#Belső e-mail beállítások használata
+rbac#:#mail_write#:#E-mail beállítások szerkesztése
 common#:#mail_z_local#:#Felhasználói mappák
 common#:#mail#:#E-mail
 common#:#mails_pl#:#E-mail
@@ -10307,7 +10307,7 @@ common#:#session_max_idle_after_first_request#:#Maximális munkamenettétlenség
 common#:#session_max_idle_after_first_request_info#:#Ha legalább ennyi ideig tétlen az összes munkamenet az első kérés után, törlésre kerülnek, ha egy másik munkamenetet kellene megnyitni egy másik felhasználónak, és maximális a jelenleg nyitott munkamenetek száma.
 common#:#reached_session_limit#:#Az online felhasználók száma elérte a beállított határt. Próbálja később.
 forum#:#forums_post_activation_mail#:#Ha nem aktviáltak az alábbi hozzászólások, nem látja a többi fórumfelhasználó. Ezt az e-mailt azért kapta, mert Ön a fórum moderátora, így jogosult a hozzászólás aktiválására.
-common#:#mail_mail_to_global_roles#:#A felhasználó küldhet e-mailt a globális szerepeknek
+rbac#:#mail_mail_to_global_roles#:#A felhasználó küldhet e-mailt a globális szerepeknek
 common#:#mail_to_global_roles_not_allowed#:#Nem engedélyezett e-mail küldése a globális szerepeknek
 common#:#mail_no_valid_group_role#:#Nincs érvényes csoportszerep
 payment#:#paya_bill_history#:#Számlatörténet
@@ -10934,10 +10934,10 @@ administration#:#apache_auth_authenticate_on_login_page#:#Apache-azonosítás pr
 wiki#:#wiki_change_notification_salutation#:#Üdvözöljük, %s!
 assessment#:#tst_export_settings#:#Exportbeállítások
 assessment#:#tst_exp_sc_short#:#Rövidített áttekintés létrehozása egyszerű választásos kérdésekhez
-common#:#frma_visible#:#A fórumadminisztráció látható
-common#:#frma_read#:#Olvasási elérés a fórumadminisztrációhoz
-common#:#frma_write#:#Írási elérés a fórumadminisztrációhoz
-common#:#frma_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#frma_visible#:#A fórumadminisztráció látható
+rbac#:#frma_read#:#Olvasási elérés a fórumadminisztrációhoz
+rbac#:#frma_write#:#Írási elérés a fórumadminisztrációhoz
+rbac#:#frma_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#nr_following_sessions#:#%1d alábbi munkamenet(ek)...
 rbac#:#usrf_create_usr#:#Felhasználó létrehozása
 trac#:#trac_all#:#Minden

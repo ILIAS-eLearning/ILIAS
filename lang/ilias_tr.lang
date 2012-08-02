@@ -3417,10 +3417,10 @@ rbac#:#lm_visible#:#ILIAS Öğrenme Modülü görünür halde
 rbac#:#lm_write#:#ILIAS Öğrenme Modülünü düzenle
 common#:#lng#:#Dil
 common#:#lngf#:#Diller
-common#:#lngf_edit_permission#:#İzin ayarlarını değiştir
-common#:#lngf_read#:#Dil ayarlarına okuma erişimi
-common#:#lngf_visible#:#Dil ayarları görünür halde
-common#:#lngf_write#:#Write access, needed for extended language maintenance
+rbac#:#lngf_edit_permission#:#İzin ayarlarını değiştir
+rbac#:#lngf_read#:#Dil ayarlarına okuma erişimi
+rbac#:#lngf_visible#:#Dil ayarları görünür halde
+rbac#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lo#:#Öğrenme Nesnesi
 common#:#lo_available#:#Öğrenme Modülleri ve Kurslarına Genel Bakış
 common#:#lo_categories#:#Öğrenme Nesnesi Kategorileri
@@ -3460,10 +3460,10 @@ common#:#logs#:#İşlem listesi verileri
 common#:#los#:#Öğrenme Nesneleri
 common#:#los_last_visited#:#En Son Ziyaret Edilen Öğrenme Nesneleri
 common#:#lres#:#Öğrenme Kaynakları
-common#:#lrss_edit_permission#:#Change permission settings
-common#:#lrss_read#:#Read access to Learning Resources Settings
-common#:#lrss_visible#:#Learning Resources Settings are visible
-common#:#lrss_write#:#Edit Learning Resources Settings
+rbac#:#lrss_edit_permission#:#Change permission settings
+rbac#:#lrss_read#:#Read access to Learning Resources Settings
+rbac#:#lrss_visible#:#Learning Resources Settings are visible
+rbac#:#lrss_write#:#Edit Learning Resources Settings
 common#:#mail#:#İleti
 common#:#mail_a_root#:#E-posta kutusu
 common#:#mail_addressbook#:#Adres defteri
@@ -3483,8 +3483,8 @@ common#:#mail_folders#:#İleti Klasörleri
 common#:#mail_import#:#İçeri Aktar
 common#:#mail_import_file#:#Dosyayı dışarı aktar
 common#:#mail_intern_enable#:#Etkin kıl
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles
-common#:#mail_mail_visible#:#Kullanıcı e-posta sistemini kullanabilir
+rbac#:#mail_mail_to_global_roles#:#User may send Emails to global roles
+rbac#:#mail_mail_visible#:#Kullanıcı e-posta sistemini kullanabilir
 common#:#mail_mails_of#:#İleti
 common#:#mail_maxsize_attach#:#Maksimum ekli dosya boyutu
 common#:#mail_maxsize_box#:#Maksimum posta kutusu boyutu
@@ -3497,7 +3497,7 @@ common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn'
 common#:#mail_no_valid_group_role#:#No valid group role
 common#:#mail_not_sent#:#İleti gönderilmedi!
 common#:#mail_pear_mail_needed#:#You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
-common#:#mail_read#:#İleti ayarlarına okuma erişimi
+rbac#:#mail_read#:#İleti ayarlarına okuma erişimi
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#Girdi bulunamadı.
@@ -3506,14 +3506,14 @@ common#:#mail_select_one#:#Bir ileti seçmelisiniz
 common#:#mail_send_error#:#İleti gönderirken hata
 common#:#mail_sent#:#İleti gönderildi!
 common#:#mail_settings#:#Mail Settings
-common#:#mail_smtp_mail#:#Kullanıcı SMTP vasıtasıyla ileti gönderebilir
+rbac#:#mail_smtp_mail#:#Kullanıcı SMTP vasıtasıyla ileti gönderebilir
 common#:#mail_system#:#Sistem Mesajı
-common#:#mail_system_message#:#Kullanıcı dahili sistem mesajları gönderebilir
+rbac#:#mail_system_message#:#Kullanıcı dahili sistem mesajları gönderebilir
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_use_pear_mail#:#Use Pear Mail
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
-common#:#mail_visible#:#İleti ayarları görünür halde
-common#:#mail_write#:#İleti ayarlarını düzenle
+rbac#:#mail_visible#:#İleti ayarları görünür halde
+rbac#:#mail_write#:#İleti ayarlarını düzenle
 common#:#mail_z_local#:#Kullanıcı Klasörleri
 common#:#mails#:#İleti
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
@@ -10933,10 +10933,10 @@ administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticat
 wiki#:#wiki_change_notification_salutation#:#Hello %s,###20 10 2010 new variable
 assessment#:#tst_export_settings#:#Export settings###20 10 2010 new variable
 assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions###20 10 2010 new variable
-common#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
-common#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
-common#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
-common#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
+rbac#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
+rbac#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
 common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new variable
 rbac#:#usrf_create_usr#:#Create User###20 10 2010 new variable
 trac#:#trac_all#:#All###20 10 2010 new variable

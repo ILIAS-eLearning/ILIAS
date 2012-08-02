@@ -3211,10 +3211,10 @@ common#:#frm_status_new#:#Estado 'Nuevo'
 common#:#frm_status_new_desc#:#Por favor seleccione cuánto tiempo se mantiene el estado 'Nuevo' para las entradas de los foros.
 rbac#:#frm_visible#:#El foro es visible
 rbac#:#frm_write#:#Editar foro
-common#:#frma_edit_permission#:#Cambiar configuración de permisos
-common#:#frma_read#:#Acceso de lectura para la administración del foro
-common#:#frma_visible#:#La administración del foro es visible
-common#:#frma_write#:#Acceso de escritura para la administración del foro
+rbac#:#frma_edit_permission#:#Cambiar configuración de permisos
+rbac#:#frma_read#:#Acceso de lectura para la administración del foro
+rbac#:#frma_visible#:#La administración del foro es visible
+rbac#:#frma_write#:#Acceso de escritura para la administración del foro
 common#:#from#:#desde
 common#:#fullname#:#Nombre Completo
 common#:#functions#:#Funciones
@@ -3834,10 +3834,10 @@ rbac#:#lm_visible#:#Módulo de Aprendizaje es visible
 rbac#:#lm_write#:#Editar Módulo de Aprendizaje
 common#:#lng#:#Idioma
 common#:#lngf#:#Idiomas
-common#:#lngf_edit_permission#:#Modificar configuración de permisos
-common#:#lngf_read#:#acceso de lectura configuración del idioma
-common#:#lngf_visible#:#Configuración de idioma visible
-common#:#lngf_write#:#Acceso de escritura, necesitado para mantenimiento de idioma extendido.
+rbac#:#lngf_edit_permission#:#Modificar configuración de permisos
+rbac#:#lngf_read#:#acceso de lectura configuración del idioma
+rbac#:#lngf_visible#:#Configuración de idioma visible
+rbac#:#lngf_write#:#Acceso de escritura, necesitado para mantenimiento de idioma extendido.
 common#:#lo#:#Objeto de Aprendizaje
 common#:#lo_available#:#Resumen de Módulos de Aprendizaje y Cursos
 common#:#lo_categories#:#Categorías de Objetos de Aprendizaje
@@ -3877,10 +3877,10 @@ common#:#logs#:#Datos de Log
 common#:#los#:#objetos de aprendizaje
 common#:#los_last_visited#:#últimos objetos de aprendizaje visitados
 common#:#lres#:#Recursos de aprendizaje
-common#:#lrss_edit_permission#:#Cambiar la configuración de los permisos
-common#:#lrss_read#:#Acceso de lectura a los ajustes de los recursos de aprendizaje
-common#:#lrss_visible#:#Los ajustes de los recursos de aprendizaje son visibles
-common#:#lrss_write#:#Editar las configuración de los Recursos de Aprendizaje
+rbac#:#lrss_edit_permission#:#Cambiar la configuración de los permisos
+rbac#:#lrss_read#:#Acceso de lectura a los ajustes de los recursos de aprendizaje
+rbac#:#lrss_visible#:#Los ajustes de los recursos de aprendizaje son visibles
+rbac#:#lrss_write#:#Editar las configuración de los Recursos de Aprendizaje
 common#:#mail#:#Correo
 common#:#mail_a_root#:#Bandeja de Correo
 common#:#mail_addressbook#:#Agenda
@@ -3900,8 +3900,8 @@ common#:#mail_folders#:#Carpetas
 common#:#mail_import#:#Importar
 common#:#mail_import_file#:#archivo en formato exportado por ILIAS 2
 common#:#mail_intern_enable#:#Habilitar
-common#:#mail_mail_to_global_roles#:#El usuario debe enviar Emails a los roles globales
-common#:#mail_mail_visible#:#El usuario puede usar el sistema de correo
+rbac#:#mail_mail_to_global_roles#:#El usuario debe enviar Emails a los roles globales
+rbac#:#mail_mail_visible#:#El usuario puede usar el sistema de correo
 common#:#mail_mails_of#:#Correo
 common#:#mail_maxsize_attach#:#Máx. tamaño de los adjuntos
 common#:#mail_maxsize_box#:#Máx. tamaño del mailbox
@@ -3914,7 +3914,7 @@ common#:#mail_no_recipient_found#:#Introduzca otra dirección de correo. ILIAS n
 common#:#mail_no_valid_group_role#:#Rol de grupo no válido
 common#:#mail_not_sent#:#Correo no enviado!
 common#:#mail_pear_mail_needed#:#Necesita instalar Pear Mail para usar esta función. Para hacer esto, introduzca <code>pear install Mail</code> en el terminal.
-common#:#mail_read#:#Acceso de lectura a la configuración del correo
+rbac#:#mail_read#:#Acceso de lectura a la configuración del correo
 common#:#mail_search_courses_not_found#:#No se encontraron cursos a los que pertenezca como miembro.
 common#:#mail_search_groups_not_found#:#No se encontraron grupos a los que pertenezca como miembro.
 common#:#mail_search_no#:#No se encontraron entradas
@@ -3923,14 +3923,14 @@ common#:#mail_select_one#:#Debe seleccionar un correo
 common#:#mail_send_error#:#Error enviando el correo
 common#:#mail_sent#:#Correo enviado correctamente!
 common#:#mail_settings#:#Configuración de Correo
-common#:#mail_smtp_mail#:#El usuario puede enviar correo vía SMTP
+rbac#:#mail_smtp_mail#:#El usuario puede enviar correo vía SMTP
 common#:#mail_system#:#Mensaje de Sistema
-common#:#mail_system_message#:#El usuario puede enviar mensajes internos
+rbac#:#mail_system_message#:#El usuario puede enviar mensajes internos
 common#:#mail_to_global_roles_not_allowed#:#No está permitido enviar emails a roles globales
 common#:#mail_use_pear_mail#:#Usar Pear Mail
 common#:#mail_use_pear_mail_info#:#Usar Pear Mail para interpretar direcciones mailbox. El parser incluido en ILIAS es muy limitado. Pear Mail soporta completamente direcciones de correo de internet.
-common#:#mail_visible#:#La configuración de correo está visible
-common#:#mail_write#:#Editar configuración del Correo
+rbac#:#mail_visible#:#La configuración de correo está visible
+rbac#:#mail_write#:#Editar configuración del Correo
 common#:#mail_z_local#:#Carpetas de usuario
 common#:#mails#:#correos
 common#:#mails_at_the_ilias_installation#:#Has recibido %1$s nuevos correos en la instalación de ILIAS %2$s

@@ -3281,10 +3281,10 @@ rbac#:#lm_visible#:#ILIAS Learning Module is visible
 rbac#:#lm_write#:#Edit ILIAS Learning Module
 common#:#lm#:#Learning Module ILIAS
 common#:#lng#:#Language
-common#:#lngf_edit_permission#:#Change permission settings
-common#:#lngf_read#:#Read access to Language settings
-common#:#lngf_visible#:#Language settings are visible
-common#:#lngf_write#:#Write access, needed for extended language maintenance
+rbac#:#lngf_edit_permission#:#Change permission settings
+rbac#:#lngf_read#:#Read access to Language settings
+rbac#:#lngf_visible#:#Language settings are visible
+rbac#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lngf#:#Languages
 common#:#lo_available#:#Overview Learning Modules & Courses
 common#:#lo_categories#:#LO Categories
@@ -3325,10 +3325,10 @@ common#:#logs#:#Log data
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#los#:#Learning Objects
 common#:#lres#:#Learning Resources
-common#:#lrss_edit_permission#:#Change permission settings
-common#:#lrss_read#:#Read access to Learning Resources Settings
-common#:#lrss_visible#:#Learning Resources Settings are visible
-common#:#lrss_write#:#Edit Learning Resources Settings
+rbac#:#lrss_edit_permission#:#Change permission settings
+rbac#:#lrss_read#:#Read access to Learning Resources Settings
+rbac#:#lrss_visible#:#Learning Resources Settings are visible
+rbac#:#lrss_write#:#Edit Learning Resources Settings
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Contacts
 common#:#mail_allow_smtp#:#Allow SMTP
@@ -3346,7 +3346,7 @@ common#:#mail_folders#:#Mail Folders
 common#:#mail_import_file#:#Export file
 common#:#mail_import#:#Import
 common#:#mail_intern_enable#:#Enable
-common#:#mail_mail_visible#:#User may use mail system
+rbac#:#mail_mail_visible#:#User may use mail system
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
@@ -3358,7 +3358,7 @@ common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. IL
 common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mail_pear_mail_needed#:#You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
-common#:#mail_read#:#Read access to mail settings
+rbac#:#mail_read#:#Read access to mail settings
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#No entries found.
@@ -3367,13 +3367,13 @@ common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_settings#:#Mail Settings
-common#:#mail_smtp_mail#:#User may send e-mail via SMTP
-common#:#mail_system_message#:#User may send internal system messages
+rbac#:#mail_smtp_mail#:#User may send e-mail via SMTP
+rbac#:#mail_system_message#:#User may send internal system messages
 common#:#mail_system#:#System Message
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
 common#:#mail_use_pear_mail#:#Use Pear Mail
-common#:#mail_visible#:#Mail settings are visible
-common#:#mail_write#:#Edit mail settings
+rbac#:#mail_visible#:#Mail settings are visible
+rbac#:#mail_write#:#Edit mail settings
 common#:#mail_z_local#:#User Folders
 common#:#mail#:#Mail
 common#:#mails_pl#:#Mail(s)
@@ -10307,7 +10307,7 @@ common#:#session_max_idle_after_first_request#:#Max session idle after first req
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles
+rbac#:#mail_mail_to_global_roles#:#User may send Emails to global roles
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_no_valid_group_role#:#No valid group role
 payment#:#paya_bill_history#:#Bill History
@@ -10934,10 +10934,10 @@ administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticat
 wiki#:#wiki_change_notification_salutation#:#Hello %s,###20 10 2010 new variable
 assessment#:#tst_export_settings#:#Export settings###20 10 2010 new variable
 assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions###20 10 2010 new variable
-common#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
-common#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
-common#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
-common#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
+rbac#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
+rbac#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
 common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new variable
 rbac#:#usrf_create_usr#:#Create User###20 10 2010 new variable
 trac#:#trac_all#:#All###20 10 2010 new variable

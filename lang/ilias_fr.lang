@@ -3177,10 +3177,10 @@ common#:#frm_status_new#:#Statut 'Nouveau'
 rbac#:#frm_visible#:#Le forum est visible
 rbac#:#frm_write#:#Modifier forum
 common#:#frm#:#Forum
-common#:#frma_edit_permission#:#Changer les paramètres de permission
-common#:#frma_read#:#Read access to Forum Administration
-common#:#frma_visible#:#Forum Administration is visible
-common#:#frma_write#:#Write access to Forum Administration
+rbac#:#frma_edit_permission#:#Changer les paramètres de permission
+rbac#:#frma_read#:#Read access to Forum Administration
+rbac#:#frma_visible#:#Forum Administration is visible
+rbac#:#frma_write#:#Write access to Forum Administration
 common#:#from#:#De
 common#:#fullname#:#Nom complet
 common#:#functions#:#Fonctions
@@ -3800,10 +3800,10 @@ rbac#:#lm_visible#:#Le document ILIAS est visible
 rbac#:#lm_write#:#Modifier document ILIAS
 common#:#lm#:#Document ILIAS
 common#:#lng#:#Langue
-common#:#lngf_edit_permission#:#Modifier les paramètres de permission
-common#:#lngf_read#:#Accès en lecture aux paramètres de langues
-common#:#lngf_visible#:#Les paramètres de langues sont visibles
-common#:#lngf_write#:#Accès en écriture nécessaires pour la maintenance de langue étendue
+rbac#:#lngf_edit_permission#:#Modifier les paramètres de permission
+rbac#:#lngf_read#:#Accès en lecture aux paramètres de langues
+rbac#:#lngf_visible#:#Les paramètres de langues sont visibles
+rbac#:#lngf_write#:#Accès en écriture nécessaires pour la maintenance de langue étendue
 common#:#lngf#:#Dossier de langues
 common#:#lo_available#:#Vue d'ensemble des modules d'apprentissage et des cours
 common#:#lo_categories#:#Catégories de cours
@@ -3844,10 +3844,10 @@ common#:#logs#:#Données du journal
 common#:#los_last_visited#:#Documents visités récemment
 common#:#los#:#Documents
 common#:#lres#:#Ressources d'apprentissage
-common#:#lrss_edit_permission#:#Changer les paramètres de permission
-common#:#lrss_read#:#Lire l'accès aux paramètres des ressources d'apprentissage
-common#:#lrss_visible#:#Les paramètres des ressources d'apprentissage sont visibles
-common#:#lrss_write#:#Modifier les paramètres des ressources d'apprentissage
+rbac#:#lrss_edit_permission#:#Changer les paramètres de permission
+rbac#:#lrss_read#:#Lire l'accès aux paramètres des ressources d'apprentissage
+rbac#:#lrss_visible#:#Les paramètres des ressources d'apprentissage sont visibles
+rbac#:#lrss_write#:#Modifier les paramètres des ressources d'apprentissage
 common#:#mail_a_root#:#Boîte aux lettres
 common#:#mail_addressbook#:#Carnet d'adresse
 common#:#mail_allow_smtp#:#Permettre SMTP
@@ -3866,8 +3866,8 @@ common#:#mail_folders#:#Dossiers de messagerie
 common#:#mail_import_file#:#Fichier d'exportation ILIAS 2
 common#:#mail_import#:#Importer
 common#:#mail_intern_enable#:#Activer
-common#:#mail_mail_to_global_roles#:#L'utilisateur peut envoyer des courriels à des rôles globaux
-common#:#mail_mail_visible#:#L'utilisateur peut utiliser la messagerie système
+rbac#:#mail_mail_to_global_roles#:#L'utilisateur peut envoyer des courriels à des rôles globaux
+rbac#:#mail_mail_visible#:#L'utilisateur peut utiliser la messagerie système
 common#:#mail_mails_of#:#Messages
 common#:#mail_maxsize_attach#:#Taille maximale des documents joints
 common#:#mail_maxsize_box#:#Taille maximale de boîte aux lettres
@@ -3880,7 +3880,7 @@ common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn'
 common#:#mail_no_valid_group_role#:#Aucun rôle de groupe valide
 common#:#mail_not_sent#:#Message non envoyé !
 common#:#mail_pear_mail_needed#:#Vous devez installer le module Pear 'Mail' pour utiliser cette fonction. Pour ce faire, entrez <code> pear install Mail </ code> dans l'Invite de commandes.
-common#:#mail_read#:#Accès en lecture aux paramètres de messagerie
+rbac#:#mail_read#:#Accès en lecture aux paramètres de messagerie
 common#:#mail_search_courses_not_found#:#Aucun cours dont vous êtes membre n'a été trouvé.
 common#:#mail_search_groups_not_found#:#Aucun groupe dont vous êtes membres n'a été trouvé.
 common#:#mail_search_no#:#Aucune entrée trouvée !
@@ -3889,14 +3889,14 @@ common#:#mail_select_one#:#Vous devez sélectionner un message !
 common#:#mail_send_error#:#Erreur lors de l'envoi du message
 common#:#mail_sent#:#Message envoyé !
 common#:#mail_settings#:#Paramètres messagerie
-common#:#mail_smtp_mail#:#L'utilisateur peut envoyer des messages par SMTP
-common#:#mail_system_message#:#L'utilisateur peut envoyer des messages système internes
+rbac#:#mail_smtp_mail#:#L'utilisateur peut envoyer des messages par SMTP
+rbac#:#mail_system_message#:#L'utilisateur peut envoyer des messages système internes
 common#:#mail_system#:#Message système
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_use_pear_mail_info#:#Utilisez le module Pear 'Mail' pour analyser les adresses de la boîte de messagerie. Le parseur d'ILIAS est très limité. Pear 'Mail' est totalement compatible avec les adresses de messagerie d'Internet.
 common#:#mail_use_pear_mail#:#Utiliser 'PEAR-Mail'
-common#:#mail_visible#:#Les paramètres de messagerie sont visibles
-common#:#mail_write#:#Modifier paramètres de messagerie
+rbac#:#mail_visible#:#Les paramètres de messagerie sont visibles
+rbac#:#mail_write#:#Modifier paramètres de messagerie
 common#:#mail_z_local#:#Dossiers utilisateur
 common#:#mail#:#Messagerie
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
