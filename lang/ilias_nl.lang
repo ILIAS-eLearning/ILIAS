@@ -2845,10 +2845,10 @@ common#:#frm_status_new#:#Status 'Nieuw'
 common#:#frm_status_new_desc#:#Gelieve een tijdsduur te bepalen hoe lang de status 'Nieuw' is in het forum.
 rbac#:#frm_visible#:#Forum is zichtbaar
 rbac#:#frm_write#:#Forum wijzigen
-common#:#frma_edit_permission#:#Verander permissie instellingen
-common#:#frma_read#:#Read access to Forum Administration
-common#:#frma_visible#:#Forum administratie is zichtbaar
-common#:#frma_write#:#Schrijf toegang tot de forum administratie
+rbac#:#frma_edit_permission#:#Verander permissie instellingen
+rbac#:#frma_read#:#Read access to Forum Administration
+rbac#:#frma_visible#:#Forum administratie is zichtbaar
+rbac#:#frma_write#:#Schrijf toegang tot de forum administratie
 common#:#from#:#Van
 common#:#fullname#:#Volledige naam
 common#:#functions#:#Functies
@@ -3460,10 +3460,10 @@ rbac#:#lm_visible#:#Lesmodule is zichtbaar
 rbac#:#lm_write#:#Wijzigen Lesmodule
 common#:#lng#:#Taal
 common#:#lngf#:#Talen
-common#:#lngf_edit_permission#:#Recht-instellingen wijzigen
-common#:#lngf_read#:#Leestoegang taalinstellingen
-common#:#lngf_visible#:#Taalinstellingen zijn zichtbaar
-common#:#lngf_write#:#Schrijftoegang, benodige voor uitgebreid taalbeheer
+rbac#:#lngf_edit_permission#:#Recht-instellingen wijzigen
+rbac#:#lngf_read#:#Leestoegang taalinstellingen
+rbac#:#lngf_visible#:#Taalinstellingen zijn zichtbaar
+rbac#:#lngf_write#:#Schrijftoegang, benodige voor uitgebreid taalbeheer
 common#:#lo#:#Leerobject
 common#:#lo_available#:#Overzicht van lesmodulen en cursussen
 common#:#lo_categories#:#Lesobjectcategorieën
@@ -3503,10 +3503,10 @@ common#:#logs#:#Log data
 common#:#los#:#Lesobjecten
 common#:#los_last_visited#:#Laatst bezochte lesobjecten
 common#:#lres#:#Leerbronnen
-common#:#lrss_edit_permission#:#Change permission settings
-common#:#lrss_read#:#Read access to Learning Resources Settings
-common#:#lrss_visible#:#Learning Resources Settings are visible
-common#:#lrss_write#:#Edit Learning Resources Settings
+rbac#:#lrss_edit_permission#:#Change permission settings
+rbac#:#lrss_read#:#Read access to Learning Resources Settings
+rbac#:#lrss_visible#:#Learning Resources Settings are visible
+rbac#:#lrss_write#:#Edit Learning Resources Settings
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Adresboek
@@ -3526,8 +3526,8 @@ common#:#mail_folders#:#Mappen
 common#:#mail_import#:#Importeren
 common#:#mail_import_file#:#Bestand exporteren
 common#:#mail_intern_enable#:#Inschakelen
-common#:#mail_mail_to_global_roles#:#Gebruiker mag emails versturen naar de globale rollen
-common#:#mail_mail_visible#:#Gebruiker mag mailsysteem gebruiken
+rbac#:#mail_mail_to_global_roles#:#Gebruiker mag emails versturen naar de globale rollen
+rbac#:#mail_mail_visible#:#Gebruiker mag mailsysteem gebruiken
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. bijlagegrootte
 common#:#mail_maxsize_box#:#Max. mailboxgrootte
@@ -3540,7 +3540,7 @@ common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn'
 common#:#mail_no_valid_group_role#:#Geen geldige groep rol
 common#:#mail_not_sent#:#Mail niet verzonden!
 common#:#mail_pear_mail_needed#:#.U moet Pear Mail installeren om deze functie te gebruiken. Om dit te doen, voert u  <code>pear install Mail</code> in op de terminal.
-common#:#mail_read#:#Leestoegang op Mailinstellingen
+rbac#:#mail_read#:#Leestoegang op Mailinstellingen
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#Geen gegevens gevonden
@@ -3549,14 +3549,14 @@ common#:#mail_select_one#:#U moet minstens 1 mail selecteren
 common#:#mail_send_error#:#Fout bij verzenden emaild
 common#:#mail_sent#:#Mail verzonden!
 common#:#mail_settings#:#Mail instellingen
-common#:#mail_smtp_mail#:#Gebruiker mag mail via SMTP verzenden
+rbac#:#mail_smtp_mail#:#Gebruiker mag mail via SMTP verzenden
 common#:#mail_system#:#Systeembericht
-common#:#mail_system_message#:#Gebruiker mag interne systeemberichten verzenden
+rbac#:#mail_system_message#:#Gebruiker mag interne systeemberichten verzenden
 common#:#mail_to_global_roles_not_allowed#:#Het is niet toegestaan emails naar algemne rollen te zenden
 common#:#mail_use_pear_mail#:#Gebruik Pear Mail
 common#:#mail_use_pear_mail_info#:#Gebruik Pear Mail om mailboxadressen te ontleden. De built-in parser in ILIAS is gelimiteerd. Pear Mail ondersteunt volledig internet e-mailadressen
-common#:#mail_visible#:#Mailinstellingen zijn zichtbaar
-common#:#mail_write#:#Wijzigen Mailinstellingen
+rbac#:#mail_visible#:#Mailinstellingen zijn zichtbaar
+rbac#:#mail_write#:#Wijzigen Mailinstellingen
 common#:#mail_z_local#:#Gebruikersmappen
 common#:#mails#:#Mail
 common#:#mails_at_the_ilias_installation#:#U heeft %1$s nieuwe mails op ILIAS installatie %2$s

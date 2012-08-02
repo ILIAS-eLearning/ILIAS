@@ -3211,10 +3211,10 @@ common#:#frm_status_new#:#Status 'Novo'###15 Apr 2005 new variable
 common#:#frm_status_new_desc#:#Please select a duration how long the status 'New' is kept for forum entries.
 rbac#:#frm_visible#:#O Fórum é visível
 rbac#:#frm_write#:#Editar fórum/escrever mensagem
-common#:#frma_edit_permission#:#Change permission settings
-common#:#frma_read#:#Read access to Forum Administration
-common#:#frma_visible#:#Forum Administration is visible
-common#:#frma_write#:#Write access to Forum Administration
+rbac#:#frma_edit_permission#:#Change permission settings
+rbac#:#frma_read#:#Read access to Forum Administration
+rbac#:#frma_visible#:#Forum Administration is visible
+rbac#:#frma_write#:#Write access to Forum Administration
 common#:#from#:#De
 common#:#fullname#:#Nome completo
 common#:#functions#:#Funções
@@ -3836,10 +3836,10 @@ rbac#:#lm_visible#:#O Módulo de Aprendizagem é visível
 rbac#:#lm_write#:#Editar Módulo de Aprendizagem
 common#:#lng#:#Linguagem
 common#:#lngf#:#Linguagens
-common#:#lngf_edit_permission#:#Mudar definições de permissões
-common#:#lngf_read#:#Leia acesso às definições de Linguagens###07 Apr 2005 content changed
-common#:#lngf_visible#:#As definições de Linuguagens são visíveis
-common#:#lngf_write#:#Write access, needed for extended language maintenance
+rbac#:#lngf_edit_permission#:#Mudar definições de permissões
+rbac#:#lngf_read#:#Leia acesso às definições de Linguagens###07 Apr 2005 content changed
+rbac#:#lngf_visible#:#As definições de Linuguagens são visíveis
+rbac#:#lngf_write#:#Write access, needed for extended language maintenance
 common#:#lo#:#Objecto de Aprendizagem
 common#:#lo_available#:#Vista dos Módulos de Aprendizagem e Cursos
 common#:#lo_categories#:#Categorias de LO
@@ -3879,10 +3879,10 @@ common#:#logs#:#Log data
 common#:#los#:#Objectos de Aprendizagem
 common#:#los_last_visited#:#Últimos Objectos de Aprendizagem Visitados
 common#:#lres#:#Learning Resources
-common#:#lrss_edit_permission#:#Change permission settings
-common#:#lrss_read#:#Read access to Learning Resources Settings
-common#:#lrss_visible#:#Learning Resources Settings are visible
-common#:#lrss_write#:#Edit Learning Resources Settings
+rbac#:#lrss_edit_permission#:#Change permission settings
+rbac#:#lrss_read#:#Read access to Learning Resources Settings
+rbac#:#lrss_visible#:#Learning Resources Settings are visible
+rbac#:#lrss_write#:#Edit Learning Resources Settings
 common#:#mail#:#Correio
 common#:#mail_a_root#:#Caixa de Correio
 common#:#mail_addressbook#:#Agenda de Endereços###14 Sep 2004 content changed
@@ -3902,8 +3902,8 @@ common#:#mail_folders#:#Pastas de Correio
 common#:#mail_import#:#Importar
 common#:#mail_import_file#:#Ficheiro de exportação do ILIAS 2
 common#:#mail_intern_enable#:#Ligar
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles
-common#:#mail_mail_visible#:#O utilizador pode usar o sistema de mensagens
+rbac#:#mail_mail_to_global_roles#:#User may send Emails to global roles
+rbac#:#mail_mail_visible#:#O utilizador pode usar o sistema de mensagens
 common#:#mail_mails_of#:#Mensagens
 common#:#mail_maxsize_attach#:#Max. tamanho anexo
 common#:#mail_maxsize_box#:#Max. tamanho das caixas de correio
@@ -3916,7 +3916,7 @@ common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn'
 common#:#mail_no_valid_group_role#:#No valid group role
 common#:#mail_not_sent#:#Mensagen não enviada!
 common#:#mail_pear_mail_needed#:#.You need to install Pear Mail to use this function. To do this, enter <code>pear install Mail</code> on the terminal.
-common#:#mail_read#:#Leia acesso às definições de Correio###07 Apr 2005 content changed
+rbac#:#mail_read#:#Leia acesso às definições de Correio###07 Apr 2005 content changed
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#Nenhuma entrada encontrada
@@ -3925,14 +3925,14 @@ common#:#mail_select_one#:#Você tem de seleccionar uma mensagem
 common#:#mail_send_error#:#Erro a enviar mensagem
 common#:#mail_sent#:#Mensagem enviada!
 common#:#mail_settings#:#Configurações de Correio###25 02 2007 new variable
-common#:#mail_smtp_mail#:#O usuário pode enviar mensagens por SMTP###07 Apr 2005 content changed
+rbac#:#mail_smtp_mail#:#O usuário pode enviar mensagens por SMTP###07 Apr 2005 content changed
 common#:#mail_system#:#Mensagem do Sistema###07 Apr 2005 content changed
-common#:#mail_system_message#:#O Utilizador pode enviar mensagens internas
+rbac#:#mail_system_message#:#O Utilizador pode enviar mensagens internas
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
 common#:#mail_use_pear_mail#:#Use Pear Mail
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
-common#:#mail_visible#:#Definções de Correio são visíveis
-common#:#mail_write#:#Editar definições de Correio
+rbac#:#mail_visible#:#Definções de Correio são visíveis
+rbac#:#mail_write#:#Editar definições de Correio
 common#:#mail_z_local#:#Pastas do usuário###07 Apr 2005 content changed
 common#:#mails#:#Mensagens
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s

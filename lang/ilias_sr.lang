@@ -2255,9 +2255,9 @@ rbac#:#lm_visible#:#ILIAS metod ucenja je vidljiv
 rbac#:#lm_write#:#Uredi ILIAS metod ucenja
 common#:#lng#:#Jezik
 common#:#lngf#:#Jezici
-common#:#lngf_edit_permission#:#Promenite okvir za dozvolu
-common#:#lngf_read#:#Procitajte o pristupu podešavanjima za jezik
-common#:#lngf_visible#:#Podešavanje jezika je vidljivo
+rbac#:#lngf_edit_permission#:#Promenite okvir za dozvolu
+rbac#:#lngf_read#:#Procitajte o pristupu podešavanjima za jezik
+rbac#:#lngf_visible#:#Podešavanje jezika je vidljivo
 common#:#lo#:#Predmet ucenja
 common#:#lo_available#:#Pregled Metoda ucenja i Kurseva
 common#:#lo_categories#:#Kategorije Predmeta ucenja
@@ -2305,7 +2305,7 @@ common#:#mail_folders#:#Poštanski registratori
 common#:#mail_import#:#Uvoz
 common#:#mail_import_file#:#Fajlovi za ispisivanje
 common#:#mail_intern_enable#:#Omoguci
-common#:#mail_mail_visible#:#Korisnik može koristiti sistem pošte
+rbac#:#mail_mail_visible#:#Korisnik može koristiti sistem pošte
 common#:#mail_mails_of#:#Pošta
 common#:#mail_maxsize_attach#:#Maksimalna velicina dodatka
 common#:#mail_maxsize_box#:#Maksimalna velicina poštanskog sanduceta
@@ -2314,17 +2314,17 @@ common#:#mail_maxtime_attach#:#Maksimalan broj dana za cuvanje dodataka
 common#:#mail_maxtime_mail#:#Maksimalan broj dana za cuvanje pošte
 common#:#mail_members#:#Mail to members###23 Dec 2005 new variable
 common#:#mail_not_sent#:#Pošta nije poslata!
-common#:#mail_read#:#Procitaj o pristupu podešavanjima za poštu
+rbac#:#mail_read#:#Procitaj o pristupu podešavanjima za poštu
 common#:#mail_search_no#:#Nikakvi unosi nisu pronadeni###28 Jul 2006 content changed
 common#:#mail_search_word#:#Traži rec
 common#:#mail_select_one#:#Morate odabrati jednu poštu
 common#:#mail_send_error#:#Greška prilikom slanja pošte
 common#:#mail_sent#:#Pošta je poslata!
-common#:#mail_smtp_mail#:#Korisnik može poslati poštu preko SMTP
+rbac#:#mail_smtp_mail#:#Korisnik može poslati poštu preko SMTP
 common#:#mail_system#:#Sistemska poruka
-common#:#mail_system_message#:#Korisnik može slati interne sistemske poruke
-common#:#mail_visible#:#Podešavanja pošte su vidljiva
-common#:#mail_write#:#Uredi podešavanje pošte
+rbac#:#mail_system_message#:#Korisnik može slati interne sistemske poruke
+rbac#:#mail_visible#:#Podešavanja pošte su vidljiva
+rbac#:#mail_write#:#Uredi podešavanje pošte
 common#:#mail_z_local#:#Registratori korisnika
 common#:#mails#:#Pošta
 common#:#main_menu_frame#:#Top Level Menu###10 Jan 2006 new variable
@@ -7599,7 +7599,7 @@ trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.###
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?###27 11 2007 new variable
 common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.###27 11 2007 new variable
 assessment#:#tst_no_export_randomtest#:#You cannot export a test with random selection of questions, because every used question pool has to be exported too which leads to enormous complexity of the export files.###27 11 2007 new variable
-common#:#lngf_write#:#Write access, needed for extended language maintenance###27 11 2007 new variable
+rbac#:#lngf_write#:#Write access, needed for extended language maintenance###27 11 2007 new variable
 content#:#cont_last_access#:#Last Access###27 11 2007 new variable
 content#:#seq_close#:#Please close the player-window.###27 11 2007 new variable
 content#:#scplayer_showtree#:#Show Tree###27 11 2007 new variable
@@ -8812,10 +8812,10 @@ common#:#obj_lrss_desc#:#Configure all types of learning modules.###24 02 2009 n
 content#:#cont_lrs_settings#:#Settings###24 02 2009 new variable
 content#:#cont_enable_time_scheduled_page_activation#:#Time Scheduled Page Activation###24 02 2009 new variable
 content#:#cont_enable_time_scheduled_page_activation_info#:#If enabled, an activation period (date/time) can be selected in the learning module editor for each page.###24 02 2009 new variable
-common#:#lrss_edit_permission#:#Change permission settings###24 02 2009 new variable
-common#:#lrss_visible#:#Learning Resources Settings are visible###24 02 2009 new variable
-common#:#lrss_read#:#Read access to Learning Resources Settings###24 02 2009 new variable
-common#:#lrss_write#:#Edit Learning Resources Settings###24 02 2009 new variable
+rbac#:#lrss_edit_permission#:#Change permission settings###24 02 2009 new variable
+rbac#:#lrss_visible#:#Learning Resources Settings are visible###24 02 2009 new variable
+rbac#:#lrss_read#:#Read access to Learning Resources Settings###24 02 2009 new variable
+rbac#:#lrss_write#:#Edit Learning Resources Settings###24 02 2009 new variable
 content#:#cont_edit_lrs_settings#:#Edit Settings###24 02 2009 new variable
 content#:#cont_activation#:#Activation###24 02 2009 new variable
 content#:#cont_page_activation#:#Page Activation###24 02 2009 new variable
@@ -10308,7 +10308,7 @@ common#:#session_max_idle_after_first_request#:#Max session idle after first req
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.###16 07 2010 new variable
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.###16 07 2010 new variable
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.###16 07 2010 new variable
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
+rbac#:#mail_mail_to_global_roles#:#User may send Emails to global roles###16 07 2010 new variable
 common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles###16 07 2010 new variable
 common#:#mail_no_valid_group_role#:#No valid group role###16 07 2010 new variable
 payment#:#paya_bill_history#:#Bill History###16 07 2010 new variable
@@ -10933,10 +10933,10 @@ administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticat
 wiki#:#wiki_change_notification_salutation#:#Hello %s,###20 10 2010 new variable
 assessment#:#tst_export_settings#:#Export settings###20 10 2010 new variable
 assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions###20 10 2010 new variable
-common#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
-common#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
-common#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
-common#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
+rbac#:#frma_visible#:#Forum Administration is visible###20 10 2010 new variable
+rbac#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
+rbac#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
 common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new variable
 rbac#:#usrf_create_usr#:#Create User###20 10 2010 new variable
 trac#:#trac_all#:#All###20 10 2010 new variable

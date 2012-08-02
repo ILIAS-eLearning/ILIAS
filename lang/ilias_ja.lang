@@ -3211,10 +3211,10 @@ common#:#frm_status_new#:#'新規'のステータス
 common#:#frm_status_new_desc#:#フォーラムエントリーに"新規"状態をどれくらいの時間保持するか選択してください。
 rbac#:#frm_visible#:#フォーラムを表示
 rbac#:#frm_write#:#フォ－ラムを編集
-common#:#frma_edit_permission#:#アクセス権設定を変更
-common#:#frma_read#:#フォーラム管理を読み込む
-common#:#frma_visible#:#フォーラム管理を表示
-common#:#frma_write#:#フォーラム管理へ書き込む
+rbac#:#frma_edit_permission#:#アクセス権設定を変更
+rbac#:#frma_read#:#フォーラム管理を読み込む
+rbac#:#frma_visible#:#フォーラム管理を表示
+rbac#:#frma_write#:#フォーラム管理へ書き込む
 common#:#from#:#From
 common#:#fullname#:#フルネーム
 common#:#functions#:#機能
@@ -3838,10 +3838,10 @@ rbac#:#lm_visible#:#ILIAS ラーニングモジュールを表示
 rbac#:#lm_write#:#ILIAS ラーニングモジュールを編集
 common#:#lng#:#言語
 common#:#lngf#:#言語
-common#:#lngf_edit_permission#:#アクセス権限設定を変更
-common#:#lngf_read#:#言語設定のアクセスを読み込む
-common#:#lngf_visible#:#言語設定を表示
-common#:#lngf_write#:#書き込みアクセス、拡張言語メンテナンスに必要
+rbac#:#lngf_edit_permission#:#アクセス権限設定を変更
+rbac#:#lngf_read#:#言語設定のアクセスを読み込む
+rbac#:#lngf_visible#:#言語設定を表示
+rbac#:#lngf_write#:#書き込みアクセス、拡張言語メンテナンスに必要
 common#:#lo#:#学習目標
 common#:#lo_available#:#ラーニングモジュールとコースの概要
 common#:#lo_categories#:#LOカテゴリー
@@ -3881,10 +3881,10 @@ common#:#logs#:#ログデータ
 common#:#los#:#学習目標
 common#:#los_last_visited#:#前回訪問時の学習目標
 common#:#lres#:#学習リソース
-common#:#lrss_edit_permission#:#アクセス権限設定を変更
-common#:#lrss_read#:#学習リソース設定を読み込む
-common#:#lrss_visible#:#学習リソース設定を表示
-common#:#lrss_write#:#学習リソース設定を編集
+rbac#:#lrss_edit_permission#:#アクセス権限設定を変更
+rbac#:#lrss_read#:#学習リソース設定を読み込む
+rbac#:#lrss_visible#:#学習リソース設定を表示
+rbac#:#lrss_write#:#学習リソース設定を編集
 common#:#mail#:#メール
 common#:#mail_a_root#:#メールボックス
 common#:#mail_addressbook#:#連絡先
@@ -3904,8 +3904,8 @@ common#:#mail_folders#:#メールフォルダ
 common#:#mail_import#:#インポート
 common#:#mail_import_file#:#エクスポートファイル
 common#:#mail_intern_enable#:#有効にする
-common#:#mail_mail_to_global_roles#:#ユーザーはグローバル役割へemailを送る事があります。
-common#:#mail_mail_visible#:#ユーザーはメールシステムを利用できます
+rbac#:#mail_mail_to_global_roles#:#ユーザーはグローバル役割へemailを送る事があります。
+rbac#:#mail_mail_visible#:#ユーザーはメールシステムを利用できます
 common#:#mail_mails_of#:#メール
 common#:#mail_maxsize_attach#:#最大添付ファイルサイズ
 common#:#mail_maxsize_box#:#最大メールボックスサイズ
@@ -3918,7 +3918,7 @@ common#:#mail_no_recipient_found#:#別のメールアドレスを入力します
 common#:#mail_no_valid_group_role#:#グローバル役割が有効ではありません
 common#:#mail_not_sent#:#メールは送信されていません!
 common#:#mail_pear_mail_needed#:#この機能を使用するにはPear Mailのインストールが必要です。そのためにはこの端末へ<code>pearインストールMail</code>を入力。
-common#:#mail_read#:#メール設定を読み込む
+rbac#:#mail_read#:#メール設定を読み込む
 common#:#mail_search_courses_not_found#:#あなたがメンバーに属するコースが見つかりません。
 common#:#mail_search_groups_not_found#:#あなたがグループに属するコースが見つかりません。
 common#:#mail_search_no#:#エントリーが見つかりません。
@@ -3927,14 +3927,14 @@ common#:#mail_select_one#:#メールを一つ選択しなければなりませ�
 common#:#mail_send_error#:#エラー送信メール
 common#:#mail_sent#:#メール送信!
 common#:#mail_settings#:#メール設定
-common#:#mail_smtp_mail#:#ユーザーはSMTP経由でemailを送ることができます
+rbac#:#mail_smtp_mail#:#ユーザーはSMTP経由でemailを送ることができます
 common#:#mail_system#:#システムメッセージ
-common#:#mail_system_message#:#ユーザーは内部システムメッセージを送ることができます
+rbac#:#mail_system_message#:#ユーザーは内部システムメッセージを送ることができます
 common#:#mail_to_global_roles_not_allowed#:#グローバル役割へemailを送る事はできません。
 common#:#mail_use_pear_mail#:#Pear Mailを使用
 common#:#mail_use_pear_mail_info#:#メールボックスアドレス解析にはPearメールを使用します。ILIAS内蔵のパーサーは非常に限定的なものです。Pear Mailはインターネットemailアドレスを完全にサポートします。
-common#:#mail_visible#:#メール設定を表示
-common#:#mail_write#:#メール設定を編集
+rbac#:#mail_visible#:#メール設定を表示
+rbac#:#mail_write#:#メール設定を編集
 common#:#mail_z_local#:#ユーザー フォルダ
 common#:#mails#:#メール
 common#:#mails_at_the_ilias_installation#:#ILIASインストレーション%2$sに%1$s個の新規メールがあります。

@@ -3412,10 +3412,10 @@ rbac#:#lm_visible#:#Výukový modul ILIAS je viditelný
 rbac#:#lm_write#:#Upravit výukový modul ILIAS
 common#:#lng#:#Jazyk
 common#:#lngf#:#Jazyky
-common#:#lngf_edit_permission#:#Změnit nastavení oprávnění
-common#:#lngf_read#:#Právo číst jazyková nastavení
-common#:#lngf_visible#:#Jazyková nastavení jsou viditelná
-common#:#lngf_write#:#Přístup číst, potřebný pro rozšířenou údržbu jazyků
+rbac#:#lngf_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#lngf_read#:#Právo číst jazyková nastavení
+rbac#:#lngf_visible#:#Jazyková nastavení jsou viditelná
+rbac#:#lngf_write#:#Přístup číst, potřebný pro rozšířenou údržbu jazyků
 common#:#lo#:#Výukový objekt
 common#:#lo_available#:#Přehled výukových modulů a kurzů
 common#:#lo_categories#:#Kategorie výukových objektů
@@ -3455,10 +3455,10 @@ common#:#logs#:#Data záznamu
 common#:#los#:#Výukové objekty
 common#:#los_last_visited#:#Naposledy navštívené výukové objekty
 common#:#lres#:#Výukové materiály
-common#:#lrss_edit_permission#:#Změna nastavení oprávnění
-common#:#lrss_read#:#Přístup číst do nastavení Výukových zdrojů
-common#:#lrss_visible#:#Nastavení zdrojů výuky je viditelné
-common#:#lrss_write#:#Upravit nastavení výukového objektu
+rbac#:#lrss_edit_permission#:#Změna nastavení oprávnění
+rbac#:#lrss_read#:#Přístup číst do nastavení Výukových zdrojů
+rbac#:#lrss_visible#:#Nastavení zdrojů výuky je viditelné
+rbac#:#lrss_write#:#Upravit nastavení výukového objektu
 common#:#mail#:#Pošta
 common#:#mail_a_root#:#Poštovní schránka
 common#:#mail_addressbook#:#Adresář
@@ -3477,8 +3477,8 @@ common#:#mail_folders#:#Poštovní složky
 common#:#mail_import#:#Importovat
 common#:#mail_import_file#:#Exportovat soubor
 common#:#mail_intern_enable#:#Zapnout
-common#:#mail_mail_to_global_roles#:#Uživatel může zasílat e-maily globálním rolím
-common#:#mail_mail_visible#:#Uživatel může použít poštovní systém
+rbac#:#mail_mail_to_global_roles#:#Uživatel může zasílat e-maily globálním rolím
+rbac#:#mail_mail_visible#:#Uživatel může použít poštovní systém
 common#:#mail_mails_of#:#Pošta
 common#:#mail_maxsize_attach#:#Max.velikost přílohy
 common#:#mail_maxsize_box#:#Max.velikost schránky
@@ -3491,7 +3491,7 @@ common#:#mail_no_recipient_found#:#Vložte jinou poštovní adresu. ILIAS příj
 common#:#mail_no_valid_group_role#:#Neplatná skupinová role
 common#:#mail_not_sent#:#Zpráva nebyla odeslána!
 common#:#mail_pear_mail_needed#:#. Pro využití této funkce potřebujete Pear Mail. K tomu vložte na terminálu <code>pear install Mail</code>.
-common#:#mail_read#:#Přístup číst na nastavení pošty
+rbac#:#mail_read#:#Přístup číst na nastavení pošty
 common#:#mail_search_courses_not_found#:#Žádné kurzy nebyly nalezeny, do nichž by jste patřil(a) jako člen.
 common#:#mail_search_groups_not_found#:#Žádné skupiny nebyly nalezeny, do nichž by jste patřil(a) jako člen.
 common#:#mail_search_no#:#Žádné položky nenalezeny
@@ -3500,14 +3500,14 @@ common#:#mail_select_one#:#Musíte vybrat jednu zprávu
 common#:#mail_send_error#:#Chyba při odesílání zprávy
 common#:#mail_sent#:#Zpráva odeslána!
 common#:#mail_settings#:#Nastavení pošty
-common#:#mail_smtp_mail#:#Uživatel může zasílat poštu přes SMTP
+rbac#:#mail_smtp_mail#:#Uživatel může zasílat poštu přes SMTP
 common#:#mail_system#:#Systémová zpráva
-common#:#mail_system_message#:#Uživatel může zasílat interní systém zpráv
+rbac#:#mail_system_message#:#Uživatel může zasílat interní systém zpráv
 common#:#mail_to_global_roles_not_allowed#:#Není povoleno posíla emaily globálním rolím
 common#:#mail_use_pear_mail#:#Použít Pear Mail
 common#:#mail_use_pear_mail_info#:#Použít Pear Mail k oddělování poštovních adres. Zabudovaný separátor ILIAS je velmi omezen. Pear Mail plně podporuje vyhovující internetové e-mailové adresy.
-common#:#mail_visible#:#Nastavení pošty je viditelné
-common#:#mail_write#:#Upravit nastavení pošty
+rbac#:#mail_visible#:#Nastavení pošty je viditelné
+rbac#:#mail_write#:#Upravit nastavení pošty
 common#:#mail_z_local#:#Uživatelské složky
 common#:#mails#:#Pošta
 common#:#mails_pl#:#Pošta
@@ -10932,10 +10932,10 @@ administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticat
 wiki#:#wiki_change_notification_salutation#:#Hello %s,###28 10 2010 new variable
 assessment#:#tst_export_settings#:#Export settings###28 10 2010 new variable
 assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions###28 10 2010 new variable
-common#:#frma_visible#:#Forum Administration is visible###28 10 2010 new variable
-common#:#frma_read#:#Read access to Forum Administration###28 10 2010 new variable
-common#:#frma_write#:#Write access to Forum Administration###28 10 2010 new variable
-common#:#frma_edit_permission#:#Change permission settings###28 10 2010 new variable
+rbac#:#frma_visible#:#Forum Administration is visible###28 10 2010 new variable
+rbac#:#frma_read#:#Read access to Forum Administration###28 10 2010 new variable
+rbac#:#frma_write#:#Write access to Forum Administration###28 10 2010 new variable
+rbac#:#frma_edit_permission#:#Change permission settings###28 10 2010 new variable
 common#:#nr_following_sessions#:#%1d following session(s)...###28 10 2010 new variable
 rbac#:#usrf_create_usr#:#Create User###28 10 2010 new variable
 trac#:#trac_all#:#All###28 10 2010 new variable
