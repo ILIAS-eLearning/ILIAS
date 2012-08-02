@@ -3866,10 +3866,10 @@ common#:#missing_perm#:#Chybé oprávnění
 common#:#missing_precondition#:#Chybí předpoklady
 common#:#mm_dd_yyyy#:#MM/DD/RRRR
 common#:#mob#:#Mediální objekt
-common#:#mobs_edit_permission#:#Změna nastavení oprávnění
-common#:#mobs_read#:#Právo číst na nastavení Mediální objekty/zásobníky
-common#:#mobs_visible#:#Nastavení mediálních objektů/zásobníků je viditelné
-common#:#mobs_write#:#Upravit nastavení mediálního objektu/zásobníku
+rbac#:#mobs_edit_permission#:#Změna nastavení oprávnění
+rbac#:#mobs_read#:#Právo číst na nastavení Mediální objekty/zásobníky
+rbac#:#mobs_visible#:#Nastavení mediálních objektů/zásobníků je viditelné
+rbac#:#mobs_write#:#Upravit nastavení mediálního objektu/zásobníku
 common#:#mod_rewrite_disabled#:#Modul Apache 'mod_rewrite' není dostupný.
 common#:#moderators#:#Moderátoři
 common#:#module#:#modul
@@ -4097,10 +4097,10 @@ common#:#nr_following_sessions#:#%1d následující sezení...
 common#:#num_users#:#Počet uživatelů
 common#:#number_of_accesses#:#Počet přístupů
 common#:#number_of_records#:#Počet záznamů
-common#:#nwss_edit_permission#:#Změnit nastavení oprávnění
-common#:#nwss_read#:#Přístup číst na zprávy a nastavení webového zásobníku
-common#:#nwss_visible#:#Zprávy a nastavení webového zásobníku je viditelné
-common#:#nwss_write#:#Upravit zprávy a nastavení webového zásobníku
+rbac#:#nwss_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#nwss_read#:#Přístup číst na zprávy a nastavení webového zásobníku
+rbac#:#nwss_visible#:#Zprávy a nastavení webového zásobníku je viditelné
+rbac#:#nwss_write#:#Upravit zprávy a nastavení webového zásobníku
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Dostupnost
 common#:#obj_accs_desc#:#Nastavení rysů dostupnosti.
@@ -4403,10 +4403,10 @@ common#:#payment_reminder_notification_subject#:#The access duration af bought o
 common#:#payment_system#:#Platební systém
 common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled###12 06 2011 new variable
 common#:#pays_edit#:#Upravit nastavení plateb
-common#:#pays_edit_permission#:#Změna nastavení oprávnění
-common#:#pays_read#:#Nastavení plateb přístupu
-common#:#pays_visible#:#Nastavení plateb je viditelné
-common#:#pays_write#:#Upravit nastavení plateb
+rbac#:#pays_edit_permission#:#Změna nastavení oprávnění
+rbac#:#pays_read#:#Nastavení plateb přístupu
+rbac#:#pays_visible#:#Nastavení plateb je viditelné
+rbac#:#pays_write#:#Upravit nastavení plateb
 common#:#pd_enable_chatviewer#:#Zapnout prohlížeč diskuze
 common#:#pd_enable_contacts#:#Zapnout kontakty
 common#:#pd_enable_contacts_requires_mail#:#Vyžaduje oprávnění pošty

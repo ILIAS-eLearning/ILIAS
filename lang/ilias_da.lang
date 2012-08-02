@@ -1831,10 +1831,10 @@ rbac#:#mcst_edit_permission#:#Ret sikkerhedsindstillinger
 rbac#:#mcst_visible#:#MediaCast er synligt
 rbac#:#mcst_read#:#Læseadgang til MediaCast
 rbac#:#mcst_write#:#Rediger MediaCast
-common#:#nwss_edit_permission#:#Ret sikkerhedsindstillinger
-common#:#nwss_visible#:#Nyheds og web feeds indstillinger er synlige
-common#:#nwss_read#:#Indstillinger for læseadgang til Nyheds- og Webfeeds
-common#:#nwss_write#:#Rediger nyheds og web feeds indstillinger
+rbac#:#nwss_edit_permission#:#Ret sikkerhedsindstillinger
+rbac#:#nwss_visible#:#Nyheds og web feeds indstillinger er synlige
+rbac#:#nwss_read#:#Indstillinger for læseadgang til Nyheds- og Webfeeds
+rbac#:#nwss_write#:#Rediger nyheds og web feeds indstillinger
 rbac#:#cat_create_feed#:#Opret web feed
 rbac#:#grp_create_feed#:#Opret web feed
 rbac#:#crs_create_feed#:#Opret web feed
@@ -2090,10 +2090,10 @@ common#:#payment_in_sc#:#Allerede i indkøbskurven
 common#:#payment_payed_access#:#Betalt/Adgang
 common#:#payment_system#:#Betalingssystem
 common#:#pays_edit#:#Rediger betalingsindstillinger
-common#:#pays_edit_permission#:#ændre rettighedsindstillinger
-common#:#pays_read#:#Adgang til betalingsindstillinger
-common#:#pays_visible#:#Betalingsindstillinger er synlige
-common#:#pays_write#:#Rediger betalingsindstillinger
+rbac#:#pays_edit_permission#:#ændre rettighedsindstillinger
+rbac#:#pays_read#:#Adgang til betalingsindstillinger
+rbac#:#pays_visible#:#Betalingsindstillinger er synlige
+rbac#:#pays_write#:#Rediger betalingsindstillinger
 common#:#pdf_export#:#PDF Export
 common#:#per_object#:#adgang til objekt
 common#:#perm_role_info_1#:#Denne formular bestemmer rettighederne for <b>%s</b>rollen for nye objekter under <b>%s</b> objektet.
@@ -9643,10 +9643,10 @@ dateplaner#:#cal_day_week_view#:#Dag/uge visningsindstillinger
 dateplaner#:#cal_week_month_view#:#Uge/måneds visningsindstillinger
 common#:#event_ass_materials_prop#:#Materialer til session
 assessment#:#resize_images#:#Skaler billeder
-common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
-common#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
 common#:#obj_mobs#:#Media Objects/Pools###24 07 2009 new variable
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.###24 07 2009 new variable
 mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable

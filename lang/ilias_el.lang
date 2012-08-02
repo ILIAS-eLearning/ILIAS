@@ -3194,10 +3194,10 @@ common#:#no_zip_file#:#Δεν βρέθηκε αρχείο zip.
 common#:#number_of_accesses#:#Αριθμός προσπελάσεων
 common#:#number_of_records#:#Αριθμός εγγραφών
 common#:#num_users#:#Αριθμός χρηστών
-common#:#nwss_edit_permission#:#Change permission settings
-common#:#nwss_read#:#Read access to News and Web Feeds Settings
-common#:#nwss_visible#:#News and Web Feeds Settings are visible
-common#:#nwss_write#:#Edit News and Web Feeds Settings
+rbac#:#nwss_edit_permission#:#Change permission settings
+rbac#:#nwss_read#:#Read access to News and Web Feeds Settings
+rbac#:#nwss_visible#:#News and Web Feeds Settings are visible
+rbac#:#nwss_write#:#Edit News and Web Feeds Settings
 common#:#obj#:#Αντικείμενο
 common#:#object#:#Αντικείμενο
 common#:#objects#:#Αντικείμενα
@@ -3456,10 +3456,10 @@ common#:#payment_in_sc#:#Ήδη στο καλάθι αγορών
 common#:#payment_payed_access#:#Πληρωμένο/Προσβάσιμο
 common#:#payment_system#:#Σύστημα πληρωμών
 common#:#pays_edit#:#Επεξεργασία ρυθμίσεων πληρωμής
-common#:#pays_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
-common#:#pays_read#:#Πρόσβαση στις ρυθμίσεις πληρωμής
-common#:#pays_visible#:#Οι ρυθμίσεις πληρωμής είναι ορατές
-common#:#pays_write#:#Επεξεργασία ρυθμίσεων πληρωμής
+rbac#:#pays_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
+rbac#:#pays_read#:#Πρόσβαση στις ρυθμίσεις πληρωμής
+rbac#:#pays_visible#:#Οι ρυθμίσεις πληρωμής είναι ορατές
+rbac#:#pays_write#:#Επεξεργασία ρυθμίσεων πληρωμής
 common#:#pay_methods#:#Τρόποι πληρωμής
 common#:#pdf_export#:#Εξαγωγή σε PDF
 common#:#pd_items_news#:#Include News of Personal Items
@@ -9634,10 +9634,10 @@ dateplaner#:#cal_day_week_view#:#Day/Week View Settings###24 07 2009 new variabl
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings###24 07 2009 new variable
 common#:#event_ass_materials_prop#:#Session Materials###24 07 2009 new variable
 assessment#:#resize_images#:#Resize Images###24 07 2009 new variable
-common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
-common#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
 common#:#obj_mobs#:#Media Objects/Pools###24 07 2009 new variable
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.###24 07 2009 new variable
 mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable

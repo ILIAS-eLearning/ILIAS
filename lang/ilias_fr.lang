@@ -3969,10 +3969,10 @@ common#:#missing_precondition#:#Missing Precondition
 common#:#missing#:#Manquant
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#Objet média
-common#:#mobs_edit_permission#:#Changer les paramètres de permission
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible
-common#:#mobs_write#:#Edit Media Objects/Pools Settings
+rbac#:#mobs_edit_permission#:#Changer les paramètres de permission
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings
 common#:#mod_rewrite_disabled#:#Le module Apache 'mod_rewrite' n'est pas disponible.
 common#:#moderators#:#Moderators
 common#:#module#:#module
@@ -4202,10 +4202,10 @@ common#:#nr_following_sessions#:#%1d following session(s)...
 common#:#num_users#:#Nombre d'utilisateurs
 common#:#number_of_accesses#:#Nombre d'accès
 common#:#number_of_records#:#Nombre d'enregistrements
-common#:#nwss_edit_permission#:#Modifier les paramètres de permission
-common#:#nwss_read#:#Accès en lecture aux paramètres des flux internes et externes d'actualité (RSS)
-common#:#nwss_visible#:#Les paramètres des flux interne et externe d'actualité (RSS) sont visibles
-common#:#nwss_write#:#Modifier les paramètres des flux internes et externes d'actualité (RSS)
+rbac#:#nwss_edit_permission#:#Modifier les paramètres de permission
+rbac#:#nwss_read#:#Accès en lecture aux paramètres des flux internes et externes d'actualité (RSS)
+rbac#:#nwss_visible#:#Les paramètres des flux interne et externe d'actualité (RSS) sont visibles
+rbac#:#nwss_write#:#Modifier les paramètres des flux internes et externes d'actualité (RSS)
 common#:#obj_accs_desc#:#Paramètres pour les fonctions d'accessibilité.
 common#:#obj_accs#:#Accessibilité
 common#:#obj_adm_desc#:#Dossier des paramètres principaux du système, contenant tous les outils pour administrer votre installation d'ILIAS
@@ -4509,11 +4509,11 @@ common#:#payment_payed_access#:#Payed/Access
 common#:#payment_reminder_notification_subject#:#The access duration af bought objects is ending soon.###12 06 2011 new variable
 common#:#payment_system#:#Système de paiement
 common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled###12 06 2011 new variable
-common#:#pays_edit_permission#:#Modifier les paramètres de permission
+rbac#:#pays_edit_permission#:#Modifier les paramètres de permission
 common#:#pays_edit#:#Modifier paramètres de paiement
-common#:#pays_read#:#Accéder aux paramètres de paiement
-common#:#pays_visible#:#Les paramètres de paiement sont visibles
-common#:#pays_write#:#Modifier paramètres de paiement
+rbac#:#pays_read#:#Accéder aux paramètres de paiement
+rbac#:#pays_visible#:#Les paramètres de paiement sont visibles
+rbac#:#pays_write#:#Modifier paramètres de paiement
 common#:#pd_enable_chatviewer#:#Activer la Visionneuse du Chat
 common#:#pd_enable_contacts_requires_mail#:#Requiert l'autorisation par courriel.
 common#:#pd_enable_contacts#:#Activer les Contacts

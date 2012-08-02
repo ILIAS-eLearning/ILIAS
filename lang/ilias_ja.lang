@@ -4007,10 +4007,10 @@ common#:#missing_perm#:#アクセス権がありません
 common#:#missing_precondition#:#前提条件がありません
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#メディアオブジェクト
-common#:#mobs_edit_permission#:#アクセス権限設定を変更
-common#:#mobs_read#:#メディア オブジェクト/プール設定を読み込む
-common#:#mobs_visible#:#メディア オブジェクト/プール設定を表示
-common#:#mobs_write#:#メディア オブジェクト/プール設定を編集
+rbac#:#mobs_edit_permission#:#アクセス権限設定を変更
+rbac#:#mobs_read#:#メディア オブジェクト/プール設定を読み込む
+rbac#:#mobs_visible#:#メディア オブジェクト/プール設定を表示
+rbac#:#mobs_write#:#メディア オブジェクト/プール設定を編集
 common#:#mod_rewrite_disabled#:#Apache-Module 'mod_rewrite' が利用できません
 common#:#moderate#:#Moderate
 common#:#moderators#:#モデレータ
@@ -4241,10 +4241,10 @@ common#:#nr_following_sessions#:#%1d に続くセッション...
 common#:#num_users#:#ユーザー数
 common#:#number_of_accesses#:#アクセス数
 common#:#number_of_records#:#レコード数
-common#:#nwss_edit_permission#:#アクセス権限設定を変更
-common#:#nwss_read#:#ニュースとWeb設定を読み込む
-common#:#nwss_visible#:#ニュースとWebフィード設定を表示
-common#:#nwss_write#:#ニュースとWebフィード設定を編集
+rbac#:#nwss_edit_permission#:#アクセス権限設定を変更
+rbac#:#nwss_read#:#ニュースとWeb設定を読み込む
+rbac#:#nwss_visible#:#ニュースとWebフィード設定を表示
+rbac#:#nwss_write#:#ニュースとWebフィード設定を編集
 common#:#obj#:#オブジェクト
 common#:#obj_accs#:#アクセシビリティ
 common#:#obj_accs_desc#:#アクセッシビリティー機能の設定
@@ -4551,10 +4551,10 @@ common#:#payment_reminder_notification_subject#:#オブジェクト購入のア�
 common#:#payment_system#:#支払いシステム
 common#:#payment_userdefined_invoice_number_not_activated#:#ユーザー定義のインボイス番号が有効になっていません
 common#:#pays_edit#:#支払い設定を変更
-common#:#pays_edit_permission#:#アクセス権限設定を変更
-common#:#pays_read#:#支払い設定をアクセス
-common#:#pays_visible#:#支払い設定を表示
-common#:#pays_write#:#支払い設定を編集
+rbac#:#pays_edit_permission#:#アクセス権限設定を変更
+rbac#:#pays_read#:#支払い設定をアクセス
+rbac#:#pays_visible#:#支払い設定を表示
+rbac#:#pays_write#:#支払い設定を編集
 common#:#pd_enable_chatviewer#:#チャットビューワーを有効
 common#:#pd_enable_contacts#:#連絡先を有効にする
 common#:#pd_enable_contacts_requires_mail#:#メールアクセス権限を要求

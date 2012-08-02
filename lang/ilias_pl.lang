@@ -4005,10 +4005,10 @@ common#:#missing_perm#:#Brak uprawnień
 common#:#missing_precondition#:#Missing Precondition
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#Obiekt multimedialny
-common#:#mobs_edit_permission#:#Zmień ustawienia uprawnień
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
-common#:#mobs_visible#:#Ustawienia dla Obiekty/Pule Mediów są widoczne
-common#:#mobs_write#:#Edytuj Ustawienia dla Obiekty/Pule Mediów są widoczne
+rbac#:#mobs_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings
+rbac#:#mobs_visible#:#Ustawienia dla Obiekty/Pule Mediów są widoczne
+rbac#:#mobs_write#:#Edytuj Ustawienia dla Obiekty/Pule Mediów są widoczne
 common#:#mod_rewrite_disabled#:#Moduł Apache 'mod_rewrite' nie jest dostępny.
 common#:#moderators#:#Moderators
 common#:#module#:#moduł
@@ -4238,10 +4238,10 @@ common#:#nr_following_sessions#:#%1d following session(s)...
 common#:#num_users#:#Liczba użytkowników
 common#:#number_of_accesses#:#Liczba logowań
 common#:#number_of_records#:#Liczba rekordów
-common#:#nwss_edit_permission#:#Zmień prawa dostępu
-common#:#nwss_read#:#Prawo do odczytu Ustawień Wiadomości i Web Feeds
-common#:#nwss_visible#:#Wiadomości i Kanały Komunikacji są widoczne
-common#:#nwss_write#:#Edycja Ustawień Wiadomości i Web Feeds
+rbac#:#nwss_edit_permission#:#Zmień prawa dostępu
+rbac#:#nwss_read#:#Prawo do odczytu Ustawień Wiadomości i Web Feeds
+rbac#:#nwss_visible#:#Wiadomości i Kanały Komunikacji są widoczne
+rbac#:#nwss_write#:#Edycja Ustawień Wiadomości i Web Feeds
 common#:#obj#:#Obiekt
 common#:#obj_accs#:#Dostępność
 common#:#obj_accs_desc#:#Ustawienia dostępności.
@@ -4546,10 +4546,10 @@ common#:#payment_reminder_notification_subject#:#The access duration af bought o
 common#:#payment_system#:#System płatności
 common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
 common#:#pays_edit#:#Edytuj ustawienia płatności
-common#:#pays_edit_permission#:#Zmień ustawienia dostępu
-common#:#pays_read#:#Dostęp do ustawień płatności
-common#:#pays_visible#:#Ustawienia płatności są widoczne
-common#:#pays_write#:#Edycja ustawień płatności
+rbac#:#pays_edit_permission#:#Zmień ustawienia dostępu
+rbac#:#pays_read#:#Dostęp do ustawień płatności
+rbac#:#pays_visible#:#Ustawienia płatności są widoczne
+rbac#:#pays_write#:#Edycja ustawień płatności
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#pd_enable_contacts#:#Enable Contacts
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission

@@ -3444,10 +3444,10 @@ common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
 common#:#missing#:#Missing
 common#:#mob#:#Media Object
-common#:#mobs_edit_permission#:#Change permission settings
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible
-common#:#mobs_write#:#Edit Media Objects/Pools Settings
+rbac#:#mobs_edit_permission#:#Change permission settings
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#moderators#:#Moderators
 common#:#module#:#module
@@ -3672,10 +3672,10 @@ common#:#notifications#:#Notifications
 common#:#num_users#:#Number of Users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
-common#:#nwss_edit_permission#:#Change permission settings
-common#:#nwss_read#:#Read access to News and Web Feeds Settings
-common#:#nwss_visible#:#News and Web Feeds Settings are visible
-common#:#nwss_write#:#Edit News and Web Feeds Settings
+rbac#:#nwss_edit_permission#:#Change permission settings
+rbac#:#nwss_read#:#Read access to News and Web Feeds Settings
+rbac#:#nwss_visible#:#News and Web Feeds Settings are visible
+rbac#:#nwss_write#:#Edit News and Web Feeds Settings
 common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
@@ -3954,11 +3954,11 @@ common#:#payment_demo#:#Demo
 common#:#payment_in_sc#:#Already in shopping cart
 common#:#payment_payed_access#:#Payed/Access
 common#:#payment_system#:#Payment System
-common#:#pays_edit_permission#:#Change permission settings
+rbac#:#pays_edit_permission#:#Change permission settings
 common#:#pays_edit#:#Edit payment settings
-common#:#pays_read#:#Access payment settings
-common#:#pays_visible#:#Payment settings are visible
-common#:#pays_write#:#Edit payment settings
+rbac#:#pays_read#:#Access payment settings
+rbac#:#pays_visible#:#Payment settings are visible
+rbac#:#pays_write#:#Edit payment settings
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 common#:#pd_enable_contacts#:#Enable Contacts

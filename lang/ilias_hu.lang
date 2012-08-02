@@ -3445,10 +3445,10 @@ common#:#missing_perm#:#Jogosultsághiány
 common#:#missing_precondition#:#Hiányzó előfeltétel
 common#:#missing#:#Hiányzik
 common#:#mob#:#Médiaobjektum
-common#:#mobs_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#mobs_read#:#Olvasási jog médiaobjektumokhoz/gyűjteménybeállításokhoz
-common#:#mobs_visible#:#Médiaobjektumok/gyűjteménybeállítások láthatók
-common#:#mobs_write#:#Médiaobjektumok/gyűjteménybeállítások szerkesztése
+rbac#:#mobs_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#mobs_read#:#Olvasási jog médiaobjektumokhoz/gyűjteménybeállításokhoz
+rbac#:#mobs_visible#:#Médiaobjektumok/gyűjteménybeállítások láthatók
+rbac#:#mobs_write#:#Médiaobjektumok/gyűjteménybeállítások szerkesztése
 common#:#mod_rewrite_disabled#:#Az Apache-modul 'mod_rewrite' nem érhető el.
 common#:#moderators#:#Moderátorok
 common#:#module#:#modul
@@ -3673,10 +3673,10 @@ common#:#notifications#:#Értesítések
 common#:#num_users#:#Felhasználók száma
 common#:#number_of_accesses#:#Hozzáférések száma
 common#:#number_of_records#:#Rekordszám
-common#:#nwss_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#nwss_read#:#Olvasási elérés a hírek és a webhírforrások beállításaihoz
-common#:#nwss_visible#:#Hírek és webhírforrások beállításai láthatóak
-common#:#nwss_write#:#Hírek és webhírforrások beállításainak szerkesztése
+rbac#:#nwss_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#nwss_read#:#Olvasási elérés a hírek és a webhírforrások beállításaihoz
+rbac#:#nwss_visible#:#Hírek és webhírforrások beállításai láthatóak
+rbac#:#nwss_write#:#Hírek és webhírforrások beállításainak szerkesztése
 common#:#obj_accs_desc#:#Beállítások a hozzáférési tulajdonságokhoz
 common#:#obj_accs#:#Hozzáférés
 common#:#obj_adm_desc#:#A fő rendszerbeállítások mappa minden panelt tartalmaz az Ön ILIAS rendszerének adminisztrálásához.
@@ -3955,11 +3955,11 @@ common#:#payment_demo#:#Demó
 common#:#payment_in_sc#:#Már a bevásárlókosárban van
 common#:#payment_payed_access#:#Fizetve/Hozzáférés
 common#:#payment_system#:#Fizetési rendszer
-common#:#pays_edit_permission#:#Engedélyezési beállítások változtatása
+rbac#:#pays_edit_permission#:#Engedélyezési beállítások változtatása
 common#:#pays_edit#:#Fizetési beállítások szerkesztése
-common#:#pays_read#:#Fizetési beállítások elérése
-common#:#pays_visible#:#Fizetési beállítások láthatók
-common#:#pays_write#:#Fizetési beállítások szerkesztése
+rbac#:#pays_read#:#Fizetési beállítások elérése
+rbac#:#pays_visible#:#Fizetési beállítások láthatók
+rbac#:#pays_write#:#Fizetési beállítások szerkesztése
 common#:#pd_enable_chatviewer#:#Csevegésmegtekintő engedélyezése
 common#:#pd_enable_contacts_requires_mail#:#E-mailengedély szükséges
 common#:#pd_enable_contacts#:#Kapcsolatok engedélyezése

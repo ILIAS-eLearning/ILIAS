@@ -3585,10 +3585,10 @@ common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#Ortam Nesnesi
-common#:#mobs_edit_permission#:#Change permission settings
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible
-common#:#mobs_write#:#Edit Media Objects/Pools Settings
+rbac#:#mobs_edit_permission#:#Change permission settings
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#moderators#:#Moderators
 common#:#module#:#modül
@@ -3813,10 +3813,10 @@ common#:#notifications#:#Notifications
 common#:#num_users#:#Kullanıcı Sayısı
 common#:#number_of_accesses#:#Erişim sayısı
 common#:#number_of_records#:#Kayıt sayısı
-common#:#nwss_edit_permission#:#Change permission settings
-common#:#nwss_read#:#Read access to News and Web Feeds Settings
-common#:#nwss_visible#:#News and Web Feeds Settings are visible
-common#:#nwss_write#:#Edit News and Web Feeds Settings
+rbac#:#nwss_edit_permission#:#Change permission settings
+rbac#:#nwss_read#:#Read access to News and Web Feeds Settings
+rbac#:#nwss_visible#:#News and Web Feeds Settings are visible
+rbac#:#nwss_write#:#Edit News and Web Feeds Settings
 common#:#obj#:#Nesne
 common#:#obj_accs#:#Accessibility
 common#:#obj_accs_desc#:#Settings for accessibility features.
@@ -4099,10 +4099,10 @@ common#:#payment_in_sc#:#Alışverişe sepetinde
 common#:#payment_payed_access#:#Ödendi/Erişim
 common#:#payment_system#:#Ödeme Sistemi
 common#:#pays_edit#:#Ödeme ayarlarını düzenle
-common#:#pays_edit_permission#:#Yetki ayarlarını değiştir
-common#:#pays_read#:#Ödeme ayarlarına eriş
-common#:#pays_visible#:#Ödeme ayarları görünür halde
-common#:#pays_write#:#Ödeme ayarlarını düzenle
+rbac#:#pays_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#pays_read#:#Ödeme ayarlarına eriş
+rbac#:#pays_visible#:#Ödeme ayarları görünür halde
+rbac#:#pays_write#:#Ödeme ayarlarını düzenle
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#pd_enable_contacts#:#Enable Contacts
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
