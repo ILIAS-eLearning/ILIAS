@@ -3415,8 +3415,7 @@ class ilObjForumGUI extends ilObjectGUI
 		 * @var $ilAccess ilAccessHandler
 		 */
 		global $lng, $ilAccess;
-		
-		$lng->loadLanguageModule('frm');
+
 		$column_gui->setBlockProperty('news', 'title', $lng->txt('frm_latest_postings'));
 		$column_gui->setBlockProperty('news', 'prevent_aggregation', true);
 		$column_gui->setRepositoryMode(true);
@@ -3471,7 +3470,6 @@ class ilObjForumGUI extends ilObjectGUI
 			return false;
 	 	}
 		$source_id = $_POST['clone_source'];
-		$this->lng->loadLanguageModule('frm');
 
 	 	$new_type = $_REQUEST['new_type'];
 	 	$this->ctrl->setParameter($this, 'clone_source', (int) $_POST['clone_source']);
