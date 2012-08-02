@@ -198,9 +198,9 @@ class ilChatroomInstaller
 
 		self::registerObject();
 		self::registerAdminObject();
-		//self::createDefaultPublicRoom();
-		self::convertChatObjects();
+		//self::createDefaultPublicRoom();		
 		self::removeOldChatEntries();
+		self::convertChatObjects();
 
 
 		$notificationSettings = new ilSetting('notifications');
@@ -210,16 +210,47 @@ class ilChatroomInstaller
 	public static function removeOldChatEntries() {
 		global $ilDB;
 
-		$rset = $ilDB->query("SELECT obj_id FROM object_data WHERE title = " . $ilDB->quote( 'chac' ,'text'));
-		$row = $ilDB->fetchAssoc($rset);
+		$res = $ilDB->queryF(
+			'SELECT object_data.obj_id, ref_id, lft, rgt
+			FROM object_data
+            INNER JOIN object_reference ON object_reference.obj_id = object_data.obj_id
+			INNER JOIN tree ON child = ref_id
+            WHERE type = %s',
+			array('text'),
+			array('chac')
+		);
 
-		if ($row) {
-			$ilDB->manipulateF('DELETE FROM object_data WHERE obj_id = %s', array('integer'), array($row['obj_id']));
+		$data = $ilDB->fetchAssoc($res);
+		if($data)
+		{
+			$res = $ilDB->queryF('SELECT * FROM tree
+								  INNER JOIN object_reference ON ref_id = child
+								  INNER JOIN object_data ON object_data.obj_id = object_reference.obj_id 
+								  WHERE lft BETWEEN %s AND %s', array('integer', 'integer'), array($data['lft'], $data['rgt']));
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$ilDB->manipulate(
+					'DELETE
+					FROM object_data
+					WHERE obj_id = ' . $ilDB->quote($row['obj_id'], 'integer')
+				);
+
+				$ilDB->manipulate(
+					'DELETE
+					FROM object_reference
+					WHERE ref_id = ' . $ilDB->quote($row['ref_id'], 'integer')
+				);
+
+				$ilDB->manipulate(
+					'DELETE
+					FROM tree
+					WHERE child = ' . $ilDB->quote($row['ref_id'], 'integer')
+				);
+			}
 		}
+
 		$ilDB->manipulateF('DELETE FROM object_data WHERE type = %s AND title = %s', array('text', 'text'), array('typ', 'chat'));
 		$ilDB->manipulateF('DELETE FROM object_data WHERE type = %s AND title = %s', array('text', 'text'), array('typ', 'chac'));
-		$ilDB->manipulateF('DELETE FROM object_data WHERE type = %s', array('text'), array('chac'));
-		$ilDB->manipulateF('DELETE FROM object_reference WHERE obj_id = %s', array('integer'), array($row['obj_id']));
 	}
 
 	public static function createDefaultPublicRoom($force = false) {
