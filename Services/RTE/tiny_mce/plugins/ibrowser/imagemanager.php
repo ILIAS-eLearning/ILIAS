@@ -76,7 +76,7 @@ if(isset($_FILES['img_file']['size']) && $_FILES['img_file']['size'] > 0)
 	$mobs[$media_object->getId()] = $media_object->getId();
 }
 
-$tpl = new ilTemplate('Services/RTE/tiny_mce/plugins/ibrowser/tpl.imagemanager.html', true, true);
+$tpl = new ilTemplate(dirname(__FILE__).'/tpl.imagemanager.html', true, true);
 
 // delete image
 if ($tinyMCE_img_delete_allowed && isset($_POST['lib_action']) 
