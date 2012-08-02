@@ -2734,10 +2734,10 @@ common#:#payment_in_sc#:#Already in shopping cart###10 Jul 2006 new variable
 common#:#payment_payed_access#:#Payed/Access###10 Jul 2006 new variable
 common#:#payment_system#:#Sistem de plata
 common#:#pays_edit#:#Editati setarile de plata
-common#:#pays_edit_permission#:#Schimbati setarile de permisiune
-common#:#pays_read#:#Accesati setarile de permisiune
-common#:#pays_visible#:#Setarile de permisiune sunt vizibile
-common#:#pays_write#:#Editati setarile de permisiune
+rbac#:#pays_edit_permission#:#Schimbati setarile de permisiune
+rbac#:#pays_read#:#Accesati setarile de permisiune
+rbac#:#pays_visible#:#Setarile de permisiune sunt vizibile
+rbac#:#pays_write#:#Editati setarile de permisiune
 common#:#pdf_export#:#PDF Export###03 Aug 2006 new variable
 common#:#per_object#:#Acces pe obiect
 common#:#perm_role_info_1#:#This form determines the permissions of role '%s' for newly created objects under the object '%s'.###10 Jul 2006 new variable
@@ -6993,10 +6993,10 @@ rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
 rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
 rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
-common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
-common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
-common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
+rbac#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
+rbac#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
+rbac#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
@@ -9629,10 +9629,10 @@ dateplaner#:#cal_day_week_view#:#Day/Week View Settings###24 07 2009 new variabl
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings###24 07 2009 new variable
 common#:#event_ass_materials_prop#:#Session Materials###24 07 2009 new variable
 assessment#:#resize_images#:#Resize Images###24 07 2009 new variable
-common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
-common#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
 common#:#obj_mobs#:#Media Objects/Pools###24 07 2009 new variable
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.###24 07 2009 new variable
 mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable

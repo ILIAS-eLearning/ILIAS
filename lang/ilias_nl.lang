@@ -3628,10 +3628,10 @@ common#:#missing_perm#:#Goedkeuring ontbreekt
 common#:#missing_precondition#:#Missing Precondition
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#Mediaobject
-common#:#mobs_edit_permission#:#Change permission settings
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible
-common#:#mobs_write#:#Edit Media Objects/Pools Settings
+rbac#:#mobs_edit_permission#:#Change permission settings
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings
 common#:#mod_rewrite_disabled#:#De Apache-Module 'mod_rewrite' is niet beschikbaar
 common#:#moderators#:#Moderators
 common#:#module#:#module
@@ -3857,10 +3857,10 @@ common#:#nr_following_sessions#:#%1d  volgende sessies
 common#:#num_users#:#Aantal gebruikers
 common#:#number_of_accesses#:#Aantal benaderingen
 common#:#number_of_records#:#Aantal records
-common#:#nwss_edit_permission#:# Verander instellingen van de rechten
-common#:#nwss_read#:#Leesrechten instellingen voor Nieuws en Web feeds
-common#:#nwss_visible#:#Nieuw en Web Feed instellingen zijn zichtbaar.
-common#:#nwss_write#:#Wijzig Nieuws en Web feed instellingen
+rbac#:#nwss_edit_permission#:# Verander instellingen van de rechten
+rbac#:#nwss_read#:#Leesrechten instellingen voor Nieuws en Web feeds
+rbac#:#nwss_visible#:#Nieuw en Web Feed instellingen zijn zichtbaar.
+rbac#:#nwss_write#:#Wijzig Nieuws en Web feed instellingen
 common#:#obj#:#Object
 common#:#obj_accs#:#Toegankelijkheid
 common#:#obj_accs_desc#:#Instellingen voor accessibility features.
@@ -4143,10 +4143,10 @@ common#:#payment_in_sc#:#Reeds in de winkelmand
 common#:#payment_payed_access#:#Betaald/Toegang
 common#:#payment_system#:#Betaalsysteem
 common#:#pays_edit#:#Wijzig betalingsinstellingen
-common#:#pays_edit_permission#:#Wijzig instellingen van de rechten
-common#:#pays_read#:#De betalingsinstellingen benaderen
-common#:#pays_visible#:#Betalingsinstellingen zijn zichtbaar
-common#:#pays_write#:#Wijzig betalingsinstellingen
+rbac#:#pays_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#pays_read#:#De betalingsinstellingen benaderen
+rbac#:#pays_visible#:#Betalingsinstellingen zijn zichtbaar
+rbac#:#pays_write#:#Wijzig betalingsinstellingen
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#pd_enable_contacts#:#Adresboek inschakelen
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission

@@ -4002,10 +4002,10 @@ common#:#missing_perm#:#Permiso no encontrado
 common#:#missing_precondition#:#Precondición inexistente
 common#:#mm_dd_yyyy#:#MM/DD/AAAA
 common#:#mob#:#Objeto Multimedia
-common#:#mobs_edit_permission#:#Cambiar la configuración de los permisos
-common#:#mobs_read#:#Acceso de lectura a la configuración de los objetos media/bancos
-common#:#mobs_visible#:#La configuración de los objetos media/bancos son visibles
-common#:#mobs_write#:#Editar Configuraciones de objeto media/bancos
+rbac#:#mobs_edit_permission#:#Cambiar la configuración de los permisos
+rbac#:#mobs_read#:#Acceso de lectura a la configuración de los objetos media/bancos
+rbac#:#mobs_visible#:#La configuración de los objetos media/bancos son visibles
+rbac#:#mobs_write#:#Editar Configuraciones de objeto media/bancos
 common#:#mod_rewrite_disabled#:#El módulo Apache 'mod_rewrite' no está disponible.
 common#:#moderators#:#Moderadores
 common#:#module#:#módulo
@@ -4235,10 +4235,10 @@ common#:#nr_following_sessions#:#%1d sesión/es siguiente/s...
 common#:#num_users#:#Número de usuarios
 common#:#number_of_accesses#:#Número de accesos
 common#:#number_of_records#:#Número de registros
-common#:#nwss_edit_permission#:#Modificar configuración de permisos
-common#:#nwss_read#:#Acceso de lectura a la configuración de Noticias y Feeds
-common#:#nwss_visible#:#Configuración de Noticias y Feeds visible
-common#:#nwss_write#:#Editar configuración de Noticias y Feeds
+rbac#:#nwss_edit_permission#:#Modificar configuración de permisos
+rbac#:#nwss_read#:#Acceso de lectura a la configuración de Noticias y Feeds
+rbac#:#nwss_visible#:#Configuración de Noticias y Feeds visible
+rbac#:#nwss_write#:#Editar configuración de Noticias y Feeds
 common#:#obj#:#obj
 common#:#obj_accs#:#Accesibilidad
 common#:#obj_accs_desc#:#Ajustes de accesibilidad
@@ -4543,10 +4543,10 @@ common#:#payment_reminder_notification_subject#:#El acceso a los elementos compr
 common#:#payment_system#:#sistema de pago
 common#:#payment_userdefined_invoice_number_not_activated#:#Los números de pedido definidos por el usuario no están activos
 common#:#pays_edit#:#Editar configuración del sistema de pago
-common#:#pays_edit_permission#:#Modificar configuración de permisos
-common#:#pays_read#:#Modificar configuración del sistema de pago
-common#:#pays_visible#:#Configuración del sistema de pago visible
-common#:#pays_write#:#Editar configuración del sistema de pago
+rbac#:#pays_edit_permission#:#Modificar configuración de permisos
+rbac#:#pays_read#:#Modificar configuración del sistema de pago
+rbac#:#pays_visible#:#Configuración del sistema de pago visible
+rbac#:#pays_write#:#Editar configuración del sistema de pago
 common#:#pd_enable_chatviewer#:#Habilitar vista de chat
 common#:#pd_enable_contacts#:#Habilitar contactos
 common#:#pd_enable_contacts_requires_mail#:#Requiere permiso de correo

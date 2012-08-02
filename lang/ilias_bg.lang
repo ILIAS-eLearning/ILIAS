@@ -2174,10 +2174,10 @@ common#:#pathes#:#Пътища
 common#:#pay_methods#:#Начини на плащане
 common#:#payment_system#:#Система за разплащане
 common#:#pays_edit#:#Редактиране настройките за плащанията
-common#:#pays_edit_permission#:#Промяна на разрешителните настройки
-common#:#pays_read#:#Достъп до настройките за плащанията
-common#:#pays_visible#:#Настройките за плащанията са видими
-common#:#pays_write#:#Редактиране настройките за плащанията
+rbac#:#pays_edit_permission#:#Промяна на разрешителните настройки
+rbac#:#pays_read#:#Достъп до настройките за плащанията
+rbac#:#pays_visible#:#Настройките за плащанията са видими
+rbac#:#pays_write#:#Редактиране настройките за плащанията
 common#:#per_object#:#Достъп за обект
 common#:#perm_settings#:#разрешения
 common#:#permission#:#Разрешение
@@ -6995,10 +6995,10 @@ rbac#:#mcst_edit_permission#:#Change permission settings###02 04 2007 new variab
 rbac#:#mcst_visible#:#MediaCast is visible###02 04 2007 new variable
 rbac#:#mcst_read#:#Read access to MediaCast###02 04 2007 new variable
 rbac#:#mcst_write#:#Edit MediaCast###02 04 2007 new variable
-common#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
-common#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
-common#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
-common#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
+rbac#:#nwss_edit_permission#:#Change permission settings###02 04 2007 new variable
+rbac#:#nwss_visible#:#News and Web Feeds Settings are visible###02 04 2007 new variable
+rbac#:#nwss_read#:#Read access to News and Web Feeds Settings###02 04 2007 new variable
+rbac#:#nwss_write#:#Edit News and Web Feeds Settings###02 04 2007 new variable
 rbac#:#cat_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#grp_create_feed#:#Create Web Feed###02 04 2007 new variable
 rbac#:#crs_create_feed#:#Create Web Feed###02 04 2007 new variable
@@ -9629,10 +9629,10 @@ dateplaner#:#cal_day_week_view#:#Day/Week View Settings###24 07 2009 new variabl
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings###24 07 2009 new variable
 common#:#event_ass_materials_prop#:#Session Materials###24 07 2009 new variable
 assessment#:#resize_images#:#Resize Images###24 07 2009 new variable
-common#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
-common#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_edit_permission#:#Change permission settings###24 07 2009 new variable
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible###24 07 2009 new variable
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings###24 07 2009 new variable
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings###24 07 2009 new variable
 common#:#obj_mobs#:#Media Objects/Pools###24 07 2009 new variable
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.###24 07 2009 new variable
 mep#:#mobs_activate_pages#:#Activate Content Pages Management###24 07 2009 new variable

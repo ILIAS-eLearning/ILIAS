@@ -3952,10 +3952,10 @@ common#:#missing_perm#:#Fehlende Berechtigung
 common#:#missing_precondition#:#Fehlende Vorbedingung
 common#:#mm_dd_yyyy#:#MM/TT/JJJJ
 common#:#mob#:#Medienobjekt
-common#:#mobs_edit_permission#:#Rechteeinstellungen ändern
-common#:#mobs_read#:#Lesezugriff auf Einstellungen für Medienobjekte und -pools
-common#:#mobs_visible#:#Einstellungen für Medienobjekte und -pools sind sichtbar
-common#:#mobs_write#:#Medienobjekte und -pools bearbeiten
+rbac#:#mobs_edit_permission#:#Rechteeinstellungen in Administration für Medienobjekte und -pools ändern
+rbac#:#mobs_read#:#Lesezugriff auf Administration für Medienobjekte und -pools
+rbac#:#mobs_visible#:#Administration für Medienobjekte und -pools ist sichtbar
+rbac#:#mobs_write#:#Einstellungen für Medienobjekte und -pools bearbeiten
 common#:#mod_rewrite_disabled#:#Das Apache-Modul 'mod_rewrite' ist nicht verfügbar.
 common#:#moderators#:#Moderatoren
 common#:#module#:#Modul
@@ -4185,10 +4185,10 @@ common#:#nr_following_sessions#:#%1d folgende Sitzung(en)...
 common#:#num_users#:#Anzahl Benutzer
 common#:#number_of_accesses#:#Anzahl Zugriffe
 common#:#number_of_records#:#Zahl der Einträge
-common#:#nwss_edit_permission#:#Rechteeinstellungen ändern
-common#:#nwss_read#:#lesezugriff zu den News- und Webfeed-Einstellungen
-common#:#nwss_visible#:#News- und Webfeed-Einstellungen sind sichtbar
-common#:#nwss_write#:#News- und Webfeed-Einstellungen bearbeiten
+rbac#:#nwss_edit_permission#:#Rechteeinstellungen in der News- und Webfeeds-Administration ändern
+rbac#:#nwss_read#:#Lesezugriff auf News- und Webfeeds-Administration
+rbac#:#nwss_visible#:#News- und Webfeeds-Administration ist sichtbar
+rbac#:#nwss_write#:#Einstellungen in der News- und Webfeeds-Administration bearbeiten
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
@@ -4494,10 +4494,10 @@ common#:#payment_reminder_notification_subject#:#Die Zugriffsdauer bereits gekau
 common#:#payment_system#:#Bezahlungssystem
 common#:#payment_userdefined_invoice_number_not_activated#:#Benutzerdefinierte Rechnungsnummern sind nicht aktiviert
 common#:#pays_edit#:#Paymenteinstellungen können bearbeitet werden
-common#:#pays_edit_permission#:#Rechteeinstellungen ändern
-common#:#pays_read#:#Lesezugriff auf Paymenteinstellungen
-common#:#pays_visible#:#Paymenteinstellungen sind sichtbar
-common#:#pays_write#:#Paymenteinstellungen bearbeiten
+rbac#:#pays_edit_permission#:#Rechteeinstellungen in Payment-Administration ändern
+rbac#:#pays_read#:#Lesezugriff auf Payment-Administration 
+rbac#:#pays_visible#:#Payment-Administration ist sichtbar
+rbac#:#pays_write#:#Einstellungen in Payment-Administration bearbeiten
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_enable_contacts#:#Kontakte aktivieren
 common#:#pd_enable_contacts_requires_mail#:#Benötigt Berechtigung für Mail-System
@@ -10108,20 +10108,20 @@ rbac#:#invite#:#Zu Umfrage einladen
 rbac#:#leave#:#Verlassen
 rbac#:#log#:#Log
 rbac#:#mail_to_global_roles#:#Globale Mails
-rbac#:#mcts_edit_permission#:#Rechteeinstellung ändern
-rbac#:#mcts_read#:#Lesezugriff auf Mediacast-Einstellungen
-rbac#:#mcts_visible#:#Mediacast-Einstellungen sind sichtbar
-rbac#:#mcts_write#:#Mediacast-Einstellungen bearbeiten
-rbac#:#mds_edit_permission#:#Rechteeinstellung ändern
-rbac#:#mds_read#:#Lesezugriff auf Metadata-Einstellungen
-rbac#:#mds_visible#:#Metadata-Einstellungen sind sichtbar
-rbac#:#mds_write#:#Schreibzugriff auf Metadata-Einstellungen
+rbac#:#mcts_edit_permission#:#Rechteeinstellung in Mediacast-Administration ändern
+rbac#:#mcts_read#:#Lesezugriff auf Mediacast-Administration
+rbac#:#mcts_visible#:#Mediacast-Administration ist sichtbar
+rbac#:#mcts_write#:#Einstellungen in Mediacast-Administration bearbeiten
+rbac#:#mds_edit_permission#:#Rechteeinstellungen in Metadaten-Administration ändern
+rbac#:#mds_read#:#Lesezugriff auf  Metadaten-Administration
+rbac#:#mds_visible#:# Metadaten-Administration ist sichtbar
+rbac#:#mds_write#:#Einstellungen in Metadaten-Administration bearbeiten
 rbac#:#moderate#:#Moderieren
 rbac#:#moderate_frm#:#Moderieren
 rbac#:#msg_no_roles_of_type#:#Keine Rollen vorhanden mit der gewählten Filtereinstellung
-rbac#:#otpl_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#otpl_read#:#Leszugriff auf Einstellungen für Objektvorlagen
-rbac#:#otpl_visible#:#Einstellungen für Objektvorlagen sind sichtbar
+rbac#:#otpl_edit_permission#:#Rechteeinstellungen in Administration der Objektvorlagen ändern
+rbac#:#otpl_read#:#Lesezugriff auf Administration der Objektvorlagen
+rbac#:#otpl_visible#:#Administration der Objektvorlagen ist sichtbar
 rbac#:#otpl_write#:#Einstellungen für Objektvorlagen bearbeiten
 rbac#:#pdts_edit_permission#:#Rechteeinstellung ändern
 rbac#:#pdts_read#:#Lesezugriff auf Einstellungen für Persönlichen Schreibtisch

@@ -3175,10 +3175,10 @@ common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
 common#:#missing#:#Missing
 common#:#mob#:#Media Object
-common#:#mobs_edit_permission#:#Change permission settings
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible
-common#:#mobs_write#:#Edit Media Objects/Pools Settings
+rbac#:#mobs_edit_permission#:#User can change permission settings in Media Objects/Pools administration
+rbac#:#mobs_read#:#User has read access to Media Objects/Pools administration
+rbac#:#mobs_visible#:#Media Objects/Pools administration is visible
+rbac#:#mobs_write#:#User can edit settings in Media Objects/Pools administration
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#moderators#:#Moderators
 common#:#module#:#module
@@ -3403,10 +3403,10 @@ common#:#notifications#:#Notifications
 common#:#num_users#:#Number of Users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
-common#:#nwss_edit_permission#:#Change permission settings
-common#:#nwss_read#:#Read access to News and Web Feeds Settings
-common#:#nwss_visible#:#News and Web Feeds Settings are visible
-common#:#nwss_write#:#Edit News and Web Feeds Settings
+rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
+rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
+rbac#:#nwss_visible#:#ews and Web Feeds administration is visible
+rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
 common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
@@ -3683,11 +3683,11 @@ common#:#payment_demo#:#Demo
 common#:#payment_in_sc#:#Already in shopping cart
 common#:#payment_payed_access#:#Payed/Access
 common#:#payment_system#:#Payment System
-common#:#pays_edit_permission#:#Change permission settings
+rbac#:#pays_edit_permission#:#User can change permission settings in Payment administration
 common#:#pays_edit#:#Edit payment settings
-common#:#pays_read#:#Access payment settings
-common#:#pays_visible#:#Payment settings are visible
-common#:#pays_write#:#Edit payment settings
+rbac#:#pays_read#:#User has read access to Payment administration
+rbac#:#pays_visible#:#Payment administration is visible
+rbac#:#pays_write#:#User can edit settings in Payment administration
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 common#:#pd_enable_contacts#:#Enable Contacts
@@ -8581,14 +8581,14 @@ rbac#:#grp_create_wiki#:#Create Wiki
 rbac#:#grp_edit_event#:#Edit Calendar Events
 rbac#:#info_user_view_changed#:#User view changed
 rbac#:#leave#:#Leave
-rbac#:#mcts_edit_permission#:#Change permission settings
-rbac#:#mcts_read#:#Read access to mediacast settings
-rbac#:#mcts_visible#:#Mediacast settings are visible
-rbac#:#mcts_write#:#Edit mediacast settings
-rbac#:#mds_edit_permission#:#Change permission settings
-rbac#:#mds_read#:#Read access to Metadata settings
-rbac#:#mds_visible#:#Metadata settings are visible
-rbac#:#mds_write#:#Edit Metadata settings
+rbac#:#mcts_edit_permission#:#User can change permission settings in Mediacast administration
+rbac#:#mcts_read#:#User has read access to Mediacast administration
+rbac#:#mcts_visible#:#Mediacast administration is visible
+rbac#:#mcts_write#:#User can edit settings in Mediacast administration
+rbac#:#mds_edit_permission#:#User can change permission settings in Metadata administration
+rbac#:#mds_read#:#User has read access to Metadata administration
+rbac#:#mds_visible#:#Metadata administration is visible
+rbac#:#mds_write#:#User can edit settings in Metadata administration
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
 rbac#:#pdts_edit_permission#:#Change permission settings
 rbac#:#pdts_read#:#Read access to personal desktop settings
@@ -11898,10 +11898,10 @@ chatroom#:#kicked_from_private_room#:#You have been kicked from the private room
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
 administration#:#obj_otpl#:#Object Templates
 administration#:#obj_otpl_desc#:#Template for the creation of new objects
-rbac#:#otpl_visible#:#Object Template Settings are visible
-rbac#:#otpl_read#:#Read Access to Object Template Settings
-rbac#:#otpl_write#:#Edit Object Template Settings
-rbac#:#otpl_edit_permission#:#Change Permission Settings
+rbac#:#otpl_visible#:#Administration of Object Templates is visible
+rbac#:#otpl_read#:#User has read access to Object Templates administration
+rbac#:#otpl_write#:#User can edit settings of Object Templates
+rbac#:#otpl_edit_permission#:#User can change permission settings in administration of Object Templates
 didactic#:#didactic_default_type_info#:#Uses default permissions for %s
 didactic#:#didactic_install_info#:#General Information
 didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.

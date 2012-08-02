@@ -4004,10 +4004,10 @@ common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
 common#:#mm_dd_yyyy#:#MM/DD/YYYY
 common#:#mob#:#Objecto de Média
-common#:#mobs_edit_permission#:#Change permission settings
-common#:#mobs_read#:#Read access to Media Objects/Pools Settings
-common#:#mobs_visible#:#Media Objects/Pools Settings are visible
-common#:#mobs_write#:#Edit Media Objects/Pools Settings
+rbac#:#mobs_edit_permission#:#Change permission settings
+rbac#:#mobs_read#:#Read access to Media Objects/Pools Settings
+rbac#:#mobs_visible#:#Media Objects/Pools Settings are visible
+rbac#:#mobs_write#:#Edit Media Objects/Pools Settings
 common#:#mod_rewrite_disabled#:#The Apache-Module 'mod_rewrite' is not available.
 common#:#moderators#:#Moderators
 common#:#module#:#Módulo###07 Apr 2005 content changed
@@ -4237,10 +4237,10 @@ common#:#nr_following_sessions#:#%1d following session(s)...
 common#:#num_users#:#Number of users
 common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Número de registos
-common#:#nwss_edit_permission#:#Change permission settings
-common#:#nwss_read#:#Read access to News and Web Feeds Settings
-common#:#nwss_visible#:#News and Web Feeds Settings are visible
-common#:#nwss_write#:#Edit News and Web Feeds Settings
+rbac#:#nwss_edit_permission#:#Change permission settings
+rbac#:#nwss_read#:#Read access to News and Web Feeds Settings
+rbac#:#nwss_visible#:#News and Web Feeds Settings are visible
+rbac#:#nwss_write#:#Edit News and Web Feeds Settings
 common#:#obj#:#Objecto
 common#:#obj_accs#:#Accessibility
 common#:#obj_accs_desc#:#Settings for accessibility features.
@@ -4545,10 +4545,10 @@ common#:#payment_reminder_notification_subject#:#The access duration af bought o
 common#:#payment_system#:#Sistema de Pagamento
 common#:#payment_userdefined_invoice_number_not_activated#:#Userdefined invoice numbers are not enabled
 common#:#pays_edit#:#Editar configurações de pagamento###28 Aug 2004 new variable
-common#:#pays_edit_permission#:#Modificar configurações de permissão###28 Aug 2004 new variable
-common#:#pays_read#:#Acesso configurações de pagamento###28 Aug 2004 new variable
-common#:#pays_visible#:#Configurações de pagamento estão visíveis ###28 Aug 2004 new variable
-common#:#pays_write#:#Editar configurações de pagamento###31 Aug 2004 new variable
+rbac#:#pays_edit_permission#:#Modificar configurações de permissão###28 Aug 2004 new variable
+rbac#:#pays_read#:#Acesso configurações de pagamento###28 Aug 2004 new variable
+rbac#:#pays_visible#:#Configurações de pagamento estão visíveis ###28 Aug 2004 new variable
+rbac#:#pays_write#:#Editar configurações de pagamento###31 Aug 2004 new variable
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#pd_enable_contacts#:#Habilitar Contatos###16 09 2009 new variable
 common#:#pd_enable_contacts_requires_mail#:#Requer a autorização por correio electrónico###16 09 2009 new variable
