@@ -9161,20 +9161,8 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 			$chatroom_id = $row['ops_id'];
 		}
 
-		if ($chat_id != null && $chatroom_id != null)
+		if ($chat_id && $chatroom_id)
 		{
-			$ilDB->manipulate(
-				'UPDATE rbac_ta 
-				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') .'
-				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
-			);
-
-			$ilDB->manipulate(
-				'UPDATE rbac_templates 
-				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') .'
-				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
-			);
-
 			$result = $ilDB->query(
 				'SELECT * 
 				FROM rbac_pa
@@ -9256,6 +9244,18 @@ $ilDB->addPrimaryKey('help_tt_map', array('text_id', 'tt_id'));
 			$ilDB->manipulate(
 				'DELETE
 				FROM rbac_operations
+				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
+			);
+			
+			$ilDB->manipulate(
+				'UPDATE rbac_ta 
+				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') .'
+				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
+			);
+
+			$ilDB->manipulate(
+				'UPDATE rbac_templates 
+				SET ops_id = ' . $ilDB->quote($chatroom_id, 'integer') .'
 				WHERE ops_id = ' . $ilDB->quote($chat_id, 'integer')
 			);
 		}
