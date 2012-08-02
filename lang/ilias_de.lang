@@ -2022,10 +2022,10 @@ chatroom_adm#:#chatroom_smiley_keywords#:#Platzhalter
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Ein Platzhalter pro Zeile
 chatroom_adm#:#chatroom_upload_smiley#:#Smiley hochladen
 chatroom_adm#:#chatserver_settings_title#:#Chatserver Einstellungen
-rbac#:#chta_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#chta_read#:#Lesezugriff auf Chat Administration
-rbac#:#chta_visible#:#Chat Administration sichtbar
-rbac#:#chta_write#:#Chat Administration bearbeiten
+common#:#chta_edit_permission#:#Rechteeinstellungen ändern
+common#:#chta_read#:#Lesezugriff auf Chat Administration
+common#:#chta_visible#:#Chat Administration sichtbar
+common#:#chta_write#:#Chat Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
@@ -3224,10 +3224,10 @@ common#:#frm_status_new#:#Status 'Neu'
 common#:#frm_status_new_desc#:#Bitte wählen Sie eine Zeitdauer, wie lange der Status 'Neu' für Forenbeiträge angezeigt wird.
 rbac#:#frm_visible#:#Forum ist sichtbar
 rbac#:#frm_write#:#Foreneinstellungen bearbeiten und Moderatoren verwalten
-common#:#frma_edit_permission#:#Rechteeinstellungen ändern
-common#:#frma_read#:#Lesezugriff auf Foreneinstellungen
-common#:#frma_visible#:#Foreneinstellungen sind sichtbar
-common#:#frma_write#:#Schreibzugriff auf Foreneinstellungen
+rbac#:#frma_edit_permission#:#Rechteeinstellungen für Administration ändern
+rbac#:#frma_read#:#Lesezugriff auf globale Foreneinstellungen
+rbac#:#frma_visible#:#Globale Foreneinstellungen sind sichtbar
+rbac#:#frma_write#:#Globale Foreneinstellungen können bearbeitet werden
 common#:#from#:#Von
 common#:#fullname#:#Voller Name
 common#:#functions#:#Funktionen
@@ -3785,10 +3785,10 @@ rbac#:#lm_visible#:#ILIAS-Lernmodul ist sichtbar
 rbac#:#lm_write#:#ILIAS-Lernmodul bearbeiten
 common#:#lng#:#Sprache
 common#:#lngf#:#Sprachen
-common#:#lngf_edit_permission#:#Rechteeinstellungen ändern
-common#:#lngf_read#:#Lesezugriff auf Spracheinstellungen
-common#:#lngf_visible#:#Spracheinstellungen sind sichtbar
-common#:#lngf_write#:#Schreibzugriff, wird für erweiterte Sprachverwaltung benötigt.
+rbac#:#lngf_edit_permission#:#Rechteeinstellungen der Administration ändern
+rbac#:#lngf_read#:#Lesezugriff auf Sprachenverwaltung
+rbac#:#lngf_visible#:#Sprachenverwaltung ist sichtbar
+rbac#:#lngf_write#:#Spracheinstellungen können bearbeitet und erweiterte Sprachenverwaltung genutzt werden
 common#:#lo#:#Lernmodul
 common#:#lo_available#:#Lernmaterialien
 common#:#lo_categories#:#Kategorien
@@ -3828,10 +3828,10 @@ common#:#logs#:#Log-Daten
 common#:#los#:#Lernmodule
 common#:#los_last_visited#:#Zuletzt besuchte Lernmodule
 common#:#lres#:#Lernmaterialien
-common#:#lrss_edit_permission#:#Rechte ändern
-common#:#lrss_read#:#Lesezugriff auf Lernressourceneinstellungen
-common#:#lrss_visible#:#Lernressourceneinstellungen sind sichtbar
-common#:#lrss_write#:#Schreibzugriff auf Lernressourceneinstellungen
+rbac#:#lrss_edit_permission#:#Rechteeinstellungen der Administration ändern
+rbac#:#lrss_read#:#Lesezugriff auf Administration der Lernressourcen
+rbac#:#lrss_visible#:#Administration der Lernressourcen ist sichtbar
+rbac#:#lrss_write#:#Einstellungen für Lernressourcen in Administration bearbeiten
 common#:#mail#:#Mail
 common#:#mail_a_root#:#Nachrichten
 common#:#mail_addressbook#:#Kontakte
@@ -3845,14 +3845,14 @@ common#:#mail_d_drafts#:#Entwürfe
 common#:#mail_delete_error#:#Fehler beim Löschen
 common#:#mail_delete_error_file#:#Fehler beim Löschen der Datei
 common#:#mail_e_sent#:#Gesendete
-common#:#mail_edit_permission#:#Rechteeinstellungen ändern
+common#:#mail_edit_permission#:#Rechteeinstellungen der Mail-Administration ändern
 common#:#mail_feedback#:#Mail-Feedback
 common#:#mail_folders#:#Mail-Ordner
 common#:#mail_import#:#Import
 common#:#mail_import_file#:#Exportdatei
 common#:#mail_intern_enable#:#Aktivieren
-common#:#mail_mail_to_global_roles#:#Benutzer darf Emails an globale Rollen versenden.
-common#:#mail_mail_visible#:#Benutzer darf Mailsystem benutzen
+rbac#:#mail_mail_to_global_roles#:#Benutzer darf Mails an globale Rollen versenden.
+rbac#:#mail_mail_visible#:#Benutzer kann internes Mailsystem benutzen
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Maximale Größe des Mail-Anhangs
 common#:#mail_maxsize_box#:#Maximale Mailbox-Größe
@@ -3864,7 +3864,7 @@ common#:#mail_multiple_recipients_found#:#Geben Sie eine genauere E-Mail-Adresse
 common#:#mail_no_recipient_found#:#Geben Sie bitte eine andere E-Mail-Adresse an. ILIAS konnte keinen zugehörigen Empfänger finden.
 common#:#mail_no_valid_group_role#:#Diese Rolle existiert nicht.
 common#:#mail_not_sent#:#Ihre Nachricht konnte nicht verschickt werden
-common#:#mail_read#:#Lesezugriff auf Maileinstellungen
+rbac#:#mail_read#:#Lesezugriff auf Mail-Administration
 common#:#mail_search_courses_not_found#:#Es wurden keine Kurse gefunden, in denen Sie Mitglied sind.
 common#:#mail_search_groups_not_found#:#Es wurden keine Gruppen gefunden, in denen Sie Mitglied sind.
 common#:#mail_search_no#:#Es wurden keine passenden Ergebnisse gefunden
@@ -3873,14 +3873,14 @@ common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_settings#:#Mail-Einstellungen
-common#:#mail_smtp_mail#:#Benutzer darf E-Mails (SMTP) senden
+rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails (per SMTP) senden
 common#:#mail_system#:#Systemnachricht
-common#:#mail_system_message#:#Benutzer darf Systemnachrichten senden
+rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
 common#:#mail_to_global_roles_not_allowed#:#Das Versenden an globale Rollen ist nicht erlaubt.
 common#:#mail_use_pear_mail#:#PEAR-Mail verwenden
 common#:#mail_use_pear_mail_info#:#Verwende PEAR-Mail zum Parsen von Mailbox-Adressen. Der in ILIAS integrierte Parser ist sehr limitiert. PEAR-Mail unterstützt Internet-konforme E-Mail-Adressen vollständig.
-common#:#mail_visible#:#Internes Mailsystem benutzen
-common#:#mail_write#:#Maileinstellungen bearbeiten
+rbac#:#mail_visible#:#Mail-Administration ist sichtbar
+rbac#:#mail_write#:#Einstellungen im Mail-Administration bearbeiten
 common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Nachrichten erhalten
@@ -10048,7 +10048,7 @@ rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
 rbac#:#blga_visible#:#Blog-Administration ist sichtbar
 rbac#:#blga_write#:#Einstellungen in Blog-Administration bearbeiten
 rbac#:#cals_add_consultation_hours#:#Benutzer kann in Kalender Sprechstundentermine anlegen und bearbeiten
-rbac#:#cals_edit_event#:#Öffentliche Kalender und Termine anlegen und verwalten
+rbac#:#cals_edit_event#:#Öffentliche Kalender und Termine in ILIAS anlegen und verwalten
 rbac#:#cals_edit_permission#:#Rechteeinstellung der Administration ändern
 rbac#:#cals_read#:#Lesezugriff auf Einstellungen der Kalender-Administration
 rbac#:#cals_visible#:#Kalender-Administration sind sichtbar
@@ -10087,10 +10087,10 @@ rbac#:#edit_event#:#Kalender bearbeiten
 rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
 rbac#:#export_member_data#:#Zugriff Benutzerdaten
-rbac#:#facs_edit_permission#:#Rechteeinstellung ändern
-rbac#:#facs_read#:#Lesezugriff auf Einstellungen Dateien und Ordner
-rbac#:#facs_visible#:#Einstellungen Dateien und Ordner sind sichtbar
-rbac#:#facs_write#:#Einstellungen Dateien und Ordner bearbeiten
+rbac#:#facs_edit_permission#:#Rechteeinstellung für die Administration ändern
+rbac#:#facs_read#:#Lesezugriff auf Administration für Dateien und Ordner
+rbac#:#facs_visible#:#Administration für Dateien und Ordner ist sichtbar
+rbac#:#facs_write#:#Einstellungen für Dateien und Ordner bearbeiten
 rbac#:#filter_all_roles#:#Zeige alle Rollen im aktuellen Kontext
 rbac#:#filter_global_roles#:#Zeige nur globale Rollen
 rbac#:#filter_local_roles#:#Zeige nur lokale Rollen im aktuellen Kontext
@@ -10107,7 +10107,7 @@ rbac#:#info_user_view_changed#:#Benutzersicht gewechselt
 rbac#:#invite#:#Zu Umfrage einladen
 rbac#:#leave#:#Verlassen
 rbac#:#log#:#Log
-rbac#:#mail_to_global_roles#:#Mail an globale Rollen senden
+rbac#:#mail_to_global_roles#:#Globale Mails
 rbac#:#mcts_edit_permission#:#Rechteeinstellung ändern
 rbac#:#mcts_read#:#Lesezugriff auf Mediacast-Einstellungen
 rbac#:#mcts_visible#:#Mediacast-Einstellungen sind sichtbar
@@ -12723,3 +12723,7 @@ common#:#objs_rcat#:#ECS-Kategorienlinks
 rbac#:#grp_create_catr#:#Kategorienreferenz anlegen
 rbac#:#grp_create_sess#:#Sitzung anlegen
 rbac#:#grp_create_crsr#:#Kursreferenz anlegen
+rbac#:#hlps_edit_permission#:#Rechteeinstellungen für die Administration.der Online-Hilfe ändern
+rbac#:#hlps_read#:#Lesezugriff auf die Administration der Online-Hilfe
+rbac#:#hlps_visible#:#Administration der Online-Hilfe ist sichtbar.
+rbac#:#hlps_write#:#Einstellungen der Online-Hilfe bearbeiten und neue Version hochladen
