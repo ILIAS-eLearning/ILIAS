@@ -25,15 +25,26 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 {
 	public static function suite()
 	{
+		if (defined('ILIAS_PHPUNIT_CONTEXT'))
+		{
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
+		else
+		{
+			chdir( dirname( __FILE__ ) );
+			chdir('../../../');
+		}
+
 		$suite = new ilModulesTestQuestionPoolSuite();
 	
 		// Questiontypes
 		// -------------------------------------------------------------------------------------------------------------
-		require_once("./Modules/TestQuestionPool/test/ilassSingleChoiceTest.php");
+		require_once("./Modules/TestQuestionPool/test/ilAssSingleChoiceTest.php");
 		//$suite->addTestSuite("ilassSingleChoiceTest");
 		// Incompatible with local mode
 		
-		require_once("./Modules/TestQuestionPool/test/ilassMultipleChoiceTest.php");
+		require_once("./Modules/TestQuestionPool/test/ilAssMultipleChoiceTest.php");
 		//$suite->addTestSuite("ilassMultipleChoiceTest");
 		// Incompatible with local mode
 		
@@ -42,10 +53,48 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 
 		// Answertypes
 		// -------------------------------------------------------------------------------------------------------------
+		require_once("./Modules/TestQuestionPool/test/assAnswerBinaryStateTest.php");
+		$suite->addTestSuite("assAnswerBinaryStateTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerBinaryStateImageTest.php");
+		$suite->addTestSuite("assAnswerBinaryStateImageTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerClozeTest.php");
+		$suite->addTestSuite("assAnswerClozeTest");
+
 		require_once("./Modules/TestQuestionPool/test/assAnswerErrorTextTest.php");
-		$suite->addTestSuite("assAnswerErrorTextTest");		
-		
-		
+		$suite->addTestSuite("assAnswerErrorTextTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerImagemapTest.php");
+		$suite->addTestSuite("assAnswerImagemapTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerMatchingTest.php");
+		$suite->addTestSuite("assAnswerMatchingTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerMatchingDefinitionTest.php");
+		$suite->addTestSuite("assAnswerMatchingDefinitionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerMatchingPairTest.php");
+		$suite->addTestSuite("assAnswerMatchingPairTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerMatchingTermTest.php");
+		$suite->addTestSuite("assAnswerMatchingTermTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerMultipleResponseTest.php");
+		$suite->addTestSuite("assAnswerMultipleResponseTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerMultipleResponseImageTest.php");
+		$suite->addTestSuite("assAnswerMultipleResponseImageTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerOrderingTest.php");
+		$suite->addTestSuite("assAnswerOrderingTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerSimpleTest.php");
+		$suite->addTestSuite("assAnswerSimpleTest");
+
+		require_once("./Modules/TestQuestionPool/test/assAnswerTrueFalseTest.php");
+		$suite->addTestSuite("assAnswerTrueFalseTest");
+
 		return $suite;
 	}
 }
