@@ -310,11 +310,10 @@ class ilLPStatusWrapper
 	 */
 	public static function _determineStatus($a_obj_id, $a_usr_id)
 	{
-		// DO NOT USE REQUEST CACHE SINCE THERE IS NO INVALIDATION FOR THE CACHED VALUES
-		/*if (isset(self::$status_cache[$a_obj_id][$a_usr_id]))
+		if (isset(self::$status_cache[$a_obj_id][$a_usr_id]))
 		{
 			return self::$status_cache[$a_obj_id][$a_usr_id];
-		}*/
+		}
 
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		$trac_obj = new $class($a_obj_id);
