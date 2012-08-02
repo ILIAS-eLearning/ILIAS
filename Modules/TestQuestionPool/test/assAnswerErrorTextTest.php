@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,32 +21,57 @@
 	+-----------------------------------------------------------------------------+
 */
 
-class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
+/** 
+* Unit tests for assAnswerErrorTextTest
+* 
+* @author Maximilian Becker <mbecker@databay.de>
+*
+* @ingroup ModulesTestQuestionPool
+*/
+class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 {
-	public static function suite()
-	{
-		$suite = new ilModulesTestQuestionPoolSuite();
-	
-		// Questiontypes
-		// -------------------------------------------------------------------------------------------------------------
-		require_once("./Modules/TestQuestionPool/test/ilassSingleChoiceTest.php");
-		//$suite->addTestSuite("ilassSingleChoiceTest");
-		// Incompatible with local mode
-		
-		require_once("./Modules/TestQuestionPool/test/ilassMultipleChoiceTest.php");
-		//$suite->addTestSuite("ilassMultipleChoiceTest");
-		// Incompatible with local mode
-		
-		require_once("./Modules/TestQuestionPool/test/assErrorTextTest.php");
-		$suite->addTestSuite("assErrorTextTest");
+	protected $backupGlobals = FALSE;
 
-		// Answertypes
-		// -------------------------------------------------------------------------------------------------------------
-		require_once("./Modules/TestQuestionPool/test/assAnswerErrorTextTest.php");
-		$suite->addTestSuite("assAnswerErrorTextTest");		
-		
-		
-		return $suite;
+	protected function setUp()
+	{
+		if (defined('ILIAS_PHPUNIT_CONTEXT'))
+		{
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
+		else
+		{
+			chdir( dirname( __FILE__ ) );
+			chdir('../../../');
+		}
 	}
+
+	public function test_instantiateObjectSimple()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+		
+		// Act
+		$instance = new assAnswerErrorText('errortext');
+		
+		// Assert
+		$this->assertTrue(TRUE);
+	}
+
+	
+	public function test_instantiateObjectFull()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+
+		// Act
+		$instance = new assAnswerErrorText(
+			'errortext',
+			'correcttext',
+			1
+		);
+
+		// Assert
+		$this->assertTrue(TRUE);
+	}	
 }
-?>
