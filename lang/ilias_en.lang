@@ -1505,7 +1505,7 @@ common#:#advanced_editing_settings#:#Editing Settings
 common#:#advanced_editing_survey_settings#:#Allowed HTML Tags for the ILIAS survey tool
 common#:#advanced_editing_tinymce#:#TinyMCE Editor
 common#:#adve_assessment_settings#:#Test and Assessment Settings
-rbac#:#adve_edit_permission#:#User can change permission settings of Editing Administration
+rbac#:#adve_edit_permission#:#User can change permission settings of Editing administration
 common#:#adve_frm_post_settings#:#Forum Posts
 common#:#adve_general_settings#:#General Settings
 common#:#adve_lm_settings#:#LM / Glossary Settings
@@ -1586,7 +1586,7 @@ common#:#assessment_use_javascript_desc#:#Activates JavaScript output for drag a
 common#:#assessment_use_javascript#:#JavaScript for Drag and Drop
 common#:#assf_allowed_questiontypes_desc#:#All the checked question types will be available in this ILIAS installation. If you don't want to allow the creation of a certain question type in this installation, you must remove the selection in the associated check box.
 common#:#assf_allowed_questiontypes#:#Available Question Types
-rbac#:#assf_edit_permission#:#User can change permission settings of Test and Assessment Administration
+rbac#:#assf_edit_permission#:#User can change permission settings of Test and Assessment administration
 common#:#assf_questiontypes#:#Question Settings
 rbac#:#assf_read#:#User has read access Test and Assessment Administration
 rbac#:#assf_visible#:#Test and Assessment administration is visible
@@ -1624,7 +1624,7 @@ common#:#auth_create_users#:#Create non-existing users automatically
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_default#:#Default setting
 common#:#auth_ecs#:#ECS
-rbac#:#auth_edit_permission#:#User can change permission settings of Authentication and Registration
+rbac#:#auth_edit_permission#:#User can change permission settings of Authentication and Registration administration
 common#:#auth_ldap_desc#:#Authenticate users via LDAP server
 common#:#auth_ldap_enable#:#Enable LDAP support
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
@@ -1805,7 +1805,7 @@ common#:#censorship#:#Censorship
 common#:#centra_account#:#Centra Admin Account
 common#:#centra_rooms#:#Centra Rooms
 common#:#centra_server#:#Centra Server
-rbac#:#cert_edit_permission#:#User can change permission settings in administration
+rbac#:#cert_edit_permission#:#User can change permission settings of Certificates administration
 rbac#:#cert_read#:#User has read access to Certificates Administration
 rbac#:#cert_visible#:#Certificates Administration is visible
 rbac#:#cert_write#:#User can edit settings in Certificates Administration
@@ -2266,7 +2266,7 @@ common#:#ext_acccount_required#:#Please enter the name of the external account.
 common#:#ext_cat_settings#:#Edit Advanced Category Settings
 common#:#ext_link#:#Link
 common#:#extt_configure#:#configure...
-rbac#:#extt_edit_permission#:#User can change permission settings in administration
+rbac#:#extt_edit_permission#:#User can change permission settings of Third Party Software administration
 common#:#extt_ilinc_additional_options#:#Additional Options
 common#:#extt_ilinc_akclassvalues_active_info#:#With this option enabled you may use iLinc cost centers for Learnlinc-Seminars and Classrooms
 common#:#extt_ilinc_akclassvalues_active#:#Enable cost centers
@@ -3013,10 +3013,10 @@ rbac#:#lm_visible#:#ILIAS Learning Module is visible
 rbac#:#lm_write#:#User can edit content and settings of ILIAS learning module
 common#:#lm#:#Learning Module ILIAS
 common#:#lng#:#Language
-common#:#lngf_edit_permission#:#Change permission settings
-common#:#lngf_read#:#Read access to Language settings
-common#:#lngf_visible#:#Language settings are visible
-common#:#lngf_write#:#Write access, needed for extended language maintenance
+rbac#:#lngf_edit_permission#:#User can change permission settings of Language administration
+rbac#:#lngf_read#:#User has read access to Language administration
+rbac#:#lngf_visible#:#Language administration is visible
+rbac#:#lngf_write#:#User can edit settings in Language administration and use extended language maintenance
 common#:#lngf#:#Languages
 common#:#lo_available#:#Overview Learning Modules and Courses
 common#:#lo_categories#:#LO Categories
@@ -3057,10 +3057,10 @@ common#:#logs#:#Log data
 common#:#los_last_visited#:#Last Visited Learning Objects
 common#:#los#:#Learning Objects
 common#:#lres#:#Learning Resources
-common#:#lrss_edit_permission#:#Change permission settings
-common#:#lrss_read#:#Read access to Learning Resources Settings
-common#:#lrss_visible#:#Learning Resources Settings are visible
-common#:#lrss_write#:#Edit Learning Resources Settings
+rbac#:#lrss_edit_permission#:#User can change permission settings of Learning Resources administration
+rbac#:#lrss_read#:#Read access to administration of Learning Resources 
+rbac#:#lrss_visible#:#Administration of Learning Resources is visible
+rbac#:#lrss_write#:#User can edit settings of Learning Resources in administration
 common#:#mail_a_root#:#Mailbox
 common#:#mail_addressbook#:#Contacts
 common#:#mail_allow_smtp#:#Allow SMTP
@@ -3072,13 +3072,13 @@ common#:#mail_d_drafts#:#Drafts
 common#:#mail_delete_error_file#:#Error deleting file
 common#:#mail_delete_error#:#Error while deleting
 common#:#mail_e_sent#:#Sent
-common#:#mail_edit_permission#:#Change Permission Settings
+common#:#mail_edit_permission#:#User can change permission settings in Mail administration
 common#:#mail_feedback#:#Mail Feedback
 common#:#mail_folders#:#Mail Folders
 common#:#mail_import_file#:#Export file
 common#:#mail_import#:#Import
 common#:#mail_intern_enable#:#Enable
-common#:#mail_mail_visible#:#User may use mail system
+rbac#:#mail_mail_visible#:#User has access to internal mail system
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
@@ -3089,7 +3089,7 @@ common#:#mail_members#:#Mail to Members
 common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
 common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
 common#:#mail_not_sent#:#Mail not sent!
-common#:#mail_read#:#Read access to mail settings
+rbac#:#mail_read#:#User has read access to Mail administration
 common#:#mail_search_courses_not_found#:#No courses were found you are belonging to as a member.
 common#:#mail_search_groups_not_found#:#No groups were found you are belonging to as a member.
 common#:#mail_search_no#:#No entries found.
@@ -3098,13 +3098,13 @@ common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_settings#:#Mail Settings
-common#:#mail_smtp_mail#:#User may send e-mail via SMTP
-common#:#mail_system_message#:#User may send internal system messages
+rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP
+rbac#:#mail_system_message#:#User may send internal system messages
 common#:#mail_system#:#System Message
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
 common#:#mail_use_pear_mail#:#Use Pear Mail
-common#:#mail_visible#:#Use internal mail sytem
-common#:#mail_write#:#Edit mail settings
+rbac#:#mail_visible#:#Mail administration is visible
+rbac#:#mail_write#:#User can edit settings in Mail administration
 common#:#mail_z_local#:#User Folders
 common#:#mail#:#Mail
 common#:#mails_pl#:#Mail(s)
@@ -8538,8 +8538,8 @@ pwassist#:#pwassist_username_mail_body#:#These are the active username found for
 rating#:#rating_average_rating#:#Average Rating
 rating#:#rating_nr_users#:#%s User(s)
 rating#:#rating_your_rating#:#Your Rating
-rbac#:#cals_edit_event#:#User can create and edit public calendars and events
-rbac#:#cals_edit_permission#:#User can change permission settings for Calendar Administration
+rbac#:#cals_edit_event#:#User can create and edit public calendars and events in ILIAS
+rbac#:#cals_edit_permission#:#User can change permission settings for Calendar administration
 rbac#:#cals_read#:#User has read access to Calendar Administration
 rbac#:#cals_visible#:#Calendar Administration is visible
 rbac#:#cals_write#:#User can edit settings of Calendar Administration
@@ -8553,7 +8553,7 @@ rbac#:#catr_edit_permission#:#User can change permission settings
 rbac#:#catr_read#:#Read access to Category Reference
 rbac#:#catr_visible#:#Category reference is visible
 rbac#:#catr_write#:#User can edit settings of category reference
-rbac#:#cmps_edit_permission#:#User can change permission settings
+rbac#:#cmps_edit_permission#:#User can change permission settings of Plugins, Modules and Services administration
 rbac#:#cmps_read#:#User has read access to administration of Plugins, Modules and Services
 rbac#:#cmps_visible#:#Administration of Plugins, Modules and Services settings is visible
 rbac#:#cmps_write#:#User can edit settings of Plugins, Modules and Services
@@ -8567,10 +8567,10 @@ rbac#:#crsr_read#:#Read access to Course Reference
 rbac#:#crsr_visible#:#Course reference is visible
 rbac#:#crsr_write#:#User can edit settings of course reference
 rbac#:#edit_learning_progress#:#Edit Learning Progress
-rbac#:#facs_edit_permission#:#Change permission settings
-rbac#:#facs_read#:#Read access to files and foldes settings
-rbac#:#facs_visible#:#Files and foldes settings are visible
-rbac#:#facs_write#:#Edit files and foldes settings
+rbac#:#facs_edit_permission#:#User can change permission settings of Files and Folders administration
+rbac#:#facs_read#:#User has read access to administration of Files and Folders
+rbac#:#facs_visible#:#Administration of Files and Folders is visible
+rbac#:#facs_write#:#User can edit settings in administration of Files and Folders
 rbac#:#filter_all_roles#:#Show all roles of current context
 rbac#:#filter_global_roles#:#Show only global roles
 rbac#:#filter_local_roles_object#:#Show only local roles defined at this position
@@ -10037,8 +10037,8 @@ common#:#session_max_idle_after_first_request#:#Max session idle after first req
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#reached_session_limit#:#The limit of online users is reached. Please try again later.
 forum#:#forums_post_activation_mail#:#Unless the following posting is not activated, it is not visible for other forum users. You recieve this email because you are assigned as moderator and have the permission to activate this posting.
-common#:#mail_mail_to_global_roles#:#User may send Emails to global roles
-common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send emails to global roles
+rbac#:#mail_mail_to_global_roles#:#User can send mails to global roles
+common#:#mail_to_global_roles_not_allowed#:#It is not allowed to send mails to global roles
 common#:#mail_no_valid_group_role#:#No valid group role
 payment#:#paya_bill_history#:#Bill History
 assessment#:#tst_search_users#:#Search Participants
@@ -10570,7 +10570,7 @@ dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given reposito
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
 rbac#:#smtp_mail#:#Send (SMTP) Mail
-rbac#:#mail_to_global_roles#:#Mail to Global Roles
+rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#add_post#:#Add Post
 rbac#:#add_thread#:#Add Thread
 rbac#:#moderate_frm#:#Moderate
@@ -10663,10 +10663,10 @@ administration#:#apache_auth_authenticate_on_login_page#:#Try apache authenticat
 wiki#:#wiki_change_notification_salutation#:#Hello %s,
 assessment#:#tst_export_settings#:#Export settings
 assessment#:#tst_exp_sc_short#:#Create shortened overview for single choice questions
-common#:#frma_visible#:#Forum Administration is visible
-common#:#frma_read#:#Read access to Forum Administration
-common#:#frma_write#:#Write access to Forum Administration
-common#:#frma_edit_permission#:#Change permission settings
+rbac#:#frma_visible#:#Forum Administration is visible
+rbac#:#frma_read#:#User has read access to Forum Administration
+rbac#:#frma_write#:#User can edit settings in Forum Administration
+rbac#:#frma_edit_permission#:#User can change permission settings of Forum administration
 common#:#nr_following_sessions#:#%1d following session(s)...
 rbac#:#usrf_create_usr#:#Create User
 trac#:#trac_all#:#All
@@ -12014,7 +12014,7 @@ crs#:#crs_link_show_all_prev_sessions#:#Show all previous sessions
 crs#:#crs_link_hide_prev_sessions#:#Hide previous sessions
 crs#:#crs_link_show_all_next_sessions#:#Show all upcoming sessions
 crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions
-scormdebug#:#scormdebug_disable_cache#:#disable SCORM 2004 Browser-Cache
+scormdebug#:#scormdebug_disable_cache#:#Disable SCORM 2004 Browser Cache
 scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!
 content#:#cont_sequencing#:#enable Sequencing and Navigation according to settings by learning module
 content#:#cont_interactions#:#enable storage of results of interactions
@@ -12049,7 +12049,7 @@ rbac#:#skmg_edit_permission#:#Change permission settings
 rbac#:#blga_visible#:#Blog Administration is visible
 rbac#:#blga_read#:#User has read access to Blog Administration
 rbac#:#blga_write#:#User can edit settings in Blog Administration
-rbac#:#blga_edit_permission#:#User can change permission settings in Blog Administration
+rbac#:#blga_edit_permission#:#User can change permission settings of Blog administration
 prtf#:#prtf_admin_inactive_info#:#You can activate the portfolio feature in the Personal Desktop Administration.
 blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
@@ -12077,10 +12077,10 @@ blog#:#blog_notification_toggle_off#:#Deactivate Notification
 blog#:#blog_notification_activated#:#Notification Activated
 blog#:#blog_notification_deactivated#:#Notification Deactivated
 wiki#:#wiki_change_notification_page_body_comment#:#the following wiki page has been commented
-rbac#:#chta_visible#:#Chatroom Administration is visible
-rbac#:#chta_read#:#Read access to Chatroom Administration
-rbac#:#chta_write#:#Edit Chatroom Administration
-rbac#:#chta_edit_permission#:#Change Permission Settings
+common#:#chta_visible#:#Chatroom Administration is visible
+common#:#chta_read#:#Read access to Chatroom Administration
+common#:#chta_write#:#Edit Chatroom Administration
+common#:#chta_edit_permission#:#Change Permission Settings
 rbac#:#moderate#:#Moderate
 common#:#apache_auth#:#Apache Authentication
 common#:#server_disabled#:#The Chat is Disabled
@@ -12621,10 +12621,10 @@ search#:#lucene_offline_filter_setting_info#:#If enabled, objects can filtered i
 search#:#lucene_offline_filter#:#Offline-Status
 common#:#obj_hlps_desc#:#Settings for the online help
 common#:#obj_hlps#:#Help System
-rbac#:#hlps_edit_permission#:#User can change permissions of Help System Settings  in Administration.
-rbac#:#hlps_read#:#User has read access to Help System Settings in Administration.
-rbac#:#hlps_visible#:#Help System Settings are visible in Administration.
-rbac#:#hlps_write#:#User can edit Help System Settings in Administration.
+rbac#:#hlps_edit_permission#:#User can change permissions of Help System administration.
+rbac#:#hlps_read#:#User has read access to Help System administration.
+rbac#:#hlps_visible#:#Help System administration is visible.
+rbac#:#hlps_write#:#User can edit settings of Help System and upload new versions
 common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_reg_end#:#Registration End
 common#:#grp_list_reg_noreg#:#No Registration Possible
