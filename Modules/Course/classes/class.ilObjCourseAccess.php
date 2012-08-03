@@ -377,6 +377,10 @@ class ilObjCourseAccess extends ilObjectAccess
 				$info['reg_info_list_prop']['value'] = $lng->txt('crs_list_reg_noreg');
 			}
 		}
+		else if($info['reg_info_type'] == ilCourseConstants::SUBSCRIPTION_UNLIMITED)
+		{
+			$registration_possible = true;
+		}
 		else
 		{
 			$registration_possible = false;
