@@ -14,6 +14,9 @@ ILIAS uses the following libraries that ar licensed under different licenses:
 - JSON.php (Services/JSON/include) is licensed under BSD license
 - EvalMath (Services/Math/classes) is licensed under BSD license
 - mediaElement.js (Services/MediaObjects) is licensed under GPL/MIT
+- jQuery (Services/jQuery/js) is licensed under the MIT, BSD, and GPL
+- jQuery UI (Services/jQuery/js) is licensed under MIT or GPL Version 2
+- jquery.ui.touch-punch.min.js (Services/jQuery/js) is licensed under MIT or GPL Version 2
 - MP3 Player (Services/MediaObjects/flash_mp3_player) is CC licensed as
   "Attribution-Noncommercial-Share Alike 3.0 Unported" or commercially:
   https://www.longtailvideo.com/players/order/
