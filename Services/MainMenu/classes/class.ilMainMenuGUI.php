@@ -1004,18 +1004,12 @@ class ilMainMenuGUI
 			}
 		}
 		
-		// always set ajax url
-		$ts = $ilCtrl->getTargetScript();
-		$ilCtrl->setTargetScript("ilias.php");
-		
-		$ilHelp->setCtrlPar();
-		$tpl->addOnLoadCode("il.Help.setAjaxUrl('".
-			$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
-			."');");
-		$ilCtrl->setTargetScript($ts);
-		
+		$help_active = false;
+				
 		if ($ilHelp->hasSections())
 		{
+			$help_active = true;
+			
 			$lng->loadLanguageModule("help");
 			$this->tpl->setCurrentBlock("help_icon");
 
@@ -1033,11 +1027,12 @@ class ilMainMenuGUI
 			ilTooltipGUI::addTooltip("help_tr", $lng->txt("help_open_online_help"), "",
 				"bottom center", "top center", false);
 		}
-		
-		
+				
 		$module_id = (int) $ilSetting->get("help_module");
 		if (OH_REF_ID > 0 || $module_id > 0)
 		{
+			$help_active = true;
+			
 			$lng->loadLanguageModule("help");
 			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
 			$this->tpl->setCurrentBlock("help_tt_icon");
@@ -1048,6 +1043,19 @@ class ilMainMenuGUI
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
 				"bottom center", "top center", false);
+		}
+		
+		if($help_active)
+		{		
+			// always set ajax url
+			$ts = $ilCtrl->getTargetScript();
+			$ilCtrl->setTargetScript("ilias.php");
+
+			$ilHelp->setCtrlPar();
+			$tpl->addOnLoadCode("il.Help.setAjaxUrl('".
+				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
+				."');");
+			$ilCtrl->setTargetScript($ts);
 		}
 	}
 	
