@@ -371,7 +371,15 @@ class ilCalendarCategory
 	 */
 	public function validate()
 	{
-		return strlen($this->getTitle()) and strlen($this->getColor()) and $this->getType();
+		if($this->getLocationType() == ilCalendarCategory::LTYPE_REMOTE and !$this->getRemoteUrl())
+		{
+			return false;
+		}
+		if(strlen($this->getTitle()) and strlen($this->getColor()) and $this->getType())
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	/**

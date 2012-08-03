@@ -158,7 +158,7 @@ class ilCalendarCategoryGUI
 		
 		if(!$category->validate())
 		{
-			ilUtil::sendFailure($this->lng->txt('fill_out_all_required_fields'));
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
 			$this->add();
 			return false;
 		}
