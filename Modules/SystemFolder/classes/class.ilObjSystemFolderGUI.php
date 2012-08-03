@@ -2071,14 +2071,48 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
 		$this->form->addItem($pl);
 		
+		
 		// starting point
 		include_once "Services/User/classes/class.ilUserUtil.php";
-		$si = new ilSelectInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
+		$si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
+		$si->setRequired(true);
 		$si->setInfo($this->lng->txt("adm_user_starting_point_info"));
-		$si->setOptions(ilUserUtil::getPossibleStartingPoints());
-		$si->setValue(ilUserUtil::getStartingPoint());
+		foreach(ilUserUtil::getPossibleStartingPoints() as $value => $caption)
+		{
+			$si->addOption(new ilRadioOption($caption, $value));
+		}
+		$si->setValue(ilUserUtil::getStartingPoint());		
 		$this->form->addItem($si);
-
+		
+		// starting point: repository object
+		$repobj = new ilRadioOption($lng->txt("adm_user_starting_point_object"), ilUserUtil::START_REPOSITORY_OBJ);
+		$repobj_id = new ilTextInputGUI($lng->txt("adm_user_starting_point_ref_id"), "usr_start_ref_id");
+		$repobj_id->setRequired(true);
+		$repobj_id->setSize(5);
+		if($si->getValue() == ilUserUtil::START_REPOSITORY_OBJ)
+		{
+			$start_ref_id = ilUserUtil::getStartingObject();
+			$repobj_id->setValue($start_ref_id);
+			if($start_ref_id)
+			{
+				$start_obj_id = ilObject::_lookupObjId($start_ref_id);
+				if($start_obj_id)
+				{
+					$repobj_id->setInfo($lng->txt("obj_".ilObject::_lookupType($start_obj_id)).
+						": ".ilObject::_lookupTitle($start_obj_id));
+				}
+			}
+		}		
+		$repobj->addSubItem($repobj_id);
+		$si->addOption($repobj);
+		
+		// starting point: personal		
+		$startp = new ilCheckboxInputGUI($lng->txt("adm_user_starting_point_personal"), "usr_start_pers");
+		$startp->setInfo($lng->txt("adm_user_starting_point_personal_info"));
+		$startp->setChecked(ilUserUtil::hasPersonalStartingPoint());
+		$si->addSubItem($startp);
+				
+		
 		// save and cancel commands
 		$this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
 	                
@@ -2177,7 +2211,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$ilSetting->set("rep_shorten_description_length", (int)$this->form->getInput('rep_shorten_description_length'));
 			
 			include_once "Services/User/classes/class.ilUserUtil.php";
-			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'));
+			ilUserUtil::setStartingPoint($this->form->getInput('usr_start'), $this->form->getInput('usr_start_ref_id'));
+			ilUserUtil::togglePersonalStartingPoint($this->form->getInput('usr_start_pers'));
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showBasicSettings");

@@ -26,6 +26,7 @@ class ilUserUtil
 	const START_PD_PROFILE= 13;
 	const START_PD_SETTINGS = 14;
 	const START_REPOSITORY= 15;
+	const START_REPOSITORY_OBJ= 16;
 	
 	/**
 	 * Default behaviour is:
@@ -139,26 +140,29 @@ class ilUserUtil
 			$all[self::START_PD_SUBSCRIPTION] = 'my_courses_groups';
 		}
 
+		/*
 		if (!$ilSetting->get("disable_bookmarks"))
 		{
 			$all[self::START_PD_BOOKMARKS] = 'bookmarks';
 		}
-
+		
 		if (!$ilSetting->get("disable_notes"))
 		{
 			$all[self::START_PD_NOTES] = 'notes_and_comments';
 		}
-
+		
 		if ($ilSetting->get("block_activated_news"))
 		{
 			$all[self::START_PD_NEWS] = 'news';
 		}
-
+		*/
+		
 		if(!$ilSetting->get("disable_personal_workspace"))
 		{
 			$all[self::START_PD_WORKSPACE] = 'personal_workspace';		
 		}
 
+		/*
 		if ($ilSetting->get('user_portfolios'))
 		{
 			$all[self::START_PD_PORTFOLIO] = 'portfolio';					
@@ -176,7 +180,8 @@ class ilUserUtil
 		{
 			$all[self::START_PD_LP] = 'learning_progress';					
 		}
-
+		*/
+		
 		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 		$settings = ilCalendarSettings::_getInstance();
 		if($settings->isEnabled())
@@ -184,11 +189,12 @@ class ilUserUtil
 			$all[self::START_PD_CALENDAR] = 'calendar';		
 		}
 
+		/*
 		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{	
 			$all[self::START_PD_MAIL] = 'mail';	
 		}
-				
+					
 		if(!$ilSetting->get('disable_contacts') &&
 			($ilSetting->get('disable_contacts_require_mail') ||
 			$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
@@ -197,7 +203,9 @@ class ilUserUtil
 		}
 		
 		$all[self::START_PD_PROFILE] = 'personal_profile';		
-		$all[self::START_PD_SETTINGS] = 'personal_settings';		
+		$all[self::START_PD_SETTINGS] = 'personal_settings';			 
+		*/
+		
 		$all[self::START_REPOSITORY] = 'repository';		
 		
 		foreach($all as $idx => $lang)
@@ -212,18 +220,30 @@ class ilUserUtil
 	 * Set starting point setting
 	 * 
 	 * @param int $a_value
+	 * @param int $a_ref_id
 	 * @return boolean 
 	 */
-	public static function setStartingPoint($a_value)
+	public static function setStartingPoint($a_value, $a_ref_id = null)
 	{
-		global $ilSetting;
+		global $ilSetting, $tree;
 		
+		if($a_value == self::START_REPOSITORY_OBJ)
+		{
+			$a_ref_id = (int)$a_ref_id;
+			if(ilObject::_lookupObjId($a_ref_id) && 
+				!$tree->isDeleted($a_ref_id))
+			{
+				$ilSetting->set("usr_starting_point", $a_value);
+				$ilSetting->set("usr_starting_point_ref_id", $a_ref_id);
+				return true;
+			}
+		}
 		$valid = array_keys(self::getPossibleStartingPoints());
 		if(in_array($a_value, $valid))
-		{	
+		{							
 			$ilSetting->set("usr_starting_point", $a_value);
 			return true;
-		}
+		}	
 		return false;
 	}	
 	
@@ -237,8 +257,12 @@ class ilUserUtil
 		global $ilSetting;
 				
 		$valid = array_keys(self::getPossibleStartingPoints());
-		$current = $ilSetting->get("usr_starting_point");		
-		if(!$current || !in_array($current, $valid))
+		$current = $ilSetting->get("usr_starting_point");	
+		if($current == self::START_REPOSITORY_OBJ)
+		{
+			return $current;
+		}
+		else if(!$current || !in_array($current, $valid))
 		{
 			self::setStartingPoint(self::START_PD_OVERVIEW);
 			$current = self::START_PD_OVERVIEW;
@@ -253,32 +277,171 @@ class ilUserUtil
 	 */
 	public static function getStartingPointAsUrl()
 	{	
-		$current = self::getStartingPoint();
-		if($current != self::START_REPOSITORY)
+		global $tree, $ilUser;
+		
+		$ref_id = 1;
+		if(self::hasPersonalStartingPoint())
 		{
-			$map = array(
-				self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems',
-				self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships',
-				self::START_PD_BOOKMARKS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks',
-				self::START_PD_NOTES => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNotes',
-				self::START_PD_NEWS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews',
-				self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace',
-				self::START_PD_PORTFOLIO => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio',
-				self::START_PD_SKILLS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills',
-				self::START_PD_LP => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP',
-				self::START_PD_CALENDAR => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar',
-				self::START_PD_MAIL => 'ilias.php?baseClass=ilMailGUI',
-				self::START_PD_CONTACTS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts',
-				self::START_PD_PROFILE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile',
-				self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'			
-			);				
-			return $map[$current];		
+			$current = self::getPersonalStartingPoint();	
+			if($current == self::START_REPOSITORY_OBJ)
+			{
+				$ref_id = self::getPersonalStartingObject();
+			}
 		}
 		else
 		{
-			include_once('./Services/Link/classes/class.ilLink.php');
-			return ilLink::_getStaticLink(1,'root',true);
+			$current = self::getStartingPoint();
+			if($current == self::START_REPOSITORY_OBJ)
+			{
+				$ref_id = self::getStartingObject();
+			}
 		}
+		switch($current)
+		{			
+			case self::START_REPOSITORY:
+			case self::START_REPOSITORY_OBJ:
+				if($ref_id &&
+					ilObject::_lookupObjId($ref_id) && 
+					!$tree->isDeleted($ref_id))
+				{
+					include_once('./Services/Link/classes/class.ilLink.php');
+					return ilLink::_getStaticLink($ref_id,'',true);
+				}
+				// invalid starting object, overview is fallback
+				$current = self::START_PD_OVERVIEW;
+				// fallthrough
+			
+			default:
+				$map = array(
+					self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems',
+					self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships',
+					// self::START_PD_BOOKMARKS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks',
+					// self::START_PD_NOTES => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNotes',
+					// self::START_PD_NEWS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews',
+					self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace',
+					// self::START_PD_PORTFOLIO => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio',
+					// self::START_PD_SKILLS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills',
+					/// self::START_PD_LP => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP',
+					self::START_PD_CALENDAR => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar',
+					// self::START_PD_MAIL => 'ilias.php?baseClass=ilMailGUI',
+					// self::START_PD_CONTACTS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts',
+					// self::START_PD_PROFILE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile',
+					// self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'			
+				);				
+				return $map[$current];		
+		}		
+	}
+	
+	/**
+	 * Get ref id of starting object
+	 * 
+	 * @return int
+	 */
+	public static function getStartingObject()
+	{
+		global $ilSetting;
+		
+		return $ilSetting->get("usr_starting_point_ref_id");
+	}
+	
+	/**
+	 * Toggle personal starting point setting
+	 * 
+	 * @param bool $a_value
+	 */
+	public static function togglePersonalStartingPoint($a_value)
+	{
+		global $ilSetting;
+		
+		$ilSetting->set("usr_starting_point_personal", (bool)$a_value);		
+	}	
+	
+	/**
+	 * Can starting point be personalized?
+	 * 
+	 * @return bool 
+	 */
+	public static function hasPersonalStartingPoint()
+	{
+		global $ilSetting;
+		
+		return $ilSetting->get("usr_starting_point_personal");
+	}
+	
+	
+	/**
+	 * Get current personal starting point 
+	 * 
+	 * @return int 
+	 */
+	public static function getPersonalStartingPoint()
+	{
+		global $ilUser;
+								
+		$valid = array_keys(self::getPossibleStartingPoints());
+		$current = $ilUser->getPref("usr_starting_point");	
+		if(!$current)
+		{
+			return self::getStartingPoint();
+		}
+		else if($current == self::START_REPOSITORY_OBJ)
+		{
+			return $current;
+		}
+		else if(!in_array($current, $valid))
+		{
+			// self::setPersonalStartingPoint(self::START_PD_OVERVIEW);
+			$current = self::START_PD_OVERVIEW;
+		}
+		return $current;
+	}
+	
+	/**
+	 * Set personal starting point setting
+	 * 
+	 * @param int $a_value
+	 * @param int $a_ref_id
+	 * @return boolean 
+	 */
+	public static function setPersonalStartingPoint($a_value, $a_ref_id = null)
+	{
+		global $ilUser, $tree;
+		
+		if($a_value == self::START_REPOSITORY_OBJ)
+		{
+			$a_ref_id = (int)$a_ref_id;
+			if(ilObject::_lookupObjId($a_ref_id) && 
+				!$tree->isDeleted($a_ref_id))
+			{
+				$ilUser->setPref("usr_starting_point", $a_value);
+				$ilUser->setPref("usr_starting_point_ref_id", $a_ref_id);
+				return true;
+			}
+		}
+		$valid = array_keys(self::getPossibleStartingPoints());
+		if(in_array($a_value, $valid))
+		{							
+			$ilUser->setPref("usr_starting_point", $a_value);
+			return true;
+		}	
+		return false;
+	}	
+	
+	/**
+	 * Get ref id of personal starting object
+	 * 
+	 * @return int
+	 */
+	public static function getPersonalStartingObject()
+	{
+		global $ilUser;
+		
+		$ref_id = $ilUser->getPref("usr_starting_point_ref_id");
+		if(!$ref_id)
+		{
+			$ref_id = self::getStartingObject();
+		}
+		return $ref_id;
 	}
 }
 ?>
