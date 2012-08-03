@@ -11840,3 +11840,11 @@ if(!$ilDB->tableExists('qpl_a_essay'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3688>
+<?php
+	$ilDB->manipulateF(
+		'UPDATE rbac_operations SET operation = %s WHERE operation = %s',
+		array('text', 'text'),
+		array('internal_mail', 'mail_visible')
+	);
+?>
