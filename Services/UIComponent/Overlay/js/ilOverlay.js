@@ -147,6 +147,7 @@ il.Overlay = {
 
 		// handle event
 		if (e) {
+			e = $.event.fix(e);
 			e.preventDefault();
 			e.stopPropagation();
 		}
@@ -218,14 +219,14 @@ il.Overlay = {
 	 * Set x
 	 */
 	setX: function (id, x) {
-		$("#" + id).offset({top: $("#" + id).offset().top,left: x});
+		$("#" + id).offset({top: $("#" + id).offset().top, left: x});
 	},
 
 	/**
 	 * Set y
 	 */
 	setY: function (id, y) {
-		$("#" + id).offset({top: y,left: $("#" + id).offset().left});
+		$("#" + id).offset({top: y, left: $("#" + id).offset().left});
 	},
 
 	// hide all overlays
