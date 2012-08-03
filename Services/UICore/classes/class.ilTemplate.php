@@ -219,6 +219,7 @@ class ilTemplate extends ilTemplateX
 
 			// to get also the js files for the main menu
 			$this->getMainMenu();
+			$this->initHelp();
 			
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
@@ -469,6 +470,7 @@ class ilTemplate extends ilTemplateX
 			if (!$a_skip_main_menu)
 			{
 				$this->getMainMenu();
+				$this->initHelp();
 			}
 
 			// these fill blocks in tpl.main.html
@@ -798,6 +800,19 @@ class ilTemplate extends ilTemplateX
 		}
 	}
 
+	/**
+	 * Fill help
+	 *
+	 * @param
+	 * @return
+	 */
+	function initHelp()
+	{
+		include_once("./Services/Help/classes/class.ilHelpGUI.php");
+		ilHelpGUI::initCurrentHelpPage($this);
+	}
+	
+	
 	/**
 	* add ILIAS footer
 	*/
