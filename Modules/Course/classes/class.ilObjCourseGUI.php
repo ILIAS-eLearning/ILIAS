@@ -1593,7 +1593,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail =& new ilMail($ilUser->getId());
-				if($rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId()))
+				if($rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
 				{
 					$this->tabs_gui->addSubTabTarget("mail_members",
 													 $this->ctrl->getLinkTarget($this,'mailMembers'),

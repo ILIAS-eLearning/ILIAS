@@ -42,7 +42,7 @@ class ilMainMenuGUI
 		$this->mail = false;
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			if($rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId()))
+			if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 			{
 				$this->mail = true;
 			}
@@ -659,7 +659,7 @@ class ilMainMenuGUI
 			// contacts
 			if(!$this->ilias->getSetting('disable_contacts') &&
 				($this->ilias->getSetting('disable_contacts_require_mail') ||
-				$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())))
+				$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
 			{
 				$gl->addEntry($lng->txt('mail_addressbook'),
 					'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '_top'
@@ -927,7 +927,7 @@ class ilMainMenuGUI
 				// contacts
 				if (!$this->ilias->getSetting('disable_contacts') &&
 					($this->ilias->getSetting('disable_contacts_require_mail') ||
-					$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())))
+					$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
 				{
 					$selection->addItem($lng->txt('mail_addressbook'), '', 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToContacts', '', '', '_top');
 				}

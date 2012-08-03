@@ -42,7 +42,7 @@ class ilMailSearchGroupsGUI
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($_SESSION["AccountId"]);
-		$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+		$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 
 		$this->umail = new ilFormatMail($ilUser->getId());
 		$this->abook = new ilAddressbook($ilUser->getId());

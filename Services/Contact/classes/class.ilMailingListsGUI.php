@@ -130,7 +130,7 @@ class ilMailingListsGUI
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($_SESSION["AccountId"]);
-		$mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+		$mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 	
 		if (!$mailing_allowed)
 		{
@@ -194,7 +194,7 @@ class ilMailingListsGUI
 		// check if current user may send mails
 		include_once "Services/Mail/classes/class.ilMail.php";
 		$mail = new ilMail($_SESSION["AccountId"]);
-		$mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+		$mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 				
 		$tbl = new ilTable2GUI($this);
 		$tbl->setId('show_mlng_lists_tbl');

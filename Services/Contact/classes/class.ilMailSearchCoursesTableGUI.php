@@ -41,7 +41,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 			// check if current user may send mails
 			include_once "Services/Mail/classes/class.ilMail.php";
 			$mail = new ilMail($_SESSION["AccountId"]);
-			$this->mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+			$this->mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 		}
 
 		$mode = array();

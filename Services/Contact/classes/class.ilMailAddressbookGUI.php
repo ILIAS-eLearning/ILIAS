@@ -378,7 +378,7 @@ class ilMailAddressbookGUI
 	    // check if current user may send mails
 	    include_once "Services/Mail/classes/class.ilMail.php";
 	    $mail = new ilMail($_SESSION["AccountId"]);
-	    $mailing_allowed = $rbacsystem->checkAccess('mail_visible',$mail->getMailObjectReferenceId());
+	    $mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
 
 	    // searchbox
 	    include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
