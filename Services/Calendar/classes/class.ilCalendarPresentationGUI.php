@@ -85,7 +85,7 @@ class ilCalendarPresentationGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilSetting,$tpl;
+		global $ilUser, $ilSetting,$tpl, $ilHelp;
 
 		include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 		if(!ilCalendarSettings::_getInstance()->isEnabled())
