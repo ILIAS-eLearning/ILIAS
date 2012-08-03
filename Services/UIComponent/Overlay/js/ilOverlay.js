@@ -146,8 +146,10 @@ il.Overlay = {
 		}
 
 		// handle event
-		e.preventDefault();
-		e.stopPropagation();
+		if (e) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
 	},
 
 	fixPosition: function (id) {

@@ -166,6 +166,8 @@ class ilHelpGUI
 			$help_ids = ilSession::get("help_ids");
 		}
 		
+		$this->resetCurrentPage();
+		
 		$help_arr = explode(",", $help_ids);
 		
 		$hm = (int) $ilSetting->get("help_module");
@@ -235,7 +237,7 @@ class ilHelpGUI
 		$h_tpl->setCurrentBlock("backlink");
 		$h_tpl->setVariable("TXT_BACK", $lng->txt("back"));
 		$h_tpl->setVariable("ONCLICK_BACK",
-			"return il.Help.listHelp(event);");
+			"return il.Help.listHelp(event, true);");
 		$h_tpl->parseCurrentBlock();
 		
 		
@@ -268,10 +270,23 @@ class ilHelpGUI
 		$h_tpl->setVariable("CONTENT", $ret);
 		$h_tpl->setVariable("CLOSE_IMG", ilUtil::img(ilUtil::getImagePath("icon_close2_s.png")));
 		
+		ilSession::set("help_pg", $page_id);
 		
 		echo $h_tpl->get();
 		exit;
 	}
+	
+	/**
+	 * Hide help
+	 *
+	 * @param
+	 * @return
+	 */
+	function resetCurrentPage()
+	{
+		ilSession::clear("help_pg");
+	}
+	
 	
 	/**
 	 * Get tab tooltip text
@@ -291,5 +306,20 @@ class ilHelpGUI
 		}
 		return "";
 	}
+	
+	/**
+	 * Render current help page
+	 *
+	 * @param
+	 * @return
+	 */
+	function initCurrentHelpPage($a_tpl)
+	{
+		if (ilSession::get("help_pg") > 0)
+		{
+			$a_tpl->addOnLoadCode("il.Help.showCurrentPage(".ilSession::get("help_pg").");", 3);
+		}
+	}
+	
 }
 ?>

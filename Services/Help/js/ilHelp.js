@@ -7,7 +7,7 @@ il.Help = {
 	ajax_url: '',
 	padding_old: '-',
 	
-	listHelp: function (e) {
+	listHelp: function (e, back_clicked) {
 		// prevent the default action
 		if (e && e.preventDefault) {
 			e.preventDefault();
@@ -15,14 +15,15 @@ il.Help = {
 		else if (window.event && window.event.returnValue) {
 			window.eventReturnValue = false;
 		}
+		
 		// hide overlays
 		il.Overlay.hideAllOverlays(e, true);
 		// add panel
-		this.initPanel(e);
+		this.initPanel(e, true);
 	},
 	
 	// init the help
-	initPanel: function (e) {
+	initPanel: function (e, sh) {
 		if (!this.panel) {
 			var n = document.getElementById('ilHelpPanel');
 			if (!n) {
@@ -51,11 +52,22 @@ il.Help = {
 		obj.style.width = '300px';
 		obj.style.height = '100%';
 		
-		this.sendAjaxGetRequest({cmd: "showHelp"}, {});
+		if (sh) {
+			this.sendAjaxGetRequest({cmd: "showHelp"}, {});
+		}
 	},
 
 	showPage: function (id) {
 		this.sendAjaxGetRequest({cmd: "showPage", help_page: id}, {});
+		return false;
+	},
+	
+	// called by tpl/ilHelpGUI::initCurrentHelpPage
+	showCurrentPage: function (id) {
+		if (this.ajax_url != '') {
+			this.initPanel(null, false);
+			this.sendAjaxGetRequest({cmd: "showPage", help_page: id}, {});
+		}
 		return false;
 	},
 	
@@ -135,13 +147,15 @@ il.Help = {
 	handleAjaxSuccess: function(o) {
 		// perform page modification
 		if(o.responseText !== undefined) {
-			if (o.argument.mode == 'xxx') {
+			if (o.argument.mode == 'resetCurrentPage') {
 			} else {
 				// default action: replace html
 				il.Help.insertPanelHTML(o.responseText);
 				
 				// todo: only when called initially
-				ilInitAccordionById('oh_acc');
+				if (typeof ilInitAccordionById != "undefined") {
+					ilInitAccordionById('oh_acc');
+				}
 			}
 		}
 	},
@@ -173,6 +187,8 @@ il.Help = {
 			il.Overlay.hide(e, "ilHelpPanel");
 			il.Help.panel = false;
 			il.Help.resetMainContentArea();
+			
+			this.sendAjaxGetRequest({cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"});
 		}
 	},
 	

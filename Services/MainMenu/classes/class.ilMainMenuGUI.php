@@ -1004,6 +1004,16 @@ class ilMainMenuGUI
 			}
 		}
 		
+		// always set ajax url
+		$ts = $ilCtrl->getTargetScript();
+		$ilCtrl->setTargetScript("ilias.php");
+		
+		$ilHelp->setCtrlPar();
+		$tpl->addOnLoadCode("il.Help.setAjaxUrl('".
+			$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
+			."');");
+		$ilCtrl->setTargetScript($ts);
+		
 		if ($ilHelp->hasSections())
 		{
 			$lng->loadLanguageModule("help");
@@ -1016,14 +1026,6 @@ class ilMainMenuGUI
 			$acc->addJavascript();
 			$acc->addCss();
 
-			$ts = $ilCtrl->getTargetScript();
-			$ilCtrl->setTargetScript("ilias.php");
-			
-			$ilHelp->setCtrlPar();
-			$tpl->addOnLoadCode("il.Help.setAjaxUrl('".
-				$ilCtrl->getLinkTargetByClass("ilhelpgui", "", "", true)
-				."');");
-			$ilCtrl->setTargetScript($ts);
 			$this->tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_help.png"));
 			$this->tpl->parseCurrentBlock();
 			
