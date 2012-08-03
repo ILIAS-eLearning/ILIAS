@@ -4490,11 +4490,11 @@ common#:#proxy_port_info#:#Vložte prosím port mezi 0 a 65535, např.8080.
 common#:#proxy_port_numeric#:#Vložený port musí mít numerickou hodnotu mezi 0 a 65535
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#Pro použití proxy v ILIAS (např. pro zásobník webových zpráv, nebo pro kontrolu webových odkazů) aktivujte prosím zaškrtávací pole výše.
-common#:#ps_edit_permission#:#Změnit nastavení oprávnění
-common#:#ps_export_member_data#:#Uživatel může exportovat členská data
-common#:#ps_read#:#Přístup číst na nastavení Soukromí/bezpečnost
-common#:#ps_visible#:#Nastavení Soukromí/bezpečnost je viditelné
-common#:#ps_write#:#Upravit Soukromí/bezpečnost
+rbac#:#ps_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#ps_export_member_data#:#Uživatel může exportovat členská data
+rbac#:#ps_read#:#Přístup číst na nastavení Soukromí/bezpečnost
+rbac#:#ps_visible#:#Nastavení Soukromí/bezpečnost je viditelné
+rbac#:#ps_write#:#Upravit Soukromí/bezpečnost
 common#:#pub_section#:#Veřejná sekce
 common#:#pub_section_info#:#Je-li zapnuto, části systému (tzn. úložiště, uživatelské profily) mohou být dosažitelné z internetu bez autentizace. Oprávnění role "Anonymní" bude řídit přístup do úložiště zdrojů.
 common#:#public#:#veřejný
@@ -4723,14 +4723,14 @@ common#:#search_result#:#Výsledek hledání
 common#:#search_results#:#Výsledky hledání
 common#:#search_to_short#:#Váš dotaz je příliš krátký.
 common#:#search_user#:#Hledat uživatele
-common#:#seas_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#seas_edit_permission#:#Změnit nastavení oprávnění
 common#:#seas_max_hits#:#Max. počet nálezů
 common#:#seas_max_hits_info#:#Vložte prosím počet výsledků hledání.
-common#:#seas_read#:#Hledat nastavení číst
-common#:#seas_search#:#Umožnit využití hledání
+rbac#:#seas_read#:#Hledat nastavení číst
+rbac#:#seas_search#:#Umožnit využití hledání
 common#:#seas_settings#:#Nastavení hledání
-common#:#seas_visible#:#Nastavení hledání je viditelné
-common#:#seas_write#:#Upravit nastavení hledání
+rbac#:#seas_visible#:#Nastavení hledání je viditelné
+rbac#:#seas_write#:#Upravit nastavení hledání
 common#:#second#:#Druhý
 common#:#seconds#:#sekund
 common#:#sections#:#Sekce
@@ -4916,10 +4916,10 @@ common#:#street#:#Bydliště: Ulice a číslo domu
 common#:#structure#:#Struktura
 common#:#sty#:#Styl
 common#:#style_activation#:#Aktivace stylu
-common#:#stys_edit_permission#:#Změnit nastavení oprávnění
-common#:#stys_read#:#Přístup číst na nastavení stylu
-common#:#stys_visible#:#Nastavení stylu je viditelné
-common#:#stys_write#:#Upravit nastavení stylu
+rbac#:#stys_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#stys_read#:#Přístup číst na nastavení stylu
+rbac#:#stys_visible#:#Nastavení stylu je viditelné
+rbac#:#stys_write#:#Upravit nastavení stylu
 common#:#sub_request_deleted#:#Smazat požadavek členství
 common#:#sub_request_saved#:#Uložený požadavek členství
 common#:#subcat_name#:#Název podkategorie
@@ -4970,10 +4970,10 @@ common#:#systemcheck_cronform#:#Aktivace systémové kontroly v Cronjob
 common#:#table_mail_import#:#Import pošty
 common#:#tabs#:#Tabulky
 common#:#tagging_my_tags#:#Mé značky
-common#:#tags_edit_permission#:#Změnit nastavení oprávnění
-common#:#tags_read#:#Právo číst na nastavení značení
-common#:#tags_visible#:#Nastavení značení je viditelné
-common#:#tags_write#:#Upravit nastavení značení
+rbac#:#tags_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#tags_read#:#Právo číst na nastavení značení
+rbac#:#tags_visible#:#Nastavení značení je viditelné
+rbac#:#tags_write#:#Upravit nastavení značení
 common#:#take_over_structure#:#Převzít strukturu
 common#:#take_over_structure_info#:#Je-li aktivováno, adresáře v zip souboru budou mapovány do kategorií, nebo jsou-li použity ve skupinách, či kurzech do složek.
 common#:#target#:#Cíl
@@ -5032,10 +5032,10 @@ common#:#toggleGlobalFixed#:#Zapnout jednotný globální styl
 common#:#tomorrow#:#Zítra
 common#:#total#:#Celkem
 common#:#tpl_path#:#Cesta k šablonám
-common#:#trac_delete#:#Smazat data sledování
-common#:#trac_edit_permission#:#Změnit nastavení oprávnění
-common#:#trac_read#:#Číst data sledování
-common#:#trac_visible#:#Audit uživatele je viditelný
+rbac#:#trac_delete#:#Smazat data sledování
+rbac#:#trac_edit_permission#:#Změnit nastavení oprávnění
+rbac#:#trac_read#:#Číst data sledování
+rbac#:#trac_visible#:#Audit uživatele je viditelný
 common#:#tracked_objects#:#Objekty sledování
 common#:#tracking_data#:#Data sledování
 common#:#tracking_data_del_confirm#:#Skutečně chcete smazat všechna data sledování od specifikovaného měsíce nazpět?
@@ -5221,15 +5221,15 @@ common#:#usr_style#:#Uživatelský styl
 common#:#usr_without_courses#:#Uživatelé bez přiřazených kurzů
 common#:#usrf#:#Složka uživatele
 common#:#usrf_create_user#:#Vytvořit nový účet uživatele
-common#:#usrf_delete#:#Smazat účet uživatele
-common#:#usrf_edit_permission#:#Změnit přístup k účtům uživatele
-common#:#usrf_edit_roleassignment#:#Změnit přiřazení role účtům uživatele
+rbac#:#usrf_delete#:#Smazat účet uživatele
+rbac#:#usrf_edit_permission#:#Změnit přístup k účtům uživatele
+rbac#:#usrf_edit_roleassignment#:#Změnit přiřazení role účtům uživatele
 common#:#usrf_profile_link#:#Odkaz na profil uživatele
-common#:#usrf_push_desktop_items#:#Povolit posouvání položek na osobní pracovní ploše.
-common#:#usrf_read#:#Přístup číst k účtům uživatelů
-common#:#usrf_read_users#:#Přiřazení role pro lokální administrátory
-common#:#usrf_visible#:#Účty uživatelů jsou viditelné
-common#:#usrf_write#:#Upravit účty uživatelů
+rbac#:#usrf_push_desktop_items#:#Povolit posouvání položek na osobní pracovní ploše.
+rbac#:#usrf_read#:#Přístup číst k účtům uživatelů
+rbac#:#usrf_read_users#:#Přiřazení role pro lokální administrátory
+rbac#:#usrf_visible#:#Účty uživatelů jsou viditelné
+rbac#:#usrf_write#:#Upravit účty uživatelů
 common#:#usrimport_action_failed#:#Akce %1$s selhala.
 common#:#usrimport_action_ignored#:#Akce %1$s ignorována.
 common#:#usrimport_action_replaced#:#Akce %1$s podle %2$s přemístěna.

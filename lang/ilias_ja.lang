@@ -4640,11 +4640,11 @@ common#:#proxy_port_info#:#ポート番号は"8080"の例のように0から6553
 common#:#proxy_port_numeric#:#入力するポートは数字の0から65535である必要があります。
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#ILIASにproxyを利用する(例：webフィードまたはweblinksチェック用)には、上のチェックボクスを有効にしてください。
-common#:#ps_edit_permission#:#アクセス権限設定を変更
-common#:#ps_export_member_data#:#ユーザーはメンバーデータをエクスポートできます。
-common#:#ps_read#:#プライバシー/セキュリティ設定を読み込む
-common#:#ps_visible#:#プライバシー/セキュリティ設定を表示
-common#:#ps_write#:#プライバシー/セキュリティを編集
+rbac#:#ps_edit_permission#:#アクセス権限設定を変更
+rbac#:#ps_export_member_data#:#ユーザーはメンバーデータをエクスポートできます。
+rbac#:#ps_read#:#プライバシー/セキュリティ設定を読み込む
+rbac#:#ps_visible#:#プライバシー/セキュリティ設定を表示
+rbac#:#ps_write#:#プライバシー/セキュリティを編集
 common#:#pub_section#:#パブリックエリア
 common#:#pub_section_info#:#Onにするとシステムのパーツ(例 リポジトリ、ユーザープロファイル)は認証なしでインターネット利用ができるようになります。"匿名" の権限ではリポジトリ・リソースへのアクセスが制限されます。
 common#:#public#:#パブリック
@@ -4875,14 +4875,14 @@ common#:#search_result#:#検索結果
 common#:#search_results#:#検索結果
 common#:#search_to_short#:#質問が短すぎます。
 common#:#search_user#:#ユーザーを検索
-common#:#seas_edit_permission#:#アクセス権限設定を変更
+rbac#:#seas_edit_permission#:#アクセス権限設定を変更
 common#:#seas_max_hits#:#最大ヒット
 common#:#seas_max_hits_info#:#検索結果の最大数を入力してください。
-common#:#seas_read#:#読込検索設定
-common#:#seas_search#:#検索使用を許可
+rbac#:#seas_read#:#読込検索設定
+rbac#:#seas_search#:#検索使用を許可
 common#:#seas_settings#:#検索設定
-common#:#seas_visible#:#検索設定を表示
-common#:#seas_write#:#検索設定を編集
+rbac#:#seas_visible#:#検索設定を表示
+rbac#:#seas_write#:#検索設定を編集
 common#:#second#:#秒
 common#:#seconds#:#秒
 common#:#sections#:#セクション
@@ -5071,10 +5071,10 @@ common#:#street#:#町名・番地
 common#:#structure#:#建物
 common#:#sty#:#スタイル
 common#:#style_activation#:#スタイルアクション
-common#:#stys_edit_permission#:#アクセス権限設定を変更
-common#:#stys_read#:#スタイル設定を読み込む
-common#:#stys_visible#:#スタイル設定を表示
-common#:#stys_write#:#スタイル設定を編集
+rbac#:#stys_edit_permission#:#アクセス権限設定を変更
+rbac#:#stys_read#:#スタイル設定を読み込む
+rbac#:#stys_visible#:#スタイル設定を表示
+rbac#:#stys_write#:#スタイル設定を編集
 common#:#sub_request_deleted#:#メンバーシップリクエストを削除しました
 common#:#sub_request_saved#:#メンバーシッップリクエストを保存しました
 common#:#subcat_name#:#サブカテゴリー名
@@ -5125,10 +5125,10 @@ common#:#systemcheck_cronform#:#Cronジョブのシステムチェックのア�
 common#:#table_mail_import#:#メールインポート
 common#:#tabs#:#タブ
 common#:#tagging_my_tags#:#My Tags
-common#:#tags_edit_permission#:#アクセス権限設定を変更
-common#:#tags_read#:#タグ設定を読み込む
-common#:#tags_visible#:#タグ設定を表示
-common#:#tags_write#:#タグ設定を編集
+rbac#:#tags_edit_permission#:#アクセス権限設定を変更
+rbac#:#tags_read#:#タグ設定を読み込む
+rbac#:#tags_visible#:#タグ設定を表示
+rbac#:#tags_write#:#タグ設定を編集
 common#:#take_over_structure#:#構造を採用する
 common#:#take_over_structure_info#:#オンにするとzip ファイルのディレクトリがカテゴリーにマップされるか、もしくはグループまたはコースを使ってフォルダへマップされます。
 common#:#target#:#ターゲット
@@ -5188,10 +5188,10 @@ common#:#tomorrow#:#明日
 common#:#top_of_page#:#ページのトップ
 common#:#total#:#合計
 common#:#tpl_path#:#テンプレート Path
-common#:#trac_delete#:#追跡データを追加
-common#:#trac_edit_permission#:#アクセス権限設定を変更
-common#:#trac_read#:#追跡データを読み込む
-common#:#trac_visible#:#ユーザー追跡を表示
+rbac#:#trac_delete#:#追跡データを追加
+rbac#:#trac_edit_permission#:#アクセス権限設定を変更
+rbac#:#trac_read#:#追跡データを読み込む
+rbac#:#trac_visible#:#ユーザー追跡を表示
 common#:#tracked_objects#:#追跡するオブジェクト
 common#:#tracking_data#:#追跡データ
 common#:#tracking_data_del_confirm#:#本当に指定した月以前の全ての追跡データを削除しますか?
@@ -5379,15 +5379,15 @@ common#:#usr_style#:#ユーザースタイル
 common#:#usr_without_courses#:#コース割当てなしのユーザー
 common#:#usrf#:#ユーザー アカウント
 common#:#usrf_create_user#:#新規ユーザーアカウントを作成
-common#:#usrf_delete#:#ユーザー アカウントを削除
-common#:#usrf_edit_permission#:#ユーザー アカウントを変更
-common#:#usrf_edit_roleassignment#:#ユーザー アカウントの役割割り当てを変更
+rbac#:#usrf_delete#:#ユーザー アカウントを削除
+rbac#:#usrf_edit_permission#:#ユーザー アカウントを変更
+rbac#:#usrf_edit_roleassignment#:#ユーザー アカウントの役割割り当てを変更
 common#:#usrf_profile_link#:#ユーザープロファイルへリンクします
-common#:#usrf_push_desktop_items#:#パーソナルデスクトップ上にあるアイテムのプッシュを許可します。
-common#:#usrf_read#:#ユーザー アカウントを読み込む
-common#:#usrf_read_users#:#ローカル管理者を読み込む
-common#:#usrf_visible#:#ユーザー アカウントを表示
-common#:#usrf_write#:#ユーザー アカウントを編集
+rbac#:#usrf_push_desktop_items#:#パーソナルデスクトップ上にあるアイテムのプッシュを許可します。
+rbac#:#usrf_read#:#ユーザー アカウントを読み込む
+rbac#:#usrf_read_users#:#ローカル管理者を読み込む
+rbac#:#usrf_visible#:#ユーザー アカウントを表示
+rbac#:#usrf_write#:#ユーザー アカウントを編集
 common#:#usrimport_action_failed#:#アクション %1$s に失敗しました。
 common#:#usrimport_action_ignored#:#アクション %1$sを無視しました。
 common#:#usrimport_action_replaced#:#アクション %1$s by %2$sを入れ替えました。

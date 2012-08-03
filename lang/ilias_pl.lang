@@ -4635,11 +4635,11 @@ common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
-common#:#ps_edit_permission#:#Zmień prawa dostępu
-common#:#ps_export_member_data#:#Użytkownicy mogą eksportować dane członków
-common#:#ps_read#:#Prawo do czytania ustawień prywatności i bezpieczeństwa
-common#:#ps_visible#:#Prywatność/Bezpieczeństwo jest widoczne
-common#:#ps_write#:#Edycja Prywatności/Bezpieczeństwa
+rbac#:#ps_edit_permission#:#Zmień prawa dostępu
+rbac#:#ps_export_member_data#:#Użytkownicy mogą eksportować dane członków
+rbac#:#ps_read#:#Prawo do czytania ustawień prywatności i bezpieczeństwa
+rbac#:#ps_visible#:#Prywatność/Bezpieczeństwo jest widoczne
+rbac#:#ps_write#:#Edycja Prywatności/Bezpieczeństwa
 common#:#pub_section#:#Sekcja publiczna
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#publiczne
@@ -4869,14 +4869,14 @@ common#:#search_result#:#Wynik szukania
 common#:#search_results#:#Wyniki szukania
 common#:#search_to_short#:#Twoje zapytanie jest zbyt krótkie.
 common#:#search_user#:#Wyszukaj użytkownika
-common#:#seas_edit_permission#:#Zmień prawa dostępu
+rbac#:#seas_edit_permission#:#Zmień prawa dostępu
 common#:#seas_max_hits#:#Maks trafień
 common#:#seas_max_hits_info#:#Podaj maksymalną ilość rezultatów poszukiwań.
-common#:#seas_read#:#Czytanie ustawień wyszukiwania
-common#:#seas_search#:#Zezwolenie na użycie wyszukiwania
+rbac#:#seas_read#:#Czytanie ustawień wyszukiwania
+rbac#:#seas_search#:#Zezwolenie na użycie wyszukiwania
 common#:#seas_settings#:#Ustawienia wyszukiwania
-common#:#seas_visible#:#Rezultaty wyszukiwania są widoczne
-common#:#seas_write#:#Edycja ustawień wyszukiwania
+rbac#:#seas_visible#:#Rezultaty wyszukiwania są widoczne
+rbac#:#seas_write#:#Edycja ustawień wyszukiwania
 common#:#second#:#Sekunda
 common#:#seconds#:#Sekundy
 common#:#sections#:#Sekcje
@@ -5065,10 +5065,10 @@ common#:#street#:#Ulica
 common#:#structure#:#Struktura
 common#:#sty#:#Styl
 common#:#style_activation#:#Aktywacja stylu
-common#:#stys_edit_permission#:#Zmień prawa dostępu
-common#:#stys_read#:#Prawo czytania ustawień stylu
-common#:#stys_visible#:#Ustawienia Stylu są widoczne
-common#:#stys_write#:#Edycja ustawień stylu
+rbac#:#stys_edit_permission#:#Zmień prawa dostępu
+rbac#:#stys_read#:#Prawo czytania ustawień stylu
+rbac#:#stys_visible#:#Ustawienia Stylu są widoczne
+rbac#:#stys_write#:#Edycja ustawień stylu
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#Nazwa podkategorii
@@ -5119,10 +5119,10 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#Import poczty z ILIAS 2
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#Moje Tagi
-common#:#tags_edit_permission#:#Zmień ustawienia uprawnień
-common#:#tags_read#:#Read access to Tagging Settings
-common#:#tags_visible#:#Ustawienia Tagowania jest Widoczne
-common#:#tags_write#:#Edytuj Ustawienia Tagów
+rbac#:#tags_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#tags_read#:#Read access to Tagging Settings
+rbac#:#tags_visible#:#Ustawienia Tagowania jest Widoczne
+rbac#:#tags_write#:#Edytuj Ustawienia Tagów
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#target#:#Przeznaczenie
@@ -5182,10 +5182,10 @@ common#:#tomorrow#:#Jutro
 common#:#top_of_page#:#Top of page
 common#:#total#:#Razem
 common#:#tpl_path#:#Scieżka do szablonu
-common#:#trac_delete#:#Usuń dane śledzenia
-common#:#trac_edit_permission#:#Zmiana ustawień praw dostępu
-common#:#trac_read#:#Czytanie danych śledzenia
-common#:#trac_visible#:#Dane śledzenia są widoczne
+rbac#:#trac_delete#:#Usuń dane śledzenia
+rbac#:#trac_edit_permission#:#Zmiana ustawień praw dostępu
+rbac#:#trac_read#:#Czytanie danych śledzenia
+rbac#:#trac_visible#:#Dane śledzenia są widoczne
 common#:#tracked_objects#:#Śledzone obiekty
 common#:#tracking_data#:#Dane śledzenia
 common#:#tracking_data_del_confirm#:#Czy chcesz usunąć wszystkie dane śledzenia danego miesiąca i wcześniejsze?
@@ -5372,15 +5372,15 @@ common#:#usr_style#:#Styl użytkownika
 common#:#usr_without_courses#:#Użytkownicy bez przydzielonego kursu
 common#:#usrf#:#Folder użytkownika
 common#:#usrf_create_user#:#Twórz nowe konto użytkownika
-common#:#usrf_delete#:#Usuń konta użytkowników
-common#:#usrf_edit_permission#:#Zmień ustawienia uprawnień
-common#:#usrf_edit_roleassignment#:#Zmień przydział ról do kont użytkowników
+rbac#:#usrf_delete#:#Usuń konta użytkowników
+rbac#:#usrf_edit_permission#:#Zmień ustawienia uprawnień
+rbac#:#usrf_edit_roleassignment#:#Zmień przydział ról do kont użytkowników
 common#:#usrf_profile_link#:#Link to user profile
-common#:#usrf_push_desktop_items#:#Zezwól na umieszczenie pozycji na pulpicie osobistym.
-common#:#usrf_read#:#Prawo czytania kont użytkowników
-common#:#usrf_read_users#:#Przydział ról dla lokalnych administratorów
-common#:#usrf_visible#:#Konta użytkowników są widoczne
-common#:#usrf_write#:#Edycja kont użytkowników
+rbac#:#usrf_push_desktop_items#:#Zezwól na umieszczenie pozycji na pulpicie osobistym.
+rbac#:#usrf_read#:#Prawo czytania kont użytkowników
+rbac#:#usrf_read_users#:#Przydział ról dla lokalnych administratorów
+rbac#:#usrf_visible#:#Konta użytkowników są widoczne
+rbac#:#usrf_write#:#Edycja kont użytkowników
 common#:#usrimport_action_failed#:#Akcja %1$s błędna.
 common#:#usrimport_action_ignored#:#Zignorowano akcję %1$s.
 common#:#usrimport_action_replaced#:#Wymieniona akcja %1$s przez %2$s.

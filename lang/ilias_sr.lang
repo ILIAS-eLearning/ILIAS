@@ -2975,14 +2975,14 @@ common#:#search_recipient#:#Nadi primaoca
 common#:#search_result#:#Nadi rezultat
 common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Nadi korisnika
-common#:#seas_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
 common#:#seas_max_hits#:#Max hits ### 2006-8-11 --- Add new translation here.
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results. ### 2006-8-11 --- Add new translation here.
-common#:#seas_read#:#Read search settings ### 2006-8-11 --- Add new translation here.
-common#:#seas_search#:#Allow to use the search ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_read#:#Read search settings ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_search#:#Allow to use the search ### 2006-8-11 --- Add new translation here.
 common#:#seas_settings#:#Search settings ### 2006-8-11 --- Add new translation here.
-common#:#seas_visible#:#Search settings are visible ### 2006-8-11 --- Add new translation here.
-common#:#seas_write#:#Edit search settings ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_visible#:#Search settings are visible ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_write#:#Edit search settings ### 2006-8-11 --- Add new translation here.
 common#:#second#:#Second###10 Jul 2006 new variable
 common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Segmenti
@@ -3092,10 +3092,10 @@ common#:#street#:#Ulica
 common#:#structure#:#Struktura
 common#:#sty#:#Stil
 common#:#style_activation#:#Aktivacija Stila
-common#:#stys_edit_permission#:#Promeni okvir za dozvolu
-common#:#stys_read#:#Procitaj o pristupu za podešavanje stila
-common#:#stys_visible#:#Podešavanja stila su vidljiva
-common#:#stys_write#:#Uredi podešavanja stila
+rbac#:#stys_edit_permission#:#Promeni okvir za dozvolu
+rbac#:#stys_read#:#Procitaj o pristupu za podešavanje stila
+rbac#:#stys_visible#:#Podešavanja stila su vidljiva
+rbac#:#stys_write#:#Uredi podešavanja stila
 common#:#subcat_name#:#Naziv podkategorije
 common#:#subchapter_new#:#Novi deo poglavlja
 common#:#subject#:#Predmet
@@ -3182,10 +3182,10 @@ common#:#toggleGlobalDefault#:#promeni opšti podrazumevane vrednosti
 common#:#toggleGlobalFixed#:#promeni opšti fiksni
 common#:#total#:#Ukupno
 common#:#tpl_path#:#Putanja šablona
-common#:#trac_delete#:#Obriši pracenje podataka
-common#:#trac_edit_permission#:#Promeni okvir za dozvolu
-common#:#trac_read#:#Procitaj podatke pracenja
-common#:#trac_visible#:#Pracenje klijenta je vidljivo
+rbac#:#trac_delete#:#Obriši pracenje podataka
+rbac#:#trac_edit_permission#:#Promeni okvir za dozvolu
+rbac#:#trac_read#:#Procitaj podatke pracenja
+rbac#:#trac_visible#:#Pracenje klijenta je vidljivo
 common#:#tracked_objects#:#Praceni objekti
 common#:#tracking_data#:#Pracenje podataka
 common#:#tracking_data_del_confirm#:#Da li zaista želite da obrišete sva pracenja podataka za odredeni mesec i pre?
@@ -3337,14 +3337,14 @@ common#:#usr_skin_style#:#Izgled / Stil
 common#:#usr_style#:#Korisnicki stil
 common#:#usrf#:#Korisnicki nalozi
 common#:#usrf_create_user#:#Kreirajte novi korisnicki nalog
-common#:#usrf_delete#:#Obrišite korisnicke naloge
-common#:#usrf_edit_permission#:#Promenite pristup korisnickim nalozima
-common#:#usrf_edit_roleassignment#:#Promenite funkciju odredenja korisnickih naloga
-common#:#usrf_push_desktop_items#:#Dopustite premeštanje predmeta na licnu radnu površinu.
-common#:#usrf_read#:#Procitajte o korisnickim nalozima
-common#:#usrf_read_users#:#Odredivanje funkcije za lokalne administratore
-common#:#usrf_visible#:#Korisnicki nalozi su vidljivi
-common#:#usrf_write#:#Uredi korisnicke naloge
+rbac#:#usrf_delete#:#Obrišite korisnicke naloge
+rbac#:#usrf_edit_permission#:#Promenite pristup korisnickim nalozima
+rbac#:#usrf_edit_roleassignment#:#Promenite funkciju odredenja korisnickih naloga
+rbac#:#usrf_push_desktop_items#:#Dopustite premeštanje predmeta na licnu radnu površinu.
+rbac#:#usrf_read#:#Procitajte o korisnickim nalozima
+rbac#:#usrf_read_users#:#Odredivanje funkcije za lokalne administratore
+rbac#:#usrf_visible#:#Korisnicki nalozi su vidljivi
+rbac#:#usrf_write#:#Uredi korisnicke naloge
 common#:#usrimport_action_failed#:#Akcija je %1$ neuspešna.
 common#:#usrimport_action_ignored#:#Odbacena radnja %1$s.
 common#:#usrimport_action_replaced#:#Premeštena akcija %1$s od %2$s.
@@ -6679,11 +6679,11 @@ survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey wi
 common#:#obj_ps#:#Privacy and Security###22 12 2006 new variable
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.###22 12 2006 new variable
 ps#:#show_privacy#:#Privacy###22 12 2006 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
-common#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
+rbac#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
+rbac#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
+rbac#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
 common#:#access_expired#:#expired###25 02 2007 new variable
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
 common#:#access_unlimited#:#unlimited###25 02 2007 new variable
@@ -8504,10 +8504,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable

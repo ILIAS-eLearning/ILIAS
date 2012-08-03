@@ -4038,11 +4038,11 @@ common#:#proxy_port#:#Port
 common#:#proxy_status_info#:#Az ILIAS-ban proxi használatához (pl. webhírforráshoz vagy weblinkek ellenőrzéséhez) aktiválja a fenti jelölőnégyzetet.
 common#:#proxy_status#:#Proxy
 common#:#proxy#:#Proxy
-common#:#ps_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#ps_export_member_data#:#A felhasználók elérhetik a tagadatokat
-common#:#ps_read#:#Olvasási elérés titkosítás/biztonság beállításokhoz
-common#:#ps_visible#:#Titkosítás és biztonság beállítások láthatóak
-common#:#ps_write#:#Titkosítás/biztonság szerkesztése
+rbac#:#ps_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#ps_export_member_data#:#A felhasználók elérhetik a tagadatokat
+rbac#:#ps_read#:#Olvasási elérés titkosítás/biztonság beállításokhoz
+rbac#:#ps_visible#:#Titkosítás és biztonság beállítások láthatóak
+rbac#:#ps_write#:#Titkosítás/biztonság szerkesztése
 common#:#pub_section_info#:#Ha engedélyzett, a rendszer részei (pl. taneszköz tároló, munkaterület, felhasználói profilok) bejelentkezés nélkül elérehetők az internetről. Az "Anonymous" szerep jogosultságai fogják irányítani a taneszköz tároló forrásainak elérését.
 common#:#pub_section#:#Nyilvános terület
 common#:#public_notes#:#Nyilvános jegyzetek
@@ -4267,14 +4267,14 @@ common#:#search_results#:#Keresési eredmények
 common#:#search_to_short#:#Lekérdezése túl rövid.
 common#:#search_user#:#Felhasználó keresése
 common#:#search#:#Keresés
-common#:#seas_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#seas_edit_permission#:#Jogosultsági beállítások változtatása
 common#:#seas_max_hits_info#:#Adja meg a keresési eredmények maximális számát!
 common#:#seas_max_hits#:#Maximális találat
-common#:#seas_read#:#Keresési beállítások olvasása
-common#:#seas_search#:#Keresés használatának engedélyezése
+rbac#:#seas_read#:#Keresési beállítások olvasása
+rbac#:#seas_search#:#Keresés használatának engedélyezése
 common#:#seas_settings#:#Keresési beállítások
-common#:#seas_visible#:#Keresési beállítások láthatók
-common#:#seas_write#:#Keresési beállítások szerkesztése
+rbac#:#seas_visible#:#Keresési beállítások láthatók
+rbac#:#seas_write#:#Keresési beállítások szerkesztése
 common#:#second#:#másodperc
 common#:#seconds#:#másodperc
 common#:#sections#:#Szekciók
@@ -4437,10 +4437,10 @@ common#:#street#:#Lakcím (utca, házszám)
 common#:#structure#:#Struktúra
 common#:#sty#:#Stílus
 common#:#style_activation#:#Stílus aktiválása
-common#:#stys_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#stys_read#:#Olvasási elérés stílusbeállításokhoz
-common#:#stys_visible#:#Stílusbeállítások láthatók
-common#:#stys_write#:#Stílusbeállítások szerkesztése
+rbac#:#stys_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#stys_read#:#Olvasási elérés stílusbeállításokhoz
+rbac#:#stys_visible#:#Stílusbeállítások láthatók
+rbac#:#stys_write#:#Stílusbeállítások szerkesztése
 common#:#sub_request_deleted#:#Törölt tagsági kérelem
 common#:#sub_request_saved#:#Mentett tagsági kérelem
 common#:#subcat_name#:#Alkategória-név
@@ -4491,10 +4491,10 @@ common#:#systemcheck_cronform#:#Rendszerellenőrzés aktiválása a cronjobban
 common#:#table_mail_import#:#Levél importálása
 common#:#tabs#:#Tabok
 common#:#tagging_my_tags#:#Saját címkéim
-common#:#tags_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#tags_read#:#Olvasási jog címkézési beállításokhoz
-common#:#tags_visible#:#Címkézési beállítások láthatók
-common#:#tags_write#:#Címkézési beállítások szerkesztése
+rbac#:#tags_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#tags_read#:#Olvasási jog címkézési beállításokhoz
+rbac#:#tags_visible#:#Címkézési beállítások láthatók
+rbac#:#tags_write#:#Címkézési beállítások szerkesztése
 common#:#take_over_structure_info#:#Ha aktivált, a zip fájlban levő könyvtárak kategóriákban kerülnek létrehozásra. Ha csoportokban és kurzusokban használja, akkor mappákban kerülnek létrehozásra.
 common#:#take_over_structure#:#Struktúra adaptálása
 common#:#target#:#Cél
@@ -4551,10 +4551,10 @@ common#:#toggleGlobalFixed#:#Globálisan meghatározott átkapcsolása
 common#:#tomorrow#:#Holnap
 common#:#total#:#Összesen
 common#:#tpl_path#:#Ideiglenes elérési út
-common#:#trac_delete#:#Nyomkövetési adatok törlése
-common#:#trac_edit_permission#:#Jogosultsági beállítások változtatása
-common#:#trac_read#:#Nyomkövetési adatok olvasása
-common#:#trac_visible#:#Felhasználói nyomkövetés látható
+rbac#:#trac_delete#:#Nyomkövetési adatok törlése
+rbac#:#trac_edit_permission#:#Jogosultsági beállítások változtatása
+rbac#:#trac_read#:#Nyomkövetési adatok olvasása
+rbac#:#trac_visible#:#Felhasználói nyomkövetés látható
 common#:#tracked_objects#:#Nyomon követett objektumok
 common#:#tracking_data_del_confirm#:#Biztosan törölni akarja a meghatározott és az előtte levő hónap minden nyomkövetési adatát?
 common#:#tracking_data_deleted#:#Nyomkövetési adatok törölve.
@@ -4736,14 +4736,14 @@ common#:#usr_style#:#Felhasználói stílus
 common#:#usr_without_courses#:#Kurzus nélküli felhasználók hozzárendelve
 common#:#usr#:#Felhasználó
 common#:#usrf_create_user#:#Új felhasználói fiók létrehozása
-common#:#usrf_delete#:#Felhasználói fiókok törlése
-common#:#usrf_edit_permission#:#Felhasználói fiókokhoz való hozzáférés változtatása
-common#:#usrf_edit_roleassignment#:#Felhasználói fiókokhoz való szerephozzáférés változtatása
-common#:#usrf_push_desktop_items#:#A Munkaasztalra elemfelvétel engedélyezése
-common#:#usrf_read_users#:#Olvasási elérés helyi adminisztrátoroknak
-common#:#usrf_read#:#Olvasási elérés a felhasználói fiókokhoz
-common#:#usrf_visible#:#A felhasználói fiókok láthatók
-common#:#usrf_write#:#Felhasználói fiókok szerkesztése
+rbac#:#usrf_delete#:#Felhasználói fiókok törlése
+rbac#:#usrf_edit_permission#:#Felhasználói fiókokhoz való hozzáférés változtatása
+rbac#:#usrf_edit_roleassignment#:#Felhasználói fiókokhoz való szerephozzáférés változtatása
+rbac#:#usrf_push_desktop_items#:#A Munkaasztalra elemfelvétel engedélyezése
+rbac#:#usrf_read_users#:#Olvasási elérés helyi adminisztrátoroknak
+rbac#:#usrf_read#:#Olvasási elérés a felhasználói fiókokhoz
+rbac#:#usrf_visible#:#A felhasználói fiókok láthatók
+rbac#:#usrf_write#:#Felhasználói fiókok szerkesztése
 common#:#usrf#:#Felhasználói fiókok
 common#:#usrimport_action_failed#:#%1$ nem sikerült.
 common#:#usrimport_action_ignored#:#%1$ elutasítva.

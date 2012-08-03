@@ -4181,11 +4181,11 @@ common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
-common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_export_member_data#:#User may Export Member Data
-common#:#ps_read#:#Read Access to Privacy/Security Settings
-common#:#ps_visible#:#Privacy/Security Settings are Visible
-common#:#ps_write#:#Edit Privacy/Security
+rbac#:#ps_edit_permission#:#Change Permission Settings
+rbac#:#ps_export_member_data#:#User may Export Member Data
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible
+rbac#:#ps_write#:#Edit Privacy/Security
 common#:#pub_section#:#Herkese Açık Alan
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#herkese açık
@@ -4411,14 +4411,14 @@ common#:#search_result#:#Arama sonucu
 common#:#search_results#:#Search Results
 common#:#search_to_short#:#Sorgunuz fazla kısa.
 common#:#search_user#:#Kullanıcı Ara
-common#:#seas_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#seas_edit_permission#:#Yetki ayarlarını değiştir
 common#:#seas_max_hits#:#Maksimum sonuç sayısı
 common#:#seas_max_hits_info#:#Lütfen maksimum arama sonucunu belirlemek için bir sayı girin.
-common#:#seas_read#:#Arama ayarlarını oku
-common#:#seas_search#:#Aramanın kullanılmasına izin ver
+rbac#:#seas_read#:#Arama ayarlarını oku
+rbac#:#seas_search#:#Aramanın kullanılmasına izin ver
 common#:#seas_settings#:#Arama ayarları
-common#:#seas_visible#:#Arama ayarları görünür halde
-common#:#seas_write#:#Arama ayarlarını düzenle
+rbac#:#seas_visible#:#Arama ayarları görünür halde
+rbac#:#seas_write#:#Arama ayarlarını düzenle
 common#:#second#:#İkinci
 common#:#seconds#:#İkinciler
 common#:#sections#:#Kısımlar
@@ -4602,10 +4602,10 @@ common#:#street#:#Sokak
 common#:#structure#:#Yapı
 common#:#sty#:#Biçem
 common#:#style_activation#:#Biçem Etkinleştirme
-common#:#stys_edit_permission#:#Yetki ayarlarını değiştir
-common#:#stys_read#:#Biçem ayarlarına okuma erişimi
-common#:#stys_visible#:#Biçem ayarları görünür halde
-common#:#stys_write#:#Biçem ayarlarını düzenle
+rbac#:#stys_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#stys_read#:#Biçem ayarlarına okuma erişimi
+rbac#:#stys_visible#:#Biçem ayarları görünür halde
+rbac#:#stys_write#:#Biçem ayarlarını düzenle
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#Altkategori Adı
@@ -4656,10 +4656,10 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#İleti içeri aktar
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#My Tags
-common#:#tags_edit_permission#:#Change permission settings
-common#:#tags_read#:#Read access to Tagging Settings
-common#:#tags_visible#:#Tagging Settings are visible
-common#:#tags_write#:#Edit Tagging Settings
+rbac#:#tags_edit_permission#:#Change permission settings
+rbac#:#tags_read#:#Read access to Tagging Settings
+rbac#:#tags_visible#:#Tagging Settings are visible
+rbac#:#tags_write#:#Edit Tagging Settings
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#target#:#Hedef
@@ -4716,10 +4716,10 @@ common#:#toggleGlobalFixed#:#Genel Sabit Değerleri Diğer Duruma Geçir
 common#:#tomorrow#:#Tomorrow
 common#:#total#:#Toplam
 common#:#tpl_path#:#Şablon Yolu
-common#:#trac_delete#:#İzleme Verilerini Sil
-common#:#trac_edit_permission#:#Yetki ayarlarını değiştir
-common#:#trac_read#:#İzleme Verilerini oku
-common#:#trac_visible#:#Kullanıcı izlemesi görünür halde
+rbac#:#trac_delete#:#İzleme Verilerini Sil
+rbac#:#trac_edit_permission#:#Yetki ayarlarını değiştir
+rbac#:#trac_read#:#İzleme Verilerini oku
+rbac#:#trac_visible#:#Kullanıcı izlemesi görünür halde
 common#:#tracked_objects#:#İzlenen nesneler
 common#:#tracking_data#:#İzleme Verileri
 common#:#tracking_data_del_confirm#:#Belirlenmiş ay ve öncesi için tüm izleme verilerini gerçekten de silmek istiyor musunuz?
@@ -4902,15 +4902,15 @@ common#:#usr_style#:#Kullanıcı Biçemi
 common#:#usr_without_courses#:#Users without courses assigned
 common#:#usrf#:#Kullanıcı hesapları
 common#:#usrf_create_user#:#Yeni kullanıcı hesabı oluştur
-common#:#usrf_delete#:#Kullanıcı hesaplarını sil
-common#:#usrf_edit_permission#:#Kullanıcı hesaplarına erişimi değiştir
-common#:#usrf_edit_roleassignment#:#Kullanıcı hesaplarına atanan rolleri değiştir
+rbac#:#usrf_delete#:#Kullanıcı hesaplarını sil
+rbac#:#usrf_edit_permission#:#Kullanıcı hesaplarına erişimi değiştir
+rbac#:#usrf_edit_roleassignment#:#Kullanıcı hesaplarına atanan rolleri değiştir
 common#:#usrf_profile_link#:#Link to user profile
-common#:#usrf_push_desktop_items#:#Kişisel masaüstündeki öğelerin taşınmasına izin ver.
-common#:#usrf_read#:#Kullanıcı hesaplarına okuma erişimi
-common#:#usrf_read_users#:#Yerel yöneticiler için rol ataması
-common#:#usrf_visible#:#Kullanıcı hesapları görünür halde.
-common#:#usrf_write#:#Kullanıcı hesaplarını düzenle
+rbac#:#usrf_push_desktop_items#:#Kişisel masaüstündeki öğelerin taşınmasına izin ver.
+rbac#:#usrf_read#:#Kullanıcı hesaplarına okuma erişimi
+rbac#:#usrf_read_users#:#Yerel yöneticiler için rol ataması
+rbac#:#usrf_visible#:#Kullanıcı hesapları görünür halde.
+rbac#:#usrf_write#:#Kullanıcı hesaplarını düzenle
 common#:#usrimport_action_failed#:#%1$s eylemi başarısız oldu.
 common#:#usrimport_action_ignored#:#%1$s eylemi göz ardı edildi.
 common#:#usrimport_action_replaced#:#%1$s eyleminin yerine %2$s eylemi uygulandı.

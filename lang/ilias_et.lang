@@ -2978,14 +2978,14 @@ common#:#search_recipient#:#Search Recipient
 common#:#search_result#:#Otsingu tulemused
 common#:#search_to_short#:#Your query is to short.
 common#:#search_user#:#Otsi kasutajat
-common#:#seas_edit_permission#:#Muuda õiguste seadeid
+rbac#:#seas_edit_permission#:#Muuda õiguste seadeid
 common#:#seas_max_hits#:#Max hits
 common#:#seas_max_hits_info#:#Palun sisesta otsivastuste maksimumnumber.
-common#:#seas_read#:#Read search settings
-common#:#seas_search#:#Luba kasutada otsingut
+rbac#:#seas_read#:#Read search settings
+rbac#:#seas_search#:#Luba kasutada otsingut
 common#:#seas_settings#:#Otsingu seaded
-common#:#seas_visible#:#Otsingu seaded on nähtavad
-common#:#seas_write#:#Muuda otsingu seadeid
+rbac#:#seas_visible#:#Otsingu seaded on nähtavad
+rbac#:#seas_write#:#Muuda otsingu seadeid
 common#:#second#:#sekund
 common#:#seconds#:#sekundit
 common#:#sections#:#Sections
@@ -3096,10 +3096,10 @@ common#:#street#:#Tänav
 common#:#structure#:#Ülesehitus
 common#:#sty#:#Style
 common#:#style_activation#:#Style Activation
-common#:#stys_edit_permission#:#Change permission settings
-common#:#stys_read#:#Read access to style settings
-common#:#stys_visible#:#Style settings are visible
-common#:#stys_write#:#Edit style settings
+rbac#:#stys_edit_permission#:#Change permission settings
+rbac#:#stys_read#:#Read access to style settings
+rbac#:#stys_visible#:#Style settings are visible
+rbac#:#stys_write#:#Edit style settings
 common#:#subcat_name#:#Subcategory Name
 common#:#subchapter_new#:#New Subchapter
 common#:#subject#:#Pealkiri
@@ -3186,10 +3186,10 @@ common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#Total
 common#:#tpl_path#:#Template Path
-common#:#trac_delete#:#Delete Tracking Data
-common#:#trac_edit_permission#:#Change permission settings
-common#:#trac_read#:#Read Tracking Data
-common#:#trac_visible#:#User tracking is visible
+rbac#:#trac_delete#:#Delete Tracking Data
+rbac#:#trac_edit_permission#:#Change permission settings
+rbac#:#trac_read#:#Read Tracking Data
+rbac#:#trac_visible#:#User tracking is visible
 common#:#tracked_objects#:#Tracked objects
 common#:#tracking_data#:#Tracking Data
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
@@ -3341,14 +3341,14 @@ common#:#usr_skin_style#:#Taust
 common#:#usr_style#:#User Style
 common#:#usrf#:#Kasutajad
 common#:#usrf_create_user#:#Loo uus kasutajanimi
-common#:#usrf_delete#:#Kustuta kasutajad
-common#:#usrf_edit_permission#:#Change access to user accounts
-common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
-common#:#usrf_read#:#Read access to user accounts
-common#:#usrf_read_users#:#Role assignment for local administrators
-common#:#usrf_visible#:#Kasutajad on nähtavad
-common#:#usrf_write#:#Edit user accounts
+rbac#:#usrf_delete#:#Kustuta kasutajad
+rbac#:#usrf_edit_permission#:#Change access to user accounts
+rbac#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
+rbac#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
+rbac#:#usrf_read#:#Read access to user accounts
+rbac#:#usrf_read_users#:#Role assignment for local administrators
+rbac#:#usrf_visible#:#Kasutajad on nähtavad
+rbac#:#usrf_write#:#Edit user accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
@@ -6679,11 +6679,11 @@ survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey wi
 common#:#obj_ps#:#Privacy and Security###22 12 2006 new variable
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.###22 12 2006 new variable
 ps#:#show_privacy#:#Privacy###22 12 2006 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
-common#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
+rbac#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
+rbac#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
+rbac#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
 common#:#access_expired#:#expired###25 02 2007 new variable
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
 common#:#access_unlimited#:#unlimited###25 02 2007 new variable
@@ -8504,10 +8504,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable

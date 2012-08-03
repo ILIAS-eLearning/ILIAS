@@ -2654,14 +2654,14 @@ common#:#search_recipient#:#Tìm kiếm người nhận
 common#:#search_result#:#Kết quả tìm kiếm
 common#:#search_to_short#:#Truy vấn của bạn quá ngắn.
 common#:#search_user#:#Tìm kiếm người sử dụng
-common#:#seas_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#seas_edit_permission#:#Thay đổi thiết lập quyền hạn
 common#:#seas_max_hits#:#Số kết quả tối đa
 common#:#seas_max_hits_info#:#Hãy nhập số tối đa kết quả tìm kiếm.
-common#:#seas_read#:#Đọc thiết lập tìm kiếm
-common#:#seas_search#:#Cho phép sử dụng tìm kiếm
+rbac#:#seas_read#:#Đọc thiết lập tìm kiếm
+rbac#:#seas_search#:#Cho phép sử dụng tìm kiếm
 common#:#seas_settings#:#Thiết lập tìm kiếm
-common#:#seas_visible#:#Nhìn thấy thiết lập tìm kiếm
-common#:#seas_write#:#Sửa thiết lập tìm kiếm
+rbac#:#seas_visible#:#Nhìn thấy thiết lập tìm kiếm
+rbac#:#seas_write#:#Sửa thiết lập tìm kiếm
 common#:#seconds#:#Giây
 common#:#sections#:#Đoạn
 common#:#select#:#Chọn
@@ -2760,10 +2760,10 @@ common#:#street#:#Phố
 common#:#structure#:#Cấu trúc
 common#:#sty#:#Style
 common#:#style_activation#:#Kích hoạt giao diện
-common#:#stys_edit_permission#:#Thay đổi thiết lập quyền hạn
-common#:#stys_read#:#Đọc thiết lập giao diện
-common#:#stys_visible#:#Nhìn thấy thiết lập giao diện
-common#:#stys_write#:#Sửa thiết lập giao diện
+rbac#:#stys_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#stys_read#:#Đọc thiết lập giao diện
+rbac#:#stys_visible#:#Nhìn thấy thiết lập giao diện
+rbac#:#stys_write#:#Sửa thiết lập giao diện
 common#:#subcat_name#:#Tên chuyên mục con
 common#:#subchapter_new#:#Chương con mới
 common#:#subject#:#Tiêu đề
@@ -2849,10 +2849,10 @@ common#:#toggleGlobalDefault#:#Thay đổi mặc định toàn cục
 common#:#toggleGlobalFixed#:#Thay đổi cố định toàn cục
 common#:#total#:#Tổng
 common#:#tpl_path#:#Đường dẫn mẫu
-common#:#trac_delete#:#Xóa thông tin theo dõi
-common#:#trac_edit_permission#:#Thay đổi thiết lập quyền hạn
-common#:#trac_read#:#Đọc thông tin theo dõi
-common#:#trac_visible#:#Nhìn thấy theo dõi người sử dụng
+rbac#:#trac_delete#:#Xóa thông tin theo dõi
+rbac#:#trac_edit_permission#:#Thay đổi thiết lập quyền hạn
+rbac#:#trac_read#:#Đọc thông tin theo dõi
+rbac#:#trac_visible#:#Nhìn thấy theo dõi người sử dụng
 common#:#tracked_objects#:#Đối tượng đã theo dõi
 common#:#tracking_data#:#Thông tin theo dõi
 common#:#tracking_data_del_confirm#:#Bạn có chắc muốn xóa tất cả thông tin theo dõi của tháng đã xác định và trước đó?
@@ -2969,14 +2969,14 @@ common#:#usr_skin_style#:#Skin / giao diện
 common#:#usr_style#:#Giao diện người sử dụng
 common#:#usrf#:#Tài khoản người sử dụng
 common#:#usrf_create_user#:#Tạo tài khoản người sử dụng mới
-common#:#usrf_delete#:#Xóa tài khoản người sử dụng
-common#:#usrf_edit_permission#:#Thay đổi truy cập tới tài khoản người sử dụng
-common#:#usrf_edit_roleassignment#:#Thay đổi vai trò chỉ định của tài khoản người sử dụng
-common#:#usrf_push_desktop_items#:#Cho phép đưa các mục lên bàn làm việc.
-common#:#usrf_read#:#Đọc tài khoản người sử dụng
-common#:#usrf_read_users#:#Chỉ định vai trò cho các người quản trị nội bộ
-common#:#usrf_visible#:#Nhìn thấy tài khoản người sử dụng
-common#:#usrf_write#:#Sửa tài khoản người sử dụng
+rbac#:#usrf_delete#:#Xóa tài khoản người sử dụng
+rbac#:#usrf_edit_permission#:#Thay đổi truy cập tới tài khoản người sử dụng
+rbac#:#usrf_edit_roleassignment#:#Thay đổi vai trò chỉ định của tài khoản người sử dụng
+rbac#:#usrf_push_desktop_items#:#Cho phép đưa các mục lên bàn làm việc.
+rbac#:#usrf_read#:#Đọc tài khoản người sử dụng
+rbac#:#usrf_read_users#:#Chỉ định vai trò cho các người quản trị nội bộ
+rbac#:#usrf_visible#:#Nhìn thấy tài khoản người sử dụng
+rbac#:#usrf_write#:#Sửa tài khoản người sử dụng
 common#:#usrimport_action_failed#:#Thao tác %1$s thất bại.
 common#:#usrimport_action_ignored#:#Bỏ qua thao tác %1$s.???
 common#:#usrimport_action_replaced#:#Thay thế thao tác %1$s bằng %2$s.???
@@ -6828,11 +6828,11 @@ common#:#obj_ps#:#Privacy and Security###25 02 2007 new variable
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.###25 02 2007 new variable
 ps#:#show_privacy#:#Privacy###25 02 2007 new variable
 ps#:#show_security#:#Security###25 02 2007 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
-common#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
+rbac#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
+rbac#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
+rbac#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
 crs#:#crs_subscriber#:#Subscriber###25 02 2007 new variable
 ps#:#ps_export_files#:#Export Files###25 02 2007 new variable
 ps#:#ps_size#:#Files Size###25 02 2007 new variable
@@ -8506,10 +8506,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable

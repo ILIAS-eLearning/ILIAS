@@ -4599,11 +4599,11 @@ common#:#proxy_port#:#Port
 common#:#proxy_status_info#:#Pour utiliser un proxy dans ILIAS (par exemple pour les flux Web, ou à vérifier les liens Internet), cochez la case ci-dessus.
 common#:#proxy_status#:#Proxy
 common#:#proxy#:#Proxy
-common#:#ps_edit_permission#:#Modifier les paramètres de permission
-common#:#ps_export_member_data#:#L'utilisateur peut exporter les données des membres
-common#:#ps_read#:#Accès en lecture aux paramètres de confidentialité/sécurité
-common#:#ps_visible#:#Les paramètres de confidentialité/sécurité sont visibles
-common#:#ps_write#:#Modifier confidentialité/sécurité
+rbac#:#ps_edit_permission#:#Modifier les paramètres de permission
+rbac#:#ps_export_member_data#:#L'utilisateur peut exporter les données des membres
+rbac#:#ps_read#:#Accès en lecture aux paramètres de confidentialité/sécurité
+rbac#:#ps_visible#:#Les paramètres de confidentialité/sécurité sont visibles
+rbac#:#ps_write#:#Modifier confidentialité/sécurité
 common#:#pub_section_info#:#Les éléments du système (par exemple profils utilisateurs) peuvent être mis à la disposition sur Internet sans authentification. Les autorisations du rôle 'Anonyme' contrôleront l'accès aux ressources.
 common#:#pub_section#:#Section publique
 common#:#public_notes#:#Notes publiques
@@ -4833,14 +4833,14 @@ common#:#search_results#:#Résultats de la recherche
 common#:#search_to_short#:#Votre requête est trop courte.
 common#:#search_user#:#Recherche utilisateur
 common#:#search#:#Rechercher
-common#:#seas_edit_permission#:#Modifier les paramètres de permissions
+rbac#:#seas_edit_permission#:#Modifier les paramètres de permissions
 common#:#seas_max_hits_info#:#Définissez un nombre maximum de résultats de recherche.
 common#:#seas_max_hits#:#Nombre maximum de résultats
-common#:#seas_read#:#Voir les paramètres de recherche
-common#:#seas_search#:#Permettre d'utiliser le moteur de recherche
+rbac#:#seas_read#:#Voir les paramètres de recherche
+rbac#:#seas_search#:#Permettre d'utiliser le moteur de recherche
 common#:#seas_settings#:#Paramètres de recherche
-common#:#seas_visible#:#Les paramètres de recherche sont visibles
-common#:#seas_write#:#Éditer les paramètres de recherche
+rbac#:#seas_visible#:#Les paramètres de recherche sont visibles
+rbac#:#seas_write#:#Éditer les paramètres de recherche
 common#:#second#:#Seconde
 common#:#seconds#:#Secondes
 common#:#sections#:#Sections
@@ -5027,10 +5027,10 @@ common#:#street#:#Rue
 common#:#structure#:#Structure
 common#:#sty#:#Style
 common#:#style_activation#:#Activation du style
-common#:#stys_edit_permission#:#Changer les paramètres de permission
-common#:#stys_read#:#Accès en lecture aux paramètres de style
-common#:#stys_visible#:#Les paramètres de style sont visibles
-common#:#stys_write#:#Modifier paramètres de style
+rbac#:#stys_edit_permission#:#Changer les paramètres de permission
+rbac#:#stys_read#:#Accès en lecture aux paramètres de style
+rbac#:#stys_visible#:#Les paramètres de style sont visibles
+rbac#:#stys_write#:#Modifier paramètres de style
 common#:#sub_request_deleted#:#Supprimer la demande d'adhésion
 common#:#sub_request_saved#:#Demande d'adhésion enregistrée
 common#:#subcat_name#:#Nom de sous-catégorie
@@ -5081,10 +5081,10 @@ common#:#systemcheck_cronform#:#Activation de la vérification du système dans 
 common#:#table_mail_import#:#Importer à partir de messages d'ILIAS 2
 common#:#tabs#:#Onglets
 common#:#tagging_my_tags#:#Mes mots clés
-common#:#tags_edit_permission#:#Modifier les paramètres de permission
-common#:#tags_read#:#Accès Lecture aux Paramètres de Marquage
-common#:#tags_visible#:#Les paramètres des marquages sont visibles
-common#:#tags_write#:#Edit Tagging Settings
+rbac#:#tags_edit_permission#:#Modifier les paramètres de permission
+rbac#:#tags_read#:#Accès Lecture aux Paramètres de Marquage
+rbac#:#tags_visible#:#Les paramètres des marquages sont visibles
+rbac#:#tags_write#:#Edit Tagging Settings
 common#:#take_over_structure_info#:#Si la case est cochée, les dossiers contenus dans le fichier ZIP seront convertis en catégories ou en dossiers si l'importation du ZIP est faite dans un groupe ou un cours.
 common#:#take_over_structure#:#Conserver la structure des dossiers
 common#:#target#:#Cible
@@ -5143,10 +5143,10 @@ common#:#toggleGlobalFixed#:#Changer la valeur fixée par défaut
 common#:#tomorrow#:#Demain
 common#:#total#:#Total
 common#:#tpl_path#:#Chemin d'accès aux  modèles
-common#:#trac_delete#:#Supprimer les données de suivi
-common#:#trac_edit_permission#:#Modifier les paramètres de permission
-common#:#trac_read#:#Lire données de suivi
-common#:#trac_visible#:#Le suivi des utilisateurs est visible
+rbac#:#trac_delete#:#Supprimer les données de suivi
+rbac#:#trac_edit_permission#:#Modifier les paramètres de permission
+rbac#:#trac_read#:#Lire données de suivi
+rbac#:#trac_visible#:#Le suivi des utilisateurs est visible
 common#:#tracked_objects#:#Objets suivis
 common#:#tracking_data_del_confirm#:#Voulez-vous réellement supprimer toutes les données de suivi du mois spécifié et des précédents ?
 common#:#tracking_data_deleted#:#Données de suivi détruites
@@ -5332,15 +5332,15 @@ common#:#usr_style#:#Style utilisateur
 common#:#usr_without_courses#:#Utilisateurs non inscrits à des cours
 common#:#usr#:#Utilisateur
 common#:#usrf_create_user#:#Créer nouveau compte utilisateur
-common#:#usrf_delete#:#Supprimer les comptes utilisateurs
-common#:#usrf_edit_permission#:#Modifier les paramètres de permission
-common#:#usrf_edit_roleassignment#:#Changer l'assignation de rôle des comptes utilisateurs
+rbac#:#usrf_delete#:#Supprimer les comptes utilisateurs
+rbac#:#usrf_edit_permission#:#Modifier les paramètres de permission
+rbac#:#usrf_edit_roleassignment#:#Changer l'assignation de rôle des comptes utilisateurs
 common#:#usrf_profile_link#:#Lien vers le profil utilisateur
-common#:#usrf_push_desktop_items#:#Permettre l'ajout d'objets sur le bureau personnel
-common#:#usrf_read_users#:#Assignation de rôle pour les administrateurs locaux
-common#:#usrf_read#:#Accès en lecture aux comptes utilisateurs
-common#:#usrf_visible#:#Les comptes utilisateurs sont visibles
-common#:#usrf_write#:#Modifier comptes utilisateurs
+rbac#:#usrf_push_desktop_items#:#Permettre l'ajout d'objets sur le bureau personnel
+rbac#:#usrf_read_users#:#Assignation de rôle pour les administrateurs locaux
+rbac#:#usrf_read#:#Accès en lecture aux comptes utilisateurs
+rbac#:#usrf_visible#:#Les comptes utilisateurs sont visibles
+rbac#:#usrf_write#:#Modifier comptes utilisateurs
 common#:#usrf#:#Dossier utilisateur
 common#:#usrimport_action_failed#:#Echec de l'action %1$s
 common#:#usrimport_action_ignored#:#Action %1$s ignorée

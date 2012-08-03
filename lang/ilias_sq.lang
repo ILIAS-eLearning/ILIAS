@@ -2975,14 +2975,14 @@ common#:#search_recipient#:#Kërko Pranues
 common#:#search_result#:#Rezultati i kërkimit
 common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Kërko Shfrytëzues
-common#:#seas_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_edit_permission#:#Change permission settings ### 2006-8-11 --- Add new translation here.
 common#:#seas_max_hits#:#Max hits ### 2006-8-11 --- Add new translation here.
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results. ### 2006-8-11 --- Add new translation here.
-common#:#seas_read#:#Read search settings ### 2006-8-11 --- Add new translation here.
-common#:#seas_search#:#Allow to use the search ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_read#:#Read search settings ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_search#:#Allow to use the search ### 2006-8-11 --- Add new translation here.
 common#:#seas_settings#:#Search settings ### 2006-8-11 --- Add new translation here.
-common#:#seas_visible#:#Search settings are visible ### 2006-8-11 --- Add new translation here.
-common#:#seas_write#:#Edit search settings ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_visible#:#Search settings are visible ### 2006-8-11 --- Add new translation here.
+rbac#:#seas_write#:#Edit search settings ### 2006-8-11 --- Add new translation here.
 common#:#second#:#Second###10 Jul 2006 new variable
 common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Seksionet
@@ -3092,10 +3092,10 @@ common#:#street#:#Adresa e Rrugës
 common#:#structure#:#Struktura
 common#:#sty#:#Stili
 common#:#style_activation#:#Aktivizimi i Stilit
-common#:#stys_edit_permission#:#Ndërro konfigurimet e të drejtave
-common#:#stys_read#:#Qasje për Lexim në konfigurimet e Stilit
-common#:#stys_visible#:#Konfigurimet e Stilit janë të Dukshme
-common#:#stys_write#:#Edito Konfigurimet e Stilit
+rbac#:#stys_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#stys_read#:#Qasje për Lexim në konfigurimet e Stilit
+rbac#:#stys_visible#:#Konfigurimet e Stilit janë të Dukshme
+rbac#:#stys_write#:#Edito Konfigurimet e Stilit
 common#:#subcat_name#:#Emri i Nënkategorisë
 common#:#subchapter_new#:#Nënkapitull i Ri
 common#:#subject#:#Tema
@@ -3182,10 +3182,10 @@ common#:#toggleGlobalDefault#:#Kalim në Modin e Paradefinuar
 common#:#toggleGlobalFixed#:#Kalim në Modin për Fiksim
 common#:#total#:#Gjithsejtë
 common#:#tpl_path#:#Shtegu për Shabllon
-common#:#trac_delete#:#Fshij të Dhënat për Gjurmim
-common#:#trac_edit_permission#:#Ndërro konfigurimet e të drejtave
-common#:#trac_read#:#Lexim i të Dhënave për Gjurmim
-common#:#trac_visible#:#Gjurmimi i Shfrytëzuesve është i dukshëm
+rbac#:#trac_delete#:#Fshij të Dhënat për Gjurmim
+rbac#:#trac_edit_permission#:#Ndërro konfigurimet e të drejtave
+rbac#:#trac_read#:#Lexim i të Dhënave për Gjurmim
+rbac#:#trac_visible#:#Gjurmimi i Shfrytëzuesve është i dukshëm
 common#:#tracked_objects#:#Objektet e Gjurmuar
 common#:#tracking_data#:#Të Dhënat e Gjurmimit
 common#:#tracking_data_del_confirm#:#A jeni të sigurt për t'i fshirë të gjithë të dhënat e gjurmimit për muajin e specifikuar dhe para këtij muaji? 
@@ -3337,14 +3337,14 @@ common#:#usr_skin_style#:#Pamja/Stili
 common#:#usr_style#:#Stili i përdorur nga Shfrytëzuesi
 common#:#usrf#:#Llogaritë e Shfrytëzuesve
 common#:#usrf_create_user#:#Krijo një llogari për shfrytëzues
-common#:#usrf_delete#:#Fshij llogarinë për shfrytëzues
-common#:#usrf_edit_permission#:#Ndërro qasjen në llogaritë e shfrytëzuesve
-common#:#usrf_edit_roleassignment#:#Ndërro caktimin e roleve në llogaritë e shfrytëzuesve
-common#:#usrf_push_desktop_items#:#Lejo vendosjen e artikujve në desktopin personal
-common#:#usrf_read#:#Qasje për lexim në llogaritë e shfrytëzuesve
-common#:#usrf_read_users#:#Caktimi i Roleve për administratorët lokal
-common#:#usrf_visible#:#Llogaritë e Shfrytëzuesve janë të dukshme
-common#:#usrf_write#:#Edito llogaritë e shfrytëzuesve
+rbac#:#usrf_delete#:#Fshij llogarinë për shfrytëzues
+rbac#:#usrf_edit_permission#:#Ndërro qasjen në llogaritë e shfrytëzuesve
+rbac#:#usrf_edit_roleassignment#:#Ndërro caktimin e roleve në llogaritë e shfrytëzuesve
+rbac#:#usrf_push_desktop_items#:#Lejo vendosjen e artikujve në desktopin personal
+rbac#:#usrf_read#:#Qasje për lexim në llogaritë e shfrytëzuesve
+rbac#:#usrf_read_users#:#Caktimi i Roleve për administratorët lokal
+rbac#:#usrf_visible#:#Llogaritë e Shfrytëzuesve janë të dukshme
+rbac#:#usrf_write#:#Edito llogaritë e shfrytëzuesve
 common#:#usrimport_action_failed#:#Veprimi %1$s ka dështuar.
 common#:#usrimport_action_ignored#:#Veprimi %1$s është injoruar.
 common#:#usrimport_action_replaced#:#Veprimi %1$s zëvendësohet me %2$s.
@@ -6679,11 +6679,11 @@ survey#:#survey_codes_no_anonymization#:#You must create an anonymized survey wi
 common#:#obj_ps#:#Privacy and Security###22 12 2006 new variable
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.###22 12 2006 new variable
 ps#:#show_privacy#:#Privacy###22 12 2006 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
-common#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
+rbac#:#ps_edit_permission#:#Change Permission Settings###22 12 2006 new variable
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible###22 12 2006 new variable
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings###22 12 2006 new variable
+rbac#:#ps_write#:#Edit Privacy/Security###22 12 2006 new variable
+rbac#:#ps_export_member_data#:#User may Export Member Data###22 12 2006 new variable
 common#:#access_expired#:#expired###25 02 2007 new variable
 common#:#usr_filter_empty_result#:#No users found that match the selected filter criteria###25 02 2007 new variable
 common#:#access_unlimited#:#unlimited###25 02 2007 new variable
@@ -8504,10 +8504,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable

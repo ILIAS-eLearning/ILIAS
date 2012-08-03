@@ -2524,10 +2524,10 @@ common#:#to_desktop#:#Абониране
 common#:#today#:#Днес
 common#:#total#:#Общо
 common#:#tpl_path#:#Път до шаблона
-common#:#trac_delete#:#Изтриване на данните за проследяване
-common#:#trac_edit_permission#:#Промяна на разрешителните настройки
-common#:#trac_read#:#Четене на данните за проследяването
-common#:#trac_visible#:#Потребителското проследяване е видимо
+rbac#:#trac_delete#:#Изтриване на данните за проследяване
+rbac#:#trac_edit_permission#:#Промяна на разрешителните настройки
+rbac#:#trac_read#:#Четене на данните за проследяването
+rbac#:#trac_visible#:#Потребителското проследяване е видимо
 common#:#tracked_objects#:#Проследени обекти
 common#:#tracking_data#:#Данни за проследяване
 common#:#tracking_data_del_confirm#:#Наистина ли желаете да изтриете всички данни за проследяването от посочения месец и преди него?
@@ -2622,13 +2622,13 @@ common#:#usr_skin_style#:#Оформление / Стил
 common#:#usr_style#:#Потребителски стил
 common#:#usrf#:#Потребителски акаунти
 common#:#usrf_create_user#:#Създаване на нов потребителски акаунт
-common#:#usrf_delete#:#Изтриване на потребителски акаунти
-common#:#usrf_edit_permission#:#Промяна на достъпа до потребителски акаунти
-common#:#usrf_edit_roleassignment#:#Промяна в разпределението на ролите за потребителските акаунти
-common#:#usrf_read#:#Достъп за четене от потребителски акаунти
-common#:#usrf_read_users#:#Разпределяне на роли за локални администратори
-common#:#usrf_visible#:#Потребителските акаунти са видими
-common#:#usrf_write#:#Редактиране на потребителски акаунти
+rbac#:#usrf_delete#:#Изтриване на потребителски акаунти
+rbac#:#usrf_edit_permission#:#Промяна на достъпа до потребителски акаунти
+rbac#:#usrf_edit_roleassignment#:#Промяна в разпределението на ролите за потребителските акаунти
+rbac#:#usrf_read#:#Достъп за четене от потребителски акаунти
+rbac#:#usrf_read_users#:#Разпределяне на роли за локални администратори
+rbac#:#usrf_visible#:#Потребителските акаунти са видими
+rbac#:#usrf_write#:#Редактиране на потребителски акаунти
 common#:#validate#:#Потвърждаване
 common#:#value#:#Стойност
 common#:#vcard#:#Визитна картичка
@@ -5190,14 +5190,14 @@ common#:#role_no_users_no_desk_items#:#It is not possible to assign personal des
 common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.###06 09 2006 new variable
 common#:#role_select_one_item#:#Please select one object.###06 09 2006 new variable
 common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?###06 09 2006 new variable
-common#:#seas_edit_permission#:#Change permission settings###06 09 2006 new variable
+rbac#:#seas_edit_permission#:#Change permission settings###06 09 2006 new variable
 common#:#seas_max_hits#:#Max hits###06 09 2006 new variable
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###06 09 2006 new variable
-common#:#seas_read#:#Read search settings###06 09 2006 new variable
-common#:#seas_search#:#Allow to use the search###06 09 2006 new variable
+rbac#:#seas_read#:#Read search settings###06 09 2006 new variable
+rbac#:#seas_search#:#Allow to use the search###06 09 2006 new variable
 common#:#seas_settings#:#Search settings###06 09 2006 new variable
-common#:#seas_visible#:#Search settings are visible###06 09 2006 new variable
-common#:#seas_write#:#Edit search settings###06 09 2006 new variable
+rbac#:#seas_visible#:#Search settings are visible###06 09 2006 new variable
+rbac#:#seas_write#:#Edit search settings###06 09 2006 new variable
 common#:#select_max_one_item#:#Please select one item only###06 09 2006 new variable
 common#:#settings_saved#:#Saved settings###06 09 2006 new variable
 common#:#shib#:#Shibboleth###06 09 2006 new variable
@@ -5231,10 +5231,10 @@ common#:#shib_write#:#Edit Shibboleth settings###06 09 2006 new variable
 common#:#shib_zipcode#:#Attribute for zipcode###06 09 2006 new variable
 common#:#sty#:#Style###06 09 2006 new variable
 common#:#style_activation#:#Style Activation###06 09 2006 new variable
-common#:#stys_edit_permission#:#Change permission settings###06 09 2006 new variable
-common#:#stys_read#:#Read access to style settings###06 09 2006 new variable
-common#:#stys_visible#:#Style settings are visible###06 09 2006 new variable
-common#:#stys_write#:#Edit style settings###06 09 2006 new variable
+rbac#:#stys_edit_permission#:#Change permission settings###06 09 2006 new variable
+rbac#:#stys_read#:#Read access to style settings###06 09 2006 new variable
+rbac#:#stys_visible#:#Style settings are visible###06 09 2006 new variable
+rbac#:#stys_write#:#Edit style settings###06 09 2006 new variable
 common#:#svy_evaluation#:#Evaluation###06 09 2006 new variable
 common#:#svy_finished#:#finished###06 09 2006 new variable
 common#:#svy_no_content#:#No surveys available###06 09 2006 new variable
@@ -5273,7 +5273,7 @@ common#:#users_online_show_n#:#Don't show active users###06 09 2006 new variable
 common#:#users_online_show_y#:#Show all active users###06 09 2006 new variable
 common#:#usr_active_only#:#Active Users only###06 09 2006 new variable
 common#:#usr_inactive_only#:#Inactive Users only###06 09 2006 new variable
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###06 09 2006 new variable
+rbac#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.###06 09 2006 new variable
 common#:#usrimport_action_failed#:#Action %1$s failed.###06 09 2006 new variable
 common#:#usrimport_action_ignored#:#Ignored action %1$s.###06 09 2006 new variable
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.###06 09 2006 new variable
@@ -6828,11 +6828,11 @@ common#:#obj_ps#:#Privacy and Security###25 02 2007 new variable
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.###25 02 2007 new variable
 ps#:#show_privacy#:#Privacy###25 02 2007 new variable
 ps#:#show_security#:#Security###25 02 2007 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
-common#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
+rbac#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
+rbac#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
+rbac#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
 crs#:#crs_subscriber#:#Subscriber###25 02 2007 new variable
 ps#:#ps_export_files#:#Export Files###25 02 2007 new variable
 ps#:#ps_size#:#Files Size###25 02 2007 new variable
@@ -8506,10 +8506,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable

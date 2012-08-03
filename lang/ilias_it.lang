@@ -3978,11 +3978,11 @@ common#:#profile_changed#:#Il tuo profilo &#232; stato cambiato
 common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
 common#:#profile_of#:#Profilo di
 common#:#properties#:#Propriet&#224;
-common#:#ps_edit_permission#:#Modifica impostazioni dei permessi
-common#:#ps_export_member_data#:#User may Export Member Data
-common#:#ps_read#:#Read Access to Privacy/Security Settings
-common#:#ps_visible#:#Privacy/Security Settings are Visible
-common#:#ps_write#:#Modifica Privacy/Security
+rbac#:#ps_edit_permission#:#Modifica impostazioni dei permessi
+rbac#:#ps_export_member_data#:#User may Export Member Data
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible
+rbac#:#ps_write#:#Modifica Privacy/Security
 common#:#pub_section#:#Sezione pubblica
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#pubblico
@@ -4206,14 +4206,14 @@ common#:#search_result#:#Risultati ricerca
 common#:#search_results#:#Search results
 common#:#search_to_short#:#La tua domanda &#232; troppo corta.
 common#:#search_user#:#Ricerca utente
-common#:#seas_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#seas_edit_permission#:#Modificare le impostazioni dei permessi
 common#:#seas_max_hits#:#Numero massimo di risultati
 common#:#seas_max_hits_info#:#Indica il numero massimo di risultati che vuoi visualizzare al termine della ricerca.
-common#:#seas_read#:#Vedere la ricerca
-common#:#seas_search#:#Consentire l&#039;uso della ricerca
+rbac#:#seas_read#:#Vedere la ricerca
+rbac#:#seas_search#:#Consentire l&#039;uso della ricerca
 common#:#seas_settings#:#Impostazioni per le ricerche
-common#:#seas_visible#:#Vedere le impostazioni di ricerca
-common#:#seas_write#:#Modificare le impostazioni di ricerca
+rbac#:#seas_visible#:#Vedere le impostazioni di ricerca
+rbac#:#seas_write#:#Modificare le impostazioni di ricerca
 common#:#second#:#Second
 common#:#seconds#:#Secondi
 common#:#sections#:#Sezioni
@@ -4372,10 +4372,10 @@ common#:#street#:#Via
 common#:#structure#:#Struttura
 common#:#sty#:#Stile
 common#:#style_activation#:#Attivazione stile
-common#:#stys_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#stys_read#:#Accedere in lettura alle impostazioni degli stili
-common#:#stys_visible#:#Vedere le impostazioni degli stili
-common#:#stys_write#:#Modificare le impostazioni degli stili
+rbac#:#stys_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#stys_read#:#Accedere in lettura alle impostazioni degli stili
+rbac#:#stys_visible#:#Vedere le impostazioni degli stili
+rbac#:#stys_write#:#Modificare le impostazioni degli stili
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#Nome sottocategoria
@@ -4426,10 +4426,10 @@ common#:#systemcheck_cronform#:#Attiva la verifica di sistema in Cronjob
 common#:#table_mail_import#:#Importazione delle mail da ILIAS 2
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#My Tags
-common#:#tags_edit_permission#:#Modifica impostazioni dei permessi
-common#:#tags_read#:#Read access to Tagging Settings
-common#:#tags_visible#:#Tagging Settings are visible
-common#:#tags_write#:#Modifina Impostazioni del Tagging
+rbac#:#tags_edit_permission#:#Modifica impostazioni dei permessi
+rbac#:#tags_read#:#Read access to Tagging Settings
+rbac#:#tags_visible#:#Tagging Settings are visible
+rbac#:#tags_write#:#Modifina Impostazioni del Tagging
 common#:#take_over_structure#:#Adotta Struttura
 common#:#take_over_structure_info#:#Se attivate, le  directories nel file zip saranno mappate in categorie oppure, se utilizzate in gruppi o corsi, in cartelle.
 common#:#target#:#Obiettivo
@@ -4486,10 +4486,10 @@ common#:#toggleGlobalFixed#:#Ripristina le impostazioni globali fissate
 common#:#tomorrow#:#Tomorrow
 common#:#total#:#Totale
 common#:#tpl_path#:#Percorso template
-common#:#trac_delete#:#Eliminare i dati di tracciamento
-common#:#trac_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#trac_read#:#Accedere in lettura ai dati di tracciamento
-common#:#trac_visible#:#Vedere i dati di tracciamento
+rbac#:#trac_delete#:#Eliminare i dati di tracciamento
+rbac#:#trac_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#trac_read#:#Accedere in lettura ai dati di tracciamento
+rbac#:#trac_visible#:#Vedere i dati di tracciamento
 common#:#tracked_objects#:#Oggetti tracciati
 common#:#tracking_data#:#Dati di tracciamento
 common#:#tracking_data_del_confirm#:#Vuoi veramente eliminare tutti i dati di tracciamento del mese specifico e dei precedenti?
@@ -4667,14 +4667,14 @@ common#:#usr_style#:#Stile dell&#039;utente
 common#:#usr_without_courses#:#Users without courses assigned
 common#:#usrf#:#Cartella utenti
 common#:#usrf_create_user#:#Creare un nuovo utente
-common#:#usrf_delete#:#Eliminare un utente
-common#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi
-common#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
-common#:#usrf_push_desktop_items#:#Consentire di inviare oggetti sul desktop.
-common#:#usrf_read#:#Accedere in lettura alle registrazioni degli utenti
-common#:#usrf_read_users#:#Assegnare ruoli ad amministratori locali
-common#:#usrf_visible#:#Vedere le registrazioni degli utenti
-common#:#usrf_write#:#Modificare le registrazioni degli utenti
+rbac#:#usrf_delete#:#Eliminare un utente
+rbac#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi
+rbac#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
+rbac#:#usrf_push_desktop_items#:#Consentire di inviare oggetti sul desktop.
+rbac#:#usrf_read#:#Accedere in lettura alle registrazioni degli utenti
+rbac#:#usrf_read_users#:#Assegnare ruoli ad amministratori locali
+rbac#:#usrf_visible#:#Vedere le registrazioni degli utenti
+rbac#:#usrf_write#:#Modificare le registrazioni degli utenti
 common#:#usrimport_action_failed#:#Operazione %1$s falita.
 common#:#usrimport_action_ignored#:#Operazione %1$s ignorata.
 common#:#usrimport_action_replaced#:#Sostituita operazione %1$s con %2$s.
