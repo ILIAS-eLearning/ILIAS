@@ -3961,11 +3961,11 @@ common#:#profile_changed#:#您的档案已更改
 common#:#profile_incomplete#:#Your profile is incomplete. Please fill in all required data.
 common#:#profile_of#:#简历
 common#:#properties#:#属性
-common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_export_member_data#:#User may Export Member Data
-common#:#ps_read#:#Read Access to Privacy/Security Settings
-common#:#ps_visible#:#Privacy/Security Settings are Visible
-common#:#ps_write#:#Edit Privacy/Security
+rbac#:#ps_edit_permission#:#Change Permission Settings
+rbac#:#ps_export_member_data#:#User may Export Member Data
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible
+rbac#:#ps_write#:#Edit Privacy/Security
 common#:#pub_section#:#公共部分
 common#:#public#:#public
 common#:#public_notes#:#Public Notes
@@ -4187,14 +4187,14 @@ common#:#search_result#:#搜索结果
 common#:#search_results#:#Search results
 common#:#search_to_short#:#Your query is to short.
 common#:#search_user#:#搜索用户
-common#:#seas_edit_permission#:#Change permission settings
+rbac#:#seas_edit_permission#:#Change permission settings
 common#:#seas_max_hits#:#Max hits
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
-common#:#seas_read#:#Read search settings
-common#:#seas_search#:#Allow to use the search
+rbac#:#seas_read#:#Read search settings
+rbac#:#seas_search#:#Allow to use the search
 common#:#seas_settings#:#Search settings
-common#:#seas_visible#:#Search settings are visible
-common#:#seas_write#:#Edit search settings
+rbac#:#seas_visible#:#Search settings are visible
+rbac#:#seas_write#:#Edit search settings
 common#:#second#:#Second
 common#:#seconds#:#Seconds
 common#:#sections#:#部分
@@ -4345,10 +4345,10 @@ common#:#street#:#街
 common#:#structure#:#结构
 common#:#sty#:#Style
 common#:#style_activation#:#Style Activation
-common#:#stys_edit_permission#:#Change permission settings
-common#:#stys_read#:#Read access to style settings
-common#:#stys_visible#:#Style settings are visible
-common#:#stys_write#:#Edit style settings
+rbac#:#stys_edit_permission#:#Change permission settings
+rbac#:#stys_read#:#Read access to style settings
+rbac#:#stys_visible#:#Style settings are visible
+rbac#:#stys_write#:#Edit style settings
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#子类名
@@ -4399,10 +4399,10 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#Import from ILIAS 2 Mails
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#My Tags
-common#:#tags_edit_permission#:#Change permission settings
-common#:#tags_read#:#Read access to Tagging Settings
-common#:#tags_visible#:#Tagging Settings are visible
-common#:#tags_write#:#Edit Tagging Settings
+rbac#:#tags_edit_permission#:#Change permission settings
+rbac#:#tags_read#:#Read access to Tagging Settings
+rbac#:#tags_visible#:#Tagging Settings are visible
+rbac#:#tags_write#:#Edit Tagging Settings
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#target#:#Target
@@ -4458,10 +4458,10 @@ common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#tomorrow#:#Tomorrow
 common#:#total#:#总计
 common#:#tpl_path#:#模板路径
-common#:#trac_delete#:#Delete Tracking Data
-common#:#trac_edit_permission#:#Change permission settings
-common#:#trac_read#:#Read Tracking Data
-common#:#trac_visible#:#User tracking is visible
+rbac#:#trac_delete#:#Delete Tracking Data
+rbac#:#trac_edit_permission#:#Change permission settings
+rbac#:#trac_read#:#Read Tracking Data
+rbac#:#trac_visible#:#User tracking is visible
 common#:#tracked_objects#:#Tracked objects
 common#:#tracking_data#:#Tracking Data
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
@@ -4639,14 +4639,14 @@ common#:#usr_style#:#用户风格
 common#:#usr_without_courses#:#Users without courses assigned
 common#:#usrf#:#用户文件夹
 common#:#usrf_create_user#:#创建新用户账号
-common#:#usrf_delete#:#删除用户账号
-common#:#usrf_edit_permission#:#更改许可设置
-common#:#usrf_edit_roleassignment#:#更改用户账号角色分配
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
-common#:#usrf_read#:#用户账号设为读访问
-common#:#usrf_read_users#:#Role assignment for local administrators
-common#:#usrf_visible#:#用户账号可视
-common#:#usrf_write#:#编辑用户账号
+rbac#:#usrf_delete#:#删除用户账号
+rbac#:#usrf_edit_permission#:#更改许可设置
+rbac#:#usrf_edit_roleassignment#:#更改用户账号角色分配
+rbac#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
+rbac#:#usrf_read#:#用户账号设为读访问
+rbac#:#usrf_read_users#:#Role assignment for local administrators
+rbac#:#usrf_visible#:#用户账号可视
+rbac#:#usrf_write#:#编辑用户账号
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.

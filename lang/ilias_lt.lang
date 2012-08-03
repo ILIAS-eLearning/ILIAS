@@ -2975,14 +2975,14 @@ common#:#search_recipient#:#Ieškoti Gavėjų
 common#:#search_result#:#Paieškos rezultatai
 common#:#search_to_short#:#Jūsų paieškos žodis pernelyg trumpas.
 common#:#search_user#:#Ieškoti Vartotojo
-common#:#seas_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#seas_edit_permission#:#Keisti leidimo nustatymus
 common#:#seas_max_hits#:#Maks. skaičius rezultatų
 common#:#seas_max_hits_info#:#Įrašykite maksimalų paieškos rezultatų skaičių.
-common#:#seas_read#:#Skaityti paieškos nustatymus
-common#:#seas_search#:#Leisti naudotis paieška
+rbac#:#seas_read#:#Skaityti paieškos nustatymus
+rbac#:#seas_search#:#Leisti naudotis paieška
 common#:#seas_settings#:#Paieškos nustatymai
-common#:#seas_visible#:#Paieškos nustatymai yra matomi
-common#:#seas_write#:#Redaguoti paieškos nustatymai
+rbac#:#seas_visible#:#Paieškos nustatymai yra matomi
+rbac#:#seas_write#:#Redaguoti paieškos nustatymai
 common#:#second#:#Sekundė
 common#:#seconds#:#Sekundės
 common#:#sections#:#Skyriai
@@ -3093,10 +3093,10 @@ common#:#street#:#Gatvė
 common#:#structure#:#Struktūra
 common#:#sty#:#Stilius
 common#:#style_activation#:#Stiliaus Aktyvavimas
-common#:#stys_edit_permission#:#Keisti leidimo nustatymus
-common#:#stys_read#:#Galimybė skaityti stiliaus nustatymus
-common#:#stys_visible#:#Stiliaus nustatymai yra matomi
-common#:#stys_write#:#Redaguoti stiliaus nustatymus
+rbac#:#stys_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#stys_read#:#Galimybė skaityti stiliaus nustatymus
+rbac#:#stys_visible#:#Stiliaus nustatymai yra matomi
+rbac#:#stys_write#:#Redaguoti stiliaus nustatymus
 common#:#subcat_name#:#Sub-kategorijos Pavadinimas
 common#:#subchapter_new#:#Naujas Poskyris
 common#:#subject#:#Tema
@@ -3183,10 +3183,10 @@ common#:#toggleGlobalDefault#:#Perjungti į Globalų Standartinį
 common#:#toggleGlobalFixed#:#Perjungti į Globalų Fiksuotą
 common#:#total#:#Viso
 common#:#tpl_path#:#Šablono Kelias
-common#:#trac_delete#:#Ištrinti Stebėjimo Duomenis
-common#:#trac_edit_permission#:#Keisti leidimo nustatymus
-common#:#trac_read#:#Skaityti Stebėjimo Duomenis
-common#:#trac_visible#:#Vartotojų stebėjimas yra matomas
+rbac#:#trac_delete#:#Ištrinti Stebėjimo Duomenis
+rbac#:#trac_edit_permission#:#Keisti leidimo nustatymus
+rbac#:#trac_read#:#Skaityti Stebėjimo Duomenis
+rbac#:#trac_visible#:#Vartotojų stebėjimas yra matomas
 common#:#tracked_objects#:#Stebėti objektai
 common#:#tracking_data#:#Stebėjimo Duomenis
 common#:#tracking_data_del_confirm#:#Ar tikrai norite ištrinti visus duomenis iki nurodyto mėnesio imtinai?
@@ -3338,14 +3338,14 @@ common#:#usr_skin_style#:#Oda / Stilius
 common#:#usr_style#:#Vartotojo Stilius
 common#:#usrf#:#Vartotojų paskyros
 common#:#usrf_create_user#:#Sukurti naują vartotojo paskyrą
-common#:#usrf_delete#:#Ištrinti vartotojų paskyras
-common#:#usrf_edit_permission#:#Keisti priėjimą prie vartotojų paskyrų
-common#:#usrf_edit_roleassignment#:#Keisti rolių priskyrimą vartotojų paskyroms
-common#:#usrf_push_desktop_items#:#Leisti iškelti objektus į asmeninį darbastalį.
-common#:#usrf_read#:#Galimybė skaityti vartotojų paskyras
-common#:#usrf_read_users#:#Rolės priskyrimas lokaliems administratoriams
-common#:#usrf_visible#:#Vartotojų paskyros matomos
-common#:#usrf_write#:#Redaguoti vartotojų paskyras
+rbac#:#usrf_delete#:#Ištrinti vartotojų paskyras
+rbac#:#usrf_edit_permission#:#Keisti priėjimą prie vartotojų paskyrų
+rbac#:#usrf_edit_roleassignment#:#Keisti rolių priskyrimą vartotojų paskyroms
+rbac#:#usrf_push_desktop_items#:#Leisti iškelti objektus į asmeninį darbastalį.
+rbac#:#usrf_read#:#Galimybė skaityti vartotojų paskyras
+rbac#:#usrf_read_users#:#Rolės priskyrimas lokaliems administratoriams
+rbac#:#usrf_visible#:#Vartotojų paskyros matomos
+rbac#:#usrf_write#:#Redaguoti vartotojų paskyras
 common#:#usrimport_action_failed#:#Veiksmas %1$s nepavyko.
 common#:#usrimport_action_ignored#:#Ignoruotas veiksmas %1$s.
 common#:#usrimport_action_replaced#:#Veiksmas %1$s pakeistas į %2$s.
@@ -6741,11 +6741,11 @@ survey#:#survey_codes_no_anonymization#:#Norėdami sukurti naujus prieigos kodus
 common#:#obj_ps#:#Privatumas ir Saugumas
 common#:#obj_ps_desc#:#Konfigūruokite globalų privatumą ir saugumą.
 ps#:#show_privacy#:#Privatumas
-common#:#ps_edit_permission#:#Keisti Leidimų Nuostatas
-common#:#ps_visible#:#Privatumo/Saugumo Nuostatos yra Matomos
-common#:#ps_read#:#Privatumo/Saugumo Nuostatų Skaitymo Galimybė
-common#:#ps_write#:#Redaguoti Privatumą/Saugumą
-common#:#ps_export_member_data#:#Vartotojas gali Eksportuoti Narių Duomenis
+rbac#:#ps_edit_permission#:#Keisti Leidimų Nuostatas
+rbac#:#ps_visible#:#Privatumo/Saugumo Nuostatos yra Matomos
+rbac#:#ps_read#:#Privatumo/Saugumo Nuostatų Skaitymo Galimybė
+rbac#:#ps_write#:#Redaguoti Privatumą/Saugumą
+rbac#:#ps_export_member_data#:#Vartotojas gali Eksportuoti Narių Duomenis
 common#:#access_expired#:#negalioja
 common#:#usr_filter_empty_result#:#Vartotojų pagal pasirinktą kriterijų nerasta
 common#:#access_unlimited#:#neribota
@@ -8566,10 +8566,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable

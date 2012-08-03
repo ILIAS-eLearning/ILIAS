@@ -4037,11 +4037,11 @@ common#:#proxy_port#:#Port
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
 common#:#proxy_status#:#Proxy
 common#:#proxy#:#Proxy
-common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_export_member_data#:#User may Export Member Data
-common#:#ps_read#:#Read Access to Privacy/Security Settings
-common#:#ps_visible#:#Privacy/Security Settings are Visible
-common#:#ps_write#:#Edit Privacy/Security
+rbac#:#ps_edit_permission#:#Change Permission Settings
+rbac#:#ps_export_member_data#:#User may Export Member Data
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible
+rbac#:#ps_write#:#Edit Privacy/Security
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#pub_section#:#Public Area
 common#:#public_notes#:#Public Notes
@@ -4266,14 +4266,14 @@ common#:#search_results#:#Search Results
 common#:#search_to_short#:#Your query is to short.
 common#:#search_user#:#Search User
 common#:#search#:#Search
-common#:#seas_edit_permission#:#Change permission settings
+rbac#:#seas_edit_permission#:#Change permission settings
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
 common#:#seas_max_hits#:#Max hits
-common#:#seas_read#:#Read search settings
-common#:#seas_search#:#Allow to use the search
+rbac#:#seas_read#:#Read search settings
+rbac#:#seas_search#:#Allow to use the search
 common#:#seas_settings#:#Search settings
-common#:#seas_visible#:#Search settings are visible
-common#:#seas_write#:#Edit search settings
+rbac#:#seas_visible#:#Search settings are visible
+rbac#:#seas_write#:#Edit search settings
 common#:#second#:#Second
 common#:#seconds#:#Second(s)
 common#:#sections#:#Sections
@@ -4436,10 +4436,10 @@ common#:#street#:#Street
 common#:#structure#:#Structure
 common#:#sty#:#Style
 common#:#style_activation#:#Style Activation
-common#:#stys_edit_permission#:#Change permission settings
-common#:#stys_read#:#Read access to style settings
-common#:#stys_visible#:#Style settings are visible
-common#:#stys_write#:#Edit style settings
+rbac#:#stys_edit_permission#:#Change permission settings
+rbac#:#stys_read#:#Read access to style settings
+rbac#:#stys_visible#:#Style settings are visible
+rbac#:#stys_write#:#Edit style settings
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#Subcategory Name
@@ -4490,10 +4490,10 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#Mail import
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#My Tags
-common#:#tags_edit_permission#:#Change permission settings
-common#:#tags_read#:#Read access to Tagging Settings
-common#:#tags_visible#:#Tagging Settings are visible
-common#:#tags_write#:#Edit Tagging Settings
+rbac#:#tags_edit_permission#:#Change permission settings
+rbac#:#tags_read#:#Read access to Tagging Settings
+rbac#:#tags_visible#:#Tagging Settings are visible
+rbac#:#tags_write#:#Edit Tagging Settings
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#take_over_structure#:#Adopt Structure
 common#:#target#:#Target
@@ -4550,10 +4550,10 @@ common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#tomorrow#:#Tomorrow
 common#:#total#:#Total
 common#:#tpl_path#:#Template Path
-common#:#trac_delete#:#Delete Tracking Data
-common#:#trac_edit_permission#:#Change permission settings
-common#:#trac_read#:#Read Tracking Data
-common#:#trac_visible#:#User tracking is visible
+rbac#:#trac_delete#:#Delete Tracking Data
+rbac#:#trac_edit_permission#:#Change permission settings
+rbac#:#trac_read#:#Read Tracking Data
+rbac#:#trac_visible#:#User tracking is visible
 common#:#tracked_objects#:#Tracked objects
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
 common#:#tracking_data_deleted#:#Tracking data deleted
@@ -4735,14 +4735,14 @@ common#:#usr_style#:#User Style
 common#:#usr_without_courses#:#Users without courses assigned
 common#:#usr#:#User
 common#:#usrf_create_user#:#Create new user account
-common#:#usrf_delete#:#Delete user accounts
-common#:#usrf_edit_permission#:#Change access to user accounts
-common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
-common#:#usrf_read_users#:#Read access for local administrators
-common#:#usrf_read#:#Read access to user accounts
-common#:#usrf_visible#:#User accounts are visible
-common#:#usrf_write#:#Edit user accounts
+rbac#:#usrf_delete#:#Delete user accounts
+rbac#:#usrf_edit_permission#:#Change access to user accounts
+rbac#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
+rbac#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
+rbac#:#usrf_read_users#:#Read access for local administrators
+rbac#:#usrf_read#:#Read access to user accounts
+rbac#:#usrf_visible#:#User accounts are visible
+rbac#:#usrf_write#:#Edit user accounts
 common#:#usrf#:#User accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.

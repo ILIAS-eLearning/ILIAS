@@ -3097,8 +3097,8 @@ common#:#mail_select_one#:#You must select one mail
 common#:#mail_send_error#:#Error sending mail
 common#:#mail_sent#:#Mail sent!
 common#:#mail_settings#:#Mail Settings
-rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP
-rbac#:#mail_system_message#:#User may send internal system messages
+rbac#:#mail_smtp_mail#:#User can send e-mails per SMTP to external addresses
+rbac#:#mail_system_message#:#User can send internal system messages
 common#:#mail_system#:#System Message
 common#:#mail_use_pear_mail_info#:#Use Pear Mail to parse mailbox addresses. The built in parser in ILIAS is very limited. Pear Mail fully supports internet compliant e-mail addresses.
 common#:#mail_use_pear_mail#:#Use Pear Mail
@@ -3404,7 +3404,7 @@ common#:#number_of_accesses#:#Number of accesses
 common#:#number_of_records#:#Number of records
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
 rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
-rbac#:#nwss_visible#:#ews and Web Feeds administration is visible
+rbac#:#nwss_visible#:#News and Web Feeds administration is visible
 rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
 common#:#obj_accs_desc#:#Settings for accessibility features.
 common#:#obj_accs#:#Accessibility
@@ -3523,7 +3523,7 @@ common#:#obj_spl#:#Question Pool Survey
 common#:#obj_st#:#Chapter
 common#:#obj_sty#:#Style
 common#:#obj_stys_desc#:#Manage system skin and style settings here
-common#:#obj_stys#:#Style and Layout
+common#:#obj_stys#:#Layout and Styles
 common#:#obj_svy_duplicate#:#Copy Survey
 common#:#obj_svy_select#:#-- Please select one Survey --
 common#:#obj_svy#:#Survey
@@ -3765,11 +3765,11 @@ common#:#proxy_port#:#Port
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
 common#:#proxy_status#:#Proxy
 common#:#proxy#:#Proxy
-common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_export_member_data#:#User can access and export member data
-common#:#ps_read#:#Read Access to Privacy/Security Settings
-common#:#ps_visible#:#Privacy/Security Settings are Visible
-common#:#ps_write#:#Edit Privacy/Security
+rbac#:#ps_edit_permission#:#User can change permission settings of Privacy/Security administration
+rbac#:#ps_export_member_data#:#User can export member data in courses and groups
+rbac#:#ps_read#:#User has read access to Privacy/Security administration
+rbac#:#ps_visible#:#Privacy/Security administration is visible
+rbac#:#ps_write#:#User can edit settings in Privacy/Security administration
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#pub_section#:#Public Area
 common#:#public_notes#:#Public Notes
@@ -3994,14 +3994,14 @@ common#:#search_results#:#Search Results
 common#:#search_to_short#:#Your query is to short.
 common#:#search_user#:#Search User
 common#:#search#:#Search
-common#:#seas_edit_permission#:#Change permission settings
+rbac#:#seas_edit_permission#:#User can change permission settings or Search administration
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
 common#:#seas_max_hits#:#Max hits
-common#:#seas_read#:#Read search settings
-common#:#seas_search#:#Allow to use the search
+rbac#:#seas_read#:#User has read access to Search administration
+rbac#:#seas_search#:#User can use the global search in ILIAS
 common#:#seas_settings#:#Search settings
-common#:#seas_visible#:#Search settings are visible
-common#:#seas_write#:#Edit search settings
+rbac#:#seas_visible#:#Search administration is visible
+rbac#:#seas_write#:#Edit settings in Search administration
 common#:#second#:#Second
 common#:#seconds#:#Second(s)
 common#:#sections#:#Sections
@@ -4164,10 +4164,10 @@ common#:#street#:#Street
 common#:#structure#:#Structure
 common#:#sty#:#Style
 common#:#style_activation#:#Style Activation
-common#:#stys_edit_permission#:#Change permission settings
-common#:#stys_read#:#Read access to style settings
-common#:#stys_visible#:#Style settings are visible
-common#:#stys_write#:#Edit style settings
+rbac#:#stys_edit_permission#:#User can change permission settings of Layout and Styles administration
+rbac#:#stys_read#:#User has read access to Layout and Styles administration
+rbac#:#stys_visible#:#Layout and Styles administration is visible
+rbac#:#stys_write#:#User can edit settings in Layout and Styles administration
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#Subcategory Name
@@ -4218,10 +4218,10 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#Mail import
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#My Tags
-common#:#tags_edit_permission#:#Change permission settings
-common#:#tags_read#:#Read access to Tagging Settings
-common#:#tags_visible#:#Tagging Settings are visible
-common#:#tags_write#:#Edit Tagging Settings
+rbac#:#tags_edit_permission#:#User can change permission settings in Tagging administration
+rbac#:#tags_read#:#User has read access to Tagging administration
+rbac#:#tags_visible#:#Tagging administration is visible
+rbac#:#tags_write#:#User can edit settings in Tagging administration
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#take_over_structure#:#Adopt Structure
 common#:#target#:#Target
@@ -4278,10 +4278,10 @@ common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#tomorrow#:#Tomorrow
 common#:#total#:#Total
 common#:#tpl_path#:#Template Path
-common#:#trac_delete#:#Delete Tracking Data
-common#:#trac_edit_permission#:#Change permission settings
-common#:#trac_read#:#Read Tracking Data
-common#:#trac_visible#:#User tracking is visible
+rbac#:#trac_delete#:#User can delete tracking data
+rbac#:#trac_edit_permission#:#Change permission settings in Statistics and Learning Progress administration
+rbac#:#trac_read#:#User has read access to Statistics and Learning Progress administration
+rbac#:#trac_visible#:#Statistics and Learning Progress administration is visible
 common#:#tracked_objects#:#Tracked objects
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
 common#:#tracking_data_deleted#:#Tracking data deleted
@@ -4463,14 +4463,14 @@ common#:#usr_style#:#User Style
 common#:#usr_without_courses#:#Users without courses assigned
 common#:#usr#:#User
 common#:#usrf_create_user#:#Create new user account
-common#:#usrf_delete#:#Delete user accounts
-common#:#usrf_edit_permission#:#Change access to user accounts
-common#:#usrf_edit_roleassignment#:#Change role assignment of user accounts
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
-common#:#usrf_read_users#:#Read access for local administrators
-common#:#usrf_read#:#Read access to user accounts
-common#:#usrf_visible#:#User accounts are visible
-common#:#usrf_write#:#Edit user accounts
+rbac#:#usrf_delete#:#User can delete user accounts
+rbac#:#usrf_edit_permission#:#User can change permission settings in User administration
+rbac#:#usrf_edit_roleassignment#:#User can change role assignment of user account
+rbac#:#usrf_push_desktop_items#:#User is allowed to push items on the personal desktop.of role members
+rbac#:#usrf_read_users#:#User has read access to local user accounts (local administrators)
+rbac#:#usrf_read#:#User has read access to User administration
+rbac#:#usrf_visible#:#User administration is visible
+rbac#:#usrf_write#:#Edit settings in User administration
 common#:#usrf#:#User accounts
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
@@ -8589,10 +8589,10 @@ rbac#:#mds_read#:#User has read access to Metadata administration
 rbac#:#mds_visible#:#Metadata administration is visible
 rbac#:#mds_write#:#User can edit settings in Metadata administration
 rbac#:#msg_no_roles_of_type#:#No Roles available with selected filter setting
-rbac#:#pdts_edit_permission#:#Change permission settings
-rbac#:#pdts_read#:#Read access to personal desktop settings
-rbac#:#pdts_visible#:#Personal desktop settings are visible
-rbac#:#pdts_write#:#Edit personal desktop settings
+rbac#:#pdts_edit_permission#:#User can change permission settings of Personal Desktop administration
+rbac#:#pdts_read#:#User has read access to Personal Desktop administration
+rbac#:#pdts_visible#:#Personal Desktop administration is visible
+rbac#:#pdts_write#:#Edit settings of Personal Desktop administration
 rbac#:#perm_administrate#:#Administrate
 rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
 rbac#:#perm_class_create#:#Create new Objects
@@ -8623,10 +8623,10 @@ rbac#:#rcrs_edit_permission#:#User can change permission settings
 rbac#:#rcrs_read#:#User can use ECS Course Link
 rbac#:#rcrs_visible#:#ECS Course Link is visible
 rbac#:#rcrs_write#:#User can edit settings of ECS Course Link
-rbac#:#recf_edit_permission#:#User can change permission settings
-rbac#:#recf_read#:#Read access to Restored Objects
-rbac#:#recf_visible#:#Restored Objects are visible
-rbac#:#recf_write#:#Edit Restored Objects
+rbac#:#recf_edit_permission#:#User can change permission settings of Restored Objects administration
+rbac#:#recf_read#:#User has read access to Restored Objects administration
+rbac#:#recf_visible#:#Restored Objects administration is visible
+rbac#:#recf_write#:#Edit Settings and restore objects in Restored Objects administration
 rbac#:#root_create_catr#:#Create Category Reference
 rbac#:#root_create_chat#:#Create Chat
 rbac#:#root_create_crs#:#Create Course
@@ -8657,10 +8657,10 @@ rbac#:#sess_edit_permission#:#User can change permission settings
 rbac#:#sess_read#:#User has read access to sessions
 rbac#:#sess_visible#:#Sessions are visible
 rbac#:#sess_write#:#User can edit session content and settings
-rbac#:#svyf_edit_permission#:#Change permission settings
-rbac#:#svyf_read#:#Read access to survey settings
-rbac#:#svyf_visible#:#Survey settings are visible
-rbac#:#svyf_write#:#Edit survey settings
+rbac#:#svyf_edit_permission#:#User change permission settings in Survey administration
+rbac#:#svyf_read#:#User has read access to Survey administration
+rbac#:#svyf_visible#:#Survey administration is visible
+rbac#:#svyf_write#:#Edit settings in Survey administration
 rcrs#:#rcrs_call#:#Call ECS Course Link
 rcrs#:#rcrs_general_info#:#General Information
 rcrs#:#rcrs_local_informations#:#Further Information
@@ -10568,7 +10568,7 @@ dateplaner#:#cal_ch_target_object#:#Repository Object
 dateplaner#:#cal_ch_target_object_info#:#Restrict appointments to given repository object.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
 rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
-rbac#:#smtp_mail#:#Send (SMTP) Mail
+rbac#:#smtp_mail#:#SMTP E-Mail
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#add_post#:#Add Post
 rbac#:#add_thread#:#Add Thread
@@ -10667,7 +10667,7 @@ rbac#:#frma_read#:#User has read access to Forum Administration
 rbac#:#frma_write#:#User can edit settings in Forum Administration
 rbac#:#frma_edit_permission#:#User can change permission settings of Forum administration
 common#:#nr_following_sessions#:#%1d following session(s)...
-rbac#:#usrf_create_usr#:#Create User
+rbac#:#usrf_create_usr#:#User is allowed to create user accounts
 trac#:#trac_all#:#All
 trac#:#trac_view_mode#:#View Mode
 trac#:#trac_view_mode_all#:#All Objects
@@ -12037,14 +12037,14 @@ exc#:#exc_no_assignments_available#:#No assignments created yet. Please open "As
 wsp#:#wsp_invalid_password#:#The given password is invalid.
 wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.
 common#:#top_of_page#:#Top of page
-rbac#:#prfa_visible#:#Portfolio Administration is visible
-rbac#:#prfa_read#:#Read access to Portfolio Administration
-rbac#:#prfa_write#:#Edit Portfolio Administration
-rbac#:#prfa_edit_permission#:#Change permission settings
-rbac#:#skmg_visible#:#Skill Management is visible
-rbac#:#skmg_read#:#Read access to Skill Management
-rbac#:#skmg_write#:#Edit Skill Management
-rbac#:#skmg_edit_permission#:#Change permission settings
+rbac#:#prfa_visible#:#Portfolio administration is visible
+rbac#:#prfa_read#:#User has read access to Portfolio administration
+rbac#:#prfa_write#:#User can edit settings in Portfolio administration
+rbac#:#prfa_edit_permission#:#User can change permission settings of Portfolio administration
+rbac#:#skmg_visible#:#Competence Management administration is visible
+rbac#:#skmg_read#:#User has read access to administration of Competence Management
+rbac#:#skmg_write#:#User can edit settings of Competence Management
+rbac#:#skmg_edit_permission#:#User can change permission settings of Competence Management administration
 rbac#:#blga_visible#:#Blog Administration is visible
 rbac#:#blga_read#:#User has read access to Blog Administration
 rbac#:#blga_write#:#User can edit settings in Blog Administration
@@ -12341,7 +12341,7 @@ rbac#:#fold_create_blog#:#Create Blog
 rbac#:#grp_create_blog#:#Create Blog
 rbac#:#cat_create_blog#:#Create Blog
 user#:#user_delete_own_account#:#Delete Account
-rbac#:#trac_write#:#Edit Settings
+rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration
 common#:#obj_dcl#:#Data Collection
 common#:#objs_dcl#:#Data Collections
 common#:#obj_dcl_dupliate#:#Copy Data Collection

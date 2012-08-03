@@ -2334,14 +2334,14 @@ common#:#search_recipient#:#Søg efter modtager
 common#:#search_result#:#Søgeresultater
 common#:#search_to_short#:#Din forespørgsel er for kort.
 common#:#search_user#:#Søg efter bruger
-common#:#seas_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#seas_edit_permission#:#Ændre rettighedsindstillinger
 common#:#seas_max_hits#:#Maks hits
 common#:#seas_max_hits_info#:#Vælg det maksimale antal resultater der skal returneres til brugeren efter en søgning.
-common#:#seas_read#:#Læs søgeopsætning
-common#:#seas_search#:#Tillad brug af søgning
+rbac#:#seas_read#:#Læs søgeopsætning
+rbac#:#seas_search#:#Tillad brug af søgning
 common#:#seas_settings#:#Søgeopsætning
-common#:#seas_visible#:#Søgeopsætning er synlig
-common#:#seas_write#:#Rediger søgeopsætning
+rbac#:#seas_visible#:#Søgeopsætning er synlig
+rbac#:#seas_write#:#Rediger søgeopsætning
 common#:#second#:#Second
 common#:#seconds#:#Sekunder
 common#:#sections#:#Sektioner
@@ -2458,10 +2458,10 @@ common#:#street#:#Gade
 common#:#structure#:#Struktur
 common#:#sty#:#Stilark
 common#:#style_activation#:#Stilark i brug
-common#:#stys_edit_permission#:#Skift rettighedsindstillinger
-common#:#stys_read#:#Læseadgang til layoutopsætning
-common#:#stys_visible#:#Layoutopsætning er synlig
-common#:#stys_write#:#Rediger layoutopsætning
+rbac#:#stys_edit_permission#:#Skift rettighedsindstillinger
+rbac#:#stys_read#:#Læseadgang til layoutopsætning
+rbac#:#stys_visible#:#Layoutopsætning er synlig
+rbac#:#stys_write#:#Rediger layoutopsætning
 common#:#subcat_name#:#Underkategoriens navn
 common#:#subchapter_new#:#Nyt underkapitel
 common#:#subject#:#Emne
@@ -2546,10 +2546,10 @@ common#:#toggleGlobalDefault#:#Skift global standard
 common#:#toggleGlobalFixed#:#Toggle Global Fixed###21 Apr 2005 new variable
 common#:#total#:#Total###21 Apr 2005 new variable
 common#:#tpl_path#:#Skabelonsti
-common#:#trac_delete#:#Slet Sporingsdata
-common#:#trac_edit_permission#:#Ændre rettinghedsindstillinger
-common#:#trac_read#:#Læs sporingsdata
-common#:#trac_visible#:#Sporede objekter er synlige
+rbac#:#trac_delete#:#Slet Sporingsdata
+rbac#:#trac_edit_permission#:#Ændre rettinghedsindstillinger
+rbac#:#trac_read#:#Læs sporingsdata
+rbac#:#trac_visible#:#Sporede objekter er synlige
 common#:#tracked_objects#:#Sporede objekter
 common#:#tracking_data#:#Leder efter data
 common#:#tracking_data_del_confirm#:#Vil du slette alle sporingsdata for den specificerede måned og forgående ?
@@ -2701,14 +2701,14 @@ common#:#usr_skin_style#:#Design / Layout
 common#:#usr_style#:#Brugertype
 common#:#usrf#:#Brugerkonti
 common#:#usrf_create_user#:#Opret ny brugerkonto
-common#:#usrf_delete#:#Slet brugerkonti
-common#:#usrf_edit_permission#:#Ændre adgang til brugerkonti
-common#:#usrf_edit_roleassignment#:#Ændre rolletildeling for brugerkonti
-common#:#usrf_push_desktop_items#:#Tillad oprettelse af objekter på det personlige skrivebord
-common#:#usrf_read#:#Læseadgang til brugerkonti
-common#:#usrf_read_users#:#Rolletildeling for lokale administratorer
-common#:#usrf_visible#:#Brugerkonti er synlige
-common#:#usrf_write#:#Rediger brugerkonti
+rbac#:#usrf_delete#:#Slet brugerkonti
+rbac#:#usrf_edit_permission#:#Ændre adgang til brugerkonti
+rbac#:#usrf_edit_roleassignment#:#Ændre rolletildeling for brugerkonti
+rbac#:#usrf_push_desktop_items#:#Tillad oprettelse af objekter på det personlige skrivebord
+rbac#:#usrf_read#:#Læseadgang til brugerkonti
+rbac#:#usrf_read_users#:#Rolletildeling for lokale administratorer
+rbac#:#usrf_visible#:#Brugerkonti er synlige
+rbac#:#usrf_write#:#Rediger brugerkonti
 common#:#usrimport_action_failed#:#Handling %1$s fejlede.
 common#:#usrimport_action_ignored#:#Ignorerede %1$s handling(er).
 common#:#usrimport_action_replaced#:#Erstattede '%1$s'-handlingen med '%2$s'-handlingen.
@@ -2801,11 +2801,11 @@ common#:#authenticate_ilias#:#Login på ILIAS
 common#:#authenticate_with#:#Login to:###08 12 2006 new variable
 common#:#obj_ps#:#Privatliv og sikkerhed
 common#:#obj_ps_desc#:#Konfigurer globale privatlivs og sikkerhedsindstillinger her.
-common#:#ps_edit_permission#:#Ændre rettighedsindstillinger
-common#:#ps_visible#:#Privatlivs og sikkerhedsindstillinger er synlige
-common#:#ps_read#:#Læseadgang til privacyindstillinger
-common#:#ps_write#:#Ret privacy
-common#:#ps_export_member_data#:#Brugeren må eksportere medlemsdata
+rbac#:#ps_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#ps_visible#:#Privatlivs og sikkerhedsindstillinger er synlige
+rbac#:#ps_read#:#Læseadgang til privacyindstillinger
+rbac#:#ps_write#:#Ret privacy
+rbac#:#ps_export_member_data#:#Brugeren må eksportere medlemsdata
 common#:#users_online_show_short_associated#:#Kun kursus og gruppemedlemmer
 common#:#users_online_show_short_n#:#Vis ikke aktive brugere
 common#:#users_online_show_short_y#:#Vis alle aktive brugere
@@ -8581,10 +8581,10 @@ content#:#cont_rollback_confirmation#:#Ønsker du at genskabe den tidligere vers
 cntr#:#cntr_view_sessions#:#Sessions visning
 common#:#selected_languages_updated#:#De valgte installerede sprog er blevet opdateret
 common#:#lang_refresh_confirm_selected#:#Er du sikker up du vil opdatere de valgte sprog?
-common#:#tags_edit_permission#:#Ændre rettighedsindstillinger
-common#:#tags_visible#:#Tagging indstilligner er synlige
-common#:#tags_read#:#Læseadgang til tagging indstillinger
-common#:#tags_write#:#Ret tagging indstillinger
+rbac#:#tags_edit_permission#:#Ændre rettighedsindstillinger
+rbac#:#tags_visible#:#Tagging indstilligner er synlige
+rbac#:#tags_read#:#Læseadgang til tagging indstillinger
+rbac#:#tags_write#:#Ret tagging indstillinger
 common#:#obj_tags#:#Tagging
 common#:#obj_tags_desc#:#Indstillinger for tagging funktionalitet
 tagging#:#tagging_settings#:#Indstillinger

@@ -4632,11 +4632,11 @@ common#:#proxy_port_info#:#Por favor introduce un puerto entre 0 y 65535, Ej. 80
 common#:#proxy_port_numeric#:#El puerto introducido no tiene un valor numérico entre 0 y 65535
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#Para usar un proxy en ILIAS (por ejemplo, para alimentadores web o para comprobar enlaces) activa la casilla superior.
-common#:#ps_edit_permission#:#Modificar Configuración de Permisos
-common#:#ps_export_member_data#:#El usuario puede Exportar Datos de Miembros
-common#:#ps_read#:#Acceso de Lectura a Configuración de Privacidad/Seguridad
-common#:#ps_visible#:#Configuración de Privacidad/Seguridad es Visible
-common#:#ps_write#:#Editar Privacidad/Seguridad
+rbac#:#ps_edit_permission#:#Modificar Configuración de Permisos
+rbac#:#ps_export_member_data#:#El usuario puede Exportar Datos de Miembros
+rbac#:#ps_read#:#Acceso de Lectura a Configuración de Privacidad/Seguridad
+rbac#:#ps_visible#:#Configuración de Privacidad/Seguridad es Visible
+rbac#:#ps_write#:#Editar Privacidad/Seguridad
 common#:#pub_section#:#sección pública
 common#:#pub_section_info#:#Si está activado, las partes del sistema (ej. depósito, perfiles de usuario) pueden ser puestas a disposición de Internet, sin autenticación. Los permisos del rol "Anónimo" controlará el acceso a los recursos repositorio.
 common#:#public#:#público
@@ -4866,14 +4866,14 @@ common#:#search_result#:#Resultado de la Búsqueda
 common#:#search_results#:#Resultados de búsqueda
 common#:#search_to_short#:#Su consulta es demasiado corta.
 common#:#search_user#:#Buscar Usuario
-common#:#seas_edit_permission#:#Modificar configuración de permisos
+rbac#:#seas_edit_permission#:#Modificar configuración de permisos
 common#:#seas_max_hits#:#Visitas Máximas
 common#:#seas_max_hits_info#:#Por favor introduzca un número para el número máximo de resultados de búsqueda.
-common#:#seas_read#:#Leer configuración de búsqueda
-common#:#seas_search#:#Permitir el uso del sistema de búsqueda
+rbac#:#seas_read#:#Leer configuración de búsqueda
+rbac#:#seas_search#:#Permitir el uso del sistema de búsqueda
 common#:#seas_settings#:#Configuración del motor de búsqueda
-common#:#seas_visible#:#Configuración del motor de búsqueda visible
-common#:#seas_write#:#Editar configuración del motor de búsqueda
+rbac#:#seas_visible#:#Configuración del motor de búsqueda visible
+rbac#:#seas_write#:#Editar configuración del motor de búsqueda
 common#:#second#:#Segundo
 common#:#seconds#:#Segundos
 common#:#sections#:#secciones
@@ -5062,10 +5062,10 @@ common#:#street#:#Calle
 common#:#structure#:#estructura
 common#:#sty#:#Estilo
 common#:#style_activation#:#Activación de Estilo
-common#:#stys_edit_permission#:#Modificar configuración de permisos
-common#:#stys_read#:#Acceso de lectura a configuración de estilos
-common#:#stys_visible#:#Configuración de estilos visible
-common#:#stys_write#:#Editar configuración de estilos
+rbac#:#stys_edit_permission#:#Modificar configuración de permisos
+rbac#:#stys_read#:#Acceso de lectura a configuración de estilos
+rbac#:#stys_visible#:#Configuración de estilos visible
+rbac#:#stys_write#:#Editar configuración de estilos
 common#:#sub_request_deleted#:#Solicitud de adhesión eliminada
 common#:#sub_request_saved#:#Solicitud de adhesión almacenada
 common#:#subcat_name#:#nombre de subcategoría
@@ -5116,10 +5116,10 @@ common#:#systemcheck_cronform#:#Activación del sistema de comprobación en Cron
 common#:#table_mail_import#:#Importar Correos de ILIAS 2
 common#:#tabs#:#Pestañas
 common#:#tagging_my_tags#:#Mis etiquetas
-common#:#tags_edit_permission#:#Cambiar permisos
-common#:#tags_read#:#Acceso de lectura a ajustes de etiquetado
-common#:#tags_visible#:#Configuración de Etiquetado Visible
-common#:#tags_write#:#Editar preferencias Etiquetado
+rbac#:#tags_edit_permission#:#Cambiar permisos
+rbac#:#tags_read#:#Acceso de lectura a ajustes de etiquetado
+rbac#:#tags_visible#:#Configuración de Etiquetado Visible
+rbac#:#tags_write#:#Editar preferencias Etiquetado
 common#:#take_over_structure#:#Adoptar Estructura
 common#:#take_over_structure_info#:#Si se activa, los directorios en el Archivo zip serán mapeados a categorías o, si se usan en grupos o cursos, a carpetas
 common#:#target#:#Destino
@@ -5179,10 +5179,10 @@ common#:#tomorrow#:#Ma&ntilde;ana
 common#:#top_of_page#:#Volver arriba
 common#:#total#:#total
 common#:#tpl_path#:#ruta de plantilla
-common#:#trac_delete#:#Eliminar Datos de Seguimiento
-common#:#trac_edit_permission#:#Modificar configuración de permisos
-common#:#trac_read#:#Leer Datos de Seguimiento
-common#:#trac_visible#:#Datos de seguimiento visibles
+rbac#:#trac_delete#:#Eliminar Datos de Seguimiento
+rbac#:#trac_edit_permission#:#Modificar configuración de permisos
+rbac#:#trac_read#:#Leer Datos de Seguimiento
+rbac#:#trac_visible#:#Datos de seguimiento visibles
 common#:#tracked_objects#:#Objetos monitorizados
 common#:#tracking_data#:#Datos de Seguimiento
 common#:#tracking_data_del_confirm#:#¿Realmente quiere eliminar todos los datos de seguimiento del mes especificado y antes de ese mes?
@@ -5369,15 +5369,15 @@ common#:#usr_style#:#estilo de usuario
 common#:#usr_without_courses#:#Usuarios sin cursos asignados
 common#:#usrf#:#Cuentas de usuario
 common#:#usrf_create_user#:#Crear nueva cuenta de usuario
-common#:#usrf_delete#:#Eliminar cuentas de usuario
-common#:#usrf_edit_permission#:#Modificar configuración de permisos
-common#:#usrf_edit_roleassignment#:#Modificar asignación de roles de las cuentas de usuario
+rbac#:#usrf_delete#:#Eliminar cuentas de usuario
+rbac#:#usrf_edit_permission#:#Modificar configuración de permisos
+rbac#:#usrf_edit_roleassignment#:#Modificar asignación de roles de las cuentas de usuario
 common#:#usrf_profile_link#:#Enlace al perfil de usuario
-common#:#usrf_push_desktop_items#:#Permite añadir items en el escritorio personal.
-common#:#usrf_read#:#Acceso de lectura a las cuentas de usuario
-common#:#usrf_read_users#:#Asignación de rol para administradores locales
-common#:#usrf_visible#:#Cuentas de usuario visibles
-common#:#usrf_write#:#Editar cuentas de usuario
+rbac#:#usrf_push_desktop_items#:#Permite añadir items en el escritorio personal.
+rbac#:#usrf_read#:#Acceso de lectura a las cuentas de usuario
+rbac#:#usrf_read_users#:#Asignación de rol para administradores locales
+rbac#:#usrf_visible#:#Cuentas de usuario visibles
+rbac#:#usrf_write#:#Editar cuentas de usuario
 common#:#usrimport_action_failed#:#Acción %1$s falló
 common#:#usrimport_action_ignored#:#Acción %1$s ignorada
 common#:#usrimport_action_replaced#:#Acción %1$s reemplazada por %2$s

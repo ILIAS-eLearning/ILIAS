@@ -4634,11 +4634,11 @@ common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
-common#:#ps_edit_permission#:#Change Permission Settings
-common#:#ps_export_member_data#:#User may Export Member Data
-common#:#ps_read#:#Read Access to Privacy/Security Settings
-common#:#ps_visible#:#Privacy/Security Settings are Visible
-common#:#ps_write#:#Edit Privacy/Security
+rbac#:#ps_edit_permission#:#Change Permission Settings
+rbac#:#ps_export_member_data#:#User may Export Member Data
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible
+rbac#:#ps_write#:#Edit Privacy/Security
 common#:#pub_section#:#Secção Pública
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#public
@@ -4868,14 +4868,14 @@ common#:#search_result#:#Resultado da procura
 common#:#search_results#:#Search results
 common#:#search_to_short#:#Your query is to short.
 common#:#search_user#:#Procurar usuário.###07 Apr 2005 content changed
-common#:#seas_edit_permission#:#Change permission settings
+rbac#:#seas_edit_permission#:#Change permission settings
 common#:#seas_max_hits#:#Max hits
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.
-common#:#seas_read#:#Read search settings
-common#:#seas_search#:#Allow to use the search
+rbac#:#seas_read#:#Read search settings
+rbac#:#seas_search#:#Allow to use the search
 common#:#seas_settings#:#Search settings
-common#:#seas_visible#:#Search settings are visible
-common#:#seas_write#:#Edit search settings
+rbac#:#seas_visible#:#Search settings are visible
+rbac#:#seas_write#:#Edit search settings
 common#:#second#:#Second
 common#:#seconds#:#Segundos###06 Aug 2005 new variable
 common#:#sections#:#Secções
@@ -5064,10 +5064,10 @@ common#:#street#:#Rua
 common#:#structure#:#Estrutura
 common#:#sty#:#Style
 common#:#style_activation#:#Style Activation
-common#:#stys_edit_permission#:#Change permission settings
-common#:#stys_read#:#Read access to style settings
-common#:#stys_visible#:#Style settings are visible
-common#:#stys_write#:#Edit style settings
+rbac#:#stys_edit_permission#:#Change permission settings
+rbac#:#stys_read#:#Read access to style settings
+rbac#:#stys_visible#:#Style settings are visible
+rbac#:#stys_write#:#Edit style settings
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#Nome da Subcategoria
@@ -5118,10 +5118,10 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#Importar mensagens do ILIAS 2
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#Minhas Etiquetas###02 06 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings
-common#:#tags_read#:#Acesso de Leitura a configurações de Etiquetas###23 09 2008 new variable
-common#:#tags_visible#:#Configurações de Etiquetas são visíveis###23 09 2008 new variable
-common#:#tags_write#:#Editar configurações de Etiquetas###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings
+rbac#:#tags_read#:#Acesso de Leitura a configurações de Etiquetas###23 09 2008 new variable
+rbac#:#tags_visible#:#Configurações de Etiquetas são visíveis###23 09 2008 new variable
+rbac#:#tags_write#:#Editar configurações de Etiquetas###23 09 2008 new variable
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#target#:#Target
@@ -5181,10 +5181,10 @@ common#:#tomorrow#:#Amanhã###11 03 2008 new variable
 common#:#top_of_page#:#Topo da página###10 11 2011 new variable
 common#:#total#:#Total
 common#:#tpl_path#:#Caminho Modelo
-common#:#trac_delete#:#Delete Tracking Data
-common#:#trac_edit_permission#:#Change permission settings
-common#:#trac_read#:#Read Tracking Data
-common#:#trac_visible#:#User tracking is visible
+rbac#:#trac_delete#:#Delete Tracking Data
+rbac#:#trac_edit_permission#:#Change permission settings
+rbac#:#trac_read#:#Read Tracking Data
+rbac#:#trac_visible#:#User tracking is visible
 common#:#tracked_objects#:#Objectos rastreados ###02 Jul 2004 new variable
 common#:#tracking_data#:#Dados de rastreio ###02 Jul 2004 new variable
 common#:#tracking_data_del_confirm#:#Do you really want to delete all tracking data of the specified month and before?
@@ -5371,15 +5371,15 @@ common#:#usr_style#:#Estilo do Usuário###07 Apr 2005 content changed
 common#:#usr_without_courses#:#Users without courses assigned
 common#:#usrf#:#Contas de usuário###07 Apr 2005 content changed
 common#:#usrf_create_user#:#Criar nova conta de usuário###07 Apr 2005 content changed
-common#:#usrf_delete#:#Apagar contas de usuário###07 Apr 2005 content changed
-common#:#usrf_edit_permission#:#Mudar acesso às contas de usuário###07 Apr 2005 content changed
-common#:#usrf_edit_roleassignment#:#Mudar atribuição de papéis das contas de usuário###14 Sep 2004 content changed
+rbac#:#usrf_delete#:#Apagar contas de usuário###07 Apr 2005 content changed
+rbac#:#usrf_edit_permission#:#Mudar acesso às contas de usuário###07 Apr 2005 content changed
+rbac#:#usrf_edit_roleassignment#:#Mudar atribuição de papéis das contas de usuário###14 Sep 2004 content changed
 common#:#usrf_profile_link#:#Link to user profile
-common#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
-common#:#usrf_read#:#Leia acesso às contas de usuário###07 Apr 2005 content changed
-common#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
-common#:#usrf_visible#:#As contas de usuário ão visíveis###07 Apr 2005 content changed
-common#:#usrf_write#:#Editar contas de usuários###07 Apr 2005 content changed
+rbac#:#usrf_push_desktop_items#:#Allow to push items on the personal desktop.
+rbac#:#usrf_read#:#Leia acesso às contas de usuário###07 Apr 2005 content changed
+rbac#:#usrf_read_users#:#Role assignment for local administrators###11 Sep 2004 new variable
+rbac#:#usrf_visible#:#As contas de usuário ão visíveis###07 Apr 2005 content changed
+rbac#:#usrf_write#:#Editar contas de usuários###07 Apr 2005 content changed
 common#:#usrimport_action_failed#:#Action %1$s failed.
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.

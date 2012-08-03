@@ -2357,10 +2357,10 @@ common#:#street#:#Улица
 common#:#structure#:#Структура
 common#:#sty#:#Стили
 common#:#style_activation#:#Активация стиля
-common#:#stys_edit_permission#:#Изменить установки разрешений
-common#:#stys_read#:#Доступ для чтения к установкам стиля
-common#:#stys_visible#:#Установки стиля видимы
-common#:#stys_write#:#Редактировать установки стиля
+rbac#:#stys_edit_permission#:#Изменить установки разрешений
+rbac#:#stys_read#:#Доступ для чтения к установкам стиля
+rbac#:#stys_visible#:#Установки стиля видимы
+rbac#:#stys_write#:#Редактировать установки стиля
 common#:#subcat_name#:#Имя Подкатегории
 common#:#subchapter_new#:#Новая Подглава
 common#:#subject#:#Дисциплина
@@ -2434,10 +2434,10 @@ common#:#toggleGlobalDefault#:#Переключить Глобальные Defau
 common#:#toggleGlobalFixed#:#Переключить Глобальные Fixed
 common#:#total#:#Общий
 common#:#tpl_path#:#Временный путь
-common#:#trac_delete#:#Удалить данные мониторинга
-common#:#trac_edit_permission#:#Может изменять параметры доступа
-common#:#trac_read#:#Читать данные мониторинга
-common#:#trac_visible#:#Данные мониторинга видимы
+rbac#:#trac_delete#:#Удалить данные мониторинга
+rbac#:#trac_edit_permission#:#Может изменять параметры доступа
+rbac#:#trac_read#:#Читать данные мониторинга
+rbac#:#trac_visible#:#Данные мониторинга видимы
 common#:#tracked_objects#:#Отслеживаемые объекты
 common#:#tracking_data#:#Отслеживаемые данные
 common#:#tracking_data_del_confirm#:#Вы действительно хотите удалить все данные мониторинга за выбранный месяц и раньше?
@@ -2536,14 +2536,14 @@ common#:#usr_skin_style#:#Оболочка/Стиль
 common#:#usr_style#:#Стиль пользователя
 common#:#usrf#:#Учетные записи
 common#:#usrf_create_user#:#Создать новую учетную запись пользователя
-common#:#usrf_delete#:#Удалить учетные записи пользователя
-common#:#usrf_edit_permission#:#Изменить доступ к учетным записям пользователя
-common#:#usrf_edit_roleassignment#:#Изменить ролевое назначение для учетной записи пользователя
-common#:#usrf_push_desktop_items#:#Разрешить проталкивание предметов (push items) на личном рабочем месте.
-common#:#usrf_read#:#Доступ на чтение для аккаунатов пользователя
-common#:#usrf_read_users#:#Ролевое назначение локальных администраторов
-common#:#usrf_visible#:#Учетные записи пользователей видимы
-common#:#usrf_write#:#Редактировать учетные записи пользователей
+rbac#:#usrf_delete#:#Удалить учетные записи пользователя
+rbac#:#usrf_edit_permission#:#Изменить доступ к учетным записям пользователя
+rbac#:#usrf_edit_roleassignment#:#Изменить ролевое назначение для учетной записи пользователя
+rbac#:#usrf_push_desktop_items#:#Разрешить проталкивание предметов (push items) на личном рабочем месте.
+rbac#:#usrf_read#:#Доступ на чтение для аккаунатов пользователя
+rbac#:#usrf_read_users#:#Ролевое назначение локальных администраторов
+rbac#:#usrf_visible#:#Учетные записи пользователей видимы
+rbac#:#usrf_write#:#Редактировать учетные записи пользователей
 common#:#usrimport_action_failed#:#Действие %1$s ошибочно.
 common#:#usrimport_action_ignored#:#Игнорировано действие %1$s.
 common#:#usrimport_action_replaced#:#Заменено действие %1$s действием %2$s.
@@ -5375,14 +5375,14 @@ common#:#private_notes#:#Private Notes###06 09 2006 new variable
 common#:#profile#:#Profile###06 09 2006 new variable
 common#:#public_notes#:#Public Notes###06 09 2006 new variable
 common#:#related_to#:#Related to###06 09 2006 new variable
-common#:#seas_edit_permission#:#Change permission settings###06 09 2006 new variable
+rbac#:#seas_edit_permission#:#Change permission settings###06 09 2006 new variable
 common#:#seas_max_hits#:#Max hits###06 09 2006 new variable
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###06 09 2006 new variable
-common#:#seas_read#:#Read search settings###06 09 2006 new variable
-common#:#seas_search#:#Allow to use the search###06 09 2006 new variable
+rbac#:#seas_read#:#Read search settings###06 09 2006 new variable
+rbac#:#seas_search#:#Allow to use the search###06 09 2006 new variable
 common#:#seas_settings#:#Search settings###06 09 2006 new variable
-common#:#seas_visible#:#Search settings are visible###06 09 2006 new variable
-common#:#seas_write#:#Edit search settings###06 09 2006 new variable
+rbac#:#seas_visible#:#Search settings are visible###06 09 2006 new variable
+rbac#:#seas_write#:#Edit search settings###06 09 2006 new variable
 common#:#seconds#:#Seconds###06 09 2006 new variable
 common#:#settings_saved#:#Saved settings###06 09 2006 new variable
 common#:#shib#:#Shibboleth###06 09 2006 new variable
@@ -6826,11 +6826,11 @@ common#:#obj_ps#:#Privacy and Security###25 02 2007 new variable
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.###25 02 2007 new variable
 ps#:#show_privacy#:#Privacy###25 02 2007 new variable
 ps#:#show_security#:#Security###25 02 2007 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
-common#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
+rbac#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
+rbac#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
+rbac#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
 crs#:#crs_subscriber#:#Subscriber###25 02 2007 new variable
 ps#:#ps_export_files#:#Export Files###25 02 2007 new variable
 ps#:#ps_size#:#Files Size###25 02 2007 new variable
@@ -8504,10 +8504,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable

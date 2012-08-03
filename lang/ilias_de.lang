@@ -3872,7 +3872,7 @@ common#:#mail_select_one#:#Sie müssen mindestens eine Nachricht auswählen
 common#:#mail_send_error#:#Fehler beim Verschicken der Nachricht
 common#:#mail_sent#:#Ihre Nachricht wurde versandt
 common#:#mail_settings#:#Mail-Einstellungen
-rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails (per SMTP) senden
+rbac#:#mail_smtp_mail#:#Benutzer darf E-Mails per SMTP an externe Adressen senden
 common#:#mail_system#:#Systemnachricht
 rbac#:#mail_system_message#:#Benutzer darf Mails als Systemnachrichten versenden
 common#:#mail_to_global_roles_not_allowed#:#Das Versenden an globale Rollen ist nicht erlaubt.
@@ -4316,8 +4316,8 @@ common#:#obj_spl_duplicate#:#Fragenpool für Umfrage kopieren
 common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfrage aus --
 common#:#obj_st#:#Kapitel
 common#:#obj_sty#:#Style
-common#:#obj_stys#:#Skin/Style
-common#:#obj_stys_desc#:#Einstellungen für das Stylesheet der Installation und für Styles bestimmter Inhaltsobjekte
+common#:#obj_stys#:#Layout
+common#:#obj_stys_desc#:#Einstellungen für das Erscheinungsbild der Installation und für Styles bestimmter Inhaltsobjekte
 common#:#obj_svy#:#Umfrage
 common#:#obj_svy_duplicate#:#Umfrage kopieren
 common#:#obj_svy_select#:#-- Bitte wählen Sie eine Umfrage aus --
@@ -4582,11 +4582,11 @@ common#:#proxy_port_info#:#Tragen Sie hier einen Port im Bereich zwischen 0 und 
 common#:#proxy_port_numeric#:#Der Port darf nur aus numerischen Zeichen bestehen und muss einen Wert zwischen 0 und 65535 aufweisen.
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#Um einen Proxy in ILIAS zu verwenden (z.B. für Webfeeds und die Überprüfung von Weblinks) aktivieren Sie bitte dieses Häkchen.
-common#:#ps_edit_permission#:#Rechteeinstellungen ändern
-common#:#ps_export_member_data#:#Zugriff auf Mitgliederdaten und Export erlauben
-common#:#ps_read#:#Lesezugriff auf Datenschutzeinstellungen
-common#:#ps_visible#:#Einstellungen zum Datenschutz sind sichtbar
-common#:#ps_write#:#Schreibzugriff auf Datenschutzeinstellungen
+rbac#:#ps_edit_permission#:#Rechteeinstellungen der Datenschutz- und Sicherheitseinstellungen ändern
+rbac#:#ps_export_member_data#:#Export von Mitgliederdaten in Gruppen und Kursen erlauben
+rbac#:#ps_read#:#Lesezugriff auf Datenschutz- und Sicherheitseinstellungen 
+rbac#:#ps_visible#:#Datenschutz- und Sicherheitseinstellungen sind sichtbar
+rbac#:#ps_write#:#Bearbeiten der Datenschutz- und Sicherheitseinstellungen erlauben
 common#:#pub_section#:#Öffentlicher Bereich
 common#:#pub_section_info#:#Die Option ermöglicht es, Teile des Systems öffentlich und ohne Authentifizierung zugänglich zu machen. Die Berechtigungen der Rolle "Anonymous" bestimmen, wie Ressourcen öffentlich zugänglich sind.
 common#:#public#:#öffentlich
@@ -4816,14 +4816,14 @@ common#:#search_result#:#Suchergebnis
 common#:#search_results#:#Suchergebnisse
 common#:#search_to_short#:#Der eingegebene Suchbegriff ist zu kurz.
 common#:#search_user#:#Benutzer suchen
-common#:#seas_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#seas_edit_permission#:#Rechteeinstellungen der Suche-Administration ändern
 common#:#seas_max_hits#:#Maximalanzahl von Treffern
 common#:#seas_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
-common#:#seas_read#:#Sucheinstellungen lesen
-common#:#seas_search#:#Benutzung der Suche erlauben
+rbac#:#seas_read#:#Lesezugriff auf Administration der Suche
+rbac#:#seas_search#:#Benutzung der Suche erlauben
 common#:#seas_settings#:#Sucheinstellungen
-common#:#seas_visible#:#Sucheinstellungen sind sichtbar
-common#:#seas_write#:#Sucheinstellungen bearbeiten
+rbac#:#seas_visible#:#Administration der Suche ist sichtbar
+rbac#:#seas_write#:#Einstellungen in Administration der Suche bearbeiten
 common#:#second#:#Sekunde
 common#:#seconds#:#Sekunde(n)
 common#:#sections#:#Bereiche
@@ -5014,10 +5014,10 @@ common#:#street#:#Straße
 common#:#structure#:#Gliederung
 common#:#sty#:#Stylesheet
 common#:#style_activation#:#Style-Aktivierung
-common#:#stys_edit_permission#:#Rechteeinstellungen ändern
-common#:#stys_read#:#Lesezugriff auf Style-Einstellungen
-common#:#stys_visible#:#Style-Einstellungen sind sichtbar
-common#:#stys_write#:#Style-Einstellungen ändern
+rbac#:#stys_edit_permission#:#Rechteeinstellungen in Layout-Administration ändern
+rbac#:#stys_read#:#Lesezugriff auf Layout-Administration
+rbac#:#stys_visible#:#Layout-Administration ist sichtbar
+rbac#:#stys_write#:#Einstellungen in Layout-Administration ändern
 common#:#sub_request_deleted#:#Ihr Aufnahmeantrag wurde gelöscht
 common#:#sub_request_saved#:#Ihr Aufnahmeantrag wurde aktualisiert
 common#:#subcat_name#:#Unterkategorie Name
@@ -5068,10 +5068,10 @@ common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cronjob
 common#:#table_mail_import#:#Import von Nachrichten
 common#:#tabs#:#Reiter
 common#:#tagging_my_tags#:#Meine Tags
-common#:#tags_edit_permission#:#Rechteeinstellungen ändern
-common#:#tags_read#:#Lesezugriff zu den Tagging-Einstellungen
-common#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
-common#:#tags_write#:#Tagging-Einstellungen bearbeiten
+rbac#:#tags_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#tags_read#:#Lesezugriff zu den Tagging-Einstellungen
+rbac#:#tags_visible#:#Tagging-Einstellungen sind sichtbar
+rbac#:#tags_write#:#Tagging-Einstellungen bearbeiten
 common#:#take_over_structure#:#Ordnerstruktur des Archivs übernehmen
 common#:#take_over_structure_info#:#Wenn aktiviert, werden Verzeichnisse im Archiv als Kategorien oder Ordner übernommen.
 common#:#target#:#Ziel
@@ -5131,10 +5131,10 @@ common#:#tomorrow#:#Morgen
 common#:#top_of_page#:#Seitenanfang
 common#:#total#:#Gesamt
 common#:#tpl_path#:#Template-Pfad
-common#:#trac_delete#:#Tracking-Daten löschen
-common#:#trac_edit_permission#:#Rechteeinstellungen ändern
-common#:#trac_read#:#Lesezugriff auf Tracking-Daten
-common#:#trac_visible#:#Tracking-Daten sind sichtbar
+rbac#:#trac_delete#:#Tracking-Daten löschen
+rbac#:#trac_edit_permission#:#Rechteeinstellungen in Zugriffsstatistiken und Lernfortschrittsverwaltung ändern
+rbac#:#trac_read#:#Lesezugriff auf Zugriffsstatistiken und Lernfortschrittsverwaltung
+rbac#:#trac_visible#:#Zugriffsstatistiken und Lernfortschrittsverwaltung ist sichtbar
 common#:#tracked_objects#:#Zugriffsobjekte
 common#:#tracking_data#:#Tracking-Daten
 common#:#tracking_data_del_confirm#:#Möchten sie wirklich alle Tracking Daten ab (und inklusive) dem angegebenen Monat löschen?
@@ -5322,15 +5322,15 @@ common#:#usr_style#:#Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
 common#:#usrf#:#Benutzerkonten
 common#:#usrf_create_user#:#Neues Benutzerkonto anlegen
-common#:#usrf_delete#:#Benutzerkonten löschen
-common#:#usrf_edit_permission#:#Zugriff auf Benutzerkonten ändern
-common#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
+rbac#:#usrf_delete#:#Benutzerkonten löschen
+rbac#:#usrf_edit_permission#:#Rechteeinstellungen für die Benutzerkontenverwaltung ändern
+rbac#:#usrf_edit_roleassignment#:#Rollenzuweisung von Benutzerkonten ändern
 common#:#usrf_profile_link#:#Link zum Benutzerkonto
-common#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte auf den Persönlichen Schreibtisch zu legen.
-common#:#usrf_read#:#Lesezugriff auf Benutzerkonten
-common#:#usrf_read_users#:#Lesezugriff für lokale Administratoren
-common#:#usrf_visible#:#Benutzerkonten sind sichtbar
-common#:#usrf_write#:#Benutzerkonten bearbeiten
+rbac#:#usrf_push_desktop_items#:#Erlaube ILIAS-Objekte auf den Persönlichen Schreibtisch anderer Benutzer zu legen.
+rbac#:#usrf_read#:#Lesezugriff auf Benutzerkontenverwaltung
+rbac#:#usrf_read_users#:#Lesezugriff auf Benutzerkonten für lokale Administratoren
+rbac#:#usrf_visible#:#Benutzerkontenverwaltung ist sichtbar
+rbac#:#usrf_write#:#Einstellungen in Benutzerkontenverwaltung bearbeiten
 common#:#usrimport_action_failed#:#Aktion %1$s fehlgeschlagen.
 common#:#usrimport_action_ignored#:#Aktion %1$s ignoriert.
 common#:#usrimport_action_replaced#:#Aktion %1$s durch %2$s ersetzt.
@@ -10122,9 +10122,9 @@ rbac#:#otpl_edit_permission#:#Rechteeinstellungen in Administration der Objektvo
 rbac#:#otpl_read#:#Lesezugriff auf Administration der Objektvorlagen
 rbac#:#otpl_visible#:#Administration der Objektvorlagen ist sichtbar
 rbac#:#otpl_write#:#Einstellungen für Objektvorlagen bearbeiten
-rbac#:#pdts_edit_permission#:#Rechteeinstellung ändern
-rbac#:#pdts_read#:#Lesezugriff auf Einstellungen für Persönlichen Schreibtisch
-rbac#:#pdts_visible#:#Einstellungen für Persönlichen Schreibtisch sind sichtbar
+rbac#:#pdts_edit_permission#:#Rechteeinstellung in der Administration des Persönlichen Schreibtischs ändern
+rbac#:#pdts_read#:#Lesezugriff auf Administration des Persönlichen Schreibtischs
+rbac#:#pdts_visible#:#Administration des Persönlichen Schreibtischs ist sichtbar
 rbac#:#pdts_write#:#Einstellungen für Persönlichen Schreibtisch bearbeiten
 rbac#:#perm_administrate#:#Verwalten
 rbac#:#perm_class_create#:#Neue Objekte erzeugen
@@ -10151,10 +10151,10 @@ rbac#:#precondition_obligatory#:#Obligatorisch
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
 rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingen müssen erfüllt werden, um Zugriff zu erlangen.
 rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedingungen
-rbac#:#prfa_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#prfa_edit_permission#:#Rechteeinstellungen in Portfolio-Administration ändern
 rbac#:#prfa_read#:#Lesezugriff auf Portfolio-Administration
 rbac#:#prfa_visible#:#Portfolio-Administration ist sichtbar
-rbac#:#prfa_write#:#Portfolio-Administration bearbeiten
+rbac#:#prfa_write#:#Einstellungen in Portfolio-Administration bearbeiten
 rbac#:#push_desktop_items#:#Objekte auf Persönlichen Schreibtisch legen
 rbac#:#rbac_add_new_local_role#:#Neue lokale Rolle anlegen
 rbac#:#rbac_admin_permissions#:#Administrationsrechte
@@ -10228,11 +10228,11 @@ rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurslink
 rbac#:#rcrs_visible#:#ECS-Kurslinks sind sichtbar
 rbac#:#rcrs_write#:#ECS-Kurslinks bearbeiten
-rbac#:#read_users#:#Lokale Benutzerkonten lesen
-rbac#:#recf_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#read_users#:#Lokale Benutzerkonten einsehen
+rbac#:#recf_edit_permission#:#Rechteeinstellungen in der Verwaltung wiederhergestellter Objekte ändern
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
-rbac#:#recf_visible#:#Wiederhergestellte Objekte sind sichtbar
-rbac#:#recf_write#:#Wiederhergestellte Objekte bearbeiten
+rbac#:#recf_visible#:#Verwaltung wiederhergestellter Objekte ist sichtbar
+rbac#:#recf_write#:#Objekte wiederherstellen
 rbac#:#role_block_role#:#Rolle sperren
 rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobjekte werden weggenommen.
 rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich die ausgewählten Rollen sperren?
@@ -10269,16 +10269,16 @@ rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#sess_read#:#Lesezugriff auf Sitzungen
 rbac#:#sess_visible#:#Sitzungen sind sichtbar
 rbac#:#sess_write#:#Sitzungen bearbeiten
-rbac#:#skmg_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#skmg_edit_permission#:#Rechteeinstellungen für die Verwaltung des Kompetenzmanagements ändern
 rbac#:#skmg_read#:#Lesezugriff auf Kompetenzmanagement
 rbac#:#skmg_visible#:#Kompetenzmanagement ist sichtbar
 rbac#:#skmg_write#:#Kompetenzmanagement bearbeiten
-rbac#:#smtp_mail#:#E-Mail (SMTP) senden
-rbac#:#svyf_edit_permission#:#Rechteeinstellung ändern
-rbac#:#svyf_read#:#Lesezugriff auf Umfrageeinstellungen
-rbac#:#svyf_visible#:#Umfrageeinstellungen sind sichtbar
-rbac#:#svyf_write#:#Umfrageeinstellungen bearbeiten
-rbac#:#usrf_create_usr#:#Benutzer anlegen
+rbac#:#smtp_mail#:#SMTP E-Mail
+rbac#:#svyf_edit_permission#:#Rechteeinstellung in Umfrage-Administration ändern
+rbac#:#svyf_read#:#Lesezugriff auf Umfrage-Administration
+rbac#:#svyf_visible#:#Umfrage-Administration ist sichtbar
+rbac#:#svyf_write#:#Einstellungen in Umfrage-Administration bearbeiten
+rbac#:#usrf_create_usr#:#Benutzer anlegen können
 rbac#:#write#:#Einstellungen bearbeiten
 rcrs#:#rcrs_call#:#ECS-Kurslink aufrufen
 rcrs#:#rcrs_general_info#:#Allgemeine Informationen
@@ -12523,7 +12523,7 @@ help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Online-Hilfe öffnen
 help#:#help_toggle_tooltips#:#Hilfe-Tooltips an-/ausschalten
-rbac#:#trac_write#:#Einstellungen bearbeiten
+rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsverwaltung bearbeiten
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
 common#:#obj_dcl_dupliate#:#Datensammlung kopieren

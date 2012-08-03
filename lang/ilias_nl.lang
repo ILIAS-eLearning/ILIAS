@@ -4225,11 +4225,11 @@ common#:#proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.
 common#:#proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535
 common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
-common#:#ps_edit_permission#:#Verander instellingen van de rechten
-common#:#ps_export_member_data#:#De gebruiker kan de gegevens van het lid exporteren.
-common#:#ps_read#:#Leestoegang tot Privacy-/veiligheidsinstellingen
-common#:#ps_visible#:#Privacy-/veiligheidsinstellingen zijn zichtbaar.
-common#:#ps_write#:#Wijzig Privacy/Veiligheid
+rbac#:#ps_edit_permission#:#Verander instellingen van de rechten
+rbac#:#ps_export_member_data#:#De gebruiker kan de gegevens van het lid exporteren.
+rbac#:#ps_read#:#Leestoegang tot Privacy-/veiligheidsinstellingen
+rbac#:#ps_visible#:#Privacy-/veiligheidsinstellingen zijn zichtbaar.
+rbac#:#ps_write#:#Wijzig Privacy/Veiligheid
 common#:#pub_section#:#Publieke sectie
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#public#:#publiek
@@ -4455,14 +4455,14 @@ common#:#search_result#:#Zoek resultaatd
 common#:#search_results#:#Zoekresultaten
 common#:#search_to_short#:#De query is te kort
 common#:#search_user#:#Zoek gebruiker
-common#:#seas_edit_permission#:# Verander instellingen van de rechten
+rbac#:#seas_edit_permission#:# Verander instellingen van de rechten
 common#:#seas_max_hits#:#Max hits
 common#:#seas_max_hits_info#:#Gelieve een nummer in te voeren voor het maximum aantal gevonden resultaten.
-common#:#seas_read#:#Lees zoekinstellingen
-common#:#seas_search#:#Laat de zoekfunctie
+rbac#:#seas_read#:#Lees zoekinstellingen
+rbac#:#seas_search#:#Laat de zoekfunctie
 common#:#seas_settings#:#Zoekinstellingen
-common#:#seas_visible#:#Zoekinstellingen zijn zichtbaar
-common#:#seas_write#:#Zoekinstellingen aanpassen
+rbac#:#seas_visible#:#Zoekinstellingen zijn zichtbaar
+rbac#:#seas_write#:#Zoekinstellingen aanpassen
 common#:#second#:#Seconde
 common#:#seconds#:#Seconden
 common#:#sections#:#Secties
@@ -4646,10 +4646,10 @@ common#:#street#:#Straat
 common#:#structure#:#Indeling
 common#:#sty#:#Stijl
 common#:#style_activation#:#Stijl geactiveerd
-common#:#stys_edit_permission#:# Verander instellingen van de rechten
-common#:#stys_read#:#leesrechten voor stijlinstellingen
-common#:#stys_visible#:#Stijlinstellingen zijn zichtbaar
-common#:#stys_write#:#Verander stijlinstellingen
+rbac#:#stys_edit_permission#:# Verander instellingen van de rechten
+rbac#:#stys_read#:#leesrechten voor stijlinstellingen
+rbac#:#stys_visible#:#Stijlinstellingen zijn zichtbaar
+rbac#:#stys_write#:#Verander stijlinstellingen
 common#:#sub_request_deleted#:#Deleted membership request
 common#:#sub_request_saved#:#Saved membership request
 common#:#subcat_name#:#Subcategorie naam
@@ -4700,10 +4700,10 @@ common#:#systemcheck_cronform#:#Activation of System Check in Cronjob
 common#:#table_mail_import#:#Mailimport
 common#:#tabs#:#Tabs
 common#:#tagging_my_tags#:#Mijn tags
-common#:#tags_edit_permission#:#Change permission settings
-common#:#tags_read#:#Read access to Tagging Settings
-common#:#tags_visible#:#Tagging Settings are visible
-common#:#tags_write#:#Edit Tagging Settings
+rbac#:#tags_edit_permission#:#Change permission settings
+rbac#:#tags_read#:#Read access to Tagging Settings
+rbac#:#tags_visible#:#Tagging Settings are visible
+rbac#:#tags_write#:#Edit Tagging Settings
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#target#:#Doel
@@ -4760,10 +4760,10 @@ common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#tomorrow#:#Tomorrow
 common#:#total#:#Totaal
 common#:#tpl_path#:#Sjabloonpad
-common#:#trac_delete#:#Verwijder trackinggegevens
-common#:#trac_edit_permission#:#Wijzig instellingen van de rechten
-common#:#trac_read#:#Lezen trackinggegevens#
-common#:#trac_visible#:#Gebruikertracking is zichtbaar
+rbac#:#trac_delete#:#Verwijder trackinggegevens
+rbac#:#trac_edit_permission#:#Wijzig instellingen van de rechten
+rbac#:#trac_read#:#Lezen trackinggegevens#
+rbac#:#trac_visible#:#Gebruikertracking is zichtbaar
 common#:#tracked_objects#:#Trackingobjecten
 common#:#tracking_data#:#Trackinggegevens
 common#:#tracking_data_del_confirm#:#Wilt u werkelijk alle tracking-informatie van de gespecificeerde maand en ervoor verwijderen
@@ -4946,15 +4946,15 @@ common#:#usr_style#:#Gebruikersstijl
 common#:#usr_without_courses#:#Toegewezen gebruikers zonder cursussen
 common#:#usrf#:#Gebruiker
 common#:#usrf_create_user#:#Creëer een nieuwe gebruiker
-common#:#usrf_delete#:#Verwijderen gebruiker
-common#:#usrf_edit_permission#:#Wijzigen toegang tot gebruikers
-common#:#usrf_edit_roleassignment#:#Wijzig rol-toewijzing van gebruikers
+rbac#:#usrf_delete#:#Verwijderen gebruiker
+rbac#:#usrf_edit_permission#:#Wijzigen toegang tot gebruikers
+rbac#:#usrf_edit_roleassignment#:#Wijzig rol-toewijzing van gebruikers
 common#:#usrf_profile_link#:#Link naar gebruikers profiel
-common#:#usrf_push_desktop_items#:#Laat toe om items op het persoonlijk scherm te plaatsen
-common#:#usrf_read#:#Leesrechten tot gebruikers
-common#:#usrf_read_users#:#Roltoewijzing voor lokale administrators
-common#:#usrf_visible#:#Gebruikers zijn zichtbaar
-common#:#usrf_write#:#Wijzigen gebruiker
+rbac#:#usrf_push_desktop_items#:#Laat toe om items op het persoonlijk scherm te plaatsen
+rbac#:#usrf_read#:#Leesrechten tot gebruikers
+rbac#:#usrf_read_users#:#Roltoewijzing voor lokale administrators
+rbac#:#usrf_visible#:#Gebruikers zijn zichtbaar
+rbac#:#usrf_write#:#Wijzigen gebruiker
 common#:#usrimport_action_failed#:#Actie %1$s mislukt.
 common#:#usrimport_action_ignored#:#Negeer actie %1$s.
 common#:#usrimport_action_replaced#:#Vervang actie %1$s by %2$s.

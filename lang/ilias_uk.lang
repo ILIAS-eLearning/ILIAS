@@ -2644,14 +2644,14 @@ common#:#search_recipient#:#Шукати Одержувача
 common#:#search_result#:#Результат пошуку
 common#:#search_to_short#:#Your query is to short.###23 Dec 2005 new variable
 common#:#search_user#:#Шукати Користувача
-common#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
+rbac#:#seas_edit_permission#:#Change permission settings###13 May 2005 new variable
 common#:#seas_max_hits#:#Max hits###13 May 2005 new variable
 common#:#seas_max_hits_info#:#Please enter a number for the maximum number of search results.###13 May 2005 new variable
-common#:#seas_read#:#Read search settings###13 May 2005 new variable
-common#:#seas_search#:#Allow to use the search###13 May 2005 new variable
+rbac#:#seas_read#:#Read search settings###13 May 2005 new variable
+rbac#:#seas_search#:#Allow to use the search###13 May 2005 new variable
 common#:#seas_settings#:#Search settings###13 May 2005 new variable
-common#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
-common#:#seas_write#:#Edit search settings###13 May 2005 new variable
+rbac#:#seas_visible#:#Search settings are visible###13 May 2005 new variable
+rbac#:#seas_write#:#Edit search settings###13 May 2005 new variable
 common#:#seconds#:#Seconds###06 Aug 2005 new variable
 common#:#sections#:#Секції
 common#:#select#:#Вибрати
@@ -2749,10 +2749,10 @@ common#:#street#:#Вулиця
 common#:#structure#:#Структура
 common#:#sty#:#Стиль
 common#:#style_activation#:#Активація Стилю
-common#:#stys_edit_permission#:#Змінити настройки прав
-common#:#stys_read#:#Доступ на читання до налаштувань стилю
-common#:#stys_visible#:#Налаштування стилю є видимі
-common#:#stys_write#:#Редагувати настроювання стилю
+rbac#:#stys_edit_permission#:#Змінити настройки прав
+rbac#:#stys_read#:#Доступ на читання до налаштувань стилю
+rbac#:#stys_visible#:#Налаштування стилю є видимі
+rbac#:#stys_write#:#Редагувати настроювання стилю
 common#:#subcat_name#:#Ім'я Підкатегорії
 common#:#subchapter_new#:#Нова Підглава
 common#:#subject#:#Тема
@@ -2838,10 +2838,10 @@ common#:#toggleGlobalDefault#:#Toggle Global Default
 common#:#toggleGlobalFixed#:#Toggle Global Fixed
 common#:#total#:#Загалом
 common#:#tpl_path#:#Шлях до Шаблона
-common#:#trac_delete#:#Видалити Дані Відслідковування
-common#:#trac_edit_permission#:#Змінити настройки прав
-common#:#trac_read#:#Читати Дані Відслідковування
-common#:#trac_visible#:#Відслідковування користувача є видимим
+rbac#:#trac_delete#:#Видалити Дані Відслідковування
+rbac#:#trac_edit_permission#:#Змінити настройки прав
+rbac#:#trac_read#:#Читати Дані Відслідковування
+rbac#:#trac_visible#:#Відслідковування користувача є видимим
 common#:#tracked_objects#:#Об'єкти відслідковування
 common#:#tracking_data#:#Дані Спостереження
 common#:#tracking_data_del_confirm#:#Ви дійсно бажаєте видалити усі дані спостереження за вибраний місяць та раніше?
@@ -2958,14 +2958,14 @@ common#:#usr_skin_style#:#Скін / Стиль
 common#:#usr_style#:#Стиль Користувача
 common#:#usrf#:#Аккаунти Користувача
 common#:#usrf_create_user#:#Створити новий аккаунт користувача
-common#:#usrf_delete#:#Видалити аккаунти користувача
-common#:#usrf_edit_permission#:#Змінити настройки прав
-common#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувачів
-common#:#usrf_push_desktop_items#:#Дозволити переміщати об'єкти на особистий робочий стіл.
-common#:#usrf_read#:#Доступ на читання до акаунтів користувача
-common#:#usrf_read_users#:#Призначення ролі для локальних адміністраторів
-common#:#usrf_visible#:#Акаунти користувача є видимі
-common#:#usrf_write#:#Редагувати акаунти користувача
+rbac#:#usrf_delete#:#Видалити аккаунти користувача
+rbac#:#usrf_edit_permission#:#Змінити настройки прав
+rbac#:#usrf_edit_roleassignment#:#Змінимти призначенні ролі акаунтів користувачів
+rbac#:#usrf_push_desktop_items#:#Дозволити переміщати об'єкти на особистий робочий стіл.
+rbac#:#usrf_read#:#Доступ на читання до акаунтів користувача
+rbac#:#usrf_read_users#:#Призначення ролі для локальних адміністраторів
+rbac#:#usrf_visible#:#Акаунти користувача є видимі
+rbac#:#usrf_write#:#Редагувати акаунти користувача
 common#:#usrimport_action_failed#:#Дія %1$s завершилась невдало.
 common#:#usrimport_action_ignored#:#Проігнорована дія %1$s.
 common#:#usrimport_action_replaced#:#Замінена дія %1$s на %2$s.
@@ -6826,11 +6826,11 @@ common#:#obj_ps#:#Privacy and Security###25 02 2007 new variable
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.###25 02 2007 new variable
 ps#:#show_privacy#:#Privacy###25 02 2007 new variable
 ps#:#show_security#:#Security###25 02 2007 new variable
-common#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
-common#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
-common#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
-common#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
-common#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
+rbac#:#ps_edit_permission#:#Change Permission Settings###25 02 2007 new variable
+rbac#:#ps_visible#:#Privacy/Security Settings are Visible###25 02 2007 new variable
+rbac#:#ps_read#:#Read Access to Privacy/Security Settings###25 02 2007 new variable
+rbac#:#ps_write#:#Edit Privacy/Security###25 02 2007 new variable
+rbac#:#ps_export_member_data#:#User may Export Member Data###25 02 2007 new variable
 crs#:#crs_subscriber#:#Subscriber###25 02 2007 new variable
 ps#:#ps_export_files#:#Export Files###25 02 2007 new variable
 ps#:#ps_size#:#Files Size###25 02 2007 new variable
@@ -8504,10 +8504,10 @@ content#:#cont_rollback_confirmation#:#Do you really want to restore this old ve
 cntr#:#cntr_view_sessions#:#Sessions View###19 09 2008 new variable
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):###19 09 2008 new variable
 common#:#lang_refresh_confirm_selected#:#Do you really want to refresh the selected languages###19 09 2008 new variable
-common#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
-common#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
-common#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
-common#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
+rbac#:#tags_edit_permission#:#Change permission settings###23 09 2008 new variable
+rbac#:#tags_visible#:#Tagging Settings are visible###23 09 2008 new variable
+rbac#:#tags_read#:#Read access to Tagging Settings###23 09 2008 new variable
+rbac#:#tags_write#:#Edit Tagging Settings###23 09 2008 new variable
 common#:#obj_tags#:#Tagging###23 09 2008 new variable
 common#:#obj_tags_desc#:#Settings for tagging feature.###23 09 2008 new variable
 tagging#:#tagging_settings#:#Settings###23 09 2008 new variable
