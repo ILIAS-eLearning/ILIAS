@@ -63,7 +63,7 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 		$suite->addTestSuite("assAnswerClozeTest");
 
 		require_once("./Modules/TestQuestionPool/test/assAnswerErrorTextTest.php");
-		$suite->addTestSuite("assAnswerErrorTextTest");
+		$suite->addTestSuite("assAnswerErrorTextTest"); // mbecker: 100% Coverage @ 03.08.2012
 
 		require_once("./Modules/TestQuestionPool/test/assAnswerImagemapTest.php");
 		$suite->addTestSuite("assAnswerImagemapTest");

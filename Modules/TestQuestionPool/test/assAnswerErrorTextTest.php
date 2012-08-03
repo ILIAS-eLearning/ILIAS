@@ -73,5 +73,84 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 
 		// Assert
 		$this->assertTrue(TRUE);
-	}	
+	}
+	
+	public function test_setGetPoints_valid()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+		$instance = new assAnswerErrorText( 'errortext'	);
+		$expected = 0.01;
+		
+		// Act
+		$instance->setPoints($expected);
+		$actual = $instance->getPoints();
+		
+		// Assert
+		$this->assertEquals($actual, $expected);		
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function test_setPoints_invalid()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+		$instance = new assAnswerErrorText( 'errortext'	);
+		$expected = 'hokum';
+
+		// Act
+		$instance->setPoints($expected);
+
+		// Assert
+		$this->assertTrue(FALSE);
+	}
+
+	public function test_setGetTextCorrect()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+		$instance = new assAnswerErrorText( 'errortext'	);
+		$expected = 'Correct text';
+
+		// Act
+		$instance->setTextCorrect($expected);
+		$actual = $instance->getTextCorrect();
+
+		// Assert
+		$this->assertEquals($actual, $expected);
+	}
+
+	public function test_setGetTextWrong_valid()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+		$instance = new assAnswerErrorText( 'errortext'	);
+		$expected = 'Errortext';
+
+		// Act
+		$instance->setTextWrong($expected);
+		$actual = $instance->getTextWrong();
+
+		// Assert
+		$this->assertEquals($actual, $expected);
+	}
+
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function test_setTextWrong_invalid()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+		$instance = new assAnswerErrorText( 'errortext'	);
+		$expected = '';
+
+		// Act
+		$instance->setTextWrong($expected);
+
+		// Assert
+		$this->assertTrue(FALSE);
+	}
 }
