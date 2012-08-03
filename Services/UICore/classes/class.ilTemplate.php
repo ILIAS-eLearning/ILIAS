@@ -801,7 +801,7 @@ class ilTemplate extends ilTemplateX
 	}
 
 	/**
-	 * Fill help
+	 * Init help
 	 *
 	 * @param
 	 * @return
@@ -809,7 +809,7 @@ class ilTemplate extends ilTemplateX
 	function initHelp()
 	{
 		include_once("./Services/Help/classes/class.ilHelpGUI.php");
-		ilHelpGUI::initCurrentHelpPage($this);
+		ilHelpGUI::initHelp($this);
 	}
 	
 	

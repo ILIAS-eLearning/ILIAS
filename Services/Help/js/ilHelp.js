@@ -147,7 +147,7 @@ il.Help = {
 	handleAjaxSuccess: function(o) {
 		// perform page modification
 		if(o.responseText !== undefined) {
-			if (o.argument.mode == 'resetCurrentPage') {
+			if (o.argument.mode == 'resetCurrentPage' || o.argument.mode == 'tooltipHandling') {
 			} else {
 				// default action: replace html
 				il.Help.insertPanelHTML(o.responseText);
@@ -199,11 +199,13 @@ il.Help = {
 			$('#help_tt_switch_on').css('display', 'none');
 			$('#help_tt_switch_off').css('display', '');
 			t.tt_activated = false;
+			this.sendAjaxGetRequest({cmd: "deactivateTooltips"}, {mode: "tooltipHandling"});
 		} else {
 			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .nontabbed, .il_adv_sel, .ilGroupedListLE').qtip('enable');
 			$('#help_tt_switch_on').css('display', '');
 			$('#help_tt_switch_off').css('display', 'none');
 			t.tt_activated = true;
+			this.sendAjaxGetRequest({cmd: "activateTooltips"}, {mode: "tooltipHandling"});
 		}
 		return false;
 	}
