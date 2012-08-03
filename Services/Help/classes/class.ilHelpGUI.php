@@ -17,6 +17,7 @@ class ilHelpGUI
 	const ID_PART_SUB_SCREEN = "sub_screen";
 	const ID_PART_COMPONENT = "component";
 	var $def_screen_id = array();
+	var $screen_id = array();
 	
 	/**
 	* constructor
@@ -37,6 +38,26 @@ class ilHelpGUI
 	function setDefaultScreenId($a_part, $a_id)
 	{
 		$this->def_screen_id[$a_part] = $a_id;
+	}
+
+	/**
+	 * Set screen id
+	 *
+	 * @param
+	 */
+	function setScreenId($a_id)
+	{
+		$this->screen_id[self::ID_PART_SCREEN] = $a_id;
+	}
+
+	/**
+	 * Set sub screen id
+	 *
+	 * @param
+	 */
+	function setSubScreenId($a_id)
+	{
+		$this->screen_id[self::ID_PART_SUB_SCREEN] = $a_id;
 	}
 
 	/**
@@ -67,10 +88,18 @@ class ilHelpGUI
 		{
 			return "";
 		}
-			
+		
+		$scr_id = ($this->screen_id[self::ID_PART_SCREEN] != "")
+			? $this->screen_id[self::ID_PART_SCREEN]
+			: $this->def_screen_id[self::ID_PART_SCREEN];
+		
+		$sub_scr_id = ($this->screen_id[self::ID_PART_SUB_SCREEN] != "")
+			? $this->screen_id[self::ID_PART_SUB_SCREEN]
+			: $this->def_screen_id[self::ID_PART_SUB_SCREEN];
+		
 		$screen_id = $comp."/".
-			$this->def_screen_id[self::ID_PART_SCREEN]."/".
-			$this->def_screen_id[self::ID_PART_SUB_SCREEN];
+			$scr_id."/".
+			$sub_scr_id;
 			
 		return $screen_id;
 	}

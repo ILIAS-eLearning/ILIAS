@@ -76,7 +76,9 @@ class ilConsultationHoursGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilCtrl, $tpl;
+		global $ilUser, $ilCtrl, $tpl, $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("cal");
 		
 		switch($this->ctrl->getNextClass())
 		{
@@ -117,8 +119,10 @@ class ilConsultationHoursGUI
 	 */
 	protected function appointmentList()
 	{
-		global $ilToolbar;
+		global $ilToolbar, $ilHelp;
 
+		$ilHelp->setScreenId("consultation_hours");
+		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		$ilToolbar->addButton($this->lng->txt('cal_ch_add_sequence'),$this->ctrl->getLinkTarget($this,'createSequence'));
 		
@@ -654,8 +658,9 @@ class ilConsultationHoursGUI
 	 */
 	public function settings()
 	{
-		global $tpl, $ilTabs;
+		global $tpl, $ilTabs, $ilHelp;
 
+		$ilHelp->setScreenId("consultation_hours_settings");
 		$ilTabs->activateTab('settings');
 		
 		$form = $this->initSettingsForm();
