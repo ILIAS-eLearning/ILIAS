@@ -392,7 +392,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		
 		$this->updateCustomFromECSContent($ecs_content, $mappings);
 
-		// we are updating late to custom values can be set
+		// we are updating late so custom values can be set
 		$this->update();
 				
 		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';

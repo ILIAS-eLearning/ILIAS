@@ -1047,7 +1047,46 @@ class ilPersonalSettingsGUI
 		$select->setInfo($lng->txt('cal_time_format_info'));
 	    $select->setValue($user_settings->getTimeFormat());
 		$this->form->addItem($select);
-
+		
+		
+		// starting point	
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		if(ilUserUtil::hasPersonalStartingPoint())
+		{
+			$this->lng->loadLanguageModule("administration");
+			$si = new ilRadioGroupInputGUI($this->lng->txt("adm_user_starting_point"), "usr_start");
+			$si->setRequired(true);
+			$si->setInfo($this->lng->txt("adm_user_starting_point_info"));
+			foreach(ilUserUtil::getPossibleStartingPoints() as $value => $caption)
+			{
+				$si->addOption(new ilRadioOption($caption, $value));
+			}
+			$si->setValue(ilUserUtil::getPersonalStartingPoint());		
+			$this->form->addItem($si);
+						
+			// starting point: repository object
+			$repobj = new ilRadioOption($lng->txt("adm_user_starting_point_object"), ilUserUtil::START_REPOSITORY_OBJ);
+			$repobj_id = new ilTextInputGUI($lng->txt("adm_user_starting_point_ref_id"), "usr_start_ref_id");
+			$repobj_id->setRequired(true);
+			$repobj_id->setSize(5);
+			if($si->getValue() == ilUserUtil::START_REPOSITORY_OBJ)
+			{
+				$start_ref_id = ilUserUtil::getPersonalStartingObject();
+				$repobj_id->setValue($start_ref_id);
+				if($start_ref_id)
+				{
+					$start_obj_id = ilObject::_lookupObjId($start_ref_id);
+					if($start_obj_id)
+					{
+						$repobj_id->setInfo($lng->txt("obj_".ilObject::_lookupType($start_obj_id)).
+							": ".ilObject::_lookupTitle($start_obj_id));
+					}
+				}
+			}		
+			$repobj->addSubItem($repobj_id);
+			$si->addOption($repobj);
+		}		
+		
 		
 		$this->form->addCommandButton("saveGeneralSettings", $lng->txt("save"));
 		$this->form->setTitle($lng->txt("general_settings"));
@@ -1145,6 +1184,14 @@ class ilPersonalSettingsGUI
 				$ilUser->setPref('session_reminder_lead_time', $_POST['session_reminder_lead_time']);
 			}
 
+			// starting point	
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			if(ilUserUtil::hasPersonalStartingPoint())
+			{
+				ilUserUtil::setPersonalStartingPoint($this->form->getInput('usr_start'), 
+					$this->form->getInput('usr_start_ref_id'));
+			}
+
 			$ilUser->update();
 
 			// calendar settings
@@ -1154,7 +1201,7 @@ class ilPersonalSettingsGUI
 			$user_settings->setDateFormat((int)$this->form->getInput("date_format"));
 			$user_settings->setTimeFormat((int)$this->form->getInput("time_format"));
 			$user_settings->save();
-
+			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showGeneralSettings");
 		}
