@@ -313,12 +313,44 @@ class ilHelpGUI
 	 * @param
 	 * @return
 	 */
-	function initCurrentHelpPage($a_tpl)
+	function initHelp($a_tpl)
 	{
+		global $ilUser;
+		
 		if (ilSession::get("help_pg") > 0)
 		{
 			$a_tpl->addOnLoadCode("il.Help.showCurrentPage(".ilSession::get("help_pg").");", 3);
 		}
+		if ($ilUser->getPref("hide_help_tt"))
+		{
+			$a_tpl->addOnLoadCode("il.Help.switchTooltips();", 3);
+		}
+	}
+	
+	/**
+	 * Deactivate tooltips
+	 *
+	 * @param
+	 * @return
+	 */
+	function deactivateTooltips()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref("hide_help_tt", "1");
+	}
+	
+	/**
+	 * Activate tooltips
+	 *
+	 * @param
+	 * @return
+	 */
+	function activateTooltips()
+	{
+		global $ilUser;
+		
+		$ilUser->writePref("hide_help_tt", "0");
 	}
 	
 }
