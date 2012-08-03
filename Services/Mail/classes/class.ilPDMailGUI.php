@@ -24,7 +24,7 @@ class ilPDMailGUI
 		$umail = new ilMail($_SESSION['AccountId']);
 
 		// catch hack attempts
-		if(!$rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()))
+		if(!$rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()))
 		{
 			$ilias->raiseError($lng->txt('permission_denied'), $ilias->error_obj->WARNING);
 		}

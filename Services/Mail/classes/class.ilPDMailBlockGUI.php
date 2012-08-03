@@ -85,7 +85,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		global $ilUser, $rbacsystem;
 
 		$umail = new ilMail($ilUser->getId());
-		if(!$rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()))
+		if(!$rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()))
 		{
 			return '';
 		}
