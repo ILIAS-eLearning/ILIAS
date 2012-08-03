@@ -44,7 +44,7 @@ class ilMailGUI
 		$this->umail = new ilMail($ilUser->getId());
 
 		// CHECK HACK
-		if (!$rbacsystem->checkAccess("mail_visible", $this->umail->getMailObjectReferenceId()))
+		if (!$rbacsystem->checkAccess('internal_mail', $this->umail->getMailObjectReferenceId()))
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->WARNING);
 		}
