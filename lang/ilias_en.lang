@@ -12650,3 +12650,5 @@ administration#:#adm_user_starting_point_object#:#Repository Object
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id
 administration#:#adm_user_starting_point_personal#:#Personal Setting
 administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.
+rbac#:#internal_mail#:#Internal Mail
+rbac#:#mail_internal_mail#:#User can use internal mail system (ILIAS)

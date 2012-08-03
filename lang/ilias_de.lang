@@ -12731,3 +12731,5 @@ administration#:#adm_user_starting_point_object#:#Repository-Objekt
 administration#:#adm_user_starting_point_ref_id#:#Referenz-Id
 administration#:#adm_user_starting_point_personal#:#Persönliche Einstellung
 administration#:#adm_user_starting_point_personal_info#:#Bei Aktivierung dürfen Benutzer ihre Startseite selbst wählen.
+rbac#:#internal_mail#:#Internes Mail-System
+rbac#:#mail_internal_mail#:#Benutzer dürfen das interne Mail-System nutzen (ILIAS)
