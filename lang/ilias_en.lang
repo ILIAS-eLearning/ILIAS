@@ -3078,7 +3078,6 @@ common#:#mail_folders#:#Mail Folders
 common#:#mail_import_file#:#Export file
 common#:#mail_import#:#Import
 common#:#mail_intern_enable#:#Enable
-rbac#:#mail_mail_visible#:#User has access to internal mail system
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_maxsize_box#:#Max. mailbox size
