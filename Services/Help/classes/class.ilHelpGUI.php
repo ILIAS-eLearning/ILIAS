@@ -272,7 +272,12 @@ class ilHelpGUI
 		
 		ilSession::set("help_pg", $page_id);
 		
-		echo $h_tpl->get();
+		$page = $h_tpl->get();
+		
+		// replace style classes
+		//$page = str_replace("ilc_text_inline_Strong", "ilHelpStrong", $page);
+		
+		echo $page;
 		exit;
 	}
 	
