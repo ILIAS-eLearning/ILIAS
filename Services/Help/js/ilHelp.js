@@ -6,33 +6,34 @@ il.Help = {
 	panel: false,
 	ajax_url: '',
 	padding_old: '-',
-	
+
+	// list help topics
 	listHelp: function (e, back_clicked) {
 		// prevent the default action
 		if (e && e.preventDefault) {
 			e.preventDefault();
-		}
-		else if (window.event && window.event.returnValue) {
+		} else if (window.event && window.event.returnValue) {
 			window.eventReturnValue = false;
 		}
-		
+
 		// hide overlays
 		il.Overlay.hideAllOverlays(e, true);
 		// add panel
 		this.initPanel(e, true);
 	},
-	
-	// init the help
+
+	// init help panel
 	initPanel: function (e, sh) {
+		var n, b, obj;
 		if (!this.panel) {
-			var n = document.getElementById('ilHelpPanel');
+			n = document.getElementById('ilHelpPanel');
 			if (!n) {
-				var b = $("body");
+				b = $("body");
 				b.append("<div class='yui-skin-sam'><div id='ilHelpPanel' class='ilOverlay' style='overflow:auto;'>" +
 					"&nbsp;</div>");
-				var n = document.getElementById('ilHelpPanel');
+				n = document.getElementById('ilHelpPanel');
 			}
-			
+
 			il.Overlay.add("ilHelpPanel", {yuicfg: {}});
 			il.Overlay.show(e, "ilHelpPanel");
 			this.panel = true;
@@ -43,7 +44,7 @@ il.Help = {
 		il.Help.insertPanelHTML("");
 		il.Help.reduceMainContentArea();
 
-		var obj = document.getElementById('ilHelpPanel');
+		obj = document.getElementById('ilHelpPanel');
 		obj.style.position = 'fixed';
 		obj.style.top = '0px';
 		obj.style.bottom = '0px';
@@ -51,108 +52,48 @@ il.Help = {
 		obj.style.left = '';
 		obj.style.width = '300px';
 		obj.style.height = '100%';
-		
+
 		if (sh) {
-			this.sendAjaxGetRequest({cmd: "showHelp"}, {});
+			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+				{cmd: "showHelp"}, {}, this.handleAjaxSuccess);
 		}
 	},
 
+	// show single help page
 	showPage: function (id) {
-		this.sendAjaxGetRequest({cmd: "showPage", help_page: id}, {});
+		il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+			{cmd: "showPage", help_page: id}, {}, this.handleAjaxSuccess);
 		return false;
 	},
-	
+
 	// called by tpl/ilHelpGUI::initCurrentHelpPage
 	showCurrentPage: function (id) {
 		if (this.ajax_url != '') {
 			this.initPanel(null, false);
-			this.sendAjaxGetRequest({cmd: "showPage", help_page: id}, {});
+			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+				{cmd: "showPage", help_page: id}, {}, this.handleAjaxSuccess);
 		}
 		return false;
 	},
-	
-	/*cmdAjaxLink: function (e, url)
-	{
-		// prevent the default action
-		if (e && e.preventDefault)
-		{
-			e.preventDefault();
-		}
-		else if (window.event && window.event.returnValue)
-		{
-			window.eventReturnValue = false;
-		}
 
-		this.sendAjaxGetRequestToUrl(url, {}, {mode: 'cmd'});
-	},*/
-	
-	/*cmdAjaxForm: function (e, url)
-	{
-		// prevent the default action
-		if (e && e.preventDefault)
-		{
-			e.preventDefault();
-		}
-		else if (window.event && window.event.returnValue)
-		{
-			window.eventReturnValue = false;
-		}
-		this.sendAjaxPostRequest("ilNoteFormAjax", url, {mode: 'cmd'});
-	},*/
-	
+	// set ajax url
 	setAjaxUrl: function (url) {
 		this.ajax_url = url;
 	},
-	
+
+	// get ajax url
 	getAjaxUrl: function () {
 		return this.ajax_url;
 	},
-	
-	sendAjaxGetRequest: function (par, args) {
-		var url = this.getAjaxUrl();
-		this.sendAjaxGetRequestToUrl(url, par, args)
-	},
-	
-	sendAjaxGetRequestToUrl: function (url, par, args) {
-		args.reg_type = "get";
-		args.url = url;
-		var cb = {
-			success: this.handleAjaxSuccess,
-			failure: this.handleAjaxFailure,
-			argument: args
-		};
-		for (k in par) {
-			url = url + "&" + k + "=" + par[k];
-		}
-		var request = YAHOO.util.Connect.asyncRequest('GET', url, cb);
-	},
 
-	// send request per ajax
-	/*sendAjaxPostRequest: function(form_id, url, args)
-	{
-		args.reg_type = "post";
-		var cb =
-		{
-			success: this.handleAjaxSuccess,
-			failure: this.handleAjaxFailure,
-			argument: args
-		};
-		var form_str = YAHOO.util.Connect.setForm(form_id);
-		var request = YAHOO.util.Connect.asyncRequest('POST', url, cb);
-		
-		return false;
-	},*/
-
-
-	handleAjaxSuccess: function(o) {
+	// success handler
+	handleAjaxSuccess: function (o) {
 		// perform page modification
-		if(o.responseText !== undefined) {
-			if (o.argument.mode == 'resetCurrentPage' || o.argument.mode == 'tooltipHandling') {
-			} else {
+		if (o.responseText !== undefined) {
+			if (o.argument.mode != 'resetCurrentPage' && o.argument.mode != 'tooltipHandling') {
 				// default action: replace html
 				il.Help.insertPanelHTML(o.responseText);
-				
-				// todo: only when called initially
+
 				if (typeof ilInitAccordionById != "undefined") {
 					ilInitAccordionById('oh_acc');
 				}
@@ -160,15 +101,12 @@ il.Help = {
 		}
 	},
 
-	// FailureHandler
-	handleAjaxFailure: function (o) {
-		console.log("ilHelp.js: Ajax Failure.");
-	},
-
+	// insert HTML into panel
 	insertPanelHTML: function (html) {
 		$('div#ilHelpPanel').html(html);
 	},
-	
+
+	// add space at right of main content area
 	reduceMainContentArea: function () {
 		var obj = document.getElementById('mainspacekeeper');
 		if (il.Help.padding_old == "-") {
@@ -176,22 +114,27 @@ il.Help = {
 		}
 		obj.style.paddingRight = '300px';
 	},
-	
+
+	// reset main content area
 	resetMainContentArea: function () {
 		var obj = document.getElementById('mainspacekeeper');
 		obj.style.paddingRight = this.padding_old;
 	},
-	
-	closePanel: function(e) {
+
+	// close panel
+	closePanel: function (e) {
 		if (this.panel) {
 			il.Overlay.hide(e, "ilHelpPanel");
 			il.Help.panel = false;
 			il.Help.resetMainContentArea();
-			
-			this.sendAjaxGetRequest({cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"});
+
+			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+				{cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"}, this.handleAjaxSuccess);
+
 		}
 	},
-	
+
+	// (de-)activate tooltips
 	switchTooltips: function (e) {
 		var t = il.Help;
 		if (t.tt_activated) {
@@ -199,13 +142,15 @@ il.Help = {
 			$('#help_tt_switch_on').css('display', 'none');
 			$('#help_tt_switch_off').css('display', '');
 			t.tt_activated = false;
-			this.sendAjaxGetRequest({cmd: "deactivateTooltips"}, {mode: "tooltipHandling"});
+			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+				{cmd: "deactivateTooltips"}, {mode: "tooltipHandling"}, this.handleAjaxSuccess);
 		} else {
 			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .nontabbed, .il_adv_sel, .ilGroupedListLE').qtip('enable');
 			$('#help_tt_switch_on').css('display', '');
 			$('#help_tt_switch_off').css('display', 'none');
 			t.tt_activated = true;
-			this.sendAjaxGetRequest({cmd: "activateTooltips"}, {mode: "tooltipHandling"});
+			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
+				{cmd: "activateTooltips"}, {mode: "tooltipHandling"}, this.handleAjaxSuccess);
 		}
 		return false;
 	}
