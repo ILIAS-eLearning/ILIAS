@@ -1060,7 +1060,7 @@ class ilStartUpGUI
 	 	{
 			switch(ilSession::get('tmp_auth_mode'))
 			{
-                                case 'apache':
+				case 'apache':
 					$_POST['username'] = ilSession::get('tmp_external_account');
 					$_POST['password'] = ilSession::get('tmp_pass');
 

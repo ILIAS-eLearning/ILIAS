@@ -1288,7 +1288,7 @@ class ilInitialisation
 			}
 			
 			$cmd = self::getCurrentCmd();
-			if($cmd == "showUserAgreement" || $cmd == "showClientList")
+			if($cmd == "showUserAgreement" || $cmd == "showClientList" || $cmd == 'showAccountMigration' || $cmd == 'migrateAccount')
 			{
 				return true;
 			}

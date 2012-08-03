@@ -14,9 +14,6 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 */
 class ilAccessControlImporter extends ilXmlImporter
 {
-	private $role = null;
-	
-
 	public function init()
 	{
 	}

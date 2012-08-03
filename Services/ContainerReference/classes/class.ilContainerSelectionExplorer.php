@@ -91,10 +91,14 @@ class ilContainerSelectionExplorer extends ilExplorer
 	 */
 	public function isClickable($a_type,$a_id)
 	{
+		global $ilAccess;
+		
 		if($this->getTargetType() == $a_type)
 		{
-			// TODO: check permission
-			return true;
+			if($ilAccess->checkAccess('read','',$a_id))
+			{
+				return true;
+			}
 		}
 		return FALSE;
 	}

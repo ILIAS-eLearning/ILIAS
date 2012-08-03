@@ -115,6 +115,8 @@ class ilAuthContainerOpenId extends Auth_Container
 	{
 		global $ilLog;
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': Login observer called for openid');
+		
 		$this->initSettings();
 		$this->response_data['ilInternalAccount'] = ilObjUser::_checkExternalAuthAccount(
 			"openid",
@@ -126,13 +128,14 @@ class ilAuthContainerOpenId extends Auth_Container
 			{
 				if($this->settings->isAccountMigrationEnabled() and !$this->force_creation and !$_SESSION['force_creation'])
 				{
-					$a_auth->logout();
+					//$a_auth->logout();
 					$_SESSION['tmp_auth_mode'] = 'openid';
 					$_SESSION['tmp_oid_username'] = urldecode($_GET['openid_identity']);
 					$_SESSION['tmp_external_account'] = $this->response_data['nickname'];
 					$_SESSION['tmp_pass'] = $_POST['password'];
 					$_SESSION['tmp_roles'] = array(0 => $this->settings->getDefaultRole());
 				
+					$GLOBALS['ilLog']->write(__METHOD__.': Redirect migration');
 					ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmd=showAccountMigration&cmdClass=ilstartupgui');
 				}
 				
@@ -140,6 +143,7 @@ class ilAuthContainerOpenId extends Auth_Container
 				$new_user = new ilOpenIdAttributeToUser();
 				$new_name = $new_user->create($this->response_data['nickname'],$this->response_data);
 
+				$GLOBALS['ilLog']->write(__METHOD__.': Create user with name:'. $new_name);
 				$a_auth->setAuth($new_name);
 				return true;
 			}
@@ -148,12 +152,14 @@ class ilAuthContainerOpenId extends Auth_Container
 				// No syncronisation allowed => create Error
 				$a_auth->status = AUTH_OPENID_NO_ILIAS_USER;
 				$a_auth->logout();
+				$GLOBALS['ilLog']->write(__METHOD__.': No creation');
 				return false;
 			}
 			
 		}
 		else
 		{
+			$GLOBALS['ilLog']->write(__METHOD__.': Using old name: ' . $this->response_data['ilInternalAccount']);
 			$a_auth->setAuth($this->response_data['ilInternalAccount']);
 			return true;
 		}

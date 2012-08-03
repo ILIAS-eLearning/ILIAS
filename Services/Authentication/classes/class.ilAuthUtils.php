@@ -105,9 +105,10 @@ class ilAuthUtils
 				{
 					$user_auth_mode = AUTH_LOCAL;
 				}
-			}
-                        else if ($_POST['auth_mode'] == AUTH_APACHE) {
-				$user_auth_mode = AUTH_APACHE;
+				else if ($_POST['auth_mode'] == AUTH_APACHE) 
+				{
+					$user_auth_mode = AUTH_APACHE;
+				}
 			}
         }
 	
