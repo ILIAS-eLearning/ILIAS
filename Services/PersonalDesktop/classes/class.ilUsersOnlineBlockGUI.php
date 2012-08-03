@@ -210,7 +210,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		$data = array();
 		
 		$this->mail_allowed = ($ilUser->getId() != ANONYMOUS_USER_ID &&
-			                   $rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId()));
+			                   $rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()));
 		
 		foreach ($this->users as $user_id => $user)
 		{

@@ -184,14 +184,14 @@ class ilUserUtil
 			$all[self::START_PD_CALENDAR] = 'calendar';		
 		}
 
-		if($rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId()))
+		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{	
 			$all[self::START_PD_MAIL] = 'mail';	
 		}
 				
 		if(!$ilSetting->get('disable_contacts') &&
 			($ilSetting->get('disable_contacts_require_mail') ||
-			$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())))
+			$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())))
 		{
 			$all[self::START_PD_CONTACTS] = 'mail_addressbook';					
 		}

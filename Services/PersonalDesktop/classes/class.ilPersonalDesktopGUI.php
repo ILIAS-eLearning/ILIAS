@@ -107,7 +107,7 @@ class ilPersonalDesktopGUI
 			$next_class == 'ilmailaddressbookgui' && ($this->ilias->getSetting("disable_contacts") || 
 			(
 				!$this->ilias->getSetting("disable_contacts_require_mail") &&
-				!$rbacsystem->checkAccess('mail_visible', ilMailGlobalServices::getMailObjectRefId())
+				!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())
 			))
 		) // if
 		{

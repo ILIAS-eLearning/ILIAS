@@ -1343,7 +1343,7 @@ class ilObjForumGUI extends ilObjectGUI
 		// notification only if gen. notification is disabled and forum isn't anonymous
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($ilUser->getId());
-		if($rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()) &&
+		if($rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()) &&
 		   !$frm->isThreadNotificationEnabled($ilUser->getId(), $this->objCurrentPost->getThreadId()) &&
 		   !$this->objProperties->isAnonymized())
 		{
@@ -3204,7 +3204,7 @@ class ilObjForumGUI extends ilObjectGUI
 		include_once 'Services/Mail/classes/class.ilMail.php';
 		$umail = new ilMail($ilUser->getId());
 		// catch hack attempts
-		if($rbacsystem->checkAccess('mail_visible', $umail->getMailObjectReferenceId()) &&
+		if($rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId()) &&
 		   !$this->objProperties->isAnonymized())
 		{
 			// direct notification
