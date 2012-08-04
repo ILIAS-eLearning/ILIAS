@@ -1,40 +1,34 @@
 <?php
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once "./Modules/Chatroom/classes/class.ilObjChatroom.php";
-require_once "./Modules/Chatroom/classes/class.ilChatroom.php";
-require_once "./Modules/Chatroom/classes/class.ilObjChatroomAccess.php";
+require_once 'Services/Object/classes/class.ilObjectGUI.php';
+require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
+require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+require_once 'Modules/Chatroom/classes/class.ilObjChatroomAccess.php';
 require_once 'Modules/Chatroom/lib/DatabayHelper/databayHelperLoader.php';
 
 /**
  * Class ilObjChatroomGUI
- *
  * GUI class for chatroom objects.
- *
- * @author Jan Posselt <jposselt at databay.de>
- * @version $Id$
- *
- * @ilCtrl_Calls ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
- * @ilCtrl_Calls ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI
+ * @author            Jan Posselt <jposselt at databay.de>
+ * @version           $Id$
+ * @ilCtrl_Calls      ilObjChatroomGUI: ilMDEditorGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_IsCalledBy ilObjChatroomGUI: ilRepositoryGUI, ilpersonaldesktopgui, iladministrationgui, ilobjrootfoldergui
- *
- * @ingroup ModulesChatroom
+ * @ingroup           ModulesChatroom
  */
 class ilObjChatroomGUI extends ilDBayObjectGUI
 {
-
 	/**
 	 * Constructor
-	 *
-	 * @param array $a_data
+	 * @param array   $a_data
 	 * @param integer $a_id
 	 * @param boolean $a_call_by_reference
 	 */
 	public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
 	{
-		if (in_array($_REQUEST['cmd'], array('getOSDNotifications','removeOSDNotifications'))) {
+		if(in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications')))
+		{
 			require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
 			$notifications = new ilNotificationGUI();
 			$notifications->{$_REQUEST['cmd'] . 'Object'}();
@@ -42,11 +36,11 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		}
 
 
-		if( $a_data == null )
+		if($a_data == null)
 		{
-			if( $_GET['serverInquiry'] )
+			if($_GET['serverInquiry'])
 			{
-				require_once dirname( __FILE__ ) . '/class.ilChatroomServerHandler.php';
+				require_once dirname(__FILE__) . '/class.ilChatroomServerHandler.php';
 				new ilChatroomServerHandler();
 				return;
 			}
@@ -54,25 +48,23 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		/*require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
 		 var_dump(  ilChatroomServerConnector::checkServerConnection());*/
 		$this->type = 'chtr';
-		parent::__construct( $a_data, $a_id, $a_call_by_reference, false );
-		$this->lng->loadLanguageModule( 'chatroom' );
-		$this->lng->loadLanguageModule( 'chatroom_adm' );
+		parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+		$this->lng->loadLanguageModule('chatroom');
+		$this->lng->loadLanguageModule('chatroom_adm');
 	}
 
 	/**
 	 * Returns object definition by calling getDefaultDefinition method
 	 * in ilDBayObjectDefinition.
-	 *
 	 * @return ilDBayObjectDefinition
 	 */
 	protected function getObjectDefinition()
 	{
-		return ilDBayObjectDefinition::getDefaultDefinition( 'Chatroom' );
+		return ilDBayObjectDefinition::getDefaultDefinition('Chatroom');
 	}
 
 	/**
 	 * Returns an empty array.
-	 *
 	 * @return array
 	 */
 	public function _forwards()
@@ -82,16 +74,20 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 	/**
 	 * Dispatches the command to the related executor class.
-	 *
-	 * @global ilCtrl2 $ilCtrl
 	 */
 	public function executeCommand()
 	{
+		/**
+		 * @var $ilAccess            ilAccessHandler
+		 * @var $ilNavigationHistory ilNavigationHistory
+		 * @var $ilCtrl              ilCtrl
+		 */
 		global $ilAccess, $ilNavigationHistory, $ilCtrl;
 
-		if ('cancel' == $ilCtrl->getCmd() && $this->getCreationMode()) {
-		    parent::cancelCreation();
-		    return;
+		if('cancel' == $ilCtrl->getCmd() && $this->getCreationMode())
+		{
+			parent::cancelCreation();
+			return;
 		}
 
 		// add entry to navigation history
@@ -99,71 +95,71 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		{
 			$ilNavigationHistory->addItem($_GET['ref_id'], './goto.php?target=' . $this->type . '_' . $_GET['ref_id'], $this->type);
 		}
-		
+
 		$next_class = $ilCtrl->getNextClass();
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroomTabFactory.php';
-		if (!$this->getCreationMode()) {
-		    $tabFactory = new ilChatroomTabFactory( $this );
-		    
-		    if(strtolower($_GET["baseClass"]) == "iladministrationgui") {
-			$tabFactory->getAdminTabsForCommand( $ilCtrl->getCmd() );
-		    }
-		    else {
-			$tabFactory->getTabsForCommand( $ilCtrl->getCmd() );
-		    }
+		if(!$this->getCreationMode())
+		{
+			$tabFactory = new ilChatroomTabFactory($this);
+
+			if(strtolower($_GET['baseClass']) == 'iladministrationgui')
+			{
+				$tabFactory->getAdminTabsForCommand($ilCtrl->getCmd());
+			}
+			else
+			{
+				$tabFactory->getTabsForCommand($ilCtrl->getCmd());
+			}
 		}
 
 		// #8701 - infoscreen actions
-		if($next_class == "ilinfoscreengui" && $ilCtrl->getCmd() != "info")
+		if($next_class == 'ilinfoscreengui' && $ilCtrl->getCmd() != 'info')
 		{
-			$ilCtrl->setCmd("info-" . $ilCtrl->getCmd());
+			$ilCtrl->setCmd('info-' . $ilCtrl->getCmd());
 		}
 		// repository info call
-		if($ilCtrl->getCmd() == "infoScreen")
+		if($ilCtrl->getCmd() == 'infoScreen')
 		{
-			$ilCtrl->setCmdClass("ilinfoscreengui");
-			$ilCtrl->setCmd("info");
+			$ilCtrl->setCmdClass('ilinfoscreengui');
+			$ilCtrl->setCmd('info');
 		}
 
 		switch($next_class)
 		{
-
 			case 'ilpermissiongui':
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				include_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
 				$this->prepareOutput();
-				$perm_gui = & new ilPermissionGUI( $this );
-				$ret = & $this->ctrl->forwardCommand( $perm_gui );
+				$perm_gui = new ilPermissionGUI($this);
+				$ilCtrl->forwardCommand($perm_gui);
 				break;
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				include_once 'Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('chtr');
-				$this->ctrl->forwardCommand($cp);
+				$ilCtrl->forwardCommand($cp);
 				break;
 			default:
 				try
 				{
-					$res = split( '-', $ilCtrl->getCmd(), 2 );
-					$this->dispatchCall( $res[0], $res[1] ? $res[1] : '' );
+					$res = explode('-', $ilCtrl->getCmd(), 2);
+					$this->dispatchCall($res[0], $res[1] ? $res[1] : '');
 				}
-				catch (Exception $e)
+				catch(Exception $e)
 				{
 					$error = array(
 						'success' => false,
-						'reason' => $e->getMessage()
+						'reason'  => $e->getMessage()
 					);
 					echo json_encode($error);
 					exit;
 				}
-
 		}
 	}
 
 	/**
 	 * Returns default connector for this room.
-	 *
 	 * @return ilChatroomServerConnector
 	 */
 	public function getConnector()
@@ -175,8 +171,8 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		//		ilChatroomInstaller::install();
 
 		//$settings = new ilChatroomServerSettings();
-		$settings	= ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
-		$connector	= new ilChatroomServerConnector( $settings );
+		$settings  = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
+		$connector = new ilChatroomServerConnector($settings);
 
 		return $connector;
 	}
@@ -187,7 +183,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 	public function fallback()
 	{
 		$this->prepareOutput();
-		$this->tpl->setVariable( 'ADM_CONTENT', $this->lng->txt( 'invalid_operation' ) );
+		$this->tpl->setVariable('ADM_CONTENT', $this->lng->txt('invalid_operation'));
 	}
 
 	/**
@@ -200,46 +196,49 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 	/**
 	 * Instantiates, prepares and returns object.
-	 *
-	 * $class_name = "ilObj" . $objDefinition->getClassName( $new_type ).
-	 * Fetches title from $_POST["title"], description from $_POST["desc"]
-	 * and RefID from $_GET["ref_id"].
-	 *
-	 * @global ilRbacSystem $rbacsystem
-	 * @global ilObjectDefinition $objDefinition
-	 * @global ilRbacReview $rbacreview
-	 * @return class_name
+	 * $class_name = 'ilObj' . $objDefinition->getClassName( $new_type ).
+	 * Fetches title from $_POST['title'], description from $_POST['desc']
+	 * and RefID from $_GET['ref_id'].
+	 * @return ilObject
 	 */
 	public function insertObject()
 	{
+		/**
+		 * @var $rbacsystem    ilRbacSystem
+		 * @var $objDefinition ilObjectDefinition
+		 * @var $rbacreview    ilRbacReview
+		 */
 		global $rbacsystem, $objDefinition, $rbacreview;
 
 		$new_type = $this->type;
 
 		// create permission is already checked in createObject.
 		// This check here is done to prevent hacking attempts
-		if( !$rbacsystem->checkAccess( "create", $_GET["ref_id"], $new_type ) )
+		if(!$rbacsystem->checkAccess('create', $_GET['ref_id'], $new_type))
 		{
 			$this->ilias->raiseError(
-			$this->lng->txt( "no_create_permission" ),
-			$this->ilias->error_obj->MESSAGE
+				$this->lng->txt('no_create_permission'),
+				$this->ilias->error_obj->MESSAGE
 			);
 		}
 
-		$location = $objDefinition->getLocation( $new_type );
+		$location = $objDefinition->getLocation($new_type);
 
 		// create and insert object in objecttree
-		$class_name = "ilObj" . $objDefinition->getClassName( $new_type );
-		include_once($location . "/class." . $class_name . ".php");
+		$class_name = 'ilObj' . $objDefinition->getClassName($new_type);
+		include_once($location . '/class.' . $class_name . '.php');
 
+		/**
+		 * @var $newObj ilObjChatroom
+		 */
 		$newObj = new $class_name();
-		$newObj->setType( $new_type );
-		$newObj->setTitle( ilUtil::stripSlashes( $_POST["title"] ) );
-		$newObj->setDescription( ilUtil::stripSlashes( $_POST["desc"] ) );
+		$newObj->setType($new_type);
+		$newObj->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$newObj->setDescription(ilUtil::stripSlashes($_POST['desc']));
 		$newObj->create();
 		$newObj->createReference();
-		$newObj->putInTree( $_GET["ref_id"] );
-		$newObj->setPermissions( $_GET["ref_id"] );
+		$newObj->putInTree($_GET['ref_id']);
+		$newObj->setPermissions($_GET['ref_id']);
 
 		$objId = $newObj->getId();
 
@@ -247,17 +246,17 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 		$room->saveSettings(
 			array(
-			'object_id' 			=> $objId,
-			'autogen_usernames'		=> 'Autogen #',
-			'display_past_msgs'		=> 20,
-			'private_rooms_enabled'		=> 0
-		));
+				'object_id'                    => $objId,
+				'autogen_usernames'            => 'Autogen #',
+				'display_past_msgs'            => 20,
+				'private_rooms_enabled'        => 0
+			));
 
 		// rbac log
-		include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-		$rbac_log_roles = $rbacreview->getParentRoleIds( $newObj->getRefId(), false );
-		$rbac_log = ilRbacLog::gatherFaPa( $newObj->getRefId(), array_keys( $rbac_log_roles ) );
-		ilRbacLog::add( ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log );
+		include_once 'Services/AccessControl/classes/class.ilRbacLog.php';
+		$rbac_log_roles = $rbacreview->getParentRoleIds($newObj->getRefId(), false);
+		$rbac_log       = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles));
+		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 
 		$this->object = $newObj;
 
@@ -266,7 +265,6 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 	/**
 	 * Returns RefId
-	 *
 	 * @return integer
 	 */
 	public function getRefId()
@@ -276,45 +274,39 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 
 	/**
 	 * Overwrites $_GET['ref_id'] with given $ref_id.
-	 *
-	 * @global ilCtrl2 $ilCtrl
-	 * @param integer $ref_id
+	 * @param integer  $ref_id
 	 */
 	public static function _goto($ref_id)
 	{
-		//global $ilCtrl;
-		//$ilCtrl->setParameter($this, 'cmd', 'view');
-
-		include_once("./Services/Object/classes/class.ilObjectGUI.php");
-		ilObjectGUI::_gotoRepositoryNode($ref_id, "view");
-		
-		/*$_GET['cmd'] = 'view';
-		$_GET['ref_id'] = $ref_id;
-		require 'repository.php';*/
+		include_once 'Services/Object/classes/class.ilObjectGUI.php';
+		ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
 	}
 
+	/**
+	 * @param string $a_new_type
+	 * @return array
+	 */
 	protected function initCreationForms($a_new_type)
 	{
 		$forms = parent::initCreationForms($a_new_type);
 
 		unset($forms[self::CFORM_IMPORT]);
-		//unset($forms[self::CFORM_CLONE]);
-		
 		$forms[self::CFORM_NEW]->clearCommandButtons();
-		$forms[self::CFORM_NEW]->addCommandButton("create-save", $this->lng->txt($a_new_type."_add"));
-		$forms[self::CFORM_NEW]->addCommandButton("cancel", $this->lng->txt("cancel"));
+		$forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($a_new_type . '_add'));
+		$forms[self::CFORM_NEW]->addCommandButton('cancel', $this->lng->txt('cancel'));
 		return $forms;
 	}
-	
+
 	function addLocatorItems()
 	{
+		/**
+		 * @var $ilLocator ilLocatorGUI
+		 */
 		global $ilLocator;
-		
-		if (is_object($this->object))
+
+		if(is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "view"), "", $this->getRefId());
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, 'view'), '', $this->getRefId());
 		}
 	}
 }
-
-?>
