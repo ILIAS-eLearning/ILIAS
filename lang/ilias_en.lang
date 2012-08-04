@@ -11542,7 +11542,7 @@ chatroom_adm#:#chatroom_image_path#:#Path to Smiley
 chatroom_adm#:#chatroom_smiley_keywords#:#Keywords
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#One Keyword per Line
 chatroom_adm#:#chatroom_upload_smiley#:#Upload Smiley
-chatroom_adm#:#obj_chta_desc#:#Chat Administration
+administration#:#obj_chta_desc#:#Chat Administration
 chatroom_adm#:#protocol#:#Protocol
 chatroom_adm#:#instance#:#Instance
 chatroom_adm#:#smiley#:#Smilies

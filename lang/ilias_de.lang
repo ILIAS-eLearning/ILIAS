@@ -2034,7 +2034,7 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#instance#:#Instanz
 chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#keystore#:#Keystore
-chatroom_adm#:#obj_chta_desc#:#Chat Administration
+administration#:#obj_chta_desc#:#Chat Administration
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
 chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Nutzer werden mit ihrem Browser keine Verbindung zum Chatserver aufbauen können, wenn der eingetragene Port nicht offen ist.
