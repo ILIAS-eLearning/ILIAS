@@ -77,6 +77,7 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 	
 	public function test_setGetPoints_valid()
 	{
+		$this->markTestIncomplete('Testing an uncommitted feature.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
@@ -95,6 +96,7 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_setPoints_invalid()
 	{
+		$this->markTestIncomplete('Testing an uncommitted feature.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
@@ -109,6 +111,8 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 
 	public function test_setGetTextCorrect()
 	{
+		$this->markTestIncomplete('Testing an uncommitted feature.');
+
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
@@ -124,6 +128,8 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 
 	public function test_setGetTextWrong_valid()
 	{
+		$this->markTestIncomplete('Testing an uncommitted feature.');
+
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
@@ -142,6 +148,8 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_setTextWrong_invalid()
 	{
+		$this->markTestIncomplete('Testing an uncommitted feature.');
+
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
