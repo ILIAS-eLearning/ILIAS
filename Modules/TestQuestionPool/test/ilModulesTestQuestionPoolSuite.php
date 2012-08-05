@@ -38,18 +38,161 @@ class ilModulesTestQuestionPoolSuite extends PHPUnit_Framework_TestSuite
 
 		$suite = new ilModulesTestQuestionPoolSuite();
 	
-		// Questiontypes
+		// Questiontypes & related classes
 		// -------------------------------------------------------------------------------------------------------------
-		require_once("./Modules/TestQuestionPool/test/ilAssSingleChoiceTest.php");
-		//$suite->addTestSuite("ilassSingleChoiceTest");
-		// Incompatible with local mode
-		
-		require_once("./Modules/TestQuestionPool/test/ilAssMultipleChoiceTest.php");
-		//$suite->addTestSuite("ilassMultipleChoiceTest");
-		// Incompatible with local mode
-		
+
+		// Type: Question (Base class)
+		require_once("./Modules/TestQuestionPool/test/assQuestionTest.php");
+		$suite->addTestSuite("assQuestionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assQuestionGUITest.php");
+		$suite->addTestSuite("assQuestionGUITest");
+
+		// Type: Cloze
+		require_once("./Modules/TestQuestionPool/test/assClozeGapTest.php");
+		$suite->addTestSuite("assClozeGapTest");
+
+		require_once("./Modules/TestQuestionPool/test/assClozeSelectGapTest.php");
+		$suite->addTestSuite("assClozeSelectGapTest");
+
+		require_once("./Modules/TestQuestionPool/test/assClozeTestTest.php");
+		$suite->addTestSuite("assClozeTestTest");
+
+		require_once("./Modules/TestQuestionPool/test/assClozeTestGUITest.php");
+		$suite->addTestSuite("assClozeTestGUITest");
+
+		// Type: ErrorText
 		require_once("./Modules/TestQuestionPool/test/assErrorTextTest.php");
 		$suite->addTestSuite("assErrorTextTest");
+
+		require_once("./Modules/TestQuestionPool/test/assErrorTextGUITest.php");
+		$suite->addTestSuite("assErrorTextGUITest");
+
+		// Type: FileUpload
+		require_once("./Modules/TestQuestionPool/test/assFileUploadTest.php");
+		$suite->addTestSuite("assFileUploadTest");
+
+		require_once("./Modules/TestQuestionPool/test/assFileUploadGUITest.php");
+		$suite->addTestSuite("assFileUploadGUITest");
+
+		// Type: Flash
+		require_once("./Modules/TestQuestionPool/test/assFlashQuestionTest.php");
+		$suite->addTestSuite("assFlashQuestionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assFlashQuestionGUITest.php");
+		$suite->addTestSuite("assFlashQuestionGUITest");
+
+		// Type: Imagemap
+		require_once("./Modules/TestQuestionPool/test/assImagemapQuestionTest.php");
+		$suite->addTestSuite("assImagemapQuestionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assImagemapQuestionGUITest.php");
+		$suite->addTestSuite("assImagemapQuestionGUITest");
+
+		// Zype: JavaApplet
+		require_once("./Modules/TestQuestionPool/test/assJavaAppletTest.php");
+		$suite->addTestSuite("assJavaAppletTest");
+
+		require_once("./Modules/TestQuestionPool/test/assJavaAppletGUITest.php");
+		$suite->addTestSuite("assJavaAppletGUITest");
+
+		// Type: MatchingQuestion
+		require_once("./Modules/TestQuestionPool/test/assMatchingQuestionTest.php");
+		$suite->addTestSuite("assMatchingQuestionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assMatchingQuestionGUITest.php");
+		$suite->addTestSuite("assMatchingQuestionGUITest");
+
+		// Type: MultipleChoice
+		require_once("./Modules/TestQuestionPool/test/assMultipleChoiceTest.php");
+		//$suite->addTestSuite("assMultipleChoiceTest");
+		// Incompatible with local mode
+
+		require_once("./Modules/TestQuestionPool/test/assMultipleChoiceGUITest.php");
+		$suite->addTestSuite("assMultipleChoiceGUITest");
+
+		// Type: Numeric
+		require_once("./Modules/TestQuestionPool/test/assNumericTest.php");
+		$suite->addTestSuite("assNumericTest");
+
+		require_once("./Modules/TestQuestionPool/test/assNumericGUITest.php");
+		$suite->addTestSuite("assNumericGUITest");
+
+		require_once("./Modules/TestQuestionPool/test/assNumericRangeTest.php");
+		$suite->addTestSuite("assNumericRangeTest");
+
+		// Type: OrderingHorizontal
+		require_once("./Modules/TestQuestionPool/test/assOrderingHorizontalTest.php");
+		$suite->addTestSuite("assOrderingHorizontalTest");
+
+		require_once("./Modules/TestQuestionPool/test/assOrderingHorizontalGUITest.php");
+		$suite->addTestSuite("assOrderingHorizontalGUITest");
+
+		// Type: Ordering
+		require_once("./Modules/TestQuestionPool/test/assOrderingQuestionTest.php");
+		$suite->addTestSuite("assOrderingQuestionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assOrderingQuestionGUITest.php");
+		$suite->addTestSuite("assOrderingQuestionGUITest");
+
+		// Type: SingleChoice
+		require_once("./Modules/TestQuestionPool/test/assSingleChoiceTest.php");
+		//$suite->addTestSuite("assSingleChoiceTest");
+		// Incompatible with local mode
+
+		require_once("./Modules/TestQuestionPool/test/assSingleChoiceGUITest.php");
+		$suite->addTestSuite("assSingleChoiceGUITest");
+
+		// Type: Text (Essay)
+		require_once("./Modules/TestQuestionPool/test/assTextQuestionTest.php");
+		$suite->addTestSuite("assTextQuestionTest");
+
+		require_once("./Modules/TestQuestionPool/test/assTextQuestionGUITest.php");
+		$suite->addTestSuite("assTextQuestionGUITest");
+
+		// Type: TextSubset
+		require_once("./Modules/TestQuestionPool/test/assTextSubsetTest.php");
+		$suite->addTestSuite("assTextSubsetTest");
+
+		require_once("./Modules/TestQuestionPool/test/assTextSubsetGUITest.php");
+		$suite->addTestSuite("assTextSubsetGUITest");
+
+		// Input GUIs
+		// -------------------------------------------------------------------------------------------------------------
+		require_once("./Modules/TestQuestionPool/test/ilAnswerWizardInputGUITest.php");
+		$suite->addTestSuite("ilAnswerWizardInputGUITest");
+
+		// Hints
+		// -------------------------------------------------------------------------------------------------------------
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintTest.php");
+		$suite->addTestSuite("ilAssQuestionHintTest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintAbstractTest.php");
+		$suite->addTestSuite("ilAssQuestionHintAbstractTest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintGUITest.php");
+		$suite->addTestSuite("ilAssQuestionHintGUITest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintListTest.php");
+		$suite->addTestSuite("ilAssQuestionHintListTest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintRequestGUITest.php");
+		$suite->addTestSuite("ilAssQuestionHintRequestGUITest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintRequestStatisticDataTest.php");
+		$suite->addTestSuite("ilAssQuestionHintRequestStatisticDataTest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintsGUITest.php");
+		$suite->addTestSuite("ilAssQuestionHintsGUITest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintsOrderingClipboardTest.php");
+		$suite->addTestSuite("ilAssQuestionHintsOrderingClipboardTest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintsTableGUITest.php");
+		$suite->addTestSuite("ilAssQuestionHintsTableGUITest");
+
+		require_once("./Modules/TestQuestionPool/test/ilAssQuestionHintTrackingTest.php");
+		$suite->addTestSuite("ilAssQuestionHintTrackingTest");
 
 		// Answertypes
 		// -------------------------------------------------------------------------------------------------------------

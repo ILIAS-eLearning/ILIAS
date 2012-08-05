@@ -30,7 +30,7 @@
 *
 * @ingroup ServicesTree
 */
-class ilAssMultipleChoiceTest extends PHPUnit_Framework_TestCase
+class assSingleChoiceTest extends PHPUnit_Framework_TestCase
 {
 	protected $backupGlobals = FALSE;
 
@@ -47,7 +47,7 @@ class ilAssMultipleChoiceTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
-	
+
 	/**
 	* Create a sample question and save it to the database
 	*
@@ -57,63 +57,49 @@ class ilAssMultipleChoiceTest extends PHPUnit_Framework_TestCase
 	public static function createSampleQuestion($obj_id = null)
 	{
 		$obj_id = ($obj_id) ? $obj_id : 99999999;
-		include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
-		
-		$mc = new assMultipleChoice('unit test multiple choice question', 'unit test multiple choice question comment', 'Helmut Schottmüller', -1, '<p><strong>unit tests</strong> are...</p>');
-		$mc->addAnswer(
-			'important',
-			0.5,
-			-0.5,
+		include_once './Modules/TestQuestionPool/classes/class.assSingleChoice.php';
+		$sc = new assSingleChoice('unit test single choice question', 'unit test single choice question comment', 'Helmut Schottmüller', -1, '<p>is a <strong>unit test</strong> required?</p>');
+		$sc->addAnswer(
+			'Yes',
+			1,
+			0,
 			1
 		);
-		$mc->addAnswer(
-			'useless',
-			-0.5,
-			0.5,
+		$sc->addAnswer(
+			'No',
+			-1,
+			0,
 			2
 		);
-		$mc->addAnswer(
-			'stupid',
-			-0.5,
-			0.5,
-			3
-		);
-		$mc->addAnswer(
-			'cool',
-			0.5,
-			-0.5,
-			4
-		);
-		$mc->setObjId($obj_id);
-		$mc->saveToDb();
-		return $mc->getId();
+		$sc->setObjId($obj_id);
+		$sc->saveToDb();
+		return $sc->getId();
 	}
-	
+
 	/**
-	 * Question creation test 
+	 * Question creation test
 	 * @param
 	 * @return
 	 */
 	public function testCreation()
 	{
 		global $ilDB;
-		
-		include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
-		$insert_id = ilassMultipleChoiceTest::createSampleQuestion();
+
+		include_once './Modules/TestQuestionPool/classes/class.assSingleChoice.php';
+		$insert_id = ilassSingleChoiceTest::createSampleQuestion();
 		$this->assertGreaterThan(0, $insert_id);
 		if ($insert_id > 0)
 		{
-			$mc = new assMultipleChoice();
-			$mc->loadFromDb($insert_id);
-			$this->assertEquals($mc->getPoints(),2);
-			$this->assertEquals($mc->getTitle(),"unit test multiple choice question");
-			$this->assertEquals($mc->getComment(),"unit test multiple choice question comment");
-			$this->assertEquals($mc->getAuthor(),"Helmut Schottmüller");
-			$this->assertEquals($mc->getQuestion(),"<p><strong>unit tests</strong> are...</p>");
-			$this->assertEquals(count($mc->getAnswers()), 4);
-			$result = $mc->delete($insert_id);
+			$sc = new assSingleChoice();
+			$sc->loadFromDb($insert_id);
+			$this->assertEquals($sc->getPoints(),1);
+			$this->assertEquals($sc->getTitle(),"unit test single choice question");
+			$this->assertEquals($sc->getComment(),"unit test single choice question comment");
+			$this->assertEquals($sc->getAuthor(),"Helmut Schottmüller");
+			$this->assertEquals($sc->getQuestion(),"<p>is a <strong>unit test</strong> required?</p>");
+			$this->assertEquals(count($sc->getAnswers()), 2);
+			$result = $sc->delete($insert_id);
 			$this->assertEquals($result,true);
 		}
-	}	
+	}
 }
-?>
