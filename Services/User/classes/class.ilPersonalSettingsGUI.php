@@ -31,6 +31,7 @@ class ilPersonalSettingsGUI
 		$this->ctrl =& $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
 		$lng->loadLanguageModule("jsmath");
+		$lng->loadLanguageModule('chatroom');
 		$this->upload_error = "";
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
@@ -433,8 +434,6 @@ class ilPersonalSettingsGUI
 	private function getChatSettingsForm()
 	{
 		global $ilSetting, $lng;
-		
-		$lng->loadLanguageModule('chatroom');
 		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
