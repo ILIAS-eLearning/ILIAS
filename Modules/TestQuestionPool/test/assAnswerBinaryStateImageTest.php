@@ -45,4 +45,28 @@ class assAnswerBinaryStateImageTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObject_shouldReturnInstance()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';
+
+		// Act
+		$instance = new ASS_AnswerBinaryStateImage();
+
+		$this->assertInstanceOf('ASS_AnswerBinaryStateImage', $instance);
+	}
+
+	public function test_setGetImage()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';
+		$instance = new ASS_AnswerBinaryStateImage();
+		$expected = 'image';
+		// Act
+		$instance->setImage($expected);
+		$actual = $instance->getImage();
+
+		$this->assertEquals($expected, $actual );
+	}
 }
