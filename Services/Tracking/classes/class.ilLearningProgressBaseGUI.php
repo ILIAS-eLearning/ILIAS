@@ -183,7 +183,7 @@ class ilLearningProgressBaseGUI
 
 				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
 				{
-					if($this->isAnonymized())
+					if($this->isAnonymized() || $this->isObjectAnonymized())
 					{
 						$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
 						$this->tabs_gui->addSubTabTarget('trac_progress',
