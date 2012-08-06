@@ -99,5 +99,3 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState {
   }
 
 }
-
-?>
