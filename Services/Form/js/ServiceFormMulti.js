@@ -14,11 +14,19 @@ var ilMultiFormValues = {
 		// add click event to --icons
 		$('input:image[id*="ilMultiRmv"]').bind('click', function(e) {
 			ilMultiFormValues.removeEvent(e);
+		});		
+		// add click event to down-icons
+		$('input:image[id*="ilMultiDwn"]').bind('click', function(e) {
+			ilMultiFormValues.downEvent(e);
 		});
+		// add click event to up-icons
+		$('input:image[id*="ilMultiUp"]').bind('click', function(e) {
+			ilMultiFormValues.upEvent(e);
+		});		
 		// handle preset values (in hidden inputs)
 		$('input[id*="ilMultiValues"]').each(function() {		
 			ilMultiFormValues.handlePreset(this);				
-		});
+		});		
 	},
 	
 	/**
@@ -43,6 +51,36 @@ var ilMultiFormValues = {
 		}
 		else {
 			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').find('input:text[id*="' + id[1] + '"]').attr('value', '');
+		}
+	},
+	
+	/**
+	 * Move multi item down (click event)
+	 * 
+	 * @param event e
+	 */
+	downEvent: function(e) {
+		var id = $(e.target).attr('id').split('~');		
+		var original_element = $('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]');
+		var next = $(original_element).next();
+		if(next[0])
+		{
+			$(next).after($(original_element));
+		}
+	},
+	
+	/**
+	 * Move multi item up (click event)
+	 * 
+	 * @param event e
+	 */
+	upEvent: function(e) {
+		var id = $(e.target).attr('id').split('~');
+		var original_element = $('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]');		
+		var prev = $(original_element).prev();
+		if(prev[0])
+		{
+			$(prev).before($(original_element));
 		}
 	},
 
@@ -87,6 +125,22 @@ var ilMultiFormValues = {
 			$(this).attr('id', 'ilMultiRmv~' + group_id + '~' + new_id);			
 			$(this).bind('click', function(e) {
 				ilMultiFormValues.removeEvent(e);
+			});			
+		});
+		
+		// binding down-icon
+		$(new_element).find('[id*="ilMultiDwn"]').each(function() {							
+			$(this).attr('id', 'ilMultiDwn~' + group_id + '~' + new_id);			
+			$(this).bind('click', function(e) {
+				ilMultiFormValues.downEvent(e);
+			});			
+		});
+	
+		// binding up-icon
+		$(new_element).find('[id*="ilMultiUp"]').each(function() {							
+			$(this).attr('id', 'ilMultiUp~' + group_id + '~' + new_id);			
+			$(this).bind('click', function(e) {
+				ilMultiFormValues.upEvent(e);
 			});			
 		});
 

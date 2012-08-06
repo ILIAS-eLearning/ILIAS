@@ -435,10 +435,12 @@ class ilObjPoll extends ilObject2
 		$fields = array(
 			"id" => array("integer", $id),
 			"poll_id" => array("integer", $this->getId()),
-			"answer" => array("text", $a_text),
+			"answer" => array("text", trim($a_text)),
 			"pos" => array("integer", $pos)
 		);				
-		$ilDB->insert("il_poll_answer", $fields);		
+		$ilDB->insert("il_poll_answer", $fields);	
+		
+		return $id;
 	}
 	
 	function updateAnswer($a_id, $a_text)
@@ -507,6 +509,54 @@ class ilObjPoll extends ilObject2
 				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer"));
 		}
 	}
+		
+	function saveAnswers(array $a_answers)
+	{
+		$existing = $this->getAnswers();
+						
+		$ids = array();
+		$pos = 0;
+		foreach($a_answers as $answer)
+		{
+			// existing answer?
+			$found = false;
+			foreach($existing as $idx => $item)
+			{
+				if(trim($answer) == $item["answer"])
+				{
+					$found = true;					
+					unset($existing[$idx]);
+					
+					$id = $item["id"];
+				}
+			}
+			
+			// create new answer
+			if(!$found)
+			{
+				$id = $this->saveAnswer($answer);
+			}
+			
+			// add existing answer id to order
+			$ids[$id] = ++$pos;
+		}			
+		
+		// remove obsolete answers
+		if(sizeof($existing))
+		{
+			foreach($existing as $item)
+			{
+				$this->deleteAnswer($item["id"]);
+			}
+		}
+		
+		// save current order
+		if(sizeof($ids))
+		{
+			$this->updateAnswerPositions($ids);
+		}
+	}
+	
 	
 	//
 	// votes
@@ -540,6 +590,18 @@ class ilObjPoll extends ilObject2
 		return (bool)$ilDB->numRows($set);
 	}
 	
+	function countVotes()
+	{
+		global $ilDB;
+		
+		$sql = "SELECT count(*) cnt".
+			" FROM il_poll_vote".
+			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer");
+		$set = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($set);
+		return (int)$row["cnt"];
+	}
+	
 	function getVotePercentages()
 	{
 		global $ilDB;
@@ -564,7 +626,7 @@ class ilObjPoll extends ilObject2
 		}
 		
 		return $res;
-	}
+	}	
 }
 
 ?>
