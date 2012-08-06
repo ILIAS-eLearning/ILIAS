@@ -25,15 +25,20 @@ include_once "./Modules/TestQuestionPool/classes/class.assAnswerSimple.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* Class for true/false or yes/no answers
-* 
-* ASS_AnswerBinaryState is a class for answers with a binary state indicator (checked/unchecked, set/unset)
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup ModulesTestQuestionPool
-* @see ASS_AnswerSimple
-*/
+ * Class for true/false or yes/no answers
+ *
+ * ASS_AnswerBinaryState is a class for answers with a binary state indicator (checked/unchecked, set/unset)
+ *
+ *
+ * @todo Get rid of duplicate methods (hiding behind different names.
+ * @todo Rework class to use a true binary state (boolean) instead of integer
+ * @todo Rename class to something that matches the filename properly.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @version	$Id$
+ * @ingroup ModulesTestQuestionPool
+ * @see ASS_AnswerSimple
+ */
 class ASS_AnswerBinaryState extends ASS_AnswerSimple {
 /**
 * State of the answer
