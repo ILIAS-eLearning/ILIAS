@@ -11874,3 +11874,49 @@ ilDBUpdateNewObjectType::addRBACCreate('create_itgr', 'Create Item Group', $pare
 	$ilCtrlStructureReader->getStructure();
 ?>
 
+<#3691>
+<?php
+
+	// table fields used by tst's obligate test questions (elba steps 21, 22, 23 and 24)
+
+	if(!$ilDB->tableColumnExists('tst_test_question','obligatory'))
+	{
+		$ilDB->addTableColumn("tst_test_question", "obligatory", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+
+	if(!$ilDB->tableColumnExists('tst_test_result','answered'))
+	{
+		$ilDB->addTableColumn("tst_test_result", "answered", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 1
+		));
+	}
+
+	if(!$ilDB->tableColumnExists('tst_pass_result','obligations_answered'))
+	{
+		$ilDB->addTableColumn("tst_pass_result", "obligations_answered", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 1
+		));
+	}
+
+	if(!$ilDB->tableColumnExists('tst_result_cache','obligations_answered'))
+	{
+		$ilDB->addTableColumn("tst_result_cache", "obligations_answered", array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 1
+		));
+	}
+ 	
+?>
