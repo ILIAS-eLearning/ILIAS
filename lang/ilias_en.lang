@@ -12651,3 +12651,19 @@ administration#:#adm_user_starting_point_personal#:#Personal Setting
 administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.
 rbac#:#internal_mail#:#Internal Mail
 rbac#:#mail_internal_mail#:#User can use internal mail system (ILIAS)
+common#:#obj_itgr_duplicate#:#Copy Item Group
+common#:#obj_itgr_select#:#-- Please select one Item Group --
+common#:#obj_itgr#:#Item Group
+common#:#objs_itgr#:#Item Groups
+itgr#:#itgr_edit#:#Edit Item Groups
+rbac#:#itgr_read#:#User can read item group
+rbac#:#itgr_visible#:#Item group is visible
+rbac#:#itgr_write#:#User can edit content and settings of item group
+rbac#:#itgr_copy#:#User can copy item group
+rbac#:#itgr_delete#:#User can move or delete item group
+rbac#:#itgr_edit_permission#:#User can change permission settings
+rbac#:#cat_create_itgr#:#Create Item Group
+rbac#:#crs_create_itgr#:#Create Item Group
+rbac#:#fold_create_itgr#:#Create Item Group
+rbac#:#root_create_itgr#:#Create Item Group
+rbac#:#grp_create_itgr#:#Create Item Group

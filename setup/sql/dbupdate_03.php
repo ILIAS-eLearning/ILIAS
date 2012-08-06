@@ -11848,3 +11848,29 @@ if(!$ilDB->tableExists('qpl_a_essay'))
 		array('internal_mail', 'mail_visible')
 	);
 ?>
+<#3689>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$itgr_type_id = ilDBUpdateNewObjectType::addNewType('itgr', 'Item Group');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY	
+);
+ilDBUpdateNewObjectType::addRBACOperations($itgr_type_id, $rbac_ops);
+
+$parent_types = array('root', 'cat', 'crs', 'fold', 'grp');
+ilDBUpdateNewObjectType::addRBACCreate('create_itgr', 'Create Item Group', $parent_types);
+
+?>
+<#3690>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
