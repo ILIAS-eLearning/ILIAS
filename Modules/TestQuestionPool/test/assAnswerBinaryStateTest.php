@@ -62,7 +62,7 @@ class assAnswerBinaryStateTest extends PHPUnit_Framework_TestCase
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
         $instance = new ASS_AnswerBinaryState();
-        $expected = TRUE;
+        $expected = 1;
 
         // Act
         $instance->setState($expected);
@@ -77,7 +77,7 @@ class assAnswerBinaryStateTest extends PHPUnit_Framework_TestCase
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
         $instance = new ASS_AnswerBinaryState();
-        $expected = TRUE;
+        $expected = 1;
 
         // Act
         $instance->setState($expected);
@@ -93,7 +93,7 @@ class assAnswerBinaryStateTest extends PHPUnit_Framework_TestCase
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
         $instance = new ASS_AnswerBinaryState();
-        $expected = TRUE;
+        $expected = 1;
 
         // Act
         $instance->setState($expected);
@@ -109,7 +109,7 @@ class assAnswerBinaryStateTest extends PHPUnit_Framework_TestCase
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
         $instance = new ASS_AnswerBinaryState();
-        $expected = TRUE;
+        $expected = 1;
 
         // Act
         $instance->setState($expected);
@@ -125,7 +125,7 @@ class assAnswerBinaryStateTest extends PHPUnit_Framework_TestCase
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
         $instance = new ASS_AnswerBinaryState();
-        $expected = TRUE;
+        $expected = 1;
 
         // Act
         $instance->setState($expected);
@@ -135,5 +135,67 @@ class assAnswerBinaryStateTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+	public function test_setChecked_shouldAlterState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 0;
+		$instance->setState($expected);
 
+		// Act
+		$instance->setChecked();
+		$actual = $instance->isStateUnchecked();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setUnchecked_shouldAlterState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 1;
+		$instance->setState($expected);
+
+		// Act
+		$instance->setUnchecked();
+		$actual = $instance->isStateUnchecked();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setSet_shouldAlterState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 0;
+		$instance->setState($expected);
+
+		// Act
+		$instance->setSet();
+		$actual = $instance->isStateUnchecked();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setUnset_shouldAlterState()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryState.php';
+		$instance = new ASS_AnswerBinaryState();
+		$expected = 1;
+		$instance->setState($expected);
+
+		// Act
+		$instance->setUnset();
+		$actual = $instance->isStateUnchecked();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
