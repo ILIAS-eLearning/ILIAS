@@ -63,9 +63,10 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		return $this->value;
 	}
 	
-	public function setMulti($a_multi)
+	public function setMulti($a_multi, $a_sortable = false)
 	{
 		$this->multi = (bool)$a_multi;
+		$this->multi_sortable = (bool)$a_sortable;
 	}
 
 	/**
@@ -456,7 +457,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 		// multi icons
 		if($this->getMulti() && !$a_mode && !$this->getDisabled())
 		{
-			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());			
+			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML($this->multi_sortable));			
 		}
 		
 		return $tpl->get();

@@ -420,20 +420,33 @@ class ilFormPropertyGUI
 	/**
 	 * Get HTML for multiple value icons 
 	 * 
+	 * @param bool $a_sortable
 	 * @return string;
 	 */
-	protected function getMultiIconsHTML()
+	protected function getMultiIconsHTML($a_sortable = false)
 	{
 		global $lng;
 		
 		$id = $this->getFieldId();
 		
-		return '<input align="absmiddle" type="image" id="ilMultiAdd~'.$id.'~0"'.
+		$html = '<input align="absmiddle" type="image" id="ilMultiAdd~'.$id.'~0"'.
 			' src="'.ilUtil::getImagePath('edit_add.png').'" alt="'.
 		$lng->txt("add").'" title="'.$lng->txt("add").'" onclick="javascript: return false;" />'.
 		'<input align="absmiddle" type="image" id="ilMultiRmv~'.$id.'~0"'.
 		' src="'.ilUtil::getImagePath('edit_remove.png').'" alt="'.$lng->txt("remove").
 		'" title="'.$lng->txt("remove").'"  onclick="javascript: return false;" />';	
+		
+		if($a_sortable)
+		{
+			$html .= '&nbsp;<input align="absmiddle" type="image" id="ilMultiDwn~'.$id.'~0"'.
+				' src="'.ilUtil::getImagePath('icon_down_s.png').'" alt="'.
+			$lng->txt("down").'" title="'.$lng->txt("down").'" onclick="javascript: return false;" />'.
+			'<input align="absmiddle" type="image" id="ilMultiUp~'.$id.'~0"'.
+			' src="'.ilUtil::getImagePath('icon_up_s.png').'" alt="'.$lng->txt("up").
+			'" title="'.$lng->txt("up").'"  onclick="javascript: return false;" />';	
+		}
+		
+		return $html;
 	}
 }
 ?>

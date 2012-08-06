@@ -12667,3 +12667,5 @@ rbac#:#crs_create_itgr#:#Create Item Group
 rbac#:#fold_create_itgr#:#Create Item Group
 rbac#:#root_create_itgr#:#Create Item Group
 rbac#:#grp_create_itgr#:#Create Item Group
+poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.
+poll#:#poll_votes_no_edit#:#This poll cannot be edited because of existing votes.

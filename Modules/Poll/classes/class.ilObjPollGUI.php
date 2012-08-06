@@ -295,24 +295,43 @@ class ilObjPollGUI extends ilObject2GUI
 		
 		$ilTabs->activateTab("content");
 		
+		/*
 		$ilToolbar->addButton($lng->txt("poll_add_answer"), 
 			$ilCtrl->getLinkTarget($this, "addAnswer"));
+		*/
 		
 		if(!$a_form)
 		{
-			$a_form = $this->initQuestionForm();
+			$visible = null;
+			$active = ilObjPollAccess::_isActivated($this->obj_id, $this->node_id, $visible);			
+			if($this->object->countVotes() || $active)
+			{
+				if($active)
+				{
+					ilUtil::sendInfo($lng->txt("poll_active_no_edit"));
+				}
+				else
+				{
+					ilUtil::sendInfo($lng->txt("poll_votes_no_edit"));
+				}
+			}
+			
+			$a_form = $this->initQuestionForm($this->object->countVotes() || $active);
 		}
 
+		/*
 		// table gui
 		include_once "Modules/Poll/classes/class.ilPollAnswerTableGUI.php";
 		$tbl = new ilPollAnswerTableGUI($this, "render");
+		$tbl = "<br />".$tbl->getHTML();
+		*/
 		
-		$tpl->setContent($a_form->getHTML()."<br />".$tbl->getHTML());		
+		$tpl->setContent($a_form->getHTML());		
 	}
 	
-	protected function initQuestionForm()
+	protected function initQuestionForm($a_read_only = false)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl;				
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -324,10 +343,12 @@ class ilObjPollGUI extends ilObject2GUI
 		$question->setCols(40);
 		$question->setRows(2);
 		$question->setValue($this->object->getQuestion());
+		$question->setDisabled($a_read_only);
 		$form->addItem($question);
 		
 		$dimensions = " (".ilObjPoll::getImageSize()."px)";		
 		$img = new ilImageFileInputGUI($lng->txt("poll_image").$dimensions, "image");
+		$img->setDisabled($a_read_only);
 		$form->addItem($img);
 			
 		// show existing file
@@ -337,7 +358,27 @@ class ilObjPollGUI extends ilObject2GUI
 			$img->setImage($file);
 		}					
 		
-		$form->addCommandButton("saveQuestion", $lng->txt("save"));
+		$answers = new ilTextInputGUI($lng->txt("poll_answers"), "answers");
+		$answers->setRequired(true);
+		$answers->setMulti(true, true);
+		$answers->setDisabled($a_read_only);
+		$form->addItem($answers);			
+				
+		$multi_answers = array();		
+		foreach($this->object->getAnswers() as $idx => $item)
+		{
+			if(!$idx)
+			{
+				$answers->setValue($item["answer"]);
+			}
+			$multi_answers[] = $item["answer"];
+		}
+		$answers->setMultiValues($multi_answers);
+		
+		if(!$a_read_only)
+		{
+			$form->addCommandButton("saveQuestion", $lng->txt("save"));
+		}
 		
 		return $form;
 	}
@@ -346,7 +387,7 @@ class ilObjPollGUI extends ilObject2GUI
 	{
 		$form = $this->initQuestionForm();
 		if($form->checkInput())
-		{
+		{			
 			$this->object->setQuestion($form->getInput("question"));
 						
 			$image = $form->getItemByPostVar("image");				
@@ -358,6 +399,8 @@ class ilObjPollGUI extends ilObject2GUI
 			{
 				$this->object->deleteImage();
 			}
+			 
+			$this->object->saveAnswers($form->getInput("answers"));
 			
 			if($this->object->update())
 			{
@@ -369,6 +412,18 @@ class ilObjPollGUI extends ilObject2GUI
 		$form->setValuesByPost();
 		$this->render($form);
 	}
+		
+	function vote()
+	{
+		global $tree, $ilUser;
+		
+		if($_POST["aw"])
+		{
+			$this->object->saveVote($ilUser->getId(), $_POST["aw"]);
+		}
+		
+		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
+	}		
 	
 	/**
 	 * return user view
@@ -388,7 +443,7 @@ class ilObjPollGUI extends ilObject2GUI
 		{
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
 		}
-	}
+	}	
 	
 	/**
 	 * Deep link
@@ -413,6 +468,7 @@ class ilObjPollGUI extends ilObject2GUI
 	}
 	
 	
+	/*
 	//
 	// Answers
 	// 
@@ -610,19 +666,8 @@ class ilObjPollGUI extends ilObject2GUI
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "render");
-	}	
-	
-	function vote()
-	{
-		global $tree, $ilUser;
-		
-		if($_POST["aw"])
-		{
-			$this->object->saveVote($ilUser->getId(), $_POST["aw"]);
-		}
-		
-		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
 	}
+	*/	
 }
 
 ?>
