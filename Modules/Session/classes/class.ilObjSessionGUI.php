@@ -840,8 +840,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		foreach($nodes as $node)
 		{
 			// No side blocks here
-			if ($objDefinition->isSideBlock($node['type']) or $node['type'] == 'sess')
-			{
+			if ($objDefinition->isSideBlock($node['type']) || $node['type'] == 'sess'
+				|| $node['type'] == 'itgr')
 				continue;
 			}
 			

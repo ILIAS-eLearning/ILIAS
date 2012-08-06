@@ -137,31 +137,30 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		
 		$type_grps = $this->getGroupedObjTypes();
 
-// old behaviour
-/*
-		$xpage_id = ilContainer::_lookupContainerSetting($this->getContainerObject()->getId(),
-			"xhtml_page");
-		if ($xpage_id > 0 && $ilSetting->get("enable_cat_page_edit"))
-		{
-			include_once("Services/XHTMLPage/classes/class.ilXHTMLPage.php");
-			$xpage = new ilXHTMLPage($xpage_id);
-			$output_html.= $xpage->getContent();
-		}
-*/
-		// new behaviour
+		// text/media page content
 		$output_html.= $this->getContainerGUI()->getContainerPageHTML();
+		
 		// get embedded blocks
 		if ($output_html != "")
 		{
 			$output_html = $this->insertPageEmbeddedBlocks($output_html);
 		}
 
+		$tpl = $this->newBlockTemplate();
+		
+		// item groups
+		
+		$output_html.= $this->getItemGroupsHTML($tpl);
+		
 		$first = true;
 
 		// iterate all types
-		$tpl = $this->newBlockTemplate();
 		foreach ($type_grps as $type => $v)
 		{
+			if ($type == "itgr")
+			{
+				continue;
+			}
 			if ($this->rendered_block["type"][$type] == "" &&
 				is_array($this->items[$type]))
 			{

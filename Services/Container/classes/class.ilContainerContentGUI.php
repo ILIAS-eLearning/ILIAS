@@ -767,5 +767,38 @@ abstract class ilContainerContentGUI
 		return $tpl->get();
 	}
 
-} // END class.ilContainerContentGUI
+	/**
+	 * Get item groups HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getItemGroupsHTML($a_tpl)
+	{
+		$html = "";
+
+		if (is_array($this->items["itgr"]))
+		{
+			foreach ($this->items["itgr"] as $itgr)
+			{
+//var_dump($itgr);
+				$item_list_gui = $this->getItemGUI($itgr);
+				$item_list_gui->getListItemHTML($itgr["ref_id"], $itgr["obj_id"],
+					$itgr["title"], $itgr["description"]);
+				$commands_html = $item_list_gui->getCommandsHTML(); 
+				
+				$this->addSeparatorRow($a_tpl);
+				$a_tpl->setCurrentBlock("container_header_row");
+				$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $itgr["title"]);
+				$a_tpl->setVariable("CHR_COMMANDS", $commands_html);
+				$a_tpl->parseCurrentBlock();
+				$a_tpl->setCurrentBlock("container_block");
+				$a_tpl->parseCurrentBlock();
+			}
+		}
+		
+		return $html;
+	}
+	
+}
 ?>
