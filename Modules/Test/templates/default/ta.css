@@ -372,16 +372,16 @@ div.shortlist input[type="submit"]:hover
 	text-align: right;
 }
 
-.errortext a {
+.errortext a:link,
+.errortext a:visited {
 	text-decoration: none;
 	color: #000;
-	padding: 2px;
+	padding: 0 2px;
+	line-height: 1.5em;
 }
 
 .errortext a:hover {
-	text-decoration: none;
 	background-color: #ddd;
-	color: #000;
 }
 
 .sel {
