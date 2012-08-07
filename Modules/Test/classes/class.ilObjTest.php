@@ -418,7 +418,7 @@ class ilObjTest extends ilObject
 	 * 
 	 * @var boolean
 	 */
-	private $isOfferingQuestionHintsEnabled = null;
+	private $offeringQuestionHintsEnabled = null;
 	
 	protected $activation_visibility;
 
