@@ -11920,3 +11920,14 @@ ilDBUpdateNewObjectType::addRBACCreate('create_itgr', 'Create Item Group', $pare
 	}
  	
 ?>
+<#3692>
+<?php
+
+$fields = array (
+	'item_group_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+	'item_ref_id' => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0)
+);
+$ilDB->createTable('item_group_item', $fields);
+$ilDB->addPrimaryKey('item_group_item', array('item_group_id', 'item_ref_id'));
+
+?>
