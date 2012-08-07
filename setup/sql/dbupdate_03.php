@@ -11947,3 +11947,17 @@ $ilDB->addPrimaryKey('item_group_item', array('item_group_id', 'item_ref_id'));
 		array('Reply to forum articles', 'add_reply')
 	);
 ?>
+<#3695>
+<?php
+
+if (!$ilDB->tableColumnExists('tst_tests', 'obligations_enabled'))
+{
+	$ilDB->addTableColumn('tst_tests', 'obligations_enabled', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+
+?>
