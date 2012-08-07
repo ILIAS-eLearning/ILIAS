@@ -1445,7 +1445,7 @@ class ilObjForumGUI extends ilObjectGUI
 			// Generating new posting
 			if($_GET['action'] == 'ready_showreply')
 			{
-				if(!$ilAccess->checkAccess('add_post', '', (int)$_GET['ref_id']))
+				if(!$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']))
 				{
 					$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 				}
@@ -2204,7 +2204,7 @@ class ilObjForumGUI extends ilObjectGUI
 								{
 								   	$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 								}
-								else if($_GET['action'] == 'showreply' && !$ilAccess->checkAccess('add_post', '', (int)$_GET['ref_id']))
+								else if($_GET['action'] == 'showreply' && !$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']))
 								{
 									$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 								}
@@ -2341,7 +2341,7 @@ class ilObjForumGUI extends ilObjectGUI
 						{
 							// button: reply
 							if(!$this->objCurrentTopic->isClosed() &&
-								$ilAccess->checkAccess('add_post', '', (int)$_GET['ref_id']) &&
+								$ilAccess->checkAccess('add_reply', '', (int)$_GET['ref_id']) &&
 								!$node->isCensored()
 							)
 							{

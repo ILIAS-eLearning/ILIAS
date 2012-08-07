@@ -11931,3 +11931,11 @@ $ilDB->createTable('item_group_item', $fields);
 $ilDB->addPrimaryKey('item_group_item', array('item_group_id', 'item_ref_id'));
 
 ?>
+<#3693>
+<?php
+	$ilDB->manipulateF(
+		'UPDATE rbac_operations SET operation = %s WHERE operation = %s',
+		array('text', 'text'),
+		array('add_reply', 'add_post')
+	);
+?>
