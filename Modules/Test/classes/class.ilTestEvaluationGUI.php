@@ -34,7 +34,8 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.p
 * the ilObjTestGUI class will be much smaller then
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
+* @author		Björn Heyser <helmut.schottmueller@mac.com>
+* @version		$Id$
 * @ingroup ModulesTest
 * @extends ilTestServiceGUI
 */
@@ -209,7 +210,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				if ($passedonly)
 				{
 					$mark_obj = $this->object->getMarkSchema()->getMatchingMark($userdata->getReachedPointsInPercent());
-					if ($mark_obj->getPassed() == FALSE)
+					
+					if( $mark_obj->getPassed() == FALSE || !$userdata->areObligationsAnswered() )
 					{
 						$remove = TRUE;
 					}

@@ -980,6 +980,64 @@ class assFileUpload extends assQuestion
 		$this->completion_by_submission = (bool)$bool;
 		return $this;
 	}
+	
+	/**
+	 * returns boolean wether the question
+	 * is answered during test pass or not
+	 * 
+	 * (overwrites method in class assQuestion)
+	 * 
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @return boolean $answered
+	 */
+	public function isAnswered($active_id, $pass = null)
+	{
+		// check if a solution was stored in tst_solution
+
+		global $ilDB;
+		
+		if( is_null($pass) )
+		{
+			$pass = $this->getSolutionMaxPass($active_id);
+		}
+		
+		$query = "
+			SELECT		count(active_fi) cnt
+			
+			FROM		tst_solutions
+			
+			WHERE		active_fi = %s
+			AND			question_fi = %s
+			AND			pass = %s
+		";
+		
+		$res = $ilDB->queryF(
+			$query, array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
+		);
+		
+		$row = $ilDB->fetchAssoc($res);
+		
+		$answered = (
+			0 < (int)$row['cnt'] ? true : false
+		);
+
+		return $answered;
+	}
+	
+	/**
+	 * returns boolean wether it is possible to set
+	 * this question type as obligatory or not
+	 * 
+	 * (overwrites method in class assQuestion)
+	 * 
+	 * @return boolean $obligationPossible
+	 */
+	public static function isObligationPossible()
+	{
+		return true;
+	}
 }
 
 ?>

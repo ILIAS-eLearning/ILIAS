@@ -25,7 +25,8 @@
 * Class ilTestEvaluationUserData
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
+* @author		Björn Heyser <bheyser@databay.de>
+* @version		$Id$
 *
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
@@ -376,15 +377,20 @@ class ilTestEvaluationUserData
 	{
 		$bestpoints = 0;
 		$bestpass = 0;
-		foreach ($this->passes as $pass)
+		
+		$obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
+		
+		foreach( $this->passes as $pass )
 		{
-			$reached = $this->getReachedPointsInPercentForPass($pass->getPass());
-			if ($reached > $bestpoints)
+			$reached = $this->getReachedPointsInPercentForPass( $pass->getPass() );
+			
+			if($reached > $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists) )
 			{
 				$bestpoints = $reached;
 				$bestpass = $pass->getPass();
 			}
 		}
+		
 		return $bestpass;
 	}
 	
@@ -497,6 +503,24 @@ class ilTestEvaluationUserData
 	{
 		return $this->mark_official;
 	}
+
+	/**
+	 * returns the object of class ilTestEvaluationPassData
+	 * that relates to the the scored test pass (best pass / last pass)
+	 *
+	 * @return ilTestEvaluationPassData $passDataObject
+	 */
+	public function getScoredPassObject()
+	{
+		if ($this->getPassScoring() == 1)
+		{
+			return $this->getBestPassObject();
+		}
+		else
+		{
+			return $this->getLastPassObject();
+		}
+	}
 	
 	/**
 	 * returns the count of hints requested by participant for scored testpass
@@ -525,6 +549,83 @@ class ilTestEvaluationUserData
 		$requestedHintsCount = $this->passes[$pass]->getRequestedHintsCount();
 		
 		return $requestedHintsCount;
+	}
+	
+	/**
+	 * returns the object of class ilTestEvaluationPassData
+	 * that relates to the the best test pass
+	 *
+	 * @return ilTestEvaluationPassData $passDataObject
+	 */
+	public function getBestPassObject()
+	{
+		$bestpoints = 0;
+		$bestpassObject = 0;
+		
+		$obligationsAnsweredPassExists = $this->doesObligationsAnsweredPassExist();
+		
+		foreach( $this->passes as $pass )
+		{
+			$reached = $this->getReachedPointsInPercentForPass( $pass->getPass() );
+			
+			if($reached > $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists) )
+			{
+				$bestpoints = $reached;
+				$bestpassObject = $pass;
+			}
+		}
+		
+		return $bestpassObject;
+	}
+	
+	/**
+	 * returns the object of class ilTestEvaluationPassData
+	 * that relates to the the last test pass
+	 *
+	 * @return ilTestEvaluationPassData $passDataObject
+	 */
+	public function getLastPassObject()
+	{
+		$lastpassIndex = 0;
+
+		foreach( array_keys($this->passes) as $passIndex )
+		{
+			if ($passIndex > $lastpassIndex) $lastpassIndex = $passIndex;
+		}
+		
+		$lastpassObject = $this->passes[$lastpassIndex];
+		
+		return $lastpassObject;
+	}
+	
+	/**
+	 * returns the fact wether a test pass
+	 * with all obligations answered exists or not
+	 * 
+	 * @return boolean 
+	 */
+	public function doesObligationsAnsweredPassExist()
+	{
+		foreach( $this->passes as $pass )
+		{
+			if( $pass->areObligationsAnswered() )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * returns the fact wether all obligations
+	 * in the scored test pass are answered or not
+	 *
+	 * @return boolean
+	 */
+	public function areObligationsAnswered()
+	{
+		return $this->getScoredPassObject()->areObligationsAnswered();
 	}
 	
 } // END ilTestEvaluationUserData

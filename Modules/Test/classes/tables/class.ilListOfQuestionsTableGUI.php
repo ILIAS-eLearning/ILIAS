@@ -58,6 +58,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 
 		$this->addColumn($this->lng->txt("tst_qst_order"),'order', '');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
+		$this->addColumn($this->lng->txt("obligatory"),'obligatory', '');
 		$this->addColumn('' ,'postponed', '');
 		if ($this->show_points)
 		{
@@ -119,6 +120,19 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->touchBlock('marker');
 			}
 		}
+
+		// obligatory icon
+		if( $data["obligatory"] )
+		{
+			$OBLIGATORY = "<img src=\"".ilUtil::getImagePath("obligatory.gif", "Modules/Test").
+					"\" alt=\"".$this->lng->txt("question_obligatory").
+					"\" title=\"".$this->lng->txt("question_obligatory")."\" />";
+		}
+		else $OBLIGATORY = '';
+
+		
+		$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
+		
 		$this->tpl->setVariable("ORDER", $data['order']);
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
 		$this->tpl->setVariable("HREF", $data['href']);

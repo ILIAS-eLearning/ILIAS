@@ -330,13 +330,16 @@ abstract class assQuestionGUI
 
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$title_output = ilObjTest::_getTitleOutput($active_id);
+		
+		$obligatory = ilObjTest::isQuestionObligatory($this->object->getId());
+		$obligatoryString = $obligatory ? ' *' : '';
 		switch ($title_output)
 		{
 			case 1:
-				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed);
+				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed . $obligatoryString);
 				break;
 			case 2:
-				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount()).$postponed);
+				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount()).$postponed . $obligatoryString);
 				break;
 			case 0:
 			default:
@@ -349,7 +352,7 @@ abstract class assQuestionGUI
 				{
 					$maxpoints = " (".$maxpoints." ".$this->lng->txt("points").")";
 				}
-				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints);
+				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints  . $obligatoryString);
 				break;
 		}
 		$presentation = $page_gui->presentation();
@@ -1730,4 +1733,32 @@ abstract class assQuestionGUI
 		$show_manual_scoring = FALSE,
 		$show_question_text = TRUE
 	);
+	
+	/**
+	 * returns boolean wether this instance of question
+	 * is answered or not
+	 * 
+	 * this method can be overwritten in the concrete classes
+	 * for each question type
+	 * 
+	 * @return boolean $answered
+	 */
+	public function isAnswered()
+	{
+		return true;		
+	}
+	
+	/**
+	 * returns boolean wether it is possible to set
+	 * this question type as obliogatory or not
+	 * 
+	 * this method can be overwritten in the concrete classes
+	 * for each question type
+	 * 
+	 * @return boolean $obligationPossible
+	 */
+	public static function isObligationPossible()
+	{
+		return false;
+	}
 }

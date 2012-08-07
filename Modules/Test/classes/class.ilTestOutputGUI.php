@@ -170,7 +170,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			// but only if the ending time is not reached
 			$q_id = $this->object->getTestSequence()->getQuestionForSequence($_GET["sequence"]);
-			if (is_numeric($q_id)) 
+			if (is_numeric($q_id) && (int)$q_id) 
 			{
 				global $ilUser;
 				
@@ -452,6 +452,11 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
 		
 		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
+		
+		if (ilObjTest::isQuestionObligatory($question_gui->object->getId())) {
+		    $this->tpl->touchBlock('question_obligatory');
+		    $this->tpl->setVariable('QUESTION_OBLIGATORY', $this->lng->txt('required_field'));
+		}
 	}
 
 	private function determineInlineScoreDisplay()
@@ -943,7 +948,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	function redirectQuestion()
 	{
 		global $ilUser;
-		
+
 		// check the test restrictions to access the test in case one
 		// of the test navigation commands was called by an external script
 		// e.g. $ilNavigationHistory
@@ -1033,6 +1038,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$_SESSION['tst_pass_finish'] = 0;
 				$this->object->createTestSession();
 				$active_id = $this->object->getTestSession()->getActiveId();
+				
+				assQuestion::_updateTestPassResults($active_id, $this->object->getTestSession()->getPass());
+				
 				$this->ctrl->setParameter($this, "active_id", $active_id);
 				$shuffle = $this->object->getShuffleQuestions();
 				if ($this->object->isRandomTest())
@@ -1092,6 +1100,33 @@ class ilTestOutputGUI extends ilTestServiceGUI
 					$this->ctrl->saveParameter($this, "tst_javascript");
 					$this->ctrl->redirect($this, "redirectQuestion");
 				}
+				break;
+				
+			case "obligations_not_answered":
+				//echo $this->tpl->get();
+				$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_obligations_not_anwered.html", "Modules/Test");	
+				//$this->tpl->setVariable('TXT_OBLIGATIONS_NOT_ANSWERED', $this->lng->txt('not_all_obligations_answered'));
+				ilUtil::sendFailure($this->lng->txt('not_all_obligations_answered'));
+
+				$this->tpl->setCurrentBlock("prev");
+				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("previous"));
+				$this->tpl->parseCurrentBlock();
+
+				if ($this->object->getListOfQuestions()) 
+				{
+					if (!(($finish) && ($this->object->getListOfQuestionsEnd())))
+					{
+					    $this->tpl->setCurrentBlock("summary");
+					    $this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
+					    $this->tpl->parseCurrentBlock();
+					}
+				}
+
+				$this->ctrl->saveParameter($this, 'sequence');
+				
+				$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
+
+				$this->tpl->setVariable('FORMACTION', $formaction);
 				break;
 			case "back":
 			case "gotoquestion":
@@ -1249,6 +1284,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		}
 	}
 
+	function summaryWithoutSaving()
+	{
+		$this->ctrl->setParameter($this, "activecommand", "summary");
+		$this->ctrl->redirect($this, "redirectQuestion");
+	}
+	
 /**
 * Set a question solved
 *
@@ -1410,6 +1451,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		$active_id = $this->object->getTestSession()->getActiveId();
 		$actualpass = $this->object->_getPass($active_id);
+		
+		$allObligationsAnswered = ilObjTest::allObligationsAnswered($this->object->getTestSession()->getTestId(), $active_id, $actualpass);
+		
+		if (!$allObligationsAnswered) {
+		    $_GET['activecommand'] = 'obligations_not_answered';
+		    //ilUtil::sendInfo($this->lng->txt('not_all_obligations_answered'));
+		    $this->redirectQuestion();
+		    return;
+		}
+		
 		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$confirm))
 		{
 			$this->object->setActiveTestSubmitted($ilUser->getId());
@@ -1870,7 +1921,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				'postponed' => ($value["postponed"]) ? $this->lng->txt("postponed") : '',
 				'points' => $points,
 				'marked' => $marked,
-				'sequence' => $value["sequence"]
+				'sequence' => $value["sequence"],
+				'obligatory' => $value['obligatory']
 			));
 		}
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);

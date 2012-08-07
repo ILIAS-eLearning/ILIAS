@@ -878,5 +878,28 @@ class assSingleChoiceGUI extends assQuestionGUI
 		$output = "";
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
+	
+	/**
+	 * returns boolean wether this instance of question
+	 * is answered or not
+	 * 
+	 * @return boolean $answered
+	 */
+	public function isAnswered()
+	{
+		// TODO: determine the fact wether the question was answered or not
+		return true;		
+	}
+	
+	/**
+	 * returns boolean wether it is possible to set
+	 * this question type as obliogatory or not
+	 * 
+	 * @return boolean $obligationPossible
+	 */
+	public static function isObligationPossible()
+	{
+		return true;
+	}
 }
 ?>

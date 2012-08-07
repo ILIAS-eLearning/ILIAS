@@ -21,12 +21,19 @@
 	+-----------------------------------------------------------------------------+
 */
 
+
+require_once('Modules/Test/classes/exceptions/class.ilTestEvaluationException.php');
+
+
 /**
 * Class ilTestEvaluationPassData
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
+* @author		Björn Heyser <bheyser@databay.de>
+* @version		$Id$
 *
+* @throws		ilTestEvaluationException
+* 
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
@@ -95,6 +102,13 @@ class ilTestEvaluationPassData
          * @var integer
          */
         private $deductedHintPoints = null;
+	
+	/**
+	 * the fact wether all obligatory questions are answered
+	 * 
+	 * @var boolean
+	 */
+	private $obligationsAnswered = null;
 	
 	public function __sleep()
 	{
@@ -177,9 +191,15 @@ class ilTestEvaluationPassData
 		return $this->answeredQuestions;
 	}
 	
-	function addAnsweredQuestion($question_id, $max_points, $reached_points, $sequence = NULL)
+	function addAnsweredQuestion($question_id, $max_points, $reached_points, $isAnswered, $sequence = NULL)
 	{
-		array_push($this->answeredQuestions, array("id" => $question_id, "points" => round($max_points, 2), "reached" => round($reached_points, 2), "sequence" => $sequence));
+		$this->answeredQuestions[] = array(
+			"id"			=> $question_id,
+			"points"		=> round($max_points, 2),
+			"reached"		=> round($reached_points, 2),
+			'isAnswered'	=> $isAnswered,
+			"sequence"		=> $sequence
+		);
 	}
 	
 	function &getAnsweredQuestion($index)
@@ -251,5 +271,50 @@ class ilTestEvaluationPassData
 		$this->deductedHintPoints = $deductedHintPoints;
 	}
 
+	/**
+	 * setter for property obligationsAnswered
+	 * 
+	 * @param boolean $obligationsAnswered 
+	 */
+	public function setObligationsAnswered($obligationsAnswered)
+	{
+		$this->obligationsAnswered = (bool)$obligationsAnswered;
+	}
+	
+	/**
+	 * getter for property obligationsAnswered.
+	 * if property wasn't set yet the method is trying
+	 * to determine this information by iterating
+	 * over the added questions.
+	 * if both wasn't possible the method throws an exception
+	 * 
+	 * @throws ilTestEvaluationException
+	 * @return boolean
+	 */
+	public function areObligationsAnswered()
+	{
+		if( !is_null($this->obligationsAnswered) )
+		{
+			return $this->obligationsAnswered;
+		}
+		
+		if( is_array($this->answeredQuestions) && count($this->answeredQuestions) )
+		{
+			foreach($this->answeredQuestions as $question)
+			{
+				if( !$question['isAnswered'] )
+				{
+					return false;
+				}
+			}
+			
+			return true;
+		}
+		
+		throw new ilTestEvaluationException(
+			'Neither the boolean property ilTestEvaluationPassData::obligationsAnswered was set, '.
+			'nor the property array property ilTestEvaluationPassData::answeredQuestions contains elements!'
+		);
+	}
 	
 } // END ilTestEvaluationPassData

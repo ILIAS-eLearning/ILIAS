@@ -800,33 +800,46 @@ abstract class assQuestion
 	 */
 	final public function calculateResultsFromSolution($active_id, $pass = NULL)
 	{
-		global $ilDB;
-		global $ilUser;
-		if (is_null($pass))
+		global $ilDB, $ilUser;
+		
+		if( is_null($pass) )
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		
-                // determine reached points for submitted solution
-                $reached_points = $this->calculateReachedPoints($active_id, $pass);
+		// determine reached points for submitted solution
+		$reached_points = $this->calculateReachedPoints($active_id, $pass);
 
-                // deduct points for requested hints from reached points
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-                $requestsStatisticData = ilAssQuestionHintTracking::getRequestStatisticDataByQuestionAndTestpass($this->getId(), $active_id, $pass);
-                $reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
+		// deduct points for requested hints from reached points
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+		$requestsStatisticData = ilAssQuestionHintTracking::getRequestStatisticDataByQuestionAndTestpass($this->getId(), $active_id, $pass);
+		$reached_points = $reached_points - $requestsStatisticData->getRequestsPoints();
 
-                // adjust reached points regarding to tests scoring options
-                $reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
+		// adjust reached points regarding to tests scoring options
+		$reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
 		
-		if (is_null($reached_points)) $reached_points = 0;
+		if( ilObjTest::isQuestionObligatory($this->getId()) )
+		{
+		    $isAnswered = $this->isAnswered($active_id, $pass);
+		}
+		else
+		{
+		    $isAnswered = true;
+		}
+		
+		if( is_null($reached_points) ) $reached_points = 0;
 
-		$affectedRows = $ilDB->manipulateF("
-			DELETE FROM tst_test_result
-			WHERE active_fi = %s AND question_fi = %s AND pass = %s
-			",
-			array("integer", "integer", "integer"),
-			array($active_id, $this->getId(), $pass)
+		$query = "
+			DELETE FROM		tst_test_result
+			
+			WHERE			active_fi = %s
+			AND				question_fi = %s
+			AND				pass = %s
+		";
+		
+		$affectedRows = $ilDB->manipulateF(
+			$query, array("integer", "integer", "integer"), array($active_id, $this->getId(), $pass)
 		);
 
 		$next_id = $ilDB->nextId("tst_test_result");
@@ -839,13 +852,24 @@ abstract class assQuestion
 			'points'			=> array('float', $reached_points),
 			'tstamp'			=> array('integer', time()),
 			'hint_count'		=> array('integer', $requestsStatisticData->getRequestsCount()),
-			'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints())
+			'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints()),
+			'answered'			=> array('integer', $isAnswered)
 		));
 		
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+		
+		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
 		{
-			$this->logAction(sprintf($this->lng->txtlng("assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()), $reached_points), $active_id, $this->getId());
+			$this->logAction(
+				sprintf(
+					$this->lng->txtlng(
+						"assessment", "log_user_answered_question", ilObjAssessmentFolder::_getLogLanguage()
+					),
+					$reached_points
+				),
+				$active_id,
+				$this->getId()
+			);
 		}
 
 		// update test pass results
@@ -854,7 +878,6 @@ abstract class assQuestion
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		ilCourseObjectiveResult::_updateObjectiveResult($ilUser->getId(),$active_id,$this->getId());
-
 	}
 
 	/**
@@ -912,9 +935,15 @@ abstract class assQuestion
 		
 		$pass = ilObjTest::_getResultPass($active_id);
 
-		$result = $ilDB->queryF("SELECT tst_pass_result.* FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
-			array('integer','integer'),
-			array($active_id, $pass)
+		$query = "
+			SELECT		tst_pass_result.*
+			FROM		tst_pass_result
+			WHERE		active_fi = %s
+			AND			pass = %s
+		";
+		
+		$result = $ilDB->queryF(
+			$query, array('integer','integer'), array($active_id, $pass)
 		);
 		
 		$row = $ilDB->fetchAssoc($result);
@@ -922,13 +951,24 @@ abstract class assQuestion
 		$max = $row['maxpoints'];
 		$reached = $row['points'];
 		
+		$obligationsAnswered = (int)$row['obligations_answered'];
+		
+		include_once "./Modules/Test/classes/class.assMarkSchema.php";
+		
 		$percentage = (!$max) ? 0 : ($reached / $max) * 100.0;
 		
 		$mark = ASS_MarkSchema::_getMatchingMarkFromActiveId($active_id, $percentage);
 		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_result_cache WHERE active_fi = %s",
-			array('integer'),
-			array($active_id)
+		$isPassed = (  $mark["passed"] ? 1 : 0 );
+		$isFailed = ( !$mark["passed"] ? 1 : 0 );
+		
+		$query = "
+			DELETE FROM		tst_result_cache
+			WHERE			active_fi = %s
+		";
+		
+		$affectedRows = $ilDB->manipulateF(
+			$query, array('integer'), array($active_id)
 		);
 		
 		$ilDB->insert('tst_result_cache', array(
@@ -938,11 +978,12 @@ abstract class assQuestion
 			'reached_points'=> array('float', strlen($reached) ? $reached : 0),
 			'mark_short'=> array('text', strlen($mark["short_name"]) ? $mark["short_name"] : " "),
 			'mark_official'=> array('text', strlen($mark["official_name"]) ? $mark["official_name"] : " "),
-			'passed'=> array('integer', ($mark["passed"]) ? 1 : 0),
-			'failed'=> array('integer', (!$mark["passed"]) ? 1 : 0),
+			'passed'=> array('integer', $isPassed,
+			'failed'=> array('integer', $isFailed,
 			'tstamp'=> array('integer', time()),
 			'hint_count'=> array('integer', $row['hint_count']),
-			'hint_points'=> array('float', $row['hint_points'])
+			'hint_points'=> array('float', $row['hint_points']),
+			'obligations_answered' => array('integer', $obligationsAnswered)
 		));
 	}
 
@@ -959,9 +1000,9 @@ abstract class assQuestion
 		
 		$result = $ilDB->queryF("
 			SELECT		SUM(points) reachedpoints,
-						COUNT(question_fi) answeredquestions,
 						SUM(hint_count) hint_count,
-						SUM(hint_points) hint_points
+						SUM(hint_points) hint_points,
+						COUNT(question_fi) answeredquestions
 			FROM		tst_test_result
 			WHERE		active_fi = %s
 			AND			pass = %s
@@ -972,27 +1013,62 @@ abstract class assQuestion
 		
 		if ($result->numRows() > 0)
 		{
+			$query = '
+				SELECT		count(*) cnt,
+							min( answered ) answ
+				FROM		tst_test_question
+				INNER JOIN	tst_active
+				ON			active_id = %s
+				AND			tst_test_question.test_fi = tst_active.test_fi
+				LEFT JOIN	tst_test_result
+				ON			tst_test_result.active_fi = %s
+				AND			tst_test_result.pass = %s
+				AND			tst_test_question.question_fi = tst_test_result.question_fi
+				WHERE		obligatory = 1';
+
+			$result_obligatory = $ilDB->queryF(
+				$query, array('integer','integer','integer'), array($active_id, $active_id, $pass)
+			);
+			
+			$row_obligatory = $ilDB->fetchAssoc($result_obligatory);
+			
+			if ($row_obligatory['cnt'] == 0)
+			{
+				$obligations_answered = 1;
+			}
+			else
+			{
+				$obligations_answered = (int) $row_obligatory['answ'];
+			}
+			
 			$row = $ilDB->fetchAssoc($result);
 			
 			if( $row['hint_count'] === null ) $row['hint_count'] = 0;
 			if( $row['hint_points'] === null ) $row['hint_points'] = 0;
 			
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
-				array('integer','integer'),
-				array($active_id, $pass)
+			$query = "
+				DELETE FROM		tst_pass_result
+
+				WHERE			active_fi = %s
+				AND				pass = %s
+			";
+
+			$affectedRows = $ilDB->manipulateF(
+				$query, array('integer','integer'), array($active_id, $pass)
 			);
 			
 			$ilDB->insert('tst_pass_result', array(
-				'active_fi'			=> array('integer', $active_id),
-				'pass'				=> array('integer', strlen($pass) ? $pass : 0),
-				'points'			=> array('float', $row['reachedpoints'] ? $row['reachedpoints'] : 0),
-				'maxpoints'			=> array('float', $data['points']),
-				'questioncount'		=> array('integer', $data['count']),
-				'answeredquestions'	=> array('integer', $row['answeredquestions']),
-				'workingtime'		=> array('integer', $time),
-				'tstamp'			=> array('integer', time()),
-				'hint_count'		=> array('integer', $row['hint_count']),
-				'hint_points'		=> array('float', $row['hint_points'])
+				'active_fi'				=> array('integer', $active_id),
+				'pass'					=> array('integer', strlen($pass) ? $pass : 0),
+				'points'				=> array('float', $row['reachedpoints'] ? $row['reachedpoints'] : 0),
+				'maxpoints'				=> array('float', $data['points']),
+				'questioncount'			=> array('integer', $data['count']),
+				'answeredquestions'		=> array('integer', $row['answeredquestions']),
+				'workingtime'			=> array('integer', $time),
+				'tstamp'				=> array('integer', time()),
+				'hint_count'			=> array('integer', $row['hint_count']),
+				'hint_points'			=> array('float', $row['hint_points']),
+				'obligations_answered'	=> array('integer', $row['obligations_answered'])
 			));
 		}
 		
@@ -1006,7 +1082,10 @@ abstract class assQuestion
 			'questioncount' => $data["count"],
 			'answeredquestions' => $row["answeredquestions"],
 			'workingtime' => $time,
-			'tstamp' => time()
+			'tstamp' => time(),
+			'hint_count' => $row['hint_count'],
+			'hint_points' => $row['hint_points'],
+			'obligations_answered' => $obligations_answered
 		);
 	}
 	
@@ -3523,6 +3602,38 @@ abstract class assQuestion
 			array('integer'),
 			array($question_id)
 		);
+	}
+	
+	/**
+	 * returns boolean wether the question
+	 * is answered during test pass or not
+	 * 
+	 * method can be overwritten in derived classes,
+	 * but be aware of also overwrite the method
+	 * assQuestion::isObligationPossible()
+	 * 
+	 * @param type $active_id
+	 * @param type $pass
+	 * @return boolean $answered
+	 */
+	public function isAnswered($active_id, $pass = null)
+	{
+		return true;		
+	}
+	
+	/**
+	 * returns boolean wether it is possible to set
+	 * this question type as obligatory or not
+	 * 
+	 * method can be overwritten in derived classes,
+	 * but be aware of also overwrite the method
+	 * assQuestion::isAnswered()
+	 * 
+	 * @return boolean $obligationPossible
+	 */
+	public static function isObligationPossible()
+	{
+		return false;
 	}
 }
 

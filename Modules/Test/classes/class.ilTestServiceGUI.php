@@ -263,6 +263,9 @@ class ilTestServiceGUI
 	function getFinalStatement($active_id)
 	{
 		$test_data_array = $this->object->getResultsForActiveId($active_id);
+		
+		$obligationsAnswered = $test_data_array['obligations_answered'];
+		
 		if (!$test_data_array["max_points"])
 		{
 			$percentage = 0;
@@ -282,7 +285,7 @@ class ilTestServiceGUI
 		$mark_obj = $this->object->mark_schema->getMatchingMark($result_percentage);
 		if ($mark_obj)
 		{
-			if ($mark_obj->getPassed()) 
+			if( $mark_obj->getPassed() && $obligationsAnswered )
 			{
 				$mark = $this->lng->txt("mark_tst_passed");
 			} 

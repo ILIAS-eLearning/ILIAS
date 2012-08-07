@@ -3249,7 +3249,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$marks = $this->object->mark_schema->mark_steps;
 		$rows = array("tblrow1", "tblrow2");
 		$counter = 0;
-		foreach ($marks as $key => $value) {
+		foreach ($marks as $key => $value)
+		{
 			$this->tpl->setCurrentBlock("markrow");
 			$this->tpl->setVariable("MARK_SHORT", $value->getShortName());
 			$this->tpl->setVariable("MARK_OFFICIAL", $value->getOfficialName());
@@ -3257,9 +3258,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable("MARK_PASSED", strtolower($this->lng->txt("tst_mark_passed")));
 			$this->tpl->setVariable("MARK_ID", "$key");
 			$this->tpl->setVariable("ROW_CLASS", $rows[$counter % 2]);
-			if ($value->getPassed()) {
+
+			if( $value->getPassed() )
+			{
 				$this->tpl->setVariable("MARK_PASSED_CHECKED", " checked=\"checked\"");
 			}
+			
 			$this->tpl->parseCurrentBlock();
 			$counter++;
 		}
@@ -4356,7 +4360,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty("", $big_button.$info->getHiddenToggleButton());
 		}
 
-		$info->hideFurtherSections(false);
+		
 
 		$info->addSection($this->lng->txt("tst_general_properties"));
 		if ($this->object->getShowInfo())
@@ -4414,7 +4418,9 @@ class ilObjTestGUI extends ilObjectGUI
 				}
 			}
 		}
-		                                 
+
+		$info->hideFurtherSections(false);
+		
 		if ($this->object->getShowInfo())
 		{
 			$info->addSection($this->lng->txt("tst_sequence_properties"));
@@ -5528,7 +5534,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "properties");
 	}
 
-	public function saveOrderObject() {
+	public function saveOrderAndObligationsObject()
+	{
 	    global $ilAccess;
 	    if (!$ilAccess->checkAccess("write", "", $this->ref_id))
 	    {
@@ -5538,7 +5545,32 @@ class ilObjTestGUI extends ilObjectGUI
 	    }
 
 	    global $ilCtrl;
-	    $this->object->setQuestionOrder($_REQUEST['order']);
+		
+		$orders = $obligations = array();
+		
+		foreach($_REQUEST['order'] as $qId => $order)
+		{
+			$id = (int)str_replace('q_', '', $qId);
+
+			$orders[$id] = $order;
+		}
+		
+		if( isset($_REQUEST['obligatory']) )
+		{
+			foreach($_REQUEST['obligatory'] as $qId => $obligation)
+			{
+				$id = (int)str_replace('q_', '', $qId);
+
+				if( ilObjTest::isQuestionObligationPossible($id) )
+				{
+					$obligations[$id] = $obligation;
+				}
+			}
+		}
+		
+	    $this->object->setQuestionOrderAndObligations(
+			$orders, $obligations
+		);
 
 	    $ilCtrl->redirect($this, 'questions');
 	}
