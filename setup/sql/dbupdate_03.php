@@ -11939,3 +11939,11 @@ $ilDB->addPrimaryKey('item_group_item', array('item_group_id', 'item_ref_id'));
 		array('add_reply', 'add_post')
 	);
 ?>
+<#3694>
+<?php
+	$ilDB->manipulateF(
+		'UPDATE rbac_operations SET description = %s WHERE operation = %s',
+		array('text', 'text'),
+		array('Reply to forum articles', 'add_reply')
+	);
+?>
