@@ -6,7 +6,7 @@
  * Item group items.
  *
  * This class is used to store the materials (items) that are assigned
- * to an item group. Main table used is item_group_items
+ * to an item group. Main table used is item_group_item
  *
  * @author Alex Killing <alex.killing@gmx.de> 
  * @version $Id$
@@ -99,8 +99,8 @@ class ilItemGroupItems
 	 */
 	function delete()
 	{
-		$query = "DELETE FROM item_group_items ".
-			"WHERE item_group_id = ".$ilDB->quote($a_item_group_id ,'integer');
+		$query = "DELETE FROM item_group_item ".
+			"WHERE item_group_id = ".$this->db->quote($this->getItemGroupId(), 'integer');
 		$this->db->manipulate($query);
 	}
 
@@ -113,10 +113,10 @@ class ilItemGroupItems
 		
 		foreach($this->items as $item)
 		{
-			$query = "INSERT INTO item_group_items (item_group_id,item_ref_id) ".
+			$query = "INSERT INTO item_group_item (item_group_id,item_ref_id) ".
 				"VALUES( ".
-				$ilDB->quote($this->getItemGroupId() ,'integer').", ".
-				$ilDB->quote($item ,'integer')." ".
+				$this->db->quote($this->getItemGroupId() ,'integer').", ".
+				$this->db->quote($item ,'integer')." ".
 				")";
 			$this->db->manipulate($query);
 		}
@@ -127,8 +127,8 @@ class ilItemGroupItems
 	 */
 	protected function read()
 	{
-		$set = $ilDB->query("SELECT * FROM item_group_items ".
-			" WHERE item_group_id = ".$ilDB->quote($this->getItemGroupId(), "integer")
+		$set = $this->db->query("SELECT * FROM item_group_item ".
+			" WHERE item_group_id = ".$this->db->quote($this->getItemGroupId(), "integer")
 			);
 		while ($rec = $this->db->fetchAssoc($set))
 		{
