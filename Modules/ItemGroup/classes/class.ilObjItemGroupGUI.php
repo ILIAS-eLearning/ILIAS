@@ -42,7 +42,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	/**
 	* execute command
 	*/
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilTabs, $lng, $ilAccess, $tpl, $ilCtrl;
 		
@@ -55,7 +55,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
 				$this->prepareOutput();
 				$this->addHeaderAction();
 				$this->infoScreen();
-				$this->tpl->show();
 				break;
 
 			case 'ilpermissiongui':
@@ -78,7 +77,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
 				$this->addHeaderAction();
 				$cmd = $this->ctrl->getCmd("listItems");
 				$this->$cmd();
-				$this->tpl->show();
 				break;
 		}
 	}
@@ -112,7 +110,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	public function listMaterials()
 	{
-		global $tree, $objDefinition, $ilTabs;
+		global $tree, $objDefinition, $ilTabs, $tpl;
 		
 		$ilTabs->activateTab("materials");
 
@@ -143,6 +141,10 @@ class ilObjItemGroupGUI extends ilObject2GUI
 			$this->ctrl->setParameter($this, 'crtptrefid', '');
 		}
 
+		include_once("./Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php");
+		$tab = new ilItemGroupItemsTableGUI($this, "listMaterials");
+		$tpl->setContent($tab->getHTML());
+return;
 		include_once 'Modules/Session/classes/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->object->getId());
 		$items = $this->event_items->getItems();
@@ -212,24 +214,24 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	}
 	
 	/**
-	 * save material assignment
-	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * Save material assignment
 	 */
-	public function saveMaterialsObject()
+	public function saveItemAssignment()
 	{
 		global $ilCtrl;
-return;
-		include_once './Modules/Session/classes/class.ilEventItems.php';
-		
-		$this->event_items = new ilEventItems($this->object->getId());
-		$this->event_items->setItems(is_array($_POST['items']) ? $_POST['items'] : array());
-		$this->event_items->update();
+
+		include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
+
+		$item_group_items = new ilItemGroupItems($this->object->getId());
+		$items = is_array($_POST['items'])
+			? $_POST['items']
+			: array();
+		$items = ilUtil::stripSlashesArray($items);	
+		$item_group_items->setItems($items);
+		$item_group_items->update();
 
 		ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-		$ilCtrl->redirect("listMaterials");
+		$ilCtrl->redirect($this, "listMaterials");
 	}
 
 	
@@ -254,7 +256,7 @@ return;
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$ilTabs->addTab('materials',
-				$lng->txt('materials'),
+				$lng->txt('itgr_materials'),
 				$this->ctrl->getLinkTarget($this, 'listMaterials'));
 
 			$ilTabs->addTab('settings',
