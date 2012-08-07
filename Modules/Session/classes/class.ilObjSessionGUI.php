@@ -842,6 +842,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// No side blocks here
 			if ($objDefinition->isSideBlock($node['type']) || $node['type'] == 'sess'
 				|| $node['type'] == 'itgr')
+			{
 				continue;
 			}
 			
