@@ -3207,7 +3207,7 @@ common#:#forums_your_name#:#Ihr Name
 common#:#frm#:#Forum
 common#:#frm_a#:#ein Forum
 common#:#frm_add#:#Forum anlegen
-rbac#:#frm_add_post#:#Forenbeitrag anlegen
+rbac#:#frm_add_reply#:#Benutzer können auf Forenbeiträge antworten
 rbac#:#frm_add_thread#:#Forenthema anlegen
 common#:#frm_added#:#Forum angelegt
 common#:#frm_article#:#Beitrag
@@ -10043,7 +10043,7 @@ rating#:#rating_nr_users#:#%s Benutzer
 rating#:#rating_your_rating#:#Ihre Bewertung
 rbac#:#active_preconditions#:#Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
-rbac#:#add_post#:#Beitrag anlegen
+rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
 rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändern
 rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
