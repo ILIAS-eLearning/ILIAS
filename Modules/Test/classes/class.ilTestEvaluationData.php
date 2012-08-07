@@ -25,7 +25,8 @@
 * Class ilTestEvaluationData
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
+* @author		Björn Heyser <bheyser@databay.de>
+* @version		$Id$
 *
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
@@ -97,54 +98,60 @@ class ilTestEvaluationData
 	
 	function generateOverview()
 	{
-		$this->participants = array();
 		global $ilDB;
+		
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
-		$result = $ilDB->queryF("
-			SELECT		usr_data.usr_id,
-						usr_data.firstname,
-						usr_data.lastname,
-						usr_data.title,
-						usr_data.login,
-						tst_pass_result.*
-			
-			FROM		tst_pass_result, tst_active
-			
-			LEFT JOIN	usr_data
-			ON			tst_active.user_fi = usr_data.usr_id
-			
-			WHERE		tst_active.active_id = tst_pass_result.active_fi
-			AND			tst_active.test_fi = %s
-			
-			ORDER BY	usr_data.lastname,
-						usr_data.firstname,
-						tst_pass_result.active_fi,
-						tst_pass_result.pass,
-						tst_pass_result.tstamp
-			",
-			array('integer'),
-			array($this->getTest()->getTestId())
+		
+		$this->participants = array();
+		
+		$query = "
+			SELECT			usr_data.usr_id,
+							usr_data.firstname,
+							usr_data.lastname,
+							usr_data.title,
+							usr_data.login,
+							tst_pass_result.*
+			FROM			tst_pass_result, tst_active
+			LEFT JOIN		usr_data
+			ON				tst_active.user_fi = usr_data.usr_id
+			WHERE			tst_active.active_id = tst_pass_result.active_fi
+			AND				tst_active.test_fi = %s
+			ORDER BY		usr_data.lastname,
+							usr_data.firstname,
+							tst_pass_result.active_fi,
+							tst_pass_result.pass,
+							tst_pass_result.tstamp
+		";
+		
+		$result = $ilDB->queryF(
+			$query,	array('integer'), array($this->getTest()->getTestId())
 		);
 		
 		$pass = NULL;
 		$checked = array();
 		$thissets = 0;
 		
-		while ($row = $ilDB->fetchAssoc($result))
+		while( $row = $ilDB->fetchAssoc($result) )
 		{
 			$thissets++;
+			
 			$remove = FALSE;
 			
-            if (!$this->participantExists($row["active_fi"]))
+			if( !$this->participantExists($row["active_fi"]) )
 			{
 				$this->addParticipant($row["active_fi"], new ilTestEvaluationUserData($this->getTest()->getPassScoring()));
-				$this->getParticipant($row["active_fi"])->setName($this->getTest()->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"]));
+				
+				$this->getParticipant($row["active_fi"])->setName(
+						$this->getTest()->buildName($row["usr_id"], $row["firstname"], $row["lastname"], $row["title"])
+				);
+				
 				$this->getParticipant($row["active_fi"])->setLogin($row["login"]);
+				
 				$this->getParticipant($row["active_fi"])->setUserID($row["usr_id"]);
 			}
 			
-            if (!is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"])))
+			if( !is_object($this->getParticipant($row["active_fi"])->getPass($row["pass"])) )
 			{
 				$pass = new ilTestEvaluationPassData();
 				$pass->setPass($row["pass"]);
@@ -152,8 +159,9 @@ class ilTestEvaluationData
 			}
 			
 			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setReachedPoints($row["points"]);
+			$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setObligationsAnswered($row["obligations_answered"]);
 			
-			if ($row["questioncount"] == 0)
+			if( $row["questioncount"] == 0 )
 			{
 				$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($row['active_fi'], $row['pass']);
 				$this->getParticipant($row["active_fi"])->getPass($row["pass"])->setMaxPoints($data['points']);

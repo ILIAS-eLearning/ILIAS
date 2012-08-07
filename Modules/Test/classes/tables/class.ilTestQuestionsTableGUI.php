@@ -26,6 +26,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
+* @author Björn Heyser <bheyser@databay.de>
 * @version $Id$
 *
 * @ingroup ModulesTest
@@ -66,6 +67,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
 		//$this->addColumn($this->lng->txt("tst_sequence"),'sequence', '');
+		$this->addColumn($this->lng->txt("obligatory"),'obligatory', '');
 		$this->addColumn($this->lng->txt("description"),'description', '');
 		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
 		$this->addColumn($this->lng->txt("points"),'', '');
@@ -97,7 +99,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->addCommandButton('saveOrder', $this->lng->txt('saveOrder'));
+		$this->addCommandButton('saveOrderAndObligations', $this->lng->txt('saveOrderAndObligations'));
 
 		$this->disable('sort');
 		$this->enable('header');
@@ -126,8 +128,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	public function fillRow($data)
 	{
 		global $ilUser,$ilAccess;
+		
+		$q_id = $data["question_id"];
 
-		$this->tpl->setVariable("QUESTION_ID", $data["question_id"]);
+		$this->tpl->setVariable("QUESTION_ID", $q_id);
 		if ($this->getWriteAccess() && !$this->getTotal() && $data["obj_fi"] > 0) 
 		{
                         if (!$data['complete']) {
@@ -136,14 +140,39 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
                             $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
                         }
                         
-			$q_id = $data["question_id"];
+			
 			$qpl_ref_id = current(ilObject::_getAllReferences($data["obj_fi"]));
 			$this->tpl->setVariable("QUESTION_TITLE", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&eqid=$q_id&eqpl=$qpl_ref_id" . "\">" . $data["title"] . "</a>");
+
+			// obligatory checkbox (when obligation is possible)
+			if( $data["obligationPossible"] )
+			{
+				$CHECKED = $data["obligatory"] ? "checked=\"checked\" " : "";
+				$OBLIGATORY = "<input type=\"checkbox\" name=\"obligatory[$q_id]\" value=\"1\" $CHECKED/>";
+			}
+			else
+			{
+				$OBLIGATORY = "";
+			}
 		} 
 		else 
 		{
+			global $lng;
+			
 			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+			
+			// obligatory icon
+			if( $data["obligatory"] )
+			{
+				$OBLIGATORY = "<img src=\"".ilUtil::getImagePath("obligatory.gif", "Modules/Test").
+						"\" alt=\"".$lng->txt("question_obligatory").
+						"\" title=\"".$lng->txt("question_obligatory")."\" />";
+			}
+			else $OBLIGATORY = '';
 		}
+		
+		$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
+		
 		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
 
 		if ($this->getWriteAccess() && !$this->getTotal()) 
@@ -157,6 +186,9 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("BUTTON_DOWN", "<a href=\"" . $this->ctrl->getLinkTarget($this->getParentObject(), "questions") . "&down=".$data["question_id"]."\"><img src=\"" . ilUtil::getImagePath("a_down.png") . "\" alt=\"" . $this->lng->txt("down") . "\" border=\"0\" /></a>");
 			}
 		}
+		
+		$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
+		
 		$this->tpl->setVariable("QUESTION_COMMENT", $data["description"]);
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));

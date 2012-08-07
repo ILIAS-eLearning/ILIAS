@@ -114,8 +114,9 @@ class ASS_Mark {
 * @access public
 * @see $passed
 */
-  function getPassed() {
-    return $this->passed;
+  function getPassed()
+  {
+	return $this->passed;
   }
   
 /**

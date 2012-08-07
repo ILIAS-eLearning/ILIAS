@@ -9,7 +9,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * Class ilObjTest
 *
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
+* @author		Björn Heyser <bheyser@databay.de>
+* @version		$Id$
 *
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
@@ -73,7 +74,7 @@ class ilObjTest extends ilObject
 /**
 * Defines the mark schema
 *
-* @var object
+* @var ASS_MarkSchema
 */
   var $mark_schema;
 
@@ -1497,7 +1498,13 @@ class ilObjTest extends ilObject
 				}
 			}
 		}
-
+		// workaround for lost obligations
+		// this method is called if a question is removed
+		$currentQuestionsObligationsQuery = 'SELECT question_fi, obligatory FROM tst_test_question WHERE test_fi = %s';
+		$rset = $ilDB->queryF($currentQuestionsObligationsQuery, array('integer'), array($this->getTestId()));
+		while ($row = $ilDB->fetchAssoc($rset)) {
+			$obligatoryQuestionState[$row['question_fi']] = $row['obligatory'];
+		}
 		// delete existing category relations
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_test_question WHERE test_fi = %s",
 			array('integer'),
@@ -1507,9 +1514,9 @@ class ilObjTest extends ilObject
 		foreach ($this->questions as $key => $value) 
 		{
 			$next_id = $ilDB->nextId('tst_test_question');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, tstamp) VALUES (%s, %s, %s, %s, %s)",
-				array('integer','integer', 'integer', 'integer', 'integer'),
-				array($next_id, $this->getTestId(), $value, $key, time())
+			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, obligatory, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				array('integer','integer', 'integer', 'integer', 'integer', 'integer'),
+				array($next_id, $this->getTestId(), $value, $key, $obligatoryQuestionState[$value], time())
 			);
 		}
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
@@ -4313,14 +4320,19 @@ function getAnswerFeedbackPoints()
 		global $ilDB;
 
 		$results = $this->getResultsForActiveId($active_id);
-		if (is_null($pass))
+		
+		if( is_null($pass) )
 		{
 			$pass = $results['pass'];
 		}
+		
 		include_once "./Modules/Test/classes/class.ilTestSequence.php";
+		
 		$testSequence = new ilTestSequence($active_id, $pass, $this->isRandomTest());
+		
 		$sequence = array();
-		if ($ordered_sequence)
+		
+		if( $ordered_sequence )
 		{
 			$sequence = $testSequence->getOrderedSequenceQuestions();
 		}
@@ -4328,12 +4340,15 @@ function getAnswerFeedbackPoints()
 		{
 			$sequence = $testSequence->getUserSequenceQuestions();
 		}
+		
 		$arrResults = array();
-		$solutionresult = $ilDB->queryF("
+		
+		$query = "
 			SELECT		tst_test_result.question_fi,
 						tst_test_result.points reached,
 						tst_test_result.hint_count requested_hints,
 						tst_test_result.hint_points hint_points,
+						tst_test_result.answered answered,
 						tst_solutions.solution_id workedthru
 			
 			FROM		tst_test_result
@@ -4344,24 +4359,52 @@ function getAnswerFeedbackPoints()
 			
 			WHERE		tst_test_result.active_fi = %s
 			AND			tst_test_result.pass = %s
-			",
-			array('integer', 'integer'),
-			array($active_id, $pass)
+		";
+		
+		$solutionresult = $ilDB->queryF(
+			$query, array('integer', 'integer'), array($active_id, $pass)
 		);
-		while ($row = $ilDB->fetchAssoc($solutionresult))
+		
+		while( $row = $ilDB->fetchAssoc($solutionresult) )
 		{
-			$arrResults[$row['question_fi']] = $row;
+			$arrResults[ $row['question_fi'] ] = $row;
 		}
 			
 		require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-		$result = $ilDB->query("SELECT qpl_questions.*, qpl_qst_type.type_tag, qpl_sol_sug.question_fi has_sug_sol FROM qpl_qst_type, qpl_questions LEFT JOIN qpl_sol_sug ON qpl_sol_sug.question_fi = qpl_questions.question_id WHERE qpl_qst_type.question_type_id = qpl_questions.question_type_fi AND " . $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer'));
-		$found = array();
+		
+		$IN_question_ids = $ilDB->in('qpl_questions.question_id', $sequence, false, 'integer');
+		
+		$query = "
+			SELECT		qpl_questions.*,
+						qpl_qst_type.type_tag,
+						qpl_sol_sug.question_fi has_sug_sol
+			
+			FROM		qpl_qst_type,
+						qpl_questions
+			
+			LEFT JOIN	qpl_sol_sug
+			ON			qpl_sol_sug.question_fi = qpl_questions.question_id
+			
+			WHERE		qpl_qst_type.question_type_id = qpl_questions.question_type_fi
+			AND			$IN_question_ids
+		";
+		
+		$result = $ilDB->query($query);
+		
 		$unordered = array();
+		
 		$key = 1;
-		while ($row = $ilDB->fetchAssoc($result))
+		
+		$obligationsAnswered = true;
+		
+		while( $row = $ilDB->fetchAssoc($result) )
 		{
-			$percentvalue = ($row['points']) ? $arrResults[$row['question_id']]['reached'] / $row['points'] : 0;
-			if ($percentvalue < 0) $percentvalue = 0.0;
+			$percentvalue = (
+				$row['points'] ? $arrResults[ $row['question_id'] ]['reached'] / $row['points'] : 0
+			);
+			
+			if( $percentvalue < 0 ) $percentvalue = 0.0;
+			
 			$data = array(
 				"nr" => "$key",
 				"title" => ilUtil::prepareFormOutput($row['title']),
@@ -4374,9 +4417,17 @@ function getAnswerFeedbackPoints()
 				"type" => $row["type_tag"],
 				"qid" => $row['question_id'],
 				"original_id" => $row["original_id"],
-				"workedthrough" => ($arrResults[$row['question_id']]['workedthru']) ? 1 : 0
+				"workedthrough" => ($arrResults[$row['question_id']]['workedthru']) ? 1 : 0,
+				'answered' => $arrResults[$row['question_id']]['answered']
 			);
-                        $unordered[$row['question_id']] = $data;
+			
+			if( !$arrResults[ $row['question_id'] ]['answered'] )
+			{
+				$obligationsAnswered = false;
+			}
+			
+			$unordered[ $row['question_id'] ] = $data;
+			
 			$key++;
 		}
                 
@@ -4385,52 +4436,66 @@ function getAnswerFeedbackPoints()
 		$pass_requested_hints = 0;
 		$pass_hint_points = 0;
 		$key = 1;
-		foreach ($sequence as $qid)
+		
+		$found = array();
+		
+		foreach( $sequence as $qid )
 		{
-                    // building pass point sums based on prepared data
-                    // for question that exists in users qst sequence
-                    $pass_max += round($unordered[$qid]['max'], 2);
-                    $pass_reached += round($unordered[$qid]['reached'], 2);
-					$pass_requested_hints += $unordered[$qid]['requested_hints'];
-					$pass_hint_points += $unordered[$qid]['hint_points'];
+			// building pass point sums based on prepared data
+			// for question that exists in users qst sequence
+			$pass_max += round($unordered[$qid]['max'], 2);
+			$pass_reached += round($unordered[$qid]['reached'], 2);
+			$pass_requested_hints += $unordered[$qid]['requested_hints'];
+			$pass_hint_points += $unordered[$qid]['hint_points'];
 
-                    // pickup prepared data for question
-                    // that exists in users qst sequence
-                    $unordered[$qid]['nr'] = $key;
-                    array_push($found, $unordered[$qid]);
-                    
-                    // increment key counter
-                    $key++;
+			// pickup prepared data for question
+			// that exists in users qst sequence
+			$unordered[$qid]['nr'] = $key;
+			array_push($found, $unordered[$qid]);
+
+			// increment key counter
+			$key++;
 		}
+		
 		$unordered = null;
-		if ($this->getScoreCutting() == 1)
+		
+		if( $this->getScoreCutting() == 1 )
 		{
-			if ($results['reached_points'] < 0)
+			if( $results['reached_points'] < 0 )
 			{
 				$results['reached_points'] = 0;
 			}
-			if ($pass_reached < 0) $pass_reached = 0;
+			
+			if( $pass_reached < 0 ) $pass_reached = 0;
 		}
+		
 		$found['pass']['total_max_points'] = $pass_max;
 		$found['pass']['total_reached_points'] = $pass_reached;
 		$found['pass']['total_requested_hints'] = $pass_requested_hints;
 		$found['pass']['total_hint_points'] = $pass_hint_points;
 		$found['pass']['percent'] = ($pass_max > 0) ? $pass_reached / $pass_max : 0;
+		$found['pass']['obligationsAnswered'] = $obligationsAnswered;
+		
 		$found["test"]["total_max_points"] = $results['max_points'];
 		$found["test"]["total_reached_points"] = $results['reached_points'];
 		$found["test"]["total_requested_hints"] = $results['hint_count'];
 		$found["test"]["total_hint_points"] = $results['hint_points'];
 		$found["test"]["result_pass"] = $results['pass'];
-		if ((!$total_reached_points) or (!$total_max_points))
+		$found['test']['obligations_answered'] = $results['obligations_answered'];
+		
+		if( (!$total_reached_points) or (!$total_max_points) )
 		{
 			$percentage = 0.0;
 		}
 		else
 		{
 			$percentage = ($total_reached_points / $total_max_points) * 100.0;
-			if ($percentage < 0) $percentage = 0.0;
+			
+			if( $percentage < 0 ) $percentage = 0.0;
 		}
+		
 		$found["test"]["passed"] = $results['passed'];
+		
 		return $found;
 	}
 
@@ -4686,12 +4751,17 @@ function getAnswerFeedbackPoints()
 		{
 			$atimeofwork = $max_time / $qworkedthrough;
 		}
+		
+		$obligationsAnswered = $test_result["test"]["obligations_answered"];
+		
 		$result_mark = "";
 		$passed = "";
+		
 		if ($mark_obj)
 		{
 			$result_mark = $mark_obj->getShortName();
-			if ($mark_obj->getPassed())
+			
+			if( $mark_obj->getPassed() && $obligationsAnswered )
 			{
 				$passed = 1;
 			}
@@ -4747,9 +4817,12 @@ function getAnswerFeedbackPoints()
 			$total = $test_result["test"]["total_max_points"];
 			$percentage = $total != 0 ? $reached/$total : 0;
 			$mark = $this->mark_schema->getMatchingMark($percentage*100.0);
+			
+			$obligationsAnswered = $test_result["test"]["obligations_answered"];
+			
 			if ($mark)
 			{
-				if ($mark->getPassed())
+				if( $mark->getPassed() && $obligationsAnswered )
 				{
 					array_push($totalpoints_array, $test_result["test"]["total_reached_points"]);
 				}
@@ -5001,33 +5074,54 @@ function getAnswerFeedbackPoints()
 	function getUnfilteredEvaluationData()
 	{
 		global $ilDB;
+		
 		include_once "./Modules/Test/classes/class.ilTestEvaluationPassData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationUserData.php";
 		include_once "./Modules/Test/classes/class.ilTestEvaluationData.php";
+		
 		$data = new ilTestEvaluationData($this);
-		$result = $ilDB->queryF("SELECT tst_test_result.*, qpl_questions.original_id, qpl_questions.title questiontitle, " .
-			"qpl_questions.points maxpoints " .
-			"FROM tst_test_result, qpl_questions, tst_active " .
-			"WHERE tst_active.active_id = tst_test_result.active_fi " .
-			"AND qpl_questions.question_id = tst_test_result.question_fi " .
-			"AND tst_active.test_fi = %s " .
-			"ORDER BY tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp",
-			array('integer'),
-			array($this->getTestId())
+		
+		$query = "
+			SELECT		tst_test_result.*,
+						qpl_questions.original_id,
+						qpl_questions.title questiontitle,
+						qpl_questions.points maxpoints
+			
+			FROM		tst_test_result, qpl_questions, tst_active
+			
+			WHERE		tst_active.active_id = tst_test_result.active_fi
+			AND			qpl_questions.question_id = tst_test_result.question_fi
+			AND			tst_active.test_fi = %s
+			
+			ORDER BY	tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp
+		";
+		
+		$result = $ilDB->queryF(
+			$query, array('integer'), array($this->getTestId())
 		);
+		
 		$pass = NULL;
 		$checked = array();
 		$datasets = 0;
-		while ($row = $ilDB->fetchAssoc($result))
+		
+		while( $row = $ilDB->fetchAssoc($result) )
 		{
-			$data->getParticipant($row["active_fi"])->getPass($row["pass"])->addAnsweredQuestion($row["original_id"] ? $row["original_id"] : $row["question_fi"], $row["maxpoints"], $row["points"]);
+			$data	->getParticipant($row["active_fi"])
+					->getPass($row["pass"])
+					->addAnsweredQuestion(
+						$row["original_id"] ? $row["original_id"] : $row["question_fi"],
+						$row["maxpoints"],
+						$row["points"],
+						$row['answered']
+					)
+			;
 		}
 
-		foreach (array_keys($data->getParticipants()) as $active_id)
+		foreach( array_keys($data->getParticipants()) as $active_id )
 		{
-			if ($this->isRandomTest())
+			if( $this->isRandomTest() )
 			{
-				for ($testpass = 0; $testpass <= $data->getParticipant($active_id)->getLastPass(); $testpass++)
+				for( $testpass = 0; $testpass <= $data->getParticipant($active_id)->getLastPass(); $testpass++ )
 				{
 					$ilDB->setLimit($this->getQuestionCount(), 0);
 					$result = $ilDB->queryF("SELECT tst_test_rnd_qst.sequence, tst_test_rnd_qst.question_fi, qpl_questions.original_id, " .
@@ -5063,14 +5157,17 @@ function getAnswerFeedbackPoints()
 				if ($result->numRows())
 				{
 					$questionsbysequence = array();
+					
 					while ($row = $ilDB->fetchAssoc($result))
 					{
 						$questionsbysequence[$row["sequence"]] = $row;
 					}
+					
 					$seqresult = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s",
 						array('integer'),
 						array($active_id)
 					);
+					
 					while ($seqrow = $ilDB->fetchAssoc($seqresult))
 					{
 						$questionsequence = unserialize($seqrow["sequence"]);
@@ -5089,25 +5186,42 @@ function getAnswerFeedbackPoints()
 		{
 			$passed_array =& $this->getTotalPointsPassedArray();
 		}
-		foreach (array_keys($data->getParticipants()) as $active_id)
+		
+		foreach( array_keys($data->getParticipants()) as $active_id )
 		{
-			$percentage = $data->getParticipant($active_id)->getReachedPointsInPercent();
+			$tstUserData = $data->getParticipant($active_id);
+			
+			$percentage = $tstUserData->getReachedPointsInPercent();
+			
+			$obligationsAnswered = $tstUserData->areObligationsAnswered();
+			
 			$mark = $this->mark_schema->getMatchingMark($percentage);
+			
 			if (is_object($mark))
 			{
-				$data->getParticipant($active_id)->setMark($mark->getShortName());
-				$data->getParticipant($active_id)->setMarkOfficial($mark->getOfficialName());
-				$data->getParticipant($active_id)->setPassed($mark->getPassed());
+				$tstUserData->setMark($mark->getShortName());
+				$tstUserData->setMarkOfficial($mark->getOfficialName());
+				
+				$tstUserData->setPassed(
+					$mark->getPassed() && $tstUserData->areObligationsAnswered()
+				);
 			}
+			
 			if ($this->ects_output)
 			{
-				$ects_mark = $this->getECTSGrade($passed_array, $data->getParticipant($active_id)->getReached(), $data->getParticipant($active_id)->getMaxPoints());
-				$data->getParticipant($active_id)->setECTSMark($ects_mark);
+				$ects_mark = $this->getECTSGrade(
+						$passed_array, $tstUserData->getReached(), $tstUserData->getMaxPoints()
+				);
+				
+				$tstUserData->setECTSMark($ects_mark);
 			}
+			
 			$visitingTime =& $this->getVisitTimeOfParticipant($active_id);
-			$data->getParticipant($active_id)->setFirstVisit($visitingTime["firstvisit"]);
-			$data->getParticipant($active_id)->setLastVisit($visitingTime["lastvisit"]);
+			
+			$tstUserData->setFirstVisit($visitingTime["firstvisit"]);
+			$tstUserData->setLastVisit($visitingTime["lastvisit"]);
 		}
+		
 		return $data;
 	}
 	
@@ -6373,7 +6487,10 @@ function getAnswerFeedbackPoints()
 			// mark steps
 			$a_xml_writer->xmlStartTag("qtimetadatafield");
 			$a_xml_writer->xmlElement("fieldlabel", NULL, "mark_step_$index");
-			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("<short>%s</short><official>%s</official><percentage>%.2f</percentage><passed>%d</passed>", $mark->getShortName(), $mark->getOfficialName(), $mark->getMinimumLevel(), $mark->getPassed()));
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf(
+				"<short>%s</short><official>%s</official><percentage>%.2f</percentage><passed>%d</passed>",
+				$mark->getShortName(), $mark->getOfficialName(), $mark->getMinimumLevel(), $mark->getPassed()
+			));
 			$a_xml_writer->xmlEndTag("qtimetadatafield");
 		}
 		$a_xml_writer->xmlEndTag("qtimetadata");
@@ -8298,16 +8415,37 @@ function getAnswerFeedbackPoints()
 	function &getTestQuestions()
 	{
 		global $ilDB;
-		$query_result = $ilDB->queryF("SELECT qpl_questions.*, qpl_qst_type.type_tag, tst_test_question.sequence FROM qpl_questions, qpl_qst_type, tst_test_question WHERE qpl_questions.question_type_fi = qpl_qst_type.question_type_id AND tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
-			array('integer'),
-			array($this->getTestId())
+		
+		$query = "
+			SELECT		qpl_questions.*,
+						qpl_qst_type.type_tag,
+						tst_test_question.sequence,
+						tst_test_question.obligatory
+			FROM		qpl_questions,
+						qpl_qst_type,
+						tst_test_question
+			WHERE		qpl_questions.question_type_fi = qpl_qst_type.question_type_id
+			AND			tst_test_question.test_fi = %s
+			AND			tst_test_question.question_fi = qpl_questions.question_id
+			ORDER BY	tst_test_question.sequence
+		";
+		
+		$query_result = $ilDB->queryF(
+			$query, array('integer'), array($this->getTestId())
 		);
-		$removableQuestions = array();
+		
+		$questions = array();
+		
 		while ($row = $ilDB->fetchAssoc($query_result))
 		{
-			array_push($removableQuestions, $row);
+			$question = $row;
+			
+			$question['obligationPossible'] = self::isQuestionObligationPossible($row['question_id']);
+			
+			$questions[] = $question;
 		}
-		return $removableQuestions;
+		
+		return $questions;
 	}
 
 /**
@@ -10341,20 +10479,35 @@ function getAnswerFeedbackPoints()
 	{
 		global $ilDB;
 		
-		$result = $ilDB->queryF("SELECT * FROM tst_result_cache WHERE active_fi = %s",
-			array('integer'),
-			array($active_id)
+		$query = "
+			SELECT		*
+			FROM		tst_result_cache
+			WHERE		active_fi = %s
+		";
+		
+		$result = $ilDB->queryF(
+			$query, array('integer'), array($active_id)
 		);
-		if (!$result->numRows())
+		
+		if( !$result->numRows() )
 		{
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+			
 			assQuestion::_updateTestResultCache($active_id);
-			$result = $ilDB->queryF("SELECT * FROM tst_result_cache WHERE active_fi = %s",
-				array('integer'),
-				array($active_id)
+			
+			$query = "
+				SELECT		*
+				FROM		tst_result_cache
+				WHERE		active_fi = %s
+			";
+			
+			$result = $ilDB->queryF(
+				$query, array('integer'), array($active_id)
 			);
 		}
+		
 		$row = $ilDB->fetchAssoc($result);
+		
 		return $row;
 		
 	}
@@ -10539,20 +10692,32 @@ function getAnswerFeedbackPoints()
 	    $this->poolUsage = (boolean)$usage;
 	}
 
-	public function setQuestionOrder($order) {
-	    $positions = asort($order);
-
+	public function setQuestionOrderAndObligations($orders, $obligations)
+	{
 	    global $ilDB;
+
+	    asort($orders);
 
 	    $i = 0;
 
-	    foreach($order as $key => $position) {
-		$id = substr($key, strpos($key, '_') + 1);
-		$ilDB->manipulateF(
-			'UPDATE tst_test_question SET sequence = %s WHERE question_fi=%s',
-			array('integer', 'integer'),
-			array(++$i, $id)
-		);
+	    foreach($orders as $id => $position)
+		{
+			$i++;
+			
+			$obligatory = (
+				isset($obligations[$id]) && $obligations[$id] ? 1 : 0
+			);
+
+			$query = "
+				UPDATE		tst_test_question
+				SET			sequence = %s,
+							obligatory = %s
+				WHERE		question_fi = %s
+			";
+
+			$ilDB->manipulateF(
+				$query, array('integer', 'integer', 'integer'), array($i, $obligatory, $id)
+			);
 	    }
 
 	    $this->loadQuestions();
@@ -10954,6 +11119,59 @@ function getAnswerFeedbackPoints()
 			default:
 				return 0;
 		}
+	}
+	
+	public static function isQuestionObligationPossible($questionId)
+	{
+		require_once('Modules/TestQuestionPool/classes/class.assQuestion.php');
+
+		$classConcreteQuestion = assQuestion::_getQuestionType($questionId);
+
+		require_once("Modules/TestQuestionPool/classes/class.$classConcreteQuestion.php");
+
+		// static binder is not at work yet (in PHP < 5.3)
+		//$obligationPossible = $classConcreteQuestion::isObligationPossible();
+		$obligationPossible = call_user_func(array($classConcreteQuestion, 'isObligationPossible'));
+		
+		return $obligationPossible;
+	}
+	
+	public static function isQuestionObligatory($question_id)
+	{
+	    global $ilDB;
+	    
+	    $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', array('integer'), array($question_id));
+	    if ($row = $ilDB->fetchAssoc($rset)) {
+		return (bool) $row['obligatory'];
+	    }
+	    return false;
+	}
+	
+	public static function allObligationsAnswered($test_id, $active_id, $pass)
+	{
+	    global $ilDB;
+	    
+	    $rset = $ilDB->queryF(
+		    'SELECT obligations_answered FROM tst_pass_result WHERE active_fi = %s AND pass = %s',
+		    array('integer', 'integer'),
+		    array($active_id, $pass)
+	    );
+	    
+	    if ( ($row = $ilDB->fetchAssoc($rset))) {
+		return (boolean)$row['obligations_answered'];
+	    }
+	    else {
+		$rset = $ilDB->queryF(
+			'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
+			array('integer'),
+			array($test_id)
+		);
+		if ($row = $ilDB->fetchAssoc($rset)) {
+			return $row['cnt'] == 0;
+		}
+		    
+	    }
+	    return true;
 	}
 } // END class.ilObjTest
 

@@ -750,7 +750,6 @@ class ilInfoScreenGUI
 				$this->addButton($lng->txt("toggle_hidden_sections"), "JavaScript:toggleSections();");
 			}
 		}
-
 		// add top buttons
 		if (count($this->top_buttons) > 0)
 		{

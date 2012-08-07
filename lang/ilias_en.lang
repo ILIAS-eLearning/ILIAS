@@ -10926,6 +10926,10 @@ assessment#:#test_using_template_link#:#Do not use template anymore
 common#:#tst_edit_questions#:#Edit Questions
 assessment#:#tst_mail_notification#:#Mail Notifications
 assessment#:#saveOrder#:#Save Order
+assessment#:#saveOrderAndObligations#:#Save Order and Obligations
+assessment#:#obligatory#:#Obligatory
+assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
+assessment#:#not_all_obligations_answered#:#You must answer all obligatory questions before you can finish the test.
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
 common#:#tst_random_test_description_warning#:#<br /><b>This test has questions that are not assigned to a question pool. If you switch to random test mode, this questions will be lost.</b>
 assessment#:#tst_result#:#Test Result

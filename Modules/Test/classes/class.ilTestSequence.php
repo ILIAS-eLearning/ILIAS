@@ -516,7 +516,8 @@ class ilTestSequence
 					"points" => $question->getMaximumPoints(),
 					"worked_through" => $worked_through,
 					"postponed" => $is_postponed,
-					"sequence" => $sequence
+					"sequence" => $sequence,
+					"obligatory" => ilObjTest::isQuestionObligatory($question->getId())
 				);
 				array_push($result_array, $row);
 				$key++;
