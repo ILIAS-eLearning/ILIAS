@@ -11205,6 +11205,8 @@ function getAnswerFeedbackPoints()
 	 * checks wether all questions marked as obligatory were answered
 	 * within the test pass with given testId, activeId and pass index
 	 *
+	 * @static
+	 * @access public
 	 * @global ilDB $ilDB
 	 * @param integer $test_id
 	 * @param integer $active_id
@@ -11226,17 +11228,29 @@ function getAnswerFeedbackPoints()
 			return (bool)$row['obligations_answered'];
 	    }
 		
+		return !$this->hasObligations($test_id);
+	}
+	
+	/**
+	 * returns the fact wether the test with given test id
+	 * contains questions markes as obligatory or not
+	 *
+	 * @global ilDB $ilDB
+	 * @param integer $test_id
+	 * @return boolean $hasObligations
+	 */
+	public static function hasObligations($test_id)
+	{
+	    global $ilDB;
+	    
 		$rset = $ilDB->queryF(
 			'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
 			array('integer'), array($test_id)
 		);
 
-		if( $row = $ilDB->fetchAssoc($rset) )
-		{
-			return (bool)$row['cnt'] == 0;
-		}
+		$row = $ilDB->fetchAssoc($rset);
 		
-	    return true;
+		return (bool)$row['cnt'] > 0;
 	}
 } // END class.ilObjTest
 
