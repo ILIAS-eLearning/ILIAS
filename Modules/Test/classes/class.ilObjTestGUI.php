@@ -4281,6 +4281,11 @@ class ilObjTestGUI extends ilObjectGUI
 				$executable = $this->object->isExecutable($ilUser->getId(), $allowPassIncrease = TRUE);
 				if ($executable["executable"])
 				{
+					if( $this->object->areObligationsEnabled() && $this->object->hasObligations($this->object->getTestId()) )
+					{
+						ilUtil::sendInfo($GLOBALS['lng']->txt('tst_test_contains_obligatory_questions'));
+					}
+					
 					if ($this->object->getTestSession()->getActiveId() > 0)
 					{
 						// resume test
