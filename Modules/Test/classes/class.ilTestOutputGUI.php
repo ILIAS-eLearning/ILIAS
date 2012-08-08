@@ -1039,7 +1039,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$this->object->createTestSession();
 				$active_id = $this->object->getTestSession()->getActiveId();
 				
-				assQuestion::_updateTestPassResults($active_id, $this->object->getTestSession()->getPass());
+				assQuestion::_updateTestPassResults(
+						$active_id, $this->object->getTestSession()->getPass(), $this->object->areObligationsEnabled()
+				);
 				
 				$this->ctrl->setParameter($this, "active_id", $active_id);
 				$shuffle = $this->object->getShuffleQuestions();
