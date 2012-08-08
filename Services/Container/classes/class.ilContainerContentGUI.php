@@ -792,6 +792,63 @@ abstract class ilContainerContentGUI
 				$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $itgr["title"]);
 				$a_tpl->setVariable("CHR_COMMANDS", $commands_html);
 				$a_tpl->parseCurrentBlock();
+				
+				$a_tpl->touchBlock("container_row");
+				$this->resetRowType();
+
+				// render item group sub items
+						
+				include_once('./Services/Container/classes/class.ilContainerSorting.php');			
+				include_once('./Services/Object/classes/class.ilObjectActivation.php');			
+				$items = ilObjectActivation::getItemsByItemGroup($itgr['obj_id']);
+				$items = ilContainerSorting::_getInstance(
+					$this->getContainerObject()->getId())->sortSubItems('itgr', $itgr['obj_id'],$items);
+				$position = 1;
+				foreach($items as $item)
+				{
+					$html2 = $this->renderItem($item, $position++);
+					if ($html2 != "")
+					{
+						$this->addStandardRow($a_tpl, $html2, $item["child"]);
+						$this->rendered_items[$item["child"]] = true;
+					}
+					
+					// TODO: this should be removed and be handled by if(strlen($sub_item_html))
+					// 	see mantis: 0003944
+/*
+					if(!$ilAccess->checkAccess('visible','',$item['ref_id']))
+					{
+						continue;
+					}
+					
+					$item_list_gui2 = $this->getItemGUI($item);
+					$item_list_gui2->enableIcon(true);
+					$item_list_gui2->enableItemDetailLinks(false);
+					if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
+					{
+						$item_list_gui2->enableCheckbox(true);
+					}
+					if ($this->getContainerGUI()->isActiveOrdering())
+					{
+						if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
+						{
+							$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",
+								sprintf('%d', (int)$pos*10));
+							$pos++;
+						}					
+					}
+					$item_html = $item_list_gui2->getListItemHTML($item['ref_id'],
+						$item['obj_id'], $item['title'], $item['description']);
+											
+					$this->determineAdminCommands($item["ref_id"],$item_list_gui2->adminCommandsIncluded());
+					if(strlen($item_html))
+					{
+						$item_list_gui->addSubItemHTML($sub_item_html);
+					}
+*/
+				}
+
+				// finish block
 				$a_tpl->setCurrentBlock("container_block");
 				$a_tpl->parseCurrentBlock();
 			}
