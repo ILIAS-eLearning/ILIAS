@@ -11154,6 +11154,22 @@ function getAnswerFeedbackPoints()
 	}
 	
 	/**
+	 * checks wether the potential obligation of a given question is to be considered or not
+	 *
+	 * @param integer $questionId
+	 * @return boolean $obligationToConsider
+	 */
+	public function isQuestionObligationToConsider($questionId)
+	{
+		if( !$this->areObligationsEnabled() )
+		{
+			return false;
+		}
+		
+		return self::isQuestionObligatory($questionId);
+	}
+	
+	/**
 	 * checks wether the obligation for question with given id is possible or not
 	 * 
 	 * @param integer $questionId
