@@ -345,7 +345,7 @@ class ilBookingReservation
 		$count_sql = 'SELECT COUNT(*) AS counter'.
 			' FROM booking_reservation r'.
 			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
-
+		
 		$where = array($ilDB->in('r.object_id', $a_object_ids, '', 'integer'));		
 		if($filter['status'])
 		{
@@ -355,7 +355,8 @@ class ilBookingReservation
 			}
 			else
 			{
-				$where[] = 'status != '.$ilDB->quote(-$filter['status'], 'integer');
+				$where[] = '(status != '.$ilDB->quote(-$filter['status'], 'integer').
+					' OR status IS NULL)';
 			}
 		}
 		if($filter['from'])
