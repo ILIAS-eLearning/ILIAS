@@ -11153,6 +11153,12 @@ function getAnswerFeedbackPoints()
 		return (bool)$this->obligationsEnabled;
 	}
 	
+	/**
+	 * checks wether the obligation for question with given id is possible or not
+	 * 
+	 * @param integer $questionId
+	 * @return boolean $obligationPossible
+	 */
 	public static function isQuestionObligationPossible($questionId)
 	{
 		require_once('Modules/TestQuestionPool/classes/class.assQuestion.php');
@@ -11168,17 +11174,36 @@ function getAnswerFeedbackPoints()
 		return $obligationPossible;
 	}
 	
+	/**
+	 * checks wether the question with given id is marked as obligatory or not
+	 * 
+	 * @param integer $questionId
+	 * @return boolean $obligatory
+	 */
 	public static function isQuestionObligatory($question_id)
 	{
 	    global $ilDB;
 	    
 	    $rset = $ilDB->queryF('SELECT obligatory FROM tst_test_question WHERE question_fi = %s', array('integer'), array($question_id));
-	    if ($row = $ilDB->fetchAssoc($rset)) {
-		return (bool) $row['obligatory'];
+	    
+		if( $row = $ilDB->fetchAssoc($rset) )
+		{
+			return (bool) $row['obligatory'];
 	    }
+		
 	    return false;
 	}
 	
+	/**
+	 * checks wether all questions marked as obligatory were answered
+	 * within the test pass with given testId, activeId and pass index
+	 *
+	 * @global ilDB $ilDB
+	 * @param integer $test_id
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @return boolean $allObligationsAnswered 
+	 */
 	public static function allObligationsAnswered($test_id, $active_id, $pass)
 	{
 	    global $ilDB;
@@ -11189,20 +11214,21 @@ function getAnswerFeedbackPoints()
 		    array($active_id, $pass)
 	    );
 	    
-	    if ( ($row = $ilDB->fetchAssoc($rset))) {
-		return (boolean)$row['obligations_answered'];
+	    if( $row = $ilDB->fetchAssoc($rset) )
+		{
+			return (bool)$row['obligations_answered'];
 	    }
-	    else {
+		
 		$rset = $ilDB->queryF(
 			'SELECT count(*) cnt FROM tst_test_question WHERE test_fi = %s AND obligatory = 1',
-			array('integer'),
-			array($test_id)
+			array('integer'), array($test_id)
 		);
-		if ($row = $ilDB->fetchAssoc($rset)) {
-			return $row['cnt'] == 0;
+
+		if( $row = $ilDB->fetchAssoc($rset) )
+		{
+			return (bool)$row['cnt'] == 0;
 		}
-		    
-	    }
+		
 	    return true;
 	}
 } // END class.ilObjTest
