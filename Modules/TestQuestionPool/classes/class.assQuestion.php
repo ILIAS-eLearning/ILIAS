@@ -798,7 +798,7 @@ abstract class assQuestion
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
 	 */
-	final public function calculateResultsFromSolution($active_id, $pass = NULL)
+	final public function calculateResultsFromSolution($active_id, $pass = NULL, $obligationsEnabled = false)
 	{
 		global $ilDB, $ilUser;
 		
@@ -819,7 +819,7 @@ abstract class assQuestion
 		// adjust reached points regarding to tests scoring options
 		$reached_points = $this->adjustReachedPointsByScoringOptions($reached_points, $active_id, $pass);
 		
-		if( ilObjTest::isQuestionObligatory($this->getId()) )
+		if( $obligationsEnabled && ilObjTest::isQuestionObligatory($this->getId()) )
 		{
 		    $isAnswered = $this->isAnswered($active_id, $pass);
 		}
@@ -873,7 +873,7 @@ abstract class assQuestion
 		}
 
 		// update test pass results
-		$this->_updateTestPassResults($active_id, $pass);
+		$this->_updateTestPassResults($active_id, $pass, $obligationsEnabled);
 
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
@@ -888,7 +888,7 @@ abstract class assQuestion
 	 * @param integer $active_id Active id of the user
 	 * @param integer $pass Test pass
 	 */
-	final public function persistWorkingState($active_id, $pass = NULL)
+	final public function persistWorkingState($active_id, $pass = NULL, $obligationsEnabled = false)
 	{
 		if( $pass === null )
 		{
@@ -898,7 +898,7 @@ abstract class assQuestion
 		
 		$saveStatus = $this->saveWorkingData($active_id, $pass);
 		
-		$this->calculateResultsFromSolution($active_id, $pass);
+		$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
 		
 		$this->reworkWorkingData($active_id, $pass);
 		
@@ -987,7 +987,7 @@ abstract class assQuestion
 		));
 	}
 
-	function _updateTestPassResults($active_id, $pass)
+	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false)
 	{
 		global $ilDB;
 		
@@ -1013,32 +1013,39 @@ abstract class assQuestion
 		
 		if ($result->numRows() > 0)
 		{
-			$query = '
-				SELECT		count(*) cnt,
-							min( answered ) answ
-				FROM		tst_test_question
-				INNER JOIN	tst_active
-				ON			active_id = %s
-				AND			tst_test_question.test_fi = tst_active.test_fi
-				LEFT JOIN	tst_test_result
-				ON			tst_test_result.active_fi = %s
-				AND			tst_test_result.pass = %s
-				AND			tst_test_question.question_fi = tst_test_result.question_fi
-				WHERE		obligatory = 1';
-
-			$result_obligatory = $ilDB->queryF(
-				$query, array('integer','integer','integer'), array($active_id, $active_id, $pass)
-			);
-			
-			$row_obligatory = $ilDB->fetchAssoc($result_obligatory);
-			
-			if ($row_obligatory['cnt'] == 0)
+			if( $obligationsEnabled )
 			{
-				$obligations_answered = 1;
+				$query = '
+					SELECT		count(*) cnt,
+								min( answered ) answ
+					FROM		tst_test_question
+					INNER JOIN	tst_active
+					ON			active_id = %s
+					AND			tst_test_question.test_fi = tst_active.test_fi
+					LEFT JOIN	tst_test_result
+					ON			tst_test_result.active_fi = %s
+					AND			tst_test_result.pass = %s
+					AND			tst_test_question.question_fi = tst_test_result.question_fi
+					WHERE		obligatory = 1';
+
+				$result_obligatory = $ilDB->queryF(
+					$query, array('integer','integer','integer'), array($active_id, $active_id, $pass)
+				);
+
+				$row_obligatory = $ilDB->fetchAssoc($result_obligatory);
+
+				if ($row_obligatory['cnt'] == 0)
+				{
+					$obligations_answered = 1;
+				}
+				else
+				{
+					$obligations_answered = (int) $row_obligatory['answ'];
+				}
 			}
 			else
 			{
-				$obligations_answered = (int) $row_obligatory['answ'];
+				$obligations_answered = 0;
 			}
 			
 			$row = $ilDB->fetchAssoc($result);
@@ -1068,7 +1075,7 @@ abstract class assQuestion
 				'tstamp'				=> array('integer', time()),
 				'hint_count'			=> array('integer', $row['hint_count']),
 				'hint_points'			=> array('float', $row['hint_points']),
-				'obligations_answered'	=> array('integer', $row['obligations_answered'])
+				'obligations_answered'	=> array('integer', $obligations_answered)
 			));
 		}
 		
