@@ -38,6 +38,8 @@ class assTextQuestion extends assQuestion
 	* @var string
 	*/
 	var $keywords;
+	
+	var $answers;
 
 	/**
 	* The method which should be chosen for text comparisons
@@ -48,6 +50,7 @@ class assTextQuestion extends assQuestion
 	
 	/* method for automatic string matching */
 	private $matchcondition;
+	public $keyword_relation;
 
 	/**
 	* assTextQuestion constructor
@@ -73,7 +76,7 @@ class assTextQuestion extends assQuestion
 		parent::__construct($title, $comment, $author, $owner, $question);
 		$this->maxNumOfChars = 0;
 		$this->points = 0;
-		$this->keywords = "";
+		$this->answers = array();
 		$this->matchcondition = 0;
 	}
 
@@ -113,16 +116,36 @@ class assTextQuestion extends assQuestion
 			array($this->getId())
 		);
 
-		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, textgap_rating, matchcondition) VALUES (%s, %s, %s, %s, %s)",
-			array("integer", "integer", "text", "text", 'integer'),
+		$affectedRows = $ilDB->manipulateF("INSERT INTO " . $this->getAdditionalTableName() . " (question_fi, maxnumofchars, keywords, textgap_rating, matchcondition, keyword_relation) VALUES (%s, %s, %s, %s, %s, %s)",
+			array("integer", "integer", "text", "text", 'integer', 'text'),
 			array(
 				$this->getId(),
 				$this->getMaxNumOfChars(),
-				(strlen($this->getKeywords())) ? $this->getKeywords() : NULL,
+				NULL,
 				$this->getTextRating(),
-				$this->matchcondition
+				$this->matchcondition,
+				$this->getKeywordRelation()
 			)
 		);
+		
+		$ilDB->manipulateF("DELETE FROM qpl_a_essay WHERE question_fi = %s",
+						   array("integer"),
+						   array($this->getId())
+		);
+		
+		foreach ($this->answers as $answer)
+		{
+			$nextID = $ilDB->nextId('qpl_a_essay');
+			$ilDB->manipulateF("INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) VALUES (%s, %s, %s, %s)",
+							   array("integer", "integer", "text", 'integer'),
+							   array(
+								   $nextID,
+								   $this->getId(),
+								   $answer->answertext,
+								   $answer->points
+							   )
+			);
+		}
 
 		parent::saveToDb($original_id);
 	}
@@ -142,7 +165,7 @@ class assTextQuestion extends assQuestion
 			array("integer"),
 			array($question_id)
 		);
-		if ($result->numRows() == 1)
+		if ($ilDB->numRows($result) == 1)
 		{
 			$data = $ilDB->fetchAssoc($result);
 			$this->setId($question_id);
@@ -158,11 +181,23 @@ class assTextQuestion extends assQuestion
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setShuffle($data["shuffle"]);
 			$this->setMaxNumOfChars($data["maxnumofchars"]);
-			$this->setKeywords($data["keywords"]);
 			$this->setTextRating($data["textgap_rating"]);
 			$this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
+			$this->setKeywordRelation(($data['keyword_relation']));
 		}
+
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_essay WHERE question_fi = %s",
+								array("integer"),
+								array($this->getId())
+		);
+		
+		$this->flushAnswers();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$this->addAnswer($row['answertext'], $row['points']);
+		}
+		
 		parent::loadFromDb($question_id);
 	}
 
@@ -213,6 +248,7 @@ class assTextQuestion extends assQuestion
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
 		$clone->duplicateGenericFeedback($this_id);
+		#$clone->duplicateAnswers($this_id);
 		$clone->onDuplicate($this_id);
 
 		return $clone->id;
@@ -249,6 +285,8 @@ class assTextQuestion extends assQuestion
 		$clone->copyXHTMLMediaObjectsOfQuestion($original_id);
 		// duplicate the generic feedback
 		$clone->duplicateGenericFeedback($original_id);
+		// duplicate answers
+		#$clone->duplicateAnswers($original_id);
 		
 		$clone->onCopy($this->getObjId(), $this->getId());
 
@@ -294,9 +332,32 @@ class assTextQuestion extends assQuestion
 	*/
 	function getMaximumPoints()
 	{
-		return $this->points;
+		$points = 0;
+		foreach ($this->answers as $answer)
+		{
+			if ($answer->points > 0)
+			{
+				$points = $points + $answer->points;
+			}
+		}
+		
+		return $points;
 	}
+	
+	function getMinimumPoints()
+	{
+		$points = 0;
 
+		foreach ($this->answers as $answer)
+		{
+			if ($answer->points < 0)
+			{
+				$points = $points + $answer->points;
+			}
+		}
+
+		return $points;
+	}
 	/**
 	* Sets the points, a learner has reached answering the question
 	*
@@ -407,49 +468,76 @@ class assTextQuestion extends assQuestion
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
+		
 		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
-		if ($result->numRows() == 1)
+		
+		// Return min points when no answer was given.
+		if ($ilDB->numRows($result) == 0)
 		{
-			$row = $ilDB->fetchAssoc($result);
-			if ($row["points"])
+			return $this->getMinimumPoints();
+		}
+		
+		// Return points of points are already on the row.
+		$row = $ilDB->fetchAssoc($result);
+		if ($row["points"] != NULL)
+		{
+			return $row["points"];
+		}
+
+		// Return min points if there are no answers present.
+		$answers = $this->getAnswers();
+		if (count($answers) == 0)
+		{
+			return $this->getMinimumPoints();
+		}
+		
+		$answered_count = 0;
+		foreach ($answers as $answer)
+		{
+			
+			$qst_answer  = $answer->answertext;
+			$user_answer = '  '.$row['value1'];
+
+			
+			if ($this->isKeywordInAnswer( $user_answer, $qst_answer ))
 			{
-				$points = $row["points"];
-			}
-			else
-			{
-				$keywords =& $this->getKeywordList();
-				if (count($keywords))
-				{
-					if ($this->matchcondition == 0)
-					{
-						$foundkeyword = false;
-					}
-					else
-					{
-						$foundkeyword = true;
-					}
-					foreach ($keywords as $keyword)
-					{
-						if ($this->matchcondition == 0)
-						{
-							// OR: only one keyword needs to match
-							$foundkeyword = $foundkeyword | $this->isKeywordMatching($row["value1"], $keyword);
-						}
-						else
-						{
-							// AND: all keywords needs to match
-							$foundkeyword = $foundkeyword & $this->isKeywordMatching($row["value1"], $keyword);
-						}
-					}
-					if ($foundkeyword) $points = $this->getMaximumPoints();
-				}
+				$answered_count++;
+				$points = $points + $answer->points;
 			}
 		}
 
-		return $points;
+		if ($this->getKeywordRelation() == 'all')
+		{
+			if (count($answers) == $answered_count)
+			{
+				return $points;
+			}
+			else
+			{
+				return $this->getMinimumPoints();
+			}
+		}
+		
+		if ($this->getKeywordRelation() == 'any')
+		{
+			return $points;
+		}
+
+		if ($this->getKeywordRelation() == 'one' && $answered_count > 0)
+		{
+			return $this->getMaximumPoints();
+		}
+
+		return $this->getMinimumPoints();
+
+	}
+
+	public function isKeywordInAnswer($user_answer, $qst_answer)
+	{
+		return mb_strpos( $user_answer, $qst_answer ) != FALSE;
 	}
 
 	/**
@@ -559,47 +647,6 @@ class assTextQuestion extends assQuestion
 	{
 		return "assTextQuestion";
 	}
-	
-	/**
-	* Returns the keywords of the question
-	*
-	* @return string The keywords of the question
-	* @access public
-	*/
-	function getKeywords()
-	{
-		return $this->keywords;
-	}
-	
-	/**
-	* Sets the keywords of the question
-	*
-	* @param string $a_keywords The keywords of the question
-	* @access public
-	*/
-	function setKeywords($a_keywords)
-	{
-		$this->keywords = $a_keywords;
-	}
-	
-	/**
-	* Returns the keywords of the question in an array
-	*
-	* @return array The keywords of the question
-	* @access public
-	*/
-	function &getKeywordList()
-	{
-		$keywords = array();
-		if (preg_match_all("/([^\s]+)/", $this->keywords, $matches))
-		{
-			foreach ($matches[1] as $keyword)
-			{
-				array_push($keywords, trim($keyword));
-			}
-		}
-		return $keywords;
-	}
 
 	/**
 	* Returns the rating option for text comparisons
@@ -704,6 +751,258 @@ class assTextQuestion extends assQuestion
 		return json_encode($result);
 	}
 
-}
+	public function getAnswerCount()
+	{
+		return count($this->answers);
+	}
 
-?>
+	/**
+	 * Adds a possible answer for a multiple choice question. A ASS_AnswerBinaryStateImage object will be
+	 * created and assigned to the array $this->answers.
+	 *
+	 * @param string $answertext The answer text
+	 * @param double $points The points for selecting the answer (even negative points can be used)
+	 * @param boolean $state Defines the answer as correct (TRUE) or incorrect (FALSE)
+	 * @param integer $order A possible display order of the answer
+	 * @param double $points The points for not selecting the answer (even negative points can be used)
+	 * @access public
+	 * @see $answers
+	 * @see ASS_AnswerBinaryStateImage
+	 */
+	function addAnswer(
+		$answertext = "",
+		$points = 0.0,
+		$points_unchecked = 0.0,
+		$order = 0,
+		$answerimage = ""
+	)
+	{
+		include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
+
+			// add answer
+			$answer = new ASS_AnswerMultipleResponseImage($answertext, $points);
+			$this->answers[] = $answer;
+	}
+	
+	public function getAnswers()
+	{
+		return $this->answers; 
+	}
+
+	/**
+	 * Returns an answer with a given index. The index of the first
+	 * answer is 0, the index of the second answer is 1 and so on.
+	 *
+	 * @param integer $index A nonnegative index of the n-th answer
+	 * @return object ASS_AnswerBinaryStateImage-Object containing the answer
+	 * @access public
+	 * @see $answers
+	 */
+	function getAnswer($index = 0)
+	{
+		if ($index < 0) return NULL;
+		if (count($this->answers) < 1) return NULL;
+		if ($index >= count($this->answers)) return NULL;
+
+		return $this->answers[$index];
+	}
+
+	/**
+	 * Deletes an answer with a given index. The index of the first
+	 * answer is 0, the index of the second answer is 1 and so on.
+	 *
+	 * @param integer $index A nonnegative index of the n-th answer
+	 * @access public
+	 * @see $answers
+	 */
+	function deleteAnswer($index = 0)
+	{
+		if ($index < 0) return;
+		if (count($this->answers) < 1) return;
+		if ($index >= count($this->answers)) return;
+		$answer = $this->answers[$index];
+		if (strlen($answer->getImage())) $this->deleteImage($answer->getImage());
+		unset($this->answers[$index]);
+		$this->answers = array_values($this->answers);
+		for ($i = 0; $i < count($this->answers); $i++)
+		{
+			if ($this->answers[$i]->getOrder() > $index)
+			{
+				$this->answers[$i]->setOrder($i);
+			}
+		}
+	}
+
+	function getAnswerTableName()
+	{
+		return 'qpl_a_essay';
+	}
+
+	/**
+	 * Deletes all answers
+	 *
+	 * @access public
+	 * @see $answers
+	 */
+	function flushAnswers()
+	{
+		$this->answers = array();
+	}
+
+	public function setAnswers($answers)
+	{
+		$count = count($answers['answer']);
+		$this->flushAnswers();
+		for ($i = 0; $i < count($answers['answer']); $i++ )
+		{
+			$this->addAnswer($answers['answer'][$i], $answers['points'][$i]);
+		}
+	}
+
+	public function duplicateAnswers($original_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->queryF("SELECT * FROM qpl_a_essay WHERE question_fi = %s",
+								array('integer'),
+								array($original_id)
+		);
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$next_id = $ilDB->nextId('qpl_a_essay');
+				$affectedRows = $ilDB->manipulateF(
+					"INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) 
+					 VALUES (%s, %s, %s, %s)",
+					 array('integer','integer','text','integer'),
+					 array($next_id, $this->getId(), $row["answertext"], $row["points"])
+				);
+			}
+		}		
+	}
+
+	public function getKeywordRelation()
+	{
+		return $this->keyword_relation;
+	}
+
+	/**
+	 * This method implements a default behaviour. During the creation of a text question, the record which holds
+	 * the keyword relation is not existing, so keyword_relation defaults to 'one'.
+	 */
+	public function setKeywordRelation($a_relation)
+	{
+		if ($a_relation == 'any' || $a_relation == 'all' || $a_relation == 'one')
+		{
+			$this->keyword_relation = $a_relation;
+		}
+		else
+		{
+			$this->keyword_relation = 'one';
+			return;
+		}
+	}
+	/**
+	 * Saves feedback for a single selected answer to the database
+	 *
+	 * @param integer $answer_index The index of the answer
+	 * @param string $feedback Feedback text
+	 * @access public
+	 */
+	function saveFeedbackSingleAnswer($answer_index, $feedback)
+	{
+		global $ilDB;
+
+		$affectedRows = $ilDB->manipulateF("DELETE FROM qpl_fb_essay WHERE question_fi = %s AND answer = %s",
+										   array('integer','integer'),
+										   array($this->getId(), $answer_index)
+		);
+		if (strlen($feedback))
+		{
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$next_id = $ilDB->nextId('qpl_fb_essay');
+			$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_essay (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+											   array('integer','integer','integer','text','integer'),
+											   array(
+												   $next_id,
+												   $this->getId(),
+												   $answer_index,
+												   ilRTE::_replaceMediaObjectImageSrc($feedback, 0),
+												   time()
+											   )
+			);
+		}
+	}
+
+	/**
+	 * Returns the feedback for a single selected answer
+	 *
+	 * @param integer $answer_index The index of the answer
+	 * @return string Feedback text
+	 * @access public
+	 */
+	function getFeedbackSingleAnswer($answer_index)
+	{
+		global $ilDB;
+
+		$feedback = "";
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_essay WHERE question_fi = %s AND answer = %s",
+								array('integer','integer'),
+								array($this->getId(), $answer_index)
+		);
+		if ($result->numRows())
+		{
+			$row = $ilDB->fetchAssoc($result);
+			include_once("./Services/RTE/classes/class.ilRTE.php");
+			$feedback = ilRTE::_replaceMediaObjectImageSrc($row["feedback"], 1);
+		}
+		return $feedback;
+	}
+	
+	protected function deleteFeedbackSpecific($question_id)
+	{
+		global $ilDB;
+		$ilDB->manipulateF(
+			'DELETE 
+			FROM qpl_fb_essay 
+			WHERE question_fi = %s',
+			array('integer'),
+			array($question_id)
+		);
+	}
+
+	/**
+	 * Duplicates the answer specific feedback
+	 *
+	 * @param integer $original_id The database ID of the original question
+	 * @access public
+	 */
+	function duplicateSpecificFeedback($original_id)
+	{
+		global $ilDB;
+
+		$feedback = "";
+		$result = $ilDB->queryF("SELECT * FROM qpl_fb_essay WHERE question_fi = %s",
+								array('integer'),
+								array($original_id)
+		);
+		if ($result->numRows())
+		{
+			while ($row = $ilDB->fetchAssoc($result))
+			{
+				$next_id = $ilDB->nextId('qpl_fb_essay');
+				$affectedRows = $ilDB->manipulateF("INSERT INTO qpl_fb_matching (feedback_id, question_fi, answer, feedback, tstamp) VALUES (%s, %s, %s, %s, %s)",
+												   array('integer','integer','integer','text','integer'),
+												   array(
+													   $next_id,
+													   $this->getId(),
+													   $row["answer"],
+													   $row["feedback"],
+													   time()
+												   )
+				);
+			}
+		}
+	}
+}
