@@ -453,7 +453,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
 		
-		if( ilObjTest::isQuestionObligatory($question_gui->object->getId()) )
+		if( $this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($question_gui->object->getId()) )
 		{
 		    $this->tpl->touchBlock('question_obligatory');
 		    $this->tpl->setVariable('QUESTION_OBLIGATORY', $this->lng->txt('required_field'));

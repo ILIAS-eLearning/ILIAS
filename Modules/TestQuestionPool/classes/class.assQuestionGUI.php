@@ -331,8 +331,15 @@ abstract class assQuestionGUI
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 		$title_output = ilObjTest::_getTitleOutput($active_id);
 		
-		$obligatory = ilObjTest::isQuestionObligatory($this->object->getId());
-		$obligatoryString = $obligatory ? ' *' : '';
+		if( $this->object->areObligationsToBeConsidered() && ilObjTest::isQuestionObligatory($this->object->getId()) )
+		{
+			$obligatoryString = ' *';
+		}
+		else
+		{
+			$obligatoryString = '';
+		}
+
 		switch ($title_output)
 		{
 			case 1:
