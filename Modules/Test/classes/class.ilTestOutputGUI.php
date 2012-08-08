@@ -2163,6 +2163,13 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->ctrl->redirectByClass('ilAssQuestionHintRequestGUI', ilAssQuestionHintRequestGUI::CMD_CONFIRM_REQUEST);
 	}
 	
+	/**
+	 * renders the elements for the question related navigation
+	 * 
+	 * @global ilTemplate $tpl
+	 * @global ilLanguage $lng
+	 * @param assQuestionGUI $questionGUI 
+	 */
 	private function fillQuestionRelatedNavigation(assQuestionGUI $questionGUI)
 	{
 		global $tpl, $lng;
