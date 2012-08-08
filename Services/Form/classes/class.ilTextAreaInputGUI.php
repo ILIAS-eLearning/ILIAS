@@ -270,6 +270,30 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
+ 	 * 
+	 */
+	public function addInternalTinyMCEImageManager()
+	{
+		/*
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilClientIniFile;
+
+		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		{
+			$this->addPlugin('ilimgupload');
+			$this->addButton('ilimgupload');
+			$this->removePlugin('ibrowser');
+			$this->removePlugin('image');
+
+			$this->disableButtons(array(
+				'ibrowser',
+				'image'
+			));
+		}
+	}
+
+	/**
 	* Set Valid RTE Tags.
 	*
 	* @param	array	$a_rtetags	Valid RTE Tags
