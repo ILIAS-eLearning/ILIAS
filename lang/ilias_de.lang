@@ -792,6 +792,8 @@ assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#obligatory#:#Obligatorisch
 assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten bevor Sie den Test abschließen können.
+assessment#:#tst_setting_enable_obligations_label#:#Obligatorische Fragen
+assessment#:#tst_setting_enable_obligations_info#:#Wählen Sie diese Option aus, um obligatorische Fragen (*) einzusetzen. Um den Test zu bestehen, ist das Beantworten aller verpflichtenden Fragen notwendig. Obligatorische Fragen werden in der "Listenansicht" definiert. Wir empfehlen beim Einsatz von obligatorischen Fragen die "Fragenübersicht" ebenfalls zu aktivieren.
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
 assessment#:#search_found_groups#:#Gefundene Gruppen

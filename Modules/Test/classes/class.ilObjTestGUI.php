@@ -1051,6 +1051,15 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->object->setScoreCutting($_POST["score_cutting"]);
 				$this->object->setPassScoring($_POST["pass_scoring"]);
 				
+				if( isset($_POST['obligations_enabled']) && $_POST['obligations_enabled'] )
+				{
+					$this->object->setObligationsEnabled(true);
+				}
+				else
+				{
+					$this->object->setObligationsEnabled(false);
+				}
+				
 				if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
 				{
 					$this->object->setOfferingQuestionHintsEnabled(true);
@@ -1201,6 +1210,17 @@ class ilObjTestGUI extends ilObjectGUI
 			$pass_scoring->setDisabled(true);
 		}
 		$form->addItem($pass_scoring);
+		
+		// enable obligations
+		$checkBoxEnableObligations = new ilCheckboxInputGUI($this->lng->txt("tst_setting_enable_obligations_label"), "obligations_enabled");
+		$checkBoxEnableObligations->setChecked($this->object->areObligationsEnabled());
+		$checkBoxEnableObligations->setInfo($this->lng->txt("tst_setting_enable_obligations_info"));
+		if( $total )
+		{
+			$checkBoxEnableObligations->setDisabled(true);
+		}
+		$form->addItem($checkBoxEnableObligations);
+		
 		
 		// offer hints
 		$checkBoxOfferHints = new ilCheckboxInputGUI($this->lng->txt("tst_setting_offer_hints_label"), "offer_hints");
@@ -5555,7 +5575,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$orders[$id] = $order;
 		}
 		
-		if( isset($_REQUEST['obligatory']) )
+		if( $this->object->areObligationsEnabled() && isset($_REQUEST['obligatory']) && is_array($_REQUEST['obligatory']) )
 		{
 			foreach($_REQUEST['obligatory'] as $qId => $obligation)
 			{
