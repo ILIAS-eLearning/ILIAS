@@ -380,6 +380,7 @@ class ilBookingReservation
 		
 		$ilDB->setLimit($a_limit, $a_offset);
 		$set = $ilDB->query($sql);
+		$res = array();
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$res[] = $row;
