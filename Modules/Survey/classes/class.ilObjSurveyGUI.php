@@ -1312,7 +1312,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$heading->setUseRte(TRUE);
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
-		$heading->removePlugin("ibrowser");
+		$heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
 		$heading->setRTESupport($this->object->getId(), "svy", "survey");
 		$heading->setRequired(true);
 		$form->addItem($heading);

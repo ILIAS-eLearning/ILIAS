@@ -57,7 +57,6 @@ class ilTinyMCE extends ilRTE
 		}
 		
 		$this->plugins = array(
-			"ibrowser",
 			"xhtmlxtras",
 			"style",
 			"layer",
@@ -81,6 +80,95 @@ class ilTinyMCE extends ilRTE
 		);
 		
 		$this->setStyleSelect(false);
+		$this->addInternalTinyMCEImageManager();
+	}
+
+	/**
+	 *
+	 */
+	public function addInternalTinyMCEImageManager()
+	{
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilClientIniFile;
+
+		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		{
+			parent::addPlugin('ilimgupload');
+			parent::addButton('ilimgupload');
+			parent::removePlugin('ibrowser');
+			parent::removePlugin('image');
+
+			$this->disableButtons(array(
+				'ibrowser',
+				'image'
+			));
+		}
+		else
+		{
+			parent::addPlugin('ibrowser');
+
+			parent::removePlugin('ilimgupload');
+			$this->disableButtons('ilimgupload');
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	protected function handleIliasImageManagerAdded()
+	{
+		$this->addInternalTinyMCEImageManager();
+	}
+
+	protected function handleIliasImageManagerRemoved()
+	{
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilClientIniFile;
+
+		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		{
+			parent::removePlugin('ilimgupload');
+			$this->disableButtons('ilimgupload');
+		}
+		else
+		{
+			parent::removePlugin('ibrowser');
+			$this->disableButtons('ibrowser');
+		}
+	}
+
+	/**
+	 * @param string $a_plugin_name
+	 */
+	public function addPlugin($a_plugin_name)
+	{
+		if(self::ILIAS_IMG_MANAGER_PLUGIN == $a_plugin_name)
+		{
+			$this->handleIliasImageManagerAdded();
+		}
+		else
+		{
+			parent::addPlugin($a_plugin_name);
+		}
+	}
+
+	/**
+	 * @param string $a_plugin_name
+	 */
+	public function removePlugin($a_plugin_name)
+	{
+		if(self::ILIAS_IMG_MANAGER_PLUGIN == $a_plugin_name)
+		{
+			$this->handleIliasImageManagerRemoved();
+		}
+		else
+		{
+			parent::removePlugin($a_plugin_name);
+		}
 	}
 	
 	/**
@@ -489,6 +577,7 @@ class ilTinyMCE extends ilRTE
 				//array_push($theme_advanced_buttons, "advimage");
 				array_push($theme_advanced_buttons, "image");
 				array_push($theme_advanced_buttons, "ibrowser");
+				array_push($theme_advanced_buttons, "ilimgupload");
 			}
 			if (in_array("a", $a_html_tags))
 			{
@@ -628,6 +717,7 @@ class ilTinyMCE extends ilRTE
 			//array_push($theme_advanced_buttons, "advimage");
 			array_push($theme_advanced_buttons, "image");
 			array_push($theme_advanced_buttons, "ibrowser");
+			array_push($theme_advanced_buttons, "ilimgupload");
 		}
 		if (in_array("a", $a_html_tags))
 		{

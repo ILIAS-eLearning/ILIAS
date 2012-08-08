@@ -22,6 +22,7 @@
 */
 
 include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+include_once "./Services/RTE/classes/class.ilRTE.php";
 
 /**
 * This class represents a text area property in a property form.
@@ -270,30 +271,6 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
- 	 * 
-	 */
-	public function addInternalTinyMCEImageManager()
-	{
-		/*
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilClientIniFile;
-
-		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
-		{
-			$this->addPlugin('ilimgupload');
-			$this->addButton('ilimgupload');
-			$this->removePlugin('ibrowser');
-			$this->removePlugin('image');
-
-			$this->disableButtons(array(
-				'ibrowser',
-				'image'
-			));
-		}
-	}
-
-	/**
 	* Set Valid RTE Tags.
 	*
 	* @param	array	$a_rtetags	Valid RTE Tags
@@ -435,7 +412,6 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 		{
 			if ($this->getUseRte())
 			{
-				include_once "./Services/RTE/classes/class.ilRTE.php";
 				$rtestring = ilRTE::_getRTEClassname();
 				include_once "./Services/RTE/classes/class.$rtestring.php";
 				$rte = new $rtestring($this->rteSupport['version']);

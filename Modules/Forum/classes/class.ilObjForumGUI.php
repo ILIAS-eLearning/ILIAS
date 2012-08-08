@@ -1306,7 +1306,6 @@ class ilObjForumGUI extends ilObjectGUI
 			'pastetext',
 			'formatselect'
 		));
-		$oPostGUI->addInternalTinyMCEImageManager();
 
 		if($_GET['action'] == 'showreply' || $_GET['action'] == 'ready_showreply')
 		{
@@ -3163,8 +3162,7 @@ class ilObjForumGUI extends ilObjectGUI
 			'pastetext',
 			'formatselect'
 		));
-		$post_gui->addInternalTinyMCEImageManager();
-		
+
 		// purifier
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		$post_gui->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
