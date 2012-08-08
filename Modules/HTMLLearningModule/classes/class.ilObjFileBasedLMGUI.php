@@ -604,10 +604,20 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
 	function showLearningModule()
 	{
+		global $ilUser;
+		
 		// Note license usage
 		include_once "Services/License/classes/class.ilLicense.php";
 		ilLicense::_noteAccess($this->object->getId(), $this->object->getType(),
 			$this->object->getRefId());
+		
+		// #9483
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
+		{	
+			include_once "Services/Tracking/classes/class.ilLearningProgress.php";
+			ilLearningProgress::_tracProgress($ilUser->getId(), $this->object->getId(), 
+				$this->object->getRefId(), "htlm");	
+		}
 
 		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
 		$startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
