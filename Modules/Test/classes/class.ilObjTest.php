@@ -5738,6 +5738,8 @@ function getAnswerFeedbackPoints()
 		$question_type_gui = $question_type . "GUI";
 		$question = new $question_type_gui();
 		
+		$question->object->setObligationsToBeConsidered( $this->areObligationsEnabled() );
+		
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
