@@ -33,6 +33,8 @@
 */
 class ilRTE
 {
+	const ILIAS_IMG_MANAGER_PLUGIN = 'ilias_image_manager_plugin';
+	
 	/**
 	* Additional plugins for the rich text editor
 	*

@@ -5125,16 +5125,13 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$post_gui->addPlugin('latex');
 		$post_gui->addButton('latex');
 		$post_gui->addButton('pastelatex');
-		#$post_gui->addPlugin('ilfrmquote');
-		#$post_gui->addPlugin('code'); 
 		$post_gui->addPlugin('ilimgupload');
 		$post_gui->addButton('ilimgupload');
 		$post_gui->removePlugin('advlink');
-		$post_gui->removePlugin('ibrowser');
+		$post_gui->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
 		$post_gui->removePlugin('image');
 		$post_gui->usePurifier(true);	
 		$post_gui->setRTERootBlockElement('');
-		#$post_gui->setRTESupport($ilUser->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.html');
 		$post_gui->setRTESupport(ilObject::_lookupObjId($this->ref_id), 'pays~', 'frm_post', 'tpl.tinymce_frm_post.html', false, '3.4.7');
 		$post_gui->disableButtons(array(
 			'charmap',
@@ -5151,8 +5148,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			'paste',
 			'pastetext',
 			'formatselect',
-			'image',
-			'ibrowser'
+			'image'
 		));
 		// purifier
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
