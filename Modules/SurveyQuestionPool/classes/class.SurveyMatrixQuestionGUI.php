@@ -181,6 +181,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$question->addPlugin("latex");
 		$question->addButton("latex");
 		$question->addButton("pastelatex");
+		$question->setRTESupport($this->object->getId(), "spl", "survey");
 		$form->addItem($question);
 		
 		// subtype
