@@ -756,7 +756,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	function applyLogFilterObject()
 	{
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
-		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id);
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id,
+			$this->object->getId(), ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
 		$table->resetOffset();
 		$table->writeFilterToSession();
 		$this->logObject();
@@ -768,7 +769,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	function resetLogFilterObject()
 	{
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservationsTableGUI.php';
-		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id);
+		$table = new ilBookingReservationsTableGUI($this, 'log', $this->ref_id,
+			$this->object->getId(), ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE));
 		$table->resetOffset();
 		$table->resetFilter();
 		$this->logObject();

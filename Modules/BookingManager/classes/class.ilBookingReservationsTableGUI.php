@@ -57,7 +57,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->setResetCommand("resetLogFilter");
 		$this->setFilterCommand("applyLogFilter");
 		$this->setDisableFilterHiding(true);
-
+		
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 
@@ -220,6 +221,78 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
 			$this->tpl->setVariable('LAYER', $alist->getHTML());
 		}		
+	}
+	
+	protected function fillHeaderExcel($a_worksheet, &$a_row)
+	{		
+		$a_worksheet->write($a_row, 0, $this->lng->txt("title"));					
+		$col = 0;
+		if($this->has_schedule)
+		{
+			$a_worksheet->write($a_row, ++$col, $this->lng->txt("from"));
+			$a_worksheet->write($a_row, ++$col, $this->lng->txt("to"));
+		}				
+		$a_worksheet->write($a_row, ++$col, $this->lng->txt("user"));		
+		$a_worksheet->write($a_row, ++$col, $this->lng->txt("status"));		
+		$a_row++;
+	}
+
+	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	{
+		$a_worksheet->write($a_row, 0, $a_set["title"]);		
+		$col = 0;
+		if($this->has_schedule)
+		{
+			$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
+			$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
+			$a_worksheet->write($a_row, ++$col, ilDatePresentation::formatDate($date_from));
+			$a_worksheet->write($a_row, ++$col, ilDatePresentation::formatDate($date_to));
+		}						
+		$a_worksheet->write($a_row, ++$col, ilObjUser::_lookupFullName($a_set['user_id']));		
+		
+		$status = "";
+		if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+		{
+			$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
+		}
+		$a_worksheet->write($a_row, ++$col, $status);
+		
+		$a_row++;
+	}
+
+	protected function fillHeaderCSV($a_csv)
+	{		
+		$a_csv->addColumn($this->lng->txt("title"));					
+		if($this->has_schedule)
+		{
+			$a_csv->addColumn($this->lng->txt("from"));
+			$a_csv->addColumn($this->lng->txt("to"));
+		}				
+		$a_csv->addColumn($this->lng->txt("user"));				
+		$a_csv->addColumn($this->lng->txt("status"));				
+		$a_csv->addRow();		
+	}
+
+	protected function fillRowCSV($a_csv, $a_set)
+	{		
+		$a_csv->addColumn($a_set["title"]);		
+		if($this->has_schedule)
+		{
+			$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
+			$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
+			$a_csv->addColumn(ilDatePresentation::formatDate($date_from));
+			$a_csv->addColumn(ilDatePresentation::formatDate($date_to));
+		}						
+		$a_csv->addColumn(ilObjUser::_lookupFullName($a_set['user_id']));	
+		
+		$status = "";
+		if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+		{
+			$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
+		}
+		$a_csv->addColumn($status);
+		
+		$a_csv->addRow();
 	}
 }
 
