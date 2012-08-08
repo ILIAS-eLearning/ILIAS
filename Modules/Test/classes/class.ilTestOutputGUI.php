@@ -2166,6 +2166,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	/**
 	 * renders the elements for the question related navigation
 	 * 
+	 * @access private
 	 * @global ilTemplate $tpl
 	 * @global ilLanguage $lng
 	 * @param assQuestionGUI $questionGUI 
