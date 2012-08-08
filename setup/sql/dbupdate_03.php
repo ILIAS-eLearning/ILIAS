@@ -11961,3 +11961,31 @@ if (!$ilDB->tableColumnExists('tst_tests', 'obligations_enabled'))
 }
 
 ?>
+<#3696>
+<?php
+
+$text_questions = $ilDB->query(
+	'SELECT question_fi, keywords, points
+	 FROM qpl_questions
+	 JOIN qpl_qst_essay ON qpl_questions.question_id = qpl_qst_essay.question_fi 
+	 WHERE keywords IS NOT NULL'
+	);
+
+while ($row = $ilDB->fetchAssoc($text_questions))
+{
+	$points = $row['points'];
+	foreach (preg_split ("/[\s, ]+/", $row['keywords']) as $keyword)
+	{
+		$keyword = trim($keyword);
+		if (strlen($keyword))
+		{
+			$nextId = $ilDB->nextId('qpl_a_essay');
+			$query = 'INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) VALUES (%s, %s, %s, %s)';
+			$types = array("integer", "integer", "text", "integer");
+			$values = array($nextId, $row['question_fi'], $keyword, $points);
+			$ilDB->manipulateF($query, $types, $values);
+			$points = 0;
+		}
+	}
+}
+?>

@@ -182,6 +182,13 @@ adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS Content Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
+assessment#:#for#:#for
+assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:
+assessment#:#essay_keyword_relation#:#Score is granted
+assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.
+assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.
+assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.
+assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.
 assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#action#:#Action

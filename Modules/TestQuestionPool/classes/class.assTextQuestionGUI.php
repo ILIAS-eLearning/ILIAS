@@ -73,9 +73,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$questiontext = $_POST["question"];
 			$this->object->setQuestion($questiontext);
-			$this->object->setPoints($_POST["points"]);
 			$this->object->setMaxNumOfChars($_POST["maxchars"]);
-			$this->object->setKeywords($_POST["keywords"]);
 			$this->object->setTextRating($_POST["text_rating"]);
 			if ($this->getSelfAssessmentEditingMode())
 			{
@@ -86,6 +84,10 @@ class assTextQuestionGUI extends assQuestionGUI
 				$_POST["Estimated"]["mm"],
 				$_POST["Estimated"]["ss"]
 			);
+			
+			$this->object->setAnswers($_POST['choice']);
+			$this->object->setPoints($this->object->getMaximumPoints());
+			$this->object->setKeywordRelation($_POST['keyword_relation']);
 			return 0;
 		}
 		else
@@ -123,43 +125,37 @@ class assTextQuestionGUI extends assQuestionGUI
 		$form->addItem($maxchars);
 
 		if (!$this->getSelfAssessmentEditingMode())
-		{
-			// points
-			$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-			$points->setValue($this->object->getPoints());
-			$points->setRequired(TRUE);
-			$points->setSize(3);
-			$points->setMinValue(0.0);
-			$points->setMinvalueShouldBeGreater(true);
-			$form->addItem($points);
-	
+		{	
 			$header = new ilFormSectionHeaderGUI();
 			$header->setTitle($this->lng->txt("optional_keywords"));
 			$form->addItem($header);
-			
-			// keywords
-			$keywords = new ilTextAreaInputGUI($this->lng->txt("keywords"), "keywords");
-			$keywords->setValue(ilUtil::prepareFormOutput($this->object->getKeywords()));
-			$keywords->setRequired(FALSE);
-			$keywords->setInfo($this->lng->txt("keywords_hint"));
-			$keywords->setRows(10);
-			$keywords->setCols(40);
-			$keywords->setUseRte(FALSE);
-			$form->addItem($keywords);
-			// text rating
-			$textrating = new ilSelectInputGUI($this->lng->txt("text_rating"), "text_rating");
-			$text_options = array(
-				"ci" => $this->lng->txt("cloze_textgap_case_insensitive"),
-				"cs" => $this->lng->txt("cloze_textgap_case_sensitive"),
-				"l1" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "1"),
-				"l2" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "2"),
-				"l3" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "3"),
-				"l4" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "4"),
-				"l5" => sprintf($this->lng->txt("cloze_textgap_levenshtein_of"), "5")
+
+			// relation of keywords for scoring
+			$relation = new ilSelectInputGUI($this->lng->txt("essay_keyword_relation"), "essay_keyword_relation");
+			$relation_options = array(
+				"any" => $this->lng->txt("essay_keyword_relation_any"),
+				"all" => $this->lng->txt("essay_keyword_relation_all"),
+				"one" => $this->lng->txt("essay_keyword_relation_one")
 			);
-			$textrating->setOptions($text_options);
-			$textrating->setValue($this->object->getTextRating());
-			$form->addItem($textrating);
+			$relation->setOptions($relation_options);
+			$relation->setValue($this->object->getKeywordRelation());
+			$relation->setInfo($this->lng->txt("essay_keyword_relation_desc"));
+			$form->addItem($relation);
+			
+			// Keywords
+			require_once "./Modules/TestQuestionPool/classes/class.ilEssayKeywordWizardInputGUI.php";
+			$keyword = new ilEssayKeywordWizardInputGUI($this->lng->txt("answers"), "choice");
+			$keyword->setRequired(TRUE);
+			$keyword->setQuestionObject($this->object);
+			$keyword->setSingleline(TRUE);
+			if ($this->getSelfAssessmentEditingMode())
+			{
+				$keyword->setSize(80);
+				$keyword->setMaxLength(800);
+			}
+			if ($this->object->getAnswerCount() == 0) $this->object->addAnswer("", 0, 0, 0);
+			$keyword->setValues($this->object->getAnswers());
+			$form->addItem($keyword);
 		}
 		
 		$this->addQuestionFormCommandButtons($form);
@@ -296,6 +292,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		}
 		$questionoutput = $template->get();
+		
 		$feedback = ($show_feedback) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
 		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
@@ -311,11 +308,29 @@ class assTextQuestionGUI extends assQuestionGUI
 
 	private function getBestAnswer()
 	{
-		$keywords = $this->object->getKeywordList();
-		if (count( $keywords ))
+		$answers = $this->object->getAnswers();
+		if (count( $answers ))
 		{
-			$user_solution = $this->lng->txt( "solution_may_contain_keywords" ) . ": <br />" . join( ",", $keywords );
-			return $user_solution;
+			$user_solution = $this->lng->txt( "solution_contain_keywords" ) . ":<ul>";
+			
+			foreach ($answers as $answer)
+			{
+				$user_solution .= '<li>'. $answer->getAnswertext() . ' ';
+				$user_solution .= $this->lng->txt('for') . ' ';
+				$user_solution .= $answer->getPoints() . ' ' . $this->lng->txt('points') . '</li>';
+			}
+			$user_solution .= '</ul>';
+			
+			$user_solution .= $this->lng->txt('essay_keyword_relation') . ' ';
+			
+			if ($this->object->getKeywordRelation() == 'any')
+			{
+				$user_solution .= $this->lng->txt('essay_keyword_relation_any');
+			}
+			else
+			{
+				$user_solution .= $this->lng->txt('essay_keyword_relation_all');				
+			}
 		}
 		return $user_solution;
 	}
@@ -443,6 +458,11 @@ class assTextQuestionGUI extends assQuestionGUI
 		$errors = $this->feedback(true);
 		$this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
 		$this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
+		foreach ($this->object->getAnswers() as $index => $answer)
+		{
+			$this->object->saveFeedbackSingleAnswer($index, $_POST["feedback_answer_$index"]);
+		}
+		
 		$this->object->cleanupMediaObjectUsage();
 		parent::saveFeedback();
 	}
@@ -554,9 +574,106 @@ class assTextQuestionGUI extends assQuestionGUI
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$output = "";
-		return $this->object->prepareTextareaOutput($output, TRUE);
+			$feedback = '<table><tbody>';
+			$user_answers = $this->object->getSolutionValues($active_id);
+			$user_answer = '  '. $user_answers[0]['value1'];
+		
+			foreach ($this->object->getAnswers() as $idx => $ans)
+			{
+				if ($this->object->isKeywordInAnswer($user_answer, $ans->getAnswertext() ))
+				{
+					$feedback .= '<tr><td><b><i>' . $ans->getAnswertext() . '</i></b></td><td>';
+					$feedback .= $this->object->getFeedbackSingleAnswer($idx) . '</td> </tr>';
+				}
+			}
+		
+			$feedback .= '</tbody></table>';
+			return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
+	/**
+	 * Creates the output of the feedback page for a single choice question
+	 *
+	 * @access public
+	 */
+	function feedback($checkonly = false)
+	{
+		$save = (strcmp($this->ctrl->getCmd(), "saveFeedback") == 0) ? TRUE : FALSE;
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->setTitle($this->lng->txt('feedback_answers'));
+		$form->setTableWidth("98%");
+		$form->setId("feedback");
 
+		$complete = new ilTextAreaInputGUI($this->lng->txt("feedback_complete_solution"), "feedback_complete");
+		$complete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(1)));
+		$complete->setRequired(false);
+		$complete->setRows(10);
+		$complete->setCols(80);
+		if (!$this->getPreventRteUsage())
+		{
+			$complete->setUseRte(true);
+		}
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$complete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+		$complete->addPlugin("latex");
+		$complete->addButton("latex");
+		$complete->addButton("pastelatex");
+		$complete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($complete);
+
+		$incomplete = new ilTextAreaInputGUI($this->lng->txt("feedback_incomplete_solution"), "feedback_incomplete");
+		$incomplete->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackGeneric(0)));
+		$incomplete->setRequired(false);
+		$incomplete->setRows(10);
+		$incomplete->setCols(80);
+		if (!$this->getPreventRteUsage())
+		{
+			$incomplete->setUseRte(true);
+		}
+		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+		$incomplete->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+		$incomplete->addPlugin("latex");
+		$incomplete->addButton("latex");
+		$incomplete->addButton("pastelatex");
+		$incomplete->setRTESupport($this->object->getId(), "qpl", "assessment");
+		$form->addItem($incomplete);
+
+		if (!$this->getSelfAssessmentEditingMode())
+		{
+			foreach ($this->object->getAnswers() as $index => $answer)
+			{
+				$caption = $ordinal = $index+1;
+				$caption .= '. ' . $answer->getAnswertext();
+
+				$answerobj = new ilTextAreaInputGUI($this->object->prepareTextareaOutput($caption, true), "feedback_answer_$index");
+				$answerobj->setValue($this->object->prepareTextareaOutput($this->object->getFeedbackSingleAnswer($index)));
+				$answerobj->setRequired(false);
+				$answerobj->setRows(10);
+				$answerobj->setCols(80);
+				$answerobj->setUseRte(true);
+				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$answerobj->addPlugin("latex");
+				$answerobj->addButton("latex");
+				$answerobj->addButton("pastelatex");
+				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
+				$form->addItem($answerobj);
+			}
+		}
+
+		global $ilAccess;
+		if ($ilAccess->checkAccess("write", "", $_GET['ref_id']) || $this->getSelfAssessmentEditingMode())
+		{
+			$form->addCommandButton("saveFeedback", $this->lng->txt("save"));
+		}
+		if ($save)
+		{
+			$form->setValuesByPost();
+			$errors = !$form->checkInput();
+			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
+		}
+		if (!$checkonly) $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+		return $errors;
+	}
 }
-?>
