@@ -67,7 +67,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
 		//$this->addColumn($this->lng->txt("tst_sequence"),'sequence', '');
-		$this->addColumn($this->lng->txt("obligatory"),'obligatory', '');
+		if( $a_parent_obj->object->areObligationsEnabled() )
+		{
+			$this->addColumn($this->lng->txt("obligatory"),'obligatory', '');
+		}
 		$this->addColumn($this->lng->txt("description"),'description', '');
 		$this->addColumn($this->lng->txt("tst_question_type"),'type', '');
 		$this->addColumn($this->lng->txt("points"),'', '');
@@ -99,7 +102,14 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->addCommandButton('saveOrderAndObligations', $this->lng->txt('saveOrderAndObligations'));
+		if( $a_parent_obj->object->areObligationsEnabled() )
+		{
+			$this->addCommandButton('saveOrderAndObligations', $this->lng->txt('saveOrderAndObligations'));
+		}
+		else
+		{
+			$this->addCommandButton('saveOrderAndObligations', $this->lng->txt('saveOrder'));
+		}
 
 		$this->disable('sort');
 		$this->enable('header');
@@ -171,7 +181,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 			else $OBLIGATORY = '';
 		}
 		
-		$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
+		if( $this->parent_obj->object->areObligationsEnabled() )
+		{
+			$this->tpl->setVariable("QUESTION_OBLIGATORY", $OBLIGATORY);
+		}
 		
 		$this->tpl->setVariable("QUESTION_SEQUENCE", $this->lng->txt("tst_sequence"));
 

@@ -419,6 +419,13 @@ class ilObjTest extends ilObject
 	 * @var boolean
 	 */
 	private $offeringQuestionHintsEnabled = null;
+
+	/**
+	 * defines wether it is possible to define obligatory questions
+	 * 
+	 * @var boolean
+	 */
+	private $obligationsEnabled = null;
 	
 	protected $activation_visibility;
 
@@ -1214,6 +1221,7 @@ class ilObjTest extends ilObject
 				'template_id' => array('integer', $this->getTemplate()),
 				'pool_usage' => array('integer', $this->getPoolUsage()),
 				'print_bs_with_res' => array('integer', (int) $this->isBestSolutionPrintedWithResult()),
+				'obligations_enabled' => array('integer', (int) $this->areObligationsEnabled()),
 				'offer_question_hints' => array('integer', (int) $this->isOfferingQuestionHintsEnabled()),
 				'highscore_enabled' => array('integer', (int) $this->getHighscoreEnabled()),
 				'highscore_anon' => array('integer', (int) $this->getHighscoreAnon()),
@@ -1264,7 +1272,7 @@ class ilObjTest extends ilObject
 				"offer_question_hints = %s, highscore_enabled = %s, highscore_anon = %s, highscore_achieved_ts = %s, " . 
 				"highscore_score = %s, highscore_percentage = %s, ".
 				"highscore_hints = %s, highscore_wtime = %s, highscore_own_table = %s, highscore_top_table = %s, highscore_top_num = %s, " .
-				"online_status = %s, specific_feedback = %s ".
+				"online_status = %s, specific_feedback = %s, obligations_enabled = %s ".
 				"WHERE test_id = %s",
 				array(
 					'text', 'text', 
@@ -1279,7 +1287,7 @@ class ilObjTest extends ilObject
 					'integer', 'integer', 'integer', 'integer', 
 					'integer', 'integer', 
 					'integer', 'integer', 'integer', 'integer', 'integer', 
-					'integer', 'integer',
+					'integer', 'integer','integer',
 					'integer'
 				),
 				array(
@@ -1349,10 +1357,11 @@ class ilObjTest extends ilObject
 					(int) $this->getHighscoreTopNum(),
 					(int) $this->isOnline(),
 					(int) $this->getSpecificAnswerFeedback(),
+					(int)$this->areObligationsEnabled(),
 					$this->getTestId()
 				)
 			);
-
+			
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
@@ -2129,6 +2138,7 @@ class ilObjTest extends ilObject
 			$this->setAllowedUsers($data->allowedusers);
 			$this->setAllowedUsersTimeGap($data->alloweduserstimegap);
 			$this->setPassScoring($data->pass_scoring);
+			$this->setObligationsEnabled($data->obligations_enabled);
 			$this->setOfferingQuestionHintsEnabled($data->offer_question_hints);
 			$this->setCertificateVisibility($data->certificate_visibility);
                         $this->setEnabledViewMode($data->enabled_view_mode);
@@ -9599,6 +9609,7 @@ function getAnswerFeedbackPoints()
 			"mailnottype" => $this->getMailNotificationType(),
 			"exportsettings" => $this->getExportSettings(),
 			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings(),
+			'obligations_enabled' => (int)$this->areObligationsEnabled(),
 			'offer_question_hints' => (int)$this->isOfferingQuestionHintsEnabled()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
@@ -9664,6 +9675,7 @@ function getAnswerFeedbackPoints()
 			$this->setMailNotificationType($testsettings["mailnottype"]);
 			$this->setExportSettings($testsettings['exportsettings']);
 			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
+			$this->setObligationsEnabled($testsettings["obligations_enabled"]);
 			$this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
 			$this->setHighscoreEnabled($testsettings['highscore_enabled']);
 			$this->setHighscoreAnon($testsettings['highscore_anon']);
@@ -11119,6 +11131,26 @@ function getAnswerFeedbackPoints()
 			default:
 				return 0;
 		}
+	}
+	
+	/**
+	 * sets obligations enabled/disabled
+	 *
+	 * @param boolean $obligationsEnabled
+	 */
+	public function setObligationsEnabled($obligationsEnabled = true)
+	{
+		$this->obligationsEnabled = (bool)$obligationsEnabled;
+	}
+	
+	/**
+	 * returns the fact wether obligations are enabled or not
+	 *
+	 * @return boolean
+	 */
+	public function areObligationsEnabled()
+	{
+		return (bool)$this->obligationsEnabled;
 	}
 	
 	public static function isQuestionObligationPossible($questionId)
