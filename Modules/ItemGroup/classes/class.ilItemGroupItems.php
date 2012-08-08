@@ -136,5 +136,18 @@ class ilItemGroupItems
 		}
 	}
 
+	/**
+	 * Get valid items
+	 *
+	 * @param
+	 * @return
+	 */
+	function getValidItems()
+	{
+		$items = $this->getItems();
+		
+		return $items;
+	}
+	
 }
 ?>

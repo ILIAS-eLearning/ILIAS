@@ -170,6 +170,10 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 				
 				foreach($this->items[$type] as $item_data)
 				{
+					if ($this->rendered_items[$item_data["child"]])
+					{
+						continue;
+					}
 					$html = $this->renderItem($item_data,$position++);
 					if ($html != "")
 					{
