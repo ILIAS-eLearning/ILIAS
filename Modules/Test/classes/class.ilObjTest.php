@@ -5729,15 +5729,20 @@ function getAnswerFeedbackPoints()
 		{
 			$question_type = $this->getQuestionType($question_id);
 		}
+		
 		if (!strlen($question_type)) return null;
+		
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		assQuestion::_includeClass($question_type, 1);
+		
 		$question_type_gui = $question_type . "GUI";
 		$question = new $question_type_gui();
+		
 		if ($question_id > 0)
 		{
 			$question->object->loadFromDb($question_id);
 		}
+		
 		return $question;
   }
 
