@@ -185,7 +185,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			return parent::initFilter(true);
 		}
 
-		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true);
+		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true,
+			"&#8721; ".$lng->txt("users"));
 		$this->filter["user_total"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("read_count", ilTable2GUI::FILTER_NUMBER_RANGE, true,
