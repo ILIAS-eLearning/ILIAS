@@ -189,16 +189,16 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->filter["user_total"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("read_count", ilTable2GUI::FILTER_NUMBER_RANGE, true,
-			$lng->txt("trac_read_count"));
+			"&#8721; ".$lng->txt("trac_read_count"));
 		$this->filter["read_count"] = $item->getValue();
 
 		$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE,
-			true, $lng->txt("trac_spent_seconds"));
+			true, "&#216; ".$lng->txt("trac_spent_seconds")." / ".$lng->txt("user"));
 		$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
 		$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
 
 		$item = $this->addFilterItemByMetaType("percentage", ilTable2GUI::FILTER_NUMBER_RANGE, true,
-			$lng->txt("trac_percentage"));
+			"&#216; ".$lng->txt("trac_percentage")." / ".$lng->txt("user"));
 		$this->filter["percentage"] = $item->getValue();
 
 		include_once "Services/Tracking/classes/class.ilLPStatus.php";
