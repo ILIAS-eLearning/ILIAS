@@ -212,9 +212,15 @@ class ilLearningProgressBaseGUI
 
 					if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'lm', 'htlm', 'exc')))
 					{
-						$this->tabs_gui->addSubTabTarget("trac_matrix",
-														$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
-														"", "", "", $a_active == LP_ACTIVE_MATRIX);
+						// do not show status if learning progress is deactivated
+						// matrix only consists of status...
+						$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+						if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+						{
+							$this->tabs_gui->addSubTabTarget("trac_matrix",
+															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
+															"", "", "", $a_active == LP_ACTIVE_MATRIX);
+						}
 					}
 
 					$this->tabs_gui->addSubTabTarget("trac_summary",
