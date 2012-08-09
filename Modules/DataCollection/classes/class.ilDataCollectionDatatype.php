@@ -17,7 +17,8 @@ class ilDataCollectionDatatype
 	protected $id; // [int]
 	protected $title; // [string]
 	protected $storageLocation; // [int]
-	
+    protected $dbType;
+
 	// TEXT
 	const INPUTFORMAT_TEXT 			= 2;
 	// NUMBER
@@ -97,6 +98,9 @@ class ilDataCollectionDatatype
 		return $this->storageLocation;
 	}
 
+    function getDbType(){
+        return $this->dbType;
+    }
 
 	/**
 	* Read Datatype
@@ -110,6 +114,7 @@ class ilDataCollectionDatatype
 		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setTitle($rec["title"]);
+        $this->dbType = $rec["ildb_type"];
 		$this->setStorageLocation($rec["storage_location"]);
 	}
 
@@ -160,7 +165,18 @@ class ilDataCollectionDatatype
 		return $all;
 	}
 
-
+    static function checkValidity($type_id, $value){
+        //TODO: finish this list.
+        switch($type_id){
+            case INPUTFORMAT_NUMBER:
+                $return = is_int($value);
+                break;
+            default:
+                $return = true;
+                break;
+        }
+        return $return;
+    }
 }
 
 ?>

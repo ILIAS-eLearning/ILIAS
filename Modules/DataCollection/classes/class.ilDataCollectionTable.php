@@ -12,12 +12,15 @@
 * @ingroup ModulesDataCollection
 */
 
+include_once './Modules/DataCollection/classes/class.ilDataCollectionStandardField.php';
+
 class ilDataCollectionTable
 {
 	protected $id; // [int]
 	protected $objId; // [int]
 	protected $title; // [string]
-	
+    private $fields; // [array][ilDataCollectionField]
+    private $records;
 
 	/**
 	* Constructor
@@ -94,7 +97,23 @@ class ilDataCollectionTable
 		return $this->title;
 	}
 
-	
+    function getRecords(){
+        $this->loadRecords();
+        return $this->records;
+    }
+
+    private function loadRecords(){
+        if($this->records == Null){
+            $records = array();
+            global $ilDB;
+            $query = "SELECT id FROM il_dlc_records WHERE table_id = ".$this->id;
+            $set = $ilDB->query($query);
+            while($rec = $ilDB->fetchAssoc($set)){
+                $records[$rec['id']] = new ilDataCollectionRecord($rec['id']);
+            }
+            $this->records = $records;
+        }
+    }
 	/**
 	* Read table
 	*/
@@ -110,7 +129,7 @@ class ilDataCollectionTable
 		$this->setTitle($rec["title"]);		
 	}
 
-
+    //TODO: replace this method with DataCollection->getTables()
 	/**
 	* get all tables of a Data Collection Object
 	*
@@ -136,6 +155,53 @@ class ilDataCollectionTable
 		return $all; 
 	}
 
+    function deleteField($field_id){
+        $field = new ilDataCollectionField($field_id);
+        $field->doDelete();
+
+        //TODO: delete records.
+    }
+
+    function getField($field_id){
+        $fields = $this->getFields();
+        return $fields[$field_id];
+    }
+
+    function getFieldIds(){
+        return array_keys($this->getFields());
+    }
+
+    private function loadFields(){
+        if($this->fields == NULL){
+            global $ilDB;
+
+            $query = "SELECT * FROM il_dcl_field WHERE table_id =".$this->id;
+            $fields = array();
+            $set = $ilDB->query($query);
+            while($rec = $ilDB->fetchAssoc($set)){
+                $field = new ilDataCollectionField();
+                $field->buildFromDBRecord($rec);
+                $fields[$field->getId()] = $field;
+            }
+            $fields = array_merge($fields, ilDataCollectionStandardField::_getStandardFields($this->id));
+            $this->fields = $fields;
+        }
+    }
+
+    function getFields(){
+        $this->loadFields();
+        return $this->fields;
+    }
+
+    function getVisibleFields(){
+        $fields = $this->getFields();
+        $visibleFields = array();
+        foreach($fields as $field)
+            if($field->isVisible())
+                array_push($visibleFields, $field);
+        return $visibleFields;
+    }
+
 	/**
 	* Create new table
 	*/
@@ -156,6 +222,9 @@ class ilDataCollectionTable
 		.")";
 		$ilDB->manipulate($query);
 
+        $view_id = $ilDB->nextId("il_dcl_view");
+        $query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", 1, 1)";
+        $ilDB->manipulate($query);
 	}
 }
 

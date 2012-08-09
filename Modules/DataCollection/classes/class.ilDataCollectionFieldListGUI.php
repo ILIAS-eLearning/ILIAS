@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once ("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
+require_once ("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+
 
 /**
 * Class ilDataCollectionFieldListGUI
@@ -60,6 +62,16 @@ class ilDataCollectionFieldListGUI
 				break;
 		}
 	}
+
+    function save(){
+        $table = new ilDataCollectionTable($_GET['table_id']);
+        $fields = $table->getFields();
+        foreach($fields as $field){
+            $field->setVisible($_POST['visible'][$field->getId()] == "on");
+            $field->doUpdate();
+        }
+        $this->listFields();
+    }
 	
 	/**
 	 * list fields
@@ -91,10 +103,8 @@ class ilDataCollectionFieldListGUI
 		//->setParameterByClass("ildatacollectiontableeditgui","table_id", $this->table_id);
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
 		
-		$records = ilDataCollectionField::getAll($this->table_id);
-
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionFieldListTableGUI.php');
-		$list = new ilDataCollectionFieldListTableGUI($this, $ilCtrl->getCmd(), $records);
+		$list = new ilDataCollectionFieldListTableGUI($this, $ilCtrl->getCmd(), $this->table_id);
 
 		$tpl->setContent($list->getHTML());
 
