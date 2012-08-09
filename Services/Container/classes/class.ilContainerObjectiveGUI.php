@@ -106,6 +106,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		$this->showStatus($tpl);
 		$this->showObjectives($tpl);
 		$this->showMaterials($tpl,self::MATERIALS_TESTS);
+
 		$this->showMaterials($tpl,self::MATERIALS_OTHER);
 
 		$tpl->setVariable('CONTAINER_PAGE_CONTENT',$this->output_html);		
@@ -265,6 +266,16 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		}
 		
 		$tpl = $this->newBlockTemplate();
+		
+		// item groups
+		$tpl = $this->newBlockTemplate();
+		
+		if ($a_mode == self::MATERIALS_OTHER)
+		{
+			$this->getItemGroupsHTML($tpl);
+		}
+
+		
 		if (is_array($this->items["_all"]))
 		{
 			// all rows
@@ -274,6 +285,10 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			foreach($this->items["_all"] as $k => $item_data)
 			{
 				if($a_mode == self::MATERIALS_TESTS and $item_data['type'] != 'tst')
+				{
+					continue;
+				}
+				if ($item_data['type'] == 'itgr')
 				{
 					continue;
 				}

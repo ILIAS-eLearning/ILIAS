@@ -87,8 +87,11 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 			$output_html = $this->insertPageEmbeddedBlocks($output_html);
 		}
 
-		
 		$tpl = $this->newBlockTemplate();
+		
+		// item groups
+		$this->getItemGroupsHTML($tpl);
+		
 		if (is_array($this->items["_all"]))
 		{
 			// all rows
@@ -98,6 +101,11 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 			{
 				if ($this->rendered_items[$item_data["child"]] !== true)
 				{
+					if ($item_data["type"] == "itgr")
+					{
+						continue;
+					}
+					
 					$html = $this->renderItem($item_data,$position++,true);
 					if ($html != "")
 					{

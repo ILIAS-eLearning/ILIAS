@@ -79,8 +79,6 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	{
 		global $ilBench, $tree, $ilTabs, $ilAccess;
 
-		$ilBench->start("ilContainerGUI", "0000__renderObject");
-
 		// see bug #7452
 //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
@@ -104,10 +102,8 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		}
 		else	// show item list otherwise
 		{
-			$ilBench->start("ilContainerGUI", "0200_renderItemList");
 			$html = $this->renderItemList();
 			$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
-			$ilBench->stop("ilContainerGUI", "0200_renderItemList");
 		}
 
 		// @todo: Move this completely to GUI class?
@@ -119,8 +115,6 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		$this->html = $tpl->get();
 		
 		return $this->html;
-		
-		$ilBench->stop("ilContainerGUI", "0000__renderObject");
 	}
 	
 	/**
@@ -149,8 +143,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 		$tpl = $this->newBlockTemplate();
 		
 		// item groups
-		
-		$output_html.= $this->getItemGroupsHTML($tpl);
+		$this->getItemGroupsHTML($tpl);
 		
 		$first = true;
 

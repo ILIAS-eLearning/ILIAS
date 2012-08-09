@@ -12686,3 +12686,7 @@ itgr#:#itgr_materials#:#Materials
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_assigned_materials#:#Assigned Materials
 itgr#:#itgr_assignment#:#Assignment
+common#:#itgr_new#:#New Item Group
+common#:#itgr_import#:#Import Item Group
+common#:#itgr_copy#:#Copy Item Group
+common#:#itgr_add#:#Add Item Group

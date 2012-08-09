@@ -173,6 +173,11 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 		{
 			$this->addSeparatorRow($tpl);
 		}
+		
+		// item groups
+		$this->getItemGroupsHTML($tpl);
+
+		
 		if (is_array($this->items["_all"]))
 		{
 			// all rows
@@ -182,7 +187,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			{
 				if ($this->rendered_items[$item_data["child"]] !== true)
 				{
-					if ($item_data["type"] == "sess")
+					if ($item_data["type"] == "sess" || $item_data["type"] == "itgr")
 					{
 						continue;
 					}
