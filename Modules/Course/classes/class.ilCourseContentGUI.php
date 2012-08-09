@@ -509,12 +509,10 @@ class ilCourseContentGUI
 		$counter = 0;
 		foreach($this->cont_arr as $item)
 		{
-			/*
-			if($item['type'] == 'sess')
+			if($item['type'] == 'itgr')
 			{
 				continue;
 			}
-			*/
 			$item = $this->__loadFromPost($item);
 			$item_prefix = "item[$item[ref_id]]";
 			$item_change_prefix = "item_change[$item[ref_id]]";
@@ -901,7 +899,10 @@ class ilCourseContentGUI
 		foreach($sorted_items as $item)
 		{
 			switch($item['type'])
-			{				
+			{
+				case 'itgr':
+					break;
+					
 				default:
 					$this->__renderItem($item,0);
 					break;
@@ -947,6 +948,9 @@ class ilCourseContentGUI
 		{
 			switch($item['type'])
 			{				
+				case 'itgr':
+					break;
+					
 				default:
 					$this->__renderItem($item,0);
 					break;

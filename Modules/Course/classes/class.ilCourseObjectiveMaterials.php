@@ -178,6 +178,7 @@ class ilCourseObjectiveMaterials
 				case 'rolf':
 				case 'crs':
 				case 'sess':
+				case 'itgr':
 					continue;
 				
 				default:
