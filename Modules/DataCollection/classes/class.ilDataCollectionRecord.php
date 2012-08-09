@@ -15,6 +15,11 @@
 
 class ilDataCollectionRecord
 {
+    private $recordfields;
+    private $id;
+    private $tableId;
+    private $table;
+
 	/**
 	* Constructor
 	* @access public
@@ -137,9 +142,10 @@ class ilDataCollectionRecord
 	* @param string $a_value
 	* @param int $a_id
 	*/
-	function setFieldvalue($a_value, $a_id)
+	function setRecordFieldValue($field_id, $value)
 	{
-		$this->field[$a_id] = $a_value;
+        $this->loadRecordFields();
+		$this->recordfields[$field_id]->setValue($value);
 	}
 
 	/**
@@ -148,135 +154,47 @@ class ilDataCollectionRecord
 	* @param int $a_id
 	* @return array
 	*/
-	function getFieldvalues()
+	function getRecordFieldValue($field_id)
 	{
-		return $this->field;
+        $this->loadRecordFields();
+		return $this->recordfields[$field_id];
 	}
 
-	/**
-	 * getStandardFields
-	 * @return array
-	 */
-	public function getStandardFields()
-	{
-		$stdfields = array(
-			"id",
-			"table_id",
-			"create_date",
-			"last_update",
-			"owner"
-		);
-		
-		return $stdfields;
-	}
-	
+    private function loadRecordFields(){
+        if($this->recordfields == NULL){
+            $this->loadTable();
+            $recordfields = array();
+            foreach($this->table->getFields() as $field){
+                $recordfields[$field->getId()] = new ilDataCollectionRecordField($this, $field);
+            }
+            $this->recordfields = $recordfields;
+        }
+    }
+
+    private function loadTable(){
+        if($this->table == Null){
+            $this->table = new ilDataCollectionTable($this->tableId);
+        }
+    }
+
 	/**
 	* Read record
 	*/
 	function doRead()
 	{
 		global $ilDB;
-
-		//Get all fields of a record
-		$recordfields = $this->getRecordFields();
-
 		//build query
-		$query = "Select  rc.id, rc.table_id , rc.create_date, rc.last_update, rc.owner";
-
-		foreach($recordfields as $recordfield)
-		{
-			$query .= ", (SELECT val.value 
-									FROM il_dcl_record record 
-									LEFT JOIN il_dcl_record_field rcfield ON rcfield.record_id = record.id AND rcfield.field_id = ".$recordfield["id"]."
-									LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id
-									LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value val ON val.record_field_id = rcfield.id
-								WHERE record.id = rc.id
-								) record_field_".$recordfield["id"];
-		}
-
-		$query .= " From il_dcl_record rc WHERE rc.id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY rc.id";
-
+		$query = "Select * From il_dcl_record rc WHERE rc.id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY rc.id";
 
 
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
-
-
 		$this->setTableId($rec["table_id"]);
 		$this->setCreateDate($rec["create_date"]);
 		$this->setLastUpdate($rec["last_update"]);
 		$this->setOwner($rec["owner"]);
-
-
-		foreach($recordfields as $recordfield)
-		{
-			$this->setFieldvalue($rec["record_field_".$recordfield["id"]],$recordfield["id"]);
-		}
 	}
-
-
-	/**
-	* get All records
-	*
-	* @param int $a_id
-	* @param array $recordfields
-	*/
-	static function getAll($a_id, $recordfields = array(), $tabledefinition)
-	{
-		global $ilDB, $ilUser;
-
-		$query= "Select ";
-		
-		if(is_array($tabledefinition) && count($tabledefinition) > 0 && !$tabledefinition[0])
-		{
-			foreach($tabledefinition as $key => $value)
-			{
-				if(in_array($key, self::getStandardFields()))
-				{
-					$query .= "rc.".$key.",";
-				}
-			}
-		}
-		else
-		{
-			foreach(self::getStandardFields() as $key)
-			{
-				$query .= "rc.".$key.",";
-			}
-		}
-		
-		$query = substr($query, 0, -1);
-
-		foreach($recordfields as $recordfield)
-		{
-			$query .= ", (SELECT val.value FROM il_dcl_record record". 
-					" LEFT JOIN il_dcl_record_field rcfield ON rcfield.record_id = record.id AND". 
-					" rcfield.field_id = ".$recordfield["id"].
-					" LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id".
-					" LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value val ON". 
-					" val.record_field_id = rcfield.id".
-					" WHERE record.id = rc.id".
-					" ) record_field_".$recordfield["id"];
-					
-			//$query .= ",".$recordfield['datatype_id']." datatype_id";
-		}
-
-		$query .= " From il_dcl_record rc WHERE rc.table_id = ".$ilDB->quote($a_id,"integer").
-					" ORDER BY rc.id";
-
-		$set = $ilDB->query($query);
-
-		$all = array();
-		while($rec = $ilDB->fetchAssoc($set))
-		{
-			$rec['owner'] = $ilUser->_lookupLogin($rec['owner']); // Benutzername anstelle der ID
-			$all[] = $rec; //$rec['id']
-		}
-
-		return $all; 
-	}
-
 
 	/**
 	* Create new record
@@ -284,7 +202,7 @@ class ilDataCollectionRecord
 	* @param array $all_fields
 	*
 	*/
-	function DoCreate($all_fields)
+	function DoCreate()
 	{
 		global $ilDB;
 
@@ -305,62 +223,87 @@ class ilDataCollectionRecord
 							$ilDB->quote($this->getOwner(), "integer")."
 						)";
 		$ilDB->manipulate($query);
+    }
 
-		// zugehörige Felder speichern
-		foreach($this->getFieldvalues() as $key => $fieldvalue)
-		{
-			$record_field_id = $ilDB->nextId("il_dcl_record_field");
-			$query = "INSERT INTO il_dcl_record_field (
-								id,
-								record_id,
-								field_id
-							) VALUES (".
-								$ilDB->quote($record_field_id, "integer").",".
-								$ilDB->quote($this->getId(), "integer").",".
-								$ilDB->quote($key, "integer")."
-							)";
-			$ilDB->manipulate($query);
+    function doUpdate(){
+        global $ilDB;
+        $ilDB->update("il_dcl_record", array(
+            "table_id" => array("integer", $this->tableId),
+            "create_date" => array("date", $this->getCreateDate()),
+            "last_update" => array("date", $this->getLastUpdate()),
+            "owner" => array("text", $this->getOwner())
+        ), array(
+            "id" => array("integer", $this->id)
+        ));
 
-			// Werte speichern
-			$record_value_id = $ilDB->nextId("il_dcl_stloc".$all_fields[$key]['storage_location']."_value");
-			$query = "INSERT INTO il_dcl_stloc".$all_fields[$key]['storage_location']."_value (
-								id, 
-								record_field_id,
-								value
-							) VALUES (".
-								$ilDB->quote($record_value_id, "integer").",".
-								$ilDB->quote($record_field_id, "integer").",".
-								$ilDB->quote($fieldvalue, $all_fields[$record_field_id]['ildb_type'])."
-							)";
-			$ilDB->manipulate($query);
-		}
+        foreach($this->recordfields as $recordfield){
+            $recordfield->doUpdate();
+        }
+    }
+
+    //TODO: this method should be replaced by a method in table class getRecords.
+    /**
+     * get All records
+     *
+     * @param int $a_id
+     * @param array $recordfields
+     */
+    static function getAll($a_id,array $recordfields, $tabledefinition)
+    {
+        global $ilDB, $ilUser;
+
+        $query= "Select ";
+
+        if(is_array($tabledefinition) && count($tabledefinition) > 0 && !$tabledefinition[0])
+        {
+            foreach($tabledefinition as $key => $value)
+            {
+                if(in_array($value, self::getStandardFields()))
+                {
+                    $query .= "rc.".$value.",";
+                }
+            }
+        }
+        else
+        {
+            foreach(self::getStandardFields() as $key)
+            {
+                $query .= "rc.".$key.",";
+            }
+        }
+
+        $query = substr($query, 0, -1);
+
+        foreach($recordfields as $recordfield)
+        {
+            $query .= ", (SELECT val.value FROM il_dcl_record record".
+                " LEFT JOIN il_dcl_record_field rcfield ON rcfield.record_id = record.id AND".
+                " rcfield.field_id = ".$recordfield["id"].
+                " LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id".
+                " LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value val ON".
+                " val.record_field_id = rcfield.id".
+                " WHERE record.id = rc.id".
+                " ) record_field_".$recordfield["id"];
+
+            //$query .= ",".$recordfield['datatype_id']." datatype_id";
+        }
+
+        $query .= " From il_dcl_record rc WHERE rc.table_id = ".$ilDB->quote($a_id,"integer").
+            " ORDER BY rc.id";
+
+        $set = $ilDB->query($query);
+
+        $all = array();
+        while($rec = $ilDB->fetchAssoc($set))
+        {
+            $rec['owner'] = $ilUser->_lookupLogin($rec['owner']); // Benutzername anstelle der ID
+            $all[] = $rec; //$rec['id']
+        }
+
+        return $all;
     }
 
 
-	/**
-	* Get all fields of a record
-	*
-	* @return array
-	*/
-	function getRecordFields()
-	{  
-		global $ilDB;
-		
-		$query = "SELECT rcfield.id id, field.title title, field.description description,".
-					" field.datatype_id datatype_id, dtype.title datatype,". 
-					" dtype.storage_location storage_location FROM il_dcl_record_field rcfield". 
-					" LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id". 
-					" LEFT JOIN il_dcl_datatype dtype ON dtype.id = field.datatype_id". 
-					" WHERE rcfield.record_id = ".$ilDB->quote($this->getId(),"integer");
-		$set = $ilDB->query($query);
 
-		$all = array();
-		while($rec = $ilDB->fetchAssoc($set))
-		{
-			$all[] = $rec;
-		}
-
-		return $all;
-	}
 }
 ?>

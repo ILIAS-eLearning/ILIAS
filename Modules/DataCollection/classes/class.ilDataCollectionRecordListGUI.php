@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
-
+include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+include_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 
 /**
 * Class ilDataCollectionRecordListGUI
@@ -18,6 +19,7 @@ include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php"
 
 class ilDataCollectionRecordListGUI
 {
+    private $table_obj;
 	/**
 	 * Constructor
      *
@@ -29,7 +31,7 @@ class ilDataCollectionRecordListGUI
 		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
 		$this->obj_id = $a_parent_obj->obj_id;
-		
+		$this->table_obj = new ilDataCollectionTable($table_id);
 
 		return;
 	}
@@ -92,7 +94,7 @@ class ilDataCollectionRecordListGUI
 		else
 		{
 			require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
-			$recordsfields = ilDataCollectionField::getAll($this->table_id);
+			$recordsfields = $this->table_obj->getFields();
   
 			$tabledefinition = array(
 									"id" => array("title" => $lng->txt("id")), 

@@ -14,7 +14,7 @@
 
 class ilDataCollectionField
 {
-	protected $id; // [int]
+	protected $id; // [mixed] (int for custom fields string for stdfields)
 	protected $tableId; // [int]
 	protected $title; // [string]
 	protected $description; // [string]
@@ -22,11 +22,20 @@ class ilDataCollectionField
 	protected $length; // [int]
 	protected $regex; // [text]
 	protected $required; // [bool]
+    /**
+     * @var bool whether this field is visible for everyone.
+     */
+    protected $visible;
+
+    /**
+     * @var ilDataCollectionDatatype This fields Datatype.
+     */
+    protected $datatype;
 
 	const PROPERTYID_LENGTH = 1;
 	const PROPERTYID_REGEX = 2;
 
-	
+
 	/**
 	* Constructor
 	* @access public
@@ -129,6 +138,8 @@ class ilDataCollectionField
 	*/
 	function setDatatypeId($a_id)
 	{
+        //unset the cached datatype.
+        $this->datatype = NULL;
 		$this->datatypeId = $a_id;
 	}
 
@@ -224,7 +235,14 @@ class ilDataCollectionField
 		return $this->property;
 	}
 
-	/**
+    /**
+     * @param $visible bool
+     */
+    function setVisible($visible){
+        $this->visible = $visible;
+    }
+
+    /**
 	* Set has properties
 	*
 	* @param boolean $has_options hasOptions
@@ -246,7 +264,52 @@ class ilDataCollectionField
 		return $this->hasProperties;
 	}
 	*/
-	
+
+    function getDatatype(){
+        $this->loadDatatype();
+        return $this->datatype;
+    }
+
+    function getDatatypeTitle(){
+        $this->loadDatatype();
+        return $this->datatype->getTitle();
+    }
+
+    function getStorageLocation(){
+        $this->loadDatatype();
+        return $this->datatype->getStorageLocation();
+    }
+
+    private function loadDatatype(){
+        if($this->datatype == NULL)
+            $this->datatype = new ilDataCollectionDatatype($this->datatypeId);
+    }
+
+    public function isVisible(){
+        $this->loadVisibility();
+        return $this->visible;
+    }
+
+    private function loadVisibility(){
+        if($this->visible == NULL){
+            global $ilDB;
+            $query = "  SELECT view.table_id FROM il_dcl_viewdefinition def
+                        INNER JOIN il_dcl_view view ON view.id = def.view_id
+                        WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->tableId;
+            $set = $ilDB->query($query);
+            $this->visible = $set->numRows() != 0 ;
+        }
+    }
+
+
+    public function toArray(){
+        return (array) $this;
+    }
+
+    public function isStandardField(){
+        return false;
+    }
+
 	/**
 	* Read field
 	*/
@@ -271,40 +334,15 @@ class ilDataCollectionField
 		
 	}
 
-
-	/**
-	* get All records
-	*
-	* @param int $a_id Table Id
-	*
-	*/
-	function getAll($a_id)
-	{
-		global $ilDB;
-
-		//build query
-		$query = "SELECT	field.id, 
-										field.table_id, 
-										field.title, 
-										field.description, 
-										field.datatype_id, 
-										field.required, 
-										datatype.ildb_type,
-										datatype.title datatype_title, 
-										datatype.storage_location
-							FROM il_dcl_field field LEFT JOIN il_dcl_datatype datatype ON datatype.id = field.datatype_id
-							WHERE table_id = ".$ilDB->quote($a_id,"integer");
-		$set = $ilDB->query($query);
-	
-		$all = array();
-		while($rec = $ilDB->fetchAssoc($set))
-		{
-			$all[$rec['id']] = $rec;
-		}
-
-		return $all; 
-	}
-
+    function buildFromDBRecord($rec){
+        $this->setId($rec["id"]);
+        $this->setTableId($rec["table_id"]);
+        $this->setTitle($rec["title"]);
+        $this->setDescription($rec["description"]);
+        $this->setDatatypeId($rec["datatype_id"]);
+        $this->setRequired($rec["required"]);
+        $this->setProperties();
+    }
 
 	/**
 	* Create new field
@@ -331,6 +369,8 @@ class ilDataCollectionField
 		.",".$ilDB->quote($this->getRequired(), "integer")
 		.")";
 		$ilDB->manipulate($query);
+
+        $this->updateVisibility();
 	}
 
 	/**
@@ -349,7 +389,31 @@ class ilDataCollectionField
 								), array(
 								"id" => array("integer", $this->getId())
 								));
+        $this->updateVisibility();
 	}
+
+    protected function updateVisibility(){
+        //TODO: also insert field_order
+        global $ilDB;
+        $query = "DELETE FROM il_dcl_viewdefinition USING il_dcl_viewdefinition INNER JOIN il_dcl_view view ON view.id = il_dcl_viewdefinition.view_id WHERE view.table_id = ".$this->getTableId()." AND il_dcl_viewdefinition.field LIKE '".$this->getId()."'";
+        $ilDB->manipulate($query);
+        if($this->isVisible())
+        {
+            $query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order) SELECT id, '".$this->getId()."', 0  FROM il_dcl_view WHERE il_dcl_view.table_id = ".$this->getTableId()."";
+        }
+        $ilDB->manipulate($query);
+    }
+
+    public function doDelete(){
+        global $ilDB;
+
+        //trick to delete entries in viewdefinition table
+        $this->visible = false;
+        $this->updateVisibility();
+
+        $query = "DELETE FROM il_dcl_field WHERE id = ".$this->getId();
+        $ilDB->manipulate($query);
+    }
 
 
 		/**

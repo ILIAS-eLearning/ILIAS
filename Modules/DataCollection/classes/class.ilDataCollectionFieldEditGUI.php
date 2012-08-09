@@ -18,7 +18,8 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.ph
 	
 class ilDataCollectionFieldEditGUI
 {
-	
+	private $obj_id;
+    private $parent_obj;
 	/**
 	 * Constructor
 	 *
@@ -31,6 +32,7 @@ class ilDataCollectionFieldEditGUI
 		//TODO Permission-Check
 
 		$this->obj_id = $a_parent_obj->obj_id;
+        $this->parent_obj = $a_parent_obj;
 
 		if(isset($field_id)) 
 		{
@@ -88,7 +90,13 @@ class ilDataCollectionFieldEditGUI
 		$this->getValues();
 		
 		$tpl->setContent($this->form->getHTML());
-	}	
+	}
+
+    public function delete(){
+        global $ilCtrl;
+        $this->field_obj->doDelete();
+        $ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+    }
 	
 	/**
 	 * initEditCustomForm
@@ -236,6 +244,7 @@ class ilDataCollectionFieldEditGUI
 			}
 			else 
 			{
+                $this->field_obj->setVisible(true);
 				$this->field_obj->doCreate();
 			}
 		
@@ -264,7 +273,11 @@ class ilDataCollectionFieldEditGUI
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 
 			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
-			$ilCtrl->redirect($this, "edit");
+            if($a_mode == "update")
+			    $ilCtrl->redirect($this, "edit");
+            else
+                $ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
+                $ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
 		}
 		else
 		{
