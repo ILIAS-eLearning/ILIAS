@@ -44,7 +44,7 @@ $iliasHttpPath     = $weburl;
 $tinyMCE_base_url = $weburl;
 $tinyMCE_DOC_url = $installpath;
 
-if($iliasAbsolutePath)
+if($iliasHttpPath)
 {
 	/**
 	 * @var $https ilHttps
