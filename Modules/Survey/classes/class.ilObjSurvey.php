@@ -4655,7 +4655,6 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 
-		include_once "./Services/Utilities/classes/class.ilFormat.php";
 		if (strlen($lang) == 0) $lang = "en";
 		
 		$order = "ORDER BY tstamp, survey_key ASC";

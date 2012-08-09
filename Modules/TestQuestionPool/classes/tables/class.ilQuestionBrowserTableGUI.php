@@ -291,7 +291,6 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
 					$this->tpl->parseCurrentBlock();
 				}
-				include_once "./Services/Utilities/classes/class.ilFormat.php";
 				if(strcmp($c, 'created') == 0)
 				{
 					$this->tpl->setCurrentBlock('created');
