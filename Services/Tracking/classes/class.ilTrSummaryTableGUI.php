@@ -102,8 +102,15 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		}
 
 		$all[] = "percentage_avg";
-		$all[] = "status";
-		$all[] = 'status_changed_max';
+		
+		// do not show status if learning progress is deactivated
+		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+		{		
+			$all[] = "status";
+			$all[] = 'status_changed_max';
+		}
+		
 		$all[] = "mark";
 
 		$privacy = array("gender", "city", "country", "sel_country");
