@@ -44,7 +44,18 @@ $iliasHttpPath     = $weburl;
 $tinyMCE_base_url = $weburl;
 $tinyMCE_DOC_url = $installpath;
 
-// image library related config
+if($iliasAbsolutePath)
+{
+	/**
+	 * @var $https ilHttps
+	 */
+	global $https;
+
+	if(strpos($iliasHttpPath, 'https://') === false && $https->isDetected())
+	{
+		$iliasHttpPath = str_replace('http://', 'https://', $iliasHttpPath);
+	}
+}
 
 // allowed extentions for uploaded image files
 $tinyMCE_valid_imgs = array('gif', 'jpg', 'jpeg', 'png');
