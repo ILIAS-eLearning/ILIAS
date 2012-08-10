@@ -160,12 +160,26 @@ class ilTestService
 		return $manScoringQuestionGuiList;
 	}
 	
+	/**
+	 * reads the flag wether manscoring is done for the given test active or not
+	 * from the global settings (scope: assessment / key: manscoring_done_<activeId>)
+	 *
+	 * @param integer $activeId
+	 * @return boolean $manScoringDone
+	 */
 	public static function isManScoringDone($activeId)
 	{
 		$assessmentSetting = new ilSetting("assessment");
 		return $assessmentSetting->get("manscoring_done_" . $activeId, false);
 	}
 	
+	/**
+	 * stores the flag wether manscoring is done for the given test active or not
+	 * within the global settings (scope: assessment / key: manscoring_done_<activeId>)
+	 *
+	 * @param integer $activeId
+	 * @param boolean $manScoringDone 
+	 */
 	public static function setManScoringDone($activeId, $manScoringDone)
 	{
 		$assessmentSetting = new ilSetting("assessment");
