@@ -1457,7 +1457,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		$allObligationsAnswered = ilObjTest::allObligationsAnswered($this->object->getTestSession()->getTestId(), $active_id, $actualpass);
 		
-		if (!$allObligationsAnswered) {
+		if( $this->object->areObligationsEnabled() && !$allObligationsAnswered )
+		{
 		    $_GET['activecommand'] = 'obligations_not_answered';
 		    //ilUtil::sendInfo($this->lng->txt('not_all_obligations_answered'));
 		    $this->redirectQuestion();
