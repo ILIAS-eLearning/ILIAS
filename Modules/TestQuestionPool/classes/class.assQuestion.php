@@ -3673,6 +3673,53 @@ abstract class assQuestion
 	{
 		return (bool)$this->obligationsToBeConsidered;
 	}
+	
+	/**
+	 * checks wether there are existing solution records
+	 * for the given test active / pass and given question id
+	 *
+	 * @access protected
+	 * @static
+	 * @global ilDB $ilDB
+	 * @param integer $activeId
+	 * @param integer $pass
+	 * @param integer $questionId
+	 * @return boolean $solutionRecordsExist 
+	 */
+	protected static function doesSolutionRecordsExist($activeId, $pass, $questionId)
+	{
+		// check if a solution was stored in tst_solution
+
+		global $ilDB;
+		
+		if( is_null($pass) )
+		{
+			$pass = $this->getSolutionMaxPass($activeId);
+		}
+		
+		$query = "
+			SELECT		count(active_fi) cnt
+			
+			FROM		tst_solutions
+			
+			WHERE		active_fi = %s
+			AND			question_fi = %s
+			AND			pass = %s
+		";
+		
+		$res = $ilDB->queryF(
+			$query, array('integer','integer','integer'),
+			array($activeId, $questionId, $pass)
+		);
+		
+		$row = $ilDB->fetchAssoc($res);
+		
+		$solutionRecordsExist = (
+			0 < (int)$row['cnt'] ? true : false
+		);
+
+		return $solutionRecordsExist;
+	}
 }
 
 ?>
