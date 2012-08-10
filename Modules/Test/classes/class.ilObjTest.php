@@ -11176,7 +11176,7 @@ function getAnswerFeedbackPoints()
 
 		// static binder is not at work yet (in PHP < 5.3)
 		//$obligationPossible = $classConcreteQuestion::isObligationPossible();
-		$obligationPossible = call_user_func(array($classConcreteQuestion, 'isObligationPossible'));
+		$obligationPossible = call_user_func(array($classConcreteQuestion, 'isObligationPossible'), $questionId);
 		
 		return $obligationPossible;
 	}

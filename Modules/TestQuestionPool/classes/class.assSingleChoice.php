@@ -1222,12 +1222,14 @@ class assSingleChoice extends assQuestion
 	/**
 	 * returns boolean wether it is possible to set
 	 * this question type as obligatory or not
+	 * considering the current question configuration
 	 * 
 	 * (overwrites method in class assQuestion)
 	 * 
+	 * @param integer $questionId
 	 * @return boolean $obligationPossible
 	 */
-	public static function isObligationPossible()
+	public static function isObligationPossible($questionId)
 	{
 		return true;
 	}
