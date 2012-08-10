@@ -185,7 +185,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				{
 					$pass = $this->object->_getPass($active_id);
 				}
-				$this->saveResult = $question_gui->object->persistWorkingState($active_id, $pass);
+				$this->saveResult = $question_gui->object->persistWorkingState(
+						$active_id, $pass, $this->object->areObligationsEnabled()
+				);
 
 				// update learning progress (is done in ilTestSession)
 				//include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
