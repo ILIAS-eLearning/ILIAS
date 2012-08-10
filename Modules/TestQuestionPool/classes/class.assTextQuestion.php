@@ -1006,4 +1006,36 @@ class assTextQuestion extends assQuestion
 			}
 		}
 	}
+	
+	/**
+	 * returns boolean wether the question
+	 * is answered during test pass or not
+	 * 
+	 * (overwrites method in class assQuestion)
+	 * 
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @return boolean $answered
+	 */
+	public function isAnswered($active_id, $pass = null)
+	{
+		$answered = assQuestion::doesSolutionRecordsExist($active_id, $pass, $this->getId());
+		
+		return $answered;
+	}
+	
+	/**
+	 * returns boolean wether it is possible to set
+	 * this question type as obligatory or not
+	 * considering the current question configuration
+	 * 
+	 * (overwrites method in class assQuestion)
+	 * 
+	 * @param integer $questionId
+	 * @return boolean $obligationPossible
+	 */
+	public static function isObligationPossible($questionId)
+	{
+		return true;
+	}
 }
