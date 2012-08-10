@@ -277,14 +277,10 @@ class ilTestServiceGUI
 		$mark_obj = $this->object->mark_schema->getMatchingMark($result_percentage);
 		if ($mark_obj)
 		{
-			if( $mark_obj->getPassed() && $obligationsAnswered )
-			{
-				$mark = $this->lng->txt("mark_tst_passed");
-			} 
-			else 
-			{
-				$mark = $this->lng->txt("mark_tst_failed");
-			}
+			$mark = $this->lng->txt(
+				$this->service->buildMarkLangVarIdentifier($mark_obj->getPassed(), $obligationsAnswered)
+			);
+			
 			$mark = str_replace("[mark]", $mark_obj->getOfficialName(), $mark);
 			$mark = str_replace("[markshort]", $mark_obj->getShortName(), $mark);
 			$mark = str_replace("[percentage]", sprintf("%.2f", $result_percentage), $mark);
