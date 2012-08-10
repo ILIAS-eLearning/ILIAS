@@ -52,8 +52,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("edit");
 		
-		// #9440: prepareOutput will fail if not set properly
-		if($cmd == "save")
+		// #9440/#9489: prepareOutput will fail if not set properly
+		if(!$this->object)
 		{
 			$this->setCreationMode(true);
 		}
