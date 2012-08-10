@@ -994,36 +994,8 @@ class assFileUpload extends assQuestion
 	 */
 	public function isAnswered($active_id, $pass = null)
 	{
-		// check if a solution was stored in tst_solution
-
-		global $ilDB;
+		$answered = assQuestion::doesSolutionRecordsExist($active_id, $pass, $this->getId());
 		
-		if( is_null($pass) )
-		{
-			$pass = $this->getSolutionMaxPass($active_id);
-		}
-		
-		$query = "
-			SELECT		count(active_fi) cnt
-			
-			FROM		tst_solutions
-			
-			WHERE		active_fi = %s
-			AND			question_fi = %s
-			AND			pass = %s
-		";
-		
-		$res = $ilDB->queryF(
-			$query, array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
-		
-		$row = $ilDB->fetchAssoc($res);
-		
-		$answered = (
-			0 < (int)$row['cnt'] ? true : false
-		);
-
 		return $answered;
 	}
 	
