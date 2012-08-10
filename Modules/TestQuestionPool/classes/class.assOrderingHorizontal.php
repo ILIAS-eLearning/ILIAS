@@ -359,10 +359,11 @@ class assOrderingHorizontal extends assQuestion
 	 * Reworks the allready saved working data if neccessary
 	 *
 	 * @access protected
-	 * @param type $active_id
-	 * @param type $pass 
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @param boolean $obligationsAnswered
 	 */
-	protected function reworkWorkingData($active_id, $pass)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
 	{
 		// nothing to rework!
 	}

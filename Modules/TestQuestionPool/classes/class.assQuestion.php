@@ -908,7 +908,7 @@ abstract class assQuestion
 		
 		$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
 		
-		$this->reworkWorkingData($active_id, $pass);
+		$this->reworkWorkingData($active_id, $pass, $obligationsAnswered);
 		
 		return $saveStatus;
 	}
@@ -929,10 +929,11 @@ abstract class assQuestion
 	 *
 	 * @abstract
 	 * @access protected
-	 * @param type $active_id
-	 * @param type $pass 
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @param boolean $obligationsAnswered
 	 */
-	abstract protected function reworkWorkingData($active_id, $pass);
+	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered);
 
 	function _updateTestResultCache($active_id)
 	{
@@ -1053,7 +1054,7 @@ abstract class assQuestion
 			}
 			else
 			{
-				$obligations_answered = 0;
+				$obligations_answered = 1;
 			}
 			
 			$row = $ilDB->fetchAssoc($result);
@@ -2960,7 +2961,7 @@ abstract class assQuestion
 	* @return boolean true on success, otherwise false
 	* @access public
 	*/
-	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass = NULL, $manualscoring = FALSE)
+	function _setReachedPoints($active_id, $question_id, $points, $maxpoints, $pass, $manualscoring, $obligationsEnabled)
 	{
 		global $ilDB;
 		
@@ -2995,7 +2996,7 @@ abstract class assQuestion
 					array($next_id, $active_id, $question_id, $points, $pass, $manual, time())
 				);
 			}
-			assQuestion::_updateTestPassResults($active_id, $pass);
+			assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
 			// finally update objective result
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
