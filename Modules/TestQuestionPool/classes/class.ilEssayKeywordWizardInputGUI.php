@@ -95,18 +95,6 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
 						return FALSE;
 					}
 				}
-				foreach ($foundvalues['points_unchecked'] as $points)
-				{
-					if ($points > $max)
-					{
-						$max = $points;
-					}
-					if (((strlen( $points )) == 0) || (!is_numeric( $points )))
-					{
-						$this->setAlert( $lng->txt( "form_msg_numeric_value_required" ) );
-						return FALSE;
-					}
-				}
 			}
 			if ($max == 0)
 			{
