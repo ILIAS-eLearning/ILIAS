@@ -875,8 +875,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	/**
 	* Output of the pass overview for a test called from the statistics
 	*
-	* Output of the pass overview for a test called from the statistics
-	*
 	* @access public
 	*/
 	function outParticipantsResultsOverview()
