@@ -2636,8 +2636,8 @@ else
 			ilUtil::sendFailure($message);
 		}
 
-		include_once("./setup/classes/class.ilSetupLanguagesTableGUI.php");
-		$tab = new ilSetupLanguagesTableGUI($this->setup->getClient());
+		include_once("./setup/classes/class.ilSetupLanguageTableGUI.php");
+		$tab = new ilSetupLanguageTableGUI($this->setup->getClient());
 		$this->tpl->setVariable("SETUP_CONTENT", $tab->getHTML());
 
 		$this->tpl->setVariable("TXT_SETUP_TITLE",ucfirst(trim($this->lng->txt("setup_languages"))));
