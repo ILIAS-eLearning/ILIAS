@@ -215,7 +215,9 @@ class ilTestScoringGUI extends ilTestServiceGUI
 				$points = $form->getItemByPostVar("question__{$questionId}__points")->getValue();
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 				$maxpoints = assQuestion::_getMaximumPoints($questionId);
-				assQuestion::_setReachedPoints($activeId, $questionId, $points, $maxpoints, $pass, 1);
+				assQuestion::_setReachedPoints(
+						$activeId, $questionId, $points, $maxpoints, $pass, 1, $this->object->areObligationsEnabled()
+				);
 
 				$feedback = $form->getItemByPostVar("question__{$questionId}__feedback")->getValue();
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
