@@ -58,7 +58,7 @@ class ilTestServiceGUI
 	var $ref_id;
 	
 /**
-* ilTestScoringGUI constructor
+* constructor
 *
 * The constructor takes the test object reference as parameter 
 *
