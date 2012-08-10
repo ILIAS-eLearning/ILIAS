@@ -502,7 +502,10 @@ assessment#:#manscoring#:#Manual Scoring
 assessment#:#mark_schema#:#Mark Schema
 assessment#:#mark_tst_ects#:#Your ECTS grade is &quot;[markects]&quot;
 assessment#:#mark_tst_failed#:#Sorry, you failed the test.<br />Your resulting mark is: &quot;[mark]&quot;
+assessment#:#mark_tst_failed_obligations_answered#:#Sorry, you failed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;
+assessment#:#mark_tst_failed_obligations_missing#:#Sorry, you failed the test.<br />You didn't fill out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;
 assessment#:#mark_tst_passed#:#Congratulations, you passed the test.<br />Your resulting mark is: &quot;[mark]&quot;
+assessment#:#mark_tst_passed_obligations_answered#:#Congratulations, you passed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;
 assessment#:#match_terms_and_definitions#:#Match Terms and Definitions
 assessment#:#match_terms_and_pictures#:#Match Terms and Pictures
 assessment#:#matches#:#matches

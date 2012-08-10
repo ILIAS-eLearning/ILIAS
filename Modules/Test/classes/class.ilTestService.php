@@ -189,5 +189,37 @@ class ilTestService
 		$assessmentSetting = new ilSetting("assessment");
 		$assessmentSetting->set("manscoring_done_" . $activeId, (bool)$manScoringDone);
 	}
+	
+	/**
+	 * builds the language variable identifier corresponding to the given passed status
+	 * considering the given obligations answered status 
+	 *
+	 * @access public
+	 * @param boolean $passedStatus
+	 * @param boolean $obligationsAnsweredStatus
+	 * @return string $markLangVarIdentifier
+	 */
+	public function buildMarkLangVarIdentifier($passedStatus, $obligationsAnsweredStatus)
+	{
+		if( $passedStatus && (!$this->object->areObligationsEnabled() || $obligationsAnsweredStatus) )
+		{
+			$markLangVarIdentifier = 'mark_tst_passed';
+		} 
+		else 
+		{
+			$markLangVarIdentifier = 'mark_tst_failed';
+		}
+
+		if( $this->object->areObligationsEnabled() && $obligationsAnsweredStatus )
+		{
+			$markLangVarIdentifier .= '_obligations_answered';
+		}
+		elseif( $this->object->areObligationsEnabled() && !$obligationsAnsweredStatus )
+		{
+			$markLangVarIdentifier .= '_obligations_missing';
+		}
+		
+		return $markLangVarIdentifier;
+	}
 }
 
