@@ -11,7 +11,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * @extends assQuestion
  * 
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com> 
- * @author		Björn Heyser <bheyser@databay.de>
+ * @author		Björn Heyser <bheyser@databay.de> 
  * @version		$Id$
  * 
  * @ingroup		ModulesTestQuestionPool
@@ -610,16 +610,16 @@ class assFileUpload extends assQuestion
 	 * Reworks the allready saved working data if neccessary
 	 *
 	 * @access protected
-	 * @param type $active_id
-	 * @param type $pass 
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @param boolean $obligationsAnswered
 	 */
-	protected function reworkWorkingData($active_id, $pass)
+	protected function reworkWorkingData($active_id, $pass, $obligationsAnswered)
 	{
-		$this->handleSubmission($active_id, $pass);
+		$this->handleSubmission($active_id, $pass, $obligationsAnswered);
 	}
 	
 	/**
-	 *
 	 * This method is called after an user submitted one or more files.
 	 * It should handle the setting "Completion by Submission" and, if enabled, set the status of
 	 * the current user.
@@ -628,7 +628,7 @@ class assFileUpload extends assQuestion
 	 * @param	integer
 	 * @access	protected
 	 */
-	protected function handleSubmission($active_id, $pass)
+	protected function handleSubmission($active_id, $pass, $obligationsAnswered)
 	{
 		global $ilObjDataCache;		
 
@@ -645,7 +645,7 @@ class assFileUpload extends assQuestion
 				$points = 0;
 			}
 
-			assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, 1);					
+			assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, 1, $obligationsAnswered);					
 			
 			// update learning progress
 			include_once 'Modules/Test/classes/class.ilObjTestAccess.php';
