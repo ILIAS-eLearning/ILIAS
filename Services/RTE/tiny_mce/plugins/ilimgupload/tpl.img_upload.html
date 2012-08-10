@@ -1,172 +1,270 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-    <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
-    <meta name="author" content="Michael Jansen" />
-    <meta name="generator" content="NetBeans IDE 6.9" />
-		<title>{#ilimgupload.title}</title>
-		<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
-		<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
-		<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
-		<base target="_self" />
-		<script language="javascript" type="text/javascript">
-		var iliaspath = '{ILIAS_INST_PATH}';
-		
-		function selectClick() 
-		{
-			if (validateParams())
-			{
-				if (document.forms[0].src && document.forms[0].src.value != '') 
-				{
-					adoptImage(false);
-					return false;
-				}
-				
-				return true;
+<head>
+	<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+	<meta name="author" content="Michael Jansen"/>
+	<title>{#ilimgupload.title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+	<script language="javascript" type="text/javascript" src="../../../../jQuery/js/1_7_1/jquery-min.js"></script>
+	<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine.js"></script><!-- BEGIN validation_engine_lang_de -->
+	<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine-de.js"></script><!-- END validation_engine_lang_de --><!-- BEGIN validation_engine_lang_default -->
+	<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine-en.js"></script><!-- END validation_engine_lang_default -->
+	<link rel="stylesheet" type="text/css" href="./css/validationEngine.css" />
+	<base target="_self"/>
+	<script language="javascript" type="text/javascript">
+		var iliasPath = '{ILIAS_INST_PATH}';
+		var fileJustUploaded = parseInt('{IS_UPDATE}');
+		var oWidth = undefined;
+		var oHeight = undefined;
+
+		function init() {
+			if (fileJustUploaded || tinyMCEPopup.getWindowArg('src') != '') {
+				$("#upload_image_from_local_fs").hide();
+				mcTabs.displayTab('upload_image_from_url','upload_image_from_local_from_url_panel');
 			}
-			else
-			{
-				return false;
-			}			
-		}
-		
-		// validate input values
-		function validateParams() 
-		{
-			// check numeric values for attributes
-			if (isNaN(parseInt(document.libbrowser.width.value)) && document.libbrowser.width.value != '') { 
-				alert(tinyMCE.activeEditor.getLang('ilimgupload.error')+ ' : '+ tinyMCE.activeEditor.getLang('ilimgupload.error_width_nan'));     		
-				document.libbrowser.width.focus();
-					return false;}
 			
-			if (isNaN(parseInt(document.libbrowser.height.value)) && document.libbrowser.height.value != '') {
-				alert(tinyMCE.activeEditor.getLang('ilimgupload.error')+ ' : '+ tinyMCE.activeEditor.getLang('ilimgupload.error_height_nan'));  
-					document.libbrowser.height.focus();
-				return false;}
-			
-			return true;
-		}
-
-		function init()
-		{
-			// if existing image (image properties)
-			if (tinyMCEPopup.getWindowArg('src') != '') 
-			{				
-				var formObj = document.forms[0];
-
+			var $form = $("#external-image").get(0);
+			if (tinyMCEPopup.getWindowArg('src') != '') {
 				var imgsrc = tinyMCEPopup.getWindowArg('src');
-				if (imgsrc.indexOf('data') == 0) imgsrc = iliaspath + imgsrc;
+				if (imgsrc.indexOf('data') == 0) imgsrc = iliasPath + imgsrc;
 
-				formObj.src.value = imgsrc;	
-				imgpreview.location.href = imgsrc;			
-				formObj.alt.value = tinyMCEPopup.getWindowArg('alt');				
-				formObj.width.value = tinyMCEPopup.getWindowArg('width');
-				formObj.height.value = tinyMCEPopup.getWindowArg('height');
+				$form.src.value = imgsrc;
+				$form.alt.value = tinyMCEPopup.getWindowArg('alt');
+				oWidth = $form.width.value = tinyMCEPopup.getWindowArg('width');
+				oHeight = $form.height.value = tinyMCEPopup.getWindowArg('height');
+				$("#constrain_table").show();
+				$('#preview_of_url').find('iframe').attr('src', $("#src").val()).css({
+					width: $("#src").width(),
+					height: '60px'
+				});
+				$form.border.value = tinyMCEPopup.getWindowArg('border');
+				$form.vspace.value = tinyMCEPopup.getWindowArg('vspace');
+				$form.hspace.value = tinyMCEPopup.getWindowArg('hspace');
+				$form.alignment.value = tinyMCEPopup.getWindowArg('align');
+				$("#constrain_table").show();
+			} else if (fileJustUploaded) {
+				$form.src.value = '{UPLOADED_FILE_SRC}';
+				oWidth = $form.width.value = '{UPLOADED_FILE_WIDTH}';
+				oHeight = $form.height.value = '{UPLOADED_FILE_HEIGHT}';
+				$("#constrain_table").show();
+				$('#preview_of_url').find('iframe').attr('src', $("#src").val()).css({
+					width: $("#src").width(),
+					height: '60px'
+				});
 			}
 		}
-		
-		function adoptImage(adoptOnLoad)
-		{
+
+		function adoptImage($form) {
 			var ed = tinyMCEPopup.editor;
 			el = ed.selection.getNode();
-
-			if (adoptOnLoad) {
-				var width = eval('{WIDTH}');
-				var height = eval('{HEIGHT}');
-				var src = '{SRC}';
-				var alt = '{ALT}';
-			} else {
-				var width = document.forms[0].width.value;
-				var height = document.forms[0].height.value;
-				var src = document.forms[0].src.value;
-				var alt = document.forms[0].alt.value;				
-			}
-			 
+			
+			var $form = $form.get(0);
 			args = {
-				src : src,
-				alt : alt,			
-				width : width,
-				height : height
+				src   :$form.src.value,
+				alt   :$form.alt.value,
+				width :$form.width.value,
+				height:$form.height.value,
+				border:$form.border.value,
+				vspace:$form.vspace.value,
+				hspace:$form.hspace.value,
+				align :$form.alignment.value
 			};
+
 			if (el && el.nodeName == 'IMG') {
 				ed.dom.setAttribs(el, args);
 			} else {
-				ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo : 1});
+				ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo:1});
 				ed.dom.setAttribs('__mce_tmp', args);
 				ed.dom.setAttrib('__mce_tmp', 'id', '');
 				ed.undoManager.add();
 			}
+			
 			tinyMCEPopup.close();
 		}
 
-		<!-- BEGIN adoptimage -->
-		adoptImage(true);
-		<!-- END adoptimage -->		
-		</script>
-	</head>
-<body onload="init();" style="display: none">
-<script language="JavaScript" type="text/JavaScript">  
-    window.name = 'imglibrary'; 
-</script>
-<form name="libbrowser" method="post" action="imgupload.php?obj_id={OBJ_ID}&session_id={SESSION_ID}&client_id={CLIENT_ID}&obj_type={OBJ_TYPE}&update={VALUE_UPDATE}&amp;request_uri={REQUEST_URI}" enctype="multipart/form-data" target="imglibrary">
-<input type="hidden" name="request_uri" value="{VALUE_REQUEST_URI}" />
-<input type="hidden" name="lib_action" value="" />
-    <div class="tabs">
+		tinyMCEPopup.onInit.add(function(ed) {
+			(function($){
+				$(document).ready(function() {
+					$(window).prop('name', 'img_upload');
+
+					init();
+
+					$("#media-object").find('input[name="cancel"]').click(function() {
+						tinyMCEPopup.close();
+						return false;
+					});
+					$("#external-image").find('input[name="cancel"]').click(function() {
+						tinyMCEPopup.close();
+						return false;
+					});
+
+					$("#media-object").find('input[name="insert"]').click(function() {
+						$form = $(this).closest("form");
+						$form.validationEngine('detach');
+						$form.validationEngine('attach');
+						if ($form.validationEngine('validate')) {
+							$form.submit();
+						}
+						
+						return false;
+					});
+
+					$("#src").bind('blur change', function() {
+						var $src = $(this);
+						if ($src.val()) {
+							$('#preview_of_url').find('iframe').attr('src', $src.val()).css({
+								width: $src.width(),
+								height: '60px'
+							});
+						} else {
+							$('#preview_of_url').find('iframe').attr('src', '').css({
+								width: 0,
+								height: 0
+							});
+						}
+					});
+
+					$("#width, #height").bind('blur', function() {
+						if ($("#constrain").prop("checked") && oHeight != undefined && oWidth != undefined) {
+							var $elm = $(this);
+							var $width = $("#width");
+							var $height = $("#height");
+
+							var f = oHeight / oWidth;
+							if ($height.attr("id") == $elm.attr("id")) {
+								$width.val(Math.round($height.val() / f));
+							}
+							else if ($width.attr("id") == $elm.attr("id")) {
+								$height.val(Math.round($width.val() *  f));
+							}
+						}
+					});
+
+					$("#external-image").find('input[name="insert"]').click(function() {
+						$form = $(this).closest("form");
+						if ($form.validationEngine('validate')) {
+							adoptImage($form);
+						}
+						return false;
+					});
+	
+					$("#media-object").validationEngine();
+					$("#external-image").validationEngine();
+				});
+			})(jQuery);
+		});
+	</script>
+</head>
+<body>
+	<div class="tabs">
 		<ul>
-			<li id="general_tab" class="current"><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#ilimgupload.upload_image}</a></span></li>
+			<li id="upload_image_from_local_fs" class="current" aria-controls="upload_image_from_local_fs">
+				<span><a href="javascript:mcTabs.displayTab('upload_image_from_local_fs','upload_image_from_local_fs_tabpanel');" onmousedown="return false;">{#ilimgupload.upload_image_from_local_fs}</a></span>
+			</li>
+			<li id="upload_image_from_url" aria-controls="upload_image_from_local_from_url_panel">
+				<span><a href="javascript:mcTabs.displayTab('upload_image_from_url','upload_image_from_local_from_url_panel');" onmousedown="return false;">{IMG_FROM_URL_TAB_DESC}</a></span>
+			</li>
 		</ul>
 	</div>
 
-    <div class="panel_wrapper">
-		<div id="general_panel" class="panel current">
-		<div style="float: left;">
-     	<table border="0" cellpadding="4" cellspacing="0">
-     	  <!-- BEGIN upload -->
-          <tr>
-            <td class="nowrap"><label for="src">{#ilimgupload.image_select}</label></td>
-            <td><table border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td><input type="file" name="img_file" style="width: 100%;" /></td>
-                  <td id="srcbrowsercontainer">&nbsp;</td>
-                </tr>
-              </table></td>
-          </tr>
-          <!-- END upload -->
-          <!-- BEGIN src -->
-          <tr>
-            <td width="80">{#ilimgupload.src}:</td>
-            <td colspan="5"><input name="src" type="text" id="src" value="" style="width: 200px" readonly="readonly"></td>            
-          </tr>
-          <!-- END src -->		  
-          <tr>
-            <td class="nowrap"><label for="alt">{#ilimgupload.image_alt}</label></td>
-            <td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
-          </tr>
-          <tr>
-            <td class="nowrap"><label for="width">{#ilimgupload.image_dimensions}</label></td>
-            <td><input id="width" name="width" type="text" value="" size="3" maxlength="5" />
-              x
-              <input id="height" name="height" type="text" value="" size="3" maxlength="5" /></td>
-          </tr>
-        </table>
-        </div>
-        <!-- BEGIN preview -->
-        <div style="float: left; width: 210px;">
-        <iframe name="imgpreview" class="previewWindow" src="{URL_PREVIEW}" style="width: 100%; height: 100%;" scrolling="Auto" marginheight="0" marginwidth="0" frameborder="0"></iframe>
-        </div>
-        <!-- END preview -->
+	<div class="panel_wrapper">
+		<div id="upload_image_from_local_fs_tabpanel" class="panel current">
+			<div style="float: left;">
+				<p>{#ilimgupload.upload_image_from_local_fs_desc}</p>
+				<form id="media-object" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&amp;update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
+				<table border="0" cellpadding="4" cellspacing="0">
+					<tr>
+						<td class="nowrap"><label for="img_file">{#ilimgupload.image_select}</label></td>
+						<td>
+							<input type="file" name="img_file" id="img_file" style="width: 100%;" class="validate[required]" />
+						</td>
+					</tr>
+				</table>
+				<div class="mceActionPanel">
+					<div style="float: left">
+						<input type="submit" class="button" name="insert" value="{#ilimgupload.upload}" />
+					</div>
+					<div style="float: right">
+						<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
+		<div id="upload_image_from_local_from_url_panel" class="panel">
+			<div style="float: left;">
+				<p>{IMG_FROM_URL_DESC}</p>
+				<form id="external-image" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
+				<table border="0" cellpadding="4" cellspacing="0">
+					<tr>
+						<td width="80" style="vertical-align:top"><label for="src">{#ilimgupload.src}</label>:</td>
+						<td>
+							<input name="src" type="text" id="src" value="" class="validate[required]]" style="width: 200px" />
+							<div id="preview_of_url">
+								<iframe style="width:0;height:0" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0"></iframe>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="nowrap"><label for="alt">{#ilimgupload.image_alt}</label>:</td>
+						<td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
+					</tr>
+					<tr>
+						<td class="nowrap"><label for="width">{#ilimgupload.dimensions}</label>:</td>
+						<td>
+							<input id="width" name="width" type="text" value="" size="3" maxlength="5"  class="validate[custom[integer]]" />&nbsp;({#ilimgupload.width})
+							x
+							<input id="height" name="height" type="text" value="" size="3" maxlength="5" class="validate[custom[integer]]" />&nbsp;({#ilimgupload.height})
+							<table id="constrain_table" border="0" cellpadding="0" cellspacing="0" style="display:none">
+								<tr>
+									<td><input id="constrain" type="checkbox" name="constrain" class="checkbox" /></td>
+									<td><label for="constrain">{#ilimgupload.constrain_proportions}</label></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="column1"><label for="hspace">{#ilimgupload.hspace}</label>:</td>
+						<td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+					</tr>
+					<tr>
+						<td class="column1"><label for="vspace">{#ilimgupload.vspace}</label>:</td>
+						<td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+					</tr>
+					<tr>
+						<td class="nowrap"><label for="border">{#ilimgupload.border}</label>:</td>
+						<td><input id="border" name="border" type="text" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+					</tr>
+					<tr>
+						<td class="nowrap"><label for="alignment">{#ilimgupload.align}</label>:</td>
+						<td>
+							<select id="alignment" name="alignment">
+								<option value="">{#not_set}</option>
+								<option value="baseline">{#ilimgupload.align_baseline}</option>
+								<option value="top">{#ilimgupload.align_top}</option>
+								<option value="middle">{#ilimgupload.align_middle}</option>
+								<option value="bottom">{#ilimgupload.align_bottom}</option>
+								<option value="text-top">{#ilimgupload.align_texttop}</option>
+								<option value="text-bottom">{#ilimgupload.align_textbottom}</option>
+								<option value="left">{#ilimgupload.align_left}</option>
+								<option value="right">{#ilimgupload.align_right}</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<div class="mceActionPanel">
+					<div style="float: left">
+						<input type="submit" class="button" name="insert" value="{INSERT_COMMAND}" />
+					</div>
+					<div style="float: right">
+						<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
+					</div>
+				</div>
+				</form>
+			</div>
 		</div>
 	</div>
-
-	<div class="mceActionPanel">
-		<div style="float: left">
-			<input type="{INSERT_TYPE}" id="insert" name="insert" value="{INSERT_COMMAND}" onclick="selectClick();" />
-		</div>
-
-		<div style="float: right">
-			<input type="button" id="cancel" name="cancel" value="{#ilimgupload.cancel}" onclick="tinyMCEPopup.close();" />
-		</div>
-	</div>
-</form>
 </body>
 </html>
