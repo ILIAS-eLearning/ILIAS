@@ -1740,32 +1740,4 @@ abstract class assQuestionGUI
 		$show_manual_scoring = FALSE,
 		$show_question_text = TRUE
 	);
-	
-	/**
-	 * returns boolean wether this instance of question
-	 * is answered or not
-	 * 
-	 * this method can be overwritten in the concrete classes
-	 * for each question type
-	 * 
-	 * @return boolean $answered
-	 */
-	public function isAnswered()
-	{
-		return true;		
-	}
-	
-	/**
-	 * returns boolean wether it is possible to set
-	 * this question type as obliogatory or not
-	 * 
-	 * this method can be overwritten in the concrete classes
-	 * for each question type
-	 * 
-	 * @return boolean $obligationPossible
-	 */
-	public static function isObligationPossible()
-	{
-		return false;
-	}
 }
