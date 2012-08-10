@@ -10,7 +10,7 @@ tinyMCE.addI18n('de.ilimgupload', {
 	upload_image_from_local_fs_desc:'Bilddatei von deinem Computer hinzufügen',
 	upload_image_from_url          :'Von URL',
 	upload_image_from_url_desc     :'Füge ein Bild von einer anderen Webseite ein',
-	border                         :"Border",
+	border                         :"Rahmen",
 	dimensions                     :"Ausma\u00DFe",
 	vspace                         :"Vertikaler Abstand",
 	hspace                         :"Horizontaler Abstand",

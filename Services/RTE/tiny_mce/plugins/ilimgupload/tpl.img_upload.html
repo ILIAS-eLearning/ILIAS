@@ -24,7 +24,7 @@
 				$("#upload_image_from_local_fs").hide();
 				mcTabs.displayTab('upload_image_from_url','upload_image_from_local_from_url_panel');
 			}
-			
+
 			var $form = $("#external-image").get(0);
 			if (tinyMCEPopup.getWindowArg('src') != '') {
 				var imgsrc = tinyMCEPopup.getWindowArg('src');
@@ -34,21 +34,22 @@
 				$form.alt.value = tinyMCEPopup.getWindowArg('alt');
 				oWidth = $form.width.value = tinyMCEPopup.getWindowArg('width');
 				oHeight = $form.height.value = tinyMCEPopup.getWindowArg('height');
-				$("#constrain_table").show();
-				$('#preview_of_url').find('iframe').attr('src', $("#src").val()).css({
-					width: $("#src").width(),
-					height: '60px'
-				});
+
 				$form.border.value = tinyMCEPopup.getWindowArg('border');
 				$form.vspace.value = tinyMCEPopup.getWindowArg('vspace');
 				$form.hspace.value = tinyMCEPopup.getWindowArg('hspace');
 				$form.alignment.value = tinyMCEPopup.getWindowArg('align');
-				$("#constrain_table").show();
 			} else if (fileJustUploaded) {
 				$form.src.value = '{UPLOADED_FILE_SRC}';
 				oWidth = $form.width.value = '{UPLOADED_FILE_WIDTH}';
 				oHeight = $form.height.value = '{UPLOADED_FILE_HEIGHT}';
+			}
+
+			if (oHeight && oWidth) {
 				$("#constrain_table").show();
+			}
+
+			if (oHeight != undefined && oWidth != undefined) {
 				$('#preview_of_url').find('iframe').attr('src', $("#src").val()).css({
 					width: $("#src").width(),
 					height: '60px'
@@ -59,7 +60,7 @@
 		function adoptImage($form) {
 			var ed = tinyMCEPopup.editor;
 			el = ed.selection.getNode();
-			
+
 			var $form = $form.get(0);
 			args = {
 				src   :$form.src.value,
@@ -80,7 +81,7 @@
 				ed.dom.setAttrib('__mce_tmp', 'id', '');
 				ed.undoManager.add();
 			}
-			
+
 			tinyMCEPopup.close();
 		}
 
@@ -107,7 +108,7 @@
 						if ($form.validationEngine('validate')) {
 							$form.submit();
 						}
-						
+
 						return false;
 					});
 
@@ -127,7 +128,7 @@
 					});
 
 					$("#width, #height").bind('blur', function() {
-						if ($("#constrain").prop("checked") && oHeight != undefined && oWidth != undefined) {
+						if ($("#constrain").prop("checked") && oHeight && oWidth) {
 							var $elm = $(this);
 							var $width = $("#width");
 							var $height = $("#height");
@@ -149,7 +150,7 @@
 						}
 						return false;
 					});
-	
+
 					$("#media-object").validationEngine();
 					$("#external-image").validationEngine();
 				});
@@ -158,22 +159,22 @@
 	</script>
 </head>
 <body>
-	<div class="tabs">
-		<ul>
-			<li id="upload_image_from_local_fs" class="current" aria-controls="upload_image_from_local_fs">
-				<span><a href="javascript:mcTabs.displayTab('upload_image_from_local_fs','upload_image_from_local_fs_tabpanel');" onmousedown="return false;">{#ilimgupload.upload_image_from_local_fs}</a></span>
-			</li>
-			<li id="upload_image_from_url" aria-controls="upload_image_from_local_from_url_panel">
-				<span><a href="javascript:mcTabs.displayTab('upload_image_from_url','upload_image_from_local_from_url_panel');" onmousedown="return false;">{IMG_FROM_URL_TAB_DESC}</a></span>
-			</li>
-		</ul>
-	</div>
+<div class="tabs">
+	<ul>
+		<li id="upload_image_from_local_fs" class="current" aria-controls="upload_image_from_local_fs">
+			<span><a href="javascript:mcTabs.displayTab('upload_image_from_local_fs','upload_image_from_local_fs_tabpanel');" onmousedown="return false;">{#ilimgupload.upload_image_from_local_fs}</a></span>
+		</li>
+		<li id="upload_image_from_url" aria-controls="upload_image_from_local_from_url_panel">
+			<span><a href="javascript:mcTabs.displayTab('upload_image_from_url','upload_image_from_local_from_url_panel');" onmousedown="return false;">{IMG_FROM_URL_TAB_DESC}</a></span>
+		</li>
+	</ul>
+</div>
 
-	<div class="panel_wrapper">
-		<div id="upload_image_from_local_fs_tabpanel" class="panel current">
-			<div style="float: left;">
-				<p>{#ilimgupload.upload_image_from_local_fs_desc}</p>
-				<form id="media-object" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&amp;update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
+<div class="panel_wrapper">
+	<div id="upload_image_from_local_fs_tabpanel" class="panel current">
+		<div style="float: left;">
+			<p>{#ilimgupload.upload_image_from_local_fs_desc}</p>
+			<form id="media-object" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&amp;update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
 				<table border="0" cellpadding="4" cellspacing="0">
 					<tr>
 						<td class="nowrap"><label for="img_file">{#ilimgupload.image_select}</label></td>
@@ -190,13 +191,13 @@
 						<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
 					</div>
 				</div>
-				</form>
-			</div>
+			</form>
 		</div>
-		<div id="upload_image_from_local_from_url_panel" class="panel">
-			<div style="float: left;">
-				<p>{IMG_FROM_URL_DESC}</p>
-				<form id="external-image" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
+	</div>
+	<div id="upload_image_from_local_from_url_panel" class="panel">
+		<div style="float: left;">
+			<p>{IMG_FROM_URL_DESC}</p>
+			<form id="external-image" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
 				<table border="0" cellpadding="4" cellspacing="0">
 					<tr>
 						<td width="80" style="vertical-align:top"><label for="src">{#ilimgupload.src}</label>:</td>
@@ -262,9 +263,9 @@
 						<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
 					</div>
 				</div>
-				</form>
-			</div>
+			</form>
 		</div>
 	</div>
+</div>
 </body>
 </html>

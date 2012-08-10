@@ -34,21 +34,22 @@
 				$form.alt.value = tinyMCEPopup.getWindowArg('alt');
 				oWidth = $form.width.value = tinyMCEPopup.getWindowArg('width');
 				oHeight = $form.height.value = tinyMCEPopup.getWindowArg('height');
-				$("#constrain_table").show();
-				$('#preview_of_url').find('iframe').attr('src', $("#src").val()).css({
-					width: $("#src").width(),
-					height: '60px'
-				});
+				
 				$form.border.value = tinyMCEPopup.getWindowArg('border');
 				$form.vspace.value = tinyMCEPopup.getWindowArg('vspace');
 				$form.hspace.value = tinyMCEPopup.getWindowArg('hspace');
 				$form.alignment.value = tinyMCEPopup.getWindowArg('align');
-				$("#constrain_table").show();
 			} else if (fileJustUploaded) {
 				$form.src.value = '{UPLOADED_FILE_SRC}';
 				oWidth = $form.width.value = '{UPLOADED_FILE_WIDTH}';
 				oHeight = $form.height.value = '{UPLOADED_FILE_HEIGHT}';
-				$("#constrain_table").show();
+			}
+
+			if (oHeight && oWidth) {
+				$("#constrain_tableconstrain_table").show();
+			}
+
+			if (oHeight != undefined && oWidth != undefined) {
 				$('#preview_of_url').find('iframe').attr('src', $("#src").val()).css({
 					width: $("#src").width(),
 					height: '60px'
@@ -127,7 +128,7 @@
 					});
 
 					$("#width, #height").bind('blur', function() {
-						if ($("#constrain").prop("checked") && oHeight != undefined && oWidth != undefined) {
+						if ($("#constrain").prop("checked") && oHeight && oWidth) {
 							var $elm = $(this);
 							var $width = $("#width");
 							var $height = $("#height");
