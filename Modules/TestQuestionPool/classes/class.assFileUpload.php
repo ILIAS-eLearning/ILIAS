@@ -987,6 +987,7 @@ class assFileUpload extends assQuestion
 	 * 
 	 * (overwrites method in class assQuestion)
 	 * 
+	 * @global ilDB $ilDB
 	 * @param integer $active_id
 	 * @param integer $pass
 	 * @return boolean $answered
