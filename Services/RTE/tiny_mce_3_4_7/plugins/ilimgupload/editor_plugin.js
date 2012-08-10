@@ -15,25 +15,27 @@
 		init : function(ed, url) {
 			var t = this;
 
-            ed.addCommand('ilimgupload', function() {            	
-            	var src = "", alt = "", width = "", height = "";
-            	var elm = ed.selection.getNode();
-            	if ((elm != null) && (elm.nodeName.toLowerCase() == 'img'))
+			ed.addCommand('ilimgupload', function() {
+				var src = "", alt = "", width = "", height = "", align = "", vspace = "", hspace = "", border = "";
+				var elm = ed.selection.getNode();
+				if ((elm != null) && (elm.nodeName.toLowerCase() == 'img'))
 				{
 					src = elm.getAttribute('src') ? elm.getAttribute('src') : "";
 					alt = elm.getAttribute('alt') ? elm.getAttribute('alt') : "";
 					width = elm.getAttribute('width') ? elm.getAttribute('width') : "";
 					height = elm.getAttribute('height') ? elm.getAttribute('height') : "";
-				} 
-            	
-            	var parameters = "?client_id=" + client_id;
-				if (src.length > 0)
-				{
+					align = elm.getAttribute('align') ? elm.getAttribute('align') : "";
+					vspace = elm.getAttribute('vspace') ? elm.getAttribute('vspace') : "";
+					hspace = elm.getAttribute('hspace') ? elm.getAttribute('hspace') : "";
+					border = elm.getAttribute('border') ? elm.getAttribute('border') : "";
+				}
+
+				var parameters = new String();
+				parameters += "?obj_id=" + obj_id;
+				parameters += "&obj_type=" + obj_type;
+				if (src.length > 0) {
 					parameters += "&update=1";
 				}
-				parameters += "&obj_id=" + obj_id;
-				parameters += "&obj_type=" + obj_type;
-				parameters += "&session_id=" + session_id;
 
 				ed.windowManager.open({
 					file : url + '/imgupload.php' + parameters,
@@ -45,18 +47,22 @@
 					src : src,
 					alt : alt,
 					width : width,
-					height : height
+					height : height,
+					align : align,
+					vspace : vspace,
+					hspace : hspace,
+					border: border
 				});
 			});
 
-            // Register example button
+			// Register example button
 			ed.addButton('ilimgupload', {
 				title : 'ilimgupload.upload_image',
 				cmd : 'ilimgupload',
 				image : url + '/images/img_upload.png'
 			});
 
-            ed.onNodeChange.add(function(ed, cm, n, co) {
+			ed.onNodeChange.add(function(ed, cm, n, co) {
 				cm.setActive('ilimgupload', n.nodeName == 'IMG' && !n.name);
 			});
 		},
