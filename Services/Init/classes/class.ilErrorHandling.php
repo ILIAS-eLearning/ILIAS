@@ -129,7 +129,8 @@ class ilErrorHandling extends PEAR
 //echo $a_error_obj->getCode().":"; exit;
 		if ($a_error_obj->getCode() == $this->FATAL)
 		{
-			die (stripslashes($a_error_obj->getMessage()));
+			trigger_error(stripslashes($a_error_obj->getMessage()), E_USER_ERROR);
+			// die (stripslashes($a_error_obj->getMessage()));
 		}
 
 		if ($a_error_obj->getCode() == $this->WARNING)

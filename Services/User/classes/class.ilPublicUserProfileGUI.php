@@ -95,6 +95,14 @@ class ilPublicUserProfileGUI
 	function setBackUrl($a_backurl)
 	{
 		global $ilCtrl;
+		
+		// we only allow relative links 
+		$parts = parse_url($a_backurl);
+		if($parts["host"])
+		{
+			$a_backurl = "#";
+		}
+		
 		$this->backurl = $a_backurl;
 		$ilCtrl->setParameter($this, "back_url", rawurlencode($a_backurl));
 	}
