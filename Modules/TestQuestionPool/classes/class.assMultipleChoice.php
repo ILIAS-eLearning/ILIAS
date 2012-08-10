@@ -164,6 +164,8 @@ class assMultipleChoice extends assQuestion
 				)
 			);
 		}
+		
+		$this->ensureNoInvalidObligation($this->getId());
 
 		$this->rebuildThumbnails();
 
@@ -1209,6 +1211,136 @@ class assMultipleChoice extends assQuestion
 		else
 		{
 			return 1;
+		}
+	}
+	
+	/**
+	 * returns boolean wether the question
+	 * is answered during test pass or not
+	 * 
+	 * (overwrites method in class assQuestion)
+	 * 
+	 * @global ilDB $ilDB
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @return boolean $answered
+	 */
+	public function isAnswered($active_id, $pass = null)
+	{
+		// check if a solution was store in tst_solution
+
+		global $ilDB;
+		
+		if( is_null($pass) )
+		{
+			$pass = $this->getSolutionMaxPass($active_id);
+		}
+		
+		$query = "
+			SELECT		count(active_fi) cnt
+			
+			FROM		tst_solutions
+			
+			WHERE		active_fi = %s
+			AND			question_fi = %s
+			AND			pass = %s
+		";
+		
+		$res = $ilDB->queryF(
+			$query, array('integer','integer','integer'),
+			array($active_id, $this->getId(), $pass)
+		);
+		
+		$row = $ilDB->fetchAssoc($res);
+		
+		$answered = (
+			0 < (int)$row['cnt'] ? true : false
+		);
+
+		return $answered;
+	}
+	
+	/**
+	 * returns boolean wether it is possible to set
+	 * this question type as obligatory or not
+	 * considering the current question configuration
+	 * 
+	 * (overwrites method in class assQuestion)
+	 * 
+	 * @global ilDB $ilDB
+	 * @param integer $questionId
+	 * @return boolean $obligationPossible
+	 */
+	public static function isObligationPossible($questionId)
+	{
+		global $ilDB;
+		
+		$query = "
+			SELECT SUM(points) points_for_checked_answers
+			FROM qpl_a_mc
+			WHERE question_fi = %s
+		";
+		
+		$res = $ilDB->queryF($query, array('integer'), array($questionId));
+		
+		$row = $ilDB->fetchAssoc($res);
+		
+		return $row['points_for_checked_answers'] > 0;
+	}
+	
+	/**
+	 * ensures that no invalid obligation is saved for the question used in test
+	 * 
+	 * when points can be reached ONLY by NOT check any answer
+	 * a possibly still configured obligation will be removed
+	 * 
+	 * @global type $ilDB
+	 * @param integer $questionId 
+	 */
+	public function ensureNoInvalidObligation($questionId)
+	{
+		global $ilDB;
+		
+		$query = "
+			SELECT		SUM(qpl_a_mc.points) points_for_checked_answers,
+						test_question_id
+			
+			FROM		tst_test_question
+			
+			INNER JOIN	qpl_a_mc
+			ON			qpl_a_mc.question_fi = tst_test_question.question_fi
+			
+			WHERE		tst_test_question.question_fi = %s
+			AND			tst_test_question.obligatory = 1
+			
+			GROUP BY	test_question_id
+		";
+		
+		$res = $ilDB->queryF($query, array('integer'), array($questionId));
+		
+		$updateTestQuestionIds = array();
+		
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			if( $row['points_for_checked_answers'] <= 0 )
+			{
+				$updateTestQuestionIds[] = $row['test_question_id'];
+			}
+		}
+		
+		if( count($updateTestQuestionIds) )
+		{
+			$test_question_id__IN__updateTestQuestionIds = $ilDB->in(
+					'test_question_id', $updateTestQuestionIds, false, 'integer'
+			);
+			
+			$query = "
+				UPDATE tst_test_question
+				SET obligatory = 0
+				WHERE $test_question_id__IN__updateTestQuestionIds
+			";
+			
+			$ilDB->manipulate($query);
 		}
 	}
 }

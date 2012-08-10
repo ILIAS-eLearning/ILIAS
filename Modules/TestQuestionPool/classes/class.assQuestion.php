@@ -3628,8 +3628,8 @@ abstract class assQuestion
 	 * but be aware of also overwrite the method
 	 * assQuestion::isObligationPossible()
 	 * 
-	 * @param type $active_id
-	 * @param type $pass
+	 * @param integer $active_id
+	 * @param integer $pass
 	 * @return boolean $answered
 	 */
 	public function isAnswered($active_id, $pass = null)
@@ -3640,14 +3640,16 @@ abstract class assQuestion
 	/**
 	 * returns boolean wether it is possible to set
 	 * this question type as obligatory or not
+	 * considering the current question configuration
 	 * 
 	 * method can be overwritten in derived classes,
 	 * but be aware of also overwrite the method
 	 * assQuestion::isAnswered()
 	 * 
+	 * @param integer $questionId
 	 * @return boolean $obligationPossible
 	 */
-	public static function isObligationPossible()
+	public static function isObligationPossible($questionId)
 	{
 		return false;
 	}
