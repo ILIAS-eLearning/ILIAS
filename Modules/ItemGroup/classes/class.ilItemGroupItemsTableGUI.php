@@ -25,11 +25,9 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 		$this->tree = $tree;
 		$this->obj_def = $objDefinition;
-		$this->parent_node = $this->tree->getNodeData(
-			$this->tree->getParentId($a_parent_obj->object->getRefId()));
 		
 		include_once 'Modules/ItemGroup/classes/class.ilItemGroupItems.php';
-		$this->item_group_items = new ilItemGroupItems($a_parent_obj->object->getId());
+		$this->item_group_items = new ilItemGroupItems($a_parent_obj->object->getRefId());
 		$this->items = $this->item_group_items->getItems();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -57,24 +55,15 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 	function getMaterials()
 	{
 		$materials = array();
-		$nodes = $this->tree->getSubTree(
-			$this->tree->getNodeData($this->parent_node["child"]));
-
-		foreach($nodes as $node)
+		$items = $this->item_group_items->getAssignableItems();
+		
+		foreach($items as $item)
 		{
-			// filter side blocks and session, item groups and role folder
-			if ($node['child'] == $this->parent_node["child"] ||
-				$this->obj_def->isSideBlock($node['type']) ||
-				in_array($node['type'], array('sess', 'itgr', 'rolf')))
-			{
-				continue;
-			}
-
-			$node["sorthash"] = (int)(!in_array($node['ref_id'], $this->items)).$node["title"];
-			$materials[] = $node;
+			$item["sorthash"] = (int)(!in_array($item['ref_id'], $this->items)).$item["title"];
+			$materials[] = $item;
 		}
 		
-		$materials = ilUtil::sortArray($materials, "sorthash", "ASC");
+		$materials = ilUtil::sortArray($materials, "sorthash", "asc");
 		$this->setData($materials);
 	}
 	
@@ -87,6 +76,8 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("ITEM_REF_ID", $a_set["child"]);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		$this->tpl->setVariable("IMG", ilUtil::img(
+			ilObject::_getIcon($a_set["obj_id"], "tiny")));
 		
 		if (in_array($a_set["child"], $this->items))
 		{

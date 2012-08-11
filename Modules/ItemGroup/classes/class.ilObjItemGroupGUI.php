@@ -222,7 +222,7 @@ return;
 
 		include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
 
-		$item_group_items = new ilItemGroupItems($this->object->getId());
+		$item_group_items = new ilItemGroupItems($this->object->getRefId());
 		$items = is_array($_POST['items'])
 			? $_POST['items']
 			: array();

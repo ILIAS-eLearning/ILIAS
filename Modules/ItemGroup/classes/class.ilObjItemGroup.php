@@ -29,6 +29,11 @@ class ilObjItemGroup extends ilObject2
 	 */
 	function __construct($a_id = 0, $a_reference = true) 
 	{
+		global $tree, $objDefinition;
+		
+		$this->tree = $tree;
+		$this->obj_def = $objDefinition;
+		
 		parent::__construct($a_id, $a_reference);			
 	}
 	

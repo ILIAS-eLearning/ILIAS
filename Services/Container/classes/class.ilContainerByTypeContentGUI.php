@@ -142,10 +142,13 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
 		$tpl = $this->newBlockTemplate();
 		
-		// item groups
-		$this->getItemGroupsHTML($tpl);
-		
 		$first = true;
+		
+		// item groups
+		if ($this->getItemGroupsHTML($tpl))
+		{
+			$first = false;
+		}
 
 		// iterate all types
 		foreach ($type_grps as $type => $v)

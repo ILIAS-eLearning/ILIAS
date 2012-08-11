@@ -2041,6 +2041,9 @@ class ilPageObjectGUI
 		// insert page snippets
 		$output = $this->insertContentIncludes($output);
 
+		// insert page snippets
+		$output = $this->insertResources($output);
+
 		// insert page toc
 		if ($this->getPageToc())
 		{
@@ -2736,8 +2739,8 @@ class ilPageObjectGUI
 	}
 
 	/**
-	* Insert Maps
-	*/
+	 * Insert content includes
+	 */
 	function insertContentIncludes($a_html)
 	{
 		global $ilCtrl, $lng;
@@ -2913,6 +2916,25 @@ class ilPageObjectGUI
 
 		return $a_output;
 	}
+	
+	/**
+	 * Insert resources
+	 *
+	 * @param
+	 * @return
+	 */
+	function insertResources($a_output)
+	{
+		// this is edit mode only
+		if ($this->getOutputMode() == "edit")
+		{
+			include_once("./Services/COPage/classes/class.ilPCResourcesGUI.php");
+			$a_output = ilPCResourcesGUI::insertResourcesIntoPageContent($a_output, $this->getOutputMode());
+		}
+		return $a_output;
+	}
+	
+	
 	
 	/**
 	 * Insert adv content trigger

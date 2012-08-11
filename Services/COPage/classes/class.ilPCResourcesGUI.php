@@ -23,6 +23,9 @@ class ilPCResourcesGUI extends ilPageContentGUI
 	*/
 	function ilPCResourcesGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
+		global $tree;
+		
+		$this->rep_tree = $tree;
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
 
@@ -77,8 +80,17 @@ class ilPCResourcesGUI extends ilPageContentGUI
 			$form->setTitle($this->lng->txt("cont_update_resources"));
 		}
 		
+		// count number of existing objects per type
+		$ref_id = (int) $_GET["ref_id"];
+		$childs = $this->rep_tree->getChilds($ref_id);
+		$type_counts = array();
+		foreach ($childs as $c)
+		{
+			$type_counts[$c["type"]] += 1;
+		}
+		
 		// type selection
-		$type_prop = new ilRadioGroupInputGUI($this->lng->txt("cont_type"),
+		$type_prop = new ilSelectInputGUI($this->lng->txt("cont_type"),
 			"type");
 		$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
 		$obj_type = ilObject::_lookupType($obj_id);
@@ -86,13 +98,12 @@ class ilPCResourcesGUI extends ilPageContentGUI
 		$types = array();
 		foreach($sub_objs as $k => $so)
 		{
-			$types[$k] = $this->lng->txt("objs_".$k);
+			if ($k != "itgr")
+			{
+				$types[$k] = $this->lng->txt("objs_".$k)." (".(int) $type_counts[$k].")";
+			}
 		}
-		foreach($types as $k => $type)
-		{
-			$option = new ilRadioOption($type, $k, "");
-			$type_prop->addOption($option);
-		}
+		$type_prop->setOptions($types);
 		$selected = ($a_insert)
 			? ""
 			: $this->content_obj->getResourceListType();
@@ -153,5 +164,56 @@ class ilPCResourcesGUI extends ilPageContentGUI
 			$this->edit();
 		}
 	}
+	
+	/**
+	 * Insert resources
+	 *
+	 * @param
+	 * @return
+	 */
+	static function insertResourcesIntoPageContent($a_content)
+	{
+		global $objDefinition, $tree, $lng;
+		
+		$ref_id = (int) $_GET["ref_id"];
+		$obj_id = (int) ilObject::_lookupObjId($ref_id);
+		$obj_type = ilObject::_lookupType($obj_id);
+		$childs = $tree->getChilds($ref_id);
+		$childs_by_type = array();
+		foreach ($childs as $child)
+		{
+			$childs_by_type[$child["type"]][] = $child;
+		}
+		$type_grps =
+			$objDefinition->getGroupedRepositoryObjectTypes($obj_type);
+
+		foreach ($type_grps as $type => $v)
+		{
+			if (is_int(strpos($a_content, "[list-".$type."]")))
+			{
+				if (is_array($childs_by_type[$type]))
+				{
+					// render block
+					$tpl = new ilTemplate("tpl.resource_block.html", true, true, "Services/COPage");
+					foreach ($childs_by_type[$type] as $child)
+					{
+						$tpl->setCurrentBlock("row");
+						$tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($child["obj_id"], "small")));
+						$tpl->setVariable("TITLE", $child["title"]);
+						$tpl->parseCurrentBlock();
+					}
+					$tpl->setVariable("HEADER", $lng->txt("objs_".$type));
+					$a_content = str_replace("[list-".$type."]", $tpl->get(), $a_content);
+				}
+				else
+				{
+					$a_content = str_replace("[list-".$type."]", "", $a_content);
+				}
+			}
+		}
+
+		return $a_content;
+	}
+	
 }
 ?>
