@@ -1,4 +1,4 @@
-// Build: 2012717082342 
+// Build: 2012811234657 
 
 function ADLAuxiliaryResource()
 {}
@@ -2662,7 +2662,7 @@ var elm=window.document.getElementById(RESOURCE_PARENT);if(!elm)
 {return window.alert("Window Container not found");}
 var h=elm.clientHeight-20;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)
 {h=self.innerHeight-60;}
-RESOURCE_NAME="SPECIALPAGE";var resContainer=window.document.getElementById("res");resContainer.src=src;resContainer.name=RESOURCE_NAME;onWindowResize();save_global_objectives();if(treeView==true&&mlaunch.mSeqNonContent!="_TOC_"&&mlaunch.mSeqNonContent!="_SEQABANDON_"&&mlaunch.mSeqNonContent!="_SEQABANDONALL_"){toggleView();}}
+RESOURCE_NAME="SPECIALPAGE";var resContainer=window.document.getElementById("res");resContainer.src=src;resContainer.name=RESOURCE_NAME;onWindowResize();if(treeView==true&&mlaunch.mSeqNonContent!="_TOC_"&&mlaunch.mSeqNonContent!="_SEQABANDON_"&&mlaunch.mSeqNonContent!="_SEQABANDONALL_"){toggleView();}}
 function setInfo(name,values)
 {var elm=all('infoLabel');var txt=translate(name,values);if(elm)
 {window.top.document.title=elm.innerHTML=txt;}}
@@ -2770,7 +2770,9 @@ if(typeof globalObj.measure!="undefined"){adl_seq_utilities.measure=globalObj.me
 if(typeof globalObj.status!="undefined"){adl_seq_utilities.status=globalObj.status;}}}
 function loadSharedData(sco_node_id){var adlData=this.config.adldata_data||sendJSONRequest(this.config.get_adldata_url+"&node_id="+sco_node_id);if(adlData){sharedData=adlData;}}
 function saveSharedData(){var dataOut=new Object();for(i=0;i<pubAPI.adl.data.length;i++){var d=pubAPI.adl.data[i];dataOut[d.id]=d.store;}
-var success=sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id,dataOut);if(success!="1"){}}
+sd2save=toJSONString(dataOut);if(sd2save!=saved_shared_data){var success=sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id,dataOut);if(success!="1"){}
+saved_shared_data=sd2save;}
+return true;}
 function buildADLtree(act,unused){var obj=new Object;var obj1,res,res2;for(var index in act){var value;if((index.substr(0,1)=="_")){obj=eval("new "+index.substr(1)+"()");obj1=buildADLtree(act[index],null);for(var i in obj1){obj[i]=obj1[i];}}else if((act[index]instanceof Array)){var toset=new Array();var temp=act[index];for(var i=0;i<temp.length;i++){res=buildADLtree(temp[i],null);toset.push(res);}
 if(index!="mActiveChildren"){obj[index]=toset;}
 if(index=="mChildren"){obj["mActiveChildren"]=toset;}}else if((act[index]instanceof Object)){res2=buildADLtree(act[index],null);obj[index]=res2;}else if(!(act[index]instanceof Array)&&!(index.substr(0,1)=="_")){value=act[index];if(index=="mLearnerID"){value=this.config.learner_id;}
@@ -2903,7 +2905,7 @@ return c;}
 function onWindowLoad()
 {attachUIEvent(window,'unload',onWindowUnload);attachUIEvent(document,'click',onDocumentClick);setInfo('');setState('playing');attachUIEvent(window,'resize',onWindowResize);onWindowResize();}
 function onWindowUnload()
-{summaryOnUnload=true;onItemUndeliver(true);save_global_objectives();save();}
+{summaryOnUnload=true;removeResource();}
 function loadData(item){var data=getAPI(item.foreignId);if(this.config.sequencing_enabled)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
@@ -3001,18 +3003,16 @@ else
 {var numObjs=currentAPI.GetValueIntern("cmi.objectives._count");for(var i=0;i<numObjs;i++)
 {var obj="cmi.objectives."+i+".id";var objID=currentAPI.GetValueIntern(obj);objScoreRaw=currentAPI.GetValueIntern("cmi.objectives."+i+".score.raw");if(objScoreRaw!=""&&objScoreRaw!="unknown"&&objScoreRaw!=null){msequencer.setAttemptObjRawScore(mlaunch.mActivityID,objID,objScoreRaw)}else{msequencer.clearAttemptObjRawScore(mlaunch.mActivityID,objID);}
 objScoreMin=currentAPI.GetValueIntern("cmi.objectives."+i+".score.min");if(objScoreMin!=""&&objScoreMin!="unknown"&&objScoreMin!=null){msequencer.setAttemptObjMinScore(mlaunch.mActivityID,objID,objScoreMin)}else{msequencer.clearAttemptObjMinScore(mlaunch.mActivityID,objID);}
-objScoreMax=currentAPI.GetValueIntern("cmi.objectives."+i+".score.max");if(objScoreMax!=""&&objScoreMax!="unknown"&&objScoreMax!=null){msequencer.setAttemptObjMaxScore(mlaunch.mActivityID,objID,objScoreMax)}else{msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID,objID);}}}}
+objScoreMax=currentAPI.GetValueIntern("cmi.objectives."+i+".score.max");if(objScoreMax!=""&&objScoreMax!="unknown"&&objScoreMax!=null){msequencer.setAttemptObjMaxScore(mlaunch.mActivityID,objID,objScoreMax)}else{msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID,objID);}}}
+return completionStatus;}
 function onItemUndeliver(noControls)
-{if(pubAPI!=null){if(this.config.sequencing_enabled)saveSharedData();}
-if(noControls!=true){updateNav();updateControls();}
+{if(noControls!=true){updateNav();updateControls();}
 removeResource(undeliverFinish);}
-function undeliverFinish(){if(currentAPI)
-{syncCMIADLTree();var stat=pubAPI.cmi.exit;save_global_objectives();save();if(state!=2){}}
-currentAPI=window[Runtime.apiname]=null;if(currentAct)
-{currentAct.accessed=currentTime()/1000;if(!currentAct.dirty)currentAct.dirty=1;}}
+function undeliverFinish(){}
 function syncDynObjectives(){var objectives=pubAPI.cmi.objectives;var act=activities[mlaunch.mActivityID].objectives;for(var i=0;i<objectives.length;i++){if(objectives[i].id){var id=objectives[i].id;var obj=objectives[i];if(!act.id){act[id]=new Objective();act[id]['objectiveID']=id;act[id]['id']=id;for(var element in obj){if(element!="id"&&element!="cmi_objective_id"){if(element!="score"){act[id][element]=obj[element];}
 if(element=="score"){for(var subelement in obj[element]){act[id][subelement]=obj[element][subelement];}}}}}}}}
-function save_global_objectives(){if(this.config.sequencing_enabled){if(adl_seq_utilities.measure!=null||adl_seq_utilities.satisfied!=null||adl_seq_utilities.status!=null){result=this.config.gobjective_url?sendJSONRequest(this.config.gobjective_url,this.adl_seq_utilities):{};}}}
+function save_global_objectives(){if(this.config.sequencing_enabled){if(adl_seq_utilities.measure!=null||adl_seq_utilities.satisfied!=null||adl_seq_utilities.status!=null){var go2save=toJSONString(this.adl_seq_utilities);if(go2save!=saved_global_objectives){result=this.config.gobjective_url?sendJSONRequest(this.config.gobjective_url,this.adl_seq_utilities):{};saved_global_objectives=go2save;}}}
+return true;}
 function onNavigationEnd()
 {removeResource();}
 function onCommit(data)
@@ -3066,7 +3066,7 @@ function removeByElement(arrayName,arrayElement)
 arrayName.splice(i,1);}}
 function createSummary()
 {var logEntry=new Object();logEntry['action']="SUMMARY";var result=sendJSONRequest(this.config.post_log_url,logEntry,refreshDebugger(true));}
-var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItem;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var currentAct=null;var SCOEntryedAct=null;var currentAPI;var scoStartTime=null;var treeView=true;var logActive=false;var scoDebugValues=null;var scoDebugValuesTest=null;var logEntryScoId="";var logEntryScoTitle="";var summaryOnUnload=false;var pubAPI=null;var statusArray=new Object();var isSaving=true;var saveOnCommit=true;window.scorm_init=init;
+var remoteMapping=null;var remoteInsertId=0;var globalAct=new Activity();var rootAct=new Activity();var activities=new Object();var activitiesByCAM=new Object();var activitiesByCMI=new Object();var activitiesByNo=new Array();var sharedObjectives=new Object();var sharedData=new Array();var msequencer=new ADLSequencer();var mlaunch=null;var adlnavreq=null;var treeYUI=null;var logState=false;var treeState=true;var ITEM_PREFIX="itm";var RESOURCE_PARENT="tdResource";var RESOURCE_NAME="frmResource";var RESOURCE_TOP="mainTable";var guiItem;var guiState;var gConfig;var RUNNING=1;var WAITING=0;var QUERYING=-1;var ABORTING=-2;var EXIT_ACTIONS=/^exit$/i;var POST_ACTIONS=/^exitParent|exitAll|retry|retryAll|continue|previous$/i;var SKIPPED_ACTIONS=/^skip$/i;var STOP_FORWARD_TRAVERSAL_ACTIONS=/^stopForwardTraversal$/i;var HIDDEN_FROM_CHOICE_ACTIONS=/^hiddenFromChoice$/i;var DISABLED_ACTIONS=/^disabled$/i;var state=WAITING;var SCOEntryedAct=null;var currentAPI;var scoStartTime=null;var treeView=true;var logActive=false;var scoDebugValues=null;var scoDebugValuesTest=null;var logEntryScoId="";var logEntryScoTitle="";var summaryOnUnload=false;var pubAPI=null;var statusArray=new Object();var isSaving=true;var saved_shared_data="";var saved_global_objectives="";var saveOnCommit=true;window.scorm_init=init;
 function Runtime(cmiItem,onCommit,onTerminate,onDebug)
 {function GetLastError()
 {if(logActive)
@@ -3110,7 +3110,8 @@ function Commit(param)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",201);return setReturn(201,'param must be empty string','false');}
 switch(state)
 {case NOT_INITIALIZED:if(logActive)
-sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:var returnValue1=GetValueIntern("cmi.success_status");returnValue1=GetValueIntern("cmi.completion_status");var returnValue=onCommit(cmiItem);if(saveOnCommit==true){var returnCommit=save();}
+sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(saveOnCommit==true){if(this.config.sequencing_enabled){var sgo=saveSharedData();sgo=save_global_objectives();}
+var returnCommit=save();}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
 sendLogEntry(getMsecSinceStart(),'Commit',"","","true",0);return setReturn(0,'','true');}
