@@ -182,12 +182,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				//store correct status in DB; returnValue1 because of IE;
-				var returnValue1 = GetValueIntern("cmi.success_status");
-				returnValue1 = GetValueIntern("cmi.completion_status");
+				var returnValue1 = syncCMIADLTree();
 				var returnValue = onCommit(cmiItem);
 				if (saveOnCommit == true) {
+					if (this.config.sequencing_enabled) {
+						var sgo=saveSharedData();
+						sgo=save_global_objectives();
+					}
 					var returnCommit = save();
-				}	
+				}
 				if (returnValue) 
 				{
 					dirty = false;

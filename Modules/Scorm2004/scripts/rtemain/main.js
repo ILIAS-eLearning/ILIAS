@@ -1705,7 +1705,6 @@ function loadPage(src) {
 		resContainer.src=src;
 		resContainer.name=RESOURCE_NAME;
 		onWindowResize();	
-		save_global_objectives();//
 		
 		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_" && mlaunch.mSeqNonContent!="_SEQABANDON_" && mlaunch.mSeqNonContent!="_SEQABANDONALL_") {
 			toggleView();
@@ -2404,7 +2403,7 @@ function loadSharedData(sco_node_id) {
 }
 
 function saveSharedData() {
-	
+	//to increase performance integrate  in save()
 	//Do the transform so the "custom" JSON encoder will properly send
 	//the input to the server
 	var dataOut = new Object();
@@ -2412,10 +2411,16 @@ function saveSharedData() {
 		var d = pubAPI.adl.data[i];
 		dataOut[d.id] = d.store;
 	}
-	var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
-	if(success != "1") { 
-		//Do error handling if necessary
+	sd2save = toJSONString(dataOut);
+	if (sd2save != saved_shared_data) {
+		var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
+		if(success != "1") { 
+			//Do error handling if necessary
+		}
+		//Note: no check for success
+		saved_shared_data = sd2save;
 	}
+	return true;
 }
 
 function buildADLtree(act, unused){
@@ -2978,9 +2983,7 @@ function onWindowLoad ()
 function onWindowUnload () 
 {
 	summaryOnUnload = true;
-	onItemUndeliver(true);
-	save_global_objectives();
-	save();
+	removeResource();
 }
 function loadData(item){
 		var data = getAPI(item.foreignId);
@@ -3485,94 +3488,65 @@ function syncCMIADLTree(){
 			}
 		}
 
-		  // Report the measure
-		  if( score!="" && score!="unknown") {
+		// Report the measure
+		if( score!="" && score!="unknown") {
 				normalScore = score;
 				msequencer.setAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID, normalScore);
-		   }
-		   else{
-				if( setPrimaryObjScore==false )
-				{
-				   msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
-				}
-		   }
-	   }
-	   else
-	   {
-			var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
-			for ( var i = 0; i < numObjs; i++ ) 
+		}
+		else{
+			if( setPrimaryObjScore==false )
 			{
-				var obj = "cmi.objectives." + i + ".id";
-				var objID= currentAPI.GetValueIntern(obj);
-				
-				objScoreRaw = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.raw");
-				if( objScoreRaw != "" && objScoreRaw != "unknown" && objScoreRaw != null) {
-					msequencer.setAttemptObjRawScore(mlaunch.mActivityID, objID, objScoreRaw)
-				} else {
-					msequencer.clearAttemptObjRawScore(mlaunch.mActivityID, objID);
-				}
-				 
-				objScoreMin = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.min");
-				if( objScoreMin != "" && objScoreMin != "unknown" && objScoreMin != null) {
-					msequencer.setAttemptObjMinScore(mlaunch.mActivityID, objID, objScoreMin)
-				} else {
-					msequencer.clearAttemptObjMinScore(mlaunch.mActivityID, objID);
-				} 
-				 
-				objScoreMax = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.max");
-				if( objScoreMax != "" && objScoreMax != "unknown" && objScoreMax != null) {
-					msequencer.setAttemptObjMaxScore(mlaunch.mActivityID, objID, objScoreMax)
-				} else {
-					msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID, objID);
-				}
+			   msequencer.clearAttemptObjMeasure(mlaunch.mActivityID, mPRIMARY_OBJ_ID);
 			}
-	   }
+		}
 	}
+	else
+	{
+		var numObjs= currentAPI.GetValueIntern("cmi.objectives._count");
+		for ( var i = 0; i < numObjs; i++ ) 
+		{
+			var obj = "cmi.objectives." + i + ".id";
+			var objID= currentAPI.GetValueIntern(obj);
+			
+			objScoreRaw = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.raw");
+			if( objScoreRaw != "" && objScoreRaw != "unknown" && objScoreRaw != null) {
+				msequencer.setAttemptObjRawScore(mlaunch.mActivityID, objID, objScoreRaw)
+			} else {
+				msequencer.clearAttemptObjRawScore(mlaunch.mActivityID, objID);
+			}
+			 
+			objScoreMin = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.min");
+			if( objScoreMin != "" && objScoreMin != "unknown" && objScoreMin != null) {
+				msequencer.setAttemptObjMinScore(mlaunch.mActivityID, objID, objScoreMin)
+			} else {
+				msequencer.clearAttemptObjMinScore(mlaunch.mActivityID, objID);
+			} 
+			 
+			objScoreMax = currentAPI.GetValueIntern("cmi.objectives." + i + ".score.max");
+			if( objScoreMax != "" && objScoreMax != "unknown" && objScoreMax != null) {
+				msequencer.setAttemptObjMaxScore(mlaunch.mActivityID, objID, objScoreMax)
+			} else {
+				msequencer.clearAttemptObjMaxScore(mlaunch.mActivityID, objID);
+			}
+		}
+	}
+	return completionStatus;
+}
 
 function onItemUndeliver(noControls) // onUndeliver called from sequencing process (EndAttempt)
 {
-		//Save the shared data if undelivering the SCO
-	if(pubAPI != null) {
-		if (this.config.sequencing_enabled) saveSharedData();
-	}
 	// customize GUI
 	if (noControls!=true) {
 		updateNav();
 		updateControls();
 	}	
-	
-
-	
 	// throw away the resource
 	// it may change api data in this
 	removeResource(undeliverFinish);
 }
 
 function undeliverFinish(){
-	
-	// throw away api, and try a API.Terminate before (will return "false" if already closed by SCO)
-	if (currentAPI) 
-	{
-		syncCMIADLTree();		
-		var stat = pubAPI.cmi.exit;
-		
-		save_global_objectives();
-		
-		//sync dynamic objectives to ActivityTree
-		//syncDynObjectives();
-		save();
-		if (state!=2) {
-			//currentAPI.Terminate("");
-		}
-			
-	}
-	currentAPI = window[Runtime.apiname] = null;
-	// set some data values 
-	if (currentAct) 
-	{
-		currentAct.accessed = currentTime()/1000;
-		if (!currentAct.dirty) currentAct.dirty = 1;
-	}
+//	currentAPI = window[Runtime.apiname] = null;
 }
 
 function syncDynObjectives(){
@@ -3613,30 +3587,17 @@ function save_global_objectives() {
 	if (this.config.sequencing_enabled) {
 		if (adl_seq_utilities.measure!=null || adl_seq_utilities.satisfied!=null || 
 			adl_seq_utilities.status!=null  ) {
-			result = this.config.gobjective_url 
-				? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
-				: {};
-		}
-/*
-	TODO integrate in save ..
-	var result="";
-	if (saved_global_objectives!=this.adl_seq_utilities) {
-		var iCounter=0,oObj;
-		saved_global_objectives=this.adl_seq_utilities;
-		for(oObj in this.adl_seq_utilities.measure) iCounter++;
-		for(oObj in this.adl_seq_utilities.satisfied) iCounter++;
-		for(oObj in this.adl_seq_utilities.status) iCounter++;
-		..score ...
-
-		if (iCounter>0) {
-			result = this.config.gobjective_url 
-				? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
-				: {};
+			var go2save = toJSONString(this.adl_seq_utilities);
+			if (go2save != saved_global_objectives) {
+				result = this.config.gobjective_url 
+					? sendJSONRequest(this.config.gobjective_url, this.adl_seq_utilities)
+					: {};
+				//note: no check for success
+				saved_global_objectives = go2save;
+			}
 		}
 	}
-	return result;
-*/
-	}
+	return true;
 }
 
 // sequencer terminated
@@ -4011,7 +3972,6 @@ var DISABLED_ACTIONS = /^disabled$/i;
 
 // SEQUENCER Variables
 var state = WAITING; 
-var currentAct = null;
 var SCOEntryedAct = null;
 
 // SCO related Variables
@@ -4033,6 +3993,8 @@ var pubAPI=null;
 var statusArray = new Object(); //just used for visual feedback
 var isSaving = true;
 
+var saved_shared_data = "";
+var saved_global_objectives = "";
 var saveOnCommit = true;
 // Public interface
 window.scorm_init = init;
