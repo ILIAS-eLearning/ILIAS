@@ -19,23 +19,30 @@ class ilItemGroupItems
 	var $lng;
 
 	var $item_group_id = 0;
+	var $item_group_ref_id = 0;
 	var $items = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @param int $a_item_group_id object id of item group
+	 * @param int $a_item_group_ref_id ref id of item group
 	 */
-	function ilItemGroupItems($a_item_group_id = 0)
+	function ilItemGroupItems($a_item_group_ref_id = 0)
 	{
-		global $ilDB, $lng;
+		global $ilDB, $lng, $tree, $objDefinition;
 
 		$this->db  = $ilDB;
 		$this->lng = $lng;
+		$this->tree = $tree;
+		$this->obj_def = $objDefinition;
 
-		$this->item_group_id = $a_item_group_id;
+		$this->setItemGroupRefId((int) $a_item_group_ref_id);
+		if ($this->getItemGroupRefId() > 0)
+		{
+			$this->setItemGroupId((int) ilObject::_lookupObjId($a_item_group_ref_id));
+		}
 
-		if ($a_item_group_id > 0)
+		if ($this->getItemGroupId() > 0)
 		{
 			$this->read();
 		}
@@ -59,6 +66,26 @@ class ilItemGroupItems
 	function getItemGroupId()
 	{
 		return $this->item_group_id;
+	}
+	
+	/**
+	 * Set item group ref id
+	 *
+	 * @param int $a_val item group ref id	
+	 */
+	function setItemGroupRefId($a_val)
+	{
+		$this->item_group_ref_id = $a_val;
+	}
+	
+	/**
+	 * Get item group ref id
+	 *
+	 * @return int item group ref id
+	 */
+	function getItemGroupRefId()
+	{
+		return $this->item_group_ref_id;
 	}
 	
 	/**
@@ -137,6 +164,44 @@ class ilItemGroupItems
 	}
 
 	/**
+	 * Get assignable items
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAssignableItems()
+	{
+		if ($this->getItemGroupRefId() <= 0)
+		{
+			return array();
+		}
+		
+		$parent_node = $this->tree->getNodeData(
+			$this->tree->getParentId($this->getItemGroupRefId()));
+		
+		$materials = array();
+		$nodes = $this->tree->getChilds($parent_node["child"]);
+
+		foreach($nodes as $node)
+		{
+			// filter side blocks and session, item groups and role folder
+			if ($node['child'] == $parent_node["child"] ||
+				$this->obj_def->isSideBlock($node['type']) ||
+				in_array($node['type'], array('sess', 'itgr', 'rolf')))
+			{
+				continue;
+			}
+
+			$materials[] = $node;
+		}
+		
+		$materials = ilUtil::sortArray($materials, "title", "asc");
+		
+		return $materials;
+	}
+
+	
+	/**
 	 * Get valid items
 	 *
 	 * @param
@@ -145,8 +210,16 @@ class ilItemGroupItems
 	function getValidItems()
 	{
 		$items = $this->getItems();
-		
-		return $items;
+		$ass_items = $this->getAssignableItems();
+		$valid_items = array();
+		foreach ($ass_items as $aitem)
+		{
+			if (in_array($aitem["ref_id"], $items))
+			{
+				$valid_items[] = $aitem["ref_id"];
+			}
+		}
+		return $valid_items;
 	}
 	
 }

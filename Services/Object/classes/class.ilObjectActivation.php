@@ -651,10 +651,10 @@ class ilObjectActivation
 	 * @param int $a_item_group_id (object id)
 	 * @return array 
 	 */
-	public static function getItemsByItemGroup($a_item_roup_id)
+	public static function getItemsByItemGroup($a_item_group_ref_id)
 	{		
 		include_once 'Modules/ItemGroup/classes/class.ilItemGroupItems.php';
-		$ig_items = new ilItemGroupItems($a_item_roup_id);
+		$ig_items = new ilItemGroupItems($a_item_group_ref_id);
 		$items = $ig_items->getValidItems();
 		return self::processListItems($items);
 	}

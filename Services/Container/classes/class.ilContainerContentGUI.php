@@ -775,8 +775,7 @@ abstract class ilContainerContentGUI
 	 */
 	function getItemGroupsHTML($a_tpl)
 	{
-		$html = "";
-
+		$rendered = false;
 		if (is_array($this->items["itgr"]))
 		{
 			foreach ($this->items["itgr"] as $itgr)
@@ -799,8 +798,8 @@ abstract class ilContainerContentGUI
 				// render item group sub items
 						
 				include_once('./Services/Container/classes/class.ilContainerSorting.php');			
-				include_once('./Services/Object/classes/class.ilObjectActivation.php');			
-				$items = ilObjectActivation::getItemsByItemGroup($itgr['obj_id']);
+				include_once('./Services/Object/classes/class.ilObjectActivation.php');
+				$items = ilObjectActivation::getItemsByItemGroup($itgr['ref_id']);
 				$items = ilContainerSorting::_getInstance(
 					$this->getContainerObject()->getId())->sortSubItems('itgr', $itgr['obj_id'],$items);
 				$position = 1;
@@ -813,48 +812,17 @@ abstract class ilContainerContentGUI
 						$this->rendered_items[$item["child"]] = true;
 					}
 					
-					// TODO: this should be removed and be handled by if(strlen($sub_item_html))
-					// 	see mantis: 0003944
-/*
-					if(!$ilAccess->checkAccess('visible','',$item['ref_id']))
-					{
-						continue;
-					}
-					
-					$item_list_gui2 = $this->getItemGUI($item);
-					$item_list_gui2->enableIcon(true);
-					$item_list_gui2->enableItemDetailLinks(false);
-					if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
-					{
-						$item_list_gui2->enableCheckbox(true);
-					}
-					if ($this->getContainerGUI()->isActiveOrdering())
-					{
-						if ($this->getContainerObject()->getOrderType() == ilContainer::SORT_MANUAL)
-						{
-							$item_list_gui2->setPositionInputField("[sess][".$a_item_data['obj_id']."][".$item["ref_id"]."]",
-								sprintf('%d', (int)$pos*10));
-							$pos++;
-						}					
-					}
-					$item_html = $item_list_gui2->getListItemHTML($item['ref_id'],
-						$item['obj_id'], $item['title'], $item['description']);
-											
-					$this->determineAdminCommands($item["ref_id"],$item_list_gui2->adminCommandsIncluded());
-					if(strlen($item_html))
-					{
-						$item_list_gui->addSubItemHTML($sub_item_html);
-					}
-*/
 				}
 
 				// finish block
 				$a_tpl->setCurrentBlock("container_block");
 				$a_tpl->parseCurrentBlock();
+				
+				$rendered = true;
 			}
 		}
 		
-		return $html;
+		return $rendered;
 	}
 	
 }
