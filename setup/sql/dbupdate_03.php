@@ -12006,3 +12006,20 @@ if(!$ilDB->tableColumnExists('sahs_lm', 'auto_last_visited'))
 	$ilDB->query("UPDATE sahs_lm SET auto_last_visited = 'n'");
 }
 ?>
+<#3698>
+<?php
+if(!$ilDB->tableColumnExists('sahs_lm', 'check_values'))
+{
+	$ilDB->addTableColumn(
+		'sahs_lm',
+		'check_values',
+		array(
+			 'type'    => 'text',
+			 'length'  => 1,
+			 'notnull' => true,
+			 'default' => 'y'
+		)
+	);
+	$ilDB->query("UPDATE sahs_lm SET check_values = 'y'");
+}
+?>
