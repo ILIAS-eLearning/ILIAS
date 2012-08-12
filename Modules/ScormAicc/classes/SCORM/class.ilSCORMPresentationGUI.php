@@ -423,7 +423,6 @@ class ilSCORMPresentationGUI
 		print("}\r\n");
 		
 		//variables to set in administration interface
-		$b_checkSetValues='true';
 		$b_storeObjectives='true';
 		$b_storeInteractions='true';
 		$b_readInteractions='false';
@@ -446,6 +445,8 @@ class ilSCORMPresentationGUI
 		if ($this->slm->getDebug()) $b_debug='true';
 		$b_autoContinue='false';
 		if ($this->slm->getAutoContinue()) $b_autoContinue='true';
+		$b_checkSetValues='false';
+		if ($this->slm->getCheck_values()) $b_checkSetValues='true';
 		$b_autoLastVisited='false';
 		if ($this->slm->getAuto_last_visited()) {
 			$b_autoLastVisited='true';

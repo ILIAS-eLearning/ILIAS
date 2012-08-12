@@ -100,6 +100,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setHeight($lm_rec["height"]);
 			$this->setAutoContinue(ilUtil::yn2tf($lm_rec["auto_continue"]));
 			$this->setAuto_last_visited(ilUtil::yn2tf($lm_rec["auto_last_visited"]));
+			$this->setCheck_values(ilUtil::yn2tf($lm_rec["check_values"]));
 		}
 	}
 
@@ -538,6 +539,18 @@ class ilObjSAHSLearningModule extends ilObject
 		$this->time_from_lms = $a_time_from_lms;
 	}
 
+	/**
+	* check_values
+	*/
+	function getCheck_values()
+	{
+		return $this->check_values;
+	}
+
+	function setCheck_values($a_check_values)
+	{
+		$this->check_values = $a_check_values;
+	}
 
 	/**
 	* debug
@@ -734,7 +747,8 @@ class ilObjSAHSLearningModule extends ilObject
 				width = %s,
 				height = %s,
 				auto_continue = %s,
-				auto_last_visited = %s
+				auto_last_visited = %s,
+				check_values = %s
 			WHERE id = %s', 
 		array(	'text',
 				'text',
@@ -764,6 +778,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer',
 				'integer',
+				'text',
 				'text',
 				'text',
 				'integer'
@@ -798,6 +813,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$this->getHeight(),
 				ilUtil::tf2yn($this->getAutoContinue()),
 				ilUtil::tf2yn($this->getAuto_last_visited()),
+				ilUtil::tf2yn($this->getCheck_values()),
 				$this->getId())
 		);
 

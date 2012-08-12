@@ -193,6 +193,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->setVariable("CHK_AUTO_LAST_VISITED", "checked");
 		}
 
+		//check_values
+		$this->tpl->setVariable("TXT_CHECK_VALUES", $this->lng->txt("cont_check_values"));
+		$this->tpl->setVariable("CBOX_CHECK_VALUES", "cobj_check_values");
+		$this->tpl->setVariable("VAL_CHECK_VALUES", "y");
+		if ($this->object->getCheck_values())
+		{
+			$this->tpl->setVariable("CHK_CHECK_VALUES", "checked");
+		}
+
 		//debug
 		$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
 		$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
@@ -440,6 +449,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 		$this->object->setAutoContinue(ilUtil::yn2tf($_POST["auto_continue"]));
 		$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
+		$this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
 		$this->object->update();
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");
