@@ -69,16 +69,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	* scorm module properties
 	*/
 	function properties()
-	{	
+	{
 		global $rbacsystem, $tree, $tpl;
-		
+
 		// edit button
 		$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		// view link
 		$this->tpl->setCurrentBlock("btn_cell");
-		$this->tpl->setVariable("BTN_LINK",
-			"ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID());
+		$this->tpl->setVariable("BTN_LINK","ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->object->getRefID());
 		$this->tpl->setVariable("BTN_TARGET"," target=\"ilContObj".$this->object->getID()."\" ");
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt("view"));
 		$this->tpl->parseCurrentBlock();
@@ -90,7 +89,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->setVariable("BTN_TXT",$this->lng->txt("cont_sc_new_version"));
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
 		// scorm lm properties
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.sahs_properties.html", "Modules/ScormAicc");
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -193,7 +192,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		{
 			$this->tpl->setVariable("CHK_DEBUG", "checked");
 		}
-		
+
 		//debugActivated
 		if ($this->object->getDebugActivated() == false) {
 			$this->tpl->setVariable("CHK_ACTIVATED", "disabled");
@@ -201,8 +200,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		} else {
 			$this->tpl->setVariable("TXT_ACTIVATED", $this->lng->txt("cont_debug_deactivate"));
 		}
-		
-		
+
 		$this->tpl->setCurrentBlock("commands");
 		$this->tpl->setVariable("BTN_NAME", "saveProperties");
 		$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
@@ -215,31 +213,30 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	*/
 	function newModuleVersion()
 	{
-	
-	   $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
-	   $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-	  
-	   // display import form
-	   $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
-    
-	   $this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.png'));
-	   $this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
-    
-	   $this->ctrl->setParameter($this, "new_type", "sahs");
-	   $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-    
-	   $this->tpl->setVariable("BTN_NAME", "newModuleVersionUpload");
-	   $this->tpl->setVariable("TARGET", ' target="'.
-	   	ilFrameTargetInfo::_getFrame("MainContent").'" ');
-    
-	   $this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
-	  
-	   if ($type == "scorm2004") {
-		   $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm2004"));
-	   } else {
-		   $this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm"));
-	   }    
-	
+		$obj_id = ilObject::_lookupObjectId($_GET['ref_id']);
+		$type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
+
+		// display import form
+		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm_new_version_import.html", "Modules/ScormAicc");
+
+		$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_slm.png'));
+		$this->tpl->setVariable("ALT_IMG", $this->lng->txt("obj_sahs"));
+
+		$this->ctrl->setParameter($this, "new_type", "sahs");
+		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+
+		$this->tpl->setVariable("BTN_NAME", "newModuleVersionUpload");
+		$this->tpl->setVariable("TARGET", ' target="'.
+		ilFrameTargetInfo::_getFrame("MainContent").'" ');
+
+		$this->tpl->setVariable("TXT_SELECT_LMTYPE", $this->lng->txt("type"));
+
+		if ($type == "scorm2004") {
+			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm2004"));
+		} else {
+			$this->tpl->setVariable("TXT_TYPE", $this->lng->txt("lm_type_scorm"));
+		}
+
 		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
 		if (ilUploadFiles::_getUploadDirectory())
 		{
@@ -258,39 +255,39 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-	   $this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
-	   $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-	   $this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
-	   $this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
-    
-	   // gives out the limit as a little notice
-	   $this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." ".$this->getMaxFileSize());
+		$this->tpl->setVariable("TXT_UPLOAD", $this->lng->txt("upload"));
+		$this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+		$this->tpl->setVariable("TXT_IMPORT_LM", $this->lng->txt("import_sahs"));
+		$this->tpl->setVariable("TXT_SELECT_FILE", $this->lng->txt("select_file"));
+
+		// gives out the limit as a little notice
+		$this->tpl->setVariable("TXT_FILE_INFO", $this->lng->txt("file_notice")." ".$this->getMaxFileSize());
 	}
-	
+
+
 	function getMaxFileSize()
 	{
+		// get the value for the maximal uploadable filesize from the php.ini (if available)
+		$umf=get_cfg_var("upload_max_filesize");
+		// get the value for the maximal post data from the php.ini (if available)
+		$pms=get_cfg_var("post_max_size");
+     
+		//convert from short-string representation to "real" bytes
+		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
 
-	   // get the value for the maximal uploadable filesize from the php.ini (if available)
-	   $umf=get_cfg_var("upload_max_filesize");
-	   // get the value for the maximal post data from the php.ini (if available)
-	   $pms=get_cfg_var("post_max_size");
+		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+		$pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+
+		if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
+		if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
      
-	   //convert from short-string representation to "real" bytes
-	   $multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
-     
-	   $umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-	   $pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-     
-	   if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
-	   if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
-     
-	   // use the smaller one as limit
-	   $max_filesize=min($umf, $pms);
-     
-	   if (!$max_filesize) $max_filesize=max($umf, $pms);
-     
-	   //format for display in mega-bytes
-	   return $max_filesize=sprintf("%.1f MB",$max_filesize/1024/1024);
+		// use the smaller one as limit
+		$max_filesize=min($umf, $pms);
+
+		if (!$max_filesize) $max_filesize=max($umf, $pms);
+
+		//format for display in mega-bytes
+		return $max_filesize=sprintf("%.1f MB",$max_filesize/1024/1024);
 	}
 	
 	
@@ -326,7 +323,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			{
 				$this->ilias->raiseError($this->lng->txt("upload_error_file_not_found"),$this->ilias->error_obj->MESSAGE);
 			}
-
 			// copy the uploaded file to the client web dir to analyze the imsmanifest
 			// the copy will be moved to the lm directory or deleted
  			$source = CLIENT_WEB_DIR . "/" . $_POST["uploaded_file"];
@@ -340,29 +336,29 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			return;
 		}
 		// fim.
-		
+
 		//unzip the imsmanifest-file from new uploaded file
 		$pathinfo = pathinfo($source);
 		$dir = $pathinfo["dirname"];
 		$file = $pathinfo["basename"];
 		$cdir = getcwd();
 		chdir($dir);
-		
+
 		//we need more flexible unzip here than ILIAS standard classes allow
 		$unzipcmd = $unzip." -o ".ilUtil::escapeShellArg($source)." ".$tocheck;
 		exec($unzipcmd);
 		chdir($cdir);
 		$tmp_file = $dir."/".$tocheck.".".$_GET["ref_id"];
-		
+
 		rename($dir."/".$tocheck,$tmp_file);
 		$new_manifest = file_get_contents($tmp_file);
-		
+
 		//remove temp file
 		unlink($tmp_file);
-		
+
 		//get old manifest file	
 		$old_manifest = file_get_contents($this->object->getDataDirectory()."/".$tocheck);
-		
+
 		//reload fixed version of file
 		$check ='/xmlns="http:\/\/www.imsglobal.org\/xsd\/imscp_v1p1"/';
 		$replace="xmlns=\"http://www.imsproject.org/xsd/imscp_rootv1p1p2\"";
@@ -374,7 +370,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
 			//get exisiting module version
 			$module_version = $this->object->getModuleVersion();
-			
+
 			if ($_FILES["scormfile"]["name"])
 			{
 				//build targetdir in lm_data
@@ -387,7 +383,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			{
 				//build targetdir in lm_data
 				$file_path = $this->object->getDataDirectory()."/".$_POST["uploaded_file"].".".$module_version;
-
 				// move the already copied file to the lm_data directory
 				rename($source, $file_path);
 			}
@@ -415,9 +410,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			ilUtil::sendInfo($this->lng->txt("cont_invalid_new_module"),true);
 			$this->newModuleVersion();
 		}
-				
 	}
-	
+
 	/**
 	* save properties
 	*/
@@ -544,7 +538,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		foreach($_POST["user"] as $id)
 		{
 			if (ilObject::_exists($id) && ilObject::_lookUpType($id)=="usr" )
-			{	
+			{
 				$user = new ilObjUser($id);
 
 				$caption = ilUtil::getImageTagByType("sahs", $this->tpl->tplPath).
@@ -553,10 +547,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
 
 				$cgui->addItem("user[]", $id, $caption);
-			}	
+			}
 		}
 
-		$this->tpl->setContent($cgui->getHTML());			
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
@@ -572,15 +566,14 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	{
 		global $ilDB, $ilUser;
 
-
 		foreach($_SESSION["scorm_user_delete"] as $user)
 		{
 			$ret = $ilDB->manipulateF('
 			DELETE FROM scorm_tracking
 			WHERE user_id = %s
 			AND obj_id = %s',
-					array('integer', 'integer'),
-					array($user, $this->object->getID()));
+			array('integer', 'integer'),
+			array($user, $this->object->getID()));
 		}
 
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -688,7 +681,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	protected function exportSelection($a_type)
 	{
 		global $ilTabs;
-		
+
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget(
 			$this->lng->txt('back'),
@@ -706,6 +699,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	protected function initExportForm($a_type)
 	{
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'showTrackingItems'));
 		$form->setTitle($this->lng->txt('cont_export_tracking'));
@@ -775,21 +769,19 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
 		$this->ctrl->redirect($this,'showTrackingItems');
 	}
-	
-		
+
 	function decreaseAttempts()
 	{
 		global $ilDB, $ilUser;
-		
+
 		if (!isset($_POST["user"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
 		}
-		
+
 		foreach ($_POST["user"] as $user)
 		{
 			//first check if there is a package_attempts entry
-
 			//get existing account - sco id is always 0
 			$val_set = $ilDB->queryF('
 			SELECT * FROM scorm_tracking 
@@ -799,9 +791,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			AND obj_id = %s',
 			array('integer','integer','text','integer'),
 			array($user,0,'package_attempts',$this->object->getID()));
-			
+
 			$val_rec = $ilDB->fetchAssoc($val_set);
-			
+
 			$val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
 			if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) 
 			{
@@ -829,7 +821,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 						'sco_id'	=> array('integer', 0),
 						'obj_id'	=> array('integer', $this->object->getId()),
 						'lvalue'	=> array('text', 'package_attempts')
-					));					
+					));
 				}
 				
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
@@ -862,8 +854,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->tpl->setContent($tbl->getHTML());
 		return true;
 	}
-	
-	
+
 	/**
 	 * show tracking data of item
 	 */
@@ -909,12 +900,12 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->tpl->setContent($tbl->getHTML());
 		return true;
 	}
-	
+
 	//setTabs
 	function setSubTabs()
 	{
 		global $lng, $ilTabs, $ilCtrl;
-		
+
 		$ilTabs->addSubTabTarget("cont_tracking_byuser",
 			$this->ctrl->getLinkTarget($this, "showTrackingItems"), array("edit", ""),
 			get_class($this));
@@ -922,7 +913,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$ilTabs->addSubTabTarget("cont_tracking_bysco",
 			$this->ctrl->getLinkTarget($this, "showTrackingItemsBySco"), array("edit", ""),
 			get_class($this));
-	}		
+	}
 
 }
 // END class.ilObjSCORMLearningModule
