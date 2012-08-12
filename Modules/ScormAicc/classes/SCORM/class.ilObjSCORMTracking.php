@@ -638,7 +638,6 @@ class ilObjSCORMTracking
 
 		// Why does this query use a like search against "passed" and "failed"
 		//because it's clob and we support Oracle
-		/*
 		$res = $ilDB->queryF('
 			SELECT user_id, COUNT(user_id) completed FROM scorm_tracking
 			WHERE '.$in.'
@@ -649,8 +648,11 @@ class ilObjSCORMTracking
 			array('integer', 'text'),
 			array($a_obj_id, 'cmi.core.lesson_status')
 		);
-		*/
-		
+		while($row = $ilDB->fetchObject($res))
+		{
+			$users[$row->user_id] = $row->completed;
+		}
+		/*
 		// Avoid searches against field rvalue.
 		// This gives the possibility to reuse the obj_id,sco_id,lvalue index.
 		$query = "SELECT user_id,rvalue FROM scorm_tracking ".
@@ -665,7 +667,7 @@ class ilObjSCORMTracking
 			{
 				++$users[$row->user_id];
 			}
-		}
+		}*/
 		return $users ? $users : array();
 	}
 
