@@ -371,9 +371,6 @@ class ilObjSCORMTracking
 	}
 
 	/**
-	 * Redesign required
-	 * @todo avoid like search against clob field rvalue
-	 * @deprecated
 	 * @param object $scorm_item_id
 	 * @param object $a_obj_id
 	 * @return 
@@ -390,9 +387,10 @@ class ilObjSCORMTracking
 			WHERE '.$in.'
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
-			array('integer','text'), 
-			array($a_obj_id,'cmi.core.lesson_status'));
+			AND (rvalue = %s OR rvalue = %s)',
+//			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
+			array('integer','text','text','text'), 
+			array($a_obj_id,'cmi.core.lesson_status','completed','passed'));
 		}
 		else
 		{	
@@ -400,9 +398,9 @@ class ilObjSCORMTracking
 			WHERE sco_id = %s
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
-			array('integer','integer','text'), 
-			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status'));
+			AND (rvalue = %s OR rvalue = %s)',
+			array('integer','integer','text','text','text'), 
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','completed','passed'));
 		}
 		
 		while($row = $ilDB->fetchObject($res))
@@ -584,9 +582,6 @@ class ilObjSCORMTracking
 	}
 
 	/**
-	 * Redesign required
-	 * @todo avoid like search against clob field rvalue 
-	 * @deprecated
 	 * @param object $scorm_item_id
 	 * @param object $a_obj_id
 	 * @return 
@@ -603,10 +598,11 @@ class ilObjSCORMTracking
 				SELECT DISTINCT(user_id) FROM scorm_tracking 
 				WHERE '.$in.'
 				AND obj_id = %s
-				AND lvalue =  %s
-				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
-			array('integer','text'),
-			array($a_obj_id,'cmi.core.lesson_status'));				
+				AND lvalue = %s
+				AND rvalue = %s',
+//				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
+			array('integer','text','text'),
+			array($a_obj_id,'cmi.core.lesson_status','failed'));
 		}
 		else
 		{
@@ -615,10 +611,10 @@ class ilObjSCORMTracking
 				SELECT DISTINCT(user_id) FROM scorm_tracking 
 				WHERE sco_id = %s
 				AND obj_id = %s
-				AND lvalue =  %s
-				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
-			array('integer','integer','text'),
-			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status'));
+				AND lvalue = %s
+				AND rvalue = %s',
+			array('integer','integer','text','text'),
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','failed'));
 		}
 
 		while($row = $ilDB->fetchObject($res))
