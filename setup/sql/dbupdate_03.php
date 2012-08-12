@@ -11989,3 +11989,20 @@ while ($row = $ilDB->fetchAssoc($text_questions))
 	}
 }
 ?>
+<#3697>
+<?php
+if(!$ilDB->tableColumnExists('sahs_lm', 'auto_last_visited'))
+{
+	$ilDB->addTableColumn(
+		'sahs_lm',
+		'auto_last_visited',
+		array(
+			'type'    => 'text',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 'y'
+		)
+	);
+	$ilDB->query("UPDATE sahs_lm SET auto_last_visited = 'n'");
+}
+?>
