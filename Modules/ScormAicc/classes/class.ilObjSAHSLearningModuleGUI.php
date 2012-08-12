@@ -321,7 +321,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		// validate file
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
 		$cb->setValue("y");
-		$cb->setChecked(true);
+		//$cb->setChecked(true);
 		$this->form->addItem($cb);
 
 		// import for editing
