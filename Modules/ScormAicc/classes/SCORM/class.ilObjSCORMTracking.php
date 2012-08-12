@@ -371,6 +371,7 @@ class ilObjSCORMTracking
 	}
 
 	/**
+	 * like necessary because of Oracle
 	 * @param object $scorm_item_id
 	 * @param object $a_obj_id
 	 * @return 
@@ -387,10 +388,9 @@ class ilObjSCORMTracking
 			WHERE '.$in.'
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND (rvalue = %s OR rvalue = %s)',
-//			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
-			array('integer','text','text','text'), 
-			array($a_obj_id,'cmi.core.lesson_status','completed','passed'));
+			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
+			array('integer','text'), 
+			array($a_obj_id,'cmi.core.lesson_status'));
 		}
 		else
 		{	
@@ -398,9 +398,9 @@ class ilObjSCORMTracking
 			WHERE sco_id = %s
 			AND obj_id = %s
 			AND lvalue = %s 
-			AND (rvalue = %s OR rvalue = %s)',
-			array('integer','integer','text','text','text'), 
-			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','completed','passed'));
+			AND ('.$ilDB->like('rvalue', 'clob', 'completed').' OR '.$ilDB->like('rvalue', 'clob', 'passed').')',
+			array('integer','integer','text'), 
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status'));
 		}
 		
 		while($row = $ilDB->fetchObject($res))
@@ -582,6 +582,7 @@ class ilObjSCORMTracking
 	}
 
 	/**
+	 * like necessary because of Oracle
 	 * @param object $scorm_item_id
 	 * @param object $a_obj_id
 	 * @return 
@@ -598,11 +599,10 @@ class ilObjSCORMTracking
 				SELECT DISTINCT(user_id) FROM scorm_tracking 
 				WHERE '.$in.'
 				AND obj_id = %s
-				AND lvalue = %s
-				AND rvalue = %s',
-//				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
-			array('integer','text','text'),
-			array($a_obj_id,'cmi.core.lesson_status','failed'));
+				AND lvalue =  %s
+				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
+			array('integer','text'),
+			array($a_obj_id,'cmi.core.lesson_status'));
 		}
 		else
 		{
@@ -611,10 +611,10 @@ class ilObjSCORMTracking
 				SELECT DISTINCT(user_id) FROM scorm_tracking 
 				WHERE sco_id = %s
 				AND obj_id = %s
-				AND lvalue = %s
-				AND rvalue = %s',
-			array('integer','integer','text','text'),
-			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status','failed'));
+				AND lvalue =  %s
+				AND '.$ilDB->like('rvalue', 'clob', 'failed').' ',
+			array('integer','integer','text'),
+			array($scorm_item_id,$a_obj_id,'cmi.core.lesson_status'));
 		}
 
 		while($row = $ilDB->fetchObject($res))
@@ -637,6 +637,7 @@ class ilObjSCORMTracking
 		$in = $ilDB->in('sco_id', $a_scorm_item_ids, false, 'integer');
 
 		// Why does this query use a like search against "passed" and "failed"
+		//because it's clob and we support Oracle
 		/*
 		$res = $ilDB->queryF('
 			SELECT user_id, COUNT(user_id) completed FROM scorm_tracking
