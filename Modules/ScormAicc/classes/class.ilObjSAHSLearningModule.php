@@ -99,6 +99,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setWidth($lm_rec["width"]);
 			$this->setHeight($lm_rec["height"]);
 			$this->setAutoContinue(ilUtil::yn2tf($lm_rec["auto_continue"]));
+			$this->setAuto_last_visited(ilUtil::yn2tf($lm_rec["auto_last_visited"]));
 		}
 	}
 
@@ -585,6 +586,19 @@ class ilObjSAHSLearningModule extends ilObject
 		return $this->auto_continue;
 	}
 
+	/**
+	* auto_last_visited
+	*/
+	function getAuto_last_visited()
+	{
+		return $this->auto_last_visited;
+	}
+
+	function setAuto_last_visited($a_auto_last_visited)
+	{
+		$this->auto_last_visited = $a_auto_last_visited;
+	}
+
 	
 	/**
 	 * Set sequencing expert mode
@@ -719,7 +733,8 @@ class ilObjSAHSLearningModule extends ilObject
 				open_mode = %s,
 				width = %s,
 				height = %s,
-				auto_continue = %s
+				auto_continue = %s,
+				auto_last_visited = %s
 			WHERE id = %s', 
 		array(	'text',
 				'text',
@@ -749,6 +764,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'integer',
 				'integer',
 				'integer',
+				'text',
 				'text',
 				'integer'
 				), 
@@ -781,6 +797,7 @@ class ilObjSAHSLearningModule extends ilObject
 				$this->getWidth(),
 				$this->getHeight(),
 				ilUtil::tf2yn($this->getAutoContinue()),
+				ilUtil::tf2yn($this->getAuto_last_visited()),
 				$this->getId())
 		);
 

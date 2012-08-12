@@ -184,6 +184,15 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->tpl->setVariable("CHK_AUTO_CONTINUE", "checked");
 		}
 
+		//enable auto navigation to last visited item
+		$this->tpl->setVariable("TXT_AUTO_LAST_VISITED", $this->lng->txt("cont_auto_last_visited"));
+		$this->tpl->setVariable("CBOX_AUTO_LAST_VISITED", "cobj_auto_last_visited");
+		$this->tpl->setVariable("VAL_AUTO_LAST_VISITED", "y");
+		if ($this->object->getAuto_last_visited())
+		{
+			$this->tpl->setVariable("CHK_AUTO_LAST_VISITED", "checked");
+		}
+
 		//debug
 		$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
 		$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
@@ -430,6 +439,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 		$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 		$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 		$this->object->setAutoContinue(ilUtil::yn2tf($_POST["auto_continue"]));
+		$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
 		$this->object->update();
 		ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "properties");

@@ -12750,3 +12750,4 @@ rbac#:#internal_mail#:#Internes Mail-System
 rbac#:#mail_internal_mail#:#Benutzer dürfen das interne Mail-System nutzen (ILIAS)
 poll#:#poll_active_no_edit#:#Diese Abstimmung ist zur Zeit aktiv und kann nicht bearbeitet werden.
 poll#:#poll_votes_no_edit#:#Diese Abstimmung kann aufgrund vorhandener Stimmen nicht bearbeitet werden.
+content#:#cont_auto_last_visited#:#zuletzt gesehenen Abschnitt (SCO/Asset) laden

@@ -188,7 +188,18 @@ function launchNext(){
 
 function IliasWaitLaunch(i_l){
 	if (typeof frames.sahs_content == "undefined") setTimeout("API.IliasWaitLaunch("+i_l+")",100);
-	else API.IliasLaunch(i_l);
+	else {
+		API.IliasLaunch(i_l);
+		API.IliasWaitTree(i_l,0);
+	}
+}
+
+function IliasWaitTree(i_l,i_counter) {
+	if (i_counter<20){
+		if (typeof frames.tree == "undefined" || typeof frames.tree.document.getElementsByName('scoIcon'+i_l)[0] == "undefined") 
+			setTimeout("API.IliasWaitTree("+i_l+","+(i_counter+1)+")",100);
+		else status4tree(i_l,'running');
+	}
 }
 
 function IliasLaunchAfterFinish(i_la){
@@ -238,6 +249,7 @@ function IliasCommit() {
 	a_toStore=[];
 	try {
 		var ret=sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=storeJsApi&ref_id="+iv.refId, s_s);
+		if (ret!="ok") return false;
 		return true;
 	} catch (e) {
 		warning("Ilias cmi storage failed.");
@@ -321,7 +333,17 @@ function basisInit() {
 	if (iv.launchId!=0) IliasWaitLaunch(iv.launchId);
 }
 
+//done at end
+function onWindowUnload () {
+	if (iv.b_autoLastVisited==true) sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&ref_id="+iv.refId, "last_visited="+iv.launchId);
+}
+
 this.IliasLaunch=IliasLaunch;
 this.IliasAbortSco=IliasAbortSco;
 this.IliasWaitLaunch=IliasWaitLaunch;
+this.IliasWaitTree=IliasWaitTree;
 basisInit();
+
+if(window.addEventListener) window.addEventListener('unload',onWindowUnload);
+else if(window.attachEvent) window.attachEvent('onunload',onWindowUnload);//IE<9
+else window['onunload']=onWindowUnload;
