@@ -252,10 +252,7 @@ class ilObjSCORMTracking
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
 		}
-		
-		// update time and numbers of attempts in change event
-		//NOTE: is possibly not correct (it is count of commit with changed values); be careful to performance issues
-		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
+
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("ok");
 	}
@@ -333,9 +330,6 @@ class ilObjSCORMTracking
 
 
 	/**
-	 * Redesign required
-	 * @todo avoid like search against clob field rvalue
-	 * @deprecated
 	 * @param object $scorm_item_id
 	 * @param object $a_obj_id
 	 * @param array $a_blocked_user_ids
@@ -725,16 +719,17 @@ class ilObjSCORMTracking
 
 	function scorm12PlayerUnload()
 	{
-		$data=$_POST['last_visited'];
-		if($data) {
-//			$GLOBALS['ilLog']->write(__METHOD__.' last_visited: '.$data);
-			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-			if ($obj_id <= 1){
-				$GLOBALS['ilLog']->write(__METHOD__.' no valid obj_id');
-			} else {
-				global $ilUser, $ilDB;
+		global $ilUser, $ilDB;
 
-				$user_id = $ilUser->getID();
+		$user_id = $ilUser->getID();
+		$ref_id = $_GET["ref_id"];
+		$obj_id = ilObject::_lookupObjId($ref_id);
+		if ($obj_id <= 1){
+			$GLOBALS['ilLog']->write(__METHOD__.' no valid obj_id');
+		} else {
+			$data=$_POST['last_visited'];
+//			$GLOBALS['ilLog']->write(__METHOD__.' last_visited: '.$data);
+			if($data) {
 				$set = $ilDB->queryF('
 				SELECT rvalue FROM scorm_tracking 
 				WHERE user_id = %s
@@ -768,6 +763,9 @@ class ilObjSCORMTracking
 					));
 				}
 			}
+			// update time and numbers of attempts in change event
+			//NOTE: here it is correct (not count of commit with changed values); be careful to performance issues
+			ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
 		}
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");

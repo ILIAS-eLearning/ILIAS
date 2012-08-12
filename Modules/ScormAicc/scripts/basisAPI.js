@@ -335,7 +335,9 @@ function basisInit() {
 
 //done at end
 function onWindowUnload () {
-	if (iv.b_autoLastVisited==true) sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&ref_id="+iv.refId, "last_visited="+iv.launchId);
+	var s_unload="";
+	if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
+	sendRequest ("./Modules/ScormAicc/sahs_server.php?cmd=scorm12PlayerUnload&ref_id="+iv.refId, s_unload);
 }
 
 this.IliasLaunch=IliasLaunch;
