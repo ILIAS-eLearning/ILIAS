@@ -1285,5 +1285,25 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $retAr;
 	}
 
+
+	public function getLastVisited($user_id)
+	{
+		global $ilDB;
+		$val_set = $ilDB->queryF('
+			SELECT rvalue FROM scorm_tracking 
+			WHERE user_id = %s
+			AND sco_id =  %s
+			AND lvalue =  %s
+			AND obj_id = %s',
+			array('integer','integer','text','integer'), 
+			array($user_id,0,'last_visited',$this->getID())
+		);
+		while ($val_rec = $ilDB->fetchAssoc($val_set))
+		{
+			return "".$val_rec["rvalue"];
+		}
+		return '0';
+	}
+
 }
 ?>

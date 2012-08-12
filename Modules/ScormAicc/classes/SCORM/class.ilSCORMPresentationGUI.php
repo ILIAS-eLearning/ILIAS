@@ -446,6 +446,11 @@ class ilSCORMPresentationGUI
 		if ($this->slm->getDebug()) $b_debug='true';
 		$b_autoContinue='false';
 		if ($this->slm->getAutoContinue()) $b_autoContinue='true';
+		$b_autoLastVisited='false';
+		if ($this->slm->getAuto_last_visited()) {
+			$b_autoLastVisited='true';
+			$launchId=$slm_obj->getLastVisited($ilUser->getID());
+		}
 
 		$s_out='IliasScormVars={'
 			.'refId:'.$_GET["ref_id"].','
@@ -467,6 +472,7 @@ class ilSCORMPresentationGUI
 			.'b_readInteractions:'.$b_readInteractions.','
 			.'c_storeSessionTime:"'.$c_storeSessionTime.'",'
 			.'b_autoContinue:'.$b_autoContinue.','
+			.'b_autoLastVisited:'.$b_autoLastVisited.','
 			.'i_lessonScoreMax:'.$i_lessonScoreMax.','
 			.'i_lessonMasteryScore:'.$i_lessonMasteryScore.','
 			.'b_debug:'.$b_debug.','

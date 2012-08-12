@@ -162,6 +162,7 @@ class ilObjSCORMTracking
 		ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
 		
 		// update time and numbers of attempts in change event
+		//NOTE: is possibly not correct (it is count of commit with changed values); be careful to performance issues
 		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
 	}
 	
@@ -253,7 +254,10 @@ class ilObjSCORMTracking
 		}
 		
 		// update time and numbers of attempts in change event
+		//NOTE: is possibly not correct (it is count of commit with changed values); be careful to performance issues
 		ilObjSCORMTracking::_syncReadEvent($obj_id, $user_id, "sahs", $ref_id);
+		header('Content-Type: text/plain; charset=UTF-8');
+		print("ok");
 	}
 
 	/**
@@ -268,7 +272,7 @@ class ilObjSCORMTracking
 
 		// get attempts
 		$val_set = $ilDB->queryF('
-		SELECT * FROM scorm_tracking 
+		SELECT rvalue FROM scorm_tracking 
 		WHERE user_id = %s
 		AND sco_id = %s
 		AND lvalue = %s
@@ -718,7 +722,57 @@ class ilObjSCORMTracking
 
 		return $info;
 	}
-			
+
+	function scorm12PlayerUnload()
+	{
+		$data=$_POST['last_visited'];
+		if($data) {
+//			$GLOBALS['ilLog']->write(__METHOD__.' last_visited: '.$data);
+			$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+			if ($obj_id <= 1){
+				$GLOBALS['ilLog']->write(__METHOD__.' no valid obj_id');
+			} else {
+				global $ilUser, $ilDB;
+
+				$user_id = $ilUser->getID();
+				$set = $ilDB->queryF('
+				SELECT rvalue FROM scorm_tracking 
+				WHERE user_id = %s
+				AND sco_id =  %s
+				AND lvalue =  %s
+				AND obj_id = %s',
+				array('integer','integer','text','integer'), 
+				array($user_id,0,'last_visited',$obj_id));
+				if ($rec = $ilDB->fetchAssoc($set)) {
+					$ilDB->update('scorm_tracking',
+						array(
+							'rvalue'		=> array('clob', $data),
+							'c_timestamp'	=> array('timestamp', ilUtil::now())
+						),
+						array(
+							'user_id'		=> array('integer', $user_id),
+							'sco_id'		=> array('integer', 0),
+							'lvalue'		=> array('text', 'last_visited'),
+							'obj_id'		=> array('integer', $obj_id)
+						)
+					);
+				}
+				else {
+					$ilDB->insert('scorm_tracking', array(
+						'obj_id'		=> array('integer', $obj_id),
+						'user_id'		=> array('integer', $user_id),
+						'sco_id'		=> array('integer', 0),
+						'lvalue'		=> array('text', 'last_visited'),
+						'rvalue'		=> array('clob', $data),
+						'c_timestamp'	=> array('timestamp', ilUtil::now())
+					));
+				}
+			}
+		}
+		header('Content-Type: text/plain; charset=UTF-8');
+		print("");
+	}
+
 
 } // END class.ilObjSCORMTracking
 ?>
