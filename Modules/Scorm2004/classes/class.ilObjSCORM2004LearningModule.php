@@ -447,34 +447,39 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			array_push($scos,$val_rec['cp_node_id']);
 		}
-						
+
 		foreach ($scos as $sco) 
-		{			
+		{
 			$data_set = $ilDB->queryF('
-				SELECT c_timestamp last_access, session_time, success_status, completion_status,
-					   c_raw, cp_node_id
+				SELECT c_timestamp last_access, total_time, success_status, completion_status,
+					   c_raw, scaled, cp_node_id
 				FROM cmi_node 
 				WHERE cp_node_id = %s
 				AND user_id = %s',
 				array('integer','integer'),
 				array($sco,$a_user_id)
-			);	
+			);
 			
 			while($data_rec = $ilDB->fetchAssoc($data_set))
-	   		{
-	   			if ($data_rec["success_status"]!="") {
-	   				$status = $data_rec["success_status"];
-	   			} else {
-	   				if ($data_rec["completion_status"]=="") {
-	   					$status="unknown";
-	   				} else {
-	   					$status = $data_rec["completion_status"];
-	   				}	
-	   			}
+			{
+				if ($data_rec["success_status"]!="" && $data_rec["success_status"]!="unknown") {
+					$status = $data_rec["success_status"];
+				} else {
+					if ($data_rec["completion_status"]=="") {
+						$status="unknown";
+					} else {
+						$status = $data_rec["completion_status"];
+					}
+				}
 				if(!$raw)
 				{
-					$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["session_time"])/100);
-					$score = $data_rec["c_raw"];
+					$time = ilFormat::_secondsToString(self::_ISODurationToCentisec($data_rec["total_time"])/100);
+					$score = "";
+					if ($data_rec["c_raw"] != null) {
+						$score = $data_rec["c_raw"];
+						if ($data_rec["scaled"] != null) $score .= " = ";
+					}
+					if ($data_rec["scaled"] != null) $score .= ($data_rec["scaled"]*100)."%";
 					$title = self::_lookupItemTitle($data_rec["cp_node_id"]);
 					$last_access=ilDatePresentation::formatDate(new ilDateTime($data_rec['last_access'],IL_CAL_UNIX));
 					 $data[] = array("user_id" => $data_rec["user_id"], "sco_id"=>$data_rec["cp_node_id"],
