@@ -264,10 +264,9 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		global $ilDB;
 
 		$result = $ilDB->queryF('
-		SELECT user_id,c_timestamp last_access FROM scorm_tracking 
+		SELECT MAX(c_timestamp) last_access FROM scorm_tracking 
 		WHERE  obj_id = %s
-		AND user_id = %s
-		ORDER BY c_timestamp DESC',
+		AND user_id = %s',
 		array('integer','integer'), array($a_obj_id,$a_usr_id));
 		
 		if ($ilDB->numRows($result))
@@ -275,7 +274,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 			$row = $ilDB->fetchAssoc($result);
 			return $row["last_access"];
 		}
-		return "";		
+		return "";
 	}
 
 	function getTrackedUsers($a_search)
