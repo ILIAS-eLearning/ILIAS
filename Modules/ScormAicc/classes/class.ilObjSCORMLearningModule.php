@@ -5,7 +5,6 @@
 require_once "./Services/Object/classes/class.ilObject.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSCORMValidator.php";
 require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
-//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 /**
 * Class ilObjSCORMLearningModule
@@ -18,7 +17,6 @@ require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
 class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 {
 	var $validator;
-//	var $meta_data;
 
 	/**
 	* Constructor
@@ -282,41 +280,50 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 	function getTrackedUsers($a_search)
 	{
-		global $ilUser, $ilDB, $ilUser;
+		global $ilDB, $ilUser;
 
-		$sco_set =  $ilDB->queryF('
-		SELECT user_id,MAX(c_timestamp) last_access FROM scorm_tracking 
-		WHERE  obj_id = %s
-		GROUP BY user_id',
-		array('integer'), array($this->getId()));
-		
+		$query = 'SELECT user_id,MAX(c_timestamp) last_access, lastname, firstname FROM scorm_tracking st ' .
+			'JOIN usr_data ud ON st.user_id = ud.usr_id ' .
+			'WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer');
+		if($a_search) {
+//			$query .= ' AND (' . $ilDB->like('lastname', 'text', '%' . $a_search . '%') . ' OR ' . $ilDB->like('firstname', 'text', '%' . $a_search . '%') .')';
+			$query .= ' AND ' . $ilDB->like('lastname', 'text', '%' . $a_search . '%');
+		}
+		$query .= ' GROUP BY user_id, lastname, firstname';
+		$sco_set = $ilDB->query($query);
+
 		$items = array();
 		while($sco_rec = $ilDB->fetchAssoc($sco_set))
 		{
-			if ($sco_rec['last_access'] != 0) {
-				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_DATETIME));
-			} else {
-				$sco_rec['last_access'] = "";
-			}	
-				
-			if (ilObject::_exists($sco_rec['user_id']) && ilObject::_lookUpType($sco_rec["user_id"])=="usr" ) {	
-				$user = new ilObjUser($sco_rec['user_id']);
-				//$sco_rec['status'] = $this->getStatusForUser($sco_rec["user_id"]);
-				$sco_rec['version'] = $this->getModuleVersionForUser($sco_rec["user_id"]);
-				$sco_rec['attempts'] = $this->getAttemptsForUser($sco_rec["user_id"]);
-				$sco_rec['username'] =  $user->getLastname().", ".$user->getFirstname();
-				if ($a_search != "" && (strpos(strtolower($user->getLastname()), strtolower($a_search)) !== false || strpos(strtolower($user->getFirstname()), strtolower($a_search)) !== false ) ) {
-					$items[] = $sco_rec;
-				} else if ($a_search == "") {
-					$items[] = $sco_rec;
-				}
-				
-			}
+			$items[] = $sco_rec;
 		}
-
 		return $items;
 	}
-	
+
+
+	/**
+	 * Get attempts for all users
+	 * @global ilDB $ilDB
+	 * @return array 
+	 */
+	public function getAttemptsForUsers()
+	{
+		global $ilDB;
+
+		$query = 'SELECT user_id,rvalue FROM scorm_tracking ' .
+			'WHERE lvalue = ' . $ilDB->quote('package_attempts', 'text') . ' ' .
+			'AND obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
+		$res = $ilDB->query($query);
+
+		$attempts = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$attempts[$row['user_id']] = (int) $row['rvalue'];
+		}
+		return $attempts;
+	}
+
+
 	/**
 	* get number of atttempts for a certain user and package
 	*/
@@ -340,8 +347,30 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		}
 		return $val_rec["rvalue"];
 	}
-	
-	
+
+
+	/**
+	 * Get module version for users.
+	 * @global ilDB $ilDB
+	 */
+	public function getModuleVersionForUsers()
+	{
+		global $ilDB;
+
+		$query = 'SELECT user_id,rvalue FROM scorm_tracking ' .
+			'WHERE lvalue = ' . $ilDB->quote('module_version', 'text') . ' ' .
+			'AND obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ';
+		$res = $ilDB->query($query);
+
+		$versions = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
+		{
+			$versions[$row['user_id']] = (int) $row['rvalue'];
+		}
+		return $versions;
+	}
+
+
 	/**
 	* get module version that tracking data for a user was recorded on
 	*/
@@ -366,7 +395,14 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		}
 		return $val_rec["rvalue"];
 	}
-	
+
+	/**
+	 * Get tracking data per user
+	 * @global ilDB $ilDB
+	 * @param int $a_sco_id
+	 * @param int $a_user_id
+	 * @return array
+	 */
 	function getTrackingDataPerUser($a_sco_id, $a_user_id)
 	{
 		global $ilDB;
@@ -381,9 +417,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		array($a_user_id,$a_sco_id,$this->getId()));
 			
 		$data = array();
-		while($data_rec = $ilDB->fetchAssoc($data_set))	
-		
-		{
+		while($data_rec = $ilDB->fetchAssoc($data_set)) {
 			$data[] = $data_rec;
 		}
 
@@ -445,13 +479,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				}
 			}
 			//create sco_object
+			include_once './Modules/ScormAicc/classes/SCORM/class.ilSCORMItem.php';
 			$sc_item =& new ilSCORMItem($sco_rec["sco_id"]);
 			$data[] = array("sco_id"=>$sco_rec["sco_id"], "title" => $sc_item->getTitle(),
 			"score" => $score, "time" => $time, "status" => $status);
 				
 		}
-
-		return $data;
+		return (array) $data;
 	}
 
 	function getTrackingDataAggSco($a_sco_id)
@@ -514,216 +548,201 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	        return $data;
 	    }	
 	
-	function exportSelectedRaw($a_exportall=0, $a_user = array())  {
-		
-		global $ilDB, $ilUser;
-		
-		$csv = null;
-		
+
+	/**
+	 * Export 
+	 * @global ilDB $ilDB
+	 * @global ilObjUser $ilUser
+	 * @param bool $a_exportall
+	 * @param array $a_user 
+	 */
+	public function exportSelectedRaw($a_exportall, $a_user = array())
+	{
+		global $ilDB, $ilUser, $ilSetting;
+
+		$inst_id = $ilSetting->get('inst_id',0);
+
+		include_once './Services/Utilities/classes/class.ilCSVWriter.php';
+		$csv = new ilCSVWriter();
+		$csv->setSeparator(';');
+		$csv->addColumn('Scoid');
+		$csv->addColumn('Key');
+		$csv->addColumn('Value');
+		$csv->addColumn('Email');
+		$csv->addColumn('Timestamp');
+		$csv->addColumn('Userid');
+
+		// Collect users
 		$user_array = array();
-		
-		if(!isset($_POST['user']) && $a_exportall == 0)
-		{
-			$this->ilias->raiseError($this->lng->txt('no_checkbox'), $this->ilias->error_obj->MESSAGE);
-		}
-		
-		if($a_exportall == 1)
+		if($a_exportall)
 		{
 			$res = $ilDB->queryF(
-				'SELECT user_id FROM scorm_tracking WHERE obj_id = %s GROUP BY user_id',
-				array('integer'),
-				array($this->getId())
+					'SELECT user_id FROM scorm_tracking WHERE obj_id = %s GROUP BY user_id',
+					array('integer'),
+					array($this->getId())
 			);
 			while($row = $ilDB->fetchAssoc($res))
 			{
-			 	$user_array[] = $row['user_id'];
-			}			
+				$user_array[] = $row['user_id'];
+			}
 		}
 		else
 		{
 			$user_array = $a_user;
 		}
-		
-		//loop through users and get all data
-		foreach($user_array as $user)
+
+		// Read user data
+		$query = "SELECT usr_id,email FROM usr_data ".
+			"WHERE ".$ilDB->in('usr_id', $user_array, FALSE, 'integer');
+		$res = $ilDB->query($query);
+		$emails = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			//get user e-mail
-			if(ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr')
-			{
-				$e_user = new ilObjUser($user);
-				$email = $e_user->getEmail();
-				
-				//get sco related information
-				$query = 'SELECT rvalue, lvalue, identifierref, c_timestamp '
-				       . 'FROM scorm_tracking ' 
-				       . 'INNER JOIN sc_item ON sc_item.obj_id = scorm_tracking.sco_id ' 
-					   . 'WHERE scorm_tracking.sco_id <> 0 AND user_id = %s AND scorm_tracking.obj_id = %s';
-				$res = $ilDB->queryF(
-					$query,
-					array('integer', 'integer'),
-					array($user, $this->getId())
-				);
-				while($row = $ilDB->fetchAssoc($res))
-				{
-					//get mail address for user-id
-					$sco_id = $row['identifierref'];
-					$key = $row['lvalue'];
-					$value = $row['rvalue'];
-					$timestamp = $row['c_timestamp'];
-					$csv = $csv. "$sco_id;$key;$value;$email;$timestamp;$user\n";				
-				}
-				
-				//get sco unrelated information
-				$query = 'SELECT rvalue, lvalue, c_timestamp FROM scorm_tracking ' 
-					   . 'WHERE sco_id = 0 AND user_id = %s AND obj_id = %s';
-				$res = $ilDB->queryF(
-					$query,
-					array('integer', 'integer'),
-					array($user, $this->getId())
-				);
-				while($row = $ilDB->fetchAssoc($res))
-				{
-					$key = $row['lvalue'];
-					$value = $row['rvalue'];
-					$timestamp = $row['c_timestamp'];
-					$csv = $csv. "0;$key;$value;$email;$timestamp;$user\n";	
-				}
-		 	}
+			$emails[$row->usr_id] = $row->email;
 		}
-		$header = "Scoid;Key;Value;Email;Timestamp;Userid\n";
-		$this->sendExportFile($header, $csv);
+
+		foreach($user_array as $user_id)
+		{
+			// Sco related information
+			$query = 'SELECT rvalue, lvalue, identifierref, c_timestamp FROM scorm_tracking st '.
+				'JOIN sc_item si ON st.sco_id = si.obj_id '.
+				'WHERE user_id = '.$ilDB->quote($user_id,'integer'). ' '.
+				'AND st.obj_id = '.$ilDB->quote($this->getId(),'integer');
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$csv->addRow();
+				$csv->addColumn($row->identifierref);
+				$csv->addColumn($row->lvalue);
+				$csv->addColumn($row->rvalue);
+				$csv->addColumn(isset($emails[$user_id]) ? (string) $emails[$user_id] : '');
+				$csv->addColumn($row->c_timestamp);
+				$csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
+			}
+			// Sco unrelated information
+			$query = 'SELECT rvalue, lvalue, c_timestamp FROM scorm_tracking '.
+				'WHERE sco_id = 0 AND user_id = '.$ilDB->quote($user_id,'integer').' '.
+				'AND obj_id = '.$ilDB->quote($this->getId(),'integer');
+			$res = $ilDB->query($query);
+			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+			{
+				$csv->addRow();
+				$csv->addColumn(0);
+				$csv->addColumn($row->lvalue);
+				$csv->addColumn($row->rvalue);
+				$csv->addColumn(isset($emails[$user_id]) ? (string) $emails[$user_id] : '');
+				$csv->addColumn($row->c_timestamp);
+				$csv->addColumn('il_usr_'.$inst_id.'_'.$user_id);
+			}
+		}
+
+		ilUtil::deliverData(
+				$csv->getCSVString(),
+				'scorm_tracking_raw_' . $this->getRefId() . '_' . time() . '.csv'
+		);
+		return;
 	}
 	
 	
-	function exportSelected($a_exportall = 0, $a_user = array())
+
+	/**
+	 * Export selected user tracking data
+	 * @global ilDB $ilDB
+	 * @global ilObjUser $ilUser
+	 * @param bool $a_all
+	 * @param array $a_users
+	 */
+	public function exportSelected($a_all, $a_users = array())
 	{
-		global $ilDB, $ilUser;
-			
+		global $ilDB, $ilUser, $ilSetting;
+
+		$inst_id = $ilSetting->get('inst_id',0);
+
+		// Get all scos
 		$scos = array();
-		
+
 		//get all SCO's of this object
 		$query = 'SELECT scorm_object.obj_id, scorm_object.title, '
-			   . 'scorm_object.c_type, scorm_object.slm_id, scorm_object.obj_id scoid  '
-			   . 'FROM scorm_object, sc_item, sc_resource '
-			   . 'WHERE (scorm_object.slm_id = %s '
-			   . 'AND scorm_object.obj_id = sc_item.obj_id '
-			   . 'AND sc_item.identifierref = sc_resource.import_id '
-			   . 'AND sc_resource.scormtype = %s) '
-			   . 'GROUP BY scorm_object.obj_id, scorm_object.title, scorm_object.c_type,  '
-			   . 'scorm_object.slm_id, scorm_object.obj_id ';		
+			. 'scorm_object.c_type, scorm_object.slm_id, scorm_object.obj_id scoid  '
+			. 'FROM scorm_object, sc_item, sc_resource '
+			. 'WHERE (scorm_object.slm_id = %s '
+			. 'AND scorm_object.obj_id = sc_item.obj_id '
+			. 'AND sc_item.identifierref = sc_resource.import_id '
+			. 'AND sc_resource.scormtype = %s) '
+			. 'GROUP BY scorm_object.obj_id, scorm_object.title, scorm_object.c_type,  '
+			. 'scorm_object.slm_id, scorm_object.obj_id ';
 		$res = $ilDB->queryF(
-			$query,
-			array('integer', 'text'),
-			array($this->getId(), 'sco')
-		);				
+				$query,
+				array('integer', 'text'),
+				array($this->getId(), 'sco')
+		);
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			$scos[] = $row['scoid'];
 		}
-		
-		$csv = null;
-		
-		//a module is completed when all SCO's are completed
-		$user_array = array();
-		
-		if($a_exportall == 1)
+
+
+		$users = array();
+		if($a_all)
 		{
-			$query = 'SELECT user_id FROM scorm_tracking WHERE obj_id = %s GROUP BY user_id';
-			$res = $ilDB->queryF(
-				$query,
-				array('integer'),
-				array($this->getId())
-			);
+			$query = 'SELECT user_id FROM scorm_tracking ' .
+				'WHERE obj_id = ' . $ilDB->quote($this->getId(), 'integer') . ' ' .
+				'GROUP BY user_id';
+			$res = $ilDB->query($query);
 			while($row = $ilDB->fetchAssoc($res))
 			{
-			 	$user_array[] = $row['user_id'];
+				$users[] = $row['user_id'];
 			}
 		}
 		else
 		{
-			$user_array = $a_user;
+			$users = $a_users;
 		}
-			
-		foreach($user_array as $user)
+
+		// get all completed
+		include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php';
+		$completed = ilObjSCORMTracking::_getCompleted($scos, $this->getId());
+		$last = ilObjSCORMTracking::lookupLastAccessTimes($this->getId());
+
+		include_once './Services/Utilities/classes/class.ilCSVWriter.php';
+		$csv = new ilCSVWriter();
+		$csv->setSeparator(';');
+		foreach(array('Department', 'Login', 'Lastname', 'Firstname', 'Email', 'Date', 'Status') as $col)
 		{
-			$scos_c = $scos;
-			//copy SCO_array
-			//check if all SCO's are completed
-			for($i = 0; $i < count($scos); $i++)
+			$csv->addColumn($col);
+		}
+
+		// Read user data
+		$query = 'SELECT usr_id,login,firstname,lastname,department,email ' .
+			'FROM usr_data ' .
+			'WHERE ' . $ilDB->in('usr_id', $users, false, 'integer');
+		$res = $ilDB->query($query);
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$csv->addRow();
+			$csv->addColumn((string) $row->department);
+			$csv->addColumn((string) $row->login);
+			$csv->addColumn((string) $row->lastname);
+			$csv->addColumn((string) $row->firstname);
+			$csv->addColumn((string) $row->email);
+			if(isset($last[$row->usr_id]))
 			{
-				$query = 'SELECT * FROM scorm_tracking '
-					   . 'WHERE (user_id = %s AND obj_id = %s AND sco_id = %s '
-					   . 'AND (	(lvalue = %s AND '.$ilDB->like('rvalue', 'clob', 'completed').') OR (lvalue = %s AND '.$ilDB->like('rvalue', 'clob', 'passed').') ) )';
-				$res = $ilDB->queryF(
-					$query,
-					array('integer', 'integer', 'integer', 'text', 'text'),
-					array($user, $this->getId(), $scos[$i], 'cmi.core.lesson_status', 'cmi.core.lesson_status')
-				);
-				$data = $ilDB->fetchAssoc($res);
-				if(is_array($data) && count($data))
-				{
-					//delete from array
-					$key = array_search($scos[$i], $scos_c); 
-					unset($scos_c[$key]);
-				}
-			}
-			
-			//check for completion
-			if(count($scos_c) == 0)
-			{
-				$completion = 1;
+				$dt = new ilDateTime($last[$row->usr_id], IL_CAL_DATETIME);
+				$csv->addColumn((string) $dt->get(IL_CAL_FKT_DATE, 'd.m.Y'));
 			}
 			else
 			{
-				$completion = 0;
+				$csv->addColumn('');
 			}
-			
-			if(ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr')
-			{	
-				//write export entry
-				$e_user = new ilObjUser($user);
-				$login = $e_user->getLogin();
-				$firstname = $e_user->getFirstname();
-				$lastname = $e_user->getLastname();
-				$email = $e_user->getEmail();
-				$department = $e_user->getDepartment();
-						
-				//get the date for csv export		
-				$query = 'SELECT MAX(c_timestamp) exp_date '
-					   . 'FROM scorm_tracking ' 
-					   . 'WHERE user_id = %s AND obj_id = %s';
-				$res = $ilDB->queryF(
-					$query,
-					array('integer', 'integer'),
-					array($user, $this->getId())
-				);
-				$data = $ilDB->fetchAssoc($res);
-				if(is_array($data) && count($data))
-				{
-					$validDate = false;
-					
-					$datetime = explode(' ', $data['exp_date']);
-					if(count($datetime) == 2)
-					{						
-						$date = explode('-', $datetime[0]);
-						if(count($date) == 3 && checkdate($date[1], $date[2], $date[0]))
-							$validDate = true;			
-					}
-					
-					if($validDate)
-						$date = date('d.m.Y', strtotime($data['exp_date']));
-					else
-						$date = '';
-				}
-				else
-				{
-					$date = '';
-				}	
-				$csv = $csv. "$department;$login;$lastname;$firstname;$email;$date;$completion\n";
-			}		
+			$csv->addColumn(in_array($row->usr_id, $completed) ? 1 : 0);
 		}
-		$header = "Department;Login;Lastname;Firstname;Email;Date;Status\n";
-		$this->sendExportFile($header, $csv);		
+
+
+		ilUtil::deliverData(
+				$csv->getCSVString(),
+				'scorm_tracking_' . $this->getRefId() . '_' . time() . '.csv'
+		);
 	}
 	
 	
@@ -739,7 +758,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		$fhandle = fopen($a_file, "r");
 		
 		//the top line is the field names
-		$fields = fgetcsv($fhandle, 4096, ';');
+		$fields = fgetcsv($fhandle, pow(2, 16), ';');
 		//lets check the import method
 		fclose($fhandle);
 	   
@@ -758,7 +777,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 		return $error;
 	}
 	
-		function importSuccess($a_file) {
+	function importSuccess($a_file) {
 		
 		global $ilDB, $ilUser;
 		
@@ -798,9 +817,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 		$obj_id = $this->getID();
 
-		$fields = fgetcsv($fhandle, 4096, ';');
+		$fields = fgetcsv($fhandle, pow(2, 16), ';');
 		$users = array();
-		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) {
+		while(($csv_rows = fgetcsv($fhandle, pow(2, 16), ";")) !== FALSE)
+		{
 			$data = array_combine($fields, $csv_rows);
 			  //check the format
 			  $statuscheck = 0;
@@ -899,83 +919,111 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 				}
 		}
 		
-		foreach ($users as $user_id)
-		{
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-			ilLPStatusWrapper::_updateStatus($obj_id, $user_id);
-		}
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+		ilLPStatusWrapper::_refreshStatus($this->getId());
+//		<4.2.6: foreach ($users as $user_id) {ilLPStatusWrapper::_updateStatus($obj_id, $user_id);}
 		return 0;
 	}
-	
+
+	/**
+	 * Parse il_usr_123_6 id
+	 * @param <type> $il_id
+	 * @return <type>
+	 */
+	private function parseUserId($il_id)
+	{
+		global $ilSetting;
+
+		$parts = explode('_', $il_id);
+
+		if(!count((array) $parts))
+		{
+			return 0;
+		}
+		if(!isset($parts[2]) or !isset($parts[3]))
+		{
+			return 0;
+		}
+		if($parts[2] != $ilSetting->get('inst_id',$parts[2]))
+		{
+			return 0;
+		}
+		return $parts[3];
+	}
+
+	/**
+	 * Import raw data
+	 * @global ilDB $ilDB
+	 * @global ilObjUser $ilUser
+	 * @param string $a_file
+	 * @return void 
+	 */
 	private function importRaw($a_file)
 	{
 		global $ilDB, $ilUser;
-		
+
 		$fhandle = fopen($a_file, "r");
-		
-		$fields = fgetcsv($fhandle, 4096, ';');
+
+		$fields = fgetcsv($fhandle, pow(2, 16), ';');
 		$users = array();
-		while(($csv_rows = fgetcsv($fhandle, 4096, ";")) !== FALSE) 
+		while(($csv_rows = fgetcsv($fhandle, pow(2, 16), ";")) !== FALSE)
 		{
 			$data = array_combine($fields, $csv_rows);
-	   		$il_sco_id = $this->lookupSCOId($data['Scoid']);
-	   		//look for required data for an import
-	   		$user_id = $data['Userid'];
-			$users[] = $user_id;
-	   		if ($user_id == "" || $user_id == null) {
-	   			//look for Email
-	   			$user_id = $this->getUserIdEmail($data['Email']);
-	   		}
-	   		//do the actual import
-	   		if ($user_id != "" && $il_sco_id>=0)
-	   		{      
-	   			$statement = $ilDB->queryF('
+			$user_id = $this->parseUserId($data['Userid']);
+
+			if(!$user_id)
+			{
+				continue;
+			}
+
+			$il_sco_id = $this->lookupSCOId($data['Scoid']);
+
+			//do the actual import
+			if($il_sco_id >= 0)
+			{
+				$statement = $ilDB->queryF('
 					SELECT * FROM scorm_tracking 
 					WHERE user_id = %s
 					AND sco_id = %s 
 					AND lvalue = %s
 					AND obj_id = %s',
-					array('integer','integer','text','integer'),
-					array($user_id, $il_sco_id, $data['Key'],$this->getID())
+						array('integer', 'integer', 'text', 'integer'),
+						array($user_id, $il_sco_id, $data['Key'], $this->getID())
 				);
 				if($ilDB->numRows($statement) > 0)
 				{
 					$ilDB->update('scorm_tracking',
 						array(
-							'rvalue'		=> array('clob', $data['Value']),
-							'c_timestamp'	=> array('timestamp', $data['Timestamp'])
+							'rvalue' => array('clob', $data['Value']),
+							'c_timestamp' => array('timestamp', $data['Timestamp'])
 						),
 						array(
-							'user_id'		=> array('integer', $user_id),
-							'sco_id'		=> array('integer', $il_sco_id),
-							'lvalue'		=> array('text', $data['Key']),
-							'obj_id'		=> array('integer', $this->getId())
+							'user_id' => array('integer', $user_id),
+							'sco_id' => array('integer', $il_sco_id),
+							'lvalue' => array('text', $data['Key']),
+							'obj_id' => array('integer', $this->getId())
 						)
 					);
 				}
 				else
 				{
 					$ilDB->insert('scorm_tracking', array(
-						'obj_id'		=> array('integer', $this->getId()),
-						'user_id'		=> array('integer', $user_id),
-						'sco_id'		=> array('integer', $il_sco_id),
-						'lvalue'		=> array('text', $data['Key']),
-						'rvalue'		=> array('clob', $data['Value']),
-						'c_timestamp'	=> array('timestamp', $data['Timestamp'])
+						'obj_id' => array('integer', $this->getId()),
+						'user_id' => array('integer', $user_id),
+						'sco_id' => array('integer', $il_sco_id),
+						'lvalue' => array('text', $data['Key']),
+						'rvalue' => array('clob', $data['Value']),
+						'c_timestamp' => array('timestamp', $data['Timestamp'])
 					));
-				}				
-	   		}
-	   }
-	   fclose($fhandle);
-	   
-   		// update learning progress
-		foreach ($users as $user_id)
-		{
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-			ilLPStatusWrapper::_updateStatus($this->getId(), $user_id);
+				}
+			}
 		}
+		fclose($fhandle);
 
-	   return 0;
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		ilLPStatusWrapper::_refreshStatus($this->getId());
+
+		return 0;
 	}
 	
 	//helper function

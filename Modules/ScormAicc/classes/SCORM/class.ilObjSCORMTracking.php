@@ -538,6 +538,31 @@ class ilObjSCORMTracking
 	}
 
 	/**
+	 * Lookup last acccess time for all users of a scorm module
+	 * @global ilDB $ilDB
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function lookupLastAccessTimes($a_obj_id)
+	{
+		global $ilDB;
+
+		$query = 'SELECT user_id, MAX(c_timestamp) tst '.
+			'FROM scorm_tracking '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer').' '.
+			'GROUP BY user_id';
+		$res = $ilDB->query($query);
+
+		$users = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$users[$row->user_id] = $row->tst;
+		}
+		return $users;
+	}
+
+
+	/**
 	 * Get all tracked users
 	 * @param object $a_obj_id
 	 * @return 
