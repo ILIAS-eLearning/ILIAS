@@ -355,8 +355,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
 			if ($sco_rec['last_access'] != 0) {
-				$sco_rec['last_access'] = ilDatePresentation::formatDate(new ilDateTime($sco_rec['last_access'],IL_CAL_DATETIME));
-				
+				$sco_rec['last_access'] = $sco_rec['last_access'];
 			} else {
 				$sco_rec['last_access'] = "";
 			}

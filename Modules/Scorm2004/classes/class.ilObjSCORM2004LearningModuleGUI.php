@@ -1012,24 +1012,24 @@ function showTrackingItems()
 	if (count($items) > 0)
 	{
 		foreach ($items as $item)
-		{		
+		{
 			if (ilObject::_exists($item["user_id"])  && ilObject::_lookUpType($item["user_id"])=="usr") 
-			{	
+			{
 				$user = new ilObjUser($item["user_id"]);
-			     $this->tpl->setCurrentBlock("tbl_content");
-			     $this->tpl->setVariable("VAL_USERNAME", $item["username"]);
-			     $this->tpl->setVariable("VAL_LAST", $item["last_access"]);
-			     $this->tpl->setVariable("VAL_ATTEMPT", $item["attempts"]);
-			     $this->tpl->setVariable("VAL_VERSION", $item['version']);
-			     $this->ctrl->setParameter($this, "user_id", $item["user_id"]);
-			     $this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
-			     $this->tpl->setVariable("LINK_ITEM",
-			     $this->ctrl->getLinkTarget($this, "showTrackingItem"));
-			     $this->tpl->setVariable("CHECKBOX_ID", $item["user_id"]);
-			     $css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-			     $this->tpl->setVariable("CSS_ROW", $css_row);
-			     $this->tpl->parseCurrentBlock();
-			}	
+				$this->tpl->setCurrentBlock("tbl_content");
+				$this->tpl->setVariable("VAL_USERNAME", $item["username"]);
+				$this->tpl->setVariable("VAL_LAST", ilDatePresentation::formatDate(new ilDateTime($item["last_access"],IL_CAL_DATETIME)));
+				$this->tpl->setVariable("VAL_ATTEMPT", $item["attempts"]);
+				$this->tpl->setVariable("VAL_VERSION", $item['version']);
+				$this->ctrl->setParameter($this, "user_id", $item["user_id"]);
+				$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+				$this->tpl->setVariable("LINK_ITEM",
+				$this->ctrl->getLinkTarget($this, "showTrackingItem"));
+				$this->tpl->setVariable("CHECKBOX_ID", $item["user_id"]);
+				$css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
+				$this->tpl->setVariable("CSS_ROW", $css_row);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 		$this->tpl->setCurrentBlock("selectall");
 		$this->tpl->setVariable("SELECT_ALL", $this->lng->txt("select_all"));
