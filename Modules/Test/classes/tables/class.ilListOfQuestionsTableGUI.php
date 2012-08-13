@@ -34,6 +34,9 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
 	protected $show_points;
+	protected $show_marker;
+	
+	protected $obligationsFilter;
 	
 	/**
 	 * Constructor
@@ -42,7 +45,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $show_points, $show_marker)
+	public function __construct($a_parent_obj, $a_parent_cmd, $show_points, $show_marker, $obligationsNotAnswered = false, $obligationsFilter = false)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -52,6 +55,8 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 		$this->ctrl = $ilCtrl;
 		$this->show_points = $show_points;
 		$this->show_marker = $show_marker;
+		$this->obligationsNotAnswered = $obligationsNotAnswered;
+		$this->obligationsFilter = $obligationsFilter;
 		
 		$this->setFormName('listofquestions');
 		$this->setStyle('table', 'fullwidth');
@@ -70,12 +75,24 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("tst_question_marker"),'marked', '');
 		}
 	
-		$this->setTitle($this->lng->txt('question_summary'));
+		if( $obligationsFilter )
+		{
+			$this->setTitle($this->lng->txt('obligations_summary'));
+		}
+		else
+		{
+			$this->setTitle($this->lng->txt('question_summary'));
+		}
 	
 		$this->setRowTemplate("tpl.il_as_tst_list_of_questions_row.html", "Modules/Test");
 
 		$this->addCommandButton('backFromSummary', $this->lng->txt('back'));
-		$this->addCommandButton('finishTest', $this->lng->txt('save_finish'));
+		
+		if( !$obligationsNotAnswered )
+		{
+			$this->addCommandButton('finishTest', $this->lng->txt('save_finish'));
+		}
+		
 		$this->setLimit(999);
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -93,7 +110,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
 	 * @return
 	 */
 	public function fillRow($data)
-	{
+	{		
 		if ($this->show_points)
 		{
 			$this->tpl->setCurrentBlock('points');
