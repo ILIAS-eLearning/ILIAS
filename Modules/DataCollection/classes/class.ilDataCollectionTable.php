@@ -18,6 +18,7 @@ class ilDataCollectionTable
 {
 	protected $id; // [int]
 	protected $objId; // [int]
+	protected $obj;
 	protected $title; // [string]
     private $fields; // [array][ilDataCollectionField]
     private $records;
@@ -95,6 +96,16 @@ class ilDataCollectionTable
 	function getTitle()
 	{
 		return $this->title;
+	}
+
+	public function getCollectionObject(){
+		$this->loadObj();
+		return $this->obj;
+	}
+
+	private function loadObj(){
+		if($this->obj == null);
+			$this->obj = new ilObjDataCollection($this->objId);
 	}
 
     function getRecords(){

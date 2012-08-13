@@ -274,6 +274,13 @@ class ilDataCollectionRecord
         $ilDB->manipulate($query);
     }
 
+	function hasEditPermission($usr_id){
+		$table = new ilDataCollectionTable($this->getTableId());
+		$dcObj = $table->getCollectionObject();
+		//TODO check permission.
+		return true;
+	}
+
     function doUpdate(){
         global $ilDB;
         $ilDB->update("il_dcl_record", array(
