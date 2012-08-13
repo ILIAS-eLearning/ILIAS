@@ -11,7 +11,7 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  *
  * @ingroup Services
  */
-class ilSetupLanguagesTableGUI extends ilTable2GUI
+class ilSetupLanguageTableGUI extends ilTable2GUI
 {
 	
 	/**
