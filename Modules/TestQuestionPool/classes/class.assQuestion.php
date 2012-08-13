@@ -908,7 +908,7 @@ abstract class assQuestion
 		
 		$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
 		
-		$this->reworkWorkingData($active_id, $pass, $obligationsAnswered);
+		$this->reworkWorkingData($active_id, $pass, $obligationsEnabled);
 		
 		return $saveStatus;
 	}
