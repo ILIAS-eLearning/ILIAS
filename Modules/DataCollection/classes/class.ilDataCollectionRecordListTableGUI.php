@@ -66,7 +66,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function fillRow(ilDataCollectionRecord $record)
 	{
-		global $ilUser, $ilCtrl, $tpl, $lng;
+		global $ilUser, $ilCtrl, $tpl, $lng, $ilAccess;
 
 		$this->tpl->setVariable("TITLE", $this->table->getTitle());
 
@@ -87,8 +87,14 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$alist->setListTitle($lng->txt("actions"));
 		
 		$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
-		$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
-		$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'delete'));
+		
+		//if($ilAccess->checkAccess('add_entry', "", $_GET['ref_id'])) // &
+		//{
+			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
+			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'delete'));
+		//}
+		
+		
 		
 		$this->tpl->setVariable("ACTIONS", $alist->getHTML());
 

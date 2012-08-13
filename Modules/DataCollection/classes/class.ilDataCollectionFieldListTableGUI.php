@@ -74,14 +74,16 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 	 */
 	public function fillRow(ilDataCollectionField $a_set)
 	{
-		global $lng, $ilCtrl, $ilUser;
+		global $lng, $ilCtrl, $ilUser, $ilAccess;
 		
 		$this->tpl->setVariable('NAME', "order[".$a_set->getId()."]");
 		$this->tpl->setVariable('VALUE', $this->order);
 		$this->order = $this->order + 10;
         $this->tpl->setVariable("CHECKBOX_NAME", "visible[".$a_set->getId()."]");
         if($a_set->isVisible())
+        {
             $this->tpl->setVariable("CHECKBOX_CHECKED", "checked");
+        }
 		$this->tpl->setVariable('TITLE', $a_set->getTitle());
 		$this->tpl->setVariable('DESCRIPTION', $a_set->getDescription());
 		$this->tpl->setVariable('DATATYPE', $a_set->getDatatypeTitle());
@@ -96,6 +98,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 				break;
 		}
 
+		
 		$this->tpl->setVariable('REQUIRED', $required);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "field_id", $a_set->getId());
 		
@@ -106,9 +109,12 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 			$alist->setId($a_set->getId());
 			$alist->setListTitle($lng->txt("actions"));
 			
-			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'edit'));
-			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'delete'));
-			
+			//if($ilAccess->checkAccess('add_entry', "", $_GET['ref_id']))
+			//{
+				$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'edit'));
+				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'delete'));
+			//}
+
 			$this->tpl->setVariable("ACTIONS", $alist->getHTML());
 		}
 	}
