@@ -517,7 +517,8 @@ class ilTestSequence
 					"worked_through" => $worked_through,
 					"postponed" => $is_postponed,
 					"sequence" => $sequence,
-					"obligatory" => ilObjTest::isQuestionObligatory($question->getId())
+					"obligatory" => ilObjTest::isQuestionObligatory($question->getId()),
+					'isAnswered' => $question->isAnswered($this->active_id, $this->pass)
 				);
 				array_push($result_array, $row);
 				$key++;
