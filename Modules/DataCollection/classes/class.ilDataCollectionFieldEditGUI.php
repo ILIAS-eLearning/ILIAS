@@ -228,7 +228,7 @@ class ilDataCollectionFieldEditGUI
 		$this->initForm();
 		if ($this->form->checkInput())
 		{
-			//$field_obj = new ilDataCollectionField($this->field_obj->getId());
+
 			$this->field_obj->setTitle($this->form->getInput("title"));
 			$this->field_obj->setDescription($this->form->getInput("description"));
 			$this->field_obj->setDatatypeId($this->form->getInput("datatype"));
@@ -265,15 +265,21 @@ class ilDataCollectionFieldEditGUI
 					
 				}
 			}
-
+			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
-
+			
 			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
-            if($a_mode == "update")
-			    $ilCtrl->redirect($this, "edit");
-            else
-                $ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
-                $ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
+			
+			if($a_mode == "update")
+			{
+				$ilCtrl->redirect($this, "edit");
+			}
+			else
+			{
+				ilUtil::sendSuccess($lng->txt("msg_field_created"), false);
+				$ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
+				$ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
+			}
 		}
 		else
 		{
