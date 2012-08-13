@@ -12023,3 +12023,12 @@ if(!$ilDB->tableColumnExists('sahs_lm', 'check_values'))
 	$ilDB->query("UPDATE sahs_lm SET check_values = 'y'");
 }
 ?>
+<#3699>
+<?php
+// remove obsolete id columns
+if($ilDB->tableColumnExists('il_dcl_viewdefinition','id'))
+{
+	$ilDB->dropTableColumn('il_dcl_viewdefinition', 'id');
+}
+$ilDB->dropSequence('il_dcl_viewdefinition');
+?>
