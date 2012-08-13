@@ -33,8 +33,10 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         $this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
         $this->addColumn($lng->txt("dcl_field_datatype"),  "datatype",  "auto");
         $this->addColumn($lng->txt("dcl_required"),  "required",  "auto");
-		$this->addColumn($lng->txt("edit"), 	 "edit", 	 "auto");
-        $this->addColumn($lng->txt("delete"), 	 "delete", 	 "auto");
+		//$this->addColumn($lng->txt("edit"), 	 "edit", 	 "auto");
+        //$this->addColumn($lng->txt("delete"), 	 "delete", 	 "auto");
+        $this->addColumn($lng->txt("actions"), 	 "actions", 	 "auto");
+        
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
         $ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);
@@ -96,13 +98,19 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 
 		$this->tpl->setVariable('REQUIRED', $required);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "field_id", $a_set->getId());
-
-        if(!$a_set->isStandardField()){
-            $this->tpl->setVariable('EDIT', $lng->txt('edit'));
-		    $this->tpl->setVariable('EDIT_LINK', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'edit'));
-            $this->tpl->setVariable('DELETE', $lng->txt('delete'));
-            $this->tpl->setVariable('DELETE_LINK', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'delete'));
-        }
+		
+		if(!$a_set->isStandardField())
+		{
+			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+			$alist = new ilAdvancedSelectionListGUI();
+			$alist->setId($a_set->getId());
+			$alist->setListTitle($lng->txt("actions"));
+			
+			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'edit'));
+			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'delete'));
+			
+			$this->tpl->setVariable("ACTIONS", $alist->getHTML());
+		}
 	}
 }
 
