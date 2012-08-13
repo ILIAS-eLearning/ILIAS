@@ -27,7 +27,7 @@ class ilDataCollectionFieldEditGUI
 	 * @param	int $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
 	 * @param	int $field_id The field_id of a existing fiel (edit mode) 
 	*/
-	public function  __construct($a_parent_obj, $table_id, $field_id)
+	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id)
 	{
 		//TODO Permission-Check
 
@@ -37,7 +37,9 @@ class ilDataCollectionFieldEditGUI
 		if(isset($field_id)) 
 		{
 			$this->field_obj = new ilDataCollectionField($field_id);
-		} else {
+		}
+		else
+		{
 			$this->field_obj = new ilDataCollectionField();
 			//TODO prüfen ob table_id gesetzt, andernfalls Fehlermeldung und abbruch
 			$this->field_obj->setTableId($table_id);
@@ -91,9 +93,46 @@ class ilDataCollectionFieldEditGUI
 		
 		$tpl->setContent($this->form->getHTML());
 	}
+	
+	
+	
+	/**
+	 * confirmDelete
+	 */
+	public function confirmDelete()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setHeaderText($lng->txt('dcl_confirm_delete_field'));
 
-    public function delete(){
+		$conf->addItem('field_id', (int) $this->field_obj->getId(), $this->field_obj->getTitle());
+		
+		$conf->setConfirm($lng->txt('delete'), 'delete');
+		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+
+		$tpl->setContent($conf->getHTML());
+	}
+	
+	/**
+	 * cancelDelete
+	 */
+	public function cancelDelete()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+	}
+	
+	/*
+	 * delete
+	 */
+    public function delete()
+    {
         global $ilCtrl;
+        
         $this->field_obj->doDelete();
         $ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
     }
