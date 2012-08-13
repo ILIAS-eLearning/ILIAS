@@ -277,9 +277,12 @@ class ilTestServiceGUI
 		$mark_obj = $this->object->mark_schema->getMatchingMark($result_percentage);
 		if ($mark_obj)
 		{
-			$mark = $this->lng->txt(
-				$this->service->buildMarkLangVarIdentifier($mark_obj->getPassed(), $obligationsAnswered)
+			require_once './Modules/Test/classes/class.ilTestFinalMarkLangVarBuilder.php';
+			$langVarBuilder = new ilTestFinalMarkLangVarBuilder(
+					$mark_obj->getPassed(), $obligationsAnswered, $this->object->areObligationsEnabled()
 			);
+			
+			$mark = $this->lng->txt( $langVarBuilder->build() );
 			
 			$mark = str_replace("[mark]", $mark_obj->getOfficialName(), $mark);
 			$mark = str_replace("[markshort]", $mark_obj->getShortName(), $mark);
