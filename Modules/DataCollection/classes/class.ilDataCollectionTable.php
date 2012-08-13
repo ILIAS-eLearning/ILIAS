@@ -97,29 +97,53 @@ class ilDataCollectionTable
 	{
 		return $this->title;
 	}
-
-	public function getCollectionObject(){
+	
+	/*
+	 * getCollectionObject
+	 * @return object
+	 */
+	public function getCollectionObject()
+	{
 		$this->loadObj();
+		
 		return $this->obj;
 	}
-
-	private function loadObj(){
-		if($this->obj == null);
-			$this->obj = new ilObjDataCollection($this->objId);
+	
+	/*
+	 * loadObj
+	 */
+	private function loadObj()
+	{
+		if($this->obj == null)
+		{
+			$this->obj = new ilObjDataCollection($this->objId, false);
+		}
 	}
-
-    function getRecords(){
+	
+	/*
+	 * getRecords
+	 */
+    function getRecords()
+    {
         $this->loadRecords();
+        
         return $this->records;
     }
 
-    private function loadRecords(){
-        if($this->records == Null){
+    /*
+     * loadRecords
+     */
+    private function loadRecords()
+    {
+        if($this->records == NULL)
+        {
             $records = array();
             global $ilDB;
             $query = "SELECT id FROM il_dcl_record WHERE table_id = ".$this->id;
             $set = $ilDB->query($query);
-            while($rec = $ilDB->fetchAssoc($set)){
+            
+            while($rec = $ilDB->fetchAssoc($set))
+            {
                 $records[$rec['id']] = new ilDataCollectionRecord($rec['id']);
             }
             $this->records = $records;
@@ -165,37 +189,62 @@ class ilDataCollectionTable
 
 		return $all; 
 	}
-
-    function deleteField($field_id){
+	
+	
+	/*
+	 * deleteField
+	 */
+    function deleteField($field_id)
+    {
         $field = new ilDataCollectionField($field_id);
         $field->doDelete();
         $records = $this->getRecords();
-        foreach($records as $record){
+        
+        foreach($records as $record)
+        {
             $record->deleteField($field_id);
         }
     }
-
-    function getField($field_id){
+    
+    
+    /*
+     * getField
+     */
+    function getField($field_id)
+    {
         $fields = $this->getFields();
+        
         return $fields[$field_id];
     }
-
-    function getFieldIds(){
+    
+    /*
+     * getFieldIds
+     */
+    function getFieldIds()
+    {
         return array_keys($this->getFields());
     }
-
-    private function loadFields(){
-        if($this->fields == NULL){
+    
+    /*
+     * loadFields
+     */
+    private function loadFields()
+    {
+        if($this->fields == NULL)
+        {
             global $ilDB;
 
             $query = "SELECT * FROM il_dcl_field WHERE table_id =".$this->id;
             $fields = array();
             $set = $ilDB->query($query);
-            while($rec = $ilDB->fetchAssoc($set)){
+            
+            while($rec = $ilDB->fetchAssoc($set))
+            {
                 $field = new ilDataCollectionField();
                 $field->buildFromDBRecord($rec);
                 $fields[$field->getId()] = $field;
             }
+            
             $this->fields = $fields;
         }
     }
@@ -204,9 +253,11 @@ class ilDataCollectionTable
      * Returns all fields of this table including the standard fields
      * @return array ilDataCollectionField
      */
-    function getFields(){
+    function getFields()
+    {
         $this->loadFields();
         $fields = array_merge($this->fields, ilDataCollectionStandardField::_getStandardFields($this->id));
+        
         return $fields;
     }
 
@@ -214,8 +265,10 @@ class ilDataCollectionTable
      * Returns all fields of this table which are NOT standard fields.
      * @return mixed
      */
-    function getRecordFields(){
+    function getRecordFields()
+    {
         $this->loadFields();
+        
         return $this->fields;
     }
 
@@ -223,12 +276,19 @@ class ilDataCollectionTable
      * Returns all fields of this table who have set their visibility to true, including standard fields.
      * @return array
      */
-    function getVisibleFields(){
+    function getVisibleFields()
+    {
         $fields = $this->getFields();
         $visibleFields = array();
+        
         foreach($fields as $field)
-            if($field->isVisible())
-                array_push($visibleFields, $field);
+        {
+	        if($field->isVisible())
+	        {
+		        array_push($visibleFields, $field);
+	        }
+        }
+            
         return $visibleFields;
     }
 

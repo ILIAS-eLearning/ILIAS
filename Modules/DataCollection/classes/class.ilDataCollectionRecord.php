@@ -263,26 +263,64 @@ class ilDataCollectionRecord
         $this->loadRecordFields();
         $this->recordfields[$field_id]->delete();
     }
-
-    public function doDelete(){
+    
+    /*
+     * doDelete
+     */
+    public function doDelete()
+    {
         global $ilDB;
+        
         $this->loadRecordFields();
-        foreach($this->recordfields as $recordfield){
+        
+        foreach($this->recordfields as $recordfield)
+        {
              $recordfield->delete();
         }
+        
         $query = "DELETE FROM il_dcl_record WHERE id = ".$this->getId();
         $ilDB->manipulate($query);
     }
-
-	function hasEditPermission($usr_id){
+    
+    /*
+     * hasEditPermission
+     */
+	function hasEditPermission($usr_id)
+	{
+		global $ilAccess;
+		
 		$table = new ilDataCollectionTable($this->getTableId());
 		$dcObj = $table->getCollectionObject();
-		//TODO check permission.
-		return true;
-	}
+		
+		$perm = false;
+		
+		$references = $dcObj->_getAllReferences($dcObj->getId());
+		
+		// TODO: Check Permission
+		if($ilAccess->checkAccess("write", "", array_shift($references)))
+		{
+			switch($dcObj->getEditType())
+			{
+				case 1;
+					$perm = true;
+					break;
+				case 2;
+					$perm = true;
+					break;
+			}
+		}
 
-    function doUpdate(){
+		return $perm;
+	}
+	
+	
+	/*
+	 * doUpdate
+	 */
+    function doUpdate()
+    {
         global $ilDB;
+        
         $ilDB->update("il_dcl_record", array(
             "table_id" => array("integer", $this->getTableId()),
             "create_date" => array("date", $this->getCreateDate()),
@@ -292,7 +330,8 @@ class ilDataCollectionRecord
             "id" => array("integer", $this->id)
         ));
 
-        foreach($this->recordfields as $recordfield){
+        foreach($this->recordfields as $recordfield)
+        {
             $recordfield->doUpdate();
         }
     }

@@ -78,6 +78,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		
+		
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
 		
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
@@ -88,11 +89,11 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		
 		$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
 		
-		//if($ilAccess->checkAccess('add_entry', "", $_GET['ref_id'])) // &
-		//{
+		if($record->hasEditPermission($ilUser->getId()))
+		{
 			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
 			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'delete'));
-		//}
+		}
 
 		$this->tpl->setVariable("ACTIONS", $alist->getHTML());
 
