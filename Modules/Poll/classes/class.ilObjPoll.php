@@ -422,6 +422,11 @@ class ilObjPoll extends ilObject2
 	{
 		global $ilDB;
 		
+		if(!trim($a_text))
+		{
+			return;
+		}
+		
 		$id = $ilDB->nextId("il_poll_answer");
 		
 		// append
@@ -518,27 +523,33 @@ class ilObjPoll extends ilObject2
 		$pos = 0;
 		foreach($a_answers as $answer)
 		{
-			// existing answer?
-			$found = false;
-			foreach($existing as $idx => $item)
+			if(trim($answer))
 			{
-				if(trim($answer) == $item["answer"])
+				// existing answer?
+				$found = false;
+				foreach($existing as $idx => $item)
 				{
-					$found = true;					
-					unset($existing[$idx]);
-					
-					$id = $item["id"];
+					if(trim($answer) == $item["answer"])
+					{
+						$found = true;					
+						unset($existing[$idx]);
+
+						$id = $item["id"];
+					}
+				}
+
+				// create new answer
+				if(!$found)
+				{
+					$id = $this->saveAnswer($answer);
+				}
+
+				// add existing answer id to order
+				if($id)
+				{				
+					$ids[$id] = ++$pos;
 				}
 			}
-			
-			// create new answer
-			if(!$found)
-			{
-				$id = $this->saveAnswer($answer);
-			}
-			
-			// add existing answer id to order
-			$ids[$id] = ++$pos;
 		}			
 		
 		// remove obsolete answers
