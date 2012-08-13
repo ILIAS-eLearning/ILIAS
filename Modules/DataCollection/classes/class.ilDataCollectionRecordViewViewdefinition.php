@@ -16,7 +16,7 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 
 class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 {
-	protected $tableId; // [int]
+	protected $table_id; // [int]
 	protected $type; // [int]  0 = recordview 
 	protected $formtype; // [int] 0 = copage
 
@@ -66,7 +66,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	*/
 	function setTableId($a_id)
 	{
-		$this->tableId = $a_id;
+		$this->table_id = $a_id;
 	}
 
 	/**
@@ -76,7 +76,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	*/
 	function getTableId()
 	{
-		return $this->tableId;
+		return $this->table_id;
 	}
 
 	/**

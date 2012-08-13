@@ -106,7 +106,7 @@ class ilDataCollectionTable
         if($this->records == Null){
             $records = array();
             global $ilDB;
-            $query = "SELECT id FROM il_dlc_records WHERE table_id = ".$this->id;
+            $query = "SELECT id FROM il_dcl_record WHERE table_id = ".$this->id;
             $set = $ilDB->query($query);
             while($rec = $ilDB->fetchAssoc($set)){
                 $records[$rec['id']] = new ilDataCollectionRecord($rec['id']);
@@ -158,8 +158,10 @@ class ilDataCollectionTable
     function deleteField($field_id){
         $field = new ilDataCollectionField($field_id);
         $field->doDelete();
-
-        //TODO: delete records.
+        $records = $this->getRecords();
+        foreach($records as $record){
+            $record->deleteField($field_id);
+        }
     }
 
     function getField($field_id){
@@ -183,16 +185,33 @@ class ilDataCollectionTable
                 $field->buildFromDBRecord($rec);
                 $fields[$field->getId()] = $field;
             }
-            $fields = array_merge($fields, ilDataCollectionStandardField::_getStandardFields($this->id));
             $this->fields = $fields;
         }
     }
 
+    /**
+     * Returns all fields of this table including the standard fields
+     * @return array ilDataCollectionField
+     */
     function getFields(){
+        $this->loadFields();
+        $fields = array_merge($this->fields, ilDataCollectionStandardField::_getStandardFields($this->id));
+        return $fields;
+    }
+
+    /**
+     * Returns all fields of this table which are NOT standard fields.
+     * @return mixed
+     */
+    function getRecordFields(){
         $this->loadFields();
         return $this->fields;
     }
 
+    /**
+     * Returns all fields of this table who have set their visibility to true, including standard fields.
+     * @return array
+     */
     function getVisibleFields(){
         $fields = $this->getFields();
         $visibleFields = array();

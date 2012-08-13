@@ -3,6 +3,9 @@
 
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
+
 
 /**
 * Class ilDataCollectionRecordEditGUI
@@ -18,19 +21,28 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php")
 class ilDataCollectionRecordEditGUI
 {
 
+    private $record_id;
+    private $table_id;
+    private $table;
+
 	/**
 	 * Constructor
 	 *
 	*/
 	public function __construct()
 	{
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        $this->form = new ilPropertyFormGUI();
+
 		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->record_id = $_GET['record_id'];
+        $this->table_id = $_GET['table_id'];
 		include_once("class.ilDataCollectionDatatype.php");
 		if($_REQUEST['table_id']) 
 		{
 			$this->table_id = $_REQUEST['table_id'];
 		}
+        $this->table = new ilDataCollectionTable($this->table_id);
 	}
 	
 	
@@ -59,11 +71,12 @@ class ilDataCollectionRecordEditGUI
 	 */
 	public function create()
 	{
-		global $ilTabs, $tpl;
+		global $ilCtrl, $tpl;
 
 		$this->initForm();
-	
-		$tpl->setContent($this->form->getHTML());
+        $this->form->setFormAction($ilCtrl->getFormAction($this));
+
+        $tpl->setContent($this->form->getHTML());
 	}
 
 	/**
@@ -71,96 +84,64 @@ class ilDataCollectionRecordEditGUI
 	*/
 	public function edit()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
 		
 		$this->initForm("edit");
-		$this->getValues();
+        $this->form->setFormAction($ilCtrl->getFormAction($this));
+        $this->getValues();
 		
 		$tpl->setContent($this->form->getHTML());
-	}	
+	}
+
+    public function delete(){
+        global $ilCtrl, $lng;
+        $record = new ilDataCollectionRecord($this->record_id);
+        $record->doDelete();
+        ilUtil::sendSuccess($lng->txt("dcl_record_deleted"), true);
+        $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+
+    }
 
 	/**
 	 * init Form
 	 *
 	 * @param string $a_mode values: create | edit
 	 */
-	public function initForm($a_mode = "create")
+	public function initForm()
 	{
 		global $lng, $ilCtrl;
-		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
+
 
 		//table_id
 		$hidden_prop = new ilHiddenInputGUI("table_id");
 		$hidden_prop ->setValue($this->table_id);
 		$this->form->addItem($hidden_prop );
 
-		//TODO Falls Feld-Reihenfolge festgelegt, dann nehmen wir diese. Andernfalls sämtliche Felder darstellen
-		//if
-        //...
-		//else
-		//sämtliche Felder
-		$allFields = ilDataCollectionField::getAll($this->table_id);
+        //TODO: für benutzer ohne write rechten ändern in getEditableFields.
+		$allFields = $this->table->getRecordFields();
 
 		foreach($allFields as $field)
 		{
-
-			switch($field['datatype_id'])
-			{
-				case ilDataCollectionDatatype::INPUTFORMAT_TEXT:       
-					$item = new ilTextInputGUI($field['title'], 'field_'.$field['id']);
-					$this->form->addItem($item);
-					break;
-					
-				case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
-					$item = new ilTextInputGUI($field['title'], 'field_'.$field['id']);
-					$this->form->addItem($item);
-					break;
-
-				/*case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-					//TODO select-list
-					//$subitem = new ilCheckboxInputGUI($lng->txt($field['title']), 'field_'.$field['id']);
-					//$opt->addSubItem($subitem);
-				break;*/
-
-				case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
-					$item = new ilCheckboxInputGUI($field['title'], 'field_'.$field['id']);
-					$this->form->addItem($item);
-					break;
-
-				case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
-					$item = new ilDateTimeInputGUI($field['title'], 'field_'.$field['id']);
-					$this->form->addItem($item);
-					break;
-				
-				case ilDataCollectionDatatype::INPUTFORMAT_FILE:
-					$item = new ilFileInputGUI($field['title'], 'field_'.$field['id']);
-					$this->form->addItem($item);
-					break;
-			}
-
-			//datetype_id mitgegeben -> wird beim speichern zu bestimmung für die storage_id benötigt
-			$item = new ilHiddenInputGUI($field['storage_location'], 'storage_location_'.$field['id']);
-			$this->form->addItem($item);
-
+            $item = ilDataCollectionDatatype::getInputField($field);
+            $item->setRequired($field->getRequired());
+            $this->form->addItem($item);
 		}
 
 		// save and cancel commands
-		if(isset($rec_id))
+		if(isset($this->record_id))
 		{
-			$this->form->addCommandButton("update", $lng->txt("update"));
+			$this->form->addCommandButton("save", $lng->txt("update"));
 			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-			$this->form->setFormAction($ilCtrl->getFormAction($this, "update"));
 		}
 		else
 		{
 			$this->form->addCommandButton("save", $lng->txt("save"));
 			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
 		}
-				
+
+        $ilCtrl->setParameter($this, "table_id", $this->table_id);
+        $ilCtrl->setParameter($this, "record_id", $this->record_id);
 		$this->form->setTitle($lng->txt("dcl_add_new_record"));
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
 
 
@@ -176,91 +157,83 @@ class ilDataCollectionRecordEditGUI
 		$record_obj = new ilDataCollectionRecord($this->record_id);
 
 		//Get Table Field Definitions
-		$allFields = ilDataCollectionField::getAll($this->table_id);
+		$allFields = $this->table->getFields();
 
 		$values = array();
 		foreach($allFields as $field)
 		{
-			$values['field_'.$field['id']] = $record_obj->getFieldvalues($field['id']);
+            $value = $record_obj->getRecordFieldFormInput($field->getId());
+            $value = ($value=="-"?"":$value);
+			$values['field_'.$field->getId()] = $value;
 		}
 
-	
 		$this->form->setValuesByArray($values);
 
 		return true;
 	}
+
+    public function cancelUpdate(){
+        global $ilCtrl;
+        $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+    }
+
+    public function cancelSave(){
+        $this->cancelUpdate();
+    }
 
 	/**
 	* save Record
 	*
 	* @param string $a_mode values: create | edit
 	*/
-	public function save($a_mode = "create")
+	public function save()
 	{	
 		global $tpl, $ilUser, $lng, $ilCtrl;
 
 		// Sämtliche Felder, welche gespeichert werden holen
-		$all_fields = ilDataCollectionField::getAll($this->table_id);
+        //TODO: für benutzer ohne write rechten ändern in getEditableFields
+		$all_fields = $this->table->getRecordFields();
 
-		$this->initForm($a_mode);
+		$this->initForm();
 		if($this->form->checkInput())
 		{
-			$record_obj = new ilDataCollectionRecord();
+			$record_obj = new ilDataCollectionRecord($this->record_id);
 
 			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 
 			$record_obj->setTableId($this->table_id);
-			if($a_mode == "create")
-			{
-				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
-			}
+
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setOwner($ilUser->getId());
+            if(!isset($this->record_id))
+            {
+                $record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+                $record_obj->setTableId($this->table_id);
+                $record_obj->DoCreate();
+                $this->record_id = $record_obj->getId();
+            }
 
-			foreach($all_fields as $key => $value)
+			foreach($all_fields as $field)
 			{
-				// TODO Properties holen und die Felder entsprechend überprüfen
-				if($value['datatype_id'] == ilDataCollectionDatatype::INPUTFORMAT_FILE)
-				{
-					$file = $this->form->getInput("field_".$value["id"]);
-					if($file['tmp_name'])
-					{
-						include("class.ilObjDataCollectionFile.php");
-						$file_obj = new ilObjDataCollectionFile();
-						//echo "<pre>".print_r($this->form->getInput("dcl_fileupload"),1)."</pre>";
-						
-						$file_obj->setType("file");
-						$file_obj->setTitle($file["name"]);
-						$file_obj->setFileName($file["name"]);
-						include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-						$file_obj->setFileType(ilMimeTypeUtil::getMimeType("", $file["name"], $file["type"]));
-						$file_obj->setFileSize($file["size"]);
-						$file_obj->setMode("object");
-						$file_obj->create();
-						$file_obj->getUploadFile($file["tmp_name"], $file["name"]);
-						
-						$file_id = $file_obj->getId();
-
-					}
-					$record_obj->setFieldvalue($file_id, $value["id"]);
-				}
-				else
-				{
-					$record_obj->setFieldvalue($this->form->getInput("field_".$value["id"]), $value["id"]);
-				}	
+               try{
+                   $value = $this->form->getInput("field_".$field->getId());
+					$record_obj->setRecordFieldValue($field->getId(), $value);
+				}catch(ilDataCollectionWrongTypeException $e){
+                   //TODO: Hint which field is incorrect
+                   ilUtil::sendFailure("You inserted a wrong type",true);
+               }
 				
 			}
 
-			//We need $allFields because of the storage_location
-			$record_obj->doCreate($all_fields);
+			$record_obj->doUpdate();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 
 			$ilCtrl->setParameter($this, "table_id", $this->table_id);
-
+            $ilCtrl->setParameter($this, "record_id", $this->record_id);
 			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-
-			$ilCtrl->redirect($this, "create");
-		}
+		}else{
+            //TODO Fehlerbehandlung.
+        }
 
 	}
 }

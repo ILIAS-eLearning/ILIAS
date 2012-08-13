@@ -6,6 +6,9 @@
  * Time: 9:44 AM
  * To change this template use File | Settings | File Templates.
  */
+
+require_once './Modules/DataCollection/classes/class.ilDataCollectionWrongTypeException.php';
+
 class ilDataCollectionRecordField
 {
     private $id;
@@ -13,7 +16,7 @@ class ilDataCollectionRecordField
     private $record;
     private $value;
 
-    function __construct(ilDataCollectionRecord $record, $field){
+    function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field){
         $this->record = $record;
         $this->field = $field;
         $this->doRead();
@@ -21,9 +24,10 @@ class ilDataCollectionRecordField
 
     private function doRead(){
         global $ilDB;
-        $query = "SELECT * FROM il_dcl_record_field WHERE field_id = ".$this->field->getId()." AND record_id = ".$this->record->getId();
+        $query = "SELECT * FROM il_dcl_record_field WHERE field_id LIKE '".$this->field->getId()."' AND record_id = ".$this->record->getId();
         $set = $ilDB->query($query);
-        $this->id = $ilDB->fetchAssoc($set)['id'];
+        $rec = $ilDB->fetchAssoc($set);
+        $this->id = $rec['id'];
         if($this->id == Null)
             $this->doCreate();
     }
@@ -39,40 +43,49 @@ class ilDataCollectionRecordField
 
     function getValue(){
         $this->loadValue();
-        return $this->value;
+        return $this->value?$this->value:"-";
     }
 
-    function hasValue(){
-        $this->loadValue();
-        return $this->value != Null;
+    function delete(){
+        $datatype = $this->field->getDatatype();
+        global $ilDB;
+        $query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
+        $ilDB->manipulate($query);
+
+        $query2 = "DELETE FROM il_dcl_record_field WHERE id = ".$this->id;
+        $ilDB->manipulate($query2);
     }
 
     function setValue($value){
         $type = $this->field->getDatatype()->getId();
+        $this->loadValue();
         if(!ilDataCollectionDatatype::checkValidity($type, $value))
             throw new ilDataCollectionWrongTypeException();
         else
-            $this->value = $value;
+            $this->value = $this->field->getDatatype()->parseValue($value);
+    }
+
+    function getFormInput(){
+        $datatype = $this->field->getDatatype();
+        return $datatype->parseFormInput($this->getValue());
+    }
+
+    function getHTML(){
+        $datatype = $this->field->getDatatype();
+        return $datatype->parseHTML($this->getValue());
     }
 
     function doUpdate(){
-        global $ilDB;
+
         $datatype = $this->field->getDatatype();
-        if($this->hasValue()){
-            $ilDB->update("il_dcl_stloc".$datatype->getStorageLocation()."_value", array(
-                "value" => array($datatype->getDbType(), $this->value)
-            ), array(
-                "record_field_id" => array("integer", $this->id)
-            ));
-        }else{
-            $nextId = $ilDB->nextId("il_dcl_stloc".$datatype->getStorageLocation()."_value");
-            $query = "INSERT INTO il_dcl_stloc".$datatype->getStorageLocation()."_value
-                        (id, record_field_id, value) VALUES (".$nextId.", ".$this->id.", ".$this->value.")";
-            $ilDB->manipulate($query);
-        }
+        global $ilDB;
+        $query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
+        $ilDB->manipulate($query);
+        $ilDB->insert("il_dcl_stloc".$datatype->getStorageLocation()."_value",
+            array("value" => array($datatype->getDbType(), $this->value),
+            "record_field_id " => array("integer", $this->id))
+        );
     }
-
-
 
     private function loadValue(){
         if($this->value == Null){
@@ -80,7 +93,8 @@ class ilDataCollectionRecordField
             $datatype = $this->field->getDatatype();
             $query = "SELECT * FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
             $set = $ilDB->query($query);
-            $this->value = $ilDB->fetchAssoc($set)['value'];
+            $rec = $ilDB->fetchAssoc($set);
+            $this->value = $rec['value'];
         }
     }
 

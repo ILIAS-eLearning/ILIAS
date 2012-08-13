@@ -12,12 +12,13 @@
 * @ingroup ModulesDataCollection
 */
 
+include_once './Modules/DataCollection/classes/class.ilDataCollectionRecordField.php';
 
 class ilDataCollectionRecord
 {
     private $recordfields;
     private $id;
-    private $tableId;
+    private $table_id;
     private $table;
 
 	/**
@@ -62,7 +63,7 @@ class ilDataCollectionRecord
 	*/
 	function setTableId($a_id)
 	{
-		$this->tableId = $a_id;
+		$this->table_id = $a_id;
 	}
 
 	/**
@@ -72,7 +73,7 @@ class ilDataCollectionRecord
 	*/
 	function getTableId()
 	{
-		return $this->tableId;
+		return $this->table_id;
 	}
 
 	/**
@@ -82,7 +83,7 @@ class ilDataCollectionRecord
 	*/
 	function setCreateDate($a_datetime)
 	{
-		$this->createdate = $a_datetime;
+		$this->create_date = $a_datetime;
 	}
 
 	/**
@@ -92,7 +93,7 @@ class ilDataCollectionRecord
 	*/
 	function getCreateDate()
 	{
-		return $this->createdate;
+		return $this->create_date;
 	}
 
 	/**
@@ -102,7 +103,7 @@ class ilDataCollectionRecord
 	*/
 	function setLastUpdate($a_datetime)
 	{
-		$this->lastupdate = $a_datetime;
+		$this->last_update = $a_datetime;
 	}
 
 	/**
@@ -112,7 +113,7 @@ class ilDataCollectionRecord
 	*/
 	function getLastUpdate()
 	{
-		return $this->lastupdate;
+		return $this->last_update;
 	}
 
 	/**
@@ -145,7 +146,10 @@ class ilDataCollectionRecord
 	function setRecordFieldValue($field_id, $value)
 	{
         $this->loadRecordFields();
-		$this->recordfields[$field_id]->setValue($value);
+        if(ilDataCollectionStandardField::_isStandardField($field_id))
+            $this->setStandardField($field_id, $value);
+        else
+		    $this->recordfields[$field_id]->setValue($value);
 	}
 
 	/**
@@ -157,14 +161,44 @@ class ilDataCollectionRecord
 	function getRecordFieldValue($field_id)
 	{
         $this->loadRecordFields();
-		return $this->recordfields[$field_id];
+        if(ilDataCollectionStandardField::_isStandardField($field_id))
+            return $this->getStandardField($field_id);
+        else
+            return $this->recordfields[$field_id]->getValue();
 	}
+
+    function getRecordFieldHTML($field_id){
+        $this->loadRecordFields();
+        if(ilDataCollectionStandardField::_isStandardField($field_id))
+            return $this->getStandardField($field_id);
+        else
+            return $this->recordfields[$field_id]->getHTML();
+    }
+
+    function getRecordFieldFormInput($field_id){
+        $this->loadRecordFields();
+        if(ilDataCollectionStandardField::_isStandardField($field_id))
+            return $this->getStandardField($field_id);
+        else
+            return $this->recordfields[$field_id]->getFormInput();
+    }
+
+
+    //TODO: Bad style, fix with switch statement
+    private function setStandardField($field_id, $value){
+        $this->$field_id = $value;
+    }
+
+    //TODO: Bad style, fix with switch statement
+    private function getStandardField($field_id){
+        return $this->$field_id;
+    }
 
     private function loadRecordFields(){
         if($this->recordfields == NULL){
             $this->loadTable();
             $recordfields = array();
-            foreach($this->table->getFields() as $field){
+            foreach($this->table->getRecordFields() as $field){
                 $recordfields[$field->getId()] = new ilDataCollectionRecordField($this, $field);
             }
             $this->recordfields = $recordfields;
@@ -173,7 +207,7 @@ class ilDataCollectionRecord
 
     private function loadTable(){
         if($this->table == Null){
-            $this->table = new ilDataCollectionTable($this->tableId);
+            $this->table = new ilDataCollectionTable($this->getTableId());
         }
     }
 
@@ -225,10 +259,25 @@ class ilDataCollectionRecord
 		$ilDB->manipulate($query);
     }
 
+    public function deleteField($field_id){
+        $this->loadRecordFields();
+        $this->recordfields[$field_id]->delete();
+    }
+
+    public function doDelete(){
+        global $ilDB;
+        $this->loadRecordFields();
+        foreach($this->recordfields as $recordfield){
+             $recordfield->delete();
+        }
+        $query = "DELETE FROM il_dcl_record WHERE id = ".$this->getId();
+        $ilDB->manipulate($query);
+    }
+
     function doUpdate(){
         global $ilDB;
         $ilDB->update("il_dcl_record", array(
-            "table_id" => array("integer", $this->tableId),
+            "table_id" => array("integer", $this->getTableId()),
             "create_date" => array("date", $this->getCreateDate()),
             "last_update" => array("date", $this->getLastUpdate()),
             "owner" => array("text", $this->getOwner())
@@ -240,70 +289,5 @@ class ilDataCollectionRecord
             $recordfield->doUpdate();
         }
     }
-
-    //TODO: this method should be replaced by a method in table class getRecords.
-    /**
-     * get All records
-     *
-     * @param int $a_id
-     * @param array $recordfields
-     */
-    static function getAll($a_id,array $recordfields, $tabledefinition)
-    {
-        global $ilDB, $ilUser;
-
-        $query= "Select ";
-
-        if(is_array($tabledefinition) && count($tabledefinition) > 0 && !$tabledefinition[0])
-        {
-            foreach($tabledefinition as $key => $value)
-            {
-                if(in_array($value, self::getStandardFields()))
-                {
-                    $query .= "rc.".$value.",";
-                }
-            }
-        }
-        else
-        {
-            foreach(self::getStandardFields() as $key)
-            {
-                $query .= "rc.".$key.",";
-            }
-        }
-
-        $query = substr($query, 0, -1);
-
-        foreach($recordfields as $recordfield)
-        {
-            $query .= ", (SELECT val.value FROM il_dcl_record record".
-                " LEFT JOIN il_dcl_record_field rcfield ON rcfield.record_id = record.id AND".
-                " rcfield.field_id = ".$recordfield["id"].
-                " LEFT JOIN il_dcl_field field ON field.id = rcfield.field_id".
-                " LEFT JOIN il_dcl_stloc".$recordfield["storage_location"]."_value val ON".
-                " val.record_field_id = rcfield.id".
-                " WHERE record.id = rc.id".
-                " ) record_field_".$recordfield["id"];
-
-            //$query .= ",".$recordfield['datatype_id']." datatype_id";
-        }
-
-        $query .= " From il_dcl_record rc WHERE rc.table_id = ".$ilDB->quote($a_id,"integer").
-            " ORDER BY rc.id";
-
-        $set = $ilDB->query($query);
-
-        $all = array();
-        while($rec = $ilDB->fetchAssoc($set))
-        {
-            $rec['owner'] = $ilUser->_lookupLogin($rec['owner']); // Benutzername anstelle der ID
-            $all[] = $rec; //$rec['id']
-        }
-
-        return $all;
-    }
-
-
-
 }
 ?>

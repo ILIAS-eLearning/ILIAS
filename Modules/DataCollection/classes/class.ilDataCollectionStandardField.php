@@ -28,7 +28,15 @@ class ilDataCollectionStandardField extends ilDataCollectionField
     }
 
 
-    function isStandardField(){
+    static function _isStandardField($field_id){
+        $return = false;
+        foreach(self::_getStandardFieldsAsArray() as $field)
+            if($field["id"] == $field_id)
+                $return = true;
+        return $return;
+    }
+
+    public function isStandardField(){
         return true;
     }
 

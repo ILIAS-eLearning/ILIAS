@@ -224,10 +224,6 @@ class ilDataCollectionFieldEditGUI
 		global $ilCtrl, $lng;
 		
 		//TODO Berechtigungen prüfen
-		//$this->dcl_object->checkPermission("write");
-		//echo "<pre>".print_r($_POST,1)."</pre>";
-		
-		//echo "<pre>".print_r(get_class_methods($file_obj), 1)."</pre>";
 		
 		$this->initForm();
 		if ($this->form->checkInput())
