@@ -12752,3 +12752,5 @@ poll#:#poll_active_no_edit#:#Diese Abstimmung ist zur Zeit aktiv und kann nicht 
 poll#:#poll_votes_no_edit#:#Diese Abstimmung kann aufgrund vorhandener Stimmen nicht bearbeitet werden.
 content#:#cont_auto_last_visited#:#zuletzt gesehenen Abschnitt (SCO/Asset) laden
 content#:#cont_check_values#:#vom SCO geschickte Werte prüfen
+administration#:#adm_social_bm_create#:#Social-Bookmark hinzufügen
+administration#:#adm_social_bm_edit#:#Social-Bookmark bearbeiten
