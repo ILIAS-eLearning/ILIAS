@@ -52,7 +52,12 @@ class ilTestServiceGUI
 
 	var $lng;
 	var $tpl;
+	
+	/**
+	 * @var ilCtrl
+	 */
 	var $ctrl;
+	
 	var $ilias;
 	var $tree;
 	var $ref_id;
