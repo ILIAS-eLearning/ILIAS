@@ -90,10 +90,10 @@ class ilDataCollectionTableEditGUI
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
 		
 		$this->form->setFormAction($ilCtrl->getFormAction($this, "save"));
-	
+
 		$this->form->setTitle($lng->txt('dcl_new_table'));
 	}
-	
+
 	
 	/**
 	 * save

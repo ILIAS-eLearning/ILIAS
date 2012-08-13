@@ -432,22 +432,27 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 			$edit_type->addOption($opt);
 			
 		$a_form->addItem($edit_type);
-		
+
+		// Owner Editable
+		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_owner_editable"), "owner_editable");
+		$a_form->addItem($cb);
+
 		// Rating
-		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_rating"), "rating");
-		$a_form->addItem($cb);
-		
+		//$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_rating"), "rating");
+		//$a_form->addItem($cb);
+
 		// Public Notes
-		$cb = new ilCheckboxInputGUI($this->lng->txt("public_notes"), "public_notes");
-		$a_form->addItem($cb);
-		
+		//$cb = new ilCheckboxInputGUI($this->lng->txt("public_notes"), "public_notes");
+		//$a_form->addItem($cb);
+
 		// Approval
-		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_approval"), "approval");
-		$a_form->addItem($cb);
-		
-		// Public Notes
+		//$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_approval"), "approval");
+		//$a_form->addItem($cb);
+
+		// Notification
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
 		$a_form->addItem($cb);
+
 	}
 	
 	/**

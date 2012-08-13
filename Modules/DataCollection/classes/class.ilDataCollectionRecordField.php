@@ -81,9 +81,11 @@ class ilDataCollectionRecordField
         global $ilDB;
         $query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
         $ilDB->manipulate($query);
+		$next_id = $ilDB->nextId("il_dcl_stloc".$datatype->getStorageLocation()."_value");
         $ilDB->insert("il_dcl_stloc".$datatype->getStorageLocation()."_value",
             array("value" => array($datatype->getDbType(), $this->value),
-            "record_field_id " => array("integer", $this->id))
+            "record_field_id " => array("integer", $this->id),
+			"id" => array("integer", $next_id))
         );
     }
 
