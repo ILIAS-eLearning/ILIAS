@@ -55,7 +55,7 @@ class ilSocialBookmarks
 		{
 			$form->addCommandButton("createSocialBookmark", $lng->txt("create"));
 			$form->addCommandButton("editSocialBookmarks", $lng->txt("cancel"));
-			$form->setTitle($lng->txt("social_bm_create"));
+			$form->setTitle($lng->txt("adm_social_bm_create"));
 			$in_file->setRequired(true);
 		}
 		else if ($mode == "update")
@@ -65,7 +65,7 @@ class ilSocialBookmarks
 
 			$form->addCommandButton("updateSocialBookmark", $lng->txt("update"));
 			$form->addCommandButton("cancel", $lng->txt("cancel"));
-			$form->setTitle($lng->txt("social_bm_edit"));
+			$form->setTitle($lng->txt("adm_social_bm_edit"));
 			$in_file->setRequired(false);
 		}
 		

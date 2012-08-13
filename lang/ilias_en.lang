@@ -12695,3 +12695,5 @@ common#:#itgr_copy#:#Copy Item Group
 common#:#itgr_add#:#Add Item Group
 content#:#cont_auto_last_visited#:#load last visited chapter (SCO/Asset)
 content#:#cont_check_values#:#check values sent by SCO
+administration#:#adm_social_bm_create#:#Create Social Bookmark
+administration#:#adm_social_bm_edit#:#Edit Social Bookmark
