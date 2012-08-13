@@ -297,7 +297,8 @@ class ilDataCollectionRecord
 		$references = $dcObj->_getAllReferences($dcObj->getId());
 		
 		// TODO: Check Permission
-		if($ilAccess->checkAccess("write", "", array_shift($references)))
+		// FIXME: da wir nur die obj_id ($dcObj->getId()) haben, nicht aber die ref_if, kann nicht direkt auf rechte geprüft werden. da aber z.z. nur eine referenz pro dcl_obj existiert, wird die erste im array $references gewählt.
+		if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
 		{
 			switch($dcObj->getEditType())
 			{
