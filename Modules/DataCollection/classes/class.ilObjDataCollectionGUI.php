@@ -193,6 +193,16 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$file_gui = new ilObjFile($this);
 				$this->ctrl->forwardCommand($file_gui);
 				break;
+				
+				
+			case "ildatacollectionrecordviewgui":
+				$this->addHeaderAction($cmd);
+				$this->prepareOutput();
+				$ilTabs->setTabActive("id_records");
+				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewGUI.php");
+				$recordview_gui = new ilDataCollectionRecordViewGUI($this);
+				$this->ctrl->forwardCommand($recordview_gui);
+				break;
 
 			default:								
 				$this->addHeaderAction($cmd);

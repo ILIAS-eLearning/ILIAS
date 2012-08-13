@@ -19,6 +19,8 @@ class ilDataCollectionRecordViewGUI
 	function __construct($a_dcl_object)
 	{
 		global $lng, $tpl;
+		
+		$this->record_id = $_GET['record_id'];
 	}
 
 	/**
@@ -51,17 +53,17 @@ class ilDataCollectionRecordViewGUI
 		
 		//$html = 'Hier erscheint der einzelne gerenderte Record - ACHTUNG Design wird als HTML (via Killing) in DB hinterlegt sein.<br><br>';
 		include_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-		$record_obj = new ilDataCollectionRecord(1);
-		$pageObj = new ilPageObjectGUI("wpg", 2);
-		//echo "<pre>".print_r(get_class_methods($pageObj), 1)."</pre>";
-		$fields = $record_obj->getFieldvalues(1);
-		//echo "<pre>".print_r($fields,1)."</pre>";
-		
+		include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
+
+		$record_obj = new ilDataCollectionRecord($this->record_id);
+
+		$pageObj = new ilPageObjectGUI("dclf", 1); // ID dynamisch!
+
 		$html = $pageObj->getHTML();
 
-		foreach($record_obj->getFieldvalues(1) as $key => $value)
+		foreach($record_obj->getRecordFieldValues() as $key => $value) //getRecordFieldValues schläft fehl, benötigt wird eine Methode,w elche alles keys->values eines records als array zurückgibt
 		{
-			$html = str_ireplace("[FIELD".$key."]", $value, $html);
+			$html = str_ireplace("[FIELD".$key."]", $value->getValue(), $html);
 		}
 		
 		
