@@ -145,12 +145,12 @@ class ilDataCollectionFieldEditGUI
 	public function initForm($a_mode = "create")
 	{
 		global $ilCtrl, $lng;
-		
+
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
 		
-		if ($a_mode == "edit")
+		if($a_mode == "edit")
 		{
 			$hidden_prop = new ilHiddenInputGUI("field_id");
 			$this->form->addItem($hidden_prop);
@@ -167,49 +167,54 @@ class ilDataCollectionFieldEditGUI
 			$this->form->setFormAction($ilCtrl->getFormAction($this),"save");
 			$this->form->addCommandButton('save', 		$lng->txt('dcl_field_'.$a_mode));
 		}
+		
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
 		$this->form->setTitle($lng->txt('dcl_new_field'));
 		
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$this->form->addItem($text_prop);
-
-		$edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'),'datatype');
 		
-		foreach(ilDataCollectionDatatype::getAllDatatypes() as $datatype)
+		if($a_mode != "edit")
 		{
-			$opt = new ilRadioOption($lng->txt('dcl_'.$datatype['title']), $datatype['id']);
+			$edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'),'datatype');
 			
-			foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
+			foreach(ilDataCollectionDatatype::getAllDatatypes() as $datatype)
 			{
-				//Type Reference: List Tabels
-				if ($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) 
+				$opt = new ilRadioOption($lng->txt('dcl_'.$datatype['title']), $datatype['id']);
+				
+				foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
 				{
-				    // Get Tables
-					require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-					$arrTables = ilDataCollectionTable::getAll($this->obj_id);
-					foreach($arrTables as $table)
+					//Type Reference: List Tabels
+					if ($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) 
 					{
-						$options[$table['id']] = $table['title'];
+					    // Get Tables
+						require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+						$arrTables = ilDataCollectionTable::getAll($this->obj_id);
+						foreach($arrTables as $table)
+						{
+							$options[$table['id']] = $table['title'];
+						}
+						$table_selection = new ilSelectInputGUI(
+							'',
+								'prop_'.$property['id']
+							);
+						$table_selection->setOptions($options);
+						//$table_selection->setValue($this->table_id);
+						$opt->addSubItem($table_selection);
+	
+					} 
+					//All other Types: List properties saved in propertie definition table
+					elseif($property['datatype_id'] == $datatype['id']) 
+					{
+							$subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
+							$opt->addSubItem($subitem);
 					}
-					$table_selection = new ilSelectInputGUI(
-						'',
-							'prop_'.$property['id']
-						);
-					$table_selection->setOptions($options);
-					//$table_selection->setValue($this->table_id);
-					$opt->addSubItem($table_selection);
-
-				} 
-				//All other Types: List properties saved in propertie definition table
-				elseif($property['datatype_id'] == $datatype['id']) 
-				{
-						$subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
-						$opt->addSubItem($subitem);
 				}
+				$edit_datatype->addOption($opt);
 			}
-			$edit_datatype->addOption($opt);
+			$this->form->addItem($edit_datatype);
 		}
-		$this->form->addItem($edit_datatype);
+		
 		
 		// Description
 		$text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
