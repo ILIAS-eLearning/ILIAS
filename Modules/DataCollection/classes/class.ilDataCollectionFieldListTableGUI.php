@@ -112,7 +112,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 			//if($ilAccess->checkAccess('add_entry', "", $_GET['ref_id']))
 			//{
 				$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'edit'));
-				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'delete'));
+				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'confirmDelete'));
 			//}
 
 			$this->tpl->setVariable("ACTIONS", $alist->getHTML());

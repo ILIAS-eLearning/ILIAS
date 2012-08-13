@@ -44,10 +44,10 @@ class ilDataCollectionField
 	*/
 	public function __construct($a_id = 0)
 	{
-		if ($a_id != 0) 
+		if($a_id != 0) 
 		{
-		$this->id = $a_id;
-		$this->doRead();
+			$this->id = $a_id;
+			$this->doRead();
 		}    
 	}
 
@@ -368,8 +368,12 @@ class ilDataCollectionField
 								));
         $this->updateVisibility();
 	}
-
-    protected function updateVisibility(){
+	
+	/*
+     * updateVisibility
+     */
+    protected function updateVisibility()
+    {
         //TODO: also insert field_order
         global $ilDB;
         $query = "DELETE FROM il_dcl_viewdefinition USING il_dcl_viewdefinition INNER JOIN il_dcl_view view ON view.id = il_dcl_viewdefinition.view_id WHERE view.table_id = ".$this->getTableId()." AND il_dcl_viewdefinition.field LIKE '".$this->getId()."'";
@@ -380,8 +384,13 @@ class ilDataCollectionField
         }
         $ilDB->manipulate($query);
     }
-
-    public function doDelete(){
+    
+    
+    /*
+     * doDelete
+     */
+    public function doDelete()
+    {
         global $ilDB;
 
         //trick to delete entries in viewdefinition table
@@ -393,74 +402,74 @@ class ilDataCollectionField
     }
 
 
-		/**
-		* Get all properties of a field
-		*
-		* @return array
-		*/
-		function setProperties()
-		{  
-			global $ilDB;
-			
-			$query = "SELECT	datatype_prop_id, 
-											title, 
-											value 
-							FROM il_dcl_field_prop fp 
-							LEFT JOIN il_dcl_datatype_prop AS p ON p.id = fp.datatype_prop_id
-							WHERE fp.field_id = ".$ilDB->quote($this->getId(),"integer");
-			$set = $ilDB->query($query);
-			
-			while($rec = $ilDB->fetchAssoc($set))
-			{
-				$this->setPropertyvalue($rec['value'],$rec['datatype_prop_id']);
-			}
-		}
+	/**
+	* Get all properties of a field
+	*
+	* @return array
+	*/
+	function setProperties()
+	{  
+		global $ilDB;
 		
-		/**
-		* Get a property of a field
-		*
-		* @param int $id Field Id
-		* @param int $prop_id Property_Id
-		*
-		* @return array
-		*/
-/*
-		function getProperty($id, $prop_id)
-		{  
-			global $ilDB;
-			
-			$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
-			LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id AND il_dcl_datatype_prop.id =".$ilDB->quote($prop_id, "integer")."
-			WHERE fp.field_id = ".$ilDB->quote($id, "integer");
-			$set = $ilDB->query($query);
-			
-			while($rec = $ilDB->fetchObject($set))
-			{
-				$data[] = $rec;
-			}
+		$query = "SELECT	datatype_prop_id, 
+										title, 
+										value 
+						FROM il_dcl_field_prop fp 
+						LEFT JOIN il_dcl_datatype_prop AS p ON p.id = fp.datatype_prop_id
+						WHERE fp.field_id = ".$ilDB->quote($this->getId(),"integer");
+		$set = $ilDB->query($query);
+		
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$this->setPropertyvalue($rec['value'],$rec['datatype_prop_id']);
 		}
-		*/
-
-		/**
-		* Get all properties of a field
-		*
-		* @return array
-		*/
-		function getProperties($id)
-		{  
-			global $ilDB;
-			
-			$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
-			LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id
-			WHERE fp.field_id = ".$ilDB->quote($id, "integer");
-			$set = $ilDB->query($query);
-			
-			while($rec = $ilDB->fetchObject($set))
-			{
-				$data[] = $rec;
-			}
-		}
+	}
 	
+	/**
+	* Get a property of a field
+	*
+	* @param int $id Field Id
+	* @param int $prop_id Property_Id
+	*
+	* @return array
+	*/
+/*
+	function getProperty($id, $prop_id)
+	{  
+		global $ilDB;
+		
+		$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
+		LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id AND il_dcl_datatype_prop.id =".$ilDB->quote($prop_id, "integer")."
+		WHERE fp.field_id = ".$ilDB->quote($id, "integer");
+		$set = $ilDB->query($query);
+		
+		while($rec = $ilDB->fetchObject($set))
+		{
+			$data[] = $rec;
+		}
+	}
+	*/
+
+	/**
+	* Get all properties of a field
+	*
+	* @return array
+	*/
+	function getProperties($id)
+	{  
+		global $ilDB;
+		
+		$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
+		LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id
+		WHERE fp.field_id = ".$ilDB->quote($id, "integer");
+		$set = $ilDB->query($query);
+		
+		while($rec = $ilDB->fetchObject($set))
+		{
+			$data[] = $rec;
+		}
+	}
+
 
 }
 
