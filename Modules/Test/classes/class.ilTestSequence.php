@@ -486,7 +486,7 @@ class ilTestSequence
 		}
 	}
 	
-	function &getSequenceSummary()
+	function &getSequenceSummary($obligationsFilter = false)
 	{
 		$correctedsequence = $this->getCorrectedSequence();
 		$result_array = array();
@@ -520,7 +520,12 @@ class ilTestSequence
 					"obligatory" => ilObjTest::isQuestionObligatory($question->getId()),
 					'isAnswered' => $question->isAnswered($this->active_id, $this->pass)
 				);
-				array_push($result_array, $row);
+				
+				if( !$obligationsFilter || $row['obligatory'] )
+				{
+					array_push($result_array, $row);
+				}
+				
 				$key++;
 			}
 		}
