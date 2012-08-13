@@ -20,6 +20,7 @@ class ilDataCollectionFieldEditGUI
 {
 	private $obj_id;
     private $parent_obj;
+    
 	/**
 	 * Constructor
 	 *
@@ -27,7 +28,7 @@ class ilDataCollectionFieldEditGUI
 	 * @param	int $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
 	 * @param	int $field_id The field_id of a existing fiel (edit mode) 
 	*/
-	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id)
+	public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id)
 	{
 		//TODO Permission-Check
 
@@ -232,8 +233,8 @@ class ilDataCollectionFieldEditGUI
 	{
 		//Std-Values
 		$values =  array(
-			'table_id'	=>	$this->field_obj->getTableId(),
-			'field_id'	=>	$this->field_obj->getId(),
+			'table_id'		=>	$this->field_obj->getTableId(),
+			'field_id'		=>	$this->field_obj->getId(),
 			'title'			=>	$this->field_obj->getTitle(),
 			'datatype'		=>	$this->field_obj->getDatatypeId(),
 			'description'	=>	$this->field_obj->getDescription(),
@@ -243,7 +244,7 @@ class ilDataCollectionFieldEditGUI
 		$propertyvalues = $this->field_obj->getPropertyvalues();
 
 		
-		//Propertie-Values - Subitems
+		// Propertie-Values - Subitems
 		foreach(ilDataCollectionDatatype::getAllDatatypes() as $datatype)
 		{
 			foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
