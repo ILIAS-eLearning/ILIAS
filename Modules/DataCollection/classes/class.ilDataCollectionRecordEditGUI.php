@@ -215,7 +215,8 @@ class ilDataCollectionRecordEditGUI
 
 			foreach($all_fields as $field)
 			{
-               try{
+               try
+			   {
                    $value = $this->form->getInput("field_".$field->getId());
 					$record_obj->setRecordFieldValue($field->getId(), $value);
 				}catch(ilDataCollectionWrongTypeException $e){
