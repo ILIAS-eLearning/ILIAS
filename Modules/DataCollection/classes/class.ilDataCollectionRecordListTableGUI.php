@@ -80,6 +80,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		
 		
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
+		$ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record->getId());
 		
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		

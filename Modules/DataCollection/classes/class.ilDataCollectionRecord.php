@@ -41,7 +41,7 @@ class ilDataCollectionRecord
 	*
 	* @param int $a_id
 	*/
-	function setId($a_id)
+	public function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
@@ -51,7 +51,7 @@ class ilDataCollectionRecord
 	*
 	* @return int
 	*/
-	function getId()
+	public function getId()
 	{
 		return $this->id;
 	}
@@ -61,7 +61,7 @@ class ilDataCollectionRecord
 	*
 	* @param int $a_id
 	*/
-	function setTableId($a_id)
+	public function setTableId($a_id)
 	{
 		$this->table_id = $a_id;
 	}
@@ -71,7 +71,7 @@ class ilDataCollectionRecord
 	*
 	* @return int
 	*/
-	function getTableId()
+	public function getTableId()
 	{
 		return $this->table_id;
 	}
@@ -81,7 +81,7 @@ class ilDataCollectionRecord
 	*
 	* @param ilDateTime $a_datetime
 	*/
-	function setCreateDate($a_datetime)
+	public function setCreateDate($a_datetime)
 	{
 		$this->create_date = $a_datetime;
 	}
@@ -91,7 +91,7 @@ class ilDataCollectionRecord
 	*
 	* @return ilDateTime
 	*/
-	function getCreateDate()
+	public function getCreateDate()
 	{
 		return $this->create_date;
 	}
@@ -101,7 +101,7 @@ class ilDataCollectionRecord
 	*
 	* @param ilDateTime $a_datetime
 	*/
-	function setLastUpdate($a_datetime)
+	public function setLastUpdate($a_datetime)
 	{
 		$this->last_update = $a_datetime;
 	}
@@ -111,7 +111,7 @@ class ilDataCollectionRecord
 	*
 	* @return ilDateTime
 	*/
-	function getLastUpdate()
+	public function getLastUpdate()
 	{
 		return $this->last_update;
 	}
@@ -121,7 +121,7 @@ class ilDataCollectionRecord
 	*
 	* @param int $a_id
 	*/
-	function setOwner($a_id)
+	public function setOwner($a_id)
 	{
 		$this->owner = $a_id;
 	}
@@ -131,7 +131,7 @@ class ilDataCollectionRecord
 	*
 	* @return int
 	*/
-	function getOwner()
+	public function getOwner()
 	{
 		return $this->owner;
 	}
@@ -151,14 +151,25 @@ class ilDataCollectionRecord
         else
 		    $this->recordfields[$field_id]->setValue($value);
 	}
-
+	
+	/**
+	 * getRecordFieldValues
+	 * @return array
+	 */
+	public function getRecordFieldValues()
+	{
+		$this->loadRecordFields();
+	
+		return (array) $this->recordfields;
+	}
+	
 	/**
 	* Get Field Value
 	*
 	* @param int $a_id
 	* @return array
 	*/
-	function getRecordFieldValue($field_id)
+	public function getRecordFieldValue($field_id)
 	{
         $this->loadRecordFields();
         if(ilDataCollectionStandardField::_isStandardField($field_id))
@@ -184,12 +195,12 @@ class ilDataCollectionRecord
     }
 
 
-    //TODO: Bad style, fix with switch statement
+    // TODO: Bad style, fix with switch statement
     private function setStandardField($field_id, $value){
         $this->$field_id = $value;
     }
 
-    //TODO: Bad style, fix with switch statement
+    // TODO: Bad style, fix with switch statement
     private function getStandardField($field_id){
         return $this->$field_id;
     }
@@ -204,9 +215,15 @@ class ilDataCollectionRecord
             $this->recordfields = $recordfields;
         }
     }
-
-    private function loadTable(){
-        if($this->table == Null){
+    
+    /*
+     * loadTable
+     */
+    private function loadTable()
+    {
+        include_once("class.ilDataCollectionTable.php");
+        if($this->table == NULL)
+        {
             $this->table = new ilDataCollectionTable($this->getTableId());
         }
     }
