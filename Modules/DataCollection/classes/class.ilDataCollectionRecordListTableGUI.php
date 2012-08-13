@@ -42,8 +42,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             $this->addColumn($field->getTitle());
         }
 
-        $this->addColumn($lng->txt("dcl_edit"));
-        $this->addColumn($lng->txt("dcl_delete"));
+        $this->addColumn($lng->txt("dcl_actions"));
 
         $this->setData($table->getRecords());
 
@@ -78,15 +77,20 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
 			$this->tpl->parseCurrentBlock();
 		}
-
-		$this->tpl->setVariable('EDIT',$lng->txt('edit'));
-		$ilCtrl->setParameterByClass('ildatacollectionrecordeditgui', "record_id", $record->getId());
-		$this->tpl->setVariable('EDIT_LINK', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
-
-        $this->tpl->setVariable('DELETE',$lng->txt('delete'));
-		$ilCtrl->setParameterByClass('ildatacollectionrecordeditgui', "record_id", $record->getId());
-		$this->tpl->setVariable('DELETE_LINK', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'delete'));
 		
+		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
+		
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		
+		$alist = new ilAdvancedSelectionListGUI();
+		$alist->setId($record->getId());
+		$alist->setListTitle($lng->txt("actions"));
+		
+		$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
+		$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'delete'));
+		
+		$this->tpl->setVariable("ACTIONS", $alist->getHTML());
+
 		return true;
     }
 
