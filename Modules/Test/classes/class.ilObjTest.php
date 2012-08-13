@@ -9996,6 +9996,11 @@ function getAnswerFeedbackPoints()
 		}
 	}
 	
+	/**
+	 * @param integer $active_id
+	 * @param integer $pass
+	 * @return ilTestSequence
+	 */
 	function &getTestSequence($active_id = "", $pass = "")
 	{
 		if (is_object($this->testSequence) && ($this->testSequence->getActiveId() > 0)) return $this->testSequence;
