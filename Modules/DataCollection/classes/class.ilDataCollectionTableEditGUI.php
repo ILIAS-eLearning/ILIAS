@@ -20,7 +20,7 @@ class ilDataCollectionTableEditGUI
 	 *
 	 * @param	object	$a_parent_obj
 	 */
-	function __construct($a_parent_obj)
+	function __construct(ilObjDataCollectionGUI $a_parent_obj)
 	{
 		$this->obj_id = $a_parent_obj->obj_id;
 	}
@@ -109,6 +109,7 @@ class ilDataCollectionTableEditGUI
 		$ilTabs->activateTab("id_fields");
 		
 		$this->initForm($a_mode);
+		
 		if ($this->form->checkInput())
 		{
 			$table_obj = new ilDataCollectionTable();
@@ -117,8 +118,9 @@ class ilDataCollectionTableEditGUI
 			$table_obj->setObjId($this->obj_id);
 			$table_obj->doCreate();
 
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);			
-			$ilCtrl->redirect($this, "create");
+			ilUtil::sendSuccess($lng->txt("dcl_msg_table_created"),true);			
+			//$ilCtrl->redirect($this, "create");
+			$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 		}
 		else
 		{
