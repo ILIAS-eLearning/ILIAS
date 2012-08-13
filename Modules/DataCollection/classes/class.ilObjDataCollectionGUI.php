@@ -60,10 +60,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl, $ilTabs;
-
+		global $ilCtrl, $ilTabs, $ilNavigationHistory;
+			
+		// Navigation History
+		$link = $ilCtrl->getLinkTarget($this, "");				
+		$ilNavigationHistory->addItem($this->object->getRefId(), $link, "dcl");
+		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
+		
 		switch($next_class)
 		{
 			case "ilinfoscreengui":

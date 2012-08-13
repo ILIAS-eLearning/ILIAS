@@ -30,13 +30,11 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 	 	$this->addColumn($lng->txt("dcl_order"),  "order",  "30px");
         $this->addColumn($lng->txt("dcl_title"),  "title",  "auto");
         $this->addColumn($lng->txt("dcl_visible"),  "visible",  "30px");
+        $this->addColumn($lng->txt("dcl_editable"),  "editable",  "30px");
         $this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
         $this->addColumn($lng->txt("dcl_field_datatype"),  "datatype",  "auto");
         $this->addColumn($lng->txt("dcl_required"),  "required",  "auto");
-		//$this->addColumn($lng->txt("edit"), 	 "edit", 	 "auto");
-        //$this->addColumn($lng->txt("delete"), 	 "delete", 	 "auto");
         $this->addColumn($lng->txt("actions"), 	 "actions", 	 "auto");
-        
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
         $ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);
@@ -80,10 +78,19 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable('VALUE', $this->order);
 		$this->order = $this->order + 10;
         $this->tpl->setVariable("CHECKBOX_NAME", "visible[".$a_set->getId()."]");
+        $this->tpl->setVariable("CHECKBOX_NAME_EDITABLE", "editable[".$a_set->getId()."]");
+        
         if($a_set->isVisible())
         {
             $this->tpl->setVariable("CHECKBOX_CHECKED", "checked");
         }
+        
+        if($a_set->isEditable())
+        {
+            $this->tpl->setVariable("CHECKBOX_CHECKED_EDITABLE", "checked");
+        }
+        
+        
 		$this->tpl->setVariable('TITLE', $a_set->getTitle());
 		$this->tpl->setVariable('DESCRIPTION', $a_set->getDescription());
 		$this->tpl->setVariable('DATATYPE', $a_set->getDatatypeTitle());

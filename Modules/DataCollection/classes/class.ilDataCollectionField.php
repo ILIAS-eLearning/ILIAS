@@ -236,39 +236,72 @@ class ilDataCollectionField
 	}
 
     /**
+     * setVisible
      * @param $visible bool
      */
-    function setVisible($visible){
+    function setVisible($visible)
+    {
         $this->visible = $visible;
     }
-
-    function getDatatype(){
+    
+    /*
+     * getDatatype
+     */
+    function getDatatype()
+    {
         $this->loadDatatype();
+        
         return $this->datatype;
     }
-
-    function getDatatypeTitle(){
+    
+    /*
+     * getDatatypeTitle
+     */
+    function getDatatypeTitle()
+    {
         $this->loadDatatype();
+        
         return $this->datatype->getTitle();
     }
-
-    function getStorageLocation(){
+    
+    /*
+     * getStorageLocation
+     */
+    function getStorageLocation()
+    {
         $this->loadDatatype();
+        
         return $this->datatype->getStorageLocation();
     }
-
-    private function loadDatatype(){
+    
+    /*
+     * loadDatatype
+     */
+    private function loadDatatype()
+    {
         if($this->datatype == NULL)
-            $this->datatype = new ilDataCollectionDatatype($this->datatypeId);
+        {
+	        $this->datatype = new ilDataCollectionDatatype($this->datatypeId);
+        }
     }
-
-    public function isVisible(){
+    
+    /*
+     * isVisible
+     */
+    public function isVisible()
+    {
         $this->loadVisibility();
+        
         return $this->visible;
     }
-
-    private function loadVisibility(){
-        if($this->visible == NULL){
+    
+	/*
+	 * loadVisibility
+	 */
+    private function loadVisibility()
+    {
+        if($this->visible == NULL)
+        {
             global $ilDB;
             $query = "  SELECT view.table_id FROM il_dcl_viewdefinition def
                         INNER JOIN il_dcl_view view ON view.id = def.view_id
@@ -277,13 +310,49 @@ class ilDataCollectionField
             $this->visible = $set->numRows() != 0 ;
         }
     }
-
-
-    public function toArray(){
+    
+    /**
+	* isEditable
+	* @return int
+	*/
+	public function isEditable()
+	{
+		$this->loadEditability();
+		
+		return $this->editable;
+	}
+	
+	/*
+	 * loadEditability
+	 */
+    private function loadEditability()
+    {
+        if($this->editable == NULL)
+        {
+            global $ilDB;
+            // TODO: Abfrage muss noch gemacht werden
+            /*$query = "  SELECT view.table_id FROM il_dcl_viewdefinition def
+                        INNER JOIN il_dcl_view view ON view.id = def.view_id
+                        WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->table_id;
+            $set = $ilDB->query($query);
+            $this->editable = $set->numRows() != 0 ;*/
+            $this->editable = 0;
+        }
+    }
+    
+    /*
+     * toArray
+     */
+    public function toArray()
+    {
         return (array) $this;
     }
-
-    public function isStandardField(){
+    
+    /*
+     * isStandardField
+     */
+    public function isStandardField()
+    {
         return false;
     }
 
@@ -308,10 +377,13 @@ class ilDataCollectionField
 		//Set the additional properties 
 		$this->setProperties();
 
-		
 	}
-
-    function buildFromDBRecord($rec){
+	
+	/*
+	 * buildFromDBRecord
+	 */
+    function buildFromDBRecord($rec)
+    {
         $this->setId($rec["id"]);
         $this->setTableId($rec["table_id"]);
         $this->setTitle($rec["title"]);
@@ -378,10 +450,12 @@ class ilDataCollectionField
         global $ilDB;
         $query = "DELETE FROM il_dcl_viewdefinition USING il_dcl_viewdefinition INNER JOIN il_dcl_view view ON view.id = il_dcl_viewdefinition.view_id WHERE view.table_id = ".$this->getTableId()." AND il_dcl_viewdefinition.field LIKE '".$this->getId()."'";
         $ilDB->manipulate($query);
+        
         if($this->isVisible())
         {
             $query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order) SELECT id, '".$this->getId()."', 0  FROM il_dcl_view WHERE il_dcl_view.table_id = ".$this->getTableId()."";
         }
+        
         $ilDB->manipulate($query);
     }
     
