@@ -760,6 +760,7 @@ assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
 assessment#:#question_saved_for_upload#:#Die Frage wurde automatisch gespeichert, um das Hochladen einer Datei zu ermöglichen. Wenn Sie die Bearbeitung dieser Frage jetzt abbrechen, beachten Sie bitte, dass Sie die Frage im Fragenpool löschen müssen, wenn Sie sie nicht behalten wollen.
 assessment#:#question_short#:#F
 assessment#:#question_summary#:#Fragenübersicht
+assessment#:#obligations_summary#:#Übersicht obligatorischer Fragen
 assessment#:#question_title#:#Fragentitel
 assessment#:#question_type#:#Fragetyp
 assessment#:#questionpool_not_entered#:#Bitte geben Sie einen Namen für den Fragenpool an!
@@ -801,7 +802,7 @@ assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
 assessment#:#saveOrder#:#Sortierung abspeichern
 assessment#:#saveOrderAndObligations#:#Sortierung und Obligationen abspeichern
 assessment#:#obligatory#:#Obligatorisch
-assessment#:#not_all_obligations_answered#:#Sie müssen alle verpflichtenden Fragen beantworten bevor Sie den Test abschließen können.
+assessment#:#not_all_obligations_answered#:#Sie müssen alle obligatorischen Fragen beantworten bevor Sie den Test abschließen können.
 assessment#:#tst_setting_enable_obligations_label#:#Obligatorische Fragen
 assessment#:#tst_setting_enable_obligations_info#:#Wählen Sie diese Option aus, um obligatorische Fragen (*) einzusetzen. Um den Test zu bestehen, ist das Beantworten aller verpflichtenden Fragen notwendig. Obligatorische Fragen werden in der "Listenansicht" definiert. Wir empfehlen beim Einsatz von obligatorischen Fragen die "Fragenübersicht" ebenfalls zu aktivieren.
 assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test zu bestehen müssen Sie wenigstens alle obligatorischen Fragen (*) korrekt beantworten.

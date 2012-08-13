@@ -969,7 +969,17 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				{
 					if ($this->object->getListOfQuestionsEnd())
 					{
-						$this->outQuestionSummary();
+						
+						$allObligationsAnswered = ilObjTest::allObligationsAnswered(
+								$this->object->getTestSession()->getTestId(),
+								$this->object->getTestSession()->getActiveId(),
+								$this->object->getTestSession()->getPass()
+						);
+
+						if( $this->object->areObligationsEnabled() && !$allObligationsAnswered )
+						{
+							$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
+						}
 					}
 					else
 					{
@@ -1036,6 +1046,12 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				break;
 			case "summary":
 				$this->ctrl->redirect($this, "outQuestionSummary");
+				break;
+			case "summary_obligations":
+				$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
+				break;
+			case "summary_obligations_only":
+				$this->ctrl->redirect($this, "outObligationsOnlySummary");
 				break;
 			case "start":
 				$_SESSION['tst_pass_finish'] = 0;
@@ -1109,8 +1125,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				
 			case "obligations_not_answered":
 				//echo $this->tpl->get();
-				$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_obligations_not_anwered.html", "Modules/Test");	
+				//$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_obligations_not_anwered.html", "Modules/Test");	
 				//$this->tpl->setVariable('TXT_OBLIGATIONS_NOT_ANSWERED', $this->lng->txt('not_all_obligations_answered'));
+				
 				ilUtil::sendFailure($this->lng->txt('not_all_obligations_answered'));
 
 				$this->tpl->setCurrentBlock("prev");
@@ -1131,7 +1148,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				
 				$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
 
-				$this->tpl->setVariable('FORMACTION', $formaction);
+				$this->tpl->setContent();
 				break;
 			case "back":
 			case "gotoquestion":
@@ -1461,10 +1478,17 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		
 		if( $this->object->areObligationsEnabled() && !$allObligationsAnswered )
 		{
-		    $_GET['activecommand'] = 'obligations_not_answered';
-		    //ilUtil::sendInfo($this->lng->txt('not_all_obligations_answered'));
-		    $this->redirectQuestion();
-		    return;
+			if( $this->object->getListOfQuestions() )
+			{
+				$_GET['activecommand'] = 'summary_obligations';
+			}
+			else
+			{
+				$_GET['activecommand'] = 'summary_obligations_only';
+			}
+			
+			$this->redirectQuestion();
+			return;
 		}
 		
 		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$confirm))
@@ -1865,59 +1889,79 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-/**
-* Output of a summary of all test questions for test participants
-*/
-	public function outQuestionSummary($fullpage = true) 
+	/**
+	 * Output of a summary of all test questions for test participants
+	 */
+	public function outQuestionSummary($fullpage = true, $contextFinishTest = false, $obligationsNotAnswered = false, $obligationsFilter = false) 
 	{
-		if ($fullpage) $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
+		if( $fullpage )
+		{
+			$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
+		}
+		
+		if( $obligationsNotAnswered )
+		{
+			ilUtil::sendFailure($this->lng->txt('not_all_obligations_answered'));
+		}
+		
 		$active_id = $this->object->getTestSession()->getActiveId();
-		$result_array = & $this->object->getTestSequence()->getSequenceSummary();
+		$result_array = & $this->object->getTestSequence()->getSequenceSummary($obligationsFilter);		
 		$marked_questions = array();
-		if ($this->object->getKioskMode() && $fullpage)
+		
+		if( $this->object->getKioskMode() && $fullpage )
 		{
 			$head = $this->getKioskHead();
-			if (strlen($head))
+			if( strlen($head) )
 			{
 				$this->tpl->setCurrentBlock("kiosk_options");
 				$this->tpl->setVariable("KIOSK_HEAD", $head);
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		if ($this->object->getShowMarker())
+		
+		if( $this->object->getShowMarker() )
 		{
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$marked_questions = ilObjTest::_getSolvedQuestions($active_id);
 		}
+		
 		$data = array();
-		foreach ($result_array as $key => $value) 
+		
+		foreach( $result_array as $key => $value )
 		{
 			$this->ctrl->setParameter($this, "sequence", $value["sequence"]);
+			
 			$href = $this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion");
+			
 			$this->tpl->setVariable("VALUE_QUESTION_TITLE", "<a href=\"".$this->ctrl->getLinkTargetByClass(get_class($this), "gotoQuestion")."\">" . $this->object->getQuestionTitle($value["title"]) . "</a>");
+			
 			$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
+			
 			$description = "";
-			if ($this->object->getListOfQuestionsDescription())
+			if( $this->object->getListOfQuestionsDescription() )
 			{
 				$description = $value["description"];
 			}
+			
 			$points = "";
-			if (!$this->object->getTitleOutput())
+			if( !$this->object->getTitleOutput() )
 			{
 				$points = $value["points"]."&nbsp;".$this->lng->txt("points_short");
 			}
+			
 			$marked = false;
-			if (count($marked_questions))
+			if( count($marked_questions) )
 			{
-				if (array_key_exists($value["qid"], $marked_questions))
+				if( array_key_exists($value["qid"], $marked_questions) )
 				{
 					$obj = $marked_questions[$value["qid"]];
-					if ($obj["solved"] == 1)
+					if( $obj["solved"] == 1 )
 					{
 						$marked = true;
 					}
 				} 
 			}
+			
 			array_push($data, array(
 				'order' => $value["nr"],
 				'href' => $href,
@@ -1931,36 +1975,62 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				'obligatory' => $value['obligatory']
 			));
 		}
+		
 		$this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
-		if ($fullpage)
+		
+		if( $fullpage )
 		{
 			include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
-			$table_gui = new ilListOfQuestionsTableGUI($this, 'backFromSummary', !$this->object->getTitleOutput(), $this->object->getShowMarker());
+			$table_gui = new ilListOfQuestionsTableGUI(
+					$this, 'backFromSummary', !$this->object->getTitleOutput(), $this->object->getShowMarker(),
+					$obligationsNotAnswered, $obligationsFilter
+			);
+			
 			$table_gui->setData($data);
+
 			$this->tpl->setVariable('TABLE_LIST_OF_QUESTIONS', $table_gui->getHTML());	
-			if ($this->object->getEnableProcessingTime()) $this->outProcessingTime($active_id);
+			
+			if( $this->object->getEnableProcessingTime() )
+			{
+				$this->outProcessingTime($active_id);
+			}
 		}
 		else
 		{
 			$template = new ilTemplate('tpl.il_as_tst_list_of_questions_short.html', true, true, 'Modules/Test');
-			foreach ($data as $row)
+			
+			foreach( $data as $row )
 			{
-				if (strlen($row['description']))
+				if( strlen($row['description']) )
 				{
 					$template->setCurrentBlock('description');
 					$template->setVariable("DESCRIPTION", $row['description']);
 					$template->parseCurrentBlock();
 				}
-				$template->setCurrentBlock('item');
+				
 				$active = ($row['sequence'] == $this->sequence) ? ' active' : '';
+				
+				$template->setCurrentBlock('item');
 				$template->setVariable('CLASS', ($row['walked_through']) ? ('answered'.$active) : ('unanswered'.$active));
 				$template->setVariable('ITEM', ilUtil::prepareFormOutput($row['title']));
 				$template->setVariable('SEQUENCE', $row['sequence']);
 				$template->parseCurrentBlock();
 			}
+			
 			$template->setVariable('LIST_OF_QUESTIONS', $this->lng->txt('list_of_questions'));
+			
 			$this->tpl->setVariable('LIST_OF_QUESTIONS', $template->get());
 		}
+	}
+	
+	public function outQuestionSummaryWithObligationsInfo()
+	{
+		return $this->outQuestionSummary(true, true, true, false);
+	}
+	
+	public function outObligationsOnlySummary()
+	{
+		return $this->outQuestionSummary(true, true, true, true);
 	}
 	
 	function showMaximumAllowedUsersReachedMessage()
