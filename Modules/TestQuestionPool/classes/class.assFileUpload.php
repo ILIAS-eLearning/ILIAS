@@ -992,7 +992,7 @@ class assFileUpload extends assQuestion
 	 * @param integer $pass
 	 * @return boolean $answered
 	 */
-	public function isAnswered($active_id, $pass = null)
+	public function isAnswered($active_id, $pass)
 	{
 		$answered = assQuestion::doesSolutionRecordsExist($active_id, $pass, $this->getId());
 		
