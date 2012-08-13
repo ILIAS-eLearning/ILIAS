@@ -37,7 +37,7 @@ class ilDataCollectionRecordListViewdefinition
 
 		if($a_table_id != 0)
 		{
-			$this->tableId = $a_table_id;
+			$this->table_id = $a_table_id;
 			$this->doRead();
 		}
 	}
@@ -69,7 +69,7 @@ class ilDataCollectionRecordListViewdefinition
 	*/
 	function setTableId($a_id)
 	{
-		$this->tableId = $a_id;
+		$this->table_id = $a_id;
 	}
 
 	/**
@@ -79,7 +79,7 @@ class ilDataCollectionRecordListViewdefinition
 	*/
 	function getTableId()
 	{
-		return $this->tableId;
+		return $this->table_id;
 	}
 
 	/**
@@ -265,10 +265,6 @@ class ilDataCollectionRecordListViewdefinition
 		.",".$ilDB->quote($this->getFormType(), "integer")
 		.")";
 		$ilDB->manipulate($query);
-
-		//TODO
-		/*$ilDB->manipulate('DELETE FROM il_dcl_viewdefinition 
-										WHERE view_id = '.);*/
 
 		foreach($this->getArrFieldOrder() as $key => $order) 
 		{

@@ -15,7 +15,7 @@
 class ilDataCollectionField
 {
 	protected $id; // [mixed] (int for custom fields string for stdfields)
-	protected $tableId; // [int]
+	protected $table_id; // [int]
 	protected $title; // [string]
 	protected $description; // [string]
 	protected $datatypeId; // [int]
@@ -78,7 +78,7 @@ class ilDataCollectionField
 	*/
 	function setTableId($a_id)
 	{
-		$this->tableId = $a_id;
+		$this->table_id = $a_id;
 	}
 
 	/**
@@ -88,7 +88,7 @@ class ilDataCollectionField
 	*/
 	function getTableId()
 	{
-		return $this->tableId;
+		return $this->table_id;
 	}
 
 	/**
@@ -242,29 +242,6 @@ class ilDataCollectionField
         $this->visible = $visible;
     }
 
-    /**
-	* Set has properties
-	*
-	* @param boolean $has_options hasOptions
-	*/
-	/*
-	function setHasProperties($has_properties)
-	{
-		$this->hasProperties = $a_id;
-	}
-	*/
-	/**
-	* Get has_properties
-	*
-	* @return boolean  hasProperties
-	*/
-	/*
-	function getHasProperties()
-	{
-		return $this->hasProperties;
-	}
-	*/
-
     function getDatatype(){
         $this->loadDatatype();
         return $this->datatype;
@@ -295,7 +272,7 @@ class ilDataCollectionField
             global $ilDB;
             $query = "  SELECT view.table_id FROM il_dcl_viewdefinition def
                         INNER JOIN il_dcl_view view ON view.id = def.view_id
-                        WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->tableId;
+                        WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->table_id;
             $set = $ilDB->query($query);
             $this->visible = $set->numRows() != 0 ;
         }

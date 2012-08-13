@@ -168,14 +168,120 @@ class ilDataCollectionDatatype
     static function checkValidity($type_id, $value){
         //TODO: finish this list.
         switch($type_id){
-            case INPUTFORMAT_NUMBER:
-                $return = is_int($value);
+            case self::INPUTFORMAT_NUMBER:
+                $return = is_numeric($value);
                 break;
             default:
                 $return = true;
                 break;
         }
         return $return;
+    }
+
+    /**
+     * @param $type_id
+     * @param ilDataCollectionField $field
+     * @return ilCheckboxInputGUI|ilDateTimeInputGUI|ilFileInputGUI|ilTextInputGUI|null
+     */
+    static function getInputField(ilDataCollectionField $field){
+        $type_id = $field->getDatatypeId();
+        $input = Null;
+        $title = $field->getTitle();
+        switch($type_id)
+        {
+            case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+                $input = new ilTextInputGUI($title, 'field_'.$field->getId());
+                break;
+
+            case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
+                $input = new ilTextInputGUI($title, 'field_'.$field->getId());
+                break;
+            case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
+                $input = new ilCheckboxInputGUI($title, 'field_'.$field->getId());
+                break;
+            case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
+                $input = new ilDateTimeInputGUI($title, 'field_'.$field->getId());
+                break;
+            case ilDataCollectionDatatype::INPUTFORMAT_FILE:
+                $input = new ilFileInputGUI($title, 'field_'.$field->getId());
+                break;
+        }
+        return $input;
+    }
+
+
+    /**
+     * Function to parse incoming data from form input value $value. returns the strin/number/etc. to store in the database.
+     * @param $value
+     * @return int|string
+     */
+    public function parseValue($value){
+        global $ilLog;
+        if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
+        {
+            $file = $value;
+            if($file['tmp_name'])
+            {
+                include("class.ilObjDataCollectionFile.php");
+                $file_obj = new ilObjDataCollectionFile();
+
+                $file_obj->setType("file");
+                $file_obj->setTitle($file["name"]);
+                $file_obj->setFileName($file["name"]);
+                include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+                $file_obj->setFileType(ilMimeTypeUtil::getMimeType("", $file["name"], $file["type"]));
+                $file_obj->setFileSize($file["size"]);
+                $file_obj->setMode("object");
+                $file_obj->create();
+                $file_obj->getUploadFile($file["tmp_name"], $file["name"]);
+
+                $file_id = $file_obj->getId();
+
+            }
+            $return = $file_id;
+        }elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
+            return $value["date"]." ".$value["time"];
+        }
+        else{
+            $return = $value;
+        }
+        return $return;
+    }
+
+
+    /**
+     * function parses stored value in database to a html output for eg. the record list gui.
+     * @param $value
+     * @return mixed
+     */
+    public function parseHTML($value){
+        switch($this->id){
+            case self::INPUTFORMAT_DATETIME:
+                $html = $value;
+                break;
+            default:
+                $html = $value;
+        }
+        return $html;
+    }
+
+
+    /**
+     * function parses stored value to the variable needed to fill into the form for editing.
+     * @param $value
+     * @return mixed
+     */
+    public function parseFormInput($value){
+        switch($this->id){
+            case self::INPUTFORMAT_DATETIME:
+                //$datetime = new DateTime();
+                $input = array( "date" => array("d" => "17", "m" => "2", "y" => "1990"),
+                                /*"time" => array("h" => "10", "i" => "00", "s" => "00")*/);
+                break;
+            default:
+                $input = $value;
+        }
+        return $input;
     }
 }
 
