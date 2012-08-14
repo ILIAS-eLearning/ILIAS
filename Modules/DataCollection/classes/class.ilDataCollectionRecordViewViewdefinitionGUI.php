@@ -39,15 +39,18 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		{
 			$a_definition_id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id);
 		}
-		
+
 		// we always need a page object - create on demand
 		if(!$a_definition_id)
 		{
+
+
 			$viewdef = new ilDataCollectionRecordViewViewdefinition(0, $this->table_id);
 			$viewdef->create();
 			$a_definition_id = $viewdef->getId();
+
 		}
-		
+
 		parent::__construct("dclf", $a_definition_id);
 
 		// content style (using system defaults)
@@ -176,11 +179,14 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 			// :TODO: find a suitable presentation for matched placeholders
 			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);	
 			foreach($allp as $id => $item)
-			{			
-				$parsed_item = new ilTextInputGUI("", "fields[".$item["id"]."]");
+			{
+				//FIXME
+				$arr_item = (array) $item;
+			
+				$parsed_item = new ilTextInputGUI("", "fields[".$arr_item["id"]."]");
 				$parsed_item = $parsed_item->getToolbarHTML();
 				
-				$a_output = str_replace($id, $item["title"].": ".$parsed_item, $a_output);
+				$a_output = str_replace($id, $arr_item["title"].": ".$parsed_item, $a_output);
 			}
 		}
 		// editor
