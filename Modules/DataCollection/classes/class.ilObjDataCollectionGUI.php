@@ -152,11 +152,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				// page editor will set its own tabs
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($this->lng->txt("back"),
-					$ilCtrl->getLinkTargetByClass("ildatacollectionfieldlistgui", "listFields"));
+				$ilCtrl->getLinkTargetByClass("ildatacollectionfieldlistgui", "listFields"));
+				
 				/*
-$this->addListFieldsTabs("view_viewdefinition");
-$ilTabs->setTabActive("id_fields");
-*/
+					$this->addListFieldsTabs("view_viewdefinition");
+					$ilTabs->setTabActive("id_fields");
+				*/
 
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php");
 				$recordedit_gui = new ilDataCollectionRecordViewViewdefinitionGUI($this, $this->table_id);
@@ -199,34 +200,20 @@ $ilTabs->setTabActive("id_fields");
 			case "ildatacollectionrecordviewgui":
 				$this->addHeaderAction($cmd);
 				$this->prepareOutput();
-				$ilTabs->setTabActive("id_records");
+				
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewGUI.php");
 				$recordview_gui = new ilDataCollectionRecordViewGUI($this);
 				$this->ctrl->forwardCommand($recordview_gui);
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($this->lng->txt("back"),
+					$ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
 				break;
 
 			default:
 				$this->addHeaderAction($cmd);
 				return parent::executeCommand();
-			/*
-				switch($cmd)
-				{
-					case "editSettings":
-						$this->initEditForm();
-						break;
-
-					default:
-						if(!$cmd)
-						{
-							$cmd = $this->getStandardCmd();
-						}
-						$this->$cmd();
-						break;
-				}
-				break;
-*/
 		}
-		//$this->addHeaderAction($cmd);
+
 		return true;
 	}
 
@@ -400,13 +387,13 @@ $ilTabs->setTabActive("id_fields");
 			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewviewdefinitiongui","preview"));
 
 		//TODO
-		$ilTabs->addSubTab("edit_viewdefinition",
+		/*$ilTabs->addSubTab("edit_viewdefinition",
 			$lng->txt("dcl_record_edit_viewdefinition"),
 			$ilCtrl->getLinkTargetByClass("ildatacollectionfieldlistgui", "listFields"));
 
 		$ilTabs->addSubTab("list_viewdefinition",
 			$lng->txt("dcl_record_list_viewdefinition"),
-			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistviewdefinitiongui", "edit"));
+			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistviewdefinitiongui", "edit"));*/
 
 		$ilTabs->activateSubTab($a_active);
 	}

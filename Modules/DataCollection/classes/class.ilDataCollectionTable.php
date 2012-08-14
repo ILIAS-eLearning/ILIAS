@@ -32,10 +32,10 @@ class ilDataCollectionTable
 	*/
 	public function __construct($a_id = 0)
 	{
-		if ($a_id != 0) 
+		if($a_id != 0) 
 		{
-		$this->id = $a_id;
-		$this->doRead();
+			$this->id = $a_id;
+			$this->doRead();
 		}    
 	}
 
