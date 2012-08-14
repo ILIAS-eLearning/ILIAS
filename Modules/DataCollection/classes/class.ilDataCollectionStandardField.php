@@ -1,6 +1,7 @@
 <?php
 
 include_once './Modules/DataCollection/classes/class.ilDataCollectionField.php';
+include_once './Modules/DataCollection/classes/class.ilDataCollectionDatatype.php';
 
 class ilDataCollectionStandardField extends ilDataCollectionField
 {

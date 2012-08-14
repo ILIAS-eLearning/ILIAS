@@ -12706,3 +12706,5 @@ dcl#:#dcl_title#:#Field Title
 dcl#:#dcl_visible#:#Visibility
 dcl#:#dcl_editable#:#Editability
 dcl#:#dcl_description#:#Field Description
+dcl#:#dcl_msg_table_created#:#Table created
+dcl#:#dcl_legend_placeholders#:#Platzhalter

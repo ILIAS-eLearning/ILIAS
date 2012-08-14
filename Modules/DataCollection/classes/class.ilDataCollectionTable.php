@@ -338,6 +338,11 @@ class ilDataCollectionTable
 		return $perm;
 	}
 
+	//TODO
+	function hasPermissionToAddTable() {
+		return true;
+	}
+
 	/**
 	* Create new table
 	*/

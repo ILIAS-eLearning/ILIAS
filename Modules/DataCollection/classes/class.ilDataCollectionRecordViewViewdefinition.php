@@ -174,8 +174,12 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	{
 		global $ilDB;
 		
+		//FIXME die werte bei type und formtype sollten vom constructor genommen werden
+		/*$set = $ilDB->query("SELECT id FROM il_dcl_view".
+			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote($this->type, "integer")." and formtype = ".$ilDB->quote($this->formtype, "integer"));
+		*/
 		$set = $ilDB->query("SELECT id FROM il_dcl_view".
-			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer"));
+			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote(0, "integer")." and formtype = ".$ilDB->quote(0, "integer"));
 		$row = $ilDB->fetchAssoc($set);
 		return $row["id"];
 	}
@@ -190,17 +194,25 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	{
 		$all = array();
 			
-		require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
-		$fields = ilDataCollectionField::getAll($a_table_id);
+		//require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
+		//$fields = ilDataCollectionField::getAll($a_table_id);
+
+		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+		$objTable = new ilDataCollectionTable($a_table_id);
+		$fields = $objTable->getFields($a_table_id);
+
+
 		foreach($fields as $field)
 		{
+			$field_array = (array) $field;
+
 			if(!$a_verbose)
 			{
-				$all[] = "[".$field["title"]."]";
+				$all[] = "[".$field_array["title"]."]";
 			}
 			else
 			{
-				$all["[".$field["title"]."]"] = $field;
+				$all["[".$field_array["title"]."]"] = $field;
 			}
 		}
 		
