@@ -294,7 +294,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
 		$_GET["baseClass"] = "ilRepositoryGUI";	
 		$_GET["ref_id"] = $id[0];		
-		$_GET["cmd"] = "settings";
+		$_GET["cmd"] = "listRecords";
 		
 		include("ilias.php");
 		exit;
