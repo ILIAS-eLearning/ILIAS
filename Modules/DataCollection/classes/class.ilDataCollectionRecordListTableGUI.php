@@ -38,11 +38,13 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		
 		$this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
 
-        foreach($this->table->getVisibleFields() as $field){
+        foreach($this->table->getVisibleFields() as $field)
+        {
             $this->addColumn($field->getTitle());
         }
-
-        $this->addColumn($lng->txt("dcl_actions"));
+        $this->setId("dcl_record_list");
+        
+        $this->addColumn($lng->txt("actions"), "", 	 "30px");
 
         $this->setData($table->getRecords());
 
@@ -61,27 +63,39 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-		if($this->table->hasPermissionToAddRecord()){
+		if($this->table->hasPermissionToAddRecord())
+		{
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
-
 			$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"),$lng->txt("dcl_add_new_record"));
 		}
+		
 		$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui","table_id", $this->parent_obj->table_id);
 		$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "exportExcel"),$lng->txt("dcl_export_table_excel"));
 	}
-
-	public function fillHeaderExcel($worksheet, &$row){
+	
+	/*
+	 * fillHeaderExcel
+	 */
+	public function fillHeaderExcel($worksheet, &$row)
+	{
 		$col = 0;
-		foreach($this->table->getFields() as $field){
+		foreach($this->table->getFields() as $field)
+		{
 			$worksheet->writeString($row, $col, $field->getTitle());
 			$col++;
 		}
 		$row++;
 	}
-
-	public function fillRowExcel($worksheet, &$row, ilDataCollectionRecord $record){
+	
+	
+	/*
+	 * fillRowExcel
+	 */
+	public function fillRowExcel($worksheet, &$row, ilDataCollectionRecord $record)
+	{
 		$col = 0;
-		foreach($this->table->getFields() as $field){
+		foreach($this->table->getFields() as $field)
+		{
 			$worksheet->writeString($row, $col, $record->getRecordFieldValue($field->getId()));
 			$col++;
 		}
