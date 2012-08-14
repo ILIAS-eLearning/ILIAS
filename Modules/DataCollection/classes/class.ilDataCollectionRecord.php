@@ -159,8 +159,26 @@ class ilDataCollectionRecord
 	public function getRecordFieldValues()
 	{
 		$this->loadRecordFields();
+		
+		foreach($this->recordfields as $id => $record_field)
+		{
+			$return[$id] = $record_field->getValue();
+		}
+		
+		return (array) $return;
+	}
 	
-		return (array) $this->recordfields;
+	/**
+	 * getRecordFieldValuesAsObject
+	 * @param int $a_val
+	 * @return boolean
+	 */
+	public function getRecordFieldValuesAsObject()
+	{
+		$this->loadRecordFields();
+		
+		return $this->recordfields;
+		
 	}
 	
 	/**

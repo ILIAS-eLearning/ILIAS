@@ -16,9 +16,9 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 
 class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 {
-	protected $table_id; // [int]
-	protected $type; // [int]  0 = recordview 
-	protected $formtype; // [int] 0 = copage
+	protected $table_id; 	// [int]
+	protected $type; 		// [int]  0 = recordview 
+	protected $formtype; 	// [int] 0 = copage
 
 	function __construct($a_view_id = 0, $a_table_id = 0)
 	{
@@ -201,21 +201,19 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 		$objTable = new ilDataCollectionTable($a_table_id);
 		$fields = $objTable->getFields($a_table_id);
 
-
 		foreach($fields as $field)
 		{
-			$field_array = (array) $field;
 
 			if(!$a_verbose)
 			{
-				$all[] = "[".$field_array["title"]."]";
+				$all[] = "[".$field->getTitle()."]";
 			}
 			else
 			{
-				$all["[".$field_array["title"]."]"] = $field;
+				$all["[".$field->getTitle()."]"] = $field;
 			}
 		}
-		
+
 		return $all;
 	}
 }

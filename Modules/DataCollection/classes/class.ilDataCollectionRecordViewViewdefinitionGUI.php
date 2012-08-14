@@ -177,16 +177,13 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			
 			// :TODO: find a suitable presentation for matched placeholders
-			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);	
+			$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);
 			foreach($allp as $id => $item)
 			{
-				//FIXME
-				$arr_item = (array) $item;
-			
-				$parsed_item = new ilTextInputGUI("", "fields[".$arr_item["id"]."]");
+				$parsed_item = new ilTextInputGUI("", "fields[".$item->getId()."]");
 				$parsed_item = $parsed_item->getToolbarHTML();
 				
-				$a_output = str_replace($id, $arr_item["title"].": ".$parsed_item, $a_output);
+				$a_output = str_replace($id, $item->getTitle().": ".$parsed_item, $a_output);
 			}
 		}
 		// editor

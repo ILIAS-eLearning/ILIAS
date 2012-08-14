@@ -33,7 +33,7 @@ class ilDataCollectionRecordEditGUI
 	{
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
-
+        
 		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->record_id = $_GET['record_id'];
         $this->table_id = $_GET['table_id'];
@@ -42,6 +42,7 @@ class ilDataCollectionRecordEditGUI
 		{
 			$this->table_id = $_REQUEST['table_id'];
 		}
+
 		$this->table = new ilDataCollectionTable($this->table_id);
 	}
 	
@@ -90,8 +91,42 @@ class ilDataCollectionRecordEditGUI
 		
 		$tpl->setContent($this->form->getHTML());
 	}
+	
+	/**
+	 * confirmDelete
+	 */
+	public function confirmDelete()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setHeaderText($lng->txt('dcl_confirm_delete_record'));
 
-    public function delete(){
+		$record = new ilDataCollectionRecord($this->record_id);
+		
+		$conf->addItem('record_id', $record->getId(), implode(", ", $record->getRecordFieldValues()));
+		$conf->addHiddenItem('table_id', $this->table_id);
+		
+		$conf->setConfirm($lng->txt('delete'), 'delete');
+		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+
+		$tpl->setContent($conf->getHTML());
+	}
+	
+	/**
+	 * cancelDelete
+	 */
+	public function cancelDelete()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+	}
+	
+    public function delete()
+    {
         global $ilCtrl, $lng;
         $record = new ilDataCollectionRecord($this->record_id);
         $record->doDelete();

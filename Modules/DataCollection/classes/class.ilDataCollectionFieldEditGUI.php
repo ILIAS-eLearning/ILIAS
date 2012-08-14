@@ -104,8 +104,12 @@ class ilDataCollectionFieldEditGUI
 		
 		$tpl->setContent($this->form->getHTML());
 	}
-
-	public function permissionDenied(){
+	
+	/*
+	 * permissionDenied
+	 */
+	public function permissionDenied()
+	{
 		global $tpl;
 		$tpl->setContent("Permission denied");
 	}

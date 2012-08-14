@@ -54,39 +54,38 @@ class ilDataCollectionRecordViewGUI
 		//$html = 'Hier erscheint der einzelne gerenderte Record - ACHTUNG Design wird als HTML (via Killing) in DB hinterlegt sein.<br><br>';
 		include_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
 		include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
+		include_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
+		include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
+		
+		
 
 		$record_obj = new ilDataCollectionRecord($this->record_id);
 
-		$pageObj = new ilPageObjectGUI("dclf", 1); // ID dynamisch!
+		$pageObj = new ilPageObjectGUI("dclf", ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_obj->getTableId()));
 
 		$html = $pageObj->getHTML();
-
-		foreach($record_obj->getRecordFieldValues() as $key => $value) //getRecordFieldValues schl�ft fehl, ben�tigt wird eine Methode,w elche alles keys->values eines records als array zur�ckgibt <- siehe table->getRecords()
+		//echo "<pre>".print_r($record_obj->getRecordFieldValuesAsObject(),1)."</pre>";
+		foreach($record_obj->getRecordFieldValuesAsObject() as $key => $value)
 		{
-			$html = str_ireplace("[FIELD".$key."]", $value->getValue(), $html);
+			//echo "<pre>".print_r($value,1)."</pre>";
+			$field_obj = new ilDataCollectionField($key);
+
+			$html = str_ireplace("[".$field_obj->getTitle()."]", $value->getValue(), $html);
 		}
 		
 		
-		//echo $html;
-		//echo "<pre>".print_r($pageObj,1)."</pre>";
-
-/* /		echo $pageObj->read(); */
-		
-		//FIXME zum Testen zeige ich derzeit record Nr. 1 an.
-		
-		
-		//DEBUG
-		/*$html .= $record_obj->getTableId();
-		$html .= "<br>".$record_obj->getLastUpdate();
-		$html .= "<br>".$record_obj->getCreateDate();
-		$html .= "<br>".$record_obj->getOwner();
-		$html .= "<br>Dynmische Felder:";*/
-		
-		/*foreach($record_obj->getFieldvalues() as $key => $value)
+		/*$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);
+		foreach($allp as $id => $item)
 		{
-			$html .= "<br>".$key.": ".$value;
-		}*/
-	
+			$parsed_item = new ilTextInputGUI("", "fields[".$item->getId()."]");
+			$parsed_item = $parsed_item->getToolbarHTML();
+			
+			$a_output = str_replace($id, $item->getTitle().": ".$parsed_item, $a_output);
+		}
+		
+		*/
+		
+		
 		$tpl->setContent($html);
 	}
 }
