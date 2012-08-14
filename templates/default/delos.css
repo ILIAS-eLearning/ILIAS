@@ -3562,3 +3562,14 @@ a#ilHelpClose {
 #ilHelpPanel .ilGroupedListLE {
 	padding: 5px 10px 5px 20px;
 }
+
+/* DataCollection */
+
+td.dcl_actions {
+	text-align: right;
+	padding-right: 5px;
+}
+
+#dcl_record_list td {
+	padding: 2px
+}

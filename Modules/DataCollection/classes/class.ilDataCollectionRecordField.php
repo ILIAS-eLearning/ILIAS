@@ -16,7 +16,8 @@ class ilDataCollectionRecordField
     private $record;
     private $value;
 
-    function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field){
+    function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field)
+    {
         $this->record = $record;
         $this->field = $field;
         $this->doRead();

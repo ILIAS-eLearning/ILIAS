@@ -27,6 +27,8 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 
 	 	$this->parent_obj = $a_parent_obj;
 	 	
+	 	$this->setId("dcl_field_list");
+	 	
 	 	$this->addColumn($lng->txt("dcl_order"),  "order",  "30px");
         $this->addColumn($lng->txt("dcl_title"),  "title",  "auto");
         $this->addColumn($lng->txt("dcl_visible"),  "visible",  "30px");
@@ -34,7 +36,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         $this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
         $this->addColumn($lng->txt("dcl_field_datatype"),  "datatype",  "auto");
         $this->addColumn($lng->txt("dcl_required"),  "required",  "auto");
-        $this->addColumn($lng->txt("actions"), 	 "actions", 	 "auto");
+        $this->addColumn($lng->txt("actions"), 	 "actions", 	 "30px");
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
         $ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);

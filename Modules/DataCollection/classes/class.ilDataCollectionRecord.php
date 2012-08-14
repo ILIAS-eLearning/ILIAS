@@ -172,10 +172,15 @@ class ilDataCollectionRecord
 	public function getRecordFieldValue($field_id)
 	{
         $this->loadRecordFields();
+        
         if(ilDataCollectionStandardField::_isStandardField($field_id))
-            return $this->getStandardField($field_id);
+        {
+	        return $this->getStandardField($field_id);
+        }
         else
-            return $this->recordfields[$field_id]->getValue();
+        {
+	        return $this->recordfields[$field_id]->getValue();
+        }
 	}
 
     function getRecordFieldHTML($field_id){
