@@ -46,17 +46,46 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
         $this->setData($table->getRecords());
 
-		$this->addMultiCommand('export', $lng->txt('dcl_export'));
+		$this->setTopCommands(true);
+		$this->setEnableHeader(true);
+		$this->setDisableFilterHiding(true);
+		$this->setShowRowsSelector(false);
+		$this->setShowTemplates(false);
+		$this->setEnableHeader(true);
+		$this->setEnableTitle(true);
+		$this->setDefaultOrderDirection("asc");
+		$this->setTopCommands(true);
+		$this->setExportFormats(array(self::EXPORT_EXCEL));
+
         //leave these two
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-		$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
-		$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"),$lng->txt("dcl_add_new_record"));
+		if($this->table->hasPermissionToAddRecord()){
+			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
 
-
+			$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"),$lng->txt("dcl_add_new_record"));
+		}
+		$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui","table_id", $this->parent_obj->table_id);
+		$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "exportExcel"),$lng->txt("dcl_export_table_excel"));
 	}
-	
+
+	public function fillHeaderExcel($worksheet, &$row){
+		$col = 0;
+		foreach($this->table->getFields() as $field){
+			$worksheet->writeString($row, $col, $field->getTitle());
+			$col++;
+		}
+		$row++;
+	}
+
+	public function fillRowExcel($worksheet, &$row, ilDataCollectionRecord $record){
+		$col = 0;
+		foreach($this->table->getFields() as $field){
+			$worksheet->writeString($row, $col, $record->getRecordFieldValue($field->getId()));
+			$col++;
+		}
+	}
 	
 	/**
 	 * fill row 
@@ -92,6 +121,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		
 		if($record->hasEditPermission($ilUser->getId()))
 		{
+			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","record_id", $record->getId());
 			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
 			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'delete'));
 		}

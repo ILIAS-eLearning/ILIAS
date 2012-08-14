@@ -31,7 +31,7 @@ class ilDataCollectionTableEditGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $ilUser;
 		
 		$cmd = $ilCtrl->getCmd();
 		$tpl->getStandardTemplate();
@@ -102,10 +102,13 @@ class ilDataCollectionTableEditGUI
 	*/
 	public function save($a_mode = "create")
 	{
-		global $ilCtrl, $ilTabs, $lng;
+		global $ilCtrl, $ilTabs, $lng, $ilUser;
 		
-		//TODO Check Permissons
-		//$this->dcl_object->checkPermission("write");
+		if(!ilObjDataCollection::_checkAccess($this->obj_id)){
+			$this->accessDenied();
+			return;
+		}
+
 		$ilTabs->activateTab("id_fields");
 		
 		$this->initForm($a_mode);
@@ -116,10 +119,13 @@ class ilDataCollectionTableEditGUI
 		
 			$table_obj->setTitle($this->form->getInput("title"));
 			$table_obj->setObjId($this->obj_id);
+			if(!$table_obj->hasPermissionToAddTable($ilUser->getId())){
+				$this->permissionDenied();
+				return;
+			}
 			$table_obj->doCreate();
 
 			ilUtil::sendSuccess($lng->txt("dcl_msg_table_created"),true);			
-			//$ilCtrl->redirect($this, "create");
 			$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 		}
 		else
@@ -127,6 +133,11 @@ class ilDataCollectionTableEditGUI
 			$this->form_gui->setValuesByPost();
 			$this->tpl->setContent($this->form_gui->getHTML());
 		}
+	}
+
+	public function accessDenied(){
+		global $tpl;
+		$tpl->setContent("Access denied.");
 	}
 
 }

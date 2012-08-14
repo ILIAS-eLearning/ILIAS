@@ -22,10 +22,12 @@ class ilDataCollectionField
 	protected $length; // [int]
 	protected $regex; // [text]
 	protected $required; // [bool]
+	protected $order; // [int]
     /**
      * @var bool whether this field is visible for everyone.
      */
     protected $visible;
+	protected $editable;
 
     /**
      * @var ilDataCollectionDatatype This fields Datatype.
@@ -35,6 +37,10 @@ class ilDataCollectionField
 	const PROPERTYID_LENGTH = 1;
 	const PROPERTYID_REGEX = 2;
 
+
+	// type of table il_dcl_view
+	const VIEW_VIEW 			= 1;
+	const EDIT_VIEW 		= 2;
 
 	/**
 	* Constructor
@@ -241,6 +247,8 @@ class ilDataCollectionField
      */
     function setVisible($visible)
     {
+		if($visible == true && $this->order === NULL)
+			$this->setOrder(0);
         $this->visible = $visible;
     }
     
@@ -291,9 +299,9 @@ class ilDataCollectionField
     public function isVisible()
     {
         $this->loadVisibility();
-        
         return $this->visible;
     }
+
     
 	/*
 	 * loadVisibility
@@ -302,14 +310,33 @@ class ilDataCollectionField
     {
         if($this->visible == NULL)
         {
-            global $ilDB;
-            $query = "  SELECT view.table_id FROM il_dcl_viewdefinition def
-                        INNER JOIN il_dcl_view view ON view.id = def.view_id
-                        WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->table_id;
-            $set = $ilDB->query($query);
-            $this->visible = $set->numRows() != 0 ;
+			$this->loadViewDefinition(self::VIEW_VIEW);
         }
     }
+
+	/**
+	 * @param $view use VIEW_VIEW or EDIT_VIEW
+	 */
+	private function loadViewDefinition($view){
+		global $ilDB;
+		$query = "  SELECT view.table_id, def.field_order FROM il_dcl_viewdefinition def
+                        INNER JOIN il_dcl_view view ON view.id = def.view_id AND view.type = ".$view."
+                        WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->table_id;
+		$set = $ilDB->query($query);
+		$prop = $set->numRows() != 0;
+		switch($view){
+			case self::VIEW_VIEW:
+				$this->visible = $prop;
+				break;
+			case self::EDIT_VIEW:
+				$this->editable = $prop;
+				break;
+		}
+		if($prop){
+			$rec = $ilDB->fetchAssoc($set);
+			$this->order = $rec['field_order'];
+		}
+	}
     
     /**
 	* isEditable
@@ -321,7 +348,11 @@ class ilDataCollectionField
 		
 		return $this->editable;
 	}
-	
+
+	public function setEditable($editable){
+		$this->editable = $editable;
+	}
+
 	/*
 	 * loadEditability
 	 */
@@ -329,14 +360,7 @@ class ilDataCollectionField
     {
         if($this->editable == NULL)
         {
-            global $ilDB;
-            // TODO: Abfrage muss noch gemacht werden
-            /*$query = "  SELECT view.table_id FROM il_dcl_viewdefinition def
-                        INNER JOIN il_dcl_view view ON view.id = def.view_id
-                        WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->table_id;
-            $set = $ilDB->query($query);
-            $this->editable = $set->numRows() != 0 ;*/
-            $this->editable = 0;
+           $this->loadViewDefinition(self::EDIT_VIEW);
         }
     }
     
@@ -420,6 +444,7 @@ class ilDataCollectionField
 		$ilDB->manipulate($query);
 
         $this->updateVisibility();
+		$this->updateEditability();
 	}
 
 	/**
@@ -439,6 +464,7 @@ class ilDataCollectionField
 								"id" => array("integer", $this->getId())
 								));
         $this->updateVisibility();
+		$this->updateEditability();
 	}
 	
 	/*
@@ -446,20 +472,39 @@ class ilDataCollectionField
      */
     protected function updateVisibility()
     {
-        //TODO: also insert field_order
-        global $ilDB;
-        $query = "DELETE FROM il_dcl_viewdefinition USING il_dcl_viewdefinition INNER JOIN il_dcl_view view ON view.id = il_dcl_viewdefinition.view_id WHERE view.table_id = ".$this->getTableId()." AND il_dcl_viewdefinition.field LIKE '".$this->getId()."'";
-        $ilDB->manipulate($query);
-        
-        if($this->isVisible())
-        {
-            $query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order) SELECT id, '".$this->getId()."', 0  FROM il_dcl_view WHERE il_dcl_view.table_id = ".$this->getTableId()."";
-        }
-        
-        $ilDB->manipulate($query);
+		$this->updateViewDefinition(self::VIEW_VIEW);
     }
-    
-    
+
+	protected function updateEditability(){
+		$this->updateViewDefinition(self::EDIT_VIEW);
+	}
+
+	/**
+	 * @param $view use constant VIEW_VIEW or EDIT_VIEW
+	 */
+    private function updateViewDefinition($view){
+		global $ilDB;
+		$query = "DELETE FROM il_dcl_viewdefinition USING il_dcl_viewdefinition INNER JOIN il_dcl_view view ON view.id = il_dcl_viewdefinition.view_id WHERE view.type = ".$view." AND view.table_id = ".$this->getTableId()." AND il_dcl_viewdefinition.field LIKE '".$this->getId()."'";
+		$ilDB->manipulate($query);
+
+		switch($view){
+			case self::EDIT_VIEW:
+				$set = $this->isEditable();
+				break;
+			case self::VIEW_VIEW:
+				$set = $this->isVisible();
+				if($set && $this->order === NULL)
+					$this->order = 0;
+				break;
+		}
+
+		if($set)
+		{
+			$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order) SELECT id, '".$this->getId()."', ".($view == self::VIEW_VIEW?$this->getOrder():"0")."  FROM il_dcl_view WHERE il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()."";
+		}
+
+		$ilDB->manipulate($query);
+	}
     /*
      * doDelete
      */
@@ -475,6 +520,14 @@ class ilDataCollectionField
         $ilDB->manipulate($query);
     }
 
+	public function getOrder(){
+		$this->loadVisibility();
+		return $this->order;
+	}
+
+	public function setOrder($order){
+		$this->order = $order;
+	}
 
 	/**
 	* Get all properties of a field
@@ -498,31 +551,6 @@ class ilDataCollectionField
 			$this->setPropertyvalue($rec['value'],$rec['datatype_prop_id']);
 		}
 	}
-	
-	/**
-	* Get a property of a field
-	*
-	* @param int $id Field Id
-	* @param int $prop_id Property_Id
-	*
-	* @return array
-	*/
-/*
-	function getProperty($id, $prop_id)
-	{  
-		global $ilDB;
-		
-		$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
-		LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id AND il_dcl_datatype_prop.id =".$ilDB->quote($prop_id, "integer")."
-		WHERE fp.field_id = ".$ilDB->quote($id, "integer");
-		$set = $ilDB->query($query);
-		
-		while($rec = $ilDB->fetchObject($set))
-		{
-			$data[] = $rec;
-		}
-	}
-	*/
 
 	/**
 	* Get all properties of a field

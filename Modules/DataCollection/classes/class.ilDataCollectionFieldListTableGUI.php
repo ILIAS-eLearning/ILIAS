@@ -78,17 +78,24 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable('VALUE', $this->order);
 		$this->order = $this->order + 10;
         $this->tpl->setVariable("CHECKBOX_NAME", "visible[".$a_set->getId()."]");
-        $this->tpl->setVariable("CHECKBOX_NAME_EDITABLE", "editable[".$a_set->getId()."]");
-        
+
         if($a_set->isVisible())
         {
             $this->tpl->setVariable("CHECKBOX_CHECKED", "checked");
-        }
-        
-        if($a_set->isEditable())
-        {
-            $this->tpl->setVariable("CHECKBOX_CHECKED_EDITABLE", "checked");
-        }
+			$this->tpl->setVariable("ORDER_NAME","order[".$a_set->getId()."]");
+			$this->tpl->setVariable("ORDER_VALUE",$a_set->getOrder());
+        }else{
+			$this->tpl->setVariable("NO_ORDER","-");
+		}
+
+		if(!$a_set->isStandardField()){
+			$this->tpl->setVariable("CHECKBOX_NAME_EDITABLE", "editable[".$a_set->getId()."]");
+			if($a_set->isEditable())
+			{
+				$this->tpl->setVariable("CHECKBOX_CHECKED_EDITABLE", "checked");
+			}
+		}else
+			$this->tpl->setVariable("NOT_EDITABLE", "-");
         
         
 		$this->tpl->setVariable('TITLE', $a_set->getTitle());

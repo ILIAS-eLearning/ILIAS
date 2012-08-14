@@ -20,7 +20,7 @@ class ilObjDataCollection extends ilObject2
 	const IL_DCL_EDIT_TYPE_UNLIM = 1;
 	const IL_DCL_EDIT_TYPE_LIM = 2;
 
-	
+	var $edit_by_owner;
 	/*
 	 * initType
 	 */
@@ -48,6 +48,7 @@ class ilObjDataCollection extends ilObject2
 		$this->setApproval($data->approval);
 		$this->setPublicNotes($data->public_notes);
 		$this->setNotification($data->notification);
+		$this->setEditByOwner($data->edit_by_owner);
 		
 	}
 	
@@ -78,6 +79,7 @@ class ilObjDataCollection extends ilObject2
 			"public_notes" => array("integer", (int) $this->getPublicNotes()),
 			"approval" => array("integer", (int) $this->getApproval()),
 			"notification" => array("integer", (int) $this->getNotification()),
+			"edit_by_owner" => array("integer", (int) $this->getEditByOwner())
 			));
 	}
 	
@@ -102,6 +104,7 @@ class ilObjDataCollection extends ilObject2
 			"public_notes" => array("integer", (int) $this->getPublicNotes()),
 			"approval" => array("integer", (int) $this->getApproval()),
 			"notification" => array("integer", (int) $this->getNotification()),
+			"edit_by_owner" => array("integer", (int) $this->getEditByOwner())
 			),
 		array(
 			"id" => array("integer", $this->getId())
@@ -309,6 +312,50 @@ class ilObjDataCollection extends ilObject2
 	public function getNotification()
 	{
 		return $this->notification;
+	}
+
+	/**
+	 * Checks whether users with read access are allowed to edit records. (Depending on the information set in the settings tab)
+	 * @return bool
+	 */
+	public function isRecordsEditable(){
+		$perm = false;
+		$now = new ilDateTime(time(), IL_CAL_UNIX);
+		switch($this->getEditType())
+		{
+			case self::IL_DCL_EDIT_TYPE_UNLIM;
+				$perm = true;
+				break;
+			case self::IL_DCL_EDIT_TYPE_LIM;
+				if($this->getEditStart() < $now && $now <= $this->getEditEnd())
+					$perm = true;
+				break;
+		}
+		return $perm;
+	}
+
+	/**
+	 * @param $edit_by_owner int 1 for true 0 for false.
+	 */
+	public function setEditByOwner($edit_by_owner){
+		$this->edit_by_owner = $edit_by_owner;
+	}
+
+	public function getEditByOwner(){
+		return $this->edit_by_owner;
+	}
+
+	function hasPermissionToAddTable(){
+		return self::_checkAccess($this->getId());
+	}
+
+	public static function _checkAccess($data_collection_id){
+		global $ilAccess;
+		$perm = false;
+		$references = self::_getAllReferences($data_collection_id);
+		if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
+			$perm = true;
+		return $perm;
 	}
 }
 

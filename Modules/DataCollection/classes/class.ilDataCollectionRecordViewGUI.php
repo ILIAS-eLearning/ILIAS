@@ -61,7 +61,7 @@ class ilDataCollectionRecordViewGUI
 
 		$html = $pageObj->getHTML();
 
-		foreach($record_obj->getRecordFieldValues() as $key => $value) //getRecordFieldValues schläft fehl, benötigt wird eine Methode,w elche alles keys->values eines records als array zurückgibt
+		foreach($record_obj->getRecordFieldValues() as $key => $value) //getRecordFieldValues schlï¿½ft fehl, benï¿½tigt wird eine Methode,w elche alles keys->values eines records als array zurï¿½ckgibt <- siehe table->getRecords()
 		{
 			$html = str_ireplace("[FIELD".$key."]", $value->getValue(), $html);
 		}

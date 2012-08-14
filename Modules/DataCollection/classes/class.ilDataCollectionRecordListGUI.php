@@ -86,9 +86,17 @@ class ilDataCollectionRecordListGUI
 
         require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
         $list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
-
+		$tpl->getStandardTemplate();
         $tpl->setContent($list->getHTML());
     }
+
+	public function exportExcel(){
+		global $ilCtrl;
+		require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
+		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
+		$list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
+		$this->listRecords();
+	}
 
 
     /**

@@ -21,6 +21,7 @@ class ilDataCollectionTable
 	protected $obj;
 	protected $title; // [string]
     private $fields; // [array][ilDataCollectionField]
+	private $stdFields;
     private $records;
 
 	/**
@@ -233,7 +234,6 @@ class ilDataCollectionTable
         if($this->fields == NULL)
         {
             global $ilDB;
-
             $query = "SELECT * FROM il_dcl_field WHERE table_id =".$this->id;
             $fields = array();
             $set = $ilDB->query($query);
@@ -244,7 +244,8 @@ class ilDataCollectionTable
                 $field->buildFromDBRecord($rec);
                 $fields[$field->getId()] = $field;
             }
-            
+
+
             $this->fields = $fields;
         }
     }
@@ -256,8 +257,11 @@ class ilDataCollectionTable
     function getFields()
     {
         $this->loadFields();
-        $fields = array_merge($this->fields, ilDataCollectionStandardField::_getStandardFields($this->id));
-        
+		if($this->stdFields == Null)
+			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
+        $fields = array_merge($this->fields, $this->stdFields);
+
+		$this->sortFields($fields);
         return $fields;
     }
 
@@ -292,6 +296,48 @@ class ilDataCollectionTable
         return $visibleFields;
     }
 
+	function getEditableFields(){
+		$fields = $this->getFields();
+		$editableFields = array();
+
+		foreach($fields as $field)
+		{
+			if($field->isEditable())
+			{
+				array_push($editableFields, $field);
+			}
+		}
+
+		return $editableFields;
+	}
+
+	function hasPermissionToFields(){
+		return $this->getCollectionObject()->hasPermissionToAddTable();
+	}
+
+	function hasPermissionToAddRecord(){
+		$perm = false;
+
+		//$references = $this->getCollectionObject()->_getAllReferences($dcObj->getId());
+		//if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
+		//{
+		global $ilUser;
+
+		// always allow sysad to aadd records
+		if($ilUser->getId() == 6){
+			$perm = true;
+		}
+
+		//TODO: Check for local admin
+
+		if($this->getCollectionObject()->isRecordsEditable())
+			$perm = true;
+
+		//}
+
+		return $perm;
+	}
+
 	/**
 	* Create new table
 	*/
@@ -312,9 +358,55 @@ class ilDataCollectionTable
 		.")";
 		$ilDB->manipulate($query);
 
+		//add view definition
         $view_id = $ilDB->nextId("il_dcl_view");
-        $query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", 1, 1)";
+        $query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::VIEW_VIEW.", 1)";
         $ilDB->manipulate($query);
+
+		//add edit definition
+		$view_id = $ilDB->nextId("il_dcl_view");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::EDIT_VIEW.", 1)";
+		$ilDB->manipulate($query);
+	}
+
+	public function updateFields(){
+		foreach($this->getFields() as $field)
+			$field->doUpdate();
+	}
+
+	private function sortFields(&$fields){
+		$this->sortByMethod($fields, "getOrder");
+	}
+
+	private function sortByMethod(&$array, $method_name){
+		usort($array, function($a, $b) use ($method_name){
+			if(is_null($a->$method_name() == Null) && is_null($b->$method_name() == Null))
+				return 0;
+			if(is_null($a->$method_name()))
+				return 1;
+			if(is_null($b->$method_name()))
+				return -1;
+			return $a->$method_name() < $b->$method_name() ? -1 : 1;
+		});
+	}
+
+	/**
+	 * orders the fields.
+	 */
+	public function buildOrderFields(){
+		$fields = $this->getFields();
+
+		$this->sortByMethod($fields, "getOrder");
+
+		$count = 10;
+		$offset = 10;
+
+		foreach($fields as $field){
+			if(!is_null($field->getOrder())){
+				$field->setOrder($count);
+				$count = $count + $offset;
+			}
+		}
 	}
 }
 
