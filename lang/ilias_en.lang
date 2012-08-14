@@ -12698,3 +12698,11 @@ content#:#cont_auto_last_visited#:#load last visited chapter (SCO/Asset)
 content#:#cont_check_values#:#check values sent by SCO
 administration#:#adm_social_bm_create#:#Create Social Bookmark
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark
+dcl#:#dcl_actions#:#Actions
+dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_owner_editable#:#Edit only own records
+dcl#:#dcl_order#:#Order
+dcl#:#dcl_title#:#Field Title
+dcl#:#dcl_visible#:#Visibility
+dcl#:#dcl_editable#:#Editability
+dcl#:#dcl_description#:#Field Description
