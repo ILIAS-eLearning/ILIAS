@@ -1125,33 +1125,6 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				}
 				break;
 				
-			case "obligations_not_answered":
-				//echo $this->tpl->get();
-				//$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_obligations_not_anwered.html", "Modules/Test");	
-				//$this->tpl->setVariable('TXT_OBLIGATIONS_NOT_ANSWERED', $this->lng->txt('not_all_obligations_answered'));
-				
-				ilUtil::sendFailure($this->lng->txt('not_all_obligations_answered'));
-
-				$this->tpl->setCurrentBlock("prev");
-				$this->tpl->setVariable("BTN_PREV", "&lt;&lt; " . $this->lng->txt("previous"));
-				$this->tpl->parseCurrentBlock();
-
-				if ($this->object->getListOfQuestions()) 
-				{
-					if (!(($finish) && ($this->object->getListOfQuestionsEnd())))
-					{
-					    $this->tpl->setCurrentBlock("summary");
-					    $this->tpl->setVariable("BTN_SUMMARY", $this->lng->txt("question_summary"));
-					    $this->tpl->parseCurrentBlock();
-					}
-				}
-
-				$this->ctrl->saveParameter($this, 'sequence');
-				
-				$formaction = $this->ctrl->getFormAction($this, "gotoQuestion");
-
-				$this->tpl->setContent();
-				break;
 			case "back":
 			case "gotoquestion":
 			default:
