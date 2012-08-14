@@ -370,9 +370,13 @@ class ilObjForumGUI extends ilObjectGUI
 		global $ilSetting;
 		
 		$view = (int)$_POST['default_view'];
-		if($view == ilForumProperties::VIEW_DATE && (int)$_POST['default_view_sort_dir'] == ilForumProperties::VIEW_DATE_DESC)
+		if($view == ilForumProperties::VIEW_DATE)
 		{
-			$view = ilForumProperties::VIEW_DATE_DESC;
+			$view = ilForumProperties::VIEW_DATE_ASC;
+			if((int)$_POST['default_view_sort_dir'] == ilForumProperties::VIEW_DATE_DESC)
+			{
+				$view = ilForumProperties::VIEW_DATE_DESC;
+			}
 		}
 		$this->objProperties->setDefaultView($view);		
 	
@@ -1945,7 +1949,10 @@ class ilObjForumGUI extends ilObjectGUI
 		if ($_SESSION['viewmode'] == 'date')
 		{
 			$orderField = 'frm_posts_tree.fpt_date';
-			$this->objCurrentTopic->setOrderDirection($this->objProperties->getDefaultView() == ilForumProperties::VIEW_DATE_ASC ? 'ASC' : 'DESC');
+			$this->objCurrentTopic->setOrderDirection(
+				in_array($this->objProperties->getDefaultView(), array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_TREE))
+				? 'ASC' : 'DESC'
+			);
 		}
 		else
 		{
