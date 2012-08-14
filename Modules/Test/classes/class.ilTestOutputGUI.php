@@ -62,7 +62,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 	/**
 	 * execute command
 	 */
-	function &executeCommand()
+	function executeCommand()
 	{
 		global $ilUser;
 		
@@ -90,7 +90,9 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		{
 			$this->object->setTestSession();
 		}
-		
+
+		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		iljQueryUtil::initjQuery();
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initConnectionWithAnimation();
 		
