@@ -42,7 +42,7 @@ class ilDataCollectionRecordEditGUI
 		{
 			$this->table_id = $_REQUEST['table_id'];
 		}
-        $this->table = new ilDataCollectionTable($this->table_id);
+		$this->table = new ilDataCollectionTable($this->table_id);
 	}
 	
 	
@@ -74,7 +74,6 @@ class ilDataCollectionRecordEditGUI
 		global $ilCtrl, $tpl;
 
 		$this->initForm();
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
 
         $tpl->setContent($this->form->getHTML());
 	}
@@ -87,7 +86,6 @@ class ilDataCollectionRecordEditGUI
 		global $tpl, $ilCtrl;
 		
 		$this->initForm("edit");
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
         $this->getValues();
 		
 		$tpl->setContent($this->form->getHTML());
@@ -111,19 +109,28 @@ class ilDataCollectionRecordEditGUI
 	{
 		global $lng, $ilCtrl;
 
-
 		//table_id
 		$hidden_prop = new ilHiddenInputGUI("table_id");
 		$hidden_prop ->setValue($this->table_id);
 		$this->form->addItem($hidden_prop );
 
-        //TODO: für benutzer ohne write rechten ändern in getEditableFields.
+		$ilCtrl->setParameter($this, "record_id", $this->record_id);
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+
+
+			//TODO: für benutzer ohne write rechten ändern in getEditableFields.
 		$allFields = $this->table->getRecordFields();
 
 		foreach($allFields as $field)
 		{
             $item = ilDataCollectionDatatype::getInputField($field);
             $item->setRequired($field->getRequired());
+			$info = $field->getDatatype()->getTitle();
+			if($field->isEditable())
+				$info.=" ".$lng->txt("dcl_is_editable_by_others_info");
+			else
+				$info.=" ".$lng->txt("dcl_is_not_editable_by_others_info");
+			$item->setInfo($info);
             $this->form->addItem($item);
 		}
 
@@ -191,8 +198,6 @@ class ilDataCollectionRecordEditGUI
 		global $tpl, $ilUser, $lng, $ilCtrl;
 
 		// Sämtliche Felder, welche gespeichert werden holen
-        //TODO: für benutzer ohne write rechten ändern in getEditableFields
-		$all_fields = $this->table->getRecordFields();
 
 		$this->initForm();
 		if($this->form->checkInput())
@@ -205,6 +210,7 @@ class ilDataCollectionRecordEditGUI
 
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setOwner($ilUser->getId());
+
             if(!isset($this->record_id))
             {
                 $record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
@@ -213,16 +219,20 @@ class ilDataCollectionRecordEditGUI
                 $this->record_id = $record_obj->getId();
             }
 
+			//TODO: für benutzer ohne write rechten ändern in getEditableFields
+			$all_fields = $this->table->getRecordFields();
 			foreach($all_fields as $field)
 			{
-               try
-			   {
+            	try
+			    {
                    $value = $this->form->getInput("field_".$field->getId());
 					$record_obj->setRecordFieldValue($field->getId(), $value);
 				}catch(ilDataCollectionWrongTypeException $e){
                    //TODO: Hint which field is incorrect
-                   ilUtil::sendFailure("You inserted a wrong type",true);
-               }
+                   ilUtil::sendFailure($lng->txt("dcl_wrong_type"),true);
+				   $this->sendFailure();
+				   return;
+            	}
 				
 			}
 
@@ -233,9 +243,17 @@ class ilDataCollectionRecordEditGUI
             $ilCtrl->setParameter($this, "record_id", $this->record_id);
 			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 		}else{
-            //TODO Fehlerbehandlung.
+			global $tpl;
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHTML());
         }
 
+	}
+
+	private function sendFailure(){
+		global $tpl;
+		$this->form->setValuesByPost();
+		$tpl->setContent($this->form->getHTML());
 	}
 }
 

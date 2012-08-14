@@ -302,7 +302,7 @@ class ilDataCollectionRecord
     /*
      * hasEditPermission
      */
-	function hasEditPermission($usr_id)
+	function hasEditPermission()
 	{
 		global $ilAccess;
 		
@@ -312,21 +312,21 @@ class ilDataCollectionRecord
 		$perm = false;
 		
 		$references = $dcObj->_getAllReferences($dcObj->getId());
-		
-		// TODO: Check Permission
-		// FIXME: da wir nur die obj_id ($dcObj->getId()) haben, nicht aber die ref_if, kann nicht direkt auf rechte geprüft werden. da aber z.z. nur eine referenz pro dcl_obj existiert, wird die erste im array $references gewählt.
-		if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
-		{
-			switch($dcObj->getEditType())
-			{
-				case 1;
-					$perm = true;
-					break;
-				case 2;
-					$perm = true;
-					break;
+
+		//if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
+		//{
+			global $rbacreview, $ilUser;
+
+			// always allow sysad to access records.
+			if($ilUser->getId() == 6){
+				$perm = true;
 			}
-		}
+
+			//TODO: Check for local admin
+
+			if($dcObj->isRecordsEditable() && $this->getOwner() == $ilUser->getId() && $dcObj->getEditByOwner())
+				$perm = true;
+		//}
 
 		return $perm;
 	}

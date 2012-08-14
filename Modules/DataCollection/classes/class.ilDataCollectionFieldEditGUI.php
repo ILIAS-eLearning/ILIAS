@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
+require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 
 /**
 * Class ilDataCollectionFieldEditGUI
@@ -19,7 +20,9 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.ph
 class ilDataCollectionFieldEditGUI
 {
 	private $obj_id;
+	private $table_id;
     private $parent_obj;
+	private $table;
     
 	/**
 	 * Constructor
@@ -30,10 +33,11 @@ class ilDataCollectionFieldEditGUI
 	*/
 	public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id)
 	{
-		//TODO Permission-Check
+
 
 		$this->obj_id = $a_parent_obj->obj_id;
         $this->parent_obj = $a_parent_obj;
+		$this->table_id = $table_id;
 
 		if(isset($field_id)) 
 		{
@@ -45,6 +49,7 @@ class ilDataCollectionFieldEditGUI
 			//TODO prüfen ob table_id gesetzt, andernfalls Fehlermeldung und abbruch
 			$this->field_obj->setTableId($table_id);
 		}
+		$this->table = new ilDataCollectionTable($table_id);
 	}
 
 	
@@ -53,10 +58,15 @@ class ilDataCollectionFieldEditGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilCtrl;
+		global $tpl, $ilCtrl, $ilUser;
 		
 		$cmd = $ilCtrl->getCmd();
-		
+
+		if(!$this->table->hasPermissionToFields($ilUser->getId())){
+			$this->permissionDenied();
+			return;
+		}
+
 		switch($cmd)
 		{
 			case "update":
@@ -93,6 +103,11 @@ class ilDataCollectionFieldEditGUI
 		$this->getValues();
 		
 		$tpl->setContent($this->form->getHTML());
+	}
+
+	public function permissionDenied(){
+		global $tpl;
+		$tpl->setContent("Permission denied");
 	}
 	
 	
@@ -137,7 +152,11 @@ class ilDataCollectionFieldEditGUI
         $this->field_obj->doDelete();
         $ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
     }
-	
+
+	public function cancel(){
+		global $ilCtrl;
+        $ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+	}
 	/**
 	 * initEditCustomForm
 	 *
@@ -173,10 +192,10 @@ class ilDataCollectionFieldEditGUI
 		$this->form->setTitle($lng->txt('dcl_new_field'));
 		
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
+		$text_prop->setRequired(true);
 		$this->form->addItem($text_prop);
-		
-		if($a_mode != "edit")
-		{
+
+
 			$edit_datatype = new ilRadioGroupInputGUI($lng->txt('dcl_datatype'),'datatype');
 			
 			foreach(ilDataCollectionDatatype::getAllDatatypes() as $datatype)
@@ -213,8 +232,13 @@ class ilDataCollectionFieldEditGUI
 				}
 				$edit_datatype->addOption($opt);
 			}
+			$edit_datatype->setRequired(true);
+
+			//you can't change type but we still need it in POST
+			if($a_mode == "edit")
+				$edit_datatype->setDisabled(true);
 			$this->form->addItem($edit_datatype);
-		}
+
 		
 		
 		// Description
@@ -306,6 +330,8 @@ class ilDataCollectionFieldEditGUI
 					else 
 					{
 						$fieldprop_obj->doCreate();
+						$this->table->buildOrderFields();
+						$this->table->updateFields();
 					}
 					
 				}
@@ -328,9 +354,9 @@ class ilDataCollectionFieldEditGUI
 		}
 		else
 		{
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),false);
-			$this->form_gui->setValuesByPost();
-			$this->tpl->setContent($this->form_gui->getHTML());
+			global $tpl;
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHTML());
 		}
 	}
 }
