@@ -2422,7 +2422,7 @@ class ilSCORM13Player
 			case 'INFO':
 				$logtpl->setCurrentBlock("INFO");
 				$logtpl->setVariable("hint", $lng->txt("hint"));
-				$logtpl->setVariable("KEY", $logdata->key);
+				$logtpl->setVariable("KEY", $lng->txt($logdata->key));
 				$logtpl->setVariable("VALUE",  $logdata->value);
 				$logtpl->parseCurrentBlock();
 				break;

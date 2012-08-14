@@ -1,4 +1,4 @@
-// Build: 2012811234657 
+// Build: 2012814111033 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -14966,7 +14966,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				var returnValue1 = syncCMIADLTree();
 				var returnValue = onCommit(cmiItem);
 				if (saveOnCommit == true) {
-					if (this.config.sequencing_enabled) {
+					if (config.sequencing_enabled) {
 						var sgo=saveSharedData();
 						sgo=save_global_objectives();
 					}
@@ -15195,13 +15195,12 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 							removeByElement(scoDebugValues,sPath);
 							removeByElement(scoDebugValuesTest,sPath);
 							//check logik for 3rd edition
-							/*
 							if (sPath == "cmi.completion_status" && pubAPI.cmi.completion_threshold && pubAPI.cmi.completion_threshold>=0) {
 								sendLogEntry("","INFO","completion_status_by_progress_measure",GetValueIntern("cmi.completion_status"),"","");
 							}
 							if (sPath == "cmi.success_status" && pubAPI.cmi.scaled_passing_score && pubAPI.cmi.scaled_passing_score>=-1) {
 								sendLogEntry("","INFO","success_status_by_score_scaled",GetValueIntern("cmi.success_status"),"","");
-							}*/
+							}
 						}	
 						var lastToken = sPath.substring(sPath.lastIndexOf('.') + 1);
 						if(lastToken == "completion_status" || lastToken == "success_status") {

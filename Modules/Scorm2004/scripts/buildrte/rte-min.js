@@ -1,4 +1,4 @@
-// Build: 2012811234657 
+// Build: 2012814111033 
 
 function ADLAuxiliaryResource()
 {}
@@ -3110,7 +3110,7 @@ function Commit(param)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",201);return setReturn(201,'param must be empty string','false');}
 switch(state)
 {case NOT_INITIALIZED:if(logActive)
-sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(saveOnCommit==true){if(this.config.sequencing_enabled){var sgo=saveSharedData();sgo=save_global_objectives();}
+sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData();sgo=save_global_objectives();}
 var returnCommit=save();}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
@@ -3161,7 +3161,8 @@ else if(typeof sValue=="number"){sValue=sValue.toString(10);fixedFailure=true;}
 else if(typeof sValue=="boolean"){sValue=""+sValue;fixedFailure=true;}
 else{sValue=""+sValue;}
 try
-{var r=setValue(sPath,sValue);if(!error){if(logActive){sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"true",0);removeByElement(scoDebugValues,sPath);removeByElement(scoDebugValuesTest,sPath);}
+{var r=setValue(sPath,sValue);if(!error){if(logActive){sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"true",0);removeByElement(scoDebugValues,sPath);removeByElement(scoDebugValuesTest,sPath);if(sPath=="cmi.completion_status"&&pubAPI.cmi.completion_threshold&&pubAPI.cmi.completion_threshold>=0){sendLogEntry("","INFO","completion_status_by_progress_measure",GetValueIntern("cmi.completion_status"),"","");}
+if(sPath=="cmi.success_status"&&pubAPI.cmi.scaled_passing_score&&pubAPI.cmi.scaled_passing_score>=-1){sendLogEntry("","INFO","success_status_by_score_scaled",GetValueIntern("cmi.success_status"),"","");}}
 var lastToken=sPath.substring(sPath.lastIndexOf('.')+1);if(lastToken=="completion_status"||lastToken=="success_status"){setValue(sPath+"_SetBySco","true");}
 if(sPath=="cmi.completion_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"completion",sValue);}
 if(sPath=="cmi.success_status"&&cmiItem.scoid!=null){statusHandler(cmiItem.scoid,"success",sValue);}}else{if(logActive)
