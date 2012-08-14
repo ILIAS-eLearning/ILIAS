@@ -12032,3 +12032,18 @@ if($ilDB->tableColumnExists('il_dcl_viewdefinition','id'))
 }
 $ilDB->dropSequence('il_dcl_viewdefinition');
 ?>
+<#3700>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_data', 'edit_by_owner'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_data',
+		'edit_by_owner',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+		)
+	);
+	
+}
+?>
