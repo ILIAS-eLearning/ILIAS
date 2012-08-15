@@ -2193,6 +2193,21 @@ input.ilMainMenuSearch {
 a.ilMainMenuSearchButton {
 }
 
+#mm_search_menu_head {
+	background-color: #F8F8F8;
+	padding: 5px;
+	font-size: 90%;
+}
+
+#mm_search_menu_head p {
+	margin: 0px;
+}
+
+#mm_search_menu_head input {
+	margin: 0px;
+	padding: 0px;
+}
+
 span.ilMMStatus, span.ilHActProp {
 	position: absolute;
 	font-size: 0.80em;
@@ -3451,6 +3466,12 @@ div.ilSideBarContent{
 	font-size: 90%;
 	box-shadow: 2px 2px 4px #C0C0C0; 
 }
+
+#mm_search_menu_ac .ui-menu {
+	border: 0;
+	box-shadow: 0 0 0; 
+}
+
 
 .ui-menu .ui-menu-item {
 	margin: 0;

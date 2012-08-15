@@ -57,7 +57,7 @@ class ilSearchController
 	function &executeCommand()
 	{
 		global $rbacsystem,$ilUser;
-
+		
 		// Check for incomplete profile
 		if($ilUser->getProfileIncomplete())
 		{

@@ -12715,3 +12715,5 @@ dcl#:#dcl_record_deleted#:#Record deleted
 dcl#:#dcl_confirm_delete_record#:#Delete this record?
 content#:#cont_resources_of_type#:#Resources of Type
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
+common#:#search_globally#:#Globally
+common#:#search_at_current_position#:#At Current Position
