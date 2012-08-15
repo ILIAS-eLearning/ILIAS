@@ -275,10 +275,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
 		{
-			$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
+			$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATETIME_RANGE, true);
 			$this->filter["first_access"] = $item->getDate();
 
-			$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATE_RANGE, true);
+			$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATETIME_RANGE, true);
 			$this->filter["last_access"] = $item->getDate();
 		}
 		
