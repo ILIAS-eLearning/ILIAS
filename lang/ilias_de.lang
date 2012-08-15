@@ -12176,7 +12176,7 @@ trac#:#trac_view_mode#:#Anzeigemodus
 trac#:#trac_view_mode_all#:#Alle Objekte
 trac#:#trac_view_mode_collection#:#Nur Objekte, die Gesamtstatus bestimmen
 trac#:#trac_visits#:#Anzahl der Besuche
-trac#:#trac_visits_info#:#Jeder Aufruf einer Seite wird einzeln gezählt.
+trac#:#trac_visits_info#:#Die Mindestzeit zwischen Seitenaufrufen, um als gültiger Besuch gezählt zu werden, ist unten angegeben.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
 trac#:#user_total#:#Anzahl Benutzer
 trac#:#view_mode#:#Anzeigemodus

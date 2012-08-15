@@ -9931,7 +9931,7 @@ trac#:#trac_usr_list#:#Users
 trac#:#trac_valid_request#:#Max. Time Between Requests
 trac#:#trac_view_crs#:#Back to Course
 trac#:#trac_view_list#:#Back to List
-trac#:#trac_visits_info#:#Every page visit counts as one visit.
+trac#:#trac_visits_info#:#The minimum time between page requests to count as a visit is stated below.
 trac#:#trac_visits#:#Number of Visits
 trac#:#tracking_time_span_not_valid#:#Please enter a valid number of seconds.
 trac#:#view_mode#:#View Mode
