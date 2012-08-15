@@ -40,13 +40,49 @@ class ilECSEContentDetails
 
 	private $receiver_info = array();
 
-
-	/**
-	 * Constructor
-	 */
-	public function __construct()
+	protected function __construct()
 	{
+		
+	}
+	
+	/**
+	 * Get data from server
+	 * 
+	 * @param int $a_server_id
+	 * @param int $a_econtent_id
+	 * @param string $a_resource_type
+	 * @return ilECSEContentDetails
+	 */
+	public static function getInstance($a_server_id, $a_econtent_id, $a_resource_type)
+	{
+		global $ilLog;
+		
+		try
+		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';		
+			include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
+			$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($a_server_id));		
+			$res = $connector->getResource($a_resource_type, $a_econtent_id, true);
+			if($res->getHTTPCode() == ilECSConnector::HTTP_CODE_NOT_FOUND)
+			{
+				return;
+			}
+			if(!is_object($res->getResult()))
+			{
+				$ilLog->write(__METHOD__ . ': Error parsing result. Expected result of type array.');
+				$ilLog->logStack();
+				throw new ilECSConnectorException('error parsing json');
+			}
+		}
+		catch(ilECSConnectorException $exc)
+		{
+			return;
+		}
 
+		include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
+		$details = new self();
+		$details->loadFromJSON($res->getResult());
+		return $details;
 	}
 
 	/**
@@ -98,13 +134,12 @@ class ilECSEContentDetails
 		return (int) $this->owner;
 	}
 
-
 	/**
 	 * Load from JSON object
 	 *
 	 * @access public
 	 * @param object JSON object
-	 * @throws ilECSReaderException
+	 * @throws ilException
 	 */
 	public function loadFromJson($json)
 	{
@@ -112,9 +147,8 @@ class ilECSEContentDetails
 
 		if(!is_object($json))
 		{
-		 	include_once('./Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 			$ilLog->write(__METHOD__.': Cannot load from JSON. No object given.');
-			throw new ilECSReaderException('Cannot parse ECS content details.');
+			throw new ilException('Cannot parse ECS content details.');
 		}
 
 		foreach((array) $json->senders as $sender)

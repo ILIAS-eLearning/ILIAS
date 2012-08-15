@@ -34,6 +34,11 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
 		return self::DB_TABLE_NAME;
 	}
 	
+	protected function getECSObjectType()
+	{
+		return "/campusconnect/courselinks";
+	}
+	
 	/**
 	 * Set Availability type
 	 *
@@ -147,120 +152,20 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
 		$this->setEndingTime($a_row->r_end);	
 	}
 	
-	protected function updateCustomFromECSContent(ilECSEContent $a_ecs_content, ilECSDataMappingSettings $a_mappings)
-	{		
-		// Study courses
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'study_courses'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getStudyCourses());
-			$value->save();
-		}
-
-		// Lecturer
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'lecturer'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getLecturers());
-			$value->save();
-		}
-		// CourseType
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseType'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getCourseType());
-			$value->save();
-		}
-		// CourseID
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'courseID'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getCourseID());
-			$value->save();
-		}		
-		// Credits
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'credits'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getCredits());
-			$value->save();
-		}
-		
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'semester_hours'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getSemesterHours());
-			$value->save();
-		}
-		// Term
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'term'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getTerm());
-			$value->save();
-		}
-		
-		// TIME PLACE OBJECT ########################
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'begin'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			
-			switch(ilAdvancedMDFieldDefinition::_lookupFieldType($field))
-			{
-				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-					$value->setValue($a_ecs_content->getTimePlace()->getUTBegin());
-					break;
-				default:
-					$value->setValue($a_ecs_content->getTimePlace()->getBegin());
-					break;
-			}
-			$value->save();
-		}
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'end'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			switch(ilAdvancedMDFieldDefinition::_lookupFieldType($field))
-			{
-				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-					$value->setValue($a_ecs_content->getTimePlace()->getUTEnd());
-					break;
-				default:
-					$value->setValue($a_ecs_content->getTimePlace()->getEnd());
-					break;
-			}
-			$value->save();
-		}
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'room'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getTimePlace()->getRoom());
-			$value->save();
-		}
-		if($field = $a_mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'cycle'))
-		{
-			$value = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-			$value->toggleDisabledStatus(true); 
-			$value->setValue($a_ecs_content->getTimePlace()->getCycle());
-			$value->save();
-		}
-		
+	protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+	{				
 		// add custom values
-		$this->setAvailabilityType($a_ecs_content->isOnline() ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);		
+		$this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);		
+		
+		// adv. metadata
+		include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php');
+		$definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());		
+		$this->importMetadataFromJson($a_ecs_content, $a_server, $definition, 
+			ilECSDataMappingSetting::MAPPING_IMPORT_RCRS);					
 	}
 	
-		
+	
 	// 
 	// no late static binding yet
 	//
@@ -268,11 +173,6 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
 	public static function _lookupMID($a_obj_id)
 	{
 		return ilRemoteObjectBase::_lookupMID($a_obj_id, self::DB_TABLE_NAME);
-	}
-	
-	public static function _lookupObjIdsByMID($a_mid)
-	{
-		return ilRemoteObjectBase::_lookupObjIdsByMID($a_mid, self::DB_TABLE_NAME);
 	}
 	
 	public static function _lookupOrganization($a_obj_id)

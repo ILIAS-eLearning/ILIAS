@@ -121,6 +121,7 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('IMP_CHECKED', 'checked="checked"');
 		}
 
+		// :TODO: what types are to be supported?
 		$sel = ilUtil::formSelect(
 			$part->getImportType(),
 			'import_type['.$this->getServer()->getServerId().']['.$a_set['mid'].']',

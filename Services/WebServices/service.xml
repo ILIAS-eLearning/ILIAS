@@ -7,6 +7,5 @@
 	</objects>
 	<events>		
 		<event type="listen" id="Modules/Course" component="Services/WebServices/ECS" />
-		<event type="listen" id="Modules/RemoteCourse" component="Services/WebServices/ECS" />
 	</events>
 </service>

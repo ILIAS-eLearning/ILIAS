@@ -144,8 +144,8 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				
 				// TODO: needs other handling
 				// This class shouldn't have to know anything about ECS
-				include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
-				ilECSContentWriter::_handleDelete($subnodes);				
+				include_once('./Services/WebServices/ECS/classes/class.ilECSObjectSettings.php');
+				ilECSObjectSettings::_handleDelete($subnodes);				
 
 				if(!$tree->saveSubTree($id, true))
 				{

@@ -42,10 +42,6 @@ class ilECSTaskScheduler
 	protected $db;
 	
 	private $mids = array();
-	private $content = array();
-	private $to_create = array();
-	private $to_update = array();
-	private $to_delete = array();
 	
 	/**
 	 * Singleton constructor
@@ -82,6 +78,7 @@ class ilECSTaskScheduler
 		{
 			return self::$instances[$a_server_id];
 		}
+		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
 		return self::$instances[$a_server_id] =
 			new ilECSTaskScheduler(
 				ilECSSetting::getInstanceByServerId($a_server_id)
@@ -111,13 +108,12 @@ class ilECSTaskScheduler
 	public static function startExecution()
 	{
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
-		$servers = ilECSServerSettings::getInstance();
+		$server = ilECSServerSettings::getInstance();
 		foreach($server->getServers() as $server)
 		{
 			$sched = new ilECSTaskScheduler($server);
 			$sched->startTaskExecution();
 		}
-
 	}
 
 	/**
@@ -187,216 +183,60 @@ class ilECSTaskScheduler
 		include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
 
 	 	for($i = 0;$i < self::MAX_TASKS;$i++)
-	 	{
+	 	{		
 	 		if(!$event = $this->event_reader->shift())
 	 		{
 	 			$this->log->write(__METHOD__.': No more pending events found. DONE');
 	 			break;
 	 		}
-			if($event['op'] == ilECSEvent::DESTROYED)
-			{
-				$this->handleDelete($event['id']);
-	 			$this->log->write(__METHOD__.': Handling delete. DONE');
-				continue;
-			}
-			if($event['op'] == ilECSEvent::NEW_EXPORT)
-			{
-				$this->handleNewlyCreate($event['id']);
-	 			$this->log->write(__METHOD__.': Handling new creation. DONE');
-				continue;
-			}
-
-	 		// Operation is create or update
-	 		// get econtent
-	 		try
-	 		{
-				include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
-				$reader = new ilECSEContentReader($this->getServer()->getServerId(),$event['id']);
-				$reader->read();
-				$reader->read(true);
-	 		}
-	 		catch(Exception $e)
-	 		{
-	 			$this->log->write(__METHOD__.': Cannot read Econtent. '.$e->getMessage());
-	 			continue;
-	 		}
-	 		if(!$reader->getEContent() instanceof ilECSEContent)
-	 		{
-	 			$this->handleDelete($event['id']);
-	 			$this->log->write(__METHOD__.': Handling delete of deprecated remote courses. DONE');
-	 		}
-	 		else
-	 		{
-	 			$this->handleUpdate($reader->getEContent(),$reader->getEContentDetails());
-	 			$this->log->write(__METHOD__.': Handling update. DONE');
-	 		}
-	 	}
-	}
-	
-	private function handleNewlyCreate($a_obj_id)
-	{
-		global $ilLog;
-		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSConnectorException.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSReaderException.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriterException.php');
-		
-		
-		$export = new ilECSExport($this->getServer()->getServerId(),$a_obj_id);
-		$econtent_id = $export->getEContentId();
-
-		try
-		{
-			$reader = new ilECSEContentReader($this->getServer()->getServerId(),$econtent_id);
-			$reader->read();
-			$reader->read(true);
 			
-			$econtent = $reader->getEContent();
-			$details = $reader->getEContentDetails();
-
-			if($econtent instanceof ilECSEContent and $details instanceof ilECSEContentDetails)
+			// determine event handler
+			switch($event['type'])
 			{
-				if(!$obj = ilObjectFactory::getInstanceByObjId($a_obj_id,false))
-				{
-					$ilLog->write(__METHOD__.': Cannot create object instance. Aborting...');
-					return false;
-				}
-				// Delete resource			
-				$writer = new ilECSContentWriter($obj,$this->getServer()->getServerId());
-				$writer->setExportable(false);
-				$writer->setOwnerId($details->getFirstSender());
-				$writer->setParticipantIds($details->getReceivers());
-				$writer->refresh();
+				case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
+					include_once 'Services/Webservices/ECS/classes/class.ilRemoteObjectBase.php';
+					$handler = ilRemoteObjectBase::getInstanceByEventType($event['type']);
+					break;		
 				
-				// Create resource
-				$writer->setExportable(true);
-				$writer->refresh();
-				return true;
+				default:
+					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
+					break;
 			}
-			return false;
 			
-		}
-		catch(ilECSConnectorException $e1)
-		{
-			$ilLog->write(__METHOD__.': Cannot handle create event. Message: '.$e1->getMessage());
-			return false;
-		}
-		catch(ilECSReaderException $e2)
-		{
-			$ilLog->write(__METHOD__.': Cannot handle create event. Message: '.$e2->getMessage());
-			return false;
-		}
-		catch(ilECSContentWriterException $e3)
-		{
-			$ilLog->write(__METHOD__.': Cannot handle create event. Message: '.$e2->getMessage());
-			return false;
-		}
-		
-	}
-	
-	/**
-	 * Handle delete 
-	 * @access private
-	 * @param array array of event data
-	 * 
-	 */
-	private function handleDelete($econtent_id,$a_mid = 0)
-	{
-		global $tree;
-		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-		// if mid is zero delete all obj_ids
-		if(!$a_mid)
-		{
-	 		$obj_ids = ilECSImport::_lookupObjIds($this->settings->getServerId(),$econtent_id);
-		}
-		else
-		{
-			$obj_ids = (array) ilECSImport::_lookupObjId($this->settings->getServerId(),$econtent_id,$a_mid);
- 		}
-		$GLOBALS['ilLog']->write(__METHOD__.': Received obj_ids '.print_r($obj_ids,true));
-	 	foreach($obj_ids as $obj_id)
-	 	{
-	 		$references = ilObject::_getAllReferences($obj_id);
-	 		foreach($references as $ref_id)
-	 		{
-	 			if($tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id,false))
-	 			{
-		 			$this->log->write(__METHOD__.': Deleting obsolete remote course: '.$tmp_obj->getTitle());
-	 				$tmp_obj->delete();
-		 			$tree->deleteTree($tree->getNodeData($ref_id));
-	 			}
-	 			unset($tmp_obj);
-	 		}
-	 	}
-	}
-	
-	/**
-	 * Handle update/creation of remote courses.
-	 *
-	 * @access private
-	 * @param array array of ecscontent
-	 * 
-	 */
-	private function handleUpdate(ilECSEContent $content,  ilECSEContentDetails $details)
-	{
-		global $ilLog, $ilAppEventHandler;
-
-
-		$GLOBALS['ilLog']->write(__METHOD__.': Receivers are '. print_r($details->getReceivers(),true));
-		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
-		if(!ilECSParticipantSettings::getInstanceByServerId($this->getServer()->getServerId())->isImportAllowed($content->getOwner()))
-		{
-			$ilLog->write('Ignoring disabled participant. MID: '.$content->getOwner());
-			return false;
-		}
-
-		include_once('Services/WebServices/ECS/classes/class.ilECSImport.php');
-
-		// new mids
-		#foreach($this->mids as $mid)
-		foreach(array_intersect($this->mids,$details->getReceivers()) as $mid)
-		{
-			// Update existing
-			if($obj_id = ilECSImport::_isImported($this->settings->getServerId(),$content->getEContentId(),$mid))
-			{
-				$ilLog->write(__METHOD__.': Handling update for existing object');
-				$remote = ilObjectFactory::getInstanceByObjId($obj_id,false);
-				if($remote->getType() != 'rcrs')
-				{
-					$this->log->write(__METHOD__.': Cannot instantiate remote course. Got object type '.$remote->getType());
-					continue;
-				}
-				$remote->updateFromECSContent($this->getServer()->getServerId(),$content);
+			$res = false;
+			switch($event['op'])
+			{										
+				case ilECSEvent::NEW_EXPORT:
+					// DEPRECATED?
+					// $this->handleNewlyCreate($event['id']);
+					// $this->log->write(__METHOD__.': Handling new creation. DONE');
+					break;
+			
+				case ilECSEvent::DESTROYED;
+					$res = $handler->handleDelete($this->getServer(), $event['id']);
+					$this->log->write(__METHOD__.': Handling delete. DONE');
+					break;
+						
+				case ilECSEvent::CREATED:
+				case ilECSEvent::UPDATED:
+					$res = $handler->handleUpdate($this->getServer(), $event['id'], $this->mids);
+					$this->log->write(__METHOD__.': Handling update. DONE');
+					break;
+				
+				default:
+					$this->log->write(__METHOD__.': Unknown event operation in queue '.$event['op']);
+					break;
 			}
+			if($res)
+			{
+				$this->log->write(__METHOD__.': Processing of event done '.$event['event_id']);
+				$this->event_reader->delete($event['event_id']);				
+			}	
 			else
 			{
-				$ilLog->write(__METHOD__.': Handling create for non existing object');
-				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
-				$remote_crs = ilObjRemoteCourse::_createFromECSEContent($this->settings->getServerId(),$content,$mid);	
-				
-				$ilAppEventHandler->raise(
-					'Modules/RemoteCourse',
-					'create',
-					array(
-						'rcrs' => $remote_crs,
-						'server_id' => $this->settings->getServerId()
-					)
-				);
+				$this->log->write(__METHOD__.': Processing of event failed '.$event['event_id']);
 			}
-
-			/*
-			// deprecated mids
-			foreach(array_diff(ilECSImport::_lookupMIDs($this->settings->getServerId(),$content->getEContentId()),$details->getReceivers()) as $deprecated)
-			{
-				$this->handleDelete($content->getEContentId(),$deprecated);
-			}
-			*/
-	 	}	
+	 	}
 	}
 	
 	/**

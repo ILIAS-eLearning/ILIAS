@@ -55,7 +55,7 @@ class ilECSTimePlace
 	 *
 	 * @access public
 	 * @param object json representation
-	 * @throws ilECSReaderException
+	 * @throws ilException
 	 */
 	public function loadFromJson($a_json)
 	{
@@ -63,9 +63,8 @@ class ilECSTimePlace
 
 		if(!is_object($a_json))
 		{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 			$ilLog->write(__METHOD__ . ': Cannot load from JSON. No object given.');
-			throw new ilECSReaderException('Cannot parse ECSContent.');
+			throw new ilException('Cannot parse ECSContent.');
 		}
 
 		$this->room = $a_json->room;

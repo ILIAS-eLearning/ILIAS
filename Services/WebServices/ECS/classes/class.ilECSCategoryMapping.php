@@ -61,7 +61,7 @@ class ilECSCategoryMapping
 	 * @return
 	 * @static
 	 */
-	public static function getMatchingCategory($a_server_id,ilECSEContent $econtent)
+	public static function getMatchingCategory($a_server_id, $a_matchable_content)
 	{
 		global $ilLog;
 		
@@ -71,7 +71,7 @@ class ilECSCategoryMapping
 		}
 		foreach(self::$cached_active_rules as $rule)
 		{
-			if($rule->matches($a_server_id,$econtent))
+			if($rule->matches($a_matchable_content))
 			{
 				$ilLog->write(__METHOD__.': Found assignment for field type: '.$rule->getFieldName());
 				return $rule->getContainerId();
@@ -90,17 +90,16 @@ class ilECSCategoryMapping
 	 * @return
 	 * @static
 	 */
-	 public static function handleUpdate($a_server_id,ilECSEContent $econtent,$a_obj_id)
+	 public static function handleUpdate($a_obj_id, $a_server_id, $a_matchable_content)
 	 {
 	 	global $tree,$ilLog;
-	 	
-	 	$a_ref_id = current(ilObject::_getAllReferences($a_obj_id));
-	 	
-	 	$references = ilObject::_getAllReferences(ilObject::_lookupObjId($a_ref_id));
-	 	$cat = self::getMatchingCategory($a_server_id,$econtent);
+	 
+	 	$cat = self::getMatchingCategory($a_server_id, $a_matchable_content);
+					
+	 	$a_ref_id = current(ilObject::_getAllReferences($a_obj_id));	 	
+	 	$references = ilObject::_getAllReferences(ilObject::_lookupObjId($a_ref_id));		
 	 	$all_cats = self::lookupHandledCategories();
-	 	
-	 	
+	 		 	
 	 	$exists = false;
 	 	foreach($references as $ref_id => $null)
 	 	{

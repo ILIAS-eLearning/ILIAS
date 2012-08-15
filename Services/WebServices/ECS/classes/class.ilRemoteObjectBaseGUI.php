@@ -169,7 +169,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 		$info->addProperty($this->lng->txt('title'),$this->object->getTitle());
 		if(strlen($this->object->getOrganization()))
 		{
-			$a_info->addProperty($this->lng->txt('organization'),$this->object->getOrganization());
+			$info->addProperty($this->lng->txt('organization'),$this->object->getOrganization());
 		}			
 		if(strlen($this->object->getDescription()))
 		{

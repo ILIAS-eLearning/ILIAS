@@ -291,11 +291,11 @@ class ilECSConnector
 	// econtents methods
 	///////////////////////////////////////////////////////
 
-	public function getResourceList()
+	public function getResourceList($a_path)
 	{
 		global $ilLog;
 
-		$this->path_postfix = '/campusconnect/courselinks';
+		$this->path_postfix = $a_path;
 
 		try {
 			$this->prepareConnection();
@@ -327,11 +327,12 @@ class ilECSConnector
 	 * 
 	 *
 	 * @access public
+	 * @param string resource "path"
 	 * @param int e-content id
 	 * @return object ECSResult 
 	 * @throws ilECSConnectorException 
 	 */
-	public function getResource($a_econtent_id, $a_details_only = false)
+	public function getResource($a_path, $a_econtent_id, $a_details_only = false)
 	{
 	 	global $ilLog;
 		
@@ -344,7 +345,7 @@ class ilECSConnector
 			$ilLog->write(__METHOD__.': Get all resources ...');
 		}
 	 	
-		$this->path_postfix = '/campusconnect/courselinks';
+		$this->path_postfix = $a_path;
 	 	if($a_econtent_id)
 	 	{
 	 		$this->path_postfix .= ('/'.(int) $a_econtent_id);
@@ -385,18 +386,19 @@ class ilECSConnector
 	 * Add resource
 	 *
 	 * @access public
+	 * @param string resource "path"
 	 * @param string post data 
 	 * @return int new econtent id
 	 * @throws ilECSConnectorException 
 	 * 
 	 */
-	public function addResource($a_post)
+	public function addResource($a_path, $a_post)
 	{
 		global $ilLog;
 		
 		$ilLog->write(__METHOD__.': Add new EContent...');
 
-	 	$this->path_postfix = '/campusconnect/courselinks';
+	 	$this->path_postfix = $a_path;
 	 	
 	 	try 
 	 	{
@@ -420,8 +422,7 @@ class ilECSConnector
 			}
 			$ilLog->write(__METHOD__.': ... got HTTP 201 (created)');			
 
-			include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
-			$eid =  ilECSUtils::_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
+			$eid =  self::_fetchEContentIdFromHeader($this->curl->getResponseHeaderArray());
 			return $eid;
 	 	}
 	 	catch(ilCurlConnectionException $exc)
@@ -434,17 +435,18 @@ class ilECSConnector
 	 * update resource
 	 *
 	 * @access public
+	 * @param string resource "path"
 	 * @param int econtent id
 	 * @param string post content
 	 * @throws ilECSConnectorException
 	 */
-	public function updateResource($a_econtent_id,$a_post_string)
+	public function updateResource($a_path, $a_econtent_id,$a_post_string)
 	{
 	 	global $ilLog;
 		
 		$ilLog->write(__METHOD__.': Update resource with id '.$a_econtent_id);
 
-	 	$this->path_postfix = '/campusconnect/courselinks';
+	 	$this->path_postfix = $a_path;
 	 	
 	 	if($a_econtent_id)
 	 	{
@@ -476,7 +478,10 @@ class ilECSConnector
 	 		$this->curl->setOpt(CURLOPT_INFILE,$fp);
 	 		
 			$res = $this->call();
+			
+			fclose($fp);
 			unlink($tempfile);
+			
 			return new ilECSResult($res);
 	 	}
 	 	catch(ilCurlConnectionException $exc)
@@ -489,16 +494,17 @@ class ilECSConnector
 	 * Delete resource
 	 *
 	 * @access public
+	 * @param string resource "path"
 	 * @param string econtent id
 	 * @throws ilECSConnectorException 
 	 */
-	public function deleteResource($a_econtent_id)
+	public function deleteResource($a_path, $a_econtent_id)
 	{
 	 	global $ilLog;
 		
 		$ilLog->write(__METHOD__.': Delete resource with id '.$a_econtent_id);
 
-	 	$this->path_postfix = '/campusconnect/courselinks';
+	 	$this->path_postfix = $a_path;
 	 	
 	 	if($a_econtent_id)
 	 	{
@@ -631,5 +637,34 @@ class ilECSConnector
 			throw($exc);
 		}
 	}
+	
+	
+	/**
+	 * fetch new econtent id from location header
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param array header array
+	 */
+	protected static function _fetchEContentIdFromHeader($a_header)
+	{
+		global $ilLog;
+		
+		if(!isset($a_header['Location']))
+		{
+			return false;
+		}
+		$end_path = strrpos($a_header['Location'],"/");
+		
+		if($end_path === false)
+		{
+			$ilLog->write(__METHOD__.': Cannot find path seperator.');
+			return false;
+		}
+		$econtent_id = substr($a_header['Location'],$end_path + 1);
+		$ilLog->write(__METHOD__.': Received EContentId '.$econtent_id);
+		return (int) $econtent_id;
+	}	
 }
 ?>
