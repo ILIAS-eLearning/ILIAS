@@ -12060,3 +12060,40 @@ if(!$ilDB->tableColumnExists('cmi_node', 'additional_tables'))
 	$ilDB->query("UPDATE cmi_node SET additional_tables = 15");
 }
 ?>
+<#3702>
+<?php
+if($ilDB->tableColumnExists('cmi_node', 'cp_node_id'))
+{
+	$ilDB->query("DELETE from cmi_node where cp_node_id is null");
+	$reverse = $ilDB->db->loadModule('Reverse');
+	$def = $reverse->getTableFieldDefinition("cmi_node", "cp_node_id");
+	if($def[0]['notnull'] == false)
+	{
+		$ilDB->modifyTableColumn('cmi_node', 'cp_node_id', array(
+															'type'    => 'integer',
+															'length'  => 4,
+															'notnull' => true,
+															'default' => 0
+													   ));
+	}
+}
+?>
+<#3703>
+<?php
+if($ilDB->tableColumnExists('cmi_node', 'user_id'))
+{
+	$ilDB->query("DELETE from cmi_node where user_id is null");
+	$reverse = $ilDB->db->loadModule('Reverse');
+	$def = $reverse->getTableFieldDefinition("cmi_node", "user_id");
+	if($def[0]['notnull'] == false)
+	{
+		$ilDB->modifyTableColumn('cmi_node', 'user_id', array(
+															'type'    => 'integer',
+															'length'  => 4,
+															'notnull' => true,
+															'default' => 0
+													   ));
+	}
+}
+?>
+
