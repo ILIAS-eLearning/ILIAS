@@ -3146,7 +3146,12 @@
 <!-- Resources -->
 <xsl:template match="Resources">
 	<div>
-		[list-<xsl:value-of select="./ResourceList/@Type"/>]
+		<xsl:if test="./ResourceList">
+			[list-<xsl:value-of select="./ResourceList/@Type"/>]
+		</xsl:if>
+		<xsl:if test="./ItemGroup">
+			[item-group-<xsl:value-of select="./ItemGroup/@RefId"/>]
+		</xsl:if>
 		<xsl:call-template name="EditReturnAnchors"/>
 		<xsl:if test="$mode = 'edit'">
 			<!-- <xsl:value-of select="../@HierId"/> -->

@@ -305,6 +305,14 @@ abstract class ilContainerContentGUI
 				$this->addEmbeddedBlock("type", $type);
 			}
 		}
+		
+		// determine item groups
+		while (eregi("\[(item-group-([0-9]*))\]", $a_container_page_html, $found))
+		{
+			$this->addEmbeddedBlock("itgr", (int) $found[2]);
+			
+			$a_container_page_html = eregi_replace("\[".$found[1]."\]", $html, $a_container_page_html);
+		}
 	}
 	
 	/**
@@ -381,6 +389,33 @@ abstract class ilContainerContentGUI
 				}
 			}
 		}
+		
+		// all item groups
+		if (is_array($this->embedded_block["itgr"]))
+		{
+			$item_groups = array();
+			if (is_array($this->items["itgr"]))
+			{
+				
+				foreach ($this->items["itgr"] as $ig)
+				{
+					$item_groups[$ig["ref_id"]] = $ig;
+				}
+			}
+
+			// all embedded typed blocks
+			foreach ($this->embedded_block["itgr"] as $ref_id)
+			{
+				// render only item groups of $this->items (valid childs)
+				if ($this->rendered_block["itgr"][$ref_id] == "" && isset($item_groups[$ref_id]))
+				{
+					$tpl = $this->newBlockTemplate();
+					$this->renderItemGroup($tpl, $item_groups[$ref_id]);
+					$this->rendered_block["itgr"][$ref_id] = $tpl->get();
+				}
+			}
+		}
+
 	}
 	
 	/**
@@ -680,6 +715,21 @@ abstract class ilContainerContentGUI
 					$this->rendered_block["type"][$type], $a_output_html);
 			}
 		}
+		
+		// insert all item groups
+		while (eregi("\[(item-group-([0-9]*))\]", $a_output_html, $found))
+		{
+			$itgr_ref_id = (int) $found[2];
+			
+			// check whether this item group is child -> insert editing html
+			$html = "";
+			if (isset($this->rendered_block["itgr"][$itgr_ref_id]))
+			{
+				$html = $this->rendered_block["itgr"][$itgr_ref_id];
+				$this->rendered_items[$itgr_ref_id] = true;
+			}
+			$a_output_html = eregi_replace("\[".$found[1]."\]", $html, $a_output_html);
+		}
 
 		return $a_output_html;
 	}
@@ -780,49 +830,60 @@ abstract class ilContainerContentGUI
 		{
 			foreach ($this->items["itgr"] as $itgr)
 			{
-//var_dump($itgr);
-				$item_list_gui = $this->getItemGUI($itgr);
-				$item_list_gui->getListItemHTML($itgr["ref_id"], $itgr["obj_id"],
-					$itgr["title"], $itgr["description"]);
-				$commands_html = $item_list_gui->getCommandsHTML(); 
-				
-				$this->addSeparatorRow($a_tpl);
-				$a_tpl->setCurrentBlock("container_header_row");
-				$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $itgr["title"]);
-				$a_tpl->setVariable("CHR_COMMANDS", $commands_html);
-				$a_tpl->parseCurrentBlock();
-				
-				$a_tpl->touchBlock("container_row");
-				$this->resetRowType();
-
-				// render item group sub items
-						
-				include_once('./Services/Container/classes/class.ilContainerSorting.php');			
-				include_once('./Services/Object/classes/class.ilObjectActivation.php');
-				$items = ilObjectActivation::getItemsByItemGroup($itgr['ref_id']);
-				$items = ilContainerSorting::_getInstance(
-					$this->getContainerObject()->getId())->sortSubItems('itgr', $itgr['obj_id'],$items);
-				$position = 1;
-				foreach($items as $item)
+				if (!$this->rendered_items[$itgr["child"]])
 				{
-					$html2 = $this->renderItem($item, $position++);
-					if ($html2 != "")
-					{
-						$this->addStandardRow($a_tpl, $html2, $item["child"]);
-						$this->rendered_items[$item["child"]] = true;
-					}
-					
+					$this->renderItemGroup($a_tpl, $itgr);
+					$rendered = true;
 				}
-
-				// finish block
-				$a_tpl->setCurrentBlock("container_block");
-				$a_tpl->parseCurrentBlock();
-				
-				$rendered = true;
 			}
 		}
 		
 		return $rendered;
+	}
+	
+	/**
+	 * Render item group
+	 *
+	 * @param
+	 * @return
+	 */
+	function renderItemGroup($a_tpl, $a_itgr)
+	{
+		$item_list_gui = $this->getItemGUI($a_itgr);
+		$item_list_gui->getListItemHTML($a_itgr["ref_id"], $a_itgr["obj_id"],
+			$a_itgr["title"], $a_itgr["description"]);
+		$commands_html = $item_list_gui->getCommandsHTML(); 
+		
+		$this->addSeparatorRow($a_tpl);
+		$a_tpl->setCurrentBlock("container_header_row");
+		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $a_itgr["title"]);
+		$a_tpl->setVariable("CHR_COMMANDS", $commands_html);
+		$a_tpl->parseCurrentBlock();
+		
+		$a_tpl->touchBlock("container_row");
+		$this->resetRowType();
+
+		// render item group sub items
+				
+		include_once('./Services/Container/classes/class.ilContainerSorting.php');			
+		include_once('./Services/Object/classes/class.ilObjectActivation.php');
+		$items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
+		$items = ilContainerSorting::_getInstance(
+			$this->getContainerObject()->getId())->sortSubItems('itgr', $a_itgr['obj_id'],$items);
+		$position = 1;
+		foreach($items as $item)
+		{
+			$html2 = $this->renderItem($item, $position++);
+			if ($html2 != "")
+			{
+				$this->addStandardRow($a_tpl, $html2, $item["child"]);
+				$this->rendered_items[$item["child"]] = true;
+			}
+		}
+
+		// finish block
+		$a_tpl->setCurrentBlock("container_block");
+		$a_tpl->parseCurrentBlock();
 	}
 	
 }

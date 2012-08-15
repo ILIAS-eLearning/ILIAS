@@ -51,10 +51,10 @@ class ilPCResources extends ilPageContent
 	}
 
 	/**
-	* Set Type of Resource List (currently only one)
-	*
-	* @param	string	$a_type		Resource Type Group
-	*/
+	 * Set Type of Resource List (currently only one)
+	 *
+	 * @param	string	$a_type		Resource Type Group
+	 */
 	function setResourceListType($a_type)
 	{
 		if (!empty($a_type))
@@ -71,21 +71,79 @@ class ilPCResources extends ilPageContent
 	}
 
 	/**
-	* Get Resource Lis Type.
-	*
-	* @return	string		resource type group
-	*/
+	 * Set Item Group Ref Id
+	 *
+	 * @param	int	$a_ref_id item group ref id
+	 */
+	function setItemGroupRefId($a_ref_id)
+	{
+		if (!empty($a_ref_id))
+		{
+			$children = $this->res_node->child_nodes();
+			for ($i=0; $i<count($children); $i++)
+			{
+				$this->res_node->remove_child($children[$i]);
+			}
+			$list_node =& $this->dom->create_element("ItemGroup");
+			$list_node =& $this->res_node->append_child($list_node);
+			$list_node->set_attribute("RefId", $a_ref_id);
+		}
+	}
+
+	/**
+	 * Get Resource Lis Type.
+	 *
+	 * @return	string		resource type group
+	 */
 	function getResourceListType()
+	{
+		if (is_object($this->res_node))
+		{
+			$children = $this->res_node->child_nodes();
+			if (is_object($children[0]) && $children[0]->node_name() == "ResourceList")
+			{
+				return $children[0]->get_attribute("Type");
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Get item group ref id
+	 *
+	 * @return int ref id
+	 */
+	function getItemGroupRefId()
+	{
+		if (is_object($this->res_node))
+		{
+			$children = $this->res_node->child_nodes();
+			if (is_object($children[0]) && $children[0]->node_name() == "ItemGroup")
+			{
+				return (int) $children[0]->get_attribute("RefId");
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Get main type
+	 *
+	 * @return int ref id
+	 */
+	function getMainType()
 	{
 		if (is_object($this->res_node))
 		{
 			$children = $this->res_node->child_nodes();
 			if (is_object($children[0]))
 			{
-				return $children[0]->get_attribute("Type");
+				return $children[0]->node_name();
 			}
 		}
+		return false;
 	}
+
 }
 
 ?>
