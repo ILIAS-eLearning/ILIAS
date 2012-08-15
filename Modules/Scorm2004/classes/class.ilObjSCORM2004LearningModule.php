@@ -355,7 +355,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		{
 			$name = ilObjUser::_lookupName($sco_rec["user_id"]);
 			if ($sco_rec['last_access'] != 0) {
-				$sco_rec['last_access'] = $sco_rec['last_access'];
+//				$sco_rec['last_access'] = $sco_rec['last_access'];
 			} else {
 				$sco_rec['last_access'] = "";
 			}
@@ -364,7 +364,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 					$temp = array("user_full_name" => $name["lastname"].", ".
 									$name["firstname"]." [".ilObjUser::_lookupLogin($sco_rec["user_id"])."]",
 								    "user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access'],
-									"user_id" => $sco_rec["user_id"],"last_access" => $sco_rec['last_access'],
 									"version"=> $this->getModuleVersionForUser($sco_rec["user_id"]),
 									"attempts" => $this->getAttemptsForUser($sco_rec["user_id"]),
 									"username" =>  $user->getLastname().", ".$user->getFirstname()

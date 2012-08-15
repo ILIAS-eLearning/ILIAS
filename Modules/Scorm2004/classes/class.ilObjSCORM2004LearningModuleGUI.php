@@ -54,7 +54,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$form_gui = new ilSCORM2004OrganizationHFormGUI();
 		$form_gui->setTree($this->getEditTree());
 		$form_gui->updateExpanded();
-		
 		switch($next_class)
 		{
 			// notes
@@ -109,6 +108,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			default:										
 				parent::executeCommand();
 				$this->addHeaderAction();
+				break;
 		}					
 	}
 
@@ -412,6 +412,24 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 				$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
 			}
 
+			//enable auto navigation to last visited item
+			$this->tpl->setVariable("TXT_AUTO_LAST_VISITED", $this->lng->txt("cont_auto_last_visited"));
+			$this->tpl->setVariable("CBOX_AUTO_LAST_VISITED", "cobj_auto_last_visited");
+			$this->tpl->setVariable("VAL_AUTO_LAST_VISITED", "y");
+			if ($this->object->getAuto_last_visited())
+			{
+				$this->tpl->setVariable("CHK_AUTO_LAST_VISITED", "checked");
+			}
+
+			//check_values
+			$this->tpl->setVariable("TXT_CHECK_VALUES", $this->lng->txt("cont_check_values"));
+			$this->tpl->setVariable("CBOX_CHECK_VALUES", "cobj_check_values");
+			$this->tpl->setVariable("VAL_CHECK_VALUES", "y");
+			if ($this->object->getCheck_values())
+			{
+				$this->tpl->setVariable("CHK_CHECK_VALUES", "checked");
+			}
+
 			//debug
 			$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
 			$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
@@ -569,11 +587,13 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			$this->object->setSession(ilUtil::yn2tf($_POST["cobj_session"]));
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
+			$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
 			$this->object->setSequencing(ilUtil::yn2tf($_POST["cobj_sequencing"]));
 			$this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
 			$this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));
 			$this->object->setComments(ilUtil::yn2tf($_POST["cobj_comments"]));
 			$this->object->setTime_from_lms(ilUtil::yn2tf($_POST["cobj_time_from_lms"]));
+			$this->object->setCheck_values(ilUtil::yn2tf($_POST["cobj_check_values"]));
 			$this->object->setDebug(ilUtil::yn2tf($_POST["cobj_debug"]));
 			//$this->object->setDebugPw($_POST["debug_pw"]);
 

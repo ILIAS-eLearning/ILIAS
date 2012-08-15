@@ -15,11 +15,12 @@
 	.header{background-color:white;clear:both;border-width:1px;border-color:brown;border-style:solid;margin-top:5px;margin-bottom:5px;padding:5px}
 	.header .scotitle{font-weight:bold}
 	.header .left{float:left;width:110px;font-weight:normal}
-	.color, .colorgreen, .colorred, .colororange, .colorfuchsia{float:left;width:20px;margin-right:5px}
+	.color, .colorgreen, .colorred, .colororange, .colorfuchsia, .colorgray{float:left;width:20px;margin-right:5px}
 	.colorred{background-color:red;color:red}
 	.colorgreen{background-color:green;color:green}
 	.colororange{background-color:#FFA500;color:#FFA500}
 	.colorfuchsia{background-color:fuchsia;color:fuchsia}
+	.colorgray{background-color:gray;color:gray}
 	.timespan{float:left;text-align:right;width:85px;margin-right:5px}
 	.key{float:left;overflow:auto;white-space:nowrap;height:2.3em;width:340px;margin-right:5px}
 	.result{float:left;overflow:auto;white-space:nowrap;height:2.3em;width:190px;margin-right:5px}
@@ -142,7 +143,8 @@ var colorDescription=[
 	["green","{i_green}"],
 	["red","{i_red}"],
 	["orange","{i_orange}"],
-	["fuchsia","{i_fuchsia}"]
+	["fuchsia","{i_fuchsia}"],
+	["gray","{i_gray}"]
 ];
 
 function showError(ElementId,error) {
@@ -254,6 +256,7 @@ if(typeof(parent.debuggerShowAllAPIcalls)!="undefined") {
 {nr_session}: {SESSION}; 
 {id_learning_module}: {COURSEID}
 </div>
+<div>{CHECK_VALUES}</div>
 <div id="showAllAPIcalls">
 {all_API-calls_shown}
 </div>
@@ -295,7 +298,7 @@ textImportant();
 <div class="important{IMPORTANTKEY}">
 <div class="color{COLOR}">!<a href="javascript:showColorDescription('{TIMESPAN}{ACTION}{KEY}','{COLOR}')">?</a>!</div>
 <div class="timespan">{TIMESPAN}</div>
-<div class="key"><a href="javascript:showActionDescription('{TIMESPAN}{ACTION}{KEY}','{ACTION}')">{ACTION}</a>("<a href="javascript:showKeyDescription('{TIMESPAN}{ACTION}{KEY}','{KEY}')">{KEY}</a>","{VALUE}")</div>
+<div class="key"><a href="javascript:showActionDescription('{TIMESPAN}{ACTION}{KEY}','{ACTION}')">{ACTION}</a>("<a href="javascript:showKeyDescription('{TIMESPAN}{ACTION}{KEY}','{KEY}')">{KEY}</a>",{VALUE})</div>
 <div class="result">{RESULT}</div>
 <div class="errorcode"><a href="javascript:showError('{TIMESPAN}{ACTION}{KEY}',{ERRORCODE})">{ERRORCODE}</a></div>
 <div class="description" id="{TIMESPAN}{ACTION}{KEY}"></div>

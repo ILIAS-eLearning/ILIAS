@@ -437,7 +437,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 
 		// get attempts
 		$val_set = $ilDB->queryF('
-		SELECT * FROM cmi_custom 
+		SELECT rvalue FROM cmi_custom 
 		WHERE user_id = %s
 				AND sco_id = %s
 				AND lvalue = %s
@@ -472,8 +472,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		{
 			include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
 			$data_set = $ilDB->queryF('
-				SELECT c_timestamp last_access, session_time, success_status, completion_status,
-					   c_raw, cp_node_id, total_time
+				SELECT total_time
 				FROM cmi_node 
 				WHERE cp_node_id = %s
 				AND user_id = %s',
@@ -537,5 +536,7 @@ die("Not Implemented: ilSCORM2004Tracking_getFailed");
 		return false;
 	}
 
-} // END class.ilSCORM2004Tracking
+
+}
+// END class.ilSCORM2004Tracking
 ?>

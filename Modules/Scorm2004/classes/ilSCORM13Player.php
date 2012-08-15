@@ -128,6 +128,7 @@ class ilSCORM13Player
 		
 		global $ilias, $tpl, $ilCtrl, $ilUser, $lng;
 
+		//erase next?
 		if ($_REQUEST['learnerId']) {
 				$this->userId = $_REQUEST['learnerId'];
 			} else {
@@ -197,7 +198,7 @@ class ilSCORM13Player
 				break;
 				
 			case 'gobjective':
-				$this->writeGObjective();
+//				$this->writeGObjective();
 				break;		
 
 			case 'getGobjective':	
@@ -241,6 +242,13 @@ class ilSCORM13Player
 			case 'openLog':
 				$this->openLog();
 				break;	
+
+			case 'pingSession':
+				$this->pingSession();
+				break;
+			case 'scormPlayerUnload':
+				$this->scormPlayerUnload();
+				break;
 				
 			default:
 				$this->getPlayer();
@@ -293,9 +301,11 @@ class ilSCORM13Player
 			'specialpage_url'=> 'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=specialPage&ref_id='.$_GET["ref_id"],
 			'suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=suspend&ref_id='.$_GET["ref_id"],
 			'get_suspend_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getSuspend&ref_id='.$_GET["ref_id"],
+			//next 2 lines could be deleted later
 			'gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=gobjective&ref_id='.$_GET["ref_id"],
 			'get_gobjective_url'=>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=getGobjective&ref_id='.$_GET["ref_id"],
 			'ping_url' =>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=pingSession&ref_id='.$_GET["ref_id"],
+			'scorm_player_unload_url' =>'ilias.php?baseClass=ilSAHSPresentationGUI' .'&cmd=scormPlayerUnload&ref_id='.$_GET["ref_id"],
 			'scope'=>$this->getScope(),
 			'learner_id' => (string) $ilUser->getID(),
 			'course_id' => (string) $this->packageId,
@@ -316,17 +326,23 @@ class ilSCORM13Player
 			'interactions_storable' => $this->slm->getInteractions(),
 			'objectives_storable' => $this->slm->getObjectives(),
 			'comments_storable' => $this->slm->getComments(),
-			'time_from_lms' => $this->slm->getTime_from_lms()
+			'time_from_lms' => $this->slm->getTime_from_lms(),
+			'auto_last_visited' => $this->slm->getAuto_last_visited(),
+			'checkSetValues' => $this->slm->getCheck_values()
 		);
-				
-		
+
+		$status['saved_global_status']="";//not yet implemented
+		$status['last_visited']=null;
+		if($this->slm->getAuto_last_visited()) $status['last_visited']=$this->get_last_visited($this->packageId, $ilUser->getID());
+		$config['status'] = $status;
+
 		//language strings
 		$langstrings['btnStart'] = $lng->txt('scplayer_start');
 		$langstrings['btnExit'] = $lng->txt('scplayer_exit');
 		$langstrings['btnExitAll'] = $lng->txt('scplayer_exitall');
 		$langstrings['btnSuspendAll'] = $lng->txt('scplayer_suspendall');
 		$langstrings['btnPrevious'] = $lng->txt('scplayer_previous');
-		$langstrings['btnContinue'] = $lng->txt('scplayer_continue');		
+		$langstrings['btnContinue'] = $lng->txt('scplayer_continue');
 		$langstrings['btnhidetree']=$lng->txt('scplayer_hidetree');
 		$langstrings['btnshowtree']=$lng->txt('scplayer_showtree');
 		$langstrings['linkexpandTree']=$lng->txt('scplayer_expandtree');
@@ -482,7 +498,20 @@ class ilSCORM13Player
 		header('Content-Type: text/plain; charset=UTF-8');
 		print("");
 	}
-	
+
+	public function scormPlayerUnload()
+	{
+		global $ilUser;
+		$data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
+		if($data && is_string($data) && $data!="")
+			$this->set_last_visited($this->packageId, $this->userId, $data);
+
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+		ilSCORM2004Tracking::_syncReadEvent($this->packageId, $this->userId, "sahs", $this->ref_id);
+
+		header('Content-Type: text/plain; charset=UTF-8');
+		print("");
+	}
 	public function getScope()
 	{
 		global $ilDB, $ilUser;
@@ -662,8 +691,8 @@ class ilSCORM13Player
 		}
 	}	
 	
-//TODO connect with commit!
-	public function writeGObjective()
+	//saves global_objectives to database
+	public function writeGObjective($g_data)
 	{
 		global $ilDB, $ilUser, $ilLog;
 		$ilLog->write("SCORM2004 writeGObjective");
@@ -671,7 +700,7 @@ class ilSCORM13Player
 		$package = $this->packageId;
 		
 		//get json string
-		$g_data = json_decode(file_get_contents('php://input'));
+//		$g_data = json_decode(file_get_contents('php://input'));
 		
 		//iterate over assoziative array
 		if($g_data == null)
@@ -718,7 +747,7 @@ class ilSCORM13Player
 					$pkg_id = $this->packageId;
 					
 		    		$res = $ilDB->queryF('
-			    		SELECT * FROM cmi_gobjective
+			    		SELECT user_id FROM cmi_gobjective
 			    		WHERE objective_id =%s 
 			    		AND user_id = %s
 			    		AND scope_id = %s', 
@@ -846,11 +875,12 @@ class ilSCORM13Player
 			}
 		}
 		
-		// update learning progress
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-		ilLPStatusWrapper::_updateStatus($package, $user);
+		// update learning progress here not necessary because integrated in setCMIdata
+		// check _updateStatus for cmi_gobjective
+//		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+//		ilLPStatusWrapper::_updateStatus($package, $user);
 		
-		echo "1";
+		return true;
 	}	
 	
 	
@@ -1120,15 +1150,15 @@ class ilSCORM13Player
 	{
 		global $ilDB;
 		
+		$i_check=0;
 		$result = array(
 			'schema' => array(), 
 			'data' => array()
-		);	
+		);
 
 		foreach(self::$schema as $k => &$v)
 		{
 			$result['schema'][$k] = array_keys($v);
-
 			$q = '';
 			switch ($k)
 			{
@@ -1142,69 +1172,86 @@ class ilSCORM13Player
 					break;
 
 				case "comment":
-					if ($this->slm->getComments()) $q = 'SELECT cmi_comment.* 
-						FROM cmi_comment 
-						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
-						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = %s
-						AND cp_node.slm_id = %s';
-	
+					if ($i_check>7) {
+						$i_check-=8;
+						if ($this->slm->getComments()) $q = 'SELECT 
+							cmi_comment.cmi_comment_id, 
+							cmi_comment.cmi_node_id, 
+							cmi_comment.c_comment, 
+							cmi_comment.c_timestamp, 
+							cmi_comment.location, 
+							cmi_comment.sourceislms 
+							FROM cmi_comment 
+							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_comment.cmi_node_id 
+							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+							WHERE cmi_node.user_id = %s
+							AND cp_node.slm_id = %s 
+							ORDER BY cmi_comment.cmi_comment_id';
+					}
+
 					break;
 
 				case "correct_response":
-					if ($this->slm->getInteractions()) $q = 'SELECT cmi_correct_response.* 
-						FROM cmi_correct_response 
-						INNER JOIN cmi_interaction 
-						ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
-						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = %s
-						AND cp_node.slm_id = %s';
-
+					if ($i_check>3) {
+						$i_check-=4;
+						if ($this->slm->getInteractions()) $q = 'SELECT cmi_correct_response.* 
+							FROM cmi_correct_response 
+							INNER JOIN cmi_interaction 
+							ON cmi_interaction.cmi_interaction_id = cmi_correct_response.cmi_interaction_id 
+							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
+							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+							WHERE cmi_node.user_id = %s
+							AND cp_node.slm_id = %s 
+							ORDER BY cmi_correct_response.cmi_correct_resp_id';
+					}
 					break;
 
 				case "interaction":
-					if ($this->slm->getInteractions()) $q = 'SELECT 
-						cmi_interaction.cmi_interaction_id, 
-						cmi_interaction.cmi_node_id, 
-						cmi_interaction.description, 
-						cmi_interaction.id, 
-						cmi_interaction.latency, 
-						cmi_interaction.learner_response, 
-						cmi_interaction.result, 
-						cmi_interaction.c_timestamp, 
-						cmi_interaction.c_type, 
-						cmi_interaction.weighting
-						FROM cmi_interaction 
-						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = %s
-						AND cp_node.slm_id = %s';
-		
+					if ($i_check>1) {
+						$i_check-=2;
+						if ($this->slm->getInteractions()) $q = 'SELECT 
+							cmi_interaction.cmi_interaction_id, 
+							cmi_interaction.cmi_node_id, 
+							cmi_interaction.description, 
+							cmi_interaction.id, 
+							cmi_interaction.latency, 
+							cmi_interaction.learner_response, 
+							cmi_interaction.result, 
+							cmi_interaction.c_timestamp, 
+							cmi_interaction.c_type, 
+							cmi_interaction.weighting
+							FROM cmi_interaction 
+							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
+							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+							WHERE cmi_node.user_id = %s
+							AND cp_node.slm_id = %s 
+							ORDER BY cmi_interaction.cmi_interaction_id';
+					}
 					break;
 
 				case "objective":
-					if ($this->slm->getObjectives()) $q = 'SELECT 
-						cmi_objective.cmi_interaction_id, 
-						cmi_objective.cmi_node_id, 
-						cmi_objective.cmi_objective_id, 
-						cmi_objective.completion_status, 
-						cmi_objective.description, 
-						cmi_objective.id, 
-						cmi_objective.c_max, 
-						cmi_objective.c_min, 
-						cmi_objective.c_raw, 
-						cmi_objective.scaled, 
-						cmi_objective.progress_measure, 
-						cmi_objective.success_status, 
-						cmi_objective.scope 
-						FROM cmi_objective 
-						INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
-						INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
-						WHERE cmi_node.user_id = %s
-						AND cp_node.slm_id = %s 
-						ORDER BY cmi_objective.cmi_objective_id';
-
+					if ($i_check>0) {
+						if ($this->slm->getObjectives()) $q = 'SELECT 
+							cmi_objective.cmi_interaction_id, 
+							cmi_objective.cmi_node_id, 
+							cmi_objective.cmi_objective_id, 
+							cmi_objective.completion_status, 
+							cmi_objective.description, 
+							cmi_objective.id, 
+							cmi_objective.c_max, 
+							cmi_objective.c_min, 
+							cmi_objective.c_raw, 
+							cmi_objective.scaled, 
+							cmi_objective.progress_measure, 
+							cmi_objective.success_status, 
+							cmi_objective.scope 
+							FROM cmi_objective 
+							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_objective.cmi_node_id 
+							INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+							WHERE cmi_node.user_id = %s
+							AND cp_node.slm_id = %s 
+							ORDER BY cmi_objective.cmi_objective_id';
+					}
 					break;
 
 				case "package":
@@ -1231,253 +1278,177 @@ class ilSCORM13Player
 					$tmp_result = array();
 					foreach($row as $key => $value)
 					{
-						if ($k == "comment" && $key == "c_timestamp" && strpos($value,' ')==10) $tmp_result[] = str_replace(' ','T',$value);
-						else $tmp_result[] = $value;
+						if ($k == "comment" && $key == "c_timestamp" && strpos($value,' ')==10) $value = str_replace(' ','T',$value);
+						$tmp_result[] = $value;
+						if($k=="node" && $key=="additional_tables" && $i_check<$value){
+							$i_check=$value;
+//							$GLOBALS['ilLog']->write($i_check);
+						}
 					}
 					$result['data'][$k][] = $tmp_result;
 				}
 			}
 		}
-		return $result;	
+		return $result;
 	}
 
-	private function removeCMIData($userId, $packageId, $cp_node_id=null) 
+	private function setCMIData($userId, $packageId, $data)
 	{
 		global $ilDB, $ilLog;
 
-//$ilLog->write("Remove CMI Data");
-
-		$delorder = array('correct_response', 'objective', 'interaction', 'comment', 'node');
-		//error_log("Delete, User:".$userId."Package".$packageId."Node: ".$cp_node_id);
-		foreach($delorder as $k) 
-		{
-			if(is_null($cp_node_id))
-			{
-				switch($k)
-				{
-					case "response":
-					 	$q = 'DELETE FROM 
-							cmi_correct_response WHERE cmi_interaction_id IN (
-							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
-							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-							INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id 
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s)';
-						break;
-						
-					case "interaction":
-						$q = 'DELETE FROM cmi_interaction 
-							WHERE cmi_node_id IN (
-							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id 
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s)';
-						break;
-						
-					case "comment":
-						$q = 'DELETE FROM cmi_comment 
-							WHERE cmi_node_id IN (
-							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id 
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s)';
-						break;
-						
-					case "objective":
-						$q = 'DELETE FROM cmi_objective 
-							WHERE cmi_node_id IN (
-							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							INNER JOIN cp_node ON cmi_node.cp_node_id = cp_node.cp_node_id 
-							WHERE cmi_node.user_id = %s
-							AND cp_node.slm_id = %s)';
-						break;
-						
-					case "node":
-						$q = 'DELETE FROM cmi_node 
-							WHERE user_id = %s AND cp_node_id IN (
-							SELECT cp_node_id FROM cp_node 
-							WHERE slm_id = %s)';
-						break;
-				}
-				
-				$types = array('integer', 'integer');
-				$values = array($userId, $packageId);			
-				$ilDB->manipulateF($q, $types, $values);
-			}
-			else
-			{
-				$q = '';
-				switch($k)
-				{
-					case "correct_response":
-						if ($this->slm->getInteractions()) 
-							$q = 'DELETE FROM cmi_correct_response 
-							WHERE cmi_interaction_id IN (
-							SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction 
-							INNER JOIN cmi_node ON cmi_node.cmi_node_id = cmi_interaction.cmi_node_id 
-							WHERE cmi_node.cp_node_id = %s
-							AND cmi_node.user_id = %s)';
-						break;
-						
-					case "interaction":
-						if ($this->slm->getInteractions()) 
-							$q = 'DELETE FROM cmi_interaction 
-							WHERE cmi_node_id IN (
-							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id = %s
-							AND cmi_node.user_id = %s)';
-						break;
-						
-					case "comment":
-					 	if ($this->slm->getComments()) 
-							$q = 'DELETE FROM cmi_comment 
-							WHERE cmi_node_id IN (
-							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id = %s
-							AND cmi_node.user_id = %s)';
-						break;
-
-					case "objective":
-					 	if ($this->slm->getObjectives()) 
-							$q = 'DELETE FROM cmi_objective 
-							WHERE cmi_node_id IN (
-							SELECT cmi_node.cmi_node_id FROM cmi_node 
-							WHERE cmi_node.cp_node_id = %s
-							AND cmi_node.user_id = %s)';
-						break;
-						
-					case "node":
-						$q = 'DELETE FROM cmi_node WHERE cp_node_id = %s
-							AND cmi_node.user_id = %s';
-						break;
-				}
-				if ($q != '') {
-					$types = array('integer', 'integer');
-					$values = array($cp_node_id, $userId);			
-					$ilDB->manipulateF($q, $types, $values);
-				}
-			}
-		}
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-		ilLPStatusWrapper::_updateStatus($packageId, $userId);
-
-	}
-	
-	private function setCMIData($userId, $packageId, $data, $a_ref_id)
-	{
-		global $ilDB, $ilLog;	
-	
 		$result = array();
-		$map = array();
 
 		if (!$data) return;
-	
-		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
 
+		$i_check=$data->i_check;
+		$i_set=$data->i_set;
+		$b_node_update=false;
+		$cmi_node_id=null;
+		$a_map_cmi_interaction_id=array();
+
+		$tables = array('node', 'comment', 'interaction', 'objective', 'correct_response');
+		
 		foreach($tables as $table)
 		{
-			$schem = & self::$schema[$table];
-			//$ilLog->write("SCORM2004 setCMIData, table -".$table."-".$data->objective);
-
 			if (!is_array($data->$table)) continue;
-				
-			$ilLog->write("SCORM2004 setCMIData, table -".$table."-");
-			
-			// build up numerical index for schema fields
-			$i = 0;
-			foreach($schem as &$field) 
-			{
-				$field['no'] = $i++;
-			}
+
+			$ilLog->write("SCORM: setCMIData, table -".$table."-");
+
 			// now iterate through data rows from input
 			foreach($data->$table as &$row)
 			{
-				// first fill some fields that could not be set from client side
-				// namely the database id's depending on which table is processed
-				switch ($table)
-				{
-					case 'correct_response':
-						$no = $schem['cmi_interaction_id']['no'];
-						$ilLog->write("SCORM2004 correct_response no: ".$no);
-						$ilLog->write("SCORM2004 The Row: ".count($row));
-						$row[$no] = $map['interaction'][$row[$no]];
-						$ilLog->write("SCORM2004 Value: ".print_r($map['interaction'],true));
-					case 'comment':
-					case 'interaction':
-						$no = $schem['cmi_node_id']['no'];
-						$row[$no] = $map['node'][$row[$no]];
-						break;
-					case 'objective':
-						$no = $schem['cmi_interaction_id']['no'];
-						$row[$no] = $map['interaction'][$row[$no]];
-						$no = $schem['cmi_node_id']['no'];
-						$row[$no] = $map['node'][$row[$no]];
-						break;
-					case 'node':
-						$no = $schem['user_id']['no'];
-						$row[$no] = $userId;
-						break;
-					
-				}
-		
-//$ilLog->write("SCORM2004 setCMIData, row b");
-				$cp_no = $schem['cp_' . $table . '_id']['no'];						 
-				$cmi_no = $schem['cmi_' . $table . '_id']['no'];
-				
-				// get current id for later use
-				// this is either a real db id or document unique string generated by client 
-				$cmi_id = $row[$cmi_no]; 
-				
-				// set if field to null, so it will be filled up by autoincrement
-				$row[$cmi_no] = null;
-				
-				$keys = array();
-				foreach(array_keys($schem) as $key) 
-				{
-					$keys[] = $key;					
-				}
-//$ilLog->write("SCORM2004 setCMIData, row c");
-				if($table === 'node') 
-				{
-					$this->removeCMIData($userId, $packageId, $row[$cp_no]);
-				}				
+				$ilLog->write("Checking table: ".$table);
 
-				$ret = false;
 
-				$ilLog->write("SCORM2004 Checking table: ".$table);
+
+
 
 				switch($table)
 				{
-					case 'correct_response':
-						$row[$cmi_no] = $ilDB->nextId('cmi_correct_response');
+					case 'node': //is always first and has only 1 row
 
-						$ilDB->insert('cmi_correct_response', array(
-							'cmi_correct_resp_id'	=> array('integer', $row[$cmi_no]),
-							'cmi_interaction_id'	=> array('integer', $row[1]),
-							'pattern'				=> array('text', $row[2])
-						));
-						break;
+						$res = $ilDB->queryF(
+							'SELECT cmi_node_id FROM cmi_node WHERE cp_node_id = %s and user_id = %s',
+							array('integer','integer'),
+							array($row[19],$userId)
+						);
+						$rowtmp=$ilDB->fetchAssoc($res);
+						$cmi_node_id=$rowtmp['cmi_node_id'];
+						if ($cmi_node_id!=null) $b_node_update=true;
+						else $cmi_node_id = $ilDB->nextId('cmi_node');
+						$ilLog->write("setCMIdata with cmi_node_id = ".$cmi_node_id);
+						$a_data=array(
+							'accesscount'			=> array('integer', $row[0]),
+							'accessduration'		=> array('text', $row[1]),
+							'accessed'				=> array('text', $row[2]),
+							'activityabsduration'	=> array('text', $row[3]),
+							'activityattemptcount'	=> array('integer', $row[4]),
+							'activityexpduration'	=> array('text', $row[5]),
+							'activityprogstatus'	=> array('integer', $row[6]),
+							'attemptabsduration'	=> array('text', $row[7]),
+							'attemptcomplamount'	=> array('float', $row[8]),
+							'attemptcomplstatus'	=> array('integer', $row[9]),
+							'attemptexpduration'	=> array('text', $row[10]),
+							'attemptprogstatus'		=> array('integer', $row[11]),
+							'audio_captioning'		=> array('integer', $row[12]),
+							'audio_level'			=> array('float', $row[13]),
+							'availablechildren'		=> array('text', $row[14]),
+							'cmi_node_id'			=> array('integer', $cmi_node_id),
+							'completion'			=> array('float', $row[16]),
+							'completion_status'		=> array('text', $row[17]),
+							'completion_threshold'	=> array('text', $row[18]),
+							'cp_node_id'			=> array('integer', $row[19]),
+							'created'				=> array('text', $row[20]),
+							'credit'				=> array('text', $row[21]),
+							'delivery_speed'		=> array('float', $row[22]),
+							'c_entry'				=> array('text', $row[23]),
+							'c_exit'				=> array('text', $row[24]),
+							'c_language'			=> array('text', $row[25]),
+							'launch_data'			=> array('clob', $row[26]),
+							'learner_name'			=> array('text', $row[27]),
+							'location'				=> array('text', $row[28]),
+							'c_max'					=> array('float', $row[29]),
+							'c_min'					=> array('float', $row[30]),
+							'c_mode'				=> array('text', $row[31]),
+							'modified'				=> array('text', $row[32]),
+							'progress_measure'		=> array('float', $row[33]),
+							'c_raw'					=> array('float', $row[34]),
+							'scaled'				=> array('float', $row[35]),
+							'scaled_passing_score'	=> array('float', $row[36]),
+							'session_time'			=> array('text', $row[37]),
+							'success_status'		=> array('text', $row[38]),
+							'suspend_data'			=> array('clob', $row[39]),
+							'total_time'			=> array('text', $row[40]),
+							'user_id'				=> array('integer', $userId),
+							'c_timestamp'			=> array('timestamp', date('Y-m-d H:i:s')),
+							'additional_tables'		=> array('integer', $i_check)
+						);
+						
+						if($b_node_update==false) {
+							$ilLog->write("Want to insert row: ".count($row) );
+							$ilDB->insert('cmi_node', $a_data);
+						} else {
+							$ilDB->update('cmi_node', $a_data, array('cmi_node_id' => array('integer', $cmi_node_id)));
+							$ilLog->write("updated");
+						}
+						
+						if($b_node_update==true) {
+							//remove
+							if ($i_set>7) {
+								$i_set-=8;
+								if ($this->slm->getComments()) {
+									$q = 'DELETE FROM cmi_comment WHERE cmi_node_id = %s';
+									$ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
+								}
+							}
+							if ($i_set>3) {
+								$i_set-=4;
+								if ($this->slm->getInteractions()) {
+									$q = 'DELETE FROM cmi_correct_response 
+									WHERE cmi_interaction_id IN (
+									SELECT cmi_interaction.cmi_interaction_id FROM cmi_interaction WHERE cmi_interaction.cmi_node_id = %s)';
+									$ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
+								}
+							}
+							if ($i_set>1) {
+								$i_set-=2;
+								if ($this->slm->getInteractions()) {
+									$q = 'DELETE FROM cmi_interaction WHERE cmi_node_id = %s';
+									$ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
+								}
+							}
+							if ($i_set>0) {
+								$i_set=0;
+								if ($this->slm->getObjectives()) { 
+									$q = 'DELETE FROM cmi_objective WHERE cmi_node_id = %s';
+									$ilDB->manipulateF($q, array('integer'), array($cmi_node_id));
+								}
+							}
+							//end remove
+						}
+						//to send to client
+						$result[(string)$row[19]] = $cmi_node_id;
+					break;
 
 					case 'comment':
-						$row[$cmi_no] = $ilDB->nextId('cmi_comment');
-
+						$row[0] = $ilDB->nextId('cmi_comment');
+	
 						$ilDB->insert('cmi_comment', array(
-							'cmi_comment_id'	=> array('integer', $row[$cmi_no]),
-							'cmi_node_id'		=> array('integer', $row[1]),
+							'cmi_comment_id'	=> array('integer', $row[0]),
+							'cmi_node_id'		=> array('integer', $cmi_node_id),
 							'c_comment'			=> array('clob', $row[2]),
-							'c_timestamp'		=> array('timestamp', $row[3]),
+							'c_timestamp'		=> array('text', $row[3]),
 							'location'			=> array('text', $row[4]),
 							'sourceislms'		=> array('integer', $row[5])
 						));
-						break;
-						
+					break;
+
 					case 'interaction':
-						$row[$cmi_no] = $ilDB->nextId('cmi_interaction');
-	
+						$cmi_interaction_id = $ilDB->nextId('cmi_interaction');
+						$a_map_cmi_interaction_id[]=array($row[0],$cmi_interaction_id);
 						$ilDB->insert('cmi_interaction', array(
-							'cmi_interaction_id'	=> array('integer', $row[$cmi_no]),
-							'cmi_node_id'			=> array('integer', $row[1]),
+							'cmi_interaction_id'	=> array('integer', $cmi_interaction_id),
+							'cmi_node_id'			=> array('integer', $cmi_node_id),
 							'description'			=> array('clob', $row[2]),
 							'id'					=> array('text', $row[3]),
 							'latency'				=> array('text', $row[4]),
@@ -1487,15 +1458,19 @@ class ilSCORM13Player
 							'c_type'				=> array('text', $row[8]),
 							'weighting'				=> array('float', $row[9])
 						));
-						break;
-						
+					break;
+
 					case 'objective':
-						$row[$cmi_no] = $ilDB->nextId('cmi_objective');
-						
+						$row[2] = $ilDB->nextId('cmi_objective');
+						$cmi_interaction_id = null;
+						if ($row[0] != null) {
+							for($i=0;$i<count($a_map_cmi_interaction_id);$i++) 
+								if ($row[0] == $a_map_cmi_interaction_id[$i][0]) $cmi_interaction_id=$a_map_cmi_interaction_id[$i][1];
+						}
 						$ilDB->insert('cmi_objective', array(
-							'cmi_interaction_id'	=> array('integer', $row[0]),
-							'cmi_node_id'			=> array('integer', $row[1]),
-							'cmi_objective_id'		=> array('integer', $row[$cmi_no]),
+							'cmi_interaction_id'	=> array('integer', $cmi_interaction_id),
+							'cmi_node_id'			=> array('integer', $cmi_node_id),
+							'cmi_objective_id'		=> array('integer', $row[2]),
 							'completion_status'		=> array('text', $row[3]),
 							'description'			=> array('clob', $row[4]),
 							'id'					=> array('text', $row[5]),
@@ -1507,86 +1482,52 @@ class ilSCORM13Player
 							'success_status'		=> array('text', $row[11]),
 							'scope'					=> array('text', $row[12])
 						));
-						break;
-						
-					case 'node':
-						$row[$cmi_no] = $ilDB->nextId('cmi_node');
-					
-						$node_fields = array(
-							'accesscount', 'accessduration', 'accessed', 'activityabsduration', 'activityattemptcount',
-							'activityexpduration', 'activityprogstatus', 'attemptabsduration', 'attemptcomplamount', 'attemptcomplstatus',
-							'attemptexpduration', 'attemptprogstatus', 'audio_captioning', 'audio_level', 'availablechildren',
-							'cmi_node_id', 'completion', 'completion_status', 'completion_threshold', 'cp_node_id',
-							'created', 'credit', 'delivery_speed', 'c_entry', 'c_exit',
-							'c_language', 'launch_data', 'learner_name', 'location', 'c_max',
-							'c_min', 'c_mode', 'modified', 'progress_measure', 'c_raw',
-							'scaled', 'scaled_passing_score', 'session_time', 'success_status', 'suspend_data',
-							'total_time', 'user_id', 'c_timestamp'
-						);
-						
-						$node_types = array(
-							'integer', 'text', 'text', 'text', 'integer', 'text', 'integer', 'text', 'float', 'integer',
-							'text', 'integer', 'integer', 'float', 'text', 'integer', 'float', 'text', 'text', 'integer',
-							'text', 'text', 'float', 'text', 'text', 'text', 'clob', 'text', 'text', 'float',
-							'float', 'text', 'text', 'float', 'float', 'float', 'float', 'text', 'text', 'clob',
-							'text', 'integer', 'timestamp'
-						);
-						
-						$node_data = array();
-						foreach($node_fields as $key => $node_field)
-						{
-							if($key == 15)
-								$value = $row[$cmi_no];
-							else if($key == 42)
-								$value = date('Y-m-d H:i:s');
-							else
-								$value = $row[$key];
-							$node_data[$node_field] = array($node_types[$key], $value);
-						}					
+					break;
 
-						$ilLog->write("SCORM2004 Want to insert row: ".count($row) );
-						$ilDB->insert('cmi_node', $node_data);									
-						break;
-				}				
-				
-				$ret = true;
-
-				if(!$ret) //UK: sense?
-				{
-					$return = false;
+					case 'correct_response':
+						$cmi_interaction_id = null;
+						if ($row[1] !== null) {
+							for($i=0;$i<count($a_map_cmi_interaction_id);$i++) 
+								if ($row[1] == $a_map_cmi_interaction_id[$i][0]) $cmi_interaction_id=$a_map_cmi_interaction_id[$i][1];
+							$row[0] = $ilDB->nextId('cmi_correct_response');
+							$ilDB->insert('cmi_correct_response', array(
+								'cmi_correct_resp_id'	=> array('integer', $row[0]),
+								'cmi_interaction_id'	=> array('integer', $cmi_interaction_id),
+								'pattern'				=> array('text', $row[2])
+							));
+						}
 					break;
 				}
-				
-				// if we process a node save new id into result object that will be feedback for client
-				if($table === 'node') 
-				{
-					$result[(string)$row[$cp_no]] = $row[$cmi_no];
-				}
-				
-				// add new id to mapping table for later use on dependend elements 
-				$map[$table][$cmi_id] = $row[$cmi_no];
 			}
 		}
-//UK change here like in lbex_dev 1297-1323
-		//hier global_objectives
-		//UK
-		//hier update_global_status
-		
-		//analog sendUserLpForObject $scorm_status bestimmen
-		//mit status_ante um status_changed zu bestimmen
-		//if status_changed soap-Aufruf starten
-		//$result["status_changed"]=
-		//if status_changed opener_reload
-//$ilLog->write("SCORM2004 -synching-");
 
+
+		$changed_seq_utilities=$data->changed_seq_utilities;
+		$ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
+		if ($changed_seq_utilities == 1) {
+			$this->writeGObjective($data->adl_seq_utilities);
+		}
+
+
+
+		//ATTENTION not at commit - do at unload!
 		// sync access number and time in read event table
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
-		ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
+		//include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
+		//ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", $a_ref_id);
 		
 		// update learning progress status
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_updateStatus($packageId, $userId);
-		
+//		include_once './Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php';
+//		$new_global_status = ilSCORM2004Tracking::updateGlobalStatus($userId, $packageId,$completed, $satisfied, $measure);
+//		$ilLog->write("new_global_status=".$new_global_status);
+//		$saved_global_status=$data->saved_global_status;
+//		$ilLog->write("saved_global_status=".$saved_global_status);
+//		$result["new_global_status"]=$new_global_status;
+
+//		here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
+
+		$result["new_global_status"]="";
 		return $result;
 	}
 	
@@ -1710,7 +1651,7 @@ class ilSCORM13Player
 		return $row['max_attempt']; 
 	}
 	
-	function get_module_version()
+	function get_Module_Version()
 	{		
 		global $ilDB;
 
@@ -1850,7 +1791,7 @@ class ilSCORM13Player
 		global $ilDB, $ilUser;
 
 		$res = $ilDB->queryF('
-			SELECT * FROM cmi_custom 
+			SELECT rvalue FROM cmi_custom 
 			WHERE user_id = %s
 			AND sco_id = %s
 			AND lvalue = %s
@@ -1869,6 +1810,7 @@ class ilSCORM13Player
 		}
 		else
 		{
+		//optimize: check first if $this->get_Module_Version() = module_version
 			$ilDB->manipulateF('
 				UPDATE cmi_custom 
 				SET rvalue = %s, 
@@ -1882,7 +1824,6 @@ class ilSCORM13Player
 			);	
 		}
 	}
-	
 
 	//debug extentions
 	
@@ -1907,7 +1848,7 @@ class ilSCORM13Player
 				);
 		$row = $ilDB->fetchAssoc($res);
 		$ilLog->write("DEBUG SQL".$row);
-		return $row;		
+		return $row;
 	}
 
 	private function logTmpName()
@@ -2077,6 +2018,7 @@ class ilSCORM13Player
 			$logtpl->setVariable("i_red", $lng->txt("i_red"));
 			$logtpl->setVariable("i_orange", $lng->txt("i_orange"));
 			$logtpl->setVariable("i_fuchsia", $lng->txt("i_fuchsia"));
+			$logtpl->setVariable("i_gray", $lng->txt("i_gray"));
 			$logtpl->setVariable("error", $lng->txt("error"));
 			$logtpl->setVariable("strange_error", $lng->txt("strange_error"));
 			$logtpl->setVariable("strange_API-Call", $lng->txt("strange_API-Call"));
@@ -2092,6 +2034,7 @@ class ilSCORM13Player
 			$logtpl->setVariable("started", $lng->txt("started"));
 			$logtpl->setVariable("nr_session", $lng->txt("nr_session"));
 			$logtpl->setVariable("id_learning_module", $lng->txt("id_learning_module"));
+			if($this->slm->getCheck_values()==false) $logtpl->setVariable("CHECK_VALUES", $lng->txt("sent_values_not_checked"));
 			$logtpl->parseCurrentBlock();
 			fwrite($fHandle2,$logtpl->get());
 			fclose($fHandle2);
@@ -2118,7 +2061,6 @@ class ilSCORM13Player
 		return $logDir;
 	}
 
-	
 	public function openLog(){
 		$filename = $_GET['logFile'];
 		//Header
@@ -2291,9 +2233,22 @@ class ilSCORM13Player
 		fclose($fh_tmp2);
 
 		$timestamp = date("d.m.Y H:i",time());
-		
-	
-		
+
+
+		$errorcode = $logdata->errorcode;
+		$fixedFailure = false;
+		$toleratedFailure = false;
+		$extraErrorDescription = "";
+		if ($errorcode == 200000) {
+			$errorcode = 0;
+			$toleratedFailure = true;
+			$extraErrorDescription = "tolerated failure";
+		}
+		if ($errorcode>99999) {
+			$errorcode-=100000;
+			$fixedFailure = true;
+			$extraErrorDescription = " failure corrected by ILIAS";
+		}
 		if (strpos($logdata->action,"ANALYZE")===false)
 		{
 			$errorDescriptions = array("0" => "",
@@ -2330,12 +2285,12 @@ class ilSCORM13Player
 				.$logdata->key.'";"'
 				.str_replace("\"","\"\"",$logdata->value).'";"'
 				.str_replace("\"","\"\"",$logdata->result).'";'
-				.$logdata->errorcode.';'
+				.$errorcode.';'
 				.$logdata->timespan.';"'
-				.$errorDescriptions[$logdata->errorcode].'"'."\n";
+				.$errorDescriptions[$errorcode].$extraErrorDescription.'"'."\n";
 			fwrite($fh_csv,$csv_string);
 		}
-//		$sql_txt = "";
+
 		$sqlwrite = false;
 		if($logdata->action == "Commit" || $logdata->action == "Terminate")
 		{
@@ -2349,7 +2304,6 @@ class ilSCORM13Player
 					.$key.'";"'
 					.str_replace("\"","\"\"",$value).'";;;;'."\n";
 				fwrite($fh_csv,$sql_string);
-//				$sql_txt = $sql_txt.$key." = ".$value.", ";
 			}
 		}
 		
@@ -2364,7 +2318,6 @@ class ilSCORM13Player
 		
 		//write TXT
 		$logtpl = $this->getLogTemplate();
-		$errorcode = $logdata->errorcode;
 		$color = "red";
 		$importantkey=1;
 		$ArGetValues = array('comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time');
@@ -2373,10 +2326,12 @@ class ilSCORM13Player
 			case 'SetValue':
 				if ($logdata->result == "true" && $errorcode == 0) $color = "green";
 				if ($color=="green" && $logdata->key == "cmi.exit" && $logdata->value!="suspend") $color = "orange";
+				if ($fixedFailure == false && $errorcode!=406) $logdata->value = '"'.$logdata->value.'"';
+				if ($toleratedFailure == true) $color = "fuchsia";
+				if ($fixedFailure == true) $color = "gray";
 				break;
 			case 'GetValue':
 				if ($errorcode == 0) $color = "green";
-				if ($logdata->result == "undefined") $color = "fuchsia";
 				break;
 			case 'Initialize':
 				if ($errorcode == 0)
@@ -2423,7 +2378,7 @@ class ilSCORM13Player
 				$logtpl->setCurrentBlock("INFO");
 				$logtpl->setVariable("hint", $lng->txt("hint"));
 				$logtpl->setVariable("KEY", $lng->txt($logdata->key));
-				$logtpl->setVariable("VALUE",  $logdata->value);
+				$logtpl->setVariable("VALUE", $logdata->value);
 				$logtpl->parseCurrentBlock();
 				break;
 			case 'COMMENT':
@@ -2625,6 +2580,57 @@ class ilSCORM13Player
 		fclose($fh);
 		unlink($this->logTmpName());
 	}
+	/**
+	*	functions for last_visited_sco
+	*/
+
+	function get_last_visited($a_obj_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$val_set = $ilDB->queryF('
+		SELECT rvalue FROM cmi_custom 
+		WHERE user_id = %s
+				AND sco_id = %s
+				AND lvalue = %s
+				AND obj_id = %s',
+		array('integer','integer', 'text','integer'),
+		array($a_user_id, 0,'last_visited',$a_obj_id));
+		
+		$val_rec = $ilDB->fetchAssoc($val_set);
+		return $val_rec["rvalue"];
+	}
+
+	function set_last_visited($a_obj_id, $a_user_id, $last_visited)
+	{
+		global $ilDB;
+		$pre_last_visited=$this->get_last_visited($a_obj_id, $a_user_id);
+		
+		if ($pre_last_visited == $last_visited) return;
+		if ($pre_last_visited == null) {
+			$ilDB->manipulateF('
+				INSERT INTO cmi_custom (rvalue, user_id, sco_id, obj_id, lvalue, c_timestamp)
+				VALUES(%s, %s, %s, %s, %s, %s)',  
+				array('text', 'integer', 'integer', 'integer', 'text', 'timestamp'),
+				array($last_visited, $a_user_id, 0, $a_obj_id, 'last_visited', date('Y-m-d H:i:s'))
+			);
+		}
+		else
+		{
+			$ilDB->manipulateF('
+				UPDATE cmi_custom 
+				SET rvalue = %s, 
+					c_timestamp = %s
+				WHERE user_id = %s 
+				AND	sco_id = %s 
+				AND obj_id = %s 
+				AND	lvalue = %s',  
+				array('text', 'timestamp', 'integer', 'integer', 'integer', 'text'),
+				array($last_visited, date('Y-m-d H:i:s'), $a_user_id, 0, $a_obj_id, 'last_visited')
+			);
+		}
+	}
+
 }
 
 function datecmp($a, $b){
