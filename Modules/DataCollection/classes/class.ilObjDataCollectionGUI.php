@@ -63,7 +63,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		global $ilCtrl, $ilTabs, $ilNavigationHistory;
 
 		// Navigation History
-		$link = $ilCtrl->getLinkTarget($this, "");
+		$link = $ilCtrl->getLinkTarget($this, "render");
 		if($this->object != Null)
 			$ilNavigationHistory->addItem($this->object->getRefId(), $link, "dcl");
 
