@@ -68,27 +68,37 @@ class ilMainMenuSearchGUI
 		iljQueryUtil::initjQuery();
 		iljQueryUtil::initjQueryUI();
 		$this->tpl = new ilTemplate('tpl.main_menu_search.html',true,true,'Services/Search');
+		
+		if ($ilUser->getId() != ANONYMOUS_USER_ID && (int) $_GET["ref_id"] > 0)
+		{
+			$this->tpl->setCurrentBlock("position");
+			$this->tpl->setVariable('TXT_GLOBALLY', $lng->txt("search_globally"));
+			$this->tpl->setVariable('TXT_CURRENT_POSITION', $lng->txt("search_at_current_position"));
+			$this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);
+			$this->tpl->setVariable('ROOT_ID', ROOT_FOLDER_ID);
+			$this->tpl->parseCurrentBlock();
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("position_hid");
+			$this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setVariable('FORMACTION','ilias.php?baseClass=ilSearchController&cmd=post'.
 			'&rtoken='.$ilCtrl->getRequestToken().'&fallbackCmd=remoteSearch');
 		$this->tpl->setVariable('BTN_SEARCH',$this->lng->txt('search'));
-		$this->tpl->setVariable('CONT_REF_ID',ROOT_FOLDER_ID);
+		
 		// $this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
 		$this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
 		
 		$this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(ilUtil::getImagePath("icon_seas_s.png")));
 		
-		// search link menu
-		//$this->tpl->setVariable('ARROW', ilUtil::getImagePath("mm_down_arrow_dark.png"));
-		//$this->tpl->setVariable('SRC_ICON', ilUtil::getImagePath("icon_seas_s.png"));
-		//$this->tpl->setVariable('TXT_LAST_SEARCH', " > ".$lng->txt("last_search_result"));
-		//$this->tpl->setVariable('HREF_LAST_SEARCH', "ilias.php?baseClass=ilSearchController");
-		
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
-			$list = new ilGroupedListGUI();
-			$list->addEntry($lng->txt("last_search_result"), "ilias.php?baseClass=ilSearchController");
-			$this->tpl->setVariable('SEARCH_LINK_MENU', $list->getHTML());
+			$this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchController");
+			$this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));
+			
 			$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
 			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 			$ov = new ilOverlayGUI("mm_search_menu");

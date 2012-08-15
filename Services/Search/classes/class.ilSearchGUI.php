@@ -278,6 +278,13 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$ti->setSelectText($lng->txt("search_select_search_area"));
 		$this->form->addItem($ti);
 		$ti->readFromSession();
+		// alex, 15.8.2012: Added the following lines to get the value
+		// from the main menu top right input search form
+		if (isset($_POST["root_id"]))
+		{
+			$ti->setValue($_POST["root_id"]);
+			$ti->writeToSession();
+		}
 		
 		// search type
 		$radg = new ilRadioGroupInputGUI($lng->txt("search_type"), "type");

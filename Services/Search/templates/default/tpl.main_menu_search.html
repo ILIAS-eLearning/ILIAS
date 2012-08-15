@@ -1,44 +1,61 @@
 <div class="ilMainMenuSearch">
 <form class="ilMainMenuSearch" id="mm_search_form" action="{FORMACTION}" method="post" target="_top">
 <div style="margin-top:1px; text-align:left;">
-<table cellpadding="0" cellspacing="0" datatable="0"><tr><td>
+<!-- deactivated the table to check why it has been added, alex 15.8.2012 -->
+<!-- <table cellpadding="0" cellspacing="0" datatable="0"><tr><td> -->
 	<!-- block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
 		-moz-inline-stack for FF2
 		zoom 1; *display:inline for IE6 & 7 -->
 	<div style="margin-left: width:150px; display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;" id="myAutoComplete">
 		<label class="ilAccHidden" for="main_menu_search">{BTN_SEARCH}</label>
 		<input style="width:140px; font-size:80%" type="text" class="ilMainMenuSearch" id="main_menu_search" name="queryString" />
-		<input type="hidden" name="root_id" value="{CONT_REF_ID}" />
 	    <div class="yui-skin-sam" style="font-size: 75%;" id="{ID_AUTOCOMPLETE}"></div>
 	</div>
 	<a href="#">{IMG_MM_SEARCH}</a>
-	</td>
-</tr></table>
-</div><div class="ilOverlay" style="display:none;" id="mm_search_menu">{SEARCH_LINK_MENU}</div>
+<!-- </td></tr></table> -->
+</div><div class="ilOverlay" style="display:none;" id="mm_search_menu">
+	<div id="mm_search_menu_head">
+		<p>	» <a target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
+		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked"/> {TXT_GLOBALLY}<br />
+		<input type="radio" name="root_id" value="{REF_ID}" /> {TXT_CURRENT_POSITION}</p><!-- END position -->
+		<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}" /><!-- END position_hid -->
+	</div>
+	<div id="mm_search_menu_ac"></div></div>
 	<script type="text/javascript">
 		il.Util.addOnLoad(
 			function()
 			{				
 				if (typeof $ != "undefined")
 				{
+					// we must bind the blur event before the autocomplete
+					// item is added
+					$("#main_menu_search").bind("blur", function(e) {
+						// prevent that the autocomplete list disappears when blur occurs
+						e.stopImmediatePropagation();
+					});
+					
 					$("#main_menu_search").autocomplete({
 						source: "{AC_DATASOURCE}",
+						appendTo: "#mm_search_menu_ac",
+						open: function(event, ui) {
+							$(".ui-autocomplete").position({
+								my: "left top",
+								at: "left top",
+								of: $("#mm_search_menu_ac")
+							})
+						},
+						/*close: function(event, ui) {
+							alert("close");
+							console.log(event);
+							console.log(ui);
+							return false;
+						},*/
 						minLength: 3
 					});
 									
-					$("#main_menu_search").bind("focusin focusout keyup click", function(e) {
-							if (this.value.length < 1 && e.type != "focusout")
-							{
-								il.Overlay.show(e, "mm_search_menu", "main_menu_search",
-									false, 'tl', 'bl');
-							}
-							else
-							{
-								if (e.type == "keyup")
-								{
-									il.Overlay.hide(e, "mm_search_menu");
-								}
-							}
+					$("#main_menu_search").bind("focusin click", function(e) {
+							il.Overlay.show(e, "mm_search_menu", "main_menu_search",
+								false, 'tl', 'bl');
 						});
 					
 					$(".ilMainMenuSearch img").bind("click", function(e) {
