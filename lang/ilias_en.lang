@@ -11749,9 +11749,10 @@ scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Co
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#adl.nav.request_valid.choice#:#Used by a SCO to determine if a Choice navigation request for a particular activity will succeed.
 scormdebug#:#i_green#:#green: okay
-scormdebug#:#i_red#:#red: failure!
+scormdebug#:#i_red#:#red: error!
 scormdebug#:#i_orange#:#orange: attention please!
-scormdebug#:#i_fuchsia#:#fuchsia: likely a failure by ILIAS
+scormdebug#:#i_gray#:#gray: error corrected by ILIAS
+scormdebug#:#i_fuchsia#:#fuchsia: tolerated value because sent value is not rejected
 scormdebug#:#error#:#error
 scormdebug#:#strange_error#:#strange error
 scormdebug#:#strange_API-Call#:#strange API-Call
@@ -11767,6 +11768,7 @@ scormdebug#:#log_for#:#Log for the learning module
 scormdebug#:#started#:#started
 scormdebug#:#nr_session#:#number of session
 scormdebug#:#id_learning_module#:#Id of the learning module
+scormdebug#:#sent_values_not_checked#:#selected property: values sent by SCO are not fully checked
 scormdebug#:#SCO-title#:#SCO-title
 scormdebug#:#SCO-name#:#SCO-name
 scormdebug#:#milliseconds#:#milliseconds

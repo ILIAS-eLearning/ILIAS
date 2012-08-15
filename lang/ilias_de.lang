@@ -10571,7 +10571,8 @@ scormdebug#:#GetErrorString#:#Beschreibung für den aktuellen Fehler-Status abru
 scormdebug#:#GetLastError#:#Fehler-Code für den aktuellen Fehler-Status abrufen
 scormdebug#:#GetValue#:#Daten abrufen
 scormdebug#:#hide#:#ausblenden
-scormdebug#:#i_fuchsia#:#pink: wahrscheinlich ein Fehler von ILIAS
+scormdebug#:#i_fuchsia#:#pink: tolerierter Wert da geschickter Wert nicht abgewiesen wurde
+scormdebug#:#i_gray#:#grau: von ILIAS korrigierter Fehler
 scormdebug#:#i_green#:#gr&uuml;n: in Ordnung
 scormdebug#:#i_orange#:#orange: Achtung bitte!
 scormdebug#:#i_red#:#rot: Fehler!
@@ -10590,6 +10591,7 @@ scormdebug#:#scormdebug_disable_cache#:#SCORM 2004 Browser-Cache deaktivieren
 scormdebug#:#scormdebug_disable_cache_info#:#Dies verhindert die Speicherung der SCORM 2004 Javascript-Dateien im Browser-Cache. Bitte nutzen Sie diese Funktion rechtzeitig vor einem Releasewechsel!
 scormdebug#:#scormdebug_global_activate#:#SCORM Testwerkzeug aktivieren
 scormdebug#:#scormdebug_global_activate_info#:#Die Funktion ermöglicht SCORM-Lernmodule zu testen. Zusätzlich muss bei jedem gewünschten SCORM-Modul das Testwerkzeug aktiviert werden. Bei Deaktivierung des Testwerkzeugs an dieser Stelle wird bei allen Lernmodulen das Testwerkzeug deaktiviert.
+scormdebug#:#sent_values_not_checked#:#Gew&auml;hlte Eigenschaft: Vom SCO geschickte Werte werden eingeschr&auml;nkt gepr&uuml;ft
 scormdebug#:#SetValue#:#Daten senden
 scormdebug#:#show_all_API-calls#:#Alle API-Aufrufe anzeigen!
 scormdebug#:#show_only_important_API-calls#:#Nur wichtige API-Aufrufe anzeigen!
