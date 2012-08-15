@@ -291,7 +291,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	protected function initCreationForms($a_new_type)
 	{
 		$forms = parent::initCreationForms($a_new_type);
-
+		
 		// disabling import
 		unset($forms[self::CFORM_IMPORT]);
 
@@ -404,8 +404,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 */
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
-		global $ilCtrl, $ilErr;
-
+		global $ilCtrl, $ilErr, $ilTabs;
+		
+		$ilTabs->activateTab("id_settings");
+		
 		// is_online
 		$cb = new ilCheckboxInputGUI($this->lng->txt("online"), "is_online");
 		$a_form->addItem($cb);
