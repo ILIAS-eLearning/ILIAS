@@ -295,8 +295,12 @@ class ilDataCollectionFieldEditGUI
 	public function save($a_mode = "create")
 	{
 		global $ilCtrl, $lng;
-		
-		//TODO Berechtigungen prüfen
+
+		//check access
+		if(!$this->table->hasPermissionToFields($this->parent_obj->ref_id)){
+			$this->accessDenied();
+			return;
+		}
 
 		$this->initForm();
 		if ($this->form->checkInput())
@@ -318,7 +322,6 @@ class ilDataCollectionFieldEditGUI
 			}
 		
 			// Get possible properties and save them
-			echo "hia!";
 			include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldProp.php");
 			foreach(ilDataCollectionDatatype::getProperties($this->field_obj->getDatatypeId()) as $property)
 			{
@@ -357,6 +360,11 @@ class ilDataCollectionFieldEditGUI
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHTML());
 		}
+	}
+
+	private function accessDenied(){
+		global $tpl;
+		$tpl->setContent("Access Denied");
 	}
 }
 

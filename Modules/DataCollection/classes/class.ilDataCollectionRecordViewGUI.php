@@ -1,7 +1,11 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+include_once('./Modules/DataCollection/classes/class.ilDataCollectionTable.php');
+include_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
+include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
+include_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
+include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
 /**
 * Class ilDataCollectionRecordViewGUI
 *
@@ -47,45 +51,22 @@ class ilDataCollectionRecordViewGUI
 	*/
 	public function renderRecord()
 	{
-		global $ilTabs, $tpl, $ilCtrl, $lng;
+		global $ilTabs, $tpl;
 		
 		$ilTabs->setTabActive("id_content");
-		
-		//$html = 'Hier erscheint der einzelne gerenderte Record - ACHTUNG Design wird als HTML (via Killing) in DB hinterlegt sein.<br><br>';
-		include_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-		include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
-		include_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
-		include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
-		
-		
 
 		$record_obj = new ilDataCollectionRecord($this->record_id);
 
 		$pageObj = new ilPageObjectGUI("dclf", ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_obj->getTableId()));
 
 		$html = $pageObj->getHTML();
-		//echo "<pre>".print_r($record_obj->getRecordFieldValuesAsObject(),1)."</pre>";
-		foreach($record_obj->getRecordFieldValuesAsObject() as $key => $value)
-		{
-			//echo "<pre>".print_r($value,1)."</pre>";
-			$field_obj = new ilDataCollectionField($key);
+		$table = new ilDataCollectionTable($record_obj->getTableId());
 
-			$html = str_ireplace("[".$field_obj->getTitle()."]", $value->getValue(), $html);
-		}
-		
-		
-		/*$allp = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id, true);
-		foreach($allp as $id => $item)
+		foreach($table->getFields() as $field)
 		{
-			$parsed_item = new ilTextInputGUI("", "fields[".$item->getId()."]");
-			$parsed_item = $parsed_item->getToolbarHTML();
-			
-			$a_output = str_replace($id, $item->getTitle().": ".$parsed_item, $a_output);
+			$html = str_ireplace("[".$field->getTitle()."]", $record_obj->getRecordFieldHTML($field->getId()), $html);
 		}
-		
-		*/
-		
-		
+
 		$tpl->setContent($html);
 	}
 }

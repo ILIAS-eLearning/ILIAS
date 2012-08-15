@@ -26,13 +26,14 @@ class ilDataCollectionRecordListGUI
      * @param	object	$a_parent_obj
      * @param	int $table_id
      */
-    public function  __construct($a_parent_obj, $table_id)
+    public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
     {
         $this->main_table_id = $a_parent_obj->object->getMainTableId();
         $this->table_id = $table_id;
         if($this->table_id == Null)
             $this->table_id = $_GET["table_id"];
         $this->obj_id = $a_parent_obj->obj_id;
+		$this->parent_obj = $a_parent_obj;
         $this->table_obj = new ilDataCollectionTable($table_id);
 
         return;

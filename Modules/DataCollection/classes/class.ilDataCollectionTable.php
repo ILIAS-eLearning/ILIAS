@@ -311,35 +311,31 @@ class ilDataCollectionTable
 		return $editableFields;
 	}
 
-	function hasPermissionToFields(){
-		return $this->getCollectionObject()->hasPermissionToAddTable();
+	function hasPermissionToFields($ref_id){
+		return $this->getCollectionObject()->hasPermissionToAddTable($ref_id);
 	}
 
-	function hasPermissionToAddRecord(){
+	function hasPermissionToAddRecord($ref_id){
 		$perm = false;
 
-		//$references = $this->getCollectionObject()->_getAllReferences($dcObj->getId());
-		//if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
-		//{
-		global $ilUser;
+		global $ilAccess;
 
-		// always allow sysad to aadd records
-		if($ilUser->getId() == 6){
+		$ref = $ref_id;
+		if($ilAccess->checkAccess("add_entry", "", $ref))
+			if($this->getCollectionObject()->isRecordsEditable())
+				$perm = true;
+
+		if($ilAccess->checkAccess("write", "", $ref))
 			$perm = true;
-		}
-
-		//TODO: Check for local admin
-
-		if($this->getCollectionObject()->isRecordsEditable())
-			$perm = true;
-
-		//}
 
 		return $perm;
 	}
 
-	//TODO
-	function hasPermissionToAddTable() {
+	function hasPermissionToAddTable($ref_id) {
+		global $ilAccess;
+		$perm = false;
+		if($ilAccess->checkAccess("write", "", $ref_id))
+			$perm = true;
 		return true;
 	}
 
