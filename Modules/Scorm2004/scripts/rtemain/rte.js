@@ -49,7 +49,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		{
 			if (logActive)
 				sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"","false",201);
-			return setReturn(201, 'GetError param must be empty string', '');
+			return setReturn(201, 'GetErrorString param must be empty string', '');
 		}
 		var e = Runtime.errors[param];
 		var returnValue = e && e.message ? String(e.message).substr(0,255) : '';
@@ -119,6 +119,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				if (cmiItem instanceof Object) 
 				{
 					state = RUNNING;
+					//initialize values
+					total_time_at_initialize=GetValueIntern("cmi.total_time");
+
 					if (logActive) {
 						sendLogEntry(getMsecSinceStart(),'Initialize',"","","true",0);
 						scoDebugValues = new Array();
@@ -154,7 +157,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		}
 		if (logActive)
 			sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",103);
-
 		return setReturn(103, '', 'false');
 	}	
 
@@ -181,15 +183,25 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);
 				return setReturn(142, '', 'false');
 			case RUNNING:
+				//calculating not at terminate to avoid save because many contributors of learning modules send at the end just before terminate() commit()
+				if ((!cmiItem.cmi.mode || cmiItem.cmi.mode==="normal") && (cmiItem.cmi.session_time!=undefined || config.time_from_lms==true)) {
+					if (config.time_from_lms==true) {
+						var interval = (currentTime() - msec)/1000;
+						var dur = new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
+						cmiItem.cmi.session_time = dur.format(FORMAT_SCHEMA);
+					}
+					var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);
+					cmiItem.cmi.total_time = total_time.toString();
+				}
 				//store correct status in DB; returnValue1 because of IE;
 				var returnValue1 = syncCMIADLTree();
 				var returnValue = onCommit(cmiItem);
-				if (saveOnCommit == true) {
+				if (returnValue && saveOnCommit == true) {
 					if (config.sequencing_enabled) {
-						var sgo=saveSharedData();
-						sgo=save_global_objectives();
+						var sgo=saveSharedData(cmiItem);
+//						sgo=save_global_objectives();
 					}
-					var returnCommit = save();
+					returnValue = save();
 				}
 				if (returnValue) 
 				{
@@ -218,7 +230,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 * @param {string} required; must be '' 
 	 */	 
 	function Terminate(param) {
-		setReturn(-1, 'Terminate(' + param + ')');				
+		setReturn(-1, 'Terminate(' + param + ')');
 		if (param!=='') 
 		{
 			if (logActive)
@@ -279,20 +291,17 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				{
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",201);
-//					sclogdump("201: must be string","error");					
 					return setReturn(201, 'must be string', '');
 				}
 				if (sPath==='') 
 				{
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",301);
-//					sclogdump("301: cannot be empty string","error");
-					
 					return setReturn(301, 'cannot be empty string', '');
 				}
-				var r = GetValueIntern(sPath);
-				//log.info("Returned:"+ r.toString());
-//				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
+				var r;
+				if (sPath=="cmi.total_time") r=setReturn(0,'',total_time_at_initialize);
+				else r=getValue(sPath, false);
 				if (logActive) {
 					sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"",r,error);
 					var a_getValues = ['comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time'];
@@ -303,15 +312,14 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						}
 					}
 				}
-				return r;
+//				return r;
+				return error ? '' : setReturn(0, '', r); 
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
 				if (logActive)
 					sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",123);
-//				sclogdump("Error 123: Terminated","error");
-			
 				return setReturn(123, '', '');
-		}	
+		}
 	}
 	
 	//allows to get data even after termination
@@ -358,27 +366,23 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function SetValue(sPath, sValue) 
 	{
 		setReturn(-1, 'SetValue(' + sPath + ', ' + sValue + ')');
-//		sclogdump("Set: "+sPath+" : "+sValue,"cmi");
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
-//				sclogdump("Error 132: not initialized","error");
 				if (logActive)
 					sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",132);
 				return setReturn(132, '', 'false');
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
-//					sclogdump("Error 201: must be string","error");
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",201);
 					return setReturn(201, 'must be string', 'false');
 				}
 				if (sPath==='') 
 				{
-//					sclogdump("Error 351: 'Param 1 cannot be empty string","error");
 					if (logActive)
-						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);					
+						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);
 					return setReturn(351, 'Param 1 cannot be empty string', 'false');
 				}
 				if ((typeof sValue == "undefined") || sValue == null) {
@@ -406,7 +410,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				try 
 				{
-					
 					var r = setValue(sPath, sValue);
 					if (!error) {
 						if (logActive) {
@@ -414,10 +417,10 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 							removeByElement(scoDebugValues,sPath);
 							removeByElement(scoDebugValuesTest,sPath);
 							//check logik for 3rd edition
-							if (sPath == "cmi.completion_status" && pubAPI.cmi.completion_threshold && pubAPI.cmi.completion_threshold>=0) {
+							if (sPath == "cmi.completion_status" && cmiItem.cmi.completion_threshold && cmiItem.cmi.completion_threshold>=0) {
 								sendLogEntry("","INFO","completion_status_by_progress_measure",GetValueIntern("cmi.completion_status"),"","");
 							}
-							if (sPath == "cmi.success_status" && pubAPI.cmi.scaled_passing_score && pubAPI.cmi.scaled_passing_score>=-1) {
+							if (sPath == "cmi.success_status" && cmiItem.cmi.scaled_passing_score && cmiItem.cmi.scaled_passing_score>=-1) {
 								sendLogEntry("","INFO","success_status_by_score_scaled",GetValueIntern("cmi.success_status"),"","");
 							}
 						}	
@@ -432,25 +435,21 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
 							statusHandler(cmiItem.scoid,"success",sValue);
 						}
-//						sclogdump("SetValue-return: "+ true,"cmi");
 					} else {
 						if (logActive)
 							sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",error);
-//						sclogdump("SetValue-return: "+ false,"error");
 					}	
 					return error ? 'false' : 'true'; 
 				} catch (e) 
 				{
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);
-//					sclogdump("351: Exception "+e,"error");
 					return setReturn(351, 'Exception ' + e, 'false');
 				}
 				break;
 			case TERMINATED:
 				if (logActive)
 					sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",133);
-//				sclogdump("Error 133: Terminated","error");
 				return setReturn(133, '', 'false');
 		}
 	}
@@ -463,10 +462,10 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function setValue(path, value, sudo) 
 	{
-			var tokens = path.split('.');		
-			return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
-			
-	}	
+
+		var tokens = path.split('.');
+		return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
+	}
 	
 	/**
 	 * Synchronized walk on data instance and data model to read/replace content
@@ -481,7 +480,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function walk(dat, def, path, value, sudo, extra) 
 	{
 		var setter, token, result, tdat, tdef, k, token2, tdat2, di, token3;
-		 
 		setter = typeof value === "string";
 		token = path.shift();
 		if (!def) 
@@ -571,7 +569,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				if (tdef.maxOccur && token2+1 > tdef.maxOccur) 
 				{
-					return setReturn(301, '', 'false');
+					if (config.checkSetValues) 
+						return setReturn(301, '', 'false');
+					else toleratedFailure=true;
 				}
 				if (tdat2 === undefined) 
 				{
@@ -607,13 +607,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			else
 			{
-				return setReturn(301, 'Data Model Collection Element Request Out Of Range', '');
+				if (config.checkSetValues)
+					return setReturn(301, 'Data Model Collection Element Request Out Of Range', '');
+				else toleratedFailure=true;
 			}
 		}
 		
 		if (tdef.type == Object)
 		{
-			if (typeof tdat === "undefined") // FF fails on  (tdat === undefined)
+			if (typeof tdat === "undefined")
 			{
 				if (setter)
 				{
@@ -651,7 +653,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			if (tdef.writeOnce && dat[token] && dat[token]!=value) 
 			{
-				return setReturn(351, 'write only once', 'false');
+				if (config.checkSetValues)
+					return setReturn(351, 'write only once', 'false');
+				else toleratedFailure=true;
 			}
 			if (path.length)  
 			{ 
@@ -674,11 +678,19 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			result = tdef.type.isValid(value, tdef, extra);
 			if (extra.error) 
 			{
-				return setReturn(extra.error.code, extra.error.diagnostic, 'false');
+				if (config.checkSetValues) 
+					return setReturn(extra.error.code, extra.error.diagnostic, 'false');
+				else toleratedFailure=true;
 			}
 			if (!result) 
 			{
-				return setReturn(406, 'value not valid', 'false');
+				if (token=="session_time") {
+					config.time_from_lms=true;
+					fixedFailure=true;
+				}
+				if (config.checkSetValues)
+					return setReturn(406, 'value not valid', 'false');
+				else toleratedFailure=true;
 			}
 			
 			if (value.indexOf("{order_matters")==0)
@@ -705,7 +717,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			else if (tdef.getValueOf) 
 			{
-				
+//				return setReturn(0, '', tdef.getValueOf(tdef, tdat));
 				result = setReturn(0, '', tdef.getValueOf(tdef, tdat));
 				if(result.error) {
 					return setReturn(result.error, '', '');
@@ -737,7 +749,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	
 	/**
 	 *	@access private
-	 *	@param {number}  
+	 *	@param {number}
 	 *	@param {string}  
 	 *	@param {string}  
 	 *	@return {string} 
@@ -779,6 +791,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	var msec = currentTime(); // if session time not set by sco, msec will used as starting time in onterminate
 	var me = this; // reference to API for use in methods
 	var commitByTerminate=false; //when commit ist startet by terminate, then do not send log if logActive
+	var total_time_at_initialize; //to can store total_time with each commit
 	
 	// possible public methods
 	var methods = 
@@ -1205,31 +1218,29 @@ Runtime.models =
 						refunc: function (d) {return ['sourceIsLMS', 1];}}
 				},
 				completion_status : {type: CompletionState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-						// special case see Chap. 4.2.4.1
-						var state = tdat===undefined ? tdef['default'] : String(tdat);
-						var norm=pubAPI.cmi.completion_threshold;
-						var score=pubAPI.cmi.progress_measure;
-					
-						if (norm) {
-							norm=parseFloat(norm);
-							if (norm && score) {
-								score=parseFloat(score);
-								if (score>=norm) {
-									state = "completed";
-								} else if (score<norm) {
-									state = "incomplete";
-								}
-							} else {
-								state="unknown";
+					// special case see Chap. 4.2.4.1
+					var state = tdat===undefined ? tdef['default'] : String(tdat);
+					var norm=currentAPI.GetValueIntern("cmi.completion_threshold");
+					var score=currentAPI.GetValueIntern("cmi.progress_measure");
+					if (norm) {
+						norm=parseFloat(norm);
+						if (norm && score) {
+							score=parseFloat(score);
+							if (score>=norm) {
+								state = "completed";
+							} else if (score<norm) {
+								state = "incomplete";
 							}
+						} else {
+							state="unknown";
 						}
-						if (state=="undefined" || state=="" || state == null || state == "null") {
-							state = "unknown";
-						}
-						pubAPI.cmi.completion_status=state;
-						return state;
 					}
-				},
+					if (state=="undefined" || state=="" || state == null || state == "null") {
+						state = "unknown";
+					}
+					currentAPI.SetValueIntern("cmi.completion_status",state);
+					return state;
+				}},
 				completion_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default': 'false'},
 				completion_threshold : {type: RealType, min: 0, max: 1, permission: READONLY},
 				credit : {type: CreditState, permission: READONLY, 'default' : 'credit'},
@@ -1310,26 +1321,25 @@ Runtime.models =
 				},
 				session_time : {type: Interval, permission: WRITEONLY},
 				success_status : {type: SuccessState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-						var state = tdat===undefined ? tdef['default'] : String(tdat);
-						var norm=pubAPI.cmi.scaled_passing_score;
-						var score=pubAPI.cmi.score.scaled;
-						if (norm) {
-							norm=parseFloat(norm);
-							if (norm && score) {
-								score=parseFloat(score);
-						   		if (score>=norm) {
-									state = "passed";
-						  		} else if (score<norm) {
-									state = "failed";
-						  		} 
-							} else {
-								state="unknown";
-							}
+					var state = tdat===undefined ? tdef['default'] : String(tdat);
+					var norm=currentAPI.GetValueIntern("cmi.scaled_passing_score");
+					var score=currentAPI.GetValueIntern("cmi.score.scaled");
+					if (norm) {
+						norm=parseFloat(norm);
+						if (norm && score) {
+							score=parseFloat(score);
+					   		if (score>=norm) {
+								state = "passed";
+					  		} else if (score<norm) {
+								state = "failed";
+					  		} 
+						} else {
+							state="unknown";
 						}
-						pubAPI.cmi.success_status=state;
-						return state;
 					}
-				},
+					currentAPI.SetValueIntern("cmi.success_status",state);
+					return state;
+				}},
 				suspend_data : {type: CharacterString, max: 64000, permission: READWRITE},
 				time_limit_action : {type: TimeLimitAction, permission: READONLY, "default": "continue,no message"},
 				total_time : {type: Interval, permission: READONLY, 'default' : 'PT0H0M0S'},
@@ -1409,18 +1419,18 @@ Runtime.models =
 					}
 				},
 				data : {type: Array, permission: READWRITE, unique: 'id', 
-	               			children : {
-						 id: {type: Uri, max: 4000, permission: READONLY, writeOnce: true, minOccur: 1},
-	                    		 	 store: {type: CharacterString, max: 64000, permission: READWRITE, dependsOn : 'id',
+							children : {
+						id: {type: Uri, max: 4000, permission: READONLY, writeOnce: true, minOccur: 1},
+						store: {type: CharacterString, max: 64000, permission: READWRITE, dependsOn : 'id',
 						 	 getValueOf : function(tdef, tdat) {
-								 if(tdat == '' || tdat == null || tdat === "undefined") {
-									 return {error: 403};
-								 }
-								 return tdat;
+								if(tdat == '' || tdat == null || tdat === "undefined") {
+									return {error: 403};
+								}
+								return tdat;
 							 }
 						 }
-	                		}
-            			}
+					}
+				}
 			}
 		};
 	}
@@ -1428,42 +1438,11 @@ Runtime.models =
 
 Runtime.onTerminate = function (data, msec) /// or user walks away
 {
-	var credit = data.cmi.credit==="credit";
-	var normal = !data.cmi.mode || data.cmi.mode==="normal";
-	var suspended = data.cmi.exit==="suspend";
-	var not_attempted = data.cmi.completion_status==="not attempted";
-	var success = (/^(completed|passed|failed)$/).test(data.cmi.success_status, true);
-	var session_time;
-	if (data.cmi.session_time==undefined || config.time_from_lms==true) {
-		var interval=(currentTime() - msec)/1000;
-		var dur= new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
-		session_time =dur.format(FORMAT_SCHEMA); 
-	} else {
-		session_time=data.cmi.session_time;
-	}
-	//var total_time = new Duration(data.cmi.total_time, true);
-	if (normal || suspended) 
-	{
-		data.cmi.session_time = session_time.toString();
-		total_time=addTimes(data.cmi.total_time.toString(),data.cmi.session_time);
-		data.cmi.total_time = total_time.toString();
-		data.cmi.entry="";
-		if (data.cmi.exit==="suspend") {
-			data.cmi.entry="resume";
-//		    data.cmi.session_time="";
-		}
-	}
-	if (not_attempted) 
-	{
-		data.cmi.success_status = 'incomplete';
-	}
-	
 	// added to synchronize the new data. it might update the navigation
-	syncCMIADLTree();
+	//syncCMIADLTree();
 	
 	if (all("treeView")!=null) {
 		updateNav(true);
 	}
-	
 };
 

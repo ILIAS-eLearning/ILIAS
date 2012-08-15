@@ -1,4 +1,4 @@
-// Build: 2012814111033 
+// Build: 2012815221055 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -11338,7 +11338,7 @@ function Duration (mixed)
 
 this.Duration = Duration;
 
-		Duration.prototype.set = function (obj)
+Duration.prototype.set = function (obj)
 {
 	this.value.setTime(obj && obj.valueOf ? obj.valueOf() : obj); } ;
 
@@ -12284,12 +12284,9 @@ function launchNavType(navType, isUserCurrentlyInteracting) {
 	}
 	//if suspendAll set cmi.exit to suspend for active SCO
 	if (navType=='SuspendAll') {
-		pubAPI.cmi.exit="suspend";
-		pubAPI.cmi.entry="resume";		
+		err=currentAPI.SetValueIntern("cmi.exit","suspend");
 		//sync
 		activities[msequencer.mSeqTree.mCurActivity.mActivityID].exit="suspend";
-		activities[msequencer.mSeqTree.mCurActivity.mActivityID].entry="resume";
-		
    	}
 		
 	//throw away API from previous sco and sync CMI and ADLTree, no api...SCO has to care for termination
@@ -12422,11 +12419,13 @@ function onDocumentClick (e)
 		else 
 		{
 			//throw away API from previous sco and sync CMI and ADLTree
-			onItemUndeliver();
+			//onItemUndeliver();
 			mlaunch = msequencer.navigateStr( target.id.substr(3));
-           
+
  			if (mlaunch.mSeqNonContent == null) {
 				//alert(activities[mlaunch.mActivityID]);
+				//throw away API from previous sco and sync CMI and ADLTree
+				onItemUndeliver();
 				statusHandler(mlaunch.mActivityID,"completion","unknown");
 				onItemDeliver(activities[mlaunch.mActivityID], false);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
@@ -12841,7 +12840,9 @@ function init(config)
 	var cam = this.config.cp_data || sendJSONRequest(this.config.cp_url);
 
 	if (!cam) return alert('Fatal: Could not load content data.');
-
+	
+	//if(this.config.sequencing_enabled==false) modify sequencing
+	
 	// Step 2: load adlActivityTree
 	function defaultAct(mActivityID,mTitle,mOrder,mActiveOrder,mChildren,mActiveChildren) {
 		return {
@@ -12932,7 +12933,7 @@ function init(config)
 			adlAct._SeqActivity.mChildren[j]=defaultAct(cam.item.item[j].id,cam.item.item[j].title,j,j,null,null);
 		}
 	}
-	
+
 	if (!adlAct) {
 		
 		return alert('Fatal: Could not load ADLActivityTree.');
@@ -13018,10 +13019,8 @@ function init(config)
 	
 	//load global objectives
 	if (this.config.sequencing_enabled) loadGlobalObj();
-
 	//debugger start with sco-start
 	logActive = this.config.debug;
-	
 	//get suspend data
 	suspendData=null;
 	if (this.config.sequencing_enabled) suspendData = sendJSONRequest(this.config.get_suspend_url);
@@ -13121,19 +13120,24 @@ function init(config)
 	if (count==1 || this.config.hide_navig == 1) {
 		toggleView();  //hide tree
 	}
-		
-	if (mlaunch.mSeqNonContent == null) {
-		onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
+
+	if (config.auto_last_visited==true && config.status.last_visited!=null) {
+		launchTarget(config.status.last_visited);
 	} else {
-		if (count==1 && tolaunch!=null) {
-			launchTarget(tolaunch);
+
+		if (mlaunch.mSeqNonContent == null) {
+			onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
 		} else {
-			loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);	
-			updateControls();
-			updateNav();
+			if (count==1 && tolaunch!=null) {
+				launchTarget(tolaunch);
+			} else {
+				loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);	
+				updateControls();
+				updateNav();
+			}
 		}
 	}
-	
+
 	if (logActive==true) {
 		var elm = all("toggleLog");
 		elm.style.display ="inline";
@@ -13182,22 +13186,24 @@ function loadSharedData(sco_node_id) {
 	}
 }
 
-function saveSharedData() {
+function saveSharedData(cmiItem) {
 	//to increase performance integrate  in save()
 	//Do the transform so the "custom" JSON encoder will properly send
 	//the input to the server
 	var dataOut = new Object();
-	for(i = 0; i < pubAPI.adl.data.length; i++) {
-		var d = pubAPI.adl.data[i];
+//	for(i = 0; i < pubAPI.adl.data.length; i++) {
+//		var d = pubAPI.adl.data[i];
+	for(i = 0; i < cmiItem.adl.data.length; i++) {
+		var d = cmiItem.adl.data[i];
 		dataOut[d.id] = d.store;
 	}
 	sd2save = toJSONString(dataOut);
 	if (sd2save != saved_shared_data) {
-		var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
+//		var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
+		var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+cmiItem.cmi.cp_node_id, dataOut);
 		if(success != "1") { 
-			//Do error handling if necessary
+			return false;
 		}
-		//Note: no check for success
 		saved_shared_data = sd2save;
 	}
 	return true;
@@ -13251,7 +13257,7 @@ function setParents(obj) {
 			var temp=obj[index];	
 			if (temp instanceof Array) {
 				if (temp.length>0) {
-					for (var i=0;i<temp.length;i++) {
+					for (var i=0;i<temp.length;i++) {
 						// get the object
 						temp[i]['mParent']=obj;
 						//check for further childs in array
@@ -13473,51 +13479,93 @@ function save()
 	// add activities
 	walk (activities, 'node');
 
-/*to integrate
-	result["adl_seq_utilities"]=this.adl_seq_utilities;
-	if (saved_adl_seq_utilities != this.adl_seq_utilities) {
-		saved_adl_seq_utilities = this.adl_seq_utilities;
-		result["changed_seq_utilities"]=1;
-	}
-	else {
-		result["changed_seq_utilities"]=0;
-	}
-	result["saved_global_status"]=saved_global_status;
-	
-	//alert("Before save "+result.node.length);
-	//if (!result.node.length) {return;} 
-*/
-	
-	//alert("Before save "+result.node.length);
-	if (!result.node.length) {return;} 
-	result = this.config.cmi_url 
-		? sendJSONRequest(this.config.cmi_url, result)
-		: {};
-	
-
-	// set successful updated elements to clean
-	var i = 0;
-	for (k in result) 
-	{
-		i++;
-		var act = activitiesByCAM[k];
-		if (act) 
-		{
-			act.dirty = 0;
+	result["i_check"]=0;
+	result["i_set"]=0;
+	var check0="",check1="";
+	for (var k in saved) {
+		if (result[k].length>0) {
+			result["i_check"]+=saved[k].checkplus;
+			check0=toJSONString(result[k]);
+			check1=toJSONString(saved[k].data);
+			if (k=="correct_response") {
+				check0+=result["node"][0][15];
+				check1+=saved[k].node;
+			}
+			if (check0===check1) {
+				result[k]=[];
+			} else {
+				saved[k].data=result[k];
+				if(k=="correct_response") saved[k].node=result["node"][0][15];
+				result["i_set"]+=saved[k].checkplus;
+			}
 		}
 	}
 
-	//alert(new_global_status);
-	//saved_global_status = new_global_status;
-	
+
+	if (this.config.sequencing_enabled) {
+		// add shared objectives
+		walk (sharedObjectives, "objective");
+
+		result["adl_seq_utilities"]=this.adl_seq_utilities;
+		if (toJSONString(saved_adl_seq_utilities) != toJSONString(this.adl_seq_utilities)) {
+			saved_adl_seq_utilities = this.adl_seq_utilities;
+			result["changed_seq_utilities"]=1;
+		}
+		else {
+			result["changed_seq_utilities"]=0;
+		}
+	} else {
+		result["adl_seq_utilities"]={};
+		result["changed_seq_utilities"]=0;
+	}
+
+	result["saved_global_status"]=config.status.saved_global_status;
+	if (saved_result == toJSONString(result)) {
+//		alert("no difference");
+		return true;
+	} else {
+//		alert("difference: saved_result:\n"+saved_result+"\nresult:\n"+toJSONString(result));
+		saved_result = toJSONString(result);
+
+		//alert("Before save "+result.node.length);
+		//if (!result.node.length) {return;} 
+		result = this.config.cmi_url 
+			? sendJSONRequest(this.config.cmi_url, result)
+			: {};
+
+		// set successful updated elements to clean
+		if(typeof result=="object") {
+			var new_global_status = null;
+			for (k in result) 
+			{
+				if(k == "new_global_status") new_global_status=result[k];
+				else {
+					var act = activitiesByCAM[k];
+					if (act) 
+					{
+						act.dirty = 0;
+					}
+				}
+			}
+
+			if (config.status.saved_global_status != new_global_status && typeof window.opener != 'undefined') {
+				window.opener.location.reload();
+			}
+			
+			//alert(new_global_status);
+			config.status.saved_global_status = new_global_status;
+			return true;
+		}
+	}
+/*
 	if (typeof this.config.time === "number" && this.config.time>10) 
 	{
 		clearTimeout(save.timeout);
 		save.timeout = window.setTimeout(save, this.config.time*1000);
 	}
-//	setTimeout("updateNav(true)",1000);
-	isSaving = false;
-	return i;
+*/
+//	isSaving = false;
+	return false;
 }
 
 
@@ -13527,7 +13575,6 @@ function getAPI(cp_node_id)
 	{
 		if (typeof dat!="undefined" && dat!==null) 
 		{
-		
 			api[k] = dat.toString();
 		}
 	}
@@ -13574,7 +13621,7 @@ function getAPI(cp_node_id)
 					
 					} else {
 						getAPISet(mod.mapping[i], dat, api[k]);
-				    	}
+					}
 				}
 			}
 			else if (mod.type===Array) 
@@ -13763,9 +13810,23 @@ function onWindowLoad ()
 function onWindowUnload () 
 {
 	summaryOnUnload = true;
+	var tosend="";
+	if (config.auto_last_visited==true) tosend=activities[mlaunch.mActivityID].id;
+	var result=this.config.scorm_player_unload_url 
+		? sendJSONRequest(this.config.scorm_player_unload_url, tosend)
+		: {};
+
 	removeResource();
 }
-function loadData(item){
+
+function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
+{
+	var url = item.href, v;
+	// create api if associated resouce is of adl:scormType=sco
+	if (item.sco)
+	{
+
+		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
 		if (this.config.sequencing_enabled) loadSharedData(item.cp_node_id);
 		
@@ -13843,20 +13904,46 @@ function loadData(item){
 				}	
 			}
 		}
-		return data;
-}
-function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
-{
-	var url = item.href, v;
-	// create api if associated resouce is of adl:scormType=sco
-	if (item.sco)
-	{
-		var data = loadData(item);
-		// get data in cmi-1.3 format
 
-		
+		//support for auto-review
+		item.options = new Object();
+		item.options.notracking = false;
+		if (globalAct.auto_review) {
+			if (item.completion_status == 'completed' || item.success_status == 'passed') {
+				data.cmi.mode = "review";
+				item.options.notracking = true;//no better score for example!
+			}
+		}
+
+//		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
+		if (item.exit!="suspend") {
+			//provide us with a clean data set - UK not really clean! goal: get out of database only total_time if exit!=suspend
+			//data.cmi=Runtime.models.cmi;
+			//explicitly set some entries
+			data.cmi.completion_status="unknown";
+			data.cmi.success_status="unknown";
+			data.cmi.entry="ab-initio";
+			data.cmi.suspend_data = null;
+			//data.cmi.total_time="PT0H0M0S"; //UK: not in specification
+		} 
+
+		//set resume manually if suspendALL happened before
+		//alert(wasSuspendAll);
+		if (item.exit=="suspend" || wasSuspendAll) data.cmi.entry="resume";
+		else data.cmi.entry="";
+
+		//previous session has ended
+		//if (item.exit=="time-out" || item.exit=="logout") {
+			//session has ended, reset times to defaults
+			//err = currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");
+			//accessthrough pubAPI
+			//pubAPI.cmi.total_time="PT0H0M0S";
+		//}
+		//RTE-4-45: If there are additional learner sessions within a learner attempt, the cmi.exit becomes uninitialized (i.e., reinitialized to its default value of (“”) - empty characterstring) at the beginning of each additional learner session within the learner attempt.
+		data.cmi.exit="";
+
 		// assign api for public use from sco- only for debug
-		pubAPI=data;
+		//pubAPI=data;
 		
 		currentAPI = window[Runtime.apiname] = new Runtime(data, onCommit, onTerminate);
 	}
@@ -13871,61 +13958,6 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		
 	scoStartTime = currentTime();
 	
-	//support for auto-review
-	item.options = new Object();
-	item.options.notracking = false;
-	if (globalAct.auto_review) {
-		if (item.completion_status == 'completed' || item.success_status == 'passed') {
-			pubAPI.mode = "review";
-			item.options.notracking = true;
-		}
-	}
-	
-	//clear existing completion status in case of 2nd attempt
-	if (currentAPI) {
-		
-		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
-			//provide us with a clean data set
-			//pubAPI.cmi=Runtime.models.cmi;
-			//explicitly set some entries
-    		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
-    		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
-			
-			pubAPI.cmi.completion_status = null;
-			data.cmi.completion_status = null;
-			pubAPI.cmi.progress_measure = null;
-			data.cmi.progress_measure = null;
-			
-			pubAPI.cmi.exit="";
-			if(item.entry!="resume"){
-				pubAPI.cmi.entry="ab-initio";
-				err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
-			}
-			
-			//pubAPI.cmi.interactions = null;
-			//pubAPI.cmi.comments = null;
-			pubAPI.cmi.total_time="PT0H0M0S";
-		} 
-		
-		//set resume manually if suspendALL happened before
-		//alert(wasSuspendAll);
-		if (item.exit=="suspend" || wasSuspendAll) {
-			pubAPI.cmi.entry="resume";
-			//clean suspend
-			pubAPI.cmi.exit="";	
-		}
-		else {
-			pubAPI.cmi.suspend_data = null;
-		}
-		
-		//previous session has ended
-		if (item.exit=="time-out" || item.exit=="logout") {
-			//session has ended, reset times to defaults
-			err = currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");
-			//accessthrough pubAPI
-			pubAPI.cmi.total_time="PT0H0M0S";
-		}
-	}
 	var envEditor = this.config.envEditor;
 	var randNumber="";
 	if (envEditor==1) {
@@ -14330,7 +14362,8 @@ function undeliverFinish(){
 }
 
 function syncDynObjectives(){
-	var objectives=pubAPI.cmi.objectives;
+//	var objectives=pubAPI.cmi.objectives;
+	var objectives=data.cmi.objectives;
 	var act=activities[mlaunch.mActivityID].objectives;
 	for (var i=0;i<objectives.length;i++) {
 	  if (objectives[i].id) {
@@ -14362,6 +14395,7 @@ function syncDynObjectives(){
 }
 
 
+/*
 function save_global_objectives() {
 
 	if (this.config.sequencing_enabled) {
@@ -14379,6 +14413,7 @@ function save_global_objectives() {
 	}
 	return true;
 }
+*/
 
 // sequencer terminated
 function onNavigationEnd()
@@ -14431,13 +14466,6 @@ function onTerminate(data)
 			}
 			
 		}
-	/*	window.setTimeout( 
-			new (function (type, target) {
-				return function () {
-					execNavigation(type, target);
-				}
-			})(navReq.type, navReq.target), 0);
-		*/	
 	}
 	
 	// this will update the UI tree 
@@ -14445,6 +14473,7 @@ function onTerminate(data)
 	valid = msequencer.getValidRequests(valid);
 	msequencer.mSeqTree.setValidRequests(valid);
 	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
+//check if better without updateNav and updateControls
 	updateNav(false);
 	updateControls();
 	
@@ -14655,9 +14684,22 @@ function refreshDebugger(param) {
 	if (param == true) {
 		window.setTimeout("debugWindow.location.reload()",2000);
 	} else {
-		if (debugWindow!=null && debugWindow.closed!=true) {
-			var content = sendJSONRequest(this.config.livelog_url);
-			debugWindow.updateLiveLog();
+		if(b_refreshDebugger_busy==false){
+			b_refreshDebugger_busy=true;
+			var i_logLength=a_logEntries.length;
+			for(var i=0;i<i_logLength;i++){
+				if(a_logEntries[i]!="") sendAndLoad(this.config.post_log_url, a_logEntries[i]);
+				a_logEntries[i]="";
+			}
+			if (i_logLength==a_logEntries.length) {
+				a_logEntries=[]; //no more entries since start of function
+				if (i_logLength>0 && debugWindow!=null && debugWindow.closed!=true) {
+					var content = sendJSONRequest(this.config.livelog_url);
+					debugWindow.updateLiveLog();
+				}
+			}
+			else window.setTimeout("refreshDebugger()",500);
+			b_refreshDebugger_busy=false;
 		}
 	}
 }
@@ -14671,17 +14713,27 @@ function sendLogEntry(timespan,action,key,value,result,errorCode)
 	logEntry['value'] = value;
 	logEntry['result'] = (typeof(result)!='undefined') ? result : 'undefined';
 	logEntry['errorcode'] = errorCode;
-	
+
+	if (action=="SetValue") {
+		if (fixedFailure==true) logEntry['errorcode']+=100000;
+		if (toleratedFailure==true) logEntry['errorcode']=200000;
+	}
+	fixedFailure=false;
+	toleratedFailure=false;
+
 	if (action == "Initialize") {
 		logEntryScoId = mlaunch.mActivityID;
 		logEntryScoTitle = activities[mlaunch.mActivityID].title;
 	}
 	logEntry['scoid'] = logEntryScoId;
 	logEntry['scotitle'] = logEntryScoTitle;
+	a_logEntries.push(toJSONString(logEntry));
 	if (action!="DELETE") {
-		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger());	
+//		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger());	
+		setTimeout("refreshDebugger()",2000);
 	} else {
-		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
+//		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
+		refreshDebugger(true);
 	}	
 }
 
@@ -14698,7 +14750,9 @@ function createSummary()
 {
 	var logEntry = new Object();
 	logEntry['action'] = "SUMMARY";
-	var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));	
+	a_logEntries.push(toJSONString(logEntry));
+	refreshDebugger();
+//	var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));	
 }
 //end debug extensions
 
@@ -14754,6 +14808,14 @@ var DISABLED_ACTIONS = /^disabled$/i;
 var state = WAITING; 
 var SCOEntryedAct = null;
 
+var saved_adl_seq_utilities = {"satisfied":{},"measure":{},"status":{}};
+var saved_result;
+var saved={
+	"comment":{"data":[],"checkplus":8},
+	"correct_response":{"data":[],"checkplus":4,"node":""},
+	"interaction":{"data":[],"checkplus":2},
+	"objective":{"data":[],"checkplus":1}
+	};
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
@@ -14768,13 +14830,16 @@ var logEntryScoId = "";
 var logEntryScoTitle = "";
 var summaryOnUnload = false;
 
+var b_refreshDebugger_busy=false;
+var a_logEntries=[];
+var fixedFailure=false;
+var toleratedFailure=false;
 //course wide variables
-var pubAPI=null;
+//var pubAPI=null;
 var statusArray = new Object(); //just used for visual feedback
-var isSaving = true;
+//var isSaving = true;
 
 var saved_shared_data = "";
-var saved_global_objectives = "";
 var saveOnCommit = true;
 // Public interface
 window.scorm_init = init;
@@ -14830,7 +14895,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		{
 			if (logActive)
 				sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"","false",201);
-			return setReturn(201, 'GetError param must be empty string', '');
+			return setReturn(201, 'GetErrorString param must be empty string', '');
 		}
 		var e = Runtime.errors[param];
 		var returnValue = e && e.message ? String(e.message).substr(0,255) : '';
@@ -14900,6 +14965,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				if (cmiItem instanceof Object) 
 				{
 					state = RUNNING;
+					//initialize values
+					total_time_at_initialize=GetValueIntern("cmi.total_time");
+
 					if (logActive) {
 						sendLogEntry(getMsecSinceStart(),'Initialize',"","","true",0);
 						scoDebugValues = new Array();
@@ -14935,7 +15003,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 		}
 		if (logActive)
 			sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",103);
-
 		return setReturn(103, '', 'false');
 	}	
 
@@ -14962,15 +15029,25 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 					sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);
 				return setReturn(142, '', 'false');
 			case RUNNING:
+				//calculating not at terminate to avoid save because many contributors of learning modules send at the end just before terminate() commit()
+				if ((!cmiItem.cmi.mode || cmiItem.cmi.mode==="normal") && (cmiItem.cmi.session_time!=undefined || config.time_from_lms==true)) {
+					if (config.time_from_lms==true) {
+						var interval = (currentTime() - msec)/1000;
+						var dur = new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
+						cmiItem.cmi.session_time = dur.format(FORMAT_SCHEMA);
+					}
+					var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);
+					cmiItem.cmi.total_time = total_time.toString();
+				}
 				//store correct status in DB; returnValue1 because of IE;
 				var returnValue1 = syncCMIADLTree();
 				var returnValue = onCommit(cmiItem);
-				if (saveOnCommit == true) {
+				if (returnValue && saveOnCommit == true) {
 					if (config.sequencing_enabled) {
-						var sgo=saveSharedData();
-						sgo=save_global_objectives();
+						var sgo=saveSharedData(cmiItem);
+//						sgo=save_global_objectives();
 					}
-					var returnCommit = save();
+					returnValue = save();
 				}
 				if (returnValue) 
 				{
@@ -14999,7 +15076,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 * @param {string} required; must be '' 
 	 */	 
 	function Terminate(param) {
-		setReturn(-1, 'Terminate(' + param + ')');				
+		setReturn(-1, 'Terminate(' + param + ')');
 		if (param!=='') 
 		{
 			if (logActive)
@@ -15060,20 +15137,17 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				{
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",201);
-//					sclogdump("201: must be string","error");					
 					return setReturn(201, 'must be string', '');
 				}
 				if (sPath==='') 
 				{
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",301);
-//					sclogdump("301: cannot be empty string","error");
-					
 					return setReturn(301, 'cannot be empty string', '');
 				}
-				var r = GetValueIntern(sPath);
-				//log.info("Returned:"+ r.toString());
-//				sclogdump("GetValue: Return: "+sPath + " : "+ r,"cmi");
+				var r;
+				if (sPath=="cmi.total_time") r=setReturn(0,'',total_time_at_initialize);
+				else r=getValue(sPath, false);
 				if (logActive) {
 					sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"",r,error);
 					var a_getValues = ['comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time'];
@@ -15084,15 +15158,14 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						}
 					}
 				}
-				return r;
+//				return r;
+				return error ? '' : setReturn(0, '', r); 
 				// TODO wrap in TRY CATCH
 			case TERMINATED:
 				if (logActive)
 					sendLogEntry(getMsecSinceStart(),"GetValue",sPath,"","false",123);
-//				sclogdump("Error 123: Terminated","error");
-			
 				return setReturn(123, '', '');
-		}	
+		}
 	}
 	
 	//allows to get data even after termination
@@ -15139,27 +15212,23 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function SetValue(sPath, sValue) 
 	{
 		setReturn(-1, 'SetValue(' + sPath + ', ' + sValue + ')');
-//		sclogdump("Set: "+sPath+" : "+sValue,"cmi");
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
-//				sclogdump("Error 132: not initialized","error");
 				if (logActive)
 					sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",132);
 				return setReturn(132, '', 'false');
 			case RUNNING:
 				if (typeof(sPath)!=='string') 
 				{
-//					sclogdump("Error 201: must be string","error");
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",201);
 					return setReturn(201, 'must be string', 'false');
 				}
 				if (sPath==='') 
 				{
-//					sclogdump("Error 351: 'Param 1 cannot be empty string","error");
 					if (logActive)
-						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);					
+						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);
 					return setReturn(351, 'Param 1 cannot be empty string', 'false');
 				}
 				if ((typeof sValue == "undefined") || sValue == null) {
@@ -15187,7 +15256,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				try 
 				{
-					
 					var r = setValue(sPath, sValue);
 					if (!error) {
 						if (logActive) {
@@ -15195,10 +15263,10 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 							removeByElement(scoDebugValues,sPath);
 							removeByElement(scoDebugValuesTest,sPath);
 							//check logik for 3rd edition
-							if (sPath == "cmi.completion_status" && pubAPI.cmi.completion_threshold && pubAPI.cmi.completion_threshold>=0) {
+							if (sPath == "cmi.completion_status" && cmiItem.cmi.completion_threshold && cmiItem.cmi.completion_threshold>=0) {
 								sendLogEntry("","INFO","completion_status_by_progress_measure",GetValueIntern("cmi.completion_status"),"","");
 							}
-							if (sPath == "cmi.success_status" && pubAPI.cmi.scaled_passing_score && pubAPI.cmi.scaled_passing_score>=-1) {
+							if (sPath == "cmi.success_status" && cmiItem.cmi.scaled_passing_score && cmiItem.cmi.scaled_passing_score>=-1) {
 								sendLogEntry("","INFO","success_status_by_score_scaled",GetValueIntern("cmi.success_status"),"","");
 							}
 						}	
@@ -15213,25 +15281,21 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						if (sPath == "cmi.success_status" && cmiItem.scoid != null ) {
 							statusHandler(cmiItem.scoid,"success",sValue);
 						}
-//						sclogdump("SetValue-return: "+ true,"cmi");
 					} else {
 						if (logActive)
 							sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",error);
-//						sclogdump("SetValue-return: "+ false,"error");
 					}	
 					return error ? 'false' : 'true'; 
 				} catch (e) 
 				{
 					if (logActive)
 						sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",351);
-//					sclogdump("351: Exception "+e,"error");
 					return setReturn(351, 'Exception ' + e, 'false');
 				}
 				break;
 			case TERMINATED:
 				if (logActive)
 					sendLogEntry(getMsecSinceStart(),"SetValue",sPath,sValue,"false",133);
-//				sclogdump("Error 133: Terminated","error");
 				return setReturn(133, '', 'false');
 		}
 	}
@@ -15244,10 +15308,10 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */
 	function setValue(path, value, sudo) 
 	{
-			var tokens = path.split('.');		
-			return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
-			
-	}	
+
+		var tokens = path.split('.');
+		return walk(cmiItem, Runtime.models[tokens[0]], tokens, value, sudo, {parent:[]});
+	}
 	
 	/**
 	 * Synchronized walk on data instance and data model to read/replace content
@@ -15262,7 +15326,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function walk(dat, def, path, value, sudo, extra) 
 	{
 		var setter, token, result, tdat, tdef, k, token2, tdat2, di, token3;
-		 
 		setter = typeof value === "string";
 		token = path.shift();
 		if (!def) 
@@ -15352,7 +15415,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				}
 				if (tdef.maxOccur && token2+1 > tdef.maxOccur) 
 				{
-					return setReturn(301, '', 'false');
+					if (config.checkSetValues) 
+						return setReturn(301, '', 'false');
+					else toleratedFailure=true;
 				}
 				if (tdat2 === undefined) 
 				{
@@ -15388,13 +15453,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			else
 			{
-				return setReturn(301, 'Data Model Collection Element Request Out Of Range', '');
+				if (config.checkSetValues)
+					return setReturn(301, 'Data Model Collection Element Request Out Of Range', '');
+				else toleratedFailure=true;
 			}
 		}
 		
 		if (tdef.type == Object)
 		{
-			if (typeof tdat === "undefined") // FF fails on  (tdat === undefined)
+			if (typeof tdat === "undefined")
 			{
 				if (setter)
 				{
@@ -15432,7 +15499,9 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			if (tdef.writeOnce && dat[token] && dat[token]!=value) 
 			{
-				return setReturn(351, 'write only once', 'false');
+				if (config.checkSetValues)
+					return setReturn(351, 'write only once', 'false');
+				else toleratedFailure=true;
 			}
 			if (path.length)  
 			{ 
@@ -15455,11 +15524,19 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			result = tdef.type.isValid(value, tdef, extra);
 			if (extra.error) 
 			{
-				return setReturn(extra.error.code, extra.error.diagnostic, 'false');
+				if (config.checkSetValues) 
+					return setReturn(extra.error.code, extra.error.diagnostic, 'false');
+				else toleratedFailure=true;
 			}
 			if (!result) 
 			{
-				return setReturn(406, 'value not valid', 'false');
+				if (token=="session_time") {
+					config.time_from_lms=true;
+					fixedFailure=true;
+				}
+				if (config.checkSetValues)
+					return setReturn(406, 'value not valid', 'false');
+				else toleratedFailure=true;
 			}
 			
 			if (value.indexOf("{order_matters")==0)
@@ -15486,7 +15563,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 			}
 			else if (tdef.getValueOf) 
 			{
-				
+//				return setReturn(0, '', tdef.getValueOf(tdef, tdat));
 				result = setReturn(0, '', tdef.getValueOf(tdef, tdat));
 				if(result.error) {
 					return setReturn(result.error, '', '');
@@ -15518,7 +15595,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	
 	/**
 	 *	@access private
-	 *	@param {number}  
+	 *	@param {number}
 	 *	@param {string}  
 	 *	@param {string}  
 	 *	@return {string} 
@@ -15560,6 +15637,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	var msec = currentTime(); // if session time not set by sco, msec will used as starting time in onterminate
 	var me = this; // reference to API for use in methods
 	var commitByTerminate=false; //when commit ist startet by terminate, then do not send log if logActive
+	var total_time_at_initialize; //to can store total_time with each commit
 	
 	// possible public methods
 	var methods = 
@@ -15986,31 +16064,29 @@ Runtime.models =
 						refunc: function (d) {return ['sourceIsLMS', 1];}}
 				},
 				completion_status : {type: CompletionState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-						// special case see Chap. 4.2.4.1
-						var state = tdat===undefined ? tdef['default'] : String(tdat);
-						var norm=pubAPI.cmi.completion_threshold;
-						var score=pubAPI.cmi.progress_measure;
-					
-						if (norm) {
-							norm=parseFloat(norm);
-							if (norm && score) {
-								score=parseFloat(score);
-								if (score>=norm) {
-									state = "completed";
-								} else if (score<norm) {
-									state = "incomplete";
-								}
-							} else {
-								state="unknown";
+					// special case see Chap. 4.2.4.1
+					var state = tdat===undefined ? tdef['default'] : String(tdat);
+					var norm=currentAPI.GetValueIntern("cmi.completion_threshold");
+					var score=currentAPI.GetValueIntern("cmi.progress_measure");
+					if (norm) {
+						norm=parseFloat(norm);
+						if (norm && score) {
+							score=parseFloat(score);
+							if (score>=norm) {
+								state = "completed";
+							} else if (score<norm) {
+								state = "incomplete";
 							}
+						} else {
+							state="unknown";
 						}
-						if (state=="undefined" || state=="" || state == null || state == "null") {
-							state = "unknown";
-						}
-						pubAPI.cmi.completion_status=state;
-						return state;
 					}
-				},
+					if (state=="undefined" || state=="" || state == null || state == "null") {
+						state = "unknown";
+					}
+					currentAPI.SetValueIntern("cmi.completion_status",state);
+					return state;
+				}},
 				completion_status_SetBySco : {type: BooleanType, permission: READWRITE, 'default': 'false'},
 				completion_threshold : {type: RealType, min: 0, max: 1, permission: READONLY},
 				credit : {type: CreditState, permission: READONLY, 'default' : 'credit'},
@@ -16091,26 +16167,25 @@ Runtime.models =
 				},
 				session_time : {type: Interval, permission: WRITEONLY},
 				success_status : {type: SuccessState, permission: READWRITE, 'default' : 'unknown', getValueOf : function (tdef, tdat) {
-						var state = tdat===undefined ? tdef['default'] : String(tdat);
-						var norm=pubAPI.cmi.scaled_passing_score;
-						var score=pubAPI.cmi.score.scaled;
-						if (norm) {
-							norm=parseFloat(norm);
-							if (norm && score) {
-								score=parseFloat(score);
-						   		if (score>=norm) {
-									state = "passed";
-						  		} else if (score<norm) {
-									state = "failed";
-						  		} 
-							} else {
-								state="unknown";
-							}
+					var state = tdat===undefined ? tdef['default'] : String(tdat);
+					var norm=currentAPI.GetValueIntern("cmi.scaled_passing_score");
+					var score=currentAPI.GetValueIntern("cmi.score.scaled");
+					if (norm) {
+						norm=parseFloat(norm);
+						if (norm && score) {
+							score=parseFloat(score);
+					   		if (score>=norm) {
+								state = "passed";
+					  		} else if (score<norm) {
+								state = "failed";
+					  		} 
+						} else {
+							state="unknown";
 						}
-						pubAPI.cmi.success_status=state;
-						return state;
 					}
-				},
+					currentAPI.SetValueIntern("cmi.success_status",state);
+					return state;
+				}},
 				suspend_data : {type: CharacterString, max: 64000, permission: READWRITE},
 				time_limit_action : {type: TimeLimitAction, permission: READONLY, "default": "continue,no message"},
 				total_time : {type: Interval, permission: READONLY, 'default' : 'PT0H0M0S'},
@@ -16190,18 +16265,18 @@ Runtime.models =
 					}
 				},
 				data : {type: Array, permission: READWRITE, unique: 'id', 
-	               			children : {
-						 id: {type: Uri, max: 4000, permission: READONLY, writeOnce: true, minOccur: 1},
-	                    		 	 store: {type: CharacterString, max: 64000, permission: READWRITE, dependsOn : 'id',
+							children : {
+						id: {type: Uri, max: 4000, permission: READONLY, writeOnce: true, minOccur: 1},
+						store: {type: CharacterString, max: 64000, permission: READWRITE, dependsOn : 'id',
 						 	 getValueOf : function(tdef, tdat) {
-								 if(tdat == '' || tdat == null || tdat === "undefined") {
-									 return {error: 403};
-								 }
-								 return tdat;
+								if(tdat == '' || tdat == null || tdat === "undefined") {
+									return {error: 403};
+								}
+								return tdat;
 							 }
 						 }
-	                		}
-            			}
+					}
+				}
 			}
 		};
 	}
@@ -16209,42 +16284,11 @@ Runtime.models =
 
 Runtime.onTerminate = function (data, msec) /// or user walks away
 {
-	var credit = data.cmi.credit==="credit";
-	var normal = !data.cmi.mode || data.cmi.mode==="normal";
-	var suspended = data.cmi.exit==="suspend";
-	var not_attempted = data.cmi.completion_status==="not attempted";
-	var success = (/^(completed|passed|failed)$/).test(data.cmi.success_status, true);
-	var session_time;
-	if (data.cmi.session_time==undefined || config.time_from_lms==true) {
-		var interval=(currentTime() - msec)/1000;
-		var dur= new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
-		session_time =dur.format(FORMAT_SCHEMA); 
-	} else {
-		session_time=data.cmi.session_time;
-	}
-	//var total_time = new Duration(data.cmi.total_time, true);
-	if (normal || suspended) 
-	{
-		data.cmi.session_time = session_time.toString();
-		total_time=addTimes(data.cmi.total_time.toString(),data.cmi.session_time);
-		data.cmi.total_time = total_time.toString();
-		data.cmi.entry="";
-		if (data.cmi.exit==="suspend") {
-			data.cmi.entry="resume";
-//		    data.cmi.session_time="";
-		}
-	}
-	if (not_attempted) 
-	{
-		data.cmi.success_status = 'incomplete';
-	}
-	
 	// added to synchronize the new data. it might update the navigation
-	syncCMIADLTree();
+	//syncCMIADLTree();
 	
 	if (all("treeView")!=null) {
 		updateNav(true);
 	}
-	
 };
 

@@ -558,7 +558,7 @@ function Duration (mixed)
 
 this.Duration = Duration;
 
-		Duration.prototype.set = function (obj)
+Duration.prototype.set = function (obj)
 {
 	this.value.setTime(obj && obj.valueOf ? obj.valueOf() : obj); } ;
 
@@ -1504,12 +1504,9 @@ function launchNavType(navType, isUserCurrentlyInteracting) {
 	}
 	//if suspendAll set cmi.exit to suspend for active SCO
 	if (navType=='SuspendAll') {
-		pubAPI.cmi.exit="suspend";
-		pubAPI.cmi.entry="resume";		
+		err=currentAPI.SetValueIntern("cmi.exit","suspend");
 		//sync
 		activities[msequencer.mSeqTree.mCurActivity.mActivityID].exit="suspend";
-		activities[msequencer.mSeqTree.mCurActivity.mActivityID].entry="resume";
-		
    	}
 		
 	//throw away API from previous sco and sync CMI and ADLTree, no api...SCO has to care for termination
@@ -1642,11 +1639,13 @@ function onDocumentClick (e)
 		else 
 		{
 			//throw away API from previous sco and sync CMI and ADLTree
-			onItemUndeliver();
+			//onItemUndeliver();
 			mlaunch = msequencer.navigateStr( target.id.substr(3));
-           
+
  			if (mlaunch.mSeqNonContent == null) {
 				//alert(activities[mlaunch.mActivityID]);
+				//throw away API from previous sco and sync CMI and ADLTree
+				onItemUndeliver();
 				statusHandler(mlaunch.mActivityID,"completion","unknown");
 				onItemDeliver(activities[mlaunch.mActivityID], false);
 			//	setTimeout("updateNav()",2000);  //temporary fix for timing problems
@@ -2061,7 +2060,9 @@ function init(config)
 	var cam = this.config.cp_data || sendJSONRequest(this.config.cp_url);
 
 	if (!cam) return alert('Fatal: Could not load content data.');
-
+	
+	//if(this.config.sequencing_enabled==false) modify sequencing
+	
 	// Step 2: load adlActivityTree
 	function defaultAct(mActivityID,mTitle,mOrder,mActiveOrder,mChildren,mActiveChildren) {
 		return {
@@ -2152,7 +2153,7 @@ function init(config)
 			adlAct._SeqActivity.mChildren[j]=defaultAct(cam.item.item[j].id,cam.item.item[j].title,j,j,null,null);
 		}
 	}
-	
+
 	if (!adlAct) {
 		
 		return alert('Fatal: Could not load ADLActivityTree.');
@@ -2238,10 +2239,8 @@ function init(config)
 	
 	//load global objectives
 	if (this.config.sequencing_enabled) loadGlobalObj();
-
 	//debugger start with sco-start
 	logActive = this.config.debug;
-	
 	//get suspend data
 	suspendData=null;
 	if (this.config.sequencing_enabled) suspendData = sendJSONRequest(this.config.get_suspend_url);
@@ -2341,19 +2340,24 @@ function init(config)
 	if (count==1 || this.config.hide_navig == 1) {
 		toggleView();  //hide tree
 	}
-		
-	if (mlaunch.mSeqNonContent == null) {
-		onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
+
+	if (config.auto_last_visited==true && config.status.last_visited!=null) {
+		launchTarget(config.status.last_visited);
 	} else {
-		if (count==1 && tolaunch!=null) {
-			launchTarget(tolaunch);
+
+		if (mlaunch.mSeqNonContent == null) {
+			onItemDeliver(activities[mlaunch.mActivityID], wasSuspended);
 		} else {
-			loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);	
-			updateControls();
-			updateNav();
+			if (count==1 && tolaunch!=null) {
+				launchTarget(tolaunch);
+			} else {
+				loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);	
+				updateControls();
+				updateNav();
+			}
 		}
 	}
-	
+
 	if (logActive==true) {
 		var elm = all("toggleLog");
 		elm.style.display ="inline";
@@ -2402,22 +2406,24 @@ function loadSharedData(sco_node_id) {
 	}
 }
 
-function saveSharedData() {
+function saveSharedData(cmiItem) {
 	//to increase performance integrate  in save()
 	//Do the transform so the "custom" JSON encoder will properly send
 	//the input to the server
 	var dataOut = new Object();
-	for(i = 0; i < pubAPI.adl.data.length; i++) {
-		var d = pubAPI.adl.data[i];
+//	for(i = 0; i < pubAPI.adl.data.length; i++) {
+//		var d = pubAPI.adl.data[i];
+	for(i = 0; i < cmiItem.adl.data.length; i++) {
+		var d = cmiItem.adl.data[i];
 		dataOut[d.id] = d.store;
 	}
 	sd2save = toJSONString(dataOut);
 	if (sd2save != saved_shared_data) {
-		var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
+//		var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+pubAPI.cmi.cp_node_id, dataOut);
+		var success = sendJSONRequest(this.config.set_adldata_url+"&node_id="+cmiItem.cmi.cp_node_id, dataOut);
 		if(success != "1") { 
-			//Do error handling if necessary
+			return false;
 		}
-		//Note: no check for success
 		saved_shared_data = sd2save;
 	}
 	return true;
@@ -2471,7 +2477,7 @@ function setParents(obj) {
 			var temp=obj[index];	
 			if (temp instanceof Array) {
 				if (temp.length>0) {
-					for (var i=0;i<temp.length;i++) {
+					for (var i=0;i<temp.length;i++) {
 						// get the object
 						temp[i]['mParent']=obj;
 						//check for further childs in array
@@ -2693,51 +2699,93 @@ function save()
 	// add activities
 	walk (activities, 'node');
 
-/*to integrate
-	result["adl_seq_utilities"]=this.adl_seq_utilities;
-	if (saved_adl_seq_utilities != this.adl_seq_utilities) {
-		saved_adl_seq_utilities = this.adl_seq_utilities;
-		result["changed_seq_utilities"]=1;
-	}
-	else {
-		result["changed_seq_utilities"]=0;
-	}
-	result["saved_global_status"]=saved_global_status;
-	
-	//alert("Before save "+result.node.length);
-	//if (!result.node.length) {return;} 
-*/
-	
-	//alert("Before save "+result.node.length);
-	if (!result.node.length) {return;} 
-	result = this.config.cmi_url 
-		? sendJSONRequest(this.config.cmi_url, result)
-		: {};
-	
-
-	// set successful updated elements to clean
-	var i = 0;
-	for (k in result) 
-	{
-		i++;
-		var act = activitiesByCAM[k];
-		if (act) 
-		{
-			act.dirty = 0;
+	result["i_check"]=0;
+	result["i_set"]=0;
+	var check0="",check1="";
+	for (var k in saved) {
+		if (result[k].length>0) {
+			result["i_check"]+=saved[k].checkplus;
+			check0=toJSONString(result[k]);
+			check1=toJSONString(saved[k].data);
+			if (k=="correct_response") {
+				check0+=result["node"][0][15];
+				check1+=saved[k].node;
+			}
+			if (check0===check1) {
+				result[k]=[];
+			} else {
+				saved[k].data=result[k];
+				if(k=="correct_response") saved[k].node=result["node"][0][15];
+				result["i_set"]+=saved[k].checkplus;
+			}
 		}
 	}
 
-	//alert(new_global_status);
-	//saved_global_status = new_global_status;
-	
+
+	if (this.config.sequencing_enabled) {
+		// add shared objectives
+		walk (sharedObjectives, "objective");
+
+		result["adl_seq_utilities"]=this.adl_seq_utilities;
+		if (toJSONString(saved_adl_seq_utilities) != toJSONString(this.adl_seq_utilities)) {
+			saved_adl_seq_utilities = this.adl_seq_utilities;
+			result["changed_seq_utilities"]=1;
+		}
+		else {
+			result["changed_seq_utilities"]=0;
+		}
+	} else {
+		result["adl_seq_utilities"]={};
+		result["changed_seq_utilities"]=0;
+	}
+
+	result["saved_global_status"]=config.status.saved_global_status;
+	if (saved_result == toJSONString(result)) {
+//		alert("no difference");
+		return true;
+	} else {
+//		alert("difference: saved_result:\n"+saved_result+"\nresult:\n"+toJSONString(result));
+		saved_result = toJSONString(result);
+
+		//alert("Before save "+result.node.length);
+		//if (!result.node.length) {return;} 
+		result = this.config.cmi_url 
+			? sendJSONRequest(this.config.cmi_url, result)
+			: {};
+
+		// set successful updated elements to clean
+		if(typeof result=="object") {
+			var new_global_status = null;
+			for (k in result) 
+			{
+				if(k == "new_global_status") new_global_status=result[k];
+				else {
+					var act = activitiesByCAM[k];
+					if (act) 
+					{
+						act.dirty = 0;
+					}
+				}
+			}
+
+			if (config.status.saved_global_status != new_global_status && typeof window.opener != 'undefined') {
+				window.opener.location.reload();
+			}
+			
+			//alert(new_global_status);
+			config.status.saved_global_status = new_global_status;
+			return true;
+		}
+	}
+/*
 	if (typeof this.config.time === "number" && this.config.time>10) 
 	{
 		clearTimeout(save.timeout);
 		save.timeout = window.setTimeout(save, this.config.time*1000);
 	}
-//	setTimeout("updateNav(true)",1000);
-	isSaving = false;
-	return i;
+*/
+//	isSaving = false;
+	return false;
 }
 
 
@@ -2747,7 +2795,6 @@ function getAPI(cp_node_id)
 	{
 		if (typeof dat!="undefined" && dat!==null) 
 		{
-		
 			api[k] = dat.toString();
 		}
 	}
@@ -2794,7 +2841,7 @@ function getAPI(cp_node_id)
 					
 					} else {
 						getAPISet(mod.mapping[i], dat, api[k]);
-				    	}
+					}
 				}
 			}
 			else if (mod.type===Array) 
@@ -2983,9 +3030,23 @@ function onWindowLoad ()
 function onWindowUnload () 
 {
 	summaryOnUnload = true;
+	var tosend="";
+	if (config.auto_last_visited==true) tosend=activities[mlaunch.mActivityID].id;
+	var result=this.config.scorm_player_unload_url 
+		? sendJSONRequest(this.config.scorm_player_unload_url, tosend)
+		: {};
+
 	removeResource();
 }
-function loadData(item){
+
+function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
+{
+	var url = item.href, v;
+	// create api if associated resouce is of adl:scormType=sco
+	if (item.sco)
+	{
+
+		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
 		if (this.config.sequencing_enabled) loadSharedData(item.cp_node_id);
 		
@@ -3063,20 +3124,46 @@ function loadData(item){
 				}	
 			}
 		}
-		return data;
-}
-function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing process (deliverSubProcess)
-{
-	var url = item.href, v;
-	// create api if associated resouce is of adl:scormType=sco
-	if (item.sco)
-	{
-		var data = loadData(item);
-		// get data in cmi-1.3 format
 
-		
+		//support for auto-review
+		item.options = new Object();
+		item.options.notracking = false;
+		if (globalAct.auto_review) {
+			if (item.completion_status == 'completed' || item.success_status == 'passed') {
+				data.cmi.mode = "review";
+				item.options.notracking = true;//no better score for example!
+			}
+		}
+
+//		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
+		if (item.exit!="suspend") {
+			//provide us with a clean data set - UK not really clean! goal: get out of database only total_time if exit!=suspend
+			//data.cmi=Runtime.models.cmi;
+			//explicitly set some entries
+			data.cmi.completion_status="unknown";
+			data.cmi.success_status="unknown";
+			data.cmi.entry="ab-initio";
+			data.cmi.suspend_data = null;
+			//data.cmi.total_time="PT0H0M0S"; //UK: not in specification
+		} 
+
+		//set resume manually if suspendALL happened before
+		//alert(wasSuspendAll);
+		if (item.exit=="suspend" || wasSuspendAll) data.cmi.entry="resume";
+		else data.cmi.entry="";
+
+		//previous session has ended
+		//if (item.exit=="time-out" || item.exit=="logout") {
+			//session has ended, reset times to defaults
+			//err = currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");
+			//accessthrough pubAPI
+			//pubAPI.cmi.total_time="PT0H0M0S";
+		//}
+		//RTE-4-45: If there are additional learner sessions within a learner attempt, the cmi.exit becomes uninitialized (i.e., reinitialized to its default value of (“”) - empty characterstring) at the beginning of each additional learner session within the learner attempt.
+		data.cmi.exit="";
+
 		// assign api for public use from sco- only for debug
-		pubAPI=data;
+		//pubAPI=data;
 		
 		currentAPI = window[Runtime.apiname] = new Runtime(data, onCommit, onTerminate);
 	}
@@ -3091,61 +3178,6 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		
 	scoStartTime = currentTime();
 	
-	//support for auto-review
-	item.options = new Object();
-	item.options.notracking = false;
-	if (globalAct.auto_review) {
-		if (item.completion_status == 'completed' || item.success_status == 'passed') {
-			pubAPI.mode = "review";
-			item.options.notracking = true;
-		}
-	}
-	
-	//clear existing completion status in case of 2nd attempt
-	if (currentAPI) {
-		
-		if ((item.exit=="normal" || item.exit=="" || item.exit=="time-out" || item.exit=="logout") && (item.exit!="suspend" && item.entry!="resume") ) {
-			//provide us with a clean data set
-			//pubAPI.cmi=Runtime.models.cmi;
-			//explicitly set some entries
-    		err = currentAPI.SetValueIntern("cmi.completion_status","unknown");
-    		err = currentAPI.SetValueIntern("cmi.success_status","unknown");
-			
-			pubAPI.cmi.completion_status = null;
-			data.cmi.completion_status = null;
-			pubAPI.cmi.progress_measure = null;
-			data.cmi.progress_measure = null;
-			
-			pubAPI.cmi.exit="";
-			if(item.entry!="resume"){
-				pubAPI.cmi.entry="ab-initio";
-				err = currentAPI.SetValueIntern("cmi.entry","ab-initio");
-			}
-			
-			//pubAPI.cmi.interactions = null;
-			//pubAPI.cmi.comments = null;
-			pubAPI.cmi.total_time="PT0H0M0S";
-		} 
-		
-		//set resume manually if suspendALL happened before
-		//alert(wasSuspendAll);
-		if (item.exit=="suspend" || wasSuspendAll) {
-			pubAPI.cmi.entry="resume";
-			//clean suspend
-			pubAPI.cmi.exit="";	
-		}
-		else {
-			pubAPI.cmi.suspend_data = null;
-		}
-		
-		//previous session has ended
-		if (item.exit=="time-out" || item.exit=="logout") {
-			//session has ended, reset times to defaults
-			err = currentAPI.SetValueIntern("cmi.session_time","PT0H0M0S");
-			//accessthrough pubAPI
-			pubAPI.cmi.total_time="PT0H0M0S";
-		}
-	}
 	var envEditor = this.config.envEditor;
 	var randNumber="";
 	if (envEditor==1) {
@@ -3550,7 +3582,8 @@ function undeliverFinish(){
 }
 
 function syncDynObjectives(){
-	var objectives=pubAPI.cmi.objectives;
+//	var objectives=pubAPI.cmi.objectives;
+	var objectives=data.cmi.objectives;
 	var act=activities[mlaunch.mActivityID].objectives;
 	for (var i=0;i<objectives.length;i++) {
 	  if (objectives[i].id) {
@@ -3582,6 +3615,7 @@ function syncDynObjectives(){
 }
 
 
+/*
 function save_global_objectives() {
 
 	if (this.config.sequencing_enabled) {
@@ -3599,6 +3633,7 @@ function save_global_objectives() {
 	}
 	return true;
 }
+*/
 
 // sequencer terminated
 function onNavigationEnd()
@@ -3651,13 +3686,6 @@ function onTerminate(data)
 			}
 			
 		}
-	/*	window.setTimeout( 
-			new (function (type, target) {
-				return function () {
-					execNavigation(type, target);
-				}
-			})(navReq.type, navReq.target), 0);
-		*/	
 	}
 	
 	// this will update the UI tree 
@@ -3665,6 +3693,7 @@ function onTerminate(data)
 	valid = msequencer.getValidRequests(valid);
 	msequencer.mSeqTree.setValidRequests(valid);
 	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
+//check if better without updateNav and updateControls
 	updateNav(false);
 	updateControls();
 	
@@ -3875,9 +3904,22 @@ function refreshDebugger(param) {
 	if (param == true) {
 		window.setTimeout("debugWindow.location.reload()",2000);
 	} else {
-		if (debugWindow!=null && debugWindow.closed!=true) {
-			var content = sendJSONRequest(this.config.livelog_url);
-			debugWindow.updateLiveLog();
+		if(b_refreshDebugger_busy==false){
+			b_refreshDebugger_busy=true;
+			var i_logLength=a_logEntries.length;
+			for(var i=0;i<i_logLength;i++){
+				if(a_logEntries[i]!="") sendAndLoad(this.config.post_log_url, a_logEntries[i]);
+				a_logEntries[i]="";
+			}
+			if (i_logLength==a_logEntries.length) {
+				a_logEntries=[]; //no more entries since start of function
+				if (i_logLength>0 && debugWindow!=null && debugWindow.closed!=true) {
+					var content = sendJSONRequest(this.config.livelog_url);
+					debugWindow.updateLiveLog();
+				}
+			}
+			else window.setTimeout("refreshDebugger()",500);
+			b_refreshDebugger_busy=false;
 		}
 	}
 }
@@ -3891,17 +3933,27 @@ function sendLogEntry(timespan,action,key,value,result,errorCode)
 	logEntry['value'] = value;
 	logEntry['result'] = (typeof(result)!='undefined') ? result : 'undefined';
 	logEntry['errorcode'] = errorCode;
-	
+
+	if (action=="SetValue") {
+		if (fixedFailure==true) logEntry['errorcode']+=100000;
+		if (toleratedFailure==true) logEntry['errorcode']=200000;
+	}
+	fixedFailure=false;
+	toleratedFailure=false;
+
 	if (action == "Initialize") {
 		logEntryScoId = mlaunch.mActivityID;
 		logEntryScoTitle = activities[mlaunch.mActivityID].title;
 	}
 	logEntry['scoid'] = logEntryScoId;
 	logEntry['scotitle'] = logEntryScoTitle;
+	a_logEntries.push(toJSONString(logEntry));
 	if (action!="DELETE") {
-		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger());	
+//		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger());	
+		setTimeout("refreshDebugger()",2000);
 	} else {
-		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
+//		var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));
+		refreshDebugger(true);
 	}	
 }
 
@@ -3918,7 +3970,9 @@ function createSummary()
 {
 	var logEntry = new Object();
 	logEntry['action'] = "SUMMARY";
-	var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));	
+	a_logEntries.push(toJSONString(logEntry));
+	refreshDebugger();
+//	var result = sendJSONRequest(this.config.post_log_url, logEntry,refreshDebugger(true));	
 }
 //end debug extensions
 
@@ -3974,6 +4028,14 @@ var DISABLED_ACTIONS = /^disabled$/i;
 var state = WAITING; 
 var SCOEntryedAct = null;
 
+var saved_adl_seq_utilities = {"satisfied":{},"measure":{},"status":{}};
+var saved_result;
+var saved={
+	"comment":{"data":[],"checkplus":8},
+	"correct_response":{"data":[],"checkplus":4,"node":""},
+	"interaction":{"data":[],"checkplus":2},
+	"objective":{"data":[],"checkplus":1}
+	};
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
@@ -3988,13 +4050,16 @@ var logEntryScoId = "";
 var logEntryScoTitle = "";
 var summaryOnUnload = false;
 
+var b_refreshDebugger_busy=false;
+var a_logEntries=[];
+var fixedFailure=false;
+var toleratedFailure=false;
 //course wide variables
-var pubAPI=null;
+//var pubAPI=null;
 var statusArray = new Object(); //just used for visual feedback
-var isSaving = true;
+//var isSaving = true;
 
 var saved_shared_data = "";
-var saved_global_objectives = "";
 var saveOnCommit = true;
 // Public interface
 window.scorm_init = init;
