@@ -137,7 +137,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		{
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","record_id", $record->getId());
 			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
-			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'delete'));
+			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'confirmDelete'));
 		}
 
 		$this->tpl->setVariable("ACTIONS", $alist->getHTML());

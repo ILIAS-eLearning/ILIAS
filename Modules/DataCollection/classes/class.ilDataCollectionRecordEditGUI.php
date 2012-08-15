@@ -35,7 +35,7 @@ class ilDataCollectionRecordEditGUI
         $this->form = new ilPropertyFormGUI();
         
 		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
-		$this->record_id = $_GET['record_id'];
+		$this->record_id = $_REQUEST['record_id'];
         $this->table_id = $_GET['table_id'];
 		include_once("class.ilDataCollectionDatatype.php");
 		if($_REQUEST['table_id']) 
@@ -128,11 +128,11 @@ class ilDataCollectionRecordEditGUI
     public function delete()
     {
         global $ilCtrl, $lng;
+        
         $record = new ilDataCollectionRecord($this->record_id);
         $record->doDelete();
         ilUtil::sendSuccess($lng->txt("dcl_record_deleted"), true);
         $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-
     }
 
 	/**
@@ -213,13 +213,21 @@ class ilDataCollectionRecordEditGUI
 
 		return true;
 	}
-
-    public function cancelUpdate(){
+	
+	/*
+	 * cancelUpdate
+	 */
+    public function cancelUpdate()
+    {
         global $ilCtrl;
         $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
     }
-
-    public function cancelSave(){
+    
+    /*
+     * cancelSave
+     */
+    public function cancelSave()
+    {
         $this->cancelUpdate();
     }
 
