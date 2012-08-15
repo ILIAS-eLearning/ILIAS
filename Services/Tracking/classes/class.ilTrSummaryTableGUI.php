@@ -111,7 +111,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			$all[] = 'status_changed_max';
 		}
 		
-		$all[] = "mark";
+		if(ilObject::_lookupType($this->obj_id) != "lm")
+		{
+			$all[] = "mark";
+		}
 
 		$privacy = array("gender", "city", "country", "sel_country");
 		foreach($privacy as $field)
@@ -184,43 +187,61 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		{
 			return parent::initFilter(true);
 		}
+		
+		// show only if extended data was activated in lp settings
+		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+		$tracking = new ilObjUserTracking();
 
 		$item = $this->addFilterItemByMetaType("user_total", ilTable2GUI::FILTER_NUMBER_RANGE, true,
 			"&#8721; ".$lng->txt("users"));
 		$this->filter["user_total"] = $item->getValue();
 
-		$item = $this->addFilterItemByMetaType("read_count", ilTable2GUI::FILTER_NUMBER_RANGE, true,
-			"&#8721; ".$lng->txt("trac_read_count"));
-		$this->filter["read_count"] = $item->getValue();
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
+		{
+			$item = $this->addFilterItemByMetaType("read_count", ilTable2GUI::FILTER_NUMBER_RANGE, true,
+				"&#8721; ".$lng->txt("trac_read_count"));
+			$this->filter["read_count"] = $item->getValue();
+		}
 
-		$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE,
-			true, "&#216; ".$lng->txt("trac_spent_seconds")." / ".$lng->txt("user"));
-		$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
-		$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
+		{
+			$item = $this->addFilterItemByMetaType("spent_seconds", ilTable2GUI::FILTER_DURATION_RANGE,
+				true, "&#216; ".$lng->txt("trac_spent_seconds")." / ".$lng->txt("user"));
+			$this->filter["spent_seconds"]["from"] = $item->getCombinationItem("from")->getValueInSeconds();
+			$this->filter["spent_seconds"]["to"] = $item->getCombinationItem("to")->getValueInSeconds();
+		}
 
 		$item = $this->addFilterItemByMetaType("percentage", ilTable2GUI::FILTER_NUMBER_RANGE, true,
 			"&#216; ".$lng->txt("trac_percentage")." / ".$lng->txt("user"));
 		$this->filter["percentage"] = $item->getValue();
 
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
-		$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
-		$item->setOptions(array("" => $lng->txt("trac_all"),
-			LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
-			LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(LP_STATUS_IN_PROGRESS),
-			LP_STATUS_COMPLETED_NUM+1 => $lng->txt(LP_STATUS_COMPLETED),
-			LP_STATUS_FAILED_NUM+1 => $lng->txt(LP_STATUS_FAILED)));
-		$this->filter["status"] = $item->getValue();
-		if($this->filter["status"])
-		{
-			$this->filter["status"]--;
+		// do not show status if learning progress is deactivated
+		$mode = ilLPObjSettings::_lookupMode($this->obj_id);
+		if($mode != LP_MODE_DEACTIVATED && $mode != LP_MODE_LP_MODE_UNDEFINED)
+		{		
+			include_once "Services/Tracking/classes/class.ilLPStatus.php";
+			$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT, true);
+			$item->setOptions(array("" => $lng->txt("trac_all"),
+				LP_STATUS_NOT_ATTEMPTED_NUM+1 => $lng->txt(LP_STATUS_NOT_ATTEMPTED),
+				LP_STATUS_IN_PROGRESS_NUM+1 => $lng->txt(LP_STATUS_IN_PROGRESS),
+				LP_STATUS_COMPLETED_NUM+1 => $lng->txt(LP_STATUS_COMPLETED),
+				LP_STATUS_FAILED_NUM+1 => $lng->txt(LP_STATUS_FAILED)));
+			$this->filter["status"] = $item->getValue();
+			if($this->filter["status"])
+			{
+				$this->filter["status"]--;
+			}
+
+			$item = $this->addFilterItemByMetaType("trac_status_changed", ilTable2GUI::FILTER_DATE_RANGE, true);
+			$this->filter["status_changed"] = $item->getDate();
 		}
 
-		$item = $this->addFilterItemByMetaType("trac_status_changed", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["status_changed"] = $item->getDate();
-
-		$item = $this->addFilterItemByMetaType("mark", ilTable2GUI::FILTER_TEXT, true,
-			$lng->txt("trac_mark"));
-		$this->filter["mark"] = $item->getValue();
+		if(ilObject::_lookupType($this->obj_id) != "lm")
+		{
+			$item = $this->addFilterItemByMetaType("mark", ilTable2GUI::FILTER_TEXT, true,
+				$lng->txt("trac_mark"));
+			$this->filter["mark"] = $item->getValue();
+		}
 
 		if($ilSetting->get("usr_settings_course_export_gender"))
 		{
@@ -252,11 +273,14 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$item = $this->addFilterItemByMetaType("language", ilTable2GUI::FILTER_LANGUAGE, true);
 		$this->filter["language"] = $item->getValue();
 
-		$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["first_access"] = $item->getDate();
+		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
+		{
+			$item = $this->addFilterItemByMetaType("trac_first_access", ilTable2GUI::FILTER_DATE_RANGE, true);
+			$this->filter["first_access"] = $item->getDate();
 
-		$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATE_RANGE, true);
-		$this->filter["last_access"] = $item->getDate();
+			$item = $this->addFilterItemByMetaType("trac_last_access", ilTable2GUI::FILTER_DATE_RANGE, true);
+			$this->filter["last_access"] = $item->getDate();
+		}
 		
 		$item = $this->addFilterItemByMetaType("registration_filter", ilTable2GUI::FILTER_DATE_RANGE, true);
 		$this->filter["registration"] = $item->getDate();
