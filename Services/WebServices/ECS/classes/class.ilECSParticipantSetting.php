@@ -31,6 +31,7 @@
 */
 class ilECSParticipantSetting
 {
+	// :TODO: what types are needed?
 	const IMPORT_UNCHANGED = 0;
 	const IMPORT_RCRS = 1;
 	const IMPORT_CRS = 2;

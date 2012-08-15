@@ -25,6 +25,11 @@ class ilObjRemoteCategory extends ilRemoteObjectBase
 	{
 		return self::DB_TABLE_NAME;
 	}
+	
+	protected function getECSObjectType()
+	{
+		return "/campusconnect/categories";
+	}
 		
 	// 
 	// no late static binding yet
@@ -33,11 +38,6 @@ class ilObjRemoteCategory extends ilRemoteObjectBase
 	public static function _lookupMID($a_obj_id)
 	{
 		return ilRemoteObjectBase::_lookupMID($a_obj_id, self::DB_TABLE_NAME);
-	}
-	
-	public static function _lookupObjIdsByMID($a_mid)
-	{
-		return ilRemoteObjectBase::_lookupObjIdsByMID($a_mid, self::DB_TABLE_NAME);
 	}
 	
 	public static function _lookupOrganization($a_obj_id)

@@ -13,7 +13,4 @@
 			<parent id="root">root</parent>
 		</object>
 	</objects>
-	<events>		
-		<event type="raise" id="create" />
-	</events>
 </module>

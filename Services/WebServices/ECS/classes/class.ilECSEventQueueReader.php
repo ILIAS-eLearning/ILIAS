@@ -35,12 +35,15 @@ include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
 */
 class ilECSEventQueueReader
 {
-	const TYPE_ECONTENT = 'econtents';
-	const TYPE_DIRECTORY_TREES = 'directory_tree';
 	const TYPE_EXPORTED = 'exported';
-	
-	const ADMIN_RESET = 'reset';
-	const ADMIN_RESET_ALL = 'reset_all';
+	const TYPE_DIRECTORY_TREES = 'directory_tree';
+	const TYPE_REMOTE_COURSE = 'rcrs';
+	const TYPE_REMOTE_CATEGORY = 'rcat';
+	const TYPE_REMOTE_FILE = 'rfil';
+	const TYPE_REMOTE_GLOSSARY = 'rglo';
+	const TYPE_REMOTE_GROUP = 'rgrp';
+	const TYPE_REMOTE_LEARNING_MODULE = 'rlm';
+	const TYPE_REMOTE_WIKI = 'rwik';
 	
 	protected $log;
 	protected $db;
@@ -58,13 +61,60 @@ class ilECSEventQueueReader
 	 	global $ilLog,$ilDB;
 	 	
 	 	include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-		include_once('Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 	 	
 	 	$this->settings = ilECSSetting::getInstanceByServerId($a_server_id);
 	 	$this->log = $ilLog;
 	 	$this->db = $ilDB;
 	 	
 	 	$this->read();
+	}
+	
+	/**
+	 * Convert object type to event type
+	 * 
+	 * @param string $a_obj_type
+	 * @return string
+	 */
+	protected function getEventTypeFromObjectType($a_obj_type)
+	{
+		// currently they are the same for all resource types
+		return $a_obj_type;
+	}
+	
+	/**
+	 * All available content types
+	 * 
+	 * @return array
+	 */
+	protected function getAllEContentTypes()
+	{
+		return array(self::TYPE_REMOTE_COURSE, self::TYPE_REMOTE_CATEGORY, 
+			self::TYPE_REMOTE_FILE, self::TYPE_REMOTE_GLOSSARY, self::TYPE_REMOTE_GROUP, 
+			self::TYPE_REMOTE_LEARNING_MODUL, self::TYPE_REMOTE_WIKI);	
+	}
+	
+	/**
+	 * Get all resource ids by resource type
+	 * 
+	 * @param ilECSSetting $server
+	 * @param array $a_types
+	 * @param bool $a_sender_only
+	 * @return array type => ids
+	 */
+	protected function getAllResourceIds(ilECSSetting $server, array $a_types, $a_sender_only = false)
+	{
+		include_once 'Services/Webservices/ECS/classes/class.ilRemoteObjectBase.php';
+		$list = array();
+		foreach($a_types as $type)
+		{
+			$robj = ilRemoteObjectBase::getInstanceByEventType($type);	
+			if($robj)
+			{
+				$list[$type] = $robj->getAllResourceIds($server, $a_sender_only);
+			}
+		}
+			
+		return $list;
 	}
 	
 	/**
@@ -83,29 +133,26 @@ class ilECSEventQueueReader
 
 		try
 		{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 
+			$types = $this->getAllEContentTypes();
+
 			$event_queue = new ilECSEventQueueReader($server->getServerId());
-			$event_queue->deleteAllEContentEvents();
+			$event_queue->deleteAllEContentEvents($types);
 			
-			$reader = new ilECSEContentReader($server->getServerId());
-			$list = $reader->readResourceList();
-			//$all_content = $reader->getEContent();
-
+			$list = $this->getAllResourceIds($server, $types);						
 			$imported = ilECSImport::_getAllImportedLinks($server->getServerId());
-
-			if(count($list))
+			foreach($list as $resource_type => $link_ids)
 			{
-				foreach($list->getLinkIds() as $link_id)
+				foreach($links_ids as $link_id)
 				{
 					if(!isset($imported[$link_id]))
 					{
 						// Add create event for not imported econtent
 						$event_queue->add(
-							ilECSEventQueueReader::TYPE_ECONTENT,
+							$resource_type,
 							$link_id,
 							ilECSEvent::CREATED
 						);
@@ -114,7 +161,7 @@ class ilECSEventQueueReader
 					{
 						// Add update event for already existing events
 						$event_queue->add(
-							ilECSEventQueueReader::TYPE_ECONTENT,
+							$resource_type,
 							$link_id,
 							ilECSEvent::UPDATED
 						);
@@ -126,15 +173,21 @@ class ilECSEventQueueReader
 					}
 				}
 			}
+			
 			if(is_array($imported))
-			{
+			{								
 				// Delete event for deprecated econtent
-				foreach($imported as $econtent_id => $null)
+				include_once 'Services/Webservices/ECS/classes/class.ilECSObjectSettings.php';
+				foreach($imported as $econtent_id => $obj_id)
 				{
-					$event_queue->add(ilECSEventQueueReader::TYPE_ECONTENT,
-						$econtent_id,
-						ilECSEvent::DESTROYED
-					);
+					$type = $this->getEventTypeFromObjectType(ilObject::_lookupType($obj_id));
+					if($type)
+					{						
+						$event_queue->add($type,
+							$econtent_id,
+							ilECSEvent::DESTROYED
+						);
+					}					
 				}
 			}
 		}
@@ -170,45 +223,30 @@ class ilECSEventQueueReader
 		// Read all local export info
 		$local_econtent_ids = ilECSExport::_getAllEContentIds($server->getServerId());
 
-		// Read remote list
-		try
-		{
-			include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
-			$reader = new ilECSEContentReader($server->getServerId());
-			$list = $reader->readResourceList(ilECSEContentReader::SENDER_ONLY);
-		}
-		catch(ilECSConnectorException $e)
-		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Connect failed '.$e->getMessage());
-			throw $e;
-		}
-		catch(ilECSReaderException $e)
-		{
-			$GLOBALS['ilLog']->write(__METHOD__.': Connect failed '.$e->getMessage());
-			throw $e;
-		}
-
-		$remote_econtent_ids = array();
-		if(count($list))
-		{
-			$remote_econtent_ids = $list->getLinkIds();
-		}
+		$types = $this->getAllEContentTypes();					
+		$list = $this->getAllResourceIds($server, $types, true);
 
 		// Delete all deprecated local export info
-		foreach($local_econtent_ids as $econtent_id => $obj_id)
+		foreach($list as $resource_type => $remote_econtent_ids)
 		{
-			if(!in_array($econtent_id, $remote_econtent_ids))
+			if($remote_econtent_ids)
 			{
-				ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
-			}
-		}
+				foreach($local_econtent_ids as $econtent_id => $obj_id)
+				{
+					if(!in_array($econtent_id, $remote_econtent_ids))
+					{
+						ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
+					}
+				}
 
-		// Delete all with deprecated remote info
-		foreach($remote_econtent_ids as $econtent_id)
-		{
-			if(!isset($local_econtent_ids[$econtent_id]))
-			{
-				ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
+				// Delete all with deprecated remote info
+				foreach($remote_econtent_ids as $econtent_id)
+				{
+					if(!isset($local_econtent_ids[$econtent_id]))
+					{
+						ilECSExport::_deleteEContentIds($server->getServerId(),array($econtent_id));
+					}
+				}
 			}
 		}
 		return true;
@@ -255,13 +293,14 @@ class ilECSEventQueueReader
 	 * Delete all econtents
 	 *
 	 * @access public
+	 * @param array $a_types
 	 */
-	public function deleteAllEContentEvents()
+	public function deleteAllEContentEvents(array $a_types)
 	{
 	 	global $ilDB;
 	 	
 	 	$query = "DELETE FROM ecs_events ".
-	 		"WHERE type = ".$this->db->quote(self::TYPE_ECONTENT,'text').' '.
+	 		"WHERE ".$this->db->in("type", $a_types, "", "text").' '.
 			'AND server_id = '.$ilDB->quote($this->getServer()->getServerId(),'integer');
 	 	$res = $ilDB->manipulate($query);
 	 	return true;
@@ -272,7 +311,7 @@ class ilECSEventQueueReader
 	 *
 	 * @access public
 	 */
-	public function deleteAllExportedEvents()
+	protected function deleteAllExportedEvents()
 	{
 	 	global $ilDB;
 	 	
@@ -287,7 +326,7 @@ class ilECSEventQueueReader
 	 * Fetch events from fifo
 	 * Using fifo
 	 * @access public
-	 * @throws ilECSConnectorException, ilECSReaderException
+	 * @throws ilECSConnectorException
 	 */
 	public function refresh()
 	{
@@ -307,6 +346,8 @@ class ilECSEventQueueReader
 
 				foreach($res->getResult() as $result)
 				{
+					var_dump($result);
+					
 					include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
 					$event = new ilECSEvent($result);
 
@@ -354,7 +395,7 @@ class ilECSEventQueueReader
 		switch($ev->getRessourceType()) {
 
 			case 'courselinks':
-				$type = self::TYPE_ECONTENT;
+				$type = self::TYPE_REMOTE_COURSE;
 				break;
 
 			case 'directory_trees':
@@ -496,7 +537,7 @@ class ilECSEventQueueReader
 	 * @param int event id
 	 * 
 	 */
-	private function delete($a_event_id)
+	public function delete($a_event_id)
 	{
 	 	global $ilDB;
 	 	

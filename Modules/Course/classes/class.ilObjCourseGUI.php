@@ -916,12 +916,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$record_gui->saveValues();
 
 		// Update ecs content
-		include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
-		if(ilECSObjectSettings::isActive($this->object->getId()))
-		{
-			ilECSObjectSettings::updateECSContent($this->object);
-		}
-
+		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
+		$ecs = new ilECSCourseSettings($this->object);
+		$ecs->handleContentUpdate();
+	
 		ilUtil::sendSuccess($this->lng->txt("crs_settings_saved"));
 		$this->editInfoObject();
 		return true;
@@ -1007,15 +1005,13 @@ class ilObjCourseGUI extends ilContainerGUI
 			// END ChangeEvent: Record write event
 			
 			// Update ecs export settings
-			include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
-			if(ilECSObjectSettings::isActive($this->object->getId()))
+			include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
+			$ecs = new ilECSCourseSettings($this->object);			
+			if(!$ecs->handleSettingsUpdate())
 			{
-				if(!ilECSObjectSettings::updateECSExportSettings($this->object))
-				{
-					$this->editObject();
-					return false;
-				}
-			}
+				$this->editObject();
+				return false;
+			}			
 			
 			if($show_lp_sync_confirmation)
 			{
@@ -1404,11 +1400,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($mem);
 		
 		// Edit ecs export settings
-		include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
-		if(ilECSObjectSettings::isActive($this->object->getId()))
-		{
-			ilECSObjectSettings::fillECSExportSettings($this->object->getId(), $form);
-		}
+		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
+		$ecs = new ilECSCourseSettings($this->object);		
+		$ecs->addSettingsToForm($form);
 
 		return $form;
 	}

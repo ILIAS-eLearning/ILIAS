@@ -1819,11 +1819,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 	{
 	 		case 'General':				
 				// Update ecs content
-				include_once "Services/WebServices/ECS/classes/class.ilECSObjectSettings.php";
-				if(ilECSObjectSettings::isActive($this->getId()))
-				{
-					ilECSObjectSettings::updateECSContent($this);
-				}
+				include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
+				$ecs = new ilECSCourseSettings($this);
+				$ecs->handleContentUpdate();
 	 			break;
 				
 	 		default:

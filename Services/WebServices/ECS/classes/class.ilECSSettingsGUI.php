@@ -796,84 +796,6 @@ class ilECSSettingsGUI
 		// TODO: Do update of remote courses and ...
 
 		return true;
-
-		/*
-		$mids = $_POST['mid'] ? $_POST['mid'] : array();
-		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
-		$part = ilECSParticipantSettings::_getInstance();
-
-		foreach($part->getEnabledParticipants() as $mid)
-		{
-			if(!in_array($mid,$mids))
-			{
-				// Delete all remote courses
-				include_once('./Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php');
-				#foreach(ilObjRemoteCourse::_lookupObjIdsByMID($mid) as $obj_id)
-				{
-					foreach(ilObject::_getAllReferences($obj_id) as $ref_id)
-					{
-						$to_delete = ilObjectFactory::getInstanceByRefId($ref_id,false);
-						$to_delete->delete();
-					}
-				}
-			}
-		}
-		*/
-
-		/*
-		try
-		{
-			// Update all exported econtent
-			include_once('./Services/WebServices/ECS/classes/class.ilECSEContentReader.php');
-			include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
-			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-			$reader = new ilECSEContentReader();
-			$reader->read();
-			$all_content = $reader->getEContent();
-			
-			// read update events
-			foreach($all_content as $content)
-			{
-				if(ilECSExport::_isRemote($content->getEContentId()))
-				{
-					$ilLog->write(__METHOD__.': Ignoring remote EContent: '.$content->getTitle());
-					// Do not handle remote courses.
-					continue;
-				}
-				$members = array_intersect($mids,$content->getEligibleMembers());
-				if(!$members)
-				{
-					$ilLog->write(__METHOD__.': Deleting EContent: '.$content->getTitle());
-					$connector = new ilECSConnector();
-					$connector->deleteResource($content->getEContentId());
-					
-					ilECSExport::_deleteEContentIds(array($content->getEContentId()));
-				}
-				elseif(count($members) != count($content->getEligibleMembers()))
-				{
-					$ilLog->write(__METHOD__.': Update eligible members for EContent: '.$content->getTitle());
-					$content->setEligibleMembers($members);
-					$connector = new ilECSConnector();
-					$connector->updateResource($content->getEContentId(),json_encode($content));
-				}
-			}
-		}
-		catch(ilECSConnectorException $e)
-		{
-			ilUtil::sendInfo('Cannot connect to ECS server: '.$e->getMessage());
-			$this->communities();
-			return false;
-		}
-		catch(ilException $e)
-		{
-			ilUtil::sendInfo('Update failed: '.$e->getMessage());
-			$this->communities();
-			return false;
-		}
-
-		*/
-		return true;
 	}
 
 
@@ -1601,6 +1523,8 @@ class ilECSSettingsGUI
 	protected function exportImported()
 	{
 		global $ilObjDataCache,$ilUser;
+		
+		// :TODO: mind resource type and move to ilRemoteObjectBase...
 		
 		$rcourses = ilUtil::_getObjectsByOperations('rcrs','visible',$ilUser->getId(),-1);
 		

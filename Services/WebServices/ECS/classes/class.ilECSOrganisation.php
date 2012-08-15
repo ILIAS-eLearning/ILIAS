@@ -53,7 +53,7 @@ class ilECSOrganisation
 	 *
 	 * @access public
 	 * @param object json representation
-	 * @throws ilECSReaderException
+	 * @throws ilException
 	 */
 	public function loadFromJson($a_json)
 	{
@@ -61,9 +61,8 @@ class ilECSOrganisation
 
 		if(!is_object($a_json))
 		{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSReaderException.php');
 			$ilLog->write(__METHOD__ . ': Cannot load from JSON. No object given.');
-			throw new ilECSReaderException('Cannot parse ECSParticipant.');
+			throw new ilException('Cannot parse ECSParticipant.');
 		}
 		$this->name = $a_json->name;
 		$this->abbr = $a_json->abbr;

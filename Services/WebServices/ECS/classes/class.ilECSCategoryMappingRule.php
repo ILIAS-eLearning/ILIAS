@@ -418,44 +418,16 @@ class ilECSCategoryMappingRule
 
 	/**
 	 * Check if rule matches a specific econtent 
-	 * @param object	$econtent	ilECSEContent
+	 * @param array	 $a_matchable_content	
 	 * @return bool
 	 */
-	public function matches($a_server_id, ilECSEcontent $econtent)
-	{
-		global $ilLog;
-		
-		switch($this->getFieldName())
+	public function matches(array $a_matchable_content)
+	{		
+		if(isset($a_matchable_content[$this->getFieldName()]))
 		{
-			case 'study_courses':
-				return $this->matchesValue($econtent->getStudyCourses(),self::ATTR_ARRAY);
-
-			case 'part_id':
-				return $this->matchesValue($econtent->getOwner(),self::ATTR_INT);
-				
-			case 'begin':
-				if(!is_object($econtent->getTimePlace()))
-				{
-					return false;
-				}
-				return $this->matchesValue($econtent->getTimePlace()->getUTBegin(),self::ATTR_INT);
-			
-			case 'courseType':
-				return $this->matchesValue($econtent->getCourseType(),self::ATTR_STRING);
-				
-			case 'term':
-				return $this->matchesValue($econtent->getTerm(),self::ATTR_STRING);
-				
-			case 'credits':
-				return $this->matchesValue($econtent->getCredits(),self::ATTR_STRING);
-
-			case 'community':
-				include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
-				return $this->matchesValue(
-					ilECSCommunitiesCache::getInstance()->lookupTitle($a_server_id, $econtent->getOwner()),
-					self::ATTR_STRING
-				);
-		}
+			$value = $a_matchable_content[$this->getFieldName()];
+			return $this->matchesValue($value[0], $value[1]);
+		}		
 		return false;
 	}
 	

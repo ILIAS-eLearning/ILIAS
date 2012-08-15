@@ -3,31 +3,89 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilECSObjectSettings
+* Handles object exports to ECS
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * $Id: class.ilObjCourseGUI.php 31646 2011-11-14 11:39:37Z jluetzen $
 *
 * @ingroup ServicesWebServicesECS
 */
-class ilECSObjectSettings
+abstract class ilECSObjectSettings
 {
+	protected $content_obj; // [ilObj]
+	
+	const MAIL_SENDER = 6;
+	
 	/**
-	 * Is ECS active?
+	 * Constructor
 	 * 
-	 * @param int $a_object_id
+	 * @param ilObject $a_content_object
+	 */
+	public function __construct(ilObject $a_content_object)
+	{
+		$this->content_obj = $a_content_object;
+	}
+	
+	/**
+	 * Get settings handler for repository object
+	 * 
+	 * @param ilObject $a_content_obj
+	 * @return ilECSObjectSettings
+	 */
+	public static function getInstanceByObject(ilObject $a_content_obj)	
+	{
+		switch($a_content_obj->getType())
+		{
+			case 'crs':
+				include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
+				return new ilECSCourseSettings($a_content_obj);		
+				
+			case 'cat':
+				include_once 'Modules/Course/classes/class.ilECSCategorySettings.php';
+				return new ilECSCategorySettings($a_content_obj);		
+				
+			case 'file':
+				include_once 'Modules/Course/classes/class.ilECSFileSettings.php';
+				return new ilECSFileSettings($a_content_obj);		
+				
+			case 'glo':
+				include_once 'Modules/Course/classes/class.ilECSGlossarySettings.php';
+				return new ilECSGlossarySettings($a_content_obj);		
+				
+			case 'grp':
+				include_once 'Modules/Course/classes/class.ilECSGroupSettings.php';
+				return new ilECSGroupSettings($a_content_obj);		
+				
+			case 'lm':
+				include_once 'Modules/Course/classes/class.ilECSLearningModuleSettings.php';
+				return new ilECSLearningModuleSettings($a_content_obj);		
+				
+			case 'wiki':
+				include_once 'Modules/Course/classes/class.ilECSWikiSettings.php';
+				return new ilECSWikiSettings($a_content_obj);		
+		}				
+	}
+	
+	/**
+	 * Get ECS resource identifier, e.g. "/campusconnect/courselinks"
+	 * 
+	 * @return string
+	 */
+	abstract protected function getECSObjectType();
+	
+	/**
+	 * Is ECS (for current object) active?
+	 * 
 	 * @return boolean 
 	 */
-	public static function isActive($a_object_id)
+	protected function isActive()
 	{				
 		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
 		if(ilECSServerSettings::getInstance()->activeServerExists())
-		{
-			// :TODO: check object type for activation		
-			
+		{		
 			// imported objects cannot be exported
 			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-			if(!ilECSImport::lookupServerId($a_object_id))
+			if(!ilECSImport::lookupServerId($this->content_obj->getId()))
 			{
 				return true;			
 			}
@@ -39,19 +97,27 @@ class ilECSObjectSettings
 	/**
 	 * Fill ECS export settings "multiple servers"
 	 * 
-	 * @param int $a_obj_id
+	 * to be used in ilObject->initEditForm()
+	 * 
 	 * @param ilPropertyFormGUI $a_form
 	 */
-	public static function fillECSExportSettings($a_obj_id, ilPropertyFormGUI $a_form)
+	public function addSettingsToForm(ilPropertyFormGUI $a_form)
 	{
 		global $ilLog, $lng;
+		
+		if(!$this->isActive())
+		{
+			return;
+		}
+		
+		$obj_id = $this->content_obj->getId();
 
 		// Return if no participant is enabled for export and the current object is not released
 		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 
 		$exportablePart = ilECSParticipantSettings::getExportableParticipants();
-		if(!$exportablePart and !ilECSExport::_isExported($a_obj_id))
+		if(!$exportablePart and !ilECSExport::_isExported($obj_id))
 		{
 			return true;
 		}
@@ -67,7 +133,7 @@ class ilECSObjectSettings
 		// release or not
 		$exp = new ilRadioGroupInputGUI($lng->txt('ecs_export_obj_settings'),'ecs_export');
 		$exp->setRequired(true);
-		$exp->setValue(ilECSExport::_isExported($a_obj_id) ? 1 : 0);
+		$exp->setValue(ilECSExport::_isExported($obj_id) ? 1 : 0);
 		$off = new ilRadioOption($lng->txt('ecs_export_disabled'),0);
 		$exp->addOption($off);
 		$on = new ilRadioOption($lng->txt('ecs_export_enabled'),1);
@@ -82,35 +148,26 @@ class ilECSObjectSettings
 
 		// Read receivers
 		$receivers = array();
-		foreach(ilECSExport::getExportServerIds($a_obj_id) as $sid)
+		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentDetails.php');
+		foreach(ilECSExport::getExportServerIds($obj_id) as $sid)
 		{
-			$exp = new ilECSExport($sid, $a_obj_id);
-			$eid = $exp->getEContentId();
-			try
+			$exp = new ilECSExport($sid, $obj_id);
+						
+			$participants = null;
+			$details = ilECSEContentDetails::getInstance($sid, $exp->getEContentId(),
+				$this->getECSObjectType());		
+			if($details instanceof ilECSEContentDetails)
 			{
-				include_once './Services/WebServices/ECS/classes/class.ilECSEContentReader.php';
-				$econtent_reader = new ilECSEContentReader($sid,$eid);
-				$econtent_reader->read(true);
-				$details = $econtent_reader->getEContentDetails();
-				if($details instanceof ilECSEContentDetails)
+				$participants = $details->getReceivers();
+			}				
+			if($participants)
+			{
+				foreach($participants as $mid)
 				{
-					foreach($details->getReceivers() as $mid)
-					{
-						$receivers[] = $sid.'_'.$mid;
-					}
-					#$owner = $details->getFirstSender();
+					$receivers[] = $sid.'_'.$mid;
 				}
-			}
-			catch(ilECSConnectorException $exc)
-			{
-				$ilLog->write(__METHOD__.': Error connecting to ECS server. '.$exc->getMessage());
-			}
-			catch(ilECSReaderException $exc)
-			{
-				$ilLog->write(__METHOD__.': Error parsing ECS query: '.$exc->getMessage());
-			}
+			}				
 		}
-
 		$publish_for->setValue($receivers);
 
 		foreach($exportablePart as $pInfo)
@@ -132,11 +189,18 @@ class ilECSObjectSettings
 	/**
 	 * Update ECS Export Settings
 	 *
-	 * @param ilObject $a_content_object	 
+	 * Processes post data from addSettingstoForm()
+	 * to be used in ilObject->update() AFTER object data has been updated
+	 * 
 	 * @return bool
 	 */
-	public function updateECSExportSettings(ilObject $a_content_object)
+	public function handleSettingsUpdate()
 	{	
+		if(!$this->isActive())
+		{
+			return;
+		}
+		
 		// Parse post data
 		$mids = array();
 		foreach((array) $_POST['ecs_sid'] as $sid_mid)
@@ -149,150 +213,463 @@ class ilECSObjectSettings
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
 			include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
+			include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
 
 			// Update for each server
 			foreach(ilECSParticipantSettings::getExportServers() as $server_id)
 			{
-				// Export
-				$export = true;
-				if(!$_POST['ecs_export'])
-				{
-					$export = false;
+				$server = ilECSSetting::getInstanceByServerId($server_id);
+				if($server->isEnabled())
+				{			
+					// Export
+					$export = true;
+					if(!$_POST['ecs_export'])
+					{
+						$export = false;
+					}
+					if(!count($mids[$server_id]))
+					{
+						$export = false;
+					}				
+					$this->handleSettingsForServer(					
+						$server,
+						$export,
+						$mids[$server_id]
+					);
 				}
-				if(!count($mids[$server_id]))
-				{
-					$export = false;
-				}
-				self::handleECSSettings(
-					$a_content_object,
-					$server_id,
-					$export,
-					ilECSCommunitiesCache::getInstance()->lookupOwnId($server_id,$mids[$server_id][0]),
-					$mids[$server_id]
-				);
 			}
-			return true;
 		}
 		catch(ilECSConnectorException $exc)
 		{
-			ilUtil::sendFailure('Error connecting to ECS server: '.$exc->getMessage());
-			return false;
-		}
-		catch(ilECSContentWriterException $exc)
-		{
-			ilUtil::sendFailure('Course export failed with message: '.$exc->getMessage());
+			ilUtil::sendFailure('Error exporting to ECS server: '.$exc->getMessage());
 			return false;
 		}
 		return true;
-
-		/*
-		global $rbacadmin, $lng;	
-		  
-		if($_POST['ecs_export'] and !$_POST['ecs_owner'])
-		{
-			ilUtil::sendFailure($lng->txt('ecs_no_owner'));
-			return false;
-		}
-		try
-		{
-		    // deprecated (see below)
-			self::handleECSSettings((bool)$_POST['ecs_export'],(int) $_POST['ecs_owner'],(array) $_POST['ecs_mids']);
-			
-			// update performed now grant/revoke ecs user permissions
-			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
-			$export = new ilECSExport($a_content_obj->getId());
-			if($export->isExported())
-			{
-				// Grant permission
-				$rbacadmin->grantPermission($ecs_settings->getGlobalRole(),
-					ilRbacReview::_getOperationIdsByName(array('join','visible')),
-					$a_content_obj->getRefId());
-				
-			}
-			else
-			{
-				$rbacadmin->revokePermission($a_content_obj->getRefId(),
-					$ecs_settings->getGlobalRole());
-			}
-		}
-		catch(ilECSConnectorException $exc)
-		{
-			ilUtil::sendFailure('Error connecting to ECS server: '.$exc->getMessage());
-			return false;
-		}
-		catch(ilECSContentWriterException $exc)
-		{
-			ilUtil::sendFailure('Course export failed with message: '.$exc->getMessage());
-			return false;
-		}
-		return true;		 
-		*/
 	}
 	
 	/**
 	 * Save ECS settings (add- update- deleteResource)
 	 *
-	 * @param ilObject $a_content_object flag
-	 * @param int $a_server_id
+	 * @param ilECSSetting $a_server
 	 * @param bool $a_export
-	 * @param int $a_owner
 	 * @param array array of participant mids
-	 * @throws ilECSConnectorException, ilECSContentWriterException
+	 * @throws ilECSConnectorException
 	 */
-	protected static function handleECSSettings(ilObject $a_content_object,$a_server_id,$a_export,$a_owner,$a_mids)
-	{
+	protected function handleSettingsForServer(ilECSSetting $a_server,$a_export,$a_mids)
+	{		
 		try
 		{
-			include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
-			$writer = new ilECSContentWriter($a_content_object,$a_server_id);
-			$writer->setExportable($a_export);
-			$writer->setOwnerId($a_owner);
-			$writer->setParticipantIds((array) $a_mids);
-			$writer->refresh();
+			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+			$export_settings = new ilECSExport($a_server->getServerId(), $this->content_obj->getId());
+
+			// already exported?
+			if($export_settings->isExported())
+			{	
+				// still exportable: update ecs
+				if((bool)$a_export)
+				{
+					$this->doUpdate($a_server, $export_settings, $a_mids);								
+				}
+				// not exportable anymore
+				else
+				{				
+					$this->doDelete($a_server, $export_settings);					
+				}
+			}
+			// not exported yet
+			else
+			{
+				// now to be exported
+				if($a_export)
+				{							
+					$this->doAdd($a_server, $export_settings, $a_mids);
+				}
+				// was not and will not be exported
+				else
+				{
+
+				}
+			}
 		}
 		catch(ilECSConnectorException $exc)
 		{
 			throw $exc;
-		}
-		catch(ilECSContentWriterException $exc)
-		{
-			throw $exc;
-		}
+		}	
 	}	
-		
+	
 	/**
 	 * Update ECS Content
+	 * 
+	 * to be used AFTER metadata-/content-updates
 	 *
-	 * @param ilObject $a_content_object
 	 * @return bool
 	 */
-	public function updateECSContent(ilObject $a_content_object)
+	public function handleContentUpdate()
 	{
 		global $ilLog;
+		
+		if(!$this->isActive())
+		{
+			return;
+		}
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
-
-		$export_servers = ilECSExport::getExportServerIds($a_content_object->getId());
+		$export_servers = ilECSExport::getExportServerIds($this->content_obj->getId());
 		foreach($export_servers as $server_id)
 		{
 			include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
-			if(ilECSSetting::getInstanceByServerId($server_id)->isEnabled())
+			$server = ilECSSetting::getInstanceByServerId($server_id);
+			if($server->isEnabled())
 			{
 				try 
 				{
-					include_once('./Services/WebServices/ECS/classes/class.ilECSContentWriter.php');
-					$writer = new ilECSContentWriter($a_content_object,$server_id);
-					$writer->refreshSettings();
-					return true;
+					include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
+					$export_settings = new ilECSExport($server_id, $this->content_obj->getId());
+					
+					// already exported, update ecs
+					if($export_settings->isExported())
+					{
+						$this->doUpdate($server, $export_settings);						
+					}
+					// not exported yet, nothing to do
+					else
+					{
+						
+					}
 			 	}
-				catch(ilException $exc)
+				catch(ilECSConnectorException $exc)
 				{
-					$ilLog->write(__METHOD__.': Cannot save ECS settings. '.$exc->getMessage());
+					$ilLog->write(__METHOD__.': Cannot handle ECS content update. '.$exc->getMessage());
 					return false;
 				}
 			}
 		}
+		return true;
+	}	
+	
+	/**
+	 * Add resource to ECS
+	 * 
+	 * @param ilECSSetting $a_server
+	 * @param ilECSExport $a_export_settings
+	 * @param array $a_mids
+	 */
+	protected function doAdd(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids)
+	{
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Starting ECS add resource...');
+
+		$json = $this->buildJson($a_server);	
+
+		include_once 'Services/WebServices/ECS/classes/class.ilECSConnector.php';
+		$connector = new ilECSConnector($a_server);
+		$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$a_mids));				
+		$econtent_id = $connector->addResource($this->getECSObjectType(),
+			json_encode($json));
+
+		// status changed
+		$a_export_settings->setExported(true);
+		$a_export_settings->setEContentId($econtent_id);
+		$a_export_settings->save();
+
+		// Send mail
+		$this->sendNewContentNotification($a_server, $econtent_id);		
 	}
+	
+	/**
+	 * Update ECS resource
+	 * 
+	 * @param ilECSSetting $a_server
+	 * @param ilECSExport $a_export_settings
+	 * @param array $a_mids
+	 * @throws ilECSConnectorException
+	 */
+	protected function doUpdate(ilECSSetting $a_server, ilECSExport $a_export_settings, array $a_mids = null)
+	{
+		global $ilLog;
+		
+		include_once 'Services/WebServices/ECS/classes/class.ilECSConnector.php';
+		
+		$econtent_id = $a_export_settings->getEContentId();
+		if(!$econtent_id)
+		{
+			$ilLog->write(__METHOD__.': Missing eid. Aborting.');
+			throw new ilECSConnectorException('Missing ECS content ID. Aborting.');
+		}		
+		$connector = new ilECSConnector($a_server);
+		
+		if(!$a_mids)
+		{
+			$a_mids = $this->getParticipants($a_server->getServerId(), $econtent_id);	
+		}												
+		$ilLog->write(__METHOD__.': Start updating ECS content - '.print_r($a_mids,true));
+		$connector->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, implode(',',$a_mids));				
+
+		$json = $this->buildJson($a_server);										
+		$connector->updateResource($this->getECSObjectType(),
+			$econtent_id, json_encode($json));		
+	}
+	
+	/**
+	 * Delete ECS resource
+	 * 
+	 * as it is called from self::_handleDelete() it has to be public...
+	 * 
+	 * @param type $a_server_id
+	 * @throws ilECSConnectorException
+	 */
+	public function doDelete(ilECSSetting $a_server, ilECSExport $a_export_settings)
+	{
+		global $ilLog;
+		
+		// already exported?
+		if($a_export_settings->isExported())
+		{			
+			include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+			include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
+			
+			$econtent_id = $a_export_settings->getEContentId();
+			if(!$econtent_id)
+			{
+				$ilLog->write(__METHOD__.': Missing eid. Aborting.');
+				throw new ilECSConnectorException('Missing ECS content ID. Aborting.');
+			}								
+			$connector = new ilECSConnector($a_server);
+
+			$ilLog->write(__METHOD__.': Start deleting ECS content...');
+			$connector->deleteResource($this->getECSObjectType(),
+				$econtent_id);
+
+			// status changed
+			$a_export_settings->setExported(false);
+			$a_export_settings->save();
+		}		
+	}
+	
+	/**
+	 * handle delete
+	 * Objects that are moved to the trash call ECS-Remove
+	 * 
+ * @see ilRepUtil	 
+	 * @param array $a_subbtree_nodes
+	 */
+	public static function _handleDelete(array $a_subbtree_nodes)
+	{
+		// active?
+		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
+		if(!ilECSServerSettings::getInstance()->activeServerExists())
+		{
+			return;
+		}
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php' ;
+		$exported = ilECSExport::getExportedIds();		
+		foreach($a_subbtree_nodes as $node)
+		{
+			if(in_array($node['obj_id'],$exported))
+			{
+				if($content_obj = ilObjectFactory::getInstanceByRefId($node['child'],false))
+				{		
+					$settings = self::getInstanceByObject($content_obj);
+					
+					// Read export server ids
+					foreach(ilECSExport::getExportServerIds($node['obj_id']) as $sid)
+					{
+						$server = ilECSSetting::getInstanceByServerId($sid);
+						$export_settings = new ilECSExport($sid, $content_obj->getId());
+						$settings->doDelete($server, $export_settings);
+					}							
+				}
+			}
+		}				
+	}
+	
+	/**
+	 * Get participants for server and ecs resource
+	 * 
+	 * @param int $a_server_id
+	 * @param int $a_econtent_id
+	 * @return array
+	 */
+	protected function getParticipants($a_server_id, $a_econtent_id)
+	{
+		global $ilLog;
+		
+		
+	}
+	
+	/**
+	 * send notifications about new EContent
+	 *
+	 * @return bool
+	 */
+	protected function sendNewContentNotification(ilECSSetting $a_server, $a_econtent_id)
+	{
+		global $ilLog;
+		
+		if(!count($rcps = $a_server->getApprovalRecipients()))
+		{
+			return true;
+		}
+		
+		include_once('./Services/Mail/classes/class.ilMail.php');
+		include_once('./Services/Language/classes/class.ilLanguageFactory.php');
+
+		$lang = ilLanguageFactory::_getLanguage();
+		$lang->loadLanguageModule('ecs');
+
+		// @TODO: read mail
+		$mail = new ilMail(self::MAIL_SENDER);
+		$message = $lang->txt('ecs_export_created_body_a')."\n\n";
+		$message .= $lang->txt('title').': '.$this->content_obj->getTitle()."\n";
+		if(strlen($desc = $this->content_obj->getDescription()))
+		{
+			$message .= $lang->txt('desc').': '.$desc."\n";
+		}
+
+		// Participant info
+		$message .= ("\n".$lang->txt('ecs_published_for'));
+			
+		try
+		{
+			$found = false;
+			
+			$receivers = null;
+			include_once('./Services/WebServices/ECS/classes/class.ilECSEContentDetails.php');
+			$details = ilECSEContentDetails::getInstance($a_server->getServerId(), 
+				$a_econtent_id, $this->getECSObjectType());						
+			if($details instanceof ilECSEContentDetails)
+			{
+				$receivers = $details->getReceivers();
+			}										
+			if($receivers)
+			{
+				foreach($receivers as $member)
+				{
+					$found = true;
+					
+					include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+					$part = ilECSCommunityReader::getInstanceByServerId($a_server->getServerId())->getParticipantByMID($member);
+					
+					$message .= ("\n\n".$part->getParticipantName()."\n");
+					$message .= ($part->getDescription());					
+				}
+			}
+			if($found)
+			{
+				$message .= "\n\n";
+			}
+			else
+			{
+				$message .= (' '.$lang->txt('ecs_not_published')."\n\n");
+			}
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$ilLog->write(__METHOD__.': Cannot read approvements.');
+			return false;
+		}
+		
+		include_once('./Services/Link/classes/class.ilLink.php');
+		$href = ilLink::_getStaticLink($this->content_obj->getRefId(),'crs',true);
+		$message .= $lang->txt("perma_link").': '.$href."\n\n";
+		$message .= ilMail::_getAutoGeneratedMessageString();
+		
+		$mail->sendMail($a_server->getApprovalRecipientsAsString(),
+			'','',
+			$lang->txt('ecs_new_approval_subject'),
+			$message,array(),array('normal'));
+		
+		return true;	
+	}
+	
+	/**
+	 * Build core json structure
+	 * 
+	 * @param string $a_etype
+	 * @return object
+	 */
+	protected function getJsonCore($a_etype)
+	{				
+		$json = new stdClass();
+		$json->lang = 'en_EN'; // :TODO: obsolet?
+		$json->etype = $a_etype;
+		$json->title = $this->content_obj->getTitle();
+		$json->abstract = $this->content_obj->getDescription();	
+		
+		include_once('./Services/Link/classes/class.ilLink.php');
+		$json->url = ilLink::_getLink($this->content_obj->getRefId(),$this->content_obj->getType());
+		
+		return $json;
+	}
+	
+	/**
+	 * Add advanced metadata to json (export)
+	 * 
+	 * @param object $a_json
+	 * @param ilECSSetting $a_server
+	 * @param array $a_definition
+	 */
+	protected function addMetadataToJson(&$a_json, ilECSSetting $a_server, array $a_definition)
+	{
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		$mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
+		$values = ilAdvancedMDValues::_getValuesByObjId($this->content_obj->getId());
+
+		foreach($a_definition as $id => $type)
+		{
+			if(is_array($type))
+			{					
+				$target = $type[1];
+				$type = $type[0];
+			}
+			else
+			{
+				$target = $id;
+			}
+		
+			if($field = $mappings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, $id))
+			{
+				$value = isset($a_values[$field]) ? $a_values[$field] : '';
+				
+				switch($type)
+				{
+					case ilECSUtils::TYPE_ARRAY:
+						$a_json->$target = explode(',', $value);
+						break;
+					
+					case ilECSUtils::TYPE_INT:
+						$a_json->$target = (int)$value;
+						break;
+					
+					case ilECSUtils::TYPE_STRING:
+						$a_json->$target = (string)$value;
+						break;
+					
+					case ilECSUtils::TYPE_TIMEPLACE:						
+						if(!isset($a_json->$target))
+						{
+							include_once('./Services/WebServices/ECS/classes/class.ilECSTimePlace.php');						
+							$a_json->$target = new ilECSTimePlace();
+						}						
+						$a_json->$target->{'set'.ucfirst($id)}($value);
+						break;
+				}
+			}
+		}
+	}		
+	
+	/**
+	 * Build resource-specific json
+	 * 
+	 * @param ilECSSetting $a_server
+	 * @return object
+	 */
+	abstract protected function buildJson(ilECSSetting $a_server);
 }
 
 ?>

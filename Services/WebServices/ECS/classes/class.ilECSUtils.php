@@ -33,33 +33,36 @@
 
 class ilECSUtils
 {
+	const TYPE_ARRAY = 1;
+	const TYPE_INT = 2;
+	const TYPE_STRING = 3;
+	const TYPE_TIMEPLACE = 4;
+		
 	/**
-	 * fetch new econtent id from location header
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param array header array
+	 * Lookup participant name 
+	 * @param int	$a_owner	Mid of participant
+	 * @param int	$a_server_id	
+	 * @return
 	 */
-	public static function _fetchEContentIdFromHeader($a_header)
+	public static function lookupParticipantName($a_owner, $a_server_id)
 	{
 		global $ilLog;
 		
-		if(!isset($a_header['Location']))
-		{
-			return false;
+		try {
+			include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
+			$reader = ilECSCommunityReader::getInstanceByServerId($a_server_id);
+			if($part = $reader->getParticipantByMID($a_owner))
+			{
+				return $part->getParticipantName();
+			}
+			return '';
 		}
-		$end_path = strrpos($a_header['Location'],"/");
-		
-		if($end_path === false)
+		catch(ilECSConnectorException $e)
 		{
-			$ilLog->write(__METHOD__.': Cannot find path seperator.');
-			return false;
+			$ilLog->write(__METHOD__.': Error reading participants.');
+			return '';	
 		}
-		$econtent_id = substr($a_header['Location'],$end_path + 1);
-		$ilLog->write(__METHOD__.': Received EContentId '.$econtent_id);
-		return (int) $econtent_id;
-	}
+	}	
 	
 	/**
 	 * get optional econtent fields
@@ -71,18 +74,9 @@ class ilECSUtils
 	 */
 	public static function _getOptionalEContentFields()
 	{
-		return array(
-			'study_courses',
-			'lecturer',
-			'courseType',
-			'courseID',
-			'term',
-			'credits',
-			'semester_hours',
-			'begin',
-			'end',
-			'room',
-			'cycle');
+		// :TODO: ?
+		$def = self::getEContentDefinition('/campusconnect/courselinks');
+		return array_keys($def);
 	}
 	
 	/**
@@ -95,45 +89,11 @@ class ilECSUtils
 	 */
 	public static function _getOptionalECourseFields()
 	{
-		return array(
-			'study_courses',
-			'lecturer',
-			'courseType',
-			'courseID',
-			'term',
-			'credits',
-			'semester_hours',
-			'begin',
-			'end',
-			'room',
-			'cycle');
+		// :TODO: ?
+		$def = self::getEContentDefinition('/campusconnect/courselinks');
+		return array_keys($def);
 	}
 
-	/**
-	 * Lookup participant name 
-	 * @param int	$a_owner	Mid of participant
-	 * @return
-	 */
-	public static function lookupParticipantName($a_owner)
-	{
-		global $ilLog;
-		
-		try {
-			include_once './Services/WebServices/ECS/classes/class.ilECSCommunityReader.php';
-			$reader = ilECSCommunityReader::_getInstance();
-			if($part = $reader->getParticipantByMID($a_owner))
-			{
-				return $part->getParticipantName();
-			}
-			return '';
-		}
-		catch(ilECSConnectorException $e)
-		{
-			$ilLog->write(__METHOD__.': Error reading participants.');
-			return '';	
-		}
-	}
-	
 	/**
 	 * Get all possible remote object types
 	 * 
@@ -144,7 +104,7 @@ class ilECSUtils
 	{
 		global $lng;
 		
-		$all = array("rcrs", "rcat");
+		$all = array("rcrs", "rcat", "rfil", "rglo", "rgrp", "rlm", "rwik");
 		
 		if(!$a_with_captions)
 		{
@@ -169,7 +129,7 @@ class ilECSUtils
 	{
 		global $lng;
 		
-		$all = array("crs", "cat");
+		$all = array("crs", "cat", "file", "glo", "grp", "lm", "wiki");
 		
 		if(!$a_with_captions)
 		{
@@ -183,5 +143,127 @@ class ilECSUtils
 		}
 		return $res;
 	}
+	
+	/**
+	 * Get econtent / metadata definition
+	 * 
+	 * @param string $a_resource_id
+	 * @return array
+	 */
+	public static function getEContentDefinition($a_resource_id)
+	{
+		switch($a_resource_id)
+		{
+			case '/campusconnect/courselinks':
+				return array(
+					'study_courses' => self::TYPE_ARRAY, 
+					'lecturer' => self::TYPE_ARRAY,  
+					'courseType' => self::TYPE_STRING, 
+					'courseID' => self::TYPE_INT,
+					'credits' => self::TYPE_INT, 
+					'semester_hours' => self::TYPE_INT,
+					'term' => self::TYPE_STRING,
+					'begin' => array(self::TYPE_TIMEPLACE, 'timePlace'),
+					'end' => array(self::TYPE_TIMEPLACE, 'timePlace'),
+					'room' => array(self::TYPE_TIMEPLACE, 'timePlace'),
+					'cycle' => array(self::TYPE_TIMEPLACE, 'timePlace')
+				);				
+				
+			case '/campusconnect/categories':
+			case '/campusconnect/files':
+			case '/campusconnect/glossaries':
+			case '/campusconnect/groups':
+			case '/campusconnect/learningmodules':
+			case '/campusconnect/wikis':				
+				// no metadata mapping yet
+				return array();			
+		}
+	}
+	
+	/**
+	 * Convert ECS content to rule matchable values
+	 * 
+	 * @param string $a_resource_id
+	 * @param int $a_server_id
+	 * @param object $a_ecs_content
+	 * @param int $a_owner
+	 * @return array
+	 */
+	public static function getMatchableContent($a_resource_id, $a_server_id, $a_ecs_content, $a_owner)
+	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMappingRule.php';
+		include_once './Services/WebServices/ECS/classes/class.ilECSCommunitiesCache.php';
+		
+		// see ilECSCategoryMapping::getPossibleFields();
+		$res = array();
+		$res["part_id"] = array($a_owner, ilECSCategoryMappingRule::ATTR_INT);			
+		$res["community"] = array(ilECSCommunitiesCache::getInstance()->lookupTitle($a_server_id, $a_owner),
+			ilECSCategoryMappingRule::ATTR_STRING);		
+		
+		$definition = self::getEContentDefinition($a_resource_id);	
+		
+		$timePlace = null;
+		foreach($definition as $id => $type)
+		{
+			if(is_array($type))
+			{					
+				$target = $type[1];
+				$type = $type[0];
+			}
+			else
+			{
+				$target = $id;
+			}										
+			switch($type)
+			{
+				case ilECSUtils::TYPE_ARRAY:
+					$value = array(implode(',', $a_ecs_content->$target), ilECSCategoryMappingRule::ATTR_ARRAY);
+					break;
+
+				case ilECSUtils::TYPE_INT:
+					$value = array((int)$a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_INT);
+					break;
+
+				case ilECSUtils::TYPE_STRING:
+					$value = array((string)$a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_STRING);
+					break;
+
+				case ilECSUtils::TYPE_TIMEPLACE:						
+					if(!is_object($timePlace))
+					{
+						include_once('./Services/WebServices/ECS/classes/class.ilECSTimePlace.php');
+						if(is_object($a_ecs_content->$target))
+						{
+							$timePlace = new ilECSTimePlace();
+							$timePlace->loadFromJSON($a_ecs_content->$target);
+						}
+						else
+						{
+							$timePlace = new ilECSTimePlace();
+						}												
+					}			
+					switch($id)
+					{
+						case 'begin':
+						case 'end':							
+							$value = array($timePlace->{'getUT'.ucfirst($id)}(),
+								ilECSCategoryMappingRule::ATTR_INT);
+							break;						
+							
+						case 'room':
+						case 'cycle':
+							$value = array($timePlace->{'get'.ucfirst($id)}(),
+								ilECSCategoryMappingRule::ATTR_STRING);
+							break;
+					}
+					break;
+			}			
+			
+			$res[$id] = $value;
+		}
+		
+		return $res;
+	}
 }
+
 ?>

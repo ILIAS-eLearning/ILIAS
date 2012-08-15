@@ -19,6 +19,8 @@ abstract class ilRemoteObjectBase extends ilObject2
 	protected $organization;
 	protected $mid;	
 	protected $auth_hash = '';
+	
+	const MAIL_SENDER = 6;
 
 	/**
 	 * Constructor
@@ -36,11 +38,58 @@ abstract class ilRemoteObjectBase extends ilObject2
 	}
 	
 	/**
+	 * Get instance by ilECSEvent(QueueReader) type
+	 * 
+	 * @param int $a_type
+	 * @return ilRemoteObjectBase
+	 */
+	public static function getInstanceByEventType($a_type)
+	{
+		switch($a_type)
+		{
+			case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
+				include_once 'Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php';
+				return new ilObjRemoteCourse();			
+				
+			case ilECSEventQueueReader::TYPE_REMOTE_CATEGORY:
+				include_once 'Modules/RemoteCategory/classes/class.ilObjRemoteCategory.php';
+				return new ilObjRemoteCategory();			
+				
+			case ilECSEventQueueReader::TYPE_REMOTE_FILE:
+				include_once 'Modules/RemoteFile/classes/class.ilObjRemoteFile.php';
+				return new ilObjRemoteFile();		
+				
+			case ilECSEventQueueReader::TYPE_REMOTE_GLOSSARY:
+				include_once 'Modules/RemoteGlossary/classes/class.ilObjRemoteGlossary.php';
+				return new ilObjRemoteGlossary();	
+				
+			case ilECSEventQueueReader::TYPE_REMOTE_GROUP:
+				include_once 'Modules/RemoteGroup/classes/class.ilObjRemoteGroup.php';
+				return new ilObjRemoteGroup();	
+				
+			case ilECSEventQueueReader::TYPE_REMOTE_LEARNING_MODULE:
+				include_once 'Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModule.php';
+				return new ilObjRemoteGroup();	
+				
+			case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
+				include_once 'Modules/RemoteWiki/classes/class.ilObjRemoteWiki.php';
+				return new ilObjRemoteWiki();	
+		}		
+	}
+	
+	/**
 	 * Get db table name
 	 * 
 	 * @return string 
 	 */
 	abstract protected function getTableName();
+	
+	/**
+	 * Get ECS resource identifier, e.g. "/campusconnect/courselinks"
+	 * 
+	 * @return string
+	 */
+	abstract protected function getECSObjectType();	
 	
 	/**
 	 * lookup organization
@@ -142,28 +191,6 @@ abstract class ilRemoteObjectBase extends ilObject2
 			return $row->mid;
 		}
 		return 0;
-	}
-	
-	/**
-	 * lookup obj ids by mid
-	 *
-	 * @param int $a_mid mid
-	 * @param string $a_table
-	 * @return array obj ids
-	 */
-	public static function _lookupObjIdsByMID($a_mid, $a_table)
-	{
-		global $ilDB;
-					
-		$query = "SELECT obj_id FROM ".$a_table.
-			" WHERE mid = ".$ilDB->quote($a_mid ,'integer')." ";			
-		$res = $ilDB->query($query);
-		$obj_ids = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$obj_ids[] = $row->obj_id;
-		}
-		return $obj_ids;
 	}
 	
 	/**
@@ -339,94 +366,174 @@ abstract class ilRemoteObjectBase extends ilObject2
 	/**
 	 * create remote object from ECSContent object
 	 *
-	 * @param int $a_server_id
-	 * @param ilECSEContent $ecs_content object with object settings
-	 * @param int $a_mid
-	 * @return ilObject
+	 * @param ilECSSetting $a_server
+	 * @param object $a_ecs_content object with object settings
+	 * @param int $a_owner
 	 */
-	public static function _createFromECSEContent($a_server_id,ilECSEContent $ecs_content, $a_mid)
-	{		
-		include_once './Services/WebServices/ECS/classes/class.ilECSSetting.php' ;
-		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
-		$ecs_settings = ilECSSetting::getInstanceByServerId($a_server_id);
-
-		// Cannot instantiate abstract class
-		#$remote_obj = new self();
-		include_once './Modules/RemoteCourse/classes/class.ilObjRemoteCourse.php';
-		$remote_obj = new ilObjRemoteCourse();
-		$remote_obj->setType('rcrs');
-		// Static
-		#$remote_obj->setType($this->type);
-		$remote_obj->setOwner(0);
-		$new_obj_id = $remote_obj->create();
-		
+	public function createFromECSEContent(ilECSSetting $a_server, $a_ecs_content, $a_owner)
+	{						
+		$this->create();
+												
 		// won't work for personal workspace
-		$remote_obj->createReference();
-		$remote_obj->putInTree(ilECSCategoryMapping::getMatchingCategory($a_server_id,$ecs_content));
-		$remote_obj->setPermissions($ecs_settings->getImportId());
+		$this->createReference();
+		$this->setPermissions($a_server->getImportId());
+				
+		include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';		
+		$matchable_content = ilECSUtils::getMatchableContent($this->getECSObjectType(), 
+			$a_server->getServerId(), $a_ecs_content, $a_owner);
 		
-		$remote_obj->setECSImported($a_server_id,$ecs_content->getEContentId(),$a_mid,$new_obj_id);
-		$remote_obj->updateFromECSContent($a_server_id,$ecs_content);
-		
-		return $remote_obj;
+		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
+		$this->putInTree(ilECSCategoryMapping::getMatchingCategory($a_server->getServerId(), 
+			$matchable_content));
+						
+		$this->updateFromECSContent($a_server, $a_ecs_content, $a_owner);
 	}
 	
 	/**
 	 * update remote object settings from ecs content
 	 *
-	 * @param int $a_server_id
-	 * @param ilECSEContent object with object settings
+	 * @param ilECSSetting $a_server
+	 * @param object $a_ecs_content object with object settings
+	 * @param int $a_owner
 	 */
-	public function updateFromECSContent($a_server_id,ilECSEContent $ecs_content)
-	{				
-		$this->setTitle($ecs_content->getTitle());
-		$this->setDescription($ecs_content->getAbstract());
-		$this->setOrganization($ecs_content->getOrganization());
-		$this->setRemoteLink($ecs_content->getURL());
-		$this->setMID($ecs_content->getOwner());		
+	public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner)
+	{						
+		global $ilLog;
 		
-		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
-		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');				
-		$mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server_id);
+		$ilLog->write('updateFromECSContent: '.print_r($a_ecs_content, true));
 		
-		$this->updateCustomFromECSContent($ecs_content, $mappings);
+		// Get organisation for owner (ObjectListGUI performance)
+		$organisation = null;
+		if($a_owner)
+		{		
+			include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';
+			$organisation = ilECSUtils::lookupParticipantName($a_owner, $a_server->getServerId());	
+			$ilLog->write('found organisation: '.$organisation);
+		}
+		
+		$this->setMID($a_owner); // obsolete?		
+		$this->setOrganization($organisation);
+		$this->setTitle($a_ecs_content->title);
+		$this->setDescription($a_ecs_content->abstract);		
+		$this->setRemoteLink($a_ecs_content->url);		
+					
+		$ilLog->write('updateCustomFromECSContent');	
+		$this->updateCustomFromECSContent($a_server, $a_ecs_content);
 
 		// we are updating late so custom values can be set
-		$this->update();
-				
+		
+		$ilLog->write('ilObject->update()');	
+		$this->update();		
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSUtils.php';		
+		$matchable_content = ilECSUtils::getMatchableContent($this->getECSObjectType(), 
+			$a_server->getServerId(), $a_ecs_content, $a_owner);
+						
+		// rule-based category mapping				
 		include_once './Services/WebServices/ECS/classes/class.ilECSCategoryMapping.php';
-		ilECSCategoryMapping::handleUpdate($a_server_id,$ecs_content,$this->getId());
-										
-		return true;
+		ilECSCategoryMapping::handleUpdate($this->getId(), $a_server->getServerId(), 
+			$matchable_content);
 	}
+	
+	/**
+	 * Add advanced metadata to json (export)
+	 * 
+	 * @param object $a_json
+	 * @param ilECSSetting $a_server
+	 * @param array $a_definition
+	 * @param int $a_mapping_mode
+	 */
+	protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode)
+	{
+		global $ilLog;
+		
+		$ilLog->write("importing metadata from json: ".print_r($a_definition, true));
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
+		$mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
+		
+		foreach($a_definition as $id => $type)
+		{
+			if(is_array($type))
+			{					
+				$target = $type[1];
+				$type = $type[0];
+			}
+			else
+			{
+				$target = $id;
+			}
+		
+			$timePlace = null;
+			if($field = $mappings->getMappingByECSName($a_mapping_mode, $id))
+			{										
+				switch($type)
+				{
+					case ilECSUtils::TYPE_ARRAY:
+						$value = implode(',', $a_json->$target);
+						break;
+					
+					case ilECSUtils::TYPE_INT:
+						$value = (int)$a_json->$target;
+						break;
+					
+					case ilECSUtils::TYPE_STRING:
+						$value = (string)$a_json->$target;
+						break;
+					
+					case ilECSUtils::TYPE_TIMEPLACE:						
+						if(!is_object($timePlace))
+						{
+							include_once('./Services/WebServices/ECS/classes/class.ilECSTimePlace.php');
+							if(is_object($a_json->$target))
+							{
+								$timePlace = new ilECSTimePlace();
+								$timePlace->loadFromJSON($a_json->$target);
+							}
+							else
+							{
+								$timePlace = new ilECSTimePlace();
+							}												
+						}			
+						switch($id)
+						{
+							case 'begin':
+							case 'end':
+								$field_type = ilAdvancedMDFieldDefinition::_lookupFieldType($field);
+								if($field_type == ilAdvancedMDFieldDefinition::TYPE_DATE ||
+									$field_type == ilAdvancedMDFieldDefinition::TYPE_DATETIME)
+								{
+									$value = $timePlace->{'getUT'.ucfirst($id)}();
+									break;
+								}
+								// fallthrough			
+							case 'room':
+							case 'cycle':
+								$value = $timePlace->{'get'.ucfirst($id)}();
+								break;
+						}
+						break;
+				}
+				
+				$value = ilAdvancedMDValue::_getInstance($this->content_obj->getId(),$field);
+				$value->toggleDisabledStatus(true); 
+				$value->setValue($value);
+				$value->save();				
+			}
+		}
+	}		
 	
 	/**
 	 * update remote object settings from ecs content
 	 *
-	 * @param ilECSEContent $a_ecs_content object with object settings
-	 * @param ilECSDataMappingSettings $a_mappings 
+	 * @param ilECSSetting $a_server
+	 * @param object $a_ecs_content object with object settings
 	 */
-	protected function updateCustomFromECSContent(ilECSEContent $a_ecs_content, ilECSDataMappingSettings $a_mappings)
+	protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content)
 	{	
 				
-	}
-	
-	/**
-	 * set status to imported from ecs
-	 *
-	 * @param int $a_server_id
-	 * @param int $a_econtent_id
-	 * @param int $a_mid
-	 * @param int $a_obj_id
-	 */
-	public function setECSImported($a_server_id,$a_econtent_id,$a_mid,$a_obj_id)
-	{
-		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
-	 	$import = new ilECSImport($a_server_id,$a_obj_id);
-	 	$import->setEContentId($a_econtent_id);
-	 	$import->setMID($a_mid);
-	 	$import->save();
 	}
 	
 	/**
@@ -444,6 +551,209 @@ abstract class ilRemoteObjectBase extends ilObject2
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Handle update event
+	 * 
+	 * called by ilTaskScheduler
+	 * 
+	 * @param ilECSSetting $a_server
+	 * @param int $a_econtent_id
+	 * @param array $a_mids
+	 * @return boolean
+	 */
+	public function handleUpdate(ilECSSetting $a_server, $a_econtent_id, array $a_mids)
+	{		
+		global $ilLog;
+
+		// get content details		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSEContentDetails.php');
+		$details = ilECSEContentDetails::getInstance($a_server->getServerId(), 
+			$a_econtent_id, $this->getECSObjectType());								
+		if(!$details instanceof ilECSEContentDetails)
+		{
+			$this->handleDelete($a_server, $a_econtent_id);
+			$ilLog->write(__METHOD__.': Handling delete of deprecated remote object. DONE');
+		}			 
+
+		$ilLog->write(__METHOD__.': Receivers are '. print_r($details->getReceivers(),true));
+		
+		$owner = $details->getOwner();
+		
+		// check owner
+		include_once('./Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php');
+		if(!ilECSParticipantSettings::getInstanceByServerId($a_server->getServerId())->isImportAllowed($owner))
+		{
+			$ilLog->write('Ignoring disabled participant. MID: '.$owner);
+			return true;
+		}
+		
+		// new mids
+		include_once 'Services/WebServices/ECS/classes/class.ilECSImport.php';
+		include_once 'Services/WebServices/ECS/classes/class.ilECSConnector.php';
+		foreach(array_intersect($a_mids,$details->getReceivers()) as $mid)
+		{
+			try
+			{
+				$connector = new ilECSConnector($a_server);
+				$res = $connector->getResource($this->getECSObjectType(), $a_econtent_id);
+				if($res->getHTTPCode() == ilECSConnector::HTTP_CODE_NOT_FOUND)
+				{
+					continue;
+				}				
+				$json = $res->getResult();
+				if(!is_object($json))
+				{					
+					throw new ilECSConnectorException('invalid json');
+				}
+			}
+			catch(ilECSConnectorException $exc)
+			{
+				$ilLog->write(__METHOD__ . ': Error parsing result. '.$exc->getMessage());
+				$ilLog->logStack();
+				return false;
+			}
+			
+			// Update existing
+			if($obj_id = ilECSImport::_isImported($a_server->getServerId(),$a_econtent_id,$mid))
+			{
+				$ilLog->write(__METHOD__.': Handling update for existing object');
+				$remote = ilObjectFactory::getInstanceByObjId($obj_id,false);
+				if(!$remote instanceof ilRemoteObjectBase)
+				{
+					$ilLog->write(__METHOD__.': Cannot instantiate remote object. Got object type '.$remote->getType());
+					continue;
+				}
+				$remote->updateFromECSContent($a_server,$json,$owner);
+			}
+			else
+			{
+				$ilLog->write(__METHOD__.': Handling create for non existing object');
+				$this->createFromECSEContent($a_server,$json,$owner);	
+								
+				// update import status
+				$ilLog->write(__METHOD__.': Updating import status');
+				include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
+				$import = new ilECSImport($a_server->getServerId(),$this->getId());
+				$import->setEContentId($a_econtent_id);
+				$import->setMID($mid);
+				$import->save();
+				
+				$ilLog->write(__METHOD__.': Sending notification');
+				$this->sendNewContentNotification($a_server->getServerId());										
+			}
+	 	}	
+		
+		$ilLog->write(__METHOD__.': done');
+		return true;
+	}
+	
+	/**
+	 * send notifications about new EContent
+	 */
+	protected function sendNewContentNotification($a_server_id)
+	{		
+		include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+		$settings = ilECSSetting::getInstanceByServerId($a_server_id);
+		if(!count($rcps = $settings->getEContentRecipients()))
+		{
+			return;
+		}
+		
+		include_once('./Services/Mail/classes/class.ilMail.php');
+		include_once('./Services/Language/classes/class.ilLanguageFactory.php');
+
+		$lang = ilLanguageFactory::_getLanguage();
+		$lang->loadLanguageModule('ecs');
+
+		$mail = new ilMail(self::MAIL_SENDER);
+		$message = $lang->txt('ecs_'.$this->getType().'_created_body_a')."\n\n";
+		$message .= $lang->txt('title').': '.$this->getTitle()."\n";
+		if(strlen($desc = $this->getDescription()))
+		{
+			$message .= $lang->txt('desc').': '.$desc."\n";
+		}
+
+		include_once('./Services/Link/classes/class.ilLink.php');
+		$href = ilLink::_getStaticLink($this->getRefId(),$this->getType(),true);
+		$message .= $lang->txt("perma_link").': '.$href."\n\n";
+		$message .= ilMail::_getAutoGeneratedMessageString();
+
+		$mail->sendMail($settings->getEContentRecipientsAsString(),
+			'','',
+			$lang->txt('ecs_new_econtent_subject'),
+			$message,array(),array('normal'));
+	}
+	
+	/**
+	 * Handle delete event
+	 * 
+	 * called by ilTaskScheduler
+	 * 
+	 * @param ilECSSetting $a_server
+	 * @param int $a_econtent_id
+	 * @param int $a_mid
+	 * @return boolean
+	 */
+	public function handleDelete(ilECSSetting $a_server, $a_econtent_id, $a_mid = 0)
+	{
+		global $tree, $ilLog;
+		
+		include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
+		// if mid is zero delete all obj_ids
+		if(!$a_mid)
+		{
+	 		$obj_ids = ilECSImport::_lookupObjIds($a_server->getServerId(),$a_econtent_id);
+		}
+		else
+		{
+			$obj_ids = (array) ilECSImport::_lookupObjId($a_server->getServerId(),$a_econtent_id,$a_mid);
+ 		}
+		$ilLog->write(__METHOD__.': Received obj_ids '.print_r($obj_ids,true));
+	 	foreach($obj_ids as $obj_id)
+	 	{
+	 		$references = ilObject::_getAllReferences($obj_id);
+	 		foreach($references as $ref_id)
+	 		{
+	 			if($tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id,false))
+	 			{
+		 			$ilLog->write(__METHOD__.': Deleting obsolete remote course: '.$tmp_obj->getTitle());
+	 				$tmp_obj->delete();
+		 			$tree->deleteTree($tree->getNodeData($ref_id));
+	 			}
+	 			unset($tmp_obj);
+	 		}
+	 	}
+		return true;
+	}
+	
+	/**
+	 * Get all available resources
+	 * 
+	 * @param ilECSSetting $a_server
+	 * @param bool $a_sender_only
+	 * @return array
+	 */
+	public function getAllResourceIds(ilECSSetting $a_server, $a_sender_only = false)
+	{
+		global $ilLog;
+		
+		try
+		{
+			include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
+			$connector = new ilECSConnector($a_server);
+			$connector->connector->addHeader('X-EcsQueryStrings', $a_sender_only ? 'sender=true' : 'all=true');
+			$list = $connector->getResourceList($this->getECSObjectType(), $a_sender_only);
+			if(count($list))
+			{
+				return $list->getLinkIds();
+			}
+		}
+		catch(ilECSConnectorException $exc)
+		{
+			$ilLog->write(__METHOD__ . ': Error getting resource list. '.$exc->getMessage());
+		}
 	}
 }
 ?>
