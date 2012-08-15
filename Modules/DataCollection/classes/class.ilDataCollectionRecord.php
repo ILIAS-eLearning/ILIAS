@@ -335,7 +335,7 @@ class ilDataCollectionRecord
     /*
      * hasEditPermission
      */
-	function hasEditPermission()
+	function hasEditPermission($ref_id)
 	{
 		global $ilAccess;
 		
@@ -344,22 +344,19 @@ class ilDataCollectionRecord
 		
 		$perm = false;
 		
-		$references = $dcObj->_getAllReferences($dcObj->getId());
+		$ref = $ref_id;
 
-		//if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
-		//{
-			global $rbacreview, $ilUser;
-
-			// always allow sysad to access records.
-			if($ilUser->getId() == 6){
+		if($ilAccess->checkAccess("add_entry", "", $ref))
+		{
+			global $ilUser;
+			// checks if at this time records can be edited and if setting "only editable by owner" is set check if the owner is the current user.
+			if($dcObj->isRecordsEditable() && ($this->getOwner() == $ilUser->getId() || !$dcObj->getEditByOwner()))
 				$perm = true;
-			}
+		}
 
-			//TODO: Check for local admin
-
-			if($dcObj->isRecordsEditable() && $this->getOwner() == $ilUser->getId() && $dcObj->getEditByOwner())
-				$perm = true;
-		//}
+		// admin of this object
+		if($ilAccess->checkAccess("write", "",  $ref))
+			$perm = true;
 
 		return $perm;
 	}

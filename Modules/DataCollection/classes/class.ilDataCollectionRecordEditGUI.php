@@ -24,16 +24,17 @@ class ilDataCollectionRecordEditGUI
     private $record_id;
     private $table_id;
     private $table;
+    private $parent_obj;
 
 	/**
 	 * Constructor
 	 *
 	*/
-	public function __construct()
+	public function __construct(ilObjDataCollectionGUI $parent_obj)
 	{
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
-        
+        $this->parent_obj = $parent_obj;
 		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->record_id = $_REQUEST['record_id'];
         $this->table_id = $_GET['table_id'];
@@ -250,8 +251,6 @@ class ilDataCollectionRecordEditGUI
 	{	
 		global $tpl, $ilUser, $lng, $ilCtrl;
 
-		// Sämtliche Felder, welche gespeichert werden holen
-
 		$this->initForm();
 		if($this->form->checkInput())
 		{
@@ -264,6 +263,12 @@ class ilDataCollectionRecordEditGUI
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setOwner($ilUser->getId());
 
+			//check access
+			if(!$record_obj->hasEditPermission($this->parent_obj->ref_id)){
+				$this->accessDenied();
+				return;
+			}
+
             if(!isset($this->record_id))
             {
                 $record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
@@ -272,21 +277,25 @@ class ilDataCollectionRecordEditGUI
                 $this->record_id = $record_obj->getId();
             }
 
-			//TODO: für benutzer ohne write rechten ändern in getEditableFields
 			$all_fields = $this->table->getRecordFields();
+			$fail = "";
 			foreach($all_fields as $field)
 			{
             	try
 			    {
                    $value = $this->form->getInput("field_".$field->getId());
 					$record_obj->setRecordFieldValue($field->getId(), $value);
-				}catch(ilDataCollectionWrongTypeException $e){
+				}catch(ilDataCollectionInputException $e){
                    //TODO: Hint which field is incorrect
-                   ilUtil::sendFailure($lng->txt("dcl_wrong_type").$field->getTitle(),true);
-				   $this->sendFailure();
-				   return;
+                 $fail .= $field->getTitle().": ".$e."<br>";
             	}
 				
+			}
+
+			if($fail){
+				ilUtil::sendFailure($fail, true);
+				$this->sendFailure();
+				return;
 			}
 
 			$record_obj->doUpdate();
@@ -301,6 +310,11 @@ class ilDataCollectionRecordEditGUI
 			$tpl->setContent($this->form->getHTML());
         }
 
+	}
+
+	private function accessDenied(){
+		global $tpl;
+		$tpl->setContent("Access denied");
 	}
 
 	private function sendFailure(){

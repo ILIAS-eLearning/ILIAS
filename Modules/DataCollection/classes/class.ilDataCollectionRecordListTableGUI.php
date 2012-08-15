@@ -22,7 +22,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
     private $table;
 
-	public function  __construct($a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table)
+	public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table)
 	{
 		global $lng, $tpl, $ilCtrl;
 
@@ -56,14 +56,13 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderDirection("asc");
-		$this->setTopCommands(true);
 		$this->setExportFormats(array(self::EXPORT_EXCEL));
 
         //leave these two
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-		if($this->table->hasPermissionToAddRecord())
+		if($this->table->hasPermissionToAddRecord($this->parent_obj->parent_obj->ref_id))
 		{
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
 			$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"),$lng->txt("dcl_add_new_record"));
@@ -132,8 +131,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$alist->setListTitle($lng->txt("actions"));
 		
 		$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
-		
-		if($record->hasEditPermission($ilUser->getId()))
+
+		if($record->hasEditPermission($this->parent_obj->parent_obj->ref_id))
 		{
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","record_id", $record->getId());
 			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));

@@ -1,5 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionFile.php");
+
 
 /**
 * Class ilDataCollectionDatatype
@@ -232,7 +235,6 @@ class ilDataCollectionDatatype
                 $file_obj->setType("file");
                 $file_obj->setTitle($file["name"]);
                 $file_obj->setFileName($file["name"]);
-                include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
                 $file_obj->setFileType(ilMimeTypeUtil::getMimeType("", $file["name"], $file["type"]));
                 $file_obj->setFileSize($file["size"]);
                 $file_obj->setMode("object");
