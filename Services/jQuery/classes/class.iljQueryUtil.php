@@ -8,9 +8,10 @@
  * @version $Id$
  */
 class iljQueryUtil
-{
-	private static $ver = "1_8_0";
-	private static $ui_ver = "1_8_18";
+{	
+	// #9508 - 1.8.0 needs at least ui 1.8.22 to work properly!	
+	private static $ver = "1_8_0"; 
+	private static $ui_ver = "1_8_22";
 	private static $min = "-min";
 	
 	/**
