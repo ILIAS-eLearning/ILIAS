@@ -218,7 +218,7 @@ class ilTable2GUI extends ilTableGUI
 		}
 	
 		$old_sel = $this->loadProperty("selfields");
-
+		
 		$stored = false;
 		if ($old_sel != "")
 		{
@@ -231,7 +231,7 @@ class ilTable2GUI extends ilTableGUI
 			$stored = false;
 			$sel_fields = array();
 		}
-
+		
 		$this->selected_columns = array();
 		$set = false;
 		foreach ($this->getSelectableColumns() as $k => $c)
@@ -2710,10 +2710,13 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		$result["order"] = $this->getOrderField();
 		$result["direction"] = $this->getOrderDirection();
 		$result["offset"] = $this->getOffset();
-		$result["rows"] = $this->getLimit();
-		$result["selfields"] = $this->getSelectedColumns();
+		$result["rows"] = $this->getLimit();		
 		$result["selfilters"] = $this->getSelectedFilters();
-
+		
+		// #9514 - $this->getSelectedColumns() will omit deselected, leading to 
+		// confusion on restoring template
+		$result["selfields"] = $this->selected_column;  
+		
 		// gather filter values
 		if($this->filters)
 		{
