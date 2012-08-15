@@ -60,12 +60,27 @@ class ilDataCollectionRecordField
     function setValue($value){
         $type = $this->field->getDatatype()->getId();
         $this->loadValue();
-        if(!ilDataCollectionDatatype::checkValidity($type, $value))
+        if(!$this->checkValidity($type, $value))
             throw new ilDataCollectionWrongTypeException();
         else
             $this->value = $this->field->getDatatype()->parseValue($value);
     }
 
+	private function checkValidity($type, $value){
+		if(!ilDataCollectionDatatype::checkValidity($type, $value))
+			return false;
+		$properties = $this->field->getPropertyvalues();
+		$length = ilDataCollectionField::PROPERTYID_LENGTH;
+		$regex = ilDataCollectionField::PROPERTYID_REGEX;
+		if($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
+			echo "regex: ".$properties[$regex]." length: ".$properties[$length]."<br>";
+			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
+				return false;
+			if($properties[$regex] !== Null && !preg_match($properties[$regex], $value))
+				return false;
+		}
+		return true;
+	}
     function getFormInput(){
         $datatype = $this->field->getDatatype();
         return $datatype->parseFormInput($this->getValue());

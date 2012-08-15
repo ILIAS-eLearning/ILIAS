@@ -13,6 +13,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
  * @author Martin Studer <ms@studer-raimann.ch>
  * @author Marcel Raimann <mr@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI
@@ -458,6 +459,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_notification"), "notification");
 		$a_form->addItem($cb);
 
+	}
+
+	public function listRecords(){
+		global $ilCtrl;
+		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 	}
 
 	/**

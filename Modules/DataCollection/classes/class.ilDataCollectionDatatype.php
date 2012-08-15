@@ -167,6 +167,10 @@ class ilDataCollectionDatatype
 
     static function checkValidity($type_id, $value){
         //TODO: finish this list.
+
+		//required is checked by form. so no input is valid.
+		if($value == Null)
+			return true;
         switch($type_id){
             case self::INPUTFORMAT_NUMBER:
                 $return = is_numeric($value);
@@ -236,7 +240,6 @@ class ilDataCollectionDatatype
                 $file_obj->getUploadFile($file["tmp_name"], $file["name"]);
 
                 $file_id = $file_obj->getId();
-
             }
             $return = $file_id;
         }elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
@@ -259,7 +262,12 @@ class ilDataCollectionDatatype
             case self::INPUTFORMAT_DATETIME:
                 $html = $value;
                 break;
-            default:
+			case self::INPUTFORMAT_FILE:
+				$file_obj = new ilObjDataCollectionFile($value,false);
+				//TODO: enter real dl link.
+				$html = "<a href="."DOWNLOADLINK"." >".$file_obj->getFileName()."</a>";
+				break;
+			default:
                 $html = $value;
         }
         return $html;

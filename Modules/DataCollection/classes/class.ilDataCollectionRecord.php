@@ -204,7 +204,7 @@ class ilDataCollectionRecord
     function getRecordFieldHTML($field_id){
         $this->loadRecordFields();
         if(ilDataCollectionStandardField::_isStandardField($field_id))
-            return $this->getStandardField($field_id);
+            return $this->getStandardFieldHTML($field_id);
         else
             return $this->recordfields[$field_id]->getHTML();
     }
@@ -227,6 +227,16 @@ class ilDataCollectionRecord
     private function getStandardField($field_id){
         return $this->$field_id;
     }
+
+	// TODO: Bad style, fix with switch statement
+	private function getStandardFieldHTML($field_id){
+		switch($field_id){
+			case 'owner':
+				$owner = new ilObjUser($this->getOwner());
+				return $owner->getFullname();
+		}
+		return $this->$field_id;
+	}
 
     private function loadRecordFields(){
         if($this->recordfields == NULL){

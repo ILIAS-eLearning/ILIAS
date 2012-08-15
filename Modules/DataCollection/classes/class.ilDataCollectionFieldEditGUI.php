@@ -297,7 +297,7 @@ class ilDataCollectionFieldEditGUI
 		global $ilCtrl, $lng;
 		
 		//TODO Berechtigungen prüfen
-		
+
 		$this->initForm();
 		if ($this->form->checkInput())
 		{
@@ -318,33 +318,29 @@ class ilDataCollectionFieldEditGUI
 			}
 		
 			// Get possible properties and save them
+			echo "hia!";
 			include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldProp.php");
 			foreach(ilDataCollectionDatatype::getProperties($this->field_obj->getDatatypeId()) as $property)
 			{
-				if($this->form->getInput("prop_".$property['id'])) 
+				$fieldprop_obj = new ilDataCollectionFieldProp();
+				$fieldprop_obj->setDatatypePropertyId($property['id']);
+				$fieldprop_obj->setFieldId($this->field_obj->getId());
+				$fieldprop_obj->setValue($this->form->getInput("prop_".$property['id']));
+				if($a_mode == "update")
 				{
-					$fieldprop_obj = new ilDataCollectionFieldProp();
-					$fieldprop_obj->setDatatypePropertyId($property['id']);
-					$fieldprop_obj->setFieldId($this->field_obj->getId());
-					$fieldprop_obj->setValue($this->form->getInput("prop_".$property['id']));
-					if($a_mode == "update") 
-					{
-						$fieldprop_obj->doUpdate();
-					}
-					else 
-					{
-						$fieldprop_obj->doCreate();
-						$this->table->buildOrderFields();
-						$this->table->updateFields();
-					}
-					
+					$fieldprop_obj->doUpdate();
 				}
+				else
+				{
+					$fieldprop_obj->doCreate();
+				}
+
 			}
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
-			
+
 			$ilCtrl->setParameter($this, "field_id", $this->field_obj->getId());
-			
+
 			if($a_mode == "update")
 			{
 				$ilCtrl->redirect($this, "edit");
@@ -352,7 +348,6 @@ class ilDataCollectionFieldEditGUI
 			else
 			{
 				ilUtil::sendSuccess($lng->txt("msg_field_created"), false);
-				$ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
 				$ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");
 			}
 		}
