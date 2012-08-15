@@ -12047,3 +12047,16 @@ if(!$ilDB->tableColumnExists('il_dcl_data', 'edit_by_owner'))
 	
 }
 ?>
+<#3701>
+<?php
+if(!$ilDB->tableColumnExists('cmi_node', 'additional_tables'))
+{
+	$ilDB->addTableColumn('cmi_node', 'additional_tables', array(
+															'type'    => 'integer',
+															'length'  => 1,
+															'notnull' => true,
+															'default' => 0
+													   ));
+	$ilDB->query("UPDATE cmi_node SET additional_tables = 15");
+}
+?>
