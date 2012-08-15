@@ -306,10 +306,14 @@ col or row span. -->
 >
 
 <!-- Resources -->
-<!ELEMENT Resources (ResourceList*)>
+<!ELEMENT Resources (ResourceList | ItemGroup)>
 <!ELEMENT ResourceList EMPTY>
 <!ATTLIST ResourceList
 	Type CDATA #REQUIRED
+>
+<!ELEMENT ItemGroup EMPTY>
+<!ATTLIST ItemGroup
+	RefId CDATA #REQUIRED
 >
 
 <!-- LoginPageElement -->
