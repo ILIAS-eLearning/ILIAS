@@ -160,12 +160,7 @@ class ilDataCollectionRecordEditGUI
 		{
             $item = ilDataCollectionDatatype::getInputField($field);
             $item->setRequired($field->getRequired());
-			$info = $field->getDatatype()->getTitle();
-			if($field->isEditable())
-				$info.=" ".$lng->txt("dcl_is_editable_by_others_info");
-			else
-				$info.=" ".$lng->txt("dcl_is_not_editable_by_others_info");
-			$item->setInfo($info);
+			$item->setInfo($this->getInfo($field));
             $this->form->addItem($item);
 		}
 
@@ -186,6 +181,21 @@ class ilDataCollectionRecordEditGUI
 		$this->form->setTitle($lng->txt("dcl_add_new_record"));
 	}
 
+
+	private function getInfo(ilDataCollectionField $field){
+		global $lng;
+
+		if($field->isEditable())
+			$info =" ".$lng->txt("dcl_is_editable_by_others_info");
+		else
+			$info =" ".$lng->txt("dcl_is_not_editable_by_others_info");
+
+		if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
+			$info .= $lng->txt("dcl_text_length").": ".$field->getLength();
+		}
+
+		return $info;
+	}
 
 	/**
 	* get Values
@@ -272,7 +282,7 @@ class ilDataCollectionRecordEditGUI
 					$record_obj->setRecordFieldValue($field->getId(), $value);
 				}catch(ilDataCollectionWrongTypeException $e){
                    //TODO: Hint which field is incorrect
-                   ilUtil::sendFailure($lng->txt("dcl_wrong_type"),true);
+                   ilUtil::sendFailure($lng->txt("dcl_wrong_type").$field->getTitle(),true);
 				   $this->sendFailure();
 				   return;
             	}

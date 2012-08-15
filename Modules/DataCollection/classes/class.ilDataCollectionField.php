@@ -19,8 +19,6 @@ class ilDataCollectionField
 	protected $title; // [string]
 	protected $description; // [string]
 	protected $datatypeId; // [int]
-	protected $length; // [int]
-	protected $regex; // [text]
 	protected $required; // [bool]
 	protected $order; // [int]
     /**
@@ -160,46 +158,6 @@ class ilDataCollectionField
 	}
 
 	/**
-	* Set length
-	*
-	* @param int $a_id
-	*/
-	function setLength($a_id)
-	{
-		$this->length = $a_id;
-	}
-
-	/**
-	* Get length
-	*
-	* @return text
-	*/
-	function getLength()
-	{
-		return $this->length;
-	}
-
-	/**
-	* Set Regex
-	*
-	* @param string $a_regex
-	*/
-	function setRegex($a_regex)
-	{
-		$this->regex = $a_regex;
-	}
-
-	/**
-	* Get Required
-	*
-	* @return string
-	*/
-	function getRegex()
-	{
-		return $this->regex;
-	}
-
-	/**
 	* Set Required
 	*
 	* @param boolean $a_required Required
@@ -261,6 +219,12 @@ class ilDataCollectionField
         
         return $this->datatype;
     }
+
+	function getLength(){
+		$props = $this->getPropertyvalues();
+		$l = self::PROPERTYID_LENGTH;
+		return $props[$l];
+	}
     
     /*
      * getDatatypeTitle
@@ -515,6 +479,12 @@ class ilDataCollectionField
         //trick to delete entries in viewdefinition table
         $this->visible = false;
         $this->updateVisibility();
+
+		$this->editable = false;
+		$this->updateEditability();
+
+		$query = "DELETE FROM il_dcl_field_prop WHERE field_id = ".$this->getId();
+		$ilDB->manipulate($query);
 
         $query = "DELETE FROM il_dcl_field WHERE id = ".$this->getId();
         $ilDB->manipulate($query);

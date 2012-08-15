@@ -116,7 +116,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		foreach($this->table->getVisibleFields() as $field)
 		{
 			$this->tpl->setCurrentBlock("field");
-			$this->tpl->setVariable("CONTENT", $record->getRecordFieldValue($field->getId()));
+			$this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId()));
 
 			$this->tpl->parseCurrentBlock();
 		}

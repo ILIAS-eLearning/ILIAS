@@ -12372,7 +12372,7 @@ rbac#:#dcl_copy#:#User can copy data collection
 rbac#:#dcl_write#:#User can edit settings and content of data collection
 rbac#:#dcl_delete#:#User can move or delete data collection
 rbac#:#dcl_edit_permission#:#User can change permission settings
-rbac#:#dcl_add_entry#:#User can add an entry to the data collection
+rbac#:#dcl_add_entry#:#User can add/edit entries
 rbac#:#crs_create_dcl#:#Create Data Collection
 rbac#:#root_create_dcl#:#Create Data Collection
 rbac#:#fold_create_dcl#:#Create Data Collection
@@ -12517,11 +12517,11 @@ dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_field_datatype#:#Field Datatype
 dcl#:#dcl_required#:#Required Field
 dcl#:#dcl_edit_type_non#:#Not editable
-dcl#:#dcl_edit_type_non_info#:#Creating New Records needs Write-Access
-dcl#:#dcl_edit_type_unlim#:#Umlimited
-dcl#:#dcl_edit_type_unlim_info#:#Users with Read-Acces can add new Records
+dcl#:#dcl_edit_type_non_info#:#Creating New Records needs edit settings permission
+dcl#:#dcl_edit_type_unlim#:#Unlimited
+dcl#:#dcl_edit_type_unlim_info#:#Users with add/edit permission can add/edit entries
 dcl#:#dcl_edit_type_lim#:#Limited
-dcl#:#dcl_edit_type_lim_info#:#Acces limited to the following daterange
+dcl#:#dcl_edit_type_lim_info#:#Acces for users with add/edit permission is limited to the following daterange
 dcl#:#dcl_edit_start#:#Start-Date
 dcl#:#dcl_edit_end#:#End-Date
 dcl#:#dcl_export#:#Export
@@ -12653,7 +12653,7 @@ help#:#help_help_file#:#Help Package File
 help#:#help_modules#:#Help Packages
 help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?
 help#:#help_module_uploaded#:#Help package uploaded.
-common#:#add_entry#:#Add entry
+common#:#add_entry#:#Add/Edit entry
 rbac#:#fold_create_poll#:#Create Poll
 common#:#obj_poll_duplicate#:#Copy Poll
 rbac#:#rbac_import_role#:#Import Role
