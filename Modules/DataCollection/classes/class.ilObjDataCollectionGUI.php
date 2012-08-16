@@ -466,6 +466,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 	}
 
+	public function getDataCollectionObject(){
+		$obj = new ilObjDataCollection($this->ref_id, true);
+		return $obj;
+	}
+
 	/**
 	 * getSettingsValues
 	 */

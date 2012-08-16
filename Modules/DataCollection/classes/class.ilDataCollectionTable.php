@@ -13,6 +13,7 @@
 */
 
 include_once './Modules/DataCollection/classes/class.ilDataCollectionStandardField.php';
+include_once './Modules/DataCollection/classes/class.ilDataCollectionRecord.php';
 
 class ilDataCollectionTable
 {
@@ -234,7 +235,7 @@ class ilDataCollectionTable
         if($this->fields == NULL)
         {
             global $ilDB;
-            $query = "SELECT * FROM il_dcl_field WHERE table_id =".$this->id;
+            $query = "SELECT * FROM il_dcl_field WHERE table_id =".$this->getId();
             $fields = array();
             $set = $ilDB->query($query);
             

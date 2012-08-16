@@ -34,6 +34,8 @@ class ilDataCollectionField
 
 	const PROPERTYID_LENGTH = 1;
 	const PROPERTYID_REGEX = 2;
+	const PROPERTYID_REFERENCE = 3;
+
 
 
 	// type of table il_dcl_view
@@ -262,7 +264,8 @@ class ilDataCollectionField
      */
     public function isVisible()
     {
-        $this->loadVisibility();
+		if(!isset($this->visible))
+        	$this->loadVisibility();
         return $this->visible;
     }
 
@@ -283,11 +286,12 @@ class ilDataCollectionField
 	 */
 	private function loadViewDefinition($view){
 		global $ilDB;
-		$query = "  SELECT view.table_id, def.field_order FROM il_dcl_viewdefinition def
+		$query = "  SELECT view.table_id, def.field_order, def.is_set FROM il_dcl_viewdefinition def
                         INNER JOIN il_dcl_view view ON view.id = def.view_id AND view.type = ".$view."
                         WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->table_id;
 		$set = $ilDB->query($query);
-		$prop = $set->numRows() != 0;
+		$rec = $ilDB->fetchAssoc($set);
+		$prop = $rec['is_set'];
 		switch($view){
 			case self::VIEW_VIEW:
 				$this->visible = $prop;
@@ -296,10 +300,7 @@ class ilDataCollectionField
 				$this->editable = $prop;
 				break;
 		}
-		if($prop){
-			$rec = $ilDB->fetchAssoc($set);
-			$this->order = $rec['field_order'];
-		}
+		$this->order = $rec['field_order'];
 	}
     
     /**
@@ -308,7 +309,8 @@ class ilDataCollectionField
 	*/
 	public function isEditable()
 	{
-		$this->loadEditability();
+		if(!isset($this->editable))
+			$this->loadEditability();
 		
 		return $this->editable;
 	}
@@ -448,9 +450,6 @@ class ilDataCollectionField
 	 */
     private function updateViewDefinition($view){
 		global $ilDB;
-		$query = "DELETE FROM il_dcl_viewdefinition USING il_dcl_viewdefinition INNER JOIN il_dcl_view view ON view.id = il_dcl_viewdefinition.view_id WHERE view.type = ".$view." AND view.table_id = ".$this->getTableId()." AND il_dcl_viewdefinition.field LIKE '".$this->getId()."'";
-		$ilDB->manipulate($query);
-
 		switch($view){
 			case self::EDIT_VIEW:
 				$set = $this->isEditable();
@@ -462,13 +461,25 @@ class ilDataCollectionField
 				break;
 		}
 
-		if($set)
-		{
-			$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order) SELECT id, '".$this->getId()."', ".($view == self::VIEW_VIEW?$this->getOrder():"0")."  FROM il_dcl_view WHERE il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()."";
-		}
+		if(!$set)
+			$set = 0;
+		else
+			$set = 1;
+		if(!isset($this->order))
+			$this->order = 0;
 
+		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = '".$this->getId()."'";
+		$ilDB->manipulate($query);
+		$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order, is_set) SELECT id, '".$this->getId()."', ".$this->getOrder().", ".$set."  FROM il_dcl_view WHERE il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId();
 		$ilDB->manipulate($query);
 	}
+
+	private function deleteViewDefinition($view){
+		global $ilDB;
+		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()." WHERE def.view_id = il_dcl_view.id";
+		$ilDB->manipulate($query);
+	}
+
     /*
      * doDelete
      */
@@ -476,12 +487,9 @@ class ilDataCollectionField
     {
         global $ilDB;
 
-        //trick to delete entries in viewdefinition table
-        $this->visible = false;
-        $this->updateVisibility();
-
-		$this->editable = false;
-		$this->updateEditability();
+		// delete viewdefinitions.
+		$this->deleteViewDefinition(self::VIEW_VIEW);
+		$this->deleteViewDefinition(self::EDIT_VIEW);
 
 		$query = "DELETE FROM il_dcl_field_prop WHERE field_id = ".$this->getId();
 		$ilDB->manipulate($query);
@@ -491,12 +499,19 @@ class ilDataCollectionField
     }
 
 	public function getOrder(){
-		$this->loadVisibility();
-		return $this->order;
+		if(!isset($this->order))
+			$this->loadVisibility();
+		return !$this->order?0:$this->order;
 	}
 
 	public function setOrder($order){
 		$this->order = $order;
+	}
+
+	public function getFieldRef(){
+		$props = $this->getPropertyvalues();
+		$id = self::PROPERTYID_REFERENCE;
+		return $props[$id];
 	}
 
 	/**

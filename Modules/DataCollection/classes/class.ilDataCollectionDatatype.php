@@ -212,6 +212,9 @@ class ilDataCollectionDatatype
             case ilDataCollectionDatatype::INPUTFORMAT_FILE:
                 $input = new ilFileInputGUI($title, 'field_'.$field->getId());
                 break;
+			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+				$input = new ilSelectInputGUI($title, 'field_'.$field->getId());
+				break;
         }
         return $input;
     }
@@ -242,11 +245,13 @@ class ilDataCollectionDatatype
                 $file_obj->getUploadFile($file["tmp_name"], $file["name"]);
 
                 $file_id = $file_obj->getId();
-            }
-            $return = $file_id;
+				$return = $file_id;
+			}
         }elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
             return $value["date"]." ".$value["time"];
-        }
+        }elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN){
+			$return = $value?1:0;
+		}
         else{
             $return = $value;
         }
@@ -259,15 +264,37 @@ class ilDataCollectionDatatype
      * @param $value
      * @return mixed
      */
-    public function parseHTML($value){
+    public function parseHTML($value, ilDataCollectionRecordField $record_field){
         switch($this->id){
             case self::INPUTFORMAT_DATETIME:
-                $html = $value;
+                $html = substr($value, 0, -9);
                 break;
 			case self::INPUTFORMAT_FILE:
 				$file_obj = new ilObjDataCollectionFile($value,false);
 				//TODO: enter real dl link.
 				$html = "<a href="."DOWNLOADLINK"." >".$file_obj->getFileName()."</a>";
+				break;
+			case self::INPUTFORMAT_BOOLEAN:
+				switch($value)
+				{
+					case 0:
+						$im = ilUtil::getImagePath('icon_not_ok.png');
+						break;
+					case 1:
+						$im = ilUtil::getImagePath('icon_ok.png');
+						break;
+				}
+				$html = "<img src='".$im."'>";
+				break;
+			case IlDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+				if(!$value){
+					$html = "";
+					break;
+				}
+
+				$record = new ilDataCollectionRecord($value);
+				echo "ON record: ".$value." field: ".$record_field->getField()->getFieldRef()." table: ".$record->getTableId()." record_field: ".$record_field->getId()."<br>";
+				$html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
 				break;
 			default:
                 $html = $value;
@@ -285,8 +312,8 @@ class ilDataCollectionDatatype
         switch($this->id){
             case self::INPUTFORMAT_DATETIME:
                 //$datetime = new DateTime();
-                $input = array( "date" => array("d" => "17", "m" => "2", "y" => "1990"),
-                                /*"time" => array("h" => "10", "i" => "00", "s" => "00")*/);
+                $input = array( "date" => substr($value, 0, -9),
+                                "time" => "00:00:00");
                 break;
             default:
                 $input = $value;
