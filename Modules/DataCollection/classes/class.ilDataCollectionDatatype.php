@@ -212,7 +212,8 @@ class ilDataCollectionDatatype
                 $input = new ilCheckboxInputGUI($title, 'field_'.$field->getId());
                 break;
             case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
-                $input = new ilDateTimeInputGUI($title, 'field_'.$field->getId(), 6);
+                $input = new ilDateTimeInputGUI($title, 'field_'.$field->getId());
+                $input->setStartYear(date("Y")-100);
                 break;
             case ilDataCollectionDatatype::INPUTFORMAT_FILE:
                 $input = new ilFileInputGUI($title, 'field_'.$field->getId());
