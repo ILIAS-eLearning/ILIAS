@@ -1,4 +1,9 @@
-{FORM}
+<form method="post" action="{FORM_ACTION}">
+<div class="ilToolbar"><input type="text" name="term" value="{TERM}" size="60" maxlength="200"/> <input class="submit" type="submit"  value="{TXT_SEARCH}" name="cmd[performSearch]" />
+ <a class="small" href="#" id="search_options_tr">{TXT_OPTIONS} {ARR_IMG}</a><div class="ilOverlay" id="search_options" style="display:none;">{FORM}</div>
+</div>
+
+</form>
 <br />
 <!--  BEGIN prev_next -->
   <center>{SEARCH_PAGE} 

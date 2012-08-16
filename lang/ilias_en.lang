@@ -8847,7 +8847,7 @@ search#:#search_and#:#and
 search#:#search_any_word#:#Any word <small>(<i>OR</i>)</small>
 search#:#search_any#:#-- Any --
 search#:#search_area_info#:#Please select an area where the search should start.
-search#:#search_area#:#Search Area
+search#:#search_area#:#Area
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries
 search#:#search_below#:#Beneath:
 search#:#search_change#:#Change
@@ -8926,7 +8926,7 @@ search#:#search_show_result#:#Show
 search#:#search_term_combination#:#Combination
 search#:#search_title_description#:#Title / Description
 search#:#search_tst_svy#:#Tests/Surveys
-search#:#search_type#:#Search Type
+search#:#search_type#:#Type
 search#:#search_user_extended#:#Extended User Search
 search#:#search_user_simple#:#Simple User Search
 search#:#search_user#:#Users

@@ -186,6 +186,7 @@ class ilOverlayGUI
 	{
 		global $tpl;
 		
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initOverlay();
 		$tpl->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
 	}
