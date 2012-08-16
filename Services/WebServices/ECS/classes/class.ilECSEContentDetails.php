@@ -64,7 +64,7 @@ class ilECSEContentDetails
 			$connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($a_server_id));		
 			$res = $connector->getResource($a_resource_type, $a_econtent_id, true);
 			if($res->getHTTPCode() == ilECSConnector::HTTP_CODE_NOT_FOUND)
-			{
+			{			
 				return;
 			}
 			if(!is_object($res->getResult()))

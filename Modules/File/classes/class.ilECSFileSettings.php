@@ -21,11 +21,24 @@ class ilECSFileSettings extends ilECSObjectSettings
 	
 	protected function buildJson(ilECSSetting $a_server) 
 	{			
-		$json = $this->getJsonCore('application/ecs-file');	
-		
-		// :TODO:
+		$json = $this->getJsonCore('application/ecs-file');			
 		$json->version = $this->content_obj->getVersion();
-		$json->version_tstamp = time();
+		
+		require_once("./Services/History/classes/class.ilHistoryGUI.php");
+		$entries = ilHistory::_getEntriesForObject($this->content_obj->getId(), 
+			$this->content_obj->getType());
+		if(count($entries))
+		{			
+			$entry = array_shift($entries);
+			$entry = new ilDateTime($entry["date"],IL_CAL_DATETIME);
+			
+			$json->version_date = $entry->get(IL_CAL_UNIX);			
+		}
+		else
+		{
+			
+			$json->version_date = time();
+		}
 		
 		return $json;
 	}

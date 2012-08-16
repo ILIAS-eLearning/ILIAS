@@ -100,6 +100,8 @@ class ilObjRemoteFileListGUI extends ilObjectListGUI
 		global $lng;
 
 		include_once('Modules/RemoteFile/classes/class.ilObjRemoteFile.php');
+		$version = ilObjRemoteFile::_lookupVersionInfo($this->obj_id);
+		$this->addCustomProperty($lng->txt('version'),$version,false,true);
 
 		return array();
 	}

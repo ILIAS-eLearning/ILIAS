@@ -32,18 +32,10 @@ class ilObjRemoteFileGUI extends ilRemoteObjectBaseGUI
 	
 	protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
 	{		
-			
+		$a_info->addProperty($this->lng->txt('version'),$this->object->getVersion());		
+		$a_info->addProperty($this->lng->txt('rfil_version_tstamp'),
+			ilDatePresentation::formatDate(new ilDateTime($this->object->getVersionDateTime(), IL_CAL_UNIX)));		
 	}
-	
-	protected function availabilityToString()
-	{
-	 	
-	}
-	
-	protected function addCustomEditForm(ilPropertyFormGUI $a_form)
-	{				
-	
-	}		
 }
 
 ?>

@@ -575,6 +575,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 		{
 			$this->handleDelete($a_server, $a_econtent_id);
 			$ilLog->write(__METHOD__.': Handling delete of deprecated remote object. DONE');
+			return;
 		}			 
 
 		$ilLog->write(__METHOD__.': Receivers are '. print_r($details->getReceivers(),true));

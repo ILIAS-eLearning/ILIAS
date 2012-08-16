@@ -190,6 +190,8 @@ class ilECSTaskScheduler
 	 			break;
 	 		}
 			
+			$this->log->write(print_r($event, true));
+			
 			// determine event handler
 			switch($event['type'])
 			{
@@ -202,6 +204,8 @@ class ilECSTaskScheduler
 				case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
 					include_once 'Services/Webservices/ECS/classes/class.ilRemoteObjectBase.php';
 					$handler = ilRemoteObjectBase::getInstanceByEventType($event['type']);
+					$this->log->write("got handler ".get_class($handler));
+					break;
 				
 				default:
 					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
