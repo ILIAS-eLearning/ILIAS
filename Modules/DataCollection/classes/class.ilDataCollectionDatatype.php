@@ -226,13 +226,13 @@ class ilDataCollectionDatatype
      * @return int|string
      */
     public function parseValue($value){
-        global $ilLog;
+		$return = false;
         if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
         {
             $file = $value;
             if($file['tmp_name'])
             {
-                $file_obj = new ilObjDataCollectionFile();
+				$file_obj = new ilObjDataCollectionFile();
 
                 $file_obj->setType("file");
                 $file_obj->setTitle($file["name"]);
@@ -317,6 +317,10 @@ class ilDataCollectionDatatype
                 $input = array( "date" => substr($value, 0, -9),
                                 "time" => "00:00:00");
                 break;
+			case self::INPUTFORMAT_FILE:
+				//TODO if you find out what to deliver to satisfy ilFileInputGUI->setValue so it get's the already uploaded file, replace this.
+				$input = NULL;
+				break;
             default:
                 $input = $value;
         }

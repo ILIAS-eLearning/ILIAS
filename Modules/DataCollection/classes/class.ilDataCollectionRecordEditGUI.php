@@ -196,11 +196,6 @@ class ilDataCollectionRecordEditGUI
 	private function getInfo(ilDataCollectionField $field){
 		global $lng;
 
-		if($field->isEditable())
-			$info =" ".$lng->txt("dcl_is_editable_by_others_info");
-		else
-			$info =" ".$lng->txt("dcl_is_not_editable_by_others_info");
-
 		if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
 			$info .= $lng->txt("dcl_text_length").": ".$field->getLength();
 		}
