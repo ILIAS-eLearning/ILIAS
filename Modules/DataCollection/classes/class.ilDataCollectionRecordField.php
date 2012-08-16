@@ -61,8 +61,7 @@ class ilDataCollectionRecordField
         $type = $this->field->getDatatype()->getId();
         $this->loadValue();
         $this->checkValidity($type, $value);
-        //echo "waaita";
-            $this->value = $this->field->getDatatype()->parseValue($value);
+        $this->value = $this->field->getDatatype()->parseValue($value);
     }
 
 	private function checkValidity($type, $value){
@@ -72,11 +71,9 @@ class ilDataCollectionRecordField
 		$length = ilDataCollectionField::PROPERTYID_LENGTH;
 		$regex = ilDataCollectionField::PROPERTYID_REGEX;
 		if($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
-			echo "regex: ".$properties[$regex]." length: ".$properties[$length]."<br>";
 			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value))){
-				echo $properties[$regex]." ".$value;
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
 			}
 		}
