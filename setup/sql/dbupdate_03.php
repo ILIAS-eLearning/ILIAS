@@ -12270,3 +12270,63 @@ $rbac_ops = array(
 ilDBUpdateNewObjectType::addRBACOperations($rlm_type_id, $rbac_ops);
 
 ?>
+<#3710>
+<?php
+
+if (!$ilDB->tableExists('rglo_settings'))
+{
+	$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'organization' => array(
+			'type' => 'text',
+			'length' => 400,			
+			'notnull' => false
+		),
+		'local_information' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'remote_link' => array(
+			'type' => 'text',
+			'length' => 400,
+			'notnull' => false
+		),
+		'availability_type' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	);
+	$ilDB->createTable('rglo_settings', $fields);
+	$ilDB->addPrimaryKey('rglo_settings', array('obj_id'));
+}
+
+?>
+<#3711>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rglo_type_id = ilDBUpdateNewObjectType::addNewType('rglo', 'Remote Glossary Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE
+);
+ilDBUpdateNewObjectType::addRBACOperations($rglo_type_id, $rbac_ops);
+
+?>
