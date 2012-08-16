@@ -90,7 +90,7 @@ class ilDataCollectionRecordField
 
     function getHTML(){
         $datatype = $this->field->getDatatype();
-        return $datatype->parseHTML($this->getValue());
+        return $datatype->parseHTML($this->getValue(), $this);
     }
 
     function doUpdate(){
@@ -117,5 +117,13 @@ class ilDataCollectionRecordField
             $this->value = $rec['value'];
         }
     }
+
+	public function getField(){
+		return $this->field;
+	}
+
+	public function getId(){
+		return $this->id;
+	}
 
 }

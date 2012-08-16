@@ -357,6 +357,19 @@ class ilObjDataCollection extends ilObject2
 			$perm = true;
 		return $perm;
 	}
+
+
+	public function getTables(){
+		global $ilDB;
+		$query = "SELECT id FROM il_dcl_table WHERE obj_id = ".$this->getId();
+		$set = $ilDB->query($query);
+		$return = array();
+		while($rec = $ilDB->fetchAssoc($set)){
+			array_push($return, new ilDataCollectionTable($rec['id']));
+		}
+		return $return;
+	}
+
 }
 
 ?>

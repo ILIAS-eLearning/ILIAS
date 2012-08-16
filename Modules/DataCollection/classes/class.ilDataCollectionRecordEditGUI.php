@@ -160,6 +160,17 @@ class ilDataCollectionRecordEditGUI
 		foreach($allFields as $field)
 		{
             $item = ilDataCollectionDatatype::getInputField($field);
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE){
+				$fieldref = $field->getFieldRef();
+				$reffield = new ilDataCollectionField($fieldref);
+				$options = array();
+				$reftable = new ilDataCollectionTable($reffield->getTableId());
+				echo "fieldref: ".$fieldref." tableref: ".$reftable->getId();
+				foreach($reftable->getRecords() as $record){
+					$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
+				}
+				$item->setOptions($options);
+			}
             $item->setRequired($field->getRequired());
 			$item->setInfo($this->getInfo($field));
             $this->form->addItem($item);

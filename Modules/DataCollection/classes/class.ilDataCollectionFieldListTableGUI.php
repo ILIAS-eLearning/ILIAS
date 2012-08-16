@@ -19,7 +19,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 {
-	public function  __construct($a_parent_obj, $a_parent_cmd, $table_id)
+	public function  __construct(ilDataCollectionFieldListGUI $a_parent_obj, $a_parent_cmd, $table_id)
 	{
 		global $lng, $tpl, $ilCtrl;
 
@@ -32,7 +32,8 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 	 	$this->addColumn($lng->txt("dcl_order"),  "order",  "30px");
         $this->addColumn($lng->txt("dcl_title"),  "title",  "auto");
         $this->addColumn($lng->txt("dcl_visible"),  "visible",  "30px");
-        $this->addColumn($lng->txt("dcl_editable"),  "editable",  "30px");
+		// ALWAYS EDITABLE FOR FIRST RELEASE
+        //$this->addColumn($lng->txt("dcl_editable"),  "editable",  "30px");
         $this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
         $this->addColumn($lng->txt("dcl_field_datatype"),  "datatype",  "auto");
         $this->addColumn($lng->txt("dcl_required"),  "required",  "auto");
@@ -51,8 +52,8 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-		$this->order = 10;
-        $this->fillData($table_id);
+		$this->table = new ilDataCollectionTable($table_id);
+		$this->setData($this->table->getFields());
 		
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php');
 
@@ -60,12 +61,6 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 
 		$this->setRowTemplate("tpl.field_list_row.html", "Modules/DataCollection");
 	}
-
-
-    private function fillData($table_id){
-        $table = new ilDataCollectionTable($table_id);
-        $this->setData($table->getFields(false));
-    }
 	/**
 	 * fill row 
 	 *
@@ -82,14 +77,13 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         $this->tpl->setVariable("CHECKBOX_NAME", "visible[".$a_set->getId()."]");
 
         if($a_set->isVisible())
-        {
             $this->tpl->setVariable("CHECKBOX_CHECKED", "checked");
-			$this->tpl->setVariable("ORDER_NAME","order[".$a_set->getId()."]");
-			$this->tpl->setVariable("ORDER_VALUE",$a_set->getOrder());
-        }else{
-			$this->tpl->setVariable("NO_ORDER","-");
-		}
 
+		$this->tpl->setVariable("ORDER_NAME","order[".$a_set->getId()."]");
+		$this->tpl->setVariable("ORDER_VALUE",$a_set->getOrder());
+
+		/*
+		 * ALWAYS EDITABLE FOR FIRST RELEASE
 		if(!$a_set->isStandardField()){
 			$this->tpl->setVariable("CHECKBOX_NAME_EDITABLE", "editable[".$a_set->getId()."]");
 			if($a_set->isEditable())
@@ -98,7 +92,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 			}
 		}else
 			$this->tpl->setVariable("NOT_EDITABLE", "-");
-        
+        */
         
 		$this->tpl->setVariable('TITLE', $a_set->getTitle());
 		$this->tpl->setVariable('DESCRIPTION', $a_set->getDescription());
@@ -125,11 +119,10 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 			$alist->setId($a_set->getId());
 			$alist->setListTitle($lng->txt("actions"));
 			
-			//if($ilAccess->checkAccess('add_entry', "", $_GET['ref_id']))
-			//{
+			if($this->table->hasPermissionToFields($this->parent_obj->parent_obj->ref_id)){
 				$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'edit'));
 				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", 'confirmDelete'));
-			//}
+			}
 
 			$this->tpl->setVariable("ACTIONS", $alist->getHTML());
 		}

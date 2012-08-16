@@ -213,10 +213,14 @@ class ilDataCollectionFieldEditGUI
 					{
 					    // Get Tables
 						require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-						$arrTables = ilDataCollectionTable::getAll($this->obj_id);
-						foreach($arrTables as $table)
+						$tables = $this->parent_obj->getDataCollectionObject()->getTables();
+						foreach($tables as $table)
 						{
-							$options[$table['id']] = $table['title'];
+							foreach($table->getRecordFields() as $field){
+								//referencing references may lead to endless loops.
+								if($field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_REFERENCE)
+									$options[$field->getId()] = $table->getTitle()."->".$field->getTitle();
+							}
 						}
 						$table_selection = new ilSelectInputGUI(
 							'',
