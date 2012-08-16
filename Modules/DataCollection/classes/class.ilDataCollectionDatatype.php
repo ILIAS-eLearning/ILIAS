@@ -271,9 +271,11 @@ class ilDataCollectionDatatype
 			case self::INPUTFORMAT_FILE:
 				global $ilCtrl;
 				$file_obj = new ilObjDataCollectionFile($value,false);
-				echo $value;
-				$ilCtrl->setParameterByClass("ilobjfilegui", "hist_id", $value);
-				$html = "<a href=".$ilCtrl->getLinkTargetByClass("ilobjfilegui","sendFile")." >".$file_obj->getFileName()."</a>";
+				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "record_id", $record_field->getRecord()->getId());
+				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "field_id", $record_field->getField()->getId());
+
+				//ilUtil::deliverFile($file_obj->getFile(), $file_obj->getTitle());
+				$html = "<a href=".$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui","sendFile")." >".$file_obj->getFileName()."</a>";
 				break;
 			case self::INPUTFORMAT_BOOLEAN:
 				switch($value)

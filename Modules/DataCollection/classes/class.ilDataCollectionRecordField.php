@@ -122,5 +122,8 @@ class ilDataCollectionRecordField
 	public function getId(){
 		return $this->id;
 	}
+	public function getRecord(){
+		return $this->record;
+	}
 
 }

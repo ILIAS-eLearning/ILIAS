@@ -182,14 +182,14 @@ class ilDataCollectionTable
 							FROM il_dcl_table
 							WHERE obj_id = ".$ilDB->quote($a_id,"integer");
 		$set = $ilDB->query($query);
-	
+
 		$all = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$all[$rec['id']] = $rec;
 		}
 
-		return $all; 
+		return $all;
 	}
 	
 	

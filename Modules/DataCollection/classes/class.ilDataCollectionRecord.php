@@ -250,7 +250,7 @@ class ilDataCollectionRecord
 
     private function loadRecordFields(){
         if($this->recordfields == NULL){
-            $this->loadTable();
+			$this->loadTable();
             $recordfields = array();
             foreach($this->table->getRecordFields() as $field){
                 $recordfields[$field->getId()] = new ilDataCollectionRecordField($this, $field);
@@ -397,5 +397,10 @@ class ilDataCollectionRecord
             $recordfield->doUpdate();
         }
     }
+
+	public function getTable(){
+		$this->loadTable();
+		return $this->table;
+	}
 }
 ?>

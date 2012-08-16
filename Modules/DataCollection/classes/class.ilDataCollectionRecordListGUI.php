@@ -116,8 +116,21 @@ class ilDataCollectionRecordListGUI
 		global $ilAccess;
 		//need read access to receive file
 		if($ilAccess->checkAccess("read", "", $this->parent_obj->ref_id)){
-			echo "here";
+			$rec_id = $_GET['record_id'];
+			$record = new ilDataCollectionRecord($rec_id);
+			$field_id = $_GET['field_id'];
+			$file_obj = new ilObjFile($record->getRecordFieldValue($field_id), false);
+			if(!$this->recordBelongsToCollection($record, $this->parent_obj->ref_id))
+				return;
+			ilUtil::deliverFile($file_obj->getFile(), 	$file_obj->getTitle());
 		}
+	}
+
+	private function recordBelongsToCollection(ilDataCollectionRecord $record){
+		$table = $record->getTable();
+		$obj_id = $this->parent_obj->object->getId();
+		$obj_id_rec = $table->getCollectionObject()->getId();
+		return $obj_id == $obj_id_rec;
 	}
 }
 
