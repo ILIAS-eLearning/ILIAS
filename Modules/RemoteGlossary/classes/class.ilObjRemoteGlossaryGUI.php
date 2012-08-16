@@ -27,7 +27,7 @@ class ilObjRemoteGlossaryGUI extends ilRemoteObjectBaseGUI
 	
 	function getType()
 	{
-		return 'rwik';
+		return 'rglo';
 	}
 	
 	protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
