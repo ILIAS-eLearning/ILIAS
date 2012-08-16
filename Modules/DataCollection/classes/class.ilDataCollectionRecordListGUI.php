@@ -111,6 +111,14 @@ class ilDataCollectionRecordListGUI
         $ilCtrl->redirect($this, "listRecords");
     }
 
+
+	public function sendFile(){
+		global $ilAccess;
+		//need read access to receive file
+		if($ilAccess->checkAccess("read", "", $this->parent_obj->ref_id)){
+			echo "here";
+		}
+	}
 }
 
 ?>

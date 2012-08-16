@@ -165,7 +165,6 @@ class ilDataCollectionRecordEditGUI
 				$reffield = new ilDataCollectionField($fieldref);
 				$options = array();
 				$reftable = new ilDataCollectionTable($reffield->getTableId());
-				// echo "fieldref: ".$fieldref." tableref: ".$reftable->getId();
 				foreach($reftable->getRecords() as $record){
 					$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
 				}

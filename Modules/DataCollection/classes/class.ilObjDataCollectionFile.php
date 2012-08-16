@@ -18,12 +18,7 @@ require_once "./Modules/File/classes/class.ilObjFile.php";
 
 class ilObjDataCollectionFile extends ilObjFile
 {
-	/*public function __construct()
-	{
-		parent::__constri
-	}*/
-		
-	
+
 }
 
 ?>

@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionFile.php");
-
+include_once ("class.ilObjDataCollectionFile.php");
 
 /**
 * Class ilDataCollectionDatatype
@@ -232,7 +232,6 @@ class ilDataCollectionDatatype
             $file = $value;
             if($file['tmp_name'])
             {
-                include("class.ilObjDataCollectionFile.php");
                 $file_obj = new ilObjDataCollectionFile();
 
                 $file_obj->setType("file");
@@ -270,9 +269,11 @@ class ilDataCollectionDatatype
                 $html = substr($value, 0, -9);
                 break;
 			case self::INPUTFORMAT_FILE:
+				global $ilCtrl;
 				$file_obj = new ilObjDataCollectionFile($value,false);
-				//TODO: enter real dl link.
-				$html = "<a href="."DOWNLOADLINK"." >".$file_obj->getFileName()."</a>";
+				echo $value;
+				$ilCtrl->setParameterByClass("ilobjfilegui", "hist_id", $value);
+				$html = "<a href=".$ilCtrl->getLinkTargetByClass("ilobjfilegui","sendFile")." >".$file_obj->getFileName()."</a>";
 				break;
 			case self::INPUTFORMAT_BOOLEAN:
 				switch($value)
@@ -293,7 +294,6 @@ class ilDataCollectionDatatype
 				}
 
 				$record = new ilDataCollectionRecord($value);
-				// echo "ON record: ".$value." field: ".$record_field->getField()->getFieldRef()." table: ".$record->getTableId()." record_field: ".$record_field->getId()."<br>";
 				$html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
 				break;
 			default:
