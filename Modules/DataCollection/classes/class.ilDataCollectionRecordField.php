@@ -62,8 +62,15 @@ class ilDataCollectionRecordField
         $this->loadValue();
         $this->checkValidity($type, $value);
 		$tmp = $this->field->getDatatype()->parseValue($value);
+		$old = $this->value;
 		//if parsevalue fails keep the old value
-        $this->value = $tmp?$tmp:$this->value;
+		if($tmp){
+			$this->value = $tmp;
+
+			//delete old file from filesystem
+			if($old && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
+				$this->record->deleteFile($old);
+		}
     }
 
 	private function checkValidity($type, $value){

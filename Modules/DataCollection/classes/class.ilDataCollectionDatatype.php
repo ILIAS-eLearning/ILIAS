@@ -313,6 +313,8 @@ class ilDataCollectionDatatype
     public function parseFormInput($value){
         switch($this->id){
             case self::INPUTFORMAT_DATETIME:
+				if(!$value || $value = "-")
+					return null;
                 //$datetime = new DateTime();
                 $input = array( "date" => substr($value, 0, -9),
                                 "time" => "00:00:00");
