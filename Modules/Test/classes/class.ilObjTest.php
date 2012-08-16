@@ -1523,10 +1523,14 @@ class ilObjTest extends ilObject
 		foreach ($this->questions as $key => $value) 
 		{
 			$next_id = $ilDB->nextId('tst_test_question');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_question (test_question_id, test_fi, question_fi, sequence, obligatory, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-				array('integer','integer', 'integer', 'integer', 'integer', 'integer'),
-				array($next_id, $this->getTestId(), $value, $key, $obligatoryQuestionState[$value], time())
-			);
+			$ilDB->insert('tst_test_question', array(
+				'test_question_id' => array('integer', $next_id),
+				'test_fi' => array('integer', $this->getTestId()),
+				'question_fi' => array('integer', $value),
+				'sequence' => array('integer', $key),
+				'obligatory' => array('integer', $obligatoryQuestionState[$value]),
+				'tstamp' => array('integer', time())
+			));
 		}
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
