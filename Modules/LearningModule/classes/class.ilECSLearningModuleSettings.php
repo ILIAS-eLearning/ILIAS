@@ -10,7 +10,7 @@ include_once 'Services/Webservices/ECS/classes/class.ilECSObjectSettings.php';
 * @author Stefan Meyer <smeyer.ilias@gmx.de> 
 * $Id: class.ilObjCourseGUI.php 31646 2011-11-14 11:39:37Z jluetzen $
 *
-* @ingroup Modules/Wiki
+* @ingroup Modules/LearningModule
 */
 class ilECSLearningModuleSettings extends ilECSObjectSettings
 {		

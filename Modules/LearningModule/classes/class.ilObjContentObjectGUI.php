@@ -310,7 +310,13 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->initPropertiesForm();
 		$this->getPropertiesFormValues();
 		
-		
+		if($this->object->getType() == "lm")
+		{
+			// Edit ecs export settings
+			include_once 'Modules/LearningModule/classes/class.ilECSLearningModuleSettings.php';
+			$ecs = new ilECSLearningModuleSettings($this->object);		
+			$ecs->addSettingsToForm($this->form, 'lm');					
+		}		
 		
 		$this->tpl->setContent($this->form->getHTML());
 	}
@@ -437,8 +443,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function saveProperties()
 	{
-		global $ilias;
-
+		$valid = false;
 		$this->initPropertiesForm();
 		if ($this->form->checkInput())
 		{
@@ -458,6 +463,25 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setLayoutPerPage($_POST["layout_per_page"]);
 			$this->object->updateProperties();
 			$this->object->update();
+			
+			if($this->object->getType() == 'lm')
+			{
+				// Update ecs export settings
+				include_once 'Modules/LearningModule/classes/class.ilECSLearningModuleSettings.php';	
+				$ecs = new ilECSLearningModuleSettings($this->object);			
+				if($ecs->handleSettingsUpdate())					
+				{
+					$valid = true;									
+				}
+			}
+			else
+			{
+				$valid = true;
+			}
+		}
+		
+		if($valid)
+		{
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			$this->ctrl->redirect($this, "properties");
 		}

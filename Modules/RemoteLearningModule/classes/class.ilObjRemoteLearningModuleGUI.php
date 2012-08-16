@@ -27,7 +27,7 @@ class ilObjRemoteLearningModuleGUI extends ilRemoteObjectBaseGUI
 	
 	function getType()
 	{
-		return 'rwik';
+		return 'rlm';
 	}
 	
 	protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
@@ -39,10 +39,10 @@ class ilObjRemoteLearningModuleGUI extends ilRemoteObjectBaseGUI
 	{
 	 	switch($this->object->getAvailabilityType())
 	 	{
-	 		case ilObjRemoteWiki::ACTIVATION_OFFLINE:
+	 		case ilObjRemoteLearningModule::ACTIVATION_OFFLINE:
 	 			return $this->lng->txt('offline');
 	 		
-	 		case ilObjRemoteWiki::ACTIVATION_ONLINE:
+	 		case ilObjRemoteLearningModule::ACTIVATION_ONLINE:
 	 			return $this->lng->txt('online');
 	 	}
 	 	return '';
@@ -54,10 +54,10 @@ class ilObjRemoteLearningModuleGUI extends ilRemoteObjectBaseGUI
 		$radio_grp->setValue($this->object->getAvailabilityType());
 		$radio_grp->setDisabled(true);
 
-		$radio_opt = new ilRadioOption($this->lng->txt('offline'),ilObjRemoteWiki::ACTIVATION_OFFLINE);
+		$radio_opt = new ilRadioOption($this->lng->txt('offline'), ilObjRemoteLearningModule::ACTIVATION_OFFLINE);
 		$radio_grp->addOption($radio_opt);
 
-		$radio_opt = new ilRadioOption($this->lng->txt('online'),ilObjRemoteWiki::ACTIVATION_ONLINE);
+		$radio_opt = new ilRadioOption($this->lng->txt('online'), ilObjRemoteLearningModule::ACTIVATION_ONLINE);
 		$radio_grp->addOption($radio_opt);	
 
 		$a_form->addItem($radio_grp);	
