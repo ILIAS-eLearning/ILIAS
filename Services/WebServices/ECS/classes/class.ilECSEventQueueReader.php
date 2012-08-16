@@ -392,18 +392,41 @@ class ilECSEventQueueReader
 
 		$GLOBALS['ilLog']->write('--------------------------- Writing new event for '. $ev->getRessourceType());
 
-		switch($ev->getRessourceType()) {
-
-			case 'courselinks':
-				$type = self::TYPE_REMOTE_COURSE;
-				break;
-
+		// this should probably be moved elsewhere
+		switch($ev->getRessourceType()) 
+		{
 			case 'directory_trees':
 				$type = self::TYPE_DIRECTORY_TREES;
 				break;
+			
+			case 'courselinks':
+				$type = self::TYPE_REMOTE_COURSE;
+				break;
+			
+			case 'categories':
+				$type = self::TYPE_REMOTE_CATEGORY;
+				break;
+			
+			case 'files':
+				$type = self::TYPE_REMOTE_FILE;
+				break;
+			
+			case 'glossaries':
+				$type = self::TYPE_REMOTE_GLOSSARY;
+				break;
+			
+			case 'groups':
+				$type = self::TYPE_REMOTE_GROUP;
+				break;
+			
+			case 'learningmodules':
+				$type = self::TYPE_REMOTE_LEARNING_MODULE;
+				break;
+			
+			case 'wikis':
+				$type = self::TYPE_REMOTE_WIKI;
+				break;			
 		}
-
-
 
 		$query = "SELECT * FROM ecs_events ".
 			"WHERE type = ".$ilDB->quote($type,'integer')." ".

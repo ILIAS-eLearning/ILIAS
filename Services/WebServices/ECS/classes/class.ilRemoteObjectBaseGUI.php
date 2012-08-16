@@ -198,13 +198,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	 */
 	protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
 	{
-		if(strlen($this->object->getOrganization()))
-		{
-			$a_info->addProperty($this->lng->txt('organization'),$this->object->getOrganization());
-		}
-	
-		// Access
-		$a_info->addProperty($this->lng->txt('crs_visibility'),$this->availabilityToString());		
+
 	}
 	
 	/**

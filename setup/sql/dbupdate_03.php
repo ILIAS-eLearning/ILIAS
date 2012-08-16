@@ -12096,4 +12096,57 @@ if($ilDB->tableColumnExists('cmi_node', 'user_id'))
 	}
 }
 ?>
+<#3704>
+<?php
 
+if (!$ilDB->tableExists('rcat_settings'))
+{
+	$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'organization' => array(
+			'type' => 'text',
+			'length' => 400,			
+			'notnull' => false
+		),
+		'local_information' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'remote_link' => array(
+			'type' => 'text',
+			'length' => 400,
+			'notnull' => false
+		)
+	);
+	$ilDB->createTable('rcat_settings', $fields);
+	$ilDB->addPrimaryKey('rcat_settings', array('obj_id'));
+}
+
+?>
+<#3705>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rcat_type_id = ilDBUpdateNewObjectType::addNewType('rcat', 'Remote Category Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE
+);
+ilDBUpdateNewObjectType::addRBACOperations($rcat_type_id, $rbac_ops);
+
+?>

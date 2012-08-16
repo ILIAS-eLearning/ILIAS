@@ -14,7 +14,7 @@ include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
 
 class ilObjRemoteCategory extends ilRemoteObjectBase
 {
-	const DB_TABLE_NAME = "remote_category_settings";
+	const DB_TABLE_NAME = "rcat_settings";
 
 	public function initType()
 	{

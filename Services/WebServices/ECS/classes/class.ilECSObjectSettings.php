@@ -101,7 +101,7 @@ abstract class ilECSObjectSettings
 	 * 
 	 * @param ilPropertyFormGUI $a_form
 	 */
-	public function addSettingsToForm(ilPropertyFormGUI $a_form)
+	public function addSettingsToForm(ilPropertyFormGUI $a_form, $a_type)
 	{
 		global $ilLog, $lng;
 		
@@ -126,17 +126,17 @@ abstract class ilECSObjectSettings
 
 		// show ecs property form section
 		$ecs = new ilFormSectionHeaderGUI();
-		$ecs->setTitle($lng->txt('ecs_export'));
+		$ecs->setTitle($lng->txt('ecs_'.$a_type.'_export'));
 		$a_form->addItem($ecs);
 
 
 		// release or not
-		$exp = new ilRadioGroupInputGUI($lng->txt('ecs_export_obj_settings'),'ecs_export');
+		$exp = new ilRadioGroupInputGUI($lng->txt('ecs_'.$a_type.'_export_obj_settings'),'ecs_export');
 		$exp->setRequired(true);
 		$exp->setValue(ilECSExport::_isExported($obj_id) ? 1 : 0);
-		$off = new ilRadioOption($lng->txt('ecs_export_disabled'),0);
+		$off = new ilRadioOption($lng->txt('ecs_'.$a_type.'_export_disabled'),0);
 		$exp->addOption($off);
-		$on = new ilRadioOption($lng->txt('ecs_export_enabled'),1);
+		$on = new ilRadioOption($lng->txt('ecs_'.$a_type.'_export_enabled'),1);
 		$exp->addOption($on);
 		$a_form->addItem($exp);
 
@@ -597,7 +597,7 @@ abstract class ilECSObjectSettings
 		$json->lang = 'en_EN'; // :TODO: obsolet?
 		$json->etype = $a_etype;
 		$json->title = $this->content_obj->getTitle();
-		$json->abstract = $this->content_obj->getDescription();	
+		$json->abstract = $this->content_obj->getLongDescription();	
 		
 		include_once('./Services/Link/classes/class.ilLink.php');
 		$json->url = ilLink::_getLink($this->content_obj->getRefId(),$this->content_obj->getType());

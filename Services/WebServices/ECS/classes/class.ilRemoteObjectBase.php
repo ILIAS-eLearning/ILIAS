@@ -356,9 +356,9 @@ abstract class ilRemoteObjectBase extends ilObject2
 	
 	/**
 	 * Read custom fields from db row
-	 * @param array $a_row 
+	 * @param object $a_row 
 	 */
-	protected function doReadCustomFields(array $a_row)
+	protected function doReadCustomFields($a_row)
 	{
 		
 	}
