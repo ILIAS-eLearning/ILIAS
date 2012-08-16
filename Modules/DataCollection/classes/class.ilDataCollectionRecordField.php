@@ -61,7 +61,7 @@ class ilDataCollectionRecordField
         $type = $this->field->getDatatype()->getId();
         $this->loadValue();
         $this->checkValidity($type, $value);
-        echo "waaita";
+        //echo "waaita";
             $this->value = $this->field->getDatatype()->parseValue($value);
     }
 
