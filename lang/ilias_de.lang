@@ -12757,4 +12757,20 @@ content#:#cont_auto_last_visited#:#zuletzt gesehenen Abschnitt (SCO/Asset) laden
 content#:#cont_check_values#:#vom SCO geschickte Werte prüfen
 administration#:#adm_social_bm_create#:#Social-Bookmark hinzufügen
 administration#:#adm_social_bm_edit#:#Social-Bookmark bearbeiten
+ecs#:#ecs_crs_export#:#Kursfreigaben
+ecs#:#ecs_crs_export_obj_settings#:#Einstellungen für Kursfreigaben
+ecs#:#ecs_crs_export_disabled#:#Nicht freigeben
+ecs#:#ecs_crs_export_enabled#:#Freigeben
+ecs#:#ecs_cat_export#:#Kategoriefreigaben
+ecs#:#ecs_cat_export_obj_settings#:#Einstellungen für Kategoriefreigaben
+ecs#:#ecs_cat_export_disabled#:#Nicht freigeben
+ecs#:#ecs_cat_export_enabled#:#Freigeben
 rcat#:#rcat_call#:#ECS-Kategorie aufrufen
+common#:#obj_rwik#:#ECS Wiki
+common#:#objs_rwik#:#ECS Wikis
+ecs#:#ecs_wiki_export#:#Wikifreigaben
+ecs#:#ecs_wiki_export_obj_settings#:#Einstellungen für Wikifreigaben
+ecs#:#ecs_wiki_export_disabled#:#Nicht freigeben
+ecs#:#ecs_wiki_export_enabled#:#Freigeben
+ecs#:#ecs_availability#:#Verfügbarkeit
+rwik#:#rwik_call#:#ECS Wiki aufrufen

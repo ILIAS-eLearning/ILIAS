@@ -12726,3 +12726,11 @@ ecs#:#ecs_cat_export_obj_settings#:#Category Release Settings
 ecs#:#ecs_cat_export_disabled#:#Do not release this Category
 ecs#:#ecs_cat_export_enabled#:#Release this Category
 rcat#:#rcat_call#:#Call ECS Category 
+common#:#obj_rwik#:#ECS Wiki
+common#:#objs_rwik#:#ECS Wikis
+ecs#:#ecs_wiki_export#:#Wiki Releases
+ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
+ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
+ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
+ecs#:#ecs_availability#:#Availability
+rwik#:#rwik_call#:#Call ECS Wiki
