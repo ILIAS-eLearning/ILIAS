@@ -338,12 +338,19 @@ class ilDataCollectionRecord
         
         foreach($this->recordfields as $recordfield)
         {
+			if($recordfield->getField()->getDatatype() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
+				$this->deleteFile($recordfield->getValue());
              $recordfield->delete();
         }
         
         $query = "DELETE FROM il_dcl_record WHERE id = ".$this->getId();
         $ilDB->manipulate($query);
     }
+
+	public function deleteFile($obj_id){
+		$file = new ilObjDataCollectionFile($obj_id, false);
+		$file->delete();
+	}
     
     /*
      * hasEditPermission
