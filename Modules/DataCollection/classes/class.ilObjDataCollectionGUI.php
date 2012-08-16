@@ -176,6 +176,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				{
 					$this->tpl->setContent($ret);
 				}
+				
+				$ilTabs->removeTab('history');
+				$ilTabs->removeTab('clipboard');// Fixme
+				$ilTabs->removeTab('pg');
 				break;
 
 			case "ildatacollectionrecordlistviewdefinitiongui":
@@ -385,7 +389,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$ilCtrl->setParameterByClass("ildatacollectionrecordviewviewdefinitiongui","table_id", $this->table_id);
 		$ilTabs->addSubTab("view_viewdefinition",
 			$lng->txt("dcl_record_view_viewdefinition"),
-			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewviewdefinitiongui","preview"));
+			$ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewviewdefinitiongui","edit"));
 
 		//TODO
 		/*$ilTabs->addSubTab("edit_viewdefinition",
