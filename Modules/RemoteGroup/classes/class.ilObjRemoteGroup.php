@@ -155,7 +155,7 @@ class ilObjRemoteGroup extends ilRemoteObjectBase
 	protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
 	{				
 		// add custom values
-		$this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);		
+		// $this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);		
 		
 		// :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet				
 	}
