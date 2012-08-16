@@ -521,7 +521,7 @@ class ilObjFileGUI extends ilObject2GUI
 		// END ChangeEvent: Record update event.
 		
 		// Update ecs export settings
-		include_once 'Modules/Files/classes/class.ilECSFileSettings.php';	
+		include_once 'Modules/File/classes/class.ilECSFileSettings.php';	
 		$ecs = new ilECSFileSettings($this->object);			
 		$ecs->handleSettingsUpdate();
 		

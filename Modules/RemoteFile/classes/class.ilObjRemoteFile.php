@@ -21,7 +21,7 @@ class ilObjRemoteFile extends ilRemoteObjectBase
 
 	public function initType()
 	{
-		$this->type = "rfile";
+		$this->type = "rfil";
 	}
 	
 	protected function getTableName()
@@ -31,7 +31,7 @@ class ilObjRemoteFile extends ilRemoteObjectBase
 	
 	protected function getECSObjectType()
 	{
-		return "/campusconnect/file";
+		return "/campusconnect/files";
 	}
 	
 	/**
@@ -97,7 +97,31 @@ class ilObjRemoteFile extends ilRemoteObjectBase
 		$this->setVersion($a_ecs_content->version);				
 		$this->setVersionDateTime($a_ecs_content->version_date);				
 	}
+	
+	/**
+	 * Get version info
+	 * 
+	 * @param int $a_obj_id
+	 * @return string
+	 */
+	public static function _lookupVersionInfo($a_obj_id)
+	{
+		global $ilDB;
 		
+		$set = $ilDB->query("SELECT version, version_tstamp".
+			" FROM ".self::DB_TABLE_NAME.
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		$res = (int)$row["version"];
+		
+		if($row["version_tstamp"])
+		{
+			$res .= " (".ilDatePresentation::formatDate(new ilDateTime($row["version_tstamp"], IL_CAL_UNIX)).")";
+		}
+		
+		return $res;
+	}
+	
 	// 
 	// no late static binding yet
 	//
