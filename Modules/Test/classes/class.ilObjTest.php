@@ -9007,6 +9007,10 @@ function getAnswerFeedbackPoints()
 			$index = mt_rand(0, strlen($codestring)-1);
 			$code .= substr($codestring, $index, 1);
 		}
+		
+		// todo: separate the code "building" from the code "creation", because the following self calling construction
+		// is not testable and leads btw in non required double queries if a random value is allready used in db anytime
+		
 		// verify it against the database
 		while ($this->isAccessCodeUsed($code))
 		{
