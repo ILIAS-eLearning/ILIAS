@@ -12734,3 +12734,10 @@ ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_availability#:#Availability
 rwik#:#rwik_call#:#Call ECS Wiki
+common#:#obj_rlm#:#ECS Learning Module
+common#:#objs_rlm#:#ECS Learning Modules
+ecs#:#ecs_lm_export#:#Learning Module Releases
+ecs#:#ecs_lm_export_obj_settings#:#Learning Module Release Settings
+ecs#:#ecs_lm_export_disabled#:#Do not release this Learning Module
+ecs#:#ecs_lm_export_enabled#:#Release this Learning Module
+rlm#:#rlm_call#:#Call ECS Learning Module
