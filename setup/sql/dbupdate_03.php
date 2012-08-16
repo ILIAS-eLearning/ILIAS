@@ -12330,3 +12330,35 @@ $rbac_ops = array(
 ilDBUpdateNewObjectType::addRBACOperations($rglo_type_id, $rbac_ops);
 
 ?>
+<#3712>
+	<?php
+	if(!$ilDB->tableColumnExists('il_dcl_record', 'last_edit_by'))
+	{
+		$ilDB->addTableColumn(
+			'il_dcl_record',
+			'last_edit_by',
+			array(
+				'type'    => 'integer',
+				'length'  => 4,
+			)
+		);
+
+	}
+	?>
+<#3713>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_viewdefinition', 'is_set'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_viewdefinition',
+		'is_set',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 0
+		)
+	);
+
+}
+?>
