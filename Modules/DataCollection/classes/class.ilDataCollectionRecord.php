@@ -206,8 +206,12 @@ class ilDataCollectionRecord
         else
             return $this->recordfields[$field_id]->getHTML();
     }
-
-    function getRecordFieldFormInput($field_id){
+    
+    /*
+     * getRecordFieldFormInput
+     */
+    function getRecordFieldFormInput($field_id)
+    {
         $this->loadRecordFields();
         if(ilDataCollectionStandardField::_isStandardField($field_id))
             return $this->getStandardField($field_id);

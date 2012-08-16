@@ -63,11 +63,16 @@ class ilDataCollectionFieldListGUI
 				break;
 		}
 	}
-
-    function save(){
+	
+	/*
+	 * save
+	 */
+    function save()
+    {
         $table = new ilDataCollectionTable($_GET['table_id']);
         $fields = &$table->getFields();
-        foreach($fields as &$field){
+        foreach($fields as &$field)
+        {
             $field->setVisible($_POST['visible'][$field->getId()] == "on");
 			$field->setEditable($_POST['editable'][$field->getId()] == "on");
 			$field->setOrder($_POST['order'][$field->getId()]);
@@ -94,18 +99,13 @@ class ilDataCollectionFieldListGUI
 				$options[$table['id']] = $table['title'];
 		}
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
-		$table_selection = new ilSelectInputGUI(
-			'',
-				'table_id'
-			);
+		$table_selection = new ilSelectInputGUI('', 'table_id');
 		$table_selection->setOptions($options);
 		$table_selection->setValue($this->table_id);
 
 		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionFieldListGUI", "doTableSwitch"));
         $ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
-
-		//->setParameterByClass("ildatacollectiontableeditgui","table_id", $this->table_id);
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
 		
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionFieldListTableGUI.php');
@@ -114,13 +114,16 @@ class ilDataCollectionFieldListGUI
 		$tpl->setContent($list->getHTML());
 
 	}
-
-	public function doTableSwitch() {
+	
+	/*
+	 * doTableSwitch
+	 */
+	public function doTableSwitch()
+	{
 		global $ilCtrl;
 
-		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI","table_id", $_POST['table_id']);
-		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI","listFields"); 			
-
+		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
+		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields"); 			
 	}
 }
 

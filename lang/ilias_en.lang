@@ -12542,8 +12542,6 @@ dcl#:#dcl_datetime#:#Datetime
 dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
-dcl#:#dcl_field_edit#:#Submit Changes
-dcl#:#dcl_field_create#:#Create Field
 dcl#:#dcl_length#:#Length
 dcl#:#dcl_regex#:#Regular Expression
 common#:#mail_member#:#Mail to Member
@@ -12763,3 +12761,9 @@ ecs#:#ecs_grp_export_obj_settings#:#Group Release Settings
 ecs#:#ecs_grp_export_disabled#:#Do not release this Group
 ecs#:#ecs_grp_export_enabled#:#Release this Group
 rgrp#:#rgrp_call#:#Call ECS Group 
+dcl#:#dcl_edit_record#:#Edit Record
+dcl#:#dcl_update_record#:#Update Record
+dcl#:#dcl_edit_field#:#Edit Field
+dcl#:#dcl_update_field#:#Update Field
+dcl#:#dcl_create_field#:#Create Field
+dcl#:#dcl_msg_field_modified#:#Field updated
