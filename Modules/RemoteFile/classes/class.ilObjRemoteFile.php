@@ -101,6 +101,8 @@ class ilObjRemoteFile extends ilRemoteObjectBase
 	/**
 	 * Get version info
 	 * 
+	 * used in ilRemoteFileListGUI
+	 * 
 	 * @param int $a_obj_id
 	 * @return string
 	 */
