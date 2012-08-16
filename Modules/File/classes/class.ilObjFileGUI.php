@@ -520,6 +520,11 @@ class ilObjFileGUI extends ilObject2GUI
 		}
 		// END ChangeEvent: Record update event.
 		
+		// Update ecs export settings
+		include_once 'Modules/Files/classes/class.ilECSFileSettings.php';	
+		$ecs = new ilECSFileSettings($this->object);			
+		$ecs->handleSettingsUpdate();
+		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		ilUtil::redirect($this->ctrl->getLinkTarget($this,'edit','',false,false));
 	}
@@ -546,6 +551,11 @@ class ilObjFileGUI extends ilObject2GUI
 		$val['title'] = $this->object->getTitle();
 		$val['description'] = $this->object->getLongDescription();
 		$form->setValuesByArray($val);
+		
+		// Edit ecs export settings
+		include_once 'Modules/File/classes/class.ilECSFileSettings.php';
+		$ecs = new ilECSFileSettings($this->object);		
+		$ecs->addSettingsToForm($form, 'file');
 		
 		$this->tpl->setContent($form->getHTML());
 		return true;

@@ -12362,3 +12362,68 @@ if(!$ilDB->tableColumnExists('il_dcl_viewdefinition', 'is_set'))
 
 }
 ?>
+<#3714>
+<?php
+
+if (!$ilDB->tableExists('rfil_settings'))
+{
+	$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'organization' => array(
+			'type' => 'text',
+			'length' => 400,			
+			'notnull' => false
+		),
+		'local_information' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'remote_link' => array(
+			'type' => 'text',
+			'length' => 400,
+			'notnull' => false
+		),
+		'version' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => true,
+			'default' => 1
+		),
+		'version_tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)
+	);
+	$ilDB->createTable('rfil_settings', $fields);
+	$ilDB->addPrimaryKey('rfil_settings', array('obj_id'));
+}
+
+?>
+<#3715>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rfil_type_id = ilDBUpdateNewObjectType::addNewType('rfil', 'Remote File Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE
+);
+ilDBUpdateNewObjectType::addRBACOperations($rfil_type_id, $rbac_ops);
+
+?>

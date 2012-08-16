@@ -12748,3 +12748,10 @@ ecs#:#ecs_glo_export_obj_settings#:#Glossary Release Settings
 ecs#:#ecs_glo_export_disabled#:#Do not release this Glossary
 ecs#:#ecs_glo_export_enabled#:#Release this Glossary
 rglo#:#rglo_call#:#Call ECS Glossary
+common#:#obj_rfil#:#ECS File
+common#:#objs_rfil#:#ECS Files
+ecs#:#ecs_file_export#:#File Releases
+ecs#:#ecs_file_export_obj_settings#:#File Release Settings
+ecs#:#ecs_file_export_disabled#:#Do not release this File
+ecs#:#ecs_file_export_enabled#:#Release this File
+rfil#:#rfile_call#:#Call File Glossary
