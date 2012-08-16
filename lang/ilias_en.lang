@@ -3511,7 +3511,7 @@ common#:#obj_ps#:#Privacy and Security
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test
 common#:#obj_qpl_select#:#-- Please select one Question Pool Test --
 common#:#obj_qpl#:#Question Pool Test
-common#:#obj_rcrs#:#ECS Course Link
+common#:#obj_rcrs#:#ECS Course 
 common#:#obj_recf_desc#:#Contains restored Objects from System Check.
 common#:#obj_recf#:#Restored Objects
 common#:#obj_role#:#Role
@@ -3606,7 +3606,7 @@ common#:#objs_note#:#Notes
 common#:#objs_pg#:#Pages
 common#:#objs_qpl#:#Question Pools Test
 common#:#objs_qst#:#Questions
-common#:#objs_rcrs#:#ECS Course Links
+common#:#objs_rcrs#:#ECS Courses
 common#:#objs_role#:#Roles
 common#:#objs_rolt#:#Role Templates
 common#:#objs_sahs#:#SCORM/AICC Learning Modules
@@ -6412,11 +6412,11 @@ ecs#:#ecs_protocol#:#Protocol
 ecs#:#ecs_publish_as#:#Publish as:
 ecs#:#ecs_publish_for#:#Release for:
 ecs#:#ecs_published_for#:#Published for:
-ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course Link has been created:
-ecs#:#ecs_read_remote_links#:#Update ECS Course Links
+ecs#:#ecs_rcrs_created_body_a#:#A new ECS Course has been created:
+ecs#:#ecs_read_remote_links#:#Update ECS Courses
 ecs#:#ecs_released_content#:#Released E-Content
 ecs#:#ecs_released#:#Released Objects
-ecs#:#ecs_remote_imported#:#Information about ECS Course Links has been refreshed.
+ecs#:#ecs_remote_imported#:#Information about ECS Course has been refreshed.
 ecs#:#ecs_remote_user_settings#:#Settings for ECS User Accounts
 ecs#:#ecs_role#:#Role Assignment
 ecs#:#ecs_server_settings#:#ECS Functionalities
@@ -8555,7 +8555,7 @@ rbac#:#cals_visible#:#Calendar Administration is visible
 rbac#:#cals_write#:#User can edit settings of Calendar Administration
 rbac#:#cat_create_catr#:#Create Category Reference
 rbac#:#cat_create_crsr#:#Create Course Reference
-rbac#:#cat_create_rcrs#:#Create ECS Course Link
+rbac#:#cat_create_rcrs#:#Create ECS Course
 rbac#:#cat_create_wiki#:#Create Wiki
 rbac#:#catr_copy#:#User can copy category reference
 rbac#:#catr_delete#:#User can move or delete category reference
@@ -8629,11 +8629,11 @@ rbac#:#rbac_role_delete_self#:#<strong>Attention:</strong> You are assigned to t
 rbac#:#rbac_role_exists_alert#:#A role with the same name already exists in this context. Please choose another name.
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
-rbac#:#rcrs_delete#:#User can move or delete ECS Course Link
+rbac#:#rcrs_delete#:#User can move or delete ECS Course 
 rbac#:#rcrs_edit_permission#:#User can change permission settings
-rbac#:#rcrs_read#:#User can use ECS Course Link
-rbac#:#rcrs_visible#:#ECS Course Link is visible
-rbac#:#rcrs_write#:#User can edit settings of ECS Course Link
+rbac#:#rcrs_read#:#User can use ECS Course 
+rbac#:#rcrs_visible#:#ECS Course is visible
+rbac#:#rcrs_write#:#User can edit settings of ECS Course 
 rbac#:#recf_edit_permission#:#User can change permission settings of Restored Objects administration
 rbac#:#recf_read#:#User has read access to Restored Objects administration
 rbac#:#recf_visible#:#Restored Objects administration is visible
@@ -8655,7 +8655,7 @@ rbac#:#root_create_lm#:#Create ILIAS Learning Module
 rbac#:#root_create_mcst#:#Create Mediacast
 rbac#:#root_create_mep#:#Create Media Pool
 rbac#:#root_create_qpl#:#Create Question Pool Test
-rbac#:#root_create_rcrs#:#Create ECS Course Link
+rbac#:#root_create_rcrs#:#Create ECS Course 
 rbac#:#root_create_sahs#:#Create SCORM/AICC Learning Module
 rbac#:#root_create_spl#:#Create Question Pool Survey
 rbac#:#root_create_svy#:#Create Survey
@@ -8672,7 +8672,7 @@ rbac#:#svyf_edit_permission#:#User change permission settings in Survey administ
 rbac#:#svyf_read#:#User has read access to Survey administration
 rbac#:#svyf_visible#:#Survey administration is visible
 rbac#:#svyf_write#:#Edit settings in Survey administration
-rcrs#:#rcrs_call#:#Call ECS Course Link
+rcrs#:#rcrs_call#:#Call ECS Course 
 rcrs#:#rcrs_general_info#:#General Information
 rcrs#:#rcrs_local_informations#:#Further Information
 registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
@@ -11394,7 +11394,7 @@ assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Test has been
 ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
-ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Course Link
+ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Courses
 ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data
 content#:#cont_edit_personal_data#:#Edit Personal Data
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
@@ -12157,7 +12157,7 @@ ecs#:#ecs_setting_deleted#:#ECS deleted
 ecs#:#ecs_cat_mapping_by_type#:#By Type
 ecs#:#ecs_cat_mapping_by_type_info#:#Choose this mode to assign by object type.
 ecs#:#ecs_err_invalid_by_type#:#Please select a type when assigning by type.
-common#:#obj_rcat#:#ECS Category Link
+common#:#obj_rcat#:#ECS Category 
 ecs#:#ecs_server_deleted#:#Deleted Server
 assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results
 assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.
@@ -12660,7 +12660,7 @@ rbac#:#fold_create_poll#:#Create Poll
 common#:#obj_poll_duplicate#:#Copy Poll
 rbac#:#rbac_import_role#:#Import Role
 rbac#:#rbac_role_imported#:#The role has been imported.
-common#:#objs_rcat#:#ECS Category Links
+common#:#objs_rcat#:#ECS Categories
 rbac#:#grp_create_catr#:#Create Category Reference
 rbac#:#grp_create_sess#:#Create Session
 rbac#:#grp_create_crsr#:#Create Course Reference
@@ -12717,3 +12717,12 @@ content#:#cont_resources_of_type#:#Resources of Type
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 common#:#search_globally#:#Globally
 common#:#search_at_current_position#:#At Current Position
+ecs#:#ecs_crs_export#:#Course Releases
+ecs#:#ecs_crs_export_obj_settings#:#Course Release Settings
+ecs#:#ecs_crs_export_disabled#:#Do not release this Course
+ecs#:#ecs_crs_export_enabled#:#Release this Course
+ecs#:#ecs_cat_export#:#Category Releases
+ecs#:#ecs_cat_export_obj_settings#:#Category Release Settings
+ecs#:#ecs_cat_export_disabled#:#Do not release this Category
+ecs#:#ecs_cat_export_enabled#:#Release this Category
+rcat#:#rcat_call#:#Call ECS Category 

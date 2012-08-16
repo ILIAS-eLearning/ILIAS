@@ -498,6 +498,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		$this->showCustomIconsEditing(1, $form, false);
 		
+		
+		// Edit ecs export settings
+		include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';
+		$ecs = new ilECSCategorySettings($this->object);		
+		$ecs->addSettingsToForm($form, 'cat');
+		
 
 		$form->addCommandButton("update", $this->lng->txt("save"));
 		$form->addCommandButton("addTranslation", $this->lng->txt("add_translation"));		
@@ -558,8 +564,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 				ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
 				ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());				
 				// END ChangeEvent: Record update
-
-				return $this->afterUpdate();
+				
+				// Update ecs export settings
+				include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';	
+				$ecs = new ilECSCategorySettings($this->object);			
+				if($ecs->handleSettingsUpdate())
+				{
+					return $this->afterUpdate();
+				}						
 			}
 
 			// display form to correct errors

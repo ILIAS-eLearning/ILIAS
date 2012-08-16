@@ -1402,7 +1402,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		// Edit ecs export settings
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);		
-		$ecs->addSettingsToForm($form);
+		$ecs->addSettingsToForm($form, 'crs');
 
 		return $form;
 	}

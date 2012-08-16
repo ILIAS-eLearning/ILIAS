@@ -4309,7 +4309,7 @@ common#:#obj_ps_desc#:#Globale Einstellungen für Datenschutz und Sicherheit
 common#:#obj_qpl#:#Fragenpool für Test
 common#:#obj_qpl_duplicate#:#Fragenpool für Test kopieren
 common#:#obj_qpl_select#:#-- Bitte wählen Sie einen Fragenpool für Test aus --
-common#:#obj_rcrs#:#ECS-Kurslink
+common#:#obj_rcrs#:#ECS-Kurs
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
 common#:#obj_role#:#Rolle
@@ -4412,7 +4412,7 @@ common#:#objs_note#:#Notizen
 common#:#objs_pg#:#Seiten
 common#:#objs_qpl#:#Fragenpools für Tests
 common#:#objs_qst#:#Fragen
-common#:#objs_rcrs#:#ECS-Kurslink
+common#:#objs_rcrs#:#ECS-Kurs
 common#:#objs_role#:#Rollen
 common#:#objs_rolt#:#Rollenvorlagen
 common#:#objs_sahs#:#SCORM/AICC-Lernmodule
@@ -7564,7 +7564,7 @@ ecs#:#ecs_available_ecs#:#Verfügbare ECS
 ecs#:#ecs_back_settings#:#ECS-Einstellungen
 ecs#:#ecs_ca_cert#:#CA Zertifikat
 ecs#:#ecs_campus_connect_title#:#CampusConnect-Zuordnungen
-ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um ECS-Kurslinks z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
+ecs#:#ecs_cat_mapping_duration_info#:#Wählen Sie diese Einstellung, um ECS-Kurse z.B. anhand ihres Starttermins bestimmten Kategorien zuzuordnen.
 ecs#:#ecs_cat_mapping_duration#:#Zeitrahmen
 ecs#:#ecs_cat_mapping_fixed#:#Feste Werte
 ecs#:#ecs_cat_mapping_fixed_info#:#Wählen Sie diese Einstellung, um die Zuordnung anhand von festen Werten vorzunehmen. Mehrere Werte können durch Komma getrennt eingegeben werden.
@@ -7630,13 +7630,13 @@ ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_local_settings#:#Lokale Einstellungen
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
 ecs#:#ecs_mapping_exp_tbl#:#Zuordnung von ILIAS Erweiterten Metadaten zu ECS-Daten
-ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurslinks
+ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurse
 ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu ILIAS Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
-ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kurslinks zu Kategorien
-ecs#:#ecs_new_econtent_subject#:#Neuer ECS-Kurslink
+ecs#:#ecs_new_category_mapping#:#Neue Regel für die Zuordnung von importierten ECS-Kursen zu Kategorien
+ecs#:#ecs_new_econtent_subject#:#Neuer ECS-Kurs
 ecs#:#ecs_new_user_body#:#Ein neuer ECS-Benutzer wurde angelegt.
 ecs#:#ecs_new_user_profile#:#Profildaten:
 ecs#:#ecs_new_user_subject#:#Neue ECS-Benutzer 
@@ -7657,7 +7657,7 @@ ecs#:#ecs_protocol#:#Protokoll
 ecs#:#ecs_publish_as#:#Veröffentlichen unter:
 ecs#:#ecs_publish_for#:#Freigabe für:
 ecs#:#ecs_published_for#:#Freigegeben für:
-ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurslink wurde angelegt:
+ecs#:#ecs_rcrs_created_body_a#:#Ein neuer ECS-Kurs wurde angelegt:
 ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
 ecs#:#ecs_released#:#Freigegebene Kurse
 ecs#:#ecs_released_content#:#Freigegebener E-Content
@@ -10074,7 +10074,7 @@ rbac#:#cat_create_book#:#Neuen Buchungspool anlegen
 rbac#:#cat_create_catr#:#Neue Kategorie-Referenz anlegen
 rbac#:#cat_create_chtr#:#Neuen Chatraum anlegen
 rbac#:#cat_create_crsr#:#Neue Kurs-Referenz anlegen
-rbac#:#cat_create_rcrs#:#Neuen ECS-Kurslink anlegen
+rbac#:#cat_create_rcrs#:#Neuen ECS-Kurs anlegen
 rbac#:#cat_create_wiki#:#Neues Wiki anlegen
 rbac#:#catr_copy#:#Kategorie-Referenzen kopieren
 rbac#:#catr_delete#:#Kategorie-Referenzen verschieben oder löschen
@@ -10240,11 +10240,11 @@ rbac#:#rbac_ud_local#:#Selbst erstelle lokale Rolle
 rbac#:#rbac_ud_rolt#:#Selbst erstellte Rollenvorlage
 rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen beizubehalten.
-rbac#:#rcrs_delete#:#ECS-Kurslink löschen
+rbac#:#rcrs_delete#:#ECS-Kurs löschen
 rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurslink
-rbac#:#rcrs_visible#:#ECS-Kurslinks sind sichtbar
-rbac#:#rcrs_write#:#ECS-Kurslinks bearbeiten
+rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurs
+rbac#:#rcrs_visible#:#ECS-Kurs sind sichtbar
+rbac#:#rcrs_write#:#ECS-Kurs bearbeiten
 rbac#:#read_users#:#Lokale Benutzerkonten einsehen
 rbac#:#recf_edit_permission#:#Rechteeinstellungen in der Verwaltung wiederhergestellter Objekte ändern
 rbac#:#recf_read#:#Lesezugriff auf Wiederhergestellte Objekte
@@ -10273,7 +10273,7 @@ rbac#:#root_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#root_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#root_create_mep#:#Neuen Medienpool anlegen
 rbac#:#root_create_qpl#:#Neuen Fragenpool für Test anlegen
-rbac#:#root_create_rcrs#:#Neuen ECS-Kurslink anlegen
+rbac#:#root_create_rcrs#:#Neuen ECS-Kurs anlegen
 rbac#:#root_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 rbac#:#root_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 rbac#:#root_create_svy#:#Neue Umfrage anlegen
@@ -10297,7 +10297,7 @@ rbac#:#svyf_visible#:#Umfrage-Administration ist sichtbar
 rbac#:#svyf_write#:#Einstellungen in Umfrage-Administration bearbeiten
 rbac#:#usrf_create_usr#:#Benutzer anlegen können
 rbac#:#write#:#Einstellungen bearbeiten
-rcrs#:#rcrs_call#:#ECS-Kurslink aufrufen
+rcrs#:#rcrs_call#:#ECS-Kurs aufrufen
 rcrs#:#rcrs_general_info#:#Allgemeine Informationen
 rcrs#:#rcrs_local_informations#:#Weitere Informationen
 registration#:#auth_radius_name#:#Name der RADIUS Konfiguration
@@ -12425,7 +12425,7 @@ ecs#:#ecs_setting_deleted#:#ECS wurde gelöscht.
 ecs#:#ecs_cat_mapping_by_type#:#Nach Typ
 ecs#:#ecs_cat_mapping_by_type_info#:#Wählen Sie diese Einstellung, um nach Objekt-Typ zuzuordnen.
 ecs#:#ecs_err_invalid_by_type#:#Wählen Sie einen Objekt-Typen, um danach zuzuordnen.
-common#:#obj_rcat#:#ECS-Kategorienlink
+common#:#obj_rcat#:#ECS-Kategorie
 ecs#:#ecs_server_deleted#:#Server gelöscht
 blog#:#blog_edit_date#:#Datum editieren
 blog#:#blog_edit_date_info#:#Der Status der Veröffentlichung hängt nicht von diesem Datum ab.
@@ -12737,7 +12737,7 @@ common#:#add_entry#:#Eintragen
 common#:#obj_poll_duplicate#:#Abstimmung kopieren
 rbac#:#rbac_import_role#:#Rolle importieren
 rbac#:#rbac_role_imported#:#Die Rolle wurde erfolgreich importiert.
-common#:#objs_rcat#:#ECS-Kategorienlinks
+common#:#objs_rcat#:#ECS-Kategorien
 rbac#:#grp_create_catr#:#Kategorienreferenz anlegen
 rbac#:#grp_create_sess#:#Sitzung anlegen
 rbac#:#grp_create_crsr#:#Kursreferenz anlegen
@@ -12757,3 +12757,4 @@ content#:#cont_auto_last_visited#:#zuletzt gesehenen Abschnitt (SCO/Asset) laden
 content#:#cont_check_values#:#vom SCO geschickte Werte prüfen
 administration#:#adm_social_bm_create#:#Social-Bookmark hinzufügen
 administration#:#adm_social_bm_edit#:#Social-Bookmark bearbeiten
+rcat#:#rcat_call#:#ECS-Kategorie aufrufen

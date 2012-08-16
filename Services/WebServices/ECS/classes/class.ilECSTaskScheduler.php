@@ -194,9 +194,14 @@ class ilECSTaskScheduler
 			switch($event['type'])
 			{
 				case ilECSEventQueueReader::TYPE_REMOTE_COURSE:
+				case ilECSEventQueueReader::TYPE_REMOTE_CATEGORY:
+				case ilECSEventQueueReader::TYPE_REMOTE_FILE:
+				case ilECSEventQueueReader::TYPE_REMOTE_GLOSSARY:
+				case ilECSEventQueueReader::TYPE_REMOTE_GROUP:
+				case ilECSEventQueueReader::TYPE_REMOTE_LEARNING_MODULE:
+				case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
 					include_once 'Services/Webservices/ECS/classes/class.ilRemoteObjectBase.php';
 					$handler = ilRemoteObjectBase::getInstanceByEventType($event['type']);
-					break;		
 				
 				default:
 					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
