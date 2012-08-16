@@ -205,11 +205,20 @@ class ilSearchGUI extends ilSearchBaseGUI
 	
 	function showSearch()
 	{
-		global $ilLocator, $ilCtrl;
-
+		global $ilLocator, $ilCtrl, $lng;
 		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
+		// include js needed
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		ilOverlayGUI::initJavascript();
+		$this->tpl->addJavascript("./Services/Search/js/Search.js");
 
+		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search.html','Services/Search');
+		$this->tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this,'performSearch'));
+		$this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->getString()));
+		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
+		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+		
 		$this->initStandardSearchForm();
 		$this->tpl->setVariable("FORM", $this->form->getHTML());
 
@@ -253,14 +262,16 @@ class ilSearchGUI extends ilSearchBaseGUI
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setOpenTag(false);
+		$this->form->setCloseTag(false);
 
 		// search term
-		$ti = new ilTextInputGUI($lng->txt("search_search_term"), "term");
+		/*$ti = new ilTextInputGUI($lng->txt("search_search_term"), "term");
 		$ti->setMaxLength(200);
 		$ti->setSize(30);
 		$ti->setValue($this->getString());
 		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", true));
-		$this->form->addItem($ti);
+		$this->form->addItem($ti);*/
 		
 		// term combination 
 		$radg = new ilRadioGroupInputGUI($lng->txt("search_term_combination"),
@@ -308,9 +319,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 		
 		// search command
-		$this->form->addCommandButton("performSearch", $lng->txt("search"));
+		//$this->form->addCommandButton("performSearch", $lng->txt("search"));
 	                
-		$this->form->setTitle($lng->txt("search"));
+		//$this->form->setTitle($lng->txt("search"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this,'performSearch'));
 	 
 	}
