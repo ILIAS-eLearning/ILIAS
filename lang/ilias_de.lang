@@ -12774,3 +12774,10 @@ ecs#:#ecs_wiki_export_disabled#:#Nicht freigeben
 ecs#:#ecs_wiki_export_enabled#:#Freigeben
 ecs#:#ecs_availability#:#Verfügbarkeit
 rwik#:#rwik_call#:#ECS Wiki aufrufen
+common#:#obj_rlm#:#ECS Lernmodul
+common#:#objs_rlm#:#ECS Lernmodule
+ecs#:#ecs_lm_export#:#Lernmodulfreigaben
+ecs#:#ecs_lm_export_obj_settings#:#Einstellungen für Lernmodulfreigaben
+ecs#:#ecs_lm_export_disabled#:#Nicht freigeben
+ecs#:#ecs_lm_export_enabled#:#Freigeben
+rlm#:#rlm_call#:#ECS Lernmodul aufrufen

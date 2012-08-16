@@ -309,6 +309,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		// lm properties
 		$this->initPropertiesForm();
 		$this->getPropertiesFormValues();
+		
+		
+		
 		$this->tpl->setContent($this->form->getHTML());
 	}
 	
