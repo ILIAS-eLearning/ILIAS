@@ -509,6 +509,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 		$this->initSettingsForm();
 		$this->getSettingsValues();
+		
+		// Edit ecs export settings
+		include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';
+		$ecs = new ilECSGlossarySettings($this->object);		
+		$ecs->addSettingsToForm($this->form, 'glo');		
+		
 		$tpl->setContent($this->form->getHTML());
 	}
 
@@ -622,9 +628,15 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			// set definition short texts dirty
 			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			ilGlossaryDefinition::setShortTextsDirty($this->object->getId());
-
-			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-			$this->ctrl->redirect($this, "properties");
+			
+			// Update ecs export settings
+			include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';	
+			$ecs = new ilECSGlossarySettings($this->object);			
+			if($ecs->handleSettingsUpdate())
+			{
+				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+				$this->ctrl->redirect($this, "properties");
+			}
 		}
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHTML());
