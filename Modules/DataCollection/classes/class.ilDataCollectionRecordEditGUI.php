@@ -38,6 +38,7 @@ class ilDataCollectionRecordEditGUI
 		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->record_id = $_REQUEST['record_id'];
         $this->table_id = $_GET['table_id'];
+        
 		include_once("class.ilDataCollectionDatatype.php");
 		if($_REQUEST['table_id']) 
 		{
@@ -148,24 +149,27 @@ class ilDataCollectionRecordEditGUI
 		//table_id
 		$hidden_prop = new ilHiddenInputGUI("table_id");
 		$hidden_prop ->setValue($this->table_id);
-		$this->form->addItem($hidden_prop );
+		$this->form->addItem($hidden_prop);
 
 		$ilCtrl->setParameter($this, "record_id", $this->record_id);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 
 
-			//TODO: für benutzer ohne write rechten ändern in getEditableFields.
+		//TODO: für benutzer ohne write rechten ändern in getEditableFields.
 		$allFields = $this->table->getRecordFields();
 
 		foreach($allFields as $field)
 		{
             $item = ilDataCollectionDatatype::getInputField($field);
-			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE){
+            
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE)
+			{
 				$fieldref = $field->getFieldRef();
 				$reffield = new ilDataCollectionField($fieldref);
 				$options = array();
 				$reftable = new ilDataCollectionTable($reffield->getTableId());
-				foreach($reftable->getRecords() as $record){
+				foreach($reftable->getRecords() as $record)
+				{
 					$options[$record->getId()] = $record->getRecordFieldValue($fieldref);
 				}
 				$item->setOptions($options);
@@ -178,18 +182,20 @@ class ilDataCollectionRecordEditGUI
 		// save and cancel commands
 		if(isset($this->record_id))
 		{
-			$this->form->addCommandButton("save", $lng->txt("update"));
+			$this->form->setTitle($lng->txt("dcl_update_record"));
 			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
+			$this->form->addCommandButton("save", $lng->txt("dcl_update_record"));
 		}
 		else
 		{
-			$this->form->addCommandButton("save", $lng->txt("save"));
+			$this->form->setTitle($lng->txt("dcl_add_new_record"));
 			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+			$this->form->addCommandButton("save", $lng->txt("save"));
 		}
 
         $ilCtrl->setParameter($this, "table_id", $this->table_id);
         $ilCtrl->setParameter($this, "record_id", $this->record_id);
-		$this->form->setTitle($lng->txt("dcl_add_new_record"));
+		
 	}
 
 
@@ -269,7 +275,8 @@ class ilDataCollectionRecordEditGUI
 			$record_obj->setLastEditBy($ilUser->getId());
 
 			//check access. those who can edit can also create records.
-			if(!$record_obj->hasEditPermission($this->parent_obj->ref_id)){
+			if(!$record_obj->hasEditPermission($this->parent_obj->ref_id))
+			{
 				$this->accessDenied();
 				return;
 			}
@@ -297,7 +304,8 @@ class ilDataCollectionRecordEditGUI
 				
 			}
 
-			if($fail){
+			if($fail)
+			{
 				ilUtil::sendFailure($fail, true);
 				$this->sendFailure();
 				return;
@@ -316,13 +324,21 @@ class ilDataCollectionRecordEditGUI
         }
 
 	}
-
-	private function accessDenied(){
+	
+	/*
+	 * accessDenied
+	 */
+	private function accessDenied()
+	{
 		global $tpl;
 		$tpl->setContent("Access denied");
 	}
-
-	private function sendFailure(){
+	
+	/*
+	 * sendFailure
+	 */
+	private function sendFailure()
+	{
 		global $tpl;
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHTML());

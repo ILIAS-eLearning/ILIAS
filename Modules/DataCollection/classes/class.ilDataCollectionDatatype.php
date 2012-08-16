@@ -167,8 +167,12 @@ class ilDataCollectionDatatype
 
 		return $all;
 	}
-
-    static function checkValidity($type_id, $value){
+	
+	/*
+	 * checkValidity
+	 */
+    static function checkValidity($type_id, $value)
+    {
         //TODO: finish this list.
 
 		//required is checked by form. so no input is valid.
@@ -188,11 +192,12 @@ class ilDataCollectionDatatype
     /**
      * @param $type_id
      * @param ilDataCollectionField $field
-     * @return ilCheckboxInputGUI|ilDateTimeInputGUI|ilFileInputGUI|ilTextInputGUI|null
+     * @return ilCheckboxInputGUI|ilDateTimeInputGUI|ilFileInputGUI|ilTextInputGUI|NULL
      */
-    static function getInputField(ilDataCollectionField $field){
+    static function getInputField(ilDataCollectionField $field)
+    {
         $type_id = $field->getDatatypeId();
-        $input = Null;
+        $input = NULL;
         $title = $field->getTitle();
         switch($type_id)
         {
@@ -207,7 +212,7 @@ class ilDataCollectionDatatype
                 $input = new ilCheckboxInputGUI($title, 'field_'.$field->getId());
                 break;
             case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
-                $input = new ilDateTimeInputGUI($title, 'field_'.$field->getId());
+                $input = new ilDateTimeInputGUI($title, 'field_'.$field->getId(), 6);
                 break;
             case ilDataCollectionDatatype::INPUTFORMAT_FILE:
                 $input = new ilFileInputGUI($title, 'field_'.$field->getId());
