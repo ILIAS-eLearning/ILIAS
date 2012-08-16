@@ -69,7 +69,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 				
 			case ilECSEventQueueReader::TYPE_REMOTE_LEARNING_MODULE:
 				include_once 'Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModule.php';
-				return new ilObjRemoteGroup();	
+				return new ilObjRemoteLearningModule();	
 				
 			case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
 				include_once 'Modules/RemoteWiki/classes/class.ilObjRemoteWiki.php';
