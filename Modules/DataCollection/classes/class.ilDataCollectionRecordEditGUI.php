@@ -261,9 +261,9 @@ class ilDataCollectionRecordEditGUI
 			$record_obj->setTableId($this->table_id);
 
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
-			$record_obj->setOwner($ilUser->getId());
+			$record_obj->setLastEditBy($ilUser->getId());
 
-			//check access
+			//check access. those who can edit can also create records.
 			if(!$record_obj->hasEditPermission($this->parent_obj->ref_id)){
 				$this->accessDenied();
 				return;
@@ -271,7 +271,8 @@ class ilDataCollectionRecordEditGUI
 
             if(!isset($this->record_id))
             {
-                $record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+				$record_obj->setOwner($ilUser->getId());
+				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
                 $record_obj->setTableId($this->table_id);
                 $record_obj->DoCreate();
                 $this->record_id = $record_obj->getId();
@@ -286,7 +287,6 @@ class ilDataCollectionRecordEditGUI
                    $value = $this->form->getInput("field_".$field->getId());
 					$record_obj->setRecordFieldValue($field->getId(), $value);
 				}catch(ilDataCollectionInputException $e){
-                   //TODO: Hint which field is incorrect
                  $fail .= $field->getTitle().": ".$e."<br>";
             	}
 				

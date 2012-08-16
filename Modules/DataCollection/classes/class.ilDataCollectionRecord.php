@@ -20,6 +20,7 @@ class ilDataCollectionRecord
     private $id;
     private $table_id;
     private $table;
+	private $last_edit_by;
 
 	/**
 	* Constructor
@@ -136,6 +137,15 @@ class ilDataCollectionRecord
 		return $this->owner;
 	}
 
+	public function getLastEditBy(){
+		return $this->last_edit_by;
+	}
+
+	public function setLastEditBy($last_edit_by){
+		global $ilLog;
+		$this->last_edit_by = $last_edit_by;
+	}
+
 
 	/**
 	* Set Field Value
@@ -153,6 +163,7 @@ class ilDataCollectionRecord
 	}
 	
 	/**
+	 * @depricated
 	 * getRecordFieldValues
 	 * @return array
 	 */
@@ -166,19 +177,6 @@ class ilDataCollectionRecord
 		}
 		
 		return (array) $return;
-	}
-	
-	/**
-	 * getRecordFieldValuesAsObject
-	 * @param int $a_val
-	 * @return boolean
-	 */
-	public function getRecordFieldValuesAsObject()
-	{
-		$this->loadRecordFields();
-		
-		return $this->recordfields;
-		
 	}
 	
 	/**
@@ -220,11 +218,20 @@ class ilDataCollectionRecord
 
     // TODO: Bad style, fix with switch statement
     private function setStandardField($field_id, $value){
+		switch($field_id){
+			case $field_id = "last_edit_by":
+				$this->setLastEditBy($value);
+				return;
+		}
         $this->$field_id = $value;
     }
 
     // TODO: Bad style, fix with switch statement
     private function getStandardField($field_id){
+		switch($field_id){
+			case $field_id = "last_edit_by":
+				return $this->getLastEditBy();
+		}
         return $this->$field_id;
     }
 
@@ -234,6 +241,9 @@ class ilDataCollectionRecord
 			case 'owner':
 				$owner = new ilObjUser($this->getOwner());
 				return $owner->getFullname();
+			case 'last_edit_by':
+				$last_edit_by = new ilObjUser($this->getLastEditBy());
+				return $last_edit_by->getFullname();
 		}
 		return $this->$field_id;
 	}
@@ -278,6 +288,7 @@ class ilDataCollectionRecord
 		$this->setCreateDate($rec["create_date"]);
 		$this->setLastUpdate($rec["last_update"]);
 		$this->setOwner($rec["owner"]);
+		$this->setLastEditBy($rec["last_edit_by"]);
 	}
 
 	/**
@@ -298,13 +309,15 @@ class ilDataCollectionRecord
 							table_id,
 							create_date,
 							Last_update,
-							owner
+							owner,
+							last_edit_by
 						) VALUES (".
 							$ilDB->quote($this->getId(), "integer").",".
 							$ilDB->quote($this->getTableId(), "integer").",".
 							$ilDB->quote($this->getCreateDate(), "timestamp").",".
 							$ilDB->quote($this->getLastUpdate(), "timestamp").",".
-							$ilDB->quote($this->getOwner(), "integer")."
+							$ilDB->quote($this->getOwner(), "integer").",".
+							$ilDB->quote($this->getLastEditBy(), "integer")."
 						)";
 		$ilDB->manipulate($query);
     }
@@ -373,7 +386,8 @@ class ilDataCollectionRecord
             "table_id" => array("integer", $this->getTableId()),
             "create_date" => array("date", $this->getCreateDate()),
             "last_update" => array("date", $this->getLastUpdate()),
-            "owner" => array("text", $this->getOwner())
+            "owner" => array("text", $this->getOwner()),
+            "last_edit_by" => array("text", $this->getLastEditBy())
         ), array(
             "id" => array("integer", $this->id)
         ));
