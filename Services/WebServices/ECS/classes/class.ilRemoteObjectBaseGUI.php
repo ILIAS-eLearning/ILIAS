@@ -294,6 +294,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 		$form = $this->initEditForm();
 		if($form->checkInput())
 		{
+			$this->object->setLocalInformation($a_form->getInput('local_info'));
+			
 			$this->updateCustomValues($form);
 					
 			$this->object->update();

@@ -157,6 +157,8 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
 		// add custom values
 		$this->setAvailabilityType($a_ecs_content->status == 'online' ? self::ACTIVATION_UNLIMITED : self::ACTIVATION_OFFLINE);		
 		
+		// :TODO: ACTIVATION_LIMITED is currently not supported in ECS yet
+		
 		// adv. metadata
 		include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php');

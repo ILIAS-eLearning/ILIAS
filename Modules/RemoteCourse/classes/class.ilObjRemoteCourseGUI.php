@@ -64,6 +64,7 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI
 		$radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_limitless'),ilObjRemoteCourse::ACTIVATION_UNLIMITED);
 		$radio_grp->addOption($radio_opt);	
 
+		// :TODO: not supported in ECS yet
 		$radio_opt = new ilRadioOption($this->lng->txt('crs_visibility_until'),ilObjRemoteCourse::ACTIVATION_LIMITED);
 		
 		$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'start');
@@ -80,11 +81,6 @@ class ilObjRemoteCourseGUI extends ilRemoteObjectBaseGUI
 		$radio_grp->addOption($radio_opt);
 		$a_form->addItem($radio_grp);	
 	}	
-	
-	protected function updateCustomValues(ilPropertyFormGUI $a_form)
-	{
-		$this->object->setLocalInformation($a_form->getInput('local_info'));
-	}
 }
 
 ?>

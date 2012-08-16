@@ -12150,3 +12150,63 @@ $rbac_ops = array(
 ilDBUpdateNewObjectType::addRBACOperations($rcat_type_id, $rbac_ops);
 
 ?>
+<#3706>
+<?php
+
+if (!$ilDB->tableExists('rwik_settings'))
+{
+	$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'organization' => array(
+			'type' => 'text',
+			'length' => 400,			
+			'notnull' => false
+		),
+		'local_information' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'remote_link' => array(
+			'type' => 'text',
+			'length' => 400,
+			'notnull' => false
+		),
+		'availability_type' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+	);
+	$ilDB->createTable('rwik_settings', $fields);
+	$ilDB->addPrimaryKey('rwik_settings', array('obj_id'));
+}
+
+?>
+<#3707>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rwik_type_id = ilDBUpdateNewObjectType::addNewType('rwik', 'Remote Wiki Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE
+);
+ilDBUpdateNewObjectType::addRBACOperations($rwik_type_id, $rbac_ops);
+
+?>

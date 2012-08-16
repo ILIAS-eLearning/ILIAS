@@ -549,6 +549,11 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->initSettingsForm();
 		$this->getSettingsFormValues();
 		
+		// Edit ecs export settings
+		include_once 'Modules/Wiki/classes/class.ilECSWikiSettings.php';
+		$ecs = new ilECSWikiSettings($this->object);		
+		$ecs->addSettingsToForm($this->form_gui, 'wiki');			
+		
 		$tpl->setContent($this->form_gui->getHtml());
 		$this->setSideBlock();
 	}
@@ -639,7 +644,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// Form action and save button
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.png"));
 		if ($a_mode != "create")
-		{
+		{			
 			$this->form_gui->setTitle($lng->txt("wiki_settings"));
 			$this->form_gui->addCommandButton("saveSettings", $lng->txt("save"));
 		}
@@ -729,9 +734,15 @@ class ilObjWikiGUI extends ilObjectGUI
 //				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
 				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
 				$this->object->update();
-			
-				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
-				$ilCtrl->redirect($this, "editSettings");
+				
+				// Update ecs export settings
+				include_once 'Modules/Wiki/classes/class.ilECSWikiSettings.php';	
+				$ecs = new ilECSWikiSettings($this->object);			
+				if($ecs->handleSettingsUpdate())
+				{
+					ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+					$ilCtrl->redirect($this, "editSettings");
+				}											
 			}
 		}
 		
