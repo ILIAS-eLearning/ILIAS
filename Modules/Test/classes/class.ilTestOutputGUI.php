@@ -783,6 +783,10 @@ class ilTestOutputGUI extends ilTestServiceGUI
 				$ilUser->setPref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
 				$ilUser->writePref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
 			}
+			else
+			{
+				$_SESSION['tst_password_'.$this->object->getTestId()] = $this->object->getPassword();
+			}
 			$this->ctrl->redirect($this, "start");
 		}
 		else
@@ -854,7 +858,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 			global $ilUser;
 			global $rbacsystem;
 			
-			$pwd = $ilUser->getPref("tst_password_".$this->object->getTestId());
+			$pwd = '';
+			if( $_SESSION["AccountId"] != ANONYMOUS_USER_ID )
+			{
+				$pwd = $ilUser->getPref("tst_password_".$this->object->getTestId());
+			}
+			elseif( isset($_SESSION['tst_password_'.$this->object->getTestId()]) )
+			{
+				$pwd = $_SESSION['tst_password_'.$this->object->getTestId()];
+			}
+			
 			if ((strcmp($pwd, $this->object->getPassword()) != 0) && (!$rbacsystem->checkAccess("write", $this->object->getRefId())))
 			{
 				return $this->showPasswordProtectionPage();
