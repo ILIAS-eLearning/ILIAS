@@ -61,7 +61,9 @@ class ilDataCollectionRecordField
         $type = $this->field->getDatatype()->getId();
         $this->loadValue();
         $this->checkValidity($type, $value);
-        $this->value = $this->field->getDatatype()->parseValue($value);
+		$tmp = $this->field->getDatatype()->parseValue($value);
+		//if parsevalue fails keep the old value
+        $this->value = $tmp?$tmp:$this->value;
     }
 
 	private function checkValidity($type, $value){
