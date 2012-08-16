@@ -103,7 +103,7 @@ abstract class ilECSObjectSettings
 	 */
 	public function addSettingsToForm(ilPropertyFormGUI $a_form, $a_type)
 	{
-		global $ilLog, $lng;
+		global $lng;
 		
 		if(!$this->isActive())
 		{
@@ -198,7 +198,7 @@ abstract class ilECSObjectSettings
 	{	
 		if(!$this->isActive())
 		{
-			return;
+			return true;
 		}
 		
 		// Parse post data
@@ -310,7 +310,7 @@ abstract class ilECSObjectSettings
 		
 		if(!$this->isActive())
 		{
-			return;
+			return true;
 		}
 
 		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
