@@ -491,6 +491,11 @@ class ilObjGroupGUI extends ilContainerGUI
 		ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
 		ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());		
 		// END PATCH ChangeEvents: Record update Object.
+		
+		// Update ecs export settings
+		include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';	
+		$ecs = new ilECSGroupSettings($this->object);			
+		$ecs->handleSettingsUpdate();
 
 		if($modified)
 		{
@@ -2689,6 +2694,11 @@ class ilObjGroupGUI extends ilContainerGUI
 			case 'edit':
 				$this->form->setTitle($this->lng->txt('grp_edit'));
 				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.png'));
+				
+				// Edit ecs export settings
+				include_once 'Modules/Group/classes/class.ilECSGroupSettings.php';
+				$ecs = new ilECSGroupSettings($this->object);		
+				$ecs->addSettingsToForm($this->form, 'grp');
 			
 				$this->form->addCommandButton('update',$this->lng->txt('save'));
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));

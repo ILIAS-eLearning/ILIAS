@@ -345,9 +345,7 @@ class ilECSEventQueueReader
 				}
 
 				foreach($res->getResult() as $result)
-				{
-					var_dump($result);
-					
+				{					
 					include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
 					$event = new ilECSEvent($result);
 
