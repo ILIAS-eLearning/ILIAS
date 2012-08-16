@@ -218,6 +218,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
 		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
 		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
+		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
+		$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
 		
 		$this->initStandardSearchForm();
 		$this->tpl->setVariable("FORM", $this->form->getHTML());
