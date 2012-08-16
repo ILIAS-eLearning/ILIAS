@@ -287,7 +287,7 @@ class ilDataCollectionDatatype
 				$html = "<img src='".$im."'>";
 				break;
 			case IlDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-				if(!$value){
+				if(!$value || $value == "-"){
 					$html = "";
 					break;
 				}
