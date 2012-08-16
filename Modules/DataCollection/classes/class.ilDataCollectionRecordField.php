@@ -75,8 +75,10 @@ class ilDataCollectionRecordField
 			echo "regex: ".$properties[$regex]." length: ".$properties[$length]."<br>";
 			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
-			if($properties[$regex] !== Null && !preg_match($properties[$regex], $value))
+			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value))){
+				echo $properties[$regex]." ".$value;
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
+			}
 		}
 		return true;
 	}
