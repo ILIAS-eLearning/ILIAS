@@ -293,7 +293,7 @@ class ilDataCollectionDatatype
 				}
 
 				$record = new ilDataCollectionRecord($value);
-				echo "ON record: ".$value." field: ".$record_field->getField()->getFieldRef()." table: ".$record->getTableId()." record_field: ".$record_field->getId()."<br>";
+				// echo "ON record: ".$value." field: ".$record_field->getField()->getFieldRef()." table: ".$record->getTableId()." record_field: ".$record_field->getId()."<br>";
 				$html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
 				break;
 			default:
