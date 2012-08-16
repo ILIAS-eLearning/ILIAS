@@ -1522,6 +1522,13 @@ class ilObjTest extends ilObject
 		// create new category relations
 		foreach ($this->questions as $key => $value) 
 		{
+			// workaround for import witout obligations information
+			if( !isset($obligatoryQuestionState[$value]) || is_null($obligatoryQuestionState[$value]) )
+			{
+				$obligatoryQuestionState[$value] = 0;
+			}
+			
+			// insert question
 			$next_id = $ilDB->nextId('tst_test_question');
 			$ilDB->insert('tst_test_question', array(
 				'test_question_id' => array('integer', $next_id),
