@@ -12756,3 +12756,10 @@ ecs#:#ecs_file_export_disabled#:#Do not release this File
 ecs#:#ecs_file_export_enabled#:#Release this File
 rfil#:#rfil_call#:#Call ECS File 
 rfil#:#rfil_version_tstamp#:#Upload Date
+common#:#obj_rgrp#:#ECS Group
+common#:#objs_rgrp#:#ECS Groups
+ecs#:#ecs_grp_export#:#Group Releases
+ecs#:#ecs_grp_export_obj_settings#:#Group Release Settings
+ecs#:#ecs_grp_export_disabled#:#Do not release this Group
+ecs#:#ecs_grp_export_enabled#:#Release this Group
+rgrp#:#rgrp_call#:#Call ECS Group 

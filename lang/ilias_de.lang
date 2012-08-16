@@ -12796,3 +12796,10 @@ ecs#:#ecs_file_export_disabled#:#Nicht freigeben
 ecs#:#ecs_file_export_enabled#:#Freigeben
 rfil#:#rfil_call#:#ECS Datei aufrufen
 rfil#:#rfil_version_tstamp#:#Upload Datum
+common#:#obj_rgrp#:#ECS Gruppe
+common#:#objs_rgrp#:#ECS Gruppen
+ecs#:#ecs_grp_export#:#Gruppenfreigaben
+ecs#:#ecs_grp_export_obj_settings#:#Einstellungen für Gruppenfreigaben
+ecs#:#ecs_grp_export_disabled#:#Nicht freigeben
+ecs#:#ecs_grp_export_enabled#:#Freigeben
+rgrp#:#rgrp_call#:#ECS Gruppe aufrufen

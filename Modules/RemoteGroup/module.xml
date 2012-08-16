@@ -1,0 +1,16 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="rgrp">
+	<baseclasses>
+		<baseclass name="ilObjRemoteGroupGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="rgrp" class_name="RemoteGroup" dir="classes" default_pos="30" default_pres_pos="40"
+			checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0" group="grp"
+			repository="0" workspace="0">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="root">root</parent>
+		</object>
+	</objects>
+</module>

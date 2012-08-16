@@ -29,9 +29,9 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 * @version $Id$
 * 
 * 
-* @ingroup ModulesRemoteFile
+* @ingroup ModulesRemoteGroup 
 */
-class ilObjRemoteFileListGUI extends ilObjectListGUI
+class ilObjRemoteGroupListGUI extends ilObjectListGUI
 {
 	/**
 	 * Constructor
@@ -58,8 +58,8 @@ class ilObjRemoteFileListGUI extends ilObjectListGUI
 		$this->subscribe_enabled = true;
 		$this->link_enabled = true;
 		$this->info_screen_enabled = true;
-		$this->type = 'rwik';
-		$this->gui_class_name = 'ilobjremotefilegui';
+		$this->type = 'rgrp';
+		$this->gui_class_name = 'ilobjremotegroupgui';
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
 		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
@@ -69,8 +69,8 @@ class ilObjRemoteFileListGUI extends ilObjectListGUI
 		}
 		
 		// general commands array
-		include_once('Modules/RemoteFile/classes/class.ilObjRemoteFileAccess.php');
-		$this->commands = ilObjRemoteFileAccess::_getCommands();
+		include_once('Modules/RemoteGroup/classes/class.ilObjRemoteGroupAccess.php');
+		$this->commands = ilObjRemoteGroupAccess::_getCommands();
 		
 	}
 
@@ -99,17 +99,15 @@ class ilObjRemoteFileListGUI extends ilObjectListGUI
 	{
 		global $lng;
 
-		include_once('Modules/RemoteFile/classes/class.ilObjRemoteFile.php');
-				
-		if($org = ilObjRemoteFile::_lookupOrganization($this->obj_id))
+		include_once('Modules/RemoteGroup/classes/class.ilObjRemoteGroup.php');
+
+		if($org = ilObjRemoteGroup::_lookupOrganization($this->obj_id))
 		{
 			$this->addCustomProperty($lng->txt('organization'),$org,false,true);
 		}
-		
-		$version = ilObjRemoteFile::_lookupVersionInfo($this->obj_id);
-		if($version)
+		if(!ilObjRemoteGroup::_lookupOnline($this->obj_id))
 		{
-			$this->addCustomProperty($lng->txt('version'),$version,false,true);
+			$this->addCustomProperty($lng->txt("status"),$lng->txt("offline"),true,true);
 		}
 
 		return array();
@@ -141,5 +139,5 @@ class ilObjRemoteFileListGUI extends ilObjectListGUI
 		}
 	}
 
-} // END class.ilObjRemoteFileListGUI
+} // END class.ilObjRemoteGroupListGUI
 ?>
