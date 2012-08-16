@@ -73,14 +73,17 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		
 		$this->tpl->setVariable('NAME', "order[".$a_set->getId()."]");
 		$this->tpl->setVariable('VALUE', $this->order);
-		$this->order = $this->order + 10;
+		
         $this->tpl->setVariable("CHECKBOX_NAME", "visible[".$a_set->getId()."]");
 
         if($a_set->isVisible())
-            $this->tpl->setVariable("CHECKBOX_CHECKED", "checked");
-
+        {
+	        $this->tpl->setVariable("CHECKBOX_CHECKED", "checked");
+        }
+            
+        $this->order = $this->order + 10; 
 		$this->tpl->setVariable("ORDER_NAME","order[".$a_set->getId()."]");
-		$this->tpl->setVariable("ORDER_VALUE",$a_set->getOrder());
+		$this->tpl->setVariable("ORDER_VALUE", $this->order);
 
 		/*
 		 * ALWAYS EDITABLE FOR FIRST RELEASE
