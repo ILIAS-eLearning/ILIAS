@@ -42,6 +42,10 @@ class ilDataCollectionStandardField extends ilDataCollectionField
         return true;
     }
 
+	public function isUnique(){
+		return false;
+	}
+
     function doRead(){
         global $ilLog;
         $message = "Standard fields cannot be read from DB";

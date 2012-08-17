@@ -12518,3 +12518,20 @@ if(!$ilDB->tableColumnExists('il_dcl_table', 'blocked'))
 
 }
 ?>
+<#3720>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_field', 'is_unique'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_field',
+		'is_unique',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 0
+		)
+	);
+
+}
+?>

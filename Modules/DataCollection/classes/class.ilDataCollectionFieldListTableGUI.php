@@ -37,6 +37,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         $this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
         $this->addColumn($lng->txt("dcl_field_datatype"),  "datatype",  "auto");
         $this->addColumn($lng->txt("dcl_required"),  "required",  "auto");
+        $this->addColumn($lng->txt("dcl_unique"),  "unique",  "auto");
         $this->addColumn($lng->txt("actions"), 	 "actions", 	 "30px");
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
@@ -85,17 +86,6 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable("ORDER_NAME","order[".$a_set->getId()."]");
 		$this->tpl->setVariable("ORDER_VALUE", $this->order);
 
-		/*
-		 * ALWAYS EDITABLE FOR FIRST RELEASE
-		if(!$a_set->isStandardField()){
-			$this->tpl->setVariable("CHECKBOX_NAME_EDITABLE", "editable[".$a_set->getId()."]");
-			if($a_set->isEditable())
-			{
-				$this->tpl->setVariable("CHECKBOX_CHECKED_EDITABLE", "checked");
-			}
-		}else
-			$this->tpl->setVariable("NOT_EDITABLE", "-");
-        */
         
 		$this->tpl->setVariable('TITLE', $a_set->getTitle());
 		$this->tpl->setVariable('DESCRIPTION', $a_set->getDescription());
@@ -111,8 +101,19 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 				break;
 		}
 
+		switch($a_set->isUnique())
+		{
+			case 0:
+				$uniq = ilUtil::getImagePath('icon_not_ok.png');
+				break;
+			case 1:
+				$uniq = ilUtil::getImagePath('icon_ok.png');
+				break;
+		}
+
 		
 		$this->tpl->setVariable('REQUIRED', $required);
+		$this->tpl->setVariable('UNIQUE', $uniq);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "field_id", $a_set->getId());
 		
 		if(!$a_set->isStandardField())

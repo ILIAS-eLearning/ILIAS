@@ -142,7 +142,6 @@ class ilDataCollectionRecord
 	}
 
 	public function setLastEditBy($last_edit_by){
-		global $ilLog;
 		$this->last_edit_by = $last_edit_by;
 	}
 
