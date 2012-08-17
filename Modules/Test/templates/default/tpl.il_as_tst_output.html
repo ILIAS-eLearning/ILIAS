@@ -183,7 +183,18 @@
 			if (maxL > 0) counter.value = maxL - stripped.length;
 		}
 	}
-	
+
+    <!-- BEGIN autosave -->
+    function saveIt() {
+        autosave('{AUTOSAVEFORMACTION}');
+        window.setTimeout("saveIt()", {AUTOSAVEINTERVAL});
+    }
+
+    function startSave() {
+        window.setTimeout("saveIt()", {AUTOSAVEINTERVAL});
+    }
+    YAHOO.util.Event.onDOMReady(startSave);
+    <!-- END autosave -->
 	YAHOO.util.Event.onDOMReady(initCharCounter);
 </script>
 <div id="autosavemessage" style="font-style: italic; border: 1px #666 solid; background-color: #ffffe0; position: fixed; right: 0; top: 0;"></div>

@@ -456,6 +456,16 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->addJavaScript(ilUtil::getJSLocation("autosave.js", "Modules/Test"));
 		
 		$this->tpl->setVariable("AUTOSAVE_URL", $this->ctrl->getFormAction($this, "autosave", "", true));
+
+		if ($question_gui->isAutosaveable()&& $this->object->getAutosave())
+		{
+			$this->tpl->touchBlock('autosave');
+			//$this->tpl->setVariable("BTN_SAVE", "Zwischenspeichern");
+			//$this->tpl->setVariable("CMD_SAVE", "gotoquestion_{$sequence}");
+			//$this->tpl->setVariable("AUTOSAVEFORMACTION", str_replace("&amp;", "&", $this->ctrl->getFormAction($this)));
+			$this->tpl->setVariable("AUTOSAVEFORMACTION", str_replace("&amp;", "&", $this->ctrl->getLinkTarget($this, "autosave")));
+			$this->tpl->setVariable("AUTOSAVEINTERVAL", $this->object->getAutosaveIval());
+		}
 		
 		if( $this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($question_gui->object->getId()) )
 		{

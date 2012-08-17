@@ -1740,4 +1740,9 @@ abstract class assQuestionGUI
 		$show_manual_scoring = FALSE,
 		$show_question_text = TRUE
 	);
+	
+	public function isAutosaveable()
+	{
+		return $this->object->isAutosaveable();
+	}
 }
