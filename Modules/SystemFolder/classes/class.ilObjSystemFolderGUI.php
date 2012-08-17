@@ -954,12 +954,29 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			}
 			if($ilias->account->getPref('systemcheck_log_scan'))
 				$this->tpl->touchBlock('log_scan_checked');
-
+			
+			
+			// #9520 - restrict to types which can be found in tree
+			
+			$obj_types_in_tree = array();
+			
+			global $ilDB;
+			$set = $ilDB->query('SELECT type FROM object_data od'.
+				' JOIN object_reference ref ON (od.obj_id = ref.obj_id)'.
+				' JOIN tree ON (tree.child = ref.ref_id)'.
+				' WHERE tree.tree < 1'.
+				' GROUP BY type');
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$obj_types_in_tree[] = $row['type'];
+			}
+			
 			$types = $objDefinition->getAllObjects();
 			$ts = array("" => "");
 			foreach ($types as $t)
 			{
-				if ($t != "" && !$objDefinition->isSystemObject($t) && $t != "root")
+				if ($t != "" && !$objDefinition->isSystemObject($t) && $t != "root" &&
+					in_array($t, $obj_types_in_tree))
 				{
 					if ($objDefinition->isPlugin($t))
 					{
@@ -971,6 +988,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					}
 				}
 			}
+			asort($ts);
 			$this->tpl->setVariable("TYPE_LIMIT_CHOICE",
 				ilUtil::formSelect(
 					$ilias->account->getPref("systemcheck_type_limit"),
