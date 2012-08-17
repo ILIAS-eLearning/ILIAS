@@ -104,7 +104,7 @@ class ilECSEventQueueReader
 	 */
 	protected function getAllResourceIds(ilECSSetting $server, array $a_types, $a_sender_only = false)
 	{
-		include_once 'Services/Webservices/ECS/classes/class.ilRemoteObjectBase.php';
+		include_once 'Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php';
 		$list = array();
 		foreach($a_types as $type)
 		{
@@ -178,7 +178,7 @@ class ilECSEventQueueReader
 			if(is_array($imported))
 			{								
 				// Delete event for deprecated econtent
-				include_once 'Services/Webservices/ECS/classes/class.ilECSObjectSettings.php';
+				include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
 				foreach($imported as $econtent_id => $obj_id)
 				{
 					$type = $this->getEventTypeFromObjectType(ilObject::_lookupType($obj_id));
