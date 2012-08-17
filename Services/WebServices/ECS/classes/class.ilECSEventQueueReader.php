@@ -44,6 +44,7 @@ class ilECSEventQueueReader
 	const TYPE_REMOTE_GROUP = 'rgrp';
 	const TYPE_REMOTE_LEARNING_MODULE = 'rlm';
 	const TYPE_REMOTE_WIKI = 'rwik';
+	const TYPE_REMOTE_TEST = 'rtst';
 	
 	protected $log;
 	protected $db;
@@ -90,7 +91,7 @@ class ilECSEventQueueReader
 	{
 		return array(self::TYPE_REMOTE_COURSE, self::TYPE_REMOTE_CATEGORY, 
 			self::TYPE_REMOTE_FILE, self::TYPE_REMOTE_GLOSSARY, self::TYPE_REMOTE_GROUP, 
-			self::TYPE_REMOTE_LEARNING_MODUL, self::TYPE_REMOTE_WIKI);	
+			self::TYPE_REMOTE_LEARNING_MODUL, self::TYPE_REMOTE_WIKI, self::TYPE_REMOTE_TEST);	
 	}
 	
 	/**
@@ -423,7 +424,11 @@ class ilECSEventQueueReader
 			
 			case 'wikis':
 				$type = self::TYPE_REMOTE_WIKI;
-				break;			
+				break;	
+			
+			case 'tests':
+				$type = self::TYPE_REMOTE_TEST;
+				break;	
 		}
 
 		$query = "SELECT * FROM ecs_events ".

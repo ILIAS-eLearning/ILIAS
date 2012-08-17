@@ -74,6 +74,10 @@ abstract class ilRemoteObjectBase extends ilObject2
 			case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
 				include_once 'Modules/RemoteWiki/classes/class.ilObjRemoteWiki.php';
 				return new ilObjRemoteWiki();	
+				
+			case ilECSEventQueueReader::TYPE_REMOTE_TEST:
+				include_once 'Modules/RemoteTest/classes/class.ilObjRemoteTest.php';
+				return new ilObjRemoteTest();	
 		}		
 	}
 	

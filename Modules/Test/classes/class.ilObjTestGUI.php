@@ -1833,7 +1833,12 @@ class ilObjTestGUI extends ilObjectGUI
 		$idle->setSuffix($this->lng->txt("seconds"));
 		$idle->setValue(($this->object->getAllowedUsersTimeGap()) ? $this->object->getAllowedUsersTimeGap() : '');
 		$form->addItem($idle);
-
+				
+		// Edit ecs export settings
+		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';
+		$ecs = new ilECSTestSettings($this->object);		
+		$ecs->addSettingsToForm($form, 'tst');
+		
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
 
 		// remove items when using template
@@ -1853,6 +1858,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if ($save)
 		{
 			$errors = !$form->checkInput();
+			
 			$form->setValuesByPost();
 			if( $online->getChecked() && !$this->object->isComplete() )
 			{
@@ -1860,7 +1866,7 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 				$errors = true;
 			}
-			if ($errors) $checkonly = false;
+			if ($errors) $checkonly = false;			
 		}
 
 		if (!$checkonly)
@@ -2124,6 +2130,11 @@ class ilObjTestGUI extends ilObjectGUI
             $this->object->setPoolUsage($_POST['use_pool']);
 
 			$this->object->saveToDb(true);
+			
+			// Update ecs export settings
+			include_once 'Modules/Test/classes/class.ilECSTestSettings.php';	
+			$ecs = new ilECSTestSettings($this->object);			
+			$ecs->handleSettingsUpdate();	
 
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 			if ($randomtest_switch)
