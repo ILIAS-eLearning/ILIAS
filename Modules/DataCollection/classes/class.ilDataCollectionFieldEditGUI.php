@@ -258,6 +258,10 @@ class ilDataCollectionFieldEditGUI
 		// Required
 		$cb = new ilCheckboxInputGUI($lng->txt("dcl_field_required"), "required");
 		$this->form->addItem($cb);
+
+		//Unique
+		$cb = new ilCheckboxInputGUI($lng->txt("dcl_field_unique"), "unique");
+		$this->form->addItem($cb);
 	}
 
 	/**
@@ -273,6 +277,7 @@ class ilDataCollectionFieldEditGUI
 			'datatype'		=>	$this->field_obj->getDatatypeId(),
 			'description'	=>	$this->field_obj->getDescription(),
 			'required'		=>	$this->field_obj->getRequired(),
+			'unique'		=>	$this->field_obj->isUnique(),
 		);
 
 		$propertyvalues = $this->field_obj->getPropertyvalues();
@@ -316,7 +321,8 @@ class ilDataCollectionFieldEditGUI
 			$this->field_obj->setDescription($this->form->getInput("description"));
 			$this->field_obj->setDatatypeId($this->form->getInput("datatype"));
 			$this->field_obj->setRequired($this->form->getInput("required"));
-			
+			$this->field_obj->setUnique($this->form->getInput("unique"));
+
 			if($a_mode == "update") 
 			{
 				$this->field_obj->doUpdate();

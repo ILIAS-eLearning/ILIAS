@@ -276,11 +276,8 @@ class ilDataCollectionRecordEditGUI
 
             if(!isset($this->record_id))
             {
-				echo "da:".(!$this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))?"1":"0";
 				if(!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id)))
 				{
-					echo "ref: ".$this->parent_obj->ref_id." locked:".$this->table->isBlocked()." editable: ".$this->table->getCollectionObject()->isRecordsEditable();
-					echo "NOADD";
 					$this->accessDenied();
 					return;
 				}
@@ -290,9 +287,8 @@ class ilDataCollectionRecordEditGUI
                 $record_obj->DoCreate();
                 $this->record_id = $record_obj->getId();
             }else{
-				if($record_obj->hasEditPermission($this->parent_obj->ref_id));
+				if(!$record_obj->hasEditPermission($this->parent_obj->ref_id))
 				{
-					echo "NOEDIT";
 					$this->accessDenied();
 					return;
 				}

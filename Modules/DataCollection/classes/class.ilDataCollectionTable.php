@@ -331,7 +331,6 @@ class ilDataCollectionTable
 		if($ilAccess->checkAccess("write", "", $ref))
 			$perm = true;
 
-		echo "perm: ".$perm;
 		return $perm;
 	}
 
@@ -418,8 +417,6 @@ class ilDataCollectionTable
 	}
 
 	public function toggleBlocked(){
-		global $ilLog;
-		$ilLog->write($this->isBlocked()?"block":"noblock");
 		$this->setBlocked(!$this->isBlocked());
 	}
 

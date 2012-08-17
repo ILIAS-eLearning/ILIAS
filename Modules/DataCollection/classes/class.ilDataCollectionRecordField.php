@@ -63,7 +63,7 @@ class ilDataCollectionRecordField
         $this->checkValidity($type, $value);
 		$tmp = $this->field->getDatatype()->parseValue($value);
 		$old = $this->value;
-		//if parsevalue fails keep the old value
+		//if parse value fails keep the old value
 		if($tmp){
 			$this->value = $tmp;
 
@@ -86,6 +86,14 @@ class ilDataCollectionRecordField
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
 			}
 		}
+		if($this->field->isUnique()){
+			$table = $this->record->getTable();
+			foreach($table->getRecords() as $record){
+				if($record->getRecordFieldValue($this->field->getId()) == $value)
+					throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+			}
+		}
+
 		return true;
 	}
 

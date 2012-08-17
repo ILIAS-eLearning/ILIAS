@@ -21,6 +21,7 @@ class ilDataCollectionField
 	protected $datatypeId; // [int]
 	protected $required; // [bool]
 	protected $order; // [int]
+	protected $unique; //[bool]
     /**
      * @var bool whether this field is visible for everyone.
      */
@@ -188,6 +189,14 @@ class ilDataCollectionField
 	function setPropertyvalue($a_value, $a_id)
 	{
 		$this->property[$a_id] = $a_value;
+	}
+
+	function isUnique(){
+		return $this->unique;
+	}
+
+	function setUnique($unique){
+		$this->unique = $unique?1:0;
 	}
 
 	/**
@@ -363,6 +372,7 @@ class ilDataCollectionField
 		$this->setDescription($rec["description"]);
 		$this->setDatatypeId($rec["datatype_id"]);
 		$this->setRequired($rec["required"]);
+		$this->setUnique($rec["is_unique"]);
 
 		//Set the additional properties 
 		$this->setProperties();
@@ -380,6 +390,7 @@ class ilDataCollectionField
         $this->setDescription($rec["description"]);
         $this->setDatatypeId($rec["datatype_id"]);
         $this->setRequired($rec["required"]);
+        $this->setUnique($rec["is_unique"]);
         $this->setProperties();
     }
 
@@ -399,6 +410,7 @@ class ilDataCollectionField
 		", title".
 		", description".
 		", required".
+		", is_unique".
 		" ) VALUES (".
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getTableId(), "integer")
@@ -406,6 +418,7 @@ class ilDataCollectionField
 		.",".$ilDB->quote($this->getTitle(), "text")
 		.",".$ilDB->quote($this->getDescription(), "text")
 		.",".$ilDB->quote($this->getRequired(), "integer")
+		.",".$ilDB->quote($this->isUnique(), "integer")
 		.")";
 		$ilDB->manipulate($query);
 
@@ -425,7 +438,8 @@ class ilDataCollectionField
 								"datatype_id" => array("text", $this->getDatatypeId()),
 								"title" => array("text", $this->getTitle()),
 								"description" => array("text", $this->getDescription()),
-								"required" => array("integer",$this->getRequired())
+								"required" => array("integer",$this->getRequired()),
+								"is_unique" => array("integer",$this->isUnique())
 								), array(
 								"id" => array("integer", $this->getId())
 								));
