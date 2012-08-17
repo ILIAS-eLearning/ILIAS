@@ -12570,3 +12570,77 @@ if(!$ilDB->tableColumnExists('tst_tests', 'autosave_ival'))
 
 }
 ?>
+<#3722>
+<?php
+
+if (!$ilDB->tableExists('rtst_settings'))
+{
+	$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'organization' => array(
+			'type' => 'text',
+			'length' => 400,			
+			'notnull' => false
+		),
+		'local_information' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'remote_link' => array(
+			'type' => 'text',
+			'length' => 400,
+			'notnull' => false
+		),
+		'availability_type' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'availability_start' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		),
+		'availability_end' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)
+	);
+	$ilDB->createTable('rtst_settings', $fields);
+	$ilDB->addPrimaryKey('rtst_settings', array('obj_id'));
+}
+
+?>
+<#3723>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$rtst_type_id = ilDBUpdateNewObjectType::addNewType('rtst', 'Remote Test Object');
+
+$rbac_ops = array(
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE
+);
+ilDBUpdateNewObjectType::addRBACOperations($rtst_type_id, $rbac_ops);
+
+?>
+<#3724>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
