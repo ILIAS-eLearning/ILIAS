@@ -12767,3 +12767,6 @@ dcl#:#dcl_edit_field#:#Edit Field
 dcl#:#dcl_update_field#:#Update Field
 dcl#:#dcl_create_field#:#Create Field
 dcl#:#dcl_msg_field_modified#:#Field updated
+common#:#obj_tstv#:#Test Certificate
+common#:#obj_excv#:#Exercise Certificate
+common#:#obj_prtf#:#Portfolio 
