@@ -71,10 +71,12 @@ class ilDataCollectionFieldListGUI
     {
         $table = new ilDataCollectionTable($_GET['table_id']);
         $fields = &$table->getFields();
+
         foreach($fields as &$field)
         {
             $field->setVisible($_POST['visible'][$field->getId()] == "on");
 			$field->setEditable($_POST['editable'][$field->getId()] == "on");
+			$field->setFilterable($_POST['filterable'][$field->getId()] == "on");
 			$field->setOrder($_POST['order'][$field->getId()]);
 			$field->doUpdate();
         }

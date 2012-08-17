@@ -27,6 +27,7 @@ class ilDataCollectionField
      */
     protected $visible;
 	protected $editable;
+	protected $filterable;
 
     /**
      * @var ilDataCollectionDatatype This fields Datatype.
@@ -40,8 +41,9 @@ class ilDataCollectionField
 
 
 	// type of table il_dcl_view
-	const VIEW_VIEW 			= 1;
+	const VIEW_VIEW 		= 1;
 	const EDIT_VIEW 		= 2;
+	const FILTER_VIEW 	= 3;
 
 	/**
 	* Constructor
@@ -220,6 +222,17 @@ class ilDataCollectionField
 			$this->setOrder(0);
         $this->visible = $visible;
     }
+
+	/**
+     * setFilterable
+     * @param $filterable bool
+     */
+    function setFilterable($filterable)
+    {
+		if($filterable == true && $this->order === NULL)
+			$this->setOrder(0);
+			$this->filterable = $filterable;
+    }
     
     /*
      * getDatatype
@@ -278,7 +291,6 @@ class ilDataCollectionField
         return $this->visible;
     }
 
-    
 	/*
 	 * loadVisibility
 	 */
@@ -289,6 +301,28 @@ class ilDataCollectionField
 			$this->loadViewDefinition(self::VIEW_VIEW);
         }
     }
+
+	/*
+     * isFilterable
+     */
+    public function isFilterable()
+    {
+		if(!isset($this->filterable))
+        	$this->loadFilterability;
+        return $this->filterable;
+    }
+
+	/*
+	 * loadFilterable
+	 */
+    private function loadFilterability()
+    {
+        if($this->filterable == NULL)
+        {
+			$this->loadViewDefinition(self::FILTER_VIEW);
+        }
+    }
+
 
 	/**
 	 * @param $view use VIEW_VIEW or EDIT_VIEW
@@ -307,6 +341,9 @@ class ilDataCollectionField
 				break;
 			case self::EDIT_VIEW:
 				$this->editable = $prop;
+				break;
+			case self::FILTER_VIEW:
+				$this->filterable = $prop;
 				break;
 		}
 		$this->order = $rec['field_order'];
@@ -423,6 +460,7 @@ class ilDataCollectionField
 		$ilDB->manipulate($query);
 
         $this->updateVisibility();
+		$this->updateFilterability();
 		$this->updateEditability();
 	}
 
@@ -444,6 +482,7 @@ class ilDataCollectionField
 								"id" => array("integer", $this->getId())
 								));
         $this->updateVisibility();
+		$this->updateFilterability();
 		$this->updateEditability();
 	}
 	
@@ -455,6 +494,14 @@ class ilDataCollectionField
 		$this->updateViewDefinition(self::VIEW_VIEW);
     }
 
+	/*
+     * updateFilterability
+     */
+    protected function updateFilterability()
+    {
+		$this->updateViewDefinition(self::FILTER_VIEW);
+    }
+
 	protected function updateEditability(){
 		$this->updateViewDefinition(self::EDIT_VIEW);
 	}
@@ -464,12 +511,18 @@ class ilDataCollectionField
 	 */
     private function updateViewDefinition($view){
 		global $ilDB;
+
 		switch($view){
 			case self::EDIT_VIEW:
 				$set = $this->isEditable();
 				break;
 			case self::VIEW_VIEW:
 				$set = $this->isVisible();
+				if($set && $this->order === NULL)
+					$this->order = 0;
+				break;
+			case self::FILTER_VIEW:
+				$set = $this->isFilterable();
 				if($set && $this->order === NULL)
 					$this->order = 0;
 				break;
@@ -481,6 +534,7 @@ class ilDataCollectionField
 			$set = 1;
 		if(!isset($this->order))
 			$this->order = 0;
+
 
 		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = '".$this->getId()."'";
 		$ilDB->manipulate($query);
@@ -503,6 +557,7 @@ class ilDataCollectionField
 
 		// delete viewdefinitions.
 		$this->deleteViewDefinition(self::VIEW_VIEW);
+		$this->deleteViewDefinition(self::FILTER_VIEW);
 		$this->deleteViewDefinition(self::EDIT_VIEW);
 
 		$query = "DELETE FROM il_dcl_field_prop WHERE field_id = ".$this->getId();

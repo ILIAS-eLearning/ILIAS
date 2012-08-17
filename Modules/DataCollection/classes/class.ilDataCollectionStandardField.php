@@ -63,5 +63,6 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 
     function doUpdate(){
         $this->updateVisibility();
+		$this->updateFilterability();
     }
 }
