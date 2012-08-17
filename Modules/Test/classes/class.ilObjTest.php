@@ -11248,7 +11248,7 @@ function getAnswerFeedbackPoints()
 			return (bool)$row['obligations_answered'];
 	    }
 		
-		return !$this->hasObligations($test_id);
+		return !self::hasObligations($test_id);
 	}
 	
 	/**
