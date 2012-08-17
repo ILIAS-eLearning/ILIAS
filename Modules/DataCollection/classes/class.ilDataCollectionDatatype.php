@@ -4,6 +4,10 @@ include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionFile.php");
 include_once ("class.ilObjDataCollectionFile.php");
 
+include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 /**
 * Class ilDataCollectionDatatype
 *
@@ -333,8 +337,9 @@ class ilDataCollectionDatatype
                                 "time" => "00:00:00");
                 break;
 			case self::INPUTFORMAT_FILE:
-				//TODO if you find out what to deliver to satisfy ilFileInputGUI->setValue so it get's the already uploaded file, replace this.
-				$input = NULL;
+				$file_obj = new ilObjFile($value, false);
+				//$input = ilObjFile::_lookupAbsolutePath($value);
+				$input = $file_obj->getFile();
 				break;
             default:
                 $input = $value;

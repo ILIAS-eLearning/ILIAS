@@ -90,30 +90,29 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable('TITLE', $a_set->getTitle());
 		$this->tpl->setVariable('DESCRIPTION', $a_set->getDescription());
 		$this->tpl->setVariable('DATATYPE', $a_set->getDatatypeTitle());
-		
-		switch($a_set->getRequired())
-		{
-			case 0:
-				$required = ilUtil::getImagePath('icon_not_ok.png');
-				break;
-			case 1:
-				$required = ilUtil::getImagePath('icon_ok.png');
-				break;
-		}
 
-		switch($a_set->isUnique())
-		{
-			case 0:
-				$uniq = ilUtil::getImagePath('icon_not_ok.png');
-				break;
-			case 1:
-				$uniq = ilUtil::getImagePath('icon_ok.png');
-				break;
-		}
-
-		
-		$this->tpl->setVariable('REQUIRED', $required);
-		$this->tpl->setVariable('UNIQUE', $uniq);
+		if(!$a_set->isStandardField()){
+			switch($a_set->getRequired())
+			{
+				case 0:
+					$required = ilUtil::getImagePath('icon_not_ok.png');
+					break;
+				case 1:
+					$required = ilUtil::getImagePath('icon_ok.png');
+					break;
+			}
+			switch($a_set->isUnique())
+			{
+				case 0:
+					$uniq = ilUtil::getImagePath('icon_not_ok.png');
+					break;
+				case 1:
+					$uniq = ilUtil::getImagePath('icon_ok.png');
+					break;
+			}
+			$this->tpl->setVariable('REQUIRED', $required);
+			$this->tpl->setVariable('UNIQUE', $uniq);
+	}
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "field_id", $a_set->getId());
 		
 		if(!$a_set->isStandardField())

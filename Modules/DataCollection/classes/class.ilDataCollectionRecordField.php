@@ -89,8 +89,14 @@ class ilDataCollectionRecordField
 		if($this->field->isUnique()){
 			$table = $this->record->getTable();
 			foreach($table->getRecords() as $record){
-				if($record->getRecordFieldValue($this->field->getId()) == $value)
+				if($record->getRecordFieldValue($this->field->getId()) == $value && $record->getRecordField($this->field->getId())->getId() != $this->getId())
 					throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+
+				if($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
+					$datestring = $value["date"]." ".$value["time"];//["y"]."-".$value["date"]['m']."-".$value["date"]['d']." 00:00:00";
+					if($record->getRecordFieldValue($this->field->getId()) == $datestring && $record->getRecordField($this->field->getId())->getId() != $this->getId())
+						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+				}
 			}
 		}
 
