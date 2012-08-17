@@ -203,7 +203,7 @@ class ilECSTaskScheduler
 				case ilECSEventQueueReader::TYPE_REMOTE_LEARNING_MODULE:
 				case ilECSEventQueueReader::TYPE_REMOTE_WIKI:
 				case ilECSEventQueueReader::TYPE_REMOTE_TEST:
-					include_once 'Services/Webservices/ECS/classes/class.ilRemoteObjectBase.php';
+					include_once 'Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php';
 					$handler = ilRemoteObjectBase::getInstanceByEventType($event['type']);
 					$this->log->write("got handler ".get_class($handler));
 					break;
