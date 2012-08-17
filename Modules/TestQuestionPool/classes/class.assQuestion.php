@@ -3692,11 +3692,6 @@ abstract class assQuestion
 
 		global $ilDB;
 		
-		if( is_null($pass) )
-		{
-			$pass = $this->getSolutionMaxPass($activeId);
-		}
-		
 		$query = "
 			SELECT		count(active_fi) cnt
 			
