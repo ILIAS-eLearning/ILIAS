@@ -24,6 +24,7 @@ class ilDataCollectionTable
     private $fields; // [array][ilDataCollectionField]
 	private $stdFields;
     private $records;
+	private $blocked; //[bool]
 
 	/**
 	* Constructor
@@ -163,7 +164,8 @@ class ilDataCollectionTable
 		$rec = $ilDB->fetchAssoc($set);
 
 		$this->setObjId($rec["obj_id"]);
-		$this->setTitle($rec["title"]);		
+		$this->setTitle($rec["title"]);
+		$this->setBlocked($rec["blocked"]);
 	}
 
     //TODO: replace this method with DataCollection->getTables()
@@ -323,12 +325,13 @@ class ilDataCollectionTable
 
 		$ref = $ref_id;
 		if($ilAccess->checkAccess("add_entry", "", $ref))
-			if($this->getCollectionObject()->isRecordsEditable())
+			if($this->getCollectionObject()->isRecordsEditable() && !$this->isBlocked()){
 				$perm = true;
-
+		}
 		if($ilAccess->checkAccess("write", "", $ref))
 			$perm = true;
 
+		echo "perm: ".$perm;
 		return $perm;
 	}
 
@@ -337,7 +340,23 @@ class ilDataCollectionTable
 		$perm = false;
 		if($ilAccess->checkAccess("write", "", $ref_id))
 			$perm = true;
-		return true;
+		return $perm;
+	}
+
+	/**
+	 * Attention this does not delete the maintable of it's the maintabla of the collection. unlink the the maintable in the collections object to make this work.
+	 */
+	public function doDelete(){
+		global $ilDB;
+
+		foreach($this->getRecords() as $record)
+			$record->doDelete();
+		foreach($this->getRecordFields() as $field)
+			$field->doDelete();
+		if($this->getCollectionObject()->getMainTableId() != $this->getId()){
+			$query = "DELETE FROM il_dcl_table WHERE id = ".$this->getId();
+			$ilDB->manipulate($query);
+		}
 	}
 
 	/**
@@ -353,10 +372,12 @@ class ilDataCollectionTable
 		"id".
 		", obj_id".
 		", title".
+		", blocked".
 		" ) VALUES (".
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getObjId(), "integer")
 		.",".$ilDB->quote($this->getTitle(), "text")
+		.",".$ilDB->quote($this->getBlocked(), "integer")
 		.")";
 		$ilDB->manipulate($query);
 
@@ -371,9 +392,35 @@ class ilDataCollectionTable
 		$ilDB->manipulate($query);
 	}
 
+	function doUpdate(){
+		global $ilDB;
+
+		$ilDB->update("il_dcl_table", array(
+			"obj_id" => array("integer", $this->getObjId()),
+			"title" => array("text", $this->getTitle()),
+			"blocked" => array("integer",$this->isBlocked())
+		), array(
+			"id" => array("integer", $this->getId())
+		));
+	}
+
 	public function updateFields(){
 		foreach($this->getFields() as $field)
 			$field->doUpdate();
+	}
+
+	public function isBlocked(){
+		return $this->blocked;
+	}
+
+	public function setBlocked($blocked){
+		$this->blocked = $blocked?1:0;
+	}
+
+	public function toggleBlocked(){
+		global $ilLog;
+		$ilLog->write($this->isBlocked()?"block":"noblock");
+		$this->setBlocked(!$this->isBlocked());
 	}
 
 	private function sortFields(&$fields){

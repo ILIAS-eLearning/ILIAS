@@ -374,7 +374,7 @@ class ilDataCollectionRecord
 		{
 			global $ilUser;
 			// checks if at this time records can be edited and if setting "only editable by owner" is set check if the owner is the current user.
-			if($dcObj->isRecordsEditable() && ($this->getOwner() == $ilUser->getId() || !$dcObj->getEditByOwner()))
+			if(!$this->getTable()->isBlocked() && $dcObj->isRecordsEditable() && ($this->getOwner() == $ilUser->getId() || !$dcObj->getEditByOwner()))
 				$perm = true;
 		}
 
