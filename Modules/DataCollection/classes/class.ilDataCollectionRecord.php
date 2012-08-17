@@ -329,7 +329,12 @@ class ilDataCollectionRecord
         $this->loadRecordFields();
         $this->recordfields[$field_id]->delete();
     }
-    
+
+	public function getRecordField($field_id){
+		$this->loadRecordFields();
+		return $this->recordfields[$field_id];
+	}
+
     /*
      * doDelete
      */

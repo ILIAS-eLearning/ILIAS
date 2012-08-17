@@ -133,6 +133,10 @@ class ilDataCollectionTable
         return $this->records;
     }
 
+	function getRecordsWithFilter(array $filter){
+
+	}
+
     /*
      * loadRecords
      */

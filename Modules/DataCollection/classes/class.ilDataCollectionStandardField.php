@@ -46,6 +46,7 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 		return false;
 	}
 
+
     function doRead(){
         global $ilLog;
         $message = "Standard fields cannot be read from DB";

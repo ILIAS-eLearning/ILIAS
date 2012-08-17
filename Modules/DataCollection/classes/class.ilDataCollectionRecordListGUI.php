@@ -3,6 +3,8 @@
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
+
 
 /**
  * Class ilDataCollectionRecordListGUI
@@ -85,7 +87,6 @@ class ilDataCollectionRecordListGUI
         $ilToolbar->addInputItem($table_selection);
         $ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 
-        require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
         $list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
 		$tpl->getStandardTemplate();
         $tpl->setContent($list->getHTML());
@@ -110,6 +111,20 @@ class ilDataCollectionRecordListGUI
         $ilCtrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
         $ilCtrl->redirect($this, "listRecords");
     }
+
+	function applyFilter(){
+		global $ilCtrl;
+		$table =  new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
+		$table->writeFilterToSession();
+		$this->listRecords();
+	}
+
+	function resetFilter(){
+		global $ilCtrl;
+		$table =  new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
+		$table->resetFilter();
+		$this->listRecords();
+	}
 
 
 	public function sendFile(){

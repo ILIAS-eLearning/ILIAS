@@ -56,6 +56,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderDirection("asc");
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
+		$this->initFilter();
 		$this->setExportFormats(array(self::EXPORT_EXCEL));
 
         //leave these two
@@ -147,7 +149,47 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		return true;
     }
 
-	
+	function initFilter()
+	{
+		// activation
+
+		// last login
+		/*include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+		$di = new ilDateTimeInputGUI("fil", "created_since");
+		$default_date = new ilDateTime("2012-01-01", IL_CAL_DATE);
+		$di->setDate($default_date);
+		$this->addFilterItem($di);
+		$di->readFromSession();
+		$this->filter["created_since"] = $di->getDate();
+
+		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+		$ti = new ilTextInputGUI("fil", "title");
+		$ti->setValue("");
+		$ti->setSubmitFormOnEnter(true);
+		$this->addFilterItem($ti);
+		$ti->readFromSession();
+		$this->filter["title"] = $ti->getValue();*/
+		foreach($this->table->getVisibleFields() as $field){
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
+				continue;
+			$input = ilDataCollectionDatatype::getInputField($field);
+			$this->addFilterItem($input);
+
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
+				$item = $this->addFilterItemByMetaType("date", self::FILTER_DATE_RANGE);
+				$this->filter["date"] = $item->getDate();/*
+				$default_date = new ilDateTime("2012-01-01", IL_CAL_DATE);
+				$input->setDate($default_date);
+				$input->readFromSession();
+				$this->filter["field_".$field->getId()] = $input->getDate();*/
+			}else{
+				$input->setValue("");
+				//$input->setSubmitFormOnEnter(true);
+				$input->readFromSession();
+				$this->filter["field_".$field->getId()] = $input->getValue();
+			}
+		}
+	}
 }
 
 ?>

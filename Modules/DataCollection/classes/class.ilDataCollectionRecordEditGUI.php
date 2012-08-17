@@ -232,7 +232,6 @@ class ilDataCollectionRecordEditGUI
 		}
 
 		$this->form->setValuesByArray($values);
-
 		return true;
 	}
 	
