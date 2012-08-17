@@ -55,6 +55,8 @@
 					height: '60px'
 				});
 			}
+
+			$("#upload_image_from_local_from_url_panel").css("height", "auto");
 		}
 
 		function adoptImage($form) {
@@ -171,99 +173,95 @@
 
 	<div class="panel_wrapper">
 		<div id="upload_image_from_local_fs_tabpanel" class="panel current">
-			<div style="float: left;">
-				<p>{#ilimgupload.upload_image_from_local_fs_desc}</p>
-				<form id="media-object" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&amp;update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
-				<table border="0" cellpadding="4" cellspacing="0">
-					<tr>
-						<td class="nowrap"><label for="img_file">{#ilimgupload.image_select}</label></td>
-						<td>
-							<input type="file" name="img_file" id="img_file" style="width: 100%;" class="validate[required]" />
-						</td>
-					</tr>
-				</table>
-				<div class="mceActionPanel">
-					<div style="float: left">
-						<input type="submit" class="button" name="insert" value="{#ilimgupload.upload}" />
-					</div>
-					<div style="float: right">
-						<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
-					</div>
-				</div>
-				</form>
-			</div>
+			<p>{#ilimgupload.upload_image_from_local_fs_desc}</p>
+			<form id="media-object" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&amp;update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
+			<table border="0" cellpadding="4" cellspacing="0" style="width:100%">
+				<tr>
+					<td class="nowrap"><label for="img_file">{#ilimgupload.image_select}</label></td>
+					<td>
+						<input type="file" name="img_file" id="img_file" style="width: 100%;" class="validate[required]" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="mceActionPanel" style="padding-top:15px;float:right">
+							<input type="submit" class="button" name="insert" value="{#ilimgupload.upload}" />
+							<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
+						</div>
+					</td>
+				</tr>
+			</table>
+			</form>
 		</div>
 		<div id="upload_image_from_local_from_url_panel" class="panel">
-			<div style="float: left;">
-				<p>{IMG_FROM_URL_DESC}</p>
-				<form id="external-image" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
-				<table border="0" cellpadding="4" cellspacing="0">
-					<tr>
-						<td width="80" style="vertical-align:top"><label for="src">{#ilimgupload.src}</label>:</td>
-						<td>
-							<input name="src" type="text" id="src" value="" class="validate[required]]" style="width: 200px" />
-							<div id="preview_of_url">
-								<iframe style="width:0;height:0" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0"></iframe>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="nowrap"><label for="alt">{#ilimgupload.image_alt}</label>:</td>
-						<td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
-					</tr>
-					<tr>
-						<td class="nowrap"><label for="width">{#ilimgupload.dimensions}</label>:</td>
-						<td>
-							<input id="width" name="width" type="text" value="" size="3" maxlength="5"  class="validate[custom[integer]]" />&nbsp;({#ilimgupload.width})
-							x
-							<input id="height" name="height" type="text" value="" size="3" maxlength="5" class="validate[custom[integer]]" />&nbsp;({#ilimgupload.height})
-							<table id="constrain_table" border="0" cellpadding="0" cellspacing="0" style="display:none">
-								<tr>
-									<td><input id="constrain" type="checkbox" name="constrain" class="checkbox" /></td>
-									<td><label for="constrain">{#ilimgupload.constrain_proportions}</label></td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td class="column1"><label for="hspace">{#ilimgupload.hspace}</label>:</td>
-						<td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
-					</tr>
-					<tr>
-						<td class="column1"><label for="vspace">{#ilimgupload.vspace}</label>:</td>
-						<td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
-					</tr>
-					<tr>
-						<td class="nowrap"><label for="border">{#ilimgupload.border}</label>:</td>
-						<td><input id="border" name="border" type="text" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
-					</tr>
-					<tr>
-						<td class="nowrap"><label for="alignment">{#ilimgupload.align}</label>:</td>
-						<td>
-							<select id="alignment" name="alignment">
-								<option value="">{#not_set}</option>
-								<option value="baseline">{#ilimgupload.align_baseline}</option>
-								<option value="top">{#ilimgupload.align_top}</option>
-								<option value="middle">{#ilimgupload.align_middle}</option>
-								<option value="bottom">{#ilimgupload.align_bottom}</option>
-								<option value="text-top">{#ilimgupload.align_texttop}</option>
-								<option value="text-bottom">{#ilimgupload.align_textbottom}</option>
-								<option value="left">{#ilimgupload.align_left}</option>
-								<option value="right">{#ilimgupload.align_right}</option>
-							</select>
-						</td>
-					</tr>
-				</table>
-				<div class="mceActionPanel">
-					<div style="float: left">
-						<input type="submit" class="button" name="insert" value="{INSERT_COMMAND}" />
-					</div>
-					<div style="float: right">
-						<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
-					</div>
-				</div>
-				</form>
-			</div>
+			<p>{IMG_FROM_URL_DESC}</p>
+			<form id="external-image" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
+			<table border="0" cellpadding="4" cellspacing="0" style="width:100%">
+				<tr>
+					<td width="80" style="vertical-align:top"><label for="src">{#ilimgupload.src}</label>:</td>
+					<td>
+						<input name="src" type="text" id="src" value="" class="validate[required]]" style="width: 200px" />
+						<div id="preview_of_url">
+							<iframe style="width:0;height:0" scrolling="auto" marginheight="0" marginwidth="0" frameborder="0"></iframe>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="nowrap"><label for="alt">{#ilimgupload.image_alt}</label>:</td>
+					<td><input id="alt" name="alt" type="text" value="" style="width: 200px" /></td>
+				</tr>
+				<tr>
+					<td class="nowrap"><label for="width">{#ilimgupload.dimensions}</label>:</td>
+					<td>
+						<input id="width" name="width" type="text" value="" size="3" maxlength="5"  class="validate[custom[integer]]" />&nbsp;({#ilimgupload.width})
+						x
+						<input id="height" name="height" type="text" value="" size="3" maxlength="5" class="validate[custom[integer]]" />&nbsp;({#ilimgupload.height})
+						<table id="constrain_table" border="0" cellpadding="0" cellspacing="0" style="display:none">
+							<tr>
+								<td><input id="constrain" type="checkbox" name="constrain" class="checkbox" /></td>
+								<td><label for="constrain">{#ilimgupload.constrain_proportions}</label></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="column1"><label for="hspace">{#ilimgupload.hspace}</label>:</td>
+					<td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+				</tr>
+				<tr>
+					<td class="column1"><label for="vspace">{#ilimgupload.vspace}</label>:</td>
+					<td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+				</tr>
+				<tr>
+					<td class="nowrap"><label for="border">{#ilimgupload.border}</label>:</td>
+					<td><input id="border" name="border" type="text" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+				</tr>
+				<tr>
+					<td class="nowrap"><label for="alignment">{#ilimgupload.align}</label>:</td>
+					<td>
+						<select id="alignment" name="alignment">
+							<option value="">{#not_set}</option>
+							<option value="baseline">{#ilimgupload.align_baseline}</option>
+							<option value="top">{#ilimgupload.align_top}</option>
+							<option value="middle">{#ilimgupload.align_middle}</option>
+							<option value="bottom">{#ilimgupload.align_bottom}</option>
+							<option value="text-top">{#ilimgupload.align_texttop}</option>
+							<option value="text-bottom">{#ilimgupload.align_textbottom}</option>
+							<option value="left">{#ilimgupload.align_left}</option>
+							<option value="right">{#ilimgupload.align_right}</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<div class="mceActionPanel" style="padding-top:15px;float:right">
+							<input type="submit" class="button" name="insert" value="{INSERT_COMMAND}" />
+							<input type="submit" class="button" name="cancel" value="{#ilimgupload.cancel}" />
+						</div>
+					</td>
+				</tr>
+			</table>
+			</form>
 		</div>
 	</div>
 </body>

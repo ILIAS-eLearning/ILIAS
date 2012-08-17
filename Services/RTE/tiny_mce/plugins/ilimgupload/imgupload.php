@@ -63,7 +63,7 @@ if(isset($_FILES['img_file']['size']) && $_FILES['img_file']['size'] > 0)
 	{
 		// only save usage if the file was uploaded
 		$media_object->_saveUsage($media_object->getId(), $_GET['obj_type'] . ':html', (int)$_GET['obj_id']);
-		
+
 		// Append file to array of existings mobs of this context (obj_type and obj_id)
 		$mobs[$media_object->getId()] = $media_object->getId();
 
@@ -113,7 +113,7 @@ if($_GET["update"] == 1)
 {
 	$tpl->setVariable("IMG_FROM_URL_TAB_DESC", "{#ilimgupload.edit_image}");
 	$tpl->setVariable("IMG_FROM_URL_DESC", "{#ilimgupload.edit_image_desc}");
-	$tpl->setVariable("INSERT_COMMAND", "{#update}");
+	$tpl->setVariable("INSERT_COMMAND", "{#ilimgupload.insert}");
 }
 else
 {

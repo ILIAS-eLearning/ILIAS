@@ -113,7 +113,7 @@ if($_GET["update"] == 1)
 {
 	$tpl->setVariable("IMG_FROM_URL_TAB_DESC", "{#ilimgupload.edit_image}");
 	$tpl->setVariable("IMG_FROM_URL_DESC", "{#ilimgupload.edit_image_desc}");
-	$tpl->setVariable("INSERT_COMMAND", "{#update}");
+	$tpl->setVariable("INSERT_COMMAND", "{#ilimgupload.insert}");
 }
 else
 {
