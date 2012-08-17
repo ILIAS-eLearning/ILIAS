@@ -91,7 +91,16 @@ class ilSurveyPageGUI
 							}
 							else
 							{
-								ilUtil::sendFailure($lng->txt("no_checkbox"));
+								// #9525
+								if($subcmd == "multiDelete")
+								{
+									ilUtil::sendFailure($lng->txt("no_checkbox"), true);
+									$ilCtrl->redirect($this, "renderPage");
+								}	
+								else
+								{
+									ilUtil::sendFailure($lng->txt("no_checkbox"));
+								}
 							}
 						}
 
