@@ -12535,3 +12535,38 @@ if(!$ilDB->tableColumnExists('il_dcl_field', 'is_unique'))
 
 }
 ?>
+<#3721>
+<?php
+if(!$ilDB->tableColumnExists('tst_tests', 'autosave'))
+{
+	$ilDB->addTableColumn(
+		'tst_tests',
+		'autosave',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 0
+		)
+	);
+	
+	$ilDB->manipulate('UPDATE tst_tests SET autosave = ' . $ilDB->quote(0, 'integer') );
+
+}
+if(!$ilDB->tableColumnExists('tst_tests', 'autosave_ival'))
+{
+	$ilDB->addTableColumn(
+		'tst_tests',
+		'autosave_ival',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default'        => 0
+		)
+	);
+	
+	$ilDB->manipulate('UPDATE tst_tests SET autosave_ival = ' . $ilDB->quote(30000, 'integer') );
+
+}
+?>
