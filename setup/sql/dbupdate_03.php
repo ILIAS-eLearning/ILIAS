@@ -12644,3 +12644,16 @@ ilDBUpdateNewObjectType::addRBACOperations($rtst_type_id, $rbac_ops);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3725>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$blog_type_id = ilDBUpdateNewObjectType::getObjectTypeId('blog');
+$ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('contribute', 'Contribute', 'object', 3205);
+if($ops_id && $blog_type_id)
+{
+	ilDBUpdateNewObjectType::addRBACOperation($blog_type_id, $ops_id);
+}
+
+?>

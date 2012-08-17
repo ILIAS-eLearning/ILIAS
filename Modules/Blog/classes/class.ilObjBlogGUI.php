@@ -182,7 +182,10 @@ class ilObjBlogGUI extends ilObject2GUI
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));
-			
+		}
+		
+		if($this->mayContribute())
+		{
 			$this->tabs_gui->addNonTabbedLink("preview", $lng->txt("blog_preview"), 
 				$this->ctrl->getLinkTarget($this, "preview"));
 		}
@@ -232,7 +235,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				// needed for editor			
 				$bpost_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0, "blog"));
 				
-				if (!$this->checkPermissionBool("write"))
+				if (!$this->mayContribute($_GET["blpg"]))
 				{
 					$bpost_gui->setEnableEditing(false);
 				}
@@ -268,7 +271,8 @@ class ilObjBlogGUI extends ilObject2GUI
 						$cmd = "preview".(($_REQUEST["prvm"] == "fsc") ? "Fullscreen" : "Embedded");						
 					}
 					
-					$is_owner = $this->object->getOwner() == $ilUser->getId();
+					// $is_owner = $this->object->getOwner() == $ilUser->getId();
+					$is_owner = $this->mayContribute();
 					$is_active = $bpost_gui->getBlogPosting()->getActive();
 					
 					// do not show inactive postings 
@@ -469,7 +473,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$ilTabs->activateTab("content");
 		
 		// toolbar
-		if($this->checkPermissionBool("write"))
+		if($this->mayContribute())
 		{
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "createPosting"));
 
@@ -500,7 +504,8 @@ class ilObjBlogGUI extends ilObject2GUI
 		$list = $nav = "";		
 		if($this->items[$this->month])
 		{						
-			$is_owner = ($this->object->getOwner() == $ilUser->getId());
+			// $is_owner = ($this->object->getOwner() == $ilUser->getId());
+			$is_owner = $this->mayContribute();
 			$list = $this->renderList($this->items[$this->month], $this->month, "preview", null, $is_owner);
 			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
 		}
@@ -702,7 +707,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	function preview()
 	{		
-		global $lng, $ilCtrl;
+		global $lng;
 		
 		if(!$this->checkPermissionBool("read"))
 		{
@@ -794,10 +799,27 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 			
 		}
-		// back (shared resources)
+		// back 
 		else if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
-		{			
-			$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner;
+		{		
+			// workspace (always shared)
+			if($this->id_type == self::WORKSPACE_NODE_ID)
+			{	
+				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner;
+			}
+			// contributor
+			else if($this->mayContribute())
+			{
+				$back = $this->ctrl->getLinkTarget($this, "");
+			}
+			// listgui / parent container
+			else
+			{
+				global $tree;
+				$parent_id = $tree->getParentId($this->node_id);
+				include_once "Services/Link/classes/class.ilLink.php";
+				$back = ilLink::_getStaticLink($parent_id);
+			}
 		}				
 		$tpl->setTopBar($back);
 		
@@ -901,7 +923,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		foreach($items as $item)
-		{
+		{			
 			// only published items
 			$is_active = ilBlogPosting::_lookupActive($item["id"], "blp");
 			if(!$is_active && !$a_show_inactive)
@@ -921,7 +943,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			// actions
-			if($this->checkPermissionBool("write") && !$a_link_template && $a_cmd == "preview")
+			if($this->mayContribute($item["id"], $item["user"]) && !$a_link_template && $a_cmd == "preview")
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 				$alist = new ilAdvancedSelectionListGUI();
@@ -1596,6 +1618,51 @@ class ilObjBlogGUI extends ilObject2GUI
 		{
 			$this->month = array_shift(array_keys($this->items));
 		}
+	}
+	
+	/**
+	 * Check if user may contribute at all and may edit posting (if given)
+	 * 
+	 * @param int $a_posting_id
+	 * @param int $a_author_id
+	 * @return boolean
+	 */
+	protected function mayContribute($a_posting_id = null, $a_author_id = null)
+	{
+		global $ilUser;
+		
+		$write = $this->checkPermissionBool("write");
+		$contribute = $this->checkPermissionBool("contribute");
+		if($write || $contribute)
+		{
+			// shortcut for personal workspace
+			if($this->id_type == self::WORKSPACE_NODE_ID)
+			{
+				return true;				
+			}
+			
+			// check owner of posting
+			if($a_posting_id)
+			{
+				if(!$a_author_id)
+				{
+					include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+					$post = new ilBlogPosting($a_posting_id);
+					$a_author_id = $post->getAuthor();					
+				}				
+				if($ilUser->getId() == $a_author_id)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}			
+			
+			return true;
+		}
+		return false;
 	}
 	
 	function addLocatorItems()
