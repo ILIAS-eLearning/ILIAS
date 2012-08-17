@@ -12803,3 +12803,6 @@ ecs#:#ecs_grp_export_obj_settings#:#Einstellungen für Gruppenfreigaben
 ecs#:#ecs_grp_export_disabled#:#Nicht freigeben
 ecs#:#ecs_grp_export_enabled#:#Freigeben
 rgrp#:#rgrp_call#:#ECS Gruppe aufrufen
+common#:#obj_tstv#:#Testzertifikat 
+common#:#obj_excv#:#Übungszertifikat
+common#:#obj_prtf#:#Portfolio
