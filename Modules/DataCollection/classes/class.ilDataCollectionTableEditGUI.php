@@ -23,6 +23,7 @@ class ilDataCollectionTableEditGUI
 	function __construct(ilObjDataCollectionGUI $a_parent_obj)
 	{
 		$this->obj_id = $a_parent_obj->obj_id;
+		$this->table_id = $_GET['table_id'];
 	}
 
 	
@@ -138,7 +139,24 @@ class ilDataCollectionTableEditGUI
 			$this->tpl->setContent($this->form_gui->getHTML());
 		}
 	}
-	
+
+	public function toggleBlocked(){
+		global $ilCtrl, $lng;
+		if($this->table_id){
+			$table = new ilDataCollectionTable($this->table_id);
+			$table->toggleBlocked();
+			$table->doUpdate();
+			if($table->isBlocked())
+				$msg = "dcl_table_locked";
+			else
+				$msg = "dcl_table_unlocked";
+			ilUtil::sendSuccess($lng->txt($msg), true);
+		}else
+			ilUtil::sendFailure($lng->txt("dcl_no_table_selected"), true);
+
+		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields");
+	}
+
 	/*
 	 * accessDenied
 	 */

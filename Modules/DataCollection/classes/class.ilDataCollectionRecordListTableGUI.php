@@ -62,6 +62,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
+		if($this->table->isBlocked())
+			ilUtil::sendInfo($lng->txt("dcl_table_is_locked"),true);
+
 		if($this->table->hasPermissionToAddRecord($this->parent_obj->parent_obj->ref_id))
 		{
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);

@@ -274,21 +274,29 @@ class ilDataCollectionRecordEditGUI
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setLastEditBy($ilUser->getId());
 
-			//check access. those who can edit can also create records.
-			if(!$record_obj->hasEditPermission($this->parent_obj->ref_id))
-			{
-				$this->accessDenied();
-				return;
-			}
-
             if(!isset($this->record_id))
             {
+				echo "da:".(!$this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))?"1":"0";
+				if(!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id)))
+				{
+					echo "ref: ".$this->parent_obj->ref_id." locked:".$this->table->isBlocked()." editable: ".$this->table->getCollectionObject()->isRecordsEditable();
+					echo "NOADD";
+					$this->accessDenied();
+					return;
+				}
 				$record_obj->setOwner($ilUser->getId());
 				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
                 $record_obj->setTableId($this->table_id);
                 $record_obj->DoCreate();
                 $this->record_id = $record_obj->getId();
-            }
+            }else{
+				if($record_obj->hasEditPermission($this->parent_obj->ref_id));
+				{
+					echo "NOEDIT";
+					$this->accessDenied();
+					return;
+				}
+			}
 
 			$all_fields = $this->table->getRecordFields();
 			$fail = "";

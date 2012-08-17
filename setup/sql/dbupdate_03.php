@@ -12501,3 +12501,20 @@ ilDBUpdateNewObjectType::addRBACOperations($rgrp_type_id, $rbac_ops);
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3719>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table', 'blocked'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'blocked',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 0
+		)
+	);
+
+}
+?>

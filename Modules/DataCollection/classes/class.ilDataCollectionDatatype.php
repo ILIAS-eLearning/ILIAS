@@ -302,7 +302,14 @@ class ilDataCollectionDatatype
 				}
 
 				$record = new ilDataCollectionRecord($value);
-				$html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
+				if(!$record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
+					//the referenced record_field does not seem to exist.
+					$html = "-";
+					$record_field->setValue(null);
+					$record_field->doUpdate();
+				}
+				else
+					$html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
 				break;
 			default:
                 $html = $value;
