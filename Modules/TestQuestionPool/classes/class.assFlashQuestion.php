@@ -617,6 +617,11 @@ class assFlashQuestion extends assQuestion
 	{
 		return $this->parameters;
 	}
+	
+	public function isAutosaveable()
+	{
+		return FALSE;
+	}
 }
 
 ?>

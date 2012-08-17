@@ -1013,6 +1013,9 @@ class assFileUpload extends assQuestion
 	{
 		return true;
 	}
+	
+	public function isAutosaveable()
+	{
+		return FALSE;
+	}
 }
-
-?>

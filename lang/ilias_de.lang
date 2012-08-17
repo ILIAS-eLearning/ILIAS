@@ -278,6 +278,10 @@ adve#:#adve_text_content_features#:#Text Content Menü
 adve#:#adve_use_physical#:#str/emp/imp durch b/i/u ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die physikalischen Auszeichnungen b (bold), i (italic) und u (underline). Achtung, hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet werden.
 adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
+assessment#:#autosave#:#Automatisches Speichern
+assessment#:#autosave_info#:#Wenn ausgewählt, werden Antworten im Hintergrund gespeichert um Datenverlusten vorzubeugen. (Bei ausgewählten Fragetypen.)
+assessment#:#autosave_ival#:#Intervall
+assessment#:#autosave_ival_info#:#Intervall in dem Antworten im Hintergrund gespeichert werden. (Microsekunden)
 assessment#:#for#:#für
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe gewährt:
 assessment#:#essay_keyword_relation#:#Punktvergabe bei

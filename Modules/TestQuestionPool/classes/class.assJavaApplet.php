@@ -904,6 +904,9 @@ class assJavaApplet extends assQuestion
 		}
 		return $startrow + $i + 1;
 	}
+	
+	public function isAutosaveable()
+	{
+		return FALSE;
+	}
 }
-
-?>

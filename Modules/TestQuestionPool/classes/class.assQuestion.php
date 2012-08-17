@@ -385,7 +385,7 @@ abstract class assQuestion
 	*/
 	function keyInArray($searchkey, $array)
 	{
-		if ($searchKey)
+		if ($searchkey)
 		{
 			foreach ($array as $key => $value)
 			{
@@ -3674,6 +3674,11 @@ abstract class assQuestion
 		return (bool)$this->obligationsToBeConsidered;
 	}
 	
+	public function isAutosaveable()
+	{
+		return TRUE;
+	}
+	
 	/**
 	 * checks wether there are existing solution records
 	 * for the given test active / pass and given question id
@@ -3716,5 +3721,3 @@ abstract class assQuestion
 		return $solutionRecordsExist;
 	}
 }
-
-?>

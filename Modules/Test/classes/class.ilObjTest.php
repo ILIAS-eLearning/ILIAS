@@ -428,6 +428,9 @@ class ilObjTest extends ilObject
 	private $obligationsEnabled = null;
 	
 	protected $activation_visibility;
+	
+	protected $autosave;
+	protected $autosave_ival;
 
 	/**
 	* Constructor
@@ -503,6 +506,9 @@ class ilObjTest extends ilObject
 			"D" => 10,
 			"E" => 0
 		);
+		$this->autosave = FALSE;
+		$this->autosave_ival = 30000;
+		
                 $this->express_mode = false;
                 $this->template_id = '';
 		$this->ilObject($a_id, $a_call_by_reference);
@@ -1234,7 +1240,9 @@ class ilObjTest extends ilObject
 				'highscore_top_table' => array('integer', (int) $this->getHighscoreTopTable()),
 				'highscore_top_num' => array('integer', (int) $this->getHighscoreTopNum()),
 				'online_status' => array('integer', (int) $this->isOnline()),
-				'specific_feedback' => array('integer', (int)$this->getSpecificAnswerFeedback())
+				'specific_feedback' => array('integer', (int)$this->getSpecificAnswerFeedback()),
+				'autosave' => array('integer', (int)$this->getAutosave()),
+				'autosave_ival' => array('integer', (int)$this->getAutosaveIval())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1272,7 +1280,7 @@ class ilObjTest extends ilObject
 				"offer_question_hints = %s, highscore_enabled = %s, highscore_anon = %s, highscore_achieved_ts = %s, " . 
 				"highscore_score = %s, highscore_percentage = %s, ".
 				"highscore_hints = %s, highscore_wtime = %s, highscore_own_table = %s, highscore_top_table = %s, highscore_top_num = %s, " .
-				"online_status = %s, specific_feedback = %s, obligations_enabled = %s ".
+				"online_status = %s, specific_feedback = %s, obligations_enabled = %s, autosave = %s, autosave_ival = %s ".
 				"WHERE test_id = %s",
 				array(
 					'text', 'text', 
@@ -1287,7 +1295,7 @@ class ilObjTest extends ilObject
 					'integer', 'integer', 'integer', 'integer', 
 					'integer', 'integer', 
 					'integer', 'integer', 'integer', 'integer', 'integer', 
-					'integer', 'integer','integer',
+					'integer', 'integer','integer', 'integer', 'integer',
 					'integer'
 				),
 				array(
@@ -1358,6 +1366,8 @@ class ilObjTest extends ilObject
 					(int) $this->isOnline(),
 					(int) $this->getSpecificAnswerFeedback(),
 					(int)$this->areObligationsEnabled(),
+					$this->getAutosave(),
+					$this->getAutosaveIval(),
 					$this->getTestId()
 				)
 			);
@@ -2168,6 +2178,8 @@ class ilObjTest extends ilObject
 			$this->setHighscoreTopNum((int) $data->highscore_top_num);
 			$this->setOnline((bool) $data->online_status);
 			$this->setSpecificAnswerFeedback((int) $data->specific_feedback);
+			$this->setAutosave((bool)$data->autosave);
+			$this->setAutosaveIval((int)$data->autosave_ival);
 			$this->loadQuestions();
 		}
 		
@@ -11272,6 +11284,24 @@ function getAnswerFeedbackPoints()
 		
 		return (bool)$row['cnt'] > 0;
 	}
-} // END class.ilObjTest
 
-?>
+	public function setAutosave($autosave)
+	{
+		$this->autosave = $autosave;
+	}
+
+	public function getAutosave()
+	{
+		return $this->autosave;
+	}
+
+	public function setAutosaveIval($autosave_ival)
+	{
+		$this->autosave_ival = $autosave_ival;
+	}
+
+	public function getAutosaveIval()
+	{
+		return $this->autosave_ival;
+	}
+}

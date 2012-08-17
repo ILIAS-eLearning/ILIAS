@@ -182,6 +182,10 @@ adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS Content Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
+assessment#:#autosave#:#Automatic saving
+assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)
+assessment#:#autosave_ival#:#Interval
+assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)
 assessment#:#for#:#for
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:
 assessment#:#essay_keyword_relation#:#Score is granted

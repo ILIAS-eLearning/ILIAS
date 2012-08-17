@@ -1620,13 +1620,26 @@ class ilObjTestGUI extends ilObjectGUI
 		$title_output->setInfo($this->lng->txt("tst_title_output_description"));
 		$form->addItem($title_output);
 
+		// Autosave
+		$autosave_output = new ilCheckboxInputGUI($this->lng->txt('autosave'), 'autosave');
+		$autosave_output->setValue(1);
+		$autosave_output->setChecked($this->object->getAutosave());
+		$autosave_output->setInfo($this->lng->txt('autosave_info'));
+		
+		$autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
+		$autosave_interval->setSize(10);
+		$autosave_interval->setValue($this->object->getAutosaveIval());
+		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
+		$autosave_output->addSubItem($autosave_interval);
+		$form->addItem($autosave_output);
+		
                 if(!$template || $template && $this->formShowSequenceSection($template_settings)) {
                     // sequence properties
                     $seqheader = new ilFormSectionHeaderGUI();
                     $seqheader->setTitle($this->lng->txt("tst_sequence_properties"));
                     $form->addItem($seqheader);
                 }
-
+	
 		// postpone questions
 		$postpone = new ilCheckboxInputGUI($this->lng->txt("tst_postpone"), "chb_postpone");
 		$postpone->setValue(1);
@@ -2065,6 +2078,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setAllowedUsers($_POST["allowedUsers"]);
 			$this->object->setAllowedUsersTimeGap($_POST["allowedUsersTimeGap"]);
 
+			$this->object->setAutosave($_POST['autosave']);
+			$this->object->setAutosaveIval($_POST['autosave_ival']);
+			
 			if ($this->object->isRandomTest())
 			{
 				$this->object->setUsePreviousAnswers(0);
