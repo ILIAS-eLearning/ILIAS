@@ -32,6 +32,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 	 	$this->addColumn($lng->txt("dcl_order"),  "order",  "30px");
         $this->addColumn($lng->txt("dcl_title"),  "title",  "auto");
         $this->addColumn($lng->txt("dcl_visible"),  "visible",  "30px");
+		$this->addColumn($lng->txt("dcl_filter"),  "filterable",  "30px");
 		// ALWAYS EDITABLE FOR FIRST RELEASE
         //$this->addColumn($lng->txt("dcl_editable"),  "editable",  "30px");
         $this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
@@ -54,7 +55,10 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         $this->setExternalSorting(true);
 
 		$this->table = new ilDataCollectionTable($table_id);
+
 		$this->setData($this->table->getFields());
+
+
 		
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php');
 
@@ -75,11 +79,16 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable('NAME', "order[".$a_set->getId()."]");
 		$this->tpl->setVariable('VALUE', $this->order);
 		
-        $this->tpl->setVariable("CHECKBOX_NAME", "visible[".$a_set->getId()."]");
-
+        $this->tpl->setVariable("CHECKBOX_VISIBLE", "visible[".$a_set->getId()."]");
         if($a_set->isVisible())
         {
-	        $this->tpl->setVariable("CHECKBOX_CHECKED", "checked");
+	        $this->tpl->setVariable("CHECKBOX_VISIBLE_CHECKED", "checked");
+        }
+
+		$this->tpl->setVariable("CHECKBOX_FILTERABLE", "filterable[".$a_set->getId()."]");
+        if($a_set->isFilterable())
+        {
+	        $this->tpl->setFilterable("CHECKBOX_FILTERABLE_CHECKED", "checked");
         }
             
         $this->order = $this->order + 10; 

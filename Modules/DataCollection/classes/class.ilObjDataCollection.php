@@ -66,6 +66,7 @@ class ilObjDataCollection extends ilObject2
 			$main_table = new ilDataCollectionTable();
 			$main_table->setObjId($this->getId());
 			$main_table->setTitle($this->getTitle());
+			$main_table->setBlocked(0);
 			$main_table->doCreate();
 
 		$ilDB->insert("il_dcl_data", array(

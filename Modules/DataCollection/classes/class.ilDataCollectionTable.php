@@ -268,6 +268,7 @@ class ilDataCollectionTable
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
         $fields = array_merge($this->fields, $this->stdFields);
 
+
 		$this->sortFields($fields);
         return $fields;
     }
@@ -303,6 +304,7 @@ class ilDataCollectionTable
         return $visibleFields;
     }
 
+
 	function getEditableFields(){
 		$fields = $this->getFields();
 		$editableFields = array();
@@ -317,6 +319,26 @@ class ilDataCollectionTable
 
 		return $editableFields;
 	}
+
+	 /**
+     * Returns all fields of this table who have set their filterable to true, including standard fields.
+     * @return array
+     */
+    function getFilterableFields()
+    {
+        $fields = $this->getFields();
+        $filterableFields = array();
+        
+        foreach($fields as $field)
+        {
+	        if($field->isFilterable())
+	        {
+		        array_push($filterableFields, $field);
+	        }
+        }
+            
+        return $filterableFields;
+    }
 
 	function hasPermissionToFields($ref_id){
 		return $this->getCollectionObject()->hasPermissionToAddTable($ref_id);
@@ -335,7 +357,7 @@ class ilDataCollectionTable
 		if($ilAccess->checkAccess("write", "", $ref))
 			$perm = true;
 
-		return $perm;
+		return true;
 	}
 
 	function hasPermissionToAddTable($ref_id) {
@@ -380,9 +402,12 @@ class ilDataCollectionTable
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getObjId(), "integer")
 		.",".$ilDB->quote($this->getTitle(), "text")
-		.",".$ilDB->quote($this->getBlocked(), "integer")
+		.",".$ilDB->quote($this->isBlocked(), "integer")
 		.")";
 		$ilDB->manipulate($query);
+
+		//FIXME
+		//FromType sollen ebenfalls als Konstante definiert werden.
 
 		//add view definition
         $view_id = $ilDB->nextId("il_dcl_view");
@@ -392,6 +417,11 @@ class ilDataCollectionTable
 		//add edit definition
 		$view_id = $ilDB->nextId("il_dcl_view");
 		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::EDIT_VIEW.", 1)";
+		$ilDB->manipulate($query);
+
+		//add filter definition
+		$view_id = $ilDB->nextId("il_dcl_view");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::FILTER_VIEW.", 1)";
 		$ilDB->manipulate($query);
 	}
 
