@@ -88,7 +88,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable("CHECKBOX_FILTERABLE", "filterable[".$a_set->getId()."]");
         if($a_set->isFilterable())
         {
-	        $this->tpl->setFilterable("CHECKBOX_FILTERABLE_CHECKED", "checked");
+	        $this->tpl->setVariable("CHECKBOX_FILTERABLE_CHECKED", "checked");
         }
             
         $this->order = $this->order + 10; 

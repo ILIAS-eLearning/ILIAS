@@ -169,7 +169,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["title"] = $ti->getValue();*/
-		foreach($this->table->getVisibleFields() as $field){
+		foreach($this->table->getFilterableFields() as $field){
 			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 				continue;
 			$input = ilDataCollectionDatatype::getInputField($field);
