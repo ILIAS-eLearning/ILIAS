@@ -307,8 +307,9 @@ class ilDataCollectionField
      */
     public function isFilterable()
     {
+
 		if(!isset($this->filterable))
-        	$this->loadFilterability;
+        	$this->loadFilterability();
         return $this->filterable;
     }
 
