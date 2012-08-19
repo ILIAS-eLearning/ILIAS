@@ -2280,10 +2280,16 @@ div.ilFrameBL
 }
 
 div.ilLeftNav {
+	top:85px;
+	bottom:	0;
 	width: 350px;
 	float:left;
-	position: absolute;
+	position: fixed;
 	padding: 5px;
+	overflow: auto;
+	background-color: #F5F5F5;
+	border-right: 3px solid #E9E9E9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
 }
 
 div.ilLeftNavSpace {
