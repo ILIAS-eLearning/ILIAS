@@ -6,7 +6,7 @@ tinyMCE.addI18n('en.ilimgupload', {
 	src                            :'Source',
 	image_select                   :'Choose Image',
 	image_alt                      :'Image Information',
-	upload_image_from_local_fs     :'From local fileystem',
+	upload_image_from_local_fs     :'From Local Fileystem',
 	upload_image_from_local_fs_desc:'Upload an image from local file system',
 	upload_image_from_url          :'From URL',
 	upload_image_from_url_desc     :'Insert an image from another website',
