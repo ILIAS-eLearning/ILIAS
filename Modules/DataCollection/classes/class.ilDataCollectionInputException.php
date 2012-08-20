@@ -33,7 +33,7 @@ class ilDataCollectionInputException extends Exception
 			case self::REGEX_EXCEPTION:
 				return $lng->txt("dcl_wrong_regex");
 			case self::UNIQUE_EXCEPTION:
-				return $lng->txt("dcl_not_unique");
+				return $lng->txt("dcl_unique_exception");
 			default:
 				return $lng->txt("dcl_unknown_exception");
 		}

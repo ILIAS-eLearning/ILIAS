@@ -202,8 +202,10 @@ class ilDataCollectionRecordEditGUI
 	private function getInfo(ilDataCollectionField $field){
 		global $lng;
 
+	$info = $field->getDescription()."<br>";
 		if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
-			$info .= $lng->txt("dcl_text_length").": ".$field->getLength();
+			if($field->getLength())
+				$info .= $lng->txt("dcl_max_text_length").": ".$field->getLength();
 		}
 
 		return $info;
