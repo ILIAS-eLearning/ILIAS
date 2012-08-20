@@ -548,7 +548,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$tstdef = $this->getDidacticTemplateVar("tstdef");
 		if ($tstdef) 
 		{
-			$a_new_object->applyDefaults($tstdef);
+			$testDefaultsId = $tstdef;
+			$testDefaults = ilObjTest::_getTestDefaults($testDefaultsId);
+			$a_new_object->applyDefaults($testDefaults);
 		}
 
 		$template_id = $this->getDidacticTemplateVar("tsttpl");
