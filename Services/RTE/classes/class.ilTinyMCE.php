@@ -39,6 +39,13 @@ class ilTinyMCE extends ilRTE
 	//protected $version = "3.3.9.2"; // set default version here
 	protected $vd = ""; // version directory suffix
 
+	/**
+	 * A flag whether the "edit image" context menu item should appear or not
+	 * 
+	 * @var bool
+	 */
+	protected $remove_img_context_menu_item = false;
+
 	function ilTinyMCE($a_version = "")
 	{
 		parent::ilRTE($a_version);
@@ -93,7 +100,7 @@ class ilTinyMCE extends ilRTE
 		 */
 		global $ilClientIniFile;
 
-		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		if(!$ilClientIniFile->readVariable('tinymce', 'use_advanced_img_mng'))
 		{
 			parent::addPlugin('ilimgupload');
 			parent::addButton('ilimgupload');
@@ -104,6 +111,8 @@ class ilTinyMCE extends ilRTE
 				'ibrowser',
 				'image'
 			));
+			
+			$this->setRemoveImgContextMenuItem(true);
 		}
 		else
 		{
@@ -111,6 +120,8 @@ class ilTinyMCE extends ilRTE
 
 			parent::removePlugin('ilimgupload');
 			$this->disableButtons('ilimgupload');
+
+			$this->setRemoveImgContextMenuItem(false);
 		}
 	}
 	
@@ -129,7 +140,7 @@ class ilTinyMCE extends ilRTE
 		 */
 		global $ilClientIniFile;
 
-		if($ilClientIniFile->readVariable('forum', 'use_simple_img_mng'))
+		if(!$ilClientIniFile->readVariable('tinymce', 'use_advanced_img_mng'))
 		{
 			parent::removePlugin('ilimgupload');
 			$this->disableButtons('ilimgupload');
@@ -265,6 +276,7 @@ class ilTinyMCE extends ilRTE
 		if ((ilObjAdvancedEditing::_getRichTextEditorUserState() != 0) && (strcmp(ilObjAdvancedEditing::_getRichTextEditor(), "0") != 0))
 		{
 			$tpl = new ilTemplate(($cfg_template === null ? "tpl.tinymce.html" : $cfg_template), true, true, "Services/RTE");
+			$this->handleImgContextMenuItem($tpl);
 			$tags =& ilObjAdvancedEditing::_getUsedHTMLTags($a_module);
 			if ($allowFormElements)
 			{
@@ -324,6 +336,14 @@ class ilTinyMCE extends ilRTE
 		*/
 	}
 
+	protected function handleImgContextMenuItem($tpl)
+	{
+		if($this->getRemoveImgContextMenuItem() && $tpl->blockExists('remove_img_context_menu_item'))
+		{
+			$tpl->touchBlock(remove_img_context_menu_item);
+		}
+	}
+
 	/**
 	* Adds custom support for an RTE in an ILIAS form
 	*
@@ -335,6 +355,7 @@ class ilTinyMCE extends ilRTE
 	{
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$tpl = new ilTemplate("tpl.tinymce.html", true, true, "Services/RTE");
+		$this->handleImgContextMenuItem($tpl);
 		$tpl->setCurrentBlock("tinymce");
 		$tpl->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 		include_once "./Services/Object/classes/class.ilObject.php";
@@ -384,6 +405,7 @@ class ilTinyMCE extends ilRTE
 		$buttontags = array("strong","em");
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
+		$this->handleImgContextMenuItem($template);
 		$template->setCurrentBlock("tinymce");
 		$template->setVariable("JAVASCRIPT_LOCATION", "./Services/RTE/tiny_mce".$this->vd."/tiny_mce.js");
 		include_once "./Services/Object/classes/class.ilObject.php";
@@ -1331,6 +1353,22 @@ class ilTinyMCE extends ilRTE
 		}
 
 		return $a_string;
+	}
+
+	/**
+	 * @param boolean $remove_img_context_menu_item
+	 */
+	public function setRemoveImgContextMenuItem($remove_img_context_menu_item)
+	{
+		$this->remove_img_context_menu_item = $remove_img_context_menu_item;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getRemoveImgContextMenuItem()
+	{
+		return $this->remove_img_context_menu_item;
 	}
 }
 ?>

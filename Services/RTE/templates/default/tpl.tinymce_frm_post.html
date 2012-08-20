@@ -7,7 +7,38 @@
 <!-- END obj_id -->
 	var client_id = '{CLIENT_ID}';
 	var session_id = '{SESSION_ID}';
-	
+
+	function ilTinyMceInitCallback(ed) {
+		// Add hook for onContextMenu so that Insert Image can be removed
+		<!-- BEGIN remove_img_context_menu_item -->
+		ed.plugins.contextmenu.onContextMenu.add(function(sender, menu) {
+			// create a new object
+			var otherItems = {};
+			var lastItem = null;
+			for (var itemName in menu.items) {
+				var item = menu.items[itemName];
+				if (/^mce_/.test(itemName)) {
+					if (item.settings) {
+						if (item.settings.cmd == "mceImage" || item.settings.cmd == "mceAdvImage") {
+							// skip these items
+							var lastItem = item;
+							continue;
+						}  else if (lastItem && item.settings.separator && (lastItem.settings.cmd == "mceImage" || lastItem.settings.cmd == "mceAdvImage")) {
+							lastItem = null;
+							continue;
+						}
+					}
+				}
+				// add all other items to this new object, so it is effectively a clone
+				// of menu.items but without the offending entries
+				otherItems[itemName] = item;
+			}
+			// replace menu.items with our new object
+			menu.items = otherItems;
+		});
+		<!-- END remove_img_context_menu_item -->
+	}
+
 	tinyMCE.init({
 		mode : "textareas",
 		editor_deselector : "noRTEditor",
@@ -28,14 +59,17 @@
 <!-- END formelements -->
 		entities : "60,lt,62,gt,38,amp",
 		content_css : "{STYLESHEET_LOCATION}",
-	  plugin_insertdate_dateFormat : "%d.%m.%Y",
-	  plugin_insertdate_timeFormat : "%H:%M:%S",
+		plugin_insertdate_dateFormat : "%d.%m.%Y",
+		plugin_insertdate_timeFormat : "%H:%M:%S",
 		theme_advanced_resize_horizontal : true,
 		theme_advanced_resizing : true,
 		theme_advanced_fonts : "Arial=sans-serif;Courier=monospace;Times Roman=serif",
 		<!-- BEGIN forced_root_block -->forced_root_block : '{FORCED_ROOT_BLOCK}',<!-- END forced_root_block -->
-	  font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt"
-		});
+		font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt",
+		setup: function (ed) {
+			ed.onInit.add(ilTinyMceInitCallback);
+		}
+	});
 </script>
 <!-- END tinymce -->
 
