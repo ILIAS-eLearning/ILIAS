@@ -281,7 +281,6 @@ class ilDataCollectionDatatype
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
-				echo $field->getTitle()." from : ".$filter['from']." to ".$filter['to']." actual: ".$value."<br>";
 				if((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to']))
 					$pass = true;
 				break;
