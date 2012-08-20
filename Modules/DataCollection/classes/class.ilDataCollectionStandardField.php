@@ -22,7 +22,8 @@ class ilDataCollectionStandardField extends ilDataCollectionField
         $stdFields = array();
         foreach(self::_getStandardFieldsAsArray() as $array){
             $array["table_id"] = $table_id;
-            $field = new ilDataCollectionStandardField();
+			$array["datatype_id"] = self::_getDatatypeForId($array["id"]);
+			$field = new ilDataCollectionStandardField();
             $field->buildFromDBRecord($array);
             array_push($stdFields, $field);
         }
@@ -37,6 +38,28 @@ class ilDataCollectionStandardField extends ilDataCollectionField
                 $return = true;
         return $return;
     }
+
+	/**
+	 * gives you the datatype id of a specified standard field.
+	 * @param $id the id of the standardfield eg. "create_date"
+	 */
+	public static function _getDatatypeForId($id){
+		switch($id){
+			case 'id':
+				return ilDataCollectionDatatype::INPUTFORMAT_NUMBER;
+			case 'owner';
+				return ilDataCollectionDatatype::INPUTFORMAT_TEXT;
+			case 'create_date':
+				return ilDataCollectionDatatype::INPUTFORMAT_DATETIME;
+			case 'last_edit_by':
+				return ilDataCollectionDatatype::INPUTFORMAT_TEXT;
+			case 'table_id':
+				return ilDataCollectionDatatype::INPUTFORMAT_NUMBER;
+			case 'last_update':
+				return ilDataCollectionDatatype::INPUTFORMAT_DATETIME;
+		}
+		return null;
+	}
 
     public function isStandardField(){
         return true;

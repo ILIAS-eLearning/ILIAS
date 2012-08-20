@@ -22,6 +22,7 @@ class ilDataCollectionTableEditGUI
 	 */
 	function __construct(ilObjDataCollectionGUI $a_parent_obj)
 	{
+		$this->parent_object = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
 	}
@@ -122,9 +123,9 @@ class ilDataCollectionTableEditGUI
 			$table_obj->setTitle($this->form->getInput("title"));
 			$table_obj->setObjId($this->obj_id);
 			
-			if(!$table_obj->hasPermissionToAddTable($ilUser->getId()))
+			if(!$table_obj->hasPermissionToAddTable($this->parent_object->ref_id))
 			{
-				$this->permissionDenied();
+				$this->accessDenied();
 				return;
 			}
 			$table_obj->doCreate();

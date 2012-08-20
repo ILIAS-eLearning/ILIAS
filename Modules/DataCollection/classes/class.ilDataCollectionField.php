@@ -159,6 +159,9 @@ class ilDataCollectionField
 	*/
 	function getDatatypeId()
 	{
+		if($this->isStandardField()){
+			return ilDataCollectionStandardField::_getDatatypeForId($this->getId());
+		}
 		return $this->datatypeId;
 	}
 
