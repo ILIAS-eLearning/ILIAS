@@ -923,7 +923,7 @@ assessment#:#tst_count_partial_solutions#:#Teillösungen bewerten
 assessment#:#tst_count_system_description#:#Wenn Teillösungen bewertet werden, werden die definierten Punkte abhängig von den Antworten der Teilnehmer aufsummiert. Wenn nur vollständige Lösungen bewertet werden, müssen Teilnehmer die maximale Punktezahl für eine Frage erzielen, anderenfalls wird die Frage mit 0 Punkten bewertet.
 assessment#:#tst_default_settings#:#Persönliche Standardeinstellungen
 assessment#:#tst_defaults_applied#:#Die ausgewählten Standardeinstellungen wurden angewendet.
-assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Fragen und/oder Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
+assessment#:#tst_defaults_apply_not_possible#:#ILIAS konnte die ausgewählten Standardeinstellungen nicht auf diesen Test anwenden! Eventuell enthält dieser Test bereits Teilnehmerdatensätze, die verhindern, dass bestimmte Standardeinstellungen übernommen werden können.
 assessment#:#tst_defaults_apply_select_one#:#Bitte wählen Sie exakt eine Standardeinstellung aus, um sie auf diesen Test anzuwenden!
 assessment#:#tst_defaults_available#:#Verfügbare Standardeinstellungen
 assessment#:#tst_defaults_defaults_of_test#:#der Einstellungen dieses Tests als neue Standardeinstellung mit dem Namen

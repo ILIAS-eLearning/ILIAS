@@ -7188,7 +7188,7 @@ function getAnswerFeedbackPoints()
 				}
 				if ($num > $maxcount) $num = $maxcount;
 			}
-				else
+			else
 			{
 				$qpls =& $this->getRandomQuestionpools();
 				foreach ($qpls as $data)
@@ -7198,10 +7198,11 @@ function getAnswerFeedbackPoints()
 				}
 			}
 		}
-			else
+		else
 		{
 			$num = count($this->questions);
 		}
+		
 		return $num;
 	}
 
@@ -9656,75 +9657,70 @@ function getAnswerFeedbackPoints()
 	/**
 	* Applies given test defaults to this test
 	*
-	* @param integer $test_defaults_id The database id of the test defaults
+	* @param array $test_default The test defaults database id of the
 	* @return boolean TRUE if the application succeeds, FALSE otherwise
 	* @access public
 	*/
-	function applyDefaults($test_defaults_id)
+	function applyDefaults($test_defaults)
 	{
-		$total = $this->evalTotalPersons();
-		$result = FALSE;
-		if (($this->getQuestionCount() == 0) && ($total == 0))
-		{
-			// only apply if there are no questions added and not user datasets exist
-			$defaults =& $this->getTestDefaults($test_defaults_id);
-			$testsettings = unserialize($defaults["defaults"]);
-			include_once "./Modules/Test/classes/class.assMarkSchema.php";
-			$this->mark_schema = unserialize($defaults["marks"]);
-			$this->setTitleOutput($testsettings["TitleOutput"]);
-			$this->setPassScoring($testsettings["PassScoring"]);
-			$this->setIntroduction($testsettings["Introduction"]);
-			$this->setFinalStatement($testsettings["FinalStatement"]);
-			$this->setShowInfo($testsettings["ShowInfo"]);
-			$this->setForceJS($testsettings["ForceJS"]);
-			$this->setCustomStyle($testsettings["CustomStyle"]);
-			$this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
-			$this->setSequenceSettings($testsettings["SequenceSettings"]);
-			$this->setScoreReporting($testsettings["ScoreReporting"]);
-			$this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
-			$this->setAnswerFeedback($testsettings["AnswerFeedback"]);
-			$this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
-			$this->setResultsPresentation($testsettings["ResultsPresentation"]);
-			$this->setAnonymity($testsettings["Anonymity"]);
-			$this->setShowCancel($testsettings["ShowCancel"]);
-			$this->setShuffleQuestions($testsettings["Shuffle"]);
-			$this->setShowMarker($testsettings["ShowMarker"]);
-			$this->setReportingDate($testsettings["ReportingDate"]);
-			$this->setNrOfTries($testsettings["NrOfTries"]);
-			$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
-			$this->setProcessingTime($testsettings["ProcessingTime"]);
-			$this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
-			$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
-			$this->setStartingTime($testsettings["StartingTime"]);
-			$this->setKiosk($testsettings["Kiosk"]);
-			$this->setEndingTime($testsettings["EndingTime"]);
-			$this->setECTSOutput($testsettings["ECTSOutput"]);
-			$this->setECTSFX($testsettings["ECTSFX"]);
-			$this->setECTSGrades($testsettings["ECTSGrades"]);
-			$this->setRandomTest($testsettings["isRandomTest"]);
-			$this->setRandomQuestionCount($testsettings["RandomQuestionCount"]);
-			$this->setCountSystem($testsettings["CountSystem"]);
-			$this->setMCScoring($testsettings["MCScoring"]);
-			$this->setMailNotification($testsettings["mailnotification"]);
-			$this->setMailNotificationType($testsettings["mailnottype"]);
-			$this->setExportSettings($testsettings['exportsettings']);
-			$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
-			$this->setObligationsEnabled($testsettings["obligations_enabled"]);
-			$this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
-			$this->setHighscoreEnabled($testsettings['highscore_enabled']);
-			$this->setHighscoreAnon($testsettings['highscore_anon']);
-			$this->setHighscoreAchievedTS($testsettings['highscore_achieved_ts']);
-			$this->setHighscoreScore($testsettings['highscore_score']);
-			$this->setHighscorePercentage($testsettings['highscore_percentage']);
-			$this->setHighscoreHints($testsettings['highscore_hints']);
-			$this->setHighscoreWTime($testsettings['highscore_wtime']);
-			$this->setHighscoreOwnTable($testsettings['highscore_own_table']);
-			$this->setHighscoreTopTable($testsettings['highscore_top_table']);
-			$this->setHighscoreTopNum($testsettings['highscore_top_num']);
-			$this->saveToDb();
-			$result = TRUE;
-		}
-		return $result;
+		$testsettings = unserialize($test_defaults["defaults"]);
+		include_once "./Modules/Test/classes/class.assMarkSchema.php";
+		$this->mark_schema = unserialize($test_defaults["marks"]);
+
+		$this->setTitleOutput($testsettings["TitleOutput"]);
+		$this->setPassScoring($testsettings["PassScoring"]);
+		$this->setIntroduction($testsettings["Introduction"]);
+		$this->setFinalStatement($testsettings["FinalStatement"]);
+		$this->setShowInfo($testsettings["ShowInfo"]);
+		$this->setForceJS($testsettings["ForceJS"]);
+		$this->setCustomStyle($testsettings["CustomStyle"]);
+		$this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
+		$this->setSequenceSettings($testsettings["SequenceSettings"]);
+		$this->setScoreReporting($testsettings["ScoreReporting"]);
+		$this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
+		$this->setAnswerFeedback($testsettings["AnswerFeedback"]);
+		$this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
+		$this->setResultsPresentation($testsettings["ResultsPresentation"]);
+		$this->setAnonymity($testsettings["Anonymity"]);
+		$this->setShowCancel($testsettings["ShowCancel"]);
+		$this->setShuffleQuestions($testsettings["Shuffle"]);
+		$this->setShowMarker($testsettings["ShowMarker"]);
+		$this->setReportingDate($testsettings["ReportingDate"]);
+		$this->setNrOfTries($testsettings["NrOfTries"]);
+		$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
+		$this->setProcessingTime($testsettings["ProcessingTime"]);
+		$this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
+		$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
+		$this->setStartingTime($testsettings["StartingTime"]);
+		$this->setKiosk($testsettings["Kiosk"]);
+		$this->setEndingTime($testsettings["EndingTime"]);
+		$this->setECTSOutput($testsettings["ECTSOutput"]);
+		$this->setECTSFX($testsettings["ECTSFX"]);
+		$this->setECTSGrades($testsettings["ECTSGrades"]);
+		$this->setRandomTest($testsettings["isRandomTest"]);
+		$this->setRandomQuestionCount($testsettings["RandomQuestionCount"]);
+		$this->setCountSystem($testsettings["CountSystem"]);
+		$this->setMCScoring($testsettings["MCScoring"]);
+		$this->setMailNotification($testsettings["mailnotification"]);
+		$this->setMailNotificationType($testsettings["mailnottype"]);
+		$this->setExportSettings($testsettings['exportsettings']);
+		$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
+		$this->setObligationsEnabled($testsettings["obligations_enabled"]);
+		$this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
+		$this->setHighscoreEnabled($testsettings['highscore_enabled']);
+		$this->setHighscoreAnon($testsettings['highscore_anon']);
+		$this->setHighscoreAchievedTS($testsettings['highscore_achieved_ts']);
+		$this->setHighscoreScore($testsettings['highscore_score']);
+		$this->setHighscorePercentage($testsettings['highscore_percentage']);
+		$this->setHighscoreHints($testsettings['highscore_hints']);
+		$this->setHighscoreWTime($testsettings['highscore_wtime']);
+		$this->setHighscoreOwnTable($testsettings['highscore_own_table']);
+		$this->setHighscoreTopTable($testsettings['highscore_top_table']);
+		$this->setHighscoreTopNum($testsettings['highscore_top_num']);
+
+		$this->saveToDb();
+
+		return true;
 	}
 
 	/**
@@ -11303,5 +11299,29 @@ function getAnswerFeedbackPoints()
 	public function getAutosaveIval()
 	{
 		return $this->autosave_ival;
+	}
+	
+	/**
+	 * returns the fact wether questionpools for random question selection are configured
+	 *
+	 * @return boolean $areRandomTestQuestionpoolsConfigured
+	 */
+	public function areRandomTestQuestionpoolsConfigured()
+	{
+		return (
+			$this->isRandomTest() && count($this->getRandomQuestionpools()) > 0
+		);
+	}
+
+	/**
+	 * returns the fact wether questions are selected for non random test
+	 *
+	 * @return boolean $doesNonRandomTestQuestionsExist
+	 */
+	public function doesNonRandomTestQuestionsExist()
+	{
+		return (
+			!$this->isRandomTest() && count($this->questions) > 0
+		);
 	}
 }
