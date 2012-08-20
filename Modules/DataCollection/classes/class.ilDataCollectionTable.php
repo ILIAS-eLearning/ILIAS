@@ -133,6 +133,18 @@ class ilDataCollectionTable
         return $this->records;
     }
 
+	/**
+	 * @param $filter filter is of the form array("filter_{field_id}" => filter); For dates and integers this filter must be of the form array("from" => from, "to" => to). In case of dates from and to have to be ilDateTime objects in case of integers they have to be integers as well.
+	 */
+	function getRecordsByFilter($filter){
+		$this->loadRecords();
+		$filtered = array();
+		foreach($this->records as $record)
+			if($record->passThroughFilter($filter?$filter:array()))
+				array_push($filtered, $record);
+		return $filtered;
+	}
+
 	function getRecordsWithFilter(array $filter){
 
 	}
@@ -304,7 +316,6 @@ class ilDataCollectionTable
         return $visibleFields;
     }
 
-
 	function getEditableFields(){
 		$fields = $this->getFields();
 		$editableFields = array();
@@ -357,7 +368,7 @@ class ilDataCollectionTable
 		if($ilAccess->checkAccess("write", "", $ref))
 			$perm = true;
 
-		return true;
+		return $perm;
 	}
 
 	function hasPermissionToAddTable($ref_id) {
@@ -402,7 +413,7 @@ class ilDataCollectionTable
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getObjId(), "integer")
 		.",".$ilDB->quote($this->getTitle(), "text")
-		.",".$ilDB->quote($this->isBlocked(), "integer")
+		.",".$ilDB->quote($this->isBlocked()?1:0, "integer")
 		.")";
 		$ilDB->manipulate($query);
 

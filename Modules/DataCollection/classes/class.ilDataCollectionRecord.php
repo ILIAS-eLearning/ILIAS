@@ -222,7 +222,7 @@ class ilDataCollectionRecord
     // TODO: Bad style, fix with switch statement
     private function setStandardField($field_id, $value){
 		switch($field_id){
-			case $field_id = "last_edit_by":
+			case "last_edit_by":
 				$this->setLastEditBy($value);
 				return;
 		}
@@ -232,7 +232,7 @@ class ilDataCollectionRecord
     // TODO: Bad style, fix with switch statement
     private function getStandardField($field_id){
 		switch($field_id){
-			case $field_id = "last_edit_by":
+			case "last_edit_by":
 				return $this->getLastEditBy();
 		}
         return $this->$field_id;
@@ -358,6 +358,20 @@ class ilDataCollectionRecord
 	public function deleteFile($obj_id){
 		$file = new ilObjDataCollectionFile($obj_id, false);
 		$file->delete();
+	}
+
+	public function passThroughFilter(array $filter){
+		$pass = true;
+		$this->loadTable();
+		foreach($this->table->getRecordFields() as $field){
+			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
+				$pass = false;
+		}
+		foreach(ilDataCollectionStandardField::_getStandardFields($this->getTable()->getId()) as $field){
+			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
+				$pass = false;
+		}
+		return $pass;
 	}
     
     /*

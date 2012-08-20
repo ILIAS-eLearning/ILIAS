@@ -229,6 +229,92 @@ class ilDataCollectionDatatype
         return $input;
     }
 
+	static function addFilterInputFieldToTable(ilDataCollectionField $field, ilTable2GUI &$table){
+		global $lng;
+		$type_id = $field->getDatatypeId();
+		$input = null;
+		switch($type_id)
+		{
+			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_NUMBER_RANGE, false, $field->getId());
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
+				$input->setOptions(array("" => $lng->txt("dcl_any"), 0 => $lng->txt("dcl_not_checked"), 1 => $lng->txt("dcl_checked")));
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_DATE_RANGE, false, $field->getId());
+				$input->setStartYear(date("Y")-100);
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
+				$options = array("" => $lng->txt("dcl_any"));
+				$ref_field_id = $field->getFieldRef();
+				$ref_field = new ilDataCollectionField($ref_field_id);
+				$ref_table = new ilDataCollectionTable($ref_field->getTableId());
+				foreach($ref_table->getRecords() as $record)
+				{
+					$options[$record->getId()] = $record->getRecordFieldValue($ref_field_id);
+				}
+				$input->setOptions($options);
+				break;
+		}
+		if($input != null)
+			$input->setTitle($field->getTitle());
+		return $input;
+	}
+
+	static function passThroughFilter(ilDataCollectionRecord $record,ilDataCollectionField $field, $filter){
+		$pass = false;
+		$type_id = $field->getDatatypeId();
+		$value = $record->getRecordFieldValue($field->getId());
+		switch($type_id)
+		{
+			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+				if(!$filter || strpos($value, $filter) !== false)
+					$pass = true;
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
+				echo $field->getTitle()." from : ".$filter['from']." to ".$filter['to']." actual: ".$value."<br>";
+				if((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to']))
+					$pass = true;
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
+				if($filter == $value || $filter == '' || !$filter)
+					$pass = true;
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
+				if((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to']))
+					$pass = true;
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
+				$file_obj = new ilObjFile($value, false);
+				$file_name = $file_obj->getTitle();
+				if(!$filter || strpos($file_name, $filter) !== false)
+					$pass = true;
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+				if(!$filter || $filter == $value)
+					$pass = true;
+				break;
+		}
+
+		if(($field->getId() == "owner" || $field->getId() == "last_edit_by") && $filter){
+			$pass = false;
+			$user = new ilObjUser($value);
+			if(strpos($user->getFullname(), $filter) !== false)
+				$pass = true;
+		}
+
+		return $pass;
+	}
+
 
     /**
      * Function to parse incoming data from form input value $value. returns the strin/number/etc. to store in the database.
