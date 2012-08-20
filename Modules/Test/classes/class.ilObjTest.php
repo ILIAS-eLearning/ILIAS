@@ -9563,6 +9563,11 @@ function getAnswerFeedbackPoints()
 	*/
 	function &getTestDefaults($test_defaults_id)
 	{
+		return self::_getTestDefaults($test_defaults_id);
+	}
+	
+	public static function _getTestDefaults($test_defaults_id)
+	{
 		global $ilDB;
 		
 		$result = $ilDB->queryF("SELECT * FROM tst_test_defaults WHERE test_defaults_id = %s",
