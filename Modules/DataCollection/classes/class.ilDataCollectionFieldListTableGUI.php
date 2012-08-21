@@ -33,6 +33,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         $this->addColumn($lng->txt("dcl_title"),  "title",  "auto");
         $this->addColumn($lng->txt("dcl_visible"),  "visible",  "30px");
 		$this->addColumn($lng->txt("dcl_filter"),  "filterable",  "30px");
+		$this->addColumn($lng->txt("dcl_locked"),  "locked",  "30px");
 		// ALWAYS EDITABLE FOR FIRST RELEASE
         //$this->addColumn($lng->txt("dcl_editable"),  "editable",  "30px");
         $this->addColumn($lng->txt("dcl_description"),  "description",  "auto");
