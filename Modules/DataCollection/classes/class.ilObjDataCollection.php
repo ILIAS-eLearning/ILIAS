@@ -13,12 +13,7 @@ require_once "Services/Object/classes/class.ilObject2.php";
 * @extends ilObject2
 */
 class ilObjDataCollection extends ilObject2
-{	
-	
-	
-	const IL_DCL_EDIT_TYPE_NON = 0;
-	const IL_DCL_EDIT_TYPE_UNLIM = 1;
-	const IL_DCL_EDIT_TYPE_LIM = 2;
+{
 
 	var $edit_by_owner;
 	/*
@@ -40,16 +35,11 @@ class ilObjDataCollection extends ilObject2
 
 		$data = $ilDB->fetchObject($result);
 		$this->setMainTableId($data->main_table_id);
-		$this->setEditType($data->edit_type);
-		$this->setEditStart($data->edit_start);
-		$this->setEditEnd($data->edit_end);
 		$this->setOnline($data->is_online);
 		$this->setRating($data->rating);
 		$this->setApproval($data->approval);
 		$this->setPublicNotes($data->public_notes);
 		$this->setNotification($data->notification);
-		$this->setEditByOwner($data->edit_by_owner);
-		
 	}
 	
 
@@ -73,14 +63,10 @@ class ilObjDataCollection extends ilObject2
 			"id" => array("integer", $this->getId()),
 			"main_table_id" => array("integer", (int) $main_table->getId()),
 			"is_online" => array("integer", (int) $this->getOnline()),
-			"edit_type" => array("integer", (int) $this->getEditType()),
-			"edit_start" => array("integer", (int) $this->getEditStart()),
-			"edit_end" => array("integer", (int) $this->getEditEnd()),
 			"rating" => array("integer", (int) $this->getRating()),
 			"public_notes" => array("integer", (int) $this->getPublicNotes()),
 			"approval" => array("integer", (int) $this->getApproval()),
 			"notification" => array("integer", (int) $this->getNotification()),
-			"edit_by_owner" => array("integer", (int) $this->getEditByOwner())
 			));
 	}
 	
@@ -98,14 +84,10 @@ class ilObjDataCollection extends ilObject2
 			"id" => array("integer", $this->getId()),
 			"main_table_id" => array("integer", (int) $this->getMainTableId()),
 			"is_online" => array("integer", (int) $this->getOnline()),
-			"edit_type" => array("integer", (int) $this->getEditType()),
-			"edit_start" => array("date", $this->getEditStart()),
-			"edit_end" => array("date", $this->getEditEnd()),
 			"rating" => array("integer", (int) $this->getRating()),
 			"public_notes" => array("integer", (int) $this->getPublicNotes()),
 			"approval" => array("integer", (int) $this->getApproval()),
 			"notification" => array("integer", (int) $this->getNotification()),
-			"edit_by_owner" => array("integer", (int) $this->getEditByOwner())
 			),
 		array(
 			"id" => array("integer", $this->getId())
@@ -185,56 +167,7 @@ class ilObjDataCollection extends ilObject2
 	{
 		return $this->main_table_id;
 	}
-	
-	
-	/**
-	 * setEditType
-	 */
-	public function setEditType($a_val)
-	{
-		$this->edit_type = $a_val;
-	}
-	
-	/**
-	 * getEditType
-	 */
-	public function getEditType()
-	{
-		return $this->edit_type;
-	}
-	
-	/**
-	 * setEditStart
-	 */
-	public function setEditStart($a_val)
-	{
-		$this->edit_start = $a_val;
-	}
-	
-	/**
-	 * getEditStart
-	 */
-	public function getEditStart()
-	{
-		return $this->edit_start;
-	}
-	
-	/**
-	 * setEditEnd
-	 */
-	public function setEditEnd($a_val)
-	{
-		$this->edit_end = $a_val;
-	}
-	
-	/**
-	 * getEditEnd
-	 */
-	public function getEditEnd()
-	{
-		return $this->edit_end;
-	}
-	
+
 	/**
 	 * setOnline
 	 */
@@ -316,26 +249,6 @@ class ilObjDataCollection extends ilObject2
 	}
 
 	/**
-	 * Checks whether users with read access are allowed to edit records. (Depending on the information set in the settings tab)
-	 * @return bool
-	 */
-	public function isRecordsEditable(){
-		$perm = false;
-		$now = new ilDateTime(time(), IL_CAL_UNIX);
-		switch($this->getEditType())
-		{
-			case self::IL_DCL_EDIT_TYPE_UNLIM;
-				$perm = true;
-				break;
-			case self::IL_DCL_EDIT_TYPE_LIM;
-				if($this->getEditStart() < $now && $now <= $this->getEditEnd())
-					$perm = true;
-				break;
-		}
-		return $perm;
-	}
-
-	/**
 	 * @param $edit_by_owner int 1 for true 0 for false.
 	 */
 	public function setEditByOwner($edit_by_owner){
@@ -359,6 +272,23 @@ class ilObjDataCollection extends ilObject2
 		return $perm;
 	}
 
+	/**
+	 * @param $ref int the reference id of the datacollection object to check.
+	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
+	 */
+	public static function _hasWriteAccess($ref){
+		global $ilAccess;
+		return $ilAccess->checkAccess("edit_settings", "", $ref);
+	}
+
+	/**
+	 * @param $ref int the reference id of the datacollection object to check.
+	 * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
+	 */
+	public static function _hasReadAccess($ref){
+		global $ilAccess;
+		return $ilAccess->checkAccess("add_entry", "", $ref);
+	}
 
 	public function getTables(){
 		global $ilDB;

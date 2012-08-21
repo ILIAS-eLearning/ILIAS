@@ -418,34 +418,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$a_form->addItem($cb);
 
 		// edit_type
-		$edit_type = new ilRadioGroupInputGUI($this->lng->txt('dcl_edit_type'),'edit_type');
-
-		$opt = new ilRadioOption($this->lng->txt('dcl_edit_type_non'), 0);
-		$opt->setInfo($this->lng->txt('dcl_edit_type_non_info'));
-		$edit_type->addOption($opt);
-
-		$opt = new ilRadioOption($this->lng->txt('dcl_edit_type_unlim'), 1);
-		$opt->setInfo($this->lng->txt('dcl_edit_type_unlim_info'));
-		$edit_type->addOption($opt);
-
-		$opt = new ilRadioOption($this->lng->txt('dcl_edit_type_lim'), 2);
-		$opt->setInfo($this->lng->txt('dcl_edit_type_lim_info'));
-
-		$start = new ilDateTimeInputGUI($this->lng->txt('dcl_edit_start'), 'edit_start');
-		$start->setShowTime(true);
-		$opt->addSubItem($start);
-
-		$end = new ilDateTimeInputGUI($this->lng->txt('dcl_edit_end'), 'edit_end');
-		$end->setShowTime(true);
-		$opt->addSubItem($end);
-
-		$edit_type->addOption($opt);
-
-		$a_form->addItem($edit_type);
-
-		// Owner Editable
-		$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_owner_editable"), "owner_editable");
-		$a_form->addItem($cb);
 
 		// Rating
 		//$cb = new ilCheckboxInputGUI($this->lng->txt("dcl_activate_rating"), "rating");
@@ -480,25 +452,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 */
 	public function getEditFormCustomValues(array &$a_values)
 	{
-		global $ilUser;
-
-		$start = new ilDateTime($this->object->getEditStart(), IL_CAL_DATETIME);
-
-		$a_values['edit_start']['date'] = $start->get(IL_CAL_FKT_DATE, 'Y-m-d', $ilUser->getTimeZone());
-		$a_values['edit_start']['time'] = $start->get(IL_CAL_FKT_DATE, 'H:i:s', $ilUser->getTimeZone());
-
-		$end = new ilDateTime($this->object->getEditEnd(), IL_CAL_DATETIME);
-		$a_values['edit_end']['date'] = $end->get(IL_CAL_FKT_DATE, 'Y-m-d');
-		$a_values['edit_end']['time'] = $end->get(IL_CAL_FKT_DATE, 'H:i:s', $ilUser->getTimeZone());
-
-		$a_values['edit_type'] = $this->object->getEditType();
-
 		$a_values["is_online"] = $this->object->getOnline();
 		$a_values["rating"] = $this->object->getRating();
 		$a_values["public_notes"] = $this->object->getPublicNotes();
 		$a_values["approval"] = $this->object->getApproval();
 		$a_values["notification"] = $this->object->getNotification();
-		$a_values["owner_editable"] = $this->object->getEditByOwner();
 
 		return $a_values;
 	}
@@ -510,19 +468,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	{
 		global $ilUser;
 
-		$start = $a_form->getInput('edit_start');
-		$start = new ilDateTime($start['date'].' '.$start['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
-		$end = $a_form->getInput('edit_end');
-		$end = new ilDateTime($end['date'].' '.$end['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
 		$this->object->setOnline($a_form->getInput("is_online"));
-		$this->object->setEditType($a_form->getInput("edit_type"));
-		$this->object->setEditStart($start->get(IL_CAL_DATETIME));
-		$this->object->setEditEnd($end->get(IL_CAL_DATETIME));
 		$this->object->setRating($a_form->getInput("rating"));
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotification($a_form->getInput("notification"));
-		$this->object->setEditByOwner($a_form->getInput("owner_editable"));
 	}
 }
 

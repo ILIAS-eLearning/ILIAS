@@ -12657,3 +12657,104 @@ if($ops_id && $blog_type_id)
 }
 
 ?>
+<#3726>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table', 'add_perm'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'add_perm',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 1
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('il_dcl_table', 'edit_perm'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'edit_perm',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 1
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('il_dcl_table', 'delete_perm'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'delete_perm',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 1
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('il_dcl_table', 'edit_by_owner'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'edit_by_owner',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 1
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('il_dcl_table', 'limited'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'limited',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 0
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('il_dcl_table', 'limit_start'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'limit_start',
+		array(
+			'type'    => 'timestamp',
+			'notnull' => false
+		)
+	);
+}
+if(!$ilDB->tableColumnExists('il_dcl_table', 'limit_end'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_table',
+		'limit_end',
+		array(
+			'type'    => 'timestamp',
+			'notnull' => false
+		)
+	);
+}
+?>
+<#3727>
+<?php
+if($ilDB->tableColumnExists('il_dcl_data', 'edit_type'))
+	$ilDB->dropTableColumn('il_dcl_data', 'edit_type');
+if($ilDB->tableColumnExists('il_dcl_data', 'edit_start'))
+	$ilDB->dropTableColumn('il_dcl_data', 'edit_start');
+if($ilDB->tableColumnExists('il_dcl_data', 'edit_end'))
+	$ilDB->dropTableColumn('il_dcl_data', 'edit_end');
+if($ilDB->tableColumnExists('il_dcl_data', 'edit_by_owner'))
+	$ilDB->dropTableColumn('il_dcl_data', 'edit_by_owner');
+?>

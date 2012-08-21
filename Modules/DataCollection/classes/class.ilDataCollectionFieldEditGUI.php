@@ -62,7 +62,7 @@ class ilDataCollectionFieldEditGUI
 		
 		$cmd = $ilCtrl->getCmd();
 
-		if(!$this->table->hasPermissionToFields($ilUser->getId())){
+		if(!$this->table->hasPermissionToFields($this->parent_obj->ref_id)){
 			$this->permissionDenied();
 			return;
 		}

@@ -12548,6 +12548,19 @@ dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_length#:#Length
 dcl#:#dcl_regex#:#Regular Expression
+dcl#:#dcl_table_unlocked#:#The table is no longer locked.
+dcl#:#dcl_table_locked#:#The table is now locked.
+dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_max_text_length#:#Maximum Length
+dcl#:#dcl_wrong_length#:#The text you entered is to long.
+dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
+dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
+dcl#:#dcl_unique#:#Unique.
+dcl#:#dcl_unique_exception#:#The value you entered is already taken by another record.
+dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
+dcl#:#dcl_checked#:#Checked.
+dcl#:#dcl_not_checked#:#Not checked.
+dcl#:#dcl_any#:#Any.
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team

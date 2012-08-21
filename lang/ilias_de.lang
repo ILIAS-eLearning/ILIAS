@@ -12566,6 +12566,54 @@ rbac#:#root_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#fold_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#grp_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#cat_create_dcl#:#Neue Datensammlung anlegen
+dcl#:#dcl_edit_type#:#Edit Type
+dcl#:#dcl_activate_rating#:#Bewertung von Einträgen
+dcl#:#dcl_activate_approval#:#Aktivierung von Einträgen
+dcl#:#dcl_activate_notification#:#Benachrichtigung
+dcl#:#dcl_table_id#:#Tabellen ID
+dcl#:#dcl_add_new_record#:#Neuer Eintrag
+dcl#:#dcl_list_fields#:#Felder
+dcl#:#dcl_record_view_viewdefinition#:#Anzeige eines Eintrags
+dcl#:#dcl_add_new_field#:#Neues Feld
+dcl#:#dcl_add_new_table#:#Neue Tabelle
+dcl#:#dcl_field_datatype#:#Feld Datentyp
+dcl#:#dcl_required#:#Benötigtes Feld
+dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
+dcl#:#dcl_edit_type_non_info#:#Um neue Einträge zu erstellen benötigt man das Bearbeitungs-Recht
+dcl#:#dcl_edit_type_unlim#:#Unlimitiert
+dcl#:#dcl_edit_type_unlim_info#:#Benutzer mit add/edit-Rechten können Einträge hinzufügen und bearbeiten.
+dcl#:#dcl_edit_type_lim#:#Limitiert
+dcl#:#dcl_edit_type_lim_info#:#Benutzer mit add/edit-Rechten können Einträge während dem angegebenen Zeitraum hinzufügen und bearbeiten.
+dcl#:#dcl_edit_start#:#Start-Datum
+dcl#:#dcl_edit_end#:#End-Datum
+dcl#:#dcl_export#:#Export
+dcl#:#dcl_table_list_fields#:#Zeige Felder der momentanen Tabelle
+dcl#:#dcl_view_viewdefinition#:#Anzeigedefinition
+dcl#:#dcl_new_table#:#Neue Tabelle
+dcl#:#dcl_table_create#:#Erstelle Tabelle
+dcl#:#dcl_table_edit#:#Bearbeite Tabelle
+dcl#:#dcl_new_field#:#Neues Feld
+dcl#:#dcl_datatype#:#Datentyp
+dcl#:#dcl_integer#:#Ganzzahl
+dcl#:#dcl_text#:#Text
+dcl#:#dcl_reference#:#Refferenz
+dcl#:#dcl_boolean#:#Boolean
+dcl#:#dcl_datetime#:#Datum
+dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_field_description#:#Beschreibung
+dcl#:#dcl_field_required#:#Benötigt
+dcl#:#dcl_length#:#Länge
+dcl#:#dcl_regex#:#Regular Expression
+dcl#:#dcl_table_unlocked#:#Die Tabelle ist nicht mehr gesperrt.
+dcl#:#dcl_table_locked#:#Die Tabelle ist gesperrt.
+dcl#:#dcl_filter#:#Filter
+dcl#:#dcl_max_text_length#:#Maximale Länge
+dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
+dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur spezifikation dieses Feldes (Regular Expression).
+dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Wrong Type).
+dcl#:#dcl_unique#:#Einzigartig.
+dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
+dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
 payment#:#duration_month#:#Zugriffsdauer in Monaten
