@@ -242,7 +242,11 @@ class ilDataCollectionRecord
 	private function getStandardFieldHTML($field_id){
 		switch($field_id){
 			case 'owner':
+				global $ilCtrl;
 				$owner = new ilObjUser($this->getOwner());
+				//$ilCtrl->setParameterByClass("ilObjUserGUI", "obj_id", $owner->getId());
+				//$link = $ilCtrl->getLinkTargetByClass("ilObjUserGUI", "view");
+				//return "<a class='dcl_usr_link' href='".$link."'>".$owner->getFullname()."</a>";
 				return $owner->getFullname();
 			case 'last_edit_by':
 				$last_edit_by = new ilObjUser($this->getLastEditBy());

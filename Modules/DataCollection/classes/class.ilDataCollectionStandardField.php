@@ -88,4 +88,8 @@ class ilDataCollectionStandardField extends ilDataCollectionField
         $this->updateVisibility();
 		$this->updateFilterability();
     }
+
+	function getLocked(){
+		return true;
+	}
 }

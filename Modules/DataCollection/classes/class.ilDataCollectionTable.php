@@ -354,12 +354,12 @@ class ilDataCollectionTable
     }
 
 	function getEditableFields(){
-		$fields = $this->getFields();
+		$fields = $this->getRecordFields();
 		$editableFields = array();
 
 		foreach($fields as $field)
 		{
-			if($field->isEditable())
+			if(!$field->getLocked())
 			{
 				array_push($editableFields, $field);
 			}

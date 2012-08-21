@@ -29,6 +29,11 @@ class ilDataCollectionField
 	protected $editable;
 	protected $filterable;
 
+	/**
+	 * @var bool
+	 */
+	protected $locked;
+
     /**
      * @var ilDataCollectionDatatype This fields Datatype.
      */
@@ -414,6 +419,7 @@ class ilDataCollectionField
 		$this->setDatatypeId($rec["datatype_id"]);
 		$this->setRequired($rec["required"]);
 		$this->setUnique($rec["is_unique"]);
+		$this->setLocked($rec["is_locked"]);
 
 		//Set the additional properties 
 		$this->setProperties();
@@ -432,6 +438,7 @@ class ilDataCollectionField
         $this->setDatatypeId($rec["datatype_id"]);
         $this->setRequired($rec["required"]);
         $this->setUnique($rec["is_unique"]);
+        $this->setLocked($rec["is_locked"]);
         $this->setProperties();
     }
 
@@ -441,6 +448,7 @@ class ilDataCollectionField
 	function DoCreate()
 	{
 		global $ilDB;
+		$this->getLocked() == NULL?$this->setLocked(false):true;
 
 		$id = $ilDB->nextId("il_dcl_field");
 		$this->setId($id);
@@ -452,6 +460,7 @@ class ilDataCollectionField
 		", description".
 		", required".
 		", is_unique".
+		", is_locked".
 		" ) VALUES (".
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getTableId(), "integer")
@@ -460,6 +469,7 @@ class ilDataCollectionField
 		.",".$ilDB->quote($this->getDescription(), "text")
 		.",".$ilDB->quote($this->getRequired(), "integer")
 		.",".$ilDB->quote($this->isUnique(), "integer")
+		.",".$ilDB->quote($this->getLocked()?1:0, "integer")
 		.")";
 		$ilDB->manipulate($query);
 
@@ -481,7 +491,8 @@ class ilDataCollectionField
 								"title" => array("text", $this->getTitle()),
 								"description" => array("text", $this->getDescription()),
 								"required" => array("integer",$this->getRequired()),
-								"is_unique" => array("integer",$this->isUnique())
+								"is_unique" => array("integer",$this->isUnique()),
+								"is_locked" => array("integer",$this->getLocked()?1:0)
 								), array(
 								"id" => array("integer", $this->getId())
 								));
@@ -628,6 +639,22 @@ class ilDataCollectionField
 		{
 			$data[] = $rec;
 		}
+	}
+
+	/**
+	 * @param boolean $locked
+	 */
+	public function setLocked($locked)
+	{
+		$this->locked = $locked;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getLocked()
+	{
+		return $this->locked;
 	}
 
 
