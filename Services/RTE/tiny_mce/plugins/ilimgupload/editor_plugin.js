@@ -57,13 +57,55 @@
 
 			// Register example button
 			ed.addButton('ilimgupload', {
-				title : 'ilimgupload.upload_image',
+				title : 'ilimgupload.title',
 				cmd : 'ilimgupload',
 				image : url + '/images/img_upload.png'
 			});
 
 			ed.onNodeChange.add(function(ed, cm, n, co) {
 				cm.setActive('ilimgupload', n.nodeName == 'IMG' && !n.name);
+			});
+
+			ed.plugins.contextmenu.onContextMenu.add(function(th, menu, event) {
+				var otherItems = {};
+				var lastItem = null;
+				for (var itemName in menu.items) {
+					var item = menu.items[itemName];
+					if (/^mce_/.test(itemName)) {
+						if (item.settings) {
+							if (item.settings.cmd == "mceImage" || item.settings.cmd == "mceAdvImage") {
+								// skip these items
+								lastItem = item;
+								continue;
+							}  else if (lastItem && item.settings.separator && (lastItem.settings.cmd == "mceImage" || lastItem.settings.cmd == "mceAdvImage")) {
+								lastItem = null;
+								continue;
+							}
+						}
+					}
+					// add all other items to this new object, so it is effectively a clone
+					// of menu.items but without the offending entries
+					otherItems[itemName] = item;
+				}
+				// replace menu.items with our new object
+
+				menu.removeAll();
+				menu.items = otherItems;
+
+
+				if (event && event.nodeName && event.nodeName == 'IMG') {
+					menu.add({
+						title : 'ilimgupload.edit_image',
+						icon :  'image',
+						cmd : 'ilimgupload'
+					});
+				} else {
+					menu.add({
+						title : 'ilimgupload.title',
+						icon :  'image',
+						cmd : 'ilimgupload'
+					});
+				}
 			});
 		},
 
