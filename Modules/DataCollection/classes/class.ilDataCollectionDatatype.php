@@ -390,7 +390,7 @@ class ilDataCollectionDatatype
 				}
 				$html = "<img src='".$im."'>";
 				break;
-			case IlDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				if(!$value || $value == "-"){
 					$html = "";
 					break;
@@ -406,6 +406,17 @@ class ilDataCollectionDatatype
 				else
 					$html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
 				break;
+            case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
+                //Property URL
+                $arr_properties = $record_field->getField()->getProperties();
+                if($arr_properties[ilDataCollectionField::PROPERTYID_URL]->value) {
+                    $html = "<a target='_blank' href='".$value."'>".$value."</a>";
+                }
+                else
+                {
+                    $html = $value;
+                }
+                break;
 			default:
                 $html = $value;
         }

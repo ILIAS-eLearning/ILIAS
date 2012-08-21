@@ -627,19 +627,22 @@ class ilDataCollectionField
 	*
 	* @return array
 	*/
-	function getProperties($id)
+	function getProperties()
 	{  
 		global $ilDB;
 		
-		$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp 
+		$query = "SELECT datatype_prop_id, title, value FROM il_dcl_field_prop fp
 		LEFT JOIN il_dcl_datatype_prop p ON p.id = fp.datatype_prop_id
-		WHERE fp.field_id = ".$ilDB->quote($id, "integer");
+		WHERE fp.field_id = ".$ilDB->quote($this->getId(), "integer");
+
 		$set = $ilDB->query($query);
 		
 		while($rec = $ilDB->fetchObject($set))
 		{
-			$data[] = $rec;
+			$data[$rec->datatype_prop_id] = $rec;
 		}
+
+        return $data;
 	}
 
 	/**
