@@ -12774,3 +12774,26 @@ if(!$ilDB->tableColumnExists('il_dcl_field', 'is_locked'))
 	);
 }
 ?>
+<#3729>
+<?php
+  $ilDB->manipulateF(
+    'UPDATE il_dcl_datatype_prop SET inputformat = %s WHERE title = %s',
+    array('integer', 'text'),
+    array(2, 'regex')
+  );
+?>
+<#3730>
+<?php
+  $ilDB->manipulateF(
+    'UPDATE il_dcl_datatype_prop SET inputformat = %s WHERE title = %s',
+    array('integer', 'text'),
+    array(1, 'table_id')
+  );
+?>
+<#3731>
+<?php
+  $ins_res = $ilDB->manipulateF('INSERT INTO il_dcl_datatype_prop (id, datatype_id, title, inputformat)
+      VALUES(%s,%s,%s,%s)',
+    array('integer','integer', 'text','integer'),
+    array(4,2, 'url',2));
+?>
