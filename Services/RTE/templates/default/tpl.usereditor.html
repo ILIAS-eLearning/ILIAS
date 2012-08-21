@@ -7,6 +7,7 @@
 		<!-- BEGIN remove_img_context_menu_item -->
 		ed.plugins.contextmenu.onContextMenu.add(function(sender, menu) {
 			// create a new object
+			var otherItems = {};
 			var lastItem = null;
 			for (var itemName in menu.items) {
 				var item = menu.items[itemName];

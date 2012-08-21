@@ -57,13 +57,29 @@
 
 			// Register example button
 			ed.addButton('ilimgupload', {
-				title : 'ilimgupload.upload_image',
+				title : 'ilimgupload.title',
 				cmd : 'ilimgupload',
 				image : url + '/images/img_upload.png'
 			});
 
 			ed.onNodeChange.add(function(ed, cm, n, co) {
 				cm.setActive('ilimgupload', n.nodeName == 'IMG' && !n.name);
+			});
+
+			ed.plugins.contextmenu.onContextMenu.add(function(th, menu, event) {
+				if (event && event.nodeName && event.nodeName == 'IMG') {
+					menu.add({
+						title : 'ilimgupload.edit_image',
+						icon : 'image',
+						cmd : 'ilimgupload'
+					});
+				} else {
+					menu.add({
+						title : 'ilimgupload.title',
+						icon : 'image',
+						cmd : 'ilimgupload'
+					});
+				}
 			});
 		},
 

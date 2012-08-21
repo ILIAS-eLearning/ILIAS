@@ -57,7 +57,7 @@
 
 			// Register example button
 			ed.addButton('ilimgupload', {
-				title : 'ilimgupload.upload_image',
+				title : 'ilimgupload.title',
 				cmd : 'ilimgupload',
 				image : url + '/images/img_upload.png'
 			});
