@@ -325,6 +325,7 @@ class ilDataCollectionRecordEditGUI
 			//edit values, they are valid we already checked them above
 			foreach($all_fields as $field)
 			{
+				$value = $this->form->getInput("field_".$field->getId());
 				$record_obj->setRecordFieldValue($field->getId(), $value);
 
 			}
