@@ -15,6 +15,8 @@ include_once("./Services/Component/exceptions/class.ilPluginException.php");
 */
 abstract class ilPlugin
 {
+	protected $lang_initialised = false;
+	
 	/**
 	* Constructor
 	*/
@@ -472,7 +474,11 @@ abstract class ilPlugin
 	{
 		global $lng;
 		
-		$lng->loadLanguageModule($this->getPrefix());
+		if (!$this->lang_initialised && is_object($lng))
+		{
+			$lng->loadLanguageModule($this->getPrefix());
+			$this->lang_initialised = true;
+		}
 	}
 	
 	/**
@@ -481,6 +487,7 @@ abstract class ilPlugin
 	public final function txt($a_var)
 	{
 		global $lng;
+		$this->loadLanguageModule();
 		return $lng->txt($this->getPrefix()."_".$a_var, $this->getPrefix());
 	}
 	
@@ -620,10 +627,7 @@ abstract class ilPlugin
 		// load language module
 		
 		// Fix for authentication plugins
-		if(is_object($lng))
-		{
-			$lng->loadLanguageModule($this->getPrefix());
-		}
+		$this->loadLanguageModule();
 			
 		// call slot and plugin init methods
 		$this->slotInit();
