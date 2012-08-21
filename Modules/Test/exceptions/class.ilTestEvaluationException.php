@@ -1,6 +1,6 @@
 <?php
 
-require_once('Modules/Test/classes/exceptions/class.ilTestException.php');
+require_once('Modules/Test/exceptions/class.ilTestException.php');
 
 /**
  * Test Evaluation Exception
