@@ -3,6 +3,8 @@
 
 require_once ("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
 require_once ("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+include_once("class.ilDataCollectionDatatype.php");
+
 
 
 /**
@@ -31,19 +33,6 @@ class ilDataCollectionFieldListGUI
 		$this->table_id = $table_id;
 		$this->parent_obj = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
-
-		include_once("class.ilDataCollectionDatatype.php");
-
-		//($table_id)
-		//{
-			//$this->table_id = $table_id;
-		//} 
-		//else 
-		//{
-		//	$this->table_id = $this->main_table_id;
-		//}
-
-		return;   
 	}
 	
 	
@@ -69,6 +58,7 @@ class ilDataCollectionFieldListGUI
 	 */
     function save()
     {
+		global $lng;
         $table = new ilDataCollectionTable($_GET['table_id']);
         $fields = &$table->getFields();
 
@@ -83,6 +73,7 @@ class ilDataCollectionFieldListGUI
         }
 		$table->buildOrderFields();
 		$table->updateFields();
+		ilUtil::sendSuccess($lng->txt("dcl_table_settings_saved"));
         $this->listFields();
     }
 	

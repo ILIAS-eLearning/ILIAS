@@ -194,15 +194,6 @@ class ilDataCollectionRecordListViewdefinition
 	function doRead()
 	{
 		global $ilDB;
-/*
-		$query = "SELECT 	il_dcl_viewdefinition.field field,
-										il_dcl_viewdefinition.field_order fieldorder
-							FROM il_dcl_view
-							LEFT JOIN il_dcl_viewdefinition ON il_dcl_viewdefinition.view_id = il_dcl_view.id 
-							WHERE table_id = ".$ilDB->quote($this->getTableId(),"integer")." 
-							AND type = ".$ilDB->quote($this->getType(),"integer")."
-							AND formtype = ".$ilDB->quote($this->getFormType(),"integer")."
-							ORDER by il_dcl_viewdefinition.field_order";*/
 
 		$query = "SELECT 	il_dcl_viewdefinition.field field,
 										il_dcl_viewdefinition.field_order fieldorder,
@@ -245,8 +236,7 @@ class ilDataCollectionRecordListViewdefinition
 	{
 		global $ilDB;
 
-		//TODO nicht jedesmal löschen. Dies hier könnte stehen gelassen werden
-		$ilDB->manipulate('DELETE FROM il_dcl_view 
+		$ilDB->manipulate('DELETE FROM il_dcl_view
 										WHERE table_id = '.$ilDB->quote($this->getTableId(), "integer").' 
 										AND type = '.$ilDB->quote($this->getType(), "integer").' 
 										AND formtype = '.$ilDB->quote($this->getFormType(), "integer"));
@@ -284,27 +274,6 @@ class ilDataCollectionRecordListViewdefinition
 			$ilDB->manipulate($query);
 		}
 	}
-
-	/**
-	* Update field
-	*/
-/*
-	function DoUpdate()
-	{
-		global $ilDB;
-
-		$ilDB->update("il_dcl_field", array(
-								"table_id" => array("integer", $this->getTableId()),
-								"datatype_id" => array("text", $this->getDatatypeId()),
-								"title" => array("text", $this->getTitle()),
-								"description" => array("text", $this->getDescription()),
-								"required" => array("integer",$this->getRequired())
-								), array(
-								"id" => array("integer", $this->getId())
-								));
-	}
-*/	
-
 }
 
 ?>
