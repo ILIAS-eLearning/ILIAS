@@ -48,12 +48,15 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("./Modules/DataCollection/classes/class.ilObjWikiAccess.php");
+		include_once("./Modules/DataCollection/classes/class.ilObjDataCollectionAccess.php");
 
-		if (!ilObjDataCollectionAccess::_lookupOnline($this->obj_id))
+		if(!ilObjDataCollectionAccess::_lookupOnline($this->obj_id))
 		{
-			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-				"value" => $lng->txt("offline"));
+			$props[] = array(
+				"alert" => true, 
+				"property" => $lng->txt("status"),
+				"value" => $lng->txt("offline")
+			);
 		}
 
 		return $props;
