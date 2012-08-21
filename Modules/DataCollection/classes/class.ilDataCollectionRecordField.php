@@ -86,7 +86,7 @@ class ilDataCollectionRecordField
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
 			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
-            if($properties[$url] && !preg_match('(^(mailto\:|(news|(ht|f)tp(s?))\://){1}\S+)', $value))
+            if($properties[$url] && !preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value))
                 throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
 		}
 		if($this->field->isUnique()){
