@@ -12797,3 +12797,11 @@ if(!$ilDB->tableColumnExists('il_dcl_field', 'is_locked'))
     array('integer','integer', 'text','integer'),
     array(4,2, 'url',2));
 ?>
+<#3732>
+<?php
+  $ilDB->manipulateF(
+    'UPDATE il_dcl_datatype_prop SET inputformat = %s WHERE title = %s',
+    array('integer', 'text'),
+    array(4, 'url')
+  );
+?>
