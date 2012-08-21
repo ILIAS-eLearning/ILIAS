@@ -22,7 +22,7 @@
 */
 
 
-require_once('Modules/Test/classes/exceptions/class.ilTestEvaluationException.php');
+require_once('Modules/Test/classes/class.ilTestEvaluationException.php');
 
 
 /**
