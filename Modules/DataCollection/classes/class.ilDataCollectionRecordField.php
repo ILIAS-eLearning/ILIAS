@@ -114,7 +114,7 @@ class ilDataCollectionRecordField
     }
 
     function doUpdate(){
-
+		$this->loadValue();
         $datatype = $this->field->getDatatype();
         global $ilDB;
         $query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;

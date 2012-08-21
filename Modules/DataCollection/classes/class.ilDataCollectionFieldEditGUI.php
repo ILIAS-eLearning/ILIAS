@@ -33,7 +33,7 @@ class ilDataCollectionFieldEditGUI
 	*/
 	public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id)
 	{
-
+		global $ilCtrl;
 
 		$this->obj_id = $a_parent_obj->obj_id;
         $this->parent_obj = $a_parent_obj;
@@ -46,7 +46,8 @@ class ilDataCollectionFieldEditGUI
 		else
 		{
 			$this->field_obj = new ilDataCollectionField();
-			//TODO prüfen ob table_id gesetzt, andernfalls Fehlermeldung und abbruch
+			if(!$table_id)
+				$ilCtrl->redirectByClass("ilDataCollectionGUI");
 			$this->field_obj->setTableId($table_id);
 		}
 		$this->table = new ilDataCollectionTable($table_id);

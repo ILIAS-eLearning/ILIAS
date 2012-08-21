@@ -443,8 +443,8 @@ class ilDataCollectionTable
 		.",".$ilDB->quote($this->getDeletePerm()?1:0, "integer")
 		.",".$ilDB->quote($this->getEditByOwner()?1:0, "integer")
 		.",".$ilDB->quote($this->getLimited()?1:0, "integer")
-		.",".$ilDB->quote($this->getLimitStart(), "datetime")
-		.",".$ilDB->quote($this->getLimitEnd(), "datetime")
+		.",".$ilDB->quote($this->getLimitStart(), "timestamp")
+		.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
 		.")";
 		$ilDB->manipulate($query);
 
@@ -479,8 +479,8 @@ class ilDataCollectionTable
 			"delete_perm" => array("integer",$this->getDeletePerm()),
 			"edit_by_owner" => array("integer",$this->getEditByOwner()),
 			"limited" => array("integer",$this->getLimited()),
-			"limit_start" => array("date",$this->getLimitStart()),
-			"limit_end" => array("date",$this->getLimitEnd())
+			"limit_start" => array("timestamp",$this->getLimitStart()),
+			"limit_end" => array("timestamp",$this->getLimitEnd())
 		), array(
 			"id" => array("integer", $this->getId())
 		));

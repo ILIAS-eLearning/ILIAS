@@ -35,7 +35,6 @@ class ilDataCollectionRecordEditGUI
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->parent_obj = $parent_obj;
-		//TODO Prüfen, ob inwiefern sich die übergebenen GET-Parameter als Sicherheitslücke herausstellen
 		$this->record_id = $_REQUEST['record_id'];
         $this->table_id = $_GET['table_id'];
         
@@ -157,10 +156,8 @@ class ilDataCollectionRecordEditGUI
 		$ilCtrl->setParameter($this, "record_id", $this->record_id);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 
-		if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
 			$allFields = $this->table->getRecordFields();
-		else
-			$allFields = $this->table->getEditableFields();
+
 
 		foreach($allFields as $field)
 		{
@@ -180,7 +177,9 @@ class ilDataCollectionRecordEditGUI
 			}
             $item->setRequired($field->getRequired());
 			$item->setInfo($this->getInfo($field));
-            $this->form->addItem($item);
+			if(!ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id) && $field->getLocked())
+				$item->setDisabled(true);
+			$this->form->addItem($item);
 		}
 
 		// save and cancel commands
@@ -314,7 +313,6 @@ class ilDataCollectionRecordEditGUI
             	}
 				
 			}
-
 			if($fail)
 			{
 				ilUtil::sendFailure($fail, true);

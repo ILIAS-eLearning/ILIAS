@@ -260,7 +260,8 @@ class ilDataCollectionRecord
 			$this->loadTable();
             $recordfields = array();
             foreach($this->table->getRecordFields() as $field){
-                $recordfields[$field->getId()] = new ilDataCollectionRecordField($this, $field);
+				if($recordfields[$field->getId()] == Null)
+                	$recordfields[$field->getId()] = new ilDataCollectionRecordField($this, $field);
             }
             $this->recordfields = $recordfields;
         }
@@ -403,11 +404,16 @@ class ilDataCollectionRecord
             "id" => array("integer", $this->id)
         ));
 
-        foreach($this->recordfields as $recordfield)
+        foreach($this->getRecordFields() as $recordfield)
         {
             $recordfield->doUpdate();
         }
     }
+
+	public function getRecordFields(){
+		$this->loadRecordFields();
+		return $this->recordfields;
+	}
 
 	/**
 	 * @return ilDataCollectionTable

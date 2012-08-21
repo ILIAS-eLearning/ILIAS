@@ -171,11 +171,14 @@ class ilDataCollectionDatatype
 
 		return $all;
 	}
-	
-	/*
-	 * checkValidity
+
+	/**
+	 * now only distinguishes between number and text values
+	 * @param $type_id int
+	 * @param $value mixed
+	 * @return bool
 	 */
-    static function checkValidity($type_id, $value)
+	static function checkValidity($type_id, $value)
     {
         //TODO: finish this list.
 
