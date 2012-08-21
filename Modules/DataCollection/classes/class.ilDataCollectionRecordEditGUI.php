@@ -157,9 +157,10 @@ class ilDataCollectionRecordEditGUI
 		$ilCtrl->setParameter($this, "record_id", $this->record_id);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 
-
-		//TODO: für benutzer ohne write rechten ändern in getEditableFields.
-		$allFields = $this->table->getRecordFields();
+		if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
+			$allFields = $this->table->getRecordFields();
+		else
+			$allFields = $this->table->getEditableFields();
 
 		foreach($allFields as $field)
 		{
@@ -217,9 +218,7 @@ class ilDataCollectionRecordEditGUI
 	/**
 	* get Values
 	* 
-	*/
-	// FIXME
-	public function getValues()
+	*/	public function getValues()
 	{
 
 		//Get Record-Values
@@ -298,7 +297,11 @@ class ilDataCollectionRecordEditGUI
 				}
 			}
 
-			$all_fields = $this->table->getRecordFields();
+			if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
+				$all_fields = $this->table->getRecordFields();
+			else
+				$all_fields = $this->table->getEditableFields();
+
 			$fail = "";
 			foreach($all_fields as $field)
 			{

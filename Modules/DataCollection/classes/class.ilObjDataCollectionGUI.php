@@ -22,6 +22,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordViewGUI, ilDataCollectionRecordViewViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionTableEditGUI, ilDataCollectionFieldListGUI, ilObjFileGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordListViewdefinitionGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
  *
  * @extends ilObject2GUI
  */
@@ -468,7 +469,14 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	{
 		global $ilUser;
 
+		$start = $a_form->getInput('edit_start');
+		$start = new ilDateTime($start['date'].' '.$start['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
+		$end = $a_form->getInput('edit_end');
+		$end = new ilDateTime($end['date'].' '.$end['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
 		$this->object->setOnline($a_form->getInput("is_online"));
+		$this->object->setEditType($a_form->getInput("edit_type"));
+		$this->object->setEditStart($start->get(IL_CAL_DATETIME));
+		$this->object->setEditEnd($end->get(IL_CAL_DATETIME));
 		$this->object->setRating($a_form->getInput("rating"));
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));

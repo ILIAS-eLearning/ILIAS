@@ -74,7 +74,7 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
 	 */
 	public function fillRow(ilDataCollectionField $a_set)
 	{
-		global $lng, $ilCtrl, $ilUser, $ilAccess;
+		global $lng, $ilCtrl;
 		
 		$this->tpl->setVariable('NAME', "order[".$a_set->getId()."]");
 		$this->tpl->setVariable('VALUE', $this->order);
@@ -90,8 +90,18 @@ class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
         {
 	        $this->tpl->setVariable("CHECKBOX_FILTERABLE_CHECKED", "checked");
         }
-            
-        $this->order = $this->order + 10; 
+
+		if(!$a_set->isStandardField()){
+			$this->tpl->setVariable("CHECKBOX_NAME_LOCKED", "locked[".$a_set->getId()."]");
+			if($a_set->getLocked())
+			{
+				$this->tpl->setVariable("CHECKBOX_CHECKED_LOCKED", "checked");
+			}
+		}else{
+			$this->tpl->setVariable("NOT_LOCKED", "-");
+		}
+
+		$this->order = $this->order + 10;
 		$this->tpl->setVariable("ORDER_NAME","order[".$a_set->getId()."]");
 		$this->tpl->setVariable("ORDER_VALUE", $this->order);
 

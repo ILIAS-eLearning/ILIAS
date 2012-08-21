@@ -12758,3 +12758,18 @@ if($ilDB->tableColumnExists('il_dcl_data', 'edit_end'))
 if($ilDB->tableColumnExists('il_dcl_data', 'edit_by_owner'))
 	$ilDB->dropTableColumn('il_dcl_data', 'edit_by_owner');
 ?>
+<#3728>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_field', 'is_locked'))
+{
+	$ilDB->addTableColumn(
+		'il_dcl_field',
+		'is_locked',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default'        => 0
+		)
+	);
+}
