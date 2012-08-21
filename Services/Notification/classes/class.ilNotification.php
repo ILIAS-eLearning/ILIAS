@@ -18,6 +18,7 @@ class ilNotification
 	const TYPE_WIKI = 2;
 	const TYPE_WIKI_PAGE = 3;
 	const TYPE_BLOG = 4;
+    const TYPE_DATA_COLLECTION = 5;
 	
 	const THRESHOLD = 180; // time between mails in minutes
 
