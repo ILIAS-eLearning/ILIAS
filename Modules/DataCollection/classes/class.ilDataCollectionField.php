@@ -658,6 +658,37 @@ class ilDataCollectionField
 		return $this->locked;
 	}
 
+	public function checkValidity($value, $record_id){
+		if(!ilDataCollectionDatatype::checkValidity($this->getDatatypeId(), $value))
+			throw new ilDataCollectionInputException(ilDataCollectionInputException::TYPE_EXCEPTION);
+		$properties = $this->getPropertyvalues();
+		$length = ilDataCollectionField::PROPERTYID_LENGTH;
+		$regex = ilDataCollectionField::PROPERTYID_REGEX;
+		$url = ilDataCollectionField::PROPERTYID_URL;
+		if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
+		{
+			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
+				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
+			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value)))
+				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
+			if($properties[$url] && !preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value))
+				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
+		}
+		if($this->isUnique()){
+			$table = new ilDataCollectionTable($this->getTableId());
+			foreach($table->getRecords() as $record){
+				if($record->getRecordFieldValue($this->getId()) == $value && ($record->getId() != $record_id || $record_id == 0))
+					throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+
+				if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
+					$datestring = $value["date"]." ".$value["time"];//["y"]."-".$value["date"]['m']."-".$value["date"]['d']." 00:00:00";
+					if($record->getRecordFieldValue($this->getId()) == $datestring && ($record->getId() != $record_id || $record_id == 0))
+						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+				}
+			}
+		}
+		return true;
+	}
 
 }
 

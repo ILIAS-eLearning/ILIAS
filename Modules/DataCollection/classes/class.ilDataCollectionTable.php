@@ -270,8 +270,11 @@ class ilDataCollectionTable
     function getField($field_id)
     {
         $fields = $this->getFields();
-        
-        return $fields[$field_id];
+        $field = null;
+		foreach($fields as $field_1)
+			if($field_1->getId() == $field_id)
+				$field = $field_1;
+        return $field;
     }
     
     /*
