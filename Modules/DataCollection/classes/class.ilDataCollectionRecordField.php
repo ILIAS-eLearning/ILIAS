@@ -60,7 +60,6 @@ class ilDataCollectionRecordField
     function setValue($value){
         $type = $this->field->getDatatype()->getId();
         $this->loadValue();
-        $this->checkValidity($type, $value);
 		$tmp = $this->field->getDatatype()->parseValue($value);
 		$old = $this->value;
 		//if parse value fails keep the old value
@@ -73,38 +72,6 @@ class ilDataCollectionRecordField
 		}
     }
 
-	private function checkValidity($type, $value){
-		if(!ilDataCollectionDatatype::checkValidity($type, $value))
-			throw new ilDataCollectionInputException(ilDataCollectionInputException::TYPE_EXCEPTION);
-		$properties = $this->field->getPropertyvalues();
-		$length = ilDataCollectionField::PROPERTYID_LENGTH;
-		$regex = ilDataCollectionField::PROPERTYID_REGEX;
-        $url = ilDataCollectionField::PROPERTYID_URL;
-		if($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
-        {
-			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
-				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
-			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value)))
-				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
-            if($properties[$url] && !preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value))
-                throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
-		}
-		if($this->field->isUnique()){
-			$table = $this->record->getTable();
-			foreach($table->getRecords() as $record){
-				if($record->getRecordFieldValue($this->field->getId()) == $value && $record->getRecordField($this->field->getId())->getId() != $this->getId())
-					throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
-
-				if($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
-					$datestring = $value["date"]." ".$value["time"];//["y"]."-".$value["date"]['m']."-".$value["date"]['d']." 00:00:00";
-					if($record->getRecordFieldValue($this->field->getId()) == $datestring && $record->getRecordField($this->field->getId())->getId() != $this->getId())
-						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
-				}
-			}
-		}
-
-		return true;
-	}
 
     function getFormInput(){
         $datatype = $this->field->getDatatype();

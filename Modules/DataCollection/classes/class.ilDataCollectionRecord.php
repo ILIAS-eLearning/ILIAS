@@ -154,11 +154,13 @@ class ilDataCollectionRecord
 	*/
 	function setRecordFieldValue($field_id, $value)
 	{
-        $this->loadRecordFields();
+       	$this->loadRecordFields();
         if(ilDataCollectionStandardField::_isStandardField($field_id))
             $this->setStandardField($field_id, $value);
-        else
+        else{
+			$this->loadTable();
 		    $this->recordfields[$field_id]->setValue($value);
+		}
 	}
 	
 	/**

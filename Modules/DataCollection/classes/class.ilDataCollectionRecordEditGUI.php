@@ -276,25 +276,7 @@ class ilDataCollectionRecordEditGUI
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setLastEditBy($ilUser->getId());
 
-            if(!isset($this->record_id))
-            {
-				if(!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id)))
-				{
-					$this->accessDenied();
-					return;
-				}
-				$record_obj->setOwner($ilUser->getId());
-				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
-                $record_obj->setTableId($this->table_id);
-                $record_obj->DoCreate();
-                $this->record_id = $record_obj->getId();
-            }else{
-				if(!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id))
-				{
-					$this->accessDenied();
-					return;
-				}
-			}
+
 
 			if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
 				$all_fields = $this->table->getRecordFields();
@@ -302,12 +284,13 @@ class ilDataCollectionRecordEditGUI
 				$all_fields = $this->table->getEditableFields();
 
 			$fail = "";
+			//Check if we can create this record.
 			foreach($all_fields as $field)
 			{
             	try
 			    {
                    $value = $this->form->getInput("field_".$field->getId());
-					$record_obj->setRecordFieldValue($field->getId(), $value);
+					$field->checkValidity($value, $this->record_id);
 				}catch(ilDataCollectionInputException $e){
                  $fail .= $field->getTitle().": ".$e."<br>";
             	}
@@ -318,6 +301,32 @@ class ilDataCollectionRecordEditGUI
 				ilUtil::sendFailure($fail, true);
 				$this->sendFailure();
 				return;
+			}
+
+			if(!isset($this->record_id))
+			{
+				if(!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id)))
+				{
+					$this->accessDenied();
+					return;
+				}
+				$record_obj->setOwner($ilUser->getId());
+				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+				$record_obj->setTableId($this->table_id);
+				$record_obj->DoCreate();
+				$this->record_id = $record_obj->getId();
+			}else{
+				if(!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id))
+				{
+					$this->accessDenied();
+					return;
+				}
+			}
+			//edit values, they are valid we already checked them above
+			foreach($all_fields as $field)
+			{
+				$record_obj->setRecordFieldValue($field->getId(), $value);
+
 			}
 
 			$record_obj->doUpdate();
