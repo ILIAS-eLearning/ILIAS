@@ -42,6 +42,7 @@ class ilDataCollectionField
 	const PROPERTYID_LENGTH = 1;
 	const PROPERTYID_REGEX = 2;
 	const PROPERTYID_REFERENCE = 3;
+    const PROPERTYID_URL = 4;
 
 
 

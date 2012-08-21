@@ -12,6 +12,7 @@ class ilDataCollectionInputException extends Exception
 	const LENGTH_EXCEPTION = 1;
 	const REGEX_EXCEPTION = 2;
 	const UNIQUE_EXCEPTION = 3;
+    const NOT_URL = 4;
 
 	private $exception_type;
 
@@ -34,6 +35,8 @@ class ilDataCollectionInputException extends Exception
 				return $lng->txt("dcl_wrong_regex");
 			case self::UNIQUE_EXCEPTION:
 				return $lng->txt("dcl_unique_exception");
+            case self::NOT_URL:
+                return $lng->txt("dcl_noturl_exception");
 			default:
 				return $lng->txt("dcl_unknown_exception");
 		}

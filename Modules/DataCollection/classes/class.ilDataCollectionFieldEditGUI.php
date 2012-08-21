@@ -231,12 +231,21 @@ class ilDataCollectionFieldEditGUI
 					//$table_selection->setValue($this->table_id);
 					$opt->addSubItem($table_selection);
 
-				} 
+				}
+
 				//All other Types: List properties saved in propertie definition table
-				elseif($property['datatype_id'] == $datatype['id']) 
+				elseif($property['datatype_id'] == $datatype['id'])
 				{
-						$subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
-						$opt->addSubItem($subitem);
+                    if($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
+                    {
+                        $subitem = new ilCheckboxInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
+                        $opt->addSubItem($subitem);
+                    }
+                    else
+                    {
+                        $subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
+                        $opt->addSubItem($subitem);
+                    }
 				}
 			}
 			$edit_datatype->addOption($opt);

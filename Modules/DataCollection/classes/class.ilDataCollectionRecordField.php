@@ -79,12 +79,15 @@ class ilDataCollectionRecordField
 		$properties = $this->field->getPropertyvalues();
 		$length = ilDataCollectionField::PROPERTYID_LENGTH;
 		$regex = ilDataCollectionField::PROPERTYID_REGEX;
-		if($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
+        $url = ilDataCollectionField::PROPERTYID_URL;
+		if($this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
+        {
 			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
-			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value))){
+			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
-			}
+            if($properties[$url] && !preg_match('(^(mailto\:|(news|(ht|f)tp(s?))\://){1}\S+)', $value))
+                throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
 		}
 		if($this->field->isUnique()){
 			$table = $this->record->getTable();
