@@ -130,9 +130,12 @@ class ilDataCollectionRecordEditGUI
     public function delete()
     {
         global $ilCtrl, $lng;
-        
         $record = new ilDataCollectionRecord($this->record_id);
-        $record->doDelete();
+		if(!$this->table->hasPermissionToDeleteRecord($this->parent_obj->ref_id, $record)){
+			$this->accessDenied();
+			return;
+		}
+		$record->doDelete();
         ilUtil::sendSuccess($lng->txt("dcl_record_deleted"), true);
         $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
     }
@@ -288,7 +291,7 @@ class ilDataCollectionRecordEditGUI
                 $record_obj->DoCreate();
                 $this->record_id = $record_obj->getId();
             }else{
-				if(!$record_obj->hasEditPermission($this->parent_obj->ref_id))
+				if(!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id))
 				{
 					$this->accessDenied();
 					return;

@@ -363,47 +363,25 @@ class ilDataCollectionRecord
 	public function passThroughFilter(array $filter){
 		$pass = true;
 		$this->loadTable();
-		foreach($this->table->getRecordFields() as $field){
+		foreach($this->table->getFields() as $field){
 			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
 				$pass = false;
 		}
-		foreach(ilDataCollectionStandardField::_getStandardFields($this->getTable()->getId()) as $field){
+		/*foreach(ilDataCollectionStandardField::_getStandardFields($this->getTable()->getId()) as $field){
 			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
 				$pass = false;
-		}
+		}*/
 		return $pass;
 	}
-    
-    /*
-     * hasEditPermission
-     */
-	function hasEditPermission($ref_id)
-	{
-		global $ilAccess;
-		
-		$table = new ilDataCollectionTable($this->getTableId());
-		$dcObj = $table->getCollectionObject();
-		
-		$perm = false;
-		
-		$ref = $ref_id;
 
-		if($ilAccess->checkAccess("add_entry", "", $ref))
-		{
-			global $ilUser;
-			// checks if at this time records can be edited and if setting "only editable by owner" is set check if the owner is the current user.
-			if(!$this->getTable()->isBlocked() && $dcObj->isRecordsEditable() && ($this->getOwner() == $ilUser->getId() || !$dcObj->getEditByOwner()))
-				$perm = true;
-		}
-
-		// admin of this object
-		if($ilAccess->checkAccess("write", "",  $ref))
-			$perm = true;
-
-		return $perm;
+	function hasPermissionToEdit($ref){
+		return $this->getTable()->hasPermissionToEditRecord($ref, $this);
 	}
-	
-	
+
+	function hasPermissionToDelete($ref){
+		return $this->getTable()->hasPermissionToDeleteRecord($ref, $this);
+	}
+
 	/*
 	 * doUpdate
 	 */
@@ -427,6 +405,9 @@ class ilDataCollectionRecord
         }
     }
 
+	/**
+	 * @return ilDataCollectionTable
+	 */
 	public function getTable(){
 		$this->loadTable();
 		return $this->table;

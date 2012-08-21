@@ -208,7 +208,6 @@ class ilDataCollectionDatatype
             case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
                 $input = new ilTextInputGUI($title, 'field_'.$field->getId());
                 break;
-
             case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
                 $input = new ilTextInputGUI($title, 'field_'.$field->getId());
                 break;
@@ -237,20 +236,24 @@ class ilDataCollectionDatatype
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
+				$input->setSubmitFormOnEnter(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_NUMBER_RANGE, false, $field->getId());
+				$input->setSubmitFormOnEnter(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
-				$input->setOptions(array("" => $lng->txt("dcl_any"), 0 => $lng->txt("dcl_not_checked"), 1 => $lng->txt("dcl_checked")));
+				$input->setOptions(array("" => $lng->txt("dcl_any"), "not_checked" => $lng->txt("dcl_not_checked"), "checked" => $lng->txt("dcl_checked")));
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_DATE_RANGE, false, $field->getId());
+				$input->setSubmitFormOnEnter(true);
 				$input->setStartYear(date("Y")-100);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
+				$input->setSubmitFormOnEnter(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
@@ -285,7 +288,7 @@ class ilDataCollectionDatatype
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
-				if($filter == $value || $filter == '' || !$filter)
+				if((($filter == "checked" && $value == 1) || ($filter == "not_checked" && $value == 0))|| $filter == '' || !$filter)
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:

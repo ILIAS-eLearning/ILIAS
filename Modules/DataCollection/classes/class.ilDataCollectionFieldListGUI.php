@@ -110,9 +110,8 @@ class ilDataCollectionFieldListGUI
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
 		$table = new ilDataCollectionTable($this->table_id);
-		$btnText = $table->isBlocked()?"dcl_unlock_current_table":"dcl_lock_current_table";
 		$ilCtrl->setParameterByClass("ildatacollectiontableeditgui", "table_id", $this->table_id);
-		$ilToolbar->addButton($lng->txt($btnText), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "toggleBlocked"));
+		$ilToolbar->addButton($lng->txt("dcl_table_settings"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "edit"));
 
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionFieldListTableGUI.php');
 		$list = new ilDataCollectionFieldListTableGUI($this, $ilCtrl->getCmd(), $this->table_id);

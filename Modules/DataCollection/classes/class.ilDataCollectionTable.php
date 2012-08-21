@@ -25,6 +25,36 @@ class ilDataCollectionTable
 	private $stdFields;
     private $records;
 	private $blocked; //[bool]
+	/**
+	 * @var bool
+	 */
+	private $add_perm;
+
+	/**
+	 * @var bool
+	 */
+	private $edit_perm;
+	/**
+	 * @var bool
+	 */
+	private $delete_perm;
+	/**
+	 * @var bool
+	 */
+	private $edit_by_owner;
+
+	/**
+	 * @var bool
+	 */
+	private $limited;
+	/**
+	 * @var string
+	 */
+	private $limit_start;
+	/**
+	 * @var string
+	 */
+	private $limit_end;
 
 	/**
 	* Constructor
@@ -182,6 +212,13 @@ class ilDataCollectionTable
 		$this->setObjId($rec["obj_id"]);
 		$this->setTitle($rec["title"]);
 		$this->setBlocked($rec["blocked"]);
+		$this->setAddPerm($rec["add_perm"]);
+		$this->setEditPerm($rec["edit_perm"]);
+		$this->setDeletePerm($rec["delete_perm"]);
+		$this->setEditByOwner($rec["edit_by_owner"]);
+		$this->setLimited($rec["limited"]);
+		$this->setLimitStart($rec["limit_start"]);
+		$this->setLimitEnd($rec["limit_end"]);
 	}
 
     //TODO: replace this method with DataCollection->getTables()
@@ -352,31 +389,11 @@ class ilDataCollectionTable
     }
 
 	function hasPermissionToFields($ref_id){
-		return $this->getCollectionObject()->hasPermissionToAddTable($ref_id);
-	}
-
-	function hasPermissionToAddRecord($ref_id){
-		$perm = false;
-
-		global $ilAccess;
-
-		$ref = $ref_id;
-		if($ilAccess->checkAccess("add_entry", "", $ref))
-			if($this->getCollectionObject()->isRecordsEditable() && !$this->isBlocked()){
-				$perm = true;
-		}
-		if($ilAccess->checkAccess("write", "", $ref))
-			$perm = true;
-
-		return $perm;
+		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
 	function hasPermissionToAddTable($ref_id) {
-		global $ilAccess;
-		$perm = false;
-		if($ilAccess->checkAccess("write", "", $ref_id))
-			$perm = true;
-		return $perm;
+		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
 	/**
@@ -409,11 +426,25 @@ class ilDataCollectionTable
 		", obj_id".
 		", title".
 		", blocked".
+		", add_perm".
+		", edit_perm".
+		", delete_perm".
+		", edit_by_owner".
+		", limited".
+		", limit_start".
+		", limit_end".
 		" ) VALUES (".
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getObjId(), "integer")
 		.",".$ilDB->quote($this->getTitle(), "text")
 		.",".$ilDB->quote($this->isBlocked()?1:0, "integer")
+		.",".$ilDB->quote($this->getAddPerm()?1:0, "integer")
+		.",".$ilDB->quote($this->getEditPerm()?1:0, "integer")
+		.",".$ilDB->quote($this->getDeletePerm()?1:0, "integer")
+		.",".$ilDB->quote($this->getEditByOwner()?1:0, "integer")
+		.",".$ilDB->quote($this->getLimited()?1:0, "integer")
+		.",".$ilDB->quote($this->getLimitStart(), "datetime")
+		.",".$ilDB->quote($this->getLimitEnd(), "datetime")
 		.")";
 		$ilDB->manipulate($query);
 
@@ -442,10 +473,57 @@ class ilDataCollectionTable
 		$ilDB->update("il_dcl_table", array(
 			"obj_id" => array("integer", $this->getObjId()),
 			"title" => array("text", $this->getTitle()),
-			"blocked" => array("integer",$this->isBlocked())
+			"blocked" => array("integer",$this->isBlocked()),
+			"add_perm" => array("integer",$this->getAddPerm()),
+			"edit_perm" => array("integer",$this->getEditPerm()),
+			"delete_perm" => array("integer",$this->getDeletePerm()),
+			"edit_by_owner" => array("integer",$this->getEditByOwner()),
+			"limited" => array("integer",$this->getLimited()),
+			"limit_start" => array("date",$this->getLimitStart()),
+			"limit_end" => array("date",$this->getLimitEnd())
 		), array(
 			"id" => array("integer", $this->getId())
 		));
+	}
+
+	public function hasPermissionToAddRecord($ref){
+		return ($this->getAddPerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkLimit()) || ilObjDataCollection::_hasWriteAccess($ref);
+	}
+
+	/**
+	 * @param $ref int the reference id of the current datacollection object
+	 * @param $record ilDataCollectionRecord the record which will be edited
+	 * @return bool
+	 */
+	public function hasPermissionToEditRecord($ref, $record){
+		return ($this->getEditPerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref);
+	}
+
+	/**
+	 * @param $ref int the reference id of the current datacollection object
+	 * @param $record ilDataCollectionRecord the record which will be deleted
+	 * @return bool
+	 */
+	public function hasPermissionToDeleteRecord($ref, $record){
+		return ($this->getDeletePerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref);
+	}
+
+	private function checkEditByOwner($record){
+		global $ilUser;
+		if($this->getEditByOwner() && $ilUser->getId() != $record->getOwner())
+			return false;
+		return true;
+	}
+
+	private function checkLimit(){
+		if($this->getLimited()){
+			$now = new ilDateTime(time(), IL_CAL_UNIX);
+			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
+			$to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
+			if(!($from <= $now && $now <= $to))
+				return false;
+		}
+		return true;
 	}
 
 	public function updateFields(){
@@ -498,6 +576,118 @@ class ilDataCollectionTable
 				$count = $count + $offset;
 			}
 		}
+	}
+
+	/**
+	 * @param boolean $add_perm
+	 */
+	public function setAddPerm($add_perm)
+	{
+		$this->add_perm = $add_perm;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getAddPerm()
+	{
+		return $this->add_perm;
+	}
+
+	/**
+	 * @param boolean $delete_perm
+	 */
+	public function setDeletePerm($delete_perm)
+	{
+		$this->delete_perm = $delete_perm;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getDeletePerm()
+	{
+		return $this->delete_perm;
+	}
+
+	/**
+	 * @param boolean $edit_by_owner
+	 */
+	public function setEditByOwner($edit_by_owner)
+	{
+		$this->edit_by_owner = $edit_by_owner;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getEditByOwner()
+	{
+		return $this->edit_by_owner;
+	}
+
+	/**
+	 * @param boolean $edit_perm
+	 */
+	public function setEditPerm($edit_perm)
+	{
+		$this->edit_perm = $edit_perm;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getEditPerm()
+	{
+		return $this->edit_perm;
+	}
+
+	/**
+	 * @param boolean $limited
+	 */
+	public function setLimited($limited)
+	{
+		$this->limited = $limited;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getLimited()
+	{
+		return $this->limited;
+	}
+
+	/**
+	 * @param string $limit_end
+	 */
+	public function setLimitEnd($limit_end)
+	{
+		$this->limit_end = $limit_end;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLimitEnd()
+	{
+		return $this->limit_end;
+	}
+
+	/**
+	 * @param string $limit_start
+	 */
+	public function setLimitStart($limit_start)
+	{
+		$this->limit_start = $limit_start;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLimitStart()
+	{
+		return $this->limit_start;
 	}
 }
 
