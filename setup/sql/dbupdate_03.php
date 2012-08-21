@@ -12773,3 +12773,4 @@ if(!$ilDB->tableColumnExists('il_dcl_field', 'is_locked'))
 		)
 	);
 }
+?>
