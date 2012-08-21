@@ -103,7 +103,6 @@ class ilDataCollectionTableEditGUI
 			'limit_start'		=>	array("date" => substr($this->table->getLimitStart(),0,10), "time" => substr($this->table->getLimitStart(),-8)),
 			'limit_end'		=>	array("date" => substr($this->table->getLimitEnd(),0,10), "time" => substr($this->table->getLimitEnd(),-8))
 		);
-		echo $values['limit_start'];
 		if(!$this->table->getLimitStart())
 			$values['limit_start'] = Null;
 		if(!$this->table->getLimitEnd())
