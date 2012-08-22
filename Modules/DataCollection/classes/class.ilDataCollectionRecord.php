@@ -330,6 +330,9 @@ class ilDataCollectionRecord
 							$ilDB->quote($this->getLastEditBy(), "integer")."
 						)";
 		$ilDB->manipulate($query);
+
+        include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
+        ilObjDataCollection::sendNotification("new_record", $this->getTableId(), $id);
     }
 
     public function deleteField($field_id){
@@ -360,6 +363,9 @@ class ilDataCollectionRecord
         
         $query = "DELETE FROM il_dcl_record WHERE id = ".$this->getId();
         $ilDB->manipulate($query);
+
+        include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
+        ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
     }
 
 	public function deleteFile($obj_id){
@@ -410,6 +416,9 @@ class ilDataCollectionRecord
         {
             $recordfield->doUpdate();
         }
+
+        include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
+        ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
     }
 
 	public function getRecordFields(){

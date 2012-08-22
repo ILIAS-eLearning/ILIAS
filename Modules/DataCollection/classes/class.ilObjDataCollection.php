@@ -99,46 +99,63 @@ class ilObjDataCollection extends ilObject2
 	/*
 	 * sendNotification
 	 */
-	static function sendNotification($a_action, $a_ref_id)
+	static function sendNotification($a_action, $a_table_id, $a_record_id = NULL)
 	{
 		global $ilUser, $ilAccess;
-		
+
+        $obj_table = new ilDataCollectionTable($a_table_id);
+        $obj_dcl = $obj_table->getCollectionObject();
+
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
-		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION, 
-			$a_ref_id);
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION,$obj_dcl->getId(),true);
 		if(!sizeof($users))
 		{
 			return;
 		}
-		
-		ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $a_ref_id, $users);
-		
+		ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
+
+        //FIXME  $_GET['ref_id]
+        include_once "./Services/Link/classes/class.ilLink.php";
+        $link = ilLink::_getLink($_GET['ref_id']);
 		
 		// prepare mail content
-		
-//		...
-	 
+        // use language of recipient to compose message
+        include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+        $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+        $ulng->loadLanguageModule('dcl');
+
 	  	
 		// send mails
-		
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
 		include_once("./Services/User/classes/class.ilUserUtil.php");
+        include_once("./Services/User/classes/class.ilUserUtil.php");
+        include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 				
 		foreach(array_unique($users) as $idx => $user_id)
-		{			
+		{
 			// the user responsible for the action should not be notified
+            //FIXME  $_GET['ref_id]
 			if($user_id != $ilUser->getId() &&
-				$ilAccess->checkAccessOfUser($user_id, 'read', '', $a_ref_id))
+				$ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id']))
 			{
 				// use language of recipient to compose message
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
 				$ulng->loadLanguageModule('dcl');
 
-				$subject = "...";
-				$message = "...";
+				$subject = sprintf($ulng->txt('dcl_change_notification_subject'), $obj_dcl->getTitle());
+                // update/delete
+                $message .= $ulng->txt('dcl_change_notification_dcl_'.$a_action).":\n\n";
+                $message .= $ulng->txt('obj_dcl').": ".$obj_dcl->getTitle()."\n";
+                $message .= $ulng->txt('dcl_table').": ".$obj_table->getTitle()."\n";
+                if($a_record_id) {
+                    $message .= $ulng->txt('dcl_record_id').": ".$a_record_id."\n";
+                }
+
+                $message .= $ulng->txt('dcl_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
+                $message .= $ulng->txt('dcl_change_notification_link').": ".$link;
 
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);

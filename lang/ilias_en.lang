@@ -12548,14 +12548,12 @@ dcl#:#dcl_field_description#:#Description
 dcl#:#dcl_field_required#:#Required
 dcl#:#dcl_length#:#Length
 dcl#:#dcl_regex#:#Regular Expression
-dcl#:#dcl_table_unlocked#:#The table is no longer locked.
-dcl#:#dcl_table_locked#:#The table is now locked.
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximum Length
 dcl#:#dcl_wrong_length#:#The text you entered is to long.
 dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).
 dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).
-dcl#:#dcl_unique#:#Unique.
+dcl#:#dcl_unique#:#Unique
 dcl#:#dcl_unique_exception#:#The value you entered is already taken by another record.
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_checked#:#Checked.
@@ -12720,8 +12718,7 @@ dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_owner_editable#:#Edit only own records
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_title#:#Field Title
-dcl#:#dcl_visible#:#Visibility
-dcl#:#dcl_editable#:#Editability
+dcl#:#dcl_visible#:#Visible in Table
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_legend_placeholders#:#Platzhalter
@@ -12795,3 +12792,27 @@ ecs#:#ecs_tst_export_disabled#:#Do not release this Test
 ecs#:#ecs_tst_export_enabled#:#Release this Test
 rtst#:#rtst_call#:#Call ECS Test 
 rbac#:#contribute#:#Contribute
+dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed
+dcl#:#dcl_edit_notification#:#Email Notification on Change
+dcl#:#dcl_edit_notification_info#:#You will be notified when any table is edited
+dcl#:#dcl_change_notification_link#:#URL
+dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created
+dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated
+dcl#:#dcl_change_notification_dcl_delete_record#:#the following record page was deleted
+dcl#:#dcl_table#:#Table
+dcl#:#dcl_changed_by#:#Changed by
+dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection
+dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection
+dcl#:#dcl_notification_activated#:#Notification Activated
+dcl#:#dcl_notification_deactivated#:#Notification Deactivated
+dcl#:#dcl_locked#:#Locked
+dcl#:#dcl_table_settings#:#Table Settings
+dcl#:#dcl_add_perm#:#Permission Add Entry
+dcl#:#dcl_edit_perm#:#Permission Edit Entry
+dcl#:#dcl_delete_perm#:#Permission Delete Entry
+dcl#:#dcl_edit_by_owner#:#Edit / Delete only own entries
+dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
+dcl#:#dcl_record_id#:#Record ID
+dcl#:#dcl_limit_start#:#Start
+dcl#:#dcl_limit_end#:#End
+dcl#:#dcl_url#:#URL
