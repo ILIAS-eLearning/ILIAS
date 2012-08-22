@@ -234,7 +234,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                     $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
                 }
 
-				$this->addHeaderAction($cmd);
+				//$this->addHeaderAction($cmd);
 				return parent::executeCommand();
 		}
 

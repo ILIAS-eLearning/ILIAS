@@ -270,7 +270,7 @@ class ilDataCollectionFieldEditGUI
 		$this->form->addItem($cb);
 
 		//Unique
-		$cb = new ilCheckboxInputGUI($lng->txt("dcl_field_unique"), "unique");
+		$cb = new ilCheckboxInputGUI($lng->txt("dcl_unique"), "unique");
 		$this->form->addItem($cb);
 	}
 
