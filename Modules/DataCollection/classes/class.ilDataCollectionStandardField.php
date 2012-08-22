@@ -93,3 +93,5 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 		return true;
 	}
 }
+
+?>
