@@ -15,7 +15,6 @@ require_once "Services/Object/classes/class.ilObject2.php";
 class ilObjDataCollection extends ilObject2
 {
 
-	var $edit_by_owner;
 	/*
 	 * initType
 	 */
@@ -176,6 +175,36 @@ class ilObjDataCollection extends ilObject2
 	{
 		$this->main_table_id = $a_val;
 	}
+
+	/**
+	 * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
+	 * @param $original_id The original ID of the dataselection you want to clone it's structure
+	 */
+	public function cloneStructure($original_id){
+		$original = new ilObjDataCollection($original_id);
+		$this->setApproval($original->getApproval());
+		$this->setNotification($original->getNotification());
+		$this->setOnline($original->getOnline());
+		$this->setPublicNotes($original->getPublicNotes());
+		$this->setRating($original->getRating());
+		$this->doCreate();
+
+		//delete old tables.
+		foreach($this->getTables() as $table)
+			$table->doDelete();
+
+		//add new tables.
+		foreach($original->getTables() as $table){
+			$new_table = new ilDataCollectionTable();
+			$new_table->cloneStructure($table->getId());
+			$new_table->setObjId($this->getId());
+			if($table->getId() == $original->getMainTableId())
+				$this->setMainTableId($new_table->getId());
+		}
+
+		//update because maintable id is now set.
+		$this->doUpdate();
+	}
 	
 	/**
 	 * get main Table Id
@@ -265,17 +294,6 @@ class ilObjDataCollection extends ilObject2
 		return $this->notification;
 	}
 
-	/**
-	 * @param $edit_by_owner int 1 for true 0 for false.
-	 */
-	public function setEditByOwner($edit_by_owner){
-		$this->edit_by_owner = $edit_by_owner;
-	}
-
-	public function getEditByOwner(){
-		return $this->edit_by_owner;
-	}
-
 	function hasPermissionToAddTable(){
 		return self::_checkAccess($this->getId());
 	}
@@ -307,15 +325,18 @@ class ilObjDataCollection extends ilObject2
 		return $ilAccess->checkAccess("add_entry", "", $ref);
 	}
 
+	/**
+	 * @return ilDataCollectionTable[] Returns an array of tables of this collection with ids of the tables as keys.
+	 */
 	public function getTables(){
 		global $ilDB;
 		$query = "SELECT id FROM il_dcl_table WHERE obj_id = ".$this->getId();
 		$set = $ilDB->query($query);
-		$return = array();
+		$tables = array();
 		while($rec = $ilDB->fetchAssoc($set)){
-			array_push($return, new ilDataCollectionTable($rec['id']));
+			$tables[$rec['id']] = new ilDataCollectionTable($rec['id']);
 		}
-		return $return;
+		return $tables;
 	}
 
 }

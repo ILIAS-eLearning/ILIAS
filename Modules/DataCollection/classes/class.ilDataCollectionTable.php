@@ -24,7 +24,7 @@ class ilDataCollectionTable
     private $fields; // [array][ilDataCollectionField]
 	private $stdFields;
     private $records;
-	private $blocked; //[bool]
+
 	/**
 	 * @var bool
 	 */
@@ -211,7 +211,6 @@ class ilDataCollectionTable
 
 		$this->setObjId($rec["obj_id"]);
 		$this->setTitle($rec["title"]);
-		$this->setBlocked($rec["blocked"]);
 		$this->setAddPerm($rec["add_perm"]);
 		$this->setEditPerm($rec["edit_perm"]);
 		$this->setDeletePerm($rec["delete_perm"]);
@@ -311,7 +310,7 @@ class ilDataCollectionTable
 
     /**
      * Returns all fields of this table including the standard fields
-     * @return array ilDataCollectionField
+     * @return ilDataCollectionField[] ilDataCollectionField
      */
     function getFields()
     {
@@ -428,7 +427,6 @@ class ilDataCollectionTable
 		"id".
 		", obj_id".
 		", title".
-		", blocked".
 		", add_perm".
 		", edit_perm".
 		", delete_perm".
@@ -476,7 +474,6 @@ class ilDataCollectionTable
 		$ilDB->update("il_dcl_table", array(
 			"obj_id" => array("integer", $this->getObjId()),
 			"title" => array("text", $this->getTitle()),
-			"blocked" => array("integer",$this->isBlocked()),
 			"add_perm" => array("integer",$this->getAddPerm()),
 			"edit_perm" => array("integer",$this->getEditPerm()),
 			"delete_perm" => array("integer",$this->getDeletePerm()),
@@ -532,18 +529,6 @@ class ilDataCollectionTable
 	public function updateFields(){
 		foreach($this->getFields() as $field)
 			$field->doUpdate();
-	}
-
-	public function isBlocked(){
-		return $this->blocked;
-	}
-
-	public function setBlocked($blocked){
-		$this->blocked = $blocked?1:0;
-	}
-
-	public function toggleBlocked(){
-		$this->setBlocked(!$this->isBlocked());
 	}
 
 	private function sortFields(&$fields){
@@ -691,6 +676,26 @@ class ilDataCollectionTable
 	public function getLimitStart()
 	{
 		return $this->limit_start;
+	}
+
+	public function cloneStructure($original_id){
+		$original = new ilDataCollectionTable($original_id);
+		$this->setEditByOwner($original->getEditByOwner());
+		$this->setAddPerm($original->getAddPerm());
+		$this->setEditPerm($original->getEditPerm());
+		$this->setDeletePerm($original->getDeletePerm());
+		$this->setLimited($original->getLimited());
+		$this->setLimitStart($original->getLimitStart());
+		$this->setLimitEnd($original->getLimitEnd());
+		$this->setTitle($original->getTitle());
+		$this->DoCreate();
+
+		//clone fields.
+		foreach($original->getFields() as $field){
+			$new_field = new ilDataCollectionField();
+			$new_field->cloneStructure($field->getId());
+			$new_field->setTableId($this->getId());
+		}
 	}
 }
 

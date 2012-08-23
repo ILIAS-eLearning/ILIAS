@@ -12805,3 +12805,8 @@ if(!$ilDB->tableColumnExists('il_dcl_field', 'is_locked'))
     array(4, 'url')
   );
 ?>
+<#3733>
+<?php
+if($ilDB->tableColumnExists('il_dcl_table', 'blocked'))
+	$ilDB->dropTableColumn('il_dcl_table', 'blocked');
+?>
