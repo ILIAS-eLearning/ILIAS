@@ -750,7 +750,10 @@ class ilDataCollectionField
 	public function checkValidity($value, $record_id)
 	{
 		if(!ilDataCollectionDatatype::checkValidity($this->getDatatypeId(), $value))
+		{
 			throw new ilDataCollectionInputException(ilDataCollectionInputException::TYPE_EXCEPTION);
+		}
+			
 		$properties = $this->getPropertyvalues();
 		$length = ilDataCollectionField::PROPERTYID_LENGTH;
 		$regex_id = ilDataCollectionField::PROPERTYID_REGEX;
@@ -771,27 +774,44 @@ class ilDataCollectionField
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
 		}
 		
-		if($this->isUnique()){
+		if($this->isUnique())
+		{
 			$table = new ilDataCollectionTable($this->getTableId());
-			foreach($table->getRecords() as $record){
+			
+			foreach($table->getRecords() as $record)
+			{
 				if($record->getRecordFieldValue($this->getId()) == $value && ($record->getId() != $record_id || $record_id == 0))
 					throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
 
 				//for text it has to be case insensitive.
 				if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
+				{
 					if(strtolower($record->getRecordFieldValue($this->getId())) == strtolower($value) && ($record->getId() != $record_id || $record_id == 0))
+					{
 						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+					}
+						
+				}
 
-					if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
+				if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
+				{
 					$datestring = $value["date"]." ".$value["time"];//["y"]."-".$value["date"]['m']."-".$value["date"]['d']." 00:00:00";
 					if($record->getRecordFieldValue($this->getId()) == $datestring && ($record->getId() != $record_id || $record_id == 0))
+					{
 						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+					}
 				}
 			}
 		}
+		
 		return true;
 	}
-	public function cloneStructure($original_id){
+	
+	/*
+	 * cloneStructure
+	 */
+	public function cloneStructure($original_id)
+	{
 		$original = new ilDataCollectionField($original_id);
 		$this->setTitle($original->getTitle());
 		$this->setDatatypeId($original->getDatatypeId());
