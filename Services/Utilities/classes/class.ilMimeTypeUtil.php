@@ -66,52 +66,6 @@ class ilMimeTypeUtil
 		}
 		
 		return $mime;
-		
-		// typical standard cases for wrong detection should be
-		// "overwritten" by out suffix mime map
-		// for x-zip, see bug #6102
-		// for css, see bug #9332
-		if (in_array(trim(strtolower($mime)), array(
-				""
-				,"application/force-download"
-				,"application/octet-stream"
-				,"application/x-pdf"
-				,"application/x-zip"
-				,"text/plain"
-				,"text/html"
-				,"text/xml"
-			)) ||
-			in_array($ext, array(
-				".css",
-				".docx",
-				".dotx",
-				".jar",
-				".js",
-				".potx",
-				".ppsx",
-				".pptx",
-				".sldx",
-				".txt",
-				".xlam",
-				".xlsb",
-				".xlsx",
-				".xltx"
-			)))
-		{
-		}
-
-		// set default if mimetype detection failed or not possible (e.g. remote file)
-		if ($mime == "")
-		{
-			$mime = "application/octet-stream";
-		}
-
-
-		
-//$ilLog->write("---returning:".$mime.":");
-//$ilLog->logStack();
-
-		return $mime;
 	}
 
 
