@@ -1295,7 +1295,8 @@ class ilNusoapUserAdministrationAdapter
 					'sid' => 'xsd:string',
 					'ref_ids' => 'tns:intArray',
 					'usr_ids' => 'tns:intArray',
-					'type_filter' => 'tns:stringArray'
+					'type_filter' => 'tns:stringArray',
+					'progress_filter' => 'tns:intArray'
 				),
 				array('status' => 'xsd:boolean'),
 				SERVICE_NAMESPACE,
