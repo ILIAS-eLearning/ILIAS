@@ -75,7 +75,7 @@ class ilObjDataCollection extends ilObject2
 		
 	}
 	
-	 protected  function doUpdate()
+	 public  function doUpdate()
 	{
 		global $ilDB;
 
@@ -128,8 +128,7 @@ class ilObjDataCollection extends ilObject2
 		// prepare mail content
 		// use language of recipient to compose message
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-		$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
-		$ulng->loadLanguageModule('dcl');
+
 
 		// send mails
 		include_once "./Services/Mail/classes/class.ilMail.php";
