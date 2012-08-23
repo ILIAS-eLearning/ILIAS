@@ -66,8 +66,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
 		if($this->table->hasPermissionToAddRecord($this->parent_obj->parent_obj->ref_id))
 		{
+			$img = "<img src='".ilUtil::getImagePath("cmd_add_s.png")."' /> "; // Wirklich hässlich, doch leider wird der Text, der addHeaderCommand mitgeben wird, nicht mehr angezeigt, sobald man ein Bild mitsendet...
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
-			$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"),$lng->txt("dcl_add_new_record"));
+			$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"), $img.$lng->txt("dcl_add_new_record"));
 		}
 		
 		$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui","table_id", $this->parent_obj->table_id);
