@@ -74,6 +74,9 @@ class ilCalendarSettings
 	private $notification = false;
 	
 	private $cg_registration = false;
+	
+	private $course_cal_enabled = true;
+	private $group_cal_enabled = true;
 
 	/**
 	 * singleton contructor
@@ -416,6 +419,27 @@ class ilCalendarSettings
 		return $this->cg_registration;
 	}
 	
+	public function enableCourseCalendar($a_stat)
+	{
+		$this->course_cal_enabled = $a_stat;
+	}
+	
+	public function isCourseCalendarEnabled()
+	{
+		return $this->course_cal_enabled;
+	}
+	
+	public function enableGroupCalendar($a_stat)
+	{
+		$this->group_cal_enabled = $a_stat;
+	}
+	
+	public function isGroupCalendarEnabled()
+	{
+		return $this->group_cal_enabled;
+	}
+	
+	
 	/**
 	 * save 
 	 *
@@ -438,6 +462,8 @@ class ilCalendarSettings
 		$this->storage->set('notification',(int) $this->isNotificationEnabled());
 		$this->storage->set('consultation_hours',(int) $this->areConsultationHoursEnabled());
 		$this->storage->set('cg_registration',(int) $this->isCGRegistrationEnabled());
+		$this->storage->set('course_cal',(int) $this->isCourseCalendarEnabled());
+		$this->storage->set('group_cal',(int) $this->isGroupCalendarEnabled());
 	}
 
 	/**
@@ -464,6 +490,8 @@ class ilCalendarSettings
 		$this->enableNotification($this->storage->get('notification',$this->isNotificationEnabled()));
 		$this->enableConsultationHours($this->storage->get('consultation_hours',$this->areConsultationHoursEnabled()));
 		$this->enableCGRegistration($this->storage->get('cg_registration',$this->isCGRegistrationEnabled()));
+		$this->enableCourseCalendar($this->storage->get('course_cal'),$this->isCourseCalendarEnabled());
+		$this->enableGroupCalendar($this->storage->get('group_cal'),$this->isGroupCalendarEnabled());
 	}
 	
 	/**
