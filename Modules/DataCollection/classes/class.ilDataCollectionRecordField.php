@@ -130,6 +130,7 @@ class ilDataCollectionRecordField
     public function getFormInput()
     {
         $datatype = $this->field->getDatatype();
+        
         return $datatype->parseFormInput($this->getValue());
     }
     
@@ -139,7 +140,7 @@ class ilDataCollectionRecordField
     public function getExportValue()
     {
         $datatype = $this->field->getDatatype();
-        
+
         return $datatype->parseExportValue($this->getValue());
     }
     

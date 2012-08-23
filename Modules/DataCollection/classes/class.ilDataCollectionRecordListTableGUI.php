@@ -100,7 +100,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$col = 0;
 		foreach($this->table->getFields() as $field)
 		{
-			$worksheet->writeString($row, $col, $record->getRecordFieldValue($field->getId()));
+			$worksheet->writeString($row, $col, $record->getRecordFieldExportValue($field->getId()));
 			$col++;
 		}
 	}
