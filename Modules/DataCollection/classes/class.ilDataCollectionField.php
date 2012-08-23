@@ -796,6 +796,7 @@ class ilDataCollectionField
 				if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 				{
 					$datestring = $value["date"]." ".$value["time"];//["y"]."-".$value["date"]['m']."-".$value["date"]['d']." 00:00:00";
+					
 					if($record->getRecordFieldValue($this->getId()) == $datestring && ($record->getId() != $record_id || $record_id == 0))
 					{
 						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
