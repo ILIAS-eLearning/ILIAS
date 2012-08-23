@@ -37,7 +37,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setFormName('record_list');
 		
 		$this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
-
+		
+		$this->addColumn("", "", "15px");
+		
         foreach($this->table->getVisibleFields() as $field)
         {
             $this->addColumn($field->getTitle());
@@ -122,24 +124,31 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
 			$this->tpl->parseCurrentBlock();
 		}
-		
-		
+
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
 		$ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record->getId());
 		
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
+		$this->tpl->setVariable("VIEW_IMAGE_LINK", $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
+		$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
 		
 		$alist = new ilAdvancedSelectionListGUI();
 		$alist->setId($record->getId());
 		$alist->setListTitle($lng->txt("actions"));
-		
 		$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
 
 		$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","record_id", $record->getId());
+		
 		if($record->hasPermissionToEdit($this->parent_obj->parent_obj->ref_id))
+		{
 			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'edit'));
+		}
+			
 		if($record->hasPermissionToDelete($this->parent_obj->parent_obj->ref_id))
+		{
 			$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'confirmDelete'));
+		}
 
 		$this->tpl->setVariable("ACTIONS", $alist->getHTML());
 
@@ -149,7 +158,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	function initFilter()
 	{
 
-		foreach($this->table->getFilterableFields() as $field){
+		foreach($this->table->getFilterableFields() as $field)
+		{
 			$input = ilDataCollectionDatatype::addFilterInputFieldToTable($field, $this);
 			$input->readFromSession();
 			$this->filter["filter_".$field->getId()] = $input->getValue();
