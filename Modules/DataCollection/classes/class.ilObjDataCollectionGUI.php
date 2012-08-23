@@ -287,7 +287,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$_GET["cmd"] = "listRecords";
 
 		include("ilias.php");
-		exit;
 	}
 
 	protected function initCreationForms($a_new_type)
@@ -531,12 +530,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         }
 
         $tpl->setHeaderActionMenu($lg->getHeaderAction());
-    }
-
-    function redrawHeaderAction()
-    {
-        echo $this->addHeaderAction(true);
-        exit;
     }
 }
 

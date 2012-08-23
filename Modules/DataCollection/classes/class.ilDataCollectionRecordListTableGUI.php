@@ -27,6 +27,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	{
 		global $lng, $tpl, $ilCtrl;
 
+		$this->setPrefix("dcl_record_list");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->table = $table;
@@ -59,7 +60,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->initFilter();
-		$this->setExportFormats(array(self::EXPORT_EXCEL));
 		$this->setData($table->getRecordsByFilter($this->filter));
 
         //leave these two
@@ -72,9 +72,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
 			$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"), $lng->txt("dcl_add_new_record").$img);
 		}
-		
-		$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui","table_id", $this->parent_obj->table_id);
-		$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "exportExcel"),$lng->txt("dcl_export_table_excel"));
 	}
 	
 	/*
@@ -82,13 +79,18 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function fillHeaderExcel($worksheet, &$row)
 	{
+		global $ilLog;
+		$this->writeFilterToSession();
+		$this->initFilter();
+		$this->setData($this->table->getRecordsByFilter($this->filter));
 		$col = 0;
 		foreach($this->table->getFields() as $field)
 		{
-			$worksheet->writeString($row, $col, $field->getTitle());
-			$col++;
+			if($field->isVisible()){
+				$worksheet->writeString($row, $col, $field->getTitle());
+				$col++;
+			}
 		}
-		// $row++; Header ohne Abstand zum Inhalt
 	}
 	
 	
@@ -100,8 +102,10 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$col = 0;
 		foreach($this->table->getFields() as $field)
 		{
-			$worksheet->writeString($row, $col, $record->getRecordFieldExportValue($field->getId()));
-			$col++;
+			if($field->isVisible()){
+				$worksheet->writeString($row, $col, $record->getRecordFieldExportValue($field->getId()));
+				$col++;
+			}
 		}
 	}
 	

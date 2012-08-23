@@ -96,7 +96,7 @@ class ilObjDataCollection extends ilObject2
 		
 		foreach($this->getTables() as $table)
 		{
-			$table->doDelete();
+			$table->doDelete(true);
 		}
 		
 		$query = "DELETE FROM il_dcl_data WHERE id = ".$this->getId();

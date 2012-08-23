@@ -25,7 +25,7 @@ include_once "Services/Context/classes/class.ilContext.php";
 * @ingroup ServicesInit
 */
 class ilInitialisation
-{	
+{
 	/**
 	 * Remove unsafe characters from GET
 	 */
@@ -1022,9 +1022,9 @@ class ilInitialisation
 		$tree = new ilTree(ROOT_FOLDER_ID);
 		self::initGlobal("tree", $tree);
 		unset($tree);
-				
+
 		self::initGlobal("ilCtrl", "ilCtrl",
-				"./Services/UICore/classes/class.ilCtrl.php");			
+				"./Services/UICore/classes/class.ilCtrl.php");
 	}
 	
 	/**

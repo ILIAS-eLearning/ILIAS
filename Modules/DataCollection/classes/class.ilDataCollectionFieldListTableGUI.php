@@ -138,7 +138,11 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 			}
 			$this->tpl->setVariable('REQUIRED', $required);
 			$this->tpl->setVariable('UNIQUE', $uniq);
+		}else{
+			$this->tpl->setVariable('NO_REQUIRED', "-");
+			$this->tpl->setVariable('NO_UNIQUE', "-");
 		}
+
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "field_id", $a_set->getId());
 
 		if(!$a_set->isStandardField())
