@@ -88,7 +88,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$worksheet->writeString($row, $col, $field->getTitle());
 			$col++;
 		}
-		$row++;
+		// $row++; Header ohne Abstand zum Inhalt
 	}
 	
 	

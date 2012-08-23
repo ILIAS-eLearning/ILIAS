@@ -136,12 +136,20 @@ class ilDataCollectionRecord
 	{
 		return $this->owner;
 	}
-
-	public function getLastEditBy(){
+	
+	/*
+	 * getLastEditBy
+	 */
+	public function getLastEditBy()
+	{
 		return $this->last_edit_by;
 	}
-
-	public function setLastEditBy($last_edit_by){
+	
+	/*
+	 * setLastEditBy
+	 */
+	public function setLastEditBy($last_edit_by)
+	{
 		$this->last_edit_by = $last_edit_by;
 	}
 
@@ -155,9 +163,14 @@ class ilDataCollectionRecord
 	function setRecordFieldValue($field_id, $value)
 	{
        	$this->loadRecordFields();
+       	
         if(ilDataCollectionStandardField::_isStandardField($field_id))
-            $this->setStandardField($field_id, $value);
-        else{
+        {
+	        $this->setStandardField($field_id, $value);
+        }
+            
+        else
+        {
 			$this->loadTable();
 		    $this->recordfields[$field_id]->setValue($value);
 		}
@@ -181,11 +194,11 @@ class ilDataCollectionRecord
 	}
 	
 	/**
-	* Get Field Value
-	*
-	* @param int $a_id
-	* @return array
-	*/
+	 * Get Field Value
+	 *
+	 * @param int $field_id
+	 * @return array
+	 */
 	public function getRecordFieldValue($field_id)
 	{
         $this->loadRecordFields();
@@ -199,30 +212,59 @@ class ilDataCollectionRecord
 	        return $this->recordfields[$field_id]->getValue();
         }
 	}
-
-    function getRecordFieldHTML($field_id){
+	
+	/*
+	 * getRecordFieldHTML
+	 *
+     * @param int $field_id
+	 * @return array
+     */
+    public function getRecordFieldHTML($field_id)
+    {
         $this->loadRecordFields();
+        
         if(ilDataCollectionStandardField::_isStandardField($field_id))
-            return $this->getStandardFieldHTML($field_id);
+        {
+	        return $this->getStandardFieldHTML($field_id);
+        }
+            
         else
-            return $this->recordfields[$field_id]->getHTML();
+        {
+	        return $this->recordfields[$field_id]->getHTML();
+        }
     }
+    
     
     /*
      * getRecordFieldFormInput
+     *
+     * @param int $field_id
+	 * @return array
      */
-    function getRecordFieldFormInput($field_id)
+    public function getRecordFieldFormInput($field_id)
     {
         $this->loadRecordFields();
         if(ilDataCollectionStandardField::_isStandardField($field_id))
-            return $this->getStandardField($field_id);
+        {
+	        return $this->getStandardField($field_id);
+        }
         else
-            return $this->recordfields[$field_id]->getFormInput();
+        {
+	        return $this->recordfields[$field_id]->getFormInput();
+        }
     }
 
 
+    /*
+     * setStandardField
+     *
+     * @param int $field_id
+     * @param mixed $value
+     */
+     
     // TODO: Bad style, fix with switch statement
-    private function setStandardField($field_id, $value){
+    private function setStandardField($field_id, $value)
+    {
 		switch($field_id){
 			case "last_edit_by":
 				$this->setLastEditBy($value);
