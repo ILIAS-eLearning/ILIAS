@@ -501,7 +501,11 @@ class ilDataCollectionField
 		$this->updateFilterability();
 		$this->updateEditability();
 	}
-	
+
+	public function getFilterable(){
+
+	}
+
 	/*
      * updateVisibility
      */
@@ -692,7 +696,21 @@ class ilDataCollectionField
 		}
 		return true;
 	}
-
+	public function cloneStructure($original_id){
+		$original = new ilDataCollectionField($original_id);
+		$this->setTitle($original->getTitle());
+		$this->setDatatypeId($original->getDatatypeId());
+		$this->setDescription($original->getDescription());
+		$this->setEditable($original->isEditable());
+		$this->setLocked($original->getLocked());
+		$this->setFilterable($original->isFilterable());
+		$this->setVisible($original->isVisible());
+		$this->setOrder($original->getOrder());
+		$this->setRequired($original->getRequired());
+		$this->setUnique($original->isUnique());
+		$this->setProperties($original->getProperties());
+		$this->DoCreate();
+	}
 }
 
 ?>
