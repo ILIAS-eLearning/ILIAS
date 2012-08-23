@@ -292,7 +292,7 @@ class ilDataCollectionTable
         if($this->fields == NULL)
         {
             global $ilDB;
-            $query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$this->getId()." ORDER BY def.field_order";
+            $query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$this->getId()." ORDER BY def.field_order DESC";
             $fields = array();
             $set = $ilDB->query($query);
             
@@ -540,8 +540,18 @@ class ilDataCollectionTable
 			$field->doUpdate();
 	}
 
-	private function sortFields(&$fields){
+	/**
+	 * @param $fields ilDataCollectionField[]
+	 */
+	public function sortFields(&$fields){
 		$this->sortByMethod($fields, "getOrder");
+
+		//After sorting the array loses it's keys respectivly their keys are set form $field->id to 1,2,3... so we reset the keys.
+		$named = array();
+		foreach($fields as $field){
+			$named[$field->getId()] = $field;
+		}
+		$fields = $named;
 	}
 
 	private function sortByMethod(&$array, $method_name){
