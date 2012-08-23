@@ -152,11 +152,11 @@ class ilDataCollectionTable
 			$this->obj = new ilObjDataCollection($this->objId, false);
 		}
 	}
-	
-	/*
-	 * getRecords
+
+	/**
+	 * @return ilDataCollectionRecord[]
 	 */
-    function getRecords()
+	function getRecords()
     {
         $this->loadRecords();
         

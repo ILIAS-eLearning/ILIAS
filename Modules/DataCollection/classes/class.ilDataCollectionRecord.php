@@ -18,7 +18,10 @@ include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField
 
 class ilDataCollectionRecord
 {
-    private $recordfields;
+	/**
+	 * @var ilDataCollectionRecordField[]
+	 */
+	private $recordfields;
     private $id;
     private $table_id;
     private $table;
