@@ -12591,7 +12591,7 @@ dcl#:#dcl_table_list_fields#:#Feldliste
 dcl#:#dcl_view_viewdefinition#:#Anzeigedefinition
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
-dcl#:#dcl_table_edit#:#Bearbeite Tabelle
+dcl#:#dcl_table_edit#:#Tabelleneigenschaften speichern
 dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_datatype#:#Datentyp
 dcl#:#dcl_integer#:#Ganzzahl
@@ -12909,3 +12909,5 @@ dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
 dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich löschen?
+dcl#:#dcl_edit_table#:#Tabelleneigenschaften bearbeiten
+dcl#:#dcl_msg_table_edited#:#Tabelleneigenschaften wurden gespeichert.
