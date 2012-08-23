@@ -320,7 +320,7 @@ class ilDataCollectionTable
 
     /**
      * Returns all fields of this table including the standard fields
-     * @return ilDataCollectionField[] ilDataCollectionField
+     * @return ilDataCollectionField[]
      */
     function getFields()
     {
