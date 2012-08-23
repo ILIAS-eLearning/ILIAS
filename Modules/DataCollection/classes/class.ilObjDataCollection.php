@@ -305,12 +305,17 @@ class ilObjDataCollection extends ilObject2
 	{
 		return self::_checkAccess($this->getId());
 	}
-
+	
+	/*
+	 * _checkAccess
+	 */
 	public static function _checkAccess($data_collection_id)
 	{
 		global $ilAccess;
+		
 		$perm = false;
 		$references = self::_getAllReferences($data_collection_id);
+		
 		if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
 		{
 			$perm = true;
@@ -347,6 +352,7 @@ class ilObjDataCollection extends ilObject2
 	public function getTables()
 	{
 		global $ilDB;
+		
 		$query = "SELECT id FROM il_dcl_table WHERE obj_id = ".$this->getId();
 		$set = $ilDB->query($query);
 		$tables = array();
