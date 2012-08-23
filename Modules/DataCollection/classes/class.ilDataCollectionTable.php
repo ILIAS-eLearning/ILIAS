@@ -438,7 +438,6 @@ class ilDataCollectionTable
 		$ilDB->quote($this->getId(), "integer")
 		.",".$ilDB->quote($this->getObjId(), "integer")
 		.",".$ilDB->quote($this->getTitle(), "text")
-		.",".$ilDB->quote($this->isBlocked()?1:0, "integer")
 		.",".$ilDB->quote($this->getAddPerm()?1:0, "integer")
 		.",".$ilDB->quote($this->getEditPerm()?1:0, "integer")
 		.",".$ilDB->quote($this->getDeletePerm()?1:0, "integer")
