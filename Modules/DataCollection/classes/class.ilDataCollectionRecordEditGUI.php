@@ -56,7 +56,6 @@ class ilDataCollectionRecordEditGUI
 		global $ilCtrl;
 
 		$cmd = $ilCtrl->getCmd();
-
 		switch($cmd)
 		{
 			default:

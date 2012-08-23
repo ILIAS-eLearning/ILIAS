@@ -87,6 +87,8 @@ class ilDataCollectionRecordListGUI
         $ilToolbar->addInputItem($table_selection);
         $ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 
+		$ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
+
         $list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
 		$tpl->getStandardTemplate();
         $tpl->setContent($list->getHTML());
@@ -96,6 +98,8 @@ class ilDataCollectionRecordListGUI
 		global $ilCtrl;
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
+		$table = new ilDataCollectionTable($this->table_id);
+		$list->setData($table->getRecords());
 		$list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
 		$this->listRecords();
 	}
