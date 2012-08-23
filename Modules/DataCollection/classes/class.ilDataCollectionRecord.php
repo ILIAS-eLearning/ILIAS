@@ -272,19 +272,37 @@ class ilDataCollectionRecord
 		}
         $this->$field_id = $value;
     }
-
+    
+    
+    /*
+     * getStandardField
+     *
+     * @param int $field_id
+     * @return mixed
+     */
     // TODO: Bad style, fix with switch statement
-    private function getStandardField($field_id){
-		switch($field_id){
+    private function getStandardField($field_id)
+    {
+		switch($field_id)
+		{
 			case "last_edit_by":
 				return $this->getLastEditBy();
 		}
+        
         return $this->$field_id;
     }
-
+    
+    /*
+     * getStandardFieldHTML
+     *
+     * @param int $field_id
+     * @return mixed
+     */
 	// TODO: Bad style, fix with switch statement
-	private function getStandardFieldHTML($field_id){
-		switch($field_id){
+	private function getStandardFieldHTML($field_id)
+	{
+		switch($field_id)
+		{
 			case 'owner':
 				global $ilCtrl;
 				$owner = new ilObjUser($this->getOwner());
@@ -292,21 +310,33 @@ class ilDataCollectionRecord
 				//$link = $ilCtrl->getLinkTargetByClass("ilObjUserGUI", "view");
 				//return "<a class='dcl_usr_link' href='".$link."'>".$owner->getFullname()."</a>";
 				return $owner->getFullname();
+				
 			case 'last_edit_by':
 				$last_edit_by = new ilObjUser($this->getLastEditBy());
 				return $last_edit_by->getFullname();
 		}
+		
 		return $this->$field_id;
 	}
-
-    private function loadRecordFields(){
-        if($this->recordfields == NULL){
+	
+	
+	/*
+	 * loadRecordFields
+	 */
+    private function loadRecordFields()
+    {
+        if($this->recordfields == NULL)
+        {
 			$this->loadTable();
             $recordfields = array();
-            foreach($this->table->getRecordFields() as $field){
-				if($recordfields[$field->getId()] == Null)
-                	$recordfields[$field->getId()] = new ilDataCollectionRecordField($this, $field);
+            foreach($this->table->getRecordFields() as $field)
+            {
+				if($recordfields[$field->getId()] == NULL)
+				{
+					$recordfields[$field->getId()] = new ilDataCollectionRecordField($this, $field);
+				}
             }
+            
             $this->recordfields = $recordfields;
         }
     }
@@ -317,6 +347,7 @@ class ilDataCollectionRecord
     private function loadTable()
     {
         include_once("class.ilDataCollectionTable.php");
+        
         if($this->table == NULL)
         {
             $this->table = new ilDataCollectionTable($this->getTableId());
@@ -376,14 +407,23 @@ class ilDataCollectionRecord
         include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
         ilObjDataCollection::sendNotification("new_record", $this->getTableId(), $id);
     }
-
-    public function deleteField($field_id){
+    
+    /*
+     * deleteField
+     */
+    public function deleteField($field_id)
+    {
         $this->loadRecordFields();
         $this->recordfields[$field_id]->delete();
     }
-
-	public function getRecordField($field_id){
+    
+    /*
+     * getRecordField
+     */
+	public function getRecordField($field_id)
+	{
 		$this->loadRecordFields();
+		
 		return $this->recordfields[$field_id];
 	}
 
@@ -409,27 +449,47 @@ class ilDataCollectionRecord
         include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
         ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
     }
-
-	public function deleteFile($obj_id){
+    
+    /*
+     * deleteFile
+     */
+	public function deleteFile($obj_id)
+	{
 		$file = new ilObjDataCollectionFile($obj_id, false);
 		$file->delete();
 	}
-
-	public function passThroughFilter(array $filter){
+	
+	/*
+	 * passThroughFilter
+	 */
+	public function passThroughFilter(array $filter)
+	{
 		$pass = true;
 		$this->loadTable();
-		foreach($this->table->getFields() as $field){
+		foreach($this->table->getFields() as $field)
+		{
 			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
+			{
 				$pass = false;
+			}
 		}
+		
 		return $pass;
 	}
-
-	function hasPermissionToEdit($ref){
+	
+	/*
+	 * hasPermissionToEdit
+	 */
+	public function hasPermissionToEdit($ref)
+	{
 		return $this->getTable()->hasPermissionToEditRecord($ref, $this);
 	}
-
-	function hasPermissionToDelete($ref){
+	
+	/*
+	 * hasPermissionToDelete
+	 */
+	public function hasPermissionToDelete($ref)
+	{
 		return $this->getTable()->hasPermissionToDeleteRecord($ref, $this);
 	}
 
@@ -458,17 +518,24 @@ class ilDataCollectionRecord
         include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
         ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
     }
-
-	public function getRecordFields(){
+    
+    /*
+     * getRecordFields
+     */
+	public function getRecordFields()
+	{
 		$this->loadRecordFields();
+		
 		return $this->recordfields;
 	}
 
 	/**
 	 * @return ilDataCollectionTable
 	 */
-	public function getTable(){
+	public function getTable()
+	{
 		$this->loadTable();
+		
 		return $this->table;
 	}
 }
