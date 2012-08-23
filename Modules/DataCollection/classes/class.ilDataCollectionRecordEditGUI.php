@@ -155,9 +155,8 @@ class ilDataCollectionRecordEditGUI
 
 		$ilCtrl->setParameter($this, "record_id", $this->record_id);
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
-
-			$allFields = $this->table->getRecordFields();
-
+		$allFields = $this->table->getRecordFields();
+		$this->table->sortFields($allFields);
 
 		foreach($allFields as $field)
 		{

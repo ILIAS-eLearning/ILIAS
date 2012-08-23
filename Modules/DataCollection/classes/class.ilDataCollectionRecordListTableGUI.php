@@ -52,7 +52,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
-		$this->setDisableFilterHiding(true);
 		$this->setShowRowsSelector(false);
 		$this->setShowTemplates(false);
 		$this->setEnableHeader(true);
