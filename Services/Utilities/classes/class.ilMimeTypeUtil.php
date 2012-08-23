@@ -22,56 +22,82 @@ class ilMimeTypeUtil
 	static function getMimeType($a_file = "", $a_filename = "", $a_mime = "")
 	{
 		global $ilLog;
+
+		$mime = "";
 		
-//$ilLog->write("getMimeType-".$a_file."-".$a_filename."-".$a_mime."-");
-		
-		$mime = $a_mime;
-//echo "<br>-".$a_file."-".$a_filename."-".$a_mime."-";
-		// check if mimetype detection enabled in php.ini
-		$set = ini_get("mime_magic.magicfile");
-		// get mimetype
-		if ($set <> "")
+		// determine extension
+		$ext = "";
+		if ($a_filename != "")	// first check the file name provided
 		{
-			if ($mime == "" && is_file($a_file))
+			$path = pathinfo($a_filename);
+			$ext = ".".strtolower($path["extension"]);
+		}
+		else if ($a_file != "")		// check if (full path) file has been provided
+		{
+			$path = pathinfo($a_file);
+			$ext = ".".strtolower($path["extension"]);
+		}
+
+		$types_map = ilMimeTypeUtil::getExt2MimeMap();
+		if ($types_map[$ext] != "")		// if we find something in our map, use it
+		{
+			$mime = $types_map[$ext];
+		}
+
+		if ($mime == "" && extension_loaded('Fileinfo'))
+		{
+			$finfo = finfo_open(FILEINFO_MIME);
+			$mime = finfo_file($finfo, $a_file);
+			finfo_close($finfo);
+			if ($pos = strpos($mime, ' '))
 			{
-				$mime = @mime_content_type($a_file);
+				$mime = substr($mime, 0, $pos);
+			}
+			// remove trailing ";"
+			if (substr($mime, strlen($mime) - 1, 1) == ";")
+			{
+				$mime = substr($mime, 0, strlen($mime) - 1);
 			}
 		}
 
-		// Firefox browser assigns 'application/x-pdf' to PDF files, but
-		// it can only handle them if the have the mime-type 'application/pdf'.
-		if ($mime == 'application/x-pdf')
+		if ($mime == "")
 		{
-			$mime = 'application/pdf';
+			$mime = "application/octet-stream";
 		}
-
+		
+		return $mime;
+		
 		// typical standard cases for wrong detection should be
-		// "overwritten" by suffic mime map
-		// text/plain, so we make our own detection in this case, too
+		// "overwritten" by out suffix mime map
 		// for x-zip, see bug #6102
-		if ($mime == "" || trim(strtolower($mime)) == "text/plain" ||
-			trim(strtolower($mime)) == "application/octet-stream" ||
-			trim(strtolower($mime)) == "application/force-download" ||
-			trim(strtolower($mime)) == "application/x-zip" ||
-			trim(strtolower($mime)) == "text/xml" ||
-			trim(strtolower($mime)) == "text/html")
+		// for css, see bug #9332
+		if (in_array(trim(strtolower($mime)), array(
+				""
+				,"application/force-download"
+				,"application/octet-stream"
+				,"application/x-pdf"
+				,"application/x-zip"
+				,"text/plain"
+				,"text/html"
+				,"text/xml"
+			)) ||
+			in_array($ext, array(
+				".css",
+				".docx",
+				".dotx",
+				".jar",
+				".js",
+				".potx",
+				".ppsx",
+				".pptx",
+				".sldx",
+				".txt",
+				".xlam",
+				".xlsb",
+				".xlsx",
+				".xltx"
+			)))
 		{
-			if ($a_filename != "")	// first check the file name provided
-			{
-				$path = pathinfo($a_filename);
-				$ext = ".".strtolower($path["extension"]);
-			}
-			else if ($a_file != "")		// check if (full path) file has been provided
-			{
-				$path = pathinfo($a_file);
-				$ext = ".".strtolower($path["extension"]);
-			}
-
-			$types_map = ilMimeTypeUtil::getExt2MimeMap();
-			if ($types_map[$ext] != "")		// if we find something in our map, use it
-			{
-				$mime = $types_map[$ext];
-			}
 		}
 
 		// set default if mimetype detection failed or not possible (e.g. remote file)
@@ -80,6 +106,8 @@ class ilMimeTypeUtil
 			$mime = "application/octet-stream";
 		}
 
+
+		
 //$ilLog->write("---returning:".$mime.":");
 //$ilLog->logStack();
 
@@ -92,6 +120,7 @@ class ilMimeTypeUtil
 	*/
 	function getExt2MimeMap()
 	{
+		// for office, see http://stackoverflow.com/questions/4212861/what-is-a-correct-mime-type-for-docx-pptx-etc
 		$types_map = array (
 			'.3gp'    => 'video/3gpp',
 			'.a'      => 'application/octet-stream',
@@ -121,7 +150,9 @@ class ilMimeTypeUtil
 			'.dir'    => 'application/x-director',
 			'.dll'    => 'application/octet-stream',
 			'.doc'    => 'application/msword',
+			'.docx'   => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 			'.dot'    => 'application/msword',
+			'.dotx'   => 'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
 			'.dvi'    => 'application/x-dvi',
 			'.dwg'    => 'application/acad',
 			'.dxf'    => 'application/dxf',
@@ -184,10 +215,13 @@ class ilMimeTypeUtil
 			'.png'    => 'image/png',
 			'.pnm'    => 'image/x-portable-anymap',
 			'.pot'    => 'application/vnd.ms-powerpoint',
+			'.potx'   => 'application/vnd.openxmlformats-officedocument.presentationml.template',
 			'.ppa'    => 'application/vnd.ms-powerpoint',
 			'.ppm'    => 'image/x-portable-pixmap',
 			'.pps'    => 'application/vnd.ms-powerpoint',
+			'.ppsx'   => 'application/vnd.openxmlformats-officedocument.presentationml.slideshow',
 			'.ppt'    => 'application/vnd.ms-powerpoint',
+			'.pptx'   => 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 			'.ps'     => 'application/postscript',
 			'.psd'    => 'image/psd',
 			'.pwz'    => 'application/vnd.ms-powerpoint',
@@ -209,6 +243,7 @@ class ilMimeTypeUtil
 			'.sh'     => 'application/x-sh',
 			'.shar'   => 'application/x-shar',
 			'.sit'    => 'application/x-stuffit',
+			'.sldx'   => 'application/vnd.openxmlformats-officedocument.presentationml.slide',
 			'.snd'    => 'audio/basic',
 			'.so'     => 'application/octet-stream',
 			'.spc'    => 'text/x-speech',
@@ -251,11 +286,15 @@ class ilMimeTypeUtil
 			'.wrl'    => 'x-world/x-vrml',
 			'.xbm'    => 'image/x-xbitmap',
 			'.xla'    => 'application/msexcel',
+			'.xlam'   => 'application/vnd.ms-excel.addin.macroEnabled.12',
 			'.xlb'    => 'application/vnd.ms-excel',
 			'.xls'    => 'application/msexcel',
+			'.xlsb'   => 'application/vnd.ms-excel.sheet.binary.macroEnabled.12',
 			'.xml'    => 'text/xml',
 			'.xpm'    => 'image/x-xpixmap',
 			'.xsl'    => 'application/xml',
+			'.xlsx'   => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+			'.xltx'   => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
 			'.xwd'    => 'image/x-xwindowdump',
 			'.zip'    => 'application/zip');
 
