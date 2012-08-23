@@ -234,8 +234,9 @@ class ilDataCollectionTableEditGUI
 		}
 		else
 		{
-			$this->form_gui->setValuesByPost();
-			$this->tpl->setContent($this->form_gui->getHTML());
+			global $tpl;
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHTML());
 		}
 	}
 	/*

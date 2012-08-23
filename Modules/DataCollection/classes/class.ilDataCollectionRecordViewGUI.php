@@ -22,9 +22,8 @@ class ilDataCollectionRecordViewGUI
 {
 	function __construct($a_dcl_object)
 	{
-		global $lng, $tpl;
-		
 		$this->record_id = $_GET['record_id'];
+		$this->record_obj = new ilDataCollectionRecord($this->record_id);
 	}
 
 	/**
@@ -43,28 +42,39 @@ class ilDataCollectionRecordViewGUI
 				break;
 		}
 	}
-	
-	
+
+	/**
+	 * @param $record_obj ilDataCollectionRecord
+	 * @return int|null returns the id of the viewdefinition if one is declared and null otherwise
+	 */
+	public static function _getViewDefinitionId($record_obj)
+	{
+		return ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_obj->getTableId());
+	}
+
 	/**
 	* showRecord
 	* a_val = 
 	*/
 	public function renderRecord()
 	{
-		global $ilTabs, $tpl;
+		global $ilTabs, $tpl, $ilCtrl;
 		
 		$ilTabs->setTabActive("id_content");
 
-		$record_obj = new ilDataCollectionRecord($this->record_id);
+		$view_id = self::_getViewDefinitionId($this->record_obj);
 
-		$pageObj = new ilPageObjectGUI("dclf", ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_obj->getTableId()));
+		if(!$view_id){
+			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+		}
+
+		$pageObj = new ilPageObjectGUI("dclf", $view_id);
 
 		$html = $pageObj->getHTML();
-		$table = new ilDataCollectionTable($record_obj->getTableId());
-
+		$table = new ilDataCollectionTable($this->record_obj->getTableId());
 		foreach($table->getFields() as $field)
 		{
-			$html = str_ireplace("[".$field->getTitle()."]", $record_obj->getRecordFieldHTML($field->getId()), $html);
+			$html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
 		}
 
 		$tpl->setContent($html);

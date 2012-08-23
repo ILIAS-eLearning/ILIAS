@@ -12535,7 +12535,7 @@ dcl#:#dcl_table_list_fields#:#List Fields of current Table
 dcl#:#dcl_view_viewdefinition#:#Viewdefinition
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_table_create#:#Create Table
-dcl#:#dcl_table_edit#:#Edit Table
+dcl#:#dcl_table_edit#:#Update Table
 dcl#:#dcl_new_field#:#New Field
 dcl#:#dcl_datatype#:#Datatype
 dcl#:#dcl_integer#:#Integer
@@ -12558,7 +12558,8 @@ dcl#:#dcl_unique_exception#:#The value you entered is already taken by another r
 dcl#:#dcl_unknown_exception#:#The value you entered is not valid.
 dcl#:#dcl_checked#:#Checked.
 dcl#:#dcl_not_checked#:#Not checked.
-dcl#:#dcl_any#:#Any.
+dcl#:#dcl_any#:#Any
+dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)
 common#:#mail_member#:#Mail to Member
 exc#:#exc_type_upload_team#:#Team Upload
 exc#:#exc_team#:#Team
