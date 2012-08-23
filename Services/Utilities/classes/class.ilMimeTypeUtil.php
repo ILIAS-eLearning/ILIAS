@@ -144,7 +144,7 @@ class ilMimeTypeUtil
 			'.jpe'    => 'image/jpeg',
 			'.jpeg'   => 'image/jpeg',
 			'.jpg'    => 'image/jpeg',
-			'.js'     => 'application/x-javascript',
+			'.js'     => 'text/javascript',
 			'.ksh'    => 'text/plain',
 			'.latex'  => 'application/x-latex',
 			'.m1v'    => 'video/mpeg',
