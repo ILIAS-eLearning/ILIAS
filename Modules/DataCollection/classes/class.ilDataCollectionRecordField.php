@@ -112,12 +112,15 @@ class ilDataCollectionRecordField
 		$tmp = $this->field->getDatatype()->parseValue($value);
 		$old = $this->value;
 		//if parse value fails keep the old value
-		if($tmp){
+		if($tmp)
+		{
 			$this->value = $tmp;
 
 			//delete old file from filesystem
 			if($old && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
+			{
 				$this->record->deleteFile($old);
+			}
 		}
     }
 
