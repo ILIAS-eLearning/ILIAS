@@ -102,7 +102,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				break;
 
 			case "ildatacollectionfieldlistgui":
-				//$this->addHeaderAction($cmd);
 				$this->prepareOutput();
 				$this->addListFieldsTabs("list_fields");
 				$ilTabs->setTabActive("id_fields");
@@ -112,7 +111,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				break;
 
 			case "ildatacollectiontableeditgui":
-				//$this->addHeaderAction($cmd);
 				$this->prepareOutput();
 				$ilTabs->setTabActive("id_fields");
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionTableEditGUI.php");
@@ -121,7 +119,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				break;
 
 			case "ildatacollectionfieldeditgui":
-				//$this->addHeaderAction($cmd);
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_fields");
 				include_once("./Modules/DataCollection/classes/class.ilDataCollectionFieldEditGUI.php");
@@ -216,26 +213,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				break;
 
 			default:
-			
-                //Activate / Deactivate Notifications
-                if($_GET["ntf"])
-                {
-                    include_once "./Services/Notification/classes/class.ilNotification.php";
-                    switch($_GET["ntf"])
-                    {
-                        case 1:
-                            ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, false);
-                            break;
-
-                        case 2:
-                            // remove all page notifications here?
-                            ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, true);
-                            break;
-                    }
-                    $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-                }
-
-				//$this->addHeaderAction($cmd);
 				return parent::executeCommand();
 		}
 
@@ -478,22 +455,27 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	public function updateCustom(ilPropertyFormGUI $a_form)
 	{
 		global $ilUser;
-
-		//$start = $a_form->getInput('edit_start');
-		//$start = new ilDateTime($start['date'].' '.$start['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
-		//$end = $a_form->getInput('edit_end');
-		//$end = new ilDateTime($end['date'].' '.$end['time'], IL_CAL_DATETIME, $ilUser->getTimeZone());
 		$this->object->setOnline($a_form->getInput("is_online"));
-		//$this->object->setEditType($a_form->getInput("edit_type"));
-		//$this->object->setEditStart($start->get(IL_CAL_DATETIME));
-		//$this->object->setEditEnd($end->get(IL_CAL_DATETIME));
 		$this->object->setRating($a_form->getInput("rating"));
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotification($a_form->getInput("notification"));
 	}
 
-
+	function toggleNotification(){
+		global $ilCtrl, $ilUser;
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		switch($_GET["ntf"])
+		{
+			case 1:
+				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, false);
+				break;
+			case 2:
+				ilNotification::setNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id, true);
+				break;
+		}
+		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+	}
 
     function addHeaderAction($a_redraw = false)
     {
@@ -520,7 +502,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             {
                 //Command Activate Notification
                 $ilCtrl->setParameter($this, "ntf", 1);
-                $lg->addCustomCommand($ilCtrl->getLinkTarget($this), "dcl_notification_deactivate_dcl");
+                $lg->addCustomCommand($ilCtrl->getLinkTarget($this, "toggleNotification"), "dcl_notification_deactivate_dcl");
 
                 $lg->addHeaderIcon("not_icon",
                     ilUtil::getImagePath("notification_on.png"),
@@ -530,7 +512,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             {
                 //Command Deactivate Notification
                 $ilCtrl->setParameter($this, "ntf", 2);
-                $lg->addCustomCommand($ilCtrl->getLinkTarget($this), "dcl_notification_activate_dcl");
+                $lg->addCustomCommand($ilCtrl->getLinkTarget($this,"toggleNotification"), "dcl_notification_activate_dcl");
 
                 $lg->addHeaderIcon("not_icon",
                 ilUtil::getImagePath("notification_off.png"),

@@ -39,6 +39,9 @@ class ilDataCollectionFieldEditGUI
         $this->parent_obj = $a_parent_obj;
 		$this->table_id = $table_id;
 
+		if(!isset($field_id))
+			$this->field_id = $_GET['field_id'];
+
 		if(isset($field_id)) 
 		{
 			$this->field_obj = new ilDataCollectionField($field_id);
@@ -50,6 +53,7 @@ class ilDataCollectionFieldEditGUI
 				$ilCtrl->redirectByClass("ilDataCollectionGUI");
 			$this->field_obj->setTableId($table_id);
 		}
+
 		$this->table = new ilDataCollectionTable($table_id);
 	}
 
@@ -340,6 +344,7 @@ class ilDataCollectionFieldEditGUI
 			else 
 			{
                 $this->field_obj->setVisible(true);
+				$this->field_obj->setOrder($this->table->getNewOrder());
 				$this->field_obj->doCreate();
 			}
 		

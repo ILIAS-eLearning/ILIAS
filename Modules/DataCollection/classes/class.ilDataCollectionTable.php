@@ -292,7 +292,7 @@ class ilDataCollectionTable
         if($this->fields == NULL)
         {
             global $ilDB;
-            $query = "SELECT * FROM il_dcl_field WHERE table_id =".$this->getId();
+            $query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$this->getId()." ORDER BY def.field_order";
             $fields = array();
             $set = $ilDB->query($query);
             
@@ -302,11 +302,21 @@ class ilDataCollectionTable
                 $field->buildFromDBRecord($rec);
                 $fields[$field->getId()] = $field;
             }
-
-
             $this->fields = $fields;
         }
     }
+
+	/**
+	 * @return int returns the place where a new field should be placed.
+	 */
+	public function getNewOrder(){
+		$fields = $this->getFields();
+		$place = 0;
+		foreach($fields as $field)
+			if($field->isVisible())
+				$place = $field->getOrder() + 1;
+		return $place;
+	}
 
     /**
      * Returns all fields of this table including the standard fields
@@ -337,7 +347,7 @@ class ilDataCollectionTable
 
     /**
      * Returns all fields of this table who have set their visibility to true, including standard fields.
-     * @return array
+     * @return ilDataCollectionField[]
      */
     function getVisibleFields()
     {
@@ -372,7 +382,7 @@ class ilDataCollectionTable
 
 	 /**
      * Returns all fields of this table who have set their filterable to true, including standard fields.
-     * @return array
+     * @return ilDataCollectionField[]
      */
     function getFilterableFields()
     {
