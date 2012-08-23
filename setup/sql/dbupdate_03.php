@@ -12808,5 +12808,11 @@ if(!$ilDB->tableColumnExists('il_dcl_field', 'is_locked'))
 <#3733>
 <?php
 if($ilDB->tableColumnExists('il_dcl_table', 'blocked'))
+{
 	$ilDB->dropTableColumn('il_dcl_table', 'blocked');
+}
+?>
+<#3734>
+<?php
+	$ilCtrlStructureReader->getStructure();
 ?>
