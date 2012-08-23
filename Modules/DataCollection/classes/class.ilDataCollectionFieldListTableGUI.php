@@ -17,8 +17,11 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 
 
-class ilDataCollectionFieldListTableGUI  extends ilTable2GUI
+class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 {
+	/*
+	 * __construct
+	 */
 	public function  __construct(ilDataCollectionFieldListGUI $a_parent_obj, $a_parent_cmd, $table_id)
 	{
 		global $lng, $tpl, $ilCtrl;
