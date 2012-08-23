@@ -52,11 +52,15 @@ class ilObjDataCollection extends ilObject2
 
 		//Create Main Table - The title of the table is per default the title of the data collection object
 		include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-			$main_table = new ilDataCollectionTable();
-			$main_table->setObjId($this->getId());
-			$main_table->setTitle($this->getTitle());
-			$main_table->setBlocked(0);
-			$main_table->doCreate();
+		$main_table = new ilDataCollectionTable();
+		$main_table->setObjId($this->getId());
+		$main_table->setTitle($this->getTitle());
+		$main_table->setAddPerm(1);
+		$main_table->setEditPerm(1);
+		$main_table->setDeletePerm(1);
+		$main_table->setEditByOwner(1);
+		$main_table->setLimited(0);
+		$main_table->doCreate();
 
 		$ilDB->insert("il_dcl_data", array(
 			"id" => array("integer", $this->getId()),

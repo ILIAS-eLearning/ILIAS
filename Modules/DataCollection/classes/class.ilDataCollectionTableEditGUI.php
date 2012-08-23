@@ -149,16 +149,21 @@ class ilDataCollectionTableEditGUI
 		$item->setRequired(true);
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_add_perm'),'add_perm');
+		$item->setInfo($lng->txt("dcl_add_perm_info"));
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_edit_perm'),'edit_perm');
+		$item->setInfo($lng->txt("dcl_edit_perm_info"));
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_delete_perm'),'delete_perm');
+		$item->setInfo($lng->txt("dcl_delete_perm_info"));
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_edit_by_owner'),'edit_by_owner');
+		$item->setInfo($lng->txt("dcl_edit_by_owner_info"));
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_limited'),'limited');
 		$sitem1 = new ilDateTimeInputGUI($lng->txt('dcl_limit_start'),'limit_start');
 		$sitem2 = new ilDateTimeInputGUI($lng->txt('dcl_limit_end'),'limit_end');
+		$item->setInfo($lng->txt("dcl_limited_info"));
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
@@ -170,8 +175,10 @@ class ilDataCollectionTableEditGUI
 
 		
 		$this->form->setFormAction($ilCtrl->getFormAction($this, $a_mode));
-
-		$this->form->setTitle($lng->txt('dcl_new_table'));
+		if($a_mode == "edit")
+			$this->form->setTitle($lng->txt('dcl_edit_table'));
+		else
+			$this->form->setTitle($lng->txt('dcl_new_table'));
 	}
 
 	
