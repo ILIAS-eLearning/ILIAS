@@ -687,7 +687,12 @@ class ilDataCollectionField
 				if($record->getRecordFieldValue($this->getId()) == $value && ($record->getId() != $record_id || $record_id == 0))
 					throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
 
-				if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
+				//for text it has to be case insensitive.
+				if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
+					if(strtolower($record->getRecordFieldValue($this->getId())) == strtolower($value) && ($record->getId() != $record_id || $record_id == 0))
+						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
+
+					if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
 					$datestring = $value["date"]." ".$value["time"];//["y"]."-".$value["date"]['m']."-".$value["date"]['d']." 00:00:00";
 					if($record->getRecordFieldValue($this->getId()) == $datestring && ($record->getId() != $record_id || $record_id == 0))
 						throw new ilDataCollectionInputException(ilDataCollectionInputException::UNIQUE_EXCEPTION);
