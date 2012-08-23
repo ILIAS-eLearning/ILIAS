@@ -175,7 +175,13 @@ class ilDataCollectionRecordEditGUI
 				}
 				$item->setOptions($options);
 			}
+			if($this->record_id)
+				$record = new ilDataCollectionRecord($this->record_id);
+
             $item->setRequired($field->getRequired());
+			//WORKAROUND. If field is from type file: if it's required but already has a value it is no longer required as the old value is taken as default without the form knowing about it.
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE && $this->record_id && $record->getId() != 0 && ($record->getRecordFieldValue($field->getId()) != "-" || $record->getRecordFieldValue($field->getId()) != ""))
+				$item->setRequired(false);
 			$item->setInfo($this->getInfo($field));
 			if(!ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id) && $field->getLocked())
 				$item->setDisabled(true);

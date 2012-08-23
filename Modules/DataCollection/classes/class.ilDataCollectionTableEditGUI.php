@@ -162,11 +162,12 @@ class ilDataCollectionTableEditGUI
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
+		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
 		if($a_mode == "edit")
 			$this->form->addCommandButton('update', 	$lng->txt('dcl_table_'.$a_mode));
 		else
 			$this->form->addCommandButton('save', 	$lng->txt('dcl_table_'.$a_mode));
-		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
+
 		
 		$this->form->setFormAction($ilCtrl->getFormAction($this, $a_mode));
 

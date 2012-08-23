@@ -169,7 +169,7 @@ class ilDataCollectionTable
 	function getRecordsByFilter($filter){
 		$this->loadRecords();
 		$filtered = array();
-		foreach($this->records as $record)
+		foreach($this->getRecords() as $record)
 			if($record->passThroughFilter($filter?$filter:array()))
 				array_push($filtered, $record);
 		return $filtered;
@@ -326,7 +326,7 @@ class ilDataCollectionTable
 
     /**
      * Returns all fields of this table which are NOT standard fields.
-     * @return mixed
+     * @return ilDataCollectionField[]
      */
     function getRecordFields()
     {

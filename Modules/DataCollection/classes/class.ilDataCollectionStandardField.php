@@ -9,7 +9,7 @@ class ilDataCollectionStandardField extends ilDataCollectionField
     static function _getStandardFieldsAsArray(){
         $stdfields = array(
             array("id"=>"id", "title" => "id", "Description" => "The internal ID", "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_NUMBER, "required" => true),
-            array("id"=>"table_id", "title" => "Table id", "description" => "The internal ID of the table", "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_NUMBER, "required" => true),
+            //array("id"=>"table_id", "title" => "Table id", "description" => "The internal ID of the table", "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_NUMBER, "required" => true),
             array("id"=>"create_date", "title" => "Creation Date", "description" => "The date this record was created", "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_DATETIME, "required" => true),
             array("id"=>"last_update", "title" => "Last Update", "description" => "The last time this record was updated", "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_DATETIME, "required" => true),
             array("id"=>"owner", "title" => "Owner", "description" => "The owner of this record", "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_TEXT, "required" => true),

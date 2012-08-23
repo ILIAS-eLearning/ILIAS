@@ -174,7 +174,6 @@ class ilDataCollectionFieldEditGUI
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
-		$this->form->addCommandButton('cancel', $lng->txt('cancel'));
 		if($a_mode == "edit")
 		{
 			$this->form->setTitle($lng->txt('dcl_edit_field'));
@@ -196,7 +195,8 @@ class ilDataCollectionFieldEditGUI
 			
 			$this->form->addCommandButton('save', $lng->txt('dcl_create_field'));
 		}
-		
+		$this->form->addCommandButton('cancel', $lng->txt('cancel'));
+
 		$text_prop = new ilTextInputGUI($lng->txt("title"), "title");
 		$text_prop->setRequired(true);
 		$this->form->addItem($text_prop);

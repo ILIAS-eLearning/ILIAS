@@ -283,7 +283,7 @@ class ilDataCollectionDatatype
 		switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
-				if(!$filter || strpos($value, $filter) !== false)
+				if(!$filter || strpos(strtolower($value), strtolower($filter)) !== false)
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
@@ -301,7 +301,7 @@ class ilDataCollectionDatatype
 			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
 				$file_obj = new ilObjFile($value, false);
 				$file_name = $file_obj->getTitle();
-				if(!$filter || strpos($file_name, $filter) !== false)
+				if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:

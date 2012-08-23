@@ -380,10 +380,6 @@ class ilDataCollectionRecord
 			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
 				$pass = false;
 		}
-		/*foreach(ilDataCollectionStandardField::_getStandardFields($this->getTable()->getId()) as $field){
-			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
-				$pass = false;
-		}*/
 		return $pass;
 	}
 
