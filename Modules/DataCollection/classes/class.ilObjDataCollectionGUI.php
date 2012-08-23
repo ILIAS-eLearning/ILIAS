@@ -216,6 +216,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				break;
 
 			default:
+			
                 //Activate / Deactivate Notifications
                 if($_GET["ntf"])
                 {
@@ -512,7 +513,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         //$lg->enableComments(ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()), false);
 
         // notification
-        if ($ilUser->getId() != ANONYMOUS_USER_ID)
+        if ($ilUser->getId() != ANONYMOUS_USER_ID && $this->object->getNotification() == 1)
         {
             include_once "./Services/Notification/classes/class.ilNotification.php";
             if(ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id))

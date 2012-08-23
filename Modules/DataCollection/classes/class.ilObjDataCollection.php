@@ -101,10 +101,16 @@ class ilObjDataCollection extends ilObject2
 	static function sendNotification($a_action, $a_table_id, $a_record_id = NULL)
 	{
 		global $ilUser, $ilAccess;
-
-        $obj_table = new ilDataCollectionTable($a_table_id);
-        $obj_dcl = $obj_table->getCollectionObject();
-
+		
+		$dclObj = new ilObjDataCollection($_GET['ref_id']);
+		
+		if($dclObj->getNotification() != 1)
+		{
+			return;
+		}
+		$obj_table = new ilDataCollectionTable($a_table_id);
+		$obj_dcl = $obj_table->getCollectionObject();
+		
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_DATA_COLLECTION,$obj_dcl->getId(),true);
@@ -112,54 +118,53 @@ class ilObjDataCollection extends ilObject2
 		{
 			return;
 		}
+		
 		ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
-
-        //FIXME  $_GET['ref_id]
-        include_once "./Services/Link/classes/class.ilLink.php";
-        $link = ilLink::_getLink($_GET['ref_id']);
+		
+		//FIXME  $_GET['ref_id]
+		include_once "./Services/Link/classes/class.ilLink.php";
+		$link = ilLink::_getLink($_GET['ref_id']);
 		
 		// prepare mail content
-        // use language of recipient to compose message
-        include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-        $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
-        $ulng->loadLanguageModule('dcl');
+		// use language of recipient to compose message
+		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
+		$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+		$ulng->loadLanguageModule('dcl');
 
-	  	
 		// send mails
 		include_once "./Services/Mail/classes/class.ilMail.php";
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-        include_once("./Services/User/classes/class.ilUserUtil.php");
-        include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-				
+		include_once("./Services/User/classes/class.ilUserUtil.php");
+		include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
+		
 		foreach(array_unique($users) as $idx => $user_id)
 		{
 			// the user responsible for the action should not be notified
-            //FIXME  $_GET['ref_id]
-			if($user_id != $ilUser->getId() &&
-				$ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id']))
+			//FIXME  $_GET['ref_id]
+			if($user_id != $ilUser->getId() && $ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id']))
 			{
 				// use language of recipient to compose message
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
 				$ulng->loadLanguageModule('dcl');
-
+		
 				$subject = sprintf($ulng->txt('dcl_change_notification_subject'), $obj_dcl->getTitle());
-                // update/delete
-                $message .= $ulng->txt('dcl_change_notification_dcl_'.$a_action).":\n\n";
-                $message .= $ulng->txt('obj_dcl').": ".$obj_dcl->getTitle()."\n";
-                $message .= $ulng->txt('dcl_table').": ".$obj_table->getTitle()."\n";
-                if($a_record_id) {
-                    $message .= $ulng->txt('dcl_record_id').": ".$a_record_id."\n";
-                }
-
-                $message .= $ulng->txt('dcl_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
-                $message .= $ulng->txt('dcl_change_notification_link').": ".$link;
-
+				// update/delete
+				$message .= $ulng->txt('dcl_change_notification_dcl_'.$a_action).":\n\n";
+				$message .= $ulng->txt('obj_dcl').": ".$obj_dcl->getTitle()."\n";
+				$message .= $ulng->txt('dcl_table').": ".$obj_table->getTitle()."\n";
+				if($a_record_id)
+				{
+					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id."\n";
+				}
+		
+				$message .= $ulng->txt('dcl_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
+				$message .= $ulng->txt('dcl_change_notification_link').": ".$link;
+		
 				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-					"", "", $subject, $message, array(), array("system"));
+				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id), "", "", $subject, $message, array(), array("system"));
 			}
 			else
 			{
@@ -293,17 +298,25 @@ class ilObjDataCollection extends ilObject2
 	{
 		return $this->notification;
 	}
-
-	function hasPermissionToAddTable(){
+	
+	/*
+	 * hasPermissionToAddTable
+	 */
+	public function hasPermissionToAddTable()
+	{
 		return self::_checkAccess($this->getId());
 	}
 
-	public static function _checkAccess($data_collection_id){
+	public static function _checkAccess($data_collection_id)
+	{
 		global $ilAccess;
 		$perm = false;
 		$references = self::_getAllReferences($data_collection_id);
 		if($ilAccess->checkAccess("add_entry", "", array_shift($references)))
+		{
 			$perm = true;
+		}
+			
 		return $perm;
 	}
 
@@ -311,8 +324,10 @@ class ilObjDataCollection extends ilObject2
 	 * @param $ref int the reference id of the datacollection object to check.
 	 * @return bool whether or not the current user has admin/write access to the referenced datacollection
 	 */
-	public static function _hasWriteAccess($ref){
+	public static function _hasWriteAccess($ref)
+	{
 		global $ilAccess;
+		
 		return $ilAccess->checkAccess("edit_settings", "", $ref);
 	}
 
@@ -320,22 +335,28 @@ class ilObjDataCollection extends ilObject2
 	 * @param $ref int the reference id of the datacollection object to check.
 	 * @return bool whether or not the current user has add/edit_entry access to the referenced datacollection
 	 */
-	public static function _hasReadAccess($ref){
+	public static function _hasReadAccess($ref)
+	{
 		global $ilAccess;
+		
 		return $ilAccess->checkAccess("add_entry", "", $ref);
 	}
 
 	/**
 	 * @return ilDataCollectionTable[] Returns an array of tables of this collection with ids of the tables as keys.
 	 */
-	public function getTables(){
+	public function getTables()
+	{
 		global $ilDB;
 		$query = "SELECT id FROM il_dcl_table WHERE obj_id = ".$this->getId();
 		$set = $ilDB->query($query);
 		$tables = array();
-		while($rec = $ilDB->fetchAssoc($set)){
+		
+		while($rec = $ilDB->fetchAssoc($set))
+		{
 			$tables[$rec['id']] = new ilDataCollectionTable($rec['id']);
 		}
+		
 		return $tables;
 	}
 
