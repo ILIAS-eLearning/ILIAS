@@ -208,6 +208,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setDefaultDateFormat((int) $_POST['default_date_format']);
 		$this->settings->setDefaultTimeFormat((int) $_POST['default_time_format']);
 		$this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
+		$this->settings->enableCourseCalendar((int) $_POST['visible_crs']);
+		$this->settings->enableGroupCalendar((int) $_POST['visible_grp']);
 		$this->settings->setDefaultDayStart((int) $_POST['dst']);
 		$this->settings->setDefaultDayEnd((int) $_POST['den']);
 		$this->settings->enableSynchronisationCache((bool) $_POST['sync_cache']);
@@ -333,17 +335,38 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$checkm->setChecked($this->settings->getEnableGroupMilestones() ? true : false);
 		$checkm->setInfo($this->lng->txt('cal_enable_group_milestones_desc'));
 		$this->form->addItem($checkm);
-
+		
 		// Consultation hours
 		$con = new ilFormSectionHeaderGUI();
 		$con->setTitle($this->lng->txt('cal_ch_form_header'));
 		$this->form->addItem($con);
-		
+
 		$ch = new ilCheckboxInputGUI($this->lng->txt('cal_ch_form'),'ch');
 		$ch->setInfo($this->lng->txt('cal_ch_form_info'));
 		$ch->setValue(1);
 		$ch->setChecked($this->settings->areConsultationHoursEnabled());
 		$this->form->addItem($ch);
+
+		// repository visibility default
+		$rep = new ilFormSectionHeaderGUI();
+		$rep->setTitle($GLOBALS['lng']->txt('cal_setting_global_vis_repos'));
+		$this->form->addItem($rep);
+		
+		$crs = new ilCheckboxInputGUI($GLOBALS['lng']->txt('cal_setting_global_crs_vis'),'visible_crs');
+		$crs->setInfo($GLOBALS['lng']->txt('cal_setting_global_crs_vis_info'));
+		$crs->setValue(1);
+		$crs->setInfo($GLOBALS['lng']->txt('cal_setting_global_crs_vis_info'));
+		$crs->setChecked($this->settings->isCourseCalendarEnabled());
+		$this->form->addItem($crs);
+
+		$grp = new ilCheckboxInputGUI($GLOBALS['lng']->txt('cal_setting_global_grp_vis'),'visible_grp');
+		$grp->setInfo($GLOBALS['lng']->txt('cal_setting_global_grp_vis_info'));
+		$grp->setValue(1);
+		$grp->setInfo($GLOBALS['lng']->txt('cal_setting_global_grp_vis_info'));
+		$grp->setChecked($this->settings->isGroupCalendarEnabled());
+		$this->form->addItem($grp);
+
+		
 		
 		
 		// Notifications
@@ -414,7 +437,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$cache_t->setSuffix($this->lng->txt('form_minutes'));
 		$sync_cache->addSubItem($cache_t);
 		$this->form->addItem($cache);
-
 	}
+	
+	
 }
 ?>

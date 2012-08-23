@@ -12817,3 +12817,8 @@ dcl#:#dcl_record_id#:#Record ID
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_url#:#URL
+dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar
+dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses
+dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups
+dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, the calendar is shown in shown in courses by default. In any case the calendar presentation can be enabled/disabled in the course settings.
+dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, the calendar is shown in shown in groups by default. In any case the calendar presentation can be enabled/disabled in the group settings.

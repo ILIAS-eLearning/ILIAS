@@ -12866,3 +12866,8 @@ ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
 rtst#:#rtst_call#:#ECS Test aufrufen
 rbac#:#contribute#:#Mitarbeiten
+dateplaner#:#cal_setting_global_vis_repos#:#Anzeige im Magazin
+dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
+dateplaner#:#cal_setting_global_grp_vis#:#Anzeige in Gruppen
+dateplaner#:#cal_setting_global_crs_vis_info#:#Wenn aktiviert, wird der Kurskalender standardmäßig in Kursen angezeigt. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
+dateplaner#:#cal_setting_global_grp_vis_info#:#Wenn aktiviert, wird der Gruppenkalender standardmäßig in Gruppen angezeigt. Unabhängig davon kann der Kalender in den Gruppeneinstellungen de/aktiviert werden.
