@@ -963,7 +963,8 @@ class ilWebAccessChecker
 		}
 		
 		$mime = '';
-		if (extension_loaded('Fileinfo'))
+		// alex: changed due to bug http://www.ilias.de/mantis/view.php?id=9332
+/*		if (extension_loaded('Fileinfo'))
 		{
 			$finfo = finfo_open(FILEINFO_MIME);
 			$mime = finfo_file($finfo, $this->file);
@@ -974,9 +975,11 @@ class ilWebAccessChecker
 			}
 		}
 		else
-		{
-			$mime = ilObjMediaObject::getMimeType($this->file);
-		}
+		{*/
+		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+		$mime = ilMimeTypeUtil::getMimeType($this->file);
+		//$mime = ilObjMediaObject::getMimeType($this->file);
+//		}
 		
 		// set and return the mime type
 		$this->mimetype = $mime ? $mime : $default;
