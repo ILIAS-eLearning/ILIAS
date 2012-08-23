@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "Services/Object/classes/class.ilObject2.php";
+require_once "class.ilDataCollectionTable.php";
 
 /**
 * Class ilObjDataCollection
@@ -75,8 +76,12 @@ class ilObjDataCollection extends ilObject2
 	
 	protected function doDelete()
 	{
-
-		
+		global $ilDB;
+		foreach($this->getTables() as $table){
+			$table->doDelete();
+		}
+		$query = "DELETE FROM il_dcl_data WHERE id = ".$this->getId();
+		$ilDB->manipulate($query);
 	}
 	
 	 public  function doUpdate()
