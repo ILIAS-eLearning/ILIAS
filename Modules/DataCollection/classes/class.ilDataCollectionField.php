@@ -564,7 +564,7 @@ class ilDataCollectionField
 
 	private function deleteViewDefinition($view){
 		global $ilDB;
-		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()." WHERE def.view_id = il_dcl_view.id";
+		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = ".$this->getId();
 		$ilDB->manipulate($query);
 	}
 
@@ -670,13 +670,18 @@ class ilDataCollectionField
 			throw new ilDataCollectionInputException(ilDataCollectionInputException::TYPE_EXCEPTION);
 		$properties = $this->getPropertyvalues();
 		$length = ilDataCollectionField::PROPERTYID_LENGTH;
-		$regex = ilDataCollectionField::PROPERTYID_REGEX;
+		$regex_id = ilDataCollectionField::PROPERTYID_REGEX;
 		$url = ilDataCollectionField::PROPERTYID_URL;
 		if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
 		{
+			$regex = $properties[$regex_id];
+			if(substr($regex,0,1) != "/")
+				$regex = "/".$regex;
+			if(substr($regex, -1) != "/")
+				$regex .= "/";
 			if($properties[$length] < strlen($value) && is_numeric($properties[$length]))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::LENGTH_EXCEPTION);
-			if(!($properties[$regex] == Null || preg_match($properties[$regex], $value)))
+			if(!($properties[$regex_id] == Null || preg_match($regex, $value)))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::REGEX_EXCEPTION);
 			if($properties[$url] && !preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
