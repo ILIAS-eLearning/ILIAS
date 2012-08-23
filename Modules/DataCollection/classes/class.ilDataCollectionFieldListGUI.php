@@ -101,7 +101,6 @@ class ilDataCollectionFieldListGUI
         $ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
-		$table = new ilDataCollectionTable($this->table_id);
 		$ilCtrl->setParameterByClass("ildatacollectiontableeditgui", "table_id", $this->table_id);
 		$ilToolbar->addButton($lng->txt("dcl_table_settings"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "edit"));
 
