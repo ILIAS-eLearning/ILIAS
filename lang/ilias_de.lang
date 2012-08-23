@@ -12571,10 +12571,10 @@ dcl#:#dcl_activate_rating#:#Bewertung von Einträgen
 dcl#:#dcl_activate_approval#:#Aktivierung von Einträgen
 dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
-dcl#:#dcl_add_new_record#:#Neuer Eintrag
+dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_record_view_viewdefinition#:#Anzeige eines Eintrags
-dcl#:#dcl_add_new_field#:#Neues Feld
+dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle
 dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Benötigtes Feld
@@ -12871,3 +12871,41 @@ dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
 dateplaner#:#cal_setting_global_grp_vis#:#Anzeige in Gruppen
 dateplaner#:#cal_setting_global_crs_vis_info#:#Wenn aktiviert, wird der Kurskalender standardmäßig in Kursen angezeigt. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
 dateplaner#:#cal_setting_global_grp_vis_info#:#Wenn aktiviert, wird der Gruppenkalender standardmäßig in Gruppen angezeigt. Unabhängig davon kann der Kalender in den Gruppeneinstellungen de/aktiviert werden.
+dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde editiert
+dcl#:#dcl_edit_notification#:#E-Mail-Benachrichtigung Datensatzsammlung
+dcl#:#dcl_edit_notification_info#:#Sie werden benachrichtigt, sobald Datensätze editiert werden
+dcl#:#dcl_change_notification_link#:#URL
+dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Datensatz wurde erzeugt
+dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Datensatz wurde aktualisiert
+dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Datensatz wurde gelöscht
+dcl#:#dcl_table#:#Tabelle
+dcl#:#dcl_changed_by#:#Letzte Änderung durch
+dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
+dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
+dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
+dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
+dcl#:#dcl_locked#:#Gesperrt
+dcl#:#dcl_table_settings#:#Tabelleneinstellungen
+dcl#:#dcl_add_perm#:#Recht Datensatz hinzufügen
+dcl#:#dcl_edit_perm#:#Recht Datensatz bearbeiten
+dcl#:#dcl_delete_perm#:#Recht Datensatz löschen
+dcl#:#dcl_edit_by_owner#:#Berechtigung Bearbeitung / Löschen ausschliesslich für eigene Datensätze
+dcl#:#dcl_limited#:#Zeitliche Beschränkung Hinzufügen / Bearbeiten / Löschen
+dcl#:#dcl_record_id#:#Datensatz-ID
+dcl#:#dcl_limit_start#:#Start
+dcl#:#dcl_limit_end#:#Ende
+dcl#:#dcl_url#:#URL
+dcl#:#dcl_edit_record#:#Datensatz bearbeiten
+dcl#:#dcl_update_record#:#Datensatz aktualisieren
+dcl#:#dcl_edit_field#:#Feld bearbeiten
+dcl#:#dcl_update_field#:#Feld aktualisieren
+dcl#:#dcl_create_field#:#Feld hinzufügen
+dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
+dcl#:#dcl_visible#:#Sichtbar Tabelle
+dcl#:#dcl_title#:#Feldtitel
+dcl#:#dcl_order#:#Sortierung
+dcl#:#dcl_save#:#Speichern
+dcl#:#dcl_description#:#Beschreibung
+dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
+dcl#:#dcl_export_table_excel#:#Export .xls
+dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich löschen?
