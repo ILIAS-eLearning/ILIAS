@@ -12,7 +12,9 @@
 * @ingroup ModulesDataCollection
 */
 
-include_once './Modules/DataCollection/classes/class.ilDataCollectionRecordField.php';
+include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
+
+
 
 class ilDataCollectionRecord
 {
@@ -213,6 +215,29 @@ class ilDataCollectionRecord
         }
 	}
 	
+	
+	/**
+	 * Get Field Export Value
+	 *
+	 * @param int $field_id
+	 * @return array
+	 */
+	public function getRecordFieldExportValue($field_id)
+	{
+        $this->loadRecordFields();
+        
+        if(ilDataCollectionStandardField::_isStandardField($field_id))
+        {
+	        return $this->getStandardField($field_id);
+        }
+        else
+        {
+	        return $this->recordfields[$field_id]->getExportValue();
+        }
+	}
+
+	
+		
 	/*
 	 * getRecordFieldHTML
 	 *

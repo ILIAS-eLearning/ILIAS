@@ -201,13 +201,21 @@ class ilDataCollectionField
 	{
 		$this->property[$a_id] = $a_value;
 	}
-
-	function isUnique(){
+	
+	/*
+	 * isUnique
+	 */
+	function isUnique()
+	{
 		return $this->unique;
 	}
-
-	function setUnique($unique){
-		$this->unique = $unique?1:0;
+	
+	/*
+	 * setUnique
+	 */
+	function setUnique($unique)
+	{
+		$this->unique = $unique ? 1 : 0;
 	}
 
 	/**
@@ -228,7 +236,10 @@ class ilDataCollectionField
     function setVisible($visible)
     {
 		if($visible == true && $this->order === NULL)
+		{
 			$this->setOrder(0);
+		}
+		
         $this->visible = $visible;
     }
 
@@ -239,8 +250,11 @@ class ilDataCollectionField
     function setFilterable($filterable)
     {
 		if($filterable == true && $this->order === NULL)
+		{
 			$this->setOrder(0);
-			$this->filterable = $filterable;
+		}
+		
+		$this->filterable = $filterable;
     }
     
     /*
@@ -252,10 +266,15 @@ class ilDataCollectionField
         
         return $this->datatype;
     }
-
-	function getLength(){
+    
+    /*
+     * getLength
+     */
+	function getLength()
+	{
 		$props = $this->getPropertyvalues();
 		$l = self::PROPERTYID_LENGTH;
+		
 		return $props[$l];
 	}
     
@@ -296,7 +315,10 @@ class ilDataCollectionField
     public function isVisible()
     {
 		if(!isset($this->visible))
-        	$this->loadVisibility();
+		{
+			$this->loadVisibility();
+		}
+        	
         return $this->visible;
     }
 
@@ -316,9 +338,11 @@ class ilDataCollectionField
      */
     public function isFilterable()
     {
-
 		if(!isset($this->filterable))
-        	$this->loadFilterability();
+		{
+			$this->loadFilterability();
+		}
+        	
         return $this->filterable;
     }
 
@@ -335,9 +359,11 @@ class ilDataCollectionField
 
 
 	/**
+	 * loadViewDefinition
 	 * @param $view use VIEW_VIEW or EDIT_VIEW
 	 */
-	private function loadViewDefinition($view){
+	private function loadViewDefinition($view)
+	{
 		global $ilDB;
 		$query = "  SELECT view.table_id, def.field_order, def.is_set FROM il_dcl_viewdefinition def
                         INNER JOIN il_dcl_view view ON view.id = def.view_id AND view.type = ".$view."
@@ -345,7 +371,9 @@ class ilDataCollectionField
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 		$prop = $rec['is_set'];
-		switch($view){
+		
+		switch($view)
+		{
 			case self::VIEW_VIEW:
 				$this->visible = $prop;
 				break;
@@ -356,6 +384,7 @@ class ilDataCollectionField
 				$this->filterable = $prop;
 				break;
 		}
+		
 		$this->order = $rec['field_order'];
 	}
     
@@ -366,12 +395,18 @@ class ilDataCollectionField
 	public function isEditable()
 	{
 		if(!isset($this->editable))
+		{
 			$this->loadEditability();
+		}
 		
 		return $this->editable;
 	}
-
-	public function setEditable($editable){
+	
+	/*
+	 * editable
+	 */
+	public function setEditable($editable)
+	{
 		$this->editable = $editable;
 	}
 
@@ -430,7 +465,7 @@ class ilDataCollectionField
 	/*
 	 * buildFromDBRecord
 	 */
-    function buildFromDBRecord($rec)
+    public function buildFromDBRecord($rec)
     {
         $this->setId($rec["id"]);
         $this->setTableId($rec["table_id"]);
@@ -454,24 +489,24 @@ class ilDataCollectionField
 		$id = $ilDB->nextId("il_dcl_field");
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_field (".
-		"id".
-		", table_id".
-		", datatype_id".
-		", title".
-		", description".
-		", required".
-		", is_unique".
-		", is_locked".
-		" ) VALUES (".
-		$ilDB->quote($this->getId(), "integer")
-		.",".$ilDB->quote($this->getTableId(), "integer")
-		.",".$ilDB->quote($this->getDatatypeId(), "integer")
-		.",".$ilDB->quote($this->getTitle(), "text")
-		.",".$ilDB->quote($this->getDescription(), "text")
-		.",".$ilDB->quote($this->getRequired(), "integer")
-		.",".$ilDB->quote($this->isUnique(), "integer")
-		.",".$ilDB->quote($this->getLocked()?1:0, "integer")
-		.")";
+			"id".
+			", table_id".
+			", datatype_id".
+			", title".
+			", description".
+			", required".
+			", is_unique".
+			", is_locked".
+			" ) VALUES (".
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote($this->getTableId(), "integer")
+			.",".$ilDB->quote($this->getDatatypeId(), "integer")
+			.",".$ilDB->quote($this->getTitle(), "text")
+			.",".$ilDB->quote($this->getDescription(), "text")
+			.",".$ilDB->quote($this->getRequired(), "integer")
+			.",".$ilDB->quote($this->isUnique(), "integer")
+			.",".$ilDB->quote($this->getLocked()?1:0, "integer")
+			.")";
 		$ilDB->manipulate($query);
 
         $this->updateVisibility();
@@ -502,7 +537,11 @@ class ilDataCollectionField
 		$this->updateEditability();
 	}
 
-	public function getFilterable(){
+	/*
+	 * getFilterable
+	 */
+	public function getFilterable()
+	{
 
 	}
 
@@ -529,10 +568,12 @@ class ilDataCollectionField
 	/**
 	 * @param $view use constant VIEW_VIEW or EDIT_VIEW
 	 */
-    private function updateViewDefinition($view){
+    private function updateViewDefinition($view)
+    {
 		global $ilDB;
 
-		switch($view){
+		switch($view)
+		{
 			case self::EDIT_VIEW:
 				$set = $this->isEditable();
 				break;
@@ -556,15 +597,36 @@ class ilDataCollectionField
 			$this->order = 0;
 
 
-		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = '".$this->getId()."'";
+		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = "
+			.$view." AND il_dcl_view.table_id = "
+			.$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = '"
+			.$this->getId()."'";
+			
 		$ilDB->manipulate($query);
-		$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order, is_set) SELECT id, '".$this->getId()."', ".$this->getOrder().", ".$set."  FROM il_dcl_view WHERE il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId();
+		
+		$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order, is_set) SELECT id, '"
+			.$this->getId()."', "
+			.$this->getOrder().", "
+			.$set."  FROM il_dcl_view WHERE il_dcl_view.type = "
+			.$view." AND il_dcl_view.table_id = "
+			.$this->getTableId();
+			
 		$ilDB->manipulate($query);
 	}
-
-	private function deleteViewDefinition($view){
+	
+	
+	/*
+	 * deleteViewDefinition
+	 */
+	private function deleteViewDefinition($view)
+	{
 		global $ilDB;
-		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = ".$view." AND il_dcl_view.table_id = ".$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = ".$this->getId();
+		
+		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = "
+			.$view." AND il_dcl_view.table_id = "
+			.$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = "
+			.$this->getId();
+			
 		$ilDB->manipulate($query);
 	}
 
@@ -586,20 +648,36 @@ class ilDataCollectionField
         $query = "DELETE FROM il_dcl_field WHERE id = ".$this->getId();
         $ilDB->manipulate($query);
     }
-
-	public function getOrder(){
+    
+    /*
+     * getOrder
+     */
+	public function getOrder()
+	{
 		if(!isset($this->order))
+		{
 			$this->loadVisibility();
+		}
+		
 		return !$this->order?0:$this->order;
 	}
-
-	public function setOrder($order){
+	
+	/*
+	 * setOrder
+	 */
+	public function setOrder($order)
+	{
 		$this->order = $order;
 	}
-
-	public function getFieldRef(){
+	
+	/*
+	 * getFieldRef
+	 */
+	public function getFieldRef()
+	{
 		$props = $this->getPropertyvalues();
 		$id = self::PROPERTYID_REFERENCE;
+		
 		return $props[$id];
 	}
 
@@ -612,12 +690,13 @@ class ilDataCollectionField
 	{  
 		global $ilDB;
 		
-		$query = "SELECT	datatype_prop_id, 
+		$query = "SELECT datatype_prop_id, 
 										title, 
 										value 
 						FROM il_dcl_field_prop fp 
 						LEFT JOIN il_dcl_datatype_prop AS p ON p.id = fp.datatype_prop_id
 						WHERE fp.field_id = ".$ilDB->quote($this->getId(),"integer");
+						
 		$set = $ilDB->query($query);
 		
 		while($rec = $ilDB->fetchAssoc($set))
@@ -664,14 +743,19 @@ class ilDataCollectionField
 	{
 		return $this->locked;
 	}
-
-	public function checkValidity($value, $record_id){
+	
+	/*
+	 * checkValidity
+	 */
+	public function checkValidity($value, $record_id)
+	{
 		if(!ilDataCollectionDatatype::checkValidity($this->getDatatypeId(), $value))
 			throw new ilDataCollectionInputException(ilDataCollectionInputException::TYPE_EXCEPTION);
 		$properties = $this->getPropertyvalues();
 		$length = ilDataCollectionField::PROPERTYID_LENGTH;
 		$regex_id = ilDataCollectionField::PROPERTYID_REGEX;
 		$url = ilDataCollectionField::PROPERTYID_URL;
+		
 		if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
 		{
 			$regex = $properties[$regex_id];
@@ -686,6 +770,7 @@ class ilDataCollectionField
 			if($properties[$url] && !preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
 		}
+		
 		if($this->isUnique()){
 			$table = new ilDataCollectionTable($this->getTableId());
 			foreach($table->getRecords() as $record){
