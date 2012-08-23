@@ -64,27 +64,49 @@ class ilObjDataCollection extends ilObject2
 		$main_table->doCreate();
 
 		$ilDB->insert("il_dcl_data", array(
-			"id" => array("integer", $this->getId()),
-			"main_table_id" => array("integer", (int) $main_table->getId()),
-			"is_online" => array("integer", (int) $this->getOnline()),
-			"rating" => array("integer", (int) $this->getRating()),
-			"public_notes" => array("integer", (int) $this->getPublicNotes()),
-			"approval" => array("integer", (int) $this->getApproval()),
-			"notification" => array("integer", (int) $this->getNotification()),
+				"id" => array("integer", $this->getId()),
+				"main_table_id" => array("integer", (int) $main_table->getId()),
+				"is_online" => array("integer", (int) $this->getOnline()),
+				"rating" => array("integer", (int) $this->getRating()),
+				"public_notes" => array("integer", (int) $this->getPublicNotes()),
+				"approval" => array("integer", (int) $this->getApproval()),
+				"notification" => array("integer", (int) $this->getNotification()),
 			));
 	}
 	
+	/**
+	 * doClone
+	 * @return boolean
+	 */
+	public function doClone()
+	{
+		global $x;
+		
+		
+		
+		return true;
+	}
+	
+	/*
+	 * doDelete
+	 */
 	protected function doDelete()
 	{
 		global $ilDB;
-		foreach($this->getTables() as $table){
+		
+		foreach($this->getTables() as $table)
+		{
 			$table->doDelete();
 		}
+		
 		$query = "DELETE FROM il_dcl_data WHERE id = ".$this->getId();
 		$ilDB->manipulate($query);
 	}
 	
-	 public  function doUpdate()
+	/*
+	 * doUpdate
+	 */
+	public  function doUpdate()
 	{
 		global $ilDB;
 
@@ -188,36 +210,6 @@ class ilObjDataCollection extends ilObject2
 	{
 		$this->main_table_id = $a_val;
 	}
-
-	/**
-	 * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
-	 * @param $original_id The original ID of the dataselection you want to clone it's structure
-	 */
-	public function cloneStructure($original_id){
-		$original = new ilObjDataCollection($original_id);
-		$this->setApproval($original->getApproval());
-		$this->setNotification($original->getNotification());
-		$this->setOnline($original->getOnline());
-		$this->setPublicNotes($original->getPublicNotes());
-		$this->setRating($original->getRating());
-		$this->doCreate();
-
-		//delete old tables.
-		foreach($this->getTables() as $table)
-			$table->doDelete();
-
-		//add new tables.
-		foreach($original->getTables() as $table){
-			$new_table = new ilDataCollectionTable();
-			$new_table->cloneStructure($table->getId());
-			$new_table->setObjId($this->getId());
-			if($table->getId() == $original->getMainTableId())
-				$this->setMainTableId($new_table->getId());
-		}
-
-		//update because maintable id is now set.
-		$this->doUpdate();
-	}
 	
 	/**
 	 * get main Table Id
@@ -226,6 +218,65 @@ class ilObjDataCollection extends ilObject2
 	{
 		return $this->main_table_id;
 	}
+	
+	
+	/**
+	 * Clone DCL
+	 *
+	 * @param ilObjDataCollection new object
+	 * @param int target ref_id
+	 * @param int copy id
+	 * @return ilObjPoll
+	 */
+	public function doCloneObject(ilObjDataCollection $new_obj, $a_target_id, $a_copy_id = 0)
+	{		
+		$new_obj->cloneStructure($this->getRefId());
+
+		return $new_obj;
+	}
+	
+	
+	
+	
+	/**
+	 * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
+	 * @param $original_id The original ID of the dataselection you want to clone it's structure
+	 */
+	public function cloneStructure($original_id)
+	{
+		$original = new ilObjDataCollection($original_id);
+		
+		$this->setApproval($original->getApproval());
+		$this->setNotification($original->getNotification());
+		$this->setOnline($original->getOnline());
+		$this->setPublicNotes($original->getPublicNotes());
+		$this->setRating($original->getRating());
+		
+		//delete old tables.
+		foreach($this->getTables() as $table)
+		{
+			$table->doDelete(true);
+		}
+
+		//add new tables.
+		foreach($original->getTables() as $table)
+		{
+			$new_table = new ilDataCollectionTable();
+			$new_table->setObjId($this->getId());
+			$new_table->cloneStructure($table->getId());
+			
+			if($table->getId() == $original->getMainTableId())
+			{
+				$this->setMainTableId($new_table->getId());
+			}
+		}
+		
+
+		// update because maintable id is now set.
+		$this->doUpdate();
+		
+	}
+
 
 	/**
 	 * setOnline

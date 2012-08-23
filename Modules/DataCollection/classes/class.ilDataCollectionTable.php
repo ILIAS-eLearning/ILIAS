@@ -71,6 +71,119 @@ class ilDataCollectionTable
 		}    
 	}
 
+	
+	/**
+	* Read table
+	*/
+	function doRead()
+	{
+		global $ilDB;
+
+		$query = "SELECT * FROM il_dcl_table WHERE id = ".$ilDB->quote($this->getId(),"integer");
+		$set = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($set);
+
+		$this->setObjId($rec["obj_id"]);
+		$this->setTitle($rec["title"]);
+		$this->setAddPerm($rec["add_perm"]);
+		$this->setEditPerm($rec["edit_perm"]);
+		$this->setDeletePerm($rec["delete_perm"]);
+		$this->setEditByOwner($rec["edit_by_owner"]);
+		$this->setLimited($rec["limited"]);
+		$this->setLimitStart($rec["limit_start"]);
+		$this->setLimitEnd($rec["limit_end"]);
+	}
+	
+	/**
+	 * Attention this does not delete the maintable of it's the maintabla of the collection. unlink the the maintable in the collections object to make this work.
+	 */
+	public function doDelete($delete_main_table = false){
+		global $ilDB;
+		
+		foreach($this->getRecords() as $record)
+			$record->doDelete();
+		foreach($this->getRecordFields() as $field)
+			$field->doDelete();
+
+		if($this->getCollectionObject()->getMainTableId() != $this->getId() || $delete_main_table == true){
+			$query = "DELETE FROM il_dcl_table WHERE id = ".$this->getId();
+			$ilDB->manipulate($query);
+			
+		}
+		
+	}
+
+	/**
+	* Create new table
+	*/
+	function DoCreate()
+	{
+		global $ilDB;
+
+		$id = $ilDB->nextId("il_dcl_table");
+		$this->setId($id);
+		$query = "INSERT INTO il_dcl_table (".
+		"id".
+		", obj_id".
+		", title".
+		", add_perm".
+		", edit_perm".
+		", delete_perm".
+		", edit_by_owner".
+		", limited".
+		", limit_start".
+		", limit_end".
+		" ) VALUES (".
+		$ilDB->quote($this->getId(), "integer")
+		.",".$ilDB->quote($this->getObjId(), "integer")
+		.",".$ilDB->quote($this->getTitle(), "text")
+		.",".$ilDB->quote($this->getAddPerm()?1:0, "integer")
+		.",".$ilDB->quote($this->getEditPerm()?1:0, "integer")
+		.",".$ilDB->quote($this->getDeletePerm()?1:0, "integer")
+		.",".$ilDB->quote($this->getEditByOwner()?1:0, "integer")
+		.",".$ilDB->quote($this->getLimited()?1:0, "integer")
+		.",".$ilDB->quote($this->getLimitStart(), "timestamp")
+		.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
+		.")";
+		$ilDB->manipulate($query);
+
+		//FIXME
+		//FromType sollen ebenfalls als Konstante definiert werden.
+
+		//add view definition
+        $view_id = $ilDB->nextId("il_dcl_view");
+        $query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::VIEW_VIEW.", 1)";
+        $ilDB->manipulate($query);
+
+		//add edit definition
+		$view_id = $ilDB->nextId("il_dcl_view");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::EDIT_VIEW.", 1)";
+		$ilDB->manipulate($query);
+
+		//add filter definition
+		$view_id = $ilDB->nextId("il_dcl_view");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::FILTER_VIEW.", 1)";
+		$ilDB->manipulate($query);
+	}
+
+	function doUpdate(){
+		global $ilDB;
+
+		$ilDB->update("il_dcl_table", array(
+			"obj_id" => array("integer", $this->getObjId()),
+			"title" => array("text", $this->getTitle()),
+			"add_perm" => array("integer",$this->getAddPerm()),
+			"edit_perm" => array("integer",$this->getEditPerm()),
+			"delete_perm" => array("integer",$this->getDeletePerm()),
+			"edit_by_owner" => array("integer",$this->getEditByOwner()),
+			"limited" => array("integer",$this->getLimited()),
+			"limit_start" => array("timestamp",$this->getLimitStart()),
+			"limit_end" => array("timestamp",$this->getLimitEnd())
+		), array(
+			"id" => array("integer", $this->getId())
+		));
+	}
+	
 	/**
 	* Set table id
 	*
@@ -198,28 +311,7 @@ class ilDataCollectionTable
             $this->records = $records;
         }
     }
-	/**
-	* Read table
-	*/
-	function doRead()
-	{
-		global $ilDB;
-
-		$query = "SELECT * FROM il_dcl_table WHERE id = ".$ilDB->quote($this->getId(),"integer");
-		$set = $ilDB->query($query);
-		$rec = $ilDB->fetchAssoc($set);
-
-		$this->setObjId($rec["obj_id"]);
-		$this->setTitle($rec["title"]);
-		$this->setAddPerm($rec["add_perm"]);
-		$this->setEditPerm($rec["edit_perm"]);
-		$this->setDeletePerm($rec["delete_perm"]);
-		$this->setEditByOwner($rec["edit_by_owner"]);
-		$this->setLimited($rec["limited"]);
-		$this->setLimitStart($rec["limit_start"]);
-		$this->setLimitEnd($rec["limit_end"]);
-	}
-
+	
     //TODO: replace this method with DataCollection->getTables()
 	/**
 	* get all tables of a Data Collection Object
@@ -408,92 +500,6 @@ class ilDataCollectionTable
 		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
-	/**
-	 * Attention this does not delete the maintable of it's the maintabla of the collection. unlink the the maintable in the collections object to make this work.
-	 */
-	public function doDelete(){
-		global $ilDB;
-
-		foreach($this->getRecords() as $record)
-			$record->doDelete();
-		foreach($this->getRecordFields() as $field)
-			$field->doDelete();
-		if($this->getCollectionObject()->getMainTableId() != $this->getId()){
-			$query = "DELETE FROM il_dcl_table WHERE id = ".$this->getId();
-			$ilDB->manipulate($query);
-		}
-	}
-
-	/**
-	* Create new table
-	*/
-	function DoCreate()
-	{
-		global $ilDB;
-
-		$id = $ilDB->nextId("il_dcl_table");
-		$this->setId($id);
-		$query = "INSERT INTO il_dcl_table (".
-		"id".
-		", obj_id".
-		", title".
-		", add_perm".
-		", edit_perm".
-		", delete_perm".
-		", edit_by_owner".
-		", limited".
-		", limit_start".
-		", limit_end".
-		" ) VALUES (".
-		$ilDB->quote($this->getId(), "integer")
-		.",".$ilDB->quote($this->getObjId(), "integer")
-		.",".$ilDB->quote($this->getTitle(), "text")
-		.",".$ilDB->quote($this->getAddPerm()?1:0, "integer")
-		.",".$ilDB->quote($this->getEditPerm()?1:0, "integer")
-		.",".$ilDB->quote($this->getDeletePerm()?1:0, "integer")
-		.",".$ilDB->quote($this->getEditByOwner()?1:0, "integer")
-		.",".$ilDB->quote($this->getLimited()?1:0, "integer")
-		.",".$ilDB->quote($this->getLimitStart(), "timestamp")
-		.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
-		.")";
-		$ilDB->manipulate($query);
-
-		//FIXME
-		//FromType sollen ebenfalls als Konstante definiert werden.
-
-		//add view definition
-        $view_id = $ilDB->nextId("il_dcl_view");
-        $query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::VIEW_VIEW.", 1)";
-        $ilDB->manipulate($query);
-
-		//add edit definition
-		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::EDIT_VIEW.", 1)";
-		$ilDB->manipulate($query);
-
-		//add filter definition
-		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::FILTER_VIEW.", 1)";
-		$ilDB->manipulate($query);
-	}
-
-	function doUpdate(){
-		global $ilDB;
-
-		$ilDB->update("il_dcl_table", array(
-			"obj_id" => array("integer", $this->getObjId()),
-			"title" => array("text", $this->getTitle()),
-			"add_perm" => array("integer",$this->getAddPerm()),
-			"edit_perm" => array("integer",$this->getEditPerm()),
-			"delete_perm" => array("integer",$this->getDeletePerm()),
-			"edit_by_owner" => array("integer",$this->getEditByOwner()),
-			"limited" => array("integer",$this->getLimited()),
-			"limit_start" => array("timestamp",$this->getLimitStart()),
-			"limit_end" => array("timestamp",$this->getLimitEnd())
-		), array(
-			"id" => array("integer", $this->getId())
-		));
-	}
 
 	public function hasPermissionToAddRecord($ref){
 		return ($this->getAddPerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkLimit()) || ilObjDataCollection::_hasWriteAccess($ref);
@@ -710,10 +716,11 @@ class ilDataCollectionTable
 		$this->DoCreate();
 
 		//clone fields.
-		foreach($original->getFields() as $field){
+		foreach($original->getRecordFields() as $field){
 			$new_field = new ilDataCollectionField();
-			$new_field->cloneStructure($field->getId());
 			$new_field->setTableId($this->getId());
+			$new_field->cloneStructure($field->getId());
+			
 		}
 	}
 }
