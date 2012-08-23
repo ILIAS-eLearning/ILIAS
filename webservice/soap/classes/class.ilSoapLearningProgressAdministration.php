@@ -15,11 +15,18 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 {
 	protected static $DELETE_PROGRESS_FILTER_TYPES = array('sahs', 'tst');
 	
+	const PROGRESS_FILTER_ALL = 0;
+	const PROGRESS_FILTER_IN_PROGRESS = 1;
+	const PROGRESS_FILTER_COMPLETED = 2;
+	const PROGRESS_FILTER_FAILED = 3;
+	
+	const USER_FILTER_ALL = -1;
+	
 	/**
 	 * Delete progress of users and objects
 	 * Implemented for 
 	 */
-	public function deleteProgress($sid, $ref_ids, $usr_ids, $type_filter)
+	public function deleteProgress($sid, $ref_ids, $usr_ids, $type_filter, $progress_filter)
 	{
 		$this->initAuth($sid);
 		$this->initIlias();
@@ -35,12 +42,12 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		{
 			return $this->__raiseError('Invalid filter type given', 'Client');
 		}
+		
 		include_once 'Services/User/classes/class.ilObjUser.php';
-		if(!ilObjUser::userExists($usr_ids))
+		if(!in_array(self::USER_FILTER_ALL, $usr_ids) and !ilObjUser::userExists($usr_ids))
 		{
 			return $this->__raiseError('Invalid user ids given', 'Client');
 		}
-		
 		
 		$valid_refs = array();
 		foreach((array) $ref_ids as $ref_id)
@@ -98,6 +105,9 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 				return $this->__raiseError('Invalid reference id given : '. $ref_id.' -> type '.$type, 'Client');
 			}
 			
+			// filter users
+			$valid_users = $this->applyProgressFilter($obj->getId(), (array) $usr_ids, (array) $progress_filter);
+			
 			switch($obj->getType())
 			{
 				case 'sahs':
@@ -107,17 +117,17 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 					switch($subtype)
 					{
 						case 'scorm':
-							$this->deleteScormTracking($obj->getId(),(array) $usr_ids);
+							$this->deleteScormTracking($obj->getId(),(array) $valid_users);
 							break;
 							
 						case 'scorm2004':
-							$this->deleteScorm2004Tracking($obj->getId(), (array) $usr_ids);
+							$this->deleteScorm2004Tracking($obj->getId(), (array) $valid_users);
 							break;
 					}
 					break;
 					
 				case 'tst':
-					foreach((array) $usr_ids as $usr_id)
+					foreach((array) $valid_users as $usr_id)
 					{
 						$obj->removeTestResultsForUser($usr_id);
 					}
@@ -132,6 +142,69 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 		return true;
 	}
 	
+	/**
+	 * Apply progress filter
+	 * @param int $obj_id
+	 * @param array $usr_ids
+	 * @param array $filter
+	 * 
+	 * @return array $filtered_users
+	 */
+	protected function applyProgressFilter($obj_id, Array $usr_ids, Array $filter)
+	{
+		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		
+
+		$all_users = array();
+		if(in_array(self::USER_FILTER_ALL, $usr_ids))
+		{
+			$all_users = array_unique(
+					array_merge(
+						ilLPStatusWrapper::_getInProgress($obj_id),
+						ilLPStatusWrapper::_getCompleted($obj_id),
+						ilLPStatusWrapper::_getFailed($obj_id)
+					)
+				);
+		}
+		else
+		{
+			$all_users = $usr_ids;
+		}
+
+		if(!$filter or in_array(self::PROGRESS_FILTER_ALL, $filter))
+		{
+			$GLOBALS['log']->write(__METHOD__.': Deleting all progress data');
+			return $all_users;
+		}
+		
+		$filter_users = array();
+		if(in_array(self::PROGRESS_FILTER_IN_PROGRESS, $filter))
+		{
+			$GLOBALS['log']->write(__METHOD__.': Filtering  in progress.');
+			$filter_users = array_merge($filter, ilLPStatusWrapper::_getInProgress($obj_id));
+		}
+		if(in_array(self::PROGRESS_FILTER_COMPLETED, $filter))
+		{
+			$GLOBALS['log']->write(__METHOD__.': Filtering  completed.');
+			$filter_users = array_merge($filter, ilLPStatusWrapper::_getCompleted($obj_id));
+		}
+		if(in_array(self::PROGRESS_FILTER_FAILED, $filter))
+		{
+			$GLOBALS['log']->write(__METHOD__.': Filtering  failed.');
+			$filter_users = array_merge($filter, ilLPStatusWrapper::_getFailed($obj_id));
+		}
+		
+		// Build intersection
+		return array_intersect($all_users, $filter_users);
+	}
+	
+	/**
+	 * Delete SCORM Tracking
+	 * @global type $ilDB
+	 * @param type $a_obj_id
+	 * @param type $a_usr_ids
+	 * @return boolean
+	 */
 	protected function deleteScormTracking($a_obj_id, $a_usr_ids)
 	{
 		global $ilDB;

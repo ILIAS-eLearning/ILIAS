@@ -1009,11 +1009,11 @@ class ilSoapFunctions {
 	 * @param array $type_filter
 	 * @return type 
 	 */
-	public static function deleteProgress($sid, $ref_ids, $usr_ids, $type_filter)
+	public static function deleteProgress($sid, $ref_ids, $usr_ids, $type_filter, $progress_filter)
 	{
 		include_once './webservice/soap/classes/class.ilSoapLearningProgressAdministration.php';
 		$sla = new ilSoapLearningProgressAdministration();
-		return $sla->deleteProgress($sid, $ref_ids, $usr_ids, $type_filter);
+		return $sla->deleteProgress($sid, $ref_ids, $usr_ids, $type_filter, $progress_filter);
 	}
 }
 
