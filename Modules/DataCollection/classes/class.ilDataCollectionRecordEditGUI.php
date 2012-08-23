@@ -167,7 +167,8 @@ class ilDataCollectionRecordEditGUI
 			{
 				$fieldref = $field->getFieldRef();
 				$reffield = new ilDataCollectionField($fieldref);
-				$options = array();
+                $options = array();
+                $options[] = '--';
 				$reftable = new ilDataCollectionTable($reffield->getTableId());
 				foreach($reftable->getRecords() as $record)
 				{

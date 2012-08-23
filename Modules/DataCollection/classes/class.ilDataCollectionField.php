@@ -749,6 +749,13 @@ class ilDataCollectionField
 	 */
 	public function checkValidity($value, $record_id)
 	{
+        //Don't check empty values
+        if($value == NULL)
+        {
+            return true;
+        }
+
+
 		if(!ilDataCollectionDatatype::checkValidity($this->getDatatypeId(), $value))
 		{
 			throw new ilDataCollectionInputException(ilDataCollectionInputException::TYPE_EXCEPTION);
