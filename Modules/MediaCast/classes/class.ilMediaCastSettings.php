@@ -24,7 +24,7 @@
 /** 
 * Stores all mediacast relevant settings.
 * 
-* @author Roland Küstermann <rkuestermann@mps.de>
+* @author Roland KÃ¼stermann <rkuestermann@mps.de>
 * @version $Id$
 * 
 * 
@@ -159,8 +159,8 @@ class ilMediaCastSettings
         $this->purposeSuffixes["AudioPortable"] = array("mp3");
         $this->purposeSuffixes["VideoPortable"] = array("mp4","m4v","mov");
         $this->setDefaultAccess("users");
-		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';		        
-        $mimeTypes = array_unique(array_values(ilObjMediaObject::getExt2MimeMap()));
+		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");		        
+        $mimeTypes = array_unique(array_values(ilMimeTypeUtil::getExt2MimeMap()));
         sort($mimeTypes);
         $this->setMimeTypes($mimeTypes);
 	}
