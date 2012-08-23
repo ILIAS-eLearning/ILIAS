@@ -191,14 +191,14 @@ class ilDataCollectionRecordEditGUI
 		if(isset($this->record_id))
 		{
 			$this->form->setTitle($lng->txt("dcl_update_record"));
-			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 			$this->form->addCommandButton("save", $lng->txt("dcl_update_record"));
+			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
 		}
 		else
 		{
 			$this->form->setTitle($lng->txt("dcl_add_new_record"));
-			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
 			$this->form->addCommandButton("save", $lng->txt("save"));
+			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
 		}
 
         $ilCtrl->setParameter($this, "table_id", $this->table_id);
