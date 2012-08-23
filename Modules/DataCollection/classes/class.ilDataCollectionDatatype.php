@@ -104,8 +104,12 @@ class ilDataCollectionDatatype
 	{
 		return $this->storageLocation;
 	}
-
-    function getDbType(){
+	
+	/*
+	 * getDbType
+	 */
+    function getDbType()
+    {
         return $this->dbType;
     }
 
@@ -183,9 +187,13 @@ class ilDataCollectionDatatype
         //TODO: finish this list.
 
 		//required is checked by form. so no input is valid.
-		if($value == Null)
+		if($value == NULL)
+		{
 			return true;
-        switch($type_id){
+		}
+			
+        switch($type_id)
+        {
             case self::INPUTFORMAT_NUMBER:
                 $return = is_numeric($value);
                 break;
@@ -206,6 +214,7 @@ class ilDataCollectionDatatype
         $type_id = $field->getDatatypeId();
         $input = NULL;
         $title = $field->getTitle();
+        
         switch($type_id)
         {
             case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
@@ -230,11 +239,17 @@ class ilDataCollectionDatatype
         }
         return $input;
     }
-
-	static function addFilterInputFieldToTable(ilDataCollectionField $field, ilTable2GUI &$table){
+    
+    /*
+     * addFilterInputFieldToTable
+     */
+	static function addFilterInputFieldToTable(ilDataCollectionField $field, ilTable2GUI &$table)
+	{
 		global $lng;
+		
 		$type_id = $field->getDatatypeId();
-		$input = null;
+		$input = NULL;
+		
 		switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
@@ -271,15 +286,24 @@ class ilDataCollectionDatatype
 				$input->setOptions($options);
 				break;
 		}
-		if($input != null)
+		
+		if($input != NULL)
+		{
 			$input->setTitle($field->getTitle());
+		}
+			
 		return $input;
 	}
-
-	static function passThroughFilter(ilDataCollectionRecord $record,ilDataCollectionField $field, $filter){
+	
+	/*
+	 * passThroughFilter
+	 */
+	static function passThroughFilter(ilDataCollectionRecord $record,ilDataCollectionField $field, $filter)
+	{
 		$pass = false;
 		$type_id = $field->getDatatypeId();
 		$value = $record->getRecordFieldValue($field->getId());
+		
 		switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
@@ -310,11 +334,14 @@ class ilDataCollectionDatatype
 				break;
 		}
 
-		if(($field->getId() == "owner" || $field->getId() == "last_edit_by") && $filter){
+		if(($field->getId() == "owner" || $field->getId() == "last_edit_by") && $filter)
+		{
 			$pass = false;
 			$user = new ilObjUser($value);
 			if(strpos($user->getFullname(), $filter) !== false)
+			{
 				$pass = true;
+			}
 		}
 
 		return $pass;
@@ -326,8 +353,10 @@ class ilDataCollectionDatatype
      * @param $value
      * @return int|string
      */
-    public function parseValue($value){
+    public function parseValue($value)
+    {
 		$return = false;
+		
         if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
         {
             $file = $value;
@@ -347,14 +376,60 @@ class ilDataCollectionDatatype
                 $file_id = $file_obj->getId();
 				$return = $file_id;
 			}
-        }elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME){
+        }
+        elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
+        {
             return $value["date"]." ".$value["time"];
-        }elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN){
-			$return = $value?1:0;
+        }
+        elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
+        {
+			$return = $value ? 1 : 0;
 		}
-        else{
+        else
+        {
             $return = $value;
         }
+        return $return;
+    }
+    
+    
+    /**
+     * Function to parse incoming data from form input value $value. returns the strin/number/etc. to store in the database.
+     * @param $value
+     * @return int|string
+     */
+    public function parseExportValue($value)
+    {
+		$return = false;
+
+        if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
+        {
+            $file = $value;
+            if($file!="-")
+            {
+				$file_obj = new ilObjDataCollectionFile($file, false);
+                $file_name = $file_obj->getFileName();
+                
+				$return = $file_name;
+			}
+			else
+			{
+				$return = $file;
+			}
+        }
+        elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
+        {
+            $return = $value["date"]." ".$value["time"];
+        }
+        elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
+        {
+			$return = $value ? 1 : 0;
+		}
+        else
+        {
+            $return = $value;
+        }
+        
         return $return;
     }
 
@@ -364,20 +439,23 @@ class ilDataCollectionDatatype
      * @param $value
      * @return mixed
      */
-    public function parseHTML($value, ilDataCollectionRecordField $record_field){
-        switch($this->id){
+    public function parseHTML($value, ilDataCollectionRecordField $record_field)
+    {
+        switch($this->id)
+        {
             case self::INPUTFORMAT_DATETIME:
                 $html = substr($value, 0, -9);
                 break;
+                
 			case self::INPUTFORMAT_FILE:
 				global $ilCtrl;
 				$file_obj = new ilObjDataCollectionFile($value,false);
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "record_id", $record_field->getRecord()->getId());
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "field_id", $record_field->getField()->getId());
 
-				//ilUtil::deliverFile($file_obj->getFile(), $file_obj->getTitle());
-				$html = "<a href=".$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui","sendFile")." >".$file_obj->getFileName()."</a>";
+				$html = "<a href=".$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "sendFile")." >".$file_obj->getFileName()."</a>";
 				break;
+				
 			case self::INPUTFORMAT_BOOLEAN:
 				switch($value)
 				{
@@ -390,6 +468,7 @@ class ilDataCollectionDatatype
 				}
 				$html = "<img src='".$im."'>";
 				break;
+				
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				if(!$value || $value == "-"){
 					$html = "";
@@ -404,12 +483,16 @@ class ilDataCollectionDatatype
 					$record_field->doUpdate();
 				}
 				else
+				{
 					$html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
+				}
 				break;
+				
             case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
                 //Property URL
                 $arr_properties = $record_field->getField()->getProperties();
-                if($arr_properties[ilDataCollectionField::PROPERTYID_URL]->value) {
+                if($arr_properties[ilDataCollectionField::PROPERTYID_URL]->value)
+                {
                     $html = "<a target='_blank' href='".$value."'>".$value."</a>";
                 }
                 else
@@ -417,8 +500,10 @@ class ilDataCollectionDatatype
                     $html = $value;
                 }
                 break;
+                
 			default:
                 $html = $value;
+                break;
         }
         return $html;
     }

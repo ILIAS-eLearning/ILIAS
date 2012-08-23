@@ -41,7 +41,97 @@ class ilDataCollectionRecord
 			$this->doRead();
 		}
 	}
+	
+	
+	/*
+	 * doUpdate
+	 */
+    function doUpdate()
+    {
+        global $ilDB;
+        
+        $ilDB->update("il_dcl_record", array(
+            "table_id" => array("integer", $this->getTableId()),
+            "create_date" => array("date", $this->getCreateDate()),
+            "last_update" => array("date", $this->getLastUpdate()),
+            "owner" => array("text", $this->getOwner()),
+            "last_edit_by" => array("text", $this->getLastEditBy())
+        ), array(
+            "id" => array("integer", $this->id)
+        ));
 
+        foreach($this->getRecordFields() as $recordfield)
+        {
+            $recordfield->doUpdate();
+        }
+
+        include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
+        ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
+    }
+    
+    /**
+	* Read record
+	*/
+	function doRead()
+	{
+		global $ilDB;
+		//build query
+		$query = "Select * From il_dcl_record rc WHERE rc.id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY rc.id";
+
+
+		$set = $ilDB->query($query);
+		$rec = $ilDB->fetchAssoc($set);
+
+		$this->setTableId($rec["table_id"]);
+		$this->setCreateDate($rec["create_date"]);
+		$this->setLastUpdate($rec["last_update"]);
+		$this->setOwner($rec["owner"]);
+		$this->setLastEditBy($rec["last_edit_by"]);
+	}
+
+	/**
+	* Create new record
+	*
+	* @param array $all_fields
+	*
+	*/
+	function DoCreate()
+	{
+		global $ilDB;
+
+		// Record erzeugen
+		$id = $ilDB->nextId("il_dcl_record");
+		$this->setId($id);
+		$query = "INSERT INTO il_dcl_record (
+							id,
+							table_id,
+							create_date,
+							Last_update,
+							owner,
+							last_edit_by
+						) VALUES (".
+							$ilDB->quote($this->getId(), "integer").",".
+							$ilDB->quote($this->getTableId(), "integer").",".
+							$ilDB->quote($this->getCreateDate(), "timestamp").",".
+							$ilDB->quote($this->getLastUpdate(), "timestamp").",".
+							$ilDB->quote($this->getOwner(), "integer").",".
+							$ilDB->quote($this->getLastEditBy(), "integer")."
+						)";
+		$ilDB->manipulate($query);
+
+        include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
+        ilObjDataCollection::sendNotification("new_record", $this->getTableId(), $id);
+    }
+    
+    /*
+     * deleteField
+     */
+    public function deleteField($field_id)
+    {
+        $this->loadRecordFields();
+        $this->recordfields[$field_id]->delete();
+    }
+	
 	/**
 	* Set field id
 	*
@@ -231,7 +321,7 @@ class ilDataCollectionRecord
         
         if(ilDataCollectionStandardField::_isStandardField($field_id))
         {
-	        return $this->getStandardField($field_id);
+	        return $this->getStandardFieldHTML($field_id);
         }
         else
         {
@@ -382,69 +472,6 @@ class ilDataCollectionRecord
         }
     }
 
-	/**
-	* Read record
-	*/
-	function doRead()
-	{
-		global $ilDB;
-		//build query
-		$query = "Select * From il_dcl_record rc WHERE rc.id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY rc.id";
-
-
-		$set = $ilDB->query($query);
-		$rec = $ilDB->fetchAssoc($set);
-
-		$this->setTableId($rec["table_id"]);
-		$this->setCreateDate($rec["create_date"]);
-		$this->setLastUpdate($rec["last_update"]);
-		$this->setOwner($rec["owner"]);
-		$this->setLastEditBy($rec["last_edit_by"]);
-	}
-
-	/**
-	* Create new record
-	*
-	* @param array $all_fields
-	*
-	*/
-	function DoCreate()
-	{
-		global $ilDB;
-
-		// Record erzeugen
-		$id = $ilDB->nextId("il_dcl_record");
-		$this->setId($id);
-		$query = "INSERT INTO il_dcl_record (
-							id,
-							table_id,
-							create_date,
-							Last_update,
-							owner,
-							last_edit_by
-						) VALUES (".
-							$ilDB->quote($this->getId(), "integer").",".
-							$ilDB->quote($this->getTableId(), "integer").",".
-							$ilDB->quote($this->getCreateDate(), "timestamp").",".
-							$ilDB->quote($this->getLastUpdate(), "timestamp").",".
-							$ilDB->quote($this->getOwner(), "integer").",".
-							$ilDB->quote($this->getLastEditBy(), "integer")."
-						)";
-		$ilDB->manipulate($query);
-
-        include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
-        ilObjDataCollection::sendNotification("new_record", $this->getTableId(), $id);
-    }
-    
-    /*
-     * deleteField
-     */
-    public function deleteField($field_id)
-    {
-        $this->loadRecordFields();
-        $this->recordfields[$field_id]->delete();
-    }
-    
     /*
      * getRecordField
      */
@@ -520,32 +547,6 @@ class ilDataCollectionRecord
 	{
 		return $this->getTable()->hasPermissionToDeleteRecord($ref, $this);
 	}
-
-	/*
-	 * doUpdate
-	 */
-    function doUpdate()
-    {
-        global $ilDB;
-        
-        $ilDB->update("il_dcl_record", array(
-            "table_id" => array("integer", $this->getTableId()),
-            "create_date" => array("date", $this->getCreateDate()),
-            "last_update" => array("date", $this->getLastUpdate()),
-            "owner" => array("text", $this->getOwner()),
-            "last_edit_by" => array("text", $this->getLastEditBy())
-        ), array(
-            "id" => array("integer", $this->id)
-        ));
-
-        foreach($this->getRecordFields() as $recordfield)
-        {
-            $recordfield->doUpdate();
-        }
-
-        include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
-        ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
-    }
     
     /*
      * getRecordFields
