@@ -101,6 +101,7 @@ class ilCalendarSettings
 	 * @access public
 	 * @static
 	 *
+	 * @return ilCalendarSettings
 	 */
 	public static function _getInstance()
 	{
@@ -109,6 +110,41 @@ class ilCalendarSettings
 			return self::$instance;
 		}
 		return self::$instance = new ilCalendarSettings();
+	}
+	
+	/**
+	 * 
+	 * @param type $a_obj_id
+	 */
+	public static function lookupCalendarActivated($a_obj_id)
+	{
+		if(!ilCalendarSettings::_getInstance()->isEnabled())
+		{
+			return false;
+		}
+		$type = ilObject::_lookupType($a_obj_id);
+		// lookup global setting
+		$gl_activated = false;
+		switch($type)
+		{
+			case 'crs':
+				$gl_activated = ilCalendarSettings::_getInstance()->isCourseCalendarEnabled();
+				break;
+			
+			case 'grp':
+				$gl_activated = ilCalendarSettings::_getInstance()->isGroupCalendarEnabled();
+				break;
+			
+			default:
+				return false;
+		}
+		// look individual object setting
+		include_once './Services/Container/classes/class.ilContainer.php';
+		return ilContainer::_lookupContainerSetting(
+				$a_obj_id,
+				'show_calendar',
+				$gl_activated
+			);
 	}
 	
 	/**
