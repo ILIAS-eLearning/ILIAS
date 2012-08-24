@@ -844,6 +844,15 @@ class ilDataCollectionTable
 			
 		}
 	}
+	
+	/**
+	 * _hasRecords
+	 * @return boolean
+	 */
+	public function _hasRecords()
+	{
+		return (count($this->getRecords()) > 0) ? true : false;
+	}
 }
 
 ?>

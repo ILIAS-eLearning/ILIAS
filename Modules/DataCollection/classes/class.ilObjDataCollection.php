@@ -405,6 +405,24 @@ class ilObjDataCollection extends ilObject2
 		
 		return $ilAccess->checkAccess("add_entry", "", $ref);
 	}
+	
+	/**
+	 * _hasRecords
+	 * @return boolean
+	 */
+	public function _hasRecords()
+	{
+		/*foreach($this->getTables() as $table)
+		{
+			if($table->_hasRecords())
+			{
+				return true;
+			}
+		}
+		return false;
+		*/
+		return true;
+	}
 
 	/**
 	 * @return ilDataCollectionTable[] Returns an array of tables of this collection with ids of the tables as keys.
