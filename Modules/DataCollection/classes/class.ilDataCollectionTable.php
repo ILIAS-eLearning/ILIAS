@@ -17,13 +17,13 @@ include_once './Modules/DataCollection/classes/class.ilDataCollectionRecord.php'
 
 class ilDataCollectionTable
 {
-	protected $id; // [int]
-	protected $objId; // [int]
-	protected $obj;
-	protected $title; // [string]
-    private $fields; // [array][ilDataCollectionField]
-	private $stdFields;
-    private $records;
+	protected 	$id; 		// [int]
+	protected 	$objId; 	// [int]
+	protected 	$obj;
+	protected 	$title; 	// [string]
+    private 	$fields; 	// [array][ilDataCollectionField]
+	private 	$stdFields;
+    private 	$records;
 
 	/**
 	 * @var bool
@@ -55,6 +55,8 @@ class ilDataCollectionTable
 	 * @var string
 	 */
 	private $limit_end;
+
+
 
 	/**
 	* Constructor
@@ -95,56 +97,64 @@ class ilDataCollectionTable
 	}
 	
 	/**
-	 * Attention this does not delete the maintable of it's the maintabla of the collection. unlink the the maintable in the collections object to make this work.
+	 * doDelete
+	 * Attention this does not delete the maintable of it's the maintabla of the collection. 
+	 * unlink the the maintable in the collections object to make this work.
+	 * @param boolean $delete_main_table true to delete table anyway
 	 */
-	public function doDelete($delete_main_table = false){
+	public function doDelete($delete_main_table = false)
+	{
 		global $ilDB;
 		
 		foreach($this->getRecords() as $record)
+		{
 			$record->doDelete();
-		foreach($this->getRecordFields() as $field)
-			$field->doDelete();
-
-		if($this->getCollectionObject()->getMainTableId() != $this->getId() || $delete_main_table == true){
-			$query = "DELETE FROM il_dcl_table WHERE id = ".$this->getId();
-			$ilDB->manipulate($query);
-			
 		}
-		
+			
+		foreach($this->getRecordFields() as $field)
+		{
+			$field->doDelete();
+		}
+			
+		if($this->getCollectionObject()->getMainTableId() != $this->getId() || $delete_main_table == true)
+		{
+			$query = "DELETE FROM il_dcl_table WHERE id = ".$this->getId();
+			$ilDB->manipulate($query);	
+		}
 	}
 
 	/**
 	* Create new table
 	*/
-	function DoCreate()
+	function doCreate()
 	{
 		global $ilDB;
 
 		$id = $ilDB->nextId("il_dcl_table");
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_table (".
-		"id".
-		", obj_id".
-		", title".
-		", add_perm".
-		", edit_perm".
-		", delete_perm".
-		", edit_by_owner".
-		", limited".
-		", limit_start".
-		", limit_end".
-		" ) VALUES (".
-		$ilDB->quote($this->getId(), "integer")
-		.",".$ilDB->quote($this->getObjId(), "integer")
-		.",".$ilDB->quote($this->getTitle(), "text")
-		.",".$ilDB->quote($this->getAddPerm()?1:0, "integer")
-		.",".$ilDB->quote($this->getEditPerm()?1:0, "integer")
-		.",".$ilDB->quote($this->getDeletePerm()?1:0, "integer")
-		.",".$ilDB->quote($this->getEditByOwner()?1:0, "integer")
-		.",".$ilDB->quote($this->getLimited()?1:0, "integer")
-		.",".$ilDB->quote($this->getLimitStart(), "timestamp")
-		.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
-		.")";
+			"id".
+			", obj_id".
+			", title".
+			", add_perm".
+			", edit_perm".
+			", delete_perm".
+			", edit_by_owner".
+			", limited".
+			", limit_start".
+			", limit_end".
+			" ) VALUES (".
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote($this->getObjId(), "integer")
+			.",".$ilDB->quote($this->getTitle(), "text")
+			.",".$ilDB->quote($this->getAddPerm()?1:0, "integer")
+			.",".$ilDB->quote($this->getEditPerm()?1:0, "integer")
+			.",".$ilDB->quote($this->getDeletePerm()?1:0, "integer")
+			.",".$ilDB->quote($this->getEditByOwner()?1:0, "integer")
+			.",".$ilDB->quote($this->getLimited()?1:0, "integer")
+			.",".$ilDB->quote($this->getLimitStart(), "timestamp")
+			.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
+			.")";
 		$ilDB->manipulate($query);
 
 		//FIXME
@@ -165,8 +175,12 @@ class ilDataCollectionTable
 		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::FILTER_VIEW.", 1)";
 		$ilDB->manipulate($query);
 	}
-
-	function doUpdate(){
+	
+	/*
+	 * doUpdate
+	 */
+	function doUpdate()
+	{
 		global $ilDB;
 
 		$ilDB->update("il_dcl_table", array(
@@ -384,6 +398,7 @@ class ilDataCollectionTable
         if($this->fields == NULL)
         {
             global $ilDB;
+            
             $query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$this->getId()." ORDER BY def.field_order DESC";
             $fields = array();
             $set = $ilDB->query($query);
@@ -401,12 +416,18 @@ class ilDataCollectionTable
 	/**
 	 * @return int returns the place where a new field should be placed.
 	 */
-	public function getNewOrder(){
+	public function getNewOrder()
+	{
 		$fields = $this->getFields();
 		$place = 0;
 		foreach($fields as $field)
+		{
 			if($field->isVisible())
+			{
 				$place = $field->getOrder() + 1;
+			}
+		}
+			
 		return $place;
 	}
 
@@ -456,8 +477,12 @@ class ilDataCollectionTable
             
         return $visibleFields;
     }
-
-	function getEditableFields(){
+    
+    /*
+     * getEditableFields
+     */
+	function getEditableFields()
+	{
 		$fields = $this->getRecordFields();
 		$editableFields = array();
 
@@ -473,9 +498,10 @@ class ilDataCollectionTable
 	}
 
 	 /**
-     * Returns all fields of this table who have set their filterable to true, including standard fields.
-     * @return ilDataCollectionField[]
-     */
+	  * getFilterableFields
+	  * Returns all fields of this table who have set their filterable to true, including standard fields.
+	  * @return ilDataCollectionField[]
+      */
     function getFilterableFields()
     {
         $fields = $this->getFields();
@@ -492,16 +518,25 @@ class ilDataCollectionTable
         return $filterableFields;
     }
 
-	function hasPermissionToFields($ref_id){
+    /*
+     * hasPermissionToFields
+     */
+	function hasPermissionToFields($ref_id)
+	{
+		return ilObjDataCollection::_hasWriteAccess($ref_id);
+	}
+	
+	/*
+	 * hasPermissionToAddTable
+	 */
+	function hasPermissionToAddTable($ref_id)
+	{
 		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
-	function hasPermissionToAddTable($ref_id) {
-		return ilObjDataCollection::_hasWriteAccess($ref_id);
-	}
 
-
-	public function hasPermissionToAddRecord($ref){
+	public function hasPermissionToAddRecord($ref)
+	{
 		return ($this->getAddPerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkLimit()) || ilObjDataCollection::_hasWriteAccess($ref);
 	}
 
@@ -510,7 +545,8 @@ class ilDataCollectionTable
 	 * @param $record ilDataCollectionRecord the record which will be edited
 	 * @return bool
 	 */
-	public function hasPermissionToEditRecord($ref, $record){
+	public function hasPermissionToEditRecord($ref, $record)
+	{
 		return ($this->getEditPerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref);
 	}
 
@@ -519,55 +555,94 @@ class ilDataCollectionTable
 	 * @param $record ilDataCollectionRecord the record which will be deleted
 	 * @return bool
 	 */
-	public function hasPermissionToDeleteRecord($ref, $record){
+	public function hasPermissionToDeleteRecord($ref, $record)
+	{
 		return ($this->getDeletePerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref);
 	}
-
-	private function checkEditByOwner($record){
+	
+	/*
+	 * checkEditByOwner
+	 */
+	private function checkEditByOwner($record)
+	{
 		global $ilUser;
+		
 		if($this->getEditByOwner() && $ilUser->getId() != $record->getOwner())
+		{
 			return false;
+		}
+			
 		return true;
 	}
-
-	private function checkLimit(){
-		if($this->getLimited()){
+	
+	/*
+	 * checkLimit
+	 */
+	private function checkLimit()
+	{
+		if($this->getLimited())
+		{
 			$now = new ilDateTime(time(), IL_CAL_UNIX);
 			$from = new ilDateTime($this->getLimitStart(), IL_CAL_DATE);
 			$to = new ilDateTime($this->getLimitEnd(), IL_CAL_DATE);
+			
 			if(!($from <= $now && $now <= $to))
+			{
 				return false;
+			}
 		}
 		return true;
 	}
-
-	public function updateFields(){
+	
+	/*
+	 * updateFields
+	 */
+	public function updateFields()
+	{
 		foreach($this->getFields() as $field)
+		{
 			$field->doUpdate();
+		}
 	}
 
 	/**
+	 * sortFields
 	 * @param $fields ilDataCollectionField[]
 	 */
-	public function sortFields(&$fields){
+	public function sortFields(&$fields)
+	{
 		$this->sortByMethod($fields, "getOrder");
 
 		//After sorting the array loses it's keys respectivly their keys are set form $field->id to 1,2,3... so we reset the keys.
 		$named = array();
-		foreach($fields as $field){
+		foreach($fields as $field)
+		{
 			$named[$field->getId()] = $field;
 		}
+		
 		$fields = $named;
 	}
-
-	private function sortByMethod(&$array, $method_name){
-		usort($array, function($a, $b) use ($method_name){
-			if(is_null($a->$method_name() == Null) && is_null($b->$method_name() == Null))
+	
+	/*
+	 * sortByMethod
+	 */
+	private function sortByMethod(&$array, $method_name)
+	{
+		usort($array, function($a, $b) use ($method_name)
+		{
+			if(is_null($a->$method_name() == Null) && is_null($b->$method_name() == NULL))
+			{
 				return 0;
+			}
 			if(is_null($a->$method_name()))
+			{
 				return 1;
+			}
 			if(is_null($b->$method_name()))
+			{
 				return -1;
+			}
+				
 			return $a->$method_name() < $b->$method_name() ? -1 : 1;
 		});
 	}
@@ -575,7 +650,8 @@ class ilDataCollectionTable
 	/**
 	 * orders the fields.
 	 */
-	public function buildOrderFields(){
+	public function buildOrderFields()
+	{
 		$fields = $this->getFields();
 
 		$this->sortByMethod($fields, "getOrder");
@@ -583,8 +659,10 @@ class ilDataCollectionTable
 		$count = 10;
 		$offset = 10;
 
-		foreach($fields as $field){
-			if(!is_null($field->getOrder())){
+		foreach($fields as $field)
+		{
+			if(!is_null($field->getOrder()))
+			{
 				$field->setOrder($count);
 				$count = $count + $offset;
 			}
@@ -702,8 +780,12 @@ class ilDataCollectionTable
 	{
 		return $this->limit_start;
 	}
-
-	public function cloneStructure($original_id){
+	
+	/*
+	 * cloneStructure
+	 */
+	public function cloneStructure($original_id)
+	{
 		$original = new ilDataCollectionTable($original_id);
 		$this->setEditByOwner($original->getEditByOwner());
 		$this->setAddPerm($original->getAddPerm());
@@ -713,10 +795,11 @@ class ilDataCollectionTable
 		$this->setLimitStart($original->getLimitStart());
 		$this->setLimitEnd($original->getLimitEnd());
 		$this->setTitle($original->getTitle());
-		$this->DoCreate();
+		$this->doCreate();
 
 		//clone fields.
-		foreach($original->getRecordFields() as $field){
+		foreach($original->getRecordFields() as $field)
+		{
 			$new_field = new ilDataCollectionField();
 			$new_field->setTableId($this->getId());
 			$new_field->cloneStructure($field->getId());

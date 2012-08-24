@@ -137,7 +137,7 @@ class ilDataCollectionFieldProp
 	/**
 	* Create new field property
 	*/
-	function DoCreate()
+	function doCreate()
 	{
 		global $ilDB;
 
@@ -161,7 +161,7 @@ class ilDataCollectionFieldProp
 	/**
 	* Update field property
 	*/
-	function DoUpdate()
+	function doUpdate()
 	{
 		global $ilDB;
 

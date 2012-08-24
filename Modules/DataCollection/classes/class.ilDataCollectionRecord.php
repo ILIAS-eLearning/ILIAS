@@ -95,7 +95,7 @@ class ilDataCollectionRecord
 	* @param array $all_fields
 	*
 	*/
-	function DoCreate()
+	function doCreate()
 	{
 		global $ilDB;
 

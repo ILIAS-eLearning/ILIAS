@@ -153,7 +153,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	{		
 		//TODO
 		//Page-Object updaten
-		//Es wäre auch möglich direkt in der GUI-Klasse ilPageObject aufzurufen. Falls wir aber bei DoCreate, 
+		//Es wäre auch möglich direkt in der GUI-Klasse ilPageObject aufzurufen. Falls wir aber bei doCreate, 
 		//das Page-Object anlegen, fänd ich es sinnvoll, wenn wir auch hier das PageObject updaten würden.
        //Andernfalls sämtliche Page-Object-Methoden in der GUI-Klasse aufrufen.
 		

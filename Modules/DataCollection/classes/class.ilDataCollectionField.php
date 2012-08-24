@@ -481,7 +481,7 @@ class ilDataCollectionField
 	/**
 	* Create new field
 	*/
-	function DoCreate()
+	function doCreate()
 	{
 		global $ilDB;
 		$this->getLocked() == NULL?$this->setLocked(false):true;
@@ -517,7 +517,7 @@ class ilDataCollectionField
 	/**
 	* Update field
 	*/
-	function DoUpdate()
+	function doUpdate()
 	{
 		global $ilDB;
 
@@ -832,7 +832,7 @@ class ilDataCollectionField
 		$this->setRequired($original->getRequired());
 		$this->setUnique($original->isUnique());
 		$this->setProperties($original->getProperties());
-		$this->DoCreate();
+		$this->doCreate();
 	}
 }
 

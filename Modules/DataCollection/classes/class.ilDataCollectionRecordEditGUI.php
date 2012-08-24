@@ -318,7 +318,7 @@ class ilDataCollectionRecordEditGUI
 				$record_obj->setOwner($ilUser->getId());
 				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
 				$record_obj->setTableId($this->table_id);
-				$record_obj->DoCreate();
+				$record_obj->doCreate();
 				$this->record_id = $record_obj->getId();
 			}else{
 				if(!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id))
