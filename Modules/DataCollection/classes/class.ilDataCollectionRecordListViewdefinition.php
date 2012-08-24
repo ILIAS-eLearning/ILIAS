@@ -232,7 +232,7 @@ class ilDataCollectionRecordListViewdefinition
 	/**
 	* Create
 	*/
-	function DoCreate()
+	function doCreate()
 	{
 		global $ilDB;
 
