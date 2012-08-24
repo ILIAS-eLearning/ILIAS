@@ -274,7 +274,7 @@ class ilDataCollectionTable
 	 */
 	private function loadObj()
 	{
-		if($this->obj == null)
+		if($this->obj == NULL)
 		{
 			$this->obj = new ilObjDataCollection($this->objId, false);
 		}
@@ -655,7 +655,7 @@ class ilDataCollectionTable
 	{
 		usort($array, function($a, $b) use ($method_name)
 		{
-			if(is_null($a->$method_name() == Null) && is_null($b->$method_name() == NULL))
+			if(is_null($a->$method_name() == NULL) && is_null($b->$method_name() == NULL))
 			{
 				return 0;
 			}

@@ -45,7 +45,7 @@ class ilDataCollectionRecordViewGUI
 
 	/**
 	 * @param $record_obj ilDataCollectionRecord
-	 * @return int|null returns the id of the viewdefinition if one is declared and null otherwise
+	 * @return int|NULL returns the id of the viewdefinition if one is declared and NULL otherwise
 	 */
 	public static function _getViewDefinitionId($record_obj)
 	{

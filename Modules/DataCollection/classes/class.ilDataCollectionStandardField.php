@@ -115,7 +115,7 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 			case 'last_update':
 				return ilDataCollectionDatatype::INPUTFORMAT_DATETIME;
 		}
-		return null;
+		return NULL;
 	}
 	
 	/*
