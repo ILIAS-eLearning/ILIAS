@@ -868,7 +868,7 @@ class ilColumnGUI
 					{
 						$nr = -15;
 					}
-					if ($type == "cal")		// show calendar after news
+					if ($type == "cal")
 					{
 						$nr = -8;
 					}
@@ -1015,7 +1015,13 @@ class ilColumnGUI
 			{
 				return true;
 			}
-			elseif($a_type == 'cal' || $a_type == 'pdcal')
+			elseif($a_type == 'cal')
+			{
+				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
+				return ilCalendarSettings::lookupCalendarActivated($GLOBALS['ilCtrl']->getContextObjId());
+				
+			}
+			elseif($a_type == 'pdcal')
 			{
 				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 				return ilCalendarSettings::_getInstance()->isEnabled();

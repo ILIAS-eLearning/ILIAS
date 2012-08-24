@@ -188,7 +188,7 @@ class ilContainer extends ilObject
 	*
 	* @return	string		setting value
 	*/
-	function _lookupContainerSetting($a_id, $a_keyword)
+	function _lookupContainerSetting($a_id, $a_keyword, $a_default_value = NULL)
 	{
 		global $ilDB;
 		
@@ -198,7 +198,15 @@ class ilContainer extends ilObject
 		$set = $ilDB->query($q);
 		$rec = $set->fetchRow(DB_FETCHMODE_ASSOC);
 		
-		return $rec["value"];
+		if(isset($rec['value']))
+		{
+			return $rec["value"];
+		}
+		if($a_default_value === NULL)
+		{
+			return '';
+		}
+		return $a_default_value;
 	}
 
 	function _writeContainerSetting($a_id, $a_keyword, $a_value)
