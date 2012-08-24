@@ -478,7 +478,7 @@ class ilDataCollectionDatatype
 				if(!$record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
 					//the referenced record_field does not seem to exist.
 					$html = "-";
-					$record_field->setValue(null);
+					$record_field->setValue(NULL);
 					$record_field->doUpdate();
 				}
 				else
@@ -518,7 +518,7 @@ class ilDataCollectionDatatype
 		{
 			case self::INPUTFORMAT_DATETIME:
 				if(!$value || $value = "-")
-					return null;
+					return NULL;
 				//$datetime = new DateTime();
 				$input = array( "date" => substr($value, 0, -9),
 								"time" => "00:00:00");

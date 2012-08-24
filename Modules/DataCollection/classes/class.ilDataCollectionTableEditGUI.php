@@ -108,9 +108,9 @@ class ilDataCollectionTableEditGUI
 			'limit_end'		=>	array("date" => substr($this->table->getLimitEnd(),0,10), "time" => substr($this->table->getLimitEnd(),-8))
 		);
 		if(!$this->table->getLimitStart())
-			$values['limit_start'] = Null;
+			$values['limit_start'] = NULL;
 		if(!$this->table->getLimitEnd())
-			$values['limit_end'] = Null;
+			$values['limit_end'] = NULL;
 		$this->form->setValuesByArray($values);
 	}
 	
@@ -126,8 +126,8 @@ class ilDataCollectionTableEditGUI
 			'delete_perm'		=>	1,
 			'edit_by_owner'		=>	1,
 			'limited'		=>	0,
-			'limit_start'		=>	null,
-			'limit_end'		=>	null
+			'limit_start'		=>	NULL,
+			'limit_end'		=>	NULL
 		);
 		$this->form->setValuesByArray($values);
 	}

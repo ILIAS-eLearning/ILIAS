@@ -32,7 +32,7 @@ class ilDataCollectionRecordListGUI
 	{
 		$this->main_table_id = $a_parent_obj->object->getMainTableId();
 		$this->table_id = $table_id;
-		if($this->table_id == Null)
+		if($this->table_id == NULL)
 			$this->table_id = $_GET["table_id"];
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->parent_obj = $a_parent_obj;
