@@ -21,11 +21,11 @@ class ilDataCollectionFieldProp
 
 
 	/**
-	* Constructor
-	*
-	* @param  int datatype_id
-	*
-	*/
+	 * Constructor
+	 *
+	 * @param  int datatype_id
+	 *
+	 */
 	public function __construct($a_id = 0)
 	{
 	if ($a_id != 0) 
@@ -36,90 +36,90 @@ class ilDataCollectionFieldProp
 	}
 
 	/**
-	* Set id
-	*
-	* @param int $a_id
-	*/
-	function setId($a_id)
+	 * Set id
+	 *
+	 * @param int $a_id
+	 */
+	public function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
 
 	/**
-	* Get id
-	*
-	* @return int
-	*/
-	function getId()
+	 * Get id
+	 *
+	 * @return int
+	 */
+	public function getId()
 	{
 		return $this->id;
 	}
 
 	/**
-	* Set property id
-	*
-	* @param int $a_id
-	*/
-	function setDatatypePropertyId($a_id)
+	 * Set property id
+	 *
+	 * @param int $a_id
+	 */
+	public function setDatatypePropertyId($a_id)
 	{
 		$this->datatype_property_id = $a_id;
 	}
 
 	/**
-	* Get property id
-	*
-	* @return int
-	*/
-	function getDatatypePropertyId()
+	 * Get property id
+	 *
+	 * @return int
+	 */
+	public function getDatatypePropertyId()
 	{
 		return $this->datatype_property_id;
 	}
 
 	/**
-	* Set value
-	*
-	* @param string $a_value
-	*/
-	function setValue($a_value)
+	 * Set value
+	 *
+	 * @param string $a_value
+	 */
+	public function setValue($a_value)
 	{
 		$this->value = $a_value;
 	}
 
 	/**
-	* Get value
-	*
-	* @return string
-	*/
-	function getValue()
+	 * Get value
+	 *
+	 * @return string
+	 */
+	public function getValue()
 	{
 		return $this->value;
 	}
 
 	/**
-	* Set field id
-	*
-	* @param int $a_id
-	*/
-	function setFieldId($a_id)
+	 * Set field id
+	 *
+	 * @param int $a_id
+	 */
+	public function setFieldId($a_id)
 	{
 		$this->field_id = $a_id;
 	}
 
 	/**
-	* Get field id
-	*
-	* @return int
-	*/
-	function getFieldId()
+	 * Get field id
+	 *
+	 * @return int
+	 */
+	public function getFieldId()
 	{
 		return $this->field_id;
 	}
 
 
 	/**
-	* Read Datatype
-	*/
-	function doRead()
+	 * Read Datatype
+	 */
+	public function doRead()
 	{
 		global $ilDB;
 
@@ -135,9 +135,9 @@ class ilDataCollectionFieldProp
 
 
 	/**
-	* Create new field property
-	*/
-	function doCreate()
+	 * Create new field property
+	 */
+	public function doCreate()
 	{
 		global $ilDB;
 
@@ -159,21 +159,20 @@ class ilDataCollectionFieldProp
 
 
 	/**
-	* Update field property
-	*/
-	function doUpdate()
+	 * Update field property
+	 */
+	public function doUpdate()
 	{
 		global $ilDB;
 
 		$ilDB->update("il_dcl_field_prop", array(
-								"datatype_prop_id" => array("integer", $this->getDatatypePropertyId()),
-								"field_id" => array("integer", $this->getFieldId()),
-								"value" => array("text", $this->getValue())
-								), array(
-								"datatype_prop_id" => array("integer", $this->getDatatypePropertyId()),
-								"field_id" => array("integer", $this->getFieldId())
-								));
-
+				"datatype_prop_id" => array("integer", $this->getDatatypePropertyId()),
+				"field_id" => array("integer", $this->getFieldId()),
+				"value" => array("text", $this->getValue())
+			), array(
+				"datatype_prop_id" => array("integer", $this->getDatatypePropertyId()),
+				"field_id" => array("integer", $this->getFieldId())
+			));
 	}
 }
 

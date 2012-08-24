@@ -26,7 +26,7 @@ class ilDataCollectionFieldListGUI
 	 *
 	 * @param	object	$a_parent_obj
 	 * @param	int $table_id
-	*/
+	 */
 	public function  __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id)
 	{
 		$this->main_table_id = $a_parent_obj->object->getMainTableId();
@@ -39,7 +39,7 @@ class ilDataCollectionFieldListGUI
 	/**
 	 * execute command
 	 */
-	function executeCommand()
+	public function executeCommand()
 	{
 		global $tpl, $ilCtrl;
 		
@@ -56,30 +56,30 @@ class ilDataCollectionFieldListGUI
 	/*
 	 * save
 	 */
-    function save()
-    {
+	public function save()
+	{
 		global $lng;
-        $table = new ilDataCollectionTable($_GET['table_id']);
-        $fields = &$table->getFields();
+		$table = new ilDataCollectionTable($_GET['table_id']);
+		$fields = &$table->getFields();
 
-        foreach($fields as &$field)
-        {
-            $field->setVisible($_POST['visible'][$field->getId()] == "on");
+		foreach($fields as &$field)
+		{
+			$field->setVisible($_POST['visible'][$field->getId()] == "on");
 			$field->setEditable($_POST['editable'][$field->getId()] == "on");
 			$field->setFilterable($_POST['filterable'][$field->getId()] == "on");
 			$field->setLocked($_POST['locked'][$field->getId()] == "on");
 			$field->setOrder($_POST['order'][$field->getId()]);
 			$field->doUpdate();
-        }
+		}
 		$table->buildOrderFields();
 		$table->updateFields();
 		ilUtil::sendSuccess($lng->txt("dcl_table_settings_saved"));
-        $this->listFields();
-    }
+		$this->listFields();
+	}
 	
 	/**
 	 * list fields
-	*/
+	 */
 	public function listFields()
 	{
 		global $tpl, $lng, $ilCtrl, $ilToolbar;
@@ -98,7 +98,7 @@ class ilDataCollectionFieldListGUI
 		$table_selection->setValue($this->table_id);
 
 		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionFieldListGUI", "doTableSwitch"));
-        $ilToolbar->addInputItem($table_selection);
+		$ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
 		$ilCtrl->setParameterByClass("ildatacollectiontableeditgui", "table_id", $this->table_id);

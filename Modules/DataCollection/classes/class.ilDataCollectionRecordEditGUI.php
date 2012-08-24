@@ -21,23 +21,23 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.ph
 class ilDataCollectionRecordEditGUI
 {
 
-    private $record_id;
-    private $table_id;
-    private $table;
-    private $parent_obj;
+	private $record_id;
+	private $table_id;
+	private $table;
+	private $parent_obj;
 
 	/**
 	 * Constructor
 	 *
-	*/
+	 */
 	public function __construct(ilObjDataCollectionGUI $parent_obj)
 	{
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-        $this->form = new ilPropertyFormGUI();
-        $this->parent_obj = $parent_obj;
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->parent_obj = $parent_obj;
 		$this->record_id = $_REQUEST['record_id'];
-        $this->table_id = $_GET['table_id'];
-        
+		$this->table_id = $_GET['table_id'];
+		
 		include_once("class.ilDataCollectionDatatype.php");
 		if($_REQUEST['table_id']) 
 		{
@@ -49,9 +49,9 @@ class ilDataCollectionRecordEditGUI
 	
 	
 	/**
-	* execute command
-	*/
-	function executeCommand()
+	 * execute command
+	 */
+	public function executeCommand()
 	{
 		global $ilCtrl;
 
@@ -76,18 +76,18 @@ class ilDataCollectionRecordEditGUI
 
 		$this->initForm();
 
-        $tpl->setContent($this->form->getHTML());
+		$tpl->setContent($this->form->getHTML());
 	}
 
 	/**
 	 * edit Record
-	*/
+	 */
 	public function edit()
 	{
 		global $tpl, $ilCtrl;
 		
 		$this->initForm("edit");
-        $this->getValues();
+		$this->getValues();
 		
 		$tpl->setContent($this->form->getHTML());
 	}
@@ -125,18 +125,24 @@ class ilDataCollectionRecordEditGUI
 		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
 	
-    public function delete()
-    {
-        global $ilCtrl, $lng;
-        $record = new ilDataCollectionRecord($this->record_id);
-		if(!$this->table->hasPermissionToDeleteRecord($this->parent_obj->ref_id, $record)){
+	/*
+	 * delete
+	 */
+	public function delete()
+	{
+		global $ilCtrl, $lng;
+		$record = new ilDataCollectionRecord($this->record_id);
+		
+		if(!$this->table->hasPermissionToDeleteRecord($this->parent_obj->ref_id, $record))
+		{
 			$this->accessDenied();
 			return;
 		}
+		
 		$record->doDelete();
-        ilUtil::sendSuccess($lng->txt("dcl_record_deleted"), true);
-        $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-    }
+		ilUtil::sendSuccess($lng->txt("dcl_record_deleted"), true);
+		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+	}
 
 	/**
 	 * init Form
@@ -159,14 +165,14 @@ class ilDataCollectionRecordEditGUI
 
 		foreach($allFields as $field)
 		{
-            $item = ilDataCollectionDatatype::getInputField($field);
-            
+			$item = ilDataCollectionDatatype::getInputField($field);
+			
 			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE)
 			{
 				$fieldref = $field->getFieldRef();
 				$reffield = new ilDataCollectionField($fieldref);
-                $options = array();
-                $options[] = '--';
+				$options = array();
+				$options[] = '--';
 				$reftable = new ilDataCollectionTable($reffield->getTableId());
 				foreach($reftable->getRecords() as $record)
 				{
@@ -175,15 +181,27 @@ class ilDataCollectionRecordEditGUI
 				$item->setOptions($options);
 			}
 			if($this->record_id)
+			{
 				$record = new ilDataCollectionRecord($this->record_id);
+			}
+				
 
-            $item->setRequired($field->getRequired());
+			$item->setRequired($field->getRequired());
 			//WORKAROUND. If field is from type file: if it's required but already has a value it is no longer required as the old value is taken as default without the form knowing about it.
-			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE && $this->record_id && $record->getId() != 0 && ($record->getRecordFieldValue($field->getId()) != "-" || $record->getRecordFieldValue($field->getId()) != ""))
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE 
+				&& $this->record_id 
+				&& $record->getId() != 0 
+				&& ($record->getRecordFieldValue($field->getId()) != "-" || $record->getRecordFieldValue($field->getId()) != ""))
+			{
 				$item->setRequired(false);
+			}
+				
 			$item->setInfo($this->getInfo($field));
 			if(!ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id) && $field->getLocked())
+			{
 				$item->setDisabled(true);
+			}
+				
 			$this->form->addItem($item);
 		}
 
@@ -201,28 +219,35 @@ class ilDataCollectionRecordEditGUI
 			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
 		}
 
-        $ilCtrl->setParameter($this, "table_id", $this->table_id);
-        $ilCtrl->setParameter($this, "record_id", $this->record_id);
+		$ilCtrl->setParameter($this, "table_id", $this->table_id);
+		$ilCtrl->setParameter($this, "record_id", $this->record_id);
 		
 	}
 
-
-	private function getInfo(ilDataCollectionField $field){
+	/*
+	 * getInfo
+	 */
+	private function getInfo(ilDataCollectionField $field)
+	{
 		global $lng;
 
-	$info = $field->getDescription()."<br>";
-		if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT){
+		$info = $field->getDescription()."<br>";
+		if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
+		{
 			if($field->getLength())
+			{
 				$info .= $lng->txt("dcl_max_text_length").": ".$field->getLength();
+			}
 		}
 
 		return $info;
 	}
 
 	/**
-	* get Values
-	* 
-	*/	public function getValues()
+	 * get Values
+	 * 
+	 */	
+	public function getValues()
 	{
 
 		//Get Record-Values
@@ -234,8 +259,8 @@ class ilDataCollectionRecordEditGUI
 		$values = array();
 		foreach($allFields as $field)
 		{
-            $value = $record_obj->getRecordFieldFormInput($field->getId());
-            $value = ($value=="-"?"":$value);
+			$value = $record_obj->getRecordFieldFormInput($field->getId());
+			$value = ($value=="-"?"":$value);
 			$values['field_'.$field->getId()] = $value;
 		}
 
@@ -246,25 +271,25 @@ class ilDataCollectionRecordEditGUI
 	/*
 	 * cancelUpdate
 	 */
-    public function cancelUpdate()
-    {
-        global $ilCtrl;
-        $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-    }
-    
-    /*
-     * cancelSave
-     */
-    public function cancelSave()
-    {
-        $this->cancelUpdate();
-    }
+	public function cancelUpdate()
+	{
+		global $ilCtrl;
+		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+	}
+	
+	/*
+	 * cancelSave
+	 */
+	public function cancelSave()
+	{
+		$this->cancelUpdate();
+	}
 
 	/**
-	* save Record
-	*
-	* @param string $a_mode values: create | edit
-	*/
+	 * save Record
+	 *
+	 * @param string $a_mode values: create | edit
+	 */
 	public function save()
 	{	
 		global $tpl, $ilUser, $lng, $ilCtrl;
@@ -273,34 +298,35 @@ class ilDataCollectionRecordEditGUI
 		if($this->form->checkInput())
 		{
 			$record_obj = new ilDataCollectionRecord($this->record_id);
-
 			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 
 			$record_obj->setTableId($this->table_id);
-
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setLastEditBy($ilUser->getId());
 
-
-
 			if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
+			{
 				$all_fields = $this->table->getRecordFields();
+			}
 			else
+			{
 				$all_fields = $this->table->getEditableFields();
-
+			}
+				
 			$fail = "";
 			//Check if we can create this record.
 			foreach($all_fields as $field)
 			{
-            	try
-			    {
-                   $value = $this->form->getInput("field_".$field->getId());
+				try
+				{
+				   $value = $this->form->getInput("field_".$field->getId());
 					$field->checkValidity($value, $this->record_id);
 				}catch(ilDataCollectionInputException $e){
-                 $fail .= $field->getTitle().": ".$e."<br>";
-            	}
+				 $fail .= $field->getTitle().": ".$e."<br>";
+				}
 				
 			}
+			
 			if($fail)
 			{
 				ilUtil::sendFailure($fail, true);
@@ -320,7 +346,9 @@ class ilDataCollectionRecordEditGUI
 				$record_obj->setTableId($this->table_id);
 				$record_obj->doCreate();
 				$this->record_id = $record_obj->getId();
-			}else{
+			}
+			else
+			{
 				if(!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id))
 				{
 					$this->accessDenied();
@@ -339,13 +367,15 @@ class ilDataCollectionRecordEditGUI
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 
 			$ilCtrl->setParameter($this, "table_id", $this->table_id);
-            $ilCtrl->setParameter($this, "record_id", $this->record_id);
+			$ilCtrl->setParameter($this, "record_id", $this->record_id);
 			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
-		}else{
+		}
+		else
+		{
 			global $tpl;
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHTML());
-        }
+		}
 
 	}
 	

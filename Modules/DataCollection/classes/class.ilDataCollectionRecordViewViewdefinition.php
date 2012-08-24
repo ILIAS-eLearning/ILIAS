@@ -18,9 +18,12 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 {
 	protected $table_id; 	// [int]
 	protected $type; 		// [int]  0 = recordview 
-	protected $formtype; 	// [int] 0 = copage
-
-	function __construct($a_view_id = 0, $a_table_id = 0)
+	protected $formtype; 	// [int]  0 = copage
+	
+	/*
+	 * __construct
+	 */
+	public function __construct($a_view_id = 0, $a_table_id = 0)
 	{
 		parent::__construct("dclf", $a_view_id, 0, true);
 				
@@ -40,70 +43,70 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	}
 
 	/**
-	* Set Viewdefinition id
-	*
-	* @param int $a_id
-	*/
-	function setId($a_id)
+	 * Set Viewdefinition id
+	 *
+	 * @param int $a_id
+	 */
+	public function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
 
 	/**
-	* Get Viewdefinition id
-	*
-	* @return int
-	*/
-	function getId()
+	 * Get Viewdefinition id
+	 *
+	 * @return int
+	 */
+	public function getId()
 	{
 		return $this->id;
 	}
 
 	/**
-	* Set Table ID
-	*
-	* @param int $a_id
-	*/
-	function setTableId($a_id)
+	 * Set Table ID
+	 *
+	 * @param int $a_id
+	 */
+	public function setTableId($a_id)
 	{
 		$this->table_id = $a_id;
 	}
 
 	/**
-	* Get Table ID
-	*
-	* @return int
-	*/
-	function getTableId()
+	 * Get Table ID
+	 *
+	 * @return int
+	 */
+	public function getTableId()
 	{
 		return $this->table_id;
 	}
 
 	/**
-	* Get type
-	*
-	* @return int
-	*/
-	function getType()
+	 * Get type
+	 *
+	 * @return int
+	 */
+	public function getType()
 	{
 		return $this->type;
 	}
 	
 	/**
-	* Get Formtype
-	*
-	* @return int
-	*/
-	function getFormtype()
+	 * Get Formtype
+	 *
+	 * @return int
+	 */
+	public function getFormtype()
 	{
 		return $this->formtype;
 	}
 
 	
 	/**
-	* Read Viewdefinition
-	*/
-	function doRead()
+	 * Read Viewdefinition
+	 */
+	public function doRead()
 	{
 		global $ilDB;
 
@@ -118,9 +121,9 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 
 
 	/**
-	* Create new Viewdefinition
-	*/
-	function create()
+	 * Create new Viewdefinition
+	 */
+	public function create()
 	{
 		global $ilDB;
 
@@ -149,13 +152,13 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	 * @param bool $a_no_history
 	 * @return boolean
 	 */
-	function update($a_validate = true, $a_no_history = false)
+	public function update($a_validate = true, $a_no_history = false)
 	{		
 		//TODO
 		//Page-Object updaten
 		//Es wäre auch möglich direkt in der GUI-Klasse ilPageObject aufzurufen. Falls wir aber bei doCreate, 
 		//das Page-Object anlegen, fänd ich es sinnvoll, wenn wir auch hier das PageObject updaten würden.
-       //Andernfalls sämtliche Page-Object-Methoden in der GUI-Klasse aufrufen.
+	   //Andernfalls sämtliche Page-Object-Methoden in der GUI-Klasse aufrufen.
 		
 		parent::update($a_validate, $a_no_history);
 		
@@ -177,7 +180,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 		//FIXME die werte bei type und formtype sollten vom constructor genommen werden
 		/*$set = $ilDB->query("SELECT id FROM il_dcl_view".
 			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote($this->type, "integer")." and formtype = ".$ilDB->quote($this->formtype, "integer"));
-		*/
+		 */
 		$set = $ilDB->query("SELECT id FROM il_dcl_view".
 			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote(0, "integer")." and formtype = ".$ilDB->quote(0, "integer"));
 		$row = $ilDB->fetchAssoc($set);

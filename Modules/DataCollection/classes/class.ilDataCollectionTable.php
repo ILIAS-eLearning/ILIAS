@@ -21,9 +21,9 @@ class ilDataCollectionTable
 	protected 	$objId; 	// [int]
 	protected 	$obj;
 	protected 	$title; 	// [string]
-    private 	$fields; 	// [array][ilDataCollectionField]
+	private 	$fields; 	// [array][ilDataCollectionField]
 	private 	$stdFields;
-    private 	$records;
+	private 	$records;
 
 	/**
 	 * @var bool
@@ -59,25 +59,25 @@ class ilDataCollectionTable
 
 
 	/**
-	* Constructor
-	* @access public
-	* @param  integer fiel_id
-	*
-	*/
+	 * Constructor
+	 * @access public
+	 * @param  integer fiel_id
+	 *
+	 */
 	public function __construct($a_id = 0)
 	{
 		if($a_id != 0) 
 		{
 			$this->id = $a_id;
 			$this->doRead();
-		}    
+		}	
 	}
 
 	
 	/**
-	* Read table
-	*/
-	function doRead()
+	 * Read table
+	 */
+	public function doRead()
 	{
 		global $ilDB;
 
@@ -124,9 +124,9 @@ class ilDataCollectionTable
 	}
 
 	/**
-	* Create new table
-	*/
-	function doCreate()
+	 * Create new table
+	 */
+	public function doCreate()
 	{
 		global $ilDB;
 
@@ -161,9 +161,9 @@ class ilDataCollectionTable
 		//FromType sollen ebenfalls als Konstante definiert werden.
 
 		//add view definition
-        $view_id = $ilDB->nextId("il_dcl_view");
-        $query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::VIEW_VIEW.", 1)";
-        $ilDB->manipulate($query);
+		$view_id = $ilDB->nextId("il_dcl_view");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::VIEW_VIEW.", 1)";
+		$ilDB->manipulate($query);
 
 		//add edit definition
 		$view_id = $ilDB->nextId("il_dcl_view");
@@ -179,7 +179,7 @@ class ilDataCollectionTable
 	/*
 	 * doUpdate
 	 */
-	function doUpdate()
+	public function doUpdate()
 	{
 		global $ilDB;
 
@@ -199,61 +199,61 @@ class ilDataCollectionTable
 	}
 	
 	/**
-	* Set table id
-	*
-	* @param int $a_id
-	*/
-	function setId($a_id)
+	 * Set table id
+	 *
+	 * @param int $a_id
+	 */
+	public function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
 
 	/**
-	* Get table id
-	*
-	* @return int
-	*/
-	function getId()
+	 * Get table id
+	 *
+	 * @return int
+	 */
+	public function getId()
 	{
 		return $this->id;
 	}
 
 	/**
-	* Set object id
-	*
-	* @param int $obj_id
-	*/
-	function setObjId($a_id)
+	 * Set object id
+	 *
+	 * @param int $obj_id
+	 */
+	public function setObjId($a_id)
 	{
 		$this->objId = $a_id;
 	}
 
 	/**
-	* Get object id
-	*
-	* @return int
-	*/
-	function getObjId()
+	 * Get object id
+	 *
+	 * @return int
+	 */
+	public function getObjId()
 	{
 		return $this->objId;
 	}
 
 	/**
-	* Set title
-	*
-	* @param string $a_title
-	*/
-	function setTitle($a_title)
+	 * Set title
+	 *
+	 * @param string $a_title
+	 */
+	public function setTitle($a_title)
 	{
 		$this->title = $a_title;
 	}
 
 	/**
-	* Get title
-	*
-	* @return string
-	*/
-	function getTitle()
+	 * Get title
+	 *
+	 * @return string
+	 */
+	public function getTitle()
 	{
 		return $this->title;
 	}
@@ -283,62 +283,80 @@ class ilDataCollectionTable
 	/**
 	 * @return ilDataCollectionRecord[]
 	 */
-	function getRecords()
-    {
-        $this->loadRecords();
-        
-        return $this->records;
-    }
+	public function getRecords()
+	{
+		$this->loadRecords();
+		
+		return $this->records;
+	}
 
 	/**
-	 * @param $filter filter is of the form array("filter_{field_id}" => filter); For dates and integers this filter must be of the form array("from" => from, "to" => to). In case of dates from and to have to be ilDateTime objects in case of integers they have to be integers as well.
+	 * getRecordsByFilter
+	 * @param $filter 
+	 * filter is of the form array("filter_{field_id}" => filter); 
+	 * For dates and integers this filter must be of the form array("from" => from, "to" => to). 
+	 * In case of dates from and to have to be ilDateTime objects 
+	 * in case of integers they have to be integers as well.
 	 */
-	function getRecordsByFilter($filter){
+	public function getRecordsByFilter($filter)
+	{
 		$this->loadRecords();
 		$filtered = array();
+		
 		foreach($this->getRecords() as $record)
+		{
 			if($record->passThroughFilter($filter?$filter:array()))
+			{
 				array_push($filtered, $record);
+			}
+		}
+		
 		return $filtered;
 	}
-
-	function getRecordsWithFilter(array $filter){
-
+	
+	/*
+	 * getRecordsWithFilter
+	 */
+	public function getRecordsWithFilter(array $filter)
+	{
+		// wird nicht verwendet, geprüft 2012-08-24 FSX
 	}
 
-    /*
-     * loadRecords
-     */
-    private function loadRecords()
-    {
-        if($this->records == NULL)
-        {
-            $records = array();
-            global $ilDB;
-            $query = "SELECT id FROM il_dcl_record WHERE table_id = ".$this->id;
-            $set = $ilDB->query($query);
-            
-            while($rec = $ilDB->fetchAssoc($set))
-            {
-                $records[$rec['id']] = new ilDataCollectionRecord($rec['id']);
-            }
-            $this->records = $records;
-        }
-    }
+	/*
+	 * loadRecords
+	 */
+	private function loadRecords()
+	{
+		if($this->records == NULL)
+		{
+			global $ilDB;
+			
+			$records = array();			
+			$query = "SELECT id FROM il_dcl_record WHERE table_id = ".$this->id;
+			$set = $ilDB->query($query);
+			
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$records[$rec['id']] = new ilDataCollectionRecord($rec['id']);
+			}
+			
+			$this->records = $records;
+		}
+	}
 	
-    //TODO: replace this method with DataCollection->getTables()
+	//TODO: replace this method with DataCollection->getTables()
 	/**
-	* get all tables of a Data Collection Object
-	*
-	* @param int $a_id obj_id
-	*
-	*/
-	function getAll($a_id)
+	 * get all tables of a Data Collection Object
+	 *
+	 * @param int $a_id obj_id
+	 *
+	 */
+	public function getAll($a_id)
 	{
 		global $ilDB;
 
 		//build query
-		$query = "SELECT	*
+		$query = "SELECT	 *
 							FROM il_dcl_table
 							WHERE obj_id = ".$ilDB->quote($a_id,"integer");
 		$set = $ilDB->query($query);
@@ -356,64 +374,70 @@ class ilDataCollectionTable
 	/*
 	 * deleteField
 	 */
-    function deleteField($field_id)
-    {
-        $field = new ilDataCollectionField($field_id);
-        $field->doDelete();
-        $records = $this->getRecords();
-        
-        foreach($records as $record)
-        {
-            $record->deleteField($field_id);
-        }
-    }
-    
-    
-    /*
-     * getField
-     */
-    function getField($field_id)
-    {
-        $fields = $this->getFields();
-        $field = null;
+	public function deleteField($field_id)
+	{
+		$field = new ilDataCollectionField($field_id);
+		$field->doDelete();
+		$records = $this->getRecords();
+		
+		foreach($records as $record)
+		{
+			$record->deleteField($field_id);
+		}
+	}
+	
+	
+	/*
+	 * getField
+	 */
+	public function getField($field_id)
+	{
+		$fields = $this->getFields();
+		$field = NULL;
 		foreach($fields as $field_1)
+		{
 			if($field_1->getId() == $field_id)
+			{
 				$field = $field_1;
-        return $field;
-    }
-    
-    /*
-     * getFieldIds
-     */
-    function getFieldIds()
-    {
-        return array_keys($this->getFields());
-    }
-    
-    /*
-     * loadFields
-     */
-    private function loadFields()
-    {
-        if($this->fields == NULL)
-        {
-            global $ilDB;
-            
-            $query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$this->getId()." ORDER BY def.field_order DESC";
-            $fields = array();
-            $set = $ilDB->query($query);
-            
-            while($rec = $ilDB->fetchAssoc($set))
-            {
-                $field = new ilDataCollectionField();
-                $field->buildFromDBRecord($rec);
-                $fields[$field->getId()] = $field;
-            }
-            $this->fields = $fields;
-        }
-    }
+			}
+		}
+			
+		return $field;
+	}
+	
+	/*
+	 * getFieldIds
+	 */
+	public function getFieldIds()
+	{
+		return array_keys($this->getFields());
+	}
+	
+	/*
+	 * loadFields
+	 */
+	private function loadFields()
+	{
+		if($this->fields == NULL)
+		{
+			global $ilDB;
+			
+			$query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$this->getId()." ORDER BY def.field_order DESC";
+			$fields = array();
+			$set = $ilDB->query($query);
+			
+			while($rec = $ilDB->fetchAssoc($set))
+			{
+				$field = new ilDataCollectionField();
+				$field->buildFromDBRecord($rec);
+				$fields[$field->getId()] = $field;
+			}
+			$this->fields = $fields;
+		}
+	}
 
 	/**
+	 * getNewOrder
 	 * @return int returns the place where a new field should be placed.
 	 */
 	public function getNewOrder()
@@ -431,58 +455,58 @@ class ilDataCollectionTable
 		return $place;
 	}
 
-    /**
-     * Returns all fields of this table including the standard fields
-     * @return ilDataCollectionField[]
-     */
-    function getFields()
-    {
-        $this->loadFields();
+	/**
+	 * Returns all fields of this table including the standard fields
+	 * @return ilDataCollectionField[]
+	 */
+	public function getFields()
+	{
+		$this->loadFields();
 		if($this->stdFields == NULL)
 		{
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
 		}
-        $fields = array_merge($this->fields, $this->stdFields);
+		$fields = array_merge($this->fields, $this->stdFields);
 		$this->sortFields($fields);
 		
-        return $fields;
-    }
+		return $fields;
+	}
 
-    /**
-     * Returns all fields of this table which are NOT standard fields.
-     * @return ilDataCollectionField[]
-     */
-    function getRecordFields()
-    {
-        $this->loadFields();
-        
-        return $this->fields;
-    }
+	/**
+	 * Returns all fields of this table which are NOT standard fields.
+	 * @return ilDataCollectionField[]
+	 */
+	public function getRecordFields()
+	{
+		$this->loadFields();
+		
+		return $this->fields;
+	}
 
-    /**
-     * Returns all fields of this table who have set their visibility to true, including standard fields.
-     * @return ilDataCollectionField[]
-     */
-    function getVisibleFields()
-    {
-        $fields = $this->getFields();
-        $visibleFields = array();
-        
-        foreach($fields as $field)
-        {
-	        if($field->isVisible())
-	        {
-		        array_push($visibleFields, $field);
-	        }
-        }
-            
-        return $visibleFields;
-    }
-    
-    /*
-     * getEditableFields
-     */
-	function getEditableFields()
+	/**
+	 * Returns all fields of this table who have set their visibility to true, including standard fields.
+	 * @return ilDataCollectionField[]
+	 */
+	public function getVisibleFields()
+	{
+		$fields = $this->getFields();
+		$visibleFields = array();
+		
+		foreach($fields as $field)
+		{
+			if($field->isVisible())
+			{
+				array_push($visibleFields, $field);
+			}
+		}
+			
+		return $visibleFields;
+	}
+	
+	/*
+	 * getEditableFields
+	 */
+	public function getEditableFields()
 	{
 		$fields = $this->getRecordFields();
 		$editableFields = array();
@@ -502,27 +526,27 @@ class ilDataCollectionTable
 	  * getFilterableFields
 	  * Returns all fields of this table who have set their filterable to true, including standard fields.
 	  * @return ilDataCollectionField[]
-      */
-    function getFilterableFields()
-    {
-        $fields = $this->getFields();
-        $filterableFields = array();
-        
-        foreach($fields as $field)
-        {
-	        if($field->isFilterable())
-	        {
-		        array_push($filterableFields, $field);
-	        }
-        }
-            
-        return $filterableFields;
-    }
+	  */
+	public function getFilterableFields()
+	{
+		$fields = $this->getFields();
+		$filterableFields = array();
+		
+		foreach($fields as $field)
+		{
+			if($field->isFilterable())
+			{
+				array_push($filterableFields, $field);
+			}
+		}
+			
+		return $filterableFields;
+	}
 
-    /*
-     * hasPermissionToFields
-     */
-	function hasPermissionToFields($ref_id)
+	/*
+	 * hasPermissionToFields
+	 */
+	public function hasPermissionToFields($ref_id)
 	{
 		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
@@ -530,7 +554,7 @@ class ilDataCollectionTable
 	/*
 	 * hasPermissionToAddTable
 	 */
-	function hasPermissionToAddTable($ref_id)
+	public function hasPermissionToAddTable($ref_id)
 	{
 		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
@@ -649,6 +673,7 @@ class ilDataCollectionTable
 	}
 
 	/**
+	 * buildOrderFields
 	 * orders the fields.
 	 */
 	public function buildOrderFields()

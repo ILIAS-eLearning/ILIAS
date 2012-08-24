@@ -26,7 +26,7 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 * @param	object	$a_parent_obj
 	 * @param	int $table_id 
 	 * @param	int $a_definition_id 
-	*/
+	 */
 	public function __construct($a_parent_obj, $table_id, $a_definition_id = 0)
 	{
 		global $tpl;
@@ -82,15 +82,15 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 * @param int $a_id
 	 * @param int $a_old_nr
 	 */
-	function initPageObject($a_parent_type, $a_id, $a_old_nr)
+	public function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
 		$this->setPageObject(new ilDataCollectionRecordViewViewdefinition($a_id, $this->table_id));
 	}
 	
 	/**
-	* execute command
-	*/
-	function executeCommand()
+	 * execute command
+	 */
+	public function executeCommand()
 	{
 		global $ilCtrl, $ilLocator, $tpl, $lng;
 		
@@ -101,7 +101,6 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		if($viewdef)
 		{
 			$ilCtrl->setParameter($this, "dclv", $viewdef->getId());				 
-			// $title = $viewdef->getTitle();
 			$title = $lng->txt("dcl_view_viewdefinition");
 		}
 		
@@ -130,7 +129,7 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 		}
 	}
 	
-	function showPage()
+	public function showPage()
 	{
 		// :TODO: temporary legend of available placeholders
 		if($this->getOutputMode() == IL_PAGE_EDIT)
@@ -152,7 +151,7 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 * @param string $a_output
 	 * @return string
 	 */
-	function postOutputProcessing($a_output)
+	public function postOutputProcessing($a_output)
 	{
 		//TODO das Array enthält die Felder der Tabelle. Diese sind als Platzhalterwerte darzustellen.
 		//Bezeichnung des Platzhalters: Title; Wert welcher beim Speichern übermittelt werden soll id

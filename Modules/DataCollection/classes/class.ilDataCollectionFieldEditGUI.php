@@ -21,22 +21,22 @@ class ilDataCollectionFieldEditGUI
 {
 	private $obj_id;
 	private $table_id;
-    private $parent_obj;
+	private $parent_obj;
 	private $table;
-    
+	
 	/**
 	 * Constructor
 	 *
 	 * @param	object	$a_parent_obj
 	 * @param	int $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
 	 * @param	int $field_id The field_id of a existing fiel (edit mode) 
-	*/
+	 */
 	public function __construct(ilObjDataCollectionGUI $a_parent_obj, $table_id, $field_id)
 	{
 		global $ilCtrl;
 
 		$this->obj_id = $a_parent_obj->obj_id;
-        $this->parent_obj = $a_parent_obj;
+		$this->parent_obj = $a_parent_obj;
 		$this->table_id = $table_id;
 
 		if(!isset($field_id))
@@ -61,7 +61,7 @@ class ilDataCollectionFieldEditGUI
 	/**
 	 * execute command
 	 */
-	function executeCommand()
+	public function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilUser;
 		
@@ -77,7 +77,6 @@ class ilDataCollectionFieldEditGUI
 			case "update":
 						$this->save("update");
 						break;
-
 			default:
 				$this->$cmd();
 				break;
@@ -88,7 +87,7 @@ class ilDataCollectionFieldEditGUI
 	
 	/**
 	 * create field add form
-	*/
+	 */
 	public function create()
 	{
 		global $tpl;
@@ -99,7 +98,7 @@ class ilDataCollectionFieldEditGUI
 
 	/**
 	 * create field edit form
-	*/
+	 */
 	public function edit()
 	{
 		global $tpl;
@@ -154,18 +153,23 @@ class ilDataCollectionFieldEditGUI
 	/*
 	 * delete
 	 */
-    public function delete()
-    {
-        global $ilCtrl;
-        
-        $this->field_obj->doDelete();
-        $ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
-    }
-
-	public function cancel(){
+	public function delete()
+	{
 		global $ilCtrl;
-        $ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+		
+		$this->field_obj->doDelete();
+		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
+	
+	/*
+	 * cancel
+	 */
+	public function cancel()
+	{
+		global $ilCtrl;
+		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+	}
+	
 	/**
 	 * initEditCustomForm
 	 *
@@ -214,17 +218,20 @@ class ilDataCollectionFieldEditGUI
 			foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
 			{
 				//Type Reference: List Tabels
-				if ($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) 
+				if($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) 
 				{
-				    // Get Tables
+					// Get Tables
 					require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 					$tables = $this->parent_obj->getDataCollectionObject()->getTables();
 					foreach($tables as $table)
 					{
-						foreach($table->getRecordFields() as $field){
+						foreach($table->getRecordFields() as $field)
+						{
 							//referencing references may lead to endless loops.
 							if($field->getDatatypeId() != ilDataCollectionDatatype::INPUTFORMAT_REFERENCE)
+							{
 								$options[$field->getId()] = $table->getTitle()."->".$field->getTitle();
+							}
 						}
 					}
 					$table_selection = new ilSelectInputGUI(
@@ -240,16 +247,16 @@ class ilDataCollectionFieldEditGUI
 				//All other Types: List properties saved in propertie definition table
 				elseif($property['datatype_id'] == $datatype['id'])
 				{
-                    if($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
-                    {
-                        $subitem = new ilCheckboxInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
-                        $opt->addSubItem($subitem);
-                    }
-                    else
-                    {
-                        $subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
-                        $opt->addSubItem($subitem);
-                    }
+					if($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN)
+					{
+						$subitem = new ilCheckboxInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
+						$opt->addSubItem($subitem);
+					}
+					else
+					{
+						$subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
+						$opt->addSubItem($subitem);
+					}
 				}
 			}
 			$edit_datatype->addOption($opt);
@@ -263,8 +270,6 @@ class ilDataCollectionFieldEditGUI
 		}
 		$this->form->addItem($edit_datatype);
 
-	
-		
 		// Description
 		$text_prop = new ilTextAreaInputGUI($lng->txt("dcl_field_description"), "description");
 		$this->form->addItem($text_prop);
@@ -343,7 +348,7 @@ class ilDataCollectionFieldEditGUI
 			}
 			else 
 			{
-                $this->field_obj->setVisible(true);
+				$this->field_obj->setVisible(true);
 				$this->field_obj->setOrder($this->table->getNewOrder());
 				$this->field_obj->doCreate();
 			}

@@ -23,13 +23,13 @@ class ilDataCollectionRecordListViewdefinition
 
 	
 	/**
-	* Constructor
-	* @access public
-	* @param  integer table_id
-	*
-	* At the moment we have one view per table. If we will have more than one view, we should work additional with the view_id
-	*
-	*/
+	 * Constructor
+	 * @access public
+	 * @param  integer table_id
+	 *
+	 * At the moment we have one view per table. If we will have more than one view, we should work additional with the view_id
+	 *
+	 */
 	public function __construct($a_table_id)
 	{
 		$this->type = 1; //Type list
@@ -43,155 +43,155 @@ class ilDataCollectionRecordListViewdefinition
 	}
 
 	/**
-	* Set id
-	*
-	* @param int $a_id
-	*/
-	function setId($a_id)
+	 * Set id
+	 *
+	 * @param int $a_id
+	 */
+	public function setId($a_id)
 	{
 		$this->id = $a_id;
 	}
 
 	/**
-	* Get id
-	*
-	* @return int
-	*/
-	function getId()
+	 * Get id
+	 *
+	 * @return int
+	 */
+	public function getId()
 	{
 		return $this->id;
 	}
 
 	/**
-	* Set table ID
-	*
-	* @param int $a_id
-	*/
-	function setTableId($a_id)
+	 * Set table ID
+	 *
+	 * @param int $a_id
+	 */
+	public function setTableId($a_id)
 	{
 		$this->table_id = $a_id;
 	}
 
 	/**
-	* Get table ID
-	*
-	* @return int
-	*/
-	function getTableId()
+	 * Get table ID
+	 *
+	 * @return int
+	 */
+	public function getTableId()
 	{
 		return $this->table_id;
 	}
 
 	/**
-	* Set type
-	*
-	* @param int $a_type
-	*/
-	function setType($a_type)
+	 * Set type
+	 *
+	 * @param int $a_type
+	 */
+	public function setType($a_type)
 	{
 		$this->type = $a_type;
 	}
 
 	/**
-	* Get type
-	*
-	* @return int
-	*/
-	function getType()
+	 * Get type
+	 *
+	 * @return int
+	 */
+	public function getType()
 	{
 		return $this->type;
 	}
 
 	/**
-	* Set formtype
-	*
-	* @param int $a_formtype
-	*/
-	function setFormType($a_formtype)
+	 * Set formtype
+	 *
+	 * @param int $a_formtype
+	 */
+	public function setFormType($a_formtype)
 	{
 		$this->formtype = $a_formtype;
 	}
 
 	/**
-	* Get formtype
-	*
-	* @return int
-	*/
-	function getFormType()
+	 * Get formtype
+	 *
+	 * @return int
+	 */
+	public function getFormType()
 	{
 		return $this->formtype;
 	}
 
 
 	/**
-	* Set field order
-	*
-	* @param string $a_order
-	* @param string $a_key
-	*/
-	function setArrFieldOrder($a_order,$a_key)
+	 * Set field order
+	 *
+	 * @param string $a_order
+	 * @param string $a_key
+	 */
+	public function setArrFieldOrder($a_order,$a_key)
 	{
 		$this->arrfieldorder[$a_key] = $a_order;
 	}
 
 	/**
-	* Get field order
-	*
-	* @return array
-	*/
-	function getArrFieldOrder()
+	 * Get field order
+	 *
+	 * @return array
+	 */
+	public function getArrFieldOrder()
 	{
 		return $this->arrfieldorder;
 	}
 
 
 	/**
-	* Set table definition
-	*
-	* @param string $title
-	* @param string $a_key
-	*/
-	function setTabledefinition($title,$a_key)
+	 * Set table definition
+	 *
+	 * @param string $title
+	 * @param string $a_key
+	 */
+	public function setTabledefinition($title,$a_key)
 	{
 		$this->arrtabledefinition[$a_key]['title'] = $title;
 	}
 
 	/**
-	* Get table definition
-	*
-	* @return array
-	*/
-	function getArrTabledefinition()
+	 * Get table definition
+	 *
+	 * @return array
+	 */
+	public function getArrTabledefinition()
 	{
 		return $this->arrtabledefinition;
 	}
 
 	/**
-	* Set record fields
-	*
-	* @param string $storage_location
-	* @param string $a_key
-	*/
-	function setRecordfield($storage_location,$a_key)
+	 * Set record fields
+	 *
+	 * @param string $storage_location
+	 * @param string $a_key
+	 */
+	public function setRecordfield($storage_location,$a_key)
 	{
 		$this->arrrecordfield[$a_key]['id'] = $a_key;
 		$this->arrrecordfield[$a_key]['storage_location'] = $storage_location;
 	}
 
 	/**
-	* Get table definition
-	*
-	* @return array
-	*/
-	function getArrRecordfield()
+	 * Get table definition
+	 *
+	 * @return array
+	 */
+	public function getArrRecordfield()
 	{
 		return $this->arrrecordfield;
 	}
 	
 	/**
-	* Read
-	*/
-	function doRead()
+	 * Read
+	 */
+	public function doRead()
 	{
 		global $ilDB;
 
@@ -230,30 +230,30 @@ class ilDataCollectionRecordListViewdefinition
 
 
 	/**
-	* Create
-	*/
-	function doCreate()
+	 * Create
+	 */
+	public function doCreate()
 	{
 		global $ilDB;
 
 		$ilDB->manipulate('DELETE FROM il_dcl_view
-										WHERE table_id = '.$ilDB->quote($this->getTableId(), "integer").' 
-										AND type = '.$ilDB->quote($this->getType(), "integer").' 
-										AND formtype = '.$ilDB->quote($this->getFormType(), "integer"));
+			WHERE table_id = '.$ilDB->quote($this->getTableId(), "integer").' 
+			AND type = '.$ilDB->quote($this->getType(), "integer").' 
+			AND formtype = '.$ilDB->quote($this->getFormType(), "integer"));
 
 		$id = $ilDB->nextId("il_dcl_view");
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_view (".
-		"id".
-		", table_id".
-		", type".
-		", formtype".
-		" ) VALUES (".
-		$ilDB->quote($this->getId(), "integer")
-		.",".$ilDB->quote($this->getTableId(), "integer")
-		.",".$ilDB->quote($this->getType(), "integer")
-		.",".$ilDB->quote($this->getFormType(), "integer")
-		.")";
+			"id".
+			", table_id".
+			", type".
+			", formtype".
+			" ) VALUES (".
+			$ilDB->quote($this->getId(), "integer")
+			.",".$ilDB->quote($this->getTableId(), "integer")
+			.",".$ilDB->quote($this->getType(), "integer")
+			.",".$ilDB->quote($this->getFormType(), "integer")
+			.")";
 		$ilDB->manipulate($query);
 
 		foreach($this->getArrFieldOrder() as $key => $order) 
@@ -261,16 +261,16 @@ class ilDataCollectionRecordListViewdefinition
 			$viewdefinitionid = $ilDB->nextId("il_dcl_viewdefinition");
 
 			$query = "INSERT INTO il_dcl_viewdefinition (".
-			"id".
-			", view_id".
-			", field".
-			", field_order".
-			" ) VALUES (".
-			$ilDB->quote($viewdefinitionid, "integer")
-			.",".$ilDB->quote($this->getId(), "integer")
-			.",".$ilDB->quote($key, "text")
-			.",".$ilDB->quote($order, "integer")
-			.")";
+				"id".
+				", view_id".
+				", field".
+				", field_order".
+				" ) VALUES (".
+				$ilDB->quote($viewdefinitionid, "integer")
+				.",".$ilDB->quote($this->getId(), "integer")
+				.",".$ilDB->quote($key, "text")
+				.",".$ilDB->quote($order, "integer")
+				.")";
 			$ilDB->manipulate($query);
 		}
 	}

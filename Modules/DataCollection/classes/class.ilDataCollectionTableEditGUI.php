@@ -22,12 +22,13 @@ class ilDataCollectionTableEditGUI
 	 * @var ilDataCollectionTable
 	 */
 	private $table;
+	
 	/**
 	 * Constructor
 	 *
 	 * @param	object	$a_parent_obj
 	 */
-	function __construct(ilObjDataCollectionGUI $a_parent_obj)
+	public function __construct(ilObjDataCollectionGUI $a_parent_obj)
 	{
 		$this->parent_object = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
@@ -38,7 +39,7 @@ class ilDataCollectionTableEditGUI
 	/**
 	 * execute command
 	 */
-	function executeCommand()
+	public function executeCommand()
 	{
 		global $tpl, $ilCtrl, $ilUser;
 		
@@ -60,27 +61,30 @@ class ilDataCollectionTableEditGUI
 
 	/**
 	 * create table add form
-	*/
+	 */
 	public function create()
 	{
 		global $ilTabs, $tpl;
+		
 		$this->initForm();
 		$this->getStandardValues();
-
 		$tpl->setContent($this->form->getHTML());
 	}
 
 	/**
 	 * create field edit form
-	*/
+	 */
 	public function edit()
 	{
 		global $ilCtrl, $tpl;
 
-		if(!$this->table_id){
+		if(!$this->table_id)
+		{
 			$ilCtrl->redirectByClass("ildatacollectionfieldeditgui", "listFields");
 			return;
-		}else{
+		}
+		else
+		{
 			$this->table = new ilDataCollectionTable($this->table_id);
 		}
 		$this->initForm("edit");
@@ -93,7 +97,7 @@ class ilDataCollectionTableEditGUI
 	 */
 	public function getValues()
 	{
-		$values =  array(
+		$values = array(
 			'title'		=>	$this->table->getTitle(),
 			'add_perm'		=>	$this->table->getAddPerm(),
 			'edit_perm'		=>	$this->table->getEditPerm(),
@@ -127,9 +131,14 @@ class ilDataCollectionTableEditGUI
 		);
 		$this->form->setValuesByArray($values);
 	}
-
-	public function cancel(){
+	
+	/*
+	 * cancel
+	 */
+	public function cancel()
+	{
 		global $ilCtrl;
+		
 		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields");
 	}
 
@@ -168,17 +177,24 @@ class ilDataCollectionTableEditGUI
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
 		if($a_mode == "edit")
+		{
 			$this->form->addCommandButton('update', 	$lng->txt('dcl_table_'.$a_mode));
+		}
 		else
+		{
 			$this->form->addCommandButton('save', 	$lng->txt('dcl_table_'.$a_mode));
+		}
+			
 		$this->form->addCommandButton('cancel', 	$lng->txt('cancel'));
-
-		
 		$this->form->setFormAction($ilCtrl->getFormAction($this, $a_mode));
 		if($a_mode == "edit")
+		{
 			$this->form->setTitle($lng->txt('dcl_edit_table'));
+		}
 		else
+		{
 			$this->form->setTitle($lng->txt('dcl_new_table'));
+		}
 	}
 
 	
@@ -186,7 +202,7 @@ class ilDataCollectionTableEditGUI
 	 * save
 	 *
 	 * @param string $a_mode values: create | edit
-	*/
+	 */
 	public function save($a_mode = "create")
 	{
 		global $ilCtrl, $ilTabs, $lng;
@@ -201,7 +217,7 @@ class ilDataCollectionTableEditGUI
 		
 		$this->initForm($a_mode);
 		
-		if ($this->form->checkInput())
+		if($this->form->checkInput())
 		{
 			if(!$a_mode == "update")
 				$this->table = new ilDataCollectionTable();
@@ -227,17 +243,19 @@ class ilDataCollectionTableEditGUI
 				$this->accessDenied();
 				return;
 			}
-			if($a_mode == "update"){
+			if($a_mode == "update")
+			{
 				$this->table->doUpdate();
 				ilUtil::sendSuccess($lng->txt("dcl_msg_table_edited"), true);
 				$ilCtrl->redirectByClass("ildatacollectiontableeditgui", "edit");
-			}else{
+			}
+			else
+			{
 				$this->table->doCreate();
 				ilUtil::sendSuccess($lng->txt("dcl_msg_table_created"), true);
 				$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->table->getId());
 				$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 			}
-
 		}
 		else
 		{
@@ -252,6 +270,7 @@ class ilDataCollectionTableEditGUI
 	public function accessDenied()
 	{
 		global $tpl;
+		
 		$tpl->setContent("Access denied.");
 	}
 

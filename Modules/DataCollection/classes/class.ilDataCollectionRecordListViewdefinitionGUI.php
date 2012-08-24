@@ -16,6 +16,9 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordListV
 
 class ilDataCollectionRecordListViewdefinitionGUI
 {
+	/*
+	 * __construct
+	 */
 	public function __construct($a_parent_obj, $table_id)
 	{
 		$this->main_table_id = $a_parent_obj->object->getMainTableId();
@@ -26,7 +29,9 @@ class ilDataCollectionRecordListViewdefinitionGUI
 		{
 			//TODO
 			//$this->field_obj = new ilDataCollectionField($field_id);
-		} else {
+		}
+		else
+		{
 			$this->view_obj = new ilDataCollectionRecordListViewdefinition();
 			$this->view_obj->setTableId($table_id);
 		}
@@ -37,7 +42,7 @@ class ilDataCollectionRecordListViewdefinitionGUI
 	/**
 	 * execute command
 	 */
-	function executeCommand()
+	public function executeCommand()
 	{
 		global $ilCtrl;
 		
@@ -95,7 +100,7 @@ class ilDataCollectionRecordListViewdefinitionGUI
 		$table_selection->setOptions($options);
 		$table_selection->setValue($this->table_id);
 		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionRecordListViewdefinitionGUI", "doTableSwitch"));
-        $ilToolbar->addInputItem($table_selection);
+		$ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
 
 		// Form
@@ -116,12 +121,12 @@ class ilDataCollectionRecordListViewdefinitionGUI
 		$fields = ilDataCollectionField::getAll($this->table_id);
 
 		$tabledefinition = array(
-								"id" => array("title" => $lng->txt("id")), 
-								"table_id" => array("title" => $lng->txt("dcl_table_id")), 
-								"create_date" => array("title" => $lng->txt("create_date")), 
-								"last_update" => array("title" => $lng->txt("last_update")), 
-								"owner" => array("title" => $lng->txt("owner"))
-							);
+			"id" => array("title" => $lng->txt("id")), 
+			"table_id" => array("title" => $lng->txt("dcl_table_id")), 
+			"create_date" => array("title" => $lng->txt("create_date")), 
+			"last_update" => array("title" => $lng->txt("last_update")), 
+			"owner" => array("title" => $lng->txt("owner"))
+		);
 
 		//Array zusammenführen
 		foreach($fields as $key => $value) 
@@ -129,7 +134,8 @@ class ilDataCollectionRecordListViewdefinitionGUI
 			$tabledefinition[$key] = $value;
 		}
 
-		foreach($tabledefinition as $key => $field) {
+		foreach($tabledefinition as $key => $field)
+		{
 			$chk_prop = new ilCheckboxInputGUI($field['title'],'visible_'.$key);
 			$chk_prop->setOptionTitle($lng->txt('visible'));
 
@@ -144,19 +150,6 @@ class ilDataCollectionRecordListViewdefinitionGUI
 	}
 	
 	/**
-	 * getRecordListViewdefinitionValues
-	 * a_val = 
-	 */
-	public function getFormValues()
-	{
-		global $x;
-	
-		
-		return true;
-	}
-	
-
-	/**
 	 *  saveRecordListViewdefinition
 	 *
 	 * @param string $a_mode values: create | update
@@ -167,7 +160,7 @@ class ilDataCollectionRecordListViewdefinitionGUI
 		
 		$this->initForm();
 
-		if ($this->form->checkInput())
+		if($this->form->checkInput())
 		{
 			//Get fields
 			require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
@@ -175,20 +168,21 @@ class ilDataCollectionRecordListViewdefinitionGUI
 
 			//TODO tabledefs global definieren
 			$tabledefinition = array(
-									"id" => array("title" => $lng->txt("id")), 
-									"table_id" => array("title" => $lng->txt("dcl_table_id")), 
-									"create_date" => array("title" => $lng->txt("create_date")), 
-									"last_update" => array("title" => $lng->txt("last_update")), 
-									"owner" => array("title" => $lng->txt("owner"))
+				"id" => array("title" => $lng->txt("id")), 
+				"table_id" => array("title" => $lng->txt("dcl_table_id")), 
+				"create_date" => array("title" => $lng->txt("create_date")), 
+				"last_update" => array("title" => $lng->txt("last_update")), 
+				"owner" => array("title" => $lng->txt("owner"))
 								);
-			//Array zusammenführen TODO
+			// Array zusammenführen TODO
 			foreach($fields as $key => $value) 
 			{
 				$tabledefinition[$key] = $value;
 			}
 			
-			foreach($tabledefinition as $key => $field) {
-				If($this->form->getInput("visible_".$key))
+			foreach($tabledefinition as $key => $field)
+			{
+				if($this->form->getInput("visible_".$key))
 				{
 					$this->view_obj->setArrFieldOrder($this->form->getInput("order_".$key),$key);
 				}
@@ -213,11 +207,12 @@ class ilDataCollectionRecordListViewdefinitionGUI
 	 *  doTableSwitch
 	 *
 	 */
-	public function doTableSwitch() {
+	public function doTableSwitch()
+	{
 		global $ilCtrl;
 
 		$ilCtrl->setParameterByClass("ilObjDataCollectionGUI","table_id", $_POST['table_id']);
- 		$ilCtrl->redirect($this,"edit"); 			
+ 		$ilCtrl->redirect($this, "edit"); 			
 
 	}
 
