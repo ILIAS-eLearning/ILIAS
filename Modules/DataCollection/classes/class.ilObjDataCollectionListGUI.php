@@ -15,9 +15,9 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 class ilObjDataCollectionListGUI extends ilObjectListGUI
 {
 	/**
-	* initialisation
-	*/
-	function init()
+	 * initialisation
+	 */
+	public function init()
 	{
 		$this->copy_enabled = true;
 		$this->delete_enabled = true;
@@ -35,14 +35,14 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
 	}
 
 	/**
-	* Get item properties
-	*
-	* @return	array		array of property arrays:
-	*					"alert" (boolean) => display as an alert property (usually in red)
-	*					"property" (string) => property name
-	*					"value" (string) => property value
-	*/
-	function getProperties()
+	 * Get item properties
+	 *
+	 * @return	array		array of property arrays:
+	 *					"alert" (boolean) => display as an alert property (usually in red)
+	 *					"property" (string) => property name
+	 *					"value" (string) => property value
+	 */
+	public function getProperties()
 	{
 		global $lng, $ilUser;
 

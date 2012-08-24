@@ -20,16 +20,16 @@ include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewV
 
 class ilDataCollectionRecordViewGUI
 {
-	function __construct($a_dcl_object)
+	public function __construct($a_dcl_object)
 	{
 		$this->record_id = $_GET['record_id'];
 		$this->record_obj = new ilDataCollectionRecord($this->record_id);
 	}
 
 	/**
-	* execute command
-	*/
-	function &executeCommand()
+	 * execute command
+	 */
+	public function &executeCommand()
 	{
 		global $ilCtrl;
 
@@ -53,9 +53,9 @@ class ilDataCollectionRecordViewGUI
 	}
 
 	/**
-	* showRecord
-	* a_val = 
-	*/
+	 * showRecord
+	 * a_val = 
+	 */
 	public function renderRecord()
 	{
 		global $ilTabs, $tpl, $ilCtrl;

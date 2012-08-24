@@ -28,7 +28,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
 	 *	);
 	 */
-	function _getCommands()
+	public function _getCommands()
 	{
 		$commands = array
 		(
@@ -41,9 +41,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 	}
 	
 	/**
-	* check whether goto script will succeed
-	*/
-	function _checkGoto($a_target)
+	 * check whether goto script will succeed
+	 */
+	public function _checkGoto($a_target)
 	{		
 		global $ilAccess;
 		
@@ -62,83 +62,83 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 	}
 
 	/**
-	* checks wether a user may invoke a command or not
-	* (this method is called by ilAccessHandler::checkAccess)
-	*
-	* @param	string		$a_cmd		command (not permission!)
-	* @param	string		$a_permission	permission
-	* @param	int			$a_ref_id	reference id
-	* @param	int			$a_obj_id	object id
-	* @param	int			$a_user_id	user id (if not provided, current user is taken)
-	*
-	* @return	boolean		true, if everything is ok
-	*/
-	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	 * checks wether a user may invoke a command or not
+	 * (this method is called by ilAccessHandler::checkAccess)
+	 *
+	 * @param	string		$a_cmd		command (not permission!)
+	 * @param	string		$a_permission	permission
+	 * @param	int			$a_ref_id	reference id
+	 * @param	int			$a_obj_id	object id
+	 * @param	int			$a_user_id	user id (if not provided, current user is taken)
+	 *
+	 * @return	boolean		true, if everything is ok
+	 */
+	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
-          global $ilUser, $lng, $rbacsystem, $ilAccess;
+		  global $ilUser, $lng, $rbacsystem, $ilAccess;
 
-          if ($a_user_id == "")
-          {
-               $a_user_id = $ilUser->getId();
-          }
+		  if ($a_user_id == "")
+		  {
+			   $a_user_id = $ilUser->getId();
+		  }
 
-          switch ($a_cmd)
-          {
-               case "view":
+		  switch ($a_cmd)
+		  {
+			   case "view":
 
-                    if(!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-                         && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
-                    {
-                         $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                         return false;
-                    }
-                    break;
-                    
-               // for permission query feature
-               case "infoScreen":
-                    if(!ilObjDataCollectionAccess::_lookupOnline($a_obj_id))
-                    {
-                         $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                    }
-                    else
-                    {
-                         $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
-                    }
-                    break;
+					if(!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
+						 && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+					{
+						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+						 return false;
+					}
+					break;
+					
+			   // for permission query feature
+			   case "infoScreen":
+					if(!ilObjDataCollectionAccess::_lookupOnline($a_obj_id))
+					{
+						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					}
+					else
+					{
+						 $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+					}
+					break;
 
-          }
-          switch ($a_permission)
-          {
-               case "read":
-               case "visible":
-                    if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id) &&
-                         (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)))
-                    {
-                         $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-                         return false;
-                    }
-                    break;
-          }
+		  }
+		  switch($a_permission)
+		  {
+			   case "read":
+			   case "visible":
+					if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id) &&
+						 (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)))
+					{
+						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+						 return false;
+					}
+					break;
+		  }
 
-          return true;
-     }
-
+		  return true;
+	 }
+	
 	/**
-	* Check wether datacollection is online
-	*
-	* @param	int		$a_id	wiki id
-	*/
-	function _lookupOnline($a_id)
-    {
-           global $ilDB;
- 
-          $q = "SELECT * FROM il_dcl_data WHERE id = ".
-                $ilDB->quote($a_id, "integer");
-           $dcl_set = $ilDB->query($q);
-           $dcl_rec = $ilDB->fetchAssoc($dcl_set);
- 
-          return $dcl_rec["is_online"];
-     }
+	 * Check wether datacollection is online
+	 *
+	 * @param	int		$a_id	wiki id
+	 */
+	public function _lookupOnline($a_id)
+	{
+		global $ilDB;
+		
+		$q = "SELECT * FROM il_dcl_data WHERE id = ".
+			$ilDB->quote($a_id, "integer");
+		$dcl_set = $ilDB->query($q);
+		$dcl_rec = $ilDB->fetchAssoc($dcl_set);
+		
+		return $dcl_rec["is_online"];
+	}
 
 }
 

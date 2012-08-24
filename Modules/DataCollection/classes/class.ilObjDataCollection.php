@@ -19,7 +19,7 @@ class ilObjDataCollection extends ilObject2
 	/*
 	 * initType
 	 */
-	function initType()
+	public function initType()
 	{
 		$this->type = "dcl";
 	}
@@ -172,7 +172,7 @@ class ilObjDataCollection extends ilObject2
 		foreach(array_unique($users) as $idx => $user_id)
 		{
 			// the user responsible for the action should not be notified
-			//FIXME  $_GET['ref_id]
+			// FIXME  $_GET['ref_id]
 			if($user_id != $ilUser->getId() && $ilAccess->checkAccessOfUser($user_id, 'read', '', $_GET['ref_id']))
 			{
 				// use language of recipient to compose message

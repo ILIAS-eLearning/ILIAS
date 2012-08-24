@@ -21,8 +21,11 @@ include_once ('class.ilDataCollectionRecordViewGUI.php');
 class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 {
 
-    private $table;
-
+	private $table;
+	
+	/*
+	 * __construct
+	 */
 	public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table)
 	{
 		global $lng, $tpl, $ilCtrl;
@@ -30,7 +33,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setPrefix("dcl_record_list");
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->table = $table;
+		$this->table = $table;
 
 		include_once("class.ilDataCollectionDatatype.php");
 		include_once("class.ilObjDataCollectionFile.php");
@@ -42,13 +45,13 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		
 		$this->addColumn("", "", "15px");
 		
-        foreach($this->table->getVisibleFields() as $field)
-        {
-            $this->addColumn($field->getTitle());
-        }
-        $this->setId("dcl_record_list");
-        
-        $this->addColumn($lng->txt("actions"), "", 	 "30px");
+		foreach($this->table->getVisibleFields() as $field)
+		{
+			$this->addColumn($field->getTitle());
+		}
+		$this->setId("dcl_record_list");
+		
+		$this->addColumn($lng->txt("actions"), "", 	 "30px");
 
 
 		$this->setTopCommands(true);
@@ -62,9 +65,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->initFilter();
 		$this->setData($table->getRecordsByFilter($this->filter));
 
-        //leave these two
-        $this->setExternalSegmentation(true);
-        $this->setExternalSorting(true);
+		//leave these two
+		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(true);
 
 		if($this->table->hasPermissionToAddRecord($this->parent_obj->parent_obj->ref_id) && $this->table->hasCustomFields())
 		{
@@ -84,9 +87,11 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->initFilter();
 		$this->setData($this->table->getRecordsByFilter($this->filter));
 		$col = 0;
+		
 		foreach($this->table->getFields() as $field)
 		{
-			if($field->isVisible()){
+			if($field->isVisible())
+			{
 				$worksheet->writeString($row, $col, $field->getTitle());
 				$col++;
 			}
@@ -102,7 +107,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$col = 0;
 		foreach($this->table->getFields() as $field)
 		{
-			if($field->isVisible()){
+			if($field->isVisible())
+			{
 				$worksheet->writeString($row, $col, $record->getRecordFieldExportValue($field->getId()));
 				$col++;
 			}
@@ -140,11 +146,15 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$this->tpl->setVariable("VIEW_IMAGE_LINK", $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
 			$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
 		}
+		
 		$alist = new ilAdvancedSelectionListGUI();
 		$alist->setId($record->getId());
 		$alist->setListTitle($lng->txt("actions"));
+		
 		if(ilDataCollectionRecordViewGUI::_getViewDefinitionId($record))
+		{
 			$alist->addItem($lng->txt('view'), 'view', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord'));
+		}
 
 		if($record->hasPermissionToEdit($this->parent_obj->parent_obj->ref_id))
 		{
@@ -159,9 +169,12 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable("ACTIONS", $alist->getHTML());
 
 		return true;
-    }
-
-	function initFilter()
+	}
+	
+	/*
+	 * initFilter
+	 */
+	public function initFilter()
 	{
 
 		foreach($this->table->getFilterableFields() as $field)
