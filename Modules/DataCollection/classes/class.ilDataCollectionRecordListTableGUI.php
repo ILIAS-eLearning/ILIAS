@@ -66,7 +66,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
 
-		if($this->table->hasPermissionToAddRecord($this->parent_obj->parent_obj->ref_id))
+		if($this->table->hasPermissionToAddRecord($this->parent_obj->parent_obj->ref_id) && $this->table->hasCustomFields())
 		{
 			$img = " <img src='".ilUtil::getImagePath("cmd_add_s.png")."' /> "; // Wirklich hässlich, doch leider wird der Text, der addHeaderCommand mitgeben wird, nicht mehr angezeigt, sobald man ein Bild mitsendet...
 			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);

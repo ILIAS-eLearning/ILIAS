@@ -438,12 +438,13 @@ class ilDataCollectionTable
     function getFields()
     {
         $this->loadFields();
-		if($this->stdFields == Null)
+		if($this->stdFields == NULL)
+		{
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
+		}
         $fields = array_merge($this->fields, $this->stdFields);
-
-
 		$this->sortFields($fields);
+		
         return $fields;
     }
 
@@ -779,6 +780,18 @@ class ilDataCollectionTable
 	public function getLimitStart()
 	{
 		return $this->limit_start;
+	}
+	
+	
+	/**
+	 * hasCustomFields
+	 * @return boolean
+	 */
+	public function hasCustomFields()
+	{
+		$this->loadFields();
+		
+		return (count($this->fields) > 0) ? true : false;
 	}
 	
 	/*
