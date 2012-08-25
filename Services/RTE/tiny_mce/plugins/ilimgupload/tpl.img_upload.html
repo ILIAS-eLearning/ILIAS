@@ -1,164 +1,318 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
-	<meta name="author" content="Michael Jansen"/>
-	<title>{#ilimgupload.title}</title>
-	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
-	<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
-	<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
-	<script language="javascript" type="text/javascript" src="../../../../jQuery/js/1_7_1/jquery-min.js"></script>
-	<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine.js"></script><!-- BEGIN validation_engine_lang_de -->
-	<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine-de.js"></script><!-- END validation_engine_lang_de --><!-- BEGIN validation_engine_lang_default -->
-	<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine-en.js"></script><!-- END validation_engine_lang_default -->
-	<link rel="stylesheet" type="text/css" href="./css/validationEngine.css" />
-	<base target="_self"/>
-	<script language="javascript" type="text/javascript">
-		var iliasPath = '{ILIAS_INST_PATH}';
-		var fileJustUploaded = parseInt('{IS_UPDATE}');
-		var oWidth = undefined;
-		var oHeight = undefined;
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8"/>
+<meta name="author" content="Michael Jansen"/>
+<title>{#ilimgupload.title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+<script language="javascript" type="text/javascript" src="../../../../jQuery/js/1_7_1/jquery-min.js"></script>
+<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine.js"></script><!-- BEGIN validation_engine_lang_de -->
+<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine-de.js"></script><!-- END validation_engine_lang_de --><!-- BEGIN validation_engine_lang_default -->
+<script language="javascript" type="text/javascript" src="./lib/jquery.validationEngine-en.js"></script><!-- END validation_engine_lang_default -->
+<link rel="stylesheet" type="text/css" href="./css/validationEngine.css" />
+<base target="_self"/>
+<script language="javascript" type="text/javascript">
+var ilias_path = '{ILIAS_INST_PATH}';
+var o_width = undefined;
+var o_height = undefined;
 
-		function init() {
-			if (fileJustUploaded || tinyMCEPopup.getWindowArg('src') != '') {
-				$("#upload_image_from_local_fs").hide();
-				mcTabs.displayTab('upload_image_from_url','upload_image_from_local_from_url_panel');
-			}
+function getAttrib(e, at) {
+	var ed = tinyMCEPopup.editor, dom = ed.dom, v, v2;
 
-			var $form = $("#external-image").get(0);
-			if (tinyMCEPopup.getWindowArg('src') != '') {
-				var imgsrc = tinyMCEPopup.getWindowArg('src');
-				if (imgsrc.indexOf('data') == 0) imgsrc = iliasPath + imgsrc;
+	if (ed.settings.inline_styles) {
+		switch (at) {
+			case 'align':
+				if (v = dom.getStyle(e, 'float'))
+					return v;
 
-				$form.src.value = imgsrc;
-				$form.alt.value = tinyMCEPopup.getWindowArg('alt');
-				oWidth = $form.width.value = tinyMCEPopup.getWindowArg('width');
-				oHeight = $form.height.value = tinyMCEPopup.getWindowArg('height');
+				if (v = dom.getStyle(e, 'vertical-align'))
+					return v;
 
-				$form.border.value = tinyMCEPopup.getWindowArg('border');
-				$form.vspace.value = tinyMCEPopup.getWindowArg('vspace');
-				$form.hspace.value = tinyMCEPopup.getWindowArg('hspace');
-				$form.alignment.value = tinyMCEPopup.getWindowArg('align');
-			} else if (fileJustUploaded) {
-				$form.src.value = '{UPLOADED_FILE_SRC}';
-				oWidth = $form.width.value = '{UPLOADED_FILE_WIDTH}';
-				oHeight = $form.height.value = '{UPLOADED_FILE_HEIGHT}';
-			}
+				break;
 
-			if (oHeight && oWidth) {
-				$("#constrain_table").show();
-				$("#constrain").prop("checked", true);
-			}
+			case 'hspace':
+				v = dom.getStyle(e, 'margin-left')
+				v2 = dom.getStyle(e, 'margin-right');
 
-			if (oHeight != undefined && oWidth != undefined) {
-				$('#preview_of_url').find('iframe').attr('src', $("#src").val()).css({
-					width: $("#src").width(),
-					height: '60px'
+				if (v && v == v2)
+					return parseInt(v.replace(/[^0-9]/g, ''));
+
+				break;
+
+			case 'vspace':
+				v = dom.getStyle(e, 'margin-top')
+				v2 = dom.getStyle(e, 'margin-bottom');
+				if (v && v == v2)
+					return parseInt(v.replace(/[^0-9]/g, ''));
+
+				break;
+
+			case 'border':
+				v = 0;
+
+				tinymce.each(['top', 'right', 'bottom', 'left'], function(sv) {
+					sv = dom.getStyle(e, 'border-' + sv + '-width');
+
+					// False or not the same as prev
+					if (!sv || (sv != v && v !== 0)) {
+						v = 0;
+						return false;
+					}
+
+					if (sv)
+						v = sv;
 				});
-			}
 
-			$("#upload_image_from_local_from_url_panel").css("height", "auto");
+				if (v)
+					return parseInt(v.replace(/[^0-9]/g, ''));
+
+				break;
+		}
+	}
+
+	if (v = dom.getAttrib(e, at))
+		return v;
+
+	return '';
+}
+
+function getStyleByForm(f) {
+	var dom = tinyMCEPopup.dom,
+			ed = tinyMCEPopup.editor, n = ed.selection.getNode(),
+			img = dom.create('img', {style: dom.getAttrib(n, 'style')}),
+			b, bStyle, bColor, v, isIE = tinymce.isIE;
+
+	if (tinyMCEPopup.editor.settings.inline_styles) {
+		// Handle align
+		v = getSelectValue(f, 'alignment');
+		if (v) {
+			if (v == 'left' || v == 'right')
+				dom.setStyle(img, 'float', v);
+			else
+				img.style.verticalAlign = v;
 		}
 
-		function adoptImage($form) {
-			var ed = tinyMCEPopup.editor;
-			el = ed.selection.getNode();
+		// Handle border
+		b = img.style.border ? img.style.border.split(' ') : [];
+		bStyle = dom.getStyle(img, 'border-style');
+		bColor = dom.getStyle(img, 'border-color');
 
-			var $form = $form.get(0);
-			args = {
-				src   :$form.src.value,
-				alt   :$form.alt.value,
-				width :$form.width.value,
-				height:$form.height.value,
-				border:$form.border.value,
-				vspace:$form.vspace.value,
-				hspace:$form.hspace.value,
-				align :$form.alignment.value
-			};
+		dom.setStyle(img, 'border', '');
 
-			if (el && el.nodeName == 'IMG') {
-				ed.dom.setAttribs(el, args);
-			} else {
-				ed.execCommand('mceInsertContent', false, '<img id="__mce_tmp" />', {skip_undo:1});
-				ed.dom.setAttribs('__mce_tmp', args);
-				ed.dom.setAttrib('__mce_tmp', 'id', '');
-				ed.undoManager.add();
+		v = f.border.value;
+		if (v || v == '0') {
+			if (v == '0')
+				img.style.border = isIE ? '0' : '0 none none';
+			else {
+				if (b.length == 3 && b[isIE ? 2 : 1])
+					bStyle = b[isIE ? 2 : 1];
+				else if (!bStyle || bStyle == 'none')
+					bStyle = 'solid';
+				if (b.length == 3 && b[isIE ? 0 : 2])
+					bColor = b[isIE ? 0 : 2];
+				else if (!bColor || bColor == 'none')
+					bColor = 'black';
+				img.style.border = v + 'px ' + bStyle + ' ' + bColor;
 			}
-
-			tinyMCEPopup.close();
 		}
 
-		tinyMCEPopup.onInit.add(function(ed) {
-			(function($){
-				$(document).ready(function() {
-					$(window).prop('name', 'img_upload');
+		// Handle hspace
+		v = f.hspace.value;
+		if (!isNaN(v)) {
+			dom.setStyle(img, 'marginLeft', '');
+			dom.setStyle(img, 'marginRight', '');
+			img.style.marginLeft = v + 'px';
+			img.style.marginRight = v + 'px';
+		}
 
-					init();
+		// Handle vspace
+		v = f.vspace.value;
+		if (!isNaN(v)) {
+			dom.setStyle(img, 'marginTop', '');
+			dom.setStyle(img, 'marginBottom', '');
+			img.style.marginTop = v + 'px';
+			img.style.marginBottom = v + 'px';
+		}
 
-					$("#media-object").find('input[name="cancel"]').click(function() {
-						tinyMCEPopup.close();
-						return false;
-					});
-					$("#external-image").find('input[name="cancel"]').click(function() {
-						tinyMCEPopup.close();
-						return false;
-					});
+		// Merge
+		return dom.serializeStyle(dom.parseStyle(img.style.cssText), 'img');
+	}
 
-					$("#media-object").find('input[name="insert"]').click(function() {
-						$form = $(this).closest("form");
-						$form.validationEngine('detach');
-						$form.validationEngine('attach');
-						if ($form.validationEngine('validate')) {
-							$form.submit();
-						}
+	return '';
+}
 
-						return false;
-					});
+function init() {
+	var ed = tinyMCEPopup.editor, dom = ed.dom, n = ed.selection.getNode(), f = $("#external-image").get(0);
 
-					$("#src").bind('blur change', function() {
-						var $src = $(this);
-						if ($src.val()) {
-							$('#preview_of_url').find('iframe').attr('src', $src.val()).css({
-								width: $src.width(),
-								height: '60px'
-							});
-						} else {
-							$('#preview_of_url').find('iframe').attr('src', '').css({
-								width: 0,
-								height: 0
-							});
-						}
-					});
+	if ("{UPLOADED_FILE_SRC}".length || n.nodeName == "IMG") {
+		$("#upload_image_from_local_fs").hide();
+		mcTabs.displayTab("upload_image_from_url", "upload_image_from_local_from_url_panel");
+	}
 
-					$("#width, #height").bind('blur', function() {
-						if ($("#constrain").prop("checked") && oHeight && oWidth) {
-							var $elm = $(this);
-							var $width = $("#width");
-							var $height = $("#height");
+	if ("{UPLOADED_FILE_SRC}".length) {
+		f.src.value = "{UPLOADED_FILE_SRC}";
+		o_width = f.width.value = "{UPLOADED_FILE_WIDTH}";
+		o_height = f.height.value = "{UPLOADED_FILE_HEIGHT}";
+	} else if (n.nodeName == "IMG") {
+		var imgsrc = dom.getAttrib(n, "src");
+		if (imgsrc.indexOf("data") == 0) {
+			imgsrc = ilias_path + imgsrc;
+		}
+		f.src.value = imgsrc;
+		f.alt.value = dom.getAttrib(n, "alt");
+		o_width = f.width.value = dom.getAttrib(n, "width");
+		o_height = f.height.value = dom.getAttrib(n, "height");
 
-							var f = oHeight / oWidth;
-							if ($height.attr("id") == $elm.attr("id")) {
-								$width.val(Math.round($height.val() / f));
-							}
-							else if ($width.attr("id") == $elm.attr("id")) {
-								$height.val(Math.round($width.val() *  f));
-							}
-						}
-					});
+		f.border.value = getAttrib(n, "border");
+		f.vspace.value = getAttrib(n, "vspace");
+		f.hspace.value = getAttrib(n, "hspace");
+		selectByValue(f, "alignment", getAttrib(n, "align"));
+	}
 
-					$("#external-image").find('input[name="insert"]').click(function() {
-						$form = $(this).closest("form");
-						if ($form.validationEngine('validate')) {
-							adoptImage($form);
-						}
-						return false;
-					});
+	if (typeof o_height != "undefined" && typeof o_width != "undefined" && o_height > 0 && o_width > 0) {
+		$("#constrain_table").show();
+		$("#constrain").prop("checked", true);
 
-					$("#external-image").validationEngine();
-				});
-			})(jQuery);
+		$("#preview_of_url iframe").attr("src", $("#src").val()).css({
+			width: $("#src").width(),
+			height: "60px"
 		});
-	</script>
+	}
+
+	$("#upload_image_from_local_from_url_panel").css("height", "auto");
+}
+
+function adoptImage($form) {
+	var ed = tinyMCEPopup.editor, el = ed.selection.getNode(), args = {}, f = $form.get(0);
+
+	if (f.src.value === "") {
+		if (ed.selection.getNode().nodeName == "IMG") {
+			ed.dom.remove(ed.selection.getNode());
+			ed.execCommand("mceRepaint");
+		}
+
+		tinyMCEPopup.close();
+		return;
+	}
+
+	tinyMCEPopup.restoreSelection();
+
+	// Fixes crash in Safari
+	if (tinymce.isWebKit)
+		ed.getWin().focus();
+
+	if (!ed.settings.inline_styles) {
+		args = {
+			border:f.border.value,
+			vspace:f.vspace.value,
+			hspace:f.hspace.value,
+			align :getSelectValue(f, "alignment")
+		};
+	} else {
+		// Remove deprecated values
+		args = {
+			vspace : "",
+			hspace : "",
+			border : "",
+			align : "",
+			style: getStyleByForm(f)
+		};
+	}
+
+	tinymce.extend(args, {
+		src   :f.src.value.replace(/ /g, "%20"),
+		alt   :f.alt.value,
+		width :f.width.value,
+		height:f.height.value
+	});
+
+	if (el && el.nodeName == "IMG") {
+		ed.dom.setAttribs(el, args);
+	} else {
+		tinymce.each(args, function(value, name) {
+			if (value === "") {
+				delete args[name];
+			}
+		});
+
+		ed.execCommand("mceInsertContent", false, tinyMCEPopup.editor.dom.createHTML("img", args), {skip_undo : 1});
+		ed.undoManager.add();
+	}
+
+	tinyMCEPopup.editor.execCommand("mceRepaint");
+	tinyMCEPopup.editor.focus();
+	tinyMCEPopup.close();
+}
+
+tinyMCEPopup.onInit.add(function(ed) {
+	(function($){
+		$(document).ready(function() {
+			$(window).prop("name", "img_upload");
+
+			init();
+
+			$('input[name="cancel"]').click(function() {
+				tinyMCEPopup.close();
+				return false;
+			});
+
+			$('#media-object input[name="insert"]').click(function() {
+				$form = $(this).closest("form");
+				$form.validationEngine("detach");
+				$form.validationEngine("attach");
+				if ($form.validationEngine("validate")) {
+					$form.submit();
+				}
+				return false;
+			});
+
+			$("#src").bind('blur change', function() {
+				var $src = $(this);
+				if ($src.val()) {
+					$('#preview_of_url iframe').attr("src", $src.val()).css({
+						width: $src.width(),
+						height: "60px"
+					});
+				} else {
+					$('#preview_of_url iframe').attr("src", "").css({
+						width: 0,
+						height: 0
+					});
+				}
+			});
+
+			$("#width, #height").bind('blur', function () {
+				if ($("#constrain").prop("checked") &&
+						typeof o_height != "undefined" && typeof o_width != "undefined" &&
+						o_height > 0 && o_width > 0) {
+					var $elm = $(this);
+					var $width = $("#width");
+					var $height = $("#height");
+
+					var f = o_height / o_width;
+					if ($height.attr("id") == $elm.attr("id")) {
+						$width.val(Math.round($height.val() / f));
+					} else if ($width.attr("id") == $elm.attr("id")) {
+						$height.val(Math.round($width.val() * f));
+					}
+				}
+			});
+
+			$('#external-image input[name="insert"]').click(function() {
+				$form = $(this).closest("form");
+				if ($form.validationEngine("validate")) {
+					adoptImage($form);
+				}
+				return false;
+			});
+
+			$("#external-image").validationEngine();
+		});
+	})(jQuery);
+});
+</script>
 </head>
 <body>
 <div class="tabs">
@@ -180,7 +334,7 @@
 				<tr>
 					<td class="nowrap"><label for="img_file">{#ilimgupload.image_select}</label></td>
 					<td>
-						<input type="file" name="img_file" id="img_file" style="width: 100%;" class="validate[required]" />
+						<input type="file" name="img_file" id="img_file" style="width: 100px;" class="validate[required]" />
 					</td>
 				</tr>
 				<tr>
@@ -227,11 +381,11 @@
 				</tr>
 				<tr>
 					<td class="column1"><label for="hspace">{#ilimgupload.hspace}</label>:</td>
-					<td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+					<td><input name="hspace" type="text" id="hspace" value="" size="3" maxlength="3" /></td>
 				</tr>
 				<tr>
 					<td class="column1"><label for="vspace">{#ilimgupload.vspace}</label>:</td>
-					<td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3" class="validate[custom[integer]]" /></td>
+					<td><input name="vspace" type="text" id="vspace" value="" size="3" maxlength="3" /></td>
 				</tr>
 				<tr>
 					<td class="nowrap"><label for="border">{#ilimgupload.border}</label>:</td>
