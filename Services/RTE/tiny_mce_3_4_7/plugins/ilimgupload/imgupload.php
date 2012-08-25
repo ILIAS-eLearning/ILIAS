@@ -99,7 +99,6 @@ $tpl->setVariable("OBJ_ID", (int)$_GET["obj_id"]);
 $tpl->setVariable("OBJ_TYPE", $_GET["obj_type"]);
 $tpl->setVariable("VALUE_UPDATE", (int)$_GET["update"]);
 $tpl->setVariable("ILIAS_INST_PATH", $iliasHttpPath);
-$tpl->setVariable('IS_UPDATE', (int)$_GET["update"]);
 if($ilUser->getLanguage() == 'de')
 {
 	$tpl->touchBlock('validation_engine_lang_de');
