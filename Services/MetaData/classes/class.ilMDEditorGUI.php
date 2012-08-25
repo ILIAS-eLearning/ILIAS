@@ -382,106 +382,75 @@ class ilMDEditorGUI
 	
 	function listQuickEdit()
 	{
+		global $tpl;
 		
 		if(!is_object($this->md_section = $this->md_obj->getGeneral()))
 		{
 			$this->md_section = $this->md_obj->addGeneral();
 			$this->md_section->save();
 		}
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.md_editor.html','Services/MetaData');
 		
 		$this->__setTabs('meta_quickedit');
+		$form = $this->initQuickEditForm();
+		$tpl->setContent($form->getHTML());
+	}
 
-		$this->tpl->addBlockFile('MD_CONTENT','md_content','tpl.md_quick_edit.html','Services/MetaData');
-
-		$this->ctrl->setReturn($this,'listGeneral');
-		$this->ctrl->setParameter($this,'section','meta_general');
-		$this->tpl->setVariable("EDIT_ACTION",$this->ctrl->getFormAction($this));
-
-		$this->tpl->setVariable("TXT_QUICK_EDIT", $this->lng->txt("meta_quickedit"));
-		$this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
-		$this->tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
-		$this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-		$this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
-
-		// Language
-		$first = true;
-		foreach($ids = $this->md_section->getLanguageIds() as $id)
-		{
-			$md_lan = $this->md_section->getLanguage($id);
-			
-			if ($first)
-			{
-				$this->tpl->setCurrentBlock("language_head");
-				$this->tpl->setVariable("ROWSPAN_LANG", count($ids));
-				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-				$this->tpl->parseCurrentBlock();
-				$first = false;
-			}
-
-			if (count($ids) > 1)
-			{
-				$this->ctrl->setParameter($this,'meta_index',$id);
-				$this->ctrl->setParameter($this,'meta_path','meta_language');
-
-				$this->tpl->setCurrentBlock("language_delete");
-				$this->tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
-				$this->tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-				$this->tpl->parseCurrentBlock();
-			}
-			$this->tpl->setCurrentBlock("language_loop");
-			$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect('gen_language['.$id.'][language]',
-																						$md_lan->getLanguageCode()));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		if ($first)
-		{
-			$this->tpl->setCurrentBlock("language_head");
-			$this->tpl->setVariable("ROWSPAN_LANG", 1);
-			$this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("language_loop");
-			$this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect('gen_language[][language]',
-				""));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		// TITLE
-		$this->tpl->setVariable("TXT_TITLE",$this->lng->txt('title'));
-		$this->tpl->setVariable("VAL_TITLE",ilUtil::prepareFormOutput($this->md_section->getTitle()));
-		$this->tpl->setVariable("VAL_TITLE_LANGUAGE",$this->__showLanguageSelect('gen_title_language',
-																			   $this->md_section->getTitleLanguageCode()));
-
-		// DESCRIPTION
+	/**
+	 * Init quick edit form.
+	 */
+	public function initQuickEditForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+	
+		// title
+		$ti = new ilTextInputGUI($this->lng->txt("title"), "gen_title");
+		$ti->setMaxLength(200);
+		$ti->setSize(50);
+		$ti->setRequired(true);
+		$ti->setValue($this->md_section->getTitle());
+		$this->form->addItem($ti);
+		
+		// description(s)
 		foreach($ids = $this->md_section->getDescriptionIds() as $id)
 		{ 
 			$md_des = $this->md_section->getDescription($id);
-
+			
+			$ta = new ilTextAreaInputGUI($this->lng->txt("meta_description"), "gen_description[".$id."][description]");
+			$ta->setCols(50);
+			$ta->setRows(4);
+			$ta->setValue($md_des->getDescription());
 			if (count($ids) > 1)
 			{
-				$this->ctrl->setParameter($this,'meta_index',$id);
-				$this->ctrl->setParameter($this,'meta_path','meta_description');
-
-				$this->tpl->setCurrentBlock("description_delete");
-				$this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE",$this->ctrl->getLinkTarget($this,'deleteElement'));
-				$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-				$this->tpl->parseCurrentBlock();
+				$ta->setInfo($this->lng->txt("meta_l_".$md_des->getDescriptionLanguageCode()));
 			}
 
-			$this->tpl->setCurrentBlock("description_loop");
-			$this->tpl->setVariable("DESCRIPTION_LOOP_NO",$id);
-			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL",ilUtil::prepareFormOutput($md_des->getDescription()));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-			$this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("gen_description[".$id.'][language]', 
-																				  $md_des->getDescriptionLanguageCode()));
-			$this->tpl->parseCurrentBlock();
+			$this->form->addItem($ta);
 		}
 
-		// KEYWORD
+		// language(s)
+		$first = "";
+		$options = ilMDLanguageItem::_getLanguages();
+		foreach($ids = $this->md_section->getLanguageIds() as $id)
+		{
+			$md_lan = $this->md_section->getLanguage($id);
+			$first_lang = $md_lan->getLanguageCode();
+			$si = new ilSelectInputGUI($this->lng->txt("meta_language"), "gen_language[".$id."][language]");
+			$si->setOptions($options);
+			$si->setValue($md_lan->getLanguageCode());
+			$this->form->addItem($si);
+			$first = false;
+		}
+		if ($first)
+		{
+			$si = new ilSelectInputGUI($this->lng->txt("meta_language"), "gen_language[][language]");
+			$si->setOptions($options);
+			$this->form->addItem($si);
+		}
+		
+		// keyword(s)
 		$first = true;
 		$keywords = array();
 		foreach($ids = $this->md_section->getKeywordIds() as $id)
@@ -493,47 +462,37 @@ class ilMDEditorGUI
 					= $md_key->getKeyword();
 			}
 		}
-		
 		foreach($keywords as $lang => $keyword_set)
-		{
-			if ($first)
+		{ 
+			$ta = new ilTextAreaInputGUI($this->lng->txt("keywords")."<br />".
+				"(".sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()).")",
+				"keywords[value][".$lang."]");
+			$ta->setCols(50);
+			$ta->setRows(4);
+			if (count($keywords) > 1)
 			{
-				$this->tpl->setCurrentBlock("keyword_head");
-				$this->tpl->setVariable("ROWSPAN_KEYWORD", count($keywords));
-				$this->tpl->setVariable("TXT_COMMA_SEP2",
-					sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()));
-				$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
-				$this->tpl->parseCurrentBlock();
-				$first = false;
+				$ta->setInfo($this->lng->txt("meta_l_".$lang));
 			}
-
-			$this->tpl->setCurrentBlock("keyword_loop");
-			$this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput(
-				implode($keyword_set, $this->md_settings->getDelimiter()." ")));
-			$this->tpl->setVariable("LANG", $lang);
-			$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("keyword[language][$lang]",
-																					   $lang));
-			$this->tpl->parseCurrentBlock();
+			$ta->setValue(implode($keyword_set, $this->md_settings->getDelimiter()." "));
+			$this->form->addItem($ta);
 		}
-
 		if (count($keywords) == 0)
 		{
-			$this->tpl->setCurrentBlock("keyword_head");
-			$this->tpl->setVariable("ROWSPAN_KEYWORD", 1);
-			$this->tpl->setVariable("TXT_COMMA_SEP2",
-				sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()));
-			$this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
-			$this->tpl->parseCurrentBlock();
-			$this->tpl->setCurrentBlock("keyword_loop");
-			$this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect("keyword[language][$lang]",
-				$lang));
+			$ta = new ilTextAreaInputGUI($this->lng->txt("keywords")."<br />".
+				"(".sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()).")",
+				"keywords[value][".$first_lang."]");
+			$ta->setCols(50);
+			$ta->setRows(4);
+			$this->form->addItem($ta);
 		}
-		
+
 		// Lifecycle...
 		// Authors
-		$this->tpl->setVariable("TXT_AUTHORS",$this->lng->txt('authors'));
-		$this->tpl->setVariable("TXT_COMMA_SEP",
-			sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()));
+		$ta = new ilTextAreaInputGUI($this->lng->txt('authors')."<br />".
+			"(".sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()).")",
+			"life_authors");
+		$ta->setCols(50);
+		$ta->setRows(2);
 		if(is_object($this->md_section = $this->md_obj->getLifecycle()))
 		{
 			$sep = $ent_str = "";
@@ -550,79 +509,34 @@ class ilMDEditorGUI
 					}
 				}
 			}
-			$this->tpl->setVariable("AUTHORS_VAL", ilUtil::prepareFormOutput($ent_str));
+			$ta->setValue($ent_str);
 		}
-		
-		
-		// Rights...
-		// Copyright 
-		
-		include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionGUI.php');
-		
-		$copyright_gui = new ilMDCopyrightSelectionGUI(ilMDCopyrightSelectionGUI::MODE_QUICKEDIT,
-			$this->md_obj->getRBACId(),
+		$this->form->addItem($ta);
+
+		// copyright
+		include_once("./Services/MetaData/classes/class.ilCopyrightInputGUI.php"); 
+		$cp = new ilCopyrightInputGUI($this->lng->txt("meta_copyright"), "copyright");
+		$cp->setCols(50);
+		$cp->setRows(3);
+		$desc = ilMDRights::_lookupDescription($this->md_obj->getRBACId(),
 			$this->md_obj->getObjId());
-		$copyright_gui->fillTemplate();
+		$val["ta"] = $desc;
+		$cp->setValue($val);
+		$this->form->addItem($cp);
 		
-		
-		/*
-		if(is_object($this->md_section = $this->md_obj->getRights()))
-		{
-			$this->tpl->setVariable("COPYRIGHT_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
-		}
-		$this->tpl->setVariable("TXT_COPYRIGHT",$this->lng->txt('meta_copyright'));
-		*/
+		// typical learning time
+		include_once("./Services/MetaData/classes/class.ilTypicalLearningTimeInputGUI.php");
+		$tlt = new ilTypicalLearningTimeInputGUI($this->lng->txt("meta_typical_learning_time"), "tlt");
+		$tlt->setValueByLOMDuration($this->md_obj->getEducational()->getTypicalLearningTime());
+		$this->form->addItem($tlt);
 
-		// Educational...
-		// Typical learning time
-		// creates entries like 2H59M12S. If entry is not parsable => warning.
-
-		#if(is_object($this->md_section = $this->md_obj->getEducational()))
-		#{
-		#	$this->tpl->setVariable("VAL_TYPICAL_LEARN_TIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
-		#}
-		
-		$tlt = array(0,0,0,0,0);
-		$valid = true;
-		if(is_object($this->md_section = $this->md_obj->getEducational()))
-		{
-			include_once 'Services/MetaData/classes/class.ilMDUtils.php';
-			
-			if(!$tlt = ilMDUtils::_LOMDurationToArray($this->md_section->getTypicalLearningTime()))
-			{
-				if(strlen($this->md_section->getTypicalLearningTime()))
-				{
-					$tlt = array(0,0,0,0,0);
-					$valid = false;
-				}
-			}
-		}
-		$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));		
-		$this->tpl->setVariable("SEL_MONTHS",$this->__buildMonthsSelect($tlt[0]));
-		$this->tpl->setVariable("SEL_DAYS",$this->__buildDaysSelect($tlt[1]));
-		
-		$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
-		$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
-
-		$this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME",$this->lng->txt('meta_typical_learning_time'));
-		$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt',$tlt[4] ? false : true,
-																 $tlt[2],$tlt[3],$tlt[4],
-																 false));
-		$this->tpl->setVariable("TLT_HINT",$tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
-
-		if(!$valid)
-		{
-			$this->tpl->setCurrentBlock("tlt_not_valid");
-			$this->tpl->setVariable("TXT_CURRENT_VAL",$this->lng->txt('meta_current_value'));
-			$this->tpl->setVariable("TLT",$this->md_section->getTypicalLearningTime());
-			$this->tpl->setVariable("INFO_TLT_NOT_VALID",$this->lng->txt('meta_info_tlt_not_valid'));
-			$this->tpl->parseCurrentBlock();
-		}
-		
-	
-		$this->tpl->setVariable("TXT_SAVE",$this->lng->txt('save'));
+		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
+		$this->form->setTitle($this->lng->txt("meta_quickedit"));
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+	 
+		return $this->form;
 	}
-
+	
 	/**
 	* update quick edit properties
 	*/
@@ -640,7 +554,7 @@ class ilMDEditorGUI
 		// General values
 		$this->md_section = $this->md_obj->getGeneral();
 		$this->md_section->setTitle(ilUtil::stripSlashes($_POST['gen_title']));
-		$this->md_section->setTitleLanguage(new ilMDLanguageItem($_POST['gen_title_language']));
+//		$this->md_section->setTitleLanguage(new ilMDLanguageItem($_POST['gen_title_language']));
 		$this->md_section->update();
 
 		// Language
@@ -669,7 +583,7 @@ class ilMDEditorGUI
 			{
 				$md_des = $this->md_section->getDescription($id);
 				$md_des->setDescription(ilUtil::stripSlashes($data['description']));
-				$md_des->setDescriptionLanguage(new ilMDLanguageItem($data['language']));
+//				$md_des->setDescriptionLanguage(new ilMDLanguageItem($data['language']));
 				$md_des->update();
 			}
 		}
@@ -681,7 +595,9 @@ class ilMDEditorGUI
 			$new_keywords = array();
 			foreach($_POST["keywords"]["value"] as $lang => $keywords)
 			{
-				$language = $_POST["keyword"]["language"][$lang];
+				// new (form) version: no lang select anymore
+				$language = $lang;
+//				$language = $_POST["keyword"]["language"][$lang];
 				$keywords = explode($this->md_settings->getDelimiter(), $keywords);
 				foreach($keywords as $keyword)
 				{
@@ -728,22 +644,23 @@ class ilMDEditorGUI
 		$this->callListeners('General');
 		
 		// Copyright
-		if($_POST['copyright_id'] or $_POST['rights_copyright'])
+		//if($_POST['copyright_id'] or $_POST['rights_copyright'])
+		if($_POST['copyright']['sel'] || $_POST['copyright']['ta'])
 		{
 			if(!is_object($this->md_section = $this->md_obj->getRights()))
 			{
 				$this->md_section = $this->md_obj->addRights();
 				$this->md_section->save();
 			}
-			if($_POST['copyright_id'])
+			if($_POST['copyright']['sel'])
 			{
 				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
-				$this->md_section->setDescription('il_copyright_entry__'.IL_INST_ID.'__'.(int) $_POST['copyright_id']);
+				$this->md_section->setDescription('il_copyright_entry__'.IL_INST_ID.'__'.(int) $_POST['copyright']['sel']);
 			}
 			else
 			{
 				$this->md_section->setCopyrightAndOtherRestrictions("Yes");
-				$this->md_section->setDescription(ilUtil::stripSlashes($_POST["rights_copyright"]));
+				$this->md_section->setDescription(ilUtil::stripSlashes($_POST['copyright']['ta']));
 			}
 			$this->md_section->update();
 		}
