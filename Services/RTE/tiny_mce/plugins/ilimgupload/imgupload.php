@@ -101,7 +101,7 @@ if(isset($_FILES['img_file']) && is_array($_FILES['img_file']))
 		$finfo = pathinfo($_FILES['img_file']['name']);
 		require_once 'Services/Utilities/classes/class.ilMimeTypeUtil.php';
 		$mime_type = ilMimeTypeUtil::getMimeType($_FILES['img_file']['tmp_name'], $_FILES['img_file']['name'], $_FILES['img_file']['type']);
-		if(!in_array(strtolower($finfo['ext']), $tinyMCE_valid_imgs) || !in_array($mime_type, array(
+		if(!in_array(strtolower($finfo['extension']), $tinyMCE_valid_imgs) || !in_array($mime_type, array(
 			'image/gif',
 			'image/jpeg',
 			'image/png'
