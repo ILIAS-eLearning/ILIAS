@@ -12824,3 +12824,5 @@ dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, the calendar is shown
 dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, the calendar is shown in shown in groups by default. In any case the calendar presentation can be enabled/disabled in the group settings.
 dcl#:#dcl_edit_table#:#Edit Table Settings
 dcl#:#dcl_msg_table_edited#:#Table Settings saved
+dcl#:#dcl_legend_placeholders#:#Placeholders
+dcl#:#dcl_any#:#any
