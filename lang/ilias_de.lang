@@ -12577,7 +12577,7 @@ dcl#:#dcl_record_view_viewdefinition#:#Anzeige eines Eintrags
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle
 dcl#:#dcl_field_datatype#:#Feld Datentyp
-dcl#:#dcl_required#:#Benötigtes Feld
+dcl#:#dcl_required#:#Pflichtfeld
 dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
 dcl#:#dcl_edit_type_non_info#:#Um neue Einträge zu erstellen benötigt man das Bearbeitungs-Recht
 dcl#:#dcl_edit_type_unlim#:#Unlimitiert
@@ -12596,12 +12596,12 @@ dcl#:#dcl_new_field#:#Neues Feld
 dcl#:#dcl_datatype#:#Datentyp
 dcl#:#dcl_integer#:#Ganzzahl
 dcl#:#dcl_text#:#Text
-dcl#:#dcl_reference#:#Refferenz
+dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_boolean#:#Boolean
 dcl#:#dcl_datetime#:#Datum
 dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Beschreibung
-dcl#:#dcl_field_required#:#Benötigt
+dcl#:#dcl_field_required#:#Pflichtfeld
 dcl#:#dcl_length#:#Länge
 dcl#:#dcl_regex#:#Regular Expression
 dcl#:#dcl_table_unlocked#:#Die Tabelle ist nicht mehr gesperrt.
@@ -12611,7 +12611,7 @@ dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
 dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur spezifikation dieses Feldes (Regular Expression).
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Wrong Type).
-dcl#:#dcl_unique#:#Einzigartig.
+dcl#:#dcl_unique#:#Einzigartig
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
 survey#:#freetext_answers#:#Freitext-Antworten
@@ -12911,3 +12911,5 @@ dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich löschen?
 dcl#:#dcl_edit_table#:#Tabelleneigenschaften bearbeiten
 dcl#:#dcl_msg_table_edited#:#Tabelleneigenschaften wurden gespeichert.
+dcl#:#dcl_legend_placeholders#:#Platzhalter
+dcl#:#dcl_any#:#alle
