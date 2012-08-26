@@ -7,7 +7,8 @@
 	<script type="text/javascript">
 		il.Util.addOnLoad(	
 			function() {
-				$("#{ID_AUTOCOMPLETE}").autocomplete({
+				<!-- BEGIN ac_multi -->ilMultiFormValues.addAutocomplete('{ID_AUTOCOMPLETE}', '{MURL_AUTOCOMPLETE}');<!-- END ac_multi -->
+				$('{SEL_AUTOCOMPLETE}').autocomplete({
 					source: "{URL_AUTOCOMPLETE}",
 					minLength: 3
 				});

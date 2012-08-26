@@ -3,6 +3,9 @@
  */
 var ilMultiFormValues = {
 	
+	// 
+	auto_complete_urls: {},
+	
 	/**
 	 * Bind click events and handle preset values
 	 */
@@ -91,7 +94,9 @@ var ilMultiFormValues = {
 	 * @param int index 
 	 * @param mixed preset 
 	 */
-	add: function(group_id, index, preset) {	
+	add: function(group_id, index, preset) {
+//console.log(group_id);
+//console.log(index);
 		// find maximum id in group
 		var new_id = 0;
 		var sub_id = 0;
@@ -149,6 +154,15 @@ var ilMultiFormValues = {
 
 		// insert clone into html	
 		$(original_element).after(new_element);
+		
+		// add autocomplete
+		if (typeof ilMultiFormValues.auto_complete_urls[group_id] != 'undefined' &&
+			ilMultiFormValues.auto_complete_urls[group_id] != "") {
+			$('[id="' + group_id + '~' + new_id + '"]').autocomplete({
+				source: ilMultiFormValues.auto_complete_urls[group_id],
+				minLength: 3
+			});
+		}
 	},
 
 	/**
@@ -204,6 +218,10 @@ var ilMultiFormValues = {
 		$(element).find('input:text[id*="' + group_id + '"]').attr('value', preset);
 
 		return;		
+	},
+	
+	addAutocomplete: function (id, url) {
+		ilMultiFormValues.auto_complete_urls[id] = url;
 	}
 };
 
