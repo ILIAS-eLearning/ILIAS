@@ -464,7 +464,7 @@ class ilMDEditorGUI
 		}
 		foreach($keywords as $lang => $keyword_set)
 		{ 
-			$ta = new ilTextAreaInputGUI($this->lng->txt("keywords")."<br />".
+/*			$ta = new ilTextAreaInputGUI($this->lng->txt("keywords")."<br />".
 				"(".sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()).")",
 				"keywords[value][".$lang."]");
 			$ta->setCols(50);
@@ -474,7 +474,20 @@ class ilMDEditorGUI
 				$ta->setInfo($this->lng->txt("meta_l_".$lang));
 			}
 			$ta->setValue(implode($keyword_set, $this->md_settings->getDelimiter()." "));
-			$this->form->addItem($ta);
+			$this->form->addItem($ta);*/
+			$kw = new ilTextInputGUI($this->lng->txt("keywords"),
+				"keywords[value][".$lang."]");
+			$kw->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
+			$kw->setMaxLength(200);
+			$kw->setSize(50);
+			$kw->setMulti(true);
+			if (count($keywords) > 1)
+			{
+				$kw->setInfo($this->lng->txt("meta_l_".$lang));
+			}
+			$this->form->addItem($kw);
+			asort($keyword_set);
+			$kw->setValue($keyword_set);
 		}
 		if (count($keywords) == 0)
 		{
@@ -527,7 +540,11 @@ class ilMDEditorGUI
 		// typical learning time
 		include_once("./Services/MetaData/classes/class.ilTypicalLearningTimeInputGUI.php");
 		$tlt = new ilTypicalLearningTimeInputGUI($this->lng->txt("meta_typical_learning_time"), "tlt");
-		$tlt->setValueByLOMDuration($this->md_obj->getEducational()->getTypicalLearningTime());
+		$edu = $this->md_obj->getEducational();
+		if (is_object($edu))
+		{
+			$tlt->setValueByLOMDuration($edu->getTypicalLearningTime());
+		}
 		$this->form->addItem($tlt);
 
 		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
@@ -536,6 +553,39 @@ class ilMDEditorGUI
 	 
 		return $this->form;
 	}
+	
+	/**
+	 * Keyword list for autocomplete
+	 *
+	 * @param
+	 * @return
+	 */
+	function keywordAutocomplete()
+	{
+
+		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
+		$res = ilMDKeyword::_searchKeywords(ilUtil::stripSlashes("%".$_GET["term"]."%"),
+			$this->md_obj->getObjType(), $this->md_obj->getRBACId(), true);
+		
+		$result = array();
+		$cnt = 0;
+		foreach ($res as $r)
+		{
+			if ($cnt++ > 19)
+			{
+				continue;
+			}
+			$entry = new stdClass();
+			$entry->value = $r;
+			$entry->label = $r;
+			$result[] = $entry;
+		}
+
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';
+		echo ilJsonUtil::encode($result);
+		exit;
+	}
+	
 	
 	/**
 	* update quick edit properties
@@ -598,13 +648,16 @@ class ilMDEditorGUI
 				// new (form) version: no lang select anymore
 				$language = $lang;
 //				$language = $_POST["keyword"]["language"][$lang];
-				$keywords = explode($this->md_settings->getDelimiter(), $keywords);
+//				$keywords = explode($this->md_settings->getDelimiter(), $keywords);
 				foreach($keywords as $keyword)
 				{
-					$new_keywords[$language][] = trim($keyword);
+					if (trim($keyword) != "")
+					{
+						$new_keywords[$language][] = trim($keyword);
+					}
 				}
 			}
-			
+
 			// update existing author entries (delete if not entered)
 			foreach($ids = $this->md_section->getKeywordIds() as $id)
 			{

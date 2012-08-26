@@ -236,7 +236,8 @@ class ilMDKeyword extends ilMDBase
 	 * @param int $a_rbac_id [optional]
 	 * @return 
 	 */
-	public static function _searchKeywords($a_query,$a_type, $a_rbac_id = 0)
+	public static function _searchKeywords($a_query,$a_type, $a_rbac_id = 0,
+		$a_return_kw = false)
 	{
 		global $ilDB;
 		
@@ -252,23 +253,35 @@ class ilMDKeyword extends ilMDBase
 			$qs .= ($ilDB->like('keyword','text',$part).' '); 
 		}
 
+		$field = ($a_return_kw)
+			? "DISTINCT keyword"
+			: "obj_id";
+		
 		if($a_rbac_id)
 		{
-			$query = "SELECT * FROM il_meta_keyword ".
+			$query = "SELECT ".$field." FROM il_meta_keyword ".
 				"WHERE rbac_id = ".$ilDB->quote($a_rbac_id,'integer').' '.
 				'AND obj_type = '.$ilDB->quote($a_type,'text').' '.
 				$qs;
 		}
 		else
 		{
-			$query = "SELECT * FROM il_meta_keyword ".
+			$query = "SELECT ".$field." FROM il_meta_keyword ".
 				'WHERE obj_type = '.$ilDB->quote($a_type,'text').' '.
 				$qs;
 		}
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$obj_ids[] = $row->obj_id;
+			if ($a_return_kw)
+			{
+				$obj_ids[] = $row->keyword;
+			}
+			else
+			{
+				$obj_ids[] = $row->obj_id;
+			}
 		}
 		return (array) $obj_ids;
 	}

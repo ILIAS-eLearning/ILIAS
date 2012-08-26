@@ -438,8 +438,25 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			iljQueryUtil::initjQuery();
 			iljQueryUtil::initjQueryUI();
 			
-			$tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
-			$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());			
+			if ($this->getMulti())
+			{
+				$tpl->setCurrentBlock("ac_multi");
+				$tpl->setVariable('MURL_AUTOCOMPLETE', $this->getDataSource());
+				$tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
+				$tpl->parseCurrentBlock();
+				
+				// set to fields that start with autocomplete selector
+				$sel_auto = '[id^="'.$this->getFieldId().'"]';
+			}
+			else
+			{
+				// use id for autocomplete selector
+				$sel_auto = "#".$this->getFieldId();
+			}
+			$tpl->setCurrentBlock("prop_text_autocomplete");
+			$tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
+			$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
+			$tpl->parseCurrentBlock();
 		}
 		
 		if ($a_mode == "toolbar")
