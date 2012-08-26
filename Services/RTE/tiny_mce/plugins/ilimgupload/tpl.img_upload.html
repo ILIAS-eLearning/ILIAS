@@ -17,7 +17,6 @@
 var ilias_path = '{ILIAS_INST_PATH}';
 var o_width = undefined;
 var o_height = undefined;
-
 function getAttrib(e, at) {
 	var ed = tinyMCEPopup.editor, dom = ed.dom, v, v2;
 
@@ -251,6 +250,8 @@ tinyMCEPopup.onInit.add(function(ed) {
 		$(document).ready(function() {
 			$(window).prop("name", "img_upload");
 
+			<!-- BEGIN errors -->$('[name="{ERRORS_FIELDNAME}"]').validationEngine('showPrompt', '{ERRORS_MESSAGE}', 'red', 'topRight', true)<!-- END errors -->
+
 			init();
 
 			$('input[name="cancel"]').click(function() {
@@ -332,9 +333,11 @@ tinyMCEPopup.onInit.add(function(ed) {
 		<form id="media-object" method="post" action="imgupload.php?obj_id={OBJ_ID}&amp;obj_type={OBJ_TYPE}&amp;update={VALUE_UPDATE}" enctype="multipart/form-data" target="img_upload">
 			<table border="0" cellpadding="4" cellspacing="0" style="width:100%">
 				<tr>
-					<td class="nowrap"><label for="img_file">{#ilimgupload.image_select}</label></td>
+					<td class="nowrap" style="vertical-align:top"><label for="img_file">{#ilimgupload.image_select}</label></td>
 					<td>
 						<input type="file" name="img_file" id="img_file" style="width: 100px;" class="validate[required]" />
+						<p style="font-size:smaller">{TXT_MAX_SIZE}</p>
+						<p style="font-size:smaller">{TXT_ALLOWED_FILE_EXTENSIONS}</p>
 					</td>
 				</tr>
 				<tr>
