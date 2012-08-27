@@ -157,9 +157,6 @@ class ilDataCollectionTable
 			.")";
 		$ilDB->manipulate($query);
 
-		//FIXME
-		//FromType sollen ebenfalls als Konstante definiert werden.
-
 		//add view definition
 		$view_id = $ilDB->nextId("il_dcl_view");
 		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::VIEW_VIEW.", 1)";
@@ -174,6 +171,9 @@ class ilDataCollectionTable
 		$view_id = $ilDB->nextId("il_dcl_view");
 		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::FILTER_VIEW.", 1)";
 		$ilDB->manipulate($query);
+
+		$this->buildOrderFields();
+		$this->updateFields();
 	}
 	
 	/*
