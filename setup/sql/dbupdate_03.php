@@ -12863,4 +12863,16 @@ if(!$ilDB->tableColumnExists('il_poll', 'period'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3738>
+<?php
+$ilDB->manipulate("INSERT INTO `ilias_trunk`.`il_dcl_datatype_prop` (
+`id` ,
+`datatype_id` ,
+`title` ,
+`inputformat`
+)
+VALUES (
+'5', '2', 'text_area', '4'
+)");
+?>
 

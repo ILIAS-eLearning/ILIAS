@@ -468,8 +468,7 @@ class ilDataCollectionTable
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
 		}
 		$fields = array_merge($this->fields, $this->stdFields);
-		//$this->sortFields($fields);
-		
+
 		return $fields;
 	}
 
