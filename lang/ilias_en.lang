@@ -12853,3 +12853,5 @@ blog#:#blog_keywords#:#Keywords
 blog#:#blog_no_keywords#:#No keywords have been entered yet.
 blog#:#blog_edit_keywords#:#Edit Keywords
 blog#:#blog_keyword#:#Keyword
+administration#:#adm_adm_role_protect#:#Protect Administrator Role
+administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.

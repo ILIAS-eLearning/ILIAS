@@ -12942,3 +12942,5 @@ blog#:#blog_keywords#:#Schlagwörter
 blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
 blog#:#blog_edit_keywords#:#Schlagwörter bearbeiten
 blog#:#blog_keyword#:#Schlagwort
+administration#:#adm_adm_role_protect#:#Administratorrolle schützen
+administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen. 
