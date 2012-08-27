@@ -21,6 +21,7 @@ class ilObjBlogGUI extends ilObject2GUI
 {
 	protected $month; // [string]
 	protected $items; // [array]
+	protected $keyword; // [string]
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
@@ -31,6 +32,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		if($this->object)
 		{
 			$this->month = $_REQUEST["bmn"];
+			$this->keyword = $_REQUEST["kwd"];
 
 			// gather postings by month
 			$this->items = $this->buildPostingList($this->object->getId());	
@@ -501,12 +503,22 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 		}
 		
+	
+		if(!$this->keyword)
+		{
+			$list_items = $this->items[$this->month];
+		}
+		else
+		{
+			$list_items = $this->filterItemsByKeyword($this->items, $this->keyword);
+		}
+		
 		$list = $nav = "";		
-		if($this->items[$this->month])
-		{						
+		if($list_items)
+		{							
 			// $is_owner = ($this->object->getOwner() == $ilUser->getId());
 			$is_owner = $this->mayContribute();
-			$list = $this->renderList($this->items[$this->month], $this->month, "preview", null, $is_owner);
+			$list = $this->renderList($list_items, $this->month, "preview", null, $is_owner);
 			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
 		}
 					
@@ -680,7 +692,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @return string 
 	 */	
 	function getHTML()
-	{		
+	{				
 		// getHTML() is called by ilRepositoryGUI::show()
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
@@ -691,15 +703,23 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$this->filterInactivePostings();
 		
+		if(!$this->keyword)
+		{
+			$list_items = $this->items[$this->month];
+		}
+		else
+		{
+			$list_items = $this->filterItemsByKeyword($this->items, $this->keyword);
+		}
+		
 		$list = $nav = "";
-		if($this->items[$this->month])
+		if($list_items)
 		{				
-			$list = $this->renderList($this->items[$this->month], $this->month, "previewEmbedded");
+			$list = $this->renderList($list_items, $this->month, "previewEmbedded");
 			$nav = $this->renderNavigation($this->items, "gethtml", "previewEmbedded");
 		}		
 		
-		return $this->buildEmbedded($list, $nav);
-		
+		return $this->buildEmbedded($list, $nav);		
 	}
 	
 	/**
@@ -717,10 +737,19 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		$this->filterInactivePostings();
 		
+		if(!$this->keyword)
+		{
+			$list_items = $this->items[$this->month];
+		}
+		else
+		{
+			$list_items = $this->filterItemsByKeyword($this->items, $this->keyword);
+		}
+		
 		$list = $nav = "";		
-		if($this->items[$this->month])
+		if($list_items)
 		{									
-			$list = $this->renderList($this->items[$this->month], $this->month, "previewFullscreen");
+			$list = $this->renderList($list_items, $this->month, "previewFullscreen");
 			$nav = $this->renderNavigation($this->items, "preview", "previewFullscreen");		
 		}
 						
@@ -916,9 +945,16 @@ class ilObjBlogGUI extends ilObject2GUI
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
 		
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-		$title = ilCalendarUtil::_numericMonthToString((int)substr($a_month, 5)).
-				" ".substr($a_month, 0, 4);
+		if(!$this->keyword)
+		{
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+			$title = ilCalendarUtil::_numericMonthToString((int)substr($a_month, 5)).
+					" ".substr($a_month, 0, 4);
+		}
+		else
+		{
+			$title = $lng->txt("blog_keyword").": ".$this->keyword;
+		}
 		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);						
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
@@ -1137,8 +1173,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 			// list postings for month
 			if($counter < $max_detail_postings)
-			{
-				
+			{				
 				foreach($postings as $id => $posting)
 				{
 					$is_active = ilBlogPosting::_lookupActive($id, "blp");
@@ -1197,8 +1232,10 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		
 		// keywords 		
-		$keywords = $this->getKeywords($_GET["blpg"]);
-		if($keywords || $a_list_cmd != "preview")
+		$may_edit_keywords = ($_GET["blpg"] && $this->mayContribute($_GET["blpg"]) && 
+			!$a_link_template && $a_list_cmd != "preview" && $a_list_cmd != "gethtml");
+		$keywords = $this->getKeywords($a_show_inactive, $_GET["blpg"]);
+		if($keywords || $may_edit_keywords)
 		{
 			$wtpl->setVariable("KEYWORDS_TITLE", $this->lng->txt("blog_keywords"));
 
@@ -1220,11 +1257,13 @@ class ilObjBlogGUI extends ilObject2GUI
 			{
 				$wtpl->setVariable("TXT_NO_KEYWORDS", $this->lng->txt("blog_no_keywords"));
 			}
-
-			if($_GET["blpg"] && $this->mayContribute($_GET["blpg"]) && !$a_link_template && $a_list_cmd != "preview")
+			
+			if($may_edit_keywords)
 			{			
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
 				$wtpl->setVariable("URL_EDIT_KEYWORDS", 
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));			
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));		
+				$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
 				$wtpl->setVariable("TXT_EDIT_KEYWORDS", $this->lng->txt("blog_edit_keywords"));			
 			}						
 		}
@@ -1247,10 +1286,11 @@ class ilObjBlogGUI extends ilObject2GUI
 	/**
 	 * Get keywords for single posting or complete blog
 	 * 
+	 * @param bool $a_show_inactive
 	 * @param int $a_posting_id
 	 * @return array
 	 */
-	function getKeywords($a_posting_id = null)
+	function getKeywords($a_show_inactive, $a_posting_id = null)
 	{						
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 		if($a_posting_id)
@@ -1264,11 +1304,16 @@ class ilObjBlogGUI extends ilObject2GUI
 			{
 				foreach($items as $item)
 				{
-					$keywords = array_merge($keywords, 
-						ilBlogPostingGUI::getKeywords($this->node_id, $item["id"]));			
+					if($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp"))
+					{					
+						$keywords = array_merge($keywords, 
+							ilBlogPostingGUI::getKeywords($this->node_id, $item["id"]));	
+					}
 				}
 			}						
-			return array_unique($keywords);
+			$keywords = array_unique($keywords);
+			asort($keywords);
+			return $keywords;
 		}
 	}
 	
@@ -1683,6 +1728,24 @@ class ilObjBlogGUI extends ilObject2GUI
 			$this->month = array_shift(array_keys($this->items));
 		}
 	}
+		
+	protected function filterItemsByKeyWord(array $a_items, $a_keyword)
+	{		
+		$res = array();
+		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
+		foreach($a_items as $month => $items)
+		{						
+			foreach($items as $item)
+			{
+				if(in_array($a_keyword,
+					ilBlogPostingGUI::getKeywords($this->node_id, $item["id"])))
+				{
+					$res[] = $item;
+				}
+			}
+		}
+		return $res;		
+	}	
 	
 	/**
 	 * Check if user may contribute at all and may edit posting (if given)
