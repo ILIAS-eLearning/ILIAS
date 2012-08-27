@@ -12824,6 +12824,9 @@ dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, the calendar is shown
 dcl#:#dcl_edit_table#:#Edit Table Settings
 dcl#:#dcl_msg_table_edited#:#Table Settings saved
 dcl#:#dcl_legend_placeholders#:#Placeholders
+common#:#obj_tool_settings#:#Tools
+common#:#obj_tool_settings_title#:#Tool Settings
+common#:#obj_tool_setting_calendar#:#Show Calendar
 crs#:#crs_copy#:#Copy Course
 cat#:#cat_copy#:#Copy Category
 grp#:#grp_copy#:#Copy Group

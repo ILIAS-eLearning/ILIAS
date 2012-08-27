@@ -2817,24 +2817,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}	
 	}
 
-	/**
-	 * 
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function copyWizardHasOptions($a_mode)
-	{
-	 	switch($a_mode)
-	 	{
-	 		case self::COPY_WIZARD_NEEDS_PAGE:
-	 			return true;
-	 		
-	 		default:
-	 			return false;
-	 	}
-	}
 	
 	/**
 	 * Save Sorting
