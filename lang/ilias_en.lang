@@ -12833,3 +12833,7 @@ webr#:#webr_copy#:#Copy Weblink
 exc#:#exc_copy#:#Copy Exercise
 assessment#:#tst_copy#:#Copy Test
 survey#:#svy_copy#:#Copy Survey
+poll#:#poll_population#:#%s Votes
+poll#:#poll_participants#:#Participants
+poll#:#poll_delete_votes#:#Delete All Votes
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?

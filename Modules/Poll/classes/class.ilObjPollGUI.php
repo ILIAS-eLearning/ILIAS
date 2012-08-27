@@ -143,12 +143,15 @@ class ilObjPollGUI extends ilObject2GUI
 
 		$ilHelp->setScreenIdComponent("poll");
 
-		if ($this->checkPermissionBool("read"))
+		if ($this->checkPermissionBool("write"))
 		{
 			$this->tabs_gui->addTab("content",
 				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, ""));
+		}
 		
+		if ($this->checkPermissionBool("read"))
+		{
 			$this->tabs_gui->addTab("id_info",
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass(array("ilobjpollgui", "ilinfoscreengui"), "showSummary"));
@@ -156,6 +159,10 @@ class ilObjPollGUI extends ilObject2GUI
 
 		if ($this->checkPermissionBool("write"))
 		{
+			$this->tabs_gui->addTab("participants",
+				$lng->txt("poll_participants"),
+				$this->ctrl->getLinkTarget($this, "showParticipants"));		
+			
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));			
@@ -287,18 +294,13 @@ class ilObjPollGUI extends ilObject2GUI
 	{
 		global $tpl, $ilTabs, $ilCtrl, $lng, $ilToolbar, $ilUser;
 		
-		if(!$this->checkPermissionBool("read"))
+		if(!$this->checkPermissionBool("write"))
 		{
 			ilUtil::sendInfo($lng->txt("no_permission"));
 			return;
 		}
 		
 		$ilTabs->activateTab("content");
-		
-		/*
-		$ilToolbar->addButton($lng->txt("poll_add_answer"), 
-			$ilCtrl->getLinkTarget($this, "addAnswer"));
-		*/
 		
 		if(!$a_form)
 		{
@@ -318,13 +320,6 @@ class ilObjPollGUI extends ilObject2GUI
 			
 			$a_form = $this->initQuestionForm($this->object->countVotes() || $active);
 		}
-
-		/*
-		// table gui
-		include_once "Modules/Poll/classes/class.ilPollAnswerTableGUI.php";
-		$tbl = new ilPollAnswerTableGUI($this, "render");
-		$tbl = "<br />".$tbl->getHTML();
-		*/
 		
 		$tpl->setContent($a_form->getHTML());		
 	}
@@ -412,7 +407,62 @@ class ilObjPollGUI extends ilObject2GUI
 		$form->setValuesByPost();
 		$this->render($form);
 	}
+	
+	function showParticipants()
+	{
+		global $lng, $ilTabs, $tpl;
 		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
+		$ilTabs->activateTab("participants");
+	
+		include_once "Modules/Poll/classes/class.ilPollAnswerTableGUI.php";
+		$tbl = new ilPollAnswerTableGUI($this, "showParticipants");	
+		$tpl->setContent($tbl->getHTML());		
+	}
+	
+	function confirmDeleteAllVotes()
+	{
+		global $lng, $tpl, $ilTabs;
+		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
+		$ilTabs->activateTab("participants");
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setHeaderText($lng->txt("poll_delete_votes_sure"));
+
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setCancel($lng->txt("cancel"), "showParticipants");
+		$cgui->setConfirm($lng->txt("confirm"), "deleteAllVotes");
+
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	function deleteAllVotes()
+	{
+		global $ilCtrl;
+		
+		if(!$this->checkPermissionBool("write"))
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
+		$this->object->deleteAllVotes();
+			
+		$ilCtrl->redirect($this, "showParticipants");
+	}
+				
 	function vote()
 	{
 		global $tree, $ilUser;
@@ -466,208 +516,6 @@ class ilObjPollGUI extends ilObject2GUI
 		include("ilias.php");
 		exit;
 	}
-	
-	
-	/*
-	//
-	// Answers
-	// 
-	
-	function addAnswer(ilPropertyFormGUI $a_form = null)
-	{
-		global $tpl, $ilTabs, $lng;
-	
-		if(!$this->checkPermissionBool("write"))
-		{
-			ilUtil::sendInfo($lng->txt("no_permission"));
-			return;
-		}
-			
-		$ilTabs->activateTab("content");
-		
-		if(!$a_form)
-		{
-			$a_form = $this->initAnswerForm();
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-	
-	function editAnswer(ilPropertyFormGUI $a_form = null)
-	{		
-		global $tpl, $ilTabs, $lng, $ilCtrl;
-		
-		if(!$this->checkPermissionBool("write"))
-		{
-			ilUtil::sendInfo($lng->txt("no_permission"));
-			return;
-		}
-		
-		$ilTabs->activateTab("content");
-		
-		$ilCtrl->setParameter($this, "pa_id", $_REQUEST["pa_id"]);
-		
-		if(!$a_form)
-		{
-			$a_form = $this->initAnswerForm($_REQUEST["pa_id"]);
-		}
-		
-		$tpl->setContent($a_form->getHTML());
-	}
-	
-	function initAnswerForm($a_answer_id = null)
-	{		
-		global $lng, $ilCtrl;
-		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();		
-
-		$ta = new ilTextAreaInputGUI($lng->txt("poll_answer"), "answer");
-		$ta->setRequired(true);
-		$ta->setCols(40);
-		$ta->setRows(2);
-		$form->addItem($ta);
-
-		if(!$a_answer_id)
-		{
-			$form->setFormAction($ilCtrl->getFormAction($this, "saveAnswer"));
-			$form->setTitle($lng->txt("poll_add_answer"));		
-			$form->addCommandButton("saveAnswer", $lng->txt("save"));
-		}
-		else
-		{
-			$answer = $this->object->getAnswer($a_answer_id);			
-			$ta->setValue($answer["answer"]);
-			
-			$form->setFormAction($ilCtrl->getFormAction($this, "updateAnswer"));
-			$form->setTitle($lng->txt("poll_edit_answer"));		
-			$form->addCommandButton("updateAnswer", $lng->txt("save"));
-		}
-		
-		$form->addCommandButton("render", $lng->txt("cancel"));
-
-		return $form;
-	}
-	
-	function saveAnswer()
-	{
-		global $lng, $ilCtrl;
-		
-		if(!$this->checkPermissionBool("write"))
-		{
-			ilUtil::sendInfo($lng->txt("no_permission"));
-			return;
-		}
-		
-		$form = $this->initAnswerForm();
-		if($form->checkInput())
-		{
-			$this->object->saveAnswer($form->getInput("answer"));
-			
-			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-			$ilCtrl->redirect($this, "render");								
-		}
-		
-		$form->setValuesByPost();
-		$this->addAnswer($form);
-	}
-	
-	function updateAnswer()
-	{
-		global $lng, $ilCtrl;
-		
-		if(!$this->checkPermissionBool("write"))
-		{
-			ilUtil::sendInfo($lng->txt("no_permission"));
-			return;
-		}
-		
-		$form = $this->initAnswerForm($_REQUEST["pa_id"]);
-		if($form->checkInput())
-		{
-			$this->object->updateAnswer($_REQUEST["pa_id"], $form->getInput("answer"));
-			
-			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-			$ilCtrl->redirect($this, "render");								
-		}
-		
-		$form->setValuesByPost();
-		$this->editAnswer($form);
-	}
-	
-	function confirmDeleteAnswers()
-	{
-		global $lng, $ilCtrl, $ilTabs, $tpl;
-		
-		if(!$this->checkPermissionBool("write"))
-		{
-			ilUtil::sendInfo($lng->txt("no_permission"));
-			return;
-		}
-		
-		if(!sizeof($_POST["answer_id"]))
-		{
-			ilUtil::sendFailure($lng->txt("select_one"), true);
-			$ilCtrl->redirect($this, "render");
-		}
-		
-		$ilTabs->activateTab("content");
-		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		$cgui->setHeaderText($lng->txt("poll_info_delete_sure"));
-
-		$cgui->setFormAction($this->ctrl->getFormAction($this));
-		$cgui->setCancel($lng->txt("cancel"), "render");
-		$cgui->setConfirm($lng->txt("confirm"), "deleteAnswers");
-	    
-		foreach ($_POST["answer_id"] as $id)
-		{			
-			$answer = $this->object->getAnswer($id);
-			
-			$cgui->addItem("answer_id[]", $id, $answer["answer"]);			
-		}
-		
-		$tpl->setContent($cgui->getHTML());				
-	}
-	
-	function deleteAnswers()
-	{
-		global $lng, $ilCtrl;
-		
-		if(!$this->checkPermissionBool("write"))
-		{
-			ilUtil::sendInfo($lng->txt("no_permission"));
-			return;
-		}
-		
-		if(!sizeof($_POST["answer_id"]))
-		{
-			ilUtil::sendFailure($lng->txt("select_one"), true);
-			$ilCtrl->redirect($this, "render");
-		}
-		
-		foreach ($_POST["answer_id"] as $id)
-		{	
-			$this->object->deleteAnswer($id);
-		}
-		
-		$this->object->rebuildAnswerPositions();
-		
-		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-		$ilCtrl->redirect($this, "render");
-	}
-	
-	function updateAnswerOrder()
-	{
-		global $ilCtrl, $lng;
-		
-		$this->object->updateAnswerPositions($_POST["pos"]);
-		
-		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-		$ilCtrl->redirect($this, "render");
-	}
-	*/	
 }
 
 ?>

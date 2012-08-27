@@ -24,26 +24,25 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("poll_sortorder"), "pos");
 		$this->addColumn($lng->txt("poll_answer"), "answer");
 		$this->addColumn($lng->txt("poll_percentage"), "percentage");
-		$this->addColumn($lng->txt("action"));
+		
+		$total = $this->getItems();		
+		$total = sprintf($lng->txt("poll_population"), $total);
 	
-		$this->setTitle($this->lng->txt("poll_answers"));
-		$this->setDescription($this->lng->txt("poll_question").": \"".
+		$this->setTitle($this->lng->txt("poll_question").": \"".
 			$a_parent_obj->object->getQuestion()."\"");
+		$this->setDescription($total);
 
-		// $this->setSelectAllCheckbox("item_id");
-		$this->addMultiCommand("confirmDeleteAnswers", $lng->txt("delete"));
-		$this->addCommandButton("updateAnswerOrder", $lng->txt("poll_update_order"));
+		$this->addCommandButton("confirmDeleteAllVotes", $lng->txt("poll_delete_votes"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.answer_row.html", "Modules/Poll");		
 		$this->setDefaultOrderField("pos");
 		$this->setDefaultOrderDirection("asc");
 		
-		$this->getItems();		
+		
 	}
 	
 	public function numericOrdering($a_field) 
@@ -59,6 +58,8 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 	{
 		$data = $this->parent_obj->object->getAnswers();
 		$perc = $this->parent_obj->object->getVotePercentages();
+		$total = $perc["total"];
+		$perc = $perc["perc"];
 		
 		// add current percentages
 		foreach($data as $idx => $item)
@@ -74,24 +75,15 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		}
 
 		$this->setData($data);		
+		
+		return $total;
 	}
 	
 	protected function fillRow($a_set)
-	{
-		global $ilCtrl, $lng;
-		
-		$this->tpl->setVariable("ID", $a_set["id"]);
-		$this->tpl->setVariable("VALUE_POS", $a_set["pos"]);
-		$this->tpl->setVariable("TXT_ANSWER", nl2br($a_set["answer"]));
-		
+	{		
+		$this->tpl->setVariable("VALUE_POS", $a_set["pos"]/10);
+		$this->tpl->setVariable("TXT_ANSWER", nl2br($a_set["answer"]));		
 		$this->tpl->setVariable("VALUE_PERCENTAGE", $a_set["percentage"]);
-		
-		$ilCtrl->setParameter($this->parent_obj, "pa_id", $a_set["id"]);
-		$url = $ilCtrl->getLinkTarget($this->parent_obj, "editAnswer");
-		$ilCtrl->setParameter($this->parent_obj, "pa_id", "");
-	
-		$this->tpl->setVariable("URL_EDIT", $url);					
-		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));	
 	}
 }
 
