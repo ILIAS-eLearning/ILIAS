@@ -221,6 +221,8 @@ class ilDataCollectionDatatype
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
+				if($field->getTextArea())
+					$input = new ilTextAreaInputGUI($title, 'field_'.$field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
