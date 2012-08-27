@@ -80,6 +80,8 @@ class ilSecuritySettings
 
 	private $password_change_on_first_login_enabled = self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED;
 	private $prevent_simultaneous_logins = self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS;
+	
+	private $protect_admin_role = false;
 
 	/**
 	 * Private constructor: use _getInstance()
@@ -378,6 +380,24 @@ class ilSecuritySettings
 	 {
 	 	return $this->password_change_on_first_login_enabled;
 	 }
+	 
+	 /**
+	  * Check if admin role is protected
+	  * @return type
+	  */
+	 public function isAdminRoleProtected()
+	 {
+		 return (bool) $this->protect_admin_role;
+	 }
+	 
+	 /**
+	  * Set admin role protection status
+	  * @param type $a_stat
+	  */
+	 public function protectedAdminRole($a_stat)
+	 {
+		 $this->protect_admin_role = $a_stat;
+	 }
 
 	/**
 	 * Save settings
@@ -401,6 +421,7 @@ class ilSecuritySettings
 
 		$this->settings->set('ps_password_change_on_first_login_enabled',(bool) $this->isPasswordChangeOnFirstLoginEnabled());
 		$this->settings->set('ps_prevent_simultaneous_logins', (int)$this->isPreventionOfSimultaneousLoginsEnabled());
+		$this->settings->set('ps_protect_admin', (int) $this->isAdminRoleProtected());
 	}
 	/**
 	 * read settings
@@ -437,6 +458,8 @@ class ilSecuritySettings
 
 		$this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled', self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED);
 		$this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins', self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS);
+		
+		$this->protect_admin_role = (bool) $this->settings->get('ps_protect_admin',$this->protect_admin_role);
 	}
 
 	/**

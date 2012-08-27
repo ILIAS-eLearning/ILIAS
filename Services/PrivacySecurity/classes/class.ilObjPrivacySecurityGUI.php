@@ -231,7 +231,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function showSecurity()
 	{
-		global $ilSetting;
+		global $ilSetting, $ilUser, $rbacreview;
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
@@ -339,6 +339,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$objCb->setOptionTitle($this->lng->txt('ps_prevent_simultaneous_logins_info'));
 		$form->addItem($objCb);
 		
+		// protected admin
+		$admin = new ilCheckboxInputGUI($GLOBALS['lng']->txt('adm_adm_role_protect'),'admin_role');
+		$admin->setDisabled(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID));
+		$admin->setInfo($GLOBALS['lng']->txt('adm_adm_role_protect_info'));
+		$admin->setChecked((int) $security->isAdminRoleProtected());
+		$admin->setValue(1);
+		$form->addItem($admin);
 
 		$form->addCommandButton('save_security',$this->lng->txt('save'));
 		$this->tpl->setContent($form->getHTML());
@@ -411,7 +418,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 	 */
 	public function save_security()
 	{
-		global $ilErr,$ilAccess, $ilSetting;
+		global $ilErr,$ilAccess, $ilSetting, $rbacreview, $ilUser;
 
 		if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
@@ -448,6 +455,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 		$ilSetting->set("suffix_repl_additional", $_POST["suffix_repl_additional"]);
 
         // validate settings
+		if($rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
+		{
+			$security->protectedAdminRole((int) $_POST['admin_role']);
+		}
+		
         $code = $security->validate();
 
         // if error code != 0, display error and do not save
