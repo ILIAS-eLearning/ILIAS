@@ -603,7 +603,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		}
 		
 		// :TODO: language handling
-		return (array)$keywords["en"];
+		$keywords = (array)$keywords["en"];		
+		asort($keywords);				
+		return $keywords;
 	}
 	
 	function saveKeywordsForm()
