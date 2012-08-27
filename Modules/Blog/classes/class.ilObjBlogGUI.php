@@ -1242,13 +1242,13 @@ class ilObjBlogGUI extends ilObject2GUI
 			if($keywords)
 			{
 				$wtpl->setCurrentBlock("keyword");
-				foreach($keywords as $keyword)
-				{					
+				foreach($keywords as $keyword => $counter)
+				{										
 					$ilCtrl->setParameter($this, "kwd", $keyword);
 					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 					$ilCtrl->setParameter($this, "kwd", "");
 					
-					$wtpl->setVariable("TXT_KEYWORD", $keyword);				
+					$wtpl->setVariable("TXT_KEYWORD", $keyword." (".$counter.")");				
 					$wtpl->setVariable("URL_KEYWORD", $url);
 					$wtpl->parseCurrentBlock();					
 				}
@@ -1292,29 +1292,33 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	function getKeywords($a_show_inactive, $a_posting_id = null)
 	{						
+		$keywords = array();
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 		if($a_posting_id)
 		{						
-			return ilBlogPostingGUI::getKeywords($this->node_id, $a_posting_id);
+			foreach(ilBlogPostingGUI::getKeywords($this->node_id, $a_posting_id) as $keyword)
+			{
+				$keywords[$keyword]++;
+			}
 		}
 		else
-		{	
-			$keywords = array();
+		{							
 			foreach($this->items as $month => $items)
 			{
 				foreach($items as $item)
 				{
 					if($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp"))
 					{					
-						$keywords = array_merge($keywords, 
-							ilBlogPostingGUI::getKeywords($this->node_id, $item["id"]));	
+						foreach(ilBlogPostingGUI::getKeywords($this->node_id, $item["id"]) as $keyword)
+						{
+							$keywords[$keyword]++;							
+						}
 					}
 				}
-			}						
-			$keywords = array_unique($keywords);
-			asort($keywords);
-			return $keywords;
+			}									
 		}
+		ksort($keywords);
+		return $keywords;
 	}
 	
 	/**
