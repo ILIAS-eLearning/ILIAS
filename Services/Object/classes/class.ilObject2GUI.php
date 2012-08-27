@@ -542,7 +542,6 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 * Functions to be overwritten
 	 */
 	protected function addLocatorItems() {}
-	public function copyWizardHasOptions($a_mode) { return false; }
 	
 	/**
 	 * Functions that must be overwritten

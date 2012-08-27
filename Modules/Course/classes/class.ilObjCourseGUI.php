@@ -18,7 +18,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilPageObjectGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
 *
 * 
 * @extends ilContainerGUI
@@ -1509,6 +1509,19 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("crs_info_settings",
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
+				
+				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+				if(ilObjectServiceSettingsGUI::isVisible(array(
+								ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+							)
+					))
+				{
+					$this->tabs_gui->addSubTab(
+							'tool_settings',
+							$GLOBALS['lng']->txt('obj_tool_settings'),
+							$this->ctrl->getLinkTargetByClass('ilObjectServiceSettingsGUI')
+						);
+				}
 
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
@@ -4362,7 +4375,23 @@ class ilObjCourseGUI extends ilContainerGUI
 				$output_gui = new ilCertificateGUI(new ilCourseCertificateAdapter($this->object));
 				$this->ctrl->forwardCommand($output_gui);
 				break;
-
+			
+			case 'ilobjectservicesettingsgui':
+				$this->ctrl->setReturn($this,'edit');
+				$this->setSubTabs("properties");
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('tool_settings');
+				
+				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+				$service = new ilObjectServiceSettingsGUI(
+						$this,
+						$this->object->getId(),
+						array(
+							ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+						));
+				$this->ctrl->forwardCommand($service);
+				break;
+				
 			default:
 				if(!$this->creation_mode)
 				{

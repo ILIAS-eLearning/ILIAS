@@ -14,6 +14,8 @@ class ilObjectGUI
 {
 	const COPY_WIZARD_NEEDS_PAGE = 1;
 	
+	
+	
 	/**
 	* ilias object
 	* @var		object ilias
@@ -1835,17 +1837,6 @@ class ilObjectGUI
 		ilUtil::redirect(ilLink::_getLink($new_obj->getRefId()));
 	}
 	
-	/**
-	 * Check if there is any modules specific option
-	 *
-	 * @access public
-	 * @param int wizard mode COPY_WIZARD_GENERAL,COPY_WIZARD_NEEDS_PAGE, COPY_WIZARD_OBJ_SPECIFIC
-	 * 
-	 */
-	public function copyWizardHasOptions($a_mode)
-	{
-	 	return false;
-	}
 	
 	/**
 	* Get center column
@@ -2074,6 +2065,9 @@ class ilObjectGUI
 		include("ilias.php");
 		exit;
 	}
+	
+	
+	
 
 } // END class.ilObjectGUI (3.10: 2896 loc)
 

@@ -12859,3 +12859,8 @@ if(!$ilDB->tableColumnExists('il_poll', 'period'))
 	);
 }
 ?>
+<#3737>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+

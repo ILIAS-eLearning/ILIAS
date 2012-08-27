@@ -17,7 +17,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI
 * 
 *
 * @extends ilObjectGUI
@@ -199,6 +199,23 @@ class ilObjGroupGUI extends ilContainerGUI
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
+			
+			case 'ilobjectservicesettingsgui':
+				$this->ctrl->setReturn($this,'edit');
+				$this->setSubTabs("settings");
+				$this->tabs_gui->activateTab('settings');
+				$this->tabs_gui->activateSubTab('tool_settings');
+				
+				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+				$service = new ilObjectServiceSettingsGUI(
+						$this,
+						$this->object->getId(),
+						array(
+							ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+						));
+				$this->ctrl->forwardCommand($service);
+				break;
+			
 
 			default:
 			
@@ -2827,6 +2844,20 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("grp_info_settings",
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
+
+				// Tool settings
+				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+				if(ilObjectServiceSettingsGUI::isVisible(array(
+								ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+							)
+					))
+				{
+					$this->tabs_gui->addSubTab(
+							'tool_settings',
+							$GLOBALS['lng']->txt('obj_tool_settings'),
+							$this->ctrl->getLinkTargetByClass('ilObjectServiceSettingsGUI')
+						);
+				}
 												 
 				// custom icon
 				if ($this->ilias->getSetting("custom_icons"))

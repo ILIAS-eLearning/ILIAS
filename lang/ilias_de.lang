@@ -12913,6 +12913,9 @@ dcl#:#dcl_edit_table#:#Tabelleneigenschaften bearbeiten
 dcl#:#dcl_msg_table_edited#:#Tabelleneigenschaften wurden gespeichert.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_any#:#alle
+common#:#obj_tool_settings#:#Tools
+common#:#obj_tool_settings_title#:#Tool-Einstellungen
+common#:#obj_tool_setting_calendar#:#Kalender anzeigen
 crs#:#crs_copy#:#Kurs kopieren
 cat#:#cat_copy#:#Kategorie kopieren
 grp#:#grp_copy#:#Gruppe kopieren

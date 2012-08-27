@@ -3409,25 +3409,6 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 	}
 	
-	// Copy wizard
-	/**
-	 * 
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function copyWizardHasOptions($a_mode)
-	{
-	 	switch($a_mode)
-	 	{
-	 		case self::COPY_WIZARD_NEEDS_PAGE:
-	 			return true;
-	 		
-	 		default:
-	 			return false;
-	 	}
-	}
 	
 	public function cloneWizardPageObject()
 	{
