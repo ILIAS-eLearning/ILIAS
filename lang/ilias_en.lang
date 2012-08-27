@@ -12846,3 +12846,6 @@ poll#:#poll_voting_period_unlimited#:#Unlimited
 poll#:#poll_voting_period_limited#:#Limited
 poll#:#poll_voting_period_start#:#Starting Time
 poll#:#poll_voting_period_end#:#Ending Time
+blog#:#blog_keywords#:#Keywords
+blog#:#blog_no_keywords#:#No keywords have been entered yet.
+blog#:#blog_edit_keywords#:#Edit Keywords

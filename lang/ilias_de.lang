@@ -12935,3 +12935,6 @@ poll#:#poll_voting_period_unlimited#:#Unlimitiert
 poll#:#poll_voting_period_limited#:#Limitiert
 poll#:#poll_voting_period_start#:#Beginn
 poll#:#poll_voting_period_end#:#Ende
+blog#:#blog_keywords#:#Schlagwörter
+blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
+blog#:#blog_edit_keywords#:#Schlagwörter bearbeiten

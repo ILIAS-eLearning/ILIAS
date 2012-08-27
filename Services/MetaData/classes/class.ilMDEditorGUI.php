@@ -491,12 +491,21 @@ class ilMDEditorGUI
 		}
 		if (count($keywords) == 0)
 		{
+			/*
 			$ta = new ilTextAreaInputGUI($this->lng->txt("keywords")."<br />".
 				"(".sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()).")",
 				"keywords[value][".$first_lang."]");
 			$ta->setCols(50);
 			$ta->setRows(4);
-			$this->form->addItem($ta);
+			$this->form->addItem($ta);			 
+			*/
+			$kw = new ilTextInputGUI($this->lng->txt("keywords"),
+				"keywords[value][".$first_lang."]");
+			$kw->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
+			$kw->setMaxLength(200);
+			$kw->setSize(50);
+			$kw->setMulti(true);
+			$this->form->addItem($kw);
 		}
 
 		// Lifecycle...
@@ -648,7 +657,7 @@ class ilMDEditorGUI
 				// new (form) version: no lang select anymore
 				$language = $lang;
 //				$language = $_POST["keyword"]["language"][$lang];
-//				$keywords = explode($this->md_settings->getDelimiter(), $keywords);
+//				$keywords = explode($this->md_settings->getDelimiter(), $keywords);				
 				foreach($keywords as $keyword)
 				{
 					if (trim($keyword) != "")

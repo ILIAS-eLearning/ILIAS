@@ -953,6 +953,8 @@ class ilObjBlogGUI extends ilObject2GUI
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
 				$alist->addItem($lng->txt("rename"), "rename", 
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle"));
+				$alist->addItem($lng->txt("blog_edit_keywords"), "keywords", 
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));				
 				$alist->addItem($lng->txt("blog_edit_date"), "editdate", 
 					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editdate"));
 				$alist->addItem($lng->txt("delete"), "delete",
@@ -1193,6 +1195,40 @@ class ilObjBlogGUI extends ilObject2GUI
 		$ilCtrl->setParameter($this, "bmn", $this->month);
 		$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
 		
+		
+		// keywords 		
+		$keywords = $this->getKeywords($_GET["blpg"]);
+		if($keywords || $a_list_cmd != "preview")
+		{
+			$wtpl->setVariable("KEYWORDS_TITLE", $this->lng->txt("blog_keywords"));
+
+			if($keywords)
+			{
+				$wtpl->setCurrentBlock("keyword");
+				foreach($keywords as $keyword)
+				{					
+					$ilCtrl->setParameter($this, "kwd", $keyword);
+					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+					$ilCtrl->setParameter($this, "kwd", "");
+					
+					$wtpl->setVariable("TXT_KEYWORD", $keyword);				
+					$wtpl->setVariable("URL_KEYWORD", $url);
+					$wtpl->parseCurrentBlock();					
+				}
+			}
+			else
+			{
+				$wtpl->setVariable("TXT_NO_KEYWORDS", $this->lng->txt("blog_no_keywords"));
+			}
+
+			if($_GET["blpg"] && $this->mayContribute($_GET["blpg"]) && !$a_link_template && $a_list_cmd != "preview")
+			{			
+				$wtpl->setVariable("URL_EDIT_KEYWORDS", 
+					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));			
+				$wtpl->setVariable("TXT_EDIT_KEYWORDS", $this->lng->txt("blog_edit_keywords"));			
+			}						
+		}
+		
 		// rss
 		if($this->object->hasRSS() && !$a_link_template && $a_list_cmd == "preview")
 		{
@@ -1207,7 +1243,35 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		return $wtpl->get();
 	}
-
+	
+	/**
+	 * Get keywords for single posting or complete blog
+	 * 
+	 * @param int $a_posting_id
+	 * @return array
+	 */
+	function getKeywords($a_posting_id = null)
+	{						
+		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
+		if($a_posting_id)
+		{						
+			return ilBlogPostingGUI::getKeywords($this->node_id, $a_posting_id);
+		}
+		else
+		{	
+			$keywords = array();
+			foreach($this->items as $month => $items)
+			{
+				foreach($items as $item)
+				{
+					$keywords = array_merge($keywords, 
+						ilBlogPostingGUI::getKeywords($this->node_id, $item["id"]));			
+				}
+			}						
+			return array_unique($keywords);
+		}
+	}
+	
 	/**
 	 * Build export file
 	 *
