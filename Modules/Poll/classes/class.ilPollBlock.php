@@ -85,6 +85,13 @@ class ilPollBlock extends ilCustomBlock
 			return false;						
 		}
 		
+		if($this->poll->getVotingPeriod() && 
+			($this->poll->getVotingPeriodBegin() > time() ||
+			$this->poll->getVotingPeriodEnd() < time()))
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -111,8 +118,8 @@ class ilPollBlock extends ilCustomBlock
 				return false;
 				
 			case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:				
-				if($this->poll->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION &&
-					$this->poll->getAccessEnd() < time())
+				if($this->poll->getVotingPeriod() &&
+					$this->poll->getVotingPeriodEnd() < time())
 				{
 					return true;
 				}

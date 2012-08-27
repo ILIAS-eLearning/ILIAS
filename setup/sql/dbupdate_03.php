@@ -12823,3 +12823,39 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type) ".
         "7, 'rating', 'integer'".
         ")");
 ?>
+<#3736>
+<?php
+if(!$ilDB->tableColumnExists('il_poll', 'period'))
+{
+	$ilDB->addTableColumn(
+		'il_poll',
+		'period',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->addTableColumn(
+		'il_poll',
+		'period_begin',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+	$ilDB->addTableColumn(
+		'il_poll',
+		'period_end',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+}
+?>

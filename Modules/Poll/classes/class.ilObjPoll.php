@@ -23,11 +23,14 @@ class ilObjPoll extends ilObject2
 	protected $question; // [string]
 	protected $image; // [string]
 	protected $view_results; // [int]
+	protected $period; // [bool]
+	protected $period_begin; // [timestamp]
+	protected $period_end; // [timestamp]
 	
 	const VIEW_RESULTS_ALWAYS = 1;
 	const VIEW_RESULTS_NEVER = 2;
 	const VIEW_RESULTS_AFTER_VOTE = 3;
-	const VIEW_RESULTS_AFTER_PERIOD = 4; // ???
+	const VIEW_RESULTS_AFTER_PERIOD = 4; 
 	
 	function __construct($a_id = 0, $a_reference = true) 
 	{
@@ -123,6 +126,36 @@ class ilObjPoll extends ilObject2
 	{
 		return $this->view_results;
 	}
+	
+	function setVotingPeriod($a_value)
+	{
+		$this->period = (bool)$a_value;
+	}
+	
+	function getVotingPeriod()
+	{
+		return $this->period;
+	}
+	
+	function setVotingPeriodBegin($a_value)
+	{
+		$this->period_begin = (int)$a_value;
+	}
+	
+	function getVotingPeriodBegin()
+	{
+		return $this->period_begin;
+	}
+	
+	function setVotingPeriodEnd($a_value)
+	{
+		$this->period_end = (int)$a_value;
+	}
+	
+	function getVotingPeriodEnd()
+	{
+		return $this->period_end;
+	}
 
 	protected function doRead()
 	{
@@ -135,6 +168,9 @@ class ilObjPoll extends ilObject2
 		$this->setImage($row["image"]);
 		$this->setOnline($row["online_status"]);
 		$this->setViewResults($row["view_results"]);
+		$this->setVotingPeriod($row["period"]);
+		$this->setVotingPeriodBegin($row["period_begin"]);
+		$this->setVotingPeriodEnd($row["period_end"]);
 		
 		if($this->ref_id)
 		{
@@ -152,9 +188,12 @@ class ilObjPoll extends ilObject2
 			"question" => array("text", $this->getQuestion()),
 			"image" => array("text", $this->getImage()),
 			"online_status" => array("integer", $this->isOnline()),
-			"view_results" => array("integer", $this->getViewResults())
+			"view_results" => array("integer", $this->getViewResults()),
+			"period" => array("integer", $this->getVotingPeriod()),
+			"period_begin" => array("integer", $this->getVotingPeriodBegin()),
+			"period_end" => array("integer", $this->getVotingPeriodEnd())
 		);
-		
+						
 		return $fields;
 	}
 

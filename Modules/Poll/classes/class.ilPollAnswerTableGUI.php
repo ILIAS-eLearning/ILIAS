@@ -29,13 +29,15 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("poll_percentage"), "percentage");
 		
 		$total = $this->getItems();		
-		$total = sprintf($lng->txt("poll_population"), $total);
-	
+		
 		$this->setTitle($this->lng->txt("poll_question").": \"".
 			$a_parent_obj->object->getQuestion()."\"");
-		$this->setDescription($total);
+		$this->setDescription(sprintf($lng->txt("poll_population"), $total));
 
-		$this->addCommandButton("confirmDeleteAllVotes", $lng->txt("poll_delete_votes"));
+		if($total)
+		{
+			$this->addCommandButton("confirmDeleteAllVotes", $lng->txt("poll_delete_votes"));
+		}
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.answer_row.html", "Modules/Poll");		
