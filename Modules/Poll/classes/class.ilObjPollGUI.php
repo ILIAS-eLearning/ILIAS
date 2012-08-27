@@ -52,19 +52,9 @@ class ilObjPollGUI extends ilObject2GUI
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		global $lng;					
-				
-		$results = new ilRadioGroupInputGUI($lng->txt("poll_view_results"), "results");
-		$results->setRequired(true);
-		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_always"), 
-			ilObjPoll::VIEW_RESULTS_ALWAYS));
-		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_never"), 
-			ilObjPoll::VIEW_RESULTS_NEVER));
-		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_vote"), 
-			ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
-		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_period"), 
-			ilObjPoll::VIEW_RESULTS_AFTER_PERIOD));
-		$a_form->addItem($results);			
-			
+		
+		// activation
+		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		$this->lng->loadLanguageModule('rep');
 		
@@ -99,13 +89,58 @@ class ilObjPollGUI extends ilObject2GUI
 				$end->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
 				$opt->addSubItem($end);
 				
+				/*
 				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
 				$visible->setInfo($this->lng->txt('poll_activation_limited_visibility_info'));
 				$opt->addSubItem($visible);
+				*/
 				
 			$act_type->addOption($opt);
 		
 		$a_form->addItem($act_type);				
+		
+		
+		// period/results
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('poll_voting_period_and_results'));
+		$a_form->addItem($section);
+		
+		$prd = new ilRadioGroupInputGUI($this->lng->txt('poll_voting_period'),'period');
+		
+			$opt = new ilRadioOption($this->lng->txt('poll_voting_period_unlimited'), 0);		
+			$prd->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('poll_voting_period_limited'), 1);			
+			$prd->addOption($opt);
+		
+			$date = $this->object->getVotingPeriodBegin();
+
+			$start = new ilDateTimeInputGUI($this->lng->txt('poll_voting_period_start'),'period_begin');
+			$start->setShowTime(true);		
+			$start->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$opt->addSubItem($start);
+
+			$date = $this->object->getVotingPeriodEnd();
+
+			$end = new ilDateTimeInputGUI($this->lng->txt('poll_voting_period_end'),'period_end');			
+			$end->setShowTime(true);			
+			$end->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$opt->addSubItem($end);
+			
+		$a_form->addItem($prd);	
+						
+		$results = new ilRadioGroupInputGUI($lng->txt("poll_view_results"), "results");
+		$results->setRequired(true);
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_always"), 
+			ilObjPoll::VIEW_RESULTS_ALWAYS));
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_never"), 
+			ilObjPoll::VIEW_RESULTS_NEVER));
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_vote"), 
+			ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
+		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_period"), 
+			ilObjPoll::VIEW_RESULTS_AFTER_PERIOD));
+		$a_form->addItem($results);												
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -117,7 +152,10 @@ class ilObjPollGUI extends ilObject2GUI
 		$a_values["access_type"] = $this->object->getAccessType();
 		// $a_values["access_begin"] = $this->object->getAccessBegin();
 		// $a_values["access_end"] = $this->object->getAccessEnd();
-		$a_values["access_visiblity"] = $this->object->getAccessVisibility();
+		// $a_values["access_visiblity"] = $this->object->getAccessVisibility();
+		$a_values["period"] = $this->object->getVotingPeriod();
+		$a_values["period_begin"] = $this->object->getVotingPeriodBegin();
+		$a_values["period_end"] = $this->object->getVotingPeriodEnd();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -133,8 +171,16 @@ class ilObjPollGUI extends ilObject2GUI
 			$this->object->setAccessBegin($date->get(IL_CAL_UNIX));
 			$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);			
 			$this->object->setAccessEnd($date->get(IL_CAL_UNIX));
-			$this->object->setAccessVisibility($a_form->getInput("access_visiblity"));
+			// $this->object->setAccessVisibility($a_form->getInput("access_visiblity"));			
 		}		
+		$this->object->setVotingPeriod($a_form->getInput("period"));
+		if($this->object->getVotingPeriod())
+		{		
+			$date = new ilDateTime($_POST['period_begin']['date'] . ' ' . $_POST['period_begin']['time'], IL_CAL_DATETIME);
+			$this->object->setVotingPeriodBegin($date->get(IL_CAL_UNIX));
+			$date = new ilDateTime($_POST['period_end']['date'] . ' ' . $_POST['period_end']['time'], IL_CAL_DATETIME);			
+			$this->object->setVotingPeriodEnd($date->get(IL_CAL_UNIX));
+		}
 	}
 
 	function setTabs()
@@ -450,7 +496,7 @@ class ilObjPollGUI extends ilObject2GUI
 	
 	function deleteAllVotes()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		if(!$this->checkPermissionBool("write"))
 		{

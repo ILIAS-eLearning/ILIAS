@@ -12691,7 +12691,7 @@ poll#:#poll_view_results#:#Ergebnisse anzeigen
 poll#:#poll_view_results_always#:#Immer
 poll#:#poll_view_results_never#:#Niemals
 poll#:#poll_view_results_after_vote#:#Nach Stimmabgabe
-poll#:#poll_view_results_after_period#:#Nach Stimmperiode (siehe Sichtbarkeit unten)
+poll#:#poll_view_results_after_period#:#Nach Stimmperiode
 poll#:#poll_activation_online_info#:#Wählen Sie diese Einstellung, um die Abstimmung für Benutzer verfügbar zumachen.
 poll#:#poll_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Abstimmung nur während eines definierten Zeitraums freizuschalten.
 poll#:#poll_availability_until_info#:#Falls nicht online, haben nur Administratoren Zugriff auf die Abstimmung.
@@ -12926,3 +12926,9 @@ poll#:#poll_population#:#%s abgegebene Stimmen
 poll#:#poll_participants#:#Teilnehmer
 poll#:#poll_delete_votes#:#Alle Stimmen löschen
 poll#:#poll_delete_votes_sure#:#Sind sie sicher, dass Sie alle Stimmen löschen möchten?
+poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
+poll#:#poll_voting_period#:#Stimmperiode
+poll#:#poll_voting_period_unlimited#:#Unlimitiert
+poll#:#poll_voting_period_limited#:#Limitiert
+poll#:#poll_voting_period_start#:#Beginn
+poll#:#poll_voting_period_end#:#Ende
