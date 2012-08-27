@@ -258,9 +258,9 @@ class ilDataCollectionTable
 		return $this->title;
 	}
 	
-	/*
+	/**
 	 * getCollectionObject
-	 * @return object
+	 * @return ilObjDataCollection
 	 */
 	public function getCollectionObject()
 	{
