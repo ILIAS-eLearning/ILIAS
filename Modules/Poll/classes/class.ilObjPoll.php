@@ -38,6 +38,7 @@ class ilObjPoll extends ilObject2
 		$this->setOnline(false);
 		$this->setViewResults(self::VIEW_RESULTS_AFTER_VOTE);
 		$this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
+		$this->setVotingPeriod(false);
 		
 		parent::__construct($a_id, $a_reference);			
 	}
