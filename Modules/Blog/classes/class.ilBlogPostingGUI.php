@@ -530,6 +530,149 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->ctrl->redirect($this, "edit");
 	}
 	
+	function editKeywords(ilPropertyFormGUI $a_form = null)
+	{
+		global $ilTabs, $tpl;
+		
+		if (!$this->checkAccess("write"))
+		{
+			return;
+		}
+		
+		$ilTabs->activateTab("pg");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initKeywordsForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	protected function initKeywordsForm()
+	{
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();		
+		$form->setFormAction($this->ctrl->getFormAction($this, "saveKeywordsForm"));
+		$form->setTitle($this->lng->txt("blog_edit_keywords"));
+		
+		$txt = new ilTextInputGUI($this->lng->txt("blog_keywords"), "keywords");
+		$txt->setRequired(true);
+		$txt->setMulti(true);
+		$txt->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
+		$txt->setMaxLength(200);
+		$txt->setSize(50);
+		$form->addItem($txt);
+		
+		$txt->setValue(self::getKeywords($this->node_id, $this->getBlogPosting()->getId()));
+
+		$form->addCommandButton("saveKeywordsForm", $this->lng->txt("save"));
+		$form->addCommandButton("preview", $this->lng->txt("cancel"));
+
+		return $form;				
+	}
+	
+	protected static function getMDSection($a_node_id, $a_posting_id)
+	{							
+		// general section available?
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md_obj =& new ilMD(ilObject::_lookupObjId($a_node_id), 
+			$a_posting_id, "blp");
+		if(!is_object($md_section = $md_obj->getGeneral()))
+		{
+			$md_section = $md_obj->addGeneral();
+			$md_section->save();
+		}						
+		
+		return $md_section;
+	}
+	
+	public static function getKeywords($a_node_id, $a_posting_id)
+	{
+		$md_section = self::getMDSection($a_node_id, $a_posting_id);
+		
+		$keywords = array();
+		foreach($ids = $md_section->getKeywordIds() as $id)
+		{
+			$md_key = $md_section->getKeyword($id);
+			if (trim($md_key->getKeyword()) != "")
+			{
+				$keywords[$md_key->getKeywordLanguageCode()][]
+					= $md_key->getKeyword();
+			}
+		}
+		
+		// :TODO: language handling
+		return (array)$keywords["en"];
+	}
+	
+	function saveKeywordsForm()
+	{
+		$form = $this->initKeywordsForm();
+		if($form->checkInput())
+		{
+			$md_section = self::getMDSection($this->node_id, $this->getBlogPosting()->getId());
+			
+			$keywords = $form->getInput("keywords");
+			if(is_array($keywords))
+			{
+				// :TODO: language handling
+				$keywords = array("en"=>$keywords);
+				
+				$new_keywords = array();
+				foreach($keywords as $lang => $keywords)
+				{			
+					foreach($keywords as $keyword)
+					{
+						if (trim($keyword) != "")
+						{
+							$new_keywords[$lang][] = trim($keyword);
+						}
+					}
+				}
+
+				// update existing author entries (delete if not entered)
+				foreach($ids = $md_section->getKeywordIds() as $id)
+				{
+					$md_key = $md_section->getKeyword($id);
+					$lang = $md_key->getKeywordLanguageCode();
+
+					// entered keyword already exists
+					if (is_array($new_keywords[$lang]) &&
+						in_array($md_key->getKeyword(), $new_keywords[$lang]))
+					{
+						unset($new_keywords[$lang]
+							[array_search($md_key->getKeyword(), $new_keywords[$lang])]);
+					}
+					else  // existing keyword has not been entered again -> delete
+					{
+						$md_key->delete();
+					}
+				}
+
+				// insert entered, but not existing keywords
+				foreach ($new_keywords as $lang => $key_arr)
+				{
+					foreach($key_arr as $keyword)
+					{
+						if ($keyword != "")
+						{
+							$md_key = $md_section->addKeyword();
+							$md_key->setKeyword(ilUtil::stripSlashes($keyword));
+							$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
+							$md_key->save();
+						}
+					}
+				}
+			}
+			
+			$this->ctrl->redirect($this, "preview");
+		}
+		
+		$form->setValuesByPost();
+		$this->editKeywords($form);
+	}
+	
 	/**
 	 * Get first text paragraph of page
 	 * 
