@@ -43,6 +43,7 @@ class ilDataCollectionField
 	const PROPERTYID_REGEX = 2;
 	const PROPERTYID_REFERENCE = 3;
 	const PROPERTYID_URL = 4;
+	const PROPERTYID_TEXTAREA = 5;
 
 
 
@@ -277,6 +278,16 @@ class ilDataCollectionField
 		$l = self::PROPERTYID_LENGTH;
 		
 		return $props[$l];
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getTextArea(){
+		$props = $this->getProperties();
+		$t = self::PROPERTYID_TEXTAREA;
+
+		return $props[$t]->value;
 	}
 	
 	/*
