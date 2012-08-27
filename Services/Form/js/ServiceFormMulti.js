@@ -210,7 +210,7 @@ var ilMultiFormValues = {
 
 		// try to set value 
 		if(preset != '') {
-			$(element).find('select[id*="' + group_id + '"] option[value=' + preset + ']').attr('selected', true);
+			$(element).find('select[id*="' + group_id + '"] option[value="' + preset + '"]').attr('selected', true);
 		}
 		else {
 			$(element).find('select[id*="' + group_id + '"] option:selected').removeAttr('selected');

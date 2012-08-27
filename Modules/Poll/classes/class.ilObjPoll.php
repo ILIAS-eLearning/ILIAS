@@ -507,12 +507,22 @@ class ilObjPoll extends ilObject2
 		
 		if($this->getId())
 		{
-			$ilDB->manipulate("DELETE FROM il_poll_vote".
-				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer"));
+			$this->deleteAllVotes();
 			
 			$ilDB->manipulate("DELETE FROM il_poll_answer".
 				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer"));
 		}
+	}
+	
+	public function deleteAllVotes()
+	{
+		global $ilDB;
+		
+		if($this->getId())
+		{
+			$ilDB->manipulate("DELETE FROM il_poll_vote".
+				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer"));
+		}			
 	}
 		
 	function saveAnswers(array $a_answers)
@@ -636,7 +646,7 @@ class ilObjPoll extends ilObject2
 			$res[$id]["perc"] = $item["abs"]/$cnt*100;
 		}
 		
-		return $res;
+		return array("perc"=>$res, "total"=>$cnt);
 	}	
 }
 

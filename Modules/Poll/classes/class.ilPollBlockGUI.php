@@ -134,6 +134,10 @@ class ilPollBlockGUI extends ilBlockGUI
 			if($this->poll_block->maySeeResults($ilUser->getId()))
 			{	
 				$perc = $this->poll_block->getPoll()->getVotePercentages();
+				$total = $perc["total"];
+				$perc = $perc["perc"];
+				
+				$this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
 
 				$this->tpl->setCurrentBlock("answer_result");
 				foreach($a_poll->getAnswers() as $item)
