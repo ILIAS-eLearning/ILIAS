@@ -12913,3 +12913,12 @@ dcl#:#dcl_edit_table#:#Tabelleneigenschaften bearbeiten
 dcl#:#dcl_msg_table_edited#:#Tabelleneigenschaften wurden gespeichert.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
 dcl#:#dcl_any#:#alle
+crs#:#crs_copy#:#Kurs kopieren
+cat#:#cat_copy#:#Kategorie kopieren
+grp#:#grp_copy#:#Gruppe kopieren
+forum#:#frm_copy#:#Forum kopieren
+file#:#file_copy#:#Datei kopieren
+webr#:#webr_copy#:#Weblink kopieren
+exc#:#exc_copy#:#Übung kopieren
+assessment#:#tst_copy#:#Test kopieren
+survey#:#svy_coppy#:#Umfrage kopieren
