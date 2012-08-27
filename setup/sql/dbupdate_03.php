@@ -12816,3 +12816,10 @@ if($ilDB->tableColumnExists('il_dcl_table', 'blocked'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3735>
+<?php
+$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type) ".
+        " VALUES (".
+        "7, 'rating', 'integer'".
+        ")");
+?>

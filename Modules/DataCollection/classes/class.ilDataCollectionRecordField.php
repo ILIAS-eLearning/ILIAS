@@ -8,6 +8,7 @@
  */
 
 require_once './Modules/DataCollection/classes/class.ilDataCollectionInputException.php';
+require_once 'class.ilDataCollectionRatingField.php';
 
 class ilDataCollectionRecordField
 {
@@ -191,6 +192,19 @@ class ilDataCollectionRecordField
 	public function getRecord()
 	{
 		return $this->record;
+	}
+
+	/**
+	 * This method is in order to get the correct class after using it's constructor.
+	 * @return ilDataCollectionRecordField If this recordField is a rating you'll get back a ilDaraCollectionRating field, otherwise you get a record Field.
+	 */
+	public function getInstance(){
+		switch($this->getField()->getDatatypeId()){
+			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+				return new ilDataCollectionRatingField($this->getRecord(), $this->getField());
+			default:
+				return $this;
+		}
 	}
 
 }

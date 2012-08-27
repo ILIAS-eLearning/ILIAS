@@ -23,6 +23,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionTableEditGUI, ilDataCollectionFieldListGUI, ilObjFileGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilDataCollectionRecordListViewdefinitionGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilObjUserGUI
+ * @ilCtrl_Calls ilObjDataCollectionGUI: ilRatingGUI
  *
  * @extends ilObject2GUI
  */
@@ -211,6 +212,13 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$this->ctrl->forwardCommand($recordview_gui);
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
+				break;
+
+			case "ilratinggui":
+				$rgui = new ilRatingGUI();
+				$rgui->setObject($_GET['record_id'], "dcl_record", $_GET["field_id"], "dcl_field");
+				$rgui->executeCommand();
+				$ilCtrl->redirectByClass("ilDataCollectionRecordListGUI", "listRecords");
 				break;
 
 			default:

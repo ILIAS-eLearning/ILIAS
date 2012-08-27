@@ -38,6 +38,8 @@ class ilDataCollectionDatatype
 	const INPUTFORMAT_DATETIME 		= 5;
 	// FILE
 	const INPUTFORMAT_FILE 			= 6;
+	// Rating
+	const INPUTFORMAT_RATING 		= 7;
 
 
 	/**
@@ -210,6 +212,7 @@ class ilDataCollectionDatatype
 	 */
 	static function getInputField(ilDataCollectionField $field)
 	{
+		global $lng;
 		$type_id = $field->getDatatypeId();
 		$input = NULL;
 		$title = $field->getTitle();
@@ -234,6 +237,12 @@ class ilDataCollectionDatatype
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				$input = new ilSelectInputGUI($title, 'field_'.$field->getId());
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
+				$input->setValue($lng->txt("dcl_editable_in_table_gui"));
+				$input->setInfo($lng->txt("dcl_editable_in_table_gui"));
+				$input->setDisabled(true);
 				break;
 		}
 		return $input;
@@ -284,6 +293,11 @@ class ilDataCollectionDatatype
 				}
 				$input->setOptions($options);
 				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_SELECT, false, $field->getId());
+				$options = array("" => $lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5");
+				$input->setOptions($options);
+				break;
 		}
 		
 		if($input != NULL)
@@ -331,8 +345,13 @@ class ilDataCollectionDatatype
 				if(!$filter || $filter == $value)
 					$pass = true;
 				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
+				if(!$filter || $filter <= $value['avg'])
+					$pass = true;
+				break;
 		}
 
+		//for the fields owner and last edit by, we check the name, not the ID
 		if(($field->getId() == "owner" || $field->getId() == "last_edit_by") && $filter)
 		{
 			$pass = false;
