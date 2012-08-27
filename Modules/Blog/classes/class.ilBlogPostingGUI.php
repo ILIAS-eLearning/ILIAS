@@ -676,6 +676,37 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	}
 	
 	/**
+	 * Keyword list for autocomplete
+	 *
+	 * @param
+	 * @return
+	 */
+	function keywordAutocomplete()
+	{		
+		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
+		$res = ilMDKeyword::_searchKeywords(ilUtil::stripSlashes("%".$_GET["term"]."%"),
+			"blp", ilObject::_lookupObjId($this->node_id), true);
+		
+		$result = array();
+		$cnt = 0;
+		foreach ($res as $r)
+		{
+			if ($cnt++ > 19)
+			{
+				continue;
+			}
+			$entry = new stdClass();
+			$entry->value = $r;
+			$entry->label = $r;
+			$result[] = $entry;
+		}
+
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';
+		echo ilJsonUtil::encode($result);
+		exit;
+	}
+	
+	/**
 	 * Get first text paragraph of page
 	 * 
 	 * @param int $a_id
