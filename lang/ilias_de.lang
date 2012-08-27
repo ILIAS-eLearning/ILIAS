@@ -12912,7 +12912,10 @@ dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich lösche
 dcl#:#dcl_edit_table#:#Tabelleneigenschaften bearbeiten
 dcl#:#dcl_msg_table_edited#:#Tabelleneigenschaften wurden gespeichert.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
-dcl#:#dcl_any#:#alle
+dcl#:#dcl_any#:#Alle
+dcl#:#dcl_rating#:#Rating
+dcl#:#dcl_editable_in_table_gui#:#Die Bewertung kann in der Tabellenansicht abgegeben werden.
+dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender anzeigen
