@@ -1291,12 +1291,12 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @return array
 	 */
 	function getKeywords($a_show_inactive, $a_posting_id = null)
-	{						
+	{								
 		$keywords = array();
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 		if($a_posting_id)
 		{						
-			foreach(ilBlogPostingGUI::getKeywords($this->node_id, $a_posting_id) as $keyword)
+			foreach(ilBlogPostingGUI::getKeywords($this->obj_id, $a_posting_id) as $keyword)
 			{
 				$keywords[$keyword]++;
 			}
@@ -1309,7 +1309,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				{
 					if($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp"))
 					{					
-						foreach(ilBlogPostingGUI::getKeywords($this->node_id, $item["id"]) as $keyword)
+						foreach(ilBlogPostingGUI::getKeywords($this->obj_id, $item["id"]) as $keyword)
 						{
 							$keywords[$keyword]++;							
 						}
@@ -1742,7 +1742,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			foreach($items as $item)
 			{
 				if(in_array($a_keyword,
-					ilBlogPostingGUI::getKeywords($this->node_id, $item["id"])))
+					ilBlogPostingGUI::getKeywords($this->obj_id, $item["id"])))
 				{
 					$res[] = $item;
 				}

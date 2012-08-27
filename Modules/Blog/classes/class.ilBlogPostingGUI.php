@@ -563,33 +563,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$txt->setMaxLength(200);
 		$txt->setSize(50);
 		$form->addItem($txt);
-		
-		$txt->setValue(self::getKeywords($this->node_id, $this->getBlogPosting()->getId()));
-
-		$form->addCommandButton("saveKeywordsForm", $this->lng->txt("save"));
-		$form->addCommandButton("preview", $this->lng->txt("cancel"));
-
-		return $form;				
-	}
-	
-	protected static function getMDSection($a_node_id, $a_posting_id)
-	{							
-		// general section available?
-		include_once 'Services/MetaData/classes/class.ilMD.php';
-		$md_obj =& new ilMD(ilObject::_lookupObjId($a_node_id), 
-			$a_posting_id, "blp");
-		if(!is_object($md_section = $md_obj->getGeneral()))
-		{
-			$md_section = $md_obj->addGeneral();
-			$md_section->save();
-		}						
-		
-		return $md_section;
-	}
-	
-	public static function getKeywords($a_node_id, $a_posting_id)
-	{
-		$md_section = self::getMDSection($a_node_id, $a_posting_id);
+				
+		$md_section = $this->getMDSection();
 		
 		$keywords = array();
 		foreach($ids = $md_section->getKeywordIds() as $id)
@@ -602,10 +577,36 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			}
 		}
 		
-		// :TODO: language handling
-		$keywords = (array)$keywords["en"];		
-		asort($keywords);				
-		return $keywords;
+		// :TODO: language handling				
+		$txt->setValue($keywords["en"]);
+
+		$form->addCommandButton("saveKeywordsForm", $this->lng->txt("save"));
+		$form->addCommandButton("preview", $this->lng->txt("cancel"));
+
+		return $form;				
+	}
+	
+	protected function getMDSection()
+	{									
+		if($this->isInWorkspace())
+		{
+			$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
+		}
+		else
+		{
+			$obj_id = ilObject::_lookupObjId($this->node_id);
+		}
+		
+		// general section available?
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		$md_obj =& new ilMD($obj_id, $this->getBlogPosting()->getId(), "blp");
+		if(!is_object($md_section = $md_obj->getGeneral()))
+		{
+			$md_section = $md_obj->addGeneral();
+			$md_section->save();
+		}						
+		
+		return $md_section;
 	}
 	
 	function saveKeywordsForm()
@@ -613,7 +614,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$form = $this->initKeywordsForm();
 		if($form->checkInput())
 		{
-			$md_section = self::getMDSection($this->node_id, $this->getBlogPosting()->getId());
+			$md_section = $this->getMDSection();
 			
 			$keywords = $form->getInput("keywords");
 			if(is_array($keywords))
@@ -675,17 +676,26 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->editKeywords($form);
 	}
 	
-	/**
-	 * Keyword list for autocomplete
-	 *
-	 * @param
-	 * @return
-	 */
+	public static function getKeywords($a_obj_id, $a_posting_id)
+	{
+		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
+		return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
+	}
+	
 	function keywordAutocomplete()
 	{		
+		if($this->isInWorkspace())
+		{
+			$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
+		}
+		else
+		{
+			$obj_id = ilObject::_lookupObjId($this->node_id);
+		}
+		
 		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 		$res = ilMDKeyword::_searchKeywords(ilUtil::stripSlashes("%".$_GET["term"]."%"),
-			"blp", ilObject::_lookupObjId($this->node_id), true);
+			"blp", $obj_id, true);
 		
 		$result = array();
 		$cnt = 0;
