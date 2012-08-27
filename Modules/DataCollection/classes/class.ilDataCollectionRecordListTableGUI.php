@@ -82,7 +82,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function fillHeaderExcel($worksheet, &$row)
 	{
-		global $ilLog;
 		$this->writeFilterToSession();
 		$this->initFilter();
 		$this->setData($this->table->getRecordsByFilter($this->filter));

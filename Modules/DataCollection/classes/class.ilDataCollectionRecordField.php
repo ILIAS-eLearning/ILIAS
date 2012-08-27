@@ -83,7 +83,7 @@ class ilDataCollectionRecordField
 	public function delete()
 	{
 		global $ilDB;
-		
+
 		$datatype = $this->field->getDatatype();
 		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
 		$ilDB->manipulate($query);

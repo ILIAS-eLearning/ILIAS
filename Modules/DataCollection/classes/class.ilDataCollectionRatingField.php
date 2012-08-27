@@ -66,5 +66,22 @@ class ilDataCollectionRatingField extends ilDataCollectionRecordField{
 		return ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
 			$this->getField()->getId(), "dcl_field");
 	}
+
+	/*
+	  * delete
+	  */
+	public function delete()
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM il_rating WHERE ".
+			"obj_id = ".$ilDB->quote((int) $this->getRecord()->getId(), "integer")." AND ".
+			"obj_type = ".$ilDB->quote("dcl_record", "text")." AND ".
+			"sub_obj_id = ".$ilDB->quote((int) $this->getField()->getId(), "integer")." AND ".
+			$ilDB->equals("sub_obj_type", "dcl_field", "text", true));
+
+		$query2 = "DELETE FROM il_dcl_record_field WHERE id = ".$this->getId();
+		$ilDB->manipulate($query2);
+	}
 }
 ?>

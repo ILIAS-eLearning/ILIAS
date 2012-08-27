@@ -377,13 +377,14 @@ class ilDataCollectionTable
 	public function deleteField($field_id)
 	{
 		$field = new ilDataCollectionField($field_id);
-		$field->doDelete();
 		$records = $this->getRecords();
-		
+
 		foreach($records as $record)
 		{
 			$record->deleteField($field_id);
 		}
+
+		$field->doDelete();
 	}
 	
 	

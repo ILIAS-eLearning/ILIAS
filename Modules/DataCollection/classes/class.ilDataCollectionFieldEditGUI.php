@@ -157,7 +157,7 @@ class ilDataCollectionFieldEditGUI
 	{
 		global $ilCtrl;
 		
-		$this->field_obj->doDelete();
+		$this->table->deleteField($this->field_obj->getId());
 		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
 	
