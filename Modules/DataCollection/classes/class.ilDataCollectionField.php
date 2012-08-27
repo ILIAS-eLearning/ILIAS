@@ -640,7 +640,7 @@ class ilDataCollectionField
 	{
 		global $ilDB;
 
-		// delete viewdefinitions.
+			// delete viewdefinitions.
 		$this->deleteViewDefinition(self::VIEW_VIEW);
 		$this->deleteViewDefinition(self::FILTER_VIEW);
 		$this->deleteViewDefinition(self::EDIT_VIEW);
@@ -650,6 +650,7 @@ class ilDataCollectionField
 
 		$query = "DELETE FROM il_dcl_field WHERE id = ".$this->getId();
 		$ilDB->manipulate($query);
+
 	}
 	
 	/*
