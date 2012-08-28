@@ -28,7 +28,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjFileAccessSettingsGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjFileAccessSettingsGUI: ilPermissionGUI, ilFMSettingsGUI
 *
 * @extends ilObjectGUI
 * @package webdav
@@ -86,6 +86,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
+			case 'ilfmsettingsgui':
+				$this->tabs_gui->setTabActive('fm_settings_tab');
+				include_once './Services/WebServices/FileManager/classes/class.ilFMSettingsGUI.php';
+				$fmg = new ilFMSettingsGUI($this);
+				$this->ctrl->forwardCommand($fmg);
+				break;
+
 			default:
 				if(!$cmd || $cmd == 'view')
 				{
@@ -108,6 +115,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $ilAccess;
 
+		$GLOBALS['lng']->loadLanguageModule('fm');
+
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget('downloading_settings',
@@ -117,6 +126,13 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 			$this->tabs_gui->addTarget('webdav',
 				$this->ctrl->getLinkTarget($this, "editWebDAVSettings"),
 				array("editWebDAVSettings", "view"));
+
+			$this->tabs_gui->addTarget(
+				'fm_settings_tab',
+				$this->ctrl->getLinkTargetByClass('ilFMSettingsGUI','settings'),
+				array(),
+				'ilfmsettingsgui'
+			);
 
 			$this->tabs_gui->addTarget("disk_quota",
 				$this->ctrl->getLinkTarget($this, "editDiskQuotaSettings"),
