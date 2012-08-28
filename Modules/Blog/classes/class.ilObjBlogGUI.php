@@ -86,9 +86,12 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $lng, $ilSetting;
 		
-		$appr = new ilCheckboxInputGUI($lng->txt("blog_enable_approval"), "approval");
-		$appr->setInfo($lng->txt("blog_enable_approval_info"));
-		$a_form->addItem($appr);
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{	
+			$appr = new ilCheckboxInputGUI($lng->txt("blog_enable_approval"), "approval");
+			$appr->setInfo($lng->txt("blog_enable_approval_info"));
+			$a_form->addItem($appr);
+		}
 		
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
@@ -129,7 +132,10 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	protected function getEditFormCustomValues(array &$a_values)
 	{
-		$a_values["approval"] = $this->object->hasApproval();
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			$a_values["approval"] = $this->object->hasApproval();
+		}
 		$a_values["notes"] = $this->object->getNotesStatus();
 		$a_values["ppic"] = $this->object->hasProfilePicture();
 		$a_values["bg_color"] = $this->object->getBackgroundColor();
@@ -140,7 +146,10 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		$this->object->setApproval($a_form->getInput("approval"));
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			$this->object->setApproval($a_form->getInput("approval"));
+		}
 		$this->object->setNotesStatus($a_form->getInput("notes"));
 		$this->object->setProfilePicture($a_form->getInput("ppic"));
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
