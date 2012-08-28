@@ -15,16 +15,20 @@ require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 class ilAssignedUsersTableGUI extends ilTable2GUI
 {
 	protected $role_id;
+	protected $roleAssignmentEditable = true;
 	
 	/**
 	* Constructor
+	* 
+	* @param $a_editable Define whether the role assignment is editable or not.
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_role_id)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_role_id, $a_editable = true)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng, $rbacsystem;
 		
 		$this->setId("rbac_ua_".$a_role_id);
 		$this->role_id = $a_role_id;
+		$this->roleAssignmentEditable = $a_editable;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 //		$this->setTitle($this->lng->txt("users"));
@@ -45,9 +49,12 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");
 
-		$this->setSelectAllCheckbox("user_id[]");
-
-		$this->addMultiCommand("deassignUser", $lng->txt("remove"));
+		if($this->roleAssignmentEditable)
+		{
+			$this->setSelectAllCheckbox("user_id[]");
+			$this->addMultiCommand("deassignUser", $lng->txt("remove"));
+		}
+			
 		$this->getItems();
 
         // mjansen: Used for mail referer link (@see fillRow). I don't want to create a new instance in each fillRow call.
@@ -62,6 +69,15 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 	public function getRoleId()
 	{
 		return $this->role_id;
+	}
+	
+	/**
+	 * Check if role assignment is editable
+	 * @return type
+	 */
+	public function isRoleAssignmentEditable()
+	{
+		return $this->roleAssignmentEditable;
 	}
 	
 	/**
@@ -112,8 +128,10 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
 		$this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);
 		
-		if($user['usr_id'] != SYSTEM_USER_ID and
-			($user['usr_id'] != ANONYMOUS_USER_ID or $this->getRoleId() != ANONYMOUS_ROLE_ID))
+		if(
+			$user['usr_id'] != SYSTEM_USER_ID and
+			($user['usr_id'] != ANONYMOUS_USER_ID or $this->getRoleId() != ANONYMOUS_ROLE_ID) and
+			$this->isRoleAssignmentEditable())
 		{
 			$this->tpl->setVariable("ID", $user["usr_id"]);	
 		}
@@ -157,8 +175,10 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_PLAIN_LOGIN',$user['login']);
 		}
 		
-		if(($this->getRoleId() != SYSTEM_ROLE_ID or $user['usr_id'] != SYSTEM_USER_ID) and
-			($this->getRoleId() != ANONYMOUS_ROLE_ID or $user['usr_id'] != ANONYMOUS_USER_ID))
+		if(
+			($this->getRoleId() != SYSTEM_ROLE_ID or $user['usr_id'] != SYSTEM_USER_ID) and
+			($this->getRoleId() != ANONYMOUS_ROLE_ID or $user['usr_id'] != ANONYMOUS_USER_ID) and
+			$this->isRoleAssignmentEditable())
 		{
 			$ilCtrl->setParameter($this->getParentObject(), "user_id", $user["usr_id"]);
 			$link_leave = $ilCtrl->getLinkTarget($this->getParentObject(),"deassignUser");

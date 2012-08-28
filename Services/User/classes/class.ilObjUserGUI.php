@@ -3159,6 +3159,16 @@ class ilObjUserGUI extends ilObjectGUI
 			{
 				$disabled = true;
 			}
+			
+			// protected admin role
+			if($role['obj_id'] == SYSTEM_ROLE_ID && !$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
+			{
+				include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+				if(ilSecuritySettings::_getInstance()->isAdminRoleProtected())
+				{
+					$disabled = true;
+				}
+			}
 
             if (substr($role["title"],0,3) == "il_")
             {

@@ -71,7 +71,10 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		$this->tpl->setVariable("CHECKBOX", $a_set["checkbox"]);
+		if($a_set['checkbox'])
+		{
+			$this->tpl->setVariable("CHECKBOX", $a_set["checkbox"]);
+		}
 		$this->tpl->setVariable("ROLE", $a_set["role"]);
 		$this->tpl->setVariable("DESCRIPTION", $a_set["description"]);
 		$this->tpl->setVariable("CONTEXT", $a_set["context"]);
