@@ -464,17 +464,6 @@ class ilMDEditorGUI
 		}
 		foreach($keywords as $lang => $keyword_set)
 		{ 
-/*			$ta = new ilTextAreaInputGUI($this->lng->txt("keywords")."<br />".
-				"(".sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()).")",
-				"keywords[value][".$lang."]");
-			$ta->setCols(50);
-			$ta->setRows(4);
-			if (count($keywords) > 1)
-			{
-				$ta->setInfo($this->lng->txt("meta_l_".$lang));
-			}
-			$ta->setValue(implode($keyword_set, $this->md_settings->getDelimiter()." "));
-			$this->form->addItem($ta);*/
 			$kw = new ilTextInputGUI($this->lng->txt("keywords"),
 				"keywords[value][".$lang."]");
 			$kw->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
@@ -491,14 +480,6 @@ class ilMDEditorGUI
 		}
 		if (count($keywords) == 0)
 		{
-			/*
-			$ta = new ilTextAreaInputGUI($this->lng->txt("keywords")."<br />".
-				"(".sprintf($this->lng->txt('md_separated_by'), $this->md_settings->getDelimiter()).")",
-				"keywords[value][".$first_lang."]");
-			$ta->setCols(50);
-			$ta->setRows(4);
-			$this->form->addItem($ta);			 
-			*/
 			$kw = new ilTextInputGUI($this->lng->txt("keywords"),
 				"keywords[value][".$first_lang."]");
 			$kw->setDataSource($this->ctrl->getLinkTarget($this, "keywordAutocomplete", "", true));
@@ -573,8 +554,8 @@ class ilMDEditorGUI
 	{
 
 		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
-		$res = ilMDKeyword::_searchKeywords(ilUtil::stripSlashes("%".$_GET["term"]."%"),
-			$this->md_obj->getObjType(), $this->md_obj->getRBACId(), true);
+		$res = ilMDKeyword::_getMatchingKeywords(ilUtil::stripSlashes($_GET["term"]),
+			$this->md_obj->getObjType(), $this->md_obj->getRBACId());
 		
 		$result = array();
 		$cnt = 0;
@@ -645,63 +626,13 @@ class ilMDEditorGUI
 //				$md_des->setDescriptionLanguage(new ilMDLanguageItem($data['language']));
 				$md_des->update();
 			}
-		}
-		
+		}		
 		
 		// Keyword
 		if(is_array($_POST["keywords"]["value"]))
-		{
-			$new_keywords = array();
-			foreach($_POST["keywords"]["value"] as $lang => $keywords)
-			{
-				// new (form) version: no lang select anymore
-				$language = $lang;
-//				$language = $_POST["keyword"]["language"][$lang];
-//				$keywords = explode($this->md_settings->getDelimiter(), $keywords);				
-				foreach($keywords as $keyword)
-				{
-					if (trim($keyword) != "")
-					{
-						$new_keywords[$language][] = trim($keyword);
-					}
-				}
-			}
-
-			// update existing author entries (delete if not entered)
-			foreach($ids = $this->md_section->getKeywordIds() as $id)
-			{
-				$md_key = $this->md_section->getKeyword($id);
-
-				$lang = $md_key->getKeywordLanguageCode();
-				
-				// entered keyword already exists
-				if (is_array($new_keywords[$lang]) &&
-					in_array($md_key->getKeyword(), $new_keywords[$lang]))
-				{
-					unset($new_keywords[$lang]
-						[array_search($md_key->getKeyword(), $new_keywords[$lang])]);
-				}
-				else  // existing keyword has not been entered again -> delete
-				{
-					$md_key->delete();
-				}
-			}
-			
-			// insert entered, but not existing keywords
-			foreach ($new_keywords as $lang => $key_arr)
-			{
-				foreach($key_arr as $keyword)
-				{
-					if ($keyword != "")
-					{
-						$md_key = $this->md_section->addKeyword();
-						$md_key->setKeyword(ilUtil::stripSlashes($keyword));
-						$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
-						$md_key->save();
-					}
-				}
-			}
-
+		{			
+			include_once("./Services/MetaData/classes/class.ilMDKeyword.php");				
+			ilMDKeyword::updateKeywords($this->md_section, $_POST["keywords"]["value"]);					
 		}
 		$this->callListeners('General');
 		
