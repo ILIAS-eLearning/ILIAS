@@ -384,7 +384,15 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		global $ilCtrl, $lng;
 
 		if ($this->checkAccess("write"))
-		{
+		{			
+			// delete all md keywords
+			$md_section = $this->getMDSection();
+			foreach($md_section->getKeywordIds() as $id)
+			{
+				$md_key = $md_section->getKeyword($id);				
+				$md_key->delete();				
+			}
+			
 			$this->getBlogPosting()->delete();
 			ilUtil::sendSuccess($lng->txt("blog_posting_deleted"), true);
 		}
@@ -551,6 +559,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	protected function initKeywordsForm()
 	{
+		global $ilUser;
+		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();		
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveKeywordsForm"));
@@ -576,9 +586,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 					= $md_key->getKeyword();
 			}
 		}
-		
-		// :TODO: language handling				
-		$txt->setValue($keywords["en"]);
+										
+		// language is not "used" anywhere
+		$ulang = $ilUser->getLanguage();
+		asort($keywords[$ulang]);
+		$txt->setValue($keywords[$ulang]);
 
 		$form->addCommandButton("saveKeywordsForm", $this->lng->txt("save"));
 		$form->addCommandButton("preview", $this->lng->txt("cancel"));
@@ -586,20 +598,27 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		return $form;				
 	}
 	
+	protected function getParentObjId()
+	{
+		if($this->node_id)
+		{
+			if($this->isInWorkspace())
+			{
+				return $this->access_handler->getTree()->lookupObjectId($this->node_id);
+			}
+			else
+			{
+				return ilObject::_lookupObjId($this->node_id);
+			}
+		}
+	}
+	
 	protected function getMDSection()
-	{									
-		if($this->isInWorkspace())
-		{
-			$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
-		}
-		else
-		{
-			$obj_id = ilObject::_lookupObjId($this->node_id);
-		}
-		
+	{											
 		// general section available?
 		include_once 'Services/MetaData/classes/class.ilMD.php';
-		$md_obj =& new ilMD($obj_id, $this->getBlogPosting()->getId(), "blp");
+		$md_obj = new ilMD($this->getParentObjId(), 
+			$this->getBlogPosting()->getId(), "blp");
 		if(!is_object($md_section = $md_obj->getGeneral()))
 		{
 			$md_section = $md_obj->addGeneral();
@@ -611,62 +630,20 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function saveKeywordsForm()
 	{
+		global $ilUser;
+		
 		$form = $this->initKeywordsForm();
 		if($form->checkInput())
-		{
-			$md_section = $this->getMDSection();
-			
+		{			
 			$keywords = $form->getInput("keywords");
 			if(is_array($keywords))
 			{
-				// :TODO: language handling
-				$keywords = array("en"=>$keywords);
+				// language is not "used" anywhere
+				$ulang = $ilUser->getLanguage();
+				$keywords = array($ulang=>$keywords);
 				
-				$new_keywords = array();
-				foreach($keywords as $lang => $keywords)
-				{			
-					foreach($keywords as $keyword)
-					{
-						if (trim($keyword) != "")
-						{
-							$new_keywords[$lang][] = trim($keyword);
-						}
-					}
-				}
-
-				// update existing author entries (delete if not entered)
-				foreach($ids = $md_section->getKeywordIds() as $id)
-				{
-					$md_key = $md_section->getKeyword($id);
-					$lang = $md_key->getKeywordLanguageCode();
-
-					// entered keyword already exists
-					if (is_array($new_keywords[$lang]) &&
-						in_array($md_key->getKeyword(), $new_keywords[$lang]))
-					{
-						unset($new_keywords[$lang]
-							[array_search($md_key->getKeyword(), $new_keywords[$lang])]);
-					}
-					else  // existing keyword has not been entered again -> delete
-					{
-						$md_key->delete();
-					}
-				}
-
-				// insert entered, but not existing keywords
-				foreach ($new_keywords as $lang => $key_arr)
-				{
-					foreach($key_arr as $keyword)
-					{
-						if ($keyword != "")
-						{
-							$md_key = $md_section->addKeyword();
-							$md_key->setKeyword(ilUtil::stripSlashes($keyword));
-							$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
-							$md_key->save();
-						}
-					}
-				}
+				include_once("./Services/MetaData/classes/class.ilMDKeyword.php");				
+				ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);				
 			}
 			
 			$this->ctrl->redirect($this, "preview");
@@ -683,19 +660,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	}
 	
 	function keywordAutocomplete()
-	{		
-		if($this->isInWorkspace())
-		{
-			$obj_id = $this->access_handler->getTree()->lookupObjectId($this->node_id);
-		}
-		else
-		{
-			$obj_id = ilObject::_lookupObjId($this->node_id);
-		}
-		
+	{				
 		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
-		$res = ilMDKeyword::_searchKeywords(ilUtil::stripSlashes("%".$_GET["term"]."%"),
-			"blp", $obj_id, true);
+		$res = ilMDKeyword::_getMatchingKeywords(ilUtil::stripSlashes($_GET["term"]),
+			"blp", $this->getParentObjId());
 		
 		$result = array();
 		$cnt = 0;

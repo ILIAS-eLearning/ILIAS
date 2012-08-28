@@ -1241,14 +1241,18 @@ class ilObjBlogGUI extends ilObject2GUI
 
 			if($keywords)
 			{
+				$max = max($keywords);
+				include_once "Services/Tagging/classes/class.ilTagging.php";
+				
 				$wtpl->setCurrentBlock("keyword");
 				foreach($keywords as $keyword => $counter)
 				{										
 					$ilCtrl->setParameter($this, "kwd", $keyword);
 					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 					$ilCtrl->setParameter($this, "kwd", "");
-					
-					$wtpl->setVariable("TXT_KEYWORD", $keyword." (".$counter.")");				
+			
+					$wtpl->setVariable("TXT_KEYWORD", $keyword);				
+					$wtpl->setVariable("SIZE_KEYWORD", ilTagging::calculateFontSize($counter, $max));				
 					$wtpl->setVariable("URL_KEYWORD", $url);
 					$wtpl->parseCurrentBlock();					
 				}
@@ -1778,7 +1782,7 @@ class ilObjBlogGUI extends ilObject2GUI
 				if(!$a_author_id)
 				{
 					include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-					$post = new ilBlogPosting($a_posting_id);
+					$post = new ilBlogPosting($a_posting_id, 0, false);
 					$a_author_id = $post->getAuthor();					
 				}				
 				if($ilUser->getId() == $a_author_id)

@@ -215,11 +215,24 @@ class ilBlogPosting extends ilPageObject
 	{
 		global $ilDB;
 		
+		include_once 'Services/MetaData/classes/class.ilMD.php';
+		
 		$query = "SELECT * FROM il_blog_posting".
 			" WHERE blog_id = ".$ilDB->quote($a_blog_id, "integer");
 		$set = $ilDB->query($query);
 		while($rec = $ilDB->fetchAssoc($set))
-		{
+		{			
+			// delete all md keywords 
+			$md_obj = new ilMD($a_blog_id, $rec["id"], "blp");
+			if(is_object($md_section = $md_obj->getGeneral()))
+			{
+				foreach($md_section->getKeywordIds() as $id)
+				{
+					$md_key = $md_section->getKeyword($id);				
+					$md_key->delete();				
+				}
+			}
+			
 			$post = new ilBlogPosting($rec["id"]);
 			$post->delete();
 		}
