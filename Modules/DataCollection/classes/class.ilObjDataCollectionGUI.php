@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject2GUI.php";
-//require_once "./Modules/DataCollection/classes/class.ilDataCollectionRecordEditViewdefinitionGUI.php";
-//require_once "./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinitionGUI.php";
 
 /**
  * Class ilObjDataCollectionGUI

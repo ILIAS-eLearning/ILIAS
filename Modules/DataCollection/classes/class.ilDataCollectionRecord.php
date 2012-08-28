@@ -1,21 +1,19 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
+
 /**
 * Class ilDataCollectionRecord
 *
 * @author Martin Studer <ms@studer-raimann.ch>
 * @author Marcel Raimann <mr@studer-raimann.ch>
 * @author Fabian Schmid <fs@studer-raimann.ch>
-* @version $Id: 
+* @author Oskar Truffer <ot@studer-raimann.ch>
+* @version $Id:
 *
 * @ingroup ModulesDataCollection
 */
-
-include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
-
-
-
 class ilDataCollectionRecord
 {
 	/**

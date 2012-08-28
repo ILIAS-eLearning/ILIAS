@@ -10,13 +10,12 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 * @author Martin Studer <ms@studer-raimann.ch>
 * @author Marcel Raimann <mr@studer-raimann.ch>
 * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
 * @version $Id: 
 *
 * @extends ilTable2GUI
 * @ilCtrl_Calls ilDateTime
 */
-
-
 class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 {
 	/*

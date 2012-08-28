@@ -14,8 +14,6 @@ require_once "./Modules/File/classes/class.ilObjFile.php";
 *
 * @extends ilObjFile
 */
-
-
 class ilObjDataCollectionFile extends ilObjFile
 {
 
