@@ -1,0 +1,46 @@
+<head>
+	<script type="text/javascript" src="http://java.com/js/dtjava.js"></script>
+	<script>
+		function deployIt() {
+			dtjava.embed(
+				{
+					id: "ilFileManager",
+					url: "{JNLP_URL}",
+					width: "100%",
+					height: "100%",
+					placeholder: "place",
+					params:
+					{
+						sid: "{SESSION_ID}",
+						uid: {UID},
+						rid: {REF_ID},
+						wsd: "{WSDL_URI}",
+						restServer: "{REST_URI}",
+						localFrame: "{LOCAL_FRAME}",
+						headerTitle: "{HEADER_TITLE}",
+						fileLocks: {FILE_LOCKS},
+						uploadFileSize: "{UPLOAD_FILESIZE}"
+					}
+				},
+				{ javafx: "2.0+" },
+				{}
+			);
+		}
+		dtjava.addOnloadCallback(deployIt);
+	</script>
+	<style>
+		html, body, #place
+		{
+			margin: 0;
+			overflow: hidden;
+			padding: 0;
+			width: 100%;
+			height: 100%
+		}
+	</style>
+
+</head>
+<body>
+	<div id="place"></div>
+</body>
+
