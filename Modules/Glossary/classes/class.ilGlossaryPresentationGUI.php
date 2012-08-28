@@ -558,9 +558,11 @@ class ilGlossaryPresentationGUI
 				$lng->txt("print_view"),
 				$ilCtrl->getLinkTarget($this, "printViewSelection"));
 	
+			$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $_GET["term_id"]);
 			$ilTabs->addNonTabbedLink("editing_view",
 				$lng->txt("glo_editing_view"),
-				"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$_GET["ref_id"]."&amp;edit_term=".$_GET["term_id"]);
+				$ilCtrl->getLinkTargetByClass(array("ilglossaryeditorgui", "ilobjglossarygui", "ilglossarytermgui"), "listDefinitions"));
+				//"ilias.php?baseClass=ilGlossaryEditorGUI&amp;ref_id=".$_GET["ref_id"]."&amp;edit_term=".$_GET["term_id"]);
 			
 			$ilTabs->activateTab($a_act);
 		}
