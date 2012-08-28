@@ -160,17 +160,17 @@ class ilDataCollectionTable
 
 		//add view definition
 		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::VIEW_VIEW, "integer").", ".$ilDB->quote(1, "integer");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::VIEW_VIEW, "integer").", ".$ilDB->quote(1, "integer").")";
 		$ilDB->manipulate($query);
 
 		//add edit definition
 		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::EDIT_VIEW, "integer").", ".$ilDB->quote(1, "integer");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::EDIT_VIEW, "integer").", ".$ilDB->quote(1, "integer").")";
 		$ilDB->manipulate($query);
 
 		//add filter definition
 		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::FILTER_VIEW, "integer").", ".$ilDB->quote(1, "integer");
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::FILTER_VIEW, "integer").", ".$ilDB->quote(1, "integer").")";
 		$ilDB->manipulate($query);
 
 		$this->buildOrderFields();
