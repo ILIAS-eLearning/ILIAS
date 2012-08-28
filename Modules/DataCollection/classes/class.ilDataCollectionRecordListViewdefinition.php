@@ -1,17 +1,18 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilDataCollectionRecordListViewdefinition
-*
-* @author Martin Studer <ms@studer-raimann.ch>
-* @author Marcel Raimann <mr@studer-raimann.ch>
-* @author Fabian Schmid <fs@studer-raimann.ch>
-* @version $Id: 
-*
-* @ingroup ModulesDataCollection
-*/
-
+ * Class ilDataCollectionField
+ *
+ * @author Martin Studer <ms@studer-raimann.ch>
+ * @author Marcel Raimann <mr@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @version $Id:
+ *
+ * @ingroup ModulesDataCollection
+ */
 class ilDataCollectionRecordListViewdefinition
 {
 	protected $id; // [int] table il_dcl_view

@@ -2,18 +2,17 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-//require_once "...";
-
 /**
-* Class ilDataCollectionRecordEditViewdefinitionGUI
-*
-* @author Martin Studer <ms@studer-raimann.ch>
-* @author Marcel Raimann <mr@studer-raimann.ch>
-* @author Fabian Schmid <fs@studer-raimann.ch>
-*
-*/
-
-
+ * Class ilDataCollectionField
+ *
+ * @author Martin Studer <ms@studer-raimann.ch>
+ * @author Marcel Raimann <mr@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @version $Id:
+ *
+ * @ingroup ModulesDataCollection
+ */
 class ilDataCollectionRecordEditViewdefinitionGUI
 {
 	public function __construct()

@@ -6,18 +6,16 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 include_once ('class.ilDataCollectionRecordViewGUI.php');
 
 /**
-* Class ilDataCollectionRecordListTableGUI
-*
-* @author Martin Studer <ms@studer-raimann.ch>
-* @author Marcel Raimann <mr@studer-raimann.ch>
-* @author Fabian Schmid <fs@studer-raimann.ch>
-* @version $Id: 
-*
-* @extends ilTable2GUI
-*
-*/
-
-
+ * Class ilDataCollectionField
+ *
+ * @author Martin Studer <ms@studer-raimann.ch>
+ * @author Marcel Raimann <mr@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @version $Id:
+ *
+ * @ingroup ModulesDataCollection
+ */
 class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 {
 

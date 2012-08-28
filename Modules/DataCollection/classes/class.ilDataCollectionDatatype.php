@@ -8,17 +8,18 @@ include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+
 /**
 * Class ilDataCollectionDatatype
 *
 * @author Martin Studer <ms@studer-raimann.ch>
 * @author Marcel Raimann <mr@studer-raimann.ch>
 * @author Fabian Schmid <fs@studer-raimann.ch>
+* @author Oskar Truffer <ot@studer-raimann.ch>
 * @version $Id: 
 *
 * @ingroup ModulesDataCollection
 */
-
 class ilDataCollectionDatatype
 {
 	protected $id; // [int]
@@ -187,7 +188,7 @@ class ilDataCollectionDatatype
 	{
 		//TODO: finish this list.
 
-		//required is checked by form. so no input is valid.
+		//required is checked by form. so null input is valid.
 		if($value == NULL)
 		{
 			return true;

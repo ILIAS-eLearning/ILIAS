@@ -1,24 +1,22 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php");
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 include_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
 
-
 /**
- * Class ilDataCollectionRecordListGUI
+ * Class ilDataCollectionField
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  * @author Marcel Raimann <mr@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
  * @version $Id:
- *
  *
  * @ingroup ModulesDataCollection
  */
-
-
 class ilDataCollectionRecordListGUI
 {
 	private $table_obj;

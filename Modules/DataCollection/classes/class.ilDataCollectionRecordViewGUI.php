@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Modules/DataCollection/classes/class.ilDataCollectionTable.php');
@@ -6,6 +7,7 @@ include_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
 include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
 include_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
 include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
+
 /**
 * Class ilDataCollectionRecordViewGUI
 *
@@ -16,8 +18,6 @@ include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewV
 *
 * @ilCtrl_Calls ilDataCollectionRecordViewGUI: ilPageObjectGUI, ilEditClipboardGUI
 */
-
-
 class ilDataCollectionRecordViewGUI
 {
 	public function __construct($a_dcl_object)

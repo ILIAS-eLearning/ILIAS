@@ -1,15 +1,20 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 8/9/12
- * Time: 9:44 AM
- * To change this template use File | Settings | File Templates.
- */
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/DataCollection/classes/class.ilDataCollectionInputException.php';
 require_once 'class.ilDataCollectionRatingField.php';
 
+/**
+ * Class ilDataCollectionField
+ *
+ * @author Martin Studer <ms@studer-raimann.ch>
+ * @author Marcel Raimann <mr@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @version $Id:
+ *
+ * @ingroup ModulesDataCollection
+ */
 class ilDataCollectionRecordField
 {
 	private $id;
