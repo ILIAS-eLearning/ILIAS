@@ -17,6 +17,7 @@ class ilBlogPosting extends ilPageObject
 	protected $created; // [ilDateTime]
 	protected $blog_wsp_id; // [int]
 	protected $author; // [int]
+	protected $approved; // [bool]
 
 	/**
 	 * Constructor
@@ -110,6 +111,24 @@ class ilBlogPosting extends ilPageObject
 	{
 		return $this->author;
 	}
+	
+	/**
+	 * Set posting to approved
+	 */
+	function approve()
+	{
+		$this->approved = true;
+	}
+
+	/**
+	 * Get approved status
+	 *
+	 * @return bool
+	 */
+	function isApproved()
+	{
+		return (bool)$this->approved;
+	}
 
 	/**
 	 * Create new blog posting
@@ -123,13 +142,14 @@ class ilBlogPosting extends ilPageObject
 
 		// we are using a separate creation date to enable sorting without JOINs
 		
-		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author)".
+		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved)".
 			" VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getBlogId(), "integer").",".
 			$ilDB->quote(ilUtil::now(), "timestamp").",".
-			$ilDB->quote($this->getAuthor(), "integer").")";
+			$ilDB->quote($this->getAuthor(), "integer").",".
+			$ilDB->quote(false, "integer").")";
 		$ilDB->manipulate($query);
 
 		parent::create();
@@ -153,6 +173,7 @@ class ilBlogPosting extends ilPageObject
 		$query = "UPDATE il_blog_posting SET".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
 			",created = ".$ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "text").
+			",approved =".$ilDB->quote($this->isApproved(), "integer").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		
@@ -183,6 +204,10 @@ class ilBlogPosting extends ilPageObject
 		$this->setBlogId($rec["blog_id"]);
 		$this->setCreated(new ilDateTime($rec["created"], IL_CAL_DATETIME));
 		$this->setAuthor($rec["author"]);
+		if((bool)$rec["approved"])
+		{
+			$this->approve();
+		}
 	
 		parent::read();
 	}
@@ -290,6 +315,7 @@ class ilBlogPosting extends ilPageObject
 				$post[$rec["id"]]["title"] = $rec["title"];
 				$post[$rec["id"]]["created"] = new ilDateTime($rec["created"], IL_CAL_DATETIME);
 				$post[$rec["id"]]["author"] = $rec["author"];
+				$post[$rec["id"]]["approved"] = (bool)$rec["approved"];
 			}
 		}
 

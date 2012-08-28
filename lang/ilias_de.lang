@@ -12863,3 +12863,9 @@ content#:#cont_element_refers_removed_itgr#:#This content element refers to an i
 common#:#search_globally#:#Globally###28 08 2012 new variable
 common#:#search_at_current_position#:#At Current Position###28 08 2012 new variable
 survey#:#svy_copy#:#Copy Survey###28 08 2012 new variable
+blog#:#blog_authors#:#Autoren
+blog#:#blog_author#:#Autor
+blog#:#blog_enable_approval#:#Abname
+blog#:#blog_enable_approval_info#:#Alle Beiträge müssen für die Veröffentlichung durch einen Administrator abgenommen werden.
+blog#:#blog_approve#:#Abnahme erteilen
+blog#:#blog_needs_approval#:#Abnahme benötigt

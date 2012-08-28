@@ -22,6 +22,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	protected $month; // [string]
 	protected $items; // [array]
 	protected $keyword; // [string]
+	protected $author; // [int]
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
@@ -31,8 +32,9 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		if($this->object)
 		{
-			$this->month = $_REQUEST["bmn"];
-			$this->keyword = $_REQUEST["kwd"];
+			$this->month = (string)$_REQUEST["bmn"];
+			$this->keyword = (string)$_REQUEST["kwd"];
+			$this->author = (int)$_REQUEST["ath"];
 
 			// gather postings by month
 			$this->items = $this->buildPostingList($this->object->getId());	
@@ -84,6 +86,10 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $lng, $ilSetting;
 		
+		$appr = new ilCheckboxInputGUI($lng->txt("blog_enable_approval"), "approval");
+		$appr->setInfo($lng->txt("blog_enable_approval_info"));
+		$a_form->addItem($appr);
+		
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
 				
@@ -123,6 +129,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	protected function getEditFormCustomValues(array &$a_values)
 	{
+		$a_values["approval"] = $this->object->hasApproval();
 		$a_values["notes"] = $this->object->getNotesStatus();
 		$a_values["ppic"] = $this->object->hasProfilePicture();
 		$a_values["bg_color"] = $this->object->getBackgroundColor();
@@ -133,6 +140,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
+		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotesStatus($a_form->getInput("notes"));
 		$this->object->setProfilePicture($a_form->getInput("ppic"));
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
@@ -503,15 +511,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 		}
 		
-	
-		if(!$this->keyword)
-		{
-			$list_items = $this->items[$this->month];
-		}
-		else
-		{
-			$list_items = $this->filterItemsByKeyword($this->items, $this->keyword);
-		}
+		$list_items = $this->getListItems();
 		
 		$list = $nav = "";		
 		if($list_items)
@@ -703,14 +703,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$this->filterInactivePostings();
 		
-		if(!$this->keyword)
-		{
-			$list_items = $this->items[$this->month];
-		}
-		else
-		{
-			$list_items = $this->filterItemsByKeyword($this->items, $this->keyword);
-		}
+		$list_items = $this->getListItems();		
 		
 		$list = $nav = "";
 		if($list_items)
@@ -720,6 +713,38 @@ class ilObjBlogGUI extends ilObject2GUI
 		}		
 		
 		return $this->buildEmbedded($list, $nav);		
+	}
+	
+	/**
+	 * Filter blog postings by month, keyword or author
+	 * 
+	 * @return array
+	 */
+	protected function getListItems()
+	{
+		if($this->author)
+		{
+			$list_items = array();
+			foreach($this->items as $month => $items)
+			{
+				foreach($items as $id => $item)
+				{
+					if($item["user"] == $this->author)
+					{
+						$list_items[$id] = $item;
+					}
+				}
+			}
+		}
+		else if($this->keyword)
+		{
+			$list_items = $this->filterItemsByKeyword($this->items, $this->keyword);
+		}
+		else
+		{
+			$list_items = $this->items[$this->month];
+		}
+		return $list_items;
 	}
 	
 	/**
@@ -737,14 +762,7 @@ class ilObjBlogGUI extends ilObject2GUI
 
 		$this->filterInactivePostings();
 		
-		if(!$this->keyword)
-		{
-			$list_items = $this->items[$this->month];
-		}
-		else
-		{
-			$list_items = $this->filterItemsByKeyword($this->items, $this->keyword);
-		}
+		$list_items = $this->getListItems();
 		
 		$list = $nav = "";		
 		if($list_items)
@@ -872,8 +890,13 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	protected function renderFullscreenHeader($a_tpl, $a_user_id, $a_export = false)
 	{
-		$name = ilObjUser::_lookupName($a_user_id);
-		$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
+		// repository blogs are multi-author 
+		$name = null;
+		if($this->id_type != self::REPOSITORY_NODE_ID)
+		{
+			$name = ilObjUser::_lookupName($a_user_id);
+			$name = $name["lastname"].", ".($t = $name["title"] ? $t . " " : "").$name["firstname"];
+		}
 		
 		// show banner?
 		$banner = false;
@@ -919,12 +942,25 @@ class ilObjBlogGUI extends ilObject2GUI
 	 */
 	protected function buildPostingList($a_obj_id)
 	{
+		$author_found = false;	
+		
 		$items = array();
 		foreach(ilBlogPosting::getAllPostings($a_obj_id) as $posting)
 		{
+			if($this->author && $posting["user"] == $this->author)
+			{
+				$author_found = true;
+			}
+			
 			$month = substr($posting["created"]->get(IL_CAL_DATE), 0, 7);
 			$items[$month][$posting["id"]] = $posting;
 		}
+		
+		if($this->author && !$author_found)
+		{
+			$this->author = null;
+		}
+		
 		return $items;
 	}
 	
@@ -945,17 +981,25 @@ class ilObjBlogGUI extends ilObject2GUI
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
 		
-		if(!$this->keyword)
+		// title according to current "filter"/navigation
+		if($this->keyword)
+		{
+			$title = $lng->txt("blog_keyword").": ".$this->keyword;
+		}
+		else if($this->author)
+		{
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			$title = $lng->txt("blog_author").": ".ilUserUtil::getNamePresentation($this->author);
+		}
+		else
 		{
 			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 			$title = ilCalendarUtil::_numericMonthToString((int)substr($a_month, 5)).
 					" ".substr($a_month, 0, 4);
-		}
-		else
-		{
-			$title = $lng->txt("blog_keyword").": ".$this->keyword;
-		}
+		}		
 		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);						
+		
+		$can_approve = ($this->object->hasApproval() && $this->checkPermissionBool("write"));
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		foreach($items as $item)
@@ -978,23 +1022,42 @@ class ilObjBlogGUI extends ilObject2GUI
 				$preview = $this->buildExportLink($a_link_template, "posting", $item["id"]);
 			}
 
-			// actions
-			if($this->mayContribute($item["id"], $item["user"]) && !$a_link_template && $a_cmd == "preview")
+			// actions					
+			$item_contribute = $this->mayContribute($item["id"], $item["user"]);
+			$can_approve = false;
+			if(($item_contribute || $can_approve) && !$a_link_template && $a_cmd == "preview")
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 				$alist = new ilAdvancedSelectionListGUI();
 				$alist->setId($item["id"]);
 				$alist->setListTitle($lng->txt("actions"));
-				$alist->addItem($lng->txt("edit_content"), "edit", 
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
-				$alist->addItem($lng->txt("rename"), "rename", 
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle"));
-				$alist->addItem($lng->txt("blog_edit_keywords"), "keywords", 
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));				
-				$alist->addItem($lng->txt("blog_edit_date"), "editdate", 
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editdate"));
-				$alist->addItem($lng->txt("delete"), "delete",
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));
+												
+				if($is_active && $this->object->hasApproval() && !$item["approved"])
+				{
+					if($can_approve)
+					{
+						$ilCtrl->setParameter($this, "apid", $item["id"]);
+						$alist->addItem($lng->txt("blog_approve"), "approve", 
+							$ilCtrl->getLinkTarget($this, "approve"));
+						$ilCtrl->setParameter($this, "apid", "");
+					}
+					
+					$wtpl->setVariable("APPROVAL", $lng->txt("blog_needs_approval"));
+				}
+				
+				if($item_contribute)
+				{
+					$alist->addItem($lng->txt("edit_content"), "edit", 
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit"));
+					$alist->addItem($lng->txt("rename"), "rename", 
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle"));
+					$alist->addItem($lng->txt("blog_edit_keywords"), "keywords", 
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));				
+					$alist->addItem($lng->txt("blog_edit_date"), "editdate", 
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editdate"));
+					$alist->addItem($lng->txt("delete"), "delete",
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "deleteBlogPostingConfirmationScreen"));				
+				}
 
 				$wtpl->setCurrentBlock("actions");
 				$wtpl->setVariable("ACTION_SELECTOR", $alist->getHTML());
@@ -1200,10 +1263,12 @@ class ilObjBlogGUI extends ilObject2GUI
 																				
 					if(!$is_active)
 					{
-						$wtpl->setCurrentBlock("navigation_item_draft");
 						$wtpl->setVariable("NAV_ITEM_DRAFT", $this->lng->txt("blog_draft"));
-						$wtpl->parseCurrentBlock();
-					}													
+					}			
+					else if($this->object->hasApproval() && !$posting["approved"])
+					{
+						$wtpl->setVariable("NAV_ITEM_APPROVAL", $this->lng->txt("blog_needs_approval"));
+					}
 					
 					$wtpl->setCurrentBlock("navigation_item");
 					$wtpl->setVariable("NAV_ITEM_URL", $url);
@@ -1229,6 +1294,50 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 		$ilCtrl->setParameter($this, "bmn", $this->month);
 		$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
+		
+		
+		// authors
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{
+			$authors = array();
+			foreach($this->items as $month => $items)
+			{
+				foreach($items as $item)
+				{
+					if($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp"))
+					{
+						$authors[] = $item["user"];					
+					}	
+				}
+			}			
+			$authors = array_unique($authors);			
+			if(sizeof($authors) > 1)
+			{					
+				include_once "Services/User/classes/class.ilUserUtil.php";
+				
+				$list = array();
+				foreach($authors as $user_id)
+				{													
+					$ilCtrl->setParameter($this, "ath", $user_id);
+					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+					$ilCtrl->setParameter($this, "ath", "");
+					
+					$name = ilUserUtil::getNamePresentation($user_id, true);
+					$list[$name."///".$user_id] = array($name, $url);																
+				}
+				ksort($list);
+				
+				$wtpl->setVariable("AUTHORS_TITLE", $this->lng->txt("blog_authors"));
+												
+				$wtpl->setCurrentBlock("author");				
+				foreach($list as $author)
+				{
+					$wtpl->setVariable("TXT_AUTHOR", $author[0]);							
+					$wtpl->setVariable("URL_AUTHOR", $author[1]);							
+					$wtpl->parseCurrentBlock();		
+				}
+			}
+		}		
 		
 		
 		// keywords 		
@@ -1715,12 +1824,16 @@ class ilObjBlogGUI extends ilObject2GUI
 	 * @return array
 	 */
 	protected function filterInactivePostings()
-	{		
+	{				
 		foreach($this->items as $month => $postings)
 		{
-			foreach(array_keys($postings) as $id)
+			foreach($postings as $id => $item)
 			{
 				if(!ilBlogPosting::_lookupActive($id, "blp"))
+				{
+					unset($this->items[$month][$id]);
+				}
+				else if($this->object->hasApproval() && !$item["approved"])
 				{
 					unset($this->items[$month][$id]);
 				}
@@ -1808,6 +1921,21 @@ class ilObjBlogGUI extends ilObject2GUI
 		{
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
 		}
+	}
+	
+	function approve()
+	{
+		if($this->checkPermissionBool("write") && (int)$_GET["apid"])
+		{			
+			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+			$post = new ilBlogPosting((int)$_GET["apid"]);
+			$post->approve();
+			$post->update();
+			
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		}
+				
+		$this->ctrl->redirect($this, "render");
 	}
 	
 	/**

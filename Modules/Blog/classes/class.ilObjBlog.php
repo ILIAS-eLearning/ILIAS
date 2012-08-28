@@ -20,6 +20,7 @@ class ilObjBlog extends ilObject2
 	protected $img; // [string]
 	protected $ppic; // [string]
 	protected $rss; // [bool]
+	protected $approval; // [bool]
 	
 	function initType()
 	{
@@ -39,17 +40,19 @@ class ilObjBlog extends ilObject2
 		$this->setFontColor($row["font_color"]);
 		$this->setImage($row["img"]);
 		$this->setRSS($row["rss_active"]);
+		$this->setApproval($row["approval"]);
 	}
 
 	protected function doCreate()
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic,rss_active) VALUES (".
+		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic,rss_active,approval) VALUES (".
 			$ilDB->quote($this->id, "integer").",".
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
-			$ilDB->quote(true, "integer").")");
+			$ilDB->quote(true, "integer").",".
+			$ilDB->quote(false, "integer").")");
 	}
 	
 	protected function doDelete()
@@ -82,6 +85,7 @@ class ilObjBlog extends ilObject2
 					",font_color = ".$ilDB->quote($this->getFontcolor(), "text").
 					",img = ".$ilDB->quote($this->getImage(), "text").
 					",rss_active = ".$ilDB->quote($this->hasRSS(), "text").
+					",approval = ".$ilDB->quote($this->hasApproval(), "integer").
 					" WHERE id = ".$ilDB->quote($this->id, "integer"));
 		}
 	}
@@ -318,6 +322,26 @@ class ilObjBlog extends ilObject2
 	function setRSS($a_status)
 	{
 		$this->rss = (bool)$a_status;
+	}
+	
+	/**
+	 * Get approval status
+	 * 
+	 * @return bool
+	 */
+	function hasApproval()
+	{
+		return (bool)$this->approval;
+	}
+
+	/**
+	 * Toggle approval status
+	 *
+	 * @param bool $a_status
+	 */
+	function setApproval($a_status)
+	{
+		$this->approval = (bool)$a_status;
 	}
 	
 	static function sendNotification($a_action, $a_blog_wsp_id, $a_posting_id)
