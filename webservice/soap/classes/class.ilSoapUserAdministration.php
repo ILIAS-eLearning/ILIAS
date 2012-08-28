@@ -1269,12 +1269,31 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		global $rbacsystem, $ilUser, $ilDB;
 
-		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
+		// check if own account
+		$is_self = false;
+		if(is_array($a_user_ids) and count($a_user_ids) == 1)
+		{
+			if(end($a_user_ids) == $ilUser->getId())
+			{
+				$is_self = true;
+			}
+		}
+		elseif(is_numeric($a_user_ids))
+		{
+			if($a_user_ids == $ilUser->getId())
+			{
+				$is_self = true;
+			}
+		}
+
+		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID) and !$is_self)
 		{
 			return $this->__raiseError('Check access failed.','Server');
 		}
 
-		$data = ilObjUser::_getUserData($a_user_ids);
+		// begin-patch filemanager
+		$data = ilObjUser::_getUserData((array) $a_user_ids);
+		// end-patch filemanager
 
 		include_once './Services/User/classes/class.ilUserXMLWriter.php';
 		$xmlWriter = new ilUserXMLWriter();
@@ -1331,7 +1350,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			   . "INNER JOIN usr_data ON usr_id = user_id WHERE session_id = %s";
 		$res = $ilDB->queryF($query, array('text'), array($parts[0]));		
 		$data = $ilDB->fetchAssoc($res);
-		
+
 		if(!(int)$data['usr_id'])
 		{
 			$this->__raiseError('User does not exist', 'Client');

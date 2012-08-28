@@ -26,6 +26,10 @@ class ilFileXMLWriter extends ilXmlWriter
     static $CONTENT_ATTACH_GZIP_ENCODED = 3;
 	static $CONTENT_ATTACH_COPY = 4;
 
+	// begin-patch fm
+	static $CONTENT_ATTACH_REST = 5;
+	// end-patch fm
+
     /**
 	 * if true, file contents will be attached as base64
 	 *
@@ -145,6 +149,16 @@ class ilFileXMLWriter extends ilXmlWriter
 					$content = $this->target_dir_relative."/".$this->file->getFileName();
 					$this->xmlElement("Content",$attribs, $content);
 				}
+				// begin-patch fm
+				elseif($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_REST)
+				{
+					$attribs = array('mode' => "REST");
+					include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
+					$fs = new ilRestFileStorage();
+					$tmpname = $fs->storeFileForRest(base64_encode(@file_get_contents($filename)));
+					$this->xmlElement("Content",$attribs, $tmpname);
+				}
+				// end-patch fm
 				else
 				{
 					$content = @file_get_contents($filename);

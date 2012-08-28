@@ -1042,6 +1042,12 @@ class ilObjectListGUI
 		{
 			return '_blank';        
 		}
+		// begin-patch fm
+		if($a_cmd == 'fileManagerLaunch')
+		{
+			return '_blank';
+		}
+		// end-patch fm
 		return "";
 	}
 

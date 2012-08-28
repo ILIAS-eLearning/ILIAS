@@ -155,6 +155,18 @@ class ilObjCourseAccess extends ilObjectAccess
 	{
 		$commands = array();
 		$commands[] = array("permission" => "read", "cmd" => "", "lang_var" => "view", "default" => true);
+
+		include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
+		if(ilFMSettings::getInstance()->isEnabled())
+		{
+			$commands[] = array(
+				'permission' => 'read',
+				'cmd' => 'fileManagerLaunch',
+				'lang_var' => 'fm_start',
+				'enable_anonymous' => false
+			);
+		}
+
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
 
 		// on waiting list

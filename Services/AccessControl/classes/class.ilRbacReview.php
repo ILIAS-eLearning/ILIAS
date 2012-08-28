@@ -1475,7 +1475,7 @@ class ilRbacReview
 		$query = 'SELECT * FROM rbac_ta ta JOIN rbac_operations o ON ta.ops_id = o.ops_id '.
 			'WHERE typ_id = '.$ilDB->quote($a_typ_id,'integer').' '.
 			'ORDER BY op_order';
-		
+
 		$res = $ilDB->query($query);
 
 		while($row = $ilDB->fetchObject($res))

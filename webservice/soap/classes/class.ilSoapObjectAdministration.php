@@ -313,41 +313,82 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   'Client');
 		}
 
+		// begin-patch fm
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		if(ilSearchSettings::getInstance()->enabledLucene()) {
 
-		include_once './Services/Search/classes/class.ilQueryParser.php';
+			ilSearchSettings::getInstance()->setMaxHits(25);
 
-		$query_parser =& new ilQueryParser($key);
-		#$query_parser->setMinWordLength(3);
-		$query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
-		$query_parser->parse();
-		if(!$query_parser->validate())
+			include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
+			$query_parser = new ilLuceneQueryParser($key);
+			$query_parser->parse();
+
+			include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
+			$searcher = ilLuceneSearcher::getInstance($query_parser);
+			$searcher->search();
+
+			include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
+			include_once './Services/Search/classes/Lucene/class.ilLucenePathFilter.php';
+			$filter = ilLuceneSearchResultFilter::getInstance($user_id);
+			$filter->setCandidates($searcher->getResult());
+			$filter->filter();
+
+			$result_ids = $filter->getResults();
+			$objs = array();
+			$objs[ROOT_FOLDER_ID] = ilObjectFactory::getInstanceByRefId(ROOT_FOLDER_ID,false);
+			foreach ((array) $result_ids as $ref_id => $obj_id) {
+
+				$obj = ilObjectFactory::getInstanceByRefId($ref_id,false);
+				$objs[] = $obj;
+			}
+			include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
+			$highlighter = new ilLuceneHighlighterResultParser();
+			if($filter->getResultObjIds())
+			{
+				$highlighter = $searcher->highlight($filter->getResultObjIds());
+			}
+		}
+		else
 		{
-			return $this->__raiseError($query_parser->getMessage(),
-									   'Client');
+
+			include_once './Services/Search/classes/class.ilQueryParser.php';
+
+			$query_parser =& new ilQueryParser($key);
+			#$query_parser->setMinWordLength(3);
+			$query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
+			$query_parser->parse();
+			if(!$query_parser->validate())
+			{
+				return $this->__raiseError($query_parser->getMessage(),
+										   'Client');
+			}
+
+			#include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
+			#$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+
+			include_once './Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+			$object_search =  new ilLikeObjectSearch($query_parser);
+
+			$object_search->setFilter($types);
+
+			$res =& $object_search->performSearch();
+			if($user_id)
+			{
+				$res->setUserId($user_id);
+			}
+			// begin-patch fm
+			$res->setMaxHits(100);
+			// begin-patch fm
+			$res->filter(ROOT_FOLDER_ID,$combination == 'and' ? true : false);
+
+			$counter = 0;
+			$objs = array();
+			foreach($res->getUniqueResults() as $entry)
+			{
+				$objs[] = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false);
+			}
 		}
 
-		#include_once './Services/Search/classes/class.ilObjectSearchFactory.php';
-		#$object_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
-		
-		include_once './Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-		$object_search =  new ilLikeObjectSearch($query_parser);
-		
-		$object_search->setFilter($types);
-
-		$res =& $object_search->performSearch();
-		if($user_id)
-		{
-			$res->setUserId($user_id);
-		}
-		$res->setMaxHits(999999);
-		$res->filter(ROOT_FOLDER_ID,$combination == 'and' ? true : false);
-
-		$counter = 0;
-		$objs = array();
-		foreach($res->getUniqueResults() as $entry)
-		{
-			$objs[] = ilObjectFactory::getInstanceByRefId($entry['ref_id'],false);
-		}
 		if(!count($objs))
 		{
 			return '';
@@ -356,6 +397,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+
+		// begin-patch fm
+		if(ilSearchSettings::getInstance()->enabledLucene())
+		{
+			$xml_writer->enableReferences(false);
+			$xml_writer->setMode(ilObjectXmlWriter::MODE_SEARCH_RESULT);
+			$xml_writer->setHighlighter($highlighter);
+		}
+
 		$xml_writer->enablePermissionCheck(true);
 
 		if($user_id)
@@ -367,6 +417,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		$xml_writer->setObjects($objs);
 		if($xml_writer->start())
 		{
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$xml_writer->xmlDumpMem(true));
 			return $xml_writer->getXML();
 		}
 
@@ -404,6 +455,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
  		$filter = is_array($types) ? $types : array();
 
  		$objs = array();
+
+		// begin-patch filemanager
+		$objs[] = $target_obj;
+		// end-patch filemanager
+
 		foreach($tree->getChilds($ref_id,'title') as $child)
 		{
 			if($all or in_array($child['type'],$types))
@@ -418,6 +474,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
 		$xml_writer = new ilObjectXMLWriter();
+		// begin-patch filemanager
+		$xml_writer->enableReferences(false);
+		// end-patch filemanager
 		$xml_writer->enablePermissionCheck(true);
 		$xml_writer->setObjects($objs);
 		$xml_writer->enableOperations(true);
@@ -428,6 +487,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         if ($xml_writer->start())
         {
+			#$GLOBALS['ilLog']->write(__METHOD__.': '.$xml_writer->getXML());
             return $xml_writer->getXML();
         }
 
@@ -566,11 +626,15 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				return $this->__raiseError('No permission to create objects of type '.$object_data['type'].'!',
 										   'Client');
 			}
+			// begin-patch fm
+			/*
 			if($object_data['type'] == 'crs')
 			{
 				return $this->__raiseError('Cannot create course objects. Use method addCourse() ',
 										   'Client');
 			}
+			*/
+			// end-patch fm
 
 			// It's not possible to add objects with non unique import ids
 			if(strlen($object_data['import_id']) and ilObject::_lookupObjIdByImportId($object_data['import_id']))
@@ -628,6 +692,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 									   $newObj->getDefaultAdminRole());
 					break;
 
+				// begin-patch fm
+				case 'crs':
+					$newObj->getMemberObject()->add($ilUser->getId(),IL_CRS_ADMIN);
+					break;
+				// end-patch fm
 				case 'lm':
 				case 'dbk':
 					$newObj->createLMTree();
@@ -972,7 +1041,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$permission_ok = false;
 				foreach(ilObject::_getAllReferences($object_data['obj_id']) as $ref_id)
 				{
-					if($rbacsystem->checkAccess('write',$object_data['obj_id']))
+					if($ilAccess->checkAccess('write','',$ref_id))
 					{
 						$permission_ok = true;
 						break;
@@ -994,6 +1063,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 				$tmp_obj = $object_data["instance"];
 				$tmp_obj->setTitle($object_data['title']);
 				$tmp_obj->setDescription($object_data['description']);
+
+				#$GLOBALS['ilLog']->write(__METHOD__.': type is '. $object_data['type']);
+				#$GLOBALS['ilLog']->write(__METHOD__.': type is '. $a_xml);
+
+
 				switch ($object_data['type']) 
 				{
 					case 'cat':
