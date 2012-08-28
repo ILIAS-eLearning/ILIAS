@@ -12944,3 +12944,11 @@ blog#:#blog_edit_keywords#:#Schlagwörter bearbeiten
 blog#:#blog_keyword#:#Schlagwort
 administration#:#adm_adm_role_protect#:#Administratorrolle schützen
 administration#:#adm_adm_role_protect_info#:#Wenn aktiviert, ist es nur Administratoren erlaubt, Benutzer der Administratorrolle zuzuordnen oder sie von dieser zu entfernen. 
+fm#:#fm_settings_tab#:#Dateimanager
+fm#:#fm_settings_active#:#Dateimanager aktivieren
+fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Kurse, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+common#:#fm_start#:#Mit Dateimanager öffnen
+fm#:#fm_settings_local#:#Lokales Dateisystem anzeigen
+fm#:#fm_settings_local_info#:#Wenn aktiviert, wird der Dateimanager in einer Zwei-Fenster-Ansicht gestartet (lokales Dateisystem und ILIAS-Magazin). Wenn deaktiviert, wird lediglich das ILIAS-Magazin dargestellt.
+fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
+fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
