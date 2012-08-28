@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Modules/DataCollection/classes/class.ilDataCollectionInputException.php';
+require_once './Modules/DataCollection/exceptions/class.ilDataCollectionInputException.php';
 require_once 'class.ilDataCollectionRatingField.php';
 
 /**
@@ -39,7 +39,7 @@ class ilDataCollectionRecordField
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM il_dcl_record_field WHERE field_id LIKE '".$ilDB->quote($this->field->getId(), "text")."' AND record_id = ".$ilDB->quote($this->record->getId(), "integer");
+		$query = "SELECT * FROM il_dcl_record_field WHERE field_id LIKE ".$ilDB->quote($this->field->getId(), "text")." AND record_id = ".$ilDB->quote($this->record->getId(), "integer");
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 		$this->id = $rec['id'];
