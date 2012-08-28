@@ -10197,27 +10197,27 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 <?php
 		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
-			"1, 'integer', 'integer', 2".
+			$ilDB->quote(1, "integer").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "integer").
 			")");
 
 		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
-			"2, 'text', 'text', 1".
+$ilDB->quote(2, "integer").", ".$ilDB->quote("text", "text").", ".$ilDB->quote("text", "text").", ".$ilDB->quote(1, "integer").
 			")");
 
 		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
-			"3, 'reference', 'integer', 2".
+			$ilDB->quote(3, "integer").", ".$ilDB->quote("reference", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "integer").
 			")");
 
 		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
-			"4, 'boolean', 'integer', 2".
+			$ilDB->quote(4, "integer").", ".$ilDB->quote("boolean", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "integer").
 			")");
 
 		$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 			" VALUES (".
-			"5, 'datetime', 'date', 3".
+			$ilDB->quote(5, "integer").", ".$ilDB->quote("datetime", "text").", ".$ilDB->quote("date", "text").", ".$ilDB->quote(3, "integer").
 			")");
 ?>
 <#3605>
@@ -10348,17 +10348,17 @@ $ilDB->addTableColumn('page_object', 'show_activation_info', array(
 <?php
 $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 			" (id, title, datatype_id, inputformat) VALUES (".
-			"1, 'length', 2, 1".
+			$ilDB->quote(1, "integer").", ".$ilDB->quote("length", "text").", ".$ilDB->quote(2, "integer").", ".$ilDB->quote(1, "integer").
 			")");
 
 $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 			" (id, title, datatype_id, inputformat) VALUES (".
-			"2, 'regex', 2, 1".
+			$ilDB->quote(2, "integer").", ".$ilDB->quote("regex", "text").", ".$ilDB->quote(2, "integer").", ".$ilDB->quote(2, "integer").
 			")");
 
 $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 			" (id, title, datatype_id, inputformat) VALUES (".
-			"3, 'table_id', 3, 3".
+			$ilDB->quote(3, "integer").", ".$ilDB->quote("table_id", "text").", ".$ilDB->quote(3, "integer").", ".$ilDB->quote(1, "integer").
 			")");
 ?>
 <#3611>
@@ -10558,7 +10558,7 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype_prop ".
 
 $ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
 		" VALUES (".
-		"6, 'file', 'integer', 2".
+		$ilDB->quote(6, "integer").", ".$ilDB->quote("file", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "text").
 		")");
 		
 ?>
@@ -12820,7 +12820,7 @@ if($ilDB->tableColumnExists('il_dcl_table', 'blocked'))
 <?php
 $ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type) ".
         " VALUES (".
-        "7, 'rating', 'integer'".
+        $ilDB->quote(7, "integer").", ".$ilDB->quote("rating", "text").", ".$ilDB->quote("integer", "text").
         ")");
 ?>
 <#3736>
@@ -12873,5 +12873,12 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
 <#3739>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3740>
+<?php
+$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
+        " VALUES (".
+        $ilDB->quote(8, "integer").", ".$ilDB->quote("ILIAS_reference", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "integer").
+        ")");
 ?>
 
