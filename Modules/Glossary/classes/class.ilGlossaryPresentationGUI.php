@@ -1081,6 +1081,7 @@ class ilGlossaryPresentationGUI
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setTarget("print_view");
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 		
 		// selection type
