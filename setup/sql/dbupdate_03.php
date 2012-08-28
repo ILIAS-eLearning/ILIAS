@@ -7077,8 +7077,20 @@ $ilDB->manipulateF("INSERT INTO rbac_ta (typ_id, ops_id) VALUES (%s, %s)",
 ?>
 <#3416>
 <?php
-	$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'chtr', 2, 8)");
-	$ilDB->manipulate("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (4, 'chtr', 3, 8)");
+	$ilDB->manipulate(
+			'INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES ('.
+			$ilDB->quote(4,'integer').', '.
+			$ilDB->quote('chtr','text').', '.
+			$ilDB->quote(2,'integer').', '.
+			$ilDB->quote(8,'integer') .
+			')');
+	$ilDB->manipulate(
+			'INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES ('.
+			$ilDB->quote(4,'integer').', '.
+			$ilDB->quote('chtr','text').', '.
+			$ilDB->quote(3,'integer').', '.
+			$ilDB->quote(8,'integer') .
+			')');
 ?>
 <#3417>
 <?php
