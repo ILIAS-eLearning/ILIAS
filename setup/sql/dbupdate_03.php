@@ -12870,4 +12870,8 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
         	   array("integer", "integer", "text", "integer"),
                    array(5, 2, "text_area", 4));
 ?>
+<#3739>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 
