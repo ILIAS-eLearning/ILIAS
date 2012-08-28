@@ -1850,7 +1850,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	function userassignmentObject()
 	{
-		global $rbacreview, $rbacsystem, $lng;
+		global $rbacreview, $rbacsystem, $lng, $ilUser;
 		
 		//if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
@@ -1865,36 +1865,60 @@ class ilObjRoleGUI extends ilObjectGUI
 		include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$tb = new ilToolbarGUI();
 
-		// add member
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
-		ilRepositorySearchGUI::fillAutoCompleteToolbar(
-			$this,
-			$tb,
-			array(
-				'auto_complete_name'	=> $lng->txt('user'),
-				'submit_name'			=> $lng->txt('add')
-			)
-		);
+		// protected admin role
+		include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+		if(
+			$this->object->getId() != SYSTEM_ROLE_ID ||
+				(
+					!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID) or
+					!ilSecuritySettings::_getInstance()->isAdminRoleProtected()
+				)
+		)
+		{
 
-/*		
-		// add button
-		$tb->addFormButton($lng->txt("add"), "assignUser");
-*/
-		$tb->addSpacer();
 
-		$tb->addButton(
-			$this->lng->txt('search_user'),
-			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start')
-		);
-		$tb->addSpacer();
+			// add member
+			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$tb,
+				array(
+					'auto_complete_name'	=> $lng->txt('user'),
+					'submit_name'			=> $lng->txt('add')
+				)
+			);
+
+	/*		
+			// add button
+			$tb->addFormButton($lng->txt("add"), "assignUser");
+	*/
+			$tb->addSpacer();
+
+			$tb->addButton(
+				$this->lng->txt('search_user'),
+				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start')
+			);
+			$tb->addSpacer();
+		}
+		
 		$tb->addButton(
 			$this->lng->txt('role_mailto'),
 			$this->ctrl->getLinkTarget($this,'mailToRole')
 		);
 		$this->tpl->setVariable('BUTTONS_UA',$tb->getHTML());
 		
+		
+		include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
+		$role_assignment_editable = true;
+		if(
+				$this->object->getId() == SYSTEM_ROLE_ID &&
+				!ilSecuritySettings::_getInstance()->checkAdminRoleAccessible($ilUser->getId()))
+		{
+			$role_assignment_editable = false;
+		}
+
 		include_once './Services/AccessControl/classes/class.ilAssignedUsersTableGUI.php';
-		$ut = new ilAssignedUsersTableGUI($this,'userassignment',$this->object->getId());
+		$ut = new ilAssignedUsersTableGUI($this,'userassignment',$this->object->getId(),$role_assignment_editable);
 		
 		$this->tpl->setVariable('TABLE_UA',$ut->getHTML());
 		

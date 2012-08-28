@@ -398,6 +398,25 @@ class ilSecuritySettings
 	 {
 		 $this->protect_admin_role = $a_stat;
 	 }
+	 
+	 /**
+	  * Check if the administrator role is accessible for a specific user
+	  * @param int $a_usr_id
+	  */
+	 public function checkAdminRoleAccessible($a_usr_id)
+	 {
+		 global $rbacreview;
+		 
+		 if(!$this->isAdminRoleProtected())
+		 {
+			 return true;
+		 }
+		 if($rbacreview->isAssigned($a_usr_id,SYSTEM_ROLE_ID))
+		 {
+			 return true;
+		 }
+		 return false;
+	 }
 
 	/**
 	 * Save settings
