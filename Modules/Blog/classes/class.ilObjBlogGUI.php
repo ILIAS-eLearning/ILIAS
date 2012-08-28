@@ -738,7 +738,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			{
 				foreach($items as $id => $item)
 				{
-					if($item["user"] == $this->author)
+					if($item["author"] == $this->author)
 					{
 						$list_items[$id] = $item;
 					}
@@ -956,7 +956,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		$items = array();
 		foreach(ilBlogPosting::getAllPostings($a_obj_id) as $posting)
 		{
-			if($this->author && $posting["user"] == $this->author)
+			if($this->author && $posting["author"] == $this->author)
 			{
 				$author_found = true;
 			}
@@ -1032,7 +1032,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			}
 
 			// actions					
-			$item_contribute = $this->mayContribute($item["id"], $item["user"]);
+			$item_contribute = $this->mayContribute($item["id"], $item["author"]);
 			if(($item_contribute || $can_approve) && !$a_link_template && $a_cmd == "preview")
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
@@ -1314,10 +1314,11 @@ class ilObjBlogGUI extends ilObject2GUI
 				{
 					if($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp"))
 					{
-						$authors[] = $item["user"];					
+						$authors[] = $item["author"];					
 					}	
 				}
 			}			
+
 			$authors = array_unique($authors);			
 			if(sizeof($authors) > 1)
 			{					
@@ -1325,13 +1326,16 @@ class ilObjBlogGUI extends ilObject2GUI
 				
 				$list = array();
 				foreach($authors as $user_id)
-				{													
-					$ilCtrl->setParameter($this, "ath", $user_id);
-					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
-					$ilCtrl->setParameter($this, "ath", "");
-					
-					$name = ilUserUtil::getNamePresentation($user_id, true);
-					$list[$name."///".$user_id] = array($name, $url);																
+				{								
+					if($user_id)
+					{
+						$ilCtrl->setParameter($this, "ath", $user_id);
+						$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+						$ilCtrl->setParameter($this, "ath", "");
+
+						$name = ilUserUtil::getNamePresentation($user_id, true);
+						$list[$name."///".$user_id] = array($name, $url);	
+					}
 				}
 				ksort($list);
 				
