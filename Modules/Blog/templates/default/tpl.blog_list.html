@@ -5,7 +5,11 @@
 	<!-- BEGIN posting -->
 	<div class="ilBlogListItem{DRAFT_CLASS}">
 		<!-- BEGIN actions -->
-		<div style="float:right">{ACTION_SELECTOR}</div>
+		<div style="float:right">
+			<!-- BEGIN item_approval -->
+			<span style="margin-right: 50px" class="ilBlogNavigationItemDraft small">{APPROVAL}</span>
+			<!-- END item_approval -->
+			{ACTION_SELECTOR}</div>
 		<!-- END actions -->
 		<div class="ilBlogListItemTitle">
 			<h3><a href="{URL_TITLE}">{TITLE}</a></h3>

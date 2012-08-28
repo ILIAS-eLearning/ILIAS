@@ -12863,3 +12863,9 @@ fm#:#fm_settings_local#:#Show Local Filesystem
 fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
 fm#:#fm_settings_filesize#:#Maximum Upload File Size
 fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.
+blog#:#blog_authors#:#Authors
+blog#:#blog_author#:#Author
+blog#:#blog_enable_approval#:#Approval
+blog#:#blog_enable_approval_info#:#All postings need to be approved by an administrator before being published.
+blog#:#blog_approve#:#Approve
+blog#:#blog_needs_approval#:#Needs Approval

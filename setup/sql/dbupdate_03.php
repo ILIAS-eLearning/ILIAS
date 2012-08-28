@@ -12881,4 +12881,29 @@ $ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_lo
         $ilDB->quote(8, "integer").", ".$ilDB->quote("ILIAS_reference", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "integer").
         ")");
 ?>
-
+<#3741>
+<?php
+if(!$ilDB->tableColumnExists('il_blog', 'approval'))
+{
+	$ilDB->addTableColumn(
+		'il_blog',
+		'approval',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+	$ilDB->addTableColumn(
+		'il_blog_posting',
+		'approved',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => false,
+			'default' => 0
+		)
+	);
+}
+?>
