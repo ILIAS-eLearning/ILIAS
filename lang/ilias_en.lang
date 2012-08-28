@@ -12869,3 +12869,5 @@ blog#:#blog_enable_approval#:#Approval
 blog#:#blog_enable_approval_info#:#All postings need to be approved by an administrator before being published.
 blog#:#blog_approve#:#Approve
 blog#:#blog_needs_approval#:#Needs Approval
+sess#:#sess_copy#:#Copy Session
+grp#:#events#:#Sessions

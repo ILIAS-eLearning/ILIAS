@@ -12919,3 +12919,7 @@ if(!$ilDB->tableColumnExists('il_blog', 'approval'))
 	);
 }
 ?>
+<#3742>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

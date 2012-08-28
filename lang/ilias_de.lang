@@ -12869,3 +12869,5 @@ blog#:#blog_enable_approval#:#Abname
 blog#:#blog_enable_approval_info#:#Alle Beiträge müssen für die Veröffentlichung durch einen Administrator abgenommen werden.
 blog#:#blog_approve#:#Abnahme erteilen
 blog#:#blog_needs_approval#:#Abnahme benötigt
+sess#:#sess_copy#:#Sitzung kopieren
+grp#:#events#:#Sitzungen

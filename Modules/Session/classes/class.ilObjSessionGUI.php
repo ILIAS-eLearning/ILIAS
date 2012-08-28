@@ -761,14 +761,24 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;	
 	}
 	
-	protected function initContainer()
+	protected function initContainer($a_init_participants = false)
 	{
 		global $tree;
 		
+		$is_course = $is_group = false;
+		
 		$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		if($this->container_ref_id)
+		{
+			$is_course = true;
+		}
 		if(!$this->container_ref_id)
 		{
 			$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'grp');
+			if($this->container_ref_id)
+			{
+				$is_group = true;
+			}
 		}
 		if(!$this->container_ref_id)
 		{
@@ -776,6 +786,21 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return true;
 		}
 		$this->container_obj_id = ilObject::_lookupObjId($this->container_ref_id);
+		
+		if($a_init_participants && $this->container_obj_id)
+		{
+			if($is_course)
+			{
+				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+				return ilCourseParticipants::_getInstanceByObjId($this->container_obj_id);
+			}
+			else if($is_group)
+			{
+				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+				return ilGroupParticipants::_getInstanceByObjId($this->container_obj_id);
+			}
+		}
+		
 	}
 	
 	/**
@@ -930,13 +955,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->tpl->setVariable('ACTION_BUTTONS',$toolbar->getHTML());
 
-		$this->initContainer();
-		
-		include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		include_once './Modules/Session/classes/class.ilEventParticipants.php';
-
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->container_obj_id);
-		$event_part = new ilEventParticipants($this->object->getId());
+		$members_obj = $this->initContainer(true);
+				
+		include_once './Modules/Session/classes/class.ilEventParticipants.php';	
 		
 		// Save hide/show table settings		
 		$this->setShowHidePrefs();
@@ -1081,15 +1102,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->checkPermission('write');
 
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
+		
 
 		$this->initContainer();
 		
 		$_POST['participants'] = is_array($_POST['participants']) ? $_POST['participants'] : array();
 
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->container_obj_id);
-		$event_part = new ilEventParticipants($this->object->getId());
+		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 
 		$visible = $_POST['visible_participants'] ? $_POST['visible_participants'] : array();
 		foreach($visible as $user)
@@ -1131,8 +1150,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	protected function initAttendanceList()
 	{
-		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->container_obj_id);
+		$members_obj = $this->initContainer(true);
 		
 		include_once 'Services/Membership/classes/class.ilAttendanceList.php';
 		$list = new ilAttendanceList($this, $members_obj);	
@@ -1166,8 +1184,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $ilErr,$ilAccess,$tree;
 		
 		$this->checkPermission('write');
-		
-		$this->initContainer();
 													
 		$list = $this->initAttendanceList();		
 		$list->initFromForm();					
@@ -1216,13 +1232,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_list.html','Modules/Session');
 		$this->__showButton($this->ctrl->getLinkTarget($this,'exportCSV'),$this->lng->txt('event_csv_export'));
 				
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		
 		$this->tpl->addBlockfile("EVENTS_TABLE","events_table", "tpl.table.html");
 		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.sess_list_row.html','Modules/Session');
 		
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
+		$members_obj = $this->initContainer(true);
 		$members = $members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
 		

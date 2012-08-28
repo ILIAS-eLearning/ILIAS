@@ -17,7 +17,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
 * @ilCtrl_Calls ilObjGroupGUI: ilRepositorySearchGUI, ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilPageObjectGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
-* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI
+* @ilCtrl_Calls ilObjGroupGUI: ilCommonActionDispatcherGUI, ilObjectServiceSettingsGUI, ilSessionOverviewGUI
 * 
 *
 * @extends ilObjectGUI
@@ -216,6 +216,18 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($service);
 				break;
 			
+			case 'ilsessionoverviewgui':								
+				$this->setSubTabs('members');
+				$this->tabs_gui->setTabActive('members');
+				$this->tabs_gui->setSubTabActive('events');
+				
+				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
+				$prt = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
+				
+				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
+				$overview = new ilSessionOverviewGUI($this->object->getRefId(), $prt);
+				$this->ctrl->forwardCommand($overview);				
+				break;
 
 			default:
 			
@@ -2825,6 +2837,13 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("mail_members",
 				$this->ctrl->getLinkTarget($this,'mailMembers'),
 				"mailMembers", get_class($this));
+				
+				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				{
+					$this->tabs_gui->addSubTabTarget("events",
+													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
+													 "", 'ilsessionoverviewgui');
+				}
 				
 				include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
 				if(ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()))
