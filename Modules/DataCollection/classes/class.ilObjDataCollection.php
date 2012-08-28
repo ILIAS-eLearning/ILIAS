@@ -99,7 +99,7 @@ class ilObjDataCollection extends ilObject2
 			$table->doDelete(true);
 		}
 		
-		$query = "DELETE FROM il_dcl_data WHERE id = ".$this->getId();
+		$query = "DELETE FROM il_dcl_data WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 	}
 	
@@ -431,7 +431,7 @@ class ilObjDataCollection extends ilObject2
 	{
 		global $ilDB;
 		
-		$query = "SELECT id FROM il_dcl_table WHERE obj_id = ".$this->getId();
+		$query = "SELECT id FROM il_dcl_table WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
 		$tables = array();
 		

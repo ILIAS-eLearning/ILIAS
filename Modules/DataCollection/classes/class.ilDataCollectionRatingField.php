@@ -67,7 +67,7 @@ class ilDataCollectionRatingField extends ilDataCollectionRecordField{
 			$this->getField()->getId(), "dcl_field");
 	}
 
-	/*
+	/**
 	  * delete
 	  */
 	public function delete()
@@ -80,7 +80,7 @@ class ilDataCollectionRatingField extends ilDataCollectionRecordField{
 			"sub_obj_id = ".$ilDB->quote((int) $this->getField()->getId(), "integer")." AND ".
 			$ilDB->equals("sub_obj_type", "dcl_field", "text", true));
 
-		$query2 = "DELETE FROM il_dcl_record_field WHERE id = ".$this->getId();
+		$query2 = "DELETE FROM il_dcl_record_field WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query2);
 	}
 }

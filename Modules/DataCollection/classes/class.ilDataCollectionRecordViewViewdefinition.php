@@ -178,9 +178,6 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 		global $ilDB;
 		
 		//FIXME die werte bei type und formtype sollten vom constructor genommen werden
-		/*$set = $ilDB->query("SELECT id FROM il_dcl_view".
-			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote($this->type, "integer")." and formtype = ".$ilDB->quote($this->formtype, "integer"));
-		 */
 		$set = $ilDB->query("SELECT id FROM il_dcl_view".
 			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote(0, "integer")." and formtype = ".$ilDB->quote(0, "integer"));
 		$row = $ilDB->fetchAssoc($set);
