@@ -378,8 +378,8 @@ class ilDataCollectionField
 	{
 		global $ilDB;
 		$query = "  SELECT view.table_id, def.field_order, def.is_set FROM il_dcl_viewdefinition def
-						INNER JOIN il_dcl_view view ON view.id = def.view_id AND view.type = ".$view."
-						WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$this->table_id;
+						INNER JOIN il_dcl_view view ON view.id = def.view_id AND view.type = ".$ilDB->quote($view, "integer")."
+						WHERE def.field LIKE '".$this->id."' AND view.table_id = ".$ilDB->quote($this->table_id, "integer");
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 		$prop = $rec['is_set'];
@@ -456,7 +456,6 @@ class ilDataCollectionField
 	{
 		global $ilDB;
 
-		//$query = "SELECT f.*, CASE WHEN (SELECT COUNT(*) FROM il_dcl_field_prop fo WHERE fo.field_id = f.id) > 0 
 		//THEN 1 ELSE 0 END AS has_options FROM il_dcl_field f WHERE id = ".$ilDB->quote($this->getId(),"integer");
 		$query = "SELECT * FROM il_dcl_field WHERE id = ".$ilDB->quote($this->getId(),"integer");
 		$set = $ilDB->query($query);
@@ -612,18 +611,18 @@ class ilDataCollectionField
 
 
 		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = "
-			.$view." AND il_dcl_view.table_id = "
-			.$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = '"
-			.$this->getId()."'";
+			.$ilDB->quote($view, "integer")." AND il_dcl_view.table_id = "
+			.$ilDB->quote($this->getTableId(), "integer")." WHERE def.view_id = il_dcl_view.id AND def.field = "
+			.$ilDB->quote($this->getId(), "text");
 			
 		$ilDB->manipulate($query);
 		
-		$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order, is_set) SELECT id, '"
-			.$this->getId()."', "
-			.$this->getOrder().", "
-			.$set."  FROM il_dcl_view WHERE il_dcl_view.type = "
-			.$view." AND il_dcl_view.table_id = "
-			.$this->getTableId();
+		$query = "INSERT INTO il_dcl_viewdefinition (view_id, field, field_order, is_set) SELECT id, "
+			.$ilDB->quote($this->getId(), "text").", "
+			.$ilDB->quote($this->getOrder(), "integer").", "
+			.$ilDB->quote($set, "integer")."  FROM il_dcl_view WHERE il_dcl_view.type = "
+			.$ilDB->quote($view, "integer")." AND il_dcl_view.table_id = "
+			.$ilDB->quote($this->getTableId(), "integer");
 			
 		$ilDB->manipulate($query);
 	}
@@ -637,9 +636,9 @@ class ilDataCollectionField
 		global $ilDB;
 		
 		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = "
-			.$view." AND il_dcl_view.table_id = "
-			.$this->getTableId()." WHERE def.view_id = il_dcl_view.id AND def.field = "
-			.$this->getId();
+			.$ilDB->quote($view, "integer")." AND il_dcl_view.table_id = "
+			.$ilDB->quote($this->getTableId(), "integer")." WHERE def.view_id = il_dcl_view.id AND def.field = "
+			.$ilDB->quote($this->getId(), "text");
 			
 		$ilDB->manipulate($query);
 	}
@@ -656,10 +655,10 @@ class ilDataCollectionField
 		$this->deleteViewDefinition(self::FILTER_VIEW);
 		$this->deleteViewDefinition(self::EDIT_VIEW);
 
-		$query = "DELETE FROM il_dcl_field_prop WHERE field_id = ".$this->getId();
+		$query = "DELETE FROM il_dcl_field_prop WHERE field_id = ".$ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
 
-		$query = "DELETE FROM il_dcl_field WHERE id = ".$this->getId();
+		$query = "DELETE FROM il_dcl_field WHERE id = ".$ilDB->quote($this->getId(), "text");
 		$ilDB->manipulate($query);
 
 	}

@@ -499,7 +499,7 @@ class ilDataCollectionRecord
 			 $recordfield->delete();
 		}
 		
-		$query = "DELETE FROM il_dcl_record WHERE id = ".$this->getId();
+		$query = "DELETE FROM il_dcl_record WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
 		include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";

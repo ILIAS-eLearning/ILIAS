@@ -118,7 +118,7 @@ class ilDataCollectionTable
 			
 		if($this->getCollectionObject()->getMainTableId() != $this->getId() || $delete_main_table == true)
 		{
-			$query = "DELETE FROM il_dcl_table WHERE id = ".$this->getId();
+			$query = "DELETE FROM il_dcl_table WHERE id = ".$ilDB->quote($this->getId(), "integer");
 			$ilDB->manipulate($query);	
 		}
 	}
@@ -159,17 +159,17 @@ class ilDataCollectionTable
 
 		//add view definition
 		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::VIEW_VIEW.", 1)";
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::VIEW_VIEW, "integer").", ".$ilDB->quote(1, "integer");
 		$ilDB->manipulate($query);
 
 		//add edit definition
 		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::EDIT_VIEW.", 1)";
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::EDIT_VIEW, "integer").", ".$ilDB->quote(1, "integer");
 		$ilDB->manipulate($query);
 
 		//add filter definition
 		$view_id = $ilDB->nextId("il_dcl_view");
-		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$view_id.", ".$this->id.", ".ilDataCollectionField::FILTER_VIEW.", 1)";
+		$query = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".$ilDB->quote($view_id, "integer").", ".$ilDB->quote($this->id, "integer").", ".$ilDB->quote(ilDataCollectionField::FILTER_VIEW, "integer").", ".$ilDB->quote(1, "integer");
 		$ilDB->manipulate($query);
 
 		$this->buildOrderFields();
@@ -332,7 +332,7 @@ class ilDataCollectionTable
 			global $ilDB;
 			
 			$records = array();			
-			$query = "SELECT id FROM il_dcl_record WHERE table_id = ".$this->id;
+			$query = "SELECT id FROM il_dcl_record WHERE table_id = ".$ilDB->quote($this->id, "integer");
 			$set = $ilDB->query($query);
 			
 			while($rec = $ilDB->fetchAssoc($set))
@@ -423,7 +423,7 @@ class ilDataCollectionTable
 		{
 			global $ilDB;
 			
-			$query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$this->getId()." ORDER BY def.field_order DESC";
+			$query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$ilDB->quote($this->getId(), "integer")." ORDER BY def.field_order DESC";
 			$fields = array();
 			$set = $ilDB->query($query);
 			

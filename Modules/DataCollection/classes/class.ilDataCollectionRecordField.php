@@ -34,7 +34,7 @@ class ilDataCollectionRecordField
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM il_dcl_record_field WHERE field_id LIKE '".$this->field->getId()."' AND record_id = ".$this->record->getId();
+		$query = "SELECT * FROM il_dcl_record_field WHERE field_id LIKE '".$ilDB->quote($this->field->getId(), "text")."' AND record_id = ".$ilDB->quote($this->record->getId(), "integer");
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 		$this->id = $rec['id'];
@@ -53,7 +53,7 @@ class ilDataCollectionRecordField
 		global $ilDB;
 
 		$id = $ilDB->nextId("il_dcl_record_field");
-		$query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (".$id.", ".$this->record->getId().", ".$this->field->getId().")";
+		$query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (".$ilDB->quote($id, "integer").", ".$ilDB->quote($this->record->getId(), "integer").", ".$ilDB->quote($this->field->getId(), "text").")";
 		$ilDB->manipulate($query);
 		$this->id = $id;
 	}
@@ -67,7 +67,7 @@ class ilDataCollectionRecordField
 		
 		$this->loadValue();
 		$datatype = $this->field->getDatatype();
-		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
+		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
 		$ilDB->manipulate($query);
 		$next_id = $ilDB->nextId("il_dcl_stloc".$datatype->getStorageLocation()."_value");
 		$ilDB->insert("il_dcl_stloc".$datatype->getStorageLocation()."_value",
@@ -85,10 +85,10 @@ class ilDataCollectionRecordField
 		global $ilDB;
 
 		$datatype = $this->field->getDatatype();
-		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
+		$query = "DELETE FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
 		$ilDB->manipulate($query);
 
-		$query2 = "DELETE FROM il_dcl_record_field WHERE id = ".$this->id;
+		$query2 = "DELETE FROM il_dcl_record_field WHERE id = ".$ilDB->quote($this->id, "integer");
 		$ilDB->manipulate($query2);
 	}
 	
@@ -163,7 +163,7 @@ class ilDataCollectionRecordField
 		{
 			global $ilDB;
 			$datatype = $this->field->getDatatype();
-			$query = "SELECT * FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$this->id;
+			$query = "SELECT * FROM il_dcl_stloc".$datatype->getStorageLocation()."_value WHERE record_field_id = ".$ilDB->quote($this->id, "integer");
 			$set = $ilDB->query($query);
 			$rec = $ilDB->fetchAssoc($set);
 			$this->value = $rec['value'];
