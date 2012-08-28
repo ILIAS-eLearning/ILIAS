@@ -38,7 +38,7 @@ div.ilc_page_tnav_TopNavigation
 {
 	padding: 3px;
 	border-style: solid;
-	border-color: #9EADBA;
+	border-color: #D6D6D6;
 	border-left-width: 1px;
 	border-right-width: 1px;
 	border-top-width: 1px;
@@ -51,7 +51,7 @@ div.ilc_page_bnav_BottomNavigation
 {
 	padding: 3px;
 	border-style: solid;
-	border-color: #9EADBA;
+	border-color: #D6D6D6;
 	border-left-width: 1px;
 	border-right-width: 1px;
 	border-top-width: 0px;

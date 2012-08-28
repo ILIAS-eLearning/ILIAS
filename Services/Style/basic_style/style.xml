@@ -148,7 +148,7 @@
 <Style Tag="div" Type="page_tnav" Class="TopNavigation">
 	<StyleParameter Name="padding" Value="3px"/>
 	<StyleParameter Name="border-style" Value="solid"/>
-	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-color" Value="#D6D6D6"/>
 	<StyleParameter Name="border-left-width" Value="1px"/>
 	<StyleParameter Name="border-right-width" Value="1px"/>
 	<StyleParameter Name="border-top-width" Value="1px"/>
@@ -159,7 +159,7 @@
 <Style Tag="div" Type="page_bnav" Class="BottomNavigation">
 	<StyleParameter Name="padding" Value="3px"/>
 	<StyleParameter Name="border-style" Value="solid"/>
-	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-color" Value="#D6D6D6"/>
 	<StyleParameter Name="border-left-width" Value="1px"/>
 	<StyleParameter Name="border-right-width" Value="1px"/>
 	<StyleParameter Name="border-top-width" Value="0px"/>
