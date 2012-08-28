@@ -208,10 +208,21 @@ class ilBlogPosting extends ilPageObject
 		{
 			$this->approve();
 		}
+		
+		// when posting is deactivated it should loose the approval
+		$this->addUpdateListener($this, "checkApproval");
 	
 		parent::read();
 	}
-
+		
+	function checkApproval()
+	{
+		if(!$this->getActive() && $this->isApproved())
+		{
+			$this->approved = false;
+			$this->update();
+		}		
+	}
 
 	/**
 	 * Delete blog posting and all related data
