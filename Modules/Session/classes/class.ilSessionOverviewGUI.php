@@ -45,7 +45,7 @@ class ilSessionOverviewGUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_crs_ref_id)
+	public function __construct($a_crs_ref_id, ilParticipants $a_members)
 	{
 		global $tpl, $ilCtrl, $lng;
 		
@@ -57,6 +57,7 @@ class ilSessionOverviewGUI
 		
 		$this->course_ref_id = $a_crs_ref_id;
 		$this->course_id = ilObject::_lookupObjId($this->course_ref_id);
+		$this->members_obj = $a_members;
 	}
 	
 	/**
@@ -107,14 +108,12 @@ class ilSessionOverviewGUI
 		$this->tpl->setVariable("BTN_TXT",$this->lng->txt('event_csv_export'));
 		$this->tpl->parseCurrentBlock();
 				
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		
 		$this->tpl->addBlockfile("EVENTS_TABLE","events_table", "tpl.table.html");
 		$this->tpl->addBlockfile('TBL_CONTENT','tbl_content','tpl.sess_list_row.html','Modules/Session');
 		
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_id);
-		$members = $members_obj->getParticipants();
+		$members = $this->members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
 		
 		// Table 
@@ -229,11 +228,9 @@ class ilSessionOverviewGUI
 		global $tree,$ilAccess;
 		
 		include_once('Services/Utilities/classes/class.ilCSVWriter.php');
-		include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 		include_once 'Modules/Session/classes/class.ilEventParticipants.php';
 		
-		$members_obj = ilCourseParticipants::_getInstanceByObjId($this->course_id);
-		$members = $members_obj->getParticipants();
+		$members = $this->members_obj->getParticipants();
 		$members = ilUtil::_sortIds($members,'usr_data','lastname','usr_id');		
 
 		$events = array();

@@ -4306,13 +4306,16 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($agreement);
 				break;
 				
-			case 'ilsessionoverviewgui':
-				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
-				
+			case 'ilsessionoverviewgui':								
 				$this->setSubTabs('members');
 				$this->tabs_gui->setTabActive('members');
 				$this->tabs_gui->setSubTabActive('events');
-				$overview = new ilSessionOverviewGUI($this->object->getRefId());
+				
+				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
+				$prt = ilCourseParticipants::_getInstanceByObjId($this->object->getId());
+			
+				include_once('./Modules/Session/classes/class.ilSessionOverviewGUI.php');
+				$overview = new ilSessionOverviewGUI($this->object->getRefId(), $prt);
 				$this->ctrl->forwardCommand($overview);				
 				break;
 			
