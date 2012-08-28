@@ -12865,14 +12865,9 @@ if(!$ilDB->tableColumnExists('il_poll', 'period'))
 ?>
 <#3738>
 <?php
-$ilDB->manipulate("INSERT INTO `ilias_trunk`.`il_dcl_datatype_prop` (
-`id` ,
-`datatype_id` ,
-`title` ,
-`inputformat`
-)
-VALUES (
-'5', '2', 'text_area', '4'
-)");
+$ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,inputformat) VALUES ".
+		   " (%s,%s,%s,%s)",
+        	   array("integer", "integer", "text", "integer"),
+                   array(5, 2, "text_area", 4));
 ?>
 
