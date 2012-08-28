@@ -1689,217 +1689,11 @@ certificate#:#certificate_wrong_unit#:#Sie haben einen falschen Wert oder eine f
 certificate#:#certificate_wrong_units#:#Sie haben einen falschen Abfolge von Werten und Einheiten eingetragen
 certificate#:#default_background_info#:#Das hier angegebene Hintergrundbild wird bei allen Zertifikaten als Standard-Hintergrund verwendet, es sei denn, Sie geben im Zertifikat-Editor explizit ein anderes Hintergrundbild an.
 certificate#:#download_certificate#:#Zertifikat herunterladen
-chat#:#cancel_talk#:#Anreden beenden
-chat#:#cancel_whisper#:#Flüstern beenden
-chat#:#chat_access_blocked#:#Ihr Zugang zu diesen Chaträumen wurde gesperrt.
-chat#:#chat_activate_status_notification#:#Zeigt Benachrichtigung über Chat-Einladungen und Beiträge in der Hauptmenüleiste
-chat#:#chat_active#:#Aktiv
-chat#:#chat_active_users#:#Anwesende Benutzer
-chat#:#chat_add_allowed_hosts#:#Bitte geben Sie die Adresse des/der Rechner ein, die auf den Chat-Server zugreifen dürfen
-chat#:#chat_add_blocking#:#Benutzer sperren
-chat#:#chat_add_external_ip#:#Bitte geben Sie die externe IP des Servers an.
-chat#:#chat_add_internal_ip#:#Bitte geben Sie die interne IP des Servers an.
-chat#:#chat_add_moderator_password#:#Bitte geben Sie ein Moderatorpasswort ein.
-chat#:#chat_add_port#:#Bitte geben Sie den Server-Port ein.
-chat#:#chat_add_private_chatroom#:#Privaten Chatraum anlegen
-chat#:#chat_add_smiley#:#Smiley hinzufügen
-chat#:#chat_add_ssl_port#:#Bitte geben Sie den Server-SSL-Port ein.
-chat#:#chat_add_to_addressbook#:#Zu den Kontakten hinzufügen
-chat#:#chat_add_to_bookmark#:#Zu den Favoriten hinzufügen
-chat#:#chat_added_to_addressbook#:#Der Benutzer ' %s ' wurde zu den Kontakten hinzugefügt
-chat#:#chat_added_to_bookmarks#:#Der Raum ' %s ' wurde zu den Favoriten hinzugefügt.
-chat#:#chat_address#:#Ansprechen
-chat#:#chat_address_user#:#Direkte Anrede von
-chat#:#chat_aqua#:#aqua
-chat#:#chat_arial#:#Arial
-chat#:#chat_available_smilies#:#Verfügbare Smileys
-chat#:#chat_black#:#schwarz
-chat#:#chat_block_user#:#Sperren
-chat#:#chat_blocked#:#Zugang gesperrt
-chat#:#chat_blocked_unlocked#:#Freischalten
-chat#:#chat_blocked_users#:#Gesperrte Benutzer
-chat#:#chat_blue#:#blau
-chat#:#chat_bold#:#fett
-chat#:#chat_cannot_connect_to_server#:#ILIAS kann keine Socket-Verbindung zum Chat-Server aufbauen.
-chat#:#chat_chat_invitation#:#Einladungen zu Chats
-chat#:#chat_chatroom_body#:#Chatraum:
-chat#:#chat_chatroom_rename#:#Chatraum bearbeiten
-chat#:#chat_chatrooms#:#Chaträume
 common#:#chat_chatviewer#:#Chatviewer
-chat#:#chat_color#:#Schriftfarbe
-chat#:#chat_confirm_delete#:#Sind Sie sicher, dass sie diese Chaträume löschen möchten?
-chat#:#chat_confirm_delete_private_room#:#Sind Sie sicher, dass der Raum gelöscht werden soll?
-chat#:#chat_confirm_delete_smiley#:#Sollen die ausgewählten Smileys wirklich gelöscht werden?
-chat#:#chat_confirm_kick_user#:#Sind Sie sicher, dass der Benutzer rausgeworfen werden soll?
-chat#:#chat_confirm_user_invite#:#Der Benutzer wird in den Chat eingeladen
-chat#:#chat_current_image_path#:#aktuelles Bild
-chat#:#chat_default_bookmark_description#:#Link zum Chatraum ' %s '
-chat#:#chat_default_bookmark_title#:#Chat Link
-chat#:#chat_delete_selected#:#Ausgewählte Smileys löschen
-chat#:#chat_delete_sure#:#Sind Sie sicher, dass dieser Chatraum gelöscht werden soll?
-chat#:#chat_disinvite#:#Einladung zurückziehen
-chat#:#chat_disinvite_user#:#Benutzer aus privatem Chatraum ausladen/entfernen
-chat#:#chat_drop_user#:#Benutzer entfernt
-chat#:#chat_edit#:#Chat bearbeiten
-chat#:#chat_edit_smiley#:#Smiley bearbeiten
-chat#:#chat_empty#:#Leeren
 chatroom#:#chat_enable_autoscroll#:#aktiviere automatisches Scrollen
-chat#:#chat_enter_valid_username#:#Bitte geben Sie einen gültigen Benutzernamen ein.
-chat#:#chat_export_all#:#Jeder mit Zugang zum Chatraum
-chat#:#chat_export_info#:#Zeigt eine Export-Schaltfläche für den aktuellen Chat-Raum an. Beiträge werden als HTML-Datei exportiert.
-chat#:#chat_export_moderator#:#Nur Moderatoren
-chat#:#chat_export_period#:#Export-Zeitraum in Tagen
-chat#:#chat_export_period_info#:#Exportiert alle Beiträge aus diesem Zeitraum
-chat#:#chat_export_status#:#Export-Berechtigungen
-chat#:#chat_face#:#Schriftstil
-chat#:#chat_fuchsia#:#fuchsia
-chat#:#chat_general_settings#:#Allgemeine Einstellungen
-chat#:#chat_gray#:#grau
-chat#:#chat_green#:#grün
-chat#:#chat_hide_details#:#Details verbergen
-chat#:#chat_hide_smilies#:#Smileys verbergen
-chat#:#chat_hide_textformat#:#Textformat verbergen
-chat#:#chat_html_export#:#Export als HTML
-chat#:#chat_ilias#:#ILIAS Chat-Modul
-chat#:#chat_image_path#:#Bildpfad
-chat#:#chat_inactive#:#Inaktiv
-chat#:#chat_input#:#Eingabe
-chat#:#chat_insert_message#:#Bitte geben Sie eine Nachricht ein.
-chat#:#chat_invitation_body#:#Einladung zum Chat von:
-chat#:#chat_invitation_subject#:#Einladung zum Chat
-chat#:#chat_invite#:#Einladen
-chat#:#chat_invite_user#:#Benutzer einladen
-chat#:#chat_invited_by#:#Einladung von
-chat#:#chat_italic#:#Kursiv
-chat#:#chat_kick#:#Rauswerfen
-chat#:#chat_kick_user_session#:#Benutzer sperren
-chat#:#chat_kicked_from_room#:#Sie wurden aus diesem Chatraum ausgeperrt. Sie können keine Nachrichten schreiben.
-chat#:#chat_level_all#:#Alles
-chat#:#chat_level_debug#:#Korrektur
-chat#:#chat_level_error#:#Fehler
-chat#:#chat_level_fatal#:#Schwerwiegend
-chat#:#chat_level_info#:#Info
-chat#:#chat_lime#:#lime
-chat#:#chat_maroon#:#maroon
-chat#:#chat_message_notify#:#Chat-Benachrichtigungen
 chatroom#:#chat_message_notify_activate#:#Aktivieren
-chat#:#chat_message_notify_deactivate#:#Deaktivieren
-chat#:#chat_messages_deleted#:#Der Chatraum wurde zurückgesetzt.
-chat#:#chat_moderator_password#:#Moderatorenpasswort
-chat#:#chat_navy#:#navy
 chatroom#:#chat_new_invitation_sound_status#:#Einen Klang abspielen, wenn Benutzer eine Einladung zu einem Chat erhalten hat.
-chat#:#chat_new_message#:#Neue Nachricht
 chatroom#:#chat_new_message_sound_status#:#Einen Klang abspielen, wenn es im Chat einen neuen Beitrag gibt.
-chat#:#chat_no_active_users#:#Es sind keine weiteren Benutzer anwesend.
-chat#:#chat_no_blocked#:#Keine gesperrten Benutzer vorhanden
-chat#:#chat_no_connection#:#Es kann keine Verbindung zum Chat-Server hergestellt werden.
-chat#:#chat_no_delete_public#:#Der Öffentliche Chatraum kann nicht gelöscht werden.
-chat#:#chat_no_online_users#:#Es sind keine weiteren Benutzer online.
-chat#:#chat_no_recordings_available#:#Zur Zeit sind leider keine Aufnahmen vorhanden.
-chat#:#chat_no_refresh_public#:#Der Öffentliche Chatraum kann nicht zurückgesetzt werden.
-chat#:#chat_no_rename_public#:#Der Öffentliche Chatraum kann nicht umbenannt werden.
-chat#:#chat_no_room_selected#:#Es wurde kein Raum ausgewählt.
-chat#:#chat_no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
-chat#:#chat_no_write_perm#:#Keine Schreibrechte
-chat#:#chat_notification_intro#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
-chat#:#chat_olive#:#oliv
-chat#:#chat_online_users#:#Aktuell eingeloggte Benutzer
-chat#:#chat_open#:#Raum betreten
-chat#:#chat_private_message#:#Private Nachricht
-chat#:#chat_profile#:#Profil
-chat#:#chat_public_room#:#Öffentlicher Chatraum
-chat#:#chat_purple#:#purpur
-chat#:#chat_recent_postings#:#letzte Chatnachricht
-chat#:#chat_recording_action#:#Aktion
-chat#:#chat_recording_description#:#Beschreibung
-chat#:#chat_recording_moderator#:#Moderator
-chat#:#chat_recording_not_found#:#Aufnahme nicht gefunden.
-chat#:#chat_recording_running#:#Aufnahme läuft
-chat#:#chat_recording_started#:#Aufnahme gestartet
-chat#:#chat_recording_stopped#:#Aufnahme gestoppt
-chat#:#chat_recording_time_frame#:#Zeitraum
-chat#:#chat_recording_title#:#Titel der Aufnahme
-chat#:#chat_recordings#:#Aufnahmen
-chat#:#chat_recordings_delete_sure#:#Aufnahmen wirklich löschen?
-chat#:#chat_recordings_deleted#:#Aufnahmen wurden gelöscht.
-chat#:#chat_recordings_select_one#:#Bitte Aufnahmen auswählen, die Sie löschen möchten.
-chat#:#chat_red#:#rot
-chat#:#chat_refresh#:#Zurücksetzen
-chat#:#chat_refreshed#:#Alle Nachrichten der ausgewählten Chaträume wurden gelöscht.
-chat#:#chat_room_added#:#Ein neuer privater Chatraum wurde angelegt.
-chat#:#chat_room_does_not_exist#:#Der Chatraum existiert nicht. Vielleicht wurde er entfernt oder der Link ist ungültig.
-chat#:#chat_room_name#:#Name des Chatraumes
-chat#:#chat_room_renamed#:#Der Chatraum wurde umbenannt.
-chat#:#chat_room_select#:#Privaten Chatraum
-chat#:#chat_rooms#:#Chaträume
-chat#:#chat_rooms_deleted#:#Der/die Chaträum(e) wurden gelöscht.
-chat#:#chat_select_one_room#:#Bitte wählen Sie einen Chatraum aus
-chat#:#chat_server_allowed#:#Zugelassene Rechner
-chat#:#chat_server_allowed_b#:#(IP-Adresse des ILIAS-Servers, z.B 192.168.1.1)
-chat#:#chat_server_external_ip#:#Externe Server-IP
-chat#:#chat_server_internal_ip#:#Interne Server-IP
-chat#:#chat_server_logfile#:#Pfad zur Logdatei
-chat#:#chat_server_loglevel#:#Loglevel
-chat#:#chat_server_not_active#:#Der Chat-Server ist zur Zeit nicht aktiv
-chat#:#chat_server_port#:#Server Port
-chat#:#chat_server_settings#:#Einstellungen Chat-Server
-chat#:#chat_server_ssl_active#:#SSL aktivieren
-chat#:#chat_server_ssl_port#:#Server SSL Port
-chat#:#chat_server_ssl_settings#:#SSL Einstellungen
-chat#:#chat_settings_saved#:#Die Einstellungen wurden gespeichert
-chat#:#chat_show_details#:#Details anzeigen
-chat#:#chat_show_smilies#:#Smileys anzeigen
-chat#:#chat_show_textformat#:#Textformat anzeigen
-chat#:#chat_silver#:#silber
-chat#:#chat_smiley_image#:#Smiley Bild
-chat#:#chat_smiley_image_only_if_changed#:#Bitte geben Sie nur ein neues Bild an, wenn Sie das vorhandene ändern wollen. Wenn kein neues Bild angegeben wird, wird das vorhandene nicht verändert.
-chat#:#chat_smiley_keyword#:#Smiley-Kürzel
-chat#:#chat_smiley_keywords#:#Smiley-Kürzel
-chat#:#chat_smiley_keywords_one_per_line_note#:#Sie können für jedes Smiley mehrere Kürzel als Zeichenfolge angeben. Jede Zeile wird als einzelnes Kürzel benutzt.
-chat#:#chat_smilies_activate#:#Aktivieren
-chat#:#chat_smilies_deactivate#:#Deaktivieren
-chat#:#chat_smilies_dir_not_available#:#Das Smiley-Verzeichnis konnte nicht angelegt werden. Es können keine Smileys genutzt werden, bis dieses Problem behoben wurde.
-chat#:#chat_smilies_dir_not_exists#:#Das Verzeichnis mit den Smiley-Daten existiert nicht. Versuche es anzulegen.
-chat#:#chat_smilies_dir_not_writable#:#Das Smiley-Verzeichnis existiert, ist aber nicht beschreibbar. Es können daher keine neuen Smileys hinzugefügt werden.
-chat#:#chat_smilies_initialized#:#Die Smileys wurden erstellt und können nun benutzt werden.
-chat#:#chat_smilies_status#:#Chat-Smileys
-chat#:#chat_sound_status_activate#:#Aktivieren
-chat#:#chat_sound_status_deactivate#:#Deaktivieren
-chat#:#chat_sounds#:#Akustische Hinweise
-chat#:#chat_start_recording#:#Aufnahme starten
-chat#:#chat_status#:#Status
-chat#:#chat_status_saved#:#Der Status wurde geändert
-chat#:#chat_stop_recording#:#Aufnahme stoppen
-chat#:#chat_tahoma#:#Tahoma
-chat#:#chat_teal#:#teal
-chat#:#chat_textformat#:#Textformat
-chat#:#chat_times#:#Times
-chat#:#chat_title_missing#:#Bitte geben Sie einen Namen an.
-chat#:#chat_to_chat_body#:#Zum Chat
-chat#:#chat_type#:#Schriftart
-chat#:#chat_unblocked_user#:#Der Zugang für die ausgewählten Benutzer wurde freigeschaltet.
-chat#:#chat_underlined#:#Unterstrichen
-chat#:#chat_unkick#:#Wieder aufnehmen
-chat#:#chat_unkick_user_session#:#Sperrung aufheben
-chat#:#chat_upload_smiley#:#Smiley hochladen
-chat#:#chat_user_already_blocked#:#Der Zugang dieses Benutzers ist bereits gesperrt.
-chat#:#chat_user_already_in_addressbook#:#Der Benutzer befindet sich bereits in Ihren Kontakten
-chat#:#chat_user_blocked#:#Der Zugang des Benutzer zu den Chaträumen wurde gesperrt.
-chat#:#chat_user_dropped#:#Der Benutzer wurde rausgeschmissen
-chat#:#chat_user_dropped_private#:#Der Benutzer wurde aus dem privaten Chatraum ausgeladen/entfernt.
-chat#:#chat_user_hidden#:#versteckt
-chat#:#chat_user_invited#:#Der Benutzer wurde zum Chat eingeladen.
-chat#:#chat_user_invited_private#:#Der Benutzer wurde in den privaten Chatraum '%s' eingeladen.
-chat#:#chat_user_invited_public#:#Der Benutzer wurde in den Chat '%s' eingeladen.
-chat#:#chat_user_name#:#Benutzername
-chat#:#chat_user_unkicked#:#Der Benutzer wurde wieder aufgenommen.
-chat#:#chat_user_visible#:#sichtbar
-chat#:#chat_whisper#:#Flüstern
-chat#:#chat_yellow#:#gelb
-chat#:#chats#:#Chats
-chat#:#check_configuration#:#Bitte überprüfen Sie die Serverkonfiguration.
-chat#:#edit_smilies#:#Smileys bearbeiten
-chat#:#my_chats#:#Meine Chats
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
 chatroom#:#allow_private_rooms#:#Private Räume erlauben
@@ -2500,19 +2294,14 @@ rbac#:#cat_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und v
 common#:#cat_clear_page#:#Seite leeren
 rbac#:#cat_copy#:#Kategorie kopieren
 rbac#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
-rbac#:#cat_create#:#Neue Kategorie anlegen
-common#:#cat_create_alm#:#Neues AICC-Lernmodul anlegen
 rbac#:#cat_create_cat#:#Neue Kategorie anlegen
-common#:#cat_create_chat#:#Neuen Chat anlegen
 rbac#:#cat_create_crs#:#Neuen Kurs anlegen
-common#:#cat_create_dbk#:#Neues Digilib-Buch anlegen
 rbac#:#cat_create_exc#:#Neue Übung anlegen
 rbac#:#cat_create_feed#:#Neuen Webfeed anlegen
 rbac#:#cat_create_file#:#Neue Datei hochladen
 rbac#:#cat_create_frm#:#Neues Forum anlegen
 rbac#:#cat_create_glo#:#Neues Glossar anlegen
 rbac#:#cat_create_grp#:#Neue Gruppe anlegen
-common#:#cat_create_hlm#:#Neues HACP-Lernmodul anlegen
 rbac#:#cat_create_htlm#:#Neues HTML-Lernmodul anlegen
 rbac#:#cat_create_icrs#:#Neues LearnLinc-Seminar anlegen
 rbac#:#cat_create_lm#:#Neues ILIAS-Lernmodul anlegen
@@ -2523,9 +2312,7 @@ rbac#:#cat_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
 rbac#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 rbac#:#cat_create_svy#:#Neue Umfrage anlegen
 rbac#:#cat_create_tst#:#Neuen Test anlegen
-common#:#cat_create_url#:#Neue URL anlegen
 rbac#:#cat_create_webr#:#Neuen Weblink anlegen
-common#:#cat_create_write#:#Neues Wiki anlegen
 rbac#:#cat_delete#:#Kategorie löschen oder verschieben
 common#:#cat_edit#:#Kategorie bearbeiten
 rbac#:#cat_edit_permission#:#Rechteeinstellungen ändern
@@ -2726,10 +2513,6 @@ common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Wartel
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
 rbac#:#crs_copy#:#Kurs kopieren
 rbac#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
-common#:#crs_create#:#Neuen Kurs anlegen
-common#:#crs_create_alm#:#Neues AICC-Lernmodul anlegen
-common#:#crs_create_chat#:#Neuen Chat anlegen
-common#:#crs_create_dbk#:#Neues Digilib-Buch anlegen
 rbac#:#crs_create_exc#:#Neue Übung anlegen
 rbac#:#crs_create_feed#:#Neuen Webfeed anlegen
 rbac#:#crs_create_file#:#Neue Datei hochladen
@@ -2737,7 +2520,6 @@ rbac#:#crs_create_fold#:#Neuen Ordner anlegen
 rbac#:#crs_create_frm#:#Neues Forum anlegen
 rbac#:#crs_create_glo#:#Neues Glossar anlegen
 rbac#:#crs_create_grp#:#Neue Gruppe anlegen
-common#:#crs_create_hlm#:#Neues HACP-Lernmodul anlegen
 rbac#:#crs_create_htlm#:#Neues HTML-Lernmodul anlegen
 rbac#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
 rbac#:#crs_create_lm#:#Neues ILIAS-Lernmodul anlegen
@@ -2749,7 +2531,6 @@ rbac#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 rbac#:#crs_create_svy#:#Neue Umfrage anlegen
 rbac#:#crs_create_tst#:#Neuen Test anlegen
 rbac#:#crs_create_webr#:#Neuen Weblink anlegen
-common#:#crs_create_write#:#Wiki anlegen
 rbac#:#crs_delete#:#Kurs löschen oder verschieben
 common#:#crs_edit#:#Kurs bearbeiten
 rbac#:#crs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
@@ -3155,16 +2936,12 @@ common#:#fold_add#:#Ordner anlegen
 common#:#fold_added#:#Ordner angelegt
 rbac#:#fold_copy#:#Ordner kopieren
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
-common#:#fold_create_alm#:#Neues AICC-Lernmodul anlegen
-common#:#fold_create_chat#:#Neuen Chat anlegen
-common#:#fold_create_dbk#:#Neues Digilib-Buch anlegen
 rbac#:#fold_create_exc#:#Neue Übung anlegen
 rbac#:#fold_create_file#:#Neue Datei hochladen
 rbac#:#fold_create_fold#:#Neuen Ordner anlegen
 rbac#:#fold_create_frm#:#Neues Forum anlegen
 rbac#:#fold_create_glo#:#Neues Glossar anlegen
 rbac#:#fold_create_grp#:#Neue Gruppe anlegen
-common#:#fold_create_hlm#:#Neues HACP-Lernmodul anlegen
 rbac#:#fold_create_htlm#:#Neues HTML-Lernmodul anlegen
 rbac#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
 rbac#:#fold_create_lm#:#Neues ILIAS-Lernmodul anlegen
@@ -3176,7 +2953,6 @@ rbac#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 rbac#:#fold_create_svy#:#Neue Umfrage anlegen
 rbac#:#fold_create_tst#:#Neuen Test anlegen
 rbac#:#fold_create_webr#:#Neuen Weblink anlegen
-common#:#fold_create_write#:#Wiki anlegen
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
 rbac#:#fold_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
@@ -3365,7 +3141,6 @@ rbac#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
 rbac#:#grp_create_svy#:#Neue Umfrage anlegen
 rbac#:#grp_create_tst#:#Neuen Test anlegen
 rbac#:#grp_create_webr#:#Neuen Weblink anlegen
-common#:#grp_create_write#:#Wiki anlegen
 rbac#:#grp_delete#:#Gruppe löschen oder verschieben
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
@@ -3606,7 +3381,6 @@ common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_glossary#:#Glossar importieren
 common#:#import_grp#:#Gruppe importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
-common#:#import_hlm#:#HACP-Modul importieren
 common#:#import_lm#:#Lernmodul importieren
 common#:#import_qpl#:#Fragenpool für Test importieren
 common#:#import_questions_into_qpl#:#Frage(n) in den Fragenpool importieren
@@ -4270,7 +4044,6 @@ common#:#obj_glo#:#Glossar
 common#:#obj_grp#:#Gruppe
 common#:#obj_grp_duplicate#:#Gruppe kopieren
 common#:#obj_grp_select#:#-- Bitte wählen Sie eine Gruppe aus --
-common#:#obj_hlm#:#Lernmodul HACP
 common#:#obj_htlm#:#Lernmodul HTML
 common#:#obj_icla#:#LearnLinc Seminarraum
 common#:#obj_icrs#:#LearnLinc Seminar
@@ -4400,7 +4173,6 @@ common#:#objs_fold#:#Ordner
 common#:#objs_frm#:#Foren
 common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
-common#:#objs_hlm#:#HACP-Lernmodule
 common#:#objs_htlm#:#HTML-Lernmodule
 common#:#objs_icla#:#LearnLinc-Seminarräume
 common#:#objs_icrs#:#LearnLinc-Seminare
@@ -4786,7 +4558,6 @@ common#:#rte_editor_disabled#:#Ohne Rich-Text-Editor arbeiten
 common#:#rte_editor_enabled#:#Mit Rich-Text-Editor arbeiten
 common#:#sahs#:#Lernmodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
-common#:#sahs_copy#:#Lernmodul SCORM/AICC kopieren
 common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
 rbac#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen oder verschieben
 rbac#:#sahs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
@@ -12423,7 +12194,6 @@ wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
 ecs#:#ecs_general_info#:#Allgemeine Informationen
-ecs#:#ecs_local_informations#:#Weitere Informationen
 ecs#:#ecs_delete_setting#:#Sind Sie sicher, dass Sie die folgenden ECS löschen wollen?
 ecs#:#ecs_setting_deleted#:#ECS wurde gelöscht.
 ecs#:#ecs_cat_mapping_by_type#:#Nach Typ
@@ -12604,8 +12374,6 @@ dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Pflichtfeld
 dcl#:#dcl_length#:#Länge
 dcl#:#dcl_regex#:#Regular Expression
-dcl#:#dcl_table_unlocked#:#Die Tabelle ist nicht mehr gesperrt.
-dcl#:#dcl_table_locked#:#Die Tabelle ist gesperrt.
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
@@ -12906,7 +12674,6 @@ dcl#:#dcl_title#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_description#:#Beschreibung
-dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
 dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich löschen?
 dcl#:#dcl_edit_table#:#Tabelleneigenschaften bearbeiten
@@ -12927,7 +12694,6 @@ file#:#file_copy#:#Datei kopieren
 webr#:#webr_copy#:#Weblink kopieren
 exc#:#exc_copy#:#Übung kopieren
 assessment#:#tst_copy#:#Test kopieren
-survey#:#svy_coppy#:#Umfrage kopieren
 poll#:#poll_population#:#%s abgegebene Stimmen
 poll#:#poll_participants#:#Teilnehmer
 poll#:#poll_delete_votes#:#Alle Stimmen löschen
@@ -12952,3 +12718,148 @@ fm#:#fm_settings_local#:#Lokales Dateisystem anzeigen
 fm#:#fm_settings_local_info#:#Wenn aktiviert, wird der Dateimanager in einer Zwei-Fenster-Ansicht gestartet (lokales Dateisystem und ILIAS-Magazin). Wenn deaktiviert, wird lediglich das ILIAS-Magazin dargestellt.
 fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
 fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
+common#:#centra_account#:#Centra Admin Account###28 08 2012 new variable
+common#:#centra_rooms#:#Centra Rooms###28 08 2012 new variable
+common#:#centra_server#:#Centra Server###28 08 2012 new variable
+common#:#chat_invite_public_room#:#Public Chat###28 08 2012 new variable
+rbac#:#grp#:#User can copy group###28 08 2012 new variable
+common#:#ingmedia_all_offers#:#All LE###28 08 2012 new variable
+common#:#ingmedia_back_to_le#:#Back to LE###28 08 2012 new variable
+common#:#ingmedia_good_afternoon#:#Good afternoon###28 08 2012 new variable
+common#:#ingmedia_good_evening#:#Good evening###28 08 2012 new variable
+common#:#ingmedia_good_morning#:#Good morning###28 08 2012 new variable
+common#:#ingmedia_good_night#:#Good night###28 08 2012 new variable
+common#:#ingmedia_hello#:#Hello###28 08 2012 new variable
+common#:#ingmedia_info_about_work1#:#On###28 08 2012 new variable
+common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:###28 08 2012 new variable
+common#:#ingmedia_level_zero#:#Level up###28 08 2012 new variable
+common#:#ingmedia_pers_dates#:#Personal data###28 08 2012 new variable
+common#:#ingmedia_reg_fo#:#Registered forums###28 08 2012 new variable
+common#:#ingmedia_reg_le#:#Registered LE###28 08 2012 new variable
+common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).###28 08 2012 new variable
+common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.###28 08 2012 new variable
+common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.###28 08 2012 new variable
+common#:#ingmedia_use_title#:#Change user data.###28 08 2012 new variable
+common#:#ingmedia_user_agree#:#Agreement###28 08 2012 new variable
+common#:#ingmedia_vis_le#:#Visited LE###28 08 2012 new variable
+common#:#ingmedia_visited_le#:#All LE you have visited so far.###28 08 2012 new variable
+common#:#ingmedia_welcome#:#, welcome to your personal desktop!###28 08 2012 new variable
+rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module###28 08 2012 new variable
+content#:#cont_LocalFile#:#Local File###28 08 2012 new variable
+ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees###28 08 2012 new variable
+ecs#:#ecs_node_mapping_status_1#:#Mapping of the Whole Tree###28 08 2012 new variable
+ecs#:#ecs_node_mapping_status_2#:#Manual Mapping###28 08 2012 new variable
+ecs#:#ecs_node_mapping_status_3#:#Unmapped###28 08 2012 new variable
+ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus managment tree?###28 08 2012 new variable
+ecs#:#ecs_cms_tree_deleted#:#The campus managment tree assignments have been deleted.###28 08 2012 new variable
+ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System###28 08 2012 new variable
+ecs#:#ecs_title_updates#:#Transfer Title Updates###28 08 2012 new variable
+ecs#:#ecs_tree_updates#:#Transfer Tree Updates###28 08 2012 new variable
+ecs#:#ecs_position_updates#:#Transfer Position Updates###28 08 2012 new variable
+ecs#:#ecs_local_information#:#Further Information###28 08 2012 new variable
+tax#:#tax_taxonomy#:#Taxonomy###28 08 2012 new variable
+tax#:#obj_taxn#:#Node###28 08 2012 new variable
+tax#:#tax_node#:#Node###28 08 2012 new variable
+tax#:#tax_nodes#:#Nodes###28 08 2012 new variable
+tax#:#tax_create_node#:#Create Node###28 08 2012 new variable
+tax#:#tax_new_tax_node#:#New Node###28 08 2012 new variable
+tax#:#tax_order#:#Order###28 08 2012 new variable
+exc#:#exc_no_deadline_specified#:#No deadline specified.###28 08 2012 new variable
+content#:#glo_style#:#Glossary Style###28 08 2012 new variable
+content#:#glo_show_taxonomy#:#Show Taxonomy###28 08 2012 new variable
+tax#:#tax_sorting#:#Sorting###28 08 2012 new variable
+tax#:#tax_alphabetical#:#Alphabetical###28 08 2012 new variable
+tax#:#tax_manual#:#Manual###28 08 2012 new variable
+tax#:#tax_order_nr#:#Order Nr###28 08 2012 new variable
+tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.###28 08 2012 new variable
+tax#:#tax_please_select_target#:#Please select the target.###28 08 2012 new variable
+tax#:#tax_delete_taxonomy#:#Delete Taxononmy###28 08 2012 new variable
+tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?###28 08 2012 new variable
+tax#:#tax_tax_deleted#:#The taxonomy has been deleted.###28 08 2012 new variable
+tax#:#tax_add_taxonomy#:#Add Taxonomy###28 08 2012 new variable
+content#:#cont_show_activation_info#:#Show Activation Info###28 08 2012 new variable
+content#:#cont_show_activation_info_info#:#If the scheduled activation is not yet reached, the page will not be skipped. The information when the page will be activated will be displayed to the user.###28 08 2012 new variable
+content#:#cont_page_activation_on#:#The content will be activated on %s.###28 08 2012 new variable
+content#:#cont_hover#:#Hover###28 08 2012 new variable
+content#:#cont_always#:#Always###28 08 2012 new variable
+content#:#cont_highlight_mode#:#Highlight Mode###28 08 2012 new variable
+content#:#cont_light#:#Light###28 08 2012 new variable
+content#:#cont_dark#:#Dark###28 08 2012 new variable
+content#:#cont_accented#:#Accented###28 08 2012 new variable
+content#:#cont_set#:#Set###28 08 2012 new variable
+content#:#cont_link_no#:#No Link###28 08 2012 new variable
+common#:#obj_mep_duplicate#:#Copy Media Pool###28 08 2012 new variable
+common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
+common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
+common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
+common#:#obj_wiki_duplicate#:#Copy Wiki###28 08 2012 new variable
+common#:#obj_sahs_duplicate#:#Copy Learning Module###28 08 2012 new variable
+dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition###28 08 2012 new variable
+dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition###28 08 2012 new variable
+dcl#:#dcl_checked#:#Checked.###28 08 2012 new variable
+dcl#:#dcl_not_checked#:#Not checked.###28 08 2012 new variable
+dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)###28 08 2012 new variable
+pd#:#pd_export_profile#:#Export Personal Data###28 08 2012 new variable
+pd#:#pd_download_last_export_file#:#Download Last Export File###28 08 2012 new variable
+pd#:#pd_import_personal_data#:#Import Personal Data###28 08 2012 new variable
+pd#:#pd_profile_data#:#Profile Data###28 08 2012 new variable
+pd#:#pd_bookmarks#:#Bookmarks###28 08 2012 new variable
+pd#:#pd_notes#:#Personal Desktop Notes###28 08 2012 new variable
+pd#:#pd_private_calendars#:#Private Calendars###28 08 2012 new variable
+mcst#:#mcst_preview_picture#:#Preview Picture###28 08 2012 new variable
+mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:###28 08 2012 new variable
+news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable
+news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.###28 08 2012 new variable
+mcst#:#mcst_conv_standard_to#:#Convert Standard File to###28 08 2012 new variable
+mcst#:#mcst_conv_videoalternative_to#:#Convert Alternative Video File to###28 08 2012 new variable
+mcst#:#mcst_target#:#Target###28 08 2012 new variable
+mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)###28 08 2012 new variable
+mcst#:#mcst_convert#:#Convert###28 08 2012 new variable
+mcst#:#mcst_purpose_standard#:#Standard File###28 08 2012 new variable
+mcst#:#mcst_purpose_videoalternative#:#Alternative Video File###28 08 2012 new variable
+mcst#:#mcst_converted_file#:#File has been converted.###28 08 2012 new variable
+style#:#sty_move_user_styles#:#Change Style of Users###28 08 2012 new variable
+style#:#sty_substyles#:#Substyles###28 08 2012 new variable
+style#:#sty_assign_categories#:#Assign Categories###28 08 2012 new variable
+style#:#sty_substyle#:#Substyle###28 08 2012 new variable
+style#:#sty_cat_assignments#:#Style/Category Assignments###28 08 2012 new variable
+style#:#sty_add_assignment#:#Add Assignment###28 08 2012 new variable
+common#:#obj_hlps_desc#:#Settings for the online help###28 08 2012 new variable
+help#:#help_help_file#:#Help Package File###28 08 2012 new variable
+help#:#help_modules#:#Help Packages###28 08 2012 new variable
+help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
+help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
+rbac#:#fold_create_poll#:#Create Poll###28 08 2012 new variable
+common#:#obj_itgr_duplicate#:#Copy Item Group###28 08 2012 new variable
+common#:#obj_itgr_select#:#-- Please select one Item Group --###28 08 2012 new variable
+common#:#obj_itgr#:#Item Group###28 08 2012 new variable
+common#:#objs_itgr#:#Item Groups###28 08 2012 new variable
+itgr#:#itgr_edit#:#Edit Item Groups###28 08 2012 new variable
+rbac#:#itgr_read#:#User can read item group###28 08 2012 new variable
+rbac#:#itgr_visible#:#Item group is visible###28 08 2012 new variable
+rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 2012 new variable
+rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
+rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
+rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
+rbac#:#cat_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#crs_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#fold_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#root_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#grp_create_itgr#:#Create Item Group###28 08 2012 new variable
+itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
+itgr#:#itgr_item#:#Item###28 08 2012 new variable
+itgr#:#itgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
+itgr#:#itgr_assignment#:#Assignment###28 08 2012 new variable
+common#:#itgr_new#:#New Item Group###28 08 2012 new variable
+common#:#itgr_import#:#Import Item Group###28 08 2012 new variable
+common#:#itgr_copy#:#Copy Item Group###28 08 2012 new variable
+common#:#itgr_add#:#Add Item Group###28 08 2012 new variable
+dcl#:#dcl_actions#:#Actions###28 08 2012 new variable
+dcl#:#dcl_owner_editable#:#Edit only own records###28 08 2012 new variable
+dcl#:#dcl_msg_table_created#:#Table created###28 08 2012 new variable
+dcl#:#dcl_record_deleted#:#Record deleted###28 08 2012 new variable
+content#:#cont_resources_of_type#:#Resources of Type###28 08 2012 new variable
+content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.###28 08 2012 new variable
+common#:#search_globally#:#Globally###28 08 2012 new variable
+common#:#search_at_current_position#:#At Current Position###28 08 2012 new variable
+survey#:#svy_copy#:#Copy Survey###28 08 2012 new variable
