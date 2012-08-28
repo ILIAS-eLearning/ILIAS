@@ -127,7 +127,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 			$tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($this->getValue()));
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("VALUE", ilUtil::prepareFormOutput($this->getValue()));
+		$tpl->setVariable("VALUE", $this->getValue());
 		$tpl->setVariable("ID", $this->getFieldId());
 		$tpl->parseCurrentBlock();
 		
