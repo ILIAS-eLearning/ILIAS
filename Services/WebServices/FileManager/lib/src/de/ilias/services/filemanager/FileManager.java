@@ -41,13 +41,13 @@ public class FileManager extends Application {
 	// Soap environment
 	private int soapRid = 1;
 	private String soapSid = "";
-	private String soapClient = "skyguide";
-	private String soapWsdl = "http://localhost/~stefan/ilias42_skyguide/webservice/soap/server.php?wsdl";
+	private String soapClient = "ilias43";
+	private String soapWsdl = "http://localhost/~stefan/ilias43/webservice/soap/server.php?wsdl";
 	private int soapUserId = 6;
 	private String soapUser = "root";
 	private String soapPass = "homer";
 	
-	private String restServer = "http://localhost/~stefan/ilias42_skyguide/Services/WebServices/Rest/server.php";
+	private String restServer = "http://localhost/~stefan/ilias43/Services/WebServices/Rest/server.php";
 	
 	private String mainTitle = "ILIAS open source";
 	private boolean fileLocks = false;

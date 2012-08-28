@@ -19,7 +19,7 @@
 					<children>
 						<ImageView>
 							<image>
-								<Image url="@../skin/ilias/images/HeaderAlternative.png" />
+								<Image url="@../skin/ilias/images/HeaderIcon.png" />
 							</image>
 						</ImageView>
 						<Label id="mainMenuTitle" fx:id="mainTitle" />
