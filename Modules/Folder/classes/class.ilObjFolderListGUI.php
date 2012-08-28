@@ -142,15 +142,9 @@ class ilObjFolderListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if (ilDAVActivationChecker::_isActive())
-		{
-			return ($a_cmd == 'mount_webfolder') ? '_blank' : '';
-		}
-		else
-		{
-			return '';
-		}
+		// begin-patch fm
+		return parent::getCommandFrame($a_cmd);
+		// end-patch fm
 	}
 	// END WebDAV: mount_webfolder in _blank frame
 

@@ -3230,6 +3230,51 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 	}
-	
+
+	// begin-patch fm
+	/**
+	 * Add file manager link
+	 * @param <type> $a_sub_type
+	 * @param <type> $a_sub_id
+	 *
+	 */
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+	{
+		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
+
+		if($lg instanceof ilObjectListGUI)
+		{
+			$lg->addCustomCommand($this->ctrl->getLinkTarget($this,'fileManagerLaunch'), 'fm_start','_blank');
+		}
+		return $lg;
+	}
+
+	/**
+	 * Launch jnlp
+	 */
+	protected function fileManagerLaunchObject()
+	{
+		global $ilUser;
+		
+		$GLOBALS['ilLog']->logStack();
+
+		$tpl = new ilTemplate('tpl.fm_launch_ws.html',false,false,'Services/WebServices/FileManager');
+		$tpl->setVariable('JNLP_URL',ILIAS_HTTP_PATH.'/Services/WebServices/FileManager/lib/dist/FileManager.jnlp');
+		$tpl->setVariable('SESSION_ID', $_COOKIE['PHPSESSID'].'::'.CLIENT_ID);
+		$tpl->setVariable('UID',$ilUser->getId());
+		$tpl->setVariable('REF_ID', $this->object->getRefId());
+		$tpl->setVariable('WSDL_URI', ILIAS_HTTP_PATH.'/webservice/soap/server.php?wsdl');
+		$tpl->setVariable('LOCAL_FRAME', ilFMSettings::getInstance()->isLocalFSEnabled() ? 1 : 0);
+		$tpl->setVariable('REST_URI',ILIAS_HTTP_PATH.'/Services/WebServices/Rest/server.php');
+		$tpl->setVariable('UPLOAD_FILESIZE',  ilFMSettings::getInstance()->getMaxFileSize());
+		$tpl->setVariable('FILE_LOCKS',0);
+
+		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
+		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
+		$tpl->setVariable('HEADER_TITLE',$header_top_title ? $header_top_title : '');
+		echo $tpl->get();
+		exit;
+	}
+	// begin-patch fm
 }
 ?>

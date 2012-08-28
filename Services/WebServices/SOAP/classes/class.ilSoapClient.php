@@ -128,6 +128,10 @@ class ilSoapClient
 	function &call($a_operation,$a_params)
 	{
 		$res = $this->client->call($a_operation,$a_params);
+
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->request);
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->response);
+
 		if($error = $this->client->getError())
 		{
 			$this->log->write('Error calling soap server: '.$this->getServer().' Error: '.$error);
@@ -137,5 +141,4 @@ class ilSoapClient
 		// Todo cannot check errors here since it's not possible to distinguish between 'timeout' and other errors.
 	}
 }
-		
 ?>

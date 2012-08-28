@@ -25,6 +25,9 @@ class ilFileXMLParser extends ilSaxParser
     static $CONTENT_GZ_COMPRESSED = 1;
     static $CONTENT_ZLIB_COMPRESSED = 2;
 	static $CONTENT_COPY = 4;
+	// begin-patch fm
+	static $CONTENT_REST = 5;
+	// end-patch fm
 
 	/**
 	 * Exercise object which has been parsed
@@ -179,7 +182,12 @@ class ilFileXMLParser extends ilSaxParser
 			        {
 			            $this->mode = ilFileXMLParser::$CONTENT_COPY;
 			        }
-
+					// begin-patch fm
+					elseif($a_attribs['mode'] == 'REST')
+					{
+						$this->mode = ilFileXMLParser::$CONTENT_REST;
+					}
+					// end-patch fm
 			    }
 		}
 	}
@@ -195,6 +203,8 @@ class ilFileXMLParser extends ilSaxParser
 	function handlerEndTag($a_xml_parser,$a_name)
 	{
 	    $this->cdata = trim($this->cdata);
+
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->cdata);
 
 		switch($a_name)
 		{
@@ -216,12 +226,26 @@ class ilFileXMLParser extends ilSaxParser
 			    $this->file->setDescription(trim($this->cdata));
 				break;
 			case 'Content':
+				$GLOBALS['ilLog']->write($this->mode);
 				$this->isReadingFile = false;
 				$baseDecodedFilename = ilUtil::ilTempnam();
 				if ($this->mode == ilFileXMLParser::$CONTENT_COPY)
 				{
 					$this->tmpFilename = $this->getImportDirectory()."/".$this->cdata;
 				}
+				// begin-patch fm
+				elseif($this->mode == ilFileXMLParser::$CONTENT_REST)
+				{
+					include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
+					$storage = new ilRestFileStorage();
+					$this->tmpFilename = $storage->getStoredFilePath($this->cdata);
+					if(!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename))
+					{
+						throw new ilFileException("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
+					}
+					$this->tmpFilename = $baseDecodedFilename;
+				}
+				// end-patch fm
 				else
 				{
 					if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename))
@@ -280,9 +304,11 @@ class ilFileXMLParser extends ilSaxParser
 	{
 		if($a_data != "\n")
 		{
-			if ($this->isReadingFile && $this->mode != ilFileXMLParser::$CONTENT_COPY)
+			// begin-patch fm
+			if ($this->isReadingFile && $this->mode != ilFileXMLParser::$CONTENT_COPY && $this->mode != ilFileXMLParser::$CONTENT_REST)
+			// begin-patch fm
 			{
-  			$handle = fopen ($this->tmpFilename, "a");
+  			$handle = fopen($this->tmpFilename, "a");
 				fwrite ($handle, $a_data);
 				fclose ($handle);
 			} else

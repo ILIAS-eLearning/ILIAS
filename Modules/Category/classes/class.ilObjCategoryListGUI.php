@@ -81,9 +81,9 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		// BEGIN WebDAV
-		return ($a_cmd == 'mount_webfolder') ? '_blank' : parent::getCommandFrame($a_cmd);
-		// END WebDAV
+		// begin-patch fm
+		return parent::getCommandFrame($a_cmd);
+		// end-patch fm
 	}
 	/**
 	* Get command link url.

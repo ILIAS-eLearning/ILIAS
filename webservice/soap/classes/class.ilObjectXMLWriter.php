@@ -18,6 +18,14 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 */
 class ilObjectXMLWriter extends ilXmlWriter
 {
+	// begin-patch fm
+	const MODE_SEARCH_RESULT = 1;
+
+	private $mode = 0;
+	private $highlighter = null;
+	// end-patch fm
+
+
 	const TIMING_DEACTIVATED = 0;
 	const TIMING_TEMPORARILY_AVAILABLE = 1;
 	const TIMING_PRESETTING = 2;
@@ -30,6 +38,9 @@ class ilObjectXMLWriter extends ilXmlWriter
 
 	var $xml;
 	var $enable_operations = false;
+	// begin-patch filemanager
+	private $enable_references = true;
+	// end-patch filemanager
 	var $objects = array();
 	var $user_id = 0;
 	
@@ -51,6 +62,19 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->ilias =& $ilias;
 		$this->user_id = $ilUser->getId();
 	}
+
+	// begin-patch fm
+	public function setMode($a_mode)
+	{
+		$this->mode = $a_mode;
+	}
+
+	public function setHighlighter($a_highlighter)
+	{
+		$this->highlighter = $a_highlighter;
+	}
+	// end-patch fm
+
 	
 	public function enablePermissionCheck($a_status)
 	{
@@ -82,6 +106,19 @@ class ilObjectXMLWriter extends ilXmlWriter
 	{
 		return $this->enable_operations;
 	}
+
+	// begin-patch filemanager
+	public function enableReferences($a_stat)
+	{
+		$this->enable_references = $a_stat;
+	}
+
+	public function enabledReferences()
+	{
+		return $this->enable_references;
+	}
+	// end-patch filemanager
+
 
 	function setObjects($objects)
 	{
@@ -139,12 +176,55 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->xmlStartTag('Object',$attrs);
 		$this->xmlElement('Title',null,$object->getTitle());
 		$this->xmlElement('Description',null,$object->getDescription());
+
+		// begin-patch fm
+		if($this->mode == self::MODE_SEARCH_RESULT)
+		{
+			$title = $object->getTitle();
+			if($this->highlighter->getTitle($object->getId(),0))
+			{
+				$title = $this->highlighter->getTitle($object->getId(),0);
+			}
+			$description = $object->getDescription();
+			if($this->highlighter->getDescription($object->getId(),0))
+			{
+				$description = $this->highlighter->getDescription($object->getId(),0);
+			}
+
+			// Currently disabled
+			#$this->xmlElement('Title', null, $title);
+			#$this->xmlElement('Description',null,$description);
+			#$this->xmlElement('SearchResultContent', null, $this->highlighter->getContent($object->getId(),0));
+
+			$this->xmlElement('Title',null,$object->getTitle());
+			$this->xmlElement('Description',null,$object->getDescription());
+		}
+		else
+		{
+			$this->xmlElement('Title',null,$object->getTitle());
+			$this->xmlElement('Description',null,$object->getDescription());
+		}
+		// end-patch fm
+
 		$this->xmlElement('Owner',null,$object->getOwner());
 		$this->xmlElement('CreateDate',null,$object->getCreateDate());
 		$this->xmlElement('LastUpdate',null,$object->getLastUpdateDate());
 		$this->xmlElement('ImportId',null,$object->getImportId());
 
-		foreach(ilObject::_getAllReferences($object->getId()) as $ref_id)
+		$this->__appendObjectProperties($object);
+
+		// begin-patch filemanager
+		if($this->enabledReferences())
+		{
+			$refs = ilObject::_getAllReferences($object->getId());
+		}
+		else
+		{
+			$refs = array($object->getRefId());
+		}
+
+		foreach($refs as $ref_id)
+		// end-patch filemanager
 		{
 			if (!$tree->isInTree($ref_id))
 				continue;
@@ -224,12 +304,36 @@ class ilObjectXMLWriter extends ilXmlWriter
 		$this->xmlEndTag('TimeTarget');
 		return;		
 	}
-	
+
+
+	/**
+	 * Append object properties
+	 * @param ilObject $obj
+	 */
+	public function __appendObjectProperties(ilObject $obj)
+	{
+		switch($obj->getType()) {
+
+			case 'file':
+				include_once './Modules/File/classes/class.ilObjFileAccess.php';
+				$size = ilObjFileAccess::_lookupFileSize($obj->getId());
+				$extension = ilObjFileAccess::_lookupSuffix($obj->getId());
+				$this->xmlStartTag('Properties');
+				$this->xmlElement("Property",array('name' => 'fileSize'),(int) $size);
+				$this->xmlElement("Property",array('name' => 'fileExtension'),(string) $extension);
+				// begin-patch fm
+				$this->xmlElement('Property',array('name' => 'fileVersion'), (string) ilObjFileAccess::_lookupVersion($obj->getId()));
+				// end-patch fm
+				$this->xmlEndTag('Properties');
+				break;
+		}
+
+	}
 	
 
 	function __appendOperations($a_ref_id,$a_type)
 	{
-		global $ilAccess,$rbacreview;
+		global $ilAccess,$rbacreview,$objDefinition;
 
 		if($this->enabledOperations())
 		{
@@ -242,10 +346,32 @@ class ilObjectXMLWriter extends ilXmlWriter
 					
     				if(count ($operation) && $ilAccess->checkAccessOfUser($this->getUserId(),$operation['operation'],'view',$a_ref_id))
     				{
-    					$this->xmlElement('Operation',null,$operation['operation']);
+						$this->xmlElement('Operation',null,$operation['operation']);
     				}
     			}
 		    }
+
+			// Create operations
+			// Get creatable objects
+			$objects = $objDefinition->getCreatableSubObjects($a_type);
+			$ops_ids = ilRbacReview::lookupCreateOperationIds(array_keys($objects));
+			$creation_operations = array();
+			foreach($objects as $type => $info)
+			{
+				$ops_id = $ops_ids[$type];
+
+				if(!$ops_id)
+				{
+					continue;
+				}
+
+   				$operation = $rbacreview->getOperation($ops_id);
+
+   				if(count ($operation) && $ilAccess->checkAccessOfUser($this->getUserId(),$operation['operation'],'view',$a_ref_id))
+   				{
+   					$this->xmlElement('Operation',null,$operation['operation']);
+   				}
+			}
 		}
 		return true;
 	}
