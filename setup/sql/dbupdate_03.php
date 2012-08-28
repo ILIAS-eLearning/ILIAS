@@ -12923,3 +12923,24 @@ if(!$ilDB->tableColumnExists('il_blog', 'approval'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3743>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$sess_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_sess');
+if($sess_ops_id)
+{
+	$fold_type_id = ilDBUpdateNewObjectType::getObjectTypeId('fold');
+	if($fold_type_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($fold_type_id, $sess_ops_id);
+	}
+	$grp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('grp');
+	if($grp_type_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($grp_type_id, $sess_ops_id);
+	}
+}
+
+?>
