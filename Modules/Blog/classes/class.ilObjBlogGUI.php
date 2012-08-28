@@ -1024,7 +1024,6 @@ class ilObjBlogGUI extends ilObject2GUI
 
 			// actions					
 			$item_contribute = $this->mayContribute($item["id"], $item["user"]);
-			$can_approve = false;
 			if(($item_contribute || $can_approve) && !$a_link_template && $a_cmd == "preview")
 			{
 				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
