@@ -886,9 +886,7 @@ assessment#:#tst_answered_questions_test#:#Preguntas contestadas en este test
 assessment#:#tst_beginning_ending_information#:#Información al inicio y final del test
 assessment#:#tst_best_solution_is#:#La mejor solución es
 assessment#:#tst_browse_for_questions#:#Explorar en busca de preguntas
-assessment#:#tst_change_points_done#:#La puntuación de una respuesta ha sido modificada con éxito
 assessment#:#tst_change_points_for_question#:#Modificar la puntuación para la respuesta
-assessment#:#tst_change_points_not_done#:#No se pudo modificar la puntuación de una respuesta. Por favor comprueba el rango permitido de puntuación disponible.
 assessment#:#tst_confirm_delete_results#:#Va usted a borrar todas sus resultados de preguntas de este test. Esto reiniciará todas las preguntas a sus valores por defecto. Por favor advierta que no puede reiniciar el número de intentos que necesita para este test. Quiere reiniciar los resultados de lo anteriormente rellenado?
 assessment#:#tst_confirm_delete_results_info#:#Los resultados de preguntas anteriormente completadas han sido eliminados. Se ha reiniciado satisfactoriamente el test!
 assessment#:#tst_confirm_print#:#Haga click en el botón para imprimir todas las preguntas con puntuación y solución. La pregunta siempre aparece al final de una página.
@@ -1107,8 +1105,6 @@ assessment#:#tst_sequence_fixed#:#La secuencia de preguntas es prefijada
 assessment#:#tst_sequence_postpone#:#Las preguntas pueden ser pospuestas para el final de la ejecución de un test
 assessment#:#tst_sequence_properties#:#Propiedades de la secuencia
 assessment#:#tst_session_settings#:#Configuración de Sesión
-assessment#:#tst_set_feedback_done#:#El comentario manual ha sido guardado
-assessment#:#tst_set_feedback_not_done#:#¡Ocurrió un error! El comentario manual no ha sido guardado
 assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#El test se ha establecido a offline, debido a que alternar los ajustes de selección de preguntas al azar causa que las preguntas ya existentes sean eliminadas
 assessment#:#tst_settings_template#:#Plantilla
 assessment#:#tst_show_answer_sheet#:#mostrar respuestas
@@ -1609,217 +1605,10 @@ certificate#:#certificate_wrong_unit#:#Ha introducido una unidad errónea
 certificate#:#certificate_wrong_units#:#Ha introducido un conjunto erróneo de unidades
 certificate#:#default_background_info#:#Esta imagen de fondo será elegida como fondo por defecto para todos los informes. Si necesita otra imagen de fondo en una informe, tienes que subir uno en el editor de certificado.
 certificate#:#download_certificate#:#Descargar informe
-chat#:#cancel_talk#:#Abandonar charla
-chat#:#cancel_whisper#:#Abandonar privado
-chat#:#chat_access_blocked#:#Usted está excluido de estas salas de chat
-chat#:#chat_activate_status_notification#:#Mostrar notificaciones acerca de las nuevas invitaciones del chat y mensajes en la barra del menú principal
-chat#:#chat_active#:#Chat activo
-chat#:#chat_active_users#:#Usuarios conectados
-chat#:#chat_add_allowed_hosts#:#Por favor añada las direcciones IP de las máquinas con permiso para acceder al servidor Chat.
-chat#:#chat_add_blocking#:#bloquear usuario
-chat#:#chat_add_external_ip#:#Por favor introduzca la IP externa del servidor.
-chat#:#chat_add_internal_ip#:#Por favor introduzca la IP interna del servidor.
-chat#:#chat_add_moderator_password#:#Por favor introduzca una contraseña para el moderador.
-chat#:#chat_add_port#:#Por favor añada el puerto del servidor.
-chat#:#chat_add_private_chatroom#:#Añadir sala privada
-chat#:#chat_add_smiley#:#Añadir Emoticono
-chat#:#chat_add_ssl_port#:#Por favor añada el puerto SSL del servidor
-chat#:#chat_add_to_addressbook#:#Añadir a Contactos
-chat#:#chat_add_to_bookmark#:#Añadir a Favoritos
-chat#:#chat_added_to_addressbook#:#El usuario ' %s ' a sido añadido a tus Contactos.
-chat#:#chat_added_to_bookmarks#:#La sala ' %s ' a sido añadida a la carpeta superior de tus Favoritos
-chat#:#chat_address#:#dirigirse a
-chat#:#chat_address_user#:#escribiendo al usuario
-chat#:#chat_aqua#:#agua
-chat#:#chat_arial#:#Arial
-chat#:#chat_available_smilies#:#Emoticonos disponibles
-chat#:#chat_black#:#negro
-chat#:#chat_block_user#:#Bloquear
-chat#:#chat_blocked#:#Acceso restringido
-chat#:#chat_blocked_unlocked#:#Desbloquear
-chat#:#chat_blocked_users#:#Usuarios bloqueados
-chat#:#chat_blue#:#azul
-chat#:#chat_bold#:#Negrita
-chat#:#chat_cannot_connect_to_server#:#ILIAS no puede conectar con el servidor del chat.
-chat#:#chat_chat_invitation#:#Invitaciones al Chat
-chat#:#chat_chatroom_body#:#Sala de Chat
-chat#:#chat_chatroom_rename#:#Editar Sala de Chat
-chat#:#chat_chatrooms#:#Salas de chat
-chat#:#chat_chatviewer#:#Visor de Chat
-chat#:#chat_color#:#color de fuente
-chat#:#chat_confirm_delete#:#¿Estás seguro de querer eliminar esta sala?
-chat#:#chat_confirm_delete_private_room#:#¿Estás seguro de querer eliminar esta sala privada?
-chat#:#chat_confirm_delete_smiley#:#¿Estás seguro de que todos los Emoticonos seleccionados deben ser borrados?
-chat#:#chat_confirm_kick_user#:#¿Estás seguro de expulsar a este usuario?
-chat#:#chat_confirm_user_invite#:#El usuario ha sido invitado a esta sala de chat
-chat#:#chat_current_image_path#:#Ruta de la imagen actual
-chat#:#chat_default_bookmark_description#:#Enlace a la sala de chat ' %s '
-chat#:#chat_default_bookmark_title#:#Enlace chat: %s
-chat#:#chat_delete_selected#:#Eliminar emoticonos seleccionados
-chat#:#chat_delete_sure#:#¿Está seguro de que quiere eliminar esta sala?
-chat#:#chat_disinvite#:#Cancelar invitación
-chat#:#chat_disinvite_user#:#Cancelar invitación/eliminar usuario de la sala privada de chat.
-chat#:#chat_drop_user#:#Usuario expulsado
-chat#:#chat_edit#:#Editar chat
-chat#:#chat_edit_smiley#:#Editar emoticono
-chat#:#chat_empty#:#limpiar chat
 chatroom#:#chat_enable_autoscroll#:#Habilitar desplazamiento automático
-chat#:#chat_enter_valid_username#:#Por favor introduzca un nombre de usuario válido.
-chat#:#chat_export_all#:#Sin restricciones (todos los usuarios con acceso puede exportar)
-chat#:#chat_export_info#:#Muestra un botón de exportación para la sala actual. Los mensajes serán exportados a HTML.
-chat#:#chat_export_moderator#:#Sólo moderadores
-chat#:#chat_export_period#:#Periodo de exportación
-chat#:#chat_export_period_info#:#Exportar el número determinado de días.
-chat#:#chat_export_status#:#Requiere permisos de exportación
-chat#:#chat_face#:#Tipo de fuente
-chat#:#chat_fuchsia#:#fucsia
-chat#:#chat_general_settings#:#Configuración General
-chat#:#chat_gray#:#gris
-chat#:#chat_green#:#verde
-chat#:#chat_hide_details#:#Ocultar detalles
-chat#:#chat_hide_smilies#:#Ocultar emoticonos
-chat#:#chat_hide_textformat#:#Ocultar formato de texto
-chat#:#chat_html_export#:#exportar a HTML
-chat#:#chat_ilias#:#Modulo Chat ILIAS
-chat#:#chat_image_path#:#Ruta de la imagen
-chat#:#chat_inactive#:#Chat inactivo
-chat#:#chat_input#:#Entrada
-chat#:#chat_insert_message#:#Por favor inserte un mensaje
-chat#:#chat_invitation_body#:#Invitación al chat de:
-chat#:#chat_invitation_subject#:#Invitación al Chat
-chat#:#chat_invite#:#Invitación
-chat#:#chat_invite_user#:#Invitar usuario
-chat#:#chat_invited_by#:#Invitado por
-chat#:#chat_italic#:#Cursiva
-chat#:#chat_kick#:#Expulsar
-chat#:#chat_kick_user_session#:#Expulsar usuario
-chat#:#chat_kicked_from_room#:#Ha sido expulsado de esta sala de chat, no puede escribir mensajes.
-chat#:#chat_level_all#:#Todo
-chat#:#chat_level_debug#:#Depurar
-chat#:#chat_level_error#:#Error
-chat#:#chat_level_fatal#:#Fatal
-chat#:#chat_level_info#:#Info
-chat#:#chat_lime#:#lima
-chat#:#chat_maroon#:#granate
-chat#:#chat_message_notify#:#Mensaje de notificación
 chatroom#:#chat_message_notify_activate#:#Activar notificación de mensajes
-chat#:#chat_message_notify_deactivate#:#Desactivar notificación de mensajes
-chat#:#chat_messages_deleted#:#Los mensajes han sido eliminados.
-chat#:#chat_moderator_password#:#contraseña del moderador
-chat#:#chat_navy#:#azul marino
 chatroom#:#chat_new_invitation_sound_status#:#Reproduce un sonido si un usuario recibe una invitación al chat
-chat#:#chat_new_message#:#Nuevo mensaje
 chatroom#:#chat_new_message_sound_status#:#Reproducir un sonido si llega un nuevo mensaje
-chat#:#chat_no_active_users#:#No hay otros usuarios presentes
-chat#:#chat_no_blocked#:#No hay usuarios bloqueados disponibles
-chat#:#chat_no_connection#:#No se puede conectar al servidor chat
-chat#:#chat_no_delete_public#:#La sala pública no pudo ser eliminada
-chat#:#chat_no_online_users#:#No hay más usuarios conectados
-chat#:#chat_no_recordings_available#:#No hay grabaciones disponibles de momento
-chat#:#chat_no_refresh_public#:#la sala pública no pudo ser actualizada
-chat#:#chat_no_rename_public#:#La sala pública no pudo ser renombrada
-chat#:#chat_no_room_selected#:#Ho has seleccionada una sala.
-chat#:#chat_no_users_selected#:#Debe seleccionar un usuario.
-chat#:#chat_no_write_perm#:#No tiene permisos de escritura
-chat#:#chat_notification_intro#:#Este e-mail fue enviado automáticamente por la instalación ILIAS %s,
-chat#:#chat_olive#:#oliva
-chat#:#chat_online_users#:#Usuario (online)
-chat#:#chat_open#:#Entrar en la sala
-chat#:#chat_private_message#:#Mensaje Privado
-chat#:#chat_profile#:#Perfil
-chat#:#chat_public_room#:#Sala de Chat pública
-chat#:#chat_purple#:#violeta
-chat#:#chat_recent_postings#:#Mensajes recientes en Chat
-chat#:#chat_recording_action#:#Acción
-chat#:#chat_recording_description#:#Descripción
-chat#:#chat_recording_moderator#:#Moderador
-chat#:#chat_recording_not_found#:#No se puede encontrar la grabación.
-chat#:#chat_recording_running#:#Grabando
-chat#:#chat_recording_started#:#Comenzando grabación
-chat#:#chat_recording_stopped#:#Grabación pausada
-chat#:#chat_recording_time_frame#:#Período de tiempo
-chat#:#chat_recording_title#:#Título de la grabación
-chat#:#chat_recordings#:#Grabaciones
-chat#:#chat_recordings_delete_sure#:#Eliminando grabaciones - ¿está seguro?
-chat#:#chat_recordings_deleted#:#Las grabaciones han sido eliminadas
-chat#:#chat_recordings_select_one#:#Por favor elija las grabaciones que desea eliminar
-chat#:#chat_red#:#rojo
-chat#:#chat_refresh#:#Actualizar
-chat#:#chat_refreshed#:#Eliminados todos los mensajes de las salas seleccionadas
-chat#:#chat_room_added#:#Nueva sala de chat añadida
-chat#:#chat_room_does_not_exist#:#La sala de chat no existe. Tal vez se ha eliminado o ha utilizado un vínculo no válido.
-chat#:#chat_room_name#:#Nombre de la sala
-chat#:#chat_room_renamed#:#Sala renombrada
-chat#:#chat_room_select#:#Sala Privada
-chat#:#chat_rooms#:#Salas
-chat#:#chat_rooms_deleted#:#Sala(s) eliminada(s)
-chat#:#chat_select_one_room#:#Por favor seleccione una sala
-chat#:#chat_server_allowed#:#máquinas permitidas
-chat#:#chat_server_allowed_b#:#(ej: 192.168.1.1,192.168.1.2)
-chat#:#chat_server_external_ip#:#IP externa del Servidor
-chat#:#chat_server_internal_ip#:#IP interna del Servidor
-chat#:#chat_server_logfile#:#Ruta al archivo de registro
-chat#:#chat_server_loglevel#:#nivel de registro
-chat#:#chat_server_not_active#:#El servidor de chat no está activado
-chat#:#chat_server_port#:#Puerto del Servidor
-chat#:#chat_server_settings#:#Configuración del servidor Chat
-chat#:#chat_server_ssl_active#:#SSL activo
-chat#:#chat_server_ssl_port#:#Puerto SSL del servidor
-chat#:#chat_server_ssl_settings#:#Configuración SSL
-chat#:#chat_settings_saved#:#Configuración guardada
-chat#:#chat_show_details#:#Mostrar detalles
-chat#:#chat_show_smilies#:#Mostrar emoticonos
-chat#:#chat_show_textformat#:#Formato de texto
-chat#:#chat_silver#:#plata
-chat#:#chat_smiley_image#:#Imagen de emoticono
-chat#:#chat_smiley_image_only_if_changed#:#Por favor, introduzca una nueva imagen sólo si desea cambiar la existente. Si no se introduce una nueva imagen, la actual no será cambiada.
-chat#:#chat_smiley_keyword#:#Palabra clave emoticono
-chat#:#chat_smiley_keywords#:#Palabra clave emoticono
-chat#:#chat_smiley_keywords_one_per_line_note#:#Puedes introducir varias palabras clave para cada Emoticono. Cada línea será utilizada como una palabra clave por separado.
-chat#:#chat_smilies_activate#:#Activar Emoticonos
-chat#:#chat_smilies_deactivate#:#Desactivar Emoticonos
-chat#:#chat_smilies_dir_not_available#:#El directorio de datos de emoticonos no puede ser creado. Esta versión de ILIAS no será capaz de utilizar los emoticonos de chat se requerirán otras medidas.
-chat#:#chat_smilies_dir_not_exists#:#El directorio de datos de emoticonos no existe. Intentado configurar carpetas y base de datos.
-chat#:#chat_smilies_dir_not_writable#:#Su directorio de datos de emoticonos existe pero no se puede escribir. Usted no será capaz de agregar emoticonos.
-chat#:#chat_smilies_initialized#:#Los datos emoticonos se ha inicializado y están listos para usarse.
-chat#:#chat_smilies_status#:#Emoticonos de chat
-chat#:#chat_sound_status_activate#:#Activar sonidos
-chat#:#chat_sound_status_deactivate#:#Desactivar sonidos
-chat#:#chat_sounds#:#Sonidos
-chat#:#chat_start_recording#:#Comenzar grabación
-chat#:#chat_status#:#Estado
-chat#:#chat_status_saved#:#El estado ha sido modificado
-chat#:#chat_stop_recording#:#Parar grabación
-chat#:#chat_tahoma#:#Tahoma
-chat#:#chat_teal#:#verde azulado
-chat#:#chat_textformat#:#Formato de texto
-chat#:#chat_times#:#veces
-chat#:#chat_title_missing#:#Por favor inserte un nombre.
-chat#:#chat_to_chat_body#:#Ir al chat
-chat#:#chat_type#:#Fuente
-chat#:#chat_unblocked_user#:#El usuario seleccionado ha sido desbloqueado.
-chat#:#chat_underlined#:#Subrayado
-chat#:#chat_unkick#:#Volver a autorizar
-chat#:#chat_unkick_user_session#:#Admitir usuario
-chat#:#chat_upload_smiley#:#Enviar emoticono
-chat#:#chat_user_already_blocked#:#El acceso para el usuario seleccionado ha sido ya bloqueado.
-chat#:#chat_user_already_in_addressbook#:#El usuario ya está en sus contactos.
-chat#:#chat_user_blocked#:#Acceso bloqueado para el usuario seleccionado.
-chat#:#chat_user_dropped#:#Usuario expulsado
-chat#:#chat_user_dropped_private#:#El usuario fue desinvitado/eliminado de la sala privada de chat.
-chat#:#chat_user_hidden#:#oculto
-chat#:#chat_user_invited#:#Usuario Invitado al chat
-chat#:#chat_user_invited_private#:#El usuario fue invitado a la sala privada de chat.
-chat#:#chat_user_invited_public#:#El usuario fue invitado al chat público.
-chat#:#chat_user_name#:#Nombre de usuario
-chat#:#chat_user_unkicked#:#El usuario ha sido desbloqueado.
-chat#:#chat_user_visible#:#visible
-chat#:#chat_whisper#:#Privado
-chat#:#chat_yellow#:#amarillo
-chat#:#chats#:#Chats
-chat#:#check_configuration#:#Por favor, compruebe la configuración del servidor de chat.
-chat#:#edit_smilies#:#Editar emoticonos
-chat#:#my_chats#:#Mis chats
 chatroom#:#allow_anonymous#:#Permitir acceso anónimo
 chatroom#:#allow_custom_usernames#:#Permitir nombres de usuario personalizados
 chatroom#:#allow_private_rooms#:#Permitir salas privadas
@@ -1963,10 +1752,6 @@ chatroom_adm#:#chatroom_smiley_keywords#:#Palabra clave emoticono
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Puedes introducir varias palabras clave para cada emoticono. Cada línea será utilizada como una palabra clave por separado
 chatroom_adm#:#chatroom_upload_smiley#:#Enviar emoticono
 chatroom_adm#:#chatserver_settings_title#:#Configuraciones del servidor del chat
-chatroom_adm#:#chta_edit_permission#:#Cambiar configuración de permisos
-chatroom_adm#:#chta_read#:#Acceso de lectura a la administración del canal de charla
-chatroom_adm#:#chta_visible#:#La administración de canal de charla es visible
-chatroom_adm#:#chta_write#:#Editar administración del canal de charla
 chatroom_adm#:#client_settings#:#Configuración del cliente
 chatroom_adm#:#enable_osd#:#Activar notificaciones en pantalla
 chatroom_adm#:#general_settings_title#:#Configuraciones generales del chat
@@ -1975,7 +1760,6 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#instance#:#Instancia
 chatroom_adm#:#keypass#:#Clave
 chatroom_adm#:#keystore#:#Almacén de claves
-chatroom_adm#:#obj_chta_desc#:#Administración del chat
 chatroom_adm#:#osd_intervall#:#Intervalo de refresco
 chatroom_adm#:#play_invitation_sound#:#Reproducir sonido al recibir una nueva invitación
 chatroom_adm#:#port_info#:#Los puertos no usados habitualmente son bloqueados por cortafuegos y servidores proxy. El navegador del usuario no será capaz de establecer una conexión ya que el puerto definido estará bloqueado
@@ -2178,16 +1962,6 @@ common#:#allow_assign_users#:#Permitir asignar usuarios para los administradores
 common#:#allow_override_alert#:#Las reglas para .htaccess no se interpretan correctamente.
 common#:#allow_register#:#Disponible en el formulario de registro para nuevos usuarios
 common#:#allow_user_toggle_noti#:#A los miembros se les permite desactivar las notificaciones
-common#:#alm#:#Módulo de aprendizaje AICC
-common#:#alm_added#:#Módulo de aprendizaje AICC añadido
-common#:#alm_create#:#Crear Módulo de aprendizaje AICC
-common#:#alm_delete#:#Eliminar Módulo de aprendizaje AICC
-common#:#alm_edit_permission#:#Modificar configuración de permisos
-common#:#alm_join#:#Suscribir a Módulo de aprendizaje AICC
-common#:#alm_leave#:#Darse de baja del Módulo de aprendizaje AICC
-common#:#alm_read#:#Acceso de lectura al Módulo de aprendizaje AICC
-common#:#alm_visible#:#Módulo de aprendizaje AICC visible
-common#:#alm_write#:#Editar Módulo de aprendizaje AICC
 common#:#already_delivered_files#:#Enviar archivos
 common#:#and#:#y
 common#:#announce#:#anunciar
@@ -2428,19 +2202,14 @@ rbac#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
 common#:#cat_clear_page#:#Limpiar Página
 rbac#:#cat_copy#:#Copiar Categoría
 rbac#:#cat_copy_threads_info#:#Por favor, elige qué elementos de la categoría deberán copiarse, enlazarse u omitirse
-rbac#:#cat_create#:#Crear Categoría
-common#:#cat_create_alm#:#Crear Módulo de aprendizaje AICC
 rbac#:#cat_create_cat#:#Crear Categoría
-common#:#cat_create_chat#:#Crear Chat
 rbac#:#cat_create_crs#:#Crear Curso
-common#:#cat_create_dbk#:#Crear Libro Digital
 rbac#:#cat_create_exc#:#Crear entrega de ejercicios
 rbac#:#cat_create_feed#:#Crear feed
 rbac#:#cat_create_file#:#Enviar archivo
 rbac#:#cat_create_frm#:#Crear Foro
 rbac#:#cat_create_glo#:#Crear Glosario
 rbac#:#cat_create_grp#:#Crear Grupo
-common#:#cat_create_hlm#:#Crear Módulo de aprendizaje HACP
 rbac#:#cat_create_htlm#:#Crear Módulo de aprendizaje HTML
 rbac#:#cat_create_icrs#:#Crear Seminario LearnLinc
 rbac#:#cat_create_lm#:#Crear Módulo de aprendizaje
@@ -2451,9 +2220,7 @@ rbac#:#cat_create_sahs#:#Crear Módulo de aprendizaje SCORM/AICC
 rbac#:#cat_create_spl#:#Crear banco de preguntas (para encuestas)
 rbac#:#cat_create_svy#:#Crear Encuesta
 rbac#:#cat_create_tst#:#Crear Test
-common#:#cat_create_url#:#Crear URL
 rbac#:#cat_create_webr#:#Crear nuevo Recurso Web
-common#:#cat_create_write#:#Crear Wiki
 rbac#:#cat_delete#:#Eliminar Categoría
 common#:#cat_edit#:#Editar Categoría
 rbac#:#cat_edit_permission#:#Modificar configuración de permisos
@@ -2476,13 +2243,6 @@ common#:#catr_edit#:#Editar Enlace a Categoría
 common#:#catr_edit_info#:#Por favor, seleccione una categoría para crear un enlace nuevo.
 common#:#catr_new#:#Crear nuevo enlace a categoría
 common#:#cc#:#CC
-common#:#cen#:#Evento Centra
-common#:#cen_add#:#Añadir evento Centra
-common#:#cen_added#:#Evento Centra añadido
-common#:#cen_delete#:#Eliminar evento Centra
-common#:#cen_edit#:#Editar evento Centra
-common#:#cen_new#:#Nuevo evento Centra
-common#:#cen_save#:#Guardar evento Centra
 common#:#censorship#:#Censurar
 common#:#centra_account#:#Cuenta de Administrador Centra
 common#:#centra_rooms#:#Habitaciones Centra
@@ -2518,25 +2278,10 @@ common#:#chapter#:#Capítulo
 common#:#chapter_number#:#Número de capítulo
 common#:#chapter_title#:#Título del capítulo
 common#:#characters#:#caracteres
-common#:#chat#:#Chat
-common#:#chat_active_in#:#presente en la sala-->
-common#:#chat_add#:#añadir Chat
-common#:#chat_copy#:#Copiar Chat
-common#:#chat_delete#:#eliminar Chat
-common#:#chat_edit_permission#:#Modificar configuración de permisos
 common#:#chat_enter_public_room#:#Chat público
 common#:#chat_enter_public_room_tooltip#:#Entrar al chat público
-common#:#chat_invite#:#Chat
 common#:#chat_invite_public_room#:#Chat público
 common#:#chat_invite_public_room_tooltip#:#Invitar a chat público
-common#:#chat_link_to_this_chat#:#Enlace a este chat
-common#:#chat_moderate#:#Moderar chat
-common#:#chat_new#:#Nuevo Chat
-common#:#chat_read#:#Acceso de lectura/escritura al Chat
-common#:#chat_settings#:#Ajustes Chat
-common#:#chat_users_active#:#Usuarios conectados
-common#:#chat_visible#:#El Chat está visible
-common#:#chat_write#:#Editar Chat
 common#:#check#:#comprobar
 common#:#check_all#:#seleccionar todo
 common#:#check_langfile#:#Por favor, compruebe su archivo de idioma
@@ -2614,7 +2359,6 @@ common#:#cont_object#:#Objeto
 common#:#contact#:#Contacto
 common#:#contact_data#:#Información de contacto
 common#:#contact_sysadmin#:#Contactar con administrador del sistema
-common#:#contacts#:#Contactos
 common#:#container#:#Contenedor
 common#:#container_no_items#:#No hay materiales disponibles
 common#:#content#:#Contenido
@@ -2679,10 +2423,6 @@ common#:#crs_cancel_waiting_list#:#¿De verdad quieres que lo retiren de la list
 common#:#crs_container_link_not_allowed#:#No es posible enlazar a objetos contenedor
 rbac#:#crs_copy#:#Copiar Curso
 rbac#:#crs_copy_threads_info#:#Por favor decida qué materiales del curso deben ser copiados, enlazados o bien omitidos.
-common#:#crs_create#:#Crear Curso
-common#:#crs_create_alm#:#Crear Módulo de aprendizaje AICC
-common#:#crs_create_chat#:#Crear Chat
-common#:#crs_create_dbk#:#Crear Libro Digital
 rbac#:#crs_create_exc#:#Crear entrega de ejercicios
 rbac#:#crs_create_feed#:#Crear canal de noticias
 rbac#:#crs_create_file#:#Enviar archivo
@@ -2690,7 +2430,6 @@ rbac#:#crs_create_fold#:#Crear Carpeta
 rbac#:#crs_create_frm#:#Crear Foro
 rbac#:#crs_create_glo#:#Crear Glosario
 rbac#:#crs_create_grp#:#Crear Grupo
-common#:#crs_create_hlm#:#Crear Módulo de aprendizaje HACP
 rbac#:#crs_create_htlm#:#Crear Módulo de Aprendizaje HTML
 rbac#:#crs_create_icrs#:#Crear Seminario LearnLinc
 rbac#:#crs_create_lm#:#Crear Módulo de Aprendizaje
@@ -2702,7 +2441,6 @@ rbac#:#crs_create_spl#:#Crear Banco de Preguntas para Encuesta
 rbac#:#crs_create_svy#:#Crear Encuesta
 rbac#:#crs_create_tst#:#Crear Test
 rbac#:#crs_create_webr#:#Crear nuevo recurso Web
-common#:#crs_create_write#:#Crear Wiki
 rbac#:#crs_delete#:#Eliminar curso
 common#:#crs_edit#:#Editar Curso
 rbac#:#crs_edit_learning_progress#:#Editar seguimiento
@@ -2760,19 +2498,6 @@ common#:#db_pass#:#contraseña de la base de datos
 common#:#db_type#:#tipo de base de datos
 common#:#db_user#:#usuario de conexión
 common#:#db_version#:#Versión de la Base de Datos
-common#:#dbk#:#Libro Digital
-common#:#dbk_a#:#un Digilib Book
-common#:#dbk_add#:#Añadir Digilib Book
-common#:#dbk_added#:#Digilib Book añadido
-common#:#dbk_copy#:#Copiar Digilib-Book
-common#:#dbk_create#:#Crear Digibook
-common#:#dbk_delete#:#Eliminar Digibook
-common#:#dbk_edit_learning_progress#:#Editar seguimiento
-common#:#dbk_edit_permission#:#Cambiar configuración de permisos
-common#:#dbk_new#:#Nuevo Digilib Book
-common#:#dbk_read#:#Acceso de lectura a Digibook
-common#:#dbk_visible#:#Digibook es visible
-common#:#dbk_write#:#Editar Digibook
 common#:#dd_mm_yyyy#:#DD.MM.AAAA
 common#:#deactivate#:#Poner inactiva
 common#:#decrease_attempts#:#Intentos - 1
@@ -3121,16 +2846,12 @@ common#:#fold_add#:#Añadir Carpeta
 common#:#fold_added#:#Carpeta Añadida
 rbac#:#fold_copy#:#Copiar Carpeta
 common#:#fold_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
-common#:#fold_create_alm#:#Crear Módulo de aprendizaje AICC
-common#:#fold_create_chat#:#Crear Chat
-common#:#fold_create_dbk#:#Crear Libro Digital
 rbac#:#fold_create_exc#:#Crear entrega de ejercicios
 rbac#:#fold_create_file#:#Enviar Archivo
 rbac#:#fold_create_fold#:#Crear Carpeta
 rbac#:#fold_create_frm#:#Crear Foro
 rbac#:#fold_create_glo#:#Crear Glosario
 rbac#:#fold_create_grp#:#Añadir nuevo grupo
-common#:#fold_create_hlm#:#Crear Módulo de aprendizaje HACP
 rbac#:#fold_create_htlm#:#Crear Módulo de aprendizaje HTML
 rbac#:#fold_create_icrs#:#Crear Seminario LearnLinc
 rbac#:#fold_create_lm#:#Crear Módulo de aprendizaje
@@ -3142,7 +2863,6 @@ rbac#:#fold_create_spl#:#Crear Banco de Preguntas para Encuesta
 rbac#:#fold_create_svy#:#Crear Encuesta
 rbac#:#fold_create_tst#:#Crear Test
 rbac#:#fold_create_webr#:#Crear nuevo Recurso Web
-common#:#fold_create_write#:#Crear Wiki
 rbac#:#fold_delete#:#Borrar Carpeta
 common#:#fold_edit#:#Editar Carpeta
 rbac#:#fold_edit_learning_progress#:#Editar Progreso de Aprendizaje
@@ -3191,7 +2911,6 @@ common#:#forums_your_name#:#Su nombre
 common#:#frm#:#Foro de debate
 common#:#frm_a#:#un Foro
 common#:#frm_add#:#Añadir Foro
-rbac#:#frm_add_post#:#Añadir nuevo mensaje
 rbac#:#frm_add_thread#:#Añadir nuevo tema
 common#:#frm_added#:#Foro añadido
 common#:#frm_article#:#mensaje
@@ -3313,9 +3032,6 @@ rbac#:#grp_copy#:#Copiar Grupo
 common#:#grp_copy_threads_info#:#Por favor decida qué materiales deben ser copiados, enlazados o incluso omitidos.
 common#:#grp_count_members#:#Número de miembros
 common#:#grp_create#:#Crear Grupo
-common#:#grp_create_alm#:#Crear Módulo de aprendizaje AICC
-common#:#grp_create_chat#:#Crear Chat
-common#:#grp_create_dbk#:#Crear Digibook
 rbac#:#grp_create_exc#:#Crear entrega de ejercicios
 rbac#:#grp_create_feed#:#Crear feed
 rbac#:#grp_create_file#:#El Usuario puede enviar archivos
@@ -3323,7 +3039,6 @@ rbac#:#grp_create_fold#:#El Usuario puede crear carpetas
 rbac#:#grp_create_frm#:#Crear Foro
 rbac#:#grp_create_glo#:#Crear Glosario
 rbac#:#grp_create_grp#:#Crear Grupo
-common#:#grp_create_hlm#:#Crear Módulo de aprendizaje HACP
 rbac#:#grp_create_htlm#:#Crear Módulo de aprendizaje HTML
 rbac#:#grp_create_icrs#:#Crear Seminario LearnLinc
 rbac#:#grp_create_lm#:#Crear Módulo de Aprendizaje
@@ -3335,7 +3050,6 @@ rbac#:#grp_create_spl#:#Crear Banco de Preguntas para Encuesta
 rbac#:#grp_create_svy#:#Crear Encuesta
 rbac#:#grp_create_tst#:#Crear Test
 rbac#:#grp_create_webr#:#Crear nuevo Recurso Web
-common#:#grp_create_write#:#Crear Wiki
 rbac#:#grp_delete#:#Eliminar Grupo
 common#:#grp_deleted_export_files#:#Archivos seleccionados eliminados.
 common#:#grp_dismiss_member#:#¿Está seguro de que quiere eliminar los siguientes miembro(s) del grupo?
@@ -3428,16 +3142,6 @@ common#:#hist_webr_delete#:#Eliminado Recurso Web con el título: "%1"
 common#:#hist_webr_update#:#Actualizar Recurso Web. Título: "%1"
 common#:#history#:#Historia
 common#:#hits_per_page#:#Elementos por página
-common#:#hlm#:#Módulo de aprendizaje HACP
-common#:#hlm_added#:#Módulo de aprendizaje HACP añadido
-common#:#hlm_create#:#Crear Módulo de aprendizaje HACP
-common#:#hlm_delete#:#Eliminar Módulo de aprendizaje HACP
-common#:#hlm_edit_permission#:#Modificar configuración de permisos
-common#:#hlm_join#:#Subscribir a Módulo de aprendizaje HACP
-common#:#hlm_leave#:#Darse de baja en Módulo de aprendizaje HACP
-common#:#hlm_read#:#Acceso de lectura a Módulo de aprendizaje HACP
-common#:#hlm_visible#:#Módulo de aprendizaje HACP visible
-common#:#hlm_write#:#Editar Módulo de aprendizaje HACP
 common#:#hobby#:#Intereses/hobbies
 common#:#home#:#Sección pública
 common#:#host#:#host
@@ -3583,7 +3287,6 @@ common#:#import_forum_finished#:#El foro ha sido importado
 common#:#import_glossary#:#Importar Glosario
 common#:#import_grp#:#Importar grupo
 common#:#import_grp_finished#:#Grupo importado sin errores
-common#:#import_hlm#:#Importar Paquete HACP
 common#:#import_lm#:#Importar Módulo de Aprendizaje
 common#:#import_qpl#:#Importar Banco de preguntas de Test
 common#:#import_questions_into_qpl#:#Importar pregunta(s) en el banco de preguntas
@@ -3690,50 +3393,20 @@ common#:#join#:#Matricularse
 common#:#join_session#:#Apuntarse
 common#:#kb#:#KByte
 common#:#keywords#:#Palabras clave
-common#:#lang_bg#:#Bulgaro
-common#:#lang_cs#:#Checo
-common#:#lang_da#:#Danés
 common#:#lang_dateformat#:#d-m-Y
-common#:#lang_de#:#Aleman
-common#:#lang_el#:#Griego
-common#:#lang_en#:#Inglés
-common#:#lang_es#:#Español
-common#:#lang_et#:#Estonio
-common#:#lang_fi#:#Finlandés
-common#:#lang_fr#:#Francés
-common#:#lang_ge#:#Georgiano
-common#:#lang_hu#:#Húngaro
-common#:#lang_id#:#Indonesio
-common#:#lang_it#:#Italiano
-common#:#lang_ja#:#Japonés
-common#:#lang_lt#:#Lituano
-common#:#lang_nl#:#Holandés
-common#:#lang_no#:#Noruego
 common#:#lang_path#:#ruta del idioma
-common#:#lang_pl#:#Polaco
-common#:#lang_pt#:#Portugués
 common#:#lang_refresh_confirm#:#¿Realmente quiere actualizar todos los idiomas?
 common#:#lang_refresh_confirm_info#:#El mantenimiento extendido de idiomas está actualmente activado. Actualizar los idiomas carga todos los datos de idioma desde los Archivo de idioma de ILIAS en la base de datos. Los cambios locales (en la base de datos) serán sobreescritos, si no se exportan antes. Esto no afecta a los Archivos "*.lang.local" en el directorio de personalización.
 common#:#lang_refresh_confirm_selected#:#¿Está seguro que desea actualizar los idiomas seleccionados?
-common#:#lang_ro#:#Rumano
-common#:#lang_ru#:#Ruso
 common#:#lang_sep_decimal#:#0
 common#:#lang_sep_thousand#:#.
 common#:#lang_size_bytes#:#bytes
 common#:#lang_size_gb#:#GB
 common#:#lang_size_kb#:#KB
 common#:#lang_size_mb#:#MB
-common#:#lang_sq#:#Albano
-common#:#lang_sr#:#Serbio
-common#:#lang_sv#:#Sueco
 common#:#lang_timeformat#:#H:i:s
 common#:#lang_timeformat_no_sec#:#H:i
-common#:#lang_tr#:#Turco
-common#:#lang_uk#:#Ucraniano
 common#:#lang_version#:#1
-common#:#lang_vi#:#Vietnamita
-common#:#lang_xx#:#Propio
-common#:#lang_zh#:#Chino simplificado
 common#:#langfile_found#:#Archivo de Idioma encontrado
 common#:#language#:#Idioma
 common#:#language_not_installed#:#no está instalado. Por favor instale el idioma primero.
@@ -3901,7 +3574,6 @@ common#:#mail_import#:#Importar
 common#:#mail_import_file#:#archivo en formato exportado por ILIAS 2
 common#:#mail_intern_enable#:#Habilitar
 rbac#:#mail_mail_to_global_roles#:#El usuario debe enviar Emails a los roles globales
-rbac#:#mail_mail_visible#:#El usuario puede usar el sistema de correo
 common#:#mail_mails_of#:#Correo
 common#:#mail_maxsize_attach#:#Máx. tamaño de los adjuntos
 common#:#mail_maxsize_box#:#Máx. tamaño del mailbox
@@ -3913,7 +3585,6 @@ common#:#mail_multiple_recipients_found#:#Introduzca una dirección más especí
 common#:#mail_no_recipient_found#:#Introduzca otra dirección de correo. ILIAS no puede encontrar un destinatario con esa direción
 common#:#mail_no_valid_group_role#:#Rol de grupo no válido
 common#:#mail_not_sent#:#Correo no enviado!
-common#:#mail_pear_mail_needed#:#Necesita instalar Pear Mail para usar esta función. Para hacer esto, introduzca <code>pear install Mail</code> en el terminal.
 rbac#:#mail_read#:#Acceso de lectura a la configuración del correo
 common#:#mail_search_courses_not_found#:#No se encontraron cursos a los que pertenezca como miembro.
 common#:#mail_search_groups_not_found#:#No se encontraron grupos a los que pertenezca como miembro.
@@ -4300,7 +3971,6 @@ common#:#obj_glo#:#Glosario
 common#:#obj_grp#:#Grupo
 common#:#obj_grp_duplicate#:#Copiar Grupo
 common#:#obj_grp_select#:#-- Por favor seleccione un Grupo --
-common#:#obj_hlm#:#Módulo de aprendizaje HACP
 common#:#obj_htlm#:#Módulo de aprendizaje HTML
 common#:#obj_icla#:#Clase iLinc
 common#:#obj_icrs#:#Curso iLinc
@@ -4429,7 +4099,6 @@ common#:#objs_fold#:#Carpetas
 common#:#objs_frm#:#Foros
 common#:#objs_glo#:#Glosarios
 common#:#objs_grp#:#Grupos
-common#:#objs_hlm#:#Módulos de Aprendizaje HACP
 common#:#objs_htlm#:#Módulos de Aprendizaje HTML
 common#:#objs_icla#:#Aulas iLinc
 common#:#objs_icrs#:#Cursos iLinc
@@ -4815,7 +4484,6 @@ common#:#rte_editor_disabled#:#Editor de texto enriquecido desactivado
 common#:#rte_editor_enabled#:#Editor de texto enriquecido activado
 common#:#sahs#:#Módulo de aprendizaje SCORM/AICC
 common#:#sahs_added#:#Módulo de aprendizaje SCORM/AICC añadido
-common#:#sahs_copy#:#Copiar Módulo de aprendizaje SCORM/AICC
 common#:#sahs_create#:#Crear Módulo de aprendizaje SCORM/AICC
 rbac#:#sahs_delete#:#Eliminar Módulo de aprendizaje SCORM/AICC
 rbac#:#sahs_edit_learning_progress#:#Editar seguimiento
@@ -4938,7 +4606,6 @@ common#:#set_online#:#establecer online
 common#:#settings#:#Configuración
 common#:#settings_for_all_members#:#Configuración global para todos los miembros del curso/grupo
 common#:#settings_for_new_members#:#Ajustes de los nuevos miembros
-common#:#settings_per_members#:#Configuración por usuario
 common#:#settings_per_users#:#Configuración personalizada por cada miembro de curso/grupo
 common#:#settings_saved#:#Configuración grabada
 common#:#shib#:#Shibboleth
@@ -5493,7 +5160,6 @@ common#:#zip_test_failed#:#Fallo en Test-Zip. Contacte a su administrador de ILI
 common#:#zipcode#:#Código postal
 content#:#HTML export#:#Exportar a HTML
 content#:#PDF export#:#exportar a PDF
-content#:#PDF_export#:#exportar a PDF
 content#:#Pages#:#Páginas
 content#:#add_menu_entry#:#Añadir opción de menú >>
 content#:#all#:#-Todo-
@@ -8007,7 +7673,6 @@ forum#:#to_forum#:#Al foro
 forum#:#topic_close#:#Cerrado
 forum#:#topics_please_select_one_action#:#Por favor seleccione una acción.
 forum#:#user_decides_notification#:#Cada usuario elige su forma de notificación
-frm#:#frm_import#:#Importar Foro
 gmaps#:#gmaps_api_key#:#Clave API
 gmaps#:#gmaps_api_key_desc#:#Para que funcione la extensión de Google Maps, necesita tener una clave de la API de Google Maps, que pueden conseguir en:
 gmaps#:#gmaps_enable_gmaps#:#Habilitar Google Maps
@@ -8388,7 +8053,6 @@ mail#:#activate_serial_letter_placeholders#:#Activar etiquetas personalizables
 mail#:#advice_mail_body_secured#:#Por razones de seguridad ILIAS borró algunos de los archivos de su correo. Por favor compruebe que el mensaje es seguro y vuelva a enviarlo.
 mail#:#also_as_email#:#También como Email
 mail#:#bc#:#CCO
-mail#:#chat_select_room#:#Seleccionar canal de chat
 mail#:#chat_users_have_been_invited#:#Los usuarios han sido invitados.
 mail#:#chat_users_without_login#:#Los siguientes usuarios no tienen una cuenta de ILIAS y no pueden ser invitados a una sala de Chat.
 mail#:#chat_users_without_permission#:#Los siguientes usuarios no tienen acceso a la sala de Chat seleccionada.
@@ -10074,7 +9738,6 @@ rating#:#rating_nr_users#:#%s Usuario(s)
 rating#:#rating_your_rating#:#Su puntuación
 rbac#:#active_preconditions#:#Activar precondiciones
 rbac#:#add_consultation_hours#:#Añadir calendario de horas de tutoría
-rbac#:#add_post#:#Añadir mensaje
 rbac#:#add_thread#:#Añadir hilo
 rbac#:#blga_edit_permission#:#Cambiar configuración de permisos
 rbac#:#blga_read#:#Acceso de lectura a la administración del blog
@@ -12393,3 +12056,810 @@ trac#:#trac_log_info#:#Last Aggregation: %s (Unprocessed items: %s)###08 02 2012
 trac#:#trac_log_info_link#:#Update###08 02 2012 new variable
 pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, workspace objects and portfolios on the Web.###08 02 2012 new variable
 pd#:#pd_enable_user_publish#:#Enable User Content Publishing###08 02 2012 new variable
+assessment#:#autosave#:#Automatic saving###28 08 2012 new variable
+assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)###28 08 2012 new variable
+assessment#:#autosave_ival#:#Interval###28 08 2012 new variable
+assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)###28 08 2012 new variable
+assessment#:#for#:#for###28 08 2012 new variable
+assessment#:#solution_contain_keywords#:#Score is granted based on the occurence of the following keywords:###28 08 2012 new variable
+assessment#:#essay_keyword_relation#:#Score is granted###28 08 2012 new variable
+assessment#:#essay_keyword_relation_any#:#On finding any of the keywords.###28 08 2012 new variable
+assessment#:#essay_keyword_relation_all#:#Only if all keywords are found.###28 08 2012 new variable
+assessment#:#essay_keyword_relation_one#:#in full if one keyword is found.###28 08 2012 new variable
+assessment#:#essay_keyword_relation_desc#:#If the option 'all keywords' is selected, no score is granted to the participant unless all terms are found. The option 'one keyword' grants the full score of all answers if one keyword is found.###28 08 2012 new variable
+assessment#:#mark_schema_invalid#:#The mark schema does not validate. Please create a correct schema.###28 08 2012 new variable
+assessment#:#answer_characters#:# characters allowed, entered number of characters: ###28 08 2012 new variable
+assessment#:#mark_tst_failed_obligations_answered#:#Sorry, you failed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
+assessment#:#mark_tst_failed_obligations_missing#:#Sorry, you failed the test.<br />You didn't fill out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
+assessment#:#mark_tst_passed_obligations_answered#:#Congratulations, you passed the test.<br />You filled out all obligatory questions.<br />Your resulting mark is: &quot;[mark]&quot;###28 08 2012 new variable
+assessment#:#no_selection_for_move#:#No question selected for moving###28 08 2012 new variable
+assessment#:#obligations_summary#:#List of Obligatory Questions###28 08 2012 new variable
+assessment#:#tst_instant_feedback_answer_generic#:#Show Generic ("Correct/Wrong") Feedback###28 08 2012 new variable
+assessment#:#all_participants#:#All participants###28 08 2012 new variable
+assessment#:#with_solutions_participants#:#Participants with solutions###28 08 2012 new variable
+assessment#:#without_solutions_participants#:#Participants without solutions###28 08 2012 new variable
+assessment#:#tst_show_toplist#:#Show Highscores###28 08 2012 new variable
+assessment#:#toplist_by_score#:#Highscore by score###28 08 2012 new variable
+assessment#:#toplist_by_time#:#Highscore by working time###28 08 2012 new variable
+assessment#:#toplist_top_n_results#:#Top %s Results###28 08 2012 new variable
+assessment#:#toplist_col_rank#:#Rank###28 08 2012 new variable
+assessment#:#toplist_col_participant#:#Participant###28 08 2012 new variable
+assessment#:#toplist_col_achieved#:#Date###28 08 2012 new variable
+assessment#:#toplist_col_score#:#Score###28 08 2012 new variable
+assessment#:#toplist_col_percentage#:#Percentage###28 08 2012 new variable
+assessment#:#toplist_col_hints#:#Hints###28 08 2012 new variable
+assessment#:#toplist_col_wtime#:#Working Time###28 08 2012 new variable
+assessment#:#toplist_your_result#:#Your ranking###28 08 2012 new variable
+assessment#:#tst_highscore_options#:#Highscore###28 08 2012 new variable
+assessment#:#tst_highscore_enabled#:#Highscore display activated###28 08 2012 new variable
+assessment#:#tst_highscore_description#:#Should the display of highscores be available?###28 08 2012 new variable
+assessment#:#tst_highscore_anon#:#Anonymization of the entries.###28 08 2012 new variable
+assessment#:#tst_highscore_anon_description#:#Controls, if names are anonymized with the ranks. This option may be overriden by the test anonymization switch.###28 08 2012 new variable
+assessment#:#tst_highscore_achieved_ts#:#Show date of test###28 08 2012 new variable
+assessment#:#tst_highscore_achieved_ts_description#:#Controls, if a column with the test date should be shown.###28 08 2012 new variable
+assessment#:#tst_highscore_score#:#Show score###28 08 2012 new variable
+assessment#:#tst_highscore_score_description#:#Controls, if a column with the score should be shown.###28 08 2012 new variable
+assessment#:#tst_highscore_percentage#:#Show percentage###28 08 2012 new variable
+assessment#:#tst_highscore_percentage_description#:#Controls, if a column with the tests percentage should be shown.###28 08 2012 new variable
+assessment#:#tst_highscore_hints#:#Show hints###28 08 2012 new variable
+assessment#:#tst_highscore_hints_description#:#Controls, if a column with the tests requested hints should be shown.###28 08 2012 new variable
+assessment#:#tst_highscore_wtime#:#Show working time###28 08 2012 new variable
+assessment#:#tst_highscore_wtime_description#:#Controls, if a column with the tests working time should be shown.###28 08 2012 new variable
+assessment#:#tst_highscore_own_table#:#Show table 'own ranking'###28 08 2012 new variable
+assessment#:#tst_highscore_own_table_description#:#Controls, if the table 'own ranking' should be shown.###28 08 2012 new variable
+assessment#:#tst_highscore_top_table#:#Show table 'top ranking'###28 08 2012 new variable
+assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top ranking' should be shown.###28 08 2012 new variable
+assessment#:#tst_highscore_top_num#:#Number of ranks###28 08 2012 new variable
+assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.###28 08 2012 new variable
+assessment#:#tst_highscore_top_num_unit#:#entries###28 08 2012 new variable
+assessment#:#feedback_setting#:#Mode of answer specific feedback.###28 08 2012 new variable
+assessment#:#feedback_all#:#Show answer specific feedback for all answers.###28 08 2012 new variable
+assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.###28 08 2012 new variable
+assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).###28 08 2012 new variable
+common#:#chat_chatviewer#:#Chat Viewer###28 08 2012 new variable
+chatroom#:#chat_settings#:#Chat Settings###28 08 2012 new variable
+chatroom#:#chat_users_active#:#Active users###28 08 2012 new variable
+rbac#:#frm_add_reply#:#Users can reply to a posting###28 08 2012 new variable
+rbac#:#grp#:#User can copy group###28 08 2012 new variable
+rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module###28 08 2012 new variable
+content#:#cont_LocalFile#:#Local File###28 08 2012 new variable
+chatroom#:#chat_select_room#:#Select Chat Room###28 08 2012 new variable
+rbac#:#book_delete#:#User can move or delete booking pool###28 08 2012 new variable
+rbac#:#add_reply#:#Add Reply###28 08 2012 new variable
+assessment#:#saveOrderAndObligations#:#Save Order and Obligations###28 08 2012 new variable
+assessment#:#obligatory#:#Obligatory###28 08 2012 new variable
+assessment#:#not_all_obligations_answered#:#You must answer all obligatory questions before you can finish the test.###28 08 2012 new variable
+assessment#:#tst_setting_enable_obligations_label#:#Obligatory Questions###28 08 2012 new variable
+assessment#:#tst_setting_enable_obligations_info#:#If checked, questions of the test can be marked as obligatory (*). All obligatory questions need to be filled out to pass this test. You can set obligatory questions in the "list view". We recommend to also activate "Show List of Questions" when obligatory questions are defined.###28 08 2012 new variable
+assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.###28 08 2012 new variable
+administration#:#obj_chta_desc#:#Chat Administration###28 08 2012 new variable
+scormdebug#:#i_gray#:#gray: error corrected by ILIAS###28 08 2012 new variable
+scormdebug#:#sent_values_not_checked#:#selected property: values sent by SCO are not fully checked###28 08 2012 new variable
+common#:#chta_visible#:#Chatroom Administration is visible###28 08 2012 new variable
+common#:#chta_read#:#Read access to Chatroom Administration###28 08 2012 new variable
+common#:#chta_write#:#Edit Chatroom Administration###28 08 2012 new variable
+common#:#chta_edit_permission#:#Change Permission Settings###28 08 2012 new variable
+crs#:#event_blank_columns#:#Additional Columns###28 08 2012 new variable
+rbac#:#rbac_edit_condition#:#Edit Precondition###28 08 2012 new variable
+rbac#:#rbac_condition_delete_sure#:#Are you sure you want to delete the following preconditions?###28 08 2012 new variable
+crs#:#crs_starter_delete_sure#:#Are you sure you want to delete the following start objects?###28 08 2012 new variable
+common#:#statutory_regulations#:#Statutory Regulations###28 08 2012 new variable
+common#:#show_sr_shoppingcart#:#Im Warenkorb anzeigen###28 08 2012 new variable
+common#:#attach_sr_invoice#:#An Email anhängen###28 08 2012 new variable
+common#:#show_sr_shoppingcart_info#:#If enabled, the statutory regulations will be shown within the shoppingcart###28 08 2012 new variable
+common#:#attach_sr_invoice_info#:#If enabled, the statutory regulations will be attached to the billing email###28 08 2012 new variable
+rbac#:#tst_tst_statistics#:#User has access to test statistics###28 08 2012 new variable
+common#:#ignore_required_fields#:#Ignore required fields###28 08 2012 new variable
+common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.###28 08 2012 new variable
+ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees###28 08 2012 new variable
+ecs#:#ecs_node_mapping_status_1#:#Mapping of the Whole Tree###28 08 2012 new variable
+ecs#:#ecs_node_mapping_status_2#:#Manual Mapping###28 08 2012 new variable
+ecs#:#ecs_node_mapping_status_3#:#Unmapped###28 08 2012 new variable
+ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus managment tree?###28 08 2012 new variable
+ecs#:#ecs_cms_tree_deleted#:#The campus managment tree assignments have been deleted.###28 08 2012 new variable
+ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System###28 08 2012 new variable
+ecs#:#ecs_title_updates#:#Transfer Title Updates###28 08 2012 new variable
+ecs#:#ecs_tree_updates#:#Transfer Tree Updates###28 08 2012 new variable
+ecs#:#ecs_position_updates#:#Transfer Position Updates###28 08 2012 new variable
+ecs#:#ecs_general_info#:#General Information###28 08 2012 new variable
+ecs#:#ecs_local_information#:#Further Information###28 08 2012 new variable
+ecs#:#ecs_delete_setting#:#Are you sure you want to delete the following ECS?###28 08 2012 new variable
+ecs#:#ecs_setting_deleted#:#ECS deleted###28 08 2012 new variable
+ecs#:#ecs_cat_mapping_by_type#:#By Type###28 08 2012 new variable
+ecs#:#ecs_cat_mapping_by_type_info#:#Choose this mode to assign by object type.###28 08 2012 new variable
+ecs#:#ecs_err_invalid_by_type#:#Please select a type when assigning by type.###28 08 2012 new variable
+common#:#obj_rcat#:#ECS Category ###28 08 2012 new variable
+ecs#:#ecs_server_deleted#:#Deleted Server###28 08 2012 new variable
+assessment#:#tst_results_print_best_solution#:#Best Solution in Test Results###28 08 2012 new variable
+assessment#:#tst_results_print_best_solution_info#:#If activated and accessible by the participant, the best solution appears in the test result summary.###28 08 2012 new variable
+trac#:#trac_object_stat_lp#:#Learning Progress Statistics Course###28 08 2012 new variable
+trac#:#trac_object_stat_lp_min#:#Min.###28 08 2012 new variable
+trac#:#trac_object_stat_lp_max#:#Max.###28 08 2012 new variable
+trac#:#trac_members_short#:#Members###28 08 2012 new variable
+trac#:#trac_current#:#Current###28 08 2012 new variable
+trac#:#trac_aggregation#:#Aggregation###28 08 2012 new variable
+trac#:#session_statistics#:#Session Statistics###28 08 2012 new variable
+trac#:#trac_last_aggregation#:#Last Aggregation###28 08 2012 new variable
+trac#:#trac_last_maxed_out_sessions#:#Last Full Load###28 08 2012 new variable
+trac#:#trac_maxed_out_counter#:#Rejected Users###28 08 2012 new variable
+trac#:#trac_sessions_opened#:#Admissions###28 08 2012 new variable
+trac#:#trac_sessions_closed#:#Leavings###28 08 2012 new variable
+trac#:#trac_maxed_out_time#:#Full Load [min]###28 08 2012 new variable
+trac#:#trac_closed_manual#:#Logout###28 08 2012 new variable
+trac#:#trac_closed_expire#:#Timeout###28 08 2012 new variable
+trac#:#trac_closed_idle#:#Idle Time###28 08 2012 new variable
+trac#:#trac_closed_idle_first#:#Idle Time (1st Request)###28 08 2012 new variable
+trac#:#trac_closed_login#:#Anonymous To Login###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_today#:#Today###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_last_day#:#Last 24 Hours###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_last_week#:#Last 7 Days###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_last_month#:#Last 30 Days###28 08 2012 new variable
+trac#:#trac_session_active_avg#:#Active Sessions (Average)###28 08 2012 new variable
+trac#:#trac_session_active_min#:#Active Sessions (Minimum)###28 08 2012 new variable
+trac#:#trac_session_active_max#:#Active Sessions (Maximum)###28 08 2012 new variable
+trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.###28 08 2012 new variable
+trac#:#trac_sync_session_stats#:#Aggregate Data###28 08 2012 new variable
+trac#:#trac_sync_session_stats_success#:#Data aggregation was done successfully.###28 08 2012 new variable
+crs#:#crs_course_status_of_users#:#Passed Status of Users###28 08 2012 new variable
+crs#:#crs_status_determination#:#Determination###28 08 2012 new variable
+crs#:#crs_status_determination_manual#:#Independent of Learning Progress###28 08 2012 new variable
+crs#:#crs_status_determination_lp#:#Through Learning Progress###28 08 2012 new variable
+crs#:#crs_status_determination_sync#:#Sync passed status with learning progress of all members now###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_day#:#Day###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_week#:#Week###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_month#:#Month###28 08 2012 new variable
+trac#:#trac_current_system_load#:#Current System Load###28 08 2012 new variable
+trac#:#trac_short_system_load#:#Short term###28 08 2012 new variable
+trac#:#trac_long_system_load#:#Long term###28 08 2012 new variable
+trac#:#trac_periodic_system_load#:#Periodic ###28 08 2012 new variable
+trac#:#trac_begin_at#:#Start date###28 08 2012 new variable
+trac#:#trac_scale#:#Scale###28 08 2012 new variable
+trac#:#trac_measure#:#Figure###28 08 2012 new variable
+trac#:#trac_end_at#:#End Date###28 08 2012 new variable
+tax#:#tax_taxonomy#:#Taxonomy###28 08 2012 new variable
+tax#:#obj_taxn#:#Node###28 08 2012 new variable
+tax#:#tax_node#:#Node###28 08 2012 new variable
+tax#:#tax_nodes#:#Nodes###28 08 2012 new variable
+tax#:#tax_create_node#:#Create Node###28 08 2012 new variable
+tax#:#tax_new_tax_node#:#New Node###28 08 2012 new variable
+tax#:#tax_order#:#Order###28 08 2012 new variable
+administration#:#adm_rep_shorten_description#:#Shorten Descriptions###28 08 2012 new variable
+administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists will be shortened.###28 08 2012 new variable
+administration#:#adm_rep_shorten_description_length#:#Max. number of characters###28 08 2012 new variable
+file#:#file_uploaded_by#:#Uploaded by###28 08 2012 new variable
+trac#:#trac_session_statistics_mode_year#:#Year###28 08 2012 new variable
+assessment#:#tst_question#:#Question###28 08 2012 new variable
+assessment#:#tst_participant_solution#:#Participant Solution###28 08 2012 new variable
+assessment#:#tst_suggested_solution#:#Best Solution###28 08 2012 new variable
+assessment#:#tst_participant#:#Participant###28 08 2012 new variable
+assessment#:#tst_participant_status#:#Participant Status###28 08 2012 new variable
+assessment#:#tst_edit_scoring#:#Edit Scoring###28 08 2012 new variable
+assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s###28 08 2012 new variable
+assessment#:#tst_manscoring_question_section_header#:#Question: %s###28 08 2012 new variable
+content#:#cont_online_help_ids#:#Help IDs###28 08 2012 new variable
+content#:#cont_screen_ids#:#Screen IDs###28 08 2012 new variable
+assessment#:#tst_manscoring_user_notification#:#Send Notification###28 08 2012 new variable
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s was saved successfully.###28 08 2012 new variable
+assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" comitted###28 08 2012 new variable
+assessment#:#tst_notify_manscoring_done_body_msg_topic#:#the manual scoring for the following test was comitted:###28 08 2012 new variable
+assessment#:#tst_notify_manscoring_done_body_msg_reason#:#You received this notification, because you participated in this test.###28 08 2012 new variable
+crs#:#crs_subject_course_group_notification#:#Daily Mail for %s###28 08 2012 new variable
+crs#:#crs_intro_course_group_notification_for#:#This is the daily news digest for: %s###28 08 2012 new variable
+crs#:#crs_course_group_notification_link#:#Link:###28 08 2012 new variable
+common#:#obj_lm_duplicate#:#Copy Learning Module###28 08 2012 new variable
+blog#:#blog_edit_date#:#Edit Date###28 08 2012 new variable
+blog#:#blog_edit_date_info#:#Publication status does not depend on this date.###28 08 2012 new variable
+administration#:#adm_captcha_wiki_forum#:#Activate Captcha for Anonymous (Forum/Wiki)###28 08 2012 new variable
+content#:#cont_captcha_verification#:#User Verification###28 08 2012 new variable
+content#:#cont_captcha_code#:#Code###28 08 2012 new variable
+cptch#:#cptch_wrong_input#:#Wrong Input###28 08 2012 new variable
+forum#:#cont_captcha_code#:#Code###28 08 2012 new variable
+cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.###28 08 2012 new variable
+certificate#:#certificate_file_basename#:#Certificate###28 08 2012 new variable
+grp#:#grp_print_list#:#Generate List###28 08 2012 new variable
+grp#:#grp_members_print_title#:#Group Members###28 08 2012 new variable
+trac#:#trac_closed_misc#:#Misc.###28 08 2012 new variable
+common#:#reg_goto_parent_membership_info#:#Only members can access the target object.###28 08 2012 new variable
+rep#:#rep_no_permission_to_delete#:#No permission to delete###28 08 2012 new variable
+rep#:#rep_object_references_cannot_be_read#:#No permissions for %s more references.###28 08 2012 new variable
+rep#:#rep_multiple_reference_deletion_intro#:#Further references exist for this object.###28 08 2012 new variable
+rep#:#rep_multiple_reference_deletion_instruction#:#Please select the ones which should also be deleted:###28 08 2012 new variable
+blog#:#blog_enable_rss#:#Activate RSS ###28 08 2012 new variable
+blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.###28 08 2012 new variable
+user#:#user_allow_delete_own_account#:#Allow users to delete own account###28 08 2012 new variable
+user#:#user_delete_own_account_notification_email#:#Notification Email###28 08 2012 new variable
+user#:#user_delete_own_account_info#:#Here you can delete your current user account. Keep in mind that the deletion of your account is irreversible! ###28 08 2012 new variable
+user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation###28 08 2012 new variable
+user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!###28 08 2012 new variable
+user#:#user_delete_own_account_email_subject#:#User account deleted###28 08 2012 new variable
+user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.###28 08 2012 new variable
+mcst#:#mcst_ordering#:#Sorting###28 08 2012 new variable
+mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)###28 08 2012 new variable
+mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)###28 08 2012 new variable
+mcst#:#mcst_ordering_title#:#By Title###28 08 2012 new variable
+mcst#:#mcst_ordering_manual#:#Manual###28 08 2012 new variable
+user#:#user_store_last_visited#:#Last Visited###28 08 2012 new variable
+user#:#user_lv_keep_entries#:#Remember last visited###28 08 2012 new variable
+user#:#user_lv_keep_only_for_session#:#Remember only during current session###28 08 2012 new variable
+user#:#user_lv_do_not_store#:#Never remeber last visited###28 08 2012 new variable
+common#:#remove_entries#:#Remove Entries###28 08 2012 new variable
+exc#:#exc_no_deadline_specified#:#No deadline specified.###28 08 2012 new variable
+mcst#:#mcst_save_order#:#Save Order###28 08 2012 new variable
+content#:#glo_style#:#Glossary Style###28 08 2012 new variable
+pdesk#:#bookmark_select_target#:#Please select target.###28 08 2012 new variable
+pdesk#:#bookmark_moved_ok#:#Bookmark has been moved.###28 08 2012 new variable
+wsp#:#wsp_tab_ownership#:#My Repository Objects###28 08 2012 new variable
+user#:#user_ownership#:#Repository Objects###28 08 2012 new variable
+registration#:#registration_code_role_info#:#If you use a registration code, the role selection may be superseded by the code.###28 08 2012 new variable
+mail#:#mail_system_sender_name#:#Sender Name###28 08 2012 new variable
+mail#:#mail_system_sender_name_info#:#Please enter a name. This name will be used for automatically generated messages (internal and external). If you leave the field blank, ILIAS uses the short title of this installation. If the title is not well defined, 'ILIAS' is used as the sender.###28 08 2012 new variable
+content#:#cont_current_term#:#Current Term###28 08 2012 new variable
+assessment#:#tst_setting_offer_hints_label#:#Question Specific Hints###28 08 2012 new variable
+assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.###28 08 2012 new variable
+assessment#:#tst_question_hints_tab#:#Hints###28 08 2012 new variable
+assessment#:#tst_question_hints_table_header#:#Hints for Question: %s###28 08 2012 new variable
+assessment#:#tst_question_hints_table_no_items#:#No Existing Hints###28 08 2012 new variable
+assessment#:#tst_question_hints_table_column_hint_order#:#Order###28 08 2012 new variable
+assessment#:#tst_question_hints_table_column_hint_text#:#Hint###28 08 2012 new variable
+assessment#:#tst_question_hints_table_column_hint_points#:#Points Deduction###28 08 2012 new variable
+assessment#:#tst_question_hints_table_link_edit_hint#:#Edit Hint###28 08 2012 new variable
+assessment#:#tst_question_hints_table_link_delete_hint#:#Delete Hint###28 08 2012 new variable
+assessment#:#tst_questions_hints_table_cmd_save_order#:#Save Order###28 08 2012 new variable
+assessment#:#tst_questions_hints_table_multicmd_delete_hint#:#Delete Hint(s)###28 08 2012 new variable
+assessment#:#tst_questions_hints_table_multicmd_cut_hint#:#Cut Hint to Ordering Clipboard###28 08 2012 new variable
+assessment#:#tst_questions_hints_table_multicmd_paste_hint_before#:#Prepend Hint to the Selected One###28 08 2012 new variable
+assessment#:#tst_questions_hints_table_multicmd_paste_hint_after#:#Append Hint to the Selected One###28 08 2012 new variable
+assessment#:#tst_questions_hints_toolbar_cmd_add_hint#:#Add Hint###28 08 2012 new variable
+assessment#:#tst_questions_hints_toolbar_cmd_reset_ordering_clipboard#:#Reset Hint Ordering Clipboard###28 08 2012 new variable
+assessment#:#tst_question_hints_delete_hints_missing_selection_msg#:#No hint(s) selected for deletion.###28 08 2012 new variable
+assessment#:#tst_question_hints_delete_hints_confirm_header#:#Do you really want to delete the following hint(s)?###28 08 2012 new variable
+assessment#:#tst_question_hints_delete_hints_confirm_item#:#Hint %s: %s###28 08 2012 new variable
+assessment#:#tst_question_hints_delete_hints_confirm_cmd#:#Delete Hint(s)###28 08 2012 new variable
+assessment#:#tst_question_hints_delete_success_msg#:#The selected hint(s) has been deleted successfully.###28 08 2012 new variable
+assessment#:#tst_question_hints_cut_hints_missing_selection_msg#:#No hint selected for cutting.###28 08 2012 new variable
+assessment#:#tst_question_hints_cut_hints_single_selection_msg#:#More than one hint was selected for cutting.###28 08 2012 new variable
+assessment#:#tst_question_hints_form_header_edit#:#Hint %s for Question: %s###28 08 2012 new variable
+assessment#:#tst_question_hints_form_header_create#:#New Hint for Question: %s###28 08 2012 new variable
+assessment#:#tst_question_hints_form_label_hint_text#:#Hint###28 08 2012 new variable
+assessment#:#tst_question_hints_form_label_hint_points#:#Point Deduction###28 08 2012 new variable
+assessment#:#tst_question_hints_form_cmd_save#:#Save Hint###28 08 2012 new variable
+assessment#:#tst_question_hints_form_saved_msg#:#The hint has been saved successfully.###28 08 2012 new variable
+assessment#:#tst_question_hints_form_invalid_msg#:#The hint could not been saved. Please check your inputs.###28 08 2012 new variable
+assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hint %s is stored in ordering clipboard.###28 08 2012 new variable
+assessment#:#tst_question_hints_ordering_clipboard_resetted#:#The ordering clipboard has been resetted.###28 08 2012 new variable
+assessment#:#tst_question_hints_save_order_success_msg#:#The order of hint was saved successfully.###28 08 2012 new variable
+assessment#:#tst_question_hints_paste_before_success_msg#:#The hint %s has been pasted before hint %s successfully.###28 08 2012 new variable
+assessment#:#tst_question_hints_paste_after_success_msg#:#The hint %s has been pasted after hint %s successfully.###28 08 2012 new variable
+assessment#:#button_request_question_hint#:#Request Hint###28 08 2012 new variable
+assessment#:#button_request_next_question_hint#:#Request Next Hint###28 08 2012 new variable
+assessment#:#button_show_requested_question_hints#:#Show Requested Hints###28 08 2012 new variable
+assessment#:#tst_question_hints_confirm_request#:#Request Hint###28 08 2012 new variable
+assessment#:#tst_question_hints_cancel_request#:#Back to Question###28 08 2012 new variable
+assessment#:#tst_question_hints_request_confirmation#:#Do you really want to request hint %s? For this hint %s point(s) will be deducted.###28 08 2012 new variable
+assessment#:#tst_question_hints_back_to_question#:#Back to Question###28 08 2012 new variable
+assessment#:#tst_question_hints_index_column_label#:#Hint %s###28 08 2012 new variable
+assessment#:#tst_question_hints_table_column_hint_index#:#Index###28 08 2012 new variable
+assessment#:#tst_question_hints_requested_hint_count_header#:#Requested Hints###28 08 2012 new variable
+assessment#:#conf_delete_pass#:#Really delete pass?###28 08 2012 new variable
+help#:#help_tooltips#:#Help Tooltips###28 08 2012 new variable
+help#:#help_tooltip_id#:#Tooltip ID###28 08 2012 new variable
+help#:#help_tt_text#:#Text###28 08 2012 new variable
+help#:#help_all#:#All###28 08 2012 new variable
+help#:#help_component#:#Component###28 08 2012 new variable
+help#:#help_filter#:#Filter###28 08 2012 new variable
+help#:#help_open_online_help#:#Open Online Help###28 08 2012 new variable
+help#:#help_toggle_tooltips#:#Toggle Help Tooltips###28 08 2012 new variable
+common#:#objs_blog#:#Blogs###28 08 2012 new variable
+common#:#obj_blog_duplicate#:#Copy Blog###28 08 2012 new variable
+blog#:#blog_copy#:#Copy Blog###28 08 2012 new variable
+rbac#:#blog_visible#:#Blog is visible###28 08 2012 new variable
+rbac#:#blog_read#:#User can read blog content###28 08 2012 new variable
+rbac#:#blog_copy#:#User can copy blog###28 08 2012 new variable
+rbac#:#blog_write#:#User can edit blog settings###28 08 2012 new variable
+rbac#:#blog_delete#:#User can move or delete blog###28 08 2012 new variable
+rbac#:#blog_edit_permission#:#User can change permission settings###28 08 2012 new variable
+rbac#:#crs_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#root_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#fold_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#grp_create_blog#:#Create Blog###28 08 2012 new variable
+rbac#:#cat_create_blog#:#Create Blog###28 08 2012 new variable
+user#:#user_delete_own_account#:#Delete Account###28 08 2012 new variable
+rbac#:#trac_write#:#Edit settings in Statistics and Learning Progress administration###28 08 2012 new variable
+common#:#obj_dcl#:#Data Collection###28 08 2012 new variable
+common#:#objs_dcl#:#Data Collections###28 08 2012 new variable
+common#:#obj_dcl_dupliate#:#Copy Data Collection###28 08 2012 new variable
+dcl#:#dcl_new#:#Create New Data Collection###28 08 2012 new variable
+dcl#:#dcl_add#:#Create Data Collection###28 08 2012 new variable
+dcl#:#dcl_copy#:#Copy Data Collection###28 08 2012 new variable
+dcl#:#dcl_edit#:#Edit Data Collection###28 08 2012 new variable
+rbac#:#dcl_visible#:#Data Collection is visible###28 08 2012 new variable
+rbac#:#dcl_read#:#Read access to Data Collection###28 08 2012 new variable
+rbac#:#dcl_copy#:#User can copy data collection###28 08 2012 new variable
+rbac#:#dcl_write#:#User can edit settings and content of data collection###28 08 2012 new variable
+rbac#:#dcl_delete#:#User can move or delete data collection###28 08 2012 new variable
+rbac#:#dcl_edit_permission#:#User can change permission settings###28 08 2012 new variable
+rbac#:#dcl_add_entry#:#User can add/edit entries###28 08 2012 new variable
+rbac#:#crs_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#root_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#fold_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#grp_create_dcl#:#Create Data Collection###28 08 2012 new variable
+rbac#:#cat_create_dcl#:#Create Data Collection###28 08 2012 new variable
+survey#:#freetext_answers#:#Open Answers###28 08 2012 new variable
+forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.###28 08 2012 new variable
+payment#:#duration_month#:#Access duration in months###28 08 2012 new variable
+payment#:#duration_date#:#Access duration###28 08 2012 new variable
+payment#:#please_choose_category#:#Please choose a category###28 08 2012 new variable
+forum#:#select_max_one_thread#:#Please select one thread only!###28 08 2012 new variable
+common#:#shib_matriculation#:#Attribute for Matriculation Number###28 08 2012 new variable
+common#:#soap_connect_timeout#:#Connection Timeout###28 08 2012 new variable
+common#:#soap_connect_timeout_info#:#The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted.###28 08 2012 new variable
+content#:#glo_show_taxonomy#:#Show Taxonomy###28 08 2012 new variable
+dateplaner#:#cal_ical_infoscreen#:#Subscribe###28 08 2012 new variable
+tax#:#tax_sorting#:#Sorting###28 08 2012 new variable
+tax#:#tax_alphabetical#:#Alphabetical###28 08 2012 new variable
+tax#:#tax_manual#:#Manual###28 08 2012 new variable
+tax#:#tax_order_nr#:#Order Nr###28 08 2012 new variable
+tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.###28 08 2012 new variable
+tax#:#tax_please_select_target#:#Please select the target.###28 08 2012 new variable
+rep#:#rep_activation_availability#:#Availability###28 08 2012 new variable
+rep#:#rep_activation_online#:#Online###28 08 2012 new variable
+crs#:#crs_activation_online_info#:#If offline, only course administrators and tutors can see and edit the course.###28 08 2012 new variable
+rep#:#rep_activation_access#:#Access###28 08 2012 new variable
+rep#:#rep_activation_limited_start#:#Starting Time###28 08 2012 new variable
+rep#:#rep_activation_limited_end#:#Ending Time###28 08 2012 new variable
+rep#:#rep_activation_limited_visibility#:#Always Visible###28 08 2012 new variable
+crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.###28 08 2012 new variable
+tax#:#tax_delete_taxonomy#:#Delete Taxononmy###28 08 2012 new variable
+tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?###28 08 2012 new variable
+tax#:#tax_tax_deleted#:#The taxonomy has been deleted.###28 08 2012 new variable
+tax#:#tax_add_taxonomy#:#Add Taxonomy###28 08 2012 new variable
+content#:#cont_show_activation_info#:#Show Activation Info###28 08 2012 new variable
+content#:#cont_show_activation_info_info#:#If the scheduled activation is not yet reached, the page will not be skipped. The information when the page will be activated will be displayed to the user.###28 08 2012 new variable
+content#:#cont_page_activation_on#:#The content will be activated on %s.###28 08 2012 new variable
+trac#:#trac_lp_on_personal_desktop#:#Learning Progress on Personal Desktop###28 08 2012 new variable
+trac#:#trac_lp_learner_access#:#Accessible Personal Learning Progress###28 08 2012 new variable
+rating#:#rating_categories#:#Rating Categories###28 08 2012 new variable
+rating#:#rating_add_category#:#Add Category###28 08 2012 new variable
+rating#:#rating_category_create#:#Create Category###28 08 2012 new variable
+rating#:#rating_category_add#:#Add###28 08 2012 new variable
+rating#:#rating_category_created#:#Category created.###28 08 2012 new variable
+rating#:#rating_category_edit#:#Edit Category###28 08 2012 new variable
+rating#:#rating_category_update#:#Save###28 08 2012 new variable
+rating#:#rating_category_updated#:#Category saved.###28 08 2012 new variable
+rating#:#rating_update_positions#:#Save Order###28 08 2012 new variable
+rating#:#rating_category_delete_sure#:#Are you sure you want to delete the following rating categories?  All ratings for that category will be lost.###28 08 2012 new variable
+content#:#cont_hover#:#Hover###28 08 2012 new variable
+content#:#cont_always#:#Always###28 08 2012 new variable
+content#:#cont_highlight_mode#:#Highlight Mode###28 08 2012 new variable
+content#:#cont_light#:#Light###28 08 2012 new variable
+content#:#cont_dark#:#Dark###28 08 2012 new variable
+content#:#cont_accented#:#Accented###28 08 2012 new variable
+content#:#cont_set#:#Set###28 08 2012 new variable
+content#:#cont_link_no#:#No Link###28 08 2012 new variable
+rating#:#rating_category_deleted#:#Category deleted.###28 08 2012 new variable
+wiki#:#wiki_activate_sideblock_rating#:#Display Rating as Side Block###28 08 2012 new variable
+wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages###28 08 2012 new variable
+wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories###28 08 2012 new variable
+wiki#:#wiki_activate_page_rating#:#Activate Rating###28 08 2012 new variable
+wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating###28 08 2012 new variable
+rating#:#rating_overlay_title_overall#:#Overall Rating###28 08 2012 new variable
+rating#:#rating_overlay_submit#:#Submit Rating###28 08 2012 new variable
+rep#:#rep_visibility_limitless#:#Umlimited###28 08 2012 new variable
+rep#:#rep_visibility_until#:#Temporarily Available###28 08 2012 new variable
+assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participants restriction settings below).###28 08 2012 new variable
+assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).###28 08 2012 new variable
+assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.###28 08 2012 new variable
+assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.###28 08 2012 new variable
+book#:#booking_nr_of_items#:#Nr of Items###28 08 2012 new variable
+book#:#book_schedule_type_fixed#:#Fixed Schedule###28 08 2012 new variable
+book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers and such###28 08 2012 new variable
+book#:#book_schedule_type_none#:#No Schedule###28 08 2012 new variable
+book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such###28 08 2012 new variable
+book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?###28 08 2012 new variable
+common#:#obj_mep_duplicate#:#Copy Media Pool###28 08 2012 new variable
+common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
+common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
+common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
+forum#:#order_by_posts#:#Sort by posts###28 08 2012 new variable
+forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.###28 08 2012 new variable
+forum#:#number_of_threads#:#Displayed Number of Threads per Page###28 08 2012 new variable
+common#:#obj_wiki_duplicate#:#Copy Wiki###28 08 2012 new variable
+common#:#obj_sahs_duplicate#:#Copy Learning Module###28 08 2012 new variable
+common#:#obj_poll#:#Poll###28 08 2012 new variable
+common#:#objs_poll#:#Polls###28 08 2012 new variable
+common#:#obj_poll_dupliate:#:#Copy Poll###28 08 2012 new variable
+poll#:#poll_new#:#Add New Poll###28 08 2012 new variable
+poll#:#poll_add#:#Add Poll###28 08 2012 new variable
+poll#:#poll_copy#:#Copy Poll###28 08 2012 new variable
+poll#:#poll_edit#:#Edit Poll###28 08 2012 new variable
+rbac#:#poll_visible#:#Poll is visible###28 08 2012 new variable
+rbac#:#poll_read#:#User can participate at poll###28 08 2012 new variable
+rbac#:#poll_write#:#User can edit poll settings and content###28 08 2012 new variable
+rbac#:#poll_delete#:#User can move or delete poll###28 08 2012 new variable
+rbac#:#poll_copy#:#User can copy poll###28 08 2012 new variable
+rbac#:#poll_edit_permission#:#User can change permission settings###28 08 2012 new variable
+rbac#:#root_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#cat_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#crs_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#fld_create_poll#:#Create Poll###28 08 2012 new variable
+rbac#:#grp_create_poll#:#Create Poll###28 08 2012 new variable
+poll#:#poll_question#:#Question###28 08 2012 new variable
+poll#:#poll_image#:#Image###28 08 2012 new variable
+poll#:#poll_view_results#:#Display Results###28 08 2012 new variable
+poll#:#poll_view_results_always#:#Always###28 08 2012 new variable
+poll#:#poll_view_results_never#:#Never###28 08 2012 new variable
+poll#:#poll_view_results_after_vote#:#After Vote###28 08 2012 new variable
+poll#:#poll_view_results_after_period#:#After Voting Period ###28 08 2012 new variable
+poll#:#poll_activation_online_info#:#If offline, only administrators can see and edit the poll.###28 08 2012 new variable
+poll#:#poll_availability_limitless_info#:#Choose this mode for making the poll available and accessible to users.###28 08 2012 new variable
+poll#:#poll_availability_until_info#:#Choose this mode for making the poll available and accessible to users for a fixed period of time.###28 08 2012 new variable
+poll#:#poll_activation_limited_visibility_info#:#If chosen, the poll is visible even outside of the given availability.###28 08 2012 new variable
+poll#:#poll_add_answer#:#Add Answer###28 08 2012 new variable
+poll#:#poll_answer#:#Answer###28 08 2012 new variable
+poll#:#poll_answers#:#Possible Answers###28 08 2012 new variable
+poll#:#poll_sortorder#:#Order###28 08 2012 new variable
+poll#:#poll_percentage#:#Current Percentage###28 08 2012 new variable
+poll#:#poll_update_order#:#Update Order###28 08 2012 new variable
+poll#:#poll_edit_answer#:#Edit Answer###28 08 2012 new variable
+poll#:#poll_info_delete_sure#:#Are you sure that you want to delete the following answers?###28 08 2012 new variable
+poll#:#poll_vote#:#Vote###28 08 2012 new variable
+poll#:#poll_block_message_offline#:#This poll is offline.###28 08 2012 new variable
+poll#:#poll_block_message_inactive#:#This poll will be available from %s.###28 08 2012 new variable
+poll#:#poll_block_message_already_voted#:#You already voted in this poll.###28 08 2012 new variable
+poll#:#poll_block_message_no_answers#:#This poll is incomplete.###28 08 2012 new variable
+survey#:#svy_neutral_answer#:#Text for a Neutral Answer ("Not Specified", "I don't know" etc.)###28 08 2012 new variable
+dcl#:#dcl_edit_type#:#Edit Type###28 08 2012 new variable
+dcl#:#dcl_activate_rating#:#Activate Record Rating###28 08 2012 new variable
+dcl#:#dcl_activate_approval#:#Activate Record Approval###28 08 2012 new variable
+dcl#:#dcl_activate_notification#:#Activate Notification###28 08 2012 new variable
+dcl#:#dcl_table_id#:#Table ID###28 08 2012 new variable
+dcl#:#dcl_add_new_record#:#Add New Record###28 08 2012 new variable
+dcl#:#dcl_list_fields#:#List Fields###28 08 2012 new variable
+dcl#:#dcl_record_view_viewdefinition#:#View Viewdefinition###28 08 2012 new variable
+dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition###28 08 2012 new variable
+dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition###28 08 2012 new variable
+dcl#:#dcl_add_new_field#:#Add New Field###28 08 2012 new variable
+dcl#:#dcl_add_new_table#:#Add New Table###28 08 2012 new variable
+dcl#:#dcl_field_datatype#:#Field Datatype###28 08 2012 new variable
+dcl#:#dcl_required#:#Required Field###28 08 2012 new variable
+dcl#:#dcl_edit_type_non#:#Not editable###28 08 2012 new variable
+dcl#:#dcl_edit_type_non_info#:#Creating New Records needs edit settings permission###28 08 2012 new variable
+dcl#:#dcl_edit_type_unlim#:#Unlimited###28 08 2012 new variable
+dcl#:#dcl_edit_type_unlim_info#:#Users with add/edit permission can add/edit entries###28 08 2012 new variable
+dcl#:#dcl_edit_type_lim#:#Limited###28 08 2012 new variable
+dcl#:#dcl_edit_type_lim_info#:#Acces for users with add/edit permission is limited to the following daterange###28 08 2012 new variable
+dcl#:#dcl_edit_start#:#Start-Date###28 08 2012 new variable
+dcl#:#dcl_edit_end#:#End-Date###28 08 2012 new variable
+dcl#:#dcl_export#:#Export###28 08 2012 new variable
+dcl#:#dcl_table_list_fields#:#List Fields of current Table###28 08 2012 new variable
+dcl#:#dcl_view_viewdefinition#:#Viewdefinition###28 08 2012 new variable
+dcl#:#dcl_new_table#:#New Table###28 08 2012 new variable
+dcl#:#dcl_table_create#:#Create Table###28 08 2012 new variable
+dcl#:#dcl_table_edit#:#Update Table###28 08 2012 new variable
+dcl#:#dcl_new_field#:#New Field###28 08 2012 new variable
+dcl#:#dcl_datatype#:#Datatype###28 08 2012 new variable
+dcl#:#dcl_integer#:#Integer###28 08 2012 new variable
+dcl#:#dcl_text#:#Text###28 08 2012 new variable
+dcl#:#dcl_reference#:#Reference###28 08 2012 new variable
+dcl#:#dcl_boolean#:#Boolean###28 08 2012 new variable
+dcl#:#dcl_datetime#:#Datetime###28 08 2012 new variable
+dcl#:#dcl_file#:#Fileupload###28 08 2012 new variable
+dcl#:#dcl_field_description#:#Description###28 08 2012 new variable
+dcl#:#dcl_field_required#:#Required###28 08 2012 new variable
+dcl#:#dcl_length#:#Length###28 08 2012 new variable
+dcl#:#dcl_regex#:#Regular Expression###28 08 2012 new variable
+dcl#:#dcl_filter#:#Filter###28 08 2012 new variable
+dcl#:#dcl_max_text_length#:#Maximum Length###28 08 2012 new variable
+dcl#:#dcl_wrong_length#:#The text you entered is to long.###28 08 2012 new variable
+dcl#:#dcl_wrong_regex#:#The text you entered does not match the specification for this field (Regular Expression).###28 08 2012 new variable
+dcl#:#dcl_wrong_input_type#:#The value you entered does not match the specification (Wrong Type).###28 08 2012 new variable
+dcl#:#dcl_unique#:#Unique###28 08 2012 new variable
+dcl#:#dcl_unique_exception#:#The value you entered is already taken by another record.###28 08 2012 new variable
+dcl#:#dcl_unknown_exception#:#The value you entered is not valid.###28 08 2012 new variable
+dcl#:#dcl_checked#:#Checked.###28 08 2012 new variable
+dcl#:#dcl_not_checked#:#Not checked.###28 08 2012 new variable
+dcl#:#dcl_any#:#Any###28 08 2012 new variable
+dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)###28 08 2012 new variable
+common#:#mail_member#:#Mail to Member###28 08 2012 new variable
+exc#:#exc_type_upload_team#:#Team Upload###28 08 2012 new variable
+exc#:#exc_team#:#Team###28 08 2012 new variable
+exc#:#exc_team_member_add#:#Add Team Member (Search)###28 08 2012 new variable
+exc#:#exc_team_member_container_add#:#Add Team Member from Course/Group###28 08 2012 new variable
+exc#:#exc_team_members#:#Team Members###28 08 2012 new variable
+exc#:#exc_team_at_least_one#:#There has to be at least 1 team member.###28 08 2012 new variable
+pd#:#pd_export_profile#:#Export Personal Data###28 08 2012 new variable
+pd#:#pd_download_last_export_file#:#Download Last Export File###28 08 2012 new variable
+pd#:#pd_import_personal_data#:#Import Personal Data###28 08 2012 new variable
+pd#:#pd_profile_data#:#Profile Data###28 08 2012 new variable
+pd#:#pd_bookmarks#:#Bookmarks###28 08 2012 new variable
+pd#:#pd_notes#:#Personal Desktop Notes###28 08 2012 new variable
+pd#:#pd_private_calendars#:#Private Calendars###28 08 2012 new variable
+exc#:#exc_team_log#:#Team Log###28 08 2012 new variable
+exc#:#exc_team_log_remove_member#:#Removed member %s.###28 08 2012 new variable
+exc#:#exc_team_log_add_member#:#Added member %s.###28 08 2012 new variable
+exc#:#exc_team_log_create_team#:#Team created.###28 08 2012 new variable
+exc#:#exc_team_log_add_file#:#Added file %s.###28 08 2012 new variable
+exc#:#exc_team_log_remove_file#:#Removed file %s.###28 08 2012 new variable
+administration#:#adm_imprint#:#Imprint###28 08 2012 new variable
+administration#:#adm_imprint_inactive#:#The imprint is inactive and users are not able to access it.###28 08 2012 new variable
+common#:#imprint#:#Imprint###28 08 2012 new variable
+trac#:#trac_filter_has_status#:#Show not attempted objects###28 08 2012 new variable
+cat#:#cat_import#:#Import Category###28 08 2012 new variable
+mcst#:#mcst_preview_picture#:#Preview Picture###28 08 2012 new variable
+mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:###28 08 2012 new variable
+objref#:#objref_edit_ref#:#Target Settings###28 08 2012 new variable
+objref#:#objref_edit_title#:#Title Settings###28 08 2012 new variable
+objref#:#objref_title_settings#:#Edit Reference Title###28 08 2012 new variable
+objref#:#objref_reuse_title#:#Reuse Title of Reference###28 08 2012 new variable
+objref#:#objref_custom_title#:#Use Custom Title###28 08 2012 new variable
+news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable
+news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.###28 08 2012 new variable
+dateplaner#:#cal_add_calendar#:#Add Calendar###28 08 2012 new variable
+dateplaner#:#cal_import_appointments#:#Import Appointments###28 08 2012 new variable
+dateplaner#:#cal_import_tbl#:#Import Appointments###28 08 2012 new variable
+dateplaner#:#cal_import_file#:#Import File###28 08 2012 new variable
+dateplaner#:#cal_import_file_info#:#Choose the file, that contains your calendar appointments.###28 08 2012 new variable
+mcst#:#mcst_conv_standard_to#:#Convert Standard File to###28 08 2012 new variable
+mcst#:#mcst_conv_videoalternative_to#:#Convert Alternative Video File to###28 08 2012 new variable
+mcst#:#mcst_target#:#Target###28 08 2012 new variable
+mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)###28 08 2012 new variable
+mcst#:#mcst_convert#:#Convert###28 08 2012 new variable
+mcst#:#mcst_purpose_standard#:#Standard File###28 08 2012 new variable
+mcst#:#mcst_purpose_videoalternative#:#Alternative Video File###28 08 2012 new variable
+mcst#:#mcst_converted_file#:#File has been converted.###28 08 2012 new variable
+dateplaner#:#cal_imported_success#:#Imported %1$s appointments.###28 08 2012 new variable
+form#:#form_link_internal#:#Internal###28 08 2012 new variable
+form#:#form_link_external#:#External###28 08 2012 new variable
+form#:#form_get_link#:#Select Target Object###28 08 2012 new variable
+style#:#sty_move_user_styles#:#Change Style of Users###28 08 2012 new variable
+style#:#sty_substyles#:#Substyles###28 08 2012 new variable
+style#:#sty_assign_categories#:#Assign Categories###28 08 2012 new variable
+dateplaner#:#cal_type_rl#:#Calendar Location###28 08 2012 new variable
+dateplaner#:#cal_type_local#:#Local Calendar###28 08 2012 new variable
+dateplaner#:#cal_type_remote#:#Web Calendar###28 08 2012 new variable
+dateplaner#:#cal_remote_url#:#URL###28 08 2012 new variable
+dateplaner#:#cal_type_rl_info#:#If you know the address to a calendar (in ical format), you can type the address here.###28 08 2012 new variable
+dateplaner#:#cal_cal_synchronize#:#Synchronise Calendar###28 08 2012 new variable
+dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar###28 08 2012 new variable
+style#:#sty_substyle#:#Substyle###28 08 2012 new variable
+style#:#sty_cat_assignments#:#Style/Category Assignments###28 08 2012 new variable
+style#:#sty_add_assignment#:#Add Assignment###28 08 2012 new variable
+administration#:#adm_user_starting_point#:#Personal Starting Point###28 08 2012 new variable
+administration#:#adm_user_starting_point_info#:#Select the page or object which is shown after login.###28 08 2012 new variable
+content#:#cont_AdvancedKnowledge#:#Advanced Knowledge###28 08 2012 new variable
+content#:#cont_show_adv#:#Show Advanced Knowledge###28 08 2012 new variable
+content#:#cont_hide_adv#:#Hide Advanced Knowledge###28 08 2012 new variable
+registration#:#reg_email_domains#:#The following email address domains are valid: %s###28 08 2012 new variable
+registration#:#reg_allowed_domains#:#Allowed Email Address Domains###28 08 2012 new variable
+registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator.###28 08 2012 new variable
+pd#:#block_show_pdcal#:#Kalender anzeigen###28 08 2012 new variable
+pd#:#block_show_pdmail#:#Mail anzeigen###28 08 2012 new variable
+pd#:#block_show_pdtag#:#Tags anzeigen###28 08 2012 new variable
+pd#:#block_show_pdnews#:#Nachrichten anzeigen###28 08 2012 new variable
+pd#:#block_show_pdusers#:#Benutzer anzeigen###28 08 2012 new variable
+pd#:#block_show_pdnotes#:#Notizen anzeigen###28 08 2012 new variable
+pd#:#block_show_pdbookm#:#Bookmarks anzeigen###28 08 2012 new variable
+pd#:#block_show_chatviewer#:#Chatviewer anzeigen###28 08 2012 new variable
+pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen###28 08 2012 new variable
+pd#:#block_show_x#:#%s anzeigen###28 08 2012 new variable
+common#:#crs_list_reg_start#:#Registration Begin###28 08 2012 new variable
+common#:#crs_list_reg_end#:#Registration End###28 08 2012 new variable
+common#:#crs_list_reg_noreg#:#No Registration Possible###28 08 2012 new variable
+common#:#crs_list_reg_period#:#Registration Period###28 08 2012 new variable
+common#:#crs_list_reg_limit_full#:#No places left###28 08 2012 new variable
+common#:#crs_list_reg_limit_places#:#Free places###28 08 2012 new variable
+search#:#lucene_offline_filter_setting#:#Offline Filter###28 08 2012 new variable
+search#:#lucene_offline_filter_setting_info#:#If enabled, objects can filtered in the "Advanced Search" by their online/offline status.###28 08 2012 new variable
+search#:#lucene_offline_filter#:#Offline-Status###28 08 2012 new variable
+common#:#obj_hlps_desc#:#Settings for the online help###28 08 2012 new variable
+common#:#obj_hlps#:#Help System###28 08 2012 new variable
+rbac#:#hlps_edit_permission#:#User can change permissions of Help System administration.###28 08 2012 new variable
+rbac#:#hlps_read#:#User has read access to Help System administration.###28 08 2012 new variable
+rbac#:#hlps_visible#:#Help System administration is visible.###28 08 2012 new variable
+rbac#:#hlps_write#:#User can edit settings of Help System and upload new versions###28 08 2012 new variable
+common#:#grp_list_reg_start#:#Registration Begin###28 08 2012 new variable
+common#:#grp_list_reg_end#:#Registration End###28 08 2012 new variable
+common#:#grp_list_reg_noreg#:#No Registration Possible###28 08 2012 new variable
+common#:#grp_list_reg_period#:#Registration Period###28 08 2012 new variable
+common#:#grp_list_reg_limit_full#:#No places left###28 08 2012 new variable
+common#:#grp_list_reg_limit_places#:#Free places###28 08 2012 new variable
+survey#:#svy_matrix_layout_percentages_sum_invalid#:#The column settings do not sum up to 100%.###28 08 2012 new variable
+crs#:#crs_member_passed_status_changed#:#Passed Status Changed###28 08 2012 new variable
+help#:#help_help_file#:#Help Package File###28 08 2012 new variable
+help#:#help_modules#:#Help Packages###28 08 2012 new variable
+help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
+help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
+common#:#add_entry#:#Add/Edit entry###28 08 2012 new variable
+rbac#:#fold_create_poll#:#Create Poll###28 08 2012 new variable
+common#:#obj_poll_duplicate#:#Copy Poll###28 08 2012 new variable
+rbac#:#rbac_import_role#:#Import Role###28 08 2012 new variable
+rbac#:#rbac_role_imported#:#The role has been imported.###28 08 2012 new variable
+common#:#objs_rcat#:#ECS Categories###28 08 2012 new variable
+rbac#:#grp_create_catr#:#Create Category Reference###28 08 2012 new variable
+rbac#:#grp_create_sess#:#Create Session###28 08 2012 new variable
+rbac#:#grp_create_crsr#:#Create Course Reference###28 08 2012 new variable
+administration#:#adm_user_starting_point_object#:#Repository Object###28 08 2012 new variable
+administration#:#adm_user_starting_point_ref_id#:#Reference-Id###28 08 2012 new variable
+administration#:#adm_user_starting_point_personal#:#Personal Setting###28 08 2012 new variable
+administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.###28 08 2012 new variable
+rbac#:#internal_mail#:#Internal Mail###28 08 2012 new variable
+rbac#:#mail_internal_mail#:#User can use internal mail system (ILIAS)###28 08 2012 new variable
+common#:#obj_itgr_duplicate#:#Copy Item Group###28 08 2012 new variable
+common#:#obj_itgr_select#:#-- Please select one Item Group --###28 08 2012 new variable
+common#:#obj_itgr#:#Item Group###28 08 2012 new variable
+common#:#objs_itgr#:#Item Groups###28 08 2012 new variable
+itgr#:#itgr_edit#:#Edit Item Groups###28 08 2012 new variable
+rbac#:#itgr_read#:#User can read item group###28 08 2012 new variable
+rbac#:#itgr_visible#:#Item group is visible###28 08 2012 new variable
+rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 2012 new variable
+rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
+rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
+rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
+rbac#:#cat_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#crs_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#fold_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#root_create_itgr#:#Create Item Group###28 08 2012 new variable
+rbac#:#grp_create_itgr#:#Create Item Group###28 08 2012 new variable
+poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.###28 08 2012 new variable
+poll#:#poll_votes_no_edit#:#This poll cannot be edited because of existing votes.###28 08 2012 new variable
+itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
+itgr#:#itgr_item#:#Item###28 08 2012 new variable
+itgr#:#itgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
+itgr#:#itgr_assignment#:#Assignment###28 08 2012 new variable
+common#:#itgr_new#:#New Item Group###28 08 2012 new variable
+common#:#itgr_import#:#Import Item Group###28 08 2012 new variable
+common#:#itgr_copy#:#Copy Item Group###28 08 2012 new variable
+common#:#itgr_add#:#Add Item Group###28 08 2012 new variable
+content#:#cont_auto_last_visited#:#load last visited chapter (SCO/Asset)###28 08 2012 new variable
+content#:#cont_check_values#:#check values sent by SCO###28 08 2012 new variable
+administration#:#adm_social_bm_create#:#Create Social Bookmark###28 08 2012 new variable
+administration#:#adm_social_bm_edit#:#Edit Social Bookmark###28 08 2012 new variable
+dcl#:#dcl_actions#:#Actions###28 08 2012 new variable
+dcl#:#dcl_export_table_excel#:#Export .xls###28 08 2012 new variable
+dcl#:#dcl_owner_editable#:#Edit only own records###28 08 2012 new variable
+dcl#:#dcl_order#:#Order###28 08 2012 new variable
+dcl#:#dcl_title#:#Field Title###28 08 2012 new variable
+dcl#:#dcl_visible#:#Visible in Table###28 08 2012 new variable
+dcl#:#dcl_description#:#Field Description###28 08 2012 new variable
+dcl#:#dcl_msg_table_created#:#Table created###28 08 2012 new variable
+dcl#:#dcl_save#:#Save Table###28 08 2012 new variable
+dcl#:#dcl_record_deleted#:#Record deleted###28 08 2012 new variable
+dcl#:#dcl_confirm_delete_record#:#Delete this record?###28 08 2012 new variable
+content#:#cont_resources_of_type#:#Resources of Type###28 08 2012 new variable
+content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.###28 08 2012 new variable
+common#:#search_globally#:#Globally###28 08 2012 new variable
+common#:#search_at_current_position#:#At Current Position###28 08 2012 new variable
+ecs#:#ecs_crs_export#:#Course Releases###28 08 2012 new variable
+ecs#:#ecs_crs_export_obj_settings#:#Course Release Settings###28 08 2012 new variable
+ecs#:#ecs_crs_export_disabled#:#Do not release this Course###28 08 2012 new variable
+ecs#:#ecs_crs_export_enabled#:#Release this Course###28 08 2012 new variable
+ecs#:#ecs_cat_export#:#Category Releases###28 08 2012 new variable
+ecs#:#ecs_cat_export_obj_settings#:#Category Release Settings###28 08 2012 new variable
+ecs#:#ecs_cat_export_disabled#:#Do not release this Category###28 08 2012 new variable
+ecs#:#ecs_cat_export_enabled#:#Release this Category###28 08 2012 new variable
+rcat#:#rcat_call#:#Call ECS Category ###28 08 2012 new variable
+common#:#obj_rwik#:#ECS Wiki###28 08 2012 new variable
+common#:#objs_rwik#:#ECS Wikis###28 08 2012 new variable
+ecs#:#ecs_wiki_export#:#Wiki Releases###28 08 2012 new variable
+ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings###28 08 2012 new variable
+ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki###28 08 2012 new variable
+ecs#:#ecs_wiki_export_enabled#:#Release this Wiki###28 08 2012 new variable
+ecs#:#ecs_availability#:#Availability###28 08 2012 new variable
+rwik#:#rwik_call#:#Call ECS Wiki###28 08 2012 new variable
+common#:#obj_rlm#:#ECS Learning Module###28 08 2012 new variable
+common#:#objs_rlm#:#ECS Learning Modules###28 08 2012 new variable
+ecs#:#ecs_lm_export#:#Learning Module Releases###28 08 2012 new variable
+ecs#:#ecs_lm_export_obj_settings#:#Learning Module Release Settings###28 08 2012 new variable
+ecs#:#ecs_lm_export_disabled#:#Do not release this Learning Module###28 08 2012 new variable
+ecs#:#ecs_lm_export_enabled#:#Release this Learning Module###28 08 2012 new variable
+rlm#:#rlm_call#:#Call ECS Learning Module###28 08 2012 new variable
+common#:#obj_rglo#:#ECS Glossary###28 08 2012 new variable
+common#:#objs_rglo#:#ECS Glossaries###28 08 2012 new variable
+ecs#:#ecs_glo_export#:#Glossary Releases###28 08 2012 new variable
+ecs#:#ecs_glo_export_obj_settings#:#Glossary Release Settings###28 08 2012 new variable
+ecs#:#ecs_glo_export_disabled#:#Do not release this Glossary###28 08 2012 new variable
+ecs#:#ecs_glo_export_enabled#:#Release this Glossary###28 08 2012 new variable
+rglo#:#rglo_call#:#Call ECS Glossary###28 08 2012 new variable
+common#:#obj_rfil#:#ECS File###28 08 2012 new variable
+common#:#objs_rfil#:#ECS Files###28 08 2012 new variable
+ecs#:#ecs_file_export#:#File Releases###28 08 2012 new variable
+ecs#:#ecs_file_export_obj_settings#:#File Release Settings###28 08 2012 new variable
+ecs#:#ecs_file_export_disabled#:#Do not release this File###28 08 2012 new variable
+ecs#:#ecs_file_export_enabled#:#Release this File###28 08 2012 new variable
+rfil#:#rfil_call#:#Call ECS File ###28 08 2012 new variable
+rfil#:#rfil_version_tstamp#:#Upload Date###28 08 2012 new variable
+common#:#obj_rgrp#:#ECS Group###28 08 2012 new variable
+common#:#objs_rgrp#:#ECS Groups###28 08 2012 new variable
+ecs#:#ecs_grp_export#:#Group Releases###28 08 2012 new variable
+ecs#:#ecs_grp_export_obj_settings#:#Group Release Settings###28 08 2012 new variable
+ecs#:#ecs_grp_export_disabled#:#Do not release this Group###28 08 2012 new variable
+ecs#:#ecs_grp_export_enabled#:#Release this Group###28 08 2012 new variable
+rgrp#:#rgrp_call#:#Call ECS Group ###28 08 2012 new variable
+dcl#:#dcl_edit_record#:#Edit Record###28 08 2012 new variable
+dcl#:#dcl_update_record#:#Update Record###28 08 2012 new variable
+dcl#:#dcl_edit_field#:#Edit Field###28 08 2012 new variable
+dcl#:#dcl_update_field#:#Update Field###28 08 2012 new variable
+dcl#:#dcl_create_field#:#Create Field###28 08 2012 new variable
+dcl#:#dcl_msg_field_modified#:#Field updated###28 08 2012 new variable
+common#:#obj_tstv#:#Test Certificate###28 08 2012 new variable
+common#:#obj_excv#:#Exercise Certificate###28 08 2012 new variable
+common#:#obj_prtf#:#Portfolio ###28 08 2012 new variable
+common#:#obj_rtst#:#ECS Test###28 08 2012 new variable
+common#:#objs_rtst#:#ECS Tests###28 08 2012 new variable
+ecs#:#ecs_tst_export#:#Test Releases###28 08 2012 new variable
+ecs#:#ecs_tst_export_obj_settings#:#Test Release Settings###28 08 2012 new variable
+ecs#:#ecs_tst_export_disabled#:#Do not release this Test###28 08 2012 new variable
+ecs#:#ecs_tst_export_enabled#:#Release this Test###28 08 2012 new variable
+rtst#:#rtst_call#:#Call ECS Test ###28 08 2012 new variable
+rbac#:#contribute#:#Contribute###28 08 2012 new variable
+dcl#:#dcl_change_notification_subject#:#Data Collection "%s" has been changed###28 08 2012 new variable
+dcl#:#dcl_edit_notification#:#Email Notification on Change###28 08 2012 new variable
+dcl#:#dcl_edit_notification_info#:#You will be notified when any table is edited###28 08 2012 new variable
+dcl#:#dcl_change_notification_link#:#URL###28 08 2012 new variable
+dcl#:#dcl_change_notification_dcl_new_record#:#the following record was created###28 08 2012 new variable
+dcl#:#dcl_change_notification_dcl_update_record#:#the following record was updated###28 08 2012 new variable
+dcl#:#dcl_change_notification_dcl_delete_record#:#the following record page was deleted###28 08 2012 new variable
+dcl#:#dcl_table#:#Table###28 08 2012 new variable
+dcl#:#dcl_changed_by#:#Changed by###28 08 2012 new variable
+dcl#:#dcl_notification_activate_dcl#:#Activate Notification for Data Collection###28 08 2012 new variable
+dcl#:#dcl_notification_deactivate_dcl#:#Deactivate Notification for Data Collection###28 08 2012 new variable
+dcl#:#dcl_notification_activated#:#Notification Activated###28 08 2012 new variable
+dcl#:#dcl_notification_deactivated#:#Notification Deactivated###28 08 2012 new variable
+dcl#:#dcl_locked#:#Locked###28 08 2012 new variable
+dcl#:#dcl_table_settings#:#Table Settings###28 08 2012 new variable
+dcl#:#dcl_add_perm#:#Permission Add Entry###28 08 2012 new variable
+dcl#:#dcl_edit_perm#:#Permission Edit Entry###28 08 2012 new variable
+dcl#:#dcl_delete_perm#:#Permission Delete Entry###28 08 2012 new variable
+dcl#:#dcl_edit_by_owner#:#Edit / Delete only own entries###28 08 2012 new variable
+dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period###28 08 2012 new variable
+dcl#:#dcl_record_id#:#Record ID###28 08 2012 new variable
+dcl#:#dcl_limit_start#:#Start###28 08 2012 new variable
+dcl#:#dcl_limit_end#:#End###28 08 2012 new variable
+dcl#:#dcl_url#:#URL###28 08 2012 new variable
+dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar###28 08 2012 new variable
+dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses###28 08 2012 new variable
+dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups###28 08 2012 new variable
+dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, the calendar is shown in shown in courses by default. In any case the calendar presentation can be enabled/disabled in the course settings.###28 08 2012 new variable
+dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, the calendar is shown in shown in groups by default. In any case the calendar presentation can be enabled/disabled in the group settings.###28 08 2012 new variable
+dcl#:#dcl_edit_table#:#Edit Table Settings###28 08 2012 new variable
+dcl#:#dcl_msg_table_edited#:#Table Settings saved###28 08 2012 new variable
+dcl#:#dcl_legend_placeholders#:#Placeholders###28 08 2012 new variable
+dcl#:#dcl_rating#:#Rating###28 08 2012 new variable
+dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.###28 08 2012 new variable
+dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.###28 08 2012 new variable
+common#:#obj_tool_settings#:#Tools###28 08 2012 new variable
+common#:#obj_tool_settings_title#:#Tool Settings###28 08 2012 new variable
+common#:#obj_tool_setting_calendar#:#Show Calendar###28 08 2012 new variable
+crs#:#crs_copy#:#Copy Course###28 08 2012 new variable
+cat#:#cat_copy#:#Copy Category###28 08 2012 new variable
+grp#:#grp_copy#:#Copy Group###28 08 2012 new variable
+forum#:#frm_copy#:#Copy Forum###28 08 2012 new variable
+file#:#file_copy#:#Copy File###28 08 2012 new variable
+webr#:#webr_copy#:#Copy Weblink###28 08 2012 new variable
+exc#:#exc_copy#:#Copy Exercise###28 08 2012 new variable
+assessment#:#tst_copy#:#Copy Test###28 08 2012 new variable
+survey#:#svy_copy#:#Copy Survey###28 08 2012 new variable
+poll#:#poll_population#:#%s Votes###28 08 2012 new variable
+poll#:#poll_participants#:#Participants###28 08 2012 new variable
+poll#:#poll_delete_votes#:#Delete All Votes###28 08 2012 new variable
+poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?###28 08 2012 new variable
+poll#:#poll_voting_period_and_results#:#Voting Period and Results###28 08 2012 new variable
+poll#:#poll_voting_period#:#Voting Period###28 08 2012 new variable
+poll#:#poll_voting_period_unlimited#:#Unlimited###28 08 2012 new variable
+poll#:#poll_voting_period_limited#:#Limited###28 08 2012 new variable
+poll#:#poll_voting_period_start#:#Starting Time###28 08 2012 new variable
+poll#:#poll_voting_period_end#:#Ending Time###28 08 2012 new variable
+blog#:#blog_keywords#:#Keywords###28 08 2012 new variable
+blog#:#blog_no_keywords#:#No keywords have been entered yet.###28 08 2012 new variable
+blog#:#blog_edit_keywords#:#Edit Keywords###28 08 2012 new variable
+blog#:#blog_keyword#:#Keyword###28 08 2012 new variable
+administration#:#adm_adm_role_protect#:#Protect Administrator Role###28 08 2012 new variable
+administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.###28 08 2012 new variable
+fm#:#fm_settings_tab#:#File Manager###28 08 2012 new variable
+fm#:#fm_settings_active#:#Enable File Manager###28 08 2012 new variable
+fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the "Open With File Manager" action in the repository.###28 08 2012 new variable
+common#:#fm_start#:#Open With File Manager###28 08 2012 new variable
+fm#:#fm_settings_local#:#Show Local Filesystem###28 08 2012 new variable
+fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.###28 08 2012 new variable
+fm#:#fm_settings_filesize#:#Maximum Upload File Size###28 08 2012 new variable
+fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.###28 08 2012 new variable
