@@ -12871,3 +12871,8 @@ blog#:#blog_approve#:#Abnahme erteilen
 blog#:#blog_needs_approval#:#Abnahme benötigt
 sess#:#sess_copy#:#Sitzung kopieren
 grp#:#events#:#Sitzungen
+book#:#book_additional_info_file#:#Zusätzliche Beschreibung
+book#:#book_post_booking_information#:#Informationen nach einer Buchung
+book#:#book_post_booking_text#:#Text
+book#:#book_post_booking_file#:#Datei
+book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen

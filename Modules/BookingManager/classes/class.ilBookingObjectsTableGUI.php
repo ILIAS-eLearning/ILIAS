@@ -157,12 +157,22 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
 		
+		if($a_set['info_file'])
+		{
+			$items['info'] = array($lng->txt('book_download_info'), $ilCtrl->getLinkTarget($this->parent_obj, 'deliverInfo'));
+		}	
+	
 		if(!$has_booking)
 		{
 			$items['book'] = array($lng->txt('book_book'), $ilCtrl->getLinkTarget($this->parent_obj, 'book'));
 		}
 		else
-		{
+		{	
+			if(trim($a_set['post_text']) || $a_set['post_file'])
+			{
+				$items['post'] = array($lng->txt('book_post_booking_information'), $ilCtrl->getLinkTarget($this->parent_obj, 'displayPostInfo'));
+			}	
+		
 			$items['cancel'] = array($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancelUser'));
 		}
 

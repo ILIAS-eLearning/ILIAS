@@ -12871,3 +12871,8 @@ blog#:#blog_approve#:#Approve
 blog#:#blog_needs_approval#:#Needs Approval
 sess#:#sess_copy#:#Copy Session
 grp#:#events#:#Sessions
+book#:#book_additional_info_file#:#Additional Description
+book#:#book_post_booking_information#:#Post Booking Information
+book#:#book_post_booking_text#:#Text
+book#:#book_post_booking_file#:#File
+book#:#book_download_info#:#Download Additional Description

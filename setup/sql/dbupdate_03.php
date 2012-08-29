@@ -12941,3 +12941,36 @@ if($sess_ops_id)
 }
 
 ?>
+<#3744>
+<?php
+if(!$ilDB->tableColumnExists('booking_object', 'info_file'))
+{
+	$ilDB->addTableColumn(
+		'booking_object',
+		'info_file',
+		array(
+			'type'    => 'text',
+			'length'  => 500,
+			'notnull' => false
+		)
+	);
+	$ilDB->addTableColumn(
+		'booking_object',
+		'post_text',
+		array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => false
+		)
+	);
+	$ilDB->addTableColumn(
+		'booking_object',
+		'post_file',
+		array(
+			'type'    => 'text',
+			'length'  => 500,
+			'notnull' => false
+		)
+	);
+}
+?>

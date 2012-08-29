@@ -124,6 +124,10 @@ class ilBookingObjectGUI
 		$desc->setRows(15);
 		$form_gui->addItem($desc);
 		
+		$file = new ilFileInputGUI($lng->txt("book_additional_info_file"), "file");
+		$file->setALlowDeletion(true);
+		$form_gui->addItem($file);
+		
 		$nr = new ilNumberInputGUI($lng->txt("booking_nr_of_items"), "items");
 		$nr->setRequired(true);
 		$nr->setSize(3);
@@ -143,6 +147,19 @@ class ilBookingObjectGUI
 			$schedule->setOptions($options);
 			$form_gui->addItem($schedule);
 		}
+		
+		$post = new ilFormSectionHeaderGUI();
+		$post->setTitle($lng->txt("book_post_booking_information"));
+		$form_gui->addItem($post);
+		
+		$pdesc = new ilTextAreaInputGUI($lng->txt("book_post_booking_text"), "post_text");
+		$pdesc->setCols(70);
+		$pdesc->setRows(15);
+		$form_gui->addItem($pdesc);
+		
+		$pfile = new ilFileInputGUI($lng->txt("book_post_booking_file"), "post_file");
+		$pfile->setALlowDeletion(true);
+		$form_gui->addItem($pfile);
 
 		if ($a_mode == "edit")
 		{
@@ -157,6 +174,9 @@ class ilBookingObjectGUI
 			$title->setValue($obj->getTitle());
 			$desc->setValue($obj->getDescription());
 			$nr->setValue($obj->getNrOfItems());
+			$pdesc->setValue($obj->getPostText());
+			$file->setValue($obj->getFile());
+			$pfile->setValue($obj->getPostFile());
 			
 			if(isset($schedule))
 			{
@@ -192,6 +212,7 @@ class ilBookingObjectGUI
 			$obj->setTitle($form->getInput("title"));
 			$obj->setDescription($form->getInput("desc"));
 			$obj->setNrOfItems($form->getInput("items"));
+			$obj->setPostText($form->getInput("post_text"));					
 			
 			if($this->pool_has_schedule)
 			{
@@ -199,6 +220,28 @@ class ilBookingObjectGUI
 			}
 			
 			$obj->save();
+			
+			$file = $form->getItemByPostVar("file");						
+			if($_FILES["file"]["tmp_name"]) 
+			{
+				$obj->uploadFile($_FILES["file"]);
+			}
+			else if($file->getDeletionFlag())
+			{
+				$obj->deleteFile();
+			}		
+			
+			$pfile = $form->getItemByPostVar("post_file");						
+			if($_FILES["post_file"]["tmp_name"]) 
+			{
+				$obj->uploadPostFile($_FILES["post_file"]);
+			}
+			else if($pfile->getDeletionFlag())
+			{
+				$obj->deletePostFile();
+			}		
+			
+			$obj->update();
 
 			ilUtil::sendSuccess($lng->txt("book_object_added"));
 			$this->render();
@@ -228,6 +271,27 @@ class ilBookingObjectGUI
 			$obj->setTitle($form->getInput("title"));
 			$obj->setDescription($form->getInput("desc"));
 			$obj->setNrOfItems($form->getInput("items"));
+			$obj->setPostText($form->getInput("post_text"));	
+			
+			$file = $form->getItemByPostVar("file");						
+			if($_FILES["file"]["tmp_name"]) 
+			{
+				$obj->uploadFile($_FILES["file"]);
+			}
+			else if($file->getDeletionFlag())
+			{
+				$obj->deleteFile();
+			}		
+			
+			$pfile = $form->getItemByPostVar("post_file");						
+			if($_FILES["post_file"]["tmp_name"]) 
+			{
+				$obj->uploadPostFile($_FILES["post_file"]);
+			}
+			else if($pfile->getDeletionFlag())
+			{
+				$obj->deletePostFile();
+			}		
 			
 			if($this->pool_has_schedule)
 			{
@@ -290,6 +354,10 @@ class ilBookingObjectGUI
 		global $ilCtrl, $ilUser, $lng;
 		
 		$id = (int)$_GET["object_id"];
+		if(!$id)
+		{
+			return;
+		}
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		$id = ilBookingReservation::getObjectReservationForUser($id, $ilUser->getId());
@@ -305,6 +373,98 @@ class ilBookingObjectGUI
 
 		ilUtil::sendSuccess($lng->txt('settings_saved'));
 	    $ilCtrl->redirect($this, 'render');
+	}
+	
+	function deliverInfo()
+	{
+		$id = (int)$_GET["object_id"];
+		if(!$id)
+		{
+			return;
+		}
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$obj = new ilBookingObject($id);
+		$file = $obj->getFileFullPath();
+		if($file)
+		{
+			ilUtil::deliverFile($file, $obj->getFile());						
+		}
+	}
+	
+	public function displayPostInfo()
+	{
+		global $tpl, $ilUser, $lng, $ilCtrl;
+		
+		$id = (int)$_GET["object_id"];
+		if(!$id)
+		{
+			return;
+		}
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$book_id = ilBookingReservation::getObjectReservationForUser($id, $ilUser->getId());
+		$obj = new ilBookingReservation($book_id);
+		if ($obj->getUserId() != $ilUser->getId())
+		{
+			return;
+		}
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$obj = new ilBookingObject($id);
+		$pfile = $obj->getPostFile();
+		$ptext = $obj->getPostText();
+		
+		$mytpl = new ilTemplate('tpl.booking_reservation_post.html', true, true, 'Modules/BookingManager');
+		$mytpl->setVariable("TITLE", $lng->txt('book_post_booking_information'));
+
+		if($ptext)
+		{
+			$mytpl->setVariable("POST_TEXT", nl2br($ptext));
+		}
+
+		if($pfile)
+		{
+			$ilCtrl->setParameter($this, "object_id", $obj->getId());
+			$url = $ilCtrl->getLinkTarget($this, 'deliverPostFile');
+			$ilCtrl->setParameter($this, "object_id", "");
+
+			$mytpl->setVariable("DOWNLOAD", $lng->txt('download'));
+			$mytpl->setVariable("URL_FILE", $url);
+			$mytpl->setVariable("TXT_FILE", $pfile);
+		}
+
+		$mytpl->setVariable("TXT_SUBMIT", $lng->txt('ok'));
+		$mytpl->setVariable("URL_SUBMIT", $ilCtrl->getLinkTargetByClass('ilobjbookingpoolgui', 'render'));
+
+		$tpl->setContent($mytpl->get());
+	}
+	
+	public function deliverPostFile()
+	{
+		global $ilUser;
+		
+		$id = (int)$_GET["object_id"];
+		if(!$id)
+		{
+			return;
+		}
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		$book_id = ilBookingReservation::getObjectReservationForUser($id, $ilUser->getId());
+		$obj = new ilBookingReservation($book_id);
+		if ($obj->getUserId() != $ilUser->getId())
+		{
+			return;
+		}
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$obj = new ilBookingObject($id);
+		$file = $obj->getPostFileFullPath();
+		if($file)
+		{
+			ilUtil::deliverFile($file, $obj->getPostFile());						
+		}
 	}
 }
 
