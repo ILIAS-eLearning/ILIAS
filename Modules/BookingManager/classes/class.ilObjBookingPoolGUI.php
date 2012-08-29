@@ -267,7 +267,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$cgui->setCancel($this->lng->txt("cancel"), "render");
 			$cgui->setConfirm($this->lng->txt("confirm"), "confirmedBooking");
 
-			$cgui->addItem("object_id[]", $obj->getId(), $obj->getTitle());		
+			$cgui->addItem("object_id", $obj->getId(), $obj->getTitle());		
 
 			$tpl->setContent($cgui->getHTML());
 		}
