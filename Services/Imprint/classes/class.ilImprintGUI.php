@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-require_once("./Modules/Imprint/classes/class.ilImprint.php");
+require_once("./Services/Imprint/classes/class.ilImprint.php");
 
 /**
 * Class ilImprintGUI
@@ -131,7 +131,7 @@ class ilImprintGUI extends ilPageObjectGUI
 		$this->setRawPageContent(true);
 		$html = $this->showPage();
 		
-		$itpl = new ilTemplate("tpl.imprint.html", true, true, "Modules/Imprint");
+		$itpl = new ilTemplate("tpl.imprint.html", true, true, "Services/Imprint");
 		$itpl->setVariable("PAGE_TITLE", $lng->txt("imprint"));
 		$itpl->setVariable("IMPRINT", $html);
 		unset($html);
