@@ -120,8 +120,8 @@ class ilBookingObjectGUI
 		$form_gui->addItem($title);
 		
 		$desc = new ilTextAreaInputGUI($lng->txt("description"), "desc");
-		$desc->setCols(40);
-		$desc->setRows(2);
+		$desc->setCols(70);
+		$desc->setRows(15);
 		$form_gui->addItem($desc);
 		
 		$nr = new ilNumberInputGUI($lng->txt("booking_nr_of_items"), "items");
