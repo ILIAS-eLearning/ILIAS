@@ -992,7 +992,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if (is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "render"), "", $_GET["ref_id"]);
 		}
 	}		
 }
