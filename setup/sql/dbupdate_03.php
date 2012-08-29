@@ -12981,3 +12981,7 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
         	   array("integer", "integer", "text", "integer"),
                    array(6, 3, "reference_link", 4));
 ?>
+<#3746>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
