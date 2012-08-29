@@ -72,8 +72,21 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	*/
 	function initFilter()
 	{
+		if($this->hasSchedule)
+		{
+			$valid_status = array(ilBookingReservation::STATUS_IN_USE, 
+				ilBookingReservation::STATUS_CANCELLED, 
+				-ilBookingReservation::STATUS_IN_USE, 
+				-ilBookingReservation::STATUS_CANCELLED);
+		}
+		else
+		{
+			$valid_status = array(ilBookingReservation::STATUS_CANCELLED, 				
+				-ilBookingReservation::STATUS_CANCELLED);
+		};
+		
 		$options = array(""=>$this->lng->txt('book_all'));
-		foreach(array(ilBookingReservation::STATUS_IN_USE, ilBookingReservation::STATUS_CANCELLED, -ilBookingReservation::STATUS_IN_USE, -ilBookingReservation::STATUS_CANCELLED) as $loop)
+		foreach($valid_status as $loop)
 	    {
 			if($loop > 0)
 			{
