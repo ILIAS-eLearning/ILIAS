@@ -150,7 +150,13 @@ class ilPollBlockGUI extends ilBlockGUI
 		}
 		
 				
-		$this->tpl->setVariable("TXT_QUESTION", nl2br($a_poll->getQuestion()));
+		$this->tpl->setVariable("TXT_QUESTION", nl2br(trim($a_poll->getQuestion())));
+		
+		$desc = trim($a_poll->getDescription());
+		if($desc)
+		{
+			$this->tpl->setVariable("TXT_DESC", nl2br($desc));
+		}
 
 		$img = $a_poll->getImageFullPath();
 		if($img)
