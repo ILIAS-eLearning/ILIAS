@@ -3,6 +3,7 @@
 include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionFile.php");
 include_once ("class.ilObjDataCollectionFile.php");
+include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionMediaObject.php");
 
 include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
@@ -41,6 +42,8 @@ class ilDataCollectionDatatype
 	const INPUTFORMAT_FILE 			= 6;
 	// Rating
 	const INPUTFORMAT_RATING 		= 7;
+    // Meida Object
+    const INPUTFORMAT_MOB 		    = 9;
 
 
 	/**
@@ -247,6 +250,9 @@ class ilDataCollectionDatatype
 				$input->setInfo($lng->txt("dcl_editable_in_table_gui"));
 				$input->setDisabled(true);
 				break;
+            case ilDataCollectionDatatype::INPUTFORMAT_MOB:
+                $input = new ilFileInputGUI($title, 'field_'.$field->getId());
+                break;
 		}
 		return $input;
 	}
@@ -301,6 +307,10 @@ class ilDataCollectionDatatype
 				$options = array("" => $lng->txt("dcl_any"), 1 => ">1", 2 => ">2", 3 => ">3", 4 => ">4", 5 => "5");
 				$input->setOptions($options);
 				break;
+            case ilDataCollectionDatatype::INPUTFORMAT_MOB:
+                $input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
+                $input->setSubmitFormOnEnter(true);
+                break;
 		}
 		
 		if($input != NULL)
@@ -352,6 +362,12 @@ class ilDataCollectionDatatype
 				if(!$filter || $filter <= $value['avg'])
 					$pass = true;
 				break;
+            case ilDataCollectionDatatype::INPUTFORMAT_MOB:
+                $m_obj = new ilObjMediaObject($value, false);
+                $file_name = $m_obj->getTitle();
+                if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
+                    $pass = true;
+                break;
 		}
 
 		//for the fields owner and last edit by, we check the name, not the ID
@@ -398,6 +414,75 @@ class ilDataCollectionDatatype
 				$return = $file_id;
 			}
 		}
+        if($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
+        {
+            $media = $value;
+            if($media['tmp_name'])
+            {
+
+                $mob = new ilObjMediaObject();
+                $mob->setTitle($media['name']);
+                $mob->create();
+
+                $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
+                if (!is_dir($mob_dir))
+                    $mob->createDirectory();
+
+
+
+                $media_item = new ilMediaItem();
+                $mob->addMediaItem($media_item);
+                $media_item->setPurpose("Standard");
+
+                $file_name = ilUtil::getASCIIFilename($media['name']);
+                $file_name = str_replace(" ", "_", $file_name);
+
+                $file = $mob_dir."/".$file_name;
+                $title = $file_name;
+                $location = $title;
+
+
+                ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
+                ilUtil::renameExecutables($mob_dir);
+
+                $format = ilObjMediaObject::getMimeType($file);
+                //$location = $file['init_mob_id']['name'];
+                $media_item->setFormat($format);
+                $media_item->setLocation($location);
+                $media_item->setLocationType("LocalFile");
+
+                $mob->update();
+                $return = $mob->getId();
+
+
+
+                /*
+                 *  global $ilDB;
+                require_once('./Services/MediaObjects/classes/class.ilObjMediaObject.php');
+
+
+
+
+
+
+
+
+
+
+                ilUtil::renameExecutables($mob_dir);
+                $media_obj->update();
+
+
+                $mob_id = $media_obj->getId();
+
+                return $mob_id;
+                 */
+
+
+
+
+            }
+        }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 		{
 			return $value["date"]." ".$value["time"];
@@ -438,6 +523,21 @@ class ilDataCollectionDatatype
 				$return = $file;
 			}
 		}
+        if($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
+        {
+            $file = $value;
+            if($file!="-")
+            {
+                $mob = new ilObjDataCollectionMediaObject($file, false);
+                $mob_name = $mob->getTitle();
+
+                $return = $mob_name;
+            }
+            else
+            {
+                $return = $file;
+            }
+        }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 		{
 			$return = $value["date"]." ".$value["time"];
@@ -476,6 +576,15 @@ class ilDataCollectionDatatype
 
 				$html = "<a href=".$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "sendFile")." >".$file_obj->getFileName()."</a>";
 				break;
+
+            case self::INPUTFORMAT_MOB:
+                global $ilCtrl;
+                $mob = new ilObjDataCollectionMediaObject($value,false);
+                $dir  = ilObjMediaObject::_getDirectory($mob->getId());
+                $media_item = $mob->getMediaItem('Standard');
+                $html = '<img src="'.$dir."/".$media_item->location.'" />';
+
+                break;
 				
 			case self::INPUTFORMAT_BOOLEAN:
 				switch($value)
@@ -567,6 +676,14 @@ class ilDataCollectionDatatype
 				//$input = ilObjFile::_lookupAbsolutePath($value);
 				$input = $file_obj->getFile();
 				break;
+            case self::INPUTFORMAT_MOB:
+                $mob = new ilObjMediaObject($value, false);
+
+                //TODO
+                $input = "";
+                //$input = ilObjFile::_lookupAbsolutePath($value);
+                //$input = $mob->getMediaItem("Standard");
+                break;
 			default:
 				$input = $value;
 		}
