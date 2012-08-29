@@ -547,12 +547,14 @@ class ilPublicUserProfileGUI
 			return "";
 		}
 		$user = new ilObjUser($this->getUserId());
-
+		
 		require_once "./Services/User/classes/class.ilvCard.php";
 		$vcard = new ilvCard();
 		
+		// ilsharedresourceGUI: embedded in shared portfolio
 		if ($user->getPref("public_profile") != "y" &&
-			$user->getPref("public_profile") != "g")
+			$user->getPref("public_profile") != "g" &&
+			$_GET["baseClass"] != "ilsharedresourceGUI")
 		{
 			return;
 		}
