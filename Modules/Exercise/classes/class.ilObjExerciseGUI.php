@@ -3073,7 +3073,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		foreach($ids as $user_id)
 		{
-			$this->ass->addTeamMember($team_id, $user_id);
+			$this->ass->addTeamMember($team_id, $user_id, $this->ref_id);
 			
 			// see ilObjExercise::deliverFile()
 			if($has_files)
@@ -3116,7 +3116,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			if(!in_array($user_id, $all_members))
 			{
-				$this->ass->addTeamMember($team_id, $user_id);
+				$this->ass->addTeamMember($team_id, $user_id, $this->ref_id);
 
 				// see ilObjExercise::deliverFile()
 				if($has_files)
@@ -3172,7 +3172,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		foreach($ids as $user_id)
 		{
-			$this->ass->removeTeamMember($team_id, $user_id);		
+			$this->ass->removeTeamMember($team_id, $user_id, $this->ref_id);		
 			
 			ilExAssignment::updateStatusReturnedForUser($this->ass->getId(), $user_id, 0);
 			ilExerciseMembers::_writeReturned($this->object->getId(), $user_id, 0);

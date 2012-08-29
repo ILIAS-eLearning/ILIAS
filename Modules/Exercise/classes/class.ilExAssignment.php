@@ -1778,8 +1778,9 @@ class ilExAssignment
 	 * 
 	 * @param int $a_team_id
 	 * @param int $a_user_id 
+	 * @param int $a_exc_ref_id 
 	 */
-	function addTeamMember($a_team_id, $a_user_id)
+	function addTeamMember($a_team_id, $a_user_id, $a_exc_ref_id)
 	{
 		global $ilDB;
 		
@@ -1791,7 +1792,7 @@ class ilExAssignment
 				"user_id" => array("integer", $a_user_id));			
 			$ilDB->insert("il_exc_team", $fields);		
 			
-			$this->sendNotification($a_team_id, $a_user_id, "add");
+			$this->sendNotification($a_exc_ref_id, $a_user_id, "add");
 			
 			self::writeTeamLog($a_team_id, self::TEAM_LOG_ADD_MEMBER, 
 				ilObjUser::_lookupFullname($a_user_id));
@@ -1803,8 +1804,9 @@ class ilExAssignment
 	 * 
 	 * @param int $a_team_id
 	 * @param int $a_user_id 
+	 * @param int $a_exc_ref_id 
 	 */
-	function removeTeamMember($a_team_id, $a_user_id)
+	function removeTeamMember($a_team_id, $a_user_id, $a_exc_ref_id)
 	{
 		global $ilDB;
 		
@@ -1814,7 +1816,7 @@ class ilExAssignment
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer");			
 		$ilDB->manipulate($sql);		
 	
-		$this->sendNotification($a_team_id, $a_user_id, "rmv");
+		$this->sendNotification($a_exc_ref_id, $a_user_id, "rmv");
 		
 		self::writeTeamLog($a_team_id, self::TEAM_LOG_REMOVE_MEMBER, 
 			ilObjUser::_lookupFullname($a_user_id));
@@ -1947,11 +1949,11 @@ class ilExAssignment
 	/**
 	 * Send notification about team status
 	 * 
-	 * @param int $a_team_id
+	 * @param int $a_exc_ref_id
 	 * @param int $a_user_id
 	 * @param string $a_action
 	 */
-	public function sendNotification($a_team_id, $a_user_id, $a_action)
+	public function sendNotification($a_exc_ref_id, $a_user_id, $a_action)
 	{
 		global $ilUser;
 		
@@ -1965,6 +1967,9 @@ class ilExAssignment
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
 		include_once("./Services/User/classes/class.ilUserUtil.php");
+		include_once("./Services/Link/classes/class.ilLink.php");
+		
+		$link = ilLink::_getStaticLink($a_exc_ref_id);
 		
 		// use language of recipient to compose message
 		$ulng = ilLanguageFactory::_getLanguageOfUser($a_user_id);
@@ -1973,7 +1978,7 @@ class ilExAssignment
 		$subject = sprintf($ulng->txt('exc_team_notification_subject_'.$a_action), $this->getTitle());
 		$message = sprintf($ulng->txt('exc_team_notification_salutation'), ilObjUser::_lookupFullname($a_user_id))."\n\n";
 
-		$message .= $ulng->txt('exc_team_notification_body_'.$a_action).":\n\n";
+		$message .= $ulng->txt('exc_team_notification_body_'.$a_action)."\n\n";
 		$message .= $ulng->txt('obj_exc').": ".ilObject::_lookupTitle($this->getExerciseId())."\n";
 		$message .= $ulng->txt('exc_assignment').": ".$this->getTitle()."\n";
 		$message .= $ulng->txt('exc_team_notification_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";

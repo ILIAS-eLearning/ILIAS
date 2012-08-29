@@ -12878,8 +12878,8 @@ book#:#book_post_booking_file#:#File
 book#:#book_download_info#:#Download Additional Description
 exc#:#exc_team_notification_salutation#:#Hello %s,
 exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignment
-exc#:#exc_team_notification_body_add#:#You have been added to a team upload assignment.
+exc#:#exc_team_notification_body_add#:#you have been added to a team upload assignment.
 exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment
-exc#:#exc_team_notification_body_rmv#:#You have been removed from  a team upload assignment.
+exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload assignment.
 exc#:#exc_team_notification_changed_by#:#Status changed by
-exc#:#exc_team_notification_link#:#Link to exercise assignment
+exc#:#exc_team_notification_link#:#Link to exercise
