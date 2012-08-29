@@ -1540,7 +1540,7 @@ class ilMail
 						// CHECK IF USER CAN RECEIVE MAIL
 						if ($user_id)
 						{
-							if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
+							if(!$rbacsystem->checkAccessOfUser($user_id, "internal_mail", $this->getMailObjectReferenceId()))
 							{
 								$wrong_rcps .= "<br />".htmlentities($rcp->mailbox).
 									" (".$this->lng->txt("user_cant_receive_mail").")";
@@ -1614,7 +1614,7 @@ class ilMail
 					// CHECK IF USER CAN RECEIVE MAIL
 					if ($user_id = ilObjUser::getUserIdByLogin(addslashes($rcp)))
 					{
-						if(!$rbacsystem->checkAccessOfUser($user_id, "mail_visible", $this->getMailObjectReferenceId()))
+						if(!$rbacsystem->checkAccessOfUser($user_id, "internal_mail", $this->getMailObjectReferenceId()))
 						{
 							$wrong_rcps .= "<br />".htmlentities($rcp).
 								" (".$this->lng->txt("user_cant_receive_mail").")";

@@ -241,7 +241,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		// mail link
 		$a_set["mail_to"] = "";
 		if($this->mail_allowed &&
-		   $rbacsystem->checkAccessOfUser($a_set['id'],'mail_visible', ilMailGlobalServices::getMailObjectRefId()))
+		   $rbacsystem->checkAccessOfUser($a_set['id'],'internal_mail', ilMailGlobalServices::getMailObjectRefId()))
 		{
 			$a_set['mail_url'] = ilMailFormCall::getLinkTarget($this->topGuiObj, '', array(), array('type' => 'new', 'rcp_to' => urlencode($a_set['login'])));
 		}
