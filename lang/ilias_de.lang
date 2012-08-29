@@ -12876,3 +12876,10 @@ book#:#book_post_booking_information#:#Informationen nach einer Buchung
 book#:#book_post_booking_text#:#Text
 book#:#book_post_booking_file#:#Datei
 book#:#book_download_info#:#Zusätzliche Beschreibung herunterladen
+exc#:#exc_team_notification_salutation#:#Hallo %s,
+exc#:#exc_team_notification_subject_add#:#Als Team-Mitglied zu einer Übungseinheit hinzugefügt
+exc#:#exc_team_notification_body_add#:#Sie wurden zu einer Team-Upload-Übungseinheit hinzugefügt.
+exc#:#exc_team_notification_subject_rmv#:#Als Team-Mitglied aus einer Übungseinheit entfernt
+exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungseinheit entfernt.
+exc#:#exc_team_notification_changed_by#:#Status geändert durch
+exc#:#exc_team_notification_link#:#Link zur Übungseinheit
