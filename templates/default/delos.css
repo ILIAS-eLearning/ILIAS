@@ -3530,6 +3530,12 @@ div.ilSideBarContent{
 
 /* poll */
 
+.ilPollDescription {
+	margin: 5px;
+	font-size: 80%;
+	color: #808080;
+}
+
 .ilPollQuestion {
 	margin: 5px;
 	font-weight: bold;
