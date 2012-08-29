@@ -309,42 +309,36 @@ il.MainMenu = {
 
 /* UICore */
 il.UICore = {
-	refreshPosition: function () {
+	refreshLayout: function () {
 		var el = document.getElementById("left_nav"),
-		sm = document.getElementById("submainmenu"),
-		nb_reg, vp_reg;
-		if (el && sm)
-		{
+			sm = document.getElementById("submainmenu"),
+			bl = document.getElementById("bot_left_area"),
+			nb_reg, vp_reg;
+		if (el && sm) {
 			sm_reg = il.Util.getRegion(sm);
 			nb_reg = il.Util.getRegion(el);
 			vp_reg = il.Util.getViewportRegion();
-/*			if (nb_reg.top < vp_reg.top && nb_reg.bottom < vp_reg.bottom)
-			{
-				//$(el).css('bottom', '0px');
-				//$(el).offset({top: vp_reg.top});
-				if (vp_reg.height < nb_reg.height)
-				{
-					$(el).offset({top: vp_reg.bottom - nb_reg.height});
-				} else {
-					$(el).offset({top: vp_reg.top});
-				}
-			} else if (nb_reg.top > sm_reg.top && nb_reg.top > vp_reg.top) {
-*/
-				if (sm_reg.top < vp_reg.top)
-				{
-					$(el).offset({top: vp_reg.top});
-				} else {
-					$(el).offset({top: sm_reg.top});
-				}
-//			}
+			if (sm_reg.top < vp_reg.top) {
+				$(el).offset({top: vp_reg.top});
+			} else {
+				$(el).offset({top: sm_reg.top});
+			}
+			
+			// bottom left area?
+			if (bl) {
+				bl_reg = il.Util.getRegion(bl);
+				$(el).css("bottom", bl_reg.height + "px");
+			} else {
+				$(el).css("bottom", "0px");
+			}
 		}
 	}
 };
 
 il.Util.addOnLoad(function () {
-	$(window).resize(il.UICore.refreshPosition);
-	$(window).scroll(il.UICore.refreshPosition);
-	il.UICore.refreshPosition();
+	$(window).resize(il.UICore.refreshLayout);
+	$(window).scroll(il.UICore.refreshLayout);
+	il.UICore.refreshLayout();
 });
 
 /* Rating */

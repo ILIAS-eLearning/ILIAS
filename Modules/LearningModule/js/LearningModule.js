@@ -1,3 +1,16 @@
+il.LearningModule = {
+	showContentFrame: function (e) {
+		var faqt = $("#bot_left_area"),
+			href = e.target.href;
+		if (faqt.length == 0) {
+			$('body').append('<div id="bot_left_area" class="ilBotLeftArea"><iframe /></div>');
+		}
+		$("#bot_left_area > iframe").attr("src", href);
+		il.UICore.refreshLayout();
+		return false;
+	}
+}
+
 $(function() {
 	$('body').focus();
 	$(document).keypress(function(e) {
