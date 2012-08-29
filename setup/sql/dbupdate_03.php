@@ -12974,3 +12974,10 @@ if(!$ilDB->tableColumnExists('booking_object', 'info_file'))
 	);
 }
 ?>
+<#3745>
+<?php
+$ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,inputformat) VALUES ".
+		   " (%s,%s,%s,%s)",
+        	   array("integer", "integer", "text", "integer"),
+                   array(6, 3, "reference_link", 4));
+?>
