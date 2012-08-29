@@ -62,10 +62,13 @@ class ilBookingObjectGUI
 			$bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
 			$bar = $bar->getHTML();
 		}
-
+		
+		include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+		$plink = new ilPermanentLinkGUI('book', $this->ref_id);
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
 		$table = new ilBookingObjectsTableGUI($this, 'listItems', $this->ref_id, $this->pool_id, $this->pool_has_schedule);
-		$tpl->setContent($bar.$table->getHTML());
+		$tpl->setContent($bar.$table->getHTML().$plink->getHTML());
 	}
 
 	/**
