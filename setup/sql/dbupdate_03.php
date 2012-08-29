@@ -12985,3 +12985,11 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3747>
+<?php
+$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) ".
+		" VALUES (".
+		$ilDB->quote(9, "integer").", ".$ilDB->quote("mob", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(2, "text").
+		")");
+		
+?>
