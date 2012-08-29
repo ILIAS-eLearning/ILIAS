@@ -12830,10 +12830,7 @@ if($ilDB->tableColumnExists('il_dcl_table', 'blocked'))
 ?>
 <#3735>
 <?php
-$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type) ".
-        " VALUES (".
-        $ilDB->quote(7, "integer").", ".$ilDB->quote("rating", "text").", ".$ilDB->quote("integer", "text").
-        ")");
+$ilDB->manipulate("INSERT INTO il_dcl_datatype (id, title, ildb_type, storage_location) VALUES (".$ilDB->quote(7, "integer").", ".$ilDB->quote("rating", "text").", ".$ilDB->quote("integer", "text").", ".$ilDB->quote(0, "integer").")");
 ?>
 <#3736>
 <?php
