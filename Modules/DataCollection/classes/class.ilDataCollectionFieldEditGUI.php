@@ -218,7 +218,7 @@ class ilDataCollectionFieldEditGUI
 			foreach(ilDataCollectionDatatype::getProperties($datatype['id']) as $property)
 			{
 				//Type Reference: List Tabels
-				if($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) 
+				if($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE AND $property['id'] == ilDataCollectionField::PROPERTYID_REFERENCE)
 				{
 					// Get Tables
 					require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");

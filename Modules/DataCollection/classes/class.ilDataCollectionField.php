@@ -44,7 +44,7 @@ class ilDataCollectionField
 	const PROPERTYID_REFERENCE = 3;
 	const PROPERTYID_URL = 4;
 	const PROPERTYID_TEXTAREA = 5;
-
+    const PROPERTYID_REFERENCE_LINK = 6;
 
 
 	// type of table il_dcl_view
@@ -289,7 +289,7 @@ class ilDataCollectionField
 
 		return $props[$t]->value;
 	}
-	
+
 	/*
 	 * getDatatypeTitle
 	 */
