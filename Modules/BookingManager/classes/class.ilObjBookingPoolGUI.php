@@ -568,12 +568,16 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function confirmedBookingObject()
 	{		
+		global $tpl;
+		
+		$success = false;
+		
 		if($this->object->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
 		{	
 			if($_POST['object_id'])
 			{
 				$this->processBooking($_POST['object_id']);
-				$success = true;	
+				$success = $_POST['object_id'];	
 			}
 		}	
 		else
@@ -583,8 +587,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				ilUtil::sendFailure($this->lng->txt('select_one'));
 				return $this->bookObject();
 			}
-
-			$success = false;			
+						
 			// single object reservation(s)
 			if(isset($_GET['object_id']))
 			{
@@ -597,7 +600,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					if($object_id)
 					{	
 						$this->processBooking($object_id, $fromto[0], $fromto[1]);
-						$success = true;		
+						$success = $object_id;		
 					}
 				}
 			}
@@ -658,7 +661,21 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		if($success)
 		{
 			ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
-			$this->ctrl->redirect($this, 'render');
+			
+			// show post booking information?
+			include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+			$obj = new ilBookingObject($success);
+			$pfile = $obj->getPostFile();
+			$ptext = $obj->getPostText();
+			if(trim($ptext) || $pfile)
+			{
+				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $obj->getId());				
+				$this->ctrl->redirectByClass('ilbookingobjectgui', 'displayPostInfo');
+			}
+			else
+			{				
+				$this->ctrl->redirect($this, 'render');
+			}
 		}
 		else
 		{
@@ -977,7 +994,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
 		}
-	}
+	}		
 }
 
 ?>

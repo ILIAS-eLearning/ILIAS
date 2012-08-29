@@ -17,6 +17,9 @@ class ilBookingObject
 	protected $description; // string
 	protected $nr_of_items; // int
 	protected $schedule_id; // int
+	protected $info_file; // string
+	protected $post_text; // string
+	protected $post_file; // string
 
 	/**
 	 * Constructor
@@ -129,6 +132,216 @@ class ilBookingObject
 	{
 		return $this->nr_of_items;
 	}
+	
+	/**
+	 * Set info file
+	 * @param	string	$a_value
+	 */
+	function setFile($a_value)
+	{
+		$this->info_file = $a_value;
+	}
+
+	/**
+	 * Get info file
+	 * @return	string
+	 */
+	function getFile()
+	{
+		return $this->info_file;
+	}
+	
+	/**
+	 * Get path to info file
+	 */
+	function getFileFullPath()
+	{		
+		if($this->id && $this->info_file)
+		{
+			$path = $this->initStorage($this->id, "file");			
+			return $path.$this->info_file;			
+		}
+	}	
+	
+	/**
+	 * Upload new info file
+	 * 
+	 * @param array $a_upload
+	 * @return bool
+	 */
+	function uploadFile(array $a_upload)
+	{
+		if(!$this->id)
+		{
+			return false;
+		}
+		
+		$this->deleteFile();
+	
+		$path = $this->initStorage($this->id, "file");
+		$original = $a_upload["name"];
+		
+		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+		{
+			chmod($path.$original, 0770);
+
+			$this->setFile($original);
+			return true;
+		}
+		return false;
+	}	
+	
+	/**
+	 * remove existing info file
+	 */
+	public function deleteFile()
+	{
+		if($this->id)
+		{
+			$path = $this->getFileFullPath();
+			if($path)
+			{			
+				@unlink($path);
+				$this->setFile(null);
+			}
+		}
+	}
+	
+	/**
+	 * Set post text
+	 * @param	string	$a_value
+	 */
+	function setPostText($a_value)
+	{
+		$this->post_text = $a_value;
+	}
+
+	/**
+	 * Get post text
+	 * @return	string
+	 */
+	function getPostText()
+	{
+		return $this->post_text;
+	}
+	
+	/**
+	 * Set post file
+	 * @param	string	$a_value
+	 */
+	function setPostFile($a_value)
+	{
+		$this->post_file = $a_value;
+	}
+
+	/**
+	 * Get post file
+	 * @return	string
+	 */
+	function getPostFile()
+	{
+		return $this->post_file;
+	}
+		
+	/**
+	 * Get path to post file
+	 */
+	function getPostFileFullPath()
+	{		
+		if($this->id && $this->post_file)
+		{
+			$path = $this->initStorage($this->id, "post");			
+			return $path.$this->post_file;			
+		}
+	}	
+	
+	/**
+	 * Upload new post file
+	 * 
+	 * @param array $a_upload
+	 * @return bool
+	 */
+	function uploadPostFile(array $a_upload)
+	{
+		if(!$this->id)
+		{
+			return false;
+		}
+		
+		$this->deletePostFile();
+	
+		$path = $this->initStorage($this->id, "post");
+		$original = $a_upload["name"];
+		
+		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
+		{
+			chmod($path.$original, 0770);
+
+			$this->setPostFile($original);
+			return true;
+		}
+		return false;
+	}	
+	
+	/**
+	 * remove existing post file
+	 */
+	public function deletePostFile()
+	{
+		if($this->id)
+		{
+			$path = $this->getPostFileFullPath();
+			if($path)
+			{			
+				@unlink($path);
+				$this->setPostFile(null);
+			}
+		}
+	}
+	
+	/**
+	 * remove existing files
+	 */
+	public function deleteFiles()
+	{
+		if($this->id)
+		{
+			include_once "Modules/BookingManager/classes/class.ilFSStorageBooking.php";
+			$storage = new ilFSStorageBooking($this->id);
+			$storage->delete();
+			
+			$this->setFile(null);
+			$this->setPostFile(null);
+		}
+	}
+
+	/**
+	 * Init file system storage
+	 * 
+	 * @param type $a_id
+	 * @param type $a_subdir
+	 * @return string 
+	 */
+	public static function initStorage($a_id, $a_subdir = null)
+	{		
+		include_once "Modules/BookingManager/classes/class.ilFSStorageBooking.php";
+		$storage = new ilFSStorageBooking($a_id);
+		$storage->create();
+		
+		$path = $storage->getAbsolutePath()."/";
+		
+		if($a_subdir)
+		{
+			$path .= $a_subdir."/";
+			
+			if(!is_dir($path))
+			{
+				mkdir($path);
+			}
+		}
+				
+		return $path;
+	}	
 
 	/**
 	 * Get dataset from db
@@ -148,6 +361,9 @@ class ilBookingObject
 			$this->setPoolId($row['pool_id']);
 			$this->setScheduleId($row['schedule_id']);
 			$this->setNrOfItems($row['nr_items']);
+			$this->setFile($row['info_file']);
+			$this->setPostText($row['post_text']);
+			$this->setPostFile($row['post_file']);
 		}
 	}
 	
@@ -161,7 +377,10 @@ class ilBookingObject
 			'title' => array('text', $this->getTitle()),
 			'description' => array('text', $this->getDescription()),
 			'schedule_id' => array('text', $this->getScheduleId()),
-			'nr_items' => array('text', $this->getNrOfItems())			
+			'nr_items' => array('text', $this->getNrOfItems()),			
+			'info_file' => array('text', $this->getFile()),			
+			'post_text' => array('text', $this->getPostText()),			
+			'post_file' => array('text', $this->getPostFile())			
 		);
 		
 		return $fields;		
@@ -239,6 +458,8 @@ class ilBookingObject
 
 		if($this->id)
 		{
+			$this->deleteFiles();
+			
 			return $ilDB->manipulate('DELETE FROM booking_object'.
 				' WHERE booking_object_id = '.$ilDB->quote($this->id, 'integer'));
 		}
