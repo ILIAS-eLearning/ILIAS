@@ -76,7 +76,7 @@ class ilECSEventQueueReader
 	 * @param string $a_obj_type
 	 * @return string
 	 */
-	protected function getEventTypeFromObjectType($a_obj_type)
+	protected static function getEventTypeFromObjectType($a_obj_type)
 	{
 		// currently they are the same for all resource types
 		return $a_obj_type;
@@ -87,7 +87,7 @@ class ilECSEventQueueReader
 	 * 
 	 * @return array
 	 */
-	protected function getAllEContentTypes()
+	protected static function getAllEContentTypes()
 	{
 		return array(self::TYPE_REMOTE_COURSE, self::TYPE_REMOTE_CATEGORY, 
 			self::TYPE_REMOTE_FILE, self::TYPE_REMOTE_GLOSSARY, self::TYPE_REMOTE_GROUP, 
@@ -102,7 +102,7 @@ class ilECSEventQueueReader
 	 * @param bool $a_sender_only
 	 * @return array type => ids
 	 */
-	protected function getAllResourceIds(ilECSSetting $server, array $a_types, $a_sender_only = false)
+	protected static function getAllResourceIds(ilECSSetting $server, array $a_types, $a_sender_only = false)
 	{
 		include_once 'Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php';
 		$list = array();
@@ -138,12 +138,12 @@ class ilECSEventQueueReader
 			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 			include_once('./Services/WebServices/ECS/classes/class.ilECSExport.php');
 
-			$types = $this->getAllEContentTypes();
+			$types = self::getAllEContentTypes();
 
 			$event_queue = new ilECSEventQueueReader($server->getServerId());
 			$event_queue->deleteAllEContentEvents($types);
 			
-			$list = $this->getAllResourceIds($server, $types);						
+			$list = self::getAllResourceIds($server, $types);						
 			$imported = ilECSImport::_getAllImportedLinks($server->getServerId());
 			foreach($list as $resource_type => $link_ids)
 			{
@@ -181,7 +181,7 @@ class ilECSEventQueueReader
 				include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
 				foreach($imported as $econtent_id => $obj_id)
 				{
-					$type = $this->getEventTypeFromObjectType(ilObject::_lookupType($obj_id));
+					$type = self::getEventTypeFromObjectType(ilObject::_lookupType($obj_id));
 					if($type)
 					{						
 						$event_queue->add($type,
@@ -224,8 +224,8 @@ class ilECSEventQueueReader
 		// Read all local export info
 		$local_econtent_ids = ilECSExport::_getAllEContentIds($server->getServerId());
 
-		$types = $this->getAllEContentTypes();					
-		$list = $this->getAllResourceIds($server, $types, true);
+		$types = self::getAllEContentTypes();					
+		$list = self::getAllResourceIds($server, $types, true);
 
 		// Delete all deprecated local export info
 		foreach($list as $resource_type => $remote_econtent_ids)
