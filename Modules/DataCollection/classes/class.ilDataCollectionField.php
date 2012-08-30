@@ -809,7 +809,7 @@ class ilDataCollectionField
 		}
 
 
-        if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB)
+        if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB AND $value['name'])
         {
             $arrMimeType = explode('/', ilObjMediaObject::getMimeType($value['name']));
 
