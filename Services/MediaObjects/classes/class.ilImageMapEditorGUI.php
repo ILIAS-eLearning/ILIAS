@@ -517,7 +517,7 @@ class ilImageMapEditorGUI
 			$int = new ilRadioOption($lng->txt("cont_link_int"), "int");
 			$radg->addOption($int);
 			
-				$ne = new ilNonEditableValueGUI("", "");
+				$ne = new ilNonEditableValueGUI("", "", true);
 				$link_str = "";
 				if($_SESSION["il_map_il_target"] != "")
 				{
