@@ -228,6 +228,8 @@ class ilDataCollectionDatatype
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
 				if($field->getTextArea())
 					$input = new ilTextAreaInputGUI($title, 'field_'.$field->getId());
+				if($field->getLength())
+					$input->setInfo($lng->txt("dcl_max_text_length").": ".$field->getLength());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
@@ -248,7 +250,7 @@ class ilDataCollectionDatatype
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
 				$input->setValue($lng->txt("dcl_editable_in_table_gui"));
-				$input->setInfo($lng->txt("dcl_editable_in_table_gui"));
+				//$input->setInfo($lng->txt("dcl_editable_in_table_gui"));
 				$input->setDisabled(true);
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:

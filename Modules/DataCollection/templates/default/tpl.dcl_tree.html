@@ -2,14 +2,17 @@
 <!-- BEGIN ilias_ref_input -->
 <script>
     $(document).ready(function() {
+        $('#dcl_loader_{FIELD_ID}').hide();
+
         $('#search_{FIELD_ID}').keydown(function(event){
             if(event.keyCode == 13){
                 event.preventDefault();
-                var link = '{AJAX_LINK}';
-                var replacer = new RegExp('amp;','g');
-                link = link.replace(replacer, '');
-                $("#search_output_{FIELD_ID}").load(link, {search_for: this.value, dest: '{FIELD_ID}'});
+                dclSearchFunction(this.value);
             }
+        });
+
+        $('#search_button_{FIELD_ID}').click(function(event){
+            dclSearchFunction($('#search_{FIELD_ID}').val());
         });
 
         $(".dcl_result_{FIELD_ID}").live('click', function(){
@@ -19,11 +22,20 @@
             $("#display_{FIELD_ID}").val(title);
         });
     });
+
+function dclSearchFunction(value){
+    var link = '{AJAX_LINK}';
+    var replacer = new RegExp('amp;','g');
+    link = link.replace(replacer, '');
+    $('#dcl_loader_{FIELD_ID}').show();
+    $("#search_output_{FIELD_ID}").load(link, {search_for: value, dest: '{FIELD_ID}'}, function() { $('#dcl_loader_{FIELD_ID}').hide();});
+}
 </script>
 
 <input type="hidden" id="{FIELD_ID}">
 
 <p id="search_output_{FIELD_ID}">
+    <img id="dcl_loader_{FIELD_ID}" src='{LOADER_PATH}'>
     {SEARCH_HTML}
 </p>
 <!-- END ilias_ref_input -->

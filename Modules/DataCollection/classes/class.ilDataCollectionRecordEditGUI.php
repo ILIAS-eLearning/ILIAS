@@ -194,7 +194,6 @@ class ilDataCollectionRecordEditGUI
 				$item->setRequired(false);
 			}
 				
-			$item->setInfo($this->getInfo($field));
 			if(!ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id) && $field->getLocked())
 			{
 				$item->setDisabled(true);
@@ -220,25 +219,6 @@ class ilDataCollectionRecordEditGUI
 		$ilCtrl->setParameter($this, "table_id", $this->table_id);
 		$ilCtrl->setParameter($this, "record_id", $this->record_id);
 		
-	}
-
-	/*
-	 * getInfo
-	 */
-	private function getInfo(ilDataCollectionField $field)
-	{
-		global $lng;
-
-		$info = $field->getDescription()."<br>";
-		if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_TEXT)
-		{
-			if($field->getLength())
-			{
-				$info .= $lng->txt("dcl_max_text_length").": ".$field->getLength();
-			}
-		}
-
-		return $info;
 	}
 
 	/**
@@ -424,7 +404,7 @@ class ilDataCollectionRecordEditGUI
 
 		if(!count($results = $res->getResultsByObjId()))
 		{
-			$html .= "No search results found."."<br />";
+			$html .= $lng->txt('dcl_no_search_results_found_for').	$search."<br />";
 		}
 		$results = $this->parseSearchResults($results);
 
@@ -444,7 +424,6 @@ class ilDataCollectionRecordEditGUI
 			$html .= $tpl->get();
 		}
 
-		$html .= "You're searching for: ".$search;
 		echo $html;
 		exit;
 	}

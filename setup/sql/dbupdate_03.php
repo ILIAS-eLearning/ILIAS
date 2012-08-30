@@ -13005,3 +13005,10 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
         	   array("integer", "integer", "text", "integer"),
                    array(8, 9, "height", 1));		
 ?>
+<#3749>
+<?php
+$ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,inputformat) VALUES ".
+		   " (%s,%s,%s,%s)",
+        	   array("integer", "integer", "text", "integer"),
+                   array(9, 8, "learning_progress", 4));
+?>
