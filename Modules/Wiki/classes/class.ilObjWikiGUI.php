@@ -150,6 +150,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once("Services/Rating/classes/class.ilRatingGUI.php");
 				$gui = new ilRatingGUI();
 				$gui->setObject($this->object->getId(), $this->object->getType());
+				$gui->setExportCallback(array($this, "getSubObjectTitle"));
 				$this->ctrl->forwardCommand($gui);
 				break;
 
@@ -1596,6 +1597,19 @@ class ilObjWikiGUI extends ilObjectGUI
 			return $page->getTitle();
 		}
 	}
-
+	
+	/**
+	 * Used for rating export
+	 * 
+	 * @param int $a_id
+	 * @param string $a_type
+	 * @return string
+	 */
+	function getSubObjectTitle($a_id, $a_type)
+	{
+		include_once "Modules/Wiki/classes/class.ilWikiPage.php";
+		return ilWikiPage::lookupTitle($a_id);		
+	}
 }
+
 ?>

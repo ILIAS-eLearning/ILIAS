@@ -14,12 +14,14 @@ include_once("./Services/Rating/classes/class.ilRatingCategory.php");
 class ilRatingCategoryGUI
 {	
 	protected $parent_id; // [int]
+	protected $a_export_callback; // [string|array]
 	
-	function __construct($a_parent_id)
+	function __construct($a_parent_id, $a_export_callback = null)
 	{
 		global $lng;
 		
 		$this->parent_id = (int)$a_parent_id;
+		$this->export_callback = $a_export_callback;
 		
 		$lng->loadLanguageModule("rating");
 		
@@ -57,6 +59,11 @@ class ilRatingCategoryGUI
 	
 		$ilToolbar->addButton($lng->txt("rating_add_category"), 
 			$ilCtrl->getLinkTarget($this, "add"));
+		
+		$ilToolbar->addSeparator();
+		
+		$ilToolbar->addButton($lng->txt("export"), 
+			$ilCtrl->getLinkTarget($this, "export"));
 		
 		include_once "Services/Rating/classes/class.ilRatingCategoryTableGUI.php";
 		$table = new ilRatingCategoryTableGUI($this, "listCategories", $this->parent_id);		
@@ -242,6 +249,46 @@ class ilRatingCategoryGUI
 		}
 		
 		$ilCtrl->redirect($this, "listCategories");
+	}
+	
+	protected function export()
+	{		
+		$title = ilObject::_lookupTitle($this->parent_id);
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter($title.".xls", true);
+		
+		// restrict to currently active (probably not needed - see delete())
+		$active = array();
+		foreach(ilRatingCategory::getAllForObject($this->parent_id) as $item)
+		{
+			$active[$item["id"]] = $item["title"];
+		}
+		
+		ob_start();
+		$workbook = $adapter->getWorkbook();
+		$worksheet = $workbook->addWorksheet();
+		$row = 0;		
+		foreach(ilRating::getExportData($this->parent_id, ilObject::_lookupType($this->parent_id), array_keys($active)) as $item)
+		{
+			$sub_obj_title = $item["sub_obj_type"];
+			if($this->export_callback)
+			{
+				$sub_obj_title = call_user_func($this->export_callback, $item["sub_obj_id"], $item["sub_obj_type"]);
+			}
+			
+			$worksheet->write($row, 0, $item["sub_obj_id"]);
+			$worksheet->write($row, 1, $sub_obj_title);
+			$worksheet->write($row, 2, $item["category_id"]);
+			$worksheet->write($row, 3, $active[$item["category_id"]]);
+			$worksheet->write($row, 4, date("Y-m-d H:i:s", $item["tstamp"]));
+			$worksheet->write($row, 5, $item["rating"]);			
+			$row++;			
+		}	
+		
+		ob_end_clean();
+
+		$workbook->close();													
 	}
 }
 

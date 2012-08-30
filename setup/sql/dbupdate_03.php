@@ -13012,3 +13012,18 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
         	   array("integer", "integer", "text", "integer"),
                    array(9, 8, "learning_progress", 4));
 ?>
+<#3750>
+<?php
+if(!$ilDB->tableColumnExists('il_rating', 'tstamp'))
+{
+	$ilDB->addTableColumn(
+		'il_rating',
+		'tstamp',
+		array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false
+		)
+	);
+}
+?>
