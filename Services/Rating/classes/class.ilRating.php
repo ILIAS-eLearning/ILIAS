@@ -55,14 +55,15 @@ class ilRating
 			"category_id = ".$ilDB->quote((int) $a_category_id, "integer"));
 		
 		$ilDB->manipulate("INSERT INTO il_rating (user_id, obj_id, obj_type,".
-			"sub_obj_id, sub_obj_type, category_id, rating) VALUES (".
+			"sub_obj_id, sub_obj_type, category_id, rating, tstamp) VALUES (".
 			$ilDB->quote($a_user_id, "integer").",".
 			$ilDB->quote((int) $a_obj_id, "integer").",".
 			$ilDB->quote($a_obj_type, "text").",".
 			$ilDB->quote((int) $a_sub_obj_id, "integer").",".
 			$ilDB->quote($a_sub_obj_type, "text").",".
 			$ilDB->quote($a_category_id, "integer").",".
-			$ilDB->quote((int) $a_rating, "integer").")");
+			$ilDB->quote((int) $a_rating, "integer").",".
+			$ilDB->quote(time(), "integer").")");
 	}
 	
 	/**
@@ -134,6 +135,31 @@ class ilRating
 			$avg = 0;
 		}
 		return array("cnt" => $cnt, "avg" => $avg);
+	}
+	
+	/**
+	 * 
+	 */
+	static function getExportData($a_obj_id, $a_obj_type, array $a_category_ids = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		$q = "SELECT sub_obj_id, sub_obj_type, rating, category_id, user_id, tstamp ".
+			"FROM il_rating WHERE ".
+			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
+			"obj_type = ".$ilDB->quote($a_obj_type, "text").
+			" ORDER BY tstamp";
+		if($a_category_ids)
+		{
+			$q .= " AND ".$ilDB->in("category_id", $a_category_ids, "", "integer");
+		}
+		$set = $ilDB->query($q);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}
+		return $res;
 	}
 }
 

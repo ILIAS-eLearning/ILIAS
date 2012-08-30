@@ -39,7 +39,7 @@ class ilRatingGUI
 		{
 			case "ilratingcategorygui":
 				include_once("./Services/Rating/classes/class.ilRatingCategoryGUI.php");
-				$gui = new ilRatingCategoryGUI($this->obj_id);
+				$gui = new ilRatingCategoryGUI($this->obj_id, $this->export_callback);
 				$ilCtrl->forwardCommand($gui);				
 				break;
 			
@@ -426,6 +426,11 @@ class ilRatingGUI
 					$rating, $cat_id);					
 			}
 		}
+	}
+	
+	function setExportCallback($a_callback)
+	{
+		$this->export_callback = $a_callback;
 	}
 }
 
