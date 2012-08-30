@@ -395,6 +395,11 @@ class ilDataCollectionRecordEditGUI
 		$this->form->setValuesByPost();
 		$tpl->setContent($this->form->getHTML());
 	}
+
+	public function searchObjects(){
+		echo "hello";
+		exit;
+	}
 }
 
 ?>

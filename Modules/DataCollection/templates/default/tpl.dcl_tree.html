@@ -1,0 +1,17 @@
+
+<!-- BEGIN hello -->
+<script>
+    $(document).ready(function() {
+        $("#search_field_1").keydown(function(event){
+            if(event.keyCode == 13){
+                event.preventDefault();
+                $("#search_output_field_1").load('{AJAX_LINK}', {search_for: "oki"}, function() {alert("load finished");});
+            }
+        });
+    });
+</script>
+
+<p id="search_output_{OUTPUT_ID}">
+    {SEARCH_HTML}
+</p>
+<!-- END hello -->
