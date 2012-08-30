@@ -3,6 +3,7 @@
 include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
 include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionFile.php");
 include_once ("class.ilObjDataCollectionFile.php");
+include_once ("class.ilDataCollectionTreePickInputGUI.php");
 include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionMediaObject.php");
 
 include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
@@ -42,6 +43,8 @@ class ilDataCollectionDatatype
 	const INPUTFORMAT_FILE 			= 6;
 	// Rating
 	const INPUTFORMAT_RATING 		= 7;
+		// ILIAS REFERENCE
+	const INPUTFORMAT_ILIAS_REF 	= 8;
     // Meida Object
     const INPUTFORMAT_MOB 		    = 9;
 
@@ -249,6 +252,9 @@ class ilDataCollectionDatatype
 				$input->setValue($lng->txt("dcl_editable_in_table_gui"));
 				$input->setInfo($lng->txt("dcl_editable_in_table_gui"));
 				$input->setDisabled(true);
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
+				$input = new ilDataCollectionTreePickInputGUI($title, 'field_'.$field->getId());
 				break;
             case ilDataCollectionDatatype::INPUTFORMAT_MOB:
                 $input = new ilFileInputGUI($title, 'field_'.$field->getId());
