@@ -12827,6 +12827,12 @@ dcl#:#dcl_legend_placeholders#:#Placeholders
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
+dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
+dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer
+dcl#:#dcl_status#:#Your status
+dcl#:#dcl_mob#:#Image
+dcl#:#dcl_width#:#Width
+dcl#:#dcl_height#:#Height
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool Settings
 common#:#obj_tool_setting_calendar#:#Show Calendar
