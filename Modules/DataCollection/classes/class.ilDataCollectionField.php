@@ -45,6 +45,9 @@ class ilDataCollectionField
 	const PROPERTYID_URL = 4;
 	const PROPERTYID_TEXTAREA = 5;
     const PROPERTYID_REFERENCE_LINK = 6;
+    const PROPERTYID_WIDTH = 7;
+    const PROPERTYID_HEIGHT = 8;
+    const PROPERTYID_LEARNING_PROGRESS = 9;
 
 
 	// type of table il_dcl_view
