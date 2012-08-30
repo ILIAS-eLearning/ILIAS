@@ -198,7 +198,6 @@ class ilDataCollectionRecordEditGUI
 			{
 				$item->setDisabled(true);
 			}
-				
 			$this->form->addItem($item);
 		}
 

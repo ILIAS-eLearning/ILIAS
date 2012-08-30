@@ -34,13 +34,7 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
 
-	public function getFormInput(){
-		global $lng;
-		return $lng->txt("dcl_editable_in_table_gui");
-	}
-
 	public function getHTML(){
-		global $ilCtrl;
 		$value = $this->getValue();
 		$link = ilLink::_getStaticLink($value);
 		$id = ilObject::_lookupObjId($value);
@@ -52,6 +46,19 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
 		$value = $this->getValue();
 		$link = ilLink::_getStaticLink($value);
 		return $link;
+	}
+
+	public function getStatus(){
+		global $ilDB, $ilUser;
+		$usr_id = $ilUser->getId();
+		$obj_ref = $this->getValue();
+		$obj_id = ilObject2::_lookupObjectId($obj_ref);
+		$query = "  SELECT status_changed, status
+                    FROM ut_lp_marks
+                    WHERE usr_id = ".$usr_id." AND obj_id = ".$obj_id."
+";
+		$result = $ilDB->query($query);
+		return ($result->numRows() == 0)? false:$result->fetchRow(DB_FETCHMODE_OBJECT);
 	}
 }
 ?>
