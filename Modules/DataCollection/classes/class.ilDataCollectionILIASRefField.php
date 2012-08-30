@@ -41,14 +41,17 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
 
 	public function getHTML(){
 		global $ilCtrl;
-		$html = "<a href='LINKTOOBJECT'>".$this->getValue()."</a>";
+		$value = $this->getValue();
+		$link = ilLink::_getStaticLink($value);
+		$id = ilObject::_lookupObjId($value);
+		$html = "<a href='".$link."'>".ilObject::_lookupTitle($id)."</a>";
 		return $html;
 	}
 
 	public function getExportValue(){
-		//TODO:
-		return ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
-			$this->getField()->getId(), "dcl_field");
+		$value = $this->getValue();
+		$link = ilLink::_getStaticLink($value);
+		return $link;
 	}
 }
 ?>
