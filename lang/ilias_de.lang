@@ -12858,6 +12858,12 @@ dcl#:#dcl_actions#:#Actions###28 08 2012 new variable
 dcl#:#dcl_owner_editable#:#Edit only own records###28 08 2012 new variable
 dcl#:#dcl_msg_table_created#:#Table created###28 08 2012 new variable
 dcl#:#dcl_record_deleted#:#Record deleted###28 08 2012 new variable
+dcl#:#dcl_ILIAS_reference#:#Link zu einem ILIAS Modul
+dcl#:#dcl_learning_progress#:#Zeige den Lernfortschritt des verlinkten Moduls bezüglich des Betrachters
+dcl#:#dcl_status#:#Dein Status
+dcl#:#dcl_mob#:#Bild
+dcl#:#dcl_width#:#Breite
+dcl#:#dcl_height#:#Höhe
 content#:#cont_resources_of_type#:#Resources of Type###28 08 2012 new variable
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.###28 08 2012 new variable
 common#:#search_globally#:#Globally###28 08 2012 new variable
