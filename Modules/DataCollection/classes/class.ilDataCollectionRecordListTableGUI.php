@@ -34,7 +34,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->table = $table;
 
 		include_once("class.ilDataCollectionDatatype.php");
-		include_once("class.ilObjDataCollectionFile.php");
 		
 	 	$this->parent_obj = $a_parent_obj;
 		$this->setFormName('record_list');
@@ -124,8 +123,10 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
 		$this->tpl->setVariable("TITLE", $this->table->getTitle());
 
+
 		foreach($this->table->getVisibleFields() as $field)
 		{
+
 			$this->tpl->setCurrentBlock("field");
 			$this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId()));
 

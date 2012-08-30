@@ -13,7 +13,7 @@ require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 * @author Oskar Truffer <ot@studer-raimann.ch>
 * @version $Id: 
 *
-* @extends ilObjFile
+* @extends  ilObjMediaObject
 */
 class ilObjDataCollectionMediaObject extends ilObjMediaObject
 {

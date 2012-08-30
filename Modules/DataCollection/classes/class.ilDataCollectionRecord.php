@@ -509,7 +509,7 @@ class ilDataCollectionRecord
 	 */
 	public function deleteFile($obj_id)
 	{
-		$file = new ilObjDataCollectionFile($obj_id, false);
+		$file = new ilObjFile($obj_id, false);
 		$file->delete();
 	}
 	
