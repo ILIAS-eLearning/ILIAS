@@ -12883,3 +12883,4 @@ exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment
 exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload assignment.
 exc#:#exc_team_notification_changed_by#:#Status changed by
 exc#:#exc_team_notification_link#:#Link to exercise
+poll#:#poll_absolute#:#Current Votes
