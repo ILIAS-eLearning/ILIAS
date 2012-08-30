@@ -314,14 +314,6 @@ class ilDataCollectionTable
 		
 		return $filtered;
 	}
-	
-	/*
-	 * getRecordsWithFilter
-	 */
-	public function getRecordsWithFilter(array $filter)
-	{
-		// wird nicht verwendet, geprüft 2012-08-24 FSX
-	}
 
 	/*
 	 * loadRecords
@@ -469,6 +461,7 @@ class ilDataCollectionTable
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
 		}
 		$fields = array_merge($this->fields, $this->stdFields);
+		$this->sortByMethod($fields, "getOrder");
 
 		return $fields;
 	}
