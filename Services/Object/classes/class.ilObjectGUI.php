@@ -965,14 +965,7 @@ class ilObjectGUI
 			$newObj->setDescription($form->getInput("desc"));
 			$newObj->create();
 			
-			// add new object to custom parent container
-			$parent_node_id = null;
-			if($_REQUEST["crtptrefid"])
-			{
-				$parent_node_id = $_REQUEST["crtptrefid"];
-			}
-
-			$this->putObjectInTree($newObj, $parent_node_id);
+			$this->putObjectInTree($newObj);
 
 			// apply didactic template?
 			$dtpl = $this->getDidacticTemplateVar("dtpl");
@@ -981,17 +974,6 @@ class ilObjectGUI
 				$newObj->applyDidacticTemplate($dtpl);
 			}
 			
-			// use forced callback after object creation
-			if($_REQUEST["crtcb"])
-			{
-				$callback_type = ilObject::_lookupType((int)$_REQUEST["crtcb"], true);
-				$class_name = "ilObj".$objDefinition->getClassName($callback_type)."GUI";
-				$location = $objDefinition->getLocation($callback_type);
-				include_once($location."/class.".$class_name.".php");	
-				$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true);
-				$callback_obj->afterSaveCallback($newObj);
-			}
-
 			// additional paramters are added to afterSave()
 			$args = func_get_args();
 			if($args)
@@ -1033,11 +1015,17 @@ class ilObjectGUI
 	 */
 	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
-		global $rbacreview, $ilUser;
+		global $rbacreview, $ilUser, $objDefinition;
 
 		if(!$a_parent_node_id)
 		{
 			$a_parent_node_id = $_GET["ref_id"];
+		}
+		
+		// add new object to custom parent container
+		if((int)$_REQUEST["crtptrefid"])
+		{
+			$a_parent_node_id = (int)$_REQUEST["crtptrefid"];
 		}
 
 		$a_obj->createReference();
@@ -1057,6 +1045,17 @@ class ilObjectGUI
 		$rbac_log_roles = $rbacreview->getParentRoleIds($this->ref_id, false);
 		$rbac_log = ilRbacLog::gatherFaPa($this->ref_id, array_keys($rbac_log_roles));
 		ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
+		
+		// use forced callback after object creation
+		if($_REQUEST["crtcb"])
+		{
+			$callback_type = ilObject::_lookupType((int)$_REQUEST["crtcb"], true);
+			$class_name = "ilObj".$objDefinition->getClassName($callback_type)."GUI";
+			$location = $objDefinition->getLocation($callback_type);
+			include_once($location."/class.".$class_name.".php");	
+			$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true);
+			$callback_obj->afterSaveCallback($a_obj);
+		}
 	}
 
 	/**

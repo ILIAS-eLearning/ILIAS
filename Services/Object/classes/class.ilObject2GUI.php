@@ -66,7 +66,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$this->parent_id = $a_parent_node_id;
 		$this->type = $this->getType();
 		$this->html = "";
-
+		
 		// use globals instead?
 		$this->tabs_gui = $ilTabs;
 		$this->objDefinition = $objDefinition;
@@ -610,13 +610,19 @@ abstract class ilObject2GUI extends ilObjectGUI
 	 */
 	protected function putObjectInTree(ilObject $a_obj, $a_parent_node_id = null)
 	{
-		global $rbacreview, $ilUser;
+		global $rbacreview, $ilUser, $objDefinition;
 
 		$this->object_id = $a_obj->getId();
 
 		if(!$a_parent_node_id)
 		{
 			$a_parent_node_id = $this->parent_id;
+		}		
+		
+		// add new object to custom parent container
+		if((int)$_REQUEST["crtptrefid"])
+		{
+			$a_parent_node_id = (int)$_REQUEST["crtptrefid"];
 		}
 
 		switch($this->id_type)
@@ -660,6 +666,17 @@ abstract class ilObject2GUI extends ilObjectGUI
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
 		// END ChangeEvent: Record save object.
+			
+		// use forced callback after object creation
+		if($_REQUEST["crtcb"])
+		{
+			$callback_type = ilObject::_lookupType((int)$_REQUEST["crtcb"], true);
+			$class_name = "ilObj".$objDefinition->getClassName($callback_type)."GUI";
+			$location = $objDefinition->getLocation($callback_type);
+			include_once($location."/class.".$class_name.".php");	
+			$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true);
+			$callback_obj->afterSaveCallback($a_obj);
+		}
 	}
 
 	/**
