@@ -807,6 +807,17 @@ class ilDataCollectionField
 			if($properties[$url] && !preg_match('(^(news|(ht|f)tp(s?)\://){1}\S+)', $value))
 				throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_URL);
 		}
+
+
+        if($this->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB)
+        {
+            $arrMimeType = explode('/', ilObjMediaObject::getMimeType($value['name']));
+
+            if($arrMimeType[0] != "image") {
+                throw new ilDataCollectionInputException(ilDataCollectionInputException::NOT_IMAGE);
+            }
+        }
+
 		
 		if($this->isUnique())
 		{
