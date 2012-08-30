@@ -15,17 +15,19 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	protected $title;
 	protected $info;
 	protected $section_icon;
+	protected $disable_escaping;
 	
 	/**
 	* Constructor
 	*
 	* @param
 	*/
-	function __construct($a_title = "", $a_id = "")
+	function __construct($a_title = "", $a_id = "", $a_disable_escaping = false)
 	{
 		parent::__construct($a_title, $a_id);
 		$this->setTitle($a_title);
 		$this->setType("non_editable_value");
+		$this->disable_escaping = (bool)$a_disable_escaping;
 	}
 	
 	function checkInput()
@@ -127,7 +129,12 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 			$tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($this->getValue()));
 			$tpl->parseCurrentBlock();
 		}
-		$tpl->setVariable("VALUE", $this->getValue());
+		$value = $this->getValue();
+		if(!$this->disable_escaping)
+		{
+			$value = ilUtil::prepareFormOutput($value);
+		}
+		$tpl->setVariable("VALUE", $value);
 		$tpl->setVariable("ID", $this->getFieldId());
 		$tpl->parseCurrentBlock();
 		

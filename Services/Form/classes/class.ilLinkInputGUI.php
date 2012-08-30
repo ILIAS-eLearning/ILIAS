@@ -178,7 +178,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		$link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
 				
-		$ne = new ilNonEditableValueGUI("", "");				
+		$ne = new ilNonEditableValueGUI("", "", true);				
 		$ne->setValue('<a id="'.$this->getPostVar().'_ajax" class="iosEditInternalLinkTrigger" href="'.
 			$link.'">&raquo; '.$lng->txt("form_get_link").'</a>');
 		$int->addSubItem($ne);
