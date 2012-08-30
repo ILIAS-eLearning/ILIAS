@@ -225,7 +225,13 @@ class ilTrQuery
 			self::buildFilters($where, $a_filters);
 
 		$queries = array(array("fields"=>$fields, "query"=>$query));
-
+	
+		// #9598 - if language is not in fields alias is missing
+		if($a_order_field == "language")
+		{
+			$a_order_field = "usr_pref.value";
+		}
+		
 		// udf data is added later on, not in this query
 		$udf_order = null;
 		if(!$a_order_field)
