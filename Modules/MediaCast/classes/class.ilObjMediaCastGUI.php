@@ -1358,6 +1358,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ilTabs->activateTab("content");
 		$ctpl = new ilTemplate("tpl.mcst_content.html", true, true, "Modules/MediaCast");
 		
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		foreach ($this->object->getSortedItemsArray() as $item)
 		{
 			$mob = new ilObjMediaObject($item["mob_id"]);
