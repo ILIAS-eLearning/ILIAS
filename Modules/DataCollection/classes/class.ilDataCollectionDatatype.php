@@ -592,10 +592,14 @@ class ilDataCollectionDatatype
 				break;
 
             case self::INPUTFORMAT_MOB:
-                global $ilCtrl;
+
                 $mob = new ilObjMediaObject($value,false);
                 $dir  = ilObjMediaObject::_getDirectory($mob->getId());
                 $media_item = $mob->getMediaItem('Standard');
+                if(!$media_item->location) {
+                    $html = "";
+                    break;
+                }
                 $html = '<img src="'.$dir."/".$media_item->location.'" />';
                 break;
 				
