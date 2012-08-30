@@ -125,8 +125,8 @@ abstract class ilParticipant
 		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
 		{
 			$title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($this->ref_id));
-			$ilLog->write(__METHOD__.': Found object without role folder. Ref_id: '.$this->ref_id.', title: '.$title);
-			$ilLog->logStack();
+			#$ilLog->write(__METHOD__.': Found object without role folder. Ref_id: '.$this->ref_id.', title: '.$title);
+			#$ilLog->logStack();
 			return false;
 		}
 

@@ -279,6 +279,9 @@ class ilECSConnector
 			$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
 
 			$result = new ilECSResult($res);
+			
+			$GLOBALS['ilLog']->write(__METHOD__.':------------------------------------- FIFO content'. print_r($result,true));
+			
 			return $result;
 	 	}
 	 	catch(ilCurlConnectionException $exc)

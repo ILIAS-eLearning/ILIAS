@@ -36,7 +36,7 @@ include_once './Services/WebServices/ECS/classes/class.ilECSEvent.php';
 class ilECSEventQueueReader
 {
 	const TYPE_EXPORTED = 'exported';
-	const TYPE_DIRECTORY_TREES = 'directory_tree';
+	const TYPE_DIRECTORY_TREES = 'directory_trees';
 	const TYPE_REMOTE_COURSE = 'rcrs';
 	const TYPE_REMOTE_CATEGORY = 'rcat';
 	const TYPE_REMOTE_FILE = 'rfil';
@@ -503,7 +503,8 @@ class ilECSEventQueueReader
 		}
 		else
 		{
-			$this->delete($event['event_id']);
+			
+			#$this->delete($event['event_id']);
 			return $event;
 		}
 	}

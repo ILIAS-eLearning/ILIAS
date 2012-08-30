@@ -129,8 +129,8 @@ class ilSoapClient
 	{
 		$res = $this->client->call($a_operation,$a_params);
 
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->request);
-		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->response);
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->request);
+		#$GLOBALS['ilLog']->write(__METHOD__.': '.$this->client->response);
 
 		if($error = $this->client->getError())
 		{

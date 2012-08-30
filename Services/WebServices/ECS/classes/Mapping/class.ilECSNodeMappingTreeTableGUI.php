@@ -106,8 +106,8 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 	public function parse()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsData.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 
 		$data = array();
 		$counter = 0;

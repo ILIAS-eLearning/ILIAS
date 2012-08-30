@@ -284,7 +284,8 @@ class ilECSMappingSettingsGUI
 			$this,
 			'dtree');
 
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSTreeReader.php';
+		/*
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSTreeReader.php';
 		$tree_reader = new ilECSTreeReader($this->getServer()->getServerId(), $this->getMid());
 		try
 		{
@@ -294,6 +295,7 @@ class ilECSMappingSettingsGUI
 		{
 			ilUtil::sendFailure($e->getMessage());
 		}
+		*/
 
 		$dtreeTable->parse();
 		$GLOBALS['tpl']->setContent($dtreeTable->getHTML());
@@ -310,7 +312,7 @@ class ilECSMappingSettingsGUI
 		$GLOBALS['ilTabs']->activateTab('ecs_dir_allocation');
 
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsData.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -336,8 +338,8 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dDeleteTree()
 	{
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsData.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 
 		$GLOBALS['ilLog']->write('Deleting tree');
 
@@ -395,7 +397,7 @@ class ilECSMappingSettingsGUI
 	protected function dInitFormTreeSettings(ilPropertyFormGUI $form = null)
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingUtils.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 
 		if($form instanceof ilPropertyFormGUI)
 		{
@@ -472,7 +474,7 @@ class ilECSMappingSettingsGUI
 	protected function dUpdateTreeSettings()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		$assignment = new ilECSNodeMappingAssignment(
 			$this->getServer()->getServerId(),
 			$this->getMid(),
@@ -543,7 +545,7 @@ class ilECSMappingSettingsGUI
 	{
 		global $tree;
 
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingCmsExplorer.php';
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
 
@@ -578,7 +580,7 @@ class ilECSMappingSettingsGUI
 
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		$cmsTree = new ilECSCmsTree((int) $_REQUEST['tid']);
 		foreach(ilECSNodeMappingAssignments::lookupAssignmentsByRefId(
 			$this->getServer()->getServerId(),
@@ -612,7 +614,7 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function dInitEditTree()
 	{
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsData.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		ilECSCmsData::updateStatus(
 			$this->getServer()->getServerId(),
 			$this->getMid(),
@@ -649,7 +651,7 @@ class ilECSMappingSettingsGUI
 
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignment.php';
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		foreach($nodes as $cms_id)
 		{
 			$assignment = new ilECSNodeMappingAssignment(

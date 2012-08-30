@@ -208,6 +208,11 @@ class ilECSTaskScheduler
 					$this->log->write("got handler ".get_class($handler));
 					break;
 				
+				case ilECSEventQueueReader::TYPE_DIRECTORY_TREES:
+					include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTreeCommandQueueHandler.php';
+					$handler = new ilECSCmsTreeCommandQueueHandler($this->getServer());
+					break;
+				
 				default:
 					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);
 					break;
@@ -228,6 +233,10 @@ class ilECSTaskScheduler
 					break;
 						
 				case ilECSEvent::CREATED:
+					$res = $handler->handleCreate($this->getServer(), $event['id'], $this->mids);
+					$this->log->write(__METHOD__.': Handling create. DONE');
+					break;
+				
 				case ilECSEvent::UPDATED:
 					$res = $handler->handleUpdate($this->getServer(), $event['id'], $this->mids);
 					$this->log->write(__METHOD__.': Handling update. DONE');
@@ -240,7 +249,7 @@ class ilECSTaskScheduler
 			if($res)
 			{
 				$this->log->write(__METHOD__.': Processing of event done '.$event['event_id']);
-				$this->event_reader->delete($event['event_id']);				
+				$this->event_reader->delete($event['event_id']);
 			}	
 			else
 			{
@@ -371,7 +380,7 @@ class ilECSTaskScheduler
 		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
 		$client_id = $_COOKIE['ilClientId'];
 
-		if($soap_client->init())
+		if($soap_client->init() and 0)
 		{
 			$ilLog->write(__METHOD__.': Calling soap handleECSTasks method...');
 			$res = $soap_client->call('handleECSTasks',array($new_session_id.'::'.$client_id,$this->settings->getServerId()));
