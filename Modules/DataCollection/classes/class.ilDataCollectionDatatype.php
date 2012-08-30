@@ -1,13 +1,14 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-include_once ("class.ilDataCollectionTreePickInputGUI.php");
-include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionMediaObject.php");
+require_once "./Services/Utilities/classes/class.ilMimeTypeUtil.php";
+require_once "class.ilDataCollectionTreePickInputGUI.php";
+require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 require_once "./Modules/File/classes/class.ilObjFile.php";
-include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
-include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
+require_once "./Services/Form/classes/class.ilDateTimeInputGUI.php";
+require_once "./Services/Form/classes/class.ilTextInputGUI.php";
+require_once "./Services/Form/classes/class.ilFileInputGUI.php";
+
 
 /**
 * Class ilDataCollectionDatatype
@@ -361,12 +362,10 @@ class ilDataCollectionDatatype
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
-
-                if(!ilObject2::_exists($value)) {
+                if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
                     $pass = true;
                     break;
                 }
-
                     $file_obj = new ilObjFile($value, false);
                     $file_name = $file_obj->getTitle();
                     if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
@@ -412,9 +411,10 @@ class ilDataCollectionDatatype
 	/**
 	 * Function to parse incoming data from form input value $value. returns the strin/number/etc. to store in the database.
 	 * @param $value
+     * @param ilDataCollectionRecordField $record_field
 	 * @return int|string
 	 */
-	public function parseValue($value)
+	public function parseValue($value,ilDataCollectionRecordField $record_field)
 	{
 		$return = false;
 		
@@ -444,7 +444,6 @@ class ilDataCollectionDatatype
             $media = $value;
             if($media['tmp_name'])
             {
-
                 $mob = new ilObjMediaObject();
                 $mob->setTitle($media['name']);
                 $mob->create();
@@ -453,59 +452,36 @@ class ilDataCollectionDatatype
                 if (!is_dir($mob_dir))
                     $mob->createDirectory();
 
-
-
                 $media_item = new ilMediaItem();
                 $mob->addMediaItem($media_item);
                 $media_item->setPurpose("Standard");
+
 
                 $file_name = ilUtil::getASCIIFilename($media['name']);
                 $file_name = str_replace(" ", "_", $file_name);
 
                 $file = $mob_dir."/".$file_name;
                 $title = $file_name;
-                $location = $title;
-
 
                 ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
                 ilUtil::renameExecutables($mob_dir);
 
+                $arr_properties = $record_field->getField()->getProperties();
+                if($arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]->value || $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]->value)
+                {
+                    $location = ilObjMediaObject::_resizeImage($file, (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]->value,
+                        (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]->value, true);
+                } else {
+                    $location = $title;
+                }
+
                 $format = ilObjMediaObject::getMimeType($file);
-                //$location = $file['init_mob_id']['name'];
                 $media_item->setFormat($format);
                 $media_item->setLocation($location);
                 $media_item->setLocationType("LocalFile");
 
                 $mob->update();
                 $return = $mob->getId();
-
-
-
-                /*
-                 *  global $ilDB;
-                require_once('./Services/MediaObjects/classes/class.ilObjMediaObject.php');
-
-
-
-
-
-
-
-
-
-
-                ilUtil::renameExecutables($mob_dir);
-                $media_obj->update();
-
-
-                $mob_id = $media_obj->getId();
-
-                return $mob_id;
-                 */
-
-
-
-
             }
         }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
@@ -535,9 +511,11 @@ class ilDataCollectionDatatype
 
 		if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 		{
-            if(!ilObject2::_exists($value)) {
+            if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
                 return;
             }
+
+
 
 			$file = $value;
 			if($file!="-")
@@ -557,7 +535,7 @@ class ilDataCollectionDatatype
             $file = $value;
             if($file!="-")
             {
-                $mob = new ilObjDataCollectionMediaObject($file, false);
+                $mob = new ilObjMediaObject($file, false);
                 $mob_name = $mob->getTitle();
 
                 $return = $mob_name;
@@ -600,11 +578,10 @@ class ilDataCollectionDatatype
 			case self::INPUTFORMAT_FILE:
 				global $ilCtrl;
 
-                if(!ilObject2::_exists($value)) {
+                 if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
                     $html = "-";
                     break;
                 }
-
 
 				$file_obj = new ilObjFile($value,false);
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "record_id", $record_field->getRecord()->getId());
@@ -615,11 +592,10 @@ class ilDataCollectionDatatype
 
             case self::INPUTFORMAT_MOB:
                 global $ilCtrl;
-                $mob = new ilObjDataCollectionMediaObject($value,false);
+                $mob = new ilObjMediaObject($value,false);
                 $dir  = ilObjMediaObject::_getDirectory($mob->getId());
                 $media_item = $mob->getMediaItem('Standard');
                 $html = '<img src="'.$dir."/".$media_item->location.'" />';
-
                 break;
 				
 			case self::INPUTFORMAT_BOOLEAN:
@@ -709,7 +685,7 @@ class ilDataCollectionDatatype
 				break;
 			case self::INPUTFORMAT_FILE:
 
-                if(!ilObject2::_exists($value)) {
+                 if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
                     $input = "";
                     break;
                 }
@@ -719,12 +695,7 @@ class ilDataCollectionDatatype
 				$input = $file_obj->getFile();
 				break;
             case self::INPUTFORMAT_MOB:
-                $mob = new ilObjMediaObject($value, false);
-
-                //TODO
                 $input = "";
-                //$input = ilObjFile::_lookupAbsolutePath($value);
-                //$input = $mob->getMediaItem("Standard");
                 break;
 			default:
 				$input = $value;

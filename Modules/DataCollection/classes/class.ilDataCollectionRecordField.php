@@ -116,7 +116,7 @@ class ilDataCollectionRecordField
 	{
 		$type = $this->field->getDatatype()->getId();
 		$this->loadValue();
-		$tmp = $this->field->getDatatype()->parseValue($value);
+		$tmp = $this->field->getDatatype()->parseValue($value, $this);
 		$old = $this->value;
 		//if parse value fails keep the old value
 		if($tmp)

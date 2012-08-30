@@ -21,6 +21,7 @@ class ilDataCollectionInputException extends ilException
 	const REGEX_EXCEPTION = 2;
 	const UNIQUE_EXCEPTION = 3;
 	const NOT_URL = 4;
+    const NOT_IMAGE = 5;
 
 	private $exception_type;
 	
@@ -60,6 +61,8 @@ class ilDataCollectionInputException extends ilException
 				return $lng->txt("dcl_unique_exception");
 			case self::NOT_URL:
 				return $lng->txt("dcl_noturl_exception");
+            case self::NOT_IMAGE:
+                return $lng->txt("dcl_notimage_exception");
 			default:
 				return $lng->txt("dcl_unknown_exception");
 		}

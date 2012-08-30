@@ -186,10 +186,10 @@ class ilDataCollectionRecordEditGUI
 
 			$item->setRequired($field->getRequired());
 			//WORKAROUND. If field is from type file: if it's required but already has a value it is no longer required as the old value is taken as default without the form knowing about it.
-			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE 
-				&& $this->record_id 
+			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE ||  $field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB
+                && ($this->record_id
 				&& $record->getId() != 0 
-				&& ($record->getRecordFieldValue($field->getId()) != "-" || $record->getRecordFieldValue($field->getId()) != ""))
+				&& ($record->getRecordFieldValue($field->getId()) != "-" || $record->getRecordFieldValue($field->getId()) != "")))
 			{
 				$item->setRequired(false);
 			}
