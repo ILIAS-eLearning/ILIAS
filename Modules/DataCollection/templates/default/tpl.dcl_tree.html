@@ -1,17 +1,33 @@
 
-<!-- BEGIN hello -->
+<!-- BEGIN ilias_ref_input -->
 <script>
     $(document).ready(function() {
-        $("#search_field_1").keydown(function(event){
+        $('#search_{FIELD_ID}').keydown(function(event){
             if(event.keyCode == 13){
                 event.preventDefault();
-                $("#search_output_field_1").load('{AJAX_LINK}', {search_for: "oki"}, function() {alert("load finished");});
+                var link = '{AJAX_LINK}';
+                var replacer = new RegExp('amp;','g');
+                link = link.replace(replacer, '');
+                $("#search_output_{FIELD_ID}").load(link, {search_for: this.value, dest: '{FIELD_ID}'});
             }
+        });
+
+        $(".dcl_result_{FIELD_ID}").live('click', function(){
+            var set_id = this.id;
+            var title = this.text;
+            $("#{FIELD_ID}").val(set_id);
+            $("#display_{FIELD_ID}").val(title);
         });
     });
 </script>
 
-<p id="search_output_{OUTPUT_ID}">
+<input type="hidden" id="{FIELD_ID}">
+
+<p id="search_output_{FIELD_ID}">
     {SEARCH_HTML}
 </p>
-<!-- END hello -->
+<!-- END ilias_ref_input -->
+
+<!-- BEGIN result -->
+<a href="#" class="dcl_result_{FIELD_ID}" id="{RESULT_REF}">{RESULT_PATH}</a><br />
+<!-- END result -_>

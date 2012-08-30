@@ -396,9 +396,78 @@ class ilDataCollectionRecordEditGUI
 		$tpl->setContent($this->form->getHTML());
 	}
 
+	/**
+	 * This function is only used by the ajax request if searching for ILIAS references. It builds the html for the search results.
+	 */
 	public function searchObjects(){
-		echo "hello";
+		global $lng;
+
+		$search = $_POST['search_for'];
+		$dest = $_POST['dest'];
+		$html = "";
+		include_once './Services/Search/classes/class.ilQueryParser.php';
+		$query_parser = new ilQueryParser($search);
+		$query_parser->setMinWordLength(1,true);
+		$query_parser->setCombination(QP_COMBINATION_AND);
+		$query_parser->parse();
+		if(!$query_parser->validate())
+		{
+			$html .= $query_parser->getMessage()."<br />";
+		}
+
+		// only like search since fulltext does not support search with less than 3 characters
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($query_parser);
+		$res = $object_search->performSearch();
+		$res->setRequiredPermission('copy');
+		$res->filter(ROOT_FOLDER_ID,true);
+
+		if(!count($results = $res->getResultsByObjId()))
+		{
+			$html .= "No search results found."."<br />";
+		}
+		$results = $this->parseSearchResults($results);
+
+		foreach($results as $entry){
+			$tpl = new ilTemplate("tpl.dcl_tree.html",true, true, "Modules/DataCollection");
+			foreach((array) $entry['refs'] as $reference)
+			{
+				include_once './Services/Tree/classes/class.ilPathGUI.php';
+				$path = new ilPathGUI();
+
+				$tpl->setCurrentBlock('result');
+				$tpl->setVariable('RESULT_PATH',$path->getPath(ROOT_FOLDER_ID, $reference)." > ".$entry['title']);
+				$tpl->setVariable('RESULT_REF',$reference);
+				$tpl->setVariable('FIELD_ID', $dest);
+				$tpl->parseCurrentBlock();
+			}
+			$html .= $tpl->get();
+		}
+
+		$html .= "You're searching for: ".$search;
+		echo $html;
 		exit;
+	}
+
+
+	/**
+	 * Parse search results
+	 * @param ilObject[] $a_res
+	 * @return array
+	 */
+	private function parseSearchResults($a_res)
+	{
+		foreach($a_res as $obj_id => $references)
+		{
+			$r['title'] 	= ilObject::_lookupTitle($obj_id);
+			$r['desc']		= ilObject::_lookupDescription($obj_id);
+			$r['obj_id']	= $obj_id;
+			$r['refs']		= $references;
+
+			$rows[] = $r;
+		}
+
+		return $rows ? $rows : array();
 	}
 }
 
