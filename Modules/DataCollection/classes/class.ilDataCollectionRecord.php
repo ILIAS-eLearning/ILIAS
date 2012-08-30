@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php');
 
 /**
 * Class ilDataCollectionRecord
@@ -492,11 +493,17 @@ class ilDataCollectionRecord
 		
 		foreach($this->recordfields as $recordfield)
 		{
-			if($recordfield->getField()->getDatatype() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
+			if($recordfield->getField()->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 				$this->deleteFile($recordfield->getValue());
-			 $recordfield->delete();
+
+            if($recordfield->getField()->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB)
+                $this->deleteMob($recordfield->getValue());
+
+
+            $recordfield->delete();
 		}
-		
+
+
 		$query = "DELETE FROM il_dcl_record WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
@@ -512,6 +519,16 @@ class ilDataCollectionRecord
 		$file = new ilObjFile($obj_id, false);
 		$file->delete();
 	}
+
+
+    /*
+      * deleteMob
+      */
+    public function deleteMob($obj_id)
+    {
+        $mob = new ilObjMediaObject($obj_id);
+        $mob->delete();
+    }
 	
 	/*
 	 * passThroughFilter
