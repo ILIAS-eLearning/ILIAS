@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+require_once('./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php');
+
 /**
 * This class represents a custom property in a property form.
 *

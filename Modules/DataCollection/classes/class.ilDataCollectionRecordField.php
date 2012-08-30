@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/DataCollection/exceptions/class.ilDataCollectionInputException.php';
+require_once './Modules/DataCollection/classes/class.ilDataCollectionILIASRefField.php';
 require_once 'class.ilDataCollectionRatingField.php';
 
 /**
@@ -207,6 +208,8 @@ class ilDataCollectionRecordField
 		switch($this->getField()->getDatatypeId()){
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				return new ilDataCollectionRatingField($this->getRecord(), $this->getField());
+			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
+				return new ilDataCollectionILIASRefField($this->getRecord(), $this->getField());
 			default:
 				return $this;
 		}
