@@ -2,8 +2,10 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-include_once ('class.ilDataCollectionRecordViewGUI.php');
+require_once './Services/Table/classes/class.ilTable2GUI.php';
+require_once 'class.ilDataCollectionRecordViewGUI.php';
+require_once './Services/Tracking/classes/class.ilLPStatus.php';
+require_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 
 /**
  * Class ilDataCollectionField
@@ -45,6 +47,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		foreach($this->table->getVisibleFields() as $field)
 		{
 			$this->addColumn($field->getTitle());
+			if($field->getLearningProgress()){
+				$this->addColumn($field->getTitle()." ".$lng->txt("dcl_status"));
+			}
 		}
 		$this->setId("dcl_record_list");
 		
@@ -129,8 +134,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
 			$this->tpl->setCurrentBlock("field");
 			$this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId()));
-
 			$this->tpl->parseCurrentBlock();
+			if($field->getLearningProgress())
+				$this->getStatus($record, $field);
 		}
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
@@ -167,6 +173,25 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->tpl->setVariable("ACTIONS", $alist->getHTML());
 
 		return true;
+	}
+
+	/**
+	 * This adds the collumn for status.
+	 * @param ilDataCollectionRecord $record
+	 * @param ilDataCollectionField $field
+	 */
+	private function getStatus(ilDataCollectionRecord $record, ilDataCollectionField $field){
+		$record_field = new ilDataCollectionILIASRefField($record, $field);
+		if($record_field->getStatus()){
+			$this->tpl->setCurrentBlock("field");
+			$status = $record_field->getStatus();
+			$this->tpl->setVariable("CONTENT", "<img src='".ilLearningProgressBaseGUI::_getImagePathForStatus($status->status)."'>");
+			$this->tpl->parseCurrentBlock();
+		}else{
+			$this->tpl->setCurrentBlock("field");
+			$this->tpl->setVariable("CONTENT", "-");
+			$this->tpl->parseCurrentBlock();
+		}
 	}
 	
 	/*

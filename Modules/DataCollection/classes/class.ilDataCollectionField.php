@@ -293,6 +293,16 @@ class ilDataCollectionField
 		return $props[$t]->value;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function getLearningProgress(){
+		$props = $this->getPropertyvalues();
+		$p = self::PROPERTYID_LEARNING_PROGRESS;
+
+		return $props[$p];
+	}
+
 	/*
 	 * getDatatypeTitle
 	 */
