@@ -26,6 +26,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 
 		$this->addColumn($lng->txt("poll_sortorder"), "pos");
 		$this->addColumn($lng->txt("poll_answer"), "answer");
+		$this->addColumn($lng->txt("poll_absolute"), "votes");
 		$this->addColumn($lng->txt("poll_percentage"), "percentage");
 		
 		$total = $this->getItems();		
@@ -69,10 +70,12 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 			if(!isset($perc[$item["id"]]))
 			{
 				$data[$idx]["percentage"] = 0;
+				$data[$idx]["votes"] = 0;
 			}
 			else
 			{
 				$data[$idx]["percentage"] = round($perc[$item["id"]]["perc"]);
+				$data[$idx]["votes"] = $perc[$item["id"]]["abs"];
 			}
 		}
 
@@ -85,6 +88,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 	{		
 		$this->tpl->setVariable("VALUE_POS", $a_set["pos"]/10);
 		$this->tpl->setVariable("TXT_ANSWER", nl2br($a_set["answer"]));		
+		$this->tpl->setVariable("VALUE_VOTES", $a_set["votes"]);
 		$this->tpl->setVariable("VALUE_PERCENTAGE", $a_set["percentage"]);
 	}
 }
