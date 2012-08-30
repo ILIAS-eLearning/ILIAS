@@ -160,7 +160,7 @@ class ilECSCmsData
 
 		// Set mapped for mapped and their descendent
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingAssignments.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		foreach(ilECSNodeMappingAssignments::lookupAssignmentIds($a_server_id, $a_mid, $a_tree_id) as $assignment)
 		{
 			$cmsTree = new ilECSCmsTree($a_tree_id);

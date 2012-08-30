@@ -35,7 +35,7 @@ class ilECSTreeReader
 		$GLOBALS['ilLog']->write(__METHOD__.': Begin read');
 		try
 		{
-			include_once './Services/WebServices/ECS/classes/class.ilECSDirectoryTreeConnector.php';
+			include_once './Services/WebServices/ECS/classes/Tree/class.ilECSDirectoryTreeConnector.php';
 			$dir_reader = new ilECSDirectoryTreeConnector(
 					ilECSSetting::getInstanceByServerId($this->server_id)
 			);
@@ -45,8 +45,8 @@ class ilECSTreeReader
 			{
 				foreach((array) $trees->getLinkIds() as $tree_id)
 				{
-					include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsData.php';
-					include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+					include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+					include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 
 					if(!ilECSCmsData::treeExists($this->server_id, $this->mid, $tree_id))
 					{
@@ -63,8 +63,8 @@ class ilECSTreeReader
 
 	protected function storeTree($tree_id, $a_nodes)
 	{
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsData.php';
-		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSCmsTree.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 
 		$tree = new ilECSCmsTree($tree_id);
 		foreach((array) $a_nodes as $node)

@@ -73,7 +73,6 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($res,true));
 
 
-			// workaround for unimplemented ecs functionalities
 			$json = file_get_contents($res);
 
 			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($json,true));

@@ -137,6 +137,28 @@ class ilECSParticipantSettings
 			'WHERE sid = '.$ilDB->quote($a_server_id,'integer');
 		$ilDB->manipulate($query);
 	}
+	
+	/**
+	 * Lookup mid of current cms participant
+	 * @global  $ilDB
+	 * @param int $a_server_id
+	 */
+	public static function loookupCmsMid($a_server_id)
+	{
+		global $ilDB;
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+		
+		$query = 'SELECT mid FROM ecs_part_settings '.
+				'WHERE sid = '.$ilDB->quote($a_server_id,'integer').' '.
+				'AND import_type = '.$ilDB->quote(ilECSParticipantSetting::IMPORT_CMS);
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->mid;
+		}
+		return 0;
+	}
 
 	/**
 	 * Get server id
