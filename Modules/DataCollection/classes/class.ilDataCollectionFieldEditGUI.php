@@ -368,6 +368,8 @@ class ilDataCollectionFieldEditGUI
 				else
 				{
 					$fieldprop_obj->doCreate();
+					$this->table->buildOrderFields();
+					$this->table->updateFields();
 				}
 
 			}
