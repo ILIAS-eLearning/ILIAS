@@ -263,8 +263,10 @@ class ilDataCollectionDatatype
 		return $input;
 	}
 	
-	/*
-	 * addFilterInputFieldToTable
+	/**
+	 * addFilterInputFieldToTable This function adds the according filter item to the table gui passed as argument.
+	 * @param $field ilDataCollectionField The field which should be filterable.
+	 * @param &$table ilTable2GUI The table you want the filter to be added to.
 	 */
 	static function addFilterInputFieldToTable(ilDataCollectionField $field, ilTable2GUI &$table)
 	{
@@ -317,6 +319,10 @@ class ilDataCollectionDatatype
                 $input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
                 $input->setSubmitFormOnEnter(true);
                 break;
+			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
+				$input = $table->addFilterItemByMetaType("filter_".$field->getId(), ilTable2GUI::FILTER_TEXT, false, $field->getId());
+				$input->setSubmitFormOnEnter(true);
+				break;
 		}
 		
 		if($input != NULL)
@@ -366,6 +372,11 @@ class ilDataCollectionDatatype
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				if(!$filter || $filter <= $value['avg'])
+					$pass = true;
+				break;
+			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
+				$obj_id = ilObject::_lookupObjId($value);
+				if(!$filter || strpos(strtolower(ilObject::_lookupTitle($obj_id)), strtolower($filter)) !== false)
 					$pass = true;
 				break;
             case ilDataCollectionDatatype::INPUTFORMAT_MOB:
