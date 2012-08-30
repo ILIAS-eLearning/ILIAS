@@ -327,12 +327,12 @@ class ilDataCollectionTable
 			$records = array();			
 			$query = "SELECT id FROM il_dcl_record WHERE table_id = ".$ilDB->quote($this->id, "integer");
 			$set = $ilDB->query($query);
-			
+
 			while($rec = $ilDB->fetchAssoc($set))
 			{
 				$records[$rec['id']] = new ilDataCollectionRecord($rec['id']);
 			}
-			
+
 			$this->records = $records;
 		}
 	}

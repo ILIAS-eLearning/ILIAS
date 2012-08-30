@@ -1,11 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once ("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
-include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionFile.php");
-include_once ("class.ilObjDataCollectionFile.php");
 include_once ("class.ilDataCollectionTreePickInputGUI.php");
 include_once ("./Modules/DataCollection/classes/class.ilObjDataCollectionMediaObject.php");
-
+require_once "./Modules/File/classes/class.ilObjFile.php";
 include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
 include_once("./Services/Form/classes/class.ilTextInputGUI.php");
@@ -361,10 +359,17 @@ class ilDataCollectionDatatype
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
-				$file_obj = new ilObjFile($value, false);
-				$file_name = $file_obj->getTitle();
-				if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
-					$pass = true;
+
+                if(!ilObject2::_exists($value)) {
+                    $pass = true;
+                    break;
+                }
+
+                    $file_obj = new ilObjFile($value, false);
+                    $file_name = $file_obj->getTitle();
+                    if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
+                        $pass = true;
+
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				if(!$filter || $filter == $value)
@@ -414,9 +419,10 @@ class ilDataCollectionDatatype
 		if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 		{
 			$file = $value;
+
 			if($file['tmp_name'])
 			{
-				$file_obj = new ilObjDataCollectionFile();
+				$file_obj = new ilObjFile();
 
 				$file_obj->setType("file");
 				$file_obj->setTitle($file["name"]);
@@ -431,7 +437,7 @@ class ilDataCollectionDatatype
 				$return = $file_id;
 			}
 		}
-        if($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
+        elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
         {
             $media = $value;
             if($media['tmp_name'])
@@ -527,10 +533,14 @@ class ilDataCollectionDatatype
 
 		if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 		{
+            if(!ilObject2::_exists($value)) {
+                return;
+            }
+
 			$file = $value;
 			if($file!="-")
 			{
-				$file_obj = new ilObjDataCollectionFile($file, false);
+				$file_obj = new ilObjFile($file, false);
 				$file_name = $file_obj->getFileName();
 				
 				$return = $file_name;
@@ -540,7 +550,7 @@ class ilDataCollectionDatatype
 				$return = $file;
 			}
 		}
-        if($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
+        elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_MOB)
         {
             $file = $value;
             if($file!="-")
@@ -587,7 +597,14 @@ class ilDataCollectionDatatype
 				
 			case self::INPUTFORMAT_FILE:
 				global $ilCtrl;
-				$file_obj = new ilObjDataCollectionFile($value,false);
+
+                if(!ilObject2::_exists($value)) {
+                    $html = "-";
+                    break;
+                }
+
+
+				$file_obj = new ilObjFile($value,false);
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "record_id", $record_field->getRecord()->getId());
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "field_id", $record_field->getField()->getId());
 
@@ -689,7 +706,13 @@ class ilDataCollectionDatatype
 								"time" => "00:00:00");
 				break;
 			case self::INPUTFORMAT_FILE:
-				$file_obj = new ilObjFile($value, false);
+
+                if(!ilObject2::_exists($value)) {
+                    $input = "";
+                    break;
+                }
+
+                $file_obj = new ilObjFile($value, false);
 				//$input = ilObjFile::_lookupAbsolutePath($value);
 				$input = $file_obj->getFile();
 				break;
