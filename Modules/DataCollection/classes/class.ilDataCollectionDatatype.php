@@ -362,15 +362,16 @@ class ilDataCollectionDatatype
 					$pass = true;
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_FILE:
-                if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
+                if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+
                     $pass = true;
                     break;
                 }
+
                     $file_obj = new ilObjFile($value, false);
                     $file_name = $file_obj->getTitle();
                     if(!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false)
                         $pass = true;
-
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
 				if(!$filter || $filter == $value)
@@ -511,7 +512,7 @@ class ilDataCollectionDatatype
 
 		if($this->id == ilDataCollectionDatatype::INPUTFORMAT_FILE)
 		{
-            if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
+            if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
                 return;
             }
 
@@ -578,7 +579,7 @@ class ilDataCollectionDatatype
 			case self::INPUTFORMAT_FILE:
 				global $ilCtrl;
 
-                 if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
+                 if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
                     $html = "-";
                     break;
                 }
@@ -685,7 +686,7 @@ class ilDataCollectionDatatype
 				break;
 			case self::INPUTFORMAT_FILE:
 
-                 if(!ilObject2::_exists($value) || !ilObject2::_lookupType($value, false) == "file") {
+                 if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
                     $input = "";
                     break;
                 }
