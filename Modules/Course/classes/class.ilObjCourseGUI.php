@@ -1027,6 +1027,31 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 	}
+	
+	protected function confirmLPSync()
+	{
+		global $tpl;
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this, "setLPSync"));
+		$cgui->setHeaderText($this->lng->txt("crs_status_determination_sync"));
+		$cgui->setCancel($this->lng->txt("cancel"), "edit");
+		$cgui->setConfirm($this->lng->txt("confirm"), "setLPSync");
+		
+		$tpl->setContent($cgui->getHTML());
+	}
+	
+	protected function setLPSyncObject()
+	{
+		$this->object->setStatusDetermination(ilObjCourse::STATUS_DETERMINATION_LP);
+		$this->object->update();
+
+		$this->object->syncMembersStatusWithLP();
+		
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "edit");
+	}
 		
 	/**
 	 * edit object
