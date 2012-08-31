@@ -4,6 +4,7 @@
 
 require_once 'class.ilDataCollectionRecordField.php';
 require_once("./Services/Rating/classes/class.ilRatingGUI.php");
+require_once("./Services/Link/classes/class.ilLink.php");
 
 /**
  * Class ilDataCollectionField

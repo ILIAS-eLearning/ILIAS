@@ -209,7 +209,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$recordview_gui = new ilDataCollectionRecordViewGUI($this);
 				$this->ctrl->forwardCommand($recordview_gui);
 				$ilTabs->clearTargets();
-				$ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
+                $ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
 				break;
 
 			case "ilratinggui":
