@@ -13027,3 +13027,9 @@ if(!$ilDB->tableColumnExists('il_rating', 'tstamp'))
 	);
 }
 ?>
+<#3751>
+<?php
+$setting = new ilSetting();
+$setting->set('obj_dis_creation_icrs', 1);
+$setting->set('obj_dis_creation_icla', 1);
+?>
