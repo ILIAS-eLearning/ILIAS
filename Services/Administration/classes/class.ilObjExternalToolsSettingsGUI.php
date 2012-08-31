@@ -132,6 +132,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
+		ilUtil::sendFailure($this->lng->txt('ilinc_abandoned_info'));
+		
 		$this->__initSubTabs("editiLinc");
 		
 		if ($_SESSION["error_post_vars"])
