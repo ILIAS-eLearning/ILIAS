@@ -12890,3 +12890,6 @@ exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload
 exc#:#exc_team_notification_changed_by#:#Status changed by
 exc#:#exc_team_notification_link#:#Link to exercise
 poll#:#poll_absolute#:#Current Votes
+dcl#:#dcl_reference_link#:#Show as link in table view
+dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
+dcl#:#dcl_text_area#:#Textarea

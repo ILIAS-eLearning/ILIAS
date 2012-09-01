@@ -2,11 +2,13 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/DataCollection/classes/class.ilDataCollectionTable.php');
-include_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
-include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
-include_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
-include_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionTable.php');
+require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
+require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
+
+
 
 /**
 * Class ilDataCollectionRecordViewGUI
@@ -71,14 +73,42 @@ class ilDataCollectionRecordViewGUI
 		$pageObj = new ilPageObjectGUI("dclf", $view_id);
 
 		$html = $pageObj->getHTML();
+
 		$table = new ilDataCollectionTable($this->record_obj->getTableId());
 		foreach($table->getFields() as $field)
 		{
+            //ILIAS_Ref_Links
+            $pattern = '/\[dcliln field="'.$field->getTitle().'"\](.*?)\[\/dcliln\]/';
+            if (preg_match($pattern,$html)) {
+                $html = preg_replace($pattern, $this->record_obj->getRecordFieldHTML($field->getId(),$this->setOptions("$1")), $html);
+            }
+
+            //DataCollection Ref Links
+            $pattern = '/\[dclrefln field="'.$field->getTitle().'"\](.*?)\[\/dclrefln\]/';
+            if (preg_match($pattern,$html)) {
+                $html = preg_replace($pattern, $this->record_obj->getRecordFieldHTML($field->getId(),$this->setOptions("$1")), $html);
+            }
+
+
 			$html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
+
 		}
 
 		$tpl->setContent($html);
 	}
+
+
+    /**
+     * setOptions
+     * string $link_name
+     */
+    private function setOptions($link_name)
+    {
+      $options = array();
+      $options['link']['display'] = true;
+      $options['link']['name'] = $link_name;
+      return $options;
+    }
 }
 
 ?>

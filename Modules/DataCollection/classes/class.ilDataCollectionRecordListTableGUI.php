@@ -4,6 +4,7 @@
 
 require_once './Services/Table/classes/class.ilTable2GUI.php';
 require_once 'class.ilDataCollectionRecordViewGUI.php';
+require_once 'class.ilDataCollectionField.php';
 require_once './Services/Tracking/classes/class.ilLPStatus.php';
 require_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 
@@ -133,7 +134,18 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		{
 
 			$this->tpl->setCurrentBlock("field");
-			$this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId()));
+
+            //Check Options of Displaying
+            $options = array();
+            $arr_properties = $field->getProperties();
+            if($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]->value) {
+                $options['link']['display'] = true;
+            }
+            if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]->value) {
+                $options['link']['display'] = true;
+            }
+
+			$this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options));
 			$this->tpl->parseCurrentBlock();
 			if($field->getLearningProgress())
 				$this->getStatus($record, $field);

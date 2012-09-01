@@ -13033,3 +13033,10 @@ $setting = new ilSetting();
 $setting->set('obj_dis_creation_icrs', 1);
 $setting->set('obj_dis_creation_icla', 1);
 ?>
+<#3752>
+<?php
+$ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,inputformat) VALUES ".
+		   " (%s,%s,%s,%s)",
+        	   array("integer", "integer", "text", "integer"),
+                   array(10, 8, "ILIAS_reference_link", 4));
+?>

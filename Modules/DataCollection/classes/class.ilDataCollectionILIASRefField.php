@@ -35,13 +35,46 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
 	}
 
-	public function getHTML(){
+
+    /*
+      * getHTML
+      *
+      * @param array $options
+      * @return string
+      */
+	public function getHTML(array $options = array()){
 		$value = $this->getValue();
 		$link = ilLink::_getStaticLink($value);
 		$id = ilObject::_lookupObjId($value);
-		$html = "<a href='".$link."'>".ilObject::_lookupTitle($id)."</a>";
+
+
+        if($options['link']['display']) {
+            $html = $this->getLinkHTML($options['link']['name']);
+        } else {
+            $html = ilObject::_lookupTitle($id);
+        }
+
 		return $html;
 	}
+
+    /*
+      * get Link
+      *
+      * @param  string    $link_name
+      */
+    public function getLinkHTML($link_name = NULL) {
+        $value = $this->getValue();
+        $link = ilLink::_getStaticLink($value);
+        $id = ilObject::_lookupObjId($value);
+
+        if($link_name) {
+            $html = "<a href='".$link."'>".$link_name."</a>";
+        } else {
+            $html = "<a href='".$link."'>".ilObject::_lookupTitle($id)."</a>";
+        }
+
+        return $html;
+    }
 
 	public function getExportValue(){
 		$value = $this->getValue();
