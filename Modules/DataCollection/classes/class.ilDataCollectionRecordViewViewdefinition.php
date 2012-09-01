@@ -194,9 +194,6 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	public static function getAvailablePlaceholders($a_table_id, $a_verbose = false)
 	{
 		$all = array();
-			
-		//require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
-		//$fields = ilDataCollectionField::getAll($a_table_id);
 
 		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 		$objTable = new ilDataCollectionTable($a_table_id);
@@ -208,10 +205,26 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 			if(!$a_verbose)
 			{
 				$all[] = "[".$field->getTitle()."]";
+
+                if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
+                    $all[] = '[dclrefln field="'.$field->getTitle().'"][/dclrefln]';
+                }
+
+                if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
+                    $all[] = '[dcliln field="'.$field->getTitle().'"][/dcliln]';
+                }
 			}
 			else
 			{
 				$all["[".$field->getTitle()."]"] = $field;
+
+                if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
+                    $all['[dclrefln field="'.$field->getTitle().'"][/dclrefln]'] = $field;
+                }
+
+                if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF) {
+                    $all['[dcliln field="'.$field->getTitle().'"][/dcliln]'] = $field;
+                }
 			}
 		}
 

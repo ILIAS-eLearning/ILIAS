@@ -333,9 +333,10 @@ class ilDataCollectionRecord
 	 * getRecordFieldHTML
 	 *
 	 * @param int $field_id
+	 * @param array $options
 	 * @return array
 	 */
-	public function getRecordFieldHTML($field_id)
+	public function getRecordFieldHTML($field_id,array $options = array())
 	{
 		$this->loadRecordFields();
 		
@@ -343,14 +344,14 @@ class ilDataCollectionRecord
 		{
 			return $this->getStandardFieldHTML($field_id);
 		}
-			
 		else
 		{
-			return $this->recordfields[$field_id]->getHTML();
+			return $this->recordfields[$field_id]->getHTML($options);
 		}
 	}
-	
-	
+
+
+
 	/*
 	 * getRecordFieldFormInput
 	 *

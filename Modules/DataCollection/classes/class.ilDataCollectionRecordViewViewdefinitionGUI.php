@@ -153,20 +153,6 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 */
 	public function postOutputProcessing($a_output)
 	{
-		//TODO das Array enthält die Felder der Tabelle. Diese sind als Platzhalterwerte darzustellen.
-		//Bezeichnung des Platzhalters: Title; Wert welcher beim Speichern übermittelt werden soll id
-
-		// Wir schlagen vor: für die Felder werden einfach Klammern genutzt: [Name], [Anrede], ...
-		//Für die Formular-Funkionen werden #...# verwendet:
-		//	#More#
-		//	#Save#
-		//	#Approve#
-		//	#Delete#
-		//	#Edit#
-		//	#Search#
-
-		
-		
 		// You can use this to parse placeholders and the like before outputting		
 		
 		

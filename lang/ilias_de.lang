@@ -12345,7 +12345,7 @@ dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
 dcl#:#dcl_record_view_viewdefinition#:#Anzeige eines Eintrags
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
-dcl#:#dcl_add_new_table#:#Neue Tabelle
+dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Pflichtfeld
 dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
@@ -12890,3 +12890,6 @@ exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungse
 exc#:#exc_team_notification_changed_by#:#Status geändert durch
 exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
+dcl#:#dcl_reference_link#:#In der Tabellensicht als Link darstellen
+dcl#:#dcl_ILIAS_reference_link#:#In der Tabellensicht als Link darstellen
+dcl#:#dcl_text_area#:#Textbox

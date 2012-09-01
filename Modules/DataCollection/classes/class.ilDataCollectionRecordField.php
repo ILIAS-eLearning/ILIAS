@@ -3,6 +3,7 @@
 
 require_once './Modules/DataCollection/exceptions/class.ilDataCollectionInputException.php';
 require_once './Modules/DataCollection/classes/class.ilDataCollectionILIASRefField.php';
+require_once './Modules/DataCollection/classes/class.ilDataCollectionReferenceField.php';
 require_once 'class.ilDataCollectionRatingField.php';
 
 /**
@@ -32,7 +33,7 @@ class ilDataCollectionRecordField
 		$this->field = $field;
 		$this->doRead();
 	}
-	
+
 	/*
 	 * doRead
 	 */
@@ -160,6 +161,7 @@ class ilDataCollectionRecordField
 		return $datatype->parseHTML($this->getValue(), $this);
 	}
 
+
 	/*
 	 * loadValue
 	 */
@@ -210,6 +212,8 @@ class ilDataCollectionRecordField
 				return new ilDataCollectionRatingField($this->getRecord(), $this->getField());
 			case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
 				return new ilDataCollectionILIASRefField($this->getRecord(), $this->getField());
+            case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
+                return new ilDataCollectionReferenceField($this->getRecord(), $this->getField());
 			default:
 				return $this;
 		}

@@ -615,42 +615,7 @@ class ilDataCollectionDatatype
 				}
 				$html = "<img src='".$im."'>";
 				break;
-				
-			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-                global $ilCtrl;
 
-				if(!$value || $value == "-"){
-					$html = "";
-					break;
-				}
-
-				$record = new ilDataCollectionRecord($value);
-				if(!$record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
-					//the referenced record_field does not seem to exist.
-					$html = "-";
-					$record_field->setValue(NULL);
-					$record_field->doUpdate();
-				}
-				else
-				{
-                    $arr_properties = $record_field->getField()->getProperties();
-                    if($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]->value)
-                    {
-                        $objRefField = new ilDataCollectionField($record_field->getField()->getFieldRef());
-                        $objRefTable = new ilDataCollectionTable($objRefField->getTableId());
-
-                        $ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record_field->getField()->getFieldRef());
-                        $ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "table_id", $objRefField->getTableId());
-
-                        $objDataCollectionRecordViewGUI = new ilDataCollectionRecordViewGUI($objRefTable->getCollectionObject());
-
-                        $html = "<a href='". $ilCtrl->getLinkTarget($objDataCollectionRecordViewGUI,"renderRecord")."'>".$record->getRecordFieldHTML($record_field->getField()->getFieldRef())."</a>";
-
-                    } else {
-                        $html = $record->getRecordFieldHTML($record_field->getField()->getFieldRef());
-                    }
-				}
-				break;
 				
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				//Property URL
