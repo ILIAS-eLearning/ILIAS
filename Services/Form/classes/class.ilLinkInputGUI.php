@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * This class represents a external and/or internal link in a property form.
@@ -14,6 +14,14 @@
 */
 class ilLinkInputGUI extends ilFormPropertyGUI
 {
+	const BOTH = "both";
+	const INT = "int";
+	const EXT = "ext";
+	protected $allowed_link_types = self::BOTH;
+	protected $int_link_default_type = "RepositoryItem";
+	protected $int_link_default_obj = 0;
+	protected $int_link_filter_types = array("RepositoryItem");
+	
 	/**
 	* Constructor
 	*
@@ -24,6 +32,48 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->setType("link");
+	}
+	
+	/**
+	 * Set allowed link types (BOTH, INT, EXT)
+	 *
+	 * @param string $a_val self::BOTH|self::INT|self::EXT	
+	 */
+	function setAllowedLinkTypes($a_val)
+	{
+		$this->allowed_link_types = $a_val;
+	}
+	
+	/**
+	 * Get allowed link types (BOTH, INT, EXT)
+	 *
+	 * @return string self::BOTH|self::INT|self::EXT
+	 */
+	function getAllowedLinkTypes()
+	{
+		return $this->allowed_link_types;
+	}
+	
+	/**
+	 * Set internal link default
+	 *
+	 * @param string $a_type link type
+	 * @param int $a_obj object id
+	 */
+	function setInternalLinkDefault($a_type, $a_obj = 0)
+	{
+		$this->int_link_default_type = $a_type;
+		$this->int_link_default_obj = $a_obj;
+	}
+	
+	/**
+	 * Set internal link filter types
+	 *
+	 * @param array $a_val filter types	
+	 */
+	function setInternalLinkFilterTypes(array $a_val)
+	{
+		$this->int_link_filter_types = $a_val;
 	}
 	
 	/**
@@ -41,8 +91,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			case "ilinternallinkgui":
 				$lng->loadLanguageModule("content");
 				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
-				$link_gui = new ilInternalLinkGUI("RepositoryItem", 0);
-				$link_gui->filterLinkType("RepositoryItem");
+				$link_gui = new ilInternalLinkGUI($this->int_link_default_type,
+					$this->int_link_default_obj);
+				foreach ($this->int_link_filter_types as $t)
+				{
+					$link_gui->filterLinkType($t);
+				}
 				$link_gui->setFilterWhiteList(true);
 				$link_gui->setMode("asynch");
 			
@@ -90,8 +144,13 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				if($a_values[$this->getPostVar()."_ajax_type"] &&
 					$a_values[$this->getPostVar()."_ajax_id"])
 				{
-					$this->setValue($a_values[$this->getPostVar()."_ajax_type"]."|".
-						$a_values[$this->getPostVar()."_ajax_id"]);
+					$val = $a_values[$this->getPostVar()."_ajax_type"]."|".
+						$a_values[$this->getPostVar()."_ajax_id"];
+					if ($a_values[$this->getPostVar()."_ajax_target"] != "")
+					{
+						$val.= "|".$a_values[$this->getPostVar()."_ajax_target"];
+					}
+					$this->setValue($val);
 				}
 				break;
 
@@ -146,8 +205,14 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		if($_POST[$this->getPostVar()."_mode"] == "int")
 		{
 			// overwriting post-data so getInput() will work
-			$_POST[$this->getPostVar()] = $_POST[$this->getPostVar()."_ajax_type"]."|".
+			$val = $_POST[$this->getPostVar()."_ajax_type"]."|".
 				$_POST[$this->getPostVar()."_ajax_id"];
+			if ($_POST[$this->getPostVar()."_ajax_target"] != "")
+			{
+				$val.= "|".$_POST[$this->getPostVar()."_ajax_target"];
+			}
+
+			$_POST[$this->getPostVar()] = $val;
 		};
 	
 		return true;
@@ -161,18 +226,18 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		global $lng, $ilCtrl;
 		
 		// external
-		$ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
-		
 		$ti = new ilTextInputGUI("", $this->getPostVar());
 		$ti->setMaxLength(200);
 		$ti->setSize(50);
-		$ext->addSubItem($ti);
+		
+		if ($this->getAllowedLinkTypes() == self::BOTH)
+		{
+			$ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
+			$ext->addSubItem($ti);
+		}
 		
 		
-		// internal
-						
-		$int = new ilRadioOption($lng->txt("form_link_internal"), "int");
-									
+		// internal				
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->getPostVar());
 		$link = array(get_class($this->getParent()), "ilformpropertydispatchgui", get_class($this), "ilinternallinkgui");
 		$link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
@@ -181,16 +246,37 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		$ne = new ilNonEditableValueGUI("", "", true);				
 		$ne->setValue('<a id="'.$this->getPostVar().'_ajax" class="iosEditInternalLinkTrigger" href="'.
 			$link.'">&raquo; '.$lng->txt("form_get_link").'</a>');
-		$int->addSubItem($ne);
+		
+		if ($this->getAllowedLinkTypes() == self::BOTH)
+		{
+			$int = new ilRadioOption($lng->txt("form_link_internal"), "int");
+			$int->addSubItem($ne);
+		}
 		
 		// hidden field for selected value
 		$hidden_type = new ilHiddenInputGUI($this->getPostVar()."_ajax_type");
 		$hidden_id = new ilHiddenInputGUI($this->getPostVar()."_ajax_id");
+		$hidden_target = new ilHiddenInputGUI($this->getPostVar()."_ajax_target");
 		
 		// switch
-		$mode = new ilRadioGroupInputGUI("", $this->getPostVar()."_mode");
-		$mode->addOption($ext);
-		$mode->addOption($int);
+		if ($this->getAllowedLinkTypes() == self::BOTH)
+		{
+			$mode = new ilRadioGroupInputGUI("", $this->getPostVar()."_mode");
+			$mode->addOption($ext);
+			$mode->addOption($int);
+		}
+		else
+		{
+			$mode = new ilHiddenInputGUI($this->getPostVar()."_mode");
+			if ($this->getAllowedLinkTypes() == self::INT)
+			{
+				$mode->setValue("int");
+			}
+			else
+			{
+				$mode->setValue("ext");
+			}
+		}
 		
 		// value?
 		$value = $this->getValue();
@@ -203,6 +289,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				$value = explode("|", $value);
 				$hidden_type->setValue($value[0]);
 				$hidden_id->setValue($value[1]);
+				$hidden_target->setValue($value[2]);
 				
 				$ne->setInfo($lng->txt("obj_".$value[0]).": ".
 					ilObject::_lookupTitle(ilObject::_lookupObjId($value[1])));
@@ -217,10 +304,30 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		
 		include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 		
-		return $mode->render().
-			$hidden_type->getToolbarHTML().
-			$hidden_id->getToolbarHTML().
-			ilInternalLinkGUI::getInitHTML("");
+		if ($this->getAllowedLinkTypes() == self::BOTH)
+		{
+			$html = $mode->render();
+		}
+		else
+		{
+			$html = $mode->getToolbarHTML();
+		}
+		if ($this->getAllowedLinkTypes() == self::EXT)
+		{
+			$html.= $ti->getToolbarHTML();
+		}
+		else
+		{
+			if ($this->getAllowedLinkTypes() == self::INT)
+			{
+				$html.= $ne->render();
+			}
+			$html.= $hidden_type->getToolbarHTML().
+				$hidden_id->getToolbarHTML().
+				$hidden_target->getToolbarHTML().
+				ilInternalLinkGUI::getInitHTML("");
+		}
+		return $html;
 	}
 
 	/**

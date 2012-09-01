@@ -1,7 +1,10 @@
 il.LearningModule = {
 	showContentFrame: function (e) {
-		var faqt = $("#bot_left_area"),
-			href = e.target.href;
+		return il.LearningModule.loadContentFrame(e.target.href);
+	},
+	
+	loadContentFrame: function (href) {
+		var faqt = $("#bot_left_area");
 		if (faqt.length == 0) {
 			$('body').append('<div id="bot_left_area" class="ilBotLeftArea"><iframe /></div>');
 		}
