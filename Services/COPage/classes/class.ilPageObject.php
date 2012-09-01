@@ -4937,5 +4937,79 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 	function performAutomaticModifications()
 	{
 	}
+	
+	/**
+	 * Save initial opened content
+	 *
+	 * @param
+	 */
+	function saveInitialOpenedContent($a_type, $a_id, $a_target)
+	{
+		$this->buildDom();
+
+		switch($a_type)
+		{
+			case "media":
+				$link_type = "MediaObject";
+				$a_id = "il__mob_".$a_id;
+				break;
+				
+			case "page":
+				$link_type = "PageObject";
+				$a_id = "il__pg_".$a_id;
+				break;
+				
+			case "term":
+				$link_type = "GlossaryItem";
+				$a_id = "il__git_".$a_id;
+				break;
+		}
+
+		// if type or id missing -> delete InitOpenedContent, if existing
+		if ($link_type == "" || $a_id == "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageObject/InitOpenedContent";
+			$res = xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				$res->nodeset[0]->unlink_node($res->nodeset[0]);
+			}
+		}
+		else
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageObject/InitOpenedContent";
+			$res = xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				$init_node = $res->nodeset[0];
+				$childs = $init_node->child_nodes();
+				for($i = 0; $i < count($childs); $i++)
+				{
+					if ($childs[$i]->node_name() == "IntLink")
+					{
+						$il_node = $childs[$i];
+					}
+				}
+			}
+			else
+			{
+				$path = "//PageObject";
+				$res = xpath_eval($xpc, $path);
+				$page_node = $res->nodeset[0];
+				$init_node = $this->dom->create_element("InitOpenedContent");
+				$init_node = $page_node->append_child($init_node);
+				$il_node = $this->dom->create_element("IntLink");
+				$il_node = $init_node->append_child($il_node);
+			}
+			$il_node->set_attribute("Target", $a_id);
+			$il_node->set_attribute("Type", $link_type);
+			$il_node->set_attribute("TargetFrame", $a_target);
+		}
+
+		$ret = $this->update();
+	}
+	
 }
 ?>

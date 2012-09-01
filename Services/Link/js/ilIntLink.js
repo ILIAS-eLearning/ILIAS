@@ -283,7 +283,7 @@ il.IntLink =
 		}
 		else
 		{			
-			addInternalLink(b,e,this.id);
+			il.Form.addInternalLink(b,e,this.id);
 		}
 
 		il.IntLink.panel.hide();

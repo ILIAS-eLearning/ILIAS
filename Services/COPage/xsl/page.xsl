@@ -1243,26 +1243,41 @@
 	</xsl:if>
 </xsl:template>
 
+<!-- InitOpenedContent -->
+<xsl:template match="InitOpenedContent">
+<xsl:apply-templates select="IntLink"/>
+</xsl:template>
+
+
 <!-- IntLink -->
 <xsl:template match="IntLink">
+	<xsl:variable name="target" select="@Target"/>
+	<xsl:variable name="type" select="@Type"/>
+	<xsl:variable name="anchor" select="@Anchor"/>
+	<xsl:variable name="targetframe">
+		<xsl:choose>
+			<xsl:when test="@TargetFrame">
+				<xsl:value-of select="@TargetFrame"/>
+			</xsl:when>
+			<xsl:otherwise>None</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	<xsl:choose>
 		<!-- internal link to external resource (other installation) -->
 		<xsl:when test="substring-after(@Target,'__') = ''">
 			[could not resolve link target: <xsl:value-of select="@Target"/>]
 		</xsl:when>
+		<!-- initial opened content -->
+		<xsl:when test="name(..) = 'InitOpenedContent'">
+			<xsl:variable name="link_href">
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
+			</xsl:variable>
+			<script type="text/javascript">
+				il.Util.addOnLoad(function() {il.LearningModule.loadContentFrame('<xsl:value-of select='$link_href'/>');});
+			</script>
+		</xsl:when>
 		<!-- all internal links except inline mob vris -->
 		<xsl:when test="@Type != 'MediaObject' or @TargetFrame">
-			<xsl:variable name="target" select="@Target"/>
-			<xsl:variable name="type" select="@Type"/>
-			<xsl:variable name="anchor" select="@Anchor"/>
-			<xsl:variable name="targetframe">
-				<xsl:choose>
-					<xsl:when test="@TargetFrame">
-						<xsl:value-of select="@TargetFrame"/>
-					</xsl:when>
-					<xsl:otherwise>None</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
 			<xsl:variable name="link_href">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>

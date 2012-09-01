@@ -26,6 +26,7 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
 *
 * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
 * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
+* @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI
 *
 * @ingroup ServicesCOPage
 */
@@ -1334,6 +1335,29 @@ class ilPageObjectGUI
 				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
 
+			case "ilpropertyformgui":													
+				include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+				$form = $this->initOpenedContentForm();
+				$this->ctrl->forwardCommand($form);
+				break;
+				
+			case "ilinternallinkgui":
+				$this->lng->loadLanguageModule("content");
+				require_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
+				$link_gui = new ilInternalLinkGUI("Media_Media", 0);
+				//$link_gui->filterLinkType("RepositoryItem");
+				
+				$link_gui->filterLinkType("PageObject_FAQ");
+				$link_gui->filterLinkType("GlossaryItem");
+				$link_gui->filterLinkType("Media_Media");
+				$link_gui->filterLinkType("Media_FAQ");
+				
+				$link_gui->setFilterWhiteList(true);
+				$link_gui->setMode("asynch");			
+				$ilCtrl->forwardCommand($link_gui);
+				break;
+
+
 			default:
 				$cmd = $this->ctrl->getCmd("preview");
 				$ret = $this->$cmd();
@@ -2167,12 +2191,13 @@ class ilPageObjectGUI
 		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 
 		// activate/deactivate
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setListTitle($lng->txt("actions"));
+		$list->setId("copage_act");
+		$entries = false;
 		if ($this->getEnabledActivation())
 		{
-			$list = new ilAdvancedSelectionListGUI();
-			$list->setListTitle($lng->txt("actions"));
-			$list->setId("copage_act");
-			
+			$entries = true;
 			$captions = $this->getActivationCaptions();			
 			if ($this->getPageObject()->getActive())
 			{
@@ -2185,6 +2210,19 @@ class ilPageObjectGUI
 					$ilCtrl->getLinkTarget($this, "activatePage"));
 			}
 			
+			$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
+		}
+
+		// initially opened content
+		if (true)
+		{
+			$entries = true;
+			$list->addItem($lng->txt("cont_initial_attached_content"), "",
+				$ilCtrl->getLinkTarget($this, "initialOpenedContent"));
+		}
+		
+		if ($entries)
+		{
 			$a_tpl->setVariable("PAGE_ACTIONS", $list->getHTML());
 		}
 
@@ -3743,6 +3781,76 @@ class ilPageObjectGUI
 		return $a_output;
 	}
 
+	//
+	// Initially opened content (e.g. used in learning modules), that
+	// is presented in another than the main content area (e.g. a picture in
+	// the bottom left area)
+	//
 
+	/**
+	 * Initially opened content
+	 *
+	 * @param
+	 * @return
+	 */
+	function initialOpenedContent()
+	{
+		global $ilTabs, $ilCtrl;
+		
+		$ilTabs->activateTab("edit");
+		$form = $this->initOpenedContentForm();
+		
+		$this->tpl->setContent($form->getHTML());
+	}
+	
+	/**
+	 * Init form for initially opened content
+	 *
+	 * @param
+	 * @return
+	 */
+	function initOpenedContentForm()
+	{
+		global $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		
+		// link input
+		include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
+		$ac = new ilLinkInputGUI($this->lng->txt('cont_resource'), 'opened_content');
+		$ac->setAllowedLinkTypes(ilLinkInputGUI::INT);
+		$ac->setInternalLinkDefault("Media_Media", 0);
+		$ac->setInternalLinkFilterTypes(array("PageObject_FAQ", "GlossaryItem", "Media_Media", "Media_FAQ"));
+		$form->addItem($ac);
+		
+		$form->addCommandButton("saveInitialOpenedContent", $this->lng->txt("save"));
+		$form->addCommandButton("edit", $this->lng->txt("cancel"));
+		$form->setTitle($this->lng->txt("cont_initial_opened_content"));
+		$form->setFormAction($ilCtrl->getFormAction($this));
+		
+		return $form;
+	}
+	
+	/**
+	 * Save initial opened content
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveInitialOpenedContent()
+	{
+		global $ilCtrl;
+
+		$this->obj->saveInitialOpenedContent(
+			ilUtil::stripSlashes($_POST["opened_content_ajax_type"]),
+			ilUtil::stripSlashes($_POST["opened_content_ajax_id"]),
+			ilUtil::stripSlashes($_POST["opened_content_ajax_target"])
+			);
+		
+		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
+		$ilCtrl->redirect($this, "edit");
+	}
+	
 }
 ?>

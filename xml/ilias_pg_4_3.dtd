@@ -19,7 +19,7 @@
 <!-- PageObject -->
 <!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
-<!ELEMENT PageObject (PageContent*, Layout?)>
+<!ELEMENT PageObject (PageContent*, Layout?, InitOpenedContent?)>
 
 <!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills), BibItemIdentifier*)>
 
@@ -465,3 +465,5 @@ col or row span. -->
 	Id CDATA #REQUIRED
 	User CDATA #REQUIRED
 >
+
+<!ELEMENT InitOpenedContent (IntLink?)>

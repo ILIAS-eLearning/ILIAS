@@ -2,6 +2,31 @@
 // Hide all on load
 il.Util.addOnLoad(ilFormHideAll)
 
+il.Form = { 
+
+	addInternalLink: function (link,title,input_id) {
+		
+		var type, id, part, target = "";
+		
+		link = link.split(' ');
+		part = link[1].split('="');
+		type = part[0];
+		id = part[1].split('"')[0];
+		if (typeof link[2] != "undefined") {
+			target = link[2].split('="');
+			target = target[1].split('"')[0];
+//console.log(target);
+//console.log(id);
+//console.log(type);
+		}
+		$("input[name="+input_id+"_ajax_type]").val(type);
+		$("input[name="+input_id+"_ajax_id]").val(id);
+		$("input[name="+input_id+"_ajax_target]").val(target);
+	}
+}
+
+// todo: move all this into the Form object
+
 /** 
 * Hide all ilFormHelpLink elements
 */
@@ -260,15 +285,4 @@ function ilFormInitNumericCheck(id, decimals_allowed)
         }
     });
 
-}
-
-function addInternalLink(link,title,input_id) 
-{	
-	var part = link.substr(5);
-	part = part.split('=');
-	var type = part[0];
-	var id = part[1].substr(1, part[1].length-3);
-	
-	$("input[name="+input_id+"_ajax_type]").val(type);
-	$("input[name="+input_id+"_ajax_id]").val(id);
 }
