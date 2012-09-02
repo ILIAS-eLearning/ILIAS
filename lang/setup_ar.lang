@@ -536,3 +536,41 @@ sess_mode#:#Session Mode###10 11 2011 new variable
 sess_fixed_duration#:#Fixed Session Duration###10 11 2011 new variable
 sess_load_dependent_session_handling#:#Load Dependent Session Handlin###10 11 2011 new variable
 db_postgres#:#PostgreSQ###18 01 2012 new variable
+client_cloned#:#All files and settings of the source are copied into the client.###02 09 2012 new variable
+clone_clientnotdisabled#:#The client is still active. Please disable the client before populating it.###02 09 2012 new variable
+clone_clientismaster#:#The client has "master" in the name so it cannot be overwritten.###02 09 2012 new variable
+clone_clientisnotmysql#:#The client does not have MySQL database.###02 09 2012 new variable
+clone_clientnodatabase#:#Only MySQL databases are supported at the moment.###02 09 2012 new variable
+clone_disabledmessage#:#Cloning is disabled for the following reason(s):###02 09 2012 new variable
+clone_youmustcheckiamsure#:#You must check "I am sure" to overwrite the target client.###02 09 2012 new variable
+clone_source#:#Select source for cloning###02 09 2012 new variable
+clone_selectsource#:#Source###02 09 2012 new variable
+clone_areyousure#:#Are you sure?###02 09 2012 new variable
+cloneit#:#Start###02 09 2012 new variable
+info_text_clone#:#This function will overwrite the currently selected client with a copy of another.<p><i>Note that you can only populate clients that are disabled. Also, they cannot have 'master' in the name.<br>Currently, only MySQL is supported.</i><p><b>Warning! This cannot be undone! The client will be overwritten with the contents of the source you will select here!</b>###02 09 2012 new variable
+ffmpeg_path_comment#:#Optional to convert audio/videos, e.g. '/your_path/ffmpeg'###02 09 2012 new variable
+ffmpeg_path#:#Path to ffmpeg###02 09 2012 new variable
+populate#:#Populate###02 09 2012 new variable
+custom_updates_available#:#Custom Update Available###02 09 2012 new variable
+applied_custom_updates#:#Applied Custom Updates###02 09 2012 new variable
+available_custom_updates#:#Available Custom Updates###02 09 2012 new variable
+custom_update_applied#:#Custom Update Applied###02 09 2012 new variable
+apply_custom_updates#:#Apply Custom Updates###02 09 2012 new variable
+proxy_connectable#:#Connection established.###02 09 2012 new variable
+proxy_host_info#:#Please enter a host.###02 09 2012 new variable
+proxy_host#:#Host###02 09 2012 new variable
+proxy_not_connectable#:#ILIAS could not build a connection to the defined proxy.###02 09 2012 new variable
+proxy_pear_net_socket_error#:#PEAR Net_Socket error###02 09 2012 new variable
+proxy_port_info#:#Please enter a port between 0 and 65535, e.g.8080.###02 09 2012 new variable
+proxy_port_numeric#:#The entered port has to be a numeric value between 0 and 65535###02 09 2012 new variable
+proxy_port#:#Port###02 09 2012 new variable
+proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.###02 09 2012 new variable
+proxy_status#:#Proxy###02 09 2012 new variable
+proxy#:#Proxy###02 09 2012 new variable
+proxy_disabled#:#Proxy disabled ###02 09 2012 new variable
+proxy_activated_configurated#:#Proxy enabled ###02 09 2012 new variable
+info_text_proxy#:#Proxy Settings###02 09 2012 new variable
+setup_process_step_proxy#:#Proxy###02 09 2012 new variable
+step_proxy#:#Proxy###02 09 2012 new variable
+db_innodb#:#MySQL (InnoDB)###02 09 2012 new variable
+show_update_steps#:#Show Update Step###02 09 2012 new variable

@@ -12868,3 +12868,35 @@ fm#:#fm_settings_local#:#Show Local Filesystem###28 08 2012 new variable
 fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.###28 08 2012 new variable
 fm#:#fm_settings_filesize#:#Maximum Upload File Size###28 08 2012 new variable
 fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.###28 08 2012 new variable
+dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module###02 09 2012 new variable
+dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer###02 09 2012 new variable
+dcl#:#dcl_status#:#Your status###02 09 2012 new variable
+dcl#:#dcl_mob#:#Image###02 09 2012 new variable
+dcl#:#dcl_width#:#Width###02 09 2012 new variable
+dcl#:#dcl_height#:#Height###02 09 2012 new variable
+blog#:#blog_authors#:#Authors###02 09 2012 new variable
+blog#:#blog_author#:#Author###02 09 2012 new variable
+blog#:#blog_enable_approval#:#Approval###02 09 2012 new variable
+blog#:#blog_enable_approval_info#:#All postings need to be approved by an administrator before being published.###02 09 2012 new variable
+blog#:#blog_approve#:#Approve###02 09 2012 new variable
+blog#:#blog_needs_approval#:#Needs Approval###02 09 2012 new variable
+sess#:#sess_copy#:#Copy Session###02 09 2012 new variable
+grp#:#events#:#Sessions###02 09 2012 new variable
+book#:#book_additional_info_file#:#Additional Description###02 09 2012 new variable
+book#:#book_post_booking_information#:#Post Booking Information###02 09 2012 new variable
+book#:#book_post_booking_text#:#Text###02 09 2012 new variable
+book#:#book_post_booking_file#:#File###02 09 2012 new variable
+book#:#book_download_info#:#Download Additional Description###02 09 2012 new variable
+exc#:#exc_team_notification_salutation#:#Hello %s,###02 09 2012 new variable
+exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignment###02 09 2012 new variable
+exc#:#exc_team_notification_body_add#:#you have been added to a team upload assignment.###02 09 2012 new variable
+exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment###02 09 2012 new variable
+exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload assignment.###02 09 2012 new variable
+exc#:#exc_team_notification_changed_by#:#Status changed by###02 09 2012 new variable
+exc#:#exc_team_notification_link#:#Link to exercise###02 09 2012 new variable
+poll#:#poll_absolute#:#Current Votes###02 09 2012 new variable
+dcl#:#dcl_reference_link#:#Show as link in table view###02 09 2012 new variable
+dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view###02 09 2012 new variable
+dcl#:#dcl_text_area#:#Textarea###02 09 2012 new variable
+forum#:#frm_notification_activated#:#Notification Activated###02 09 2012 new variable
+forum#:#frm_notification_deactivated#:#Notification Deactivated###02 09 2012 new variable
