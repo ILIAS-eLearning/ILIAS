@@ -192,3 +192,55 @@ h2.current_room_title {
 	background-position: left center;
 	background-repeat: no-repeat;
 }
+
+#iosChatInputContainer {
+	position: relative;
+}
+
+#iosChatEmoticonsPanel {
+	position: absolute;
+	left: 1px;
+	top: 1px;
+	display: block;
+	height: 19px;
+	width: 19px;
+}
+
+#iosChatEmoticonsPanel > a {
+	display: block;
+	height: 19px;
+	width: 19px;
+	background: url("./images/emoticons_trigger.png") no-repeat 1px 2px;
+	position: relative;
+	z-index: 1;
+	border-left: 1px solid #FFFFFF;
+}
+
+#iosChatEmoticonsPanel > a:hover, #iosChatEmoticonsPanel > a.active {
+	background-color: #6D84B4;
+	border-bottom: 1px solid #6D84B6;
+	border-left: 1px solid #3B5998;
+	border-right: 1px solid #3B5998;
+	border-top: none;
+}
+
+#iosChatEmoticonsPanelFlyout {
+	position: absolute;
+	background-color: white;
+	border: 1px solid gray;
+	padding: 5px;
+	border-bottom: 2px solid #293E6A;
+	bottom: 19px;
+	position: absolute;
+	display: none;
+}
+
+#iosChatEmoticonsPanelFlyout a {
+	border: 1px solid white;
+	display: block;
+	padding: 1px 0 1px 2px;
+}
+
+#iosChatEmoticonsPanelFlyout a:hover {
+	border: 1px solid silver;
+}

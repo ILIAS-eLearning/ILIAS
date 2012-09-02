@@ -96,12 +96,13 @@ var myId = {MY_ID};
                         <td class="ilFormHeader" colspan="2"><h3 class="ilFormHeader">{LBL_MESSAGE}</h3></td>
                 </tr>
                 <tr>
-                        <td class="ilFormOption"><label for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label></td>
-                        <td class="ilFormValue">
-                                <input type="text" name="message" id="submit_message_text"/>
-                                <input type="button" class="submit" value="{LBL_SEND}" id="submit_message" />
-
-                        </td>
+					<td class="ilFormOption"><label for="submit_message_text"><span id="message_recipient_info_all">{LBL_TOALL}</span><span id="message_recipient_info"></span></label></td>
+					<td class="ilFormValue">
+						<div id="iosChatInputContainer">
+							<input type="text" name="message" id="submit_message_text"/>
+							<input type="button" class="submit" value="{LBL_SEND}" id="submit_message"/>
+						</div>
+					</td>
                 </tr>
                 <tr>
                         <td class="ilFormOption"><label onclick="$('#show_options').click()">{LBL_LAYOUT}</label></td>
