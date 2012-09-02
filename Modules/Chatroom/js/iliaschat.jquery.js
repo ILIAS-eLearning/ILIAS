@@ -1,9 +1,37 @@
+jQuery.fn.extend({
+	insertAtCaret: function(value){
+		return this.each(function(i) {
+			if (document.selection) {
+				//For browsers like Internet Explorer
+				this.focus();
+				sel = document.selection.createRange();
+				sel.text = value;
+				this.focus();
+			}
+			else if (this.selectionStart || this.selectionStart == '0') {
+				//For browsers like Firefox and Webkit based
+				var startPos = this.selectionStart;
+				var endPos = this.selectionEnd;
+				var scrollTop = this.scrollTop;
+				this.value = this.value.substring(0, startPos)+ value + this.value.substring(endPos, this.value.length);
+				this.focus();
+				this.selectionStart = startPos + value.length;
+				this.selectionEnd = startPos + value.length;
+				this.scrollTop = scrollTop;
+			} else {
+				this.value += value;
+				this.focus();
+			}
+		})
+	}
+});
+
 function formatToTwoDigits(nr) {
-        nr = "" + nr;
-        while (nr.length < 2) {
-                nr = "0" + nr;
-        }
-        return nr;
+	nr = "" + nr;
+	while (nr.length < 2) {
+			nr = "0" + nr;
+	}
+	return nr;
 }
 
 function formatISOTime(time) {
@@ -96,25 +124,81 @@ il.Util.addOnLoad(function() {
 		$.fn.chat = function(lang, baseurl, session_id, instance, scope, posturl, initial) {
 			var smileys = initial.smileys;
 
-			replaceSmileys = function (message) 
-			{
+			replaceSmileys = function (message) {
 				if (typeof smileys == "string") {
 					return message;
 				}
 
 				var replacedMessage = message;
 				
-				for (var i in smileys)
-				{
-					while( replacedMessage.indexOf(i) != -1 )
-					{
+				for (var i in smileys) {
+					while( replacedMessage.indexOf(i) != -1 ) {
 						replacedMessage = replacedMessage.replace(i, '<img src="' + smileys[i] + '" />');
 					}
 				}
 				
 				return replacedMessage;
 			}
-			
+
+			if (typeof smileys == "object") {
+				// Emoticons
+				var $emoticons_flyout_trigger = $('<a></a>');
+				var $emoticons_flyout = $('<div id="iosChatEmoticonsPanelFlyout"></div>');
+				var $emoticons_panel = $('<div id="iosChatEmoticonsPanel"></div>')
+					.append($emoticons_flyout_trigger)
+					.append($emoticons_flyout);
+				
+				$("#submit_message_text").css("paddingLeft", "25px").after($emoticons_panel);
+				
+				if ($.browser.chrome || $.browser.safari) {
+					$emoticons_panel.css("top", "3px");
+				}
+
+				var $emoticons_table = $("<table></table>");
+				var $emoticons_row = null;
+				var cnt = 0;
+				var emoticonMap = new Object();
+				for (var i in smileys) {
+					if(emoticonMap[smileys[i]]) {
+						var $emoticon = emoticonMap[smileys[i]];
+					} else {
+						if (cnt % 6 == 0) {
+							$emoticons_row = $("<tr></tr>");
+							$emoticons_table.append($emoticons_row);
+						}
+
+						var $emoticon = $('<img src="' + smileys[i] + '" alt="" title="" />');
+						$emoticon.data("emoticon", i);
+						$emoticons_row.append($('<td></td>').append($('<a></a>').append($emoticon)));
+
+						emoticonMap[smileys[i]] = $emoticon;
+
+						++cnt;
+					}
+					$emoticon.attr({alt: [$emoticon.attr('alt').toString(), i].join(' '), title: [$emoticon.attr('title').toString(), i].join(' ')});
+				}
+				$emoticons_flyout.append($emoticons_table);
+				
+				$emoticons_flyout_trigger.click(function(e) {
+					$emoticons_flyout.toggle();
+				}).toggle(function() {
+					$(this).addClass("active");
+				}, function() {
+					$(this).removeClass("active");
+				});
+
+				$emoticons_panel.bind('clickoutside', function(event) {
+					if ($emoticons_flyout_trigger.hasClass("active")) {
+						$emoticons_flyout_trigger.click();
+					}
+				});
+
+				$("#iosChatEmoticonsPanelFlyout a").click(function() {
+					$emoticons_flyout_trigger.click();
+					$("#submit_message_text").insertAtCaret($(this).find('img').data("emoticon"));
+				});
+			}
+
 			$('#show_options').click(function() {
 				if ($(this).next().is(':visible')) {
 					$(this).text(translate('show_settings'));

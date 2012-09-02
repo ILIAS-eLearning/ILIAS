@@ -364,6 +364,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$tpl->addJavaScript('Modules/Chatroom/js/colorpicker/jquery.colorPicker.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/chat.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
+		$tpl->addJavaScript('Services/jQuery/js/jquery.outside.events.min.js');
 		$tpl->addJavaScript('Modules/Chatroom/js/json2.js');
 
 		$tpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');

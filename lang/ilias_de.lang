@@ -12893,3 +12893,5 @@ poll#:#poll_absolute#:#Aktuelle Stimmen
 dcl#:#dcl_reference_link#:#In der Tabellensicht als Link darstellen
 dcl#:#dcl_ILIAS_reference_link#:#In der Tabellensicht als Link darstellen
 dcl#:#dcl_text_area#:#Textbox
+forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
+forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
