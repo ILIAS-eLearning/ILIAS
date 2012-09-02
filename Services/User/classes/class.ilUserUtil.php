@@ -35,10 +35,13 @@ class ilUserUtil
 	 * modifications by jposselt at databay . de :
 	 * if $a_user_id is an array of user ids the method returns an array of
 	 * "id" => "NamePresentation" pairs.
+	 * 
+	 * ...
+	 * @param boolean sortable should be used in table presentions. output is "Doe, John" title is ommited
 	 */
 	static function getNamePresentation($a_user_id, 
 		$a_user_image = false, $a_profile_link = false, $a_profile_back_link = "",
-		$a_force_first_lastname = false)
+		$a_force_first_lastname = false, $a_omit_login = false, $a_sortable = true)
 	{
 		global $lng, $ilCtrl, $ilDB;
 		
@@ -78,8 +81,25 @@ class ilUserUtil
 				if($row->public_title == "y" && $row->title)
 				{
 					$title = $row->title . " ";
-				}				
-				$pres = $row->lastname.", ".$title.$row->firstname." ";
+				}
+				if($a_sortable)
+				{
+					$pres = $row->lastname;
+					if(strlen($row->firstname))
+					{
+						$pres .= (', '.$row->firstname.' ');
+					}
+				}
+				else
+				{
+					$pres = $title;
+					if(strlen($row->firstname))
+					{
+						$pres .= $row->firstname.' ';
+					}
+					$pres .= ($row->lastname.' ');
+				}
+				
 			}
 			
 			$pres.= "[".$row->login."]";

@@ -4164,10 +4164,10 @@ common#:#standard_fields#:#Standard Fields
 common#:#standard_icon#:#Standard Icon
 common#:#startpage#:#ILIAS Loginpage
 common#:#stat_selected#:#Selected
-common#:#state_changed_inside#:#changed inside
-common#:#state_changed#:#changed
-common#:#state_new#:#new
-common#:#state_unread#:#unread
+common#:#state_changed_inside#:#Changed Inside
+common#:#state_changed#:#Changed
+common#:#state_new#:#New
+common#:#state_unread#:#Unread
 common#:#statistic#:#Statistic
 common#:#statistics#:#Statistics
 common#:#status_no_permission#:#No permission granted
@@ -12895,3 +12895,4 @@ dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
 dcl#:#dcl_text_area#:#Textarea
 forum#:#frm_notification_activated#:#Notification Activated
 forum#:#frm_notification_deactivated#:#Notification Deactivated
+common#:#obj_prtf#:#Portfolio 

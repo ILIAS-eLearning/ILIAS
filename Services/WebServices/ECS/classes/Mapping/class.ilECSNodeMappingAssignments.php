@@ -35,6 +35,39 @@ class ilECSNodeMappingAssignments
 	}
 	
 	/**
+	 * Lookup Settings
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_tree_id
+	 * 
+	 * @return mixed false in case of no specific setting available, array of settings
+	 */
+	public static function lookupSettings($a_server_id, $a_mid, $a_tree_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT title_update, position_update, tree_update FROM ecs_node_mapping_a '.
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
+			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+			'AND cs_root = '.$ilDB->quote($a_tree_id,'integer').' ';
+		$res = $ilDB->query($query);
+		
+		if(!$res->numRows())
+		{
+			return false;
+		}
+		
+		$settings = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$settings['title_update'] = $row->title_update;
+			$settings['position_update'] = $row->position_update;
+			$settings['tree_update'] = $row->tree_update;
+		}
+		return (array) $settings;
+	}
+	
+	/**
 	 * Lookup assignments
 	 * @global  $ilDB
 	 * @param <type> $a_server_id
