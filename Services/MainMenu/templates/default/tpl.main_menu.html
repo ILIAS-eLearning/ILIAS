@@ -6,8 +6,8 @@
 
         </div>
 	<!-- END osd_container -->
-	<div style="padding:5px 0px 5px 19px; float:left;">
-		<a href="./goto.php?target=root_1" target="_top"><img style="margin:0px; padding:0px;" width="44" height="44" border="0" src="{HEADER_ICON}" alt="ILIAS Logo"/></a>
+	<div id="il_main_logo">
+		<a href="./goto.php?target=root_1" target="_top"><img src="{HEADER_ICON}" alt="ILIAS Logo"/></a>
 	</div><!-- BEGIN header_top_title -->
 	<div class="ilTopTitle">
 		{TXT_HEADER_TITLE}
@@ -28,8 +28,8 @@
 	</div>
 	<!-- END userisloggedin -->
 	<!-- BEGIN status_box -->
-	<div class="xsmall" style="font-size: 85%; float:right; margin: 22px 10px 0px 0px;">
-		<!-- BEGIN status_item --><a class="il_ItemProperty" target="_top" style="text-decoration:none;" href="{STATUS_HREF}"><img style="position:relative; top:-2px;" src="{STATUS_IMG}"/><!-- BEGIN status_text --><span class="ilMMStatus">{STATUS_TXT}</span><span class="small" style="visibility:hidden;">{STATUS_TXT}</span><!-- END status_text --></a><!-- END status_item -->
+	<div id="il_status_box">
+		<!-- BEGIN status_item --><a class="il_ItemProperty" target="_top" href="{STATUS_HREF}"><img src="{STATUS_IMG}"/><!-- BEGIN status_text --><span class="ilMMStatus">{STATUS_TXT}</span><span class="small ilMMHidStatus">{STATUS_TXT}</span><!-- END status_text --></a><!-- END status_item -->
 	</div>
 	<!-- END status_box -->
 
@@ -39,22 +39,22 @@
 		<h1 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h1>
 		{MAIN_MENU_LIST_ENTRIES}
 	</div>
-	<ul class="ilMainMenu" style="float:right; padding: 0px 20px 0px 0px;">
+	<ul class="ilMainMenu ilMainMenuSide">
 	<!-- BEGIN help_icon -->
 	<li class="ilMainMenu"><a class="MMInactive" id="help_tr" href="#" onclick="return il.Help.listHelp(event, false);"><img src="{IMG_HELP}" /></a></li>
 	<!-- END help_icon -->
 	<!-- BEGIN help_tt_icon -->
-	<li class="ilMainMenu"><a class="MMInactive" id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" /><img style="display:none;" src="{IMG_TT_OFF}" id="help_tt_switch_off" /></a></li>
+	<li class="ilMainMenu"><a class="MMInactive" id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" /><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" /></a></li>
 	<!-- END help_tt_icon -->
 	<!-- BEGIN search_box -->
 	<li class="ilMainMenu">{SEARCHBOX}</li>
 	<!-- END search_box -->
 	</ul>
 	<!-- BEGIN screen_id -->
-	<div class="ilHighlighted small" style="position:absolute; right:0px; top: 0px;">ScreenID: {SCREEN_ID}</div>
+	<div id="il_screen_id" class="ilHighlighted small">ScreenID: {SCREEN_ID}</div>
 	<!-- END screen_id -->
 	<!-- BEGIN top_section -->
 	<!-- END top_section -->
-<div style="clear:both;"></div>
+<div class="ilClearFloat"></div>
 </div>
 </div>
