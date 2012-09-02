@@ -222,12 +222,19 @@ class ilDataCollectionTableEditGUI
 		
 		if($this->form->checkInput())
 		{
-			if(!$a_mode == "update")
+            if($a_mode != "update")
+            {
 				$this->table = new ilDataCollectionTable();
+            }
 			elseif($this->table_id)
+            {
 				$this->table = new ilDataCollectionTable($this->table_id);
+            }
 			else
+            {
 				$ilCtrl->redirectByClass("ildatacollectionfieldeditgui", "listFields");
+            }
+
 
 			$this->table->setTitle($this->form->getInput("title"));
 			$this->table->setObjId($this->obj_id);
@@ -254,6 +261,9 @@ class ilDataCollectionTableEditGUI
 			}
 			else
 			{
+
+
+
 				$this->table->doCreate();
 				ilUtil::sendSuccess($lng->txt("dcl_msg_table_created"), true);
 				$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->table->getId());
