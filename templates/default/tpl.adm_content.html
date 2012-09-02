@@ -13,7 +13,7 @@
 		{TOPBAR_LANGUAGES}<a href="{TOPBAR_LOGIN_URL}">&raquo; {TOPBAR_LOGIN_CAPTION}</a>
 		<!-- END topbar_usr_ano -->
 	</div>
-	<div style="clear:both;"></div>
+	<div class="ilClearFloat"></div>
 </div>
 <!-- END fullscreen_topbar -->
 <div class="ilFrame{FRAME_FIXED_WIDTH}"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
@@ -28,9 +28,9 @@
 <div id="mainscrolldiv">
 <div>
 		<!-- BEGIN tree_mode -->
-		<a {TREE_ACC_KEY} class="ilTreeView{RIGHT}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree"><img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" border="0" /></a>
+		<a {TREE_ACC_KEY} class="ilTreeView{RIGHT}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree"><img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" /></a>
 		<!-- END tree_mode -->
-<div style="padding-left:2px;">{STATUSLINE}</div>
+{STATUSLINE}
 
 <div class="il_HeaderOuter">
 <div class="il_Header">
@@ -55,37 +55,37 @@
 			<!-- BEGIN fullscreen_descbl --><div class="ilHeaderDesc"{FULLSCREEN_FONT_COLOR}>{FULLSCREEN_DESCRIPTION}</div><!-- END fullscreen_descbl -->
 		</div>
 		
-		<div style="clear:both;"></div>
+		<div class="ilClearFloat"></div>
 	</div>
 	<!-- END fullscreen_headerbl -->
 	
 	<div class="il_HeaderInner">
 	<!-- BEGIN head_action --><div class="ilHeadAction" id="il_head_action"><!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner --></div><!-- END head_action -->
-	<!-- BEGIN headerbl --><h1 class="ilHeader {HICONCL}"><!-- BEGIN header_image --><span style="float:left; display:block; margin: 1px 0px 0px -45px;"><img style="vertical-align:middle" alt="{IMAGE_ALT}" <!-- BEGIN header_image_desc -->title="{IMAGE_DESC}"<!-- END header_image_desc --> border="0" src="{IMG_HEADER}" id="headerimage" /></span><!-- END header_image --><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{HEADER}</a></h1><!-- END headerbl -->
+	<!-- BEGIN headerbl --><h1 class="ilHeader {HICONCL}"><!-- BEGIN header_image --><span style="float:left; display:block; margin: 1px 0px 0px -45px;"><img style="vertical-align:middle" alt="{IMAGE_ALT}" <!-- BEGIN header_image_desc -->title="{IMAGE_DESC}"<!-- END header_image_desc --> src="{IMG_HEADER}" id="headerimage" /></span><!-- END header_image --><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{HEADER}</a></h1><!-- END headerbl -->
 	<!-- BEGIN header_desc --><div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->
 	<!-- BEGIN header_alert --><div class="ilHeaderAlert"><!-- BEGIN header_alert_prop_name -->{H_PROP} <!-- END header_alert_prop_name -->{H_VALUE}</div><!-- END header_alert -->
 	</div>
 	<!-- BEGIN tree_icons -->
-	<div style="display:none;" class="il_TreeIcons" style="float:right;">
+	<div class="il_TreeIcons ilNoDisplay">
 		<!-- BEGIN top -->
-		<a style="display:none;" class="{CLASS_TOP}" href="{LINK_TOP}" <!-- BEGIN target_top -->target="{TARGET_TOP}"<!-- END target_top -->
-			id="imgtop"><img src="{IMG_TOP}" border="0" <!-- BEGIN alt_top --> alt="{ALT_TOP}" title="{ALT_TOP}" <!-- END alt_top --> /></a>
+		<a class="{CLASS_TOP} ilNoDisplay" href="{LINK_TOP}" <!-- BEGIN target_top -->target="{TARGET_TOP}"<!-- END target_top -->
+			id="imgtop"><img src="{IMG_TOP}" <!-- BEGIN alt_top --> alt="{ALT_TOP}" title="{ALT_TOP}" <!-- END alt_top --> /></a>
 		<!-- END top -->
 		<!-- BEGIN mount_webfolder -->
 		<!-- always show actions on item level -->
-		<!-- <a class="{CLASS_MOUNT_WEBFOLDER}" href="{LINK_MOUNT_WEBFOLDER}" folder="{FOLDER_MOUNT_WEBFOLDER}" target="{TARGET_MOUNT_WEBFOLDER}"><img src="{IMG_MOUNT_WEBFOLDER}" title="{ALT_MOUNT_WEBFOLDER}" alt="{ALT_MOUNT_WEBFOLDER}" border="0"></a> -->
+		<!-- <a class="{CLASS_MOUNT_WEBFOLDER}" href="{LINK_MOUNT_WEBFOLDER}" folder="{FOLDER_MOUNT_WEBFOLDER}" target="{TARGET_MOUNT_WEBFOLDER}"><img src="{IMG_MOUNT_WEBFOLDER}" title="{ALT_MOUNT_WEBFOLDER}" alt="{ALT_MOUNT_WEBFOLDER}" ></a> -->
 		<!-- END mount_webfolder -->
 	</div>
 	<!-- END tree_icons -->
-	<div style="clear:both;"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
+	<div class="ilClearFloat"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
 {TABS}
 </div>
 </div>
 <!-- BEGIN tabs_outer_start --><table class="ilTabContentOuter"><tr><td><!-- END tabs_outer_start -->
-<div style="clear:both;">{SUB_TABS}</div><span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
+<div class="ilClearFloat">{SUB_TABS}</div><span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
 <!-- BEGIN tabs_inner_start --><div class="ilTabContentInner"><!-- END tabs_inner_start -->
 <!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
-<table class="il_ColumnLayout{COL_LAY_SKIN}" style="clear:both;"><tr>
+<table class="il_ColumnLayout{COL_LAY_SKIN} ilClearFloat"><tr>
 <!-- BEGIN left_columnt -->
 <td></td>
 <!-- END left_columnt -->
@@ -107,31 +107,6 @@
 <td class="il_LeftColumn" id="il_left_col_td"><div id="il_left_col">{LEFT_CONTENT}</div></td>
 <!-- END left_column -->
 <td class="il_CenterColumn" id="il_CenterColumn">
-<!-- BEGIN adv_layout_init -->
-<div id="il_adv_center_col" style="width:800px; height:450px;"></div>
-<style type="text/css">
-<!--
-.yui-skin-sam .yui-layout .yui-layout-unit div.yui-layout-bd {
-    border: 1px solid #FFFFFF;
-    background-color: #FFFFFF;
-}
--->
-</style>
-<script type="text/javascript">
-//Element Based Layout
-il.Util.addOnLoad(function() {
-var ltd = document.getElementById('il_left_col_td');
-ltd.style.width = 0;
-var layoutEl = new YAHOO.widget.Layout('il_adv_center_col', { units: [
-		{ position: 'right', width: 200, scroll: false }, //Width required here
-        { position: 'left', width: 300, body: 'il_left_col', scroll: true }, //Width required here
-        { position: 'center', body: 'il_center_col', scroll: true }
-    ]
-});
-layoutEl.render();
-});
-</script>
-<!-- END adv_layout_init -->
 <div id="il_center_col">
 {BUTTONS}
 {RTE_SWITCH}

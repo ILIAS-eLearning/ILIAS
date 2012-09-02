@@ -50,7 +50,6 @@ class ilTemplate extends ilTemplateX
 	protected $page_actions = array();
 	protected $creation_selector = false;
 	protected $permanent_link = false;
-	protected $adv_layout = false;
 	protected $content_style_sheet = "";
 	protected $frame_fixed_width = false;
 
@@ -629,16 +628,6 @@ class ilTemplate extends ilTemplateX
 			}
 			$this->setVariable("SUB_TABS", $this->sthtml);
 		}
-	}
-	
-	/**
-	* Advanced column layout (alpha! do not use yet)
-	*/
-	function enableAdvancedColumnLayout($a_left, $a_right)
-	{
-		$this->adv_layout = true;
-		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-		ilYuiUtil::initLayout();
 	}
 	
 	function fillToolbar()
@@ -1749,11 +1738,6 @@ class ilTemplate extends ilTemplateX
 		if (trim($this->main_content) != "")
 		{
 			$this->setVariable("ADM_CONTENT", $this->main_content);
-		}
-		if($this->adv_layout)
-		{
-			$this->touchBlock("adv_layout_init");
-			$this->setVariable("COL_LAY_SKIN", " yui-skin-sam");
 		}
 	}
 

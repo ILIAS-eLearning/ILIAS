@@ -102,6 +102,7 @@ class ilPasswordAssistanceGUI
 
 		// Create the form
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
 			"tpl.pwassist_assistance.html", "Services/Init");
 		
@@ -167,6 +168,7 @@ class ilPasswordAssistanceGUI
 
 		// Create the form
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
 			"tpl.pwassist_username_assistance.html", "Services/Init");
 
@@ -580,6 +582,7 @@ class ilPasswordAssistanceGUI
 		else
 		{
 			$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+			$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 			$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
 				"tpl.pwassist_assignpassword.html", "Services/Init");
 
@@ -761,6 +764,7 @@ class ilPasswordAssistanceGUI
 		}
 
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content",
 			"tpl.pwassist_message.html", "Services/Init");
 

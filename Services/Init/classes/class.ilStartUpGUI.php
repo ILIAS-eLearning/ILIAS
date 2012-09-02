@@ -299,6 +299,7 @@ class ilStartUpGUI
 		
 		// Instantiate login template
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login.html","Services/Init");
 				
 		// we need the template for this
@@ -350,6 +351,7 @@ class ilStartUpGUI
 		global $tpl, $lng;
 		
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html","Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login_reactivate_code.html",
 			"Services/Init");
 		
@@ -948,6 +950,7 @@ class ilStartUpGUI
 			"content", 
 			"tpl.startup_screen.html",
 			"Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 	 	$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.login_account_migration.html",
 			"Services/Init");
 
@@ -1135,6 +1138,7 @@ class ilStartUpGUI
 		//instantiate logout template
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html",
 			"Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.logout.html",
 			"Services/Init");
 
@@ -1255,6 +1259,7 @@ class ilStartUpGUI
 		// load client list template
 		$tpl->addBlockfile("CONTENT", "content", "tpl.startup_screen.html",
 			"Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.client_list.html",
 			"Services/Init");
 
@@ -1398,6 +1403,7 @@ class ilStartUpGUI
 
 		$tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html",
 			"Services/Init");
+		$tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.view_usr_agreement.html",
 			"Services/Init");
 		$tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
