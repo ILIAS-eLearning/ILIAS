@@ -21,6 +21,15 @@ body.std {
 	background-color: #f0f0f0;
 }
 
+.ilNoDisplay {
+	display:none;
+}
+
+.ilClearFloat {
+	clear:both;
+}
+
+
 div.ilFrame{
 	padding:0px;
 	box-shadow: 0 0 40px #808080;
@@ -2067,6 +2076,19 @@ div.ilMainMenuSection {
 	clear:both;
 }
 
+div#il_main_logo {
+	padding: 5px 0px 5px 19px;
+	float:left;
+}
+
+div#il_main_logo img {
+	margin: 0;
+	padding: 0;
+	width: 44px;
+	height: 44px;
+	border: 0 none;
+}
+
 div.ilMemberViewMainHeader
 {
 	/* background-color: #981a0a; */
@@ -2091,6 +2113,12 @@ ul.ilMainMenu
 	padding: 0px;
 	list-style:none;
 	white-space: nowrap;
+}
+
+ul.ilMainMenuSide
+{
+	float:right;
+	padding: 0px 20px 0px 0px;
 }
 
 li.ilMainMenu
@@ -2206,6 +2234,27 @@ a.ilMainMenuSearchButton {
 #mm_search_menu_head input {
 	margin: 0px;
 	padding: 0px;
+}
+
+/* Status box */
+
+div#il_status_box {
+	font-size: 85%;
+	float:right;
+	margin: 22px 10px 0px 0px;
+}
+
+div#il_status_box a {
+	text-decoration:none;
+}
+
+div#il_status_box img {
+	position: relative;
+	top: -2px;
+}
+
+span.ilMMHidStatus {
+	visibility:hidden;
 }
 
 span.ilMMStatus, span.ilHActProp {
@@ -3615,6 +3664,12 @@ a#ilHelpClose {
 
 #ilHelpPanel .ilGroupedListLE {
 	padding: 5px 10px 5px 20px;
+}
+
+div#il_screen_id {
+	position:absolute;
+	right:0px;
+	top: 0px;
 }
 
 /* DataCollection */
