@@ -173,7 +173,7 @@ class ilObjForumGUI extends ilObjectGUI
 			'toggleStickiness', 'cancelPost', 'savePost', 'quotePost', 'getQuotationHTMLAsynch',
 			'setTreeStateAsynch', 'fetchTreeChildrenAsync'
 		);
-		if(!is_array($exclude_cmds) || !in_array($cmd, $exclude_cmds))
+		if(!in_array($cmd, $exclude_cmds))
 		{
 			$this->prepareOutput();
 		}
@@ -500,27 +500,6 @@ class ilObjForumGUI extends ilObjectGUI
 				ilAccessKey::MARK_ALL_READ
 			);
 			$this->ctrl->clearParameters($this);
-		}
-
-		include_once 'Modules/Forum/classes/class.ilForumNotification.php';
-		$frm_noti = new ilForumNotification((int) $_GET['ref_id']);
-		$frm_noti->setUserId($ilUser->getId());
-		$is_button_enabled = $frm_noti->isUserToggleNotification();
-
-		// Notification button
-		if($ilUser->getId() != ANONYMOUS_USER_ID &&
-			$this->ilias->getSetting('forum_notification') != 0 &&
-			!$this->hideToolbar() &&
-			$is_button_enabled != 1)
-		{
-			if($frm->isForumNotificationEnabled($ilUser->getId()))
-			{
-				$ilToolbar->addButton($this->lng->txt('forums_disable_forum_notification'), $this->ctrl->getLinkTarget($this, 'disableForumNotification'));
-			}
-			else
-			{
-				$ilToolbar->addButton($this->lng->txt('forums_enable_forum_notification'), $this->ctrl->getLinkTarget($this, 'enableForumNotification'));
-			}
 		}
 
 		// Import information: Topic (variable $topicData) means frm object, not thread
@@ -2007,39 +1986,9 @@ class ilObjForumGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printThread')
 			);
 			$this->ctrl->clearParametersByClass('ilforumexportgui');
+
+			$this->addHeaderAction();
 			
-			// enable/disable notification
-			if($ilUser->getId() != ANONYMOUS_USER_ID &&
-			   $this->ilias->getSetting('forum_notification') != 0)
-			{
-				$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-
-				// checks if notification is forced by moderator and if user is allowed to disable notification
-				include_once 'Modules/Forum/classes/class.ilForumNotification.php';
-				$frm_noti = new ilForumNotification($this->object->getRefId());
-				$frm_noti->setUserId($ilUser->getId());
-				$user_toggle = $frm_noti->isUserToggleNotification();
-
-				if(!$user_toggle)
-				{
-					if($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
-					{
-						$ilToolbar->addButton(
-							$this->lng->txt('forums_disable_notification'),
-							$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
-						);
-					}
-					else
-					{
-						$ilToolbar->addButton(
-							$this->lng->txt('forums_enable_notification'),
-							$this->ctrl->getLinkTarget($this, 'toggleThreadNotification')
-						);
-					}
-				}
-				$this->ctrl->clearParameters($this);
-			}
-
 			if($_GET['mark_read'])
 			{
 				$forumObj->markThreadRead($ilUser->getId(), (int)$this->objCurrentTopic->getId());
@@ -3359,9 +3308,17 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($this->object->getId());
 		$frm->enableForumNotification($ilUser->getId());
 		
-		ilUtil::sendInfo($this->lng->txt('forums_forum_notification_enabled'));
-		
-		$this->showThreadsObject();
+		if(!$this->objCurrentTopic->getId())
+		{
+			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_enabled'));
+			$this->showThreadsObject();
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_enabled'), true);
+			$this->ctrl->redirect($this, 'viewThread');
+		}
 	}
 
 	public function disableForumNotificationObject()
@@ -3375,9 +3332,17 @@ class ilObjForumGUI extends ilObjectGUI
 		$frm->setForumId($this->object->getId());
 		$frm->disableForumNotification($ilUser->getId());
 		
-		ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'));
-		
-		$this->showThreadsObject();
+		if(!$this->objCurrentTopic->getId())
+		{
+			$this->showThreadsObject();
+			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'));
+		}
+		else
+		{
+			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+			ilUtil::sendInfo($this->lng->txt('forums_forum_notification_disabled'), true);
+			$this->ctrl->redirect($this, 'viewThread');
+		}
 	}
 	
 	public function checkEnableColumnEdit()
@@ -4048,5 +4013,84 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$this->object->markPostRead($ilUser->getId(), (int) $this->objCurrentTopic->getId(), (int) $this->objCurrentPost->getId());
 		$this->viewThreadObject();
+	}
+
+	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
+	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
+		global $ilUser;
+
+		$lg = parent::initHeaderAction();
+
+		if($lg instanceof ilObjForumListGUI)
+		{
+			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
+			$frm_noti = new ilForumNotification((int) $_GET['ref_id']);
+			$frm_noti->setUserId($ilUser->getId());
+			$user_toggle = $frm_noti->isUserToggleNotification();
+
+			// Notification button
+			$notificiation_enabled = false;
+			if($ilUser->getId() != ANONYMOUS_USER_ID &&
+				$this->ilias->getSetting('forum_notification') != 0 &&
+				$user_toggle != 1)
+			{
+				$frm = $this->object->Forum;
+				$frm->setForumId($this->object->getId());
+				$frm->setForumRefId($this->object->getRefId());
+				$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
+
+				if($this->objCurrentTopic->getId())
+				{
+					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+				}
+
+				if($frm->isForumNotificationEnabled($ilUser->getId()))
+				{
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
+					$notificiation_enabled = true;
+				}
+				else
+				{
+					$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");
+				}
+
+				if($this->objCurrentTopic->getId())
+				{
+					
+					if($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
+					{
+						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), "forums_disable_notification");
+						$notificiation_enabled = true;
+					}
+					else
+					{
+						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), "forums_enable_notification");
+					}
+				}
+				$this->ctrl->setParameter($this, 'thr_pk', '');
+
+				if($notificiation_enabled)
+				{
+					$lg->addHeaderIcon(
+						"not_icon",
+						ilUtil::getImagePath("notification_on.png"),
+						$this->lng->txt("frm_notification_activated")
+					);
+				}
+				else
+				{
+					$lg->addHeaderIcon(
+						"not_icon",
+						ilUtil::getImagePath("notification_off.png"),
+						$this->lng->txt("frm_notification_deactivated")
+					);
+				}
+			}
+		}
+
+		return $lg;
 	}
 }
