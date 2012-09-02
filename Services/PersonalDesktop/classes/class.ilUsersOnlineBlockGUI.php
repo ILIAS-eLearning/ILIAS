@@ -397,7 +397,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 		if ($a_set["profile"])
 		{
 			include_once "Services/User/classes/class.ilUserUtil.php";
-			$user_name = ilUserUtil::getNamePresentation($a_set["id"], false, false, "", false, true);					
+			$user_name = ilUserUtil::getNamePresentation($a_set["id"], false, false, "", false, true, false);		
 			
 			$this->tpl->setCurrentBlock("profile_link");
 			$this->tpl->setVariable("TXT_VIEW", $lng->txt("profile"));
