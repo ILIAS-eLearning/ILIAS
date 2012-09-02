@@ -76,6 +76,7 @@ class ilAccountRegistrationGUI
 		global $lng;
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$this->tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.usr_registration.html",
 			"Services/Registration");
 		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
@@ -689,6 +690,7 @@ class ilAccountRegistrationGUI
 		$ilLog->write("Entered login");
 
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.startup_screen.html", "Services/Init");
+		$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		$this->tpl->addBlockFile("STARTUP_CONTENT", "startup_content", "tpl.usr_registered.html",
 			"Services/Registration");
 

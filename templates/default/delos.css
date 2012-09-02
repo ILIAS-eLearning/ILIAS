@@ -44,6 +44,24 @@ div.ilStartupFrame{
 	box-shadow: 0px 0px 40px #808080;
 }
 
+div.ilStartupFrame div.ilFrameBR {
+	min-height: 450px;
+}
+
+div#il_startup_content {
+	padding:35px 10px;
+}
+
+.ilStartupSection {
+	text-align: center;
+	padding-top: 25px;
+}
+
+div.ilStartupSection table.ilForm {
+	margin:auto;
+}
+
+
 .registration {
   margin-top:5px;
   width:700px;
@@ -923,6 +941,7 @@ div.il_TreeIcons
 	padding-right: 15px;
 	padding-top: 15px;
 	margin: 0px;
+	float:right;
 }
 
 
@@ -2087,6 +2106,11 @@ div#il_main_logo img {
 	width: 44px;
 	height: 44px;
 	border: 0 none;
+}
+
+img#il_startup_logo {
+	border:0 none;
+	margin: 20px;
 }
 
 div.ilMemberViewMainHeader
@@ -3267,7 +3291,7 @@ h3.ilProfileSectionHead {
 
 /* locator */
 div.ilLocator {
-	padding: 2px 0px 0px 8px;
+	padding: 2px 0px 0px 10px;
 	zoom: 1;
 }
 
