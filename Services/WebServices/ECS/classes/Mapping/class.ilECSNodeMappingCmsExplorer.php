@@ -264,7 +264,8 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
 	public function buildTitle($title, $a_obj_id, $a_type)
 	{
-
+		$title = substr($title, 0,30);
+		
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 		$status = ilECSCmsData::lookupStatusByObjId(
 			$this->server_id,

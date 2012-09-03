@@ -69,28 +69,23 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 			$this->addHeader('Accept', 'text/uri-list');
 			$this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
 			$res = $this->call();
-
-			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($res,true));
-
-
-			$json = file_get_contents($res);
-
-			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($json,true));
-
-			$ecs_result = new ilECSResult($json);
+			
+			if(substr($res, 0, 4) == 'http')
+			{
+				$json = file_get_contents($res);
+				$ecs_result = new ilECSResult($json);
+			}
+			else
+			{
+				$ecs_result = new ilECSResult($res);
+				
+			}
 			return $ecs_result->getResult();
 		}
-		catch(ilCurlConnectionException $e)	{
-	 		throw new ilECSConnectorException('Error calling ECS service: '.$exc->getMessage());
+		catch(ilCurlConnectionException $e)	
+		{
+	 		throw new ilECSConnectorException('Error calling ECS service: '.$e->getMessage());
 		}
-	}
-
-
-	private static function dumpTree()
-	{
-
-		$tree = new stdClass();
-
 	}
 }
 ?>

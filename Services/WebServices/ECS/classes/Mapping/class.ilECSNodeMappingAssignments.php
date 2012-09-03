@@ -42,14 +42,15 @@ class ilECSNodeMappingAssignments
 	 * 
 	 * @return mixed false in case of no specific setting available, array of settings
 	 */
-	public static function lookupSettings($a_server_id, $a_mid, $a_tree_id)
+	public static function lookupSettings($a_server_id, $a_mid, $a_tree_id, $a_node_id)
 	{
 		global $ilDB;
 		
 		$query = 'SELECT title_update, position_update, tree_update FROM ecs_node_mapping_a '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer'). ' '.
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
-			'AND cs_root = '.$ilDB->quote($a_tree_id,'integer').' ';
+			'AND cs_root = '.$ilDB->quote($a_tree_id,'integer').' '.
+			'AND cs_id = '.$ilDB->quote($a_node_id,'integer');
 		$res = $ilDB->query($query);
 		
 		if(!$res->numRows())

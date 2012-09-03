@@ -291,7 +291,7 @@ class ilECSImport
 	}
 	
 	/**
-	 * Set exported
+	 * Set imported
 	 *
 	 * @access public
 	 * @param bool export status

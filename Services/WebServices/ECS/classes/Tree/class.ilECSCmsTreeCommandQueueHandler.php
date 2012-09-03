@@ -127,6 +127,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 		// 2) Add cms tree table entries
 		// 2) Replace the cms data table entries
 		// 3) Remove deprecated entries
+		// 4) Sync tree
 		
 		try 
 		{
@@ -192,6 +193,16 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 				$tree->setRootId($data->getObjId());
 			}
 		}
+		
+		// Sync tree
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTreeSynchronizer.php';
+		$sync = new ilECSCmsTreeSynchronizer(
+				$this->getServer(),
+				$this->mid,
+				$a_content_id
+			);
+		$sync->sync();
+		
 		return true;
 	}
 	

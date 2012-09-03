@@ -280,7 +280,7 @@ class ilECSConnector
 
 			$result = new ilECSResult($res);
 			
-			$GLOBALS['ilLog']->write(__METHOD__.':------------------------------------- FIFO content'. print_r($result,true));
+			#$GLOBALS['ilLog']->write(__METHOD__.':------------------------------------- FIFO content'. print_r($result,true));
 			
 			return $result;
 	 	}

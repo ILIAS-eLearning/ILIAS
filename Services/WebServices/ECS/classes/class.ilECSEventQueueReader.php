@@ -91,7 +91,7 @@ class ilECSEventQueueReader
 	{
 		return array(self::TYPE_REMOTE_COURSE, self::TYPE_REMOTE_CATEGORY, 
 			self::TYPE_REMOTE_FILE, self::TYPE_REMOTE_GLOSSARY, self::TYPE_REMOTE_GROUP, 
-			self::TYPE_REMOTE_LEARNING_MODUL, self::TYPE_REMOTE_WIKI, self::TYPE_REMOTE_TEST);	
+			self::TYPE_REMOTE_LEARNING_MODULE, self::TYPE_REMOTE_WIKI, self::TYPE_REMOTE_TEST);	
 	}
 	
 	/**
