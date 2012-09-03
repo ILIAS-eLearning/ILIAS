@@ -19,6 +19,8 @@ class ilECSNodeMappingAssignment
 	private $title_update = false;
 	private $position_update = false;
 	private $tree_update = false;
+	
+	private $mapped = false;
 
 	/**
 	 * Constructor
@@ -31,6 +33,11 @@ class ilECSNodeMappingAssignment
 		$this->cs_id = $cs_id;
 
 		$this->read();
+	}
+	
+	public function isMapped()
+	{
+		return $this->mapped;
 	}
 	
 	public function getServerId()
@@ -196,6 +203,7 @@ class ilECSNodeMappingAssignment
 			$this->enableTitleUpdate($row->title_update);
 			$this->enablePositionUpdate($row->position_update);
 			$this->enableTreeUpdate($row->tree_update);
+			$this->mapped = true;
 		}
 	}
 	
