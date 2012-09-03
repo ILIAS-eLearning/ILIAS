@@ -180,6 +180,7 @@ class ilDataCollectionTableEditGUI
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
+		$this->form->setDescription($lng->txt('dcl_table_info'));
 		if($a_mode == "edit")
 		{
 			$this->form->addCommandButton('update', 	$lng->txt('dcl_table_'.$a_mode));
