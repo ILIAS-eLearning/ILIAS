@@ -4050,7 +4050,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$frm->setForumRefId($this->object->getRefId());
 				$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 
-				
+				if($this->objCurrentTopic->getId())
+				{
+					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+				}
 
 				if($frm->isForumNotificationEnabled($ilUser->getId()))
 				{
