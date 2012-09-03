@@ -827,7 +827,7 @@ class ilTemplate extends ilTemplateX
 		}
 		
 		$ftpl->setVariable("TXT_CONTACT", $lng->txt("contact_sysadmin"));
-		$ftpl->setVariable("URL_CONTACT", "mailto:".$ilSetting->get("admin_email"));
+		$ftpl->setVariable("URL_CONTACT", "mailto:".$ilSetting->get("feedback_recipient"));
 
 		// output translation link
 		if ($ilSetting->get("lang_ext_maintenance") == "1")

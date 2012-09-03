@@ -2448,7 +2448,7 @@ common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer 
 common#:#cont_object#:#Objekt
 common#:#contact#:#Kontakt
 common#:#contact_data#:#Kontaktinformationen
-common#:#contact_sysadmin#:#Systemadministration kontaktieren
+common#:#contact_sysadmin#:#Administration kontaktieren
 common#:#container#:#Container
 common#:#container_no_items#:#Keine Objekte gefunden
 common#:#content#:#Inhalt
@@ -12899,3 +12899,4 @@ dcl#:#dcl_ILIAS_reference_link#:#In der Tabellensicht als Link darstellen
 dcl#:#dcl_text_area#:#Textbox
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
+administration#:#feedback_recipient_info#:#Diese Adresse wird in der Fusszeile für den Link "%s" genutzt.

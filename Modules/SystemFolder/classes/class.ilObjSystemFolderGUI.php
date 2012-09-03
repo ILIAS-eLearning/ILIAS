@@ -2822,7 +2822,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		
 		// feedback recipient
 		$ti = new ilEmailInputGUI($this->lng->txt("feedback_recipient"), "feedback_recipient");
-		$ti->setValue($ilSetting->get("feedback_recipient"));
+		$ti->setInfo(sprintf($this->lng->txt("feedback_recipient_info"), $this->lng->txt("contact_sysadmin")));
+		$ti->setRequired(true);
+		$ti->setValue($ilSetting->get("feedback_recipient"));		
 		$this->form->addItem($ti);
 		
 		// error recipient
