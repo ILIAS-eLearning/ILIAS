@@ -3429,6 +3429,18 @@ class ilObjectListGUI
 		}
 		return false;
 	}
+	
+	/**
+	 * enable timings link
+	 *
+	 * @access public
+	 * @param bool
+	 * @return
+	 */
+	public function enableTimings($a_status)
+	{
+		$this->timings_enabled = (bool)$a_status;
+	}
 }
 
 ?>
