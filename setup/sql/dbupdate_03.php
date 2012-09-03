@@ -13040,3 +13040,13 @@ $ilDB->manipulateF("INSERT INTO il_dcl_datatype_prop (id,datatype_id,title,input
         	   array("integer", "integer", "text", "integer"),
                    array(10, 8, "ILIAS_reference_link", 4));
 ?>
+<#3753>
+<?php
+$setting = new ilSetting();
+$ade =  $setting->get("admin_email");
+$fbr = $setting->get("feedback_recipient");
+if(trim($ade) && !trim($fbr))
+{
+	$setting->set("feedback_recipient", $ade);
+}
+?>
