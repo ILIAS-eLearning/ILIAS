@@ -196,13 +196,6 @@ class ilObjPollGUI extends ilObject2GUI
 				$this->ctrl->getLinkTarget($this, ""));
 		}
 		
-		if ($this->checkPermissionBool("read"))
-		{
-			$this->tabs_gui->addTab("id_info",
-				$lng->txt("info_short"),
-				$this->ctrl->getLinkTargetByClass(array("ilobjpollgui", "ilinfoscreengui"), "showSummary"));
-		}
-
 		if ($this->checkPermissionBool("write"))
 		{			
 			$this->tabs_gui->addTab("settings",
@@ -263,72 +256,13 @@ class ilObjPollGUI extends ilObject2GUI
 				$this->ctrl->forwardCommand($cp);
 				break;
 
-			default:				
-				if($cmd != "gethtml")
-				{
-					$this->addHeaderAction($cmd);
-				}
+			default:			
 				return parent::executeCommand();			
 		}
 		
 		return true;
 	}
 	
-	/**
-	* this one is called from the info button in the repository
-	* not very nice to set cmdClass/Cmd manually, if everything
-	* works through ilCtrl in the future this may be changed
-	*/
-	function infoScreen()
-	{
-		$this->ctrl->setCmd("showSummary");
-		$this->ctrl->setCmdClass("ilinfoscreengui");
-		$this->infoScreenForward();
-	}
-	
-	/**
-	* show information screen
-	*/
-	function infoScreenForward()
-	{
-		global $ilTabs, $ilErr;
-		
-		$ilTabs->activateTab("id_info");
-
-		if (!$this->checkPermissionBool("visible"))
-		{
-			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
-		}
-
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-		$info = new ilInfoScreenGUI($this);
-
-		$info->enablePrivateNotes();
-		
-		if ($this->checkPermissionBool("read"))
-		{
-			$info->enableNews();
-		}
-
-		// no news editing for files, just notifications
-		$info->enableNewsEditing(false);
-		if ($this->checkPermissionBool("write"))
-		{
-			$news_set = new ilSetting("news");
-			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
-			
-			if ($enable_internal_rss)
-			{
-				$info->setBlockProperty("news", "settings", true);
-				$info->setBlockProperty("news", "public_notifications_option", true);
-			}
-		}
-		
-		// standard meta data
-		$info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
-		
-		$this->ctrl->forwardCommand($info);
-	}
 	
 	// --- ObjectGUI End
 	
