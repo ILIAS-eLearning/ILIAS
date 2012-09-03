@@ -3416,9 +3416,31 @@ div.ilBlogListItemSnippet {
 	margin-bottom: 5px;
 }
 
+div.ilBlogSideBlocks {
+	margin-left: 5px;
+} 
+
+td.ilBlogSideBlockContent {
+	padding: 10px;
+}
+
+div.ilBlogSideBlockCommand {
+	margin-top: 5px; 
+	text-align: right;
+}
+
+div.ilBlogSideBlockAuthor {
+	margin-top: 3px; 
+}
+
+ul.ilBlogSideBlockNavigation {
+	margin-top: 3px; 
+	padding-left: 15px;
+}
+
 div.ilBox {
-	background-image:url('./images/FramedBack.png');
-	background-repeat:repeat-x;
+	background-image: url('./images/FramedBack.png');
+	background-repeat: repeat-x;
 	border: 1px solid #E0E0E0;
 	padding: 10px;
 	margin-bottom: 20px;
