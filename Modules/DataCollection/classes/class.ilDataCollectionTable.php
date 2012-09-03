@@ -847,6 +847,17 @@ class ilDataCollectionTable
 	{
 		return (count($this->getRecords()) > 0) ? true : false;
 	}
+
+	/**
+	 * @param $table_id int
+	 * @return bool returns true iff there exists a table with id $table_id
+	 */
+	public static function _tableExists($table_id){
+		global $ilDB;
+		$query = "SELECT * FROM il_dcl_table WHERE id = ".$table_id;
+		$result = $ilDB->query($query);
+		return $result->numRows() != 0;
+	}
 }
 
 ?>

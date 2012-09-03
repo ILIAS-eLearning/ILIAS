@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once './Services/Exceptions/classes/class.ilException.php';
+
 /**
 * Class ilDataCollectionField
 *
@@ -511,6 +513,9 @@ class ilDataCollectionField
 	{
 		global $ilDB;
 		$this->getLocked() == NULL?$this->setLocked(false):true;
+
+		if(!ilDataCollectionTable::_tableExists($this->getTableId()))
+			throw new ilException("The field does not have a related table!");
 
 		$id = $ilDB->nextId("il_dcl_field");
 		$this->setId($id);

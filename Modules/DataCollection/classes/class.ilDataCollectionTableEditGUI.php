@@ -36,6 +36,7 @@ class ilDataCollectionTableEditGUI
 		$this->parent_object = $a_parent_obj;
 		$this->obj_id = $a_parent_obj->obj_id;
 		$this->table_id = $_GET['table_id'];
+		$this->table = new ilDataCollectionTable($this->table_id);
 	}
 
 	
@@ -285,6 +286,54 @@ class ilDataCollectionTableEditGUI
 		global $tpl;
 		
 		$tpl->setContent("Access denied.");
+	}
+
+	/**
+	 * confirmDelete
+	 */
+	public function confirmDelete()
+	{
+		global $ilCtrl, $lng, $tpl;
+
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setHeaderText($lng->txt('dcl_confirm_delete_table'));
+
+		$conf->addItem('table', (int) $this->table->getId(), $this->table->getTitle());
+
+		$conf->setConfirm($lng->txt('delete'), 'delete');
+		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+
+		$tpl->setContent($conf->getHTML());
+	}
+
+	/**
+	 * cancelDelete
+	 */
+	public function cancelDelete()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+	}
+
+	/*
+	  * delete
+	  */
+	public function delete()
+	{
+		global $ilCtrl, $lng;
+		$mainTableId = $this->table->getCollectionObject()->getMainTableId();
+		if($mainTableId == $this->table->getId()){
+			ilUtil::sendFailure($lng->txt("dcl_cant_delete_main_table"), true);
+		}
+		else{
+			$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui", "table_id", $mainTableId);
+			$this->table->doDelete();
+		}
+
+		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
 
 }

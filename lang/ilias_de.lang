@@ -12864,6 +12864,9 @@ dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_mob#:#Bild
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
+dcl#:#dcl_delete_table#:#Lösche Tabelle
+dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
+dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die Haupttabelle dieser Data Collection ist. Der Inhalt und die Struktur wurden hingegen erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Resources of Type###28 08 2012 new variable
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.###28 08 2012 new variable
 common#:#search_globally#:#Globally###28 08 2012 new variable
