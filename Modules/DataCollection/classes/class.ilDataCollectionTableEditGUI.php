@@ -330,9 +330,9 @@ class ilDataCollectionTableEditGUI
 		}
 		else{
 			$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui", "table_id", $mainTableId);
-			$this->table->doDelete();
 		}
 
+		$this->table->doDelete();
 		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
 
