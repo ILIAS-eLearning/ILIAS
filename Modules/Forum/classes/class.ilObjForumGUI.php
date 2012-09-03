@@ -9,6 +9,7 @@ require_once 'Modules/Forum/classes/class.ilForumPost.php';
 require_once 'Modules/Forum/classes/class.ilForum.php';
 require_once 'Modules/Forum/classes/class.ilForumTopic.php';
 require_once 'Services/RTE/classes/class.ilRTE.php';
+require_once 'Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 
 /**
@@ -23,7 +24,7 @@ require_once 'Services/RTE/classes/class.ilRTE.php';
  *
  * @ingroup ModulesForum
  */
-class ilObjForumGUI extends ilObjectGUI
+class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
 	/**
 	 * @var ilForumProperties
@@ -4024,6 +4025,13 @@ class ilObjForumGUI extends ilObjectGUI
 
 		$lg = parent::initHeaderAction();
 
+		// Workaround: Do not show "desktop actions" in thread view
+		if($this->objCurrentTopic->getId())
+		{
+			$container_obj = null;
+			$lg->setContainerObject($container_obj);
+		}
+
 		if($lg instanceof ilObjForumListGUI)
 		{
 			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
@@ -4042,10 +4050,7 @@ class ilObjForumGUI extends ilObjectGUI
 				$frm->setForumRefId($this->object->getRefId());
 				$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 
-				if($this->objCurrentTopic->getId())
-				{
-					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-				}
+				
 
 				if($frm->isForumNotificationEnabled($ilUser->getId()))
 				{
@@ -4092,5 +4097,41 @@ class ilObjForumGUI extends ilObjectGUI
 		}
 
 		return $lg;
+	}
+
+	/**
+	 * @see ilDesktopItemHandling::addToDesk()
+	 */
+	public function addToDeskObject()
+	{
+		global $ilSetting, $lng;
+
+		if((int)$ilSetting->get('disable_my_offers'))
+		{
+			return $this->showThreadsObject();
+		}
+
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		ilDesktopItemGUI::addToDesktop();
+		ilUtil::sendSuccess($lng->txt("added_to_desktop"));
+		$this->showThreadsObject();
+	}
+
+	/**
+	 * @see ilDesktopItemHandling::removeFromDesk()
+	 */
+	public function removeFromDeskObject()
+	{
+		global $ilSetting, $lng;
+
+		if((int)$ilSetting->get('disable_my_offers'))
+		{
+			return $this->showThreadsObject();
+		}
+
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		ilDesktopItemGUI::removeFromDesktop();
+		ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
+		$this->showThreadsObject();
 	}
 }
