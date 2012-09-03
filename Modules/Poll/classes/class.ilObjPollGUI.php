@@ -204,14 +204,14 @@ class ilObjPollGUI extends ilObject2GUI
 		}
 
 		if ($this->checkPermissionBool("write"))
-		{
-			$this->tabs_gui->addTab("participants",
-				$lng->txt("poll_participants"),
-				$this->ctrl->getLinkTarget($this, "showParticipants"));		
-			
+		{			
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));			
+			
+			$this->tabs_gui->addTab("participants",
+				$lng->txt("poll_participants"),
+				$this->ctrl->getLinkTarget($this, "showParticipants"));					
 		}
 
 		// will add permissions if needed
