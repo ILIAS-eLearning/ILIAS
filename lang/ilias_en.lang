@@ -12893,6 +12893,9 @@ poll#:#poll_absolute#:#Current Votes
 dcl#:#dcl_reference_link#:#Show as link in table view
 dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
 dcl#:#dcl_text_area#:#Textarea
+dcl#:#dcl_delete_table#:#Delete Table
+dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?
+dcl#:#dcl_cant_delete_main_table#:#You can't completely remove this table as it is the default table of this Data Collection. It's content and structure got removed instead.
 forum#:#frm_notification_activated#:#Notification Activated
 forum#:#frm_notification_deactivated#:#Notification Deactivated
 common#:#obj_prtf#:#Portfolio 

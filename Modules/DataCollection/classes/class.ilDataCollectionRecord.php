@@ -3,6 +3,7 @@
 
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordField.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php');
+require_once './Services/Exceptions/classes/class.ilException.php';
 
 /**
 * Class ilDataCollectionRecord
@@ -97,6 +98,9 @@ class ilDataCollectionRecord
 	public function doCreate()
 	{
 		global $ilDB;
+
+		if(!ilDataCollectionTable::_tableExists($this->getTableId()))
+			throw new ilException("The field does not have a related table!");
 
 		// Record erzeugen
 		$id = $ilDB->nextId("il_dcl_record");

@@ -101,6 +101,7 @@ class ilDataCollectionFieldListGUI
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
 		$ilCtrl->setParameterByClass("ildatacollectiontableeditgui", "table_id", $this->table_id);
 		$ilToolbar->addButton($lng->txt("dcl_table_settings"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "edit"));
+		$ilToolbar->addButton($lng->txt("dcl_delete_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "confirmDelete"));
 
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionFieldListTableGUI.php');
 		$list = new ilDataCollectionFieldListTableGUI($this, $ilCtrl->getCmd(), $this->table_id);
