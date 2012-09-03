@@ -285,7 +285,8 @@ class ilObjPollGUI extends ilObject2GUI
 		if(!$a_form)
 		{
 			$visible = null;
-			$active = ilObjPollAccess::_isActivated($this->obj_id, $this->node_id, $visible);			
+			// $active = ilObjPollAccess::_isActivated($this->obj_id, $this->node_id, $visible);			
+			$active = false;
 			if($this->object->countVotes() || $active)
 			{
 				if($active)
