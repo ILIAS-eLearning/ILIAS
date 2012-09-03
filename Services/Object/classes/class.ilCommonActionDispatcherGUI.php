@@ -241,6 +241,7 @@ class ilCommonActionDispatcherGUI
 		$this->header_action->enableLink(false);
 		$this->header_action->enableInfoscreen(false);				
 		$this->header_action->enablePayment(false);
+		$this->header_action->enableTimings(false);
 		
 		switch($this->node_type)
 		{
