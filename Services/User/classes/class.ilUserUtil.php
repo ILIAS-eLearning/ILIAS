@@ -102,7 +102,10 @@ class ilUserUtil
 				
 			}
 			
-			$pres.= "[".$row->login."]";
+			if(!$a_omit_login)
+			{
+				$pres.= "[".$row->login."]";
+			}
 			
 			if ($a_profile_link && $has_public_profile)
 			{
