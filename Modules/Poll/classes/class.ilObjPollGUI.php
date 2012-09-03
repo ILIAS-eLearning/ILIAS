@@ -301,7 +301,10 @@ class ilObjPollGUI extends ilObject2GUI
 			$a_form = $this->initQuestionForm($this->object->countVotes() || $active);
 		}
 		
-		$tpl->setContent($a_form->getHTML());		
+		include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
+		$plink = new ilPermanentLinkGUI('poll', $this->node_id);
+		
+		$tpl->setContent($a_form->getHTML().$plink->getHTML());		
 	}
 	
 	protected function initQuestionForm($a_read_only = false)
