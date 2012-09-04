@@ -11740,7 +11740,8 @@ wsp#:#wsp_type_excv#:#بازبینی: تمرین
 wsp#:#wsp_type_file#:#فایل
 wsp#:#wsp_type_tstv#:#بازبینی: تست
 wsp#:#wsp_type_webr#:#لینک وب
-wsp#:#wsp_type_wfld#:#پوشهassessment#:#autosave#:#Automatic saving###28 08 2012 new variable
+wsp#:#wsp_type_wfld#:#پوشه
+assessment#:#autosave#:#Automatic saving###28 08 2012 new variable
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)###28 08 2012 new variable
 assessment#:#autosave_ival#:#Interval###28 08 2012 new variable
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)###28 08 2012 new variable
@@ -12862,7 +12863,6 @@ fm#:#fm_settings_local#:#Show Local Filesystem###28 08 2012 new variable
 fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.###28 08 2012 new variable
 fm#:#fm_settings_filesize#:#Maximum Upload File Size###28 08 2012 new variable
 fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.###28 08 2012 new variable
-assessment#:#autosave#:#Automatic saving###02 09 2012 new variable
 dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module###02 09 2012 new variable
 dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer###02 09 2012 new variable
 dcl#:#dcl_status#:#Your status###02 09 2012 new variable

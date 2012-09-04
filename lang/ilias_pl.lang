@@ -9958,7 +9958,6 @@ rbac#:#root_create_svy#:#Create Survey
 rbac#:#root_create_tst#:#Create Test
 rbac#:#root_create_webr#:#Create Weblink
 rbac#:#root_create_wiki#:#Create Wiki
-rbac#:#sess_copy#:#Copy Session
 rbac#:#sess_delete#:#Usuń Sesję
 rbac#:#sess_edit_event#:#Edytuj Wydarzenia w Kalendarzu
 rbac#:#sess_edit_permission#:#Zmień ustawienia uprawnień
