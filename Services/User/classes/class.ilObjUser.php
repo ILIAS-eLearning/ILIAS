@@ -133,6 +133,13 @@ class ilObjUser extends ilObject
 	 * @var array
 	 */
 	protected static $personal_image_cache = array();
+	
+	/**
+	 * date of setting the user inactivated
+	 * 
+	 * @var string
+	 */
+	protected $inactivation_date = null;
 
 	/**
 	* Constructor
@@ -344,6 +351,8 @@ class ilObjUser extends ilObject
         $this->approve_date = $a_data["approve_date"];
         $this->active = $a_data["active"];
 		$this->agree_date = $a_data["agree_date"];
+		
+		$this->setInactivationDate($a_data["inactivation_date"]);
 
         // time limitation
         $this->setTimeLimitOwner($a_data["time_limit_owner"]);
@@ -403,6 +412,11 @@ class ilObjUser extends ilObject
 									"<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 
+		if( !$this->active )
+		{
+			$this->setInactivationDate( ilUtil::now() );
+		}
+
 		$insert_array = array(
 			"usr_id" => array("integer", $this->id),
 			"login" => array("text", $this->login),
@@ -452,7 +466,8 @@ class ilObjUser extends ilObject
 			"loc_zoom" => array("integer", (int) $this->loc_zoom),
 			"last_password_change" => array("integer", (int) $this->last_password_change_ts),
 			"im_jabber" => array("text", $this->im_jabber),
-			"im_voip" => array("text", $this->im_voip)
+			"im_voip" => array("text", $this->im_voip),
+			'inactivation_date' => array('timestamp', $this->inactivation_date)
 			);
 		$ilDB->insert("usr_data", $insert_array);
 
@@ -474,7 +489,6 @@ class ilObjUser extends ilObject
 		include_once "./Services/Bookmarks/classes/class.ilBookmarkFolder.php";
 		$bmf = new ilBookmarkFolder(0, $this->id);
 		$bmf->createNewBookmarkTree();
-
 	}
 
 	/**
@@ -486,6 +500,11 @@ class ilObjUser extends ilObject
 		global $ilErr, $ilDB, $ilAppEventHandler;
 
         $this->syncActive();
+
+		if( !$this->active )
+		{
+			$this->setInactivationDate( ilUtil::now() );
+		}
 
 		$update_array = array(
 			"gender" => array("text", $this->gender),
@@ -531,7 +550,8 @@ class ilObjUser extends ilObject
 			"last_password_change" => array("integer", $this->last_password_change_ts),
 			"im_jabber" => array("text", $this->im_jabber),
 			"im_voip" => array("text", $this->im_voip),
-			"last_update" => array("timestamp", ilUtil::now())
+			"last_update" => array("timestamp", ilUtil::now()),
+			'inactivation_date' => array('timestamp', $this->inactivation_date)
 			);
 			
         if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == null))
@@ -3691,10 +3711,30 @@ class ilObjUser extends ilObject
 	 	{
 	 		return false;
 	 	}
-	 	$q = "UPDATE usr_data SET active = %s WHERE ".
-			$ilDB->in("usr_id", $a_usr_ids, false, "integer");
-	 	$ilDB->manipulateF($q, array("integer"), array(($a_status ? 1 : 0)));
+		
+		
+		if( $a_status )
+		{
+			$q = "UPDATE usr_data SET active = 1, inactivation_date = NULL WHERE ".
+				$ilDB->in("usr_id", $a_usr_ids, false, "integer");
+			$ilDB->manipulate($q);
+		}
+		else
+		{
+			$usrId_IN_usrIds = $ilDB->in("usr_id", $a_usr_ids, false, "integer");
 
+			$q = "UPDATE usr_data SET active = 0 WHERE $usrId_IN_usrIds";
+			$ilDB->manipulate($q);
+			
+			$queryString = "
+				UPDATE usr_data
+				SET inactivation_date = %s
+				WHERE inactivation_date IS NULL
+				AND $usrId_IN_usrIds
+			";
+			$ilDB->manipulateF($queryString, array('timstamp'), array(ilUtil::now()));			
+		}
+		
 		return true;
 	}
 
@@ -4657,9 +4697,9 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.active = 0 WHERE usr_data.usr_id = %s";
-		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
-
+		$query = "UPDATE usr_data SET usr_data.active = 0, usr_data.inactivation_date = %s WHERE usr_data.usr_id = %s";
+		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array(ilUtil::now(), $a_usr_id) );
+		
 		if($affected) return true;
 		else return false;
 	}
@@ -4972,13 +5012,13 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* STATIC METHOD
-	* get ids of all users that have been inactive for at least the given period
-	* @static
-	* @param	integer $period (in days)
-	* @return	array of user ids
-	* @access	public
-	*/
+	 * get ids of all users that have been inactive for at least the given period
+	 * 
+	 * @static
+	 * @param	integer $period (in days)
+	 * @return	array of user ids
+	 * @access	public
+	 */
 	public static function _getUserIdsByInactivityPeriod($period)
 	{
 		if( !(int)$period ) throw new ilException('no valid period given');
@@ -4991,6 +5031,39 @@ class ilObjUser extends ilObject
 
 		$res = $ilDB->queryF($query, array('timestamp'), array($date));
 
+		$ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$ids[] = $row->usr_id;
+		}
+
+		return $ids;
+	}
+	
+	/**
+	 * get ids of all users that have been inactivated since at least the given period
+	 * 
+	 * @static
+	 * @param	integer $period (in days)
+	 * @return	array of user ids
+	 * @access	public
+	 */
+	public static function _getUserIdsByInactivationPeriod($period)
+	{
+		/////////////////////////////
+		$field = 'inactivation_date';
+		/////////////////////////////
+		
+		if( !(int)$period ) throw new ilException('no valid period given');
+
+		global $ilDB;
+
+		$date = date( 'Y-m-d H:i:s', (time() - ((int)$period * 24 * 60 * 60)) );
+
+		$query = "SELECT usr_id FROM usr_data WHERE $field < %s";
+
+		$res = $ilDB->queryF($query, array('timestamp'), array($date));
+		
 		$ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -5186,6 +5259,68 @@ class ilObjUser extends ilObject
 			"Services/User");
 	}
 	
+	/**
+	 *
+	 * @global type $ilDB
+	 * @param type $usrIds 
+	 */
+	private static function initInactivationDate($usrIds)
+	{
+		global $ilDB;
+		
+		$NOW = $ilDB->now();
+		
+		$usrId_IN_usrIds = $ilDB->in('usr_id', $usrIds, false, 'integer');
+		
+		$queryString = "
+			UPDATE usr_data
+			SET inactivation_date = $NOW
+			WHERE inactivation_date IS NULL
+			AND $usrId_IN_usrIds
+		";
+		
+		$ilDB->manipulate($queryString);
+	}
+	
+	/**
+	 *
+	 * @global type $ilDB
+	 * @param type $usrIds 
+	 */
+	private static function resetInactivationDate($usrIds)
+	{
+		global $ilDB;
+		
+		$usrId_IN_usrIds = $ilDB->in('usr_id', $usrIds, false, 'integer');
+		
+		$queryString = "
+			UPDATE usr_data
+			SET inactivation_date = NULL
+			WHERE $usrId_IN_usrIds
+		";
+		
+		$ilDB->manipulate($queryString);
+	}
+	
+	/**
+	 * setter for inactivation date
+	 * 
+	 * @param string $inactivationDate 
+	 */
+	public function setInactivationDate($inactivation_date)
+	{
+		$this->inactivation_date = $inactivation_date;
+	}
+	
+	/**
+	 * getter for inactivation date
+	 *
+	 * @return string $inactivation_date
+	 */
+	public function getInactivationDate()
+	{
+		return $this->inactivation_date;
+	}
 
 } // END class ilObjUser
 ?>

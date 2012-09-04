@@ -2496,6 +2496,69 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		*/
 		
 		$this->form->addItem($cb);
+
+		
+		// delete inactivated user accounts
+		require_once('Services/User/classes/class.ilCronDeleteInactivatedUserAccounts.php');
+		$cb = new ilCheckboxInputGUI($this->lng->txt("delete_inactivated_user_accounts"), "cron_inactivated_user_delete");
+		$cb->setInfo($this->lng->txt("delete_inactivated_user_accounts_desc"));
+		if($ilSetting->get("cron_inactivated_user_delete", false)) $cb->setChecked(true);
+
+				$sub_list = new ilSelectInputGUI(
+					$this->lng->txt('delete_inactivated_user_accounts_interval'),
+					'cron_inactivated_user_delete_interval'
+				);
+				$sub_list->setInfo($this->lng->txt('delete_inactivated_user_accounts_interval_desc'));
+				$sub_list->setOptions(
+					ilCronDeleteInactiveUserAccounts::getPossibleIntervalsArray()
+				);
+				$sub_list->setValue($ilSetting->get(
+					'cron_inactivated_user_delete_interval',
+					ilCronDeleteInactiveUserAccounts::getDefaultIntervalKey()
+				));
+		$cb->addSubItem($sub_list);
+
+				include_once('Services/Form/classes/class.ilMultiSelectInputGUI.php');
+				$sub_mlist = new ilMultiSelectInputGUI(
+					$this->lng->txt('delete_inactivated_user_accounts_include_roles'),
+					'cron_inactivated_user_delete_include_roles'
+				);
+				$sub_mlist->setInfo($this->lng->txt('delete_inactivated_user_accounts_include_roles_desc'));
+				$roles = array();
+				foreach($rbacreview->getGlobalRoles() as $role_id)
+				{
+					if( $role_id != ANONYMOUS_ROLE_ID )
+						$roles[$role_id] = $ilObjDataCache->lookupTitle($role_id);
+				}
+				$sub_mlist->setOptions($roles);
+				$setting = $ilSetting->get('cron_inactivated_user_delete_include_roles', null);
+				if($setting === null) $setting = array();
+				else $setting = explode(',', $setting);
+				$sub_mlist->setValue($setting);
+				$sub_mlist->setWidth(300);
+				#$sub_mlist->setHeight(100);
+		$cb->addSubItem($sub_mlist);
+
+				$default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_INACTIVITY_PERIOD;
+				$sub_text = new ilTextInputGUI(
+					$this->lng->txt('delete_inactivated_user_accounts_period'),
+					'cron_inactivated_user_delete_period'
+				);
+				$sub_text->setInfo($this->lng->txt('delete_inactivated_user_accounts_period_desc'));
+				$sub_text->setValue($ilSetting->get("cron_inactivated_user_delete_period", $default_setting));
+				$sub_text->setSize(2);
+				$sub_text->setMaxLength(3);
+		$cb->addSubItem($sub_text);
+
+		/*		$default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_SETTING_INCLUDE_ADMINS;
+				$sub_cb = new ilCheckboxInputGUI($this->lng->txt('delete_inactivated_user_accounts_include_admins'),'cron_inactivated_user_delete_include_admins');
+				$sub_cb->setChecked($ilSetting->get("cron_inactivated_user_delete_include_admins", $default_setting) ? 1 : 0 );
+				//$sub_cb->setOptionTitle($this->lng->txt('delete_inactivated_user_accounts_include_admins'));
+				$sub_cb->setInfo($this->lng->txt('delete_inactivated_user_accounts_include_admins_desc'));
+		$cb->addSubItem($sub_cb);
+		*/
+		
+		$this->form->addItem($cb);
 		
 
 		// link check
@@ -2680,6 +2743,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			if( !strlen($setting) ) $setting = null;
 			$ilSetting->set('cron_inactive_user_delete_include_roles', $setting);
 			$ilSetting->set('cron_inactive_user_delete_period', $_POST['cron_inactive_user_delete_period']);
+
+			$ilSetting->set('cron_inactivated_user_delete', $_POST['cron_inactivated_user_delete']);
+			$ilSetting->set('cron_inactivated_user_delete_interval', $_POST['cron_inactivated_user_delete_interval']);
+			$setting = implode(',', $_POST['cron_inactivated_user_delete_include_roles']);
+			if( !strlen($setting) ) $setting = null;
+			$ilSetting->set('cron_inactivated_user_delete_include_roles', $setting);
+			$ilSetting->set('cron_inactivated_user_delete_period', $_POST['cron_inactivated_user_delete_period']);
 
 			// disk quota and disk quota reminder mail
 			$dq_settings = new ilSetting('disk_quota');

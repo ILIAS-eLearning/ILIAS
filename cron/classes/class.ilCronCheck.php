@@ -136,6 +136,7 @@ class ilCronCheck
 				// This entry refers to a task that is not completely implemented
 				#'ilPaymentShoppingCart::__deleteExpiredSessionsPSC',
 				'ilCronDeleteInactiveUserAccounts::run',
+				'ilCronDeleteInactivatedUserAccounts::run',
 				'ilCronPaymentNotification::sendNotifications',
 				'ilCronCourseGroupNotification::check',
 				'ilCronPaymentUDInvoiceNumberReset::check',
@@ -244,12 +245,20 @@ class ilCronCheck
 				#	'condition'		=> true
 				#),
 
-				// Delete Inactive User Accounts
+				// Delete Inactive User Accounts depending on "inactivity" period
 				'ilCronDeleteInactiveUserAccounts::run' => array(
 					'classname'		=> 'ilCronDeleteInactiveUserAccounts',
 					'method'		=> 'run',
 					'location'		=> 'Services/User',
 					'condition'		=> $ilias->getSetting('cron_inactive_user_delete', 0)
+				),
+
+				// Delete Inactive User Accounts depending on "inactivation" period
+				'ilCronDeleteInactivatedUserAccounts::run' => array(
+					'classname'		=> 'ilCronDeleteInactivatedUserAccounts',
+					'method'		=> 'run',
+					'location'		=> 'Services/User',
+					'condition'		=> $ilias->getSetting('cron_inactivated_user_delete', 0)
 				),
 
 				// Start sending Payment "Buy Extension" Reminder

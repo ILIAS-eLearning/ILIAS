@@ -1,16 +1,15 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
- * This cron deletes user accounts by INACTIVITY period
- *
+ * This cron deletes user accounts by INACTIVATION period
+ * 
  * @author Bjoern Heyser <bheyser@databay.de>
  * @version $Id$
  *
- * @package ilias
+ * @package Services/User
  */
-class ilCronDeleteInactiveUserAccounts
+class ilCronDeleteInactivatedUserAccounts
 {
 	const INTERVAL_DAILY		= '1';
 	const INTERVAL_WEEKLY		= '2';
@@ -32,32 +31,32 @@ class ilCronDeleteInactiveUserAccounts
 		global $ilSetting;
 
 		$this->interval = $ilSetting->get(
-			'cron_inactive_user_delete_interval',
+			'cron_inactivated_user_delete_interval',
 			self::getDefaultIntervalKey()
 		);
 
 		$this->include_roles = $ilSetting->get(
-			'cron_inactive_user_delete_include_roles', null
+			'cron_inactivated_user_delete_include_roles', null
 		);
 		if($this->include_roles === null) $this->include_roles = array();
 		else $this->include_roles = explode(',', $this->include_roles);
 
 		$this->period = $ilSetting->get(
-			'cron_inactive_user_delete_period',
+			'cron_inactivated_user_delete_period',
 			self::DEFAULT_INACTIVITY_PERIOD
 		);
 
-		$last_run = (int)$ilSetting->get('cron_inactive_user_delete_last_run', 0);
+		$last_run = (int)$ilSetting->get('cron_inactivated_user_delete_last_run', 0);
 
-		if( $ilSetting->get('cron_inactive_user_delete', false) )
+		if( $ilSetting->get('cron_inactivated_user_delete', false) )
 		{
 			$this->enabled = false;
 		}
-		elseif( !$last_run || (time() - $last_run) > $this->getCurrentIntervalPeriod() )
+		if( !$last_run || (time() - $last_run) > $this->getCurrentIntervalPeriod() )
 		{
 			$this->enabled = true;
 
-			$ilSetting->set('cron_inactive_user_delete_last_run', time());
+			$ilSetting->set('cron_inactivated_user_delete_last_run', time());
 		}
 	}
 
@@ -67,7 +66,7 @@ class ilCronDeleteInactiveUserAccounts
 
 		global $rbacreview;
 
-		$usr_ids = ilObjUser::_getUserIdsByInactivityPeriod($this->period);
+		$usr_ids = ilObjUser::_getUserIdsByInactivationPeriod($this->period);
 
 		foreach($usr_ids as $usr_id)
 		{
