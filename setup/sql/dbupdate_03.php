@@ -13050,3 +13050,63 @@ if(trim($ade) && !trim($fbr))
 	$setting->set("feedback_recipient", $ade);
 }
 ?>
+<#3754>
+<?php
+	// see 3619
+	$ts_now = time();
+	$ts_latest = mktime(23,55,00,date('n',time()),date('j',time()),date('Y',time()));
+
+	// all limited course objects with ref_id and parent ref_id
+	$query = "SELECT t.child,t.parent,c.startdate,c.enddate".
+		" FROM svy_svy c".
+		" JOIN object_reference r ON (r.obj_id = c.obj_fi)".
+		" JOIN tree t ON (r.ref_id = t.child)".
+		" LEFT JOIN crs_items i ON (i.obj_id = r.ref_id)".
+		" WHERE i.timing_type IS NULL";
+	$set = $ilDB->query($query);
+	while($row = $ilDB->fetchAssoc($set))
+	{				
+		if($row["startdate"] || $row["enddate"])
+		{									
+			$ts_start = time();
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $row["startdate"], $d_parts))
+			{			
+				$ts_start = mktime(
+					isset($d_parts[4]) ? $d_parts[4] : 0, 
+					isset($d_parts[5]) ? $d_parts[5] : 0,
+					isset($d_parts[6]) ? $d_parts[6] : 0,
+					$d_parts[2],
+					$d_parts[3],
+					$d_parts[1]);
+			}
+			$ts_end = mktime(0, 0, 1, 1, 1, date("Y")+3);
+			if(preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $row["enddate"], $d_parts))
+			{			
+				$ts_end = mktime(
+					isset($d_parts[4]) ? $d_parts[4] : 0, 
+					isset($d_parts[5]) ? $d_parts[5] : 0,
+					isset($d_parts[6]) ? $d_parts[6] : 0,
+					$d_parts[2],
+					$d_parts[3],
+					$d_parts[1]);
+			}
+			
+			$query = "INSERT INTO crs_items (parent_id,obj_id,timing_type,timing_start,".
+				"timing_end,suggestion_start,suggestion_end,changeable,earliest_start,".
+				"latest_end,visible,position) VALUES (".
+				$ilDB->quote($row["parent"],'integer').",".
+				$ilDB->quote($row["child"],'integer').",".
+				$ilDB->quote(0,'integer').",".
+				$ilDB->quote($ts_start,'integer').",".
+				$ilDB->quote($ts_end,'integer').",".
+				$ilDB->quote($ts_now,'integer').",".
+				$ilDB->quote($ts_now,'integer').",".
+				$ilDB->quote(0,'integer').",".
+				$ilDB->quote($ts_now,'integer').", ".
+				$ilDB->quote($ts_latest,'integer').", ".
+				$ilDB->quote(1,'integer').", ".
+				$ilDB->quote(0,'integer').")";		
+			$ilDB->manipulate($query);				
+		}
+	}
+?>

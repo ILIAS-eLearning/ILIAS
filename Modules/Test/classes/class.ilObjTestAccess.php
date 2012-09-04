@@ -97,10 +97,6 @@ class ilObjTestAccess extends ilObjectAccess
 					return false;
 				}	
 				break;
-				
-			case "visible":
-				
-				break;
 		}
 		
 		switch ($a_cmd)

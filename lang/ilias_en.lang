@@ -12905,3 +12905,7 @@ ecs#:#ecs_cms_tree_synchronized#:#The tree has been synchronized.
 rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.
 rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.
 poll#:#poll_block_results_available_on#:#The results will be available on %s.
+survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.
+survey#:#svy_availability_limitless_info#:#Choose this mode for making the survey available limitless.
+survey#:#svy_availability_until_info#:#Choose this mode for making the survey available for a fixed period of time.
+survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.
