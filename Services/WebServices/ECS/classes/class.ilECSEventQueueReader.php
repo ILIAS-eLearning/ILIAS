@@ -37,6 +37,7 @@ class ilECSEventQueueReader
 {
 	const TYPE_EXPORTED = 'exported';
 	const TYPE_DIRECTORY_TREES = 'directory_trees';
+	const TYPE_CMS_COURSES = 'courses';
 	const TYPE_REMOTE_COURSE = 'rcrs';
 	const TYPE_REMOTE_CATEGORY = 'rcat';
 	const TYPE_REMOTE_FILE = 'rfil';
@@ -396,6 +397,10 @@ class ilECSEventQueueReader
 		{
 			case 'directory_trees':
 				$type = self::TYPE_DIRECTORY_TREES;
+				break;
+			
+			case 'courses':
+				$type = self::TYPE_CMS_COURSES;
 				break;
 			
 			case 'courselinks':
