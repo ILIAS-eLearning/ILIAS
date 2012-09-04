@@ -561,3 +561,4 @@ setup_process_step_proxy#:#Proxy###02 09 2012 new variable
 step_proxy#:#Proxy###02 09 2012 new variable
 db_innodb#:#MySQL (InnoDB)###02 09 2012 new variable
 show_update_steps#:#Show Update Step###02 09 2012 new variable
+client_cloned#:#All files and settings of the source are copied into the client.###04 09 2012 new variable

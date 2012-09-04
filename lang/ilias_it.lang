@@ -12899,3 +12899,17 @@ dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view###02 09 2012 new var
 dcl#:#dcl_text_area#:#Textarea###02 09 2012 new variable
 forum#:#frm_notification_activated#:#Notification Activated###02 09 2012 new variable
 forum#:#frm_notification_deactivated#:#Notification Deactivated###02 09 2012 new variable
+dcl#:#dcl_delete_table#:#Delete Table###04 09 2012 new variable
+dcl#:#dcl_table_info#:#Users with the permission "edit settings" (see tab "Permission") always have permission to add/edit/delete entries. Users with permission "edit entry" (see tab "Permissions") only have permissions according to the settings specified in the form below.###04 09 2012 new variable
+dcl#:#dcl_confirm_delete_table#:#Do you really want to delete this table with it's content and structure?###04 09 2012 new variable
+dcl#:#dcl_cant_delete_main_table#:#You can't completely remove this table as it is the default table of this Data Collection. It's content and structure got removed instead.###04 09 2012 new variable
+administration#:#feedback_recipient_info#:#This address is used in the footer link "%s".###04 09 2012 new variable
+ecs#:#ecs_cms_tree_synchronize#:#Synchronize Tree###04 09 2012 new variable
+ecs#:#ecs_cms_tree_synchronized#:#The tree has been synchronized.###04 09 2012 new variable
+rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.###04 09 2012 new variable
+rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.###04 09 2012 new variable
+poll#:#poll_block_results_available_on#:#The results will be available on %s.###04 09 2012 new variable
+survey#:#svy_activation_online_info#:#Activate this setting to make the survey accessible to users.###04 09 2012 new variable
+survey#:#svy_availability_limitless_info#:#Choose this mode for making the survey available limitless.###04 09 2012 new variable
+survey#:#svy_availability_until_info#:#Choose this mode for making the survey available for a fixed period of time.###04 09 2012 new variable
+survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.###04 09 2012 new variable
