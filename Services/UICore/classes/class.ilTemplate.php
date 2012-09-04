@@ -816,19 +816,43 @@ class ilTemplate extends ilTemplateX
 		
 		$ftpl->setVariable("ILIAS_VERSION", $ilias->getSetting("ilias_version"));
 		
+		$link_items = array();
+		
 		// imprint
 		include_once "Services/Imprint/classes/class.ilImprint.php";
 		if($_REQUEST["baseClass"] != "ilImprintGUI" && ilImprint::isActive())
 		{
-			$ftpl->setVariable("TXT_IMPRINT", $lng->txt("imprint"));
-			
 			include_once "Services/Link/classes/class.ilLink.php";
-			$ftpl->setVariable("URL_IMPRINT", ilLink::_getStaticLink(0, "impr"));
+			$link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
 		}
 		
-		$ftpl->setVariable("TXT_CONTACT", $lng->txt("contact_sysadmin"));
-		$ftpl->setVariable("URL_CONTACT", "mailto:".$ilSetting->get("feedback_recipient"));
-
+		$link_items["mailto:".$ilSetting->get("feedback_recipient")] = array($lng->txt("contact_sysadmin"), false);
+				
+		if (DEVMODE && version_compare(PHP_VERSION,'5','>='))
+		{
+			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml")] = array("Validate", true);
+			$link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility")] = array("Accessibility", true);			
+		}
+		
+		$cnt = 0;
+		foreach($link_items as $url => $caption)
+		{
+			$cnt ++;		
+			if($caption[1])
+			{
+				$ftpl->touchBlock("blank");
+			} 
+			if($cnt < sizeof($link_items))
+			{
+				$ftpl->touchBlock("item_separator");
+			}
+			
+			$ftpl->setCurrentBlock("items");
+			$ftpl->setVariable("URL_ITEM", $url);
+			$ftpl->setVariable("TXT_ITEM", $caption[0]);
+			$ftpl->parseCurrentBlock();			
+		}
+		
 		// output translation link
 		if ($ilSetting->get("lang_ext_maintenance") == "1")
 		{
@@ -848,22 +872,22 @@ class ilTemplate extends ilTemplateX
 			$t2 = explode(" ", microtime());
 			$diff = $t2[0] - $t1[0] + $t2[1] - $t1[1];
 
-			$mem_usage = "";
+			$mem_usage = array();
 			if(function_exists("memory_get_usage"))
 			{
-				$mem_usage.=
-					"<br /> Memory Usage: ".memory_get_usage()." Bytes";
+				$mem_usage[] =
+					"Memory Usage: ".memory_get_usage()." Bytes";
 			}
 			if(function_exists("xdebug_peak_memory_usage"))
 			{
-				$mem_usage.=
-					"<br /> XDebug Peak Memory Usage: ".xdebug_peak_memory_usage()." Bytes";
+				$mem_usage[] =
+					"XDebug Peak Memory Usage: ".xdebug_peak_memory_usage()." Bytes";
 			}
-			$mem_usage.= "<br>".round($diff, 4)." Seconds";
+			$mem_usage[] = round($diff, 4)." Seconds";
 			
-			if ($mem_usage != "")
+			if (sizeof($mem_usage))
 			{
-				$ftpl->setVariable("MEMORY_USAGE", $mem_usage);
+				$ftpl->setVariable("MEMORY_USAGE", implode(" | ", $mem_usage));
 			}
 			
 			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
@@ -879,19 +903,10 @@ class ilTemplate extends ilTemplateX
 					date("Y-m-d H:i:s", $_SESSION[$ilAuth->_sessionName]["idle"] + $exp));
 			}
 			
-			if (version_compare(PHP_VERSION,'5','>='))
-			{
-				$ftpl->setVariable("VALIDATION_LINKS",
-					'<br /><a href="'.
-					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=xhtml").
-					'">Validate</a> | <a href="'.
-					ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"], "do_dev_validate=accessibility").
-					'">Accessibility</a>');
-			}
 			if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation"))
 			{
 				require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
-				$template2 = ilPHP::cloneObject($this);
+				$template2 = clone($this);
 //echo "-".ilValidatorAdapter::validate($template2->get(), $_GET["do_dev_validate"])."-";
 				$ftpl->setCurrentBlock("xhtml_validation");
 				$ftpl->setVariable("VALIDATION",
