@@ -13126,3 +13126,54 @@ if(trim($ade) && !trim($fbr))
 <?php
 	$ilDB->addPrimaryKey('qpl_fb_essay', array('feedback_id'));
 ?>
+
+<#3755>
+<?php
+
+	if(!$ilDB->tableColumnExists('usr_data', 'inactivation_date'))
+	{
+		$ilDB->addTableColumn('usr_data', 'inactivation_date', array(
+			'type' => 'timestamp',
+			'notnull' => false,
+			'default' => null
+		));
+	}
+	else
+	{
+		// if field does already exist, this is the awd installation,
+		// so turn stored configuration to new inactivation cron
+
+		$settings = array(
+			'cron_inactive_user_delete',
+			'cron_inactive_user_delete_interval',
+			'cron_inactive_user_delete_include_roles',
+			'cron_inactive_user_delete_period',
+			'cron_inactive_user_delete_last_run'
+		);
+
+		$_keyword_IN_keywords = $ilDB->in('keyword', $settings, false, 'text');
+
+		$res = $ilDB->query("
+			SELECT keyword, value
+			FROM settings
+			WHERE $_keyword_IN_keywords
+		");
+
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			$settingName = $row['keyword'];
+			$settingValue = $row['value'];
+
+			$settingName = str_replace('cron_inactive_', 'cron_inactivated_', $settingName);
+
+			$ilDB->insert('settings', array(
+				'module' => array('text', 'common'),
+				'keyword' => array('text', $settingName),
+				'value' => array('text', $settingValue)
+			));
+		}
+
+		$ilDB->manipulate("DELETE FROM settings WHERE $_keyword_IN_keywords");
+	}
+
+?>
