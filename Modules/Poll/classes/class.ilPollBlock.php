@@ -95,6 +95,17 @@ class ilPollBlock extends ilCustomBlock
 		return true;
 	}
 	
+	public function mayNotResultsYet()
+	{
+		if($this->poll->getViewResults() == ilObjPoll::VIEW_RESULTS_AFTER_PERIOD &&
+			$this->poll->getVotingPeriod() &&
+			$this->poll->getVotingPeriodEnd() > time())
+		{
+			return true;
+		}
+		return false;	
+	}
+	
 	public function maySeeResults($a_user_id)
 	{
 		if(!$this->active && !$this->visible)
@@ -111,19 +122,12 @@ class ilPollBlock extends ilCustomBlock
 				return true;
 				
 			case ilObjPoll::VIEW_RESULTS_AFTER_VOTE:
+			case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:		
 				if($this->poll->hasUserVoted($a_user_id))
 				{
 					return true;
 				}
-				return false;
-				
-			case ilObjPoll::VIEW_RESULTS_AFTER_PERIOD:				
-				if($this->poll->getVotingPeriod() &&
-					$this->poll->getVotingPeriodEnd() < time())
-				{
-					return true;
-				}
-				return false;						
+				return false;				
 		}						
 	}
 	
@@ -147,13 +151,7 @@ class ilPollBlock extends ilCustomBlock
 				$date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
 				return sprintf($lng->txt("poll_block_message_inactive"), $date);
 			}
-		}
-		
-		if($this->poll->hasUserVoted($a_user_id) && 
-			!$this->maySeeResults($a_user_id))
-		{
-			return $lng->txt("poll_block_message_already_voted");
-		}				
+		}			
 	}
 }
 
