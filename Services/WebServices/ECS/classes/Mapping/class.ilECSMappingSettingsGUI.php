@@ -116,10 +116,11 @@ class ilECSMappingSettingsGUI
 	protected function cStart()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		if(!ilECSNodeMappingSettings::getInstance()->isEnabled())
+		if(!ilECSNodeMappingSettings::getInstance()->isEnabled() or 0)
 		{
 			return $this->cSettings();
 		}
+		return $this->cSettings();
 	}
 
 	/**
@@ -185,10 +186,12 @@ class ilECSMappingSettingsGUI
 
 		// individual course allocation
 		$check = new ilCheckboxInputGUI($this->lng->txt('ecs_individual_alloc'), 'individual');
-		$check->setInfo($this->lng->txt('ecs_individual_alloc'));
+		$check = new ilCheckboxInputGUI('Individual Allocation', 'individual');
+		#$check->setInfo($this->lng->txt('ecs_individual_alloc'));
 		$form->addItem($check);
 
-		$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
+		#$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
+		$form->addCommandButton('cSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cSettings', $this->lng->txt('cancel'));
 
 		return $form;
