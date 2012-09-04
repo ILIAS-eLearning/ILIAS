@@ -13110,3 +13110,19 @@ if(trim($ade) && !trim($fbr))
 		}
 	}
 ?>
+<#3755>
+<?php
+	$ilDB->addPrimaryKey('qpl_fb_cloze', array('feedback_id'));
+?>
+<#3756>
+<?php
+	$ilDB->addPrimaryKey('qpl_fb_errortext', array('feedback_id'));
+?>
+<#3757>
+<?php
+	$ilDB->addPrimaryKey('qpl_fb_matching', array('feedback_id'));
+?>
+<#3758>
+<?php
+	$ilDB->addPrimaryKey('qpl_fb_essay', array('feedback_id'));
+?>
