@@ -91,9 +91,21 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 		$list->setItemLinkClass('small');
 		$list->setId('actl_'.$a_set['id']);
 		$list->setListTitle($this->lng->txt('actions'));
-
+		
 		$ilCtrl->setParameter($this->getParentObject(),'tid',$a_set['id']);
 		$list->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'dInitEditTree'));
+		
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		if($a_set['status'] != ilECSMappingUtils::MAPPED_UNMAPPED &&
+				ilECSNodeMappingSettings::getInstance()->isEnabled())
+		{
+			$list->addItem(
+					$this->lng->txt('ecs_cms_tree_synchronize'),
+					'',
+					$ilCtrl->getLinkTarget($this->getParentObject(),'dSynchronizeTree')
+			);
+		}
+		
 		$list->addItem($this->lng->txt('delete'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'dConfirmDeleteTree'));
 		$this->tpl->setVariable('ACTIONS',$list->getHTML());
 

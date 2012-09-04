@@ -31,6 +31,7 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
 		$this->type = self::SEL_TYPE_CHECK;
 		$this->setOrderColumn('title');
+		$this->setTitleLength(1024);
 
 		// reset filter
 		$this->filter = array();
@@ -39,7 +40,6 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 		$this->server_id = $a_server_id;
 		$this->mid = $a_mid;
 		$this->tree_id = $a_tree_id;
-
 	}
 
 	/**
@@ -264,9 +264,9 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
 	public function buildTitle($title, $a_obj_id, $a_type)
 	{
-		if(strlen($title) >= 30)
+		if(strlen($title) >= 22)
 		{
-			$title = substr($title, 0,30).'...';
+			#$title = substr($title, 0,22).'...';
 		}
 		
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';

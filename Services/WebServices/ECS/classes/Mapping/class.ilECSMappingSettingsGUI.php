@@ -469,7 +469,7 @@ class ilECSMappingSettingsGUI
 
 	/**
 	 *
-	 * @return <type> Update global settings
+	 * @return boolean Update global settings
 	 */
 	protected function dUpdateTreeSettings()
 	{
@@ -500,6 +500,22 @@ class ilECSMappingSettingsGUI
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));
 		$this->dEditTree($form);
 		return true;
+	}
+	
+	/**
+	 * Synchronize Tree
+	 */
+	protected function dSynchronizeTree()
+	{
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTreeSynchronizer.php';
+		$sync = new ilECSCmsTreeSynchronizer(
+				$this->getServer(),
+				$this->mid,
+				(int) $_REQUEST['tid']
+			);
+		$sync->sync();
+		ilUtil::sendSuccess($this->lng->txt('ecs_cms_tree_synchronized'),true);
+		$this->ctrl->redirect($this,'dTrees');
 	}
 
 	/**
