@@ -320,31 +320,22 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			$result = $this->object->setStatus($_POST['online']);
 			$this->object->setEvaluationAccess($_POST["evaluation_access"]);
-
-			if(!$template_settings["enabled_start_date"]["hide"])
-			{
-				$this->object->setStartDateEnabled($_POST["enabled_start_date"]);
-				if ($this->object->getStartDateEnabled())
-				{
-					$this->object->setStartDateAndTime($_POST["start_date"]['date'], $_POST["start_date"]['time']);
-				}
-				else
-				{
-					$this->object->setStartDate(null);
-				}
+			
+			// activation
+			if($_POST["access_type"] == ilObjectActivation::TIMINGS_ACTIVATION)
+			{	
+				$this->object->setActivationLimited(true);								    			
+				$this->object->setActivationVisibility($_POST["access_visiblity"]);
+				
+				$date = new ilDateTime($_POST['access_begin']['date'] . ' ' . $_POST['access_begin']['time'], IL_CAL_DATETIME);
+				$this->object->setStartDate($date->get(IL_CAL_UNIX));
+				
+				$date = new ilDateTime($_POST['access_end']['date'] . ' ' . $_POST['access_end']['time'], IL_CAL_DATETIME);
+				$this->object->setEndDate($date->get(IL_CAL_UNIX));							
 			}
-
-			if(!$template_settings["enabled_end_date"]["hide"])
+			else
 			{
-				$this->object->setEndDateEnabled($_POST["enabled_end_date"]);
-				if ($this->object->getEndDateEnabled())
-				{
-					$this->object->setEndDateAndTime($_POST["end_date"]['date'], $_POST["end_date"]['time']);
-				}
-				else
-				{
-					$this->object->setEndDate(null);
-				}
+				$this->object->setActivationLimited(false);
 			}
 
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
@@ -429,13 +420,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$header->setTitle($this->lng->txt("settings"));
 		$form->addItem($header);
 		
-		// online
-		$online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
-		$online->setValue(1);
-		$online->setChecked($this->object->isOnline());
-		$form->addItem($online);
-
-
 		// title & description (meta data)
 		
 		include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -458,23 +442,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$desc->setValue($desc_obj->getDescription());
 			$form->addItem($desc);
 		}
-			
-		// pool usage
-		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");
-		$pool_usage->setValue(1);
-		$pool_usage->setChecked($this->object->getPoolUsage());
-		$form->addItem($pool_usage);
-		
-		if(!$template_settings["anonymization_options"]["hide"] ||
-			!$template_settings["enabled_start_date"]["hide"] ||
-			!$template_settings["enabled_end_date"]["hide"])
-		{
-			// access properties
-			$acc = new ilFormSectionHeaderGUI();
-			$acc->setTitle($this->lng->txt("access"));
-			$form->addItem($acc);
-		}
-		
+				
 		// anonymization
 		$anonymization_options = new ilRadioGroupInputGUI($this->lng->txt("survey_auth_mode"), "anonymization_options");
 		$hasDatasets = $this->object->_hasDatasets($this->object->getSurveyId());
@@ -499,47 +467,71 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		$anonymization_options->setInfo($this->lng->txt("anonymize_survey_description"));
 		$form->addItem($anonymization_options);
+				
+		// pool usage
+		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");
+		$pool_usage->setValue(1);
+		$pool_usage->setChecked($this->object->getPoolUsage());
+		$form->addItem($pool_usage);
+		
+		
+		// activation
+		
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
+		$this->lng->loadLanguageModule('rep');
+		
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('rep_activation_availability'));
+		$form->addItem($section);
+		
+		// additional info only with multiple references
+		$act_obj_info = $act_ref_info = "";
+		if(sizeof(ilObject::_getAllReferences($this->object->getId())) > 1)
+		{
+			$act_obj_info = ' '.$this->lng->txt('rep_activation_online_object_info');
+			$act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
+		}
+		
+		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'online');		
+		$online->setInfo($this->lng->txt('svy_activation_online_info').$act_obj_info);
+		$online->setChecked($this->object->isOnline());
+		$form->addItem($online);				
+		
+		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'access_type');
+		$act_type->setInfo($act_ref_info);
+		$act_type->setValue($this->object->isActivationLimited() ? 
+			ilObjectActivation::TIMINGS_ACTIVATION : ilObjectActivation::TIMINGS_DEACTIVATED);		
+		
+			$opt = new ilRadioOption($this->lng->txt('rep_visibility_limitless'), ilObjectActivation::TIMINGS_DEACTIVATED);
+			$opt->setInfo($this->lng->txt('svy_availability_limitless_info'));
+			$act_type->addOption($opt);
+			
+			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
+			$opt->setInfo($this->lng->txt('svy_availability_until_info'));
 
-		// enable start date
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("start_date"), "enabled_start_date");
-		$enablestartingtime->setValue(1);
-		// $enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enablestartingtime->setChecked($this->object->getStartDateEnabled());
-		// start date
-		$startingtime = new ilDateTimeInputGUI('', 'start_date');
-		$startingtime->setShowDate(true);
-		$startingtime->setShowTime(true);
-		if ($this->object->getStartDateEnabled())
-		{
-			$startingtime->setDate(new ilDate($this->object->getStartDate(), IL_CAL_DATE));
-		}
-		else
-		{
-			$startingtime->setDate(new ilDate(time(), IL_CAL_UNIX));
-		}
-		$enablestartingtime->addSubItem($startingtime);
-		$form->addItem($enablestartingtime);
-
-		// enable end date
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("end_date"), "enabled_end_date");
-		$enableendingtime->setValue(1);
-		// $enableendingtime->setOptionTitle($this->lng->txt("enabled"));
-		$enableendingtime->setChecked($this->object->getEndDateEnabled());
-		// end date
-		$endingtime = new ilDateTimeInputGUI('', 'end_date');
-		$endingtime->setShowDate(true);
-		$endingtime->setShowTime(true);
-		if ($this->object->getEndDateEnabled())
-		{
-			$endingtime->setDate(new ilDate($this->object->getEndDate(), IL_CAL_DATE));
-		}
-		else
-		{
-			$endingtime->setDate(new ilDate(time(), IL_CAL_UNIX));
-		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
-	
+				$date = $this->object->getStartDate();
+				
+				$start = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_start'),'access_begin');
+				$start->setShowTime(true);		
+				$start->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$opt->addSubItem($start);
+				
+				$date = $this->object->getEndDate();
+				
+				$end = new ilDateTimeInputGUI($this->lng->txt('rep_activation_limited_end'),'access_end');			
+				$end->setShowTime(true);			
+				$end->setDate(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+				$opt->addSubItem($end);
+				
+				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visiblity');
+				$visible->setInfo($this->lng->txt('svy_activation_limited_visibility_info'));
+				$visible->setChecked($this->object->getActivationVisibility());
+				$opt->addSubItem($visible);
+				
+			$act_type->addOption($opt);
+		
+		$form->addItem($act_type);									
+		
 		
 		// presentation properties
 		$info = new ilFormSectionHeaderGUI();

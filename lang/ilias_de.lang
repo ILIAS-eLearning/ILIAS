@@ -12905,3 +12905,7 @@ administration#:#feedback_recipient_info#:#Diese Adresse wird in der Fusszeile f
 rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
 poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
+survey#:#svy_activation_online_info#:#Wählen Sie diese Einstellung, um die Umfrage für Benutzer verfügbar zumachen.
+survey#:#svy_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Umfrage unbegrenzt freizuschalten.
+survey#:#svy_availability_until_info#:#Wählen Sie diese Einstellung, um die Umfrage nur während eines definierten Zeitraums freizuschalten.
+survey#:#svy_activation_limited_visibility_info#:#Falls aktiv, ist die Umfrage auch ausserhalb der Zugriffszeiten sichtbar.
