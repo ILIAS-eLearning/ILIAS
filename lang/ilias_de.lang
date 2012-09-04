@@ -12899,6 +12899,8 @@ dcl#:#dcl_ILIAS_reference_link#:#In der Tabellensicht als Link darstellen
 dcl#:#dcl_text_area#:#Textbox
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
+ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
+ecs#:#ecs_cms_tree_synchronized#:#Der Baum wurde synchronisiert.
 administration#:#feedback_recipient_info#:#Diese Adresse wird in der Fusszeile für den Link "%s" genutzt.
 rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
 rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.

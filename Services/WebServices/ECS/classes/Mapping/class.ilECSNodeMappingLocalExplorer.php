@@ -268,14 +268,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 	
 	public function buildTitle($title, $a_obj_id, $a_type)
 	{
-		if(strlen($title) >= 30)
-		{
-			$title = substr($title, 0,30).'...';
-		}
 		return parent::buildTitle($title, $a_obj_id, $a_type);
 	}
-	
-
-
 }
 ?>
