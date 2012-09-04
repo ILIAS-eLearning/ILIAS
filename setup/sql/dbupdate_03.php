@@ -13127,7 +13127,7 @@ if(trim($ade) && !trim($fbr))
 	$ilDB->addPrimaryKey('qpl_fb_essay', array('feedback_id'));
 ?>
 
-<#3755>
+<#3759>
 <?php
 
 	if(!$ilDB->tableColumnExists('usr_data', 'inactivation_date'))
