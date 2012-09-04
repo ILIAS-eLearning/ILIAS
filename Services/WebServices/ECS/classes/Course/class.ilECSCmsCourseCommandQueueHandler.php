@@ -50,7 +50,9 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 			$crs_reader = new ilECSCourseConnector($this->getServer());
 			$course = $crs_reader->getCourse($a_content_id);
 			
-			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($course,true));
+			$this->doUpdate($a_content_id, $course[0]);
+			return true;
+			
 		}
 		catch(ilECSConnectorException $e) 
 		{
