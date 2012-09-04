@@ -62,11 +62,20 @@ class ilObjPollGUI extends ilObject2GUI
 		$section->setTitle($this->lng->txt('rep_activation_availability'));
 		$a_form->addItem($section);
 		
+		// additional info only with multiple references
+		$act_obj_info = $act_ref_info = "";
+		if(sizeof(ilObject::_getAllReferences($this->object->getId())) > 1)
+		{
+			$act_obj_info = ' '.$this->lng->txt('rep_activation_online_object_info');
+			$act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
+		}
+		
 		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'online');		
-		$online->setInfo($this->lng->txt('poll_activation_online_info'));
+		$online->setInfo($this->lng->txt('poll_activation_online_info').$act_obj_info);
 		$a_form->addItem($online);				
 		
 		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'access_type');
+		$act_type->setInfo($act_ref_info);
 		
 			$opt = new ilRadioOption($this->lng->txt('rep_visibility_limitless'), ilObjectActivation::TIMINGS_DEACTIVATED);
 			$opt->setInfo($this->lng->txt('poll_availability_limitless_info'));

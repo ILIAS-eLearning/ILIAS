@@ -12900,3 +12900,6 @@ dcl#:#dcl_cant_delete_main_table#:#You can't completely remove this table as it 
 forum#:#frm_notification_activated#:#Notification Activated
 forum#:#frm_notification_deactivated#:#Notification Deactivated
 administration#:#feedback_recipient_info#:#This address is used in the footer link "%s".
+rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.
+rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.
+poll#:#poll_block_results_available_on#:#The results will be available on %s.

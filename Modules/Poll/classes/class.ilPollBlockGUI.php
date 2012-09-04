@@ -129,23 +129,40 @@ class ilPollBlockGUI extends ilBlockGUI
 			}
 
 
-			// result
-
+			// result		
 			if($this->poll_block->maySeeResults($ilUser->getId()))
 			{	
-				$perc = $this->poll_block->getPoll()->getVotePercentages();
-				$total = $perc["total"];
-				$perc = $perc["perc"];
-				
-				$this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
+				if(!$this->poll_block->mayNotResultsYet($ilUser->getId()))
+				{				
+					$perc = $this->poll_block->getPoll()->getVotePercentages();
+					$total = $perc["total"];
+					$perc = $perc["perc"];
 
-				$this->tpl->setCurrentBlock("answer_result");
-				foreach($a_poll->getAnswers() as $item)
-				{			
-					$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($item["answer"]));
-					$this->tpl->setVariable("PERC_ANSWER_RESULT", round($perc[$item["id"]]["perc"]));
-					$this->tpl->parseCurrentBlock();
-				}		
+					$this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
+
+					$this->tpl->setCurrentBlock("answer_result");
+					foreach($a_poll->getAnswers() as $item)
+					{			
+						$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($item["answer"]));
+						$this->tpl->setVariable("PERC_ANSWER_RESULT", round($perc[$item["id"]]["perc"]));
+						$this->tpl->parseCurrentBlock();
+					}		
+				}
+				else 
+				{							
+					$rel =  ilDatePresentation::useRelativeDates();
+					ilDatePresentation::setUseRelativeDates(false);
+					$end = $this->poll_block->getPoll()->getVotingPeriodEnd();
+					$end = ilDatePresentation::formatDate(new ilDateTime($end, IL_CAL_UNIX));
+					ilDatePresentation::setUseRelativeDates($rel);
+					
+					$this->tpl->setVariable("TOTAL_ANSWERS", $lng->txt("poll_block_message_already_voted").
+						' '.sprintf($lng->txt("poll_block_results_available_on"), $end));					
+				}
+			}
+			else if($this->poll_block->getPoll()->hasUserVoted($ilUser->getId()))
+			{
+				$this->tpl->setVariable("TOTAL_ANSWERS", $lng->txt("poll_block_message_already_voted"));
 			}
 		}
 		

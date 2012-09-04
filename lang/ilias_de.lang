@@ -12900,3 +12900,6 @@ dcl#:#dcl_text_area#:#Textbox
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 administration#:#feedback_recipient_info#:#Diese Adresse wird in der Fusszeile für den Link "%s" genutzt.
+rep#:#rep_activation_online_object_info#:#Diese Einstellung wirkt sich auf alle Referenzen im Repository aus.
+rep#:#rep_activation_access_ref_info#:#Dieses Einstellung betrifft nur die aktuelle und keine andere Referenz.
+poll#:#poll_block_results_available_on#:#Die Ergebnisse werden am %s veröffentlicht.
