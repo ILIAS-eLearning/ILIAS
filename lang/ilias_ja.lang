@@ -14,7 +14,7 @@
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_access_ke#:#アクセスキー
+acc#:#acc_access_key#:#アクセスキー
 acc#:#acc_access_keys#:#アクセスキー
 acc#:#acc_comp_frm#:#フォーラム
 acc#:#acc_comp_global#:#グローバル
