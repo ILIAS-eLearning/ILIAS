@@ -887,7 +887,7 @@ class ilTemplate extends ilTemplateX
 			
 			if (sizeof($mem_usage))
 			{
-				$ftpl->setVariable("MEMORY_USAGE", implode(" | ", $mem_usage));
+				$ftpl->setVariable("MEMORY_USAGE", "<br>".implode(" | ", $mem_usage));
 			}
 			
 			if (is_object($ilAuth) && isset($_SESSION[$ilAuth->_sessionName]) &&
