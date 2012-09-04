@@ -2608,7 +2608,7 @@ common#:#delete#:#Löschen
 common#:#delete_all#:#Alle löschen
 common#:#delete_all_rec#:#Lösche alle Einträge
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactive_user_accounts#:#Benutzerzugänge löschen
+common#:#delete_inactive_user_accounts#:#Benutzerzugänge nach Inaktivität löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
@@ -2616,6 +2616,14 @@ common#:#delete_inactive_user_accounts_interval#:#Häufigkeit
 common#:#delete_inactive_user_accounts_interval_desc#:#Häufigkeit in der die Löschbedingungen überprüft werden.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#Löschung wird vorgenommen, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactivated_user_accounts_interval#:#Häufigkeit
+common#:#delete_inactivated_user_accounts_interval_desc#:#Häufigkeit in der die Löschbedingungen überprüft werden.
+common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
+common#:#delete_inactivated_user_accounts_period_desc#:#Löschung wird vorgenommen, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
 common#:#delete_object#:#Lösche Objekte
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected#:#Auswahl löschen
