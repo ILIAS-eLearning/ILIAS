@@ -4,7 +4,7 @@
 
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
-require_once 'Modules/Test/classes/class.assQuestion.php';
+require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 
 /**
  * Output class for assessment test execution
