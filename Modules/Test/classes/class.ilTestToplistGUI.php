@@ -21,10 +21,15 @@ class ilTestToplistGUI
 
 	public function executeCommand()
 	{
+		/**
+ 		 * @var $ilCtrl ilCtrl
+		 * @var $ilTabs ilTabsGUI
+		 */
 		global $ilCtrl, $ilTabs;
 		
-		$ilTabs->addSubTabTarget('toplist_by_score', $ilCtrl->getLinkTarget($this, 'showResultsToplistByScore'));
-		$ilTabs->addSubTabTarget('toplist_by_time', $ilCtrl->getLinkTarget($this, 'showResultsToplistByTime'));
+		$ilTabs->activateTab('info_short');
+		$ilTabs->addSubTabTarget('toplist_by_score', $ilCtrl->getLinkTarget($this, 'showResultsToplistByScore'), array('outResultsToplist', 'showResultsToplistByScore'));
+		$ilTabs->addSubTabTarget('toplist_by_time', $ilCtrl->getLinkTarget($this, 'showResultsToplistByTime'), array('showResultsToplistByTime'));
 		
 		
 		
