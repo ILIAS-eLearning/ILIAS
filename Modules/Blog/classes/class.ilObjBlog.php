@@ -344,40 +344,72 @@ class ilObjBlog extends ilObject2
 		$this->approval = (bool)$a_status;
 	}
 	
-	static function sendNotification($a_action, $a_blog_wsp_id, $a_posting_id)
+	static function sendNotification($a_action, $a_blog_node_id, $a_posting_id)
 	{
-		global $ilUser;
+		global $ilUser, $ilAccess;
 		
-		// get blog object id
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
-		$blog_obj_id = $tree->lookupObjectId($a_blog_wsp_id);		
+		// get blog object id (repository or workspace)
+		$blog_obj_id = ilObject::_lookupObjId($a_blog_node_id);
+		if(!$blog_obj_id)
+		{				
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			$tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
+			$blog_obj_id = $tree->lookupObjectId($a_blog_node_id);							
+			$access_handler = new ilWorkspaceAccessHandler($tree); 
+								
+			$link = ilWorkspaceAccessHandler::getGotoLink($a_blog_node_id, $blog_obj_id, "_".$a_posting_id);		
+		}
+		else
+		{
+			$access_handler = null;
+			
+			include_once "Services/Link/classes/class.ilLink.php";
+			$link = ilLink::_getStaticLink($a_blog_node_id, "blog", true , "_".$a_posting_id);
+		}
 		if(!$blog_obj_id)
 		{
 			return;
 		}	
+				
+		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
+		$posting = new ilBlogPosting($a_posting_id);
+		
+		$admin_only = $author_only = false;	
+		
+		if($a_action == "comment")
+		{
+			$author_only = true;			
+		}
+		
+		// approval handling					
+		if(!$posting->isApproved())
+		{			
+			$blog = new self($blog_obj_id, false);
+			if($blog->hasApproval())
+			{										
+				switch($a_action)
+				{
+					case "update":
+						// un-approved posting was updated - no notifications					
+						return;
 
+					case "new":
+						// un-approved posting was activated - admin-only notification					
+						$admin_only = true;									
+						break;				
+				}
+			}
+		}
+		
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, 
-			$a_blog_wsp_id, $a_posting_id, ($a_action == "comment"));
+			$blog_obj_id, $a_posting_id, ($admin_only || $author_only));		
 		if(!sizeof($users))
 		{
 			return;
 		}
-		
-		ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $a_blog_wsp_id, $users);
-		
-		
-		// prepare mail content
-		
-		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
-		$posting = new ilBlogPosting($a_posting_id);
-		$posting_title = $posting->getTitle();		
-		$blog_title = ilObject::_lookupTitle($blog_obj_id);
-				
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-		$link = ilWorkspaceAccessHandler::getGotoLink($a_blog_wsp_id, $blog_obj_id, "_".$a_posting_id);
 		
 		
 		// send mails
@@ -386,44 +418,77 @@ class ilObjBlog extends ilObject2
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
 		include_once("./Services/User/classes/class.ilUserUtil.php");
-		
-		$owner = ilObject::_lookupOwner($blog_obj_id);
-		$access_handler = new ilWorkspaceAccessHandler($tree); 
-		
+				
+		$posting_title = $posting->getTitle();		
+		$blog_title = ilObject::_lookupTitle($blog_obj_id);		
+		$author = $posting->getAuthor();
+				
+		$notified = array();
 		foreach(array_unique($users) as $idx => $user_id)
 		{
-			// the blog owner should only get comments notifications
-			if($a_action != "comment" && $user_id == $owner)
+			// the user responsible for the action should not be notified
+			if($user_id == $ilUser->getId())
 			{
 				continue;
 			}
 			
-			// the user responsible for the action should not be notified
-			if($user_id != $ilUser->getId() &&
-				$access_handler->checkAccessOfUser($tree, $user_id, 'read', '', $a_blog_wsp_id))
+			// only the posting author should get notification
+			if($author_only && $user_id != $author)
 			{
-				// use language of recipient to compose message
-				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
-				$ulng->loadLanguageModule('blog');
-
-				$subject = sprintf($ulng->txt('blog_change_notification_subject'), $blog_title);
-				$message = sprintf($ulng->txt('blog_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
-
-				$message .= $ulng->txt('blog_change_notification_body_'.$a_action).":\n\n";
-				$message .= $ulng->txt('obj_blog').": ".$blog_title."\n";
-				$message .= $ulng->txt('blog_posting').": ".$posting_title."\n";
-				$message .= $ulng->txt('blog_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
-				$message .= $ulng->txt('blog_change_notification_link').": ".$link;				
-
-				$mail_obj = new ilMail(ANONYMOUS_USER_ID);
-				$mail_obj->appendInstallationSignature(true);
-				$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
-					"", "", $subject, $message, array(), array("system"));
+				continue;
 			}
+									
+			// workspace
+			if($access_handler)
+			{
+				if($admin_only && 
+					!$access_handler->checkAccessOfUser($tree, $user_id, 'write', '', $a_blog_node_id))
+				{
+					continue;
+				}
+				if(!$access_handler->checkAccessOfUser($tree, $user_id, 'read', '', $a_blog_node_id))
+				{
+					continue;
+				}
+			}
+			// repository
 			else
 			{
-				unset($users[$idx]);
+				if($admin_only && 
+					!$ilAccess->checkAccessOfUser($user_id, 'write', '', $a_blog_node_id))
+				{
+					continue;
+				}
+				if(!$ilAccess->checkAccessOfUser($user_id, 'read', '', $a_blog_node_id))
+				{
+					continue;
+				}
 			}
+										
+			// use language of recipient to compose message
+			$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
+			$ulng->loadLanguageModule('blog');
+
+			$subject = sprintf($ulng->txt('blog_change_notification_subject'), $blog_title);
+			$message = sprintf($ulng->txt('blog_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
+
+			$message .= $ulng->txt('blog_change_notification_body_'.$a_action).":\n\n";
+			$message .= $ulng->txt('obj_blog').": ".$blog_title."\n";
+			$message .= $ulng->txt('blog_posting').": ".$posting_title."\n";
+			$message .= $ulng->txt('blog_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
+			$message .= $ulng->txt('blog_change_notification_link').": ".$link;				
+
+			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
+			$mail_obj->appendInstallationSignature(true);
+			$mail_obj->sendMail(ilObjUser::_lookupLogin($user_id),
+				"", "", $subject, $message, array(), array("system"));
+
+			$notified[] = $user_id;			
+		}
+		
+		if(sizeof($notified))
+		{			
+			ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified);		
 		}
 	}
 			

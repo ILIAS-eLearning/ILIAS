@@ -15,7 +15,7 @@ class ilBlogPosting extends ilPageObject
 {	
 	protected $title; // [string]
 	protected $created; // [ilDateTime]
-	protected $blog_wsp_id; // [int]
+	protected $blog_node_id; // [int]
 	protected $author; // [int]
 	protected $approved; // [bool]
 
@@ -113,11 +113,11 @@ class ilBlogPosting extends ilPageObject
 	}
 	
 	/**
-	 * Set posting to approved
+	 * Toggle approval status
 	 */
-	function approve()
+	function setApproved($a_status)
 	{
-		$this->approved = true;
+		$this->approved = (bool)$a_status;
 	}
 
 	/**
@@ -182,7 +182,7 @@ class ilBlogPosting extends ilPageObject
 		if($a_notify && $this->getActive())
 		{
 			include_once "Modules/Blog/classes/class.ilObjBlog.php";
-			ilObjBlog::sendNotification("update", $this->blog_wsp_id, $this->getId());
+			ilObjBlog::sendNotification("update", $this->blog_node_id, $this->getId());
 		}
 
 		return true;
@@ -206,7 +206,7 @@ class ilBlogPosting extends ilPageObject
 		$this->setAuthor($rec["author"]);
 		if((bool)$rec["approved"])
 		{
-			$this->approve();
+			$this->setApproved(true);
 		}
 		
 		// when posting is deactivated it should loose the approval
@@ -371,13 +371,13 @@ class ilBlogPosting extends ilPageObject
 	}
 	
 	/**
-	 * Set blog wsp id (needed for notification)
+	 * Set blog node id (needed for notification)
 	 * 
 	 * @param int $a_id
 	 */
-	public function setBlogWspId($a_id)
+	public function setBlogNodeId($a_id)
 	{
-		$this->blog_wsp_id = (int)$a_id;
+		$this->blog_node_id = (int)$a_id;
 	}
 	
 	/**
