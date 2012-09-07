@@ -210,7 +210,6 @@ div.ilStartupSection table.ilForm {
 	margin:auto;
 }
 
-
 .registration {
   margin-top:5px;
   width:700px;
@@ -2452,7 +2451,7 @@ div.ilBotLeftArea iframe {
 }
 
 div.ilLeftNavSpace {
-	padding-left: 350px;
+	padding: 0 20px 0 350px;
 }
 	
 /* Tabs */
