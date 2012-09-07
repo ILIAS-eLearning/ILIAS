@@ -3013,6 +3013,15 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	{
 		if($this->dataExists())
 		{
+			// #9640: sort
+			if (!$this->getExternalSorting())
+			{				
+				$this->determineOffsetAndOrder(true);
+				
+				$this->row_data = ilUtil::sortArray($this->row_data, $this->getOrderField(),
+					$this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
+			}
+			
 			$filename = "export";
 
 			switch($format)
