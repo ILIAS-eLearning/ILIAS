@@ -122,6 +122,8 @@ class ilPollBlockGUI extends ilBlockGUI
 				$url = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
 							"vote");
 				$ilCtrl->clearParametersByClass("ilobjpollgui");
+				
+				$url .= "#poll".$a_poll->getID();
 
 				$this->tpl->setVariable("URL_FORM", $url);
 				$this->tpl->setVariable("CMD_FORM", "vote");
@@ -167,6 +169,7 @@ class ilPollBlockGUI extends ilBlockGUI
 		}
 		
 				
+		$this->tpl->setVariable("ANCHOR_ID", $a_poll->getID());
 		$this->tpl->setVariable("TXT_QUESTION", nl2br(trim($a_poll->getQuestion())));
 		
 		$desc = trim($a_poll->getDescription());
