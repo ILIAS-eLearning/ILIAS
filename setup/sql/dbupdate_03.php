@@ -10911,7 +10911,7 @@ while($row = $ilDB->fetchAssoc($res))
 	$ilDB->execute($stmt, array($row['mail_id']));
 
 	// Save path in key to prevent unnecessary lookups for duplicates
-	isset($paths[$row['path']]) ? $paths[$row['path']] = 0 : $paths[$row['path']]++;;
+	isset($paths[$row['path']]) ? $paths[$row['path']]++ : $paths[$row['path']] = 0;
 } 
 $ilDB->free($stmt);
 
