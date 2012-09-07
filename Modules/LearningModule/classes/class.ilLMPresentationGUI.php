@@ -955,8 +955,8 @@ class ilLMPresentationGUI
 			$ilMainMenu->setLoginTargetPar("pg_".$page_id."_".$this->lm->getRefId());
 		}
 
-		$this->tpl->touchBlock("mm_intro");
-		$this->tpl->touchBlock("mm_outro");
+		//$this->tpl->touchBlock("mm_intro");
+		//$this->tpl->touchBlock("mm_outro");
 		$this->tpl->touchBlock("pg_intro");
 		$this->tpl->touchBlock("pg_outro");
 		$this->tpl->setBodyClass("std");

@@ -1,19 +1,15 @@
 /* Page */
-table.ilc_page_frame_PageFrame
+.ilc_page_frame_PageFrame
 {
 	padding-left: 15px;
 	padding-right: 15px;
 	width: 100%;
 }
 
-table.ilc_page_cont_PageContainer
+.ilc_page_cont_PageContainer
 {
-	border-width: 1px;
-	border-style: solid;
-	border-color: #D6D6D6;
-	background-color:#FFFFFF;
-	margin: 0px;
-	width: 100%;
+	border: 1px solid #D6D6D6;
+	background-color: #FFF;
 	padding: 20px;
 }
 
@@ -28,9 +24,7 @@ h1.ilc_page_title_PageTitle
 	margin-bottom: 20px;
 	font-size: 140%;
 	padding-bottom: 3px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-color: #000000;
+	border-bottom: 1px solid #000;
 	font-weight: normal;
 }
 
