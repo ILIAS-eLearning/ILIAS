@@ -331,7 +331,7 @@ class ilObjBlogGUI extends ilObject2GUI
 							if(sizeof($info))
 							{
 								ilUtil::sendInfo(implode("<br />", $info));	
-							}													
+							}					
 							$this->addHeaderAction($cmd);	
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd, null, $is_owner);	
@@ -1727,7 +1727,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	protected function addHeaderAction($a_cmd)
 	{	
 		global $ilUser;
-	
+		
 		// preview?
 		if($a_cmd == "preview" || $_GET["prvm"])
 		{
@@ -1747,7 +1747,7 @@ class ilObjBlogGUI extends ilObject2GUI
 	{
 		global $ilUser, $ilCtrl;	
 		
-		if(!$this->node_id)
+		if(!$this->obj_id)
 		{
 			return false;
 		}
@@ -1768,7 +1768,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			$lg->enableTags(false);		
 			
 			include_once "./Services/Notification/classes/class.ilNotification.php";
-			if(ilNotification::hasNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->node_id))
+			if(ilNotification::hasNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->obj_id))
 			{
 				$ilCtrl->setParameter($this, "ntf", 1);
 				$link = $ilCtrl->getLinkTarget($this, "setNotification");
@@ -1801,11 +1801,11 @@ class ilObjBlogGUI extends ilObject2GUI
 		switch($_GET["ntf"])
 		{
 			case 1:
-				ilNotification::setNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->node_id, false);
+				ilNotification::setNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->obj_id, false);
 				break;
 			
 			case 2:
-				ilNotification::setNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->node_id, true);
+				ilNotification::setNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->obj_id, true);
 				break;
 		}
 		
@@ -1941,7 +1941,7 @@ class ilObjBlogGUI extends ilObject2GUI
 		{			
 			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 			$post = new ilBlogPosting((int)$_GET["apid"]);
-			$post->approve();
+			$post->setApproved(true);
 			$post->update();
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);

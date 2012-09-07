@@ -77,7 +77,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->setPageObject(new ilBlogPosting($a_id, $a_old_nr));
 		
 		// needed for notification
-		$this->getBlogPosting()->setBlogWspId($this->node_id);
+		$this->getBlogPosting()->setBlogNodeId($this->node_id);
 	}
 
 	/**
@@ -526,6 +526,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		return array("deactivatePage" => $lng->txt("blog_toggle_draft"),
 				"activatePage" => $lng->txt("blog_toggle_final"));
 	}	
+	
+	function deactivatePage()
+	{
+		$this->getBlogPosting()->setApproved(false);
+		$this->getBlogPosting()->setActive(false);
+		$this->getBlogPosting()->update(true, false, false);
+		$this->ctrl->redirect($this, "edit");
+	}
 	
 	function activatePage()
 	{
