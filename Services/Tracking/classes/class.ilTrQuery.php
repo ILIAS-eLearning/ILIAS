@@ -123,7 +123,7 @@ class ilTrQuery
 			case 'hacp':
 			case 'aicc':			
 			case 'scorm':
-				include_once './Modules/ScormAicc/classes/SCORM/class.ilObjSCORMLearningModule.php';
+				include_once './Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php';
 				$module = new ilObjSCORMLearningModule($a_parent_obj_id, false);
 				$scores_raw = $module->getTrackingDataAgg($a_user_id);
 				break;
