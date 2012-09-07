@@ -30,6 +30,13 @@ class ilDBUpdateNewObjectType
 	{
 		global $ilDB;
 		
+		// check if it already exists
+		$type_id = self::getObjectTypeId($a_type_id);
+		if($type_id)
+		{
+			return $type_id;
+		}
+		
 		$type_id = $ilDB->nextId('object_data');
 		
 		$fields = array(
@@ -77,6 +84,15 @@ class ilDBUpdateNewObjectType
 	public static function addRBACOperation($a_type_id, $a_ops_id)
 	{
 		global $ilDB;
+		
+		// check if it already exists
+		$set = $ilDB->query('SELECT * FROM rbac_ta'.
+			' WHERE typ_id = '.$ilDB->quote($a_type_id, 'integer').
+			' AND ops_id = '.$ilDB->quote($a_ops_id, 'integer'));
+		if($ilDB->numRows($set))
+		{			
+			return;
+		}		
 		
 		$fields = array(
 			'typ_id' => array('integer', $a_type_id),
@@ -190,6 +206,13 @@ class ilDBUpdateNewObjectType
 	public static function addCustomRBACOperation($a_id, $a_title, $a_class, $a_pos)
 	{
 		global $ilDB;
+		
+		// check if it already exists
+		$ops_id = self::getCustomRBACOperationId($a_id);
+		if($ops_id)
+		{
+			return $ops_id;
+		}
 		
 		if(!in_array($a_class, array('create', 'object', 'general')))
 		{
