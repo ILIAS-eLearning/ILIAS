@@ -13177,3 +13177,35 @@ if(trim($ade) && !trim($fbr))
 	}
 
 ?>
+<#3760>
+<?php
+
+	// map wsp ids to object ids
+	$ntfmap = array();
+	$set = $ilDB->query("SELECT ntf.id,orw.obj_id".
+		" FROM notification ntf".
+		" JOIN object_reference_ws orw ON (ntf.id = orw.wsp_id)".
+		" WHERE ntf.type = ".$ilDB->quote(4, "integer"));
+	while($row = $ilDB->fetchAssoc($set))
+	{
+		$ntfmap[$row["id"]] = $row["obj_id"];		
+	}
+	
+	if(sizeof($ntfmap))
+	{
+		// remove existing object entries (just to make sure, there should be none)
+		 $ilDB->manipulate("DELETE FROM notification".		
+			" WHERE type = ".$ilDB->quote(4, "integer").
+			" AND ".$ilDB->in("id", array_values($ntfmap), "", "integer"));
+		 
+		 // convert wsp_id entries to obj_id entries
+		 foreach($ntfmap as $ntf_wsp_id => $ntf_obj_id)
+		 {
+			 $ilDB->manipulate("UPDATE notification".
+				" SET id = ".$ilDB->quote($ntf_obj_id, "integer").
+				" WHERE id = ".$ilDB->quote($ntf_wsp_id, "integer").
+				" AND type = ".$ilDB->quote(4, "integer"));						 
+		 }
+	}
+	
+?>
