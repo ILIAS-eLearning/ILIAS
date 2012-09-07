@@ -124,20 +124,15 @@ class ilPCBlogGUI extends ilPageContentGUI
 		{
 			$form->setTitle($this->lng->txt("cont_update_blog"));
 		}
-
-		$options = array();
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		$tree = new ilWorkspaceTree($ilUser->getId());
-		$root = $tree->getRootId();
-		if($root)
+				
+		$options = array();		
+		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+		$blogs_ids = ilBlogPosting::searchBlogsByAuthor($ilUser->getId());		
+		if($blogs_ids)
 		{
-			$root = $tree->getNodeData($root);
-			foreach ($tree->getSubTree($root) as $node)
-			{
-				if ($node["type"] == "blog")
-				{
-					$options[$node["obj_id"]] = $node["title"];
-				}
+			foreach ($blogs_ids as $blog_id)
+			{				
+				$options[$blog_id] = ilObject::_lookupTitle($blog_id);				
 			}
 			asort($options);	
 		}
@@ -281,7 +276,7 @@ class ilPCBlogGUI extends ilPageContentGUI
 	 */
 	protected function initPostingForm($a_blog_id, $a_insert = false)
 	{
-		global $ilCtrl, $ilUser, $lng;
+		global $ilCtrl, $ilUser;
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -302,14 +297,18 @@ class ilPCBlogGUI extends ilPageContentGUI
 		{
 			foreach($postings as $post)
 			{
-				$date = new ilDateTime($post["date"], IL_CAL_DATETIME);
-				$title = $post["title"]." - ".
-					ilDatePresentation::formatDate($date);
-				
-				$cbox = new ilCheckboxInputGUI($title, "posting");
-				$cbox->setValue($post["id"]);
-				
-				$options[] = $cbox;
+				// could be posting from someone else
+				if($post["author"] == $ilUser->getId())
+				{
+					$date = new ilDateTime($post["date"], IL_CAL_DATETIME);
+					$title = $post["title"]." - ".
+						ilDatePresentation::formatDate($date);
+
+					$cbox = new ilCheckboxInputGUI($title, "posting");
+					$cbox->setValue($post["id"]);
+
+					$options[] = $cbox;
+				}
 			}
 		}
 		asort($options);

@@ -379,6 +379,29 @@ class ilBlogPosting extends ilPageObject
 	{
 		$this->blog_wsp_id = (int)$a_id;
 	}
+	
+	/**
+	 * Get all blogs where user has postings
+	 * 
+	 * @param int $a_user_id
+	 * @return array
+	 */
+	public static function searchBlogsByAuthor($a_user_id)
+	{
+		global $ilDB;
+		
+		$ids = array();
+		
+		$sql = "SELECT DISTINCT(blog_id)".
+			" FROM il_blog_posting".
+			" WHERE author = ".$ilDB->quote($a_user_id);
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$ids[] = $row["blog_id"];
+		}
+		return $ids;
+	}
 }
 
 ?>

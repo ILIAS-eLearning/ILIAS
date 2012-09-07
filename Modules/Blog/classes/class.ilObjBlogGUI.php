@@ -1312,7 +1312,7 @@ class ilObjBlogGUI extends ilObject2GUI
 			{
 				foreach($items as $item)
 				{
-					if($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp"))
+					if(($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")) && $item["author"])
 					{
 						$authors[] = $item["author"];					
 					}	
