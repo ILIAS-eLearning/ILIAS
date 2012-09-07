@@ -16,21 +16,27 @@
 	<div class="ilClearFloat"></div>
 </div>
 <!-- END fullscreen_topbar -->
-<div class="ilFrame{FRAME_FIXED_WIDTH}"><div class="ilFrameH"><div class="ilFrameTL"><div class="ilFrameTR">
-{MAINMENU}<!-- BEGIN sr_focus -->
+
+<div class="ilFrame{FRAME_FIXED_WIDTH}">
+
+	{MAINMENU}
+
+<!-- BEGIN sr_focus -->
 <script type="text/javascript">il.Util.addOnLoad(il.Util.setStdScreenReaderFocus); var il_sr_opt = true;</script>
 <!-- END sr_focus -->
-</div></div></div>
-<!-- BEGIN left_nav --><div id="left_nav" class="ilLeftNav">{LEFT_NAV_CONTENT}</div><!-- END left_nav -->
-<div id="submainmenu" class="ilFrameBL <!-- BEGIN left_nav_space -->ilLeftNavSpace<!-- END left_nav_space -->"{FRAME_BG_COLOR}>
-<div class="ilFrameBR">
-<div id="mainspacekeeper">
-<div id="mainscrolldiv">
-<div>
-		<!-- BEGIN tree_mode -->
-		<a {TREE_ACC_KEY} class="ilTreeView{RIGHT}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree"><img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" /></a>
-		<!-- END tree_mode -->
-{STATUSLINE}
+
+	<!-- BEGIN left_nav -->
+	<div id="left_nav" class="ilLeftNav">{LEFT_NAV_CONTENT}</div>
+	<!-- END left_nav -->
+
+	<div id="mainspacekeeper" class="<!-- BEGIN left_nav_space -->ilLeftNavSpace<!-- END left_nav_space -->"{FRAME_BG_COLOR}>
+		<div id="mainscrolldiv">
+			<!-- BEGIN tree_mode -->
+			<a {TREE_ACC_KEY} class="ilTreeView{RIGHT}" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree">
+				<img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" /></a>
+			<!-- END tree_mode -->
+			
+			{STATUSLINE}
 
 <div class="il_HeaderOuter">
 <div class="il_Header">
@@ -81,14 +87,20 @@
 {TABS}
 </div>
 </div>
-<!-- BEGIN tabs_outer_start --><table class="ilTabContentOuter"><tr><td><!-- END tabs_outer_start -->
+<!-- BEGIN tabs_outer_start -->
+<div class="ilTabContentOuter">
+<!-- END tabs_outer_start -->
+
 <div class="ilClearFloat">{SUB_TABS}</div><span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
 <!-- BEGIN tabs_inner_start --><div class="ilTabContentInner"><!-- END tabs_inner_start -->
 <!-- BEGIN page_form_start --><form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post"><!-- END page_form_start -->
+
 <table class="il_ColumnLayout{COL_LAY_SKIN} ilClearFloat"><tr>
+
 <!-- BEGIN left_columnt -->
 <td></td>
 <!-- END left_columnt -->
+
 <td>{MESSAGE}
 	<!-- BEGIN add_commands -->
 	<div style="text-align: right; padding-right:19px; margin-bottom: 5px;">
@@ -99,13 +111,17 @@
 	<div style="margin: 10px 0px 20px 0px;">{ADM_PANEL1}</div>
 	<!-- END adm_view_components -->
 </td>
+
 <!-- BEGIN right_columnt -->
 <td></td>
 <!-- END right_columnt -->
+
 </tr><tr>
+
 <!-- BEGIN left_column -->
 <td class="il_LeftColumn" id="il_left_col_td"><div id="il_left_col">{LEFT_CONTENT}</div></td>
 <!-- END left_column -->
+
 <td class="il_CenterColumn" id="il_CenterColumn">
 <div id="il_center_col">
 {BUTTONS}
@@ -118,17 +134,21 @@
 	<!-- END adm_view_components2 -->
 </div>
 </td>
+
 <!-- BEGIN right_column -->
 <td class="il_RightColumn"><div id="il_right_col">{RIGHT_CONTENT}</div></td>
 <!-- END right_column -->
-</tr></table>
-<!-- BEGIN print_content --><div style="padding-left: 15px; padding-right: 15px;">{PRINT_CONTENT}</div><!-- END print_content -->
+
+</tr>
+</table>
+
+<!-- BEGIN print_content --><div class="ilPrintContent">{PRINT_CONTENT}</div><!-- END print_content -->
 <!-- BEGIN page_form_end --></form><!-- END page_form_end -->
 <!-- BEGIN tabs_inner_end --></div><!-- END tabs_inner_end -->
-<!-- BEGIN tabs_outer_end --></td></tr></table><!-- END tabs_outer_end -->
+<!-- BEGIN tabs_outer_end --></div><!-- END tabs_outer_end -->
+
 <div class="ilPermaLink">{PRMLINK}</div>
 {FOOTER}
 </div>
 </div>
 </div>
-</div></div></div>

@@ -17,27 +17,19 @@
 	<!-- END js_file -->
 </head>
 <body>
-<style>
-body { margin:0px; }
-</style>
 {INLINE_JS}
-<table class="fullwidth_invisible"><tr><td class="ilInvisibleBorder">
-<!--<div class="invisible_border">-->
-<table class="ilc_page_frame_PageFrame" cellpadding="0" cellspacing="0"><tr><td>
-<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0"><tr><td>
-<h1 class="ilc_page_title_PageTitle">{TXT_TERM}</h1>
-<!-- BEGIN definition -->
-<!-- BEGIN definition_header -->
-<div class="ilc_DefinitionHeader">{TXT_DEFINITION}</div>
-<!-- END definition_header -->
-<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
-{PAGE_CONTENT}
-</td></tr></table>
-<br />
-<!-- END definition -->
-</td></tr></table>
-</td></tr></table>
-<!--</div>-->
-</td></tr></table>
+<div class="ilInvisibleBorder">
+	<div class="ilc_page_frame_PageFrame">
+		<div class="ilc_page_cont_PageContainer">
+			<h1 class="ilc_page_title_PageTitle">{TXT_TERM}</h1>
+			<!-- BEGIN definition -->
+			<!-- BEGIN definition_header -->
+			<div class="ilc_DefinitionHeader">{TXT_DEFINITION}</div>
+			<!-- END definition_header -->
+			{PAGE_CONTENT}
+			<!-- END definition -->
+		</div>
+	</div>
+</div>
 </body>
 </html>

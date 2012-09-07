@@ -1,31 +1,26 @@
 {RELOAD}
 <div class="ilStartupFrame">
-	<div class="ilFrameH">
-		<div class="ilFrameTL">
-			<div class="ilFrameTR">
-				<img id="il_startup_logo" src="{HEADER_ICON}" alt="Logo" />
-				<div class="ilFrameBL"><div class="ilFrameBR">
-						<div id="il_startup_content">
-							<!-- BEGIN warning -->
-							<img class="ilFailureMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
-							<div class="ilFailureMessage">
-								<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
-								{TXT_MSG_LOGIN_FAILED}
-							</div>
-							<!-- END warning -->
-							<!-- BEGIN success -->
-							<img class="ilSuccessMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
-							<div class="ilSuccessMessage">
-								<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
-								{TXT_MSG_LOGIN_SUCCESS}
-							</div>
-							<!-- END success -->
-							{STARTUP_CONTENT}
-						</div>
-					</div>
-				</div>
+	<div id="il_startup_logo">
+		<img src="{HEADER_ICON}" alt="Logo" />
+	</div>
+	<div id="il_startup_content">
+		<div class="ilMessageBox">
+			<!-- BEGIN warning -->
+			<img class="ilFailureMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+			<div class="ilFailureMessage">
+				<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+				{TXT_MSG_LOGIN_FAILED}
 			</div>
+			<!-- END warning -->
+			<!-- BEGIN success -->
+			<img class="ilSuccessMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+			<div class="ilSuccessMessage">
+				<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+				{TXT_MSG_LOGIN_SUCCESS}
+			</div>
+			<!-- END success -->
 		</div>
+		{STARTUP_CONTENT}
 	</div>
 </div>
 {SCRIPT}

@@ -311,7 +311,7 @@ il.MainMenu = {
 il.UICore = {
 	refreshLayout: function () {
 		var el = document.getElementById("left_nav"),
-			sm = document.getElementById("submainmenu"),
+			sm = document.getElementById("mainspacekeeper"),
 			bl = document.getElementById("bot_left_area"),
 			nb_reg, vp_reg;
 		if (el && sm) {
