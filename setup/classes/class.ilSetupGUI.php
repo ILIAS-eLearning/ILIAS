@@ -74,7 +74,10 @@ echo "<br>+".$client_id;
 		$this->client_id = $client_id;
 
 		$this->setup->ini_client_exists = $this->setup->newClient($client_id);
-		$this->setup->getClient()->status = $this->setup->getStatus($client_id);
+		if (is_object($this->setup->getClient()))
+		{
+			$this->setup->getClient()->status = $this->setup->getStatus($client_id);
+		}
 
 		// determine command
 		if (($this->cmd = $_GET["cmd"]) == "gateway")
