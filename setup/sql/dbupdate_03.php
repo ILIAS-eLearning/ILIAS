@@ -13162,7 +13162,7 @@ if(trim($ade) && !trim($fbr))
 		while( $row = $ilDB->fetchAssoc($res) )
 		{
 			$settingName = $row['keyword'];
-			$settingValue = is_null($row['value']) ? 0 : $row['value'];
+			$settingValue = $row['value'];
 
 			$settingName = str_replace('cron_inactive_', 'cron_inactivated_', $settingName);
 
