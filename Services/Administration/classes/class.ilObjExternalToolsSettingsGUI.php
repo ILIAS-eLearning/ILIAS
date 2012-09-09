@@ -33,7 +33,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		define ("ILINC_DEFAULT_TIMEOUT",30);
 		$lng->loadLanguageModule("delic");
 		$lng->loadLanguageModule("gmaps");
-		$lng->loadLanguageModule("jsmath");
+		$lng->loadLanguageModule("mathjax");
 	}
 	
 	/**
@@ -103,7 +103,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		{
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), 
-				array("view","editiLinc","editDelicious", "editGoogleMaps","editjsMath", ""), "", "");
+				array("view","editiLinc","editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
 				
 			$this->lng->loadLanguageModule('ecs');
 			$tabs_gui->addTarget('ecs_server_settings',
@@ -601,91 +601,76 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 
 	/**
-	* Configure jsMath settings
-	* 
-	* @access	public
-	*/
-	function editjsMathObject()
+	 * Configure MathJax settings
+	 */
+	function editMathJaxObject()
 	{
 		global $ilAccess, $rbacreview, $lng, $ilCtrl, $tpl;
 		
-		$jsMathSetting = new ilSetting("jsMath");
-		$path_to_jsmath = array_key_exists("path_to_jsmath", $_GET) ? $_GET["path_to_jsmath"] : $jsMathSetting->get("path_to_jsmath");
+		$mathJaxSetting = new ilSetting("MathJax");
+		$path_to_mathjax = $mathJaxSetting->get("path_to_mathjax");
 		
-		$this->__initSubTabs("editjsMath");
+		$this->__initSubTabs("editMathJax");
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->setTitle($lng->txt("jsmath_settings"));
+		$form->setTitle($lng->txt("mathjax_settings"));
 		
-		// Enable jsMath
-		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_enable_jsmath"), "enable");
-		$enable->setChecked($jsMathSetting->get("enable"));
-		$enable->setInfo($lng->txt("jsmath_enable_jsmath_info"));
+		// Enable MathJax
+		$enable = new ilCheckboxInputGUI($lng->txt("mathjax_enable_mathjax"), "enable");
+		$enable->setChecked($mathJaxSetting->get("enable"));
+		$enable->setInfo($lng->txt("mathjax_enable_mathjax_info")." <a target='blank' href='http://www.mathjax.org/'>MathJax</a>");
 		$form->addItem($enable);
-		// Path to jsMath
-		$text_prop = new ilTextInputGUI($lng->txt("jsmath_path_to_jsmath"), "path_to_jsmath");
-		$text_prop->setInfo($lng->txt("jsmath_path_to_jsmath_desc"));
-		$text_prop->setValue($path_to_jsmath);
-		$text_prop->setRequired(TRUE);
+		
+		// Path to mathjax
+		$text_prop = new ilTextInputGUI($lng->txt("mathjax_path_to_mathjax"), "path_to_mathjax");
+		$text_prop->setInfo($lng->txt("mathjax_path_to_mathjax_desc"));
+		$text_prop->setValue($path_to_mathjax);
+		$text_prop->setRequired(true);
 		$text_prop->setMaxLength(400);
-		$text_prop->setSize(80);
-		$form->addItem($text_prop);
-		// jsMath as default
-		$enable = new ilCheckboxInputGUI($lng->txt("jsmath_default_setting"), "makedefault");
-		$enable->setChecked($jsMathSetting->get("makedefault"));
-		$enable->setInfo($lng->txt("jsmath_default_setting_info"));
-		$form->addItem($enable);
+		$text_prop->setSize(100);
+		$enable->addSubItem($text_prop);
+		
+		// mathjax limiter
+		$options = array(
+			0 => '\(...\)',
+			1 => '[tex]...[/tex]',
+			2 => '&lt;span class="math"&gt;...&lt;/span&gt;'
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("mathjax_limiter"), "limiter");
+		$si->setOptions($options);
+		$si->setInfo($this->lng->txt("mathjax_limiter_info"));
+		$enable->addSubItem($si);
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$form->addCommandButton("savejsMath", $lng->txt("save"));
+			$form->addCommandButton("saveMathJax", $lng->txt("save"));
 		}
 				
 		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
 	}
 
 	/**
-	* Save jsMath Setttings
-	*/
-	function savejsMathObject()
+	 * Save MathJax Setttings
+	 */
+	function saveMathJaxObject()
 	{
-		global $ilCtrl;
-		$error = FALSE;
+		global $ilCtrl, $lng, $ilAccess;
 		
-		$path_to_jsmath = ilUtil::stripSlashes($_POST["path_to_jsmath"]);
-		while (strrpos($path_to_jsmath, "/") == strlen($path_to_jsmath)-1)
+		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			$path_to_jsmath = substr($path_to_jsmath, 0, strlen($path_to_jsmath)-1);
-		}
-		// check jsmath path
-		if (file_exists($path_to_jsmath . "/" . "jsMath.js"))
-		{
-		}
-		else
-		{
-			$error = TRUE;
-			if (strlen($path_to_jsmath) == 0)
+			$path_to_mathjax = ilUtil::stripSlashes($_POST["path_to_mathjax"]);
+			$mathJaxSetting = new ilSetting("MathJax");
+			if ($_POST["enable"])
 			{
-				ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"), TRUE);
+				$mathJaxSetting->set("path_to_mathjax", $path_to_mathjax);
+				$mathJaxSetting->set("limiter", (int) $_POST["limiter"]);
 			}
-			else
-			{
-				$ilCtrl->setParameter($this, "path_to_jsmath", $path_to_jsmath);
-				ilUtil::sendFailure($this->lng->txt("jsmath_path_not_found"), TRUE);
-			}
+			$mathJaxSetting->set("enable", ilUtil::stripSlashes($_POST["enable"]));
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"));
 		}
-
-		if (!$error)
-		{
-			$jsMathSetting = new ilSetting("jsMath");
-			$jsMathSetting->set("path_to_jsmath", $path_to_jsmath);
-			$jsMathSetting->set("enable", ilUtil::stripSlashes($_POST["enable"]));
-			$jsMathSetting->set("makedefault", ilUtil::stripSlashes($_POST["makedefault"]));
-		}
-		
-		$ilCtrl->redirect($this, "editjsMath");
+		$ilCtrl->redirect($this, "editMathJax");
 	}
 
 	/**
@@ -762,7 +747,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		//$delicious = ($a_cmd == 'editDelicious') ? true : false;
 		$socialbookmarks = ($a_cmd == 'editSocialBookmarks') ? true : false;
 		$gmaps = ($a_cmd == 'editGoogleMaps') ? true : false;
-		$jsmath = ($a_cmd == 'editjsMath') ? true : false;
+		$mathjax = ($a_cmd == 'editMathJax') ? true : false;
 
 		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
 										 "", "", "", $overview);
@@ -770,8 +755,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 											"", "", "", $delicious);*/
 		$this->tabs_gui->addSubTabTarget("socialbm_extt_social_bookmarks", $this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
 											"", "", "", $socialbookmarks);
-		$this->tabs_gui->addSubTabTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "editjsMath"),
-											"", "", "", $jsmath);
+		$this->tabs_gui->addSubTabTarget("mathjax_mathjax", $this->ctrl->getLinkTarget($this, "editMathJax"),
+											"", "", "", $mathjax);
 		$this->tabs_gui->addSubTabTarget("gmaps_extt_gmaps", $this->ctrl->getLinkTarget($this, "editGoogleMaps"),
 										 "", "", "", $gmaps);
 		$this->tabs_gui->addSubTabTarget("extt_ilinc", $this->ctrl->getLinkTarget($this, "editiLinc"),

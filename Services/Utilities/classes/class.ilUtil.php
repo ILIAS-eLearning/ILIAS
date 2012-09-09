@@ -4353,31 +4353,20 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
+	public static function insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]")
 	{
 		global $tpl, $lng, $ilUser;
+		
+		$cgi = URL_TO_LATEX;
 
 		// - take care of html exports (-> see buildLatexImages)
 		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$jsMathSetting = new ilSetting("jsMath");
-		$use_jsmath = 
-			$jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault"))));
-			
-		if ($use_jsmath)
+		$mathJaxSetting = new ilSetting("MathJax");
+		$use_mathjax = $mathJaxSetting->get("enable");
+		if ($use_mathjax)
 		{
-			$info = "";
-			if (!$tpl->out_jsmath_info)
-			{
-				include_once "./Services/UICore/classes/class.ilTemplate.php";
-				$template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE,
-					"Services/Utilities");
-				$lng->loadLanguageModule("jsmath");
-				$template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
-				$info = $template->get();
-				$tpl->out_jsmath_info = TRUE;
-			}
 			$a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
-			$tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
+			$tpl->addJavaScript($mathJaxSetting->get("path_to_mathjax"));
 		}
 		
 		// this is a fix for bug5362
@@ -4386,11 +4375,6 @@ class ilUtil
 		$o_end = $a_end;
 		$a_start = str_replace("\\", "", $a_start);
 		$a_end = str_replace("\\", "", $a_end);
-		/*$a_start = str_replace("\]", "]", $a_start);
-		$a_start = str_replace("\[", "[", $a_start);
-		$a_end = str_replace("\]", "]", $a_end);
-		$a_end = str_replace("\[", "[", $a_end);
-		$a_end = str_replace("\/", "/", $a_end);*/
 
 		while (is_int($spos = stripos($a_text, $a_start, $cpos)))	// find next start
 		{
@@ -4401,10 +4385,10 @@ class ilUtil
 				// replace, if tags do not go across div borders
 				if (!is_int(strpos($tex, "</div>")))
 				{
-					if (!$use_jsmath)
+					if (!$use_mathjax)
 					{
 						$a_text = substr($a_text, 0, $spos).
-							"<img alt=\"".htmlentities($tex)."\" src=\"".$a_cgi."?".
+							"<img alt=\"".htmlentities($tex)."\" src=\"".$cgi."?".
 							rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', $tex))))."\" ".
 							" />".
 							substr($a_text, $epos + strlen($a_end));
@@ -4412,12 +4396,29 @@ class ilUtil
 					else
 					{
 						$tex = $a_start.$tex.$a_end;
-//echo "<br>1:".$tex;
+						
+						switch ((int) $mathJaxSetting->get("limiter"))
+						{
+							case 1:
+								$mj_start = "[tex]";
+								$mj_end = "[/tex]";
+								break;
+
+							case 2:
+								$mj_start = '<span class="math">';
+								$mj_end = '</span>';
+								break;
+								
+							default:
+								$mj_start = "\(";
+								$mj_end = "\)";
+								break;
+						}
+						
 						$replacement = 
 							preg_replace('/' . $o_start . '(.*?)' . $o_end . '/ie',
-							"'<span class=\"math\">' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '</span>[[info]]'", $tex);
-							// added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
-//echo "<br>2:".htmlentities($replacement);
+							"'".$mj_start."' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '".$mj_end."'", $tex);
+						// added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
 						$a_text = substr($a_text, 0, $spos).
 							$replacement.
 							substr($a_text, $epos + strlen($a_end));
@@ -4427,70 +4428,10 @@ class ilUtil
 			$cpos = $spos + 1;
 		}
 		
-		if ($use_jsmath)
-		{
-			$a_text = str_replace("[[info]]", $info, $a_text);
-		}
-
 		$result_text = $a_text;
-
-//			$result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-//				"'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', '$1')))).'\" ".
-//				" />'", $a_text);
-
-//echo htmlentities($a_text);
 
 		return $result_text;
 	}
-
-	/**
-    * replace [tex]...[/tex] tags with formula image code
-    *
-    * added additional parameters to make this method usable
-    * for other start and end tags as well
-    * 
-    * @static
-    * 
-    */
-    public static function __insertLatexImages($a_text, $a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
-    {
-        global $tpl, $lng, $ilUser;
-
-//echo "<br><br>".htmlentities($a_text);
-//echo "<br>-".htmlentities($a_start)."-".htmlentities($a_end)."-";
-        
-        // - take care of html exports (-> see buildLatexImages)
-        include_once "./Services/Administration/classes/class.ilSetting.php";
-        $jsMathSetting = new ilSetting("jsMath");
-        if ($jsMathSetting->get("enable") && ($ilUser->getPref("js_math") || ($ilUser->getPref("js_math") === FALSE && ($jsMathSetting->get("makedefault")))))
-        {
-            $info = "";
-            if (!$tpl->out_jsmath_info)
-            {
-                include_once "./Services/UICore/classes/class.ilTemplate.php";
-                $template = new ilTemplate("tpl.jsmath_warning.html", TRUE, TRUE,
-                	"Services/Utilities");
-                $lng->loadLanguageModule("jsmath");
-                $template->setVariable("TEXT_JSMATH_NO_JAVASCRIPT", $lng->txt("jsmath_no_javascript"));
-                $info = $template->get();
-                $tpl->out_jsmath_info = TRUE;
-            }
-            $a_text = preg_replace("/\\\\([RZN])([^a-zA-Z]|<\/span>)/", "\\mathbb{"."$1"."}"."$2", $a_text);
-            $result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-                "'<span class=\"math\">' . preg_replace('/[\\\\\\\\\\]{2}/', '\\cr', str_replace('<', '&lt;', str_replace('<br/>', '', str_replace('<br />', '', str_replace('<br>', '', '$1'))))) . '</span>[[info]]'", $a_text);
-                    // added special handling for \\ -> \cr, < -> $lt; and removal of <br/> tags in jsMath expressions, H. Schottmüller, 2007-09-09
-            $result_text = str_replace("[[info]]", $info, $result_text);
-            $tpl->addJavaScript($jsMathSetting->get("path_to_jsmath") . "/easy/load.js");
-        }
-        else
-        {
-            $result_text = preg_replace('/' . $a_start . '(.*?)' . $a_end . '/ie',
-                "'<img alt=\"'.htmlentities('$1').'\" src=\"$a_cgi?'.rawurlencode(str_replace('&amp;', '&', str_replace('&gt;', '>', str_replace('&lt;', '<', '$1')))).'\" ".
-                " />'", $a_text);
-        }
-
-        return $result_text;
-    }
 
 	/**
 	* replace [text]...[/tex] tags with formula image code
@@ -4501,17 +4442,22 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function buildLatexImages($a_text, $a_dir ,$a_start = "\[tex\]", $a_end = "\[\/tex\]", $a_cgi = URL_TO_LATEX)
+	public static function buildLatexImages($a_text, $a_dir)
 	{
 		$result_text = $a_text;
+		
+		$start = "\[tex\]";
+		$end = "\[\/tex\]";
 
-		if ($a_cgi != "")
+		$cgi = URL_TO_LATEX;
+		
+		if ($cgi != "")
 		{
-			while (preg_match('/' . $a_start . '(.*?)' . $a_end . '/ie', $result_text, $found))
+			while (preg_match('/' . $start . '(.*?)' . $end . '/ie', $result_text, $found))
 			{
 				$cnt = (int) $GLOBALS["teximgcnt"]++;
 				// get image from cgi and write it to file
-				$fpr = @fopen($a_cgi."?".rawurlencode($found[1]), "r");
+				$fpr = @fopen($cgi."?".rawurlencode($found[1]), "r");
 				$lcnt = 0;
 				if ($fpr)
 				{
@@ -4562,8 +4508,8 @@ class ilUtil
 
 		if ($prepare_for_latex_output)
 		{
-			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>", URL_TO_LATEX);
-			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]", URL_TO_LATEX);
+			$result = ilUtil::insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+			$result = ilUtil::insertLatexImages($result, "\[tex\]", "\[\/tex\]");
 		}
 
 		// removed: did not work with magic_quotes_gpc = On

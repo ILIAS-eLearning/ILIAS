@@ -287,14 +287,14 @@ class ilPageContentGUI
 			$btpl->setVariable("TXT_WLN2", $lng->txt("wiki_wiki_page"));
 			$btpl->parseCurrentBlock();
 		}
-		$jsMathSetting = new ilSetting("jsMath");
+		$mathJaxSetting = new ilSetting("MathJax");
 		$style = $this->getStyle();
 //echo URL_TO_LATEX;
 		foreach (self::$common_bb_buttons as $c => $st)
 		{
 			if (ilPageEditorSettings::lookupSettingByParentType($this->pg_obj->getParentType(), "active_".$c, true))
 			{
-				if ($c != "tex" || $jsMathSetting->get("enable") || defined("URL_TO_LATEX"))
+				if ($c != "tex" || $mathJaxSetting->get("enable") || defined("URL_TO_LATEX"))
 				{
 					$btpl->touchBlock("bb_".$c."_button");
 					$btpl->setVariable("TXT_".strtoupper($c), $this->lng->txt("cont_text_".$c));
