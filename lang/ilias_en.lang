@@ -6893,7 +6893,7 @@ mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/lat
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installaion.
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
