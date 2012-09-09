@@ -30,7 +30,7 @@ class ilPersonalSettingsGUI
         $this->ilias =& $ilias;
 		$this->ctrl =& $ilCtrl;
 		$this->settings = $ilias->getAllSettings();
-		$lng->loadLanguageModule("jsmath");
+//		$lng->loadLanguageModule("jsmath");
 		$lng->loadLanguageModule('chatroom');
 		$this->upload_error = "";
 		$this->password_error = "";
@@ -329,7 +329,7 @@ class ilPersonalSettingsGUI
 		$this->tpl->show();
 	}
 
-	function showjsMath()
+/*	function showjsMath()
 	{
 		global $lng, $ilCtrl, $tpl, $ilUser;
 
@@ -376,7 +376,7 @@ class ilPersonalSettingsGUI
 		}
 		$ilCtrl->redirect($this, "showjsMath");
 	}
-
+*/
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
@@ -387,7 +387,7 @@ class ilPersonalSettingsGUI
 		$showPassword = ($a_cmd == 'showPassword') ? true : false;
 		$showGeneralSettings = ($a_cmd == 'showGeneralSettings') ? true : false;
 		$showMailOptions = ($a_cmd == 'showMailOptions') ? true : false;
-		$showjsMath = ($a_cmd == 'showjsMath') ? true : false;
+//		$showjsMath = ($a_cmd == 'showjsMath') ? true : false;
 		$showChatOptions = ($a_cmd == 'showChatOptions') ? true : false;
 
 		// old profile
@@ -417,12 +417,12 @@ class ilPersonalSettingsGUI
 		}
 		
 		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$jsMathSetting = new ilSetting("jsMath");
+/*		$jsMathSetting = new ilSetting("jsMath");
 		if ($jsMathSetting->get("enable"))
 		{
 			$ilTabs->addTarget("jsmath_extt_jsmath", $this->ctrl->getLinkTarget($this, "showjsMath"),
 									 "", "", "", $showjsMath);
-		}
+		}*/
 		
 		if((bool)$ilSetting->get('user_delete_own_account'))
 		{

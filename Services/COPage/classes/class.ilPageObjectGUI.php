@@ -2337,7 +2337,7 @@ class ilPageObjectGUI
 	{
 		global $lng;
 
-		$jsMathSetting = new ilSetting("jsMath");
+		$mathJaxSetting = new ilSetting("MathJax");
 		
 		include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
 
@@ -2453,8 +2453,6 @@ class ilPageObjectGUI
 			ilTooltipGUI::addTooltip("il_edm_wlink", $lng->txt("cont_link_to_wiki"),
 				"iltinymenu_bd");
 		}
-//		$jsMathSetting = new ilSetting("jsMath");
-//		$style = $this->getStyle();
 
 		$aset = new ilSetting("adve");
 		
@@ -2475,7 +2473,7 @@ class ilPageObjectGUI
 					$cc_code = str_replace(array("str", "emp", "imp"), array("B", "I", "U"), $cc_code);
 				}
 				
-				if ($c != "tex" || $jsMathSetting->get("enable") || defined("URL_TO_LATEX"))
+				if ($c != "tex" || $mathJaxSetting->get("enable") || defined("URL_TO_LATEX"))
 				{
 					$btpl->setCurrentBlock("bb_".$c."_button");
 					$btpl->setVariable("CC_".strtoupper($c), $cc_code);
@@ -2489,7 +2487,7 @@ class ilPageObjectGUI
 			}
 		}
 		
-		if ($jsMathSetting->get("enable") || defined("URL_TO_LATEX"))
+		if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX"))
 		{
 			ilTooltipGUI::addTooltip("il_edm_tex", $lng->txt("cont_tex"),
 				"iltinymenu_bd");
