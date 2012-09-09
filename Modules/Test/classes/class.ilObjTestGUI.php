@@ -785,7 +785,7 @@ class ilObjTestGUI extends ilObjectGUI
 		ilObjTest::_setImportDirectory($basedir . '/' . $subdir);
 		$xml_file = ilObjTest::_getImportDirectory().'/'.$subdir.".xml";
 		$qti_file = ilObjTest::_getImportDirectory().'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
-		$results_file = ilObjTest::_getImportDirectory().'/'.$subdir."/". str_replace("/test|tst/", "results", $subdir).".xml";
+		$results_file = ilObjTest::_getImportDirectory().'/'. preg_replace("/test|tst/", "results", $subdir).".xml";
 
 		// start verification of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";
