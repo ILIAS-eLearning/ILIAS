@@ -12913,3 +12913,7 @@ survey#:#svy_activation_online_info#:#Activate this setting to make the survey a
 survey#:#svy_availability_limitless_info#:#Choose this mode for making the survey available limitless.
 survey#:#svy_availability_until_info#:#Choose this mode for making the survey available for a fixed period of time.
 survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.
+blog#:#blog_contributors#:#Contributors
+blog#:#blog_add_contributor#:#Add Contributor
+blog#:#blog_search_users#:#Search Users
+blog#:#blog_contributor_container_add#:#Add Users From Course/Group

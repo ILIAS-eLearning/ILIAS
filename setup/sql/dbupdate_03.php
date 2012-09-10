@@ -13214,3 +13214,7 @@ if(trim($ade) && !trim($fbr))
 	$settings = new ilSetting('MathJax');
 	$settings->set('path_to_mathjax', 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML');
 ?>
+<#3762>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
