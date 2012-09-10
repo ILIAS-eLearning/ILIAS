@@ -190,7 +190,7 @@ class ilPollBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilUser;
+		global $ilCtrl, $lng, $ilAccess, $ilUser, $tree, $objDefinition;
 		
 		$this->poll_block->setRefId($this->getRefId());		
 		$this->may_write = $ilAccess->checkAccess("write", "", $this->getRefId());
@@ -207,12 +207,28 @@ class ilPollBlockGUI extends ilBlockGUI
 	
 		if ($this->may_write)
 		{
+			// edit
 			$ilCtrl->setParameterByClass("ilobjpollgui",
 				"ref_id", $this->getRefId());		
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
 					"render"),
 				$lng->txt("edit"));
+			
+			// delete			
+			$parent_id = $tree->getParentId($this->getRefId());
+			
+			$type = ilObject::_lookupType($parent_id, true);
+			$class = $objDefinition->getClassName($type);
+			if($class)
+			{
+				$class = "ilobj".strtolower($class)."gui";
+				$ilCtrl->setParameterByClass($class, "ref_id", $parent_id);		
+				$ilCtrl->setParameterByClass($class, "item_ref_id", $this->getRefId());	
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTargetByClass($class, "delete"),
+					$lng->txt("delete"));	
+			}
 			$ilCtrl->clearParametersByClass("ilobjpollgui");
 		}
 		
