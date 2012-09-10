@@ -13,7 +13,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 *
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
 *
 * @extends ilObject2GUI
 */
@@ -195,12 +195,21 @@ class ilObjBlogGUI extends ilObject2GUI
 				$lng->txt("info_short"),
 				$this->ctrl->getLinkTargetByClass(array("ilobjbloggui", "ilinfoscreengui"), "showSummary"));
 		}
-
+		
 		if ($this->checkPermissionBool("write"))
 		{
 			$this->tabs_gui->addTab("settings",
 				$lng->txt("settings"),
-				$this->ctrl->getLinkTarget($this, "edit"));
+				$this->ctrl->getLinkTarget($this, "edit"));			
+			
+			/*
+			if($this->id_type == self::REPOSITORY_NODE_ID)
+			{	
+				$this->tabs_gui->addTab("contributors",
+					$lng->txt("blog_contributors"),
+					$this->ctrl->getLinkTarget($this, "contributors"));	
+			}		
+			*/
 		}
 		
 		if($this->mayContribute())
@@ -369,6 +378,17 @@ class ilObjBlogGUI extends ilObject2GUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType("blog");
 				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			case 'ilrepositorysearchgui':
+				$this->prepareOutput();
+				$ilTabs->activateTab("contributors");
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search = new ilRepositorySearchGUI();
+				$rep_search->setTitle($this->lng->txt("blog_add_contributor"));
+				$rep_search->setCallback($this,'addContributor');
+				$this->ctrl->setReturn($this,'contributors');				
+				$ret =& $this->ctrl->forwardCommand($rep_search);
 				break;
 
 			default:				
@@ -1948,6 +1968,187 @@ class ilObjBlogGUI extends ilObject2GUI
 		}
 				
 		$this->ctrl->redirect($this, "render");
+	}
+	
+	
+	// 
+	// contributors
+	//
+	
+	function contributors()
+	{
+		global $ilTabs, $ilToolbar, $ilCtrl, $lng, $tpl;
+		
+		if(!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+		
+		$ilTabs->activateTab("contributors");
+	
+		// add member
+		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name'	=> $lng->txt('user'),
+				'submit_name'			=> $lng->txt('add')
+			)
+		);
+
+		$ilToolbar->addSpacer();
+
+		$ilToolbar->addButton(
+			$lng->txt("blog_search_users"),
+			$ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
+		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+
+		$parent_container_id = $this->object->getParentContainerId();			
+		if ($parent_container_id) 
+		{
+			$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", $parent_container_id);
+			
+			$ilToolbar->addSpacer();
+			
+			$ilToolbar->addButton($lng->txt("blog_contributor_container_add"), 
+				$ilCtrl->getLinkTarget($this, "addContributorContainer"));		
+	 	}
+		
+		include_once "Modules/Blog/classes/class.ilContributorTableGUI.php";
+		$tbl = new ilContributorTableGUI($this, "contributors");
+		
+		$tpl->setContent($tbl->getHTML());							
+	}
+	
+	public function addContributorContainer()
+	{				
+		global $ilCtrl, $tpl;
+		
+		if(!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+		
+		$members = $this->object->getParentMemberIds();
+		if(!$members)
+		{
+			$ilCtrl->redirect($this, "contributors");
+		}
+		
+		include_once "Modules/Blog/classes/class.ilContributorTableGUI.php";
+		$tbl = new ilContributorTableGUI($this, "addContributorContainer", $members);
+		
+		$tpl->setContent($tbl->getHTML());
+	}
+	
+	/**
+	 * Used in ilContributorTableGUI
+	 */
+	public function addContributorContainerAction()
+	{
+		global $ilCtrl, $lng;
+		
+		$ids = $_POST["id"];
+		
+		if(!sizeof($ids))
+		{
+			ilUtil::sendFailure($lng->txt("select_one"), true);
+			$ilCtrl->redirect($this, "addContributorContainer");
+		}
+		
+		return $this->addContributor($ids);
+	}
+	
+	/**
+	 * Autocomplete submit
+	 */
+	public function addUserFromAutoComplete()
+	{		
+		global $lng;
+		
+		if(!strlen(trim($_POST['user_login'])))
+		{
+			ilUtil::sendFailure($lng->txt('msg_no_search_string'));
+			return $this->contributors();
+		}
+		$users = explode(',', $_POST['user_login']);
+
+		$user_ids = array();
+		foreach($users as $user)
+		{
+			$user_id = ilObjUser::_lookupId($user);
+
+			if(!$user_id)
+			{
+				ilUtil::sendFailure($lng->txt('user_not_known'));				
+				return $this->contributors();				
+			}
+			
+			$user_ids[] = $user_id;
+		}
+	
+		return $this->addContributor($user_ids);											
+	}
+		
+	/**
+	 * Centralized method to add contributors
+	 * 
+	 * @param array $a_user_ids
+	 */
+	public function addContributor($a_user_ids = array())
+	{		
+		global $ilCtrl, $lng;
+		
+		if(!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+		
+		if(!count($a_user_ids))
+		{
+			ilUtil::sendFailure($lng->txt("no_checkbox"));
+			return $this->contributors();
+		}
+				
+		// :TODO:
+		$all_contributors = array();
+		
+		foreach($a_user_ids as $user_id)
+		{
+			if(!in_array($user_id, $all_contributors))
+			{
+				var_dump($user_id);
+				// :TODO:
+			}
+		}
+
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "contributors");
+	}
+	
+	/**
+	 * Used in ilContributorTableGUI
+	 */
+	public function removeContributor()
+	{
+		global $ilCtrl, $lng;
+		
+		$ids = $_POST["id"];
+		
+		if(!sizeof($ids))
+		{
+			ilUtil::sendFailure($lng->txt("select_one"), true);
+			$ilCtrl->redirect($this, "contributors");
+		}
+		
+		foreach($ids as $user_id)
+		{			
+			// :TODO: 
+		}
+				
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$this->ctrl->redirect($this, "contributors");				
 	}
 	
 	/**

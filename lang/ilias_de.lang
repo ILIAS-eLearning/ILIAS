@@ -12917,3 +12917,7 @@ survey#:#svy_activation_online_info#:#Wählen Sie diese Einstellung, um die Umfr
 survey#:#svy_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Umfrage unbegrenzt freizuschalten.
 survey#:#svy_availability_until_info#:#Wählen Sie diese Einstellung, um die Umfrage nur während eines definierten Zeitraums freizuschalten.
 survey#:#svy_activation_limited_visibility_info#:#Falls aktiv, ist die Umfrage auch ausserhalb der Zugriffszeiten sichtbar.
+blog#:#blog_contributors#:#Autoren
+blog#:#blog_add_contributor#:#Autor hinzufügen
+blog#:#blog_search_users#:#Benutzer suchen
+blog#:#blog_contributor_container_add#:#Benutzer aus Kurs/Gruppe hinzufügen
