@@ -88,18 +88,11 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 				$vis = new ilNumberInputGUI($this->lng->txt('trac_visits'), 'visits');
 				$vis->setSize(3);
 				$vis->setMaxLength(4);
-				$vis->setInfo($this->lng->txt('trac_visits_info'));
+				$vis->setInfo(sprintf($this->lng->txt('trac_visits_info'),
+					ilObjUserTracking::_getValidTimeSpan()));
 				$vis->setRequired(true);
 				$vis->setValue($this->obj_settings->getVisits());
 				$opt->addSubItem($vis);
-				
-				// Timespan
-				$tim = new ilNonEditableValueGUI($this->lng->txt('trac_valid_request'), '');
-				$tim->setValue(
-					ilObjUserTracking::_getValidTimeSpan().' '.$this->lng->txt('seconds')
-				);
-				$tim->setInfo($this->lng->txt('info_valid_request'));
-				$opt->addSubItem($tim);
 			}
 		}
 				

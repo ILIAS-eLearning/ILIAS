@@ -11857,7 +11857,7 @@ trac#:#trac_mode_test_finished_info#:#Benutzer müssen einen Test komplett beend
 trac#:#trac_mode_test_passed#:#Test bestanden
 trac#:#trac_mode_test_passed_info#:#Der Test muss bestanden sein.
 trac#:#trac_mode_tlt#:#Typische Lerndauer
-trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der Benutzer muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.
+trac#:#trac_mode_tlt_info#:#Die Bearbeitungszeit der Benutzer muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen. Finden zwei Anfragen eines Benutzers innerhalb von %s Sekunden statt, so wird die entsprechende Zeitspanne als ein zusammenhängender Aufruf gewertet.
 trac#:#trac_mode_visits#:#Anzahl der Aufrufe
 trac#:#trac_mode_visits_info#:#Nur die NutzerInnen, die eine festgelegte Anzahl von Aufrufen erreicht haben, erhalten den Status 'Bearbeitet'.
 trac#:#trac_modifications_saved#:#Die Änderungen wurden übernommen
@@ -11961,7 +11961,7 @@ trac#:#trac_view_mode#:#Anzeigemodus
 trac#:#trac_view_mode_all#:#Alle Objekte
 trac#:#trac_view_mode_collection#:#Nur Objekte, die Gesamtstatus bestimmen
 trac#:#trac_visits#:#Anzahl der Besuche
-trac#:#trac_visits_info#:#Die Mindestzeit zwischen Seitenaufrufen, um als gültiger Besuch gezählt zu werden, ist unten angegeben.
+trac#:#trac_visits_info#:#Ein Aufruf wird erst nach %s Sekunden als neuer Aufruf gezählt.
 trac#:#tracking_time_span_not_valid#:#Bitte geben Sie eine Sekundenzahl ein.
 trac#:#user_total#:#Anzahl Benutzer
 trac#:#view_mode#:#Anzeigemodus

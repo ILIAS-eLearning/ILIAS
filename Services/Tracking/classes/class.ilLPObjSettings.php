@@ -407,7 +407,8 @@ class ilLPObjSettings
 				return $lng->txt('trac_mode_deactivated_info_new');
 
 			case LP_MODE_TLT:
-				return $lng->txt('trac_mode_tlt_info');
+				
+				return sprintf($lng->txt('trac_mode_tlt_info'), ilObjUserTracking::_getValidTimeSpan());
 
 			case LP_MODE_VISITS:
 				return $lng->txt('trac_mode_visits_info');

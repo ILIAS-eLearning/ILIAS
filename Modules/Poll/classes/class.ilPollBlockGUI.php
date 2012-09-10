@@ -216,8 +216,7 @@ class ilPollBlockGUI extends ilBlockGUI
 				$lng->txt("edit"));
 			
 			// delete			
-			$parent_id = $tree->getParentId($this->getRefId());
-			
+			$parent_id = $tree->getParentId($this->getRefId());			
 			$type = ilObject::_lookupType($parent_id, true);
 			$class = $objDefinition->getClassName($type);
 			if($class)
