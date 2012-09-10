@@ -2076,7 +2076,7 @@ common#:#are_you_sure#:#Sind Sie sicher?
 common#:#arrow_downright#:#Pfeil von oben nach unten rechts
 common#:#articels_unread#:#Ungelesene Beiträge
 common#:#as_of#:#Stand
-common#:#ascending_order#:#Aufsteigende Reihenfolge
+common#:#ascending_order#:#Neueste Beiträge unten
 common#:#ass_log_admin#:#Administration der Testprotokollierung
 common#:#ass_log_available_tests#:#Verfügbare Tests
 common#:#ass_log_count_datasets#:#Protokolleinträge
@@ -2637,7 +2637,7 @@ common#:#delicious#:#Delicious-Account
 common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
-common#:#descending_order#:#Absteigende Reihenfolge
+common#:#descending_order#:#Neueste Beiträge oben
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#desktop_items#:#Ausgewählte Angebote
