@@ -411,8 +411,8 @@ class ilObjPoll extends ilObject2
 			$original_file = ilUtil::escapeShellArg($path.$original);
 			$thumb_file = ilUtil::escapeShellArg($path.$thumb);
 			$processed_file = ilUtil::escapeShellArg($path.$processed);
-			ilUtil::execConvert($original_file."[0] -geometry 100x100 -quality 100 PNG:".$thumb_file);
-			ilUtil::execConvert($original_file."[0] -geometry ".self::getImageSize()." -quality 100 PNG:".$processed_file);
+			ilUtil::execConvert($original_file."[0] -geometry \"100x100>\" -quality 100 PNG:".$thumb_file);
+			ilUtil::execConvert($original_file."[0] -geometry \"".self::getImageSize().">\" -quality 100 PNG:".$processed_file);
 			
 			$this->setImage($processed);
 			return true;
