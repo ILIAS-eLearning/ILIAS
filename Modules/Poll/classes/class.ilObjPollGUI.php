@@ -293,22 +293,14 @@ class ilObjPollGUI extends ilObject2GUI
 		
 		if(!$a_form)
 		{
-			$visible = null;
-			// $active = ilObjPollAccess::_isActivated($this->obj_id, $this->node_id, $visible);			
-			$active = false;
-			if($this->object->countVotes() || $active)
+			if($this->object->countVotes())
 			{
-				if($active)
-				{
-					ilUtil::sendInfo($lng->txt("poll_active_no_edit"));
-				}
-				else
-				{
-					ilUtil::sendInfo($lng->txt("poll_votes_no_edit"));
-				}
+				$url = $ilCtrl->getLinkTarget($this, "showParticipants");
+				ilUtil::sendInfo($lng->txt("poll_votes_no_edit").
+					" <a href=\"".$url."\">&raquo;".$lng->txt("poll_participants")."</a>");				
 			}
 			
-			$a_form = $this->initQuestionForm($this->object->countVotes() || $active);
+			$a_form = $this->initQuestionForm($this->object->countVotes());
 		}
 		
 		include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
