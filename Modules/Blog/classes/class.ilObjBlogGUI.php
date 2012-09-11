@@ -1994,7 +1994,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	
 	function contributors()
 	{
-		global $ilTabs, $ilToolbar, $ilCtrl, $lng, $tpl;
+		global $ilTabs, $ilToolbar, $ilCtrl, $lng, $tpl;					
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -2022,7 +2022,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
 		$parent_container_id = $this->object->getParentContainerId($this->node_id);			
-		var_dump($parent_container_id);
 		if ($parent_container_id) 
 		{
 			$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", $parent_container_id);
@@ -2032,6 +2031,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$ilToolbar->addButton($lng->txt("blog_contributor_container_add"), 
 				$ilCtrl->getLinkTarget($this, "addContributorContainer"));		
 	 	}
+		
+		$other_roles = $this->object->getRolesWithContribute($this->node_id);
+		if($other_roles)
+		{
+			ilUtil::sendInfo(sprintf($lng->txt("blog_contribute_other_roles"), implode(", ", $other_roles)));
+		}
 		
 		include_once "Modules/Blog/classes/class.ilContributorTableGUI.php";
 		$tbl = new ilContributorTableGUI($this, "contributors", $this->object->getLocalContributorRole($this->node_id));
