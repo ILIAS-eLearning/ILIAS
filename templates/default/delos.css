@@ -48,7 +48,7 @@ q:before, q:after {
 }
 
 table {
-	border-collapse: collapse;
+	border-collapse: separate;
 	border-spacing: 0;
 }
 
@@ -77,7 +77,11 @@ h1, h2, h3, h4, h5 {
 }
 
 ul, ol, p {
-	margin-bottom: .8em;
+	margin: .8em 0;
+}
+
+small {
+	font-size: .8em;
 }
 
 em {
