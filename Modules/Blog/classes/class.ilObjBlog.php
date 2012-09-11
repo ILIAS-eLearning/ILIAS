@@ -569,37 +569,35 @@ class ilObjBlog extends ilObject2
 	/**
 	 * Get object id of parent course/group
 	 * 
-	 * 
+	 * @param int $a_node_id
 	 * @return int
 	 */
-	function getParentContainerId()
+	function getParentContainerId($a_node_id)
 	{
 		global $tree;
 		
-		if($this->node_id)
+		$crs_id = $tree->checkForParentType($a_node_id, "crs");
+		if($crs_id)
 		{
-			$crs_id = $tree->checkForParentType($this->node_id, "crs");
-			if($crs_id)
-			{
-				return $crs_id;		
-			}
-
-			$grp_id = $tree->checkForParentType($this->node_id, "grp");
-			if($grp_id)
-			{
-				return $grp_id;		
-			}
+			return $crs_id;		
 		}
+
+		$grp_id = $tree->checkForParentType($a_node_id, "grp");
+		if($grp_id)
+		{
+			return $grp_id;		
+		}		
 	}
 	
 	/**
 	 * Get parent members object
 	 * 
+	 * @param int $a_node_id
 	 * @return array
 	 */
-	function getParentMemberIds()
+	function getParentMemberIds($a_node_id)
 	{		
-		$container_id = $this->getParentContainerId();		
+		$container_id = $this->getParentContainerId($a_node_id);		
 		if($container_id)
 		{			
 			$members = null;
@@ -619,6 +617,55 @@ class ilObjBlog extends ilObject2
 			if($members && $members->getCountParticipants() < 100)
 			{
 				return $members->getParticipants();							
+			}
+		}
+	}
+	
+	function initDefaultRoles()
+	{
+		global $rbacadmin, $rbacreview, $ilDB;
+
+		// SET PERMISSION TEMPLATE OF NEW LOCAL CONTRIBUTOR ROLE
+		$set = $ilDB->query("SELECT obj_id FROM object_data ".
+			" WHERE type=".$ilDB->quote("rolt", "text").
+			" AND title=".$ilDB->quote("il_blog_contributor", "text"));
+		$res = $ilDB->fetchAssoc($set);
+		if($res["obj_id"])
+		{
+			$rolf_obj = $this->createRoleFolder();
+
+			// CREATE ADMIN ROLE
+			$role_obj = $rolf_obj->createRole("il_blog_contributor_".$this->getRefId(),
+				"Contributor of blog obj_no.".$this->getId());
+
+			$rbacadmin->copyRoleTemplatePermissions($res["obj_id"], ROLE_FOLDER_ID, 
+				$rolf_obj->getRefId(), $role_obj->getId());
+
+			// SET OBJECT PERMISSIONS OF BLOG OBJECT
+			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(), "blog", $rolf_obj->getRefId());
+			$rbacadmin->grantPermission($role_obj->getId(), $ops, $this->getRefId());
+			
+			return true;
+		}
+
+		return false;
+	}
+	
+	/**
+	 * Get object id of local contributor role
+	 * 
+	 * @param int $a_node_id
+	 * @return int
+	 */
+	function getLocalContributorRole($a_node_id)
+	{
+		global $rbacreview;
+		
+		foreach($rbacreview->getLocalRoles($a_node_id) as $role_id)
+		{
+			if(substr(ilObject::_lookupTitle($role_id), 0, 19)  == "il_blog_contributor")
+			{
+				return $role_id;
 			}
 		}
 	}
