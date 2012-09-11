@@ -669,6 +669,28 @@ class ilObjBlog extends ilObject2
 			}
 		}
 	}
+	
+	function getRolesWithContribute($a_node_id)
+	{
+		global $rbacreview;
+		
+		include_once "Services/AccessControl/classes/class.ilObjRole.php";
+		
+		$contr_op_id = ilRbacReview::_getOperationIdByName("contribute");
+		$contr_role_id = $this->getLocalContributorRole($a_node_id);
+		
+		$res = array();
+		foreach($rbacreview->getParentRoleIds($a_node_id) as $role_id => $role)
+		{			
+			if($role_id != $contr_role_id &&
+				in_array($contr_op_id, $rbacreview->getActiveOperationsOfRole($a_node_id, $role_id)))
+			{				
+				$res[$role_id] = ilObjRole:: _getTranslation($role["title"]);
+			}
+		}
+	
+		return $res;
+	}		
 }
 
 ?>
