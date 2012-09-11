@@ -203,14 +203,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$lng->txt("settings"),
 				$this->ctrl->getLinkTarget($this, "edit"));			
 			
-			/*
 			if($this->id_type == self::REPOSITORY_NODE_ID)
 			{	
 				$this->tabs_gui->addTab("contributors",
 					$lng->txt("blog_contributors"),
 					$this->ctrl->getLinkTarget($this, "contributors"));	
 			}		
-			*/
 		}
 		
 		if($this->mayContribute())
@@ -1932,16 +1930,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		global $ilUser;
 		
-		$write = $this->checkPermissionBool("write");
-		$contribute = $this->checkPermissionBool("contribute");
-		if($write || $contribute)
+		// single author blog (owner) in personal workspace
+		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
-			// shortcut for personal workspace
-			if($this->id_type == self::WORKSPACE_NODE_ID)
-			{
-				return true;				
-			}
+			return $this->checkPermissionBool("write");				
+		}
 			
+		if($this->checkPermissionBool("contribute"))
+		{		
 			// check owner of posting
 			if($a_posting_id)
 			{
@@ -2025,7 +2021,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
-		$parent_container_id = $this->object->getParentContainerId();			
+		$parent_container_id = $this->object->getParentContainerId($this->node_id);			
+		var_dump($parent_container_id);
 		if ($parent_container_id) 
 		{
 			$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", $parent_container_id);
@@ -2037,28 +2034,31 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 	}
 		
 		include_once "Modules/Blog/classes/class.ilContributorTableGUI.php";
-		$tbl = new ilContributorTableGUI($this, "contributors");
+		$tbl = new ilContributorTableGUI($this, "contributors", $this->object->getLocalContributorRole($this->node_id));
 		
 		$tpl->setContent($tbl->getHTML());							
 	}
 	
 	public function addContributorContainer()
 	{				
-		global $ilCtrl, $tpl;
+		global $ilTabs, $ilCtrl, $tpl;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
 			return;
 		}
 		
-		$members = $this->object->getParentMemberIds();
+		$ilTabs->activateTab("contributors");
+		
+		$members = $this->object->getParentMemberIds($this->node_id);
 		if(!$members)
 		{
 			$ilCtrl->redirect($this, "contributors");
 		}
 		
 		include_once "Modules/Blog/classes/class.ilContributorTableGUI.php";
-		$tbl = new ilContributorTableGUI($this, "addContributorContainer", $members);
+		$tbl = new ilContributorTableGUI($this, "addContributorContainer", 
+			$this->object->getLocalContributorRole($this->node_id), $members);
 		
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -2119,7 +2119,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	public function addContributor($a_user_ids = array())
 	{		
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $rbacreview, $rbacadmin;
 		
 		if(!$this->checkPermissionBool("write"))
 		{
@@ -2131,16 +2131,20 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			ilUtil::sendFailure($lng->txt("no_checkbox"));
 			return $this->contributors();
 		}
-				
-		// :TODO:
-		$all_contributors = array();
+		
+		// get contributor role
+		$contr_role_id = $this->object->getLocalContributorRole($this->node_id);
+		if(!$contr_role_id)
+		{
+			ilUtil::sendFailure($lng->txt("missing_perm"));
+			return $this->contributors();
+		}		
 		
 		foreach($a_user_ids as $user_id)
 		{
-			if(!in_array($user_id, $all_contributors))
+			if(!$rbacreview->isAssigned($user_id, $contr_role_id))
 			{
-				var_dump($user_id);
-				// :TODO:
+				$rbacadmin->assignUser($contr_role_id, $user_id);
 			}
 		}
 
@@ -2153,7 +2157,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	public function removeContributor()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $rbacadmin;
 		
 		$ids = $_POST["id"];
 		
@@ -2163,9 +2167,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$ilCtrl->redirect($this, "contributors");
 		}
 		
+		// get contributor role
+		$contr_role_id = $this->object->getLocalContributorRole($this->node_id);
+		if(!$contr_role_id)
+		{
+			ilUtil::sendFailure($lng->txt("missing_perm"));
+			return $this->contributors();
+		}		
+		
 		foreach($ids as $user_id)
 		{			
-			// :TODO: 
+			$rbacadmin->deassignUser($contr_role_id, $user_id);
 		}
 				
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);

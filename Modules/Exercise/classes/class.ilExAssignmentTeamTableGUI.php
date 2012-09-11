@@ -77,13 +77,15 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 			$this->member_ids = $this->assignment->getTeamMembers($this->team_id);			
 		}
 	
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		
 		$data = array();
 		foreach($this->member_ids as $id)
 		{
 			if(!in_array($id, $assigned))
 			{
 				$data[] = array("id" => $id,
-					"name" => ilObjUser::_lookupFullName($id));		
+					"name" => ilUserUtil::getNamePresentation($id, false, false, "", true));		
 			}
 		}
 		

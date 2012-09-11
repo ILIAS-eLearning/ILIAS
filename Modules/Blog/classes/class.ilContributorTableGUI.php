@@ -11,6 +11,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilContributorTableGUI extends ilTable2GUI
 {
+	protected $contributor_role_id; // [int]	
 	protected $contributor_ids; // [array]	
 	
 	/**
@@ -18,12 +19,14 @@ class ilContributorTableGUI extends ilTable2GUI
 	 *
 	 * @param ilObject $a_parent_obj
 	 * @param string $a_parent_cmd
+	 * @param int $a_contributor_role_id
 	 * @param array $a_contributor_ids
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, array $a_contributor_ids = null)
+	public function  __construct($a_parent_obj, $a_parent_cmd, $a_contributor_role_id, array $a_contributor_ids = null)
 	{
 		global $ilCtrl;
 				
+		$this->contributor_role_id = $a_contributor_role_id;
 		$this->contributor_ids = $a_contributor_ids;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -55,17 +58,19 @@ class ilContributorTableGUI extends ilTable2GUI
 	 */
 	protected function getItems()
 	{			
+		global $rbacreview;
+		
 		if($this->contributor_ids)
 		{
-			// :TODO:
-			$assigned = array();	
+			$assigned =$rbacreview->assignedUsers($this->contributor_role_id);
 		}
 		else
 		{			
 			$assigned = array();						
-			// :TODO:
-			$this->contributor_ids = array();	
+			$this->contributor_ids = $rbacreview->assignedUsers($this->contributor_role_id);	
 		}
+		
+		include_once "Services/User/classes/class.ilUserUtil.php";
 	
 		$data = array();
 		foreach($this->contributor_ids as $id)
@@ -73,7 +78,7 @@ class ilContributorTableGUI extends ilTable2GUI
 			if(!in_array($id, $assigned))
 			{
 				$data[] = array("id" => $id,
-					"name" => ilObjUser::_lookupFullName($id));		
+					"name" => ilUserUtil::getNamePresentation($id, false, false, "", true));		
 			}
 		}
 		
