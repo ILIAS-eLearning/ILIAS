@@ -56,6 +56,7 @@ class ilLDAPAttributeToUser
 		// Initialise language object
 		if(!is_object($lng))
 		{
+			include_once './Services/Language/classes/class.ilLanguage.php';
 			$lng = new ilLanguage('en');
 		}
 		
