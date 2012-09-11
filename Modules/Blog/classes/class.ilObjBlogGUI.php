@@ -3,7 +3,8 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject2GUI.php";
-include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
+require_once "./Modules/Blog/classes/class.ilBlogPosting.php";
+require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php";
 
 /**
 * Class ilObjBlogGUI
@@ -17,7 +18,7 @@ include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 *
 * @extends ilObject2GUI
 */
-class ilObjBlogGUI extends ilObject2GUI
+class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
 	protected $month; // [string]
 	protected $items; // [array]
@@ -394,6 +395,20 @@ class ilObjBlogGUI extends ilObject2GUI
 			default:				
 				if($cmd != "gethtml")
 				{
+					// desktop item handling, must be toggled before header action
+					if($cmd == "addToDesk" || $cmd == "removeFromDesk")
+					{
+						$this->{$cmd."Object"}();
+						if($_GET["prvm"])
+						{
+							$cmd = "preview";
+						}
+						else
+						{
+							$cmd = "render";
+						}
+						$ilCtrl->setCmd($cmd);
+					}					
 					$this->addHeaderAction($cmd);
 				}
 				return parent::executeCommand();			
@@ -1746,14 +1761,18 @@ class ilObjBlogGUI extends ilObject2GUI
 		
 	protected function addHeaderAction($a_cmd)
 	{	
-		global $ilUser;
+		global $ilUser, $ilCtrl;
 		
 		// preview?
 		if($a_cmd == "preview" || $_GET["prvm"])
-		{
+		{						
 			// notification
 			if($ilUser->getId() != ANONYMOUS_USER_ID)			
-			{
+			{			
+				if(!$_GET["prvm"])
+				{
+					$ilCtrl->setParameter($this, "prvm", "fsc");
+				}
 				return $this->insertHeaderAction($this->initHeaderAction(null, null, true));	
 			}
 		}
@@ -1808,6 +1827,8 @@ class ilObjBlogGUI extends ilObject2GUI
 					ilUtil::getImagePath("notification_off.png"),
 					$this->lng->txt("blog_notification_deactivated"));
 			}
+			
+			$ilCtrl->setParameter($this, "ntf", "");
 		}
 		
 		return $lg;
@@ -2149,6 +2170,30 @@ class ilObjBlogGUI extends ilObject2GUI
 				
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "contributors");				
+	}
+	
+	/**
+	 * @see ilDesktopItemHandling::addToDesk()
+	 */
+	public function addToDeskObject()
+	{
+		global $lng;
+
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		ilDesktopItemGUI::addToDesktop();
+		ilUtil::sendSuccess($lng->txt("added_to_desktop"));		
+	}
+	
+	/**
+	 * @see ilDesktopItemHandling::removeFromDesk()
+	 */
+	public function removeFromDeskObject()
+	{
+		global $lng;
+
+		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
+		ilDesktopItemGUI::removeFromDesktop();
+		ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
 	}
 	
 	/**
