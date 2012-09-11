@@ -13218,3 +13218,30 @@ if(trim($ade) && !trim($fbr))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3763>
+<?php
+
+	$blog_contributor_tpl_id = $ilDB->nextId('object_data');
+		
+	$ilDB->manipulateF("INSERT INTO object_data (obj_id, type, title, description,".
+		" owner, create_date, last_update) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+		array($blog_contributor_tpl_id, "rolt", "il_blog_contributor", 
+			"Contributor template for blogs", -1, ilUtil::now(), ilUtil::now()));
+
+	$query = 'SELECT ops_id FROM rbac_operations WHERE operation = '.
+		$ilDB->quote('contribute', 'text');
+	$rset = $ilDB->query($query);
+	$row = $ilDB->fetchAssoc($rset);
+	$contr_op_id = $row['ops_id'];	
+	if($contr_op_id)
+	{
+		$query = "INSERT INTO rbac_templates VALUES (".$ilDB->quote($blog_contributor_tpl_id).
+			", 'blog', ".$ilDB->quote($contr_op_id).", 8)";
+		$ilDB->manipulate($query);	
+
+		$query = "INSERT INTO rbac_fa VALUES (".$ilDB->quote($blog_contributor_tpl_id).
+			", 8, 'n', 'n')";
+		$ilDB->manipulate($query);
+	}
+?>

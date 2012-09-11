@@ -373,9 +373,10 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			// END object_type
 		}
 
+		/* 
 		// BEGIN ADOPT PERMISSIONS
 		foreach ($this->data["adopt"] as $key => $value)
-		{
+		{			
 			$this->tpl->setCurrentBlock("ADOPT_PERM_ROW");
 			$this->tpl->setVariable("CSS_ROW_ADOPT",$value["css_row_adopt"]);
 			$this->tpl->setVariable("CHECK_ADOPT",$value["check_adopt"]);
@@ -383,13 +384,14 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			$this->tpl->setVariable("ROLE_NAME",$value["role_name"]);
 			$this->tpl->parseCurrentBlock();
 		}
-			
+		
 		$this->tpl->setCurrentBlock("ADOPT_PERM_FORM");
 		$this->tpl->setVariable("MESSAGE_MIDDLE",$this->data["message_middle"]);
 		$this->tpl->setVariable("FORMACTION_ADOPT",$this->data["formaction_adopt"]);
 		$this->tpl->setVariable("ADOPT",$this->lng->txt('copy'));
 		$this->tpl->parseCurrentBlock();
-		// END ADOPT PERMISSIONS
+		// END ADOPT PERMISSIONS 		
+		*/
 		
 		$this->tpl->setCurrentBlock("tblfooter_protected");
 		$this->tpl->setVariable("COL_ANZ",3);
@@ -397,11 +399,8 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		$this->tpl->setVariable("MESSAGE_TABLE",$this->data["text_protected"]);
 		$this->tpl->parseCurrentBlock();
 	
-		$this->tpl->setCurrentBlock("tblfooter_standard");
 		$this->tpl->setVariable("COL_ANZ_PLUS",4);
 		$this->tpl->setVariable("TXT_SAVE",$this->data["txt_save"]);
-		$this->tpl->parseCurrentBlock();
-
 		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TBL_TITLE_IMG",ilUtil::getImagePath("icon_".$this->object->getType().".png"));
