@@ -177,6 +177,7 @@ class ilPortfolioHTMLExport
 			$ilTabs->activateTab($this->active_tab);
 		}
 		
+		include_once "Services/Portfolio/classes/class.ilObjPortfolioGUI.php";
 		ilObjPortfolioGUI::renderFullscreenHeader($this->object, $this->tpl, $this->object->getOwner(), true);
 		$this->tpl->setFrameFixedWidth(true);
 		
