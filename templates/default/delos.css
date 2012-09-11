@@ -1605,6 +1605,11 @@ table.il_editmenu
 	font-size: 14px;
 }
 
+table.il_editmenu td
+{
+	padding: 3px;
+}
+
 a.il_PageDisabled
 {
 	border-bottom: 2px dotted red;
