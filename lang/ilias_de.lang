@@ -12921,3 +12921,5 @@ blog#:#blog_contributors#:#Autoren
 blog#:#blog_add_contributor#:#Autor hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 blog#:#blog_contributor_container_add#:#Benutzer aus Kurs/Gruppe hinzufügen
+common#:#il_blog_contributor#:#Blog Autor
+rbac#:#blog_contribute#:#Benutzer darf mitwirken
