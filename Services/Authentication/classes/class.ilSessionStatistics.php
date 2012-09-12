@@ -22,13 +22,40 @@ class ilSessionStatistics
 	 */
 	public static function createRawEntry($a_session_id, $a_session_type, $a_timestamp, $a_user_id)
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
 		
-		if(!$a_user_id)
+		if(!$a_user_id || !$a_session_id)
 		{
 			return;
 		}
-
+		
+		// #9669: duplicate key
+		$set = $ilDB->query("SELECT * FROM usr_session_stats_raw".
+			" WHERE session_id = ".$ilDB->quote($a_session_id, "text"));
+		if($ilDB->numRows($set))
+		{
+			$ilLog->write("Found unexpected usr_session_stats_raw (".$a_session_id.")");
+			
+			$row = $ilDB->fetchAssoc($set);			
+			$ilLog->write("usr_session_stats entry:");
+			$ilLog->write(print_r($row, true));
+						
+			$set = $ilDB->query("SELECT * FROM usr_session".
+			" WHERE session_id = ".$ilDB->quote($a_session_id, "text"));
+			if($ilDB->numRows($set))
+			{
+				$row = $ilDB->fetchAssoc($set);		
+				$ilLog->write("usr_session entry:");
+				$ilLog->write(print_r($row, true));	
+			}		
+			
+			$ilLog->write(print_r(debug_backtrace(), true));	
+			
+			// removing blocking entry
+			$ilDB->manipulate("DELETE FROM usr_session_stats_raw".
+					" WHERE session_id = ".$ilDB->quote($a_session_id, "text"));			 
+		}
+		
 		$fields = array("session_id" => array("text", $a_session_id),
 			"type" => array("integer", $a_session_type),
 			"start_time" => array("integer", $a_timestamp),
