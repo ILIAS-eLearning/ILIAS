@@ -51,9 +51,10 @@ class ilSessionStatistics
 			
 			$ilLog->write(print_r(debug_backtrace(), true));	
 			
-			// removing blocking entry
+			/* removing blocking entry
 			$ilDB->manipulate("DELETE FROM usr_session_stats_raw".
-					" WHERE session_id = ".$ilDB->quote($a_session_id, "text"));			 
+					" WHERE session_id = ".$ilDB->quote($a_session_id, "text"));			 			
+			*/
 		}
 		
 		$fields = array("session_id" => array("text", $a_session_id),
