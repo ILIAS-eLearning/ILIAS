@@ -1341,6 +1341,8 @@ class ilExAssignment
 		if ($dirsize > disk_free_space($tmpdir)) {
 			return -1;
 		}
+		
+		$ass_type = self::lookupType($a_ass_id);
 
 		// copy all member directories to the temporary folder
 		// switch from id to member name and append the login if the member name is double
@@ -1369,15 +1371,17 @@ class ilExAssignment
 			$sourcefiles = scandir($sourcedir);
 			foreach ($sourcefiles as $sourcefile) {
 				if ($sourcefile == "." || $sourcefile == "..")
+				{
 					continue;
+				}
+			
 				$targetfile = trim(basename($sourcefile));
 				$pos = strpos($targetfile, "_");
-				if ($pos === false)
-				{
-				} else
-				{
+				if ($pos !== false)
+				{						
 					$targetfile= substr($targetfile, $pos + 1);
 				}
+				
 				$targetfile = $directory.DIRECTORY_SEPARATOR.$targetfile;
 				$sourcefile = $sourcedir.DIRECTORY_SEPARATOR.$sourcefile;
 
@@ -1391,6 +1395,14 @@ class ilExAssignment
 				{
 					// preserve time stamp
 					touch($targetfile, filectime($sourcefile));
+					
+					// blogs and portfolios are stored as zip and have to be unzipped
+					if($ass_type == ilExAssignment::TYPE_PORTFOLIO || 
+						$ass_type == ilExAssignment::TYPE_BLOG)
+					{
+						ilUtil::unzip($targetfile);
+						unlink($targetfile);
+					}					
 				}
 
 			}
