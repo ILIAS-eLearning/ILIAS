@@ -318,6 +318,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					{
 						// blog preview
 						case "previewFullscreen":		
+							$this->addHeaderAction($cmd);	
 							$this->filterInactivePostings();
 							$nav = $this->renderNavigation($this->items, "preview", $cmd);							
 							$this->renderFullScreen($ret, $nav);
@@ -345,6 +346,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							{
 								ilUtil::sendInfo(implode("<br />", $info));	
 							}					
+							// revert to edit cmd to avoid confusion
 							$this->addHeaderAction("render");	
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd, null, $is_owner);	
