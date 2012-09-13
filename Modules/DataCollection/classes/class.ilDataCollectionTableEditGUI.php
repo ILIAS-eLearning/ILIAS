@@ -259,7 +259,6 @@ class ilDataCollectionTableEditGUI
 			{
 				$this->table->doUpdate();
 				ilUtil::sendSuccess($lng->txt("dcl_msg_table_edited"), true);
-				$this->emptyInfo();
 				$ilCtrl->redirectByClass("ildatacollectiontableeditgui", "edit");
 			}
 			else
@@ -269,7 +268,6 @@ class ilDataCollectionTableEditGUI
 
 				$this->table->doCreate();
 				ilUtil::sendSuccess($lng->txt("dcl_msg_table_created"), true);
-				$this->emptyInfo();
 				$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->table->getId());
 				$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 			}
