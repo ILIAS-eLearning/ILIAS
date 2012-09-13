@@ -69,11 +69,17 @@ class ilDataCollectionRecordListGUI
 
 		// Show tables
 		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-		$arrTables = ilDataCollectionTable::getAll($this->obj_id);
-		foreach($arrTables as $table)
+		if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
+			$tables = $this->parent_obj->object->getTables();
+		else
+			$tables = $this->parent_obj->object->getVisibleTables();
+
+
+		foreach($tables as $table)
 		{
-			$options[$table['id']] = $table['title'];
+			$options[$table->getId()] = $table->getTitle();
 		}
+
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$table_selection = new ilSelectInputGUI('', 'table_id');
 		$table_selection->setOptions($options);

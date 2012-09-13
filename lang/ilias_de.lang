@@ -12662,10 +12662,10 @@ dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_locked#:#Gesperrt
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
-dcl#:#dcl_add_perm#:#Recht Datensatz hinzufügen
-dcl#:#dcl_edit_perm#:#Recht Datensatz bearbeiten
-dcl#:#dcl_delete_perm#:#Recht Datensatz löschen
-dcl#:#dcl_edit_by_owner#:#Berechtigung Bearbeitung / Löschen ausschliesslich für eigene Datensätze
+dcl#:#dcl_add_perm#:#Datensatz hinzufügen erlauben
+dcl#:#dcl_edit_perm#:#Datensatz bearbeiten erlauben
+dcl#:#dcl_delete_perm#:#Datensatz löschen erlauben
+dcl#:#dcl_edit_by_owner#:#Löschen und Bearbeiten von Datensätze nur erlaubt für den Ersteller des Datensatzes
 dcl#:#dcl_limited#:#Zeitliche Beschränkung Hinzufügen / Bearbeiten / Löschen
 dcl#:#dcl_record_id#:#Datensatz-ID
 dcl#:#dcl_limit_start#:#Start
@@ -12925,3 +12925,4 @@ common#:#il_blog_contributor#:#Blog Autor
 rbac#:#blog_contribute#:#Benutzer darf mitwirken
 blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
 dcl#:#dcl_no_content_warning#:#Achtung, die Data Collection ist jetzt online hat aber noch keinen Inhalt!
+dcl#:#dcl_visible#:#Sichtbar für alle Benutzer

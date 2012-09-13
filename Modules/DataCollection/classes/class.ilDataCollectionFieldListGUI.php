@@ -84,11 +84,11 @@ class ilDataCollectionFieldListGUI
 
 		// Show tables
 		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
-		$arrTables = ilDataCollectionTable::getAll($this->obj_id);
+		$tables = $this->parent_obj->object->getTables();
 
-		foreach($arrTables as $table)
+		foreach($tables as $table)
 		{
-				$options[$table['id']] = $table['title'];
+				$options[$table->getId()] = $table->getTitle();
 		}
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$table_selection = new ilSelectInputGUI('', 'table_id');

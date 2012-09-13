@@ -60,7 +60,7 @@ class ilDataCollectionRecordViewGUI
 	 */
 	public function renderRecord()
 	{
-		global $ilTabs, $tpl, $ilCtrl;
+		global $ilTabs, $tpl, $ilCtrl, $lng;
 		
 		$ilTabs->setTabActive("id_content");
 

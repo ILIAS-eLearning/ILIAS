@@ -153,9 +153,8 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	 */
 	public function postOutputProcessing($a_output)
 	{
-		// You can use this to parse placeholders and the like before outputting		
-		
-		
+		// You can use this to parse placeholders and the like before outputting
+
 		// user view (IL_PAGE_PRESENTATION?)
 		if($this->getOutputMode() == IL_PAGE_PREVIEW)
 		{						

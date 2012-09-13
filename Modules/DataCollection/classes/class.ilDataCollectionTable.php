@@ -29,6 +29,11 @@ class ilDataCollectionTable
 	/**
 	 * @var bool
 	 */
+	private $is_visible;
+
+	/**
+	 * @var bool
+	 */
 	private $add_perm;
 
 	/**
@@ -95,6 +100,7 @@ class ilDataCollectionTable
 		$this->setLimited($rec["limited"]);
 		$this->setLimitStart($rec["limit_start"]);
 		$this->setLimitEnd($rec["limit_end"]);
+		$this->setIsVisible($rec["is_visible"]);
 	}
 	
 	/**
@@ -144,6 +150,7 @@ class ilDataCollectionTable
 			", limited".
 			", limit_start".
 			", limit_end".
+			", is_visible".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getObjId(), "integer")
@@ -155,6 +162,7 @@ class ilDataCollectionTable
 			.",".$ilDB->quote($this->getLimited()?1:0, "integer")
 			.",".$ilDB->quote($this->getLimitStart(), "timestamp")
 			.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
+			.",".$ilDB->quote($this->getIsVisible()?1:0, "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -193,7 +201,8 @@ class ilDataCollectionTable
 			"edit_by_owner" => array("integer",$this->getEditByOwner()),
 			"limited" => array("integer",$this->getLimited()),
 			"limit_start" => array("timestamp",$this->getLimitStart()),
-			"limit_end" => array("timestamp",$this->getLimitEnd())
+			"limit_end" => array("timestamp",$this->getLimitEnd()),
+			"is_visible" => array("integer",$this->getIsVisible()?1:0)
 		), array(
 			"id" => array("integer", $this->getId())
 		));
@@ -800,7 +809,22 @@ class ilDataCollectionTable
 	{
 		return $this->limit_start;
 	}
-	
+
+	/**
+	 * @param boolean $is_visible
+	 */
+	public function setIsVisible($is_visible)
+	{
+		$this->is_visible = $is_visible;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getIsVisible()
+	{
+		return $this->is_visible;
+	}
 	
 	/**
 	 * hasCustomFields

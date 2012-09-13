@@ -109,7 +109,8 @@ class ilDataCollectionTableEditGUI
 			'edit_by_owner'		=>	$this->table->getEditByOwner(),
 			'limited'		=>	$this->table->getLimited(),
 			'limit_start'		=>	array("date" => substr($this->table->getLimitStart(),0,10), "time" => substr($this->table->getLimitStart(),-8)),
-			'limit_end'		=>	array("date" => substr($this->table->getLimitEnd(),0,10), "time" => substr($this->table->getLimitEnd(),-8))
+			'limit_end'		=>	array("date" => substr($this->table->getLimitEnd(),0,10), "time" => substr($this->table->getLimitEnd(),-8)),
+			'is_visible'		=>	$this->table->getIsVisible()
 		);
 		if(!$this->table->getLimitStart())
 			$values['limit_start'] = NULL;
@@ -125,6 +126,7 @@ class ilDataCollectionTableEditGUI
 	{
 		$values =  array(
 			'title'		=>	"",
+			'is_visible'		=>	1,
 			'add_perm'		=>	1,
 			'edit_perm'		=>	1,
 			'delete_perm'		=>	1,
@@ -160,6 +162,8 @@ class ilDataCollectionTableEditGUI
 
 		$item = new ilTextInputGUI($lng->txt('title'),'title');
 		$item->setRequired(true);
+		$this->form->addItem($item);
+		$item = new ilCheckboxInputGUI($lng->txt('dcl_is_visible'),'is_visible');
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_add_perm'),'add_perm');
 //		$item->setInfo($lng->txt("dcl_add_perm_info"));
@@ -240,6 +244,7 @@ class ilDataCollectionTableEditGUI
 
 			$this->table->setTitle($this->form->getInput("title"));
 			$this->table->setObjId($this->obj_id);
+			$this->table->setIsVisible($this->form->getInput("is_visible"));
 			$this->table->setAddPerm($this->form->getInput("add_perm"));
 			$this->table->setEditPerm($this->form->getInput("edit_perm"));
 			$this->table->setDeletePerm($this->form->getInput("delete_perm"));
