@@ -12677,7 +12677,6 @@ dcl#:#dcl_edit_field#:#Feld bearbeiten
 dcl#:#dcl_update_field#:#Feld aktualisieren
 dcl#:#dcl_create_field#:#Feld hinzufügen
 dcl#:#dcl_msg_field_modified#:#Feld wurde aktualisiert
-dcl#:#dcl_visible#:#Sichtbar Tabelle
 dcl#:#dcl_title#:#Feldtitel
 dcl#:#dcl_order#:#Sortierung
 dcl#:#dcl_save#:#Speichern
@@ -12926,3 +12925,7 @@ rbac#:#blog_contribute#:#Benutzer darf mitwirken
 blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
 dcl#:#dcl_no_content_warning#:#Achtung, die Data Collection ist jetzt online hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Sichtbar für alle Benutzer
+dcl#:#dcl_empty_view#:#Anzeigedefinition Löschen
+dcl#:#dcl_confirm_delete_view_title#:#Die Anzeigedefinition wirklich löschen?
+dcl#:#dcl_confirm_delete_view_text#:#Die Anzeigedefinition wird unwiderruflich gelöscht, Felder und Einträge werden allerdings nicht geändert.
+dcl#:#dcl_empty_view_success#:#Die Anzeigedefinition wurde erfolgreich gelöscht.
