@@ -8158,7 +8158,7 @@ mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Acco
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum
 mail#:#forward#:#Weiterleiten
 mail#:#goto_invitation_chat#:#öffne Chatraum
-mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail Adresse für externe System- oder Benachrichtigungsmails ein, die als Absender verwendet werden soll.
+mail#:#info_mail_external_sender_noreply#:#Tragen Sie hier die E-Mail-Adresse ein, die als Absender für automatisch generierte System- oder Benachrichtigungsmails verwendet werden soll. <b>Hinweis</b>: Diese Adresse muss tatsächlich existieren, damit entsprechende Mails nicht von Spam-Filtern und Mail-Servern abgelehnt werden.
 mail#:#invite_to_chat#:#in Chat einladen
 mail#:#linebreak#:#Zeilenumbruch
 mail#:#mail_account_mail#:#Benutzerkonten-Nachricht
@@ -12641,7 +12641,7 @@ ecs#:#ecs_tst_export_obj_settings#:#Einstellungen für Testfreigaben
 ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
 rtst#:#rtst_call#:#ECS Test aufrufen
-rbac#:#contribute#:#Mitwirken
+rbac#:#contribute#:#Mitarbeiten
 dateplaner#:#cal_setting_global_vis_repos#:#Anzeige im Magazin
 dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
 dateplaner#:#cal_setting_global_grp_vis#:#Anzeige in Gruppen
