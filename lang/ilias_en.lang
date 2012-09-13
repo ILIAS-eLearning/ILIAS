@@ -7035,7 +7035,7 @@ mail#:#chat_users_without_login#:#The following Users don't have an ILIAS Accoun
 mail#:#chat_users_without_permission#:#The following Users don't have access to the selected Chat Room.
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
-mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for external system messages and notifications.
+mail#:#info_mail_external_sender_noreply#:#Please enter the e-mail that shall be used as sender's address for automatically created system messages and notifications send by e-mail. <b<Note</b>: Use only a real existing address to avoid the rejection of such mails by spam filters and mail servers,
 mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Line break
 mail#:#mail_account_mail_check#:#Send Account Mail
