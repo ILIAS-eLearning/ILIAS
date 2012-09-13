@@ -12723,7 +12723,6 @@ dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_owner_editable#:#Edit only own records
 dcl#:#dcl_order#:#Order
 dcl#:#dcl_title#:#Field Title
-dcl#:#dcl_visible#:#Visible in Table
 dcl#:#dcl_description#:#Field Description
 dcl#:#dcl_msg_table_created#:#Table created
 dcl#:#dcl_save#:#Save Table
@@ -12922,3 +12921,7 @@ rbac#:#blog_contribute#:#User can contribute
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
+dcl#:#dcl_empty_view#:#Delete this View
+dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
+dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
+dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.

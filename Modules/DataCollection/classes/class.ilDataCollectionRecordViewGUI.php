@@ -94,6 +94,12 @@ class ilDataCollectionRecordViewGUI
 
 		}
 
+		echo $view_id."<br>";
+		var_dump(trim($html));
+		$html = str_replace("\n", "", $html);
+		if(strcmp(trim($html), "") == 233)
+			$html = $lng->txt("dcl_no_view_defined");
+
 		$tpl->setContent($html);
 	}
 

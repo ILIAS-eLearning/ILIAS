@@ -131,18 +131,67 @@ class ilDataCollectionRecordViewViewdefinitionGUI extends ilPageObjectGUI
 	
 	public function showPage()
 	{
+		global $ilCtrl, $lng;
 		// :TODO: temporary legend of available placeholders
 		if($this->getOutputMode() == IL_PAGE_EDIT)
 		{
 			$legend = ilDataCollectionRecordViewViewdefinition::getAvailablePlaceholders($this->table_id);		
 			if(sizeof($legend))
 			{
-				$this->setPrependingHtml("<span class=\"small\">".$this->lng->txt("dcl_legend_placeholders").
+				$this->setPrependingHtml(" <form action=".$ilCtrl->getFormAction($this, "confirmDelete")." method='post'> <input class='submit' type='submit' value='".$lng->txt("dcl_empty_view")."'></form> <span class=\"small\">".$this->lng->txt("dcl_legend_placeholders").
 					": ".implode(" ", $legend)."</span>");
 			}
 		}
 		
 		return parent::showPage();
+	}
+
+	/**
+	 * confirmDelete
+	 */
+	public function confirmDelete()
+	{
+		global $ilCtrl, $lng, $tpl;
+
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setHeaderText($lng->txt('dcl_confirm_delete_view_title'));
+
+		$conf->addItem('table', (int) $this->table_id, $lng->txt('dcl_confirm_delete_view_text'));
+
+		$conf->setConfirm($lng->txt('delete'), 'deleteView');
+		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+
+		$tpl->setContent($conf->getHTML());
+	}
+
+	/**
+	 * cancelDelete
+	 */
+	public function cancelDelete()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->redirect($this, "edit");
+	}
+
+	public function deleteView(){
+		global $ilCtrl, $lng;
+
+		if($this->table_id && ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id)){
+			global $ilDB;
+			$id = ilDataCollectionRecordViewViewdefinition::getIdByTableId($this->table_id);
+			$pageObject = new ilPageObject("dclf", $id);
+			$pageObject->delete();
+
+			$query = "DELETE FROM il_dcl_view WHERE table_id = ".$this->table_id." AND type = ".$ilDB->quote(0, "integer")." AND formtype = ".$ilDB->quote(0, "integer");
+			$ilDB->manipulate($query);
+		}
+
+		ilUtil::sendSuccess($lng->txt("dcl_empty_view_success"), true);
+
+		$ilCtrl->redirectByClass("ilDataCollectionFieldListGUI", "listFields");
 	}
 	
 	/**
