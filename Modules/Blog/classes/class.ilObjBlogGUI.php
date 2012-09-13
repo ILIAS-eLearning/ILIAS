@@ -251,7 +251,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		switch($next_class)
 		{
-			case 'ilblogpostinggui':						
+			case 'ilblogpostinggui':	
+				// #9680
+				if($this->id_type == self::REPOSITORY_NODE_ID)
+				{						
+					$this->setLocator();						
+				}				
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, ""));
 					
@@ -340,7 +345,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							{
 								ilUtil::sendInfo(implode("<br />", $info));	
 							}					
-							$this->addHeaderAction($cmd);	
+							$this->addHeaderAction("render");	
 							$tpl->setContent($ret);
 							$nav = $this->renderNavigation($this->items, "render", $cmd, null, $is_owner);	
 							$tpl->setRightContent($nav);	
@@ -1771,7 +1776,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				{
 					$ilCtrl->setParameter($this, "prvm", "fsc");
 				}
-				return $this->insertHeaderAction($this->initHeaderAction(null, null, true));	
+				$this->insertHeaderAction($this->initHeaderAction(null, null, true));	
+				if(!$_GET["prvm"])
+				{
+					$ilCtrl->setParameter($this, "prvm", "");
+				}
 			}
 		}
 		else
@@ -1968,7 +1977,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if (is_object($this->object))
 		{
-			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);		
 		}
 	}
 	
