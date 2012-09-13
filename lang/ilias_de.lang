@@ -12924,3 +12924,4 @@ blog#:#blog_contributor_container_add#:#Benutzer aus Kurs/Gruppe hinzufügen
 common#:#il_blog_contributor#:#Blog Autor
 rbac#:#blog_contribute#:#Benutzer darf mitwirken
 blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
+dcl#:#dcl_no_content_warning#:#Achtung, die Data Collection ist jetzt online hat aber noch keinen Inhalt!

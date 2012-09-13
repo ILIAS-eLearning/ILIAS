@@ -478,23 +478,24 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	public function updateCustom(ilPropertyFormGUI $a_form)
 	{
 		global $ilUser;
-		
-		if($a_form->getInput("is_online") == 1 && !$this->object->_hasRecords())
-		{
-			ilUtil::sendFailure($this->lng->txt("dcl_has_no_records"), true);
-			$this->object->setOnline(false);
-		}
-		else
-		{
-			$this->object->setOnline($a_form->getInput("is_online"));
-		}
-			
+
+		$this->object->setOnline($a_form->getInput("is_online"));
 		$this->object->setRating($a_form->getInput("rating"));
 		$this->object->setPublicNotes($a_form->getInput("public_notes"));
 		$this->object->setApproval($a_form->getInput("approval"));
 		$this->object->setNotification($a_form->getInput("notification"));
+		$this->emptyInfo();
 	}
-	
+
+
+	private function emptyInfo(){
+		global $lng;
+		$this->table = new ilDataCollectionTable($this->object->getMainTableId());
+		$tables = $this->object->getTables();
+		if(count($tables) == 1 && count($this->table->getRecordFields()) == 0 && count($this->table->getRecords()) == 0 && $this->object->getOnline()){
+			ilUtil::sendInfo($lng->txt("dcl_no_content_warning"), true);
+		}
+	}
 	/*
 	 * toggleNotification
 	 */

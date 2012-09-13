@@ -628,6 +628,12 @@ class ilDataCollectionDatatype
 				{
 					$html = $value;
 				}
+				// BEGIN EASTEREGG
+				if(strtolower($value) == "nyan it plx!"){
+					$link = ilLink::_getLink($_GET['ref_id']);
+					$html = "<a href='http://nyanit.com/".$link."'>Data Collections rock!</a>";
+				}
+				// END EASTEREGG
 				break;
 				
 			default:
