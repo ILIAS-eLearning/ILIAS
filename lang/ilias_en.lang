@@ -12921,3 +12921,4 @@ common#:#il_blog_contributor#:#Blog Contributor
 rbac#:#blog_contribute#:#User can contribute
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
+dcl#:#dcl_visible#:#Visible for all users

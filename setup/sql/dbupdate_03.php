@@ -13245,3 +13245,19 @@ if(trim($ade) && !trim($fbr))
 		$ilDB->manipulate($query);
 	}
 ?>
+<#3764>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table', 'is_visible'))
+{
+		$ilDB->addTableColumn(
+		'il_dcl_table',
+		'is_visible',
+		array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 1
+		)
+	);
+}
+?>

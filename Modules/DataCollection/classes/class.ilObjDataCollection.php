@@ -443,6 +443,15 @@ class ilObjDataCollection extends ilObject2
 		return $tables;
 	}
 
+	public function getVisibleTables(){
+		$tables = array();
+		foreach($this->getTables() as $table){
+			if($table->getIsVisible())
+				$tables[$table->getId()] = $table;
+		}
+		return $tables;
+	}
+
 }
 
 ?>
