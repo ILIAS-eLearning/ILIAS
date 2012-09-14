@@ -416,10 +416,13 @@ class ilPasswordAssistanceGUI
 	
 		// Check if we need to create a new session
 		$pwassist_session = db_pwassist_session_find($userObj->getId());
-		if (count($pwassist_session) == 0 || $pwassist_session["expires"] < time())
+		if (count($pwassist_session) == 0 || $pwassist_session["expires"] < time() || true)
 		{
 			// Create a new session id
-			db_set_save_handler();
+			
+			// #9700 - this didn't do anything before?!
+			// db_set_save_handler();
+			
 			session_start();
 			$pwassist_session["pwassist_id"] = db_pwassist_create_id();
 			session_destroy();
