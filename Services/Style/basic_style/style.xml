@@ -118,18 +118,16 @@
 </Style>
 
 <!-- Page -->
-<Style Tag="table" Type="page_frame" Class="PageFrame">
+<Style Tag="div" Type="page_frame" Class="PageFrame">
 	<StyleParameter Name="padding-left" Value="15px"/>
 	<StyleParameter Name="padding-right" Value="15px"/>
-	<StyleParameter Name="width" Value="100%"/>
 </Style>
-<Style Tag="table" Type="page_cont" Class="PageContainer">
+<Style Tag="div" Type="page_cont" Class="PageContainer">
 	<StyleParameter Name="background-color" Value="#FFFFFF"/>
 	<StyleParameter Name="border-width" Value="1px"/>
 	<StyleParameter Name="border-color" Value="#D6D6D6"/>
 	<StyleParameter Name="border-style" Value="solid"/>
 	<StyleParameter Name="margin" Value="0px"/>
-	<StyleParameter Name="width" Value="100%"/>
 	<StyleParameter Name="padding" Value="20px"/>
 </Style>
 <Style Tag="div" Type="page" Class="Page">

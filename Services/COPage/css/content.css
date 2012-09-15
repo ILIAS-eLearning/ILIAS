@@ -1,12 +1,11 @@
 /* Page */
-.ilc_page_frame_PageFrame
+div.ilc_page_frame_PageFrame
 {
 	padding-left: 15px;
 	padding-right: 15px;
-	width: 100%;
 }
 
-.ilc_page_cont_PageContainer
+div.ilc_page_cont_PageContainer
 {
 	border: 1px solid #D6D6D6;
 	background-color: #FFF;

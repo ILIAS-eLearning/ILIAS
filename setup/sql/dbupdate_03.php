@@ -13261,3 +13261,40 @@ if(!$ilDB->tableColumnExists('il_dcl_table', 'is_visible'))
 	);
 }
 ?>
+<#3765>
+<?php
+$ilDB->manipulate("UPDATE style_parameter SET ".
+	" tag = ".$ilDB->quote("div", "text").
+	" WHERE class = ".$ilDB->quote("PageFrame", "text")
+	);
+?>
+<#3766>
+<?php
+$ilDB->manipulate("UPDATE style_parameter SET ".
+	" tag = ".$ilDB->quote("div", "text").
+	" WHERE class = ".$ilDB->quote("PageContainer", "text")
+	);
+?>
+<#3767>
+<?php
+$ilDB->manipulate("DELETE FROM style_parameter WHERE ".
+	" class = ".$ilDB->quote("PageContainer", "text")." AND ".
+	" parameter = ".$ilDB->quote("width", "text")." AND ".
+	" value = ".$ilDB->quote("100%", "text")
+	);
+?>
+<#3768>
+<?php
+$ilDB->manipulate("DELETE FROM style_parameter WHERE ".
+	" class = ".$ilDB->quote("PageContainer", "text")." AND ".
+	" parameter = ".$ilDB->quote("width", "text")." AND ".
+	" value = ".$ilDB->quote("100%", "text")
+	);
+?>
+<#3769>
+<?php
+$ilDB->manipulate("UPDATE style_data SET ".
+	" uptodate = ".$ilDB->quote(0, "integer")
+	);
+?>
+
