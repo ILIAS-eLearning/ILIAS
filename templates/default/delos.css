@@ -2462,7 +2462,17 @@ div.ilBotLeftArea iframe {
 div.ilLeftNavSpace {
 	padding: 0 20px 0 360px;
 }
-	
+
+div.ilContentFixed {
+	right: 0px;
+	bottom: 0px;
+	left: 350px;
+	position: fixed;
+	top:85px;
+	overflow: auto;
+
+}
+
 /* Tabs */
 
 div.il_Tab
