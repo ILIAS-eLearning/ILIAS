@@ -1251,9 +1251,6 @@
 
 <!-- IntLink -->
 <xsl:template match="IntLink">
-	<xsl:variable name="target" select="@Target"/>
-	<xsl:variable name="type" select="@Type"/>
-	<xsl:variable name="anchor" select="@Anchor"/>
 	<xsl:variable name="targetframe">
 		<xsl:choose>
 			<xsl:when test="@TargetFrame">
@@ -1269,6 +1266,9 @@
 		</xsl:when>
 		<!-- initial opened content -->
 		<xsl:when test="name(..) = 'InitOpenedContent'">
+			<xsl:variable name="target" select="@Target"/>
+			<xsl:variable name="type" select="@Type"/>
+			<xsl:variable name="anchor" select="@Anchor"/>
 			<xsl:variable name="link_href">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>
@@ -1278,6 +1278,9 @@
 		</xsl:when>
 		<!-- all internal links except inline mob vris -->
 		<xsl:when test="@Type != 'MediaObject' or @TargetFrame">
+			<xsl:variable name="target" select="@Target"/>
+			<xsl:variable name="type" select="@Type"/>
+			<xsl:variable name="anchor" select="@Anchor"/>
 			<xsl:variable name="link_href">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>
