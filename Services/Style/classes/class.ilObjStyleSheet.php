@@ -249,7 +249,7 @@ class ilObjStyleSheet extends ilObject
 			"ha_cntr", "ha_icntr", "ha_ihead", "ha_icont"),
 		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
 			"qimg", "qordul", "qordli", "qimgd", "qetitem", "qetcorr", "qover"),
-		"page" => array("page_frame", "page_cont", "page_title", "page_fn", "page",
+		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
 			"page_tnav", "page_bnav", "page_lnav", "page_rnav", "page_lnavlink", "page_rnavlink",
 			"page_lnavimage", "page_rnavimage"),
 		"glo" => array("glo_overlay", "glo_ovtitle", "glo_ovclink", "glo_ovuglink", "glo_ovuglistlink"),
@@ -2153,6 +2153,18 @@ class ilObjStyleSheet extends ilObject
 			foreach($style as $tag)
 			{
 				$id = $ilDB->nextId("style_parameter");
+				
+				// migrate old table PageFrame/PageContainer to div
+				if (in_array($tag["class"], array("PageFrame", "PageContainer")) &&
+					$tag["tag"] == "table")
+				{
+					$tag["tag"] = "div";
+					if ($tag["parameter"] == "width" && $tag["value"] == "100%")
+					{
+						continue;
+					}
+				}
+				
 				$q = "INSERT INTO style_parameter (id,style_id, tag, class, parameter, type, value) VALUES ".
 					"(".
 					$ilDB->quote($id, "integer").",".
