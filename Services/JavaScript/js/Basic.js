@@ -313,7 +313,22 @@ il.UICore = {
 		var el = document.getElementById("left_nav"),
 			sm = document.getElementById("mainspacekeeper"),
 			bl = document.getElementById("bot_left_area"),
+			fc = document.getElementById("fixed_conent"),
 			nb_reg, vp_reg;
+			
+		// fix fixed content
+		/*if (fc && sm) {
+			sm_reg = il.Util.getRegion(sm);
+			fc_reg = il.Util.getRegion(fc);
+			vp_reg = il.Util.getViewportRegion();
+			if (sm_reg.top < vp_reg.top) {
+				$(fc).offset({top: vp_reg.top});
+			} else {
+				$(fc).offset({top: sm_reg.top});
+			}
+		}*/
+		
+		// fix left navigation area
 		if (el && sm) {
 			sm_reg = il.Util.getRegion(sm);
 			nb_reg = il.Util.getRegion(el);

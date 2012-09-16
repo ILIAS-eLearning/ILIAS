@@ -13297,4 +13297,18 @@ $ilDB->manipulate("UPDATE style_data SET ".
 	" uptodate = ".$ilDB->quote(0, "integer")
 	);
 ?>
+<#3770>
+<?php
+$ilDB->manipulate("DELETE FROM style_parameter WHERE ".
+	" class = ".$ilDB->quote("PageFrame", "text")." AND ".
+	" parameter = ".$ilDB->quote("width", "text")." AND ".
+	" value = ".$ilDB->quote("100%", "text")
+	);
+?>
+<#3771>
+<?php
+$ilDB->manipulate("UPDATE style_data SET ".
+	" uptodate = ".$ilDB->quote(0, "integer")
+	);
+?>
 
