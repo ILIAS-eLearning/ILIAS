@@ -43,44 +43,47 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	*/
 	function viewObject()
 	{
-		global $rbacsystem;
+		$this->editiLincObject();
 		
-		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
 		
-		$this->__initSubTabs("view");
-		
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.extt_general.html",
-			"Services/Administration");
-		
-		$this->tpl->setVariable("FORMACTION",
-			$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("TXT_EXTT_TITLE", $this->lng->txt("extt_title_configure"));
-
-		$this->tpl->setVariable("TXT_EXTT_NAME", $this->lng->txt("extt_name"));
-		$this->tpl->setVariable("TXT_EXTT_ACTIVE", $this->lng->txt("active")."?");
-		$this->tpl->setVariable("TXT_EXTT_DESC", $this->lng->txt("description"));
-
-		$this->tpl->setVariable("TXT_CONFIGURE", $this->lng->txt("extt_configure"));
-		$this->tpl->setVariable("TXT_EXTT_REMARK", $this->lng->txt("extt_remark"));
-
-		// ilinc
-		$this->tpl->setVariable("TXT_EXTT_ILINC_NAME", $this->lng->txt("extt_ilinc"));
-		$this->tpl->setVariable("TXT_EXTT_ILINC_DESC", $this->lng->txt("extt_ilinc_desc"));
-
-	
-		// icon handlers
-		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.png")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>";
-		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.png")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
-
-		$this->tpl->setVariable("EXTT_ILINC_ACTIVE", $this->ilias->getSetting('ilinc_active') ? $icon_ok : $icon_not_ok);
+//		global $rbacsystem;
+//		
+//		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+//		{
+//			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+//		}
+//		
+//		$this->__initSubTabs("view");
+//		
+//		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.extt_general.html",
+//			"Services/Administration");
+//		
+//		$this->tpl->setVariable("FORMACTION",
+//			$this->ctrl->getFormAction($this));
+//		$this->tpl->setVariable("TXT_EXTT_TITLE", $this->lng->txt("extt_title_configure"));
+//
+//		$this->tpl->setVariable("TXT_EXTT_NAME", $this->lng->txt("extt_name"));
+//		$this->tpl->setVariable("TXT_EXTT_ACTIVE", $this->lng->txt("active")."?");
+//		$this->tpl->setVariable("TXT_EXTT_DESC", $this->lng->txt("description"));
+//
+//		$this->tpl->setVariable("TXT_CONFIGURE", $this->lng->txt("extt_configure"));
+//		$this->tpl->setVariable("TXT_EXTT_REMARK", $this->lng->txt("extt_remark"));
+//
+//		// ilinc
+//		$this->tpl->setVariable("TXT_EXTT_ILINC_NAME", $this->lng->txt("extt_ilinc"));
+//		$this->tpl->setVariable("TXT_EXTT_ILINC_DESC", $this->lng->txt("extt_ilinc_desc"));
+//
+//	
+//		// icon handlers
+//		$icon_ok = "<img src=\"".ilUtil::getImagePath("icon_ok.png")."\" alt=\"".$this->lng->txt("enabled")."\" title=\"".$this->lng->txt("enabled")."\" border=\"0\" vspace=\"0\"/>";
+//		$icon_not_ok = "<img src=\"".ilUtil::getImagePath("icon_not_ok.png")."\" alt=\"".$this->lng->txt("disabled")."\" title=\"".$this->lng->txt("disabled")."\" border=\"0\" vspace=\"0\"/>";
+//
+//		$this->tpl->setVariable("EXTT_ILINC_ACTIVE", $this->ilias->getSetting('ilinc_active') ? $icon_ok : $icon_not_ok);
 	}
 	
 	function cancelObject()
 	{
-		$this->ctrl->redirect($this, "view");
+		$this->ctrl->redirect($this, "editiLinc");
 	}
 
 	function getAdminTabs(&$tabs_gui)
@@ -102,9 +105,11 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "view"), 
-				array("view","editiLinc","editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
-				
+//				$this->ctrl->getLinkTarget($this, "view"), 
+//				array("view","editiLinc","editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
+			
+				$this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
+				array("editiLinc","editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
 			$this->lng->loadLanguageModule('ecs');
 			$tabs_gui->addTarget('ecs_server_settings',
 				$this->ctrl->getLinkTargetByClass('ilecssettingsgui','overview'));
@@ -743,14 +748,19 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	function __initSubTabs($a_cmd)
 	{
 		$ilinc = ($a_cmd == 'editiLinc') ? true : false;
-		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
+//		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
 		//$delicious = ($a_cmd == 'editDelicious') ? true : false;
+		
+		if($a_cmd == 'view' || $a_cmd = '') 
+		{
+			$a_cmd = 'editSocialBookmarks';
+		}
 		$socialbookmarks = ($a_cmd == 'editSocialBookmarks') ? true : false;
 		$gmaps = ($a_cmd == 'editGoogleMaps') ? true : false;
 		$mathjax = ($a_cmd == 'editMathJax') ? true : false;
 
-		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
-										 "", "", "", $overview);
+//		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
+//										 "", "", "", $overview);
 		/*$this->tabs_gui->addSubTabTarget("delic_extt_delicious", $this->ctrl->getLinkTarget($this, "editDelicious"),
 											"", "", "", $delicious);*/
 		$this->tabs_gui->addSubTabTarget("socialbm_extt_social_bookmarks", $this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
@@ -787,9 +797,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 			default:
 				$this->tabs_gui->setTabActive('settings');
-				if(!$cmd)
+				if(!$cmd || $cmd == 'view')
 				{
-					$cmd = "view";
+					$cmd = "editSocialBookmarks";
 				}
 				$cmd .= "Object";
 				$this->$cmd();
