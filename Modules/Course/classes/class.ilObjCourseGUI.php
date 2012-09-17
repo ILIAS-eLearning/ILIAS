@@ -1522,7 +1522,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	*/
 	function setSubTabs($a_tab)
 	{
-		global $rbacsystem,$ilUser,$ilAccess;
+		global $rbacsystem,$ilUser,$ilAccess,$tree;
 		
 		switch ($a_tab)
 		{
@@ -1632,7 +1632,8 @@ class ilObjCourseGUI extends ilContainerGUI
 													 "mailMembers", get_class($this));
 				}
 				
-				if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+				$childs = (array) $tree->getChildsByType($this->object->getRefId(),'sess');
+				if(count($childs) && $ilAccess->checkAccess('write','',$this->object->getRefId()))
 				{
 					$this->tabs_gui->addSubTabTarget("events",
 													 $this->ctrl->getLinkTargetByClass('ilsessionoverviewgui','listSessions'),
