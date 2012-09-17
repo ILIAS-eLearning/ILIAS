@@ -1,4 +1,4 @@
-// Build: 2012917222751 
+// Build: 2012918002242 
 
 function ADLAuxiliaryResource()
 {}
@@ -2342,9 +2342,9 @@ function sclogscroll()
 {document.getElementById('ilLog').scrollTop=height-offset+20;}}
 function timeStringParse(iTime,ioArray)
 {var mInitArray=new Array();var mTempArray2=new Array();mTempArray2[0]="0";mTempArray2[1]="0";mTempArray2[2]="0";var mDate="0";var mTime="0";if(iTime==null)
-{return;}
+{return ioArray;}
 if((iTime.length==1)||(iTime.indexOf("P")==-1))
-{return;}
+{return ioArray;}
 mInitArray=iTime.split("P");if(mInitArray[1].indexOf("T")!=-1)
 {mTempArray2=mInitArray[1].split("T");mDate=mTempArray2[0];mTime=mTempArray2[1];}
 else
@@ -3104,7 +3104,7 @@ function Commit(param)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",201);return setReturn(201,'param must be empty string','false');}
 switch(state)
 {case NOT_INITIALIZED:if(logActive)
-sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(cmiItem.cmi.session_time!=undefined||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
+sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
 var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
 returnValue=save();}

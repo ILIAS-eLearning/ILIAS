@@ -279,152 +279,151 @@ function sclogscroll()
 
 function timeStringParse(iTime, ioArray)    
 {
-  var mInitArray=new Array();
-  var mTempArray2= new Array(); 
-  mTempArray2[0]="0";
-  mTempArray2[1]="0";
-  mTempArray2[2]="0";
-	
-  var mDate = "0";
-  var mTime = "0";
+	var mInitArray=new Array();
+	var mTempArray2= new Array(); 
+	mTempArray2[0]="0";
+	mTempArray2[1]="0";
+	mTempArray2[2]="0";
 
-  // make sure the string is not null
-  if ( iTime == null )
-  {
-      return;
-  }
+	var mDate = "0";
+	var mTime = "0";
+
+	// make sure the string is not null
+	if ( iTime == null )
+	{
+		return ioArray;
+	}
      
   // make sure that the string has the right format to split
-  if ( ( iTime.length == 1 ) || ( iTime.indexOf("P") == -1 ) )
-  {
-      return;
-  }
-     mInitArray = iTime.split("P");
+	if ( ( iTime.length == 1 ) || ( iTime.indexOf("P") == -1 ) )
+	{
+		return ioArray;
+	}
+	mInitArray = iTime.split("P");
 
-     // T is present so split into day and time part
-     // when "P" is first character in string, rest of string goes in
-     // array index 1
-     if ( mInitArray[1].indexOf("T") != -1 )
-     {
-        mTempArray2 = mInitArray[1].split("T");
-        mDate =  mTempArray2[0];
-        mTime =  mTempArray2[1];
-     }
-     else
-     {
-        mDate =  mInitArray[1];
-     }
+	// T is present so split into day and time part
+	// when "P" is first character in string, rest of string goes in
+	// array index 1
+	if ( mInitArray[1].indexOf("T") != -1 )
+	{
+		mTempArray2 = mInitArray[1].split("T");
+		mDate =  mTempArray2[0];
+		mTime =  mTempArray2[1];
+	}
+	else
+	{
+		mDate =  mInitArray[1];
+	}
 
-     // Y is present so get year
-     if ( mDate.indexOf("Y") != -1 )
-     {
-        mInitArray = mDate.split("Y");
-        tempInt = parseInt(mInitArray[0],10);
-        ioArray[0] = parseInt(tempInt,10);
-     }
-     else
-     {
-        mInitArray[1] = mDate;
-     }
+	// Y is present so get year
+	if ( mDate.indexOf("Y") != -1 )
+	{
+		mInitArray = mDate.split("Y");
+		tempInt = parseInt(mInitArray[0],10);
+		ioArray[0] = parseInt(tempInt,10);
+	}
+	else
+	{
+		mInitArray[1] = mDate;
+	}
 
-     // M is present so get month
-     if ( mDate.indexOf("M") != -1 )
-     {
-        mTempArray2 = mInitArray[1].split("M");
-        tempInt = parseInt(mTempArray2[0],10);
-        ioArray[1] = parseInt(tempInt,10);
-     }
-     else
-     {
-        if ( mInitArray.length != 2 )
-        {
-           mTempArray2[1] = "";
-        }
-        else
-        {               
-           mTempArray2[1] = mInitArray[1];
-        }
-     }
+	// M is present so get month
+	if ( mDate.indexOf("M") != -1 )
+	{
+		mTempArray2 = mInitArray[1].split("M");
+		tempInt = parseInt(mTempArray2[0],10);
+		ioArray[1] = parseInt(tempInt,10);
+	}
+	else
+	{
+		if ( mInitArray.length != 2 )
+		{
+			mTempArray2[1] = "";
+		}
+		else
+		{
+			mTempArray2[1] = mInitArray[1];
+		}
+	}
 
-     // D is present so get day
-     if ( mDate.indexOf("D") != -1 )
-     {
-        mInitArray = mTempArray2[1].split("D");
-        tempInt = parseInt(mInitArray[0],10);
-        ioArray[2] = parseInt(tempInt,10);
-     }
-     else
-     {
-        mInitArray = new Array();
+	// D is present so get day
+	if ( mDate.indexOf("D") != -1 )
+	{
+		mInitArray = mTempArray2[1].split("D");
+		tempInt = parseInt(mInitArray[0],10);
+		ioArray[2] = parseInt(tempInt,10);
+	}
+	else
+	{
+		mInitArray = new Array();
 		mInitArray[0]="";
 		mInitArray[1]="";
-		
-     }
+	}
 
-     // if string has time portion
-     if ( mTime!="0")
-     {
-        // H is present so get hour
-        if ( mTime.indexOf("H") != -1 )
-        {
-           mInitArray =  mTime.split("H");
-           tempInt = parseInt(mInitArray[0],10);
-           ioArray[3] = parseInt(tempInt,10);
-        }
-        else
-        {
-           mInitArray[1] = mTime;
-        }
+	// if string has time portion
+	if ( mTime!="0")
+	{
+		// H is present so get hour
+		if ( mTime.indexOf("H") != -1 )
+		{
+			mInitArray =  mTime.split("H");
+			tempInt = parseInt(mInitArray[0],10);
+			ioArray[3] = parseInt(tempInt,10);
+		}
+		else
+		{
+			mInitArray[1] = mTime;
+		}
 
-        // M is present so get minute
-        if ( mTime.indexOf("M") != -1 )
-        {
-           mTempArray2 = mInitArray[1].split("M");
-           tempInt = parseInt(mTempArray2[0],10);
-           ioArray[4] = parseInt(tempInt,10);
-        }
-        else
-        {
-           if ( mInitArray.length != 2 )
-           {
-              mTempArray2[1] = "";
-           }
-           else
-           {               
-              mTempArray2[1] = mInitArray[1];
-           }
-        }
+		// M is present so get minute
+		if ( mTime.indexOf("M") != -1 )
+		{
+			mTempArray2 = mInitArray[1].split("M");
+			tempInt = parseInt(mTempArray2[0],10);
+			ioArray[4] = parseInt(tempInt,10);
+		}
+		else
+		{
+			if ( mInitArray.length != 2 )
+			{
+				mTempArray2[1] = "";
+			}
+			else
+			{
+				mTempArray2[1] = mInitArray[1];
+			}
+		}
 
-        // S is present so get seconds
-        if ( mTime.indexOf("S") != -1 )
-        {
-           mInitArray = mTempArray2[1].split("S");
+		// S is present so get seconds
+		if ( mTime.indexOf("S") != -1 )
+		{
+			mInitArray = mTempArray2[1].split("S");
 
-           if ( mTime.indexOf(".") != -1)
-           {
-              // split requires this regular expression for "."
-              mTempArray2 = mInitArray[0].split(".");
+			if ( mTime.indexOf(".") != -1)
+			{
+				// split requires this regular expression for "."
+				mTempArray2 = mInitArray[0].split(".");
 
-              // correct for case such as ".2"
-              if ( mTempArray2[1].length == 1 )
-              {
-                 mTempArray2[1] = mTempArray2[1] + "0";
-              }
+				// correct for case such as ".2"
+				if ( mTempArray2[1].length == 1 )
+				{
+				 mTempArray2[1] = mTempArray2[1] + "0";
+				}
 
-              tempInt2 = parseInt(mTempArray2[1],10);
-              ioArray[6] = parseInt(tempInt2,10);
-              tempInt = parseInt(mTempArray2[0],10);
-              ioArray[5] = parseInt(tempInt,10);
-           }
-           else
-           {
-              tempInt = parseInt(mInitArray[0],10);
-              ioArray[5] = parseInt(tempInt,10);
-           }
-        }
-     }
+				tempInt2 = parseInt(mTempArray2[1],10);
+				ioArray[6] = parseInt(tempInt2,10);
+				tempInt = parseInt(mTempArray2[0],10);
+				ioArray[5] = parseInt(tempInt,10);
+			}
+			else
+			{
+				tempInt = parseInt(mInitArray[0],10);
+				ioArray[5] = parseInt(tempInt,10);
+			}
+		}
+	}
 
-  return ioArray;
+	return ioArray;
 }
 
 

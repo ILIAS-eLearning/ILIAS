@@ -184,7 +184,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				//calculating not at terminate to avoid save because many contributors of learning modules send at the end just before terminate() commit()
-				if ((!cmiItem.cmi.mode || cmiItem.cmi.mode==="normal") && (cmiItem.cmi.session_time!=undefined || config.time_from_lms==true)) {
+				if ((!cmiItem.cmi.mode || cmiItem.cmi.mode==="normal") && (typeof cmiItem.cmi.session_time!="undefined" || config.time_from_lms==true)) {
 					if (config.time_from_lms==true) {
 						var interval = (currentTime() - msec)/1000;
 						var dur = new ADLDuration({iFormat: FORMAT_SECONDS, iValue: interval});
