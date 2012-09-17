@@ -25,7 +25,7 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
 		
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(),$this->getParentCmd()));
 		
-		$this->setTitle($this->lng->txt('crs_custom_user_fields'));
+		$this->setTitle($this->lng->txt(ilObject::_lookupType($this->getParentObject()->getObjId()).'_custom_user_fields'));
 		
 		$this->addColumn('','',1);
 		$this->addColumn($this->lng->txt('ps_cdf_name'),'name','30%');
