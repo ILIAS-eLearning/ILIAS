@@ -1295,7 +1295,17 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users);
 		}
 		
+		$cumulated_count = 0;
+		foreach ($this->cumulated as $key => $value)
+		{
+			if (is_numeric($key))	
+			{
+				$cumulated_count++;							
+			}
+		}
+		
 		$output = "";
+		
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
 		
@@ -1306,7 +1316,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
-		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()).
+			" (".$cumulated_count." ".$this->lng->txt("rows").")");
 		$template->parseCurrentBlock();
 		$template->setCurrentBlock("detail_row");
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
@@ -1342,24 +1353,23 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$columns = "<ol>$columns</ol>";
 		$template->setVariable("TEXT_OPTION_VALUE", $columns);
 		$template->parseCurrentBlock();
-		
-		
+				
 		// total chart 
 		$template->setCurrentBlock("detail_row");				
 		$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
 		$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId()."_total", $this->cumulated["TOTAL"]["variables"]));
 		$template->parseCurrentBlock();
 		
+		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());		
+		
+		$output .= $template->get();
 		
 		foreach ($this->cumulated as $key => $value)
 		{
 			if (is_numeric($key))	
 			{
-				$template->setCurrentBlock("detail_row");
-				$template->setVariable("TEXT_OPTION", $this->lng->txt("row"));
-				$questiontext = $value["ROW"];
-				$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
-				$template->parseCurrentBlock();
+				$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");	
+				
 				$template->setCurrentBlock("detail_row");
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
 				$template->setVariable("TEXT_OPTION_VALUE", $value["USERS_ANSWERED"]);
@@ -1420,11 +1430,14 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 				$template->setVariable("TEXT_OPTION", $this->lng->txt("chart"));
 				$template->setVariable("TEXT_OPTION_VALUE", $this->renderChart("svy_ch_".$this->object->getId()."_".$key, $value["variables"]));
 				$template->parseCurrentBlock();
+				
+				$template->setVariable("QUESTION_SUBTITLE", $counter.".".($key+1)." ".
+					$this->object->prepareTextareaOutput($value["ROW"], TRUE));
+				
+				$output .= $template->get();
 			}
 		}
 
-		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
-		$output = $template->get();
 		return $output;
 	}
 	
