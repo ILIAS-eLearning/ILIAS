@@ -16,23 +16,18 @@
 <table width="100%">
 <!-- BEGIN user_rating_category_title -->
 <tr>
-<td>&nbsp;</td>
-<td class="std small">{TXT_RATING_OVERALL}</td>
-<td class="std small">{TXT_RATING_USER}</td>
+<td width="50%">&nbsp;</td>
+<td class="std small" width="50%">{TXT_RATING_OVERALL}</td>
 </tr>
 <!-- END user_rating_category_title -->
 <!-- BEGIN user_rating_category -->
 <tr>
 <td class="std small">{TXT_RATING_CATEGORY}</td>
-<td class="std" style="white-space:nowrap;">
-<!-- BEGIN user_rating_icon_overall -->
-<img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
-<!-- END user_rating_icon_overall -->
-</td>
 <!-- BEGIN user_rating_category_column -->
 <td class="std" style="white-space:nowrap;">
 <!-- BEGIN user_rating_icon -->
-<a href="#" onclick="{HREF_RATING}" style="text-decoration:none;">
+<a href="#" onclick="{HREF_RATING}" style="text-decoration:none;"{ICON_MOUSEACTION}>
+<!-- BEGIN rating_mark --><img src="{SRC_MARK}" alt="{ALT_MARK}" style="position:absolute;" border="0" /><!-- END rating_mark -->
 <img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" id="{JS_ID}rating_icon_{CATEGORY_ID}_{ICON_VALUE}" />
 </a>
 <!-- END user_rating_icon -->
@@ -43,11 +38,17 @@
 <!-- END user_rating_category -->
 <!-- BEGIN user_rating_submit -->
 <tr>
-<td colspan="3" align="right">
+<td>&nbsp;</td>
+<td>
 <p><input type="submit" class="submit" value="{TXT_SUBMIT}" name="cmd[{CMD_SUBMIT}]" /></p>	
 </td>
 </tr>
 <!-- END user_rating_submit -->
+<!-- BEGIN votes_number_bl -->
+<tr>
+<td class="small" colspan="2">&nbsp;{NUMBER_VOTES}</td>
+</tr>
+<!-- END votes_number_bl -->
 </table>
 <!-- BEGIN user_rating_categories_form_out -->
 </form>
