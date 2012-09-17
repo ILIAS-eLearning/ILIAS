@@ -111,6 +111,14 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
   function setMinimum($minimum = 0) 
 	{
+	   if($minimum !== NULL)
+	  {
+		  $minimum = (float)$minimum;		 
+	  }
+	   if(!$minimum)
+		{
+			$minimum = NULL;
+		}
     $this->minimum = $minimum;
   }
 
@@ -123,6 +131,14 @@ class SurveyMetricQuestion extends SurveyQuestion
 */
   function setMaximum($maximum = "") 
 	{
+	    if($maximum !== NULL)
+	  {
+		  $maximum = (float)$maximum;
+	  }
+	   if(!$maximum)
+		{
+			$maximum = NULL;
+		}
     $this->maximum = $maximum;
   }
 
