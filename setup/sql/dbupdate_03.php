@@ -11398,17 +11398,19 @@ $ilDB->addPrimaryKey('syst_style_cat',array('skin_id', 'style_id', 'substyle', '
 ?>
 <#3661>
 <?php
-$fields = array(
-	'obj_id'	=> array(
-		'type'		=> 'integer',
-		'length'	=> 4,
-		'notnull'		=> true
-	)
-);
-
-$ilDB->createTable('il_certificate',$fields);
-$ilDB->addPrimaryKey('il_certificate',array('obj_id'));
-
+if(!$ilDB->tableExists('il_certificate'))
+{
+	$fields = array(
+		'obj_id'	=> array(
+			'type'		=> 'integer',
+			'length'	=> 4,
+			'notnull'		=> true
+		)
+	);
+	
+	$ilDB->createTable('il_certificate',$fields);
+	$ilDB->addPrimaryKey('il_certificate',array('obj_id'));
+}
 ?>
 <#3662>
 <?php
