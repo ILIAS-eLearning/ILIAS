@@ -12,9 +12,8 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI, ilAICCPresentationGUI, ilHACPPresentationGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilscorm13player
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilShopPurchaseGUI
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilscorm13player, ilShopPurchaseGUI
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI
 * 
 * @ingroup ModulesScormAicc
 */
@@ -117,13 +116,13 @@ class ilSAHSPresentationGUI
 		}
 
 		if ($next_class != "ilinfoscreengui" &&
-			$cmd != "infoScreen")
+			$cmd != "infoScreen" && 
+			$next_class != "illearningprogressgui")
 		{
 			include_once("./Services/License/classes/class.ilLicense.php");
 			ilLicense::_noteAccess($obj_id, "sahs", $_GET["ref_id"]);
 			switch($type)
-			{
-				
+			{				
 				case "scorm2004":
 					$this->ctrl->setCmdClass("ilscorm13player");
 					$this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"],true,false);
@@ -174,6 +173,14 @@ class ilSAHSPresentationGUI
 				require_once "./Modules/ScormAicc/classes/HACP/class.ilHACPPresentationGUI.php";
 				$hacp_gui = new ilHACPPresentationGUI();
 				$ret =& $this->ctrl->forwardCommand($hacp_gui);
+				break;
+			
+			case "illearningprogressgui":								
+				$this->setInfoTabs("learning_progress");
+				include_once "./Services/Tracking/classes/class.ilLearningProgressGUI.php";
+				$new_gui =& new ilLearningProgressGUI(LP_MODE_REPOSITORY, $_GET['ref_id']);
+				$this->ctrl->forwardCommand($new_gui);
+				$this->tpl->show();
 				break;
 
 			default:
@@ -579,18 +586,45 @@ class ilSAHSPresentationGUI
 	* works through ilCtrl in the future this may be changed
 	*/
 	function infoScreen()
-	{
+	{				
 		$this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->outputInfoScreen();
 	}
 	
+	function setInfoTabs($a_active)
+	{		
+		global $ilTabs, $ilLocator, $ilAccess;
+		
+		// #9658
+		include_once "Services/Tracking/classes/class.ilLearningProgressAccess.php";
+		if(ilLearningProgressAccess::checkAccess($_GET["ref_id"]) &&
+			!$ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"]))
+		{
+			$ilTabs->addTab("info_short", $this->lng->txt("info_short"), 
+				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+			
+			$ilTabs->addTab("learning_progress", $this->lng->txt("learning_progress"), 
+				$this->ctrl->getLinkTargetByClass(array('illearningprogressgui', 'illplistofprogressgui'),''));		
+			
+			$ilTabs->activateTab($a_active);
+		}					
+				
+		$this->tpl->getStandardTemplate();
+		$this->tpl->setTitle($this->slm_gui->object->getTitle());
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.png"));				
+		$ilLocator->addRepositoryItems();
+		$ilLocator->addItem($this->slm_gui->object->getTitle(),
+			$this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+		$this->tpl->setLocator();
+	}
+	
 	/**
 	* info screen
 	*/
-	function outputInfoScreen($a_standard_locator = false)
+	function outputInfoScreen()
 	{
-		global $ilBench, $ilLocator, $ilAccess, $tpl;
+		global $ilAccess;
 
 		//$this->tpl->setHeaderPageTitle("PAGETITLE", " - ".$this->lm->getTitle());
 
@@ -605,16 +639,8 @@ class ilSAHSPresentationGUI
 			$style_name = $this->ilias->account->prefs["style"].".css";;
 			$this->tpl->setStyleSheetLocation("./".$style_name);
 		}*/
-
-		$this->tpl->getStandardTemplate();
-		$this->tpl->setTitle($this->slm_gui->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_slm_b.png"));
-		
-		$ilLocator->addRepositoryItems();
-		$ilLocator->addItem($this->slm_gui->object->getTitle(),
-			$this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
-
-		$this->tpl->setLocator();
+				
+		$this->setInfoTabs("info_short");	
 		
 		$this->lng->loadLanguageModule("meta");
 
