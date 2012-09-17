@@ -1,4 +1,4 @@
-// Build: 2012815221055 
+// Build: 2012917222751 
 
 function ADLAuxiliaryResource()
 {}
@@ -2828,7 +2828,7 @@ function save()
 {var item=collection[k];if(item.dirty===0){continue;}
 if(item.options){if(item.options.notracking===true)
 {continue;}}
-if(type=="objective"){if(item.id==null){continue;}}
+if(type=="node")item.dirty=0;if(type=="objective"){if(item.id==null){continue;}}
 var data=[];for(var i=0,ni=schem.length;i<ni;i++)
 {data.push(item[schem[i]]);}
 res.push(data);for(z in collection[k])
@@ -2839,18 +2839,13 @@ if(valid){collection[k][z][y]['cmi_node_id']=collection[k]['cmi_node_id'];if(col
 if(z=="correct_responses")collection[k][z][y]['cmi_interaction_id']=collection[k]['cmi_interaction_id'];}
 walk(collection[k][z],z.substr(0,z.length-1));}}
 if(item.dirty!==2&&type=="node"){continue;}}}
-if(save.timeout)
-{window.clearTimeout(save.timeout);}
 var result={};for(var k in remoteMapping)
 {result[k]=[];}
 walk(sharedObjectives,"objective");walk(activities,'node');result["i_check"]=0;result["i_set"]=0;var check0="",check1="";for(var k in saved){if(result[k].length>0){result["i_check"]+=saved[k].checkplus;check0=toJSONString(result[k]);check1=toJSONString(saved[k].data);if(k=="correct_response"){check0+=result["node"][0][15];check1+=saved[k].node;}
 if(check0===check1){result[k]=[];}else{saved[k].data=result[k];if(k=="correct_response")saved[k].node=result["node"][0][15];result["i_set"]+=saved[k].checkplus;}}}
 if(this.config.sequencing_enabled){walk(sharedObjectives,"objective");result["adl_seq_utilities"]=this.adl_seq_utilities;if(toJSONString(saved_adl_seq_utilities)!=toJSONString(this.adl_seq_utilities)){saved_adl_seq_utilities=this.adl_seq_utilities;result["changed_seq_utilities"]=1;}
 else{result["changed_seq_utilities"]=0;}}else{result["adl_seq_utilities"]={};result["changed_seq_utilities"]=0;}
-result["saved_global_status"]=config.status.saved_global_status;if(saved_result==toJSONString(result)){return true;}else{saved_result=toJSONString(result);result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};if(typeof result=="object"){var new_global_status=null;for(k in result)
-{if(k=="new_global_status")new_global_status=result[k];else{var act=activitiesByCAM[k];if(act)
-{act.dirty=0;}}}
-if(config.status.saved_global_status!=new_global_status&&typeof window.opener!='undefined'){window.opener.location.reload();}
+result["saved_global_status"]=config.status.saved_global_status;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
 config.status.saved_global_status=new_global_status;return true;}}
 return false;}
 function getAPI(cp_node_id)

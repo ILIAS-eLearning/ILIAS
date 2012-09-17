@@ -1335,7 +1335,10 @@ class ilSCORM13Player
 						$rowtmp=$ilDB->fetchAssoc($res);
 						$cmi_node_id=$rowtmp['cmi_node_id'];
 						if ($cmi_node_id!=null) $b_node_update=true;
-						else $cmi_node_id = $ilDB->nextId('cmi_node');
+						else {
+							$cmi_node_id = $ilDB->nextId('cmi_node');
+							$b_node_update=false;
+						}
 						$ilLog->write("setCMIdata with cmi_node_id = ".$cmi_node_id);
 						$a_data=array(
 							'accesscount'			=> array('integer', $row[0]),

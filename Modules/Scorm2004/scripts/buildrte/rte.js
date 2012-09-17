@@ -1,4 +1,4 @@
-// Build: 2012815221055 
+// Build: 2012917222751 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13421,6 +13421,7 @@ function save()
 					continue;
 				}
 			}
+			 if(type=="node") item.dirty=0;//notice as in progress to be saved
 			if (type == "objective") {
 				if (item.id == null) {
 					continue;
@@ -13433,7 +13434,7 @@ function save()
 			}
 			res.push(data);
 			
-			for (z in collection[k])			
+			for (z in collection[k])
 			{
 				if (
 					(this.config.interactions_storable && (z == 'interactions' || z == "correct_responses")) 
@@ -13463,11 +13464,6 @@ function save()
 			}
 			if (item.dirty!==2 && type=="node") {continue;}
 		}
-	}
-			
-	if (save.timeout) 
-	{
-		window.clearTimeout(save.timeout);
 	}
 	var result = {};
 	for (var k in remoteMapping) 
@@ -13520,13 +13516,11 @@ function save()
 	}
 
 	result["saved_global_status"]=config.status.saved_global_status;
-	if (saved_result == toJSONString(result)) {
+	var to_saved_result = toJSONString(result);
+	if (saved_result == to_saved_result) {
 //		alert("no difference");
 		return true;
 	} else {
-//		alert("difference: saved_result:\n"+saved_result+"\nresult:\n"+toJSONString(result));
-		saved_result = toJSONString(result);
-
 		//alert("Before save "+result.node.length);
 		//if (!result.node.length) {return;} 
 		result = this.config.cmi_url 
@@ -13534,37 +13528,22 @@ function save()
 			: {};
 
 		// set successful updated elements to clean
-		if(typeof result=="object") {
+		if(typeof result == "object") {
+			saved_result = to_saved_result;
 			var new_global_status = null;
-			for (k in result) 
-			{
+			for (k in result) {
 				if(k == "new_global_status") new_global_status=result[k];
-				else {
-					var act = activitiesByCAM[k];
-					if (act) 
-					{
-						act.dirty = 0;
-					}
-				}
 			}
 
-			if (config.status.saved_global_status != new_global_status && typeof window.opener != 'undefined') {
-				window.opener.location.reload();
-			}
+			//if status has to be send to a cms
+			//if (config.status.saved_global_status != new_global_status && typeof window.opener != 'undefined') {
+			//	window.opener.location.reload();
+			//}
 			
-			//alert(new_global_status);
 			config.status.saved_global_status = new_global_status;
 			return true;
 		}
 	}
-/*
-	if (typeof this.config.time === "number" && this.config.time>10) 
-	{
-		clearTimeout(save.timeout);
-		save.timeout = window.setTimeout(save, this.config.time*1000);
-	}
-*/
-//	isSaving = false;
 	return false;
 }
 
