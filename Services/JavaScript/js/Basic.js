@@ -359,6 +359,8 @@ il.Util.addOnLoad(function () {
 /* Rating */
 il.Rating = {
 	
+	cache: [],
+	
 	setValue: function (category_id, value, prefix) {
 		
 		// set hidden field
@@ -367,32 +369,99 @@ il.Rating = {
 		// handle icons
 		for(i=1;i<=5;i++)
 		{
-			var icon_id = "#"+prefix+"rating_icon_"+category_id+"_"+i;
-			var src = $(icon_id).attr("src");			
+			var icon_id = prefix+"rating_icon_"+category_id+"_"+i;
+			var src = $("#"+icon_id).attr("src");		
 			
 			// active
 			if(i <= value)
-			{
-				// toggle if off
-				if(src.substring(src.length-7) == "off.png")
+			{					
+				if(src.substring(src.length-6) == "on.png")
 				{
-					src = src.substring(0, src.length-7)+"on.png";
-					$(icon_id).attr("src", src);	
-				}				
+					src = src.substring(0, src.length-6)+"on_user.png";					
+				}
+				else if(src.substring(src.length-7) == "off.png")
+				{
+					src = src.substring(0, src.length-7)+"on_user.png";	
+				}											
 			}
 			// inactive
 			else
 			{
-				// toggle if on
 				if(src.substring(src.length-6) == "on.png")
 				{
-					src = src.substring(0, src.length-6)+"off.png";
-					$(icon_id).attr("src", src);	
-				}	
+					src = src.substring(0, src.length-6)+"off.png";					
+				}
+				else if(src.substring(src.length-11) == "on_user.png")
+				{
+					src = src.substring(0, src.length-11)+"off.png";	
+				}							
 			}			
+		
+			// resetting img cache so onmouseout will not change icons again
+			il.Rating.cache[icon_id] = "";
+			
+			$("#"+icon_id).attr("src", src);			
 		}
 		
 		return false;
+	},
+	
+	toggleIcon: function (el, value, is_out) {
+		
+		$(el).children().each(function(){
+		
+			if($(this).attr("id"))
+			{
+				var org = $(this).attr("id");
+				var grp = org.substring(0, org.length-1);
+				for(i=1;i<=5;i++)
+				{		
+					var id = grp + i;
+					
+					if(is_out == undefined)
+					{
+						var src = $("#"+id).attr("src");	
+
+						// onmouseout should revert to original img
+						il.Rating.cache[id] = src;
+
+						// active
+						if(i <= value)
+						{					
+							if(src.substring(src.length-6) == "on.png")
+							{
+								src = src.substring(0, src.length-6)+"on_user.png";					
+							}
+							else if(src.substring(src.length-7) == "off.png")
+							{
+								src = src.substring(0, src.length-7)+"on_user.png";	
+							}														
+						}
+						// inactive
+						else
+						{
+							if(src.substring(src.length-6) == "on.png")
+							{
+								src = src.substring(0, src.length-6)+"off.png";					
+							}
+							else if(src.substring(src.length-11) == "on_user.png")
+							{
+								src = src.substring(0, src.length-11)+"off.png";	
+							}							
+						}			
+					}
+					else
+					{
+						var src = il.Rating.cache[id];
+					}
+					
+					if(src)
+					{
+						$("#"+id).attr("src", src);
+					}
+				}
+			}
+		});		
 	}
 }
 

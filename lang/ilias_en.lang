@@ -12925,3 +12925,4 @@ dcl#:#dcl_empty_view#:#Delete this View
 dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.
+rating#:#rating_number_votes#:#%s Ratings
