@@ -124,22 +124,22 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		
 		$agui->addItem($lng->txt("move"), "", 
 			$ilCtrl->getLinkTarget($this->parent_obj, "move"),
-			"", "", "_blank");	
+			"", "", "");	
 		
 		$agui->addItem($lng->txt("change_owner"), "", 
 			$ilCtrl->getLinkTarget($this->parent_obj, "changeOwner"),
-			"", "", "_blank");		
+			"", "", "");		
 		
 		if($objDefinition->allowExport($a_type))
 		{
 			$agui->addItem($lng->txt("export"), "", 
 				$ilCtrl->getLinkTarget($this->parent_obj, "export"),
-				"", "", "_blank");
+				"", "", "");
 		}
 		
 		$agui->addItem($lng->txt("delete"), "", 
 			$ilCtrl->getLinkTarget($this->parent_obj, "delete"),
-			"", "", "_blank");
+			"", "", "");
 		
 		$ilCtrl->setParameter($this->parent_obj, "ownid", "");
 							
