@@ -149,18 +149,19 @@ class ilTrQuery
 		
 		$items = array();
 		foreach($a_sco_ids as $sco_id)
-		{							
-			if(in_array($a_user_id, $status_info["in_progress"][$sco_id]))
+		{				
+			// #9719 - can have in_progress AND failed/completed
+			if(in_array($a_user_id, $status_info["failed"][$sco_id]))
 			{
-				$status = LP_STATUS_IN_PROGRESS;
+				$status = LP_STATUS_FAILED;
 			}
 			elseif(in_array($a_user_id, $status_info["completed"][$sco_id]))
 			{
 				$status = LP_STATUS_COMPLETED;
 			}
-			elseif(in_array($a_user_id, $status_info["failed"][$sco_id]))
+			elseif(in_array($a_user_id, $status_info["in_progress"][$sco_id]))
 			{
-				$status = LP_STATUS_FAILED;
+				$status = LP_STATUS_IN_PROGRESS;
 			}
 			else
 			{
