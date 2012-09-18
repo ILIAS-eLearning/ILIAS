@@ -12235,7 +12235,7 @@ user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen Benutzer-
 user#:#user_delete_own_account_password_confirmation#:#Passworteingabe für Autorisierung
 user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein letztes Mal, dass Ihr Benutzer-Account unwiderruflich aus dem System entfernt werden soll.
 user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
-user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde gelöscht.
+user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde am %s gelöscht.
 mcst#:#mcst_ordering#:#Sortierung
 mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum (Aufsteigend)
 mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum (Absteigend)
@@ -12933,3 +12933,4 @@ rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren
 poll#:#poll_import#:#Abstimmung importieren
+user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine Email mit weiteren Informationen wurde an Sie versendet.

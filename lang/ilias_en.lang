@@ -12276,7 +12276,7 @@ user#:#user_delete_own_account_info#:#Here you can delete your current user acco
 user#:#user_delete_own_account_password_confirmation#:#Enter password for authorisation
 user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last time to remove your user account from ILIAS!
 user#:#user_delete_own_account_email_subject#:#User account deleted
-user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s.
+user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s on %s.
 mcst#:#mcst_ordering#:#Sorting
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)
@@ -12929,3 +12929,4 @@ rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
 blog#:#blog_import#:#Import Blog
 poll#:#poll_import#:#Import Poll
+user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.

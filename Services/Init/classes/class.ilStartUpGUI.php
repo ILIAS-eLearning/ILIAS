@@ -191,6 +191,11 @@ class ilStartUpGUI
 		{
 			$failure = $lng->txt("reached_session_limit");
 		}
+		else if(isset($_GET['accdel']) && $_GET['accdel'])
+		{
+			$lng->loadLanguageModule('user');
+			$failure = $lng->txt("user_account_deleted_confirmation");
+		}
 			
 		if (!empty($status))
 		{					
