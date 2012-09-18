@@ -18,7 +18,7 @@ class ilObjectOwnershipManagementGUI
 	{
 		global $ilUser;
 		
-		if(!$a_user_id)
+		if($a_user_id === null)
 		{
 			$a_user_id = $ilUser->getId();
 		}
@@ -50,6 +50,7 @@ class ilObjectOwnershipManagementGUI
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
 		
+		
 		$objects = ilObject::getAllOwnedRepositoryObjects($this->user_id);
 		
 		if(sizeof($objects))
@@ -63,11 +64,8 @@ class ilObjectOwnershipManagementGUI
 			$options = array();
 			foreach(array_keys($objects) as $type)
 			{			
-				// chatroom is somehow messed up
-				if($type != "chtr")
-				{
-					$options[$type] = $lng->txt("obj_".$type);				
-				}
+				// chatroom is somehow messed up				
+				$options[$type] = $lng->txt("obj_".$type);								
 			}		
 			asort($options);
 			$sel->setOptions($options);		

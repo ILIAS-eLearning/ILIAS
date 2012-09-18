@@ -9,7 +9,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
  * @author Stefan Meyer <meyer@leifos.com>
  * $Id$
  *
- * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI
+ * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI, ilObjectOwnershipManagementGUI
  *
  * @extends ilObjectGUI
  */
@@ -72,6 +72,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 					$this->tpl->setContent($ret);					
 				}
 				break;
+				
+			case "ilobjectownershipmanagementgui":
+				$this->setSystemCheckSubTabs("no_owner");
+				include_once("Services/Object/classes/class.ilObjectOwnershipManagementGUI.php");
+				$gui = new ilObjectOwnershipManagementGUI(0);
+				$this->ctrl->forwardCommand($gui);
+				break;		
 			
 			default:
 //var_dump($_POST);
@@ -849,6 +856,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	{
 		return $this->viewScanLog();
 	}
+	
+	/**
+	* Set sub tabs for general settings
+	*/
+	function setSystemCheckSubTabs($a_activate)
+	{
+		global $ilTabs, $ilCtrl;
+		
+		$ilTabs->addSubTab("system_check_sub", $this->lng->txt("system_check"), 
+			$ilCtrl->getLinkTarget($this, "check"));
+		$ilTabs->addSubTab("no_owner",  $this->lng->txt("system_check_no_owner"), 
+			$ilCtrl->getLinkTargetByClass("ilObjectOwnershipManagementGUI"));
+		
+		$ilTabs->setSubTabActive($a_activate);
+		$ilTabs->setTabActive("system_check");
+	}
 
 	/**
 	* displays system check menu
@@ -858,6 +881,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	function checkObject()
 	{
 		global $rbacsystem, $ilias, $objDefinition, $ilSetting;
+		
+		$this->setSystemCheckSubTabs("system_check_sub");
 
 		if (!$rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{

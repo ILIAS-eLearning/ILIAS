@@ -49,7 +49,12 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		global $ilAccess, $lng, $tree;
 				
 		$data = array();
-
+		
+		if(!$this->user_id)
+		{
+			$is_admin = $ilAccess->checkAccess("visible", "", SYSTEM_FOLDER_ID);
+		}
+				
 		foreach($a_data as $id => $item)
 		{
 			// workspace objects won't have references
@@ -61,7 +66,14 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 					// objects in trash are hidden
 					if(!$tree->isDeleted($ref_id))
 					{
-						$readable = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
+						if($this->user_id)
+						{
+							$readable = $ilAccess->checkAccessOfUser($this->user_id, "read", "", $ref_id, $a_type);	
+						}
+						else
+						{
+							$readable = $is_admin;
+						}
 												
 						$data[$ref_id] = array("obj_id" => $id,
 							"ref_id" => $ref_id,
