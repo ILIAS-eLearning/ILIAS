@@ -1328,8 +1328,10 @@ class ilPersonalSettingsGUI
 		$message = $this->lng->txt("user_delete_own_account_email_body");
 		
 		// salutation/info
+		ilDatePresentation::setUseRelativeDates(false);
 		$message = ilMail::getSalutation($ilUser->getId())."\n\n".
-			sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH);
+			sprintf($message, $ilUser->getLogin(), ILIAS_HTTP_PATH, 
+				ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)));
 		
 		// add profile data (see ilAccountRegistrationGUI)
 		$message .= "\n\n".$ilUser->getProfileAsString($this->lng);
@@ -1353,13 +1355,13 @@ class ilPersonalSettingsGUI
 				
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");
 				
-		$ilUser->delete();
+		// $ilUser->delete();
 
 		// terminate session
 		$ilAuth->logout();
 		session_destroy();		
 		
-		ilUtil::redirect("login.php");		 		
+		ilUtil::redirect("login.php?accdel=1");		 		
 	}
 }
 ?>
