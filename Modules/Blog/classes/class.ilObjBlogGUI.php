@@ -15,6 +15,7 @@ require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI
 *
 * @extends ilObject2GUI
 */
@@ -65,10 +66,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		$forms = parent::initCreationForms($a_new_type);
 
-		unset($forms[self::CFORM_IMPORT]);
-		
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
+			unset($forms[self::CFORM_IMPORT]);
 			unset($forms[self::CFORM_CLONE]);
 		}
 		
@@ -209,6 +209,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$lng->txt("blog_contributors"),
 					$this->ctrl->getLinkTarget($this, "contributors"));	
 			}		
+			
+			if($this->id_type == self::REPOSITORY_NODE_ID)
+			{
+				$this->tabs_gui->addTab("export",
+					$lng->txt("export"),
+					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+			}
 		}
 		
 		if($this->mayContribute())
@@ -395,6 +402,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$rep_search->setCallback($this,'addContributor');
 				$this->ctrl->setReturn($this,'contributors');				
 				$ret =& $this->ctrl->forwardCommand($rep_search);
+				break;
+			
+			case 'ilexportgui':
+				$this->prepareOutput();
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this); 
+				$exp_gui->addFormat("xml");
+				$ret = $ilCtrl->forwardCommand($exp_gui);
 				break;
 
 			default:				

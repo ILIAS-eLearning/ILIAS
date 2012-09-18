@@ -12927,3 +12927,4 @@ dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this t
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.
 rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
+blog#:#blog_import#:#Import Blog
