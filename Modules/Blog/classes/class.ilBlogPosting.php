@@ -133,12 +133,21 @@ class ilBlogPosting extends ilPageObject
 	/**
 	 * Create new blog posting
 	 */
-	function create()
+	function create($a_import = false)
 	{
 		global $ilDB;
 
 		$id = $ilDB->nextId("il_blog_posting");
 		$this->setId($id);
+		
+		if(!$a_import)
+		{
+			$created = ilUtil::now();
+		}
+		else
+		{
+			$created = $this->getCreated()->get(IL_CAL_DATETIME);
+		}
 
 		// we are using a separate creation date to enable sorting without JOINs
 		
@@ -147,13 +156,16 @@ class ilBlogPosting extends ilPageObject
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getBlogId(), "integer").",".
-			$ilDB->quote(ilUtil::now(), "timestamp").",".
+			$ilDB->quote($created, "timestamp").",".
 			$ilDB->quote($this->getAuthor(), "integer").",".
 			$ilDB->quote(false, "integer").")";
 		$ilDB->manipulate($query);
 
-		parent::create();
-		// $this->saveInternalLinks($this->getXMLContent());
+		if(!$a_import)
+		{
+			parent::create();		
+			// $this->saveInternalLinks($this->getXMLContent());
+		}
 	}
 
 	/**
