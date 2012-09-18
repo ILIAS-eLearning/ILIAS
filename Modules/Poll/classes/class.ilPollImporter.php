@@ -4,13 +4,13 @@
 include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
 /**
- * Importer class for blog
+ * Importer class for poll
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id: $
- * @ingroup ModulesBlog
+ * @ingroup ModulesPoll
  */
-class ilBlogImporter extends ilXmlImporter
+class ilPollImporter extends ilXmlImporter
 {
 	protected $ds;
 	
@@ -19,8 +19,8 @@ class ilBlogImporter extends ilXmlImporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Blog/classes/class.ilBlogDataSet.php");
-		$this->ds = new ilBlogDataSet();	
+		include_once("./Modules/Poll/classes/class.ilPollDataSet.php");
+		$this->ds = new ilPollDataSet();	
 		$this->ds->setDSPrefix("ds");		
 	}
 
@@ -36,22 +36,6 @@ class ilBlogImporter extends ilXmlImporter
 		include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 			$a_xml, $this->ds, $a_mapping);
-	}
-	
-	/**
-	 * Final processing
-	 *
-	 * @param	array		mapping array
-	 */
-	function finalProcessing($a_mapping)
-	{
-		$blp_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
-		foreach ($blp_map as $blp_id)
-		{
-			$blp_id = substr($blp_id, 4);
-			$blog_id = ilBlogPosting::lookupBlogId($blp_id);
-			ilPageObject::_writeParentId("blp", $blp_id, $blog_id);
-		}
 	}
 }
 

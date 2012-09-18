@@ -13317,3 +13317,7 @@ $ilDB->manipulate("UPDATE style_data SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3773>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

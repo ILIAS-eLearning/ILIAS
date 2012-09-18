@@ -11,7 +11,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
 * $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
 *
 * @ilCtrl_Calls ilObjPollGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjPollGUI: ilPermissionGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilObjPollGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
 *
 * @extends ilObject2GUI
 */
@@ -29,16 +29,6 @@ class ilObjPollGUI extends ilObject2GUI
 	function getType()
 	{
 		return "poll";
-	}
-	
-	protected function initCreationForms($a_new_type)
-	{
-		$forms = parent::initCreationForms($a_new_type);
-
-		unset($forms[self::CFORM_IMPORT]);		
-		// unset($forms[self::CFORM_CLONE]);
-		
-		return $forms;
 	}
 	
 	protected function afterSave(ilObject $a_new_object)
@@ -213,7 +203,11 @@ class ilObjPollGUI extends ilObject2GUI
 			
 			$this->tabs_gui->addTab("participants",
 				$lng->txt("poll_participants"),
-				$this->ctrl->getLinkTarget($this, "showParticipants"));					
+				$this->ctrl->getLinkTarget($this, "showParticipants"));		
+			
+			$this->tabs_gui->addTab("export",
+					$lng->txt("export"),
+					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 
 		// will add permissions if needed
@@ -263,6 +257,15 @@ class ilObjPollGUI extends ilObject2GUI
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType("poll");
 				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			case 'ilexportgui':
+				$this->prepareOutput();
+				$ilTabs->activateTab("export");
+				include_once("./Services/Export/classes/class.ilExportGUI.php");
+				$exp_gui = new ilExportGUI($this); 
+				$exp_gui->addFormat("xml");
+				$ilCtrl->forwardCommand($exp_gui);
 				break;
 
 			default:			

@@ -458,7 +458,7 @@ class ilObjPoll extends ilObject2
 		return (array)$ilDB->fetchAssoc($set);
 	}	
 	
-	function saveAnswer($a_text)
+	function saveAnswer($a_text, $a_pos)
 	{
 		global $ilDB;
 		
@@ -469,19 +469,22 @@ class ilObjPoll extends ilObject2
 		
 		$id = $ilDB->nextId("il_poll_answer");
 		
-		// append
-		$sql = "SELECT max(pos) pos".
-			" FROM il_poll_answer".
-			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer");
-		$set = $ilDB->query($sql);
-		$pos = $ilDB->fetchAssoc($set);
-		$pos = (int)$pos["pos"]+10;		
+		if(!$a_pos)
+		{
+			// append
+			$sql = "SELECT max(pos) pos".
+				" FROM il_poll_answer".
+				" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer");
+			$set = $ilDB->query($sql);
+			$a_pos = $ilDB->fetchAssoc($set);
+			$a_pos = (int)$a_pos["pos"]+10;		
+		}
 		
 		$fields = array(
 			"id" => array("integer", $id),
 			"poll_id" => array("integer", $this->getId()),
 			"answer" => array("text", trim($a_text)),
-			"pos" => array("integer", $pos)
+			"pos" => array("integer", $a_pos)
 		);				
 		$ilDB->insert("il_poll_answer", $fields);	
 		
