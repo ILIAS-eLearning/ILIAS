@@ -976,7 +976,7 @@ class ilExplorer
 				else
 				{
 					$target = $this->createTarget('+',$a_node_id, $a_option["highlighted_subtree"], false);
-					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('".$target."', 'tree_div');\"");
+					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('tree_div', '".$target."');\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/plus.png"));
@@ -1013,7 +1013,7 @@ class ilExplorer
 				else
 				{
 					$target = $this->createTarget('-',$a_node_id, $a_option["highlighted_subtree"], false);
-					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('".$target."', 'tree_div');\"");
+					$tpl->setVariable("ONCLICK_TARGET_EXPANDER", " onclick=\"return il.Explorer.refresh('tree_div', '".$target."');\"");
 					$tpl->setVariable("LINK_TARGET_EXPANDER", "#");
 				}
 				$tpl->setVariable("IMGPATH", $this->getImage("browser/minus.png"));
