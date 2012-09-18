@@ -1355,7 +1355,7 @@ class ilPersonalSettingsGUI
 				
 		$ilLog->write("Account deleted: ".$ilUser->getLogin()." (".$ilUser->getId().")");
 				
-		// $ilUser->delete();
+		$ilUser->delete();
 
 		// terminate session
 		$ilAuth->logout();
