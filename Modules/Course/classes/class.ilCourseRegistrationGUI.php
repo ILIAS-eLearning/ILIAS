@@ -100,7 +100,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	{
 		if($this->container->getImportantInformation())
 		{
-			$imp = new ilNonEditableValueGUI($this->lng->txt('crs_important_info'));
+			$imp = new ilNonEditableValueGUI($this->lng->txt('crs_important_info'), "", true);
 			$value =  nl2br(ilUtil::makeClickable($this->container->getImportantInformation(), true));
 			$imp->setValue($value);
 			$this->form->addItem($imp);
@@ -108,7 +108,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		
 		if($this->container->getSyllabus())
 		{
-			$syl = new ilNonEditableValueGUI($this->lng->txt('crs_syllabus'));
+			$syl = new ilNonEditableValueGUI($this->lng->txt('crs_syllabus'), "", true);
 			$value = nl2br(ilUtil::makeClickable ($this->container->getSyllabus(), true));
 			$syl->setValue($value);
 			$this->form->addItem($syl);
