@@ -2063,10 +2063,23 @@ class ilObject
 		
 		// restrict to repository
 		$types = array_keys($objDefinition->getSubObjectsRecursively("root"));	
+			
+		$sql = "SELECT od.obj_id,od.type,od.title FROM object_data od";
 		
-		$sql = "SELECT obj_id,type,title FROM object_data".
-			" WHERE owner = ".$ilDB->quote($a_user_id, "integer").
-			" AND ".$ilDB->in("type", $types, "", "text");
+		if($a_user_id)
+		{
+			$sql .= " WHERE od.owner = ".$ilDB->quote($a_user_id, "integer");				
+		}
+		else
+		{
+			$sql .= " LEFT JOIN usr_data ud ON (ud.usr_id = od.owner)".
+				" WHERE (od.owner < ".$ilDB->quote(1, "integer").
+				" OR od.owner IS NULL OR ud.login IS NULL)".
+				" AND od.owner <> ".$ilDB->quote(-1, "integer");
+		}
+		
+		$sql .= " AND ".$ilDB->in("od.type", $types, "", "text");
+			
 		$res = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($res))
 		{

@@ -12930,3 +12930,4 @@ dcl#:#dcl_confirm_delete_view_title#:#Die Anzeigedefinition wirklich löschen?
 dcl#:#dcl_confirm_delete_view_text#:#Die Anzeigedefinition wird unwiderruflich gelöscht, Felder und Einträge werden allerdings nicht geändert.
 dcl#:#dcl_empty_view_success#:#Die Anzeigedefinition wurde erfolgreich gelöscht.
 rating#:#rating_number_votes#:#%s Bewertungen
+administration#:#system_check_no_owner#:#Objekte ohne Besitzer
