@@ -8,7 +8,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * 
  * This class implements the following entities:
  * - blog: object data
- * - blog_posting: data from table media_item
+ * - blog_posting: data from table il_blog_posting
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$

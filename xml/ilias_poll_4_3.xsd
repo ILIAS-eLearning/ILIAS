@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/Poll/poll/4_3"
+	xmlns:t = 'http://www.ilias.de/Modules/Poll/poll/4_3'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Poll -->
+	<element name='Poll'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Question' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Image' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ViewResults' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Dir' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='Question' type='t:Data' />
+	<element name='Image' type='t:Data' />
+	<element name='ViewResults' type='t:Data' />
+	<element name='Dir' type='t:Data' />
+
+	<!-- BlogAnswer -->
+	<element name='PollAnswer'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PollId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Answer' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Pos' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='PollId' type='t:Data' />
+	<element name='Answer' type='t:Data' />
+	<element name='Pos' type='t:Data' />
+
+</schema>
