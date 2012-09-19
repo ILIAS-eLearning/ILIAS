@@ -2371,7 +2371,7 @@ common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentl. Chat eintreten.
 common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
 chatroom#:#chat_settings#:#Chat-Einstellungen
-chatroom#:#chat_users_active#:#Aktive Benutzer
+common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Prüfen
 common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!

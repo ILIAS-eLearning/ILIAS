@@ -12119,7 +12119,7 @@ assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/sel
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).###28 08 2012 new variable
 common#:#chat_chatviewer#:#Chat Viewer###28 08 2012 new variable
 chatroom#:#chat_settings#:#Chat Settings###28 08 2012 new variable
-chatroom#:#chat_users_active#:#Active users###28 08 2012 new variable
+common#:#chat_users_active#:#Active users###28 08 2012 new variable
 rbac#:#frm_add_reply#:#Users can reply to a posting###28 08 2012 new variable
 rbac#:#grp#:#User can copy group###28 08 2012 new variable
 rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module###28 08 2012 new variable
