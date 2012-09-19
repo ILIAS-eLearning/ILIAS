@@ -88,15 +88,25 @@ class ilAccountRegistrationGUI
 		$this->tpl->setVariable("TXT_OK",$lng->txt("ok"));
 		$this->tpl->setVariable("TXT_CHOOSE_LANGUAGE", $lng->txt("choose_language"));
 		$this->ctrl->getFormAction($this);
+		
+		$lang_opts = array();
 		foreach ($lng->getInstalledLanguages() as $lang_key)
 		{
-			$this->tpl->setCurrentBlock("languages");
-			$this->tpl->setVariable("LINK_LANG",$this->ctrl->getLinkTarget($this,'displayForm'));
-			$this->tpl->setVariable("LANG_NAME",
-							  ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key));
+			$lang_opts[$lang_key] = ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key);
+		}
+		asort($lang_opts);
+		
+		$this->tpl->setCurrentBlock("languages");
+		foreach($lang_opts as $lang_key => $lang_caption)
+		{
+			$this->tpl->setVariable("LANG_NAME", $lang_caption);
 			$this->tpl->setVariable("LANG_ICON", $lang_key);
-			$this->tpl->setVariable("BORDER", 0);
-			$this->tpl->setVariable("VSPACE", 0);
+			
+			if($lang_key == $lng->getLangKey())
+			{
+				$this->tpl->setVariable("SELECTED_LANG", " selected=\"selected\"");
+			}
+			
 			$this->tpl->parseCurrentBlock();
 		}
 
