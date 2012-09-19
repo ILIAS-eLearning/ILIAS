@@ -12875,7 +12875,7 @@ fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Author
 blog#:#blog_enable_approval#:#Approval
-blog#:#blog_enable_approval_info#:#All postings need to be approved by an administrator before being published.
+blog#:#blog_enable_approval_info#:#Before being published all postings need to be approved by an user with permission "Edit Settings" for this blog.
 blog#:#blog_approve#:#Approve
 blog#:#blog_needs_approval#:#Needs Approval
 sess#:#sess_copy#:#Copy Session
