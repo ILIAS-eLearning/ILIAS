@@ -25,6 +25,15 @@ abstract class ilDataSet
 {
 	var $dircnt;
 	
+	const EXPORT_NO_INST_ID = 1;
+	const EXPORT_ID_ILIAS_LOCAL = 2;
+	const EXPORT_ID_ILIAS_LOCAL_INVALID = 3;
+	const EXPORT_ID_ILIAS_REMOTE = 4;
+	const EXPORT_ID_ILIAS_REMOTE_INVALID = 5;
+	const EXPORT_ID = 6;
+	const EXPORT_ID_INVALID = 7;
+		
+	
 	/**
 	 * Constructor
 	 */
@@ -513,6 +522,84 @@ abstract class ilDataSet
 	function getImport()
 	{
 		return $this->import;
+	}
+	
+	/**
+	 * Build ilias export id
+	 * 
+	 * @param string $a_type
+	 * @param int $a_id
+	 * @return string
+	 */
+	protected function createObjectExportId($a_type, $a_id)
+	{
+		return "il_".IL_INST_ID."_".$a_type."_".$a_id;
+	}
+		
+	/**
+	 * Parse export id
+	 * 
+	 * @param string $a_id
+	 * @param int $a_fallback_id
+	 * @return array type, id
+	 */
+	protected function parseObjectExportId($a_id, $a_fallback_id = NULL)
+	{				
+		// ilias export id?
+		if(substr($a_id, 0, 3) == "il_")
+		{
+			$parts = explode("_", $a_id);
+			$inst_id = $parts[1];	
+			$type = $parts[2];
+			$id = $parts[3];
+			
+			// missing installation ids? 
+			if(($inst_id == 0 || IL_INST_ID == 0) && !DEVMODE)
+			{
+				return array("type"=>self::EXPORT_NO_INST_ID, "id"=>$a_fallback_id);
+			}
+							
+			// same installation?
+			if($inst_id == IL_INST_ID)
+			{								
+				// still existing?
+				if(ilObject::_lookupType($id) == $type)
+				{
+					return array("type"=>self::EXPORT_ID_ILIAS_LOCAL, "id"=>$id);
+				}
+				// not found
+				else
+				{
+					return array("type"=>self::EXPORT_ID_ILIAS_LOCAL_INVALID, "id"=>$a_fallback_id);
+				}
+			}
+			// different installation
+			else
+			{
+				$id = ilObject::_getIdForImportId($a_id);
+				// matching type?
+				if($id && ilObject::_lookupType($id) == $type)
+				{
+					return array("type"=>self::EXPORT_ID_ILIAS_REMOTE, "id"=>$id);
+				}
+				// not found
+				else
+				{
+					return array("type"=>self::EXPORT_ID_ILIAS_REMOTE_INVALID, "id"=>$a_fallback_id);
+				}
+			}
+		}
+		
+		// external id
+		$id = ilObject::_getIdForImportId($a_id);
+		if($id)
+		{
+			return array("type"=>self::EXPORT_ID, "id"=>$id);
+		}
+		else
+		{
+			return array("type"=>self::EXPORT_ID_INVALID, "id"=>$a_fallback_id);
+		}				
 	}
 }
 

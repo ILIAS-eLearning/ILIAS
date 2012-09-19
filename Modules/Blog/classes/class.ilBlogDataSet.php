@@ -70,7 +70,7 @@ class ilBlogDataSet extends ilDataSet
 						"BlogId" => "integer",
 						"Title" => "integer",
 						"Created" => "text",
-						"Author" => "integer",
+						"Author" => "text",
 						"Approved" => "integer"						
 					);
 			}
@@ -115,6 +115,11 @@ class ilBlogDataSet extends ilDataSet
 					$this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved".
 						" FROM il_blog_posting WHERE ".
 						$ilDB->in("blog_id", $a_ids, false, "integer"));
+					foreach($this->data as $idx => $item)
+					{						
+						// create full export id
+						$this->data[$idx]["Author"] = $this->createObjectExportId("usr", $item["Author"]);
+					}
 					break;
 			}
 		}	
@@ -201,10 +206,14 @@ class ilBlogDataSet extends ilDataSet
 					include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 					$newObj = new ilBlogPosting();
 					$newObj->setBlogId($blog_id);
-					$newObj->setTitle($a_rec["Title"]);					
-					$newObj->setAuthor($a_rec["Author"]);
+					$newObj->setTitle($a_rec["Title"]);																					
 					$newObj->setCreated(new ilDateTime($a_rec["Created"], IL_CAL_DATETIME));
-					$newObj->setApproved($a_rec["Approved"]);				
+					$newObj->setApproved($a_rec["Approved"]);		
+					
+					// parse export id into local id (if possible)
+					$author = $this->parseObjectExportId($a_rec["Author"], -1);					
+					$newObj->setAuthor($author["id"]);
+					
 					$newObj->create(true);
 					
 					$a_mapping->addMapping("Services/COPage", "pg", "blp:".$a_rec["Id"], "blp:".$newObj->getId());				
