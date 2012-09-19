@@ -13238,13 +13238,15 @@ if(trim($ade) && !trim($fbr))
 	$contr_op_id = $row['ops_id'];	
 	if($contr_op_id)
 	{
-		$query = "INSERT INTO rbac_templates VALUES (".$ilDB->quote($blog_contributor_tpl_id).
-			", 'blog', ".$ilDB->quote($contr_op_id).", 8)";
-		$ilDB->manipulate($query);	
-
-		$query = "INSERT INTO rbac_fa VALUES (".$ilDB->quote($blog_contributor_tpl_id).
-			", 8, 'n', 'n')";
-		$ilDB->manipulate($query);
+		$ilDB->manipulateF("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+			" VALUES (%s, %s, %s, %s)", 
+			array("integer", "text", "integer", "integer"),
+			array($blog_contributor_tpl_id, "blog", $contr_op_id, 8));
+		
+		$ilDB->manipulateF("INSERT INTO rbac_fa (rol_id, parent, assign, protected)".
+			" VALUES (%s, %s, %s, %s)", 
+			array("integer", "integer", "text", "text"),
+			array($blog_contributor_tpl_id, 8, "n", "n"));
 	}
 ?>
 <#3764>
@@ -13320,4 +13322,42 @@ $ilDB->manipulate("UPDATE style_data SET ".
 <#3773>
 <?php
 	$ilCtrlStructureReader->getStructure();
+?>
+<#3774>
+<?php
+			
+$bcset = $ilDB->query("SELECT obj_id FROM object_data".
+		" WHERE type = ".$ilDB->quote("rolt", "text").
+		" AND title = ".$ilDB->quote("il_blog_contributor", "text"));
+$bcrow = $ilDB->fetchAssoc($bcset);
+$blog_contributor_tpl_id = $bcrow["obj_id"];
+if($blog_contributor_tpl_id)
+{	
+	$bcset = $ilDB->query("SELECT ops_id FROM rbac_templates".
+		" WHERE rol_id = ".$ilDB->quote($blog_contributor_tpl_id, "integer").
+		" AND type = ".$ilDB->quote("blog", "text"));
+	while($bcrow = $ilDB->fetchAssoc($bcset))
+	{
+		$bc_ops_ids[] = $bcrow["ops_id"];
+	}
+	
+	include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+	if(!in_array(ilDBUpdateNewObjectType::RBAC_OP_VISIBLE, $bc_ops_ids))
+	{
+		$ilDB->manipulateF("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+			" VALUES (%s, %s, %s, %s)", 
+			array("integer", "text", "integer", "integer"),
+			array($blog_contributor_tpl_id, "blog", ilDBUpdateNewObjectType::RBAC_OP_VISIBLE, 8));		
+	}
+	
+	if(!in_array(ilDBUpdateNewObjectType::RBAC_OP_READ, $bc_ops_ids))
+	{
+		$ilDB->manipulateF("INSERT INTO rbac_templates (rol_id, type, ops_id, parent)".
+			" VALUES (%s, %s, %s, %s)", 
+			array("integer", "text", "integer", "integer"),
+			array($blog_contributor_tpl_id, "blog", ilDBUpdateNewObjectType::RBAC_OP_READ, 8));
+	}
+}
+
 ?>
