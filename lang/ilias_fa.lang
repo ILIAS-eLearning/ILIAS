@@ -11865,7 +11865,7 @@ rbac#:#change_existing_prefix#:#Change Existing###28 08 2012 new variable
 rbac#:#change_existing_suffix_single#:#&nbsp;###28 08 2012 new variable
 rbac#:#change_existing_suffix#:#&nbsp;###28 08 2012 new variable
 chatroom#:#chat_settings#:#Chat Settings###28 08 2012 new variable
-chatroom#:#chat_users_active#:#Active users###28 08 2012 new variable
+common#:#chat_users_active#:#Active users###28 08 2012 new variable
 rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###28 08 2012 new variable
 rbac#:#crs_copy#:#User can copy course###28 08 2012 new variable
 rbac#:#crs_create_exc#:#Create Exercise###28 08 2012 new variable
