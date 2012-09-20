@@ -8,6 +8,7 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * 
  * This class implements the following entities:
  * - wiki: data from il_wiki_data
+ * - wpg: data from il_wiki_page
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -23,7 +24,7 @@ class ilWikiDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.1.0");
+		return array("4.1.0", "4.3.0");
 	}
 	
 	/**
@@ -58,6 +59,22 @@ class ilWikiDataSet extends ilDataSet
 						"Short" => "text",
 						"Introduction" => "text",
 						"Rating" => "integer");
+					
+				case "4.3.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"StartPage" => "text",
+						"Short" => "text",
+						"Introduction" => "text",
+						"Rating" => "integer",
+						"PublicNotes" => "integer",
+						// "ImpPages" => "integer",
+						"PageToc" => "integer",
+						"RatingSide" => "integer",
+						"RatingNew" => "integer",
+						"RatingExt" => "integer");
 			}
 		}
 
@@ -70,6 +87,14 @@ class ilWikiDataSet extends ilDataSet
 						"Id" => "integer",
 						"Title" => "text",
 						"WikiId" => "integer");
+					
+				case "4.3.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"WikiId" => "integer",
+						"Blocked" => "integer",
+						"Rating" => "integer");
 			}
 		}
 
@@ -95,11 +120,18 @@ class ilWikiDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT id, title, description, ".
-						" startpage start_page, short, rating, introduction".
-						" FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id) ".
-						"WHERE ".
-						$ilDB->in("id", $a_ids, false, "integer"));
+					$this->getDirectDataFromQuery("SELECT id, title, description,".
+						" startpage start_page, short, rating, introduction". 
+						" FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)".
+						" WHERE ".$ilDB->in("id", $a_ids, false, "integer"));
+					break;
+				
+				case "4.3.0":
+					$this->getDirectDataFromQuery("SELECT id, title, description,".
+						" startpage start_page, short, rating, introduction,". // imp_pages,
+						" public_notes, page_toc, rating_side, rating_new, rating_ext".
+						" FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)".
+						" WHERE ".$ilDB->in("id", $a_ids, false, "integer"));
 					break;
 			}
 		}
@@ -109,10 +141,16 @@ class ilWikiDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.1.0":
-					$this->getDirectDataFromQuery("SELECT id, title, wiki_id ".
-						" FROM il_wiki_page ".
-						"WHERE ".
-						$ilDB->in("wiki_id", $a_ids, false, "integer"));
+					$this->getDirectDataFromQuery("SELECT id, title, wiki_id".
+						" FROM il_wiki_page".
+						" WHERE ".$ilDB->in("wiki_id", $a_ids, false, "integer"));
+					break;
+				
+				case "4.3.0":
+					$this->getDirectDataFromQuery("SELECT id, title, wiki_id,".
+						" blocked, rating". 
+						" FROM il_wiki_page".
+						" WHERE ".$ilDB->in("wiki_id", $a_ids, false, "integer"));
 					break;
 			}
 		}
@@ -169,9 +207,22 @@ class ilWikiDataSet extends ilDataSet
 				$newObj->setStartPage($a_rec["StartPage"]);
 				$newObj->setRating($a_rec["Rating"]);
 				$newObj->setIntroduction($a_rec["Introduction"]);
+				$newObj->setPublicNotes($a_rec["PublicNotes"]);
+				
+				// >= 4.3
+				if(isset($a_rec["PageToc"]))
+				{
+					// $newObj->setImportantPages($a_rec["ImpPages"]);
+					$newObj->setPageToc($a_rec["PageToc"]);
+					$newObj->setRatingAsBlock($a_rec["RatingSide"]);
+					$newObj->setRatingForNewPages($a_rec["RatingNew"]);
+					$newObj->setRatingCategories($a_rec["RatingExt"]);			
+				}
+				
 				$newObj->update(true);
 				$this->current_obj = $newObj;
 				$a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping("Services/Rating", "rating_category_parent_id", $a_rec["Id"], $newObj->getId());
 				break;
 
 			case "wpg":
@@ -180,6 +231,14 @@ class ilWikiDataSet extends ilDataSet
 				$wpage = new ilWikiPage();
 				$wpage->setWikiId($wiki_id);
 				$wpage->setTitle($a_rec["Title"]);
+				
+				// >= 4.3
+				if(isset($a_rec["Blocked"]))
+				{
+					$wpage->setBlocked($a_rec["Blocked"]);
+					$wpage->setRating($a_rec["Rating"]);
+				}
+				
 				$wpage->create(true);
 				
 				$a_mapping->addMapping("Modules/Wiki", "wpg", $a_rec["Id"], $wpage->getId());

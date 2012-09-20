@@ -249,7 +249,8 @@ class ilImport
 			return;
 		}
 
-		if($this->getMapping()->getMapping('Services/Container', 'imported', $a_id))
+		if($objDefinition->isRBACObject($a_entity) &&
+			$this->getMapping()->getMapping('Services/Container', 'imported', $a_id))
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Ignoring referenced '.$a_entity.' with id '.$a_id);
 			return;
