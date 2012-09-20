@@ -1116,7 +1116,9 @@ class ilObjWikiGUI extends ilObjectGUI
 			
 			// rating
 			$wiki_id =ilObject::_lookupObjId($a_wiki_ref_id);			
-			if(ilObjWiki::_lookupRating($wiki_id) && ilObjWiki::_lookupRatingAsBlock($wiki_id))
+			if(ilObjWiki::_lookupRating($wiki_id) && 
+				ilObjWiki::_lookupRatingAsBlock($wiki_id) &&
+				$a_wp->getRating())
 			{
 				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 				$rgui = new ilRatingGUI();
