@@ -39,11 +39,9 @@ class ilWikiExporter extends ilXmlExporter
 		include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		$pg_ids = array();
-
 		foreach ($a_ids as $id)
 		{
 			$pages = ilWikiPage::getAllPages($id);
-
 			foreach ($pages as $p)
 			{
 				if (ilPageObject::_exists("wpg", $p["id"]))
@@ -57,7 +55,12 @@ class ilWikiExporter extends ilXmlExporter
 			array(
 				"component" => "Services/COPage",
 				"entity" => "pg",
-				"ids" => $pg_ids)
+				"ids" => $pg_ids),
+			array(
+				"component" => "Services/Rating",
+				"entity" => "rating_category",
+				"ids" => $a_ids
+				)
 			);
 	}
 
@@ -89,6 +92,12 @@ class ilWikiExporter extends ilXmlExporter
 				"xsd_file" => "ilias_wiki_4_1.xsd",
 				"uses_dataset" => true,
 				"min" => "4.1.0",
+				"max" => "4.2.99"),
+			"4.3.0" => array(
+				"namespace" => "http://www.ilias.de/Modules/Wiki/wiki/4_3",
+				"xsd_file" => "ilias_wiki_4_3.xsd",
+				"uses_dataset" => true,
+				"min" => "4.3.0",
 				"max" => "")
 		);
 	}
