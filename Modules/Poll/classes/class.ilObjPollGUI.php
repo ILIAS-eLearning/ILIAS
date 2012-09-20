@@ -460,6 +460,7 @@ class ilObjPollGUI extends ilObject2GUI
 			$this->object->saveVote($ilUser->getId(), $_POST["aw"]);
 		}
 		
+		include_once "Services/Link/classes/class.ilLink.php";
 		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
 	}		
 	
