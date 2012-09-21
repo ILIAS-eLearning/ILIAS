@@ -8,7 +8,7 @@ var pager =
 	
 	Init : function()
 	{
-		jQuery('table.ilc_page_cont_PageContainer').each(function(ix, el)
+		jQuery('div.ilc_page_cont_PageContainer').each(function(ix, el)
 		{
 			if(pager.currentPage==null)
 				pager.currentPage = el;
@@ -31,7 +31,7 @@ var pager =
 	
 	updateNextLink: function()
 	{
-		var newPage = jQuery(pager.currentPage).nextAll('table.ilc_page_cont_PageContainer');
+		var newPage = jQuery(pager.currentPage).nextAll('div.ilc_page_cont_PageContainer');
 		var next_is_final_message = false;
 		
 		if (newPage.length == 1 && newPage[0].id == "sco_succ_message")
@@ -64,7 +64,7 @@ var pager =
 	
 	NextPage : function()
 	{
-		var newPage = jQuery(pager.currentPage).nextAll('table.ilc_page_cont_PageContainer');
+		var newPage = jQuery(pager.currentPage).nextAll('div.ilc_page_cont_PageContainer');
 		if(newPage.length>0)
 		{
 			jQuery(pager.currentPage).hide();
@@ -82,7 +82,7 @@ var pager =
 	
 	PrevPage : function()
 	{
-		var newPage = jQuery(pager.currentPage).prevAll('table.ilc_page_cont_PageContainer');
+		var newPage = jQuery(pager.currentPage).prevAll('div.ilc_page_cont_PageContainer');
 		if(newPage.length>0)
 		{
 			jQuery(pager.currentPage).hide();
@@ -99,7 +99,7 @@ var pager =
 	
 	jumpToElement : function(id)
 	{
-		var newPage = jQuery("#" + id).parents('table.ilc_page_cont_PageContainer');
+		var newPage = jQuery("#" + id).parents('div.ilc_page_cont_PageContainer');
 		if(newPage.length>0)
 		{
 			jQuery(pager.currentPage).hide();
@@ -107,7 +107,7 @@ var pager =
 			jQuery(pager.currentPage).show("",function(){ jQuery('.imagemap').maphilight({fade:true});});
 			ilCOPagePres.fixMarkerPositions();
 		
-			var prevPages = jQuery(pager.currentPage).prevAll('table.ilc_page_cont_PageContainer');
+			var prevPages = jQuery(pager.currentPage).prevAll('div.ilc_page_cont_PageContainer');
 			if (prevPages.length == 0)
 			{
 				jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "hidden");
