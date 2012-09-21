@@ -186,11 +186,11 @@ public class CommandQueue {
 		} 
 		catch(SQLException e) {
 			logger.error("Invalid SQL statement: " + query);
-			logger.error(e);
+			logger.error("Cannot substitute reset commands", e);
 			throw e;
 		}
 		catch(Throwable e) {
-			logger.fatal(e);
+			logger.fatal("Cannot substitute reset commands",e);
 		}
 	}
 
@@ -212,7 +212,7 @@ public class CommandQueue {
 			return;
 		}
 		catch(SQLException e) {
-			logger.error("Cannot delete reset commands!" + e);
+			logger.error("Cannot delete reset commands!",e);
 			throw e;
 		}
 	}
@@ -234,7 +234,7 @@ public class CommandQueue {
 			return;
 		} 
 		catch (SQLException e) {
-			logger.fatal("Cannot delete reset commands! " + e);
+			logger.fatal("Cannot delete reset commands! ",e);
 			throw e;
 		}
 	}
@@ -285,7 +285,7 @@ public class CommandQueue {
 		}
 		catch(SQLException e) {
 			
-			logger.fatal("Cannot build index: " + e);
+			logger.fatal("Cannot build index ",e);
 			throw e;
 		}
 		
@@ -375,7 +375,7 @@ public class CommandQueue {
 			}
 		}
 		catch (Exception e) {
-			logger.error(e);
+			logger.error("Cannot add to command queue",e);
 		}
 	}
 	
@@ -420,7 +420,7 @@ public class CommandQueue {
 			}
 		}
 		catch (Exception e) {
-			logger.error(e);
+			logger.error("Error deleting from command queue", e);
 		}
 		
 	}
@@ -454,7 +454,7 @@ public class CommandQueue {
 			}
 		}
 		catch (Exception e) {
-			logger.error(e);
+			logger.error("Error updating command queue", e);
 		}
 	}
 

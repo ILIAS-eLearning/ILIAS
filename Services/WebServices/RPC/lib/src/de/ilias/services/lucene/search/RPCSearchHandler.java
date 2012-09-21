@@ -35,6 +35,7 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -194,20 +195,27 @@ public class RPCSearchHandler {
 				occurs.add(BooleanClause.Occur.SHOULD);
 			}
 			
-			Query query = searcher.rewrite(MultiFieldQueryParser.parse(rewrittenQuery,
-					fieldInfo.getFieldsAsStringArray(),
-					occurs.toArray(new Occur[0]),
-					new StandardAnalyzer()));
+			Query query = searcher.rewrite(
+					MultiFieldQueryParser.parse(
+						rewrittenQuery,
+						fieldInfo.getFieldsAsStringArray(),
+						occurs.toArray(new Occur[0]),
+						new StandardAnalyzer()
+					)
+			);
+
+			logger.info("What occurs" + occurs.toString());
 			logger.debug("Rewritten query is: " + query.toString());
 			
 			TopDocCollector collector = new TopDocCollector(500);
 			searcher.search(query,collector);
 			ScoreDoc[] hits = collector.topDocs().scoreDocs;
+
 			long h_start = new java.util.Date().getTime();
 			HitHighlighter hh = new HitHighlighter(query,hits);
 			hh.highlight();
 			long h_end = new java.util.Date().getTime();
-			
+
 			//logger.debug(hh.toXML());
 			long end = new java.util.Date().getTime();
 			

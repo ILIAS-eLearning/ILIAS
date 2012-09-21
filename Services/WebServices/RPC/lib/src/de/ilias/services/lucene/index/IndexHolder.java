@@ -22,9 +22,11 @@
 
 package de.ilias.services.lucene.index;
 
+import de.ilias.services.lucene.settings.LuceneSettings;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -36,6 +38,8 @@ import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
+import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.SimpleFSLockFactory;
 
 /**
  * Capsulates the interaction between IndexReader and IndexWriter
@@ -139,10 +143,18 @@ public class IndexHolder {
 		logger.info("Closing document writers...");
 		
 		for(Object key : instances.keySet()) {
-			
-			logger.info("Closing writer: " + (String) key);
-			IndexHolder holder = instances.get((String) key);
-			holder.close();
+			try {
+				logger.info("Closing writer: " + (String) key);
+				IndexHolder holder = instances.get((String) key);
+				FSDirectory.getDirectory(ClientSettings.getInstance((String) key).getIndexPath()).close();
+				holder.close();
+				// Close
+			}
+			catch (Exception ex)
+			{
+				logger.error("Cannot close fs directory");
+			}
+
 		}
 		
 		logger.info("Index writers closed.");
@@ -161,7 +173,7 @@ public class IndexHolder {
 				logger.warn("Index writer is locked. Forcing unlock...");
 				IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
 			}
-			
+
 			writer = new IndexWriter(
 					FSDirectory.getDirectory(settings.getIndexPath()),
 					new StandardAnalyzer(),
@@ -202,6 +214,9 @@ public class IndexHolder {
 		try {
 			getWriter().close();
 			IndexWriter.unlock(FSDirectory.getDirectory(settings.getIndexPath()));
+			// Closing index directory
+			FSDirectory.getDirectory(settings.getIndexPath()).close();
+
 		} catch (CorruptIndexException e) {
 			logger.fatal("Index corrupted." + e);
 		} catch (IOException e) {
