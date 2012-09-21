@@ -12930,3 +12930,4 @@ administration#:#system_check_no_owner#:#Ownerless Objects
 blog#:#blog_import#:#Import Blog
 poll#:#poll_import#:#Import Poll
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.
+content#:#cont_initial_attached_content#:#Initial Extra Content
