@@ -1,17 +1,14 @@
-<table id="ilCOPageContent" class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0">
+<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">
 <!-- BEGIN hist_nav -->
-<tr class="std">
-<td><div class="small">
+<div class="small">
 {TXT_REVISION} {VAL_REVISION_DATE} - {VAL_REV_USER}&nbsp;&nbsp;<!-- BEGIN rollback --><a href="{HREF_ROLLBACK}">{TXT_ROLLBACK}</a><!-- END rollback --><br />
 <!-- BEGIN previous_rev --><a href="{HREF_PREV}">← {TXT_PREV_REV}</a><!-- END previous_rev -->
 <!-- BEGIN previous_rev_disabled --><span class="light">← {TXT_PREV_REV}</span><!-- END previous_rev_disabled -->
 <!-- BEGIN next_rev --> | <a href="{HREF_NEXT}">{TXT_NEXT_REV} →</a><!-- END next_rev -->
 <!-- BEGIN latest_rev --> | <a href="{HREF_LATEST}">{TXT_LATEST_REV}</a><!-- END latest_rev -->
 </div>
-</td>
-</tr>
 <!-- END hist_nav -->
-<tr><td><div class="ilc_page_Page">
+<div class="ilc_page_Page">
 <script LANGUAGE="JavaScript1.1">
 <!--
 focus();
@@ -20,4 +17,4 @@ focus();
 <form action="{FORMACTION}" class="il_Form" method="post">
 {PAGE_CONTENT}
 </form>
-</div></td></tr></table>
+</div></div>

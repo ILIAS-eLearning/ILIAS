@@ -33,8 +33,8 @@
 </div>
 <!-- END ilLMNavigation -->
 <!-- BEGIN meta_page -->
-<table class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0" style="display: table;">
-<tr><td><div class="ilc_page_Page">
+<div class="ilc_page_cont_PageContainer">
+<div class="ilc_page_Page">
 <!-- BEGIN title -->
 <div class="ilc_sco_title_Title">{SCO_TITLE}</div>
 <!-- END title --><!-- BEGIN pdf_title -->
@@ -47,12 +47,12 @@
 <!-- BEGIN sco_obj --><div class="ilc_sco_obj_Objective">{VAL_OBJECTIVE}</div><!-- END sco_obj -->
 <!-- END sco_objs -->
 </div>
-</td></tr></table>
+</div>
 <!-- BEGIN pdf_break --><!-- PAGE BREAK --><!-- END pdf_break -->
 <!-- END meta_page -->
 <!-- BEGIN page -->
-<table {PAGE_ID_ATTR} class="ilc_page_cont_PageContainer" width="100%" cellspacing="0" cellpadding="0" style="display: table;">
-<tr><td><div class="ilc_page_Page">{PAGE}</div></td></tr></table>
+<div {PAGE_ID_ATTR} class="ilc_page_cont_PageContainer">
+<div class="ilc_page_Page">{PAGE}</div></div>
 <!-- BEGIN pdf_pg_break --><!-- PAGE BREAK --><!-- END pdf_pg_break -->
 <!-- END page --><!-- BEGIN page_preview -->{PAGE_PRV}<!-- END page_preview -->
 {GLOSSARY_HTML}
