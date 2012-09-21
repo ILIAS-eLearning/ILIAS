@@ -125,8 +125,7 @@ public class RPCIndexHandler {
 
 		} 
 		catch (Exception e) {
-			
-			logger.error(e);
+			logger.error("Unknokn error",e);
 		}
 		finally {
 			// Purge resources

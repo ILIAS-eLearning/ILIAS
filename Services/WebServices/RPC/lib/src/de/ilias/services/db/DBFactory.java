@@ -237,7 +237,7 @@ public class DBFactory {
 				connection.get().close();
 			}
 			catch (Throwable e) {
-				logger.error("Cannot release db connection: " + e);
+				logger.error("Cannot release db connection: ",e);
 			}
 		}
 	}
