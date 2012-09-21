@@ -12402,7 +12402,7 @@ common#:#soap_connect_timeout_info#:#Die maximale Zeit in Sekunden, die gewartet
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 trac#:#trac_lp_on_personal_desktop#:#Lernfortschritt auf Persönlichem Schreibtisch
 trac#:#trac_lp_learner_access#:#Eigenen Lernfornschritt einsehen
-rating#:#rating_categories#:#
+rating#:#rating_categories#:#Bewertungs-Kategorien
 rating#:#rating_add_category#:#Kategorie hinzufügen
 rating#:#rating_category_create#:#Kategorie erstellen
 rating#:#rating_category_add#:#Hinzufügen
