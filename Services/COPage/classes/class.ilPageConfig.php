@@ -12,6 +12,7 @@ class ilPageConfig
 {
 	var $int_link_filter = array();
 	var $prevent_rte_usage = false;
+	var $use_attached_content = false;
 
 	/**
 	 * Add internal links filter
@@ -102,6 +103,26 @@ class ilPageConfig
 	function getLocalizationLanguage()
 	{
 		return $this->localization_lang;
+	}
+	
+	/**
+	 * Set use attached content
+	 *
+	 * @param string $a_val use initial attached content	
+	 */
+	function setUseAttachedContent($a_val)
+	{
+		$this->use_attached_content = $a_val;
+	}
+	
+	/**
+	 * Get use attached content
+	 *
+	 * @return string use initial attached content
+	 */
+	function getUseAttachedContent()
+	{
+		return $this->use_attached_content;
 	}
 }
 ?>

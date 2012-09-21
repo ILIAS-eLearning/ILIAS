@@ -2214,7 +2214,7 @@ class ilPageObjectGUI
 		}
 
 		// initially opened content
-		if (true)
+		if ($this->getPageConfig()->getUseAttachedContent())
 		{
 			$entries = true;
 			$list->addItem($lng->txt("cont_initial_attached_content"), "",

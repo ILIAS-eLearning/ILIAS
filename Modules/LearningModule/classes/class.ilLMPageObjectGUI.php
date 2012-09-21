@@ -81,6 +81,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				include_once("./Services/COPage/classes/class.ilPageConfig.php");
 				$pconfig = new ilPageConfig();
 				$pconfig->setPreventRteUsage(true);
+				$pconfig->setUseAttachedContent(true);
 				$page_gui->setPageConfig($pconfig);
 
 				if ($ilSetting->get("block_activated_news"))
