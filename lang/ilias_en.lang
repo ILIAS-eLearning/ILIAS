@@ -12931,3 +12931,5 @@ blog#:#blog_import#:#Import Blog
 poll#:#poll_import#:#Import Poll
 user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.
 content#:#cont_initial_attached_content#:#Initial Extra Content
+content#:#cont_topic#:#Topic
+content#:#cont_selected_topic#:#Selected Topic

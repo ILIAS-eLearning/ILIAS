@@ -21,12 +21,14 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	 * @param	string	$a_title	Title
 	 * @param	string	$a_postvar	Post Variable
 	 */
-	function __construct($a_taxonomy_id, $a_multi = true, $a_title = "", $a_postvar = "")
+	function __construct($a_taxonomy_id, $a_multi = true, $a_title = "", $a_postvar = "",
+		$a_include_please_select = true)
 	{
 		global $lng;
 		
 		$lng->loadLanguageModule("tax");
 		$this->setMulti($a_multi);
+		$this->include_please_select = $a_include_please_select;
 		
 		if ($a_title == "")
 		{
@@ -88,7 +90,10 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	{
 		global $lng;
 		
-		$options = array("" => $lng->txt("please_select"));
+		if ($this->include_please_select)
+		{
+			$options = array("" => $lng->txt("please_select"));
+		}
 		
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
 		$tax_tree = new ilTaxonomyTree($this->getTaxonomyId());
