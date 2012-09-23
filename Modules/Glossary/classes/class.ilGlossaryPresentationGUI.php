@@ -49,6 +49,17 @@ class ilGlossaryPresentationGUI
 		$this->glossary_gui =& new ilObjGlossaryGUI("", $_GET["ref_id"], true, "");
 		$this->glossary =& $this->glossary_gui->object;
 
+		$this->tax_node = 0;
+		$this->tax_id = $this->glossary->getTaxonomyId();
+		if ($this->tax_id > 0 && $this->glossary->getShowTaxonomy())
+		{
+			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+			$this->tax = new ilObjTaxonomy($this->tax_id);
+		}
+		if ((int) $_GET["tax_node"] > 1 && $this->tax->getTree()->readRootId() != $_GET["tax_node"])
+		{
+			$this->tax_node = (int) $_GET["tax_node"];
+		}
 	}
 	
 	
@@ -175,7 +186,7 @@ class ilGlossaryPresentationGUI
 			// alphabetical navigation
 			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
 			$ai = new ilAlphabetInputGUI($lng->txt("glo_quick_navigation"), "first");
-			$ai->setLetters($this->glossary->getFirstLetters((int) $_GET["tax_node"]));
+			$ai->setLetters($this->glossary->getFirstLetters($this->tax_node));
 			$ai->setParentCommand($this, "chooseLetter");
 			$ai->setHighlighted($_GET["letter"]);
 			$ilToolbar->addInputItem($ai, true);
@@ -216,13 +227,9 @@ class ilGlossaryPresentationGUI
 		
 		$oldoffset = (is_numeric ($_GET["oldoffset"]))?$_GET["oldoffset"]:$_GET["offset"];
 
-		$tax_node = ((int) $_GET["tax_node"] > 1)
-			? (int) $_GET["tax_node"]
-			: 0;
-		
 		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
 		$table = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
-			$this->offlineMode(), $tax_node);
+			$this->offlineMode(), $this->tax_node);
 	
 		if (!$this->offlineMode())
 		{
@@ -1113,9 +1120,9 @@ class ilGlossaryPresentationGUI
 				include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
 				$si = new ilTaxAssignInputGUI($t_id, false, $lng->txt("cont_topic"), "topic",
 					false);
-				if ($_GET["tax_node"] > 0)
+				if ($this->tax_node > 0)
 				{
-					$si->setValue((int) $_GET["tax_node"]);
+					$si->setValue((int) $this->tax_node);
 				}
 				$op4->addSubItem($si);
 				
@@ -1407,7 +1414,7 @@ class ilGlossaryPresentationGUI
 	 */
 	function showTaxonomy()
 	{
-		global $tpl;
+		global $tpl, $lng;
 		
 		if (!$this->offlineMode() && $this->glossary->getShowTaxonomy())
 		{
@@ -1417,7 +1424,7 @@ class ilGlossaryPresentationGUI
 			{
 				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
 				$tpl->setLeftNavContent(ilObjTaxonomyGUI::getTreeHTML($tax_ids[0],
-					"ilglossarypresentationgui", "listTerms"));
+					"ilglossarypresentationgui", "listTerms", $lng->txt("cont_all_topics")));
 			}
 		}
 

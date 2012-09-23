@@ -322,7 +322,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 * @param
 	 * @return
 	 */
-	static function getTreeHTML($a_tax_id, $a_class, $a_cmd)
+	static function getTreeHTML($a_tax_id, $a_class, $a_cmd, $a_root_node_title = "")
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng;
 
@@ -335,6 +335,11 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		$exp = new ilTaxonomyExplorer($ilCtrl->getLinkTargetByClass($a_class, $a_cmd), $a_tax_tree,
 			$a_class, $a_cmd);
 		$exp->setTargetGet("tax_node");
+		
+		if ($a_root_node_title != "")
+		{
+			$exp->setRootNodeTitle($a_root_node_title);
+		}
 		
 		$exp->setExpandTarget($ilCtrl->getLinkTargetByClass($a_class, $a_cmd));
 		
