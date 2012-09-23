@@ -1,25 +1,7 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 require_once ("./Services/COPage/classes/class.ilPageObjectGUI.php");
@@ -89,9 +71,7 @@ class ilTermDefinitionEditorGUI
 		$gloss_loc->setGlossary($this->glossary);
 		$gloss_loc->setDefinition($this->definition);
 
-$this->tpl->getStandardTemplate();
-//		$this->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-//		$this->tpl->addBlockFile("STATUSLINE", "statusline", "tpl.statusline.html");
+		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->term->getTerm()." - ".
 			$this->lng->txt("cont_definition")." ".
 			$this->definition->getNr());
@@ -134,6 +114,18 @@ $this->tpl->getStandardTemplate();
 				$this->definition->assignPageObject($page);
 				$page->addUpdateListener($this, "saveShortText");
 				$page_gui->setEditPreview(true);
+				
+				// metadata
+				// ... set title to term, if no title is given
+				include_once("./Services/MetaData/classes/class.ilMD.php");
+				$md = new ilMD($this->glossary->getId(), $this->definition->getId(), "gdf");
+				$md_gen = $md->getGeneral();
+				if ($md_gen->getTitle() == "")
+				{
+					$md_gen->setTitle($this->term->getTerm());
+					$md_gen->update();
+				}
+
 				$page_gui->activateMetaDataEditor($this->glossary->getId(),
 					$this->definition->getId(), "gdf");
 				//	$this->obj, "MDUpdateListener");
