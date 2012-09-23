@@ -631,6 +631,16 @@ class ilGlossaryTermGUI
 			$tabs_gui->addTab("usage",
 				$lng->txt("cont_usage")." (".ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]).")",
 				$this->ctrl->getLinkTarget($this, "listUsages"));
+			
+			$tabs_gui->addNonTabbedLink("presentation_view",
+				$this->lng->txt("glo_presentation_view"),
+				ILIAS_HTTP_PATH.
+				"/goto.php?target=".
+				"git".
+				"_".$_GET["term_id"]."_".$_GET["ref_id"]."&client_id=".CLIENT_ID,
+				"_top"
+		);
+
 		}
 
 		// back to glossary

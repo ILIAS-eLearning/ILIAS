@@ -1090,18 +1090,38 @@ class ilGlossaryPresentationGUI
 		$radg = new ilRadioGroupInputGUI($lng->txt("cont_selection"), "sel_type");
 		$radg->setValue("glossary");
 		
+			// current term
 			if ((int) $_GET["term_id"] > 0)
 			{
 				$op1 = new ilRadioOption($lng->txt("cont_current_term"), "term");
 				$radg->addOption($op1);
 				$radg->setValue("term");
 			}
-		
-			//$op1 = new ilRadioOption($lng->txt("cont_current_page"), "page");
-			//$radg->addOption($op1);
+			
+			// whole glossary
 			$op2 = new ilRadioOption($lng->txt("cont_whole_glossary")
 				." (".$lng->txt("cont_terms").": ".count($terms).")", "glossary");
 			$radg->addOption($op2);
+			
+			// selected topic
+			if (($t_id = $this->glossary->getTaxonomyId()) > 0 && $this->glossary->getShowTaxonomy())
+			{
+				$op4 = new ilRadioOption($lng->txt("cont_selected_topic"), "sel_topic");
+				$radg->addOption($op4);
+				
+				// topic drop down
+				include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
+				$si = new ilTaxAssignInputGUI($t_id, false, $lng->txt("cont_topic"), "topic",
+					false);
+				if ($_GET["tax_node"] > 0)
+				{
+					$si->setValue((int) $_GET["tax_node"]);
+				}
+				$op4->addSubItem($si);
+				
+			}
+			
+			// selected terms
 			$op3= new ilRadioOption($lng->txt("cont_selected_terms"), "selection");
 			$radg->addOption($op3);
 
@@ -1144,6 +1164,19 @@ class ilGlossaryPresentationGUI
 				foreach ($ts as $t)
 				{
 					$terms[] = $t["id"];
+				}
+				break;
+				
+			case "sel_topic":
+				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+				$t_id = $this->glossary->getTaxonomyId();
+				$items = ilObjTaxonomy::getSubTreeItems($t_id, (int) $_POST["topic"]);
+				foreach ($items as $i)
+				{
+					if ($i["item_type"] == "term")
+					{
+						$terms[] = $i["item_id"];
+					}
 				}
 				break;
 
