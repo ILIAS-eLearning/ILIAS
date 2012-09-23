@@ -23,6 +23,8 @@ class ilTaxonomyExplorer extends ilExplorer
 	function __construct($a_target, $a_tax_tree, $a_gui_class = "ilobjtaxonomygui",
 		$a_gui_cmd = "listItems")
 	{
+		global $lng;
+		
 		parent::__construct($a_target);
 		
 		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
@@ -48,8 +50,30 @@ class ilTaxonomyExplorer extends ilExplorer
 //		$this->textwidth = 200;
 
 		$this->force_open_path = array();
+		
+		$this->setRootNodeTitle($lng->txt("tax_taxonomy"));
 	}
 
+	/**
+	 * Set root node titl
+	 *
+	 * @param string $a_val root node title	
+	 */
+	function setRootNodeTitle($a_val)
+	{
+		$this->root_node_title = $a_val;
+	}
+	
+	/**
+	 * Get root node titl
+	 *
+	 * @return string root node title
+	 */
+	function getRootNodeTitle()
+	{
+		return $this->root_node_title;
+	}
+	
 	/**
 	* set force open path
 	*/
@@ -78,7 +102,7 @@ class ilTaxonomyExplorer extends ilExplorer
 		$tpl->parseCurrentBlock();
 
 		$tpl->setCurrentBlock("link");
-		$tpl->setVariable("TITLE", $lng->txt("tax_taxonomy"));
+		$tpl->setVariable("TITLE", $this->getRootNodeTitle());
 		if ($this->highlighted == $this->tree->readRootId())
 		{
 			$tpl->setVariable("A_CLASS", "class='il_HighlightedNode'");
