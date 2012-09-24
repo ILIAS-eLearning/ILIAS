@@ -298,6 +298,15 @@ class ilAccessHandler
 			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
 			return false;
 		}
+		
+		// Check object activation
+		$act_check = $this->doActivationCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
+		if(!$act_check)
+		{
+			$this->current_info->addInfoItem(IL_NO_PERMISSION, $lng->txt('activation_no_permission'));
+			$this->storeAccessResult($a_permission, $a_cmd, $a_ref_id, false, $a_user_id);
+			return false;
+		}
 
 		// check read permission for all parents
 		$par_check = $this->doPathCheck($a_permission, $a_cmd, $a_ref_id, $a_user_id);
@@ -531,15 +540,6 @@ class ilAccessHandler
 			if ($a_ref_id == $id)
 			{
 				continue;
-			}
-
-			// Check course activation
-			if($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($id)) == 'crs')
-			{
-				if(!$this->doActivationCheck($a_permission,$a_cmd,$a_ref_id,$a_user_id,$a_all))
-				{
-					return false;
-				}
 			}
 			
 			$access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
