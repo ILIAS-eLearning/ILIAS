@@ -2439,12 +2439,12 @@ div.ilLeftNav {
 	box-shadow: inset 0px 2px 2px #D0D0D0;
 }
 
-/* bottom left area (optional bottom area in left navigation area, used e.g. in learning modules) */
-div.ilBotLeftArea {
+/* bottom center area (optional bottom area, used e.g. in learning modules) */
+div.ilBotCenterArea {
 	bottom:	0px;
-	left:	0px;
-	width: 350px;
-	height: 350px;
+	left:	360px;
+	right: 0px;
+	height: 200px;
 	position: fixed;
 	padding: 5px;
 	background-color: #F5F5F5;
@@ -2453,7 +2453,7 @@ div.ilBotLeftArea {
 	box-shadow: inset 0px 2px 2px #D0D0D0;
 }
 
-div.ilBotLeftArea iframe {
+div.ilBotCenterArea iframe {
 	border-width: 0px;
 	width: 100%;
 	height: 100%;
