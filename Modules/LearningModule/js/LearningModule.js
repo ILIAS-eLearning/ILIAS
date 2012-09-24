@@ -4,11 +4,11 @@ il.LearningModule = {
 	},
 	
 	loadContentFrame: function (href) {
-		var faqt = $("#bot_left_area");
+		var faqt = $("#bot_center_area");
 		if (faqt.length == 0) {
-			$('body').append('<div id="bot_left_area" class="ilBotLeftArea"><iframe /></div>');
+			$('body').append('<div id="bot_center_area" class="ilBotCenterArea"><iframe /></div>');
 		}
-		$("#bot_left_area > iframe").attr("src", href);
+		$("#bot_center_area > iframe").attr("src", href);
 		il.UICore.refreshLayout();
 		return false;
 	}

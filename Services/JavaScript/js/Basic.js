@@ -312,7 +312,7 @@ il.UICore = {
 	refreshLayout: function () {
 		var el = document.getElementById("left_nav"),
 			sm = document.getElementById("mainspacekeeper"),
-			bl = document.getElementById("bot_left_area"),
+			bc = document.getElementById("bot_center_area"),
 			fc = document.getElementById("fixed_conent"),
 			nb_reg, vp_reg;
 			
@@ -339,12 +339,12 @@ il.UICore = {
 				$(el).offset({top: sm_reg.top});
 			}
 			
-			// bottom left area?
-			if (bl) {
-				bl_reg = il.Util.getRegion(bl);
-				$(el).css("bottom", bl_reg.height + "px");
+			// bottom center area?
+			if (bc) {
+				bc_reg = il.Util.getRegion(bc);
+				$(sm).css("bottom", bc_reg.height + "px");
 			} else {
-				$(el).css("bottom", "0px");
+				$(sm).css("bottom", "0px");
 			}
 		}
 	}
