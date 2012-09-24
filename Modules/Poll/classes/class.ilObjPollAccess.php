@@ -24,7 +24,7 @@ class ilObjPollAccess extends ilObjectAccess
 	* @param	int			$a_user_id	user id (if not provided, current user is taken)
 	*
 	* @return	boolean		true, if everything is ok
-	*/
+	*/	
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess;
@@ -34,37 +34,28 @@ class ilObjPollAccess extends ilObjectAccess
 			$a_user_id = $ilUser->getId();
 		}
 		
-		switch ($a_permission)
+		// check "global" online switch
+		if(!self::_lookupOnline($a_obj_id) && 
+			!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 		{
-			case 'visible':
-				$is_visible = false;
-				$active = self::_isActivated($a_obj_id, $a_ref_id, $is_visible);				
-				$admin = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);				
-				if(!$active)
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-				}
-				if(!$admin and !$active and !$is_visible)
-				{
-					return false;
-				}
-				break;
-
-			case 'read':
-				$admin = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
-				if($admin)
-				{
-					return true;
-				}				
-				$active = self::_isActivated($a_obj_id, $a_ref_id);
-				if(!$active)
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					return false;
-				}								
-				break;			
+			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+			return false;
 		}
+		
 		return true;
+	}
+	
+	/**
+	* get status
+	*/
+	public static function _lookupOnline($a_obj_id)
+	{
+		global $ilDB;
+
+		$result = $ilDB->query("SELECT * FROM il_poll".
+			" WHERE id = ".$ilDB->quote($a_obj_id, "integer"));				
+		$row = $ilDB->fetchAssoc($result);
+		return $row["online_status"];
 	}
 	
 	/**
@@ -72,27 +63,10 @@ class ilObjPollAccess extends ilObjectAccess
 	 *
 	 * @param int $a_obj_id
 	 * @param int $a_ref_id
-	 * @param bool &$a_visible_flag
 	 * @return boolean
 	 */
-	public static function _isActivated($a_obj_id, $a_ref_id, &$a_visible_flag = null)
-	{
-		global $ilDB;
-		
-		$query = "SELECT online_status FROM il_poll ".
-			"WHERE id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);		
-	
-		// offline?
-		if(!$row->online_status)
-		{			
-			$a_visible_flag = false;
-			return false;							
-		}
-		
-		$a_visible_flag = true;
-		
+	public static function _isActivated($a_ref_id)
+	{			
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($a_ref_id);		
 		switch($item['timing_type'])
@@ -103,8 +77,7 @@ class ilObjPollAccess extends ilObjectAccess
 			case ilObjectActivation::TIMINGS_ACTIVATION:
 				if(time() < $item['timing_start'] or
 				   time() > $item['timing_end'])
-				{
-					$a_visible_flag = $item['visible'];
+				{					
 					return false;
 				}
 				return true;

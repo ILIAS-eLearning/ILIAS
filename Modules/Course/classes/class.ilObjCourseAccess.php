@@ -82,35 +82,18 @@ class ilObjCourseAccess extends ilObjectAccess
 				}
 				break;
 		}
+		
+		// check "global" online setting
+		if(!self::_isOnline($a_obj_id) && 
+			!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+		{
+			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+			return false;
+		}			
 
 		switch ($a_permission)
-		{
-			case "visible":
-				$is_visible = false;
-				$active = ilObjCourseAccess::_isActivated($a_obj_id, $is_visible);							
-				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);				
-				if(!$active)
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-				}
-				if(!$tutor and !$is_visible)
-				{
-					return false;
-				}
-				break;
-
-			case 'read':
-				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
-				if($tutor)
-				{
-					return true;
-				}				
-				$active = ilObjCourseAccess::_isActivated($a_obj_id);
-				if(!$active)
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					return false;
-				}				
+		{			
+			case 'read':				
 				if($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
@@ -243,32 +226,42 @@ class ilObjCourseAccess extends ilObjectAccess
 		}
 		return false;
 	}
+	
+	/**
+	 * Check if online setting is active
+	 * 
+	 * @param int $a_obj_id
+	 * @return bool
+	 */
+	protected static function _isOnline($a_obj_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT * FROM crs_settings ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$res = $ilDB->query($query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);				
+		return (bool)$row->activation_type;	
+	}
 
 	/**
 	 * Is activated?
 	 *
+	 * @see ilStartupGUI
 	 * @param int $a_obj_id
 	 * @param bool &$a_visible_flag
 	 * @return boolean
 	 */
 	public static function _isActivated($a_obj_id, &$a_visible_flag = null)
-	{
-		global $ilDB;
-		
+	{		
 		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
 		if(ilMemberViewSettings::getInstance()->isActive())
 		{		
 			$a_visible_flag = true;			
 			return true;
 		}
-
-		$query = "SELECT * FROM crs_settings ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);		
-		
 		// offline?
-		if(!$row->activation_type)
+		if(!self::_isOnline($a_obj_id))
 		{
 			$a_visible_flag = false;
 			return false;							

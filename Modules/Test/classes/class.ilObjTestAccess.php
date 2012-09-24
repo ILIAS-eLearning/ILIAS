@@ -56,46 +56,31 @@ class ilObjTestAccess extends ilObjectAccess
 	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
 		global $ilUser, $lng, $rbacsystem, $ilAccess;
+		
 		if ($a_user_id == "")
 		{
 			$a_user_id = $ilUser->getId();
 		}
+		
+		$is_admin = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);		
+		
+		// check "global" online switch
+		if(!self::_isOnline($a_obj_id) && !$is_admin)
+		{
+			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+			return false;
+		}
 
 		switch ($a_permission)
 		{			
-			case "visible":
-				$is_visible = false;
-				$active = self::_isActivated($a_ref_id, $a_obj_id, $is_visible);				
-				$is_admin = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);								
+			case "visible":		
+			case "read":		
 				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
 					!$is_admin)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
 					return false;
-				}								
-				if(!$is_admin and !$is_visible)
-				{
-					return false;
-				}
-				break;
-			
-			case "read":				
-				$is_admin = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
-				if($is_admin)
-				{
-					return true;
-				}				
-				$active = self::_isActivated($a_ref_id, $a_obj_id);
-				if(!$active)
-				{
-					return false;
-				}		
-				if (!ilObjTestAccess::_lookupCreationComplete($a_obj_id) &&
-					!$is_admin)
-				{
-					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("tst_warning_test_not_complete"));
-					return false;
-				}	
+				}												
 				break;
 		}
 		
@@ -854,45 +839,6 @@ function _getQuestionCount($test_id)
 		$result = $ilDB->queryF( $query, array('integer'), array($a_obj_id) );
 
 		return $result->numRows() == 1;
-	}
-	
-	/**
-	 * Is activated?
-	 *
-	 * @param int $a_ref_id
-	 * @param int $a_obj_id
-	 * @param bool &$a_visible_flag
-	 * @return boolean
-	 */
-	public static function _isActivated($a_ref_id, $a_obj_id, &$a_visible_flag = null)
-	{	
-		if(self::_isOffline($a_obj_id))
-		{
-			$a_visible_flag = false;
-			return false;							
-		}
-		
-		$a_visible_flag = true;
-		
-		include_once './Services/Object/classes/class.ilObjectActivation.php';
-		$item = ilObjectActivation::getItem($a_ref_id);		
-		switch($item['timing_type'])
-		{			
-			case ilObjectActivation::TIMINGS_DEACTIVATED:
-				return true;
-
-			case ilObjectActivation::TIMINGS_ACTIVATION:
-				if(time() < $item['timing_start'] or
-				   time() > $item['timing_end'])
-				{
-					$a_visible_flag = $item['visible'];
-					return false;
-				}
-				return true;
-				
-			default:
-				return false;
-		}
 	}
 }
 
