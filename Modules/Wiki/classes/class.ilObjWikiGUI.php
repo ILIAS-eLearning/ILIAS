@@ -258,6 +258,9 @@ class ilObjWikiGUI extends ilObjectGUI
 		$newObj->setStartPage($this->form_gui->getInput("startpage"));
 		$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
 		$newObj->setRating($this->form_gui->getInput("rating"));
+		$newObj->setRatingAsBlock($this->form_gui->getInput("rating_side"));
+		$newObj->setRatingForNewPages($this->form_gui->getInput("rating_new"));
+		$newObj->setRatingCategories($this->form_gui->getInput("rating_ext"));
 		if (!$ilSetting->get("disable_comments"))
 		{
 			$newObj->setPublicNotes($this->form_gui->getInput("public_notes"));
@@ -673,6 +676,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		if ($a_mode == "create")
 		{
 			$values["startpage"] = $lng->txt("wiki_main_page");
+			$values["rating_new"] = true;
 			$this->form_gui->setValuesByArray($values);
 		}
 		else
