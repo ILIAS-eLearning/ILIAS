@@ -593,7 +593,8 @@ class ilAccessHandler
 		$item_data = ilObjectActivation::getItem($a_ref_id);				
 		
 		// if activation isn't enabled
-		if($item_data['timing_type'] != ilObjectActivation::TIMINGS_ACTIVATION)
+		if($item_data === NULL ||
+			$item_data['timing_type'] != ilObjectActivation::TIMINGS_ACTIVATION)
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
