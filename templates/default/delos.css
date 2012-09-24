@@ -2459,6 +2459,16 @@ div.ilBotCenterArea iframe {
 	height: 100%;
 }
 
+img.ilAreaClose {
+	width: 20px;
+	height: 20px;
+	background:url("images/icon_close2_s.png") no-repeat center center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	cursor: pointer;
+}
+
 div.ilLeftNavSpace {
 	padding: 0 20px 0 360px;
 }
