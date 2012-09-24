@@ -45,16 +45,15 @@ class ilPollBlock extends ilCustomBlock
 	 * @return boolean 
 	 */
 	public function hasAnyContent($a_user_id, $a_ref_id)
-	{
+	{		
 		if(!sizeof($this->answers))
 		{
 			return false;
 		}
 		
 		include_once "Modules/Poll/classes/class.ilObjPollAccess.php";
-		$this->visible = false;
-		$this->active = ilObjPollAccess::_isActivated($this->poll->getId(), $a_ref_id, $this->visible);
-		if(!$this->active && !$this->visible)
+		$this->active = ilObjPollAccess::_isActivated($a_ref_id);
+		if(!$this->active)
 		{
 			return false;
 		}
@@ -108,7 +107,7 @@ class ilPollBlock extends ilCustomBlock
 	
 	public function maySeeResults($a_user_id)
 	{
-		if(!$this->active && !$this->visible)
+		if(!$this->active)
 		{
 			return false;
 		}
@@ -127,7 +126,7 @@ class ilPollBlock extends ilCustomBlock
 				{
 					return true;
 				}
-				return false;				
+				return false;
 		}						
 	}
 	

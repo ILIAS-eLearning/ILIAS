@@ -54,7 +54,7 @@ class ilObjPollListGUI extends ilObjectListGUI
 
 		// offline
 		include_once 'Modules/Poll/classes/class.ilObjPollAccess.php';
-		if(!ilObjPollAccess::_isActivated($this->obj_id, $this->ref_id))
+		if(!ilObjPollAccess::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
 				"value" => $lng->txt("offline"));

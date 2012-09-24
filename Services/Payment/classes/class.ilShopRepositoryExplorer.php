@@ -134,7 +134,7 @@ class ilShopRepositoryExplorer extends ilExplorer
 
 	function isClickable($a_type, $a_ref_id,$a_obj_id = 0)
 	{
-		global $rbacsystem,$ilDB,$ilUser;
+		global $rbacsystem,$ilDB,$ilUser,$ilAccess;
 
 		if(!ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$a_obj_id))
 		{
@@ -144,32 +144,12 @@ class ilShopRepositoryExplorer extends ilExplorer
 		switch ($a_type)
 		{
 			case "crs":
-				include_once './Modules/Course/classes/class.ilObjCourse.php';
-
-				// Has to be replaced by ilAccess calls
-				if(!ilObjCourse::_isActivated($a_obj_id) and !$rbacsystem->checkAccess('write',$a_ref_id))
-				{
-					return false;
-				}
-
-				include_once './Modules/Course/classes/class.ilCourseParticipants.php';
-
-				if(ilCourseParticipants::_isBlocked($a_obj_id,$ilUser->getId()))
-				{
-					return false;
-				}
-				if(($rbacsystem->checkAccess('join',$a_ref_id) or
-					$rbacsystem->checkAccess('read',$a_ref_id)))
-				{
-					return true;
-				}
-				return false;
+				return $ilAccess->checkAccess("read", "", $a_ref_id);	
 
 			// visible groups can allways be clicked; group processing decides
 			// what happens next
 			case "grp":
 				return true;
-				break;
 
 			case 'tst':
 				if(!$rbacsystem->checkAccess("read", $a_ref_id))
@@ -297,29 +277,11 @@ class ilShopRepositoryExplorer extends ilExplorer
 
 	function isVisible($a_ref_id,$a_type)
 	{
-		global $rbacsystem,$tree;
+		global $ilAccess,$tree;
 
-		if(!$rbacsystem->checkAccess('visible',$a_ref_id))
+		if(!$ilAccess->checkAccess('visible', '', $a_ref_id))
 		{
 			return false;
-		}
-		if($crs_id = $tree->checkForParentType($a_ref_id,'crs'))
-		{
-			if(!$rbacsystem->checkAccess('write',$crs_id))
-			{
-				// Show only activated courses
-				$tmp_obj =& ilObjectFactory::getInstanceByRefId($crs_id,false);
-
-				if(!$tmp_obj->isActivated())
-				{
-					unset($tmp_obj);
-					return false;
-				}
-				if(($crs_id != $a_ref_id) and $tmp_obj->isArchived())
-				{
-					return false;
-				}				
-			}
 		}
 		return true;
 	}
