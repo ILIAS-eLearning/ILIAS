@@ -351,7 +351,17 @@ class ilObjectActivation
 		
 		$a_item['timing_type'] = $item['timing_type'];
 		
-		if($item['changeable'] &&  
+		// #7359 - session sorting should always base on appointment date
+		if($a_item['type'] == 'sess')
+		{
+			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+			$info = ilSessionAppointment::_lookupAppointment($a_item['obj_id']);
+
+			$a_item['start'] = $info['start'];
+			$a_item['end'] = $info['end'];
+			$a_item['activation_info'] = 'crs_timings_suggested_info';
+		}		 
+		elseif($item['changeable'] &&  
 			$item['timing_type'] == self::TIMINGS_PRESETTING)
 		{
 			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
@@ -381,19 +391,6 @@ class ilObjectActivation
 			$a_item['end'] = $item['timing_end'];
 			$a_item['activation_info'] = 'activation';
 		}
-		/* obsolete?
-		elseif($obj_type == 'sess')
-		{
-			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
-			$info = ilSessionAppointment::_lookupAppointment($obj_id);
-			
-			$a_item['timing_type'] = self::TIMINGS_FIXED;
-			$a_item['start'] = $info['start'];
-			$a_item['end'] = $info['end'];
-			$a_item['fullday'] = $info['fullday'];
-			$a_item['activation_info'] = 'crs_timings_suggested_info';
-		}		 
-		*/
 		else
 		{
 			$a_item['start'] = 'abc';
