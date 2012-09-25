@@ -243,10 +243,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		$link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
 				
-		$ne = new ilNonEditableValueGUI("", "", true);				
+		$ne = new ilNonEditableValueGUI("", $this->getPostVar()."_val", true);				
 		$ne->setValue('<a id="'.$this->getPostVar().'_ajax" class="iosEditInternalLinkTrigger" href="'.
 			$link.'">&raquo; '.$lng->txt("form_get_link").'</a>');
-		
+		$ne->setInfo("&nbsp;");
+
 		if ($this->getAllowedLinkTypes() == self::BOTH)
 		{
 			$int = new ilRadioOption($lng->txt("form_link_internal"), "int");
@@ -277,7 +278,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				$mode->setValue("ext");
 			}
 		}
-		
+
 		// value?
 		$value = $this->getValue();
 		if($value)
@@ -290,9 +291,31 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				$hidden_type->setValue($value[0]);
 				$hidden_id->setValue($value[1]);
 				$hidden_target->setValue($value[2]);
-				
-				$ne->setInfo($lng->txt("obj_".$value[0]).": ".
-					ilObject::_lookupTitle(ilObject::_lookupObjId($value[1])));
+
+				switch($value[0])
+				{
+					case "media":
+						$ne->setInfo($lng->txt("obj_mob").": ".
+							ilObject::_lookupTitle($value[1]));
+						break;
+					
+					case "page":
+						include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+						$ne->setInfo($lng->txt("obj_pg").": ".
+							ilLMPageObject::_lookupTitle($value[1]));
+						break;
+					
+					case "term":
+						include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+						$ne->setInfo($lng->txt("term").": ".
+							ilGlossaryTerm::_lookGlossaryTerm($value[1]));
+						break;
+					
+					default:
+						$ne->setInfo($lng->txt("obj_".$value[0]).": ".
+							ilObject::_lookupTitle(ilObject::_lookupObjId($value[1])));
+						break;
+				}
 			}
 			else
 			{
@@ -303,7 +326,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		}
 		
 		include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
-		
+
 		if ($this->getAllowedLinkTypes() == self::BOTH)
 		{
 			$html = $mode->render();
@@ -312,6 +335,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		{
 			$html = $mode->getToolbarHTML();
 		}
+
 		if ($this->getAllowedLinkTypes() == self::EXT)
 		{
 			$html.= $ti->getToolbarHTML();
@@ -320,7 +344,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		{
 			if ($this->getAllowedLinkTypes() == self::INT)
 			{
-				$html.= $ne->render();
+				$html.= $ne->render().'<div class="ilFormInfo">'.$ne->getInfo().'</div>';
 			}
 			$html.= $hidden_type->getToolbarHTML().
 				$hidden_id->getToolbarHTML().

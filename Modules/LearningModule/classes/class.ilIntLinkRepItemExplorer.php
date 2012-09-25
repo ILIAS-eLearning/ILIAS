@@ -174,7 +174,7 @@ class ilIntLinkRepItemExplorer extends ilExplorer
 	{
 		if ($this->getSetLinkTargetScript() == "")
 		{
-			return "return il.IntLink.addInternalLink('[iln ".$a_type."=&quot;".$a_node_id."&quot;]','[/iln]');";
+			return "return il.IntLink.addInternalLink('[iln ".$a_type."=&quot;".$a_node_id."&quot;]','[/iln]', event);";
 		}
 //		else
 //		{

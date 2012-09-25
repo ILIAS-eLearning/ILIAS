@@ -4,9 +4,11 @@ il.Util.addOnLoad(ilFormHideAll)
 
 il.Form = { 
 
-	addInternalLink: function (link,title,input_id) {
+	addInternalLink: function (link,title,input_id, ev) {
 		
 		var type, id, part, target = "";
+
+		$("span#" + input_id + "_val").parent().children(".ilFormInfo").html($(ev.target).html());
 		
 		link = link.split(' ');
 		part = link[1].split('="');

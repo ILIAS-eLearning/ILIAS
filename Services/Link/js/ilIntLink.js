@@ -275,7 +275,7 @@ il.IntLink =
 		return false;
 	},
 
-	addInternalLink: function (b, e)
+	addInternalLink: function (b, e, ev)
 	{
 		if (typeof ilCOPage != "undefined")
 		{
@@ -283,7 +283,7 @@ il.IntLink =
 		}
 		else
 		{			
-			il.Form.addInternalLink(b,e,this.id);
+			il.Form.addInternalLink(b,e,this.id,ev);
 		}
 
 		il.IntLink.panel.hide();
