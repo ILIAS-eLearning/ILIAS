@@ -556,7 +556,7 @@ class ilLPObjSettings
 				return LP_MODE_EVENT;
 					
 			default:
-				if($objDefinition->isPlugin(ilObject::_lookupType($a_obj_id)))
+				if($objDefinition->isPluginTypeName(ilObject::_lookupType($a_obj_id)))
 				{
 					return LP_MODE_PLUGIN;
 				}

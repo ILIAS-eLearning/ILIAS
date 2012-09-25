@@ -390,7 +390,7 @@ class ilLPCollections
 
 
 	// Static
-	public static function _getPossibleItems($a_target_id)
+	public static function _getPossibleItems($a_target_id, $a_collection = null)
 	{
 		global $tree;
 
@@ -426,14 +426,15 @@ class ilLPCollections
 				
 				default:
 					// repository plugin object?
-					if(!isset($plugin_types[$node['type']]))						
+					$only_active = false;
+					if($a_collection && !$a_collection->isAssigned($node['ref_id']))
 					{
-						$plugin_types[$node['type']] = ilRepositoryObjectPluginSlot::isTypePluginWithLP($node['type']);						
+						$only_active = true;
 					}
-					if($plugin_types[$node['type']])
+					if(ilRepositoryObjectPluginSlot::isTypePluginWithLP($node['type'], $only_active))
 					{
 						$all_possible[] = $node['ref_id'];
-					}
+					}					
 					break;
 			}			
 		}

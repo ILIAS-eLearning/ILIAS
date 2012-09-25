@@ -1950,19 +1950,12 @@ class ilObject
 			default: $suff = "_b"; break;
 		}
 		if (!$a_offline)
-		{
-			if ($objDefinition->isRBACObject($a_type))
+		{			
+			if ($objDefinition->isPluginTypeName($a_type))
 			{
-				if (!$objDefinition->isPlugin($a_type))
-				{
-					return ilUtil::getImagePath("icon_".$a_type.$suff.".png");
-				}
-				else
-				{
-					include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
-					return ilRepositoryObjectPlugin::_getIcon($a_type, $a_size);
-				}
-			}
+				include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");					
+				return ilRepositoryObjectPlugin::_getIcon($a_type, $a_size);
+			}			
 			return ilUtil::getImagePath("icon_".$a_type.$suff.".png");
 		}
 		else
