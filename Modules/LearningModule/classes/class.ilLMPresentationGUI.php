@@ -587,7 +587,7 @@ class ilLMPresentationGUI
 	*/
 	function layout($a_xml = "main.xml", $doShow = true)
 	{
-		global $tpl, $ilBench, $ilSetting;
+		global $tpl, $ilBench, $ilSetting, $ilCtrl;
 
 		$ilBench->start("ContentPresentation", "layout");
 
@@ -817,6 +817,25 @@ class ilLMPresentationGUI
 				
 				$this->tpl->addJavascript("./Modules/LearningModule/js/LearningModule.js");
 				
+				//$store->set("cf_".$this->lm->getId());
+				
+				// handle initial content
+				if ($_GET["frame"] == "")
+				{
+					include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
+					$store = new ilSessionIStorage("lm");
+					$last_frame_url = $store->get("cf_".$this->lm->getId());
+					if ($last_frame_url != "")
+					{
+						$this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('".$last_frame_url."');");
+					}
+					
+					$this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('".
+						$ilCtrl->getLinkTarget($this, "saveFrameUrl", "", false, false)."');
+						il.LearningModule.openInitFrames();
+						");
+				}
+				
 				// from main menu
 //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
 				$this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
@@ -875,6 +894,27 @@ class ilLMPresentationGUI
 
 		return($content);
 	}
+	
+	/**
+	 * Save frame url
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveFrameUrl()
+	{
+		include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
+		$store = new ilSessionIStorage("lm");
+		if ($_GET["url"] != "")
+		{
+			$store->set("cf_".$this->lm->getId(), $_GET["url"]);
+		}
+		else
+		{
+			$store->set("cf_".$this->lm->getId(), $_GET["url"]);
+		}
+	}
+	
 
 	function fullscreen()
 	{

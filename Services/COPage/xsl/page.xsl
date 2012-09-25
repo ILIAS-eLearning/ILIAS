@@ -1273,7 +1273,7 @@
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>
 			<script type="text/javascript">
-				il.Util.addOnLoad(function() {il.LearningModule.loadContentFrame('<xsl:value-of select='$link_href'/>');});
+				il.Util.addOnLoad(function() {il.LearningModule.initContentFrame('<xsl:value-of select='$link_href'/>');});
 			</script>
 		</xsl:when>
 		<!-- all internal links except inline mob vris -->
