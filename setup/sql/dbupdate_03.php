@@ -13361,3 +13361,14 @@ if($blog_contributor_tpl_id)
 }
 
 ?>
+<#3775>
+<?php
+	$fields = array (
+		'session_id'    => array ('type' => 'text', 'length'  => 80, 'notnull' => true),
+		'component_id'    => array ('type' => 'text', 'length'  => 30, 'notnull' => true),
+		'vkey'    => array ('type' => 'text', 'length'  => 50, 'notnull' => true),
+		'value'    => array ('type' => 'text', 'length'  => 1000, 'notnull' => false),
+	);
+	$ilDB->createTable('usr_sess_istorage', $fields);
+	$ilDB->addPrimaryKey('usr_sess_istorage', array('session_id', 'component_id', 'vkey'));
+?>
