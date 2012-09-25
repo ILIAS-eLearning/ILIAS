@@ -3746,7 +3746,7 @@ class ilObjTestGUI extends ilObjectGUI
 				include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 				$fullname = ilObjTestAccess::_getParticipantData($data['active_id']);					
 				array_push($rows, array(
-					'usr_id' => $data["usr_id"],
+					'usr_id' => $data["active_id"],
 					'active_id' => $data['active_id'],
 					'login' => $data["login"],
 					'name' => $fullname,
