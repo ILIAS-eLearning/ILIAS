@@ -92,6 +92,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
+		global $objDefinition;
+		
 		include_once './Services/Link/classes/class.ilLink.php';
 
 		$this->tpl->setCurrentBlock('item_row');
@@ -105,14 +107,22 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_sco'));
 		}
 		else
-		{
-			include_once './Services/Tree/classes/class.ilPathGUI.php';
-			$path = new ilPathGUI();
-
-			$this->tpl->setVariable('TYPE_IMG', ilUtil::getImagePath('icon_' . $a_set['type'] . '_s.png'));
-			$this->tpl->setVariable('ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
+		{			
+			if($objDefinition->isPluginTypeName($a_set["type"]))
+			{
+				$alt = ilPlugin::lookupTxt("rep_robj", $a_set['type'], "obj_".$a_set['type']);
+			}
+			else
+			{
+				$alt = $this->lng->txt('obj_' . $a_set['type']);
+			}			
+			$this->tpl->setVariable('ALT_IMG', $alt);
+			$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon("", "tiny", $a_set['type']));
 			$this->tpl->setVariable('COLL_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
 			$this->tpl->setVariable('COLL_FRAME', ilFrameTargetInfo::_getFrame('MainContent', $a_set['type']));
+			
+			include_once './Services/Tree/classes/class.ilPathGUI.php';
+			$path = new ilPathGUI();
 			$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path->getPath($this->getNode(),$a_set['ref_id']));
 
 			$mode = $a_set['mode_id'];

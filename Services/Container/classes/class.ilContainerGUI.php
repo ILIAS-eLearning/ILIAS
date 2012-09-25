@@ -464,10 +464,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$d = $this->objDefinition->getCreatableSubObjects($type);
 		include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
 
+		/* is done in ilObjectDefinition::readDefinitionData()
 		if ($type != "icrs")
 		{
 			$d = ilRepositoryObjectPluginSlot::addCreatableSubObjects($d);
-		}
+		}		 
+		*/
+		
 		if (count($d) > 0)
 		{
 			foreach ($d as $row)

@@ -173,11 +173,12 @@ class ilObjectDefinition extends ilSaxParser
 					"sideblock" => "0");
 				$this->obj_data[$rec["id"]]["subobjects"] = array();
 
-				$this->obj_data["crs"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
-				$this->obj_data["fold"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
-				$this->obj_data["grp"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
-				$this->obj_data["cat"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
-				$this->obj_data["root"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id);
+				// plugins have to be marked as such - see ilContainerGUI::showPossibleSubObjects()
+				$this->obj_data["crs"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);
+				$this->obj_data["fold"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);
+				$this->obj_data["grp"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);
+				$this->obj_data["cat"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);
+				$this->obj_data["root"]["subobjects"][$pl_id] = array("name" => $pl_id, "max" => "", "lng" => $pl_id, "plugin" => true);
 			}
 		}
 //var_dump($this->obj_data["root"]["subobjects"]);

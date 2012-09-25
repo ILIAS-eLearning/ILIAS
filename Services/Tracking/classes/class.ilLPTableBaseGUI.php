@@ -311,7 +311,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 */
 	protected function getPossibleTypes($a_split_learning_resources = false, $a_include_digilib = false, $a_allow_undefined_lp = false)
 	{
-		global $lng;
+		global $lng, $ilPluginAdmin;
 
 		$options = array();
 
@@ -341,6 +341,18 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$options["file"] = $lng->txt("objs_file");
 			$options["webr"] = $lng->txt("objs_webr");
 			$options["wiki"] = $lng->txt("objs_wiki");
+		}
+		
+		// repository plugins
+		include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';	
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
+		foreach ($pl_names as $pl)
+		{
+			$pl_id = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $pl);
+			if(ilRepositoryObjectPluginSlot::isTypePluginWithLP($pl_id))
+			{
+				$options[$pl_id] = ilPlugin::lookupTxt("rep_robj", $pl_id, "objs_".$pl_id);
+			}
 		}
 		
 		asort($options);

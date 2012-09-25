@@ -101,7 +101,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				{
 					$title = $ilObjDataCache->lookupTitle($obj_id);
 					$type = $ilObjDataCache->lookupType($obj_id);
-					$icon = ilUtil::getTypeIconPath($type, $obj_id, "tiny");
+					$icon = ilObject::_getIcon("", "tiny", $type);
 					if($type == "sess")
 					{
 						include_once "Modules/Session/classes/class.ilObjSession.php";

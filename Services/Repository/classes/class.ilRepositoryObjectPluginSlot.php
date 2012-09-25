@@ -53,4 +53,36 @@ class ilRepositoryObjectPluginSlot
 		}
 		return false;
 	}
+	
+	/**
+	 * Check whether a repository type is a plugin which has active learning progress
+	 * 
+	 * @param string $a_type
+	 * @param bool $a_active_status
+	 * @return boolean
+	 */
+	static function isTypePluginWithLP($a_type, $a_active_status = true)
+	{
+		global $ilPluginAdmin;
+		
+		include_once("./Services/Component/classes/class.ilPlugin.php");
+		$pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
+		if ($pname == "")
+		{
+			return false;
+		}
+
+		if ($ilPluginAdmin->exists(IL_COMP_SERVICE, "Repository", "robj", $pname))
+		{
+			if (!$a_active_status ||
+				$ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", $pname))
+			{
+				if($ilPluginAdmin->hasLearningProgress(IL_COMP_SERVICE, "Repository", "robj", $pname))
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }
