@@ -150,7 +150,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				include_once("Services/Rating/classes/class.ilRatingGUI.php");
 				$gui = new ilRatingGUI();
 				$gui->setObject($this->object->getId(), $this->object->getType());
-				$gui->setExportCallback(array($this, "getSubObjectTitle"));
+				$gui->setExportCallback(array($this, "getSubObjectTitle"), $this->lng->txt("page"));
 				$this->ctrl->forwardCommand($gui);
 				break;
 

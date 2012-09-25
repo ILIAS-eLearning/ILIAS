@@ -14,14 +14,16 @@ include_once("./Services/Rating/classes/class.ilRatingCategory.php");
 class ilRatingCategoryGUI
 {	
 	protected $parent_id; // [int]
-	protected $a_export_callback; // [string|array]
+	protected $export_callback; // [string|array]
+	protected $export_subobj_title; // [string]
 	
-	function __construct($a_parent_id, $a_export_callback = null)
+	function __construct($a_parent_id, $a_export_callback = null, $a_export_subobj_title = null)
 	{
 		global $lng;
 		
 		$this->parent_id = (int)$a_parent_id;
 		$this->export_callback = $a_export_callback;
+		$this->export_subobj_title = $a_export_subobj_title;
 		
 		$lng->loadLanguageModule("rating");
 		
@@ -253,6 +255,8 @@ class ilRatingCategoryGUI
 	
 	protected function export()
 	{		
+		global $lng;
+		
 		$title = ilObject::_lookupTitle($this->parent_id);
 		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
 		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
@@ -268,9 +272,23 @@ class ilRatingCategoryGUI
 		ob_start();
 		$workbook = $adapter->getWorkbook();
 		$worksheet = $workbook->addWorksheet();
+		
+		var_dump();
+		
+		// title row
 		$row = 0;		
+		$worksheet->write($row, 0, $this->export_subobj_title." (".$lng->txt("id").")");
+		$worksheet->write($row, 1, $this->export_subobj_title);
+		$worksheet->write($row, 2, $lng->txt("rating_export_category")." (".$lng->txt("id").")");
+		$worksheet->write($row, 3, $lng->txt("rating_export_category"));
+		$worksheet->write($row, 4, $lng->txt("rating_export_date"));
+		$worksheet->write($row, 5, $lng->txt("rating_export_rating"));			
+		
+		// content rows
 		foreach(ilRating::getExportData($this->parent_id, ilObject::_lookupType($this->parent_id), array_keys($active)) as $item)
 		{
+			$row++;		
+			
 			$sub_obj_title = $item["sub_obj_type"];
 			if($this->export_callback)
 			{
@@ -282,8 +300,7 @@ class ilRatingCategoryGUI
 			$worksheet->write($row, 2, $item["category_id"]);
 			$worksheet->write($row, 3, $active[$item["category_id"]]);
 			$worksheet->write($row, 4, date("Y-m-d H:i:s", $item["tstamp"]));
-			$worksheet->write($row, 5, $item["rating"]);			
-			$row++;			
+			$worksheet->write($row, 5, $item["rating"]);							
 		}	
 		
 		ob_end_clean();
