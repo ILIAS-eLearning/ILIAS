@@ -171,6 +171,7 @@ class ilSession
 			
 		ilSessionStatistics::closeRawEntry($a_session_id, $a_closing_context, $a_expired_at);	
 		
+		
 		if(!is_array($a_session_id))
 		{
 			$q = "DELETE FROM usr_session WHERE session_id = ".
@@ -186,6 +187,10 @@ class ilSession
 			$q = "DELETE FROM usr_session WHERE ".
 				$ilDB->in("session_id", $a_session_id, "", "text");
 		}
+
+		include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
+		ilSessionIStorage::destroySession($a_session_id);
+
 		$ilDB->manipulate($q);
 		
 		return true;
