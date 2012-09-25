@@ -194,7 +194,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 		$type = ilObject::_lookupType($a_set["obj_id"]);
 
 		$this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
-		$this->tpl->setVariable("ICON_SRC", ilUtil::getTypeIconPath($type, $a_set["obj_id"], "tiny"));
+		$this->tpl->setVariable("ICON_SRC", ilObject::_getIcon("", "tiny", $type));
 		$this->tpl->setVariable("ICON_ALT", $this->lng->txt($type));
 		$this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
 		

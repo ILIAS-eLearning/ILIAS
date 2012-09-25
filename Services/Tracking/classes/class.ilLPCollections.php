@@ -398,6 +398,9 @@ class ilLPCollections
 		{
 			return array();
 		}
+		
+		include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';		
+		$plugin_types = array();
 
 		$node_data = $tree->getNodeData($a_target_id);
 		foreach($tree->getSubTree($node_data) as $node)
@@ -420,9 +423,21 @@ class ilLPCollections
 				case 'htlm':
 					$all_possible[] = $node['ref_id'];
 					break;
-			}
+				
+				default:
+					// repository plugin object?
+					if(!isset($plugin_types[$node['type']]))						
+					{
+						$plugin_types[$node['type']] = ilRepositoryObjectPluginSlot::isTypePluginWithLP($node['type']);						
+					}
+					if($plugin_types[$node['type']])
+					{
+						$all_possible[] = $node['ref_id'];
+					}
+					break;
+			}			
 		}
-
+		
 		return $all_possible ? $all_possible : array();
 	}
 

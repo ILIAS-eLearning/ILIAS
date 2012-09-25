@@ -86,7 +86,8 @@ class ilPluginAdmin
 					"ilias_min_version" => $ilias_min_version,
 					"ilias_max_version" => $ilias_max_version,
 					"responsible" => $responsible,
-					"responsible_mail" => $responsible_mail);
+					"responsible_mail" => $responsible_mail,
+					"learning_progress" => (bool)$learning_progress);
 			}
 			
 			$active = $rec["active"];
@@ -341,7 +342,20 @@ class ilPluginAdmin
 		$pl = self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname];
 		$pl->includeClass($a_class_file_name);
 	}
-
+	
+	/**
+	* Checks whether plugin has active learning progress
+	*
+	* @param	string	$a_ctype	Component Type
+	* @param	string	$a_cname	Component Name
+	* @param	string	$a_slot_id	Slot ID
+	* @param	string	$a_pname	Plugin Name
+	*/
+	function hasLearningProgress($a_ctype, $a_cname, $a_slot_id, $a_pname)
+	{
+		$this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["learning_progress"];
+	}
 }
 
 ?>

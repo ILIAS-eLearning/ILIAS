@@ -46,6 +46,7 @@ define("LP_MODE_EVENT",10);
 define("LP_MODE_MANUAL_BY_TUTOR",11);
 define("LP_MODE_SCORM_PACKAGE",12);
 define("LP_MODE_UNDEFINED",13);
+define("LP_MODE_PLUGIN",14);
 
 define("LP_DEFAULT_VISITS",30);
 
@@ -385,7 +386,8 @@ class ilLPObjSettings
 			case LP_MODE_EVENT:
 				return $lng->txt('trac_mode_event');
 				
-
+			case LP_MODE_PLUGIN:
+				return $lng->txt('trac_mode_plugin');
 		}
 	}
 	
@@ -513,7 +515,7 @@ class ilLPObjSettings
 
 	function __getDefaultMode($a_obj_id,$a_type)
 	{
-		global $ilDB;
+		global $ilDB, $objDefinition;
 
 		#$type = strlen($a_type) ? $a_type : $this->obj_type;
 
@@ -554,6 +556,10 @@ class ilLPObjSettings
 				return LP_MODE_EVENT;
 					
 			default:
+				if($objDefinition->isPlugin(ilObject::_lookupType($a_obj_id)))
+				{
+					return LP_MODE_PLUGIN;
+				}
 				return LP_MODE_UNDEFINED;
 		}
 	}

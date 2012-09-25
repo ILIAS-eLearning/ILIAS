@@ -589,7 +589,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	{
 		global $lng, $ilCtrl;
 		
-		$this->tpl->setVariable("ICON", ilUtil::getTypeIconPath($a_set["type"], $a_set["obj_id"], "tiny"));
+		$this->tpl->setVariable("ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
 

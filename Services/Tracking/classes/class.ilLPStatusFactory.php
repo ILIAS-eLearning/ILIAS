@@ -87,6 +87,10 @@ class ilLPStatusFactory
 			case LP_MODE_EVENT:
 				include_once('./Services/Tracking/classes/class.ilLPStatusEvent.php');
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusEvent';
+				
+			case LP_MODE_PLUGIN:
+				include_once('./Services/Tracking/classes/class.ilLPStatusPlugin.php');
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusPlugin';
 
 			case LP_MODE_UNDEFINED:
 				$type = ilObject::_lookupType($a_obj_id);
@@ -171,6 +175,10 @@ class ilLPStatusFactory
 				
 			case LP_MODE_EVENT:
 				include_once 'Services/Tracking/classes/class.ilLPStatusEvent.php';
+				return new ilLPStatusEvent($a_obj_id);
+				
+			case LP_MODE_PLUGIN:
+				include_once 'Services/Tracking/classes/class.ilLPStatusPlugin.php';
 				return new ilLPStatusEvent($a_obj_id);
 				
 			case LP_MODE_UNDEFINED:
