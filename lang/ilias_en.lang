@@ -12934,3 +12934,6 @@ content#:#cont_initial_attached_content#:#Initial Extra Content
 content#:#cont_topic#:#Topic
 content#:#cont_selected_topic#:#Selected Topic
 content#:#cont_all_topics#:#All Topics
+rating#:#rating_export_category#:#Category
+rating#:#rating_export_date#:#Date
+rating#:#rating_export_rating#:#Rating

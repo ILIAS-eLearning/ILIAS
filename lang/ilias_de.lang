@@ -12934,3 +12934,6 @@ administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren
 poll#:#poll_import#:#Abstimmung importieren
 user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine Email mit weiteren Informationen wurde an Sie versendet.
+rating#:#rating_export_category#:#Kategorie
+rating#:#rating_export_date#:#Datum
+rating#:#rating_export_rating#:#Bewertung

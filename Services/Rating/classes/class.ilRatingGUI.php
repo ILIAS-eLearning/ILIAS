@@ -17,6 +17,8 @@ include_once("./Services/Rating/classes/class.ilRatingCategory.php");
 class ilRatingGUI
 {
 	protected $id = "rtg_";
+	protected $export_callback;
+	protected $export_subobj_title;
 
 	function __construct()
 	{
@@ -39,7 +41,7 @@ class ilRatingGUI
 		{
 			case "ilratingcategorygui":
 				include_once("./Services/Rating/classes/class.ilRatingCategoryGUI.php");
-				$gui = new ilRatingCategoryGUI($this->obj_id, $this->export_callback);
+				$gui = new ilRatingCategoryGUI($this->obj_id, $this->export_callback, $this->export_subobj_title);
 				$ilCtrl->forwardCommand($gui);				
 				break;
 			
@@ -432,9 +434,10 @@ class ilRatingGUI
 		}
 	}
 	
-	function setExportCallback($a_callback)
+	function setExportCallback($a_callback, $a_subobj_title)
 	{
 		$this->export_callback = $a_callback;
+		$this->export_subobj_title = $a_subobj_title;
 	}
 }
 
