@@ -7,9 +7,9 @@
 </form>
 <!-- END form -->
 <!-- BEGIN link_js -->
-<a href="#" onClick="il.IntLink.addInternalLink('{TAG_B}','{TAG_E}'); return(false);">{TXT_FILE}</a>
+<a href="#" onClick="il.IntLink.addInternalLink('{TAG_B}','{TAG_E}', event); return(false);">{TXT_FILE}</a>
 <script>
-parent.il.IntLink.addInternalLink('{TAG_B}','{TAG_E}');
+parent.il.IntLink.addInternalLink('{TAG_B}','{TAG_E}', event);
 </script>
 <!-- END link_js -->
 </div>

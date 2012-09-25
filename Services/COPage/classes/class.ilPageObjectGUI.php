@@ -3820,11 +3820,17 @@ class ilPageObjectGUI
 		$ac->setAllowedLinkTypes(ilLinkInputGUI::INT);
 		$ac->setInternalLinkDefault("Media_Media", 0);
 		$ac->setInternalLinkFilterTypes(array("PageObject_FAQ", "GlossaryItem", "Media_Media", "Media_FAQ"));
+		$val = $this->obj->getInitialOpenedContent();
+		if ($val["id"] != "" && $val["type"] != "")
+		{
+			$ac->setValue($val["type"]."|".$val["id"]."|".$val["target"]);
+		}
+		
 		$form->addItem($ac);
 		
 		$form->addCommandButton("saveInitialOpenedContent", $this->lng->txt("save"));
 		$form->addCommandButton("edit", $this->lng->txt("cancel"));
-		$form->setTitle($this->lng->txt("cont_initial_opened_content"));
+		$form->setTitle($this->lng->txt("cont_initial_attached_content"));
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		
 		return $form;

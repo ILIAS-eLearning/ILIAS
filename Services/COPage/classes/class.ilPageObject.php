@@ -4962,6 +4962,7 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 			case "term":
 				$link_type = "GlossaryItem";
 				$a_id = "il__git_".$a_id;
+				$a_target = "Glossary";
 				break;
 		}
 
@@ -5011,5 +5012,59 @@ if ($_GET["pgEdMediaMode"] != "") {echo "ilPageObject::error media"; exit;}
 		$ret = $this->update();
 	}
 	
+	
+	/**
+	 * Get initial opened content
+	 *
+	 * @param
+	 */
+	function getInitialOpenedContent()
+	{
+		$this->buildDom();
+
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageObject/InitOpenedContent";
+		$res = xpath_eval($xpc, $path);
+		$il_node = null;
+		if (count($res->nodeset) > 0)
+		{
+			$init_node = $res->nodeset[0];
+			$childs = $init_node->child_nodes();
+			for($i = 0; $i < count($childs); $i++)
+			{
+				if ($childs[$i]->node_name() == "IntLink")
+				{
+					$il_node = $childs[$i];
+				}
+			}
+		}
+		if (!is_null($il_node))
+		{
+			$id = $il_node->get_attribute("Target");
+			$link_type = $il_node->get_attribute("Type");
+			$target = $il_node->get_attribute("TargetFrame");
+			
+			switch($link_type)
+			{
+				case "MediaObject":
+					$type = "media";
+					break;
+					
+				case "PageObject":
+					$type = "page";
+					break;
+					
+				case "GlossaryItem":
+					$type = "term";
+					break;
+			}
+			include_once("./Services/COPage/classes/class.ilInternalLink.php");
+			$id = ilInternalLink::_extractObjIdOfTarget($id);
+			return array("id" => $id, "type" => $type, "target" => $target);
+		}
+		
+		return array();
+	}
+
 }
 ?>
