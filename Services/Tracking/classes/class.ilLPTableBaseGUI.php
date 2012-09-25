@@ -343,7 +343,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$options["wiki"] = $lng->txt("objs_wiki");
 		}
 		
-		// repository plugins
+		// repository plugins (currently only active)
 		include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';	
 		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
 		foreach ($pl_names as $pl)

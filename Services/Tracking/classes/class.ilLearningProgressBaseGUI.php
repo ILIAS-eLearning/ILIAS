@@ -781,10 +781,14 @@ class ilLearningProgressBaseGUI
 		{
 			$a_type = $ilObjDataCache->lookupType($a_obj_id);
 		}
-
+		
+		if($objDefinition->isPluginTypeName($a_type))
+		{
+			return false;
+		}
+		
 		$class = "ilObj".$objDefinition->getClassName($a_type)."Access";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
-
 		return call_user_func(array($class,'_isOffline'), $a_obj_id);
 
 		// PHP 5.3 only ?

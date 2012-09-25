@@ -180,7 +180,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 		$this->collections = new ilLPCollections(ilObject::_lookupObjId($this->getNode()));
 
-		$items = ilLPCollections::_getPossibleItems($this->getNode());
+		$items = ilLPCollections::_getPossibleItems($this->getNode(), $this->getCollection());
 	
 		$data = array();
 		$done = array();
@@ -191,7 +191,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 
 			$tmp = $this->parseCollectionItem($item);
 			$tmp['grouped'] = array();
-
+			
 			if($this->getMode() == LP_MODE_COLLECTION)
 			{
 				$grouped_items = ilLPCollections::lookupGroupedItems(ilObject::_lookupObjId($this->getNode()), $item);

@@ -272,8 +272,8 @@ abstract class ilPlugin
 	*/
 	static public final function _getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
-		return ilPluginSlot::_getPluginsDirectory($a_ctype, $a_cname, $a_slot_id)."/".$a_pname;
-		
+		include_once "Services/Component/classes/class.ilPluginSlot.php";
+		return ilPluginSlot::_getPluginsDirectory($a_ctype, $a_cname, $a_slot_id)."/".$a_pname;		
 	}
 	
 
