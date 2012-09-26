@@ -8,6 +8,7 @@ il.Form = {
 
 	// init
 	init: function () {
+		il.Form.initLinkInput();
 	},
 
 	// hide sub forms
@@ -88,6 +89,19 @@ il.Form = {
 	// ilLinkInputGUI
 	//
 
+	initLinkInput: function () {
+		$("a.ilLinkInputRemove").click(function (e) {
+			var id = this.parentNode.id;
+			id = id.substr(0, id.length - 4);
+			$("input[name=" + id + "_ajax_type]").val('');
+			$("input[name=" + id + "_ajax_id]").val('');
+			$("input[name=" + id + "_ajax_target]").val('');
+			$("span#" + id + "_val").parent().children(".ilFormInfo").html('');
+			$(this.parentNode).css('display', 'none');
+			console.log(id);
+		});
+	},
+	
 	// set internal link in form item
 	addInternalLink: function (link, title, input_id, ev) {
 		var type, id, part, target = "";
@@ -105,6 +119,8 @@ il.Form = {
 		$("input[name=" + input_id + "_ajax_type]").val(type);
 		$("input[name=" + input_id + "_ajax_id]").val(id);
 		$("input[name=" + input_id + "_ajax_target]").val(target);
+		
+		$("#" + input_id + "_rem").css('display', 'block');
 	},
 
 	//
