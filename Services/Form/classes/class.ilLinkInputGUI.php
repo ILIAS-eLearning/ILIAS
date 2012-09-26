@@ -243,9 +243,14 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		$link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
 		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
 				
-		$ne = new ilNonEditableValueGUI("", $this->getPostVar()."_val", true);				
+		$ne = new ilNonEditableValueGUI("", $this->getPostVar()."_val", true);
+		$no_disp_class = (strpos($this->getValue(), "|"))
+			? ""
+			: " ilNoDisplay";
 		$ne->setValue('<a id="'.$this->getPostVar().'_ajax" class="iosEditInternalLinkTrigger" href="'.
-			$link.'">&raquo; '.$lng->txt("form_get_link").'</a>');
+			$link.'">&raquo; '.$lng->txt("form_get_link").'</a>
+			<div class="'.$no_disp_class.'" id="'.$this->getPostVar().'_rem">'.
+			'<a class="ilLinkInputRemove" href="#">&raquo; '.$lng->txt("remove").'</a></div>');
 		$ne->setInfo("&nbsp;");
 
 		if ($this->getAllowedLinkTypes() == self::BOTH)
