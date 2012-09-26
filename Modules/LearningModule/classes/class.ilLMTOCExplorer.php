@@ -84,10 +84,42 @@ class ilLMTOCExplorer extends ilLMExplorer
 	
 	
 	/**
-	* get image path (may be overwritten by derived classes)
-	*/
-	function getImage($a_name)
+	 * get image path (may be overwritten by derived classes)
+	 */
+	function getImage($a_name, $a_type = "", $a_id = "")
 	{
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+
+		if ($a_type == "pg")
+		{
+			include_once("./Services/COPage/classes/class.ilPageObject.php");
+			$lm_set = new ilSetting("lm");
+			$active = ilPageObject::_lookupActive($a_id, $this->lm_obj->getType(),
+				$lm_set->get("time_scheduled_page_activation"));
+			
+			// is page scheduled?
+			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
+				ilPageObject::_isScheduledActivation($a_id, $this->lm_obj->getType()))
+				? "_sc"
+				: "";
+				
+			$a_name = "icon_pg".$img_sc."_s.png";
+
+			if (!$active)
+			{
+				$a_name = "icon_pg_d".$img_sc."_s.png";
+			}
+			else
+			{
+				include_once("./Services/COPage/classes/class.ilPageObject.php");
+				$contains_dis = ilPageObject::_lookupContainsDeactivatedElements($a_id,
+					$this->lm_obj->getType());
+				if ($contains_dis)
+				{
+					$a_name = "icon_pg_del".$img_sc."_s.png";
+				}
+			}
+		}
 		return ilUtil::getImagePath($a_name, false, "output", $this->offlineMode());
 	}
 
