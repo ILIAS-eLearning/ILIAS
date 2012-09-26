@@ -1133,7 +1133,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		{
 			if($ilUser->getPref('grp_admin_hide'))
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',false,$this->show_tracking);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',false,false);
 				$this->ctrl->setParameter($this,'admin_hide',0);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('show'),
@@ -1143,7 +1143,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			}
 			else
 			{
-				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',true,$this->show_tracking);
+				$table_gui = new ilGroupParticipantsTableGUI($this,'admin',true,false);
 				$this->ctrl->setParameter($this,'admin_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
 					$this->lng->txt('hide'),
