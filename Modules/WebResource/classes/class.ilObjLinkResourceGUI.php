@@ -732,6 +732,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		*/
 		include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
 		$tar = new ilLinkInputGUI($this->lng->txt('webr_link_target'),'tar');
+		$tar->setInternalLinkFilterTypes(array("PageObject", "GlossaryItem", "RepositoryItem"));
 		
 		$tar->setRequired(true);
 		$this->form->addItem($tar);		
@@ -1529,14 +1530,21 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 				if(stristr($item["target"], "|"))
 				{
 					$parts = explode("|", $item["target"]);
+					if ($parts[0] == "page")
+					{
+						$parts[0] = "pg";
+					}
+					if ($parts[0] == "term")
+					{
+						$parts[0] = "git";
+					}
 					$item["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
 				}
-				
 				include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 				if(ilParameterAppender::_isEnabled())
 				{
 				   $item = ilParameterAppender::_append($item);
-				}		
+				}
 				$this->redirectToLink($this->ref_id, $obj_id, $item["target"]);
 			}
 		}
