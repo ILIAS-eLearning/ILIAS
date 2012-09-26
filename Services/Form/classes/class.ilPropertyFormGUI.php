@@ -507,7 +507,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		ilYuiUtil::initAnimation();
 
 		$tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
-		$tpl->addJavaScript("Services/Form/js/ServiceForm.js");
+		$tpl->addJavaScript("Services/Form/js/Form.js");
 
 		$this->tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
 
