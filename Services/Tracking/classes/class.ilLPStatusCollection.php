@@ -379,8 +379,9 @@ class ilLPStatusCollection extends ilLPStatus
 				return $member_obj->getMembers();
 				
 			case 'grp':
-				include_once './Modules/Group/classes/class.ilObjGroup.php';
-				return ilObjGroup::_getMembers($a_obj_id);
+				include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
+				$member_obj = ilGroupParticipants::_getInstanceByObjId($a_obj_id);
+				return $member_obj->getMembers();
 				
 			case 'fold':
 				$folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
@@ -408,7 +409,7 @@ class ilLPStatusCollection extends ilLPStatus
 	{
 		if(!$a_user_ids)
 		{
-			$a_user_ids = self::getMembers($a_obj_id);
+			$a_user_ids = self::getMembers($a_obj_id);			
 			if(!$a_user_ids)
 			{
 				return array();
