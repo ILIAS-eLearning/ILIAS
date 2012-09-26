@@ -94,7 +94,6 @@ strong {
 
 select {
 	margin: 0;
-	margin-bottom: .8em;
 	font: inherit;
 	padding: 1px;
 	text-decoration: none;
@@ -122,7 +121,7 @@ input[type=text], input[type=file], input[type=password], textarea {
 }
 
 input[type=text]:focus, input[type=file]:focus, input[type=password]:focus,
-textarea:focus, select:focus {
+textarea:focus {
 	border-color: #A0B0FF;
 }
 
@@ -184,7 +183,6 @@ body.std {
 
 div.ilFrame {
 	padding: 0;
-	box-shadow: 0 0 40px #808080;
 }
 
 div.ilStartupFrame{
@@ -2434,8 +2432,8 @@ div.ilTabContentOuter {
 
 div.ilTabContentInner
 {
-	padding: 0px 5px;
-	margin: 10px 0px;
+	padding: 0px 10px;
+	margin: 15px 0px;
 	clear:both;
 	min-height: 300px;
 }

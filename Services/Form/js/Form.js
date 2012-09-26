@@ -15,17 +15,6 @@ il.Form = {
 		$("#" + id).css('overflow', 'hidden').css('height', '0px').css('display', 'none');
 	},
 
-	// show all input fields in a div
-	showInputs: function (t) {
-//		$("#" + t.id + " input").css('visibility', 'visible');
-	},
-
-
-	// hide all input fields in a div
-	hideInputs: function (t) {
-//		$("#" + t.id + " input").css('visibility', 'hidden');
-	},
-
 	// show Subform
 	showSubForm: function (id, cont_id, cb) {
 		var nh, obj, k, m;
@@ -68,12 +57,10 @@ il.Form = {
 			obj.style.overflow = 'hidden';
 
 			obj.style.display = '';
-			il.Form.hideInputs(obj);
 			$(obj).animate({
 				height: nh
 			}, 400, function () {
 				$(this).css('height', 'auto');
-				il.Form.showInputs(this);
 			});
 		}
 
@@ -81,7 +68,6 @@ il.Form = {
 		if (obj && (cb != null && cb.checked == false)) {
 			obj.style.overflow = 'hidden';
 
-			il.Form.hideInputs(obj);
 			$(obj).animate({
 				height: 0
 			}, 400, function () {
@@ -93,7 +79,6 @@ il.Form = {
 					}
 				}
 				$(this).css('height', 'auto');
-				il.Form.showInputs(this);
 			});
 		}
 	},
