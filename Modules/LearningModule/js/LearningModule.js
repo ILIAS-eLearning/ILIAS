@@ -64,7 +64,7 @@ il.LearningModule = {
 
 $(function() {
 	$('body').focus();
-	$(document).keypress(function(e) {
+	$(document).keydown(function(e) {
 	if (e.target.tagName != "TEXTAREA" &&
 		e.target.tagName != "INPUT") {
 		// right

@@ -2339,6 +2339,7 @@ input.ilMainMenuSearch {
 	background-color: #FFFFFF;
 	min-height:16px;
 	box-shadow: inset 1px 1px 2px #A0A0A0;
+	line-height: 1;
 }
 
 a.ilMainMenuSearchButton {
