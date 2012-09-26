@@ -96,6 +96,7 @@ class ilParticipants
 	{
 		global $ilDB;
 		
+		// this will also dismiss local roles!
 		if ($a_only_member_role)
 		{
 			$j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
