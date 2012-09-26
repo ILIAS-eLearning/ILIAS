@@ -12784,8 +12784,8 @@ tax#:#tax_delete_taxonomy#:#Delete Taxononmy###28 08 2012 new variable
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?###28 08 2012 new variable
 tax#:#tax_tax_deleted#:#The taxonomy has been deleted.###28 08 2012 new variable
 tax#:#tax_add_taxonomy#:#Add Taxonomy###28 08 2012 new variable
-content#:#cont_show_activation_info#:#Show Activation Info###28 08 2012 new variable
-content#:#cont_show_activation_info_info#:#If the scheduled activation is not yet reached, the page will not be skipped. The information when the page will be activated will be displayed to the user.###28 08 2012 new variable
+content#:#cont_show_activation_info#:#Aktivierungsinformationen anzeigen
+content#:#cont_show_activation_info_info#:#Wenn die Aktivierung in der Zukunft liegt, wird die Seite nicht übersprungen. Dem Lerner wird eine Meldung mit dem Aktivierungszeitpunkt angezeigt.
 content#:#cont_page_activation_on#:#The content will be activated on %s.###28 08 2012 new variable
 content#:#cont_hover#:#Hover###28 08 2012 new variable
 content#:#cont_always#:#Always###28 08 2012 new variable
