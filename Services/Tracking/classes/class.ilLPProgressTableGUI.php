@@ -121,11 +121,13 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 			{
 				include_once "Services/Membership/classes/class.ilParticipants.php";
 				$membership_ids = ilParticipants::_getMembershipByType($this->tracked_user->getId(), 
-					$this->filter["type"]);
+					$this->filter["type"], true);
 			}
-						
-			$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read",
-				$membership_ids);
+			if($membership_ids === null || sizeof($membership_ids))
+			{			
+				$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read",
+					$membership_ids);
+			}
 		}
 		if($obj_ids)
 		{		
