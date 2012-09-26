@@ -88,21 +88,31 @@ class ilParticipants
 	 * @access public
 	 * @param int $a_usr_id usr_id
 	 * @param string $a_type crs or grp
+	 * @param bool $a_only_member_role
 	 * @return
 	 * @static
 	 */
-	public static function _getMembershipByType($a_usr_id,$a_type)
+	public static function _getMembershipByType($a_usr_id,$a_type,$a_only_member_role = false)
 	{
 		global $ilDB;
 		
+		if ($a_only_member_role)
+		{
+			$j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
+			$a2 = "AND obd2.title LIKE 'il_".$a_type."_mem%' ";
+		}
+
 		$query = "SELECT DISTINCT obd.obj_id,obr.ref_id FROM rbac_ua ua ".
 			"JOIN rbac_fa fa ON ua.rol_id = fa.rol_id ".
 			"JOIN tree t1 ON t1.child = fa.parent ".
 			"JOIN object_reference obr ON t1.parent = obr.ref_id ".
 			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
+			$j2.
 			"WHERE obd.type = ".$ilDB->quote($a_type,'text')." ".
 			"AND fa.assign = 'y' ".
-			"AND ua.usr_id = ".$ilDB->quote($a_usr_id,'integer')." ";
+			"AND ua.usr_id = ".$ilDB->quote($a_usr_id,'integer')." ".
+			$a2;
+		
 		$res = $ilDB->query($query);
 		
 		while($row = $ilDB->fetchObject($res))
