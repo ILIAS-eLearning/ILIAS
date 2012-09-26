@@ -17,13 +17,13 @@ il.Form = {
 
 	// show all input fields in a div
 	showInputs: function (t) {
-		$("#" + t.id + " input").css('visibility', 'visible');
+//		$("#" + t.id + " input").css('visibility', 'visible');
 	},
 
 
 	// hide all input fields in a div
 	hideInputs: function (t) {
-		$("#" + t.id + " input").css('visibility', 'hidden');
+//		$("#" + t.id + " input").css('visibility', 'hidden');
 	},
 
 	// show Subform
