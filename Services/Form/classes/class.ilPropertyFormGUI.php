@@ -668,10 +668,6 @@ class ilPropertyFormGUI extends ilFormGUI
 			if ($item->getInfo() != "")
 			{
 				$this->tpl->setCurrentBlock("description");
-				//$this->tpl->setVariable("IMG_INFO",
-				//	ilUtil::getImagePath("icon_info_s.png"));
-				//$this->tpl->setVariable("ALT_INFO",
-				//	$lng->txt("info_short"));
 				$this->tpl->setVariable("PROPERTY_DESCRIPTION",
 					$item->getInfo());
 				$this->tpl->parseCurrentBlock();

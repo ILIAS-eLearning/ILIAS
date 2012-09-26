@@ -79,9 +79,6 @@
 		<input type="text" id="{PROP_COLOR_ID}" size="15" maxlength="21" name="{POST_VAR}" value="{PROPERTY_VALUE_COLOR}" {COLOR_DISABLED}/> <span style="vertical-align:bottom;" id="{POST_VAR}-bc"></span>
 		</div>
 <!-- END prop_color -->
-<!-- BEGIN exp_description -->
-		<div style="margin-top:3px; margin-left:3px;"><span class="ilFormHelpLink"><img border="0" src="{IMG_INFO}" alt="{ALT_INFO}" /></span><span class="subtitle"> {PROPERTY_DESCRIPTION}</span></div>
-<!-- END exp_description -->
 <!-- BEGIN description -->
 		<div class="ilFormInfo">{PROPERTY_DESCRIPTION}</div>
 <!-- END description -->
@@ -91,7 +88,7 @@
 <!-- BEGIN sub_form -->
 		<div class="ilSubForm" id="subform_{SFID}">{PROP_SUB_FORM}</div>
 		<!-- BEGIN sub_form_hide --><script type="text/javascript">
-			ilFormHideSubForm('subform_{DSFID}');
+			il.Form.hideSubForm('subform_{DSFID}');
 			</script><!-- END sub_form_hide -->
 <!-- END sub_form -->
 		</td>
