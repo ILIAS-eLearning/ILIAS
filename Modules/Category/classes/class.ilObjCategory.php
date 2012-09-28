@@ -224,5 +224,16 @@ class ilObjCategory extends ilContainer
 	 	
 	 	return $new_obj;
 	}
+	
+	/**
+	* Add additional information to sub item, e.g. used in
+	* courses for timings information etc.
+	*/
+	function addAdditionalSubItemInformation(&$a_item_data)
+	{		
+		include_once './Services/Object/classes/class.ilObjectActivation.php';
+		ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
+	}
+	
 } // END class.ilObjCategory
 ?>
