@@ -2230,7 +2230,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setTarget("_top");
 		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTitle($this->lng->txt("import"));
+		$form->setTitle($this->lng->txt("import_svy"));
 
 		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 		$fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
