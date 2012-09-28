@@ -718,7 +718,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		case 'assImagemapQuestion': 
 			//reinit map
 			jQuery(function() {
-		  		jQuery('.cmap'+a_id).maphilight({fade:true});
+		  		jQuery('.cmap'+a_id).maphilight_mod({fade:true});
 			});
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				// display correct
@@ -1037,7 +1037,7 @@ jQuery(document).ready(function() {
 	has_canvas = has_canvas && has_canvas.getContext;
 
 	if(!(has_canvas || has_VML)) {
-		jQuery.fn.maphilight = function() { return this; };
+		jQuery.fn.maphilight_mod = function() { return this; };
 		return;
 	}
 	
@@ -1209,8 +1209,8 @@ jQuery(document).ready(function() {
 		border: 0
 	};
 	
-	jQuery.fn.maphilight = function(opts) {
-		opts = jQuery.extend({}, jQuery.fn.maphilight.defaults, opts);
+	jQuery.fn.maphilight_mod = function(opts) {
+		opts = jQuery.extend({}, jQuery.fn.maphilight_mod.defaults, opts);
 		
 		return this.each(function() {
 			
@@ -1220,7 +1220,7 @@ jQuery(document).ready(function() {
 			if(!is_image_loaded(this)) {
 				// If the image isn't fully loaded, this won't work right.  Try again later.
 				return window.setTimeout(function() {
-					img.maphilight(opts);
+					img.maphilight_mod(opts);
 				}, 200);
 			}
 
@@ -1230,7 +1230,7 @@ jQuery(document).ready(function() {
 
 			if(!(img.is('img') && img.attr('usemap') && map.size() > 0)) { return; }
 
-			if(img.hasClass('maphilighted')) {
+			if(img.hasClass('maphilighted_mod')) {
 				// We're redrawing an old map, probably to pick up changes to the options.
 				// Just clear out all the old stuff.
 				var wrapper = img.parent();
@@ -1401,7 +1401,7 @@ jQuery(document).ready(function() {
 			}
 			
 			img.before(canvas); // if we put this after, the mouseover events wouldn't fire.
-			img.addClass('maphilighted');
+			img.addClass('maphilighted_mod');
 
 			// if question was not answered correctly yet, "reload" active areas
 			if(ilias.questions.answers[question_id] && ilias.questions.answers[question_id].passed != true)
@@ -1422,7 +1422,7 @@ jQuery(document).ready(function() {
 		});
 	};
 
-	jQuery.fn.maphilight.defaults = {
+	jQuery.fn.maphilight_mod.defaults = {
 		fill: true,
 		fillColor: 'ff6633',
 		fillOpacity: 0.4,

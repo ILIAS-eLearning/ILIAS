@@ -146,6 +146,7 @@ class ilCOPageHTMLExport
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		copy(iljQueryUtil::getLocaljQueryPath(), $this->js_dir.'/jquery.js');
 		copy(iljQueryUtil::getLocaljQueryUIPath(), $this->js_dir.'/jquery-ui-min.js');
+		copy(iljQueryUtil::getLocalMaphilightPath(), $this->js_dir.'/maphilight.js');
 
 		// yui stuff we use
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -200,7 +201,7 @@ class ilCOPageHTMLExport
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js",
-			"./js/ilTooltip.js");
+			"./js/ilTooltip.js", "./js/maphilight.js");
 		foreach ($scripts as $script)
 		{
 			$tpl->setCurrentBlock("js_file");

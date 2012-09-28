@@ -61,6 +61,14 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
 		$this->tpl->setVariable("VAR_NAME", "name_".$i);
 		$this->tpl->setVariable("VAL_NAME", $a_set["Link"]["Title"]);
 		$this->tpl->setVariable("VAL_SHAPE", $a_set["Shape"]);
+		
+		$this->tpl->setVariable("VAL_HIGHL_MODE",
+			ilUtil::formSelect($a_set["HighlightMode"], "hl_mode_".$i,
+				$this->highl_modes, false, true));
+		$this->tpl->setVariable("VAL_HIGHL_CLASS",
+			ilUtil::formSelect($a_set["HighlightClass"], "hl_class_".$i,
+				$this->highl_classes, false, true));
+		
 		$this->tpl->setVariable("VAL_COORDS",
 			implode(explode(",", $a_set["Coords"]), ", "));
 		switch ($a_set["Link"]["LinkType"])

@@ -25,6 +25,9 @@ class ilImageMapTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->media_object = $a_media_object;
 		
+		include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
+		$this->highl_modes = ilMapArea::getAllHighlightModes();
+		$this->highl_classes = ilMapArea::getAllHighlightClasses();
 		
 		$this->initColumns();
 		$this->setEnableHeader(true);
@@ -49,6 +52,8 @@ class ilImageMapTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("cont_name"), "title", "");
 		$this->addColumn($this->lng->txt("cont_shape"), "", "");
 		$this->addColumn($this->lng->txt("cont_coords"), "", "");
+		$this->addColumn($this->lng->txt("cont_highlight_mode"));
+		$this->addColumn($this->lng->txt("cont_highlight_class"));
 		$this->addColumn($this->lng->txt("cont_link"), "", "");
 	}
 	
@@ -70,7 +75,7 @@ class ilImageMapTableGUI extends ilTable2GUI
 		$data = $this->getData();
 		if (count($data) > 0)
 		{
-			$this->addCommandButton("updateAreas", $lng->txt("cont_update_names"));
+			$this->addCommandButton("updateAreas", $lng->txt("save"));
 		}
 	}
 	
@@ -109,6 +114,14 @@ class ilImageMapTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAR_NAME", "name_".$i);
 		$this->tpl->setVariable("VAL_NAME", $area->getTitle());
 		$this->tpl->setVariable("VAL_SHAPE", $area->getShape());
+		
+		$this->tpl->setVariable("VAL_HIGHL_MODE",
+			ilUtil::formSelect($area->getHighlightMode(), "hl_mode_".$i,
+				$this->highl_modes, false, true));
+		$this->tpl->setVariable("VAL_HIGHL_CLASS",
+			ilUtil::formSelect($area->getHighlightClass(), "hl_class_".$i,
+				$this->highl_classes, false, true));
+		
 		$this->tpl->setVariable("VAL_COORDS",
 			implode(explode(",", $area->getCoords()), ", "));
 		switch ($area->getLinkType())
