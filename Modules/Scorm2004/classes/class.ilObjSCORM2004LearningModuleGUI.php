@@ -193,7 +193,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	function properties()
 	{
 		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting;
-		
+
 		$this->setSubTabs("settings", "general_settings");
 		
 		$lng->loadLanguageModule("style");
@@ -268,198 +268,216 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			}
 		}
 		
-		if ($this->object->editable!=1)
+		// output forms
+		if ($this->object->editable != 1)
 		{
-			// scorm lm properties
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scorm2004_properties.html", "Modules/Scorm2004");
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->setVariable("TXT_PROPERTIES", $this->lng->txt("cont_lm_properties"));
-	
-			// version
-			$this->tpl->setVariable("TXT_VERSION", $this->lng->txt("cont_sc_version").":");
-			$this->tpl->setVariable("VAL_VERSION", $this->object->getModuleVersion());
-
-			//sequencing
-			$this->tpl->setVariable("TXT_SEQUENCING", $this->lng->txt("cont_sequencing"));
-			$this->tpl->setVariable("CBOX_SEQUENCING", "cobj_sequencing");
-			$this->tpl->setVariable("VAL_SEQUENCING", "y");
-			if ($this->object->getSequencing())
-			{
-				$this->tpl->setVariable("CHK_SEQUENCING", "checked");
-			}
-
-			//interactions
-			$this->tpl->setVariable("TXT_INTERACTIONS", $this->lng->txt("cont_interactions"));
-			$this->tpl->setVariable("CBOX_INTERACTIONS", "cobj_interactions");
-			$this->tpl->setVariable("VAL_INTERACTIONS", "y");
-			if ($this->object->getInteractions())
-			{
-				$this->tpl->setVariable("CHK_INTERACTIONS", "checked");
-			}
-
-			//objectives
-			$this->tpl->setVariable("TXT_OBJECTIVES", $this->lng->txt("cont_objectives"));
-			$this->tpl->setVariable("CBOX_OBJECTIVES", "cobj_objectives");
-			$this->tpl->setVariable("VAL_OBJECTIVES", "y");
-			if ($this->object->getObjectives())
-			{
-				$this->tpl->setVariable("CHK_OBJECTIVES", "checked");
-			}
-
-			//comments
-			$this->tpl->setVariable("TXT_COMMENTS", $this->lng->txt("cont_comments"));
-			$this->tpl->setVariable("CBOX_COMMENTS", "cobj_comments");
-			$this->tpl->setVariable("VAL_COMMENTS", "y");
-			if ($this->object->getComments())
-			{
-				$this->tpl->setVariable("CHK_COMMENTS", "checked");
-			}
-
-			//time_from_lms
-			$this->tpl->setVariable("TXT_TIME_FROM_LMS", $this->lng->txt("cont_time_from_lms"));
-			$this->tpl->setVariable("CBOX_TIME_FROM_LMS", "cobj_time_from_lms");
-			$this->tpl->setVariable("VAL_TIME_FROM_LMS", "y");
-			if ($this->object->getTime_from_lms())
-			{
-				$this->tpl->setVariable("CHK_TIME_FROM_LMS", "checked");
-			}
-
-			$this->tpl->setCurrentBlock("editable");
-			// online
-			$this->tpl->setVariable("TXT_ONLINE", $this->lng->txt("cont_online"));
-			$this->tpl->setVariable("CBOX_ONLINE", "cobj_online");
-			$this->tpl->setVariable("VAL_ONLINE", "y");
-			if ($this->object->getOnline())
-			{
-				$this->tpl->setVariable("CHK_ONLINE", "checked");
-			}
-
-			//open
-			$this->tpl->setVariable("TXT_OPEN", $this->lng->txt("cont_open"));
-			$open_modes = array(
-				"0" => $this->lng->txt("cont_open_normal"),
-				"1" => $this->lng->txt("cont_open_iframe_max"),
-				"2" => $this->lng->txt("cont_open_iframe_defined"),
-				"5" => $this->lng->txt("cont_open_window_undefined"),
-				"6" => $this->lng->txt("cont_open_window_defined")
-				);
-			$sel_open = ilUtil::formSelect($this->object->getOpenMode(),
-				"open_mode", $open_modes, false, true);
-			$this->tpl->setVariable("SEL_OPEN", $sel_open);
-
-			//width
-			$this->tpl->setVariable("TXT_WIDTH", $this->lng->txt("cont_open_width"));
-			$this->tpl->setVariable("VAL_WIDTH", $this->object->getWidth());
-
-			//heigth
-			$this->tpl->setVariable("TXT_HEIGHT", $this->lng->txt("cont_open_heigth"));
-			$this->tpl->setVariable("VAL_HEIGHT", $this->object->getHeight());
-	
-			// default lesson mode
-			$this->tpl->setVariable("TXT_LESSON_MODE", $this->lng->txt("cont_def_lesson_mode"));
-			$lesson_modes = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
-				"browse" => $this->lng->txt("cont_sc_less_mode_browse"));
-			$sel_lesson = ilUtil::formSelect($this->object->getDefaultLessonMode(),
-				"lesson_mode", $lesson_modes, false, true);
-			$this->tpl->setVariable("SEL_LESSON_MODE", $sel_lesson);
-	
-			// credit mode
-			$this->tpl->setVariable("TXT_CREDIT_MODE", $this->lng->txt("cont_credit_mode"));
-			$credit_modes = array("credit" => $this->lng->txt("cont_credit_on"),
-				"no_credit" => $this->lng->txt("cont_credit_off"));
-			$sel_credit = ilUtil::formSelect($this->object->getCreditMode(),
-				"credit_mode", $credit_modes, false, true);
-			$this->tpl->setVariable("SEL_CREDIT_MODE", $sel_credit);
-	
-			// auto review mode
-			$this->tpl->setVariable("TXT_AUTO_REVIEW", $this->lng->txt("cont_sc_auto_review"));
-			$this->tpl->setVariable("CBOX_AUTO_REVIEW", "auto_review");
-			$this->tpl->setVariable("VAL_AUTO_REVIEW", "y");
-			if ($this->object->getAutoReview())
-			{
-				$this->tpl->setVariable("CHK_AUTO_REVIEW", "checked");
-			}
-			
-			// max attempts
-			$this->tpl->setVariable("MAX_ATTEMPTS", $this->lng->txt("cont_sc_max_attempt"));
-			$this->tpl->setVariable("VAL_MAX_ATTEMPT", $this->object->getMaxAttempt());
-			
-			//unlimited session
-			$this->tpl->setVariable("TXT_SESSION", $this->lng->txt("cont_sc_usession"));
-			$this->tpl->setVariable("CBOX_SESSION", "cobj_session");
-			$this->tpl->setVariable("VAL_SESSION", "y");
-			if ($this->object->getSession())
-			{
-				$this->tpl->setVariable("CHK_SESSION", "checked");
-			}
-			
-			
-			// disable top menu
-			$this->tpl->setVariable("TXT_NOMENU", $this->lng->txt("cont_nomenu"));
-			$this->tpl->setVariable("CBOX_NOMENU", "cobj_nomenu");
-			$this->tpl->setVariable("VAL_NOMENU", "y");
-			if ($this->object->getNoMenu())
-			{
-				$this->tpl->setVariable("CHK_NOMENU", "checked");
-			}
-				
-			//disable left-side navigation	
-			$this->tpl->setVariable("TXT_HIDENAVIG", $this->lng->txt("cont_hidenavig"));
-			$this->tpl->setVariable("CBOX_HIDENAVIG", "cobj_hidenavig");
-			$this->tpl->setVariable("VAL_HIDENAVIG", "y");
-			if ($this->object->getHideNavig())
-			{
-				$this->tpl->setVariable("CHK_HIDENAVIG", "checked");
-			}
-
-			//enable auto navigation to last visited item
-			$this->tpl->setVariable("TXT_AUTO_LAST_VISITED", $this->lng->txt("cont_auto_last_visited"));
-			$this->tpl->setVariable("CBOX_AUTO_LAST_VISITED", "cobj_auto_last_visited");
-			$this->tpl->setVariable("VAL_AUTO_LAST_VISITED", "y");
-			if ($this->object->getAuto_last_visited())
-			{
-				$this->tpl->setVariable("CHK_AUTO_LAST_VISITED", "checked");
-			}
-
-			//check_values
-			$this->tpl->setVariable("TXT_CHECK_VALUES", $this->lng->txt("cont_check_values"));
-			$this->tpl->setVariable("CBOX_CHECK_VALUES", "cobj_check_values");
-			$this->tpl->setVariable("VAL_CHECK_VALUES", "y");
-			if ($this->object->getCheck_values())
-			{
-				$this->tpl->setVariable("CHK_CHECK_VALUES", "checked");
-			}
-
-			//debug
-			$this->tpl->setVariable("TXT_DEBUG", $this->lng->txt("cont_debug"));
-			$this->tpl->setVariable("CBOX_DEBUG", "cobj_debug");
-			$this->tpl->setVariable("VAL_DEBUG", "y");
-			if ($this->object->getDebug())
-			{
-				$this->tpl->setVariable("CHK_DEBUG", "checked");
-			}
-			
-			//debugActivated
-			if ($this->object->getDebugActivated() == false) {
-				$this->tpl->setVariable("CHK_ACTIVATED", "disabled");
-				$this->tpl->setVariable("TXT_ACTIVATED", $this->lng->txt("cont_debug_deactivated"));
-			} else {
-				$this->tpl->setVariable("TXT_ACTIVATED", $this->lng->txt("cont_debug_deactivate"));
-			}
-		
-			$this->tpl->setCurrentBlock("commands");
-			$this->tpl->setVariable("BTN_NAME", "saveProperties");
-			$this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-			$this->tpl->parseCurrentBlock();
+			$this->initPropertiesForm();
+			$tpl->setContent($this->form->getHTML());
 		}
-
-		if ($this->object->editable == 1)
+		else
 		{
 			$this->initPropertiesEditableForm();
 			$this->getPropertiesEditableValues();
 			$tpl->setContent($this->form->getHTML());
 		}
 	}
+	
+	/**
+	 * Initialize properties form
+	 *
+	 * @param
+	 * @return
+	 */
+	function initPropertiesForm()
+	{
+		global $lng, $ilCtrl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setTitle($this->lng->txt("cont_lm_properties"));
+	
+		// version
+		$ne = new ilNonEditableValueGUI($this->lng->txt("cont_sc_version"), "");
+		$ne->setValue($this->object->getModuleVersion());
+		$this->form->addItem($ne);
+		
+		// online
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_online"), "cobj_online");
+		$cb->setValue("y");
+		if ($this->object->getOnline())
+		{
+			$cb->setChecked(true);
+		}
+		$this->form->addItem($cb);
+		
+		//
+		// presentation
+		//
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("cont_presentation"));
+		$this->form->addItem($sh);
+		
+		// display mode (open)
+		$options = array(
+			"0" => $this->lng->txt("cont_open_normal"),
+			"1" => $this->lng->txt("cont_open_iframe_max"),
+			"2" => $this->lng->txt("cont_open_iframe_defined"),
+			"5" => $this->lng->txt("cont_open_window_undefined"),
+			"6" => $this->lng->txt("cont_open_window_defined")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("cont_open"), "open_mode");
+		$si->setOptions($options);
+		$si->setValue($this->object->getOpenMode());
+		$this->form->addItem($si);
+		
+		// width
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_width"), "width");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$ni->setValue($this->object->getWidth());
+		$this->form->addItem($ni);
+		
+		// height
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_height"), "height");
+		$ni->setMaxLength(4);
+		$ni->setSize(4);
+		$ni->setValue($this->object->getHeight());
+		$this->form->addItem($ni);
+		
+		// disable top menu
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_nomenu"), "cobj_nomenu");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getNoMenu());
+		$this->form->addItem($cb);
+		
+		// disable left-side navigation
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_hidenavig"), "cobj_hidenavig");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getHideNavig());
+		$this->form->addItem($cb);
+		
+		// auto navigation to last visited item
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_auto_last_visited"), "cobj_auto_last_visited");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getAuto_last_visited());
+		$cb->setInfo($this->lng->txt("cont_auto_last_visited_info"));
+		$this->form->addItem($cb);
+
+		//
+		// scorm options
+		//
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("cont_scorm_options"));
+		$this->form->addItem($sh);
+
+		// max attempts
+		$ni = new ilNumberInputGUI($this->lng->txt("cont_sc_max_attempt"), "max_attempt");
+		$ni->setMaxLength(3);
+		$ni->setSize(3);
+		$ni->setValue($this->object->getMaxAttempt());
+		$this->form->addItem($ni);
+		
+		// lesson mode
+		$options = array("normal" => $this->lng->txt("cont_sc_less_mode_normal"),
+				"browse" => $this->lng->txt("cont_sc_less_mode_browse"));
+		$si = new ilSelectInputGUI($this->lng->txt("cont_def_lesson_mode"), "lesson_mode");
+		$si->setOptions($options);
+		$si->setValue($this->object->getDefaultLessonMode());
+		$this->form->addItem($si);
+		
+		// credit mode
+		$options = array("credit" => $this->lng->txt("cont_credit_on"),
+			"no_credit" => $this->lng->txt("cont_credit_off"));
+		$si = new ilSelectInputGUI($this->lng->txt("cont_credit_mode"), "credit_mode");
+		$si->setOptions($options);
+		$si->setValue($this->object->getCreditMode());
+		$si->setInfo($this->lng->txt("cont_credit_mode_info"));
+		$this->form->addItem($si);
+		
+		// set lesson mode review when completed
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_auto_review"), "auto_review");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getAutoReview());
+		$cb->setInfo($this->lng->txt("cont_sc_auto_review_info"));
+		$this->form->addItem($cb);
+		
+		//
+		// rte settings
+		//
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("cont_rte_settings"));
+		$this->form->addItem($sh);
+		
+		// unlimited session timeout
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_sc_usession"), "cobj_session");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getSession());
+		$cb->setInfo($this->lng->txt("cont_sc_usession_info"));
+		$this->form->addItem($cb);
+		
+		// sequencing
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_sequencing"), "cobj_sequencing");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getSequencing());
+		$cb->setInfo($this->lng->txt("cont_sequencing_info"));
+		$this->form->addItem($cb);
+		
+		// storage of interactions
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_interactions"), "cobj_interactions");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getInteractions());
+		$this->form->addItem($cb);
+		
+		// objectives
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_objectives"), "cobj_objectives");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getObjectives());
+		$this->form->addItem($cb);
+
+		// comments
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_comments"), "cobj_comments");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getComments());
+		$this->form->addItem($cb);
+
+		// time from lms
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_time_from_lms"), "cobj_time_from_lms");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getTime_from_lms());
+		$cb->setInfo($this->lng->txt("cont_time_from_lms_info"));
+		$this->form->addItem($cb);
+
+		// check values
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_check_values"), "cobj_check_values");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getCheck_values());
+		$this->form->addItem($cb);
+
+		//
+		// debugging
+		//
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($this->lng->txt("cont_debugging"));
+		$this->form->addItem($sh);
+
+		// test tool
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_debug"), "cobj_debug");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getDebug());
+		if ($this->object->getDebugActivated() == false)
+		{
+			$cb->setDisabled(true);
+			$cb->setInfo($this->lng->txt("cont_debug_deactivated"));
+		}
+		else
+		{
+			$cb->setInfo($this->lng->txt("cont_debug_deactivate"));
+		}
+		$this->form->addItem($cb);
+		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
+	}
+	
 	
 	/**
 	 * Init properties (editable) form.
