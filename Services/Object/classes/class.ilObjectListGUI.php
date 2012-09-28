@@ -2449,7 +2449,8 @@ class ilObjectListGUI
 		$parent_ref_id = $this->container_obj->object->getRefId();
 		$parent_type = $this->container_obj->object->getType();
 		
-		if($this->checkCommandAccess('write','',$parent_ref_id,$parent_type))
+		if($this->checkCommandAccess('write','',$parent_ref_id,$parent_type) ||
+			$this->checkCommandAccess('write','',$this->ref_id,$this->type))
 		{												
 			$this->ctrl->setParameterByClass('ilobjectactivationgui','cadh',
 				$this->ajax_hash);	

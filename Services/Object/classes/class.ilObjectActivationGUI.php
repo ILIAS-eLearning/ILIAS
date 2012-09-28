@@ -175,10 +175,10 @@ class ilObjectActivationGUI
 				$tim->addSubItem($cha);
 
 				$start = new ilDateTimeInputGUI($this->lng->txt('crs_timings_early_begin'),'early_start');
-				$cha->addSubItem($start);
+				$tim->addSubItem($start);
 
 				$late = new ilDateTimeInputGUI($this->lng->txt('crs_timings_short_limit_start_end'),'late_end');
-				$cha->addSubItem($late);
+				$tim->addSubItem($late);
 			}
 				
 			
