@@ -342,7 +342,7 @@ class ilLPStatusCollection extends ilLPStatus
 
 			if($gr_status == LP_STATUS_FAILED_NUM)
 			{
-				if(++$failed > $max_allowed_failed)
+				if(++$num_failed > $max_allowed_failed)
 				{
 					$status['failed'] = true;
 					$status['completed'] = false;
