@@ -753,7 +753,7 @@ class ilObjectGUI
 			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
 			self::CFORM_CLONE => $this->fillCloneTemplate(null, $a_new_type)
 			);
-
+		
 		return $forms;
 	}
 
@@ -765,7 +765,16 @@ class ilObjectGUI
 	final protected function getCreationFormsHTML(array $a_forms)
 	{
 		global $tpl;
-
+		
+		// sanity check
+		foreach($a_forms as $id => $form)
+		{
+			if(!$form instanceof ilPropertyFormGUI)
+			{
+				unset($a_forms[$id]);
+			}
+		}
+		
 		// no accordion if there is just one form
 		if(sizeof($a_forms) == 1)
 		{
@@ -783,34 +792,31 @@ class ilObjectGUI
 			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 			$cnt = 1;
 			foreach ($a_forms as $form_type => $cf)
-			{
-				if (is_object($cf) && get_class($cf) == "ilPropertyFormGUI")
-				{
-					$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
+			{				
+				$htpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
 //					$htpl->setVariable("IMG_ARROW", ilUtil::getImagePath("accordion_arrow.png"));
-					
-					// using custom form titles (used for repository plugins)
-					$form_title = "";
-					if(method_exists($this, "getCreationFormTitle"))
-					{
-						$form_title = $this->getCreationFormTitle($form_type);
-					}
-					if(!$form_title)
-					{
-						$form_title = $cf->getTitle();
-					}
 
-					// move title from form to accordion
-					$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
-						$form_title);
-					$cf->setTitle(null);
-					$cf->setTitleIcon(null);
-					$cf->setTableWidth("100%");
-					
-					$acc->addItem($htpl->get(), $cf->getHTML());
-
-					$cnt++;
+				// using custom form titles (used for repository plugins)
+				$form_title = "";
+				if(method_exists($this, "getCreationFormTitle"))
+				{
+					$form_title = $this->getCreationFormTitle($form_type);
 				}
+				if(!$form_title)
+				{
+					$form_title = $cf->getTitle();
+				}
+
+				// move title from form to accordion
+				$htpl->setVariable("TITLE", $this->lng->txt("option")." ".$cnt.": ".
+					$form_title);
+				$cf->setTitle(null);
+				$cf->setTitleIcon(null);
+				$cf->setTableWidth("100%");
+
+				$acc->addItem($htpl->get(), $cf->getHTML());
+
+				$cnt++;				
 			}
 
 			return "<div style='max-width:700px;'>".$acc->getHTML()."</div>";
