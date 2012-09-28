@@ -1498,7 +1498,7 @@ blog#:#blog_rename_posting#:#Eintrag umbenennen
 blog#:#blog_settings#:#Blog-Administration
 blog#:#blog_toggle_draft#:#Als Entwurf speichern
 blog#:#blog_toggle_final#:#Eintrag veröffentlichen
-book#:#book_add#:#Buchungspool hinzufügen
+book#:#book_add#:#Buchungspool anlegen
 book#:#book_add_object#:#Objekt hinzufügen
 book#:#book_add_schedule#:#Zeitplan hinzufügen
 book#:#book_add_type#:#Buchungsobjekt-Typ hinzufügen
@@ -1528,7 +1528,7 @@ book#:#book_later#:#Später
 book#:#book_list_items#:#Objekte listen
 book#:#book_log#:#Buchungen
 book#:#book_minutes#:#Minuten
-book#:#book_new#:#Neuer Buchungspool
+book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_of_objects#:#Anzahl Objekte
 book#:#book_not#:#Nicht
 book#:#book_object_added#:#Ein Buchungsobjekt wurde hinzugefügt.
@@ -1536,7 +1536,7 @@ book#:#book_object_deleted#:#Das Buchungsobjekt wurde gelöscht.
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_period#:#Dauer
-book#:#book_pool_added#:#Ein Buchungspool wurde hinzugefügt.
+book#:#book_pool_added#:#Ein Buchungspool wurde angelegt.
 book#:#book_public_log#:#Öffentliche Buchungen
 book#:#book_public_log_info#:#Die Liste der Buchungen kann von allen Benutzern eingesehen werden.
 book#:#book_reservation_block#:#Blockieren
@@ -1732,7 +1732,7 @@ chatroom#:#chat_whisper#:#Flüstern
 chatroom#:#chatroom_smiley_keyword#:#Schlagwort
 chatroom#:#chatserver_address#:#IP-Adresse des Chatservers
 chatroom#:#chatserver_port#:#Port des Chatservers
-chatroom#:#chtr_add#:#Chatraum hinzufügen
+chatroom#:#chtr_add#:#Chatraum anlegen
 chatroom#:#chtr_moderate#:#Moderieren
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#clear_room_history#:#Nachrichtenverlauf löschen
@@ -2307,9 +2307,9 @@ rbac#:#cat_create_icrs#:#Neues LearnLinc-Seminar anlegen
 rbac#:#cat_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#cat_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#cat_create_mep#:#Neuen Medienpool anlegen
-rbac#:#cat_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#cat_create_qpl#:#Neuen Fragenpool für Tests anlegen
 rbac#:#cat_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#cat_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#cat_create_spl#:#Neuen Fragenpool für Umfragen anlegen
 rbac#:#cat_create_svy#:#Neue Umfrage anlegen
 rbac#:#cat_create_tst#:#Neuen Test anlegen
 rbac#:#cat_create_webr#:#Neuen Weblink anlegen
@@ -2525,9 +2525,9 @@ rbac#:#crs_create_icrs#:#Neues LearnLinc Seminar anlegen
 rbac#:#crs_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#crs_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#crs_create_mep#:#Neuen Medienpool anlegen
-rbac#:#crs_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#crs_create_qpl#:#Neuen Fragenpool für Tests anlegen
 rbac#:#crs_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#crs_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#crs_create_spl#:#Neuen Fragenpool für Umfragen anlegen
 rbac#:#crs_create_svy#:#Neue Umfrage anlegen
 rbac#:#crs_create_tst#:#Neuen Test anlegen
 rbac#:#crs_create_webr#:#Neuen Weblink anlegen
@@ -2955,9 +2955,9 @@ rbac#:#fold_create_icrs#:#Neues LearnLinc Seminar anlegen
 rbac#:#fold_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#fold_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#fold_create_mep#:#Neuen Medienpool anlegen
-rbac#:#fold_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#fold_create_qpl#:#Neuen Fragenpool für Tests anlegen
 rbac#:#fold_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#fold_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#fold_create_spl#:#Neuen Fragenpool für Umfragen anlegen
 rbac#:#fold_create_svy#:#Neue Umfrage anlegen
 rbac#:#fold_create_tst#:#Neuen Test anlegen
 rbac#:#fold_create_webr#:#Neuen Weblink anlegen
@@ -3046,8 +3046,8 @@ common#:#general_settings#:#Allgemeine Einstellungen
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
 common#:#glo_a#:#ein Glossar
-common#:#glo_add#:#Glossar hinzufügen
-common#:#glo_added#:#Glossar hinzugefügt
+common#:#glo_add#:#Glossar anlegen
+common#:#glo_added#:#Glossar angelegt
 rbac#:#glo_copy#:#Glossar kopieren
 common#:#glo_create#:#Neues Glossar anlegen
 rbac#:#glo_delete#:#Glossar löschen oder verschieben
@@ -3072,7 +3072,7 @@ common#:#global_settings#:#Globale Einstellungen
 common#:#global_user#:#Globale Benutzer
 common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
-common#:#glossary_added#:#Glossar hinzugefügt
+common#:#glossary_added#:#Glossar angelegt
 common#:#go#:#Los
 common#:#group#:#Gruppe
 common#:#group_access_denied#:#Zugriff verweigert
@@ -3143,9 +3143,9 @@ rbac#:#grp_create_icrs#:#Neues LearnLinc-Seminar anlegen
 rbac#:#grp_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#grp_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#grp_create_mep#:#Neuen Medienpool anlegen
-rbac#:#grp_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#grp_create_qpl#:#Neuen Fragenpool für Tests anlegen
 rbac#:#grp_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#grp_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#grp_create_spl#:#Neuen Fragenpool für Umfragen anlegen
 rbac#:#grp_create_svy#:#Neue Umfrage anlegen
 rbac#:#grp_create_tst#:#Neuen Test anlegen
 rbac#:#grp_create_webr#:#Neuen Weblink anlegen
@@ -3249,7 +3249,7 @@ common#:#hour#:#Stunde
 common#:#hours#:#Stunde(n)
 common#:#hours_of_day#:#24 Stunden
 common#:#htlm#:#Lernmodul HTML
-common#:#htlm_add#:#HTML-Lernmodul hinzufügen
+common#:#htlm_add#:#HTML-Lernmodul anlegen
 rbac#:#htlm_copy#:#HTML-Lernmodul kopieren
 rbac#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
@@ -3389,12 +3389,12 @@ common#:#import_forum_finished#:#Das Forum wurde ohne Fehler importiert.
 common#:#import_glossary#:#Glossar importieren
 common#:#import_grp#:#Gruppe importieren
 common#:#import_grp_finished#:#Die Gruppe wurde ohne Fehler importiert
-common#:#import_lm#:#Lernmodul importieren
-common#:#import_qpl#:#Fragenpool für Test importieren
+common#:#import_lm#:#ILIAS-Lernmodul importieren
+common#:#import_qpl#:#Fragenpool für Tests importieren
 common#:#import_questions_into_qpl#:#Frage(n) in den Fragenpool importieren
 common#:#import_root_user#:#Root Benutzer importieren
 common#:#import_sahs#:#SCORM/AICC-Lernmodul importieren
-common#:#import_spl#:#Fragenpool für Umfrage importieren
+common#:#import_spl#:#Fragenpool für Umfragen importieren
 common#:#import_svy#:#Umfrage importieren
 common#:#import_tst#:#Test importieren
 common#:#import_users#:#Benutzer importieren
@@ -3697,7 +3697,7 @@ common#:#matriculation#:#Matrikelnummer
 common#:#max_number_rec#:#Maximale Zahl der Einträge
 common#:#max_time#:#Maximale Zeit
 common#:#mcst#:#Mediacast
-common#:#mcst_add#:#Mediacast hinzufügen
+common#:#mcst_add#:#Mediacast anlegen
 rbac#:#mcst_copy#:#Mediacast kopieren
 rbac#:#mcst_delete#:#Mediacast löschen oder verschieben
 rbac#:#mcst_edit_permission#:#Rechteeinstellung ändern
@@ -3729,8 +3729,8 @@ common#:#members#:#Mitglieder
 common#:#membership_annulled#:#Ihre Mitgliedschaft ist beendet worden.
 common#:#membership_leave#:#Abmelden
 common#:#mep#:#Medienpool
-common#:#mep_add#:#Medienpool hinzufügen
-common#:#mep_added#:#Medienpool hinzugefügt
+common#:#mep_add#:#Medienpool anlegen
+common#:#mep_added#:#Medienpool angelegt
 rbac#:#mep_delete#:#Medienpool löschen oder verschieben
 common#:#mep_edit#:#Eigenschaften des Medienpools bearbeiten
 rbac#:#mep_edit_permission#:#Rechteeinstellungen ändern
@@ -4091,9 +4091,9 @@ common#:#obj_pdts_desc#:#Persönlichen Schreibtisch anpassen
 common#:#obj_pg#:#Seite
 common#:#obj_ps#:#Datenschutz und Serversicherheit
 common#:#obj_ps_desc#:#Globale Einstellungen für Datenschutz und Sicherheit
-common#:#obj_qpl#:#Fragenpool für Test
-common#:#obj_qpl_duplicate#:#Fragenpool für Test kopieren
-common#:#obj_qpl_select#:#-- Bitte wählen Sie einen Fragenpool für Test aus --
+common#:#obj_qpl#:#Fragenpool für Tests
+common#:#obj_qpl_duplicate#:#Fragenpool für Tests kopieren
+common#:#obj_qpl_select#:#-- Bitte wählen Sie einen Fragenpool für Tests aus --
 common#:#obj_rcrs#:#ECS-Kurs
 common#:#obj_recf#:#Wiederhergestellte Objekte
 common#:#obj_recf_desc#:#Enthält wiederhergestellte Objekte aus Systemcheck
@@ -4113,9 +4113,9 @@ common#:#obj_sess_duplicate#:#Sitzung kopieren
 common#:#obj_sess_select#:#-- Bitte wählen Sie eine Sitzung aus --
 common#:#obj_skmg#:#Kompetenzmanagement
 common#:#obj_skmg_desc#:#Kompetenzen und Kategorien verwalten
-common#:#obj_spl#:#Fragenpool für Umfrage
-common#:#obj_spl_duplicate#:#Fragenpool für Umfrage kopieren
-common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfrage aus --
+common#:#obj_spl#:#Fragenpool für Umfragen
+common#:#obj_spl_duplicate#:#Fragenpool für Umfragen kopieren
+common#:#obj_spl_select#:#-- Bitte wählen Sie einen Fragenpool für Umfragen aus --
 common#:#obj_st#:#Kapitel
 common#:#obj_sty#:#Style
 common#:#obj_stys#:#Layout
@@ -4401,11 +4401,11 @@ common#:#published#:#Veröffentlicht
 common#:#publishing_organisation#:#Veröffentlichende Organisation
 common#:#purpose#:#Verwendung
 common#:#qpl#:#Fragenpool für Tests
-common#:#qpl_add#:#Fragenpool hinzufügen
+common#:#qpl_add#:#Fragenpool anlegen
 rbac#:#qpl_copy#:#Fragenpool kopieren
 rbac#:#qpl_delete#:#Fragenpool löschen oder verschieben
 rbac#:#qpl_edit_permission#:#Rechteeinstellungen ändern
-common#:#qpl_new#:#Neuer Fragenpool für Tests
+common#:#qpl_new#:#Neuen Fragenpool für Tests anlegen
 rbac#:#qpl_read#:#Fragen im Pool können eingesehen und für Tests übernommen werden
 common#:#qpl_upload_file#:#Datei hochladen
 rbac#:#qpl_visible#:#Fragenpool ist sichtbar
@@ -4594,7 +4594,7 @@ common#:#save_user_related_data#:#Benutzerspezifische Zugriffsdaten speichern
 common#:#saved#:#Gespeichert
 common#:#saved_successfully#:#Ihre Änderungen wurden gespeichert
 common#:#saving#:#Sichert...
-common#:#scorm_add#:#SCORM/AICC-Lernmodul hinzufügen
+common#:#scorm_add#:#SCORM/AICC-Lernmodul anlegen
 common#:#scorm_create_export_file_html#:#Erzeuge Exportdatei (HTML)
 common#:#scorm_create_export_file_iso#:#Erzeuge Exportdatei (ISO for CD-ROM)
 common#:#scorm_create_export_file_pdf#:#Erzeuge Exportdatei (PDF)
@@ -4777,13 +4777,13 @@ common#:#sorting_manual_header#:#Manuelle Sortierung
 common#:#sorting_save#:#Sortierung speichern
 common#:#sorting_title_header#:#Nach Titel
 common#:#spacer#:#Trenner
-common#:#spl#:#Fragenpool für Umfrage
-common#:#spl_add#:#Fragenpool hinzufügen
-rbac#:#spl_copy#:#Fragenpool für Umfrage kopieren
+common#:#spl#:#Fragenpool für Umfragen
+common#:#spl_add#:#Fragenpool anlegen
+rbac#:#spl_copy#:#Fragenpool für Umfragen kopieren
 rbac#:#spl_delete#:#Fragenpool löschen oder verschieben
 rbac#:#spl_edit_permission#:#Rechteeinstellungen ändern
-common#:#spl_import#:#Fragenpool für Umfrage importieren
-common#:#spl_new#:#Neuer Fragenpool für Umfrage
+common#:#spl_import#:#Fragenpool für Umfragen importieren
+common#:#spl_new#:#Neuen Fragenpool für Umfragen anlegen
 rbac#:#spl_read#:#Fragen im Pool können eingesehen und für Umfrage übernommen werden
 common#:#spl_upload_file#:#Datei hochladen
 rbac#:#spl_visible#:#Fragenpool ist sichtbar
@@ -4835,7 +4835,7 @@ common#:#survey_defaults#:#Standardeinstellungen für Umfragen
 common#:#survey_unlimited_invitation#:#Unbegrenzte Einladung
 common#:#survey_unlimited_invitation_desc#:#Erlaubt unbegrenzte Einladung zu Umfragen. Eine unbegrenzte Einladung legt die Umfrage auf den Persönlichen Schreibtisch jedes registrierten Benutzers.
 common#:#svy#:#Umfrage
-common#:#svy_add#:#Umfrage hinzufügen
+common#:#svy_add#:#Umfrage anlegen
 rbac#:#svy_copy#:#Umfrage kopieren
 rbac#:#svy_delete#:#Umfrage löschen oder verschieben
 rbac#:#svy_edit_permission#:#Rechteeinstellungen ändern
@@ -4876,7 +4876,7 @@ common#:#take_over_structure#:#Ordnerstruktur des Archivs übernehmen
 common#:#take_over_structure_info#:#Wenn aktiviert, werden Verzeichnisse im Archiv als Kategorien oder Ordner übernommen.
 common#:#target#:#Ziel
 common#:#tax#:#Taxonomie
-common#:#tax_add#:#Taxonomie hinzufügen
+common#:#tax_add#:#Taxonomie anlegen
 common#:#tax_delete#:#Löschen von Taxonomien
 common#:#tax_edit#:#Taxonomie bearbeiten
 common#:#tax_edit_permission#:#Rechteeinstellungen ändern
@@ -4949,7 +4949,7 @@ common#:#tree_left#:#Links
 common#:#tree_right#:#Rechts
 common#:#treeview#:#Baumansicht ein
 common#:#tst#:#Test
-common#:#tst_add#:#Test hinzufügen
+common#:#tst_add#:#Test anlegen
 common#:#tst_anon_eval#:#Resultate
 rbac#:#tst_copy#:#Test kopieren
 rbac#:#tst_delete#:#Test löschen oder verschieben
@@ -5185,7 +5185,7 @@ common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
 common#:#webr#:#Weblink
 common#:#webr_active#:#Aktiv
-common#:#webr_add#:#Weblink hinzufügen
+common#:#webr_add#:#Weblink anlegen
 common#:#webr_add_item#:#Weblink hinzufügen
 rbac#:#webr_copy#:#Weblinksammlung kopieren
 rbac#:#webr_delete#:#Weblinksammlung löschen
@@ -5218,7 +5218,7 @@ common#:#who_is_online#:#Wer ist Online?
 common#:#width#:#Breite
 common#:#width_x_height#:#Breite mal Höhe
 common#:#wiki#:#Wiki
-common#:#wiki_add#:#Wiki hinzufügen
+common#:#wiki_add#:#Wiki anlegen
 rbac#:#wiki_copy#:#Wiki kopieren
 rbac#:#wiki_delete#:#Wiki löschen oder verschieben
 rbac#:#wiki_edit_content#:#Wiki-Seiten anlegen und bearbeiten
@@ -9309,7 +9309,7 @@ payment#:#paya_buyable#:#Kaufbar
 payment#:#paya_buyed_objects#:#Gekaufte Objekte
 payment#:#paya_count_purchaser#:#Anzahl Käufer
 payment#:#paya_coupon_codes_import_successful#:#Die Codes wurden erfolgreich importiert.
-payment#:#paya_coupons_add#:#Gutschein hinzuf&uuml;gen
+payment#:#paya_coupons_add#:#Gutschein hinzufügen
 payment#:#paya_coupons_already_in_use#:#Der eingegebene Code und ein bereits verwendeter Code gehören zum gleichen Gutschein.
 payment#:#paya_coupons_assigned_objects#:#Zugeordnete Objekte
 payment#:#paya_coupons_availability#:#Maximale Nutzbarkeit eines Codes
@@ -10055,10 +10055,10 @@ rbac#:#root_create_icrs#:#Neues LearnLinc-Seminar anlegen
 rbac#:#root_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#root_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#root_create_mep#:#Neuen Medienpool anlegen
-rbac#:#root_create_qpl#:#Neuen Fragenpool für Test anlegen
+rbac#:#root_create_qpl#:#Neuen Fragenpool für Tests anlegen
 rbac#:#root_create_rcrs#:#Neuen ECS-Kurs anlegen
 rbac#:#root_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#root_create_spl#:#Neuen Fragenpool für Umfrage anlegen
+rbac#:#root_create_spl#:#Neuen Fragenpool für Umfragen anlegen
 rbac#:#root_create_svy#:#Neue Umfrage anlegen
 rbac#:#root_create_tst#:#Neuen Test anlegen
 rbac#:#root_create_webr#:#Neuen Weblink anlegen
@@ -11412,7 +11412,7 @@ survey#:#select_option#:#--- Bitte wählen Sie eine Antwort aus ---
 survey#:#select_phrase_to_add#:#Bitte wählen Sie eine Phrase aus, um sie einer Frage hinzuzufügen!
 survey#:#select_prior_question#:#Eine vorherige Frage auswählen
 survey#:#select_questionpool#:#Bitte geben Sie einen Fragenpool an, dem Sie die neu erstellte Frage zuordnen
-survey#:#select_questionpool_short#:#Fragenpool für Umfrage
+survey#:#select_questionpool_short#:#Fragenpool für Umfragen
 survey#:#select_relation#:#Relation auswählen
 survey#:#select_svy_option#:#--- Bitte wählen Sie eine Umfrage ---
 survey#:#select_target_position_for_move#:#Bitte wählen Sie eine Zielposition aus, um Antworten zu verschieben und drücken Sie dann eine der beiden Einfügen-Schaltflächen!
@@ -12938,3 +12938,4 @@ rating#:#rating_export_category#:#Kategorie
 rating#:#rating_export_date#:#Datum
 rating#:#rating_export_rating#:#Bewertung
 trac#:#trac_mode_plugin#:#Plugin
+common#:#qpl_copy#:#Fragenpool für Tests kopieren
