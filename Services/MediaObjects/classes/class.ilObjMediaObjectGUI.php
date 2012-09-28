@@ -1847,7 +1847,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQUery($a_tpl);
-		$a_tpl->addJavascript("./Modules/Scorm2004/scripts/questions/question_handling.js");
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		$a_tpl->addJavascript(iljQueryUtil::getLocalMaphilightPath());
 		$a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
 	}
 	

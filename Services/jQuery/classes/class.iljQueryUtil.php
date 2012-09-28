@@ -12,6 +12,7 @@ class iljQueryUtil
 	// #9508 - 1.8.0 needs at least ui 1.8.22 to work properly!	
 	private static $ver = "1_8_2"; 
 	private static $ui_ver = "1_8_23";
+	private static $maphilight_ver = "12_09_22";
 	private static $min = "-min";
 	
 	/**
@@ -53,6 +54,28 @@ class iljQueryUtil
 	function getLocaljQueryUIPath()
 	{
 		return "./Services/jQuery/js/ui_".self::$ui_ver."/jquery-ui.min.js";
+ 	}
+
+ 	//
+ 	// Maphilight plugin
+ 	//
+ 	
+ 	/**
+	 * Init maphilight
+	 */
+	static function initMaphilight()
+	{
+		global $tpl;
+		
+		 $tpl->addJavaScript(self::getLocalMaphilightPath(), true, 1);
+	}
+
+ 	 /**
+	 * Get local path of maphilight file 
+	 */
+	function getLocalMaphilightPath()
+	{
+		return "./Services/jQuery/js/maphilight_".self::$maphilight_ver."/maphilight.js";
  	}
 
 }

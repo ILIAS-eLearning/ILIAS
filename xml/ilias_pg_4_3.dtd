@@ -80,6 +80,8 @@
 <!ATTLIST MapArea
 	Shape (Rect | Circle | Poly | WholePicture) #REQUIRED
 	Coords CDATA #IMPLIED
+	HighlightMode CDATA #IMPLIED
+	HighlightClass CDATA #IMPLIED
 	Id CDATA #IMPLIED
 >
 
@@ -269,7 +271,7 @@ col or row span. -->
 <!-- An element to link to _external_ resources outside the ILIAS system, e.g. to a web site-->
 <!ELEMENT ExtLink (%linktext;)*>
 <!ATTLIST ExtLink
-	Href CDATA #REQUIRED
+	Href CDATA #IMPLIED
 	Title CDATA #IMPLIED
 	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
 >

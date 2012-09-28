@@ -793,8 +793,9 @@ ilCOPagePres =
 	initMapAreas: function() {
 		
 		// mouseover
-		//$('img[class^="img_hl_"]').maphilight({fade:true, fillColor:'000000', strokeColor:'000000'});
-		$('img[class^="img_hl_"]').each(function(index) {
+		//$('img[usemap^="#map_il_"]').maphilight({fade:true, fillColor:'000000', strokeColor:'000000'});
+		$('img[usemap^="#map_il_"]').maphilight({"neverOn":true});
+		/*$('img[class^="img_hl_"]').each(function(index) {
 			var cl = $(this).attr("class").split("_");
 			var opts = {};
 			if (cl[2] == "Hover") {
@@ -814,7 +815,7 @@ ilCOPagePres =
 			}
 			opts.fillOpacity = 0;
 			$(this).maphilight(opts);
-		});
+		});*/
 		
 		// always on
 		//$('img[class^="img_hl_"]').maphilight({alwaysOn:true, fillColor:'FFFFFF', strokeColor:'FFFFFF'});

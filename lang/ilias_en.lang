@@ -12939,3 +12939,4 @@ rating#:#rating_export_date#:#Date
 rating#:#rating_export_rating#:#Rating
 trac#:#trac_mode_plugin#:#Plugin
 common#:#qpl_copy#:#Copy Question Pool Test
+content#:#cont_highlight_class#:#Highlight Class

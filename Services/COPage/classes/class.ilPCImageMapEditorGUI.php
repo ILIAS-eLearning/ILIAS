@@ -71,6 +71,11 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 						$_SESSION["il_map_il_type"], $_SESSION["il_map_il_target"],
 						$_SESSION["il_map_il_targetframe"]);
 				}
+				else if ($_POST["area_link_type"] == IL_NO_LINK)
+				{
+					$this->std_alias_item->setAreaExtLink($_SESSION["il_map_area_nr"],
+						"");
+				}
 				else
 				{
 					$this->std_alias_item->setAreaExtLink($_SESSION["il_map_area_nr"],
@@ -95,13 +100,19 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
 				switch($_POST["area_link_type"])
 				{
-					case "ext":
+					case IL_EXT_LINK:
 						$link = array(
 							"LinkType" => IL_EXT_LINK,
 							"Href" => ilUtil::stripSlashes($_POST["area_link_ext"]));
 						break;
 
-					case "int":
+					case IL_NO_LINK:
+						$link = array(
+							"LinkType" => IL_EXT_LINK,
+							"Href" => "");
+						break;
+
+					case IL_INT_LINK:
 						$link = array(
 							"LinkType" => IL_INT_LINK,
 							"Type" => $_SESSION["il_map_il_type"],
@@ -219,6 +230,10 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 		{
 			$this->std_alias_item->setAreaTitle($area["Nr"],
 				ilUtil::stripSlashes($_POST["name_".$area["Nr"]]));
+			$this->std_alias_item->setAreaHighlightMode($area["Nr"],
+				ilUtil::stripSlashes($_POST["hl_mode_".$area["Nr"]]));
+			$this->std_alias_item->setAreaHighlightClass($area["Nr"],
+				ilUtil::stripSlashes($_POST["hl_class_".$area["Nr"]]));
 		}
 		$this->page->update();
 		

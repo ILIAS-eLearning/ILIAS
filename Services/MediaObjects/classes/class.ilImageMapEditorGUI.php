@@ -115,22 +115,22 @@ class ilImageMapEditorGUI
 		
 		
 		// highlight mode
-		if (strtolower(get_class($this)) == "ilimagemapeditorgui")
+/*		if (strtolower(get_class($this)) == "ilimagemapeditorgui")
 		{
 			$st_item = $this->media_object->getMediaItem("Standard");
 			$tb->addSeparator();
-			$options = ilMediaItem::getAllHighlightModes();
+			$options = ilMapArea::getAllHighlightModes();
 			$hl = new ilSelectInputGUI($lng->txt("cont_highlight_mode"), "highlight_mode");
 			$hl->setOptions($options);
-			$hl->setValue($st_item->getHighlightMode());
+//			$hl->setValue($st_item->getHighlightMode());
 			$tb->addInputItem($hl, true);
-			$options = ilMediaItem::getAllHighlightClasses();
+			$options = ilMapArea::getAllHighlightClasses();
 			$hc = new ilSelectInputGUI($lng->txt("cont_highlight_class"), "highlight_class");
 			$hc->setOptions($options);
-			$hc->setValue($st_item->getHighlightClass());
+//			$hc->setValue($st_item->getHighlightClass());
 			$tb->addInputItem($hc, false);
 			$tb->addFormButton($lng->txt("cont_set"), "setHighlight");
-		}
+		}*/
 		
 		return $tb;
 	}
@@ -207,6 +207,8 @@ class ilImageMapEditorGUI
 		{
 			$area =& new ilMapArea($st_item->getId(), $i);
 			$area->setTitle(ilUtil::stripSlashes($_POST["name_".$i]));
+			$area->setHighlightMode(ilUtil::stripSlashes($_POST["hl_mode_".$i]));
+			$area->setHighlightClass(ilUtil::stripSlashes($_POST["hl_class_".$i]));
 			$area->update();
 		}
 
@@ -454,7 +456,9 @@ class ilImageMapEditorGUI
 		
 		$edit_mode = ($a_get_next_coordinate)
 			? "get_coords"
-			: "";
+			: (($a_output_new_area)
+				? "new_area"
+				:"");
 		$output = $this->getImageMapOutput($edit_mode);
 		$this->tpl->setVariable("IMAGE_MAP", $output);
 

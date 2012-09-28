@@ -495,6 +495,8 @@ class ilMediaAliasItem
 				"Nr" => $i + 1,
 				"Shape" => $maparea_node->get_attribute("Shape"),
 				"Coords" => $maparea_node->get_attribute("Coords"),
+				"HighlightMode" => $maparea_node->get_attribute("HighlightMode"),
+				"HighlightClass" => $maparea_node->get_attribute("HighlightClass"),
 				"Id" => $maparea_node->get_attribute("Id"),
 				"Link" => $link);
 		}
@@ -566,6 +568,32 @@ class ilMediaAliasItem
 		{
 			$ma_nodes[$a_nr - 1]->set_attribute("Shape", $a_shape_type);
 			$ma_nodes[$a_nr - 1]->set_attribute("Coords", $a_coords);
+		}
+	}
+
+	/**
+	 * Set highlight mode single area
+	 */
+	function setAreaHighlightMode($a_nr, $a_mode)
+	{
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
+		{
+			$ma_nodes[$a_nr - 1]->set_attribute("HighlightMode", $a_mode);
+		}
+	}
+
+	/**
+	 * Set highlight class single area
+	 */
+	function setAreaHighlightClass($a_nr, $a_class)
+	{
+		$ma_nodes = $this->getMapAreaNodes($this->hier_id, $this->purpose,
+			$this->getPcId());
+		if (is_object($ma_nodes[$a_nr - 1]))
+		{
+			$ma_nodes[$a_nr - 1]->set_attribute("HighlightClass", $a_class);
 		}
 	}
 

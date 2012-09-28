@@ -264,7 +264,7 @@
 		<xsl:attribute name="title"><xsl:value-of select="."/></xsl:attribute>
 		<xsl:attribute name="alt"><xsl:value-of select="."/></xsl:attribute>
 		<xsl:attribute name="target">_blank</xsl:attribute>
-		<xsl:if test="@Href = ''">
+		<xsl:if test="@Href = '' or not(@Href)">
 			<xsl:attribute name="href">#</xsl:attribute>
 			<xsl:attribute name="onclick">return false;</xsl:attribute>
 		</xsl:if>
@@ -274,8 +274,27 @@
 <!-- output image map areas -->
 <xsl:template name="outputImageMapAreas">
 	<xsl:for-each select="../MapArea">
-		<xsl:if test="@Shape != 'WholePicture'">
+
+		<!-- highlight mode -->
+		<xsl:variable name="hl_class">
+			<xsl:choose>
+				<xsl:when test="@HighlightClass = 'Dark'">"fillColor":"202020","strokeColor":"202020"</xsl:when>
+				<xsl:when test="@HighlightClass = 'Light'">"fillColor":"F0F0F0","strokeColor":"F0F0F0"</xsl:when>
+				<xsl:otherwise>"fillColor":"FF6633","strokeColor":"FF6633"</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="hl_mode">
+			<xsl:choose>
+				<xsl:when test="@HighlightMode = 'Hover'">,"fade":true</xsl:when>
+				<xsl:otherwise>,"alwaysOn":true,"fade":false</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+
+		<xsl:if test="@Shape != 'WholePicture' and $map_edit_mode = ''">
 			<area>
+				<xsl:if test="@HighlightMode != '' and $map_edit_mode = ''">
+					<xsl:attribute name="data-maphilight">{"neverOn":false, "fillOpacity":0, "strokeWidth":2,<xsl:value-of select = "$hl_class"/><xsl:value-of select = "$hl_mode"/>}</xsl:attribute>
+				</xsl:if>
 				<xsl:attribute name="shape"><xsl:value-of select="@Shape"/></xsl:attribute>
 				<xsl:attribute name="coords"><xsl:value-of select="@Coords"/></xsl:attribute>
 				<xsl:attribute name="id">marea_<xsl:value-of select = "$pg_id"/>_<xsl:number count="MapArea" level="any" /></xsl:attribute>
@@ -2431,14 +2450,6 @@
 			or ./MapArea[@Shape != 'WholePicture'][1]">
 			<xsl:if test="name(..) != 'InteractiveImage' or $mode != 'edit'">
 				<xsl:attribute name="usemap">#map_<xsl:value-of select="$cmobid"/>_<xsl:value-of select="$curPurpose"/></xsl:attribute>
-				
-				<!-- highlight mode -->
-				<xsl:variable name="hl_mode" select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/@MapHighlightMode" />
-				<xsl:variable name="hl_class" select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose = $curPurpose]/@MapHighlightClass" />
-				<xsl:if test="$hl_mode != ''">
-					<xsl:attribute name="class">img_hl_<xsl:value-of select="$hl_mode"/>_<xsl:value-of select="$hl_class"/></xsl:attribute>
-				</xsl:if>
-				
 			</xsl:if>
 		</xsl:if>
 		<xsl:if test = "$inline = 'y'">

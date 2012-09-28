@@ -13372,3 +13372,32 @@ if($blog_contributor_tpl_id)
 	$ilDB->createTable('usr_sess_istorage', $fields);
 	$ilDB->addPrimaryKey('usr_sess_istorage', array('session_id', 'component_id', 'vkey'));
 ?>
+<#3776>
+<?php
+
+$ilDB->dropTableColumn('media_item', 'highlight_class');
+$ilDB->dropTableColumn('media_item', 'highlight_mode');
+
+?>
+<#3777>
+<?php
+if (!$ilDB->tableColumnExists('map_area', 'highlight_mode'))
+{
+	$ilDB->addTableColumn("map_area", "highlight_mode", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 8,
+		"fixed" => false));
+}
+?>
+<#3778>
+<?php	
+if (!$ilDB->tableColumnExists('map_area', 'highlight_class'))
+{
+	$ilDB->addTableColumn("map_area", "highlight_class", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 8,
+		"fixed" => false));
+}
+?>

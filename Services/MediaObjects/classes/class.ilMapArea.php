@@ -35,6 +35,13 @@ define("IL_TF_NEW", "New");
 */
 class ilMapArea
 {
+	const HL_NONE = "";
+	const HL_HOVER = "Hover";
+	const HL_ALWAYS = "Always";
+	const HLCL_ACCENTED = "";
+	const HLCL_LIGHT = "Light";
+	const HLCL_DARK = "Dark";
+
 	var $item_id;
 	var $nr;
 	var $shape;
@@ -73,7 +80,7 @@ class ilMapArea
 		global $ilDB;
 
 		$q = "INSERT INTO map_area (item_id, nr, shape, ".
-			"coords, link_type, title, href, target, type, target_frame) ".
+			"coords, link_type, title, href, target, type, highlight_mode, highlight_class, target_frame) ".
 			" VALUES (".
 			$ilDB->quote($this->getItemId(), "integer").",".
 			$ilDB->quote($this->getNr(), "integer").",".
@@ -84,6 +91,8 @@ class ilMapArea
 			$ilDB->quote($this->getHref(), "text").",".
 			$ilDB->quote($this->getTarget(), "text").",".
 			$ilDB->quote($this->getType(), "text").",".
+			$ilDB->quote($this->getHighlightMode(), "text").",".
+			$ilDB->quote($this->getHighlightClass(), "text").",".
 			$ilDB->quote($this->getTargetFrame(), "text").")";
 		$ilDB->manipulate($q);
 	}
@@ -130,6 +139,9 @@ class ilMapArea
 		$this->setTarget($area_rec["target"]);
 		$this->setType($area_rec["type"]);
 		$this->setTargetFrame($area_rec["target_frame"]);
+		$this->setHighlightMode($area_rec["highlight_mode"]);
+		$this->setHighlightClass($area_rec["highlight_class"]);
+
 	}
 
 	/**
@@ -146,6 +158,8 @@ class ilMapArea
 			", href = ".$ilDB->quote($this->getHref(), "text").
 			", target = ".$ilDB->quote($this->getTarget(), "text").
 			", type = ".$ilDB->quote($this->getType(), "text").
+			", highlight_mode = ".$ilDB->quote($this->getHighlightMode(), "text").
+			", highlight_class = ".$ilDB->quote($this->getHighlightClass(), "text").
 			", target_frame = ".$ilDB->quote($this->getTargetFrame(), "text").
 			" WHERE item_id = ".$ilDB->quote($this->getItemId(), "integer").
 			" AND nr = ".$ilDB->quote($this->getNr(), "integer");
@@ -236,6 +250,82 @@ class ilMapArea
 		}
 		
 		return $mobs;
+	}
+
+		/**
+	 * Get all highlight modes
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllHighlightModes()
+	{
+		global $lng;
+		
+		return array(
+			self::HL_NONE => $lng->txt("cont_none"),
+			self::HL_HOVER => $lng->txt("cont_hover"),
+			self::HL_ALWAYS => $lng->txt("cont_always")
+			);
+
+	}
+	
+	
+	/**
+	 * Set highlight mode
+	 *
+	 * @param string $a_val highlight mode	
+	 */
+	function setHighlightMode($a_val)
+	{
+		$this->highlight_mode = $a_val;
+	}
+	
+	/**
+	 * Get highlight mode
+	 *
+	 * @return string highlight mode
+	 */
+	function getHighlightMode()
+	{
+		return $this->highlight_mode;
+	}
+
+	/**
+	 * Get all highlight classes
+	 *
+	 * @param
+	 * @return
+	 */
+	function getAllHighlightClasses()
+	{
+		global $lng;
+		
+		return array(
+			self::HLCL_ACCENTED => $lng->txt("cont_accented"),
+			self::HLCL_LIGHT => $lng->txt("cont_light"),
+			self::HLCL_DARK => $lng->txt("cont_dark"),
+		);
+	}
+	
+	/**
+	 * Set highlight class
+	 *
+	 * @param string $a_val highlight class	
+	 */
+	function setHighlightClass($a_val)
+	{
+		$this->highlight_class = $a_val;
+	}
+	
+	/**
+	 * Get highlight class
+	 *
+	 * @return string highlight class
+	 */
+	function getHighlightClass()
+	{
+		return $this->highlight_class;
 	}
 
 	/**
