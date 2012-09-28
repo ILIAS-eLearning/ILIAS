@@ -3435,7 +3435,7 @@ class ilObjSurvey extends ilObject
 				include_once './Services/User/classes/class.ilObjUser.php';
 				if (strlen(ilObjUser::_lookupLogin($row["user_fi"])) == 0)
 				{
-					$userdata["fullname"] = $this->lng->txt("deleted_user");
+					$userdata["fullname"] = $userdata["sortname"] = $this->lng->txt("deleted_user");
 				}
 				else
 				{
