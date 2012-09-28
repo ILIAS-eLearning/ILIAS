@@ -4704,7 +4704,7 @@ content#:#cont_create_export_file#:#Create Export File
 content#:#cont_create_folder#:#Create Folder
 content#:#cont_create_html_version#:#Create HTML Package
 content#:#cont_create_mob#:#Create Media Object
-content#:#cont_credit_mode#:#Credit mode (for lesson mode 'normal')
+content#:#cont_credit_mode#:#Credit Mode
 content#:#cont_credit_off#:#No Credit
 content#:#cont_credit_on#:#Credit
 content#:#cont_credits#:#Credits
@@ -4719,11 +4719,11 @@ content#:#cont_data_from_lms#:#adlcp:datafromlms
 content#:#cont_de_activate#:#(De-)Activate
 content#:#cont_deactivate_page#:#Deactivate Page
 content#:#cont_deactivated#:#Deactivated
-content#:#cont_debug#:#Show test tool
+content#:#cont_debug#:#Enable Test Tool
 content#:#cont_debugpw#:#Password
 content#:#cont_decimal#:#Decimal
 content#:#cont_def_layout#:#Default Layout
-content#:#cont_def_lesson_mode#:#Default lesson mode
+content#:#cont_def_lesson_mode#:#Default Lesson Mode
 content#:#cont_def_map_areas#:#Default Link Areas
 content#:#cont_def_organization#:#default
 content#:#cont_default#:#Default
@@ -4880,7 +4880,7 @@ content#:#cont_Headline1#:#Headline 1
 content#:#cont_Headline2#:#Headline 2
 content#:#cont_Headline3#:#Headline 3
 content#:#cont_height#:#Height
-content#:#cont_hidenavig#:#Hide leftside Navigation-Tree
+content#:#cont_hidenavig#:#Hide Navigation Tree
 content#:#cont_Hint#:#Hint
 content#:#cont_how_published#:#How published
 content#:#cont_href#:#href
@@ -5019,7 +5019,7 @@ content#:#cont_no_parameters#:#No Parameters
 content#:#cont_no_subdir_in_zip#:#Zip command failed or import file invalid.<br>It does not contain a subfolder '%s'.
 content#:#cont_no_text#:#No Text
 content#:#cont_no_zip_file#:#Import file is not a zip file.
-content#:#cont_nomenu#:#Disable Topnavigation-Bar
+content#:#cont_nomenu#:#Hide Navigation Bar
 content#:#cont_none#:#None
 content#:#cont_not_js_chap_editing#:#Use No-JavaScript Editing Mode
 content#:#cont_nr_col_footer#:#Footer Columns
@@ -5140,11 +5140,11 @@ content#:#cont_save_spans#:#Save Spans
 content#:#cont_save_widths#:#Save Widths
 content#:#cont_saved_map_area#:#Saved map area
 content#:#cont_saved_map_data#:#Saved map data
-content#:#cont_sc_auto_review#:#Set lesson mode 'review' if student completed SCO
+content#:#cont_sc_auto_review#:#Set Review when Completed
 content#:#cont_sc_less_mode_browse#:#Browse
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_max_attempt_exceed#:#Max. number of attempts for this module has been reached.
-content#:#cont_sc_max_attempt#:#Max. number of attempts
+content#:#cont_sc_max_attempt#:#Max. Attempts
 content#:#cont_sc_new_version#:#Upload new version
 content#:#cont_sc_preview#:#Preview
 content#:#cont_sc_stat_browsed#:#Browsed
@@ -11651,8 +11651,8 @@ content#:#cont_open_width#:#width
 content#:#cont_open_heigth#:#height
 scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
-content#:#cont_debug_deactivate#:#Hint: The test tool can be disabled for all learning modules.
-content#:#cont_debug_deactivated#:#Hint: The test tool is disabled for all learning modules.
+content#:#cont_debug_deactivate#:#The test tool can be globally deactivated in the ILIAS administration (Administration » Learning Resources).
+content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Learning Resources).
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exeption
 scormdebug#:#error102#:#General Initialization Failure
@@ -12042,11 +12042,11 @@ crs#:#crs_link_show_all_next_sessions#:#Show all upcoming sessions
 crs#:#crs_link_hide_next_sessions#:#Hide upcoming sessions
 scormdebug#:#scormdebug_disable_cache#:#Disable SCORM 2004 Browser Cache
 scormdebug#:#scormdebug_disable_cache_info#:#This prevents the storage of the SCORM 2004 javascript files in the browser cache. Please use this function in time before a new release!
-content#:#cont_sequencing#:#enable Sequencing and Navigation according to settings by learning module
-content#:#cont_interactions#:#enable storage of results of interactions
-content#:#cont_objectives#:#enable storage of data concerning learning objectives
-content#:#cont_comments#:#enable storage of comments
-content#:#cont_time_from_lms#:#determine processing times by ILIAS instead of SCO
+content#:#cont_sequencing#:#Sequencing and Navigation
+content#:#cont_interactions#:#Store Results of Interactions
+content#:#cont_objectives#:#Store Learning Objectives Data
+content#:#cont_comments#:#Store Comments
+content#:#cont_time_from_lms#:#Processing Time Determination by ILIAS
 scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:
 scormdebug#:#success_status_by_score_scaled#:#Because there is a value for cmi.scaled_passing_score, the value for cmi.success_status is evaluated by the LMS! This is done by comparing the value for cmi.scaled_passing_score with the value for cmi.score.scaled. The value for cmi.success_status is currently:
 certificate#:#certificate_ph_no_sco#:#If items are selected to determine the overall learning progress status, titles and points for these items could be displayed in certificate.
@@ -12714,8 +12714,8 @@ common#:#itgr_new#:#New Item Group
 common#:#itgr_import#:#Import Item Group
 common#:#itgr_copy#:#Copy Item Group
 common#:#itgr_add#:#Add Item Group
-content#:#cont_auto_last_visited#:#load last visited chapter (SCO/Asset)
-content#:#cont_check_values#:#check values sent by SCO
+content#:#cont_auto_last_visited#:#Open Last Visited Chapter
+content#:#cont_check_values#:#Value Check
 administration#:#adm_social_bm_create#:#Create Social Bookmark
 administration#:#adm_social_bm_edit#:#Edit Social Bookmark
 dcl#:#dcl_actions#:#Actions
@@ -12940,3 +12940,13 @@ rating#:#rating_export_rating#:#Rating
 trac#:#trac_mode_plugin#:#Plugin
 common#:#qpl_copy#:#Copy Question Pool Test
 content#:#cont_highlight_class#:#Highlight Class
+content#:#cont_presentation#:#Presentation
+content#:#cont_scorm_options#:#SCORM Options
+content#:#cont_rte_settings#:#RTE Settings
+content#:#cont_debugging#:#Debugging
+content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.
+content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.
+content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.
+content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
+content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.

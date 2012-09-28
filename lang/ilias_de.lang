@@ -8003,18 +8003,6 @@ jscalendar#:#time_part#:#(Umschalten-)Klick oder festhalten und ziehen, um den W
 jscalendar#:#today#:#Heute
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#KW
-jsmath#:#jsmath_default_setting#:#Als Standard verwenden
-jsmath#:#jsmath_default_setting_info#:#Ist diese Option ausgewählt, wird jsMath für die ILIAS-Benutzer als Standardmethode zur Erzeugung von mathematischen Ausdrücken im LaTeX-Format verwendet, die die jsMath-Ausgabe noch nicht in Ihren persönlichen Einstellungen aktiviert oder deaktiviert haben.
-jsmath#:#jsmath_enable_jsmath#:#jsMath aktivieren
-jsmath#:#jsmath_enable_jsmath_info#:#Aktiviert die Unterstützung für die jsMath-basierte Ausgabe von mathematischen Inhalten in Form von LaTeX-Ausdrücken
-jsmath#:#jsmath_enable_user#:#jsMath-Unterstützung aktivieren
-jsmath#:#jsmath_enable_user_desc#:#jsMath für die Ausgabe von mathematischen Ausdrücken aktivieren. Die jsMath-Ausgabe erzeugt frei skalierbaren Text und benötigt dazu aktiviertes JavaScript im Webbrowser. Wenn die jsMath-Ausgabe deaktiviert ist, werden die mathematischen Ausdrücke als Grafikausgabe erzeugt (sofern aktiviert)
-jsmath#:#jsmath_extt_jsmath#:#jsMath
-jsmath#:#jsmath_no_javascript#:#Wenn Sie keinen korrekt ausgegebenen mathematischen Ausdruck neben diesem Hinweistext sehen, haben Sie jsMath für die Ausgabe von mathematischen Ausdrücken aktiviert, aber Ihr Webbrowser unterstützt kein JavaScript bzw. Sie haben JavaScript deaktiviert. Um die mathematischen Ausdrücke korrekt darzustellen, aktivieren Sie bitte JavaScript in Ihrem Webbrowser und laden Sie diese Seite neu. Oder deaktivieren Sie die jsMath-Ausgabe in Ihren persönlichen Einstellungen unter <strong>Persönlicher Schreibtisch &gt; Persönliches Profil &gt; jsMath</strong>
-jsmath#:#jsmath_path_not_found#:#ILIAS kann die Datei jsMath.js nicht im angegebenen Verzeichnis finden. Bitte überprüfen Sie die Position der jsMath-Bibliothek auf Ihrem Server!
-jsmath#:#jsmath_path_to_jsmath#:#Pfad zur jsMath-Bibliothek
-jsmath#:#jsmath_path_to_jsmath_desc#:#Der Pfad zum Basisverzeichnis der jsMath-Bibliothek, relativ zum ILIAS-Basisverzeichnis, also z.B. &quot;./Services/Javascript/jsMath&quot;
-jsmath#:#jsmath_settings#:#jsMath Einstellungen
 ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
@@ -12938,4 +12926,16 @@ rating#:#rating_export_category#:#Kategorie
 rating#:#rating_export_date#:#Datum
 rating#:#rating_export_rating#:#Bewertung
 trac#:#trac_mode_plugin#:#Plugin
-common#:#qpl_copy#:#Fragenpool für Tests kopieren
+common#:#qpl_copy#:#Fragenpool für Tests kopierenmathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
+mathjax#:#mathjax_enable_mathjax#:#Enable MathJax###28 09 2012 new variable
+mathjax#:#mathjax_mathjax#:#MathJax###28 09 2012 new variable
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
+mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax###28 09 2012 new variable
+mathjax#:#mathjax_settings#:#MathJax Settings###28 09 2012 new variable
+mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.###28 09 2012 new variable
+content#:#cont_initial_attached_content#:#Initial Extra Content###28 09 2012 new variable
+content#:#cont_topic#:#Topic###28 09 2012 new variable
+content#:#cont_selected_topic#:#Selected Topic###28 09 2012 new variable
+content#:#cont_all_topics#:#All Topics###28 09 2012 new variable
+content#:#cont_highlight_class#:#Highlight Class###28 09 2012 new variable

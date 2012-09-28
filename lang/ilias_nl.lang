@@ -7197,18 +7197,6 @@ jscalendar#:#time_part#:#(Shift-)Klik of sleep om de waarde te veranderen
 jscalendar#:#today#:#Vandaag
 jscalendar#:#tt_date_format#:#%a, %b %e
 jscalendar#:#wk#:#wk
-jsmath#:#jsmath_default_setting#:#Gebruik als standaard
-jsmath#:#jsmath_default_setting_info#:#Indien geselecteerd, zal jsMath gebruikt worden als standaard methode om LaTeX code te genereren voor alle gebruikers die jsMath niet uigeschakeld of ingeschakeld hebben in hun persoonlijk profiel.
-jsmath#:#jsmath_enable_jsmath#:#Schakel jsMath in
-jsmath#:#jsmath_enable_jsmath_info#:#Activeerd ondersteuning voor jsMath rekenkundige uitvoer van LaTeX expressies.
-jsmath#:#jsmath_enable_user#:#Schakel jsMath ondersteuning in
-jsmath#:#jsmath_enable_user_desc#:#Activeer jsMath voor de uitvoer van rekenkundige formules. jsMath uitvoer maakt formules maar JavaScript moet ingeschakeld zijn. Als jsMath uitvoer uitgeschakeld is, zal de forumule uitgevoerd worden als afbeelding.
-jsmath#:#jsmath_extt_jsmath#:#jsMath
-jsmath#:#jsmath_no_javascript#:#Als u niet de juiste rekenkundige formule ziet naast deze hint, dan is jsMath ingeschakeld maar de webbrowser ondersteunt geen JavaScript of JavaScript is uitgeschakeld. Om de rekenkundige formule te zien, moet u JavaScript activeren in de webbrowser en de pagina vernieuwen of naar het <strong>Persoonlijk scherm &gt; Profiel &gt; jsMath</strong> gaan en jsMath output uitschakelen.
-jsmath#:#jsmath_path_not_found#:#Kan jsMath.js niet vinden in opgegeven pad. Controleer de jsMath locatie op de server
-jsmath#:#jsmath_path_to_jsmath#:#Pad naar jsMath
-jsmath#:#jsmath_path_to_jsmath_desc#:#Het pad naar de jsMath locatie is verbonden met de ILIAS locatie v.b. &quot;./Services/Javascript/jsMath&quot;
-jsmath#:#jsmath_settings#:#jsMath Instellingen
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
@@ -12913,3 +12901,46 @@ survey#:#svy_activation_online_info#:#Activate this setting to make the survey a
 survey#:#svy_availability_limitless_info#:#Choose this mode for making the survey available limitless.###04 09 2012 new variable
 survey#:#svy_availability_until_info#:#Choose this mode for making the survey available for a fixed period of time.###04 09 2012 new variable
 survey#:#svy_activation_limited_visibility_info#:#If chosen, the survey is visible even outside of the given availability.###04 09 2012 new variable
+mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
+mathjax#:#mathjax_enable_mathjax#:#Enable MathJax###28 09 2012 new variable
+mathjax#:#mathjax_mathjax#:#MathJax###28 09 2012 new variable
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
+mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax###28 09 2012 new variable
+mathjax#:#mathjax_settings#:#MathJax Settings###28 09 2012 new variable
+mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable
+mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of inactivation.###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts_period#:#Days past since the inactivation###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts_period_desc#:#Deletion will be executed if this period of time has past since the inactivation.###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts_include_roles#:#Included roles###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts_interval#:#Frequency###28 09 2012 new variable
+common#:#delete_inactivated_user_accounts_interval_desc#:#Deletion conditions will be reviewed in this frequency.###28 09 2012 new variable
+blog#:#blog_contributors#:#Contributors###28 09 2012 new variable
+blog#:#blog_add_contributor#:#Add Contributor###28 09 2012 new variable
+blog#:#blog_search_users#:#Search Users###28 09 2012 new variable
+blog#:#blog_contributor_container_add#:#Add Users From Course/Group###28 09 2012 new variable
+common#:#il_blog_contributor#:#Blog Contributor###28 09 2012 new variable
+rbac#:#blog_contribute#:#User can contribute###28 09 2012 new variable
+blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.###28 09 2012 new variable
+dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!###28 09 2012 new variable
+dcl#:#dcl_empty_view#:#Delete this View###28 09 2012 new variable
+dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?###28 09 2012 new variable
+dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.###28 09 2012 new variable
+dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.###28 09 2012 new variable
+rating#:#rating_number_votes#:#%s Ratings###28 09 2012 new variable
+administration#:#system_check_no_owner#:#Ownerless Objects###28 09 2012 new variable
+blog#:#blog_import#:#Import Blog###28 09 2012 new variable
+poll#:#poll_import#:#Import Poll###28 09 2012 new variable
+user#:#user_account_deleted_confirmation#:#Your account has been deleted. An email containing detailed information has been sent to you.###28 09 2012 new variable
+content#:#cont_initial_attached_content#:#Initial Extra Content###28 09 2012 new variable
+content#:#cont_topic#:#Topic###28 09 2012 new variable
+content#:#cont_selected_topic#:#Selected Topic###28 09 2012 new variable
+content#:#cont_all_topics#:#All Topics###28 09 2012 new variable
+rating#:#rating_export_category#:#Category###28 09 2012 new variable
+rating#:#rating_export_date#:#Date###28 09 2012 new variable
+rating#:#rating_export_rating#:#Rating###28 09 2012 new variable
+trac#:#trac_mode_plugin#:#Plugin###28 09 2012 new variable
+common#:#qpl_copy#:#Copy Question Pool Test###28 09 2012 new variable
+content#:#cont_highlight_class#:#Highlight Class###28 09 2012 new variable
