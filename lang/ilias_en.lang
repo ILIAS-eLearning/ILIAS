@@ -6807,7 +6807,7 @@ grp#:#grp_users_already_assigned#:#The user is already assigned to this  group.
 grp#:#grp_users_removed_from_list#:#The selected users have been removed from the waiting list.
 grp#:#grp_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 grp#:#grp_waiting_list#:#Waiting List
-grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reseted.
+grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? All permission settings will be reset.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
@@ -10157,7 +10157,7 @@ user#:#restrict_user_access_info#:#Enabled this option only if you want to restr
 common#:#backto_lua#:#Back to Local User Administration
 common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_inherit_prefix#:#Default
-common#:#sorting_info_inherit#:#The sorting mode is adpated from a parent course.
+common#:#sorting_info_inherit#:#The sorting mode is adopted from a parent course.
 content#:#cont_alignment#:#Alignment
 content#:#cont_set_alignment#:#Set Alignment
 rbac#:#rbac_msg_user_already_assigned#:#The chosen users are already assigned to this role.
