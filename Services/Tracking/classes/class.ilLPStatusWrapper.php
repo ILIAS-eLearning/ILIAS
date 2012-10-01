@@ -325,6 +325,11 @@ class ilLPStatusWrapper
 		return $st;
 	}
 	
+	public static function _removeStatusCache($a_obj_id, $a_usr_id)
+	{
+		unset(self::$status_cache[$a_obj_id][$a_usr_id]);
+	}	
+	
 	/**
 	 * Get completed users for object
 	 * 
@@ -362,6 +367,6 @@ class ilLPStatusWrapper
 	{
 		$class = ilLPStatusFactory::_getClassById($a_obj_id);
 		return call_user_func_array(array($class, "_lookupInProgressForObject"), array($a_obj_id, $a_user_ids));
-	}
+	}	
 }	
 ?>

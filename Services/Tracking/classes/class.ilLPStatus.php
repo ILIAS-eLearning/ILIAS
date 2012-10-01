@@ -411,6 +411,10 @@ class ilLPStatus
 		// update collections
 		if ($update_collections)
 		{
+			// a change occured - remove existing cache entry
+			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+			ilLPStatusWrapper::_removeStatusCache($a_obj_id, $a_user_id);			
+			
 			$set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM ".
 				"object_reference JOIN ut_lp_collections ON ".
 				"(object_reference.obj_id = ".$ilDB->quote($a_obj_id, "integer").
@@ -419,7 +423,9 @@ class ilLPStatus
 			{
 				if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
 				{
-					include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+					// just to make sure - remove existing cache entry 
+					ilLPStatusWrapper::_removeStatusCache($rec["obj_id"], $a_user_id);
+					
 					ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
 				}
 			}
