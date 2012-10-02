@@ -18,11 +18,13 @@ class ilMediaCastTableGUI extends ilTable2GUI
 	protected $downloadable = false;
 	protected $edit_order;
 	
-	function ilMediaCastTableGUI($a_parent_obj, $a_parent_cmd = "", $a_edit_order = false)
+	function ilMediaCastTableGUI($a_parent_obj, $a_parent_cmd = "", $a_edit_order = false,
+		$a_presentation_mode = false)
 	{
 		global $ilCtrl, $lng;
 		
-		$this->edit_order = (bool)$a_edit_order; 
+		$this->edit_order = (bool)$a_edit_order;
+		$this->presentation_mode = (bool)$a_presentation_mode;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
@@ -30,12 +32,15 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		$mediacast = new ilObjMediaCast($a_parent_obj->id);
 		$this->downloadable = $mediacast->getDownloadable();
 
-		$this->addColumn("", "", "1");
-		$this->addColumn($lng->txt("mcst_entry"), "", "33%");
-		$this->addColumn("", "", "33%");		
+		if (!$this->presentation_mode)
+		{
+			$this->addColumn("", "", "1");
+		}
+		$this->addColumn($lng->txt("title"));
+		$this->addColumn($lng->txt("properties"));
 		if(!$this->edit_order)
 		{
-			$this->addColumn("", "", "34%");
+			$this->addColumn($lng->txt("mcst_play"), "", "320px");
 		}
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -62,7 +67,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
 		// access
-		if ($enable_internal_rss)
+		if ($enable_internal_rss && !$this->presentation_mode)
 		{
 			$this->tpl->setCurrentBlock("access");
 			$this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
@@ -98,10 +103,6 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$a_set["title"]);
 			$this->tpl->setVariable("VAL_DESCRIPTION",
 				$a_set["content"]);
-			$this->tpl->setVariable("TXT_FILENAME",
-				$lng->txt("filename"));
-			$this->tpl->setVariable("VAL_FILENAME",
-				$mob->getTitle());
 			$this->tpl->setVariable("TXT_CREATED",
 				$lng->txt("created"));
 			$this->tpl->setVariable("VAL_CREATED",
@@ -149,7 +150,8 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					$mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
 					$mpl->setMimeType ($med->getFormat());
 					//$mpl->setDisplayHeight($med->getHeight());
-					$mpl->setDisplayHeight("240");
+					$mpl->setDisplayWidth("640");
+					$mpl->setDisplayHeight("480");
 					$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
 					
 					$med_alt = $mob->getMediaItem("VideoAlternative");
@@ -161,11 +163,13 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					}
 				}
 
-				$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
+				//$this->tpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
+				$this->tpl->setVariable("PLAYER", $mpl->getPreviewHtml());
 
 				// edit link
 				$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $a_set["id"]);
-				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+				if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
+					!$this->presentation_mode)
 				{
 					$this->tpl->setCurrentBlock("edit");
 					$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
@@ -179,6 +183,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					$this->tpl->setCurrentBlock("edit_checkbox");
 					$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 					$this->tpl->parseCurrentBlock();
+//					$this->tpl->touchBlock("contrl_col");
 				}
 			}
 			else
@@ -187,6 +192,7 @@ class ilMediaCastTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("VAL_ID", $a_set["id"]);
 				$this->tpl->setVariable("VAL_ORDER", $a_set["order"]);
 				$this->tpl->parseCurrentBlock();
+//				$this->tpl->touchBlock("contrl_col");
 			}
 			
 

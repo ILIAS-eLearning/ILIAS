@@ -13,13 +13,18 @@
 class ilMediaPlayerGUI
 {
 	var $file;
-	var $displayHeight = "240";
-	var $displayWidth = "320";
+	var $displayHeight = "480";
+	var $displayWidth = "640";
 	var $mimeType;
 	static $nr = 1;
+	static $lightbox_initialized = false;
+	var $current_nr;
 
-	function __construct()
+	function __construct($a_id = "")
 	{
+		$this->id = $a_id;
+		$this->current_nr = self::$nr;
+		self::$nr++;
 	}
 
 	/**
@@ -129,9 +134,10 @@ class ilMediaPlayerGUI
 	 *
 	 * @param string $a_val video preview picture	
 	 */
-	function setVideoPreviewPic($a_val)
+	function setVideoPreviewPic($a_val, $a_alt = "")
 	{
 		$this->video_preview_pic = $a_val;
+		$this->video_preview_pic_alt = $a_alt;
 	}
 	
 	/**
@@ -147,14 +153,26 @@ class ilMediaPlayerGUI
 	/**
 	* Get Html for MP3 Player
 	*/
-	function getMp3PlayerHtml()
+	function getMp3PlayerHtml($a_preview = false)
 	{
 		global $tpl;
+		
+		$tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js");
+		
+		if (!self::$lightbox_initialized)
+		{
+			include_once("./Services/UIComponent/Lightbox/classes/class.ilLightboxGUI.php");
+			$lb = new ilLightboxGUI("media_lightbox");
+			$lb->setWidth("660px");
+			$lb->addLightbox();
+			self::$lightbox_initialized = true;
+		}
+		
 		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
 
 		// youtube
-		if (ilExternalMediaAnalyzer::isYouTube($this->getFile()))
+/*		if (ilExternalMediaAnalyzer::isYouTube($this->getFile()))
 		{
 			$p = ilExternalMediaAnalyzer::extractYouTubeParameters($this->getFile());
 			$html = '<object width="320" height="240">'.
@@ -177,24 +195,45 @@ class ilMediaPlayerGUI
 
 			return $html;
 		}
+*/
 		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
-		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		
 		// video tag
-		if (in_array($mimeType, array("video/mp4", "video/x-flv", "video/webm")))
+		if (in_array($mimeType, array("video/mp4", "video/m4v", "video/rtmp",
+			"video/x-flv", "video/webm")))
 		{
-			$tpl->addCss("./Services/MediaObjects/media_element_2_9_1/mediaelementplayer.min.css");
-			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_9_1/mediaelement-and-player.min.js");
+			ilPlayerUtil::initMediaElementJs();
 
+			if ($mimeType == "video/quicktime")
+			{
+				$mimeType = "video/mov";
+			}
+			
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+			
+			// preview
+			if ($a_preview)
+			{
+				$mp_tpl->setCurrentBlock("preview");
+				if ($this->getVideoPreviewPic() != "")
+				{
+					$mp_tpl->setVariable("IMG_SRC", $this->getVideoPreviewPic());
+				}
+				else
+				{
+					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.png"));
+				}
+				$mp_tpl->setVariable("IMG_ALT", $this->video_preview_pic_alt);
+				$mp_tpl->parseCurrentBlock();
+			}
 			
 			// sources
 			$mp_tpl->setCurrentBlock("source");
 			$mp_tpl->setVariable("FILE", $this->getFile());
 			$mp_tpl->setVariable("MIME", $mimeType);
 			$mp_tpl->parseCurrentBlock();
-			
+
 			if (in_array($this->getAlternativeVideoMimeType(), array("video/mp4", "video/webm")))
 			{
 				$mp_tpl->setCurrentBlock("source");
@@ -203,66 +242,67 @@ class ilMediaPlayerGUI
 				$mp_tpl->parseCurrentBlock();
 			}
 			
-			$mp_tpl->setCurrentBlock("video");
-			$mp_tpl->setVariable("PLAYER_NR", self::$nr);
+			$mp_tpl->setCurrentBlock("mejs_video");
+			
+			if ($a_preview)
+			{
+				$mp_tpl->setVariable("CLASS", "ilNoDisplay");
+			}
+			
+			$mp_tpl->setVariable("PLAYER_NR", $this->current_nr);
 			$height = $this->getDisplayHeight();
 			$width = $this->getDisplayWidth();
 			if (is_int(strpos($mimeType,"audio/mpeg")))
 			{
 				$height = "30";
 			}
+
 			$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
 			$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
 			$mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
 			$mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
-			self::$nr++;
+			$mp_tpl->setVariable("FFILE", $this->getFile());
 			$mp_tpl->parseCurrentBlock();
 			$r = $mp_tpl->get();
 
 			return $r;
 		}
-		
-		// flv
-		if (is_int(strpos($mimeType,"flv")))
-		{
-			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
-			$mp_tpl->setCurrentBlock("flv");
-			$mp_tpl->setVariable("FILE", urlencode($this->getFile()));
-			$mp_tpl->setVariable("PLAYER_NR", self::$nr);
-			$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "30");
-			$mp_tpl->setVariable("DISPLAY_WIDTH", "320");
-			$mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
-			self::$nr++;
-			$mp_tpl->parseCurrentBlock();
-			return $mp_tpl->get();
-		}
-		
+
 		// audio/mpeg
 		if (is_int(strpos($mimeType,"audio/mpeg")))
 		{
-			$tpl->addCss("./Services/MediaObjects/media_element_2_9_1/mediaelementplayer.min.css");
-			$tpl->addJavaScript("./Services/MediaObjects/media_element_2_9_1/mediaelement-and-player.min.js");
+			ilPlayerUtil::initMediaElementJs();
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 			$mp_tpl->setCurrentBlock("audio");
 			$mp_tpl->setVariable("AFILE", $this->getFile());
-			$mp_tpl->setVariable("APLAYER_NR", self::$nr);
+			$mp_tpl->setVariable("APLAYER_NR", $this->current_nr);
 			$mp_tpl->setVariable("AHEIGHT", "30");
 			$mp_tpl->setVariable("AWIDTH", "320");
-			self::$nr++;
 			$mp_tpl->parseCurrentBlock();
 			return $mp_tpl->get();
 		}
-
+return;
 		$tpl->addJavaScript("./Services/MediaObjects/flash_flv_player/swfobject.js");		
 		$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
 		$mp_tpl->setCurrentBlock("default");
 		$mp_tpl->setVariable("FILE", urlencode($this->getFile()));
-		$mp_tpl->setVariable("PLAYER_NR", self::$nr);
+		$mp_tpl->setVariable("PLAYER_NR", $this->current_nr);
 		$mp_tpl->setVariable("DISPLAY_HEIGHT", strpos($mimeType,"audio/mpeg") === false ? "240" : "20");
 		$mp_tpl->setVariable("DISPLAY_WIDTH", "320");
-		self::$nr++;
 		$mp_tpl->parseCurrentBlock();
 		return $mp_tpl->get();
 	}
+	
+	/**
+	 * Get preview html
+	 *
+	 * @param
+	 * @return
+	 */
+	function getPreviewHtml()
+	{
+		return $this->getMp3PlayerHtml(true);
+	}
+	
 }
 ?>

@@ -1,4 +1,5 @@
 <tr class="{CSS_ROW}">
+<!-- BEGIN contrl_col -->
 <td class="std" style="vertical-align:top;">
 <!-- BEGIN edit_checkbox -->
 <input type="checkbox" name="item_id[]" value="{VAL_ID}" />
@@ -7,6 +8,7 @@
 <input type="text" name="item_id[{VAL_ID}]" value="{VAL_ORDER}" size="2" maxlength="3" />
 <!-- END edit_order -->
 </td>
+<!-- END contrl_col -->
 <td class="std" style="vertical-align:top;">
 <p class="small"><b>{VAL_TITLE}</b></p>
 <p class="small">
@@ -14,33 +16,30 @@
 </p>
 </td>
 <td class="std" style="vertical-align:top;">
-<p class="small"><b>{TXT_FILENAME}</b>:
-{VAL_FILENAME}
-</p>
-<p class="small"><b>{TXT_DURATION}</b>:
+<p class="small" style="white-space:nowrap;"><b>{TXT_DURATION}</b>:
 {VAL_DURATION}
 </p>
 <!-- BEGIN access -->
-<p class="small"><b>{TXT_ACCESS}</b>:
+<p class="small" style="white-space:nowrap;"><b>{TXT_ACCESS}</b>:
 {VAL_ACCESS}
 </p>
 <!-- END access -->
-<p class="small"><b>{TXT_CREATED}</b>:
+<p class="small" style="white-space:nowrap;"><b>{TXT_CREATED}</b>:
 {VAL_CREATED}
 </p>
 <!-- BEGIN last_update -->
-<p class="small"><b>{TXT_LAST_UPDATE}</b>:
+<p class="small" style="white-space:nowrap;"><b>{TXT_LAST_UPDATE}</b>:
 {VAL_LAST_UPDATE}
 </p>
 <!-- END last_update -->
 <!-- BEGIN downloadable -->
-<p>
-<a class="il_ContainerItemCommand" href="{CMD_DOWNLOAD}">{TXT_DOWNLOAD}</a>&nbsp;<small>{TITLE_DOWNLOAD}</small>
+<p class="small" style="white-space:nowrap;">
+<a href="{CMD_DOWNLOAD}">{TXT_DOWNLOAD}</a> {TITLE_DOWNLOAD}
 </p>
 <!-- END downloadable -->
 </td>
 <!-- BEGIN preview -->
-<td class="std">
+<td class="std" style="vertical-align:middle">
 {PLAYER}
 <div>
 <!-- BEGIN edit -->

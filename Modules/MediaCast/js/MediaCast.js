@@ -3,7 +3,7 @@
 
 // ILIAS Object related functions
 il.MediaCast = {
-	
+	/*
 	current_wrapper: '',
 	current_wrapper_num: 0,
 	wrappers: [],
@@ -58,13 +58,13 @@ il.MediaCast = {
 			}
 		}
 		
-		$("#" + wrapper_id).children().appendTo('#ilLighboxContent');
+		$("#" + wrapper_id).children().appendTo('#ilLightboxContent');
 	},
 	
 	unloadWrapper: function() {
 		
 		if (this.current_wrapper != "") {
-			$('#ilLighboxContent').children().appendTo('#' + this.current_wrapper);
+			$('#ilLightboxContent').children().appendTo('#' + this.current_wrapper);
 		}
 		this.current_wrapper = '';
 	},
@@ -81,7 +81,7 @@ il.MediaCast = {
 			this.unloadWrapper();
 			this.loadWrapper(this.wrappers[this.current_wrapper_num - 2]);
 		}
-	}
+	}*/
 }
 
-il.Util.addOnLoad(il.MediaCast.initItems);
+//il.Util.addOnLoad(il.MediaCast.initItems);

@@ -436,7 +436,7 @@ assessment#:#filter_users#:#Filter Users
 assessment#:#filter#:#Filter
 assessment#:#final_statement_show_desc#:#If checked, the concluding remarks will be shown directly after the test was finished prior to the presentation of the test results.
 assessment#:#final_statement_show#:#Show Concluding Remarks
-assessment#:#final_statement#:Concluding Remarks
+assessment#:#final_statement#:#Concluding Remarks
 assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the test settings.
 assessment#:#flashfile#:#Flash File
 assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.
@@ -12953,3 +12953,8 @@ survey#:#survey_question_pool_usage_active#:#Questions can be added optionally t
 survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
 survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.
+mcst#:#mcst_viewmode#:#Presentation Mode
+mcst#:#mcst_list#:#List
+mcst#:#mcst_gallery#:#Gallery
+mcst#:#mcst_manage#:#Manage
+mcst#:#mcst_play#:#Play
