@@ -10900,7 +10900,7 @@ survey#:#survey_template_reset#:#The template has been removed.
 survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
 survey#:#survey_auth_mode#:#Authentication Mode
 survey#:#survey_question_pool#:#Question Pool
-survey#:#survey_question_pool_usage#:#Choose Question Pool When Creating Questions
+survey#:#survey_question_pool_usage#:#Question Pool
 survey#:#survey_pool_selection#:#Pool Selection
 survey#:#survey_no_pool#:#Do not use question pool
 survey#:#survey_new_pool#:#Create new question pool
@@ -12950,3 +12950,7 @@ content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the th
 content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
 content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.
+survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.
+survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.
+survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
+survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.
