@@ -2,8 +2,9 @@
 <div id="player{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter">
 	<!-- BEGIN preview -->
 	<div class="ilPlayerPreviewOverlay">
-		<div class="ilPlayerPreviewPlayButton"></div>
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
+		<div class="ilPlayerPreviewDescription">{PTITLE}</div>
+		<div class="ilPlayerPreviewPlayButton"></div>
 	</div>
 	<!-- END preview -->
 	<!-- preload none is currently not working in IE: http://www.longtailvideo.com/html5 (April 2012) -->
@@ -18,7 +19,8 @@
 			</video>
 			<div style="padding-top: 10px; font-size: 80%; color: #808080;">
 				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose"></a>
-				Lore Ipsum hasse nich gesehen...
+				<p>{TITLE}</p>
+				<div>{DESCRIPTION}</div>
 			</div>
 		</div>
 	</div>
@@ -33,10 +35,21 @@
 </p>
 <!-- END flv -->
 <!-- BEGIN audio -->
-<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}"></audio>
-<script>
-$('#player_{APLAYER_NR}').mediaelementplayer({});
-</script>
+<div id="player{APLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter">
+	<!-- BEGIN apreview -->
+	<div class="ilPlayerPreviewOverlay">
+		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
+		<div class="ilPlayerPreviewDescription">{PTITLE}</div>
+		<div class="ilPlayerPreviewPlayButton"></div>
+	</div>
+	<!-- END apreview -->
+	<div style="{ASTYLE}">
+	<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}"></audio>
+	<script>
+	$('#player_{APLAYER_NR}').mediaelementplayer({});
+	</script>
+	</div>
+</div>
 <!-- END audio -->
 <!-- BEGIN default -->
 <p id="player{PLAYER_NR}">

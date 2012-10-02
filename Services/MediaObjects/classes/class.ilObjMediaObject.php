@@ -1597,17 +1597,24 @@ class ilObjMediaObject extends ilObject
 	 * @param
 	 * @return
 	 */
-	function getVideoPreviewPic()
+	function getVideoPreviewPic($a_filename_only = false)
 	{
 		$dir = ilObjMediaObject::_getDirectory($this->getId());
-		$ppics = array($dir."/mob_vpreview.jpg",
-			$dir."/mob_vpreview.jpeg",
-			$dir."/mob_vpreview.png");
+		$ppics = array("mob_vpreview.jpg",
+			"mob_vpreview.jpeg",
+			"mob_vpreview.png");
 		foreach ($ppics as $p)
 		{
-			if (is_file($p))
+			if (is_file($dir."/".$p))
 			{
-				return $p;
+				if ($a_filename_only)
+				{
+					return $p;
+				}
+				else
+				{
+					return $dir."/".$p;
+				}
 			}
 		}
 		return "";

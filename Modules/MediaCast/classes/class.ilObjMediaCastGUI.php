@@ -502,7 +502,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		if ($_POST["url_Standard"] == "" && !$_FILES['file_Standard']['tmp_name']) {
 			ilUtil::sendFailure($lng->txt("msg_input_either_file_or_url"));
 			$this->populateFormFromPost();
-		} else if ($this->form_gui->checkInput())
+		}
+		else if ($this->form_gui->checkInput())
 		{
 			
 			// create dummy object in db (we need an id)
@@ -519,7 +520,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$description = $this->form_gui->getInput("description"); 
 			$mob->setTitle($title);
 			$mob->setDescription($description);
-			
+
 			// save preview pic
 			$prevpic = $this->form_gui->getInput("preview_pic");
 			if ($prevpic["size"] > 0)
@@ -628,7 +629,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 * @param IlMediaItem $mediaItem
 	 * @return string file
 	 */
-	private function updateMediaItem ($mob, & $mediaItem) {
+	private function updateMediaItem ($mob, & $mediaItem)
+	{
 	    $purpose = $mediaItem->getPurpose();
 	    $url_gui = $this->form_gui->getInput ("url_".$purpose);
 	    $file_gui = $this->form_gui->getInput ("file_".$purpose);
@@ -761,6 +763,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
   			        {
   			        	$mob->uploadVideoPreviewPic($prevpic);
   			        }
+  			        else
+					{
+						$prevpici = $this->form_gui->getItemByPostVar("preview_pic");
+						if ($prevpici->getDeletionFlag())
+						{
+							$mob->removeAdditionalFile($mob->getVideoPreviewPic(true));
+						}
+					}
     			}			    
 			}
 			
@@ -1459,6 +1469,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$mpl->setDisplayHeight("480");
 				$mpl->setDisplayWidth("640");
 				$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+				$mpl->setTitle($item["title"]);
+				$mpl->setDescription($item["content"]);
+				$mpl->setForceAudioPreview(true);
 				$med_alt = $mob->getMediaItem("VideoAlternative");
 				if (is_object($med_alt))
 				{

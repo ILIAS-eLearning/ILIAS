@@ -12,13 +12,15 @@
 */
 class ilMediaPlayerGUI
 {
-	var $file;
-	var $displayHeight = "480";
-	var $displayWidth = "640";
-	var $mimeType;
-	static $nr = 1;
-	static $lightbox_initialized = false;
-	var $current_nr;
+	protected $file;
+	protected $displayHeight = "480";
+	protected $displayWidth = "640";
+	protected $mimeType;
+	protected static $nr = 1;
+	protected static $lightbox_initialized = false;
+	protected $current_nr;
+	protected $title;
+	protected $description;
 
 	function __construct($a_id = "")
 	{
@@ -151,6 +153,66 @@ class ilMediaPlayerGUI
 	}
 	
 	/**
+	 * Set Title
+	 *
+	 * @param string $a_val title	
+	 */
+	function setTitle($a_val)
+	{
+		$this->title = $a_val;
+	}
+	
+	/**
+	 * Get Title
+	 *
+	 * @return string title
+	 */
+	function getTitle()
+	{
+		return $this->title;
+	}
+	
+	/**
+	 * Set description
+	 *
+	 * @param string $a_val description	
+	 */
+	function setDescription($a_val)
+	{
+		$this->description = $a_val;
+	}
+	
+	/**
+	 * Get description
+	 *
+	 * @return string description
+	 */
+	function getDescription()
+	{
+		return $this->description;
+	}
+	
+	/**
+	 * Set force audio preview
+	 *
+	 * @param boolean $a_val force audio preview picture	
+	 */
+	function setForceAudioPreview($a_val)
+	{
+		$this->force_audio_preview = $a_val;
+	}
+	
+	/**
+	 * Get force audio preview
+	 *
+	 * @return boolean force audio preview picture
+	 */
+	function getForceAudioPreview()
+	{
+		return $this->force_audio_preview;
+	}
+	
+	/**
 	* Get Html for MP3 Player
 	*/
 	function getMp3PlayerHtml($a_preview = false)
@@ -225,6 +287,7 @@ class ilMediaPlayerGUI
 					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.png"));
 				}
 				$mp_tpl->setVariable("IMG_ALT", $this->video_preview_pic_alt);
+				$mp_tpl->setVariable("PTITLE", $this->getTitle());
 				$mp_tpl->parseCurrentBlock();
 			}
 			
@@ -262,6 +325,8 @@ class ilMediaPlayerGUI
 			$mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
 			$mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
 			$mp_tpl->setVariable("FFILE", $this->getFile());
+			$mp_tpl->setVariable("TITLE", $this->getTitle());
+			$mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
 			$mp_tpl->parseCurrentBlock();
 			$r = $mp_tpl->get();
 
@@ -273,7 +338,27 @@ class ilMediaPlayerGUI
 		{
 			ilPlayerUtil::initMediaElementJs();
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+			$preview_output = false;
+			if ($this->getVideoPreviewPic() != "" || $this->getForceAudioPreview())
+			{
+				$mp_tpl->setCurrentBlock("apreview");
+				if ($this->getVideoPreviewPic() != "")
+				{
+					$mp_tpl->setVariable("IMG_SRC", $this->getVideoPreviewPic());
+				}
+				else
+				{
+					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.png"));
+				}
+				$mp_tpl->setVariable("PTITLE", $this->getTitle());
+				$mp_tpl->parseCurrentBlock();
+				$preview_output = true;
+			}
 			$mp_tpl->setCurrentBlock("audio");
+			if ($preview_output)
+			{
+				$mp_tpl->setVariable("ASTYLE", "margin-top:-30px");
+			}
 			$mp_tpl->setVariable("AFILE", $this->getFile());
 			$mp_tpl->setVariable("APLAYER_NR", $this->current_nr);
 			$mp_tpl->setVariable("AHEIGHT", "30");

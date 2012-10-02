@@ -153,6 +153,8 @@ class ilMediaCastTableGUI extends ilTable2GUI
 					$mpl->setDisplayWidth("640");
 					$mpl->setDisplayHeight("480");
 					$mpl->setVideoPreviewPic($mob->getVideoPreviewPic());
+					$mpl->setTitle($a_set["title"]);
+					$mpl->setDescription($a_set["content"]);
 					
 					$med_alt = $mob->getMediaItem("VideoAlternative");
 					if (is_object($med_alt))
