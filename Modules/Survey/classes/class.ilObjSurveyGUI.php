@@ -469,9 +469,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form->addItem($anonymization_options);
 				
 		// pool usage
-		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");
-		$pool_usage->setValue(1);
-		$pool_usage->setChecked($this->object->getPoolUsage());
+		$pool_usage = new ilRadioGroupInputGUI($this->lng->txt("survey_question_pool_usage"), "use_pool");		
+		$opt = new ilRadioOption($this->lng->txt("survey_question_pool_usage_active"), 1);
+		$opt->setInfo($this->lng->txt("survey_question_pool_usage_active_info"));
+		$pool_usage->addOption($opt);
+		$opt = new ilRadioOption($this->lng->txt("survey_question_pool_usage_inactive"), 0);
+		$opt->setInfo($this->lng->txt("survey_question_pool_usage_inactive_info"));
+		$pool_usage->addOption($opt);
+		$pool_usage->setValue($this->object->getPoolUsage());
 		$form->addItem($pool_usage);
 		
 		

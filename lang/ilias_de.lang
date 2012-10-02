@@ -11493,7 +11493,7 @@ survey#:#survey_question_obligatory#:#(Diese Frage ist eine Pflichtfrage. Sie mu
 survey#:#survey_question_optional#:#(Optional)
 survey#:#survey_question_pool#:#Fragenpool
 survey#:#survey_question_pool_title#:#Pool-Titel
-survey#:#survey_question_pool_usage#:#Fragenpool-Auswahl beim Anlegen von Fragen
+survey#:#survey_question_pool_usage#:#Fragenpool
 survey#:#survey_question_text_hidden#:#Text nicht sichtbar
 survey#:#survey_question_text_visible#:#Text sichtbar
 survey#:#survey_question_title#:#Fragetitel
@@ -12940,3 +12940,7 @@ content#:#cont_topic#:#Topic###28 09 2012 new variable
 content#:#cont_selected_topic#:#Selected Topic###28 09 2012 new variable
 content#:#cont_all_topics#:#All Topics###28 09 2012 new variable
 content#:#cont_highlight_class#:#Highlight Class###28 09 2012 new variable
+survey#:#survey_question_pool_usage_active#:#Fragen können optional im Fragenpool angelegt werden.
+survey#:#survey_question_pool_usage_active_info#:#Die Fragen können für andere Umfragen wiederverwendet werden.
+survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
+survey#:#survey_question_pool_usage_inactive_info#:#Die Fragen können nicht wiederverwendet werden.
