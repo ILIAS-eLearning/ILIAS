@@ -12,27 +12,39 @@ il.MediaObjects = {
 
 	// click on a media preview picture
 	processMediaPreviewClick: function (t,e) {
-		var video_el, player, video_el_wrap;
+		var video_el, player, video_el_wrap, audio_el;
 
 		// stop current player, if already playing
 		il.MediaObjects.stopCurrentPlayer();
 		
-		$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
+		// video ?
 		video_el = $(t).find('video');
-		video_el_wrap = $('#' + video_el.attr('id') + "_vtwrap");
-		
-		il.Lightbox.activateView('media_lightbox');
-		//il.Lightbox.onDeactivation('media_lightbox', il.MediaObjects.onLightboxDeactivation);
-		il.Lightbox.loadWrapperToLightbox(video_el.attr('id') + "_wrapper", "media_lightbox");
-
-		video_el.removeClass('ilNoDisplay');
-		video_el_wrap.removeClass('ilNoDisplay');
-		video_el.attr('autoplay', 'true');
-		player = new MediaElementPlayer('#' + video_el.attr('id'), {});
-		// this fails in safari if a flv file has been called before
-		//player.play();
-		il.MediaObjects.current_player_id = video_el.attr('id');
-		il.MediaObjects.current_player = player;
+		if (video_el.length > 0) {
+			$(t).find('.ilPlayerPreviewOverlay').addClass('ilNoDisplay');
+			video_el_wrap = $('#' + video_el.attr('id') + "_vtwrap");
+			
+			il.Lightbox.activateView('media_lightbox');
+			//il.Lightbox.onDeactivation('media_lightbox', il.MediaObjects.onLightboxDeactivation);
+			il.Lightbox.loadWrapperToLightbox(video_el.attr('id') + "_wrapper", "media_lightbox");
+	
+			video_el.removeClass('ilNoDisplay');
+			video_el_wrap.removeClass('ilNoDisplay');
+			video_el.attr('autoplay', 'true');
+			player = new MediaElementPlayer('#' + video_el.attr('id'), {});
+			// this fails in safari if a flv file has been called before
+			//player.play();
+			il.MediaObjects.current_player_id = video_el.attr('id');
+			il.MediaObjects.current_player = player;
+		} else {
+			// audio ?
+			audio_el = $(t).find('audio');
+			if (audio_el.length > 0) {
+				player = $('#' + audio_el.attr('id'))[0].player.media;
+				player.play();
+				il.MediaObjects.current_player_id = audio_el.attr('id');
+				il.MediaObjects.current_player = player;
+			}
+		}
 	},
 
 	onLightboxDeactivation: function(id) {

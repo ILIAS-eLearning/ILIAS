@@ -3852,6 +3852,15 @@ td.dcl_actions {
 	cursor:pointer;
 }
 
+.ilPlayerPreviewDescription {
+	padding: 7px;
+	font-size: 85%;
+	position:relative;
+	color: #F0F0F0;
+	top:-240px;
+	background: url("images/black60.png") repeat;
+}
+
 .ilPlayerPreviewOverlay img {
 	cursor:pointer;
 	width: 100%;
