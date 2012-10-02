@@ -12926,7 +12926,8 @@ rating#:#rating_export_category#:#Kategorie
 rating#:#rating_export_date#:#Datum
 rating#:#rating_export_rating#:#Bewertung
 trac#:#trac_mode_plugin#:#Plugin
-common#:#qpl_copy#:#Fragenpool für Tests kopierenmathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
+common#:#qpl_copy#:#Fragenpool für Tests kopieren
+mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax###28 09 2012 new variable
 mathjax#:#mathjax_mathjax#:#MathJax###28 09 2012 new variable
 mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
