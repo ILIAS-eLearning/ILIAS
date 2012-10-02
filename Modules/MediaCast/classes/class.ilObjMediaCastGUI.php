@@ -126,31 +126,36 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	/**
 	* List items of media cast.
 	*/
-	function listItemsObject()
+	function listItemsObject($a_presentation_mode = false)
 	{
-		global $tpl, $lng, $ilAccess, $ilTabs, $ilToolbar;				
+		global $tpl, $lng, $ilAccess, $ilTabs, $ilToolbar;
 		
 		$this->checkPermission("read");
-		$ilTabs->activateTab("edit_content");
+		
+		if ($a_presentation_mode)
+		{
+			$this->addContentSubTabs("content");
+		}
+		else
+		{
+			$this->addContentSubTabs("manage");
+		}
 		
 		$med_items = $this->object->getSortedItemsArray();
-		
-		// sort by order setting
-		if ($this->object->getOrder() && $ilAccess->checkAccess("write", "", $_GET["ref_id"]))
-		{
-			// sub-tabs
-			$ilTabs->addSubTab("id_view", $lng->txt("view"), $this->ctrl->getLinkTarget($this, "listItems"));
-			$ilTabs->addSubTab("id_order", $lng->txt("mcst_ordering"), $this->ctrl->getLinkTarget($this, "editOrder"));
-			$ilTabs->activateSubTab("id_view");
-		}
 
 		include_once("./Modules/MediaCast/classes/class.ilMediaCastTableGUI.php");
-		$table_gui = new ilMediaCastTableGUI($this, "listItems");
-				
-		$table_gui->setTitle($lng->txt("mcst_media_cast"));
+		if ($a_presentation_mode)
+		{
+			$table_gui = new ilMediaCastTableGUI($this, "showContent", false, true);
+		}
+		else
+		{
+			$table_gui = new ilMediaCastTableGUI($this, "listItems");
+		}
+
 		$table_gui->setData($med_items);
 		
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$a_presentation_mode)
 		{			
 			$ilToolbar->addButton($lng->txt("add"), $this->ctrl->getLinkTarget($this, "addCastItem"));
 			
@@ -989,10 +994,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$ilTabs->addTab("content",
 				$lng->txt("content"),
 				$this->ctrl->getLinkTarget($this, "showContent"));
-
-			$ilTabs->addTab("edit_content",
-				$lng->txt("edit_content"),
-				$this->ctrl->getLinkTarget($this, "listItems"));
 		}
 
 		// info screen
@@ -1028,6 +1029,39 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		}
 	}
 
+	/**
+	 * Add content subtabs
+	 *
+	 * @param
+	 * @return
+	 */
+	function addContentSubTabs($a_active = "content")
+	{
+		global $ilTabs, $ilAccess, $lng;
+		
+		$ilTabs->addSubTab("content",
+			$lng->txt("view"),
+			$this->ctrl->getLinkTarget($this, "showContent"));
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
+			$ilTabs->addSubTab("manage",
+				$lng->txt("mcst_manage"),
+				$this->ctrl->getLinkTarget($this, "listItems"));
+			
+			if ($this->object->getOrder() == ilObjMediaCast::ORDER_MANUAL)
+			{
+				$ilTabs->addSubTab("sorting",
+					$lng->txt("mcst_ordering"),
+					$this->ctrl->getLinkTarget($this, "editOrder"));
+			}
+		}
+		
+		$ilTabs->activateSubTab($a_active);
+		$ilTabs->activateTab("content");
+	}
+	
+	
 	/**
 	* Edit settings
 	*/
@@ -1083,6 +1117,17 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			ilObjMediaCast::ORDER_MANUAL));		
 		$sort->setValue($this->object->getOrder());
 		$this->form_gui->addItem($sort);
+		
+		// view mode
+		$options = array(
+			ilObjMediaCast::VIEW_LIST => $lng->txt("mcst_list"),
+			ilObjMediaCast::VIEW_GALLERY => $lng->txt("mcst_gallery")
+			);
+		$si = new ilSelectInputGUI($this->lng->txt("mcst_viewmode"), "viewmode");
+		$si->setOptions($options);
+		$si->setValue($this->object->getViewMode());
+		$this->form_gui->addItem($si);
+		
 		
 		// Downloadable
 		$downloadable = new ilCheckboxInputGUI($lng->txt("mcst_downloadable"), "downloadable");
@@ -1160,6 +1205,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$this->object->setOnline($this->form_gui->getInput("online"));
 			$this->object->setDownloadable($this->form_gui->getInput("downloadable"));
 			$this->object->setOrder($this->form_gui->getInput("order"));
+			$this->object->setViewMode($this->form_gui->getInput("viewmode"));
 			
 			if ($enable_internal_rss)
 			{
@@ -1294,7 +1340,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		$this->checkPermission("write");
 		$ilTabs->activateTab("edit_content");
-				
+		
+		$this->addContentSubTabs("sorting");
+		
 		// sort by order setting
 		switch($this->object->getOrder())
 		{
@@ -1305,9 +1353,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			
 			case ilObjMediaCast::ORDER_MANUAL:
 				// sub-tabs
-				$ilTabs->addSubTab("id_view", $lng->txt("view"), $this->ctrl->getLinkTarget($this, "listItems"));
-				$ilTabs->addSubTab("id_order", $lng->txt("mcst_ordering"), $this->ctrl->getLinkTarget($this, "editOrder"));
-				$ilTabs->activateSubTab("id_order");								
 				break;
 		}
 	
@@ -1351,11 +1396,26 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	 */
 	function showContentObject()
 	{
+		if ($this->object->getViewMode() == ilObjMediaCast::VIEW_GALLERY)
+		{
+			$this->showGallery();
+		}
+		else
+		{
+			$this->listItemsObject(true);
+		}
+	}
+	
+	function showGallery()
+	{
 		global $tpl, $ilTabs;
 		
 		$tpl->addJavascript("./Modules/MediaCast/js/MediaCast.js");
 		
 		$ilTabs->activateTab("content");
+		
+		$this->addContentSubTabs("content");
+		
 		$ctpl = new ilTemplate("tpl.mcst_content.html", true, true, "Modules/MediaCast");
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
@@ -1373,6 +1433,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			{
 				$ctpl->setVariable("PREVIEW_PIC",
 					ilUtil::img($mob->getVideoPreviewPic(), $item["title"], 320, 240));
+			}
+			else
+			{
+				$ctpl->setVariable("PREVIEW_PIC",
+					ilUtil::img(ilUtil::getImagePath("mcst_preview.png"), $item["title"], 320, 240));
 			}
 			
 			// player
@@ -1402,10 +1467,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
 					$mpl->setAlternativeVideoMimeType($med_alt->getFormat());
 				}
 				
-				$ctpl->setVariable("PLAYER", $mpl->getMp3PlayerHtml());
+				$ctpl->setVariable("PLAYER", $mpl->getPreviewHtml());
 			}
 
-			$ctpl->setVariable("LIGHTBOX_WIDTH", "640px");
 			
 			$ctpl->parseCurrentBlock();
 		}

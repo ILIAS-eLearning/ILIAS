@@ -55,6 +55,7 @@ class ilTemplate extends ilTemplateX
 
 	protected $title_alerts = array();
 	protected $header_action;
+	protected $lightbox = array();
 
 	/**
 	* constructor
@@ -263,6 +264,7 @@ class ilTemplate extends ilTemplateX
 				}
 				$this->parseCurrentBlock();
 			}
+			$this->fillLightbox();
 		}
 
 		if ($handle_referer)
@@ -510,6 +512,7 @@ class ilTemplate extends ilTemplateX
 				$this->fillMainMenu();
 				$this->parseCurrentBlock();
 			}
+			$this->fillLightbox();
 		}
 		
 		if ($part == "DEFAULT" or is_bool($part))
@@ -2081,6 +2084,32 @@ class ilTemplate extends ilTemplateX
 	{
 		$this->inline_css[] = array("css" => $a_css, "media" => $media);
 	}
+	
+	/**
+	 * Add lightbox html
+	 */
+	function addLightbox($a_html, $a_id)
+	{
+		$this->lightbox[$a_id] = $a_html;
+	}
+
+	/**
+	 * Fill lightbox content
+	 *
+	 * @param
+	 * @return
+	 */
+	function fillLightbox()
+	{
+		$html = "";
+
+		foreach ($this->lightbox as $lb)
+		{
+			$html.= $lb;
+		}
+		$this->setVariable("LIGHTBOX", $html);
+	}
+	
 	
 	/**
 	* Set selection and create button for adding new objects

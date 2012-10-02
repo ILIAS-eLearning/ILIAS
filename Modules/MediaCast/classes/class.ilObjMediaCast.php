@@ -18,12 +18,16 @@ class ilObjMediaCast extends ilObject
 	protected $publicfiles = false;
 	protected $downloadable = true;
 	protected $order;
+	protected $view_mode = "";
 	
 	const ORDER_TITLE = 1;
 	const ORDER_CREATION_DATE_ASC = 2;
 	const ORDER_CREATION_DATE_DESC = 3;
 	const ORDER_MANUAL = 4;
 	
+	const VIEW_LIST = "";
+	const VIEW_GALLERY = "gallery";
+
 	/**
 	 * access to rss news
 	 *
@@ -86,6 +90,25 @@ class ilObjMediaCast extends ilObject
 		return $this->publicfiles;
 	}
 
+	/**
+	 * Set view mode
+	 *
+	 * @param string $a_val view mode	
+	 */
+	function setViewMode($a_val)
+	{
+		$this->view_mode = $a_val;
+	}
+	
+	/**
+	 * Get view mode
+	 *
+	 * @return string view mode
+	 */
+	function getViewMode()
+	{
+		return $this->view_mode;
+	}
 	/**
 	* Set ItemsArray.
 	*
@@ -239,13 +262,15 @@ class ilObjMediaCast extends ilObject
 			", downloadable".
 		    ", def_access".
 			", sortmode".
+			", viewmode".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote((int) $this->getOnline(), "integer")
 			.",".$ilDB->quote((int) $this->getPublicFiles(), "integer")
 			.",".$ilDB->quote((int) $this->getDownloadable(), "integer")
 			.",".$ilDB->quote((int) $this->getDefaultAccess(), "integer")
-			.",".$ilDB->quote((int) $this->getOrder(), "integer")			
+			.",".$ilDB->quote((int) $this->getOrder(), "integer")
+			.",".$ilDB->quote((int) $this->getViewMode(), "text")			
 			.")";
 		$ilDB->manipulate($query);
 
@@ -273,6 +298,7 @@ class ilObjMediaCast extends ilObject
 			", downloadable = ".$ilDB->quote((int) $this->getDownloadable(), "integer").
 		    ", def_access = ".$ilDB->quote((int) $this->getDefaultAccess(), "integer").
 		    ", sortmode = ".$ilDB->quote((int) $this->getOrder(), "integer").
+		    ", viewmode = ".$ilDB->quote($this->getViewMode(), "text").
 			" WHERE id = ".$ilDB->quote((int) $this->getId(), "integer");
 
 		$ilDB->manipulate($query);
@@ -300,6 +326,7 @@ class ilObjMediaCast extends ilObject
 		$this->setDownloadable($rec["downloadable"]);
 		$this->setDefaultAccess($rec["def_access"]);
 		$this->setOrder($rec["sortmode"]);
+		$this->setViewMode($rec["viewmode"]);
 		
 	}
 

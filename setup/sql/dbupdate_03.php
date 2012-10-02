@@ -13401,3 +13401,13 @@ if (!$ilDB->tableColumnExists('map_area', 'highlight_class'))
 		"fixed" => false));
 }
 ?>
+<#3779>
+<?php	
+if (!$ilDB->tableColumnExists('il_media_cast_data', 'viewmode'))
+{
+	$ilDB->addTableColumn("il_media_cast_data", "viewmode", array(
+		"type" => "text",
+		"notnull" => false,
+		"length" => 20));
+}
+?>
