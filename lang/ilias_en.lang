@@ -434,9 +434,9 @@ assessment#:#filter_show_question_types#:#Show Question Types
 assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#filter_users#:#Filter Users
 assessment#:#filter#:#Filter
-assessment#:#final_statement_show_desc#:#If checked, the final statement will be shown directly after the test was finished prior to the presentation of the test results.
-assessment#:#final_statement_show#:#Show Final Statement
-assessment#:#final_statement#:#Final Statement
+assessment#:#final_statement_show_desc#:#If checked, the concluding remarks will be shown directly after the test was finished prior to the presentation of the test results.
+assessment#:#final_statement_show#:#Show Concluding Remarks
+assessment#:#final_statement#:Concluding Remarks
 assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the test settings.
 assessment#:#flashfile#:#Flash File
 assessment#:#forcejs_desc#:#If checked, JavaScript output will be chosen for test questions if a JavaScript output and a fallback solution exist.
@@ -684,7 +684,7 @@ assessment#:#save_before_upload_imagemap#:#You must apply your changes before yo
 assessment#:#save_before_upload_javaapplet#:#You must apply your changes before you can upload a Java applet!
 assessment#:#save_edit#:#Save and Edit Content
 assessment#:#save_finish#:#Finish the Test
-assessment#:#save_introduction#:#Go to Introduction
+assessment#:#save_introduction#:#Go to Introductory Message
 assessment#:#save_next#:#Next
 assessment#:#save_previous#:#Previous
 assessment#:#save_text_answer_points#:#Save Essay Points
@@ -716,7 +716,7 @@ assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User's Marked Answers
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introduction text (if available) and the required properties will be shown on the Test Information Page. 
+assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introductory message (if available) and the required properties will be shown on the Test Information Page. 
 assessment#:#showinfo#:#Show the complete Information Page
 assessment#:#showSuggestedSolution#:#Suggested solution
 assessment#:#shuffle_answers#:#Shuffle Answers
@@ -762,8 +762,7 @@ assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Maximum Number of Users Running the Test Simultaneously
 assessment#:#tst_already_submitted#:#Test has already been finish and submitted.
 assessment#:#tst_already_taken#:#Tests Already Taken
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized.
-assessment#:#tst_anonymity#:#Anonymity
+assessment#:#tst_anonymity#:#Test Record
 assessment#:#tst_answer_sheet#:#Test Answer Sheet
 assessment#:#tst_answered_questions_test#:#Questions answered in this test
 assessment#:#tst_answered_questions#:#Answered Questions
@@ -836,7 +835,7 @@ assessment#:#tst_instant_feedback_results#:#Show Results (Only Points)
 assessment#:#tst_instant_feedback_solution#:#Show Solutions
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_verification#:#Instant Verification
-assessment#:#tst_introduction#:#Introduction
+assessment#:#tst_introduction#:#Introductory Message
 assessment#:#tst_invited_nobody#:#No users, groups or roles have been added as fixed test participants
 assessment#:#tst_invited_selected_groups#:#The selected groups have been added as fixed test participants
 assessment#:#tst_invited_selected_roles#:#The selected roles have been added as fixed test participants
@@ -947,7 +946,7 @@ assessment#:#tst_results_access_never#:#Never
 assessment#:#tst_results_access#:#Access to Test Results
 assessment#:#tst_results_aggregated#:#Aggregated Test Results
 assessment#:#tst_results_back_evaluation#:#Back to Evaluation Overview
-assessment#:#tst_results_back_introduction#:#Back to Introduction
+assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
@@ -3779,7 +3778,7 @@ common#:#proxy_port_numeric#:#The entered port has to be a numeric value between
 common#:#proxy_port#:#Port
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check weblinks) please activate the checkbox above.
 common#:#proxy_status#:#Proxy
-common#:#proxy#:#Proxy
+common#:#proxy#:#Proxy-Server
 rbac#:#ps_edit_permission#:#User can change permission settings of Privacy/Security administration
 rbac#:#ps_export_member_data#:#User can export member data in courses and groups
 rbac#:#ps_read#:#User has read access to Privacy/Security administration
@@ -9400,7 +9399,7 @@ survey#:#insert_missing_question#:#Please select at least one question to insert
 survey#:#insert_missing_questionblock#:#Please select at least one question block to insert it into the survey!
 survey#:#internal_link#:#Internal Link
 survey#:#introduction_manage_phrases#:#Manage your own phrases which are available for all the ordinal questions you edit/create.
-survey#:#introduction#:#Introduction
+survey#:#introduction#:#Introductory Message
 survey#:#invitation_mode_desc#:#To invite a user to this survey a link reference to the survey is created on the users personal desktop.
 survey#:#invitation_mode#:#Invite Users
 survey#:#invitation_off#:#No invitations
@@ -9500,7 +9499,7 @@ survey#:#on_additional#:#On, and additional
 survey#:#on#:#On
 survey#:#or#:#or
 survey#:#orientation#:#Orientation
-survey#:#outro#:#Final Statement
+survey#:#outro#:#Concluding Remarks
 survey#:#percentage_of_entered_values#:#Percentage of users that entered this value
 survey#:#percentage_of_offered_answers#:#Percentage of offered answers
 survey#:#percentage_of_selections#:#Percentage of users that selected this answer
@@ -10357,7 +10356,7 @@ survey#:#mailnotification#:#Email notification
 survey#:#mailaddresses#:#Recipient addresses
 survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
 survey#:#mailparticipantdata#:#Additional participant data
-survey#:#mailparticipantdata_info#:#Add an introduction to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.
+survey#:#mailparticipantdata_info#:#Add an introductory message to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.
 survey#:#table_fields#:#Definition of field names for external mails
 survey#:#tablefields#:#Field names
 survey#:#mail_import_example1#:#email;firstname;lastname
@@ -10928,9 +10927,9 @@ survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one ques
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-assessment#:#tst_anonymity_no_anonymization#:#No Anonymization
-assessment#:#tst_anonymity_anonymous_test#:#Anonymous Test
-assessment#:#tst_beginning_ending_information#:#Information at beginning and end of test
+assessment#:#tst_anonymity_no_anonymization#:#Particpants Results and Names are Tracked
+assessment#:#tst_anonymity_anonymous_test#:#Particpants Take Test Anonymously
+assessment#:#tst_beginning_ending_information#:#Information at Beginning and End of Test
 assessment#:#tst_presentation_properties#:#Presentation Settings
 assessment#:#tst_settings_template#:#Template
 assessment#:#test_delete_page#:#Delete Question
