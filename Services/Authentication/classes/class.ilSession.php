@@ -3,6 +3,7 @@
 
 require_once('Services/Authentication/classes/class.ilSessionControl.php');
 require_once('Services/Authentication/classes/class.ilSessionStatistics.php');
+require_once('Services/Authentication/classes/class.ilSessionIStorage.php');
 
 /**   
 * @author Alex Killing <alex.killing@gmx.de>
@@ -188,7 +189,6 @@ class ilSession
 				$ilDB->in("session_id", $a_session_id, "", "text");
 		}
 
-		include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
 		ilSessionIStorage::destroySession($a_session_id);
 
 		$ilDB->manipulate($q);

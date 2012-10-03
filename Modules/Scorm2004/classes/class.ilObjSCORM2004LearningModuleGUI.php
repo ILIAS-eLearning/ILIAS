@@ -113,11 +113,22 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	}
 
 	/**
+	 * Edit organization (called from listgui, must setup frameset)
+	 *
+	 * @param
+	 * @return
+	 */
+	function editOrganization()
+	{
+		$this->frameset(true);
+	}
+
+	/**
 	 * output main frameset of media pool
 	 * left frame: explorer tree of folders
 	 * right frame: media pool content
 	 */
-	function frameset()
+	function frameset($a_to_organization = false)
 	{
 		if ($this->object->getEditable())	// show editing frameset
 		{
@@ -142,7 +153,14 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 			}
 			else
 			{
-				$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "properties"));
+				if ($a_to_organization)
+				{
+					$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "showOrganization"));
+				}
+				else
+				{
+					$fs_gui->setMainFrameSource($this->ctrl->getLinkTarget($this, "properties"));
+				}
 			}
 			$fs_gui->show();
 			exit;

@@ -33,7 +33,8 @@ class ilObjExerciseAccess extends ilObjectAccess
 		(
 			array("permission" => "read", "cmd" => "showOverview", "lang_var" => "show",
 				"default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit")
+			array("permission" => "write", "cmd" => "listAssignments", "lang_var" => "edit_assignments"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings")
 		);
 		
 		return $commands;

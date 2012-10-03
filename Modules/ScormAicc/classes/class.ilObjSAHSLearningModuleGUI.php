@@ -171,7 +171,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				}
 				break;
 			default:
-				$cmd = $this->ctrl->getCmd("frameset");
+				if (!$this->object->getEditable())
+				{
+					$cmd = $this->ctrl->getCmd("properties");
+				}
+				else
+				{
+					$cmd = $this->ctrl->getCmd("frameset");
+				}
 				if ((strtolower($_GET["baseClass"]) == "iladministrationgui" ||
 					$this->getCreationMode() == true) &&
 					$cmd != "frameset")
@@ -558,14 +565,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	* left frame: explorer tree of folders
 	* right frame: media pool content
 	*/
-	function frameset()
+/*	function frameset()
 	{
 		$this->tpl = new ilTemplate("tpl.sahs_edit_frameset.html", false, false, "Modules/ScormAicc");
 		$this->tpl->setVariable("SRC",
 			$this->ctrl->getLinkTarget($this, "properties"));
 		$this->tpl->show("DEFAULT", false);
 		exit;
-	}
+	}*/
 
 	/**
 	* output tabs
@@ -620,7 +627,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			
 		// properties
 		$tabs_gui->addTarget("settings",
-			$this->ctrl->getLinkTarget($this, "properties"), "properties",
+			$this->ctrl->getLinkTarget($this, "properties"), array("", "properties"),
 			get_class($this));
 			
 		// learning progress
@@ -732,6 +739,26 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 		{
 			$ilLocator->addItem($this->object->getTitle(),
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"), "", $_GET["ref_id"]);
+		}
+	}
+	
+	/**
+	 * List files
+	 *
+	 * @param
+	 * @return
+	 */
+	function editContent()
+	{
+		global $ilCtrl;
+		
+		if (!$this->object->getEditable())
+		{
+			$ilCtrl->redirectByClass("ilfilesystemgui", "listFiles");
+		}
+		else
+		{
+			$ilCtrl->redirectByClass("ilobjscorm2004learningmodulegui", "editOrganization");
 		}
 	}
 

@@ -223,8 +223,16 @@ class ilLMEditorGUI
 			}
 			else
 			{
-				$fs_gui->setMainFrameSource(
-					$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters"));
+				if ($_GET["to_props"] == 1)
+				{
+					$fs_gui->setMainFrameSource(
+						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "properties"));
+				}
+				else
+				{
+					$fs_gui->setMainFrameSource(
+						$this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters"));
+				}
 			}
 		}
 		$fs_gui->show();
