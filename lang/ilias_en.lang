@@ -12959,3 +12959,7 @@ mcst#:#mcst_gallery#:#Gallery
 mcst#:#mcst_manage#:#Manage
 mcst#:#mcst_play#:#Play
 common#:#edit_assignments#:#Edit Assignments
+mcst#:#mcst_extract_preview_image#:#Extract Preview Image
+mcst#:#mcst_image_extracted#:#Image has been extracted.
+mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
+mcst#:#mcst_second#:#Second

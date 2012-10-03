@@ -99,6 +99,20 @@ class ilFFmpeg
 	}
 	
 	/**
+	 * Check if mime type supports image extraction
+	 *
+	 * @param string $a_mime mime type
+	 */
+	static function supportsImageExtraction($a_mime)
+	{
+		if (in_array($a_mime, self::getSourceMimeTypes()))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Get possible target formats
 	 *
 	 * @param
@@ -236,6 +250,46 @@ class ilFFmpeg
 		return self::$last_return;
 	}
 	
+	/**
+	 * Extract image from video file
+	 *
+	 * @param string $a_file source file (full path included)
+	 * @param string $a_target_dir target directory (no trailing "/")
+	 * @param string $a_target_filename target file name (no path!)
+	 *
+	 * @return string new file (full path)
+	 */
+	static function extractImage($a_file, $a_target_filename, $a_target_dir = "",
+		$a_sec = 1)
+	{
+//echo "-$a_file-$a_target_filename-$a_target_dir-$a_sec-<br>";
+
+		$spi = pathinfo($a_file);
+		
+		// use source directory if no target directory is passed
+		$target_dir = ($a_target_dir != "")
+			? $a_target_dir
+			: $spi['dirname'];
+		
+		$target_file = $target_dir."/".$a_target_filename;
+		
+		$sec = (int) $a_sec;
+		$cmd = "-y -i ".$a_file." -r 1 -f image2 -vframes 1 -ss ".$sec." ".$target_file;
+//echo "-$cmd-"; exit;
+		$ret = self::exec($cmd." 2>&1");
+		self::$last_return = $ret;
+		
+		if (is_file($target_file))
+		{
+			return $target_file;
+		}
+		else
+		{
+			include_once("./Services/MediaObjects/exceptions/class.ilFFmpegException.php");
+			throw new ilFFmpegException("It was not possible to extract an image from ".basename($a_file).".");
+		}
+	}
+
 }
 
 ?>
