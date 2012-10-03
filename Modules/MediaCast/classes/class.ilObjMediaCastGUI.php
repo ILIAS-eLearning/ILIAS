@@ -281,6 +281,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			// currently only "Standard" is implemented in the convertFile method
 		    foreach (array("Standard") as $p)
 		    {
+		    	/*
 		    	$med = $mob->getMediaItem($p);
 		    	if (is_object($med))
 		    	{
@@ -311,11 +312,30 @@ class ilObjMediaCastGUI extends ilObjectGUI
 						$conv_cnt++;
 					}
 				}
+				*/
 				
-				if ($conv_cnt > 0)
+		    	$med = $mob->getMediaItem($p);
+		    	if (is_object($med))
+		    	{
+					if (ilFFmpeg::supportsImageExtraction($med->getFormat()))
+					{
+						// second
+						include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+						$ni = new ilTextInputGUI($this->lng->txt("mcst_second"), "sec");
+						$ni->setMaxLength(4);
+						$ni->setSize(4);
+						$ni->setValue(1);
+						$ilToolbar->addInputItem($ni, true);
+						
+						$ilToolbar->addFormButton($this->lng->txt("mcst_extract_preview_image"), "extractPreviewImage");
+						$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+					}
+				}
+				
+				/*if ($conv_cnt > 0)
 				{
 					$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-				}
+				}*/
 		    }
 		}
 		
@@ -1571,5 +1591,63 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$ilCtrl->redirect($this, "editCastItem");
 	}
 	
+	/**
+	 * Extract preview image
+	 *
+	 * @param
+	 * @return
+	 */
+	function extractPreviewImageObject()
+	{
+		global $ilCtrl;
+		
+		$this->checkPermission("write");
+		
+		$this->mcst_item = new ilNewsItem($_GET["item_id"]);
+		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+		$mob = new ilObjMediaObject($this->mcst_item->getMobId());
+		
+		try
+		{
+			$sec = (int) $_POST["sec"];
+			if ($sec < 0)
+			{
+				$sec = 0;
+			}
+			if ($mob->getVideoPreviewPic() != "")
+			{
+				$mob->removeAdditionalFile($mob->getVideoPreviewPic(true));
+			}
+			include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
+			$med = $mob->getMediaItem("Standard");
+			$mob_file = ilObjMediaObject::_getDirectory($mob->getId())."/".$med->getLocation();
+			$new_file = ilFFmpeg::extractImage($mob_file, "mob_vpreview.png",
+				ilObjMediaObject::_getDirectory($mob->getId()), $sec);
+			
+			if ($new_file != "")
+			{
+				ilUtil::sendInfo($this->lng->txt("mcst_image_extracted"), true);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("mcst_no_extraction_possible"), true);
+			}
+		}
+		catch (ilException $e)
+		{
+			if (DEVMODE == 1)
+			{
+				$ret = ilFFmpeg::getLastReturnValues();
+				$add = (is_array($ret) && count($ret) > 0)
+					? "<br />".implode($ret, "<br />")
+					: "";
+			}
+			ilUtil::sendFailure($e->getMessage().$add, true);
+		}
+		
+		
+		$ilCtrl->redirect($this, "editCastItem");
+	}
+
 }
 ?>
