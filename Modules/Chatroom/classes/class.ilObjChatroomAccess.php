@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
@@ -31,8 +31,10 @@ class ilObjChatroomAccess extends ilObjectAccess
 	{
 		$commands	= array();
 		$commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "enter", "default" => true);
-		$commands[] = array("permission" => "write", "cmd" => "settings-general", "lang_var" => "edit");
-		$commands[] = array("permission" => "write", "cmd" => "versions", "lang_var" => "versions");
+		$commands[] = array("permission" => "write", "cmd" => "settings-general", "lang_var" => "settings");
+		
+		// alex 3 Oct 2012: this leads to a blank screen, i guess it is a copy/paste bug from files
+		//$commands[] = array("permission" => "write", "cmd" => "versions", "lang_var" => "versions");
 
 		return $commands;
 	}

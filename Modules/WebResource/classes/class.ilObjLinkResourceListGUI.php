@@ -4,6 +4,7 @@
 
 
 include_once "Services/Object/classes/class.ilObjectListGUI.php";
+include_once('./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php');
 
 /**
 * Class ilObjLinkResourceListGUI
@@ -15,7 +16,6 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 */
 class ilObjLinkResourceListGUI extends ilObjectListGUI
 {
-	var $single_link = null;
 	var $link_data = array();
 
 	/**
@@ -33,7 +33,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getTitle()
 	{
-		if($this->__checkDirectLink())
+		if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 		{
 			$this->__readLink();
 			
@@ -46,7 +46,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	*/
 	function getDescription()
 	{
-		if($this->__checkDirectLink())
+		if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 		{
 			$this->__readLink();
 			return ilUtil::shortenText($this->link_data['description'],MAXLENGTH_OBJ_DESC,true);
@@ -70,7 +70,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		$this->info_screen_enabled = true;
 		
 		// general commands array
-		include_once('./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php');
 		$this->commands = ilObjLinkResourceAccess::_getCommands();
 	}
 
@@ -86,7 +85,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "":
-				if($this->__checkDirectLink())
+				if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 				{
 					$frame = '_blank';
 				}
@@ -133,7 +132,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	{		
 		if($_REQUEST["wsp_id"] || $_REQUEST["cmdClass"] == "ilpersonalworkspacegui")
 		{
-			if($this->__checkDirectLink() && $a_cmd == '')
+			if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) && $a_cmd == '')
 			{
 				$a_cmd = "calldirectlink";
 			}			
@@ -147,7 +146,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 			switch($a_cmd)
 			{
 				case '':
-					if($this->__checkDirectLink())
+					if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 					{
 						$this->__readLink();
 						// $cmd_link = $this->link_data['target'];
@@ -164,22 +163,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 			}			
 		}
 		return $cmd_link;
-	}
-
-
-	/**
-	* Check whether there is only one active link in the web resource.
-	* In this case this link is shown in a new browser window
-	*
-	*/
-	function __checkDirectLink()
-	{
-		if(isset($this->single_link[$this->obj_id]))
-		{
-			return $this->single_link[$this->obj_id];
-		}
-		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-		return $this->single_link[$this->obj_id] = ilLinkResourceItems::_isSingular($this->obj_id);
 	}
 
 	/**

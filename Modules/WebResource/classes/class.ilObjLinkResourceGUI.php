@@ -1493,6 +1493,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	{
 		$obj_id = $this->object->getId();
 		
+		
+		include_once("./Services/Link/classes/class.ilLink.php");
 		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 		if(ilLinkResourceItems::_isSingular($obj_id))
 		{
