@@ -180,7 +180,7 @@ class ilExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjexternalfeedgui",
 					"ilexternalfeedblockgui"),
 					"editFeedBlock"),
-				$lng->txt("edit"));
+				$lng->txt("settings"));
 			$ilCtrl->clearParametersByClass("ilobjexternalfeedgui");
 		}
 

@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Modules/LearningModule/classes/class.ilObjContentObjectAccess.php");
 
@@ -35,7 +35,8 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess
 			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
 				"default" => true),
 			array("permission" => "read", "cmd" => "continue", "lang_var" => "continue_work"),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit_content"),
+			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
 		);
 		
 		return $commands;

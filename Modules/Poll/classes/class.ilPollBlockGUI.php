@@ -213,7 +213,11 @@ class ilPollBlockGUI extends ilBlockGUI
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
 					"render"),
-				$lng->txt("edit"));
+				$lng->txt("edit_content"));
+			$this->addBlockCommand(
+				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+					"edit"),
+				$lng->txt("settings"));
 			
 			// delete			
 			$parent_id = $tree->getParentId($this->getRefId());			

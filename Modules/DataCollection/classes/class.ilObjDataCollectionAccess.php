@@ -33,8 +33,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 		$commands = array
 		(
 			array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-			//array("permission" => "write", "cmd" => "export", "lang_var" => "export")
+			array("permission" => "write", "cmd" => "listRecords", "lang_var" => "edit_content"),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings")
 		);
 		
 		return $commands;

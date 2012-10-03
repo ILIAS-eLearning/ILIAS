@@ -33,7 +33,7 @@ class ilObjWikiAccess extends ilObjectAccess
 		(
 			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
 				"default" => true),
-			array("permission" => "write", "cmd" => "editSettings", "lang_var" => "edit")
+			array("permission" => "write", "cmd" => "editSettings", "lang_var" => "settings")
 		);
 		
 		return $commands;
