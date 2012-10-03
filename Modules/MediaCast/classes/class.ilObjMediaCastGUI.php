@@ -162,6 +162,29 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$table_gui->addMultiCommand("confirmDeletionItems", $lng->txt("delete"));
 			$table_gui->setSelectAllCheckbox("item_id");
 		}
+
+		$feed_icon_html = $this->getFeedIconsHTML();
+		if ($feed_icon_html != "")
+		{
+			$table_gui->setHeaderHTML($feed_icon_html);
+		}
+		
+		$tpl->setContent($table_gui->getHTML());
+
+		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
+	}
+	
+	/**
+	 * Get feed icons HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getFeedIconsHTML()
+	{
+		global $lng;
+		
+		$html = "";
 		
 		include_once("./Services/Block/classes/class.ilBlockSetting.php");
 		$public_feed = ilBlockSetting::_lookup("news", "public_feed",
@@ -172,7 +195,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		{
 			$news_set = new ilSetting("news");
 			$enable_internal_rss = $news_set->get("enable_rss_for_internal");
-			
 
 			if ($enable_internal_rss)
 			{
@@ -182,15 +204,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
     			$html = "";
 			    foreach (ilObjMediaCast::$purposes as $purpose) 			        
 			    {
-    			    			        
 			        foreach ($items as  $id => $item)
     				{
     			        $mob = new ilObjMediaObject($item["mob_id"]);
     			        $mob->read();
     				    if ($mob->hasPurposeItem($purpose))
         				{        			        
-        				    if ($html == "") {
-        				        //$html = "<TABLE cellpadding='1' cellspacing='0'><TR>";
+        				    if ($html == "")
+        				    {
 								$html = " ";
         				    }
         				    $url = ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&"."ref_id=".$_GET["ref_id"]."&purpose=$purpose";
@@ -198,14 +219,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
         				    $icon = ilUtil::getImagePath("rss_icon_".strtolower($purpose).".png");
         				    $target = "_blank";
 
-        				    //$row1 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
 							$row1 .= "<A href='$url' target='$target'><img src='$icon' alt='$title'/></A>";
             				if ($this->object->getPublicFiles())
             				{
             				    $url = preg_replace("/https?/i","itpc",$url);
             				    $title = $lng->txt("news_feed_url");
             				    $icon = ilUtil::getImagePath("itunes_icon.png");
-            				    //$row2 .= "<TD><A href='$url' target='$target'><img src='$icon' alt='$title'/></A></TD>";
 								$row2 .= "<A href='$url' target='$target'><img src='$icon' alt='$title'/></A>";
             				}
             				break;
@@ -213,24 +232,19 @@ class ilObjMediaCastGUI extends ilObjectGUI
         				
     				}
 			    }
-			    if ($html != "") {
-				    //$html .= $row1."</TR>";
+			    if ($html != "")
+			    {
 					$html .= $row1;
 				    if ($row2 != "")
 					{
 						$html .= "&nbsp;&nbsp;".$row2;
-				        //$html .= "<TR>".$row2."</TR>";
 					}
-				    //$html .= "</TABLE>";
-				    $table_gui->setHeaderHTML($html);
 				}
 			}
 		}
-
-		$tpl->setContent($table_gui->getHTML());
-
-		$tpl->setPermanentLink($this->object->getType(), $this->object->getRefId());
+		return $html;
 	}
+	
 	
 	/**
 	* Add media cast item
@@ -1487,7 +1501,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			$ctpl->parseCurrentBlock();
 		}
 		
-		$tpl->setContent($ctpl->get());
+		$feed_icon_html = $this->getFeedIconsHTML();
+
+		if ($feed_icon_html != "")
+		{
+			$feed_icon_html = '<p>'.$feed_icon_html.'</p>';
+		}
+		
+		$tpl->setContent($feed_icon_html.$ctpl->get());
 	}
 	
 	/**

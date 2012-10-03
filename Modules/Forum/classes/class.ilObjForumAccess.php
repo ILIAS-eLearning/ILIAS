@@ -43,7 +43,7 @@ class ilObjForumAccess extends ilObjectAccess
 			array(
 				'permission'=> 'write',
 				'cmd'       => 'edit',
-				'lang_var'  => 'edit'
+				'lang_var'  => 'settings'
 			),
 		);
 

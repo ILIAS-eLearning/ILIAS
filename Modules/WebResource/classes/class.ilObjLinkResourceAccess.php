@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
@@ -16,6 +16,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 class ilObjLinkResourceAccess extends ilObjectAccess
 {
 	static $item = array();
+	static $single_link = array();
 	
 	/**
 	 * get commands
@@ -35,7 +36,8 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 		(
 			array("permission" => "read", "cmd" => "", "lang_var" => "show",
 				"default" => true),
-			array("permission" => "write", "cmd" => "editLinks", "lang_var" => "edit")
+			array("permission" => "write", "cmd" => "editLinks", "lang_var" => "edit_content"),
+			array("permission" => "write", "cmd" => "settings", "lang_var" => "settings")
 		);
 		
 		return $commands;
@@ -61,6 +63,30 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * checks wether a user may invoke a command or not
+	 * (this method is called by ilAccessHandler::checkAccess)
+	 *
+	 * @param	string		$a_cmd		command (not permission!)
+	 * @param	string		$a_permission	permission
+	 * @param	int			$a_ref_id	reference id
+	 * @param	int			$a_obj_id	object id
+	 * @param	int			$a_user_id	user id (if not provided, current user is taken)
+	 *
+	 * @return	boolean		true, if everything is ok
+	 */
+	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	{
+		if ($a_cmd == "settings")
+		{
+			if (self::_checkDirectLink($a_obj_id))
+			{
+				return false;
+			}
+		}
+		return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
 	}
 
 	/**
@@ -128,6 +154,21 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 			$item['link_id']			= $row->link_id;
 			self::$item[$row->webr_id] = $item;
 		}
+	}
+
+	/**
+	 * Check whether there is only one active link in the web resource.
+	 * In this case this link is shown in a new browser window
+	 *
+	 */
+	static function _checkDirectLink($a_obj_id)
+	{
+		if(isset(self::$single_link[$a_obj_id]))
+		{
+			return self::$single_link[$a_obj_id];
+		}
+		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
+		return self::$single_link[$a_obj_id] = ilLinkResourceItems::_isSingular($a_obj_id);
 	}
 
 }

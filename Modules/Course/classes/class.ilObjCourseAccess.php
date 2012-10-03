@@ -172,7 +172,8 @@ class ilObjCourseAccess extends ilObjectAccess
 			}
 		}
 
-		$commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "edit");
+		$commands[] = array("permission" => "write", "cmd" => "enableAdministrationPanel", "lang_var" => "edit_content");
+		$commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "settings");
 		return $commands;
 	}
 	
