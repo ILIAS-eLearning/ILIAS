@@ -38,8 +38,20 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		
 		include_once ("./Modules/MediaCast/classes/class.ilMediaCastSettings.php");
 		$settings = ilMediaCastSettings::_getInstance();
-		$this->purposeSuffixes = $settings->getPurposeSuffixes();       
-		$this->mimeTypes = $settings->getMimeTypes();      
+		$this->purposeSuffixes = $settings->getPurposeSuffixes();
+		$this->mimeTypes = array();
+		$mime_types = $settings->getMimeTypes();
+		foreach ($mime_types as $mt)
+		{
+			$this->mimeTypes[$mt] = $mt;
+		}
+		
+		include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+		foreach (ilMimeTypeUtil::getExt2MimeMap() as $mt)
+		{
+			$this->mimeTypes[$mt] = $mt;
+		}
+		asort($this->mimeTypes);
 	}
 	
 	function executeCommand()
@@ -436,7 +448,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
     			$mimeTypeSelection->setPostVar("mimetype_".$purpose);
     			$mimeTypeSelection->setTitle($lng->txt("mcst_mimetype"));
     			$mimeTypeSelection->setInfo($lng->txt("mcst_mimetype_info")); 
-    			$options = array($lng->txt("mcst_automatic_detection"));
+    			$options = array("" => $lng->txt("mcst_automatic_detection"));
     			$options = array_merge($options, $this->mimeTypes);
     			$mimeTypeSelection->setOptions($options);    			
     			$this->form_gui->addItem($mimeTypeSelection);
@@ -506,9 +518,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		        
 		        $values["value_".$med->getPurpose()] = (strlen($med->getLocation())> 100) ? "...".substr($med->getLocation(), strlen($med->getLocation()) - 100) : $med->getLocation(); 		        
 		        $values["label_value_".$med->getPurpose()] = (strlen($med->getLocation())> 100) ? "...".substr($med->getLocation(), strlen($med->getLocation()) - 100) : $med->getLocation();
-		        $mimeTypesValuesAsKey = array_flip($this->mimeTypes);
-		        if (array_key_exists($med->getFormat(), $mimeTypesValuesAsKey))		        
-		        	$values["mimetype_".$med->getPurpose()] = $mimeTypesValuesAsKey[$med->getFormat()]+1;
+	        	$values["mimetype_".$med->getPurpose()] = $med->getFormat();
 		    }
 		}
 		foreach (ilObjMediaCast::$purposes as $purpose) {
@@ -694,15 +704,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	    }
 	    
 	    // check if not automatic mimetype detection
-	    if ((int) $_POST["mimetype_".$purpose] != 0) {
-	    	// check if deleted or changed to prevent array index out of bounds!
-	    	// keep in mind, that first entry was automatic selection!
-	    	if ((int) $_POST["mimetype_".$purpose]-1 < count ($this->mimeTypes))
-	    	{
-	    		$format = $this->mimeTypes[(int) $_POST["mimetype_".$purpose] - 1];	    	
-	        	$mediaItem->setFormat($format);
-	    	}
-	    } elseif ($mediaItem->getLocation () != "") {
+	    if ($_POST["mimetype_".$purpose] != "")
+	    {
+        	$mediaItem->setFormat($_POST["mimetype_".$purpose]);
+	    }
+	    elseif ($mediaItem->getLocation () != "")
+	    {
 	    	$format = ilObjMediaObject::getMimeType($mediaItem->getLocation());
 	    	$mediaItem->setFormat($format);
 	    }	    

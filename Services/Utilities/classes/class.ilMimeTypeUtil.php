@@ -86,7 +86,7 @@ class ilMimeTypeUtil
 	/**
 	* get file extension to mime type map
 	*/
-	function getExt2MimeMap()
+	static function getExt2MimeMap()
 	{
 		// for office, see http://stackoverflow.com/questions/4212861/what-is-a-correct-mime-type-for-docx-pptx-etc
 		$types_map = array (
@@ -236,6 +236,7 @@ class ilMimeTypeUtil
 			'.txt'    => 'text/plain',
 			'.ustar'  => 'application',
 			'.vcf'    => 'text/x-vcard',
+			'.vimeo'    => 'video/vimeo',
 			'.vox'    => 'audio/voxware',
 			'.wav'    => 'audio/x-wav',
 			'.wax'    => 'audio/x-ms-wax',
@@ -264,6 +265,7 @@ class ilMimeTypeUtil
 			'.xlsx'   => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 			'.xltx'   => 'application/vnd.openxmlformats-officedocument.spreadsheetml.template',
 			'.xwd'    => 'image/x-xwindowdump',
+			'.youtube'    => 'video/youtube',
 			'.zip'    => 'application/zip');
 
 		return $types_map;
