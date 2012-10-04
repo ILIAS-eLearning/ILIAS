@@ -420,6 +420,19 @@ class ilYuiUtil
 	}
 
 	/**
+	 * 
+	 */
+	public static function initCookie()
+	{
+		/**
+		 * @var $tpl ilTemplate
+		 */
+		global $tpl;
+
+		$tpl->addJavaScript("./Services/YUI/js/".self::$ver."/cookie/cookie.js");
+	}
+	
+	/**
 	* Get local path of a YUI js file
 	*/
 	static function getLocalPath($a_name = "")

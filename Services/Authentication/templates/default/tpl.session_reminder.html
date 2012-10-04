@@ -1,71 +1,122 @@
 <script type="text/javascript">
-/* <![CDATA[ */
-String.prototype.sprintfString = function() {
-	if (arguments.length < 1) {
-		return;
-	}
-
-	var value = this.valueOf();
-	for (var k = 0; k < arguments.length; k++) {
-		switch (typeof(arguments[k])) {
-			case 'string':
-				value =  value.replace(/%s/, arguments[k]);
-				break;
-
-			default:
-				break;
+	/* <![CDATA[ */
+	String.prototype.sprintfString = function () {
+		if (arguments.length < 1) {
+			return;
 		}
-	}
 
-	return new String(value);
-};
+		var value = this.valueOf();
+		for (var k = 0; k < arguments.length; k++) {
+			switch (typeof(arguments[k])) {
+				case 'string':
+					value = value.replace(/%s/, arguments[k]);
+					break;
 
-il.Util.addOnLoad(
-	function() {
-		window.setTimeout('sessionReminder()', {ILIAS_SESSION_COUNTDOWN});
-	}
-);
-
-var ilSessionCheckerRequest = function(url) {
-	var ilSessionCheckerRequestCallback = {
-		success: function(o) {
-			if (typeof o.responseText !== undefined) {
-				var response = YAHOO.lang.JSON.parse(o.responseText);
-				if (response.remind) {
-					var extend = confirm('{CONFIRM_TXT}'.sprintfString(response.seconds_until_expiration, response.current_time_string));
-					if (extend == true) {
-						var t0 = new Date().getTime();
-						new ilSessionExtenderRequest('{ILIAS_SESSION_EXTENDER_URL}');
-						var t1 = new Date().getTime();
-						var dxSeconds = (t1 - t0) / 2 / 1000;
-
-						var newCountdownTime = {ILIAS_SESSION_COUNTDOWN} - dxSeconds;
-						window.setTimeout('sessionReminder()', newCountdownTime);
-					};
-				}
+				default:
+					break;
 			}
-		},
-		failure: function(o) {
 		}
+
+		return value;
 	};
 
-	var request = YAHOO.util.Connect.asyncRequest('GET', url, ilSessionCheckerRequestCallback);
-};
+	il.Util.addOnLoad(
+			function () {
 
+				PeriodicalExecuter = function(callback, frequency) {
+					this.callback = callback;
+					this.frequency = frequency;
+					this.currentlyExecuting = false;
+					this.registerCallback();
+				}
 
-var ilSessionExtenderRequest = function(url) {
-	var ilSessionExtenderRequestCallback = {
-		success: function(o) {
-		},
-		failure: function(o) {
-		}
-	};
+				PeriodicalExecuter.prototype = {
+					registerCallback: function() {
+						var me = this;
+						this.timer = setInterval(function() { me.onTimerEvent() }, this.frequency);
+					},
 
-	var request = YAHOO.util.Connect.asyncRequest('GET', url, ilSessionExtenderRequestCallback);
-};
+					execute: function() {
+						this.callback(this);
+					},
 
-function sessionReminder() {
-	new ilSessionCheckerRequest('{ILIAS_SESSION_CHECKER_URL}');
-}
-/* ]]> */
+					stop: function() {
+						if (!this.timer) return;
+						clearInterval(this.timer);
+						this.timer = null;
+					},
+
+					onTimerEvent: function() {
+						if (!this.currentlyExecuting) {
+							try {
+								this.currentlyExecuting = true;
+								this.execute();
+							} finally {
+								this.currentlyExecuting = false;
+							}
+						}
+					}
+				};
+
+				var ilSessionReminder = null;
+
+				var ilSessionReminderCallback = function () {
+					if (YAHOO.util.Cookie.get('il_session_reminder_{CLIENT_ID}_phpsessid') != YAHOO.util.Cookie.get("PHPSESSID")) {
+						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_activation", "enabled");
+						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
+						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_phpsessid", YAHOO.util.Cookie.get("PHPSESSID"));
+						//console.log("Cookied changed after new login or session reminder initially started");
+					}
+
+					if (YAHOO.util.Cookie.get("il_session_reminder_{CLIENT_ID}_activation") == "disabled" ||
+						YAHOO.util.Cookie.get("il_session_reminder_{CLIENT_ID}_status") == "locked") {
+						//console.log("Session reminder cancelled or locked for current user session");
+						return;
+					}
+
+					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "locked");
+					//console.log("Session reminder locked");
+					$.ajax({
+						url:     '{ILIAS_SESSION_CHECKER_URL}',
+						dataType:'json',
+						type:    'GET',
+						success: function (response) {
+							if (response.remind) {
+								ilSessionReminder.stop();
+								var extend = confirm('{CONFIRM_TXT}'.sprintfString(response.seconds_until_expiration, response.current_time_string, '{CLIENT_ID}'));
+								if (extend == true) {
+									$.ajax({
+										url:     '{ILIAS_SESSION_EXTENDER_URL}',
+										type:    'GET',
+										success: function (response) {
+											ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
+											YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
+											//console.log("Session reminder unlocked");
+										}
+									}).fail(function(jqXHR, textStatus) {
+										ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
+										YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
+										//console.log("Session reminder unlocked");
+									});
+								} else {
+									YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_activation", "disabled");
+									YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
+									ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
+									//console.log("Session reminder unlocked");
+								}
+							} else {
+								YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
+								//console.log("Session reminder unlocked");
+							}
+						}
+					}).fail(function(jqXHR, textStatus) {
+						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
+						//console.log("Session reminder unlocked");
+					});
+				}
+				//console.log("Session reminder started");
+				ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
+			}
+	);
+	/* ]]> */
 </script>
