@@ -24,6 +24,19 @@ class ilMimeTypeUtil
 		global $ilLog;
 
 		$mime = "";
+
+		// if we have an http reference , we check for youtube
+		if (in_array(substr($a_file, 0, 7), array("http://", "https:/")))
+		{
+			if (is_int(strpos($a_file, "youtube.")))
+			{
+				return "video/youtube";
+			}
+			if (is_int(strpos($a_file, "vimeo.")))
+			{
+				return "video/vimeo";
+			}
+		}
 		
 		// determine extension
 		$ext = "";
@@ -44,7 +57,8 @@ class ilMimeTypeUtil
 			$mime = $types_map[$ext];
 		}
 
-		if ($mime == "" && extension_loaded('Fileinfo'))
+		if ($mime == "" && extension_loaded('Fileinfo') &&
+			is_file($a_file))
 		{
 			$finfo = finfo_open(FILEINFO_MIME);
 			$mime = finfo_file($finfo, $a_file);
