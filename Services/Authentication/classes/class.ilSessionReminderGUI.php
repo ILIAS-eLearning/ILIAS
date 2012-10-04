@@ -49,7 +49,8 @@ class ilSessionReminderGUI
 			$tpl->setVariable('ILIAS_SESSION_CHECKER_URL',
 				'./sessioncheck.php' .
 				'?client_id=' . CLIENT_ID .
-				'&session_id=' . session_id()); // used to identify the user without init the auth service
+				'&session_id=' . session_id() .  // used to identify the user without init the auth service 
+				'&lang='.$lng->getLangKey());
 			$tpl->setVariable('CONFIRM_TXT', $lng->txt('session_reminder_alert'));
 			$tpl->setVariable('CLIENT_ID', CLIENT_ID);
 			$tpl->setVariable('INSTALLATION_NAME', json_encode($ilClientIniFile->readVariable('client', 'name'). ' | '.ilUtil::_getHttpPath()));
