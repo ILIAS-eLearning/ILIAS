@@ -13,6 +13,7 @@ ilCOPagePres =
 		this.updateQuestionOverviews();
 		this.initMapAreas();
 		this.initAdvancedContent();
+		this.initAudioVideo();
 	},
 	
 	//
@@ -22,8 +23,7 @@ ilCOPagePres =
 	/**
 	 * Init the table of content
 	 */
-	initToc: function ()
-	{
+	initToc: function () {
 		// init toc
 		var cookiePos = document.cookie.indexOf("pg_hidetoc=");
 		if (cookiePos > -1 && document.cookie.charAt(cookiePos + 11) == 1)
@@ -859,6 +859,15 @@ ilCOPagePres =
 				return false;
 			});
 		}
+	},
+	
+	////
+	//// Audio/Video
+	////
+	
+	initAudioVideo: function () {
+		$('video.ilPageVideo,audio.ilPageAudio').mediaelementplayer({});
 	}
+
 }
 il.Util.addOnLoad(function() {ilCOPagePres.init();});

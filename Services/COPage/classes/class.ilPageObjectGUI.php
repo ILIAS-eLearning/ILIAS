@@ -1402,6 +1402,9 @@ class ilPageObjectGUI
 
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
 		
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
+		ilPlayerUtil::initMediaElementJs($GLOBALS["tpl"]);
+		
 		// init template
 		//if($this->outputToTemplate())
 		//{
@@ -1933,6 +1936,8 @@ class ilPageObjectGUI
 		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		$paste = (ilEditClipboard::getAction() == "copy" &&
 			$this->getOutputMode() == "edit");
+		
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 
 		// added UTF-8 encoding otherwise umlaute are converted too
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
@@ -1978,7 +1983,8 @@ class ilPageObjectGUI
 						 'enable_verification' =>  $this->getEnabledVerification() ? "y" : "n",
 						 'enable_blog' =>  $this->getEnabledBlog() ? "y" : "n",
 						 'enable_skills' =>  $this->getEnabledSkills() ? "y" : "n",
-						 'enable_qover' =>  $this->getEnablePCType("QuestionOverview") ? "y" : "n"
+						 'enable_qover' =>  $this->getEnablePCType("QuestionOverview") ? "y" : "n",
+						 'flv_video_player' => ilPlayerUtil::getFlashVideoPlayerFilename(true)
 						);
 		if($this->link_frame != "")		// todo other link types
 			$params["pg_frame"] = $this->link_frame;
