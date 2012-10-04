@@ -1931,6 +1931,7 @@ class ilObjContentObject extends ilObject
 	{
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		return array(
 			array("source" => ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
 				"target" => $a_target_dir.'/js/yahoo/yahoo-min.js',
@@ -1970,6 +1971,12 @@ class ilObjContentObject extends ilObject
 				"type" => "js"),
 			array("source" => './Modules/Scorm2004/templates/default/question_handling.css',
 				"target" => $a_target_dir.'/css/question_handling.css',
+				"type" => "css"),
+			array("source" => ilPlayerUtil::getLocalMediaElementJsPath(),
+				"target" => $a_target_dir.'/js/mediaelement-and-player.js',
+				"type" => "js"),
+			array("source" => ilPlayerUtil::getLocalMediaElementCssPath(),
+				"target" => $a_target_dir.'/css/mediaelementplayer.css',
 				"type" => "css")
 		);
 	}
