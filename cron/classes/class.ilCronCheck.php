@@ -51,8 +51,10 @@ class ilCronCheck
 		
 		$ilSetting->set('last_cronjob_start_ts', time());
 		
-		if( $_SERVER['argc'] > 4 ) for($i = 4; $i < $_SERVER['argc']; $i++)
+		if( $_SERVER['argc'] > 4 )
 		{
+			 for($i = 4; $i < $_SERVER['argc']; $i++)
+			 {
 				$arg = $_SERVER['argv'][$i];
 				
 				if( !isset($this->possible_tasks[$arg]) )
@@ -61,6 +63,7 @@ class ilCronCheck
 				$task = $this->possible_tasks[$arg];
 				
 				$this->runTask($task);
+			 }
 		}
 		else foreach($this->default_tasks as $task)
 		{
@@ -72,6 +75,8 @@ class ilCronCheck
 	
 	private function runTask($task)
 	{
+		global $ilLog;
+		
 		/**
 		 * prepare task information
 		 */
@@ -110,8 +115,16 @@ class ilCronCheck
 
 		if($condition)
 		{
+			$ilLog->write("CRON - starting task: ".$classname."::".$method);
+			
 			$task = new $classname;
 			$task->$method();
+			
+			$ilLog->write("CRON - finished task: ".$classname."::".$method);
+		}
+		else
+		{
+			$ilLog->write("CRON - task condition failed: ".$classname."::".$method);
 		}
 	}
 	
