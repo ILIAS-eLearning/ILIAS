@@ -60,14 +60,14 @@
 
 				var ilSessionReminder = null;
 
-				var ilSessionReminderCallback = function () {
-					if (YAHOO.util.Cookie.get('il_session_reminder_{CLIENT_ID}_phpsessid') != YAHOO.util.Cookie.get("PHPSESSID")) {
-						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_activation", "enabled");
-						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
-						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_phpsessid", YAHOO.util.Cookie.get("PHPSESSID"));
-						//console.log("Cookied changed after new login or session reminder initially started");
-					}
+				if (YAHOO.util.Cookie.get('il_session_reminder_{CLIENT_ID}_phpsessid') != YAHOO.util.Cookie.get("PHPSESSID")) {
+					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_activation", "enabled");
+					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
+					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_phpsessid", YAHOO.util.Cookie.get("PHPSESSID"));
+					//console.log("Cookied changed after new login or session reminder initially started");
+				}
 
+				var ilSessionReminderCallback = function () {
 					if (YAHOO.util.Cookie.get("il_session_reminder_{CLIENT_ID}_activation") == "disabled" ||
 						YAHOO.util.Cookie.get("il_session_reminder_{CLIENT_ID}_status") == "locked") {
 						//console.log("Session reminder cancelled or locked for current user session");
@@ -83,7 +83,8 @@
 						success: function (response) {
 							if (response.remind) {
 								ilSessionReminder.stop();
-								var extend = confirm('{CONFIRM_TXT}'.sprintfString(response.seconds_until_expiration, response.current_time_string, '{CLIENT_ID}'));
+								var installation = {INSTALLATION_NAME};
+								var extend = confirm('{CONFIRM_TXT}'.sprintfString(response.seconds_until_expiration, response.current_time_string, installation));
 								if (extend == true) {
 									$.ajax({
 										url:     '{ILIAS_SESSION_EXTENDER_URL}',

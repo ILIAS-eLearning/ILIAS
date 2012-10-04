@@ -30,8 +30,9 @@ class ilSessionReminderGUI
 	{
 		/**
 		 * @var $lng    ilLanguage
+		 * @var $ilClientIniFile ilIniFile
 		 */
-		global $lng;
+		global $lng, $ilClientIniFile;
 
 		if($this->getSessionReminder()->isActive())
 		{
@@ -51,6 +52,7 @@ class ilSessionReminderGUI
 				'&session_id=' . session_id()); // used to identify the user without init the auth service
 			$tpl->setVariable('CONFIRM_TXT', $lng->txt('session_reminder_alert'));
 			$tpl->setVariable('CLIENT_ID', CLIENT_ID);
+			$tpl->setVariable('INSTALLATION_NAME', json_encode($ilClientIniFile->readVariable('client', 'name'). ' | '.ilUtil::_getHttpPath()));
 
 			return $tpl->get();
 		}
