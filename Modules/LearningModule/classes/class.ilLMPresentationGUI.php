@@ -976,6 +976,9 @@ class ilLMPresentationGUI
 
 		if ($this->offlineMode())
 		{
+			$this->tpl->touchBlock("pg_intro");
+			$this->tpl->touchBlock("pg_outro");
+			//$this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
 			return;
 		}
 

@@ -313,7 +313,7 @@ il.UICore = {
 		var el = document.getElementById("left_nav"),
 			sm = document.getElementById("mainspacekeeper"),
 			bc = document.getElementById("bot_center_area"),
-			fc = document.getElementById("fixed_conent"),
+			fc = document.getElementById("fixed_content"),
 			nb_reg, vp_reg;
 			
 		// fix fixed content
@@ -335,16 +335,18 @@ il.UICore = {
 			vp_reg = il.Util.getViewportRegion();
 			if (sm_reg.top < vp_reg.top) {
 				$(el).offset({top: vp_reg.top});
+				$(fc).css("top", "0px");
 			} else {
 				$(el).offset({top: sm_reg.top});
+				$(fc).css("top", (sm_reg.top - vp_reg.top) + "px");
 			}
 			
 			// bottom center area?
 			if (bc) {
 				bc_reg = il.Util.getRegion(bc);
-				$(sm).css("bottom", bc_reg.height + "px");
+				$(fc).css("bottom", bc_reg.height + "px");
 			} else {
-				$(sm).css("bottom", "0px");
+				$(fc).css("bottom", "0px");
 			}
 		}
 	}

@@ -2489,6 +2489,8 @@ div.ilLeftNavSpace {
 }
 
 div.ilContentFixed {
+	background-color: #F9F9F9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
 	right: 0px;
 	bottom: 0px;
 	left: 360px;

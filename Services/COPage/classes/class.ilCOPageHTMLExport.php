@@ -174,6 +174,13 @@ class ilCOPageHTMLExport
 		// tooltip
 		copy('./Services/UIComponent/Tooltip/js/ilTooltip.js',
 			$this->js_dir.'/ilTooltip.js');
+		
+		// mediaelement.js
+		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
+		copy(ilPlayerUtil::getLocalMediaElementCssPath(),
+			$this->css_dir.'/mediaelementplayer.css');
+		copy(ilPlayerUtil::getLocalMediaElementJsPath(),
+			$this->js_dir.'/mediaelement-and-player.js');
 	}
 
 	/**
@@ -201,7 +208,7 @@ class ilCOPageHTMLExport
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js",
-			"./js/ilTooltip.js", "./js/maphilight.js");
+			"./js/ilTooltip.js", "./js/maphilight.js", "./js/mediaelement-and-player.js");
 		foreach ($scripts as $script)
 		{
 			$tpl->setCurrentBlock("js_file");
@@ -212,6 +219,7 @@ class ilCOPageHTMLExport
 		// css files needed
 		$style_name = $ilUser->prefs["style"].".css";
 		$css_files = array("./css/accordion.css", "./css/container.css",
+			"./css/mediaelementplayer.css",
 			"./content_style/content.css", "./style/".$style_name);
 		foreach ($css_files as $css)
 		{
