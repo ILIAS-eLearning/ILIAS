@@ -83,6 +83,7 @@
 <xsl:param name="enable_blog"/>
 <xsl:param name="enable_qover"/>
 <xsl:param name="enable_skills"/>
+<xsl:param name="flv_video_player"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -2719,21 +2720,6 @@
 		</xsl:when>
 
 		<!-- mp4 -->
-		<xsl:when test="$type = 'video/mp4'">
-			<embed pluginspage="http://www.apple.com/quicktime/download/">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
-				<xsl:attribute name="type"><xsl:value-of select="$type"/></xsl:attribute>
-				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				<xsl:attribute name="autoplay">false</xsl:attribute>
-				<xsl:call-template name="MOBParams">
-					<xsl:with-param name="curPurpose" select="$curPurpose" />
-					<xsl:with-param name="mode">attributes</xsl:with-param>
-					<xsl:with-param name="cmobid" select="$cmobid" />
-				</xsl:call-template>
-				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
-			</embed>
-		</xsl:when>
 
 		<!-- YouTube -->
 		<xsl:when test = "substring-after($data,'youtube.com') != ''">
@@ -2788,62 +2774,55 @@
 			</iframe>
 		</xsl:when>
 
-		<!-- mp3 -->
+		<!-- mp3 (mediaelement.js) -->
 		<xsl:when test = "$type='audio/mpeg' and substring-before($data,'.mp3') != ''">
-			<embed src="./Services/MediaObjects/flash_mp3_player/mp3player.swf" height="20" bgcolor="#FFFFFF"
-				type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer">
-				<xsl:choose>
-					<xsl:when test="$mode != 'edit' and
-						(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
-						( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
-						//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
-						<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;autostart=true</xsl:attribute>
-						<xsl:attribute name="class">player_autostart</xsl:attribute>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="flashvars">file=<xsl:value-of select="$data"/>&amp;autostart=false</xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
+			<audio class="ilPageAudio" height="30">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
-			</embed>
+				<xsl:if test="$mode != 'edit' and
+					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
+					<xsl:attribute name="autoplay">true</xsl:attribute>
+				</xsl:if>
+			</audio>
 		</xsl:when>
 
-		<!-- flv -->
-		<xsl:when test = "substring-before($data,'.flv') != ''"> 
-			<object data="./Services/MediaObjects/media_element_2_9_1/flashmediaelement.swf"
-				type="application/x-shockwave-flash" >
+		<!-- flv, mp4 (mediaelement.js) -->
+		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4'">
+			<video class="ilPageVideo" controls="controls" preload="none">
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				<param name="flashvars">
-					<xsl:if test="$curType = 'Reference'">
-						<xsl:choose>
-							<xsl:when test="$mode != 'edit' and ../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
-								( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
-								//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
-								<xsl:attribute name="value">file=<xsl:value-of select="$data"/>&amp;controls=true&amp;autoplay=true</xsl:attribute>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:attribute name="value">file=<xsl:value-of select="$data"/>&amp;controls=true</xsl:attribute>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:if>
-					<xsl:if test="$curType != 'Reference'">
-						<xsl:choose>
-							<xsl:when test="$mode != 'edit' and ../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
-								( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
-								//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true')">
-								<xsl:attribute name="value">file=../../../<xsl:value-of select="$data"/>&amp;controls=true&amp;autoplay=true</xsl:attribute>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:attribute name="value">file=../../../<xsl:value-of select="$data"/>&amp;controls=true</xsl:attribute>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:if>
-				</param>
-				<param name="movie"><xsl:attribute name="value">./Services/MediaObjects/lib/media_element_2_9_1/flashmediaelement.swf</xsl:attribute></param>
-				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
-			</object>
+				<xsl:if test="$mode != 'edit' and
+					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
+					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
+					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
+					<xsl:attribute name="autoplay">true</xsl:attribute>
+				</xsl:if>
+				<xsl:choose>
+					<xsl:when test = "$type = 'video/mp4'">
+						<source type="video/mp4">
+							<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+						</source>
+					</xsl:when>
+					<xsl:otherwise>
+						<source type="video/x-flv">
+							<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+						</source>
+					</xsl:otherwise>
+				</xsl:choose>
+				<object type="application/x-shockwave-flash">
+					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					<xsl:attribute name="data"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
+					<param name="movie">
+						<xsl:attribute name="value"><xsl:value-of select="$flv_video_player"/></xsl:attribute>
+					</param>
+					<param name="flashvars">
+						<xsl:attribute name="value">controls=true&amp;file=<xsl:value-of select="$data"/></xsl:attribute>
+					</param>
+				</object>
+			</video>
 		</xsl:when>
 
 		<!-- all other mime types: output standard object/embed tag -->
