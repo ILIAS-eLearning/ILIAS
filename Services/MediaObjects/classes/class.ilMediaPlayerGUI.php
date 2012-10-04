@@ -263,7 +263,7 @@ class ilMediaPlayerGUI
 		
 		// video tag
 		if (in_array($mimeType, array("video/mp4", "video/m4v", "video/rtmp",
-			"video/x-flv", "video/webm")))
+			"video/x-flv", "video/webm", "video/youtube", "video/vimeo")))
 		{
 			ilPlayerUtil::initMediaElementJs();
 
