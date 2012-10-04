@@ -78,7 +78,7 @@ class ilSessionReminderCheck
 
 		$response = array(
 			'remind'                   => true,
-			'seconds_until_expiration' => ilFormat::_secondsToString((float)$ilUser->getPref('session_reminder_lead_time') * 60, true),
+			'seconds_until_expiration' => ilFormat::_secondsToString($expiretime - time(), true),
 			'current_time_string'      => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)),
 		);
 
