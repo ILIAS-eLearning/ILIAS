@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author Michael Jansen <mjansen@databay.de>
+ * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  * @ingroup ServicesAuthentication
  */
@@ -10,13 +10,12 @@ class ilSessionReminderCheck
 {
 	/**
 	 * @param int $sessionId
-	 * @param int $secondsUntilReminder
 	 * @return string
 	 */
-	public function getJsonResponse($sessionId, $secondsUntilReminder)
+	public function getJsonResponse($sessionId)
 	{
 		/**
-		 * @var $ilDB ilDB
+		 * @var $ilDB   ilDB
 		 * @var $ilUser ilObjUser
 		 */
 		global $ilDB, $ilUser;
@@ -26,14 +25,12 @@ class ilSessionReminderCheck
 		// Define response array
 		$response = array('remind' => false);
 
-		$ilDB->setLimit(1);
-		$res = $ilDB->queryF('
-			SELECT data, last_remind_ts, user_id
+		$res  = $ilDB->queryF('
+			SELECT expires, user_id, data
 			FROM usr_session
-			WHERE session_id = %s
-			ORDER BY expires DESC',
+			WHERE session_id = %s',
 			array('text'),
-			array(ilUtil::stripSlashes($sessionId))
+			array($sessionId)
 		);
 		$data = $ilDB->fetchAssoc($res);
 
@@ -43,15 +40,8 @@ class ilSessionReminderCheck
 			return ilJsonUtil::encode($response);
 		}
 
-		if($data['last_remind_ts'] > time() - $secondsUntilReminder)
-		{
-			/* Reminder not necessary: There was a request (which extends the session) between the
-			   start of the javascript countdown and the current time */
-			return ilJsonUtil::encode($response);
-		}
-
 		// Unserialize the session
-		$session = ilUtil::unserializeSession($data['data']);
+		$session  = ilUtil::unserializeSession($data['data']);
 		$idletime = null;
 		foreach((array)$session as $key => $entry)
 		{
@@ -68,9 +58,8 @@ class ilSessionReminderCheck
 			return ilJsonUtil::encode($response);
 		}
 
-		$expirestime = $idletime + ilSession::getIdleValue();
-
-		if($expirestime < time())
+		$expiretime = $idletime + ilSession::getIdleValue();
+		if($expiretime < time())
 		{
 			// Session is already expired
 			return ilJsonUtil::encode($response);
@@ -81,16 +70,16 @@ class ilSessionReminderCheck
 		 */
 		$ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
 
-		$ilDB->manipulateF('
-			UPDATE usr_session SET last_remind_ts = %s WHERE session_id = %s',
-			array('integer', 'text'),
-			array(time(), $sessionId)
-		);
+		if($expiretime - (float)$ilUser->getPref('session_reminder_lead_time') * 60 > time())
+		{
+			// session will expire in <lead_time> minutes
+			return ilJsonUtil::encode($response);
+		}
 
 		$response = array(
-			'remind' => true,
+			'remind'                   => true,
 			'seconds_until_expiration' => ilFormat::_secondsToString((float)$ilUser->getPref('session_reminder_lead_time') * 60, true),
-			'current_time_string' => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)),
+			'current_time_string'      => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)),
 		);
 
 		return ilJsonUtil::encode($response);

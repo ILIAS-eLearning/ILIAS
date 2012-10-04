@@ -474,6 +474,15 @@ class ilTemplate extends ilTemplateX
 				$this->initHelp();
 			}
 
+			if($this->blockExists("content") && $this->variableExists('MAINMENU'))
+			{
+				global $tpl;
+				
+				include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
+				$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
+				$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
+			}
+
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
 			$this->fillInlineCss();
@@ -785,10 +794,6 @@ class ilTemplate extends ilTemplateX
 		if($this->variableExists('MAINMENU'))
 		{
 			$tpl->setVariable("MAINMENU", $this->main_menu);
-
-			include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
-			$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
-			$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
 		}
 	}
 
