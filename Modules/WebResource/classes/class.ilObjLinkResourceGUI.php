@@ -894,7 +894,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 	 * @return 
 	 */
 	protected function manage()
-	{
+	{						
 		$this->checkPermission('write');
 		$this->activateTabs('content','id_content_manage');
 		
@@ -909,6 +909,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$js = ilInternalLinkGUI::getInitHTML("");
 		
 		$this->tpl->addJavaScript("Modules/WebResource/js/intLink.js");
+		$this->tpl->addJavascript("Services/Form/js/Form.js");
 
 		$this->tpl->setVariable('TABLE_LINKS',$table->getHTML().$js);
 	}
