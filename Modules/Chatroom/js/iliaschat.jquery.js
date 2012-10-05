@@ -50,8 +50,8 @@ function formatISODate(time) {
 	var date = new Date(time);
 
 	format = format.replace(/Y/, date.getFullYear());
-	format = format.replace(/m/, formatToTwoDigits(date.getMonth()));
-	format = format.replace(/d/, formatToTwoDigits(date.getDay()));
+	format = format.replace(/m/, formatToTwoDigits(date.getMonth() + 1));
+	format = format.replace(/d/, formatToTwoDigits(date.getDate()));
 	
 	return format;
 }

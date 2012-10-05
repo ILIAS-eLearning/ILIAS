@@ -467,16 +467,16 @@
 							    return true;
 							}
 							
-							var currentDate =  new Date(message.timestamp);
+							var messageDate =  new Date(message.timestamp);
 
 							if (typeof lastHandledDate.scope == "undefined" ||
 								lastHandledDate.scope== null || 
-								lastHandledDate.scope.getDay() != currentDate.getDay() ||
-								lastHandledDate.scope.getMonth() != currentDate.getMonth() ||
-								lastHandledDate.scope.getFullYear() != currentDate.getFullYear()) {
+								lastHandledDate.scope.getDate() != messageDate.getDate() ||
+								lastHandledDate.scope.getMonth() != messageDate.getMonth() ||
+								lastHandledDate.scope.getFullYear() != messageDate.getFullYear()) {
 								container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + formatISODate(message.timestamp) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
 							}
-							lastHandledDate.scope = currentDate;
+							lastHandledDate.scope = messageDate;
 							
 							line.append($('<span class="chat content date"></span>').append('' + formatISOTime(message.timestamp) + ', '))
 								.append($('<span class="chat content username"></span>').append(message.user.username));
