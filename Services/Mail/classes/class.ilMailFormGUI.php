@@ -167,7 +167,6 @@ class ilMailFormGUI
 		{
 			$this->umail->savePostData($ilUser->getId(), array(), "", "", "", "", "", "", "", "");			
 			
-			#$this->ctrl->setParameterByClass("ilmailfoldergui", "mobj_id", $this->mbox->getSentFolder());
 			$this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
             if(ilMailFormCall::isRefererStored())
