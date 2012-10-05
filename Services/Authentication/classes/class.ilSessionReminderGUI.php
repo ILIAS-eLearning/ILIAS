@@ -48,7 +48,7 @@ class ilSessionReminderGUI
 			$reminder_tpl->setVariable('DEBUG', defined('DEVMODE') && DEVMODE ? 1 : 0);
 			$reminder_tpl->setVariable('CLIENT_ID', CLIENT_ID);
 			$reminder_tpl->setVariable('SESSION_NAME', session_name());
-			$reminder_tpl->setVariable('FREQUENCY', 5);
+			$reminder_tpl->setVariable('FREQUENCY', 60);
 			$reminder_tpl->setVariable(
 				'URL',
 				'./sessioncheck.php?client_id=' . CLIENT_ID .
