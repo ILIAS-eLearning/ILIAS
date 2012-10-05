@@ -18,10 +18,10 @@
 	};
 
 
-	$.fn.ilBlockMoving = function (method) {
+	$.fn.ilBlockMoving = function(method) {
 
 		var internals = {
-			sortableContainer: new Array()
+			sortableContainer: []
 		};
 
 		var methods = {
@@ -58,7 +58,7 @@
 						},
 						stop: function(event, ui) {
 
-							var postData = new Array();
+							var postData = [];
 
 							for(i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
@@ -117,7 +117,7 @@
 					}).disableSelection();
 				});
 			}
-		}
+		};
 		
 		if (methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -127,6 +127,6 @@
 			$.error("Method " + method + " does not exist on jQuery.ilBlockMoving");
 		}
 
-	}
+	};
 	
 })(jQuery);
