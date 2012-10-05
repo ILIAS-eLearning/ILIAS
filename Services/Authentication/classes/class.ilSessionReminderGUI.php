@@ -30,9 +30,9 @@ class ilSessionReminderGUI
 	{
 		/**
 		 * @var $lng    ilLanguage
-		 * @var $ilClientIniFile ilIniFile
+		 * @var $tpl ilTemplate
 		 */
-		global $lng, $ilClientIniFile;
+		global $lng, $tpl;
 
 		if($this->getSessionReminder()->isActive())
 		{
@@ -42,20 +42,21 @@ class ilSessionReminderGUI
 			require_once 'Services/YUI/classes/class.ilYuiUtil.php';
 			ilYuiUtil::initCookie();
 			
-			$tpl = new ilTemplate('tpl.session_reminder.html', true, true, 'Services/Authentication');
-
-			$tpl->setVariable('ILIAS_SESSION_POLL_INTERVAL', 1000 * 60);
-			$tpl->setVariable('ILIAS_SESSION_EXTENDER_URL', './ilias.php?baseClass=ilPersonalDesktopGUI');
-			$tpl->setVariable('ILIAS_SESSION_CHECKER_URL',
-				'./sessioncheck.php' .
-				'?client_id=' . CLIENT_ID .
+			$tpl->addJavaScript('./Services/Authentication/js/session_reminder.js');
+			
+			$reminder_tpl = new ilTemplate('tpl.session_reminder.html', true, true, 'Services/Authentication');
+			$reminder_tpl->setVariable('DEBUG', defined('DEVMODE') && DEVMODE ? 1 : 0);
+			$reminder_tpl->setVariable('CLIENT_ID', CLIENT_ID);
+			$reminder_tpl->setVariable('SESSION_NAME', session_name());
+			$reminder_tpl->setVariable('FREQUENCY', 5);
+			$reminder_tpl->setVariable(
+				'URL',
+				'./sessioncheck.php?client_id=' . CLIENT_ID .
 				'&session_id=' . session_id() .  // used to identify the user without init the auth service 
-				'&lang='.$lng->getLangKey());
-			$tpl->setVariable('CONFIRM_TXT', $lng->txt('session_reminder_alert'));
-			$tpl->setVariable('CLIENT_ID', CLIENT_ID);
-			$tpl->setVariable('INSTALLATION_NAME', json_encode($ilClientIniFile->readVariable('client', 'name'). ' | '.ilUtil::_getHttpPath()));
-
-			return $tpl->get();
+				'&lang='.$lng->getLangKey()
+			);
+			
+			return $reminder_tpl->get();
 		}
 
 		return '';
