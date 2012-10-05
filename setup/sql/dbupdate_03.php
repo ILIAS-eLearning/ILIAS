@@ -13411,3 +13411,12 @@ if (!$ilDB->tableColumnExists('il_media_cast_data', 'viewmode'))
 		"length" => 20));
 }
 ?>
+<#3780>
+<?php
+$ilDB->addTableColumn('qpl_a_essay','tmp_points', array('type' => 'float', 'notnull' => false));
+$ilDB->query('UPDATE qpl_a_essay SET tmp_points = points');
+$ilDB->dropTableColumn('qpl_a_essay','points');
+$ilDB->addTableColumn('qpl_a_essay','points', array('type' => 'float', 'notnull' => false));
+$ilDB->query('UPDATE qpl_a_essay SET points = tmp_points');
+$ilDB->dropTableColumn('qpl_a_essay','tmp_points');
+?>
