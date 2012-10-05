@@ -41,155 +41,175 @@ class ilChatroomHistoryTask extends ilDBayTaskHandler
      * @param array $messages
      * @param ilPropertyFormGUI $durationForm
      */
-    private function showMessages($messages, $durationForm, $export = false, $psessions = array(), $from ,$to)
-    {
-	    //global $tpl, $ilUser, $ilCtrl, $lng;
-	    global $tpl, $lng, $ilCtrl;
+	private function showMessages($messages, $durationForm, $export = false, $psessions = array(), $from, $to)
+	{
+		//global $tpl, $ilUser, $ilCtrl, $lng;
+		global $tpl, $lng, $ilCtrl;
 
-	    include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+		include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
-	    if ( !ilChatroom::checkUserPermissions('read' , $this->gui->ref_id ) )
-	    {
-	    	$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
-	    	$ilCtrl->redirectByClass("ilrepositorygui", "");
-	    }
+		if(!ilChatroom::checkUserPermissions('read', $this->gui->ref_id))
+		{
+			$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", ROOT_FOLDER_ID);
+			$ilCtrl->redirectByClass("ilrepositorygui", "");
+		}
 
-	    $this->gui->switchToVisibleMode();
+		$this->gui->switchToVisibleMode();
 
-	    $tpl->addCSS( 'Modules/Chatroom/templates/default/style.css' );
+		$tpl->addCSS('Modules/Chatroom/templates/default/style.css');
 
 		// should be able to grep templates 
 		if($export)
 		{
-			$roomTpl = new ilTemplate( 'tpl.history_export.html', true, true, 'Modules/Chatroom' );
+			$roomTpl = new ilTemplate('tpl.history_export.html', true, true, 'Modules/Chatroom');
 		}
 		else
 		{
-			$roomTpl = new ilTemplate( 'tpl.history.html', true, true, 'Modules/Chatroom' );
+			$roomTpl = new ilTemplate('tpl.history.html', true, true, 'Modules/Chatroom');
 		}
 
-	    $scopes = array();
+		$scopes = array();
 
-	    if ($export) {
-		    ilDatePresentation::setUseRelativeDates(false);
-	    }
-	    
-	global $ilUser;
-	$time_format = $ilUser->getTimeFormat();
+		if($export)
+		{
+			ilDatePresentation::setUseRelativeDates(false);
+		}
 
-	    $prevDate = '';
-	    $messagesShown = 0;
-	    foreach( $messages as $message )
-	    {
-		    $message['message']->message = json_decode( $message['message']->message );
+		global $ilUser;
+		$time_format = $ilUser->getTimeFormat();
 
-		    switch($message['message']->type)
-		    {
-			    case 'message':
-				    if (($_REQUEST['scope'] && $message['message']->sub == $_REQUEST['scope']) || (!$_REQUEST['scope'] && !$message['message']->sub)) {
-					    $dateTime = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
-					    $currentDate = ilDatePresentation::formatDate($dateTime);
+		$prevDate      = '';
+		$messagesShown = 0;
+		$lastDateTime = null;
+		foreach($messages as $message)
+		{
+			$message['message']->message = json_decode($message['message']->message);
 
-					    $roomTpl->setCurrentBlock( 'MESSAGELINE' );
-					    $roomTpl->setVariable( 'MESSAGECONTENT', $message['message']->message->content ); // oops... it is a message? ^^
-					    $roomTpl->setVariable( 'MESSAGESENDER', $message['message']->user->username );
-					    if ($prevDate != $currentDate) {
+			switch($message['message']->type)
+			{
+				case 'message':
+					if(($_REQUEST['scope'] && $message['message']->sub == $_REQUEST['scope']) || (!$_REQUEST['scope'] && !$message['message']->sub))
+					{
+						$date        = new ilDate($message['timestamp'], IL_CAL_UNIX);
+						$dateTime    = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
+						$currentDate = ilDatePresentation::formatDate($dateTime);
 
-						    	switch($time_format)
+						$roomTpl->setCurrentBlock('MESSAGELINE');
+						$roomTpl->setVariable('MESSAGECONTENT', $message['message']->message->content); // oops... it is a message? ^^
+						$roomTpl->setVariable('MESSAGESENDER', $message['message']->user->username);
+						if(null == $lastDateTime ||
+						   date('d', $lastDateTime->get(IL_CAL_UNIX)) != date('d', $dateTime->get(IL_CAL_UNIX)) ||
+						   date('m', $lastDateTime->get(IL_CAL_UNIX)) != date('m', $dateTime->get(IL_CAL_UNIX)) ||
+						   date('Y', $lastDateTime->get(IL_CAL_UNIX)) != date('Y', $dateTime->get(IL_CAL_UNIX)))
+						{
+							$roomTpl->setVariable('MESSAGEDATE', ilDatePresentation::formatDate($date));
+						}
+						
+						if($prevDate != $currentDate)
+						{
+							switch($time_format)
 							{
 								case ilCalendarSettings::TIME_FORMAT_24:
-									$date_string = $dateTime->get(IL_CAL_FKT_DATE,'H:i',$ilUser->getTimeZone());
+									$date_string = $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
 									break;
 								case ilCalendarSettings::TIME_FORMAT_12:
-									$date_string = $dateTime->get(IL_CAL_FKT_DATE,'g:ia',$ilUser->getTimeZone());
+									$date_string = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
 									break;
 							}
-						    
-							$roomTpl->setVariable( 'MESSAGEDATE',  $date_string);
+
+							$roomTpl->setVariable('MESSAGETIME', $date_string);
 							$prevDate = $currentDate;
-					    }
-					    /*
-					    else {
-						    $roomTpl->touchBlock( 'NO_MESSAGE_DATE');
-					    }
-					     * 
-					     */
-					    $roomTpl->parseCurrentBlock();
-				    }
-				    ++$messagesShown;
-				    break;
-		    }
-	    }
+						}
+			
+						$roomTpl->parseCurrentBlock();
 
-	    foreach($psessions as $session) {
-		    $scopes[$session['proom_id']] = $session['title'];
-	    }
+						$lastDateTime = $dateTime;
 
-	    if (isset($scopes[''])) {
-		    unset($scopes['']);
-	    }
+						++$messagesShown;
+					}
+					break;
+			}
+		}
 
-	    if (!$messagesShown) {
-		    //$roomTpl->touchBlock('NO_MESSAGES');
-		    $roomTpl->setVariable('LBL_NO_MESSAGES', $lng->txt('no_messages'));
-	    }
-	    
-	    asort($scopes, SORT_STRING);
+		foreach($psessions as $session)
+		{
+			$scopes[$session['proom_id']] = $session['title'];
+		}
 
-	    $scopes = array($lng->txt('main')) + $scopes;
+		if(isset($scopes['']))
+		{
+			unset($scopes['']);
+		}
 
-	    if (count($scopes) > 1) {
-		    $select = new ilSelectInputGUI($lng->txt('scope'), 'scope');
-		    $select->setOptions($scopes);
+		if(!$messagesShown)
+		{
+			//$roomTpl->touchBlock('NO_MESSAGES');
+			$roomTpl->setVariable('LBL_NO_MESSAGES', $lng->txt('no_messages'));
+		}
 
-		    if (isset($_REQUEST['scope'])) {
-			    $select->setValue($_REQUEST['scope']);
-		    }
+		asort($scopes, SORT_STRING);
 
-		    $durationForm->addItem($select);
-	    }
+		$scopes = array($lng->txt('main')) + $scopes;
 
-	    $room = ilChatroom::byObjectId( $this->gui->object->getId() );
-	    //if ($room->getSetting('private_rooms_enabled')) {
-	    
-	    $prevUseRelDates = ilDatePresentation::useRelativeDates();
-	    ilDatePresentation::setUseRelativeDates(false);
-	    
-	    $unixFrom = $from->getUnixTime();
-	    $unixTo = $to->getUnixTime();
-	    
-	    if ($unixFrom == $unixTo) {
-		    $date = new ilDate($unixFrom, IL_CAL_UNIX);
-		    $date_sub = ilDatePresentation::formatDate($date);
-	    }
-	    else {
-		    $date1 = new ilDate($unixFrom, IL_CAL_UNIX);
-		    $date2 = new ilDate($unixTo, IL_CAL_UNIX);
-		    $date_sub = ilDatePresentation::formatPeriod($date1, $date2);
-	    }
-	    ilDatePresentation::setUseRelativeDates($prevUseRelDates);
-	    
+		if(count($scopes) > 1)
+		{
+			$select = new ilSelectInputGUI($lng->txt('scope'), 'scope');
+			$select->setOptions($scopes);
+
+			if(isset($_REQUEST['scope']))
+			{
+				$select->setValue($_REQUEST['scope']);
+			}
+
+			$durationForm->addItem($select);
+		}
+
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		//if ($room->getSetting('private_rooms_enabled')) {
+
+		$prevUseRelDates = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);
+
+		$unixFrom = $from->getUnixTime();
+		$unixTo   = $to->getUnixTime();
+
+		if($unixFrom == $unixTo)
+		{
+			$date     = new ilDate($unixFrom, IL_CAL_UNIX);
+			$date_sub = ilDatePresentation::formatDate($date);
+		}
+		else
+		{
+			$date1    = new ilDate($unixFrom, IL_CAL_UNIX);
+			$date2    = new ilDate($unixTo, IL_CAL_UNIX);
+			$date_sub = ilDatePresentation::formatPeriod($date1, $date2);
+		}
+		ilDatePresentation::setUseRelativeDates($prevUseRelDates);
+
 		$isPrivateRoom = (boolean)((int)$_REQUEST['scope']);
-		if ($isPrivateRoom) {
-			$roomTpl->setVariable( 'ROOM_TITLE', sprintf($lng->txt('history_title_private_room'), $scopes[(int)$_REQUEST['scope']]) . ' (' . $date_sub . ')');
+		if($isPrivateRoom)
+		{
+			$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_private_room'), $scopes[(int)$_REQUEST['scope']]) . ' (' . $date_sub . ')');
 		}
-		else {
-			$roomTpl->setVariable( 'ROOM_TITLE', sprintf($lng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
+		else
+		{
+			$roomTpl->setVariable('ROOM_TITLE', sprintf($lng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
 		}
 
-	    //}
+		//}
 
-	    if ($export) {
-		    header("Content-Type: text/html");
-		    header("Content-Disposition: attachment; filename=\"".  urlencode( $scopes[(int)$_REQUEST['scope']] . '.html' ) ."\"");
-		    echo $roomTpl->get();
-		    exit;
-	    }
+		if($export)
+		{
+			header("Content-Type: text/html");
+			header("Content-Disposition: attachment; filename=\"" . urlencode($scopes[(int)$_REQUEST['scope']] . '.html') . "\"");
+			echo $roomTpl->get();
+			exit;
+		}
 
-	    $roomTpl->setVariable( 'PERIOD_FORM', $durationForm->getHTML() );
+		$roomTpl->setVariable('PERIOD_FORM', $durationForm->getHTML());
 
-	    $tpl->setVariable( 'ADM_CONTENT', $roomTpl->get() );
-    }
+		$tpl->setVariable('ADM_CONTENT', $roomTpl->get());
+	}
 
     public function byDayExport() {
 	    $this->byDay(true);

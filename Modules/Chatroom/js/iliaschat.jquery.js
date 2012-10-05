@@ -35,8 +35,25 @@ function formatToTwoDigits(nr) {
 }
 
 function formatISOTime(time) {
-        var date = new Date(time);
-        return formatToTwoDigits(date.getHours()) + ':' + formatToTwoDigits(date.getMinutes()) + ':' + formatToTwoDigits(date.getSeconds());
+	var format = translate("timeformat");
+	var date = new Date(time);
+
+	format = format.replace(/H/, formatToTwoDigits(date.getHours()));
+	format = format.replace(/i/, formatToTwoDigits(date.getMinutes()));
+	format = format.replace(/s/, formatToTwoDigits(date.getSeconds()));
+	
+	return format;
+}
+
+function formatISODate(time) {
+	var format = translate("dateformat");
+	var date = new Date(time);
+
+	format = format.replace(/Y/, date.getFullYear());
+	format = format.replace(/m/, formatToTwoDigits(date.getMonth()));
+	format = format.replace(/d/, formatToTwoDigits(date.getDay()));
+	
+	return format;
 }
 
 function isIdInArray(id, objects) {

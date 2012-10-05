@@ -7,9 +7,9 @@
 	<!-- BEGIN HISTORY_TITLE --><br /><h2 class="ilHeader">{ROOM_TITLE}</h2><!-- END HISTORY_TITLE -->
 <!-- BEGIN MESSAGELINE -->
 <div class="messageLine chat {MESSAGECLASS} small">
-	<!-- BEGIN MESSAGE_DATE -->
-		<p style="margin-top: 0; margin-bottom: 0;"><span class="chat content date">{MESSAGEDATE} </span></p>
-	<!-- END MESSAGE_DATE -->
+	<!-- BEGIN MESSAGE_TIME -->
+	<p style="margin-top: 0; margin-bottom: 0;"><span class="chat content date"><!-- BEGIN msgdate -->{MESSAGEDATE}, <!-- END msgdate -->{MESSAGETIME} </span></p>
+	<!-- END MESSAGE_TIME -->
 	&nbsp;&nbsp;<span class="chat content username">{MESSAGESENDER}</span>
 	<span class="chat content messageseparator">:</span>
 	<span class="chat content message">{MESSAGECONTENT}</span>
