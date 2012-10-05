@@ -59,7 +59,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 	 */
 	protected function importData($a_user_id)
 	{
-		global $lng;
+		global $ilUser;
 		
 		$data = array();
 		
@@ -68,11 +68,19 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		{
 			foreach($objects as $wsp_id => $obj_id)
 			{
+				// #9848: flag if current share access is password-protected 
+				$perms = ilWorkspaceAccessHandler::getPermissions($wsp_id);
+				$is_password = (!in_array($ilUser->getId(), $perms) &&
+					!in_array(ilWorkspaceAccessGUI::PERMISSION_REGISTERED, $perms) &&
+					!in_array(ilWorkspaceAccessGUI::PERMISSION_ALL, $perms) &&
+					in_array(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, $perms));
+													
 				$data[] = array(
 					"wsp_id" => $wsp_id,
 					"obj_id" => $obj_id,
 					"type" => ilObject::_lookupType($obj_id),
-					"title" => ilObject::_lookupTitle($obj_id)
+					"title" => ilObject::_lookupTitle($obj_id),
+					"password" => $is_password
 					);					
 			}
 		}		
@@ -122,6 +130,12 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		}
 		
 		$item_list_gui->setContainerObject($this->parent_obj);
+		
+		if($node["password"])
+		{			
+			$item_list_gui->addCustomProperty($this->lng->txt("status"), 
+				$this->lng->txt("wsp_password_protected_resource"), true, true);			
+		}
 		
 		if($html = $item_list_gui->getListItemHTML($node["wsp_id"], $node["obj_id"],
 				$node["title"], $node["description"], false, false, "", ilObjectListGUI::CONTEXT_WORKSPACE_SHARING))

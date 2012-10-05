@@ -61,6 +61,8 @@ class ilPortfolioTableGUI extends ilTable2GUI
 
 	protected function getItems()
 	{
+		global $ilUser;
+		
 		include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();
 		
@@ -76,7 +78,16 @@ class ilPortfolioTableGUI extends ilTable2GUI
 				if(!in_array($item["id"], $other))
 				{
 					unset($data[$idx]);
-				}								
+				}	
+				else
+				{
+					// #9848: flag if current share access is password-protected 
+					$perms = $access_handler->getPermissions($item["id"]);
+					$data[$idx]["password"] = (!in_array($ilUser->getId(), $perms) &&
+						!in_array(ilWorkspaceAccessGUI::PERMISSION_REGISTERED, $perms) &&
+						!in_array(ilWorkspaceAccessGUI::PERMISSION_ALL, $perms) &&
+						in_array(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, $perms));										
+				}
 			}			
 		}
 		else
@@ -160,6 +171,13 @@ class ilPortfolioTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("title_static");
 			$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
 			$this->tpl->parseCurrentBlock();
+			
+			if($a_set["password"])
+			{
+				$this->tpl->setCurrentBlock("shared");
+				$this->tpl->setVariable("TXT_SHARED", $lng->txt("wsp_password_protected_resource"));
+				$this->tpl->parseCurrentBlock();
+			}
 			
 			$link = ilLink::_getStaticLink($a_set["id"], "prtf", true);
 		

@@ -670,6 +670,14 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToPortfolio()
 	{
+		// incoming back link from shared resource
+		$cmd = "";
+		if($_REQUEST["dsh"])
+		{
+			$this->ctrl->setParameterByClass("ilobjportfoliogui", "user", $_REQUEST["dsh"]);
+			$cmd = "showOther";
+		}
+		
 		// used for goto links
 		if($_GET["prt_id"])
 		{
@@ -678,7 +686,7 @@ class ilPersonalDesktopGUI
 		}
 		else
 		{
-			$this->ctrl->redirectByClass("ilobjportfoliogui");
+			$this->ctrl->redirectByClass("ilobjportfoliogui", $cmd);
 		}
 	}
 	

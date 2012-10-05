@@ -260,7 +260,7 @@ class ilSharedResourceGUI
 	
 	protected function initPasswordForm()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser, $ilTabs;
 		
 		if($this->node_id)
 		{
@@ -282,7 +282,37 @@ class ilSharedResourceGUI
 		
 		$form->addCommandButton("checkPassword", $lng->txt("submit"));
 		
+		if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, "cancelPassword"));			
+			$form->addCommandButton("cancelPassword", $lng->txt("cancel"));
+		}
+		
 		return $form;
+	}
+	
+	protected function cancelPassword()
+	{
+		global $ilUser;
+		
+		if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
+		{		
+			if($this->node_id)
+			{
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
+				$tree = new ilWorkspaceTree($ilUser->getId());
+				$owner = $tree->lookupOwner($this->node_id);
+				ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner);
+			}		
+			else
+			{
+				include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+				$prtf = new ilObjPortfolio($this->portfolio_id, false);
+				$owner = $prtf->getOwner();				
+				ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio&dsh=".$owner);
+			}
+		}
 	}
 	
 	protected function checkPassword()
