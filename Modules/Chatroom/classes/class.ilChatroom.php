@@ -1347,6 +1347,10 @@ public function getLastMessages($number, $chatuser = null) {
 		while(($row = $ilDB->fetchAssoc($rset)))
 		{
 			$tmp       = json_decode($row['message']);
+			if($tmp->type != 'message' && $row['timestamp'] && !is_numeric($tmp->timestamp))
+			{
+				$tmp->timestamp = $row['timestamp'] * 1000;
+			}
 			$results[] = $tmp;
 		}
 		return $results;

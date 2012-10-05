@@ -130,6 +130,24 @@
 					message = message.message;
 				}
 				
+				if(typeof message.timestamp == "undefined" && typeof message.message.timestamp != "undefined")
+				{
+					var currentDate =  new Date(message.message.timestamp);
+				}
+				else
+				{
+					var currentDate =  new Date(message.timestamp);
+				}
+
+				if (typeof internals.lastPrintedDate == "undefined" ||
+					internals.lastPrintedDate == null ||
+					internals.lastPrintedDate.getDay() != currentDate.getDay() ||
+					internals.lastPrintedDate.getMonth() != currentDate.getMonth() ||
+					internals.lastPrintedDate.getFullYear() != currentDate.getFullYear()) {
+					$container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + internals.formatISODate.call($this, currentDate.getTime()) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
+				}
+				internals.lastPrintedDate = currentDate;
+				
 				switch (message.type) {
 					case 'message':
 						var content;
@@ -140,17 +158,6 @@
 							return;
 						}
 
-						var currentDate =  new Date(message.timestamp);
-
-						if (typeof internals.lastPrintedDate == "undefined" ||
-							internals.lastPrintedDate == null ||
-							internals.lastPrintedDate.getDay() != currentDate.getDay() ||
-							internals.lastPrintedDate.getMonth() != currentDate.getMonth() ||
-							internals.lastPrintedDate.getFullYear() != currentDate.getFullYear()) {
-							$container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + internals.formatISODate.call($this, message.timestamp) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
-						}
-						internals.lastPrintedDate = currentDate;
-						
 						line.append($('<span class="chat content date"></span>').append('' + internals.formatISOTime.call($this, message.timestamp) + ', '))
 							.append($('<span class="chat content username"></span>').append(message.user.username));
 
@@ -179,6 +186,8 @@
 						break;
 
 					case 'connected':
+						return;
+						
 						if (message.login || (message.message.users[0] && this.message.users[0].login)) {
 							line.append($('<span class="chat"></span>').append(internals.translate.call($this, 'connect', {username: message.login})));
 							line.addClass('notice');
