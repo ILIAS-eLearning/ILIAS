@@ -1,123 +1,13 @@
 <script type="text/javascript">
-	/* <![CDATA[ */
-	String.prototype.sprintfString = function () {
-		if (arguments.length < 1) {
-			return;
-		}
-
-		var value = this.valueOf();
-		for (var k = 0; k < arguments.length; k++) {
-			switch (typeof(arguments[k])) {
-				case 'string':
-					value = value.replace(/%s/, arguments[k]);
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		return value;
+il.Util.addOnLoad((function($) {
+	return function () {
+		$("body").ilSessionReminder({
+			url         :"{URL}",
+			client_id   :"{CLIENT_ID}",
+			session_name:"{SESSION_NAME}",
+			frequency   :{FREQUENCY},
+			debug       :{DEBUG}
+		});
 	};
-
-	il.Util.addOnLoad(
-			function () {
-
-				PeriodicalExecuter = function(callback, frequency) {
-					this.callback = callback;
-					this.frequency = frequency;
-					this.currentlyExecuting = false;
-					this.registerCallback();
-				}
-
-				PeriodicalExecuter.prototype = {
-					registerCallback: function() {
-						var me = this;
-						this.timer = setInterval(function() { me.onTimerEvent() }, this.frequency);
-					},
-
-					execute: function() {
-						this.callback(this);
-					},
-
-					stop: function() {
-						if (!this.timer) return;
-						clearInterval(this.timer);
-						this.timer = null;
-					},
-
-					onTimerEvent: function() {
-						if (!this.currentlyExecuting) {
-							try {
-								this.currentlyExecuting = true;
-								this.execute();
-							} finally {
-								this.currentlyExecuting = false;
-							}
-						}
-					}
-				};
-
-				var ilSessionReminder = null;
-
-				if (YAHOO.util.Cookie.get('il_session_reminder_{CLIENT_ID}_phpsessid') != YAHOO.util.Cookie.get("PHPSESSID")) {
-					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_activation", "enabled");
-					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
-					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_phpsessid", YAHOO.util.Cookie.get("PHPSESSID"));
-					//console.log("Cookied changed after new login or session reminder initially started");
-				}
-
-				var ilSessionReminderCallback = function () {
-					if (YAHOO.util.Cookie.get("il_session_reminder_{CLIENT_ID}_activation") == "disabled" ||
-						YAHOO.util.Cookie.get("il_session_reminder_{CLIENT_ID}_status") == "locked") {
-						//console.log("Session reminder cancelled or locked for current user session");
-						return;
-					}
-
-					YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "locked");
-					//console.log("Session reminder locked");
-					$.ajax({
-						url:     '{ILIAS_SESSION_CHECKER_URL}',
-						dataType:'json',
-						type:    'GET',
-						success: function (response) {
-							if (response.remind) {
-								ilSessionReminder.stop();
-								var installation = {INSTALLATION_NAME};
-								var extend = confirm('{CONFIRM_TXT}'.sprintfString(response.seconds_until_expiration, response.current_time_string, installation));
-								if (extend == true) {
-									$.ajax({
-										url:     '{ILIAS_SESSION_EXTENDER_URL}',
-										type:    'GET',
-										success: function (response) {
-											ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
-											YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
-											//console.log("Session reminder unlocked");
-										}
-									}).fail(function(jqXHR, textStatus) {
-										ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
-										YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
-										//console.log("Session reminder unlocked");
-									});
-								} else {
-									YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_activation", "disabled");
-									YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
-									ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
-									//console.log("Session reminder unlocked");
-								}
-							} else {
-								YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
-								//console.log("Session reminder unlocked");
-							}
-						}
-					}).fail(function(jqXHR, textStatus) {
-						YAHOO.util.Cookie.set("il_session_reminder_{CLIENT_ID}_status", "unlocked");
-						//console.log("Session reminder unlocked");
-					});
-				}
-				//console.log("Session reminder started");
-				ilSessionReminder = new PeriodicalExecuter(ilSessionReminderCallback, {ILIAS_SESSION_POLL_INTERVAL});
-			}
-	);
-	/* ]]> */
+})(jQuery));
 </script>

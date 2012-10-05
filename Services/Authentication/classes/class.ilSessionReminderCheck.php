@@ -15,14 +15,15 @@ class ilSessionReminderCheck
 	public function getJsonResponse($sessionId)
 	{
 		/**
-		 * @var $ilDB   ilDB
-		 * @var $ilUser ilObjUser
+		 * @var $ilDB            ilDB
+		 * @var $ilUser          ilObjUser
+		 * @var $ilClientIniFile ilIniFile
+		 * @var $lng             ilLanguage
 		 */
-		global $ilDB, $ilUser;
+		global $ilDB, $ilUser, $lng, $ilClientIniFile;
 
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 
-		// Define response array
 		$response = array('remind' => false);
 
 		$res  = $ilDB->queryF('
@@ -34,13 +35,11 @@ class ilSessionReminderCheck
 		);
 		$data = $ilDB->fetchAssoc($res);
 
-		if(!$data || !$data['data'] || !$data['user_id'] || $data['user_id'] == ANONYMOUS_USER_ID)
+		if(!$this->isAuthenticatedUsrSession($data))
 		{
-			// No data found in database, of the current user is anonymous
 			return ilJsonUtil::encode($response);
 		}
 
-		// Unserialize the session
 		$session  = ilUtil::unserializeSession($data['data']);
 		$idletime = null;
 		foreach((array)$session as $key => $entry)
@@ -54,14 +53,12 @@ class ilSessionReminderCheck
 
 		if(null === $idletime)
 		{
-			// No idle value found
 			return ilJsonUtil::encode($response);
 		}
 
 		$expiretime = $idletime + ilSession::getIdleValue();
-		if($expiretime < time())
+		if($this->isSessionAlreadyExpired($expiretime))
 		{
-			// Session is already expired
 			return ilJsonUtil::encode($response);
 		}
 
@@ -76,12 +73,31 @@ class ilSessionReminderCheck
 			return ilJsonUtil::encode($response);
 		}
 
+
 		$response = array(
-			'remind'                   => true,
-			'seconds_until_expiration' => ilFormat::_secondsToString($expiretime - time(), true),
-			'current_time_string'      => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)),
+			'extend_url'               => './ilias.php?baseClass=ilPersonalDesktopGUI',
+			'txt'                      => sprintf($lng->txt('session_reminder_alert'), ilFormat::_secondsToString($expiretime - time(), true), ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)), $ilClientIniFile->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath()),
+			'remind'                   => true
 		);
 
 		return ilJsonUtil::encode($response);
+	}
+
+	/**
+	 * @param int $expiretime
+	 * @return bool
+	 */
+	protected function isSessionAlreadyExpired($expiretime)
+	{
+		return $expiretime < time();
+	}
+
+	/**
+	 * @param array|null $data
+	 * @return bool
+	 */
+	protected function isAuthenticatedUsrSession($data)
+	{
+		return is_array($data) && isset($data['user_id']) && $data['user_id'] > 0 && $data['user_id'] != ANONYMOUS_USER_ID;
 	}
 }
