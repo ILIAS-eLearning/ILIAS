@@ -889,7 +889,7 @@ class ilWebAccessChecker
 
 		if(!apache_setenv('ILIAS_CHECKED','1'))
 		{
-			$ilLog->write(__METHOD__.' '.__LINE__.': Could not set the environmnet variable ILIAS_CHECKED.');
+			$ilLog->write(__METHOD__.' '.__LINE__.': Could not set the environment variable ILIAS_CHECKED.');
 		}
 
 		if(!virtual($this->virtual_path))
