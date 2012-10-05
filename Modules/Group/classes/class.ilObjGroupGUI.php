@@ -1841,7 +1841,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 		
 		$this->lng->loadLanguageModule('mail');
-		ilUtil::sendInfo($this->lng->txt('mail_select_recipients'));
+		if(!isset($_GET['returned_from_mail']))
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_select_recipients'));
+		}
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.mail_members.html','Services/Contact');
 		

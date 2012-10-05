@@ -127,6 +127,19 @@ class ilMailFormCall
 	{
 		$url = $_SESSION[self::REFERER_KEY];
 
+		if(strlen($url))
+		{
+			$parts = parse_url($url);
+			if(isset($parts['query']) && strlen($parts['query']))
+			{
+				$url .= '&returned_from_mail=1';
+			}
+			else
+			{
+				$url .= '?returned_from_mail=1';
+			}
+		}
+
 		unset($_SESSION[self::REFERER_KEY]);
 
 		return $url;

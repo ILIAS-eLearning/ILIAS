@@ -4024,7 +4024,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once('./Services/AccessControl/classes/class.ilObjRole.php');
 
 		$this->lng->loadLanguageModule('mail');
-		ilUtil::sendInfo($this->lng->txt('mail_select_recipients'));
+		if(!isset($_GET['returned_from_mail']))
+		{
+			ilUtil::sendInfo($this->lng->txt('mail_select_recipients'));
+		}
 
 		$is_admin = (bool) $ilAccess->checkAccess("write", "", $this->object->getRefId());
 
