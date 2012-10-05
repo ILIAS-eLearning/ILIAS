@@ -2,21 +2,31 @@ body {
     height: 100%;
 }
 
+.chat.messageLine.dateline {
+	background-color: #ECF0F9;
+}
+
+.chat.messageLine {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .chat.messageLine.private {
     background-color: #FAD8CF;
 }
 
 .chat.username {
-    font-weight: bold;
-    color: blue;
+	/*font-weight: bold;
+	color: blue;*/
 }
 
 .chat.messageseparator {
-    padding: 0 3px;
+    padding: 0;
+	padding-right: 3px;
 }
 
 .chat.date {
-    color: green;
+    /*color: green;*/
 }
 
 #chat_sidebar_wrapper {

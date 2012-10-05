@@ -416,8 +416,8 @@
 		}
   
 	};
-  
-  
+
+	var lastHandledDate = new Object();
 	$.fn.ilChatMessageArea = function( method ) {
     
 		var methods = {
@@ -466,7 +466,19 @@
 							    //console.log(ex);
 							    return true;
 							}
-							line.append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp) + ') '))
+							
+							var currentDate =  new Date(message.timestamp);
+
+							if (typeof lastHandledDate.scope == "undefined" ||
+								lastHandledDate.scope== null || 
+								lastHandledDate.scope.getDay() != currentDate.getDay() ||
+								lastHandledDate.scope.getMonth() != currentDate.getMonth() ||
+								lastHandledDate.scope.getFullYear() != currentDate.getFullYear()) {
+								container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + formatISODate(message.timestamp) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
+							}
+							lastHandledDate.scope = currentDate;
+							
+							line.append($('<span class="chat content date"></span>').append('' + formatISOTime(message.timestamp) + ', '))
 								.append($('<span class="chat content username"></span>').append(message.user.username));
 
 							if (message.recipients) {
@@ -530,7 +542,7 @@
 						case 'private_room_entered':
 							if (message.login || (message.message.users[0] && message.message.users[0].login)) {
 							    line
-							    .append($('<span class="chat content date"></span>').append('(' + formatISOTime(message.timestamp || message.message.timestamp) + ') '))
+							    .append($('<span class="chat content date"></span>').append('' + formatISOTime(message.timestamp || message.message.timestamp) + ', '))
 							    .append($('<span class="chat content username"></span>').append(message.login || message.message.users[0].login))
 							    .append($('<span class="chat content messageseparator">:</span>'))
 							    .append($('<span class="chat content message"></span>').append(translate('connect')));

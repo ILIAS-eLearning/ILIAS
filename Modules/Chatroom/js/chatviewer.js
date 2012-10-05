@@ -3,6 +3,7 @@
 	$.fn.ilChatViewer = function (method) {
 
 		var internals = {
+			lastPrintedDate: null,
 			translate: function(key) {
 				var data = this.data('chatviewer');
 				
@@ -75,9 +76,28 @@
 				return $(data.properties.autoscroll_selector).attr("checked");
 			},
 			formatISOTime:    function (time) {
+				var $this = $(this);
+
+				var format = internals.translate.call($this, "timeformat");
 				var date = new Date(time);
+
+				format = format.replace(/H/, internals.formatToTwoDigits(date.getHours()));
+				format = format.replace(/i/, internals.formatToTwoDigits(date.getMinutes()));
+				format = format.replace(/s/, internals.formatToTwoDigits(date.getSeconds()));
+
+				return format;
+			},
+			formatISODate:    function(time) {
+				var $this = $(this);
 				
-				return internals.formatToTwoDigits(date.getHours()) + ':' + internals.formatToTwoDigits(date.getMinutes()) + ':' + internals.formatToTwoDigits(date.getSeconds());
+				var format = internals.translate.call($this, "dateformat");
+				var date = new Date(time);
+	
+				format = format.replace(/Y/, date.getFullYear());
+				format = format.replace(/m/, internals.formatToTwoDigits(date.getMonth()));
+				format = format.replace(/d/, internals.formatToTwoDigits(date.getDay()));
+	
+				return format;
 			},
 			formatToTwoDigits:function (nr) {
 				nr = '' + nr;
@@ -120,7 +140,18 @@
 							return;
 						}
 
-						line.append($('<span class="chat content date"></span>').append('(' + internals.formatISOTime(message.timestamp) + ') '))
+						var currentDate =  new Date(message.timestamp);
+
+						if (typeof internals.lastPrintedDate == "undefined" ||
+							internals.lastPrintedDate == null ||
+							internals.lastPrintedDate.getDay() != currentDate.getDay() ||
+							internals.lastPrintedDate.getMonth() != currentDate.getMonth() ||
+							internals.lastPrintedDate.getFullYear() != currentDate.getFullYear()) {
+							$container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + internals.formatISODate.call($this, message.timestamp) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
+						}
+						internals.lastPrintedDate = currentDate;
+						
+						line.append($('<span class="chat content date"></span>').append('' + internals.formatISOTime.call($this, message.timestamp) + ', '))
 							.append($('<span class="chat content username"></span>').append(message.user.username));
 
 						if (message.recipients) {
