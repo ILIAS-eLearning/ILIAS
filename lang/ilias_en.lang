@@ -11639,7 +11639,7 @@ grp#:#grp_view_info_by_type#:#This content presentation groups all items by reso
 grp#:#grp_view_info_simple#:#This content presentation lists all items in one block.
 grp#:#grp_presentation_type#:#Presentation Type
 grp#:#grp_view_inherit#:#Default
-grp#:#grp_view_inherit_info#:#The group presentation type is adapted from a parent course. 
+grp#:#grp_view_inherit_info#:#The group presentation type is adopted from a parent course. 
 content#:#cont_open#:#Display
 content#:#cont_open_normal#:#in tab / new window with link
 content#:#cont_open_iframe_max#:#in iframe with full size
