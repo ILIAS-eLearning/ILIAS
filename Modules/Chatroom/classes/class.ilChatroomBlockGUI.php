@@ -223,7 +223,7 @@ class ilChatroomBlockGUI extends ilBlockGUI
 		$body_tpl->setVariable('LBL_USERS', $lng->txt('users'));
 		$body_tpl->setVariable('LBL_END_WHISPER', $lng->txt('end_whisper'));
 
-		$body_tpl->setVariable('LBL_TIMEFORMAT', $lng->txt('lang_timeformat'));
+		$body_tpl->setVariable('LBL_TIMEFORMAT', $lng->txt('lang_timeformat_no_sec'));
 		$body_tpl->setVariable('LBL_DATEFORMAT', $lng->txt('lang_dateformat'));
 
 		$content = $body_tpl->get() . $chatblock->getRoomSelect();

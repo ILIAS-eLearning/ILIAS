@@ -310,7 +310,7 @@ class ilChatroomViewTask extends ilDBayTaskHandler {
 		$roomTpl->setVariable('LBL_NO_FURTHER_USERS', $lng->txt('no_further_users'));
 		$roomTpl->setVariable('LBL_USERS', $lng->txt('users'));
 		$roomTpl->setVariable('LBL_END_WHISPER', $lng->txt('end_whisper'));
-		$roomTpl->setVariable('LBL_TIMEFORMAT', $lng->txt('lang_timeformat'));
+		$roomTpl->setVariable('LBL_TIMEFORMAT', $lng->txt('lang_timeformat_no_sec'));
 		$roomTpl->setVariable('LBL_DATEFORMAT', $lng->txt('lang_dateformat'));
 	}
 
