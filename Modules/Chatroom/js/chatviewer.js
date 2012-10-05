@@ -1,6 +1,6 @@
 (function ($) {
 
-	$.fn.ilChatViewer = function (method) {
+	$.fn.ilChatViewer = function(method) {
 
 		var internals = {
 			lastPrintedDate: null,
@@ -75,11 +75,8 @@
 				
 				return $(data.properties.autoscroll_selector).attr("checked");
 			},
-			formatISOTime:    function (time) {
-				var $this = $(this);
-
-				var format = internals.translate.call($this, "timeformat");
-				var date = new Date(time);
+			formatISOTime:    function (date) {
+				var $this = $(this), format = internals.translate.call($this, "timeformat");
 
 				format = format.replace(/H/, internals.formatToTwoDigits(date.getHours()));
 				format = format.replace(/i/, internals.formatToTwoDigits(date.getMinutes()));
@@ -87,15 +84,12 @@
 
 				return format;
 			},
-			formatISODate:    function(time) {
-				var $this = $(this);
-				
-				var format = internals.translate.call($this, "dateformat");
-				var date = new Date(time);
-	
+			formatISODate:    function(date) {
+				var $this = $(this), format = internals.translate.call($this, "dateformat");
+
 				format = format.replace(/Y/, date.getFullYear());
-				format = format.replace(/m/, internals.formatToTwoDigits(date.getMonth()));
-				format = format.replace(/d/, internals.formatToTwoDigits(date.getDay()));
+				format = format.replace(/m/, internals.formatToTwoDigits(date.getMonth() + 1));
+				format = format.replace(/d/, internals.formatToTwoDigits(date.getDate()));
 	
 				return format;
 			},
@@ -129,24 +123,23 @@
 				if (message.message && message.message.message) {
 					message = message.message;
 				}
-				
-				if(typeof message.timestamp == "undefined" && typeof message.message.timestamp != "undefined")
-				{
-					var currentDate =  new Date(message.message.timestamp);
-				}
-				else
-				{
-					var currentDate =  new Date(message.timestamp);
+
+				var messageDate;
+				if(typeof message.timestamp == "undefined" && typeof message.message.timestamp != "undefined"){
+					messageDate =  new Date(message.message.timestamp);
+				} else if(typeof message.timestamp != "undefined") {
+					messageDate =  new Date(message.timestamp);
 				}
 
-				if (typeof internals.lastPrintedDate == "undefined" ||
+				if (typeof messageDate != "undefined" &&
+					(typeof internals.lastPrintedDate == "undefined" ||
 					internals.lastPrintedDate == null ||
-					internals.lastPrintedDate.getDay() != currentDate.getDay() ||
-					internals.lastPrintedDate.getMonth() != currentDate.getMonth() ||
-					internals.lastPrintedDate.getFullYear() != currentDate.getFullYear()) {
-					$container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + internals.formatISODate.call($this, currentDate.getTime()) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
+					internals.lastPrintedDate.getDate() != messageDate.getDate() ||
+					internals.lastPrintedDate.getMonth() != messageDate.getMonth() ||
+					internals.lastPrintedDate.getFullYear() != messageDate.getFullYear())) {
+					$container.append($('<div class="messageLine chat dateline"><span class="chat content date">' + internals.formatISODate.call($this, messageDate) + '</span><span class="chat content username"></span><span class="chat content message"></span></div>'));
 				}
-				internals.lastPrintedDate = currentDate;
+				internals.lastPrintedDate = messageDate;
 				
 				switch (message.type) {
 					case 'message':
@@ -158,7 +151,7 @@
 							return;
 						}
 
-						line.append($('<span class="chat content date"></span>').append('' + internals.formatISOTime.call($this, message.timestamp) + ', '))
+						line.append($('<span class="chat content date"></span>').append('' + internals.formatISOTime.call($this, messageDate) + ', '))
 							.append($('<span class="chat content username"></span>').append(message.user.username));
 
 						if (message.recipients) {
@@ -212,7 +205,7 @@
 					$container.scrollTop(100000);
 				}
 			}
-		}
+		};
 
 		var methods = {
 			init: function (params) {
@@ -236,7 +229,7 @@
 							lang:                      {}
 						}, params),
 						interval_handle:undefined
-					}
+					};
 
 					$this.data('chatviewer', data);
 
@@ -277,7 +270,7 @@
 					data = $this.data('chatviewer');
 				$(data.properties.message_container_selector).empty();
 			}
-		}
+		};
 
 		if (methods[method]) {
 			return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -287,6 +280,6 @@
 			$.error('Method ' + method + ' does not exist on jQuery.ilChatViewer');
 		}
 
-	}
+	};
 
 })(jQuery);
