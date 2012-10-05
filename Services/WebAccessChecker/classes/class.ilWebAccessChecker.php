@@ -873,6 +873,11 @@ class ilWebAccessChecker
 	*/
 	public function sendFileVirtual()
 	{
+		/**
+		 * @var $ilLog ilLog
+		 */
+		global $ilLog;
+
 		header('Last-Modified: '. date ("D, j M Y H:i:s", filemtime($this->file)). " GMT");
 		header('ETag: "'. md5(filemtime($this->file).filesize($this->file)).'"');
 		header('Accept-Ranges: bytes');
@@ -882,8 +887,15 @@ class ilWebAccessChecker
 			header("Content-Type: " . $this->getMimeType());
 		}
 
-		apache_setenv('ILIAS_CHECKED','1');	
-		virtual($this->virtual_path);
+		if(!apache_setenv('ILIAS_CHECKED','1'))
+		{
+			$ilLog->write(__METHOD__.' '.__LINE__.': Could not set the environmnet variable ILIAS_CHECKED.');
+		}
+
+		if(!virtual($this->virtual_path))
+		{
+			$ilLog->write(__METHOD__.' '.__LINE__.': Could not perform the required sub-request to deliver the file: '.$this->virtual_path);
+		}
 		exit;
 	}
 	
