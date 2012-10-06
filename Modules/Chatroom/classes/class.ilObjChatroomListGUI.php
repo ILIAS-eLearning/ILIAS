@@ -63,26 +63,35 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 	 */
 	public function getProperties()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
 		global $lng;
-		$props = parent::getProperties();
+		
+		$props = array();
 
 		require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-
 		$room = ilChatroom::byObjectId($this->obj_id);
-		if ($room) {
-			$props[] = array("alert" => false, "property" => $lng->txt("chat_users_active"),
-						     "value" => $room->countActiveUsers());
+		if($room)
+		{
+			$props[] = array(
+				"alert" => false, "property" => $lng->txt("chat_users_active"),
+				"value" => $room->countActiveUsers()
+			);
 
-			if ($this->obj_id == self::$publicRoomObjId) {
+			if($this->obj_id == self::$publicRoomObjId)
+			{
 				$props[] = array("alert" => false, "property" => $lng->txt("notice"), 'value' => $lng->txt('public_room'));
 			}
 
-			if (self::$chat_enabled === null) {
-				$chatSetting = new ilSetting('chatroom');
-				self::$chat_enabled = (boolean) $chatSetting->get('chat_enabled');
+			if(self::$chat_enabled === null)
+			{
+				$chatSetting        = new ilSetting('chatroom');
+				self::$chat_enabled = (boolean)$chatSetting->get('chat_enabled');
 			}
 
-			if (!self::$chat_enabled) {
+			if(!self::$chat_enabled)
+			{
 				$props[] = array("alert" => true, "property" => $lng->txt("status"), 'value' => $lng->txt("server_disabled"));
 			}
 		}
