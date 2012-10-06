@@ -50,6 +50,11 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 class ilObjQuestionPoolGUI extends ilObjectGUI
 {
 	/**
+	 * @var ilObjQuestionPool
+	 */
+	public $object;
+	
+	/**
 	* Constructor
 	* @access public
 	*/
@@ -893,7 +898,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
 		{
 			$this->tpl->setCurrentBlock("QTypes");
-			$types =& $this->object->getQuestionTypes();
+			$types =& $this->object->getQuestionTypes(false, true);
 			$lastquestiontype = $ilUser->getPref("tst_lastquestiontype");
 			foreach ($types as $translation => $data)
 			{

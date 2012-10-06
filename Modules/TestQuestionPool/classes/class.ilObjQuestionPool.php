@@ -1401,13 +1401,13 @@ class ilObjQuestionPool extends ilObject
 		$newObj->updateMetaData();
 		return $newObj;
 	}
-	
-	function &getQuestionTypes($all_tags = FALSE)
+
+	function &getQuestionTypes($all_tags = FALSE, $fixOrder = false)
 	{
-		return $this->_getQuestionTypes($all_tags);
+		return $this->_getQuestionTypes($all_tags, $fixOrder);
 	}
 
-	function &_getQuestionTypes($all_tags = FALSE)
+	function &_getQuestionTypes($all_tags = FALSE, $fixOrder = false)
 	{
 		global $ilDB;
 		global $lng;
@@ -1442,7 +1442,12 @@ class ilObjQuestionPool extends ilObject
 				}
 			}
 		}
-		ksort($types);
+		
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionTypeOrderer.php';
+		$orderMode = ($fixOrder ? ilAssQuestionTypeOrderer::ORDER_MODE_FIX : ilAssQuestionTypeOrderer::ORDER_MODE_ALPHA);
+		$orderer = new ilAssQuestionTypeOrderer($types, $orderMode);
+		$types = $orderer->getOrderedTypes();
+		
 		return $types;
 	}
 
