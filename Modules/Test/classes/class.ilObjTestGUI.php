@@ -3091,7 +3091,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$qtypes = array();
 				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-				foreach (ilObjQuestionPool::_getQuestionTypes() as $trans => $data)
+				foreach (ilObjQuestionPool::_getQuestionTypes(false, true) as $trans => $data)
 				{
 					$qtypes[$data['type_tag']] = $trans;
 				}

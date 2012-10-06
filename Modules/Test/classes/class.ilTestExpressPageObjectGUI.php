@@ -268,7 +268,7 @@ class ilTestExpressPageObjectGUI extends ilPageObjectGUI {
 	include_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
 
 	$pool = new ilObjQuestionPool();
-	$questionTypes = $pool->getQuestionTypes();
+	$questionTypes = $pool->getQuestionTypes(false, true);
 	$options = array();
 
 	// question type
