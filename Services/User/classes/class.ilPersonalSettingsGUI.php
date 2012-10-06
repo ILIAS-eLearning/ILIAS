@@ -994,7 +994,6 @@ class ilPersonalSettingsGUI
 			$this->form->addItem($cb);
 		}
 		
-		// session reminder
 		if((int)$ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED) == ilSession::SESSION_HANDLING_FIXED &&
 		   (int)$ilSetting->get('session_reminder_enabled'))
 		{
@@ -1003,14 +1002,15 @@ class ilPersonalSettingsGUI
 			$cb->setValue(1);
 			$cb->setChecked((int)$ilUser->getPref('session_reminder_enabled'));
 			
-			$expires = ilSession::getSessionExpireValue();			
-			$lead_time_gui = new ilTextInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
+			$expires = ilSession::getSessionExpireValue();
+			$lead_time_gui = new ilNumberInputGUI($this->lng->txt('session_reminder_lead_time'), 'session_reminder_lead_time');
 			$lead_time_gui->setInfo(sprintf($this->lng->txt('session_reminder_lead_time_info'), ilFormat::_secondsToString($expires, true)));
 			$lead_time_gui->setValue($ilUser->getPref('session_reminder_lead_time'));
-			$lead_time_gui->setMaxLength(10);
-			$lead_time_gui->setSize(10);
+			$lead_time_gui->setSize(3);
+			$lead_time_gui->setMinValue(1);
+			$lead_time_gui->setMaxValue((int)ilFormat::_secondsToString($expires, true) - 1);
 			$cb->addSubItem($lead_time_gui);
-						
+
 			$this->form->addItem($cb);
 		}
 		
