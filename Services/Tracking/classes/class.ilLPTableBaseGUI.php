@@ -184,7 +184,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 	 *
 	 * @param bool $a_split_learning_resources
 	 */
-	public function initFilter($a_split_learning_resources = false)
+	public function initFilter($a_split_learning_resources = false, $a_include_no_status_filter = true)
 	{
 		global $lng, $ilObjDataCache;
 		
@@ -250,11 +250,14 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$this->filter["area"] = $rs->getValue();
 		
 		// hide "not started yet"
-		include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-		$cb = new ilCheckboxInputGUI($lng->txt("trac_filter_has_status"), "status");
-		$this->addFilterItem($cb);
-		$cb->readFromSession();
-		$this->filter["status"] = $cb->getChecked();
+		if($a_include_no_status_filter)
+		{
+			include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
+			$cb = new ilCheckboxInputGUI($lng->txt("trac_filter_has_status"), "status");
+			$this->addFilterItem($cb);
+			$cb->readFromSession();
+			$this->filter["status"] = $cb->getChecked();
+		}
 	}
 
     /**
