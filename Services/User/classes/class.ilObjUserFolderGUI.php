@@ -123,7 +123,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $rbacsystem, $tpl;
 
-		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()))
+		if (!$rbacsystem->checkAccess("read",$this->object->getRefId()) ||
+			!ilObjUserTracking::_enabledLearningProgress() ||
+			!ilObjUserTracking::_enabledUserRelatedData())
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
