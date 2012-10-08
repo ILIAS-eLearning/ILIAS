@@ -137,7 +137,7 @@ class ilCalendarPresentationGUI
 
 			case 'ilcalendarusersettingsgui':
 				$this->ctrl->setReturn($this,'');
-				$this->tabs_gui->activateTab('properties');
+				$this->tabs_gui->activateTab('settings');
 				$this->setCmdClass('ilcalendarusersettingsgui');
 				
 				include_once('./Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php');
@@ -365,7 +365,7 @@ class ilCalendarPresentationGUI
 		$this->tabs_gui->addTarget('app_week',$this->ctrl->getLinkTargetByClass('ilCalendarWeekGUI',''));
 		$this->tabs_gui->addTarget('app_month',$this->ctrl->getLinkTargetByClass('ilCalendarMonthGUI',''));
 		$this->tabs_gui->addTarget('cal_manage',$this->ctrl->getLinkTargetByClass('ilCalendarCategoryGUI','manage'));
-		$this->tabs_gui->addTarget('properties',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
+		$this->tabs_gui->addTarget('settings',$this->ctrl->getLinkTargetByClass('ilCalendarUserSettingsGUI',''));
 	}
 	
 	/**
