@@ -300,7 +300,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 				}
 			}
 
-			$result[] = $path;
+			$result[$ref_id] = $path;
 		}
 		return $result;
 	}
