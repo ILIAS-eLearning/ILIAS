@@ -2533,6 +2533,7 @@ class ilPageObjectGUI
 		$btpl->setVariable("TXT_MORE_FUNCTIONS", $lng->txt("cont_more_functions"));
 		$btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
 		
+		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 		$btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type));
 		ilTooltipGUI::addTooltip("ilAdvSelListAnchorElement_char_style_selection",
 			$lng->txt("cont_more_character_styles"), "iltinymenu_bd");
