@@ -105,7 +105,7 @@ class ilCalendarAppointmentPanelGUI
 		
 		// Panel variables
 		$this->tpl->setVariable('PANEL_NUM',self::$counter);
-		$this->tpl->setVariable('PANEL_TITLE', str_replace(' ()', '', $a_app['event']->getPresentationTitle()));
+		$this->tpl->setVariable('PANEL_TITLE', str_replace(' ()', '', $a_app['event']->getPresentationTitle(false)));
 		if ($a_app["event"]->isMilestone())
 		{
 			$this->tpl->setVariable('PANEL_DETAILS',$this->lng->txt('cal_ms_details'));

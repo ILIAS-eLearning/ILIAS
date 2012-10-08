@@ -317,7 +317,7 @@ class ilCalendarDayGUI
 		$compl = ($a_app['event']->isMilestone() && $a_app['event']->getCompletion() > 0)
 			? " (".$a_app['event']->getCompletion()."%)"
 			: "";
-		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle().$compl);
+		$this->tpl->setVariable('F_APP_TITLE',$a_app['event']->getPresentationTitle(false).$compl);
 		$color = $this->app_colors->getColorByAppointment($a_app['event']->getEntryId());
 		$this->tpl->setVariable('F_APP_BGCOLOR',$color);
 		$this->tpl->setVariable('F_APP_FONTCOLOR',ilCalendarUtil::calculateFontColor($color));
@@ -361,7 +361,7 @@ class ilCalendarDayGUI
 		$this->tpl->setVariable('PANEL_NUM',$this->num_appointments);
 
 		$this->tpl->setVariable('APP_ROWSPAN',$a_app['rowspan']);
-		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle());
+		$this->tpl->setVariable('APP_TITLE',$a_app['event']->getPresentationTitle(false));
 
 		switch($this->user_settings->getTimeFormat())
 		{
@@ -423,7 +423,7 @@ class ilCalendarDayGUI
 		}
 		else
 		{
-			$title .= (' '.$a_app['event']->getPresentationTitle());
+			$title .= (' '.$a_app['event']->getPresentationTitle(false));
 		}
 
 		$this->tpl->setVariable('APP_TITLE',$title);

@@ -199,7 +199,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 * @access public
 	 * @return
 	 */
-	public function getPresentationTitle()
+	public function getPresentationTitle($a_shorten = true)
 	{
 		global $ilUser,$lng;
 		
@@ -212,7 +212,11 @@ class ilCalendarEntry implements ilDatePeriod
 			$title = $this->getTitle().' ('.$lng->txt($this->getSubtitle()).')';
 		}
 
-		return ilUtil::shortenText(ilUtil::shortenWords($title,20),40,true);
+		if($a_shorten)
+		{
+			return ilUtil::shortenText(ilUtil::shortenWords($title,20),40,true);
+		}
+		return $title;
 	}
 	
 	/**
