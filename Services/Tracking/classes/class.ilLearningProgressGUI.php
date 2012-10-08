@@ -136,6 +136,12 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 	function __getNextClass()
 	{
 		global $ilAccess, $ilUser;
+		
+		// #9857
+		if(!ilObjUserTracking::_enabledLearningProgress())
+		{
+			return;
+		}
 
 		if(strlen($next_class = $this->ctrl->getNextClass()))
 		{

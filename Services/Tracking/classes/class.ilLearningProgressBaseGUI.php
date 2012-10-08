@@ -161,7 +161,8 @@ class ilLearningProgressBaseGUI
 			case LP_MODE_PERSONAL_DESKTOP:
 
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-				if(ilObjUserTracking::_hasLearningProgressLearner())
+				if(ilObjUserTracking::_hasLearningProgressLearner() && 
+				ilObjUserTracking::_enabledUserRelatedData())
 				{
 					$this->tabs_gui->addTarget('trac_progress',
 													$this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
