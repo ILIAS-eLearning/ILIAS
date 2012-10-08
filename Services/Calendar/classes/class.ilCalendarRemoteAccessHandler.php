@@ -77,8 +77,7 @@ class ilCalendarRemoteAccessHandler
 		
 		if($this->getTokenHandler()->getIcal() and !$this->getTokenHandler()->isIcalExpired())
 		{
-			echo $this->getTokenHandler()->getIcal();
-			exit;
+			ilUtil::deliverData($this->getTokenHandler(),'calendar.ics','text/calendar','utf-8');
 		}
 		
 		include_once './Services/Calendar/classes/Export/class.ilCalendarExport.php';
@@ -99,7 +98,8 @@ class ilCalendarRemoteAccessHandler
 		$this->getTokenHandler()->setIcal($export->getExportString());
 		$this->getTokenHandler()->storeIcal();
 		
-		echo $export->getExportString();
+		ilUtil::deliverData($export->getExportString(),'calendar.ics','text/calendar','utf-8');
+		#echo $export->getExportString();
 		#echo nl2br($export->getExportString());
 		
 		#$fp = fopen('ilias.ics', 'w');
