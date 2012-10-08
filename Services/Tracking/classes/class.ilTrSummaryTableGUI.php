@@ -185,7 +185,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		
 		if($this->ref_id == ROOT_FOLDER_ID)
 		{
-			return parent::initFilter(true);
+			return parent::initFilter(true, false);
 		}
 		
 		// show only if extended data was activated in lp settings
