@@ -209,6 +209,8 @@ class ilChangeEvent
 				$ilDB->quote($time,'integer'));
 				
 			$aff = $ilDB->manipulate($query);
+			
+			self::$has_accessed[$obj_id][$usr_id] = true;
 
 			self::_recordObjStats($obj_id, $time_diff, $read_count_diff);
 		}
@@ -258,6 +260,7 @@ class ilChangeEvent
 						else
 						{
 //echo "<br>3";
+//$ilLog->write("insert read event for obj_id -".$obj2_id."-".$usr_id."-");
 							$query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access,'.
 								'childs_read_count, childs_spent_seconds) '.
 								'VALUES (%s,%s,%s,%s,%s,'.$ilDB->now().', %s, %s) ',
@@ -270,7 +273,9 @@ class ilChangeEvent
 								$ilDB->quote((int) $time_diff,'integer')
 								);
 							$aff = $ilDB->manipulate($query);
-
+							
+							self::$has_accessed[$obj2_id][$usr_id] = true;
+							
 							self::_recordObjStats($obj2_id, $time, 1, (int)$time_diff, (int)$read_count_diff);
 						}
 					}
