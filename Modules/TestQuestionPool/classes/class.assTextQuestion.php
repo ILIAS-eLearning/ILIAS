@@ -770,7 +770,7 @@ class assTextQuestion extends assQuestion
 	 * @see $answers
 	 * @see ASS_AnswerBinaryStateImage
 	 */
-	function addAnswer(
+	public function addAnswer(
 		$answertext = "",
 		$points = 0.0,
 		$points_unchecked = 0.0,
