@@ -1814,15 +1814,6 @@ class ilMail
 			return $this->lng->txt("mail_following_rcp_not_valid").$message;
 		}
 
-		// CHECK FOR SYSTEM MAIL
-		if (in_array('system',$a_type))
-		{
-			if (!empty($a_attachment))
-			{
-				return $lng->txt("mail_no_attach_allowed");
-			}
-		}
-
 		// ACTIONS FOR ALL TYPES
 		// GET RCPT OF MAILING LISTS
 		$rcp_to = $this->parseRcptOfMailingLists($a_rcp_to);
