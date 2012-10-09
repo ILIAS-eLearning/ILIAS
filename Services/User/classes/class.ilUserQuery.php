@@ -220,6 +220,13 @@ class ilUserQuery
 		
 		$offset = (int) $a_offset;
 		$limit = (int) $a_limit;
+		
+		// #9866: validate offset against rowcount
+		if($offset >= $cnt)
+		{
+			$offset = 0;
+		}
+		
 		$ilDB->setLimit($limit, $offset);
 		
 		// set query
