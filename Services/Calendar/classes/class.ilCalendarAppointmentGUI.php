@@ -309,10 +309,8 @@ class ilCalendarAppointmentGUI
 		}
 		
 
-		include_once './Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php';
 		if(ilCalendarSettings::_getInstance()->isUserNotificationEnabled())
 		{
-			#$notu = new ilTextInputGUI('User Benachrichtigung', 'notu[]', $this, 'doUserAutoComplete');
 			$notu = new ilTextWizardInputGUI($this->lng->txt('cal_user_notification'), 'notu');
 			$notu->setInfo($this->lng->txt('cal_user_notification_info'));
 			$notu->setSize(20);

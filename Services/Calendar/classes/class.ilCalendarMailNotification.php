@@ -368,7 +368,7 @@ class ilCalendarMailNotification extends ilMailNotification
 		$export->setAppointments(array($this->getAppointmentId()));
 		$export->export();
 
-		include_once './classes/class.ilFileDataMail.php';
+		include_once './Services/Mail/classes/class.ilFileDataMail.php';
 		$attachment = new ilFileDataMail($this->getSender());
 		$attachment->storeAsAttachment(
 			'appointment.ics',
@@ -382,9 +382,12 @@ class ilCalendarMailNotification extends ilMailNotification
 		);
 	}
 
+	/**
+	 * Delete attachments
+	 */
 	protected function deleteAttachments()
 	{
-		include_once './classes/class.ilFileDataMail.php';
+		include_once './Services/Mail/classes/class.ilFileDataMail.php';
 		$attachment = new ilFileDataMail($this->getSender());
 		$attachment->unlinkFiles($this->getAttachments());
 		
