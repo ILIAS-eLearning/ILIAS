@@ -72,6 +72,7 @@ class ilCalendarSettings
 	private $sync_cache_minutes = 10;
 	
 	private $notification = false;
+	private $notification_user = false;
 	
 	private $cg_registration = false;
 	
@@ -100,7 +101,7 @@ class ilCalendarSettings
 	 *
 	 * @access public
 	 * @static
-	 *
+	 * @return ilCalendarSettings
 	 * @return ilCalendarSettings
 	 */
 	public static function _getInstance()
@@ -439,6 +440,16 @@ class ilCalendarSettings
 	{
 		$this->notification = $a_status;
 	}
+
+	public function isUserNotificationEnabled()
+	{
+		return $this->notification_user;
+	}
+
+	public function enableUserNotification($a_not)
+	{
+		$this->notification_user = $a_not;
+	}
 	
 	/**
 	 * Enable optional registration for courses and groups
@@ -500,6 +511,7 @@ class ilCalendarSettings
 		$this->storage->set('cg_registration',(int) $this->isCGRegistrationEnabled());
 		$this->storage->set('course_cal',(int) $this->isCourseCalendarEnabled());
 		$this->storage->set('group_cal',(int) $this->isGroupCalendarEnabled());
+		$this->storage->set('notification_user',(int) $this->isUserNotificationEnabled());
 	}
 
 	/**
@@ -528,6 +540,7 @@ class ilCalendarSettings
 		$this->enableCGRegistration($this->storage->get('cg_registration',$this->isCGRegistrationEnabled()));
 		$this->enableCourseCalendar($this->storage->get('course_cal'),$this->isCourseCalendarEnabled());
 		$this->enableGroupCalendar($this->storage->get('group_cal'),$this->isGroupCalendarEnabled());
+		$this->enableUserNotification($this->storage->get('notification_user',$this->isUserNotificationEnabled()));
 	}
 	
 	/**

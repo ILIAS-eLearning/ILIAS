@@ -91,7 +91,7 @@ class ilCalendarRecurrenceCalculator
 	 * @param object ilDateTime start of period
 	 * @param object ilDateTime end of period
 	 * @param int limit number of returned dates
-	 * @return object ilDateList 
+	 * @return ilDateList ilDateList 
 	 */
 	public function calculateDateList(ilDateTime $a_start,ilDateTime $a_end,$a_limit = -1)
 	{
@@ -122,7 +122,10 @@ class ilCalendarRecurrenceCalculator
 			ilDateTime::_before($this->event->getStart(),$this->period_end,IL_CAL_DAY)) or
 			ilDateTime::_equals($this->event->getStart(),$this->period_start,IL_CAL_DAY))
 		{
+			// begin-patch aptar
 			$this->valid_dates->add($this->event->getStart());
+			#$this->valid_dates->add($this->event->getStart());
+			// end patch aptar
 		}
 
 	 	// Calculate recurrences based on frequency (e.g. MONTHLY)
@@ -169,7 +172,7 @@ class ilCalendarRecurrenceCalculator
 			
 			$freq_res = $this->applyLimits($freq_res);
 			#echo $freq_res;
-			
+
 			$start = $this->incrementByFrequency($start);
 
 			if(ilDateTime::_after($start,$this->period_end) or $this->limit_reached)

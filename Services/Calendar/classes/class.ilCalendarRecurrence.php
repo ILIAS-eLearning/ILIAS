@@ -113,7 +113,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 		ilCalendarRecurrenceExclusions::delete($a_cal_id);
 	}
 	
-	public function toICal()
+	public function toICal($a_user_id)
 	{
 		$ical = 'RRULE:';
 		$ical .= ('FREQ='.$this->getFrequenceType());
@@ -154,6 +154,23 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
 		{
 			$ical .= (';BYSETPOS='.$this->getBYSETPOS());
 		}
+
+		// Required in outlook
+		if($this->getBYDAY())
+		{
+			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+			$us = ilCalendarUserSettings::_getInstanceByUserId($a_user_id);
+			if($us->getWeekStart() == ilCalendarSettings::WEEK_START_MONDAY)
+			{
+				$ical .= (';WKST=MO');
+			}
+			else
+			{
+				$ical .= (';WKST=SU');
+			}
+		}
+
 		return $ical;
 	}
 	

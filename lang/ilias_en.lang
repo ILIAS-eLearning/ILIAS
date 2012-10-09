@@ -12963,3 +12963,12 @@ mcst#:#mcst_extract_preview_image#:#Extract Preview Image
 mcst#:#mcst_image_extracted#:#Image has been extracted.
 mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mcst#:#mcst_second#:#Second
+dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participants
+dateplaner#:#cal_notification_users#:#Notification for Selected Users
+dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.
+dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.
+dateplaner#:#cal_user_notification#:#User Notification
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.
+dateplaner#:#cal_cg_notification#:#Course/Group Notification
+dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
+dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.

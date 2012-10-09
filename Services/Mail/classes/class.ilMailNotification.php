@@ -23,6 +23,8 @@ abstract class ilMailNotification
 	private $mail = null;
 	private $subject = '';
 	private $body = '';
+
+	private $attachments = array();
 	
 	protected $language = null;
 	
@@ -150,7 +152,17 @@ abstract class ilMailNotification
 	{
 		return $this->recipients;
 	}
-	
+
+	public function setAttachments($a_att)
+	{
+		$this->attachments = $a_att;
+	}
+
+	public function getAttachments()
+	{
+		return (array) $this->attachments;
+	}
+
 	/**
 	 * Init language
 	 * @param int $a_usr_id
@@ -320,7 +332,7 @@ abstract class ilMailNotification
 			'',
 			$this->getSubject(),
 			$this->getBody(),
-			array(),
+			$this->getAttachments(),
 			$a_type
 		);
 

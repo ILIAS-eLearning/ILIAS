@@ -37,22 +37,18 @@ class ilICalWriter
 	
 	public static function escapeText($a_text)
 	{
+		$a_text = str_replace("\r\n", '\\n', $a_text);
+
 		return preg_replace(
 			array(
-				'/\\\r\\\n/',
 				'/\\\/',
 				'/;/',
 				'/,/',
-				'/\\\n/',
-				'/\\\N/'
 				),
 			array(
-				'\\r\\n',
 				'\\',
 				'\;',
 				'\,',
-				'\\n',
-				'\\N'
 				),
 				$a_text
 			);

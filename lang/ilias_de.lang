@@ -6881,7 +6881,7 @@ dateplaner#:#cal_accepted#:#Angenommen
 dateplaner#:#cal_add_appointment#:#Termin anlegen
 dateplaner#:#cal_add_category#:#Neuen Kalender anlegen
 dateplaner#:#cal_add_milestone#:#Meilenstein hinzufügen
-dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Kurs- und Gruppentermine zu ermöglichem.
+dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Kurs- und Gruppentermine zu ermöglichen.
 dateplaner#:#cal_all_day#:#Ganztags
 dateplaner#:#cal_appointments#:#Termine
 dateplaner#:#cal_apps#:#Anzahl Termine
@@ -12944,3 +12944,12 @@ survey#:#survey_question_pool_usage_active#:#Fragen können optional im Fragenpo
 survey#:#survey_question_pool_usage_active_info#:#Die Fragen können für andere Umfragen wiederverwendet werden.
 survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
 survey#:#survey_question_pool_usage_inactive_info#:#Die Fragen können nicht wiederverwendet werden.
+dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
+dateplaner#:#cal_notification_users#:#Benachtrichtigung für ausgewählte Benutzer
+dateplaner#:#cal_adm_notification_user_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung an einzelne, auswählbare Benutzer versenden zu können.
+dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben sie ausschließlich ILIAS Benutzerkontennamen oder gültige E-Mail-Adressen an.
+dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
+dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS Benutzernamen oder gültige E-Mailadressen ein.
+dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
+dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
+dateplaner#:#cal_mail_notification_body#:#sie wurden zu einem Termin eingeladen.
