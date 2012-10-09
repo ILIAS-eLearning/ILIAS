@@ -1206,6 +1206,11 @@ class ilObjMediaObject extends ilObject
 					$obj_id = ilPageObject::lookupParentId($id, 'sahs');
 				}
 				
+				// repository pages
+				if (in_array($cont_type, array("crs", "grp", "cat", "fold", "root")))
+				{
+					$obj_id = $id;
+				}
 				break;
 				
 			// Media Pool

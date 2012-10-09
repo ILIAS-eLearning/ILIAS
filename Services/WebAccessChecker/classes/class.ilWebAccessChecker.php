@@ -539,6 +539,7 @@ class ilWebAccessChecker
 			$obj_type = ilObject::_lookupType($obj_id);
 		}
 		$ref_ids  = ilObject::_getAllReferences($obj_id);
+
 		foreach($ref_ids as $ref_id)
 		{
 			foreach ($this->check_users as $user_id)
