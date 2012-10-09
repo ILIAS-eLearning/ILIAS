@@ -826,7 +826,7 @@ class ilCalendarRecurrenceCalculator
 	 		foreach($list->get() as $res)
 	 		{
 				#echo 'Check date '.$res;
-				if(ilDateTime::_after($res,$date))
+				if(ilDateTime::_after($res,$date,IL_CAL_DAY))
 	 			{
 					#echo 'Limit reached';
 					$this->limit_reached = true;
