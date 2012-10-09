@@ -163,10 +163,24 @@ class assTextQuestionImport extends assQuestionImport
 			$this->object->setTextRating($textrating);
 		}
 		$this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
+		
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
+		$termscoring = unserialize( $item->getMetadataEntry('termscoring') );
+		for ($i = 0; $i < count($termscoring); $i++ )
+		{
+			$this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints() );
+		}
+		$this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
 		$keywords = $item->getMetadataEntry("keywords");
 		if (strlen($keywords))
 		{
-			$this->object->setKeywords($keywords);
+			#$this->object->setKeywords($keywords);
+			$answers = explode(' ', $keywords);
+			foreach ($answers as $answer)
+			{
+				$this->object->addAnswer($answer, $maxpoints/count($answers));	
+			}
+			$this->object->setKeywordRelation('one');
 		}
 		$this->object->saveToDb();
 		if (count($item->suggested_solutions))

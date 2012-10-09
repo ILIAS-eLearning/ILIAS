@@ -83,7 +83,7 @@ class ASS_Mark {
     $short_name = "",
     $official_name = "",
     $minimum_level = 0,
-		$passed = 0
+	$passed = 0
   ) 
   {
     $this->setShortName($short_name);
@@ -195,6 +195,7 @@ class ASS_Mark {
 */
   function setMinimumLevel($minimum_level) 
   {
+	  $minimum_level = (float) $minimum_level;
 	if (!is_numeric($minimum_level))
 	{
 		throw new Exception ('Markstep: minimum level must be numeric.');

@@ -83,14 +83,35 @@ class assTextQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "textrating");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getTextRating());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		/*
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "keywords");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getKeywords());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		*/
+		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "matchcondition");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->matchcondition);
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "termscoring");
+		$scores = serialize($this->object->getAnswers());
+		$a_xml_writer->xmlElement("fieldentry", NULL, $scores);
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "termrelation");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getKeywordRelation());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "specificfeedback");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getKeywordRelation());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 
@@ -213,7 +234,7 @@ class assTextQuestionExport extends assQuestionExport
 				$a_xml_writer->xmlEndTag("respcondition");
 			}
 		}
-
+		
 		$a_xml_writer->xmlStartTag("respcondition");
 		$a_xml_writer->xmlStartTag("conditionvar");
 		$a_xml_writer->xmlElement("other", NULL, "tutor_rated");
