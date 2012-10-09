@@ -166,6 +166,7 @@ class assTextQuestionImport extends assQuestionImport
 		
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
 		$termscoring = unserialize( $item->getMetadataEntry('termscoring') );
+		$termscoring = ( is_array($termscoring) ? $termscoring : array() );
 		for ($i = 0; $i < count($termscoring); $i++ )
 		{
 			$this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints() );
