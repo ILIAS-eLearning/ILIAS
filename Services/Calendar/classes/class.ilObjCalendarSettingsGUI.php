@@ -217,6 +217,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->setCacheMinutes((int) $_POST['cache_time']);
 		$this->settings->useCache((bool) $_POST['cache']);	
 		$this->settings->enableNotification((bool) $_POST['cn']);
+		$this->settings->enableUserNotification((bool) $_POST['cnu']);
 		$this->settings->enableConsultationHours((bool) $_POST['ch']);
 		$this->settings->enableCGRegistration((bool) $_POST['cgr']);
 		
@@ -375,10 +376,19 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->form->addItem($not);
 		
 		$cgn = new ilCheckboxInputGUI($this->lng->txt('cal_notification'),'cn');
+		$cgn->setOptionTitle($this->lng->txt('cal_notification_crsgrp'));
 		$cgn->setValue(1);
 		$cgn->setChecked($this->settings->isNotificationEnabled());
 		$cgn->setInfo($this->lng->txt('cal_adm_notification_info'));
 		$this->form->addItem($cgn);
+
+		$cnu = new ilCheckboxInputGUI('','cnu');
+		$cnu->setOptionTitle($this->lng->txt('cal_notification_users'));
+		$cnu->setValue(1);
+		$cnu->setChecked($this->settings->isUserNotificationEnabled());
+		$cnu->setInfo($this->lng->txt('cal_adm_notification_user_info'));
+		$this->form->addItem($cnu);
+
 		
 		// Registration
 		$book = new ilFormSectionHeaderGUI();

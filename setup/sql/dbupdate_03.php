@@ -13420,3 +13420,31 @@ $ilDB->addTableColumn('qpl_a_essay','points', array('type' => 'float', 'notnull'
 $ilDB->query('UPDATE qpl_a_essay SET points = tmp_points');
 $ilDB->dropTableColumn('qpl_a_essay','tmp_points');
 ?>
+
+<#3781>
+<?php
+
+if ($ilDB->tableExists('cal_notification'))
+{
+	return true;
+}
+
+// Create notification table
+$ilDB->createTable(
+	'cal_notification', array(
+	'notification_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true),
+	'cal_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+	'user_type' => array('type' => 'integer', 'length' => 1, 'notnull' => true, 'default' => 0),
+	'user_id' => array('type' => 'integer', 'length' => 4, 'notnull' => true, 'default' => 0),
+	'email' => array('type' => 'text', 'length' => 64, 'notnull' => false)
+		)
+);
+$ilDB->addPrimaryKey(
+	'cal_notification', array(
+	'notification_id'
+		)
+);
+$ilDB->createSequence('cal_notification');
+$ilDB->addIndex('cal_notification', array('cal_id'), 'i1');
+
+?>

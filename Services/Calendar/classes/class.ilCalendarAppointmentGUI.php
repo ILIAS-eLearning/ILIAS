@@ -77,7 +77,15 @@ class ilCalendarAppointmentGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilUser, $ilSetting,$tpl;
+		global $ilUser, $ilSetting,$tpl, $ilTabs;
+		
+		
+		// Clear tabs and set back target
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget(
+			$this->lng->txt('cal_back_to_cal'),
+			$this->ctrl->getLinkTarget($this,'cancel')
+		);
 
 		$next_class = $this->ctrl->getNextClass($this);
 		switch($next_class)
@@ -300,6 +308,37 @@ class ilCalendarAppointmentGUI
 			$this->form->addItem($resp);
 		}
 		
+
+		include_once './Services/Form/classes/class.ilUserLoginAutoCompleteInputGUI.php';
+		if(ilCalendarSettings::_getInstance()->isUserNotificationEnabled())
+		{
+			#$notu = new ilTextInputGUI('User Benachrichtigung', 'notu[]', $this, 'doUserAutoComplete');
+			$notu = new ilTextWizardInputGUI($this->lng->txt('cal_user_notification'), 'notu');
+			$notu->setInfo($this->lng->txt('cal_user_notification_info'));
+			$notu->setSize(20);
+			$notu->setMaxLength(64);
+
+			$values = array();
+			foreach($this->notification->getRecipients() as $rcp)
+			{
+				switch ($rcp['type'])
+				{
+					case ilCalendarUserNotification::TYPE_USER:
+						$values[] = ilObjUser::_lookupLogin($rcp['usr_id']);
+						break;
+
+					case ilCalendarUserNotification::TYPE_EMAIL:
+						$values[] = $rcp['email'];
+						break;
+				}
+			}
+			if(count($values))
+				$notu->setValues($values);
+			else
+				$notu->setValues(array(''));
+			$this->form->addItem($notu);
+		}
+
 		// Notifications
 		include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
 		if(ilCalendarSettings::_getInstance()->isNotificationEnabled()  and count($cats->getNotificationCalendars()))
@@ -313,9 +352,9 @@ class ilCalendarAppointmentGUI
 					$disabled = false;
 				}
 			}
-			
+
 			$tpl->addJavaScript('./Services/Calendar/js/toggle_notification.js');
-			$not = new ilCheckboxInputGUI($this->lng->txt('cal_notification'),'not');
+			$not = new ilCheckboxInputGUI($this->lng->txt('cal_cg_notification'),'not');
 			$not->setInfo($this->lng->txt('cal_notification_info'));
 			$not->setValue(1);
 			$not->setChecked($this->app->isNotificationEnabled());
@@ -374,7 +413,7 @@ class ilCalendarAppointmentGUI
 		
 		$this->load($a_as_milestone);
 		
-		if($this->app->validate())
+		if($this->app->validate() and $this->notification->validate())
 		{
 			if(!(int) $_POST['calendar'])
 			{
@@ -386,6 +425,8 @@ class ilCalendarAppointmentGUI
 			}
 			
 			$this->app->save();
+			$this->notification->setEntryId($this->app->getEntryId());
+			$this->notification->save();
 			$this->rec->setEntryId($this->app->getEntryId());
 			$this->saveRecurrenceSettings();
 			
@@ -398,6 +439,10 @@ class ilCalendarAppointmentGUI
 			if(ilCalendarSettings::_getInstance()->isNotificationEnabled() and (bool) $_POST['not'])
 			{
 				$this->distributeNotifications($cat_id,$this->app->getEntryId(),true);
+			}
+			if(ilCalendarSettings::_getInstance()->isUserNotificationEnabled())
+			{
+				$this->distributeUserNotifications();
 			}
 
 			include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
@@ -434,7 +479,40 @@ class ilCalendarAppointmentGUI
 			$this->add();
 		}
 	}
-	
+
+	/**
+	 * Send mail to selected users
+	 * @global ilObjUser $ilUser 
+	 */
+	protected function distributeUserNotifications()
+	{
+		global $ilUser;
+
+		include_once './Services/Calendar/classes/class.ilCalendarMailNotification.php';
+		$notification =  new ilCalendarMailNotification();
+		$notification->setAppointmentId($this->app->getEntryId());
+		
+		foreach($this->notification->getRecipients() as $rcp)
+		{
+			switch($rcp['type'])
+			{
+				case ilCalendarUserNotification::TYPE_USER:
+					$notification->setSender(ANONYMOUS_USER_ID);
+					$notification->setRecipients(array($rcp['usr_id']));
+					$notification->setType(ilCalendarMailNotification::TYPE_USER);
+					break;
+
+				case ilCalendarUserNotification::TYPE_EMAIL:
+					$notification->setSender(ANONYMOUS_USER_ID);
+					$notification->setRecipients(array($rcp['email']));
+					$notification->setType(ilCalendarMailNotification::TYPE_USER_ANONYMOUS);
+					break;
+			}
+			$notification->send();
+		}
+	}
+
+
 	/**
 	 * Distribute mail notifications
 	 * @return 
@@ -651,7 +729,7 @@ class ilCalendarAppointmentGUI
 
 		$this->load($this->app->isMilestone());
 		
-		if($this->app->validate())
+		if($this->app->validate() and $this->notification->validate())
 		{
 			if(!(int) $_POST['calendar'])
 			{
@@ -663,6 +741,7 @@ class ilCalendarAppointmentGUI
 			}
 			
 			$this->app->update();
+			$this->notification->save();
 			$this->saveRecurrenceSettings();
 			
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
@@ -676,8 +755,12 @@ class ilCalendarAppointmentGUI
 			{
 				$this->distributeNotifications($cat_id,$this->app->getEntryId(),false);
 			}
+			if(ilCalendarSettings::_getInstance()->isUserNotificationEnabled())
+			{
+				$this->distributeUserNotifications();
+			}
 			
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$this->ctrl->returnToParent($this);
 		}
 		else
@@ -741,6 +824,9 @@ class ilCalendarAppointmentGUI
 			
 			include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
 			ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
+
+			include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
+			ilCalendarUserNotification::deleteCalendarEntry($app_id);
 		}
 		ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'),true);
 		$this->ctrl->returnToParent($this);
@@ -830,6 +916,9 @@ class ilCalendarAppointmentGUI
 		include_once('./Services/Calendar/classes/class.ilCalendarEntry.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
 		$this->app = new ilCalendarEntry($a_app_id);
+
+		include_once './Services/Calendar/classes/class.ilCalendarUserNotification.php';
+		$this->notification = new ilCalendarUserNotification($this->app->getEntryId());
 		
 		if(!$a_app_id)
 		{
@@ -923,7 +1012,40 @@ class ilCalendarAppointmentGUI
 			$end = new ilDateTime($end_dt,IL_CAL_FKT_GETDATE,$this->timezone);
 			$this->app->setEnd($end);
 		}
+		$this->loadNotificationRecipients();
 		$this->loadRecurrenceSettings($a_as_milestone = false);
+	}
+
+	protected function loadNotificationRecipients()
+	{
+		$this->notification->setRecipients(array());
+
+		foreach((array) $_POST['notu'] as $rcp)
+		{
+			$rcp = trim(ilUtil::stripSlashes($rcp));
+			$usr_id = ilObjUser::_loginExists($rcp);
+
+			if(strlen($rcp) == 0)
+			{
+				continue;
+			}
+
+			if($usr_id)
+			{
+				$this->notification->addRecipient(
+					ilCalendarUserNotification::TYPE_USER,
+					$usr_id
+				);
+			}
+			else
+			{
+				$this->notification->addRecipient(
+					ilCalendarUserNotification::TYPE_EMAIL,
+					0,
+					$rcp
+				);
+			}
+		}
 	}
 	
 	/**
@@ -1378,5 +1500,30 @@ class ilCalendarAppointmentGUI
 		$assignment = $assignment->getFirstAssignment();
 		return new ilCalendarCategory($assignment);
 	}
+
+	/**
+	 * Do auto completion
+	 * @return void
+	 */
+	protected function doUserAutoComplete()
+	{
+		if(!isset($_GET['autoCompleteField']))
+		{
+			$a_fields = array('login','firstname','lastname','email');
+		}
+		else
+		{
+			$a_fields = array((string) $_GET['autoCompleteField']);
+		}
+
+		$GLOBALS['ilLog']->write(print_r($a_fields,true));
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields($a_fields);
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList($_REQUEST['query']);
+		exit();
+	}
+
 }
 ?>

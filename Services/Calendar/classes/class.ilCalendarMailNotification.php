@@ -39,6 +39,9 @@ class ilCalendarMailNotification extends ilMailNotification
 	const TYPE_CRS_NEW_NOTIFICATION = 4;
 	const TYPE_BOOKING_CONFIRMATION = 5;
 	const TYPE_BOOKING_CANCELLATION = 6;
+
+	const TYPE_USER = 7;
+	const TYPE_USER_ANONYMOUS = 8;
 	
 	private $appointment_id = null;
 	
@@ -58,6 +61,18 @@ class ilCalendarMailNotification extends ilMailNotification
 	public function setAppointmentId($a_id)
 	{
 		$this->appointment_id = $a_id;
+
+		include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
+		$this->appointment = new ilCalendarEntry($this->getAppointmentId());
+	}
+
+	/**
+	 * Get appointment
+	 * @return ilCalendarEntry
+	 */
+	public function getAppointment()
+	{
+		return $this->appointment;
 	}
 	
 	/**
@@ -87,6 +102,67 @@ class ilCalendarMailNotification extends ilMailNotification
 		
 		switch($this->getType())
 		{
+			case self::TYPE_USER:
+				$rcp = array_pop($this->getRecipients());
+				$this->initLanguage($rcp);
+				$this->getLanguage()->loadLanguageModule('dateplaner');
+				$this->initMail();
+				$this->setSubject(
+					sprintf(
+						$this->getLanguageText('cal_mail_notification_subject'),
+						$this->getAppointment()->getTitle()
+					)
+				);
+				$this->setBody(ilMail::getSalutation($rcp, $this->getLanguage()));
+				$this->appendBody("\n\n");
+				$this->appendBody(
+						$this->getLanguageText('cal_mail_notification_body')
+				);
+				$this->appendBody("\n\n");
+				$this->appendAppointmentDetails();
+				$this->appendBody("\n\n");
+				$this->getMail()->appendInstallationSignature(true);
+				$this->addAttachment();
+
+				$this->sendMail(
+					$this->getRecipients(),
+					array('system'),
+					true
+				);
+				break;
+
+			case self::TYPE_USER_ANONYMOUS:
+
+				$rcp = array_pop($this->getRecipients());
+
+				$this->setLanguage(ilLanguageFactory::_getLanguage($lng->getDefaultLanguage()));
+				$this->getLanguage()->loadLanguageModule('dateplaner');
+				$this->getLanguage()->loadLanguageModule('mail');
+				$this->initMail();
+				$this->setSubject(
+					sprintf(
+						$this->getLanguageText('cal_mail_notification_subject'),
+						$this->getAppointment()->getTitle()
+					)
+				);
+				$this->setBody(ilMail::getSalutation(0, $this->getLanguage()));
+				$this->appendBody("\n\n");
+				$this->appendBody(
+						$this->getLanguageText('cal_mail_notification_body')
+				);
+				$this->appendBody("\n\n");
+				$this->appendAppointmentDetails();
+				$this->appendBody("\n\n");
+				$this->getMail()->appendInstallationSignature(true);
+				$this->addAttachment();
+
+				$this->sendMail(
+					$this->getRecipients(),
+					array('email'),
+					false
+				);
+				break;
+
 			case self::TYPE_GRP_NEW_NOTIFICATION:
 				
 				$this->setLanguage(ilLanguageFactory::_getLanguage($lng->getDefaultLanguage()));
@@ -110,6 +186,8 @@ class ilCalendarMailNotification extends ilMailNotification
 				$this->appendBody("\n\n");
 				$this->appendBody($this->createPermanentLink());
 				$this->getMail()->appendInstallationSignature(true);
+
+				$this->addAttachment();
 										
 				$this->sendMail(array('#il_grp_admin_'.$this->getRefId(),'#il_grp_member_'.$this->getRefId()),array('system'),false);
 				break;
@@ -137,6 +215,8 @@ class ilCalendarMailNotification extends ilMailNotification
 				$this->appendBody("\n\n");
 				$this->appendBody($this->createPermanentLink());
 				$this->getMail()->appendInstallationSignature(true);
+
+				$this->addAttachment();
 										
 				$this->sendMail(array('#il_grp_admin_'.$this->getRefId(),'#il_grp_member_'.$this->getRefId()),array('system'),false);
 				break;
@@ -164,6 +244,8 @@ class ilCalendarMailNotification extends ilMailNotification
 				$this->appendBody("\n\n");
 				$this->appendBody($this->createPermanentLink());
 				$this->getMail()->appendInstallationSignature(true);
+
+				$this->addAttachment();
 										
 				$this->sendMail(array('#il_crs_admin_'.$this->getRefId(),'#il_crs_tutor_'.$this->getRefId(),'#il_crs_member_'.$this->getRefId()),array('system'),false);
 				break;
@@ -191,6 +273,8 @@ class ilCalendarMailNotification extends ilMailNotification
 				$this->appendBody("\n\n");
 				$this->appendBody($this->createPermanentLink());
 				$this->getMail()->appendInstallationSignature(true);
+
+				$this->addAttachment();
 										
 				$this->sendMail(array('#il_crs_admin_'.$this->getRefId(),'#il_crs_tutor_'.$this->getRefId(),'#il_crs_member_'.$this->getRefId()),array('system'),false);
 				break;
@@ -269,8 +353,41 @@ class ilCalendarMailNotification extends ilMailNotification
 
 				$this->sendMail(array($booking->getObjId()),array('system'),true);
 				break;
-
 		}
+
+		$this->deleteAttachments();
+	}
+
+	protected function addAttachment()
+	{
+		global $ilUser;
+
+		include_once './Services/Calendar/classes/Export/class.ilCalendarExport.php';
+		$export = new ilCalendarExport();
+		$export->setExportType(ilCalendarExport::EXPORT_APPOINTMENTS);
+		$export->setAppointments(array($this->getAppointmentId()));
+		$export->export();
+
+		include_once './classes/class.ilFileDataMail.php';
+		$attachment = new ilFileDataMail($this->getSender());
+		$attachment->storeAsAttachment(
+			'appointment.ics',
+			$export->getExportString()
+		);
+
+		$this->setAttachments(
+			array(
+				'appointment.ics'
+			)
+		);
+	}
+
+	protected function deleteAttachments()
+	{
+		include_once './classes/class.ilFileDataMail.php';
+		$attachment = new ilFileDataMail($this->getSender());
+		$attachment->unlinkFiles($this->getAttachments());
+		
 	}
 }
 ?>
