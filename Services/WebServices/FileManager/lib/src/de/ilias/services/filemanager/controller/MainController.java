@@ -301,8 +301,8 @@ public class MainController implements Initializable {
 	protected void initializeRemoteList() {
 		
 		remoteBreadcrumb.getItems().add(new Label());
-		remoteBreadcrumb.setMinHeight(30);
-		remoteBreadcrumb.setMaxHeight(40);
+		remoteBreadcrumb.setMinHeight(40);
+		remoteBreadcrumb.setMaxHeight(50);
 		remoteBreadcrumb.setEditable(false);
 		remoteBreadcrumb.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		remoteBreadcrumb.addEventFilter(
