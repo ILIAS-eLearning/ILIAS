@@ -12972,3 +12972,4 @@ dateplaner#:#cal_user_notification_info#:#Selected users will be notified about 
 dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
+file#:#file_download#:#Download File

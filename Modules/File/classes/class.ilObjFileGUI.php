@@ -699,7 +699,9 @@ class ilObjFileGUI extends ilObject2GUI
 
 		if ($this->checkPermissionBool("read", "sendfile"))
 		{
-			$info->addButton($this->lng->txt("file_read"), $this->ctrl->getLinkTarget($this, "sendfile"));
+			// 9876
+			$this->lng->loadLanguageModule("file");
+			$info->addButton($this->lng->txt("file_download"), $this->ctrl->getLinkTarget($this, "sendfile"));
 		}
 		
 		$info->enablePrivateNotes();
