@@ -421,35 +421,34 @@ il.Rating = {
 					var id = grp + i;
 					
 					if(is_out == undefined)
-					{
-						var src = $("#"+id).attr("src");	
-
+					{										
+						// determine type of current icon
+						var src_parts = $("#"+id).attr("src").split("_");
+						var icon_type = src_parts.pop();
+						icon_type = icon_type.substring(0, icon_type.length-4);
+						if(icon_type == "user")
+						{							
+							icon_type = src_parts.pop();							
+						}
+						if($.isNumeric(icon_type))
+						{
+							icon_type = "on";
+						}
+						var icon_base = src_parts.join("_");
+						
 						// onmouseout should revert to original img
+						var src = $("#"+id).attr("src");				
 						il.Rating.cache[id] = src;
-
+						
 						// active
 						if(i <= value)
 						{					
-							if(src.substring(src.length-6) == "on.png")
-							{
-								src = src.substring(0, src.length-6)+"on_user.png";					
-							}
-							else if(src.substring(src.length-7) == "off.png")
-							{
-								src = src.substring(0, src.length-7)+"on_user.png";	
-							}														
+							src = icon_base+"_on_user.png";																				
 						}
 						// inactive
 						else
 						{
-							if(src.substring(src.length-6) == "on.png")
-							{
-								src = src.substring(0, src.length-6)+"off.png";					
-							}
-							else if(src.substring(src.length-11) == "on_user.png")
-							{
-								src = src.substring(0, src.length-11)+"off.png";	
-							}							
+							src = icon_base+"_off.png";													
 						}			
 					}
 					else
