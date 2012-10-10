@@ -77,50 +77,44 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 	
 	public function test_setGetPoints_valid()
 	{
-		$this->markTestIncomplete('Testing an uncommitted feature.');
+		//$this->markTestIncomplete('Testing an uncommitted feature.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
 		$expected = 0.01;
 		
 		// Act
-		$instance->setPoints($expected);
-		$actual = $instance->getPoints();
+		$instance->points = $expected;
+		$actual = $instance->points;
 		
 		// Assert
 		$this->assertEquals($actual, $expected);		
 	}
-
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
+	
 	public function test_setPoints_invalid()
 	{
-		$this->markTestIncomplete('Testing an uncommitted feature.');
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
 		$expected = 'hokum';
 
 		// Act
-		$instance->setPoints($expected);
-
+		$instance->points = $expected;
+		$actual = $instance->points;
 		// Assert
-		$this->assertTrue(FALSE);
+		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_setGetTextCorrect()
 	{
-		$this->markTestIncomplete('Testing an uncommitted feature.');
-
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
 		$expected = 'Correct text';
 
 		// Act
-		$instance->setTextCorrect($expected);
-		$actual = $instance->getTextCorrect();
+		$instance->text_correct = $expected;
+		$actual = $instance->text_correct;
 
 		// Assert
 		$this->assertEquals($actual, $expected);
@@ -128,37 +122,46 @@ class assAnswerErrorTextTest extends PHPUnit_Framework_TestCase
 
 	public function test_setGetTextWrong_valid()
 	{
-		$this->markTestIncomplete('Testing an uncommitted feature.');
-
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
 		$expected = 'Errortext';
 
 		// Act
-		$instance->setTextWrong($expected);
-		$actual = $instance->getTextWrong();
+		$instance->text_wrong = $expected;
+		$actual = $instance->text_wrong;
 
 		// Assert
 		$this->assertEquals($actual, $expected);
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function test_setTextWrong_invalid()
 	{
-		$this->markTestIncomplete('Testing an uncommitted feature.');
-
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
 		$instance = new assAnswerErrorText( 'errortext'	);
 		$expected = '';
 
 		// Act
-		$instance->setTextWrong($expected);
+		$instance->text_wrong = $expected;
+		$actual = $instance->text_wrong;
+		
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+	
+	public function test_setGetUnknown()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
+		$instance = new assAnswerErrorText( 'errortext'	);
+		$expected = null;
+
+		// Act
+		$instance->undefined123 = 'No expectations';
+		$actual = $instance->undefined123;
 
 		// Assert
-		$this->assertTrue(FALSE);
+		$this->assertEquals($expected, $actual);	
 	}
 }
