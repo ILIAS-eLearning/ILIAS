@@ -11,9 +11,9 @@
   </resources>
   <resources>
     <j2se version="1.6+" java-vm-args="-Xms100m -Xmx1000m "  href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="FileManager.jar" size="547821" download="eager" />
-    <jar href="lib/jersey-client-1.12.jar" size="140949" download="eager" />
-    <jar href="lib/jersey-core-1.12.jar" size="496437" download="eager" />
+    <jar href="FileManager.jar" size="545227" download="eager" />
+    <jar href="lib/jersey-client-1.12.jar" size="140947" download="eager" />
+    <jar href="lib/jersey-core-1.12.jar" size="496436" download="eager" />
   </resources>
 <security>
   <all-permissions/>
