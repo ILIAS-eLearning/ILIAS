@@ -129,5 +129,3 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState {
 	}
 
 }
-
-?>
