@@ -12953,3 +12953,4 @@ dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten ei
 dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#sie wurden zu einem Termin eingeladen.
+file#:#file_download#:#Datei herunterladen
