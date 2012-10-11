@@ -12954,3 +12954,5 @@ dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#sie wurden zu einem Termin eingeladen.
 file#:#file_download#:#Datei herunterladen
+trac#:#trac_lp_on_personal_desktop_info#:#Wenn aktiviert, ist der Lernfortschritt im Hauptmenü verfügbar.
+trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
