@@ -189,10 +189,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		// lp settings
 
 		$desktop = new ilCheckboxInputGUI($this->lng->txt('trac_lp_on_personal_desktop'), 'lp_desktop');
+		$desktop->setInfo($this->lng->txt('trac_lp_on_personal_desktop_info'));
 		$desktop->setChecked($this->object->hasLearningProgressDesktop());
 		$lp->addSubItem($desktop);
 		
 		$learner = new ilCheckboxInputGUI($this->lng->txt('trac_lp_learner_access'), 'lp_learner');
+		$learner->setInfo($this->lng->txt('trac_lp_learner_access_info'));
 		$learner->setChecked($this->object->hasLearningProgressLearner());
 		$lp->addSubItem($learner);
 		

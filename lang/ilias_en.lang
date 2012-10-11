@@ -12973,3 +12973,5 @@ dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
 file#:#file_download#:#Download File
+trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.
+trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
