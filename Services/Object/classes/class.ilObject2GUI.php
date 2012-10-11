@@ -700,7 +700,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 			}
 			if($a_node_id)
 			{
-				return $this->getAccessHandler()->checkAccess($a_perm, $a_cmd, $a_node_id, $a_type);
+				return $this->getAccessHandler()->checkAccess($a_perm."_".$a_type, $a_cmd, $a_node_id);
 			}
 		}
 		else
