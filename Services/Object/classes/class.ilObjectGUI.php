@@ -716,7 +716,6 @@ class ilObjectGUI
 		// use forced callback after object creation
 		$this->ctrl->saveParameter($this, "crtcb");
 		
-		
 		if (!$this->checkPermissionBool("create", "", $new_type))
 		{
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
@@ -2010,7 +2009,7 @@ class ilObjectGUI
 			{
 				$a_ref_id = $_GET["ref_id"];
 			}
-			return $ilAccess->checkAccess($a_perm, $a_cmd, $a_ref_id, $a_type);
+			return $ilAccess->checkAccess($a_perm."_".$a_type, $a_cmd, $a_ref_id);
 		}
 		else
 		{
