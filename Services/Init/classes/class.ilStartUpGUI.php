@@ -1050,6 +1050,7 @@ class ilStartUpGUI
 			$user = new ilObjUser($user_id);
 			$user->setAuthMode(ilSession::get('tmp_auth_mode'));
 			$user->setExternalAccount(ilSession::get('tmp_external_account'));
+			$user->setActive(true);
 			$user->update();
 			
 			// Assign to default role
