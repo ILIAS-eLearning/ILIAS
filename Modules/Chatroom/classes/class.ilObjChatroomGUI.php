@@ -82,7 +82,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 		 * @var $ilNavigationHistory ilNavigationHistory
 		 * @var $ilCtrl              ilCtrl
 		 */
-		global $ilAccess, $ilNavigationHistory, $ilCtrl;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilHelp;
 
 		if('cancel' == $ilCtrl->getCmd() && $this->getCreationMode())
 		{
@@ -109,6 +109,7 @@ class ilObjChatroomGUI extends ilDBayObjectGUI
 			}
 			else
 			{
+				$ilHelp->setScreenIdComponent("chtr");
 				$tabFactory->getTabsForCommand($ilCtrl->getCmd());
 			}
 		}
