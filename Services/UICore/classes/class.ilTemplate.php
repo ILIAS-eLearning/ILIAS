@@ -2248,7 +2248,7 @@ class ilTemplate extends ilTemplateX
 				$link = str_replace("cmd=post", "cmd=".$this->creation_selector["command"], $link);
 				
 				$ttip = ilHelp::getObjCreationTooltipText($item["value"]);
-				$selection->addItem($item["title"], "", $link,
+				$selection->addItem($item["title"], $item["value"], $link,
 					$item["img"], $item["title"], "", "", false, "", $ttip,
 					"right center", "left center", false);
 			}
