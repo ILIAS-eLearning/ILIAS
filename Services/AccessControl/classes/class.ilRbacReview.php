@@ -2189,5 +2189,41 @@ class ilRbacReview
 		}
 		return 0;
 	}
+	
+	/**
+	 * Get all user permissions on an object
+	 *
+	 * @param int $a_user_id user id
+	 * @param int $a_ref_id ref id
+	 */
+	function getUserPermissionsOnObject($a_user_id, $a_ref_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT ops_id FROM rbac_pa JOIN rbac_ua ".
+			"ON (rbac_pa.rol_id = rbac_ua.rol_id) ".
+			"WHERE rbac_ua.usr_id = ".$ilDB->quote($a_user_id,'integer')." ".
+			"AND rbac_pa.ref_id = ".$ilDB->quote($a_ref_id,'integer')." ";
+
+		$res = $ilDB->query($query);
+		$all_ops = array();
+		while ($row = $ilDB->fetchObject($res))
+		{
+			$ops = unserialize($row->ops_id);
+			$all_ops = array_merge($all_ops, $ops);
+		}
+		$all_ops = array_unique($all_ops);
+		
+		$set = $ilDB->query("SELECT operation FROM rbac_operations ".
+			" WHERE ".$ilDB->in("ops_id", $all_ops, false, "integer"));
+		$perms = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$perms[] = $rec["operation"];
+		}
+		
+		return $perms;
+	}
+
 } // END class.ilRbacReview
 ?>
