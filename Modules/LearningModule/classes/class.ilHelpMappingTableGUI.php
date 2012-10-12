@@ -33,7 +33,7 @@ class ilHelpMappingTableGUI extends ilTable2GUI
 		
 		$this->getChapters();
 
-		$this->setTitle($lng->txt("cont_html_export_ids"));
+		$this->setTitle($lng->txt("help_assign_help_ids"));
 
 		$this->addColumn($this->lng->txt("st"), "title");
 		$this->addColumn($this->lng->txt("cont_screen_ids"));

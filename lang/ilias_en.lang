@@ -12239,8 +12239,8 @@ assessment#:#tst_participant_status#:#Participant Status
 assessment#:#tst_edit_scoring#:#Edit Scoring
 assessment#:#tst_pass_overview_for_participant#:#Test Passes for Participant: %s
 assessment#:#tst_manscoring_question_section_header#:#Question: %s
-content#:#cont_online_help_ids#:#Help IDs
-content#:#cont_screen_ids#:#Screen IDs
+content#:#cont_online_help_ids#:#Screen-IDs
+content#:#cont_screen_ids#:#Screen-IDs
 assessment#:#tst_manscoring_user_notification#:#Send Notification
 assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s was saved successfully.
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manual Scoring for Test "%s" comitted
@@ -12975,3 +12975,4 @@ dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointmen
 file#:#file_download#:#Download File
 trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
+content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
