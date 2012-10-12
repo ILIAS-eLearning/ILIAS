@@ -212,8 +212,7 @@ class ilHelpMapping
 							$chaps[] = $rec["chap"];
 						}
 					}
-					
-					if ($ilAccess->checkAccess($rec["perm"], "", (int) $a_ref_id))
+					else if ($ilAccess->checkAccess($rec["perm"], "", (int) $a_ref_id))
 					{
 						$chaps[] = $rec["chap"];
 					}
@@ -240,7 +239,12 @@ class ilHelpMapping
 	 */
 	function hasScreenIdSections($a_screen_id)
 	{
-		global $ilDB, $ilAccess, $ilSetting;
+		global $ilDB, $ilAccess, $ilSetting, $ilUser;
+		
+		if ($ilUser->getLanguage() != "de")
+		{
+			return false;
+		}
 
 		if (OH_REF_ID > 0)
 		{

@@ -18,7 +18,13 @@ class ilHelp
 	 */
 	static function getTooltipPresentationText($a_tt_id)
 	{
-		global $ilDB, $ilSetting;
+		global $ilDB, $ilSetting, $ilUser;
+		
+		
+		if ($ilUser->getLanguage() != "de")
+		{
+			return "";
+		}
 		
 		if (OH_REF_ID > 0)
 		{

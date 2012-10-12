@@ -991,7 +991,7 @@ class ilMainMenuGUI
 	 */
 	function renderHelpButtons()
 	{
-		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting;
+		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting, $ilUser;
 		
 		// screen id
 		if (defined("OH_REF_ID") && OH_REF_ID > 0)
@@ -1029,7 +1029,7 @@ class ilMainMenuGUI
 		}
 				
 		$module_id = (int) $ilSetting->get("help_module");
-		if (OH_REF_ID > 0 || $module_id > 0)
+		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de")
 		{
 			$help_active = true;
 			

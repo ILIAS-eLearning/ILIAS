@@ -1759,7 +1759,7 @@ function showTrackingItem()
 	 */
 	function getTabs(&$tabs_gui)
 	{
-		global $ilAccess;
+		global $ilAccess, $ilHelp;
 
 		if ($this->ctrl->getCmd() == "delete")
 		{
@@ -1770,6 +1770,8 @@ function showTrackingItem()
 		{
 			return parent::getTabs($tabs_gui);
 		}
+		
+		$ilHelp->setScreenIdComponent("sahsed");
 
 		// organization
 		$tabs_gui->addTarget("sahs_organization",

@@ -602,13 +602,24 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 	*/
 	function getTabs(&$tabs_gui)
 	{
-		global $rbacsystem, $ilUser, $ilCtrl;
+		global $rbacsystem, $ilUser, $ilCtrl, $ilHelp;
 		
 		if ($this->ctrl->getCmd() == "delete")
 		{
 			return;
 		}
 
+		switch ($this->object->getSubType())
+		{
+			case "scorm2004":
+				$ilHelp->setScreenIdComponent("sahs13");
+				break;
+				
+			case "scorm":
+				$ilHelp->setScreenIdComponent("sahs12");
+				break;
+		}
+		
 		// file system gui tabs
 		// properties
 		$ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", 1);
