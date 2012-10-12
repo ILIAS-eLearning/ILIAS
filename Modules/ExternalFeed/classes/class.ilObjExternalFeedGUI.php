@@ -164,12 +164,13 @@ class ilObjExternalFeedGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilCtrl, $ilTabs, $lng;
+		global $ilAccess, $ilCtrl, $ilTabs, $lng, $ilHelp;
 		
 		if (in_array($ilCtrl->getCmd(), array("create", "saveFeedBlock")))
 		{
 			return;
 		}
+		$ilHelp->setScreenIdComponent("feed");
 		
 		$ilCtrl->setParameterByClass("ilexternalfeedblockgui", "external_feed_block_id",
 			$_GET["external_feed_block_id"]);
