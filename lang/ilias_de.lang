@@ -5803,7 +5803,7 @@ content#:#cont_offline#:#Offline Versionen
 content#:#cont_offline_files#:#Offline-Version
 content#:#cont_offline_versions#:#Offline-Versionen
 content#:#cont_online#:#Online
-content#:#cont_online_help_ids#:#Hilfe-IDs
+content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_open#:#Anzeigen
 content#:#cont_open_heigth#:#Höhe
 content#:#cont_open_iframe_defined#:#in iframe mit festgelegter Breite und Höhe
@@ -5974,7 +5974,7 @@ content#:#cont_sco_glossary#:#Glossar
 content#:#cont_score#:#Punkte
 content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul / Glossar
 content#:#cont_scorm_type#:#adlcp:scormtype
-content#:#cont_screen_ids#:#Screen IDs
+content#:#cont_screen_ids#:#Screen-IDs
 content#:#cont_second#:#Zweite
 content#:#cont_sel_el_copied_use_paste#:#Die ausgewählten Elemente wurden kopiert. Klicken Sie nun den gewünschte Zielplatzhalter und klicken sie "Einfügen".
 content#:#cont_sel_el_cut_use_paste#:#Die ausgewählten Elemente wurden ausgeschnitten. Klicken Sie nun den gewünschte Zielplatzhalter und klicken sie "Einfügen".
@@ -12304,14 +12304,14 @@ rbac#:#root_create_blog#:#Neuen Blog anlegen
 rbac#:#fold_create_blog#:#Neuen Blog anlegen
 rbac#:#grp_create_blog#:#Neuen Blog anlegen
 rbac#:#cat_create_blog#:#Neuen Blog anlegen
-help#:#help_tooltips#:#Hilfe-Tooltips
-help#:#help_tooltip_id#:#Tooltip-ID
+help#:#help_tooltips#:#Hilfe-Tool-Tipps
+help#:#help_tooltip_id#:#Tool-Tipp-ID
 help#:#help_tt_text#:#Text
 help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Online-Hilfe öffnen
-help#:#help_toggle_tooltips#:#Hilfe-Tooltips an-/ausschalten
+help#:#help_toggle_tooltips#:#Hilfe-Tool-Tips an-/ausschalten
 rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsverwaltung bearbeiten
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
@@ -12956,3 +12956,4 @@ dateplaner#:#cal_mail_notification_body#:#sie wurden zu einem Termin eingeladen.
 file#:#file_download#:#Datei herunterladen
 trac#:#trac_lp_on_personal_desktop_info#:#Wenn aktiviert, ist der Lernfortschritt im Hauptmenü verfügbar.
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
+content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
