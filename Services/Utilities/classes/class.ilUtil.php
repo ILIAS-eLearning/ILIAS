@@ -1702,6 +1702,11 @@ class ilUtil
 		chdir($dir);
 		$unzip = PATH_TO_UNZIP;
 
+		// the following workaround has been removed due to bug
+		// http://www.ilias.de/mantis/view.php?id=7578
+		// since the workaround is quite old, it may not be necessary
+		// anymore, alex 9 Oct 2012
+/*
 		// workaround for unzip problem (unzip of subdirectories fails, so
 		// we create the subdirectories ourselves first)
 		// get list
@@ -1732,6 +1737,7 @@ class ilUtil
 		{
 			ilUtil::createDirectory($zdir);
 		}
+*/
 
 		// real unzip
 		if (!$overwrite)
