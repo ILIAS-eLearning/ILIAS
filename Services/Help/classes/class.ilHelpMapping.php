@@ -142,8 +142,8 @@ class ilHelpMapping
 	 */
 	static function getHelpSectionsForId($a_screen_id, $a_ref_id)
 	{
-		global $ilDB, $ilAccess, $ilSetting;
-		
+		global $ilDB, $ilAccess, $ilSetting, $rbacreview, $ilUser, $ilObjDataCache;
+
 		if (OH_REF_ID > 0)
 		{
 			$module = 0;
@@ -169,17 +169,50 @@ class ilHelpMapping
 			{
 				$sc_id[2] = "-";
 			}
-			$set = $ilDB->query("SELECT chap, perm FROM help_map ".
+			$set = $ilDB->query("SELECT chap, perm FROM help_map JOIN lm_tree".
+				" ON (help_map.chap = lm_tree.child) ".
 				" WHERE (component = ".$ilDB->quote($sc_id[0], "text").
 				" OR component = ".$ilDB->quote("*", "text").")".
 				" AND screen_id = ".$ilDB->quote($sc_id[1], "text").
 				" AND screen_sub_id = ".$ilDB->quote($sc_id[2], "text").
-				" AND module_id = ".$ilDB->quote($module, "integer")
+				" AND module_id = ".$ilDB->quote($module, "integer").
+				" ORDER BY lm_tree.lft"
 				);
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
 				if ($rec["perm"] != "" && $rec["perm"] != "-")
 				{
+					// check special "create*" permission
+					if ($rec["perm"] == "create*")
+					{
+						$has_create_perm = false;
+						
+						// check owner
+						if ($ilUser->getId() == $ilObjDataCache->lookupOwner(ilObject::_lookupObjId($a_ref_id)))
+						{
+							$has_create_perm = true;
+						}
+						else if ($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)) // check admin
+						{
+							$has_create_perm = true;
+						}
+						else if ($ilAccess->checkAccess("read", "", (int) $a_ref_id))
+						{
+							$perm = $rbacreview->getUserPermissionsOnObject($ilUser->getId(), (int) $a_ref_id);
+							foreach ($perm as $p)
+							{
+								if (substr($p, 0, 7) == "create_")
+								{
+									$has_create_perm = true;
+								}
+							}
+						}
+						if ($has_create_perm)
+						{
+							$chaps[] = $rec["chap"];
+						}
+					}
+					
 					if ($ilAccess->checkAccess($rec["perm"], "", (int) $a_ref_id))
 					{
 						$chaps[] = $rec["chap"];
@@ -197,13 +230,18 @@ class ilHelpMapping
 	/**
 	 * Has given screen Id any sections?
 	 *
+	 * Note: We removed the "ref_id" parameter here, since this method
+	 * should be fast. It is used to decide whether the help button should
+	 * appear or not. We assume that there is at least one section for
+	 * users with the "read" permission.
+	 *
 	 * @param
 	 * @return
 	 */
-	function hasScreenIdSections($a_screen_id, $a_ref_id)
+	function hasScreenIdSections($a_screen_id)
 	{
 		global $ilDB, $ilAccess, $ilSetting;
-	
+
 		if (OH_REF_ID > 0)
 		{
 			$module = 0;
@@ -216,7 +254,7 @@ class ilHelpMapping
 				return false;
 			}
 		}
-		
+
 		$sc_id = explode("/", $a_screen_id);
 		if ($sc_id[0] != "")
 		{
@@ -237,7 +275,11 @@ class ilHelpMapping
 				);
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
-				if ($rec["perm"] != "" && $rec["perm"] != "-")
+				return true;
+				
+				// no permission check, since it takes to much performance
+				// getHelpSectionsForId() does the permission checks.
+				/*if ($rec["perm"] != "" && $rec["perm"] != "-")
 				{
 					if ($ilAccess->checkAccess($rec["perm"], "", (int) $a_ref_id))
 					{
@@ -247,7 +289,7 @@ class ilHelpMapping
 				else
 				{
 					return true;
-				}
+				}*/
 			}
 		}
 		return false;

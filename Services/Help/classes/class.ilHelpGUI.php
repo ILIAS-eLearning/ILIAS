@@ -127,7 +127,7 @@ class ilHelpGUI
 		global $ilSetting;
 		
 		include_once("./Services/Help/classes/class.ilHelpMapping.php");
-		return ilHelpMapping::hasScreenIdSections($this->getScreenId(), (int) $_GET["ref_id"]);
+		return ilHelpMapping::hasScreenIdSections($this->getScreenId());
 	}
 	
 	/**
@@ -152,13 +152,13 @@ class ilHelpGUI
 	{
 		global $ilCtrl;
 		
-		$h_ids = $sep = "";
+		/*$h_ids = $sep = "";
 		foreach ($this->getHelpSections() as $hs)
 		{
 			$h_ids.= $sep.$hs;
 			$sep = ",";
-		}
-		$ilCtrl->setParameterByClass("ilhelpgui", "help_ids", $h_ids);
+		}*/
+		$ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId().".".$_GET["ref_id"]);
 	}
 	
 
@@ -185,19 +185,21 @@ class ilHelpGUI
 	{
 		global $ilHelp, $lng, $ilSetting;
 		
-		if ($_GET["help_ids"] != "")
+		if ($_GET["help_screen_id"] != "")
 		{
-			ilSession::set("help_ids", $_GET["help_ids"]);
-			$help_ids = $_GET["help_ids"];
+			ilSession::set("help_screen_id", $_GET["help_screen_id"]);
+			$help_screen_id = $_GET["help_screen_id"];
 		}
 		else
 		{
-			$help_ids = ilSession::get("help_ids");
+			$help_screen_id = ilSession::get("help_screen_id");
 		}
 		
 		$this->resetCurrentPage();
 		
-		$help_arr = explode(",", $help_ids);
+		$id_arr = explode(".", $help_screen_id);
+		include_once("./Services/Help/classes/class.ilHelpMapping.php");
+		$help_arr = ilHelpMapping::getHelpSectionsForId($id_arr[0], $id_arr[1]);
 		
 		$hm = (int) $ilSetting->get("help_module");
 		
