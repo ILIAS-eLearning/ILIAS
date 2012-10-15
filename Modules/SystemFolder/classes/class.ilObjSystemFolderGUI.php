@@ -1927,7 +1927,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->form->addItem($cb);
 
 		// repository access check
-		$options = array(
+/*		$options = array(
 			0 => "0",
 			10 => "10",
 			30 => "30",
@@ -1939,7 +1939,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$si->setValue($ilSetting->get("rep_cache"));
 		$si->setInfo($this->lng->txt("adm_repository_cache_time_info")." ".
 			$this->lng->txt("adm_repository_cache_time_info2"));
-		$this->form->addItem($si);
+		$this->form->addItem($si);*/
 		
 		// load action commands asynchronously 
 		$cb = new ilCheckboxInputGUI($this->lng->txt("adm_item_cmd_asynch"), "item_cmd_asynch");
@@ -2192,7 +2192,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$ilSetting->set('preview_learner',(int) $_POST['preview_learner']);
 			$ilSetting->set('comments_tagging_in_lists',(int) $_POST['comments_tagging_in_lists']);
 			$ilSetting->set('activate_captcha_anonym',(int) $_POST['activate_captcha_anonym']);
-			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
+//			$ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);
 			$ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
 			if ($_POST["tree_pres"] == "")
