@@ -1557,6 +1557,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				); 
 			}
 			
+			require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->object->logAction($this->lng->txtlng("assessment", "log_deleted_pass", ilObjAssessmentFolder::_getLogLanguage()));
