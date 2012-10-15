@@ -33,9 +33,9 @@ body {
 	line-height: 1;
 }
 
-ol, ul {
+/*ol, ul {
 	list-style: none;
-}
+}*/
 
 blockquote, q {
 	quotes: none;
@@ -79,6 +79,11 @@ h1, h2, h3, h4, h5 {
 ul, ol, p {
 	margin: .8em 0;
 }
+
+ol, ul { margin-left: 40px }
+ol { list-style-type: decimal }
+ol ul, ul ol,
+ul ul, ol ol { margin-top: 0; margin-bottom: 0 }
 
 small {
 	font-size: .8em;
@@ -155,6 +160,12 @@ table {
 
 img {
 	vertical-align: middle;
+}
+
+@media print {
+  h1, h2, h3,
+  h4, h5, h6    { page-break-after: avoid }
+  ul, ol, dl    { page-break-before: avoid }
 }
 
 /* --------------------------------------------------------------
