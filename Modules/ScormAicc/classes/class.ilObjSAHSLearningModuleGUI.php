@@ -171,7 +171,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 				}
 				break;
 			default:
-				if (!$this->object->getEditable())
+				if ($this->object && !$this->object->getEditable())
 				{
 					$cmd = $this->ctrl->getCmd("properties");
 				}
