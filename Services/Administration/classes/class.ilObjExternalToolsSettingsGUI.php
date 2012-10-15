@@ -645,6 +645,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			);
 		$si = new ilSelectInputGUI($this->lng->txt("mathjax_limiter"), "limiter");
 		$si->setOptions($options);
+		$si->setValue($mathJaxSetting->get("limiter"));
 		$si->setInfo($this->lng->txt("mathjax_limiter_info"));
 		$enable->addSubItem($si);
 
