@@ -1933,7 +1933,7 @@ common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#Join ### 2006-8-11 --- Add new translation here.
 common#:#kb#:#KB
 common#:#keywords#:#Cuvinte cheie
-common#:#lang_dateformat#:#A-L-Z
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Path catre limba
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,

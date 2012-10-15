@@ -1458,7 +1458,7 @@ common#:#is_already_your#:#вече е вашият
 common#:#item#:#Елемент
 common#:#kb#:#Килобайт
 common#:#keywords#:#Ключови думи
-common#:#lang_dateformat#:#Г-м-д
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Път за езика
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,
