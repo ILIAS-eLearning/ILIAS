@@ -564,6 +564,7 @@ class ilAuthUtils
 			global $lng;
 			$apache_settings = new ilSetting('apache_auth');
 			$options[AUTH_APACHE]['txt'] = $apache_settings->get('name', $lng->txt('apache_auth'));
+			$options[AUTH_APACHE]['hide_in_ui'] = true;
 		}
 
 		if($ilSetting->get('auth_mode',AUTH_LOCAL) == AUTH_LDAP)

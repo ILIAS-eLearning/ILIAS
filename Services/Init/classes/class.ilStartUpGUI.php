@@ -505,6 +505,11 @@ class ilStartUpGUI
 				$radg = new ilRadioGroupInputGUI($lng->txt("auth_selection"), "auth_mode");
 				foreach(ilAuthUtils::_getMultipleAuthModeOptions($lng) as $key => $option)
 				{
+					if(isset($option['hide_in_ui']) && $option['hide_in_ui'])
+					{
+						continue;
+					}
+					
 					$op1 = new ilRadioOption($option['txt'], $key);
 					$radg->addOption($op1);
 					if (isset($option['checked']))
