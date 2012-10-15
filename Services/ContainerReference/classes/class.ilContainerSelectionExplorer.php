@@ -61,6 +61,8 @@ class ilContainerSelectionExplorer extends ilExplorer
 		$this->setFilterMode(IL_FM_POSITIVE);
 		$this->setFiltered(true);
 		$this->setTitleLength(ilObject::TITLE_LENGTH);
+		
+		$this->checkPermissions(true);
 		 
 	}
 	
@@ -95,12 +97,25 @@ class ilContainerSelectionExplorer extends ilExplorer
 		
 		if($this->getTargetType() == $a_type)
 		{
-			if($ilAccess->checkAccess('read','',$a_id))
+			if($ilAccess->checkAccess('visible','',$a_id))
 			{
 				return true;
 			}
 		}
 		return FALSE;
+	}
+
+	/**
+	 * Visible permission is sufficient
+	 * @param type $a_ref_id
+	 * @param type $a_type
+	 * @return type
+	 */
+	public function isVisible($a_ref_id, $a_type)
+	{
+		global $ilAccess;
+		
+		return $ilAccess->checkAccess('visible','',$a_ref_id);
 	}
 	
 	/**

@@ -104,7 +104,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			$this->createObject();
 			return false;	
 		}
-		if(!$ilAccess->checkAccess('read','',(int) $_REQUEST['target_id']))
+		if(!$ilAccess->checkAccess('visible','',(int) $_REQUEST['target_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->createObject();
@@ -251,7 +251,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 			$this->editObject();
 			return false;	
 		}
-		if(!$ilAccess->checkAccess('read','',(int) $_REQUEST['target_id']))
+		if(!$ilAccess->checkAccess('visible','',(int) $_REQUEST['target_id']))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'));
 			$this->editObject();
