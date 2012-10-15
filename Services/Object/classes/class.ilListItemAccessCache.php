@@ -24,8 +24,10 @@ class ilListItemAccessCache extends ilCache
 	{
 		global $ilSetting;
 		parent::__construct("ServicesObject", "CheckAccess", false);
-		$this->setExpiresAfter($ilSetting->get("rep_cache") * 60);
-		if ((int) $ilSetting->get("rep_cache") == 0)
+//		$this->setExpiresAfter($ilSetting->get("rep_cache") * 60);
+		$this->setExpiresAfter(0);
+//		if ((int) $ilSetting->get("rep_cache") == 0)
+		if (true)
 		{
 			self::$disabled = true;
 		}
