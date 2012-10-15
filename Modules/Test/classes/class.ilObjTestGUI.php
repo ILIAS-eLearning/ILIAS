@@ -3427,9 +3427,8 @@ class ilObjTestGUI extends ilObjectGUI
 	function confirmDeleteSelectedUserDataObject()
 	{
 		$active_ids = array();
-		foreach ($_POST["chbUser"] as $user_id)
+		foreach ($_POST["chbUser"] as $active_id)
 		{
-			$active_id = $this->object->getActiveIdOfUser($user_id);
 			if ($this->object->getFixedParticipants())
 			{
 				array_push($active_ids, $this->object->getActiveIdOfUser($active_id));
@@ -3551,7 +3550,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$name = $this->lng->txt("deleted_user");				
 			}
 		
-			$cgui->addItem("chbUser[]", $user_id, $name,
+			$cgui->addItem("chbUser[]", $active_id, $name,
 				ilUtil::getImagePath("icon_usr.png"), $this->lng->txt("usr"));
 		}
 		
