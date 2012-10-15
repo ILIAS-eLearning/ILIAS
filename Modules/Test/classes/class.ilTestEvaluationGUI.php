@@ -1378,15 +1378,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$confirm->addHiddenItem('active_id', $_GET['active_id']);
 		$confirm->addHiddenItem('pass', $_GET['pass']);
 		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
-		$confirm->setFormAction($this->ctrl->getLinkTargetByClass($_GET['cmdClass'], 'deletePass'));
+		$confirm->setFormAction($this->ctrl->getFormAction($this, 'post'));
 		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
-		$confirm->setCancel($this->lng->txt('cancel'), 'cancelDelete');
-		$confirm->setConfirm($this->lng->txt('delete'), 'performDelete');
+		$confirm->setCancel($this->lng->txt('cancel'), 'outUserResultsOverview');
+		$confirm->setConfirm($this->lng->txt('delete'), 'performDeletePass');
 
 		$tpl->setContent($confirm->getHTML());
 	}
 	
-	public function deletePass()
+	public function performDeletePass()
 	{
 			global $ilDB;
 
