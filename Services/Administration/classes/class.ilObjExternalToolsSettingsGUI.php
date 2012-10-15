@@ -751,7 +751,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 //		$overview = ($a_cmd == 'view' or $a_cmd == '') ? true : false;
 		//$delicious = ($a_cmd == 'editDelicious') ? true : false;
 		
-		if($a_cmd == 'view' || $a_cmd = '') 
+		if($a_cmd == 'view' || $a_cmd == '') 
 		{
 			$a_cmd = 'editSocialBookmarks';
 		}
