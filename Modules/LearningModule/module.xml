@@ -20,7 +20,7 @@
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>
 		</object>
-		<object id="dbk" class_name="DlBook" dir="classes" checkbox="1"
+		<!-- <object id="dbk" class_name="DlBook" dir="classes" checkbox="1"
 			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
 			default_pos="150">
 			<subobj id="rolf" max="1">rolf</subobj>
@@ -30,7 +30,7 @@
 			<parent id="grp">grp</parent>
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>
-		</object>
+		</object>-->
 		<object id="lrss" class_name="LearningResourcesSettings" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
 			<parent id="adm" max="1">adm</parent>
