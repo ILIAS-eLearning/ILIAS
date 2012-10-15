@@ -12809,9 +12809,9 @@ dcl#:#dcl_notification_activated#:#Notification Activated
 dcl#:#dcl_notification_deactivated#:#Notification Deactivated
 dcl#:#dcl_locked#:#Locked
 dcl#:#dcl_table_settings#:#Table Settings
-dcl#:#dcl_add_perm#:#Permission Add Entry
-dcl#:#dcl_edit_perm#:#Permission Edit Entry
-dcl#:#dcl_delete_perm#:#Permission Delete Entry
+dcl#:#dcl_add_perm#:#User can add entries
+dcl#:#dcl_edit_perm#:#User can edit entries
+dcl#:#dcl_delete_perm#:#User can delete entries
 dcl#:#dcl_edit_by_owner#:#Edit / Delete only own entries
 dcl#:#dcl_limited#:#Limited Add / Edit / Delete Period
 dcl#:#dcl_record_id#:#Record ID
@@ -12924,6 +12924,8 @@ dcl#:#dcl_empty_view#:#Delete this View
 dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.
+dcl#:#dcl_permissions_form#:#User rights
+dcl#:#-dcl_table_info_title-#:#Info
 rating#:#rating_number_votes#:#%s Ratings
 administration#:#system_check_no_owner#:#Ownerless Objects
 blog#:#blog_import#:#Import Blog

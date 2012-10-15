@@ -165,6 +165,16 @@ class ilDataCollectionTableEditGUI
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_visible'),'is_visible');
 		$this->form->addItem($item);
+
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($lng->txt('dcl_permissions_form'));
+        $this->form->addItem($section);
+
+        $item = new ilCustomInputGUI();
+        $item->setHtml($lng->txt('dcl_table_info'));
+        $item->setTitle($lng->txt('dcl_table_info_title'));
+        $this->form->addItem($item);
+
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_add_perm'),'add_perm');
 //		$item->setInfo($lng->txt("dcl_add_perm_info"));
 		$this->form->addItem($item);
@@ -184,7 +194,6 @@ class ilDataCollectionTableEditGUI
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
-		$this->form->setDescription($lng->txt('dcl_table_info'));
 		if($a_mode == "edit")
 		{
 			$this->form->addCommandButton('update', 	$lng->txt('dcl_table_'.$a_mode));

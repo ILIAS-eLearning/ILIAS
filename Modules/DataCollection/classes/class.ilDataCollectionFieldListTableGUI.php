@@ -47,7 +47,7 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);
 		
-		$img = "<img src='".ilUtil::getImagePath("cmd_add_s.png")."' /> "; // Wirklich hässlich, doch leider wird der Text, der addHeaderCommand mitgeben wird, nicht mehr angezeigt, sobald man ein Bild mitsendet...
+		$img = " <img src='".ilUtil::getImagePath("cmd_add_s.png")."' /> "; // Wirklich hässlich, doch leider wird der Text, der addHeaderCommand mitgeben wird, nicht mehr angezeigt, sobald man ein Bild mitsendet...
 		
 		$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", "create"), $lng->txt("dcl_add_new_field").$img);
 		$this->setFormAction($ilCtrl->getFormActionByClass("ildatacollectionfieldlistgui"));

@@ -145,7 +145,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 $options['link']['display'] = true;
             }
 
-			$this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options));
+			$this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):"-");
 			$this->tpl->parseCurrentBlock();
 			if($field->getLearningProgress())
 				$this->getStatus($record, $field);
@@ -194,17 +194,15 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	private function getStatus(ilDataCollectionRecord $record, ilDataCollectionField $field){
 		$record_field = new ilDataCollectionILIASRefField($record, $field);
-		if($record_field->getStatus()){
-			$this->tpl->setCurrentBlock("field");
+        $this->tpl->setCurrentBlock("field");
+        if($record_field->getStatus()){
 			$status = $record_field->getStatus();
 			$this->tpl->setVariable("CONTENT", "<img src='".ilLearningProgressBaseGUI::_getImagePathForStatus($status->status)."'>");
-			$this->tpl->parseCurrentBlock();
 		}else{
-			$this->tpl->setCurrentBlock("field");
 			$this->tpl->setVariable("CONTENT", "-");
-			$this->tpl->parseCurrentBlock();
 		}
-	}
+        $this->tpl->parseCurrentBlock();
+    }
 	
 	/*
 	 * initFilter
