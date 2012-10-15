@@ -467,9 +467,15 @@ class ilDataCollectionDatatype
                 ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
                 ilUtil::renameExecutables($mob_dir);
 
+                list($width, $height, $type, $attr) = getimagesize($file);
+
                 $arr_properties = $record_field->getField()->getProperties();
-                if($arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]->value || $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]->value)
+                $new_width = $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]->value;
+                $new_height = $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]->value;
+                if($new_width || $new_height)
                 {
+                    //only resize if it is bigger, not if it is smaller
+                    if($new_height < $height && $new_width < $width)
                     $location = ilObjMediaObject::_resizeImage($file, (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]->value,
                         (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]->value, true);
                 } else {

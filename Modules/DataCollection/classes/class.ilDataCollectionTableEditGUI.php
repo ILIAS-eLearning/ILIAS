@@ -163,7 +163,7 @@ class ilDataCollectionTableEditGUI
 		$item = new ilTextInputGUI($lng->txt('title'),'title');
 		$item->setRequired(true);
 		$this->form->addItem($item);
-		$item = new ilCheckboxInputGUI($lng->txt('dcl_is_visible'),'is_visible');
+		$item = new ilCheckboxInputGUI($lng->txt('dcl_visible'),'is_visible');
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_add_perm'),'add_perm');
 //		$item->setInfo($lng->txt("dcl_add_perm_info"));
