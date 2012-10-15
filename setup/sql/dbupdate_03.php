@@ -13448,3 +13448,23 @@ $ilDB->createSequence('cal_notification');
 $ilDB->addIndex('cal_notification', array('cal_id'), 'i1');
 
 ?>
+<#3782>
+<?php
+$ilDB->manipulate("UPDATE object_data SET ".
+	" type = ".$ilDB->quote("lm", "text").",".
+	" import_id = ".$ilDB->quote("lm_migrated", "text").
+	" WHERE type = ".$ilDB->quote("dbk", "text")
+	);
+?>
+<#3783>
+<?php
+$ilDB->manipulate("UPDATE page_object SET ".
+	" parent_type = ".$ilDB->quote("lm", "text").
+	" WHERE parent_type = ".$ilDB->quote("dbk", "text")
+	);
+?>
+<#3784>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+
