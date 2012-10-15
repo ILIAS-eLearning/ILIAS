@@ -1931,7 +1931,7 @@ common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#Kilobajt
 common#:#keywords#:#Kljucne reci
-common#:#lang_dateformat#:#G-m-d
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Jezicka putanja
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,

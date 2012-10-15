@@ -1931,7 +1931,7 @@ common#:#java_server_readme#:#Setup informations###04 Aug 2006 new variable
 common#:#join#:#Join###20 Jun 2005 new variable
 common#:#kb#:#KByte
 common#:#keywords#:#Fjalëkyçe
-common#:#lang_dateformat#:#V-m-d
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Shtegu i Gjuhës
 common#:#lang_sep_decimal#:#.
 common#:#lang_sep_thousand#:#,

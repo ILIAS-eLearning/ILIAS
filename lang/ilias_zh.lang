@@ -2799,7 +2799,7 @@ common#:#java_server_readme#:#Setup informations
 common#:#join#:#Join
 common#:#kb#:#K字节
 common#:#keywords#:#关键字
-common#:#lang_dateformat#:#年－月－日
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#语言路径
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
 common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.

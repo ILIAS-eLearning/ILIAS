@@ -3393,7 +3393,7 @@ common#:#join#:#Inscrever-se###20 Jun 2005 new variable
 common#:#join_session#:#Inscrever-se###22 09 2009 new variable
 common#:#kb#:#KByte
 common#:#keywords#:#Palavras chave
-common#:#lang_dateformat#:#A-m-d
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Caminho do Idioma###07 Apr 2005 content changed
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
 common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.

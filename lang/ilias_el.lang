@@ -2486,7 +2486,7 @@ common#:#languages_already_installed#:#Η/Οι επιλεγμένη/ες γλώ�
 common#:#languages_already_uninstalled#:#Η/Οι επιλεγμένη/ες γλώσσα/ες είναι ήδη απεγκατεστημέν/ηες
 common#:#languages_updated#:#Όλες οι εγκατεστημένες γλώσσες έχουν ενημερωθεί
 common#:#language_not_installed#:#δεν έχει εγκατασταθεί. Παρακαλώ εγκαταστήστε πρώτα τη γλώσσα
-common#:#lang_dateformat#:#Ε-Μ-Η
+common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#Διαδρομή γλώσσας
 common#:#lang_refresh_confirm#:#Do you really want to refresh all languages?
 common#:#lang_refresh_confirm_info#:#Extended language maintenance is currently activated. Refreshing the languages loads all language data from the ILIAS language files into the database. Local changes (in the database) may be overwritten, if not exported before. This does not affect any "*.lang.local" files in the Customizing directory.
