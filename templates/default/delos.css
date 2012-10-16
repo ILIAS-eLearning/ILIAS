@@ -185,6 +185,10 @@ body.std {
 	clear: both;
 }
 
+.ilFloatRight {
+  float: right;
+}
+
 .ilPositionStatic {
 	position: static;
 }
@@ -201,13 +205,13 @@ div.ilStartupFrame{
 	margin: 10px auto;
 	background: #F9F9F9 url(images/head_back.png) repeat-x;
 	width: 750px;
-	box-shadow: 0px 0px 40px #808080;
+	box-shadow: 0 0 40px #808080;
 	min-height: 450px;
 }
 
 div#il_startup_content {
 	padding: 40px 20px 35px;
-	box-shadow: inset 0px 2px 2px #D0D0D0;
+	box-shadow: inset 0 2px 2px #D0D0D0;
 	background-color: #F9F9F9;
 }
 
@@ -221,31 +225,63 @@ div#il_startup_content {
 }
 
 div.ilStartupSection table.ilForm {
-	margin:auto;
+	margin: auto;
 }
 
 .registration {
-  margin-top:5px;
-  width:700px;
-  margin-left:auto;
-  margin-right:auto;  
+  margin: 5px auto 0;
+  width: 700px;
 }
 
 div#mainspacekeeper {
 	background-color: #F9F9F9;
-	box-shadow: inset 0px 2px 2px #D0D0D0;
+	box-shadow: inset 0 2px 2px #D0D0D0;
 }
 
 div#mainscrolldiv {
 	padding: 5px 10px 0;
 }
 
-.fullwidth{
-	width: 100%
+.fullwidth {
+	width: 100%;
+}
+
+/* --- 3 column layout -- */
+
+.il_ColumnLayout {
+	width: 100%;
+	min-height: 100%;
+}
+
+#il_left_col {
+	vertical-align: top;
+	width: 19.5%;
+	padding: 0 .5% 0 0;
+	float: left;
+}
+
+#il_center_col {
+	vertical-align: top;
+	width: 100%;
+	float: left;
+}
+
+#il_center_col.one_side_col {
+	width: 80%;
+}
+#il_center_col.two_side_col {
+	width: 60%;
+}
+
+#il_right_col {
+	vertical-align: top;
+	width: 19.5%;
+	padding: 0 0 0 .5%;
+	float: left;
 }
 
 input.fullwidth, textarea.fullwidth {
-	width: 98%
+	width: 98%;
 }
 
 div.input {
@@ -269,105 +305,100 @@ input[type=text].numeric
 
 .tblrow2_mo {
 	background-color: #F1F1F1;
-	color:#222222;
-	padding:3px;
+	color: #222;
+	padding: 3px;
 }
 
 .tblrow1_mo {
-	background-color:#FFFFFF;
-	color:#222222;
-	padding:3px;
+	background-color: #FFF;
+	color: #222;
+	padding: 3px;
 }
 
 .tblrow1_mo:hover, .tblrow2_mo:hover {
-	background-color:#D0D0FF;
+	background-color: #D0D0FF;
 }
 
 .tblrow2light {
-	background-color:#F1F1F1;
-	color:#808080;
-	padding:3px;
-	vertical-align:top;
+	background-color: #F1F1F1;
+	color: #808080;
+	padding: 3px;
+	vertical-align: top;
 }
 
 .tblrow1light {
-	background-color:#FFFFFF;
-	color:#808080;
-	padding:3px;
-	vertical-align:top;
+	background-color: #FFF;
+	color: #808080;
+	padding: 3px;
+	vertical-align: top;
 }
 
 .tblrowmarked {
-	background-color:#FFE4E4;
-	color:#222222;
-	padding:3px;
+	background-color: #FFE4E4;
+	color: #222;
+	padding: 3px;
 }
 
 .tblrow2top {
-	background-color:#F1F1F1;
-	color:#222222;
-	padding:3px;
+	background-color: #F1F1F1;
+	color: #222;
+	padding: 3px;
 	vertical-align: top;
 }
 
 .tblrow1top {
-	background-color:#FFFFFF;
-	color:#222222;
-	padding:3px;
+	background-color: #FFF;
+	color: #222;
+	padding: 3px;
 	vertical-align: top;
 }
 
 .tblrowmarkedtop {
-	background-color:#FFE4E4;
-	color:#222222;
-	padding:3px;
+	background-color: #FFE4E4;
+	color: #222;
+	padding: 3px;
 	vertical-align: top;
 }
 
 /* -------------------- table formatting ------------------ */
 
 table.std {
-	color:#222222;
-	background-color:#bbbbbb;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
+	color: #222;
+	background-color: #BBB;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border: 1px solid #9EADBA;
 }
 
 
 table.halfwidth {
-	color:#222222;
-	background-color:#bbbbbb;
-	width:50%;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#9EADBA;
+	color: #222;
+	background-color: #BBB;
+	width: 50%;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border: 1px solid #9EADBA;
 }
 
 table.ilPDSelectedItemBlock {
-	color:#222222;
+	color:#222;
 	background-color:#bbbbbb;
 	width:100%;
 	border-spacing:1px;
 	border-width:0px;
 }
 
-
 .fullwidth_invisible {
-	color:#222222;
-	background-color:#FFFFFF;
-	width:100%;
-	border-spacing:0px;
+	color: #222;
+	background-color: #FFF;
+	width: 100%;
+	border-spacing: 0;
 }
 
 table.nobackground {
-	color: #000000;
+	color: #000;
 	background-color: inherit;
-	border-spacing:0px;
+	border-spacing: 0;
 	padding: 3px;
 }
 
@@ -376,16 +407,15 @@ table.shop {
   margin: 0;
   cellspacing: 0;
 }
+
 div.shop {
-  text-align:right;
-  margin-top:-20px;
+  text-align: right;
+  margin-top: -20px;
 }
+
 .shop img {
-  border:0;
 }
-.float_right {
-  float:right;
-}
+
 .subitem {
   clear:both;
   margin: 5px 0px;
@@ -393,48 +423,38 @@ div.shop {
   border-top: 1px dotted #C0C0C0;
 }
   
-.clear_both {
-  clear:both;
-}
-
 td.nobackground {
-	color: #000000;
+	color: #000;
 	background-color: inherit;
-	border-spacing:0px;
+	border-spacing: 0;
 	border: none;
 	padding: 3px;
 	vertical-align: top;
 }
 
 th.il_invisible, td.il_invisible {
-	background-color:#FFFFFF;
-	background-image: none;
+	background: #FFF none;
 }
 
 .tbltitle {
-	color:#222222;
-	font-weight:bold;
-	background-color: #EDEDED;
-	background-image: url(images/TableHeader.png);
-	background-repeat:repeat-x;
+	color: #222;
+	font-weight: bold;
+	background: #EDEDED url(images/TableHeader.png) repeat-x;
 }
 
 tr.tbltitle {
-	border-bottom-width:1px;
-	border-bottom-color:#9EADBA;
-	border-bottom-style:solid;
+	border-bottom: 1px solid #9EADBA;
 }
 
-
 tr.std {
-	background-color:#FFFFFF;
-	color:#222222;
-	padding:3px;
+	background-color: #FFF;
+	color: #222;
+	padding: 3px;
 }
 
 th.option, td.option {
 	background-color: #F5F5F5;
-	color:#222222;
+	color: #222;
 	padding:3px;
 	font-weight : bold;
 	vertical-align:top;
@@ -445,8 +465,8 @@ th.option, td.option {
 }
 
 td.sub_option {
-	background-color:#FFFFFF;
-	color:#222222;
+	background-color:#FFF;
+	color:#222;
 	padding:3px;
 	font-weight : bold;
 	vertical-align:top;
@@ -457,10 +477,10 @@ td.sub_option {
 }
 
 td.option_subtitle {
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	background-image: none;
 	width:100%;
-	color:#222222;
+	color:#222;
 	padding:13px 3px 3px 3px;
 	vertical-align:top;
 	text-align:left;
@@ -470,9 +490,9 @@ td.option_subtitle {
 }
 
 td.option_value {
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	background-image: none;
-	color:#222222;
+	color:#222;
 	padding:3px;
 	vertical-align:top;
 	text-align:left;
@@ -482,9 +502,9 @@ td.option_value {
 }
 
 td.option_value_center {
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	background-image: none;
-	color:#222222;
+	color:#222;
 	padding:3px;
 	vertical-align:top;
 	text-align:center;
@@ -496,7 +516,7 @@ td.option_value_center {
 td.option_value_details {
 	background-color:#FFE4E4;
 	background-image: none;
-	color:#222222;
+	color:#222;
 	padding:3px;
 	vertical-align:top;
 	text-align:left;
@@ -504,16 +524,16 @@ td.option_value_details {
 td.option_value_center_details {
 	background-color:#FFE4E4;
 	background-image: none;
-	color:#222222;
+	color:#222;
 	padding:3px;
 	vertical-align:top;
 	text-align:center;
 }
 
 td.option_desc, p.option_desc {
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	background-image: none;
-	color:#222222;
+	color:#222;
 	padding:3px;
 	font-style:italic;
 	font-weight:normal;
@@ -522,9 +542,9 @@ td.option_desc, p.option_desc {
 }
 
 td.option_info {
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	background-image: none;
-	color:#222222;
+	color:#222;
 	padding:3px;
     font-weight:bold;
 	vertical-align:top;
@@ -663,7 +683,7 @@ span.il_ItemProperty
 
 table.il_ScormTable
 {
-	color:#222222;
+	color:#222;
 	background-color:#bbbbbb;
 	border-spacing:1px;
 	border-width:0px;
@@ -671,7 +691,7 @@ table.il_ScormTable
 
 td.il_ScormTableKey {
 	background-color:#e2e2e2;
-	color:#222222;
+	color:#222;
 	padding-left:3px;
 	padding-right:3px;
 	padding-top:1px;
@@ -683,7 +703,7 @@ td.il_ScormTableKey {
 td.il_ScormTableValue {
 	background-color:#f7f7f7;
 	background-image: none;
-	color:#222222;
+	color:#222;
 	padding-left:3px;
 	padding-right:3px;
 	padding-top:1px;
@@ -811,8 +831,8 @@ div.ilFormCheckboxOption, div.ilFormRadioOption {
 
 table.il_InfoScreen
 {
-	color:#222222;
-	background-color:#FFFFFF;
+	color:#222;
+	background-color:#FFF;
 	width:100%;
 	border-spacing:0px;
 	border-collapse:collapse;
@@ -1064,7 +1084,7 @@ div.il_HeaderInner
 {
 	margin-bottom: 10px;
 	padding: 13px 10px 15px 10px;
-	color:#222222;
+	color:#222;
 }
 
 div.il_TreeIcons
@@ -1163,28 +1183,6 @@ div.invisible_border {
 
 .ilInvisibleBorder {
 	padding: 15px;
-}
-
-/* --- column table -- */
-
-td.il_LeftColumn
-{
-	padding-right:10px;
-	vertical-align:top;
-	width:23%;
-}
-
-td.il_CenterColumn
-{
-	vertical-align:top;
-}
-
-td.il_RightColumn
-{
-	padding-left:10px;
-	padding-top: 0px;
-	vertical-align:top;
-	width:23%;
 }
 
 /* ------- Helptext --------- */
@@ -1397,7 +1395,7 @@ input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
 }
 
 a.ilEditSubmit {
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
@@ -1423,7 +1421,7 @@ input.ilEditSubmit {
 	line-height: 14px;
 	cursor:pointer;
 	
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	background-image: url(images/ButtonsBack.png);
 	background-position: bottom;
 	background-repeat:repeat-x;
@@ -1439,13 +1437,13 @@ div.ilEditHelpline {
 	margin: 3px 0px;
 	padding: 0px;
 	font-size: 80%;
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	color:#000000;
 }
 
 input.tblrow1, input.tblrow2
 {
-	background-color:#ffffff;
+	background-color:#FFF;
 	color:#000000;
 	background-image: none;
 	padding:0px;
@@ -1510,7 +1508,7 @@ img.ilInfoMessage, img.ilFailureMessage, img.ilSuccessMessage, img.ilQuestionMes
 }
 
 select.ilEditSelect {
-	background-color:#ffffff;
+	background-color:#FFF;
 	border-width:1px;
 	border-color:#bbbbbb;
 	padding:1px;
@@ -1583,7 +1581,7 @@ div.il_editarea
 	border-style: solid;
 	border-width: 1px;
 	border-color: transparent !important;
-	border-color: #FFFFFF;	/* IE6 does not understand the transparent border */ 
+	border-color: #FFF;	/* IE6 does not understand the transparent border */ 
 }
 
 div.il_editarea_disabled
@@ -1622,7 +1620,7 @@ table.il_editmenu
 	border-style: solid;
 	border-width: 1px;
 	border-color: #909090;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	color: #000000;
 	font-weight: normal;
 	text-align: left;
@@ -1664,7 +1662,7 @@ div.ilEditVAccordCntr
 
 div.ilEditVAccordICntr
 {
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	margin-bottom: 15px;
 	border-width:1px;
 	border-color:#9EADBA;
@@ -1683,7 +1681,7 @@ div.ilEditVAccordIHead
 div.ilEditVAccordICont
 {
 	padding: 10px;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 }
 
 div.ilTinyMenuSection
@@ -1822,14 +1820,14 @@ div.dp_Menu
 
 td.even
 {
-	color:#222222;
+	color:#222;
 	background-color:#F7F7F7;
 	padding: 3px;
 }
 
 td.uneven
 {
-	color:#222222;
+	color:#222;
 	background-color:#EEEEEE;
 	padding: 3px;
 }
@@ -1900,7 +1898,7 @@ td.prevMonthMO
 
 td.evenMO
 {
-	color:#222222;
+	color:#222;
 	background-color:#F7F7F7;
 	font-size: 90%;
 	padding: 3px;
@@ -1908,7 +1906,7 @@ td.evenMO
 
 td.unevenMO
 {
-	color:#222222;
+	color:#222;
 	background-color:#EEEEEE;
 	font-size: 90%;
 	padding: 3px;
@@ -2002,7 +2000,7 @@ div.ilc_DefinitionHeader
 
 table.ilc_Fullscreen
 {
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	position: absolute;
 	margin: 0;
 	padding: 0;
@@ -2060,7 +2058,7 @@ h1.il_LMHead
 table.ilc_Table
 {
 	border-collapse: collapse;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	margin: 10px 0px;
 	border-color: #9EADBA;
 }
@@ -2348,7 +2346,7 @@ input.ilMainMenuSearch {
 	margin: 0px;
 	background-repeat: no-repeat;
 	background-position: center right;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	min-height:16px;
 	box-shadow: inset 1px 1px 2px #A0A0A0;
 	line-height: 1;
@@ -2443,12 +2441,12 @@ div.ilTabContentOuter {
 	box-shadow: 3px 3px 4px #D0D0D0;
 }
 
-div.ilTabContentInner
-{
-	padding: 0px 10px;
-	margin: 15px 0px;
-	clear:both;
+div.ilTabContentInner {
+	padding: 0 10px;
+	margin: 15px 0;
+	clear: both;
 	min-height: 300px;
+	overflow: hidden;
 }
 
 /* left navigation area (used, e.g. for explorer trees) */
@@ -2561,7 +2559,7 @@ a.tabinactive
 
 a.tabinactive:hover
 {
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	text-decoration: none;
 	background-image: none;
 }
@@ -2577,8 +2575,8 @@ li.tabactive
 	border-color: #e0e0e0;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #FFFFFF;
-	background-color: #FFFFFF;
+	border-bottom-color: #FFF;
+	background-color: #FFF;
 	white-space: nowrap;
 }
 
@@ -2709,17 +2707,10 @@ a.subtabactive, a.subtabactive:hover
     padding: 3px 0px 3px 0px;
 	font-size: 80%;
 	color: #000000;
-	/* background-color: #FFFFFF; */
+	/* background-color: #FFF; */
 	text-decoration: underline;
 }
 
-
-
-table.il_ColumnLayout
-{
-	width:100%;
-	border-spacing:0px;
-}
 
 /* GroupedLists */
 
@@ -2754,7 +2745,7 @@ td.ilGroupedListNewCol {
 /* Overlays, Blocks */
 table.il_Block, .ilOverlay
 {
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	border: 1px solid #D6D6D6;
 	text-align: left;
 }
@@ -2804,7 +2795,7 @@ h3.ilBlockHeader
 }
 
 td.il_BlockFooter {
-	color:#222222;
+	color:#222;
 	background-color:#D0D0FF;
 	text-align:right;
 	font-size: 80%;
@@ -2913,7 +2904,7 @@ tr.tblfooter {
 
 .tblrow1 {
 	padding:3px;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	border-top-color: #F0F0F0;
 	border-top-style: solid;
 	border-top-width: 1px;
@@ -2921,7 +2912,7 @@ tr.tblfooter {
 
 .tblrow2 {
 	padding:3px;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	border-top-color: #F0F0F0;
 	border-top-style: solid;
 	border-top-width: 1px;
@@ -2996,7 +2987,7 @@ div.il_adv_sel
 
 table.il_adv_sel {
 	color:#000000;
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	border-spacing:0px;
 	cursor: pointer;
 }
@@ -3168,7 +3159,7 @@ td.ilFilterType {
 }
 
 table.fullwidth {
-	background-color:#FFFFFF;
+	background-color:#FFF;
 	width:100%;
 	border-collapse:collapse;
 }
@@ -3607,7 +3598,7 @@ div.ilSkillActions {
 table.ilSkill {
 	margin-bottom: 5px;
 	margin-left: 50px;
-	background-color: #FFFFFF;
+	background-color: #FFF;
 	border-collapse: collapse;
 	clear:both;
 }

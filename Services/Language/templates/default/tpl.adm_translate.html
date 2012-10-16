@@ -1,19 +1,22 @@
 <div class="il_HeaderOuter">
 <div class="il_Header">
 <div class="il_HeaderInner">
-	<h1 class="il_Header"><!-- BEGIN header_image --><img style="vertical-align:middle" <!-- BEGIN header_image_desc -->alt="{IMAGE_DESC}"<!-- END header_image_desc --> border="0" src="{IMG_HEADER}" id="headerimage" />&nbsp;<!-- END header_image -->
-	{HEADER}</h1><div class="il_Description">{H_DESCRIPTION}</div></div>
-	<div style="clear:both;"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
+	<h1 class="il_Header">
+		<!-- BEGIN header_image -->
+		<img id="headerimage" src="{IMG_HEADER}" <!-- BEGIN header_image_desc -->alt="{IMAGE_DESC}" <!-- END header_image_desc -->/>&nbsp;
+		<!-- END header_image -->
+		{HEADER}</h1>
+	<div class="il_Description">{H_DESCRIPTION}</div>
+</div>
+<div class="ilClearFloat"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
 </div>
 </div>
-<table class="il_ColumnLayout"><tr>
-<!-- BEGIN left_column -->
-<td class="il_LeftColumn">{LEFT_CONTENT}</td>
-<!-- END left_column -->
-<td class="il_CenterColumn">
-{ADM_CONTENT}
-</td>
-<!-- BEGIN right_column -->
-<td class="il_RightColumn">{RIGHT_CONTENT}</td>
-<!-- END right_column -->
-</tr></table>
+<div class="il_ColumnLayout">
+	<!-- BEGIN left_column -->
+	<div id="il_left_col">{LEFT_CONTENT}</div>
+	<!-- END left_column -->
+	<div id="il_center_col"  class="<!-- BEGIN center_col_width -->{CENTER_COL}<!-- END center_col_width -->">{ADM_CONTENT}</div>
+	<!-- BEGIN right_column -->
+	<div id="il_right_col">{RIGHT_CONTENT}</div>
+	<!-- END right_column -->
+</div>

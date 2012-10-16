@@ -244,6 +244,8 @@ class ilTemplate extends ilTemplateX
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
 			$this->fillToolbar();
+			
+			$this->setCenterColumnClass();
 
 			// late loading of javascipr files, since operations above may add files
 			$this->fillJavaScriptFiles();
@@ -506,6 +508,8 @@ class ilTemplate extends ilTemplateX
 			$this->fillAdminPanel();
 			$this->fillPermanentLink();
 			$this->fillToolbar();
+			
+			$this->setCenterColumnClass();
 
 			// late loading of javascipr files, since operations above may add files
 			$this->fillJavaScriptFiles();
@@ -1782,8 +1786,21 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("right_column");
 			$this->setVariable("RIGHT_CONTENT", $this->right_content);
 			$this->parseCurrentBlock();
-			$this->touchBlock("right_columnt");
 		}
+	}
+	
+	private function setCenterColumnClass()
+	{
+		$center_column_class = "";
+		if (trim($this->right_content) != "" && trim($this->left_content) != "") {
+			$center_column_class = "two_side_col";
+		}
+		else if (trim($this->right_content) != "" || trim($this->left_content) != "") {
+			$center_column_class = "one_side_col";
+		}
+		$this->setCurrentBlock("center_col_width");
+		$this->setVariable("CENTER_COL", $center_column_class);
+		$this->parseCurrentBlock();
 	}
 	
 	/**
@@ -1804,7 +1821,6 @@ class ilTemplate extends ilTemplateX
 			$this->setCurrentBlock("left_column");
 			$this->setVariable("LEFT_CONTENT", $this->left_content);
 			$this->parseCurrentBlock();
-			$this->touchBlock("left_columnt");
 		}
 	}
 
