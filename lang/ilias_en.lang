@@ -12978,3 +12978,4 @@ file#:#file_download#:#Download File
 trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
+common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.
