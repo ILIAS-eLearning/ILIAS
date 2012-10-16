@@ -215,6 +215,10 @@ div#il_startup_content {
 	background-color: #F9F9F9;
 }
 
+#il_startup_content form table {
+	width: 500px;
+}
+
 .ilStartupSection {
 	text-align: center;
 	padding-top: 25px;
@@ -3900,7 +3904,7 @@ td.dcl_actions {
 a.ilMediaLightboxClose {
 	display: block;
 	float: right;
-	margin: 0 0 10px 10px;
+	margin: 0 0 10px 10px;ce
 	width: 20px;
 	height: 20px;
 	background:url("images/close_dg.png") no-repeat center center;
@@ -3913,4 +3917,55 @@ a.ilMediaLightboxClose {
 	margin-left:auto;
 	width: 640px;
 	max-width: 100%;
+}
+
+/* basic responsiveness (beta) */
+@media screen and (max-width: 480px) {
+	html {
+		-webkit-text-size-adjust: none;
+	}
+	
+	#il_left_col, #il_right_col, #imgtree, #il_screen_id, #help_tt, #il_main_logo, .ilTopTitle, #il_status_box {
+		display: none;
+	}
+	
+	div.ilMainMenuSection {
+		background-color: #9bc5ed;
+	}
+	
+	ul.ilMainMenuSide, div.ilLogin {
+		float: left;
+	}
+	
+	ul.ilMainMenuSide {
+		margin-left: 20px;
+	}
+	
+	div.ilMainHeader {
+		min-height: auto;
+		min-width: auto;
+    }
+    
+	#il_center_col.one_side_col ,
+	#il_center_col.two_side_col {
+		width: 100%;
+	}
+
+	textarea {
+		max-width: 100%;
+	}
+	
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+	
+	div.ilStartupFrame {
+		width: auto;
+	}
+	
+	#il_startup_content form table {
+		width: auto;
+	}
+
 }
