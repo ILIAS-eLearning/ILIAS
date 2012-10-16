@@ -134,6 +134,12 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 	 */
 	public function parseUserIds($a_user_ids)
 	{
+		if(!$a_user_ids)
+		{
+			$this->setData(array());
+			return true;
+		}
+
 		$additional_fields = $this->getSelectedColumns();
 
 		$udf_ids = $usr_data_fields = $odf_ids = array();
