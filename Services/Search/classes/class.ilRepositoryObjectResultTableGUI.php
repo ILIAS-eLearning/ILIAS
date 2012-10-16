@@ -105,18 +105,21 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 				case 'grp':
 					include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 					$part = ilGroupParticipants::_getInstanceByObjId($object_id);
-					$row['member'] = $part->getCountParticipants();
+					include_once './Services/User/classes/class.ilUserFilter.php';
+					$row['member'] = count(ilUserFilter::getInstance()->filter($part->getParticipants()));
 					break;
 
 				case 'crs':
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 					$part = ilCourseParticipants::_getInstanceByObjId($object_id);
-					$row['member'] = $part->getCountParticipants();
+					include_once './Services/User/classes/class.ilUserFilter.php';
+					$row['member'] = count(ilUserFilter::getInstance()->filter($part->getParticipants()));
 					break;
 					
 				case 'role':
 					global $rbacreview;
-					$row['member'] = count($rbacreview->assignedUsers($object_id));
+					include_once './Services/User/classes/class.ilUserFilter.php';
+					$row['member'] = count(ilUserFilter::getInstance()->filter($rbacreview->assignedUsers($object_id)));
 					break;
 			}
 			

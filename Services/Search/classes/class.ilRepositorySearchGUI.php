@@ -724,6 +724,7 @@ class ilRepositorySearchGUI
 		{
 			return $_SESSION['rep_search']['usr'] = $a_usr_ids;
 		}
+		$_SESSION['rep_search']['usr'] = array();
 		foreach($a_usr_ids as $usr_id)
 		{
 			$_SESSION['rep_search']['usr'][] = $usr_id;
@@ -828,7 +829,7 @@ class ilRepositorySearchGUI
 	 * Show usr table
 	 * @return 
 	 * @param object $a_usr_ids
-	 */
+	 **/
 	protected function showSearchRoleTable($a_obj_ids)
 	{
 		include_once './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php';
@@ -900,19 +901,22 @@ class ilRepositorySearchGUI
 				case 'crs':
 					include_once './Modules/Course/classes/class.ilCourseParticipants.php';
 					$part = ilCourseParticipants::_getInstanceByObjId($obj_id);
-					$members = array_merge($members, $part->getParticipants());
+					include_once './Services/User/classes/class.ilUserFilter.php';
+					$members = array_merge($members,  ilUserFilter::getInstance()->filter($part->getParticipants()));
 					break;
 					
 				case 'grp':
 					include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 					$part = ilGroupParticipants::_getInstanceByObjId($obj_id);
-					$members = array_merge($members, $part->getParticipants());
+					include_once './Services/User/classes/class.ilUserFilter.php';
+					$members = array_merge($members,  ilUserFilter::getInstance()->filter($part->getParticipants()));
 					break;
 					
 				case 'role':
 					global $rbacreview;
 					
-					$members = array_merge($members, $rbacreview->assignedUsers($obj_id));
+					include_once './Services/User/classes/class.ilUserFilter.php';
+					$members = array_merge($members,  ilUserFilter::getInstance()->filter($rbacreview->assignedUsers($obj_id)));
 					break;
 			}
 		}

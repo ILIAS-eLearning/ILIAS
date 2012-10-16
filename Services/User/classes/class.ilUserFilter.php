@@ -33,7 +33,7 @@ class ilUserFilter
 
 	/**
 	 * Singelton get instance
-	 * @return object ilUserAccountSettings
+	 * @return object ilUserFilter
 	 */
 	public static function getInstance()
 	{
