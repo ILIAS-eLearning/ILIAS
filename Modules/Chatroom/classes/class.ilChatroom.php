@@ -819,8 +819,8 @@ class ilChatroom
 	{
 		global $ilDB;
 
-		$query = 'SELECT * FROM ' . self::$sessionTable . ' WHERE user_id = ' .
-		$ilDB->quote( $user->getUserId(), 'integer' ) . ' AND room_id = '.
+		$query = 'SELECT * FROM ' . self::$sessionTable 
+		. ' WHERE room_id = '.
 		$ilDB->quote( $this->getRoomId(), 'integer' ) .
 				 ' ORDER BY connected DESC';
 
