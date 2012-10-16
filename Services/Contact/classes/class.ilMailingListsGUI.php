@@ -86,7 +86,7 @@ class ilMailingListsGUI
 			$c_gui->addItem('ml_id[]', $entry->getId(), $entry->getTitle());
 		}
 		
-		$this->tpl->setTitle($this->lng->txt('mail'));
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 		
@@ -188,7 +188,7 @@ class ilMailingListsGUI
 	{		
 		global $rbacsystem;
 
-		$this->tpl->setTitle($this->lng->txt('mail'));		
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
 		
 		// check if current user may send mails
@@ -335,7 +335,7 @@ class ilMailingListsGUI
 			}
 		}
 		
-		$this->tpl->setTitle($this->lng->txt('mail'));		
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
 		$this->form_gui->setValuesByPost();
@@ -385,7 +385,7 @@ class ilMailingListsGUI
 	{
 		global $ilUser, $ilErr;
 		
-		$this->tpl->setTitle($this->lng->txt('mail'));		
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 		
 		if($this->mlists->getCurrentMailingList()->getId())
@@ -421,7 +421,7 @@ class ilMailingListsGUI
 		$this->ctrl->setParameter($this, 'cmd', 'post');
 		$this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 		
-		$this->tpl->setTitle($this->lng->txt('mail'));		
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
 		
 		$tbl = new ilTable2GUI($this);
@@ -504,7 +504,7 @@ class ilMailingListsGUI
 			}	
 		}
 				
-		$this->tpl->setTitle($this->lng->txt('mail'));
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
 		$this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 		
@@ -612,7 +612,7 @@ class ilMailingListsGUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
 			
-		$this->tpl->setTitle($this->lng->txt('mail'));		
+		$this->tpl->setTitle($this->lng->txt('mail_addressbook'));		
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members_form.html', 'Services/Contact');
 		
 		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
