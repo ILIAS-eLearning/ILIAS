@@ -6316,8 +6316,8 @@ crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 crs#:#crs_dates#:#Termine
-crs#:#crs_deact_auto_noti#:#Unterbindung von Mail-Benachrichtigungen aktivieren
-crs#:#crs_deact_auto_noti_info#:#Unterbindet den Versand der Mail-Benachrichtigung für den Kursbeitritt an jene Teilnehmer, die über die Teilnehmerverwaltung in den Kurs aufgenommen wurden.
+crs#:#crs_auto_notification#:#Mail-Benachrichtigungen aktivieren
+crs#:#crs_auto_notification_info#:#Versand der Mail-Benachrichtigung für den Kursbeitritt an jene Teilnehmer, die über die Teilnehmerverwaltung in den Kurs aufgenommen wurden.
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, dass diese Zuordnung entfernt werden soll?
 crs#:#crs_delete_file#:#Datei löschen?

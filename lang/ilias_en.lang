@@ -10989,8 +10989,8 @@ exc#:#exc_completion_by_submission#:#Completed by Submission
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
-crs#:#crs_deact_auto_noti#:#No Notification For New Member
-crs#:#crs_deact_auto_noti_info#:#New members do not get a mail notification when added to course.
+crs#:#crs_auto_notification#:#Notification For New Member
+crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
 wsp#:#wsp_type_tstv#:#Certificate: Test
 content#:#cont_par_format#:#Paragraph
 content#:#cont_char_format#:#Character

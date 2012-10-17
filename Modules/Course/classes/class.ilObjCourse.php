@@ -68,7 +68,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @access private
 	 * 
 	 */
-	private $auto_noti_disabled = false;
+	private $auto_notification = true;
 
 	/**
 	* Constructor
@@ -1143,7 +1143,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'session_next = '.$ilDB->quote($this->getNumberOfNextSessions(),'integer').', '.
 			'reg_ac_enabled = '.$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			'reg_ac = '.$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			'auto_noti_disabled = '.$ilDB->quote( (int)$this->getAutoNotiDisabled(), 'integer').', '.
+			'auto_notification = '.$ilDB->quote( (int)$this->getAutoNotification(), 'integer').', '.
 			'status_dt = '.$ilDB->quote((int) $this->getStatusDetermination()).' '.
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer')."";
 				
@@ -1212,7 +1212,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->enableSessionLimit($this->isSessionLimitEnabled());
 		$new_obj->setNumberOfPreviousSessions($this->getNumberOfPreviousSessions());
 		$new_obj->setNumberOfNextSessions($this->getNumberOfNextSessions());
-		$new_obj->setAutoNotiDisabled( $this->getAutoNotiDisabled() );
+		$new_obj->setAutoNotification( $this->getAutoNotification() );
 		$new_obj->enableRegistrationAccessCode($this->isRegistrationAccessCodeEnabled());
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
@@ -1233,7 +1233,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"activation_end,sub_limitation_type,sub_start,sub_end,sub_type,sub_password,sub_mem_limit,".
 			"sub_max_members,sub_notify,view_mode,archive_start,archive_end,archive_type,abo," .
 			"latitude,longitude,location_zoom,enable_course_map,waiting_list,show_members, ".
-			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_noti_disabled, status_dt) ".
+			"session_limit,session_prev,session_next, reg_ac_enabled, reg_ac, auto_notification, status_dt) ".
 			"VALUES( ".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getSyllabus() ,'text').", ".
@@ -1270,7 +1270,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getNumberOfPreviousSessions(),'integer').', '.
 			$ilDB->quote($this->isRegistrationAccessCodeEnabled(),'integer').', '.
 			$ilDB->quote($this->getRegistrationAccessCode(),'text').', '.
-			$ilDB->quote((int)$this->getAutoNotiDisabled(),'integer').', '.
+			$ilDB->quote((int)$this->getAutoNotification(),'integer').', '.
 			$ilDB->quote((int)$this->getStatusDetermination(),'integer').' '.
 			")";
 			
@@ -1325,7 +1325,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setNumberOfNextSessions($row->session_next);
 			$this->enableRegistrationAccessCode($row->reg_ac_enabled);
 			$this->setRegistrationAccessCode($row->reg_ac);
-			$this->setAutoNotiDisabled($row->auto_noti_disabled == 1 ? true : false);
+			$this->setAutoNotification($row->auto_notification == 1 ? true : false);
 			$this->setStatusDetermination((int) $row->status_dt);
 		}
 		
@@ -1970,26 +1970,26 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	}
 
 	/**
-	 * Returns automatic notification disabled status from 
-	 * $this->auto_noti_disabled
+	 * Returns automatic notification status from 
+	 * $this->auto_notification
 	 * 
 	 * @return boolean
 	 */
-	public function getAutoNotiDisabled()
+	public function getAutoNotification()
 	{
-		return $this->auto_noti_disabled;
+		return $this->auto_notification;
 	}
 
 
 	/**
-	 * Sets automatic notification disabled status in $this->auto_noti_disabled,
+	 * Sets automatic notification status in $this->auto_notification,
 	 * using given $status.
 	 *
 	 * @param mixed boolean
 	 */
-	public function setAutoNotiDisabled($value)
+	public function setAutoNotification($value)
 	{
-		$this->auto_noti_disabled = $value;
+		$this->auto_notification = $value;
 	}
 	
 	/**
