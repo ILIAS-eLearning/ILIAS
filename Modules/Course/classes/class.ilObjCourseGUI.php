@@ -973,7 +973,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setNumberOfPreviousSessions(is_numeric($_POST['sp']) ? (int) $_POST['sp'] : -1 );
 		$this->object->setNumberOfnextSessions(is_numeric($_POST['sn']) ? (int) $_POST['sn'] : -1 );
 
-		$this->object->setAutoNotiDisabled($_POST['deact_auto_noti'] == 1 ? true : false);
+		$this->object->setAutoNotification($_POST['auto_notification'] == 1 ? true : false);
 		
 		
 		$show_lp_sync_confirmation = false;
@@ -1272,10 +1272,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$form->addItem($lim);
 	
-		$not = new ilCheckboxInputGUI($this->lng->txt('crs_deact_auto_noti'), 'deact_auto_noti');
+		$not = new ilCheckboxInputGUI($this->lng->txt('crs_auto_notification'), 'auto_notification');
 		$not->setValue(1);
-		$not->setInfo($this->lng->txt('crs_deact_auto_noti_info'));
-		$not->setChecked( $this->object->getAutoNotiDisabled() );
+		$not->setInfo($this->lng->txt('crs_auto_notification_info'));
+		$not->setChecked( $this->object->getAutoNotification() );
 		$form->addItem($not);
 
 		$pres = new ilFormSectionHeaderGUI();

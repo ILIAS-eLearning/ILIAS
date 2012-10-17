@@ -13486,3 +13486,20 @@ $setting->set('reuse_of_loginnames', $new_setting);
 
 $setting->delete('prevent_reuse_of_loginnames');
 ?>
+<#3786>
+<?php
+if (!$ilDB->tableColumnExists('crs_settings', 'auto_notification'))
+{
+	$ilDB->addTableColumn('crs_settings', 'auto_notification', 
+	array(	'type'		=> 'integer',
+			'length'	=> 1,
+			'notnull'	=> true,
+			'default'	=> 1
+	));
+}
+$ilDB->update('crs_settings',
+	array('auto_notification' => array('integer', 0)),
+	array('auto_noti_disabled' => array('integer', 1)));
+
+$ilDB->dropTableColumn('crs_settings', 'auto_noti_disabled');
+?>
