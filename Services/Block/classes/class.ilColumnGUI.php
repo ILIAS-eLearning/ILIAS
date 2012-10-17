@@ -874,7 +874,7 @@ class ilColumnGUI
 					}
 					if ($type == "pdsysmess")		// always show sys mess first
 					{
-						$nr = -15;
+//						$nr = -15;
 					}
 					if ($type == "pdfeedb")		// always show feedback request second
 					{
