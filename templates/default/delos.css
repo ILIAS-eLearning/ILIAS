@@ -3920,7 +3920,10 @@ a.ilMediaLightboxClose {
 }
 
 /* basic responsiveness (beta) */
-@media screen and (max-width: 480px) {
+@media
+	only screen and (max-width: 480px),
+	only screen and (min-device-width: 640px) and (max-device-width: 1136px) and (-webkit-min-device-pixel-ratio: 2)
+{
 	html {
 		-webkit-text-size-adjust: none;
 	}
