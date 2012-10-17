@@ -3950,6 +3950,7 @@ a.ilMediaLightboxClose {
 
 	div.ilMainMenu {
 		padding: 0;
+		width: 100%;
 	}
 	
 	li.ilMainMenu {
@@ -3970,7 +3971,12 @@ a.ilMediaLightboxClose {
 	
 	div.ilMainHeader {
 		min-height: auto;
-		min-width: auto;
+		min-width: 1px;
+    }
+    
+    input.ilMainMenuSearch {
+    	box-shadow: none;
+    	border: 1px solid #A0B0C0;
     }
     
 	#il_center_col.one_side_col ,
@@ -3982,7 +3988,7 @@ a.ilMediaLightboxClose {
 		max-width: 100%; 
 	}
 	
-	input {
+	input, select {
 		max-width: 100%;
 	}
 	
@@ -4011,6 +4017,10 @@ a.ilMediaLightboxClose {
 	li.tabactive, li.tabinactive, a.tabactive, a.tabinactive {
 		background: none;
 		border: 0;
+	}
+	
+	div.ilTabContentInner {
+		overflow: auto;
 	}
 	
 	td.ilFormOption {
