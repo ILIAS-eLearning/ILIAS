@@ -1009,7 +1009,7 @@ class ilObjUser extends ilObject
 	
 		// throw exception if the desired loginame is already in history and it is not allowed to reuse it
 		if((int)$ilSetting->get('allow_change_loginname') &&
-		   (int)$ilSetting->get('prevent_reuse_of_loginnames') &&
+		   (int)$ilSetting->get('reuse_of_loginnames') == 0 &&
 		   self::_doesLoginnameExistInHistory($a_login))
 		{
 			throw new ilUserException($this->lng->txt('loginname_already_exists'));

@@ -13467,4 +13467,22 @@ $ilDB->manipulate("UPDATE page_object SET ".
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3785>
+<?php
+$setting = new ilSetting();
+$prevent_reuse = $setting->get('prevent_reuse_of_loginnames');
 
+$new_setting = 1;
+
+if(!$prevent_reuse)
+{
+	$new_setting = 1;
+}
+else
+{
+	$new_setting = 0;
+}
+$setting->set('reuse_of_loginnames', $new_setting);
+
+$setting->delete('prevent_reuse_of_loginnames');
+?>
