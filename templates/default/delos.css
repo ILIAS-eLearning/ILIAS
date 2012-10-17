@@ -3925,8 +3925,35 @@ a.ilMediaLightboxClose {
 		-webkit-text-size-adjust: none;
 	}
 	
-	#il_left_col, #il_right_col, #imgtree, #il_screen_id, #help_tt, #il_main_logo, .ilTopTitle, #il_status_box {
+	#il_left_col, #il_right_col, #imgtree, #il_screen_id, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
 		display: none;
+	}
+	
+	#il_main_logo {
+		display: none;
+	}
+	
+	div.ilMainMenuSection .ilMainMenuSide, div.ilMainMenuSection .ilMainMenuSide li.ilMainMenu {
+		height: 0px;
+	}
+	
+	div.ilMainMenuSearch {
+		position: absolute;
+		background: none;
+		top: 0px;
+		right: 0px;
+	}
+	
+	div.ilLogin {
+		padding: 31px 20px 3px 10px;
+	}
+
+	div.ilMainMenu {
+		padding: 0;
+	}
+	
+	li.ilMainMenu {
+		width: 49%;
 	}
 	
 	div.ilMainMenuSection {
@@ -3952,6 +3979,10 @@ a.ilMediaLightboxClose {
 	}
 
 	textarea {
+		max-width: 100%; 
+	}
+	
+	input {
 		max-width: 100%;
 	}
 	
@@ -3968,4 +3999,21 @@ a.ilMediaLightboxClose {
 		width: auto;
 	}
 
+	div.il_Tab {
+		margin: 0;
+		margin-bottom: 10px;
+		background-color: #FFFFFF;
+		border: 1px solid #E0E0E0;
+		clear: both;
+		width: 100%;
+	}
+	
+	li.tabactive, li.tabinactive, a.tabactive, a.tabinactive {
+		background: none;
+		border: 0;
+	}
+	
+	td.ilFormOption {
+		width: auto;
+	}
 }
