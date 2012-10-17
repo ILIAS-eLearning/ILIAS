@@ -1254,9 +1254,9 @@ assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
 assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#tst_show_toplist#:#Zeige Highscores
-assessment#:#toplist_by_score#:#Highscore nach Punkten
-assessment#:#toplist_by_time#:#Highscore nach Bearbeitungszeit
-assessment#:#toplist_top_n_results#:#Top %s Platzierungen
+assessment#:#toplist_by_score#:#Platzierung nach Punkten
+assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
+assessment#:#toplist_top_n_results#:#Top-%s-Platzierungen
 assessment#:#toplist_col_rank#:#Platz
 assessment#:#toplist_col_participant#:#Teilnehmer
 assessment#:#toplist_col_achieved#:#Datum
@@ -1265,27 +1265,27 @@ assessment#:#toplist_col_percentage#:#Prozentwert
 assessment#:#toplist_col_hints#:#Hinweise
 assessment#:#toplist_col_wtime#:#Bearbeitungszeit
 assessment#:#toplist_your_result#:#Ihre Platzierung
-assessment#:#tst_highscore_options#:#Highscore
-assessment#:#tst_highscore_enabled#:#Highscoreanzeige aktiviert
-assessment#:#tst_highscore_description#:#Anzeige von Platzierungen der Tests.
+assessment#:#tst_highscore_options#:#Platzierung
+assessment#:#tst_highscore_enabled#:#Platzierungen anzeigen
+assessment#:#tst_highscore_description#:#Zeigt das Abschneiden der verschiedenen Teilnehmer im Test
 assessment#:#tst_highscore_anon#:#Anonymisierung der Platzierten
-assessment#:#tst_highscore_anon_description#:#Steuert, ob die Namen zu den Platzierungen anonymisiert werden. Diese Option wird ggfls. durch die Anonymisierung des Tests insgesamt überschrieben.
+assessment#:#tst_highscore_anon_description#:#Wenn aktiviert, werden die Platzierungen in anonymisierter Form angezeigt. Dies geschieht ohnehin bei anonymisierten Tests.
 assessment#:#tst_highscore_achieved_ts#:#Anzeige des Testzeitpunkts
-assessment#:#tst_highscore_achieved_ts_description#:#Steuert, ob eine Spalte mit dem Zeitpunkt des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_achieved_ts_description#:#Bestimmt, ob eine Spalte mit dem Zeitpunkt des Tests eingeblendet wird.
 assessment#:#tst_highscore_score#:#Anzeige der Punktzahl
-assessment#:#tst_highscore_score_description#:#Steuert, ob eine Spalte mit dem Punktwert des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_score_description#:#Bestimmt, ob eine Spalte mit dem Punktwert des Tests eingeblendet wird.
 assessment#:#tst_highscore_percentage#:#Anzeige des Prozentwerts
-assessment#:#tst_highscore_percentage_description#:#Steuert, ob eine Spalte mit dem Prozentwert des Tests eingeblendet werden soll.
-assessment#:#tst_highscore_hints#:#Anzeige der Hints
-assessment#:#tst_highscore_hints_description#:#Steuert, ob eine Spalte mit der Anzahl der in Anspruch genommenen Hinweise des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_percentage_description#:#Bestimmt, ob eine Spalte mit dem Prozentwert des Tests eingeblendet wird.
+assessment#:#tst_highscore_hints#:#Anzeige der angeforderten Lösungshinweise
+assessment#:#tst_highscore_hints_description#:#Bestimmt, ob eine Spalte mit der Anzahl der in Anspruch genommenen Hinweise des Tests eingeblendet wird.
 assessment#:#tst_highscore_wtime#:#Anzeige der Bearbeitungsdauer
-assessment#:#tst_highscore_wtime_description#:#Steuert, ob eine Spalte mit der Bearbeitungsdauer des Tests eingeblendet werden soll.
+assessment#:#tst_highscore_wtime_description#:#Bestimmt, ob eine Spalte mit der Bearbeitungsdauer des Tests eingeblendet wird.
 assessment#:#tst_highscore_own_table#:#Anzeige der Tabelle "Eigene Platzierung"
-assessment#:#tst_highscore_own_table_description#:#Steuert, ob eine Tabelle mit der eigenen Platzierung eingeblendet werden soll.
-assessment#:#tst_highscore_top_table#:#Anzeige der Tabelle "Top Platzierung"
-assessment#:#tst_highscore_top_table_description#:#Steuert, ob eine Tabelle mit den besten Platzierungen eingeblendet werden soll.
-assessment#:#tst_highscore_top_num#:#Anzahl der zu zeigenden Top Platzierungen
-assessment#:#tst_highscore_top_num_description#:#Steuert, wie viele Platzierungen in der Tabelle Top Platzierungen eingeblendet werden soll.
+assessment#:#tst_highscore_own_table_description#:#Bestimmt, ob eine Tabelle mit der eigenen Platzierung eingeblendet wird.
+assessment#:#tst_highscore_top_table#:#Anzeige der Tabelle "Top-Platzierung"
+assessment#:#tst_highscore_top_table_description#:#Bestimmt, ob eine Tabelle mit den besten Platzierungen eingeblendet wird.
+assessment#:#tst_highscore_top_num#:#Anzahl der angezeigten Top-Platzierungen
+assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Tabelle "Top-Platzierungen" angezeigt werden.
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
 assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
@@ -6569,8 +6569,8 @@ crs#:#crs_presentation_type#:#Kursansicht
 crs#:#crs_print_list#:#Liste erstellen
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
 crs#:#crs_reg#:#Kursbeitritt
-crs#:#crs_reg_code#:#Anmeldung mit Zugangsschlüssel
-crs#:#crs_reg_code_enabled_info#:#Wählen Sie diese Option, um zusätzlich zu dem ausgewählten Beitrittsverfahren, eine automatische Anmeldung durch Aufruf eines Registrierungslinks zu ermöglichen.
+crs#:#crs_reg_code#:#Beitritt mit Zugangsschlüssel
+crs#:#crs_reg_code_enabled_info#:#Diese Option ermöglicht, zusätzlich zum ausgewählten Beitrittsverfahren, einen automatischen Beitritt durch Aufruf eines Registrierungslinks.
 crs#:#crs_reg_code_link#:#Registrierungslink
 crs#:#crs_reg_code_value#:#Zugangsschlüssel
 crs#:#crs_reg_deactivated#:#Anmeldung ausgeschaltet
@@ -12243,11 +12243,11 @@ registration#:#registration_code_role_info#:#Bei Benutzung eines Registrierungsc
 mail#:#mail_system_sender_name#:#Absendername
 mail#:#mail_system_sender_name_info#:#Bitte geben Sie einen Namen ein, der als Absender für automatisch generierte Nachrichten (intern und extern) genutzt werden soll. Falls Sie dieses Feld leer lassen, nutzt ILIAS den Kurztitel dieser Installation. Ist dieser ebenfalls nicht definiert, wird 'ILIAS' als Absender verwendet.
 content#:#cont_current_term#:#Aktueller Begriff
-assessment#:#tst_setting_offer_hints_label#:#Fragen spezifische Hinweise
-assessment#:#tst_setting_offer_hints_info#:#Wenn diese Option aktiviert ist, werden vorhandene Frage spezifische Hinweise angeboten.
+assessment#:#tst_setting_offer_hints_label#:#Fragenspezifische Hinweise
+assessment#:#tst_setting_offer_hints_info#:#Wenn diese Option aktiviert ist, werden vorhandene Fragenspezifische Hinweise angeboten.
 assessment#:#tst_question_hints_tab#:#Hinweise
 assessment#:#tst_question_hints_table_header#:#Hinweise zur Frage: %s
-assessment#:#tst_question_hints_table_no_items#:#Keine vorhanden Hinweise
+assessment#:#tst_question_hints_table_no_items#:#Keine vorhandenen Hinweise
 assessment#:#tst_question_hints_table_column_hint_order#:#Reihenfolge
 assessment#:#tst_question_hints_table_column_hint_text#:#Hinweis
 assessment#:#tst_question_hints_table_column_hint_points#:#Punkteabzug
