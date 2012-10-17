@@ -349,7 +349,7 @@ class ilAccountRegistrationGUI
 			$form_valid = false;
 		}
 		else if ((int)$ilSetting->get('allow_change_loginname') &&
-			(int)$ilSetting->get('prevent_reuse_of_loginnames') &&
+			(int)$ilSetting->get('reuse_of_loginnames') == 0 &&
 			ilObjUser::_doesLoginnameExistInHistory($login))
 		{
 			$login_obj->setAlert($lng->txt('login_exists'));

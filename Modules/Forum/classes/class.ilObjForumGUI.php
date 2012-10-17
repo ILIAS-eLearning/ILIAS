@@ -292,8 +292,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
 
-		$rg_pro->addOption(new ilRadioOption($this->lng->txt('order_by_posts'), ilForumProperties::VIEW_TREE));
-		$rg_sort_by_date = new ilRadioOption($this->lng->txt('order_by').' '.$this->lng->txt('date'), ilForumProperties::VIEW_DATE);
+		$rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), ilForumProperties::VIEW_TREE));
+		$rg_sort_by_date = new ilRadioOption($this->lng->txt('sort_by_date'), ilForumProperties::VIEW_DATE);
 		$rg_pro->addOption($rg_sort_by_date);
 
 		$view_direction_group_gui = new ilRadioGroupInputGUI('', 'default_view_sort_dir');	

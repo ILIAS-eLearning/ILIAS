@@ -1676,7 +1676,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				'lrua'	=> $aset->isUserAccessRestricted(),
 				'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
 				'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
-				'prevent_reuse_of_loginnames' => (bool)$ilSetting->get('prevent_reuse_of_loginnames'),
+				'reuse_of_loginnames' => (bool)$ilSetting->get('reuse_of_loginnames'),
 				'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time'),
 				'user_adm_alpha_nav' => (int)$ilSetting->get('user_adm_alpha_nav'),
 				// 'user_ext_profiles' => (int)$ilSetting->get('user_ext_profiles')
@@ -1722,7 +1722,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				// TODO: move to user account settings
 				$ilSetting->set('allow_change_loginname', (int)$this->form->getInput('allow_change_loginname'));
 				$ilSetting->set('create_history_loginname', (int)$this->form->getInput('create_history_loginname'));
-				$ilSetting->set('prevent_reuse_of_loginnames', (int)$this->form->getInput('prevent_reuse_of_loginnames'));
+				$ilSetting->set('reuse_of_loginnames', (int)$this->form->getInput('reuse_of_loginnames'));
 				$ilSetting->set('loginname_change_blocking_time', (int)$this->form->getInput('loginname_change_blocking_time'));
 				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));
 				// $ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
@@ -1810,9 +1810,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$chbCreateHistory->setValue(1);
 		
 		$chbChangeLogin->addSubItem($chbCreateHistory);	
-		$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('reuse_of_loginnames_contained_in_history'), 'prevent_reuse_of_loginnames');
+		$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('reuse_of_loginnames_contained_in_history'), 'reuse_of_loginnames');
 		$chbReuseLoginnames->setValue(1);
-		$chbReuseLoginnames->setInfo($this->lng->txt('prevent_reuse_of_loginnames_contained_in_history_info'));
+		$chbReuseLoginnames->setInfo($this->lng->txt('reuse_of_loginnames_contained_in_history_info'));
 		
 		$chbChangeLogin->addSubItem($chbReuseLoginnames);
 		$chbChangeBlockingTime = new ilTextInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
@@ -2521,7 +2521,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->loginSettingsForm->setValuesByArray(array(
 			'allow_change_loginname' => (bool)$ilSetting->get('allow_change_loginname'),
 			'create_history_loginname' => (bool)$ilSetting->get('create_history_loginname'),
-			'prevent_reuse_of_loginnames' => (bool)$ilSetting->get('prevent_reuse_of_loginnames'),
+			'reuse_of_loginnames' => (bool)$ilSetting->get('reuse_of_loginnames'),
 			'loginname_change_blocking_time' => (int)$ilSetting->get('loginname_change_blocking_time')
 		));
 		
@@ -2546,9 +2546,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$chbCreateHistory->setInfo($this->lng->txt('loginname_history_info'));
 			$chbCreateHistory->setValue(1);
 		$chbChangeLogin->addSubItem($chbCreateHistory);	
-			$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('reuse_of_loginnames_contained_in_history'), 'prevent_reuse_of_loginnames');
+			$chbReuseLoginnames = new ilCheckboxInputGUI($this->lng->txt('reuse_of_loginnames_contained_in_history'), 'reuse_of_loginnames');
 			$chbReuseLoginnames->setValue(1);
-			$chbReuseLoginnames->setInfo($this->lng->txt('prevent_reuse_of_loginnames_contained_in_history_info'));
+			$chbReuseLoginnames->setInfo($this->lng->txt('reuse_of_loginnames_contained_in_history_info'));
 		$chbChangeLogin->addSubItem($chbReuseLoginnames);
 			$chbChangeBlockingTime = new ilTextInputGUI($this->lng->txt('loginname_change_blocking_time'), 'loginname_change_blocking_time');
 			$chbChangeBlockingTime->setInfo($this->lng->txt('loginname_change_blocking_time_info'));
@@ -2581,7 +2581,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			{			
 				$ilSetting->set('allow_change_loginname', (int)$this->loginSettingsForm->getInput('allow_change_loginname'));
 				$ilSetting->set('create_history_loginname', (int)$this->loginSettingsForm->getInput('create_history_loginname'));
-				$ilSetting->set('prevent_reuse_of_loginnames', (int)$this->loginSettingsForm->getInput('prevent_reuse_of_loginnames'));
+				$ilSetting->set('reuse_of_loginnames', (int)$this->loginSettingsForm->getInput('reuse_of_loginnames'));
 				$ilSetting->set('loginname_change_blocking_time', (int)$this->loginSettingsForm->getInput('loginname_change_blocking_time'));
 				
 				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));

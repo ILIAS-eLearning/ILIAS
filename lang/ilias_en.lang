@@ -125,7 +125,7 @@ administration#:#options#:#Options
 administration#:#output_options#:#Output options
 administration#:#passwd_auto_generate#:#Password Forwarding/Generation
 administration#:#path_to_mkisofs#:#Path to mkisofs
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
+administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
 administration#:#purge_age_limit_desc#:#If this field contains a value, only objects which were deleted before the specified number of days will be purged.
 administration#:#purge_age_limit#:#Limit age
 administration#:#purge_count_limit_desc#:#If this field contains a value, only the specified number of objects will be purged.
@@ -1566,7 +1566,7 @@ common#:#are_you_sure#:#Are you sure?
 common#:#arrow_downright#:#Arrow from top to down right
 common#:#articels_unread#:#Unread articels
 common#:#as_of#:#as of
-common#:#ascending_order#:#Latest postings at the bottom
+forum#:#ascending_order#:#Latest postings at the bottom
 common#:#ass_log_admin#:#Log Data Administration
 common#:#ass_log_available_tests#:#Available Tests
 common#:#ass_log_count_datasets#:#Log Entries
@@ -2085,7 +2085,7 @@ common#:#delicious#:#Delicious Account
 common#:#deliver#:#Deliver
 common#:#department#:#Department
 common#:#desc#:#Description
-common#:#descending_order#:#Latest postings at the top
+forum#:#descending_order#:#Latest postings at the top
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
 common#:#desktop_items#:#Personal Desktop Items
@@ -3504,8 +3504,8 @@ common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only
 common#:#obj_objf#:#Object Definitions
 common#:#obj_owner#:#This Object is owned by
 common#:#obj_page#:#Page
-common#:#obj_pays_desc#:#Configure payment settings and vendors
-common#:#obj_pays#:#Payment
+common#:#obj_pays_desc#:#Configure shop settings and vendors
+common#:#obj_pays#:#Shop
 common#:#obj_pdts_desc#:#Configure the Personal Desktop
 common#:#obj_pdts#:#Personal Desktop
 common#:#obj_pg#:#Page
@@ -3696,11 +3696,11 @@ common#:#payment_demo#:#Demo
 common#:#payment_in_sc#:#Already in shopping cart
 common#:#payment_payed_access#:#Payed/Access
 common#:#payment_system#:#Payment System
-rbac#:#pays_edit_permission#:#User can change permission settings in Payment administration
-common#:#pays_edit#:#Edit payment settings
-rbac#:#pays_read#:#User has read access to Payment administration
-rbac#:#pays_visible#:#Payment administration is visible
-rbac#:#pays_write#:#User can edit settings in Payment administration
+rbac#:#pays_edit_permission#:#User can change permission settings in Shop administration
+common#:#pays_edit#:#Edit shop settings
+rbac#:#pays_read#:#User has read access to Shop administration
+rbac#:#pays_visible#:#Shop administration is visible
+rbac#:#pays_write#:#User can edit settings in Shop administration
 common#:#pd_enable_chatviewer#:#Enable Chatviewer
 common#:#pd_enable_contacts_requires_mail#:#Requires mail permission
 common#:#pd_enable_contacts#:#Enable Contacts
@@ -8035,7 +8035,7 @@ payment#:#pay_expires_info#:#This object is disposable. The payment has been exp
 payment#:#pay_filter#:#Filter
 payment#:#pay_goto_buyed_objects#:#Goto your buyed objects
 payment#:#pay_goto_shopping_cart#:#Goto the shopping cart
-payment#:#pay_header#:#Payment
+payment#:#pay_header#:#Shop
 payment#:#pay_hide_advanced_search_info#:#For simple shop with a few items hide the advanced search tab.
 payment#:#pay_hide_advanced_search#:#Hide Advanced Search
 payment#:#pay_hide_coupons_info#:#Hide coupons for the shopper. In case your shop is not using coupons this simplifies the buying process for your customer.
@@ -8051,7 +8051,7 @@ payment#:#pay_info_paypal#:#To pay for those objects that are in your shopping c
 payment#:#pay_info#:#Access to the following material is not for free. If you want to gain access to a certain learning object please select a price. You can purchase one or several learning objects by using the button "shopping cart" on your personal desktop.  You are going to gain immediate access to a chosen object and period.
 payment#:#pay_item_already_in_sc_choose_another#:#This object was already taken up in your shopping cart. Select if necessary a new price/duration combination.
 payment#:#pay_item_already_in_sc#:#This object already exists in your shopping cart.
-payment#:#pay_locator#:#Payment
+payment#:#pay_locator#:#Shop
 payment#:#pay_manual_sorting_of_topics#:#Manual Sorting of Topics
 payment#:#pay_max_hits_info#:#Please enter a number for the maximum number of search results.
 payment#:#pay_max_hits#:#Max hits
@@ -8184,10 +8184,10 @@ payment#:#paya_error_no_object_id_given#:#Please choose an object.
 payment#:#paya_error_update_booking#:#Error saving statistic data.
 payment#:#paya_expires#:#Expire payment
 payment#:#paya_filter_reseted#:#Filter reseted.
-payment#:#paya_header#:#Payment Administration
+payment#:#paya_header#:#Shop Administration
 payment#:#paya_insert_only_numbers#:#Please insert only integers.
 payment#:#paya_insert_vats#:#Insert Vat-Rate
-payment#:#paya_locator#:#Payment Administration
+payment#:#paya_locator#:#Shop Administration
 payment#:#paya_months#:#Month(s)
 payment#:#paya_no_booking_id_given#:#Error: no 'booking id' given
 payment#:#paya_no_bookings#:#No statistic available.
@@ -10833,7 +10833,7 @@ trac#:#trac_group_materials_num#:#Number of Obligatory Materials
 trac#:#trac_grouped_material_obligatory_err#:#The number materials which must be passed has to be greater than 0 and smaller than the number of materials of the grouping.
 rbac#:#precondition_obligatory_settings#:#Precondition Settings
 rbac#:#precondition_num_obligatory#:#Number of Required Materials
-common#:#payment_notification#:#Send Payment Notification
+common#:#payment_notification#:#Send Shop Notification
 common#:#payment_notification_desc#:#If enabled, users get a reminder to extend the duration of bought objects
 common#:#payment_reminder_notification_subject#:#The access duration af bought objects is ending soon.
 common#:#bought_objects_expire_soon#:#For some of your bought objects the access duration is ending soon. You are able to extend the access duration, by buying an extension for these objects.
@@ -11021,7 +11021,7 @@ payment#:#select_subtype#:#Suboption
 payment#:#pay_hide_shop_info#:#Hide Shop-Information
 payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information
 payment#:#use_shop_specials#:#Use Shop Specials
-payment#:#use_shop_specials_info#:#If enabled, it is possible to mark payment objects as a "special"-offer. These objects will be shown on the entire shop site.
+payment#:#use_shop_specials_info#:#If enabled, it is possible to mark shop objects as a "special"-offer. These objects will be shown on the entire shop site.
 payment#:#special#:#Special-Offer
 payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.
 common#:#object_purchased_date#:#Purchase-Date
@@ -11894,7 +11894,7 @@ payment#:#please_enter_paypal_data#:#Please enter your Paypal data
 payment#:#please_enter_epay_data#:#Please enter your EPay data
 payment#:#please_enter_vats#:#Please create at least one vat
 payment#:#please_create_vendor#:#Please create at least one vendor
-payment#:#shop_activation_ok#:#The payment settings are complete. You can now activate the webshop.
+payment#:#shop_activation_ok#:#The shop settings are complete. You can now activate the webshop.
 blog#:#blog_rename_posting#:#Rename Posting
 prtf#:#prtf_tab_portfolios#:#My Portfolios
 prtf#:#prtf_tab_other_users#:#Portfolios From Other Users
@@ -12463,7 +12463,7 @@ common#:#obj_mep_duplicate#:#Copy Media Pool
 common#:#obj_mcst_duplicate#:#Copy Mediacast
 common#:#obj_glo_duplicate#:#Copy Glossary
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module
-forum#:#order_by_posts#:#Sort by posts
+forum#:#sort_by_posts#:#Sort by posts
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.
 forum#:#number_of_threads#:#Displayed Number of Threads per Page
 common#:#obj_wiki_duplicate#:#Copy Wiki
@@ -12979,3 +12979,4 @@ trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is availa
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.
+forum#:#sort_by_date#:#Sort by date

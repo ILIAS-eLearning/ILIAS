@@ -212,7 +212,7 @@ administration#:#options#:#Optionen
 administration#:#output_options#:#Ausgabeoptionen
 administration#:#passwd_auto_generate#:#Passwortgenerierung und -weiterleitung
 administration#:#path_to_mkisofs#:#Mkisofs-Pfad
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie <u>nicht</u> wieder verwendet werden.
+administration#:#reuse_of_loginnames_contained_in_history_info#:#Falls aktiviert, dürfen bereits genutzte Benutzernamen aus der Historie wieder verwendet werden.
 administration#:#purge_age_limit#:#Begrenze Alter
 administration#:#purge_age_limit_desc#:#Wenn dieses Feld einen Wert enthält, werden nur Objekte, die vor mehr als der angegebenen Zahl Tagen gelöscht worden sind, aus dem System entfernt.
 administration#:#purge_count_limit#:#Begrenze Anzahl
@@ -2076,7 +2076,7 @@ common#:#are_you_sure#:#Sind Sie sicher?
 common#:#arrow_downright#:#Pfeil von oben nach unten rechts
 common#:#articels_unread#:#Ungelesene Beiträge
 common#:#as_of#:#Stand
-common#:#ascending_order#:#Neueste Beiträge unten
+forum#:#ascending_order#:#Neueste Beiträge unten
 common#:#ass_log_admin#:#Administration der Testprotokollierung
 common#:#ass_log_available_tests#:#Verfügbare Tests
 common#:#ass_log_count_datasets#:#Protokolleinträge
@@ -2637,7 +2637,7 @@ common#:#delicious#:#Delicious-Account
 common#:#deliver#:#Übung abgeben
 common#:#department#:#Abteilung
 common#:#desc#:#Beschreibung
-common#:#descending_order#:#Neueste Beiträge oben
+forum#:#descending_order#:#Neueste Beiträge oben
 common#:#description#:#Beschreibung
 common#:#desired_password#:#Neues Passwort
 common#:#desktop_items#:#Ausgewählte Angebote
@@ -4084,8 +4084,8 @@ common#:#obj_objf#:#Objektdefinitionen
 common#:#obj_objf_desc#:#ILIAS-Objekttypen und -rechte. (Nur für Experten!)
 common#:#obj_owner#:#Besitzer des Objekts ist
 common#:#obj_page#:#Seite
-common#:#obj_pays#:#Payment
-common#:#obj_pays_desc#:#Konfiguration der Paymenteinstellungen, Verkäuferverwaltung...
+common#:#obj_pays#:#Shop
+common#:#obj_pays_desc#:#Konfiguration der Shopeinstellungen, Verkäuferverwaltung...
 common#:#obj_pdts#:#Persönlicher Schreibtisch
 common#:#obj_pdts_desc#:#Persönlichen Schreibtisch anpassen
 common#:#obj_pg#:#Seite
@@ -4285,7 +4285,7 @@ common#:#pay_methods#:#Bezahlarten
 common#:#payment_buyable#:#Kaufbar
 common#:#payment_demo#:#Demo
 common#:#payment_in_sc#:#Bereits im Warenkorb
-common#:#payment_notification#:#Sende Payment Benachrichtigungen
+common#:#payment_notification#:#Sende Shop Benachrichtigungen
 common#:#payment_notification_days#:#Anzahl der Tage
 common#:#payment_notification_days_desc#:#Bitte geben Sie die Anzahl der Tage ein, die für den Versand verwendet werden soll bevor der Zugriff auf das gekaufte Objekt ausläuft
 common#:#payment_notification_desc#:#Wenn aktiviert, erhalten die Benutzer eine Benachrichtigung um die Zugriffsdauer bereits gekaufter Objekte zu verlängern.
@@ -4293,11 +4293,11 @@ common#:#payment_payed_access#:#Bezahlt/Zugriff
 common#:#payment_reminder_notification_subject#:#Die Zugriffsdauer bereits gekaufter Objekte endet bald.
 common#:#payment_system#:#Bezahlungssystem
 common#:#payment_userdefined_invoice_number_not_activated#:#Benutzerdefinierte Rechnungsnummern sind nicht aktiviert
-common#:#pays_edit#:#Paymenteinstellungen können bearbeitet werden
-rbac#:#pays_edit_permission#:#Rechteeinstellungen in Payment-Administration ändern
-rbac#:#pays_read#:#Lesezugriff auf Payment-Administration 
-rbac#:#pays_visible#:#Payment-Administration ist sichtbar
-rbac#:#pays_write#:#Einstellungen in Payment-Administration bearbeiten
+common#:#pays_edit#:#Shopeinstellungen können bearbeitet werden
+rbac#:#pays_edit_permission#:#Rechteeinstellungen in Shop-Administration ändern
+rbac#:#pays_read#:#Lesezugriff auf Shop-Administration 
+rbac#:#pays_visible#:#Shop-Administration ist sichtbar
+rbac#:#pays_write#:#Einstellungen in Shop-Administration bearbeiten
 common#:#pd_enable_chatviewer#:#Chatviewer aktivieren
 common#:#pd_enable_contacts#:#Kontakte aktivieren
 common#:#pd_enable_contacts_requires_mail#:#Benötigt Berechtigung für Mail-System
@@ -9215,7 +9215,7 @@ payment#:#pay_expires_info#:#Dieses Objekt ist nicht frei zugänglich. Sie könn
 payment#:#pay_filter#:#Filtermöglichkeiten
 payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
 payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
-payment#:#pay_header#:#Payment
+payment#:#pay_header#:#Shop
 payment#:#pay_hide_advanced_search#:#Erweiterte Suche verbergen
 payment#:#pay_hide_advanced_search_info#:#Verberge Tab für Erweiterte Suche für einen Shop mit wenigen Objekten.
 payment#:#pay_hide_coupons#:#Verberge Coupons
@@ -9233,7 +9233,7 @@ payment#:#pay_info_epay#:#Wenn Sie auf Bezahlen klicken, öffnet sich das ePay-F
 payment#:#pay_info_paypal#:#Zum Bezahlen der Objekte, die sich in Ihrem Warenkorb befinden, verlassen Sie kurzzeitig ILIAS und werden zur PayPal-Website weitergeleitet. Folgen Sie dort bitte den angegebenen Schritten. Nach erfolgreicher Bezahlung werden Sie automatisch zu ILIAS zurückgeleitet. Bitte schließen Sie während des Bezahlvorgangs nicht das Fenster Ihres Browsers, da die Freischaltung der bezahlten Objekte sonst nicht automatisch erfolgen kann.
 payment#:#pay_item_already_in_sc#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen.
 payment#:#pay_item_already_in_sc_choose_another#:#Dieser Artikel wurde bereits in Ihren Warenkorb aufgenommen. Wählen Sie ggf. eine neue Preis/Dauer-Kombination aus.
-payment#:#pay_locator#:#Payment
+payment#:#pay_locator#:#Shop
 payment#:#pay_manual_sorting_of_topics#:#Manuelle Sortierung der Themen
 payment#:#pay_max_hits#:#Maximalanzahl von Treffern
 payment#:#pay_max_hits_info#:#Sie können hier die Maximalanzahl von Treffern einstellen, die nach einer Suche ausgegeben wird. Je geringer die Zahl ist, desto schneller erfolgt der Seitenaufbau.
@@ -9367,10 +9367,10 @@ payment#:#paya_error_no_object_id_given#:#Bitte wählen Sie noch ein Objekt aus.
 payment#:#paya_error_update_booking#:#Fehler beim Speichern.
 payment#:#paya_expires#:#Bezahlung auslaufen lassen
 payment#:#paya_filter_reseted#:#Der Filter wurde zurückgesetzt.
-payment#:#paya_header#:#Paymentverwaltung
+payment#:#paya_header#:#Shopverwaltung
 payment#:#paya_insert_only_numbers#:#Bitte geben Sie nur ganze Zahlen ein.
 payment#:#paya_insert_vats#:#Steuersatz hinzufügen
-payment#:#paya_locator#:#Paymentverwaltung
+payment#:#paya_locator#:#Shopverwaltung
 payment#:#paya_months#:#Monat(e)
 payment#:#paya_no_booking_id_given#:#Fehler: kein Datensatz angegeben
 payment#:#paya_no_bookings#:#Es liegen keine Statistiken vor.
@@ -12428,7 +12428,7 @@ book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beam
 book#:#book_schedule_type_none#:#Kein Zeitplan
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
-forum#:#order_by_posts#:#Sortieren nach Beiträgen
+forum#:#sort_by_posts#:#Sortieren nach Beiträgen
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Nachrichten in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
 common#:#obj_poll#:#Abstimmung
@@ -12960,3 +12960,4 @@ trac#:#trac_lp_on_personal_desktop_info#:#Wenn aktiviert, ist der Lernfortschrit
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
 common#:#ilinc_abandoned_info#:#Die integrierte netucate LearnLinc-Schnittstelle wird mit ILIAS 4.3 nicht mehr unterstützt. Bitte steigen Sie jetzt um auf das neue iLinc-Plugin, um virtuelle Klassenzimmer von LearnLinc in ILIAS zu verwenden. Weitere Infos auf der <a href="http://http://www.netucate.com/">netucate-Webseite.</a>
+forum#:#sort_by_date#:#Sortieren nach Datum
