@@ -7,26 +7,24 @@
 		$(function() {
 
 			$.each({BLOCK_COLUMNS}, function(index, value){
-				if ($('#' + value).length == 0) {
+				if ($("#" + value).length == 0) {
 					if (index == 0) {
 						$("<div id=\"" + value + "\"></div>")
 							.css({
-								'min-height': $('#il_center_col').height(),
 								'width': '0px'
 							})
-							.insertBefore('#il_center_col');
+							.insertBefore("#il_center_col");
 					} else if (index == 1) {
 						$("<div id=\"" + value + "\"></div>")
 							.css({
-								'min-height': $('#il_center_col').height(),
 								'width': '0px'
 							})
-							.insertAfter('#il_center_col');
+							.insertAfter("#il_center_col");
 					}
 				}
 			});
 
-			$('{BLOCK_COLUMNS_SELECTOR}').ilBlockMoving({
+			$("{BLOCK_COLUMNS_SELECTOR}").ilBlockMoving({
 				url: "{BLOCK_SORTING_STORAGE_URL}",
 				column_parameter: {BLOCK_COLUMNS_PARAMETERS}
 			});

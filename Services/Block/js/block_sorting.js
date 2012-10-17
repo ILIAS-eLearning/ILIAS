@@ -39,30 +39,44 @@
 					internals.sortableContainer.push($this);
 
 					$this.sortable({
-						onElementDragStart: function(event, ui) {
+						onElementDragStart:function (event, ui) {
 
-							for(i in internals.sortableContainer) {
+							for (i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
 								if ($(">div", $elm).size() == 0) {
+									$elm.css({
+										"width":     "",
+										"min-width": "",
+										"height":    $("#il_center_col").height(),
+										"min-height":$("#il_center_col").height()
+									});
+									$elm.html($('<div class="iosPdBlockColumnPlaceholder">&nbsp;</div>'));
 									$("#il_center_col").removeClass("one_side_col");
 									$("#il_center_col").addClass("two_side_col");
-									$elm.css("width", "");
 								}
 							}
 
 						},
-						stop: function(event, ui) {
+						stop:              function (event, ui) {
 
 							var postData = [];
 
-							for(i in internals.sortableContainer) {
+							for (i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
-								if ($(">div", $elm).size() == 0) {
-									$elm.css("width", "0px");
+								var size = $(">div", $elm).size();
+								if (size == 0 || (size == 1 && $(">div.iosPdBlockColumnPlaceholder", $elm).size() == 1)) {
+									$elm.css({
+										"width":     "",
+										"min-width": "",
+										"height":    "",
+										"min-height":""
+									});
 									$("#il_center_col").removeClass("two_side_col");
 									$("#il_center_col").addClass("one_side_col");
 								}
 							}
+							
+							$('.iosPdBlockColumnPlaceholder').remove();
 
 							for(i in internals.sortableContainer) {
 								postData.push($(internals.sortableContainer[i]).sortable("ilColumnSideSerialize", data.properties.column_parameter[i]));
