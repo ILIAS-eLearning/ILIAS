@@ -3928,8 +3928,15 @@ a.ilMediaLightboxClose {
 		-webkit-text-size-adjust: none;
 	}
 	
-	#il_left_col, #il_right_col, #imgtree, #il_screen_id, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
+	#il_left_col, #imgtree, #il_screen_id, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
 		display: none;
+	}
+	
+	#il_right_col {
+		float: none;
+		padding: 0;
+		vertical-align: top;
+		width: 100%;
 	}
 	
 	#il_main_logo {
@@ -4026,7 +4033,29 @@ a.ilMediaLightboxClose {
 		overflow: auto;
 	}
 	
+	div.ilTabContentOuter {
+		box-shadow: none;
+	}
+	
 	td.ilFormOption {
 		width: auto;
 	}
+	
+	div.ilLeftNav {
+		width: 0px;
+		display: none;
+	}
+
+	div.ilBotCenterArea {
+		left: 0px;
+	}
+
+	div.ilLeftNavSpace {
+		padding: 0;
+	}
+
+	div.ilContentFixed {
+		left: 00px;
+	}
+
 }
