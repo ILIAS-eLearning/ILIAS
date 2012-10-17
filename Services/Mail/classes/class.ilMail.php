@@ -2230,6 +2230,12 @@ class ilMail
 	*/
 	function explodeRecipients($a_recipients, $use_pear = true)
 	{
+		$a_recipients = trim($a_recipients);
+
+		// WHITESPACE IS NOT ALLOWED AS SEPERATOR
+		#$a_recipients = preg_replace("/ /",",",$a_recipients);
+		$a_recipients = preg_replace("/;/",",",$a_recipients);
+		
 		if (ilMail::_usePearMail() && $use_pear == true)
 		{
 			if (strlen(trim($a_recipients)) > 0)
@@ -2243,13 +2249,6 @@ class ilMail
 		}
 		else
 		{
-			$a_recipients = trim($a_recipients);
-
-			// WHITESPACE IS NOT ALLOWED AS SEPERATOR
-			#$a_recipients = preg_replace("/ /",",",$a_recipients);
-			$a_recipients = preg_replace("/;/",",",$a_recipients);
-
-
 			foreach(explode(',',$a_recipients) as $tmp_rec)
 			{
 				if($tmp_rec)
