@@ -44,14 +44,9 @@
 							for(i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
 								if ($(">div", $elm).size() == 0) {
-									var $container = $elm.parent();
-									$container.css("width", "");
-									$elm.css({
-										"width": $container.width(),
-										"min-width": $container.width(),
-										"height": $container.height(),
-										"min-height": $container.height()
-									});
+									$("#il_center_col").removeClass("one_side_col");
+									$("#il_center_col").addClass("two_side_col");
+									$elm.css("width", "");
 								}
 							}
 
@@ -62,16 +57,10 @@
 
 							for(i in internals.sortableContainer) {
 								var $elm = $(internals.sortableContainer[i]);
-								$elm.sortable("disable");
 								if ($(">div", $elm).size() == 0) {
-									var $container = $elm.parent();
-									$container.css("width", "0px");
-									$elm.css({
-										"width": '',
-										"min-width": '',
-										"height": '',
-										"min-height": ''
-									});
+									$elm.css("width", "0px");
+									$("#il_center_col").removeClass("two_side_col");
+									$("#il_center_col").addClass("one_side_col");
 								}
 							}
 
