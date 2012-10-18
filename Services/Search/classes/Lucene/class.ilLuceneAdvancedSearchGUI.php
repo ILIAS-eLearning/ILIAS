@@ -122,9 +122,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 
 
 		// TODO: other handling required
-		$ilBench->start('Lucene','1500_fo');
 		$this->addPager($filter,'max_page');
-		$ilBench->stop('Lucene','1500_fo');
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
 		
 		if($presentation->render())

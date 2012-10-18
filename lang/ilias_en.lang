@@ -12653,7 +12653,7 @@ common#:#crs_list_reg_limit_full#:#No places left
 common#:#crs_list_reg_limit_places#:#Free places
 search#:#lucene_offline_filter_setting#:#Offline Filter
 search#:#lucene_offline_filter_setting_info#:#If enabled, objects can filtered in the "Advanced Search" by their online/offline status.
-search#:#lucene_offline_filter#:#Offline-Status
+search#:#lucene_offline_filter#:#Online-Status
 common#:#obj_hlps_desc#:#Settings for the online help
 common#:#obj_hlps#:#Help System
 rbac#:#hlps_edit_permission#:#User can change permissions of Help System administration.
@@ -12978,5 +12978,7 @@ file#:#file_download#:#Download File
 trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
+search#:#search_option_online#:#Online
+search#:#search_option_offline#:#Offline
 common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.
 forum#:#sort_by_date#:#Sort by date

@@ -12539,7 +12539,7 @@ common#:#crs_list_reg_limit_places#:#Freie Plätze
 common#:#crs_list_reg_period#:#Anmeldungszeitraum
 search#:#lucene_offline_filter_setting#:#Offline-Filter
 search#:#lucene_offline_filter_setting_info#:#Wenn aktiviert, kann in der "Erweiterten Suche" nach Objekten gesucht werden, deren Status "Offline" ist.
-search#:#lucene_offline_filter#:#Offline-Status
+search#:#lucene_offline_filter#:#Online-Status
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
 common#:#grp_list_reg_start#:#Anmeldungsbeginn
 common#:#grp_list_reg_end#:#Anmeldungsende
@@ -12959,5 +12959,7 @@ file#:#file_download#:#Datei herunterladen
 trac#:#trac_lp_on_personal_desktop_info#:#Wenn aktiviert, ist der Lernfortschritt im Hauptmenü verfügbar.
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
+search#:#search_option_online#:#Online
+search#:#search_option_offline#:#Offline
 common#:#ilinc_abandoned_info#:#Die integrierte netucate LearnLinc-Schnittstelle wird mit ILIAS 4.3 nicht mehr unterstützt. Bitte steigen Sie jetzt um auf das neue iLinc-Plugin, um virtuelle Klassenzimmer von LearnLinc in ILIAS zu verwenden. Weitere Infos auf der <a href="http://http://www.netucate.com/">netucate-Webseite.</a>
 forum#:#sort_by_date#:#Sortieren nach Datum

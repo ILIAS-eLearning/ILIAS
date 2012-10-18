@@ -35,6 +35,9 @@ include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchSetti
 */
 class ilLuceneAdvancedSearchFields
 {
+	const ONLINE_QUERY = 1;
+	const OFFLINE_QUERY = 2;
+	
 	private static $instance = null;
 	private $settings = null;
 	
@@ -149,9 +152,14 @@ class ilLuceneAdvancedSearchFields
 		switch($a_field_name)
 		{
 			case 'general_offline':
-				$offline = new ilCheckboxInputGUI($this->active_fields[$a_field_name],$a_post_name);
-				$offline->setValue(1);
-				$offline->setChecked($a_query['general_offline']);
+				$offline_options = array(
+					'0' => $this->lng->txt('search_any'),
+					self::ONLINE_QUERY => $this->lng->txt('search_option_online'),
+					self::OFFLINE_QUERY => $this->lng->txt('search_option_offline')
+				);
+				$offline = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
+				$offline->setOptions($offline_options);
+				$offline->setValue($a_query['general_offline']);
 				return $offline;
 			
 			case 'lom_content':
@@ -461,7 +469,17 @@ class ilLuceneAdvancedSearchFields
 				return $a_query;
 				
 			case 'general_offline':
-				return 'offline:1';
+				
+				switch($a_query)
+				{
+					case self::OFFLINE_QUERY:
+						return 'offline:1';
+					
+					default:
+						return '-offline:1';
+				
+				}
+				return '';
 				
 			// General
 			case 'lom_language':
