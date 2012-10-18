@@ -122,9 +122,9 @@ class ilCtrl
 			
 			if ($service == "")
 			{
-				echo "Could not find entry in modules.xml or services.xml for ".
-					$baseClass." <br/>".str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"]));
-				exit;
+				include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
+				throw new ilCtrlException("Could not find entry in modules.xml or services.xml for ".
+					$baseClass." <br/>".str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"])));
 			}
 
 			// get service information
@@ -185,7 +185,9 @@ class ilCtrl
 			return $html;
 
 		}
-		echo "ERROR: Can't forward to class $class."; exit;
+		
+		include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
+		throw new ilCtrlException("ERROR: Can't forward to class $class.");
 	}
 
 	/**
@@ -222,7 +224,10 @@ class ilCtrl
 			// return block
 			return $html;
 		}
-		echo "ERROR: Can't getHTML from class $class."; exit;
+
+		include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
+		throw new ilCtrlException("ERROR: Can't getHTML from class $class.");
+
 	}
 	
 	/**
@@ -393,17 +398,20 @@ class ilCtrl
 		// Please do NOT change these lines.
 		// Developers must be aware, if they use classes unknown to the controller
 		// otherwise certain problem will be extremely hard to track down...
-		echo "ERROR: Can't find target class $a_class for node $a_par_node ".
-			"(".$this->cid_class[$this->getParentCidOfNode($a_par_node)].").<br>";
+		
+//		echo "ERROR: Can't find target class $a_class for node $a_par_node ".
+//			"(".$this->cid_class[$this->getParentCidOfNode($a_par_node)].").<br>";
 		error_log( "ERROR: Can't find target class $a_class for node $a_par_node ".
 			"(".$this->cid_class[$this->getParentCidOfNode($a_par_node)].")");
 			
 		if (DEVMODE == 1)
 		{
-			ilUtil::printBacktrace();
+//			ilUtil::printBacktrace();
 		}
 
-		exit;
+		include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
+		throw new ilCtrlException("ERROR: Can't find target class $a_class for node $a_par_node ".
+			"(".$this->cid_class[$this->getParentCidOfNode($a_par_node)].").");
 	}
 
 	/**
@@ -846,9 +854,8 @@ class ilCtrl
 				", Target:".$a_target_node;
 			if (DEVMODE == 1)
 			{
-				echo $failure;
-				ilUtil::printBacktrace();
-				exit;
+				include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
+				throw new ilCtrlException($failure);
 			}
 			$GLOBALS['ilLog']->write(__METHOD__.' '.$failure);
 			ilUtil::redirect('./repository.php');
@@ -1631,7 +1638,8 @@ class ilCtrl
 					may solve the issue by putting an empty * @ilCtrl_Calls [YourClassName]: into your class header.".
 					" In both cases you need to reload the control structure in the setup.";
 			}
-			die("Cannot find cid for class ".$a_class.".".$add);
+			include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
+			throw new ilCtrlException("Cannot find cid for class ".$a_class.".".$add);
 		}
 		return $this->class_cid[$a_class];
 	}
@@ -1647,7 +1655,8 @@ class ilCtrl
 		}
 		if ($this->cid_class[$a_cid] == "")
 		{
-			die("Cannot find class for cid ".$a_cid.".");
+			include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
+			throw new ilCtrlException("Cannot find class for cid ".$a_cid.".");
 		}
 		return $this->cid_class[$a_cid];
 	}
