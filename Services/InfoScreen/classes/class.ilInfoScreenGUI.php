@@ -533,9 +533,9 @@ class ilInfoScreenGUI
 			if(!$ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(),false))
 			{
 				$ownerObj = ilObjectFactory::getInstanceByObjId(6, false);	
-			} 
+			}
 
-			if (! is_object($ownerObj))		// root user deleted
+			if (!is_object($ownerObj) || $ownerObj->getType() != "usr")		// root user deleted
 			{
 				$this->addProperty($lng->txt("owner"), $lng->txt("no_owner"));
 			}
