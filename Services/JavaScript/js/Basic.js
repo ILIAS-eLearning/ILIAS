@@ -334,10 +334,10 @@ il.UICore = {
 			nb_reg = il.Util.getRegion(el);
 			vp_reg = il.Util.getViewportRegion();
 			if (sm_reg.top < vp_reg.top) {
-				$(el).offset({top: vp_reg.top});
+				$(el).css("top", "0px");
 				$(fc).css("top", "0px");
 			} else {
-				$(el).offset({top: sm_reg.top});
+				$(el).css("top", (sm_reg.top - vp_reg.top) + "px");
 				$(fc).css("top", (sm_reg.top - vp_reg.top) + "px");
 			}
 			
