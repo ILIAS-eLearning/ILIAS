@@ -3928,6 +3928,10 @@ a.ilMediaLightboxClose {
 		-webkit-text-size-adjust: none;
 	}
 	
+	body {
+		font-family: Arial, sans-serif !important;
+	}
+	
 	#il_left_col, #imgtree, #il_screen_id, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
 		display: none;
 	}
