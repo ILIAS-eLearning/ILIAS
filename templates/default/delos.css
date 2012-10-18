@@ -4079,4 +4079,19 @@ a.ilMediaLightboxClose {
 	div.ilContentFixed {
 		left: 0px;
 	}
+	
+	.ilFrameFixedWidthHeader div.ilHeaderBanner {
+		max-width: 100%;
+    }
+    
+    .ilFrameFixedWidthHeader .ilHeaderImg {
+    	background-color: yellow;
+    	max-width: 30%;
+    }
+    
+    .ilFrameFixedWidthHeader .ilHeaderImg img {
+		max-width: 100%;
+		height: auto;
+		margin-right: 25px;
+	}
 }
