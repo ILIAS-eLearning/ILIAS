@@ -70,32 +70,13 @@ class ilBMFSettings
 	 */
 	private function getSettings()
 	{
-
-//		$this->fetchSettingsId();
-//
-//		$res = $this->db->queryf('
-//			SELECT bmf FROM payment_settings
-//			WHERE settings_id = %s',
-//			array('integer'),
-//			array($this->getSettingsId())
-//		);
-//
-//		$result = $this->db->fetchObject($res);
-	
-		$result->bmf = $this->pSettings->get('bmf');
+		$result_bmf = NULL;
+		$result_bmf = $this->pSettings->get('bmf');
 		$data = array();
-
-		if (is_object($result))
+		
+		if ($result_bmf != "" && $result_bmf != NULL)
 		{
-
-			if ($result->bmf != "")
-			{
-				$data = unserialize($result->bmf);
-			}
-			else
-			{
-				$data = array();
-			}
+			$data = unserialize($result_bmf);
 		}
 
 		$this->setClientId($data["mandantNr"]);

@@ -13,11 +13,9 @@ include_once './Services/Payment/classes/class.ilPaymentSettings.php';
 
 class ilPaypalSettings
 {
-	private $db;
 	public $pSettings;
 
-	private $settings;
-	#private $settings_id;
+//	private $settings;
 	
 	private $server_host;
 	private $server_path;
@@ -34,7 +32,7 @@ class ilPaypalSettings
 	* @access	public
 	* @return	object $instance Singular ilPaypalSettings instance
 	*/
-	static public function getInstance()
+	public static function getInstance()
 	{
 		if (!self::$instance)
 		{
@@ -49,13 +47,9 @@ class ilPaypalSettings
 	* 
 	* @access	private
 	*/
-	private function ilPaypalSettings()
+	private function __construct()
 	{
-		global $ilDB;
-
-		$this->db = $ilDB;
 		$this->pSettings = ilPaymentSettings::_getInstance();
-
 		$this->getSettings();
 	}
 	
@@ -66,12 +60,13 @@ class ilPaypalSettings
 	 */
 	private function getSettings()
 	{
-		$result->paypal = $this->pSettings->get('paypal');
+		$paypal = null;
+		$paypal = $this->pSettings->get('paypal');
 		$data = array();
-		if (is_object($result))
+
+		if ($paypal != "" && $paypal != NULL ) 
 		{
-			if ($result->paypal != "") $data = unserialize($result->paypal);
-			else $data = array();
+			$data = unserialize($paypal);
 		}
 
 		$this->setServerHost($data["server_host"]);
@@ -80,83 +75,99 @@ class ilPaypalSettings
 		$this->setAuthToken($data["auth_token"]);
 		$this->setPageStyle($data["page_style"]);
 		$this->setSsl($data["ssl"]);
-	}	
-	
-	/** 
-	 * Fetches and sets the primary key of the payment settings
-	 *
-	 * @access	private
+	}
+
+	/**
+	 * @param string $a_server_host
 	 */
-	private function fetchSettingsId()
-	{
-	
-	}
-	
-	public function setSettingsId($a_settings_id = 0)
-	{
-	#	$this->settings_id = $a_settings_id;
-	}
-	
-	public function getSettingsId()
-	{
-	#	return $this->settings_id;
-	}
-	
 	public function setServerHost($a_server_host)
 	{
 		$this->server_host = $a_server_host;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getServerHost()
 	{
 		return $this->server_host;
 	}
-	
+
+	/**
+	 * @param string $a_server_path
+	 */
 	public function setServerPath($a_server_path)
 	{
 		$this->server_path = $a_server_path;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getServerPath()
 	{
 		return $this->server_path;
 	}
-	
+
+	/**
+	 * @param string $a_vendor
+	 */
 	public function setVendor($a_vendor)
 	{
 		$this->vendor = $a_vendor;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getVendor()
 	{
 		return $this->vendor;
 	}
-	
+
+	/**
+	 * @param string $a_auth_token
+	 */
 	public function setAuthToken($a_auth_token)
 	{
 		$this->auth_token = $a_auth_token;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getAuthToken()
 	{
 		return $this->auth_token;
 	}
-	
+
+	/**
+	 * @param string$a_page_style
+	 */
 	public function setPageStyle($a_page_style)
 	{
 		$this->page_style = $a_page_style;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getPageStyle()
 	{
 		return $this->page_style;
 	}
-	
+
+	/**
+	 * @param string $a_ssl
+	 */
 	public function setSsl($a_ssl)
 	{
 		$this->ssl = $a_ssl;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getSsl()
 	{
 		return $this->ssl;
@@ -168,7 +179,7 @@ class ilPaypalSettings
 	 * @access	public
 	 * @return	array $values Array of all paypal settings
 	 */
-	function getAll()
+	public function getAll()
 	{
 		$values = array(
 			"server_host" => $this->getServerHost(),
@@ -187,10 +198,10 @@ class ilPaypalSettings
 	 *
 	 * @access	public
 	 */
-	function clearAll()
+	public function clearAll()
 	{
 		$this->pSettings->set('paypal', NULL, 'paypal');
-		$this->settings = array();
+//		$this->settings = array();
 	}
 		
 	/** 
