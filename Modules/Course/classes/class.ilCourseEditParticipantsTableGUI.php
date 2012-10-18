@@ -110,8 +110,12 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{
-		global $rbacsystem;
-		$hasEditPermissionAccess = $rbacsystem->checkAccess('edit_permission', $this->container->object->getRefId());
+		global $rbacsystem, $ilAccess, $ilUser;
+		$hasEditPermissionAccess = 
+			(
+				$ilAccess->checkAccess('edit_permission', '',$this->container->object->getRefId()) or
+				$this->participants->isAdmin($ilUser->getId())
+			);
 		
 		$this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
