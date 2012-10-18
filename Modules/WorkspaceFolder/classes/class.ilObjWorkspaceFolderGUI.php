@@ -160,7 +160,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 			$left .= $exp->getOutput();
 		}
 
-		$tpl->setLeftContent($left);
+		$tpl->setLeftNavContent($left);
 	}
 	
 	function edit()
