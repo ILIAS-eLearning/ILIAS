@@ -52,8 +52,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
 		{
 			$obj = ilObjectFactory::getInstanceByRefId( (int) $this->getRefId() );
 
-			// No notifications if $obj->getAutoNotiDisabled() is true.
-			if( $obj->getAutoNotiDisabled() )
+			if( $obj->getAutoNotification() == false )
 			{
 				return false;
 			}
