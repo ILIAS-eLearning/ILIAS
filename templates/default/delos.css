@@ -3939,8 +3939,17 @@ a.ilMediaLightboxClose {
 		width: 100%;
 	}
 	
-	#il_main_logo {
-		display: none;
+	div#il_main_logo {
+		position: absolute;
+		margin: 0;
+		padding: 5px 10px;
+	}
+	
+	div#il_main_logo img {
+		width: 20px;
+		height: 20px;
+		margin: 0;
+		padding: 0;
 	}
 	
 	div.ilMainMenuSection .ilMainMenuSide, div.ilMainMenuSection .ilMainMenuSide li.ilMainMenu {
@@ -3957,6 +3966,12 @@ a.ilMediaLightboxClose {
 	div.ilLogin {
 		padding: 31px 20px 3px 10px;
 	}
+	
+	span.il_menu
+	{
+		padding-left: 0px;
+	}
+
 
 	div.ilMainMenu {
 		padding: 0;
@@ -4008,7 +4023,8 @@ a.ilMediaLightboxClose {
 	}
 	
 	div.ilStartupFrame {
-		width: auto;
+		margin: 0;
+		width: 100%;
 	}
 	
 	#il_startup_content form table {
