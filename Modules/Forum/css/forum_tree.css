@@ -170,3 +170,7 @@ span.frmPostTitle a:link {
 span.frmPostTitle a:hover {
 	color:#054784;
 }
+
+.ygtvhtml {
+	vertical-align: top;
+}
