@@ -2688,7 +2688,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Render tree
 		if($_SESSION['viewmode'] == 'answers')
 		{
-			$tpl->setLeftContent($this->getForumExplorer());
+			$tpl->setLeftNavContent($this->getForumExplorer());
 		}
 
 		return true;

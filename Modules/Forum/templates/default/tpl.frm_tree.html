@@ -1,132 +1,9 @@
 <div id="treeViewContainer"><div id="treeView"></div></div>
 
 <script type="text/javascript">
-/*<![CDATA[*/
-if (!window.console) {
-	(function() {
-		var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
-	    window.console = {};
-	    for (var i = 0; i < names.length; ++i)
-	    	window.console[names[i]] = function(data) {}
-	})();
-}
-
 $(function() {
-	YAHOO.widget.ilHtmlFrmTreeNode = function(oData, oParent, expanded, hasIcon, hasChildren) {
-		if (oData) {
-			this.init(oData, oParent, expanded);
-			this.initContent(oData, hasIcon);
-			this.setLeafNode((typeof hasChildren == "undefined" || hasChildren == null) ? false : !hasChildren);
-		}
-	};
-
-	YAHOO.extend(YAHOO.widget.ilHtmlFrmTreeNode, YAHOO.widget.HTMLNode, {
-		is_leafnode: false,
-		isLeafNode: function() {
-			return this.is_leafnode;
-		},
-		setLeafNode: function(status) {
-			this.is_leafnode = status;
-		},
-		getHoverStyle: function() { 
-			var s = this.getStyle();
-			
-			if (this.isLeafNode()) {
-				return s;	
-			}
-			
-			if (this.hasChildren(true) && !this.isLoading) { 
-				s += "h"; 
-			}			
-			
-			return s;
-		},
-		getStyle: function() {
-			if (this.isLeafNode()) {
-				var loc = (this.nextSibling) ? "t" : "l";
-				var type = "n";
-				return "ygtv" + loc + type;
-			}
-			
-			if (this.isLoading) {
-				return "ygtvloading";
-			} else {
-				// location top or bottom, middle nodes also get the top style
-				var loc = (this.nextSibling) ? "t" : "l";
-	
-				// type p=plus(expand), m=minus(collapase), n=none(no children)
-				var type = "n";
-				if (this.hasChildren(true) || (this.isDynamic() && !this.getIconMode())) {
-				// if (this.hasChildren(true)) {
-					type = (this.expanded) ? "m" : "p";
-				}
-	
-				return "ygtv" + loc + type;
-			}
-		}
-	});
-
-	function ExtendedTreeView(config) {
-		ExtendedTreeView.superclass.constructor.apply(this, arguments);
-	}
-	ExtendedTreeView.NAME = "extendedtreeview";
-	YAHOO.extend(ExtendedTreeView, YAHOO.widget.TreeView, {
-		currentNodeId: null,		
-		onloadNodes: [],
-		setOnloadNodes: function(nodes) {
-			this.onloadNodes = nodes;
-			return this;
-		},
-		getOnloadNodes: function() {			
-			return this.onloadNodes;
-		},
-		onloadNodesFetchedWithChildren: [],
-		setOnloadNodesFetchedWithChildren: function(nodes) {
-			this.onloadNodesFetchedWithChildren = nodes;
-			return this;
-		},
-		getOnloadNodesFetchedWithChildren: function() {
-			return this.onloadNodesFetchedWithChildren;
-		},
-		expandedNodes: [],
-		setExpandedNodes: function(nodes) {
-			this.expandedNodes = nodes;
-			return this;
-		},
-		getExpandedNodes: function() {			
-			return this.expandedNodes;
-		},
-		expandCertainNodes: function(nodes) {	
-			this.setExpandedNodes(nodes);
-			this.rExpandNodes(this.getRoot());
-		},
-		rExpandNodes: function(node) {
-			var length = node.children.length;
-			for (var i = 0; i < length; i++) {
-				var c = node.children[i];		
-				if (this.isNodeExpanded(c)) {	
-					c.expand();
-				}
-				this.rExpandNodes(c);
-			}
-		},
-		isNodeExpanded: function(node) {
-			var matches = node.data.match(/id='frm_node_(\d+)'/);
-			if (typeof matches == "object" && matches[1] != "undefined") {
-				var length = this.getExpandedNodes().length;
-				for (var i = 0; i < length; i++) {
-					if (matches[1] == this.getExpandedNodes()[i]) {
-						return true;
-					}
-				}
-			}
-			
-			return false;
-		}
-	});
-		
 	// Create the TreeView instance:
-	tree = new ExtendedTreeView("treeView");
+	var tree = new ExtendedTreeView("treeView");
 	
 	// Define anonymous function for loading children
 	tree.setDynamicLoad(function (node, onCompleteCallback) {
@@ -136,7 +13,7 @@ $(function() {
 		}
 		
 		var matches = node.data.match(/id='frm_node_(\d+)'/);
-		if (typeof matches != "object" || matches[1] == "undefined") {
+		if (typeof matches != "object" || typeof matches[1] == "undefined") {
 			return onCompleteCallback();
 		}
 		
@@ -199,7 +76,7 @@ $(function() {
 	
 	tree.subscribe("expand", function(node) {
 		var matches = node.data.match(/id='frm_node_(\d+)'/);
-		if (typeof matches == "object" && matches[1] != "undefined") {	
+		if (typeof matches == "object" && typeof matches[1] != "undefined") {	
 			var found = false;
 			var length = this.getExpandedNodes().length;
 			for (var i = 0; i < length; i++) {
@@ -217,7 +94,7 @@ $(function() {
 	});	 
 	tree.subscribe("collapse", function(node) {
 		var matches = node.data.match(/id='frm_node_(\d+)'/);
-		if (typeof matches == "object" && matches[1] != "undefined") {
+		if (typeof matches == "object") {
 			var tmp = [];
 			var length = this.getExpandedNodes().length;
 			for (var i = 0; i < length; i++) {
@@ -233,52 +110,37 @@ $(function() {
 	});
 	
 	function ilFrmTreeStateHandler() {
-		var currentNodeId = this.currentNodeId;
-		
-		var ilFrmTreeStateCallback = {
-			success: function(o) {				
+		var request = YAHOO.util.Connect.asyncRequest("GET", "{THR_TREE_STATE_URL}&nodeId=" + this.currentNodeId, {
+			success: function(o) {
 			},
 			failure: function(o) {
 			},
 			argument: {
 			}
-		};
-		
-		var request = YAHOO.util.Connect.asyncRequest('GET', "{THR_TREE_STATE_URL}&nodeId=" + currentNodeId, ilFrmTreeStateCallback);
+		});
 
 		return false;
 	}
 	
 	// Root node: This is the root node for yui tree, not for the forum tree
-	var rootNode = tree.getRoot();
-	
-	// Show forum root node always
 	var node = {FRM_TREE_ROOT_NODE_LINK};
 	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, tree.getRoot(), false, true, {FRM_TREE_ROOT_NODE_HAS_CHILDREN});
-	
-	// Begin adding children
-	<!-- BEGIN frm_nodes -->
+	// Begin adding children<!-- BEGIN frm_nodes -->
 	var node = {FRM_NODES_LINK};
-	var {FRM_NODES_VARNAME} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, {FRM_NODES_PARENT_VARNAME}, false, true, {FRM_NODES_HAS_CHILDREN});
-	<!-- END frm_nodes -->
+	var {FRM_NODES_VARNAME} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, {FRM_NODES_PARENT_VARNAME}, false, true, {FRM_NODES_HAS_CHILDREN});<!-- END frm_nodes -->
 	
 	// Set expanded nodes
 	tree.expandCertainNodes({THR_OPEN_NODES});
-	
-	// All Nodes which are loaded
+	// All Nodes which are give initially on page load
 	tree.setOnloadNodes({THR_ONLOAD_NODES});
-
 	// Nodes which are loaded with children
 	tree.setOnloadNodesFetchedWithChildren({THR_ONLOAD_NODES_FETCHED_WITH_CHILDREN});
-
 	// The tree won't show up until you draw (render) it
 	tree.draw();
 	
 	
 	var treePanelWidth = $("#treeViewContainer").css("width");
-
-	$("#treeViewContainer").css("height", $("#il_center_col").height());
-	if ($.browser.msie != 'undefined') {
+	if (typeof $.browser.msie != 'undefined') {
 		if (parseInt($.browser.version) >= 7) {
 			window.setInterval(function() {
 				var maxOffsetLeft = 0;
@@ -303,5 +165,4 @@ $(function() {
 		}                      
 	}
 });
-/*]]>*/
 </script>

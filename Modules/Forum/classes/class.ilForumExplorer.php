@@ -75,6 +75,7 @@ class ilForumExplorer
 		$tpl->addJavaScript(ilYuiUtil::getLocalPath() . '/yahoo/yahoo-min.js');
 		$tpl->addJavaScript(ilYuiUtil::getLocalPath() . '/event/event-min.js');
 		$tpl->addJavaScript('./Modules/Forum/js/treeview.js');
+		$tpl->addJavaScript('./Modules/Forum/js/treeview_extensions.js');
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 
 		// Set ref_id for urls
