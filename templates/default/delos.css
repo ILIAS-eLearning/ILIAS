@@ -4029,6 +4029,12 @@ a.ilMediaLightboxClose {
 		border: 0;
 	}
 	
+	a.tabinactive:hover
+	{
+		background: none;
+	}
+
+	
 	div.ilTabContentInner {
 		overflow: auto;
 	}
@@ -4055,7 +4061,6 @@ a.ilMediaLightboxClose {
 	}
 
 	div.ilContentFixed {
-		left: 00px;
+		left: 0px;
 	}
-
 }
