@@ -145,7 +145,8 @@ class ilCronCourseGroupNotification extends ilMailNotification
 			$obj_title = ilObject::_lookupTitle($obj_id);
 			
 			// path
-			$cont_loc = new ilLocatorGUI();
+			include_once './Services/Locator/classes/class.ilLocatorGUI.php';
+			$cont_loc = new ilLocatorGUI('./Ser');
 			$cont_loc->addContextItems($item["ref_id"], true);
 			$cont_loc->setTextOnly(true);
 			$loc = "[".$cont_loc->getHTML()."]";
