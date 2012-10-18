@@ -3968,7 +3968,7 @@ a.ilMediaLightboxClose {
 	}
 	
 	div.ilLogin {
-		padding: 31px 20px 3px 10px;
+		padding: 34px 20px 6px 10px;
 	}
 	
 	span.il_menu
@@ -4008,6 +4008,16 @@ a.ilMediaLightboxClose {
     	border: 1px solid #A0B0C0;
     }
     
+    div#mainscrolldiv {
+    	padding: 5px 0px 0;
+    }
+    
+    div.il_HeaderInner {
+		color: #222222;
+		margin-bottom: 15px;
+		padding: 5px;
+	}
+	
 	#il_center_col.one_side_col ,
 	#il_center_col.two_side_col {
 		width: 100%;
@@ -4036,12 +4046,10 @@ a.ilMediaLightboxClose {
 	}
 
 	div.il_Tab {
-		margin: 0;
-		margin-bottom: 10px;
-		background-color: #FFFFFF;
+		margin: 0px 5px 10px 5px;
+		background-color: #F4F4F4;
 		border: 1px solid #E0E0E0;
 		clear: both;
-		width: 100%;
 	}
 	
 	li.tabactive, li.tabinactive, a.tabactive, a.tabinactive {
@@ -4049,11 +4057,17 @@ a.ilMediaLightboxClose {
 		border: 0;
 	}
 	
-	a.tabinactive:hover
-	{
+	li.tabactive {
+		background-color: #FFFFFF;
+	}
+	
+	a.tabinactive:hover {
 		background: none;
 	}
 
+	a.tabactive:link, a.tabactive:visited, a.tabactive:hover {
+		text-decoration: underline;
+	}
 	
 	div.ilTabContentInner {
 		overflow: auto;
