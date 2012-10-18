@@ -1873,7 +1873,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function membersObject()
 	{
-		global $ilUser, $rbacsystem, $ilToolbar, $lng, $ilCtrl, $tpl, $rbacreview;
+		global $ilUser, $ilAccess, $ilToolbar, $lng, $ilCtrl, $tpl, $rbacreview;
 		
 		include_once('./Modules/Course/classes/class.ilCourseParticipants.php');
 		include_once('./Modules/Course/classes/class.ilCourseParticipantsTableGUI.php');
@@ -2018,7 +2018,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			// Security: display the list of course administrators read-only, 
 			// if the user doesn't have the 'edit_permission' permission. 
- 			$showEditLink = $rbacsystem->checkAccess("edit_permission", $this->object->getRefId());
+ 			$showEditLink = 
+				(
+					$ilAccess->checkAccess("edit_permission", '', $this->object->getRefId()) or 
+					ilCourseParticipants::_getInstanceByObjId($this->object->getId())->isAdmin($ilUser->getId())
+				);
 			if($ilUser->getPref('crs_admin_hide'))
 			{
 				$table_gui = new ilCourseParticipantsTableGUI(
@@ -2460,7 +2464,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function updateMembersObject()
 	{
-		global $rbacsystem, $rbacreview, $ilUser;
+		global $rbacsystem, $rbacreview, $ilUser, $ilAccess;
                 
 		$this->checkPermission('write');
 		
@@ -2476,7 +2480,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$blocked = $_POST['blocked'] ? $_POST['blocked'] : array();
 		
 		// Determine whether the user has the 'edit_permission' permission
-		$hasEditPermissionAccess = $rbacsystem->checkAccess('edit_permission', $this->object->getRefId());
+		$hasEditPermissionAccess = 
+			(
+				$ilAccess->checkAccess('edit_permission','',$this->object->getRefId()) or
+				ilCourseParticipants::_getInstanceByObjId($this->object->getId())->isAdmin($ilUser->getId())
+			);
 
 		// Get all assignable local roles of the course object, and
 		// determine the role id of the course administrator role.
@@ -3021,7 +3029,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	function deleteMembersObject()
 	{
-		global $ilAccess;
+		global $ilAccess, $ilUser;
 		
 		$this->checkPermission('write');
 		
@@ -3048,7 +3056,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		// Access check for admin deletion
-		if(!$ilAccess->checkAccess('edit_permission', '',$this->object->getRefId()))
+		if(
+			!$ilAccess->checkAccess('edit_permission', '',$this->object->getRefId()) and
+			!ilCourseParticipants::_getInstanceByObjId($this->object->getId())->isAdmin($ilUser->getId())
+		)
 		{
 			foreach ($participants as $usr_id)
 			{
@@ -3084,9 +3095,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 	}
 
-	function removeMembersObject()
+	/**
+	 * Remove members
+	 * @global ilRbacReview $rbacreview
+	 * @global ilRbacSystem $rbacsystem
+	 * @return boolean
+	 */
+	protected function removeMembersObject()
 	{
-		global $rbacreview, $rbacsystem;
+		global $rbacreview, $rbacsystem, $ilAccess, $ilUser;
                 
 		$this->checkPermission('write');
 		
@@ -3098,9 +3115,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		
-		// If the user doesn't have the edit_permission, he may not remove
+		// If the user doesn't have the edit_permission and is not administrator, he may not remove
 		// members who have the course administrator role
-		if (! $rbacsystem->checkAccess('edit_permission', $this->object->getRefId()))
+		if (
+			!$ilAccess->checkAccess('edit_permission', '', $this->object->getRefId()) and 
+			!ilCourseParticipants::_getInstanceByObjId($this->object->getId())->isAdmin($ilUser->getId())
+		)
 		{
 			// Determine the role id of the course administrator role.
 			$courseAdminRoleId = null;
