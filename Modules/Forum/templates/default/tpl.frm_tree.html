@@ -137,32 +137,5 @@ $(function() {
 	tree.setOnloadNodesFetchedWithChildren({THR_ONLOAD_NODES_FETCHED_WITH_CHILDREN});
 	// The tree won't show up until you draw (render) it
 	tree.draw();
-	
-	
-	var treePanelWidth = $("#treeViewContainer").css("width");
-	if (typeof $.browser.msie != 'undefined') {
-		if (parseInt($.browser.version) >= 7) {
-			window.setInterval(function() {
-				var maxOffsetLeft = 0;
-				var maxOffsetElmWidth = 0;
-
-				$(".frmTitle").each(function() {
-					maxOffsetLeft = Math.max($(this).offset().left, maxOffsetLeft);
-					if (maxOffsetLeft == $(this).offset().left) {
-						var matches = $(this).attr("id").match(/frm_node_(\d+)/);
-						if (typeof matches == "object" && matches[1] != "undefined") {
-							var a = $(this).width();
-							var b = $("#frm_node_desc_" +  matches[1]).width();
-							maxOffsetElmWidth = Math.max(a, b);
-						}
-					}
-				});
-
-				var width = Math.max($("#treeViewContainer").scrollLeft() + maxOffsetLeft + maxOffsetElmWidth + 10, parseInt(treePanelWidth));
-
-				$("#treeView").css("width", width + "px");
-			}, 2500);	
-		}                      
-	}
 });
 </script>
