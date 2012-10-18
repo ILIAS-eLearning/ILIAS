@@ -35,8 +35,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 {
 	const CONDITIONS_EDITOR_PAGE_ID = 99999997;
 
+	/** @var $user_obj \ilObjUser|null
+	 * */
 	public $user_obj = null;
 	
+	/** @var $pobject \ilPaymentObject|null */
 	public $pobject = null;
 	/**
 	 * @var $genSetData ilPaymentSettings
@@ -46,10 +49,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	public $active_sub_tab;
 	
 	public $error = false;
+	/** @var $booking_obj ilPaymentBookings */
 	public $booking_obj = null;
 	public $form = null;
 	
 	public $ilErr = null;
+	/**
+	 * @var $vendors_obj ilPaymentVendors
+	 */
 	public $vendors_obj = null;
 
 	/**
@@ -417,7 +424,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	public function saveBmfSettingsObject()
 	{
 		/**
- 		 * @var $rbacsystem $RbacSystem
+ 		 * @var $rbacsystem ilRbacSystem
 		 */
 		global $rbacsystem;
 
@@ -430,7 +437,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		include_once './Services/Payment/classes/class.ilBMFSettings.php';
 		
 		$this->error = '';
-		
+		/**
+		 * @var $bmfSetObj ilBMFSettings
+		 */
 		$bmfSetObj = ilBMFSettings::getInstance();			
 		
 		$bmfSetObj->setClientId(ilUtil::stripSlashes($_POST['mandantNr']));
@@ -471,7 +480,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	}
 	
 	public function bmfSettingsObject()
-	{	
+	{
+		/** 
+		 * @var $rbacsystem ilRbacSystem
+		 * */
 		global $rbacsystem;
 
 		// MINIMUM ACCESS LEVEL = 'read'
@@ -483,7 +495,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');
-		
+
+		/**
+ 		* @var $bmfSetObj ilBMFSettings	
+		*/
 		$bmfSetObj = ilBMFSettings::getInstance();		
 						
 		$form = new ilPropertyFormGUI();
@@ -598,6 +613,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 	public function editPricesObject($a_show_delete = false)
 	{
+		/** 
+		 * @var $ilToolbar ilToolbarGUI
+		 * */ 
 		global $ilToolbar;
 		
 		if($a_show_delete == false) unset($_SESSION['price_ids']);
@@ -688,6 +706,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}			
 
 		// Fill table cells
+		/** 
+		 * @var $tpl ilTemplate 
+		 */
 		$tpl = new ilTemplate('tpl.table.html',true,true);
 
 		// set table header
@@ -782,7 +803,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->objectsObject();
 			return true;
 		}
-
+		/**
+		 * @var $genSet ilPaymentSettings
+		 * */
 		$genSet = ilPaymentSettings::_getInstance();
 
 		$this->ctrl->setParameter($this,'pobject_id',(int) $_GET['pobject_id']);
@@ -2332,6 +2355,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	{	
 		global $rbacsystem, $ilSetting;
 
+		/**
+		 * @var $this->object ilObject
+		 */
 		// MINIMUM ACCESS LEVEL = 'read'
 		if(!$rbacsystem->checkAccess('read', $this->object->getRefId()))
 		{
@@ -2369,7 +2395,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem->setRequired(true);
 		$formItem->setValue($this->error != '' && isset($_POST['address'])
 							? ilUtil::prepareFormOutput($_POST['address'],true)
-							: ilUtil::prepareFormOutput($genSetData['address'],true));
+							: $genSetData['address']);
 		$form->addItem($formItem);
 		
 		$formItem = new ilTextAreaInputGUI($this->lng->txt('pays_bank_data'), 'bank_data');
@@ -2378,7 +2404,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem->setRequired(true);
 		$formItem->setValue($this->error != '' && isset($_POST['bank_data'])
 							? ilUtil::prepareFormOutput($_POST['bank_data'],true)
-							: ilUtil::prepareFormOutput($genSetData['bank_data'],true));
+							: $genSetData['bank_data']);
 		$form->addItem($formItem);
 		
 		$formItem = new ilTextAreaInputGUI($this->lng->txt('pays_add_info'), 'add_info');
@@ -2386,7 +2412,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem->setCols(35);
 		$formItem->setValue($this->error != '' && isset($_POST['add_info'])
 							? ilUtil::prepareFormOutput($_POST['add_info'],true)
-							: ilUtil::prepareFormOutput($genSetData['add_info'],true));
+							: $genSetData['add_info']);
 		$form->addItem($formItem);
 	
 		$formItem = new ilTextInputGUI($this->lng->txt('pays_pdf_path'), 'pdf_path');
@@ -2522,7 +2548,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$this->ilErr->MESSAGE);
 		}
 		
-
+		/** 
+		 * @var $genSet ilPaymentSettings
+		 * */
 		$genSet = ilPaymentSettings::_getInstance();
 
 		if ($_POST['currency_unit'] == '' ||
@@ -2950,6 +2978,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 	public function paypalSettingsObject($a_show_confirm = false)
 	{	
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 * 
+		 */
 		global $rbacsystem;
 		
 		// MINIMUM ACCESS LEVEL = 'read'
@@ -5264,7 +5296,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		}
 		else
 		{
-			$form->setTitle($this->lng->txt($object_not_found));
+			$form->setTitle($this->lng->txt('object_not_found'));
 		}
 
 		//price_type
