@@ -4049,12 +4049,18 @@ a.ilMediaLightboxClose {
 		margin: 0px 5px 10px 5px;
 		background-color: #F4F4F4;
 		border: 1px solid #E0E0E0;
+		padding: 2px;
 		clear: both;
 	}
 	
+	div.il_SubTab {
+		width:auto;
+	}
+
 	li.tabactive, li.tabinactive, a.tabactive, a.tabinactive {
 		background: none;
 		border: 0;
+		padding: 2px 3px;
 	}
 	
 	li.tabactive {
@@ -4075,6 +4081,7 @@ a.ilMediaLightboxClose {
 	
 	div.ilTabContentOuter {
 		box-shadow: none;
+		width: auto;
 	}
 	
 	td.ilFormOption {
@@ -4113,6 +4120,11 @@ a.ilMediaLightboxClose {
 		margin-right: 25px;
 	}
 	
+	div.ilTableOuter {
+		max-width: 100%;
+		overflow: auto;
+	}
+
 	/* #form_ {
 		position: fixed;
 		top: 0;
