@@ -2554,6 +2554,13 @@
 
 		<!-- flash -->
 		<xsl:when test="$type = 'application/x-shockwave-flash'">
+			<xsl:variable name="base">
+				<xsl:call-template name="substring-before-last">
+					<xsl:with-param name="originalString" select="$data" />
+					<xsl:with-param name="stringToSearchFor" select="'/'" />
+				</xsl:call-template>
+			</xsl:variable>
+
 			<object>
 				<xsl:attribute name="classid">clsid:D27CDB6E-AE6D-11cf-96B8-444553540000</xsl:attribute>
 				<xsl:attribute name="codebase">http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0</xsl:attribute>
@@ -2563,6 +2570,10 @@
 				<param>
 					<xsl:attribute name = "name">movie</xsl:attribute>
 					<xsl:attribute name = "value"><xsl:value-of select="$data"/></xsl:attribute>
+				</param>
+				<param>
+					<xsl:attribute name = "name">base</xsl:attribute>
+					<xsl:attribute name = "value"><xsl:value-of select="$base"/></xsl:attribute>
 				</param>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
@@ -2575,6 +2586,7 @@
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					<xsl:attribute name="type">application/x-shockwave-flash</xsl:attribute>
 					<xsl:attribute name="pluginspage">http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash</xsl:attribute>
+					<xsl:attribute name="base"><xsl:value-of select="$base"/></xsl:attribute>
 					<xsl:call-template name="MOBParams">
 						<xsl:with-param name="curPurpose" select="$curPurpose" />
 						<xsl:with-param name="mode">attributes</xsl:with-param>
@@ -3812,6 +3824,26 @@
 			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">y</xsl:with-param>
 		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
+<!-- helper functions -->
+
+<xsl:template name="substring-before-last">
+	<xsl:param name="originalString" select="''" />
+	<xsl:param name="stringToSearchFor" select="''" />
+
+	<xsl:if test="$originalString != '' and $stringToSearchFor != ''">
+		<xsl:variable name="head" select="substring-before($originalString, $stringToSearchFor)" />
+		<xsl:variable name="tail" select="substring-after($originalString, $stringToSearchFor)" />
+		<xsl:value-of select="$head" />
+		<xsl:if test="contains($tail, $stringToSearchFor)">
+			<xsl:value-of select="$stringToSearchFor" />
+			<xsl:call-template name="substring-before-last">
+				<xsl:with-param name="originalString" select="$tail" />
+				<xsl:with-param name="stringToSearchFor" select="$stringToSearchFor" />
+			</xsl:call-template>
+		</xsl:if>
 	</xsl:if>
 </xsl:template>
 
