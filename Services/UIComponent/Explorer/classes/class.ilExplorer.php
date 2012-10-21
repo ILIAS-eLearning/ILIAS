@@ -15,6 +15,8 @@ define("IL_FM_NEGATIVE", 2);
 
 class ilExplorer
 {
+	var $id;
+	
 	/**
 	* ilias object
 	* @var object Ilias
@@ -207,6 +209,26 @@ class ilExplorer
 		$this->asnch_expanding = false;
 	}
 
+	/**
+	 * Set id
+	 *
+	 * @param string $a_val id	
+	 */
+	function setId($a_val)
+	{
+		$this->id = $a_val;
+	}
+	
+	/**
+	 * Get id
+	 *
+	 * @return string id
+	 */
+	function getId()
+	{
+		return $this->id;
+	}
+	
 	/**
 	 * Set asynch expanding
 	 *
@@ -848,6 +870,10 @@ class ilExplorer
 			$tpl_tree->setVariable("TREE_LEAD", $this->tree_lead);
 			$tpl_tree->parseCurrentBlock();
 		}
+		if ($this->getId() != "")
+		{
+			$tpl_tree->setVariable("TREE_ID", 'id="'.$this->getId().'_tree"');
+		}
 
 		$html = $tpl_tree->get();
 		
@@ -860,6 +886,10 @@ class ilExplorer
 			if ($this->getTitle() != "")
 			{
 				$mtpl->setVariable("TXT_EXPLORER_HEADER", $this->getTitle());
+			}
+			if ($this->getId() != "")
+			{
+				$mtpl->setVariable("ID", 'id="'.$this->getId().'"');
 			}
 			$mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 			$mtpl->setCurrentBlock("content");

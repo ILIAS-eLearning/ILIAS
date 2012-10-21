@@ -33,6 +33,8 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	{
 		global $tree, $ilCtrl;
 
+		$this->setId("cont_paste_explorer");
+		
 		$this->ctrl = $ilCtrl;
 		$this->type = $a_type;
 
@@ -159,7 +161,9 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 		if ($this->output_icons)
 		{
 			$tpl->setCurrentBlock("icon");
-			$tpl->setVariable("ICON_IMAGE" , $this->getImage("icon_".$a_option["type"].".png", $a_option["type"], $a_obj_id));
+			
+			$path = ilObject::_getIcon($a_obj_id, "tiny", $a_option["type"]);
+			$tpl->setVariable("ICON_IMAGE", $path);
 			
 			$tpl->setVariable("TARGET_ID" , "iconid_".$a_node_id);
 			$this->iconList[] = "iconid_".$a_node_id;
@@ -242,7 +246,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 		global $lng, $ilias, $tree;
 
 		// custom icons
-		$path = ilObject::_getIcon($a_obj_id, "small", "root");
+		$path = ilObject::_getIcon($a_obj_id, "tiny", "root");
 		
 
 		$tpl->setCurrentBlock("icon");

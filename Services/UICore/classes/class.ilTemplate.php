@@ -1791,6 +1791,10 @@ class ilTemplate extends ilTemplateX
 	
 	private function setCenterColumnClass()
 	{
+		if (!$this->blockExists("center_col_width"))
+		{
+			return;
+		}
 		$center_column_class = "";
 		if (trim($this->right_content) != "" && trim($this->left_content) != "") {
 			$center_column_class = "two_side_col";
