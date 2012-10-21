@@ -3505,7 +3505,7 @@ div.ilFrameFixedWidthHeader
 }
 
 
-/* Modules / Blog */
+/* Modules/Blog */
 
 div.ilBlogList {	
 	border: 1px solid #E0E0E0;
@@ -3564,6 +3564,11 @@ div.ilBox {
 	margin-bottom: 20px;
 }
 
+/* Services/Container */
+
+div#cont_paste_explorer_tree ul.il_Explorer {
+    margin: 0 0 0 24px;
+}
 
 /* Services/Skill */
 
