@@ -305,7 +305,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
-
 		if($this->type == 'admin')
 		{
 			$this->tpl->setVariable('VAL_POSTNAME', 'admins');

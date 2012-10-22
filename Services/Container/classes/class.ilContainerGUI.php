@@ -3245,10 +3245,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 
-		if($lg instanceof ilObjectListGUI)
+		// begin-patch fm
+		include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
+		if(ilFMSettings::getInstance()->isEnabled())
 		{
-			$lg->addCustomCommand($this->ctrl->getLinkTarget($this,'fileManagerLaunch'), 'fm_start','_blank');
+			if($lg instanceof ilObjectListGUI)
+			{
+				$lg->addCustomCommand($this->ctrl->getLinkTarget($this,'fileManagerLaunch'), 'fm_start','_blank');
+			}
 		}
+		// end-patch fm
 		return $lg;
 	}
 
@@ -3259,8 +3265,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $ilUser;
 		
-		$GLOBALS['ilLog']->logStack();
-
 		$tpl = new ilTemplate('tpl.fm_launch_ws.html',false,false,'Services/WebServices/FileManager');
 		$tpl->setVariable('JNLP_URL',ILIAS_HTTP_PATH.'/Services/WebServices/FileManager/lib/dist/FileManager.jnlp');
 		$tpl->setVariable('SESSION_ID', $_COOKIE['PHPSESSID'].'::'.CLIENT_ID);
@@ -3269,8 +3273,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl->setVariable('WSDL_URI', ILIAS_HTTP_PATH.'/webservice/soap/server.php?wsdl');
 		$tpl->setVariable('LOCAL_FRAME', ilFMSettings::getInstance()->isLocalFSEnabled() ? 1 : 0);
 		$tpl->setVariable('REST_URI',ILIAS_HTTP_PATH.'/Services/WebServices/Rest/server.php');
-		$tpl->setVariable('UPLOAD_FILESIZE',  ilFMSettings::getInstance()->getMaxFileSize());
 		$tpl->setVariable('FILE_LOCKS',0);
+		$tpl->setVariable('UPLOAD_FILESIZE',  ilFMSettings::getInstance()->getMaxFileSize());
 
 		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
 		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
