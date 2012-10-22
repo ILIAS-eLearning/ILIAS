@@ -45,4 +45,90 @@ class assAnswerMatchingTermTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObjectSimple()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+
+		// Act
+		$instance = new assAnswerMatchingTerm();
+
+		// Assert
+		$this->assertInstanceOf('assAnswerMatchingTerm', $instance);
+	}
+
+	public function test_setGetText()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+		$instance = new assAnswerMatchingTerm();
+		$expected = 'Text';
+
+		// Act
+		$instance->text = $expected;
+		$actual = $instance->text;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setGetPicture()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+		$instance = new assAnswerMatchingTerm();
+		$expected = 'path/to/picture?';
+
+		// Act
+		$instance->picture = $expected;
+		$actual = $instance->picture;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_getUnsetPicture()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+		$instance = new assAnswerMatchingTerm();
+		$expected = null;
+
+		// Act
+		$actual = $instance->picture;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setGetIdentifier()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+		$instance = new assAnswerMatchingTerm();
+		$expected = 12345;
+
+		// Act
+		$instance->identifier = $expected;
+		$actual = $instance->identifier;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setGetHokum()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
+		$instance = new assAnswerMatchingTerm();
+		$expected = null;
+
+		// Act
+		$instance->hokum = 'Hokum Value';
+		$actual = $instance->hokum;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
