@@ -45,4 +45,78 @@ class assAnswerMatchingPairTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObjectSimple()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
+
+		// Act
+		$instance = new assAnswerMatchingPair();
+
+		// Assert
+		$this->assertInstanceOf('assAnswerMatchingPair', $instance);
+	}
+
+	public function test_setGetTerm()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
+		$instance = new assAnswerMatchingPair();
+		$expected = 'Term';
+
+		// Act
+		$instance->term = $expected;
+		$actual = $instance->term;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setGetDefinition()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
+		$instance = new assAnswerMatchingPair();
+		$expected = 'Definition';
+
+		// Act
+		$instance->definition = $expected;
+		$actual = $instance->definition;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setGetPoints()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
+		$instance = new assAnswerMatchingPair();
+		$expected = 'Definition';
+
+		// Act
+		$instance->points = $expected;
+		$actual = $instance->points;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setGetHokum()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
+		$instance = new assAnswerMatchingPair();
+		$expected = null;
+
+		// Act
+		$instance->hokum = 'Hokum Value';
+		$actual = $instance->hokum;
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+
 }
