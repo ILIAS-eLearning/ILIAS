@@ -45,4 +45,16 @@ class assAnswerMatchingDefinitionTest extends PHPUnit_Framework_TestCase
 			chdir('../../../');
 		}
 	}
+
+	public function test_instantiateObjectSimple()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';
+
+		// Act
+		$instance = new assAnswerMatchingDefinition();
+
+		// Assert
+		$this->assertInstanceOf('assAnswerMatchingDefinition', $instance);
+	}
 }
