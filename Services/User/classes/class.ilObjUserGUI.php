@@ -1507,7 +1507,7 @@ class ilObjUserGUI extends ilObjectGUI
 		$ip->setSize(40);
 		$ip->setMaxLength(255);
 		$ip->setInfo($this->lng->txt("current_ip")." ".$_SERVER["REMOTE_ADDR"]." <br />".
-			'<small class="warning">'.$this->lng->txt("current_ip_alert")."</span>");
+			'<span class="warning">'.$this->lng->txt("current_ip_alert")."</span>");
 		$this->form_gui->addItem($ip);
 
 		// additional user defined fields
