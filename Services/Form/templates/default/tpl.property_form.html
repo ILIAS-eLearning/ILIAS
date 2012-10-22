@@ -1,41 +1,43 @@
 <!-- BEGIN std_table -->
 <!-- Please note the usage of datatable attribute which is non-standard
 	but ensures that JAWS treats this table as a layout table -->
-<table class="ilForm" width="{STD_TABLE_WIDTH}" datatable="0" style="text-align:left;">
+<!-- removed a width="{STD_TABLE_WIDTH}" -->
+<div class="ilForm">
 <!-- END std_table -->
 <!-- BEGIN sub_table -->
-<table class="nobackground" datatable="0">
+<div class="ilForm">
 <!-- END sub_table -->
 <!-- BEGIN item -->
 <!-- BEGIN header -->
-	<tr class="ilFormHeader">
-		<td class="ilFormHeader" colspan="2">
-<!-- BEGIN commands2 -->
-		<div style="float:right; margin-left: 20px;">
-<!-- BEGIN cmd2 -->
-		<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
-<!-- END cmd2 -->
-		</div>
-<!-- END commands2 -->
-
+	<div class="ilFormRow">
+		<div class="ilFormHeader">
 <!-- BEGIN title_icon --><!-- <img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/> --><!-- END title_icon -->
-		<h3 class="ilFormHeader"><a name="{LABEL}"></a>{TXT_TITLE}</h3><div class="ilFormInfo" style="margin-left:0px;">{TXT_DESCRIPTION}</div></td>
-	</tr>
+		<h3 class="ilFormHeader"><a name="{LABEL}"></a>{TXT_TITLE}</h3><div class="ilFormInfo">{TXT_DESCRIPTION}</div>
+		</div>
+
+		<div class="ilFormHeader ilFormCommands">
+		<!-- BEGIN commands2 -->
+		<!-- BEGIN cmd2 -->
+		<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
+		<!-- END cmd2 -->
+		<!-- END commands2 -->
+		</div>
+	</div>
 <!-- END header -->
 <!-- BEGIN prop -->
 <!-- BEGIN std_prop_start -->
-	<tr>
-		<td class="ilFormOption" id="il_prop_cont_{LAB_ID}">
-		<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required --></label>
-		</td>
-		<td class="ilFormValue">
+	<div class="ilFormRow">
+		<div class="ilFormOption" id="il_prop_cont_{LAB_ID}">
+			<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required --></label>
+		</div>
+		<div class="ilFormValue">
 <!-- END std_prop_start -->
 <!-- BEGIN sub_prop_start -->
-	<tr>
-		<td class="ilFormSubOption">
+	<div class="ilFormRow">
+		<div class="ilFormSubOption">
 		<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN sub_hid_title --> <span class="ilAccHeadingHidden">{SPHID_TITLE}</span><!-- END sub_hid_title --><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required --></label>
-		</td>
-		<td class="ilFormSubValue">
+		</div>
+		<div class="ilFormSubValue">
 <!-- END sub_prop_start -->
 <!-- BEGIN cssrect -->
 		<label for="{ID}[top]">{TEXT_TOP}</label>
@@ -91,27 +93,25 @@
 			il.Form.hideSubForm('subform_{DSFID}');
 			</script><!-- END sub_form_hide -->
 <!-- END sub_form -->
-		</td>
-	</tr>
+		</div>
+	</div> <!-- end of ilFormRow -->
 <!-- END prop -->
 <!-- END item -->
 <!-- BEGIN commands -->
-	<tr>
-	<td class="ilFormFooter" colspan="2">
+	<div class="ilFormRow">
+		<div class="ilFormFooter">
 <!-- BEGIN hidden -->
 		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
 <!-- END hidden -->
 <!-- BEGIN required_text -->
-		<div style="float:left;">
 			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>
-		</div>
 <!-- END required_text -->
-		<div align="right">
+		&nbsp;</div>
+		<div class="ilFormFooter ilFormCommands">
 <!-- BEGIN cmd -->
 		<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
 <!-- END cmd -->
 		</div>
-	</td>
-	</tr>
+	</div> <!-- end of ilFormRow -->
 <!-- END commands -->
-</table>
+</div>
