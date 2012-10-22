@@ -121,7 +121,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 				$link = ilParameterAppender::_append($link);
 			}
 			*/
-			$tmp['position'] = $counter++;
+			$tmp['position'] = ($counter++) * 10;
 			$tmp['title'] = $link['title'];
 			$tmp['description'] = $link['description'];
 			$tmp['target'] = $link['target'];
@@ -157,7 +157,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 		
 		if($this->isLinkSortingEnabled())
 		{
-			$this->tpl->setVariable('VAL_POS',sprintf('%.2f',$a_set['position']));
+			$this->tpl->setVariable('VAL_POS',$a_set['position']);
 			$this->tpl->setVariable('VAL_ITEM',$a_set['link_id']);
 		}
 		
