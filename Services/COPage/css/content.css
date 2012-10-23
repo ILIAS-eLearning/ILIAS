@@ -223,6 +223,10 @@ table.ilc_table_StandardTable
 	border-color: #9EADBA;
 }
 
+table.ilc_table_StandardTable td {
+	vertical-align: top;
+}
+
 td.ilc_table_cell_Cell1
 {
 	background-color:#FFCCCC;
