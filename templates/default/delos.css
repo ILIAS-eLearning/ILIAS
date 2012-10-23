@@ -3936,9 +3936,10 @@ a.ilMediaLightboxClose {
 	max-width: 100%;
 }
 
+
 /* basic responsiveness (beta) */
 @media
-	only screen and (max-width: 480px),
+	only screen and (max-width: 640px),
 	only screen and (min-device-width: 640px) and (max-device-width: 1136px) and (-webkit-min-device-pixel-ratio: 2)
 {
 	html {
@@ -4237,4 +4238,8 @@ a.ilMediaLightboxClose {
 		height: 50px;
 	}
 	
+	div.ilGoogleMap {
+		max-width: 100%;
+	}
+
 }
