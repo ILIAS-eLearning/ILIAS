@@ -1296,8 +1296,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.png"));
 				$tpl->setVariable("TXT_WELCOME", $lng->txt("pdesk_intro"));
 				$tpl->setVariable("TXT_INTRO_1", sprintf($lng->txt("pdesk_intro2"), $lng->txt("to_desktop")));
+				include_once("./Services/Link/classes/class.ilLink.php");
 				$tpl->setVariable("TXT_INTRO_2", sprintf($lng->txt("pdesk_intro3"),
-					'<a href="repository.php?cmd=frameset&getlast=true">'.$title.'</a>'));
+					'<a href="'.ilLink::_getStaticLink(1,'root',true).'">'.$title.'</a>'));
 				$tpl->setVariable("TXT_INTRO_3", $lng->txt("pdesk_intro4"));
 				break;
 		}
