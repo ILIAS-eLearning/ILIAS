@@ -948,7 +948,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$this->ctrl->setParameter($this, 'viewmode', 'answers');
-		$ilTabs->addTarget('order_by_posts', $this->ctrl->getLinkTarget($this, 'viewThread'));
+		$ilTabs->addTarget('sort_by_posts', $this->ctrl->getLinkTarget($this, 'viewThread'));
 	
 		// by date view
 		$this->ctrl->setParameter($this, 'viewmode', 'date');
@@ -963,7 +963,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		else
 		{
-			$ilTabs->setTabActive('order_by_posts');
+			$ilTabs->setTabActive('sort_by_posts');
 		}
 
 		/**
