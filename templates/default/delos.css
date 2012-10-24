@@ -1751,6 +1751,11 @@ a.ilTinyMenuDropDown
 	padding: 0px 2px 1px 0px;
 }
 
+/* if the ilc_page_cont_PageContainer is declared as being relative in the content.css drop downs will be truncated */
+#ilEditorTD {
+	position: static;
+}
+
 #ilEditorTD p
 {
 	margin: 0;
