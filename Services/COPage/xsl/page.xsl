@@ -524,14 +524,13 @@
 	<xsl:param name="prevent_deletion">n</xsl:param>
 	
 	<xsl:if test = "$javascript = 'enable'">
-	<div style="position:absolute;left:0;top:0;visibility:hidden;">
+	<div class="ilOverlay il_editmenu ilNoDisplay">
 		<xsl:if test = "$droparea = 'n'">
 			<xsl:attribute name="id">contextmenu_<xsl:value-of select="$hier_id"/></xsl:attribute>
 		</xsl:if>
 		<xsl:if test = "$droparea = 'y'">
 			<xsl:attribute name="id">dropareamenu_<xsl:value-of select="$hier_id"/></xsl:attribute>
 		</xsl:if>
-		<table class="il_editmenu" cellspacing="0" cellpadding="3">
 			<xsl:if test = "$droparea = 'n'">
 				<xsl:choose>
 					<xsl:when test="$type = 'filelist'">
@@ -552,7 +551,6 @@
 			<xsl:if test = "$droparea = 'y'">
 				<xsl:call-template name="EditMenuInsertItems"/>
 			</xsl:if>
-		</table>
 	</div>
 	</xsl:if>
 	
@@ -937,17 +935,15 @@
 		</option>
 	</xsl:if>
 	<xsl:if test = "$javascript = 'enable'">
-		<tr>
-			<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);">
-			<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '', '<xsl:value-of select="name(.)"/>', '<xsl:value-of select="@Characteristic"/>');</xsl:attribute>
-			<xsl:if test="$text = ''">
-				<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
-			</xsl:if>
-			<xsl:if test="$text != ''">
-				<xsl:value-of select="$text"/>
-			</xsl:if>
-			</td>
-		</tr>
+		<a href="#" class="ilGroupedListLE" onMouseOver="M_in(this);" onMouseOut="M_out(this);">
+		<xsl:attribute name="onClick">doActionForm('cmd[exec]', 'command', '<xsl:value-of select="$command"/>', '', '<xsl:value-of select="name(.)"/>', '<xsl:value-of select="@Characteristic"/>'); return false;</xsl:attribute>
+		<xsl:if test="$text = ''">
+			<xsl:value-of select="//LVs/LV[@name=$langvar]/@value"/>
+		</xsl:if>
+		<xsl:if test="$text != ''">
+			<xsl:value-of select="$text"/>
+		</xsl:if>
+		</a>
 	</xsl:if>
 </xsl:template>
 
@@ -1582,13 +1578,11 @@
 			<br/>
 		</xsl:if>
 		<xsl:if test="$javascript = 'enable'">
-			<div style="position:absolute;left:0;top:0;visibility:hidden;">
+			<div class="ilOverlay il_editmenu ilNoDisplay">
 				<xsl:attribute name="id">contextmenu_<xsl:value-of select="../@HierId"/></xsl:attribute>
-				<table class="il_editmenu" cellspacing="0" cellpadding="3">
-					<xsl:call-template name="TableMenu">
-						<xsl:with-param name="hier_id" select="../@HierId"/>
-					</xsl:call-template>
-				</table>
+				<xsl:call-template name="TableMenu">
+					<xsl:with-param name="hier_id" select="../@HierId"/>
+				</xsl:call-template>
 			</div>
 		</xsl:if>
 	</xsl:if>
@@ -1689,11 +1683,9 @@
 						<xsl:with-param name="img_src"><xsl:value-of select="$img_row"/></xsl:with-param>
 						<xsl:with-param name="img_id">CONTENTr<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 					</xsl:call-template>
-					<div style="position:absolute;left:0;top:0;visibility:hidden;">
+					<div class="ilOverlay il_editmenu ilNoDisplay">
 						<xsl:attribute name="id">contextmenu_r<xsl:value-of select="@HierId"/></xsl:attribute>
-						<table class="il_editmenu" cellspacing="0" cellpadding="3">
-							<xsl:call-template name="TableRowMenu"/>
-						</table>
+						<xsl:call-template name="TableRowMenu"/>
 					</div>
 				</xsl:if>
 				<xsl:if test = "$rowpos = 1">
@@ -1701,11 +1693,9 @@
 						<xsl:with-param name="img_src"><xsl:value-of select="$img_col"/></xsl:with-param>
 						<xsl:with-param name="img_id">CONTENTc<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
 					</xsl:call-template>
-					<div style="position:absolute;left:0;top:0;visibility:hidden;">
+					<div class="ilOverlay il_editmenu ilNoDisplay">
 						<xsl:attribute name="id">contextmenu_c<xsl:value-of select="@HierId"/></xsl:attribute>
-						<table class="il_editmenu" cellspacing="0" cellpadding="3">
-							<xsl:call-template name="TableColMenu"/>
-						</table>
+						<xsl:call-template name="TableColMenu"/>
 					</div>
 				</xsl:if>
 				<xsl:call-template name="DropArea">
@@ -1921,11 +1911,9 @@
 				<xsl:with-param name="hier_id"><xsl:value-of select="@HierId"/></xsl:with-param>
 				<xsl:with-param name="pc_id"><xsl:value-of select="@PCID"/></xsl:with-param>
 			</xsl:call-template>
-			<div style="position:absolute;left:0;top:0;visibility:hidden;">
+			<div class="ilOverlay il_editmenu ilNoDisplay">
 				<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
-				<table class="il_editmenu" cellspacing="0" cellpadding="3">
-					<xsl:call-template name="ListItemMenu"/>
-				</table>
+				<xsl:call-template name="ListItemMenu"/>
 			</div>
 		</xsl:if>
 	</xsl:if>
@@ -2078,11 +2066,9 @@
 					<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
 				</xsl:call-template>
 				&amp;nbsp;
-				<div style="position:absolute;left:0;top:0;visibility:hidden;">
+				<div class="ilOverlay il_editmenu ilNoDisplay">
 					<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
-					<table class="il_editmenu" cellspacing="0" cellpadding="3">
-						<xsl:call-template name="ListItemMenu"/>
-					</table>
+					<xsl:call-template name="ListItemMenu"/>
 				</div>
 			</xsl:if>
 		</xsl:if>
@@ -2368,13 +2354,11 @@
 	</table>
 	<!-- menu -->
 	<xsl:if test="$mode = 'edit' and $javascript='enable'">
-		<div style="position:absolute; left:0; top:0; visibility:hidden; z-index:10;">
+		<div class="ilOverlay il_editmenu ilNoDisplay">
 			<xsl:attribute name="id">contextmenu_<xsl:value-of select="../../@HierId"/></xsl:attribute>
-			<table class="il_editmenu" cellspacing="0" cellpadding="3">
-				<xsl:call-template name="MOBEditMenu">
-					<xsl:with-param name="hier_id" select="../../@HierId"/>
-				</xsl:call-template>
-			</table>
+			<xsl:call-template name="MOBEditMenu">
+				<xsl:with-param name="hier_id" select="../../@HierId"/>
+			</xsl:call-template>
 		</div>
 	</xsl:if>
 </xsl:template>
