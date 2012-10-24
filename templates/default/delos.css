@@ -1631,17 +1631,15 @@ div.il_editarea_active_selected
 	border-color: #000000;
 }
 
-table.il_editmenu
+.il_editmenu
 {
-	border-style: solid;
-	border-width: 1px;
-	border-color: #909090;
 	background-color: #FFF;
 	color: #000000;
 	font-weight: normal;
 	text-align: left;
 	font-style: normal;
 	font-size: 14px;
+	z-index:5000;
 }
 
 table.il_editmenu td

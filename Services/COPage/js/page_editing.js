@@ -1659,8 +1659,9 @@ function showMenu(id, x, y)
 	if (cmd_called) return;
 	
 	var obj = document.getElementById(id);
-	obj.style.visibility = '';
+	$(obj).removeClass("ilNoDisplay");
 	YAHOO.util.Dom.setXY(obj, [x,y], true);
+	il.Overlay.fixPosition(id);
 }
 
 function hideMenu(id, force)
@@ -1669,7 +1670,7 @@ function hideMenu(id, force)
 	obj = document.getElementById(id);
 	if (obj)
 	{
-		obj.style.visibility = 'hidden';
+		$(obj).addClass("ilNoDisplay");
 	}
 }
 
@@ -2433,15 +2434,12 @@ var ccell = null;
 function M_in(cell) 
 {
 	if (cmd_called) return;
-    cell.style.cursor='pointer';
-    cell.bgColor='#C0C0FF';
     doCloseContextMenuCounter=-1;
     ccell = cell;
 }
 function M_out(cell) 
 {
 	if (cmd_called) return;
-    cell.bgColor='';
     doCloseContextMenuCounter=5;
     ccell = null;
 }
