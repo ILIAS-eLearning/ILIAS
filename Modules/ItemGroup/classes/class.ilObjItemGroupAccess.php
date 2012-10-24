@@ -26,7 +26,8 @@ class ilObjItemGroupAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit", "default" => false)
+			array("permission" => "write", "cmd" => "listMaterials", "lang_var" => "edit_content", "default" => false),
+			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings", "default" => false)
 		);
 		
 		return $commands;
