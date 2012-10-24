@@ -139,13 +139,16 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		{
 			$subobj = array();
 			foreach(array_keys($subtypes) as $type)
-			{				
-				$subobj[] = array('value' => $type,
-								  'title' => $this->lng->txt('obj_'.$type),
-								  'img' => ilObject::_getIcon('', 'tiny', $type),
-								  'alt' => $this->lng->txt('obj_'.$type));
+			{
+				if (!in_array($type, array("itgr", "sess")))
+				{
+					$subobj[] = array('value' => $type,
+									  'title' => $this->lng->txt('obj_'.$type),
+									  'img' => ilObject::_getIcon('', 'tiny', $type),
+									  'alt' => $this->lng->txt('obj_'.$type));
+				}
 			}			
-			$subobj = ilUtil::sortArray($subobj, 'title', 1);
+//			$subobj = ilUtil::sortArray($subobj, 'title', 1);
 			
 			// add new object to parent container instead		
 			$this->ctrl->setParameter($this, 'crtptrefid', $parent_node["child"]);
