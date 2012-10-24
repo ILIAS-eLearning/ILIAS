@@ -2206,11 +2206,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 										$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 										$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 
-										$jsTpl = new ilTemplate('ilFrmPostAjaxHandler.js', true, true, 'Modules/Forum/');
+										$jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum/');
 										$jsTpl->setVariable('IL_FRM_QUOTE_CALLBACK_SRC',
 											$this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true));
 										$this->ctrl->clearParameters($this);
-										$this->tpl->setVariable('FRM_POST_JS', $jsTpl->get());
+										$this->tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
 										break;
 									case 'showedit':
 										if($this->ctrl->getCmd() == 'savePost')
@@ -2444,14 +2444,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				//	$tpl->setVariable('PERMA_LINK', ILIAS_HTTP_PATH."/goto.php?target="."frm"."_".$this->object->getRefId()."_".$node->getThreadId()."_".$node->getId()."&client_id=".CLIENT_ID);
 					$tpl->setVariable('TXT_PERMA_LINK', $lng->txt('perma_link'));
 					$tpl->setVariable('PERMA_TARGET', '_top');
-					$tpl->setVariable('IMG_POSTING', ilUtil::getImagePath('icon_posting_s.png'));
 
 					if($this->objProperties->getMarkModeratorPosts() == 1)
 					{
 						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getUserId());
 						if($is_moderator)
 						{
-							#$tpl->setVariable('MODROWCOL',   "background-color:rgb(248,168,42)");
 							$rowCol = 'ilHighlighted';
 						}
 						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
@@ -2463,7 +2461,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						) 
 						|| $this->objCurrentPost->getId() != $node->getId())
 					{
-						$tpl->setVariable('ROWCOL', $rowCol);
+						$tpl->setVariable('ROWCOL', ' '.$rowCol);
 					}
 					else
 					{
@@ -2485,7 +2483,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}				
 					
 					// set row color
-					$tpl->setVariable('ROWCOL', $rowCol);
+					$tpl->setVariable('ROWCOL', ' '.$rowCol);
 					// if post is not activated display message for the owner
 					if(!$node->isActivated() && $node->isOwner($ilUser->getId()))
 					{
@@ -2581,8 +2579,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					// prepare post
 					$node->setMessage($frm->prepareText($node->getMessage()));
 		
-					$tpl->setVariable('TXT_CREATE_DATE', $lng->txt('forums_thread_create_date'));
-		
 					if($ilUser->getId() == ANONYMOUS_USER_ID ||
 					   $node->isPostRead())
 					{
@@ -2669,13 +2665,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$tpl->parseCurrentBlock();
 		}
 		
-		$tpl->setVariable('COUNT_POST', $lng->txt('forums_count_art').': '.$posNum);
-		$tpl->setVariable('TXT_AUTHOR', $lng->txt('author'));
-		$tpl->setVariable('TXT_POST', $lng->txt('forums_thread').': '.$this->objCurrentTopic->getSubject());
-
 		$oThreadToolbar = clone $ilToolbar;
 		$oThreadToolbar->addSeparator();
-		$oThreadToolbar->addButton($this->lng->txt('top_of_page'),'#move_up');
+		$oThreadToolbar->addButton($this->lng->txt('top_of_page'),'#frm_page_top');
 		$tpl->setVariable('THREAD_TOOLBAR', $oThreadToolbar->getHTML());
 		
 		$tpl->setVariable('TPLPATH', $tpl->vars['TPLPATH']);
