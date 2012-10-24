@@ -179,7 +179,20 @@ class ilPersonalSettingsGUI
 	 */
 	public function saveMailOptions()
 	{
-		global $ilUser, $lng, $ilTabs, $ilSetting;
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 * @var $lng ilLanguage
+		 * @var $rbacsystem ilRbacSystem
+		 * @var $ilUser ilObjUser
+		 * @var $ilSetting ilSetting
+		 */
+		global $ilUser, $lng, $ilTabs, $ilSetting, $rbacsystem;
+
+		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		if(!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		{
+			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
 		
 		$lng->loadLanguageModule('mail');
 		
@@ -313,7 +326,18 @@ class ilPersonalSettingsGUI
 	 */
 	public function showMailOptions()
 	{
-		global $ilTabs, $lng;
+		/**
+		 * @var $ilTabs ilTabsGUI
+		 * @var $lng ilLanguage
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $ilTabs, $lng, $rbacsystem;
+
+		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		if(!$rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		{
+			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
 		
 		$lng->loadLanguageModule('mail');
 		
@@ -380,7 +404,10 @@ class ilPersonalSettingsGUI
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
-		global $ilTabs, $ilSetting, $ilHelp;
+		/**
+		 * @var $rbacsystem ilRbacSystem
+		 */
+		global $ilTabs, $ilSetting, $ilHelp, $rbacsystem;
 
 		$ilHelp->setScreenIdComponent("user");
 		
@@ -402,10 +429,12 @@ class ilPersonalSettingsGUI
 			$ilTabs->addTarget("password", $this->ctrl->getLinkTarget($this, "showPassword"),
 				"", "", "", $showPassword);
 		}
-			
 
-		$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"),
-								 "", "", "", $showMailOptions);		
+		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
+		if($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId()))
+		{
+			$ilTabs->addTarget("mail_settings", $this->ctrl->getLinkTarget($this, "showMailOptions"), "", "", "", $showMailOptions);
+		}
 
 		if(((int)$ilSetting->get('chat_sound_status') &&
 		    ((int)$ilSetting->get('chat_new_invitation_sound_status') || 
