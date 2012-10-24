@@ -310,7 +310,6 @@ class ilRepositoryGUI
 					$tabs_out = ($new_type == "")
 						? true
 						: false;
-					
 					$this->gui_obj->setCreationMode($this->creation_mode);
 					$this->ctrl->setReturn($this, "return");
 

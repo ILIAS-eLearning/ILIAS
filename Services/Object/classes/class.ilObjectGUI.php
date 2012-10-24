@@ -313,8 +313,19 @@ class ilObjectGUI
 	*/
 	protected function setTitleAndDescription()
 	{
+		if (!is_object($this->object))
+		{
+			if ((int) $_REQUEST["crtptrefid"] > 0)
+			{
+				$cr_obj_id = ilObject::_lookupObjId((int) $_REQUEST["crtcb"]);
+				$this->tpl->setTitle(ilObject::_lookupTitle($cr_obj_id));
+				$this->tpl->setTitleIcon(ilObject::_getIcon($cr_obj_id));
+			}
+			return;
+		}
 		$this->tpl->setTitle($this->object->getPresentationTitle());
 		$this->tpl->setDescription($this->object->getLongDescription());
+			
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			// alt text would be same as heading -> empty alt text
@@ -1057,8 +1068,15 @@ class ilObjectGUI
 			$callback_type = ilObject::_lookupType((int)$_REQUEST["crtcb"], true);
 			$class_name = "ilObj".$objDefinition->getClassName($callback_type)."GUI";
 			$location = $objDefinition->getLocation($callback_type);
-			include_once($location."/class.".$class_name.".php");	
-			$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true);
+			include_once($location."/class.".$class_name.".php");
+			if (in_array(strtolower($class_name), array("ilobjitemgroupgui")))
+			{
+				$callback_obj = new $class_name((int)$_REQUEST["crtcb"]);
+			}
+			else
+			{
+				$callback_obj = new $class_name(null, (int)$_REQUEST["crtcb"], true);
+			}
 			$callback_obj->afterSaveCallback($a_obj);
 		}
 	}

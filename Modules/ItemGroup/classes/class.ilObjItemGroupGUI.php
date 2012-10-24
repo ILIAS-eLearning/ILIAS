@@ -44,7 +44,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	*/
 	function executeCommand()
 	{
-		global $ilTabs, $lng, $ilAccess, $tpl, $ilCtrl;
+		global $ilTabs, $lng, $ilAccess, $tpl, $ilCtrl, $ilLocator;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -73,11 +73,27 @@ class ilObjItemGroupGUI extends ilObject2GUI
 				break;
 
 			default:
+				$cmd = $this->ctrl->getCmd("listMaterials");
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$cmd = $this->ctrl->getCmd("listItems");
 				$this->$cmd();
 				break;
+		}
+	}
+
+	/**
+	 * Add session locator
+	 *
+	 * @access public
+	 * 
+	 */
+	public function addLocatorItems()
+	{
+		global $ilLocator, $ilAccess;
+		
+		if (is_object($this->object) && $ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "listMaterials"), "", $_GET["ref_id"]);
 		}
 	}
 
@@ -112,6 +128,8 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	{
 		global $tree, $objDefinition, $ilTabs, $tpl;
 		
+		$this->checkPermission("write");
+		
 		$ilTabs->activateTab("materials");
 
 		// add new item
@@ -144,73 +162,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		include_once("./Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php");
 		$tab = new ilItemGroupItemsTableGUI($this, "listMaterials");
 		$tpl->setContent($tab->getHTML());
-return;
-		include_once 'Modules/Session/classes/class.ilEventItems.php';
-		$this->event_items = new ilEventItems($this->object->getId());
-		$items = $this->event_items->getItems();
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_materials.html','Modules/Session');
-		#$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
-
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'listMaterials'));
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_sess.png'));
-		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
-		$this->tpl->setVariable("TABLE_TITLE",$this->lng->txt('event_assign_materials_table'));
-		$this->tpl->setVariable("TABLE_INFO",$this->lng->txt('event_assign_materials_info'));
-
-		$materials = array();
-		$nodes = $tree->getSubTree($tree->getNodeData($parent_node["child"]));
-		foreach($nodes as $node)
-		{
-			// No side blocks here
-			if ($objDefinition->isSideBlock($node['type']) || $node['type'] == 'sess'
-				|| $node['type'] == 'itgr')
-			{
-				continue;
-			}
-			
-			if($node['type'] == 'rolf')
-			{
-				continue;
-			}
-			
-			$node["sorthash"] = (int)(!in_array($node['ref_id'],$items)).$node["title"];
-			$materials[] = $node;
-		}
-		
-		
-		$materials = ilUtil::sortArray($materials, "sorthash", "ASC");
-		
-		$counter = 1;
-		foreach($materials as $node)
-		{
-			$counter++;
-			
-			$this->tpl->setCurrentBlock("material_row");
-			
-			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.png'));
-			$this->tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$node['type']));
-			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor($counter,'tblrow1','tblrow2'));
-			$this->tpl->setVariable("CHECK_COLL",ilUtil::formCheckbox(in_array($node['ref_id'],$items) ? 1 : 0,
-																	  'items[]',$node['ref_id']));
-			$this->tpl->setVariable("COLL_TITLE",$node['title']);
-
-			if(strlen($node['description']))
-			{
-				$this->tpl->setVariable("COLL_DESC",$node['description']);
-			}
-			$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($node['ref_id'],$items) ? 
-									ilUtil::getImagePath('icon_ok.png') :
-									ilUtil::getImagePath('icon_not_ok.png'));
-			$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
-//			$this->tpl->setVariable("COLL_PATH",$this->formatPath($node['ref_id']));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-		$this->tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
-		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
 	}
 	
 	/**
@@ -219,6 +170,8 @@ return;
 	public function saveItemAssignment()
 	{
 		global $ilCtrl;
+		
+		$this->checkPermission("write");
 
 		include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
 
@@ -310,6 +263,20 @@ return;
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
+
+	/**
+	 * Custom callback after object is created (in parent containert
+	 * 
+	 * @param ilObject $a_obj 
+	 */	
+	public function afterSaveCallback(ilObject $a_obj)
+	{		
+		// add new object to materials
+		include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
+		$items = new ilItemGroupItems($this->object->getRefId());
+		$items->addItem($a_obj->getRefId());
+		$items->update();
+	}	
 
 }
 ?>
