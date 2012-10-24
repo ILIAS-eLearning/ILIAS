@@ -34,6 +34,7 @@ include_once './Services/Administration/interfaces/interface.ilAdministrationCom
 * @version $Id$
 * 
 * @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchController
+* @ilCtrl_Calls ilLuceneSearchGUI: ilPropertyFormGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI

@@ -3,10 +3,6 @@
 
 include_once 'Services/Search/classes/class.ilSearchBaseGUI.php';
 
-define('SEARCH_FAST',1);
-define('SEARCH_DETAILS',2);
-define('SEARCH_AND','and');
-define('SEARCH_OR','or');
 
 
 /**
@@ -43,29 +39,21 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 		$lng->loadLanguageModule("search");
 		
-		$this->obj_types = array (
-			"lms" => $lng->txt("learning_resources"),
-			"glo" => $lng->txt("objs_glo"),
-			"wiki" => $lng->txt("objs_wiki"),
-			"mcst" => $lng->txt("objs_mcst"),
-			"fil" => $lng->txt("objs_file"),
-			"frm" => $lng->txt("objs_frm"),
-			"exc" => $lng->txt("objs_exc"),
-			"tst" => $lng->txt("search_tst_svy"),
-			"mep" => $lng->txt("objs_mep")
-			);
-		
 		// put form values into "old" post variables
 		$this->initStandardSearchForm();
 		$this->form->checkInput();
-		reset($this->obj_types);
 		
 		$new_search = isset($_POST['cmd']['performSearch']) ? true : false;
-		
-		foreach($this->obj_types as $k => $t)
+
+		$enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
+		foreach($enabled_types as $type => $pval)
 		{
-			$_POST["search"]["details"][$k] = $_POST[$k];
+			if($_POST[$type] == 1)
+			{
+				$_POST["search"]["details"][$type] = $_POST[$type];
+			}
 		}
+
 		$_POST["search"]["string"] = $_POST["term"];
 		$_POST["search"]["combination"] = $_POST["combination"];
 		$_POST["search"]["type"] = $_POST["type"];
@@ -77,8 +65,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->setString($_POST['search']['string'] ? $_POST['search']['string'] : $_SESSION['search']['string']);
 		#$this->setDetails($_POST['search']['details'] ? $_POST['search']['details'] : $_SESSION['search']['details']);
 		$this->setDetails($new_search ? $_POST['search']['details'] : $_SESSION['search']['details']);
-
-		parent::ilSearchBaseGUI();
+		parent::__construct();
 	}
 
 
@@ -92,7 +79,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	}
 	function getType()
 	{
-		return $this->type ? $this->type : SEARCH_FAST;
+		return $this->type ? $this->type : ilSearchBaseGUI::SEARCH_FAST;
 	}
 	/**
 	* Set/get combination of search ('and' or 'or')
@@ -104,7 +91,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	}
 	function getCombination()
 	{
-		return $this->combination ? $this->combination : SEARCH_OR;
+		return $this->combination ? $this->combination : ilSearchBaseGUI::SEARCH_OR;
 	}
 	/**
 	* Set/get search string
@@ -219,6 +206,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
 		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
 		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
+		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchBaseGUI::SEARCH_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
+		$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_fast_info"));
 		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
 		$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
 		
@@ -268,23 +257,20 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->form->setOpenTag(false);
 		$this->form->setCloseTag(false);
 
-		// search term
-		/*$ti = new ilTextInputGUI($lng->txt("search_search_term"), "term");
-		$ti->setMaxLength(200);
-		$ti->setSize(30);
-		$ti->setValue($this->getString());
-		$ti->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", true));
-		$this->form->addItem($ti);*/
-		
 		// term combination 
+		$radg = new ilHiddenInputGUI('search_term_combination');
+		$radg->setValue(ilSearchSettings::getInstance()->getDefaultOperator());
+		$this->form->addItem($radg);
+		
+		/**
 		$radg = new ilRadioGroupInputGUI($lng->txt("search_term_combination"),
 			"combination");
-		$radg->setValue(($this->getCombination() == SEARCH_AND) ? "and" : "or");
+		$radg->setValue(($this->getCombination() == ilSearchBaseGUI::SEARCH_AND) ? "and" : "or");
 		$op1 = new ilRadioOption($lng->txt("search_any_word"), "or");
 		$radg->addOption($op1);
 		$op2 = new ilRadioOption($lng->txt("search_all_words"), "and");
 		$radg->addOption($op2);
-		$this->form->addItem($radg);
+		*/
 		
 		// search area
 		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
@@ -292,6 +278,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$ti->setSelectText($lng->txt("search_select_search_area"));
 		$this->form->addItem($ti);
 		$ti->readFromSession();
+		
 		// alex, 15.8.2012: Added the following lines to get the value
 		// from the main menu top right input search form
 		if (isset($_POST["root_id"]))
@@ -299,32 +286,33 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$ti->setValue($_POST["root_id"]);
 			$ti->writeToSession();
 		}
-		
-		// search type
-		$radg = new ilRadioGroupInputGUI($lng->txt("search_type"), "type");
-		$radg->setValue($this->getType() == SEARCH_FAST ? SEARCH_FAST : SEARCH_DETAILS);
-		$op1 = new ilRadioOption($lng->txt("search_fast_info"), SEARCH_FAST);
-		$radg->addOption($op1);
-		$op2 = new ilRadioOption($lng->txt("search_details_info"), SEARCH_DETAILS);
-		
-			// resource types
+		if(ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
+		{
+			// search type
+			$radg = new ilRadioGroupInputGUI($lng->txt("search_type"), "type");
+			$radg->setValue(
+				$this->getType() == 
+					ilSearchBaseGUI::SEARCH_FAST ? 
+					ilSearchBaseGUI::SEARCH_FAST : 
+					ilSearchBaseGUI::SEARCH_DETAILS
+				);
+			$op1 = new ilRadioOption($lng->txt("search_fast_info"), ilSearchBaseGUI::SEARCH_FAST);
+			$radg->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("search_details_info"), ilSearchBaseGUI::SEARCH_DETAILS);
+
 			$details = $this->getDetails();
-			reset($this->obj_types);
-			foreach ($this->obj_types as $k => $t)
+			foreach(ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data)
 			{
-				$cb = new ilCheckboxInputGUI($t, $k);
-				$cb->setChecked($details[$k]);
+				$cb = new ilCheckboxInputGUI($lng->txt($data['trans']),$type);
+				$cb->setValue(1);
+				$cb->setChecked($details[$type]);
 				$op2->addSubItem($cb);
 			}
-			
-		$radg->addOption($op2);
-		$this->form->addItem($radg);
-		
-		
-		// search command
-		//$this->form->addCommandButton("performSearch", $lng->txt("search"));
-	                
-		//$this->form->setTitle($lng->txt("search"));
+
+			$radg->addOption($op2);
+			$this->form->addItem($radg);
+		}
+				
 		$this->form->setFormAction($ilCtrl->getFormAction($this,'performSearch'));
 	 
 	}
@@ -388,11 +376,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->search_cache->deleteCachedEntries();
 		}
 
-		if($this->getType() == SEARCH_DETAILS and !$this->getDetails())
+		if($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS and !$this->getDetails())
 		{
 			ilUtil::sendInfo($this->lng->txt('search_choose_object_type'));
 			$this->showSearch();
-
 			return false;
 		}
 
@@ -421,7 +408,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$result->mergeEntries($result_meta);
 	
 		// Perform details search in object specific tables
-		if($this->getType() == SEARCH_DETAILS)
+		if($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS)
 		{
 			$result = $this->__performDetailsSearch($query_parser,$result);
 		}
@@ -503,6 +490,18 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 			switch($type)
 			{
+				case 'crs':
+					$crs_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+					$crs_search->setFilter(array('crs'));
+					$result->mergeEntries($crs_search->performSearch());
+					break;
+				
+				case 'grp':
+					$grp_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+					$grp_search->setFilter(array('grp'));
+					$result->mergeEntries($crs_search->performSearch());
+					break;
+				
 				case 'lms':
 					$content_search =& ilObjectSearchFactory::_getLMContentSearchInstance($query_parser);
 					$content_search->setFilter($this->__getFilter());
@@ -599,7 +598,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
 		$obj_search =& ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
-		if($this->getType() == SEARCH_DETAILS)
+		if($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS)
 		{
 			$obj_search->setFilter($this->__getFilter());
 		}
@@ -617,7 +616,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 		include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
 
 		$meta_search =& ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
-		if($this->getType() == SEARCH_DETAILS)
+		if($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS)
 		{
 			$meta_search->setFilter($this->__getFilter());
 		}
@@ -648,7 +647,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	*/
 	function __getFilter()
 	{
-		if($this->getType() != SEARCH_DETAILS)
+		if($this->getType() != ilSearchBaseGUI::SEARCH_DETAILS)
 		{
 			return false;
 		}

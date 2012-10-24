@@ -21,6 +21,11 @@ include_once './Services/Administration/interfaces/interface.ilAdministrationCom
 */
 class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandHandling
 {
+	const SEARCH_FAST = 1;
+	const SEARCH_DETAILS = 2;
+	const SEARCH_AND = 'and';
+	const SEARCH_OR = 'or';
+	
 	var $settings = null;
 
 	protected $ctrl = null;
