@@ -3939,6 +3939,57 @@ a.ilMediaLightboxClose {
 	max-width: 100%;
 }
 
+/* Modules/Forum */
+#ilFrmPostList {
+	list-style:none;
+	margin:0;
+	padding:0
+}
+
+.ilFrmPostImage {
+	float:left
+}
+
+.ilFrmPostImage img {
+	vertical-align:top;
+	margin:5px;
+	border:none
+}
+
+.ilFrmPostClear {
+	clear:both;
+	width:1px;
+	height:1px;
+	line-height:1px
+}
+
+.ilFrmPostContentContainer {
+	margin: 20px 0 10px 0
+}
+
+.ilFrmPostCensorshipAdvice {
+	margin:0;
+	padding:0;
+	font-weight:bold
+}
+
+.ilFrmPostAttachmentsContainer {
+	margin:20px 0 0 0;
+	font-weight:bold
+}
+
+.ilFrmPostAttachmentsContainer a {
+	font-weight:normal
+}
+
+.ilFrmPostAttachmentsContainer img {
+	vertical-align:middle
+}
+
+.ilFrmPostCommands {
+	text-align: right;
+	margin: 0 0 3px 0
+}
 
 /* basic responsiveness (beta) */
 @media
@@ -4230,13 +4281,13 @@ a.ilMediaLightboxClose {
 		float: none;
 	}
 
-	tr.ilForumPosting div.ilForm,
-	tr.ilForumPosting div.ilForm input[type=text],
-	tr.ilForumPosting div.ilForm textarea {
+	.iosFrmPostRow div.ilForm,
+	.iosFrmPostRow div.ilForm input[type=text],
+	.iosFrmPostRow div.ilForm textarea {
 		width: 100%;
 	}
-	
-	tr.ilForumPosting img.ilUserIcon {
+
+	.iosFrmPostRow img.ilUserIcon {
 		width: 50px;
 		height: 50px;
 	}

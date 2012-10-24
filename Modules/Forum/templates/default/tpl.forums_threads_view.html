@@ -1,77 +1,35 @@
-<!--{COUNT_POST}-->
-<br /><a name="move_up"></a>
+<a name="frm_page_top"></a>
 {THREAD_MENU}
-<br />
-<!-- BEGIN posttable -->
-<table class="fullwidth">
-<tr class="tblheader">
-	<td class="std" width="80px">{TXT_AUTHOR}</td>
-	<td class="std">{TXT_POST}</td>
-</tr>
-<!-- BEGIN posts_row -->
-<tr class="ilForumPosting">
-	<td valign="top" class="{ROWCOL}" style="width: 100px;{MODROWCOL};">
-		<span class="small">
-		<!-- BEGIN usr_name -->{USR_NAME}<br /><!-- END usr_name -->{AUTHOR}<!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym -->
-		<!-- BEGIN usr_image --><br /><img class="ilUserIcon" src="{USR_IMAGE}" border="0" style="vertical-align: text-bottom; margin: 5px;" /><!-- END usr_image -->
-		</span>
-	</td>
-<td class="{ROWCOL}" valign="top" style="{MODROWCOL};">
-    	<div style="float: right;">
-			<span class="small">{TXT_CREATE_DATE}:&nbsp;{POST_DATE}</span>
-			<!-- BEGIN post_update --><br /><span class="small">{POST_UPDATE}</span><!-- END post_update -->
-			<!-- BEGIN post_not_activated_yet --><br /><span class="small"><i>{POST_NOT_ACTIVATED_YET}</i></span><!-- END post_not_activated_yet -->
-		</div>
-		<a name="{POST_ANKER}"></a>
-		<span class="frmPostTitle"><img border="0" align="top" src="{IMG_POSTING}" /><small> {SUBJECT}</small></span>
-		<!-- BEGIN mark_icon -->&nbsp;<img border="0" style="vertical-align:top;" alt="{TXT_MARK_ICON}" src="{IMG_MARK_ICON}" /><!-- END mark_icon --><br />
-		<div style="margin: 20px 0px 10px 0px;">
-			<!-- BEGIN censorship_advice --><b>{TXT_CENSORSHIP_ADVICE}:</b><br /><!-- END censorship_advice -->
-			{POST}
-			<div style="line-height:1px;height:1px;clear:both"></div>
-			<!-- BEGIN attachments -->
-			<div style="margin:20px 0px 0px 0px;">
-				<span class="small">
-				<img src="{DOWNLOAD_IMG}" style="vertical-align:middle" alt="{TXT_DOWNLOAD_ATTACHMENT}" title="{TXT_DOWNLOAD_ATTACHMENT}" border="0" />
-				<b>{TXT_ATTACHMENTS_DOWNLOAD}</b>
-				<!-- BEGIN attachment_download_row -->
-				<br /><a href="{HREF_DOWNLOAD}" title="{TXT_FILENAME}">{TXT_FILENAME}</a>
-				<!-- END attachment_download_row -->
-				</span>
+<br /><!-- BEGIN posttable -->
+<ul id="ilFrmPostList"><!-- BEGIN posts_row -->
+	<li class="ilFrmPostRow{ROWCOL}">
+		<div>
+			<div class="ilFrmPostHeader"><!-- BEGIN usr_image -->
+				<div class="ilFrmPostImage"><img class="ilUserIcon" src="{USR_IMAGE}" /></div><!-- END usr_image -->
+				<span class="small"><!-- BEGIN usr_name -->{USR_NAME}<br /><!-- END usr_name -->{AUTHOR}<!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym --> | {POST_DATE}<!-- BEGIN post_update --> | {POST_UPDATE}<!-- END post_update --><!-- BEGIN post_not_activated_yet --><br /><span class="ilFrmPostActivationStatus">{POST_NOT_ACTIVATED_YET}</span><!-- END post_not_activated_yet --></span>
+				<div class="ilFrmPostTitle">{SUBJECT}</div>
 			</div>
-			<!-- END attachments -->
+			<div id="{POST_ANKER}" class="ilFrmPostClear"></div>
+			<div class="ilFrmPostContentContainer"><!-- BEGIN censorship_advice -->
+				<div class="ilFrmPostCensorshipAdvice">{TXT_CENSORSHIP_ADVICE}:</div><!-- END censorship_advice -->
+				<div class="ilFrmPostContent">{POST}</div>
+				<div class="ilFrmPostClear"></div>	<!-- BEGIN attachments -->
+				<div class="ilFrmPostAttachmentsContainer small">
+					<img src="{DOWNLOAD_IMG}" alt="{TXT_DOWNLOAD_ATTACHMENT}" title="{TXT_DOWNLOAD_ATTACHMENT}" />
+					{TXT_ATTACHMENTS_DOWNLOAD}<!-- BEGIN attachment_download_row -->
+					<br /><a href="{HREF_DOWNLOAD}" title="{TXT_FILENAME}">{TXT_FILENAME}</a><!-- END attachment_download_row -->
+				</div><!-- END attachments -->
+			</div><!-- BEGIN commands_block -->
+			<div class="ilFrmPostCommands"><!-- BEGIN commands -->
+				<a class="il_ContainerItemCommand" href="{COMMANDS_COMMAND}">{COMMANDS_TXT}</a><!-- END commands -->
+			</div><!-- END commands_block -->
+			<a name="{REPLY_ANKER}"></a>
+			{FORM}
+			{FORM_ADDITIONAL_JS}
 		</div>
-<!-- BEGIN commands_block -->
-		<div style="text-align: right; margin: 0px 0px 3px 0px;">
-		<!-- BEGIN commands -->
-		<a class="il_ContainerItemCommand" href="{COMMANDS_COMMAND}">{COMMANDS_TXT}</a>
-		<!-- END commands -->			
-		</div>		
-<!-- END commands_block -->
-		<a name="{REPLY_ANKER}"></a>
-		{FORM}
-		<script type="text/javascript">
-		//<![CDATA[
-		{FRM_POST_JS}
-		//]]>
-		</script>
-	</td>
-</tr>
-<!-- END posts_row -->
-<!-- BEGIN posts_no -->
-<tr>
-	<td colspan="2">{TXT_MSG_NO_POSTS_AVAILABLE}</td>
-</tr>
-<!-- END posts_no -->
-</table>
-<!-- END posttable -->
-<br />
+	</li><!-- END posts_row --><!-- BEGIN posts_no -->
+	</li>{TXT_MSG_NO_POSTS_AVAILABLE}</li><!-- END posts_no -->
+</ul><!-- END posttable -->
 
 {THREAD_MENU}
 {THREAD_TOOLBAR}
-
-<!-- BEGIN javascript_block -->
-<script type="text/javascript" language="JavaScript">
-parent.frames['tree'].document.location.href = '{JAVASCRIPT}';
-</script>
-<!-- END javascript_block -->
