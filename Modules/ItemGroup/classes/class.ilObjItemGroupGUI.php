@@ -205,9 +205,18 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	function setTabs()
 	{
-		global $ilAccess, $ilTabs, $ilCtrl, $ilHelp, $lng;
+		global $ilAccess, $ilTabs, $ilCtrl, $ilHelp, $lng, $tree;
 		
 		$ilHelp->setScreenIdComponent("itgr");
+		
+		$parent_ref_id = $tree->getParentId($this->object->getRefId());
+		$parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
+		$parent_type = ilObject::_lookupType($parent_obj_id);
+		
+		include_once("./Services/Link/classes/class.ilLink.php");
+		$ilTabs->setBackTarget(
+			$lng->txt('obj_'.$parent_type),
+			ilLink::_getLink($parent_ref_id), "_top");
 		
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{

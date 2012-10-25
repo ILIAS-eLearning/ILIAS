@@ -1381,9 +1381,7 @@ input.submit, a.submit, a.submit:hover
 	background-position: bottom;
 	background-repeat:repeat-x;
 	color:#335599;
-	border-width:1px;
-	border-color: #D0D0D0;
-	border-style:solid;
+	border:1px solid #D0D0D0;
 	padding: 1px 5px;
 	margin: 0px;
 	text-decoration:none;
@@ -2472,7 +2470,7 @@ div.ilTabContentInner {
 div.ilLeftNav {
 	top:85px;
 	bottom:	0;
-	width: 350px;
+	width: 300px;
 	float:left;
 	position: fixed;
 	padding: 5px;
@@ -2485,7 +2483,7 @@ div.ilLeftNav {
 /* bottom center area (optional bottom area, used e.g. in learning modules) */
 div.ilBotCenterArea {
 	bottom:	0px;
-	left:	360px;
+	left:	310px;
 	right: 0px;
 	height: 200px;
 	position: fixed;
@@ -2513,7 +2511,7 @@ img.ilAreaClose {
 }
 
 div.ilLeftNavSpace {
-	padding: 0 20px 0 360px;
+	padding: 0 20px 0 310px;
 }
 
 div.ilContentFixed {
@@ -2521,7 +2519,7 @@ div.ilContentFixed {
 	box-shadow: inset 0px 2px 2px #D0D0D0;
 	right: 0px;
 	bottom: 0px;
-	left: 360px;
+	left: 310px;
 	position: fixed;
 	top:85px;
 	overflow: auto;
@@ -3978,6 +3976,10 @@ div.ilFrmPostHeader span.small {
 
 .ilFrmPostRow div.ilForm div.ilFormValue {
 	width: 600px;
+}
+
+.ilFrmPostRow div.ilForm div.ilFormOption {
+	width: auto;
 }
 
 .ilFrmPostCensorshipAdvice {
