@@ -12963,3 +12963,4 @@ search#:#search_option_online#:#Online
 search#:#search_option_offline#:#Offline
 common#:#ilinc_abandoned_info#:#Die integrierte netucate LearnLinc-Schnittstelle wird mit ILIAS 4.3 nicht mehr unterstützt. Bitte steigen Sie jetzt um auf das neue iLinc-Plugin, um virtuelle Klassenzimmer von LearnLinc in ILIAS zu verwenden. Weitere Infos auf der <a href="http://http://www.netucate.com/">netucate-Webseite.</a>
 forum#:#sort_by_date#:#Sortieren nach Datum
+forum#:#error_reading_file#:#Beim Lesen der Datei ist ein Fehler aufgetreten
