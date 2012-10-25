@@ -425,7 +425,7 @@ abstract class ilContainerContentGUI
 	*
 	* @return	string		item HTML
 	*/
-	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false)
+	function renderItem($a_item_data,$a_position = 0,$a_force_icon = false, $a_pos_prefix = "")
 	{
 		global $ilSetting,$ilAccess,$ilCtrl;
 
@@ -447,7 +447,7 @@ abstract class ilContainerContentGUI
 		}
 		if ($this->getContainerGUI()->isActiveOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI'))
 		{
-			$item_list_gui->setPositionInputField("[".$a_item_data["ref_id"]."]",
+			$item_list_gui->setPositionInputField($a_pos_prefix."[".$a_item_data["ref_id"]."]",
 				sprintf('%d', (int)$a_position*10));
 		}
 		if($a_item_data['type'] == 'sess' and get_class($this) != 'ilContainerObjectiveGUI')
@@ -478,7 +478,7 @@ abstract class ilContainerContentGUI
 					break;
 			}
 		}
-		
+
 		// show subitems
 		if($a_item_data['type'] == 'sess' and (
 											$this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE or
@@ -837,7 +837,6 @@ abstract class ilContainerContentGUI
 				}
 			}
 		}
-		
 		return $rendered;
 	}
 	
@@ -873,7 +872,7 @@ abstract class ilContainerContentGUI
 		$position = 1;
 		foreach($items as $item)
 		{
-			$html2 = $this->renderItem($item, $position++);
+			$html2 = $this->renderItem($item, $position++, false, "[itgr][".$a_itgr['obj_id']."]");
 			if ($html2 != "")
 			{
 				$this->addStandardRow($a_tpl, $html2, $item["child"]);
