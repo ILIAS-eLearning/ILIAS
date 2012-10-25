@@ -947,17 +947,20 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// by answer view
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-		$this->ctrl->setParameter($this, 'viewmode', 'answers');
+		$this->ctrl->setParameter($this, 'viewmode', ilForumProperties::VIEW_TREE);
+		
 		$ilTabs->addTarget('sort_by_posts', $this->ctrl->getLinkTarget($this, 'viewThread'));
 	
 		// by date view
-		$this->ctrl->setParameter($this, 'viewmode', 'date');
+		$this->ctrl->setParameter($this, 'viewmode', ilForumProperties::VIEW_DATE);
+		
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$ilTabs->addTarget('order_by_date',	$this->ctrl->getLinkTarget($this, 'viewThread'));
 		$this->ctrl->clearParameters($this);
 
-		if($_SESSION['viewmode']== 'date')
+		if($_SESSION['viewmode']== 'date'
+		||$_SESSION['viewmode']== ilForumProperties::VIEW_DATE)
 		{
 			$ilTabs->setTabActive('order_by_date');
 		}
@@ -1072,6 +1075,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		 */
 		global $lng;
 		
+		/** @var $form_tpl ilTemplate */
 		$form_tpl = new ilTemplate('tpl.frm_delete_post_form.html', true, true, 'Modules/Forum');
 
 		$form_tpl->setVariable('ANKER', $this->objCurrentPost->getId());
@@ -1810,7 +1814,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		global $tpl, $lng, $ilUser, $ilAccess, $rbacreview, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar;
 
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
-
 		if(!isset($_SESSION['viewmode']))
 		{
 			$_SESSION['viewmode'] = $this->objProperties->getDefaultView();
@@ -1826,8 +1829,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if(isset($_SESSION['thread_control']['old']) && $_GET['thr_pk'] != $_SESSION['thread_control']['old'])
 		{
 			$_SESSION['thread_control']['new'] = $_GET['thr_pk'];
-//			$_SESSION['viewmode'] = 'answers';
-			//$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'] = array(0);
 		}
 
 		if(isset($_GET['viewmode']) && $_GET['viewmode'] != $_SESSION['viewmode'])
@@ -1835,14 +1836,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$_SESSION['viewmode'] = $_GET['viewmode'];
 		}
 
-		if( (isset($_GET['action']) &&  $_SESSION['viewmode'] != 'date')
-			||($_SESSION['viewmode'] == 'answers'))
+		if( (isset($_GET['action']) && $_SESSION['viewmode'] != ilForumProperties::VIEW_DATE)
+		||($_SESSION['viewmode'] == ilForumProperties::VIEW_TREE))  
 		{
-			$_SESSION['viewmode'] = 'answers';
+			$_SESSION['viewmode'] = ilForumProperties::VIEW_TREE;
 		}
 		else
 		{
-			$_SESSION['viewmode'] = 'date';
+			$_SESSION['viewmode'] = ilForumProperties::VIEW_DATE;
 		}
 
 		if(!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
@@ -1917,8 +1918,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			if(!$path = $file_obj->getFileDataByMD5Filename($_GET['file']))
 			{
-				// @todo: Replace with language variable
-				ilUtil::sendInfo('Error reading file!');
+				ilUtil::sendFailure('error_reading_file');
 			}
 			else
 			{
@@ -1926,7 +1926,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 
-		if ($_SESSION['viewmode'] == 'date')
+		if ($_SESSION['viewmode'] == 'date'
+		|| $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE)
 		{
 			$orderField = 'frm_posts_tree.fpt_date';
 			$this->objCurrentTopic->setOrderDirection(
@@ -1961,6 +1962,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 																		 
 			// set tabs					
 			// menu template (contains linkbar)
+			/** @var $menutpl ilTemplate */
 			$menutpl = new ilTemplate('tpl.forums_threads_menu.html', true, true, 'Modules/Forum');
 
 			include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
@@ -2621,16 +2623,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							}
 						}
 						
-						// Add target="_top"
-/*
-						$node->setMessage(nl2br(
-							preg_replace(
-								'/<a((?![^>]+target="[^>]*")[^>]*)>/ims',
-							 	'<a target="_top"$1>',
-							 	$node->getMessage())
-							)
-						);
-	## */
 						/** @todo mjansen: possible bugfix for mantis #8223 */
 						if($node->getMessage() == strip_tags($node->getMessage()))
 						{
@@ -2678,7 +2670,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
 		
 		// Render tree
-		if($_SESSION['viewmode'] == 'answers')
+		if($_SESSION['viewmode'] == 'answers'
+		|| $_SESSION['viewmode'] == ilForumProperties::VIEW_TREE)
 		{
 			$tpl->setLeftNavContent($this->getForumExplorer());
 		}
@@ -2755,9 +2748,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		/**
 		 * @var $ilUser ilObjUser
-		 * @var $ilAccess ilAccessHandler
 		 */
-		global $ilUser, $ilAccess;
+		global $ilUser;
 
 		unset($_SESSION['threads2move']);
 		unset($_SESSION['frm_topic_paste_expand']);
@@ -3425,6 +3417,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	
 	public function addLocatorItems()
 	{
+		/** 
+		 * @var $ilLocator ilLocatorGUI */
 		global $ilLocator;
 		
 		if($this->object instanceof ilObject)
@@ -3489,7 +3483,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	public function updateNotificationSettingsObject()
 	{
-		/** @todo nahmad@databay.de What about permission checks ??? */
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilErr		ilErr
+		 */
+		global $ilAccess, $ilErr;
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
 		
 		// instantiate the property form
 		$this->initNotificationSettingsForm();
@@ -3575,10 +3577,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		 * @var $tree ilTree
 		 * @var $tpl ilTemplate
 		 * @var $ilTabs ilTabsGUI
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilErr		ilErr
 		 */
-		global $tree, $tpl, $ilTabs;
+		global $tree, $tpl, $ilTabs, $ilAccess, $ilErr;
 
-		/** @todo nahmad@databay.de What about permission checks ??? */
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
 		
 		$tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_members_list.html', 'Modules/Forum');
 
@@ -3607,7 +3614,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// check if there a parent-node is a grp or crs
 		$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
 		$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
-
+		
+		if($grp_ref_id == 0 && $crs_ref_id == 0)
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		
 		/**
 		 * @var $oParticipants ilParticipants
 		 */
@@ -3625,7 +3637,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 			$oParticipants = ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
 		}
-		/** @todo nahmad@databay.de What if we did not have either a course nor a group??? */
 
 		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
 
@@ -3855,7 +3866,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	public function enableAdminForceNotiObject()
 	{
-		/** @todo nahmad@databay.de What about permission checks ??? */
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilErr		ilErr
+		 */
+		global $ilAccess, $ilErr;
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		
 		if(!isset($_POST['user_id']) || !is_array($_POST['user_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'), true);
@@ -3886,7 +3906,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	public function disableAdminForceNotiObject()
 	{
-		/** @todo nahmad@databay.de What about permission checks ??? */
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilErr		ilErr
+		 */
+		global $ilAccess, $ilErr;
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		
 		if(!isset($_POST['user_id']) || !is_array($_POST['user_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
@@ -3915,7 +3944,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	public function enableHideUserToggleNotiObject()
 	{
-		/** @todo nahmad@databay.de What about permission checks ??? */
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilErr		ilErr
+		 */
+		global $ilAccess, $ilErr;
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
 		if(!isset($_POST['user_id']) || !is_array($_POST['user_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
@@ -3950,7 +3987,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	public function disableHideUserToggleNotiObject()
 	{
-		/** @todo nahmad@databay.de What about permission checks ??? */
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 * @var $ilErr		ilErr
+		 */
+		global $ilAccess, $ilErr;
+		if(!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
+		}
+		
 		if(!isset($_POST['user_id']) || !is_array($_POST['user_id']))
 		{
 			ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
@@ -4099,6 +4145,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function addToDeskObject()
 	{
+		/** 
+		 * @var $ilSetting ilSetting
+		 * @var $lng ilLanguage
+		 */
 		global $ilSetting, $lng;
 
 		if((int)$ilSetting->get('disable_my_offers'))
