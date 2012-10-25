@@ -12671,6 +12671,8 @@ dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_description#:#Beschreibung
 dcl#:#dcl_export_table_excel#:#Export .xls
 dcl#:#dcl_confirm_delete_record#:#Möchten Sie diesen Datensatz wirklich löschen?
+dcl#:#dcl_confirm_delete_field#:#Möchten Sie dieses Feld wirklich löschen?
+dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_edit_table#:#Tabelleneigenschaften bearbeiten
 dcl#:#dcl_msg_table_edited#:#Tabelleneigenschaften wurden gespeichert.
 dcl#:#dcl_legend_placeholders#:#Platzhalter
