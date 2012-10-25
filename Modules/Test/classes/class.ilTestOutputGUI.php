@@ -1006,6 +1006,8 @@ class ilTestOutputGUI extends ilTestServiceGUI
 						{
 							$this->ctrl->redirect($this, "outQuestionSummaryWithObligationsInfo");
 						}
+						
+						$this->outQuestionSummary();
 					}
 					else
 					{
