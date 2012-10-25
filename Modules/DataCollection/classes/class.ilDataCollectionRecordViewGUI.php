@@ -73,7 +73,8 @@ class ilDataCollectionRecordViewGUI
 		$pageObj = new ilPageObjectGUI("dclf", $view_id);
 
 		$html = $pageObj->getHTML();
-
+        $tpl->addCss("./Services/COPage/css/content.css");
+        $tpl->fillCssFiles();
 		$table = new ilDataCollectionTable($this->record_obj->getTableId());
 		foreach($table->getFields() as $field)
 		{
@@ -93,10 +94,6 @@ class ilDataCollectionRecordViewGUI
 			$html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
 
 		}
-
-		$html = str_replace("\n", "", $html);
-		if(strcmp(trim($html), "") == 233)
-			$html = $lng->txt("dcl_no_view_defined");
 
 		$tpl->setContent($html);
 	}

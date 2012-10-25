@@ -12921,6 +12921,8 @@ blog#:#blog_contribute_other_roles#:#The following roles give an active "contrib
 dcl#:#dcl_no_content_warning#:#Attention, the Data Collection is online but does not have content yet!
 dcl#:#dcl_visible#:#Visible for all users
 dcl#:#dcl_empty_view#:#Delete this View
+dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?
+dcl#:#dcl_table_info_title#:#Info
 dcl#:#dcl_confirm_delete_view_title#:#Do you really want to delete this view?
 dcl#:#dcl_confirm_delete_view_text#:#The Viewdefinition of the records of this table will be removed irreversibly, the records and fields themselfs will not be changed.
 dcl#:#dcl_empty_view_success#:#The Viewdefinition has successfuly been deleted.
