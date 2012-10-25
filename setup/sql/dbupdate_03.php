@@ -13503,3 +13503,7 @@ $ilDB->update('crs_settings',
 
 $ilDB->dropTableColumn('crs_settings', 'auto_noti_disabled');
 ?>
+<#3787>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
