@@ -64,7 +64,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilBench;
+		global $ilBench, $ilCtrl;
 		
 		$ilBench->start('Lucene','0900_executeCommand');
 		$next_class = $this->ctrl->getNextClass($this);
@@ -73,6 +73,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->prepareOutput();
 		switch($next_class)
 		{
+			case "ilpropertyformgui":
+				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
+				$ilCtrl->setReturn($this, "");
+				$ilCtrl->forwardCommand($this->form);
+				break;
+			
 			case 'ilobjectcopygui':
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
@@ -140,8 +146,31 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$GLOBALS["tpl"]->setPageFormAction($this->ctrl->getFormAction($this));
 		
 	}
-	 
-	 
+	
+	/**
+	 * Get type of search (details | fast)
+	 * @todo rename
+	 * Needed for base class search form
+	 */
+	protected function getType()
+	{
+		if(count($this->search_cache))
+		{
+			return ilSearchBaseGUI::SEARCH_DETAILS;
+		}
+		return ilSearchBaseGUI::SEARCH_FAST;
+	}
+	
+	/**
+	 * Needed for base class search form
+	 * @todo rename
+	 * @return type
+	 */
+	protected function getDetails()
+	{
+		return (array) $this->search_cache->getItemFilter();
+	}
+	
 	/**
 	 * Search from main menu
 	 */
@@ -164,9 +193,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	{
 		global $ilUser,$ilBench;
 		
-		$ilBench->start('Lucene','1000_savedResults');
-		$ilBench->start('Lucene','1000_qp');
-		
 		if(!strlen($this->search_cache->getQuery()))
 		{
 			$this->showSearchForm();
@@ -180,21 +206,14 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$searcher = ilLuceneSearcher::getInstance($qp);
 		$searcher->search();
 
-		$ilBench->stop('Lucene','1000_qp');
-
-		$ilBench->start('Lucene','1100_lr');
 		// Load saved results
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
 		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
 		$filter->loadFromDb();
-		$ilBench->stop('Lucene','1100_lr');
 
 		// Highlight
-		$ilBench->start('Lucene','1200_hi');
 		$searcher->highlight($filter->getResultObjIds());
-		$ilBench->stop('Lucene','1200_hi');
 		
-		$ilBench->start('Lucene','1300_pr');
 		include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
 		$presentation = new ilSearchResultPresentation($this);
 		$presentation->setResults($filter->getResultIds());
@@ -202,14 +221,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$presentation->setSearcher($searcher);
 
 		// TODO: other handling required
-		$ilBench->start('Lucene','1500_fo');
 		$this->addPager($filter,'max_page');
-		$ilBench->stop('Lucene','1500_fo');
 
 		$presentation->setPreviousNext($this->prev_link, $this->next_link);
-		$ilBench->stop('Lucene','1300_pr');
-		
-		$ilBench->start('Lucene','1400_re');
 			
 		$this->showSearchForm();	
 
@@ -221,9 +235,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'),$qp->getQuery()));
 		}
-		$ilBench->stop('Lucene','1400_re');
-		
-		$ilBench->stop('Lucene','1000_savedResults');
 	}
 	
 	/**
@@ -232,7 +243,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function search()
 	{
-		$this->initFormSearch();
+		#$this->initFormSearch();
 		
 		if(!$this->form->checkInput())
 		{
@@ -281,7 +292,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 			}
 			$filter_query .= ') ';
 		}
-		
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearcher.php';
 		include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
 		$qp = new ilLuceneQueryParser($filter_query.' +('.$this->search_cache->getQuery().')');
@@ -290,14 +300,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$searcher->search();
 		
 		// Filter results
-		$ilBench->start('Lucene','ResultFilter');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultFilter.php';
 		include_once './Services/Search/classes/Lucene/class.ilLucenePathFilter.php';
 		$filter = ilLuceneSearchResultFilter::getInstance($ilUser->getId());
 		$filter->addFilter(new ilLucenePathFilter($this->search_cache->getRoot()));
 		$filter->setCandidates($searcher->getResult());
 		$filter->filter();
-		$ilBench->stop('Lucene','ResultFilter');
 				
 		if($filter->getResultObjIds()) {
 			$searcher->highlight($filter->getResultObjIds());
@@ -506,15 +514,24 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			$this->search_cache->setResultPageNumber((int) $_GET['page_number']);
 		}
-		if(isset($_POST['query']))
+		if(isset($_POST['term']))
 		{
-			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']));
+			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
 			if($_POST['item_filter_enabled'])
 			{
-				$this->search_cache->setItemFilter($_POST['filter']);
+				$filtered = array();
+				foreach(ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data)
+				{
+					if($_POST['filter_type'][$type])
+					{
+						$filtered[$type] = 1;
+					}
+				}
+				$this->search_cache->setItemFilter($filtered);
 			}
 			else
 			{
+				// @todo: keep item filter settings
 				$this->search_cache->setItemFilter(array());
 			}
 		}
@@ -621,11 +638,34 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->page_form_action = $a_action;
 	}
 	
+	/**
+	 * Show search form
+	 * @return boolean
+	 */
 	protected function showSearchForm()
 	{
+		global $ilCtrl, $lng;
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lucene_search.html','Services/Search');
-		$this->initFormSearch();
-		$this->tpl->setVariable('SEARCH_TABLE',$this->form->getHTML());
+
+		// include js needed
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		ilOverlayGUI::initJavascript();
+		$this->tpl->addJavascript("./Services/Search/js/Search.js");
+
+		$this->tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this,'performSearch'));
+		$this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->search_cache->getQuery()));
+		$this->tpl->setVariable("TXT_SEARCH", $lng->txt("search"));
+		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
+		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
+		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
+		$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_fast_info"));
+		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
+		$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
+		
+		$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
+		$this->tpl->setVariable('FORM',$this->form->getHTML());
 		return true;
 	}
 }

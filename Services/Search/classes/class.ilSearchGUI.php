@@ -33,14 +33,14 @@ class ilSearchGUI extends ilSearchBaseGUI
 	* Constructor
 	* @access public
 	*/
-	function ilSearchGUI()
+	public function __construct()
 	{
 		global $ilUser, $lng;
 
 		$lng->loadLanguageModule("search");
 		
 		// put form values into "old" post variables
-		$this->initStandardSearchForm();
+		$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
 		$this->form->checkInput();
 		
 		$new_search = isset($_POST['cmd']['performSearch']) ? true : false;
@@ -48,9 +48,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
 		foreach($enabled_types as $type => $pval)
 		{
-			if($_POST[$type] == 1)
+			if($_POST['filter_type'][$type] == 1)
 			{
-				$_POST["search"]["details"][$type] = $_POST[$type];
+				$_POST["search"]["details"][$type] = $_POST['filter_type'][$type];
 			}
 		}
 
@@ -68,6 +68,47 @@ class ilSearchGUI extends ilSearchBaseGUI
 		parent::__construct();
 	}
 
+
+	/**
+	* Control
+	* @access public
+	*/
+	public function executeCommand()
+	{
+		global $rbacsystem, $ilCtrl;
+
+
+		$next_class = $this->ctrl->getNextClass($this);
+		$cmd = $this->ctrl->getCmd();
+
+		switch($next_class)
+		{
+			case "ilpropertyformgui":
+				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
+				$this->prepareOutput();
+				$ilCtrl->setReturn($this, "");
+				return $ilCtrl->forwardCommand($this->form);
+				break;
+				
+			case 'ilobjectcopygui':
+				$this->prepareOutput();
+				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
+				$cp = new ilObjectCopyGUI($this);
+				$this->ctrl->forwardCommand($cp);
+				break;
+			
+			default:
+				$this->initUserSearchCache();
+				if(!$cmd)
+				{
+					$cmd = "showSavedResults";
+				}
+				$this->prepareOutput();
+				$this->handleCommand($cmd);
+				break;
+		}
+		return true;
+	}
 
 	/**
 	* Set/get type of search (detail or 'fast' search)
@@ -128,46 +169,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$_SESSION['search_root'] = $this->root_node = $a_node_id;
 	}
 		
-	/**
-	* Control
-	* @access public
-	*/
-	function &executeCommand()
-	{
-		global $rbacsystem, $ilCtrl;
-
-
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd = $this->ctrl->getCmd();
-
-		switch($next_class)
-		{
-			case "ilpropertyformgui":
-				$this->initStandardSearchForm();
-				$this->prepareOutput();
-				$ilCtrl->setReturn($this, "");
-				return $ilCtrl->forwardCommand($this->form);
-				break;
-				
-			case 'ilobjectcopygui':
-				$this->prepareOutput();
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
-				$cp = new ilObjectCopyGUI($this);
-				$this->ctrl->forwardCommand($cp);
-				break;
-			
-			default:
-				$this->initUserSearchCache();
-				if(!$cmd)
-				{
-					$cmd = "showSavedResults";
-				}
-				$this->prepareOutput();
-				$this->handleCommand($cmd);
-				break;
-		}
-		return true;
-	}
 	
 	function remoteSearch()
 	{
@@ -206,12 +207,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_OPTIONS", $lng->txt("options"));
 		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
 		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
-		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchBaseGUI::SEARCH_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
+		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
 		$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_fast_info"));
 		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
 		$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
 		
-		$this->initStandardSearchForm();
+		$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
 		$this->tpl->setVariable("FORM", $this->form->getHTML());
 
 		return true;
@@ -245,77 +246,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
-	/**
-	* Init standard search form.
-	*/
-	public function initStandardSearchForm()
-	{
-		global $lng, $ilCtrl;
-	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setOpenTag(false);
-		$this->form->setCloseTag(false);
-
-		// term combination 
-		$radg = new ilHiddenInputGUI('search_term_combination');
-		$radg->setValue(ilSearchSettings::getInstance()->getDefaultOperator());
-		$this->form->addItem($radg);
-		
-		/**
-		$radg = new ilRadioGroupInputGUI($lng->txt("search_term_combination"),
-			"combination");
-		$radg->setValue(($this->getCombination() == ilSearchBaseGUI::SEARCH_AND) ? "and" : "or");
-		$op1 = new ilRadioOption($lng->txt("search_any_word"), "or");
-		$radg->addOption($op1);
-		$op2 = new ilRadioOption($lng->txt("search_all_words"), "and");
-		$radg->addOption($op2);
-		*/
-		
-		// search area
-		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
-		$ti = new ilRepositorySelectorInputGUI($lng->txt("search_area"), "area");
-		$ti->setSelectText($lng->txt("search_select_search_area"));
-		$this->form->addItem($ti);
-		$ti->readFromSession();
-		
-		// alex, 15.8.2012: Added the following lines to get the value
-		// from the main menu top right input search form
-		if (isset($_POST["root_id"]))
-		{
-			$ti->setValue($_POST["root_id"]);
-			$ti->writeToSession();
-		}
-		if(ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
-		{
-			// search type
-			$radg = new ilRadioGroupInputGUI($lng->txt("search_type"), "type");
-			$radg->setValue(
-				$this->getType() == 
-					ilSearchBaseGUI::SEARCH_FAST ? 
-					ilSearchBaseGUI::SEARCH_FAST : 
-					ilSearchBaseGUI::SEARCH_DETAILS
-				);
-			$op1 = new ilRadioOption($lng->txt("search_fast_info"), ilSearchBaseGUI::SEARCH_FAST);
-			$radg->addOption($op1);
-			$op2 = new ilRadioOption($lng->txt("search_details_info"), ilSearchBaseGUI::SEARCH_DETAILS);
-
-			$details = $this->getDetails();
-			foreach(ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data)
-			{
-				$cb = new ilCheckboxInputGUI($lng->txt($data['trans']),$type);
-				$cb->setValue(1);
-				$cb->setChecked($details[$type]);
-				$op2->addSubItem($cb);
-			}
-
-			$radg->addOption($op2);
-			$this->form->addItem($radg);
-		}
-				
-		$this->form->setFormAction($ilCtrl->getFormAction($this,'performSearch'));
-	 
-	}
 	
 	function showSavedResults()
 	{

@@ -1,3 +1,12 @@
-{SEARCH_TABLE}
+<form method="post" action="{FORM_ACTION}">
+	<div class="ilToolbar"><input type="text" name="term" value="{TERM}" size="60" maxlength="200"/> <input class="submit" type="submit"  value="{TXT_SEARCH}" name="cmd[performSearch]" />
+		<a class="small" href="#" id="search_options_tr">{TXT_OPTIONS} {ARR_IMG}</a><div class="ilOverlay" id="search_options" style="display:none;">{FORM}</div>
+	</div>
+	<div class="xsmall light">
+		{TXT_COMBINATION}: <span id="sop_combination">{TXT_COMBINATION_DEFAULT}</span>,
+		{TXT_AREA}: <span id="sop_area"></span>,
+		{TXT_TYPE}: <span id="sop_type">{TXT_TYPE_DEFAULT}</span>
+	</div>
+</form>
 <br />
 {SEARCH_RESULTS}

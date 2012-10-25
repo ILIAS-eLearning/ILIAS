@@ -26,6 +26,9 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	const SEARCH_AND = 'and';
 	const SEARCH_OR = 'or';
 	
+	const SEARCH_FORM_LUCENE = 1;
+	const SEARCH_FORM_STANDARD = 2;
+	
 	var $settings = null;
 
 	protected $ctrl = null;
@@ -69,6 +72,96 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		ilUtil::infoPanel();
 
 	}
+	
+	/**
+	* Init standard search form.
+	*/
+	public function initStandardSearchForm($a_mode)
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setOpenTag(false);
+		$this->form->setCloseTag(false);
+
+		// term combination 
+		$radg = new ilHiddenInputGUI('search_term_combination');
+		$radg->setValue(ilSearchSettings::getInstance()->getDefaultOperator());
+		$this->form->addItem($radg);
+		
+		/**
+		$radg = new ilRadioGroupInputGUI($lng->txt("search_term_combination"),
+			"combination");
+		$radg->setValue(($this->getCombination() == ilSearchBaseGUI::SEARCH_AND) ? "and" : "or");
+		$op1 = new ilRadioOption($lng->txt("search_any_word"), "or");
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("search_all_words"), "and");
+		$radg->addOption($op2);
+		*/
+		
+		// search area
+		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
+		$ti = new ilRepositorySelectorInputGUI($lng->txt("search_area"), "area");
+		$ti->setSelectText($lng->txt("search_select_search_area"));
+		$this->form->addItem($ti);
+		$ti->readFromSession();
+		
+		// alex, 15.8.2012: Added the following lines to get the value
+		// from the main menu top right input search form
+		if (isset($_POST["root_id"]))
+		{
+			$ti->setValue($_POST["root_id"]);
+			$ti->writeToSession();
+		}
+		if(ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
+		{
+			
+
+			if($a_mode == self::SEARCH_FORM_STANDARD)
+			{
+				// search type
+				$radg = new ilRadioGroupInputGUI($lng->txt("search_type"), "type");
+				$radg->setValue(
+					$this->getType() == 
+						ilSearchBaseGUI::SEARCH_FAST ? 
+						ilSearchBaseGUI::SEARCH_FAST : 
+						ilSearchBaseGUI::SEARCH_DETAILS
+					);
+				$op1 = new ilRadioOption($lng->txt("search_fast_info"), ilSearchBaseGUI::SEARCH_FAST);
+				$radg->addOption($op1);
+				$op2 = new ilRadioOption($lng->txt("search_details_info"), ilSearchBaseGUI::SEARCH_DETAILS);
+			}
+			else
+			{
+				$op2 = new ilCheckboxInputGUI($this->lng->txt('search_item_filter'),'item_filter_enabled');
+				$op2->setValue(1);
+				$op2->setChecked($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS);
+			}
+
+			$details = $this->getDetails();
+			foreach(ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data)
+			{
+				$cb = new ilCheckboxInputGUI($lng->txt($data['trans']),'filter_type['.$type.']');
+				$cb->setValue(1);
+				$cb->setChecked($details[$type]);
+				$op2->addSubItem($cb);
+			}
+
+			if($a_mode == ilSearchBaseGUI::SEARCH_FORM_STANDARD)
+			{
+				$radg->addOption($op2);
+				$this->form->addItem($radg);
+			}
+			else
+			{
+				$this->form->addItem($op2);
+			}
+		}
+				
+		$this->form->setFormAction($ilCtrl->getFormAction($this,'performSearch'));
+	}
+	
 	
 	public function handleCommand($a_cmd)
 	{
