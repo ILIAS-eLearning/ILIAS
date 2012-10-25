@@ -355,7 +355,7 @@ class ilContainerSorting
 	protected function saveSubItems($a_parent_type,$a_parent_id,$a_items)
 	{
 		global $ilDB;
-		
+
 		foreach($a_items as $child_id => $position)
 		{
 			$ilDB->replace(
