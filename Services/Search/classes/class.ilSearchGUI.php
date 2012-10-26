@@ -76,6 +76,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 	public function executeCommand()
 	{
 		global $rbacsystem, $ilCtrl;
+		
 
 
 		$next_class = $this->ctrl->getNextClass($this);
@@ -86,9 +87,8 @@ class ilSearchGUI extends ilSearchBaseGUI
 			case "ilpropertyformgui":
 				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
 				$this->prepareOutput();
-				$ilCtrl->setReturn($this, "");
+				$ilCtrl->setReturn($this, 'storeRoot');
 				return $ilCtrl->forwardCommand($this->form);
-				break;
 				
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
@@ -177,6 +177,17 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->performSearch();
 		
 	}
+	
+	/**
+	 * Store new root node
+	 */
+	protected function storeRoot()
+	{
+		$this->root_node = $this->form->getItemByPostVar('area')->getValue();
+		$this->search_cache->setRoot($this->root_node);
+		$this->search_cache->save();
+		$this->performSearch();
+	}
 
 	/**
 	* Data resource for autoComplete
@@ -218,35 +229,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 		return true;
 	}
 
-	function showSelectRoot()
-	{
-		global $tree;
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search_root_selector.html','Services/Search');
-
-		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
-
-		ilUtil::sendInfo($this->lng->txt('search_area_info'));
-
-		$exp = new ilSearchRootSelector($this->ctrl->getLinkTarget($this,'showSelectRoot'));
-		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'showSelectRoot'));
-
-		// build html-output
-		$exp->setOutput(0);
-
-		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
-	}
-
-	function selectRoot()
-	{
-		$this->setRootNode((int) $_GET['root_id']);
-		$this->showSavedResults();
-
-		return true;
-	}
-
-	
 	function showSavedResults()
 	{
 		global $ilUser;
@@ -278,16 +260,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 				$this->tpl->setVariable('RESULTS_TABLE',$presentation->getHTML(true));
 			}
 		}
-
-		return true;
-	}
-
-	function searchInResults()
-	{
-		$this->search_mode = 'in_results';
-		$this->search_cache->setResultPageNumber(1);
-		unset($_SESSION['max_page']);
-		$this->performSearch();
 
 		return true;
 	}
@@ -662,8 +634,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 			$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
 			$this->search_cache->save();
 		}
-		
 	}
-	
 }
 ?>

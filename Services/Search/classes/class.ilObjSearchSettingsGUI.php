@@ -101,6 +101,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->object->settings_obj->enableLucene($_POST['search_lucene']);
 		$this->object->settings_obj->setHideAdvancedSearch($_POST['hide_adv_search']);
 		$this->object->settings_obj->setAutoCompleteLength($_POST['auto_complete_length']);
+		$this->object->settings_obj->setDefaultOperator((int) $_POST['operator']);
+		$this->object->settings_obj->enableLuceneItemFilter((int) $_POST['if']);
+		$this->object->settings_obj->setLuceneItemFilter((array) $_POST['filter']);
+		
 
 		$rpc_settings = ilRPCServerSettings::getInstance();
 		if($this->object->settings_obj->enabledLucene() and !$rpc_settings->pingServer())
@@ -208,6 +212,40 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		}		
 		$type->setRequired(true);
 		$this->form->addItem($type);
+
+		// Default operator
+		$operator = new ilRadioGroupInputGUI($this->lng->txt('lucene_default_operator'),'operator');
+		$operator->setRequired(true);
+		$operator->setInfo($this->lng->txt('lucene_default_operator_info'));
+		$operator->setValue($settings->getDefaultOperator());
+		
+		$and = new ilRadioOption($this->lng->txt('lucene_and'),ilSearchSettings::OPERATOR_AND);
+		$operator->addOption($and);
+		
+		$or = new ilRadioOption($this->lng->txt('lucene_or'),ilSearchSettings::OPERATOR_OR);
+		$operator->addOption($or);
+		$this->form->addItem($operator);
+		
+		
+		// Item filter
+		$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter_form'),'if');
+		$if->setValue(1);
+		$if->setChecked($settings->isLuceneItemFilterEnabled());
+		$if->setInfo($this->lng->txt('search_item_filter_form_info'));
+		$this->form->addItem($if);
+
+		$filter = $settings->getLuceneItemFilter();
+		foreach(ilSearchSettings::getLuceneItemFilterDefinitions() as $obj => $def)
+		{
+			$ch = new ilCheckboxInputGUI($this->lng->txt($def['trans']),'filter['.$obj.']');
+			if(isset($filter[$obj]) and $filter[$obj])
+			{
+				$ch->setChecked(true);
+			}
+			$ch->setValue(1);
+			$if->addSubItem($ch);
+		}
+		
 		
 		// hide advanced search 
 		$cb = new ilCheckboxInputGUI($lng->txt("search_hide_adv_search"), "hide_adv_search");
@@ -280,6 +318,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 				break;
 		}
 
+		$settings->setDefaultOperator((int) $_POST['operator']);
+		$settings->enableLuceneItemFilter((int) $_POST['if']);
+		$settings->setLuceneItemFilter((array) $_POST['filter']);
+
 		$settings->setHideAdvancedSearch($_POST['hide_adv_search']);
 		$settings->setAutoCompleteLength($_POST['auto_complete_length']);
 
@@ -324,17 +366,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->form->addCommandButton('saveLuceneSettings',$this->lng->txt('save'));
 		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
-		$operator = new ilRadioGroupInputGUI($this->lng->txt('lucene_default_operator'),'operator');
-		$operator->setRequired(true);
-		$operator->setInfo($this->lng->txt('lucene_default_operator_info'));
-		$operator->setValue($this->settings->getDefaultOperator());
-		
-		$and = new ilRadioOption($this->lng->txt('lucene_and'),ilSearchSettings::OPERATOR_AND);
-		$operator->addOption($and);
-		
-		$or = new ilRadioOption($this->lng->txt('lucene_or'),ilSearchSettings::OPERATOR_OR);
-		$operator->addOption($or);
-		$this->form->addItem($operator);
 		
 		// Offline filter
 		/*
@@ -345,24 +376,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->form->addItem($offline);
 		 */
 		
-		// Item filter
-		$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter_form'),'if');
-		$if->setValue(1);
-		$if->setChecked($this->settings->isLuceneItemFilterEnabled());
-		$if->setInfo($this->lng->txt('search_item_filter_form_info'));
-		$this->form->addItem($if);
-
-		$filter = $this->settings->getLuceneItemFilter();
-		foreach(ilSearchSettings::getLuceneItemFilterDefinitions() as $obj => $def)
-		{
-			$ch = new ilCheckboxInputGUI($this->lng->txt($def['trans']),'filter['.$obj.']');
-			if(isset($filter[$obj]) and $filter[$obj])
-			{
-				$ch->setChecked(true);
-			}
-			$ch->setValue(1);
-			$if->addSubItem($ch);
-		}
 
 		$numFrag = new ilNumberInputGUI($this->lng->txt('lucene_num_fragments'),'fragmentCount');
 		$numFrag->setRequired(true);
@@ -421,13 +434,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 		$this->initFormLuceneSettings();
 		
 		$settings = ilSearchSettings::getInstance();
-		$settings->setDefaultOperator((int) $_POST['operator']);
 		$settings->setFragmentCount((int) $_POST['fragmentCount']);
 		$settings->setFragmentSize((int) $_POST['fragmentSize']);
 		$settings->setMaxSubitems((int) $_POST['maxSubitems']);
 		$settings->showRelevance((int) $_POST['relevance']);
-		$settings->enableLuceneItemFilter((int) $_POST['if']);
-		$settings->setLuceneItemFilter((array) $_POST['filter']);
 		$settings->enableLuceneOfflineFilter((int) $_POST['offline_filter']);
 		
 		if($this->form->checkInput())
