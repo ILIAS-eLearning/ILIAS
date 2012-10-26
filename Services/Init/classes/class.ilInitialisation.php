@@ -852,6 +852,9 @@ class ilInitialisation
 	{
 		if(defined(SHOWNOTICES) && SHOWNOTICES)
 		{
+			// no further differentiating of php version regarding to 5.4 neccessary
+			// when the error reporting is set to E_ALL anyway
+			
 			// remove notices from error reporting
 			if (version_compare(PHP_VERSION, '5.3.0', '>='))
 			{
@@ -911,6 +914,13 @@ class ilInitialisation
 		global $ilErr;
 		
 		// remove notices from error reporting
+		if (version_compare(PHP_VERSION, '5.4.0', '>='))
+		{
+			// Prior to PHP 5.4.0 E_ALL does not include E_STRICT.
+			// With PHP 5.4.0 and above E_ALL >DOES< include E_STRICT.
+			
+			error_reporting(((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED) & ~E_STRICT);
+		}
 		if (version_compare(PHP_VERSION, '5.3.0', '>='))
 		{
 			error_reporting((ini_get("error_reporting") & ~E_NOTICE) & ~E_DEPRECATED);
