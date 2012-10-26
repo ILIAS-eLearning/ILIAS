@@ -3954,7 +3954,9 @@ a.ilMediaLightboxClose {
 }
 
 .ilFrmPostImage {
-	float:left
+	float:left;
+	width:100px;
+	overflow:hidden
 }
 
 .ilFrmPostImage img {
@@ -3980,7 +3982,13 @@ div.ilFrmPostHeader span.small {
 }
 
 .ilFrmPostContentContainer {
-	margin: 20px 0 10px 0
+	margin: 0 0 10px 0;
+	width: 80%;
+	float: left
+}
+
+.ilFrmPostContent {
+	margin-top: 20px
 }
 
 .ilFrmPostRow div.ilForm div.ilFormValue {
@@ -4011,7 +4019,7 @@ div.ilFrmPostHeader span.small {
 }
 
 .ilFrmPostCommands {
-	text-align: right;
+	float: right;
 	margin: 0 0 3px 0
 }
 
@@ -4330,4 +4338,7 @@ div.ilFrmPostHeader span.small {
 		max-width: 100%;
 	}
 
+	.ilFrmPostContentContainer {
+		width: 100%;
+	}
 }

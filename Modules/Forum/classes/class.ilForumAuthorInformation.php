@@ -193,6 +193,10 @@ class ilForumAuthorInformation
 				{
 					$this->profilePicture = $this->getAuthor()->getPersonalPicturePath('xsmall');
 				}
+				else
+				{
+					$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+				}
 
 				if($this->getAuthor()->getPref('public_gender') != 'y')
 				{
@@ -206,7 +210,7 @@ class ilForumAuthorInformation
 				$this->getAuthor()->setGender('');
 				$this->authorName = $this->getAuthor()->getLogin();
 				$this->buildAuthorProfileLink(false);
-
+				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 			}
 		}
 		else if(strlen($this->importName))
@@ -216,6 +220,7 @@ class ilForumAuthorInformation
 				$this->importName . ' (' . $lng->txt('imported') . ')' :
 				$lng->txt('unknown');
 			$this->buildAuthorProfileLink(false);
+			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else if(strlen($this->pseudonym))
 		{
@@ -223,12 +228,14 @@ class ilForumAuthorInformation
 			$this->authorName   = $this->pseudonym . ' (' . $lng->txt('frm_pseudonym') . ')';
 			$this->is_pseudonym = true;
 			$this->buildAuthorProfileLink(false);
+			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
 			$this->authorName = $lng->txt('forums_anonymous');
 			$this->buildAuthorProfileLink(false);
+			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 	}
 

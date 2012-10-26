@@ -4,29 +4,30 @@
 <ul id="ilFrmPostList"><!-- BEGIN posts_row -->
 	<li class="ilFrmPostRow{ROWCOL}">
 		<div>
-			<div class="ilFrmPostHeader"><!-- BEGIN usr_image -->
-				<div class="ilFrmPostImage"><img class="ilUserIcon" src="{USR_IMAGE}" /></div><!-- END usr_image -->
-				<span class="small"><!-- BEGIN usr_name -->{USR_NAME}<br /><!-- END usr_name -->{AUTHOR}<!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym --> | {POST_DATE}<!-- BEGIN post_update --> | {POST_UPDATE}<!-- END post_update --><!-- BEGIN post_not_activated_yet --><br /><span class="ilFrmPostActivationStatus">{POST_NOT_ACTIVATED_YET}</span><!-- END post_not_activated_yet --></span>
-				<div class="ilFrmPostTitle">{SUBJECT}</div>
-			</div>
-			<div id="{POST_ANKER}" class="ilFrmPostClear"></div>
-			<div class="ilFrmPostContentContainer"><!-- BEGIN censorship_advice -->
+			<div class="ilFrmPostImage"><img class="ilUserIcon" src="{USR_IMAGE}" /></div>
+			<div class="ilFrmPostContentContainer">
+				<div class="ilFrmPostHeader">
+					<span class="small"><!-- BEGIN usr_name -->{USR_NAME}<br /><!-- END usr_name -->{AUTHOR}<!-- BEGIN role --> ({ROLE})<!-- END role --><!-- BEGIN pseudonym --> ({PSEUDONYM})<!-- END pseudonym --> | {POST_DATE}<!-- BEGIN post_update --> | {POST_UPDATE}<!-- END post_update --><!-- BEGIN post_not_activated_yet --><br /><span class="ilFrmPostActivationStatus">{POST_NOT_ACTIVATED_YET}</span><!-- END post_not_activated_yet --></span>
+					<div class="ilFrmPostTitle">{SUBJECT}</div>
+				</div>
+				<a name="{POST_ANKER}"></a><!-- BEGIN censorship_advice -->
 				<div class="ilFrmPostCensorshipAdvice">{TXT_CENSORSHIP_ADVICE}:</div><!-- END censorship_advice -->
 				<div class="ilFrmPostContent">{POST}</div>
-				<div class="ilFrmPostClear"></div>	<!-- BEGIN attachments -->
+				<div class="ilFrmPostClear"></div><!-- BEGIN attachments -->
 				<div class="ilFrmPostAttachmentsContainer small">
 					<img src="{DOWNLOAD_IMG}" alt="{TXT_DOWNLOAD_ATTACHMENT}" title="{TXT_DOWNLOAD_ATTACHMENT}" />
 					{TXT_ATTACHMENTS_DOWNLOAD}<!-- BEGIN attachment_download_row -->
 					<br /><a href="{HREF_DOWNLOAD}" title="{TXT_FILENAME}">{TXT_FILENAME}</a><!-- END attachment_download_row -->
 				</div><!-- END attachments -->
-			</div><!-- BEGIN commands_block -->
-			<div class="ilFrmPostCommands"><!-- BEGIN commands -->
-				<a class="il_ContainerItemCommand" href="{COMMANDS_COMMAND}">{COMMANDS_TXT}</a><!-- END commands -->
-			</div><!-- END commands_block -->
-			<a name="{REPLY_ANKER}"></a>
-			{FORM}
-			{FORM_ADDITIONAL_JS}
-		</div>
+			</div>
+		</div><!-- BEGIN commands_block -->
+		<div class="ilFrmPostCommands"><!-- BEGIN commands -->
+			<a class="il_ContainerItemCommand" href="{COMMANDS_COMMAND}">{COMMANDS_TXT}</a><!-- END commands -->
+		</div><!-- END commands_block -->
+		<div class="ilFrmPostClear"></div>
+		<a name="{REPLY_ANKER}"></a>
+		{FORM}
+		{FORM_ADDITIONAL_JS}
 	</li><!-- END posts_row --><!-- BEGIN posts_no -->
 	<li>{TXT_MSG_NO_POSTS_AVAILABLE}</li><!-- END posts_no -->
 </ul><!-- END posttable -->
