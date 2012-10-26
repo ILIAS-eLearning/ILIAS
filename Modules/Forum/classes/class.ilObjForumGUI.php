@@ -2516,10 +2516,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->ctrl->clearParameters($this);
 
 					$tpl->setVariable('AUTHOR',	$authorinfo->getLinkedAuthorName());
-					if(strlen($authorinfo->getProfilePicture()))
-					{
-						$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-					}
+					$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
 
 					if($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int)$_GET['ref_id'], $authorinfo->getAuthor()->getId()))
 					{
