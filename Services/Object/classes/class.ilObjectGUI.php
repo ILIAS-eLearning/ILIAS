@@ -829,7 +829,7 @@ class ilObjectGUI
 				$cnt++;				
 			}
 
-			return "<div style='max-width:700px;'>".$acc->getHTML()."</div>";
+			return "<div class='ilCreationFormSection'>".$acc->getHTML()."</div>";
 		}
 	}
 
