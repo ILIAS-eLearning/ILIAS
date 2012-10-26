@@ -116,8 +116,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		}
 		if(ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
 		{
-			
-
 			if($a_mode == self::SEARCH_FORM_STANDARD)
 			{
 				// search type

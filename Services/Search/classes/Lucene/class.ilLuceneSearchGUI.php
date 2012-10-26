@@ -75,7 +75,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		{
 			case "ilpropertyformgui":
 				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
-				$ilCtrl->setReturn($this, "");
+				$ilCtrl->setReturn($this, 'storeRoot');
 				$ilCtrl->forwardCommand($this->form);
 				break;
 			
@@ -86,6 +86,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 				break;
 			
 			default:
+				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
 				if(!$cmd)
 				{
 					$cmd = "showSavedResults";
@@ -181,7 +182,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
 		$this->search_cache->save();
 		
-		$this->initFormSearch();
 		$this->search();
 	}
 	
@@ -243,8 +243,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function search()
 	{
-		#$this->initFormSearch();
-		
 		if(!$this->form->checkInput())
 		{
 			$this->search_cache->deleteCachedEntries();
@@ -341,140 +339,21 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		}
 	}
 	
-	/**
-	 * Show search form  
-	 */
-	protected function initFormSearch()
-	{
-		global $tree, $ilCtrl,$lng,$ilUser;
-		
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		
-		if(is_object($this->form))
-		{
-			return true;
-		}
-		
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($this->ctrl->getFormAction($this,'search'));
-		$this->form->setTitle($this->lng->txt('search'));
-		$this->form->addCommandButton('search',$this->lng->txt('search'));
-		
-		include_once './Services/Search/classes/Form/class.ilLuceneQueryInputGUI.php';
-		$term = new ilLuceneQueryInputGUI($this->lng->txt('search_search_term'),'query');
-		$term->setValue($this->search_cache->getQuery());
-		$term->setSize(40);
-		$term->setMaxLength(255);
-		$term->setRequired(true);
-		if($lng->exists('search_form_hint'))
-		{
-			$term->setInfo($lng->txt('search_form_hint'));
-		}
-		$term->setDataSource($ilCtrl->getLinkTarget($this, "autoComplete", "", true));
-		$this->form->addItem($term);
-		
-		if($ilUser->getId() != ANONYMOUS_USER_ID)
-		{
-			$path = new ilCustomInputGUI($this->lng->txt('search_area'),'root');
-			$tpl = new ilTemplate('tpl.root_selection.html',true,true,'Services/Search');
-			switch($this->search_cache->getRoot())
-			{
-				default:
-					$pathIds = $tree->getPathId($this->search_cache->getRoot(),ROOT_FOLDER_ID);
-					$counter = 0;
-					foreach($pathIds as $ref_id)
-					{
-						if($counter++) {
-							$tpl->touchBlock('path_separator');
-						}
-						if(($counter % 3) == 0) {
-							$tpl->touchBlock('line_break');
-						}
-						if($ref_id == ROOT_FOLDER_ID) {
-							$title = $this->lng->txt('search_in_magazin');
-						}
-						else {
-							$title = ilUtil::shortenText(ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id)),30,true);
-						}
-						$this->ctrl->setParameter($this,'root_id',$ref_id);
-						$tpl->setCurrentBlock('item');
-						$tpl->setVariable('ITEM_LINK',$this->ctrl->getLinkTarget($this,'selectRoot'));
-						$tpl->setVariable('NAME_WITH_DOTS',$title);
-						$tpl->parseCurrentBlock();
-					}
-					$tpl->setVariable('LINK_SELECT',$this->ctrl->getLinkTarget($this,'chooseRoot'));
-					$tpl->setVariable('TXT_CHANGE',$this->lng->txt('change'));
-					break;
-					
-			}
-			$path->setHTML($tpl->get());
-			$this->form->addItem($path);
-		}
-		
-		// object filter
-		$itemFilter = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
-		$currentFilter = $this->search_cache->getItemFilter();
-		if(count($itemFilter))
-		{
-			$if = new ilCheckboxInputGUI($this->lng->txt('search_item_filter'),'item_filter_enabled');
-			$if->setValue(1);
-			$if->setChecked(count($currentFilter));
-			$this->form->addItem($if);
-			foreach($itemFilter as $obj => $def)
-			{
-				$ch = new ilCheckboxInputGUI($this->lng->txt($def['trans']),'filter['.$obj.']');
-				$ch->setChecked(isset($currentFilter[$obj]));
-				$ch->setValue(1);
-				$if->addSubItem($ch);
-			}
-
-		}
-		
-		
-		
-		return true;
-	}
 	
 	/**
-	 * Show root node selection 
-	 * @param
-	 * @return
+	 * Store new root node
 	 */
-	protected function chooseRoot()
+	protected function storeRoot()
 	{
-		global $tree;
-
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.search_root_selector.html','Services/Search');
-
-		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
-
-		ilUtil::sendInfo($this->lng->txt('search_area_info'));
-
-		$exp = new ilSearchRootSelector($this->ctrl->getLinkTarget($this,'chooseRoot'));
-		$exp->setTargetClass(get_class($this));
-		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'chooseRoot'));
-
-		// build html-output
-		$exp->setOutput(0);
-
-		$this->tpl->setVariable("EXPLORER",$exp->getOutput());
-	
-	}
-	
-	/**
-	 * Select root 
-	 * @return
-	 */
-	protected function selectRoot()
-	{
-		$this->search_cache->setRoot((int) $_GET['root_id']);
+		$this->root_node = $this->form->getItemByPostVar('area')->getValue();
+		$this->search_cache->setRoot($this->root_node);
 		$this->search_cache->save();
 		$this->search_cache->deleteCachedEntries();
-		// Reset details
+
 		include_once './Services/Object/classes/class.ilSubItemListGUI.php';
 		ilSubItemListGUI::resetDetails();
-		$this->showSearchForm();
+
+		$this->performSearch();
 	}
 	
 	/**
@@ -664,7 +543,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
 		$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
 		
-		$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
 		$this->tpl->setVariable('FORM',$this->form->getHTML());
 		return true;
 	}
