@@ -106,16 +106,15 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	}*/
 
 	/**
-	 * save object
+	 * After save
 	 */
-/*	function afterSave($newObj)
+	protected function afterSave(ilObject $a_new_object)
 	{
-		// always send a message
-		ilUtil::sendSuccess($this->lng->txt("object_added"),true);
-
-		//ilUtil::redirect($this->getReturnLocation("save","adm_object.php?".$this->link_params));
-		ilUtil::redirect("ilias.php?baseClass=ilObjItemGroupGUI&ref_id=".$newObj->getRefId()."&cmd=edit");
-	}*/
+		global $ilCtrl;
+		
+		ilUtil::sendSuccess($this->lng->txt("object_added"), true);		
+		$ilCtrl->redirect($this, "listMaterials");
+	}
 
 	/**
 	 * show material assignment

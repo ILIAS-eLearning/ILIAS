@@ -766,6 +766,7 @@ div.ilFormHeader, div.ilFormFooter
 	font-size:90%;
 	color: #303030;
 	display: table-cell;
+	text-align: left;
 }
 
 h3.ilFormHeader
@@ -2960,7 +2961,7 @@ span.ilToolbarSeparator
 	margin-right: 10px;
 }
 
-/* List Items */
+/* Repository */
 div.ilContainerListItemOuter
 {
 	padding: 15px;
@@ -2995,6 +2996,14 @@ div.il_ContainerListItem
 	margin: 2px 0px;
 	padding-left: 8px;
 }
+
+div.ilCreationFormSection {
+	width: 700px;
+}
+
+/*div.ilCreationFormSection div.ilFormValue {
+	width: 499px;
+}*/
 
 div.il_adv_sel
 {
