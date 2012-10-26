@@ -529,7 +529,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 							$this->addBlockCommand(
 								$ilCtrl->getLinkTargetByClass("ilCalendarMonthGUI",
 									""),
-								"<br/>".$lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id));
+								$lng->txt("cal_consultation_hours_for").' '.ilObjUser::_lookupFullname($user_id));
 						}
 					}
 					$ilCtrl->setParameter($this, "bkid", "");
