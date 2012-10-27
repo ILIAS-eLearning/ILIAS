@@ -410,7 +410,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$mode = ($_SESSION["il_rep_mode"] == "flat")
 			? "tree"
 			: "flat";
-		$link = "repository.php?cmd=frameset&set_mode=".$mode."&ref_id=".$this->object->getRefId();
+		$link = "ilias.php?baseClass=ilRepositoryGUI&amp;cmd=frameset&amp;set_mode=".$mode."&amp;ref_id=".$this->object->getRefId();
 		$tpl->setTreeFlatIcon($link, $mode);
 	}
 	
@@ -506,7 +506,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if (is_array($subobj))
 		{
-			$formaction = "repository.php?ref_id=".$this->object->getRefId()."&cmd=post";
+			$formaction = "ilias.php?baseClass=ilRepositoryGUI&ref_id=".$this->object->getRefId()."&cmd=post";
 			$formaction = $ilCtrl->appendRequestTokenParameterString($formaction);
 			$formaction = $this->ctrl->getFormAction($this);
 			//$opts = ilUtil::formSelect("", "new_type", $subobj);
@@ -1458,7 +1458,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// show clipboard
-		if ($this->ctrl->getTargetScript() == "repository.php" and !empty($_SESSION["clipboard"]))
+		if (strtolower($_GET["baseClass"]) == "ilrepositorygui" && !empty($_SESSION["clipboard"]))
 		{
 			$tabs_gui->addTarget("clipboard",
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
@@ -1992,7 +1992,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			"Services/Object");	
 		
 		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
-		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_CHECK, 'repository.php?cmd=goto', 'paste_linked_repexpand');	
+		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_CHECK,
+			'ilias.php?baseClass=ilRepositoryGUI&cmd=goto', 'paste_linked_repexpand');	
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showLinkIntoMultipleObjectsTree'));
 		$exp->setTargetGet('ref_id');				
 		$exp->setPostVar('nodes[]');
@@ -2071,7 +2072,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			"Services/Object");	
 		
 		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
-		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO, 'repository.php?cmd=goto', 'paste_cut_repexpand');	
+		$exp = new ilPasteIntoMultipleItemsExplorer(ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
+			'ilias.php?baseClass=ilRepositoryGUI&cmd=goto', 'paste_cut_repexpand');	
 		$exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'showMoveIntoObjectTree'));
 		$exp->setTargetGet('ref_id');				
 		$exp->setPostVar('node');

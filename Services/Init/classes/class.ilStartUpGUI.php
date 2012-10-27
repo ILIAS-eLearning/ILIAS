@@ -1322,7 +1322,7 @@ class ilStartUpGUI
 				if($client->getSetting('pub_section'))
 				{
 					$hasPublicSection = true;
-					$tmp[] = "<a href=\"" . "repository.php?client_id=" . urlencode($key) . "\">Start page</a>";
+					$tmp[] = "<a href=\"" . "ilias.php?baseClass=ilRepositoryGUI&client_id=" . urlencode($key) . "\">Start page</a>";
 				}
 				else
 				{
