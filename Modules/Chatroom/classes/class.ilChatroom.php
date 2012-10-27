@@ -944,11 +944,6 @@ class ilChatroom
 			
 			$ilCtrl->clearParameters($gui);
 			*/
-/*			$link = ilUtil::_getHttpPath() . '/repository.php?cmd=view&ref_id=' . $gui->getRefId();
-			if ($scope_id)
-			{
-				$link .= '&sub=' . $scope_id;
-			}*/
 		}
 		
 		return $link;
