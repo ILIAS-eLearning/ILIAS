@@ -586,7 +586,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 						$f_result[$counter]['title'] = "<a href=\"goto.php?target=".$obj_type."_".$tmp_pobject->getRefId() . "\">".$obj_title."</a>".$subtype ;
 					}
 					else
-						$f_result[$counter]['title'] = "<a href=\"repository.php?ref_id=".$tmp_pobject->getRefId() . "\">".$obj_title."</a>".$subtype ;
+						$f_result[$counter]['title'] = "<a href=\"ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=".$tmp_pobject->getRefId() . "\">".$obj_title."</a>".$subtype ;
 
 					if ($assigned_coupons != '')
 					{
