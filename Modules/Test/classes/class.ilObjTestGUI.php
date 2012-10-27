@@ -580,13 +580,13 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$path = $this->tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+		ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 	}
 	
 	function backToCourseObject()
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?ref_id=".(int) $_GET['crs_show_result']));
+		ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&ref_id=".(int) $_GET['crs_show_result']));
 	}
 	
 	/*
