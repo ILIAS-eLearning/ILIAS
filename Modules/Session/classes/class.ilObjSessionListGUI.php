@@ -213,55 +213,7 @@ class ilObjSessionListGUI extends ilObjectListGUI
 				$has_new_line = true;	
 			}
 		}
-		
-		
-		/* add new type directly
-		
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$selection = new ilAdvancedSelectionListGUI();			
-		$selection->setListTitle($this->lng->txt("cntr_add_new_item"));
-		$selection->setId("item_creation_".$this->obj_id);
-		$selection->setHeaderIcon(ilUtil::getImagePath("cmd_add_s.png"));
-		$selection->setItemLinkClass("xsmall");
-		$selection->setUseImages(true);
-		
-		global $objDefinition, $tree;
-		$parent_ref_id = $tree->getParentId($this->ref_id);
-		$subtypes = $objDefinition->getCreatableSubObjects(ilObject::_lookupType($parent_ref_id, true), 
-			ilObjectDefinition::MODE_REPOSITORY);
-		if($subtypes)
-		{
-			$subobj = array();
-			foreach(array_keys($subtypes) as $type)
-			{				
-				$subobj[] = array('value' => $type,
-								  'title' => $this->lng->txt('obj_'.$type),
-								  'img' => ilObject::_getIcon('', 'tiny', $type),
-								  'alt' => $this->lng->txt('obj_'.$type));
-			}			
-			$subobj = ilUtil::sortArray($subobj, 'title', 1);
 
-			global $tpl;
-			foreach ($subobj as $item)
-			{
-				$link = "repository.php?ref_id=".$parent_ref_id.
-					"&cmd=create&new_type=".$item["value"]."&crtcb=".$this->ref_id;
-				
-				$ttip = ilHelp::getObjCreationTooltipText($item["value"]);
-				$selection->addItem($item["title"], "", $link,
-					$item["img"], $item["title"], "", "", false, "", $ttip,
-					"right center", "left center", false);
-			}
-
-			$props[] = array(
-				'alert'		=> false,
-				'property'	=> $this->lng->txt('event_ass_materials_prop'),
-				'value'		=> $selection->getHTML(),
-				'newline'	=> true
-			);
-		}
-		*/
-		
 		return $props;
 	}
 
