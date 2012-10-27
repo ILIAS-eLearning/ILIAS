@@ -209,7 +209,6 @@ administration#:#options#:#オプション
 administration#:#output_options#:#出力オプション
 administration#:#passwd_auto_generate#:#パスワードの転送/生成
 administration#:#path_to_mkisofs#:#mkisofsのpath
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#使用可能にするとすでに履歴へ保存されたログイン名(削除済みユーザーを含む）の再利用は<u>できません。</u>
 administration#:#purge_age_limit#:#制限経過期間
 administration#:#purge_age_limit_desc#:#このフィールドに値が含まれている場合は、指定された日数前に削除されたオブジェクトのみが削除されます。
 administration#:#purge_count_limit#:#制限数
@@ -878,7 +877,6 @@ assessment#:#tst_already_submitted#:#テストはすでに終了して提出済�
 assessment#:#tst_already_taken#:#既にテスト済
 assessment#:#tst_anonymity#:#匿名
 assessment#:#tst_anonymity_anonymous_test#:#匿名のテスト
-assessment#:#tst_anonymity_description#:#匿名が有効な場合はテスト受験者の名前は匿名にされます。
 assessment#:#tst_anonymity_no_anonymization#:#非匿名化
 assessment#:#tst_answer_sheet#:#テスト回答シート
 assessment#:#tst_answered_questions#:#回答済み問題
@@ -1986,7 +1984,6 @@ common#:#are_you_sure#:#本当ですか?
 common#:#arrow_downright#:#上から右下への矢印
 common#:#articels_unread#:#未読条項
 common#:#as_of#:#時点
-common#:#ascending_order#:#昇順
 common#:#ass_log_admin#:#ログデータ管理
 common#:#ass_log_available_tests#:#利用可能なテスト
 common#:#ass_log_count_datasets#:#ログエントリー
@@ -2538,7 +2535,6 @@ common#:#delicious#:#del.icio.usアカウント
 common#:#deliver#:#配送
 common#:#department#:#部課(学部･学科)名
 common#:#desc#:#説明
-common#:#descending_order#:#降順
 common#:#description#:#説明
 common#:#desired_password#:#変更後のパスワード
 common#:#desktop_items#:#パーソナルデスクトップアイテム
@@ -6227,8 +6223,6 @@ crs#:#crs_create_date#:#作成日
 crs#:#crs_crs_structure#:#コースの構造
 crs#:#crs_custom_user_fields#:#関連ユーザーデータのコース
 crs#:#crs_dates#:#日付
-crs#:#crs_deact_auto_noti#:#新規メンバーに通知しない
-crs#:#crs_deact_auto_noti_info#:#コース追加時にメンバーはメール通知を受け取りません。
 crs#:#crs_deactivate_notification#:#通知をオフ
 crs#:#crs_deassign_lm_sure#:#本当にこの役割を削除しますか?
 crs#:#crs_delete_file#:#ファイルを削除しますか?
@@ -12448,7 +12442,6 @@ common#:#obj_mep_duplicate#:#Copy Media Pool###28 08 2012 new variable
 common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
 common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
-forum#:#order_by_posts#:#Sort by posts###28 08 2012 new variable
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.###28 08 2012 new variable
 forum#:#number_of_threads#:#Displayed Number of Threads per Page###28 08 2012 new variable
 common#:#obj_wiki_duplicate#:#Copy Wiki###28 08 2012 new variable
@@ -12940,3 +12933,55 @@ rating#:#rating_export_rating#:#Rating###28 09 2012 new variable
 trac#:#trac_mode_plugin#:#Plugin###28 09 2012 new variable
 common#:#qpl_copy#:#Copy Question Pool Test###28 09 2012 new variable
 content#:#cont_highlight_class#:#Highlight Class###28 09 2012 new variable
+administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 10 2012 new variable
+forum#:#ascending_order#:#Latest postings at the bottom###27 10 2012 new variable
+forum#:#descending_order#:#Latest postings at the top###27 10 2012 new variable
+crs#:#crs_auto_notification#:#Notification For New Member###27 10 2012 new variable
+crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.###27 10 2012 new variable
+forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
+dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
+dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
+dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
+dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
+content#:#cont_presentation#:#Presentation###27 10 2012 new variable
+content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
+content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
+content#:#cont_debugging#:#Debugging###27 10 2012 new variable
+content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
+content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 10 2012 new variable
+content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 10 2012 new variable
+content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.###27 10 2012 new variable
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.###27 10 2012 new variable
+content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.###27 10 2012 new variable
+mcst#:#mcst_viewmode#:#Presentation Mode###27 10 2012 new variable
+mcst#:#mcst_list#:#List###27 10 2012 new variable
+mcst#:#mcst_gallery#:#Gallery###27 10 2012 new variable
+mcst#:#mcst_manage#:#Manage###27 10 2012 new variable
+mcst#:#mcst_play#:#Play###27 10 2012 new variable
+common#:#edit_assignments#:#Edit Assignments###27 10 2012 new variable
+mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 10 2012 new variable
+mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
+mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
+mcst#:#mcst_second#:#Second###27 10 2012 new variable
+dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participants###27 10 2012 new variable
+dateplaner#:#cal_notification_users#:#Notification for Selected Users###27 10 2012 new variable
+dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.###27 10 2012 new variable
+dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.###27 10 2012 new variable
+dateplaner#:#cal_user_notification#:#User Notification###27 10 2012 new variable
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.###27 10 2012 new variable
+dateplaner#:#cal_cg_notification#:#Course/Group Notification###27 10 2012 new variable
+dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"###27 10 2012 new variable
+dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.###27 10 2012 new variable
+file#:#file_download#:#Download File###27 10 2012 new variable
+trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.###27 10 2012 new variable
+trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.###27 10 2012 new variable
+content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment###27 10 2012 new variable
+search#:#search_option_online#:#Online###27 10 2012 new variable
+search#:#search_option_offline#:#Offline###27 10 2012 new variable
+common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.###27 10 2012 new variable
+forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
+forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable

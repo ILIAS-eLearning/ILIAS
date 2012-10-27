@@ -905,7 +905,6 @@ assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antw
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
 assessment#:#tst_anonymity#:#Anonymität
 assessment#:#tst_anonymity_anonymous_test#:#Anonymer Test
-assessment#:#tst_anonymity_description#:#Wenn Anonymität aktiviert ist, werden die Namen der Testteilnehmer für die Testautoren unkenntlich gemacht.
 assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
 assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
@@ -12966,3 +12965,23 @@ search#:#search_option_offline#:#Offline
 common#:#ilinc_abandoned_info#:#Die integrierte netucate LearnLinc-Schnittstelle wird mit ILIAS 4.3 nicht mehr unterstützt. Bitte steigen Sie jetzt um auf das neue iLinc-Plugin, um virtuelle Klassenzimmer von LearnLinc in ILIAS zu verwenden. Weitere Infos auf der <a href="http://http://www.netucate.com/">netucate-Webseite.</a>
 forum#:#sort_by_date#:#Sortieren nach Datum
 forum#:#error_reading_file#:#Beim Lesen der Datei ist ein Fehler aufgetreten
+content#:#cont_presentation#:#Presentation###27 10 2012 new variable
+content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
+content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
+content#:#cont_debugging#:#Debugging###27 10 2012 new variable
+content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
+content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 10 2012 new variable
+content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 10 2012 new variable
+content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.###27 10 2012 new variable
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.###27 10 2012 new variable
+content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.###27 10 2012 new variable
+mcst#:#mcst_viewmode#:#Presentation Mode###27 10 2012 new variable
+mcst#:#mcst_list#:#List###27 10 2012 new variable
+mcst#:#mcst_gallery#:#Gallery###27 10 2012 new variable
+mcst#:#mcst_manage#:#Manage###27 10 2012 new variable
+mcst#:#mcst_play#:#Play###27 10 2012 new variable
+common#:#edit_assignments#:#Edit Assignments###27 10 2012 new variable
+mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 10 2012 new variable
+mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
+mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
+mcst#:#mcst_second#:#Second###27 10 2012 new variable
