@@ -182,7 +182,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// add entry to navigation history
 		if(!$this->getCreationMode() && !$ilCtrl->isAsynch() && $ilAccess->checkAccess('read', '', $_GET['ref_id']))
 		{
-			$ilNavigationHistory->addItem($_GET['ref_id'], 'repository.php?cmd=showThreads&ref_id='.$_GET['ref_id'], 'frm');
+			$ilNavigationHistory->addItem($_GET['ref_id'],
+				'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=showThreads&amp;ref_id='.$_GET['ref_id'], 'frm');
 		}
 		
 		switch ($next_class)
@@ -593,7 +594,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 	public function cancelObject($in_rep = false)
 	{
 		ilUtil::sendInfo($this->lng->txt('msg_cancel'), true);
-		ilUtil::redirect('repository.php?cmd=frameset&ref_id='.$_GET['ref_id']);
+		ilUtil::redirect('ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id='.$_GET['ref_id']);
 	}
 
 	protected function afterSave(ilObjForum $forumObj)
@@ -817,15 +818,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$_GET['thr_pk'] = $a_thread;				
 				$_GET['cmdClass'] = 'ilObjForumGUI';
 				$_GET['cmd'] = 'viewThread';
+				$_GET['baseClass'] = 'ilRepositoryGUI';
 
-				include_once('repository.php');
+				include_once('ilias.php');
 				exit();
 			}
 			else
 			{
 			
 				$_GET['ref_id'] = $a_target;
-				include_once('repository.php');
+				$_GET['baseClass'] = 'ilRepositoryGUI';
+				include_once('ilias.php');
 				exit();
 			}
 		}
@@ -835,7 +838,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$_GET['ref_id'] = ROOT_FOLDER_ID;
 			ilUtil::sendInfo(sprintf($lng->txt('msg_no_perm_read_item'),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
-			include('repository.php');
+			$_GET['baseClass'] = 'ilRepositoryGUI';
+			include('ilias.php');
 			exit();
 		}
 
@@ -942,7 +946,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$tpl->setTitleIcon(ilUtil::getImagePath('icon_frm_b.png'));
 
-        $ilTabs->setBackTarget($lng->txt('all_topics'), 'repository.php?ref_id='.$_GET['ref_id']);
+        $ilTabs->setBackTarget($lng->txt('all_topics'),
+        	'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id='.$_GET['ref_id']);
 	
 		// by answer view
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
@@ -1811,7 +1816,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		 * @var $ilCtrl ilCtrl
 		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $tpl, $lng, $ilUser, $ilAccess, $rbacreview, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar;
+		global $tpl, $lng, $ilUser, $ilAccess, $rbacreview, $ilNavigationHistory, $ilCtrl, $frm, $ilToolbar, $ilLocator;
 
 		$tpl->addCss('./Modules/Forum/css/forum_tree.css');
 		if(!isset($_SESSION['viewmode']))
@@ -1953,12 +1958,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 			// ********************************************************************************
 			// build location-links
-			include_once('./Modules/Forum/classes/class.ilForumLocatorGUI.php');
-			$frm_loc = new ilForumLocatorGUI();
-			$frm_loc->setRefId((int)$_GET['ref_id']);
-			$frm_loc->setForum($frm);
-			$frm_loc->setThread($this->objCurrentTopic->getId(), $this->objCurrentTopic->getSubject());
-			$frm_loc->display();
+			$ilLocator->addRepositoryItems();
+			$ilLocator->addItem($this->object->getTitle(), $ilCtrl->getLinkTarget($this, ""), "_top");
+			$tpl->setLocator();
 																		 
 			// set tabs					
 			// menu template (contains linkbar)

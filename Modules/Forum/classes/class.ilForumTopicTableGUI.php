@@ -179,7 +179,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_SUBJECT', $subject);
 
 		// Author
-		$this->ctrl->setParameter($this->getParentObject(), 'backurl', urlencode('repository.php?ref_id=' . $_GET['ref_id']));
+		$this->ctrl->setParameter($this->getParentObject(), 'backurl',
+			urlencode($this->ctrl->getLinkTargetByClass("ilrepositorygui", "")));
 		$this->ctrl->setParameter($this->getParentObject(), 'user', $thread->getUserId());
 
 		$authorinfo = new ilForumAuthorInformation(

@@ -145,8 +145,8 @@ class ilObjForumListGUI extends ilObjectListGUI
 		if((int)$last_post['pos_pk'])
 		{
 			$lpCont = "<a class=\"il_ItemProperty\" target=\"" . ilFrameTargetInfo::_getFrame('MainContent') .
-				"\" href=\"repository.php?cmd=viewThread&cmdClass=ilobjforumgui&target=true&pos_pk=" .
-				$last_post['pos_pk'] . "&thr_pk=" . $last_post['pos_thr_fk'] . "&ref_id=" .
+				"\" href=\"ilias.php?baseClass=ilRepositoryGUI&amp;cmd=viewThread&amp;cmdClass=ilobjforumgui&amp;target=true&amp;pos_pk=" .
+				$last_post['pos_pk'] . "&amp;thr_pk=" . $last_post['pos_thr_fk'] . "&amp;ref_id=" .
 				$this->ref_id . "#" . $last_post["pos_pk"] . "\">" .
 				ilObjForumAccess::prepareMessageForLists($last_post['pos_message']) . "</a> " .
 				strtolower($lng->txt('from')) . "&nbsp;";
@@ -158,7 +158,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 				$last_post['import_name'],
 				array(
 					 'class' => 'il_ItemProperty',
-					 'href'  => 'repository.php?cmd=showUser&amp;cmdClass=ilobjforumgui&amp;ref_id=' . $this->ref_id . '&amp;user='.$last_post['pos_usr_id'].'&amp;offset=0&amp;backurl=' . urlencode('repository.php?ref_id=' . $_GET['ref_id'])
+					 'href'  => 'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=showUser&amp;cmdClass=ilobjforumgui&amp;ref_id=' . $this->ref_id . '&amp;user='.$last_post['pos_usr_id'].'&amp;offset=0&amp;backurl=' . urlencode('ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $_GET['ref_id'])
 				)
 			);
 
@@ -194,11 +194,11 @@ class ilObjForumListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case 'thread':
-				return 'repository.php?cmd=viewThread&amp;cmdClass=ilobjforumgui&amp;ref_id=' . $this->ref_id . '&amp;thr_pk=' . $this->getChildId();
+				return 'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=viewThread&amp;cmdClass=ilobjforumgui&amp;ref_id=' . $this->ref_id . '&amp;thr_pk=' . $this->getChildId();
 
 			case 'posting':
 				$thread_post = $this->getChildId();
-				return 'repository.php?cmd=viewThread&amp;cmdClass=ilobjforumgui&amp;target=1&amp;ref_id=' . $this->ref_id . '&amp;thr_pk=' . $thread_post[0] . '&amp;pos_pk=' . $thread_post[1] . '#' . $thread_post[1];
+				return 'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=viewThread&amp;cmdClass=ilobjforumgui&amp;target=1&amp;ref_id=' . $this->ref_id . '&amp;thr_pk=' . $thread_post[0] . '&amp;pos_pk=' . $thread_post[1] . '#' . $thread_post[1];
 
 			default:
 				return parent::getCommandLink($a_cmd);

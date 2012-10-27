@@ -168,7 +168,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 		if(ilCourseCertificateAdapter::_hasUserCertificate($ilUser->getId(), $this->obj_id))
 		{
 			$lng->loadLanguageModule('certificate');
-			$cmd_link = "repository.php?ref_id=".$this->ref_id.
+			$cmd_link = "ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=".$this->ref_id.
 					"&amp;cmd=deliverCertificate";
 			$props[] = array("alert" => false, "property" => $lng->txt("passed"),
 				"value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
