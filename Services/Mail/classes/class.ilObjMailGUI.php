@@ -371,9 +371,10 @@ class ilObjMailGUI extends ilObjectGUI
 				$_GET["cmd"] = "frameset";
 				$_GET["target"] = "";
 				$_GET["ref_id"] = ROOT_FOLDER_ID;
+				$_GET["baseClass"] = "ilRepositoryGUI";
 				ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 					ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
-				include("repository.php");
+				include("ilias.php");
 				exit;
 			}
 		}
