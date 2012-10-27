@@ -716,7 +716,7 @@ abstract class ilBlockGUI
 			if ($ilAccess->checkAccess("delete", "", $this->getRefId()))
 			{
 				$this->addBlockCommand(
-					"repository.php?ref_id=".$_GET["ref_id"]."&cmd=delete".
+					"ilias.php?baseClass=ilRepositoryGUI&ref_id=".$_GET["ref_id"]."&cmd=delete".
 					"&item_ref_id=".$this->getRefId(),
 					$lng->txt("delete"));
 			}
