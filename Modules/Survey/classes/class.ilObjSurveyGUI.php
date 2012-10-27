@@ -63,7 +63,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$path = $this->tree->getPathFull($this->object->getRefID());
-		ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+		ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&amp;cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 	}
 
 	/**
@@ -1807,7 +1807,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// allow only read and write access
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 		
@@ -2042,7 +2042,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), true);
 			$path = $this->tree->getPathFull($this->object->getRefID());
 			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("cancel","./repository.php?cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
+			ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
 			return;
 		}
 
