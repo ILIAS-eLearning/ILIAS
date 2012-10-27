@@ -2917,7 +2917,7 @@ class ilObjectListGUI
 		$script = substr(strrchr($_SERVER["PHP_SELF"],"/"),1);
 
 		// we should get rid of this nonsense with 4.4 (alex)
-		if (!is_int(strpos($script,"baseClass=ilRepositoryGUI") &&
+		if (!is_int(strpos($script,"baseClass=ilRepositoryGUI")) &&
 			is_int(strpos($a_link,"baseClass=ilRepositoryGUI")))
 		{
 			if ($this->type != "frm")
