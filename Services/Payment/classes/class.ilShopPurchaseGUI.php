@@ -620,21 +620,6 @@ class ilShopPurchaseGUI extends ilObjectGUI
 //		$this->__buildLocator();
 //	}	
 
-//	function __buildLocator()
-//	{
-//		$this->tpl->addBlockFile("LOCATOR", "locator", "tpl.locator.html", "Services/Locator");
-//		$this->tpl->setVariable("TXT_LOCATOR",$this->lng->txt("locator"));
-//
-//		$this->tpl->setCurrentBlock("locator_item");
-//		$this->tpl->setVariable("ITEM", $this->lng->txt("repository"));
-//		$this->tpl->setVariable("LINK_ITEM", "../repository.php?getlast=true");
-//		$this->tpl->parseCurrentBlock();
-//
-//		// CHECK for new mail and info
-//		ilUtil::sendInfo();
-//
-//		return true;
-//	}
 //
 //	function __buildStylesheet()
 //	{
