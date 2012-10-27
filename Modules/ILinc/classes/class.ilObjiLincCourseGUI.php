@@ -265,7 +265,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		}
 		
 		// show clipboard in repository
-		if ($this->ctrl->getTargetScript() == "repository.php" and !empty($_SESSION['il_rep_clipboard']))
+		if ($_GET["baseClass"] == "ilRepositoryGUI" and !empty($_SESSION['il_rep_clipboard']))
 		{
 			$tabs_gui->addTarget("clipboard",
 				 $this->ctrl->getLinkTarget($this, "clipboard"), "clipboard", get_class($this));
@@ -904,7 +904,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 			$ilAccess->checkAccess('read', '', $this->object->getRefId()))
 		{
 			$ilNavigationHistory->addItem($this->object->getRefId(),
-				'repository.php?cmd=view&ref_id='.$this->object->getRefId(), 'icrs');
+				'ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id='.$this->object->getRefId(), 'icrs');
 		}
 		
 		if(strtolower($_GET['baseClass']) == 'iladministrationgui')
