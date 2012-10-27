@@ -883,7 +883,6 @@ common#:#are_you_sure#:#A jeni të sigurt?
 common#:#arrow_downright#:#Arrow from top to down right###23 Dec 2005 new variable
 common#:#articels_unread#:#Artikujt e palexuar
 common#:#as_of#:#Që nga
-common#:#ascending_order#:#Ascending order###23 Dec 2005 new variable
 common#:#assessment_log#:#Krijo një Test&Ruaj shënim për periodën kohore specifike
 common#:#assessment_log_datetime#:#Data/Koha
 common#:#assessment_log_for_test#:#Për test
@@ -1271,7 +1270,6 @@ common#:#deleted_users#:#Deleted users###10 Jul 2006 new variable
 common#:#deliver#:#Dërgo ushtrim###30 Jul 2006 content changed
 common#:#department#:#Departament
 common#:#desc#:#Përshkrimi
-common#:#descending_order#:#Descending order###23 Dec 2005 new variable
 common#:#description#:#Përshkrimi
 common#:#desired_password#:#Parulla e Dëshiruar
 common#:#desktop_items#:#Gjërat personale në desktop
@@ -6195,7 +6193,6 @@ assessment#:#output#:#Output###25 10 2006 new variable
 assessment#:#scoring#:#Scoring###25 10 2006 new variable
 barometer#:#barometer_add#:#Add new Feedbac###25 10 2006 new variable
 assessment#:#tst_anonymity#:#Anonymity###25 10 2006 new variable
-assessment#:#tst_anonymity_description#:#If Anonymity is enabled, the names of the test participants are anonymized###25 10 2006 new variable
 assessment#:#tst_postpone#:#Postpone Questions###26 10 2006 new variable
 assessment#:#tst_postpone_description#:#The participants may postpone questions to the end of the test###26 10 2006 new variable
 assessment#:#tst_random_selection#:#Random Selection of Questions###26 10 2006 new variable
@@ -9596,7 +9593,6 @@ payment#:#pay_order_paid_subject#:#Your invoice###16 09 2009 new variable
 payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.###16 09 2009 new variable
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.###16 09 2009 new variable
 administration#:#reuse_of_loginnames_contained_in_history#:#No Reuse of Login Names###16 09 2009 new variable
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#If activated, it is <u>not</u> allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###16 09 2009 new variable
 administration#:#usr_loginname_history_info#:#The user changed its login at last at %s. The former login was: %s.###16 09 2009 new variable
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names###16 09 2009 new variable
 administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.###16 09 2009 new variable
@@ -10897,8 +10893,6 @@ exc#:#exc_completion_by_submission#:#Completed by Submission###12 06 2011 new va
 exc#:#exc_completion_by_submission_info#:#If enabled, the submission of at least one file causes the completion of an assignment. The score could be manually changed later. Switching this setting does not effect already submitted solutions.###12 06 2011 new variable
 rbac#:#precondition_num_optional_info#:#Please enter the minimum number of materials which is required for fullfilling this precondition.###12 06 2011 new variable
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:###12 06 2011 new variable
-crs#:#crs_deact_auto_noti#:#Suppress notification about new membership###12 06 2011 new variable
-crs#:#crs_deact_auto_noti_info#:#Supresses mail notificaton about course membership for members admitted to course by edit participants view.###12 06 2011 new variable
 wsp#:#wsp_type_tstv#:#Verification: Test###12 06 2011 new variable
 content#:#cont_par_format#:#Paragraph###12 06 2011 new variable
 content#:#cont_char_format#:#Character###12 06 2011 new variable
@@ -12448,7 +12442,6 @@ common#:#obj_mep_duplicate#:#Copy Media Pool###28 08 2012 new variable
 common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
 common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
-forum#:#order_by_posts#:#Sort by posts###28 08 2012 new variable
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.###28 08 2012 new variable
 forum#:#number_of_threads#:#Displayed Number of Threads per Page###28 08 2012 new variable
 common#:#obj_wiki_duplicate#:#Copy Wiki###28 08 2012 new variable
@@ -12940,3 +12933,55 @@ rating#:#rating_export_rating#:#Rating###28 09 2012 new variable
 trac#:#trac_mode_plugin#:#Plugin###28 09 2012 new variable
 common#:#qpl_copy#:#Copy Question Pool Test###28 09 2012 new variable
 content#:#cont_highlight_class#:#Highlight Class###28 09 2012 new variable
+administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 10 2012 new variable
+forum#:#ascending_order#:#Latest postings at the bottom###27 10 2012 new variable
+forum#:#descending_order#:#Latest postings at the top###27 10 2012 new variable
+crs#:#crs_auto_notification#:#Notification For New Member###27 10 2012 new variable
+crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.###27 10 2012 new variable
+forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
+dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
+dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
+dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
+dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
+content#:#cont_presentation#:#Presentation###27 10 2012 new variable
+content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
+content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
+content#:#cont_debugging#:#Debugging###27 10 2012 new variable
+content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
+content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 10 2012 new variable
+content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 10 2012 new variable
+content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.###27 10 2012 new variable
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.###27 10 2012 new variable
+content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.###27 10 2012 new variable
+mcst#:#mcst_viewmode#:#Presentation Mode###27 10 2012 new variable
+mcst#:#mcst_list#:#List###27 10 2012 new variable
+mcst#:#mcst_gallery#:#Gallery###27 10 2012 new variable
+mcst#:#mcst_manage#:#Manage###27 10 2012 new variable
+mcst#:#mcst_play#:#Play###27 10 2012 new variable
+common#:#edit_assignments#:#Edit Assignments###27 10 2012 new variable
+mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 10 2012 new variable
+mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
+mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
+mcst#:#mcst_second#:#Second###27 10 2012 new variable
+dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participants###27 10 2012 new variable
+dateplaner#:#cal_notification_users#:#Notification for Selected Users###27 10 2012 new variable
+dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.###27 10 2012 new variable
+dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.###27 10 2012 new variable
+dateplaner#:#cal_user_notification#:#User Notification###27 10 2012 new variable
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.###27 10 2012 new variable
+dateplaner#:#cal_cg_notification#:#Course/Group Notification###27 10 2012 new variable
+dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"###27 10 2012 new variable
+dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.###27 10 2012 new variable
+file#:#file_download#:#Download File###27 10 2012 new variable
+trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.###27 10 2012 new variable
+trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.###27 10 2012 new variable
+content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment###27 10 2012 new variable
+search#:#search_option_online#:#Online###27 10 2012 new variable
+search#:#search_option_offline#:#Offline###27 10 2012 new variable
+common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.###27 10 2012 new variable
+forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
+forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable

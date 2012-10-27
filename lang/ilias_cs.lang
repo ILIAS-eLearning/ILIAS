@@ -209,7 +209,6 @@ administration#:#options#:#Volby
 administration#:#output_options#:#Volby výstupu
 administration#:#passwd_auto_generate#:#Zasílání/Generování hesla
 administration#:#path_to_mkisofs#:#Cesta k mkisofs
-administration#:#prevent_reuse_of_loginnames_contained_in_history_info#:#Pokud je aktivováno, systém <u>ne</u> umožňuje znovu použití přihlašovacího jména, které je již uloženo v historii (dokonce i když to jméno patří již smazanému uživateli).
 administration#:#purge_age_limit#:#Omezit stářím
 administration#:#purge_age_limit_desc#:#Pokud toto pole obsahuje nějakou hodnotu, pak budou vyčištěny pouze objekty, které byly smazané před specifikovaným počtem dnů.
 administration#:#purge_count_limit#:#Omezit počtem
@@ -878,7 +877,6 @@ assessment#:#tst_already_submitted#:#Test byl již ukončen a odevzdán.
 assessment#:#tst_already_taken#:#Testy již sebrány
 assessment#:#tst_anonymity#:#Anonymita
 assessment#:#tst_anonymity_anonymous_test#:#Anonymní test
-assessment#:#tst_anonymity_description#:#Pokud je Anonymita zapnuta, jména účastníků testu jsou utajeny
 assessment#:#tst_anonymity_no_anonymization#:#Žádná anonymizace
 assessment#:#tst_answer_sheet#:#Výkaz odpovědí testu
 assessment#:#tst_answered_questions#:#Zodpovězené otázky
@@ -1975,7 +1973,6 @@ common#:#are_you_sure#:#Jste si jistý(á)?
 common#:#arrow_downright#:#Šipka shora doprava dolů
 common#:#articels_unread#:#Nepřečtené články
 common#:#as_of#:#jako
-common#:#ascending_order#:#Vzestupné pořadí
 common#:#ass_log_admin#:#Správa záznamu dat
 common#:#ass_log_available_tests#:#Dostupné testy
 common#:#ass_log_count_datasets#:#Vstupy záznamu
@@ -2446,7 +2443,6 @@ common#:#delicious#:#Účet del.icio.us
 common#:#deliver#:#Odevzdat cvičení
 common#:#department#:#Katedra
 common#:#desc#:#Popis
-common#:#descending_order#:#Sestupné pořadí
 common#:#description#:#Popis
 common#:#desired_password#:#Nové heslo
 common#:#desktop_items#:#Položky osobní pracovní plochy
@@ -5915,8 +5911,6 @@ crs#:#crs_create_date#:#Vytvořit datum
 crs#:#crs_crs_structure#:#Struktura kurzu
 crs#:#crs_custom_user_fields#:#Uživatelská data relevantní kurzu
 crs#:#crs_dates#:#Data
-crs#:#crs_deact_auto_noti#:#Žádné vyrozumění pro nové členy
-crs#:#crs_deact_auto_noti_info#:#Noví členové při přidání do kurzu nebudou vyrozuměni emailem.
 crs#:#crs_deactivate_notification#:#Deaktivovat vyrozumění
 crs#:#crs_deassign_lm_sure#:#Určitě chcete smazat toto zařazení?
 crs#:#crs_delete_file#:#Smazat soubor?
@@ -12058,7 +12052,7 @@ wsp#:#wsp_type_excv#:#Verifikace: Cvičení
 wsp#:#wsp_type_file#:#Soubor
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
-wsp#:#wsp_type_wfld#:#Složkaassessment#:#autosave#:#Automatic saving###28 09 2012 new variable
+wsp#:#wsp_type_wfld#:#Složka
 assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)###28 09 2012 new variable
 assessment#:#autosave_ival#:#Interval###28 09 2012 new variable
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)###28 09 2012 new variable
@@ -12463,7 +12457,6 @@ common#:#obj_mep_duplicate#:#Copy Media Pool###28 09 2012 new variable
 common#:#obj_mcst_duplicate#:#Copy Mediacast###28 09 2012 new variable
 common#:#obj_glo_duplicate#:#Copy Glossary###28 09 2012 new variable
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 09 2012 new variable
-forum#:#order_by_posts#:#Sort by posts###28 09 2012 new variable
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.###28 09 2012 new variable
 forum#:#number_of_threads#:#Displayed Number of Threads per Page###28 09 2012 new variable
 common#:#obj_wiki_duplicate#:#Copy Wiki###28 09 2012 new variable
@@ -12939,3 +12932,56 @@ rating#:#rating_export_rating#:#Rating###28 09 2012 new variable
 trac#:#trac_mode_plugin#:#Plugin###28 09 2012 new variable
 common#:#qpl_copy#:#Copy Question Pool Test###28 09 2012 new variable
 content#:#cont_highlight_class#:#Highlight Class###28 09 2012 new variable
+administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).###27 10 2012 new variable
+assessment#:#autosave#:#Automatic saving###27 10 2012 new variable
+forum#:#ascending_order#:#Latest postings at the bottom###27 10 2012 new variable
+forum#:#descending_order#:#Latest postings at the top###27 10 2012 new variable
+crs#:#crs_auto_notification#:#Notification For New Member###27 10 2012 new variable
+crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.###27 10 2012 new variable
+forum#:#sort_by_posts#:#Sort by Posts###27 10 2012 new variable
+dcl#:#dcl_confirm_delete_field#:#Do you really want to delete this field?###27 10 2012 new variable
+dcl#:#dcl_table_info_title#:#Info###27 10 2012 new variable
+dcl#:#dcl_permissions_form#:#User rights###27 10 2012 new variable
+dcl#:#-dcl_table_info_title-#:#Info###27 10 2012 new variable
+content#:#cont_presentation#:#Presentation###27 10 2012 new variable
+content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
+content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
+content#:#cont_debugging#:#Debugging###27 10 2012 new variable
+content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
+content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 10 2012 new variable
+content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 10 2012 new variable
+content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.###27 10 2012 new variable
+content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.###27 10 2012 new variable
+content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_active_info#:#The questions can be re-used in other surveys.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.###27 10 2012 new variable
+survey#:#survey_question_pool_usage_inactive_info#:#The questions cannot be re-used in other surveys.###27 10 2012 new variable
+mcst#:#mcst_viewmode#:#Presentation Mode###27 10 2012 new variable
+mcst#:#mcst_list#:#List###27 10 2012 new variable
+mcst#:#mcst_gallery#:#Gallery###27 10 2012 new variable
+mcst#:#mcst_manage#:#Manage###27 10 2012 new variable
+mcst#:#mcst_play#:#Play###27 10 2012 new variable
+common#:#edit_assignments#:#Edit Assignments###27 10 2012 new variable
+mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 10 2012 new variable
+mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
+mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
+mcst#:#mcst_second#:#Second###27 10 2012 new variable
+dateplaner#:#cal_notification_crsgrp#:#Notification for Course/Group Participants###27 10 2012 new variable
+dateplaner#:#cal_notification_users#:#Notification for Selected Users###27 10 2012 new variable
+dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.###27 10 2012 new variable
+dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.###27 10 2012 new variable
+dateplaner#:#cal_user_notification#:#User Notification###27 10 2012 new variable
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.###27 10 2012 new variable
+dateplaner#:#cal_cg_notification#:#Course/Group Notification###27 10 2012 new variable
+dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"###27 10 2012 new variable
+dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.###27 10 2012 new variable
+file#:#file_download#:#Download File###27 10 2012 new variable
+trac#:#trac_lp_on_personal_desktop_info#:#If active, learning progress is available in the main menu.###27 10 2012 new variable
+trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.###27 10 2012 new variable
+content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment###27 10 2012 new variable
+search#:#search_option_online#:#Online###27 10 2012 new variable
+search#:#search_option_offline#:#Offline###27 10 2012 new variable
+common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.###27 10 2012 new variable
+forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
+forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
