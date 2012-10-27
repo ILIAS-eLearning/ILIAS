@@ -858,7 +858,7 @@ class ilCtrl
 				throw new ilCtrlException($failure);
 			}
 			$GLOBALS['ilLog']->write(__METHOD__.' '.$failure);
-			ilUtil::redirect('./repository.php');
+			ilUtil::redirect('./ilias.php?baseClass=ilRepositoryGUI');
 		}
 //echo "<br>:::$a_source_node:::";
 		$temp_node = $a_source_node;
