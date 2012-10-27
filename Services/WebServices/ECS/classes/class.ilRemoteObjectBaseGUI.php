@@ -339,7 +339,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 		{
 			$_GET["cmd"] = "infoScreen";
 			$_GET["ref_id"] = $a_target;
-			include("repository.php");
+			$_GET["baseClass"] = "ilRepositoryGUI";
+			include("ilias.php");
 			exit;
 		}
 		//static else if ($this->checkPermissionBool("read", "", "", ROOT_FOLDER_ID))
@@ -350,7 +351,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 			$_GET["ref_id"] = ROOT_FOLDER_ID;
 			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
 				ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))), true);
-			include("repository.php");
+			$_GET["baseClass"] = "ilRepositoryGUI";
+			include("ilias.php");
 			exit;
 		}
 		
