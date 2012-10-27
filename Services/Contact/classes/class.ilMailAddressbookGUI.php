@@ -749,12 +749,12 @@ class ilMailAddressbookGUI
 
 	    if( $scope > 0 )
 	    {
-		$url = 'repository.php?ref_id=' . $ref_id .
+		$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id .
 			'&cmd=view&rep_frame=1&sub=' . $scope;
 	    }
 	    else
 	    {
-		$url = 'repository.php?ref_id=' . $ref_id . '&cmd=view&rep_frame=1';
+		$url = 'ilias.php?baseClass=ilRepositoryGUI&ref_id=' . $ref_id . '&cmd=view&rep_frame=1';
 	    }
 
 	    $url = ilUtil::_getHttpPath() . '/' .$url;

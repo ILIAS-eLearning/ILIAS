@@ -282,7 +282,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 					$this->tpl->setVariable('TXT_CHAT_INVITE', $lng->txt('chat_enter_public_room'));
 					$this->tpl->setVariable('TXT_CHAT_INVITE_TOOLTIP', $lng->txt('chat_enter_public_room_tooltip'));
 //					$this->tpl->setVariable('CHAT_LINK','./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId());
-					$this->tpl->setVariable('CHAT_LINK','./repository.php?cmd=view&ref_id='.ilObjChatroom::_getPublicRefId());
+					$this->tpl->setVariable('CHAT_LINK','./ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id='.ilObjChatroom::_getPublicRefId());
 					$this->tpl->parseCurrentBlock();
 				}
 			}
@@ -507,7 +507,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("TXT_CHAT_INVITE",$lng->txt('chat_invite_public_room'));
 			//$this->tpl->setVariable("CHAT_LINK",'./ilias.php?baseClass=ilChatPresentationGUI&ref_id='.ilObjChat::_getPublicChatRefId().
 			//'&usr_id='.$a_usr_id.'&cmd=invitePD');
-			$this->tpl->setVariable("CHAT_LINK",'./repository.php?ref_id='.ilObjChatroom::_getPublicRefId().'&usr_id='.$a_usr_id.'&cmd=view-invitePD');
+			$this->tpl->setVariable("CHAT_LINK",'./ilias.php?baseClass=ilRepositoryGUI&ref_id='.ilObjChatroom::_getPublicRefId().'&usr_id='.$a_usr_id.'&cmd=view-invitePD');
 			$this->tpl->setVariable('TXT_CHAT_INVITE_TOOLTIP', $lng->txt('chat_invite_public_room_tooltip'));
 			$this->tpl->parseCurrentBlock();
 			
