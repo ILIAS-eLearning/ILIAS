@@ -443,6 +443,10 @@ class ilObjectActivation
 			$ilDB->quote($a_item["visible"],'integer').", ".
 			$ilDB->quote(0,'integer').")";
 		$ilDB->manipulate($query);
+		
+		// #9982 - to make getItem()-cache work
+		$a_item["obj_id"] = $a_ref_id;
+		$a_item["parent_id"] = $parent_id;
 	
 		return $a_item;
 	}
