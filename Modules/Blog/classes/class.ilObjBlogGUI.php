@@ -563,16 +563,32 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$exercises = ilObjExercise::findUserFiles($ilUser->getId(), $this->node_id);
 			if($exercises)
 			{
-				$info = array();
+				$info = array();				
 				foreach($exercises as $exercise)
-				{
-					$part = $this->getExerciseInfo($exercise["ass_id"]);
-					if($part)
+				{					
+					// #9988
+					$active_ref = false;
+					foreach(ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id)
 					{
-						$info[] = $part;
+						if(!$tree->isSaved($ref_id))
+						{
+							$active_ref = true;
+							break;
+						}
 					}
+					if($active_ref)
+					{					
+						$part = $this->getExerciseInfo($exercise["ass_id"]);
+						if($part)
+						{
+							$info[] = $part;
+						}
+					}
+				}				
+				if(sizeof($info))
+				{
+					ilUtil::sendInfo(implode("<br />", $info));										
 				}
-				ilUtil::sendInfo(implode("<br />", $info));										
 			}
 		}
 		
