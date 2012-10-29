@@ -2231,7 +2231,7 @@ common#:#exc_header_members#:#Exercise (members)
 common#:#exc_instruction#:#Work Instructions
 common#:#exc_last_submission#:#Last Submission
 common#:#exc_mail_users#:#Send mail to user(s)
-common#:#exc_members_already_assigned#:#These user are already assigned to this exercise
+common#:#exc_members_already_assigned#:#These users are already assigned to other teams of this assignment
 common#:#exc_members_assigned#:#Members assigned
 common#:#exc_members_comments_saved#:#The exercise comments for the selected user have been saved
 common#:#exc_new#:#New Exercise

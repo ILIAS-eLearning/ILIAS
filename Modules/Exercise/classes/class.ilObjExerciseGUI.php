@@ -928,6 +928,19 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		else
 		{
+			// #9946 - create team for new user(s) for each team upload assignment
+			foreach(ilExAssignment::getAssignmentDataOfExercise($this->object->getId()) as $ass)
+			{
+				if($ass["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+				{
+					$ass_obj = new ilExAssignment($ass["id"]);
+					foreach($a_user_ids as $user_id)
+					{
+						$ass_obj->getTeamId($user_id, true);
+					}
+				}
+			}						
+			
 			ilUtil::sendSuccess($this->lng->txt("exc_members_assigned"),true);
 		}
 //exit;
