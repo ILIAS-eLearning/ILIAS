@@ -2796,7 +2796,7 @@ common#:#exc_header_members#:#Übung (Mitglieder)
 common#:#exc_instruction#:#Arbeitsanweisung
 common#:#exc_last_submission#:#Datum der letzten Abgabe
 common#:#exc_mail_users#:#Mail an Benutzer verschicken
-common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder dieser Übung
+common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits Mitglieder dieser Übungseinheit
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
 common#:#exc_members_comments_saved#:#Die Kommentare zu den Übungen der ausgewählten Benutzer wurden gespeichert.
 common#:#exc_new#:#Neue Übung anlegen
