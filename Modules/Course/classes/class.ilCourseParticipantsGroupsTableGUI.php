@@ -128,7 +128,8 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                 $usr_data = array();
 				foreach(ilUserUtil::getNamePresentation($members, false, false, "", true) as $usr_id => $name)
 				{
-					$user_groups = array();
+					// #9984
+					$user_groups = array("members"=>array(),"admins"=>array());
 					$user_groups_number = 0;
 					foreach(array_keys($this->participants) as $group_id)
 					{
