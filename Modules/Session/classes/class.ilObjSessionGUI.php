@@ -812,7 +812,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function materialsObject()
 	{
-		global $tree, $objDefinition;
+		global $tree, $objDefinition, $ilAccess;
 
 		$this->tabs_gui->setTabActive('crs_materials');
 		
@@ -827,25 +827,34 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			foreach(array_keys($subtypes) as $type)
 			{
 				if (!in_array($type, array("itgr", "sess")))
-				{
-					$subobj[] = array('value' => $type,
-									  'title' => $this->lng->txt('obj_'.$type),
-									  'img' => ilObject::_getIcon('', 'tiny', $type),
-									  'alt' => $this->lng->txt('obj_'.$type));
+				{					
+					// #9950
+					if ($ilAccess->checkAccess("create_".$type, "", $this->container_ref_id, $root["type"]))
+					{
+						$subobj[] = array('value' => $type,
+										  'title' => $this->lng->txt('obj_'.$type),
+										  'img' => ilObject::_getIcon('', 'tiny', $type),
+										  'alt' => $this->lng->txt('obj_'.$type));
+					}
 				}
 			}			
-//			$subobj = ilUtil::sortArray($subobj, 'title', 1);
 			
-			// add new object to parent container instead		
-			$this->ctrl->setParameter($this, 'crtptrefid', $this->container_ref_id);
-			// force after creation callback
-			$this->ctrl->setParameter($this, 'crtcb', $this->ref_id);
-			
-			$this->lng->loadLanguageModule('cntr');
-			$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
-				$subobj, 'create', $this->lng->txt('add'));
-			
-			$this->ctrl->setParameter($this, 'crtptrefid', '');
+			if(sizeof($subobj))
+			{
+				// add new object to parent container instead		
+				$this->ctrl->setParameter($this, 'ref_id', $this->container_ref_id);
+				// $this->ctrl->setParameter($this, 'crtptrefid', $this->container_ref_id);				
+				// force after creation callback
+				$this->ctrl->setParameter($this, 'crtcb', $this->ref_id);
+				
+				$this->lng->loadLanguageModule('cntr');
+				$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
+					$subobj, 'create', $this->lng->txt('add'));
+
+				$this->ctrl->setParameter($this, 'ref_id', $this->ref_id);
+				// $this->ctrl->setParameter($this, 'crtptrefid', '');
+				$this->ctrl->setParameter($this, 'crtcb', '');				
+			}
 		}
 		
 		

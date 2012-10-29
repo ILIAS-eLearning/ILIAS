@@ -125,7 +125,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	public function listMaterials()
 	{
-		global $tree, $objDefinition, $ilTabs, $tpl;
+		global $tree, $objDefinition, $ilTabs, $tpl, $ilAccess;
 		
 		$this->checkPermission("write");
 		
@@ -141,24 +141,33 @@ class ilObjItemGroupGUI extends ilObject2GUI
 			{
 				if (!in_array($type, array("itgr", "sess")))
 				{
-					$subobj[] = array('value' => $type,
-									  'title' => $this->lng->txt('obj_'.$type),
-									  'img' => ilObject::_getIcon('', 'tiny', $type),
-									  'alt' => $this->lng->txt('obj_'.$type));
+					// #9950
+					if ($ilAccess->checkAccess("create_".$type, "", $parent_node["child"], $parent_node["type"]))
+					{
+						$subobj[] = array('value' => $type,
+										  'title' => $this->lng->txt('obj_'.$type),
+										  'img' => ilObject::_getIcon('', 'tiny', $type),
+										  'alt' => $this->lng->txt('obj_'.$type));
+					}
 				}
 			}			
-//			$subobj = ilUtil::sortArray($subobj, 'title', 1);
 			
-			// add new object to parent container instead		
-			$this->ctrl->setParameter($this, 'crtptrefid', $parent_node["child"]);
-			// force after creation callback
-			$this->ctrl->setParameter($this, 'crtcb', $this->object->getRefId());
-			
-			$this->lng->loadLanguageModule('cntr');
-			$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
-				$subobj, 'create', $this->lng->txt('add'));
-			
-			$this->ctrl->setParameter($this, 'crtptrefid', '');
+			if(sizeof($subobj))
+			{
+				// add new object to parent container instead		
+				$this->ctrl->setParameter($this, 'ref_id', $parent_node["child"]);
+				// $this->ctrl->setParameter($this, 'crtptrefid', $parent_node["child"]);
+				// force after creation callback
+				$this->ctrl->setParameter($this, 'crtcb', $this->object->getRefId());
+
+				$this->lng->loadLanguageModule('cntr');
+				$this->tpl->setCreationSelector($this->ctrl->getFormAction($this),
+					$subobj, 'create', $this->lng->txt('add'));
+
+				$this->ctrl->setParameter($this, 'ref_id', $this->object->getRefId());
+				// $this->ctrl->setParameter($this, 'crtptrefid', '');
+				$this->ctrl->setParameter($this, 'crtcb', '');		
+			}
 		}
 
 		include_once("./Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php");
