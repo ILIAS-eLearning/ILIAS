@@ -13507,3 +13507,17 @@ $ilDB->dropTableColumn('crs_settings', 'auto_noti_disabled');
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3788>
+<?php
+if ($ilDB->sequenceExists('svy_inv_grp'))
+{
+	$ilDB->dropSequence('svy_inv_grp');
+}
+?>
+<#3789>
+<?php
+if ($ilDB->sequenceExists('svy_qst_mat'))
+{
+	$ilDB->dropSequence('svy_qst_mat');
+}
+?>
