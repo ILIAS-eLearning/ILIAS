@@ -697,7 +697,7 @@ class ilObjPortfolioGUI
 	 */
 	protected function pages()
 	{
-		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilUser, $ilSetting;
+		global $tpl, $lng, $ilToolbar, $ilCtrl, $ilTabs, $ilUser, $ilSetting, $tree;
 		
 		if(!$this->checkAccess("write"))
 		{
@@ -739,13 +739,29 @@ class ilObjPortfolioGUI
 			$info = array();
 			foreach($exercises as $exercise)
 			{
-				$part = $this->getExerciseInfo($exercise["ass_id"], $table->dataExists());
-				if($part)
+				// #9988
+				$active_ref = false;
+				foreach(ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id)
 				{
-					$info[] = $part;
+					if(!$tree->isSaved($ref_id))
+					{
+						$active_ref = true;
+						break;
+					}
+				}
+				if($active_ref)
+				{				
+					$part = $this->getExerciseInfo($exercise["ass_id"], $table->dataExists());
+					if($part)
+					{
+						$info[] = $part;
+					}
 				}
 			}
-			ilUtil::sendInfo(implode("<br />", $info));									
+			if(sizeof($info))
+			{
+				ilUtil::sendInfo(implode("<br />", $info));									
+			}
 		}
 		
 		$tpl->setContent($table->getHTML());
