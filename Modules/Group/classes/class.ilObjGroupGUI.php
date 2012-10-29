@@ -365,7 +365,18 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		// we reduced the form, only 3 values left
 		// $this->load();
-		$this->object->setRegistrationType(GRP_REGISTRATION_DIRECT);
+		
+		$grp_type = ilUtil::stripSlashes($_POST['grp_type']);
+		switch($grp_type)
+		{
+			case GRP_TYPE_PUBLIC:
+				$this->object->setRegistrationType(GRP_REGISTRATION_DIRECT);
+				break;
+			
+			default:
+				$this->object->setRegistrationType(GRP_REGISTRATION_DEACTIVATED);
+				break;
+		}
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));
 		$this->object->setGroupType(ilUtil::stripSlashes($_POST['grp_type']));
