@@ -75,6 +75,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$item_list_gui->enableSearchFragments(true);
 		$item_list_gui->enableRelevance(false);
 		$item_list_gui->enableIcon(true);
+		$item_list_gui->enableTimings(false);
 		// $item_list_gui->enableCheckbox(false);
 		// $item_list_gui->setSeparateCommands(true);
 		
