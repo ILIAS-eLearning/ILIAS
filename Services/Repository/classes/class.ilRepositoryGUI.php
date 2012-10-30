@@ -93,7 +93,8 @@ class ilRepositoryGUI
 					$ilLog->write("Repository: command called without ref_id.".
 						"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
 				}
-				$_GET = array();
+				// #10033
+				$_GET = array("baseClass"=>"ilRepositoryGUI");
 				$_POST = array();
 				$this->ctrl->setCmd("frameset");
 			}
