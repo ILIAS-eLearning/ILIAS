@@ -1273,24 +1273,6 @@ class ilCourseContentGUI
 		return false;
 	}
 
-	function __showFeedback()
-	{
-		if(!$this->is_tutor && $this->container_obj->getType() == 'crs')
-		{
-			include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
-			$feedbackGUI = new ilFeedbackGUI();
-			$feedbackHTML = $feedbackGUI->getCRSFeedbackListHTML();
-
-			if(strlen($feedbackHTML))
-			{
-				$this->tpl->setCurrentBlock("cont_page_content");
-				$this->tpl->setVariable("CONTAINER_PAGE_CONTENT",$feedbackHTML);
-				$this->tpl->parseCurrentBlock();
-			}
-		}
-		return true;
-	}
-
 	function __setSubTabs()
 	{
 		if($this->container_obj->getType() == 'crs')

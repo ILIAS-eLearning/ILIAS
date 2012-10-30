@@ -11,7 +11,7 @@ include_once("Services/Notes/classes/class.ilNote.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI, ilFeedbackGUI
+* @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI
 *
 */
 class ilPDNotesGUI

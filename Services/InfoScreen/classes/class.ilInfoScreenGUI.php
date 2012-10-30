@@ -10,7 +10,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
 * @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
 *
 * @ingroup ServicesInfoScreen
@@ -77,16 +77,6 @@ class ilInfoScreenGUI
 		{
 			case "ilnotegui":		
 				$this->showSummary();	// forwards command
-				break;
-
-			// deprecated - will be removed in 4.4
-			case "ilfeedbackgui":
-				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
-				$fb_gui = new ilFeedbackGUI();
-				$this->ctrl->setParameterByClass("ilFeedbackGUI","obj_id",$this->gui_object->object->getId());
-				$this->ctrl->setParameterByClass("ilFeedbackGUI","ref_id",$_GET['ref_id']);
-				$html = $this->ctrl->forwardCommand($fb_gui);
-				$tpl->setContent($html);
 				break;
 
 			case "ilcolumngui":
@@ -1120,53 +1110,6 @@ class ilInfoScreenGUI
 			 $this->ctrl->getLinkTarget($this, "showSummary"),
 			 array("showSummary", ""),
 			 get_class($this), "", $force_active);
-
-		// deprecated - will be removed in 4.4
-		if ($this->feedback_enabled)
-		{
-			$show_feedback_tab=false;
-					
-			include_once('Services/Feedback/classes/class.ilFeedback.php');
-			$feedback = new ilFeedback();
-			$feedback->setRefId($_GET['ref_id']);
-										
-			if($ilAccess->checkAccess('write','edit',$_GET['ref_id']))
-			{			
-				// all barometers
-				$barometers = $feedback->getAllBarometer(1);
-				if(count($barometers))
-				{
-					$show_feedback_tab=true;
-				}
-			}
-			else
-			{
-				// only active	
-				$barometers = $feedback->getAllBarometer(0);			
-				if(count($barometers))
-				{				
-					foreach ($barometers as $barometer)
-					{
-						if($barometer->canVote($ilUser->getId(),$barometer->getId())==1)
-						{
-							$show_feedback_tab=true;
-							break;
-						}
-					}
-				}
-			}
-			if ($show_feedback_tab)
-			{
-				$tabs_gui->addSubTabTarget("feedback",
-					$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
-					"", "ilfeedbackgui");
-			}
-
-			/*
-			$tabs_gui->addSubTabTarget("feedb_feedback_settings",
-				$this->ctrl->getLinkTargetByClass("ilfeedbackgui", "fbList"),
-				"", "ilfeedbackgui");*/
-		}
 	}
 
 	
