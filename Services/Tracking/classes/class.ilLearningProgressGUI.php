@@ -168,12 +168,11 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 			case LP_MODE_PERSONAL_DESKTOP:
 								
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");			
-				if(ilObjUserTracking::_hasLearningProgressDesktop())
-				{									
-					$types = array("crs", "grp", "exc", "tst", "lm", "sahs", "htlm", "dbk");
-					$has_edit = ilUtil::_getObjectsByOperations($types, "edit_learning_progress", $ilUser->getId(), 1);				
-					$has_personal = ilObjUserTracking::_hasLearningProgressLearner();
-
+				$has_edit = ilObjUserTracking::_hasLearningProgressOtherUsers();		
+				$has_personal = ilObjUserTracking::_hasLearningProgressLearner();
+				
+				if($has_edit || $has_personal)
+				{														
 					// default
 					$tgt = null;
 					if($has_edit)

@@ -162,16 +162,14 @@ class ilLearningProgressBaseGUI
 
 				include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 				if(ilObjUserTracking::_hasLearningProgressLearner() && 
-				ilObjUserTracking::_enabledUserRelatedData())
+					ilObjUserTracking::_enabledUserRelatedData())
 				{
 					$this->tabs_gui->addTarget('trac_progress',
 													$this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 													"","","",$a_active == LP_ACTIVE_PROGRESS);
 				}
 
-				// ownership is also checked by this method
-				$types = array("crs", "grp", "exc", "tst", "lm", "sahs", "htlm", "dbk");
-				if(ilUtil::_getObjectsByOperations($types, "edit_learning_progress", $ilUser->getId(), 1))
+				if(ilObjUserTracking::_hasLearningProgressOtherUsers())
 				{
 					$this->tabs_gui->addTarget('trac_objects',
 													 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),

@@ -12985,3 +12985,5 @@ search#:#search_option_offline#:#Offline
 common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.
 forum#:#sort_by_date#:#Sort by date
 forum#:#error_reading_file#:#There was an error reading the file
+rbac#:#lp_other_users#:#See learning progress overview of other users
+rbac#:#trac_lp_other_users#:#See learning progress overview of other users

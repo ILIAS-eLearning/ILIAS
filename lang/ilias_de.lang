@@ -12985,3 +12985,5 @@ mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 10 2012 new varia
 mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
 mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
 mcst#:#mcst_second#:#Second###27 10 2012 new variable
+rbac#:#lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
+rbac#:#trac_lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
