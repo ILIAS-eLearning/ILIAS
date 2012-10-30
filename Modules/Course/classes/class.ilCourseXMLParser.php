@@ -203,6 +203,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'Unlimited':
 				if($this->in_availability)
 				{
+					$this->course_obj->setOfflineStatus(false);
 					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
 				}
 				elseif($this->in_registration)
@@ -214,6 +215,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'TemporarilyAvailable':
 				if($this->in_availability)
 				{
+					$this->course_obj->setOfflineStatus(false);
 					$this->course_obj->setActivationType(IL_CRS_ACTIVATION_LIMITED);
 				}
 				elseif($this->in_registration)
