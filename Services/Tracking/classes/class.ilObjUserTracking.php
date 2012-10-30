@@ -181,7 +181,7 @@ class ilObjUserTracking extends ilObject
 		$ilSetting->set("tracking_time_span",$this->getValidTimeSpan());
 		$ilSetting->set("lp_extended_data", $this->extended_data);
 		$ilSetting->set("object_statistics", (int)$this->enabledObjectStatistics());		
-		$ilSetting->set("lp_desktop", (int)$this->hasLearningProgressDesktop());
+		// $ilSetting->set("lp_desktop", (int)$this->hasLearningProgressDesktop());
 		$ilSetting->set("lp_learner", (int)$this->hasLearningProgressLearner());
 
 		// BEGIN ChangeEvent
@@ -210,7 +210,7 @@ class ilObjUserTracking extends ilObject
 		$this->enableUserRelatedData($ilSetting->get("save_user_related_data",0));
 		$this->enableObjectStatistics($ilSetting->get("object_statistics"),0);
 		$this->setValidTimeSpan($ilSetting->get("tracking_time_span", self::DEFAULT_TIME_SPAN));
-		$this->setLearningProgressDesktop($ilSetting->get("lp_desktop"), 1);
+		// $this->setLearningProgressDesktop($ilSetting->get("lp_desktop"), 1);
 		$this->setLearningProgressLearner($ilSetting->get("lp_learner"), 1);
 
 		// BEGIN ChangeEvent
@@ -247,6 +247,7 @@ class ilObjUserTracking extends ilObject
 		return true;
 	}
 	
+	/*
 	function setLearningProgressDesktop($a_value)
 	{
 		$this->lp_desktop = (bool)$a_value;
@@ -256,14 +257,25 @@ class ilObjUserTracking extends ilObject
 	{
 		return (bool)$this->lp_desktop;
 	}
-	
+	 
 	static function _hasLearningProgressDesktop()
 	{
 		global $ilias;
 		
-		return (bool)$ilias->getSetting("lp_desktop");
+		return (bool)$ilias->getSetting("lp_desktop");		
 	}
-
+	*/ 
+	
+	static function _hasLearningProgressOtherUsers()
+	{		
+		global $rbacsystem;
+		
+		$obj_id = array_pop(array_keys(ilObject::_getObjectsByType("trac")));	
+		$ref_id = array_pop(ilObject::_getAllReferences($obj_id));
+		
+		return $rbacsystem->checkAccess("lp_other_users", $ref_id);
+	}
+	
 	function setLearningProgressLearner($a_value)
 	{
 		$this->lp_learner = (bool)$a_value;

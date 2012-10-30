@@ -13521,3 +13521,18 @@ if ($ilDB->sequenceExists('svy_qst_mat'))
 	$ilDB->dropSequence('svy_qst_mat');
 }
 ?>
+<#3790>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$trac_type_id = ilDBUpdateNewObjectType::getObjectTypeId('trac');
+if($trac_type_id)
+{	
+	$ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('lp_other_users', 'See LP Data Of Other Users', 'object', 250);
+	if($ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($trac_type_id, $ops_id);
+	}
+}
+?>

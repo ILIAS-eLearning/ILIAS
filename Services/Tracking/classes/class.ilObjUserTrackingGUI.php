@@ -188,10 +188,12 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		
 		// lp settings
 
+		/*
 		$desktop = new ilCheckboxInputGUI($this->lng->txt('trac_lp_on_personal_desktop'), 'lp_desktop');
 		$desktop->setInfo($this->lng->txt('trac_lp_on_personal_desktop_info'));
 		$desktop->setChecked($this->object->hasLearningProgressDesktop());
 		$lp->addSubItem($desktop);
+		*/ 
 		
 		$learner = new ilCheckboxInputGUI($this->lng->txt('trac_lp_learner_access'), 'lp_learner');
 		$learner->setInfo($this->lng->txt('trac_lp_learner_access_info'));
@@ -221,10 +223,6 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$ext_value[] = 'lp_spent';
 		}
 		$extdata->setValue($ext_value);
-		
-		$this->object->setLearningProgressDesktop($_POST['lp_desktop']);
-		$this->object->setLearningProgressLearner($_POST['lp_learner']);
-		
 		
 		// change event
 		$event = new ilCheckboxInputGUI($this->lng->txt('trac_repository_changes'), 'change_event_tracking');
@@ -299,8 +297,10 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$this->object->enableChangeEventTracking($form->getInput('change_event_tracking'));			
 			$this->object->enableObjectStatistics($form->getInput('object_statistics'));
 			$this->object->enableUserRelatedData(!$form->getInput('user_related'));
-			$this->object->setValidTimeSpan($form->getInput('valid_request'));
-			
+			$this->object->setValidTimeSpan($form->getInput('valid_request'));						
+			// $this->object->setLearningProgressDesktop($form->getInput('lp_desktop'));
+			$this->object->setLearningProgressLearner($form->getInput('lp_learner'));
+							
 			$this->object->updateSettings();
 			
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
