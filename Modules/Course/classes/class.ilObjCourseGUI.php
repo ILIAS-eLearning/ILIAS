@@ -4503,15 +4503,6 @@ class ilObjCourseGUI extends ilContainerGUI
 					break;
 				}
 				
-				// deprecated - will be removed in 4.4
-				if((!$this->creation_mode)&&(!$rbacsystem->checkAccess("write",$this->object->getRefId())))
-				{
-					$this->ctrl->setReturn($this,'view');
-					include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
-					$feedbackGUI = new ilFeedbackGUI();
-					$feedbackGUI->handleRequiredFeedback($this->object->getRefId());
-				}
-				
 				// Dirty hack for course timings view
 				if($this->forwardToTimingsView())
 				{

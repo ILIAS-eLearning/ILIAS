@@ -14,7 +14,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @version $Id$
 *
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI, ilFeedbackGUI
+* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI, ilLearningProgressGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilMailAddressbookGUI
 * @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
@@ -117,21 +117,6 @@ class ilPersonalDesktopGUI
 
 		switch($next_class)
 		{
-			//Feedback
-			case "ilfeedbackgui":
-				$this->getStandardTemplates();
-				$this->setTabs();
-				$this->tpl->setTitle($this->lng->txt("personal_desktop"));
-				//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
-				//	$this->lng->txt("personal_desktop"));
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd_b.png"),
-					"");
-
-				include_once("Services/Feedback/classes/class.ilFeedbackGUI.php");
-				$feedback_gui = new ilFeedbackGUI();
-				$ret =& $this->ctrl->forwardCommand($feedback_gui);
-				break;
-				// bookmarks
 			case "ilbookmarkadministrationgui":
 				if ($ilSetting->get('disable_bookmarks'))
 				{
@@ -559,21 +544,6 @@ class ilPersonalDesktopGUI
 		include_once("Services/Mail/classes/class.ilPDSysMessageBlockGUI.php");
 		$sys_block = new ilPDSysMessageBlockGUI("ilpersonaldesktopgui", "show");
 		return $sys_block->getHTML();
-	}
-	
-	
-	/**
-	* Display Links for Feedback
-	*/
-	function displayFeedback()
-	{
-		include_once("./Services/Feedback/classes/class.ilPDFeedbackBlockGUI.php");
-		$fb_block = new ilPDFeedbackBlockGUI("ilpersonaldesktopgui", "show");
-		return $fb_block->getHTML();
-
-		include_once('Services/Feedback/classes/class.ilFeedbackGUI.php');
-		$feedback_gui = new ilFeedbackGUI();
-		return $feedback_gui->getPDFeedbackListHTML();
 	}
 	
 	/**

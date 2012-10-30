@@ -10,7 +10,7 @@
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilFeedbackGUI, ilColumnGUI, ilPublicUserProfileGUI
+* @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
 *
 * @ingroup ServicesPermanentLink
 */
