@@ -191,13 +191,19 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	* Set Use Rich Text Editing.
-	*
-	* @param	int	$a_usert	Use Rich Text Editing
-	*/
-	function setUseRte($a_usert)
+	 * Set Use Rich Text Editing.
+	 *
+	 * @param	int	$a_usert	Use Rich Text Editing
+	 * @param	string $version
+	 */
+	public function setUseRte($a_usert, $version = '')
 	{
 		$this->usert = $a_usert;
+
+		if(strlen($version))
+		{
+			$this->rteSupport['version'] = $version;
+		}
 	}
 
 	/**
