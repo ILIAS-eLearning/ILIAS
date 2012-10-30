@@ -1187,7 +1187,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setContactPhone($this->getContactPhone());
 		$new_obj->setContactEmail($this->getContactEmail());
 		$new_obj->setContactConsultation($this->getContactConsultation());
-		$new_obj->setOfflineStatus(true);
+		$new_obj->setOfflineStatus($this->getOfflineStatus()); // #9914
 		$new_obj->setActivationType($this->getActivationType());
 		$new_obj->setActivationStart($this->getActivationStart());
 		$new_obj->setActivationEnd($this->getActivationEnd());
