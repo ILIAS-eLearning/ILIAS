@@ -573,6 +573,7 @@ class ilInitialisation
 		}
 		else
 		{
+			$GLOBALS['ilLog']->logStack();
 			self::abortAndDie("Init user account failed");
 		}
 	}
@@ -884,7 +885,7 @@ class ilInitialisation
 									
 			if (ilContext::hasUser())
 			{						
-				self::initUser();								
+				self::initUser();
 				
 				if(ilContext::doAuthentication())
 				{
@@ -1061,7 +1062,7 @@ class ilInitialisation
 		require_once "Auth/Auth.php";
 		require_once "./Services/AuthShibboleth/classes/class.ilShibboleth.php";		
 		include_once("./Services/Authentication/classes/class.ilAuthUtils.php");
-		ilAuthUtils::_initAuth();			
+		ilAuthUtils::_initAuth();
 		$ilias->auth = $ilAuth;
 
 		// $ilUser 

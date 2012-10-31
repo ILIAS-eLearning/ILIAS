@@ -1122,10 +1122,11 @@ class ilStartUpGUI
 					break;
 					
 				case 'openid':
-					$_POST['username'] = ilSession::get('tmp_external_account');
-					$_POST['password'] = ilSession::get('tmp_pass');
+					$_POST['username'] = ilSession::get('dummy');
+					$_POST['password'] = ilSession::get('dummy');
 					$_POST['oid_username'] = ilSession::get('tmp_oid_username');
-					ilSession::set('force_creation', true);
+					$_POST['oid_provider'] = ilSession::get('tmp_oid_provider');
+					//ilSession::set('force_creation', true);
 					
 					include_once './Services/Authentication/classes/class.ilAuthFactory.php';
 					include_once './Services/OpenId/classes/class.ilAuthContainerOpenId.php';
@@ -1133,8 +1134,16 @@ class ilStartUpGUI
 					$container = new ilAuthContainerOpenId();
 					$container->forceCreation(true);
 					ilAuthFactory::setContext(ilAuthFactory::CONTEXT_OPENID);
+					include_once './Services/OpenId/classes/class.ilAuthOpenId.php';
 					$ilAuth = ilAuthFactory::factory($container);
-					$ilAuth->callProvider($_POST['username'], null, null);
+					
+
+					//$ilAuth->callProvider($_POST['username'], null, null);
+
+					// logout first to initiate a new login session
+					$ilAuth->logout();
+					ilSession::_destroy(session_id());
+					ilSession::set('force_creation', true);
 					$ilAuth->start();
 					break;
 			}

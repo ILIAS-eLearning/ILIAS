@@ -41,8 +41,11 @@ class ilAuthContainerOpenId extends Auth_Container
 		
 		$ilLog->write(__METHOD__.': Fetch Data called');
 		
+		$ilLog->dump($_POST);
+		
 		$response = $this->settings->getConsumer()->complete($this->settings->getReturnLocation());
 		
+		$GLOBALS['ilLog']->write(__METHOD__.': ' . print_r($response,true));
 		switch($response->status)
 		{
 			case Auth_OpenID_CANCEL:
@@ -131,6 +134,7 @@ class ilAuthContainerOpenId extends Auth_Container
 					//$a_auth->logout();
 					$_SESSION['tmp_auth_mode'] = 'openid';
 					$_SESSION['tmp_oid_username'] = urldecode($_GET['openid_identity']);
+					$_SESSION['tmp_oid_provider'] = $_POST['oid_provider'];
 					$_SESSION['tmp_external_account'] = $this->response_data['nickname'];
 					$_SESSION['tmp_pass'] = $_POST['password'];
 					$_SESSION['tmp_roles'] = array(0 => $this->settings->getDefaultRole());
@@ -173,6 +177,7 @@ class ilAuthContainerOpenId extends Auth_Container
 	protected function initSettings()
 	{
 		include_once './Services/OpenId/classes/class.ilOpenIdSettings.php';
+		//$this->settings = ilOpenIdSettings::getInstance();
 		$this->settings = ilOpenIdSettings::getInstance();
 		$this->settings->initConsumer();
 	}

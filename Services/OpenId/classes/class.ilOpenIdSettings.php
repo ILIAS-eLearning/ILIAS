@@ -46,6 +46,7 @@ class ilOpenIdSettings
 		return self::$instance = new ilOpenIdSettings();
 	}
 	
+	
 	/**
 	 * Is open id auth active
 	 * @return 
