@@ -1675,6 +1675,7 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 			{
 				$param = $a_note->getObject();			
 				$param["action"] = $a_action;
+				$param["note_id"] = $a_note->getId();
 				
 				call_user_func_array($item, $param);				
 			}

@@ -513,10 +513,15 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		return $form;		
 	}
 	
-	function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action)
+	function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action, $a_note_id)
 	{
+		// #10040 - get note text
+		include_once "Services/Notes/classes/class.ilNote.php";
+		$note = new ilNote($a_note_id);
+		$note = $note->getText();
+		
 		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		ilObjBlog::sendNotification("comment", $this->node_id, $a_posting_id);		
+		ilObjBlog::sendNotification("comment", $this->node_id, $a_posting_id, $note);		
 	}
 	
 	protected function getActivationCaptions()
