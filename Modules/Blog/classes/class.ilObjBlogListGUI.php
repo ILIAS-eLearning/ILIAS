@@ -22,7 +22,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
 		$this->copy_enabled = true;
 		$this->delete_enabled = true;
 		$this->cut_enabled = true;
-		$this->subscribe_enabled = false;
+		$this->subscribe_enabled = true;
 		$this->link_enabled = false;
 		$this->payment_enabled = false;
 		$this->info_screen_enabled = true;
