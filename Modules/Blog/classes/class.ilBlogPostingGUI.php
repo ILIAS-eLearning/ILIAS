@@ -602,9 +602,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 										
 		// language is not "used" anywhere
 		$ulang = $ilUser->getLanguage();
-		asort($keywords[$ulang]);
-		$txt->setValue($keywords[$ulang]);
-
+		if($keywords[$ulang])
+		{
+			asort($keywords[$ulang]);
+			$txt->setValue($keywords[$ulang]);
+		}
+		
 		$form->addCommandButton("saveKeywordsForm", $this->lng->txt("save"));
 		$form->addCommandButton("preview", $this->lng->txt("cancel"));
 
