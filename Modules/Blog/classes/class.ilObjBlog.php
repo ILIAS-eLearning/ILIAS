@@ -344,7 +344,7 @@ class ilObjBlog extends ilObject2
 		$this->approval = (bool)$a_status;
 	}
 	
-	static function sendNotification($a_action, $a_blog_node_id, $a_posting_id)
+	static function sendNotification($a_action, $a_blog_node_id, $a_posting_id, $a_comment = null)
 	{
 		global $ilUser, $ilAccess;
 		
@@ -475,8 +475,12 @@ class ilObjBlog extends ilObject2
 			$message .= $ulng->txt('blog_change_notification_body_'.$a_action).":\n\n";
 			$message .= $ulng->txt('obj_blog').": ".$blog_title."\n";
 			$message .= $ulng->txt('blog_posting').": ".$posting_title."\n";
-			$message .= $ulng->txt('blog_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
-			$message .= $ulng->txt('blog_change_notification_link').": ".$link;				
+			$message .= $ulng->txt('blog_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n";
+			if($a_comment)
+			{
+				$message .= "\n".$ulng->txt('comment').":\n\"".trim($a_comment)."\"\n";
+			}			
+			$message .= "\n".$ulng->txt('blog_change_notification_link').": ".$link;				
 
 			$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 			$mail_obj->appendInstallationSignature(true);
