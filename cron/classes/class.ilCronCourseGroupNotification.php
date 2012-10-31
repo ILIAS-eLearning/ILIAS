@@ -150,8 +150,20 @@ class ilCronCourseGroupNotification extends ilMailNotification
 			$cont_loc->addContextItems($item["ref_id"], true);
 			$cont_loc->setTextOnly(true);
 			
-			// #9954
-			include_once './Services/UICore/classes/class.ilTemplate.php';
+			// #9954/#10044
+			// see ilInitialisation::requireCommonIncludes()
+			@include_once "HTML/Template/ITX.php";		// new implementation
+			if (class_exists("HTML_Template_ITX"))
+			{
+				include_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
+			}
+			else
+			{
+				include_once "HTML/ITX.php";		// old implementation
+				include_once "./Services/UICore/classes/class.ilTemplateITX.php";
+			}
+			require_once "./Services/UICore/classes/class.ilTemplate.php";
+			
 			$loc = "[".$cont_loc->getHTML()."]";
 			
 			$this->appendBody("----------------------------------------------------------------------------------------------");
