@@ -41,7 +41,7 @@ abstract class ilAuthBase
 	 * the login screen, public section ... 
 	 * @return 
 	 */
-	public function supportRedirects()
+	public function supportsRedirects()
 	{
 		return true;
 	}
