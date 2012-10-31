@@ -41,11 +41,8 @@ class ilAuthContainerOpenId extends Auth_Container
 		
 		$ilLog->write(__METHOD__.': Fetch Data called');
 		
-		$ilLog->dump($_POST);
-		
 		$response = $this->settings->getConsumer()->complete($this->settings->getReturnLocation());
 		
-		$GLOBALS['ilLog']->write(__METHOD__.': ' . print_r($response,true));
 		switch($response->status)
 		{
 			case Auth_OpenID_CANCEL:
