@@ -37,6 +37,8 @@ class ilCalendarCategoryGUI
 	const SEARCH_USER = 1;
 	const SEARCH_ROLE = 2;
 	
+	const VIEW_MANAGE = 1;
+	
 	protected $user_id;
 	protected $tpl;
 	protected $ctrl;
@@ -120,7 +122,17 @@ class ilCalendarCategoryGUI
 		global $tpl, $ilTabs;
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, "manage"));
+		
+		if($_REQUEST['backv'] == self::VIEW_MANAGE)
+		{
+			$back = 'manage';
+		}
+		else
+		{
+			$back = 'cancel';
+		}
+		
+		$ilTabs->setBackTarget($this->lng->txt("cal_back_to_list"),  $this->ctrl->getLinkTarget($this, $back));
 		
 		$this->tpl = new ilTemplate('tpl.edit_category.html',true,true,'Services/Calendar');
 		$this->initFormCategory('create');
@@ -1393,6 +1405,7 @@ class ilCalendarCategoryGUI
 
 		include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";
 		$toolbar = new ilToolbarGui();
+		$ilCtrl->setParameter($this,'backv',self::VIEW_MANAGE);
 		$toolbar->addButton($lng->txt("cal_add_calendar"), $ilCtrl->getLinkTarget($this, "add"));
 
 		$tpl->setContent($toolbar->getHTML().$table_gui->getHTML());

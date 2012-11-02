@@ -76,6 +76,9 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 
 		$this->setDefaultOrderDirection('asc');
 		$this->setDefaultOrderField('title');
+		
+		// Show add calendar button
+		$this->addCommandButton('add',$this->lng->txt('cal_add_calendar'));
 	}
 	
 	/**
