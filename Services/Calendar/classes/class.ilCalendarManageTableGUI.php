@@ -174,6 +174,19 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		}
 		
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
+		$this->ctrl->setParameter(
+				$this->getParentObject(),
+				'category_id',
+				$a_set['id']
+			);
+		$this->tpl->setVariable(
+				'EDIT_LINK',
+				$this->ctrl->getLinkTarget(
+						$this->getParentObject(),
+						'details'
+					)
+			);
+		
 		$this->tpl->setVariable('BGCOLOR',$a_set['color']);
 		$this->tpl->setVariable("ACTIONS", $current_selection_list->getHTML());
 		
