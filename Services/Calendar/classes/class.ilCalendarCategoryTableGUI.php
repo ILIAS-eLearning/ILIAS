@@ -53,7 +53,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		
 		$this->seed = $seed;
 
-		$this->setId('calcalselector');
+		$this->setId('calmng');
 		
 		parent::__construct($a_parent_obj,'showCategories');
 		$this->setFormName('categories');
