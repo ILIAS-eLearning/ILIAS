@@ -76,6 +76,7 @@ class ilCalendarCategoryGUI
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->saveParameter($this,'category_id');
+		$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 		switch($next_class)
 		{
 			case 'ilcalendarappointmentgui':
@@ -506,7 +507,7 @@ class ilCalendarCategoryGUI
 	public function showCategories()
 	{
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
-		$table_gui = new ilCalendarCategoryTableGUI($this);
+		$table_gui = new ilCalendarCategoryTableGUI($this,$this->seed);
 		$nav_parameter = $table_gui->getNavParameter();
 
 		if($_POST[$nav_parameter] != "")
@@ -1164,7 +1165,7 @@ class ilCalendarCategoryGUI
 
 
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php');
-		$table_gui = new ilCalendarCategoryTableGUI($this);
+		$table_gui = new ilCalendarCategoryTableGUI($this,$this->seed);
 		
 		$title = $this->lng->txt('cal_table_categories');
 		$title .= $this->appendCalendarSelection();
@@ -1200,6 +1201,7 @@ class ilCalendarCategoryGUI
 				$tpl->touchBlock('head_item');
 				
 				$this->ctrl->setParameter($this,'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_ITEMS);
+				$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 				$tpl->setVariable('HHREF',$this->ctrl->getLinkTarget($this,'switchCalendarMode'));
 				$tpl->setVariable('HLINK',$this->lng->txt('pd_my_offers'));
 				$tpl->touchBlock('head_item');
@@ -1207,6 +1209,7 @@ class ilCalendarCategoryGUI
 				
 			case ilCalendarUserSettings::CAL_SELECTION_ITEMS:
 				$this->ctrl->setParameter($this,'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
+				$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 				$tpl->setVariable('HHREF',$this->ctrl->getLinkTarget($this,'switchCalendarMode'));
 				$tpl->setVariable('HLINK',$this->lng->txt('pd_my_memberships'));
 				$tpl->touchBlock('head_item');
