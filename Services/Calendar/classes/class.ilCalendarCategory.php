@@ -345,7 +345,7 @@ class ilCalendarCategory
 			$this->db->quote($this->getRemoteUrl(),'text').', '.
 			$this->db->quote($this->getRemoteUser(),'text').', '.
 			$this->db->quote($this->getRemotePass(),'text').', '.
-			$this->db->quote($this->getRemoteSyncLastExecution()->get(IL_CAL_DATETIME,'',  ilTimeZone::UTC),'timestamp');
+			$this->db->quote($this->getRemoteSyncLastExecution()->get(IL_CAL_DATETIME,'',  ilTimeZone::UTC),'timestamp').' '.
 			")";
 		
 		$ilDB->manipulate($query);
