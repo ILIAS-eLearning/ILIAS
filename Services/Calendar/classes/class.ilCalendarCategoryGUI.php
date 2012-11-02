@@ -187,7 +187,8 @@ class ilCalendarCategoryGUI
 		}
 		catch(Exception $e)
 		{
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+			// Delete calendar if creation failed
+			$category->delete();
 			ilUtil::sendFailure($e->getMessage());
 			$this->manage();
 			return true;
