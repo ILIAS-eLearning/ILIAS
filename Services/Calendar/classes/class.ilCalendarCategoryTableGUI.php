@@ -34,6 +34,8 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilCalendarCategoryTableGUI extends ilTable2GUI
 {
+	private $seed = null;
+	
 	/**
 	 * Constructor
 	 *
@@ -41,13 +43,15 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj)
+	public function __construct($a_parent_obj, ilDateTime $seed = null)
 	{
 	 	global $lng,$ilCtrl,$ilUser;
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
+		
+		$this->seed = $seed;
 	 	
 		parent::__construct($a_parent_obj,'showCategories');
 		$this->setFormName('categories');
@@ -57,6 +61,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$this->addColumn('','subscription','');
 	 	
 	 	$this->setPrefix('categories');
+		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'seed',$this->seed->get(IL_CAL_DATE));
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_category_row.html","Services/Calendar");
 		$this->disable('sort');
@@ -125,6 +130,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 
 		// Subscription link
 		$this->tpl->setVariable('SUB_SRC',ilUtil::getImagePath('ical.png','Services/Calendar'));
+		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','seed',$this->seed->get(IL_CAL_DATE));
 		$this->ctrl->setParameterByClass('ilcalendarsubscriptiongui','cal_id',$a_set['id']);
 		$this->tpl->setVariable('SUB_LINK',$this->ctrl->getLinkTargetByClass(array('ilcalendarpresentationgui','ilcalendarsubscriptiongui')));
 		$this->tpl->setVariable('SUB_ALT',$this->lng->txt('ical_export'));
