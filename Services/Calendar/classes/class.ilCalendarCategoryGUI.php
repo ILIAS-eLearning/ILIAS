@@ -195,7 +195,7 @@ class ilCalendarCategoryGUI
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 		// $this->ctrl->returnToParent($this);
-		$this->manage();
+		$this->manage(true);
 	}
 	
 	/**
@@ -1395,12 +1395,18 @@ class ilCalendarCategoryGUI
 	 * @global type $ilCtrl
 	 * @global type $tpl 
 	 */
-	protected function manage()
+	protected function manage($a_reset_offsets = false)
 	{
 		global $lng, $ilCtrl, $tpl;
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarManageTableGUI.php');
 		$table_gui = new ilCalendarManageTableGUI($this);
+		
+		if($a_reset_offsets)
+		{
+			$table_gui->resetToDefaults();
+		}
+		
 		$table_gui->parse();
 
 		include_once "./Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php";

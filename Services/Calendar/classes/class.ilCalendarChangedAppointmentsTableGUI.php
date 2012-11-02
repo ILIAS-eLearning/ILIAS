@@ -54,6 +54,8 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
+		
+		$this->setId('calinbox');
 	 	
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		$this->setFormName('appointments');
@@ -66,14 +68,14 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_changed_appointment_row.html","Services/Calendar");
+		
+		$this->setShowRowsSelector(true);
 		$this->enable('sort');
 		$this->enable('header');
 		$this->enable('numinfo');
 		
 		$this->setDefaultOrderField('last_update');
 		$this->setDefaultOrderDirection('desc');
-		
-		$this->setPrefix('apps');
 	}
 	
 	

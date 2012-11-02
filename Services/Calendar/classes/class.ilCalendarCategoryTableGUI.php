@@ -56,7 +56,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj,'showCategories');
 		$this->setFormName('categories');
 	 	$this->addColumn('','',"1", true);
-		$this->addColumn($this->lng->txt('type'),'',"1");
+		$this->addColumn($this->lng->txt('type'),'type_sortable',"1");
 	 	$this->addColumn($this->lng->txt('title'),'title',"100%");
 		$this->addColumn('','subscription','');
 	 	
@@ -75,7 +75,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$this->setDisplayAsBlock(true);
 
 		$this->setDefaultOrderDirection('asc');
-		$this->setDefaultOrderField('title');
+		$this->setDefaultOrderField('type_sortable');
 		
 		// Show add calendar button
 		$this->addCommandButton('add',$this->lng->txt('cal_add_calendar'));
@@ -167,6 +167,14 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 			$tmp_arr['hidden'] = (bool) in_array($category['cat_id'],$hidden);
 			$tmp_arr['title'] = $category['title'];
 			$tmp_arr['type'] = $category['type'];
+			
+			// Append object type to make type sortable
+			$tmp_arr['type_sortable'] = ilCalendarCategory::lookupCategorySortIndex($category['type']);
+			if($category['type'] == ilCalendarCategory::TYPE_OBJ)
+			{
+				$tmp_arr['type_sortable'] .= ('_'.ilObject::_lookupType($category['obj_id']));
+			}
+			
 			$tmp_arr['color'] = $category['color'];
 			$tmp_arr['editable'] = $category['editable'];
 			
@@ -193,7 +201,7 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 			}			
 			$path_categories[] = $cat;
 		}
-		$this->setData($path_categories ? $path_categories : array());
+		$this->setData($path_categories);
 	}
 	
 	protected function buildPath($a_ref_id)
