@@ -81,7 +81,7 @@ class ilCalendarCategories
 	 *
 	 * @access public
 	 * @param int $a_usr_id user id
-	 * @return
+	 * @return ilCalendarCategories
 	 * @static
 	 */
 	public static function _getInstance($a_usr_id = 0)

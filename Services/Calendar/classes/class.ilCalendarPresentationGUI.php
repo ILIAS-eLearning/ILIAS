@@ -190,6 +190,8 @@ class ilCalendarPresentationGUI
 
 		$this->showSideBlocks();
 		
+		$this->synchroniseExternalCalendars();
+		
 		return true;
 	}
 	
@@ -380,6 +382,51 @@ class ilCalendarPresentationGUI
 		$_GET['seed'] = $this->seed->get(IL_CAL_DATE,'');
 		$this->ctrl->saveParameter($this,array('seed'));
  	}
+	
+	/**
+	 * Sync external calendars
+	 */
+	protected function synchroniseExternalCalendars()
+	{
+		global $ilUser;
+		
+		
+		if(!ilCalendarSettings::_getInstance()->isWebCalSyncEnabled())
+		{
+			return false;
+		}
+		// @todo make this thread safe
+		
+		$limit = new ilDateTime(time(),IL_CAL_UNIX);
+		$limit->increment(IL_CAL_HOUR, -1 * ilCalendarSettings::_getInstance()->getWebCalSyncHours());
+		
+		$cats = ilCalendarCategories::_getInstance($ilUser->getId());
+		foreach($cats->getCategoriesInfo() as $cat_id => $info)
+		{
+			if($info['remote'])
+			{
+				// Check for execution
+				$category = new ilCalendarCategory($cat_id);
+				
+				if(ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit))
+				{
+					var_dump((string) $limit);
+
+					// update in any case to avoid multiple updates of invalid calendar sources.
+					$category->setRemoteSyncLastExecution(new ilDateTime(time(),IL_CAL_UNIX));
+					$category->update();
+
+					include_once './Services/Calendar/classes/class.ilCalendarRemoteReader.php';
+					$remote = new ilCalendarRemoteReader($category->getRemoteUrl());
+					$remote->setUser($category->getRemoteUser());
+					$remote->setPass($category->getRemotePass());
+					$remote->read();
+					$remote->import($category);
+					break;
+				}
+			}
+		}
+	}
 	
 }
 ?>

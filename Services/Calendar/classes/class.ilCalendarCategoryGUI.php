@@ -340,8 +340,7 @@ class ilCalendarCategoryGUI
 		$remote->setUser($category->getRemoteUser());
 		$remote->setPass($category->getRemotePass());
 		$remote->read();
-		$remote->import($category);
-		
+		$remote->import($category);		
 	}
 	
 	/**
