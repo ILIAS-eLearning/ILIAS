@@ -12987,3 +12987,5 @@ mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image 
 mcst#:#mcst_second#:#Second###27 10 2012 new variable
 rbac#:#lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#trac_lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
+dateplaner#:#cal_webcal_sync_info#:#Wenn aktiviert, werden externe Kalender alle x Stunden synchronisiert.
+dateplaner#:#cal_webcal_sync#:#Synchronisierung externer Kalender

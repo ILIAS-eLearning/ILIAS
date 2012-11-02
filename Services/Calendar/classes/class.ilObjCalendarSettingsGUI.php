@@ -220,6 +220,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		$this->settings->enableUserNotification((bool) $_POST['cnu']);
 		$this->settings->enableConsultationHours((bool) $_POST['ch']);
 		$this->settings->enableCGRegistration((bool) $_POST['cgr']);
+		$this->settings->enableWebCalSync((bool) $_POST['webcal']);
+		$this->settings->setWebCalSyncHours((int) $_POST['webcal_hours']);
 		
 		if(((int) $_POST['den']) < (int) $_POST['dst'])
 		{
@@ -323,6 +325,20 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 		);
 		$day_end->setValue($this->settings->getDefaultDayEnd());
 		$this->form->addItem($day_end);
+		
+		$sync = new ilCheckboxInputGUI($this->lng->txt('cal_webcal_sync'),'webcal');
+		$sync->setValue(1);
+		$sync->setChecked($this->settings->isWebCalSyncEnabled());
+		$sync->setInfo($this->lng->txt('cal_webcal_sync_info'));
+		
+		$sync_min = new ilNumberInputGUI('','webcal_hours');
+		$sync_min->setSize(2);
+		$sync_min->setMaxLength(3);
+		$sync_min->setValue($this->settings->getWebCalSyncHours());
+		$sync_min->setSuffix($this->lng->txt('hours'));
+		$sync->addSubItem($sync_min);
+		
+		$this->form->addItem($sync);
 
 
 
