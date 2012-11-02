@@ -54,12 +54,14 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('dateplaner');
 	 	$this->ctrl = $ilCtrl;
+		
+		$this->setId('calcalapps');
 	 	
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		$this->setFormName('appointments');
 	 	$this->addColumn('','f',"1");
-	 	$this->addColumn($this->lng->txt('title'),'title',"50%");
-	 	$this->addColumn($this->lng->txt('cal_start'),'begin',"20%");
+	 	$this->addColumn($this->lng->txt('cal_start'),'dt_sort',"30%");
+	 	$this->addColumn($this->lng->txt('title'),'title',"60%");
 	 	$this->addColumn($this->lng->txt('cal_duration'),'duration',"20%");
 	 	$this->addColumn($this->lng->txt('cal_recurrences'),'frequence',"10%");
 	 	
@@ -75,14 +77,14 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_appointment_row.html","Services/Calendar");
+		
+		$this->setShowRowsSelector(true);
 		$this->enable('sort');
 		$this->enable('header');
 		$this->enable('numinfo');
 		
-		$this->setDefaultOrderField('begin');
-		
+		$this->setDefaultOrderField('dt_sort');
 		$this->setSelectAllCheckbox('appointments');
-		$this->setPrefix('apps');
 	}
 	
 	
@@ -125,20 +127,11 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 				break;
 			
 			default:
-				$this->tpl->setVariable('VAL_FREQUENCE',$this->lng->txt('cal_no_recurrence'));
-				break;	$this->addColumn($this->lng->txt('cal_duration'),'duration',"20%");
+				//$this->tpl->setVariable('VAL_FREQUENCE',$this->lng->txt('cal_no_recurrence'));
+				$this->tpl->setVariable('VAL_FREQUENCE','');
+				break;
 		}
-		// TOD: Localization
-		if($a_set['fullday'])
-		{
-			$start = new ilDate($a_set['begin'],IL_CAL_UNIX);
-			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
-		}
-		else
-		{
-			$start = new ilDateTime($a_set['begin'],IL_CAL_UNIX,'UTC');
-			$this->tpl->setVariable('VAL_BEGIN',ilDatePresentation::formatDate($start));
-		}
+		$this->tpl->setVariable('VAL_BEGIN',$a_set['dt']);
 		if($a_set['duration'])
 		{
 			$this->tpl->setVariable('VAL_DURATION',ilFormat::_secondsToString($a_set['duration']));	
@@ -212,6 +205,12 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
 			$tmp_arr['fullday'] = $entry->isFullday();
  			$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);
  			$tmp_arr['end'] = $entry->getEnd()->get(IL_CAL_UNIX);
+			
+			$tmp_arr['dt_sort'] = $entry->getStart()->get(IL_CAL_UNIX);
+			$tmp_arr['dt'] = ilDatePresentation::formatPeriod(
+					$entry->getStart(),
+					$entry->getEnd()
+			);
  			
  			#$tmp_arr['duration'] = ($dur = $tmp_arr['end'] - $tmp_arr['begin']) ? $dur : 60 * 60 * 24;
  			$tmp_arr['duration'] = $tmp_arr['end'] - $tmp_arr['begin'];

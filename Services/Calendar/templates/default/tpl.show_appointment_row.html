@@ -1,8 +1,11 @@
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW}" style="font-size: small">
 	<td class="std">
 		<!-- BEGIN deletable -->
 		<input type="checkbox" name="appointments[]" value="{VAL_ID}" {VAL_CHECKED} />
 		<!-- END deletable -->
+	</td>
+	<td class="std">
+		{VAL_BEGIN}
 	</td>
 	<td class="std">
 		<!-- BEGIN title_link -->
@@ -16,9 +19,6 @@
 			{VAL_DESCRIPTION}
 		</div>
 		<!-- END description -->
-	</td>
-	<td class="std">
-		{VAL_BEGIN}
 	</td>
 	<td class="std">
 		{VAL_DURATION}

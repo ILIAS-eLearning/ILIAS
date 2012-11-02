@@ -52,7 +52,9 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 	$this->ctrl = $ilCtrl;
 		
 		$this->seed = $seed;
-	 	
+
+		$this->setId('calcalselector');
+		
 		parent::__construct($a_parent_obj,'showCategories');
 		$this->setFormName('categories');
 	 	$this->addColumn('','',"1", true);
@@ -60,7 +62,6 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('title'),'title',"100%");
 		$this->addColumn('','subscription','');
 	 	
-	 	$this->setPrefix('categories');
 		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'seed',$this->seed->get(IL_CAL_DATE));
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.show_category_row.html","Services/Calendar");
@@ -69,6 +70,8 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		{
 			$this->disable('header');
 		}
+
+		//$this->setShowRowsSelector(true);
 		$this->disable('numinfo');
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('selected_cat_ids');
@@ -98,14 +101,10 @@ class ilCalendarCategoryTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		$this->tpl->setVariable('BGCOLOR',$a_set['color']);
 		
-		if($a_set['editable'] or 1)
-		{
-			#$this->tpl->setCurrentBlock('title_link');
-			$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
-			$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'details'));
-			$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
-			#$this->tpl->parseCurrentBlock();
-		}
+		$this->ctrl->setParameter($this->getParentObject(),'category_id',$a_set['id']);
+		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->getParentObject(),'details'));
+		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
+
 		switch($a_set['type'])
 		{
 			case ilCalendarCategory::TYPE_GLOBAL:
