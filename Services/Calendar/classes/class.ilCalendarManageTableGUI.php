@@ -54,15 +54,20 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, 'manage');
 		$this->setFormName('categories');
 	 	$this->addColumn('','','1px', true);
-		$this->addColumn($this->lng->txt('type'), 'type', '1%');
+		$this->addColumn($this->lng->txt('type'), 'type_sortable', '1%');
 	 	$this->addColumn($this->lng->txt('title'),'title', '79%');
 	 	$this->addColumn('','','20%');
 	 	
-	 	$this->setPrefix('categories');
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "manage"));
 		$this->setRowTemplate("tpl.manage_row.html","Services/Calendar");
+		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "manage"));
+		
 		$this->enable('select_all');
+		$this->enable('sort');
+		$this->enable('header');
+		$this->enable('num_info');
+		
 		$this->setSelectAllCheckbox('selected_cat_ids');
+		$this->setShowRowsSelector(true);
 		// $this->setDisplayAsBlock(true);
 
 
@@ -76,7 +81,17 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 		// $this->addCommandButton('add',$this->lng->txt('add'));
 
 		$this->setDefaultOrderDirection('asc');
-		$this->setDefaultOrderField('title');
+		$this->setDefaultOrderField('type_sortable');
+	}
+	
+	/**
+	 * reset table to defaults
+	 */
+	public function resetToDefaults()
+	{
+		$this->resetOffset();
+		$this->setOrderField('type_sortable');
+		$this->setOrderDirection('asc');
 	}
 	
 	/**
@@ -192,6 +207,14 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 			$tmp_arr['id'] = $category['cat_id'];
 			$tmp_arr['title'] = $category['title'];
 			$tmp_arr['type'] = $category['type'];
+
+			// Append object type to make type sortable
+			$tmp_arr['type_sortable'] = ilCalendarCategory::lookupCategorySortIndex($category['type']);
+			if($category['type'] == ilCalendarCategory::TYPE_OBJ)
+			{
+				$tmp_arr['type_sortable'] .= ('_'.ilObject::_lookupType($category['obj_id']));
+			}
+
 			$tmp_arr['color'] = $category['color'];
 			$tmp_arr['editable'] = $category['editable'];
 			$tmp_arr['accepted'] = $category['accepted'];
@@ -223,7 +246,7 @@ class ilCalendarManageTableGUI extends ilTable2GUI
 			}			
 			$path_categories[] = $cat;
 		}
-		$this->setData($path_categories ? $path_categories : array());
+		$this->setData($path_categories);
 	}
 }
 ?>

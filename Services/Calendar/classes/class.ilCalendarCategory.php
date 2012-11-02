@@ -45,6 +45,15 @@ class ilCalendarCategory
 	const TYPE_CH = 4;		// consultation hours
 	const TYPE_BOOK = 5;	// booking manager
 	
+	protected static $SORTED_TYPES = array(
+		0		=> self::TYPE_GLOBAL,
+		1		=> self::TYPE_USR,
+		2		=> self::TYPE_CH,
+		3		=> self::TYPE_BOOK,
+		4		=> self::TYPE_OBJ
+	);
+	
+	
 	protected $cat_id;
 	protected $color;
 	protected $type = self::TYPE_USR;
@@ -111,6 +120,13 @@ class ilCalendarCategory
 		 return self::$instances[$a_cat_id];
 	 }
 	 
+	 /**
+	  * Lookup sort index of calendar type
+	  */
+	 public static function lookupCategorySortIndex($a_type_id)
+	 {
+		 return array_search($a_type_id, self::$SORTED_TYPES);
+	 }
 	 /**
 	  * get all assigned appointment ids
 	  * @return 
