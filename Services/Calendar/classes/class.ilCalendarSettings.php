@@ -78,6 +78,9 @@ class ilCalendarSettings
 	
 	private $course_cal_enabled = true;
 	private $group_cal_enabled = true;
+	
+	private $webcal_sync = false;
+	private $webcal_sync_hours = 2;
 
 	/**
 	 * singleton contructor
@@ -486,8 +489,27 @@ class ilCalendarSettings
 		return $this->group_cal_enabled;
 	}
 	
+	public function enableWebCalSync($a_stat)
+	{
+		$this->webcal_sync = $a_stat;
+	}
 	
-	/**
+	public function isWebCalSyncEnabled()
+	{
+		return $this->webcal_sync;
+	}
+	
+	public function setWebCalSyncHours($a_hours)
+	{
+		$this->webcal_sync_hours = $a_hours;
+	}
+	
+	public function getWebCalSyncHours()
+	{
+		return $this->webcal_sync_hours;
+	}
+
+		/**
 	 * save 
 	 *
 	 * @access public
@@ -512,6 +534,8 @@ class ilCalendarSettings
 		$this->storage->set('course_cal',(int) $this->isCourseCalendarEnabled());
 		$this->storage->set('group_cal',(int) $this->isGroupCalendarEnabled());
 		$this->storage->set('notification_user',(int) $this->isUserNotificationEnabled());
+		$this->storage->set('webcal_sync',(int) $this->isWebCalSyncEnabled());
+		$this->storage->set('webcal_sync_hours',(int) $this->getWebCalSyncHours());
 	}
 
 	/**
@@ -541,6 +565,8 @@ class ilCalendarSettings
 		$this->enableCourseCalendar($this->storage->get('course_cal'),$this->isCourseCalendarEnabled());
 		$this->enableGroupCalendar($this->storage->get('group_cal'),$this->isGroupCalendarEnabled());
 		$this->enableUserNotification($this->storage->get('notification_user',$this->isUserNotificationEnabled()));
+		$this->enableWebCalSync($this->storage->get('webcal_sync',$this->isWebCalSyncEnabled()));
+		$this->setWebCalSyncHours($this->storage->get('webcal_sync_hours',$this->getWebCalSyncHours()));
 	}
 	
 	/**

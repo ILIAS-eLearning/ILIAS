@@ -12987,3 +12987,5 @@ forum#:#sort_by_date#:#Sort by date
 forum#:#error_reading_file#:#There was an error reading the file
 rbac#:#lp_other_users#:#See learning progress overview of other users
 rbac#:#trac_lp_other_users#:#See learning progress overview of other users
+dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.
+dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation
