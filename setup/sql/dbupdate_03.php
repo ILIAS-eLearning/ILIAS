@@ -13536,3 +13536,17 @@ if($trac_type_id)
 	}
 }
 ?>
+
+<#3791>
+<?php
+
+if(!$ilDB->tableColumnExists('cal_categories','remote_sync'))
+{
+	$ilDB->addTableColumn('cal_categories', 'remote_sync', 
+		array(
+			'type'		=> 'timestamp',
+			'notnull'	=> false
+	));
+
+}
+?>

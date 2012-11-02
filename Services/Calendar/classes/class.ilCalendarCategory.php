@@ -65,6 +65,7 @@ class ilCalendarCategory
 	protected $remote_url;
 	protected $remote_user;
 	protected $remote_pass;
+	protected $remote_sync = null;
 	
 	protected $db;
 	
@@ -297,6 +298,28 @@ class ilCalendarCategory
 	{
 		return $this->remote_pass;
 	}
+	
+	/**
+	 * Set remote sync last execution
+	 * @param ilDateTime $dt
+	 */
+	public function setRemoteSyncLastExecution(ilDateTime $dt = null)
+	{
+		$this->remote_sync = $dt;
+	}
+	
+	/**
+	 * Get last execution date of remote sync
+	 * @return \ilDateTime
+	 */
+	public function getRemoteSyncLastExecution()
+	{
+		if($this->remote_sync instanceof ilDateTime)
+		{
+			return $this->remote_sync;
+		}
+		return new ilDateTime();
+	}
 
 	
 	/**
@@ -311,7 +334,7 @@ class ilCalendarCategory
 
 		$next_id = $ilDB->nextId('cal_categories');
 		
-		$query = "INSERT INTO cal_categories (cat_id,obj_id,color,type,title,loc_type,remote_url,remote_user,remote_pass) ".
+		$query = "INSERT INTO cal_categories (cat_id,obj_id,color,type,title,loc_type,remote_url,remote_user,remote_pass,remote_sync) ".
 			"VALUES ( ".
 			$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getObjId() ,'integer').", ".
@@ -321,9 +344,11 @@ class ilCalendarCategory
 			$this->db->quote($this->getLocationType(),'integer').', '.
 			$this->db->quote($this->getRemoteUrl(),'text').', '.
 			$this->db->quote($this->getRemoteUser(),'text').', '.
-			$this->db->quote($this->getRemotePass(),'text').' '.
+			$this->db->quote($this->getRemotePass(),'text').', '.
+			$this->db->quote($this->getRemoteSyncLastExecution()->get(IL_CAL_DATETIME,'',  ilTimeZone::UTC),'timestamp');
 			")";
-		$res = $ilDB->manipulate($query);
+		
+		$ilDB->manipulate($query);
 
 		$this->cat_id = $next_id;
 		return $this->cat_id;
@@ -347,7 +372,8 @@ class ilCalendarCategory
 			"loc_type = ".$this->db->quote($this->getLocationType(),'integer').', '.
 			"remote_url = ".$this->db->quote($this->getRemoteUrl(),'text').', '.
 			"remote_user = ".$this->db->quote($this->getRemoteUser(),'text').', '.
-			"remote_pass = ".$this->db->quote($this->getRemotePass(),'text').' '.
+			"remote_pass = ".$this->db->quote($this->getRemotePass(),'text').', '.
+			'remote_sync = '.$this->db->quote($this->getRemoteSyncLastExecution()->get(IL_CAL_DATETIME,'',  ilTimeZone::UTC),'timestamp').' '.
 			"WHERE cat_id = ".$this->db->quote($this->cat_id ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		return true;
@@ -426,6 +452,15 @@ class ilCalendarCategory
 			$this->remote_url = $row->remote_url;
 			$this->remote_user = $row->remote_user;
 			$this->remote_pass = $row->remote_pass;
+			
+			if($row->remote_sync)
+			{
+				$this->remote_sync = new ilDateTime($row->remote_sync,IL_CAL_DATETIME);
+			}
+			else
+			{
+				$this->remote_sync = new ilDateTime();
+			}
 		}
 		if($this->getType() == self::TYPE_OBJ)
 		{
