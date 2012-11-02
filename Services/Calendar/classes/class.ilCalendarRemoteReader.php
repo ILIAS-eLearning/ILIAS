@@ -95,6 +95,7 @@ class ilCalendarRemoteReader
 	protected function readIcal()
 	{
 		$this->ical = $this->call();
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$this->ical);
 		return true;
 	}
 	
@@ -126,11 +127,17 @@ class ilCalendarRemoteReader
 	protected function initCurl()
 	{
 		try {
+			
+			$this->replaceWebCalProtocol();
+			
 			$this->curl = new ilCurlConnection($this->getUrl());
 			$this->curl->init();
 			$this->curl->setOpt(CURLOPT_SSL_VERIFYPEER, 0);
 			$this->curl->setOpt(CURLOPT_SSL_VERIFYHOST, 0);
 			$this->curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
+			
+			$this->curl->setOpt(CURLOPT_FOLLOWLOCATION, 1);
+			$this->curl->setOpt(CURLOPT_MAXREDIRS, 3);
 			
 			if($this->user)
 			{
@@ -141,6 +148,16 @@ class ilCalendarRemoteReader
 		catch(Exception $e)
 		{
 			throw $e;
+		}
+	}
+	
+	protected function replaceWebCalProtocol()
+	{
+		if(substr($this->getUrl(), 0, 6) == 'webcal')
+		{
+			$purged = preg_replace('/webcal/', 'http', $this->getUrl(), 1);
+			$this->url = $purged;
+			$GLOBALS['ilLog']->write(__METHOD__.': Using new url: '. $this->getUrl());
 		}
 	}
 	
