@@ -466,6 +466,21 @@ il.Rating = {
 	}
 }
 
+/* keep ios wepapp mode (do not open safari mobile if links are clicked) */
+if (("standalone" in window.navigator) && !window.navigator.standalone ){
+	il.Util.addOnLoad(function () {
+		$(document).on(
+			"click",
+			'a[href!="#"][href!=""]',
+			function(event){
+				if (event.target.nodeName == "A") {
+					event.preventDefault();
+					location.href = $(event.target).attr("href");
+				}
+			}
+		);
+	});
+}
 
 ////
 //// The following methods should be moved to the corresponding components
