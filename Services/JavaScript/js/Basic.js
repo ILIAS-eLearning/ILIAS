@@ -467,7 +467,7 @@ il.Rating = {
 }
 
 /* keep ios wepapp mode (do not open safari mobile if links are clicked) */
-if (("standalone" in window.navigator) && !window.navigator.standalone ){
+/*if (("standalone" in window.navigator) && !window.navigator.standalone ){
 	il.Util.addOnLoad(function () {
 		$(document).on(
 			"click",
@@ -480,7 +480,7 @@ if (("standalone" in window.navigator) && !window.navigator.standalone ){
 			}
 		);
 	});
-}
+}*/
 
 ////
 //// The following methods should be moved to the corresponding components
