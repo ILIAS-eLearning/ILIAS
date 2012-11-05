@@ -3784,6 +3784,7 @@ div.ilSideBarContent{
 
 .ilPollQuestionImage {
 	margin-top: 5px;
+	width: 100%;
 }
 
 .ilPollQuestionAnswers {
