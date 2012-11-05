@@ -171,7 +171,7 @@ class ilECSCmsData
 				$a_mid,
 				$a_tree_id,
 				$subIds,
-				self::MAPPING_PENDING_DISCONNECTABLE);
+				self::MAPPING_MAPPED);
 		}
 	}
 

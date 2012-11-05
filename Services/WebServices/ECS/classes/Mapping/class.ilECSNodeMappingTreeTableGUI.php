@@ -93,6 +93,8 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 		$list->setListTitle($this->lng->txt('actions'));
 		
 		$ilCtrl->setParameter($this->getParentObject(),'tid',$a_set['id']);
+		$this->tpl->setVariable('EDIT_TITLE',$this->ctrl->getLinkTarget($this->getParentObject(),'dInitEditTree'));
+		
 		$list->addItem($this->lng->txt('edit'), '', $ilCtrl->getLinkTarget($this->getParentObject(),'dInitEditTree'));
 		
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
