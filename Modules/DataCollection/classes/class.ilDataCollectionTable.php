@@ -470,7 +470,7 @@ class ilDataCollectionTable
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
 		}
 		$fields = array_merge($this->fields, $this->stdFields);
-		$this->sortByMethod($fields, "getOrder");
+		$this->sortByOrder($fields);
 
 		return $fields;
 	}
@@ -639,7 +639,7 @@ class ilDataCollectionTable
 	 */
 	public function sortFields(&$fields)
 	{
-		$this->sortByMethod($fields, "getOrder");
+		$this->sortByOrder($fields);
 
 		//After sorting the array loses it's keys respectivly their keys are set form $field->id to 1,2,3... so we reset the keys.
 		$named = array();
@@ -650,29 +650,32 @@ class ilDataCollectionTable
 		
 		$fields = $named;
 	}
-	
-	/*
-	 * sortByMethod
-	 */
-	private function sortByMethod(&$array, $method_name)
+
+    /**
+     *
+     * @param $array the array to sort
+     * @param $method_name is Ignored now.
+     */
+    private function sortByOrder(&$array)
 	{
-		usort($array, function($a, $b) use ($method_name)
-		{
-			if(is_null($a->$method_name() == NULL) && is_null($b->$method_name() == NULL))
-			{
-				return 0;
-			}
-			if(is_null($a->$method_name()))
-			{
-				return 1;
-			}
-			if(is_null($b->$method_name()))
-			{
-				return -1;
-			}
-				
-			return $a->$method_name() < $b->$method_name() ? -1 : 1;
-		});
+        $compare = function($a, $b)
+        {
+            if(is_null($a->getOrder() == NULL) && is_null($b->getOrder() == NULL))
+            {
+                return 0;
+            }
+            if(is_null($a->getOrder()))
+            {
+                return 1;
+            }
+            if(is_null($b->getOrder()))
+            {
+                return -1;
+            }
+
+            return $a->getOrder() < $b->getOrder() ? -1 : 1;
+        };
+		usort($array, $compare);
 	}
 
 	/**
@@ -683,7 +686,7 @@ class ilDataCollectionTable
 	{
 		$fields = $this->getFields();
 
-		$this->sortByMethod($fields, "getOrder");
+		$this->sortByOrder($fields);
 
 		$count = 10;
 		$offset = 10;
