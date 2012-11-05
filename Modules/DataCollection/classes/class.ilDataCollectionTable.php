@@ -5,6 +5,24 @@
 include_once './Modules/DataCollection/classes/class.ilDataCollectionStandardField.php';
 include_once './Modules/DataCollection/classes/class.ilDataCollectionRecord.php';
 
+function il_dcl_compare_order($a, $b)
+{
+    if(is_null($a->getOrder() == NULL) && is_null($b->getOrder() == NULL))
+    {
+        return 0;
+    }
+    if(is_null($a->getOrder()))
+    {
+        return 1;
+    }
+    if(is_null($b->getOrder()))
+    {
+        return -1;
+    }
+
+    return $a->getOrder() < $b->getOrder() ? -1 : 1;
+};
+
 /**
  * Class ilDataCollectionField
  *
@@ -658,24 +676,7 @@ class ilDataCollectionTable
      */
     private function sortByOrder(&$array)
 	{
-        $compare = function($a, $b)
-        {
-            if(is_null($a->getOrder() == NULL) && is_null($b->getOrder() == NULL))
-            {
-                return 0;
-            }
-            if(is_null($a->getOrder()))
-            {
-                return 1;
-            }
-            if(is_null($b->getOrder()))
-            {
-                return -1;
-            }
-
-            return $a->getOrder() < $b->getOrder() ? -1 : 1;
-        };
-		usort($array, $compare);
+		usort($array, "il_dcl_compare_order");
 	}
 
 	/**
