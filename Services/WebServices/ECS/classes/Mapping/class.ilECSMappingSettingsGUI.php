@@ -385,6 +385,13 @@ class ilECSMappingSettingsGUI
 			$this->lng->txt('ecs_cms_dir_tree'),
 			$this->ctrl->getLinkTarget($this,'dTrees')
 		);
+		
+		$GLOBALS['tpl']->setVariable('LEGEND',$GLOBALS['lng']->txt('ecs_status_legend'));
+		$GLOBALS['tpl']->setVariable('PENDING_UNMAPPED',$GLOBALS['lng']->txt('ecs_status_pending_unmapped'));
+		$GLOBALS['tpl']->setVariable('PENDING_UNMAPPED_DISCON',$GLOBALS['lng']->txt('ecs_status_pending_unmapped_discon'));
+		$GLOBALS['tpl']->setVariable('PENDING_UNMAPPED_NONDISCON',$GLOBALS['lng']->txt('ecs_status_pending_unmapped_nondiscon'));
+		$GLOBALS['tpl']->setVariable('MAPPED',$GLOBALS['lng']->txt('ecs_status_mapped'));
+		$GLOBALS['tpl']->setVariable('DELETED',$GLOBALS['lng']->txt('ecs_status_deleted'));
 
 		$form = $this->dInitFormTreeSettings($form);
 		$GLOBALS['tpl']->setVariable('GENERAL_FORM',$form->getHTML());

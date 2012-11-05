@@ -12989,3 +12989,9 @@ rbac#:#lp_other_users#:#See learning progress overview of other users
 rbac#:#trac_lp_other_users#:#See learning progress overview of other users
 dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.
 dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation
+ecs#:#ecs_status_pending_unmapped#:#Pending (unmapped)
+ecs#:#ecs_status_pending_unmapped_discon#:#Pending (mapped, disconnection possible)
+ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection impossible)
+ecs#:#ecs_status_mapped#:#Mapped
+ecs#:#ecs_status_deleted#:#Deleted
+ecs#:#ecs_status_legend#:#Legend
