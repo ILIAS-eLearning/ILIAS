@@ -97,8 +97,23 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 
 	public function buildFormItem($a_node_id, $a_type)
 	{
-		if(!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) return '';
-
+		if(!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type])
+		{
+			return '';
+		}
+		
+		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+		$status = ilECSCmsData::lookupStatusByObjId(
+			$this->server_id,
+			$this->mid,
+			$this->tree_id,
+			$a_node_id
+		);
+		
+		if($status == ilECSCmsData::MAPPING_DELETED)
+		{
+			return ilUtil::formCheckbox((int)$this->isItemChecked($a_node_id), $this->post_var, $a_node_id,true);
+		}
 		switch($this->type)
 		{
 			case self::SEL_TYPE_CHECK:
@@ -276,6 +291,8 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 			$this->tree_id,
 			$a_obj_id
 		);
+		
+		
 
 		switch($status)
 		{
