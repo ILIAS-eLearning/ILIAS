@@ -1542,17 +1542,31 @@ class ilTrQuery
 	{
 		global $ilDB;
 		
-		$tables = array("obj_stat", "obj_lp_stat", "obj_type_stat", "obj_user_stat");
-			
+		// no combined column, have to concat
 		$date_compare = $ilDB->in($ilDB->concat(array(array("yyyy", ""), 
-				array($ilDB->quote("-", "text"), ""),
-				array("mm", ""))), $a_months, "", "text");
+						array($ilDB->quote("-", "text"), ""),
+						array("mm", ""))), $a_months, "", "text");
+		$sql = "DELETE FROM obj_stat".
+			" WHERE ".$date_compare;	
+		$ilDB->manipulate($sql);
 		
-		foreach($tables as $table)
+		// fulldate == YYYYMMDD
+		$tables = array("obj_lp_stat", "obj_type_stat", "obj_user_stat");				
+		foreach($a_months as $month)
 		{
-			$sql = "DELETE FROM ".$table." WHERE ".$date_compare;	
-			$ilDB->manipulate($sql);
-		}
+			$year = substr($month, 0, 4);
+			$month = substr($month, 5);
+			$from = $year.str_pad($month, 2, "0", STR_PAD_LEFT)."01";
+			$to = $year.str_pad($month, 2, "0", STR_PAD_LEFT)."31";
+
+			foreach($tables as $table)
+			{
+				$sql = "DELETE FROM ".$table.
+					" WHERE fulldate >= ".$ilDB->quote($from, "integer").
+					" AND fulldate <= ".$ilDB->quote($to, "integer");
+				$ilDB->manipulate($sql);
+			}
+		}		
 	}
 	
 	static public function searchObjects($a_type, $a_title = null, $a_root = null, $a_hidden = null, $a_preset_obj_ids = null)
