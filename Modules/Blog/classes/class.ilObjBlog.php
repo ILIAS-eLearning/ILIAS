@@ -276,11 +276,14 @@ class ilObjBlog extends ilObject2
 		}
 		
 		$this->deleteImage();
+		
+		// #10074
+		$clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
 	
 		$path = $this->initStorage($this->id);
-		$original = "org_".$this->id."_".$a_upload["name"];
-		$thumb = "thb_".$this->id."_".$a_upload["name"];
-		$processed = $this->id."_".$a_upload["name"];
+		$original = "org_".$this->id."_".$clean_name;
+		$thumb = "thb_".$this->id."_".$clean_name;
+		$processed = $this->id."_".$clean_name;
 		
 		if(@move_uploaded_file($a_upload["tmp_name"], $path.$original))
 		{
