@@ -123,7 +123,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 	 */
 	public function handleUpdate(ilECSSetting $server, $a_content_id)
 	{
-		// 1) Delete the cms tree table entries
+		// 1) Mark all nodes as deleted
 		// 2) Add cms tree table entries
 		// 2) Replace the cms data table entries
 		// 3) Remove deprecated entries
@@ -141,9 +141,20 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 			return false;
 		}
 
+		// Delete old tree
+		/*
 		include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
 		$tree = new ilECSCmsTree($a_content_id);
 		$tree->deleteTree($tree->getNodeData(ilECSCmsTree::lookupRootId($a_content_id)));
+		*/
+		
+	   include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+	   ilECSCmsData::writeAllDeleted(
+			   $this->getServer()->getServerId(), 
+			   $this->mid, 
+			   $a_content_id, 
+			   true
+		);
 		
 		foreach((array) $nodes as $node)
 		{
@@ -159,6 +170,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 			$data = new ilECSCmsData($data_obj_id);
 			$data->setTitle($node->title);
 			$data->setTerm($node->term);
+			$data->setDeleted(false);
 			
 			if($data_obj_id)
 			{
@@ -170,14 +182,14 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 				$data->setMid($this->mid);
 				$data->setServerId($this->getServer()->getServerId());
 				$data->setTreeId($a_content_id);
+				$data->setDeleted(false);
 				$data->save();
 				
 				$data_obj_id = $data->getObjId();
 			}
-			
 
 			// add to tree
-			if($node->parent->id)
+			if($node->parent->id && !$data_obj_id)
 			{
 				$parent_id = ilECSCmsData::lookupObjId(
 					$this->getServer()->getServerId(),
@@ -187,7 +199,7 @@ class ilECSCmsTreeCommandQueueHandler implements ilECSCommandQueueHandler
 				);
 				$tree->insertNode($data->getObjId(), $parent_id);
 			}
-			else
+			elseif(!$data_obj_id)
 			{
 				$tree->insertRootNode($a_content_id, $data->getObjId());
 				$tree->setRootId($data->getObjId());

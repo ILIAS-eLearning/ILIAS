@@ -13550,3 +13550,20 @@ if(!$ilDB->tableColumnExists('cal_categories','remote_sync'))
 
 }
 ?>
+
+<#3792>
+<?php
+
+if(!$ilDB->tableColumnExists('ecs_cms_data','deleted'))
+{
+	$ilDB->addTableColumn(
+			'ecs_cms_data',
+			'deleted',
+			array(
+				'type'		=> 'integer',
+				'length'	=> 1,
+				'default'	=> 0,
+				'notnull'	=> true)
+		);
+}
+?>

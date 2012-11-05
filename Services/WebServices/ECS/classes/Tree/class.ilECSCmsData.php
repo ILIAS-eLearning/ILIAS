@@ -24,6 +24,7 @@ class ilECSCmsData
 	private $title;
 	private $term;
 	private $status = self::MAPPING_UNMAPPED;
+	private $deleted = false;
 
 	public function __construct($a_obj_id = 0)
 	{
@@ -119,7 +120,7 @@ class ilECSCmsData
 	{
 		global $ilDB;
 
-		$query = 'SELECT status FROM ecs_cms_data '.
+		$query = 'SELECT status,deleted FROM ecs_cms_data '.
 			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
 			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
 			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' '.
@@ -127,6 +128,10 @@ class ilECSCmsData
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
+			if($row->deleted)
+			{
+				return self::MAPPING_DELETED;
+			}
 			return $row->status;
 		}
 		return self::MAPPING_UNMAPPED;
@@ -238,6 +243,26 @@ class ilECSCmsData
 		$ilDB->manipulate($query);
 		return true;
 	}
+	
+	/**
+	 * Write deleted status
+	 * @param type $a_server_id
+	 * @param type $a_mid
+	 * @param type $a_tree_id
+	 * @param type $a_deleted_flag
+	 */
+	public static function writeAllDeleted($a_server_id, $a_mid, $a_tree_id, $a_deleted_flag)
+	{
+		global $ilDB;
+
+		$query = 'UPDATE ecs_cms_data '.
+			'SET deleted = '.$ilDB->quote($a_deleted_flag,'integer'). ' '.
+			'WHERE server_id = '.$ilDB->quote($a_server_id,'integer').' '.
+			'AND mid = '.$ilDB->quote($a_mid,'integer').' '.
+			'AND tree_id = '.$ilDB->quote($a_tree_id,'integer').' ';
+		$ilDB->manipulate($query);
+		return true;
+	}
 
 	public static function lookupTreeIds($a_server_id,$a_mid)
 	{
@@ -337,6 +362,16 @@ class ilECSCmsData
 		return $this->status;
 	}
 	
+	public function setDeleted($a_is_deleted)
+	{
+		$this->deleted = $a_is_deleted;
+	}
+	
+	public function isDeleted()
+	{
+		return $this->deleted;
+	}
+	
 
 	public function save()
 	{
@@ -353,7 +388,8 @@ class ilECSCmsData
 			$ilDB->quote($this->cms_id,'integer').', '.
 			$ilDB->quote($this->title,'text'). ', '.
 			$ilDB->quote($this->term,'text').', '.
-			$ilDB->quote($this->status,'integer').' '.
+			$ilDB->quote($this->status,'integer').', '.
+			$ilDB->quote($this->deleted,'integer').' '.
 			')';
 		$ilDB->manipulate($query);
 		return true;
@@ -366,7 +402,8 @@ class ilECSCmsData
 		$query = "UPDATE ecs_cms_data SET ".
 			'title = '.$ilDB->quote($this->title,'text').', '.
 			'term = '.$ilDB->quote($this->term,'text').', '.
-			'status = '.$ilDB->quote($this->status,'text').' '.
+			'status = '.$ilDB->quote($this->status,'text').', '.
+			'deleted = '.$ilDB->quote($this->isDeleted(),'integer').' '.
 			'WHERE obj_id = '.$ilDB->quote($this->obj_id,'integer');
 		$ilDB->manipulate($query);
 	}
@@ -416,6 +453,7 @@ class ilECSCmsData
 			$this->tree_id = $row->tree_id;
 			$this->cms_id = $row->cms_id;
 			$this->status = $row->status;
+			$this->deleted = $row->deleted;
 		}
 	}
 
