@@ -4,7 +4,12 @@
 	<div style="width: 100%; padding: 20px; border: 1px solid">
 		<input class="submit" type="submit" name="cmd[dMap]" value="Mapping durchführen" />
 		<font class="small">
-			Legende: <strong>Ausstehend (ungemappt) <i>Ausstehend (gemappt, Trennung möglich)</i> </strong> <i>Ausstehend (gemappt, Trennung nicht mehr möglich)</i> Gemappt <font class="warning">Gelöscht</font>
+			{LEGEND}:
+			<font style="font-weight: bold">{PENDING_UNMAPPED}</font> 
+			<font style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_DISCON}</font>
+			<font style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_NONDISCON}</font>
+			{MAPPED}
+			<font class="warning">{DELETED}</font>
 		</font>
 	</div>
 	<br />

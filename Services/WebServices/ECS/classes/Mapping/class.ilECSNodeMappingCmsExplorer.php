@@ -297,13 +297,13 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
 		switch($status)
 		{
 			case ilECSCmsData::MAPPING_UNMAPPED:
-				return '<strong>'.$title.'</strong>';
+				return '<font style="font-weight: bold">'.$title.'</font>';
 
 			case ilECSCmsData::MAPPING_PENDING_DISCONNECTABLE:
-				return '<strong><i>'.$title.'</i></strong>';
+				return '<font style="font-weight: bold;font-style: italic">'.$title.'</font>';
 
 			case ilECSCmsData::MAPPING_PENDING_NOT_DISCONNECTABLE:
-				return '<i>'.$title.'</i>';
+				return '<font style="font-style: italic">'.$title.'</font>';
 
 			case ilECSCmsData::MAPPING_MAPPED:
 				return $title;

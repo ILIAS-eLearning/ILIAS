@@ -12989,3 +12989,9 @@ rbac#:#lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#trac_lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
 dateplaner#:#cal_webcal_sync_info#:#Wenn aktiviert, werden externe Kalender alle x Stunden synchronisiert.
 dateplaner#:#cal_webcal_sync#:#Synchronisierung externer Kalender
+ecs#:#ecs_status_pending_unmapped#:#Ausstehend (ungemappt)
+ecs#:#ecs_status_pending_unmapped_discon#:#Ausstehend (ungemappt, Trennung möglich)
+ecs#:#ecs_status_pending_unmapped_nondiscon#:#Ausstehend (ungemappt, Trennung nicht mehr möglich)
+ecs#:#ecs_status_mapped#:#Gemappt
+ecs#:#ecs_status_deleted#:#Gelöscht
+ecs#:#ecs_status_legend#:#Legende:
