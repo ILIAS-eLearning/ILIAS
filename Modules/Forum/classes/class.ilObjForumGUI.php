@@ -1500,6 +1500,25 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$oFDForum->storeUploadedFile($file);
 				}
+
+				// FINALLY SEND MESSAGE
+				if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
+				{
+					//what's that for???
+					$GLOBALS["frm_notifications_sent"] = array();
+					
+					$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
+
+					$post_data = array();
+					$post_data = $objPost->getDataAsArray();
+					
+					$frm->__sendMessage($objPost->getParentId(), $post_data);
+					
+					$frm->sendForumNotifications($post_data);
+					$frm->sendThreadNotifications($post_data);
+					
+					unset($GLOBALS["frm_notifications_sent"]);
+				}
 				
 				$message = '';
 				if(!$this->is_moderator && !$status)
@@ -2414,7 +2433,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							}
 						}
 					} // if ($this->objCurrentPost->getId() != $node->getId())										
-										
+
 					// download post attachments
 					$tmp_file_obj = new ilFileDataForum($forumObj->getId(), $node->getId());
 					if (count($tmp_file_obj->getFilesOfPost()))

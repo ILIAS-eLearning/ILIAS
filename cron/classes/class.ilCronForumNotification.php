@@ -13,9 +13,10 @@ class ilCronForumNotification
 {
 	public function sendMails($res)
 	{		
-		global $ilias, $rbacsystem, $ilAccess, $ilDB, $lng;
-		
+		global $ilAccess, $ilDB, $lng;
+
 		static $cache = array();
+		static $attachments_cache = array();
 
 		include_once 'Modules/Forum/classes/class.ilObjForum.php';
 		include_once 'Services/Mail/classes/class.ilMail.php';
@@ -52,6 +53,23 @@ class ilCronForumNotification
 				if(!isset($cache[$row['obj_id']]))		
 					$cache[$row['obj_id']] = ilObject::_getAllReferences($row['obj_id']);				
 				
+				// check for attachments
+				$has_attachments = false;
+				if(!isset($attachments_cache[$row['obj_id']][$row['pos_pk']]))
+				{
+					$fileDataForum = new ilFileDataForum($row['obj_id'], $row['pos_pk']);
+					$filesOfPost   = $fileDataForum->getFilesOfPost();
+					foreach($filesOfPost as $attachment)
+					{
+						$attachments_cache[$row['obj_id']][$row['pos_pk']][] = $attachment['name'];
+						$has_attachments = true;
+					}
+				}
+				else 
+				{
+					$has_attachments = true;
+				}
+		
 				// do rbac check before sending notification
 				$send_mail = false;
 				foreach((array)$cache[$row['obj_id']] as $ref_id)
@@ -63,14 +81,19 @@ class ilCronForumNotification
 						break;
 					}
 				}
-				
+				$attached_files = array();
+				if($has_attachments == true)
+				{
+					$attached_files = $attachments_cache[$row['obj_id']][$row['pos_pk']];
+				}
+	
 				if($send_mail)
 				{
 					// SEND NOTIFICATIONS BY E-MAIL					
 					$frm->setLanguage(ilForum::_getLanguageInstanceByUsrId($row['user_id']));			
 					$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row['user_id']),'','',
 													   $frm->formatNotificationSubject($row),
-													   strip_tags($frm->formatNotification($row, 1)),
+													   strip_tags($frm->formatNotification($row, 1, $attached_files)),
 													   array(),array('normal'));
 					$numRows++;					
 				}
