@@ -514,18 +514,21 @@ class ilForum
 		$pos_data = $objNewPost->getDataAsArray();
 		$pos_data["ref_id"] = $this->getForumRefId();
 
-		// FINALLY SEND MESSAGE
-
-		if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
-		{
-			$GLOBALS["frm_notifications_sent"] = array();
-			$this->__sendMessage($parent_pos, $pos_data);
-
-			$pos_data["top_name"] = $forum_obj->getTitle();			
-			$this->sendForumNotifications($pos_data);
-			$this->sendThreadNotifications($pos_data);
-			unset($GLOBALS["frm_notifications_sent"]);
-		}
+//@todo notifications should be send after generatePost and storeUploadedFile is finished!!!  
+//@todo nahmad: moved this to ilObjForumGUI->savePostObject()
+			// FINALLY SEND MESSAGE
+	
+//		if ($this->ilias->getSetting("forum_notification") == 1 && (int)$status )
+//		{
+//			$GLOBALS["frm_notifications_sent"] = array();
+//			$this->__sendMessage($parent_pos, $pos_data);
+//
+//			$pos_data["top_name"] = $forum_obj->getTitle();	
+//	
+//			$this->sendForumNotifications($pos_data);
+//			$this->sendThreadNotifications($pos_data);
+//			unset($GLOBALS["frm_notifications_sent"]);
+//		}
 		
 		// Send notification to moderators if they have to enable a post
 		
@@ -2093,6 +2096,16 @@ class ilForum
 		global $lng;
 		$userLanguage = $lng;
 
+		// get attachments data
+		$fileDataForum = new ilFileDataForum($obj_id, $post_data['pos_pk']);
+		$filesOfPost   = $fileDataForum->getFilesOfPost();
+		
+		$attachments = array();
+		foreach($filesOfPost as $attachment)
+		{
+			$attachments[] = $attachment['name'];
+		}
+
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{
@@ -2121,7 +2134,7 @@ class ilForum
 				// SEND NOTIFICATIONS BY E-MAIL
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
-												   strip_tags($this->formatNotification($post_data)),
+												   strip_tags($this->formatNotification($post_data, 0, $attachments)),
 												  array(),array("system"));
 			}
 		}
@@ -2133,7 +2146,7 @@ class ilForum
 	function sendForumNotifications($post_data)
 	{
 		global $ilDB, $ilAccess, $lng, $ilUser;
-		
+
 		include_once "Services/Mail/classes/class.ilMail.php";
 		include_once './Services/User/classes/class.ilObjUser.php';
 		
@@ -2185,6 +2198,15 @@ class ilForum
 		global $lng;
 		$userLanguage = $lng;
 		
+		// get attachments data
+		$fileDataForum = new ilFileDataForum($obj_id, $post_data['pos_pk']);
+		$filesOfPost   = $fileDataForum->getFilesOfPost();
+		$attachments = array();
+		foreach($filesOfPost as $attachment)
+		{
+			$attachments[] = $attachment['name'];
+		}
+		
 		$mail_obj = new ilMail(ANONYMOUS_USER_ID);
 		while($row = $res->fetchRow(DB_FETCHMODE_ASSOC))
 		{			
@@ -2213,7 +2235,7 @@ class ilForum
 				// SEND NOTIFICATIONS BY E-MAIL			
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($row["user_id"]),"","",
 												   $this->formatNotificationSubject($post_data),
-												   strip_tags($this->formatNotification($post_data)),
+												   strip_tags($this->formatNotification($post_data, 0, $attachments)),
 												   array(),array("system"));
 			
 			}
@@ -2304,6 +2326,8 @@ class ilForum
 				
 				$subject = $this->formatPostActivationNotificationSubject();
 				$message = $this->formatPostActivationNotification($post_data);
+//@todo possible fix for mantis	9733 --> not confirmed yet!			
+//				$message = preg_replace('/<br(\s+)?\>/i', "\\n", $message);
 				
 				$message = $mail_obj->sendMail(ilObjUser::_lookupLogin($moderator), '', '',
 												   $subject,
@@ -2321,7 +2345,13 @@ class ilForum
 		return $this->lng->txt("forums_notification_subject").' '.$post_data['top_name'];
 	}
 
-	function formatNotification($post_data, $cron = 0)
+	/**
+	 * @param      $post_data
+	 * @param int  $cron
+	 * @param array $attachments 
+	 * @return string
+	 */
+	function formatNotification($post_data, $cron = 0, $attachments = array())
 	{
 		global $ilIliasIniFile;
 
@@ -2349,6 +2379,9 @@ class ilForum
 		}
 		else
 		{
+//@todo possible fix for mantis	9733 --> not confirmed yet!
+//			$pos_message = preg_replace('/<br(\s+)?\>/i', "\\n", $post_data["pos_message"]);
+//			$message .= $pos_message."\n";
 			$message .= $post_data["pos_message"]."\n";
 		}
 		$message .= "------------------------------------------------------------\n";
@@ -2361,6 +2394,15 @@ class ilForum
 			$message .= sprintf($this->lng->txt("forums_notification_show_post"), ILIAS_HTTP_PATH."/goto.php?target=frm_".$post_data["ref_id"]."_".$post_data["pos_thr_fk"]."_".$post_data["pos_pk"].'&client_id='.CLIENT_ID);
 		}
 
+		if(count($attachments) > 0)
+		{
+			$message .= "\n------------------------------------------------------------\n";
+			foreach($attachments as $attachment)
+			{
+				$message .= $this->lng->txt('attachment').": ".$attachment."\n";
+			}
+		}
+		
 		return $message;
 	}
 	
