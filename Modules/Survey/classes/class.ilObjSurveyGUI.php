@@ -283,9 +283,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	function savePropertiesObject()
 	{
-		$hasErrors = $this->propertiesObject(true);
-		if (!$hasErrors)
-		{
+		$form = $this->initPropertiesForm();
+		if ($form->checkInput())
+		{		
+			// #10055
+			if ($_POST['online'] && count($this->object->questions) == 0)
+			{
+				$_POST['online'] = null;
+				ilUtil::sendFailure($this->lng->txt("cannot_switch_to_online_no_questions"), true);			
+			}
+			
 			$template_settings = null;
 			$template = $this->object->getTemplate();
 			if($template)
@@ -294,7 +301,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$template = new ilSettingsTemplate($template);
 				$template_settings = $template->getSettings();
 			}
-
 
 			include_once 'Services/MetaData/classes/class.ilMD.php';
 			$md_obj =& new ilMD($this->object->getId(), 0, "svy");
@@ -318,7 +324,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			$this->object->setDescription(ilUtil::stripSlashes($_POST['description']));
 			$this->object->update();
 			
-			$result = $this->object->setStatus($_POST['online']);
+			$this->object->setStatus($_POST['online']);
 			$this->object->setEvaluationAccess($_POST["evaluation_access"]);
 			
 			// activation
@@ -383,32 +389,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 			$this->ctrl->redirect($this, "properties");
 		}
+		
+		$form->setValuesByPost();
+		$this->propertiesObject($form);
 	}
-
+	
 	/**
-	* Display and fill the properties form of the test
-	*
-	* @access	public
-	*/
-	function propertiesObject($checkonly = FALSE)
-	{
-		global $ilAccess;
-
+	 * Init survey settings form
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	function initPropertiesForm()
+	{		
 		$template_settings = $hide_rte_switch = null;
 		$template = $this->object->getTemplate();
 		if($template)
-		{
-			global $tpl;
-
+		{			
 			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$template = new ilSettingsTemplate($template);
 
 			$template_settings = $template->getSettings();
 			$hide_rte_switch = $template_settings["rte_switch"]["hide"];
 		}
-
-		$save = (strcmp($this->ctrl->getCmd(), "saveProperties") == 0) ? TRUE : FALSE;
-
+		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -604,10 +607,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$mailaddresses->setSize(80);
 		$mailaddresses->setInfo($this->lng->txt('mailaddresses_info'));
 		$mailaddresses->setRequired(true);
-		if (($save) && !$_POST['mailnotification'])
-		{
-			$mailaddresses->setRequired(false);
-		}
 
 		// participant data
 		$participantdata = new ilTextAreaInputGUI($this->lng->txt("mailparticipantdata"), "mailparticipantdata");
@@ -621,7 +620,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$mailnotification->addSubItem($participantdata);
 		$form->addItem($mailnotification);
 
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) $form->addCommandButton("saveProperties", $this->lng->txt("save"));
+		$form->addCommandButton("saveProperties", $this->lng->txt("save"));
 
 		// remove items when using template
 		if($template_settings)
@@ -634,45 +633,41 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 			}
 		}
+		
+		return $form;
+	}
 
-		$errors = false;
-		if ($save)
+	/**
+	* Display and fill the properties form of the test
+	*
+	* @access	public
+	*/
+	function propertiesObject(ilPropertyFormGUI $a_form = null)
+	{
+		global $ilAccess;
+		
+		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"])) 
 		{
-			$errors = !$form->checkInput();
-			$form->setValuesByPost();
-			if (!$errors)
-			{
-				if (($online->getChecked()) && (count($this->object->questions) == 0))
-				{
-					$online->setAlert($this->lng->txt("cannot_switch_to_online_no_questions"));
-					ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-					$errors = true;
-				}
-			}
-			if ($errors) $checkonly = false;
+			$this->ctrl->redirect($this, "");
 		}
 		
-		$mailaddresses->setRequired(true);
-
-		if (!$checkonly)
+		if(!$a_form)
 		{
-			// using template?
-			$message = "";
-			if($template)
-			{
-				global $tpl;
-				
-				$link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
-				$link = "<a href=\"".$link."\">".$this->lng->txt("survey_using_template_link")."</a>";
-				$message = "<div style=\"margin-top:10px\">".
-					$tpl->getMessageHTML(sprintf($this->lng->txt("survey_using_template"), $template->getTitle(), $link), "info").
-					"</div>";
-			}
+			$a_form = $this->initPropertiesForm();
+		}
+		
+		// using template?
+		$message = "";
+		if($this->object->getTemplate())
+		{			
+			$link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
+			$link = "<a href=\"".$link."\">".$this->lng->txt("survey_using_template_link")."</a>";
+			$message = "<div style=\"margin-top:10px\">".
+				$this->tpl->getMessageHTML(sprintf($this->lng->txt("survey_using_template"), $template->getTitle(), $link), "info").
+				"</div>";
+		}
 	
-			$this->tpl->setVariable("ADM_CONTENT", $form->getHTML().$message);
-		}
-		
-		return $errors;
+		$this->tpl->setContent($a_form->getHTML().$message);
 	}
 	
 	/**
