@@ -269,6 +269,10 @@ class ilParticipants
 		$query = "DELETE FROM il_subscribers ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')."";
 		$res = $ilDB->manipulate($query);
+		
+		$query = 'DELETE FROM crs_waiting_list '.
+				'WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+		$ilDB->manipulate($query);
 
 		return true;
 	}
