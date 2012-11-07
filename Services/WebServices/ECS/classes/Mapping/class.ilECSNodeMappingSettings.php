@@ -10,7 +10,8 @@ class ilECSNodeMappingSettings
 
 	private $storage = null;
 
-	private $active = false;
+	
+	private $directory_active = false;
 	private $create_empty_containers = false;
 
 	/**
@@ -39,18 +40,18 @@ class ilECSNodeMappingSettings
 	 * Check if node mapping is enabled
 	 * @return bool
 	 */
-	public function isEnabled()
+	public function isDirectoryMappingEnabled()
 	{
-		return $this->active;
+		return $this->directory_active;
 	}
 
 	/**
 	 * Enable node mapping
 	 * @param bool $a_status
 	 */
-	public function enable($a_status)
+	public function enableDirectoryMapping($a_status)
 	{
-		$this->active = $a_status;
+		$this->directory_active = $a_status;
 	}
 
 	/**
@@ -76,7 +77,7 @@ class ilECSNodeMappingSettings
 	 */
 	public function update()
 	{
-		$this->getStorage()->set('active', (int) $this->isEnabled());
+		$this->getStorage()->set('directory_active', (int) $this->isDirectoryMappingEnabled());
 		$this->getStorage()->set('create_empty', $this->isEmptyContainerCreationEnabled());
 		return true;
 	}
@@ -105,7 +106,7 @@ class ilECSNodeMappingSettings
 	 */
 	protected function read()
 	{
-		$this->enable($this->getStorage()->get('active', $this->active));
+		$this->enableDirectoryMapping($this->getStorage()->get('active', $this->directory_active));
 		$this->enableEmptyContainerCreation($this->getStorage()->get('create_empty'),$this->create_empty_containers);
 	}
 }
