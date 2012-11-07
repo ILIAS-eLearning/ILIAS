@@ -99,7 +99,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 		
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
 		if($a_set['status'] != ilECSMappingUtils::MAPPED_UNMAPPED &&
-				ilECSNodeMappingSettings::getInstance()->isEnabled())
+				ilECSNodeMappingSettings::getInstance()->isDirectoryMappingEnabled())
 		{
 			$list->addItem(
 					$this->lng->txt('ecs_cms_tree_synchronize'),

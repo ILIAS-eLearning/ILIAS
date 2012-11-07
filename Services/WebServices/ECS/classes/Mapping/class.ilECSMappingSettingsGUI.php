@@ -130,7 +130,7 @@ class ilECSMappingSettingsGUI
 	protected function dStart()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		if(ilECSNodeMappingSettings::getInstance()->isEnabled())
+		if(ilECSNodeMappingSettings::getInstance()->isDirectoryMappingEnabled())
 		{
 			return $this->dTrees();
 		}
@@ -230,7 +230,7 @@ class ilECSMappingSettingsGUI
 		if($form->checkInput())
 		{
 			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-			ilECSNodeMappingSettings::getInstance()->enable((bool) $form->getInput('active'));
+			ilECSNodeMappingSettings::getInstance()->enableDirectoryMapping((bool) $form->getInput('active'));
 			ilECSNodeMappingSettings::getInstance()->enableEmptyContainerCreation(!$form->getInput('empty'));
 			ilECSNodeMappingSettings::getInstance()->update();
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
@@ -256,7 +256,7 @@ class ilECSMappingSettingsGUI
 		$form->setTitle($this->lng->txt('general_settings'));
 
 		$active = new ilCheckboxInputGUI($this->lng->txt('ecs_node_mapping_activate'), 'active');
-		$active->setChecked(ilECSNodeMappingSettings::getInstance()->isEnabled());
+		$active->setChecked(ilECSNodeMappingSettings::getInstance()->isDirectoryMappingEnabled());
 		$form->addItem($active);
 
 		$create_empty = new ilCheckboxInputGUI($this->lng->txt('ecs_node_mapping_create_empty'), 'empty');
