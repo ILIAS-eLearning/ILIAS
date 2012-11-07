@@ -591,5 +591,58 @@ class ilPaymentShoppingCart
 			WHERE pobject_id = %s',
 				array('integer'), array($a_pobject_id));
 	}
+
+
+	/**
+	 * @param integer|null $a_paymethod
+	 * @return bool
+	 */
+	public static function getShoppingcartEntries($a_paymethod = null)
+	{
+		global $ilUser, $ilDB;	
+		
+		$user_id = $ilUser->getId();
+		
+		if($user_id == ANONYMOUS_USER_ID)
+		{
+			return false;
+		}
+		else
+		{
+			if($a_paymethod != null)
+			{
+				$res = $ilDB->queryF('
+				SELECT psc_id, ref_id, vat_rate, duration, currency, price, unlimited_duration, extension, duration_from, duration_until, description,price_type, pay_method
+				FROM payment_shopping_cart psc
+				LEFT JOIN payment_prices pp ON psc.price_id
+				LEFT JOIN payment_objects po ON psc.pobject_id
+				LEFT JOIN payment_vats pv ON po.vat_id
+				WHERE customer_id = %s
+				AND status = %s
+				AND pay_method = %s',
+				array('integer', 'integer', 'integer'), array($user_id, 1, $a_paymethod));
+			}
+			else
+			{
+				// select all entries for current user
+				$res = $ilDB->queryF('
+				SELECT psc_id, ref_id, vat_rate, duration, currency, price, unlimited_duration, extension, duration_from, duration_until, description, price_type, pay_method
+				FROM payment_shopping_cart psc
+				LEFT JOIN payment_prices pp ON psc.price_id
+				LEFT JOIN payment_objects po ON psc.pobject_id
+				LEFT JOIN payment_vats pv ON po.vat_id
+				WHERE customer_id = %s
+				AND status = %s',
+				array('integer', 'integer'), array($user_id, 1));				
+			}
+			
+			$entries = array();
+			while($row = $ilDB->fetchAssoc($res))
+			{
+				$entries[] = $row;
+			}
+			return $entries;
+		}
+	}
 }
-?>
+

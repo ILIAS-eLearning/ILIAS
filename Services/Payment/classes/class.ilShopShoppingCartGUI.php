@@ -5,7 +5,7 @@
 
 include_once './Services/Payment/classes/class.ilShopBaseGUI.php';
 include_once './Services/Payment/classes/class.ilPaypalSettings.php';
-include_once './Services/Payment/classes/class.ilEPaySettings.php';
+//include_once './Services/Payment/classes/class.ilEPaySettings.php';
 include_once './Services/Payment/classes/class.ilPaymentCoupons.php';
 include_once './Services/Payment/classes/class.ilShopVatsList.php';
 include_once './Services/Payment/classes/class.ilPaymentShoppingCart.php';
@@ -48,8 +48,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$ppSet = ilPaypalSettings::getInstance();
 		$this->paypalConfig = $ppSet->getAll();	
 		
-		$this->epSet = ilEPaySettings::getInstance();
-		$this->epayConfig = $this->epSet->getAll();
+//		$this->epSet = ilEPaySettings::getInstance();
+//		$this->epayConfig = $this->epSet->getAll();
 
 		$this->checkCouponsOfShoppingCart();		
 
@@ -330,23 +330,23 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
   */        
 	public function finishEPay()
 	{
-	  global $ilUser;
-    require_once './Services/Payment/classes/class.ilPurchase.php';
-    
-    try
-    {
-    	$pm_id = ilPayMethods::_getIdByTitle('epay');  
-      $buy = new ilPurchase( $ilUser->getId(), $pm_id );    
-      $buy->purchase($_REQUEST['tid'] );
-	  }
-	  catch (ilERPException $e)
-	  {
-      $msg = $e->getMessage();
-      if (DEVMODE) $msg .= " " . print_r($_REQUEST, true);
-      ilUtil::sendFailure($msg);   
-    }
-    ilUtil::sendSuccess($this->lng->txt('pay_epay_success'));
-	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
+//	  global $ilUser;
+//    require_once './Services/Payment/classes/class.ilPurchase.php';
+//    
+//    try
+//    {
+//    	$pm_id = ilPayMethods::_getIdByTitle('epay');  
+//      $buy = new ilPurchase( $ilUser->getId(), $pm_id );    
+//      $buy->purchase($_REQUEST['tid'] );
+//	  }
+//	  catch (ilERPException $e)
+//	  {
+//      $msg = $e->getMessage();
+//      if (DEVMODE) $msg .= " " . print_r($_REQUEST, true);
+//      ilUtil::sendFailure($msg);   
+//    }
+//    ilUtil::sendSuccess($this->lng->txt('pay_epay_success'));
+//	  $this->ctrl->redirectByClass('ilShopBoughtObjectsGUI', '');
 	}
 
 	public function finishPaypal()
@@ -405,8 +405,8 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 	public function cancelEPay()
 	{
-		ilUtil::sendInfo($this->lng->txt('pay_epay_canceled'));
-		$this->showItems();
+//		ilUtil::sendInfo($this->lng->txt('pay_epay_canceled'));
+//		$this->showItems();
 	}
 
 	public function cancelPaypal()
@@ -579,7 +579,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 					}
 
 					$f_result[$counter]['item'] = ilUtil::formCheckBox(0,'item[]',$item['psc_id']);
-
+					$subtype = '';
 					if($obj_type == 'exc')
 					{
 						$subtype = ' ('.$this->lng->txt($tmp_pobject->getSubtype()).')';
@@ -704,33 +704,33 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 
 					case 'epay':
 							# Anonymous user has to login
-						if(ANONYMOUS_USER_ID == $ilUser->getId())
-						{
-							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-							$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
-						}
-						else
-						{
-							/// http://uk.epay.dk/support/docs.asp?solution=2#pfinput
-							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
-							$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
-							$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
-							$tpl->setVariable('AMOUNT', $total_price * 100);
-							$tpl->setVariable('CURRENCY', "208");
-							$tpl->setVariable('ORDERID', $ilUser->getId()."_".uniqid());
-							$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
-							$tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
-							$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
-							$tpl->setVariable('ADDFEE', 1);
-							$tpl->setVariable('LANGUAGE', 1);
-							$tpl->setVariable('GROUP', "");
-							$tpl->setVariable('CARDTYPE', "");
-							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId() . "&pay_method=". PAY_METHOD_EPAY);
-
-							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
-							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
-							$tpl->setVariable('MD5KEY', $this->epSet->generateKeyForEpay(208, $total_price*100, $ilUser->getId()."_".uniqid()));
-						}
+//						if(ANONYMOUS_USER_ID == $ilUser->getId())
+//						{
+//							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+//							$tpl->setVariable('SCRIPT_LINK','login.php?cmd=force_login&login_to_purchase_object=1&forceShoppingCartRedirect=1');
+//						}
+//						else
+//						{
+//							/// http://uk.epay.dk/support/docs.asp?solution=2#pfinput
+//							$tpl->setVariable('TXT_BUY', $this->lng->txt('pay_click_to_buy'));
+//							$tpl->setVariable('SCRIPT_LINK', 'https://'.$this->epayConfig['server_host'].$this->epayConfig['server_path']);
+//							$tpl->setVariable('MERCHANT_NUMBER', $this->epayConfig['merchant_number']);
+//							$tpl->setVariable('AMOUNT', $total_price * 100);
+//							$tpl->setVariable('CURRENCY', "208");
+//							$tpl->setVariable('ORDERID', $ilUser->getId()."_".uniqid());
+//							$tpl->setVariable('ACCEPT_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'finishEPay'));
+//							$tpl->setVariable('DECLINE_URL', ILIAS_HTTP_PATH . "/" . $this->ctrl->getLinkTarget($this, 'cancelEPay'));
+//							$tpl->setVariable('INSTANT_CAPTURE', $this->epayConfig['instant_capture'] ? "1" : "0");
+//							$tpl->setVariable('ADDFEE', 1);
+//							$tpl->setVariable('LANGUAGE', 1);
+//							$tpl->setVariable('GROUP', "");
+//							$tpl->setVariable('CARDTYPE', "");
+//							$tpl->setVariable("CALLBACK_URL", ILIAS_HTTP_PATH . "/Services/Payment/classes/class.ilCallback.php?ilUser=" .$ilUser->getId() . "&pay_method=". PAY_METHOD_EPAY);
+//
+//							$tpl->setVariable('DESCRIPTION', $ilUser->getFullName() . " (" . $ilUser->getEmail() . ") #" . $ilUser->getId() . " " . implode(",", $desc));
+//							$tpl->setVariable('AUTH_MAIL', $this->epayConfig['auth_email']);
+//							$tpl->setVariable('MD5KEY', $this->epSet->generateKeyForEpay(208, $total_price*100, $ilUser->getId()."_".uniqid()));
+//						}
 						break;
 								
 					case 'paypal':
@@ -795,19 +795,6 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 							}
 						}
 						break;
-#							$buttonParams["upload"] = 1;
-#							$buttonParams["charset"] = "utf-8";
-#							$buttonParams["business"] = $this->paypalConfig["vendor"];
-#							$buttonParams["currency_code"] = "EUR";
-#							$buttonParams["return"] = "http://www.databay.de/user/jens/paypal.php";
-#							$buttonParams["rm"] = 2;
-#							$buttonParams["cancel_return"] = "http://www.databay.de/user/jens/paypal.php";
-#							$buttonParams["custom"] = "HALLO";
-#							$buttonParams["invoice"] = "0987654321";
-#							if ($enc_data = $this->__encryptButton($buttonParams))
-#							{
-#								$tpl->setVariable("ENCDATA", $enc_data);
-#							}
 					}
 
 					if ($pay_method['pm_title'] == 'paypal')
@@ -855,6 +842,66 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		$this->showItems();
 		return true;		
 	}
+
+	public function setCoupon()
+	{
+		if ($_POST['coupon_code'] != '')
+		{
+			$coupon = $this->coupon_obj->getCouponByCode($_POST['coupon_code']);
+			switch ($this->coupon_obj->checkCouponValidity())
+			{
+				case 1:
+				case 2:
+					ilUtil::sendInfo($this->lng->txt('paya_coupons_not_valid'));
+					$this->showItems();
+					return true;
+				case 3:
+					ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_not_found'));
+					$this->showItems();
+					return true;
+			}
+			$assignedItems = 0;
+			$this->psc_obj = new ilPaymentShoppingCart($this->user_obj);
+			if (count($items = $this->psc_obj->getEntries(isset($_POST['payment_type']) ? $_POST['payment_type'] : 'bmf')))
+			{
+				foreach($items as $item)
+				{
+					$tmp_pobject = new ilPaymentObject($this->user_obj,$item['pobject_id']);
+					if ($this->coupon_obj->isObjectAssignedToCoupon($tmp_pobject->getRefId()))
+					{
+						++$assignedItems;
+					}
+				}
+			}
+			if (!$assignedItems)
+			{
+				ilUtil::sendInfo($this->lng->txt('paya_coupons_no_object_assigned'));
+				$this->showItems();
+				return true;
+			}
+			$coupon_session_id = $_POST['payment_type'];
+			if (!array_key_exists($coupon['pc_pk'], $_SESSION['coupons'][$coupon_session_id]))
+			{
+				if (is_array($_SESSION['coupons']))
+				{
+					foreach ($_SESSION['coupons'] as $key => $val)
+					{
+						unset($_SESSION['coupons'][$key][$coupon['pc_pk']]);
+					}
+				}
+				ilUtil::sendInfo($this->lng->txt('paya_coupons_coupon_added'));
+				$_SESSION['coupons'][$coupon_session_id][$coupon['pc_pk']] = $coupon;
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt('paya_coupons_already_in_use'));
+			}
+			$this->showItems();
+			return true;
+		}
+		$this->showItems();
+		return true;
+	}
 /*
 	* 
 	* @param	string		$payment_type		pm_title
@@ -874,6 +921,7 @@ class ilShopShoppingCartGUI extends ilShopBaseGUI
 		
 		$tpl->setVariable('TXT_CODE', $this->lng->txt('paya_coupons_code'));
 		$tpl->setVariable('CMD_VALUE', $this->lng->txt('send'));
+		$tpl->setVariable('CMD', 'setCoupon');
 		
 		$tpl->setVariable('PAYMENT_TYPE', $payment_type);
 		

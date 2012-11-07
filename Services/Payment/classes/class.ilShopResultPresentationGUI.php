@@ -164,11 +164,11 @@ class ilShopResultPresentationGUI
 					$results[$topic['id']][$act_type][$key]['price'] = $lowest_price['price'];
 
 					$paymethod_icon = ilShopUtils::_getPaymethodSymbol($oPaymentObject->getPayMethod());
-					if(!ilPaymentObject::_hasAccess($item['ref_id']))
-					{
+//					if(!ilPaymentObject::_hasAccess($item['ref_id']))
+//					{
 						$shoppingcart_icon = ilShopUtils::_addToShoppingCartSymbol($act_type, $item['ref_id']);
-					}
-					else $shoppingcart_icon = '';
+//					}
+//					else $shoppingcart_icon = '';
 
 					$results[$topic['id']][$act_type][$key]['price_string'] =										 
 						($oPrice->getNumberOfPrices() > 1 ? $this->lng->txt('price_from').' ' : '').
