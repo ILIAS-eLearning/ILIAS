@@ -19,9 +19,13 @@ include_once './Services/Payment/classes/class.ilShopTableGUI.php';
  */
 class ilPaymentObjectGUI extends ilShopBaseGUI
 {
+	/** @var $ctrl ilCtrl */
 	public $ctrl;
+	/** @var $lng ilLanguage */
 	public $lng;
+	/** @var $user_obj ilObjUser */
 	public $user_obj;
+	/** @var $pobject ilPaymentObject */
 	public $pobject = null;
 
 	public function __construct($user_obj)
@@ -35,6 +39,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	protected function prepareOutput()
 	{
+		/** 
+		 * @var $ilTabs ilTabsGUI 
+		 */
 		global $ilTabs;
 
 		$this->setSection(6);
@@ -71,7 +78,10 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	}
 
 	public function forwardToPageObject()
-	{
+	{	
+		/**
+	 	* @var $ilTabs ilTabsGUI
+	 	*/
 		global $ilTabs;
 
 		if(!(int)$_GET['pobject_id'])
@@ -142,6 +152,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	public function showObjects()
 	{
+		/** 
+		 * @var $ilToolbar ilToolbarGUI */
 		global $ilToolbar;
 
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
@@ -233,6 +245,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$counter = 0;
 		foreach($objects as $data)
 		{
+			/** @var $tmp_obj ilObject */
 			$tmp_obj = ilObjectFactory::getInstanceByRefId($data['ref_id'], false);
 			if($tmp_obj)
 			{
@@ -279,6 +292,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			}
 			$f_result[$counter]['vat_rate'] = $vat_rate;
 
+			/** @var $tmp_user ilObjUser */
 			$tmp_user                     = ilObjectFactory::getInstanceByObjId($data['vendor_id']);
 			$f_result[$counter]['vendor'] = $tmp_user->getFullname() . ' [' . $tmp_user->getLogin() . ']';
 
@@ -301,9 +315,13 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	public function editDetails($a_show_confirm = false)
 	{
+		/** 
+		 * @var $ilToolbar ilToolbarGUI 
+		 */ 
 		global $ilToolbar;
 
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		/** @var $genSet ilPaymentSettings */
 		$genSet = ilPaymentSettings::_getInstance();
 
 		if(!(int)$_GET['pobject_id'])
@@ -317,6 +335,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
 
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html', 'Services/Payment');
+		/** @var $tmp_obj ilObject */
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
 		if(is_object($tmp_obj))
 		{
@@ -412,15 +431,20 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oForm->addItem($oPayMethodsGUI);
 
 		// topics
-		ilShopTopics::_getInstance()->read();
-		if(is_array($topics = ilShopTopics::_getInstance()->getTopics()) && count($topics))
+		/** @var $shopTopicsObj ilShopTopics */
+		$shopTopicsObj = ilShopTopics::_getInstance();
+		$shopTopicsObj->read();
+		if(is_array($topics = $shopTopicsObj->getTopics()) && count($topics))
 		{
 			$oTopicsGUI = new ilSelectInputGUI($this->lng->txt('topic'), 'topic_id');
 			include_once 'Services/Payment/classes/class.ilShopTopics.php';
-			ilShopTopics::_getInstance()->read();
+			/** @var $shopTopicsObj ilShopTopics */
+			$shopTopicsObj = ilShopTopics::_getInstance();
+			$shopTopicsObj->read();
 			$topic_options     = array();
 			$topic_options[''] = $this->lng->txt('please_choose');
 
+			/** @var $oTopic ilShopTopic */
 			foreach($topics as $oTopic)
 			{
 				$topic_options[$oTopic->getId()] = $oTopic->getTitle();
@@ -439,6 +463,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 			$oVatsGUI = new ilSelectInputGUI($this->lng->txt('vat_rate'), 'vat_id');
 
 			$vats_options = array();
+			/** @var $oVAT ilShopVats */
 			foreach($oShopVatsList as $oVAT)
 			{
 				$vats_options[$oVAT->getId()] = ilShopUtils::_formatVAT($oVAT->getRate()) . ' -> ' . $oVAT->getTitle();
@@ -554,11 +579,16 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	public function editPrices($a_show_delete = false)
 	{
+		/** 
+		 * @var $ilToolbar ilToolbarGUI
+		 */
 		global $ilToolbar;
+		
 		include_once './Services/Payment/classes/class.ilPaymentPrices.php';
 		include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		/** @var $genSet ilPaymentSettings */
 		$genSet = ilPaymentSettings::_getInstance();
 
 		if($a_show_delete == false) unset($_SESSION['price_ids']);
@@ -659,6 +689,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$ilToolbar->addButton($this->lng->txt('pay_edit_abstract'), $this->ctrl->getLinkTargetByClass(array('ilpageobjectgui'), 'edit'));
 
 		// Fill table cells
+		/** @var $tpl ilTemplate */
 		$tpl = new ilTemplate('tpl.table.html', true, true);
 
 		// set table header
@@ -708,6 +739,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 	{
 		$tbl = new ilShopTableGUI($this);
 
+		/** @var $tmp_obj ilObject */
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
 		if($tmp_obj)
 		{
@@ -743,6 +775,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	public function addPrice()
 	{
+		/** 
+		 * @var $ilToolbar ilToolbarGUI 
+		 * */
 		global $ilToolbar;
 
 		if(!$_GET['pobject_id'])
@@ -754,7 +789,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
-
+		/** @var $genSet ilPaymentSettings */
 		$genSet = ilPaymentSettings::_getInstance();
 
 		$this->ctrl->setParameter($this, 'pobject_id', (int)$_GET['pobject_id']);
@@ -772,6 +807,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 		// object_title
 		$oTitle  = new ilNonEditableValueGUI($this->lng->txt('title'));
+		/** @var $tmp_obj ilObject */
 		$tmp_obj = ilObjectFactory::getInstanceByRefId($this->pobject->getRefId(), false);
 		if(is_object($tmp_obj))
 		{
@@ -828,7 +864,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oDescription = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
 		$oDescription->setRows(4);
 		$oDescription->setCols(35);
-		$oDescription->setValue($price['description']);
+		$oDescription->setValue($_POST['description']);
 		$form->addItem($oDescription);
 
 		// price
@@ -1092,7 +1128,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 			$po->setPrice($price['price']);
 			$po->setCurrency($old_price['currency']);
-//$po->setCurrency($price['currency']);
 			$po->update($price_id);
 		}
 		ilUtil::sendInfo($this->lng->txt('paya_updated_prices'));
@@ -1196,6 +1231,9 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	public function showObjectSelector()
 	{
+		/** 
+		 * @var $tree ilTree
+		 * @var $ilToolbar ilToolbarGUI */
 		global $tree, $ilToolbar;
 
 		include_once './Services/Payment/classes/class.ilPaymentObjectSelector.php';
@@ -1336,7 +1374,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		{
 			ilUtil::sendInfo($this->lng->txt('paya_added_new_object'));
 			$_GET['pobject_id'] = $new_id;
-			return $this->editDetails();
+			$this->editPrices();
+			return true;
 		}
 		else
 		{
@@ -1359,8 +1398,10 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		{
 			$vendors = array_merge($vendors, $vend);
 		}
+		
 		foreach($vendors as $vendor)
 		{
+			/** @var $tmp_obj ilObjUser */
 			$tmp_obj          = ilObjectFactory::getInstanceByObjId($vendor, false);
 			$options[$vendor] = $tmp_obj->getFullname() . ' [' . $tmp_obj->getLogin() . ']';
 		}
@@ -1405,6 +1446,8 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 
 	private function __getHTMLPath($a_ref_id)
 	{
+		/** 
+		 * @var $tree ilTree */
 		global $tree;
 
 		$path = $tree->getPathFull($a_ref_id);
@@ -1500,6 +1543,7 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$oPrice->setSize('20%');
 		$oPrice->setValue($price['price']);
 		include_once './Services/Payment/classes/class.ilPaymentSettings.php';
+		/** @var $genSet ilPaymentSettings */
 		$genSet = ilPaymentSettings::_getInstance();
 		$oPrice->setInfo($genSet->get('currency_unit'));
 		$oPrice->setPostVar('price');
@@ -1528,7 +1572,6 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		$form->addCommandButton('editPrices', $this->lng->txt('cancel'));
 
 		$this->tpl->setVariable('FORM', $form->getHTML());
-//		
 	}
 
 	public function updatePrice()
@@ -1625,5 +1668,3 @@ class ilPaymentObjectGUI extends ilShopBaseGUI
 		}
 	}
 }
-
-?>

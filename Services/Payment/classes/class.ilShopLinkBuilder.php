@@ -34,29 +34,24 @@ class ilShopLinkBuilder
 		$this->settings = $ilSetting;
 	}
 
-	public function buildLink($key)
+	/**
+	 * @param string 	$key	see $linkArray-keys
+	 * @param null 		$additional_param  i.e "_anAdditionalParameter" is processed by goto.php. Value must start with an underline!! 
+	 * @return string
+	 */
+	public function buildLink($key, $additional_param = null)
 	{
-
-		$link = ILIAS_HTTP_PATH.'/goto_'.CLIENT_ID.'_'
-			.strtolower(self::$linkArray[strtolower($key)]['cmdClass']).'_1.html';
-
-		return $link;
-
-		/*  # goto links also work if open_google == false
-		if ($this->settings->get('open_google') == true )
+		if($additional_param == null)
 		{
-			
-			$link = ILIAS_HTTP_PATH.'/goto_'.CLIENT_ID.'_'.$key.'_1.html';
-			return $link;
-		} 
+			$link = ILIAS_HTTP_PATH.'/goto_'.CLIENT_ID.'_'
+				.strtolower(self::$linkArray[strtolower($key)]['cmdClass']).'_1.html';
+		}
 		else
 		{
-		
-			$link = ILIAS_HTTP_PATH.'/ilias.php?baseClass='.self::$linkArray[strtolower($key)]['baseClass']
-					.'&cmdClass='.self::$linkArray[strtolower($key)]['cmdClass'];
-
-			return $link;
-		}*/
+			$link = ILIAS_HTTP_PATH.'/goto_'.CLIENT_ID.'_'
+				.strtolower(self::$linkArray[strtolower($key)]['cmdClass']).'_1'.$additional_param.'.html';
+			
+		}
+		return $link;
 	}
 }
-?>

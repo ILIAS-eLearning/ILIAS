@@ -7,7 +7,6 @@
 * @author Nadia Ahmad <nahmad@databay.de> 
 * @author Stefan Meyer <meyer@leifos.com> 
 * @author Jens Conze <jc@databay.de> 
-* @author Jesper Godvad <jesper@ilias.dk>
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI
@@ -166,17 +165,17 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					}
 					break;
 				case 'epay':
-					$check = unserialize($this->genSetData->get('epay'));
-					if ($check['server_host'] == '' ||
-						$check['server_path'] == '' ||
-						$check['merchant_number'] == '' ||
-						$check['auth_token'] == '' ||
-						$check['auth_email'] == '')
-					{
-						ilUtil::sendInfo($this->lng->txt('please_enter_epay_data'));
-						$this->paypalSettingsObject();
-						return true;
-					}
+//					$check = unserialize($this->genSetData->get('epay'));
+//					if ($check['server_host'] == '' ||
+//						$check['server_path'] == '' ||
+//						$check['merchant_number'] == '' ||
+//						$check['auth_token'] == '' ||
+//						$check['auth_email'] == '')
+//					{
+//						ilUtil::sendInfo($this->lng->txt('please_enter_epay_data'));
+//						$this->paypalSettingsObject();
+//						return true;
+//					}
 					break;
 				case 'erp':
 					break;	
@@ -287,15 +286,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 												break;
 					case 'saveEPaySettings' :
 					case 'epaySettings' :
-												$this->tabs_gui->setTabActive('pay_methods');
-												$this->getSubTabs('payMethods', 'epaySettings');
+//												$this->tabs_gui->setTabActive('pay_methods');
+//												$this->getSubTabs('payMethods', 'epaySettings');
 												break;
 					case 'saveERPsettings' :
 					case 'delERPpreview':
 					case 'testERPsettings' :
 					case 'erpSettings' :
-												$this->tabs_gui->setTabActive('payMethods');
-												$this->getSubTabs('payMethods', 'erpSettings');
+//												$this->tabs_gui->setTabActive('payMethods');
+//												$this->getSubTabs('payMethods', 'erpSettings');
 												break;
 					case 'deleteVat' :
 					case 'newVat':
@@ -2236,7 +2235,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			// Settings
 			$tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'generalSettings'),
 			array('saveGeneralSettings','generalSettings ','saveBmfSettings','savePaypalSettings','paypalSettings',
-					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings','','view'), '', '');
+//					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings',
+				'','view'), '', '');
 			
 			// Bookings
 			$tabs_gui->addTarget('bookings', $this->ctrl->getLinkTarget($this, 'statistic'),
@@ -2263,7 +2263,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$tabs_gui->addTarget('pay_methods', $this->ctrl->getLinkTarget($this, 'payMethods'),
 				#array('payMethods','savePayMethods'), '', '');
 			array('payMethods','savePayMethods ','saveBmfSettings','savePaypalSettings','paypalSettings',
-					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings','','view'), '', '');
+//					'saveEPaySettings','epaySettings','saveERPsettings','delERPpreview','','testERPsettings','erpSettings',
+				'','view'), '', '');
 
 			// Topics
 			$tabs_gui->addTarget('topics',
@@ -3013,6 +3014,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$formItem = new ilTextInputGUI($this->lng->txt('pays_email_vendor'), 'vendor');
 		$formItem->setValue($ppSet->getVendor());
 		$form->addItem($formItem);
+
+//		$formItem = new ilPasswordInputGUI($this->lng->txt('password'), 'vendor_password');
+//		$formItem->setRetype(false);
+//		$formItem->setValue($ppSet->getVendorPassword());
+//		$form->addItem($formItem);
 		
 		$formItem = new ilTextInputGUI($this->lng->txt('pays_auth_token'), 'auth_token');
 		$formItem->setValue($ppSet->getAuthToken());
@@ -3042,6 +3048,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ppSet->setServerHost(ilUtil::stripSlashes($_POST['server_host']));
 		$ppSet->setServerPath(ilUtil::stripSlashes($_POST['server_path']));
 		$ppSet->setVendor(ilUtil::stripSlashes($_POST['vendor']));
+//		$ppSet->setVendorPassword(ilUtil::stripSlashes($_POST['vendor_password']));
 		$ppSet->setAuthToken(ilUtil::stripSlashes($_POST['auth_token']));
 		$ppSet->setPageStyle(ilUtil::stripSlashes($_POST['page_style']));
 		$ppSet->setSsl(ilUtil::stripSlashes($_POST['ssl']));		
@@ -3049,6 +3056,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if ($_POST['server_host'] == '' ||
 			$_POST['server_path'] == '' ||
 			$_POST['vendor'] == '' ||
+//			$_POST['vendor_password'] == '' ||
 			$_POST['auth_token'] == '')
 		{
 			$this->error = $this->lng->txt('pays_paypal_settings_not_valid');

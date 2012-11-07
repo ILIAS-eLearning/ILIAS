@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
+* @author Nadia Ahmad <nahmad@databay.de> 
 * @author Jens Conze <jc@databay.de> 
 * @author Michael Jansen <mjansen@databay.de>
 * @version $Id: class.ilPaypalSettings.php 22133 2009-10-16 08:09:11Z nkrzywon $
@@ -20,6 +21,7 @@ class ilPaypalSettings
 	private $server_host;
 	private $server_path;
 	private $vendor;
+//	private $vender_password;
 	private $auth_token;
 	private $page_style;
 	private $ssl;
@@ -72,6 +74,7 @@ class ilPaypalSettings
 		$this->setServerHost($data["server_host"]);
 		$this->setServerPath($data["server_path"]);
 		$this->setVendor($data["vendor"]);
+//		$this->setVendorPassword($data['vendor_password']);
 		$this->setAuthToken($data["auth_token"]);
 		$this->setPageStyle($data["page_style"]);
 		$this->setSsl($data["ssl"]);
@@ -125,6 +128,21 @@ class ilPaypalSettings
 		return $this->vendor;
 	}
 
+	/**
+	 * @param string $a_vendor_password
+	 */
+	public function setVendorPassword($a_vendor_password)
+	{
+		$this->vender_password = $a_vendor_password;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorPassword()
+	{
+		return $this->vender_password;
+	}
 	/**
 	 * @param string $a_auth_token
 	 */
@@ -185,6 +203,7 @@ class ilPaypalSettings
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
 			"vendor" => $this->getVendor(),
+//			"vendor_password" => $this->getVendorPassword(),
 			"auth_token" => $this->getAuthToken(),
 			"page_style" => $this->getPageStyle(),
 			"ssl" => $this->getSsl()
@@ -215,6 +234,7 @@ class ilPaypalSettings
 			"server_host" => $this->getServerHost(),
 			"server_path" => $this->getServerPath(),
 			"vendor" => $this->getVendor(),
+//			"vendor_password" => $this->getVendorPassword(),
 			"auth_token" => $this->getAuthToken(),
 			"page_style" => $this->getPageStyle(),
 			"ssl" => $this->getSsl()			
@@ -223,4 +243,3 @@ class ilPaypalSettings
 		$this->pSettings->set('paypal', serialize($values), 'paypal');
 	}	
 }
-?>

@@ -255,7 +255,7 @@ class ilShopGUI extends ilShopBaseGUI
 		global $ilCtrl, $tree, $lng;
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["active_node"]);
-		$this->tpl->addBlockFile('LEFT_CONTENT', 'left_content', 'tpl.shop_explorer.html', 'Services/Payment');
+		$shop_explorer_tpl = new ilTemplate('tpl.shop_explorer.html', true, true, 'Services/Payment');
 
 		include_once ("./Services/Payment/classes/class.ilShopRepositoryExplorer.php");
 
@@ -334,10 +334,11 @@ class ilShopGUI extends ilShopBaseGUI
 			echo $output;
 			exit;
 		}
-		$this->tpl->setVariable("EXPLORER", $output);
+		$shop_explorer_tpl->setVariable("EXPLORER", $output);
 		$ilCtrl->setParameter($this, "repexpand", $_GET["repexpand"]);
-
-		return $this->tpl;
+		
+		global $tpl;
+		$tpl->setLeftContent($shop_explorer_tpl->get());
 	}
 
 	public function performSearch($oResult = null)
@@ -609,7 +610,7 @@ class ilShopGUI extends ilShopBaseGUI
 					'type'        => $type,
 					'obj_id'      => $obj_id,
 					'topic_id'    => $pobjects['pt_topic_fk'],
-					'child'       => $result['child']
+					'child'       => $pobjects['child']
 				);
 		}
 		else
@@ -638,8 +639,9 @@ class ilShopGUI extends ilShopBaseGUI
 				}
 			}
 		}
-		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.shop_content.html', 'Services/Payment');
-		$this->tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
+
+		$shop_content_tpl = new ilTemplate('tpl.shop_content.html', true, true,'Services/Payment');
+		$shop_content_tpl->setVariable('PAGE_CONTENT', $this->getPageHTML());
 
 		include_once 'Services/Payment/classes/class.ilShopResultPresentationGUI.php';
 		$search_result_presentation = new ilShopResultPresentationGUI($presentation_results);
@@ -648,7 +650,7 @@ class ilShopGUI extends ilShopBaseGUI
 
 		$html = $search_result_presentation->showSpecials();
 
-		$this->tpl->setVariable('RESULTS', $html);
+		$shop_content_tpl->setVariable('RESULTS', $html);
 
 		$show_general_filter = $this->oGeneralSettings->get('show_general_filter');
 		$show_topics_filter  = $this->oGeneralSettings->get('show_topics_filter');
@@ -657,7 +659,7 @@ class ilShopGUI extends ilShopBaseGUI
 		if($show_general_filter)
 		{
 			$g_filter_html = $this->showGeneralFilter(count($search_result_presentation));
-			$this->tpl->setVariable('FORM', $g_filter_html);
+			$shop_content_tpl->setVariable('FORM', $g_filter_html);
 		}
 		if($show_topics_filter)
 		{
@@ -667,6 +669,8 @@ class ilShopGUI extends ilShopBaseGUI
 		{
 			$this->showShopExplorer();
 		}
+		global $tpl;
+		$tpl->setContent($shop_content_tpl->parse());
 	}
 
 	public function showGeneralFilter($a_count_result = 0)
@@ -828,7 +832,6 @@ class ilShopGUI extends ilShopBaseGUI
 	{
 		global $ilUser;
 
-
 		$this->tpl->setCurrentBlock('show_topics_filter');
 
 		ilShopTopics::_getInstance()->setIdFilter(false);
@@ -915,8 +918,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setTopicId($a_topic_id)
 	{
-		#
-		//$_SESSION['shop_content']['shop_topic_id'] =
 		$this->topic_id = $a_topic_id;
 	}
 
@@ -927,7 +928,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setString($a_str)
 	{
-		#$_SESSION['shop_content']['text'] =
 		$this->string = $a_str;
 	}
 
@@ -938,7 +938,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setType($a_type)
 	{
-		#$_SESSION['shop_content']['type'] =
 		$this->type = $a_type;
 	}
 
@@ -949,7 +948,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setSortDirection($a_sort_direction)
 	{
-		#$_SESSION['shop_content']['order_direction'] =
 		$this->sort_direction = $a_sort_direction;
 	}
 
@@ -960,7 +958,6 @@ class ilShopGUI extends ilShopBaseGUI
 
 	public function setSortField($a_field)
 	{
-		#$_SESSION['shop_content']['shop_order_field'] =
 		$this->sort_field = $a_field;
 	}
 
@@ -980,7 +977,6 @@ class ilShopGUI extends ilShopBaseGUI
 			$a_field = ilShopTopics::TOPICS_SORT_BY_TITLE;
 		}
 
-		#$_SESSION['shop_content']['order_topics_sorting_type'] =
 		$this->sort_type_topics = $a_field;
 	}
 
@@ -1016,5 +1012,3 @@ class ilShopGUI extends ilShopBaseGUI
 		$ilTabs->setTabActive('content');
 	}
 }
-
-?>
