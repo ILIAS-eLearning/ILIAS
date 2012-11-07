@@ -2567,6 +2567,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 	function isActiveAdministrationPanel()
 	{
+		global $ilAccess;
+		
+		// #10081
+		if($_SESSION["il_cont_admin_panel"] &&
+			$this->object->getRefId() && 
+			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
+		{
+			return false;
+		}
+		
 		return $_SESSION["il_cont_admin_panel"];
 	}
 	
