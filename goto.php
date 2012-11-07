@@ -98,8 +98,19 @@ if(IS_PAYMENT_ENABLED)
 		if(ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'true'
 		|| ($_SESSION["AccountId"] != ANONYMOUS_USER_ID && ilShopLinkBuilder::$linkArray[strtolower($class)]['public'] == 'false'))
 		{
-			ilUtil::redirect('ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
-				.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']));
+			if($additional != '')
+			{
+				$additional_param .= "&cmd=".$additional;
+			}
+			else
+			{
+				$additional_param = '';
+			}
+			
+			$link = 'ilias.php?baseClass='.ilShopLinkBuilder::$linkArray[strtolower($class)]['baseClass']
+				.'&cmdClass='.strtolower(ilShopLinkBuilder::$linkArray[strtolower($class)]['cmdClass']).$additional_param;
+			
+			ilUtil::redirect($link);
 		}
 	}
 }
