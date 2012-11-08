@@ -150,7 +150,7 @@ final class ilLinkCheckerTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl, $lng;
 		
-		$title = $this->getParentObject()->object->getTitle().' ('.$lng->txt('link_check').')';		
+		$title = $this->getParentObject()->object->getTitle().' ('.$lng->txt('invalid_links_tbl').')';
 		if($last_access = $this->getLinkChecker()->getLastCheckTimestamp())
 		{
 			$title .= ', '.$lng->txt('last_change').': '.
@@ -161,7 +161,7 @@ final class ilLinkCheckerTableGUI extends ilTable2GUI
 		$invalidLinks = $this->getLinkChecker()->getInvalidLinksFromDB();
 		if(!count($invalidLinks))
 		{
-			$this->setNoEntriesText($lng->txt('no_invalid_links'));
+			#$this->setNoEntriesText($lng->txt('no_invalid_links'));
 		}
 		else
 		{
