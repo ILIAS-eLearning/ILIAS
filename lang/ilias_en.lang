@@ -12995,3 +12995,5 @@ ecs#:#ecs_status_pending_unmapped_nondiscon#:#Pending (mapped, disconnection imp
 ecs#:#ecs_status_mapped#:#Mapped
 ecs#:#ecs_status_deleted#:#Deleted
 ecs#:#ecs_status_legend#:#Legend
+ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation
+webr#:#invalid_links_tbl#:#Invalid Links
