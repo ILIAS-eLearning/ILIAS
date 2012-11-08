@@ -1843,7 +1843,7 @@ common#:#change_metadata#:#Change Metadata
 common#:#change_owner#:#Change owner
 common#:#change_sort_direction#:#Change sort direction
 common#:#change#:#Change
-common#:#changeable#:#Changeable
+common#:#changeable#:#Changeble in Personal Data and Profile
 common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter_number#:#Chapter Number
@@ -10761,8 +10761,8 @@ style#:#sty_to#:#To
 style#:#sty_add_content_style#:#Add Content Style
 style#:#sty_remove_global_default_state#:#Remove Global Default State
 style#:#sty_remove_global_fixed_state#:#Remove Global Fixed State
-style#:#sty_make_global_default#:#Make Global Default
-style#:#sty_make_global_fixed#:#Make Global Fixed
+style#:#sty_make_global_default#:#Set as Global Default Style for New Objects
+style#:#sty_make_global_fixed#:#Force this Style on New Objects
 content#:#cont_save_types#:#Save Types
 content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page

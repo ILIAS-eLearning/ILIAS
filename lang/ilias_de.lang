@@ -2359,7 +2359,7 @@ common#:#change_lo_info#:#Lernmodul-Infos ändern
 common#:#change_metadata#:#Metadaten ändern
 common#:#change_owner#:#Besitzer ändern
 common#:#change_sort_direction#:#Sortierrichtung ändern
-common#:#changeable#:#Änderbar
+common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#changed_to#:#gewechselt zu
 common#:#changing_loginname_not_possible_info#:#Sie haben Ihren Benutzernamen zuletzt am %s geändert. Die nächsten Änderung kann erst am %s erfolgen.
 common#:#chapter#:#Kapitel
@@ -10774,8 +10774,8 @@ style#:#sty_list_char#:#Liste
 style#:#sty_list_style_image#:#Bild
 style#:#sty_list_style_position#:#Position
 style#:#sty_list_style_type#:#Listenstyle
-style#:#sty_make_global_default#:#Zu globalem Standard machen
-style#:#sty_make_global_fixed#:#Globalen Standard festsetzen
+style#:#sty_make_global_default#:#Voreingestellter Style für neue Objekte
+style#:#sty_make_global_fixed#:#Erzwungener Style für neue Objekte
 style#:#sty_margin#:#Außenrand
 style#:#sty_margin_and_padding#:#Außenrand und Innenabstand
 style#:#sty_media_char#:#Medien
@@ -12427,7 +12427,7 @@ book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beam
 book#:#book_schedule_type_none#:#Kein Zeitplan
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
-forum#:#sort_by_posts#:#Sortieren nach Beiträgen
+forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
 common#:#obj_poll#:#Abstimmung
