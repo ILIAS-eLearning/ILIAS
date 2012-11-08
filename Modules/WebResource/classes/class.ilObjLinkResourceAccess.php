@@ -77,8 +77,19 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 	 *
 	 * @return	boolean		true, if everything is ok
 	 */
-	function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
 	{
+		global $rbacsystem;
+		
+		// Set offline if no valid link exists
+		if($a_permission == 'read')
+		{
+			if(!self::_getFirstLink($a_obj_id) && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
+			{
+				return false;
+			}
+		}
+			
 		if ($a_cmd == "settings")
 		{
 			if (self::_checkDirectLink($a_obj_id))
@@ -105,8 +116,12 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 		{
 			return self::$item[$a_webr_id];
 		}
-		$res = $ilDB->query("SELECT * FROM webr_items WHERE webr_id = ".
-			$ilDB->quote($a_webr_id ,'integer')." AND active = '1'");
+		$query = "SELECT * FROM webr_items ".
+			"WHERE webr_id = ".	$ilDB->quote($a_webr_id ,'integer').' '.
+			"AND active = ".$ilDB->quote(1,'integer').' '.
+			'AND valid = '.$ilDB->quote(1,'integer');
+		$res = $ilDB->query($query);
+		
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
 			$item['title']				= $row->title;
@@ -135,7 +150,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 		
 		$res = $ilDB->query("SELECT * FROM webr_items WHERE ".
 			$ilDB->in("webr_id", $a_obj_ids, false, "integer").
-			" AND active = '1'");
+			" AND active = ". $ilDB->quote(1,'integer').' AND valid = '.$ilDB->quote(1,'integer'));
 		foreach ($a_obj_ids as $id)
 		{
 			self::$item[$id] = array();
