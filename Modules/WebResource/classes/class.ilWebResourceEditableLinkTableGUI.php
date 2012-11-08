@@ -121,10 +121,10 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 			$tmp['name'] = $_POST['links'][$link_id]['nam'];
 			$tmp['params'] = array();
 			
-			var_dump($_POST, $link_id);
+			// var_dump($_POST, $link_id);
 			
-			var_dump($_POST['tar_'.$link_id.'_ajax_type']);
-			var_dump($_POST['tar_'.$link_id.'_ajax_id']);
+			// var_dump($_POST['tar_'.$link_id.'_ajax_type']);
+			// var_dump($_POST['tar_'.$link_id.'_ajax_id']);
 			
 			$rows[] = $tmp;
 		}
