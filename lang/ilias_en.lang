@@ -274,7 +274,7 @@ assessment#:#change_properties_from_standard_to_random#:#You are about to change
 assessment#:#change_solution#:#Change Suggested Solution
 assessment#:#changelog_description#:#The following table contains all changes of authors which have been made to this test.
 assessment#:#changelog_heading#:#Changelog
-assessment#:#changeSuggestedSolution#:#Change suggested solution
+assessment#:#changeSuggestedSolution#:#Select type of suggested solution
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
 assessment#:#circle_click_center#:#Please click on center of the desired area.
@@ -718,9 +718,9 @@ assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User's Marked Answers
 assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introductory message (if available) and the required properties will be shown on the Test Information Page. 
 assessment#:#showinfo#:#Show the complete Information Page
-assessment#:#showSuggestedSolution#:#Suggested solution
+assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
-assessment#:#solution_hint#:#Suggested Solution
+assessment#:#solution_hint#:#Assign Suggested Solution
 assessment#:#solution_may_contain_keywords#:#The solution may contain one of the following keywords
 assessment#:#solution_order#:#Solution Order
 assessment#:#solutionText#:#Text
@@ -729,7 +729,7 @@ assessment#:#starting_time_not_reached#:#You have not reached the starting time
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
-assessment#:#suggestedSolutionType#:#Suggested solution type
+assessment#:#suggestedSolutionType#:#refer to
 assessment#:#symbol#:#Symbol
 assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
@@ -1347,7 +1347,7 @@ certificate#:#certificate_var_user_street#:#100 Main Street
 certificate#:#certificate_var_user_title#:#Dr.
 certificate#:#certificate_var_user_zipcode#:#12345
 certificate#:#certificate_visibility_always#:#Always Visible
-certificate#:#certificate_visibility_introduction#:#The button in the test results to offer users this certificate is
+certificate#:#certificate_visibility_introduction#:#Participants will be offered to download the certificate from the test results screen. 
 certificate#:#certificate_visibility_never#:#Not Visible
 certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
 certificate#:#certificate_visibility#:#Visibility
@@ -1432,7 +1432,7 @@ cntr#:#cntr_saved_sorting#:#Saved Sorting.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to new content of this page. Old content will be removed.
 cntr#:#cntr_switch_to_new_editor_message#:#This is the supported standard editor. The content from the old editor cannot be transferred. Please start adding new page content below. If you click the following link, the new content will be used.
 cntr#:#cntr_switched_editor#:#Switched to new content.
-cntr#:#cntr_text_media_editor#:#Text/Media Editor
+cntr#:#cntr_text_media_editor#:#Customise Page
 cntr#:#cntr_view_by_type#:#Grouped-by-Type View
 cntr#:#cntr_view_info_by_type#:#This content presentation groups all items by resource type.
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.
@@ -2337,7 +2337,7 @@ common#:#file_not_found#:#File Not Found
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 rbac#:#file_read#:#User can download file
-common#:#file_suffix_repl_info#:#Files ending with these suffixes (separated by comma) will be renamed with a suffix ".sec" if uploaded into the webspace. This is done per default for the suffixes:
+common#:#file_suffix_repl_info#:#Enter file types with their suffixe (separated by comma) that shall be be renamed with a suffix ".sec" if uploaded into the webspace to prevent their execution. This is done per default for these suffixes:
 common#:#file_suffix_repl#:#File Upload Suffix Replacement
 common#:#file_updated#:#File has been updated.
 common#:#file_valid#:#File is valid!
@@ -4741,9 +4741,9 @@ content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
 content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
 content#:#cont_download_title#:#Download Title
-content#:#cont_downloads_desc#:#Enable download of all public export files.
+content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_downloads#:#Downloads
+content#:#cont_downloads#:#Enable Download
 content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.
 content#:#cont_e_g_example#:#e.g.
 content#:#cont_ed_align_center#:#Align: Center
@@ -9865,9 +9865,9 @@ trac#:#trac_mode_deactivated#:#Deactivated
 trac#:#trac_mode_event#:#Participation in Sessions
 trac#:#trac_mode_exercise_returned_info#:#The status 'Completed' can be set only by tutors.
 trac#:#trac_mode_exercise_returned#:#Exercise Solved
-trac#:#trac_mode_manual_by_tutor_info#:#The overall status can only be set by tutors.
+trac#:#trac_mode_manual_by_tutor_info#:#The overall status (i.e. 'Completed' or 'Failed') is be set by tutors. 
 trac#:#trac_mode_manual_by_tutor#:#Manual by Tutor
-trac#:#trac_mode_manual_info#:#Users have to decide whether their status is completed or not.
+trac#:#trac_mode_manual_info#:#Users have to decide if they reached the 'Completed' status.
 trac#:#trac_mode_manual#:#Manual by Learner
 trac#:#trac_mode_objectives_info#:#The learning progress will be calculated automatically according to the number of passed learning objectives.
 trac#:#trac_mode_objectives#:#Automatic by Learning Objectives
