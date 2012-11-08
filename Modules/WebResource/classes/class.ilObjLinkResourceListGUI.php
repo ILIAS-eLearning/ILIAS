@@ -35,6 +35,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
 	{
 		if(ilObjLinkResourceAccess::_checkDirectLink($this->obj_id))
 		{
+			echo parent::getTitle();
 			$this->__readLink();
 			
 			return $this->link_data['title'];
