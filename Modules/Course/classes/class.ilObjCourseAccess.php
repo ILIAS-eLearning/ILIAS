@@ -251,16 +251,22 @@ class ilObjCourseAccess extends ilObjectAccess
 	 * @see ilStartupGUI
 	 * @param int $a_obj_id
 	 * @param bool &$a_visible_flag
+	 * @param bool $a_mind_member_view
 	 * @return boolean
 	 */
-	public static function _isActivated($a_obj_id, &$a_visible_flag = null)
+	public static function _isActivated($a_obj_id, &$a_visible_flag = null, $a_mind_member_view = true)
 	{		
-		include_once './Services/Container/classes/class.ilMemberViewSettings.php';
-		if(ilMemberViewSettings::getInstance()->isActive())
-		{		
-			$a_visible_flag = true;			
-			return true;
+		// #7669
+		if($a_mind_member_view)
+		{
+			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
+			if(ilMemberViewSettings::getInstance()->isActive())
+			{		
+				$a_visible_flag = true;			
+				return true;
+			}
 		}
+		
 		// offline?
 		if(!self::_isOnline($a_obj_id))
 		{
@@ -430,7 +436,8 @@ class ilObjCourseAccess extends ilObjectAccess
 	 */
 	static function _isOffline($a_obj_id)
 	{
-		return !self::_isActivated($a_obj_id);
+		$dummy = null;
+		return !self::_isActivated($a_obj_id, $dummy, false);
 	}
 	
 	/**
