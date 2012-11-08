@@ -430,7 +430,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$param->delete((int) $_GET['param_id']);
 		
 		ilUtil::sendSuccess($this->lng->txt('links_parameter_deleted'),true);
-		$ilCtrl->redirect($this,'editLink');
+		$ilCtrl->redirect($this,'editLinks');
 	}
 	
 	protected function deleteParameterForm()
