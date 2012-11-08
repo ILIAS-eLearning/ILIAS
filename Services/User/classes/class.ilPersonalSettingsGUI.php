@@ -1235,7 +1235,7 @@ class ilPersonalSettingsGUI
 		}
 
 		$this->form->setValuesByPost();
-		$tpl->showGeneralSettings(true);
+		$this->showGeneralSettings(true);
 	}
 	
 	/**
