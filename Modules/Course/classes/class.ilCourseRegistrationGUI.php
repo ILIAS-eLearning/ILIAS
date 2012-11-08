@@ -214,7 +214,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
 		include_once('./Modules/Course/classes/class.ilCourseWaitingList.php');
 		$waiting_list = new ilCourseWaitingList($this->container->getId());
-		if($this->container->enabledWaitingList() and (!$free or $waiting_list->getCountUsers()))
+		if(
+			$this->container->isSubscriptionMembershipLimited() and
+			$this->container->enabledWaitingList() and 
+			(!$free or $waiting_list->getCountUsers()))
 		{
 			if($waiting_list->isOnList($ilUser->getId()))
 			{
@@ -233,24 +236,38 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		}
 		
 		$alert = '';
-		if(!$free and !$this->container->enabledWaitingList())
+		if(
+				!$free and 
+				!$this->container->enabledWaitingList())
 		{
 			// Disable registration
 			$this->enableRegistration(false);
 			ilUtil::sendFailure($this->lng->txt('mem_alert_no_places'));
 			#$alert = $this->lng->txt('mem_alert_no_places');	
 		}
-		elseif($this->container->enabledWaitingList() and $waiting_list->isOnList($ilUser->getId()))
+		elseif(
+				$this->container->enabledWaitingList() and 
+				$this->container->isSubscriptionMembershipLimited() and
+				$waiting_list->isOnList($ilUser->getId())
+		)
 		{
 			// Disable registration
 			$this->enableRegistration(false);
 		}
-		elseif(!$free and $this->container->enabledWaitingList())
+		elseif(
+				!$free and 
+				$this->container->enabledWaitingList() and
+				$this->container->isSubscriptionMembershipLimited())
+				
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_warn_no_max_set_on_waiting_list'));
 			#$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
 		}
-		elseif($free and $this->container->enabledWaitingList() and $this->getWaitingList()->getCountUsers())
+		elseif(
+				$free and 
+				$this->container->enabledWaitingList() and 
+				$this->container->isSubscriptionMembershipLimited() and
+				$this->getWaitingList()->getCountUsers())
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_warn_wl_set_on_waiting_list'));
 			#$alert = $this->lng->txt('crs_warn_wl_set_on_waiting_list');
@@ -550,7 +567,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 		{
 			return $active;
 		}
-		if(!$this->container->enabledWaitingList())
+		if(!$this->container->enabledWaitingList() or !$this->container->isSubscriptionMembershipLimited())
 		{
 			return $active = false;
 		}
