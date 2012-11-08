@@ -345,7 +345,7 @@ public class CommandQueue {
 		try {
 
 			Statement delete = db.createStatement();
-			delete.executeUpdate("TRUNCATE TABLE search_command_queue");
+			delete.executeUpdate("DELETE FROM search_command_queue");
 			
 			try {
 				if(delete != null) {
@@ -388,7 +388,7 @@ public class CommandQueue {
 		
 		logger.info("Deleting search_command_queue");
 		Statement delete = db.createStatement();
-		delete.execute("TRUNCATE TABLE search_command_queue");
+		delete.execute("DELETE FROM search_command_queue");
 		
 		try {
 			delete.close();
