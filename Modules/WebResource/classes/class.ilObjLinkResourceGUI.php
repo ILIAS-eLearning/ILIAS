@@ -175,13 +175,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$this->link->setLinkResourceId($a_new_object->getId());
 		$link_id = $this->link->add();
 
-		// Dynamic params
-		if(ilParameterAppender::_isEnabled() and is_object($this->dynamic))
-		{
-			$this->dynamic->setObjId($a_new_object->getId());
-			$this->dynamic->add($link_id);
-		}
-
 		ilUtil::sendSuccess($this->lng->txt('webr_link_added'));
 		
 		// personal workspace
@@ -609,7 +602,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$this->link->setTitle($this->form->getInput('tit'));
 		$this->link->setDescription($this->form->getInput('des'));
 		$this->link->setDisableCheckStatus($this->form->getInput('che'));
-		$this->link->setActiveStatus($this->form->getInput('act'));
+		
+		if($a_mode == self::LINK_MOD_CREATE)
+		{
+			$this->link->setActiveStatus(true);
+		}
+		else
+		{
+			$this->link->setActiveStatus($this->form->getInput('act'));
+		}
 		
 		if($a_mode == self::LINK_MOD_EDIT)
 		{
@@ -750,16 +751,20 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		$des->setCols(40);
 		$this->form->addItem($des);
 		
-		// Active
-		$act = new ilCheckboxInputGUI($this->lng->txt('active'),'act');
-		$act->setChecked(true);
-		$act->setValue(1);
-		$this->form->addItem($act);
 		
-		// Check
-		$che = new ilCheckboxInputGUI($this->lng->txt('webr_disable_check'),'che');
-		$che->setValue(1);
-		$this->form->addItem($che);
+		if($a_mode != self::LINK_MOD_CREATE)
+		{
+			// Active
+			$act = new ilCheckboxInputGUI($this->lng->txt('active'),'act');
+			$act->setChecked(true);
+			$act->setValue(1);
+			$this->form->addItem($act);
+
+			// Check
+			$che = new ilCheckboxInputGUI($this->lng->txt('webr_disable_check'),'che');
+			$che->setValue(1);
+			$this->form->addItem($che);
+		}
 		
 		// Valid
 		if($a_mode == self::LINK_MOD_EDIT)
@@ -768,7 +773,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			$this->form->addItem($val);
 		}
 		
-		if(ilParameterAppender::_isEnabled())
+		if(ilParameterAppender::_isEnabled() && $a_mode != self::LINK_MOD_CREATE)
 		{
 			$dyn = new ilNonEditableValueGUI($this->lng->txt('links_dyn_parameter'));
 			$dyn->setInfo($this->lng->txt('links_dynamic_info'));
@@ -796,7 +801,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			// Existing parameters
 			
 			// New parameter
-			if($a_mode == self::LINK_MOD_EDIT)
+			if($a_mode != self::LINK_MOD_CREATE)
 			{
 				#$new = new ilCustomInputGUI($this->lng->txt('links_add_param'),'');
 				#$dyn->addSubItem($new);
