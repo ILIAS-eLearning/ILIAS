@@ -83,17 +83,33 @@ class ilObjCourseAccess extends ilObjectAccess
 				break;
 		}
 		
-		// check "global" online setting
-		if(!self::_isOnline($a_obj_id) && 
-			!$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
-		{
-			$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-			return false;
-		}			
-
 		switch ($a_permission)
-		{			
-			case 'read':				
+		{		
+			case 'visible':
+				$visible = null;
+				$active = self::_isActivated($a_obj_id, $visible);
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);				
+				if(!$active)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+				}
+				if(!$tutor and !$active && !$visible)
+				{
+					return false;
+				}
+				break;
+			
+			case 'read':							
+				$tutor = $rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id);
+				if($tutor)
+				{
+					return true;
+				}
+				$active = self::_isActivated($a_obj_id);
+				if(!$active)
+				{
+					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+				}
 				if($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id))
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
