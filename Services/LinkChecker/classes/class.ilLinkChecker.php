@@ -400,26 +400,48 @@ class ilLinkChecker
 
 	function __getWebResourceLinks()
 	{
+		global $objDefinition;
+		
 		include_once 'Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
 		$link_res_obj = new ilLinkResourceItems($this->getObjId());
 
 		foreach($check_links = $link_res_obj->getCheckItems($this->getCheckPeriod()) as $item_data)
 		{
-				$url_data = @parse_url($item_data['target']);
-				
-				// PUH, HTTP_REQUEST needs a beginning http://
-				if(!$url_data['scheme'])
-				{
-					$item_data['target'] = 'http://'.$item_data['target'];
-				}
-
-				$link[] = array('page_id'  => $item_data['link_id'],
+			// #10091 - internal
+			if(strpos($item_data['target'], '|'))
+			{				
+				$parts = explode('|', $item_data['target']);
+				if(sizeof($parts) == 2 &&
+					is_numeric($parts[1]) &&
+					$objDefinition->isAllowedInRepository($parts[0]))
+				{										
+					$link[] = array('page_id'  => $item_data['link_id'],
 								'obj_id'   => $this->getObjId(),
 								'type'	   => 'webr',
 								'complete' => $item_data['target'],
-								'scheme'   => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
-								'host'	   => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);
+								'scheme'   => 'internal',
+								'obj_type' => $parts[0],
+								'ref_id'   => $parts[1]);			
+					continue;
+				}					
+			}
+			
+			// external			
+			$url_data = @parse_url($item_data['target']);
+
+			// PUH, HTTP_REQUEST needs a beginning http://
+			if(!$url_data['scheme'])
+			{
+				$item_data['target'] = 'http://'.$item_data['target'];
+			}
+
+			$link[] = array('page_id'  => $item_data['link_id'],
+						'obj_id'   => $this->getObjId(),
+						'type'	   => 'webr',
+						'complete' => $item_data['target'],
+						'scheme'   => isset($url_data['scheme']) ? $url_data['scheme'] : 'http',
+						'host'	   => isset($url_data['host']) ? $url_data['host'] : $url_data['path']);										
 		}
 		return $link ? $link : array();
 	}			
@@ -428,7 +450,7 @@ class ilLinkChecker
 
 	function __validateLinks($a_links)
 	{
-		global $ilSetting;
+		global $tree;
 		
 		if(!@include_once('HTTP/Request.php'))
 		{
@@ -439,45 +461,60 @@ class ilLinkChecker
 
 		foreach($a_links as $link)
 		{
-			if(gethostbyname($link['host']) == $link['host'])
-			{
-				$invalid[] = $link;
-				continue;
+			// #10091 - internal
+			if($link['scheme'] == 'internal')
+			{				
+				$obj_id = ilObject::_lookupObjId($link['ref_id']);
+				if(!$obj_id || 
+					ilObject::_lookupType($obj_id) != $link['obj_type'] ||
+					$tree->isDeleted($link['ref_id']))
+				{					
+					$invalid[] = $link;
+				}					
 			}
-
-			if($link['scheme'] !== 'http' and $link['scheme'] !== 'https')
-			{
-				continue;
-			}
-			
-			require_once './Services/Http/classes/class.ilProxySettings.php';
-			
-			if(ilProxySettings::_getInstance()->isActive())
-			{
-				$options = array('proxy_host' => ilProxySettings::_getInstance()->getHost(), 
-								 'proxy_port' => ilProxySettings::_getInstance()->getPort());
-			}
+			// external
 			else
 			{
-				$options = array();
-			}
-				
-			$req = new HTTP_Request($link['complete'], $options);
-			$req->sendRequest();
-
-			switch($req->getResponseCode())
-			{
-				// EVERYTHING OK
-				case '200':
-					// In the moment 301 will be handled as ok
-				case '301':
-				case '302':
-					break;
-
-				default:
-					$link['http_status_code'] = $req->getResponseCode();
+				if(gethostbyname($link['host']) == $link['host'])
+				{
 					$invalid[] = $link;
-					break;
+					continue;
+				}
+
+				if($link['scheme'] !== 'http' and $link['scheme'] !== 'https')
+				{
+					continue;
+				}
+
+				require_once './Services/Http/classes/class.ilProxySettings.php';
+
+				if(ilProxySettings::_getInstance()->isActive())
+				{
+					$options = array('proxy_host' => ilProxySettings::_getInstance()->getHost(), 
+									 'proxy_port' => ilProxySettings::_getInstance()->getPort());
+				}
+				else
+				{
+					$options = array();
+				}
+
+				$req = new HTTP_Request($link['complete'], $options);
+				$req->sendRequest();
+
+				switch($req->getResponseCode())
+				{
+					// EVERYTHING OK
+					case '200':
+						// In the moment 301 will be handled as ok
+					case '301':
+					case '302':
+						break;
+
+					default:
+						$link['http_status_code'] = $req->getResponseCode();
+						$invalid[] = $link;
+						break;
+				}
 			}
 		}
 		return $invalid ? $invalid : array();
