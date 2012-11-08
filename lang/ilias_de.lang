@@ -12995,3 +12995,4 @@ ecs#:#ecs_status_pending_unmapped_nondiscon#:#Ausstehend (ungemappt, Trennung ni
 ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
+webr#:#invalid_links_tbl#:#Ungültige Links
