@@ -4672,7 +4672,7 @@ common#:#session_max_idle_info#:#Wenn ein Benutzer für diesen Zeitraum inaktiv 
 common#:#session_min_idle#:#Minimale Leerlaufzeit einer Session (in Minuten)
 common#:#session_min_idle_info#:#Wenn ein Benutzer für mindestens diesen Zeitraum inaktiv ist, kann seine Session gelöscht werden, sofern eine andere Session für einen anderen Benutzer erstellt werden soll und das maximale Session Limit erreicht wurde.
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_alert#:#Ihre Sitzung läuft in %s ab (Aktuelle Zeit: %s, Installation: %s). Bitte klicken Sie auf OK um Ihre Sitzung zu verlängern.  Falls Sie auf Abbrechen klicken, werden Sie in dieser Browser-Sitzung nicht mehr erinnert.
+common#:#session_reminder_alert#:#<b>Ihre Sitzung läuft in %s ab!</b><br /><br />Klicken Sie auf OK, um Ihre Sitzung zu verlängern! Wollen Sie dagegen in der aktuellen Browser-Sitzung nicht mehr erinnert werden, wählen Sie bitte Abbrechen.<br /><br />Zeitpunkt der Benachrichtigung: %s, Betroffene Installation: %s.
 common#:#session_reminder_extended#:#Die Sitzung wurde verlängert um %s
 common#:#session_reminder_info#:#Wenn aktiviert, erhalten Sie eine Erinnerung, bevor Ihre Sitzung abläuft.
 common#:#session_reminder_lead_time#:#Vorlaufzeit
