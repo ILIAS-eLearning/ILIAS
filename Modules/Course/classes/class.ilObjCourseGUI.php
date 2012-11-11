@@ -927,6 +927,9 @@ class ilObjCourseGUI extends ilContainerGUI
 
 	function updateObject()
 	{
+		$form = $this->initEditForm();
+		$form->checkInput();
+		
 		$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->object->setDescription(ilUtil::stripSlashes($_POST['desc']));		
 		
@@ -1003,6 +1006,17 @@ class ilObjCourseGUI extends ilContainerGUI
 			ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
 			ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());			
 			// END ChangeEvent: Record write event
+			
+			
+			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+				$this->object->getId(),
+				$form,
+				array(
+					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+					ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+				)
+			);
 			
 			// Update ecs export settings
 			include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';	
@@ -1384,6 +1398,16 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$form->addItem($sort);
 		
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::initServiceSettingsForm(
+				$this->object->getId(),
+				$form,
+				array(
+					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+					ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+				)
+			);
+		
 		// lp vs. course status
 		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
 		if(ilObjUserTracking::_enabledLearningProgress())
@@ -1535,19 +1559,6 @@ class ilObjCourseGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
 				
-				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-				if(ilObjectServiceSettingsGUI::isVisible(array(
-								ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
-							)
-					))
-				{
-					$this->tabs_gui->addSubTab(
-							'tool_settings',
-							$GLOBALS['lng']->txt('obj_tool_settings'),
-							$this->ctrl->getLinkTargetByClass('ilObjectServiceSettingsGUI')
-						);
-				}
-
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
 												 "", "ilConditionHandlerInterface");
