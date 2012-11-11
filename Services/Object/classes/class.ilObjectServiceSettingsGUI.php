@@ -13,7 +13,8 @@
  */
 class ilObjectServiceSettingsGUI 
 {
-	const CALENDAR_VISIBILITY = 1;
+	const CALENDAR_VISIBILITY = 'cont_show_calendar';
+	const NEWS_VISIBILITY = 'cont_show_news';
 	
 	private $gui = null;
 	private $modes = array();
@@ -29,6 +30,8 @@ class ilObjectServiceSettingsGUI
 		$this->modes = $a_modes;
 		$this->obj_id = $a_obj_id;
 	}
+	
+	
 	
 	/**
 	 * Control class handling
@@ -50,24 +53,66 @@ class ilObjectServiceSettingsGUI
 	}
 	
 	/**
-	 * Check if minimum one setting is visible
-	 * @param type $a_modes
-	 * @return boolean
+	 * Init service settings form
+	 * @param ilPropertyFormGUI $form
+	 * @param type $services
 	 */
-	public static function isVisible($a_modes = array())
+	public static function initServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
 	{
-		$one_visible = false;
+		global $ilSetting;
 		
-		if(in_array(self::CALENDAR_VISIBILITY, $a_modes))
+		if(in_array(self::CALENDAR_VISIBILITY, $services))
 		{
-			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-			if(ilCalendarSettings::_getInstance()->isEnabled())
+			// Container tools (calendar, news, ... activation)
+			$cal = new ilCheckboxInputGUI('', self::CALENDAR_VISIBILITY);
+			$cal->setValue(1);
+			include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
+			$cal->setChecked(ilCalendarSettings::lookupCalendarActivated($a_obj_id));
+			$cal->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_calendar'));
+			$form->addItem($cal);
+		}
+		if(in_array(self::NEWS_VISIBILITY, $services))
+		{
+			if($ilSetting->get('block_activated_news'))
 			{
-				$one_visible = true;
+				// Container tools (calendar, news, ... activation)
+				$news = new ilCheckboxInputGUI('', self::NEWS_VISIBILITY);
+				$news->setValue(1);
+				$news->setChecked(ilContainer::_lookupContainerSetting(
+						$a_obj_id,
+						self::NEWS_VISIBILITY,
+						$ilSetting->get('block_activated_news',true)
+				));
+				$news->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_news'));
+				$form->addItem($news);
 			}
 		}
-		return $one_visible;
+		
+		return $form;
 	}
+	
+	/**
+	 * Update service settings
+	 * @param type $a_obj_id
+	 * @param ilPropertyFormGUI $form
+	 * @param type $services
+	 */
+	public static function updateServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
+	{
+		if(in_array(self::CALENDAR_VISIBILITY, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::CALENDAR_VISIBILITY,(int) $form->getInput(self::CALENDAR_VISIBILITY));
+		}
+		if(in_array(self::NEWS_VISIBILITY, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::NEWS_VISIBILITY,(int) $form->getInput(self::NEWS_VISIBILITY));
+		}
+		
+		return true;
+	}
+
 	
 	/**
 	 * Get active modes
@@ -105,31 +150,6 @@ class ilObjectServiceSettingsGUI
 		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 	
-	/**
-	 * Init tool settings form
-	 * @return ilPropertyFormGUI
-	 */
-	protected function initSettingsForm()
-	{
-		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-		$form = new ilPropertyFormGUI();
-		$form->setShowTopButtons(false);
-		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this,'updateToolSettings'));
-		$form->setTitle($GLOBALS['lng']->txt('obj_tool_settings_title'));
-		$form->addCommandButton('updateToolSettings', $GLOBALS['lng']->txt('save'));
-		$form->addCommandButton('cancel', $GLOBALS['lng']->txt('cancel'));
-		
-		if($this->isModeActive(self::CALENDAR_VISIBILITY))
-		{
-			$cal = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_calendar'), 'calendar');
-			$cal->setValue(1);
-			include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
-			$cal->setChecked(ilCalendarSettings::lookupCalendarActivated($this->getObjId()));
-			$form->addItem($cal);
-		}
-		
-		return $form;
-	}
 	
 	/**
 	 * Update settings

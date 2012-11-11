@@ -146,7 +146,7 @@ class ilCalendarSettings
 		include_once './Services/Container/classes/class.ilContainer.php';
 		return ilContainer::_lookupContainerSetting(
 				$a_obj_id,
-				'show_calendar',
+				'cont_show_calendar',
 				$gl_activated
 			);
 	}

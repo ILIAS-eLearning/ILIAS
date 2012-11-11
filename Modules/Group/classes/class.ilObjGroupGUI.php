@@ -495,6 +495,10 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		$this->checkPermission('write');
 		
+		
+		$this->initForm();
+		$this->form->checkInput();
+		
 		$old_type = $this->object->getGroupType();
 		
 		$this->load();
@@ -518,6 +522,18 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 		
 		$this->object->update();
+		
+		
+		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+		ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+			$this->object->getId(),
+			$this->form,
+			array(
+				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+				ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+			)
+		);
+			
 		
 		// Save sorting
 		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
@@ -2725,7 +2741,16 @@ class ilObjGroupGUI extends ilContainerGUI
 			$sog->addOption($sti);
 
 			$this->form->addItem($sog);
-
+			
+			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
+			ilObjectServiceSettingsGUI::initServiceSettingsForm(
+					$this->object->getId(),
+					$this->form,
+					array(
+						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+						ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+					)
+				);
 		}
 		
 		switch($a_mode)
@@ -2882,20 +2907,6 @@ class ilObjGroupGUI extends ilContainerGUI
 												 $this->ctrl->getLinkTarget($this,'editInfo'),
 												 "editInfo", get_class($this));
 
-				// Tool settings
-				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-				if(ilObjectServiceSettingsGUI::isVisible(array(
-								ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
-							)
-					))
-				{
-					$this->tabs_gui->addSubTab(
-							'tool_settings',
-							$GLOBALS['lng']->txt('obj_tool_settings'),
-							$this->ctrl->getLinkTargetByClass('ilObjectServiceSettingsGUI')
-						);
-				}
-												 
 				// custom icon
 				if ($this->ilias->getSetting("custom_icons"))
 				{

@@ -989,6 +989,7 @@ class ilColumnGUI
 	*/
 	protected function isGloballyActivated($a_type)
 	{
+
 		global $ilSetting;
 		if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type])
 		{
@@ -1008,6 +1009,16 @@ class ilColumnGUI
 				}
 				return false;
 			}	
+			elseif($a_type == 'news')
+			{
+				return 
+					$ilSetting->get('block_activated_news') &&
+					ilContainer::_lookupContainerSetting(
+							$GLOBALS['ilCtrl']->getContextObjId(),
+							'cont_show_news',
+							true
+					);
+			}
 			else if ($ilSetting->get("block_activated_".$a_type))
 			{
 				return true;
