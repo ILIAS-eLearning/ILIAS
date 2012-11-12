@@ -410,8 +410,6 @@ class ilCalendarPresentationGUI
 				
 				if(ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit))
 				{
-					var_dump((string) $limit);
-
 					// update in any case to avoid multiple updates of invalid calendar sources.
 					$category->setRemoteSyncLastExecution(new ilDateTime(time(),IL_CAL_UNIX));
 					$category->update();
