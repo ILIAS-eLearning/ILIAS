@@ -349,12 +349,12 @@ assessment#:#assFlashQuestion#:#Eingebettete Frage - Flash
 assessment#:#assImagemapQuestion#:#Hotspot/Imagemap
 assessment#:#assJavaApplet#:#Eingebettete Frage - Java Applet
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
-assessment#:#assMultipleChoice#:#Multiple Choice Frage
+assessment#:#assMultipleChoice#:#Multiple Choice
 assessment#:#assNumeric#:#Numerische Antwort
 assessment#:#assOrderingHorizontal#:#Anordnungsfrage - horizontal
 assessment#:#assOrderingQuestion#:#Anordnungsfrage - vertikal
 assessment#:#assQuestions#:#Fragen
-assessment#:#assSingleChoice#:#Single Choice Frage
+assessment#:#assSingleChoice#:#Single Choice
 assessment#:#assTextQuestion#:#Freitext eingeben
 assessment#:#assTextSubset#:#Begriffe benennen
 assessment#:#autosave_failed#:#Automatisches Speichern fehlgeschlagen!
@@ -755,7 +755,7 @@ assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
 assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und einen Punkt für richtige Antworten.
 assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
-assessment#:#qt_multiple_choice#:#Multiple Choice Frage
+assessment#:#qt_multiple_choice#:#Multiple Choice
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
 assessment#:#question_marking#:#Fragenmarkierungen anzeigen
