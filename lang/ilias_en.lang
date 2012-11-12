@@ -4048,7 +4048,7 @@ common#:#server_software#:#Server Software
 common#:#server#:#Server
 rbac#:#sess_copy#:#User can copy session
 common#:#sess#:#Session
-common#:#session_reminder_alert#:#<b>Your session expires in %s!</b><br /><br />Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.<br />Reminder sent: %s by installation %s.
+common#:#session_reminder_alert#:#Your session expires in %s! Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore. Reminder sent: %s by installation %s.
 common#:#session_reminder_extended#:#Your session was extended for %s
 common#:#session_reminder_info#:#If enabled, you receive a reminder before the online-session of your browser expires.
 common#:#session_reminder_lead_time_info#:#Please specify the leadtime for the session reminder in minutes. The reminder displays a warning when only this time span is left before the session expires. Recommended value is 5 (minutes)<br / >The current length of a user session is %s.
