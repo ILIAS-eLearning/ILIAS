@@ -901,10 +901,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		// back (edit)
 		if($owner == $ilUser->getId())
-		{							
-			// from editor 
-			if($_GET["baseClass"] == "ilPersonalDesktopGUI" || 
-				$_GET["baseClass"] == "ilRepositoryGUI")
+		{					
+			// from shared/deeplink		
+			if($this->id_type == self::WORKSPACE_NODE_ID)
+			{	
+				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
+			}
+			// from editor (#10073)
+			else if($this->mayContribute())
 			{
 				$prvm = $_GET["prvm"];
 				$this->ctrl->setParameter($this, "prvm", "");
@@ -920,12 +924,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 				$this->ctrl->setParameter($this, "prvm", $prvm);
 			}
-			// from shared/deeplink
-			else
-			{
-				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
-			}
-			
 		}
 		// back 
 		else if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
