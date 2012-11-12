@@ -8026,7 +8026,7 @@ payment#:#pay_deleted_booking#:#The entry has been deleted.
 payment#:#pay_deleted_items#:#The selected items have been deleted.
 payment#:#pay_edit_abstract#:#Edit Abstract
 payment#:#pay_enable_shop_info#:#If activated the ILIAS webshop is available and objects can be bought.
-payment#:#pay_enable_shop#:#Enable Webshop
+payment#:#pay_enable_shop#:#Enable Shop
 payment#:#pay_ending#:#ends with
 payment#:#pay_entitled_retrieve#:#Entitled to retrieve data for
 payment#:#pay_epay_canceled#:#The payment was canceled.

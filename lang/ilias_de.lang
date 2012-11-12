@@ -9204,7 +9204,7 @@ payment#:#pay_customer_no#:#Kundennr.
 payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
 payment#:#pay_deleted_items#:#Die ausgewählten Artikel wurden gelöscht.
 payment#:#pay_edit_abstract#:#Abstract Bearbeiten
-payment#:#pay_enable_shop#:#Webshop aktivieren
+payment#:#pay_enable_shop#:#Shop aktivieren
 payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS-Webshop verfügbar und Objekte können von Benutzern gekauft werden.
 payment#:#pay_ending#:#hört auf mit
 payment#:#pay_entitled_retrieve#:#Berechtigt, Daten abzurufen für
