@@ -220,10 +220,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		 */
 
 		global $ilToolbar;
-		
-		if(!IS_PAYMENT_ENABLED)
-			$ilToolbar->addButton($this->lng->txt('check_shop_activation'),$this->ctrl->getLinkTarget($this,'checkShopActivation'));
-/**/
+		$ilToolbar->addButton($this->lng->txt('check_shop_activation'),$this->ctrl->getLinkTarget($this,'checkShopActivation'));
 
 		$this->getTabs($this->tabs_gui);
 
