@@ -4984,7 +4984,9 @@ class ilUtil
 	{
 		global $ilIliasIniFile;
 		
-		if($_SERVER['SHELL'])
+		if($_SERVER['SHELL'] || 
+			// fallback for windows systems, useful in crons
+			(class_exists("ilContext") && !ilContext::usesHTTP()))
 		{
 			return $ilIliasIniFile->readVariable('server', 'http_path');
 		}
