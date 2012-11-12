@@ -268,11 +268,11 @@ adve#:#adve_activation#:#Aktivierung
 adve#:#adve_grp_glo#:#Glossare
 adve#:#adve_grp_lm#:#ILIAS-Lernmodule
 adve#:#adve_grp_rep#:#Magazinseiten
-adve#:#adve_grp_scorm#:#SCORM bearbeiten
+adve#:#adve_grp_scorm#:#SCORM-Module
 adve#:#adve_grp_test#:#Test and Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
-adve#:#adve_pe_general#:#Allgemein
+adve#:#adve_pe_general#:#Semantische Auszeichner
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menü
 adve#:#adve_use_physical#:#str/emp/imp durch b/i/u ersetzen
@@ -528,7 +528,7 @@ assessment#:#feedback_answers#:#Rückmeldung für jede Antwort
 assessment#:#feedback_complete_solution#:#Richtige Lösung
 assessment#:#feedback_incomplete_solution#:#Mindestens eine Antwort ist nicht richtig
 assessment#:#file_uploads#:#Hochgeladene Dateien
-assessment#:#fileDownload#:#Dateidownload
+assessment#:#fileDownload#:#Datei-Download
 assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
 assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaare aus, bevor Sie ein Neues erzeugen
 assessment#:#fill_out_all_required_fields_add_answer#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen!
@@ -1835,11 +1835,11 @@ chatroom_adm#:#chatroom_smiley_image_only_if_changed#:#Bitte nur einen neuen Smi
 chatroom_adm#:#chatroom_smiley_keywords#:#Platzhalter
 chatroom_adm#:#chatroom_smiley_keywords_one_per_line_note#:#Ein Platzhalter pro Zeile
 chatroom_adm#:#chatroom_upload_smiley#:#Smiley hochladen
-chatroom_adm#:#chatserver_settings_title#:#Chatserver Einstellungen
+chatroom_adm#:#chatserver_settings_title#:#Chat-Server
 common#:#chta_edit_permission#:#Rechteeinstellungen ändern
-common#:#chta_read#:#Lesezugriff auf Chat Administration
-common#:#chta_visible#:#Chat Administration sichtbar
-common#:#chta_write#:#Chat Administration bearbeiten
+common#:#chta_read#:#Lesezugriff auf Chatraum-Administration
+common#:#chta_visible#:#Chatraum-Administration sichtbar
+common#:#chta_write#:#Chatraum-Administration bearbeiten
 chatroom_adm#:#client_settings#:#Allgemeine Einstellungen
 chatroom_adm#:#enable_osd#:#On-Screen Benachrichtigungen aktivieren
 chatroom_adm#:#general_settings_title#:#Allgemeine Chat-Einstellungen
@@ -1848,14 +1848,14 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#instance#:#Instanz
 chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#keystore#:#Keystore
-administration#:#obj_chta_desc#:#Chat Administration
+administration#:#obj_chta_desc#:#Administration des Chat-Tools und des Chat-Servers
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
 chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
 chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chatserver aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#priv_hosts#:#Bevorzugte Hosts
 chatroom_adm#:#protocol#:#Protokoll
-chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum Rechte
-chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum Einstellungen
+chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
+chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum : Einstellungen
 chatroom_adm#:#server_settings#:#Chatserver Einstellungen
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
 chatroom_adm#:#smiley#:#Smilies
@@ -2183,7 +2183,7 @@ common#:#auth_script#:#Benutzerdefiniert
 common#:#auth_script_desc#:#Authentifizierung über ein externes Skript
 common#:#auth_select#:#Authentifizierungsmethode wählen
 common#:#auth_selection#:#Anmeldungsart
-common#:#auth_settings#:#Authentifizierungseinstellungen
+common#:#auth_settings#:#Einstellungen
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shib_desc#:#Benutzer-Authentifizierung über Shibboleth - Kann als zweite Authentifizierungsmethode verwendet werden.
 common#:#auth_shib_instructions#:#Bitte lesen Sie die Hinweise (README) zur Konfiguration der Shibboleth-Unterstützung für ILIAS.
@@ -2243,7 +2243,7 @@ common#:#block_management#:#Blockmanagement
 common#:#bm#:#Bookmark
 common#:#bm_add_to_ilias#:#ILIAS-Bookmark
 common#:#bm_add_to_social_bookmarks#:#Speichere als Bookmark
-common#:#bm_manage_social_bm#:#Social-Bookmarks verwalten
+common#:#bm_manage_social_bm#:#Social Bookmarks verwalten
 common#:#bmf#:#Bookmark-Ordner
 common#:#bold#:#Fett
 rbac#:#book_edit_permission#:#Rechteeinstellungen für Buchungspool ändern
@@ -2675,7 +2675,7 @@ common#:#download#:#Herunterladen
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
-common#:#downloading_settings#:#Download-Einstellungen
+common#:#downloading_settings#:#Einstellungen
 common#:#drafts#:#Entwürfe
 common#:#drop#:#Entfernen
 common#:#edit#:#Bearbeiten
@@ -4762,7 +4762,7 @@ common#:#soap_wsdl_path#:#WSDL-Pfad
 common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
 common#:#socialbm_disable#:#Deaktivieren
 common#:#socialbm_enable#:#Aktivieren
-common#:#socialbm_extt_social_bookmarks#:#SocialBookmarks
+common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
 common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#125 und &#123;LINK&#125 benutzen, um an den entsprechenden Stellen automatisch den Titel bzw. Link einzufügen.
 common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
 common#:#sort_activation_header#:#Nach Zeitvorgaben
@@ -5427,7 +5427,7 @@ content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
 content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
-content#:#cont_download_no_download#:#Die Downloadfunktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
+content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_title#:#Titel der Download-Datei
 content#:#cont_downloads#:#Download anbieten
@@ -5770,7 +5770,7 @@ content#:#cont_nlist#:#Nummerierte Liste
 content#:#cont_no_access#:#Kein Zugriff
 content#:#cont_no_assign_itself#:#Das aktuelle Objekt kann nicht sich selbst zugeordnet werden
 content#:#cont_no_caption#:#Keine Legende
-content#:#cont_no_download_file_available#:#Zur Zeit ist keine öffentliche Downloaddatei verfügbar.
+content#:#cont_no_download_file_available#:#Zur Zeit ist keine öffentliche Download-Datei verfügbar.
 content#:#cont_no_glossary#:#Kein Glossar
 content#:#cont_no_manifest#:#Es wurde keine Datei namens imsmanifest.xml im Hauptverzeichnis gefunden.
 content#:#cont_no_object_found#:#Es konnte kein Objekt mit diesem Titel gefunden werden
@@ -8309,7 +8309,7 @@ mcst#:#mcst_downloadable_info#:#Wenn diese Option gesetzt ist, können Beiträge
 mcst#:#mcst_duration#:#Laufzeit
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
 mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
-mcst#:#mcst_edit_settings#:#Mediacast-Einstellungen
+mcst#:#mcst_edit_settings#:#Einstellungen
 mcst#:#mcst_entry#:#Mediacast-Beiträge
 mcst#:#mcst_file_extension_settings#:#Unterstützte Dateiformate
 mcst#:#mcst_global_settings#:#Globale Einstellungen
@@ -8428,7 +8428,7 @@ meta#:#md_delete_cp_sure#:#Möchten Sie wirklich die ausgewählten Vorgaben entf
 meta#:#md_delimiter#:#Trennzeichen
 meta#:#md_delimiter_info#:#Das Trennzeichen wird in der Schnellbearbeitung der Metadaten verwendet, um Angaben zu mehreren Schlagwörtern und Autoren zu trennen. Standardzeichen ist ','.
 meta#:#md_fields#:#Felder
-meta#:#md_general_settings#:#Allgemeine Einstellungen
+meta#:#md_general_settings#:#Einstellungen
 meta#:#md_months#:#Monate:
 meta#:#md_obj_types#:#Zugeordnete Objekte
 meta#:#md_record_export_table#:#Exportdateien
@@ -9011,7 +9011,7 @@ news#:#news_block_news_for_context#:#Nachrichten
 news#:#news_cache#:#Nachrichten-Cache (Minuten)
 news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
 news#:#news_default_visibility#:#Standardzugriff
-news#:#news_edit_news_settings#:#Einstellungen bearbeiten
+news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Nachrichten aktivieren
 news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
 news#:#news_enable_internal_rss#:#Aktiviere RSS für interne Nachrichten
@@ -9111,7 +9111,7 @@ payment#:#accept_terms_conditions#:#Sie müssen die %s akzeptieren um den Kauf f
 payment#:#activate_placeholders#:#Aktiviere Platzhalter
 payment#:#advanced_search#:#Erweiterte Suche
 payment#:#amount#:#Menge
-payment#:#billing_mail#:#Kaufbestätigungs-Email
+payment#:#billing_mail#:#E-Mail Kaufbestätigung
 payment#:#buy_extension#:#Verlängerung kaufen
 payment#:#check_shop_activation#:#Überprüfung der Shop-Einstellung zur Aktivierung
 payment#:#click_to_buy_info#:#Sie wurden nun erfolgreich angemeldet. Um den Bezahlvorgang Ihres Einkaufs fortzusetzen, akzeptieren Sie die AGB und klicken auf den "zur Kasse"-Button
@@ -9646,7 +9646,7 @@ pd#:#pd_osi_host#:#OSI-Host
 pd#:#pd_osi_host_info#:#Server zur Anzeige des Instant-Messenger-Online-Status (optional). Siehe:
 pd#:#pd_personal_items_default_view#:#Standard-Sicht
 pd#:#pd_personal_items_default_view_info#:#Wählen Sie hier die Standard-Sicht für die Ausgewählten Angebote.
-pd#:#pd_settings#:#Einstellungen Persönlicher Schreibtisch
+pd#:#pd_settings#:#Einstellungen
 pd#:#pd_time_before_removal#:#Maximaler Zeitraum für Inaktivität (in Minuten)
 pd#:#pd_time_before_removal_info#:#Nach Ablauf dieses Zeitraums, werden Benutzer aus der Liste der "Aktiven Benutzer" entfernt.
 pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Meine Kurse und Gruppen'.
@@ -10128,7 +10128,7 @@ registration#:#reg_role_assignment#:#Rollenzuordnung
 registration#:#reg_role_info#:#Rollen
 registration#:#reg_select_one#:#Bitte treffen Sie eine Auswahl.
 registration#:#reg_selectable_roles#:#Auswählbare Rollen
-registration#:#reg_settings_header#:#Einstellungen für die Neuanmeldung
+registration#:#reg_settings_header#:#Einstellungen
 registration#:#reg_type#:#Registrierungsart
 registration#:#reg_type_confirmation#:#Registrieren mit E-Mail-Bestätigung
 registration#:#reg_type_confirmation_info#:#Bei dieser Registrierungsmethode erhält der neue Benutzer zunächst per E-Mail-Adresse einen Bestätigungslink zugesandt. Wird dieser bestätigt, erfolgt die automatische Freischaltung des Benutzerkontos.
@@ -10152,7 +10152,7 @@ registration#:#registration_reg_type_codes_info#:#Bei dieser Registrierungsmetho
 registration#:#registration_roles_all#:#Alle Rollen
 registration#:#registration_settings#:#Neuanmeldungen
 registration#:#registration_tab_codes#:#Registrierungscodes
-registration#:#registration_tab_settings#:#Einstellungen für die Neuanmeldung
+registration#:#registration_tab_settings#:#Einstellungen
 registration#:#registration_used#:#Verbraucht am
 registration#:#registration_user_new_account_mail#:#Benachrichtigung über Neuanmeldung editieren
 rep#:#rep_dependencies#:#Abhängigkeiten
@@ -11974,7 +11974,7 @@ user#:#user_account_code_valid_until#:#Gültig bis
 user#:#user_account_code_valid_until_dynamic#:#Anzahl Tage
 user#:#user_account_code_valid_until_static#:#Enddatum
 user#:#user_account_code_valid_until_unlimited#:#Unlimitiert
-user#:#user_account_codes#:#Konten-Codes
+user#:#user_account_codes#:#Codes
 user#:#user_account_codes_add#:#Codes erzeugen
 user#:#user_account_codes_edit_header#:#Neue Codes erzeugen
 user#:#user_account_codes_export#:#Codes exportieren
