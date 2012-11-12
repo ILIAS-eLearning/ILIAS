@@ -1011,6 +1011,7 @@ class ilColumnGUI
 			}	
 			elseif($a_type == 'news')
 			{
+				include_once 'Services/Container/classes/class.ilContainer.php';
 				return 
 					$ilSetting->get('block_activated_news') &&
 					ilContainer::_lookupContainerSetting(
