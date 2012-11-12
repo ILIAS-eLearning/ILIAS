@@ -45,6 +45,7 @@ class ilCalendarSchedule
 	const TYPE_MONTH = 3;
 	const TYPE_INBOX = 4;
 	
+	protected $limit_events = -1;
 	protected $schedule = array();
 	protected $timezone;
 	protected $weekstart;
@@ -92,6 +93,33 @@ class ilCalendarSchedule
 	 	$this->timezone = $this->user->getTimeZone();
 	 	
 	 	$this->hidden_cat = ilCalendarHidden::_getInstanceByUserId($this->user->getId());
+	}
+	
+	/**
+	 * Check if events are limited
+	 * @return type
+	 */
+	protected function areEventsLimited()
+	{
+		return $this->limit_events != -1;
+	}
+	
+	/**
+	 * get current limit of events
+	 * @return type
+	 */
+	public function getEventsLimit()
+	{
+		return $this->limit_events;
+	}
+	
+	/**
+	 * Set events limit
+	 * @param type $a_limit
+	 */
+	public function setEventsLimit($a_limit)
+	{
+		$this->limit_events = $a_limit;
 	}
 	
 	/**
@@ -223,6 +251,11 @@ class ilCalendarSchedule
 								break;
 						}
 						$counter++;
+						if($this->areEventsLimited() && $counter >= $this->getEventsLimit())
+						{
+							break;
+						}
+						
 					}
 				}
 			}
@@ -254,10 +287,20 @@ class ilCalendarSchedule
 					}
 				}
 				$counter++;
+				if($this->areEventsLimited() && $counter >= $this->getEventsLimit())
+				{
+					break;
+				}
 			}
 		}
 	}
 	
+	public function getScheduledEvents()
+	{
+		return (array) $this->schedule;
+	}
+
+
 	/**
 	 * get new/changed events
 	 *
@@ -409,6 +452,12 @@ class ilCalendarSchedule
 				
 				$this->end = new ilDate($year_month.'-'.ilCalendarUtil::_getMaxDayOfMonth($year,$month),IL_CAL_DATE);
 				$this->end->increment(IL_CAL_DAY,6);
+				break;
+			
+			case self::TYPE_INBOX:
+				$this->start = $seed;
+				$this->end = clone $this->start;
+				$this->end->increment(IL_CAL_MONTH,3);
 				break;
 		}
 		

@@ -131,7 +131,10 @@ class ilCalendarInboxGUI
 		}
 
 		
-		$schedule = new ilCalendarSchedule($this->seed,ilCalendarSchedule::TYPE_INBOX);
+		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_INBOX);
+		$schedule->setEventsLimit(100);
+		$schedule->calculate();
+		
 		if(isset($_GET['changed']))
 		{
 			$title = $this->lng->txt('cal_changed_events_header');
@@ -143,7 +146,8 @@ class ilCalendarInboxGUI
 		{
 			// type inbox will show upcoming events (today or later)
 			$title = $this->lng->txt('cal_upcoming_events_header');
-			$events = $schedule->getEvents();
+			//$events = $schedule->getEvents();
+			$events = $schedule->getScheduledEvents();
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php');

@@ -59,10 +59,10 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 	 	
 		parent::__construct($a_parent_obj,$a_parent_cmd);
 		$this->setFormName('appointments');
-	 	$this->addColumn($this->lng->txt('title'),'title',"30%");
 	 	$this->addColumn($this->lng->txt('date'),'begin',"30%");
-	 	$this->addColumn($this->lng->txt('cal_duration'),'duration',"15%");
-	 	$this->addColumn($this->lng->txt('cal_recurrences'),'frequence',"10%");
+	 	$this->addColumn($this->lng->txt('title'),'title',"40%");
+	 	#$this->addColumn($this->lng->txt('cal_duration'),'duration',"15%");
+	 	$this->addColumn($this->lng->txt('cal_recurrences'),'frequence',"15%");
 	 	$this->addColumn($this->lng->txt('last_update'),'last_update',"15%");
 	 	
 	 	
@@ -123,10 +123,9 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 				break;
 			
 			default:
-				$this->tpl->setVariable('VAL_FREQUENCE',$this->lng->txt('cal_no_recurrence'));
-				break;	$this->addColumn($this->lng->txt('cal_duration'),'duration',"20%");
+				#$this->tpl->setVariable('VAL_FREQUENCE',$this->lng->txt('cal_no_recurrence'));
+				break;	
 		}
-		// TOD: Localization
 		if($a_set['fullday'])
 		{
 			$date =  ilDatePresentation::formatPeriod(
@@ -142,6 +141,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 			);
 		}
 		$this->tpl->setVariable('VAL_BEGIN',$date);
+		/*
 		if($a_set['duration'])
 		{
 			if($a_set['milestone'])
@@ -157,6 +157,7 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_DURATION','');
 		}
+		*/
 		$update = new ilDateTime($a_set['last_update'],IL_CAL_UNIX,$ilUser->getTimeZone());
 		$this->tpl->setVariable('VAL_LAST_UPDATE',ilDatePresentation::formatDate($update));
 		
@@ -175,19 +176,23 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 		include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
 		
 			
-		foreach($a_apps as $entry)
-		{
- 			$rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
+		foreach($a_apps as $event)
+		{			
+			$entry = $event['event'];
+			
+			$rec = ilCalendarRecurrences::_getFirstRecurrence($entry->getEntryId());
 			
 			$tmp_arr['id'] = $entry->getEntryId();
 			$tmp_arr['milestone'] = $entry->isMilestone();
 			$tmp_arr['title'] = $entry->getPresentationTitle();
 			$tmp_arr['description'] = $entry->getDescription();
 			$tmp_arr['fullday'] = $entry->isFullday();
- 			$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);
- 			$tmp_arr['end'] = $entry->getEnd()->get(IL_CAL_UNIX);
+ 			#$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);
+ 			#$tmp_arr['end'] = $entry->getEnd()->get(IL_CAL_UNIX);
  			
- 			#$tmp_arr['duration'] = ($dur = $tmp_arr['end'] - $tmp_arr['begin']) ? $dur : 60 * 60 * 24;
+			$tmp_arr['begin'] = $event['dstart'];
+			$tmp_arr['end'] = $event['dend'];
+			
  			$tmp_arr['duration'] = $tmp_arr['end'] - $tmp_arr['begin'];
  			if($tmp_arr['fullday'])
  			{
