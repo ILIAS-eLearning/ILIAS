@@ -7475,7 +7475,7 @@ exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
 exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
 exc#:#exc_create_blog#:#Blog erstellen
-exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der der Blog erstellt werden soll.
+exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das Blog erstellt werden soll.
 exc#:#exc_create_portfolio#:#Portfolio erstellen
 exc#:#exc_create_portfolio_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das e-Portfolio erstellt werden soll.
 exc#:#exc_deadline#:#Abgabetermin
@@ -7528,7 +7528,7 @@ exc#:#exc_save_order#:#Reihenfolge speichern
 exc#:#exc_saved_order#:#Reihenfolge gespeichert
 exc#:#exc_search_users#:#Benutzer suchen
 exc#:#exc_select_ass#:#Übungseinheit auswählen
-exc#:#exc_select_blog#:#Vorhandenen Blog nutzen
+exc#:#exc_select_blog#:#Vorhandenes Blog nutzen
 exc#:#exc_select_blog_change#:#Anderes Blog benutzen
 exc#:#exc_select_blog_info#:#Bitte wählen Sie eines Ihrer Blogs, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_select_part#:#Teilnehmer auswählen
@@ -12298,11 +12298,11 @@ rbac#:#blog_copy#:#Blog kopieren
 rbac#:#blog_write#:#Blog bearbeiten
 rbac#:#blog_delete#:#Blog löschen
 rbac#:#blog_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#crs_create_blog#:#Neuen Blog anlegen
-rbac#:#root_create_blog#:#Neuen Blog anlegen
-rbac#:#fold_create_blog#:#Neuen Blog anlegen
-rbac#:#grp_create_blog#:#Neuen Blog anlegen
-rbac#:#cat_create_blog#:#Neuen Blog anlegen
+rbac#:#crs_create_blog#:#Neues Blog anlegen
+rbac#:#root_create_blog#:#Neues Blog anlegen
+rbac#:#fold_create_blog#:#Neues Blog anlegen
+rbac#:#grp_create_blog#:#Neues Blog anlegen
+rbac#:#cat_create_blog#:#Neues Blog anlegen
 help#:#help_tooltips#:#Hilfe-Tool-Tipps
 help#:#help_tooltip_id#:#Tool-Tipp-ID
 help#:#help_tt_text#:#Text
@@ -12909,7 +12909,7 @@ blog#:#blog_contributors#:#Autoren
 blog#:#blog_add_contributor#:#Autor hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 blog#:#blog_contributor_container_add#:#Benutzer aus Kurs/Gruppe hinzufügen
-common#:#il_blog_contributor#:#Blog Autor
+common#:#il_blog_contributor#:#Blog-Autor
 rbac#:#blog_contribute#:#Benutzer darf mitwirken
 blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
 dcl#:#dcl_no_content_warning#:#Achtung, die Data Collection ist jetzt online hat aber noch keinen Inhalt!
