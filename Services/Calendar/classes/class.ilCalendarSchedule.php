@@ -365,12 +365,6 @@ class ilCalendarSchedule
 			}
 		
 		}
-		/*
-		foreach($events as $event)
-		{
-			var_dump("<pre>",$event->getTitle(),"</pre>");
-		}
-		*/
 		return $events;
 	}
 	
