@@ -276,15 +276,19 @@ class ilExAssignmentGUI
 						{													
 							$delivered_files = array_pop($delivered_files);
 							$blog_id = (int)$delivered_files["filetitle"];																
-							
+														
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
 							$wsp_tree = new ilWorkspaceTree($ilUser->getId());
 							$node = $wsp_tree->getNodeData($blog_id);
 							
 							if($node["title"])
-							{				
-								$blog_link = ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]);							
+							{
+								// #10116
+								// $blog_link = ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]);							
+								$ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $blog_id);
+								$blog_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpersonalworkspacegui", "ilobjbloggui"), "");
+								$ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", "");
 								$files_str = '<a href="'.$blog_link.'">'.
 									$node["title"].'</a>';
 								$valid_blog = true;
@@ -330,8 +334,14 @@ class ilExAssignmentGUI
 							$portfolio = new ilObjPortfolio($portfolio_id, false);											
 							
 							if($portfolio->getTitle())
-							{
-								$files_str = '<a href="'.ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id).
+							{								
+								// #10116
+								// $prtf_link = ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id)						
+								$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
+								$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilobjportfoliogui"), "pages");
+								$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
+								
+								$files_str = '<a href="'.$prtf_link.
 									'">'.$portfolio->getTitle().'</a>';
 								$valid_prtf = true;
 							}
