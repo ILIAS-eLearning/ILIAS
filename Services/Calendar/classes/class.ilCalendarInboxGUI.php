@@ -133,6 +133,7 @@ class ilCalendarInboxGUI
 		
 		$schedule = new ilCalendarSchedule(new ilDate(time(),IL_CAL_UNIX),ilCalendarSchedule::TYPE_INBOX);
 		$schedule->setEventsLimit(100);
+		$schedule->addSubitemCalendars(true);
 		$schedule->calculate();
 		
 		if(isset($_GET['changed']))
