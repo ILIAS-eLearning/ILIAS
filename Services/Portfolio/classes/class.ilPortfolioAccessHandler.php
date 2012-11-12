@@ -296,7 +296,8 @@ class ilPortfolioAccessHandler
 			" JOIN usr_portf_acl acl ON (acl.node_id = obj.obj_id)".
 			" JOIN usr_data u on (u.usr_id = obj.owner)".
 			" WHERE ".$ilDB->in("acl.object_id", $obj_ids, "", "integer").
-			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer"));
+			" AND obj.owner <> ".$ilDB->quote($ilUser->getId(), "integer").
+			" ORDER BY u.lastname, u.firstname, u.title");
 		while ($row = $ilDB->fetchAssoc($set))
 		{
 			$user_ids[$row["owner"]] = $row["lastname"].", ".$row["firstname"];
@@ -306,7 +307,6 @@ class ilPortfolioAccessHandler
 			}
 		}
 		
-		asort($user_ids);
 		return $user_ids;
 	}
 	
