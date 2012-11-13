@@ -13571,3 +13571,15 @@ if(!$ilDB->tableColumnExists('ecs_cms_data','deleted'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3794>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'pass_deletion_allowed') )
+{
+	$ilDB->addTableColumn('tst_tests', 'pass_deletion_allowed', array(
+			'type'		=> 'integer',
+			'length'	=> 4,
+			'notnull'	=> true,
+			'default'	=> 0
+	));
+}
+?>

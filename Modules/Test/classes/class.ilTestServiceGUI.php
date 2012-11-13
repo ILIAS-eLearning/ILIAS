@@ -179,12 +179,15 @@ class ilTestServiceGUI
 							$this->ctrl->getLinkTargetByClass($targetclass, $targetcommand)
 						);
 						
-						$aslgui->addItem(
-							$this->lng->txt("delete"), 
-							'tst_pass_delete', 
-							$this->ctrl->getLinkTargetByClass($targetclass, 'confirmDeletePass')
-						);
-
+						if( $this->object->isPassDeletionAllowed() )
+						{
+							$aslgui->addItem(
+								$this->lng->txt("delete"), 
+								'tst_pass_delete', 
+								$this->ctrl->getLinkTargetByClass($targetclass, 'confirmDeletePass')
+							);
+						}
+						
 						// Suppress output of advanced selection list for pdf-generation as solution for Mantis #9359 
 						if (!($_GET['pdf'] == 1))
 						{

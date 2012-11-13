@@ -1118,6 +1118,9 @@ assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
+assessment#:#tst_pass_deletion#:#Deletion of Test Passes
+assessment#:#tst_pass_deletion_not_allowed#:#Participants are NOT allowed to delete their own test passes
+assessment#:#tst_pass_deletion_allowed#:#Participants are allowed to delete their own test passes
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account

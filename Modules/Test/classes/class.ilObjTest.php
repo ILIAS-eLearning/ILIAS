@@ -431,6 +431,14 @@ class ilObjTest extends ilObject
 	
 	protected $autosave;
 	protected $autosave_ival;
+	
+	/**
+	 * defines wether it is possible for users
+	 * to delete their own test passes or not
+	 *
+	 * @var boolean
+	 */
+	private $passDeletionAllowed = null;
 
 	/**
 	* Constructor
@@ -1242,7 +1250,8 @@ class ilObjTest extends ilObject
 				'online_status' => array('integer', (int) $this->isOnline()),
 				'specific_feedback' => array('integer', (int)$this->getSpecificAnswerFeedback()),
 				'autosave' => array('integer', (int)$this->getAutosave()),
-				'autosave_ival' => array('integer', (int)$this->getAutosaveIval())
+				'autosave_ival' => array('integer', (int)$this->getAutosaveIval()),
+				'pass_deletion_allowed' => array('integer', (int)$this->isPassDeletionAllowed())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1280,7 +1289,7 @@ class ilObjTest extends ilObject
 				"offer_question_hints = %s, highscore_enabled = %s, highscore_anon = %s, highscore_achieved_ts = %s, " . 
 				"highscore_score = %s, highscore_percentage = %s, ".
 				"highscore_hints = %s, highscore_wtime = %s, highscore_own_table = %s, highscore_top_table = %s, highscore_top_num = %s, " .
-				"online_status = %s, specific_feedback = %s, obligations_enabled = %s, autosave = %s, autosave_ival = %s ".
+				"online_status = %s, specific_feedback = %s, obligations_enabled = %s, autosave = %s, autosave_ival = %s, pass_deletion_allowed = %s ".
 				"WHERE test_id = %s",
 				array(
 					'text', 'text', 
@@ -1295,7 +1304,7 @@ class ilObjTest extends ilObject
 					'integer', 'integer', 'integer', 'integer', 
 					'integer', 'integer', 
 					'integer', 'integer', 'integer', 'integer', 'integer', 
-					'integer', 'integer','integer', 'integer', 'integer',
+					'integer', 'integer','integer', 'integer', 'integer', 'integer',
 					'integer'
 				),
 				array(
@@ -1368,6 +1377,7 @@ class ilObjTest extends ilObject
 					(int)$this->areObligationsEnabled(),
 					$this->getAutosave(),
 					$this->getAutosaveIval(),
+					(int)$this->isPassDeletionAllowed(),
 					$this->getTestId()
 				)
 			);
@@ -2180,6 +2190,7 @@ class ilObjTest extends ilObject
 			$this->setSpecificAnswerFeedback((int) $data->specific_feedback);
 			$this->setAutosave((bool)$data->autosave);
 			$this->setAutosaveIval((int)$data->autosave_ival);
+			$this->setPassDeletionAllowed($data->pass_deletion_allowed);
 			$this->loadQuestions();
 		}
 		
@@ -9650,7 +9661,8 @@ function getAnswerFeedbackPoints()
 			"exportsettings" => $this->getExportSettings(),
 			"ListOfQuestionsSettings" => $this->getListOfQuestionsSettings(),
 			'obligations_enabled' => (int)$this->areObligationsEnabled(),
-			'offer_question_hints' => (int)$this->isOfferingQuestionHintsEnabled()
+			'offer_question_hints' => (int)$this->isOfferingQuestionHintsEnabled(),
+			'pass_deletion_allowed' => (int)$this->isPassDeletionAllowed()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9722,6 +9734,7 @@ function getAnswerFeedbackPoints()
 		$this->setHighscoreOwnTable($testsettings['highscore_own_table']);
 		$this->setHighscoreTopTable($testsettings['highscore_top_table']);
 		$this->setHighscoreTopNum($testsettings['highscore_top_num']);
+		$this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
 
 		$this->saveToDb();
 
@@ -11328,5 +11341,25 @@ function getAnswerFeedbackPoints()
 		return (
 			!$this->isRandomTest() && count($this->questions) > 0
 		);
+	}
+	
+	/**
+	 * getter for the test setting passDeletionAllowed
+	 * 
+	 * @return integer
+	 */
+	public function isPassDeletionAllowed()
+	{
+		return $this->passDeletionAllowed;
+	}
+	
+	/**
+	 * setter for the test setting passDeletionAllowed
+	 * 
+	 * @return integer
+	 */
+	public function setPassDeletionAllowed($passDeletionAllowed)
+	{
+		$this->passDeletionAllowed = (bool)$passDeletionAllowed;
 	}
 }

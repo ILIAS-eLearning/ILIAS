@@ -1122,6 +1122,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setExportSettingsSingleChoiceShort((is_array($_POST['export_settings']) && in_array('exp_sc_short', $_POST['export_settings'])) ? 1 : 0);
 
 			$this->object->setPrintBestSolutionWithResult((int) $_POST['print_bs_with_res'] ? true : false);
+			
+			$this->object->setPassDeletionAllowed((bool)$_POST['pass_deletion_allowed']);
 
 			$this->object->saveToDb(true);
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), TRUE);
@@ -1315,6 +1317,13 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		$form->addItem($results_presentation);
 
+		// deletion of test results
+		$passDeletion = new ilRadioGroupInputGUI($this->lng->txt("tst_pass_deletion"), "pass_deletion_allowed");
+		$passDeletion->addOption(new ilRadioOption($this->lng->txt("tst_pass_deletion_not_allowed"), 0, ''));
+		$passDeletion->addOption(new ilRadioOption($this->lng->txt("tst_pass_deletion_allowed"), 1, ''));
+		$passDeletion->setValue($this->object->isPassDeletionAllowed());
+		$form->addItem($passDeletion);
+		
 		// export settings
 		$export_settings = new ilCheckboxGroupInputGUI($this->lng->txt("tst_export_settings"), "export_settings");
 		$export_settings->addOption(new ilCheckboxOption($this->lng->txt("tst_exp_sc_short"), 'exp_sc_short', ''));
