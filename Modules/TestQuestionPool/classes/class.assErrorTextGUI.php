@@ -423,7 +423,7 @@ class assErrorTextGUI extends assQuestionGUI
 			if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
 			{
 				// edit page
-				$ilTabs->addTarget("edit_content",
+				$ilTabs->addTarget("edit_page",
 					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"),
 					array("edit", "insert", "exec_pg"),
 					"", "", $force_active);
@@ -442,7 +442,7 @@ class assErrorTextGUI extends assQuestionGUI
 			$url = "";
 			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
 			// edit question properties
-			$ilTabs->addTarget("edit_properties",
+			$ilTabs->addTarget("edit_question",
 				$url,
 				array("editQuestion", "save", "saveEdit", "analyze", "originalSyncForm"),
 				$classname, "", $force_active);
