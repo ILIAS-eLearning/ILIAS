@@ -1372,6 +1372,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	
 	public function confirmDeletePass()
 	{
+		if( !$this->object->isPassDeletionAllowed() )
+		{
+			$this->ctrl->redirect($this, 'outUserResultsOverview');
+		}
+		
 		global $tpl;
 		require_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
@@ -1388,6 +1393,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	
 	public function performDeletePass()
 	{
+		if( !$this->object->isPassDeletionAllowed() )
+		{
+			$this->ctrl->redirect($this, 'outUserResultsOverview');
+		}
+		
 			global $ilDB;
 
 			$active_fi = $_GET['active_id'];
