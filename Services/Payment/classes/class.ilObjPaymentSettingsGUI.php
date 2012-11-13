@@ -9,7 +9,7 @@
 * @author Jens Conze <jc@databay.de> 
 * @version $Id$
 * 
-* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI
+* @ilCtrl_Calls ilObjPaymentSettingsGUI: ilPermissionGUI, ilShopTopicsGUI, ilPageObjectGUI, ilRepositorySearchGUI
 * 
 * @extends ilObjectGUI
 * @package ilias-core
@@ -29,6 +29,7 @@ include_once './Services/Payment/classes/class.ilPaymentCurrency.php';
 include_once './Services/Payment/classes/class.ilShopTableGUI.php';
 include_once './Services/Payment/classes/class.ilInvoiceNumberPlaceholdersPropertyGUI.php';
 include_once './Services/Payment/classes/class.ilUserDefinedInvoiceNumber.php';
+include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 
 class ilObjPaymentSettingsGUI extends ilObjectGUI
 {
@@ -127,7 +128,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if(count($pm_array) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt('please_activate_one_paymethod'));
-			return $this->payMethodsObject();
+			$this->payMethodsObject();
+			return false;
 		}
 
 		foreach($pm_array as $paymethod)
@@ -149,7 +151,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					{
 						ilUtil::sendInfo($this->lng->txt('please_enter_bmf_data'));
 						$this->bmfSettingsObject();
-						return true;
+						return false;
+
 					}
 					break;
 				case 'paypal':
@@ -161,7 +164,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					{
 						ilUtil::sendInfo($this->lng->txt('please_enter_paypal_data'));
 						$this->paypalSettingsObject();
-						return true;
+						return false;
 					}
 					break;
 				case 'epay':
@@ -186,8 +189,9 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$check= ilShopVats::_readAllVats();
 		if(count($check) == 0)
 		{
-			ilUtil::sendInfo('please_enter_vats');
-			return $this->vatsObject();
+			ilUtil::sendInfo($this->lng->txt('please_enter_vats'));
+			$this->vatsObject();
+			return false;
 		}
 // check vendors
 		$vendors = $this->vendors_obj->getVendors();
@@ -195,7 +199,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		if(count($vendors)  == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt('please_create_vendor'));
-			return $this->vendorsObject();
+			$this->vendorsObject();
+			return false;
 		}
 
 // everything ok
@@ -226,6 +231,18 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		switch($next_class)
 		{
+			case 'ilrepositorysearchgui':
+				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
+				$rep_search =& new ilRepositorySearchGUI();
+
+					$rep_search->setCallback($this,
+						'addVendorObject', array()
+					);
+				
+				$this->ctrl->setReturn($this,'vendors');
+				$ret =& $this->ctrl->forwardCommand($rep_search);
+				break;
+			
 			case 'ilpermissiongui':
 				include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
 				$perm_gui = new ilPermissionGUI($this);
@@ -2572,7 +2589,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$genSet->set('topics_sorting_type', $_POST['topics_sorting_type'], 'gui');
 		$genSet->set('topics_sorting_direction', $_POST['topics_sorting_direction'], 'gui');
 		$genSet->set('max_hits', $_POST['max_hits'], 'gui');
-		$genSet->set('shop_enabled', $_POST['shop_enabled'], 'common');
+
 		$genSet->set('hide_advanced_search', $_POST['hide_advanced_search'], 'gui');
 		#$genSet->set('hide_filtering', $_POST['hide_filtering'], 'gui');
 		$genSet->set('objects_allow_custom_sorting', $_POST['objects_allow_custom_sorting'], 'gui');
@@ -2588,6 +2605,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		$ilSetting->set('payment_notification', $_POST['payment_notification'] ? 1 : 0);
 		$ilSetting->set('payment_notification_days', $_POST['payment_notification_days']);
 
+		$check = $this->checkShopActivationObject();
+		if($check == true)
+		{
+			$genSet->set('shop_enabled', 1, 'common');
+		}
+		else
+		{
+			$genSet->set('shop_enabled', 0, 'common');
+		}
 		ilUtil::sendSuccess($this->lng->txt('pays_updated_general_settings'));
 
 		$this->generalSettingsObject();
@@ -3090,13 +3116,15 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	
 		$this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.main_view.html','Services/Payment');
 
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-		$ul = new ilTextInputGUI($this->lng->txt("user"), "search_str");
-		$ul->setDataSource($this->ctrl->getLinkTarget($this, "search", "", true));
-		$ul->setSize(20);
-		$ilToolbar->addInputItem($ul, true);
-		$ilToolbar->addFormButton($this->lng->txt("add"), "search");
-		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+		// add vendors
+		ilRepositorySearchGUI::fillAutoCompleteToolbar(
+			$this,
+			$ilToolbar,
+			array(
+				'auto_complete_name'	=> $this->lng->txt('user'),
+				'user_type'				=> null,
+				'submit_name'			=> $this->lng->txt('add')
+			));
 
 		if(!count($vendors = $this->vendors_obj->getVendors()))
 		{
@@ -3129,6 +3157,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 					}
 				}
 			} // END VENDORS TABLE
+			
+			if(count($vendors) == count($_SESSION['pays_vendor']))
+			{
+				ilUtil::sendInfo($this->lng->txt('shop_disabled_no_vendors'));
+				$_SESSION['disable_shop'] = true;
+			}
 			$this->tpl->setVariable('CONFIRMATION', $oConfirmationGUI->getHTML());	#
 			return true;		
 		}
@@ -3433,9 +3467,21 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		$askForDeletingAddresses = array();
 
+		$pm_enabled = array();
+		if(is_array($_POST['pm_enabled']) )
+		{
+			$pm_enabled  = $_POST['pm_enabled'];
+		}
+		else if($_POST['pm_enabled'] == NULL)
+		{
+			ilUtil::sendInfo($this->lng->txt('shop_disabled_no_paymethods'));
+			$this->genSetData->set('shop_enabled', 0, 'common');
+			$_SESSION['disable_shop'] = false;
+		}
+		
 		for($i = 1; $i <= $count_pm; $i++)
 		{
-			if(!array_key_exists($i,$_POST['pm_enabled']) && ilPayMethods::_PmEnabled($i) == 1)
+			if(!array_key_exists($i, $pm_enabled) && ilPayMethods::_PmEnabled($i) == 1)
 			{
 				if(ilPaymentObject::_getCountObjectsByPayMethod($i))
 				{
@@ -3447,7 +3493,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 				else ilPayMethods::_PMdisable($i);
 			}
 			else 
-			if(!array_key_exists($i,$_POST['pm_enabled']) && ilPayMethods::_PmEnabled($i) == 0)
+			if(!array_key_exists($i, $pm_enabled) && ilPayMethods::_PmEnabled($i) == 0)
 			{
 				continue;
 			}
@@ -3469,7 +3515,6 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			{ 
 				ilPayMethods::_enableSaveUserAddress($i);	
 			}
-
 		}
 		$tmp = $this->payMethodsObject($askForDeletingAddresses);
 		if(!$askForDeletingAddresses)
@@ -3481,6 +3526,7 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	public function cancelDeleteVendorsObject()
 	{
 		unset($_SESSION['pays_vendor']);
+		$_SESSION['disable_shop'] = false;
 		$this->vendorsObject();
 
 		return true;
@@ -3536,6 +3582,11 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 
 		ilUtil::sendInfo($this->lng->txt('pays_deleted_number_vendors').' '.count($_SESSION['pays_vendor']));
 		unset($_SESSION['pays_vendor']);
+		if($_SESSION['disable_shop'] == true)
+		{
+			$this->genSetData->set('shop_enabled', 0, 'common');
+			$_SESSION['disable_shop'] = false;
+		}
 		
 		$this->vendorsObject();
 
@@ -3768,14 +3819,14 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		{
 			$this->ilErr->raiseError($this->lng->txt('msg_no_perm_write'),$this->ilErr->MESSAGE);
 		}
-		if(!$_POST['vendor_login'])
+		if(!$_POST['user_login'])
 		{
 			ilUtil::sendFailure($this->lng->txt('pays_no_username_given'));
 			$this->vendorsObject();
 
 			return true;
 		}
-		if(!($usr_id = ilObjUser::getUserIdByLogin(ilUtil::stripSlashes($_POST['vendor_login']))))
+		if(!($usr_id = ilObjUser::getUserIdByLogin(ilUtil::stripSlashes($_POST['user_login']))))
 		{
 			ilUtil::sendFailure($this->lng->txt('pays_no_valid_username_given'));
 			$this->vendorsObject();
@@ -4405,6 +4456,8 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 		
 		$result = array();
 		
+		$_SESSION['count_vats'] = $oShopVatsList->getNumItems();
+		
 		if($oShopVatsList->hasItems())
 		{
 			$tbl->enable('select_all');				
@@ -4451,6 +4504,12 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			$_POST['vat_id'][] = $_GET['vat_id']; 	
 		}		
 
+		if($_SESSION['count_vats'] == count($_POST['vat_id']))
+		{
+			ilUtil::sendInfo($this->lng->txt('shop_disabled_no_vats'));
+			$_SESSION['disable_shop'] = true;
+		}
+		
 		$c_gui = new ilConfirmationGUI();
 		$c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDeleteVat'));
 		$c_gui->setHeaderText($this->lng->txt('paya_sure_delete_vats'));
@@ -4503,10 +4562,16 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 			catch(ilShopException $e)
 			{
 				ilUtil::sendInfo($e->getMessage());
+				$_SESSION['disable_shop'] = false;
 				return $this->vatsObject();				
 			}
 		}
 		
+		if($_SESSION['disable_shop'] == true)
+		{
+			$this->genSetData->set('shop_enabled', 0, 'common');
+			$_SESSION['disable_shop'] = false;
+		}
 		ilUtil::sendSuccess($this->lng->txt('payment_vat_deleted_successfully'));		
 		return $this->vatsObject();
 	}

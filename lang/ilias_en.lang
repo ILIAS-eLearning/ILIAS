@@ -8268,7 +8268,7 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
 payment#:#payment_tax_rates#:#Tax Rates
 payment#:#payment_vat_administration#:#Administration
 payment#:#payment_vat_already_created#:#A VAT with this rate is already created.
-payment#:#payment_vat_deleted_successfully#:#Den/de valgte satser blev slettet.
+payment#:#payment_vat_deleted_successfully#:#The chosen vats were deleted successfully
 payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
 payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.
 payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.
