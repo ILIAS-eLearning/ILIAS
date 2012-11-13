@@ -49,7 +49,7 @@ class ilShopController
 	{
 		global $ilCtrl, $ilErr, $lng, $tpl;
 
-		$this->ilErrs = $ilErr;
+		$this->ilErr = $ilErr;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
 		$this->tpl = $tpl;

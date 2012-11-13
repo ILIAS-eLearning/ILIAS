@@ -13567,3 +13567,7 @@ if(!$ilDB->tableColumnExists('ecs_cms_data','deleted'))
 		);
 }
 ?>
+<#3793>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
