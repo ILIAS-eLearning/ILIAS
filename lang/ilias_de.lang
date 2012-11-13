@@ -466,8 +466,8 @@ assessment#:#ects_range_error_d#:#Bitte geben Sie einen Wert zwischen 0 und 100 
 assessment#:#ects_range_error_e#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note E an!
 assessment#:#ects_use_fx_grade#:#Verwenden der ECTS-Note 'FX', wenn die durchgefallenen Teilnehmer mindestens
 assessment#:#ects_use_fx_grade_part2#:#Prozent der Gesamtpunktezahl erreicht haben.
-assessment#:#edit_content#:#Inhalt bearbeiten
-assessment#:#edit_properties#:#Eigenschaften bearbeiten
+assessment#:#edit_page#:#Seite bearbeiten
+assessment#:#edit_question#:#Frage bearbeiten
 assessment#:#edit_test_questions#:#Listenansicht
 assessment#:#element_height#:#Minimale Höhe
 assessment#:#element_height_info#:#Dieser Wert legt die minimale Höhe von Termen und Definitionen/Bildern während der Testausgabe fest.

@@ -867,7 +867,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 			if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
 			{
 				// edit page
-				$ilTabs->addTarget("edit_content",
+				$ilTabs->addTarget("edit_page",
 					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"),
 					array("edit", "insert", "exec_pg"),
 					"", "", $force_active);
@@ -897,7 +897,7 @@ class assOrderingQuestionGUI extends assQuestionGUI
 				}
 			}
 			// edit question properties
-			$ilTabs->addTarget("edit_properties",
+			$ilTabs->addTarget("edit_question",
 				$url,
 				array("editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "changeToPictures", "uploadanswers", "changeToText", "upanswers", "downanswers", "originalSyncForm"),
 				$classname, "", $force_active);

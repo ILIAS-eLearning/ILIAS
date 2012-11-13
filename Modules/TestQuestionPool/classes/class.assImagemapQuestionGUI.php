@@ -810,7 +810,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 			if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
 			{
 				// edit page
-				$ilTabs->addTarget("edit_content",
+				$ilTabs->addTarget("edit_page",
 					$this->ctrl->getLinkTargetByClass("ilPageObjectGUI", "edit"),
 					array("edit", "insert", "exec_pg"),
 					"", "", $force_active);
@@ -833,7 +833,7 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$force_active = true;
 			}
 			// edit question properties
-			$ilTabs->addTarget("edit_properties",
+			$ilTabs->addTarget("edit_question",
 				$url,
 				array("editQuestion", "save", "addArea", "addRect", "addCircle", "addPoly", 
 					 "uploadingImage", "uploadingImagemap", "areaEditor",
