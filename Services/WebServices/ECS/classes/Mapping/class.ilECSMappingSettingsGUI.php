@@ -116,7 +116,7 @@ class ilECSMappingSettingsGUI
 	protected function cStart()
 	{
 		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
-		if(!ilECSNodeMappingSettings::getInstance()->isEnabled() or 0)
+		if(!ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled() or 0)
 		{
 			return $this->cSettings();
 		}
@@ -160,38 +160,46 @@ class ilECSMappingSettingsGUI
 	 */
 	protected function initFormCSettings()
 	{
+		include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+		
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('settings'));
 
+		// individual course allocation
+		$check = new ilCheckboxInputGUI($this->lng->txt('ecs_cmap_enable'), 'enabled');
+		$check->setChecked(ilECSNodeMappingSettings::getInstance()->isCourseAllocationEnabled());
+		$form->addItem($check);
+		
+		
 		// add default container
-		$imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'),'import_id');
+		$imp = new ilCustomInputGUI($this->lng->txt('ecs_cmap_def_cat'),'default_cat');
 		$imp->setRequired(true);
 
 		$tpl = new ilTemplate('tpl.ecs_import_id_form.html',true,true,'Services/WebServices/ECS');
 		$tpl->setVariable('SIZE',5);
 		$tpl->setVariable('MAXLENGTH',11);
-		$tpl->setVariable('POST_VAR','import_id');
-#		$tpl->setVariable('PROPERTY_VALUE',$this->rule->getContainerId());
+		$tpl->setVariable('POST_VAR','default_cat');
 
-		#if($this->settings->getImportId())
+		$default = ilECSNodeMappingSettings::getInstance()->getDefaultCourseCategory();
+		$tpl->setVariable('PROPERTY_VALUE',$default);
+
+		if($default)
 		{
-		#	$tpl->setVariable('COMPLETE_PATH',$this->buildPath($this->rule->getContainerId()));
+			include_once './Services/Tree/classes/class.ilPathGUI.php';
+			
+			$path = new ilPathGUI();
+			$tpl->setVariable('COMPLETE_PATH',$path->getPath(ROOT_FOLDER_ID, $default));
 		}
 
 		$imp->setHTML($tpl->get());
-		$imp->setInfo($this->lng->txt('ecs_import_id_info'));
+		$imp->setInfo($this->lng->txt('ecs_cmap_default_category'));
 		$form->addItem($imp);
 
-		// individual course allocation
-		$check = new ilCheckboxInputGUI($this->lng->txt('ecs_individual_alloc'), 'individual');
-		$check = new ilCheckboxInputGUI('Individual Allocation', 'individual');
-		#$check->setInfo($this->lng->txt('ecs_individual_alloc'));
-		$form->addItem($check);
 
 		#$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
-		$form->addCommandButton('cSettings',$this->lng->txt('save'));
+		$form->addCommandButton('cUpdateSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cSettings', $this->lng->txt('cancel'));
 
 		return $form;
@@ -201,7 +209,7 @@ class ilECSMappingSettingsGUI
 	 * Show directory allocation
 	 * @global ilTabsGUI $ilTabs
 	 */
-	protected function dSettings()
+	protected function dSettings(ilPropertyFormGUI $form = NULL)
 	{
 		global $ilTabs;
 
@@ -210,13 +218,38 @@ class ilECSMappingSettingsGUI
 		$ilTabs->activateTab('ecs_dir_allocation');
 		$ilTabs->activateSubTab('dSettings');
 
-		$form = $this->initFormDSettings();
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormDSettings();
+		}
 
 		$GLOBALS['tpl']->setContent($form->getHTML());
 
-
-
 		return true;
+	}
+	
+	/**
+	 * Update course settings
+	 */
+	protected function cUpdateSettings()
+	{
+		$form = $this->initFormCSettings();
+		if(!$form->checkInput())
+		{
+			include_once './Services/WebServices/ECS/classes/Mapping/class.ilECSNodeMappingSettings.php';
+			$settings = ilECSNodeMappingSettings::getInstance();
+			$settings->enableCourseAllocation($form->getInput('enabled'));
+			$settings->setDefaultCourseCategory($form->getInput('default_cat'));
+			$settings->update();
+			
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+			$GLOBALS['ilCtrl']->redirect($this,'cSettings');
+		}
+		
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		$form->setValuesByPost();
+		$this->cSettings($form);
 	}
 
 	/**

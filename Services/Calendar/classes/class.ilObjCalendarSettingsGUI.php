@@ -20,6 +20,8 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
+include_once('./Services/Object/classes/class.ilObjectGUI.php');
+
 
 /** 
 *
@@ -30,9 +32,6 @@
 * @ilCtrl_Calls ilObjCalendarSettingsGUI: ilPermissionGUI
 * @ingroup ServicesCalendar
 */
-
-include_once('./Services/Object/classes/class.ilObjectGUI.php');
-
 class ilObjCalendarSettingsGUI extends ilObjectGUI
 {
 

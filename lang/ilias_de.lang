@@ -12999,4 +12999,9 @@ ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
 webr#:#invalid_links_tbl#:#Ungültige Links
-common#:#obj_tool_setting_news#:#News anzeigen
+common#:#obj_ecss#:#ECS
+common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
+rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
+rbac#:#ecss_read#:#Lesezugriff auf Einstellungen der ECS-Administration
+rbac#:#ecss_visible#:#ECS-Administration ist sichtbar
+rbac#:#ecss_write#:#Einstellungen der ECS-Administration bearbeiten
