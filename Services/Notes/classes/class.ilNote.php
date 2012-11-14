@@ -507,9 +507,12 @@ class ilNote
 			while($rep_rec = $ilDB->fetchAssoc($set))
 			{
 				// #9343: deleted objects
-				if(ilObject::_lookupType($rep_rec["rep_obj_id"]))
+				if ($type = ilObject::_lookupType($rep_rec["rep_obj_id"]))
 				{
-					$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+					if (ilNote::commentsActivated($rep_rec["rep_obj_id"], "", $type))
+					{
+						$reps[] = array("rep_obj_id" => $rep_rec["rep_obj_id"]);
+					}
 				}
 			}
 			
@@ -541,7 +544,11 @@ class ilNote
 					}
 					if ($add)
 					{
-						$reps[] = array("rep_obj_id" => $rec["rep_obj_id"]);
+						$type = ilObject::_lookupType($rec["rep_obj_id"]);
+						if (ilNote::commentsActivated($rec["rep_obj_id"], "", $type))
+						{
+							$reps[] = array("rep_obj_id" => $rec["rep_obj_id"]);
+						}
 					}
 				}
 			}
