@@ -11,8 +11,21 @@ class ilECSNodeMappingSettings
 	private $storage = null;
 
 	
+	/**
+	 * Directory allocation
+	 * @var type 
+	 */
 	private $directory_active = false;
 	private $create_empty_containers = false;
+	
+	/**
+	 * Course allocation
+	 */
+	private $course_active = false;
+	private $default_cat = 0;
+	private $allinone = false;
+	private $allinone_cat = 0;
+	private $attributes = false;
 
 	/**
 	 * Singeleton constructor
@@ -71,6 +84,56 @@ class ilECSNodeMappingSettings
 	{
 		return $this->create_empty_containers;
 	}
+	
+	public function enableCourseAllocation($a_stat)
+	{
+		$this->course_active = $a_stat;
+	}
+
+	public function isCourseAllocationEnabled()
+	{
+		return $this->course_active;
+	}
+	
+	public function setDefaultCourseCategory($a_def)
+	{
+		$this->default_cat = $a_def;
+	}
+	
+	public function getDefaultCourseCategory()
+	{
+		return $this->default_cat;
+	}
+	
+	public function isAllInOneCategoryEnabled()
+	{
+		return $this->allinone;
+	}
+	
+	public function enableAllInOne($a_stat)
+	{
+		$this->allinone = $a_stat;
+	}
+	
+	public function setAllInOneCategory($a_cat)
+	{
+		$this->allinone_cat = $a_cat;
+	}
+	
+	public function getAllInOneCategory()
+	{
+		return $this->allinone_cat;
+	}
+	
+	public function enableAttributeMapping($a_stat)
+	{
+		$this->attributes = $a_stat;
+	}
+	
+	public function isAttributeMappingEnabled()
+	{
+		return $this->attributes;
+	}
 
 	/**
 	 * Save settings to db
@@ -79,6 +142,11 @@ class ilECSNodeMappingSettings
 	{
 		$this->getStorage()->set('directory_active', (int) $this->isDirectoryMappingEnabled());
 		$this->getStorage()->set('create_empty', $this->isEmptyContainerCreationEnabled());
+		$this->getStorage()->set('course_active', $this->isCourseAllocationEnabled());
+		$this->getStorage()->set('default_category', $this->getDefaultCourseCategory());
+		$this->getStorage()->set('allinone', $this->isAllInOneCategoryEnabled());
+		$this->getStorage()->set('allinone_cat', $this->getAllInOneCategory());
+		$this->getStorage()->set('attributes', $this->isAttributeMappingEnabled());
 		return true;
 	}
 
@@ -108,6 +176,11 @@ class ilECSNodeMappingSettings
 	{
 		$this->enableDirectoryMapping($this->getStorage()->get('active', $this->directory_active));
 		$this->enableEmptyContainerCreation($this->getStorage()->get('create_empty'),$this->create_empty_containers);
+		$this->enableCourseAllocation($this->getStorage()->get('course_active'),$this->course_active);
+		$this->setDefaultCourseCategory($this->getStorage()->get('default_category'),$this->default_cat);
+		$this->enableAllInOne($this->getStorage()->get('allinone'),$this->allinone);
+		$this->setAllInOneCategory($this->getStorage()->get('allinone_cat'),$this->allinone_cat);
+		$this->enableAttributeMapping($this->getStorage()->get('attributes'),$this->attributes);
 	}
 }
 

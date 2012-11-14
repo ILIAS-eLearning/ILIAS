@@ -73,7 +73,7 @@ class ilECSSettingsGUI
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
+		
 		$this->setSubTabs();
 		switch($next_class)
 		{
@@ -85,7 +85,7 @@ class ilECSSettingsGUI
 				break;
 			
 			default:
-				if(!$cmd)
+				if(!$cmd || $cmd == 'view')
 				{
 					$cmd = "overview";
 				}

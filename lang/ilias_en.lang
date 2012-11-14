@@ -12998,3 +12998,9 @@ ecs#:#ecs_status_legend#:#Legend
 ecs#:#ecs_cmpa_enabled#:#Enable Course Allocation
 webr#:#invalid_links_tbl#:#Invalid Links
 common#:#obj_tool_setting_news#:#Show News
+common#:#obj_ecss#:#ECS
+common#:#obj_ecss_desc#:#General ECS Settings
+rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration
+rbac#:#ecss_read#:#User can read general ECS settings
+rbac#:#ecss_visible#:#ECS settings are visible 
+rbac#:#ecss_write#:#User can edit ECS settings
