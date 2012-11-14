@@ -207,6 +207,12 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('OBJ_TYPE',$this->getTemplateType());
 			$this->tpl->setVariable('PERM_PERM_ID',$row['ops_id']);
 			$this->tpl->setVariable('PERM_CHECKED',$row['set'] ? 'checked="checked"' : '');
+			
+			if($this->getRoleId() == SYSTEM_ROLE_ID)
+			{
+				$this->tpl->setVariable('PERM_DISABLED','disabled="disabled"');
+			}
+			
 			$this->tpl->parseCurrentBlock();
 			
 			$this->tpl->setCurrentBlock('perm_desc_td');
@@ -269,7 +275,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			$operation = $rbacreview->getOperation($ops_id);
 
 			$perm['ops_id'] = $ops_id;
-			$perm['set'] = in_array($ops_id,$operations);
+			$perm['set'] = (in_array($ops_id,$operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
 			$perm['name'] = $operation['operation'];
 			
 			$rows[] = $perm;
@@ -289,7 +295,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 			}
 			
 			$perm['ops_id'] = $ops_id;
-			$perm['set'] = in_array($ops_id,$operations);
+			$perm['set'] = (in_array($ops_id,$operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
 			
 			$perm['name'] = 'create_'.$info['name'];
 			$perm['create_type'] = $info['name'];
