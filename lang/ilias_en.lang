@@ -357,8 +357,8 @@ assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
-assessment#:#edit_page#:#Edit Page
-assessment#:#edit_question#:#Edit Question
+assessment#:#edit_content#:#Edit Content
+assessment#:#edit_properties#:#Edit Properties
 assessment#:#edit_test_questions#:#List View
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
 assessment#:#element_height#:#Minimum Height
@@ -1118,9 +1118,6 @@ assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
-assessment#:#tst_pass_deletion#:#Deletion of Test Passes
-assessment#:#tst_pass_deletion_not_allowed#:#Participants are NOT allowed to delete their own test passes
-assessment#:#tst_pass_deletion_allowed#:#Participants are allowed to delete their own test passes
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
@@ -8271,7 +8268,7 @@ payment#:#payment_shop_not_objects_found#:#No buyable objects could be found.
 payment#:#payment_tax_rates#:#Tax Rates
 payment#:#payment_vat_administration#:#Administration
 payment#:#payment_vat_already_created#:#A VAT with this rate is already created.
-payment#:#payment_vat_deleted_successfully#:#The chosen vats were deleted successfully
+payment#:#payment_vat_deleted_successfully#:#Den/de valgte satser blev slettet.
 payment#:#payment_vat_has_to_be_defined_by_administration_short#:#----
 payment#:#payment_vat_input_invalid#:#Please insert a valid value for the VAT rate.
 payment#:#payment_vat_rate_info#:#Please insert the VAT rate (without the %-sign), e.g. 7.
@@ -12834,7 +12831,7 @@ dcl#:#dcl_editable_in_table_gui#:#Please vote in the table view.
 dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
 dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer
-dcl#:#dcl_status#:#Your status
+dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_mob#:#Image
 dcl#:#dcl_width#:#Width
 dcl#:#dcl_height#:#Height
