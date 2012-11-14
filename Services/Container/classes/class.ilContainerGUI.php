@@ -1810,7 +1810,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT	
 				if(!in_array($obj_data->getType(), array_keys($this->objDefinition->getSubObjects($folder_objects_cache[$folder_ref_id]->getType()))))
 				{
-					$not_allowed_subobject[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'), $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']', $obj_data->getType());
+					$not_allowed_subobject[] = sprintf($this->lng->txt('msg_obj_may_not_contain_objects_of_type'), $folder_objects_cache[$folder_ref_id]->getTitle().' ['.$folder_objects_cache[$folder_ref_id]->getRefId().']', 
+							$GLOBALS['lng']->txt('obj_'.$obj_data->getType()));
 				}				
 			}		
 		}		
