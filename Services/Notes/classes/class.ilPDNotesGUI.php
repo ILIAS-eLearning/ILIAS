@@ -138,7 +138,7 @@ class ilPDNotesGUI
 			ilUtil::sendInfo($lng->txt("msg_no_search_result"));
 			return;
 		}
-		
+
 		$first = true;
 		foreach ($rel_objs as $r)
 		{
