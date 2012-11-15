@@ -82,7 +82,13 @@ class ilMailAttachmentGUI
 
 		$files = array();
 
-		if(is_array($_POST['filename']) && count($_POST['filename']))
+		if(count($_POST['filename']) == 0)
+		{
+			ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
+			return $this->showAttachments();
+		}
+		
+		if(is_array($_POST['filename']) && count($_POST['filename']) > 0)
 		{
 			foreach($_POST['filename'] as $file)
 			{
@@ -108,7 +114,7 @@ class ilMailAttachmentGUI
 	{
 		if(!isset($_POST['filename']) || !is_array($_POST['filename']) || !$_POST['filename'])
 		{
-			ilUtil::sendInfo($this->lng->txt('mail_select_one_file'));
+			ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
 			$this->showAttachments();
 			return;
 		}
