@@ -49,7 +49,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		{
 			$this->addColumn($field->getTitle());
 			if($field->getLearningProgress()){
-				$this->addColumn($field->getTitle()." ".$lng->txt("dcl_status"));
+				$this->addColumn($lng->txt("dcl_status"));
 			}
 		}
 		$this->setId("dcl_record_list");
