@@ -12682,6 +12682,7 @@ dcl#:#dcl_any#:#Alle
 dcl#:#dcl_rating#:#Rating
 dcl#:#dcl_editable_in_table_gui#:#Die Bewertung kann in der Tabellenansicht abgegeben werden.
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
+dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender anzeigen
