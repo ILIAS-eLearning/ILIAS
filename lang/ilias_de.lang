@@ -12864,7 +12864,7 @@ dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_mob#:#Bild
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
-dcl#:#dcl_table_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" (siehe Reiter "Rechte") haben immer Rechte zum erstellen, bearbeiten und löschen von Einträgen. Benutzer mit dem Recht "Eintragen" (siehe Reiter "Rechte") haben nur die Rechte die in diesen Einstellungen genauer spezifiziert werden.
+dcl#:#dcl_table_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" (siehe Reiter "Rechte") können Einträge erstellen, bearbeiten und löschen. Benutzer mit dem Recht "Eintragen" (siehe Reiter "Rechte") haben nur jene Rechte, welche in diesen Einstellungen genauer spezifiziert werden.
 dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
 dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die Haupttabelle dieser Data Collection ist. Der Inhalt und die Struktur wurden hingegen erfolgreich gelöscht.
@@ -12922,7 +12922,7 @@ dcl#:#dcl_empty_view#:#Anzeigedefinition Löschen
 dcl#:#dcl_confirm_delete_view_title#:#Die Anzeigedefinition wirklich löschen?
 dcl#:#dcl_confirm_delete_view_text#:#Die Anzeigedefinition wird unwiderruflich gelöscht, Felder und Einträge werden allerdings nicht geändert.
 dcl#:#dcl_empty_view_success#:#Die Anzeigedefinition wurde erfolgreich gelöscht.
-dcl#:#dcl_permissions_form#:#User Rechte
+dcl#:#dcl_permissions_form#:#Benutzer-Rechte
 dcl#:#-dcl_table_info_title-#:#Info
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
