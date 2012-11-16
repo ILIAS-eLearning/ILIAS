@@ -48,7 +48,10 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 
 		$this->addMultiCommand("confirmLevelDeletion", $lng->txt("delete"));
-		$this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
+		if (count($this->getData()) > 0)
+		{
+			$this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
+		}
 	}
 
 	/**
