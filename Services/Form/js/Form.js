@@ -96,7 +96,7 @@ il.Form = {
 			$("input[name=" + id + "_ajax_type]").val('');
 			$("input[name=" + id + "_ajax_id]").val('');
 			$("input[name=" + id + "_ajax_target]").val('');
-			$("span#" + id + "_val").parent().children(".ilFormInfo").html('');
+			$("#" + id + "_value").html('');
 			$(this.parentNode).css('display', 'none');
 			console.log(id);
 		});
@@ -106,7 +106,7 @@ il.Form = {
 	addInternalLink: function (link, title, input_id, ev) {
 		var type, id, part, target = "";
 
-		$("span#" + input_id + "_val").parent().children(".ilFormInfo").html($(ev.target).html());
+		$("#" + input_id + "_value").html($(ev.target).html());
 
 		link = link.split(' ');
 		part = link[1].split('="');

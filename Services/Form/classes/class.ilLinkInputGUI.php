@@ -225,47 +225,72 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 	{
 		global $lng, $ilCtrl;
 		
-		// external
-		$ti = new ilTextInputGUI("", $this->getPostVar());
-		$ti->setMaxLength(200);
-		$ti->setSize(50);
+		// parse settings
+		$has_int = $has_ext = $has_radio = false;
+		switch($this->getAllowedLinkTypes())
+		{
+			case self::EXT:
+				$has_ext = true;
+				break;
+			
+			case self::INT:
+				$has_int = true;
+				break;
+			
+			case self::BOTH:
+				$has_int = true;
+				$has_ext = true;
+				$has_radio = true;
+				break;
+		}
 		
-		if ($this->getAllowedLinkTypes() == self::BOTH)
+		// external
+		if($has_ext)
+		{
+			$title = $has_radio ? $lng->txt("url") : "";
+			
+			// external
+			$ti = new ilTextInputGUI($title, $this->getPostVar());
+			$ti->setMaxLength(200);
+			$ti->setSize(50);
+		}				
+		
+		// internal
+		if($has_int)
+		{			
+			$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->getPostVar());
+			$link = array(get_class($this->getParent()), "ilformpropertydispatchgui", get_class($this), "ilinternallinkgui");
+			$link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
+			$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
+								
+			$no_disp_class = (strpos($this->getValue(), "|"))
+				? ""
+				: " ilNoDisplay";				
+			
+			$itpl = new ilTemplate('tpl.prop_link.html',true,true,'Services/Form');			
+			$itpl->setVariable("VAL_ID", $this->getPostVar());						
+			$itpl->setVariable("URL_EDIT", $link);
+			$itpl->setVariable("TXT_EDIT", $lng->txt("form_get_link"));					
+			$itpl->setVariable("CSS_REMOVE", $no_disp_class);			
+			$itpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
+						
+			$ne = new ilNonEditableValueGUI($lng->txt("object"), $this->getPostVar()."_val", true);			
+						
+			// hidden field for selected value
+			$hidden_type = new ilHiddenInputGUI($this->getPostVar()."_ajax_type");
+			$hidden_id = new ilHiddenInputGUI($this->getPostVar()."_ajax_id");
+			$hidden_target = new ilHiddenInputGUI($this->getPostVar()."_ajax_target");		
+		}
+		
+		// mode
+		if ($has_radio)
 		{
 			$ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
 			$ext->addSubItem($ti);
-		}
-		
-		// internal				
-		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->getPostVar());
-		$link = array(get_class($this->getParent()), "ilformpropertydispatchgui", get_class($this), "ilinternallinkgui");
-		$link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
-		$ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
-				
-		$ne = new ilNonEditableValueGUI("", $this->getPostVar()."_val", true);
-		$no_disp_class = (strpos($this->getValue(), "|"))
-			? ""
-			: " ilNoDisplay";
-		$ne->setValue('<a id="'.$this->getPostVar().'_ajax" class="iosEditInternalLinkTrigger" href="'.
-			$link.'">&raquo; '.$lng->txt("form_get_link").'</a>
-			<div class="'.$no_disp_class.'" id="'.$this->getPostVar().'_rem">'.
-			'<a class="ilLinkInputRemove" href="#">&raquo; '.$lng->txt("remove").'</a></div>');
-		$ne->setInfo("&nbsp;");
-
-		if ($this->getAllowedLinkTypes() == self::BOTH)
-		{
+			
 			$int = new ilRadioOption($lng->txt("form_link_internal"), "int");
 			$int->addSubItem($ne);
-		}
-		
-		// hidden field for selected value
-		$hidden_type = new ilHiddenInputGUI($this->getPostVar()."_ajax_type");
-		$hidden_id = new ilHiddenInputGUI($this->getPostVar()."_ajax_id");
-		$hidden_target = new ilHiddenInputGUI($this->getPostVar()."_ajax_target");
-		
-		// switch
-		if ($this->getAllowedLinkTypes() == self::BOTH)
-		{
+			
 			$mode = new ilRadioGroupInputGUI("", $this->getPostVar()."_mode");
 			$mode->addOption($ext);
 			$mode->addOption($int);
@@ -273,7 +298,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		else
 		{
 			$mode = new ilHiddenInputGUI($this->getPostVar()."_mode");
-			if ($this->getAllowedLinkTypes() == self::INT)
+			if ($has_int)
 			{
 				$mode->setValue("int");
 			}
@@ -283,11 +308,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			}
 		}
 
-		// value?
+		// value
 		$value = $this->getValue();
 		if($value)
 		{
-			if(strpos($value, "|"))
+			if($has_int && strpos($value, "|"))
 			{
 				$mode->setValue("int");
 				
@@ -295,33 +320,36 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				$hidden_type->setValue($value[0]);
 				$hidden_id->setValue($value[1]);
 				$hidden_target->setValue($value[2]);
-
+				
 				switch($value[0])
 				{
 					case "media":
-						$ne->setInfo($lng->txt("obj_mob").": ".
-							ilObject::_lookupTitle($value[1]));
+						$type = $lng->txt("obj_mob");
+						$name = ilObject::_lookupTitle($value[1]);
 						break;
 					
 					case "page":
 						include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-						$ne->setInfo($lng->txt("obj_pg").": ".
-							ilLMPageObject::_lookupTitle($value[1]));
+						$type = $lng->txt("obj_pg");
+						$name =	ilLMPageObject::_lookupTitle($value[1]);
 						break;
 					
 					case "term":
 						include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-						$ne->setInfo($lng->txt("term").": ".
-							ilGlossaryTerm::_lookGlossaryTerm($value[1]));
+						$type = $lng->txt("term");
+						$name =	ilGlossaryTerm::_lookGlossaryTerm($value[1]);
 						break;
 					
 					default:
-						$ne->setInfo($lng->txt("obj_".$value[0]).": ".
-							ilObject::_lookupTitle(ilObject::_lookupObjId($value[1])));
+						$type = $lng->txt("obj_".$value[0]);
+						$name =	ilObject::_lookupTitle(ilObject::_lookupObjId($value[1]));
 						break;
 				}
+				
+				$itpl->setVariable("VAL_OBJECT_TYPE", $type);						
+				$itpl->setVariable("VAL_OBJECT_NAME", $name);						
 			}
-			else
+			else if($has_ext)
 			{
 				$mode->setValue("ext");
 				
@@ -329,32 +357,38 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			}
 		}
 		
-		include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
-
-		if ($this->getAllowedLinkTypes() == self::BOTH)
+		$ne->setValue($itpl->get());	
+			
+		// to html
+		if ($has_radio)
 		{
 			$html = $mode->render();
 		}
 		else
 		{
 			$html = $mode->getToolbarHTML();
+			
+			if ($has_ext)
+			{
+				$html.= $ti->getToolbarHTML();
+			}
+			else
+			{				
+				$html.= $ne->render().
+					'<div class="ilFormInfo">'.$ne->getInfo().'</div>';
+			}
 		}
 
-		if ($this->getAllowedLinkTypes() == self::EXT)
-		{
-			$html.= $ti->getToolbarHTML();
-		}
-		else
-		{
-			if ($this->getAllowedLinkTypes() == self::INT)
-			{
-				$html.= $ne->render().'<div class="ilFormInfo">'.$ne->getInfo().'</div>';
-			}
+		// js for internal link
+		if($has_int)		
+		{						
+			include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 			$html.= $hidden_type->getToolbarHTML().
 				$hidden_id->getToolbarHTML().
 				$hidden_target->getToolbarHTML().
 				ilInternalLinkGUI::getInitHTML("");
 		}
+		
 		return $html;
 	}
 
