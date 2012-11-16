@@ -13006,3 +13006,4 @@ rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
 rbac#:#ecss_read#:#Lesezugriff auf Einstellungen der ECS-Administration
 rbac#:#ecss_visible#:#ECS-Administration ist sichtbar
 rbac#:#ecss_write#:#Einstellungen der ECS-Administration bearbeiten
+skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihrem Arbeitsraum (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihrem Arbeitsraum hinzufügen wollen, klicken Sie bitten den folgenden Link.
