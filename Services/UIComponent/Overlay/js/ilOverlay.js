@@ -85,7 +85,9 @@ il.Overlay = {
 	hide: function (e, id) {
 		this.overlays[id].hide();
 		if (e != null) {
-			e.preventDefault();
+			// bug 9675
+			$.event.fix(e).preventDefault();
+//			e.preventDefault();
 		}
 		this.closeCnt[id] = -1;
 		this.closeProcessRunning[id] = false;
