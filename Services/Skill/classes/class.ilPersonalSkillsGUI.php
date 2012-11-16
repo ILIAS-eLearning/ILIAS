@@ -27,7 +27,7 @@ class ilPersonalSkillsGUI
 	 */
 	public function __construct()
 	{
-		global $ilCtrl, $lng, $ilHelp;
+		global $ilCtrl, $lng, $ilHelp, $ilSetting;
 
 		$lng->loadLanguageModule('skmg');
 		
@@ -38,6 +38,8 @@ class ilPersonalSkillsGUI
 
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
+		
+		$this->use_materials = !$ilSetting->get("disable_personal_workspace");
 	}
 
 	/**
@@ -141,7 +143,7 @@ class ilPersonalSkillsGUI
 	 */
 	function getSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false)
 	{
-		global $ilUser, $lng, $ilCtrl;
+		global $ilUser, $lng, $ilCtrl, $ilSetting;
 		
 		$this->tooltips = array();
 		
@@ -239,51 +241,55 @@ class ilPersonalSkillsGUI
 					$found = true;
 				}
 
-				// assigned materials	
-				$mat_cnt = ilPersonalSkill::countAssignedMaterial($ilUser->getId(),
-					$bs["tref"], $v["id"]);
-				if ($mat_cnt == 0)
+				// assigned materials
+				if ($this->use_materials)
 				{
-					$tpl->setCurrentBlock("material_td");
-					$tpl->setVariable("VAL_MATERIAL", " ");
-					$tpl->parseCurrentBlock();
-				}
-				else
-				{					
-					// links to material files
-					$tpl->setCurrentBlock("material_links");
-										
-					$mat_tt = array();
-					$cnt = 1;
-					foreach(ilPersonalSkill::getAssignedMaterial($ilUser->getId(),
-						$bs["tref"], $v["id"]) as $item)
-					{												
-						$mat_data = $this->getMaterialInfo($item["wsp_id"]);
-						$tpl->setVariable("URL_MATERIAL", $mat_data[1]);
-						$tpl->setVariable("TXT_MATERIAL", $cnt);
-						
-						// tooltip
-						$mat_tt_id = "skmg_skl_tt_mat_".self::$skill_tt_cnt;
-						self::$skill_tt_cnt++;
-						$tpl->setVariable("TOOLTIP_MATERIAL_ID", $mat_tt_id);
-						
-						if(!$this->offline_mode)
-						{
-							ilTooltipGUI::addTooltip($mat_tt_id, $mat_data[0]);
-						}
-						else
-						{							
-							$this->tooltips[] = ilTooltipGUI::getTooltip($mat_tt_id, $mat_data[0]);
-						}
-						
+
+					$mat_cnt = ilPersonalSkill::countAssignedMaterial($ilUser->getId(),
+						$bs["tref"], $v["id"]);
+					if ($mat_cnt == 0)
+					{
+						$tpl->setCurrentBlock("material_td");
+						$tpl->setVariable("VAL_MATERIAL", " ");
 						$tpl->parseCurrentBlock();
-						$cnt++;
-					}																	
-					
-					$tpl->setCurrentBlock("material_td");
-					$tpl->setVariable("CLASS_MAT", "ilSkillMat");
-					$tpl->parseCurrentBlock();
-				}							
+					}
+					else
+					{					
+						// links to material files
+						$tpl->setCurrentBlock("material_links");
+											
+						$mat_tt = array();
+						$cnt = 1;
+						foreach(ilPersonalSkill::getAssignedMaterial($ilUser->getId(),
+							$bs["tref"], $v["id"]) as $item)
+						{												
+							$mat_data = $this->getMaterialInfo($item["wsp_id"]);
+							$tpl->setVariable("URL_MATERIAL", $mat_data[1]);
+							$tpl->setVariable("TXT_MATERIAL", $cnt);
+							
+							// tooltip
+							$mat_tt_id = "skmg_skl_tt_mat_".self::$skill_tt_cnt;
+							self::$skill_tt_cnt++;
+							$tpl->setVariable("TOOLTIP_MATERIAL_ID", $mat_tt_id);
+							
+							if(!$this->offline_mode)
+							{
+								ilTooltipGUI::addTooltip($mat_tt_id, $mat_data[0]);
+							}
+							else
+							{							
+								$this->tooltips[] = ilTooltipGUI::getTooltip($mat_tt_id, $mat_data[0]);
+							}
+							
+							$tpl->parseCurrentBlock();
+							$cnt++;
+						}																	
+						
+						$tpl->setCurrentBlock("material_td");
+						$tpl->setVariable("CLASS_MAT", "ilSkillMat");
+						$tpl->parseCurrentBlock();
+					}
+				}
 			}
 			
 			$title = $sep = "";
@@ -305,7 +311,10 @@ class ilPersonalSkillsGUI
 			$tpl->setVariable("BSKILL_TITLE", $title);
 			$tpl->setVariable("TXT_LEVEL", $lng->txt("skmg_level"));
 			$tpl->setVariable("TXT_SELF_EVAL", $lng->txt("skmg_self_evaluation"));
-			$tpl->setVariable("TXT_MATERIAL", $lng->txt("skmg_material"));
+			if ($this->use_materials)
+			{
+				$tpl->setVariable("TXT_MATERIAL", $lng->txt("skmg_material"));
+			}
 			
 			if ($a_edit)
 			{
@@ -314,8 +323,11 @@ class ilPersonalSkillsGUI
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "tref_id", $bs["tref"]);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "basic_skill_id", $bs["id"]);
-				$act_list->addItem($lng->txt('skmg_assign_materials'), "",
-					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
+				if ($this->use_materials)
+				{
+					$act_list->addItem($lng->txt('skmg_assign_materials'), "",
+						$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "assignMaterials"));
+				}
 				$act_list->addItem($lng->txt('skmg_self_evaluation'), "",
 					$ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation"));
 				$tpl->setVariable("ACTIONS2", $act_list->getHTML());
