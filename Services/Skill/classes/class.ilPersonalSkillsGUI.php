@@ -543,7 +543,12 @@ class ilPersonalSkillsGUI
 	 */
 	function assignMaterial()
 	{
-		global $tpl, $ilUser, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilUser, $ilCtrl, $ilTabs, $lng, $ilSetting;
+		
+		if(!$ilSetting->get("disable_personal_workspace"))
+		{
+			ilUtil::sendInfo($lng->txt("skmg_ass_materials_from_workspace")." » <a href='ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace'>".$lng->txt("personal_workspace")."</a>");
+		}
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "level_id");

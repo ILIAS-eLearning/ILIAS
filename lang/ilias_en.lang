@@ -13005,3 +13005,4 @@ rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administr
 rbac#:#ecss_read#:#User can read general ECS settings
 rbac#:#ecss_visible#:#ECS settings are visible 
 rbac#:#ecss_write#:#User can edit ECS settings
+skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.
