@@ -251,7 +251,7 @@ class ilGlossaryPresentationGUI
 
 		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
 		$prtab = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
-			$this->offlineMode());
+			$this->offlineMode(), $this->tax_node);
 		$prtab->resetOffset();
 		$prtab->writeFilterToSession();
 		$this->listTerms();
@@ -266,7 +266,7 @@ class ilGlossaryPresentationGUI
 	{
 		include_once("./Modules/Glossary/classes/class.ilPresentationListTableGUI.php");
 		$prtab = new ilPresentationListTableGUI($this, "listTerms", $this->glossary,
-			$this->offlineMode());
+			$this->offlineMode(), $this->tax_node);
 		$prtab->resetOffset();
 		$prtab->resetFilter();
 		$this->listTerms();
