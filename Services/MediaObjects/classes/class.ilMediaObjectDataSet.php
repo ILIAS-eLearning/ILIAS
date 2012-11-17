@@ -98,9 +98,7 @@ class ilMediaObjectDataSet extends ilDataSet
 						"Location" => "text",
 						"LocationType" => "text",
 						"Format" => "text",
-						"TextRepresentation" => "text",
-						"HighlightMode" => "text",
-						"HighlightText" => "text"
+						"TextRepresentation" => "text"
 					);
 			}
 		}
@@ -122,7 +120,9 @@ class ilMediaObjectDataSet extends ilDataSet
 							"Href" => "text",
 							"Target" => "text",
 							"Type" => "text",
-							"TargetFrame" => "text"
+							"TargetFrame" => "text",
+							"HighlightMode" => "text",
+							"HighlightText" => "text"
 						);
 			}
 		}				
@@ -188,8 +188,7 @@ class ilMediaObjectDataSet extends ilDataSet
 
 				case "4.3.0":
 					$this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign,".
-						"caption, nr, purpose, location, location_type, format, text_representation,".
-						" highlight_mode, highlight_class".
+						"caption, nr, purpose, location, location_type, format, text_representation".
 						" FROM media_item WHERE ".
 						$ilDB->in("mob_id", $a_ids, false, "integer"));
 					break;
@@ -205,7 +204,8 @@ class ilMediaObjectDataSet extends ilDataSet
 				case "4.1.0":
 				case "4.3.0":
 					$this->getDirectDataFromQuery("SELECT item_id mi_id, nr".
-						" ,shape, coords, link_type, title, href, target, type, target_frame ".
+						" ,shape, coords, link_type, title, href, target, type, target_frame, ".
+						" highlight_mode, highlight_class".
 						" FROM map_area ".
 						" WHERE ".
 						$ilDB->in("item_id", $a_ids, false, "integer").
@@ -336,8 +336,6 @@ class ilMediaObjectDataSet extends ilDataSet
 				$newObj->setLocation($a_rec["Location"]);
 				$newObj->setLocationType($a_rec["LocationType"]);
 				$newObj->setFormat($a_rec["Format"]);
-				$newObj->setHighlightMode($a_rec["HighlightMode"]);
-				$newObj->setHighlightClass($a_rec["HighlightClass"]);
 				$newObj->setTextRepresentation($a_rec["TextRepresentation"]);
 				$newObj->create();
 				$this->current_media_item = $newObj;
@@ -388,6 +386,8 @@ class ilMediaObjectDataSet extends ilDataSet
 				$map_area->setTarget($a_rec["Target"]);
 				$map_area->setType($a_rec["Type"]);
 				$map_area->setTargetFrame($a_rec["TargetFrame"]);
+				$map_area->setHighlightMode($a_rec["HighlightMode"]);
+				$map_area->setHighlightClass($a_rec["HighlightClass"]);
 				$map_area->create();
 				
 				break;
