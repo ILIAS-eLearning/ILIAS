@@ -785,7 +785,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			$caption = ilUtil::getImageTagByType("stys", $this->tpl->tplPath).
 				" ".$pg_obj->getTitle();
 			
-			$cgui->addItem("pglayout[]", $key, $caption);
+			$cgui->addItem("pglayout[]", $id, $caption);
 		}
 		
 		$this->tpl->setContent($cgui->getHTML());
