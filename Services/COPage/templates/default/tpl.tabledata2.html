@@ -38,14 +38,10 @@
 </form>
 
 <!-- BEGIN menu -->
-</div><div style="position:absolute;left:0;top:0;visibility:hidden;" id="{TYPE}_menu_{MOVE}">
-<table class="il_editmenu" cellspacing="0" cellpadding="3">
+</div><div class="ilOverlay il_editmenu ilNoDisplay" id="{TYPE}_menu_{MOVE}">
 <!-- BEGIN menu_item -->
-<tr>
-<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="ilCOPage.handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</td>
-</tr>
+<a href="#" class="ilGroupedListLE" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="ilCOPage.handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</a>
 <!-- END menu_item -->
-</table>
 </div>
 <!-- END menu -->
 
