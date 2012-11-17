@@ -1659,6 +1659,7 @@ function showMenu(id, x, y)
 	if (cmd_called) return;
 	
 	var obj = document.getElementById(id);
+//console.log(obj);
 	$(obj).removeClass("ilNoDisplay");
 	YAHOO.util.Dom.setXY(obj, [x,y], true);
 	il.Overlay.fixPosition(id);
