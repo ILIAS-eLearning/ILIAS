@@ -124,13 +124,15 @@ class ilPDNotesGUI
 		// output related item selection (if more than one)
 		include_once("Services/Notes/classes/class.ilNote.php");
 		$rel_objs = ilNote::_getRelatedObjectsOfUser($this->getMode());
-		
+//var_dump($rel_objs);
 		// prepend personal dektop, if first object 
-		if ($rel_objs[0]["rep_obj_id"] > 0 && $this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
+//		if ($rel_objs[0]["rep_obj_id"] > 0 && $this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
+		if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
 		{
+
 			$rel_objs = array_merge(array(0), $rel_objs);
 		}
-		
+
 		// #9410
 		if(!$rel_objs && $this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS)
 		{
