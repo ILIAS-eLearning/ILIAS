@@ -2078,7 +2078,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			
 			// additional checks
-			if ($_POST["start_time_cb"])
+			if ($_POST["start_time_cb"] && $_POST["deadline_cb"])
 			{
 				// check whether start date is before end date
 				$start_date =
@@ -2118,9 +2118,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			
 			// deadline
-			$date =
-				$this->form->getItemByPostVar("deadline")->getDate();
-			$ass->setDeadline($date->get(IL_CAL_UNIX));
+			if ($_POST["deadline_cb"])
+			{
+				$date =
+					$this->form->getItemByPostVar("deadline")->getDate();
+				$ass->setDeadline($date->get(IL_CAL_UNIX));
+			}
+			else
+			{
+				$ass->setDeadline(null);
+			}
 
 			$ass->save();
 			
