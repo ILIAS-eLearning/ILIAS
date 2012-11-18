@@ -2824,7 +2824,7 @@ common#:#exc_status_sent#:#Zugestellt
 common#:#exc_status_solved#:#Gelöst
 common#:#exc_status_submitted#:#Übertragen
 common#:#exc_submission#:#Einreichung
-common#:#exc_time_over_short#:#Die Zeit ist abgelaufen
+common#:#exc_time_over_short#:#Die Zeit ist abgelaufen.
 common#:#exc_time_to_send#:#Verbleibende Bearbeitungsdauer
 common#:#exc_upload_error#:#Fehler beim Heraufladen der Datei
 common#:#exc_users#:#Benutzern
@@ -3743,7 +3743,7 @@ rbac#:#mep_visible#:#Medienpool ist sichtbar
 rbac#:#mep_write#:#Inhalt und Einstellungen des Medienpools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Inhalt
-common#:#message_no_delivered_files#:#Sie haben noch keine Lösungsergebnisse abgegeben!
+common#:#message_no_delivered_files#:#Sie haben keine Lösungsergebnisse abgegeben.
 common#:#message_to#:#Mail an:
 common#:#meta_data#:#Metadaten
 common#:#mgs_objects_linked_to_the_following_folders#:#Objekte wurden in folgende Bereiche verknüpft: %s
@@ -12764,7 +12764,7 @@ tax#:#tax_nodes#:#Nodes###28 08 2012 new variable
 tax#:#tax_create_node#:#Create Node###28 08 2012 new variable
 tax#:#tax_new_tax_node#:#New Node###28 08 2012 new variable
 tax#:#tax_order#:#Order###28 08 2012 new variable
-exc#:#exc_no_deadline_specified#:#No deadline specified.###28 08 2012 new variable
+exc#:#exc_no_deadline_specified#:#Es wurde kein Abgabetermin festgelegt.
 content#:#glo_style#:#Glossary Style###28 08 2012 new variable
 content#:#glo_show_taxonomy#:#Show Taxonomy###28 08 2012 new variable
 tax#:#tax_sorting#:#Sorting###28 08 2012 new variable
