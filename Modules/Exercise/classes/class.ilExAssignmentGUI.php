@@ -454,7 +454,7 @@ class ilExAssignmentGUI
 	{
 		global $lng;
 		
-		if ($a_data["deadline"] == 0)
+		if ($a_deadline == 0)
 		{
 			return $lng->txt("exc_no_deadline_specified");
 		}
