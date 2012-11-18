@@ -224,7 +224,10 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		if ($this->getCurrentDetailLevel() > 2)
 		{
 			$this->tpl->setCurrentBlock("details");
-			$this->tpl->setVariable("NOTE_TEXT", $a_set["text"]);
+			if (substr($a_set["text"], 0, 40) != substr($a_set["text"], 0, 40))
+			{
+				$this->tpl->setVariable("NOTE_TEXT", $a_set["text"]);
+			}
 			$this->tpl->setVariable("VAL_DATE",
 				ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME)));
 			$this->tpl->parseCurrentBlock();
