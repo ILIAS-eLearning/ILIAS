@@ -895,8 +895,8 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		$options = array();
 		for ($i = 0; $i < $this->categories->getCategoryCount(); $i++)
 		{
-			$category = $this->categories->getCategory($i);
-			$options[$i] = ($i+1) . " - " . $category->title;
+			$category = $this->categories->getCategory($i);			
+			$options[$category->scale-1] = $category->scale . " - " . $category->title;
 		}
 		return $options;
 	}
