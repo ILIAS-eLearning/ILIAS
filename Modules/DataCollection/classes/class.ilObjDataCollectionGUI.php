@@ -72,7 +72,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilNavigationHistory, $ilUser;
+		global $ilCtrl, $ilTabs, $ilNavigationHistory, $ilUser, $tpl;
 
 		// Navigation History
 		$link = $ilCtrl->getLinkTarget($this, "render");
@@ -111,6 +111,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType("dcl");
+                $tpl->getStandardTemplate();
 				$this->ctrl->forwardCommand($cp);
 				break;
 
