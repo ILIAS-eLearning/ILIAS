@@ -12516,7 +12516,7 @@ dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Record
-dcl#:#dcl_list_fields#:#List Fields
+dcl#:#dcl_list_fields#:#Fields
 dcl#:#dcl_record_view_viewdefinition#:#View Viewdefinition
 dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition
 dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition
@@ -12533,7 +12533,7 @@ dcl#:#dcl_edit_type_lim_info#:#Acces for users with add/edit permission is limit
 dcl#:#dcl_edit_start#:#Start-Date
 dcl#:#dcl_edit_end#:#End-Date
 dcl#:#dcl_export#:#Export
-dcl#:#dcl_table_list_fields#:#List Fields of current Table
+dcl#:#dcl_table_list_fields#:#Fields Of Selected Table
 dcl#:#dcl_view_viewdefinition#:#Viewdefinition
 dcl#:#dcl_new_table#:#New Table
 dcl#:#dcl_table_create#:#Create Table
@@ -12611,8 +12611,8 @@ mcst#:#mcst_purpose_standard#:#Standard File
 mcst#:#mcst_purpose_videoalternative#:#Alternative Video File
 mcst#:#mcst_converted_file#:#File has been converted.
 dateplaner#:#cal_imported_success#:#Imported %1$s appointments.
-form#:#form_link_internal#:#Internal
-form#:#form_link_external#:#External
+form#:#form_link_internal#:#Inside ILIAS
+form#:#form_link_external#:#World Wide Web
 form#:#form_get_link#:#Select Target Object
 style#:#sty_move_user_styles#:#Change Style of Users
 style#:#sty_substyles#:#Substyles

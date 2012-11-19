@@ -12354,7 +12354,7 @@ dcl#:#dcl_edit_type_lim_info#:#Benutzer mit add/edit-Rechten können Einträge w
 dcl#:#dcl_edit_start#:#Start-Datum
 dcl#:#dcl_edit_end#:#End-Datum
 dcl#:#dcl_export#:#Export
-dcl#:#dcl_table_list_fields#:#Feldliste
+dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_view_viewdefinition#:#Anzeigedefinition
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
@@ -12505,8 +12505,8 @@ dateplaner#:#cal_import_tbl#:#Kalendertermine importieren
 dateplaner#:#cal_import_file#:#Importdatei
 dateplaner#:#cal_import_file_info#:#Wählen Sie die Datei aus, die Ihre Termine enthält.
 dateplaner#:#cal_imported_success#:#Es wurden %1$s neue Termine importiert. 
-form#:#form_link_internal#:#Intern
-form#:#form_link_external#:#Extern
+form#:#form_link_internal#:#Innerhalb von ILIAS
+form#:#form_link_external#:#WWW / Internet
 form#:#form_get_link#:#Ziel-Objekt wählen
 dateplaner#:#cal_type_rl#:#Ort des Kalenders
 dateplaner#:#cal_type_local#:#Lokaler Kalender
