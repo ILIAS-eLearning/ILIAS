@@ -364,9 +364,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 
 	function prepareOutput()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilHelp;
 		
 		parent::prepareOutput();
+		
+		$ilHelp->setScreenIdComponent("src");
 
 		$ilTabs->addTab("search", $this->lng->txt("search"),
 			$this->ctrl->getLinkTarget($this));
