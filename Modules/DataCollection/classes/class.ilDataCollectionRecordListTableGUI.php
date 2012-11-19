@@ -66,18 +66,12 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->initFilter();
+
 		$this->setData($table->getRecordsByFilter($this->filter));
 
 		//leave these two
 		$this->setExternalSegmentation(true);
 		$this->setExternalSorting(true);
-
-//		if($this->table->hasPermissionToAddRecord($this->parent_obj->parent_obj->ref_id) && $this->table->hasCustomFields())
-//		{
-//			$img = " <img src='".ilUtil::getImagePath("cmd_add_s.png")."' /> "; // Wirklich hässlich, doch leider wird der Text, der addHeaderCommand mitgeben wird, nicht mehr angezeigt, sobald man ein Bild mitsendet...
-//			$ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","table_id", $this->parent_obj->table_id);
-//			$this->addHeaderCommand($ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "create"), $lng->txt("dcl_add_new_record").$img);
-//		}
 	}
 	
 	/*
@@ -217,6 +211,16 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$this->filter["filter_".$field->getId()] = $input->getValue();
 		}
 	}
+
+    /**
+     * @param $records ilDataCollectionRecord[]
+     */
+    private function getRecordsAsArray($records){
+        $array = array();
+        foreach($records as $record)
+            $array[$record->getId()] = (array) $record;
+        return $array;
+    }
 }
 
 ?>
