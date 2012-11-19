@@ -889,6 +889,11 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$this->tpl->parseCurrentBlock();
 		}
+
+		// on import creation screen the pool was chosen (-1 for no pool)
+		// BUT when no pool is available the input on creation screen is missing, so the field value -1 for no pool is not submitted.
+		$QplOrTstID = isset($_POST["qpl"]) && (int)$_POST["qpl"] != 0 ? $_POST["qpl"] : -1;
+		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("TEXT_TYPE", $this->lng->txt("question_type"));
 		$this->tpl->setVariable("TEXT_TITLE", $this->lng->txt("question_title"));
@@ -896,7 +901,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("VERIFICATION_HEADING", $this->lng->txt("import_tst"));
 		$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setVariable("ARROW", ilUtil::getImagePath("arrow_downright.png"));
-		$this->tpl->setVariable("QUESTIONPOOL_ID", $_POST["qpl"]);
+		$this->tpl->setVariable("QUESTIONPOOL_ID", $QplOrTstID);
 		$this->tpl->setVariable("VALUE_IMPORT", $this->lng->txt("import"));
 		$this->tpl->setVariable("VALUE_CANCEL", $this->lng->txt("cancel"));
 		$this->tpl->parseCurrentBlock();
