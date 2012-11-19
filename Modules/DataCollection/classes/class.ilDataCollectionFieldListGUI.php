@@ -96,12 +96,19 @@ class ilDataCollectionFieldListGUI
 		$table_selection->setValue($this->table_id);
 
 		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionFieldListGUI", "doTableSwitch"));
+        $ilToolbar->addText($lng->txt("dcl_table"));
 		$ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
+        $ilToolbar->addSeparator();
 		$ilToolbar->addButton($lng->txt("dcl_add_new_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "create"));
-		$ilCtrl->setParameterByClass("ildatacollectiontableeditgui", "table_id", $this->table_id);
+        $ilToolbar->addSeparator();
+        $ilCtrl->setParameterByClass("ildatacollectiontableeditgui", "table_id", $this->table_id);
 		$ilToolbar->addButton($lng->txt("dcl_table_settings"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "edit"));
 		$ilToolbar->addButton($lng->txt("dcl_delete_table"), $ilCtrl->getLinkTargetByClass("ildatacollectiontableeditgui", "confirmDelete"));
+        $ilToolbar->addButton($lng->txt("dcl_add_new_field"), $ilCtrl->getLinkTargetByClass("ildatacollectionfieldeditgui", "create"));
+
+        // requested not to implement this way...
+//        $tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
 
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionFieldListTableGUI.php');
 		$list = new ilDataCollectionFieldListTableGUI($this, $ilCtrl->getCmd(), $this->table_id);

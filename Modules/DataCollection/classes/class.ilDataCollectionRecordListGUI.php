@@ -83,12 +83,20 @@ class ilDataCollectionRecordListGUI
 		include_once './Services/Form/classes/class.ilSelectInputGUI.php';
 		$table_selection = new ilSelectInputGUI('', 'table_id');
 		$table_selection->setOptions($options);
-		$table_selection->setValue($this->table_id);
+        $table_selection->setValue($this->table_id);
+        /** @var $ilToolbar ilToolbarGUI */
+        $ilToolbar = $ilToolbar;
 		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilDataCollectionRecordListGUI", "doTableSwitch"));
+        $ilToolbar->addText($lng->txt("dcl_table"));
 		$ilToolbar->addInputItem($table_selection);
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
+        $ilToolbar->addSeparator();
+        $ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
+        if($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) && $this->table_obj->hasCustomFields())
+            $ilToolbar->addButton($lng->txt("dcl_add_new_record"), $ilCtrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
 
-		$ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
+        // requested not to implement this way...
+//        $tpl->addJavaScript("Modules/DataCollection/js/fastTableSwitcher.js");
 
 		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
 		$tpl->getStandardTemplate();
