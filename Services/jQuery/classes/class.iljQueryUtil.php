@@ -10,8 +10,8 @@
 class iljQueryUtil
 {	
 	// #9508 - 1.8.0 needs at least ui 1.8.22 to work properly!	
-	private static $ver = "1_8_2"; 
-	private static $ui_ver = "1_8_23";
+	private static $ver = "1_8_3"; 
+	private static $ui_ver = "1_9_1";
 	private static $maphilight_ver = "12_09_22";
 	private static $min = "-min";
 	
