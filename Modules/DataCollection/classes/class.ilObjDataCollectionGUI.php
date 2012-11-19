@@ -360,7 +360,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		}
 
 		// list fields
-		if ($ilAccess->checkAccess('edit_fields', "", $this->object->getRefId()))
+		if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 		{
 			$ilTabs->addTab("id_fields",
 				$lng->txt("dcl_list_fields"),
