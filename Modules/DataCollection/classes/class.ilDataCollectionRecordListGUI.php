@@ -91,8 +91,8 @@ class ilDataCollectionRecordListGUI
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
         $ilToolbar->addSeparator();
         $ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
-        if($table)
-            $table_id = $table->getId();
+        if($_GET['table_id'])
+            $table_id = $_GET['table_id'];
         else
             $table_id = $this->main_table_id;
         $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "table_id", $table_id);
