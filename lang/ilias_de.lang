@@ -12370,7 +12370,7 @@ dcl#:#dcl_file#:#Fileupload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Pflichtfeld
 dcl#:#dcl_length#:#Länge
-dcl#:#dcl_regex#:#Regular Expression
+dcl#:#dcl_regex#:#Regular Expression (Ohne Trennsymbol/Delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
