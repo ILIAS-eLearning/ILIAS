@@ -357,7 +357,6 @@ assessment#:#ects_range_error_d#:#Please enter a value between 0 and 100 for ECT
 assessment#:#ects_range_error_e#:#Please enter a value between 0 and 100 for ECTS grade E!
 assessment#:#ects_use_fx_grade_part2#:#percent of the total points.
 assessment#:#ects_use_fx_grade#:#Use the 'FX' grade, if failed participants reached at least
-assessment#:#edit_content#:#Edit Content
 assessment#:#edit_properties#:#Edit Properties
 assessment#:#edit_test_questions#:#List View
 assessment#:#element_height_info#:#This is the minimum height in pixels for term and definition/picture items during the test output.
@@ -5848,7 +5847,6 @@ crs#:#crs_wiz_back#:#Back
 crs#:#crs_wiz_next#:#Save
 crs#:#crs_xml#:#XML
 crs#:#crs_youre_position#:#Your Position on the Waiting List
-crs#:#edit_content#:#Edit Content
 crs#:#edit_timings_list#:#Edit Timings
 crs#:#event_add_new_event#:#Added new session
 crs#:#event_assign_materials_info#:#Assigned materials will be displayed directly below the session.
