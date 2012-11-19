@@ -11359,8 +11359,8 @@ rbac#:#rbac_auto_rolt#:#Auto generated role template###06 08 2011 new variable
 rbac#:#rbac_ud_rolt#:#User defined role template###06 08 2011 new variable
 didactic#:#didactic_import_failed#:#Importing the didactical template failed with message: ###06 08 2011 new variable
 rbac#:#rbac_context_global#:#Global###06 08 2011 new variable
-content#:#cont_select_other_qpool#:#Select other Pool###06 08 2011 new variable
-content#:#cont_copy_question_into_page#:#Copy into Page###06 08 2011 new variable
+content#:#cont_select_other_qpool#:#Skift bibliotek
+content#:#cont_copy_question_into_page#:#Kopier til side
 blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of the exercise "%s".###06 08 2011 new variable
 blog#:#blog_finalize_blog#:#Finalize and Submit Blog###06 08 2011 new variable
 blog#:#blog_finalized#:#The Blog has been submitted.###06 08 2011 new variable
