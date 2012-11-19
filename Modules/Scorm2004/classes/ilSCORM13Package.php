@@ -1197,8 +1197,16 @@ class ilSCORM13Package
 		$query = 'DELETE FROM cmi_node WHERE '
 			   . $ilDB->in('cmi_node.cmi_node_id', $cmi_node_values, false, 'integer');
 		$ilDB->manipulate($query);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
+
+		//custom
+		$query = 'DELETE FROM cmi_custom WHERE obj_id = %s';
+		$ilDB->manipulateF($query, array('integer'), array($this->packageId));
+
+		//g_objective
+		$query = 'DELETE FROM cmi_gobjective WHERE scope_id = %s';
+		$ilDB->manipulateF($query, array('integer'), array($this->packageId));
+
+		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_refreshStatus($this->packageId);
 
 	}
