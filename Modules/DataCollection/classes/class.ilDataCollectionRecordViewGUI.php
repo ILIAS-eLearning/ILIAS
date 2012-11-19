@@ -80,13 +80,13 @@ class ilDataCollectionRecordViewGUI
 		{
             //ILIAS_Ref_Links
             $pattern = '/\[dcliln field="'.$field->getTitle().'"\](.*?)\[\/dcliln\]/';
-            if (preg_match($pattern,$html)) {
+            if (preg_match('~'.preg_quote($pattern,'~').'~',$html)) {
                 $html = preg_replace($pattern, $this->record_obj->getRecordFieldHTML($field->getId(),$this->setOptions("$1")), $html);
             }
 
             //DataCollection Ref Links
             $pattern = '/\[dclrefln field="'.$field->getTitle().'"\](.*?)\[\/dclrefln\]/';
-            if (preg_match($pattern,$html)) {
+            if (preg_match('~'.preg_quote($pattern,'~').'~',$html)) {
                 $html = preg_replace($pattern, $this->record_obj->getRecordFieldHTML($field->getId(),$this->setOptions("$1")), $html);
             }
 

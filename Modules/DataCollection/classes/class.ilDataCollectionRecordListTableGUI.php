@@ -211,16 +211,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$this->filter["filter_".$field->getId()] = $input->getValue();
 		}
 	}
-
-    /**
-     * @param $records ilDataCollectionRecord[]
-     */
-    private function getRecordsAsArray($records){
-        $array = array();
-        foreach($records as $record)
-            $array[$record->getId()] = (array) $record;
-        return $array;
-    }
 }
 
 ?>
