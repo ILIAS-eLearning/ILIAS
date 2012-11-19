@@ -330,8 +330,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 */
 	public function setTabs()
 	{
-		global $ilAccess, $ilTabs, $lng;
+		global $ilAccess, $ilTabs, $lng, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("dcl");
+		
 		// list records
 		if ($ilAccess->checkAccess('read', "", $this->object->getRefId()))
 		{
