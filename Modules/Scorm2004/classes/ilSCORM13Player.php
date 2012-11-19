@@ -2356,6 +2356,7 @@ class ilSCORM13Player
 				break;
 			case 'Commit':
 				if ($errorcode == 0) $color = "green";
+				if ($fixedFailure == true) $color = "gray";
 				break;
 			case 'Terminate':
 				if ($errorcode == 0) $color = "green";
