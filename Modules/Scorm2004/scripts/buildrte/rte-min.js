@@ -1,4 +1,4 @@
-// Build: 20121119203736 
+// Build: 20121119205423 
 
 function ADLAuxiliaryResource()
 {}
@@ -3071,7 +3071,7 @@ sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"","false",201);
 var e=Runtime.errors[param];var returnValue=e&&e.message?String(e.message).substr(0,255):'';if(logActive)
 sendLogEntry(getMsecSinceStart(),'GetErrorString',String(param),"",returnValue,0);return returnValue;}
 function GetDiagnostic(param)
-{var returnValue=param+': '+(error?String(diagnostic).substr(0,255):' no diagnostic');if(logActive)
+{var returnValue=(error?String(diagnostic).substr(0,255):'no diagnostic');if(param!="")returnValue=param+': '+returnValue;if(logActive)
 sendLogEntry(getMsecSinceStart(),'GetDiagnostic',String(param),"",returnValue,"");return returnValue;}
 function Initialize(param)
 {function checkInternalValues(a_debugValues){function checkGetValue(cmivar){var a_getValues=['comments_from_lms','completion_threshold','credit','entry','launch_data','learner_id','learner_name','max_time_allowed','mode','scaled_passing_score','time_limit_action','total_time'];var b_getValue=false;for(var i=0;i<a_getValues.length;i++){if(cmivar.indexOf("cmi."+a_getValues[i])>-1)b_getValue=true;}

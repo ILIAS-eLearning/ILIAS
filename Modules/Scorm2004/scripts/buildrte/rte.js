@@ -1,4 +1,4 @@
-// Build: 20121119203736 
+// Build: 20121119205423 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -14888,7 +14888,8 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	 */	 
 	function GetDiagnostic(param) 
 	{
-		var returnValue = param + ': ' + (error ? String(diagnostic).substr(0,255) : ' no diagnostic');
+		var returnValue = (error ? String(diagnostic).substr(0,255) : 'no diagnostic');
+		if (param != "") returnValue = param + ': ' + returnValue;
 		if (logActive)
 			sendLogEntry(getMsecSinceStart(),'GetDiagnostic',String(param),"",returnValue,"");
 		return returnValue;
