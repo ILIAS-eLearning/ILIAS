@@ -3912,11 +3912,9 @@ function sendLogEntry(timespan,action,key,value,result,errorCode)
 	logEntry['result'] = (typeof(result)!='undefined') ? result : 'undefined';
 	logEntry['errorcode'] = errorCode;
 
-	if (action=="SetValue") {
-		if (fixedFailure==true) logEntry['errorcode']+=100000;
-		if (toleratedFailure==true) logEntry['errorcode']=200000;
-	}
+	if (fixedFailure==true) logEntry['errorcode']+=100000;
 	fixedFailure=false;
+	if (toleratedFailure==true) logEntry['errorcode']=200000;
 	toleratedFailure=false;
 
 	if (action == "Initialize") {

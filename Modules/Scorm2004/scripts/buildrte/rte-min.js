@@ -1,4 +1,4 @@
-// Build: 2012918002242 
+// Build: 20121119203736 
 
 function ADLAuxiliaryResource()
 {}
@@ -3051,8 +3051,7 @@ function refreshDebugger(param){if(param==true){window.setTimeout("debugWindow.l
 if(i_logLength==a_logEntries.length){a_logEntries=[];if(i_logLength>0&&debugWindow!=null&&debugWindow.closed!=true){var content=sendJSONRequest(this.config.livelog_url);debugWindow.updateLiveLog();}}
 else window.setTimeout("refreshDebugger()",500);b_refreshDebugger_busy=false;}}}
 function sendLogEntry(timespan,action,key,value,result,errorCode)
-{var logEntry=new Object();logEntry['timespan']=timespan;logEntry['action']=action;logEntry['key']=key;logEntry['value']=value;logEntry['result']=(typeof(result)!='undefined')?result:'undefined';logEntry['errorcode']=errorCode;if(action=="SetValue"){if(fixedFailure==true)logEntry['errorcode']+=100000;if(toleratedFailure==true)logEntry['errorcode']=200000;}
-fixedFailure=false;toleratedFailure=false;if(action=="Initialize"){logEntryScoId=mlaunch.mActivityID;logEntryScoTitle=activities[mlaunch.mActivityID].title;}
+{var logEntry=new Object();logEntry['timespan']=timespan;logEntry['action']=action;logEntry['key']=key;logEntry['value']=value;logEntry['result']=(typeof(result)!='undefined')?result:'undefined';logEntry['errorcode']=errorCode;if(fixedFailure==true)logEntry['errorcode']+=100000;fixedFailure=false;if(toleratedFailure==true)logEntry['errorcode']=200000;toleratedFailure=false;if(action=="Initialize"){logEntryScoId=mlaunch.mActivityID;logEntryScoTitle=activities[mlaunch.mActivityID].title;}
 logEntry['scoid']=logEntryScoId;logEntry['scotitle']=logEntryScoTitle;a_logEntries.push(toJSONString(logEntry));if(action!="DELETE"){setTimeout("refreshDebugger()",2000);}else{refreshDebugger(true);}}
 function removeByElement(arrayName,arrayElement)
 {for(var i=0;i<arrayName.length;i++)
@@ -3099,23 +3098,24 @@ sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",104);return setRetur
 if(logActive)
 sendLogEntry(getMsecSinceStart(),'Initialize',"","","false",103);return setReturn(103,'','false');}
 function Commit(param)
-{setReturn(-1,'Commit('+param+')');if(param!=='')
+{setReturn(-1,'Commit('+param+')');if((typeof param=="undefined")||param==null){param='undefined';fixedFailure=true;}
+else if(param!=='')
 {if(logActive)
-sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",201);return setReturn(201,'param must be empty string','false');}
+sendLogEntry(getMsecSinceStart(),'Commit',param.toString(),"","false",201);return setReturn(201,'param must be empty string','false');}
 switch(state)
 {case NOT_INITIALIZED:if(logActive)
-sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
+sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
 var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
 returnValue=save();}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
-sendLogEntry(getMsecSinceStart(),'Commit',"","","true",0);return setReturn(0,'','true');}
+sendLogEntry(getMsecSinceStart(),'Commit',param,"","true",0);return setReturn(0,'','true');}
 else
 {if(logActive)
-sendLogEntry(getMsecSinceStart(),'Commit',"","","false",391);return setReturn(391,'Persisting failed','false');}
+sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",391);return setReturn(391,'Persisting failed','false');}
 break;case TERMINATED:if(logActive)
-sendLogEntry(getMsecSinceStart(),'Commit',"","","false",143);return setReturn(143,'','false');}}
+sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",143);return setReturn(143,'','false');}}
 function Terminate(param){setReturn(-1,'Terminate('+param+')');if(param!=='')
 {if(logActive)
 sendLogEntry(getMsecSinceStart(),'Terminate',param,"","false",201);return setReturn(201,'param must be empty string','false');}

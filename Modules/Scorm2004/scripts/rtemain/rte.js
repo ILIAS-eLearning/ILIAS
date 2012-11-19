@@ -170,17 +170,22 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 	function Commit(param) 
 	{
 		setReturn(-1, 'Commit(' + param + ')');
-		if (param!=='') 
+		if ((typeof param == "undefined") || param == null) {
+			//ToDo: check if allowed by Testsuite; else use with check values
+			param = 'undefined';
+			fixedFailure=true;
+		}
+		else if (param!=='')
 		{
 			if (logActive)
-				sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",201);
+				sendLogEntry(getMsecSinceStart(),'Commit',param.toString(),"","false",201);
 			return setReturn(201, 'param must be empty string', 'false');
 		}
 		switch (state) 
 		{
 			case NOT_INITIALIZED:
 				if (logActive)
-					sendLogEntry(getMsecSinceStart(),'Commit',"","","false",142);
+					sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);
 				return setReturn(142, '', 'false');
 			case RUNNING:
 				//calculating not at terminate to avoid save because many contributors of learning modules send at the end just before terminate() commit()
@@ -207,19 +212,19 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				{
 					dirty = false;
 					if (logActive && commitByTerminate==false)
-						sendLogEntry(getMsecSinceStart(),'Commit',"","","true",0);
+						sendLogEntry(getMsecSinceStart(),'Commit',param,"","true",0);
 					return setReturn(0, '', 'true');
 				} 
 				else
 				{
 					if (logActive)
-						sendLogEntry(getMsecSinceStart(),'Commit',"","","false",391);
+						sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",391);
 					return setReturn(391, 'Persisting failed', 'false');
 				}
 				break;
 			case TERMINATED:
 				if (logActive)
-					sendLogEntry(getMsecSinceStart(),'Commit',"","","false",143);
+					sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",143);
 				return setReturn(143, '', 'false');
 		}
 	}
