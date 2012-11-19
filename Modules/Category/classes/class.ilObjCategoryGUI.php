@@ -307,7 +307,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("cat_added"),true);
 		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
-		$this->redirectToRefId($a_new_object->getRefId(), "edit");
+		$this->redirectToRefId($a_new_object->getRefId(), "");
 	}
 	
 	/**
