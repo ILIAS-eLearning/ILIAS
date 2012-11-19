@@ -91,7 +91,11 @@ class ilDataCollectionRecordListGUI
 		$ilToolbar->addFormButton($lng->txt('change'),'doTableSwitch');
         $ilToolbar->addSeparator();
         $ilToolbar->addFormButton($lng->txt('dcl_export_table_excel'), "exportExcel");
-        $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "table_id", $table->getId());
+        if($table)
+            $table_id = $table->getId();
+        else
+            $table_id = $this->main_table_id;
+        $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "table_id", $table_id);
         if($this->table_obj->hasPermissionToAddRecord($this->parent_obj->ref_id) && $this->table_obj->hasCustomFields())
             $ilToolbar->addButton($lng->txt("dcl_add_new_record"), $ilCtrl->getFormActionByClass("ildatacollectionrecordeditgui", "create"));
 
