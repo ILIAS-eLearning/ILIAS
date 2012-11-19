@@ -8917,9 +8917,9 @@ common#:#collapsed#:#Sammenfoldet
 common#:#tree#:#Træ
 common#:#list#:#Liste
 search#:#search_title_description#:#Titel/beskrivelse
-assessment#:#qst_nr_of_tries#:#Number of tries###15 05 2009 new variable
+assessment#:#qst_nr_of_tries#:#Antal forsøg
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.###15 05 2009 new variable
-content#:#cont_qtries#:#Number of tries for questions###15 05 2009 new variable
+content#:#cont_qtries#:#Antal besvarelsesforsøg
 content#:#cont_sc_preview#:#Forhåndsvisning
 style#:#sty_colors#:#Farver
 style#:#sty_color_name#:#Farvenavn
@@ -10556,10 +10556,10 @@ content#:#cont_wrong_answers#:#Forkerte besvarelser
 content#:#cont_tries_remaining#:#Tilbageværende forsøg
 content#:#cont_please_try_again#:#Prøv venligst igen
 content#:#cont_all_answers_correct#:#Alle besvarelser er korrekte
-content#:#cont_nr_of_tries_exceeded#:#Number of tries exceeded###10 09 2010 new variable
-content#:#cont_correct_answers_shown#:#Correct answers are shown abov###10 09 2010 new variable
+content#:#cont_nr_of_tries_exceeded#:#Du har ikke flere forsøg.
+content#:#cont_correct_answers_shown#:#De korrekte svar vises ovenfor.
 survey#:#mail_import_example1#:#email;firstname;lastname###20 10 2010 new variable
-survey#:#mail_import_example2#:#sandraowen@domain.tld;Sandra;Owen###20 10 2010 new variable
+survey#:#mail_import_example2#:#sandraowen@domain.tld;Jesper;Gødvad
 survey#:#mail_import_example3#:#kennethbirt@domain.tld;Kenneth;Birt###20 10 2010 new variable
 survey#:#err_external_rcp_no_email_column#:#The import data must at least contain a column 'email' with the title 'email' in the first row and the email addresses in the following rows###20 10 2010 new variable
 survey#:#participating_users#:#Participating Users###20 10 2010 new variable
@@ -10911,26 +10911,26 @@ content#:#cont_char_style_quot#:#Quotation###12 06 2011 new variable
 content#:#cont_char_style_acc#:#Accentuated###12 06 2011 new variable
 content#:#cont_char_style_code#:#Code###12 06 2011 new variable
 adve#:#adve_pe_general#:#General###12 06 2011 new variable
-adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp###12 06 2011 new variable
+adve#:#adve_use_physical#:#Brug b/i/u i stedet for str/emp/imp
 adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other phyiscal attributes are assigned to the strong/emphatic/important style classes.###12 06 2011 new variable
-content#:#cont_tex#:#Latex Code###12 06 2011 new variable
+content#:#cont_tex#:#Latex kode
 payment#:#terms_conditions#:#GTC###12 06 2011 new variable
 payment#:#accept_terms_conditions#:#Please accept the %s to continue the purchasing process.###12 06 2011 new variable
-payment#:#documents#:#Documents###12 06 2011 new variable
-payment#:#activate_placeholders#:#Aktivate Placeholders###12 06 2011 new variable
-payment#:#billing_mail#:#Billing-Email###12 06 2011 new variable
+payment#:#documents#:#Dokumenter
+payment#:#activate_placeholders#:#Aktiver pladsholdere
+payment#:#billing_mail#:#Faktura email
 payment#:#select_subtype#:#Suboption###12 06 2011 new variable
-payment#:#pay_hide_shop_info#:#Hide Shop-Information###12 06 2011 new variable
-payment#:#pay_hide_shop_info_info#:#Hides the tab shop-information###12 06 2011 new variable
+payment#:#pay_hide_shop_info#:#Skjul shopinformation
+payment#:#pay_hide_shop_info_info#:#Skjuler fanebladet med information om shoppen
 payment#:#use_shop_specials#:#Use Shop Specials###12 06 2011 new variable
 payment#:#use_shop_specials_info#:#If enabled, it is possible to mark payment objects as a "special"-offer. These objects will be shown on the entire shop site.###12 06 2011 new variable
-payment#:#special#:#Special-Offer###12 06 2011 new variable
+payment#:#special#:#Specialpris
 payment#:#special_info#:#If enabled, this object will be shown on the entire shop site.###12 06 2011 new variable
-common#:#object_purchased_date#:#Purchase-Date###12 06 2011 new variable
+common#:#object_purchased_date#:#Købsdato
 common#:#object_duration#:#Access-Duration###12 06 2011 new variable
-common#:#new_customer#:#Are you a new customer?###12 06 2011 new variable
+common#:#new_customer#:#Er du en ny kunde?
 common#:#new_customer_info#:#Please klick here if you do not have an user account.###12 06 2011 new variable
-payment#:#shop_url#:#Link to shop###12 06 2011 new variable
+payment#:#shop_url#:#Link til shop
 payment#:#shop_bought_objects_url#:#Link to bought objects###12 06 2011 new variable
 tstv#:#tstv_create#:#Create Test Verification###12 06 2011 new variable
 tstv#:#tstv_create_info#:#Select a completed test to generate a verification for it###12 06 2011 new variable
@@ -10945,7 +10945,7 @@ assessment#:#copy_questions_success#:#The question(s) has been copied.###12 06 2
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, assets or chapters only.###12 06 2011 new variable
 sahs#:#cont_insert_into_chap#:#Insert items inside chapter###12 06 2011 new variable
 sahs#:#cont_insert_after_chap#:#Insert items after chapter###12 06 2011 new variable
-common#:#saving#:#Saving...###12 06 2011 new variable
+common#:#saving#:#Gemmer...
 content#:#cont_ed_insert_iim#:#Insert Interactive Image###12 06 2011 new variable
 content#:#cont_pc_iim#:#Interactive Image###12 06 2011 new variable
 style#:#sty_type_qimg#:#Question Image###12 06 2011 new variable
@@ -11343,8 +11343,8 @@ blog#:#blog_banner#:#Banner###06 08 2011 new variable
 blog#:#blog_background_color#:#Background Color###06 08 2011 new variable
 blog#:#blog_font_color#:#Font Color###06 08 2011 new variable
 blog#:#blog_back_to_ilias#:#Back to ILIAS###06 08 2011 new variable
-content#:#cont_new_question#:#New Question###06 08 2011 new variable
-content#:#cont_copy_question_from_pool#:#Copy Question from Pool###06 08 2011 new variable
+content#:#cont_new_question#:#Nyt spørgsmål
+content#:#cont_copy_question_from_pool#:#Kopier spørgsmål fra bibliotek
 didactic#:#didactic_activated_msg#:#Activated didactic templates###06 08 2011 new variable
 didactic#:#didactic_deactivated_msg#:#Deactivated didactic templates###06 08 2011 new variable
 didactic#:#didactic_do_export#:#Export###06 08 2011 new variable
