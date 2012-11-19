@@ -13630,3 +13630,15 @@ if( !$ilDB->tableColumnExists('tst_tests', 'pass_deletion_allowed') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#3797>
+<?php
+if($ilDB->tableColumnExists('cmi_objective', 'id'))
+{
+	$ilDB->modifyTableColumn('cmi_objective', 'id', array(
+														'type'    => 'text',
+														'length'  => 4000,
+														'notnull' => false,
+														'default' => null
+													));
+}
+?>
