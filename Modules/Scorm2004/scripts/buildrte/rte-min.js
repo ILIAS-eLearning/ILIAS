@@ -1,4 +1,4 @@
-// Build: 20121119205423 
+// Build: 20121119210057 
 
 function ADLAuxiliaryResource()
 {}
@@ -3212,7 +3212,8 @@ extra.index=token2;extra.parent.push(dat);if(tdef.unique===token3)
 {for(di=tdat.length;di--;)
 {if(tdat[di][tdef.unique]===value)
 {if(di!==token2)
-{extra.error={code:351,diagnostic:"not unique"};break;}}}}
+{if(config.checkSetValues){extra.error={code:351,diagnostic:"The data model element's value is already in use and is not unique"};break;}
+else toleratedFailure=true;}}}}
 result=walk(tdat2,tdef.children,path,value,sudo,extra);if(!error)
 {tdat[token2]=tdat2;dat[token]=tdat;}
 return result;}

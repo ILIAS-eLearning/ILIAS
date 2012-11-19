@@ -593,8 +593,11 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 						{
 							if (di!==token2) 
 							{
-								extra.error = {code: 351, diagnostic: "not unique"};
-								break;
+								if (config.checkSetValues) {
+									extra.error = {code: 351, diagnostic: "The data model element's value is already in use and is not unique"};
+									break;
+								}
+								else toleratedFailure=true;
 							}
 						}
 					}
