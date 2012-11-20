@@ -3215,11 +3215,20 @@ abstract class assQuestion
 		$collected = $this->getQuestion();
 		$collected .= $this->getFeedbackGeneric(0);
 		$collected .= $this->getFeedbackGeneric(1);
+		for( $i = 0; $i <= $this->getTotalAnswers(); $i++ )
+		{
+			$collected .= $this->getFeedbackSingleAnswer($i);
+		}
 		foreach ($this->suggested_solutions as $solution_array)
 		{
 			$collected .= $solution_array["value"];
 		}
 		return $collected;
+	}
+	
+	function getFeedbackSingleAnswer($answer_index)
+	{
+		return '';
 	}
 
 	/**
