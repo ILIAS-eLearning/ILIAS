@@ -701,14 +701,14 @@ class ilPaymentBookings
 			if($row['access_startdate'] == NULL)
 			{
 				if(time() >= $row['order_date'] 
-					&& date("Y-m-d") <= $row['access_enddate'])
+					&& date("Y-m-d H:i:s") <= $row['access_enddate'])
 				{
 					return true;
 				}
 			}
 			else
-			if (date("Y-m-d") >= $row['access_startdate'] 
-				&& date("Y-m-d") <= $row['access_enddate'])
+			if (date("Y-m-d H:i:s") >= $row['access_startdate'] 
+				&& date("Y-m-d H:i:s") <= $row['access_enddate'])
 			{
 				return true;
 			}
