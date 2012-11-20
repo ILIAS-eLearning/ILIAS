@@ -651,7 +651,7 @@ class assFileUpload extends assQuestion
 			include_once 'Modules/Test/classes/class.ilObjTestAccess.php';
 			include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
 			ilLPStatusWrapper::_updateStatus(
-				ilObjTest::_lookupTestObjIdForQuestionId($this->getId()),
+				ilObjTest::_getObjectIDFromActiveID((int)$active_id),
 				ilObjTestAccess::_getParticipantId((int) $active_id)
 			);
 		}
