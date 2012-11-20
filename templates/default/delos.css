@@ -3028,21 +3028,18 @@ tr.il_adv_sel_act {
 }
 
 td.il_adv_sel {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #F0F0F0;
+	border-bottom: 1px solid #F0F0F0;
 	padding: 3px 10px;
 	text-align: left;
 	white-space: nowrap;
 	cursor: pointer;
 	font-weight: normal;
+	min-width: 150px;
 }
 
 td.il_adv_sel_ic {
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #F0F0F0;
-	padding: 3px 0px 3px 10px;
+	border-bottom: 1px solid #F0F0F0;
+	padding: 3px 0 3px 10px;
 	text-align: left;
 	cursor: pointer;
 }
