@@ -1511,10 +1511,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					$post_data = array();
 					$post_data = $objPost->getDataAsArray();
+					$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
+					$post_data["top_name"] = $titles[0];
 					
 					$frm->__sendMessage($objPost->getParentId(), $post_data);
 					
-					$frm->sendForumNotifications($post_data);
+					$frm->sendForumNotifiations($post_data);
 					$frm->sendThreadNotifications($post_data);
 					
 					unset($GLOBALS["frm_notifications_sent"]);
@@ -3277,6 +3279,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 			
+			if($this->ilias->getSetting('forum_notification') == 1)
+			{
+				// send notification about new topic
+				$objPost =  new ilForumPost((int)$newPost, $this->is_moderator);
+				$post_data = array();
+				$post_data = $objPost->getDataAsArray();
+				$titles = $this->getTitlesByRefId(array($this->object->getRefId()));
+				$post_data["top_name"] = $titles[0];
+				
+				$frm->sendForumNotifications($post_data);
+			}
 			if(!$a_prevent_redirect)
 			{
 				ilUtil::sendSuccess($this->lng->txt('forums_thread_new_entry'), true);
