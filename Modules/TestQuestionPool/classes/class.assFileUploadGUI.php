@@ -155,10 +155,11 @@ class assFileUploadGUI extends assQuestionGUI
 		$form->addItem($allowedextensions);
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt("points"), "points");
-		$points->setValue($this->object->getPoints());
+		$points->setValue($this->object->getPoints() > 0 ? $this->object->getPoints() : '');
 		$points->setRequired(TRUE);
 		$points->setSize(3);
 		$points->setMinValue(0.0);
+		$points->setMinvalueShouldBeGreater(true);
 		$form->addItem($points);
 		
 		$subcompl = new ilCheckboxInputGUI($this->lng->txt('ass_completion_by_submission'), 'completion_by_submission');
