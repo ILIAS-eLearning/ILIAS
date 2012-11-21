@@ -3124,6 +3124,43 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$ilToolbar->addSeparator();
 				$ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
+
+
+				global $ilAccess, $ilUser, $lng, $ilCtrl;
+				$seq = $this->object->getTestSession()->getLastSequence();
+				$online_access = false;
+				if ($this->object->getFixedParticipants())
+				{
+					include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
+					$online_access_result = ilObjTestAccess::_lookupOnlineTestAccess($this->object->getId(), $ilUser->getId());
+					if ($online_access_result === true)
+					{
+						$online_access = true;
+					}
+				}
+
+				if( $this->object->isOnline() && $this->object->isComplete() )
+				{
+					if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
+					{
+						$executable = $this->object->isExecutable($ilUser->getId(), $allowPassIncrease = TRUE);
+						if ($executable["executable"])
+						{
+							if ($this->object->getTestSession()->getActiveId() > 0)
+							{
+								$ilToolbar->addSeparator();
+								$ilToolbar->addButton($lng->txt('tst_resume_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'resume'));
+							}
+							else
+							{
+								$ilToolbar->addSeparator();
+								$ilToolbar->addButton($lng->txt('tst_start_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'startTest'));
+							}
+						}
+					}
+				}
+
+
 			}
 		}
 
