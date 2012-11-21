@@ -1030,7 +1030,8 @@ class ilMainMenuGUI
 		}
 				
 		$module_id = (int) $ilSetting->get("help_module");
-		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de")
+		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
+			$ilSetting->get("help_mode") != "1")
 		{
 			$help_active = true;
 			

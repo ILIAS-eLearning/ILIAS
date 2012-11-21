@@ -2081,5 +2081,22 @@ class ilObject
 		
 		return $all;
 	}
+	
+	/**
+	 * Lookup creation date
+	 *
+	 * @param
+	 * @return
+	 */
+	function _lookupCreationDate($a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT create_date FROM object_data ".
+			" WHERE obj_id = ".$ilDB->quote($a_id, "integer"));
+		$rec  = $ilDB->fetchAssoc($set);
+		return $rec["create_date"];
+	}
+	
 } // END class.ilObject
 ?>

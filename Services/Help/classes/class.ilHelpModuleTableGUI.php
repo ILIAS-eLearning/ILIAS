@@ -29,7 +29,7 @@ class ilHelpModuleTableGUI extends ilTable2GUI
 		
 		$this->addColumn("", "", "1");
 		$this->addColumn($this->lng->txt("title"));
-		$this->addColumn($this->lng->txt("create_date"));
+		$this->addColumn($this->lng->txt("help_imported_on"));
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -72,8 +72,9 @@ class ilHelpModuleTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$ilCtrl->setParameter($this->parent_obj, "hm_id", "");
-
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		$this->tpl->setVariable("CREATION_DATE",
+			ilDatePresentation::formatDate(new ilDateTime($a_set["create_date"],IL_CAL_DATETIME)));
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		
 	}

@@ -103,6 +103,22 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 			$fi->setSuffixes(array("zip"));
 			$ilToolbar->addInputItem($fi, true);
 			$ilToolbar->addFormButton($lng->txt("upload"), "uploadHelpFile");
+			$ilToolbar->addSeparator();
+			
+			// help mode
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$options = array(
+				"" => $lng->txt("help_tooltips_and_help"),
+				"1" => $lng->txt("help_help_only"),
+				"2" => $lng->txt("help_tooltips_only")
+				);
+			$si = new ilSelectInputGUI($this->lng->txt("help_mode"), "help_mode");
+			$si->setOptions($options);
+			$si->setValue($ilSetting->get("help_mode"));
+			$ilToolbar->addInputItem($si);
+			
+			$ilToolbar->addFormButton($lng->txt("help_set_mode"), "setMode");
+			
 		}
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
 		
@@ -242,5 +258,25 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 		$ilCtrl->redirect($this, "editSettings");
 	}
 	
+	/**
+	 * Set mode
+	 *
+	 * @param
+	 * @return
+	 */
+	function setMode()
+	{
+		global $lng, $ilCtrl, $ilSetting;
+		
+		if ($this->checkPermissionBool("write"))
+		{
+			$ilSetting->set("help_mode", ilUtil::stripSlashes($_POST["help_mode"]));
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		
+		$ilCtrl->redirect($this, "editSettings");
+	}
+	
+
 }
 ?>
