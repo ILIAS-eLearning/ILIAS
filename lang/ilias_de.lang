@@ -1492,9 +1492,9 @@ blog#:#blog_posting_deleted#:#Der Eintrag wurde gelöscht.
 blog#:#blog_posting_deletion_confirmation#:#Wollen Sie diesen Eintrag wirklich löschen?
 blog#:#blog_preview#:#Vorschau
 blog#:#blog_preview_banner#:#Personalisiertes Banner
-blog#:#blog_preview_banner_height#:#Banner Höhe
+blog#:#blog_preview_banner_height#:#Höhe des Banners
 blog#:#blog_preview_banner_info#:#Standardgrösse ist 880x100 Pixel.
-blog#:#blog_preview_banner_width#:#Banner Breite
+blog#:#blog_preview_banner_width#:#Breite des Banners
 blog#:#blog_profile_picture#:#Profil-Bild anzeigen
 blog#:#blog_rename_posting#:#Eintrag umbenennen
 blog#:#blog_settings#:#Blog-Administration
@@ -2129,8 +2129,8 @@ common#:#associated_user#:#Mitglied
 common#:#associated_users#:#Mitglieder
 common#:#at_least_one_style#:#Es muss mindestens ein Style aktiviert sein.
 common#:#at_location#:#an Position
-common#:#attach_sr_invoice#:#An Email anhängen
-common#:#attach_sr_invoice_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen an die Kaufbestätigungs-Email als Dateianhang hinzugefügt
+common#:#attach_sr_invoice#:#An E-Mail anhängen
+common#:#attach_sr_invoice_info#:#Wenn aktiviert, werden die gesetzlichen Bestimmungen an die Kaufbestätigungs-E-Mail als Dateianhang hinzugefügt
 common#:#attachment#:#Anhang
 common#:#attachments#:#Anhänge
 common#:#attempts#:#Versuche
@@ -4701,7 +4701,7 @@ common#:#shib_data_conv#:#Pfad zum Daten Manipulations-API
 common#:#shib_data_conv_warning#:#Das angegebene Daten-Manipulations-API kann nicht gelesen werden.
 common#:#shib_department#:#Attribut für Departement
 common#:#shib_edit_permission#:#Zugriffsberechtigungen ändern
-common#:#shib_email#:#Attribut für Emailadresse
+common#:#shib_email#:#Attribut für E-Mailadresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
 common#:#shib_gender#:#Attribut für Geschlecht (muss 'm' oder 'f' sein)
@@ -5407,8 +5407,8 @@ content#:#cont_deactivate_media#:#Medien deaktivieren
 content#:#cont_deactivate_page#:#Seite deaktivieren
 content#:#cont_deactivated#:#Deaktiviert
 content#:#cont_debug#:#Testwerkzeug anzeigen
-content#:#cont_debug_deactivate#:#Hinweis: Testwerkzeug kann global für alle Lernmodule deaktiviert werden.
-content#:#cont_debug_deactivated#:#Hinweis: Testwerkzeug ist global für alle Lernmodule deaktiviert.
+content#:#cont_debug_deactivate#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität kann global für alle Lernmodule deaktiviert werden.
+content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
 content#:#cont_debugpw#:#Zugangspasswort
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
@@ -5690,7 +5690,7 @@ content#:#cont_link_whole_picture#:#Komplettes Bild verlinken
 content#:#cont_linked_mobs#:#Verlinkte Medienobjekte
 content#:#cont_links#:#Links
 content#:#cont_List#:#Liste
-content#:#cont_list_files#:#Liste Dateien auf
+content#:#cont_list_files#:#Dateiverzeichnis
 content#:#cont_list_indent#:#Liste einrücken
 content#:#cont_list_outdent#:#Liste ausrücken
 content#:#cont_list_properties#:#Listen-Eigenschaften
@@ -5806,7 +5806,7 @@ content#:#cont_offline_files#:#Offline-Version
 content#:#cont_offline_versions#:#Offline-Versionen
 content#:#cont_online#:#Online
 content#:#cont_online_help_ids#:#Screen-IDs
-content#:#cont_open#:#Anzeigen
+content#:#cont_open#:#Anzeige des Lernmoduls
 content#:#cont_open_heigth#:#Höhe
 content#:#cont_open_iframe_defined#:#in iframe mit festgelegter Breite und Höhe
 content#:#cont_open_iframe_max#:#in iframe mit voller Größe
@@ -5968,7 +5968,7 @@ content#:#cont_sc_stat_not_attempted#:#Nicht begonnen
 content#:#cont_sc_stat_passed#:#Bestanden
 content#:#cont_sc_stat_running#:#Aktiv
 content#:#cont_sc_title#:#Titel
-content#:#cont_sc_usession#:#Session-Timeout deaktivieren
+content#:#cont_sc_usession#:#Session-Timeout verhindern
 content#:#cont_sc_version#:#Version des Lernmoduls
 content#:#cont_scheduled_activation#:#Zeitliche Aktivierung
 content#:#cont_school#:#Schule
@@ -5999,7 +5999,7 @@ content#:#cont_selected_items_have_been_cut#:#Die ausgewählten Elemente wurden 
 content#:#cont_selected_pg_chap#:#Ausgewählte Seiten/Kapitel
 content#:#cont_selected_terms#:#Ausgewählte Begriffe
 content#:#cont_selection#:#Auswahl
-content#:#cont_sequencing#:#'Sequencing and Navigation' ermöglichen gemäß den Vorgaben des Lernmoduls
+content#:#cont_sequencing#:#Sequencing & Navigation
 content#:#cont_series#:#Serie
 content#:#cont_series_editor#:#Autor der Serie
 content#:#cont_series_title#:#Serientitel
@@ -6097,7 +6097,7 @@ content#:#cont_text_type#:#Typ des Textelements
 content#:#cont_text_xln#:#Externer Link:
 content#:#cont_third_and_more#:#Dritte oder später
 content#:#cont_time#:#Zeit
-content#:#cont_time_from_lms#:#Bearbeitungszeiten von ILIAS anstatt vom SCO bestimmen lassen
+content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#Titel
 content#:#cont_title_footnotes#:#Fußnoten
@@ -9805,7 +9805,7 @@ ps#:#rbac_log_info#:#Logging aller Änderungen an Rechteeinstellungen aktivieren
 ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
 pwassist#:#password_assistance#:#Passwort-Unterstützung
-pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die Email eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
+pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die E-Mail eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_invalid_auth_mode#:#Der angegebene Benutzer wird nicht direkt am ILIAS-System authentifiziert. Eine Zusendung des Kennworts ist daher nicht möglich.
@@ -9820,7 +9820,7 @@ pwassist#:#pwassist_not_permitted#:#Bitte geben Sie einen anderen Benutzernamen 
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus.\nDie Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
 pwassist#:#pwassist_update_error#:#Bitte benachrichtigen Sie den System Administrator.\nDas Passwort konnte aufgrund eines Datenbank Fehlers nicht zugewiesen werden.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Mail ist automatisch generiert worden von der ILIAS-Installation:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und Email ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Mail ist automatisch generiert worden von der ILIAS-Installation:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
@@ -12210,15 +12210,15 @@ cptch#:#cptch_freetype_support_needed#:#Um diese Funktion zu nutzen benötigen S
 grp#:#grp_print_list#:#Liste erstellen
 grp#:#grp_members_print_title#:#Gruppenmitglieder
 trac#:#trac_closed_misc#:#Sonstige
-common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Ziel-Objekt zugreifen.
+common#:#reg_goto_parent_membership_info#:#Nur Mitglieder können auf das Zielobjekt zugreifen.
 rep#:#rep_no_permission_to_delete#:#Kein Recht zum Löschen
 rep#:#rep_object_references_cannot_be_read#:#Keine Rechte an %s weiteren Referenzen.
 rep#:#rep_multiple_reference_deletion_intro#:#Es existieren weitere Referenzen für dieses Objekt.
 rep#:#rep_multiple_reference_deletion_instruction#:#Wählen Sie diejenigen, die ebenfalls gelöscht werden sollen:
 blog#:#blog_enable_rss#:#RSS aktivieren
-blog#:#blog_enable_rss_info#:#Der RSS Feed ist öffentlich und unabhängig von Blog-Freigaben oder Benutzerrechten.
+blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Benutzerrechten.
 user#:#user_allow_delete_own_account#:#Benutzer können eigenen Account löschen
-user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-Email
+user#:#user_delete_own_account_notification_email#:#Benachrichtigungs-E-Mail
 user#:#user_delete_own_account#:#Account löschen
 user#:#user_delete_own_account_info#:#Hier können Sie Ihren aktuellen Benutzer-Account löschen. Bedenken Sie, dass dieser Vorgang nicht rückgängig gemacht werden kann!
 user#:#user_delete_own_account_password_confirmation#:#Passworteingabe für Autorisierung
@@ -12327,13 +12327,13 @@ rbac#:#dcl_copy#:#Datensammlung kopieren
 rbac#:#dcl_write#:#Datensammlung bearbeiten
 rbac#:#dcl_delete#:#Datensammlung löschen
 rbac#:#dcl_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#dcl_add_entry#:#Datensatz hinzufügen
+rbac#:#dcl_add_entry#:#Eintrag hinzufügen
 rbac#:#crs_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#root_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#fold_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#grp_create_dcl#:#Neue Datensammlung anlegen
 rbac#:#cat_create_dcl#:#Neue Datensammlung anlegen
-dcl#:#dcl_edit_type#:#Edit Type
+dcl#:#dcl_edit_type#:#Typ bearbeiten
 dcl#:#dcl_activate_rating#:#Bewertung von Einträgen
 dcl#:#dcl_activate_approval#:#Aktivierung von Einträgen
 dcl#:#dcl_activate_notification#:#Benachrichtigung
@@ -12346,13 +12346,13 @@ dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Pflichtfeld
 dcl#:#dcl_edit_type_non#:#Nicht bearbeitbar
-dcl#:#dcl_edit_type_non_info#:#Um neue Einträge zu erstellen benötigt man das Bearbeitungs-Recht
+dcl#:#dcl_edit_type_non_info#:#Um neue Einträge zu erstellen, ist das Recht 'Eintragen' notwendig.
 dcl#:#dcl_edit_type_unlim#:#Unlimitiert
-dcl#:#dcl_edit_type_unlim_info#:#Benutzer mit add/edit-Rechten können Einträge hinzufügen und bearbeiten.
+dcl#:#dcl_edit_type_unlim_info#:#Benutzer mit den Rechten 'Eintragen' und 'Einstellungen bearbeiten' können Einträge hinzufügen und bearbeiten.
 dcl#:#dcl_edit_type_lim#:#Limitiert
-dcl#:#dcl_edit_type_lim_info#:#Benutzer mit add/edit-Rechten können Einträge während dem angegebenen Zeitraum hinzufügen und bearbeiten.
-dcl#:#dcl_edit_start#:#Start-Datum
-dcl#:#dcl_edit_end#:#End-Datum
+dcl#:#dcl_edit_type_lim_info#:#Benutzer mit den Rechten 'Eintragen' und 'Einstellungen bearbeiten' können Einträge während dem angegebenen Zeitraum hinzufügen und bearbeiten.
+dcl#:#dcl_edit_start#:#Startdatum
+dcl#:#dcl_edit_end#:#Enddatum
 dcl#:#dcl_export#:#Export
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_view_viewdefinition#:#Anzeigedefinition
@@ -12366,7 +12366,7 @@ dcl#:#dcl_text#:#Text
 dcl#:#dcl_reference#:#Referenz
 dcl#:#dcl_boolean#:#Boolean
 dcl#:#dcl_datetime#:#Datum
-dcl#:#dcl_file#:#Fileupload
+dcl#:#dcl_file#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Pflichtfeld
 dcl#:#dcl_length#:#Länge
@@ -12374,12 +12374,12 @@ dcl#:#dcl_regex#:#Regular Expression (Ohne Trennsymbol/Delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
-dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur spezifikation dieses Feldes (Regular Expression).
+dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regular Expression).
 dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Wrong Type).
 dcl#:#dcl_unique#:#Einzigartig
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
-common#:#obj_dcl_duplicate#:#Data Collection Kopieren
+common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
 payment#:#duration_month#:#Zugriffsdauer in Monaten
@@ -12477,12 +12477,12 @@ poll#:#poll_block_message_already_voted#:#Sie haben bereits abgestimmt.
 poll#:#poll_block_message_no_answers#:#Diese Abstimmung ist nicht komplett.
 survey#:#svy_neutral_answer#:#Text für eine neutrale Antwort ("Nicht definiert", "Ich weiß nicht", "Keine Angabe" etc.)
 common#:#mail_member#:#Mail an Mitglied
-exc#:#exc_type_upload_team#:#Team Upload
+exc#:#exc_type_upload_team#:#Datei als Team einreichen
 exc#:#exc_team#:#Team
 exc#:#exc_team_member_add#:#Team-Mitglied hinzufügen (Suche)
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Kurs/Gruppe hinzufügen
 exc#:#exc_team_members#:#Team-Mitglieder
-exc#:#exc_team_at_least_one#:#Es muss mindestens 1 Team-Mitglied geben.
+exc#:#exc_team_at_least_one#:#Es muss mindestens ein Team-Mitglied geben.
 exc#:#exc_team_log#:#Team Log
 exc#:#exc_team_log_remove_member#:#Mitglied %s entfernt.
 exc#:#exc_team_log_add_member#:#Mitglied %s hinzugefügt.
@@ -12490,7 +12490,7 @@ exc#:#exc_team_log_create_team#:#Team erstellt.
 exc#:#exc_team_log_add_file#:#Datei %s hinzugefügt.
 exc#:#exc_team_log_remove_file#:#Datei %s entfernt.
 administration#:#adm_imprint#:#Impressum
-administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und nicht für Benutzer erreichbar.
+administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und somit nicht für Benutzer erreichbar.
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige Objekte ohne Zugriff
 cat#:#cat_import#:#Kategorie importieren
@@ -12512,7 +12512,7 @@ dateplaner#:#cal_type_rl#:#Ort des Kalenders
 dateplaner#:#cal_type_local#:#Lokaler Kalender
 dateplaner#:#cal_type_remote#:#Web-Kalender
 dateplaner#:#cal_remote_url#:#URL des Kalenders
-dateplaner#:#cal_type_rl_info#:#Wenn Ihnen die Adresse eines Kalenders bekannt ist, können Sie diese hier eingeben. Auf Web-Kalender kann lesend zugegriffen werden.
+dateplaner#:#cal_type_rl_info#:#Geben Sie die Adresse des gewünschten Kalenders hier ein. Auf Web-Kalender kann lesend zugegriffen werden.
 dateplaner#:#cal_cal_synchronize#:#Kalender synchronisieren
 dateplaner#:#cal_cal_sync_success#:#Die Kalendertermine wurden aktualisiert.
 administration#:#adm_user_starting_point#:#Persönliche Startseite
@@ -12520,8 +12520,8 @@ administration#:#adm_user_starting_point_info#:#Wählen Sie die Seite oder Objek
 content#:#cont_AdvancedKnowledge#:#Vertiefungswissen
 content#:#cont_show_adv#:#Vertiefungswissen anzeigen
 content#:#cont_hide_adv#:#Vertiefungswissen verbergen
-registration#:#reg_email_domains#:#Die folgenden Email-Adressdomains sind gültig: %s
-registration#:#reg_allowed_domains#:#Erlaubte Email-Adressdomänen
+registration#:#reg_email_domains#:#Die folgenden E-Mail-Adressdomains sind gültig: %s
+registration#:#reg_allowed_domains#:#Erlaubte E-Mail-Adressdomänen
 registration#:#reg_allowed_domains_info#:#Benutzen Sie * als Wildcard und ; als Trennzeichen.
 pd#:#block_show_pdcal#:#Kalender anzeigen
 pd#:#block_show_pdmail#:#Mail anzeigen
@@ -12540,7 +12540,7 @@ common#:#crs_list_reg_limit_full#:#Keine freien Plätze verfügbar
 common#:#crs_list_reg_limit_places#:#Freie Plätze
 common#:#crs_list_reg_period#:#Anmeldungszeitraum
 search#:#lucene_offline_filter_setting#:#Offline-Filter
-search#:#lucene_offline_filter_setting_info#:#Wenn aktiviert, kann in der "Erweiterten Suche" nach Objekten gesucht werden, deren Status "Offline" ist.
+search#:#lucene_offline_filter_setting_info#:#Wenn aktiviert, kann in der Erweiterten Suche auch nach Objekten gesucht werden, die aktuell nicht 'online' gesetzt sind.
 search#:#lucene_offline_filter#:#Online-Status
 survey#:#svy_matrix_layout_percentages_sum_invalid#:#Die Spalten-Einstellungen summieren sich nicht auf 100%.
 common#:#grp_list_reg_start#:#Anmeldungsbeginn
@@ -12549,7 +12549,7 @@ common#:#grp_list_reg_noreg#:#Keine Anmeldung möglich
 common#:#grp_list_reg_limit_full#:#Keine freien Plätze verfügbar
 common#:#grp_list_reg_limit_places#:#Freie Plätze
 common#:#grp_list_reg_period#:#Anmeldungszeitraum
-crs#:#crs_member_passed_status_changed#:#Bestanden Status Änderung 
+crs#:#crs_member_passed_status_changed#:#Update Status 
 common#:#obj_hlps#:#Online-Hilfe
 common#:#add_entry#:#Eintragen
 common#:#obj_poll_duplicate#:#Abstimmung kopieren
@@ -12571,8 +12571,8 @@ rbac#:#internal_mail#:#Internes Mail-System
 rbac#:#mail_internal_mail#:#Benutzer dürfen das interne Mail-System nutzen (ILIAS)
 poll#:#poll_active_no_edit#:#Diese Abstimmung ist zur Zeit aktiv und kann nicht bearbeitet werden.
 poll#:#poll_votes_no_edit#:#Diese Abstimmung beinhaltet bereits Stimmen. Sie kann nicht bearbeitet werden so lange Sie die Stimmen nicht löschen.
-content#:#cont_auto_last_visited#:#zuletzt gesehenen Abschnitt (SCO/Asset) laden
-content#:#cont_check_values#:#vom SCO geschickte Werte prüfen
+content#:#cont_auto_last_visited#:#Mit zuletzt besuchtem Abschnitt fortfahren
+content#:#cont_check_values#:#Vom SCO geschickte Werte prüfen
 administration#:#adm_social_bm_create#:#Social-Bookmark hinzufügen
 administration#:#adm_social_bm_edit#:#Social-Bookmark bearbeiten
 ecs#:#ecs_crs_export#:#Kursfreigaben
@@ -12909,14 +12909,14 @@ survey#:#svy_activation_online_info#:#Wählen Sie diese Einstellung, um die Umfr
 survey#:#svy_availability_limitless_info#:#Wählen Sie diese Einstellung, um die Umfrage unbegrenzt freizuschalten.
 survey#:#svy_availability_until_info#:#Wählen Sie diese Einstellung, um die Umfrage nur während eines definierten Zeitraums freizuschalten.
 survey#:#svy_activation_limited_visibility_info#:#Falls aktiv, ist die Umfrage auch ausserhalb der Zugriffszeiten sichtbar.
-blog#:#blog_contributors#:#Autoren
+blog#:#blog_contributors#:#Blog-Autoren
 blog#:#blog_add_contributor#:#Autor hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 blog#:#blog_contributor_container_add#:#Benutzer aus Kurs/Gruppe hinzufügen
 common#:#il_blog_contributor#:#Blog-Autor
 rbac#:#blog_contribute#:#Benutzer darf mitwirken
 blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
-dcl#:#dcl_no_content_warning#:#Achtung, die Data Collection ist jetzt online hat aber noch keinen Inhalt!
+dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Sichtbar für alle Benutzer
 dcl#:#dcl_empty_view#:#Anzeigedefinition Löschen
 dcl#:#dcl_confirm_delete_view_title#:#Die Anzeigedefinition wirklich löschen?
@@ -12928,25 +12928,25 @@ rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren
 poll#:#poll_import#:#Abstimmung importieren
-user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine Email mit weiteren Informationen wurde an Sie versendet.
+user#:#user_account_deleted_confirmation#:#Ihr Account wurde gelöscht. Eine E-Mail mit weiteren Informationen wurde an Sie versendet.
 rating#:#rating_export_category#:#Kategorie
 rating#:#rating_export_date#:#Datum
 rating#:#rating_export_rating#:#Bewertung
 trac#:#trac_mode_plugin#:#Plugin
 common#:#qpl_copy#:#Fragenpool für Tests kopieren
-mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.###28 09 2012 new variable
-mathjax#:#mathjax_enable_mathjax#:#Enable MathJax###28 09 2012 new variable
-mathjax#:#mathjax_mathjax#:#MathJax###28 09 2012 new variable
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.###28 09 2012 new variable
-mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax###28 09 2012 new variable
-mathjax#:#mathjax_settings#:#MathJax Settings###28 09 2012 new variable
-mathjax#:#mathjax_limiter#:#Inline Delimiters###28 09 2012 new variable
-mathjax#:#mathjax_limiter_info#:#Select the inline delimiters as they are configured in your MathJax installation.###28 09 2012 new variable
+mathjax#:#mathjax_enable_mathjax_info#:#Aktiviert die LaTeX-Unterstützung mit MathJax, um mathematische Formeln ausgeben zu können.
+mathjax#:#mathjax_enable_mathjax#:#MathJax aktivieren
+mathjax#:#mathjax_mathjax#:#MathJax
+mathjax#:#mathjax_path_to_mathjax_desc#:#Zum Beispiel: http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML oder eine URL zu Ihrer lokalen Installation.
+mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
+mathjax#:#mathjax_settings#:#MathJax-Einstellungen
+mathjax#:#mathjax_limiter#:#Trennzeichen
+mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, wie sie in Ihrer MathJax-Installation konfiguriert sind.
 content#:#cont_initial_attached_content#:#Initial Extra Content###28 09 2012 new variable
-content#:#cont_topic#:#Topic###28 09 2012 new variable
-content#:#cont_selected_topic#:#Selected Topic###28 09 2012 new variable
-content#:#cont_all_topics#:#All Topics###28 09 2012 new variable
-content#:#cont_highlight_class#:#Highlight Class###28 09 2012 new variable
+content#:#cont_topic#:#Thema
+content#:#cont_selected_topic#:#Ausgewähltes Thema
+content#:#cont_all_topics#:#Alle Themen
+content#:#cont_highlight_class#:#Klasse hervorheben
 survey#:#survey_question_pool_usage_active#:#Fragen können optional im Fragenpool angelegt werden.
 survey#:#survey_question_pool_usage_active_info#:#Die Fragen können für andere Umfragen wiederverwendet werden.
 survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
@@ -12969,26 +12969,26 @@ search#:#search_option_offline#:#Offline
 common#:#ilinc_abandoned_info#:#Die integrierte netucate LearnLinc-Schnittstelle wird mit ILIAS 4.3 nicht mehr unterstützt. Bitte steigen Sie jetzt um auf das neue iLinc-Plugin, um virtuelle Klassenzimmer von LearnLinc in ILIAS zu verwenden. Weitere Infos auf der <a href="http://http://www.netucate.com/">netucate-Webseite.</a>
 forum#:#sort_by_date#:#Sortieren nach Datum
 forum#:#error_reading_file#:#Beim Lesen der Datei ist ein Fehler aufgetreten
-content#:#cont_presentation#:#Presentation###27 10 2012 new variable
-content#:#cont_scorm_options#:#SCORM Options###27 10 2012 new variable
-content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
-content#:#cont_debugging#:#Debugging###27 10 2012 new variable
-content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
-content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 10 2012 new variable
-content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 10 2012 new variable
-content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.###27 10 2012 new variable
-content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.###27 10 2012 new variable
-content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.###27 10 2012 new variable
+content#:#cont_presentation#:#Darstellung
+content#:#cont_scorm_options#:#SCORM-Optionen
+content#:#cont_rte_settings#:#RTE-Einstellungen
+content#:#cont_debugging#:#Debugging
+content#:#cont_auto_last_visited_info#:#Öffnet das zuletzt besuchte SCO (oder Asset), wenn der Lerner das Lernmodul wieder aufruft.
+content#:#cont_credit_mode_info#:#Diese Einstellung ist nur wirksam im Modus 'normal'.
+content#:#cont_sc_auto_review_info#:#Setzt den Modus auf 'review', wenn der Lerner das SCO bearbeitet hat.
+content#:#cont_sc_usession_info#:#Wenn aktiviert werden periodisch Anfragen an den Server gesendet, um die Session des Benutzers aufrecht zu erhalten.
+content#:#cont_sequencing_info#:#Aktiviert das Verhalten für Sequencing & Navigation gemäß den Vorgaben des Lernmoduls
+content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten des SCOs werden von ILIAS und nach den strikten Vorgagen des SCORM-Standards ermittelt.
 mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_list#:#Liste
 mcst#:#mcst_gallery#:#Galerie
 mcst#:#mcst_manage#:#Verwalten
 mcst#:#mcst_play#:#Abspielen
-common#:#edit_assignments#:#Edit Assignments###27 10 2012 new variable
-mcst#:#mcst_extract_preview_image#:#Extract Preview Image###27 10 2012 new variable
-mcst#:#mcst_image_extracted#:#Image has been extracted.###27 10 2012 new variable
-mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.###27 10 2012 new variable
-mcst#:#mcst_second#:#Second###27 10 2012 new variable
+common#:#edit_assignments#:#Zuordnung bearbeiten
+mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
+mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
+mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
+mcst#:#mcst_second#:#Sekunde
 rbac#:#lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
 rbac#:#trac_lp_other_users#:#Lernfortschritt anderer Benutzer einsehen
 dateplaner#:#cal_webcal_sync_info#:#Wenn aktiviert, werden externe Kalender alle x Stunden synchronisiert.
