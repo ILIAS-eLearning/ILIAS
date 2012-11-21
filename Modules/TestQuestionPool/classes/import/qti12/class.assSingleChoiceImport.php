@@ -325,9 +325,8 @@ class assSingleChoiceImport extends assQuestionImport
 				}
 				else
 				{
-					include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-					$importfile = ilObjQuestionPool::_getImportDirectory() . '/' . $mob["uri"];
-					$GLOBALS['ilLog']->write(__METHOD__.': import mob from dir: '. ilObjQuestionPool::_getImportDirectory() . '/' . $mob["uri"]);
+					$importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
+					$GLOBALS['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
 				}
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
