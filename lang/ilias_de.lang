@@ -12718,82 +12718,58 @@ fm#:#fm_settings_local#:#Lokales Dateisystem anzeigen
 fm#:#fm_settings_local_info#:#Wenn aktiviert, wird der Dateimanager in einer Zwei-Fenster-Ansicht gestartet (lokales Dateisystem und ILIAS-Magazin). Wenn deaktiviert, wird lediglich das ILIAS-Magazin dargestellt.
 fm#:#fm_settings_filesize#:#Maximal Upload-Dateigrösse
 fm#:#fm_settings_filesize_info#:#Bitte geben Sie die maximale Upload-Dateigröße in MebiByte an.
-common#:#centra_account#:#Centra Admin Account###28 08 2012 new variable
-common#:#centra_rooms#:#Centra Rooms###28 08 2012 new variable
-common#:#centra_server#:#Centra Server###28 08 2012 new variable
-common#:#chat_invite_public_room#:#Public Chat###28 08 2012 new variable
-rbac#:#grp#:#User can copy group###28 08 2012 new variable
-common#:#ingmedia_all_offers#:#All LE###28 08 2012 new variable
-common#:#ingmedia_back_to_le#:#Back to LE###28 08 2012 new variable
-common#:#ingmedia_good_afternoon#:#Good afternoon###28 08 2012 new variable
-common#:#ingmedia_good_evening#:#Good evening###28 08 2012 new variable
-common#:#ingmedia_good_morning#:#Good morning###28 08 2012 new variable
-common#:#ingmedia_good_night#:#Good night###28 08 2012 new variable
-common#:#ingmedia_hello#:#Hello###28 08 2012 new variable
-common#:#ingmedia_info_about_work1#:#On###28 08 2012 new variable
-common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:###28 08 2012 new variable
-common#:#ingmedia_level_zero#:#Level up###28 08 2012 new variable
-common#:#ingmedia_pers_dates#:#Personal data###28 08 2012 new variable
-common#:#ingmedia_reg_fo#:#Registered forums###28 08 2012 new variable
-common#:#ingmedia_reg_le#:#Registered LE###28 08 2012 new variable
-common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).###28 08 2012 new variable
-common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.###28 08 2012 new variable
-common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.###28 08 2012 new variable
-common#:#ingmedia_use_title#:#Change user data.###28 08 2012 new variable
-common#:#ingmedia_user_agree#:#Agreement###28 08 2012 new variable
-common#:#ingmedia_vis_le#:#Visited LE###28 08 2012 new variable
-common#:#ingmedia_visited_le#:#All LE you have visited so far.###28 08 2012 new variable
-common#:#ingmedia_welcome#:#, welcome to your personal desktop!###28 08 2012 new variable
-rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module###28 08 2012 new variable
-content#:#cont_LocalFile#:#Local File###28 08 2012 new variable
-ecs#:#ecs_cms_directory_trees_tbl#:#CMS Directory Trees###28 08 2012 new variable
-ecs#:#ecs_node_mapping_status_1#:#Mapping of the Whole Tree###28 08 2012 new variable
-ecs#:#ecs_node_mapping_status_2#:#Manual Mapping###28 08 2012 new variable
-ecs#:#ecs_node_mapping_status_3#:#Unmapped###28 08 2012 new variable
-ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus managment tree?###28 08 2012 new variable
-ecs#:#ecs_cms_tree_deleted#:#The campus managment tree assignments have been deleted.###28 08 2012 new variable
-ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System###28 08 2012 new variable
-ecs#:#ecs_title_updates#:#Transfer Title Updates###28 08 2012 new variable
-ecs#:#ecs_tree_updates#:#Transfer Tree Updates###28 08 2012 new variable
-ecs#:#ecs_position_updates#:#Transfer Position Updates###28 08 2012 new variable
-ecs#:#ecs_local_information#:#Further Information###28 08 2012 new variable
+common#:#chat_invite_public_room#:#Öffentlicher Chatraum
+rbac#:#grp#:#Benutzer kann Gruppe kopieren
+rbac#:#sahs_copy#:#Benutzer kann SCORM/AICC-Lernmodul kopieren
+content#:#cont_LocalFile#:#Likale Datei
+ecs#:#ecs_cms_directory_trees_tbl#:#CMS-Verzeichnisbäume
+ecs#:#ecs_node_mapping_status_1#:#Den gesamten Baum mappen
+ecs#:#ecs_node_mapping_status_2#:#Manuelles Mappen
+ecs#:#ecs_node_mapping_status_3#:#Ungemapped
+ecs#:#ecs_confirm_delete_tree#:#Wollen Sie wirklich alle Zuweisungen zu diesem CMS-Baum löschen?
+ecs#:#ecs_cms_tree_deleted#:#Die Zuweisungen zum Campus-Management-Baum wurden gelöscht
+ecs#:#ecs_cms_id#:#Root-ID im Campus-Management-System
+ecs#:#ecs_title_updates#:#Transfer Title Updates
+ecs#:#ecs_tree_updates#:#Transfer Tree Updates
+ecs#:#ecs_position_updates#:#Transfer Position Updates
+ecs#:#ecs_local_information#:#Weitere Informationen
 tax#:#tax_taxonomy#:#Taxonomie
-tax#:#obj_taxn#:#Node###28 08 2012 new variable
-tax#:#tax_node#:#Node###28 08 2012 new variable
-tax#:#tax_nodes#:#Nodes###28 08 2012 new variable
-tax#:#tax_create_node#:#Create Node###28 08 2012 new variable
-tax#:#tax_new_tax_node#:#New Node###28 08 2012 new variable
-tax#:#tax_order#:#Order###28 08 2012 new variable
+tax#:#obj_taxn#:#Knoten
+tax#:#tax_node#:#Knoten
+tax#:#tax_nodes#:#Knoten
+tax#:#tax_create_node#:#Knoten anlegen
+tax#:#tax_new_tax_node#:#Neuer Knoten
+tax#:#tax_order#:#Reihenfolge
 exc#:#exc_no_deadline_specified#:#Es wurde kein Abgabetermin festgelegt.
-content#:#glo_style#:#Glossary Style###28 08 2012 new variable
-content#:#glo_show_taxonomy#:#Show Taxonomy###28 08 2012 new variable
-tax#:#tax_sorting#:#Sorting###28 08 2012 new variable
-tax#:#tax_alphabetical#:#Alphabetical###28 08 2012 new variable
-tax#:#tax_manual#:#Manual###28 08 2012 new variable
-tax#:#tax_order_nr#:#Order Nr###28 08 2012 new variable
-tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected items.###28 08 2012 new variable
-tax#:#tax_please_select_target#:#Please select the target.###28 08 2012 new variable
-tax#:#tax_delete_taxonomy#:#Delete Taxononmy###28 08 2012 new variable
-tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?###28 08 2012 new variable
-tax#:#tax_tax_deleted#:#The taxonomy has been deleted.###28 08 2012 new variable
-tax#:#tax_add_taxonomy#:#Add Taxonomy###28 08 2012 new variable
+content#:#glo_style#:#Glossar-Style
+content#:#glo_show_taxonomy#:#Zeige Taxonomie
+tax#:#tax_sorting#:#Sortierung#
+tax#:#tax_alphabetical#:#Alphabetisch
+tax#:#tax_manual#:#Manuell
+tax#:#tax_order_nr#:#Ordnungsnummer
+tax#:#tax_target_within_nodes#:#Das Ziel darf kein Unterknoten des ausgewählten Elements sein.
+tax#:#tax_please_select_target#:#Bitte wählen Sie ein Ziel aus!
+tax#:#tax_delete_taxonomy#:#Taxonomie löschen
+tax#:#tax_confirm_deletion#:#Wollen Sie wirklich die gesamte Taxonomie mit allen Beziehungen löschen?
+tax#:#tax_tax_deleted#:#Die Taxonomie wurde gelöscht.
+tax#:#tax_add_taxonomy#:#Taxonomie hinzufügen
 content#:#cont_show_activation_info#:#Aktivierungsinformationen anzeigen
 content#:#cont_show_activation_info_info#:#Wenn die Aktivierung in der Zukunft liegt, wird die Seite nicht übersprungen. Dem Lerner wird eine Meldung mit dem Aktivierungszeitpunkt angezeigt.
-content#:#cont_page_activation_on#:#The content will be activated on %s.###28 08 2012 new variable
-content#:#cont_hover#:#Hover###28 08 2012 new variable
-content#:#cont_always#:#Always###28 08 2012 new variable
-content#:#cont_highlight_mode#:#Highlight Mode###28 08 2012 new variable
-content#:#cont_light#:#Light###28 08 2012 new variable
-content#:#cont_dark#:#Dark###28 08 2012 new variable
-content#:#cont_accented#:#Accented###28 08 2012 new variable
-content#:#cont_set#:#Set###28 08 2012 new variable
-content#:#cont_link_no#:#No Link###28 08 2012 new variable
-common#:#obj_mep_duplicate#:#Copy Media Pool###28 08 2012 new variable
-common#:#obj_mcst_duplicate#:#Copy Mediacast###28 08 2012 new variable
-common#:#obj_glo_duplicate#:#Copy Glossary###28 08 2012 new variable
-common#:#obj_htlm_duplicate#:#Copy HTML Learning Module###28 08 2012 new variable
-common#:#obj_wiki_duplicate#:#Copy Wiki###28 08 2012 new variable
-common#:#obj_sahs_duplicate#:#Copy Learning Module###28 08 2012 new variable
+content#:#cont_page_activation_on#:#Der Inhalt wird aktiviert am %s.
+content#:#cont_hover#:#Hover
+content#:#cont_always#:#Immer
+content#:#cont_highlight_mode#:#Hervorgehoben-Modus
+content#:#cont_light#:#Hell
+content#:#cont_dark#:#Dunkel
+content#:#cont_accented#:#Betont
+content#:#cont_set#:#Setze
+content#:#cont_link_no#:#Kein Link
+common#:#obj_mep_duplicate#:#Mediapool kopieren
+common#:#obj_mcst_duplicate#:#Mediacast kopieren
+common#:#obj_glo_duplicate#:#Glossar kopieren
+common#:#obj_htlm_duplicate#:#HTML Lernmodul kopieren
+common#:#obj_wiki_duplicate#:#Wiki kopieren
+common#:#obj_sahs_duplicate#:#Lernmodule kopieren
 dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition###28 08 2012 new variable
 dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition###28 08 2012 new variable
 dcl#:#dcl_checked#:#Checked.###28 08 2012 new variable
