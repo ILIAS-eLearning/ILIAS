@@ -245,6 +245,11 @@ class ilHelpMapping
 		{
 			return false;
 		}
+		
+		if ($ilSetting->get("help_mode") == "2")
+		{
+			return false;
+		}
 
 		if (OH_REF_ID > 0)
 		{

@@ -114,7 +114,7 @@ class ilObjHelpSettings extends ilObject2
 			if (ilObject::_lookupType($rec["lm_id"]) == "lm")
 			{
 				$rec["title"] = ilObject::_lookupTitle($rec["lm_id"]);
-//				$rec["create_date"] = ilObject::_lookupCreationDate($rec["lm_id"]);
+				$rec["create_date"] = ilObject::_lookupCreationDate($rec["lm_id"]);
 			}
 			
 			$mods[] = $rec;

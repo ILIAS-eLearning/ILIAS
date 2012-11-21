@@ -12305,14 +12305,14 @@ rbac#:#root_create_blog#:#Neues Blog anlegen
 rbac#:#fold_create_blog#:#Neues Blog anlegen
 rbac#:#grp_create_blog#:#Neues Blog anlegen
 rbac#:#cat_create_blog#:#Neues Blog anlegen
-help#:#help_tooltips#:#Hilfe-Tool-Tipps
-help#:#help_tooltip_id#:#Tool-Tipp-ID
+help#:#help_tooltips#:#Hilfe-Tooltips
+help#:#help_tooltip_id#:#Tooltip-ID
 help#:#help_tt_text#:#Text
 help#:#help_all#:#Alle
 help#:#help_component#:#Komponente
 help#:#help_filter#:#Filter
 help#:#help_open_online_help#:#Online-Hilfe öffnen
-help#:#help_toggle_tooltips#:#Hilfe-Tool-Tips an-/ausschalten
+help#:#help_toggle_tooltips#:#Hilfe-Tooltips an-/ausschalten
 rbac#:#trac_write#:#Einstellungen für Zugriffsstatistiken und Lernfortschrittsverwaltung bearbeiten
 common#:#obj_dcl#:#Datensammlung
 common#:#objs_dcl#:#Datensammlungen
@@ -13007,3 +13007,8 @@ rbac#:#ecss_read#:#Lesezugriff auf Einstellungen der ECS-Administration
 rbac#:#ecss_visible#:#ECS-Administration ist sichtbar
 rbac#:#ecss_write#:#Einstellungen der ECS-Administration bearbeiten
 skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihrem Arbeitsraum (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihrem Arbeitsraum hinzufügen wollen, klicken Sie bitten den folgenden Link.
+help#:#help_imported_on#:#Importiert am
+help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
+help#:#help_help_only#:#Nur Handlungsanweisungen
+help#:#help_tooltips_only#:#Nur Tooltips
+help#:#help_set_mode#:#Hilfemodus setzen

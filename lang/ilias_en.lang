@@ -13005,3 +13005,8 @@ rbac#:#ecss_read#:#User can read general ECS settings
 rbac#:#ecss_visible#:#ECS settings are visible 
 rbac#:#ecss_write#:#User can edit ECS settings
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.
+help#:#help_imported_on#:#Imported on
+help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
+help#:#help_help_only#:#Workflow Help Only
+help#:#help_tooltips_only#:#Tooltips Only
+help#:#help_set_mode#:#Set Mode
