@@ -80,7 +80,7 @@ ul, ol, p {
 	margin: .8em 0;
 }
 
-ol, ul { margin-left: 40px }
+ol, ul { padding-left: 40px }
 ol { list-style-type: decimal }
 ol ul, ul ol,
 ul ul, ol ol { margin-top: 0; margin-bottom: 0 }
@@ -3572,7 +3572,7 @@ div.ilBlogSideBlockAuthor {
 
 ul.ilBlogSideBlockNavigation {
 	margin-top: 3px; 
-	margin-left: 15px;
+	padding-left: 15px;
 }
 
 div.ilBox {
