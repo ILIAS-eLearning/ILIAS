@@ -56,6 +56,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 	}
 	
+		/**
+	 * Set screen id component
+	 *
+	 * @param
+	 * @return
+	 */
+	function setScreenIdComponent()
+	{
+		global $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("copgwpg");
+	}
+
 	function initPageObject($a_parent_type, $a_id, $a_old_nr)
 	{
 		$page = new ilWikiPage($a_id, $a_old_nr);

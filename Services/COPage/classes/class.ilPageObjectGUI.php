@@ -3306,15 +3306,28 @@ class ilPageObjectGUI
 	}
 	
 	/**
+	 * Set screen id component
+	 *
+	 * @param
+	 * @return
+	 */
+	function setScreenIdComponent()
+	{
+		global $ilHelp;
+		
+		$ilHelp->setScreenIdComponent("copg");
+	}
+
+	/**
 	* adds tabs to tab gui object
 	*
 	* @param	object		$tabs_gui		ilTabsGUI object
 	*/
 	function getTabs($a_activate = "")
 	{
-		global $ilTabs, $ilCtrl, $ilHelp, $ilUser;
+		global $ilTabs, $ilCtrl, $ilUser;
 
-		$ilHelp->setScreenIdComponent("copg");
+		$this->setScreenIdComponent();
 		
 		if (!$this->getEnabledTabs())
 		{
