@@ -3834,8 +3834,16 @@ div.ilSideBarContent{
 #ilHelpText .ilc_list_o_NumberedList,
 #ilHelpText .ilc_list_u_BulletedList {
 	margin: 10px 0;
-	padding: 0 0 0 40px;
+	padding: 0 0 0 25px;
 }
+
+#ilHelpText .ilc_list_o_NumberedList .ilc_list_o_NumberedList,
+#ilHelpText .ilc_list_o_NumberedList .ilc_list_u_BulletedList,
+#ilHelpText .ilc_list_u_BulletedList .ilc_list_u_BulletedList,
+#ilHelpText .ilc_list_u_BulletedList .ilc_list_o_NumberedList {
+	padding-left: 15px;
+}
+
 
 a#ilHelpClose {
 	display:block;
