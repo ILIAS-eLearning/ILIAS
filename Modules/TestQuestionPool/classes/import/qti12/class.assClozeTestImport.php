@@ -319,8 +319,8 @@ class assClozeTestImport extends assQuestionImport
 				}
 				else
 				{
-					include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-					$importfile = ilObjQuestionPool::_getImportDirectory() . '/' . $mob["uri"];
+					$importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
+					$GLOBALS['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
 				}
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);

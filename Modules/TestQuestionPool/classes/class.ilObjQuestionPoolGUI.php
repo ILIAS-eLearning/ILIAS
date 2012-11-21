@@ -388,9 +388,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	
 			// determine filenames of xml files
 			$subdir = basename($file["basename"],".".$file["extension"]);
-			ilObjQuestionPool::_setImportDirectory($basedir . '/' . $subdir);
-			$xml_file = ilObjQuestionPool::_getImportDirectory().'/'.$subdir.".xml";
-			$qti_file = ilObjQuestionPool::_getImportDirectory().'/'. str_replace("qpl", "qti", $subdir).".xml";
+			ilObjQuestionPool::_setImportDirectory($basedir);
+			$xml_file = ilObjQuestionPool::_getImportDirectory().'/'.$subdir.'/'.$subdir.".xml";
+			$qti_file = ilObjQuestionPool::_getImportDirectory().'/'.$subdir.'/'. str_replace("qpl", "qti", $subdir).".xml";
 		}
 
 		// start verification of QTI files
