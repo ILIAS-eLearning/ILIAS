@@ -782,10 +782,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// determine filenames of xml files
 		$subdir = basename($file["basename"],".".$file["extension"]);
-		ilObjTest::_setImportDirectory($basedir . '/' . $subdir);
-		$xml_file = ilObjTest::_getImportDirectory().'/'.$subdir.".xml";
-		$qti_file = ilObjTest::_getImportDirectory().'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
-		$results_file = ilObjTest::_getImportDirectory().'/'. preg_replace("/test|tst/", "results", $subdir).".xml";
+		ilObjTest::_setImportDirectory($basedir);
+		$xml_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'.$subdir.".xml";
+		$qti_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'. preg_replace("/test|tst/", "qti", $subdir).".xml";
+		$results_file = ilObjTest::_getImportDirectory().'/'.$subdir.'/'. preg_replace("/test|tst/", "results", $subdir).".xml";
 
 		// start verification of QTI files
 		include_once "./Services/QTI/classes/class.ilQTIParser.php";

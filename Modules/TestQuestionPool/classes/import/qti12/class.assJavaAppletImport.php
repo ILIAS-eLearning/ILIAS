@@ -238,14 +238,15 @@ class assJavaAppletImport extends assQuestionImport
 			{
 				if ($tst_id > 0)
 				{
-					include_once "./Modules/Test/classes/class.ilObjTest.php";
-					$importfile = ilObjTest::_getImportDirectory() . '/' . $mob["uri"];
+					$importfile = $this->getTstImportArchivDirectory() . '/' . $mob["uri"];
 				}
 				else
 				{
 					$importfile = $this->getQplImportArchivDirectory() . '/' . $mob["uri"];
-					$GLOBALS['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
 				}
+				
+				$GLOBALS['ilLog']->write(__METHOD__.': import mob from dir: '. $importfile);
+				
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
