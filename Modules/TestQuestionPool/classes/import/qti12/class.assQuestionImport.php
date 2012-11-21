@@ -153,6 +153,15 @@ class assQuestionImport
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		return ilObjQuestionPool::_getImportDirectory() . '/' . $_SESSION["qpl_import_subdir"];
 	}
+	
+	/**
+	 * returns the full path to extracted tst import archiv (tst import dir + tst archiv subdir)
+	 */
+	protected function getTstImportArchivDirectory()
+	{
+		include_once "./Modules/Test/classes/class.ilObjTest.php";
+		return ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"];
+	}
 }
 
 ?>
