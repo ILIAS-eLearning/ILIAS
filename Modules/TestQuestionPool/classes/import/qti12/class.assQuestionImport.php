@@ -151,7 +151,7 @@ class assQuestionImport
 	protected function getQplImportArchivDirectory()
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-		$importfile = ilObjQuestionPool::_getImportDirectory() . '/' . $_SESSION["qpl_import_subdir"];
+		return ilObjQuestionPool::_getImportDirectory() . '/' . $_SESSION["qpl_import_subdir"];
 	}
 }
 
