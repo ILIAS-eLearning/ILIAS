@@ -95,7 +95,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 				$this->questionOBJ, $questionHintList, $this, self::CMD_SHOW_LIST
 		);
 
-		$tpl->setContent( $ilCtrl->getHtml($table) );
+		$this->populateContent( $ilCtrl->getHtml($table) );
 	}
 	
 	/**
@@ -167,15 +167,8 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		$nonEditableHintPoints->setValue($questionHint->getPoints());
 		$form->addItem($nonEditableHintPoints);
 		
-		$tpl->setContent($ilCtrl->getHtml($form));
-		
-/*		$tpl->addBlockFile(
-				'ADM_CONTENT', 'adm_content', 'tpl.il_as_qpl_question_hint_testoutput', 'Modules/TestQuestionPool'
-		);
-		
-		
-		vd($_GET);
-*/	}
+		$this->populateContent( $ilCtrl->getHtml($form) );
+	}
 	
 	/**
 	 * shows a confirmation screen for a hint request
@@ -212,7 +205,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 				$nextRequestableHint->getPoints()
 		));
 		
-		$tpl->setContent($ilCtrl->getHtml($confirmation));
+		$this->populateContent( $ilCtrl->getHtml($confirmation) );
 	}
 	
 	/**
@@ -265,5 +258,35 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		global $ilCtrl;
 		
 		$ilCtrl->redirectByClass('ilTestOutputGUI', 'redirectQuestion');
+	}
+	
+	/**
+	 * populates the rendered questin hint relating output content to global template
+	 * depending on possibly active kiosk mode
+	 * 
+	 * @global ilTemplate $tpl
+	 * @param string $content
+	 */
+	private function populateContent($content)
+	{
+		global $tpl;
+		
+		if( $this->testOutputGUI->object->getKioskMode() )
+		{
+			$tpl->setBodyClass('kiosk');
+			$tpl->setAddFooter(false);
+
+			$tpl->addBlockFile(
+					'CONTENT', 'content', 'tpl.il_tst_question_hints_kiosk_page.html', 'Modules/TestQuestionPool'
+			);
+			
+			$tpl->setVariable('KIOSK_HEAD', $this->testOutputGUI->getKioskHead());
+			
+			$tpl->setVariable('KIOSK_CONTENT', $content);
+		}
+		else
+		{
+			$tpl->setContent($content);
+		}
 	}
 }

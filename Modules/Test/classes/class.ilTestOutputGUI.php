@@ -1589,7 +1589,7 @@ class ilTestOutputGUI extends ilTestServiceGUI
 		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
 	}
 	
-	private function getKioskHead()
+	public function getKioskHead()
 	{
 		global $ilUser;
 		
