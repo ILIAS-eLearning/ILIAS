@@ -337,7 +337,7 @@ class assTextSubsetGUI extends assQuestionGUI
 		if (!$show_question_only)
 		{
 			// get page object output
-			$solutionoutput = $this->getILIASPage($solutionoutput);
+			$solutionoutput = '<div class="ilc_question_Standard">'.$solutionoutput."</div>";
 		}
 		return $solutionoutput;
 	}
