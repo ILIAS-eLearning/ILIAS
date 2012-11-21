@@ -1815,9 +1815,6 @@ common#:#catr_new#:#Create Category Reference
 common#:#catr#:#Category Reference
 common#:#cc#:#CC
 common#:#censorship#:#Censorship
-common#:#centra_account#:#Centra Admin Account
-common#:#centra_rooms#:#Centra Rooms
-common#:#centra_server#:#Centra Server
 rbac#:#cert_edit_permission#:#User can change permission settings of Certificates administration
 rbac#:#cert_read#:#User has read access to Certificates Administration
 rbac#:#cert_visible#:#Certificates Administration is visible
@@ -2859,27 +2856,6 @@ common#:#info_view_of_user#:#User
 common#:#info#:#Information
 common#:#inform_user_mail#:#Send mail to inform user about changes
 common#:#information_abbr#:#Info
-common#:#ingmedia_all_offers#:#All LE
-common#:#ingmedia_back_to_le#:#Back to LE
-common#:#ingmedia_good_afternoon#:#Good afternoon
-common#:#ingmedia_good_evening#:#Good evening
-common#:#ingmedia_good_morning#:#Good morning
-common#:#ingmedia_good_night#:#Good night
-common#:#ingmedia_hello#:#Hello
-common#:#ingmedia_info_about_work1#:#On
-common#:#ingmedia_info_about_work2#:#, you worked here for the last time. You can continue there by clicking here:
-common#:#ingmedia_level_zero#:#Level up
-common#:#ingmedia_pers_dates#:#Personal data
-common#:#ingmedia_reg_fo#:#Registered forums
-common#:#ingmedia_reg_le#:#Registered LE
-common#:#ingmedia_use_info1#:#Here you can change your personal data. Except for the INGMEDIA username and password, you do not have to fill out other fields. Remember that lost passwords can only be returned by e-mail (!).
-common#:#ingmedia_use_info2#:#It is not allowed to use special characters (like , ; . = - * + #) in your INGMEDIA username and password. To be allowed to use the INGMEDIA platform, you must accept the user agreement.
-common#:#ingmedia_use_info3#:#Please select one of the links in the side bar.
-common#:#ingmedia_use_title#:#Change user data.
-common#:#ingmedia_user_agree#:#Agreement
-common#:#ingmedia_vis_le#:#Visited LE
-common#:#ingmedia_visited_le#:#All LE you have visited so far.
-common#:#ingmedia_welcome#:#, welcome to your personal desktop!
 common#:#inifile#:#Ini-File
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
 common#:#inline_file_extensions#:#Web-enabled files
