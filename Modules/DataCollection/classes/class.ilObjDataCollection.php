@@ -391,8 +391,8 @@ class ilObjDataCollection extends ilObject2
 	public static function _hasWriteAccess($ref)
 	{
 		global $ilAccess;
-		
-		return $ilAccess->checkAccess("edit_settings", "", $ref);
+
+		return $ilAccess->checkAccess("write", "", $ref);
 	}
 
 	/**
