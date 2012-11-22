@@ -356,7 +356,7 @@ class assClozeTestImport extends assQuestionImport
 		if ($tst_id > 0)
 		{
 			$q_1_id = $this->object->getId();
-			$question_id = $this->object->duplicate(true);
+			$question_id = $this->object->duplicate(true, null, null, null, $tst_id);
 			$tst_object->questions[$question_counter++] = $question_id;
 			$import_mapping[$item->getIdent()] = array("pool" => $q_1_id, "test" => $question_id);
 		}

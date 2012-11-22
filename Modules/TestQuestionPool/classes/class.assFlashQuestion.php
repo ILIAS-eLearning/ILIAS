@@ -163,7 +163,7 @@ class assFlashQuestion extends assQuestion
 	*
 	* @access public
 	*/
-	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
+	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
 	{
 		if ($this->id <= 0)
 		{
@@ -172,10 +172,22 @@ class assFlashQuestion extends assQuestion
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
+		
+		if( (int)$testObjId > 0 )
+		{
+			$thisObjId = $this->getObjId();
+		}
+		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
+		
+		if( (int)$testObjId > 0 )
+		{
+			$clone->setObjId($testObjId);
+		}
+		
 		if ($title)
 		{
 			$clone->setTitle($title);
@@ -206,7 +218,7 @@ class assFlashQuestion extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateGenericFeedback($this_id);
 		// duplicate the applet
-		$clone->duplicateApplet($this_id);
+		$clone->duplicateApplet($this_id, $thisObjId);
 
 		$clone->onDuplicate($this_id);
 		return $clone->id;
@@ -259,10 +271,16 @@ class assFlashQuestion extends assQuestion
 	* @access public
 	* @see $points
 	*/
-	protected function duplicateApplet($question_id)
+	protected function duplicateApplet($question_id, $objectId = null)
 	{
 		$flashpath = $this->getFlashPath();
 		$flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
+		
+		if( (int)$objectId > 0 )
+		{
+			$flashpath_original = str_replace("/$this->obj_id/", "/$objectId/", $flashpath_original);
+		}
+		
 		if (!file_exists($flashpath))
 		{
 			ilUtil::makeDirParents($flashpath);

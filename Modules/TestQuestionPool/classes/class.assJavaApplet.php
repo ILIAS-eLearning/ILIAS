@@ -319,7 +319,7 @@ class assJavaApplet extends assQuestion
 	*
 	* @access public
 	*/
-	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
+	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
 	{
 		if ($this->id <= 0)
 		{
@@ -328,10 +328,22 @@ class assJavaApplet extends assQuestion
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
+		
+		if( (int)$testObjId > 0 )
+		{
+			$thisObjId = $this->getObjId();
+		}
+		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
+		
+		if( (int)$testObjId > 0 )
+		{
+			$clone->setObjId($testObjId);
+		}
+		
 		if ($title)
 		{
 			$clone->setTitle($title);
@@ -361,7 +373,7 @@ class assJavaApplet extends assQuestion
 		$clone->duplicateGenericFeedback($this_id);
 
 		// duplicate the image
-		$clone->duplicateApplet($this_id);
+		$clone->duplicateApplet($this_id, $thisObjId);
 		$clone->onDuplicate($this_id);
 		return $clone->id;
 	}
@@ -406,10 +418,16 @@ class assJavaApplet extends assQuestion
 		return $clone->id;
 	}
 	
-	function duplicateApplet($question_id)
+	function duplicateApplet($question_id, $objectId = null)
 	{
 		$javapath = $this->getJavaPath();
 		$javapath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $javapath);
+		
+		if( (int)$objectId > 0 )
+		{
+			$javapath_original = str_replace("/$this->obj_id/", "/$objectId/", $javapath_original);
+		}
+		
 		if (!file_exists($javapath))
 		{
 			ilUtil::makeDirParents($javapath);
