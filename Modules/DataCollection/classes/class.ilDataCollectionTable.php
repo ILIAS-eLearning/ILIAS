@@ -182,7 +182,6 @@ class ilDataCollectionTable
 		$ilDB->manipulate($query);
 
 		$this->buildOrderFields();
-		$this->updateFields();
 	}
 	
 	/*
@@ -493,16 +492,17 @@ class ilDataCollectionTable
 	public function getVisibleFields()
 	{
 		$fields = $this->getFields();
+
 		$visibleFields = array();
 		
 		foreach($fields as $field)
 		{
 			if($field->isVisible())
 			{
-				array_push($visibleFields, $field);
+				$visibleFields[] = $field;
 			}
 		}
-			
+
 		return $visibleFields;
 	}
 	
@@ -680,6 +680,7 @@ class ilDataCollectionTable
 			{
 				$field->setOrder($count);
 				$count = $count + $offset;
+                $field->doUpdate();
 			}
 		}
 	}
@@ -875,6 +876,13 @@ class ilDataCollectionTable
 	{
 		return (count($this->getRecords()) > 0) ? true : false;
 	}
+
+    /**
+     * @param $field ilDataCollectionField add an already created field for eg. ordering.
+     */
+    public function addField($field){
+        $this->fields[$field->getId()] = $field;
+    }
 
 	/**
 	 * @param $table_id int
