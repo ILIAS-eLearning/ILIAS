@@ -368,8 +368,6 @@ class ilDataCollectionFieldEditGUI
 				else
 				{
 					$fieldprop_obj->doCreate();
-					$this->table->buildOrderFields();
-					$this->table->updateFields();
 				}
 
 			}
@@ -384,6 +382,8 @@ class ilDataCollectionFieldEditGUI
 			}
 			else
 			{
+                $this->table->addField($this->field_obj);
+                $this->table->buildOrderFields();
 				ilUtil::sendSuccess($lng->txt("msg_field_created"), false);
 			}
 			$ilCtrl->redirectByClass(strtolower("ilDataCollectionFieldListGUI"), "listFields");

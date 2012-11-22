@@ -70,7 +70,6 @@ class ilDataCollectionFieldListGUI
 			$field->doUpdate();
 		}
 		$table->buildOrderFields();
-		$table->updateFields();
 		ilUtil::sendSuccess($lng->txt("dcl_table_settings_saved"));
 		$this->listFields();
 	}

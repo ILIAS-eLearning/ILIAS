@@ -44,8 +44,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
 		
 		$this->addColumn("", "", "15px");
-		
-		foreach($this->table->getVisibleFields() as $field)
+
+        foreach($this->table->getVisibleFields() as $field)
 		{
 			$this->addColumn($field->getTitle());
 			if($field->getLearningProgress()){
@@ -122,7 +122,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		global $ilUser, $ilCtrl, $tpl, $lng, $ilAccess;
 
 		$this->tpl->setVariable("TITLE", $this->table->getTitle());
-
 
 		foreach($this->table->getVisibleFields() as $field)
 		{
