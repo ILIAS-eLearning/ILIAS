@@ -97,12 +97,22 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			$ilNavigationHistory->addItem($_GET["ref_id"],
 				"ilias.php?baseClass=ilObjQuestionPoolGUI&cmd=questions&ref_id=".$_GET["ref_id"], "qpl");
 		}
-		$this->prepareOutput();
+		
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
+		
+		if( in_array($next_class, array('', 'ilobjquestionpoolgui')) && $cmd == 'questions' )
+		{
+			$_GET['q_id'] = '';
+		}
+				
+		$this->prepareOutput();
+		
 		$this->ctrl->setReturn($this, "questions");
+		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
+		
 		if ($_GET["q_id"] < 1)
 		{
 			$q_type = ($_POST["sel_question_types"] != "")
