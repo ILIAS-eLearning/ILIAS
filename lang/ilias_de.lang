@@ -12806,30 +12806,30 @@ help#:#help_modules#:#Hilfe-Pakete
 help#:#help_sure_delete_help_modules#:#Wollen Sie diese Pakete wirklich löschen?
 help#:#help_module_uploaded#:#Hilfe-Paket hochgeladen
 rbac#:#fold_create_poll#:#Abstimmung anlegen
-common#:#obj_itgr_duplicate#:#Objektblock
-common#:#obj_itgr_select#:#-- Bitte wählen Sie einen Objektblock aus --
-common#:#obj_itgr#:#Objektblock
-common#:#objs_itgr#:#Objektblöcke
-itgr#:#itgr_edit#:#Objektblöcke bearbeiten
-rbac#:#itgr_read#:#Benutzer
+common#:#obj_itgr_duplicate#:#Objekteblock
+common#:#obj_itgr_select#:#-- Bitte wählen Sie einen Objekteblock aus --
+common#:#obj_itgr#:#Objekteblock
+common#:#objs_itgr#:#Objekteblöcke
+itgr#:#itgr_edit#:#Objekteblock bearbeiten
+rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
 rbac#:#itgr_visible#:#Item group is visible###28 08 2012 new variable
-rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objektblocks bearbeiten
-rbac#:#itgr_copy#:#Objektblock kopieren
-rbac#:#itgr_delete#:#Objektblock löschen oder verschieben 
-rbac#:#itgr_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#cat_create_itgr#:#Objektblock anlegen
-rbac#:#crs_create_itgr#:#Objektblock anlegen
-rbac#:#fold_create_itgr#:#Objektblock anlegen
-rbac#:#root_create_itgr#:#Objektblock anlegen
-rbac#:#grp_create_itgr#:#Objektblock anlegen
+rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
+rbac#:#itgr_copy#:#Objekteblock kopieren
+rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben 
+rbac#:#itgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
+rbac#:#cat_create_itgr#:#Objekteblock anlegen
+rbac#:#crs_create_itgr#:#Objekteblock anlegen
+rbac#:#fold_create_itgr#:#Objekteblock anlegen
+rbac#:#root_create_itgr#:#Objekteblock anlegen
+rbac#:#grp_create_itgr#:#Objekteblock anlegen
 itgr#:#itgr_materials#:#Objekte
-itgr#:#itgr_item#:#Objekt
-itgr#:#itgr_assigned_materials#:#Enthaltene Objekte
-itgr#:#itgr_assignment#:#Zugewiesen
-common#:#itgr_new#:#Neuer Objektblock
-common#:#itgr_import#:#Objektblock importieren
-common#:#itgr_copy#:#Objektblock kopieren
-common#:#itgr_add#:#Objektblock hinzufügen
+itgr#:#itgr_item#:#Objekte, die eingebunden werden können
+itgr#:#itgr_assigned_materials#:#Objekte im Objekteblock
+itgr#:#itgr_assignment#:#Eingebunden
+common#:#itgr_new#:#Neuer Objekteblock
+common#:#itgr_import#:#Objekteblock importieren
+common#:#itgr_copy#:#Objekteblock kopieren
+common#:#itgr_add#:#Objekteblock hinzufügen
 dcl#:#dcl_actions#:#Actionen
 dcl#:#dcl_owner_editable#:#Nur eigene Einträge bearbeiten
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
@@ -12845,7 +12845,7 @@ dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
 dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die Haupttabelle dieser Data Collection ist. Der Inhalt und die Struktur wurden hingegen erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Inhalte vom Typ
-content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objektblock, der in der Zwischenzeit gelöscht wurde.
+content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
 common#:#search_globally#:#Im gesamten Magazin
 common#:#search_at_current_position#:#An der aktuellen Position
 survey#:#svy_copy#:#Umfrage kopieren
