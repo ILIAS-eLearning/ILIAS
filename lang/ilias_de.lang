@@ -6737,8 +6737,8 @@ crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility#:#Verfügbarkeit
-crs#:#crs_visibility_limitless#:#Unbegrenzt (Online)
-crs#:#crs_visibility_until#:#Zeitlich begrenzt (Online)
+crs#:#crs_visibility_limitless#:#Unbegrenzt (wenn online geschaltet)
+crs#:#crs_visibility_until#:#Zeitlich begrenzt (wenn online geschaltet)
 crs#:#crs_visibility_unvisible#:#Nicht verfügbar (Offline)
 crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
@@ -12772,68 +12772,68 @@ common#:#obj_wiki_duplicate#:#Wiki kopieren
 common#:#obj_sahs_duplicate#:#Lernmodule kopieren
 dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition###28 08 2012 new variable
 dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition###28 08 2012 new variable
-dcl#:#dcl_checked#:#Checked.###28 08 2012 new variable
-dcl#:#dcl_not_checked#:#Not checked.###28 08 2012 new variable
-dcl#:#dcl_noturl_exception#:#You have to enter a Link (beginning with http://)###28 08 2012 new variable
-pd#:#pd_export_profile#:#Export Personal Data###28 08 2012 new variable
-pd#:#pd_download_last_export_file#:#Download Last Export File###28 08 2012 new variable
-pd#:#pd_import_personal_data#:#Import Personal Data###28 08 2012 new variable
-pd#:#pd_profile_data#:#Profile Data###28 08 2012 new variable
-pd#:#pd_bookmarks#:#Bookmarks###28 08 2012 new variable
-pd#:#pd_notes#:#Personal Desktop Notes###28 08 2012 new variable
-pd#:#pd_private_calendars#:#Private Calendars###28 08 2012 new variable
-mcst#:#mcst_preview_picture#:#Preview Picture###28 08 2012 new variable
-mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:###28 08 2012 new variable
-news#:#news_keep_minimal_x_items#:#Keep at least x items###28 08 2012 new variable
-news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.###28 08 2012 new variable
-mcst#:#mcst_conv_standard_to#:#Convert Standard File to###28 08 2012 new variable
-mcst#:#mcst_conv_videoalternative_to#:#Convert Alternative Video File to###28 08 2012 new variable
-mcst#:#mcst_target#:#Target###28 08 2012 new variable
-mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)###28 08 2012 new variable
-mcst#:#mcst_convert#:#Convert###28 08 2012 new variable
-mcst#:#mcst_purpose_standard#:#Standard File###28 08 2012 new variable
-mcst#:#mcst_purpose_videoalternative#:#Alternative Video File###28 08 2012 new variable
-mcst#:#mcst_converted_file#:#File has been converted.###28 08 2012 new variable
-style#:#sty_move_user_styles#:#Change Style of Users###28 08 2012 new variable
-style#:#sty_substyles#:#Substyles###28 08 2012 new variable
-style#:#sty_assign_categories#:#Assign Categories###28 08 2012 new variable
-style#:#sty_substyle#:#Substyle###28 08 2012 new variable
-style#:#sty_cat_assignments#:#Style/Category Assignments###28 08 2012 new variable
-style#:#sty_add_assignment#:#Add Assignment###28 08 2012 new variable
-common#:#obj_hlps_desc#:#Settings for the online help###28 08 2012 new variable
-help#:#help_help_file#:#Help Package File###28 08 2012 new variable
-help#:#help_modules#:#Help Packages###28 08 2012 new variable
-help#:#help_sure_delete_help_modules#:#Are you sure that these packages should be deleted?###28 08 2012 new variable
-help#:#help_module_uploaded#:#Help package uploaded.###28 08 2012 new variable
-rbac#:#fold_create_poll#:#Create Poll###28 08 2012 new variable
-common#:#obj_itgr_duplicate#:#Copy Item Group###28 08 2012 new variable
-common#:#obj_itgr_select#:#-- Please select one Item Group --###28 08 2012 new variable
-common#:#obj_itgr#:#Item Group###28 08 2012 new variable
-common#:#objs_itgr#:#Item Groups###28 08 2012 new variable
-itgr#:#itgr_edit#:#Edit Item Groups###28 08 2012 new variable
-rbac#:#itgr_read#:#User can read item group###28 08 2012 new variable
+dcl#:#dcl_checked#:#Ausgewählt
+dcl#:#dcl_not_checked#:#Nicht ausgewählt
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link ein (beginnend mit http://)
+pd#:#pd_export_profile#:#Persönliche Daten exportieren
+pd#:#pd_download_last_export_file#:#Aktuelle Exportdatei herunterladen
+pd#:#pd_import_personal_data#:#Persönliche Daten importieren
+pd#:#pd_profile_data#:#Profildaten
+pd#:#pd_bookmarks#:#Bookmarks
+pd#:#pd_notes#:#Notizen vom Persönlichen Schreibtisch
+pd#:#pd_private_calendars#:#Private Kalender
+mcst#:#mcst_preview_picture#:#Vorschaubild
+mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
+news#:#news_keep_minimal_x_items#:#Behalten Sie wenigstens ein Element
+news#:#news_keep_minimal_x_items_info#:#Wenn auf einen Wert größer 0 gesetzt, ist dies die Anzahl an Einträgen die der Feed erhält, selbst wenn diese älter als die maximale Vorhaltezeit sind.
+mcst#:#mcst_conv_standard_to#:#Standarddatei umwandeln in
+mcst#:#mcst_conv_videoalternative_to#:#Alternatives Videoformat umwandeln in
+mcst#:#mcst_target#:#Ziel
+mcst#:#mcst_videoalternative_title#:#Alternatives Videoformat zur Nutzung im Browser
+mcst#:#mcst_convert#:#Umwandeln
+mcst#:#mcst_purpose_standard#:#Standarddatei
+mcst#:#mcst_purpose_videoalternative#:#Alternatives Videoformat
+mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
+style#:#sty_move_user_styles#:#Style der Benutzer ändern
+style#:#sty_substyles#:#Style eines Teilbereichs
+style#:#sty_assign_categories#:#Kategorien zuordnen
+style#:#sty_substyle#:#Style eines Teilbereichs
+style#:#sty_cat_assignments#:#Zuordnungen Style-Kategorie
+style#:#sty_add_assignment#:#Zuordnung hinzufügen
+common#:#obj_hlps_desc#:#Einstellungen der Online-Hilfe
+help#:#help_help_file#:#Online-Hilfe-Paket
+help#:#help_modules#:#Hilfe-Pakete
+help#:#help_sure_delete_help_modules#:#Wollen Sie diese Pakete wirklich löschen?
+help#:#help_module_uploaded#:#Hilfe-Paket hochgeladen
+rbac#:#fold_create_poll#:#Abstimmung anlegen
+common#:#obj_itgr_duplicate#:#Objektblock
+common#:#obj_itgr_select#:#-- Bitte wählen Sie einen Objektblock aus --
+common#:#obj_itgr#:#Objektblock
+common#:#objs_itgr#:#Objektblöcke
+itgr#:#itgr_edit#:#Objektblöcke bearbeiten
+rbac#:#itgr_read#:#Benutzer
 rbac#:#itgr_visible#:#Item group is visible###28 08 2012 new variable
-rbac#:#itgr_write#:#User can edit content and settings of item group###28 08 2012 new variable
-rbac#:#itgr_copy#:#User can copy item group###28 08 2012 new variable
-rbac#:#itgr_delete#:#User can move or delete item group###28 08 2012 new variable
-rbac#:#itgr_edit_permission#:#User can change permission settings###28 08 2012 new variable
-rbac#:#cat_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#crs_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#fold_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#root_create_itgr#:#Create Item Group###28 08 2012 new variable
-rbac#:#grp_create_itgr#:#Create Item Group###28 08 2012 new variable
-itgr#:#itgr_materials#:#Materials###28 08 2012 new variable
-itgr#:#itgr_item#:#Item###28 08 2012 new variable
-itgr#:#itgr_assigned_materials#:#Assigned Materials###28 08 2012 new variable
-itgr#:#itgr_assignment#:#Assignment###28 08 2012 new variable
-common#:#itgr_new#:#New Item Group###28 08 2012 new variable
-common#:#itgr_import#:#Import Item Group###28 08 2012 new variable
-common#:#itgr_copy#:#Copy Item Group###28 08 2012 new variable
-common#:#itgr_add#:#Add Item Group###28 08 2012 new variable
-dcl#:#dcl_actions#:#Actions###28 08 2012 new variable
-dcl#:#dcl_owner_editable#:#Edit only own records###28 08 2012 new variable
-dcl#:#dcl_msg_table_created#:#Table created###28 08 2012 new variable
-dcl#:#dcl_record_deleted#:#Record deleted###28 08 2012 new variable
+rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objektblocks bearbeiten
+rbac#:#itgr_copy#:#Objektblock kopieren
+rbac#:#itgr_delete#:#Objektblock löschen oder verschieben 
+rbac#:#itgr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#cat_create_itgr#:#Objektblock anlegen
+rbac#:#crs_create_itgr#:#Objektblock anlegen
+rbac#:#fold_create_itgr#:#Objektblock anlegen
+rbac#:#root_create_itgr#:#Objektblock anlegen
+rbac#:#grp_create_itgr#:#Objektblock anlegen
+itgr#:#itgr_materials#:#Objekte
+itgr#:#itgr_item#:#Objekt
+itgr#:#itgr_assigned_materials#:#Enthaltene Objekte
+itgr#:#itgr_assignment#:#Zugewiesen
+common#:#itgr_new#:#Neuer Objektblock
+common#:#itgr_import#:#Objektblock importieren
+common#:#itgr_copy#:#Objektblock kopieren
+common#:#itgr_add#:#Objektblock hinzufügen
+dcl#:#dcl_actions#:#Actionen
+dcl#:#dcl_owner_editable#:#Nur eigene Einträge bearbeiten
+dcl#:#dcl_msg_table_created#:#Tabelle angelegt
+dcl#:#dcl_record_deleted#:#Eintrag gelöscht
 dcl#:#dcl_ILIAS_reference#:#Link zu einem ILIAS Modul
 dcl#:#dcl_learning_progress#:#Zeige den Lernfortschritt des verlinkten Moduls bezüglich des Betrachters
 dcl#:#dcl_status#:#Dein Status
@@ -12844,11 +12844,11 @@ dcl#:#dcl_table_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" (siehe 
 dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
 dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die Haupttabelle dieser Data Collection ist. Der Inhalt und die Struktur wurden hingegen erfolgreich gelöscht.
-content#:#cont_resources_of_type#:#Resources of Type###28 08 2012 new variable
-content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.###28 08 2012 new variable
-common#:#search_globally#:#Globally###28 08 2012 new variable
-common#:#search_at_current_position#:#At Current Position###28 08 2012 new variable
-survey#:#svy_copy#:#Copy Survey###28 08 2012 new variable
+content#:#cont_resources_of_type#:#Inhalte vom Typ
+content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objektblock, der in der Zwischenzeit gelöscht wurde.
+common#:#search_globally#:#Im gesamten Magazin
+common#:#search_at_current_position#:#An der aktuellen Position
+survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Autor
 blog#:#blog_enable_approval#:#Abname
