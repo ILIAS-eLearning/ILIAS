@@ -12812,6 +12812,7 @@ dcl#:#dcl_status#:#Your Status
 dcl#:#dcl_mob#:#Image
 dcl#:#dcl_width#:#Width
 dcl#:#dcl_height#:#Height
+dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool Settings
 common#:#obj_tool_setting_calendar#:#Show Calendar
