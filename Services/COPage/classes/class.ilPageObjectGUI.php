@@ -3242,6 +3242,11 @@ class ilPageObjectGUI
 	{
 		global $tpl, $lng, $ilAccess;
 		
+		if (!$this->getEnableEditing())
+		{
+			return;
+		}
+		
 		$tpl->addJavaScript("./Services/COPage/js/page_history.js");
 		
 		include_once("./Services/COPage/classes/class.ilPageHistoryTableGUI.php");
@@ -3265,6 +3270,11 @@ class ilPageObjectGUI
 	function rollbackConfirmation()
 	{
 		global $tpl, $lng, $ilAccess, $ilCtrl;
+		
+		if (!$this->getEnableEditing())
+		{
+			return;
+		}
 		
 		include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$c_gui = new ilConfirmationGUI();
@@ -3291,6 +3301,11 @@ class ilPageObjectGUI
 	{
 		global $ilCtrl;
 		
+		if (!$this->getEnableEditing())
+		{
+			return;
+		}
+
 		$hentry = $this->obj->getHistoryEntry($_GET["rollback_nr"]);
 
 		if ($hentry["content"] != "")
@@ -3420,6 +3435,11 @@ class ilPageObjectGUI
 	function compareVersion()
 	{
 		global $lng;
+
+		if (!$this->getEnableEditing())
+		{
+			return;
+		}
 
 		$tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
 		$compare = $this->obj->compareVersion($_POST["left"], $_POST["right"]);

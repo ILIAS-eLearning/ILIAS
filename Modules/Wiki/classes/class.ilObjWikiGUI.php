@@ -64,6 +64,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				break;
 			
 			case 'ilwikipagegui':
+				$this->checkPermission("read");
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
 					ilWikiUtil::makeDbTitle($_GET["page"]), $_GET["old_nr"], $this->object->getRefId());
