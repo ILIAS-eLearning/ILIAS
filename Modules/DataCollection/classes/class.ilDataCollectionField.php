@@ -16,20 +16,60 @@ require_once './Services/Exceptions/classes/class.ilException.php';
 */
 class ilDataCollectionField
 {
-	protected $id; // [mixed] (int for custom fields string for stdfields)
-	protected $table_id; // [int]
-	protected $title; // [string]
-	protected $description; // [string]
-	protected $datatypeId; // [int]
-	protected $required; // [bool]
-	protected $order; // [int]
-	protected $unique; //[bool]
-	/**
-	 * @var bool whether this field is visible for everyone.
-	 */
-	protected $visible;
-	protected $editable;
-	protected $filterable;
+    /**
+     * @var mixed int for custom fields string for standard fields
+     */
+    protected $id;
+
+    /**
+     * @var int
+     */
+    protected $table_id;
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var int
+     */
+    protected $datatypeId;
+
+    /**
+     * @var bool
+     */
+    protected $required;
+
+    /**
+     * @var int
+     */
+    protected $order;
+
+    /**
+     * @var bool
+     */
+    protected $unique;
+
+    /**
+     * @var bool
+     */
+    protected $visible;
+
+    /**
+     * @var bool
+     */
+    protected $editable;
+
+    /**
+     * @var bool
+     */
+    protected $filterable;
 
 	/**
 	 * @var bool
@@ -412,8 +452,9 @@ class ilDataCollectionField
 				$this->filterable = $prop;
 				break;
 		}
-		
-		$this->order = $rec['field_order'];
+
+        if(!$this->order)
+            $this->order = $rec['field_order'];
 	}
 	
 	/**
@@ -625,9 +666,9 @@ class ilDataCollectionField
 			$set = 0;
 		else
 			$set = 1;
+
 		if(!isset($this->order))
 			$this->order = 0;
-
 
 		$query = "DELETE def FROM il_dcl_viewdefinition def INNER JOIN il_dcl_view ON il_dcl_view.type = "
 			.$ilDB->quote($view, "integer")." AND il_dcl_view.table_id = "

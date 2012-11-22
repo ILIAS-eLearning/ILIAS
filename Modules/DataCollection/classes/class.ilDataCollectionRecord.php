@@ -24,7 +24,11 @@ class ilDataCollectionRecord
 	private $recordfields;
 	private $id;
 	private $table_id;
-	private $table;
+
+    /**
+     * @var ilDataCollectionTable
+     */
+    private $table;
 	private $last_edit_by;
 
 	/**
