@@ -206,7 +206,7 @@ class assTextQuestion extends assQuestion
 	*
 	* @access public
 	*/
-	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
+	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
 	{
 		if ($this->id <= 0)
 		{
@@ -215,10 +215,22 @@ class assTextQuestion extends assQuestion
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
+		
+		if( (int)$testObjId > 0 )
+		{
+			$thisObjId = $this->getObjId();
+		}
+		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
+		
+		if( (int)$testObjId > 0 )
+		{
+			$clone->setObjId($testObjId);
+		}
+		
 		if ($title)
 		{
 			$clone->setTitle($title);

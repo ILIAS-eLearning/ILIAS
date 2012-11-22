@@ -2006,7 +2006,7 @@ class ilObjTest extends ilObject
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$question =& ilObjTest::_instanciateQuestion($row['question_id']);
-			$duplicate_id = $question->duplicate(true);
+			$duplicate_id = $question->duplicate(true, null, null, null, $this->getId());
 			if ($duplicate_id > 0)
 			{
 				$next_id = $ilDB->nextId('tst_rnd_cpy');
@@ -3918,7 +3918,7 @@ function getAnswerFeedbackPoints()
 	{
 		global $ilUser;
 		$question =& ilObjTest::_instanciateQuestion($question_id);
-		$duplicate_id = $question->duplicate(true);
+		$duplicate_id = $question->duplicate(true, null, null, null, $this->getId());
 
 		return $duplicate_id;
 	}
@@ -7160,7 +7160,7 @@ function getAnswerFeedbackPoints()
 			foreach ($this->questions as $key => $question_id)
 			{
 				$question = ilObjTest::_instanciateQuestion($question_id);
-				$newObj->questions[$key] = $question->duplicate();
+				$newObj->questions[$key] = $question->duplicate(true, null, null, null, $newObj->getId());
 				$original_id = assQuestion::_getOriginalId($question_id);
 				$question = ilObjTest::_instanciateQuestion($newObj->questions[$key]);
 				$question->saveToDb($original_id);

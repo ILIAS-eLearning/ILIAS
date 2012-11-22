@@ -216,7 +216,7 @@ class assOrderingQuestion extends assQuestion
 	*
 	* @access public
 	*/
-	function duplicate($for_test = true, $title = "", $author = "", $owner = "")
+	function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
 	{
 		if ($this->id <= 0)
 		{
@@ -225,10 +225,22 @@ class assOrderingQuestion extends assQuestion
 		}
 		// duplicate the question in database
 		$this_id = $this->getId();
+		
+		if( (int)$testObjId > 0 )
+		{
+			$thisObjId = $this->getObjId();
+		}
+		
 		$clone = $this;
 		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
 		$original_id = assQuestion::_getOriginalId($this->id);
 		$clone->id = -1;
+		
+		if( (int)$testObjId > 0 )
+		{
+			$clone->setObjId($testObjId);
+		}
+		
 		if ($title)
 		{
 			$clone->setTitle($title);
@@ -258,7 +270,7 @@ class assOrderingQuestion extends assQuestion
 		$clone->duplicateGenericFeedback($this_id);
 
 		// duplicate the image
-		$clone->duplicateImages($this_id);
+		$clone->duplicateImages($this_id, $testObjId);
 		$clone->onDuplicate($this_id);
 		return $clone->id;
 	}
@@ -302,13 +314,19 @@ class assOrderingQuestion extends assQuestion
 		return $clone->id;
 	}
 	
-	function duplicateImages($question_id)
+	function duplicateImages($question_id, $objectId = null)
 	{
 		global $ilLog;
 		if ($this->getOrderingType() == OQ_PICTURES)
 		{
 			$imagepath = $this->getImagePath();
 			$imagepath_original = str_replace("/$this->id/images", "/$question_id/images", $imagepath);
+
+			if( (int)$objectId > 0 )
+			{
+				$imagepath_original = str_replace("/$this->obj_id/", "/$objectId/", $imagepath_original);
+			}
+
 			if (!file_exists($imagepath)) {
 				ilUtil::makeDirParents($imagepath);
 			}
