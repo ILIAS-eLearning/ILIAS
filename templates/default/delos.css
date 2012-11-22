@@ -56,10 +56,17 @@ table {
 /* --------------------------------------------------------------
    GLOBAL STYLES
 -------------------------------------------------------------- */
- 
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
 body {
 	color: #222;
-	background: #FFF;
+	background: none #F9F9F9;
 	line-height: 1.3;
 	font-size: .89em; /**/
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -172,9 +179,8 @@ img {
    SPECIAL STYLES
 -------------------------------------------------------------- */
 
-
 body.std {
-	background: #F0F0F0 url(images/frame_back.png) repeat-x;
+	background: url(images/frame_back.png) repeat-x #F9F9F9 ;
 }
 
 .ilNoDisplay {
@@ -182,7 +188,7 @@ body.std {
 }
 
 .ilClearFloat {
-	clear: both;
+	clear:both; 
 }
 
 .ilFloatRight {
@@ -267,6 +273,7 @@ div#mainscrolldiv {
 #il_center_col {
 	vertical-align: top;
 	width: 100%;
+	min-height: 1px;
 	float: left;
 }
 
@@ -2455,15 +2462,16 @@ div.ilTabContentOuter {
 	border: 1px solid #E0E0E0;
 	clear:both;
 	width:100%;
+	min-height: 100%;
+	float: left;
 	box-shadow: 3px 3px 4px #D0D0D0;
+	margin-bottom: 10px;
 }
 
 div.ilTabContentInner {
 	padding: 0 10px;
 	margin: 15px 0;
 	clear: both;
-	min-height: 300px;
-	overflow: hidden;
 }
 
 /* left navigation area (used, e.g. for explorer trees) */
