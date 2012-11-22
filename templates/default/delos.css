@@ -2210,7 +2210,7 @@ div.il_SearchFragment
 
 div.ilMainHeader {
 	min-height: 35px;
-	min-width: 750px;
+	min-width: 641px; /*this will need a setting after the new @media have been set*/
 	background: #F0F0F0 url(images/head_back.png) repeat-x;
 }
 
@@ -3184,6 +3184,10 @@ table.fullwidth {
 	background-color:#FFF;
 	width:100%;
 	border-collapse:collapse;
+}
+
+div.ilTableContainer {
+	overflow: auto;
 }
 
 .tblheader {
