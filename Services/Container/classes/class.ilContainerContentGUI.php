@@ -848,6 +848,27 @@ abstract class ilContainerContentGUI
 	 */
 	function renderItemGroup($a_tpl, $a_itgr)
 	{
+		global $ilAccess;
+		
+		$perm_ok = $ilAccess->checkAccess("read", "", $a_itgr['ref_id']);
+
+		include_once('./Services/Container/classes/class.ilContainerSorting.php');			
+		include_once('./Services/Object/classes/class.ilObjectActivation.php');
+		$items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
+		$items = ilContainerSorting::_getInstance(
+			$this->getContainerObject()->getId())->sortSubItems('itgr', $a_itgr['obj_id'],$items);
+		
+		// if no permissoin is given, set the items to "rendered" but
+		// do not display the whole block
+		if (!$perm_ok)
+		{
+			foreach($items as $item)
+			{
+				$this->rendered_items[$item["child"]] = true;
+			}
+			return;
+		}
+		
 		$item_list_gui = $this->getItemGUI($a_itgr);
 		$item_list_gui->getListItemHTML($a_itgr["ref_id"], $a_itgr["obj_id"],
 			$a_itgr["title"], $a_itgr["description"]);
@@ -864,11 +885,6 @@ abstract class ilContainerContentGUI
 
 		// render item group sub items
 				
-		include_once('./Services/Container/classes/class.ilContainerSorting.php');			
-		include_once('./Services/Object/classes/class.ilObjectActivation.php');
-		$items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
-		$items = ilContainerSorting::_getInstance(
-			$this->getContainerObject()->getId())->sortSubItems('itgr', $a_itgr['obj_id'],$items);
 		$position = 1;
 		foreach($items as $item)
 		{
