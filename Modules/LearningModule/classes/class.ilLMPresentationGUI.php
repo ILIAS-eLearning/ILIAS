@@ -562,7 +562,8 @@ class ilLMPresentationGUI
 			{
 				$pg_id = $this->getCurrentPageId();
 				
-				if (in_array($_GET["cmd"], array("media", "glossary")) && $_GET["from_page"] > 0)
+				if (in_array($_GET["cmd"], array("media", "glossary") ||
+					!in_array($_GET["frame"], array("", "_blank")) && $_GET["from_page"] > 0)
 				{
 					$pg_id = (int) $_GET["from_page"];
 				}
@@ -619,7 +620,7 @@ class ilLMPresentationGUI
 		{
 			include_once("./Modules/LearningModule/exceptions/class.ilLMPresentationException.php");
 			throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found ".count($found)." nodes for ".
-				" path ".$path." in ".$layout."/".$a_xml.".");
+				" path ".$path." in ".$layout."/".$a_xml.". LM Layout is ".$this->lm->getLayout().", page layout is "..".");
 		}
 		$node = $found[0];
 
