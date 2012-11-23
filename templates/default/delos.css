@@ -3830,9 +3830,13 @@ div.ilSideBarContent{
 	font-size: 90%;
 }
 
-.ilPollQuestionImage {
+img.ilPollQuestionImage {
 	margin-top: 5px;
-	width: 100%;
+	max-width: 100%;
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
 }
 
 .ilPollQuestionAnswers {
@@ -3854,17 +3858,22 @@ div.ilSideBarContent{
 }
 
 .ilPollQuestionResultBar {
-	width: 80%;
+	width: 100%;
 	border: 1px solid #aaa;
 	float: left;
+	height: 18px;
 }
 
 .ilPollQuestionResultBarInner {
 	background-color: #C2E1FF;
+	height: 18px;
 }
 
 .ilPollQuestionResultPerc {
 	float: right;
+	position: relative;
+	margin-top: -17px;
+	margin-right: 3px;
 }
 
 /* online help */
