@@ -598,7 +598,12 @@ class ilLMPresentationGUI
 		// we need another solution:
 		$xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/".$layout."/".$a_xml);
 
-		if (!$doc = domxml_open_mem($xmlfile)) { echo "ilLMPresentation: XML File invalid"; exit; }
+		if (!$doc = domxml_open_mem($xmlfile))
+		{
+			include_once("./Modules/LearningModule/exceptions/class.ilLMPresentationException.php");
+			throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Error reading ".
+				$layout."/".$a_xml.".");
+		}
 		$this->layout_doc =& $doc;
 //echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
 
@@ -610,7 +615,12 @@ class ilLMPresentationGUI
 			: "//ilFrame[@name='".$_GET["frame"]."']";
 		$result = xpath_eval($xpc, $path);
 		$found = $result->nodeset;
-		if (count($found) != 1) { echo "ilLMPresentation: XML File invalid"; exit; }
+		if (count($found) != 1)
+		{
+			include_once("./Modules/LearningModule/exceptions/class.ilLMPresentationException.php");
+			throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found ".count($found)." nodes for ".
+				" path ".$path." in ".$layout."/".$a_xml.".");
+		}
 		$node = $found[0];
 
 		$ilBench->stop("ContentPresentation", "layout_getFrameNode");
