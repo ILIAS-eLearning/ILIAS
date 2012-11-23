@@ -357,6 +357,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			}
 		}
 		
+		// #10185 - default for external urls
+		if($has_ext && !$ti->getValue())
+		{
+			$ti->setValue("http://");
+		}
+		
 		$ne->setValue($itpl->get());	
 			
 		// to html
