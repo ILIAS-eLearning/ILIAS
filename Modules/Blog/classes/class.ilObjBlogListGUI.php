@@ -33,6 +33,27 @@ class ilObjBlogListGUI extends ilObjectListGUI
 		include_once('./Modules/Blog/classes/class.ilObjBlogAccess.php');
 		$this->commands = ilObjBlogAccess::_getCommands();
 	}
+	
+	public function getCommands()
+	{
+		$commands = parent::getCommands();
+		
+		// #10182 - handle edit and contribute
+		$permissions = array();
+		foreach($commands as $idx => $item)
+		{
+			if($item["lang_var"] == "edit" && $item["granted"])
+			{
+				$permissions[$item["permission"]] = $idx;						
+			}
+		}		
+		if(sizeof($permissions) == 2)
+		{
+			unset($commands[$permissions["contribute"]]);
+		}
+		
+		return $commands;
+	}
 }
 
 ?>
