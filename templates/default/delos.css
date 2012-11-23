@@ -372,7 +372,18 @@ input[type=text].numeric
 }
 
 /* -------------------- table formatting ------------------ */
+div.ilTable {
+	display: table; 
+	width: 100%;
+}
 
+div.ilTableRow {
+	display: table-row;
+}
+
+div.ilTableCell {
+	display: table-cell;
+}
 table.std {
 	color: #222;
 	background-color: #BBB;
@@ -2472,6 +2483,7 @@ div.ilTabContentInner {
 	padding: 0 10px;
 	margin: 15px 0;
 	clear: both;
+	min-height: 300px;
 }
 
 /* left navigation area (used, e.g. for explorer trees) */
