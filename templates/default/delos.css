@@ -393,6 +393,11 @@ div.ilCommandRow {
 	 margin-bottom: 15px;
 }
 
+div.ilAdminRow {
+	margin: 10px 1% 20px;
+	width: 98%;
+}
+
 table.std {
 	color: #222;
 	background-color: #BBB;
