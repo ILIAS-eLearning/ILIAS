@@ -258,10 +258,11 @@ class ilObjectActivation
 	{
 		global $ilDB;
 		
+		// #10110
 		$query = "UPDATE crs_items SET ".
 			"timing_type = ".$ilDB->quote($this->getTimingType(),'integer').", ".
-			"timing_start = ".$ilDB->quote($this->getTimingStart(),'integer').", ".
-			"timing_end = ".$ilDB->quote($this->getTimingEnd(),'integer').", ".
+			"timing_start = ".$ilDB->quote((int)$this->getTimingStart(),'integer').", ".
+			"timing_end = ".$ilDB->quote((int)$this->getTimingEnd(),'integer').", ".
 			"suggestion_start = ".$ilDB->quote($this->getSuggestionStart(),'integer').", ".
 			"suggestion_end = ".$ilDB->quote($this->getSuggestionEnd(),'integer').", ".
 			"changeable = ".$ilDB->quote($this->enabledChangeable(),'integer').", ".
