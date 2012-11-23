@@ -1516,7 +1516,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					
 					$frm->__sendMessage($objPost->getParentId(), $post_data);
 					
-					$frm->sendForumNotifiations($post_data);
+					$frm->sendForumNotifications($post_data);
 					$frm->sendThreadNotifications($post_data);
 					
 					unset($GLOBALS["frm_notifications_sent"]);
