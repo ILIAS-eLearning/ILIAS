@@ -620,7 +620,7 @@ class ilLMPresentationGUI
 		{
 			include_once("./Modules/LearningModule/exceptions/class.ilLMPresentationException.php");
 			throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Found ".count($found)." nodes for ".
-				" path ".$path." in ".$layout."/".$a_xml.". LM Layout is ".$this->lm->getLayout().", page layout is "..".");
+				" path ".$path." in ".$layout."/".$a_xml.". LM Layout is ".$this->lm->getLayout());
 		}
 		$node = $found[0];
 
