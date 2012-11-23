@@ -866,7 +866,9 @@ ilCOPagePres =
 	////
 	
 	initAudioVideo: function () {
-		$('video.ilPageVideo,audio.ilPageAudio').mediaelementplayer({});
+		if ($('video.ilPageVideo,audio.ilPageAudio').mediaelementplayer) {
+			$('video.ilPageVideo,audio.ilPageAudio').mediaelementplayer({});
+		}
 	}
 
 }
