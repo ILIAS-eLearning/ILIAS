@@ -1404,7 +1404,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 		$oReplyEditForm = $this->getReplyEditForm();
 		if($oReplyEditForm->checkInput())
-		{	
+		{
 			// init objects
 			$oForumObjects = $this->getForumObjects();
 			/**
@@ -1531,6 +1531,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				{
 					$message .= $lng->txt('forums_post_new_entry');
 				}
+
+				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = $this->objCurrentPost->getId();
 				
 				ilUtil::sendSuccess($message, true);
 				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
