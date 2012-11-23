@@ -4977,12 +4977,26 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		include_once('./Services/Calendar/classes/class.ilDateTime.php');
 		
-		$dt['year'] = (int) $_POST[$a_field]['date']['y'];
-		$dt['mon'] = (int) $_POST[$a_field]['date']['m'];
-		$dt['mday'] = (int) $_POST[$a_field]['date']['d'];
-		$dt['hours'] = (int) $_POST[$a_field]['time']['h'];
-		$dt['minutes'] = (int) $_POST[$a_field]['time']['m'];
-		$dt['seconds'] = (int) $_POST[$a_field]['time']['s'];
+		// #10206 / #10217
+		if(is_array($_POST[$a_field]['date']))
+		{		
+			$dt['year'] = (int) $_POST[$a_field]['date']['y'];
+			$dt['mon'] = (int) $_POST[$a_field]['date']['m'];
+			$dt['mday'] = (int) $_POST[$a_field]['date']['d'];
+			$dt['hours'] = (int) $_POST[$a_field]['time']['h'];
+			$dt['minutes'] = (int) $_POST[$a_field]['time']['m'];
+			$dt['seconds'] = (int) $_POST[$a_field]['time']['s'];
+		}
+		else
+		{
+			$date = date_parse($_POST[$a_field]['date']." ".$_POST[$a_field]['time']);
+			$dt['year'] = (int) $date['year'];
+			$dt['mon'] = (int) $date['month'];
+			$dt['mday'] = (int) $date['day'];
+			$dt['hours'] = (int) $date['hour'];
+			$dt['minutes'] = (int) $date['minute'];
+			$dt['seconds'] = (int) $date['second'];
+		}
 		
 		$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE,$ilUser->getTimeZone());
 		return $date;		
