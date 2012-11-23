@@ -107,6 +107,7 @@ function ilBlockJSHandler(block_id, sUrl)
 		var loadergif = document.createElement('img');
 		loadergif.src = "./templates/default/images/loader.gif";
 		loadergif.border = 0;
+		$(loadergif).css("position", "absolute");
 		obj.appendChild(loadergif);
 	}
 	return false;

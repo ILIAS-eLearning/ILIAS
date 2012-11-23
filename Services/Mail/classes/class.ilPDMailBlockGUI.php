@@ -160,6 +160,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		
 		if($this->getCurrentDetailLevel() > 2)
 		{
+			$this->tpl->touchBlock('usr_image_space');
 			if($user && $user->getId() != ANONYMOUS_USER_ID)
 			{
 				$this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());

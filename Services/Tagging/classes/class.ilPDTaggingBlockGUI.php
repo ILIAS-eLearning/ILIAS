@@ -223,6 +223,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 					$this->item_list_gui[$type]->enableSubscribe(false);
 					$this->item_list_gui[$type]->enablePayment(false);
 					$this->item_list_gui[$type]->enableLink(false);
+					$this->item_list_gui[$type]->enableIcon(true);
 				}
 				$html = $this->item_list_gui[$type]->getListItemHTML(
 					$ref_id,
