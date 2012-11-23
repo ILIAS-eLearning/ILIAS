@@ -202,7 +202,7 @@ class ilObjPollGUI extends ilObject2GUI
 				$this->ctrl->getLinkTarget($this, "edit"));			
 			
 			$this->tabs_gui->addTab("participants",
-				$lng->txt("poll_participants"),
+				$lng->txt("poll_result"),
 				$this->ctrl->getLinkTarget($this, "showParticipants"));		
 			
 			$this->tabs_gui->addTab("export",
