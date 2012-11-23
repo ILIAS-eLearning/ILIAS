@@ -384,6 +384,13 @@ div.ilTableRow {
 div.ilTableCell {
 	display: table-cell;
 }
+
+div.ilCommandRow {
+	 text-align: right; 
+	 padding-right: 20%; 
+	 margin-bottom: 15px;
+}
+
 table.std {
 	color: #222;
 	background-color: #BBB;
@@ -3071,6 +3078,9 @@ td.il_adv_sel {
 	white-space: nowrap;
 	cursor: pointer;
 	font-weight: normal;
+}
+
+#ilAdvSelListTable_item_creation td.il_adv_sel {
 	min-width: 150px;
 }
 
