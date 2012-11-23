@@ -4190,7 +4190,12 @@ div.ilFrmPostHeader span.small {
 	#il_center_col.one_side_col ,
 	#il_center_col.two_side_col {
 		width: 100%;
+		padding: 0;
 	}
+	
+	div.il_Block {
+    border: 0 none;
+}
 
 	textarea {
 		max-width: 100%; 
@@ -4245,11 +4250,12 @@ div.ilFrmPostHeader span.small {
 	}
 	
 	div.ilTabContentInner {
-		overflow: auto;
+		overflow: visible;
 	}
 	
 	div.ilTabContentOuter {
 		box-shadow: none;
+		border: 0 none;
 		width: auto;
 	}
 	
