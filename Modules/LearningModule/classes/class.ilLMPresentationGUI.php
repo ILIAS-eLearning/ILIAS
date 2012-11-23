@@ -4202,7 +4202,15 @@ class ilLMPresentationGUI
 		// handle online links
 		if (!$this->offlineMode())
 		{
-			$this->ctrl->setParameter($this, "from_page", $cur_page_id);
+			if ($_GET["from_page"] != "")
+			{
+				$this->ctrl->setParameter($this, "from_page", $cur_page_id);
+			}
+			else
+			{
+				// faq link on page (in faq frame) includes faq link on other page
+				$this->ctrl->setParameter($this, "from_page", $_GET["from_page"]);
+			}
 			
 			if ($a_anchor !=  "")
 			{
