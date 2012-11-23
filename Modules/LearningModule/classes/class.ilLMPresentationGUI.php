@@ -562,8 +562,8 @@ class ilLMPresentationGUI
 			{
 				$pg_id = $this->getCurrentPageId();
 				
-				if (in_array($_GET["cmd"], array("media", "glossary") ||
-					!in_array($_GET["frame"], array("", "_blank")) && $_GET["from_page"] > 0)
+				if ((in_array($_GET["cmd"], array("media", "glossary")) ||
+					!in_array($_GET["frame"], array("", "_blank"))) && $_GET["from_page"] > 0)
 				{
 					$pg_id = (int) $_GET["from_page"];
 				}
