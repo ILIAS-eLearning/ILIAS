@@ -4202,7 +4202,7 @@ class ilLMPresentationGUI
 		// handle online links
 		if (!$this->offlineMode())
 		{
-			if ($_GET["from_page"] != "")
+			if ($_GET["from_page"] == "")
 			{
 				$this->ctrl->setParameter($this, "from_page", $cur_page_id);
 			}
