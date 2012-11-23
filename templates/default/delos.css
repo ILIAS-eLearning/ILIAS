@@ -265,29 +265,31 @@ div#mainscrolldiv {
 
 #il_left_col {
 	vertical-align: top;
-	width: 19.5%;
-	padding: 0 .5% 0 0;
+	width: 20%;
+	padding: 0 0 0 1%;
 	float: left;
 }
 
 #il_center_col {
 	vertical-align: top;
-	width: 100%;
+	width: 98%;
+	padding: 0 1%;
 	min-height: 1px;
 	float: left;
+	padding-bottom: 15px;
 }
 
 #il_center_col.one_side_col {
-	width: 80%;
+	width: 77%;
 }
 #il_center_col.two_side_col {
-	width: 60%;
+	width: 56%;
 }
 
 #il_right_col {
 	vertical-align: top;
-	width: 19.5%;
-	padding: 0 0 0 .5%;
+	width: 20%;
+	padding: 0 1% 0 0;
 	float: left;
 }
 
@@ -387,7 +389,7 @@ div.ilTableCell {
 
 div.ilCommandRow {
 	 text-align: right; 
-	 padding-right: 20%; 
+	 padding-right: 22%; 
 	 margin-bottom: 15px;
 }
 
@@ -1091,11 +1093,9 @@ h1.ilHeaderHasIcon
 span.ilHeader
 {
 }
-div.ilHeadAction
-{
+div.ilHeadAction {
 	float: right;
-	margin-top: 21px;
-	margin-bottom: 5px; /* blog fullscreen */
+	margin: 21px 21px 5px 0; /* bottom 5px blog fullscreen */
 }
 div.ilHeadAction  .prop
 {
@@ -2487,10 +2487,11 @@ div.ilTabContentOuter {
 }
 
 div.ilTabContentInner {
-	padding: 0 10px;
+	padding: 0;
 	margin: 15px 0;
 	clear: both;
 	min-height: 300px;
+	width: 100%;
 }
 
 /* left navigation area (used, e.g. for explorer trees) */
@@ -3825,18 +3826,16 @@ div.ilSideBarContent{
 }
 
 .ilPollQuestion {
-	margin: 5px;
+	display: inline-block;
+	width: 97%;
+	margin: 1.5%;
 	font-weight: bold;
 	font-size: 90%;
 }
 
 img.ilPollQuestionImage {
-	margin-top: 5px;
+	margin: 1.5% 0%;
 	max-width: 100%;
-	width: 200px;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
 }
 
 .ilPollQuestionAnswers {
