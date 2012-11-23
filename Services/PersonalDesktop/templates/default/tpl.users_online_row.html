@@ -1,10 +1,5 @@
-<tr class="{CSS_ROW}">
-	<!-- BEGIN usr_image -->
-	<td class="std" valign="top" align="center" width="1">
-		<img border="0" src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" style="margin: 2px 0px;" />
-	</td>
-	<!-- END usr_image -->
-	<td class="std" valign="top">
+<div class="{CSS_ROW} small">
+	<div <!-- BEGIN usr_image_space -->style="margin-left:40px;"<!-- END usr_image_space --> >
 		<div style="float:right;" class="il_ContainerItemCommand">
 		<!-- BEGIN mailto_link -->
 		<a class="il_ContainerItemCommand" href="{MAIL_URL}">{TXT_MAIL}</a>
@@ -14,13 +9,17 @@
 		<!-- END chat_link -->
 		</div>
 	
-		<div class="small">
-		<span id="username">
+		
+		<!-- BEGIN usr_image -->
+		<div style="margin-left:-40px; float:left;"><img border="0" src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" style="margin: 2px 0px;" /></div>
+		<!-- END usr_image -->
+		
+		<div><span id="username">
 		<!-- BEGIN profile_link --><a href="{LINK_PROFILE}">{LINK_FULLNAME}</a><!-- END profile_link -->
 		{USR_FULLNAME}
 		{TXT_STATUS_NOT_ACTIVE}
-		{USR_LOGIN}</span>
-		</div>
+		{USR_LOGIN}</span></div>
+
 		<!--  BEGIN chat_info -->
 		<div class="il_Description_no_margin">
 		{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="chat" onclick="openChatWindow(this); return false;">{CHAT_TITLE}</a>
@@ -31,5 +30,6 @@
 		<img src="{IMG_IM_ICON}" alt="{TXT_IM_ICON}" title="{TXT_IM_ICON}" border="0"/>
 		</a>
 		<!-- END instant_messengers -->
-	</td>
-</tr>
+	</div>
+	<div class="ilClearFloat"></div>
+</div>

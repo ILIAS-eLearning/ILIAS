@@ -2768,7 +2768,7 @@ td.ilGroupedListNewCol {
 }
 
 /* Overlays, Blocks */
-table.il_Block, .ilOverlay
+div.il_Block, table.il_Block, .ilOverlay
 {
 	background-color:#FFF;
 	border: 1px solid #D6D6D6;
@@ -2783,7 +2783,7 @@ table.il_Block, .ilOverlay
 
 /* Blocks */
 
-table.il_Block
+div.il_Block, table.il_Block
 {
 	width:100%;
 	border-spacing:0px;
@@ -2792,6 +2792,7 @@ table.il_Block
 	clear:both;
 }
 
+div.ilBlockHeader, div.ilBlockHeaderBig,
 td.ilBlockHeader, td.ilBlockHeaderBig
 {
 	font-weight: bold;
@@ -2805,7 +2806,7 @@ td.ilBlockHeader, td.ilBlockHeaderBig
 	border-bottom:1px solid #E9E9E9;
 }
 
-td.ilBlockHeaderBig
+div.ilBlockHeaderBig, td.ilBlockHeaderBig
 {
 	font-size: 100%;
 }
@@ -2819,7 +2820,7 @@ h3.ilBlockHeader
 	display: inline;
 }
 
-td.il_BlockFooter {
+div.il_BlockFooter, td.il_BlockFooter {
 	color:#222;
 	background-color:#D0D0FF;
 	text-align:right;
@@ -2827,10 +2828,25 @@ td.il_BlockFooter {
 	padding:2px;
 }
 
-.il_BlockInfo
-{
+/* possibly deprecated */
+.il_BlockInfo {
 	font-size: 80%;
 	color: #909090;
+}
+
+/* new class */
+div.ilBlockInfo {
+	font-size: 75%;
+	color: #909090;
+	border-bottom: 1px solid #E9E9E9;
+	padding: 1px 3px;
+	background-color: #F9F9F9;
+	text-align: right;
+}
+
+
+div.ilBlockContent {
+	padding: 5px;
 }
 
 th.ilContainerBlockHeader
@@ -2869,8 +2885,14 @@ table.ilContainerBlock
 	margin-bottom:20px;
 }
 
-th.ilPDBlockSubHeader
+
+h3.ilPDBlockSubHeader
 {
+	font-weight: normal;
+	padding: 0px;
+	margin: 0px;
+	display: block;
+	font-size: 100%;
 	font-weight: normal;
 	text-align:left;
 	font-size: 90%;
@@ -2882,20 +2904,16 @@ th.ilPDBlockSubHeader
 	padding: 1px 3px;
 }
 
-h3.ilPDBlockSubHeader
-{
-	font-weight: normal;
-	padding: 0px;
-	margin: 0px;
-	display: inline;
-	font-size: 100%;
-}
-
 .ilBlockRow1, .ilBlockRow2 {
 	padding:3px;
-	border-top-color: #F0F0F0;
-	border-top-style: solid;
-	border-top-width: 1px;
+	border-bottom: 1px solid #F0F0F0;
+}
+
+/* Services/Bookmarks */
+
+#block_pdbookm_0 #tree_div {
+	overflow: auto;
+	width: 100%;
 }
 
 /* Tables */

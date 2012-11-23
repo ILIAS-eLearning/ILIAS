@@ -293,6 +293,7 @@ class ilUsersOnlineBlockGUI extends ilBlockGUI
 				ilObjUser::_getPersonalPicturePath($a_set["id"],"xxsmall"));
 			$this->tpl->setVariable("USR_ALT", $lng->txt("personal_picture"));
 			$this->tpl->parseCurrentBlock();
+			$this->tpl->touchBlock("usr_image_space");
 		
 			$pd_set = new ilSetting("pd");
 			$osi_server = $pd_set->get("osi_host");
