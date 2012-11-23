@@ -39,6 +39,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1px", true);
 		$this->addColumn($this->lng->txt("itgr_item"));
 		$this->addColumn($this->lng->txt("itgr_assignment"));
+		$this->setSelectAllCheckbox("items[]");
 		
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.item_group_items_row.html", "Modules/ItemGroup");
