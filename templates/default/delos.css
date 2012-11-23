@@ -3295,7 +3295,7 @@ select.ilNavHistorySelect {
 	/* font-size: 80%; */
 }
 
-.ilAccHeadingHidden, .ilAccHidden
+.ilAccHeadingHidden, .ilAccHidden, .ui-helper-hidden-accessible
 {
 	position:absolute;
 	left:-2000px;
