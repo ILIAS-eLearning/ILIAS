@@ -848,7 +848,7 @@ abstract class ilContainerContentGUI
 	 */
 	function renderItemGroup($a_tpl, $a_itgr)
 	{
-		global $ilAccess;
+		global $ilAccess, $lng;
 		
 		$perm_ok = $ilAccess->checkAccess("read", "", $a_itgr['ref_id']);
 
@@ -875,6 +875,19 @@ abstract class ilContainerContentGUI
 		$commands_html = $item_list_gui->getCommandsHTML(); 
 		
 		$this->addSeparatorRow($a_tpl);
+		
+		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.$this->bl_cnt.'"');
+		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
+		{
+			$a_tpl->setCurrentBlock("select_all_row");
+			$a_tpl->setVariable("CHECKBOXNAME", "bl_cb_".$this->bl_cnt);
+			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
+			$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
+			$a_tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
+			$a_tpl->parseCurrentBlock();
+			$this->bl_cnt++;
+		}
+		
 		$a_tpl->setCurrentBlock("container_header_row");
 		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $a_itgr["title"]);
 		$a_tpl->setVariable("CHR_COMMANDS", $commands_html);
