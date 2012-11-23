@@ -212,7 +212,7 @@ class ilForumExplorer
 			$object['pos_usr_alias'],
 			$object['import_name']
 		);
-		$html .= $authorinfo->getAuthorName();
+		$html .= $authorinfo->getAuthorShortName();
 		$html .= ", " . ilDatePresentation::formatDate(new ilDateTime($object['pos_date'], IL_CAL_DATETIME)) . "</span>";
 
 		return $html;

@@ -1532,7 +1532,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$message .= $lng->txt('forums_post_new_entry');
 				}
 
-				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = $this->objCurrentPost->getId();
+				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$this->objCurrentPost->getId();
 				
 				ilUtil::sendSuccess($message, true);
 				$this->ctrl->setParameter($this, 'pos_pk', $newPost);
