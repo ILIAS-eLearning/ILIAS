@@ -78,7 +78,7 @@ abstract class ilParticipant
 
 	public function isBlocked()
 	{
-		return (bool) $this->participants_status['blocked'];
+		return (bool) $this->participants_status[$this->getUserId()]['blocked'];
 	}
 
 	public function isAssigned()
