@@ -186,7 +186,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		else
 		{
 			ilUtil::redirect("ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=".
-				$a_new_object->getRefId()."&cmd=view");
+				$a_new_object->getRefId()."&cmd=switchViewMode&switch_mode=2");
 		}
 	}
 	
