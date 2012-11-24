@@ -277,8 +277,8 @@ class ilObjGroupAccess extends ilObjectAccess
 		
 		$registration_possible = $info['reg_info_enabled'];
 
-		// Limited registration
-		if(!$info['reg_info_unlimited'])
+		// Limited registration (added $registration_possible, see bug 0010157)
+		if(!$info['reg_info_unlimited'] && $registration_possible)
 		{
 			$dt = new ilDateTime(time(),IL_CAL_UNIX);
 			if(ilDateTime::_before($dt, $info['reg_info_start']))
@@ -300,9 +300,13 @@ class ilObjGroupAccess extends ilObjectAccess
 		}
 		else
 		{
-			$registration_possible = false;
-			$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_period');
-			$info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
+			// added !$registration_possible, see bug 0010157
+			if (!$registration_possible)
+			{
+				$registration_possible = false;
+				$info['reg_info_list_prop']['property'] = $lng->txt('grp_list_reg_period');
+				$info['reg_info_list_prop']['value'] = $lng->txt('grp_list_reg_noreg');
+			}
 		}
 		
 		if($info['reg_info_mem_limit'] && $registration_possible)
@@ -328,7 +332,7 @@ class ilObjGroupAccess extends ilObjectAccess
 				$info['reg_info_list_prop_limit']['value'] = $lng->txt('grp_list_reg_limit_full');
 			}
 		}
-		
+
 		return $info;
 	}
 	
