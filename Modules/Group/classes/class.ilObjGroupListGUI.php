@@ -129,6 +129,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
 		
 		include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
 		$info = ilObjGroupAccess::lookupRegistrationInfo($this->obj_id);
+//var_dump($info);
 		if($info['reg_info_list_prop'])
 		{
 			$props[] = array(
