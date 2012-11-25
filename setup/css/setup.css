@@ -43,6 +43,12 @@ div.ilSetupFrameBR{
 	min-height: 600px;
 }
 
+div.ilSetupContent div.ilTabContentOuter {
+	float: none;
+	width: inherit;
+	padding: 0 10px;
+}
+
 div.ilSetupLogin{
 	float:right;
 	font-size: 90%;
