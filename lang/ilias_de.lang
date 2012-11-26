@@ -12990,3 +12990,4 @@ help#:#help_help_only#:#Nur Handlungsanweisungen
 help#:#help_tooltips_only#:#Nur Tooltips
 help#:#help_set_mode#:#Hilfemodus setzen
 poll#:#poll_result#:#Abstimmungsergebnis
+fold#:#fold_copy#:#Ordner kopieren
