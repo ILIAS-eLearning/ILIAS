@@ -172,8 +172,8 @@ class ilCourseObjectivesGUI
 		$counter = 0;
 		foreach($_POST['objective'] as $objective_id)
 		{
-			$objective_obj =& $this->__initObjectivesObject($objective_id);
-
+			$objective_obj = $this->__initObjectivesObject($objective_id);
+			
 			$tpl->setCurrentBlock("tbl_content");
 			$tpl->setVariable("ROWCOL",ilUtil::switchColor(++$counter,"tblrow2","tblrow1"));
 			$tpl->setVariable("TITLE",$objective_obj->getTitle());
@@ -361,8 +361,8 @@ class ilCourseObjectivesGUI
 		return true;
 	}
 
-	function &__initObjectivesObject($a_id = 0)
-	{
+	function __initObjectivesObject($a_id = 0)
+	{	
 		return $this->objectives_obj = new ilCourseObjective($this->course_obj,$a_id);
 	}
 
