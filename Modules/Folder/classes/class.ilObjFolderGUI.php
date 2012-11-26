@@ -278,6 +278,14 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->infoScreen();
 	}
 	
+	protected function afterSave(ilObject $a_new_object)
+	{		
+		// always send a message
+		ilUtil::sendSuccess($this->lng->txt("fold_added"),true);
+		$this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefId());
+		$this->redirectToRefId($a_new_object->getRefId(), "");
+	}
+	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
