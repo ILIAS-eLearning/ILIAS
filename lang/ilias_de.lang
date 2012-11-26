@@ -11114,9 +11114,9 @@ survey#:#err_external_rcp_no_email#:#Die Importdaten müssen wenigstens ein 'ema
 survey#:#err_external_rcp_no_email_column#:#Die Importdaten müssen wenigstens eine 'email'-Spalte beinhalten, d.h. eine Zeile mit dem Titel 'email' und weitere Zeilen mit den jeweiligen E-Mail-Adressen
 survey#:#err_maxvaluegeminvalue#:#Das Maximum muss größer oder gleich dem Minimum sein und höchstens gleich der maximalen Anzahl der Antworten.
 survey#:#err_minvalueganswers#:#Das Minium darf nicht größer als die maximale Anzahl der Antworten sein.
-survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antworten aus.
-survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antworten aus.
-survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antworten aus.
+survey#:#err_no_exact_answers#:#Bitte wählen Sie genau %s Antwort(en) aus.
+survey#:#err_no_max_answers#:#Bitte wählen Sie höchstens %s Antwort(en) aus.
+survey#:#err_no_min_answers#:#Bitte wählen Sie mindestens %s Antwort(en) aus.
 survey#:#err_no_pool_name#:#Bitte geben Sie den Namen eines Fragenpools an
 survey#:#err_no_selection#:#Keine Auswahl.
 survey#:#error_add_heading#:#Bitte geben Sie eine Überschrift ein!
@@ -11272,12 +11272,12 @@ survey#:#mode_text#:#Häufigste Auswahl (Text)
 survey#:#msg_deleted_export_files#:#Exportdatei(en) gelöscht
 survey#:#msg_duplicate_scale#:#Bitte tragen Sie eindeutige Skalenwerte ein.
 survey#:#msg_enter_value_for_valid_constraint#:#Bitte geben Sie einen Wert ein, um eine gültige Vorbedingung zu erstellen.
-survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antworten
+survey#:#msg_max_nr_answers#:#Bitte wählen Sie höchstens %s Antwort(en).
 survey#:#msg_message_deleted#:#Nachrichtentext gelöscht
 survey#:#msg_message_inserted#:#Nachrichtentext eingefügt
-survey#:#msg_min_max_exact_answers#:#Bitte wählen Sie genau %s Antworten
-survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antworten
-survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antworten
+survey#:#msg_min_max_exact_answers#:#Bitte wählen Sie genau %s Antwort(en).
+survey#:#msg_min_max_nr_answers#:#Bitte wählen Sie mindestens %s und höchstens %s Antwort(en).
+survey#:#msg_min_nr_answers#:#Bitte wählen Sie mindestens %s Antwort(en).
 survey#:#msg_no_message_deleted#:#Bitte wählen Sie einen gespeicherten Nachrichtentext zum Löschen aus
 survey#:#msg_no_message_inserted#:#Bitte wählen Sie einen Nachrichtentext zum Einfügen aus
 survey#:#msg_users_disinvited#:#Benutzer ausgeladen
