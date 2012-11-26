@@ -12989,3 +12989,4 @@ help#:#help_help_only#:#Workflow Help Only
 help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_set_mode#:#Set Mode
 poll#:#poll_result#:#Voting Result
+fold#:#fold_copy#:#Copy Folder
