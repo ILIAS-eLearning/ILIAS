@@ -179,6 +179,10 @@ img {
    SPECIAL STYLES
 -------------------------------------------------------------- */
 
+body#tinymce, body.mceContentBody {
+	height: auto;
+}
+
 body.std {
 	background: url(images/frame_back.png) repeat-x #F9F9F9 ;
 }
