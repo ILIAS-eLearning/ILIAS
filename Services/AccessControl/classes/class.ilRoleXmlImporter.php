@@ -140,7 +140,7 @@ class ilRoleXmlImporter
 					$this->getRole()->getId(),
 					trim((string) $sxml_op['group']),
 					array($operations[trim((string) $sxml_op)]),
-					$this->getRole()
+					$this->getRoleFolderId() // #10161
 				);
 
 			}
