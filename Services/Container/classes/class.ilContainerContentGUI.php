@@ -870,6 +870,10 @@ abstract class ilContainerContentGUI
 		}
 		
 		$item_list_gui = $this->getItemGUI($a_itgr);
+		$item_list_gui->enableNotes(false);
+		$item_list_gui->enableTags(false);
+		$item_list_gui->enableComments(false);
+		$item_list_gui->enableTimings(false);
 		$item_list_gui->getListItemHTML($a_itgr["ref_id"], $a_itgr["obj_id"],
 			$a_itgr["title"], $a_itgr["description"]);
 		$commands_html = $item_list_gui->getCommandsHTML(); 
