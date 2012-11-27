@@ -85,10 +85,11 @@ class ilSearchGUI extends ilSearchBaseGUI
 		switch($next_class)
 		{
 			case "ilpropertyformgui":
-				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
+				//$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
+				$form = $this->getSearchAreaForm();
 				$this->prepareOutput();
 				$ilCtrl->setReturn($this, 'storeRoot');
-				return $ilCtrl->forwardCommand($this->form);
+				return $ilCtrl->forwardCommand($form);
 				
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
@@ -183,9 +184,16 @@ class ilSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function storeRoot()
 	{
-		$this->root_node = $this->form->getItemByPostVar('area')->getValue();
+		$form = $this->getSearchAreaForm();
+
+		$this->root_node = $form->getItemByPostVar('area')->getValue();
 		$this->search_cache->setRoot($this->root_node);
 		$this->search_cache->save();
+		$this->search_cache->deleteCachedEntries();
+
+		include_once './Services/Object/classes/class.ilSubItemListGUI.php';
+		ilSubItemListGUI::resetDetails();
+
 		$this->performSearch();
 	}
 
@@ -225,6 +233,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 		
 		$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
 		$this->tpl->setVariable("FORM", $this->form->getHTML());
+
+		// search area form
+		$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
 
 		return true;
 	}

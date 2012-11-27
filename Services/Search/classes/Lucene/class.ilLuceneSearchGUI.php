@@ -74,9 +74,12 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		switch($next_class)
 		{
 			case "ilpropertyformgui":
-				$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
+				/*$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_LUCENE);
 				$ilCtrl->setReturn($this, 'storeRoot');
-				$ilCtrl->forwardCommand($this->form);
+				$ilCtrl->forwardCommand($this->form);*/
+				$form = $this->getSearchAreaForm();
+				$ilCtrl->setReturn($this, 'storeRoot');
+				$ilCtrl->forwardCommand($form);
 				break;
 			
 			case 'ilobjectcopygui':
@@ -345,7 +348,9 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 	 */
 	protected function storeRoot()
 	{
-		$this->root_node = $this->form->getItemByPostVar('area')->getValue();
+		$form = $this->getSearchAreaForm();
+
+		$this->root_node = $form->getItemByPostVar('area')->getValue();
 		$this->search_cache->setRoot($this->root_node);
 		$this->search_cache->save();
 		$this->search_cache->deleteCachedEntries();
@@ -539,11 +544,16 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
 		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
 		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
-		$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_fast_info"));
+		$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_off"));
 		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
-		$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
+		$this->tpl->setVariable("TXT_FILTER_BY_TYPE", $lng->txt("search_filter_by_type"));
 		
 		$this->tpl->setVariable('FORM',$this->form->getHTML());
+		
+		// search area form
+		$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
+		$this->tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
+		
 		return true;
 	}
 }

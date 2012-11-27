@@ -13024,3 +13024,5 @@ rbac#:#rcat_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcat_read#:#Lesezugriff auf ECS-Kategorie
 rbac#:#rcat_visible#:#ECS-Kategorie ist sichtbar
 rbac#:#rcat_write#:#ECS-Kategorie bearbeiten
+search#:#search_filter_by_type#:#Typfilter
+search#:#search_off#:#Aus
