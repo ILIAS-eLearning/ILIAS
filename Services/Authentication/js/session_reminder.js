@@ -73,7 +73,7 @@
 				success: function (response) {
 					if (response.remind) {
 						session_reminder_executer.stop();
-						var extend = confirm(response.txt);
+						var extend = confirm(unescape(response.txt));
 						if (extend == true) {
 							$.ajax({
 								url:     response.extend_url,
