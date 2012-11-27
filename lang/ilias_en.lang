@@ -12991,3 +12991,38 @@ help#:#help_set_mode#:#Set Mode
 poll#:#poll_result#:#Voting Result
 fold#:#fold_copy#:#Copy Folder
 rbac#:#fold_create_sess#:#Create Session
+rbac#:#rfil_delete#:#User can move or delete ECS File 
+rbac#:#rfil_edit_permission#:#User can change permission settings
+rbac#:#rfil_read#:#User can use ECS File 
+rbac#:#rfil_visible#:#ECS File is visible
+rbac#:#rfil_write#:#User can edit settings of ECS File
+rbac#:#rgrp_delete#:#User can move or delete ECS Group 
+rbac#:#rgrp_edit_permission#:#User can change permission settings
+rbac#:#rgrp_read#:#User can use ECS Group 
+rbac#:#rgrp_visible#:#ECS Group is visible
+rbac#:#rgrp_write#:#User can edit settings of ECS Group
+rbac#:#rglo_delete#:#User can move or delete ECS Glossary 
+rbac#:#rglo_edit_permission#:#User can change permission settings
+rbac#:#rglo_read#:#User can use ECS Glossary 
+rbac#:#rglo_visible#:#ECS Glossary is visible
+rbac#:#rglo_write#:#User can edit settings of ECS Glossary
+rbac#:#rlm_delete#:#User can move or delete ECS Learning Module 
+rbac#:#rlm_edit_permission#:#User can change permission settings
+rbac#:#rlm_read#:#User can use ECS Learning Module 
+rbac#:#rlm_visible#:#ECS Learning Module is visible
+rbac#:#rlm_write#:#User can edit settings of ECS Learning Module
+rbac#:#rtst_delete#:#User can move or delete ECS Test
+rbac#:#rtst_edit_permission#:#User can change permission settings
+rbac#:#rtst_read#:#User can use ECS Test
+rbac#:#rtst_visible#:#ECS Test is visible
+rbac#:#rtst_write#:#User can edit settings of ECS Test
+rbac#:#rwik_delete#:#User can move or delete ECS Wiki
+rbac#:#rwik_edit_permission#:#User can change permission settings
+rbac#:#rwik_read#:#User can use ECS Wiki
+rbac#:#rwik_visible#:#ECS Wiki is visible
+rbac#:#rwik_write#:#User can edit settings of ECS Wiki
+rbac#:#rcat_delete#:#User can move or delete ECS Category
+rbac#:#rcat_edit_permission#:#User can change permission settings
+rbac#:#rcat_read#:#User can use ECS Category
+rbac#:#rcat_visible#:#ECS Category is visible
+rbac#:#rcat_write#:#User can edit settings of ECS Category
