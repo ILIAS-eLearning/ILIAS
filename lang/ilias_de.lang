@@ -5839,7 +5839,7 @@ content#:#cont_page_toc#:#Seitenübersicht
 content#:#cont_pages#:#Seiten
 content#:#cont_pages_and_subchapters#:#Unterkapitel und Seiten
 content#:#cont_par_format#:#Absatzformat
-content#:#cont_paragraph_styles#:#Paragraph Styles
+content#:#cont_paragraph_styles#:#Absatzformate
 content#:#cont_parameter#:#Parameter
 content#:#cont_parameters#:#Parameter
 content#:#cont_paste_from_clipboard#:#Aus Zwischenablage einfügen
@@ -6200,7 +6200,7 @@ content#:#page_does_not_exist#:#Leider existiert diese Seite nicht (mehr).
 content#:#Pages#:#Seiten
 content#:#pages from#:#Seiten von
 content#:#par#:#Text
-content#:#PDF export#:#PDF Export
+content#:#PDF export#:#PDF-Export
 content#:#pg#:#Seite
 content#:#public_section#:#Öffentlicher Bereich
 content#:#read offline#:#Offline lesen
@@ -7333,7 +7333,7 @@ ecs#:#ecs_abr#:#Kürzel
 ecs#:#ecs_account_duration#:#Verlängerung der Aktivierungszeit
 ecs#:#ecs_account_duration_info#:#Die Aktivierungszeit neuer ECS-Benutzer ist auf die Session-Dauer begrenzt. Erst mit der Aufnahme in einen Kurs wird das Ende der Aktivierungszeit verlängert.
 ecs#:#ecs_activate#:#Aktivieren
-ecs#:#ecs_active#:#ECS Funktionalitäten aktivieren
+ecs#:#ecs_active#:#ECS-Funktionalitäten aktivieren
 ecs#:#ecs_active_header#:#Export/Import erlaubt
 ecs#:#ecs_add_new_ecs#:#Neuen ECS hinzufügen
 ecs#:#ecs_apache_pass#:#Passwort
@@ -7404,7 +7404,7 @@ ecs#:#ecs_field_time#:#Uhrzeit
 ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue ECS-Benutzer zugeordnet werden.
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
 ecs#:#ecs_import#:#Externe Kurse
-ecs#:#ecs_import_cms#:#Campus Managment
+ecs#:#ecs_import_cms#:#Campus Management
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_imported_content#:#Importierte Materialien
@@ -7449,7 +7449,7 @@ ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu e
 ecs#:#ecs_remote_user_settings#:#Einstellungen für ECS-Benutzerzugänge
 ecs#:#ecs_role#:#Rollenzuordnung
 ecs#:#ecs_server_addr#:#Serveradresse
-ecs#:#ecs_server_settings#:#ECS Funktionalitäten
+ecs#:#ecs_server_settings#:#ECS-Funktionalitäten
 ecs#:#ecs_server_url#:#Server URL
 ecs#:#ecs_settings#:#Einstellungen
 ecs#:#ecs_tab_export#:#Export
@@ -11315,8 +11315,8 @@ survey#:#on_additional#:#An, und zusätzlich
 survey#:#or#:#oder
 survey#:#orientation#:#Ausrichtung
 survey#:#other_answer#:#Andere Antwort
-survey#:#other_answer_desc#:#Add an additional choice (other) with a text field.
-survey#:#other_answer_label#:#Label of other answer (optional)
+survey#:#other_answer_desc#:#Zusätzliche Antwort mit Textfeld hinzufügen
+survey#:#other_answer_label#:#Label der Zusatzantwort (optional)
 survey#:#outro#:#Abschließende Bemerkung
 survey#:#participating_users#:#Teilnehmende Benutzer
 survey#:#percentage_of_entered_values#:#Prozentsatz der Benutzer, die diesen Wert ausgewählt haben
@@ -12340,7 +12340,7 @@ dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
-dcl#:#dcl_record_view_viewdefinition#:#Anzeige eines Eintrags
+dcl#:#dcl_record_view_viewdefinition#:#Seitenvorlage
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
 dcl#:#dcl_field_datatype#:#Feld Datentyp
@@ -12355,7 +12355,7 @@ dcl#:#dcl_edit_start#:#Startdatum
 dcl#:#dcl_edit_end#:#Enddatum
 dcl#:#dcl_export#:#Export
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
-dcl#:#dcl_view_viewdefinition#:#Anzeigedefinition
+dcl#:#dcl_view_viewdefinition#:#Seitenvorlage
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Tabelleneigenschaften speichern
@@ -12370,12 +12370,12 @@ dcl#:#dcl_file#:#Datei-Upload
 dcl#:#dcl_field_description#:#Beschreibung
 dcl#:#dcl_field_required#:#Pflichtfeld
 dcl#:#dcl_length#:#Länge
-dcl#:#dcl_regex#:#Regular Expression (Ohne Trennsymbol/Delimiter)
+dcl#:#dcl_regex#:#Regulärer Ausdruck (ohne Trennsymbol/Delimiter)
 dcl#:#dcl_filter#:#Filter
 dcl#:#dcl_max_text_length#:#Maximale Länge
 dcl#:#dcl_wrong_length#:#Der eingegebene Text ist zu lang.
-dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regular Expression).
-dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Wrong Type).
+dcl#:#dcl_wrong_regex#:#Der eingegebene Text passt nicht zur Spezifikation dieses Feldes (Regulärer Ausdruck).
+dcl#:#dcl_wrong_input_type#:#Der eingegebene Text passt nicht zum Typ dieses Feldes (Falscher Typ).
 dcl#:#dcl_unique#:#Einzigartig
 dcl#:#dcl_unique_exception#:#Der eingegebene Wert wird schon von einem anderen Eintrag verwendet.
 dcl#:#dcl_unknown_exception#:#Der eingegebene Wert ist nicht gültig.
@@ -12585,53 +12585,53 @@ ecs#:#ecs_cat_export_obj_settings#:#Einstellungen für Kategoriefreigaben
 ecs#:#ecs_cat_export_disabled#:#Nicht freigeben
 ecs#:#ecs_cat_export_enabled#:#Freigeben
 rcat#:#rcat_call#:#ECS-Kategorie aufrufen
-common#:#obj_rwik#:#ECS Wiki
-common#:#objs_rwik#:#ECS Wikis
+common#:#obj_rwik#:#ECS-Wiki
+common#:#objs_rwik#:#ECS-Wikis
 ecs#:#ecs_wiki_export#:#Wikifreigaben
 ecs#:#ecs_wiki_export_obj_settings#:#Einstellungen für Wikifreigaben
 ecs#:#ecs_wiki_export_disabled#:#Nicht freigeben
 ecs#:#ecs_wiki_export_enabled#:#Freigeben
 ecs#:#ecs_availability#:#Verfügbarkeit
-rwik#:#rwik_call#:#ECS Wiki aufrufen
-common#:#obj_rlm#:#ECS Lernmodul
-common#:#objs_rlm#:#ECS Lernmodule
+rwik#:#rwik_call#:#ECS-Wiki aufrufen
+common#:#obj_rlm#:#ECS-Lernmodul
+common#:#objs_rlm#:#ECS-Lernmodule
 ecs#:#ecs_lm_export#:#Lernmodulfreigaben
 ecs#:#ecs_lm_export_obj_settings#:#Einstellungen für Lernmodulfreigaben
 ecs#:#ecs_lm_export_disabled#:#Nicht freigeben
 ecs#:#ecs_lm_export_enabled#:#Freigeben
-rlm#:#rlm_call#:#ECS Lernmodul aufrufen
-common#:#obj_rglo#:#ECS Glossar
-common#:#objs_rglo#:#ECS Glossare
+rlm#:#rlm_call#:#ECS-Lernmodul aufrufen
+common#:#obj_rglo#:#ECS-Glossar
+common#:#objs_rglo#:#ECS-Glossare
 ecs#:#ecs_glo_export#:#Glossarfreigaben
 ecs#:#ecs_glo_export_obj_settings#:#Einstellungen für Glossarfreigaben
 ecs#:#ecs_glo_export_disabled#:#Nicht freigeben
 ecs#:#ecs_glo_export_enabled#:#Freigeben
-rglo#:#rglo_call#:#ECS Glossar aufrufen
-common#:#obj_rfil#:#ECS Datei
-common#:#objs_rfil#:#ECS Dateien
+rglo#:#rglo_call#:#ECS-Glossar aufrufen
+common#:#obj_rfil#:#ECS-Datei
+common#:#objs_rfil#:#ECS-Dateien
 ecs#:#ecs_file_export#:#Dateifreigaben
 ecs#:#ecs_file_export_obj_settings#:#Einstellungen für Dateifreigaben
 ecs#:#ecs_file_export_disabled#:#Nicht freigeben
 ecs#:#ecs_file_export_enabled#:#Freigeben
-rfil#:#rfil_call#:#ECS Datei aufrufen
+rfil#:#rfil_call#:#ECS-Datei aufrufen
 rfil#:#rfil_version_tstamp#:#Upload Datum
-common#:#obj_rgrp#:#ECS Gruppe
-common#:#objs_rgrp#:#ECS Gruppen
+common#:#obj_rgrp#:#ECS-Gruppe
+common#:#objs_rgrp#:#ECS-Gruppen
 ecs#:#ecs_grp_export#:#Gruppenfreigaben
 ecs#:#ecs_grp_export_obj_settings#:#Einstellungen für Gruppenfreigaben
 ecs#:#ecs_grp_export_disabled#:#Nicht freigeben
 ecs#:#ecs_grp_export_enabled#:#Freigeben
-rgrp#:#rgrp_call#:#ECS Gruppe aufrufen
+rgrp#:#rgrp_call#:#ECS-Gruppe aufrufen
 common#:#obj_tstv#:#Testzertifikat 
 common#:#obj_excv#:#Übungszertifikat
 common#:#obj_prtf#:#Portfolio
-common#:#obj_rtst#:#ECS Test
-common#:#objs_rtst#:#ECS Tests
+common#:#obj_rtst#:#ECS-Test
+common#:#objs_rtst#:#ECS-Tests
 ecs#:#ecs_tst_export#:#Testfreigaben
 ecs#:#ecs_tst_export_obj_settings#:#Einstellungen für Testfreigaben
 ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
-rtst#:#rtst_call#:#ECS Test aufrufen
+rtst#:#rtst_call#:#ECS-Test aufrufen
 rbac#:#contribute#:#Mitarbeiten
 dateplaner#:#cal_setting_global_vis_repos#:#Anzeige im Magazin
 dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
@@ -12653,11 +12653,11 @@ dcl#:#dcl_notification_activated#:#Benachrichtigung aktiv
 dcl#:#dcl_notification_deactivated#:#Benachrichtigung inaktiv
 dcl#:#dcl_locked#:#Gesperrt
 dcl#:#dcl_table_settings#:#Tabelleneinstellungen
-dcl#:#dcl_add_perm#:#Datensatz hinzufügen erlauben
-dcl#:#dcl_edit_perm#:#Datensatz bearbeiten erlauben
-dcl#:#dcl_delete_perm#:#Datensatz löschen erlauben
-dcl#:#dcl_edit_by_owner#:#Löschen und Bearbeiten von Datensätze nur erlaubt für den Ersteller des Datensatzes
-dcl#:#dcl_limited#:#Zeitliche Beschränkung Hinzufügen / Bearbeiten / Löschen
+dcl#:#dcl_add_perm#:#Neuen Datensatz hinzufügen
+dcl#:#dcl_edit_perm#:#Alle Datensätze bearbeiten
+dcl#:#dcl_delete_perm#:#Alle Datensätze löschen
+dcl#:#dcl_edit_by_owner#:#Nur eigene Datensätze bearbeiten oder löschen
+dcl#:#dcl_limited#:#Zeitliche Beschränkung für das Hinzufügen, Bearbeiten und Löschen
 dcl#:#dcl_record_id#:#Datensatz-ID
 dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#Ende
@@ -12771,8 +12771,8 @@ common#:#obj_glo_duplicate#:#Glossar kopieren
 common#:#obj_htlm_duplicate#:#HTML Lernmodul kopieren
 common#:#obj_wiki_duplicate#:#Wiki kopieren
 common#:#obj_sahs_duplicate#:#Lernmodule kopieren
-dcl#:#dcl_record_edit_viewdefinition#:#Edit Viewdefinition###28 08 2012 new variable
-dcl#:#dcl_record_list_viewdefinition#:#List Viewdefinition###28 08 2012 new variable
+dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
+dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link ein (beginnend mit http://)
@@ -12813,7 +12813,6 @@ common#:#obj_itgr#:#Objekteblock
 common#:#objs_itgr#:#Objekteblöcke
 itgr#:#itgr_edit#:#Objekteblock bearbeiten
 rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
-rbac#:#itgr_visible#:#Item group is visible###28 08 2012 new variable
 rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#itgr_copy#:#Objekteblock kopieren
 rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben 
@@ -12841,10 +12840,10 @@ dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_mob#:#Bild
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
-dcl#:#dcl_table_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" (siehe Reiter "Rechte") können Einträge erstellen, bearbeiten und löschen. Benutzer mit dem Recht "Eintragen" (siehe Reiter "Rechte") haben nur jene Rechte, welche in diesen Einstellungen genauer spezifiziert werden.
+dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer mit dem Recht "Eintragen" in dieser Datensammlung tun dürfen. 
 dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
-dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die Haupttabelle dieser Data Collection ist. Der Inhalt und die Struktur wurden hingegen erfolgreich gelöscht.
+dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die zentrale Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
 common#:#search_globally#:#Im gesamten Magazin
@@ -12873,7 +12872,7 @@ exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
 dcl#:#dcl_reference_link#:#In der Tabellensicht als Link darstellen
 dcl#:#dcl_ILIAS_reference_link#:#In der Tabellensicht als Link darstellen
-dcl#:#dcl_text_area#:#Textbox
+dcl#:#dcl_text_area#:#Texteingabefeld
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
 ecs#:#ecs_cms_tree_synchronize#:#Synchronisieren
@@ -12895,11 +12894,11 @@ rbac#:#blog_contribute#:#Benutzer darf mitwirken
 blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Sichtbar für alle Benutzer
-dcl#:#dcl_empty_view#:#Anzeigedefinition Löschen
-dcl#:#dcl_confirm_delete_view_title#:#Die Anzeigedefinition wirklich löschen?
-dcl#:#dcl_confirm_delete_view_text#:#Die Anzeigedefinition wird unwiderruflich gelöscht, Felder und Einträge werden allerdings nicht geändert.
-dcl#:#dcl_empty_view_success#:#Die Anzeigedefinition wurde erfolgreich gelöscht.
-dcl#:#dcl_permissions_form#:#Benutzer-Rechte
+dcl#:#dcl_empty_view#:#Seitenvorlage löschen
+dcl#:#dcl_confirm_delete_view_title#:#Seitenvorlage wirklich löschen?
+dcl#:#dcl_confirm_delete_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
+dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
+dcl#:#dcl_permissions_form#:#Berechtigungen
 dcl#:#-dcl_table_info_title-#:#Info
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
@@ -12919,7 +12918,7 @@ mathjax#:#mathjax_path_to_mathjax#:#URL zu MathJax
 mathjax#:#mathjax_settings#:#MathJax-Einstellungen
 mathjax#:#mathjax_limiter#:#Trennzeichen
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, wie sie in Ihrer MathJax-Installation konfiguriert sind.
-content#:#cont_initial_attached_content#:#Initial Extra Content###28 09 2012 new variable
+content#:#cont_initial_attached_content#:#Zusätzliche Einstiegsinhalte
 content#:#cont_topic#:#Thema
 content#:#cont_selected_topic#:#Ausgewähltes Thema
 content#:#cont_all_topics#:#Alle Themen
@@ -12977,6 +12976,7 @@ ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
 webr#:#invalid_links_tbl#:#Ungültige Links
+common#:#obj_tool_setting_news#:#Newsblock anzeigen
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
 rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern

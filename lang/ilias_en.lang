@@ -11380,7 +11380,7 @@ ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Courses
 ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data
 content#:#cont_edit_personal_data#:#Edit Personal Data
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
-ecs#:#ecs_import_cms#:#Campus Managment
+ecs#:#ecs_import_cms#:#Campus Management
 ecs#:#ecs_node_mapping_activate#:#Enable Directory Mapping
 ecs#:#ecs_node_mapping_create_empty#:#Create Categories only, which contain Courses
 ecs#:#ecs_node_mapping_create_empty_info#:#Usable only in combination with course mapping, which will be activated automatically.
@@ -12670,7 +12670,6 @@ common#:#obj_itgr#:#Item Group
 common#:#objs_itgr#:#Item Groups
 itgr#:#itgr_edit#:#Edit Item Groups
 rbac#:#itgr_read#:#User can read item group
-rbac#:#itgr_visible#:#Item group is visible
 rbac#:#itgr_write#:#User can edit content and settings of item group
 rbac#:#itgr_copy#:#User can copy item group
 rbac#:#itgr_delete#:#User can move or delete item group
