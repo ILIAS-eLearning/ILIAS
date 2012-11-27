@@ -10015,7 +10015,7 @@ rbac#:#rbac_unprotected_keep_local_policies_info#:#Wählen Sie diese Einstellung
 rbac#:#rcrs_delete#:#ECS-Kurs löschen
 rbac#:#rcrs_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rcrs_read#:#Lesezugriff auf ECS-Kurs
-rbac#:#rcrs_visible#:#ECS-Kurs sind sichtbar
+rbac#:#rcrs_visible#:#ECS-Kurs ist sichtbar
 rbac#:#rcrs_write#:#ECS-Kurs bearbeiten
 rbac#:#read_users#:#Lokale Benutzerkonten einsehen
 rbac#:#recf_edit_permission#:#Rechteeinstellungen in der Verwaltung wiederhergestellter Objekte ändern
@@ -12992,3 +12992,38 @@ help#:#help_set_mode#:#Hilfemodus setzen
 poll#:#poll_result#:#Abstimmungsergebnis
 fold#:#fold_copy#:#Ordner kopieren
 rbac#:#fold_create_sess#:#Sitzung anlegen
+rbac#:#rfil_delete#:#ECS-Kategorie löschen
+rbac#:#rfil_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rfil_read#:#Lesezugriff auf ECS-Kategorie
+rbac#:#rfil_visible#:#ECS-Kategorie ist sichtbar
+rbac#:#rfil_write#:#ECS-Kategorie bearbeiten
+rbac#:#rgrp_delete#:#ECS-Gruppe löschen
+rbac#:#rgrp_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rgrp_read#:#Lesezugriff auf ECS-Gruppe
+rbac#:#rgrp_visible#:#ECS-Gruppe ist sichtbar
+rbac#:#rgrp_write#:#ECS-Gruppe bearbeiten
+rbac#:#rglo_delete#:#ECS-Glossar löschen
+rbac#:#rglo_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rglo_read#:#Lesezugriff auf ECS-Glossar
+rbac#:#rglo_visible#:#ECS-Glossar ist sichtbar
+rbac#:#rglo_write#:#ECS-Glossar bearbeiten
+rbac#:#rlm_delete#:#ECS-Lernmodul löschen
+rbac#:#rlm_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rlm_read#:#Lesezugriff auf ECS-Lernmodul
+rbac#:#rlm_visible#:#ECS-Lernmodul ist sichtbar
+rbac#:#rlm_write#:#ECS-Lernmodul bearbeiten
+rbac#:#rtst_delete#:#ECS-Test löschen
+rbac#:#rtst_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rtst_read#:#Lesezugriff auf ECS-Test
+rbac#:#rtst_visible#:#ECS-Test ist sichtbar
+rbac#:#rtst_write#:#ECS-Test bearbeiten
+rbac#:#rwik_delete#:#ECS-Wiki löschen
+rbac#:#rwik_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rwik_read#:#Lesezugriff auf ECS-Wiki
+rbac#:#rwik_visible#:#ECS-Wiki ist sichtbar
+rbac#:#rwik_write#:#ECS-Wiki bearbeiten
+rbac#:#rcat_delete#:#ECS-Kategorie löschen
+rbac#:#rcat_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rcat_read#:#Lesezugriff auf ECS-Kategorie
+rbac#:#rcat_visible#:#ECS-Kategorie ist sichtbar
+rbac#:#rcat_write#:#ECS-Kategorie bearbeiten
