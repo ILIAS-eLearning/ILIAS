@@ -4587,7 +4587,6 @@ common#:#session_max_idle_info#:#Defines the maximum period of idle time a user 
 common#:#session_min_idle#:#Min session idle (in minutes)
 common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#session_reminder#:#Przypomnienie o sesji
-common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session
 common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_info#:#Jeśli opcja jest włączona, pojawi się przypomnienie przed wygaśnięciem sesji online przeglądarki.
 common#:#session_reminder_lead_time#:#Okres

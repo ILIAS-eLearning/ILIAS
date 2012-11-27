@@ -3902,7 +3902,6 @@ common#:#server_data#:#服务器数据
 common#:#server_software#:#服务器软件
 common#:#sess#:#Session
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session
 common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 common#:#session_reminder_lead_time#:#Leadtime

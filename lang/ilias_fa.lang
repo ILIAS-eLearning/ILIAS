@@ -4320,7 +4320,6 @@ common#:#session_max_idle_info#:#حداکثر زمان بیکار بودن یک 
 common#:#session_min_idle#:#حداقل زمان بیکار بودن جلسه - به دقیقه
 common#:#session_min_idle_info#:#وقتی یک کاربر حداقل برای این مدت زمان بیکار باشد، جلسه می تواند خاتمه داده شود در صورتیکه نیاز باشد تا جلسه دیگری برای کاربر دیگری باز شود و حداکثر تعداد جلسه ها استفاده شده باشد.
 common#:#session_reminder#:#یادآور جلسه
-common#:#session_reminder_alert#:#Your session expires in %s (Current Time: %s). Please choose OK to continue your Session.
 common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_info#:#اگر فعال باشد، یک یادآور قبل از اینکه جلسه آنلاین مروگر منقضی شود دریافت خواهید کرد.
 common#:#session_reminder_lead_time#:#Leadtime

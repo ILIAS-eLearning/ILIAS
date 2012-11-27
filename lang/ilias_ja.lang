@@ -5204,7 +5204,6 @@ common#:#session_max_idle_info#:#ユーザーがセッション切断前にア�
 common#:#session_min_idle#:#Minセッションアイドル(分単位)
 common#:#session_min_idle_info#:#別セッションを他のユーザー用に開く必要があり既存セッションが最大数に達する場合は、少なくともこの時間にユーザーがアイドルする時はセッションを破棄する事ができます。
 common#:#session_reminder#:#セッション警告
-common#:#session_reminder_alert#:#セッションは%s内に切れます。(現在の時間%s)　セッションを続けるにはOKを選択してください。
 common#:#session_reminder_extended#:#セッションは%s延長されました
 common#:#session_reminder_info#:#オンにするとブラウザーオンラインセッション時間が切れる前に通知を受領します。
 common#:#session_reminder_lead_time#:#リードタイム
