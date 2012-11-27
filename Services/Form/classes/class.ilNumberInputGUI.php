@@ -79,7 +79,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 				$this->value = round($this->value, $this->getDecimals());
 
 				// pad value to specified format
-				$this->value = number_format($this->value, $this->getDecimals());
+				$this->value = number_format($this->value, $this->getDecimals(), ".", "");
 			}
 		}
 	}
