@@ -49,7 +49,7 @@ class ilSessionReminderCheck
 				$idletime = $entry['idle'];
 				break;
 			}
-		}
+		}if($_GET['d'] == 1){var_dump(str_replace("\\n", "%0A", $lng->txt('session_reminder_alert')));}
 
 		if(null === $idletime)
 		{
@@ -73,10 +73,22 @@ class ilSessionReminderCheck
 			return ilJsonUtil::encode($response);
 		}
 
+		$dateTime = new ilDateTime($expiretime, IL_CAL_UNIX);
+		switch($ilUser->getTimeFormat())
+		{
+			case ilCalendarSettings::TIME_FORMAT_12:
+				$formatted_expiration_time = $dateTime->get(IL_CAL_FKT_DATE, 'g:ia', $ilUser->getTimeZone());
+				break;
+
+			case ilCalendarSettings::TIME_FORMAT_24:
+			default:
+				$formatted_expiration_time = $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $ilUser->getTimeZone());
+				break;
+		}
 
 		$response = array(
 			'extend_url'               => './ilias.php?baseClass=ilPersonalDesktopGUI',
-			'txt'                      => sprintf($lng->txt('session_reminder_alert'), ilFormat::_secondsToString($expiretime - time(), true), ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)), $ilClientIniFile->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath()),
+			'txt'                      => str_replace("\\n", '%0A', sprintf($lng->txt('session_reminder_alert'), ilFormat::_secondsToString($expiretime - time(), true), $formatted_expiration_time, $ilClientIniFile->readVariable('client', 'name') . ' | ' . ilUtil::_getHttpPath())),
 			'remind'                   => true
 		);
 
