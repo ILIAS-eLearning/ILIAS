@@ -13022,3 +13022,5 @@ rbac#:#rcat_edit_permission#:#User can change permission settings
 rbac#:#rcat_read#:#User can use ECS Category
 rbac#:#rcat_visible#:#ECS Category is visible
 rbac#:#rcat_write#:#User can edit settings of ECS Category
+search#:#search_filter_by_type#:#Filter by Type
+search#:#search_off#:#Off

@@ -101,11 +101,12 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		*/
 		
 		// search area
+/*
 		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
 		$ti = new ilRepositorySelectorInputGUI($lng->txt("search_area"), "area");
 		$ti->setSelectText($lng->txt("search_select_search_area"));
 		$this->form->addItem($ti);
-		$ti->readFromSession();
+		$ti->readFromSession();*/
 		
 		// alex, 15.8.2012: Added the following lines to get the value
 		// from the main menu top right input search form
@@ -114,6 +115,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 			$ti->setValue($_POST["root_id"]);
 			$ti->writeToSession();
 		}
+
+		
 		if(ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
 		{
 			if($a_mode == self::SEARCH_FORM_STANDARD)
@@ -132,18 +135,28 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 			}
 			else
 			{
-				$op2 = new ilCheckboxInputGUI($this->lng->txt('search_item_filter'),'item_filter_enabled');
+				$op2 = new ilCheckboxInputGUI($this->lng->txt('search_filter_by_type'),'item_filter_enabled');
 				$op2->setValue(1);
-				$op2->setChecked($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS);
+//				$op2->setChecked($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS);
 			}
 
 			$details = $this->getDetails();
+			$det = false;
 			foreach(ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data)
 			{
 				$cb = new ilCheckboxInputGUI($lng->txt($data['trans']),'filter_type['.$type.']');
 				$cb->setValue(1);
 				$cb->setChecked($details[$type]);
 				$op2->addSubItem($cb);
+				if ($details[$type])
+				{
+					$det = true;
+				}
+			}
+			
+			if($a_mode != self::SEARCH_FORM_STANDARD && $det)
+			{
+				$op2->setChecked(true);
 			}
 
 			if($a_mode == ilSearchBaseGUI::SEARCH_FORM_STANDARD)
@@ -160,6 +173,42 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 		$this->form->setFormAction($ilCtrl->getFormAction($this,'performSearch'));
 	}
 	
+	/**
+	 * Init standard search form.
+	 */
+	public function getSearchAreaForm()
+	{
+		global $lng, $ilCtrl;
+	
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setOpenTag(false);
+		$form->setCloseTag(false);
+
+		// term combination 
+		$radg = new ilHiddenInputGUI('search_term_combination');
+		$radg->setValue(ilSearchSettings::getInstance()->getDefaultOperator());
+		$form->addItem($radg);
+		
+		// search area
+		include_once("./Services/Form/classes/class.ilRepositorySelectorInputGUI.php");
+		$ti = new ilRepositorySelectorInputGUI($lng->txt("search_area"), "area");
+		$ti->setSelectText($lng->txt("search_select_search_area"));
+		$form->addItem($ti);
+		$ti->readFromSession();
+		
+		// alex, 15.8.2012: Added the following lines to get the value
+		// from the main menu top right input search form
+		if (isset($_POST["root_id"]))
+		{
+			$ti->setValue($_POST["root_id"]);
+			$ti->writeToSession();
+		}
+		$form->setFormAction($ilCtrl->getFormAction($this,'performSearch'));
+		
+		return $form;
+	}
+
 	
 	public function handleCommand($a_cmd)
 	{

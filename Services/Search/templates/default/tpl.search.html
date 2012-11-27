@@ -1,11 +1,13 @@
 <form method="post" action="{FORM_ACTION}">
 <div class="ilToolbar"><input type="text" name="term" value="{TERM}" size="60" maxlength="200"/> <input class="submit" type="submit"  value="{TXT_SEARCH}" name="cmd[performSearch]" />
-	<a class="small" href="#" id="search_options_tr">{TXT_OPTIONS} {ARR_IMG}</a><div class="ilOverlay" id="search_options" style="display:none;">{FORM}</div>
-</div>
-<div class="xsmall light">
-	{TXT_COMBINATION}: <span id="sop_combination">{TXT_COMBINATION_DEFAULT}</span>,
-	{TXT_AREA}: <span id="sop_area"></span>,
-	{TXT_TYPE}: <span id="sop_type">{TXT_TYPE_DEFAULT}</span>
+	<div class="small" style="padding: 8px 2px 2px 2px;">
+		<!-- {TXT_COMBINATION}: <span id="sop_combination">{TXT_COMBINATION_DEFAULT}</span>,-->
+		<span class="light">{TXT_AREA}: </span>
+			<span style="cursor:pointer" id="search_area_form_tr"><span id="sop_area"></span> {ARR_IMG}</span><div class="ilOverlay" id="search_area_form" style="display:none;">{SEARCH_AREA_FORM}</div>
+		<span class="ilToolbarSeparator"> </span>
+		<span class="light">{TXT_TYPE}: </span>
+			<span style="cursor:pointer" id="search_options_tr"><span id="sop_type">{TXT_TYPE_DEFAULT}</span> {ARR_IMG}</span><div class="ilOverlay" id="search_options" style="display:none;">{FORM}</div>
+	</div>
 </div>
 </form>
 <br />
