@@ -4181,7 +4181,6 @@ common#:#session_max_idle_info#:#Bepaalt de maximum tijd die een gebruiker heeft
 common#:#session_min_idle#:#Min sessie  niet in gebruik(in minutes)
 common#:#session_min_idle_info#:#Wanneer een gebruiker ten minste deze periode geen gebruik maakt van de sessie kan deze vernietigd worden wanneer een andere sessie wordt geopend door een andere gebruiker en het maximum aantal sessies is bereikt.
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session
 common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_info#:#If enabled, you receive a reminder before your session expires.
 common#:#session_reminder_lead_time#:#Leadtime

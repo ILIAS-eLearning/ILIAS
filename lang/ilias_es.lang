@@ -4587,7 +4587,6 @@ common#:#session_max_idle_info#:#Define el periodo máximo de inactividad que un
 common#:#session_min_idle#:#Mínimo tiempo de sesión inactiva (en minutos)
 common#:#session_min_idle_info#:#Cuando un usuario alcanza al menos este tiempo de inactividad la sesión puede ser destruida si otra sesión debe ser abierta para otro usuario cuando se ha alcanzado el número máximo de sesiones existentes.
 common#:#session_reminder#:#Recordatorio de fin de sesión
-common#:#session_reminder_alert#:#La sesión termina en 5 minutos. Por favor, haga clic en Aceptar para continuar su sesión
 common#:#session_reminder_extended#:#Su sesión se extendió por %s
 common#:#session_reminder_info#:#Si está habilitado, recibirá un aviso antes de que expire su sesión.
 common#:#session_reminder_lead_time#:#Plazo de entrega

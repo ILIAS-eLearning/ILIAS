@@ -4131,7 +4131,6 @@ common#:#session_max_idle_info#:#Definuje maximální dobu prostoje uživatele, 
 common#:#session_min_idle#:#Min. nečinnost při sezení (v minutách)
 common#:#session_min_idle_info#:#Když uživatel je po tuto dobu nečinný, sezení může být ukončeno a může být otevřeno sezení pro jiného uživatele až do maximálního počtu účastníků tohoto sezení.
 common#:#session_reminder#:#Upozornění sezení
-common#:#session_reminder_alert#:#Vaše sezení vyprší v %s (Aktuální čas: %s). Klepněte prosím an  OK k pokračování Vašeho sezení.
 common#:#session_reminder_extended#:#Vaše sezení bylo prodlouženo o %s
 common#:#session_reminder_info#:#Je-li zapnuto, obdržíte oznámení před vypršením Vašeho sezení.
 common#:#session_reminder_lead_time#:#Doba trvání

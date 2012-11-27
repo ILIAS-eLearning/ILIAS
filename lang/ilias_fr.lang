@@ -3,7 +3,7 @@
 * ILIAS language file
 *
 * @module		language file French
-* @modulegroup		language
+* @modulegroup	language
 * @author		Laurent Merle <laurent.merle@gmail.com>, Bernard Beron <drhat.tours.ead@gmail.com>
 * @version		$Id$
 */
@@ -4557,7 +4557,6 @@ common#:#session_max_idle_info#:#Définit la durée maximale du temps d'inactivi
 common#:#session_max_idle#:#Max session idle (in minutes)
 common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#session_min_idle#:#Min session idle (in minutes)
-common#:#session_reminder_alert#:#Your session expires in %s (Current Time: %s). Please choose OK to continue your session
 common#:#session_reminder_extended#:#Your session was extended for %s
 common#:#session_reminder_info#:#Si cochée, vous recevez un rappel avant expiration de votre session
 common#:#session_reminder_lead_time_info#:#Indiquer en minutes le laps de temps entre le rappel et la fin de session. Valeur recommandée : 5 (minutes). La valeur de la session actuelle est de %s.

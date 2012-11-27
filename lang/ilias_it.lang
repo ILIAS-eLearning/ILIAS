@@ -3919,7 +3919,6 @@ common#:#server_data#:#Dati del server
 common#:#server_software#:#Software
 common#:#sess#:#Session
 common#:#session_reminder#:#Session-Reminder
-common#:#session_reminder_alert#:#Your session expires in 5 minutes. Please choose OK to continue your Session
 common#:#session_reminder_extended#:#Your Session was extended for %s
 common#:#session_reminder_info#:#Se abilitato, riceverai un promemoria prima che termini la sessione-online del browser.
 common#:#session_reminder_lead_time#:#Leadtime

@@ -3978,7 +3978,6 @@ common#:#server_software#:#Szerverszoftver
 common#:#server#:#Szerver
 rbac#:#sess_copy#:#Copy Session
 common#:#sess#:#Kurzusesemény
-common#:#session_reminder_alert#:#Munkamenete %s perc múlva lejár. (A jelenlegi idő: %s.) Kattintson az OK gombra, ha folytatni szeretné munkamenetét!
 common#:#session_reminder_extended#:#Munkamenete meghosszabbításra került: %s
 common#:#session_reminder_info#:#Ha engedélyezett, emlékeztető üzenetet fog kapni, mielőtt böngészőjének online munkamenete lejárna.
 common#:#session_reminder_lead_time_info#:#Adja meg percben a munkamenet-emlékeztetőhöz a rendelkezésre álló időt. Az emlékeztető üzenetet jelenít majd meg a megadott idővel a munkamenet lejárta előtt. A javasolt érték 5 (perc).<br / >A felhasználói munkamenet jelenlegi hossza %s.

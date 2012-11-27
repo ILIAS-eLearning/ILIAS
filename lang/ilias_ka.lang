@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2011 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2012 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -3722,7 +3722,6 @@ common#:#server_data#:#სერვერის მონაცემები
 common#:#server_software#:#სერვერის პროგრამა
 common#:#server#:#სერვერი
 common#:#sess#:#სესია
-common#:#session_reminder_alert#:#თქვენი სესია იწურება %s ( მიმდინარე დრო %s) გთხოვთ აირჩიოთ კი
 common#:#session_reminder_extended#:#თქვენი სესია გაგრძელებულია %s
 common#:#session_reminder_info#:#თუ გააქტიურებულია, თქვენ მიიღებთ შეხსენებას სანამ თქვენი ბრაუზერის  ონლაინ სესია ამოიწურება
 common#:#session_reminder_lead_time_info#:#გთხოვთ დააზუსტოთ შეხსენების დრო წუთებში.  შეხსენაბა გამოიტანს გაფრთხილებას მხოლოდ მაშინ როდესაც მოკლე დრო იქნება დარჩენილი სესიის ამოწურვამდე. ღეკომენდებული ღირებულებაა 5 ( წუთი) <br/> მიმდინარე ხანგრძლივობა მომხმარებლის სესიისა არის %s
