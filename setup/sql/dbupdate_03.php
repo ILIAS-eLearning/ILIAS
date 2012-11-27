@@ -13666,3 +13666,18 @@ if(!$chtr_perms)
 	$setting->set("ilchtrperms", 1);
 }
 ?>
+<#3799>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$grp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('grp');
+if($grp_type_id)
+{
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_crsr');
+	ilDBUpdateNewObjectType::addRBACOperation($grp_type_id, $ops_id);
+		
+	$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('create_catr');
+	ilDBUpdateNewObjectType::addRBACOperation($grp_type_id, $ops_id);
+}
+
+?>
