@@ -3270,11 +3270,45 @@ th
 	font-weight: normal;
 }
 
-td.std, th.std {
+td.std, th.std,
+td.calmngColor,
+td.calmngImg,
+td.calmngTitle,
+td.calmngSublink {
 	padding: 4px 6px;
 	text-align: left;
 }
 
+td.calmngColor {
+	font-size: small;
+	vertical-align: top; 
+	white-space: nowrap; 
+	width: 30px;
+}
+
+span.calmngColorSpan {
+	padding: 0; 
+	margin-top: -21px;
+	display: block; 
+	width: 21px; 
+	height: 21px;
+}
+
+td.calmngImg {
+	font-size: small;
+	vertical-align: top;
+	width: 30px;
+}
+
+td.calmngTitle {
+	font-size: small;
+	vertical-align: top;
+}
+
+td.calmngSublink {
+	font-size: small;
+	vertical-align: top;
+}
 /* Navigation History */
 form.ilNavHistoryForm
 {
