@@ -404,6 +404,11 @@ class ilWebAccessChecker
 	 */
 	function checkAccessMobUsage($usage, $oid)
 	{
+		/**
+		 * @var $ilObjDataCache ilObjectDataCache
+		 */
+		global $ilObjDataCache;
+		
 		switch($usage['type'])
 		{
 			case 'lm:pg':
