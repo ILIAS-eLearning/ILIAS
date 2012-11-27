@@ -13642,3 +13642,27 @@ if($ilDB->tableColumnExists('cmi_objective', 'id'))
 													));
 }
 ?>
+<#3798>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$setting = new ilSetting();
+$chtr_perms = $setting->get("ilchtrperms");
+if(!$chtr_perms)
+{
+	$type_id = ilDBUpdateNewObjectType::getObjectTypeId('chtr');
+	
+	if($type_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperations(
+			$type_id,
+			array(
+				ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+				ilDBUpdateNewObjectType::RBAC_OP_COPY
+			)
+		);
+	}
+	
+	$setting->set("ilchtrperms", 1);
+}
+?>
