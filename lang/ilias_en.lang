@@ -5393,9 +5393,8 @@ crs#:#crs_archive_type#:#Archive type
 crs#:#crs_archive#:#Archives
 crs#:#crs_archives_deleted#:#The archive(s) have been deleted
 crs#:#crs_auto_fill#:#Auto Fill
-crs#:#crs_availability_limitless_info#:#Choose this mode for making the course available and accessible to users (depending on the registration settings below).
-crs#:#crs_availability_until_info#:#Choose this mode for making the course available and accessible to users for a fixed period of time (depending on the registration settings below).
-crs#:#crs_availability_unvisible_info#:#Choose this mode for preparing the course. Only course administators and tutors can see and edit the course.
+crs#:#crs_availability_limitless_info#:#Choose this mode to give course members unlimited access to the cours.
+crs#:#crs_availability_until_info#:#Choose this mode to give course members access to the course for a fixed period of time.
 crs#:#crs_blocked_member_body#:#your membership for course "%s" has been blocked.
 crs#:#crs_blocked_member#:#Membership blocked in course "%s"
 crs#:#crs_blocked#:#Access Refused
@@ -5657,7 +5656,7 @@ crs#:#crs_presentation_type#:#Presentation Type
 crs#:#crs_print_list#:#Generate List
 crs#:#crs_question_assignment#:#Question assignment
 crs#:#crs_reg_deactivated#:#Disabled
-crs#:#crs_reg_lim_info#:#Registrations are only possible during a fixed period of time.
+crs#:#crs_reg_lim_info#:#If enabled, registrations are only possible during a fixed period of time. Please choose also one of the registration procedures below.
 crs#:#crs_reg_max_info#:#Define the maximum number of users that can be assigned to this course.
 crs#:#crs_reg_notify_info#:#If enabled all course administrators/tutors with status 'Notify' will be informed by mail about new registrations.
 crs#:#crs_reg_period#:#Self-Registration
@@ -5667,13 +5666,13 @@ crs#:#crs_reg_subscription_end_earlier#:#The registration time is expired
 crs#:#crs_reg_subscription_max_members_reached#:#The maximum number of users is exceeded.
 crs#:#crs_reg_subscription_start_later#:#The registration time starts later
 crs#:#crs_reg_type_info#:#This setting is only relevant, if the registration is not 'Disabled'.
-crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose one of the registration procedures below.
+crs#:#crs_reg_unlim_info#:#If enabled, there is no time limit for registrations. Please choose also one of the registration procedures below.
 crs#:#crs_reg_until#:#Registration Period
 crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course
 crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this course
 crs#:#crs_reg_user_blocked#:#You are blocked from this course
 crs#:#crs_reg#:#Registration Settings
-crs#:#crs_registration_deactivated#:#Choose this option for disabling course registration. No user can join this course.
+crs#:#crs_registration_deactivated#:#This option is disabling the course registration. No user can join this course independently.
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_type#:#Registration Procedure
 crs#:#crs_registration_unlimited#:#Unlimited Registration Period
@@ -5814,8 +5813,6 @@ crs#:#crs_view_objective#:#Learning Objectives View
 crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Temporarily Available
-crs#:#crs_visibility_unvisible#:#Offline (Course is not available)
-crs#:#crs_visibility#:#Availability
 crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
@@ -12382,7 +12379,7 @@ tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#If offline, only course administrators and tutors can see and edit the course.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Starting Time
 rep#:#rep_activation_limited_end#:#Ending Time

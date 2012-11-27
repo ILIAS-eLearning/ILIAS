@@ -6289,9 +6289,8 @@ crs#:#crs_archive_type#:#Archivtyp
 crs#:#crs_archive_type_disabled#:#Nicht verfügbar
 crs#:#crs_archives_deleted#:#Das/die Archiv(e) wurde(n) gelöscht
 crs#:#crs_auto_fill#:#Automatisch auffüllen
-crs#:#crs_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Beitrittsart!
-crs#:#crs_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Beitrittsart - nur während eines definierten Zeitraums freizuschalten.
-crs#:#crs_availability_unvisible_info#:#Wählen Sie diese Einstellung, wenn der Kurs erstellt oder überarbeitet wird. Nur Kursadministratoren und -tutoren können den Kurs bei dieser Einstellung sehen und bearbeiten.
+crs#:#crs_availability_limitless_info#:#Bei dieser Einstellung steht ein online geschalteter Kurs den Kursmitgliedern zeitlich unbegrenzt zur Verfügung.
+crs#:#crs_availability_until_info#:#Bei dieser Einstellung steht ein online geschalteter Kurs nur während eines definierten Zeitraums zur Verfügung.
 crs#:#crs_blocked#:#Zugang gesperrt
 crs#:#crs_blocked_member#:#Status in Kurs "%s"
 crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
@@ -6576,7 +6575,7 @@ crs#:#crs_reg_code_enabled_info#:#Diese Option ermöglicht, zusätzlich zum ausg
 crs#:#crs_reg_code_link#:#Registrierungslink
 crs#:#crs_reg_code_value#:#Zugangsschlüssel
 crs#:#crs_reg_deactivated#:#Anmeldung ausgeschaltet
-crs#:#crs_reg_lim_info#:#Beitritte sind nur während eines festen Zeitraumes möglich. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
+crs#:#crs_reg_lim_info#:#Diese Einstellung erlaubt den Kursbeitritt nur während eines definierten Zeitraumes. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
 crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die selbst beitreten können. Wird die Zahl überschritten, ist keine Selbstanmeldung möglich. ('0' bedeutet unbegrenzt)
 crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und -tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
 crs#:#crs_reg_period#:#Selbstregistrierung
@@ -6585,14 +6584,14 @@ crs#:#crs_reg_subscription_deactivated#:#Die Registrierung ist deaktiviert
 crs#:#crs_reg_subscription_end_earlier#:#Die Zeit für Beitritte ist abgelaufen
 crs#:#crs_reg_subscription_max_members_reached#:#Die maximale Anzahl von Mitliedern wurde überschritten.
 crs#:#crs_reg_subscription_start_later#:#Die Zeit für Beitritte hat noch nicht begonnen
-crs#:#crs_reg_type_info#:#Einstellungen zum Beitrittsverfahren sind nur wirksam, wenn die Anmeldung nicht ausgeschaltet ist.
-crs#:#crs_reg_unlim_info#:#Wählen Sie diese Einstellung, um Beitritte zeitlich unbegrenzt zuzulassen. Bitte wählen Sie zusätzlich noch ein Beitrittsverfahren aus.
+crs#:#crs_reg_type_info#:#Einstellungen zum Beitrittsverfahren sind nur wirksam, wenn die Selbstregistrierung nicht ausgeschaltet ist.
+crs#:#crs_reg_unlim_info#:#Diese Einstellung erlaubt den zeitlich unbegrenzten Kursbeitritt. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_deactivated#:#Wählen Sie diese Einstellung, um die Selbstregistrierung zu deaktivieren. Benutzer können dann nicht selbst dem Kurs beitreten.
+crs#:#crs_registration_deactivated#:#Bei dieser Einstellung ist die Selbstregistrierung deaktiviert. Benutzer können dann nicht selbst dem Kurs beitreten.
 crs#:#crs_registration_limited#:#Zeitlich begrenzt
 crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
@@ -6736,10 +6735,8 @@ crs#:#crs_view_info_timing#:#Ansicht für Lernplanung
 crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
-crs#:#crs_visibility#:#Verfügbarkeit
-crs#:#crs_visibility_limitless#:#Unbegrenzt (wenn online geschaltet)
-crs#:#crs_visibility_until#:#Zeitlich begrenzt (wenn online geschaltet)
-crs#:#crs_visibility_unvisible#:#Nicht verfügbar (Offline)
+crs#:#crs_visibility_limitless#:#Unbegrenzt – wenn online geschaltet
+crs#:#crs_visibility_until#:#Zeitlich begrenzt – wenn online geschaltet
 crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen und würden benachrichtigt, wenn Sie in den Kurs nachrücken könnten.
@@ -12413,7 +12410,7 @@ rating#:#rating_overlay_title_overall#:#Gesamtbewertung
 rating#:#rating_overlay_submit#:#Bewerten
 rep#:#rep_activation_availability#:#Verfügbarkeit
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Falls nicht online, haben nur Kurs-Administratoren und Tutoren Zugriff auf den Kurs
+crs#:#crs_activation_online_info#:#Setzen Sie den Kurs online, damit Kursmitglieder ihn sehen und benutzen können. Wenn nicht, haben nur Kursadministratoren und Tutoren Zugriffsrechte.
 rep#:#rep_activation_access#:#Zugriff
 rep#:#rep_activation_limited_start#:#Startzeit
 rep#:#rep_activation_limited_end#:#Endzeit
