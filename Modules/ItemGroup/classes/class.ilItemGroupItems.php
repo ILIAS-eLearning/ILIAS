@@ -187,7 +187,7 @@ class ilItemGroupItems
 			// filter side blocks and session, item groups and role folder
 			if ($node['child'] == $parent_node["child"] ||
 				$this->obj_def->isSideBlock($node['type']) ||
-				in_array($node['type'], array('sess', 'itgr', 'rolf')))
+				in_array($node['type'], array('sess', 'itgr', 'rolf', 'adm')))
 			{
 				continue;
 			}
