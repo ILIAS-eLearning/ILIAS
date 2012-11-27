@@ -283,7 +283,13 @@ div#mainscrolldiv {
 	padding-bottom: 15px;
 }
 
+div.one_side_col,
 #il_center_col.one_side_col {
+	vertical-align: top;
+	padding: 0 1%;
+	min-height: 1px;
+	float: left;
+	padding-bottom: 15px;
 	width: 77%;
 }
 #il_center_col.two_side_col {
@@ -295,6 +301,11 @@ div#mainscrolldiv {
 	width: 20%;
 	padding: 0 1% 0 0;
 	float: left;
+}
+
+#il_right_col, #il_left_col, #il_center_col, a.ilAccAnchor {
+	zoom: 1;
+	word-wrap: break-word;
 }
 
 input.fullwidth, textarea.fullwidth {
@@ -379,12 +390,12 @@ input[type=text].numeric
 
 /* -------------------- table formatting ------------------ */
 div.ilTable {
-	display: table; 
+	display: block; 
 	width: 100%;
 }
 
 div.ilTableRow {
-	display: table-row;
+	display: block;
 }
 
 div.ilTableCell {
@@ -761,35 +772,28 @@ td.il_no_style {
 
 
 /* Forms */
-form.il_Form, form.ilForm
-{
-	padding: 0px;
-	margin: 0px;
-	border: 0px;
+form.il_Form, form.ilForm {
 }
 
-input.ilHFormHighlighted
-{
-	background-color: #FFFF99;
+input.ilHFormHighlighted {
+	background-color: #FF9;
 }
 
 div.ilForm {
-	background-image: url(images/form_back.png);
-	background-repeat: repeat-y;
-	background-color:#F6F6F6;
-	border-spacing:0px;
-	border-collapse:collapse;
-	border-width:1px;
-	border-style:solid;
-	border-color:#EAEAEA;
-	display: table;
+	background: url(images/form_back.png) repeat-y #F6F6F6;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border: 1px solid #EAEAEA;
+	display: block;
 }
 
 div.ilSubForm {
 	margin: 8px 0 10px 28px;
+	display: inline-block;
 }
 div.ilFormRow {
-	display: table-row;
+	display: table;
+	width: 100%;
 }
 
 div.ilFormHeader, div.ilFormFooter
@@ -3379,6 +3383,7 @@ div.ilNoteText
 
 div.ilNotesHeader{
 	background-color: #F0F0F0;
+	float: left;
 	margin-bottom:5px;
 	padding:5px;
 }
