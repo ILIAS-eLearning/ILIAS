@@ -16,6 +16,7 @@ class ilBlogPosting extends ilPageObject
 	protected $title; // [string]
 	protected $created; // [ilDateTime]
 	protected $blog_node_id; // [int]
+	protected $blog_node_is_wsp; // [bool]
 	protected $author; // [int]
 	protected $approved; // [bool]
 
@@ -192,9 +193,9 @@ class ilBlogPosting extends ilPageObject
 		parent::update($a_validate, $a_no_history);
 		
 		if($a_notify && $this->getActive())
-		{
+		{				
 			include_once "Modules/Blog/classes/class.ilObjBlog.php";
-			ilObjBlog::sendNotification("update", $this->blog_node_id, $this->getId());
+			ilObjBlog::sendNotification("update", $this->blog_node_is_wsp, $this->blog_node_id, $this->getId());
 		}
 
 		return true;
@@ -386,10 +387,12 @@ class ilBlogPosting extends ilPageObject
 	 * Set blog node id (needed for notification)
 	 * 
 	 * @param int $a_id
+	 * @param bool $a_is_in_workspace
 	 */
-	public function setBlogNodeId($a_id)
+	public function setBlogNodeId($a_id, $a_is_in_workspace = false)
 	{
 		$this->blog_node_id = (int)$a_id;
+		$this->blog_node_is_wsp = (bool)$a_is_in_workspace;
 	}
 	
 	/**
