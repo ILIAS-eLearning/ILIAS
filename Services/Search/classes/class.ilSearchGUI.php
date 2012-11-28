@@ -414,7 +414,7 @@ class ilSearchGUI extends ilSearchBaseGUI
 				case 'grp':
 					$grp_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
 					$grp_search->setFilter(array('grp'));
-					$result->mergeEntries($crs_search->performSearch());
+					$result->mergeEntries($grp_search->performSearch());
 					break;
 				
 				case 'lms':
