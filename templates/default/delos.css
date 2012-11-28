@@ -2375,55 +2375,6 @@ a.MMActive:hover
 	text-decoration:none;
 }
 
-div.ilMainMenuSearch {
-	margin: 5px 20px 0px 3px;
-	padding: 0px 10px 3px 10px;
-	margin: 1px 0px 2px -1px;
-	line-height: 26px;
-	background-repeat: repeat-x;
-	background-image: url(images/mm_back2.png);
-}
-
-form.ilMainMenuSearch
-{
-	padding: 0px;
-	margin: 0px;
-}
-
-input.ilMainMenuSearch {
-	cursor:pointer;
-	border-style: solid;
-	border-width: 0px;
-	border-color: #D6D6D6;
-	color: #606060;
-	width:150px;
-	padding: 2px 4px 1px;
-	margin: 0px;
-	background-repeat: no-repeat;
-	background-position: center right;
-	background-color: #FFF;
-	min-height:16px;
-	box-shadow: inset 1px 1px 2px #A0A0A0;
-	line-height: 1;
-}
-
-a.ilMainMenuSearchButton {
-}
-
-#mm_search_menu_head {
-	background-color: #F8F8F8;
-	padding: 5px;
-	font-size: 85%;
-}
-
-#mm_search_menu_head p {
-	margin: 0px;
-}
-
-#mm_search_menu_head input {
-	margin: 0px;
-	padding: 0px;
-}
 
 /* Status box */
 
@@ -3927,7 +3878,67 @@ img.ilPollQuestionImage {
 	margin-right: 3px;
 }
 
-/* online help */
+/* Services/Search */
+
+div.ilMainMenuSearch {
+	margin: 5px 20px 0px 3px;
+	padding: 0px 10px 3px 10px;
+	margin: 1px 0px 2px -1px;
+	line-height: 26px;
+	background-repeat: repeat-x;
+	background-image: url(images/mm_back2.png);
+}
+
+form.ilMainMenuSearch
+{
+	padding: 0px;
+	margin: 0px;
+}
+
+input.ilMainMenuSearch {
+	cursor:pointer;
+	border-style: solid;
+	border-width: 0px;
+	border-color: #D6D6D6;
+	color: #606060;
+	width:150px;
+	padding: 2px 4px 1px;
+	margin: 0px;
+	background-repeat: no-repeat;
+	background-position: center right;
+	background-color: #FFF;
+	min-height:16px;
+	box-shadow: inset 1px 1px 2px #A0A0A0;
+	line-height: 1;
+}
+
+a.ilMainMenuSearchButton {
+}
+
+#mm_search_menu_head {
+	background-color: #F8F8F8;
+	padding: 5px;
+	font-size: 85%;
+}
+
+#mm_search_menu_head p {
+	margin: 0px;
+}
+
+#mm_search_menu_head input {
+	margin: 0px;
+	padding: 0px;
+}
+
+#il_search_toolbar div.ilFormOption {
+	width: auto;
+}
+
+#il_search_toolbar div.ilFormFooter {
+	display: none;
+}
+
+/* Services/Help */
 
 #ilHelpText .ilc_text_inline_Strong {
 	font-weight:bold;
@@ -4063,7 +4074,9 @@ a.ilMediaLightboxClose {
 	max-width: 100%;
 }
 
+
 /* Modules/Forum */
+
 #ilFrmPostList {
 	list-style:none;
 	margin:0;
