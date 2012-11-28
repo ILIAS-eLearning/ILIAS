@@ -34,9 +34,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 {
 	protected $options = array();
 	protected $value;
-	protected $use_option_post_vars = false;
-	protected $checked_by_options = false;
-	protected $use_options_ids = false;
+	protected $use_values_as_keys = false;
 
 
 	/**
@@ -52,63 +50,23 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 	}
 
 	/**
-	 * Set use option post vars (instead of groupinput postvar)
+	 * Set use values as keys
 	 *
-	 * @param bool $a_val use option post vars	
+	 * @param bool $a_val use values as keys	
 	 */
-	function setUseOptionsPostVars($a_val)
+	function setUseValuesAsKeys($a_val)
 	{
-		$this->use_option_post_vars = $a_val;
+		$this->use_values_as_keys = $a_val;
 	}
 	
 	/**
-	 * Get use option post vars (instead of groupinput postvar)
+	 * Get use values as keys
 	 *
-	 * @return bool use option post vars
+	 * @return bool use values as keys
 	 */
-	function getUseOptionsPostVars()
+	function getUseValuesAsKeys()
 	{
-		return $this->use_option_post_vars;
-	}
-	
-	/**
-	 * Set use options ids
-	 *
-	 * @param bool $a_val use options ids	
-	 */
-	function setUseOptionsIds($a_val)
-	{
-		$this->use_options_ids = $a_val;
-	}
-	
-	/**
-	 * Get use options ids
-	 *
-	 * @return bool use options ids
-	 */
-	function getUseOptionsIds()
-	{
-		return $this->use_options_ids;
-	}
-	
-	/**
-	 * Set checked by options
-	 *
-	 * @param bool $a_val check by options	
-	 */
-	function setCheckedByOptions($a_val)
-	{
-		$this->checked_by_options = $a_val;
-	}
-	
-	/**
-	 * Get checked by options
-	 *
-	 * @return bool check by options
-	 */
-	function getCheckedByOptions()
-	{
-		return $this->checked_by_options;
+		return $this->use_values_as_keys;
 	}
 	
 	/**
@@ -258,45 +216,44 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI
 			}
 
 			$tpl->setCurrentBlock("prop_checkbox_option");
-			if (!$this->getUseOptionsPostVars())
+			
+			if (!$this->getUseValuesAsKeys())
 			{
 				$tpl->setVariable("POST_VAR", $this->getPostVar() . '[]');
+				$tpl->setVariable("VAL_CHECKBOX_OPTION", $option->getValue());
 			}
 			else
 			{
-				$tpl->setVariable("POST_VAR", $option->getPostVar());
+				$tpl->setVariable("POST_VAR", $this->getPostVar().'['.$option->getValue().']');
+				$tpl->setVariable("VAL_CHECKBOX_OPTION", "1");
 			}
-			$tpl->setVariable("VAL_CHECKBOX_OPTION", $option->getValue());
 			
-			if (!$this->getUseOptionsIds())
-			{
-				$tpl->setVariable("OP_ID", $this->getFieldId()."_".$option->getValue());
-				$tpl->setVariable("FID", $this->getFieldId());
-			}
-			else
-			{
-				$tpl->setVariable("OP_ID", $option->getFieldId());
-				$tpl->setVariable("FID", $option->getFieldId());
-			}
+			$tpl->setVariable("OP_ID", $this->getFieldId()."_".$option->getValue());
+			$tpl->setVariable("FID", $this->getFieldId());
 			
 			if($this->getDisabled() or $option->getDisabled())
 			{
 				$tpl->setVariable('DISABLED','disabled="disabled" ');
 			}
-			if (!$this->getCheckedByOptions() && is_array($this->getValue()))
+
+			if (is_array($this->getValue()))
 			{
-				if (in_array($option->getValue(), $this->getValue()))
+				if (!$this->getUseValuesAsKeys())
 				{
-					$tpl->setVariable("CHK_CHECKBOX_OPTION",
-						'checked="checked"');
+					if (in_array($option->getValue(), $this->getValue()))
+					{
+						$tpl->setVariable("CHK_CHECKBOX_OPTION",
+							'checked="checked"');
+					}
 				}
-			}
-			else if ($this->getCheckedByOptions())
-			{
-				if ($option->getChecked())
+				else
 				{
-					$tpl->setVariable("CHK_CHECKBOX_OPTION",
-						'checked="checked"');
+					$cval = $this->getValue();
+					if ($cval[$option->getValue()] == 1)
+					{
+						$tpl->setVariable("CHK_CHECKBOX_OPTION",
+							'checked="checked"');
+					}
 				}
 			}
 			$tpl->setVariable("TXT_CHECKBOX_OPTION", $option->getTitle());

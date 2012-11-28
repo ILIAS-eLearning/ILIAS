@@ -140,25 +140,21 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 //				$op2->setChecked($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS);
 			}
 
-			$cbgr = new ilCheckboxGroupInputGUI('','filter_type_');
-			$cbgr->setUseOptionsPostVars(true);
-			$cbgr->setCheckedByOptions(true);
-			$cbgr->setUseOptionsIds(true);
+			
+			$cbgr = new ilCheckboxGroupInputGUI('','filter_type');
+			$cbgr->setUseValuesAsKeys(true);
 			$details = $this->getDetails();
 			$det = false;
 			foreach(ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data)
 			{
-				$cb = new ilCheckboxInputGUI($lng->txt($data['trans']),'filter_type['.$type.']');
-				$cb->setValue(1);
-				$cb->setChecked($details[$type]);
-//				$op2->addSubItem($cb);
+				$cb = new ilCheckboxOption($lng->txt($data['trans']), $type);
 				if ($details[$type])
 				{
 					$det = true;
 				}
 				$cbgr->addOption($cb);
 			}
-//			$cbgr->setValue($details);
+			$cbgr->setValue($details);
 			$op2->addSubItem($cbgr);
 			
 			if($a_mode != self::SEARCH_FORM_STANDARD && $det)

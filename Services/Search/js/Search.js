@@ -27,7 +27,10 @@ il.Search = {
 				il.Search.syncOptions();
 				});*/
 		}
-		$('#input,:checkbox').change(function () {
+		$(':checkbox').change(function () {
+			il.Search.syncOptions();
+			});
+		$('#il_search_toolbar input').change(function () {
 			il.Search.syncOptions();
 			});
 	},
