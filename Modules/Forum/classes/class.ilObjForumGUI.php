@@ -1705,8 +1705,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$this->objCurrentPost->getUserAlias(),
 			$this->objCurrentPost->getImportName()
 		);
-		
-		
+
 		$html = ilRTE::_replaceMediaObjectImageSrc($frm->prepareText($this->objCurrentPost->getMessage(), 1, $authorinfo->getAuthorName()), 1);
 		echo $html;
 		exit();
@@ -1755,8 +1754,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$response->success = true;
 			$response->children = array();
-			
-			$key = array_search($_GET['nodeId'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
+
+			$key = array_search((int)$_GET['nodeId'], (array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']);
 			if( false === $key )
 			{
 				$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes'][] = (int)$_GET['nodeId'];
@@ -1766,13 +1765,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				(int)$_GET['nodeId'],
 				(array)$_SESSION['frm'][(int)$_GET['thr_pk']]['openTreeNodes']
 			);
-			
+
 			$frm = new ilForum();
 			$pageHits = $frm->getPageHits();
 			
+			$fetchedNodes = array();
+			
 			foreach( $children as $child )
 			{
-				$this->ctrl->setParameter($this, 'thr_pk', (int)$_GET['thr_pk']);				
+				if($child['parent_pos'] != (int)$_GET['nodeId'] &&
+				   !in_array($child['parent_pos'], $fetchedNodes))
+				{
+					continue;
+				}
+
+				$fetchedNodes[] = $child['pos_pk'];
+				
+				$this->ctrl->setParameter($this, 'thr_pk', (int)$_GET['thr_pk']);
 				
 				$html = ilForumExplorer::getTreeNodeHtml(
 					$child,

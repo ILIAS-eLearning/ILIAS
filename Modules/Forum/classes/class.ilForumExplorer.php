@@ -96,8 +96,6 @@ class ilForumExplorer
 
 		// Prevent key gaps
 		shuffle($_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']);
-
-		$this->tpl->setVariable('THR_OPEN_NODES', ilJsonUtil::encode($_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']));
 	}
 
 	public function render()
@@ -108,8 +106,18 @@ class ilForumExplorer
 	}
 
 	public function fillTreeTemplate()
-	{
-		$objects = $this->topic->getNestedSetPostChildren(null, $_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']);
+	{		
+		$emptyOnLoad = false;
+
+		$nodes_to_request = $_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'];
+		if(!$_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'] ||
+		   (count($_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']) == 1 && $_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'][0] == 0))
+		{
+			$emptyOnLoad = true;
+			$nodes_to_request = array();
+		}
+
+		$objects = $this->topic->getNestedSetPostChildren(null, $nodes_to_request);
 
 		$counter = 0;
 
@@ -168,6 +176,16 @@ class ilForumExplorer
 		}
 		$this->tpl->setVariable('THR_ONLOAD_NODES', ilJsonUtil::encode($onloadNodes));
 		$this->tpl->setVariable('THR_ONLOAD_NODES_FETCHED_WITH_CHILDREN', ilJsonUtil::encode($nodesFetchedWithChildren));
+
+		if($emptyOnLoad)
+		{
+			$this->tpl->setVariable('THR_OPEN_NODES', ilJsonUtil::encode($onloadNodes));
+			$_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes'] = array_unique(array_merge(array(0), $onloadNodes)); 
+		}
+		else
+		{
+			$this->tpl->setVariable('THR_OPEN_NODES', ilJsonUtil::encode($_SESSION['frm'][(int)$this->topic->getId()]['openTreeNodes']));
+		}
 	}
 
 	/**
