@@ -77,7 +77,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->setPageObject(new ilBlogPosting($a_id, $a_old_nr));
 		
 		// needed for notification
-		$this->getBlogPosting()->setBlogNodeId($this->node_id);
+		$this->getBlogPosting()->setBlogNodeId($this->node_id, $this->isInWorkspace());
 	}
 
 	/**
@@ -521,7 +521,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$note = $note->getText();
 		
 		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		ilObjBlog::sendNotification("comment", $this->node_id, $a_posting_id, $note);		
+		ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);		
 	}
 	
 	protected function getActivationCaptions()
@@ -544,7 +544,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	{
 		// send notifications
 		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		ilObjBlog::sendNotification("new", $this->node_id, $this->getBlogPosting()->getId());		 
+		ilObjBlog::sendNotification("new", $this->isInWorkspace(), $this->node_id, $this->getBlogPosting()->getId());		 
 		
 		$this->getBlogPosting()->setActive(true);
 		$this->getBlogPosting()->update(true, false, false);

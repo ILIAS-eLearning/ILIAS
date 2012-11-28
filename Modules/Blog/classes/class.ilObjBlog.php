@@ -347,13 +347,12 @@ class ilObjBlog extends ilObject2
 		$this->approval = (bool)$a_status;
 	}
 	
-	static function sendNotification($a_action, $a_blog_node_id, $a_posting_id, $a_comment = null)
+	static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)
 	{
 		global $ilUser, $ilAccess;
 		
-		// get blog object id (repository or workspace)
-		$blog_obj_id = ilObject::_lookupObjId($a_blog_node_id);
-		if(!$blog_obj_id)
+		// get blog object id (repository or workspace)		
+		if($a_in_wsp)
 		{				
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
@@ -365,6 +364,7 @@ class ilObjBlog extends ilObject2
 		}
 		else
 		{
+			$blog_obj_id = ilObject::_lookupObjId($a_blog_node_id);
 			$access_handler = null;
 			
 			include_once "Services/Link/classes/class.ilLink.php";
